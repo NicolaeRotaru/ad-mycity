@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 21:57",
+  "aggiornato": "2026-07-19 21:58",
+  "_nota_metabolizzazione_19_07_2158": "Chat 19/7 ~21:56: Nicola «Riesci a vedere che n8n è dentro il worker?» — AD verifica runtime porta 5678 ok, N8N_WEBHOOK_URL ancora segnaposto. L-331 nuova; L-330 evidenze++ addendum runtime; preferenza verifica-n8n-runtime; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2155": "Chat 19/7 ~21:54: Nicola screenshot editor n8n — workflow «MyCity — Pubblica post programmato» importato (import CLI ok post-fix id/versionId L-329). L-330 nuova; L-329 evidenze++ confermato; preferenza n8n-workflow-importato; STATO già 21:54; LEZIONI-CHAT+builder+DECISIONI aggiornati.",
   "_nota_metabolizzazione_19_07_2100": "Chat 19/7 ~21:00: Nicola screenshot Termux — docker cp ok, n8n import:workflow fallisce NOT NULL workflow_entity.id; file modello senza id/versionId. AD fix JSON repo, Nicola riprova. L-329 nuova; L-328 addendum; preferenza n8n-cli-import-id; STATO+LEZIONI-CHAT+builder+DECISIONI aggiornati.",
   "_nota_metabolizzazione_19_07_2042": "Chat 19/7 ~20:42: Nicola «Non trovo il file» (2°) + screenshot My Files — JSON in Download ma picker n8n su cartella Download mostra solo file giugno (Termux ≠ browser). AD: import CLI server docker cp + n8n import:workflow. L-328 nuova; L-327 addendum+evidenze++; preferenza n8n-import-cli; STATO+LEZIONI-CHAT+builder aggiornati.",
@@ -50,8 +51,29 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0719-331",
+      "testo": "**n8n sul worker — «Riesci a vedere n8n?» = verifica runtime, non solo screenshot (Nicola 19/7 ~21:56).** Dopo import workflow (L-330), Nicola chiede se l'AD vede n8n acceso sul worker. 5 perché: (1) vuole **conferma oggettiva** (servizio risponde), non deduzione da screenshot precedente; (2) verifica runtime = porta **5678** in ascolto + risposta HTTP — pattern come Playwright setup L-305/L-307; (3) import workflow ≠ mano attiva: **`N8N_WEBHOOK_URL` segnaposto** nel file segreto worker = la macchina non invia nulla a n8n; (4) prossimo checkpoint = **«webhook collegato»** dopo Active + URL produzione in env + restart worker; (5) Meta OAuth resta passo separato (lento). Regola: domanda «riesci a vedere X sul worker?» → **verifica live** + stato mancante esplicito + passi numerati Nicola; non ripetere import/scp/picker. Vedi L-330, L-322, L-305.",
+      "tag": [
+        "n8n",
+        "worker",
+        "verifica",
+        "webhook",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 21:56",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-330",
-      "testo": "**n8n workflow importato — screenshot editor = checkpoint «workflow importato» ok, prossimo Active+webhook (Nicola 19/7 ~21:54).** Nicola allega screenshot (no testo) con editor n8n aperto su **«MyCity — Pubblica post programmato»** (Webhook → Instrada per canale → FB/IG/GBP/Telegram → Rispondi esito) — conferma che import CLI post-fix L-329 (`id`/`versionId`) ha funzionato. 5 perché: (1) milestone **import workflow** ≠ mano social attiva — mancano toggle **Active**, URL webhook produzione in `N8N_WEBHOOK_URL` (env worker, mai in chat), restart worker, OAuth Meta/token pagina; (2) **non** ripetere passi docker cp/import/picker/scp se l'editor mostra già il workflow; (3) prossimo checkpoint operativo = **«webhook collegato»**, non di nuovo «workflow importato»; (4) Meta OAuth può richiedere giorni — **non blocca** il passo webhook; (5) post stasera resta copia-incolla manuale finché Meta non collegato. Regola: screenshot editor con workflow MyCity visibile = guida Active + webhook env + restart; Meta a parte. Vedi L-329, L-325, L-321.",
+      "testo": "**n8n workflow importato — screenshot editor = checkpoint «workflow importato» ok, prossimo Active+webhook (Nicola 19/7 ~21:54).** Nicola allega screenshot (no testo) con editor n8n aperto su **«MyCity — Pubblica post programmato»** (Webhook → Instrada per canale → FB/IG/GBP/Telegram → Rispondi esito) — conferma che import CLI post-fix L-329 (`id`/`versionId`) ha funzionato. 5 perché: (1) milestone **import workflow** ≠ mano social attiva — mancano toggle **Active**, URL webhook produzione in `N8N_WEBHOOK_URL` (env worker, mai in chat), restart worker, OAuth Meta/token pagina; (2) **non** ripetere passi docker cp/import/picker/scp se l'editor mostra già il workflow; (3) prossimo checkpoint operativo = **«webhook collegato»**, non di nuovo «workflow importato»; (4) Meta OAuth può richiedere giorni — **non blocca** il passo webhook; (5) post stasera resta copia-incolla manuale finché Meta non collegato. Regola: screenshot editor con workflow MyCity visibile = guida Active + webhook env + restart; Meta a parte. **ADDENDUM 21:56:** Nicola «Riesci a vedere n8n nel worker?» — AD verifica runtime porta 5678 ok; N8N_WEBHOOK_URL ancora segnaposto (L-331). Vedi L-329, L-325, L-321, L-331.",
       "tag": [
         "n8n",
         "workflow",
@@ -63,11 +85,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.95,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 21:54",
+      "ultima_conferma": "2026-07-19 21:56",
       "stato": "attiva",
       "usi": []
     },
@@ -7755,16 +7777,17 @@
     "**Chat Pannello: nuova pagina = nuova chat (chat 11/7):** Nicola NON vuole che riaprendo il Pannello ritrovi l'ultima conversazione — «voglio solo che quando chiudo la pagina del pannello e quando la riapro riparte con la pagina nuova». La chat corrente va bene durante la sessione di lavoro attiva; è la persistenza CROSS-RELOAD che non vuole. Corollario di design: la chat del Pannello deve essere session-scoped (si resetta alla chiusura/ricarica della tab), NON persistent-scoped (non ripristinare la conversazione al prossimo caricamento). Il salvataggio nella tabella `conversazioni` è corretto per la sync desktop↔telefono, ma l'auto-ripristino all'apertura va disabilitato. Vedi [[chat-sessione-e-sync]].",
     "**Allowlist MCP — mostra sempre Vercel + Supabase insieme (chat 19/7 16:44):** «C'era quello di vercel» quando l'AD elencava solo le righe Supabase — si aspetta di vedere il blocco completo (5 Vercel già presenti + 2 Supabase da aggiungere), non istruzioni che sembrano sostituire ciò che ha già configurato. Spiegare anche la regola virgola: tra le righe sì, mai trailing comma sull'ultima.",
     "**Playwright worker + strumenti contenuti potenti (chat 19/7 ~17:26):** chiede come rendere operativo Playwright sul worker E quali strumenti servono per contenuti forti + come darli all'AD. Preferenza: risposta operativa con (1) verifica runtime cosa manca sul VPS, (2) passi concreti root SSH (font → Node22 in `/opt/node22` → Playwright+Chromium → env `PLAYWRIGHT_BROWSERS_PATH`), (3) elenco strumenti in bin attivo/spento/carburante, (4) modalità consegna materiale (allegati chat, cartella repo, chiavi solo in segreti VPS se cambia regola niente-API). Vuole sapere cosa fa lui vs cosa fa l'AD; dalla chat l'install non parte senza root.",
+    "**Verifica n8n sul worker (chat 19/7 ~21:56):** chiede «Riesci a vedere che n8n è dentro il worker?» — vuole che l'AD **controlli runtime** (servizio/porta 5678 risponde), non solo deduca dallo screenshot; risposta con stato reale + cosa manca (webhook env segnaposto) + passi numerati fino a «webhook collegato».",
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 347,
+    "lezioni_attive": 348,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.22,
-    "tasso_calcolato_il": "2026-07-19 21:57",
+    "tasso_calcolato_il": "2026-07-19 21:58",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 21:57",
+    "tick_leggero_il": "2026-07-19 21:58",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

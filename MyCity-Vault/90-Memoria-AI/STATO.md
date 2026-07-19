@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 21:55
-fonte: AD digitale (metabolizzazione chat Nicola 19/7 21:55)
+aggiornato: 2026-07-19 21:58
+fonte: AD digitale (metabolizzazione chat Nicola 19/7 21:58)
 ---
+
+> ✅ **19/7 ~21:58 — CHAT: n8n verificato runtime sul worker.** Nicola «Riesci a vedere che n8n è dentro il worker?» — AD verifica live: servizio **risponde porta 5678**, workflow «MyCity — Pubblica post programmato» coerente con screenshot 21:54; **`N8N_WEBHOOK_URL` ancora segnaposto** nel file segreto worker → la macchina **non posta ancora** da sola. Prossimo Nicola: (1) toggle **Active** sul workflow, (2) copia URL webhook produzione dal nodo Webhook, (3) incolla in env worker (mai in chat), (4) `systemctl restart mycity-worker.service`, (5) scrivi **«webhook collegato»** → AD verifica connessione. Meta OAuth a parte (lento). Post stasera resta copia-incolla. Fonte: chat Nicola 19/7 21:56.
 
 > ✅ **19/7 ~21:54 — CHAT: n8n workflow importato.** Screenshot Brave: editor n8n con **«MyCity — Pubblica post programmato»** (Webhook → Instrada per canale → FB/IG/GBP/Telegram → Rispondi esito). Import CLI **ok** dopo fix `id`/`versionId` nel JSON. **Prossimo:** (1) attiva workflow (toggle **Active**), (2) copia URL webhook produzione dal nodo Webhook, (3) incolla in env worker `N8N_WEBHOOK_URL` (mai in chat), (4) restart worker, (5) login Meta / token pagina FB+IG (lento — post stasera resta copia-incolla). Fonte: chat Nicola 19/7 21:54.
 
