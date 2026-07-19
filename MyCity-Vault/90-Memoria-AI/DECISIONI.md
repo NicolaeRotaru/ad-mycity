@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 18:12 · 🟢 · [Playwright operativo sul worker VPS — setup completato] · **Nicola: screenshot Termux conferma setup + AD verifica server.** Sequenza eseguita: font → Node22 `/opt/node22` → Playwright `--prefix /opt/node22` + Chromium `/opt/pw-browsers` → riga `PLAYWRIGHT_BROWSERS_PATH` in `cervello/vps/.env` → restart worker → render post domenica **2 PNG OK**. Content Factory può esportare grafiche pulite on-brand sul worker. Proposta PR setup automatico in script VPS resta 🟡 opzionale. L-305, L-307.
+
 2026-07-19 17:17 · 🟢 · [Correzione Diretta contenuti — grafica non testo] · **Nicola: «Cio che volevo vedere era la grafica».** AD aveva consegnato post domenica PQ con copy in evidenza in tab Diretta; Nicola voleva anteprima visiva immediata. Fix **PR #477** (immagine grande in scheda, copy sotto). Pendente merge. L-303.
 
 2026-07-19 17:14 · 🟡 · [Post domenica PQ — asset + Diretta contenuti] · **Nicola: «Crea questo contenuto… voglio vederlo in Diretta contenuti».** AD ha prodotto copy + grafiche SVG + collegamento tab Diretta (**PR #476**); pubblicazione social resta 🔴 in coda. Superato parzialmente da correzione grafica 17:17 (#477). L-303.
