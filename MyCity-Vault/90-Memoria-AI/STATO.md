@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 16:16
-fonte: AD digitale (chat Nicola 19/7 16:16)
+aggiornato: 2026-07-19 16:42
+fonte: AD digitale (chat Nicola 19/7 16:42)
 ---
+
+> 💬 **19/7 16:42 — CHAT: Nicola chiede perché pezzo chat MCP «sparito».** Aveva già chiesto righe allowlist Supabase (~14:20); il segmento non compare più — probabile interruzione sessione (limite AI settimanale, reset 23/7 ore 11:00) prima del salvataggio. AD ha rispiegato meccanismo + rimesse istruzioni MCP (2 voci `supabase-marketplace`). Fix strutturale chat: PR #446 ancora da mergiare. Fonte: chat Nicola 19/7 16:42.
 
 > 💬 **19/7 16:16 — CHAT: mappa completa bandi e finanziamenti per MyCity.** Nicola: «Fai una profonda e completa di tutti i bandi… adatti per questa attività». AD ha consegnato analisi a 5 fasce: 🔴 **PI26** domani 20/7 ore 10:00 (priorità assoluta, fino 5.000 € fondo perduto tech) · 🟢 Smart&Start/Startup Innovativa/Nuova Sabatini/Fondo Garanzia · 🟡 PI26+BT26 come leva botteghe · 🔵 Hub Urbano/indiretto · ❌ BT26 per MyCity, BE26 senza progetto energia, Bando ER commercio **CHIUSO 23/6** (registro-fatti). Situazione: 1 PQ, 4 buyer, 0 ordini, cassa 0 €. Bozza: `consegne/relazioni-istituzionali/2026-07-18-bandi-cciaa-pi26-be26.md`. Fonte: chat Nicola 19/7 16:16.
 
