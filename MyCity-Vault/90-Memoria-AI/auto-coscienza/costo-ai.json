@@ -1,217 +1,31 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-07-18 22:49",
+  "aggiornato": "2026-07-19 06:01",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
-    "data": "2026-07-18",
-    "runs": 26,
+    "data": "2026-07-19",
+    "runs": 1,
     "token_totali": 0,
-    "durata_sec_totale": 8565,
+    "durata_sec_totale": 70,
     "voci": [
       {
-        "quando": "2026-07-18 06:02",
+        "quando": "2026-07-19 06:01",
         "tipo": "ritmo-mattino",
-        "durata_sec": 159,
+        "durata_sec": 70,
         "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 06:30",
-        "tipo": "giro",
-        "durata_sec": 592,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 08:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-18 08:35",
-        "tipo": "monitora",
-        "durata_sec": 329,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 10:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-18 11:11",
-        "tipo": "giro",
-        "durata_sec": 686,
-        "token": 60000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 11:25",
-        "tipo": "giro",
-        "durata_sec": 578,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 11:43",
-        "tipo": "giro",
-        "durata_sec": 608,
-        "token": 55000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 12:00",
-        "tipo": "ritmo-mezzogiorno",
-        "durata_sec": 2,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-18 12:05",
-        "tipo": "giro",
-        "durata_sec": 368,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 12:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-18 14:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-18 16:13",
-        "tipo": "giro",
-        "durata_sec": 684,
-        "token": 60000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 16:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-18 16:24",
-        "tipo": "giro",
-        "durata_sec": 508,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 16:36",
-        "tipo": "giro",
-        "durata_sec": 377,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 16:57",
-        "tipo": "giro",
-        "durata_sec": 334,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 17:20",
-        "tipo": "giro",
-        "durata_sec": 618,
-        "token": 55000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 17:31",
-        "tipo": "giro",
-        "durata_sec": 219,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 17:48",
-        "tipo": "giro",
-        "durata_sec": 640,
-        "token": 55000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 18:02",
-        "tipo": "ritmo-sera",
-        "durata_sec": 150,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 18:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 0,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-18 20:11",
-        "tipo": "giro",
-        "durata_sec": 553,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 20:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-18 20:33",
-        "tipo": "giro",
-        "durata_sec": 399,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-18 22:49",
-        "tipo": "giro",
-        "durata_sec": 755,
-        "token": 65000,
         "modello": "claude",
         "stima_grezza": true
       }
     ],
-    "token_stimati": 950000
+    "token_stimati": 50000
   },
   "storico_giorni": [
+    {
+      "data": "2026-07-18",
+      "runs": 26,
+      "token_totali": 0,
+      "durata_sec_totale": 8565
+    },
     {
       "data": "2026-07-17",
       "runs": 20,
@@ -306,9 +120,9 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 425000,
-    "runs_sessione": 10,
+    "token_sessione_rolling": 50000,
+    "runs_sessione": 1,
     "finestra_min": 360,
-    "aggiornato": "2026-07-18 22:49"
+    "aggiornato": "2026-07-19 06:01"
   }
 }
