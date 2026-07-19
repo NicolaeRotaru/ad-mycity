@@ -2,8 +2,10 @@
 tipo: post-del-giorno
 playbook: contenuto-giorno
 titolo: Domenica sera — fai il turno per la settimana (Pane Quotidiano)
-data: 2026-07-19 17:15 (Europe/Rome)
+data: 2026-07-19 17:19 (Europe/Rome)
 stato: pronto
+anteprima: consegne/content/assets/domenica-settimana-1907-feed.png
+anteprima_storia: consegne/content/assets/domenica-settimana-1907-story.png
 reparto: content-social (sintesi AD)
 negozio: Pane Quotidiano (Via Calzolai 25) — stato `confermato` nel registro-realtà
 categoria: RUBRICA / domenica sera — "Dietro la saracinesca" (swipe #4) × utilità settimana
@@ -22,13 +24,13 @@ allocazione: Pane Quotidiano confermato — cancello allocazione ok
 
 **Feed (1080×1350):**
 
-![Post feed domenica settimana Pane Quotidiano](/api/contenuti/asset?file=consegne/content/assets/domenica-settimana-1907-feed.svg)
+![Post feed domenica settimana Pane Quotidiano](/api/contenuti/asset?file=consegne/content/assets/domenica-settimana-1907-feed.png)
 
 **Storia (9:16):**
 
-![Storia domenica settimana Pane Quotidiano](/api/contenuti/asset?file=consegne/content/assets/domenica-settimana-1907-story.svg)
+![Storia domenica settimana Pane Quotidiano](/api/contenuti/asset?file=consegne/content/assets/domenica-settimana-1907-story.png)
 
-> PNG ad alta risoluzione: sul VPS esegui `node cervello/content-factory/render-domenica-settimana.mjs` (Playwright) — le SVG qui sopra sono già pubblicabili.
+> File PNG pronti per Instagram/Facebook. SVG sorgente nella stessa cartella assets.
 
 ---
 
