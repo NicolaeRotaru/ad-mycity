@@ -23,6 +23,8 @@ type Contenuto = {
   estratto: string;
   colore: string;
   tipo: string;
+  anteprima: string;
+  anteprimaStoria: string;
   quando: string;
   quandoIso: string;
   vuoto: boolean;
@@ -50,6 +52,10 @@ const MD: Components = {
   th: ({ children }) => <th className="px-2 py-1 text-left font-semibold" style={{ border: "1px solid var(--border)", color: "var(--text-primary)" }}>{children}</th>,
   td: ({ children }) => <td className="px-2 py-1 align-top" style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}>{children}</td>,
 };
+
+function urlAsset(rel: string): string {
+  return `/api/contenuti/asset?file=${encodeURIComponent(rel)}`;
+}
 
 const CHIAVE_VISTO = "mycity_contenuti_visto"; // ISO dell'ultima volta che Nicola ha guardato la diretta
 
@@ -197,6 +203,28 @@ export default function DirettaContenuti() {
                 key={c.path}
                 className={`card overflow-hidden transition ${nuovo ? "ring-1 ring-brand/30" : ""}`}
               >
+                {c.anteprima && (
+                  <div className="px-3.5 pt-3 pb-1 bg-black/[0.02] dark:bg-white/[0.02]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={urlAsset(c.anteprima)}
+                      alt={c.titolo}
+                      className="w-full max-h-[420px] object-contain rounded-lg ring-1 ring-black/10 dark:ring-white/10"
+                      loading="lazy"
+                    />
+                    {c.anteprimaStoria && (
+                      <div className="mt-2 flex gap-2 overflow-x-auto scroll-soft pb-1">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={urlAsset(c.anteprimaStoria)}
+                          alt={`Storia: ${c.titolo}`}
+                          className="h-36 w-auto shrink-0 rounded-md ring-1 ring-black/10 dark:ring-white/10"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
                 <button
                   type="button"
                   onClick={() => void apri(c.path)}

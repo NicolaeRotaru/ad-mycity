@@ -11,12 +11,12 @@
   <text x="64" y="220" fill="#FBF7F0" font-family="Georgia,serif" font-size="72" font-weight="700">Domenica sera:</text>
   <text x="64" y="300" fill="#E8A33D" font-family="Georgia,serif" font-size="48" font-weight="700">Fai il turno per la settimana.</text>
   <rect x="64" y="360" width="920" height="160" rx="20" fill="rgba(251,247,240,0.12)" stroke="rgba(251,247,240,0.25)" stroke-width="2"/>
-  <text x="96" y="420" fill="#FBF7F0" font-family="Helvetica,Arial,sans-serif" font-size="34">Pane Quotidiano · Via Calzolai</text>
+  <text x="96" y="420" fill="#FBF7F0" font-family="Helvetica,Arial,sans-serif" font-size="34">Pane Quotidiano - Via Calzolai</text>
   <text x="96" y="470" fill="#FBF7F0" font-family="Helvetica,Arial,sans-serif" font-size="34">Bio e dietetica dal 1976</text>
   <rect x="64" y="560" width="520" height="64" rx="32" fill="#5A7C42"/>
-  <text x="96" y="604" fill="#FBF7F0" font-family="Helvetica,Arial,sans-serif" font-size="28" font-weight="700">Ordina stasera · Ricevi lunedì</text>
+  <text x="96" y="604" fill="#FBF7F0" font-family="Helvetica,Arial,sans-serif" font-size="28" font-weight="700">Ordina stasera - Ricevi lunedi</text>
   <line x1="64" y1="1180" x2="1016" y2="1180" stroke="rgba(251,247,240,0.35)" stroke-width="3"/>
-  <text x="64" y="1240" fill="#FBF7F0" font-family="Georgia,serif" font-size="38" font-weight="700">MyCity =</text>
-  <text x="64" y="1285" fill="#FBF7F0" font-family="Georgia,serif" font-size="28" font-style="italic" opacity="0.92">La spesa che tiene viva la città.</text>
+  <text x="64" y="1240" fill="#FBF7F0" font-family="Georgia,serif" font-size="38" font-weight="700">MyCity</text>
+  <text x="64" y="1285" fill="#FBF7F0" font-family="Georgia,serif" font-size="28" font-style="italic" opacity="0.92">La spesa che tiene viva la citta.</text>
   <text x="1016" y="1285" fill="#FBF7F0" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="700" text-anchor="end">@mycity.piacenza</text>
 </svg>

@@ -244,6 +244,8 @@ export async function GET(req: NextRequest) {
         estratto: estratto(md),
         colore: coloreDa(fm.colore || fm.allocazione || ""),
         tipo: fm.tipo || "",
+        anteprima: (fm.anteprima || "").trim(),
+        anteprimaStoria: (fm.anteprima_storia || fm.anteprimastoria || "").trim(),
         quando, // stringa grezza (vault-Piacenza o data-file); il client la formatta con faRelativo
         quandoIso: quando ? vaultToIso(quando) : "",
         vuoto: md.length === 0,

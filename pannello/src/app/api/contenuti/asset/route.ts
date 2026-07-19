@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import { readRepoFile } from "@/lib/vault";
-import { obsidianConnected } from "@/lib/obsidian";
+import { obsidianConnected, readRepoBytes } from "@/lib/obsidian";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -26,24 +26,31 @@ export async function GET(req: NextRequest) {
   const mime = MIME[ext];
   if (!mime) return NextResponse.json({ errore: "tipo non supportato" }, { status: 400 });
 
-  // SVG: leggibile come testo anche da GitHub (produzione).
-  if (ext === ".svg" && obsidianConnected()) {
-    const txt = await readRepoFile(file);
-    if (txt) {
-      return new NextResponse(txt, {
-        headers: { "Content-Type": mime, "Cache-Control": "public, max-age=300" },
-      });
-    }
-  }
-
   for (const base of [process.cwd(), path.join(process.cwd(), "..")]) {
     try {
       const buf = await fs.readFile(path.join(base, file));
-      return new NextResponse(buf, {
+      return new NextResponse(new Uint8Array(buf), {
         headers: { "Content-Type": mime, "Cache-Control": "public, max-age=300" },
       });
     } catch {
       /* prova radice successiva */
+    }
+  }
+
+  if (obsidianConnected()) {
+    if (ext === ".svg") {
+      const txt = await readRepoFile(file);
+      if (txt) {
+        return new NextResponse(txt, {
+          headers: { "Content-Type": mime, "Cache-Control": "public, max-age=300" },
+        });
+      }
+    }
+    const buf = await readRepoBytes(file);
+    if (buf) {
+      return new NextResponse(new Uint8Array(buf), {
+        headers: { "Content-Type": mime, "Cache-Control": "public, max-age=300" },
+      });
     }
   }
 

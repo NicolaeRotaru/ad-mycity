@@ -352,3 +352,13 @@ export async function writeNote(path: string, content: string, aggiungi = false)
     return `Errore: ${e.message}`;
   }
 }
+
+/** Bytes grezzi di un file in repo (PNG, SVG, …) via GitHub Contents API. */
+export async function readRepoBytes(pathRepo: string): Promise<Buffer | null> {
+  if (!obsidianConnected()) return null;
+  const got = await contentsGet(pathRepo);
+  if (got.stato !== "ok") return null;
+  const d: any = got.dati;
+  if (!d?.content) return null;
+  return Buffer.from(d.content, "base64");
+}
