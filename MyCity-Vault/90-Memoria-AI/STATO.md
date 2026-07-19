@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 00:57
-fonte: AD digitale (sentinella cassa_sconosciuta + negozio_fermo)
+aggiornato: 2026-07-20 01:01
+fonte: AD digitale (sentinella cassa_sconosciuta)
 ---
+
+> 🛰️ **20/7 01:01 — SENTINELLA: cassa/runway — verifica 172 giri, blocco invariato.** `cassa_sconosciuta` **172 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe. **Unica mossa:** card **🟡 #burn-mensile-env** (già in coda, non ri-accodata). **Oggi ore 10:00:** 🔴 **PI26 apre a sportello** (`#bandi-cciaa-2007`). Diagnosi: `consegne/finanza/2026-07-20-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 01:01.
 
 > 💬 **20/7 ~00:57 — CHAT: promemoria accesso n8n via browser (L-347).** Nicola «ricordami come accedo a n8n (worker? server?)» — AD: **browser** su VPS Hetzner porta **5678** (non Pannello); **server** = VPS · **worker** = cervello systemd · **n8n** = Docker automazioni — stesso server, cose diverse; login account admin setup; workflow «Pubblica post programmato» già importato; pagina bianca → riavvio container via SSH. **`N8N_WEBHOOK_URL` ancora segnaposto.** Fonte: chat Nicola 20/7 00:57.
 
