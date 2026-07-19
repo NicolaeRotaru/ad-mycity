@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 16:16 · 🟢 · [Mappa completa bandi/finanziamenti consegnata in chat] · **Nicola: «Fai una profonda e completa di tutti i bandi e finanziamenti… adatti per MyCity».** AD ha sintetizzato due binari (finanziamento diretto startup tech + arma vendite botteghe PI26/BT26), priorità PI26 sportello 20/7 ore 10:00, esclusi bandi chiusi o non pertinenti (Bando ER commercio chiuso 23/6 — registro-fatti). Nessuna nuova firma richiesta; prossimo passo operativo resta domanda PI26 (#bandi-cciaa-2007).
+
 2026-07-19 14:42 · 🟡 · [Fix JSON settings.local.json prima di allowlist Supabase MCP] · **Validazione AD durante «Ci sono altri mcp?»:** il file `.claude/settings.local.json` sul VPS è JSON invalido (pos ~991, riga ~32) — manca virgola dopo l'ultima voce Vercel `get_project`. Finché il JSON non parsea, l'intera allowlist può essere ignorata anche con voci Supabase già incollate. Sequenza: ① correggere virgola ② aggiungere voci Supabase marketplace ③ nuova chat per verificare. Card #abilita-mcp-supabase-chat aggiornata.
 
 2026-07-19 14:42 · 🟢 · [Inventario MCP — nessun altro urgente oltre Supabase marketplace] · **Nicola: «Ci sono altri mcp che ti servono?»** AD ha confermato inventario reale: `.mcp.json` = supabase-marketplace + supabase-memoria (read-only); Vercel MCP già in allowlist (stato deploy); Stripe/PostHog/n8n coperti via REST/cervello — **non servono MCP aggiuntivi adesso**. Priorità operativa: sbloccare Supabase marketplace in chat, non espandere l'ecosistema MCP.

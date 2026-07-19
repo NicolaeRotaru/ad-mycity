@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 14:48
-fonte: AD digitale (chat Nicola 19/7 14:42)
+aggiornato: 2026-07-19 16:16
+fonte: AD digitale (chat Nicola 19/7 16:16)
 ---
+
+> 💬 **19/7 16:16 — CHAT: mappa completa bandi e finanziamenti per MyCity.** Nicola: «Fai una profonda e completa di tutti i bandi… adatti per questa attività». AD ha consegnato analisi a 5 fasce: 🔴 **PI26** domani 20/7 ore 10:00 (priorità assoluta, fino 5.000 € fondo perduto tech) · 🟢 Smart&Start/Startup Innovativa/Nuova Sabatini/Fondo Garanzia · 🟡 PI26+BT26 come leva botteghe · 🔵 Hub Urbano/indiretto · ❌ BT26 per MyCity, BE26 senza progetto energia, Bando ER commercio **CHIUSO 23/6** (registro-fatti). Situazione: 1 PQ, 4 buyer, 0 ordini, cassa 0 €. Bozza: `consegne/relazioni-istituzionali/2026-07-18-bandi-cciaa-pi26-be26.md`. Fonte: chat Nicola 19/7 16:16.
 
 > 💬 **19/7 14:42 — CHAT: inventario MCP + blocco JSON allowlist.** Nicola: «Ci sono altri mcp che ti servono?» — AD: **no altri MCP urgenti** (priorità Supabase marketplace; supabase-memoria opzionale; Vercel già in allowlist; Stripe/PostHog/n8n via REST, non MCP). **Blocco scoperto:** `settings.local.json` JSON **INVALIDO** (virgola mancante dopo voce Vercel `get_project`, riga ~32, pos ~991) → l'intera allowlist può essere ignorata anche se le voci Supabase sono incollate. Fix JSON **prima** di aggiungere MCP Supabase + nuova chat. Fonte: chat Nicola 19/7 14:42.
 
