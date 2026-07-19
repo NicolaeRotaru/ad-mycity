@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-18 11:11
+aggiornato: 2026-07-19 12:58
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -468,4 +468,19 @@ testo (hook IG):
 ☀️ Estate a Piacenza: la colazione fresca la fai da casa. Te la portiamo noi. La vera stella di questa mattina? Il Kefir di latte di capra bio — Pane Quotidiano, Via Calzolai, bio dal 1976. 👉 Fai il tuo turno — link in bio.
 visual: prodotto in uso (vasetto kefir + frutta, luce mattutina) oppure tipografico neutro su palette brand — pubblicabile subito senza foto.
 pre-condizioni: (1) link reale lista d'attesa in bio/1° commento UTM kefir_estate_1407 · (2) foto kefir reale o ok visual tipografico · (3) versione col prodotto in foto = ok titolare se boost. Coda canonica = riga #138 in [[AZIONI-IN-ATTESA]].
-stato: IN ATTESTA DI FIRMA NICOLA.
+stato: IN ATTESA DI FIRMA NICOLA.
+
+## A29 · 📣 Post del giorno "Domenica sera: fai il turno per la settimana" (Pane Quotidiano)
+reparto: content-social
+livello: 🔴 (pubblicazione — la bozza 🟢 è già fatta)
+canale: IG feed @mycity.piacenza + storia 9:16 + gruppi FB locali ("Sei di Piacenza se…", "Piacenza Mia")
+perche: Post del giorno 19/7 (domenica sera). Angolo **rubrica + utilità settimana** (swipe #4 BTS "dietro la saracinesca" + rubrica fissa) — prepari la spesa stasera, ricevi lunedì. **Non duplica:** kefir 14/7 (colazione) · pioggia 20/7 (in coda domani) · VP 17/7 (scaduto). Domanda-ghigliottina "poteva farlo Amazon?" → no.
+preparato: ✍️ content-social (sintesi AD) — gate ONESTA passato (1976 fonte pubblica, prodotti da catalogo REST, 0 numeri MyCity, 0 testimonianze)
+contenuto pronto: consegne/content/2026-07-19-post-del-giorno-domenica-settimana-PQ.md
+cosa cambia: esce il post della domenica sera sul negozio reale — spinta ordini/lista nel momento in cui la gente pianifica la settimana.
+se va bene: click marketplace via UTM `domenica_settimana_1907`; PQ può ripubblicare; complementa il post pioggia di domani mattina.
+testo (hook IG):
+🌙 Domenica sera a Piacenza: prepari la settimana, noi portiamo i freschi. Pane Quotidiano — bio dal 1976, Via Calzolai. Ordini stasera, lunedì te la portiamo al mattino. 👉 Fai il tuo turno — link in bio.
+visual: tipografico serale su palette brand ("DOMENICA SERA · FAI IL TUO TURNO PER LA SETTIMANA") = pubblicabile subito; foto PQ = ok titolare.
+pre-condizioni: (1) link marketplace in bio/1° commento con UTM domenica_settimana_1907 · (2) pubblicare entro le 21:00 di oggi · (3) foto reale = ok titolare se boost. Coda canonica = #post-domenica-settimana-1907 in [[AZIONI-IN-ATTESA]].
+stato: IN ATTESA DI FIRMA NICOLA.

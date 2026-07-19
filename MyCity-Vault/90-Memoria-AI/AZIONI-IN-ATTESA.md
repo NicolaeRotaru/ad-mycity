@@ -16,6 +16,34 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🔴 #post-domenica-settimana-1907 — Pubblica il post di stasera "Prepara la settimana da casa" su Facebook e Instagram · ⏳ accodata 2026-07-19 12:58
+
+**Contenuto completo:** `consegne/content/2026-07-19-post-del-giorno-domenica-settimana-PQ.md` · anteprima [[AZIONI-PRONTE]] **A29**
+
+**Testo pronto (versione Gruppi Facebook):**
+
+> Domenica sera e già pensi alla spesa della settimana? 😅
+>
+> Su **MyCity** c'è **Pane Quotidiano** (Via Calzolai, bio dal '76) — pesto, kefir e freschi bio già ordinabili. Ordini stasera da casa, lunedì te li portiamo al mattino. Paghi alla consegna se ti è più comodo.
+>
+> Se ti va di provare, link nel primo commento 👇
+
+**Primo commento suggerito:**
+> Ordina da Pane Quotidiano → https://mycity-marketplace.com?utm_source=fb-gruppi&utm_medium=social&utm_campaign=domenica_settimana_1907
+
+**Visual:** tipografico serale su palette brand (pubblicabile subito) — brief completo nel file consegne. Foto reale PQ = ok titolare.
+
+**Timing:** entro le **21:00 di oggi** 19/7 (domenica sera).
+
+**Cosa cambia:** esce il post del giorno sul negozio reale — angolo "pianifica la settimana stasera", diverso da kefir (colazione) e da post pioggia di domani.
+**Se va bene:** click su marketplace + Pane Quotidiano può ripubblicare ai suoi clienti.
+
+- **Colore:** 🔴 (pubblicazione IG/FB/gruppi — firma Nicola)
+- **Canale:** Gruppi FB locali + Instagram/Facebook @mycity.piacenza
+- **Reparto:** content-social
+
+---
+
 ### 🟡 #abilita-mcp-supabase-chat — Aggiungi MCP Supabase all'allowlist così l'AD vede i dati live dalla chat · ⏳ accodata 2026-07-19 00:22
 
 **Contesto:** Nicola ha chiesto «come faccio a farti visualizzare questi dati?» dopo che l'AD non riusciva a interrogare Supabase (né con `node` né con MCP) dalla chat del Pannello. Il tool `mcp__supabase-marketplace` non è nell'allowlist di `.claude/settings.local.json` sul VPS — il box di permesso non compare mai dalla chat del Pannello.
