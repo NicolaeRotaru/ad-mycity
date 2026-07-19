@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 22:18",
+  "aggiornato": "2026-07-19 22:28",
   "_nota_metabolizzazione_19_07_2200": "Chat 19/7 ~22:00: Nicola «Come farti ragionare come un esperto n8n per workflow pazzeschi?» — standing-ask architetto automazioni, non tutorial collegamento. L-332 nuova; preferenza n8n-esperto-workflow; STATO+DECISIONI+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2158": "Chat 19/7 ~21:56: Nicola «Riesci a vedere che n8n è dentro il worker?» — AD verifica runtime porta 5678 ok, N8N_WEBHOOK_URL ancora segnaposto. L-331 nuova; L-330 evidenze++ addendum runtime; preferenza verifica-n8n-runtime; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2155": "Chat 19/7 ~21:54: Nicola screenshot editor n8n — workflow «MyCity — Pubblica post programmato» importato (import CLI ok post-fix id/versionId L-329). L-330 nuova; L-329 evidenze++ confermato; preferenza n8n-workflow-importato; STATO già 21:54; LEZIONI-CHAT+builder+DECISIONI aggiornati.",
@@ -7808,9 +7808,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.22,
-    "tasso_calcolato_il": "2026-07-19 22:18",
+    "tasso_calcolato_il": "2026-07-19 22:28",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 22:18",
+    "tick_leggero_il": "2026-07-19 22:28",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
