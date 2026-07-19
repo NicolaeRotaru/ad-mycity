@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 00:23",
+  "aggiornato": "2026-07-20 00:29",
+  "_nota_metabolizzazione_20_07_0029": "Chat 20/7 ~00:29: Nicola «perché desktop non vede chat mobile? dimmi cosa hai capito» — sync parziale elenco DB vs chat aperta locale, footer diagnostico, bug persiste post-fix. L-338 nuova; L-108+L-301 evidenze++; preferenza chat-sync-dimmi-capito; STATO+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_19_07_2336": "Chat 19/7 ~23:36: Nicola «Com'è fatto un workflow molto complesso e molto grande?» — anatomia 7 blocchi (trigger→filtro→rami→attese→azioni→errori→chiusura), non conteggio nodi. L-337 nuova; preferenza workflow-anatomia; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2334": "Chat 19/7 ~23:34: Nicola «Invece nel marketing?» — catalogo n8n acquisizione/contenuti (10 idee distinte da blocco revenue/ops). L-336 nuova; preferenza workflow-marketing-vs-ops; STATO+LEZIONI-CHAT+builder+marketing aggiornati.",
   "_nota_metabolizzazione_19_07_2333": "Chat 19/7 ~23:33: Nicola «Dimmi altri 10 workflow diversi» — catalogo revenue n8n (10 idee distinte da carrello abbandonato). L-335 nuova; L-333 evidenze++; preferenza catalogo-n-workflow; STATO+LEZIONI-CHAT+builder+crm aggiornati.",
@@ -56,6 +57,29 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-338",
+      "testo": "**Desktop non vede chat mobile — «dimmi cosa hai capito» = meccanismo sync + footer diagnostico, non WhatsApp (Nicola 20/7 ~00:29).** Dopo fix cross-device (#316, #328, #446, #475), Nicola chiede perché sul desktop mancano conversazioni create sul telefono — con «dimmi cosa hai capito» (stesso pattern L-333). 5 perché: (1) vuole **comprensione del meccanismo**, non altra PR promessa a vuoto; (2) due livelli distinti: **elenco** cassetto Conversazioni → DB Supabase poll ~8s vs **chat aperta adesso** → memoria sessione browser, non specchio cross-device; (3) footer cassetto «Salvate nel database» vs «Salvate su questo dispositivo» = **primo test diagnostico** (localStorage = zero sync); (4) se entrambi dicono database ma liste diverse → deploy Pannello Vercel vecchio **oppure** persist/load DB fallisce in silenzio (rete, cache); (5) standing-ask parità PC↔telefono (L-301, L-108) — **non** promettere realtime tipo WhatsApp; desktop non «segue» la chat aperta sul telefono. Regola: «desktop non vede chat mobile» → spiegare 2 livelli + chiedere footer su entrambi i device + verificare versione deploy prima di nuovo fix. Vedi L-108, L-301, L-299.",
+      "tag": [
+        "pannello",
+        "chat",
+        "sync",
+        "cross-device",
+        "desktop",
+        "mobile",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 00:29",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-337",
       "testo": "**«Com'è fatto un workflow complesso/grande?» = scheletro 7 blocchi + esempio, non «tanti nodi a caso» (Nicola 19/7 ~23:36).** Dopo cataloghi revenue/ops (L-335) e marketing (L-336), Nicola chiede **anatomia** di un workflow grosso — non altro elenco idee. 5 perché: (1) «com'è fatto» = architettura **riusabile** per disegnare JSON, non meta-setup; (2) grosso ≠ molti nodi — è **catena con regole** che fanno sempre la stessa cosa; (3) 7 parti obbligatorie: sveglia (trigger ordine/carrello/post/orario) → filtro («ha senso agire?» evita doppioni) → rami (instrada per canale/caso) → attese (1h/24h/3gg + **ricontrolla** situazione) → azioni (messaggio/post/avviso, ogni touch diverso) → rete sicurezza (retry, salva fallimento, alert Telegram) → chiusura (segna fatto, riepilogo); (4) esempio concreto obbligatorio (carrello abbandonato mappa sui 7 blocchi); (5) tutti i workflow del catalogo L-333/L-335/L-336 seguono lo stesso scheletro — cambiano trigger/tempi/messaggi. Regola: «com'è fatto un workflow complesso?» / «molto grande?» → **7 blocchi + esempio**; vietato contare nodi, ripetere catalogo idee o tutorial install. Prossimo: Nicola sceglie flusso → JSON pezzo per pezzo dopo webhook. Vedi L-333, L-332, L-335.",
@@ -866,11 +890,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.96,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 17:11",
+      "ultima_conferma": "2026-07-20 00:29",
       "stato": "attiva",
       "usi": []
     },
@@ -5012,7 +5036,7 @@
     },
     {
       "id": "L-2026-0713-108",
-      "testo": "**Chat Pannello PC≠telefono — sync parziale per design (chat 13/7 ~12:06):** Nicola segnala disallineamento dati desktop vs smartphone; prima confermata = conversazioni chat non coincidono. 5 perché: (1) storico conversazioni va in DB Supabase ma ogni dispositivo lo scarica SOLO all'apertura pagina — zero polling (a differenza di Azioni che ha tick); (2) la chat aperta adesso vive in memoria sessione del browser, non si propaga in tempo reale; (3) pin 📌 resta in localStorage per dispositivo (PR #294); (4) Nicola si aspetta allineamento cross-device (standing-ask L-106 estesa); (5) **fix 🟡 PR #316:** polling elenco ~8s + visibilitychange + badge ripensato (L-109). Regola: segnalazione «PC≠telefono» → diagnosticare PRIMA la chat (cassetto: «Salvate nel database» vs «su questo dispositivo»), poi numeri/demo/cache/sezione.",
+      "testo": "**Chat Pannello PC≠telefono — sync parziale per design (chat 13/7 ~12:06, ri-confermato 20/7 ~00:29).** Nicola segnala disallineamento dati desktop vs smartphone; prima confermata = conversazioni chat non coincidono. 5 perché: (1) storico conversazioni va in DB Supabase — poll elenco ~8s (post-#316) ma ogni dispositivo parte da snapshot locale; (2) la chat aperta adesso vive in memoria sessione del browser, non si propaga in tempo reale; (3) footer «database» vs «questo dispositivo» distingue sync attivo vs solo locale; (4) Nicola si aspetta allineamento cross-device (standing-ask L-106/L-301) — fix #316+#328+#446+#475 su main ma 20/7 segnala ancora gap; (5) se database ok e liste diverse → Vercel vecchio o persist DB silenzioso. Regola: segnalazione «PC≠telefono» → diagnosticare PRIMA footer cassetto + 2 livelli (elenco vs aperta), poi deploy/cache/DB.",
       "tag": [
         "pannello",
         "conversazioni",
@@ -5025,11 +5049,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.97,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 12:14",
+      "ultima_conferma": "2026-07-20 00:29",
       "stato": "attiva"
     },
     {
@@ -7647,6 +7671,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Chat sync desktop/mobile — «dimmi cosa hai capito» = meccanismo prima del fix (chat 20/7 ~00:29):** chiede perché sul PC non vede conversazioni del telefono — si aspetta che l'AD spieghi **cosa ha capito** del meccanismo (elenco DB poll ~8s vs chat aperta locale, footer database/dispositivo, non WhatsApp realtime), **prima** di promettere altro fix; se bug persiste dopo #316+#328+#446+#475 → verificare deploy Vercel + chiedere footer su entrambi i device. Vedi L-338, L-108, L-301.",
     "**Workflow n8n — «Com'è fatto un workflow complesso/grande?» = anatomia 7 blocchi + esempio (chat 19/7 ~23:36):** chiede **struttura** di un workflow grosso — si aspetta scheletro architetturale riusabile (trigger→filtro→rami→attese→azioni→errori→chiusura) con esempio concreto (carrello abbandonato); **non** «tanti nodi a caso» né altro catalogo idee; base per disegnare JSON quando sceglie un flusso dal catalogo. Vedi L-337, L-333.",
     "**Workflow n8n — «Invece nel marketing?» = catalogo acquisizione/contenuti separato da ops (chat 19/7 ~23:34):** dopo 10 workflow revenue/ops chiede **la stessa cosa filtrata marketing** — si aspetta lista numerata (post→pub, calendario, eventi città, lancio negozio, prodotto rotante, retargeting, UGC, stagionali, influencer, report) + **differenza esplicita** vs blocco precedente; non mescolare recupero ordini con visibilità; webhook pendente + 🔴 pub/messaggi reali. Vedi L-336, L-335.",
     "**Workflow n8n — «Dimmi altri 10 workflow diversi» = catalogo revenue ampio (chat 19/7 ~23:33):** dopo carrello abbandonato come leva #1, chiede **10 automazioni distinte** — si aspetta lista numerata concisa (trigger→azione→stop), tutte su ordini/retention/negozi; **non** ripetere carrello abbandonato né tutorial setup; ogni voce con webhook pendente + 🔴 se messaggia clienti/negozi. Prossimo: Nicola sceglie quale disegnare per primo → JSON in repo. Vedi L-335, L-333.",

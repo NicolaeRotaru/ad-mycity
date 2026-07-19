@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 00:03
+aggiornato: 2026-07-20 00:29
 fonte: AD digitale (sentinella cassa_sconosciuta + negozio_fermo)
 ---
+
+> 💬 **20/7 ~00:29 — CHAT: desktop non vede chat mobile — sync parziale, bug aperto.** Nicola «perché dal Pannello desktop non vedo le chat del telefono? dimmi cosa hai capito». AD: **elenco** cassetto Conversazioni va su DB (poll ~8s) ma **chat aperta adesso** resta locale al browser; footer «Salvate nel database» vs «su questo dispositivo» = prima diagnosi; fix cross-device (#316, #328, #446, #475) su main ma Nicola vede ancora disallineamento → Pannello desktop su Vercel non aggiornato **oppure** salvataggio/caricamento DB fallisce in silenzio. **Prossimo:** Nicola dice cosa scrive il footer su telefono e desktop + se lista desktop vuota o parziale. Fonte: chat Nicola 20/7 00:29.
 
 > 🛰️ **20/7 00:03 — SENTINELLA: cassa/runway — verifica 171 giri, blocco invariato.** `cassa_sconosciuta` **171 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe. **Unica mossa:** card **🟡 #burn-mensile-env** (già in coda, non ri-accodata). **Oggi ore 10:00:** 🔴 **PI26 apre a sportello** (`#bandi-cciaa-2007`). Diagnosi: `consegne/finanza/2026-07-19-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 00:03.
 
