@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 17:03 · 🟢 · [Bug nuova chat — regressione PR #456] · **Nicola: «Perché quando apro nuova chat appare di nuovo la risposta allowlist? L'avevi risolto.»** Diagnosi verificata: auto-open cross-device (timer 3s su `nuovaChatManualeRef` + finestra 24h) annulla il fix permanente di PR #456. Contenuto = conversazione precedente riciclata, non output worker. AD propone PR che ripristina blocco permanente su «+» — pendente ok Nicola. L-299.
+
 2026-07-19 17:01 · 🟢 · [Inventario allowlist — GitHub ≠ MCP, buco fix/*] · **Nicola: «Hai dentro allow tutti gli mcp che ti servono di github mycity e ad-mycity?»** AD risponde per superficie: nessun MCP GitHub (git + git-pr.mjs); MCP essenziali già ok (9 voci); marketplace git `-C` ok; **manca** `Bash(git push origin fix/*:*)` su ad-mycity per pushare branch fix/PR Pannello. Scritture DB = Management API, non MCP `apply_migration`. Pendente Nicola: aggiungere riga fix/* → nuova chat. L-298.
 
 2026-07-19 17:00 · 🟢 · [PR #213 marketplace mergiata — #fix-35-gravi chiuso] · **Nicola: «Controlla se la 213 è mangiata».** AD verifica su GitHub/`origin/main` marketplace: commit `304fe07` merge PR #213 (35 fix radiografia 7/7). DB già allineato (migrazioni 109/110/111 applicate 16:57). Card #fix-35-gravi segnata completata. Deploy Render al prossimo build automatico. L-297.

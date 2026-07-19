@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 17:01
-fonte: AD digitale (chat Nicola 19/7 17:01)
+aggiornato: 2026-07-19 17:03
+fonte: AD digitale (chat Nicola 19/7 17:03)
 ---
+
+> 💬 **19/7 17:03 — CHAT: bug nuova chat — messaggio vecchio allowlist «tornato».** Nicola: «Quando apro una nuova chat appare questa risposta, come mai? È già successo e tu l'avevi risolto, perché è tornato?» — **non è un messaggio nuovo del worker:** è contenuto riciclato dall'ultima conversazione (allowlist/git). Causa verificata in `page.tsx`: fix PR #456 (18/7) bloccava permanentemente l'auto-apri su «+»; fix cross-device stessa sera ha **reintrodotto timer 3s** che resetta `nuovaChatManualeRef` + finestra auto-open **24h** + poll conversazioni **8s** → dopo «+» la chat si svuota poi rientra sola. Fix proposto 🟡: ripristinare blocco permanente senza timer. Fonte: chat Nicola 19/7 17:03 + codice `pannello/src/app/page.tsx`.
 
 > 💬 **19/7 17:01 — CHAT: inventario allowlist GitHub + due repo.** Nicola: «Hai dentro allow tutti gli mcp che ti servono di github mycity e ad-mycity?» — AD verifica: **GitHub non usa MCP** (solo git + `git-pr.mjs`); MCP Supabase+Vercel **completi** (9 voci); repo **marketplace** ok con `git -C …`; repo **ad-mycity** manca ancora **`git push origin fix/*`** per PR branch fix (es. #450). Migrazioni DB via Management API, non MCP write. Fonte: chat Nicola 19/7 17:01.
 
