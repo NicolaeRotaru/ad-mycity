@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 17:01 · 🟢 · [Inventario allowlist — GitHub ≠ MCP, buco fix/*] · **Nicola: «Hai dentro allow tutti gli mcp che ti servono di github mycity e ad-mycity?»** AD risponde per superficie: nessun MCP GitHub (git + git-pr.mjs); MCP essenziali già ok (9 voci); marketplace git `-C` ok; **manca** `Bash(git push origin fix/*:*)` su ad-mycity per pushare branch fix/PR Pannello. Scritture DB = Management API, non MCP `apply_migration`. Pendente Nicola: aggiungere riga fix/* → nuova chat. L-298.
+
 2026-07-19 17:00 · 🟢 · [PR #213 marketplace mergiata — #fix-35-gravi chiuso] · **Nicola: «Controlla se la 213 è mangiata».** AD verifica su GitHub/`origin/main` marketplace: commit `304fe07` merge PR #213 (35 fix radiografia 7/7). DB già allineato (migrazioni 109/110/111 applicate 16:57). Card #fix-35-gravi segnata completata. Deploy Render al prossimo build automatico. L-297.
 
 2026-07-19 16:57 · 🟢 · [Migrazioni 109/110/111 — applicate sul DB live] · **Nicola: «Applica queste 3 migrations».** AD applica via Supabase Management API (MCP marketplace in sola lettura in chat Pannello). 109 e 111 passate come nel repo; **110 adattata** allo schema reale (`public_avatar_url`/`city` al posto di `avatar_url`/`store_city` e colonne assenti nel DB). Verifica post-applicazione: `rider_fee_cents` presente, `public_profiles` risponde. **Pendente (🔴):** merge PR #213 per allineare codice. L-294, L-296.

@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-19 17:01 · Inventario allowlist GitHub+due repo — Nicola «Hai tutti gli MCP per github/mycity/ad-mycity?» · atteso: mappa per superficie con buco esplicito · reale: GitHub=git+git-pr (no MCP), MCP 9 voci ok, marketplace git -C ok, ad-mycity manca `git push origin fix/*` · L-298 · #allowlist #git #mcp #esito
 - 2026-07-14 13:11 · Rischio tecnico — PR #383 · atteso: 8 findings `rischio-sicurezza-se` chiusi con hardening guardiani · reale: 6/8 chiusi (hook segreti, monitora non distruttivo, Resend/n8n, timeout 8s, meta-guardiano, auto-fix no auto-chiusura); 2 tipo umano pendenti (Cursor --trust, prova chiusura difetti); commit su main per errore → branch fix; merge 🔴 #145 · L-230 · #rischio-tecnico #pr-383 #esito
 - 2026-07-14 03:31 · Sensori e dati reali — PR #377 · atteso: 7 findings `salute-sensori-dati` chiusi con fix pipeline giro · reale: check fonti web a ogni giro, sentinel occhi+cassa, auto-clear errori ok, check mattutino timer occhi, fix loop segnale verifica; `allinea-scan-cantiere` 0 findings; PostHog/uptime senza URL = normale; merge 🔴 #142 · L-222 · #sensori #pr-377 #salute-sensori-dati #esito
 - 2026-07-14 02:53 · PR #371 gate mergeable — Nicola «ti ho già detto» su conflitti · atteso: git-pr.mjs verifica mergeable prima di accodare card · reale: #371 aperta senza check, conflitto body risolto rebase `6fa822bf`; regola gate rinforzata · L-214 · #pr-371 #git-pr #gate #esito

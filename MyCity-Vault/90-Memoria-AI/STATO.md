@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 17:00
-fonte: AD digitale (chat Nicola 19/7 17:00)
+aggiornato: 2026-07-19 17:01
+fonte: AD digitale (chat Nicola 19/7 17:01)
 ---
+
+> 💬 **19/7 17:01 — CHAT: inventario allowlist GitHub + due repo.** Nicola: «Hai dentro allow tutti gli mcp che ti servono di github mycity e ad-mycity?» — AD verifica: **GitHub non usa MCP** (solo git + `git-pr.mjs`); MCP Supabase+Vercel **completi** (9 voci); repo **marketplace** ok con `git -C …`; repo **ad-mycity** manca ancora **`git push origin fix/*`** per PR branch fix (es. #450). Migrazioni DB via Management API, non MCP write. Fonte: chat Nicola 19/7 17:01.
 
 > ✅ **19/7 17:00 — FATTO: PR #213 marketplace mergiata — #fix-35-gravi chiuso end-to-end.** Nicola: «Controlla se la 213 è mangiata» — verificato su `origin/main` marketplace: commit `304fe07` «Merge pull request #213» (35 fix radiografia 7/7). Codice + DB allineati (migrazioni 109/110/111 già applicate 16:57). Deploy Render automatico al prossimo build. Fonte: chat Nicola 19/7 17:00.
 
