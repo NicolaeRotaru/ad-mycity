@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 17:11
-fonte: AD digitale (chat Nicola 19/7 17:11)
+aggiornato: 2026-07-19 17:13
+fonte: AD digitale (chat Nicola 19/7 17:13)
 ---
+
+> 💬 **19/7 17:13 — CHAT: «Dimmi un contenuto» — post domenica PQ mostrato in chat.** Dopo spiegazione pipeline (17:09), Nicola chiede esempio concreto — AD ha consegnato copy completo del post **«Domenica sera: fai il turno per la settimana»** (Pane Quotidiano, Via Calzolai) già in coda 🔴 `#post-domenica-settimana-1907` · file `consegne/content/2026-07-19-post-del-giorno-domenica-settimana-PQ.md` · timing entro 21:00. Pubblicazione resta 🔴 (card Pannello). Fonte: chat Nicola 19/7 17:13.
 
 > 💬 **19/7 17:11 — CHAT: audit chat completa consegnato + PR #475.** Nicola: «Risolvi tutti problemi della chat… ricordati quelli che ti ho detto» (dopo «No, capito» sulla regressione auto-open). AD ha consegnato **mappa unificata** in chat: (1) «+» riapre chat vecchia → **PR #475** 🟡 (`3850bdec`, typecheck ok); (2) sync telefono↔desktop parziale (#446) — #475 separa sync iniziale da nuova chat; (3) pallini rossi — fix luglio (#328, #348), **ritestare** post-merge; (4) pezzo chat sparito — limite AI/worker fermato, salvataggio incompleto; (5) risposta tutta insieme — backlog streaming worker; (6) scroll/triplicazione/timer lista — già su main; (7) MCP numeri live — allowlist ok 16:54, **test runtime** pendente. **Backlog fuori #475:** streaming parola-per-parola, due marce chat, allegati foto/PDF. Card merge **#193**. Fonte: chat Nicola 19/7 17:03–17:11.
 

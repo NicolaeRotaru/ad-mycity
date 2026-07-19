@@ -8,6 +8,7 @@ reparto: content-social
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 17:13 · Nicola «Dimmi un contenuto» · atteso: esempio concreto non inventato · reale: post domenica PQ dalla coda (#post-domenica-settimana-1907, copy completo + storia 4 slide + card 🔴) · L-302 · #esempio-concreto
 - 2026-07-19 17:09 · Nicola chiede pipeline contenuti reali · atteso: spiegazione strumenti veri senza inventare · reale: catena Modalità Mondiale consegnata (Content Factory locale, Canva off, AI consumo bandita, pub 🔴) · L-300 · #pipeline #trasparenza
 - 2026-07-14 11:10 · playbook contenuto-giorno 14/7 · post+storia+FB+visual brief · atteso accoda AZIONI-PRONTE A28 → reale già in coda 02:43, verificato 11:10 · #playbook-contenuto-giorno
 - 2026-07-13 21:01 · Silo allocazione Garetti — Nicola «fai il fix» · atteso: niente pacchetti pesanti su prospect · reale: 12 asset Garetti archiviati, PQ 16 attivi, allocazione-check exit 0 · L-167 · #AR-006 #allocazione

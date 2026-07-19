@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-19] **«Dimmi un contenuto» — mostra copy VERO dalla coda/repo, non inventare (Nicola 19/7 ~17:13).** Dopo spiegazione pipeline: cerca in `consegne/content/` o [[AZIONI-IN-ATTESA]] → testo completo + negozio + CTA + timing + card approvazione; dì cosa manca (foto) senza claim falsi. Vedi L-302.
 - [2026-07-19] **Audit chat — inventario 7 filoni + PR batch, non solo il bug del momento (Nicola 19/7 ~17:11).** Standing-ask «risolvi tutti i problemi»: tabella sintomo→stato→PR (auto-open #475, cross-device #446+#475, pallini #328/#348 ritest, pezzo sparito=salvataggio incompleto, streaming=backlog worker, scroll=main, MCP=test runtime); backlog fuori PR: streaming live, due marce, allegati. Vedi L-301.
 - [2026-07-19] **Pipeline contenuti — elenca catena e strumenti VERI (Nicola 19/7 ~17:09).** Post/storia/reel = brief → ≥3 angoli → direttore creativo → Content Factory locale (HTML→PNG) o reel interno → QA → `consegne/content/` + coda 🔴. Canva auto spento; API AI a consumo bandite; livello alto = foto/frasi vere da bottega. Vedi L-300.
 - [2026-07-19] **«Risolvi tutti i problemi della chat» — mappa unificata, non fix a pezzi (Nicola 19/7 ~17:03).** Aggregare TUTTI i bug segnalati (auto-open #456, cross-device, limiti motore, debounce, streaming, UX…) in un audit con priorità + piano batch PR. Vedi L-301.

@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 17:11",
+  "aggiornato": "2026-07-19 17:13",
+  "_nota_metabolizzazione_19_07_1713": "Chat 19/7 ~17:13: dopo pipeline contenuti (L-300), Nicola «Dimmi un contenuto» → AD ha mostrato post domenica PQ già in coda (#post-domenica-settimana-1907). L-302 nuova; L-300 evidenze++.",
   "_nota_metabolizzazione_19_07_1711": "Chat 19/7 ~17:11: standing-ask audit chat consegnato (mappa 7 filoni in chat) + PR #475 per regressione auto-open. L-301 evidenze++, L-299 aggiornata con PR #475. Nicola «No capito» ma vuole tutti i problemi risolti.",
   "_nota_giro_19_07_1448": "Giro 19/7 14:48 north-star AR-111: business invariato (REST ri-conferma 4 buyer, 0 pagati). Vincolo rispettato — zero azioni macchina. Rinforzo: con stallo ~604h, ogni giro ripete la stessa triade ordine test + PI26 + post clienti finché North Star non si muove.",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
@@ -18,6 +19,26 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-302",
+      "testo": "**«Dimmi un contenuto» — esempio VERO dalla coda/repo, non inventato (Nicola 19/7 ~17:13).** Dopo la spiegazione pipeline chiede «Dimmi un contenuto» — vuole vedere post/storia/reel **già scritti** (copy completo + negozio + CTA + timing), pescati da `consegne/content/` o card in [[AZIONI-IN-ATTESA]], non una bozza generica. 5 perché: (1) ha appena chiesto trasparenza strumenti — il contenuto dimostra la pipeline; (2) odia numeri/claim inventati; (3) «dimmi un contenuto» = dimostrazione pratica, non teoria; (4) se c'è coda 🔴 (es. post domenica PQ `#post-domenica-settimana-1907`) va quello; (5) dichiarare cosa manca (foto reale) senza inventare. Regola: cerca prima in repo → mostra copy completo + card approvazione Pannello.",
+      "tag": [
+        "content-social",
+        "dimmi-contenuto",
+        "esempio-concreto",
+        "coda",
+        "nicola"
+      ],
+      "reparto": "@content-social",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 17:13",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-301",
       "testo": "**«Risolvi tutti i problemi della chat» — analisi unificata + PR priorità, non fix a pezzi (Nicola 19/7 ~17:03, consegnato 17:11).** Dopo spiegazione regressione auto-open (#456 vs cross-device), Nicola: «voglio risolvi tutti problemi della chat, fai una bella analisi, ricordati tutti i problemi che ti ho detto». 5 perché: (1) ha segnalato più bug nel tempo (auto-open, cross-device, limiti motore, debounce, streaming, titoli caselle, ecc.) — vuole **mappa unica**; (2) fix isolati senza inventario fanno «tornare» lo stesso sintomo; (3) «bella analisi» = elenco verificato + priorità + piano batch, non altra PR singola; (4) AD deve **aggregare** da memoria/chat precedenti, non chiedere di ripetere; (5) consegna = tabella sintomo→stato→PR **e** fix batch prioritario (**PR #475** per auto-open). Inventario canonico 7 filoni: auto-open (#475), cross-device (#446+#475), pallini (#328/#348 ritest), pezzo sparito (salvataggio incompleto/limiti AI), streaming (backlog worker), scroll/triplicazione (main), MCP (allowlist ok, test runtime). Backlog fuori PR: streaming live, due marce, allegati.",
@@ -53,12 +74,12 @@
         "trasparenza"
       ],
       "reparto": "@content-social",
-      "confidenza": 0.93,
-      "evidenze": 1,
+      "confidenza": 0.94,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 17:09",
+      "ultima_conferma": "2026-07-19 17:13",
       "stato": "attiva",
       "usi": []
     },
@@ -6807,6 +6828,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**«Dimmi un contenuto» — vuole copy VERO già pronto, non bozza inventata (chat 19/7 ~17:13):** dopo la spiegazione pipeline chiede un esempio concreto — si aspetta post/storia/reel **completi** dal repo o dalla coda 🔴 (testo, negozio, CTA, timing), con link alla card «Pubblica…» nel Pannello; dichiarare cosa manca (foto reale) senza inventare claim. Vedi L-302, L-300.",
     "**Pipeline contenuti — vuole sapere strumenti e catena REALE (chat 19/7 ~17:09):** «Spiegami come crei post/storia/reel, quali strumenti userai» — si aspetta risposta concreta (brief → varianti → direttore creativo → Content Factory locale → QA → coda 🔴), cosa è **spento** (Canva auto, API AI a consumo) vs attivo, e cosa serve da lui (foto bottega, frase bottegaio, numeri verificati). Non accetta «l'AI fa tutto» vago. Vedi L-300.",
     "**Chat — vuole audit unificato di TUTTI i problemi segnalati (chat 19/7 ~17:03, consegnato 17:11):** «Risolvi tutti problemi della chat, fai una bella analisi, ricordati quelli che ti ho detto» — mappa completa 7 filoni (auto-open, cross-device, pallini, pezzo sparito, streaming, scroll, MCP) con stati/PR + fix batch prioritario **PR #475**; backlog esplicito (streaming live, due marce, allegati). Vedi L-301.",
     "**Bug già risolto che «torna» — vuole PERCHÉ è regressato, non solo un altro fix (chat 19/7 17:03):** «Quando apro nuova chat appare questa risposta… l'avevi risolto, perché è tornato?» — si aspetta spiegazione del meccanismo (es. fix cross-device ha reintrodotto timer 3s che annulla PR #456), distinzione contenuto riciclato vs messaggio worker nuovo, verifica nel codice prima di rispondere. Poi sì proposta fix. Vedi L-299.",
@@ -7041,13 +7063,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 316,
+    "lezioni_attive": 317,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.24,
-    "tasso_calcolato_il": "2026-07-19 17:09",
+    "tasso_calcolato_il": "2026-07-19 17:13",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 17:09",
+    "tick_leggero_il": "2026-07-19 17:13",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
