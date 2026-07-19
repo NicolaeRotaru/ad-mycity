@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 18:21
-fonte: AD digitale (chat Nicola 19/7 18:20)
+aggiornato: 2026-07-19 18:27
+fonte: AD digitale (chat Nicola 19/7 18:27)
 ---
+
+> 🟡 **19/7 18:27 — CHAT: PR #479 — «Parla con questa casella» su Diretta contenuti.** Nicola: «Aggiungi la possibilità di parlare con queste caselle» + screenshot tab Diretta (post/supervisione/bozze). AD: pulsante chat sotto ogni scheda — stesso pattern Avvisi/Ritmo; AD riceve titolo, estratto, reparto e testo completo se apri la scheda; conversazione in Conversazioni. **PR #479** (`1b9cd7c9`, typecheck OK). Merge pendente Nicola → ricarica tab **Diretta contenuti**. Fonte: chat Nicola 19/7 18:27.
 
 > 🟡 **19/7 18:20 — CHAT: PR #478 — PNG Playwright collegate a Diretta contenuti.** Nicola: «Scrivi il commit per vederli su diretta/panello». Dopo render OK 18:12, PNG erano su server/repo ma frontmatter post domenica puntava ancora SVG. AD: commit `625600fa` + **PR #478** — campo `anteprima` → `.png` in `consegne/content/2026-07-19-post-del-giorno-domenica-settimana-PQ.md`. Merge pendente Nicola → ricarica **Diretta contenuti** per vedere grafica Playwright. Pubblicazione social resta 🔴 `#post-domenica-settimana-1907`. Fonte: chat Nicola 19/7 18:20.
 

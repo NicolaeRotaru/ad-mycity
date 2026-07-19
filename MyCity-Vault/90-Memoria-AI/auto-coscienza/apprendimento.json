@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 18:26",
+  "aggiornato": "2026-07-19 18:27",
+  "_nota_metabolizzazione_19_07_1827": "Chat 19/7 ~18:27: Nicola «Aggiungi la possibilità di parlare con queste caselle» + screenshot Diretta contenuti. AD PR #479 (1b9cd7c9): ParlaConCasella su ogni scheda. L-309 nuova; preferenza parla-casella Diretta; L-117 pattern rinforzato.",
   "_nota_metabolizzazione_19_07_1820": "Chat 19/7 ~18:20: Nicola «Scrivi il commit per vederli su diretta/panello» dopo render Playwright OK. AD PR #478 (625600fa): frontmatter anteprima → PNG. L-308 nuova; L-303 evidenze++; preferenza commit per Diretta.",
   "_nota_metabolizzazione_19_07_1812": "Chat 19/7 ~18:12: Nicola screenshot Termux setup Playwright completo. AD verifica: package /opt/node22 ✅, env PLAYWRIGHT_BROWSERS_PATH ✅, render domenica 2 PNG OK. L-305 completata; L-307 evidenze++ (fix --prefix confermato); L-304 aggiornata (PNG ok); preferenza setup finito = render OK.",
   "_nota_metabolizzazione_19_07_1806": "Chat 19/7 ~18:06: Nicola «Ricordami come si entra nel file segreto» (Playwright env). AD path nano cervello/vps/.env; verifica: file ok perm 600, riga Playwright assente. L-247 evidenze++; L-305 aggiornata; preferenza promemoria path operativo.",
@@ -27,6 +28,28 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-309",
+      "testo": "**Diretta contenuti — «Parla con questa casella» su ogni scheda (Nicola 19/7 ~18:27).** «Aggiungi la possibilità di parlare con queste caselle» + screenshot tab Diretta (post/supervisione/bozze con anteprima grafica). 5 perché: (1) Diretta mostrava contenuti ma nessun dialogo contestuale — eccezione rispetto ad Avvisi/Ritmo/Archivio; (2) standing-ask 9/7: ogni superficie informativa del Pannello deve permettere chat nello stesso posto; (3) Nicola vuole chiedere «modifica copy», «pubblica quando», «perché questo reparto» senza copiare testo; (4) senza pulsante deve uscire dalla tab e spiegare a mano nella chat principale; (5) **fix 🟡 PR #479** (`1b9cd7c9`) — `ParlaConCasella` sotto ogni card: titolo+estratto+reparto; testo completo se apre scheda; conversazione in Conversazioni. Regola: nuova tab/card informativa con contenuto = «Parla con questa casella» nello stesso giro del contenuto, non follow-up. Vedi L-117 (Avvisi), L-178 (Ritmo).",
+      "tag": [
+        "diretta-contenuti",
+        "pannello",
+        "parla-casella",
+        "chat-in-place",
+        "content-social",
+        "pr-479",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.97,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 18:27",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-308",
       "testo": "**PNG Playwright sul server ≠ visibili in Diretta — serve commit frontmatter + PR (Nicola 19/7 ~18:20).** Dopo render OK 18:12, Nicola: «Scrivi il commit per vederli su diretta/panello». PNG esistono su filesystem/repo ma tab **Diretta contenuti** legge vault su GitHub via frontmatter `anteprima` (ancora SVG). 5 perché: (1) Content Factory scrive asset localmente, non aggiorna git da sola; (2) Pannello/Diretta legge `main`, non il VPS; (3) Nicola chiede «commit» = vuole **vedere la grafica** in tab, non sapere che «sono sul server»; (4) dopo fix Playwright il passo mancante è collegare PNG al post markdown; (5) fix = commit PNG (se nuovi) + `anteprima` → `.png` + PR (**#478**, `625600fa`). Regola: render stampa 2 OK → **subito** commit+PR Diretta, non fermarsi a «operativo sul worker». Vedi L-303, L-305.",
@@ -6971,6 +6994,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Diretta contenuti — «Parla con questa casella» su ogni scheda (chat 19/7 ~18:27):** stessa frase letterale già usata su Avvisi/Ritmo — sotto ogni post/bozza/supervisione in tab Diretta vuole dialogare sul contenuto (copy, timing, reparto) senza uscire dalla tab; merge **PR #479** → ricarica tab. Vedi L-309, L-117.",
     "**PNG in Diretta — «scrivi il commit» dopo render Playwright (chat 19/7 ~18:20):** quando le grafiche esistono sul server ma non compaiono in tab Diretta/Pannello, vuole **commit+PR** che collega frontmatter `anteprima` alle PNG — non spiegazione «sono sul VPS». Dopo merge → ricarica Diretta. Vedi L-308, L-303.",
     "**Playwright setup — gate finale = render PNG OK, non «Fatto» generico (chat 19/7 ~18:12):** dopo passi Termux (font, Node22, Playwright `--prefix`, env `cervello/vps/.env`, restart worker) si aspetta che l'AD **verifichi sul server** che `render-domenica-settimana.mjs` stampi 2 OK e i PNG esistano — solo allora «operativo». Errore `--prefix: command not found` in Termux = pezzo comando incollato per sbaglio, ignorare. Vedi L-305, L-307.",
     "**File segreto worker — «ricordami come si entra» = path nano immediato (chat 19/7 ~18:06):** durante setup Playwright chiede promemoria operativo — si aspetta path assoluto Termux (`/opt/mycity/ad-mycity/cervello/vps/.env`), comandi nano salva/esci, quale riga aggiungere (`PLAYWRIGHT_BROWSERS_PATH`), restart worker; non teoria systemd. Vedi L-247, L-305.",
