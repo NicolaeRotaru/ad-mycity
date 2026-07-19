@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 14:20
-fonte: AD digitale (giro pieno 19/7 14:20)
+aggiornato: 2026-07-19 14:33
+fonte: AD digitale (chat Nicola 19/7 14:33)
 ---
+
+> 💬 **19/7 14:33 — CHAT: «Quanti utenti ci sono?» — verificato DB live.** **4 clienti iscritti** (`profiles?role=eq.buyer`, REST 14:33). Totale account marketplace: **23** (4 buyer · 17 seller · 1 admin · 1 rider). Il vecchio «23 clienti» in memoria contava tutti i profili, non i buyer. 0 ordini pagati; ultimo ordine 24/6. Fonte: REST live 19/7 14:33.
 
 > 💬 **19/7 14:20 — CHAT: Nicola chiede righe esatte allowlist MCP Supabase.** «Cosa devo inserire nell'allowlist per farti avere mcp di supabase?» — AD ha indicato 2 voci obbligatorie su server `supabase-marketplace` (`execute_sql` + `list_tables`) in `.claude/settings.local.json` via terminale VPS, poi nuova chat per verificare. Opzionale: stesse voci su `supabase-memoria`. ⏳ Pendente: Nicola incolla e salva (card #abilita-mcp-supabase-chat). Se fallisce, verificare anche env `SUPABASE_ACCESS_TOKEN` nel worker. Fonte: chat Nicola 19/7 14:20.
 
@@ -625,8 +627,8 @@ fonte: AD digitale (giro pieno 19/7 14:20)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 19/7 14:20 · invariati dal 24/6)
-| Numero | Oggi (19/7 14:20) | Δ vs giro 13:10 | "Riuscito" | Note |
+## I 7 numeri (✅ REST 19/7 14:33 · invariati dal 24/6)
+| Numero | Oggi (19/7 14:33) | Δ vs giro 13:10 | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa · 16 altri seller non approvati |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ payout OFF · payout-test sandbox |
@@ -635,7 +637,7 @@ fonte: AD digitale (giro pieno 19/7 14:20)
 | Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~604h (~25,2 gg) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox da fare su ordine vero |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | Nicola 19/7 · 23 profili totali REST |
+| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST live 14:33 · 23 account totali (4+17 seller+1 admin+1 rider) |
 | **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)

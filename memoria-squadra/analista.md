@@ -8,6 +8,7 @@ reparto: analista
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 14:33 · Chat «Quanti utenti ci sono?» — KPI buyer verificato live · verita:5 impatto:3 concretezza:5 colore:5 umano:5 memoria:5 · atteso 4 buyer confermati dal DB → reale REST `profiles?role=eq.buyer` = 4, breakdown 23 account (4+17+1+1), causa «23 clienti» = profili totali non buyer · L-279 evidenza 4 · #kpi #buyer #role-breakdown
 - 2026-07-18 11:06 · analisi 18/7 06:30: collo di bottiglia identificato = negozio non evadibile + stallo 582h · ✅ mossa n.1 corretta (ordine test PQ) · atteso identificare l'azione a maggior impatto sulla North Star 0 → reale collo bottiglia corretto: ordine test PQ come mossa n.1 chirurgica, accodata 🟡 · #analisi-18lug
 - 2026-07-14 11:04 · Giro 14/7 11:01 — KPI REST live · verita:5 impatto:3 concretezza:5 colore:4 umano:4 memoria:4 · atteso 7 numeri invariati vs 02:48 → reale ordini=1 annullato, 0/7g, 1 PQ, 5 prodotti, North Star 0 (~497h stallo) · #kpi #esito
 - 2026-07-14 03:37 · Chat Onestà sui numeri — PR #379 · verita:5 coerenza:5 azione:5 fonte:5 onesta:5 · atteso 4/4 finding chiusi + valida verde → reale pattern verifica su file sbagliato (fantasma), fix ponte da-loop+sensore_stato, card #143 (non #142) · L-226 · #calibrazione-onesta #radiografia

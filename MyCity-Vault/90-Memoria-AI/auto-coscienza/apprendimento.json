@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 14:24",
+  "aggiornato": "2026-07-19 14:34",
   "_nota_giro_19_07_1420": "Giro 19/7 14:20 north-star AR-111: business invariato, vincolo rispettato (zero azioni macchina laterale). Lezione rinforzata: con North Star a 0, MCP allowlist/autofill supervisione/autofill 494 campi NON entrano in coda come nuove priorità — solo ordine test + PI26 + post clienti.",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
@@ -158,7 +158,7 @@
     },
     {
       "id": "L-2026-0719-279",
-      "testo": "**Correzione Nicola (19/7): MAI scrivere un numero in un'ipotesi di esperimento senza averlo verificato DIRETTAMENTE dal DB live.** EXP-001 diceva '23 iscritti'; Nicola ha corretto: 'a me risultano solo 4'. Il 23 veniva da STATO.md ('23 clienti') — mai verificato dal DB. STATO.md può contare categorie diverse (profili totali vs clienti reali) o essere stale. Regola: per i numeri nelle ipotesi degli esperimenti (e in qualsiasi tesi presentata a Nicola) usa il dato live dal DB via REST o MCP, non il valore copiato da file di memoria. Se il DB non è raggiungibile, scrivi 'dato da verificare', non propagare un numero non controllato.",
+      "testo": "**Correzione Nicola (19/7): «clienti/utenti iscritti» = solo role=buyer — MAI confondere con profili totali.** EXP-001 diceva '23 iscritti'; Nicola ha corretto: 'a me risultano solo 4'. Il 23 veniva da STATO.md ('23 clienti') che contava TUTTI i profili (4 buyer + 17 seller + 1 admin + 1 rider = 23 account). Confermato DB live 19/7 14:33 via REST `profiles?role=eq.buyer` → 4. 5 perché: (1) memoria usava conteggio profili totali come 'clienti'; (2) seller/admin/rider non sono clienti; (3) Nicola chiede «quanti utenti?» → rispondi con breakdown per ruolo; (4) numeri in esperimenti/STATO vanno verificati live, non copiati; (5) se DB non raggiungibile → 'dato da verificare'. Regola: query live (REST o MCP) prima di ogni numero presentato a Nicola.",
       "tag": [
         "esperimenti",
         "numeri",
@@ -166,15 +166,17 @@
         "nicola",
         "correzione",
         "EXP-001",
-        "DB-live"
+        "DB-live",
+        "buyer",
+        "role-breakdown"
       ],
       "reparto": "@AD",
-      "confidenza": 0.97,
-      "evidenze": 3,
+      "confidenza": 0.98,
+      "evidenze": 4,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 14:20",
+      "ultima_conferma": "2026-07-19 14:33",
       "stato": "attiva",
       "usi": []
     },
@@ -6450,6 +6452,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Conteggio utenti — vuole il numero vero dal DB con breakdown per ruolo (chat 19/7 14:33):** chiede «Quanti utenti ci sono?» — si aspetta risposta verificata live (4 clienti buyer, non 23 profili totali) con breakdown esplicito (4 buyer · 17 seller · 1 admin · 1 rider). Vedi L-2026-0719-279.",
     "**MCP Supabase — vuole le righe esatte da incollare (chat 19/7 14:20):** «Cosa devo inserire nell'allowlist?» — si aspetta risposta concreta (nomi tool MCP, file da editare, nuova chat per verificare), non spiegazione generica «manca il permesso». Vuole che l'AD legga il DB live in chat dopo lo sblocco, non numeri copiati da memoria. Vedi L-2026-0719-285, #abilita-mcp-supabase-chat.",
     "**PR duplicate — confronta prima di mergiare (chat 19/7 ~14:05, #473/#474):** «Non ho mergiato la 473 perché mi sembra uguale alla 474» — istinto corretto: se due PR sembrano identiche, NON mergiare entrambe; chiede conferma o aspetta spiegazione AD. Si aspetta che l'AD ammetta l'errore (sessioni parallele) e dica quale tenere/chiudere. Vedi L-2026-0719-284.",
     "**Conflitto PR — AD risolve subito, spiega body vs codice (chat 19/7 ~13:54, #472):** «Ha un conflitto» su merge caselle compatte — si aspetta risoluzione immediata del branch + spiegazione che il conflitto era solo nel file body condiviso (parallelo #471), codice `CasellaAnteprima` intatto; mergeable verificato prima di dire «pronta». Vedi L-2026-0714-209.",
@@ -6672,9 +6675,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.25,
-    "tasso_calcolato_il": "2026-07-19 14:24",
+    "tasso_calcolato_il": "2026-07-19 14:34",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 14:24",
+    "tick_leggero_il": "2026-07-19 14:34",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
