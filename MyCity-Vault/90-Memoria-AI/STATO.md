@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 00:42
+aggiornato: 2026-07-20 00:49
 fonte: AD digitale (sentinella cassa_sconosciuta + negozio_fermo)
 ---
+
+> 💬 **20/7 ~00:49 — CHAT: worker vs n8n — cervello vs braccia, quando delegare (L-344).** Nicola «in che modo n8n semplifica il worker? n8n può fare la stessa cosa — conviene delegare?». AD: **no, non sono la stessa cosa** — worker **decide** (dati, memoria, chat, giro ~2h, azioni da firmare, costa AI); n8n **esegue** passi fissi (pub programmata, promemoria carrello, alert Telegram) via webhook **dopo** approvazione. Delegare **sì** a flussi ripetitivi; **no** a strategia, scelta negozio, contenuti strategici. **Stato:** n8n runtime ok (5678), workflow «Pubblica post programmato» importato; **`N8N_WEBHOOK_URL` ancora segnaposto** → mano social non attiva, post restano manuali/in coda 🔴. Prossimo: Active + webhook env + restart → «webhook collegato». Fonte: chat Nicola 20/7 00:49.
 
 > 💬 **20/7 ~00:42 — CHAT: meta-reflection sync+auto — non trade-off binario (L-343).** Nicola chiede come resi compatibili sync e auto-apertura, perché non prima, quante volte serve dirglielo. AD: coesistenza via **trigger separati** in PR **#481** (`618ffb54`) — sync elenco sempre; auto-open solo se chat vuota **e** non «+» appena premuto; messaggio cross-device sulla stessa conv → desktop riapre; «+» blocca subito e riattiva solo a nuova chat salvata. **Errore processo:** bundlare «sync cross-device» e proporre rimozione auto-apertura invece di «A+B con regole chiare». Merge #481 🔴 pendente (#199). Fonte: chat Nicola 20/7 00:42.
 
