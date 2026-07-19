@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-19 14:48",
+  "aggiornato": "2026-07-19 16:20",
   "soglia_giorni": 7,
   "totale": 120,
   "mancanti": 0,
-  "vuoti": 79,
-  "fermi": 98,
-  "vivi": 22,
+  "vuoti": 78,
+  "fermi": 96,
+  "vivi": 24,
   "reparti_fermi": [
     "accessibility",
     "account-security",
@@ -46,7 +46,6 @@
     "dispute",
     "dpo",
     "enterprise-risk",
-    "finanza-agevolata",
     "fiscalista-iva-ecommerce",
     "fondo-garanzia-pmi",
     "food-safety",
@@ -87,7 +86,6 @@
     "qa-designer",
     "rating-centrale-rischi",
     "registro-imprese",
-    "relazioni-istituzionali",
     "retail-media",
     "reverse-logistics",
     "revisore-conti",
@@ -582,11 +580,11 @@
       "reparto": "finanza-agevolata",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 0,
-      "ultimo_esito": null,
-      "giorni_fa": null,
-      "vuoto": true,
-      "fermo": true
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-19 16:16",
+      "giorni_fa": 0,
+      "vuoto": false,
+      "fermo": false
     },
     {
       "reparto": "fiscalista-iva-ecommerce",
@@ -1082,11 +1080,11 @@
       "reparto": "relazioni-istituzionali",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 2,
-      "ultimo_esito": "2026-07-06 14:20",
-      "giorni_fa": 13,
+      "righe_esito": 3,
+      "ultimo_esito": "2026-07-19 16:16",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "retail-media",
