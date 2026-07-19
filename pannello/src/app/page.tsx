@@ -850,8 +850,31 @@ export default function Dashboard() {
   // Quando si cambia/carica una conversazione, forza lo scroll al fondo
   // anche se stickFullRef è false (l'utente era risalito nella chat precedente).
   const forzaScrollRef = useRef(false);
+  /** Finestra in cui ogni resize/aggiornamento messaggi tiene la chat in fondo (markdown + sync post-drawer). */
+  const scrollForzaUntilRef = useRef(0);
   /** Dopo scelta dal cassetto: lo scroll a 120ms scatta prima che finisca l'animazione drawer (200ms) → torni in cima. */
   const scrollDopoDrawerRef = useRef(false);
+  const [scrollConvTick, setScrollConvTick] = useState(0);
+  function attivaScrollConvApertura() {
+    scrollForzaUntilRef.current = Date.now() + 3000;
+    forzaScrollRef.current = true;
+    scrollDopoDrawerRef.current = true;
+    stickFabRef.current = true;
+    stickFullRef.current = true;
+    setScrollConvTick((n) => n + 1);
+  }
+  function scrollChatAlFondo(forza: boolean) {
+    const el = scrollBoxRef.current;
+    const fab = chatFabBoxRef.current;
+    if (el && (forza || stickFullRef.current)) {
+      el.scrollTop = el.scrollHeight;
+      endRef.current?.scrollIntoView({ block: "end" });
+    }
+    if (fab && (forza || stickFabRef.current)) {
+      fab.scrollTop = fab.scrollHeight;
+      chatFabEndRef.current?.scrollIntoView({ block: "end" });
+    }
+  }
   function vicinoAlFondo(el: HTMLElement | null) {
     if (!el) return true;
     return el.scrollHeight - el.scrollTop - el.clientHeight < 80;
@@ -871,41 +894,35 @@ export default function Dashboard() {
     });
   }, [vista]);
   useEffect(() => {
-    const forza = forzaScrollRef.current;
+    const forza = forzaScrollRef.current || Date.now() < scrollForzaUntilRef.current;
     forzaScrollRef.current = false;
-    const el = scrollBoxRef.current;
-    const fab = chatFabBoxRef.current;
-    // Doppio RAF + timeout: il singolo RAF non basta quando il drawer si chiude in parallelo
-    // al cambio di conversazione (il DOM è ancora in transizione quando il primo RAF scatta).
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (el && (stickFullRef.current || forza)) el.scrollTop = el.scrollHeight;
-        if (fab && (stickFabRef.current || forza)) fab.scrollTop = fab.scrollHeight;
-      });
-    });
-    const scroll = () => {
-      if (el && (stickFullRef.current || forza)) el.scrollTop = el.scrollHeight;
-      if (fab && (stickFabRef.current || forza)) fab.scrollTop = fab.scrollHeight;
-    };
-    const t = setTimeout(scroll, 120);
-    const t2 = forza ? setTimeout(scroll, 250) : undefined;
-    return () => {
-      clearTimeout(t);
-      if (t2) clearTimeout(t2);
-    };
+    scrollChatAlFondo(forza);
+    requestAnimationFrame(() => requestAnimationFrame(() => scrollChatAlFondo(forza)));
+    const scroll = () => scrollChatAlFondo(forza);
+    const timers = [120, 280, 500, 900].map((ms) => setTimeout(scroll, ms));
+    return () => timers.forEach(clearTimeout);
   }, [messages]);
-  // Cambio conversazione → sempre al fondo (doppio rAF per aspettare il DOM aggiornato).
+  // Cambio conversazione → fondo + osserva altezza (markdown/sync post-drawer allungano il thread dopo il primo scroll).
   useEffect(() => {
     if (!convId) return;
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const el = scrollBoxRef.current;
-        if (el) el.scrollTop = el.scrollHeight;
-        const fab = chatFabBoxRef.current;
-        if (fab) fab.scrollTop = fab.scrollHeight;
-      });
-    });
-  }, [convId]);
+    const forza = true;
+    scrollChatAlFondo(forza);
+    requestAnimationFrame(() => requestAnimationFrame(() => scrollChatAlFondo(forza)));
+    const timers = [120, 280, 500, 900, 1500].map((ms) => setTimeout(() => scrollChatAlFondo(forza), ms));
+    const obs: ResizeObserver[] = [];
+    for (const node of [scrollBoxRef.current, chatFabBoxRef.current]) {
+      if (!node) continue;
+      const ro = new ResizeObserver(() => scrollChatAlFondo(true));
+      ro.observe(node);
+      obs.push(ro);
+    }
+    const stop = setTimeout(() => obs.forEach((o) => o.disconnect()), 3200);
+    return () => {
+      timers.forEach(clearTimeout);
+      clearTimeout(stop);
+      obs.forEach((o) => o.disconnect());
+    };
+  }, [convId, scrollConvTick]);
   // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
   const [chatFluttuante, setChatFluttuante] = useState(false);
   // 🤖 "Worker" a SCHERMO INTERO: la stessa chat (messaggi + barra) ma come pagina sovrapposta piena.
@@ -926,21 +943,11 @@ export default function Dashboard() {
     scrollDopoDrawerRef.current = false;
     stickFabRef.current = true;
     stickFullRef.current = true;
-    const scroll = () => {
-      const el = scrollBoxRef.current;
-      const fab = chatFabBoxRef.current;
-      if (el) el.scrollTop = el.scrollHeight;
-      if (fab) fab.scrollTop = fab.scrollHeight;
-      endRef.current?.scrollIntoView({ block: "end" });
-      chatFabEndRef.current?.scrollIntoView({ block: "end" });
-    };
+    scrollForzaUntilRef.current = Date.now() + 3000;
+    const scroll = () => scrollChatAlFondo(true);
     requestAnimationFrame(() => requestAnimationFrame(scroll));
-    const t = setTimeout(scroll, 240);
-    const t2 = setTimeout(scroll, 450);
-    return () => {
-      clearTimeout(t);
-      clearTimeout(t2);
-    };
+    const timers = [240, 450, 800, 1200].map((ms) => setTimeout(scroll, ms));
+    return () => timers.forEach(clearTimeout);
   }, [fabConvOpen, convDrawerAperto]);
   // Riapertura FAB: il contenitore scroll si rimonta (condizionale) → torna all'ultimo messaggio.
   useEffect(() => {
@@ -1342,10 +1349,7 @@ export default function Dashboard() {
     const g = raggruppaLavori(lavori, mappa).find((x) => x.id === id);
     const daLavori = g ? (messaggiDaGruppo(g.lavori) as Msg[]) : [];
     const msgs = daLavori.length ? mergeThread(c.messaggi, daLavori) : c.messaggi;
-    forzaScrollRef.current = true;
-    scrollDopoDrawerRef.current = true;
-    stickFabRef.current = true;
-    stickFullRef.current = true;
+    attivaScrollConvApertura();
     setMessages(msgs);
     setConvId(c.id);
     setConvDrawerAperto(false); // aprendo una conversazione, richiudo il cassetto e mostro subito la chat
@@ -2969,7 +2973,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         >
           {/* Colonna centrata con bordi laterali — solo workerFull su desktop */}
           <div
-            className={workerFull ? "relative flex flex-col flex-1 min-h-0 w-full sm:max-w-5xl sm:mx-auto sm:border-l sm:border-r" : "flex flex-col flex-1 min-h-0"}
+            className={workerFull ? "relative flex flex-col flex-1 min-h-0 w-full sm:max-w-5xl sm:mx-auto sm:border-l sm:border-r overflow-hidden" : "flex flex-col flex-1 min-h-0 overflow-hidden"}
             style={workerFull ? { borderColor: "var(--border)" } : undefined}
           >
           <div className="px-4 py-3 shrink-0 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
@@ -3014,7 +3018,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </button>
           </div>
           {/* Corpo chat SEMPRE montato; il cassetto "Conversazioni" scorre SOPRA da sinistra (come nel desktop). */}
-          <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 min-h-0 p-3.5 space-y-3 overflow-y-auto">
+          <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 min-h-0 p-3.5 space-y-3 overflow-y-auto overscroll-contain">
             {messages
               .filter((m) => !m.prompt)
               .map((m, i) => (
@@ -3052,7 +3056,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               ))}
             <div ref={chatFabEndRef} />
           </div>
-          <div className="shrink-0">
+          <div
+            className="shrink-0 sticky bottom-0 z-10"
+            style={{
+              background: "var(--bg-surface)",
+              boxShadow: "0 -8px 24px rgba(0,0,0,0.1)",
+              paddingBottom: workerFull ? "env(safe-area-inset-bottom, 0px)" : undefined,
+            }}
+          >
           <BarraScritturaChat
             ref={chatInputRef}
             variant={workerFull ? "assistente" : "fluttuante"}
