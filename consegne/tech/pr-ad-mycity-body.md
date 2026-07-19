@@ -1,7 +1,11 @@
-## Cosa fa
-Aggiunge 3 righe al ritmo del venerdi': obbligo esplicito di aggiornare il punteggio e l'obiettivo nella casella "Confronto @AD" ogni settimana.
+## Summary
+- In **Lavori**, le chat aperte da una casella mostrano ora il **titolo della casella** (es. «Esperimento: …», «Revisione: …») invece dell'ultimo messaggio breve di Nicola («a», «G»…).
+- Su **mobile**, i pulsanti Riapprova/Annulla/Chat vanno sotto al titolo: niente più testo schiacciato a una lettera per riga.
 
-Sostituisce PR #465 (aveva conflitti coi file di memoria del worker).
+## Perché
+Nicola vedeva card «Da riapprovare» illeggibili: il Pannello prendeva il messaggio chat come titolo e, con i tre bottoni affiancati, lo schiacciava in verticale.
 
-## Come verificare
-Nessuna verifica visiva necessaria: e' solo una modifica al prompt del venerdi'. L'effetto si vede il prossimo venerdi' quando il punteggio viene aggiornato automaticamente invece di restare fermo per settimane.
+## Come provare
+1. Mergia e attendi deploy Pannello.
+2. Apri **Lavori** da telefono (o finestra stretta).
+3. Le card «Da riapprovare» devono mostrare il nome della casella su una o due righe leggibili; i bottoni sotto.

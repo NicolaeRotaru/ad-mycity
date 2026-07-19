@@ -53,6 +53,9 @@ export function titoloLavoro(lv: LavoroBase): string {
     if (lv.tipo === "chat") return "Messaggio chat";
     return lv.tipo || "Lavoro";
   }
+  // Chat da casella: mostra il titolo della casella (es. «Esperimento: …»), non l'ultimo messaggio di Nicola.
+  const casella = richiesta.match(/## Casella del Pannello:\s*(.+?)(?:\n|$)/);
+  if (casella?.[1]?.trim()) return casella[1].trim().slice(0, 100);
   const nuovo = richiesta.match(/## Nuovo messaggio di Nicola\n([\s\S]*?)(?:\n\n## |\n*$)/);
   if (nuovo?.[1]?.trim()) return nuovo[1].trim().slice(0, 100);
   const prima = richiesta.split("\n").find((l) => l.trim() && !l.startsWith("#"));
