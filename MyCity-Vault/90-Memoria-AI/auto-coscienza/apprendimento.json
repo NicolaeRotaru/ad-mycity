@@ -1,7 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 18:46",
-  "_nota_metabolizzazione_19_07_1844": "Chat 19/7 ~18:44: Nicola «Purtroppo ho mangiato la 214 prima della 215» + «A cosa serve la CI?». AD: ordine invertito ok; CI spiegata semplice; #215 ancora pendente. L-314 nuova; #196 FATTO; preferenza spiegazione-CI.",
+  "aggiornato": "2026-07-19 18:56",
+  "_nota_metabolizzazione_19_07_1856": "Chat 19/7 ~18:56: Nicola «Non ha fatto il deploy, come mai?» + screenshot Render X. AD: Auto-Deploy ok, build crashato (orders/page TS), fix branch fix/render-build-orders-page, PR manuale (#197). L-315 nuova; L-314 evidenze++; STATO corretto (#214 merged ≠ online); preferenza deploy-vs-merge.",
   "_nota_metabolizzazione_19_07_1841": "Chat 19/7 ~18:40: Nicola «Prepara la pr» dopo diagnosi CI → AD PR #215 (715/715, migration 107 + mock Stripe), accoda #195+#196 merge order. L-313 nuova; L-311 evidenze++; preferenza prepara-pr-ci.",
   "_nota_metabolizzazione_19_07_1840": "Chat 19/7 ~18:38: Nicola casella Supervisione «Fai i 2 fix» → 252 condition nuovo + 242 unit pezzo live, REST 0 null, PR #480 bug tool. L-312 nuova; preferenza fai-i-2-fix; L-216 evidenze++.",
   "_nota_metabolizzazione_19_07_1838": "Chat 19/7 ~18:37: Nicola «Tu riesci a lavorare con CI?» + screenshot check PR #214. AD: sì; unit rossi pre-esistenti su main (migration 107 + mock Stripe, 13/715), E2E+integration ok, merge PR #214 ok. L-311 nuova; preferenza CI-capability.",
@@ -34,8 +34,31 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0719-315",
+      "testo": "**Render marketplace — X rosse = build fallito, non «deploy non partito» (Nicola 19/7 ~18:56).** Dopo merge #214 Nicola: «Non ha fatto il deploy, come mai?» + screenshot Render. 5 perché: (1) interpreta sito vecchio = Auto-Deploy non attivo; (2) Render **ha tentato** deploy ma build crashato ~2 min (X rosse = failed, non canceled); (3) causa verificata in locale: errore TypeScript `app/orders/page.tsx` (`.catch` su PromiseLike Supabase) — già su main dal merge radiografia 18/7, **non** introdotto da #214/#215; (4) **merge GitHub ≠ online**: ogni PR mergiata resta offline finché un build completa con successo; (5) fix su branch `fix/render-build-orders-page` (+ `NODE_OPTIONS=4096` anti-OOM), build locale OK; PR automatica bloccata da rate limit GitHub API → aprire/mergiare a mano (#197). Regola: «deploy non fatto» → controllare **stato build Render** (failed vs never started); non dire «non ha deployato» se c'è un deploy failed; non attribuire al PR feature se il build fallisce su debito pre-esistente su main. Vedi L-314, L-311.",
+      "tag": [
+        "render",
+        "deploy",
+        "build-failed",
+        "marketplace",
+        "pr-214",
+        "orders-page",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.96,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 18:56",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-314",
-      "testo": "**CI — «A cosa serve la CI?» + merge #214 prima di #215 ok (Nicola 19/7 ~18:44).** Dopo merge invertito («Purtroppo ho mangiato la 214 prima della 215»), Nicola chiede cos'è la CI. 5 perché: (1) Nicola non usa gergo DevOps — spiega collaudo automatico pre-deploy in italiano semplice (compila, test, E2E/integration, pallini GitHub); (2) CI becca errori prima del deploy Render; (3) rosso unit su main **non sempre blocca** merge feature se E2E/integration ok (L-311); (4) ordine consigliato #215→#214 era per CI verde prima del fix visivo, ma invertito **non danneggia** il fix carrello (#214 già live); (5) #215 resta da mergiare per 715/715 su main. Regola: «A cosa serve?» → metafora collaudo + cosa controlla + prossimo passo concreto; merge fuori ordine → rassicura + «mergia #215 quando puoi». Vedi L-311, L-313.",
+      "testo": "**CI — «A cosa serve la CI?» + merge #214 prima di #215 ok (Nicola 19/7 ~18:44).** Dopo merge invertito («Purtroppo ho mangiato la 214 prima della 215»), Nicola chiede cos'è la CI. 5 perché: (1) Nicola non usa gergo DevOps — spiega collaudo automatico pre-deploy in italiano semplice (compila, test, E2E/integration, pallini GitHub); (2) CI becca errori prima del deploy Render; (3) rosso unit su main **non sempre blocca** merge feature se E2E/integration ok (L-311); (4) ordine consigliato #215→#214 era per CI verde prima del fix visivo, ma invertito **non danneggia** il codice del fix carrello (#214 su main); (5) #215 resta da mergiare per 715/715 su main. **ADDENDUM 18:56:** merge #214 ≠ sito aggiornato — build Render fallito su debito pre-esistente (L-315). Regola: «A cosa serve?» → metafora collaudo + cosa controlla + prossimo passo concreto; merge fuori ordine → rassicura + «mergia #215 quando puoi». Vedi L-311, L-313, L-315.",
       "tag": [
         "ci",
         "github",
@@ -47,11 +70,11 @@
       ],
       "reparto": "@sdet",
       "confidenza": 0.95,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 18:44",
+      "ultima_conferma": "2026-07-19 18:56",
       "stato": "attiva",
       "usi": []
     },
@@ -7112,6 +7135,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Deploy Render — «Non ha fatto il deploy?» = vuole PERCHÉ merge non è online (chat 19/7 ~18:56):** dopo merge PR (#214) sito invariato — si aspetta spiegazione concreta: Auto-Deploy sì/no, X rosse Render = build fallito (non «non ha provato»), causa verificata (log/build locale), fix pronto + passi merge. Distinguere merge GitHub vs deploy produzione. Vedi L-315.",
     "**CI — «A cosa serve la CI?» = spiegazione semplice pre-deploy, non gergo (chat 19/7 ~18:44):** dopo merge fuori ordine (#214 prima #215), chiede il significato della CI — si aspetta metafora collaudo (compila+test+E2E), pallini GitHub, cosa fare dopo (#215 per verde su main); rassicurazione se ordine merge invertito. Vedi L-314.",
     "**CI — «Prepara la pr» dopo diagnosi = vuole PR fix eseguita e accodata (chat 19/7 ~18:40):** dopo «Tu riesci a lavorare con CI?» e offerta PR separata, «Prepara la pr» = via libera — si aspetta suite verde (715/715), **PR #215** in Da approvare, ordine merge **#215 poi #214**; non solo spiegazione delle cause. Vedi L-313, L-311.",
     "**Supervisione — «Fai i 2 fix» dalla casella = eseguire subito entrambi gli autofill (chat 19/7 ~18:38):** dalla casella Supervisione approva con frase breve i 2 gruppi proposti (condition + unit) — si aspetta esecuzione live immediata, numeri esatti (252+242), verifica REST, batch undo citati, caveat food se «pezzo» non va; se tool bloccato → PR fix + chiedi merge. Vedi L-312, L-216.",
@@ -7366,9 +7390,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.23,
-    "tasso_calcolato_il": "2026-07-19 18:46",
+    "tasso_calcolato_il": "2026-07-19 18:56",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 18:46",
+    "tick_leggero_il": "2026-07-19 18:56",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

@@ -1,12 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 18:44
-fonte: AD digitale (chat Nicola 19/7 18:44)
+aggiornato: 2026-07-19 18:56
+fonte: AD digitale (chat Nicola 19/7 18:56)
 ---
+
+> ⚠️ **19/7 18:56 — CHAT: merge #214 ok ma sito NON aggiornato — build Render fallito.** Nicola: «Non ha fatto il deploy, come mai?» + screenshot Render (X rosse). AD: Auto-Deploy **è partito**; build crashato ~2 min — sito ancora versione di ieri. Causa verificata in locale: errore TypeScript su `app/orders/page.tsx` (merge radiografia 18/7), **non** da #214/#215. Fix pronto su branch `fix/render-build-orders-page` (build locale OK); PR non aperta automaticamente (rate limit GitHub API). **Ordine:** mergia PR fix build → poi **#215** → ricarica telefono (icona carrello visibile solo dopo deploy verde). Fonte: chat Nicola 19/7 18:56.
 
 > 💬 **19/7 18:44 — CHAT: CI spiegata + merge #214 prima di #215 (ok).** Nicola: «Purtroppo ho mangiato la 214 prima della 215» poi «A cosa serve la CI?». AD: ordine invertito **non danneggia** il fix icona carrello (E2E/integration ok); **#215** resta utile da mergiare per CI unit verde su main (715/715). CI = collaudo automatico GitHub pre-deploy (compila, test, E2E). Fonte: chat Nicola 19/7 18:44.
 
-> ✅ **19/7 ~18:44 — FATTO: PR #214 marketplace mergiata (icona carrello mobile).** Nicola ha mergiato **#214 prima di #215** (ordine consigliato era invertito). Fix badge carrello navbar mobile live su main → deploy Render (~2–3 min) → ricarica sito da telefono. Fonte: chat Nicola 19/7 18:44.
+> ✅ **19/7 ~18:44 — FATTO: PR #214 marketplace mergiata (icona carrello mobile).** Nicola ha mergiato **#214 prima di #215** (ordine consigliato era invertito). Codice su `main` GitHub — **deploy Render bloccato** da build fallito (vedi 18:56). Fonte: chat Nicola 19/7 18:44–18:56.
 
 > 🟡 **19/7 18:40 — CHAT: PR #215 marketplace — unit test CI verdi (715/715).** Nicola «Prepara la pr» dopo diagnosi CI (L-311). AD: fix migration n.107 duplicata + mock Stripe coupon incompleto → **715/715 test verdi** in locale. **PR #215** branch `fix/ci-unit-tests-green` — merge pendente Nicola (consigliato **dopo** #214 già mergiata). Niente cambi visibili sul sito — solo test e ordine file migration. Fonte: chat Nicola 19/7 18:40.
 
