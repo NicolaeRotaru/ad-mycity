@@ -288,6 +288,27 @@ function mergeListaConversazioni(prev: Conversazione[], incoming: Conversazione[
   return merged;
 }
 
+/** Chat aperta da Lavori («Chat con questa casella») vive nei lavori — la aggiungiamo alla lista Worker se manca nel DB. */
+function integraConversazioniDaLavori(list: Conversazione[], lavoriList: Lavoro[]): Conversazione[] {
+  const ids = new Set(list.map((c) => c.id));
+  const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+  const extra: Conversazione[] = [];
+  for (const g of raggruppaLavori(lavoriList, m)) {
+    if (ids.has(g.id)) continue;
+    if (!g.lavori.some((l) => l.tipo === "chat")) continue;
+    const msgs = messaggiDaGruppo(g.lavori).filter((m) => !m.pending) as Msg[];
+    if (!msgs.some((m) => m.role === "user" && m.content.trim())) continue;
+    extra.push({
+      id: g.id,
+      titolo: g.titolo,
+      messaggi: msgs,
+      created_at: g.lavori[0]?.created_at || g.ultimoAt,
+      updated_at: g.ultimoAt,
+    });
+  }
+  return extra.length ? [...extra, ...list] : list;
+}
+
 function conversazioniUguali(a: Conversazione[], b: Conversazione[]): boolean {
   if (a === b) return true;
   if (a.length !== b.length) return false;
@@ -2012,7 +2033,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           for (const g of raggruppaLavori(lavoriRef.current, m)) gruppi.set(g.id, g);
           migraConvLetteBaseline(incoming, gruppi);
           const attiva = convIdRef.current;
-          const merged = mergeListaConversazioni(conversazioniRef.current, incoming, attiva);
+          const merged = integraConversazioniDaLavori(
+            mergeListaConversazioni(conversazioniRef.current, incoming, attiva),
+            lavoriRef.current,
+          );
           if (!conversazioniUguali(conversazioniRef.current, merged)) {
             setConversazioni(merged);
           }
@@ -2120,6 +2144,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   useEffect(() => {
     if (convDrawerAperto || chatFluttuante || workerFull) caricaConversazioni();
   }, [convDrawerAperto, chatFluttuante, workerFull, caricaConversazioni]);
+
+  // Chat da Lavori («Chat con questa casella»): compaiono nel menu Worker appena arrivano i lavori.
+  useEffect(() => {
+    setConversazioni((prev) => {
+      const next = integraConversazioniDaLavori(prev, lavori);
+      return conversazioniUguali(prev, next) ? prev : next;
+    });
+  }, [lavori]);
 
   // Auto-apri l'ultima conversazione recente se la chat è vuota (sync cross-device).
   // (1) Primo caricamento: apre l'ultima conv <24h (smartphone ↔ desktop).
