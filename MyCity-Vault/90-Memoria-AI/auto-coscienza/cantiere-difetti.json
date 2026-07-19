@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-19 13:59",
+  "aggiornato": "2026-07-19 14:00",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
     {
@@ -1355,15 +1355,16 @@
       "causa_radice": "Dove: cervello/verifica-sensori.mjs:280-294 (checkN8n) · MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json (n8n_health giri_ciechi=15, meta.max_giri_ciechi=15) · consegne/tech/2026-07-16-diagnosi-sensori-ciechi.md  — 1) M2 sveglia Nicola 'sensore cieco da 15 giri' → 2) perché n8n_health è 'cieco' → 3) perché l'URL è il segnaposto 'tuo-n8n' che non risolve → 4) perché verifica-sensori tratta 'variabile presente' come 'configurato', senza distinguere un valore reale da un placeholder → 5) causa di sistema: manca la regola 'valore-segnaposto = non_configurato, non cecità' E manca il fix-alla-radice nel codice — la macchina ha rimbalz",
       "fix_proposto": "🟡 In verifica-sensori.mjs rilevare i valori-segnaposto noti (host/chiavi che contengono 'tuo-', 'example', 'changeme', 'xxx', o host non risolvibile via DNS al primo giro) e classificarli 'non_configurato' invece di 'cieco', per n8n e per ogni sensore. Così il segnaposto smette di gonfiare max_giri_ciechi e di far scattare M2, senza dipendere dal fatto che Nicola ricordi di editare il .env.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 23:58",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-19 14:00",
       "verifica": {
         "file": "cervello/verifica-sensori.mjs",
         "pattern": "segnaposto|placeholder|tuo-",
         "presente": true
       },
-      "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)"
+      "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)",
+      "chiuso_come": "cervello/verifica-sensori.mjs contiene /segnaposto|placeholder|tuo-/ → trovato"
     },
     {
       "id": "AR-136",
@@ -1409,8 +1410,8 @@
     }
   ],
   "meta": {
-    "aperti": 23,
+    "aperti": 22,
     "in_corso": 0,
-    "chiusi": 53
+    "chiusi": 54
   }
 }

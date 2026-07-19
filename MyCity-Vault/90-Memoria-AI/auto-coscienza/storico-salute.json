@@ -13,20 +13,6 @@
       "aperti_davvero": 0,
       "bloccanti_umani": 1,
       "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (16h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
-    },
-    {
-      "data": "2026-07-12",
-      "voto_salute": 51,
-      "voto_provvisorio": 75,
-      "voto_pieno": 75,
-      "firma": "",
-      "difetti_aperti": 0,
-      "difetti_chiusi": 42,
-      "pending_merge": 0,
-      "aperti_davvero": 0,
-      "bloccanti_umani": 1,
-      "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (18h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
     },
     {
@@ -1226,6 +1212,14 @@
       "bloccanti_umani": 2,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (14h) · cecità sensori 94 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 18 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-19",
+      "voto_salute": 0,
+      "difetti_aperti": 22,
+      "difetti_chiusi": 1,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-135 (verificati nel codice)."
     }
   ]
 }
