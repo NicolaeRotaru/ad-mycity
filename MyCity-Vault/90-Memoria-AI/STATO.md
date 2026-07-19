@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 20:21
-fonte: AD digitale (metabolizzazione chat Nicola 19/7 20:21)
+aggiornato: 2026-07-19 20:27
+fonte: AD digitale (metabolizzazione chat Nicola 19/7 20:27)
 ---
+
+> ⏳ **19/7 ~20:27 — CHAT: n8n import workflow — scp lanciato dentro SSH per errore.** Screenshot Termux: Nicola tenta `scp root@162.55.51.250:…/pubblica-post-programmato.json ~/storage/downloads/` **con prompt `root@ubuntu-…#`** (ancora in SSH) → errore `open local "/root/storage/downloads/"` — path locale interpretato sul VPS, non su Termux. **Account n8n ok** (20:20); **workflow non ancora importato**. Fix: `exit` → `~ $` → mkdir downloads → scp verso telefono → Import from file in n8n → «workflow importato». Alternativa PC. **`N8N_WEBHOOK_URL` ancora segnaposto.** Fonte: chat Nicola 19/7 20:27.
 
 > ✅ **19/7 ~20:20 — CHAT: n8n setup account completato — Nicola dentro n8n.** Screenshot Brave: home n8n «What do you want to build, Nicola» su `162.55.51.250:5678` — fix `N8N_SECURE_COOKIE=false` **ok** (L-325). **Milestone:** account admin creato · container Docker attivo · **non ancora** mano social (manca import workflow + OAuth Meta + webhook env). Prossimo checkpoint Nicola: **«workflow importato»** → AD guida `N8N_WEBHOOK_URL` in env worker (mai in chat) + restart worker. **`N8N_WEBHOOK_URL` ancora segnaposto.** Post domenica `#post-domenica-settimana-1907` resta copia-incolla manuale. Fonte: chat Nicola 19/7 20:20.
 

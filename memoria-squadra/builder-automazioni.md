@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 20:27 · Nicola scp workflow n8n fallito — atteso: file JSON su telefono per import · reale: scp lanciato dentro SSH (`root@…#`) → errore `/root/storage/downloads/`; serve `exit` → Termux `~ $` → scp locale; account n8n ok, workflow pendente · L-326 · #n8n #termux #scp #workflow
 - 2026-07-19 20:20 · Nicola screenshot home n8n — atteso: conferma setup + prossimi passi · reale: home «What do you want to build, Nicola» su 162.55.51.250:5678 = account admin ok, fix N8N_SECURE_COOKIE=false confermato; prossimo import workflow pubblica-post-programmato.json → OAuth Meta → webhook env worker (segnaposto); pub auto ancora no · L-325 · #n8n #workflow #meta
 - 2026-07-19 20:03 · Nicola screenshot Termux docker not found — atteso: fix secure cookie n8n · reale: prompt `~ $` = telefono locale, non VPS; comandi Docker fuori SSH dopo drop connessione; n8n sul server ancora up, fix cookie pendente riconnessione SSH · L-324 · #n8n #termux #ssh #vps
 - 2026-07-19 19:58 · Nicola screenshot n8n Docker Termux — atteso: superare blocco setup browser · reale: container ok (5678, volume n8n_data), errore secure cookie su IP+http; fix N8N_SECURE_COOKIE=false fase setup; webhook worker ancora segnaposto; prossimo import workflow+Meta · L-323 · #n8n #docker #secure-cookie #vps

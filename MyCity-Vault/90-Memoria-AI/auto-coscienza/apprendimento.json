@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 20:26",
+  "aggiornato": "2026-07-19 20:27",
+  "_nota_metabolizzazione_19_07_2027": "Chat 19/7 ~20:27: Nicola screenshot Termux scp fallito — scp dentro SSH (root@…) verso ~/storage/downloads → /root/storage sul VPS. AD: exit → ~$ → scp locale. L-326 nuova; L-324 evidenze++; preferenza scp-termux-prompt; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2021": "Chat 19/7 ~20:20: Nicola screenshot home n8n «What do you want to build» — setup account ok, fix secure cookie confermato. L-325 nuova; L-323 evidenze++; preferenza n8n-dentro-import; STATO già 20:20; LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2004": "Chat 19/7 ~20:03: Nicola screenshot Termux docker not found — prompt ~$ = telefono locale, non VPS; comandi Docker fuori SSH dopo drop. AD: riconnetti SSH, docker ps, poi fix secure cookie. L-324 nuova; L-323 evidenze++; preferenza termux-prompt-check; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1959": "Chat 19/7 ~19:58: Nicola screenshot Termux+Brave — n8n Docker avviato, blocco secure cookie IP+http. AD: N8N_SECURE_COOKIE=false fase setup, volume ok, SSH drop non ferma container. L-323 nuova; L-322 evidenze++; preferenza n8n-setup-screenshot; STATO+LEZIONI-CHAT+builder aggiornati.",
@@ -45,8 +46,30 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0719-326",
+      "testo": "**Termux scp — `open local \"/root/storage/downloads/\"` = scp lanciato dentro SSH, non sul telefono (Nicola 19/7 ~20:27).** Durante import workflow n8n, Nicola esegue `scp root@VPS:…/pubblica-post-programmato.json ~/storage/downloads/` **con prompt `root@ubuntu-…#`** (sessione SSH attiva) → scp interpreta `~/storage/downloads` come path **sul VPS** (`/root/storage/downloads/`), non su Termux Android. 5 perché: (1) stessa famiglia L-324 — **controllare prompt shell** prima di diagnosticare; (2) `scp` verso path locale va eseguito dalla shell **destinazione** (Termux `~ $`), non dalla sessione remota; (3) dentro SSH `~` = home root VPS; (4) fix: `exit` → prompt `~ $` → `mkdir -p ~/storage/downloads` → scp dal server al telefono → Import from file n8n; (5) alternativa più comoda: import da PC (drag file stesso server n8n). Regola: errore scp «open local /root/storage» → **non** problema file mancante sul VPS — scp lanciato sul server; primo passo `exit`. Vedi L-324, L-325.",
+      "tag": [
+        "termux",
+        "scp",
+        "ssh",
+        "n8n",
+        "workflow",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 20:27",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-325",
-      "testo": "**n8n setup — home «What do you want to build» = account admin ok, prossimo import workflow (Nicola 19/7 ~20:20).** Nicola allega screenshot (no testo) con home n8n su `162.55.51.250:5678` — conferma che fix `N8N_SECURE_COOKIE=false` ha funzionato e account admin creato. 5 perché: (1) milestone **setup account** ≠ mano social attiva — mancano import workflow, OAuth Meta, attivazione webhook, `N8N_WEBHOOK_URL` in env worker, restart worker; (2) non ripetere passi Docker/cookie/SSH se già dentro la home; (3) prossimo checkpoint operativo = **«workflow importato»**, non di nuovo «sono dentro n8n»; (4) import file JSON da telefono è scomodo → offrire PC (drag file) o scp del workflow sul telefono; (5) post stasera resta copia-incolla manuale finché Meta OAuth non completato. Regola: screenshot home n8n = passa subito a import `pubblica-post-programmato.json` + Meta + webhook env (mai in chat). Vedi L-323, L-322, L-321.",
+      "testo": "**n8n setup — home «What do you want to build» = account admin ok, prossimo import workflow (Nicola 19/7 ~20:20).** Nicola allega screenshot (no testo) con home n8n su `162.55.51.250:5678` — conferma che fix `N8N_SECURE_COOKIE=false` ha funzionato e account admin creato. 5 perché: (1) milestone **setup account** ≠ mano social attiva — mancano import workflow, OAuth Meta, attivazione webhook, `N8N_WEBHOOK_URL` in env worker, restart worker; (2) non ripetere passi Docker/cookie/SSH se già dentro la home; (3) prossimo checkpoint operativo = **«workflow importato»**, non di nuovo «sono dentro n8n»; (4) import file JSON da telefono è scomodo → offrire PC (drag file) o scp del workflow sul telefono (**ADDENDUM 20:27:** scp va da Termux locale `~ $`, non dentro SSH — L-326); (5) post stasera resta copia-incolla manuale finché Meta OAuth non completato. Regola: screenshot home n8n = passa subito a import `pubblica-post-programmato.json` + Meta + webhook env (mai in chat). Vedi L-323, L-322, L-321, L-326.",
       "tag": [
         "n8n",
         "setup",
@@ -79,8 +102,8 @@
         "caso-studio"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.95,
-      "evidenze": 1,
+      "confidenza": 0.96,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
@@ -7376,6 +7399,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Termux scp workflow — errore path locale = spiegare exit prima di scp (chat 19/7 ~20:27):** durante import n8n da telefono, se scp fallisce con `/root/storage/downloads/` si aspetta che l'AD **controlli il prompt** (SSH vs Termux), spieghi che `~` dentro SSH è il VPS, e dia sequenza `exit` → `~ $` → mkdir → scp; offrire alternativa PC. Vedi L-326, L-324.",
     "**n8n — screenshot home «What do you want to build» = setup ok, guida import workflow (chat 19/7 ~20:20):** allega screenshot senza testo ma home n8n visibile — si aspetta conferma breve che fix cookie ha funzionato + **prossimi passi concreti** (import file workflow, OAuth Meta, attiva webhook, poi «workflow importato» per env worker); **non** ripetere Docker/cookie/SSH; ricordare che pubblicazione auto resta dopo Meta; post stasera ancora manuale. Vedi L-325, L-323.",
     "**Termux setup VPS — controllare prompt shell prima di diagnosticare errori Docker (chat 19/7 ~20:03):** dopo caduta SSH durante n8n, incolla comandi in Termux locale → «docker not found» — si aspetta che l'AD **guardi il prompt** (`~ $` vs `root@ubuntu-…`), spieghi telefono≠server, dia primo passo riconnetti SSH + `docker ps`, e chiarisca che container sul VPS non si ferma se la sessione cade. Vedi L-324, L-323.",
     "**n8n setup — screenshot errore browser dopo Docker = diagnosi secure cookie + passi fix (chat 19/7 ~19:58):** avvia container via Termux e manda screenshot — si aspetta che l'AD **non** dica «Docker fallito» se container running; spiega errore secure cookie su IP+http, passi riavvio con flag setup, avviso sicurezza porta 5678; prossimo checkpoint «sono dentro n8n». Vedi L-323, L-322.",
