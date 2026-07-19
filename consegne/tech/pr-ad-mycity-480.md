@@ -3,8 +3,8 @@
 - **Repo:** NicolaeRotaru/ad-mycity
 - **Branch:** `fix/marketplace-url-shadow` → `main`
 - **URL:** https://github.com/NicolaeRotaru/ad-mycity/pull/480
-- **Titolo:** fix(marketplace): URL shadowing + supervisione autofill eseguita
-- **Creato:** 2026-07-19 18:36 (Europe/Rome)
+- **Titolo:** fix(marketplace): evita crash URL shadowing su autofill
+- **Creato:** 2026-07-19 23:23 (Europe/Rome)
 
 ## Merge
 🔴 **Non mergeare da solo.** Nicola approva dal Pannello → `node cervello/git-merge.mjs --repo ad-mycity --pr 480`
