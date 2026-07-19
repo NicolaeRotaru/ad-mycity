@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 19:01
-fonte: AD digitale (chat Nicola 19/7 19:01)
+aggiornato: 2026-07-19 19:28
+fonte: AD digitale (chat Nicola 19/7 19:28)
 ---
+
+> 💬 **19/7 19:28 — CHAT: «Ora come faccio a fare il redeploy di quelle due pr?» — un deploy Render, non re-merge.** Nicola chiede redeploy dopo #214+#215. AD verificato: **#214, #215 e #216** (fix build orders page) **già su `main` GitHub** (`aeef6a6`) — **non** serve rifare merge. Sito ancora vecchio finché Render non completa un build **verde**. Se Auto-Deploy non parte: Render → servizio mycity-marketplace → **Manual Deploy → Deploy latest commit** → attendi ~2–3 min → ricarica telefono (icona carrello). Fonte: chat Nicola 19/7 19:28.
+
+> ✅ **19/7 ~19:27 — FATTO: PR #216 marketplace mergiata (fix build Render).** Fix errore TS `orders/page.tsx` — sblocca deploy dopo merge #214/#215. Codice su `main` — **deploy produzione pendente** (Manual Deploy Render se necessario). Fonte: chat Nicola 19/7 19:28 + verifica `git-pr.mjs`.
+
+> ✅ **19/7 ~19:00+ — FATTO: PR #215 marketplace mergiata (CI unit 715/715).** Fix migration 107 + mock Stripe — suite verde su main. Fonte: chat Nicola 19/7 19:28 (AD verifica main include merge #215).
 
 > 💬 **19/7 19:01 — CHAT: «Perché non riesci ad aprire la pr?» — terzo retry, stesso 403 rate limit.** Nicola chiede di nuovo dopo spiegazioni 18:57–18:59. AD **riprova 19:01**: push OK, `gh pr create` **403** (user token worker 98592323). Limite sul **token automazione worker**, non sull'account Nicola — da browser/app GitHub può aprire Compare manualmente. Coda **#197** ancora in attesa scheda PR. Fonte: chat Nicola 19/7 19:01.
 
