@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 12:50
-fonte: AD digitale (metabolizzazione chat 19/7)
+aggiornato: 2026-07-19 13:10
+fonte: AD digitale (giro pieno 19/7 — vincolo north-star AR-111)
 ---
+
+> 🛰️ **19/7 13:10 — GIRO PIENO (vincolo north-star AR-111).** Business INVARIATO: 1 PQ, **4 buyer** (Nicola 19/7), 0 ordini pagati, stallo **~605h** (~25,2 giorni). REST+Stripe+Resend+Sito+Pannello ✅ · n8n cieco 94 giri · MCP Supabase cieco 7 giri. **Registro-scelte ✅ exit 0** (6 ristoranti dossier archiviati come esclusi). **Coerenza-fatti ✅**. **Mossa n.1:** 🟡 ordine test PQ (North Star 0→1). **Mossa n.2:** 🔴 PI26 domani 20/7 ore 10:00 — restart.infocamere.it stasera. **Mossa n.3:** 🔴 post domenica PQ stasera. Dettaglio: [[Briefing/2026-07-19]].
 
 > 💬 **19/7 12:50 — CHAT: Nicola chiede perché 20 file memoria «non pubblicati».** Recovery automatico già completato: 18 file committati alle 12:00 + 4 alle 12:20 (giro interrotto stamattina per limite settimanale AI, reset 23/7 ore 11:00). Restano 3 file locali aperti (sentinella-dati.json, fonti-salute.json, routing.json) — worker li aggiorna in corso. Contenuto: memoria vault (sensori, esperimenti, benchmark, peer review, coda, supervisione negozi) → alimenta caselle auto-coscienza e «Da approvare» nel Pannello. Fonte: chat Nicola 19/7 12:50.
 
@@ -613,18 +615,18 @@ fonte: AD digitale (metabolizzazione chat 19/7)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 14/7 11:01 · invariati dal 24/6)
-| Numero | Oggi (14/7 11:01) | Δ vs 14/7 02:48 | "Riuscito" | Note |
+## I 7 numeri (✅ REST 19/7 13:06 · invariati dal 24/6)
+| Numero | Oggi (19/7 13:06) | Δ vs 18/7 22:40 | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa · 16 altri seller non approvati |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ payout OFF · payout-test sandbox |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ `status=available` (REST seller_id PQ 11:01) |
-| Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · `delivery_status=CANCELED` — il 1° ordine reale va CREATO ex-novo |
-| Ordini pagati | **0** | = | 1 | COD mai incassato · l'unico ordine è annullato |
-| Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta · North Star **0** · stallo ~497h |
-| Payout testato | **0** | = | 1 | payout-test sandbox da fare su un ordine vero |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | ultimo nuovo: 16/6 · 23 profili totali |
-| **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon · 27 food con tel → shortlist pronta |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ available (catalogo totale 250 available REST) |
+| Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · CANCELED — 1° ordine reale va CREATO ex-novo |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~605h (~25,2 gg) |
+| Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
+| Payout testato | **0** | = | 1 | payout-test sandbox da fare su ordine vero |
+| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | Nicola 19/7 · 23 profili totali REST |
+| **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)
 | Sensore | Config | Stato | Sblocco |

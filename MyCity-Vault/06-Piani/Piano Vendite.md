@@ -173,11 +173,10 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 #vendite #acquisizione #negozi #piano #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-17 18:45
+## 🤖 Aggiornamento dell'AD — 2026-07-19 13:10
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **VP 17/7 STASERA (ore 20:00) = ultima finestra della stagione** — presidio banco PQ, North Star 0→1 col ritiro diretto. Bici non pronta → consegna a domicilio solo da agosto.
-- **⚠️ Correzione AR-102: bando ER FESR CHIUSO il 23/6** (limite 350 domande — non usarlo più come arma di vendita). Sostituire con bandi CCIAA.
-- **Bandi CCIAA DOMANI (apertura 20/7, scadenza 30/7):** BT26 €7k 40% e-commerce e BE26 €20k 50% energia — **arma di vendita** nella pitch: «lo Stato paga il 40% del costo di digitalizzazione». Kit in #bandi-cciaa-kit (🟢 accodata). Prepara domande entro OGGI per il kit onboarding.
-- **Prossima fase negozi:** dopo bici riparata (~agosto) → giro botteghe core con bandi CCIAA come leva.
-- **Handoff:** chi dice sì → @onboarding-negozi <48h. Nessun asset pesante su prospect non confermati.
+- **North Star 0 — stallo ~605h:** unica mossa diretta = ordine test Nicola su PQ (🟡 #ordine-test-pq). Tutto il resto è secondario finché non passa 0→1.
+- **PI26 DOMANI 20/7 ore 10:00 a sportello** — registrazione restart.infocamere.it stasera (🔴). Leva vendita per WhatsApp anchor dopo ordine test.
+- **6 ristoranti dossier 6/7 ESCLUSI** (Nicola 16-18/7) — pipeline attiva = 13 botteghe onda-2 + 3 anchor (Garetti/Peretti/Amendolara). Giro botteghe settimana 21-25/7 quando bici pronta.
+- **Meteo 21/7 pioggia** → preparare push clienti (gate: PQ pronto + ordine test fatto).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

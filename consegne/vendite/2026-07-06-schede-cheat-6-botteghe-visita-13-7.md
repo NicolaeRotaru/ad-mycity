@@ -5,7 +5,7 @@ autore: AD digitale (+ @vendite, @intelligence)
 scopo: 6 schede tascabili da 1 pagina — una per bottega — da tenere in mano durante la visita del 13/7
 colore: 🟢 (materiale di supporto alla visita; la visita la fa Nicola di persona)
 fonte_dossier: consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md
-gate_AR006: le 6 sono `scelta_ragionata` (prospect non firmati) → solo pitch neutro, nessun asset intestato
+stato_registro: ESCLUSI — Nicola 16-18/7 «i ristoranti non sono il nostro target» (registro-fatti onboarding.6-ristoranti-tattici). Schede archiviate, non prospect validi.
 ---
 
 # 🎴 Schede-cheat visita 13/7 — una pagina per bottega

@@ -4,7 +4,7 @@ data: 2026-07-06 15:45
 autore: AD digitale + @intelligence (6 ricerche web in parallelo) + @vendite
 scopo: visita di persona di Nicola alle prime 6 botteghe priorità — onboarding spostato al 13/7/2026
 colore: 🟢 (ricerca/analisi/dossier — nessuna azione sul mondo reale; la visita la fa Nicola)
-gate_AR006: queste 6 sono `scelta_ragionata` (prospect non firmati, non nel DB) → SOLO dossier+pitch neutro, nessun asset pesante intestato
+stato_registro: ESCLUSI — Nicola 16-18/7 «i ristoranti non sono il nostro target» (registro-fatti onboarding.6-ristoranti-tattici). Dossier storico visita 13/7, non pipeline attiva.
 ---
 
 # 🍽️ Dossier "so tutto di loro" — le 6 botteghe priorità, visita di persona (dal 13/7)

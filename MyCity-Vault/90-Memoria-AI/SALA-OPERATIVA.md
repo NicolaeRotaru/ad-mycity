@@ -1094,3 +1094,8 @@ Assegnazioni (1 mossa per reparto):
 
 ### 2026-07-19 13:05 — PLAYBOOK Anti-churn negozi (RIPROVA Nicola · worker)
 - 2026-07-19 13:05 · @account-negozi · FATTO · PLAYBOOK Anti-churn RIPROVA: REST live ✅ (`verifica-sensori` 13:03) → **0 negozi in calo** (1 reale PQ, 0 ordini consegnati, VP 17/7 passato senza ordini). PQ = falso positivo sentinella (attesa concordata Nicola 6/7) — **nessuna telefonata anti-churn**. Retention già in coda: **#checkin-pq-postvp** (debrief lun 20/7). Report `consegne/account-negozi/2026-07-19-antichurn-playbook.md` · [[AZIONI-PRONTE]] **A30**. Zero contatti inviati.
+
+### 2026-07-19 13:10 — 🛰️ GIRO PIENO (AD · vincolo north-star AR-111)
+- 2026-07-19 13:10 · @AD · FATTO · Giro pieno 19/7 — business INVARIATO: 1 PQ, 4 buyer, 0 ordini pagati, stallo ~605h. REST+Stripe ✅ · registro-scelte fix (6 ristoranti archiviati) exit 0 · coerenza-fatti exit 0. Briefing [[Briefing/2026-07-19]] · STATO · auto-analisi · ultimo-briefing.
+- 2026-07-19 13:10 · @intelligence · FATTO · Meteo live 3BMeteo: oggi 34°C afa · domani PI26 · martedì 21/7 pioggia → eventi-picchi.md aggiornato.
+- 2026-07-19 13:10 · @AD · SERVE · @Nicola: ① 🟡 **ordine test PQ** (mossa n.1 North Star) ② 🔴 **restart.infocamere.it stasera** (PI26 domani 10:00) ③ 🔴 **post domenica PQ entro 21:00**.

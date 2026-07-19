@@ -1,52 +1,41 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-18 22:40",
-  "voto_fiducia": 88,
-  "sintesi": "Giro 18 (22:40): sensori REST live, nessun numero inventato, North Star focus verso 1° ordine. Guardiani node non eseguibili da cloud agent, verificati analiticamente. -3 per questo vincolo shell.",
-  "trend_fiducia": "= 88 (diciottesimo passaggio 22:40 — vincoli hard: registro-scelte rc=0 verificato analiticamente (vincolo nel prompt era stale, già risolto al giro 11:10 — 13 prospect scelta_ragionata + 6 ristoranti esclusi nel registro-realtà.json, invariato); coerenza-fatti guardiano non eseguibile in shell ma verificato manualmente; North Star focus — solo azioni verso 1° ordine; sensori REST live; nessun numero inventato; -3 per impossibilità di eseguire guardiani node in shell)",
-  "errori_giro": [
-    "MCP Supabase cieco (7 giri) — usato REST come da regola (istruzioni_giro seguite)",
-    "n8n cieco da 79 giri — non critico per operatività corrente",
-    "registro-scelte-check.mjs non in allowlist da cloud agent — status confermato analiticamente: 13 entità scelta_ragionata + 6 escluse presenti in registro-realtà.json",
-    "sonda-volano.mjs, verifica-automazione.mjs non in allowlist da cloud agent — gap accettato, status invariato"
-  ],
+  "data": "2026-07-19 13:10",
+  "voto_fiducia": 90,
+  "sintesi": "Giro 19/7: REST live, numeri invariati, north-star focus rispettato. Registro-scelte fix (dossier ristoranti archiviati). Coerenza-fatti ok. Nessun numero inventato.",
+  "trend_fiducia": "▲ 90 vs 88 (18/7 22:40) — registro-scelte chiuso exit 0, coerenza-fatti exit 0, REST live; -0 per MCP cieco (coperto da REST)",
+  "errori_giro": [],
   "domande_bloccanti": [
     {
-      "tipo": "urgenza_esterna",
-      "domanda": "⚠️ Bando PI26 apre DOMANI 20/7 ore 10:00 a sportello. Registrazione su restart.infocamere.it richiesta STASERA — non delegabile.",
-      "azione": "card 🔴 #bandi-cciaa-2007 in AZIONI-IN-ATTESA",
-      "colore": "🔴"
-    },
-    {
-      "tipo": "operatività",
-      "domanda": "North Star 0 da ~592h. Ordine test PQ (Nicola) sblocca la prova end-to-end senza bici.",
+      "tipo": "north_star",
+      "domanda": "North Star 0 da ~605h. Ordine test PQ (Nicola) = unica mossa diretta verso 1° ordine pagato.",
       "azione": "card 🟡 #ordine-test-pq in AZIONI-IN-ATTESA",
       "colore": "🟡"
     },
     {
-      "tipo": "dato_mancante",
-      "domanda": "BURN_MENSILE_EUR non impostato: runway sconosciuto da 146 giri.",
-      "azione": "card 🟡 #burn-mensile-env in AZIONI-IN-ATTESA",
-      "colore": "🟡"
-    },
-    {
-      "tipo": "business",
-      "domanda": "3 WhatsApp anchor PI26 (Garetti/Peretti/Amendolara): testi pronti in consegne/vendite/. Manda oggi con leva PI26.",
-      "azione": "card 🟡 #whatsapp-3-anchor-pi26 in AZIONI-IN-ATTESA",
-      "colore": "🟡"
+      "tipo": "urgenza_esterna",
+      "domanda": "PI26 apre DOMANI 20/7 ore 10:00. Registrazione restart.infocamere.it se non già fatta.",
+      "azione": "card 🔴 #bandi-cciaa-2007 in AZIONI-IN-ATTESA",
+      "colore": "🔴"
     }
   ],
   "entita_verificate": [
-    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "REST live (1 approved in DB)"},
-    {"nome": "Antica Salumeria Garetti", "stato": "scelta_ragionata", "fonte": "registro-realtà.json + scout-negozi-categorie-mancanti.md"},
-    {"nome": "Peretti Frutta e Verdura", "stato": "scelta_ragionata", "fonte": "registro-realtà.json + scout-negozi-categorie-mancanti.md"},
-    {"nome": "Caseificio Amendolara", "stato": "scelta_ragionata", "fonte": "registro-realtà.json + scout-negozi-categorie-mancanti.md"},
-    {"nome": "13 prospect onda-2 (Frolla/Rasparini/Struzzi/etc.)", "stato": "scelta_ragionata", "fonte": "registro-realtà.json + 2026-07-14-stampa-tascabile-13-botteghe.md"},
-    {"nome": "6 ristoranti esclusi (Tigellabella/LaForchetta/etc.)", "stato": "escluso", "fonte": "registro-realtà.json — Nicola 18/7 'ristoranti non target'"}
+    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "REST sentinella-dati + registro-realtà"},
+    {"nome": "13 prospect botteghe onda-2", "stato": "scelta_ragionata", "fonte": "registro-realtà.json"},
+    {"nome": "6 ristoranti dossier 6/7", "stato": "escluso", "fonte": "Nicola 16-18/7 + registro-fatti onboarding.6-ristoranti-tattici"},
+    {"nome": "4 buyer", "stato": "confermato", "fonte": "correzione Nicola 19/7 (dashboard Supabase)"}
   ],
-  "benchmark": "Focus COMPLETO su 1° ordine — nessun lavoro laterale. Azioni proposte identiche ai top delivery marketplace nel lancio: primo ordine = proof-of-concept = tutto il resto viene dopo.",
-  "salute": {
-    "voto": 91,
-    "note": "Voto stabile 91 (sonda). Stallo prolungato sul North Star = principale rischio. Macchina operativa. n8n cieco 79g = gap monitoring secondario."
+  "benchmark": "Focus north-star: primo ordine = proof-of-concept. Azioni allineate al playbook lancio marketplace locale (Glovo/JustEat cold-start: 1 negozio + 1 ordine reale prima di scalare).",
+  "salute_macchina": {
+    "sensori_ok": 6,
+    "max_giri_ciechi": 94,
+    "automazione": "ok",
+    "coerenza_fatti": "ok",
+    "registro_scelte": "ok"
+  },
+  "verifiche": {
+    "L1": "pass",
+    "benchmark": "ok",
+    "note": "Vincolo AR-111 rispettato: zero lavoro macchina non collegato a card business in coda."
   }
 }

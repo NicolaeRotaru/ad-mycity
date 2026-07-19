@@ -182,10 +182,9 @@ Questa è la sezione che trasforma la relazione istituzionale in **fatturato**. 
 #istituzionale #bandi #relazioni #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-17 20:30
+## 🤖 Aggiornamento dell'AD — 2026-07-19 13:10
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **URGENTE — 2 bandi CCIAA aprono DOMANI 20/7, scadono 30/7 (10 giorni):** BT26 fino a €7.000 al 40% per digitalizzazione/e-commerce · BE26 fino a €20.000 al 50% per efficienza energetica. Kit da preparare domani mattina con @relazioni-istituzionali + @finanza-agevolata (🟡). Fonte: eventi-picchi.md 17/7.
-- **Bando ER FESR commercio: CHIUSO dal 23/6/2026** (limite 350 domande raggiunto — AR-102 corretto). Non è più un gate.
-- **Gate mail Hub Urbano/assessore:** ancora bloccato dalla regola "prima bottega online" (Nicola 9/7). Il VP stasera è la finestra per sbloccare.
-- **Fusione Prosus/JustEat:** Glovo + JustEat convergono in 12-24 mesi. Urgenza costruire moat con enti locali e botteghe storiche PRIMA della convergenza.
+- **PI26 apre DOMANI 20/7 ore 10:00 a sportello** — registrazione restart.infocamere.it stasera (🔴). Max €10k 50% fondo perduto. Bozza in consegne/relazioni-istituzionali/.
+- **BT26/BE26** (scadenza 30/7): leva vendita per botteghe — «lo Stato paga fino al 50% della digitalizzazione».
+- **Bando ER FESR: CHIUSO 23/6** — non citare (registro-fatti).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

@@ -1,62 +1,47 @@
 {
-  "data": "2026-07-18 22:40",
-  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~594h (~24,8 giorni da 24/6). North Star 0, cassa 0€. Sensori 22:40: REST+Stripe+Resend+Sito+Pannello ✅, n8n cieco 80 giri, MCP Supabase cieco 7 giri. Registro-scelte rc=0 (vincolo nel prompt era stale — già risolto al giro 11:10; 13 prospect scelta_ragionata + 6 ristoranti esclusi confermati). ⚠️ URGENZA STASERA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrarsi su restart.infocamere.it ORA.",
+  "data": "2026-07-19 13:10",
+  "situazione": "Business invariato dal 24/6: 1 PQ live, 0 ordini pagati, stallo ~605h (~25 giorni). REST+Stripe ok. 4 buyer reali (Nicola 19/7). Vincolo north-star: solo mosse verso il 1° ordine. Domani 20/7 ore 10:00 apre PI26 a sportello — registrarsi su restart.infocamere.it stasera se non fatto.",
   "opportunita": [
     {
-      "titolo": "Bando PI26 — registrati su restart.infocamere.it OGGI",
-      "motivo": "Sportello apre domani 20/7 ore 10:00 — chi arriva primo prende i fondi. Max €10k fondo perduto (50%). Spese ammissibili: Supabase/Vercel/Render da maggio 2026.",
-      "impatto": "alto",
-      "sforzo": "basso"
-    },
-    {
       "titolo": "Ordine di test su Pane Quotidiano",
-      "motivo": "Sblocca North Star 0→1. 10 minuti. Non richiede bici né altri negozi. Prova end-to-end del flusso.",
+      "motivo": "Sblocca North Star 0→1 in 10 minuti. Non serve bici né altri negozi.",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "3 WhatsApp alle botteghe anchor con leva PI26",
-      "motivo": "Garetti/Peretti/Amendolara. Testi pronti in consegne/vendite/. PI26 = urgenza reale per convincerli senza visita fisica.",
+      "titolo": "Registrati su restart.infocamere.it per il bando PI26",
+      "motivo": "Sportello apre domani 20/7 ore 10:00. Max €10k fondo perduto.",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Email benvenuto ai 23 clienti (gate: PQ pronto ad evadere)",
-      "motivo": "23 iscritti senza mai ricevere un messaggio. Hook piogge dal 21/7 = trigger delivery perfetto.",
-      "impatto": "alto",
+      "titolo": "Pubblica il post domenica su Pane Quotidiano stasera",
+      "motivo": "Testo pronto in consegne/content/. Angolo «pianifica la settimana stasera».",
+      "impatto": "medio",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Registrati su restart.infocamere.it per il bando PI26 (apre DOMANI)",
-      "motivo": "A sportello — senza registrazione non si può presentare domanda domani 20/7 ore 10:00",
-      "livello": "rosso",
-      "id_coda": "#bandi-cciaa-2007"
-    },
-    {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "North Star a 0 da ~592h — un ordine sblocca la prova che il sistema funziona",
-      "livello": "giallo",
-      "id_coda": "#ordine-test-pq"
+      "motivo": "North Star a 0 da ~605h — un ordine sblocca la prova che il sistema funziona",
+      "livello": "giallo"
     },
     {
-      "titolo": "Manda 3 WhatsApp con aggancio PI26 alle botteghe top",
-      "motivo": "Testi pronti in consegne/vendite/. Leva PI26 = urgenza reale senza visita fisica",
-      "livello": "giallo",
-      "id_coda": "#whatsapp-3-anchor-pi26"
+      "titolo": "Registrati su restart.infocamere.it per il bando PI26",
+      "motivo": "A sportello domani 20/7 ore 10:00 — senza registrazione non si presenta domanda",
+      "livello": "rosso"
     },
     {
-      "titolo": "Imposta BURN_MENSILE_EUR nel .env VPS",
-      "motivo": "Runway sconosciuto da 146+ giri — basta indicare €/mese di costi fissi",
-      "livello": "giallo",
-      "id_coda": "#burn-mensile-env"
+      "titolo": "Pubblica il post domenica su Facebook e Instagram",
+      "motivo": "Post pronto per PQ — entro le 21:00 di oggi",
+      "livello": "rosso"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo critico ~592h (>24 giorni)",
-    "n8n cieco — 79 giri consecutivi (non critico per operatività)",
-    "BURN_MENSILE_EUR assente — runway sconosciuto 146+ giri",
-    "Telegram non configurato — notifiche bloccate"
+    "North Star 0 — stallo ~605h (>25 giorni)",
+    "Negozio LIVE fermo — Pane Quotidiano 0 ordini in 14g",
+    "n8n cieco — 94 giri (non critico operatività)",
+    "BURN_MENSILE_EUR assente — runway sconosciuto"
   ]
 }

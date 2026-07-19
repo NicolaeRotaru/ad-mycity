@@ -180,10 +180,9 @@ Catena di squadra (chi fa cosa). Il contenuto si produce **a lotti settimanali**
 #editoriale #piano #content #social #piacenza
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-17 20:30
+## 🤖 Aggiornamento dell'AD — 2026-07-19 13:10
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **VP IN CORSO STASERA:** post VP già scritto (card #post-vp-day-1707). Se non pubblicato, farlo entro le 22:30.
-- **Dal 20/7 cambia meteo (piogge):** tema della settimana prossima = "fresco a casa anche quando piove". Adattare il post kefir con questo angolo.
-- **Prossimi eventi:** Piacenza Summer Cult (luglio-settembre), cinema estivo, sagre agosto — tema estivo di bottega fresca da sfruttare.
-- **Link lista d'attesa:** ancora mancante — serve da Nicola per completare il post kefir.
+- **Post domenica «Prepara la settimana da casa»** — pronto in coda 🔴 #post-domenica-settimana-1907, pubblicazione stasera entro 21:00 su FB/IG + gruppi locali.
+- **Martedì 21/7 pioggia prevista** — tema settimana: «fresco a casa anche con la pioggia». Gate: ordine test PQ fatto + PQ pronto a evadere.
+- **North Star 0:** nessuna campagna massiva clienti finché non c'è almeno 1 ordine completato (proof-of-concept).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->
