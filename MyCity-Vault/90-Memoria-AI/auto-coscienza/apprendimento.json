@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 20:16",
+  "aggiornato": "2026-07-19 20:20",
   "_nota_metabolizzazione_19_07_2004": "Chat 19/7 ~20:03: Nicola screenshot Termux docker not found — prompt ~$ = telefono locale, non VPS; comandi Docker fuori SSH dopo drop. AD: riconnetti SSH, docker ps, poi fix secure cookie. L-324 nuova; L-323 evidenze++; preferenza termux-prompt-check; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1959": "Chat 19/7 ~19:58: Nicola screenshot Termux+Brave — n8n Docker avviato, blocco secure cookie IP+http. AD: N8N_SECURE_COOKIE=false fase setup, volume ok, SSH drop non ferma container. L-323 nuova; L-322 evidenze++; preferenza n8n-setup-screenshot; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1945": "Chat 19/7 ~19:45: Nicola «Come installo n8n sul worker?» — follow-up L-321. AD: Docker SSH Nicola, import workflow, OAuth Meta, webhook env worker, restart, dry-run; AD non installa da chat. L-322 nuova; L-321 evidenze++; preferenza install-n8n-worker; STATO+LEZIONI-CHAT+builder aggiornati.",
@@ -7617,7 +7617,7 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.22,
-    "tasso_calcolato_il": "2026-07-19 20:16",
+    "tasso_calcolato_il": "2026-07-19 20:20",
     "tasso_finestra_giorni": 30,
     "tick_leggero_il": "2026-07-19 20:16",
     "usi_marcati_il": "2026-07-17 07:00",
