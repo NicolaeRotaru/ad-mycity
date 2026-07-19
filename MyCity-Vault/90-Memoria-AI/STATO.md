@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 21:58
-fonte: AD digitale (metabolizzazione chat Nicola 19/7 21:58)
+aggiornato: 2026-07-19 22:00
+fonte: AD digitale (metabolizzazione chat Nicola 19/7 22:00)
 ---
+
+> 💬 **19/7 ~22:00 — CHAT: Nicola vuole AD «esperto n8n», non solo collegamento.** «Come farti ragionare come un esperto che sa usare n8n per creare workflow pazzeschi?» — obiettivo: l'AD **progetta e costruisce** automazioni serie (post approvato→FB/IG, ordine pagato→negozio, carrello abbandonato, alert) con JSON completi, retry e notifica Telegram — non tutorial generici. **Oggi:** n8n runtime ok (5678), workflow importato, ma AD **cieco** su esecuzioni/errori nodi; `N8N_WEBHOOK_URL` ancora segnaposto. **Scala capacità:** (1) webhook attivo, (2) chiave API n8n in env worker (read-only ok — Nicola la mette, mai in chat), (3) workflow nuovi in repo pronti import. OAuth Meta/WhatsApp resta Nicola; azioni reali 🔴. Fonte: chat Nicola 19/7 22:00.
 
 > ✅ **19/7 ~21:58 — CHAT: n8n verificato runtime sul worker.** Nicola «Riesci a vedere che n8n è dentro il worker?» — AD verifica live: servizio **risponde porta 5678**, workflow «MyCity — Pubblica post programmato» coerente con screenshot 21:54; **`N8N_WEBHOOK_URL` ancora segnaposto** nel file segreto worker → la macchina **non posta ancora** da sola. Prossimo Nicola: (1) toggle **Active** sul workflow, (2) copia URL webhook produzione dal nodo Webhook, (3) incolla in env worker (mai in chat), (4) `systemctl restart mycity-worker.service`, (5) scrivi **«webhook collegato»** → AD verifica connessione. Meta OAuth a parte (lento). Post stasera resta copia-incolla. Fonte: chat Nicola 19/7 21:56.
 
