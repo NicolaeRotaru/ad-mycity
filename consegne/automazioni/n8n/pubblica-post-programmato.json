@@ -1,4 +1,6 @@
 {
+  "id": "7f3a9c2e-1b4d-4e8a-9c1f-2d8e6a4b5c3d",
+  "versionId": "7f3a9c2e-1b4d-4e8a-9c1f-2d8e6a4b5c3d",
   "name": "MyCity — Pubblica post programmato",
   "_descrizione": "Workflow n8n di esempio per la Marketing Autopilot. Riceve un'azione di pubblicazione via Webhook (dall'autopilot.mjs o da uno scheduler), instrada al canale giusto (Facebook/Instagram/Google Business/Telegram) e risponde con l'esito. Importalo in n8n (Import from File). I nodi social sono in stato 'da configurare con le credenziali Meta/Google/Telegram di Nicola'. COLORE: 🟡 (pubblica su canali pubblici) — attivalo solo quando le credenziali sono pronte.",
   "nodes": [
