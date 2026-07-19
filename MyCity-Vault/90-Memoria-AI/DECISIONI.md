@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 16:54 · 🟢 · [Allowlist MCP — Nicola ha corretto il file, JSON validato] · **Nicola: «Controlla se ho fatto giusto».** AD ha parseato `settings.local.json` sul VPS: JSON valido, 9 voci MCP (5 Vercel + 2 marketplace + 2 memoria), trailing comma rimosso. Config allowlist completata. Verifica runtime MCP in nuova chat ancora da fare («quanti utenti ci sono?»). Card #abilita-mcp-supabase-chat → ✅ FATTO lato config. L-293.
+
 2026-07-19 16:48 · 🟢 · [Allowlist MCP — istruzioni delta dopo verifica file esistente] · **Nicola: «Controlla quelli che ci sono già e riscrivi le righe che devi inserire».** AD ha letto `settings.local.json` sul VPS: Vercel×5 + Supabase marketplace×2 già incollati; fix minimo = rimuovere trailing comma su ultima riga + (opzionale) aggiungere 2 righe memoria. Non sostituire l'intero blocco quando le voci essenziali ci sono già. Card #abilita-mcp-supabase-chat aggiornata con sequenza delta. L-292.
 
 2026-07-19 16:45 · 🟢 · [Inventario MCP allowlist tiered consegnato in chat] · **Nicola: «Quali sono tutti gli mcp utili da inserire nell'allow?»** AD ha mappato 3 tier sui server reali in `.mcp.json`: essenziali (5 Vercel + 2 Supabase marketplace), opzionali (2 memoria + 2 debug DB), esclusi (GitHub MCP, scritture). Blocco JSON 9 righe pronto. Pendente esecuzione Nicola: fix trailing comma + salva + nuova chat. Card #abilita-mcp-supabase-chat aggiornata. L-291.

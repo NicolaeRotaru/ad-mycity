@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 16:48
-fonte: AD digitale (chat Nicola 19/7 16:48)
+aggiornato: 2026-07-19 16:54
+fonte: AD digitale (chat Nicola 19/7 16:54)
 ---
+
+> ✅ **19/7 16:54 — FATTO: allowlist MCP `settings.local.json` corretta e validata.** Nicola: «Controlla se ho fatto giusto» — AD ha verificato con parser JSON: **JSON OK**, 9 voci MCP (Vercel×5 + Supabase marketplace×2 + Supabase memoria×2), ultima riga senza virgola. Card #abilita-mcp-supabase-chat chiusa lato config. **Prossimo passo:** nuova chat → «quanti utenti ci sono?» per verifica runtime MCP. Fonte: chat Nicola 19/7 16:54.
 
 > 💬 **19/7 16:48 — CHAT: allowlist MCP — verifica file esistente, fix minimo.** Nicola: «Controlla quelli che ci sono già e riscrivi le righe che devi inserire». Verificato su VPS: **già presenti** git, node, Write, Vercel×5, Supabase marketplace×2. Manca solo **togliere trailing comma** dopo `list_tables` (JSON invalido riga 33) + opzionale 2 righe `supabase-memoria`. Non serve riscrivere tutto il blocco. Fonte: chat Nicola 19/7 16:48.
 
