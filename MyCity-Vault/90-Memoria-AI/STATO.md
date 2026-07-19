@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 13:10
-fonte: AD digitale (giro pieno 19/7 — vincolo north-star AR-111)
+aggiornato: 2026-07-19 13:16
+fonte: AD digitale (metabolizzazione chat 19/7 13:16)
 ---
+
+> 💬 **19/7 13:16 — CHAT: titolo caselle Lavori illeggibile — fix PR #471.** Nicola: «Non mi piace che non legge il titolo della casella» (screenshot: lettere «G»/«a» invece del nome casella). Causa: UI mostrava ultimo messaggio chat + layout mobile schiacciava il testo. AD ha preparato PR #471 (titolo casella + bottoni sotto). ⏳ Pendente merge Nicola (card #189 in [[AZIONI-IN-ATTESA]]). Fonte: chat Nicola 19/7 12:52.
 
 > 🛰️ **19/7 13:10 — GIRO PIENO (vincolo north-star AR-111).** Business INVARIATO: 1 PQ, **4 buyer** (Nicola 19/7), 0 ordini pagati, stallo **~605h** (~25,2 giorni). REST+Stripe+Resend+Sito+Pannello ✅ · n8n cieco 94 giri · MCP Supabase cieco 7 giri. **Registro-scelte ✅ exit 0** (6 ristoranti dossier archiviati come esclusi). **Coerenza-fatti ✅**. **Mossa n.1:** 🟡 ordine test PQ (North Star 0→1). **Mossa n.2:** 🔴 PI26 domani 20/7 ore 10:00 — restart.infocamere.it stasera. **Mossa n.3:** 🔴 post domenica PQ stasera. Dettaglio: [[Briefing/2026-07-19]].
 

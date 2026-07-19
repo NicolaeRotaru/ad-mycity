@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-19 13:16 · Titolo casella Lavori illeggibile — Nicola «non legge il titolo della casella» + screenshot lettere schiacciate · atteso: in «Da riapprovare» si vede il nome casella, non ultimo messaggio chat · reale: PR #471 titolo da campo casella + bottoni sotto su mobile; card #189 accodata merge · #pannello #lavori #ux #mobile #pr-471 · L-2026-0719-282
 - 2026-07-17 23:50 · Caselle Pannello in linguaggio umano — Nicola «devono avere una descrizione chiara in linguaggio umano» · atteso: gergo tecnico sparisce dalla vista principale · reale: `descrizione-avviso.ts` 8 casi riscritti in italiano, testo grezzo in accordion "Dettaglio tecnico" collassabile; `Azioni.tsx` aggiornato; PR #438 aperta · #pannello #avvisi #ux #pr-438
 - 2026-07-17 23:30 · Layout chat: centrata + lista conversazioni affiancata al menù — Nicola «bordo sui lati» + «lista dove finisce il menu bordo a destra» (corretto: affiancata, non sotto) · atteso: chat con margini laterali + lista conversazioni a destra del menù · reale: PR #437 mergiata da Nicola, layout ok · #pannello #chat #layout #pr-437
 - 2026-07-16 12:34 · Bacheca in home Pannello su richiesta Nicola (info store app) · consegna:fatta verifica:playwright-9/9-PASS · atteso card visibile in Plancia con avviso store apribile e markdown reso → reale PASS al primo giro completo di verifica (2 fix al driver di test, zero fix al codice); card+API+markdown ok, nessun errore console · #pannello #bacheca
