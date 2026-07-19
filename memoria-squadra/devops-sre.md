@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 01:29 · VPS cosa aggiungere — Nicola «cos'altro posso inserire sul VPS?» · atteso: idee concrete da stack esistente · reale: inventario worker+n8n+Playwright; priorità collegare mani (webhook n8n, Telegram 59 avvisi report 19/7, chiavi env); no altri container; Telegram primo win · L-351 · #vps #inventario #telegram #mani
 - 2026-07-20 01:17 · Comandi worker senza cmd — Nicola «modo sicuro senza aprire ogni volta cmd?» · atteso: percorso sicuro + meno frizione Termux · reale: chat Pannello = canale normale; SSH scorciatoia una tantum + tmux casi rari; n8n per ripetitivo; gate prompt server vs telefono · L-349 · #vps #ssh #termux #worker #esito
 - 2026-07-19 19:01 · Terzo retry apertura PR — Nicola «Perché non riesci ad aprire la pr?» · atteso: scheda PR aperta · reale: push OK; `gh pr create` 403 rate limit (3° retry); limite token worker — Nicola può Compare da browser; #197 pendente · L-316 evidenze 3 · #github #rate-limit #pr #worker-token #esito
 - 2026-07-19 18:59 · Push ok vs PR 403 — Nicola «Perché il push è rifiutato? Devo mettere qualcosa nell allowlist?» · atteso: chiarire se serve allowlist · reale: push branch OK verificato; solo `gh pr create` 403 rate limit; allowlist già valida 16:54 — nessuna modifica · L-317 · L-316 · #github #allowlist #push #rate-limit #esito

@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 01:29 · VPS cosa aggiungere — Nicola «cos'altro inserire sul VPS?» · atteso: prossimi passi automazioni · reale: finire n8n (Active+webhook env); Telegram sblocca 59 avvisi; altri workflow da modelli repo; no WhatsApp/secondo cervello ora · L-351 · #vps #n8n #telegram #workflow
 - 2026-07-20 00:57 · Nicola «ricordami accesso n8n (worker? server?) via browser» — atteso: promemoria operativo URL + disambiguazione nomi · reale: browser VPS :5678 (non Pannello); server=VPS · worker=cervello · n8n=Docker; pagina bianca=container spento→SSH; webhook ancora segnaposto · L-347 · #n8n #accesso #promemoria
 - 2026-07-20 00:49 · Nicola «n8n semplifica il worker? può fare la stessa cosa? conviene delegare?» — atteso: architettura chiara worker vs n8n · reale: cervello (worker: dati, memoria, chat, giro, 🔴) vs braccia (n8n: flussi fissi post/carrello/alert via webhook post-approvazione); delegare ripetitivo sì, strategia no; n8n ok 5678 + workflow importato, N8N_WEBHOOK_URL ancora segnaposto · L-344 · #n8n #worker #architettura #delega
 - 2026-07-19 23:36 · Nicola «Com'è fatto un workflow molto complesso e molto grande?» — atteso: anatomia architetturale riusabile · reale: scheletro 7 blocchi (trigger→filtro→rami→attese→azioni→errori→chiusura) + esempio carrello abbandonato; grosso ≠ tanti nodi a caso; base per JSON quando Nicola sceglie flusso · L-337 · #n8n #workflow #architettura

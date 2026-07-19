@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 01:25",
+  "aggiornato": "2026-07-20 01:29",
+  "_nota_metabolizzazione_20_07_0129": "Chat 20/7 ~01:29: Nicola «cos'altro posso inserire sul VPS?» — inventario stack + collegare mani vs altri programmi. L-351 nuova; preferenza vps-cosa-aggiungere; STATO+LEZIONI-CHAT+devops-sre+builder aggiornati.",
   "_nota_metabolizzazione_20_07_0125": "Chat 20/7 ~01:25: Nicola «ingrandisci apre altra chat» + chiarimento worker con menu sinistra. L-350 nuova; L-348 evidenze++; preferenza ingrandisci-workerFull; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati; PR #485 merge ancora #203.",
   "_nota_metabolizzazione_20_07_0117": "Chat 20/7 ~01:17: Nicola «comandi sul worker senza aprire cmd ogni volta?» — percorso sicuro chat-first + SSH raro. L-349 nuova; preferenza comandi-worker-senza-cmd; STATO+LEZIONI-CHAT+devops-sre aggiornati.",
   "_nota_metabolizzazione_20_07_0107": "Chat 20/7 ~01:06: Nicola «menu conversazioni dentro riquadro chat a sinistra» + ingrandimento fluttuante. L-348 nuova; preferenza sidebar-conv-dentro-riquadro; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati; PR #485 in coda #203.",
@@ -68,6 +69,28 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-351",
+      "testo": "**VPS — «cos'altro posso inserire?» = inventario stack + collegare mani, non altri container (Nicola 20/7 ~01:29).** Dopo promemoria accesso n8n, chiede cosa aggiungere sul server «guardando a quello che ho creato fino ad ora». 5 perché: (1) pattern «cos'altro mettere/installare» = rispondere da **inventario verificato** (worker systemd, n8n Docker :5678, Playwright Node22+Chromium, Docker) — **non** lista generica di software da scaricare; (2) il passo utile **non** è un altro programma — è **finire i collegamenti** delle mani già previste (n8n Active+`N8N_WEBHOOK_URL`, Telegram, Resend, Gemini, chiave scrittura marketplace); (3) **59 avvisi** approvazione bloccati senza `TELEGRAM_BOT_TOKEN` (fonte: report 19/7 `notifica-approvazioni`) — Telegram BotFather = win più veloce (~5 min); (4) altri workflow n8n = import modelli già in repo, stesso container Docker — rinforza L-344 cervello/braccia; (5) **NON** proporre ora: secondo cervello, container a caso, WhatsApp (verifica Meta lenta) — Pannello resta su Vercel. Regola: «cos'altro sul VPS» → stack attuale + 3-5 leve mancanti ordinate per ROI + cosa NON serve; se chiede da dove partire → **Telegram** prima. Vedi L-347, L-344, CHECKLIST-VIVO.",
+      "tag": [
+        "vps",
+        "inventario",
+        "n8n",
+        "telegram",
+        "playwright",
+        "mani",
+        "nicola"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 01:29",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-350",
       "testo": "**Worker chat — ingrandisci fluttuante = stessa chat `workerFull`, NON pagina Assistente (Nicola 20/7 ~01:25).** Nicola: «ingrandimento apre un'altra chat» + chiarimento «la chat del worker dentro il menu finestra a sinistra». 5 perché: (1) nel Pannello esistono **due** interfacce Worker — chat flottante/`workerFull` (sidebar conv **dentro** il riquadro) vs voce menù `vista=assistente` (layout vecchio, cassetto esterno); (2) pulsante Maximize2 **prima** navigava alla seconda → sembra «altra chat»; (3) Nicola vuole **continuità**: stessa conv aperta, stesso layout, solo più grande; (4) fix = `setWorkerFull(true)` + chiudi fluttuante, **non** `setVista('assistente')` — incluso in PR #485 (`b72958dc`); (5) AD aveva detto «già mergiato» senza verifica — merge 🔴 #203 ancora pendente; se layout vecchio → hard refresh PWA, attendere conferma Nicola. Regola: bug ingrandisci → spiegare doppia UI Worker + fix workerFull + non dichiarare risolto senza merge/test. Vedi L-348, PR #485, DECISIONI 17/7 #430.",
@@ -7957,6 +7980,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**VPS — «cos'altro posso inserire?» = risposta da inventario reale + prossimi collegamenti, non catalogo software (chat 20/7 ~01:29):** dopo setup n8n chiede cosa aggiungere sul server — si aspetta elenco **concreto di cosa c'è già** (worker, n8n, Playwright) e **cosa manca per sbloccare valore** (webhook, Telegram, chiavi env), con priorità chiara (Telegram = avvisi bloccati); **non** suggerimenti generici «installa X/Y/Z» né secondo cervello/container extra. Vedi L-351, L-347.",
     "**Worker chat — ingrandisci = stessa chat Worker con menu sinistra, non pagina Assistente (chat 20/7 ~01:25):** segnala che pulsante ingrandisci sulla chat flottante apre **altra schermata** — si aspetta la **stessa** chat Worker (conv aperta + lista conv integrata a sinistra nel riquadro), solo a schermo intero; **non** la voce Worker del menù laterale (layout vecchio). Fix PR #485 workerFull; merge 🔴 #203; hard refresh se cache. Vedi L-350, L-348.",
     "**Comandi worker — vuole percorso sicuro senza aprire Termux/cmd ogni volta (chat 20/7 ~01:17):** chiede come scrivere comandi sul worker **senza** aprire il terminale a ogni operazione — si aspetta gerarchia chiara: **chat Pannello = uso normale** (AD esegue); SSH solo casi rari con scorciatoia una tantum; tmux sessioni lunghe; n8n per ripetitivo; regola «serve SSH?» + controllo prompt server vs telefono; **non** shell web su internet. Vedi L-349, L-6832, L-324.",
     "**Worker chat — menu conversazioni integrato nel riquadro a sinistra, fluttuante+ingrandita (chat 20/7 ~01:06):** chiede lista conv **dentro** il pannello chat (non cassetto esterno) — stesso layout quando ingrandisce la chat flottante; si aspetta «dimmi cosa hai capito» + PR senza rompere scroll (#483) e barra fissa (#484) appena ok. PR #485 merge pendente (#203). Vedi L-348, L-346.",
