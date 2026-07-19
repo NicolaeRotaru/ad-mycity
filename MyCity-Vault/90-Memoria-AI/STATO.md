@@ -1,12 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 18:40
-fonte: AD digitale (chat Nicola 19/7 18:40)
+aggiornato: 2026-07-19 18:41
+fonte: AD digitale (chat Nicola 19/7 18:41)
 ---
+
+> 🟡 **19/7 18:40 — CHAT: PR #215 marketplace — unit test CI verdi (715/715).** Nicola «Prepara la pr» dopo diagnosi CI (L-311). AD: fix migration n.107 duplicata + mock Stripe coupon incompleto → **715/715 test verdi** in locale. **PR #215** branch `fix/ci-unit-tests-green` — merge pendente Nicola **prima** di **PR #214** (icona carrello mobile). Niente cambi visibili sul sito — solo test e ordine file migration. Fonte: chat Nicola 19/7 18:40.
 
 > ✅ **19/7 18:38 — FATTO: autofill supervisione — condizione + unità su catalogo live.** Nicola dalla casella Supervisione: «Fai i 2 fix». AD eseguito con `marketplace.mjs aggiorna` (AZIONI_LIVE): **252** prodotti `condition=nuovo` + **242** prodotti `unit=pezzo`, zero errori batch. Verifica REST post-run: **0** prodotti con `condition` null, **0** con `unit` null. Backup reversibile: batch `sup-2026-07-19-products-condition` / `sup-2026-07-19-products-unit`. ⚠️ frutta/salumeria/latticini: «pezzo» può essere sbagliato (kg/etto) — revisione manuale se segnalato. **PR #480** 🟡 (bug che bloccava lo strumento aggiornamento) — merge pendente Nicola. Fonte: chat Nicola 19/7 18:38.
 
-> 💬 **19/7 18:38 — CHAT: CI PR #214 — unit test rossi su main, merge ok.** Nicola: «Tu riesci a lavorare con CI?» + screenshot check GitHub. AD: **sì** — legge check GitHub e può rilanciare test in locale. **PR #214** (navbar carrello): E2E + integration ✅ · unit ❌ ma **pre-esistenti su `main`** (migration n.107 duplicata + mock Stripe incompleto, 13 fallimenti su 715) — non regressione del fix navbar. GitHub «Ready to merge» (unit non sono required check). CI tutta verde = PR separata su `main` (offerta AD, pendente ok Nicola). Fonte: chat Nicola 19/7 18:37–18:38.
+> ~~💬 **19/7 18:38 — CHAT: CI PR #214 — unit test rossi su main, merge ok.**~~ → **superato 18:40** (PR **#215** aperta, 715/715 verdi — merge #215 poi #214). Fonte: chat Nicola 19/7 18:37–18:40.
 
 > 🟡 **19/7 18:32 — CHAT: PR #214 marketplace — icone navbar mobile invisibili.** Nicola: «Dentro la navbar a destra non si vedono le icone» + screenshot — era **sito MyCity mobile** (non Pannello). Causa: badge contatore carrello (pallino giallo «3») posizionato sopra l'icona, che spariva del tutto; bottom nav (Home/Cerca/Carrello) ok. AD fix **PR #214** repo `NicolaeRotaru/mycity` branch `fix/mobile-navbar-cart-icon` — icona carrello visibile anche con prodotti in carrello non loggato. Merge pendente Nicola → deploy Render (~2–3 min) → ricarica da telefono. Fonte: chat Nicola 19/7 18:29–18:32.
 

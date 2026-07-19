@@ -9,4 +9,5 @@ bootstrap: 2026-07-14 02:31
 > Formato: AAAA-MM-GG · contesto · scorecard 6 assi · atteso→reale · #tag
 
 ## Esiti
+- 2026-07-19 18:40 · CI PR #215 — Nicola «Prepara la pr» · atteso: PR fix unit su main + suite verde · reale: migration 107 + mock Stripe fix → **715/715** locale → **PR #215** accodata (#195); merge prima di #214 · L-313 · #ci #unit-test #pr-215 #esito
 - 2026-07-19 18:38 · CI PR #214 — Nicola «Tu riesci a lavorare con CI?» · atteso: diagnosi check + impatto merge · reale: E2E+integration ✅; unit ❌ pre-esistenti su main (migration 107 duplicata + mock Stripe, 13/715); PR #214 mergeable; fix CI main = PR separata offerta · L-311 · #ci #unit-test #pr-214 #esito
