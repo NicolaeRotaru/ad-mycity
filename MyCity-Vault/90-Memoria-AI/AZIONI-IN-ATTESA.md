@@ -529,29 +529,34 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
-### 🟡 #checkin-pq-postvp — Senti il fornaio il prima possibile: com'è andata venerdì e cosa facciamo adesso · ⏳ accodata 2026-07-18 01:09
+### 🟡 #checkin-pq-postvp — Senti il fornaio: com'è andata venerdì e fissiamo il primo ordine · ⏳ accodata 2026-07-18 01:09 · **aggiornata 2026-07-20 00:01**
 
-**📊 Health score PQ — 18/7 01:09 (fonte: STATO.md giro mezzanotte):**
-- 🔴 Ordini: 0 — stallo 24,3 giorni (dal 24/6)
-- 🟢 Vetrina LIVE, catalogo attivo, payout configurato
-- 🟡 Catalogo incompleto: tazzina espresso non inserita (manca prezzo da te — card #inserisci-tazzina-pq)
-- ✅ Non è vero churn: Nicola li conosce, aspettano la piattaforma
+**📊 Health score PQ — 20/7 00:01 (fonte: REST Supabase live):**
+- 🔴 Ordini: **0** — stallo **~26 giorni** (dal 24/6) · VP 17/7 **passato senza ordini**
+- 🟡 Catalogo PQ: **solo 5 prodotti** live (kefir, hummus, pesto…) — i 258 in memoria erano quasi tutti demo
+- 🟢 Descrizione vetrina ok · negozio approvato LIVE
+- ❌ Logo, città, indirizzo, telefono **mancano nel DB** (Via Calzolai / 0523 388601 solo in memoria)
+- ❌ Payout Stripe non testato
+- ✅ **Non è abbandono:** Nicola li conosce — rischio = **zero incassi**, non churn
 
-**Quando:** lunedì 20/7 mattina (o WhatsApp nel weekend se hai voglia)
+**Quando:** **oggi lunedì 20/7 mattina** (card già scaduta nel timing — priorità alta)
 
 **Chi:** Pane Quotidiano · **0523 388601** · Via Calzolai 25
 
-**Script (2 min, tono relazione):**
+**Script (2 min, tono relazione — post VP):**
 
-> «Ciao [nome], com'è andata venerdì sera? Hai avuto gente? Stavo pensando che con le piogge in arrivo da domenica/lunedì il momento per provare la consegna a domicilio potrebbe essere quello giusto. Cosa ti serve ancora? Posso aiutarti con qualcosa?»
+> «Ciao [nome], com'è andata venerdì al Venerdì Piacentini? Sei riuscito a stare al banco? C'era interesse? Con le piogge che arrivano oggi/domani il delivery ha senso — intanto possiamo provare un ordine con **ritiro da te**. Cosa ti serve ancora da noi? Catalogo online, QR, qualcosa che non torna?»
 
 **Cosa vuoi capire dalla chiamata:**
-1. Era al banco venerdì? Ha visto gente interessata?
-2. Cosa lo frena ancora (catalogo incompleto? non sa come funziona il QR?)
-3. Data per il primo ordine di prova (delivery con il meteo piogge = finestra naturale)
+1. Era al banco venerdì? Ha visto gente / domande sul QR?
+2. Perché zero ordini (nessuno sapeva? catalogo troppo corto — solo 5 prodotti online?)
+3. Data per **primo ordine test** (ritiro al banco — bici non pronta fino ~28/7)
+4. Prezzo tazzina/caffè → sblocca #inserisci-tazzina-pq
 
-**Cosa cambia:** capiamo dov'è bloccato, pianifichiamo il prossimo passo concreto.
-**Se va bene:** data per primo ordine di prova + sblocco #inserisci-tazzina-pq (chiedigli anche il prezzo in chiamata).
+**Dossier:** `consegne/account-negozi/2026-07-20-negozio-fermo-pane-quotidiano.md`
+
+**Cosa cambia:** capiamo cosa è successo al VP e fissiamo il primo ordine vero (ritiro).
+**Se va bene:** data ordine test (#ordine-test-pq) + prezzo tazzina + espansione catalogo oltre i 5 prodotti.
 
 - **Colore:** 🟡 (Nicola chiama o scrive — non irreversibile)
 - **Canale:** telefono o WhatsApp

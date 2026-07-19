@@ -7,6 +7,7 @@ reparto: account-negozi
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 00:02 · sentinella negozio_fermo PQ 20/7 · 5/5 verita/completezza/onesta/anti-doppione · atteso card check-in aggiornata post-VP → reale card #checkin-pq-postvp aggiornata + dossier 2026-07-20 · #anti-churn #pane-quotidiano
 - 2026-07-19 13:04 · playbook anti-churn 19/7 RIPROVA · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso trova negozi in calo e accoda check-in in AZIONI-PRONTE → reale 0 in calo; 1 pre-revenue (PQ falso positivo); A30 in AZIONI-PRONTE; retention = #checkin-pq-postvp già in coda · #antichurn #playbook #REST-live #RIPROVA
 - 2026-07-17 11:47 · Playbook anti-churn 17/7: 1 negozio (PQ) verificato, 0 ordini, nessun churn reale · qualita:4,velocita:5,autonomia:4,impatto:3,calibrazione:4,collaborazione:3 · atteso Identificare eventuali negozi in calo e proporre retention → reale 0 negozi in calo — PQ non è churn (falso positivo noto), presidio fisico VP 17/7 è la retention attiva · #vp17 #anti-churn
 - 2026-07-15 12:56 · sentinella negozio_fermo 15/7 12:56 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso check-in anti-churn per negozi fermi 14g → reale 1 PQ falso positivo; vetrina 4/8; 0 nuove azioni; usa #ritiro-pq-vp17-checkin · #sentinella #PQ #falso-positivo

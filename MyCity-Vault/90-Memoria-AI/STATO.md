@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 00:00
-fonte: AD digitale (sentinella cassa_sconosciuta 170 giri + verifica sensori)
+aggiornato: 2026-07-20 00:02
+fonte: AD digitale (sentinella negozio_fermo + check-in PQ)
 ---
+
+> 🛰️ **20/7 00:02 — SENTINELLA: negozio fermo — PQ, check-in pronto per oggi.** Unico negozio LIVE (Pane Quotidiano) · **0 ordini in 14g** · VP 17/7 passato senza ordini. **Verificato 🟢:** REST ok · PQ ha **5 prodotti** (non 258 demo) · relazione ok, **non churn**. **Mossa:** card **🟡 #checkin-pq-postvp** aggiornata (script post-VP + debrief venerdì). Dossier: `consegne/account-negozi/2026-07-20-negozio-fermo-pane-quotidiano.md`. Sentinella: cooldown 24h, nessuna card duplicata. Fonte: REST 00:01.
 
 > 🛰️ **20/7 00:00 — SENTINELLA: cassa/runway — verifica 170 giri, blocco invariato.** `cassa_sconosciuta` **170 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe. **Unica mossa:** card **🟡 #burn-mensile-env** (già in coda, non ri-accodata). **Oggi ore 10:00:** 🔴 **PI26 apre a sportello** (`#bandi-cciaa-2007`) — registrazione restart.infocamere.it se non fatta ieri. Diagnosi: `consegne/finanza/2026-07-19-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 00:00.
 
