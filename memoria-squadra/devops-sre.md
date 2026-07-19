@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-19 19:01 · Terzo retry apertura PR — Nicola «Perché non riesci ad aprire la pr?» · atteso: scheda PR aperta · reale: push OK; `gh pr create` 403 rate limit (3° retry); limite token worker — Nicola può Compare da browser; #197 pendente · L-316 evidenze 3 · #github #rate-limit #pr #worker-token #esito
 - 2026-07-19 18:59 · Push ok vs PR 403 — Nicola «Perché il push è rifiutato? Devo mettere qualcosa nell allowlist?» · atteso: chiarire se serve allowlist · reale: push branch OK verificato; solo `gh pr create` 403 rate limit; allowlist già valida 16:54 — nessuna modifica · L-317 · L-316 · #github #allowlist #push #rate-limit #esito
 - 2026-07-19 18:57 · Fix build Render + rate limit GitHub — Nicola «Perché non apri tu la PR?» · atteso: scheda PR aperta automaticamente · reale: branch `fix/render-build-orders-page` pushato (`5497b96`); `gh pr create` 403 rate limit (retry confermato); compare manuale o retry ~1h · L-316 · L-315 · #render #github-api #rate-limit #pr #esito
 - 2026-07-19 18:38 · CI PR #214 marketplace — Nicola chiede se AD lavora con CI · atteso: lettura check GitHub + verdetto merge · reale: AD legge check + test locale; unit rossi = debito main non PR; merge #214 ok; CI verde = follow-up separato · L-311 · #ci #pr-214 #github-actions #esito

@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 19:00",
+  "aggiornato": "2026-07-19 19:01",
+  "_nota_metabolizzazione_19_07_1901": "Chat 19/7 ~19:01: Nicola «Perché non riesci ad aprire la pr?» — terza domanda dopo 18:57/18:59. AD retry 19:01 → stesso 403; chiarito limite token worker vs browser Nicola. L-316 evidenze 3; STATO + #197 + LEZIONI-CHAT aggiornati.",
   "_nota_metabolizzazione_19_07_1900": "Chat 19/7 ~18:59: Nicola «Perché il push è rifiutato? Devo mettere qualcosa nell allowlist?» dopo spiegazione 403 PR. AD: push OK verificato, solo gh pr create 403 — allowlist non c'entra (già valida 16:54). L-317 nuova; L-316 evidenze++; preferenza push-vs-pr-vs-allowlist.",
   "_nota_metabolizzazione_19_07_1858": "Chat 19/7 ~18:57: Nicola «Perché non apri tu la PR?» dopo fix render build. AD retry gh → 403 rate limit confermato; branch+commit su GitHub, scheda PR mancante. L-316 nuova; preferenza apri-pr-automatica; coda #197 aggiornata.",
   "_nota_metabolizzazione_19_07_1856": "Chat 19/7 ~18:56: Nicola «Non ha fatto il deploy, come mai?» + screenshot Render X. AD: Auto-Deploy ok, build crashato (orders/page TS), fix branch fix/render-build-orders-page, PR manuale (#197). L-315 nuova; L-314 evidenze++; STATO corretto (#214 merged ≠ online); preferenza deploy-vs-merge.",
@@ -37,7 +38,7 @@
   "lezioni": [
     {
       "id": "L-2026-0719-316",
-      "testo": "**GitHub rate limit — «Perché non apri tu la PR?» (Nicola 19/7 ~18:57).** Dopo push fix su `fix/render-build-orders-page` (build Render), Nicola chiede perché l'AD non ha aperto la scheda PR. 5 perché: (1) **standing-ask:** Nicola si aspetta che l'AD apra PR automaticamente (`git-pr.mjs` marketplace push + link/gh, o `gh pr create`), non istruzioni manuali «Compare & pull request» come prima scelta; (2) primo tentativo 18:56 già fallito **403 rate limit** GitHub API; (3) **retry 18:57** = stesso 403 — giornata intensa (merge #214, push fix, check CI) esaurisce quota API utente; (4) **push ≠ PR aperta:** codice e commit (`5497b96`) sono su GitHub, manca solo la scheda; (5) risposta corretta: riprova **una volta** subito, se 403 → spiega limite temporaneo + link Compare + «riprova la PR» tra ~1h — **MAI** aggirare con token alternativi o comandi vietati (LEZIONI-CHAT). Regola: «Perché non apri tu?» non è rifiuto del compare manuale — è frustrazione che l'automazione si è fermata; dimostrare retry + causa esterna. Vedi L-315, L-313.",
+      "testo": "**GitHub rate limit — «Perché non apri/aprire la PR?» (Nicola 19/7 ~18:57–19:01).** Dopo push fix su `fix/render-build-orders-page` (build Render), Nicola chiede perché l'AD non ha aperto la scheda PR (tre varianti: 18:57, 18:59 push/allowlist, **19:01 «Perché non riesci ad aprire la pr?»**). 5 perché: (1) **standing-ask:** Nicola si aspetta che l'AD apra PR automaticamente (`git-pr.mjs`/`gh pr create`), non istruzioni manuali come prima scelta; (2) retry 18:57, 18:59, **19:01** = stesso **403 rate limit** — giornata intensa esaurisce quota API **token worker** (user 98592323); (3) **push ≠ PR aperta:** codice (`5497b96`) su GitHub, manca scheda; (4) limite sul **token automazione worker**, non sull'account Nicola — da browser/app GitHub può aprire Compare **subito**; (5) risposta: retry immediato, se 403 → spiega token worker + compare manuale Nicola + «riprova la PR» ~1h — **MAI** aggirare (LEZIONI-CHAT). Regola: domanda ripetuta = frustrazione automazione; dimostrare retry + causa esterna + piano B browser Nicola. Vedi L-317, L-315.",
       "tag": [
         "github",
         "rate-limit",
@@ -48,12 +49,12 @@
         "caso-studio"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.95,
-      "evidenze": 2,
+      "confidenza": 0.96,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 19:00",
+      "ultima_conferma": "2026-07-19 19:01",
       "stato": "attiva",
       "usi": []
     },
@@ -7182,7 +7183,7 @@
   ],
   "preferenze_nicola": [
     "**Push vs PR vs allowlist — «Perché il push è rifiutato? Devo mettere qualcosa nell allowlist?» = NO se push ok (chat 19/7 ~18:59):** dopo 403 su apertura PR, Nicola può confondere push rifiutato con permessi — si aspetta risposta secca: push **andato a buon fine**, blocco solo scheda PR (rate limit GitHub), allowlist **già ok** (16:54); non proporre righe allowlist a caso. Mostrare output verificato push OK + errore gh separato. Vedi L-317, L-316.",
-    "**PR — «Perché non apri tu la PR?» = si aspetta apertura automatica, non compare manuale (chat 19/7 ~18:57):** dopo fix pushato su branch, chiede perché manca la scheda PR — vuole che l'AD riprovi subito con git-pr/gh; se **403 rate limit** GitHub accetta spiegazione + link Compare come piano B, ma la prima scelta resta automazione AD. Vedi L-316, L-315.",
+    "**PR — «Perché non apri/aprire la PR?» = si aspetta apertura automatica (chat 19/7 ~18:57–19:01):** chiede fino a 3 volte (18:57, push/allowlist 18:59, 19:01) — vuole retry AD immediato; se **403 rate limit** sul token worker spiegare che Nicola da **browser GitHub** può aprire Compare subito; piano B compare + «riprova la PR» ~1h. Vedi L-316, L-317, L-315.",
     "**Deploy Render — «Non ha fatto il deploy?» = vuole PERCHÉ merge non è online (chat 19/7 ~18:56):** dopo merge PR (#214) sito invariato — si aspetta spiegazione concreta: Auto-Deploy sì/no, X rosse Render = build fallito (non «non ha provato»), causa verificata (log/build locale), fix pronto + passi merge. Distinguere merge GitHub vs deploy produzione. Vedi L-315.",
     "**CI — «A cosa serve la CI?» = spiegazione semplice pre-deploy, non gergo (chat 19/7 ~18:44):** dopo merge fuori ordine (#214 prima #215), chiede il significato della CI — si aspetta metafora collaudo (compila+test+E2E), pallini GitHub, cosa fare dopo (#215 per verde su main); rassicurazione se ordine merge invertito. Vedi L-314.",
     "**CI — «Prepara la pr» dopo diagnosi = vuole PR fix eseguita e accodata (chat 19/7 ~18:40):** dopo «Tu riesci a lavorare con CI?» e offerta PR separata, «Prepara la pr» = via libera — si aspetta suite verde (715/715), **PR #215** in Da approvare, ordine merge **#215 poi #214**; non solo spiegazione delle cause. Vedi L-313, L-311.",

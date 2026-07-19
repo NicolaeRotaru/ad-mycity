@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 19:00
-fonte: AD digitale (chat Nicola 19/7 19:00)
+aggiornato: 2026-07-19 19:01
+fonte: AD digitale (chat Nicola 19/7 19:01)
 ---
+
+> 💬 **19/7 19:01 — CHAT: «Perché non riesci ad aprire la pr?» — terzo retry, stesso 403 rate limit.** Nicola chiede di nuovo dopo spiegazioni 18:57–18:59. AD **riprova 19:01**: push OK, `gh pr create` **403** (user token worker 98592323). Limite sul **token automazione worker**, non sull'account Nicola — da browser/app GitHub può aprire Compare manualmente. Coda **#197** ancora in attesa scheda PR. Fonte: chat Nicola 19/7 19:01.
 
 > 💬 **19/7 18:59 — CHAT: «Perché il push è rifiutato? Devo mettere qualcosa nell allowlist?» — NO allowlist.** Nicola confonde push con apertura PR. AD verifica retry: **push su `fix/render-build-orders-page` OK**; rifiutato solo `gh pr create` (**403 rate limit** GitHub). Allowlist validata 16:54 — nessuna modifica richiesta. Codice su GitHub, manca scheda PR (#197). Fonte: chat Nicola 19/7 18:59.
 
