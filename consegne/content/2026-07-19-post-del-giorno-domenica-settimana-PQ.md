@@ -4,8 +4,8 @@ playbook: contenuto-giorno
 titolo: Domenica sera — fai il turno per la settimana (Pane Quotidiano)
 data: 2026-07-19 17:19 (Europe/Rome)
 stato: pronto
-anteprima: consegne/content/assets/domenica-settimana-1907-feed.png
-anteprima_storia: consegne/content/assets/domenica-settimana-1907-story.png
+anteprima: consegne/content/assets/domenica-settimana-1907-feed.svg
+anteprima_storia: consegne/content/assets/domenica-settimana-1907-story.svg
 reparto: content-social (sintesi AD)
 negozio: Pane Quotidiano (Via Calzolai 25) — stato `confermato` nel registro-realtà
 categoria: RUBRICA / domenica sera — "Dietro la saracinesca" (swipe #4) × utilità settimana
