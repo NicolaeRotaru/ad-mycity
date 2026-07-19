@@ -1,7 +1,7 @@
 ---
 tipo: stato
 aggiornato: 2026-07-19 14:20
-fonte: AD digitale (metabolizzazione chat 19/7 14:20)
+fonte: AD digitale (giro pieno 19/7 14:20)
 ---
 
 > 💬 **19/7 14:20 — CHAT: Nicola chiede righe esatte allowlist MCP Supabase.** «Cosa devo inserire nell'allowlist per farti avere mcp di supabase?» — AD ha indicato 2 voci obbligatorie su server `supabase-marketplace` (`execute_sql` + `list_tables`) in `.claude/settings.local.json` via terminale VPS, poi nuova chat per verificare. Opzionale: stesse voci su `supabase-memoria`. ⏳ Pendente: Nicola incolla e salva (card #abilita-mcp-supabase-chat). Se fallisce, verificare anche env `SUPABASE_ACCESS_TOKEN` nel worker. Fonte: chat Nicola 19/7 14:20.
@@ -14,7 +14,7 @@ fonte: AD digitale (metabolizzazione chat 19/7 14:20)
 
 > 💬 **19/7 13:16 — CHAT: titolo caselle Lavori illeggibile — fix PR #471.** Nicola: «Non mi piace che non legge il titolo della casella» (screenshot: lettere «G»/«a» invece del nome casella). Causa: UI mostrava ultimo messaggio chat + layout mobile schiacciava il testo. AD ha preparato PR #471 (titolo casella + bottoni sotto). ⏳ Pendente merge Nicola (card #189 in [[AZIONI-IN-ATTESA]]). Fonte: chat Nicola 19/7 12:52.
 
-> 🛰️ **19/7 13:10 — GIRO PIENO (vincolo north-star AR-111).** Business INVARIATO: 1 PQ, **4 buyer** (Nicola 19/7), 0 ordini pagati, stallo **~605h** (~25,2 giorni). REST+Stripe+Resend+Sito+Pannello ✅ · n8n cieco 94 giri · MCP Supabase cieco 7 giri. **Registro-scelte ✅ exit 0** (6 ristoranti dossier archiviati come esclusi). **Coerenza-fatti ✅**. **Mossa n.1:** 🟡 ordine test PQ (North Star 0→1). **Mossa n.2:** 🔴 PI26 domani 20/7 ore 10:00 — restart.infocamere.it stasera. **Mossa n.3:** 🔴 post domenica PQ stasera. Dettaglio: [[Briefing/2026-07-19]].
+> 🛰️ **19/7 14:20 — GIRO PIENO (vincolo north-star AR-111).** Business INVARIATO: 1 PQ, **4 buyer** (Nicola 19/7), 0 ordini pagati, stallo **~604h** (~25,2 giorni). REST+Stripe+Resend+Sito+Pannello ✅ · n8n non_configurato · MCP Supabase cieco 7 giri. **Coerenza-fatti ✅** · **registro-scelte ✅**. **Mossa n.1:** 🟡 ordine test PQ (North Star 0→1). **Mossa n.2:** 🔴 PI26 domani 20/7 ore 10:00 — restart.infocamere.it stasera. **Mossa n.3:** 🔴 post domenica PQ entro 21:00. Dettaglio: [[Briefing/2026-07-19]].
 
 > 💬 **19/7 12:50 — CHAT: Nicola chiede perché 20 file memoria «non pubblicati».** Recovery automatico già completato: 18 file committati alle 12:00 + 4 alle 12:20 (giro interrotto stamattina per limite settimanale AI, reset 23/7 ore 11:00). Restano 3 file locali aperti (sentinella-dati.json, fonti-salute.json, routing.json) — worker li aggiorna in corso. Contenuto: memoria vault (sensori, esperimenti, benchmark, peer review, coda, supervisione negozi) → alimenta caselle auto-coscienza e «Da approvare» nel Pannello. Fonte: chat Nicola 19/7 12:50.
 
@@ -625,14 +625,14 @@ fonte: AD digitale (metabolizzazione chat 19/7 14:20)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 19/7 13:06 · invariati dal 24/6)
-| Numero | Oggi (19/7 13:06) | Δ vs 18/7 22:40 | "Riuscito" | Note |
+## I 7 numeri (✅ REST 19/7 14:20 · invariati dal 24/6)
+| Numero | Oggi (19/7 14:20) | Δ vs giro 13:10 | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa · 16 altri seller non approvati |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ payout OFF · payout-test sandbox |
 | Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ available (catalogo totale 250 available REST) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · CANCELED — 1° ordine reale va CREATO ex-novo |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~605h (~25,2 gg) |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~604h (~25,2 gg) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox da fare su ordine vero |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | Nicola 19/7 · 23 profili totali REST |

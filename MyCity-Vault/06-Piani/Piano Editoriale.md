@@ -180,9 +180,9 @@ Catena di squadra (chi fa cosa). Il contenuto si produce **a lotti settimanali**
 #editoriale #piano #content #social #piacenza
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-19 13:10
+## 🤖 Aggiornamento dell'AD — 2026-07-19 14:20
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Post domenica «Prepara la settimana da casa»** — pronto in coda 🔴 #post-domenica-settimana-1907, pubblicazione stasera entro 21:00 su FB/IG + gruppi locali.
-- **Martedì 21/7 pioggia prevista** — tema settimana: «fresco a casa anche con la pioggia». Gate: ordine test PQ fatto + PQ pronto a evadere.
-- **North Star 0:** nessuna campagna massiva clienti finché non c'è almeno 1 ordine completato (proof-of-concept).
+- **Post domenica «Prepara la settimana da casa»** — pronto in coda 🔴, pubblicazione stasera entro 21:00 su FB/IG + gruppi locali.
+- **Martedì 21/7 pioggia prevista** — tema settimana: «fresco a casa anche con la pioggia». Gate: ordine test PQ fatto.
+- **North Star 0:** nessuna campagna massiva clienti finché non c'è almeno 1 ordine completato.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

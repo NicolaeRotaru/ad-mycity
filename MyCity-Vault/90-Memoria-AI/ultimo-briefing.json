@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-19 13:10",
-  "situazione": "Business invariato dal 24/6: 1 PQ live, 0 ordini pagati, stallo ~605h (~25 giorni). REST+Stripe ok. 4 buyer reali (Nicola 19/7). Vincolo north-star: solo mosse verso il 1° ordine. Domani 20/7 ore 10:00 apre PI26 a sportello — registrarsi su restart.infocamere.it stasera se non fatto.",
+  "data": "2026-07-19 14:20",
+  "situazione": "Business invariato dal 24/6: 1 PQ live, 0 ordini pagati, stallo ~604h (~25 giorni). REST+Stripe ok. 4 buyer reali. Vincolo north-star: solo mosse verso il 1° ordine. Domani 20/7 ore 10:00 apre PI26 — restart.infocamere.it stasera. Post domenica PQ entro le 21:00 in coda.",
   "opportunita": [
     {
       "titolo": "Ordine di test su Pane Quotidiano",
@@ -24,7 +24,7 @@
   "azioni": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "North Star a 0 da ~605h — un ordine sblocca la prova che il sistema funziona",
+      "motivo": "North Star a 0 da ~604h — un ordine sblocca la prova che il sistema funziona",
       "livello": "giallo"
     },
     {
@@ -39,9 +39,9 @@
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo ~605h (>25 giorni)",
+    "North Star 0 — stallo ~604h (>25 giorni)",
     "Negozio LIVE fermo — Pane Quotidiano 0 ordini in 14g",
-    "n8n cieco — 94 giri (non critico operatività)",
+    "MCP Supabase cieco 7 giri (REST copre)",
     "BURN_MENSILE_EUR assente — runway sconosciuto"
   ]
 }

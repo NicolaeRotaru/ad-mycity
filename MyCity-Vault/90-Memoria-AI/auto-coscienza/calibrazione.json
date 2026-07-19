@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-19 14:20",
+  "aggiornato": "2026-07-19 14:21",
   "per_reparto": [
     {
       "reparto": "@customer-success",
@@ -546,9 +546,24 @@
       "nota": "",
       "creato": "2026-07-19 13:07",
       "chiuso_il": ""
+    },
+    {
+      "id": "CAL-20260719122106-operat",
+      "reparto": "@operations",
+      "azione": "Ordine test Nicola su Pane Quotidiano",
+      "metrica": "ordini_pagati",
+      "atteso": 1,
+      "reale": null,
+      "entro": "2026-07-20",
+      "tolleranza": 0.25,
+      "stato": "aperta",
+      "scarto_pct": null,
+      "nota": "",
+      "creato": "2026-07-19 14:21",
+      "chiuso_il": ""
     }
   ],
-  "_nota": "22 chiuse · 1 aperte — registro gestito da calibrazione.mjs.",
+  "_nota": "22 chiuse · 2 aperte — registro gestito da calibrazione.mjs.",
   "promozioni_proposte": {},
   "registro_legacy": [
     {

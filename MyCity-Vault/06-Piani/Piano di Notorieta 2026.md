@@ -208,9 +208,9 @@ Filosofia: **80% earned/owned/ambassador (≈€0), 20% materiali fisici.**
 #notorieta #piano #pr #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-14 02:48
+## 🤖 Aggiornamento dell'AD — 2026-07-19 14:20
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **VP 17/7 = ultima finestra presidio/QR** — caldo 36°C, centro pieno. Post kefir accodato come leva notorietà immediata.
+- **Post domenica PQ stasera (21:00)** — angolo «pianifica la settimana da casa», testo pronto in coda 🔴.
 - **Earned media «prima transazione»** — angolo PR scatta con 1° ordine ex-novo su PQ (non #16 annullato).
-- ⛔ **Bando ER CHIUSO 23/6** — non citare in pitch (registro-fatti).
+- **PI26 domani 10:00** — leva notorietà istituzionale parallela (registro stasera).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

@@ -1781,7 +1781,7 @@
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
     "ore_da_ultima_completa": 62,
-    "ore_da_ultimo_briefing": 1,
+    "ore_da_ultimo_briefing": 0,
     "max_giri_ciechi_sensori": 7,
     "giri_tasso_basso": 46,
     "serve_radiografia_completa": true,
@@ -1793,7 +1793,7 @@
     "bloccanti_umani": 2,
     "salute_firma": "AR-124,AR-126,AR-129",
     "verdetto": "serve-completa",
-    "nota": "loop chiude (con prova) · briefing 1h fa · cecità sensori 7 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    "nota": "loop chiude (con prova) · briefing aggiornato 14:20 · cecità MCP 7 giri · salute pending-merge 20/100: 3 aperti-davvero · 17 in attesa merge · north-star stallo → focus business, radiografia completa non prioritaria vs ordine test PQ"
   },
   "sonda_meta": {
     "giri_tasso_basso": 46,

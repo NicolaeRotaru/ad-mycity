@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-19 13:10",
-  "sintesi": "Stallo ~605h senza ordini pagati — focus totale North Star. Mossa n.1: ordine test su Pane Quotidiano (10 min). Domani 20/7 ore 10:00 apre PI26 a sportello — registrazione restart.infocamere.it stasera se non fatta. Post domenica PQ in coda per stasera. Giro botteghe 13 prospect quando bici pronta (sett. 21-25/7).",
+  "data": "2026-07-19 14:20",
+  "sintesi": "Stallo ~604h senza ordini pagati — focus totale North Star. Mossa n.1: ordine test su Pane Quotidiano (10 min). Domani 20/7 ore 10:00 apre PI26 a sportello — registrazione restart.infocamere.it stasera se non fatta. Post domenica PQ in coda per stasera entro 21:00. Giro botteghe 13 prospect quando bici pronta (sett. 21-25/7).",
   "prossime_mosse": [
     {
       "titolo": "Fai un ordine di prova su Pane Quotidiano",
@@ -43,7 +43,7 @@
     {
       "nome": "Pane Quotidiano",
       "perche": "Unico negozio REALE (Via Calzolai 25). Già online.",
-      "stato": "attivo — North Star 0, stallo ~605h"
+      "stato": "attivo — North Star 0, stallo ~604h"
     },
     {
       "nome": "Frolla Couture",
@@ -74,7 +74,7 @@
     },
     {
       "ambito": "post stasera",
-      "cosa_manca": "Firma pubblicazione post domenida",
+      "cosa_manca": "Firma pubblicazione post domenica",
       "domanda_per_nicola": "Ok pubblicare il post PQ stasera entro le 21:00?"
     }
   ]

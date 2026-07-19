@@ -1,14 +1,14 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-19 13:10",
-  "voto_fiducia": 90,
-  "sintesi": "Giro 19/7: REST live, numeri invariati, north-star focus rispettato. Registro-scelte fix (dossier ristoranti archiviati). Coerenza-fatti ok. Nessun numero inventato.",
-  "trend_fiducia": "▲ 90 vs 88 (18/7 22:40) — registro-scelte chiuso exit 0, coerenza-fatti exit 0, REST live; -0 per MCP cieco (coperto da REST)",
+  "data": "2026-07-19 14:20",
+  "voto_fiducia": 91,
+  "sintesi": "Giro 19/7 14:20: REST live, numeri invariati, vincolo north-star rispettato (zero lavoro macchina laterale). Coerenza-fatti ok. Supervisione accodata senza priorità vs 1° ordine.",
+  "trend_fiducia": "▲ 91 vs 90 (13:10) — giro coerente con AR-111, numeri da REST 14:20, nessun numero inventato",
   "errori_giro": [],
   "domande_bloccanti": [
     {
       "tipo": "north_star",
-      "domanda": "North Star 0 da ~605h. Ordine test PQ (Nicola) = unica mossa diretta verso 1° ordine pagato.",
+      "domanda": "North Star 0 da ~604h. Ordine test PQ (Nicola) = unica mossa diretta verso 1° ordine pagato.",
       "azione": "card 🟡 #ordine-test-pq in AZIONI-IN-ATTESA",
       "colore": "🟡"
     },
@@ -25,10 +25,10 @@
     {"nome": "6 ristoranti dossier 6/7", "stato": "escluso", "fonte": "Nicola 16-18/7 + registro-fatti onboarding.6-ristoranti-tattici"},
     {"nome": "4 buyer", "stato": "confermato", "fonte": "correzione Nicola 19/7 (dashboard Supabase)"}
   ],
-  "benchmark": "Focus north-star: primo ordine = proof-of-concept. Azioni allineate al playbook lancio marketplace locale (Glovo/JustEat cold-start: 1 negozio + 1 ordine reale prima di scalare).",
+  "benchmark": "Focus north-star: cold-start marketplace = 1 negozio + 1 ordine reale prima di scalare. Azioni allineate.",
   "salute_macchina": {
     "sensori_ok": 6,
-    "max_giri_ciechi": 94,
+    "max_giri_ciechi": 7,
     "automazione": "ok",
     "coerenza_fatti": "ok",
     "registro_scelte": "ok"
@@ -36,6 +36,6 @@
   "verifiche": {
     "L1": "pass",
     "benchmark": "ok",
-    "note": "Vincolo AR-111 rispettato: zero lavoro macchina non collegato a card business in coda."
+    "note": "Vincolo AR-111 rispettato: nessuna azione macchina aggiunta (MCP allowlist esclusa — non sblocca 1° ordine direttamente)."
   }
 }

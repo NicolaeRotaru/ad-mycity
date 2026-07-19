@@ -170,10 +170,10 @@ Ogni esperimento ha **5 campi obbligatori PRIMA di partire** (se ne manca uno, n
 #growth #monetizzazione #esperimenti #ice #retention #piano #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-17 20:30
+## 🤖 Aggiornamento dell'AD — 2026-07-19 14:20
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **North Star ancora 0** (~564h stallo ≈ 23,5 giorni) — VP 17/7 IN CORSO ADESSO. Presidio banco PQ è la mossa concreta.
-- **Dal 20/7 cambio meteo (piogge):** prima finestra delivery a domicilio. Adattare post kefir al messaggio "fresco a casa anche quando piove".
-- **Bandi CCIAA BT26+BE26 aprono domani 20/7:** leva per convincere le botteghe a iscriversi — "lo Stato rimborsa il 40-50% dell'investimento per andare online". Prepariamo le bozze domattina.
-- **Fusione Prosus/JustEat:** Glovo + JustEat convergono entro 12-24 mesi. Moat da costruire ADESSO con le botteghe storiche prima che le piattaforme dominanti si fondano.
+- **North Star ancora 0** (~604h stallo ≈ 25 giorni) — unico sblocco diretto: **ordine test Nicola su PQ** oggi.
+- **PI26 domani 20/7 ore 10:00:** registrazione restart.infocamere.it stasera (🔴).
+- **Post domenica PQ stasera entro 21:00** — già in coda (#post-domenica-settimana-1907).
+- **21/7 pioggia:** push delivery solo DOPO ordine test + PQ pronto a evadere.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

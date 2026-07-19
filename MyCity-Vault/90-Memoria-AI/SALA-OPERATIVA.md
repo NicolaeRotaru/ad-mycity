@@ -1099,3 +1099,8 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-19 13:10 · @AD · FATTO · Giro pieno 19/7 — business INVARIATO: 1 PQ, 4 buyer, 0 ordini pagati, stallo ~605h. REST+Stripe ✅ · registro-scelte fix (6 ristoranti archiviati) exit 0 · coerenza-fatti exit 0. Briefing [[Briefing/2026-07-19]] · STATO · auto-analisi · ultimo-briefing.
 - 2026-07-19 13:10 · @intelligence · FATTO · Meteo live 3BMeteo: oggi 34°C afa · domani PI26 · martedì 21/7 pioggia → eventi-picchi.md aggiornato.
 - 2026-07-19 13:10 · @AD · SERVE · @Nicola: ① 🟡 **ordine test PQ** (mossa n.1 North Star) ② 🔴 **restart.infocamere.it stasera** (PI26 domani 10:00) ③ 🔴 **post domenica PQ entro 21:00**.
+
+### 2026-07-19 14:20 — 🛰️ GIRO PIENO (AD · vincolo north-star AR-111)
+- 2026-07-19 14:20 · @AD · FATTO · Giro pieno 19/7 14:20 — business INVARIATO: 1 PQ, 4 buyer, 0 ordini pagati, stallo ~604h. REST+Stripe+Resend+Sito+Pannello ok · coerenza-fatti exit 0 · supervisione 494 autofill (non priorità vs North Star).
+- 2026-07-19 14:20 · @intelligence · FATTO · Meteo 3BMeteo confermato: oggi 34°C afa · domani PI26 10:00 · martedì 21/7 pioggia.
+- 2026-07-19 14:20 · @AD · SERVE · @Nicola: ① 🟡 **ordine test PQ** (mossa n.1) ② 🔴 **restart.infocamere.it stasera** ③ 🔴 **post domenica entro 21:00**.
