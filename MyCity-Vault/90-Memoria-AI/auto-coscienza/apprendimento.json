@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 19:36",
+  "aggiornato": "2026-07-19 19:40",
+  "_nota_metabolizzazione_19_07_1940": "Chat 19/7 ~19:40: Nicola «Si vede metà del logo dentro la navbar» + screenshot. AD PR #217 mycity (flex-shrink logo), primo fix clone sbagliato corretto su marketplace worker. L-319 nuova; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+tech aggiornati.",
   "_nota_metabolizzazione_19_07_1928": "Chat 19/7 ~19:27: Nicola «Ora come faccio a fare il redeploy di quelle due pr?» — AD: #214+#215+#216 già su main, non re-merge; Manual Deploy Render. L-318 nuova; #195+#197 FATTO; STATO+LEZIONI-CHAT aggiornati.",
   "_nota_metabolizzazione_19_07_1901": "Chat 19/7 ~19:01: Nicola «Perché non riesci ad aprire la pr?» — terza domanda dopo 18:57/18:59. AD retry 19:01 → stesso 403; chiarito limite token worker vs browser Nicola. L-316 evidenze 3; STATO + #197 + LEZIONI-CHAT aggiornati.",
   "_nota_metabolizzazione_19_07_1900": "Chat 19/7 ~18:59: Nicola «Perché il push è rifiutato? Devo mettere qualcosa nell allowlist?» dopo spiegazione 403 PR. AD: push OK verificato, solo gh pr create 403 — allowlist non c'entra (già valida 16:54). L-317 nuova; L-316 evidenze++; preferenza push-vs-pr-vs-allowlist.",
@@ -37,6 +38,30 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-319",
+      "testo": "**Logo navbar mobile — «si vede metà del logo» = flex-shrink nel header (Nicola 19/7 ~19:40).** Nicola: «Si vede metà del logo dentro la navbar» + screenshot marketplace mobile. 5 perché: (1) stesso filone navbar mobile del fix carrello (#214) ma lato **sinistro** logo; (2) testo «MyCity» in flex row con CAP e carrello — default `flex-shrink` comprime il logo fino a mostrare solo «My» colorato; (3) bottom nav ok — problema solo header top; (4) **processo:** primo fix applicato su clone locale sbagliato → va sempre su repo worker `marketplace/` (`MARKETPLACE_REPO`); (5) fix **PR #217** (`25aa5aa`): `flex-shrink-0` su logo e carrello, CAP centrato. Regola: logo/tagline tagliati su mobile → controllare flex-shrink nel header prima di font-size; fix marketplace sul path worker verificato. Merge → Deploy Render → ricarica telefono. Vedi L-310.",
+      "tag": [
+        "marketplace",
+        "mobile",
+        "navbar",
+        "logo",
+        "flex-shrink",
+        "pr-217",
+        "marketplace-repo",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 19:40",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-318",
       "testo": "**Redeploy Render — «come redeploy delle due PR?» = un deploy main, non re-merge (Nicola 19/7 ~19:27).** Dopo merge #214 (carrello) e #215 (CI), Nicola chiede come «rifare il deploy» — confonde merge GitHub con pubblicazione online. 5 perché: (1) **merge ≠ redeploy:** codice su `main` non va online finché Render completa build verde; (2) build era crashato (L-315) — serviva **#216** fix orders page prima di qualsiasi deploy utile; (3) Render ha **un solo deploy** dell'ultimo commit su main — non si redeploya «PR per PR»; (4) se Auto-Deploy non parte dopo merge #216 → **Manual Deploy → Deploy latest commit** su servizio mycity-marketplace; (5) risposta: verifica merge su main (#214+#215+#216), poi Render verde ~2–3 min, ricarica telefono. Regola: «redeploy PR» → spiega che PR già mergiate; un passo Render sul main attuale. Vedi L-315, L-314.",
@@ -7207,6 +7232,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Logo navbar — «si vede metà del logo» = fix visivo immediato marketplace mobile (chat 19/7 ~19:40):** segnala logo tagliato in header — si aspetta causa concreta (flex-shrink), PR mycity pronta, merge Pannello + deploy Render; stessa giornata del fix carrello (#214) ma problema lato sinistro brand. Vedi L-319, L-310.",
     "**Redeploy — «come redeploy delle due PR?» = istruzioni Render concrete, non re-merge (chat 19/7 ~19:27):** dopo merge multipli (#214 carrello + #215 CI), chiede come portare online — si aspetta passi semplici: codice già su main, **Manual Deploy → Deploy latest commit** su Render se Auto-Deploy non parte, attendi verde, ricarica telefono; chiarire che NON serve rifare merge PR. Vedi L-318, L-315.",
     "**Push vs PR vs allowlist — «Perché il push è rifiutato? Devo mettere qualcosa nell allowlist?» = NO se push ok (chat 19/7 ~18:59):** dopo 403 su apertura PR, Nicola può confondere push rifiutato con permessi — si aspetta risposta secca: push **andato a buon fine**, blocco solo scheda PR (rate limit GitHub), allowlist **già ok** (16:54); non proporre righe allowlist a caso. Mostrare output verificato push OK + errore gh separato. Vedi L-317, L-316.",
     "**PR — «Perché non apri/aprire la PR?» = si aspetta apertura automatica (chat 19/7 ~18:57–19:01):** chiede fino a 3 volte (18:57, push/allowlist 18:59, 19:01) — vuole retry AD immediato; se **403 rate limit** sul token worker spiegare che Nicola da **browser GitHub** può aprire Compare subito; piano B compare + «riprova la PR» ~1h. Vedi L-316, L-317, L-315.",

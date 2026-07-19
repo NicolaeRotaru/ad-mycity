@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 19:40 · 🟡 · [PR #217 marketplace — fix logo navbar mobile tagliato] · **Nicola: «Si vede metà del logo dentro la navbar».** Logo MyCity compresso da flex header mobile (visibile solo «My»). AD PR #217 su repo mycity (`25aa5aa`): `flex-shrink-0` su logo e carrello, CAP centrato. Pendente merge Nicola → deploy Render. L-319.
+
 2026-07-19 18:44 · 🟢 · [Merge PR #214 prima di #215 — ordine invertito, nessun danno] · **Nicola: «Purtroppo ho mangiato la 214 prima della 215».** Poi chiede «A cosa serve la CI?». AD conferma: fix icona carrello (#214) ok da mergiare per conto suo (E2E/integration verdi); unit rossi su main restano finché non mergia #215. CI spiegata come collaudo automatico pre-deploy. Prossimo passo: merge #215 quando possibile. L-314.
 
 2026-07-19 18:38 · 🟡 · [Autofill supervisione — condizione «nuovo» + unità «pezzo»] · **Nicola dalla casella Supervisione: «Fai i 2 fix».** Approvazione esplicita dei 2 gruppi autofill del report 19/7 18:20 (252 condition + 242 unit, valori DEDOTTI, reversibili). AD eseguito live sul marketplace: zero errori, REST post-run 0 null. Batch undo versionati. Attenzione segnalata su categorie food (unità «pezzo» vs kg). **PR #480** aperta per bug `marketplace.mjs` che bloccava lo strumento — merge pendente. L-312.

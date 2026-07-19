@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 19:28
-fonte: AD digitale (chat Nicola 19/7 19:28)
+aggiornato: 2026-07-19 19:40
+fonte: AD digitale (chat Nicola 19/7 19:40)
 ---
+
+> 🟡 **19/7 ~19:40 — CHAT: PR #217 marketplace — logo MyCity tagliato su mobile.** Nicola: «Si vede metà del logo dentro la navbar» + screenshot. Causa verificata: testo logo con `flex-shrink` nel header mobile — restava visibile solo «My»; CAP e carrello comprimono la riga. AD fix su repo worker `marketplace/` (primo tentativo su clone sbagliato, corretto): logo+carrello `flex-shrink-0`, CAP centrato. **PR #217** (`25aa5aa`, tsc ok) in Da approvare — merge Nicola → Deploy Render (Manual Deploy se serve) → ricarica telefono (**MyCity** per intero a sinistra). Fonte: chat Nicola 19/7 19:40.
 
 > 💬 **19/7 19:28 — CHAT: «Ora come faccio a fare il redeploy di quelle due pr?» — un deploy Render, non re-merge.** Nicola chiede redeploy dopo #214+#215. AD verificato: **#214, #215 e #216** (fix build orders page) **già su `main` GitHub** (`aeef6a6`) — **non** serve rifare merge. Sito ancora vecchio finché Render non completa un build **verde**. Se Auto-Deploy non parte: Render → servizio mycity-marketplace → **Manual Deploy → Deploy latest commit** → attendi ~2–3 min → ricarica telefono (icona carrello). Fonte: chat Nicola 19/7 19:28.
 
