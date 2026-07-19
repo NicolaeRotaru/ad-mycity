@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-19 17:00** — Automatico: **46 aperte · 85 chiuse in archivio** (#fix-35-gravi duplicata archiviata).
+> 🧹 **Housekeeping 2026-07-19 18:20** — Automatico: **44 aperte · 87 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -41,19 +41,6 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 - **Colore:** 🔴 (pubblicazione IG/FB/gruppi — firma Nicola)
 - **Canale:** Gruppi FB locali + Instagram/Facebook @mycity.piacenza
 - **Reparto:** content-social
-
----
-
-### ✅ FATTO #abilita-mcp-supabase-chat — Allowlist MCP Supabase abilitata in chat · ✅ FATTO 2026-07-19 16:54
-
-**Contesto:** Nicola ha chiesto più volte (00:22, 14:20, 14:42, 16:45, 16:48) come abilitare MCP in chat. **19/7 16:54:** Nicola ha corretto il file; AD ha verificato con parser JSON — **JSON OK**, 9 voci MCP (Vercel×5 + Supabase marketplace×2 + Supabase memoria×2), trailing comma rimosso, ultima riga senza virgola.
-
-**Esito config:** ✅ completato da Nicola, validato da AD.
-
-**Verifica runtime pendente (prossima chat):** apri nuova chat → chiedi «quanti utenti ci sono?» — l'AD deve rispondere con il conteggio live dal DB (4 buyer attesi), non da STATO.md. Se fallisce: controllare env `SUPABASE_ACCESS_TOKEN` nel worker.
-
-- **Colore:** 🟡 → ✅ FATTO (config)
-- **Reparto:** @AD
 
 ---
 
@@ -150,16 +137,6 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 **PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/458 · branch `fix/archivio-sezioni-chiuse-default-v2`
 **Fix:** sezioni Archivio chiuse di default nella vista ricerca (`Documenti.tsx`) — accordion aggiunto anche nella ricerca, compatibile con le viste nuove di main.
 **Da fare:** mergia la PR dal Pannello quando vuoi.
-
----
-
-### ✅ FATTO #fix-35-gravi — 35 fix radiografia completati · ✅ FATTO 2026-07-19 17:00
-
-**Contesto:** 9 batch (35 fix radiografia 7/7). Conflitti risolti 18/7. Schema DB applicato 19/7 16:57 (110 adattata schema live).
-
-**Verifica merge:** Nicola «Controlla se la 213 è mangiata» — `origin/main` marketplace → commit `304fe07` «Merge pull request #213» (verificato 19/7 17:00).
-
-**Esito:** codice su main · DB allineato (109/110/111) · deploy Render automatico al prossimo build.
 
 ---
 
@@ -677,14 +654,6 @@ git stash pop
 
 ---
 
-### ✅ FATTO #fix-35-gravi — (card originale 11/7) · ✅ SUPERATA 2026-07-19 17:00
-
-**Richiesta originale (11/7):** risolvere i 35 problemi gravi della radiografia.
-
-**Esito:** completata — branch `fix/35-gravi-radiografia-2026-07-07`, PR #213 mergiata (`304fe07`), migrazioni 109/110/111 sul DB. Vedi card ✅ in cima alla coda.
-
----
-
 ### 🟡 #chip-chat-normale — Pusho il branch e apro la PR per i chip nella chat normale · ⏳ IN ATTESA · accodata 2026-07-10 18:00
 
 I chip delle skill rapide funzionano in «Parla con questa casella» ma **mancano nella chat normale** (la chat principale che usi adesso). Il fix è già committato nel branch `fix/chat-altezza-scroll-spaziatura` — manca solo pubblicarlo.
@@ -1101,7 +1070,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-19 16:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-19 18:20)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-19-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ---
@@ -1315,6 +1284,43 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-19 16:20 · 84 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-19 18:20 · 87 card totali
+
+### ✅ FATTO #abilita-mcp-supabase-chat — Allowlist MCP Supabase abilitata in chat · ✅ FATTO 2026-07-19 16:54
+
+**Contesto:** Nicola ha chiesto più volte (00:22, 14:20, 14:42, 16:45, 16:48) come abilitare MCP in chat. **19/7 16:54:** Nicola ha corretto il file; AD ha verificato con parser JSON — **JSON OK**, 9 voci MCP (Vercel×5 + Supabase marketplace×2 + Supabase memoria×2), trailing comma rimosso, ultima riga senza virgola.
+
+**Esito config:** ✅ completato da Nicola, validato da AD.
+
+**Verifica runtime pendente (prossima chat):** apri nuova chat → chiedi «quanti utenti ci sono?» — l'AD deve rispondere con il conteggio live dal DB (4 buyer attesi), non da STATO.md. Se fallisce: controllare env `SUPABASE_ACCESS_TOKEN` nel worker.
+
+- **Colore:** 🟡 → ✅ FATTO (config)
+- **Reparto:** @AD
+
+---
+
+### ✅ FATTO #fix-35-gravi — 35 fix radiografia completati · ✅ FATTO 2026-07-19 17:00
+
+**Contesto:** 9 batch (35 fix radiografia 7/7). Conflitti risolti 18/7. Schema DB applicato 19/7 16:57 (110 adattata schema live).
+
+**Verifica merge:** Nicola «Controlla se la 213 è mangiata» — `origin/main` marketplace → commit `304fe07` «Merge pull request #213» (verificato 19/7 17:00).
+
+**Esito:** codice su main · DB allineato (109/110/111) · deploy Render automatico al prossimo build.
+
+---
+
+### ✅ FATTO #fix-35-gravi — (card originale 11/7) · ✅ SUPERATA 2026-07-19 17:00
+
+**Richiesta originale (11/7):** risolvere i 35 problemi gravi della radiografia.
+
+**Esito:** completata — branch `fix/35-gravi-radiografia-2026-07-07`, PR #213 mergiata (`304fe07`), migrazioni 109/110/111 sul DB. Vedi card ✅ in cima alla coda.
+
+---
 
 ### ✅ #apri-pr-chat-sovrascrittura-v2 — FATTO 2026-07-18 — fix già su main, PR non necessaria
 
