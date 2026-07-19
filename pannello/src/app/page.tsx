@@ -95,6 +95,7 @@ import {
   Maximize2,
   Pin,
   CircleStop,
+  Radio,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -110,6 +111,7 @@ import NumeriArea from "@/components/aree/NumeriArea";
 import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
+import DirettaContenuti from "@/components/DirettaContenuti";
 import { vaultToIso } from "@/lib/format";
 import { hintInvioChat } from "@/lib/chat-input";
 import { avviaDettatura } from "@/lib/dettatura-vocale";
@@ -717,6 +719,7 @@ type Vista =
   | "operazioni"
   | "mondo"
   | "assistente"
+  | "contenuti"
   | "esplora"
   | "report"
   | "storico";
@@ -2475,6 +2478,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 {
                   gruppo: "Sistema",
                   voci: [
+                    { id: "contenuti", label: "Diretta contenuti", icon: <Radio size={15} /> },
                     { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
                     { id: "assistente", label: "Worker", icon: <Send size={15} /> },
                   ],
@@ -2536,6 +2540,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== AUTO-COSCIENZA ===================== */}
         {vista === "auto-coscienza" && <AutoCoscienzaArea />}
+
+        {/* ===================== DIRETTA CONTENUTI ===================== */}
+        {vista === "contenuti" && <DirettaContenuti />}
 
         {/* ===================== LAVORI DEL CERVELLO ===================== */}
         {vista === "lavori" && (
