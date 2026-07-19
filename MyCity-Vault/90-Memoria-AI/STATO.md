@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 23:23
-fonte: AD digitale (metabolizzazione chat Nicola 19/7 23:23)
+aggiornato: 2026-07-19 23:33
+fonte: AD digitale (metabolizzazione chat Nicola 19/7 23:33)
 ---
+
+> 💬 **19/7 ~23:33 — CHAT: «Dimmi altri 10 workflow diversi» — catalogo revenue n8n.** Nicola chiede **10 automazioni diverse** dal carrello abbandonato (L-333): primo ordine, post-consegna/recensione, cliente dormiente 2–4 sett., pagamento fallito, ordine pagato→avviso bottega, meteo pioggia Piacenza, referral 2° ordine, negozio fermo 7 gg, post approvato→FB/IG, scadenza bandi CCIAA. AD: lista concisa trigger→azione→stop; tutte pendono **webhook n8n** collegato; messaggi a clienti/negozi reali restano 🔴. **Prossimo:** Nicola sceglie quale disegnare per primo → JSON in repo. Fonte: chat Nicola 19/7 23:33.
 
 > ✅ **19/7 ~23:23 — CHAT: conflitto PR #480 risolto — catalogo già ok.** Nicola «C'è un conflitto» dopo autofill supervisione. AD: **252+242 prodotti già live** (18:38); conflitto solo su PR fix tool — stessa riga `AZIONI-IN-ATTESA.md` toccata da AD e giro successivo. Branch ripulito (solo fix `marketplace.mjs`, zero diario) → GitHub **mergeable**. «Failed to fetch» = chat bloccata durante fix, **non** errore catalogo. **Prossimo:** mergia **PR #480** dal Pannello per sbloccare autofill futuri. Fonte: chat Nicola 19/7 23:23.
 
