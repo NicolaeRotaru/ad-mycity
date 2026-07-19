@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 18:41",
+  "aggiornato": "2026-07-19 18:44",
+  "_nota_metabolizzazione_19_07_1844": "Chat 19/7 ~18:44: Nicola «Purtroppo ho mangiato la 214 prima della 215» + «A cosa serve la CI?». AD: ordine invertito ok; CI spiegata semplice; #215 ancora pendente. L-314 nuova; #196 FATTO; preferenza spiegazione-CI.",
   "_nota_metabolizzazione_19_07_1841": "Chat 19/7 ~18:40: Nicola «Prepara la pr» dopo diagnosi CI → AD PR #215 (715/715, migration 107 + mock Stripe), accoda #195+#196 merge order. L-313 nuova; L-311 evidenze++; preferenza prepara-pr-ci.",
   "_nota_metabolizzazione_19_07_1840": "Chat 19/7 ~18:38: Nicola casella Supervisione «Fai i 2 fix» → 252 condition nuovo + 242 unit pezzo live, REST 0 null, PR #480 bug tool. L-312 nuova; preferenza fai-i-2-fix; L-216 evidenze++.",
   "_nota_metabolizzazione_19_07_1838": "Chat 19/7 ~18:37: Nicola «Tu riesci a lavorare con CI?» + screenshot check PR #214. AD: sì; unit rossi pre-esistenti su main (migration 107 + mock Stripe, 13/715), E2E+integration ok, merge PR #214 ok. L-311 nuova; preferenza CI-capability.",
@@ -32,6 +33,28 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-314",
+      "testo": "**CI — «A cosa serve la CI?» + merge #214 prima di #215 ok (Nicola 19/7 ~18:44).** Dopo merge invertito («Purtroppo ho mangiato la 214 prima della 215»), Nicola chiede cos'è la CI. 5 perché: (1) Nicola non usa gergo DevOps — spiega collaudo automatico pre-deploy in italiano semplice (compila, test, E2E/integration, pallini GitHub); (2) CI becca errori prima del deploy Render; (3) rosso unit su main **non sempre blocca** merge feature se E2E/integration ok (L-311); (4) ordine consigliato #215→#214 era per CI verde prima del fix visivo, ma invertito **non danneggia** il fix carrello (#214 già live); (5) #215 resta da mergiare per 715/715 su main. Regola: «A cosa serve?» → metafora collaudo + cosa controlla + prossimo passo concreto; merge fuori ordine → rassicura + «mergia #215 quando puoi». Vedi L-311, L-313.",
+      "tag": [
+        "ci",
+        "github",
+        "pr-214",
+        "pr-215",
+        "merge-order",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@sdet",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 18:44",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-313",
       "testo": "**CI marketplace — «Prepara la pr» = eseguire PR fix unit su main (#215) (Nicola 19/7 ~18:40).** Dopo diagnosi L-311 (unit rossi pre-esistenti su main, non colpa PR feature), Nicola accetta la PR separata con «Prepara la pr». 5 perché: (1) standing-ask da L-311 — AD aveva offerto PR separata per CI verde; (2) «Prepara la pr» = via libera esplicita, non solo spiegazione; (3) cause confermate: migration n.107 duplicata + mock Stripe coupon incompleto → 13 fallimenti su 715; (4) fix verificato locale **715/715** verdi; (5) **PR #215** `fix/ci-unit-tests-green` — ordine merge **#215 prima di #214** (carrello navbar). Regola: quando offri PR CI su main e Nicola dice «prepara la pr» → esegui subito, rilancia suite, apri PR, accoda in Da approvare (#195) con ordine merge se c'è PR feature pendente (#214). Vedi L-311.",
@@ -7089,6 +7112,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**CI — «A cosa serve la CI?» = spiegazione semplice pre-deploy, non gergo (chat 19/7 ~18:44):** dopo merge fuori ordine (#214 prima #215), chiede il significato della CI — si aspetta metafora collaudo (compila+test+E2E), pallini GitHub, cosa fare dopo (#215 per verde su main); rassicurazione se ordine merge invertito. Vedi L-314.",
     "**CI — «Prepara la pr» dopo diagnosi = vuole PR fix eseguita e accodata (chat 19/7 ~18:40):** dopo «Tu riesci a lavorare con CI?» e offerta PR separata, «Prepara la pr» = via libera — si aspetta suite verde (715/715), **PR #215** in Da approvare, ordine merge **#215 poi #214**; non solo spiegazione delle cause. Vedi L-313, L-311.",
     "**Supervisione — «Fai i 2 fix» dalla casella = eseguire subito entrambi gli autofill (chat 19/7 ~18:38):** dalla casella Supervisione approva con frase breve i 2 gruppi proposti (condition + unit) — si aspetta esecuzione live immediata, numeri esatti (252+242), verifica REST, batch undo citati, caveat food se «pezzo» non va; se tool bloccato → PR fix + chiedi merge. Vedi L-312, L-216.",
     "**CI — vuole sapere se l'AD legge e sistema i check GitHub (chat 19/7 ~18:37):** «Tu riesci a lavorare con CI?» — si aspetta sì/no concreto + quali check passano/falliscono + se il rosso **blocca merge** o è debito pre-esistente su `main`; distingue «mergia lo stesso» vs «serve PR separata per CI verde». Vedi L-311.",

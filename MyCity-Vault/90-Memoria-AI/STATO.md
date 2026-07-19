@@ -1,16 +1,20 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 18:41
-fonte: AD digitale (chat Nicola 19/7 18:41)
+aggiornato: 2026-07-19 18:44
+fonte: AD digitale (chat Nicola 19/7 18:44)
 ---
 
-> 🟡 **19/7 18:40 — CHAT: PR #215 marketplace — unit test CI verdi (715/715).** Nicola «Prepara la pr» dopo diagnosi CI (L-311). AD: fix migration n.107 duplicata + mock Stripe coupon incompleto → **715/715 test verdi** in locale. **PR #215** branch `fix/ci-unit-tests-green` — merge pendente Nicola **prima** di **PR #214** (icona carrello mobile). Niente cambi visibili sul sito — solo test e ordine file migration. Fonte: chat Nicola 19/7 18:40.
+> 💬 **19/7 18:44 — CHAT: CI spiegata + merge #214 prima di #215 (ok).** Nicola: «Purtroppo ho mangiato la 214 prima della 215» poi «A cosa serve la CI?». AD: ordine invertito **non danneggia** il fix icona carrello (E2E/integration ok); **#215** resta utile da mergiare per CI unit verde su main (715/715). CI = collaudo automatico GitHub pre-deploy (compila, test, E2E). Fonte: chat Nicola 19/7 18:44.
+
+> ✅ **19/7 ~18:44 — FATTO: PR #214 marketplace mergiata (icona carrello mobile).** Nicola ha mergiato **#214 prima di #215** (ordine consigliato era invertito). Fix badge carrello navbar mobile live su main → deploy Render (~2–3 min) → ricarica sito da telefono. Fonte: chat Nicola 19/7 18:44.
+
+> 🟡 **19/7 18:40 — CHAT: PR #215 marketplace — unit test CI verdi (715/715).** Nicola «Prepara la pr» dopo diagnosi CI (L-311). AD: fix migration n.107 duplicata + mock Stripe coupon incompleto → **715/715 test verdi** in locale. **PR #215** branch `fix/ci-unit-tests-green` — merge pendente Nicola (consigliato **dopo** #214 già mergiata). Niente cambi visibili sul sito — solo test e ordine file migration. Fonte: chat Nicola 19/7 18:40.
 
 > ✅ **19/7 18:38 — FATTO: autofill supervisione — condizione + unità su catalogo live.** Nicola dalla casella Supervisione: «Fai i 2 fix». AD eseguito con `marketplace.mjs aggiorna` (AZIONI_LIVE): **252** prodotti `condition=nuovo` + **242** prodotti `unit=pezzo`, zero errori batch. Verifica REST post-run: **0** prodotti con `condition` null, **0** con `unit` null. Backup reversibile: batch `sup-2026-07-19-products-condition` / `sup-2026-07-19-products-unit`. ⚠️ frutta/salumeria/latticini: «pezzo» può essere sbagliato (kg/etto) — revisione manuale se segnalato. **PR #480** 🟡 (bug che bloccava lo strumento aggiornamento) — merge pendente Nicola. Fonte: chat Nicola 19/7 18:38.
 
 > ~~💬 **19/7 18:38 — CHAT: CI PR #214 — unit test rossi su main, merge ok.**~~ → **superato 18:40** (PR **#215** aperta, 715/715 verdi — merge #215 poi #214). Fonte: chat Nicola 19/7 18:37–18:40.
 
-> 🟡 **19/7 18:32 — CHAT: PR #214 marketplace — icone navbar mobile invisibili.** Nicola: «Dentro la navbar a destra non si vedono le icone» + screenshot — era **sito MyCity mobile** (non Pannello). Causa: badge contatore carrello (pallino giallo «3») posizionato sopra l'icona, che spariva del tutto; bottom nav (Home/Cerca/Carrello) ok. AD fix **PR #214** repo `NicolaeRotaru/mycity` branch `fix/mobile-navbar-cart-icon` — icona carrello visibile anche con prodotti in carrello non loggato. Merge pendente Nicola → deploy Render (~2–3 min) → ricarica da telefono. Fonte: chat Nicola 19/7 18:29–18:32.
+> ~~🟡 **19/7 18:32 — CHAT: PR #214 marketplace — icone navbar mobile invisibili.**~~ → **superato ~18:44** (PR **#214** mergiata da Nicola). Fonte: chat Nicola 19/7 18:29–18:44.
 
 > 🟡 **19/7 18:27 — CHAT: PR #479 — «Parla con questa casella» su Diretta contenuti.** Nicola: «Aggiungi la possibilità di parlare con queste caselle» + screenshot tab Diretta (post/supervisione/bozze). AD: pulsante chat sotto ogni scheda — stesso pattern Avvisi/Ritmo; AD riceve titolo, estratto, reparto e testo completo se apri la scheda; conversazione in Conversazioni. **PR #479** (`1b9cd7c9`, typecheck OK). Merge pendente Nicola → ricarica tab **Diretta contenuti**. Fonte: chat Nicola 19/7 18:27.
 
