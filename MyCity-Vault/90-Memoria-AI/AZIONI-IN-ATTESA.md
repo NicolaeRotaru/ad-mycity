@@ -44,11 +44,13 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #abilita-mcp-supabase-chat — Aggiungi MCP Supabase all'allowlist così l'AD vede i dati live dalla chat · ⏳ accodata 2026-07-19 00:22 · richiamata 14:20
+### 🟡 #abilita-mcp-supabase-chat — Aggiungi MCP Supabase all'allowlist così l'AD vede i dati live dalla chat · ⏳ accodata 2026-07-19 00:22 · richiamata 14:42
 
-**Contesto:** Nicola ha chiesto due volte (00:22 e 14:20) come abilitare MCP Supabase in chat — l'AD non riusciva a interrogare il DB (né `node` né MCP) e aveva scritto «23 iscritti» in EXP-001 senza verifica live (corretto a 4 da Nicola). Il tool MCP non è nell'allowlist di `.claude/settings.local.json` sul VPS — il box di permesso non compare mai dalla chat del Pannello.
+**Contesto:** Nicola ha chiesto tre volte (00:22, 14:20, 14:42) come abilitare MCP Supabase in chat — l'AD non riusciva a interrogare il DB (né `node` né MCP) e aveva scritto «23 iscritti» in EXP-001 senza verifica live (corretto a 4 da Nicola). Il tool MCP non è nell'allowlist di `.claude/settings.local.json` sul VPS — il box di permesso non compare mai dalla chat del Pannello. **19/7 14:42:** validazione AD → il file è anche **JSON invalido** (virgola mancante dopo voce Vercel `get_project`, riga ~32) → l'intera allowlist può essere ignorata finché non si corregge.
 
-**Cosa fare:** Dal terminale VPS aprire `nano /opt/mycity/ad-mycity/.claude/settings.local.json` e aggiungere nell'array `allowedTools` (prima della `]`):
+**Cosa fare:** Dal terminale VPS aprire `nano /opt/mycity/ad-mycity/.claude/settings.local.json` e:
+1. **Prima:** dopo `"mcp__claude_ai_Vercel__get_project"` (o l'ultima voce Vercel) aggiungere la **virgola** mancante — senza JSON valido nulla funziona.
+2. Poi aggiungere nell'array `allowedTools` (prima della `]`):
 ```
 "mcp__supabase-marketplace__execute_sql",
 "mcp__supabase-marketplace__list_tables",

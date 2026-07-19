@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 14:33
-fonte: AD digitale (chat Nicola 19/7 14:33)
+aggiornato: 2026-07-19 14:42
+fonte: AD digitale (chat Nicola 19/7 14:42)
 ---
+
+> 💬 **19/7 14:42 — CHAT: inventario MCP + blocco JSON allowlist.** Nicola: «Ci sono altri mcp che ti servono?» — AD: **no altri MCP urgenti** (priorità Supabase marketplace; supabase-memoria opzionale; Vercel già in allowlist; Stripe/PostHog/n8n via REST, non MCP). **Blocco scoperto:** `settings.local.json` JSON **INVALIDO** (virgola mancante dopo voce Vercel `get_project`, riga ~32, pos ~991) → l'intera allowlist può essere ignorata anche se le voci Supabase sono incollate. Fix JSON **prima** di aggiungere MCP Supabase + nuova chat. Fonte: chat Nicola 19/7 14:42.
 
 > 💬 **19/7 14:33 — CHAT: «Quanti utenti ci sono?» — verificato DB live.** **4 clienti iscritti** (`profiles?role=eq.buyer`, REST 14:33). Totale account marketplace: **23** (4 buyer · 17 seller · 1 admin · 1 rider). Il vecchio «23 clienti» in memoria contava tutti i profili, non i buyer. 0 ordini pagati; ultimo ordine 24/6. Fonte: REST live 19/7 14:33.
 

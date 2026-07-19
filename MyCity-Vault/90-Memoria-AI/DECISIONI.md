@@ -3,6 +3,10 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 14:42 · 🟡 · [Fix JSON settings.local.json prima di allowlist Supabase MCP] · **Validazione AD durante «Ci sono altri mcp?»:** il file `.claude/settings.local.json` sul VPS è JSON invalido (pos ~991, riga ~32) — manca virgola dopo l'ultima voce Vercel `get_project`. Finché il JSON non parsea, l'intera allowlist può essere ignorata anche con voci Supabase già incollate. Sequenza: ① correggere virgola ② aggiungere voci Supabase marketplace ③ nuova chat per verificare. Card #abilita-mcp-supabase-chat aggiornata.
+
+2026-07-19 14:42 · 🟢 · [Inventario MCP — nessun altro urgente oltre Supabase marketplace] · **Nicola: «Ci sono altri mcp che ti servono?»** AD ha confermato inventario reale: `.mcp.json` = supabase-marketplace + supabase-memoria (read-only); Vercel MCP già in allowlist (stato deploy); Stripe/PostHog/n8n coperti via REST/cervello — **non servono MCP aggiuntivi adesso**. Priorità operativa: sbloccare Supabase marketplace in chat, non espandere l'ecosistema MCP.
+
 2026-07-19 14:20 · 🟡 · [Nicola chiede righe allowlist MCP Supabase — istruzioni consegnate, pendente esecuzione] · **Nicola: «Cosa devo inserire nell'allowlist per farti avere mcp di supabase?»** AD ha fornito le 2 voci obbligatorie (`mcp__supabase-marketplace__execute_sql`, `mcp__supabase-marketplace__list_tables`) + opzionali memoria. L'AD non può modificare `.claude/` dalla chat. Dopo salvataggio Nicola deve aprire nuova chat per verificare («quanti utenti ci sono?»). Card #abilita-mcp-supabase-chat resta in coda finché non confermato a runtime.
 
 2026-07-19 14:05 · 🟢 · [PR #474 mergiata — #473 chiusa come doppione] · **Nicola: «Non ho mergiato la 473 perché mi sembra uguale alla 474».** AD ha confermato: stessa fix n8n/sentinella M2 aperta due volte per errore (sessioni parallele). #474 (con test) mergiata alle 13:59 — fix già su main. #473 = doppione da chiudere senza merge. Nicola ha fatto bene a confrontare prima di approvare.

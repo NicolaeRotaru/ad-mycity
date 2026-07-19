@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-19 14:42 · metabolizzazione chat «Ci sono altri mcp?» · atteso: lezioni MCP inventario + blocco JSON allowlist · reale: L-286+L-287, STATO/DECISIONI/AZIONI/LEZIONI-CHAT aggiornati · #metabolizzazione #mcp #allowlist
 - 2026-07-19 14:21 · Giro 19/7 14:20 north-star AR-111 · focus:5 coerenza:5 numeri:5 azioni:5 memoria:5 delivery:5 · atteso ordine test PQ oggi → reale in attesa Nicola · #north-star
 - 2026-07-19 14:20 · metabolizzazione chat sessione 19/7 pomeriggio · atteso: estrarre lezioni MCP allowlist + consolidare correzioni già note (4 iscritti, PR #467, cadenze venerdì) · reale: L-285 nuova, L-279 evidenze 3, preferenza MCP aggiunta; resto già in memoria · #metabolizzazione
 - 2026-07-19 13:07 · Giro 19/7 13:10 — north star focus · grounding:5 numeri:5 semaforo:5 qualita:4 freschezza:5 benchmark:4 · atteso 1 ordine pagato entro 20/7 → reale 0 (stallo invariato) · #north-star
