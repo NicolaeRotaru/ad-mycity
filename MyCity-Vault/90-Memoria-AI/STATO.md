@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 16:42
-fonte: AD digitale (chat Nicola 19/7 16:42)
+aggiornato: 2026-07-19 16:44
+fonte: AD digitale (chat Nicola 19/7 16:44)
 ---
+
+> 💬 **19/7 16:44 — CHAT: Nicola «C'era quello di vercel» + trailing comma allowlist.** L'AD aveva elencato solo Supabase — Nicola ricorda che Vercel (5 righe deploy) era già in allowlist e va **lasciato**; Supabase si **aggiunge dopo**. Verificato: `settings.local.json` JSON invalido per **virgola di troppo** sull'ultima riga (`Illegal trailing comma` riga 33) → nessun permesso attivo finché non si corregge. Sequenza: Vercel + Supabase, ultima riga senza virgola → salva → nuova chat → «quanti utenti?». Fonte: chat Nicola 19/7 16:44.
 
 > 💬 **19/7 16:42 — CHAT: Nicola chiede perché pezzo chat MCP «sparito».** Aveva già chiesto righe allowlist Supabase (~14:20); il segmento non compare più — probabile interruzione sessione (limite AI settimanale, reset 23/7 ore 11:00) prima del salvataggio. AD ha rispiegato meccanismo + rimesse istruzioni MCP (2 voci `supabase-marketplace`). Fix strutturale chat: PR #446 ancora da mergiare. Fonte: chat Nicola 19/7 16:42.
 

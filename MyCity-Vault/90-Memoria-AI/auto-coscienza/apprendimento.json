@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 16:42",
+  "aggiornato": "2026-07-19 16:44",
   "_nota_giro_19_07_1448": "Giro 19/7 14:48 north-star AR-111: business invariato (REST ri-conferma 4 buyer, 0 pagati). Vincolo rispettato — zero azioni macchina. Rinforzo: con stallo ~604h, ogni giro ripete la stessa triade ordine test + PI26 + post clienti finché North Star non si muove.",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
@@ -17,6 +17,28 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-290",
+      "testo": "**Allowlist MCP — Vercel resta, Supabase si aggiunge DOPO (Nicola 19/7 ~16:44).** «C'era quello di vercel» — l'AD aveva elencato solo le 2 righe Supabase, omettendo che le 5 voci Vercel erano già presenti e vanno lasciate. 5 perché: (1) Nicola ricorda ciò che ha già configurato; (2) omettere Vercel fa pensare di sostituirlo; (3) Vercel = deploy/stato sito, Supabase = dati DB — servono entrambi; (4) istruzioni allowlist devono mostrare il blocco COMPLETO finale; (5) correlato: trailing comma sull'ultima riga rompe tutto il JSON (verificato `Illegal trailing comma` riga 33). Regola: quando spieghi allowlist MCP Supabase, mostra sempre «5 Vercel + 2 Supabase», virgola tra le righe ma MAI dopo l'ultima.",
+      "tag": [
+        "allowlist",
+        "vercel",
+        "supabase",
+        "mcp",
+        "json",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 16:44",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-289",
       "testo": "**Pezzo di chat «sparito» = sessione interrotta prima del salvataggio (Nicola 19/7 ~16:42).** Nicola: «Ti avevo chiesto qual mcp servono, perché è sparito questo pezzo della chat?» — aveva già ricevuto le istruzioni allowlist MCP (~14:20) ma il segmento non compare più. 5 perché: (1) limite settimanale AI o worker fermato a metà risposta → messaggio non salvato; (2) non è l'AD che cancella; (3) nuova chat mostra spesso solo l'ultimo pezzo; (4) istruzioni operative critiche vanno **riproposte integralmente** quando Nicola chiede «dov'è finito?»; (5) fix strutturale parziale in PR #446 (cross-device), non copre interruzione mid-turno. Regola: diagnosi onesta + re-consegna immediata del contenuto perso.",
@@ -86,7 +108,7 @@
     },
     {
       "id": "L-2026-0719-286",
-      "testo": "**settings.local.json JSON invalido → l'intera allowlist viene ignorata (19/7 14:42).** Durante «Ci sono altri mcp?» l'AD valida il file e trova JSON INVALID (pos ~991, riga ~32): manca virgola dopo l'ultima voce Vercel `get_project`. Anche voci Supabase MCP incollate non applicano finché il JSON non parsea. 5 perché: (1) parser JSON all-or-nothing; (2) pattern già visto 18/7 su virgola git-pr.mjs; (3) sintomo = permessi «già presenti» ma tool bloccati; (4) Nicola aggiunge voci ma nulla cambia → controllare validità PRIMA; (5) dopo fix serve nuova chat. Regola: quando allowlist/MCP «non sblocca», validare che settings.local.json sia JSON valido — non solo cercare voci mancanti. Vedi #abilita-mcp-supabase-chat.",
+      "testo": "**settings.local.json JSON invalido → l'intera allowlist viene ignorata (19/7 14:42, confermato 16:44).** Due errori virgola osservati sullo stesso file mentre Nicola aggiunge MCP: (a) 14:42 — virgola **mancante** tra voci (dopo Vercel `get_project`); (b) 16:44 — **trailing comma** sull'ultima riga Supabase (`Illegal trailing comma` riga 33). Entrambi invalidano il JSON → nessun permesso attivo (né Vercel né Supabase). 5 perché: (1) parser JSON all-or-nothing; (2) pattern già visto 18/7 su virgola git-pr.mjs; (3) sintomo = permessi «già presenti» ma tool bloccati; (4) Nicola aggiunge voci ma nulla cambia → validare JSON PRIMA; (5) dopo fix serve nuova chat. Regola: virgola TRA le righe, MAI dopo l'ultima. Vedi #abilita-mcp-supabase-chat, L-290.",
       "tag": [
         "allowlist",
         "json-invalido",
@@ -95,15 +117,16 @@
         "mcp",
         "supabase",
         "nicola",
-        "correzione"
+        "correzione",
+        "trailing-comma"
       ],
       "reparto": "@AD",
-      "confidenza": 0.96,
-      "evidenze": 1,
+      "confidenza": 0.97,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 14:42",
+      "ultima_conferma": "2026-07-19 16:44",
       "stato": "attiva",
       "usi": []
     },
@@ -6761,16 +6784,17 @@
     "**Chip skill rapide nel Pannello (chat 10/7):** approva i chip delle skill rapide aggiunti in ParlaCasella e ChatCasella — 8 chip (🔄 Giro, 🔁 Loop, ✅ Verifica, 📋 Audit, 🔬 Radiografia, 🔍 Ricerca, 🛡️ Sicurezza, 📅 Pianifica) visibili sopra la textarea solo quando la bozza è vuota, che si nascondono appena inizi a scrivere. Ha esplicitato che **la chat della casella e la chat dell'Archivio devono essere la stessa cosa** dal punto di vista dell'utente — stessa UX, stessi chip, stesso comportamento. La distinzione tecnica interna (come salvano la conversazione) è accettata purché invisibile a lui.",
     "**Pitch a botteghe: nessun bando come leva (chat 11/7):** Nicola ha scartato definitivamente il bando FESR ER Commercio 2026 dal pitch del 13/7 — «non userò questo bando ER». Preferenza di standing: nel pitch di acquisizione negozi, NON appoggiare la proposta su bandi istituzionali — usare argomenti di business immediati: calo del retail (es. −6,6% presenze), stagionalità che svuota il centro in estate, perdita di clienti che non ordinano online. Un bando può essere citato SOLO se è aperto, confermato, con scadenza comoda e Nicola lo richiede esplicitamente; altrimenti è rumore burocratico che distrae dal pitch.",
     "**Chat Pannello: nuova pagina = nuova chat (chat 11/7):** Nicola NON vuole che riaprendo il Pannello ritrovi l'ultima conversazione — «voglio solo che quando chiudo la pagina del pannello e quando la riapro riparte con la pagina nuova». La chat corrente va bene durante la sessione di lavoro attiva; è la persistenza CROSS-RELOAD che non vuole. Corollario di design: la chat del Pannello deve essere session-scoped (si resetta alla chiusura/ricarica della tab), NON persistent-scoped (non ripristinare la conversazione al prossimo caricamento). Il salvataggio nella tabella `conversazioni` è corretto per la sync desktop↔telefono, ma l'auto-ripristino all'apertura va disabilitato. Vedi [[chat-sessione-e-sync]].",
+    "**Allowlist MCP — mostra sempre Vercel + Supabase insieme (chat 19/7 16:44):** «C'era quello di vercel» quando l'AD elencava solo le righe Supabase — si aspetta di vedere il blocco completo (5 Vercel già presenti + 2 Supabase da aggiungere), non istruzioni che sembrano sostituire ciò che ha già configurato. Spiegare anche la regola virgola: tra le righe sì, mai trailing comma sull'ultima.",
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 305,
+    "lezioni_attive": 306,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.25,
-    "tasso_calcolato_il": "2026-07-19 16:34",
+    "tasso_calcolato_il": "2026-07-19 16:44",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 16:34",
+    "tick_leggero_il": "2026-07-19 16:44",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

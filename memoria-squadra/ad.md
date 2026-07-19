@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-19 16:44 · metabolizzazione chat «C'era quello di vercel» + trailing comma · atteso: lezione allowlist Vercel+Supabase + aggiornamento L-286 · reale: L-290, L-286 evidenze 2, preferenza, LEZIONI-CHAT/STATO/DECISIONI · #metabolizzazione #allowlist #mcp
 - 2026-07-19 16:42 · metabolizzazione chat «pezzo sparito» MCP allowlist · atteso: lezione persistenza chat + STATO · reale: L-289, preferenza chat, LEZIONI-CHAT/STATO aggiornati · #metabolizzazione #chat #mcp
 - 2026-07-19 14:48 · Giro 19/7 14:48 north-star · coerenza:5 completezza:5 verita:5 utilita:5 azione:5 benchmark:5 · atteso Briefing+STATO+auto-analisi aggiornati senza numeri inventati → reale Business invariato REST 14:48 · #north-star
 - 2026-07-19 14:42 · metabolizzazione chat «Ci sono altri mcp?» · atteso: lezioni MCP inventario + blocco JSON allowlist · reale: L-286+L-287, STATO/DECISIONI/AZIONI/LEZIONI-CHAT aggiornati · #metabolizzazione #mcp #allowlist
