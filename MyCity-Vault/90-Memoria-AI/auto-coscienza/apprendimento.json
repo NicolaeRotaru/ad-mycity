@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 00:33",
+  "aggiornato": "2026-07-20 00:34",
+  "_nota_metabolizzazione_20_07_0034": "Chat 20/7 ~00:34: Nicola «perché due fix non combaciano?» — sync elenco e auto-apertura sono pezzi separati, combinazione sync-sì/auto-no. L-340 nuova; L-339 evidenze++; preferenza due-fix-separati; STATO+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0032": "Chat 20/7 ~00:32: Nicola «l'ho tolta oggi, controlla main» — auto-apertura rimossa su live (bug «+»), repo main ancora presente; tenere sync elenco. L-339 nuova; L-299 evidenze++; preferenza no-auto-apertura-si-sync; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0029": "Chat 20/7 ~00:29: Nicola «perché desktop non vede chat mobile? dimmi cosa hai capito» — sync parziale elenco DB vs chat aperta locale, footer diagnostico, bug persiste post-fix. L-338 nuova; L-108+L-301 evidenze++; preferenza chat-sync-dimmi-capito; STATO+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_19_07_2336": "Chat 19/7 ~23:36: Nicola «Com'è fatto un workflow molto complesso e molto grande?» — anatomia 7 blocchi (trigger→filtro→rami→attese→azioni→errori→chiusura), non conteggio nodi. L-337 nuova; preferenza workflow-anatomia; STATO+LEZIONI-CHAT+builder aggiornati.",
@@ -59,6 +60,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-340",
+      "testo": "**«Perché due fix non combaciano?» = sync elenco e auto-apertura sono pezzi separati, non bundle (Nicola 20/7 ~00:34).** Dopo correzione auto-apertura tolta (L-339), Nicola chiede perché non riesce a combinare i fix chat. 5 perché: (1) li ha vissi come **un unico pacchetto** cross-device (#446, #475) — sembrano inseparabili; (2) **sync elenco** aggiorna solo la *lista* nel cassetto (poll ~8s DB), non la chat aperta; (3) **auto-apertura** agisce sulla *chat vuota* (riapre ultima) — stessa condizione del bug «+»; (4) effetti **opposti** sulla chat vuota → sembrano incompatibili ma nel codice sono **blocchi indipendenti**; (5) rollback live può aver tolto auto-apertura **e per sbaglio** anche sync se fatto deploy parziale. Regola: «perché non combaciano?» → spiegare 2 pezzi + combinazione sync-sì/auto-no + verificare footer «database»; **mai** bundlare in un solo fix; PR solo rimozione auto-apertura. Vedi L-339, L-338, L-299.",
+      "tag": [
+        "pannello",
+        "chat",
+        "sync",
+        "auto-open",
+        "nicola",
+        "correzione",
+        "caso-studio"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 00:34",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-339",
       "testo": "**Auto-apertura chat — Nicola rimossa su live oggi, repo main ancora presente; sync elenco resta (Nicola 20/7 ~00:32).** Dopo spiegazione sync desktop/mobile (L-338), Nicola corregge: **auto-apertura l'ha tolta oggi** sul Pannello live perché crea bug «+» (chat vecchia rientra). 5 perché: (1) Nicola distingue **due fix** — sync elenco ok, auto-apertura no; (2) AD aveva descritto entrambi come «fix su main» senza chiedere se live=repo; (3) verifica repo: auto-apertura **ancora in codice main** (ultima mod 19/7), nessun commit rimozione oggi; (4) live Panel può essere **avanti** (rollback Vercel) o **indietro** (deploy vecchio) vs repo — prossimo deploy può **reintrodurre** auto-apertura se non PR; (5) stessa radice L-299/PR #475 — timer auto-open annulla «+». Regola: quando Nicola dice «l'ho tolta» → verificare **repo E live**; PR **solo** rimozione auto-apertura, **mai** togliere sync elenco insieme; se chiede «controlla main» = diff codice ufficiale, non assumere live=main. Vedi L-299, L-338, PR #475.",
       "tag": [
@@ -74,11 +97,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.96,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 00:32",
+      "ultima_conferma": "2026-07-20 00:34",
       "stato": "attiva",
       "usi": []
     },
@@ -7696,6 +7719,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Chat — «perché due fix non combaciano?» = spiegare pezzi separati sync vs auto-apertura (chat 20/7 ~00:34):** dopo aver tolto auto-apertura su live, chiede perché non riesce a tenere entrambi i fix — si aspetta chiarimento che **sync elenco** (lista cassetto PC↔telefono) e **auto-apertura** (riapre ultima su chat vuota) sono **codice indipendente**, non bundle; combinazione giusta: sync sì, auto-apertura no; apri dal cassetto; se rollback live verificare che sync non sia sparito (footer «database»). Vedi L-340, L-339.",
     "**Chat auto-apertura — tolta oggi su live, sync elenco resta (chat 20/7 ~00:32):** corregge AD che descriveva «fix su main» — **auto-apertura l'ha rimossa oggi** sul Pannello live perché bug «+» (chat vecchia); vuole **sync elenco** intatto (poll ~8s, stesso cassetto PC↔telefono); si aspetta verifica **repo main** (AD trova auto-apertura ancora presente → PR solo rimozione, altrimenti deploy la rimbalza). Non bundlare i due fix. Vedi L-339, L-299, L-338.",
     "**Chat sync desktop/mobile — «dimmi cosa hai capito» = meccanismo prima del fix (chat 20/7 ~00:29):** chiede perché sul PC non vede conversazioni del telefono — si aspetta che l'AD spieghi **cosa ha capito** del meccanismo (elenco DB poll ~8s vs chat aperta locale, footer database/dispositivo, non WhatsApp realtime), **prima** di promettere altro fix; se bug persiste dopo #316+#328+#446+#475 → verificare deploy Vercel + chiedere footer su entrambi i device. Vedi L-338, L-108, L-301.",
     "**Workflow n8n — «Com'è fatto un workflow complesso/grande?» = anatomia 7 blocchi + esempio (chat 19/7 ~23:36):** chiede **struttura** di un workflow grosso — si aspetta scheletro architetturale riusabile (trigger→filtro→rami→attese→azioni→errori→chiusura) con esempio concreto (carrello abbandonato); **non** «tanti nodi a caso» né altro catalogo idee; base per disegnare JSON quando sceglie un flusso dal catalogo. Vedi L-337, L-333.",

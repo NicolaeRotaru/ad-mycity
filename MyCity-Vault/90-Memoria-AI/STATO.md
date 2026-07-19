@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 00:32
+aggiornato: 2026-07-20 00:34
 fonte: AD digitale (sentinella cassa_sconosciuta + negozio_fermo)
 ---
+
+> 💬 **20/7 ~00:34 — CHAT: «Perché due fix non combaciano?» — sync e auto-apertura sono separati.** Nicola chiede perché non riesce a combinare i fix chat cross-device. AD: **sync elenco** (lista cassetto poll ~8s, PC↔telefono) e **auto-apertura** (riapre ultima chat se vuota) sono **due pezzi di codice indipendenti** con effetti opposti sulla chat vuota — non un bundle «o tutto o niente». **Combinazione corretta:** sync sì, auto-apertura no; sul desktop apri la conversazione dal cassetto, «+» resta pulito. Se rollback live ha tolto auto-apertura, verificare che sync elenco non sia sparito per errore. **Prossimo:** PR solo rimozione auto-apertura (pendente ok Nicola). Fonte: chat Nicola 20/7 00:34.
 
 > 💬 **20/7 ~00:32 — CHAT: auto-apertura — Nicola tolta su live, repo main ancora presente.** Nicola corregge AD: **auto-apertura l'ha rimossa oggi** sul Pannello live perché crea bug «+» (chat vecchia che rientra). AD verifica **su `main` repo auto-apertura c'è ancora** (ultima mod chat 19/7, nessun revert oggi) — **sync elenco** (poll ~8s) resta voluto. **Divergenza live≠repo:** rollback Vercel o modifica fuori repo; prossimo deploy Pannello può **reintrodurre** auto-apertura. **Strada concordata:** PR che **rimuove solo auto-apertura**, sync elenco intatto (pendente ok Nicola). Fonte: chat Nicola 20/7 00:32.
 
