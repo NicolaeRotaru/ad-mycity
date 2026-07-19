@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 19:41",
+  "aggiornato": "2026-07-19 19:43",
+  "_nota_metabolizzazione_19_07_1943": "Chat 19/7 ~19:43: Nicola «Come faccio a farti pubblicare su IG/FB?» — AD percorso n8n vs Meta diretto, publisher in repo, N8N_WEBHOOK segnaposto, card 🔴 anche collegato. L-321 nuova; L-0630-06 evidenze++; preferenza collegare-mano-social; STATO+LEZIONI-CHAT+content-social+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1941": "Chat 19/7 ~19:41: Nicola casella post domenica PQ «Questo è tutto che puoi fare?» — AD confini 4 blocchi (pronto/rifaccio 🟢/pub 🔴/stasera). L-320 nuova; preferenza limiti-contenuto; STATO+LEZIONI-CHAT+content-social aggiornati.",
   "_nota_metabolizzazione_19_07_1940": "Chat 19/7 ~19:40: Nicola «Si vede metà del logo dentro la navbar» + screenshot. AD PR #217 mycity (flex-shrink logo), primo fix clone sbagliato corretto su marketplace worker. L-319 nuova; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+tech aggiornati.",
   "_nota_metabolizzazione_19_07_1928": "Chat 19/7 ~19:27: Nicola «Ora come faccio a fare il redeploy di quelle due pr?» — AD: #214+#215+#216 già su main, non re-merge; Manual Deploy Render. L-318 nuova; #195+#197 FATTO; STATO+LEZIONI-CHAT aggiornati.",
@@ -39,6 +40,30 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-321",
+      "testo": "**Pubblicazione FB/IG — «Come faccio a farti pubblicare?» = n8n + card 🔴 (Nicola 19/7 ~19:43).** Segue L-320 sulla casella post domenica PQ: Nicola chiede come collegare la mano social, non solo copia-incolla. 5 perché: (1) publisher già in `cervello/publishers/` + guida `collega-le-mani.md` — blocco = chiavi Meta, non codice; (2) **`N8N_WEBHOOK_URL` sul VPS oggi segnaposto** — n8n non riceve nulla; (3) percorso consigliato **n8n** (OAuth Meta una volta nel workflow, webhook in env worker **mai in chat**) vs Meta diretto (Business Verification, giorni/settimane); (4) **Instagram API richiede URL immagine pubblico** — grafiche in repo/Diretta non bastano finché non c'è URL live per l'API; (5) anche mano collegata: post pagina FB + feed IG restano **🟡/🔴** (card Pannello); **gruppi FB locali sempre manuali**. Regola: rispondere con checklist n8n (install → workflow webhook → OAuth → env worker → restart → dry-run → card); non promettere auto-pub stasera se setup non fatto. Vedi L-320, L-2026-0630-06.",
+      "tag": [
+        "pubblicazione",
+        "instagram",
+        "facebook",
+        "n8n",
+        "meta",
+        "mani",
+        "content-social",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 19:43",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-320",
       "testo": "**Contenuti — «Questo è tutto che puoi fare?» = 4 blocchi + percorso stasera (Nicola 19/7 ~19:41).** Casella post domenica PQ in Diretta: Nicola chiede se il pacchetto è tutto ciò che l'AD può fare — segnale che vuole **confini chiari** e massimo valore reversibile, non solo «è in coda». 5 perché: (1) standing-ask pubblicazione 🔴 — finché manca la mano FB/IG, il tap resta suo; (2) il pacchetto può essere **completo** (copy+grafiche+storia) e comunque mancare l'ultimo metro pubblicazione; (3) Nicola interpreta «pronto» come «pubblica tu» se non separi esplicitamente; (4) vuole sapere cosa l'AD rifà ancora (caption, tono, varianti) senza chiedere «modifica X»; (5) **risposta:** (a) cosa c'è ORA in Diretta, (b) cosa rifaccio 🟢 su richiesta, (c) cosa solo lui 🔴 + card `#post-domenica-settimana-1907`, (d) percorso più veloce stasera (download immagini + copia-incolla + timing entro 21). Regola: non promettere auto-pubblicazione; offrire riepilogo copia-incolla se dice «ok pubblica». Vedi L-300, L-302, L-303.",
@@ -6920,21 +6945,23 @@
     },
     {
       "id": "L-2026-0630-06",
-      "testo": "Con ~20 azioni approvate e 0 inviate, la causa radice non è solo Meta/social: sul worker TUTTE le mani sono spente (Telegram, Resend, n8n, notifiche) e AZIONI_LIVE=0 (kill-switch voluto). Il starter pack minimo per la prima azione ✅ è Telegram + Resend + AZIONI_LIVE=1; i social (~16 post) servono Meta via n8n o API diretta; il marketplace write key sblocca notifiche/coupon. Alcune azioni approvate (#1-3, #9) non richiedono chiavi — sono passi umani o prodotto (link lista d'attesa). Quando Nicola chiede «quali mani ti servono?» **o «quali connessioni MCP ti mancano?»** (L-2026-0701-21), rispondere con tier concreti + cosa sblocca ciascuna, non solo elenco env.",
+      "testo": "Con ~20 azioni approvate e 0 inviate, la causa radice non è solo Meta/social: sul worker TUTTE le mani sono spente (Telegram, Resend, n8n, notifiche) e AZIONI_LIVE=0 (kill-switch voluto). Il starter pack minimo per la prima azione ✅ è Telegram + Resend + AZIONI_LIVE=1; i social (~16 post) servono Meta via n8n o API diretta; il marketplace write key sblocca notifiche/coupon. Alcune azioni approvate (#1-3, #9) non richiedono chiavi — sono passi umani o prodotto (link lista d'attesa). Quando Nicola chiede «quali mani ti servono?» **o «quali connessioni MCP ti mancano?»** (L-2026-0701-21) **o «Come faccio a farti pubblicare su IG/FB?»** (L-321), rispondere con tier concreti + cosa sblocca ciascuna, non solo elenco env. **ADDENDUM 19/7 19:43:** publisher social già in repo; blocco = `N8N_WEBHOOK_URL` segnaposto + OAuth Meta; percorso n8n consigliato.",
       "tag": [
         "mani",
         "builder",
         "azioni-live",
         "starter-pack",
         "nicola",
-        "mcp"
+        "mcp",
+        "n8n",
+        "social"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.82,
-      "evidenze": 2,
+      "confidenza": 0.85,
+      "evidenze": 3,
       "fonte": "chat",
       "nato": "2026-06-30",
-      "ultima_conferma": "2026-06-30",
+      "ultima_conferma": "2026-07-19 19:43",
       "stato": "attiva"
     },
     {
@@ -7255,6 +7282,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Pubblicazione social — «Come faccio a farti pubblicare su IG/FB?» = checklist operativa n8n (chat 19/7 ~19:43):** dopo aver capito i limiti (L-320), chiede **come collegare** la mano — si aspetta percorso concreto passo-passo (n8n consigliato vs Meta diretto), cosa va in env worker (non in chat), dry-run + card 🔴 anche collegato; gruppi FB manuali; per stasera resta copia-incolla se setup non fatto. Vedi L-321, L-320.",
     "**Contenuti — «Questo è tutto che puoi fare?» = confini operativi espliciti (chat 19/7 ~19:41):** sulla casella post pronto in Diretta chiede se basta — si aspetta risposta in **4 blocchi**: pacchetto completo ora, cosa l'AD rifà ancora 🟢, cosa resta solo suo 🔴 (pubblicazione social + card Pannello), percorso più veloce se vuole uscire stasera (download grafiche + copia-incolla); **non** interpretare come ok a pubblicare senza firma. Vedi L-320, L-300.",
     "**Logo navbar — «si vede metà del logo» = fix visivo immediato marketplace mobile (chat 19/7 ~19:40):** segnala logo tagliato in header — si aspetta causa concreta (flex-shrink), PR mycity pronta, merge Pannello + deploy Render; stessa giornata del fix carrello (#214) ma problema lato sinistro brand. Vedi L-319, L-310.",
     "**Redeploy — «come redeploy delle due PR?» = istruzioni Render concrete, non re-merge (chat 19/7 ~19:27):** dopo merge multipli (#214 carrello + #215 CI), chiede come portare online — si aspetta passi semplici: codice già su main, **Manual Deploy → Deploy latest commit** su Render se Auto-Deploy non parte, attendi verde, ricarica telefono; chiarire che NON serve rifare merge PR. Vedi L-318, L-315.",

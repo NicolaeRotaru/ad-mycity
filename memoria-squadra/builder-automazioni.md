@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 19:43 · Nicola «Come faccio a farti pubblicare su IG/FB?» · atteso: percorso concreto collegare mano Meta · reale: publisher in repo, n8n consigliato (webhook env worker), N8N_WEBHOOK segnaposto, IG richiede URL immagine pubblico, card 🔴 anche collegato · L-321 · #n8n #meta #pubblicazione
 - 2026-07-19 18:06 · File segreto worker — Nicola «ricordami come si entra» · atteso: path nano + riga Playwright · reale: `/opt/mycity/ad-mycity/cervello/vps/.env` consegnato; verifica 18:06 riga `PLAYWRIGHT_BROWSERS_PATH` ancora assente; resta `--prefix /opt/node22` + restart worker + test render · L-247 · #playwright #vps #env
 - 2026-07-19 17:39 · Playwright passo 3 parziale — Nicola «Fatto» · atteso: Playwright operativo · reale: Chromium ✅ `/opt/pw-browsers`; Playwright in `/usr/lib/node_modules/` (path sbagliato) → fix `--prefix /opt/node22` + env worker + test render · L-307 · #playwright #vps #npm-prefix
 - 2026-07-19 17:36 · Playwright setup passo 2 Node22 ✅ — Nicola «controlla se ho fatto tutto giusto» · atteso: verifica server + conferma · reale: `/opt/node22` v22.17.1 owner mycity ✅; passo 3 Playwright+Chromium consegnato · L-305 · #playwright #vps #termux

@@ -8,6 +8,7 @@ reparto: content-social
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 19:43 · Nicola «Come faccio a farti pubblicare su IG/FB?» · atteso: percorso concreto per collegare mano social · reale: publisher in repo, n8n consigliato vs Meta diretto, N8N_WEBHOOK segnaposto, IG serve URL immagine, gruppi FB manuali, card 🔴 anche collegato · L-321 · #pubblicazione #n8n #meta
 - 2026-07-19 19:41 · Nicola «Questo è tutto che puoi fare?» su casella post domenica PQ · atteso: confini chiari + cosa resta da fare · reale: 4 blocchi (pronto/rifaccio 🟢/pubblica 🔴/percorso stasera entro 21) · L-320 · #limiti-capacita #pubblicazione
 - 2026-07-19 18:20 · Nicola «scrivi il commit per vederli su diretta» · atteso: PNG Playwright visibili in tab Diretta · reale: PR #478 aggiorna frontmatter anteprima → PNG, merge pendente · L-308 · #diretta-contenuti #playwright
 - 2026-07-19 18:12 · Playwright operativo sul worker · atteso: PNG Content Factory puliti · reale: setup VPS completato (font+Node22+Playwright+env), render domenica 2 OK (~524KB feed + ~664KB storia) · L-305 · #playwright #content-factory
