@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 01:36",
+  "aggiornato": "2026-07-20 01:39",
+  "_nota_metabolizzazione_20_07_0139": "Chat 20/7 ~01:39: Nicola «ti avevo chiesto di bloccare la box icone/testo» — re-ask barra fissa post-#484. L-353 nuova (caso_studio_nicola); L-346 evidenze++ addendum re-ask; preferenza barra-fissa-gate-nicola; #202+#203+#204 FATTO (merge main); STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0136": "Chat 20/7 ~01:36: Nicola correzione «sidebar sì MA resta popup apri/chiudi con icona» — non pagina fissa. L-352 nuova (caso_studio_nicola); L-348 evidenze++ addendum popup; preferenza worker-popup-sidebar; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati; PR #486 in coda #204.",
   "_nota_metabolizzazione_20_07_0129": "Chat 20/7 ~01:29: Nicola «cos'altro posso inserire sul VPS?» — inventario stack + collegare mani vs altri programmi. L-351 nuova; preferenza vps-cosa-aggiungere; STATO+LEZIONI-CHAT+devops-sre+builder aggiornati.",
   "_nota_metabolizzazione_20_07_0125": "Chat 20/7 ~01:25: Nicola «ingrandisci apre altra chat» + chiarimento worker con menu sinistra. L-350 nuova; L-348 evidenze++; preferenza ingrandisci-workerFull; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati; PR #485 merge ancora #203.",
@@ -70,6 +71,30 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-353",
+      "testo": "**Worker chat — barra fissa: «ti avevo chiesto» = lui non la vede, gate come scroll (Nicola 20/7 ~01:39).** Ripete richiesta sticky input+icone dopo #484 — «ti avevo chiesto di bloccare la box…». 5 perché: (1) **re-ask** = stesso segnale di «non è cambiato nulla» (L-345) — per Nicola il bug **persiste**, non è promemoria educato; (2) #484 **mergiata** su main ma **repo ≠ Vercel live** + cache PWA → lui può vedere versione vecchia; (3) rispondere solo «c'è già sul codice» **senza** riconoscere la sua esperienza = errore processo (come L-350 «già mergiato»); (4) risposta giusta: verifica merge, hard refresh, chiedi device, prepara fix #2 se «ancora no»; (5) **gate obbligatorio:** chiudere barra fissa solo con ok Nicola (come scroll #483). Regola: re-ask fix UX Worker → trattare come bug aperto + deploy/cache prima di dichiarare fatto. Vedi L-346, L-345, PR #484.",
+      "tag": [
+        "pannello",
+        "chat",
+        "worker",
+        "sticky",
+        "input",
+        "nicola",
+        "correzione",
+        "deploy",
+        "gate"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.94,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 01:39",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-352",
       "testo": "**Worker chat — sidebar dentro riquadro MA resta POPUP apri/chiudi, NON pagina fissa (Nicola 20/7 ~01:36).** Correzione esplicita dopo #485: «non ti ho specificato che deve restare una finestra che si apre e si chiude, schiacciando l'apposita icona». 5 perché: (1) richiesta 01:06 copriva **layout** (lista conv integrata a sinistra) ma **non** il **contenitore** — AD ha esteso a pagina fissa `vista=assistente` quando voce menù «Worker» apriva schermo intero; (2) Nicola vuole **overlay popup** (icona basso-destra + voce menù → stessa finestra; **X** chiude; resti su Plancia/Azioni); (3) ingrandisci/riduci = **stessa** popup più grande/piccola, non cambio pagina; (4) sidebar sinistra + chat destra + barra sticky restano **dentro** il popup — compatibile con L-348/L-350; (5) errore processo = implementare metà requisito (sidebar) senza chiedere/confermare modalità contenitore quando si cambia entry point menù. Regola: Worker UX = **popup first** (apri/chiudi icona) + sidebar integrata; **mai** promuovere a pagina fissa senza ok esplicito. Fix PR #486 merge 🔴 #204. Vedi L-348, L-350, PR #485.",
@@ -209,7 +234,7 @@
     },
     {
       "id": "L-2026-0720-346",
-      "testo": "**Worker chat — barra scrittura+icone fissa in basso tipo WhatsApp (Nicola 20/7 ~00:55).** Dopo conferma scroll ok (#483), chiede «blocca/fissala la box dove scrivo e ci sono le icone… dimmi cosa hai capito». 5 perché: (1) pattern UX chat mobile = **input sempre visibile**, scorre solo lo storico messaggi — come WhatsApp/Telegram; (2) oggi scrollando chat lunghe la barra può uscire dall'inquadratura; (3) «dimmi cosa hai capito» = conferma comprensione **prima** del fix (L-333, L-338); (4) **non** toccare scroll menu (#483 appena confermato); (5) fix = layout flex: area messaggi scrollabile + barra `sticky`/`fixed` in fondo. PR #484 (`c9b996d5`). Punto (3) di L-263 (18/7) ora in PR dedicata. Regola: richiesta sticky input → spiegare meccanismo WhatsApp + PR separata dal filone scroll. Vedi L-263, PR #484.",
+      "testo": "**Worker chat — barra scrittura+icone fissa in basso tipo WhatsApp (Nicola 20/7 ~00:55).** Dopo conferma scroll ok (#483), chiede «blocca/fissala la box dove scrivo e ci sono le icone… dimmi cosa hai capito». 5 perché: (1) pattern UX chat mobile = **input sempre visibile**, scorre solo lo storico messaggi — come WhatsApp/Telegram; (2) oggi scrollando chat lunghe la barra può uscire dall'inquadratura; (3) «dimmi cosa hai capito» = conferma comprensione **prima** del fix (L-333, L-338); (4) **non** toccare scroll menu (#483 appena confermato); (5) fix = layout flex: area messaggi scrollabile + barra `sticky`/`fixed` in fondo. PR #484 (`c9b996d5`) **mergiata** main `65f8daa8`. **ADDENDUM 01:39:** Nicola «ti avevo chiesto di bloccarla» — re-ask: bug **aperto** finché non conferma ok post-deploy (L-353). Regola: richiesta sticky input → spiegare meccanismo WhatsApp + PR separata dal filone scroll + gate Nicola. Vedi L-353, L-263, PR #484.",
       "tag": [
         "pannello",
         "chat",
@@ -221,12 +246,12 @@
         "nicola"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.93,
-      "evidenze": 1,
+      "confidenza": 0.95,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 00:55",
+      "ultima_conferma": "2026-07-20 01:39",
       "stato": "attiva",
       "usi": []
     },
@@ -8006,13 +8031,14 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Worker chat — barra fissa: «ti avevo chiesto» = per lui non funziona ancora, gate obbligatorio (chat 20/7 ~01:39):** ripete richiesta sticky input+icone dopo #484 — **non** considerare chiuso finché non dice ok post-refresh; distingui merge main vs Vercel live; se «ancora no» → fix #2 come scroll. Vedi L-353, L-346, L-345.",
     "**Worker chat — sidebar dentro riquadro MA resta POPUP apri/chiudi (chat 20/7 ~01:36):** corregge dopo #485 — lista conv integrata a sinistra **sì**, ma la Worker deve restare **finestra overlay** (icona basso-destra o voce menù → apre; **X** chiude; ingrandisci = più grande, stessa finestra) — **non** pagina a tutto schermo del menù laterale. Fix PR #486 merge 🔴 #204. Vedi L-352, L-348.",
     "**VPS — «cos'altro posso inserire?» = risposta da inventario reale + prossimi collegamenti, non catalogo software (chat 20/7 ~01:29):** dopo setup n8n chiede cosa aggiungere sul server — si aspetta elenco **concreto di cosa c'è già** (worker, n8n, Playwright) e **cosa manca per sbloccare valore** (webhook, Telegram, chiavi env), con priorità chiara (Telegram = avvisi bloccati); **non** suggerimenti generici «installa X/Y/Z» né secondo cervello/container extra. Vedi L-351, L-347.",
     "**Worker chat — ingrandisci = stessa chat Worker con menu sinistra, non pagina Assistente (chat 20/7 ~01:25):** segnala che pulsante ingrandisci sulla chat flottante apre **altra schermata** — si aspetta la **stessa** chat Worker (conv aperta + lista conv integrata a sinistra nel riquadro), solo a schermo intero; **non** la voce Worker del menù laterale (layout vecchio). Fix PR #485 workerFull; merge 🔴 #203; hard refresh se cache. Vedi L-350, L-348.",
     "**Comandi worker — vuole percorso sicuro senza aprire Termux/cmd ogni volta (chat 20/7 ~01:17):** chiede come scrivere comandi sul worker **senza** aprire il terminale a ogni operazione — si aspetta gerarchia chiara: **chat Pannello = uso normale** (AD esegue); SSH solo casi rari con scorciatoia una tantum; tmux sessioni lunghe; n8n per ripetitivo; regola «serve SSH?» + controllo prompt server vs telefono; **non** shell web su internet. Vedi L-349, L-6832, L-324.",
     "**Worker chat — menu conversazioni integrato nel riquadro a sinistra, fluttuante+ingrandita (chat 20/7 ~01:06, agg. 01:36 popup):** chiede lista conv **dentro** il pannello chat (non cassetto esterno) — stesso layout quando ingrandisce; **01:36** aggiunge: resta **popup apri/chiudi**, non pagina fissa. PR #485+#486 merge pendenti (#203+#204). Vedi L-352, L-348, L-346.",
     "**n8n — «ricordami accesso» = promemoria URL browser + disambiguare server/worker/n8n (chat 20/7 ~00:57):** chiede come entrare in n8n («worker? server?») — si aspetta risposta **operativa immediata**: browser su VPS porta 5678 (non Pannello), chiarire che server=VPS · worker=cervello · n8n=Docker automazioni (stesso Hetzner), login admin setup, workflow già importato; pagina bianca → container spento, riavvio SSH server; **non** ripetere install/import/scp. Vedi L-347, L-344, L-247.",
-    "**Worker chat — barra scrittura fissa tipo WhatsApp (chat 20/7 ~00:55):** dopo scroll ok (#483), chiede casella input + icone **sempre incollate in basso** — scorre solo la conversazione, barra non esce dall'inquadratura; pattern «dimmi cosa hai capito» prima del fix; **non** toccare scroll appena confermato. PR #484 merge pendente (#202). Vedi L-346, L-263.",
+    "**Worker chat — barra scrittura fissa tipo WhatsApp (chat 20/7 ~00:55, agg. 01:39):** dopo scroll ok (#483), chiede casella input + icone **sempre incollate in basso** — scorre solo la conversazione; **01:39** ripete «ti avevo chiesto» → bug **aperto** fino a sua conferma; PR #484 mergiata, attendere deploy + hard refresh. Vedi L-353, L-346, L-263.",
     "**Chat scroll menu — conferma Nicola obbligatoria prima di chiudere bug (chat 20/7 ~00:51→00:55):** «non è cambiato nulla» post-#482 → serve #483; «ok, ha funzionato» = gate per considerare risolto — **non** dichiarare fixato senza test chat lunga + sua ok. Vedi L-345, L-342.",
     "**Worker vs n8n — chiede architettura chiara cervello/braccia e quando delegare (chat 20/7 ~00:49):** vede che n8n «può fare la stessa cosa» del worker — si aspetta spiegazione **concreta** di divisione ruoli (worker pensa/decide/giro/🔴 · n8n esegue flussi fissi via webhook post-approvazione), criterio **sì ripetitivo / no strategia**, e stato reale (webhook ancora segnaposto = post ancora manuali). **Non** risposta generica su cosa fa n8n. Vedi L-344, L-332.",
     "**Chat — odia trade-off «o A o B» quando entrambe le feature sono fattibili (chat 20/7 ~00:42):** chiede perché non ci sei arrivato prima e quante volte serve dirglielo — si aspetta che l'AD **prima** proponga coesistenza con regole chiare (sync+auto-apertura+«+» pulito), non rimozione di una feature; quando manca la sua scelta esplicita tra obiettivi in conflitto, l'AD può sbagliare finché non corregge («tieni entrambe»). Onestà sulla frequenza, non numeri inventati. Vedi L-343, L-341, PR #481.",

@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 01:39 · 🟢 · [Worker chat barra fissa — #484 mergiata, Nicola ripete richiesta] · **Nicola: «ti avevo chiesto di bloccare nella chat la box in cui ci sono le icone ed inserisco il testo».** Non è nuova richiesta — **re-ask** post-#484: per lui la barra **non è ancora fissa**. AD verifica: **PR #484 mergiata** su main; risposta = hard refresh + gate «ancora no» come scroll L-345. Bug **aperto** finché Nicola non conferma. L-353, L-346.
+
 2026-07-20 01:36 · 🟡 · [Worker chat — sidebar dentro riquadro MA resta popup apri/chiudi, PR #486] · **Nicola: «non ti ho specificato che deve restare una finestra che si apre e si chiude, schiacciando l'apposita icona».** Corregge interpretazione post-#485: sidebar conv integrata sì, ma **non** trasformare in pagina fissa `vista=assistente` — stessa popup (icona basso-destra + voce Worker → apre; X chiude; ingrandisci/riduci = stessa finestra). AD PR #486. Merge 🔴 pendente (#204). L-352, L-348.
 
 2026-07-20 01:25 · 🟡 · [Worker chat — ingrandisci apre stessa chat Worker, non pagina Assistente] · **Nicola: «ingrandimento apre un'altra chat» + chiarimento «la chat del worker dentro il menu finestra a sinistra».** Bug: pulsante Maximize2 portava a `vista=assistente` (Worker del menù laterale, cassetto esterno) invece di `workerFull` (stessa chat flottante fullscreen con sidebar conv integrata). Fix incluso in PR #485 (`b72958dc`). Merge 🔴 pendente (#203). Hard refresh se cache PWA mostra layout vecchio. L-350, L-348.

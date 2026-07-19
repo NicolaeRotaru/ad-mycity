@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 01:36
+aggiornato: 2026-07-20 01:39
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~01:39 — CHAT: barra scrittura Worker — Nicola ripete «ti avevo chiesto di bloccarla» (L-353).** Richiesta sticky input+icone **ancora aperta dal suo punto di vista** — stesso pattern scroll (#482→#483): #484 **mergiata** su main (`65f8daa8`) ma lui non conferma ok; possibile lag Vercel/cache PWA → hard refresh; se «ancora no» → fix #2. Anche **#485** (menu conv interno) e **#486** (popup apri/chiudi) mergiate su main — attesa deploy + test Nicola. Fonte: chat Nicola 20/7 01:39.
 
 > 💬 **20/7 ~01:36 — CHAT: Worker popup con sidebar — NON pagina fissa (L-352).** Nicola corregge: lista conv **dentro** il riquadro sì, ma la Worker deve restare **finestra popup** (apri/chiudi con icona o voce menù, **X** chiude, ingrandisci = stessa finestra più grande) — **non** pagina a tutto schermo del menù laterale. AD **PR #486** — bottone fluttuante + voce «Worker» aprono la **stessa** popup (sidebar sinistra + chat destra). Merge 🔴 pendente (#204). Fonte: chat Nicola 20/7 01:36.
 
@@ -20,7 +22,7 @@ fonte: AD digitale (metabolizzazione chat)
 
 > 💬 **20/7 ~00:57 — CHAT: promemoria accesso n8n via browser (L-347).** Nicola «ricordami come accedo a n8n (worker? server?)» — AD: **browser** su VPS Hetzner porta **5678** (non Pannello); **server** = VPS · **worker** = cervello systemd · **n8n** = Docker automazioni — stesso server, cose diverse; login account admin setup; workflow «Pubblica post programmato» già importato; pagina bianca → riavvio container via SSH. **`N8N_WEBHOOK_URL` ancora segnaposto.** Fonte: chat Nicola 20/7 00:57.
 
-> 💬 **20/7 ~00:55 — CHAT: barra scrittura Worker fissa in basso — PR #484 (L-346).** Dopo conferma scroll ok, Nicola chiede casella scrittura + icone **sempre incollate in basso** (pattern WhatsApp): scorre solo la conversazione, barra non esce dall'inquadratura su chat lunghe/mobile. AD **PR #484** (`c9b996d5`) — merge 🔴 pendente (card #202). **Non** toccare fix scroll #483. Fonte: chat Nicola 20/7 00:55.
+> 💬 **20/7 ~00:55 — CHAT: barra scrittura Worker fissa in basso — PR #484 mergiata (L-346).** Dopo conferma scroll ok, Nicola chiede casella scrittura + icone **sempre incollate in basso** (pattern WhatsApp). AD **PR #484** (`c9b996d5`) — **✅ mergiata** main `65f8daa8`; **01:39** Nicola ripete richiesta → attesa conferma post-deploy (L-353). Fonte: chat Nicola 20/7 00:55–01:39.
 
 > ✅ **20/7 ~00:55 — CHAT: scroll menu Worker — #483 confermato ok (L-345).** Nicola «**ok, ha funzionato**» dopo merge **PR #483** — aprendo chat dal menu sinistra finisce sull'ultimo messaggio. Iterazione: #482 insufficiente → #483 (retry ~3s + render async + reload DB). Fonte: chat Nicola 20/7 00:55.
 
