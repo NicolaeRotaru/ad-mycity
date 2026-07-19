@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 17:26",
+  "aggiornato": "2026-07-19 17:34",
+  "_nota_metabolizzazione_19_07_1734": "Chat 19/7 ~17:34: Nicola «Il passo 1 l'ho fatto, il secondo non so come farlo» (Playwright setup). Verifica server: font ✅; /opt/node22 ancora assente. AD comandi Termux blocchi singoli. L-306 nuova; L-305 evidenze++; preferenza comandi uno alla volta.",
   "_nota_metabolizzazione_19_07_1726": "Chat 19/7 ~17:26: Nicola «Come rendo operativo Playwright sul worker?» + strumenti contenuti potenti e come darli. Verifica VPS 17:25: assenti node22/pw-browsers/fontconfig. L-305 nuova; L-304 evidenze++; preferenza setup operativo.",
   "_nota_metabolizzazione_19_07_1721": "Chat 19/7 ~17:14–17:21: Nicola «Crea in Diretta» → PR #476+#477; correzione «volevo la grafica» (L-303); «quali strumenti grafica pro» (L-304). L-303 era in LEZIONI-CHAT ma mancava in JSON — aggiunta.",
   "_nota_metabolizzazione_19_07_1713": "Chat 19/7 ~17:13: dopo pipeline contenuti (L-300), Nicola «Dimmi un contenuto» → AD ha mostrato post domenica PQ già in coda (#post-domenica-settimana-1907). L-302 nuova; L-300 evidenze++.",
@@ -22,8 +23,30 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0719-306",
+      "testo": "**Playwright setup VPS — «non so come farlo» = comandi Termux uno alla volta, verifica ogni passo (Nicola 19/7 ~17:34).** Dopo passo 1 font («l'ho fatto»), chiede aiuto passo 2 Node22 — non capisce istruzioni aggregate. 5 perché: (1) Nicola esegue da Termux root sul VPS, non da tutorial generico; (2) «non so come farlo» = vuole blocchi **incollabili singoli**, non paragrafo teorico; (3) AD deve **verificare server** prima (font ok 17:34) e dichiarare cosa resta; (4) attendere «fatto» o errore esatto prima del passo successivo (Playwright); (5) avviso kernel Termux non blocca install Node. Regola: setup VPS root → sequenza numerata, un comando per blocco, checkpoint (`node -v` → v22), niente saltare passi. Vedi L-305.",
+      "tag": [
+        "playwright",
+        "vps",
+        "termux",
+        "setup",
+        "nicola",
+        "comandi",
+        "guida-operativa"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.94,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 17:34",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-305",
-      "testo": "**Playwright sul worker — oggi assente; setup root una tantum + come dare strumenti (Nicola 19/7 ~17:26).** «Come faccio a rendere operativo playwright su worker?» + «quali strumenti per contenuti potenti e come te li do?». Verifica VPS 17:25: assenti `/opt/node22`, `/opt/pw-browsers`, `fontconfig`; Node sistema v24 ok; codice Content Factory punta path fisso che lo script setup VPS non crea → PNG rotti, SVG ok in Diretta. 5 perché: (1) Nicola vuole passi operativi, non teoria; (2) install richiede root — chat AD non può eseguirla; (3) ordine: font → Node22 in `/opt/node22` → `npm i -g playwright` + `npx playwright install chromium` con `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` → env in segreti worker → test `render-domenica-settimana.mjs`; (4) contenuti potenti = foto/video veri (leva #1) + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico per non perdere al prossimo aggiornamento server. Regola: verifica runtime cosa manca PRIMA dei passi; spiega cosa fa Nicola vs cosa fa l'AD.",
+      "testo": "**Playwright sul worker — setup root una tantum + come dare strumenti (Nicola 19/7 ~17:26, passo 1 ✅ 17:34).** «Come faccio a rendere operativo playwright su worker?» + «quali strumenti per contenuti potenti e come te li do?». Verifica VPS: **font ✅ 17:34**; ancora assenti `/opt/node22`, `/opt/pw-browsers`; Node sistema v24 ok; codice Content Factory punta path fisso che lo script setup VPS non crea → PNG rotti, SVG ok in Diretta. 5 perché: (1) Nicola vuole passi operativi, non teoria; (2) install richiede root — chat AD non può eseguirla; (3) ordine: font ✅ → Node22 in `/opt/node22` (in corso Termux) → `npm i -g playwright` + `npx playwright install chromium` con `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` → env in segreti worker → test `render-domenica-settimana.mjs`; (4) contenuti potenti = foto/video veri (leva #1) + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico per non perdere al prossimo aggiornamento server. Regola: verifica runtime cosa manca PRIMA dei passi; spiega cosa fa Nicola vs cosa fa l'AD. Vedi L-306.",
       "tag": [
         "playwright",
         "content-factory",
@@ -34,12 +57,12 @@
         "strumenti"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.95,
-      "evidenze": 1,
+      "confidenza": 0.96,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 17:26",
+      "ultima_conferma": "2026-07-19 17:34",
       "stato": "attiva",
       "usi": []
     },
@@ -6896,6 +6919,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Playwright setup VPS — comandi Termux uno alla volta quando «non so come farlo» (chat 19/7 ~17:34):** dopo passo 1 font («l'ho fatto»), chiede aiuto passo 2 Node22 — si aspetta blocchi incollabili **singoli** (mkdir → curl → tar → chown → verifica `node -v`), non istruzioni aggregate; AD verifica server prima di dare passi; attende conferma «fatto» o errore prima del passo 3. Termux root ok. Vedi L-306, L-305.",
     "**Grafiche — vuole sapere strumenti usati e cosa serve per livello pro (chat 19/7 ~17:21):** «Quali strumenti hai usato… quali ti servono per grafiche professionali?» — si aspetta risposta concreta su Content Factory/Playwright/SVG vs AI spenta, perché PNG sul server può rompersi (font), e cosa manca (foto bottega, Playwright operativo sul worker o PNG da Canva). Non accetta risposta vaga «l'AI fa tutto». Vedi L-304, L-300.",
     "**Diretta contenuti — vuole vedere la GRAFICA, non solo il testo (chat 19/7 ~17:17):** «Cio che volevo vedere era la grafica» — quando chiede contenuto «in Diretta», la scheda deve mostrare **subito l'immagine grande** (feed + mini storia), copy sotto o al clic; odia quando l'anteprima visiva è nascosta nel markdown. Fix PR #477. Vedi L-303.",
     "**«Dimmi un contenuto» — vuole copy VERO già pronto, non bozza inventata (chat 19/7 ~17:13):** dopo la spiegazione pipeline chiede un esempio concreto — si aspetta post/storia/reel **completi** dal repo o dalla coda 🔴 (testo, negozio, CTA, timing), con link alla card «Pubblica…» nel Pannello; dichiarare cosa manca (foto reale) senza inventare claim. Vedi L-302, L-300.",
