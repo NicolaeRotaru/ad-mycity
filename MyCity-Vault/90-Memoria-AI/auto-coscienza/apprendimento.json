@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 18:13",
+  "aggiornato": "2026-07-19 18:16",
   "_nota_metabolizzazione_19_07_1812": "Chat 19/7 ~18:12: Nicola screenshot Termux setup Playwright completo. AD verifica: package /opt/node22 ✅, env PLAYWRIGHT_BROWSERS_PATH ✅, render domenica 2 PNG OK. L-305 completata; L-307 evidenze++ (fix --prefix confermato); L-304 aggiornata (PNG ok); preferenza setup finito = render OK.",
   "_nota_metabolizzazione_19_07_1806": "Chat 19/7 ~18:06: Nicola «Ricordami come si entra nel file segreto» (Playwright env). AD path nano cervello/vps/.env; verifica: file ok perm 600, riga Playwright assente. L-247 evidenze++; L-305 aggiornata; preferenza promemoria path operativo.",
   "_nota_metabolizzazione_19_07_1739": "Chat 19/7 ~17:38: Nicola «Fatto» passo 3 Playwright. Verifica server: Chromium ✅ /opt/pw-browsers; Playwright ❌ path sbagliato (/usr/lib vs /opt/node22) → ERR_MODULE_NOT_FOUND. L-307 nuova; L-305 aggiornata; preferenza «Fatto» = verifica runtime.",
@@ -7196,9 +7196,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.23,
-    "tasso_calcolato_il": "2026-07-19 18:06",
+    "tasso_calcolato_il": "2026-07-19 18:16",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 18:06",
+    "tick_leggero_il": "2026-07-19 18:16",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
