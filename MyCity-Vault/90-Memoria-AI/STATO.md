@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 17:39
-fonte: AD digitale (chat Nicola 19/7 17:39)
+aggiornato: 2026-07-19 18:00
+fonte: AD digitale (report della sera 19/7 18:00)
 ---
+
+> 🌙 **19/7 18:00 — REPORT DELLA SERA.** Business INVARIATO: 1 PQ, **4 buyer** (REST 18:00), 0 ordini pagati, stallo **~608h** (~25,3 giorni). North Star 0, cassa 0€. Fatto oggi: fix gravi marketplace chiusi (PR #213 + migrazioni DB) · MCP allowlist validata · post domenica PQ con grafica in Diretta · audit chat/bandi · Playwright worker passi 1-2 ok. **Stasera entro 21:00:** post domenica 🔴 · **restart.infocamere.it** 🔴 · **domani 10:00 PI26**. Dettaglio: [[RITMO]] 19/7 18:00.
 
 > ⏳ **19/7 17:39 — Playwright setup passo 3 PARZIALE (Nicola «Fatto»).** AD verifica server 17:38: **Chromium ✅** (`/opt/pw-browsers/chromium-1228`) · **Playwright ❌ path sbagliato** (pacchetto in `/usr/lib/node_modules/playwright`, assente in `/opt/node22/lib/node_modules/` → render `ERR_MODULE_NOT_FOUND`). **Passo 1 font ✅ · passo 2 Node ✅ · passo 3 da correggere:** `npm install -g playwright --prefix /opt/node22` con `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`. **Restano:** riga `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` in segreti worker + restart worker + test `render-domenica-settimana.mjs` (2 PNG OK). Fonte: chat Nicola 19/7 17:39.
 
@@ -675,17 +677,17 @@ fonte: AD digitale (chat Nicola 19/7 17:39)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 19/7 14:48 · invariati dal 24/6)
-| Numero | Oggi (19/7 14:48) | Δ vs giro 14:20 | "Riuscito" | Note |
+## I 7 numeri (✅ REST 19/7 18:00 · invariati dal 24/6)
+| Numero | Oggi (19/7 18:00) | Δ vs ieri sera (18/7) | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa · 16 altri seller non approvati |
-| Negozi con payout attivo | **0 reali** | = | 1 | PQ payout OFF · payout-test sandbox |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ available (catalogo totale 250 available REST) |
+| Negozi con payout attivo | **0 reali** | = | 1 | PQ ha Stripe collegato ma payout-test mai chiuso su ordine vero |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ stock>0 (catalogo totale 258 prodotti REST) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · CANCELED — 1° ordine reale va CREATO ex-novo |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~604h (~25,2 gg) |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~608h (~25,3 gg) ▲ +21h vs ieri |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox da fare su ordine vero |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST live 14:48 · 23 account totali (4+17 seller+1 admin+1 rider) |
+| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = (corretto oggi) | crescita | REST live 18:00 · 23 account totali (4+17 seller+1 admin+1 rider) |
 | **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)
@@ -780,20 +782,17 @@ fonte: AD digitale (chat Nicola 19/7 17:39)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (☀️ Piano del mattino 17/7 06:00 · VENERDÌ PIACENTINI OGGI)
-**Venerdì 17/7 — è il giorno.** Business INVARIATO dal 24/6, North Star 0, stallo ~553h. Stanotte: PR #423/#424 mergiate · PR #427 aperta · video-live-chat committato in branch.
+## Prossime priorità (🌙 Report della sera 19/7 18:00)
+**Domani 20/7 ore 10:00 apre PI26 a sportello.** Business INVARIATO dal 24/6, North Star 0, stallo ~608h (~25,3 giorni). Cassa Stripe 0€.
 
-1. [ ] 🔴 **Presidio PQ stasera — VP17/7** — Nicola va al banco di Pane Quotidiano (Via Calzolai 25) con il QR → primo ordine in ritiro → North Star 0→1 → payout-test.
-2. [ ] 🟡 **Mergia PR #427** — tasto Invia smartphone rotto finché non mergi (1 clic su GitHub).
-3. [ ] 🔴 **Ruota PAT GitHub** (card #ruota-pat-github) — trovati in chiaro nel config git del VPS.
-4. [ ] 🟡 **Push branch video-live-chat** (card #push-video-live-chat) → AD apre PR → mic+chat nel video live.
-5. [ ] 🟡 **Chiudi PR #422** — branch vecchio con conflitti, chiuderla senza merge.
-6. [ ] 🟡 **Fix email git** (card #fix-git-email) — `nicolaflorea50@gmail.com` in git config → stop warning Vercel.
-7. [ ] 🟡 **Streaming worker** (card #streaming-worker) — testo live parola per parola come Claude.ai.
-8. [x] ✅ **BURN_MENSILE_EUR** — approvato 16/7 21:17 · comando VPS in coda (Nicola esegue)
-9. [x] ✅ Allegati chat · PR #377/#378 sensori+volano · R1/R2 PAT/fix — tutti FATTI
+1. [ ] 🔴 **Post domenica PQ entro 21:00** — testo + grafica pronti in Diretta contenuti (`#post-domenica-settimana-1907`).
+2. [ ] 🔴 **restart.infocamere.it stasera** — registrazione obbligatoria prima del bando PI26 domani mattina (`#bandi-cciaa-2007`).
+3. [ ] 🔴 **Domanda PI26 domani ore 10:00** — bozza e checklist in `consegne/relazioni-istituzionali/`.
+4. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1 (`#ordine-test-pq`).
+5. [ ] 🟡 **Playwright sul worker passo 3** — `npm install -g playwright --prefix /opt/node22` + env `PLAYWRIGHT_BROWSERS_PATH`.
+6. [ ] 🟡 **Mergia PR in coda** — #475 chat · #476/#477 contenuti Diretta · #450 bloccanti Pannello.
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali) · `negozio_fermo` PQ (falso positivo, cooldown) · `ruota-pat-github` 🔴 (sicurezza urgente) · bici in riparazione (~28/7+) · PostHog spento (scelta 5/7).
+**Sentinelle attive:** loop business 🔴 (0 ordini reali) · `negozio_fermo` PQ (falso positivo, cooldown) · n8n non_configurato · PostHog spento (scelta 5/7) · runway sconosciuto (manca BURN_MENSILE_EUR).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*

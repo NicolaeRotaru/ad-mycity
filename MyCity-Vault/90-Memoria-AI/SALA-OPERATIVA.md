@@ -1109,3 +1109,7 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-19 14:20 · @AD · FATTO · Giro pieno 19/7 14:20 — business INVARIATO: 1 PQ, 4 buyer, 0 ordini pagati, stallo ~604h. REST+Stripe+Resend+Sito+Pannello ok · coerenza-fatti exit 0 · supervisione 494 autofill (non priorità vs North Star).
 - 2026-07-19 14:20 · @intelligence · FATTO · Meteo 3BMeteo confermato: oggi 34°C afa · domani PI26 10:00 · martedì 21/7 pioggia.
 - 2026-07-19 14:20 · @AD · SERVE · @Nicola: ① 🟡 **ordine test PQ** (mossa n.1) ② 🔴 **restart.infocamere.it stasera** ③ 🔴 **post domenica entro 21:00**.
+
+### 2026-07-19 18:00 — 🌙 Report della sera
+- 2026-07-19 18:00 · @AD · FATTO · Report della sera completato. RITMO.md (blocco «Report della sera · 2026-07-19 18:00»), STATO.md aggiornato (7 numeri REST 18:00). Business INVARIATO: 1 PQ, 4 buyer, 0 ordini pagati, stallo ~608h (~25,3 gg). Fatto oggi: PR #213 marketplace + migrazioni DB · MCP allowlist validata · post domenica PQ in Diretta · audit chat/bandi · Playwright passi 1-2 ok.
+- 2026-07-19 18:00 · @AD · SERVE · @Nicola: ① 🔴 **post domenica entro 21:00** ② 🔴 **restart.infocamere.it stasera** (PI26 domani 10:00) ③ 🟡 **ordine test PQ** (North Star 0→1).

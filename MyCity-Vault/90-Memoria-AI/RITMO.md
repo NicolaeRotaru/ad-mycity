@@ -505,3 +505,27 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 - Sensori 17:37: REST ✅ Stripe ✅ Resend ✅ Sito ✅ Pannello ✅ · n8n cieco ~77 giri · MCP Supabase cieco 7 giri · stallo ~587h · PR aperte: #456 (nuova chat) #453 (timer) #443 (5 UX) #446 (cross-device) · prospect validi: 13
+
+## Report della sera · 2026-07-19 18:00
+
+**Com'è andata oggi**
+- Chiusi i fix gravi del marketplace: codice mergiato e tre migrazioni applicate sul database live — la piattaforma regge meglio.
+- Creato il post domenica per Pane Quotidiano con anteprima grafica in Diretta contenuti; la chat ora può leggere Supabase dopo la correzione dell'allowlist.
+- Tanta manutenzione sul Pannello e mappa bandi consegnata, ma **zero ordini nuovi** — l'azienda resta ferma dal 24 giugno.
+
+**I numeri**
+- 1 negozio · 4 clienti iscritti · 0 ordini pagati · stallo ~608h (~25 giorni) — invariati rispetto a ieri; il «23 clienti» di ieri era un conteggio sbagliato, non crescita.
+
+**Da approvare**
+- Pubblica il post domenica su Facebook e Instagram entro le 21 — testo e grafica pronti in Diretta
+- Registrati su restart.infocamere.it stasera — domani alle 10 apre il bando PI26 a sportello
+- Fai un ordine di prova su Pane Quotidiano per portare la North Star da 0 a 1
+
+**Lezione di oggi**
+- Ripetere «23 clienti» per settimane senza contare i buyer reali dal database ha orientato email e post verso un pubblico fantasma — ogni numero va verificato live prima di finire in memoria.
+
+**Domani**
+- Alle 10 invia la domanda PI26 sul portale CCIAA — bozza e checklist già pronte in consegne.
+
+**Dettagli tecnici**
+- REST 18:00 ok · stallo 608h · PR marketplace #213 mergiata · migrazioni 109-110-111 · MCP allowlist validata 16:54 · Playwright worker: font+Node ok, modulo da reinstallare in /opt/node22 · merge pendenti: #475 #476 #477 #450
