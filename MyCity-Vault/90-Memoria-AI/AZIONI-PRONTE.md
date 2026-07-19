@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-19 13:01
+aggiornato: 2026-07-19 13:05
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -484,3 +484,15 @@ testo (hook IG):
 visual: tipografico serale su palette brand ("DOMENICA SERA · FAI IL TUO TURNO PER LA SETTIMANA") = pubblicabile subito; foto PQ = ok titolare.
 pre-condizioni: (1) link marketplace in bio/1° commento con UTM domenica_settimana_1907 · (2) pubblicare entro le 21:00 di oggi · (3) foto reale = ok titolare se boost. Coda canonica = #post-domenica-settimana-1907 in [[AZIONI-IN-ATTESA]].
 stato: IN ATTESA DI FIRMA NICOLA.
+
+## A30 · 💚 Playbook anti-churn — ri-verifica 19/7 (0 negozi in calo, retention PQ puntata)
+reparto: account-negozi
+livello: 🟢 (scan sola lettura) · 🟡 (check-in reale = firma Nicola)
+canale: REST Supabase + coda `#checkin-pq-postvp` (telefono/WhatsApp)
+perche: **Playbook anti-churn RIPROVA 19/7 13:05 — verdetto onesto: 0 negozi con ordini in calo.** 1 solo negozio reale (Pane Quotidiano), 0 ordini consegnati, nessun trend −40% calcolabile. PQ **non è churn** (Nicola 6/7: attesa concordata). VP 17/7 passato senza ordini → il rischio è **no-value realized**, non abbandono post-vendita.
+preparato: 💚 account-negozi — report `consegne/account-negozi/2026-07-19-antichurn-playbook.md`
+cosa cambia: nessuna nuova telefonata anti-churn (evita doppione #25/#29). La mossa giusta è il debrief post-VP già in coda.
+se va bene: capisci com'è andato venerdì al banco, pianifichi primo ordine reale (#ordine-test-pq) con finestra piogge lun 20/7.
+retention_già_in_coda: `#checkin-pq-postvp` in [[AZIONI-IN-ATTESA]] · tel. **0523 388601** · script 2 min in coda
+non-duplicato: non tocca #25/#29 (chiuse) · non riapre #antichurn-13lug (scaduta) · prospect Garetti/Peretti/Amendolara = vendite, non anti-churn
+stato: SCAN ✅ — azione retention = firma `#checkin-pq-postvp` (🟡 lun 20/7 o WhatsApp weekend)

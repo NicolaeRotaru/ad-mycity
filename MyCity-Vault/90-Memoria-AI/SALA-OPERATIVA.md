@@ -1091,3 +1091,6 @@ Assegnazioni (1 mossa per reparto):
 
 ### 2026-07-19 13:01 — PLAYBOOK Recupero carrelli (RIPROVA Nicola · worker)
 - 2026-07-19 13:01 · @crm-lifecycle · FATTO · PLAYBOOK Recupero carrelli RIPROVA: REST live ✅ (`verifica-sensori` 13:01) → 4 `abandoned_carts`, **1 buyer reale** (samir €10 PQ pesto+kefir, ~781h), 3 SKIP admin/demo/seller-test. Touch #1 🟡 + Touch #2 🔴 `BENVENUTO10` in [[AZIONI-PRONTE]] **A3** + `consegne/crm/2026-07-19-recupero-carrelli-pronte.md`. Zero invii. Gate PQ **CHIUSO** (0 ordini consegnati) — invio solo dopo `#ordine-test-pq`.
+
+### 2026-07-19 13:05 — PLAYBOOK Anti-churn negozi (RIPROVA Nicola · worker)
+- 2026-07-19 13:05 · @account-negozi · FATTO · PLAYBOOK Anti-churn RIPROVA: REST live ✅ (`verifica-sensori` 13:03) → **0 negozi in calo** (1 reale PQ, 0 ordini consegnati, VP 17/7 passato senza ordini). PQ = falso positivo sentinella (attesa concordata Nicola 6/7) — **nessuna telefonata anti-churn**. Retention già in coda: **#checkin-pq-postvp** (debrief lun 20/7). Report `consegne/account-negozi/2026-07-19-antichurn-playbook.md` · [[AZIONI-PRONTE]] **A30**. Zero contatti inviati.
