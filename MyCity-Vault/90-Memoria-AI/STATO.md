@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 18:27
-fonte: AD digitale (chat Nicola 19/7 18:27)
+aggiornato: 2026-07-19 18:32
+fonte: AD digitale (chat Nicola 19/7 18:32)
 ---
+
+> 🟡 **19/7 18:32 — CHAT: PR #214 marketplace — icone navbar mobile invisibili.** Nicola: «Dentro la navbar a destra non si vedono le icone» + screenshot — era **sito MyCity mobile** (non Pannello). Causa: badge contatore carrello (pallino giallo «3») posizionato sopra l'icona, che spariva del tutto; bottom nav (Home/Cerca/Carrello) ok. AD fix **PR #214** repo `NicolaeRotaru/mycity` branch `fix/mobile-navbar-cart-icon` — icona carrello visibile anche con prodotti in carrello non loggato. Merge pendente Nicola → deploy Render (~2–3 min) → ricarica da telefono. Fonte: chat Nicola 19/7 18:29–18:32.
 
 > 🟡 **19/7 18:27 — CHAT: PR #479 — «Parla con questa casella» su Diretta contenuti.** Nicola: «Aggiungi la possibilità di parlare con queste caselle» + screenshot tab Diretta (post/supervisione/bozze). AD: pulsante chat sotto ogni scheda — stesso pattern Avvisi/Ritmo; AD riceve titolo, estratto, reparto e testo completo se apri la scheda; conversazione in Conversazioni. **PR #479** (`1b9cd7c9`, typecheck OK). Merge pendente Nicola → ricarica tab **Diretta contenuti**. Fonte: chat Nicola 19/7 18:27.
 
