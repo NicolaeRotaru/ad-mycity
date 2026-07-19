@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 00:55
+aggiornato: 2026-07-20 00:57
 fonte: AD digitale (sentinella cassa_sconosciuta + negozio_fermo)
 ---
+
+> 💬 **20/7 ~00:57 — CHAT: promemoria accesso n8n via browser (L-347).** Nicola «ricordami come accedo a n8n (worker? server?)» — AD: **browser** su VPS Hetzner porta **5678** (non Pannello); **server** = VPS · **worker** = cervello systemd · **n8n** = Docker automazioni — stesso server, cose diverse; login account admin setup; workflow «Pubblica post programmato» già importato; pagina bianca → riavvio container via SSH. **`N8N_WEBHOOK_URL` ancora segnaposto.** Fonte: chat Nicola 20/7 00:57.
 
 > 💬 **20/7 ~00:55 — CHAT: barra scrittura Worker fissa in basso — PR #484 (L-346).** Dopo conferma scroll ok, Nicola chiede casella scrittura + icone **sempre incollate in basso** (pattern WhatsApp): scorre solo la conversazione, barra non esce dall'inquadratura su chat lunghe/mobile. AD **PR #484** (`c9b996d5`) — merge 🔴 pendente (card #202). **Non** toccare fix scroll #483. Fonte: chat Nicola 20/7 00:55.
 
