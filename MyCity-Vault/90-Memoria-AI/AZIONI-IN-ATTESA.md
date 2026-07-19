@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-19 16:58** — Automatico: **47 aperte · 84 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-19 17:00** — Automatico: **46 aperte · 85 chiuse in archivio** (#fix-35-gravi duplicata archiviata).
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -153,13 +153,13 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### ✅ #fix-35-gravi — COMPLETATA 19/7 ~17:00 · PR #213 mergiata + migrazioni 109-111 sul DB
+### ✅ FATTO #fix-35-gravi — 35 fix radiografia completati · ✅ FATTO 2026-07-19 17:00
 
 **Contesto:** 9 batch (35 fix radiografia 7/7). Conflitti risolti 18/7. Schema DB applicato 19/7 16:57 (110 adattata schema live).
 
-**Verifica merge:** `origin/main` marketplace → commit `304fe07` «Merge pull request #213» (fetch 19/7 16:59).
+**Verifica merge:** Nicola «Controlla se la 213 è mangiata» — `origin/main` marketplace → commit `304fe07` «Merge pull request #213» (verificato 19/7 17:00).
 
-**Fatto:** codice in produzione al prossimo deploy Render · DB già allineato (109/110/111).
+**Esito:** codice su main · DB allineato (109/110/111) · deploy Render automatico al prossimo build.
 
 ---
 
@@ -677,23 +677,11 @@ git stash pop
 
 ---
 
-### 🟡 #fix-35-gravi — Crea branch e scrivi i 35 fix gravi della radiografia · ⏳ IN ATTESA · accodata 2026-07-11 07:40
+### ✅ FATTO #fix-35-gravi — (card originale 11/7) · ✅ SUPERATA 2026-07-19 17:00
 
-**Richiesta di Nicola (11/7 ~07:40):** risolvere TUTTI i 35 problemi gravi della radiografia (non solo i 5 bloccanti già in PR #212).
+**Richiesta originale (11/7):** risolvere i 35 problemi gravi della radiografia.
 
-**⏳ Bloccante:** i comandi `git checkout` nel marketplace richiedono approvazione manuale. Approva questi due comandi dal terminale VPS:
-
-```bash
-git -C /opt/mycity/ad-mycity/marketplace checkout main
-git -C /opt/mycity/ad-mycity/marketplace checkout -b fix/35-gravi-radiografia-2026-07-07
-```
-
-Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, nessuna altra approvazione necessaria per la scrittura dei file).
-
-**Cosa cambia:** 35 problemi gravi del sito chiusi (sicurezza, pagamenti, UX, dati). Clienti e venditori più protetti, meno bug operativi.
-**Se va bene:** PR aperta → Nicola mergia → migrazioni e codice in produzione.
-
-- **Colore:** 🟡 (creazione branch + commit finale richiedono approvazione; la scrittura dei file è 🟢 immediata).
+**Esito:** completata — branch `fix/35-gravi-radiografia-2026-07-07`, PR #213 mergiata (`304fe07`), migrazioni 109/110/111 sul DB. Vedi card ✅ in cima alla coda.
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 16:58",
+  "aggiornato": "2026-07-19 17:00",
   "_nota_giro_19_07_1448": "Giro 19/7 14:48 north-star AR-111: business invariato (REST ri-conferma 4 buyer, 0 pagati). Vincolo rispettato — zero azioni macchina. Rinforzo: con stallo ~604h, ogni giro ripete la stessa triade ordine test + PI26 + post clienti finché North Star non si muove.",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
@@ -17,6 +17,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-297",
+      "testo": "**«Controlla se la PR è mangiata/mergiata» — verifica GitHub prima di rispondere (Nicola 19/7 17:00).** Nicola chiede stato merge PR #213 marketplace — non assumere da memoria («resta merge») né dire sì senza fetch. 5 perché: (1) merge avviene fuori dalla chat (Nicola su GitHub); (2) memoria può essere stale di minuti; (3) «mangiata» = mergiata (colloquiale); (4) prova = commit merge su `origin/main` del repo giusto (`304fe07` per #213); (5) dopo merge confermare anche stato DB se pertinente (qui già ok 16:57). Regola: `git fetch` + log merge commit OPPURE API GitHub — poi sì/no con hash. Vedi L-294, L-272.",
+      "tag": [
+        "pr",
+        "merge",
+        "verifica-github",
+        "marketplace",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 17:00",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-295",
       "testo": "**Allowlist git — `git checkout:*` ≠ `git -C /path:*` (Nicola 18/7).** Pattern shell distinti per il gate permessi: Nicola aveva `git checkout:*` ma `git -C /opt/mycity/ad-mycity/marketplace checkout` restava bloccato finché non ha aggiunto riga esplicita `Bash(git -C /opt/mycity/ad-mycity/marketplace:*)`. 5 perché: (1) il matcher allowlist confronta il prefisso del comando intero; (2) `-C` cambia il path effettivo del repo; (3) AD aveva delegato senza leggere settings; (4) Nicola «Riprova forse ho risolto» → fix mirato; (5) dopo «Fatto» branch radiografia creato. Regola: git su sottocartella → leggi settings e indica pattern `-C` esplicito, non assumere che checkout generico copra tutto. Vedi L-272.",
@@ -557,7 +578,7 @@
     },
     {
       "id": "L-2026-0718-272",
-      "testo": "**Allowlist `git -C /opt/mycity/ad-mycity/marketplace:*` aggiunta da Nicola il 18/7 — i comandi git sul repo marketplace ora funzionano dalla chat.** Prima era bloccato (solo la root `ad-mycity/` era in allowlist). `git-pr.mjs` NON supporta `marketplace` come target (solo `ad-mycity`): per aprire una PR su mycity, fare `git push origin <branch>` direttamente nel repo marketplace e aprire il link PR da GitHub. Se il repo marketplace ha un rebase interrotto, fare `git rebase --abort` prima di creare nuovi branch. La PR #213 (35 fix radiografia) è stata risoluta via `git rebase origin/main --strategy-option=theirs/ours` per i 2 conflitti (webhook + Navbar), poi force pushed.",
+      "testo": "**Allowlist `git -C /opt/mycity/ad-mycity/marketplace:*` aggiunta da Nicola il 18/7 — i comandi git sul repo marketplace ora funzionano dalla chat.** Prima era bloccato (solo la root `ad-mycity/` era in allowlist). `git-pr.mjs` NON supporta `marketplace` come target (solo `ad-mycity`): per aprire una PR su mycity, fare `git push origin <branch>` direttamente nel repo marketplace e aprire il link PR da GitHub. Se il repo marketplace ha un rebase interrotto, fare `git rebase --abort` prima di creare nuovi branch. PR #213 (35 fix radiografia): conflitti risolti 18/7 via rebase; **mergiata 19/7 17:00** (`304fe07` su main).",
       "tag": [
         "allowlist",
         "marketplace",
@@ -642,7 +663,7 @@
     },
     {
       "id": "L-2026-0718-268",
-      "testo": "**Nicola non traccia lo stato dei bloccanti macchina tra sessioni — rispondere SEMPRE con 3-tier quando chiede «è già fatto?» (18/7).** Nicola ha chiesto «Non avevo già fatto i fix di tutti i bloccanti dentro la macchina?» — segnale che non aveva chiaro FATTO vs IN ATTESA vs NON INIZIATO. Lo stato reale era: ✅ PR #435 (3 fix) + guardiani coerenza-fatti; ⏳ R4 + #fix-termometro-guardiani + #fix-pannello-bloccanti (in attesa firma); ❌ #fix-35-gravi (non iniziato). Miglioramento: (1) in ogni giro includere mini-dashboard bloccanti multi-sessione con i 3 livelli; (2) quando Nicola fa domande di stato, rispondere con elenco itemizzato ✅FATTO / ⏳IN ATTESA FIRMA / ❌NON INIZIATO — mai con «in parte sì, in parte no» generico.",
+      "testo": "**Nicola non traccia lo stato dei bloccanti macchina tra sessioni — rispondere SEMPRE con 3-tier quando chiede «è già fatto?» (18/7, rinforzo 19/7).** Nicola ha chiesto «Non avevo già fatto i fix di tutti i bloccanti dentro la macchina?» — segnale che non aveva chiaro FATTO vs IN ATTESA vs NON INIZIATO. Esempio stato che cambia: #fix-35-gravi passato da ❌ a ✅ in 24h (PR #213 mergiata 19/7). Miglioramento: (1) mini-dashboard bloccanti multi-sessione con 3 livelli; (2) risposta itemizzata ✅FATTO / ⏳IN ATTESA / ❌NON INIZIATO — mai «in parte sì, in parte no».",
       "tag": [
         "bloccanti",
         "stato-sessione",
@@ -652,12 +673,12 @@
         "comunicazione-stato"
       ],
       "reparto": "@AD",
-      "confidenza": 0.85,
-      "evidenze": 1,
+      "confidenza": 0.88,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-18",
-      "ultima_conferma": "2026-07-18",
+      "ultima_conferma": "2026-07-19 17:00",
       "stato": "attiva",
       "usi": []
     },
@@ -6694,6 +6715,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**PR mergiata — vuole verifica GitHub, non supposizione (chat 19/7 17:00):** «Controlla se la 213 è mangiata» — si aspetta sì/no basato su commit merge su `origin/main` del repo giusto (hash `304fe07`), non su memoria stale («resta merge»). Dopo merge PR marketplace, ricordare che DB e codice vanno insieme. Vedi L-297.",
     "**Migrazioni DB — vuole che l'AD le applichi e verifichi (chat 19/7 16:57):** «Applica queste 3 migrations» — esecuzione reale + ricontrollo colonne/viste, non solo istruzioni SQL Editor. Se chiede «Hai applicato?» vuole prova live, non promessa. MCP apply_migration spesso bloccato in chat → Management API ok. Vedi L-294, L-296.",
     "**Migrazioni DB — vuole verifica esplicita, non promesse (chat 19/7 16:55):** «Hai applicato le 3 migrations?» — si aspetta risposta basata su controllo live del database (colonne/viste presenti), non «le ho proposte» o «dovrebbero esserci». Vedi L-294.",
     "**Bloccanti macchina — vuole i 4 pacchetti eseguiti quando dice «fallo» (chat 18/7):** «Fai i 4 punti in attesa e che non hai ancora iniziato» — si aspetta consegna reale (PR/code), non solo spiegazione; prima chiede stato con «Non avevo già fatto…?» e vuole risposta ✅/⏳/❌ itemizzata. Vedi L-268.",

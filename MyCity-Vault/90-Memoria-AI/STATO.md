@@ -1,14 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 16:58
-fonte: AD digitale (chat Nicola 19/7 16:58)
+aggiornato: 2026-07-19 17:00
+fonte: AD digitale (chat Nicola 19/7 17:00)
 ---
 
-> ✅ **19/7 16:57 — FATTO: migrazioni marketplace 109/110/111 applicate sul DB live.** Nicola: «Applica queste 3 migrations» — AD via Management API (MCP `apply_migration` in sola lettura in chat). Verifica REST: colonna `rider_fee_cents` su `orders` ✅ · vista `public_profiles` ✅. Nota: migrazione **110** adattata allo schema reale (`public_avatar_url`, `city` — file repo citava colonne assenti). ⏳ Resta merge PR #213 (codice 35 fix radiografia). Fonte: chat Nicola 19/7 16:57.
+> ✅ **19/7 17:00 — FATTO: PR #213 marketplace mergiata — #fix-35-gravi chiuso end-to-end.** Nicola: «Controlla se la 213 è mangiata» — verificato su `origin/main` marketplace: commit `304fe07` «Merge pull request #213» (35 fix radiografia 7/7). Codice + DB allineati (migrazioni 109/110/111 già applicate 16:57). Deploy Render automatico al prossimo build. Fonte: chat Nicola 19/7 17:00.
+
+> ✅ **19/7 16:57 — FATTO: migrazioni marketplace 109/110/111 applicate sul DB live.** Nicola: «Applica queste 3 migrations» — AD via Management API (MCP `apply_migration` in sola lettura in chat). Verifica REST: colonna `rider_fee_cents` su `orders` ✅ · vista `public_profiles` ✅. Nota: migrazione **110** adattata allo schema reale (`public_avatar_url`, `city` — file repo citava colonne assenti). ~~Resta merge PR #213~~ → **superato 17:00** (PR mergiata). Fonte: chat Nicola 19/7 16:57.
 
 > ⚠️ **19/7 16:55 — (superato 16:57)** Verifica precedente: migrazioni non ancora sul DB — Nicola «Hai applicato le 3 migrations?» — confermato assenza `rider_fee_cents`/`public_profiles` prima dell'applicazione. Fonte: chat Nicola 19/7 16:55.
 
-> ✅ **19/7 16:58 — Bloccanti macchina: 3/4 pacchetti consegnati; #fix-35-gravi DB ok.** Nicola «Fai i 4 punti»: ✅ #fix-termometro-guardiani (PR #448 mergiata) · ✅ #fix-pannello-bloccanti (PR #450 aperta, merge pendente) · ✅ #fix-35-gravi (PR #213 + migrazioni 109-111 applicate 16:57 — resta solo merge PR) · ⏳ R4 parziale (AR-043 + AR-040/041/042). Fonte: chat Nicola 18-19/7.
+> ✅ **19/7 17:00 — Bloccanti macchina: 3/4 pacchetti COMPLETI; #fix-35-gravi chiuso.** Nicola «Fai i 4 punti»: ✅ #fix-termometro-guardiani (PR #448 mergiata) · ✅ #fix-pannello-bloccanti (PR #450 — merge pendente Nicola) · ✅ #fix-35-gravi (PR #213 mergiata + migrazioni 109-111) · ⏳ R4 parziale (AR-043 + AR-040/041/042). Fonte: chat Nicola 18-19/7.
 
 > ✅ **19/7 16:54 — FATTO: allowlist MCP `settings.local.json` corretta e validata.** Nicola: «Controlla se ho fatto giusto» — AD ha verificato con parser JSON: **JSON OK**, 9 voci MCP (Vercel×5 + Supabase marketplace×2 + Supabase memoria×2), ultima riga senza virgola. Card #abilita-mcp-supabase-chat chiusa lato config. **Prossimo passo:** nuova chat → «quanti utenti ci sono?» per verifica runtime MCP. Fonte: chat Nicola 19/7 16:54.
 
