@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 19:01",
+  "aggiornato": "2026-07-19 19:26",
   "_nota_metabolizzazione_19_07_1901": "Chat 19/7 ~19:01: Nicola «Perché non riesci ad aprire la pr?» — terza domanda dopo 18:57/18:59. AD retry 19:01 → stesso 403; chiarito limite token worker vs browser Nicola. L-316 evidenze 3; STATO + #197 + LEZIONI-CHAT aggiornati.",
   "_nota_metabolizzazione_19_07_1900": "Chat 19/7 ~18:59: Nicola «Perché il push è rifiutato? Devo mettere qualcosa nell allowlist?» dopo spiegazione 403 PR. AD: push OK verificato, solo gh pr create 403 — allowlist non c'entra (già valida 16:54). L-317 nuova; L-316 evidenze++; preferenza push-vs-pr-vs-allowlist.",
   "_nota_metabolizzazione_19_07_1858": "Chat 19/7 ~18:57: Nicola «Perché non apri tu la PR?» dopo fix render build. AD retry gh → 403 rate limit confermato; branch+commit su GitHub, scheda PR mancante. L-316 nuova; preferenza apri-pr-automatica; coda #197 aggiornata.",
@@ -7435,13 +7435,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 331,
+    "lezioni_attive": 334,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.23,
-    "tasso_calcolato_il": "2026-07-19 18:56",
+    "tasso_calcolato_il": "2026-07-19 19:26",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 18:56",
+    "tick_leggero_il": "2026-07-19 19:26",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
