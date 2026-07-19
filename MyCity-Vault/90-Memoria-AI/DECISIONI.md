@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 21:54 · 🟢 · [Milestone n8n — workflow «MyCity — Pubblica post programmato» importato] · **Nicola: screenshot editor n8n (no testo).** Import CLI riuscito dopo fix `id`/`versionId` (L-329): editor mostra nodi Webhook → Instrada per canale → FB/IG/GBP/Telegram. **Non** ancora mano social attiva — mancano toggle **Active**, URL webhook in `N8N_WEBHOOK_URL` (env worker, mai in chat), restart worker, OAuth Meta. Lezione L-330.
+
 2026-07-19 21:00 · 🟢 · [Fix template workflow n8n — campi id/versionId per import CLI] · **Nicola: screenshot Termux import fallito dopo docker cp ok.** Errore SQLite `NOT NULL constraint failed: workflow_entity.id` — il JSON `pubblica-post-programmato.json` esportato per UI mancava `id` e `versionId` richiesti da `n8n import:workflow`. AD aggiunge UUID al file in repo sul worker; Nicola riprova import SSH. Lezione L-329. Prossimo: «workflow importato» → Meta OAuth.
 
 2026-07-19 19:40 · 🟡 · [PR #217 marketplace — fix logo navbar mobile tagliato] · **Nicola: «Si vede metà del logo dentro la navbar».** Logo MyCity compresso da flex header mobile (visibile solo «My»). AD PR #217 su repo mycity (`25aa5aa`): `flex-shrink-0` su logo e carrello, CAP centrato. Pendente merge Nicola → deploy Render. L-319.
