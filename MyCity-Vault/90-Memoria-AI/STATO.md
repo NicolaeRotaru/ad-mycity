@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 17:03
-fonte: AD digitale (chat Nicola 19/7 17:03)
+aggiornato: 2026-07-19 17:09
+fonte: AD digitale (chat Nicola 19/7 17:09)
 ---
+
+> 💬 **19/7 17:09 — CHAT: pipeline contenuti social — strumenti reali spiegati.** Nicola: «Spiegami come crei i contenuti… quali strumenti userai». AD ha descritto catena Modalità Mondiale: testi social (brief + 3 angoli + direttore creativo) → grafiche Content Factory locale (`render.mjs`, PNG in `creativi/output/social/`) → reel script + montaggio interno → QA → accoda pubblicazione 🔴. Canva automatico **spento**; connettori AI immagini/video in prova a secco (vincolo niente API a consumo). Carburante qualità = foto/frasi vere da bottega. Fonte: chat Nicola 19/7 17:09.
+
+> 💬 **19/7 17:03 — CHAT: standing-ask audit chat completa.** Nicola: «Risolvi tutti problemi della chat, fai una bella analisi, ricordati quelli che ti ho detto» — richiesta mappa unificata di tutti i bug chat segnalati (non fix a pezzi). Pendente: documento audit + piano PR batch. Fonte: chat Nicola 19/7 17:03.
 
 > 💬 **19/7 17:03 — CHAT: bug nuova chat — messaggio vecchio allowlist «tornato».** Nicola: «Quando apro una nuova chat appare questa risposta, come mai? È già successo e tu l'avevi risolto, perché è tornato?» — **non è un messaggio nuovo del worker:** è contenuto riciclato dall'ultima conversazione (allowlist/git). Causa verificata in `page.tsx`: fix PR #456 (18/7) bloccava permanentemente l'auto-apri su «+»; fix cross-device stessa sera ha **reintrodotto timer 3s** che resetta `nuovaChatManualeRef` + finestra auto-open **24h** + poll conversazioni **8s** → dopo «+» la chat si svuota poi rientra sola. Fix proposto 🟡: ripristinare blocco permanente senza timer. Fonte: chat Nicola 19/7 17:03 + codice `pannello/src/app/page.tsx`.
 

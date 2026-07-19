@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 17:09 · 🟡 · [Standing-ask audit chat completa] · **Nicola: «Risolvi tutti problemi della chat, fai una bella analisi, ricordati quelli che ti ho detto».** Richiesta mappa unificata di tutti i bug chat segnalati nel tempo (auto-open #456, cross-device, limiti motore, debounce, streaming, UX caselle…) — non fix a pezzi. AD deve produrre audit + piano PR batch prioritizzato. Pendente consegna. L-301.
+
 2026-07-19 17:03 · 🟢 · [Bug nuova chat — regressione PR #456] · **Nicola: «Perché quando apro nuova chat appare di nuovo la risposta allowlist? L'avevi risolto.»** Diagnosi verificata: auto-open cross-device (timer 3s su `nuovaChatManualeRef` + finestra 24h) annulla il fix permanente di PR #456. Contenuto = conversazione precedente riciclata, non output worker. AD propone PR che ripristina blocco permanente su «+» — pendente ok Nicola. L-299.
 
 2026-07-19 17:01 · 🟢 · [Inventario allowlist — GitHub ≠ MCP, buco fix/*] · **Nicola: «Hai dentro allow tutti gli mcp che ti servono di github mycity e ad-mycity?»** AD risponde per superficie: nessun MCP GitHub (git + git-pr.mjs); MCP essenziali già ok (9 voci); marketplace git `-C` ok; **manca** `Bash(git push origin fix/*:*)` su ad-mycity per pushare branch fix/PR Pannello. Scritture DB = Management API, non MCP `apply_migration`. Pendente Nicola: aggiungere riga fix/* → nuova chat. L-298.
