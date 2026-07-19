@@ -589,12 +589,12 @@
         "force-push"
       ],
       "reparto": "@AD",
-      "confidenza": 0.96,
-      "evidenze": 2,
+      "confidenza": 0.97,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-18",
-      "ultima_conferma": "2026-07-19 16:55",
+      "ultima_conferma": "2026-07-19 17:00",
       "stato": "attiva",
       "usi": []
     },

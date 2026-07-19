@@ -8,7 +8,8 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
-- 2026-07-19 16:57 · Migrazioni 109-111 marketplace · atteso apply su richiesta Nicola «Applica queste 3 migrations» · reale: Management API ok; 110 adattata schema live; rider_fee_cents + public_profiles verificati; pendente merge PR #213 codice · L-294 L-296 · #migrazioni #fix-35-gravi #esito
+- 2026-07-19 17:00 · PR #213 mergiata (#fix-35-gravi chiuso) · atteso merge verificato su origin/main · reale: commit `304fe07` marketplace; codice+DB allineati · L-297 L-272 · #radiografia #pr-213 #fix-35-gravi #esito
+- 2026-07-19 16:57 · Migrazioni 109-111 marketplace · atteso apply su richiesta Nicola «Applica queste 3 migrations» · reale: Management API ok; 110 adattata schema live; rider_fee_cents + public_profiles verificati; ~~pendente merge PR #213~~ → mergiata 17:00 · L-294 L-296 · #migrazioni #fix-35-gravi #esito
 - 2026-07-19 16:55 · Migrazioni 109-111 post-PR #213 · atteso apply_migration o SQL Editor dopo merge · reale: verifica DB — mancano rider_fee_cents + public_profiles → NON applicate; Nicola chiede conferma esplicita · L-294 · #migrazioni #supabase #fix-35-gravi #esito
 - 2026-07-18 19:45 · 35 fix radiografia + PR #213 · atteso branch pushato + conflitti risolti · reale: 9 batch, rebase webhook+Navbar, force-push, PR mergeable; git -C marketplace allowlist attiva dopo Nicola «Fatto» · L-272 · #radiografia #marketplace #pr-213 #esito
 - 2026-07-16 17:45 · Deploy Vercel rotto dopo merge PR #411: confronto vista==='assistente' dentro il blocco della chat fluttuante dove il tipo è già ristretto (page.tsx:2959) · build: da ERROR a verde · atteso tsc e next build passano dopo il fix di 1 riga → reale tsc 0 errori + next build completato in locale · #pannello #vercel #typescript
