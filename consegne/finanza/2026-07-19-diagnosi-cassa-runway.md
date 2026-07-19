@@ -1,26 +1,26 @@
 ---
-data: 2026-07-19 13:11
+data: 2026-07-20 00:03
 tipo: diagnosi
 reparto: finanza
-origine: sentinella cassa_sconosciuta (159 giri, retry Pannello 13:10)
+origine: sentinella cassa_sconosciuta (171 giri, worker 20/7 00:02)
 ---
 
-# Diagnosi cassa / runway — 19 luglio 2026
+# Diagnosi cassa / runway — aggiornata 20 luglio 2026
 
 ## In una riga per Nicola
 
-**Stripe funziona e legge 0€; manca solo `BURN_MENSILE_EUR` nel `.env` del VPS — senza quel numero il runway resta «sconosciuto» da 159 giri. Non è un bug Stripe.**
+**Stripe funziona e legge 0€; manca solo `BURN_MENSILE_EUR` nel `.env` del VPS — senza quel numero il runway resta «sconosciuto» da 171 giri. Non è un bug Stripe.**
 
 ---
 
-## Cosa abbiamo verificato adesso (13:11, VPS)
+## Cosa abbiamo verificato adesso (00:03, VPS)
 
 | Pezzo | Stato | Prova |
 |---|---|---|
 | `STRIPE_SECRET_KEY` | ✅ collegata | `verifica-sensori.mjs` exit 0 → `stripe_api: balance API ok` |
-| Cassa Stripe (available + pending) | **0 €** | `sensore-cassa.mjs` 13:11 |
+| Cassa Stripe (available + pending) | **0 €** | `sensore-cassa.mjs` 00:03 |
 | `BURN_MENSILE_EUR` | ❌ assente | `grep -c` su `cervello/vps/.env` → 0 occorrenze |
-| Runway | **sconosciuto** | 159 giri consecutivi (contatore AR-039) |
+| Runway | **sconosciuto** | 171 giri consecutivi (contatore AR-039) |
 | Ordini pagati marketplace | 0 | coerente con cassa Stripe a zero |
 
 **Correzione rispetto al messaggio generico «sensore cieco»:** il sensore **legge** Stripe. È «cieco» sul runway perché manca il denominatore (burn mensile), non perché Stripe non risponde.
@@ -76,6 +76,7 @@ echo "BURN_MENSILE_EUR=150" >> /opt/mycity/ad-mycity/cervello/vps/.env && sudo s
 | 18/7 | 137 | invariato |
 | **19/7 13:11** | **159** | invariato — unica azione = env burn |
 | **20/7 00:00** | **170** | invariato — unica azione = env burn |
+| **20/7 00:03** | **171** | invariato — unica azione = env burn |
 
 ---
 *Fonti live: `node cervello/sensore-cassa.mjs` · `node cervello/verifica-sensori.mjs` exit 0 · `cassa-runway.json` · AR-016/AR-039*

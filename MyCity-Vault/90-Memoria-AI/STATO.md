@@ -1,12 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 00:02
-fonte: AD digitale (sentinella negozio_fermo + check-in PQ)
+aggiornato: 2026-07-20 00:03
+fonte: AD digitale (sentinella cassa_sconosciuta + negozio_fermo)
 ---
 
-> 🛰️ **20/7 00:02 — SENTINELLA: negozio fermo — PQ, check-in pronto per oggi.** Unico negozio LIVE (Pane Quotidiano) · **0 ordini in 14g** · VP 17/7 passato senza ordini. **Verificato 🟢:** REST ok · PQ ha **5 prodotti** (non 258 demo) · relazione ok, **non churn**. **Mossa:** card **🟡 #checkin-pq-postvp** aggiornata (script post-VP + debrief venerdì). Dossier: `consegne/account-negozi/2026-07-20-negozio-fermo-pane-quotidiano.md`. Sentinella: cooldown 24h, nessuna card duplicata. Fonte: REST 00:01.
+> 🛰️ **20/7 00:03 — SENTINELLA: cassa/runway — verifica 171 giri, blocco invariato.** `cassa_sconosciuta` **171 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe. **Unica mossa:** card **🟡 #burn-mensile-env** (già in coda, non ri-accodata). **Oggi ore 10:00:** 🔴 **PI26 apre a sportello** (`#bandi-cciaa-2007`). Diagnosi: `consegne/finanza/2026-07-19-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 00:03.
 
-> 🛰️ **20/7 00:00 — SENTINELLA: cassa/runway — verifica 170 giri, blocco invariato.** `cassa_sconosciuta` **170 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe. **Unica mossa:** card **🟡 #burn-mensile-env** (già in coda, non ri-accodata). **Oggi ore 10:00:** 🔴 **PI26 apre a sportello** (`#bandi-cciaa-2007`) — registrazione restart.infocamere.it se non fatta ieri. Diagnosi: `consegne/finanza/2026-07-19-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 00:00.
+> 🛰️ **20/7 00:02 — SENTINELLA: negozio fermo — PQ, check-in pronto per oggi.** Unico negozio LIVE (Pane Quotidiano) · **0 ordini in 14g** · VP 17/7 passato senza ordini. **Verificato 🟢:** REST ok · PQ ha **5 prodotti** (non 258 demo) · relazione ok, **non churn**. **Mossa:** card **🟡 #checkin-pq-postvp** aggiornata (script post-VP + debrief venerdì). Dossier: `consegne/account-negozi/2026-07-20-negozio-fermo-pane-quotidiano.md`. Sentinella: cooldown 24h, nessuna card duplicata. Fonte: REST 00:01.
 
 > 💬 **19/7 ~23:36 — CHAT: «Com'è fatto un workflow molto complesso e molto grande?» — anatomia n8n a 7 blocchi.** Nicola chiede **struttura** di un workflow grosso (non altro catalogo idee). AD: scheletro riusabile — (1) sveglia/trigger, (2) filtro «ha senso agire?», (3) rami per canale/caso, (4) attese + ricontrollo situazione, (5) azioni (messaggio/post/avviso), (6) rete sicurezza (retry + alert Telegram), (7) chiusura/segna fatto. Esempio: carrello abbandonato. **Regola emersa:** «complesso» = catena con regole, non conteggio nodi; tutti i workflow del catalogo (L-335, L-336, L-333) seguono lo stesso scheletro. **Prossimo:** Nicola sceglie un flusso → JSON n8n pezzo per pezzo (dopo webhook collegato). Fonte: chat Nicola 19/7 23:36.
 
