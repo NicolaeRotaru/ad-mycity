@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 23:34
-fonte: AD digitale (metabolizzazione chat Nicola 19/7 23:34)
+aggiornato: 2026-07-19 23:36
+fonte: AD digitale (metabolizzazione chat Nicola 19/7 23:36)
 ---
+
+> 💬 **19/7 ~23:36 — CHAT: «Com'è fatto un workflow molto complesso e molto grande?» — anatomia n8n a 7 blocchi.** Nicola chiede **struttura** di un workflow grosso (non altro catalogo idee). AD: scheletro riusabile — (1) sveglia/trigger, (2) filtro «ha senso agire?», (3) rami per canale/caso, (4) attese + ricontrollo situazione, (5) azioni (messaggio/post/avviso), (6) rete sicurezza (retry + alert Telegram), (7) chiusura/segna fatto. Esempio: carrello abbandonato. **Regola emersa:** «complesso» = catena con regole, non conteggio nodi; tutti i workflow del catalogo (L-335, L-336, L-333) seguono lo stesso scheletro. **Prossimo:** Nicola sceglie un flusso → JSON n8n pezzo per pezzo (dopo webhook collegato). Fonte: chat Nicola 19/7 23:36.
 
 > 💬 **19/7 ~23:34 — CHAT: «Invece nel marketing?» — catalogo n8n acquisizione/contenuti.** Dopo i 10 workflow revenue/ops (23:33), Nicola chiede **la stessa cosa ma solo marketing** — visibilità e domanda nuova, non recupero ordini. AD: 10 flussi (post approvato→pub, calendario editoriale, evento/meteo città, lancio negozio, prodotto rotante, retargeting visitatori, UGC recensioni, campagna stagionale, micro-influencer, report settimanale Telegram). **Regola emersa:** separare esplicitamente blocco **ops/revenue** vs **marketing/acquisizione** quando elenca workflow n8n; stesso formato lista numerata. Tutti pendono webhook n8n; pub/messaggi reali 🔴. Fonte: chat Nicola 19/7 23:34.
 
