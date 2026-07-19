@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 00:29
+aggiornato: 2026-07-20 00:32
 fonte: AD digitale (sentinella cassa_sconosciuta + negozio_fermo)
 ---
+
+> 💬 **20/7 ~00:32 — CHAT: auto-apertura — Nicola tolta su live, repo main ancora presente.** Nicola corregge AD: **auto-apertura l'ha rimossa oggi** sul Pannello live perché crea bug «+» (chat vecchia che rientra). AD verifica **su `main` repo auto-apertura c'è ancora** (ultima mod chat 19/7, nessun revert oggi) — **sync elenco** (poll ~8s) resta voluto. **Divergenza live≠repo:** rollback Vercel o modifica fuori repo; prossimo deploy Pannello può **reintrodurre** auto-apertura. **Strada concordata:** PR che **rimuove solo auto-apertura**, sync elenco intatto (pendente ok Nicola). Fonte: chat Nicola 20/7 00:32.
 
 > 💬 **20/7 ~00:29 — CHAT: desktop non vede chat mobile — sync parziale, bug aperto.** Nicola «perché dal Pannello desktop non vedo le chat del telefono? dimmi cosa hai capito». AD: **elenco** cassetto Conversazioni va su DB (poll ~8s) ma **chat aperta adesso** resta locale al browser; footer «Salvate nel database» vs «su questo dispositivo» = prima diagnosi; fix cross-device (#316, #328, #446, #475) su main ma Nicola vede ancora disallineamento → Pannello desktop su Vercel non aggiornato **oppure** salvataggio/caricamento DB fallisce in silenzio. **Prossimo:** Nicola dice cosa scrive il footer su telefono e desktop + se lista desktop vuota o parziale. Fonte: chat Nicola 20/7 00:29.
 

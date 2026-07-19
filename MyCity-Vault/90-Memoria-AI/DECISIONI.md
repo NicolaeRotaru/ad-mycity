@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 00:32 · 🟢 · [Chat — auto-apertura rimossa da Nicola su live; sync elenco resta] · **Nicola: «l'ho tolta oggi perché crea un bug nella chat, controlla su main».** Correzione esplicita: auto-apertura (riapre ultima chat su «+») **va via**; **sync elenco** DB poll ~8s **resta** per vedere conversazioni telefono↔desktop nel cassetto. AD verifica repo: auto-apertura **ancora su main** (mod 19/7) — live Panel può essere avanti/indietro vs repo (rollback Vercel). Prossimo: PR solo rimozione auto-apertura, non toccare sync. L-339, L-299.
+
 2026-07-19 23:23 · 🟢 · [Conflitto PR #480 risolto — branch ripulito, merge pendente] · **Nicola: «C'è un conflitto».** Dopo autofill supervisione già live (252 condition + 242 unit, 19/7 18:38), GitHub segnalava conflitto su **PR #480** (fix `marketplace.mjs`). Causa: riga condivisa in `AZIONI-IN-ATTESA.md` (sezione supervisione) modificata in parallelo da AD e giro. AD ha rimosso diario dal branch → solo 1 file codice → API **mergeable**. «Failed to fetch» in chat = timeout worker, non problema catalogo. **Merge #480** 🟡 ancora a Nicola (serve per autofill automatici futuri). L-334.
 
 2026-07-19 22:34 · 🟢 · [Priorità workflow n8n — carrello abbandonato come leva ROI] · **Nicola: «Dimmi un workflow complesso che produce tantissimo denaro… non come spiegartelo, dimmi cosa hai capito».** Correzione esplicita: non vuole spiegazioni su *come* formare l'AD, vuole dimostrare *cosa* ha capito del business. AD propone funnel recupero carrelli (1° touch ~1h, 2° giorno dopo con incentivo, stop su ordine, alert Telegram) come workflow n8n prioritario per ROI su marketplace locale. Prossimo passo: disegno JSON completo in repo dopo webhook n8n collegato. Lezione L-333.
