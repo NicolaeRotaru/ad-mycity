@@ -18,6 +18,27 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0719-293",
+      "testo": "**«Controlla se ho fatto giusto» — parse JSON sul VPS prima di confermare (Nicola 19/7 16:54).** Dopo che Nicola modifica `settings.local.json`, l'AD deve verificare con parser JSON (`JSON OK`) e contare le voci MCP attese (9 = 5 Vercel + 2 marketplace + 2 memoria) prima di dire «fatto bene». 5 perché: (1) Nicola chiede validazione esplicita, non fiducia cieca; (2) trailing comma invalidava tutto il file (L-286); (3) «incollato» ≠ «funziona» finché non parsea; (4) Nicola ha incluso anche memoria×2 (opzionale ma scelto); (5) config valido ≠ MCP runtime — prossimo passo sempre nuova chat + query live. Regola: conferma solo con verifica parser; runtime MCP = step separato («quanti utenti?»). Vedi L-286, L-292, #abilita-mcp-supabase-chat.",
+      "tag": [
+        "allowlist",
+        "json",
+        "verifica",
+        "mcp",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.96,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 16:54",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-292",
       "testo": "**Allowlist MCP — leggi cosa c'è già, istruzioni solo delta (Nicola 19/7 ~16:48).** «Controlla quelli che ci sono già e riscrivi le righe che devi inserire» — dopo due giri con blocco JSON completo (L-291), Nicola chiede verifica del file reale prima di riscrivere. 5 perché: (1) aveva già incollato Vercel×5 + Supabase×2; (2) riscrivere tutto il blocco fa pensare di dover sostituire ciò che funziona; (3) l'unico blocco reale era trailing comma su `list_tables`; (4) memoria opzionale va aggiunta, non re-incollata tutta la lista; (5) pattern «controlla quelli che ci sono già» vale per ogni allowlist/config, non solo MCP. Regola: PRIMA leggi/verifica file esistente → poi istruzioni delta (fix virgola + righe mancanti); blocco integrale solo se file vuoto o Nicola chiede «tutti». Vedi L-291, L-290, L-286.",
       "tag": [
@@ -164,12 +185,12 @@
         "trailing-comma"
       ],
       "reparto": "@AD",
-      "confidenza": 0.97,
-      "evidenze": 2,
+      "confidenza": 0.98,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 16:44",
+      "ultima_conferma": "2026-07-19 16:54",
       "stato": "attiva",
       "usi": []
     },
@@ -6608,6 +6629,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Allowlist MCP — vuole conferma dopo il fix («Controlla se ho fatto giusto», chat 19/7 16:54):** dopo aver modificato `settings.local.json`, chiede all'AD di verificare che il JSON sia valido e le voci MCP siano complete — si aspetta parser JSON + conteggio voci (9 attese), non un «ok» generico. Prossimo passo accettato: nuova chat + query live. Vedi L-293.",
     "**Allowlist MCP — dopo il blocco completo, vuole verifica file + istruzioni delta (chat 19/7 ~16:48):** «Controlla quelli che ci sono già e riscrivi le righe che devi inserire» — non riscrivere tutto se Vercel×5 + Supabase×2 ci sono già; indica solo fix (trailing comma) + righe mancanti (memoria opzionale). Blocco integrale solo al primo giro o su «quali sono tutti». Vedi L-292, L-291.",
     "**Allowlist MCP — vuole l'elenco COMPLETO tiered, non solo «le 2 righe Supabase» (chat 19/7 ~16:45):** «Quali sono tutti gli mcp utili?» — si aspetta 3 gruppi (Essenziali / Utili opzionali / Non mettere), blocco JSON integrale pronto da incollare (5 Vercel + 2 marketplace + 2 memoria opz.), reminder trailing comma rompe tutto. Vedi L-291, L-290.",
     "**Chat — si aspetta che le risposte operative persistano (chat 19/7 ~16:42):** chiede «perché è sparito questo pezzo?» quando istruzioni MCP allowlist non sono più visibili — vuole spiegazione del meccanismo (interruzione sessione, non cancellazione AD) + contenuto rimesso subito, senza dover ripescare la cronologia. Vedi L-289.",

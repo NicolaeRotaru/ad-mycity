@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-19 16:54 · metabolizzazione chat «Controlla se ho fatto giusto» allowlist · atteso: STATO/DECISIONI/AZIONI/LEZIONI + lezione verifica JSON · reale: L-293, L-286 evidenze 3, preferenza, #abilita-mcp-supabase-chat → FATTO · #metabolizzazione #allowlist #mcp
 - 2026-07-19 16:48 · metabolizzazione chat «Controlla quelli che ci sono già» allowlist · atteso: lezione delta + coda aggiornata · reale: L-292, L-291 evidenze 2, preferenza, LEZIONI-CHAT/STATO/DECISIONI/AZIONI · #metabolizzazione #allowlist #mcp
 - 2026-07-19 16:45 · metabolizzazione chat «Quali sono tutti gli mcp utili» · atteso: lezione tier MCP + aggiornamento coda allowlist · reale: L-291, L-287 evidenze 2, preferenza, LEZIONI-CHAT/STATO/DECISIONI/AZIONI · #metabolizzazione #mcp #allowlist
 - 2026-07-19 16:44 · metabolizzazione chat «C'era quello di vercel» + trailing comma · atteso: lezione allowlist Vercel+Supabase + aggiornamento L-286 · reale: L-290, L-286 evidenze 2, preferenza, LEZIONI-CHAT/STATO/DECISIONI · #metabolizzazione #allowlist #mcp
