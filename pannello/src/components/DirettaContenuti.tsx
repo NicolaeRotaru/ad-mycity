@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { usePanelRefresh } from "@/lib/panel-sync";
 import { faRelativo } from "@/lib/format";
+import ParlaCasella from "@/components/ParlaCasella";
 
 // 📡 DIRETTA CONTENUTI — guarda in tempo reale ciò che il worker sforna: post, bozze,
 // dossier, audit, piani (consegne/*) + briefing/report/intelligence del vault, in un unico
@@ -55,6 +56,18 @@ const MD: Components = {
 
 function urlAsset(rel: string): string {
   return `/api/contenuti/asset?file=${encodeURIComponent(rel)}`;
+}
+
+function contestoContenuto(c: Contenuto, testoCompleto?: string): string {
+  const parti = [
+    c.estratto,
+    c.reparto && `Reparto: ${c.reparto}`,
+    c.etichetta && `Tipo: ${c.etichetta}`,
+    c.tipo && `Formato: ${c.tipo}`,
+    c.path && `File: ${c.path}`,
+    testoCompleto && `Contenuto completo:\n${testoCompleto.slice(0, 2000)}`,
+  ].filter(Boolean);
+  return parti.join("\n\n");
 }
 
 const CHIAVE_VISTO = "mycity_contenuti_visto"; // ISO dell'ultima volta che Nicola ha guardato la diretta
@@ -275,6 +288,12 @@ export default function DirettaContenuti() {
                     <div className="mt-2 text-[10.5px] text-black/35 dark:text-white/35 font-mono truncate">{c.path}</div>
                   </div>
                 )}
+                <div className="px-3.5 pb-3 border-t border-black/[0.04] dark:border-white/[0.06]">
+                  <ParlaCasella
+                    titolo={`${c.etichetta}: ${c.titolo}`}
+                    contesto={contestoContenuto(c, isOpen ? dettaglio[c.path] : undefined)}
+                  />
+                </div>
               </li>
             );
           })}
