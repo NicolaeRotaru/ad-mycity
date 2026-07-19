@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
   "aggiornato": "2026-07-19 23:33",
+  "_nota_metabolizzazione_19_07_2333": "Chat 19/7 ~23:33: Nicola «Dimmi altri 10 workflow diversi» — catalogo revenue n8n (10 idee distinte da carrello abbandonato). L-335 nuova; L-333 evidenze++; preferenza catalogo-n-workflow; STATO+LEZIONI-CHAT+builder+crm aggiornati.",
   "_nota_metabolizzazione_19_07_2323": "Chat 19/7 ~23:23: Nicola «C'è un conflitto» su PR #480 post-autofill — catalogo già ok, conflitto diario AZIONI-IN-ATTESA, branch ripulito mergeable. L-334 nuova; L-312 addendum; preferenza conflitto-post-autofill; STATO+DECISIONI+AZIONI+LEZIONI-CHAT+tech+supervisione aggiornati.",
   "_nota_metabolizzazione_19_07_2234": "Chat 19/7 ~22:34: Nicola «workflow complesso che produce tantissimo denaro… non come spiegartelo, dimmi cosa hai capito» — correzione: ROI/soldi, non meta-tutorial. L-333 nuova; preferenza workflow-in-soldi; STATO+DECISIONI+LEZIONI-CHAT+builder+crm aggiornati.",
   "_nota_metabolizzazione_19_07_2200": "Chat 19/7 ~22:00: Nicola «Come farti ragionare come un esperto n8n per workflow pazzeschi?» — standing-ask architetto automazioni, non tutorial collegamento. L-332 nuova; preferenza n8n-esperto-workflow; STATO+DECISIONI+LEZIONI-CHAT+builder aggiornati.",
@@ -54,6 +55,27 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0719-335",
+      "testo": "**«Dimmi altri 10 workflow diversi» = catalogo revenue n8n, non ripetere la leva già data (Nicola 19/7 ~23:33).** Dopo L-333 (carrello abbandonato prioritario), Nicola chiede **10 workflow diversi** — conferma che vuole un **portfolio ampio** di automazioni mappate a soldi/ordini/retention, non un solo esempio né meta-setup. 5 perché: (1) «altri» + «diversi» = **escludere** carrello abbandonato già proposto; (2) formato lista numerata con trigger→azione→stop in una riga; (3) coprire clienti + negozi + ops (welcome, post-consegna, dormiente, pagamento fallito, ordine→bottega, meteo, referral, negozio fermo, post→social, bandi); (4) ogni voce chiude con prerequisito webhook + 🔴 se tocca persone reali; (5) prossimo passo = Nicola **sceglie uno** → JSON n8n completo in repo. Regola: «dimmi N workflow» → N idee **distinte** revenue-first; vietato duplicare la leva già data o rispondere con tutorial tecnico. Vedi L-333, L-332.",
+      "tag": [
+        "n8n",
+        "workflow",
+        "catalogo",
+        "roi",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 23:33",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-334",
       "testo": "**PR #480 — «C'è un conflitto» post-autofill = diario nel branch, catalogo già ok (Nicola 19/7 ~23:23).** Dopo autofill supervisione live (252 condition + 242 unit, 19/7 18:38), Nicola segnala conflitto su **PR #480** (fix `marketplace.mjs`). 5 perché: (1) **catalogo non è rotto** — i 494 prodotti erano già sul sito prima del conflitto PR; (2) conflitto su `AZIONI-IN-ATTESA.md` sezione supervisione — AD e giro successivo hanno toccato la **stessa riga**; (3) «Failed to fetch» in chat = timeout worker durante fix PR, **non** errore marketplace; (4) fix = ripulire branch (**solo** 1 file codice, zero diario/memoria), verificare mergeable API prima di dire «risolto»; (5) merge #480 🟡 resta a Nicola — serve per autofill automatici futuri, non per i batch già eseguiti. Regola: su «c'è un conflitto» dopo supervisione → **prima** separare «catalogo ok» vs «PR tecnica»; PR fix codice = **mai** file diario nel branch (pattern L-2800, L-354, L-175). Vedi L-312.",
       "tag": [
@@ -88,11 +110,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.95,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 22:34",
+      "ultima_conferma": "2026-07-19 23:33",
       "stato": "attiva",
       "usi": []
     },
@@ -7581,6 +7603,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Workflow n8n — «Dimmi altri 10 workflow diversi» = catalogo revenue ampio (chat 19/7 ~23:33):** dopo carrello abbandonato come leva #1, chiede **10 automazioni distinte** — si aspetta lista numerata concisa (trigger→azione→stop), tutte su ordini/retention/negozi; **non** ripetere carrello abbandonato né tutorial setup; ogni voce con webhook pendente + 🔴 se messaggia clienti/negozi. Prossimo: Nicola sceglie quale disegnare per primo → JSON in repo. Vedi L-335, L-333.",
     "**Conflitto post-autofill — «C'è un conflitto» = prima rassicurare catalogo ok, poi fix PR (chat 19/7 ~23:23):** dopo autofill supervisione live, segnala conflitto GitHub — si aspetta spiegazione che **i prodotti sono già sul sito** (252+242) e che il conflitto è solo sulla PR tecnica/diario; «Failed to fetch» ≠ catalogo rotto; AD risolve branch (solo codice) e chiede merge **#480** per i prossimi autofill. Vedi L-334, L-312.",
     "**Workflow n8n «in soldi» — «non come spiegartelo, dimmi cosa hai capito» (chat 19/7 ~22:34):** chiede un workflow complesso che **produce tantissimo denaro** — si aspetta che l'AD dimostri **cosa ha capito del business** (funnel revenue, ROI su marketplace locale), **non** meta-spiegazioni su come insegnargli n8n o su prerequisiti tecnici. Risposta giusta: **recupero carrelli abbandonati** (multi-touch, stop su ordine, alert Telegram). Prossimo: JSON completo dopo webhook. Vedi L-333, L-332.",
     "**n8n — «Come farti ragionare come un esperto?» = workflow completi, non tutorial collegamento (chat 19/7 ~22:00):** chiede come far ragionare l'AD come automazionista bravo — si aspetta **progettazione e costruzione** di workflow n8n seri (post→FB/IG, ordine→negozio, carrello abbandonato, alert) con JSON + spiegazione italiana, error handling, retry, notifica Telegram; **non** loop install/docker/webhook. Prerequisito capacità: webhook attivo + chiave API n8n in env worker (Nicola la mette, mai in chat). OAuth Meta resta suo; azioni 🔴. Vedi L-332, L-331.",
