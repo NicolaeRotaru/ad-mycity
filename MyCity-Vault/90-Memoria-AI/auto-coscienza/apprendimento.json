@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 23:53",
+  "aggiornato": "2026-07-20 00:23",
   "_nota_metabolizzazione_19_07_2336": "Chat 19/7 ~23:36: Nicola «Com'è fatto un workflow molto complesso e molto grande?» — anatomia 7 blocchi (trigger→filtro→rami→attese→azioni→errori→chiusura), non conteggio nodi. L-337 nuova; preferenza workflow-anatomia; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2334": "Chat 19/7 ~23:34: Nicola «Invece nel marketing?» — catalogo n8n acquisizione/contenuti (10 idee distinte da blocco revenue/ops). L-336 nuova; preferenza workflow-marketing-vs-ops; STATO+LEZIONI-CHAT+builder+marketing aggiornati.",
   "_nota_metabolizzazione_19_07_2333": "Chat 19/7 ~23:33: Nicola «Dimmi altri 10 workflow diversi» — catalogo revenue n8n (10 idee distinte da carrello abbandonato). L-335 nuova; L-333 evidenze++; preferenza catalogo-n-workflow; STATO+LEZIONI-CHAT+builder+crm aggiornati.",
@@ -7924,9 +7924,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.21,
-    "tasso_calcolato_il": "2026-07-19 23:53",
+    "tasso_calcolato_il": "2026-07-20 00:23",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 23:53",
+    "tick_leggero_il": "2026-07-20 00:23",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
