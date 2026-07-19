@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 20:57",
+  "aggiornato": "2026-07-19 21:00",
+  "_nota_metabolizzazione_19_07_2100": "Chat 19/7 ~21:00: Nicola screenshot Termux — docker cp ok, n8n import:workflow fallisce NOT NULL workflow_entity.id; file modello senza id/versionId. AD fix JSON repo, Nicola riprova. L-329 nuova; L-328 addendum; preferenza n8n-cli-import-id; STATO+LEZIONI-CHAT+builder+DECISIONI aggiornati.",
   "_nota_metabolizzazione_19_07_2042": "Chat 19/7 ~20:42: Nicola «Non trovo il file» (2°) + screenshot My Files — JSON in Download ma picker n8n su cartella Download mostra solo file giugno (Termux ≠ browser). AD: import CLI server docker cp + n8n import:workflow. L-328 nuova; L-327 addendum+evidenze++; preferenza n8n-import-cli; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2032": "Chat 19/7 ~20:32: Nicola «Non trovo il file» + screenshot Termux scp ok + My Files Download con JSON — selettore n8n su File recenti (solo foto). AD: navigare Download, non riscaricare. L-327 nuova; L-326 evidenze++; preferenza n8n-file-picker; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2027": "Chat 19/7 ~20:27: Nicola screenshot Termux scp fallito — scp dentro SSH (root@…) verso ~/storage/downloads → /root/storage sul VPS. AD: exit → ~$ → scp locale. L-326 nuova; L-324 evidenze++; preferenza scp-termux-prompt; STATO+LEZIONI-CHAT+builder aggiornati.",
@@ -48,8 +49,30 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0719-329",
+      "testo": "**n8n import CLI — `NOT NULL constraint failed: workflow_entity.id` = JSON senza `id`/`versionId` (Nicola 19/7 ~21:00).** Dopo L-328 (import server-side), Nicola esegue `docker cp` **ok** ma `docker exec -u node n8n n8n import:workflow --input=…` fallisce con errore SQLite su `workflow_entity.id`. 5 perché: (1) il file modello `pubblica-post-programmato.json` nel repo era pensato per **Import from File** UI — n8n genera `id`/`versionId` lì; (2) la **CLI** `import:workflow` richiede quei campi top-level nel JSON; (3) **non** accusare Nicola o il telefono — è limite del template repo; (4) fix: aggiungere UUID in `id` e `versionId` nel file repo, poi riprovare copia+import in SSH; (5) se fallisce ancora → incollare testo errore completo, alternativa import da PC (paste JSON). Regola: docker cp ok + import CLI rosso su `workflow_entity.id` = **fix JSON template**, non altri passi picker/scp. Vedi L-328, L-325.",
+      "tag": [
+        "n8n",
+        "import",
+        "workflow",
+        "docker",
+        "cli",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 21:00",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-328",
-      "testo": "**n8n import Android — picker «Download» ≠ Termux Download = import CLI sul server (Nicola 19/7 ~20:42).** Dopo L-327 (navigare da «File recenti»), Nicola apre cartella **Download** nel selettore n8n ma vede solo file di **giugno** — mentre My Files mostra `pubblica-post-programmato.json` appena scaricato via Termux scp. 5 perché: (1) `~/storage/downloads` Termux e la «Download» del file picker del browser n8n **non sono la stessa memoria** su Android; (2) **non** dire «riscarica» se My Files/Termux 100% confermano presenza; (3) **non** insistere col file picker dopo 2 tentativi falliti; (4) fix che funziona: SSH sul VPS → `docker cp` del JSON dal repo nel container n8n → `docker exec -u node n8n n8n import:workflow --input=…` → ricarica browser n8n; (5) alternativa PC drag file. Regola: «Non trovo il file» + Download picker vuoto/vecchio ma My Files ok = **bypass picker**, import server-side. Vedi L-327, L-326, L-325.",
+      "testo": "**n8n import Android — picker «Download» ≠ Termux Download = import CLI sul server (Nicola 19/7 ~20:42).** Dopo L-327 (navigare da «File recenti»), Nicola apre cartella **Download** nel selettore n8n ma vede solo file di **giugno** — mentre My Files mostra `pubblica-post-programmato.json` appena scaricato via Termux scp. 5 perché: (1) `~/storage/downloads` Termux e la «Download» del file picker del browser n8n **non sono la stessa memoria** su Android; (2) **non** dire «riscarica» se My Files/Termux 100% confermano presenza; (3) **non** insistere col file picker dopo 2 tentativi falliti; (4) fix che funziona: SSH sul VPS → `docker cp` del JSON dal repo nel container n8n → `docker exec -u node n8n n8n import:workflow --input=…` → ricarica browser n8n; (5) alternativa PC drag file. Regola: «Non trovo il file» + Download picker vuoto/vecchio ma My Files ok = **bypass picker**, import server-side. **ADDENDUM 21:00:** dopo docker cp ok, CLI può fallire se JSON senza `id`/`versionId` — fix template repo (L-329), non colpa Nicola. Vedi L-327, L-326, L-325, L-329.",
       "tag": [
         "n8n",
         "android",
@@ -62,11 +85,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.95,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 20:42",
+      "ultima_conferma": "2026-07-19 21:00",
       "stato": "attiva",
       "usi": []
     },
@@ -7446,6 +7469,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**n8n import CLI — errore `workflow_entity.id` = spiegare limite template JSON, non colpa Nicola (chat 19/7 ~21:00):** dopo docker cp ok, se `n8n import:workflow` fallisce su `NOT NULL constraint failed: workflow_entity.id` — si aspetta che l'AD **non** dica «hai sbagliato tu» ma spieghi che il file modello nel repo mancava `id`/`versionId` (UI li genera, CLI no), fixi il JSON, e dia solo **copia+import** da riprovare in SSH; se ancora rosso → testo errore completo. Vedi L-329, L-328.",
     "**n8n import Android — se picker «Download» mostra solo file vecchi, bypass con import CLI sul server (chat 19/7 ~20:42):** dopo scp ok e file visibile in My Files, se n8n su telefono non trova il JSON neanche in cartella Download (solo file giugno), si aspetta che l'AD **non ripeta file picker/scp** ma proponga subito import da SSH sul VPS (docker cp + n8n import:workflow), ricarica browser, poi «workflow importato»; alternativa PC. Vedi L-328, L-327.",
     "**n8n import Android — «Non trovo il file» = verificare Download + selettore cartella, non riscaricare (chat 19/7 ~20:32):** dopo scp ok chiede perché non vede il JSON in n8n — si aspetta che l'AD **confermi il file esiste** (My Files/Termux 100%) e spieghi che il picker Android resta su «File recenti» (solo foto); passi concreti ☰ → Download o ricerca «pubblica»; alternativa PC; **non** accusare file mancante sul VPS. Vedi L-327, L-326.",
     "**Termux scp workflow — errore path locale = spiegare exit prima di scp (chat 19/7 ~20:27):** durante import n8n da telefono, se scp fallisce con `/root/storage/downloads/` si aspetta che l'AD **controlli il prompt** (SSH vs Termux), spieghi che `~` dentro SSH è il VPS, e dia sequenza `exit` → `~ $` → mkdir → scp; offrire alternativa PC. Vedi L-326, L-324.",

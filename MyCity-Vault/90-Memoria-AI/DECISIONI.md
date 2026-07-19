@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 21:00 · 🟢 · [Fix template workflow n8n — campi id/versionId per import CLI] · **Nicola: screenshot Termux import fallito dopo docker cp ok.** Errore SQLite `NOT NULL constraint failed: workflow_entity.id` — il JSON `pubblica-post-programmato.json` esportato per UI mancava `id` e `versionId` richiesti da `n8n import:workflow`. AD aggiunge UUID al file in repo sul worker; Nicola riprova import SSH. Lezione L-329. Prossimo: «workflow importato» → Meta OAuth.
+
 2026-07-19 19:40 · 🟡 · [PR #217 marketplace — fix logo navbar mobile tagliato] · **Nicola: «Si vede metà del logo dentro la navbar».** Logo MyCity compresso da flex header mobile (visibile solo «My»). AD PR #217 su repo mycity (`25aa5aa`): `flex-shrink-0` su logo e carrello, CAP centrato. Pendente merge Nicola → deploy Render. L-319.
 
 2026-07-19 18:44 · 🟢 · [Merge PR #214 prima di #215 — ordine invertito, nessun danno] · **Nicola: «Purtroppo ho mangiato la 214 prima della 215».** Poi chiede «A cosa serve la CI?». AD conferma: fix icona carrello (#214) ok da mergiare per conto suo (E2E/integration verdi); unit rossi su main restano finché non mergia #215. CI spiegata come collaudo automatico pre-deploy. Prossimo passo: merge #215 quando possibile. L-314.
