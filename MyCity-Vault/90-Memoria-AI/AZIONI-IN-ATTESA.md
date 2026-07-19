@@ -16,6 +16,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #mergia-pr-480 — Mergia PR #480: fix strumento autofill supervisione · ⏳ accodata 2026-07-19 23:23
+
+**Contesto:** Autofill 252 `condition=nuovo` + 242 `unit=pezzo` già **live** sul marketplace (19/7 18:38, zero errori). **PR #480** corregge bug in `marketplace.mjs` che bloccava batch futuri. Conflitto diario su `AZIONI-IN-ATTESA.md` **risolto** dall'AD (19/7 23:23) — branch ora **mergeable**, solo 1 file codice.
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/480
+
+**Cosa cambia:** i prossimi autofill supervisione (`marketplace.mjs aggiorna`) girano senza blocco tool.
+**Se va bene:** merge da Pannello → prossimi «Fai i 2 fix» automatici dalla casella Supervisione.
+
+- **Colore:** 🟡 (merge PR — Nicola approva)
+- **Reparto:** tech / supervisione
+
+---
+
 ### 🔴 #post-domenica-settimana-1907 — Pubblica il post di stasera "Prepara la settimana da casa" su Facebook e Instagram · ⏳ accodata 2026-07-19 12:58
 
 **Contenuto completo:** `consegne/content/2026-07-19-post-del-giorno-domenica-settimana-PQ.md` · anteprima [[AZIONI-PRONTE]] **A29**

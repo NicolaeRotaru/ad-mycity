@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 22:34
-fonte: AD digitale (metabolizzazione chat Nicola 19/7 22:34)
+aggiornato: 2026-07-19 23:23
+fonte: AD digitale (metabolizzazione chat Nicola 19/7 23:23)
 ---
+
+> ✅ **19/7 ~23:23 — CHAT: conflitto PR #480 risolto — catalogo già ok.** Nicola «C'è un conflitto» dopo autofill supervisione. AD: **252+242 prodotti già live** (18:38); conflitto solo su PR fix tool — stessa riga `AZIONI-IN-ATTESA.md` toccata da AD e giro successivo. Branch ripulito (solo fix `marketplace.mjs`, zero diario) → GitHub **mergeable**. «Failed to fetch» = chat bloccata durante fix, **non** errore catalogo. **Prossimo:** mergia **PR #480** dal Pannello per sbloccare autofill futuri. Fonte: chat Nicola 19/7 23:23.
 
 > 💬 **19/7 ~22:34 — CHAT: workflow n8n «in soldi» — carrello abbandonato = leva ROI #1.** Nicola: «Dimmi un workflow complesso che produce tantissimo denaro… **non come spiegartelo, dimmi cosa hai capito**». AD ha capito: vuole **ragionamento in denaro**, non meta-tutorial su come insegnare n8n. Proposta workflow prioritario: **recupero carrelli abbandonati** (trigger carrello non pagato → attesa ~1h → promemoria personalizzato WhatsApp/email → secondo touch giorno dopo con incentivo → stop se ordina → alert Telegram se si rompe). Complesso perché è funnel revenue, non post automatico; su marketplace locale ogni ordine recuperato pesa. **Prossimo:** JSON n8n completo dopo webhook collegato (L-333). Pub social e gruppi FB restano separati. Fonte: chat Nicola 19/7 22:34.
 
