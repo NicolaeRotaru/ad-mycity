@@ -839,6 +839,7 @@ export default function Dashboard() {
     setAllegatiChat((prev) => prev.filter((_, idx) => idx !== i));
   }
   const endRef = useRef<HTMLDivElement>(null);
+  const chatFabEndRef = useRef<HTMLDivElement>(null);
   // 📜 "Segui in fondo" solo se sei GIÀ in fondo: se sei salito a rileggere la chat,
   // una nuova risposta NON ti strappa giù (resti dove stai leggendo). I ref tengono
   // lo stato PRIMA che arrivi il nuovo messaggio (l'onScroll aggiorna, l'effect legge).
@@ -849,6 +850,8 @@ export default function Dashboard() {
   // Quando si cambia/carica una conversazione, forza lo scroll al fondo
   // anche se stickFullRef è false (l'utente era risalito nella chat precedente).
   const forzaScrollRef = useRef(false);
+  /** Dopo scelta dal cassetto: lo scroll a 120ms scatta prima che finisca l'animazione drawer (200ms) → torni in cima. */
+  const scrollDopoDrawerRef = useRef(false);
   function vicinoAlFondo(el: HTMLElement | null) {
     if (!el) return true;
     return el.scrollHeight - el.scrollTop - el.clientHeight < 80;
@@ -880,11 +883,16 @@ export default function Dashboard() {
         if (fab && (stickFabRef.current || forza)) fab.scrollTop = fab.scrollHeight;
       });
     });
-    const t = setTimeout(() => {
+    const scroll = () => {
       if (el && (stickFullRef.current || forza)) el.scrollTop = el.scrollHeight;
       if (fab && (stickFabRef.current || forza)) fab.scrollTop = fab.scrollHeight;
-    }, 120);
-    return () => clearTimeout(t);
+    };
+    const t = setTimeout(scroll, 120);
+    const t2 = forza ? setTimeout(scroll, 250) : undefined;
+    return () => {
+      clearTimeout(t);
+      if (t2) clearTimeout(t2);
+    };
   }, [messages]);
   // Cambio conversazione → sempre al fondo (doppio rAF per aspettare il DOM aggiornato).
   useEffect(() => {
@@ -911,6 +919,29 @@ export default function Dashboard() {
   // ⚡ Finestra "Skill & comandi" dentro la chat (condivisa: chat intera e fluttuante non sono mai visibili insieme).
   // Dentro la chat fluttuante: pannello "Conversazioni" (elenco per aprirne un'altra) a scomparsa.
   const [fabConvOpen, setFabConvOpen] = useState(false);
+  // Cassetto chiuso dopo scelta chat → scroll al fondo quando finisce l'animazione drawer (200ms).
+  useEffect(() => {
+    if (fabConvOpen || convDrawerAperto) return;
+    if (!scrollDopoDrawerRef.current) return;
+    scrollDopoDrawerRef.current = false;
+    stickFabRef.current = true;
+    stickFullRef.current = true;
+    const scroll = () => {
+      const el = scrollBoxRef.current;
+      const fab = chatFabBoxRef.current;
+      if (el) el.scrollTop = el.scrollHeight;
+      if (fab) fab.scrollTop = fab.scrollHeight;
+      endRef.current?.scrollIntoView({ block: "end" });
+      chatFabEndRef.current?.scrollIntoView({ block: "end" });
+    };
+    requestAnimationFrame(() => requestAnimationFrame(scroll));
+    const t = setTimeout(scroll, 240);
+    const t2 = setTimeout(scroll, 450);
+    return () => {
+      clearTimeout(t);
+      clearTimeout(t2);
+    };
+  }, [fabConvOpen, convDrawerAperto]);
   // Riapertura FAB: il contenitore scroll si rimonta (condizionale) → torna all'ultimo messaggio.
   useEffect(() => {
     if (!chatFluttuante && !workerFull) return;
@@ -922,7 +953,6 @@ export default function Dashboard() {
       });
     });
   }, [chatFluttuante, workerFull]);
-  const chatFabEndRef = useRef<HTMLDivElement>(null);
   // Lavori chat in attesa di risposta — MAPPA (non più slot singolo): se mandi messaggi
   // in più chat di fila, OGNI risposta viene recuperata e instradata al thread giusto.
   const pendingLavoroChatRef = useRef<Map<string, PendingChat>>(new Map());
@@ -1280,8 +1310,8 @@ export default function Dashboard() {
   // Salva quella attuale e apre una chat nuova e vuota. NON fa partire risposte.
   async function nuovaConversazione() {
     segnaLettaChatAttiva();
+    nuovaChatManualeRef.current = true; // prima del persist: blocca subito l'auto-apri (race col poll)
     await persistConversazione(convId, messages);
-    nuovaChatManualeRef.current = true; // blocca l'auto-apri finché non scrivi o scegli una chat
     setMessages([]);
     setConvId(null);
     setBase(null);
@@ -1313,6 +1343,9 @@ export default function Dashboard() {
     const daLavori = g ? (messaggiDaGruppo(g.lavori) as Msg[]) : [];
     const msgs = daLavori.length ? mergeThread(c.messaggi, daLavori) : c.messaggi;
     forzaScrollRef.current = true;
+    scrollDopoDrawerRef.current = true;
+    stickFabRef.current = true;
+    stickFullRef.current = true;
     setMessages(msgs);
     setConvId(c.id);
     setConvDrawerAperto(false); // aprendo una conversazione, richiudo il cassetto e mostro subito la chat
@@ -1465,7 +1498,6 @@ export default function Dashboard() {
     const t = text.trim();
     const daCaricare = bubblaGiaMostrata ? [] : allegatiChat;
     if (!t && daCaricare.length === 0) return;
-    nuovaChatManualeRef.current = false; // primo invio in chat vuota → sync cross-device riattiva
     setAllegatiChat([]);
 
     // CODA MESSAGGI: se l'AD sta ancora elaborando IN QUESTA conversazione, mostra subito la
@@ -1531,6 +1563,7 @@ export default function Dashboard() {
         gruppoId = savedConv;
         sessionGruppoRef.current = savedConv;
         targetConvId = savedConv;
+        nuovaChatManualeRef.current = false; // chat nuova salvata → sync/auto-apri di nuovo ok
       }
 
       // 📎 Carico prima gli allegati sullo storage, poi mando al cervello solo i loro percorsi
@@ -1862,6 +1895,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   const continuaConversazioneRef = useRef(continuaConversazione);
   continuaConversazioneRef.current = continuaConversazione;
   const autoApriEseguitoPer = useRef<string | null>(null);
+  const autoApriUltimoTs = useRef<string | null>(null);
   const autoApriAlCaricamentoFatto = useRef(false);
   // Blocca l'auto-apri quando Nicola ha esplicitamente premuto "nuova chat":
   // senza questo flag, nuovaConversazione() azzera i msg → l'auto-apri li rimette subito.
@@ -2085,8 +2119,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   }, [convDrawerAperto, fabConvOpen, caricaConversazioni]);
 
   // Auto-apri l'ultima conversazione recente se la chat è vuota (sync cross-device).
-  // (1) Al primo caricamento pagina: apre l'ultima conv <24h (smartphone ↔ desktop).
-  // (2) Dopo: apre solo se arriva un ID nuovo (messaggio da altro dispositivo), mai se Nicola ha premuto «+».
+  // (1) Primo caricamento: apre l'ultima conv <24h (smartphone ↔ desktop).
+  // (2) Dopo: apre se ID nuovo O stessa conv aggiornata (timestamp cresciuto = messaggio da altro device).
+  // Mai se Nicola ha premuto «+» (nuovaChatManualeRef finché non salva la prima riga).
   useEffect(() => {
     if (nuovaChatManualeRef.current) return;
     if (convId) return;
@@ -2098,14 +2133,19 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       .sort((a, b) => new Date(b.updated_at ?? b.created_at).getTime() - new Date(a.updated_at ?? a.created_at).getTime())
       .find((c) => Date.now() - new Date(c.updated_at ?? c.created_at).getTime() < oreMax);
     if (!recente) return;
+    const ts = recente.updated_at ?? recente.created_at;
     if (!autoApriAlCaricamentoFatto.current) {
       autoApriAlCaricamentoFatto.current = true;
       autoApriEseguitoPer.current = recente.id;
+      autoApriUltimoTs.current = ts;
       void continuaConversazioneRef.current(recente.id);
       return;
     }
-    if (autoApriEseguitoPer.current === recente.id) return;
+    if (autoApriEseguitoPer.current === recente.id) {
+      if (autoApriUltimoTs.current && ts <= autoApriUltimoTs.current) return;
+    }
     autoApriEseguitoPer.current = recente.id;
+    autoApriUltimoTs.current = ts;
     void continuaConversazioneRef.current(recente.id);
   }, [conversazioni, convId, messages, caricato]);
 
