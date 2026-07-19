@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 19:43",
+  "aggiornato": "2026-07-19 19:46",
+  "_nota_metabolizzazione_19_07_1945": "Chat 19/7 ~19:45: Nicola «Come installo n8n sul worker?» — follow-up L-321. AD: Docker SSH Nicola, import workflow, OAuth Meta, webhook env worker, restart, dry-run; AD non installa da chat. L-322 nuova; L-321 evidenze++; preferenza install-n8n-worker; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1943": "Chat 19/7 ~19:43: Nicola «Come faccio a farti pubblicare su IG/FB?» — AD percorso n8n vs Meta diretto, publisher in repo, N8N_WEBHOOK segnaposto, card 🔴 anche collegato. L-321 nuova; L-0630-06 evidenze++; preferenza collegare-mano-social; STATO+LEZIONI-CHAT+content-social+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1941": "Chat 19/7 ~19:41: Nicola casella post domenica PQ «Questo è tutto che puoi fare?» — AD confini 4 blocchi (pronto/rifaccio 🟢/pub 🔴/stasera). L-320 nuova; preferenza limiti-contenuto; STATO+LEZIONI-CHAT+content-social aggiornati.",
   "_nota_metabolizzazione_19_07_1940": "Chat 19/7 ~19:40: Nicola «Si vede metà del logo dentro la navbar» + screenshot. AD PR #217 mycity (flex-shrink logo), primo fix clone sbagliato corretto su marketplace worker. L-319 nuova; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+tech aggiornati.",
@@ -41,6 +42,30 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0719-322",
+      "testo": "**n8n sul worker — «Come installo n8n sul worker?» = Docker SSH Nicola, AD non installa da chat (Nicola 19/7 ~19:45).** Follow-up immediato L-321 (collegare mano social). 5 perché: (1) install richiede root/Docker sul VPS — fuori dalle mani AD in chat; (2) percorso canonico già in repo: workflow `consegne/automazioni/n8n/pubblica-post-programmato.json` + guida `collega-le-mani.md`; (3) sequenza: Docker container n8n (5678) → import workflow → OAuth Meta in n8n → copiare URL webhook produzione in `cervello/vps/.env` (`N8N_WEBHOOK_URL`, **mai in chat**) → restart worker → dry-run «prova un post di test»; (4) **`N8N_WEBHOOK_URL` oggi ancora segnaposto** — senza URL vero la macchina non manda nulla; (5) anche post-install, login Meta + permessi richiedono tempo — post stasera resta copia-incolla manuale se entro 21. Regola: stesso pattern Playwright setup (L-305) — passi SSH numerati, AD verifica env/webhook dopo «fatto», non promettere auto-pub nello stesso turno. Vedi L-321, L-305.",
+      "tag": [
+        "n8n",
+        "vps",
+        "docker",
+        "webhook",
+        "meta",
+        "pubblicazione",
+        "mani",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.94,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 19:45",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-321",
       "testo": "**Pubblicazione FB/IG — «Come faccio a farti pubblicare?» = n8n + card 🔴 (Nicola 19/7 ~19:43).** Segue L-320 sulla casella post domenica PQ: Nicola chiede come collegare la mano social, non solo copia-incolla. 5 perché: (1) publisher già in `cervello/publishers/` + guida `collega-le-mani.md` — blocco = chiavi Meta, non codice; (2) **`N8N_WEBHOOK_URL` sul VPS oggi segnaposto** — n8n non riceve nulla; (3) percorso consigliato **n8n** (OAuth Meta una volta nel workflow, webhook in env worker **mai in chat**) vs Meta diretto (Business Verification, giorni/settimane); (4) **Instagram API richiede URL immagine pubblico** — grafiche in repo/Diretta non bastano finché non c'è URL live per l'API; (5) anche mano collegata: post pagina FB + feed IG restano **🟡/🔴** (card Pannello); **gruppi FB locali sempre manuali**. Regola: rispondere con checklist n8n (install → workflow webhook → OAuth → env worker → restart → dry-run → card); non promettere auto-pub stasera se setup non fatto. Vedi L-320, L-2026-0630-06.",
       "tag": [
@@ -55,12 +80,12 @@
         "caso-studio"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.93,
-      "evidenze": 1,
+      "confidenza": 0.94,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 19:43",
+      "ultima_conferma": "2026-07-19 19:45",
       "stato": "attiva",
       "usi": []
     },
@@ -7282,6 +7307,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**n8n install — «Come installo n8n sul worker?» = passi Docker SSH numerati (chat 19/7 ~19:45):** follow-up immediato dopo L-321 — chiede **come installare** sul VPS, non solo perché serve n8n; si aspetta sequenza concreta (Docker → import workflow → OAuth Meta → webhook in env worker → restart → dry-run), chiarire che l'AD **non installa da chat**, e che stasera resta manuale se Meta non è collegato. Vedi L-322, L-321.",
     "**Pubblicazione social — «Come faccio a farti pubblicare su IG/FB?» = checklist operativa n8n (chat 19/7 ~19:43):** dopo aver capito i limiti (L-320), chiede **come collegare** la mano — si aspetta percorso concreto passo-passo (n8n consigliato vs Meta diretto), cosa va in env worker (non in chat), dry-run + card 🔴 anche collegato; gruppi FB manuali; per stasera resta copia-incolla se setup non fatto. Vedi L-321, L-320.",
     "**Contenuti — «Questo è tutto che puoi fare?» = confini operativi espliciti (chat 19/7 ~19:41):** sulla casella post pronto in Diretta chiede se basta — si aspetta risposta in **4 blocchi**: pacchetto completo ora, cosa l'AD rifà ancora 🟢, cosa resta solo suo 🔴 (pubblicazione social + card Pannello), percorso più veloce se vuole uscire stasera (download grafiche + copia-incolla); **non** interpretare come ok a pubblicare senza firma. Vedi L-320, L-300.",
     "**Logo navbar — «si vede metà del logo» = fix visivo immediato marketplace mobile (chat 19/7 ~19:40):** segnala logo tagliato in header — si aspetta causa concreta (flex-shrink), PR mycity pronta, merge Pannello + deploy Render; stessa giornata del fix carrello (#214) ma problema lato sinistro brand. Vedi L-319, L-310.",
@@ -7539,13 +7565,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 335,
+    "lezioni_attive": 339,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.23,
-    "tasso_calcolato_il": "2026-07-19 19:36",
+    "tasso_applicazione": 0.22,
+    "tasso_calcolato_il": "2026-07-19 19:46",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 19:36",
+    "tick_leggero_il": "2026-07-19 19:46",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

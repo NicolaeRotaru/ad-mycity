@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 19:43
-fonte: AD digitale (chat Nicola 19/7 19:43)
+aggiornato: 2026-07-19 19:45
+fonte: AD digitale (chat Nicola 19/7 19:45)
 ---
+
+> 💬 **19/7 ~19:45 — CHAT: «Come faccio ad installare n8n sul worker?».** Follow-up collegamento mano social (L-321). AD: **installazione n8n sul VPS = SSH Nicola con Docker** — l'AD non può installare da chat. Percorso: Docker container n8n (porta 5678) → import workflow `consegne/automazioni/n8n/pubblica-post-programmato.json` → OAuth Meta (@mycity.piacenza) in n8n → URL webhook produzione in `cervello/vps/.env` (`N8N_WEBHOOK_URL`, **mai in chat**) → restart worker → dry-run «prova un post di test». Oggi **`N8N_WEBHOOK_URL` ancora segnaposto** sul VPS. Anche installando ora, login Meta richiede tempo — post domenica `#post-domenica-settimana-1907` resta copia-incolla manuale se entro 21. Fonte: chat Nicola 19/7 19:45.
 
 > 💬 **19/7 ~19:43 — CHAT: «Come faccio a farti pubblicare su Instagram e Facebook?».** Nicola chiede come collegare la pubblicazione automatica (casella post domenica PQ). AD: codice publisher **già in repo** (`cervello/publishers/`, guida `collega-le-mani.md`); oggi **`N8N_WEBHOOK_URL` sul VPS = segnaposto** — mancano chiavi Meta. Percorso consigliato: **n8n** (OAuth Meta una volta → webhook in env worker, non in chat) → dry-run → approva card 🔴. Alternativa diretta: app Meta + Business Verification (giorni/settimane). Vincoli: Instagram richiede **URL immagine pubblico** (grafiche oggi in repo, non ancora URL live per API); **gruppi FB locali restano manuali**; anche con mano collegata i post restano 🟡/🔴 (no auto-pub senza firma). Post stasera `#post-domenica-settimana-1907` resta copia-incolla manuale se entro 21. Fonte: chat Nicola 19/7 19:43.
 
