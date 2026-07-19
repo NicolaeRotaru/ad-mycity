@@ -1,12 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 16:55
-fonte: AD digitale (chat Nicola 19/7 16:55)
+aggiornato: 2026-07-19 16:58
+fonte: AD digitale (chat Nicola 19/7 16:58)
 ---
 
-> ⚠️ **19/7 16:55 — Migrazioni marketplace 109/110/111 NON ancora sul DB.** Nicola: «Hai applicato le 3 migrations?» — verifica live (MCP/REST): manca colonna `rider_fee_cents` su ordini e vista `public_profiles` → **109, 110, 111 non eseguite**. Codice PR #213 (35 fix radiografia) pronto su GitHub; merge Nicola + SQL/migrazioni ancora pendenti. Fonte: chat Nicola 19/7 16:55.
+> ✅ **19/7 16:57 — FATTO: migrazioni marketplace 109/110/111 applicate sul DB live.** Nicola: «Applica queste 3 migrations» — AD via Management API (MCP `apply_migration` in sola lettura in chat). Verifica REST: colonna `rider_fee_cents` su `orders` ✅ · vista `public_profiles` ✅. Nota: migrazione **110** adattata allo schema reale (`public_avatar_url`, `city` — file repo citava colonne assenti). ⏳ Resta merge PR #213 (codice 35 fix radiografia). Fonte: chat Nicola 19/7 16:57.
 
-> ✅ **19/7 16:55 — Bloccanti macchina: 3/4 pacchetti consegnati (18/7).** Nicola «Fai i 4 punti»: ✅ #fix-termometro-guardiani (PR #448 mergiata) · ✅ #fix-pannello-bloccanti (PR #450 aperta, merge pendente) · ✅ #fix-35-gravi (branch pushato, PR #213 senza conflitti) · ⏳ R4 parziale (4/6 da #448, restano AR-043 costo AI + AR-040/041/042 volano esiti). Allowlist `git -C marketplace:*` attiva dopo «Fatto» Nicola 18/7. Fonte: chat Nicola 18-19/7.
+> ⚠️ **19/7 16:55 — (superato 16:57)** Verifica precedente: migrazioni non ancora sul DB — Nicola «Hai applicato le 3 migrations?» — confermato assenza `rider_fee_cents`/`public_profiles` prima dell'applicazione. Fonte: chat Nicola 19/7 16:55.
+
+> ✅ **19/7 16:58 — Bloccanti macchina: 3/4 pacchetti consegnati; #fix-35-gravi DB ok.** Nicola «Fai i 4 punti»: ✅ #fix-termometro-guardiani (PR #448 mergiata) · ✅ #fix-pannello-bloccanti (PR #450 aperta, merge pendente) · ✅ #fix-35-gravi (PR #213 + migrazioni 109-111 applicate 16:57 — resta solo merge PR) · ⏳ R4 parziale (AR-043 + AR-040/041/042). Fonte: chat Nicola 18-19/7.
 
 > ✅ **19/7 16:54 — FATTO: allowlist MCP `settings.local.json` corretta e validata.** Nicola: «Controlla se ho fatto giusto» — AD ha verificato con parser JSON: **JSON OK**, 9 voci MCP (Vercel×5 + Supabase marketplace×2 + Supabase memoria×2), ultima riga senza virgola. Card #abilita-mcp-supabase-chat chiusa lato config. **Prossimo passo:** nuova chat → «quanti utenti ci sono?» per verifica runtime MCP. Fonte: chat Nicola 19/7 16:54.
 

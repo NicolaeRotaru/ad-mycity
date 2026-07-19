@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-19 16:20** — Automatico: **47 aperte · 84 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-19 16:58** — Automatico: **47 aperte · 84 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -153,19 +153,19 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🔴 #fix-35-gravi — Mergia la PR #213 e applica le 3 migrazioni (109→110→111) · ⏳ aggiornata 2026-07-19 16:55
+### 🔴 #fix-35-gravi — Mergia la PR #213 (schema DB già applicato) · ⏳ aggiornata 2026-07-19 16:58
 
-**Contesto:** 9 batch completati (2026-07-18), conflitti risolti via rebase (18/7 19:45). PR #213 pronta senza conflitti. Nicola ha chiesto (18/7 19:50) all'AD di applicare le 3 migrazioni direttamente.
+**Contesto:** 9 batch completati (2026-07-18), conflitti risolti via rebase (18/7 19:45). PR #213 pronta senza conflitti.
 
-**✅ Step 2 FATTO 19/7 16:57:** migrazioni 109→110→111 applicate sul DB live (Management API). Verifica REST: `rider_fee_cents` presente su `orders`, vista `public_profiles` risponde. Nota: la 110 originale falliva su colonne inesistenti (`avatar_url` ecc.) — applicata versione adattata allo schema reale (`public_avatar_url`, `city`, ecc.).
+**✅ Step 2 FATTO 19/7 16:57:** migrazioni 109→110→111 applicate sul DB live (Management API, su richiesta Nicola «Applica queste 3 migrations»). Verifica REST: `rider_fee_cents` presente su `orders`, vista `public_profiles` risponde. Nota: la 110 originale falliva su colonne inesistenti (`avatar_url` ecc.) — applicata versione adattata allo schema reale (`public_avatar_url`, `city`, ecc.).
 
-**Step 1 — Nicola mergia la PR (se non già fatto):**
+**Step 1 — Nicola mergia la PR (unico passo rimasto):**
 https://github.com/NicolaeRotaru/mycity/pull/213
 
-**Cosa cambia:** 35 vulnerabilità/bug gravi corretti + schema DB aggiornato.
-**Se va bene:** il marketplace è significativamente più sicuro, i payout rider sono disaccoppiati dal costo spedizione.
+**Cosa cambia:** codice 35 fix radiografia in produzione — schema DB già allineato.
+**Se va bene:** marketplace più sicuro end-to-end; payout rider disaccoppiato da shipping_cost.
 
-- **Colore:** 🔴 (deploy marketplace — mergia Nicola + migrazioni DB)
+- **Colore:** 🔴 (deploy marketplace — solo merge PR #213)
 - **Reparto:** tech / backend-dev
 
 ---

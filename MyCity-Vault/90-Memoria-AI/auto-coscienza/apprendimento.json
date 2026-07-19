@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 16:55",
+  "aggiornato": "2026-07-19 16:58",
   "_nota_giro_19_07_1448": "Giro 19/7 14:48 north-star AR-111: business invariato (REST ri-conferma 4 buyer, 0 pagati). Vincolo rispettato — zero azioni macchina. Rinforzo: con stallo ~604h, ogni giro ripete la stessa triade ordine test + PI26 + post clienti finché North Star non si muove.",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
@@ -40,8 +40,29 @@
       "usi": []
     },
     {
+      "id": "L-2026-0719-296",
+      "testo": "**Migrazione 110 — adatta SQL allo schema live prima di applicare (Nicola 19/7 16:57).** File repo `110_public_profile_view.sql` citava colonne assenti nel DB (`avatar_url`, `store_city`, `rating`, `store_banner`…). Primo tentativo fallito; fix = leggere schema reale (`public_avatar_url`, `city`) e riscrivere la vista. 5 perché: (1) migrazioni scritte offline vs DB evoluto divergono; (2) errore SQL non significa «migrazione sbagliata in sé»; (3) Management API espone l'errore esatto; (4) adattare ≠ saltare la migrazione; (5) dopo fix, verificare che `public_profiles` risponda. Regola: prima di DDL da file repo, `list_tables`/schema live; se fallisce, adatta nomi colonne — non dire «impossibile» senza provare versione corretta.",
+      "tag": [
+        "migrazioni",
+        "schema-drift",
+        "public_profiles",
+        "supabase",
+        "marketplace",
+        "nicola"
+      ],
+      "reparto": "@backend-dev",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 16:57",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-294",
-      "testo": "**Migrazioni marketplace — verifica DB live prima di dire «applicate» (Nicola 19/7 16:55).** «Hai applicato le 3 migrations?» — turno 18/7 AD aveva proposto `apply_migration` MCP ma bloccato (box approvazione assente in chat Pannello). Verifica 19/7: mancano colonna `rider_fee_cents` e vista `public_profiles` → 109/110/111 **NON eseguite**. 5 perché: (1) Nicola chiede verifica esplicita, non fiducia; (2) MCP write ≠ MCP read; (3) merge codice ≠ schema DB; (4) promessa senza prova = bug operativo; (5) piano B SQL Editor sempre valido. Regola: execute_sql/list_tables per conferma; ordine 109→110→111; mai dichiarare «fatto» senza artefatto DB verificabile. Vedi L-34 (2 tubi deploy).",
+      "testo": "**Migrazioni marketplace — verifica DB live prima/dopo «applicate» (Nicola 19/7 16:55→16:57).** «Hai applicato le 3 migrations?» — verifica 16:55: mancavano `rider_fee_cents` e `public_profiles` → onestà + no promessa falsa. «Applica queste 3 migrations» — Management API (MCP write bloccato in chat) → 109/111 ok, 110 adattata → ricontrollo REST conferma. 5 perché: (1) Nicola chiede prova, non fiducia; (2) merge codice ≠ schema DB; (3) MCP read-only ≠ apply; (4) ordine 109→110→111; (5) dichiarare fatto solo con artefatto verificabile. Regola: execute_sql/list_tables prima e dopo; piano B SQL Editor se API non disponibile. Vedi L-296, L-34.",
       "tag": [
         "migrazioni",
         "supabase",
@@ -52,12 +73,12 @@
         "correzione"
       ],
       "reparto": "@backend-dev",
-      "confidenza": 0.97,
-      "evidenze": 1,
+      "confidenza": 0.98,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 16:55",
+      "ultima_conferma": "2026-07-19 16:57",
       "stato": "attiva",
       "usi": []
     },
@@ -6673,8 +6694,10 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
-    "**Migrazioni DB — vuole verifica esplicita, non promesse (chat 19/7 16:55):** «Hai applicato le 3 migrations?» — si aspetta risposta basata su controllo live del database (colonne/viste presenti), non «le ho proposte» o «dovrebbero esserci». Se non applicate: dire chiaro + passi concreti (SQL Editor o allowlist apply_migration). Vedi L-294.",
-    "**Bloccanti macchina — vuole i 4 pacchetti eseguiti quando dice «fallo» (chat 18/7):** «Fai i 4 punti in attesa e che non hai ancora iniziato» — si aspetta consegna reale (PR/code), non solo spiegazione; prima chiede stato con «Non avevo già fatto…?» e vuole risposta ✅/⏳/❌ itemizzata. Vedi L-268.", dopo aver modificato `settings.local.json`, chiede all'AD di verificare che il JSON sia valido e le voci MCP siano complete — si aspetta parser JSON + conteggio voci (9 attese), non un «ok» generico. Prossimo passo accettato: nuova chat + query live. Vedi L-293.",
+    "**Migrazioni DB — vuole che l'AD le applichi e verifichi (chat 19/7 16:57):** «Applica queste 3 migrations» — esecuzione reale + ricontrollo colonne/viste, non solo istruzioni SQL Editor. Se chiede «Hai applicato?» vuole prova live, non promessa. MCP apply_migration spesso bloccato in chat → Management API ok. Vedi L-294, L-296.",
+    "**Migrazioni DB — vuole verifica esplicita, non promesse (chat 19/7 16:55):** «Hai applicato le 3 migrations?» — si aspetta risposta basata su controllo live del database (colonne/viste presenti), non «le ho proposte» o «dovrebbero esserci». Vedi L-294.",
+    "**Bloccanti macchina — vuole i 4 pacchetti eseguiti quando dice «fallo» (chat 18/7):** «Fai i 4 punti in attesa e che non hai ancora iniziato» — si aspetta consegna reale (PR/code), non solo spiegazione; prima chiede stato con «Non avevo già fatto…?» e vuole risposta ✅/⏳/❌ itemizzata. Vedi L-268.",
+    "**Allowlist MCP — dopo modifica, vuole verifica parser (chat 19/7 16:54):** dopo aver modificato `settings.local.json`, chiede all'AD di verificare che il JSON sia valido e le voci MCP siano complete — si aspetta parser JSON + conteggio voci (9 attese), non un «ok» generico. Prossimo passo accettato: nuova chat + query live. Vedi L-293.",
     "**Allowlist MCP — dopo il blocco completo, vuole verifica file + istruzioni delta (chat 19/7 ~16:48):** «Controlla quelli che ci sono già e riscrivi le righe che devi inserire» — non riscrivere tutto se Vercel×5 + Supabase×2 ci sono già; indica solo fix (trailing comma) + righe mancanti (memoria opzionale). Blocco integrale solo al primo giro o su «quali sono tutti». Vedi L-292, L-291.",
     "**Allowlist MCP — vuole l'elenco COMPLETO tiered, non solo «le 2 righe Supabase» (chat 19/7 ~16:45):** «Quali sono tutti gli mcp utili?» — si aspetta 3 gruppi (Essenziali / Utili opzionali / Non mettere), blocco JSON integrale pronto da incollare (5 Vercel + 2 marketplace + 2 memoria opz.), reminder trailing comma rompe tutto. Vedi L-291, L-290.",
     "**Chat — si aspetta che le risposte operative persistano (chat 19/7 ~16:42):** chiede «perché è sparito questo pezzo?» quando istruzioni MCP allowlist non sono più visibili — vuole spiegazione del meccanismo (interruzione sessione, non cancellazione AD) + contenuto rimesso subito, senza dover ripescare la cronologia. Vedi L-289.",
