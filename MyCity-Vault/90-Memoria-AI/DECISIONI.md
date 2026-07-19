@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 01:25 · 🟡 · [Worker chat — ingrandisci apre stessa chat Worker, non pagina Assistente] · **Nicola: «ingrandimento apre un'altra chat» + chiarimento «la chat del worker dentro il menu finestra a sinistra».** Bug: pulsante Maximize2 portava a `vista=assistente` (Worker del menù laterale, cassetto esterno) invece di `workerFull` (stessa chat flottante fullscreen con sidebar conv integrata). Fix incluso in PR #485 (`b72958dc`). Merge 🔴 pendente (#203). Hard refresh se cache PWA mostra layout vecchio. L-350, L-348.
+
 2026-07-20 01:06 · 🟡 · [Worker chat — menu conversazioni dentro riquadro, PR #485] · **Nicola: «inserisci il menu delle conversazioni dentro il riquadro della chat (sulla sinistra)» + chiarimento «anche dentro la chat che si apre quando schiaccio ingrandimento nella chat fluttunante».** Vuole lista conv **sempre visibile** nel pannello chat a sinistra — **non** cassetto che scorre da fuori; stesso layout in modalità fluttuante e schermo intero. AD PR #485. Scroll #483 e sticky #484 intatti. Merge 🔴 pendente (#203). L-348.
 
 2026-07-20 00:55 · 🟡 · [Worker chat — barra scrittura fissa in basso, PR #484] · **Nicola: «blocca/fissala la box dove scrivo e ci sono le icone… dimmi cosa hai capito».** Dopo conferma scroll menu ok (#483), chiede UX tipo WhatsApp: casella scrittura + icone **sempre visibili in basso**, solo messaggi scorrono sopra — barra non deve uscire dall'inquadratura. AD PR #484 (`c9b996d5`). Merge 🔴 pendente (#202). Scroll #483 intatto. L-346.

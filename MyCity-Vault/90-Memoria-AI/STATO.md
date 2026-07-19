@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 01:17
+aggiornato: 2026-07-20 01:25
 fonte: AD digitale (sentinella cassa_sconosciuta)
 ---
+
+> 💬 **20/7 ~01:25 — CHAT: ingrandisci chat fluttuante — stessa Worker con menu sinistra (L-350).** Nicola: pulsante ingrandisci apre **altra chat** (pagina Assistente del menù, layout vecchio) invece della **stessa** chat Worker flottante a schermo intero con elenco conversazioni **dentro** il riquadro a sinistra. Chiarimento: «la chat del worker dentro il menu finestra a sinistra». AD: causa = routing a `vista=assistente` invece di `workerFull`; fix in **PR #485** (`b72958dc`) — stesso overlay flottante, fullscreen, sidebar integrata. **Merge 🔴 pendente** (#203); se Nicola vede ancora pagina vecchia → hard refresh PWA. Attesa conferma post-merge. Fonte: chat Nicola 20/7 01:25.
 
 > 💬 **20/7 ~01:17 — CHAT: comandi worker senza aprire cmd ogni volta (L-349).** Nicola chiede modo **sicuro** di scrivere comandi sul worker senza aprire Termux/SSH ogni volta. AD: **uso normale = chat Pannello** (AD esegue sul VPS, niente root); **SSH raro** = scorciatoia `ssh mycity` una tantum (chiave ed25519 + config); **tmux** se sessione lunga; **n8n** browser per ripetitivo (pub post); regola «serve SSH?» prima — spesso no; controllare prompt server (`root@…#`) vs telefono (`~ $`). Evitare shell web su internet. Documentato anche in `cervello/vps/CHECKLIST-VIVO.md`. Fonte: chat Nicola 20/7 01:17.
 

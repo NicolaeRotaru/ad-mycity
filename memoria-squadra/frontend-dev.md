@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 01:25 · Ingrandisci chat fluttuante — Nicola «apre un'altra chat» + «worker dentro menu finestra a sinistra» · atteso: stessa chat Worker fullscreen con sidebar conv integrata · reale: bug routing a vista=assistente invece di workerFull; fix in PR #485 b72958dc; AD errato su «già mergiato» — merge 🔴 #203 · attesa test Nicola post-merge · #pannello #chat #worker #ingrandisci #workerFull #pr-485 · L-350, L-348
 - 2026-07-20 01:06 · Menu conv dentro riquadro chat — Nicola «inserisci menu conversazioni dentro riquadro chat a sinistra» + ingrandimento fluttuante · atteso: sidebar conv integrata nel pannello, fluttuante+fullscreen stesso layout · reale: PR #485 lista sinistra permanente nel riquadro, non drawer esterno; scroll #483 + sticky #484 intatti · merge 🔴 #203 · #pannello #chat #worker #layout #sidebar #pr-485 · L-348
 - 2026-07-20 00:55 · Barra scrittura Worker fissa — Nicola «blocca/fissala la box… dimmi cosa hai capito» · atteso: input+icone sticky basso, solo messaggi scrollano · reale: PR #484 layout flex/sticky tipo WhatsApp; scroll #483 intatto · merge 🔴 #202 · #pannello #chat #worker #sticky #pr-484 · L-346, L-263
 - 2026-07-20 00:55 · Scroll menu #483 confermato — Nicola «ok, ha funzionato» · atteso: fondo chat aprendo dal menu · reale: #483 live, Nicola verifica ok dopo #482 insufficiente · #201 FATTO · #pannello #chat #scroll #worker #pr-483 · L-345
