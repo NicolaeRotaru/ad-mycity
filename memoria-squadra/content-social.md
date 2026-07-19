@@ -8,6 +8,7 @@ reparto: content-social
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 19:41 · Nicola «Questo è tutto che puoi fare?» su casella post domenica PQ · atteso: confini chiari + cosa resta da fare · reale: 4 blocchi (pronto/rifaccio 🟢/pubblica 🔴/percorso stasera entro 21) · L-320 · #limiti-capacita #pubblicazione
 - 2026-07-19 18:20 · Nicola «scrivi il commit per vederli su diretta» · atteso: PNG Playwright visibili in tab Diretta · reale: PR #478 aggiorna frontmatter anteprima → PNG, merge pendente · L-308 · #diretta-contenuti #playwright
 - 2026-07-19 18:12 · Playwright operativo sul worker · atteso: PNG Content Factory puliti · reale: setup VPS completato (font+Node22+Playwright+env), render domenica 2 OK (~524KB feed + ~664KB storia) · L-305 · #playwright #content-factory
 - 2026-07-19 17:26 · Nicola chiede Playwright operativo + strumenti potenti · atteso: come attivare render + come dargli carburante · reale: VPS senza Playwright/font; carburante = foto vere + render OK o PNG Canva; chiavi AI solo se cambia regola · L-305 · #playwright #carburante

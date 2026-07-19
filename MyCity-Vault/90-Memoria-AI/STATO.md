@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 19:40
-fonte: AD digitale (chat Nicola 19/7 19:40)
+aggiornato: 2026-07-19 19:41
+fonte: AD digitale (chat Nicola 19/7 19:41)
 ---
+
+> 💬 **19/7 ~19:41 — CHAT: casella post domenica PQ — «Questo è tutto che puoi fare?».** Nicola chiede limiti operativi sul contenuto «Domenica sera — fai il turno per la settimana» (Pane Quotidiano). AD: pacchetto **completo** in Diretta (copy IG/FB + gruppi + storia 4 slide + grafiche feed/storia); l'AD può ancora riscrivere/varianti 🟢; **pubblicazione FB/IG resta 🔴** (`#post-domenica-settimana-1907`) — tap sui social solo Nicola finché manca la mano collegata; per stasera entro 21: scarica immagini dalla casella + copia-incolla testi. Fonte: chat Nicola 19/7 19:41.
 
 > 🟡 **19/7 ~19:40 — CHAT: PR #217 marketplace — logo MyCity tagliato su mobile.** Nicola: «Si vede metà del logo dentro la navbar» + screenshot. Causa verificata: testo logo con `flex-shrink` nel header mobile — restava visibile solo «My»; CAP e carrello comprimono la riga. AD fix su repo worker `marketplace/` (primo tentativo su clone sbagliato, corretto): logo+carrello `flex-shrink-0`, CAP centrato. **PR #217** (`25aa5aa`, tsc ok) in Da approvare — merge Nicola → Deploy Render (Manual Deploy se serve) → ricarica telefono (**MyCity** per intero a sinistra). Fonte: chat Nicola 19/7 19:40.
 
