@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 14:20 · 🟡 · [Nicola chiede righe allowlist MCP Supabase — istruzioni consegnate, pendente esecuzione] · **Nicola: «Cosa devo inserire nell'allowlist per farti avere mcp di supabase?»** AD ha fornito le 2 voci obbligatorie (`mcp__supabase-marketplace__execute_sql`, `mcp__supabase-marketplace__list_tables`) + opzionali memoria. L'AD non può modificare `.claude/` dalla chat. Dopo salvataggio Nicola deve aprire nuova chat per verificare («quanti utenti ci sono?»). Card #abilita-mcp-supabase-chat resta in coda finché non confermato a runtime.
+
 2026-07-19 14:05 · 🟢 · [PR #474 mergiata — #473 chiusa come doppione] · **Nicola: «Non ho mergiato la 473 perché mi sembra uguale alla 474».** AD ha confermato: stessa fix n8n/sentinella M2 aperta due volte per errore (sessioni parallele). #474 (con test) mergiata alle 13:59 — fix già su main. #473 = doppione da chiudere senza merge. Nicola ha fatto bene a confrontare prima di approvare.
 
 2026-07-19 13:54 · 🟢 · [Conflitto PR #472 risolto — solo body condiviso] · **Nicola: «Ha un conflitto»** su merge PR #472 (caselle compatte). AD ha verificato: conflitto **solo** in `consegne/tech/pr-ad-mycity-body.md` (aggiornato anche da PR #471 titoli Lavori in parallelo), **non** nel codice `CasellaAnteprima`. Rebase su main (`5c2f8821`), push branch, GitHub API mergeable confermato. Card #190 resta in attesa merge Nicola.

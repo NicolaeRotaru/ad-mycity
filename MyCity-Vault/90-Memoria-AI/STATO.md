@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 14:05
-fonte: AD digitale (metabolizzazione chat 19/7 14:05)
+aggiornato: 2026-07-19 14:20
+fonte: AD digitale (metabolizzazione chat 19/7 14:20)
 ---
+
+> 💬 **19/7 14:20 — CHAT: Nicola chiede righe esatte allowlist MCP Supabase.** «Cosa devo inserire nell'allowlist per farti avere mcp di supabase?» — AD ha indicato 2 voci obbligatorie su server `supabase-marketplace` (`execute_sql` + `list_tables`) in `.claude/settings.local.json` via terminale VPS, poi nuova chat per verificare. Opzionale: stesse voci su `supabase-memoria`. ⏳ Pendente: Nicola incolla e salva (card #abilita-mcp-supabase-chat). Se fallisce, verificare anche env `SUPABASE_ACCESS_TOKEN` nel worker. Fonte: chat Nicola 19/7 14:20.
 
 > ✅ **19/7 14:05 — CHAT: PR #474 mergiata, #473 doppione — chiudere senza merge.** Nicola: «Non ho mergiato la 473 perché mi sembra uguale alla 474» — corretto. Due sessioni parallele hanno aperto la stessa fix n8n/sentinella M2: **#473** (prima versione) e **#474** (stessa fix + test, migliore). **#474 già su main** (merge 13:59, commit `99cf5017`). **#473 non serve** — chiudere su GitHub senza merge. Card #191/#192 aggiornate in [[AZIONI-IN-ATTESA]]. Fonte: chat Nicola 19/7 ~14:05.
 

@@ -303,7 +303,10 @@
             "pattern": "segnaposto|placeholder|tuo-",
             "presente": true
           },
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-19 14:00",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-135"
         },
         {
           "titolo": "La macchina dice a Nicola 'dati ciechi da 15 giri, non scrivere numeri' mentre gli ordini si leggono benissimo",
@@ -319,7 +322,11 @@
             "file": "cervello/verifica-sensori.mjs",
             "pattern": "max_giri_ciechi_dati",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-19 14:20",
+          "chiuso_come": "cervello/verifica-sensori.mjs contiene /max_giri_ciechi_dati/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Ogni giro di monitoraggio interroghiamo siti che sappiamo già morti o bloccati, bruciando token per niente",
@@ -1758,51 +1765,51 @@
     }
   ],
   "sonda": {
-    "data": "2026-07-19 13:06",
+    "data": "2026-07-19 14:20",
     "loop_chiude": true,
-    "tasso_applicazione": 0.24,
+    "tasso_applicazione": 0.25,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
-    "difetti_chiusi": 53,
-    "difetti_chiusi_recenti": 31,
+    "difetti_chiusi": 54,
+    "difetti_chiusi_recenti": 32,
     "calibrazione_piena": true,
-    "previsioni_aperte_recenti": 0,
+    "previsioni_aperte_recenti": 1,
     "esperimenti_aperti": 7,
     "prova_business": true,
     "prova_architettura": true,
     "esperimenti_misurati": true,
-    "giro_a_cadenza": false,
+    "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 61,
-    "ore_da_ultimo_briefing": 14,
-    "max_giri_ciechi_sensori": 94,
-    "giri_tasso_basso": 44,
+    "ore_da_ultima_completa": 62,
+    "ore_da_ultimo_briefing": 1,
+    "max_giri_ciechi_sensori": 7,
+    "giri_tasso_basso": 46,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 20,
     "voto_pieno": 0,
-    "pending_merge": 18,
+    "pending_merge": 17,
     "aperti_davvero": 3,
     "bloccanti_umani": 2,
     "salute_firma": "AR-124,AR-126,AR-129",
     "verdetto": "serve-completa",
-    "nota": "loop chiude (con prova) · briefing STALE (14h) · cecità sensori 94 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 18 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    "nota": "loop chiude (con prova) · briefing 1h fa · cecità sensori 7 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 44,
-    "aggiornato": "2026-07-19 13:06"
+    "giri_tasso_basso": 46,
+    "aggiornato": "2026-07-19 14:20"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-19 13:05",
-    "findings_aperti": 70,
+    "aggiornato": "2026-07-19 14:20",
+    "findings_aperti": 68,
     "findings_in_corso": 0,
-    "findings_chiusi": 9,
+    "findings_chiusi": 11,
     "findings_tot": 79,
-    "cantiere_aperti": 23,
+    "cantiere_aperti": 22,
     "cantiere_in_corso": 0,
-    "cantiere_chiusi": 53,
-    "match_aggiornati": 0,
-    "chiusi_verifica": 0,
+    "cantiere_chiusi": 54,
+    "match_aggiornati": 2,
+    "chiusi_verifica": 1,
     "data_scan": "2026-07-16 23:58"
   },
   "meta": {

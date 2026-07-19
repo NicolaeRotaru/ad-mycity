@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-19 13:05** — Automatico: **47 aperte · 84 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-19 14:20** — Automatico: **47 aperte · 84 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -44,19 +44,24 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #abilita-mcp-supabase-chat — Aggiungi MCP Supabase all'allowlist così l'AD vede i dati live dalla chat · ⏳ accodata 2026-07-19 00:22
+### 🟡 #abilita-mcp-supabase-chat — Aggiungi MCP Supabase all'allowlist così l'AD vede i dati live dalla chat · ⏳ accodata 2026-07-19 00:22 · richiamata 14:20
 
-**Contesto:** Nicola ha chiesto «come faccio a farti visualizzare questi dati?» dopo che l'AD non riusciva a interrogare Supabase (né con `node` né con MCP) dalla chat del Pannello. Il tool `mcp__supabase-marketplace` non è nell'allowlist di `.claude/settings.local.json` sul VPS — il box di permesso non compare mai dalla chat del Pannello.
+**Contesto:** Nicola ha chiesto due volte (00:22 e 14:20) come abilitare MCP Supabase in chat — l'AD non riusciva a interrogare il DB (né `node` né MCP) e aveva scritto «23 iscritti» in EXP-001 senza verifica live (corretto a 4 da Nicola). Il tool MCP non è nell'allowlist di `.claude/settings.local.json` sul VPS — il box di permesso non compare mai dalla chat del Pannello.
 
-**Cosa fare:** Dal terminale VPS aprire `nano /opt/mycity/ad-mycity/.claude/settings.local.json` e aggiungere nell'array `allowedTools`:
+**Cosa fare:** Dal terminale VPS aprire `nano /opt/mycity/ad-mycity/.claude/settings.local.json` e aggiungere nell'array `allowedTools` (prima della `]`):
 ```
 "mcp__supabase-marketplace__execute_sql",
 "mcp__supabase-marketplace__list_tables",
 ```
-Poi salvare (Ctrl+O → Invio → Ctrl+X) e aprire una nuova chat.
+Opzionale (DB memoria Pannello):
+```
+"mcp__supabase-memoria__execute_sql",
+"mcp__supabase-memoria__list_tables",
+```
+Salvare (Ctrl+O → Invio → Ctrl+X) e aprire una **nuova chat** — chiedere «quanti utenti ci sono?» per verificare. Se fallisce: controllare anche env `SUPABASE_ACCESS_TOKEN` nel worker.
 
 **Cosa cambia:** l'AD potrà leggere i dati Supabase live direttamente dalla chat, senza dover aspettare il giro automatico o chiedere a Nicola di ricopiare i numeri.
-**Se va bene:** nella prossima chat l'AD potrà rispondere «quanti utenti ci sono?» guardando il DB vero, non la memoria.
+**Se va bene:** nella prossima chat l'AD risponde «4» (o il numero live) guardando il DB vero, non STATO.md.
 
 - **Colore:** 🟡 (modifica file di configurazione sul VPS — solo Nicola o il terminale VPS)
 - **Reparto:** @AD
@@ -1129,10 +1134,8 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-19 13:05)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-19 14:20)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-19-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
-
----
 
 ### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno
 
@@ -1141,8 +1144,6 @@ Report completo con comandi pronti: `consegne/supervisione/2026-07-19-supervisio
 | 🟡 | 252 | 252 schede oggi incomplete mostrano condizione = «nuovo» (valore dedotto) ai clienti. | Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passi al gruppo successivo. Undo: annulla-batch. |
 
 Approva **solo questo gruppo**: «ok riempi condizione». Comando e undo nel report.
-
----
 
 ### 🟡 Metti «pezzo» come unità di misura ai 242 prodotti che non ce l'hanno
 
@@ -1325,6 +1326,12 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-19 13:05 · 84 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-19 14:20 · 84 card totali
 
 ### ✅ #apri-pr-chat-sovrascrittura-v2 — FATTO 2026-07-18 — fix già su main, PR non necessaria
 

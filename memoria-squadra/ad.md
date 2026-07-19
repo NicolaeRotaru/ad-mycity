@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-19 14:20 · metabolizzazione chat sessione 19/7 pomeriggio · atteso: estrarre lezioni MCP allowlist + consolidare correzioni già note (4 iscritti, PR #467, cadenze venerdì) · reale: L-285 nuova, L-279 evidenze 3, preferenza MCP aggiunta; resto già in memoria · #metabolizzazione
 - 2026-07-19 13:07 · Giro 19/7 13:10 — north star focus · grounding:5 numeri:5 semaforo:5 qualita:4 freschezza:5 benchmark:4 · atteso 1 ordine pagato entro 20/7 → reale 0 (stallo invariato) · #north-star
 - 2026-07-18 16:24 · giro settimo 18/7 16:25 · ok_sensori-coerenza-salute · atteso giro settimo completato, vincoli hard chiusi, voto 91 → reale reale da prossimo giro · #giro
 - 2026-07-18 11:41 · Giro 18/7 11:38 — quarto passaggio, sessione ripresa da compressione contesto · briefing+STATO+auto-analisi+ultimo-briefing+SALA-OPERATIVA+intenzioni aggiornati, guardiani tutti ok · atteso completare giro e consegnare TL;DR a Nicola → reale giro completato, tutti i file aggiornati, TL;DR consegnato · #giro #ad #4passaggio
