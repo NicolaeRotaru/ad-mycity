@@ -1765,7 +1765,7 @@
     }
   ],
   "sonda": {
-    "data": "2026-07-19 14:20",
+    "data": "2026-07-19 14:48",
     "loop_chiude": true,
     "tasso_applicazione": 0.25,
     "prova_chiusura": true,
@@ -1773,17 +1773,17 @@
     "difetti_chiusi": 54,
     "difetti_chiusi_recenti": 32,
     "calibrazione_piena": true,
-    "previsioni_aperte_recenti": 1,
+    "previsioni_aperte_recenti": 2,
     "esperimenti_aperti": 7,
     "prova_business": true,
     "prova_architettura": true,
     "esperimenti_misurati": true,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 62,
+    "ore_da_ultima_completa": 63,
     "ore_da_ultimo_briefing": 0,
     "max_giri_ciechi_sensori": 7,
-    "giri_tasso_basso": 46,
+    "giri_tasso_basso": 48,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 20,
@@ -1793,14 +1793,14 @@
     "bloccanti_umani": 2,
     "salute_firma": "AR-124,AR-126,AR-129",
     "verdetto": "serve-completa",
-    "nota": "loop chiude (con prova) · briefing aggiornato 14:20 · cecità MCP 7 giri · salute pending-merge 20/100: 3 aperti-davvero · 17 in attesa merge · north-star stallo → focus business, radiografia completa non prioritaria vs ordine test PQ"
+    "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 7 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 46,
-    "aggiornato": "2026-07-19 14:20"
+    "giri_tasso_basso": 48,
+    "aggiornato": "2026-07-19 14:48"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-19 14:20",
+    "aggiornato": "2026-07-19 14:48",
     "findings_aperti": 68,
     "findings_in_corso": 0,
     "findings_chiusi": 11,
@@ -1808,8 +1808,8 @@
     "cantiere_aperti": 22,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 54,
-    "match_aggiornati": 2,
-    "chiusi_verifica": 1,
+    "match_aggiornati": 0,
+    "chiusi_verifica": 0,
     "data_scan": "2026-07-16 23:58"
   },
   "meta": {

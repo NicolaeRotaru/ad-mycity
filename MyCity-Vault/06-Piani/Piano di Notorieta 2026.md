@@ -208,7 +208,7 @@ Filosofia: **80% earned/owned/ambassador (≈€0), 20% materiali fisici.**
 #notorieta #piano #pr #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-19 14:20
+## 🤖 Aggiornamento dell'AD — 2026-07-19 14:48
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
 - **Post domenica PQ stasera (21:00)** — angolo «pianifica la settimana da casa», testo pronto in coda 🔴.
 - **Earned media «prima transazione»** — angolo PR scatta con 1° ordine ex-novo su PQ (non #16 annullato).

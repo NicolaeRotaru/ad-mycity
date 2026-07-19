@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-19 14:20** — Automatico: **47 aperte · 84 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-19 14:48** — Automatico: **47 aperte · 84 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -1136,8 +1136,10 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-19 14:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-19 14:48)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-19-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
+
+---
 
 ### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno
 
@@ -1146,6 +1148,8 @@ Report completo con comandi pronti: `consegne/supervisione/2026-07-19-supervisio
 | 🟡 | 252 | 252 schede oggi incomplete mostrano condizione = «nuovo» (valore dedotto) ai clienti. | Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passi al gruppo successivo. Undo: annulla-batch. |
 
 Approva **solo questo gruppo**: «ok riempi condizione». Comando e undo nel report.
+
+---
 
 ### 🟡 Metti «pezzo» come unità di misura ai 242 prodotti che non ce l'hanno
 
@@ -1334,6 +1338,12 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-19 14:20 · 84 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-19 14:48 · 84 card totali
 
 ### ✅ #apri-pr-chat-sovrascrittura-v2 — FATTO 2026-07-18 — fix già su main, PR non necessaria
 

@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 14:42
+aggiornato: 2026-07-19 14:48
 fonte: AD digitale (chat Nicola 19/7 14:42)
 ---
 
@@ -17,6 +17,8 @@ fonte: AD digitale (chat Nicola 19/7 14:42)
 > 💬 **19/7 13:17 — CHAT: caselle auto-coscienza troppo grandi — fix PR #472.** Nicola su Ex Scuderie: «Sono troppo grandi queste caselle, riducile a metà o trasformale in finestre con anteprima». AD ha creato `CasellaAnteprima`: titolo + ~2 righe anteprima, partono chiuse, clic espande. Applicato a Scelte ragionate, benchmark, esperimenti, peer review, proposte (tab Miglioramento). Fonte: chat Nicola 19/7 ~13:17.
 
 > 💬 **19/7 13:16 — CHAT: titolo caselle Lavori illeggibile — fix PR #471.** Nicola: «Non mi piace che non legge il titolo della casella» (screenshot: lettere «G»/«a» invece del nome casella). Causa: UI mostrava ultimo messaggio chat + layout mobile schiacciava il testo. AD ha preparato PR #471 (titolo casella + bottoni sotto). ⏳ Pendente merge Nicola (card #189 in [[AZIONI-IN-ATTESA]]). Fonte: chat Nicola 19/7 12:52.
+
+> 🛰️ **19/7 14:48 — GIRO PIENO (vincolo north-star AR-111).** Business INVARIATO: 1 PQ, **4 buyer** (REST 14:48), 0 ordini pagati, stallo **~604h** (~25,2 giorni). REST+Stripe+Resend+Sito+Pannello ✅ · automazione VPS verde · MCP Supabase cieco 7 giri. **Coerenza-fatti ✅**. **Mossa n.1:** 🟡 ordine test PQ (North Star 0→1). **Mossa n.2:** 🔴 PI26 domani 20/7 ore 10:00 — restart.infocamere.it stasera. **Mossa n.3:** 🔴 post domenica PQ entro 21:00. Dettaglio: [[Briefing/2026-07-19]].
 
 > 🛰️ **19/7 14:20 — GIRO PIENO (vincolo north-star AR-111).** Business INVARIATO: 1 PQ, **4 buyer** (Nicola 19/7), 0 ordini pagati, stallo **~604h** (~25,2 giorni). REST+Stripe+Resend+Sito+Pannello ✅ · n8n non_configurato · MCP Supabase cieco 7 giri. **Coerenza-fatti ✅** · **registro-scelte ✅**. **Mossa n.1:** 🟡 ordine test PQ (North Star 0→1). **Mossa n.2:** 🔴 PI26 domani 20/7 ore 10:00 — restart.infocamere.it stasera. **Mossa n.3:** 🔴 post domenica PQ entro 21:00. Dettaglio: [[Briefing/2026-07-19]].
 
@@ -629,8 +631,8 @@ fonte: AD digitale (chat Nicola 19/7 14:42)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 19/7 14:33 · invariati dal 24/6)
-| Numero | Oggi (19/7 14:33) | Δ vs giro 13:10 | "Riuscito" | Note |
+## I 7 numeri (✅ REST 19/7 14:48 · invariati dal 24/6)
+| Numero | Oggi (19/7 14:48) | Δ vs giro 14:20 | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa · 16 altri seller non approvati |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ payout OFF · payout-test sandbox |
@@ -639,7 +641,7 @@ fonte: AD digitale (chat Nicola 19/7 14:42)
 | Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~604h (~25,2 gg) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox da fare su ordine vero |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST live 14:33 · 23 account totali (4+17 seller+1 admin+1 rider) |
+| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST live 14:48 · 23 account totali (4+17 seller+1 admin+1 rider) |
 | **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)

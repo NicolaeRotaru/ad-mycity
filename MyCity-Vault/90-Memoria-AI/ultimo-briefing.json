@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-19 14:20",
-  "situazione": "Business invariato dal 24/6: 1 PQ live, 0 ordini pagati, stallo ~604h (~25 giorni). REST+Stripe ok. 4 buyer reali. Vincolo north-star: solo mosse verso il 1° ordine. Domani 20/7 ore 10:00 apre PI26 — restart.infocamere.it stasera. Post domenica PQ entro le 21:00 in coda.",
+  "data": "2026-07-19 14:48",
+  "situazione": "Business invariato dal 24/6: 1 PQ live, 0 ordini pagati, stallo ~604h (~25 giorni). REST+Stripe+automazione ok. 4 buyer reali (REST 14:48). Vincolo north-star: solo mosse verso il 1° ordine. Domani 20/7 ore 10:00 apre PI26 — restart.infocamere.it stasera. Post domenica PQ entro le 21:00 in coda.",
   "opportunita": [
     {
       "titolo": "Ordine di test su Pane Quotidiano",

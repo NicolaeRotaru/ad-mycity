@@ -182,7 +182,7 @@ Questa è la sezione che trasforma la relazione istituzionale in **fatturato**. 
 #istituzionale #bandi #relazioni #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-19 14:20
+## 🤖 Aggiornamento dell'AD — 2026-07-19 14:48
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
 - **PI26 apre DOMANI 20/7 ore 10:00 a sportello** — registrazione restart.infocamere.it stasera (🔴). Max €10k 50% fondo perduto.
 - **BT26/BE26** (scadenza 30/7): leva vendita per botteghe — «lo Stato paga fino al 50% della digitalizzazione».

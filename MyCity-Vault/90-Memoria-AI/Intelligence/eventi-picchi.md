@@ -1,6 +1,6 @@
 # 📅 Eventi & Picchi di Domanda — 2026-07-19
 
-> Aggiornato: 19 luglio 2026 14:20 · @intelligence · fonte: 3BMeteo live, registro-fatti, briefing giro
+> Aggiornato: 19 luglio 2026 14:48 · @intelligence · fonte: 3BMeteo live, registro-fatti, briefing giro
 
 ---
 

@@ -1,9 +1,9 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-19 14:20",
+  "data": "2026-07-19 14:48",
   "voto_fiducia": 91,
-  "sintesi": "Giro 19/7 14:20: REST live, numeri invariati, vincolo north-star rispettato (zero lavoro macchina laterale). Coerenza-fatti ok. Supervisione accodata senza priorità vs 1° ordine.",
-  "trend_fiducia": "▲ 91 vs 90 (13:10) — giro coerente con AR-111, numeri da REST 14:20, nessun numero inventato",
+  "sintesi": "Giro 19/7 14:48: REST live confermato (4 buyer, 0 pagati), numeri invariati, vincolo north-star rispettato. Coerenza-fatti ok. Zero lavoro macchina laterale.",
+  "trend_fiducia": "= 91 vs 14:20 — giro minimale coerente AR-111, REST 14:48 ri-conferma baseline",
   "errori_giro": [],
   "domande_bloccanti": [
     {
@@ -23,7 +23,7 @@
     {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "REST sentinella-dati + registro-realtà"},
     {"nome": "13 prospect botteghe onda-2", "stato": "scelta_ragionata", "fonte": "registro-realtà.json"},
     {"nome": "6 ristoranti dossier 6/7", "stato": "escluso", "fonte": "Nicola 16-18/7 + registro-fatti onboarding.6-ristoranti-tattici"},
-    {"nome": "4 buyer", "stato": "confermato", "fonte": "correzione Nicola 19/7 (dashboard Supabase)"}
+    {"nome": "4 buyer", "stato": "confermato", "fonte": "REST live 14:48 (profiles role=buyer)"}
   ],
   "benchmark": "Focus north-star: cold-start marketplace = 1 negozio + 1 ordine reale prima di scalare. Azioni allineate.",
   "salute_macchina": {
@@ -36,6 +36,6 @@
   "verifiche": {
     "L1": "pass",
     "benchmark": "ok",
-    "note": "Vincolo AR-111 rispettato: nessuna azione macchina aggiunta (MCP allowlist esclusa — non sblocca 1° ordine direttamente)."
+    "note": "Vincolo AR-111 rispettato: nessuna azione macchina aggiunta. Radiografia completa in coda ma non priorità vs 1° ordine."
   }
 }
