@@ -1,7 +1,9 @@
 ---
 tipo: post-del-giorno
 playbook: contenuto-giorno
-data: 2026-07-19 12:58 (Europe/Rome)
+titolo: Domenica sera — fai il turno per la settimana (Pane Quotidiano)
+data: 2026-07-19 17:15 (Europe/Rome)
+stato: pronto
 reparto: content-social (sintesi AD)
 negozio: Pane Quotidiano (Via Calzolai 25) — stato `confermato` nel registro-realtà
 categoria: RUBRICA / domenica sera — "Dietro la saracinesca" (swipe #4) × utilità settimana
@@ -15,6 +17,20 @@ allocazione: Pane Quotidiano confermato — cancello allocazione ok
 ---
 
 # 📣 Post del giorno 19/7 — "Domenica sera: fai il turno per la settimana"
+
+## 🖼 Anteprima grafica (pronta)
+
+**Feed (1080×1350):**
+
+![Post feed domenica settimana Pane Quotidiano](/api/contenuti/asset?file=consegne/content/assets/domenica-settimana-1907-feed.svg)
+
+**Storia (9:16):**
+
+![Storia domenica settimana Pane Quotidiano](/api/contenuti/asset?file=consegne/content/assets/domenica-settimana-1907-story.svg)
+
+> PNG ad alta risoluzione: sul VPS esegui `node cervello/content-factory/render-domenica-settimana.mjs` (Playwright) — le SVG qui sopra sono già pubblicabili.
+
+---
 
 > **Perché questo angolo (e non duplica i precedenti):**
 > 14/7 = kefir colazione estiva · 17/7 = VP day (scaduto) · 18/7 = contatore iscritti · 20/7 = pioggia (in coda).
@@ -138,5 +154,6 @@ allocazione: Pane Quotidiano confermato — cancello allocazione ok
 ## ✅ CONSEGNA
 
 - ✅ File in `consegne/content/2026-07-19-post-del-giorno-domenica-settimana-PQ.md`
+- ✅ Grafiche in `consegne/content/assets/domenica-settimana-1907-{feed,story}.svg` — visibili in **Diretta contenuti**
 - ⏳ Azione 🔴 accodata in AZIONI-IN-ATTESA (`#post-domenica-settimana-1907`) + anteprima AZIONI-PRONTE **A29**
 - 🙋 Serve da Nicola: **ok pubblicazione** (🔴) · verificare link pagina negozio PQ live nel primo commento

@@ -38,6 +38,10 @@ const MD: Components = {
   li: ({ children }) => <li className="leading-relaxed">{children}</li>,
   strong: ({ children }) => <strong className="font-semibold" style={{ color: "var(--text-primary)" }}>{children}</strong>,
   a: ({ children, href }) => <a href={href} className="text-brand underline underline-offset-2">{children}</a>,
+  img: ({ src, alt }) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt || ""} className="my-3 rounded-lg max-w-full h-auto ring-1 ring-black/10 dark:ring-white/10" loading="lazy" />
+  ),
   code: ({ children }) => <code className="text-[12px] px-1 py-0.5 rounded" style={{ background: "var(--bg-surface-2)", color: "var(--text-primary)" }}>{children}</code>,
   pre: ({ children }) => <pre className="rounded-lg p-3 overflow-x-auto text-xs my-2" style={{ background: "var(--bg-surface-2)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}>{children}</pre>,
   blockquote: ({ children }) => <blockquote className="border-l-2 pl-3 my-2 italic" style={{ borderColor: "var(--border-strong)", color: "var(--text-muted)" }}>{children}</blockquote>,
