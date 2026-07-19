@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 13:17 · 🟡 · [Caselle auto-coscienza compatte con anteprima — PR #472] · **Nicola: «Sono troppo grandi queste caselle, riducile a metà della loro dimensione o trasformale in finestre con un anteprima»** (casella Ex Scuderie, 19/7 ~13:17). AD ha implementato componente `CasellaAnteprima`: titolo + badge + anteprima breve (~2 righe), partono chiuse, clic espande il contenuto completo. Applicato a Scelte ragionate, benchmark, esperimenti, peer review, proposte nel tab Miglioramento. PR #472 accodata (card #190). Attende merge Nicola.
+
 2026-07-19 13:16 · 🟡 · [Fix Pannello: titolo casella in Lavori «Da riapprovare» — PR #471] · **Nicola: «Non mi piace che non legge il titolo della casella»** (screenshot 19/7 12:52). In Lavori compariva l'ultimo messaggio chat (o lettere schiacciate su mobile) invece del nome della casella («Esperimento: …», «Revisione: …»). AD ha preparato PR #471: legge `titolo` casella + bottoni Riapprova/Annulla/Chat sotto il titolo (layout mobile). Attende merge Nicola (card #189).
 
 2026-07-19 00:47 · 🟡 · [Nicola aggiunge Supabase MCP all'allowlist settings.local.json] · **Nicola: «Voglio aggiungere mcp di supabase settings.local.json».** L'AD non può modificare `.claude/` dalla chat (blocco di sicurezza). Ha fornito le 2 righe esatte da incollare: `"mcp__supabase-marketplace__execute_sql"` e `"mcp__supabase-marketplace__list_tables"`. Nicola le aggiunge via `nano /opt/mycity/ad-mycity/.claude/settings.local.json`. Dopo il salvataggio, il tool MCP Supabase sarà raggiungibile dalla chat senza approvazione esplicita — risolve il blocco che impediva di leggere il numero reale di iscritti (EXP-001: 23→4).

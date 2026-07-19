@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 13:16
-fonte: AD digitale (metabolizzazione chat 19/7 13:16)
+aggiornato: 2026-07-19 13:17
+fonte: AD digitale (metabolizzazione chat 19/7 13:17)
 ---
+
+> 💬 **19/7 13:17 — CHAT: caselle auto-coscienza troppo grandi — fix PR #472.** Nicola su Ex Scuderie: «Sono troppo grandi queste caselle, riducile a metà o trasformale in finestre con anteprima». AD ha creato `CasellaAnteprima`: titolo + ~2 righe anteprima, partono chiuse, clic espande. Applicato a Scelte ragionate, benchmark, esperimenti, peer review, proposte (tab Miglioramento). ⏳ Pendente merge Nicola (card #190 in [[AZIONI-IN-ATTESA]]). Fonte: chat Nicola 19/7 ~13:17.
 
 > 💬 **19/7 13:16 — CHAT: titolo caselle Lavori illeggibile — fix PR #471.** Nicola: «Non mi piace che non legge il titolo della casella» (screenshot: lettere «G»/«a» invece del nome casella). Causa: UI mostrava ultimo messaggio chat + layout mobile schiacciava il testo. AD ha preparato PR #471 (titolo casella + bottoni sotto). ⏳ Pendente merge Nicola (card #189 in [[AZIONI-IN-ATTESA]]). Fonte: chat Nicola 19/7 12:52.
 
