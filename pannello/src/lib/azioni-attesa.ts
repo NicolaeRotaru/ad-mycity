@@ -63,6 +63,9 @@ const SLUG_INTERNO_RE = /#(?=[a-z])[a-z0-9-]+\b/gi;
 
 export function pulisciTitolo(s: string): string {
   let t = s || "";
+  // Via il carattere di sostituzione U+FFFD («�»): mojibake da emoji corrotte in
+  // memoria (es. «🟢�» in AZIONI-IN-ATTESA). Prima di tutto, così non resta orfano.
+  t = t.replace(/�/g, "");
   t = t.replace(/^[\s🟢🟡🔴🩻🛡️🔎📣🚀🚨🐙✍️💶🧾⏳◇◈]*\s*/u, "");
   // Formato worker «#slug-interno — Titolo umano · meta»: tieni solo la parte umana.
   const dopoSlug = t.match(/^#\S+\s*[—–-]\s*(.+)$/);
