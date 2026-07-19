@@ -1,10 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 00:51
+aggiornato: 2026-07-20 00:55
 fonte: AD digitale (sentinella cassa_sconosciuta + negozio_fermo)
 ---
 
-> 💬 **20/7 ~00:51 — CHAT: scroll chat menu — #482 insufficiente, PR #483 (L-345).** Nicola «**non è cambiato nulla**» dopo fix scroll menu sinistra. AD verifica: **#482 già mergiata** — problema nel meccanismo, non merge mancante. Causa aggiuntiva: scroll post-animazione troppo presto; messaggi lunghi finiscono di renderizzare **dopo** + reload lista DB **dopo** chiusura menu → chat si allunga e torna in cima. **Fix PR #483** (`c451af83`): resta in fondo ~3s, retry multipli, segue altezza DOM. **Merge 🔴 pendente Nicola** (card #201). Test post-merge: Ctrl+Shift+R → Worker → menu → chat lunga. Fonte: chat Nicola 20/7 00:51.
+> 💬 **20/7 ~00:55 — CHAT: barra scrittura Worker fissa in basso — PR #484 (L-346).** Dopo conferma scroll ok, Nicola chiede casella scrittura + icone **sempre incollate in basso** (pattern WhatsApp): scorre solo la conversazione, barra non esce dall'inquadratura su chat lunghe/mobile. AD **PR #484** (`c9b996d5`) — merge 🔴 pendente (card #202). **Non** toccare fix scroll #483. Fonte: chat Nicola 20/7 00:55.
+
+> ✅ **20/7 ~00:55 — CHAT: scroll menu Worker — #483 confermato ok (L-345).** Nicola «**ok, ha funzionato**» dopo merge **PR #483** — aprendo chat dal menu sinistra finisce sull'ultimo messaggio. Iterazione: #482 insufficiente → #483 (retry ~3s + render async + reload DB). Fonte: chat Nicola 20/7 00:55.
+
+> 💬 **20/7 ~00:51 — CHAT: scroll chat menu — #482 insufficiente, PR #483 (L-345).** Nicola «**non è cambiato nulla**» dopo fix scroll menu sinistra. AD verifica: **#482 già mergiata** — problema nel meccanismo, non merge mancante. Causa aggiuntiva: scroll post-animazione troppo presto; messaggi lunghi finiscono di renderizzare **dopo** + reload lista DB **dopo** chiusura menu → chat si allunga e torna in cima. **Fix PR #483** (`c451af83`): resta in fondo ~3s, retry multipli, segue altezza DOM. ~~Merge 🔴 pendente~~ **✅ confermato Nicola 00:55**. Fonte: chat Nicola 20/7 00:51–00:55.
 
 > 💬 **20/7 ~00:49 — CHAT: worker vs n8n — cervello vs braccia, quando delegare (L-344).** Nicola «in che modo n8n semplifica il worker? n8n può fare la stessa cosa — conviene delegare?». AD: **no, non sono la stessa cosa** — worker **decide** (dati, memoria, chat, giro ~2h, azioni da firmare, costa AI); n8n **esegue** passi fissi (pub programmata, promemoria carrello, alert Telegram) via webhook **dopo** approvazione. Delegare **sì** a flussi ripetitivi; **no** a strategia, scelta negozio, contenuti strategici. **Stato:** n8n runtime ok (5678), workflow «Pubblica post programmato» importato; **`N8N_WEBHOOK_URL` ancora segnaposto** → mano social non attiva, post restano manuali/in coda 🔴. Prossimo: Active + webhook env + restart → «webhook collegato». Fonte: chat Nicola 20/7 00:49.
 

@@ -3,6 +3,10 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 00:55 · 🟡 · [Worker chat — barra scrittura fissa in basso, PR #484] · **Nicola: «blocca/fissala la box dove scrivo e ci sono le icone… dimmi cosa hai capito».** Dopo conferma scroll menu ok (#483), chiede UX tipo WhatsApp: casella scrittura + icone **sempre visibili in basso**, solo messaggi scorrono sopra — barra non deve uscire dall'inquadratura. AD PR #484 (`c9b996d5`). Merge 🔴 pendente (#202). Scroll #483 intatto. L-346.
+
+2026-07-20 00:55 · 🟢 · [Worker chat scroll menu — #483 confermato ok] · **Nicola: «ok, ha funzionato».** Merge PR #483 verificato su chat lunga dal menu sinistra — scroll finisce sull'ultimo messaggio. Chiude filone #482→#483. L-345.
+
 2026-07-20 00:36 · 🟡 · [Chat — tenere auto-apertura E sync, PR #481] · **Nicola: «no, tieni l'auto-apertura e fai in modo che sync funzioni comunque».** Corregge proposta rimozione auto-apertura (00:32–00:34): vuole **entrambe** — sync elenco DB poll ~8s + auto-apertura ultima chat recente — con fix «+» che non riapre chat vecchia. AD PR #481: blocco auto-open immediato su «+», riattiva solo a nuova conv salvata; aggiornamento cross-device se messaggio arriva da altro device. Merge 🔴 pendente Nicola. L-341.
 
 2026-07-20 00:32 · 🟢 · [Chat — auto-apertura rimossa da Nicola su live; sync elenco resta] · **Nicola: «l'ho tolta oggi perché crea un bug nella chat, controlla su main».** Correzione esplicita: auto-apertura (riapre ultima chat su «+») **va via**; **sync elenco** DB poll ~8s **resta** per vedere conversazioni telefono↔desktop nel cassetto. AD verifica repo: auto-apertura **ancora su main** (mod 19/7) — live Panel può essere avanti/indietro vs repo (rollback Vercel). ~~Prossimo: PR solo rimozione auto-apertura~~ **superato 00:36** — Nicola vuole tenere auto-apertura con fix PR #481. L-339, L-299.

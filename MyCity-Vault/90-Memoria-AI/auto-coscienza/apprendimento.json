@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 00:53",
+  "aggiornato": "2026-07-20 00:55",
+  "_nota_metabolizzazione_20_07_0055": "Chat 20/7 ~00:55: Nicola «ok, ha funzionato» scroll #483 + chiede barra scrittura fissa WhatsApp «dimmi cosa hai capito». L-346 nuova; L-345 evidenze++ chiusura ok; L-263 evidenze++ punto 3; #201 FATTO; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati; PR #484 in coda #202.",
   "_nota_metabolizzazione_20_07_0051": "Chat 20/7 ~00:51: Nicola «non è cambiato nulla» post-merge #482 scroll menu — fix animazione insufficiente, serve render async+reload DB. L-345 nuova; L-342 evidenze++ addendum; preferenza scroll-conferma-nicola; #200 FATTO; STATO+LEZIONI-CHAT+frontend-dev aggiornati; PR #483 in coda #201.",
   "_nota_metabolizzazione_20_07_0042b": "Chat 20/7 ~00:42: Nicola «come resi compatibili / perché non prima / quante volte serve dirglielo?» — meta-reflection processo AD. L-343 nuova; L-341 evidenze++ addendum trigger; preferenza no-trade-off-binario; STATO+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0042": "Chat 20/7 ~00:42: Nicola «aprendo chat dal menu sinistra vedo inizio non ultimo messaggio» — scroll prima fine animazione cassetto. L-342 nuova; preferenza scroll-fondo-menu; STATO+LEZIONI-CHAT+frontend-dev aggiornati; PR #482 già in coda #200.",
@@ -64,8 +65,31 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-346",
+      "testo": "**Worker chat — barra scrittura+icone fissa in basso tipo WhatsApp (Nicola 20/7 ~00:55).** Dopo conferma scroll ok (#483), chiede «blocca/fissala la box dove scrivo e ci sono le icone… dimmi cosa hai capito». 5 perché: (1) pattern UX chat mobile = **input sempre visibile**, scorre solo lo storico messaggi — come WhatsApp/Telegram; (2) oggi scrollando chat lunghe la barra può uscire dall'inquadratura; (3) «dimmi cosa hai capito» = conferma comprensione **prima** del fix (L-333, L-338); (4) **non** toccare scroll menu (#483 appena confermato); (5) fix = layout flex: area messaggi scrollabile + barra `sticky`/`fixed` in fondo. PR #484 (`c9b996d5`). Punto (3) di L-263 (18/7) ora in PR dedicata. Regola: richiesta sticky input → spiegare meccanismo WhatsApp + PR separata dal filone scroll. Vedi L-263, PR #484.",
+      "tag": [
+        "pannello",
+        "chat",
+        "worker",
+        "sticky",
+        "input",
+        "whatsapp",
+        "ux",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 00:55",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-345",
-      "testo": "**Chat scroll menu — #482 mergiata ma «non è cambiato nulla»: servono render async + reload DB (Nicola 20/7 ~00:51).** Nicola conferma bug **persiste** dopo merge #482 — non era merge mancante. 5 perché: (1) #482 fixava solo timing **animazione cassetto** (L-342) — causa reale parziale; (2) messaggi lunghi finiscono di **renderizzare dopo** lo scroll; (3) **reload lista dal DB** dopo chiusura menu allunga la chat e annulla posizione; (4) scroll «una tantum» post-animazione non segue crescita DOM; (5) Nicola segnala subito quando fix non basta — **non** assumere risolto senza sua verifica su chat lunga. Regola: scroll-to-bottom su chat worker = gestire **3 layer** (animazione drawer + render messaggi async + reload DB); retry persistente ~3s + seguire altezza DOM; PR #483 (`c451af83`). **Non** registrare come lezione definitiva fix parziale (#482) senza conferma utente. Vedi L-342, PR #482, PR #483.",
+      "testo": "**Chat scroll menu — #482 insufficiente, #483 ok solo con conferma Nicola (20/7 ~00:51→00:55).** Nicola «non è cambiato nulla» post-#482 — non era merge mancante. 5 perché: (1) #482 fixava solo timing **animazione cassetto** (L-342) — causa parziale; (2) messaggi lunghi finiscono di **renderizzare dopo** lo scroll; (3) **reload lista dal DB** dopo chiusura menu allunga chat; (4) scroll «una tantum» non segue crescita DOM; (5) **ADDENDUM 00:55:** Nicola «ok, ha funzionato» post-#483 — gate obbligatorio: **non** chiudere bug scroll senza sua verifica su chat lunga. Regola: scroll-to-bottom = **3 layer** (animazione + render async + reload DB); retry ~3s + altezza DOM; PR #483 confermata. Vedi L-342, PR #482, PR #483.",
       "tag": [
         "pannello",
         "chat",
@@ -77,12 +101,12 @@
         "caso-studio"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.96,
-      "evidenze": 1,
+      "confidenza": 0.97,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 00:51",
+      "ultima_conferma": "2026-07-20 00:55",
       "stato": "attiva",
       "usi": []
     },
@@ -1885,7 +1909,7 @@
     },
     {
       "id": "L-2026-0718-263",
-      "testo": "**3 nuovi bug chat segnalati da Nicola (18/7) — da fixare in unica PR sulla ChatCasella del Pannello:** (1) chat si apre dall'inizio invece che dall'ultimo messaggio quando si clicca da lista conversazioni; (2) risposta AD spinge il box di testo/icone verso il basso invece di scrollare la lista messaggi; (3) vuole box di testo sticky in fondo mentre scrolla verso l'alto nella storia. Sono tutti nella stessa componente (ChatCasella o Worker chat). Fix: (1) scrollIntoView sull'ultimo messaggio all'apertura; (2) layout flex con min-h-0 sul div messaggi; (3) position sticky/fixed sul box input. L'AD li ha capiti tutti e 4 (incluso triplicamento) e ha proposto di risolverli in un'unica PR — Nicola ha chiesto di confermare la comprensione prima di procedere.",
+      "testo": "**3 bug chat Worker (18/7) — scroll menu, layout messaggi, sticky input:** (1) chat si apre dall'inizio invece che dall'ultimo messaggio dal menu → **#482+#483 ✅ Nicola 00:55**; (2) risposta AD spinge box verso il basso → layout flex min-h-0 (parziale #443); (3) box scrittura+icone **sticky in fondo** tipo WhatsApp → **PR #484** (20/7 ~00:55, L-346). Componente: ChatCasella Worker. Fix (3): position sticky/fixed barra input, solo messaggi scrollano.",
       "tag": [
         "ux-chat",
         "scroll",
@@ -1897,12 +1921,12 @@
         "frontend-dev"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.9,
-      "evidenze": 1,
+      "confidenza": 0.92,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-18",
-      "ultima_conferma": "2026-07-18",
+      "ultima_conferma": "2026-07-20 00:55",
       "stato": "attiva",
       "usi": []
     },
@@ -7839,6 +7863,8 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Worker chat — barra scrittura fissa tipo WhatsApp (chat 20/7 ~00:55):** dopo scroll ok (#483), chiede casella input + icone **sempre incollate in basso** — scorre solo la conversazione, barra non esce dall'inquadratura; pattern «dimmi cosa hai capito» prima del fix; **non** toccare scroll appena confermato. PR #484 merge pendente (#202). Vedi L-346, L-263.",
+    "**Chat scroll menu — conferma Nicola obbligatoria prima di chiudere bug (chat 20/7 ~00:51→00:55):** «non è cambiato nulla» post-#482 → serve #483; «ok, ha funzionato» = gate per considerare risolto — **non** dichiarare fixato senza test chat lunga + sua ok. Vedi L-345, L-342.",
     "**Worker vs n8n — chiede architettura chiara cervello/braccia e quando delegare (chat 20/7 ~00:49):** vede che n8n «può fare la stessa cosa» del worker — si aspetta spiegazione **concreta** di divisione ruoli (worker pensa/decide/giro/🔴 · n8n esegue flussi fissi via webhook post-approvazione), criterio **sì ripetitivo / no strategia**, e stato reale (webhook ancora segnaposto = post ancora manuali). **Non** risposta generica su cosa fa n8n. Vedi L-344, L-332.",
     "**Chat — odia trade-off «o A o B» quando entrambe le feature sono fattibili (chat 20/7 ~00:42):** chiede perché non ci sei arrivato prima e quante volte serve dirglielo — si aspetta che l'AD **prima** proponga coesistenza con regole chiare (sync+auto-apertura+«+» pulito), non rimozione di una feature; quando manca la sua scelta esplicita tra obiettivi in conflitto, l'AD può sbagliare finché non corregge («tieni entrambe»). Onestà sulla frequenza, non numeri inventati. Vedi L-343, L-341, PR #481.",
     "**Chat scroll menu — «non è cambiato nulla» dopo fix = verificare tutti i layer timing, non solo animazione (chat 20/7 ~00:51):** dopo merge #482 segnala che scroll menu sinistra **non funziona ancora** — si aspetta che l'AD **non** attribuisca a merge mancante se già mergiata, ma indaghi render async messaggi + reload DB; fix #483 con retry persistente; chiede merge + hard refresh + test chat lunga; **non** dichiarare risolto senza sua conferma. Vedi L-345, L-342, PR #483.",
