@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
   "aggiornato": "2026-07-20 00:42",
+  "_nota_metabolizzazione_20_07_0042b": "Chat 20/7 ~00:42: Nicola «come resi compatibili / perché non prima / quante volte serve dirglielo?» — meta-reflection processo AD. L-343 nuova; L-341 evidenze++ addendum trigger; preferenza no-trade-off-binario; STATO+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0042": "Chat 20/7 ~00:42: Nicola «aprendo chat dal menu sinistra vedo inizio non ultimo messaggio» — scroll prima fine animazione cassetto. L-342 nuova; preferenza scroll-fondo-menu; STATO+LEZIONI-CHAT+frontend-dev aggiornati; PR #482 già in coda #200.",
   "_nota_metabolizzazione_20_07_0036": "Chat 20/7 ~00:36: Nicola «tieni auto-apertura, fai sync comunque» — correzione: vuole ENTRAMBI, non rimozione auto-apertura. L-341 nuova; L-340+L-339 evidenze++ addendum; preferenza sync-e-auto-insieme; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0034": "Chat 20/7 ~00:34: Nicola «perché due fix non combaciano?» — sync elenco e auto-apertura sono pezzi separati, combinazione sync-sì/auto-no. L-340 nuova; L-339 evidenze++; preferenza due-fix-separati; STATO+LEZIONI-CHAT+frontend-dev aggiornati.",
@@ -62,6 +63,29 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-343",
+      "testo": "**Chat sync+auto — non proporre «o A o B» se pezzi separati; proporre «A+B con regole» (Nicola 20/7 ~00:42).** Dopo PR #481, chiede come resi compatibili sync e auto-apertura, perché non prima, quante volte serve dirglielo. 5 perché: (1) AD aveva bundlato «sync cross-device» e scorciatoia «togli auto-apertura» (L-339–L-340) invece di ingegnerizzare coesistenza; (2) quando due obiettivi UX si pestano i piedi **senza priorità esplicita di Nicola**, consegna soluzione tecnicamente sensata ma sbagliata per lui; (3) fix vero = **trigger separati**: sync elenco sempre (poll ~8s); auto-open solo se chat vuota **e** «+» non appena premuto; «+» blocca subito auto-open, riattiva solo a nuova conv **salvata**; messaggio cross-device sulla **stessa** conv → desktop riapre/aggiorna; (4) Nicola corregge «tieni entrambe» → strada giusta **al giro dopo** — pattern ricorrente quando manca scelta esplicita; (5) **regola AD:** se nel codice sono blocchi indipendenti, **non** chiedere trade-off binario — presentare combo con regole chiare e far scegliere Nicola solo se serve davvero. Onestà: frequenza non numerabile, dipende da conflitto implicito. Vedi L-341, L-340, PR #481.",
+      "tag": [
+        "pannello",
+        "chat",
+        "sync",
+        "auto-open",
+        "processo-ad",
+        "nicola",
+        "correzione",
+        "caso-studio"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 00:42",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-342",
       "testo": "**Chat worker — menu sinistra deve scrollare in fondo, non in cima (Nicola 20/7 ~00:42).** Nicola: aprendo chat dal cassetto Conversazioni (menu a sinistra) → vedo **inizio** storico, non ultimo messaggio. 5 perché: (1) standing-ask UX chat = finire dove si legge (L-120, #420); (2) scroll partiva a ~120 ms **prima** che animazione chiusura cassetto finisse (~200 ms); (3) layout si ricalcola a fine animazione → scroll annullato, chat in cima; (4) #420 fixava cambio conv senza drawer — **caso diverso** (scelta esplicita dal menu); (5) chiudere menu con X senza cambiare conv **non** deve spostare scroll (Nicola legge a metà). Regola: scelta chat dal menu → flag + scroll **post-animazione** + secondo tentativo chat lunghe; test con conv >20 messaggi. PR #482 (`1240c300`). Vedi L-120, PR #420.",
       "tag": [
@@ -99,13 +123,14 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.97,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 00:36",
+      "ultima_conferma": "2026-07-20 00:42",
       "stato": "attiva",
-      "usi": []
+      "usi": [],
+      "_addendum_00_42": "Nicola chiede meccanismo coesistenza — trigger separati: sync sempre; auto-open se vuota≠«+»; cross-device stessa conv riapre; «+» blocca fino salvataggio nuova conv. Vedi L-343."
     },
     {
       "id": "L-2026-0720-340",
@@ -7769,6 +7794,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Chat — odia trade-off «o A o B» quando entrambe le feature sono fattibili (chat 20/7 ~00:42):** chiede perché non ci sei arrivato prima e quante volte serve dirglielo — si aspetta che l'AD **prima** proponga coesistenza con regole chiare (sync+auto-apertura+«+» pulito), non rimozione di una feature; quando manca la sua scelta esplicita tra obiettivi in conflitto, l'AD può sbagliare finché non corregge («tieni entrambe»). Onestà sulla frequenza, non numeri inventati. Vedi L-343, L-341, PR #481.",
     "**Chat worker — aprire dal menu sinistra = finire sull'ultimo messaggio (chat 20/7 ~00:42):** segnala bug «vedo l'inizio della chat, non l'ultimo messaggio» quando sceglie conv dal cassetto Conversazioni; si aspetta stesso comportamento della chat piena (scroll in fondo). Causa timing animazione cassetto — fix PR #482 merge pendente. Vedi L-342, PR #420.",
     "**Chat sync + auto-apertura — vuole ENTRAMBI, non rimuovere auto-apertura (chat 20/7 ~00:36):** corregge proposta «sync sì, auto no» — «tieni l'auto-apertura e fai in modo che sync funzioni comunque»; si aspetta fix che **coesista** sync elenco (poll ~8s, stesso cassetto PC↔telefono) + auto-apertura (ultima chat su schermo vuoto) **senza** rompere «+»; messaggio da altro device sulla stessa conv deve aggiornare desktop. **Non** proporre solo rimozione auto-apertura come soluzione definitiva. PR #481 merge pendente. Vedi L-341, L-340, L-339.",
     "**Chat — «perché due fix non combaciano?» = spiegare meccanismo pezzi separati, poi chiedere cosa vuole tenere (chat 20/7 ~00:34):** chiede perché non riesce a combinare i fix — si aspetta chiarimento che sync elenco e auto-apertura sono **codice indipendente**, non bundle; ~~combo sync-sì/auto-no~~ **superato 00:36** — Nicola vuole entrambi (L-341). Vedi L-340.",
