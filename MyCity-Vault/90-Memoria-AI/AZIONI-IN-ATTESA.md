@@ -153,20 +153,13 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🔴 #fix-35-gravi — Mergia la PR #213 (schema DB già applicato) · ⏳ aggiornata 2026-07-19 16:58
+### ✅ #fix-35-gravi — COMPLETATA 19/7 ~17:00 · PR #213 mergiata + migrazioni 109-111 sul DB
 
-**Contesto:** 9 batch completati (2026-07-18), conflitti risolti via rebase (18/7 19:45). PR #213 pronta senza conflitti.
+**Contesto:** 9 batch (35 fix radiografia 7/7). Conflitti risolti 18/7. Schema DB applicato 19/7 16:57 (110 adattata schema live).
 
-**✅ Step 2 FATTO 19/7 16:57:** migrazioni 109→110→111 applicate sul DB live (Management API, su richiesta Nicola «Applica queste 3 migrations»). Verifica REST: `rider_fee_cents` presente su `orders`, vista `public_profiles` risponde. Nota: la 110 originale falliva su colonne inesistenti (`avatar_url` ecc.) — applicata versione adattata allo schema reale (`public_avatar_url`, `city`, ecc.).
+**Verifica merge:** `origin/main` marketplace → commit `304fe07` «Merge pull request #213» (fetch 19/7 16:59).
 
-**Step 1 — Nicola mergia la PR (unico passo rimasto):**
-https://github.com/NicolaeRotaru/mycity/pull/213
-
-**Cosa cambia:** codice 35 fix radiografia in produzione — schema DB già allineato.
-**Se va bene:** marketplace più sicuro end-to-end; payout rider disaccoppiato da shipping_cost.
-
-- **Colore:** 🔴 (deploy marketplace — solo merge PR #213)
-- **Reparto:** tech / backend-dev
+**Fatto:** codice in produzione al prossimo deploy Render · DB già allineato (109/110/111).
 
 ---
 
