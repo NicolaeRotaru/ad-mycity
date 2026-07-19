@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 17:56",
+  "aggiornato": "2026-07-19 18:06",
   "_nota_metabolizzazione_19_07_1739": "Chat 19/7 ~17:38: Nicola «Fatto» passo 3 Playwright. Verifica server: Chromium ✅ /opt/pw-browsers; Playwright ❌ path sbagliato (/usr/lib vs /opt/node22) → ERR_MODULE_NOT_FOUND. L-307 nuova; L-305 aggiornata; preferenza «Fatto» = verifica runtime.",
   "_nota_metabolizzazione_19_07_1737": "Chat 19/7 ~17:36: Nicola «Controlla se ho fatto tutto giusto» dopo passo 2 Node22 Termux. Verifica server: v22.17.1 in /opt/node22, owner mycity ✅. L-305 aggiornata (node22 presente); L-306 evidenze++; preferenza verifica server post-setup.",
   "_nota_metabolizzazione_19_07_1734": "Chat 19/7 ~17:34: Nicola «Il passo 1 l'ho fatto, il secondo non so come farlo» (Playwright setup). Verifica server: font ✅; /opt/node22 ancora assente. AD comandi Termux blocchi singoli. L-306 nuova; L-305 evidenze++; preferenza comandi uno alla volta.",
@@ -7188,9 +7188,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.23,
-    "tasso_calcolato_il": "2026-07-19 17:56",
+    "tasso_calcolato_il": "2026-07-19 18:06",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 17:56",
+    "tick_leggero_il": "2026-07-19 18:06",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
