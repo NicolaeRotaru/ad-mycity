@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 18:20",
+  "aggiornato": "2026-07-19 18:21",
+  "_nota_metabolizzazione_19_07_1820": "Chat 19/7 ~18:20: Nicola «Scrivi il commit per vederli su diretta/panello» dopo render Playwright OK. AD PR #478 (625600fa): frontmatter anteprima → PNG. L-308 nuova; L-303 evidenze++; preferenza commit per Diretta.",
   "_nota_metabolizzazione_19_07_1812": "Chat 19/7 ~18:12: Nicola screenshot Termux setup Playwright completo. AD verifica: package /opt/node22 ✅, env PLAYWRIGHT_BROWSERS_PATH ✅, render domenica 2 PNG OK. L-305 completata; L-307 evidenze++ (fix --prefix confermato); L-304 aggiornata (PNG ok); preferenza setup finito = render OK.",
   "_nota_metabolizzazione_19_07_1806": "Chat 19/7 ~18:06: Nicola «Ricordami come si entra nel file segreto» (Playwright env). AD path nano cervello/vps/.env; verifica: file ok perm 600, riga Playwright assente. L-247 evidenze++; L-305 aggiornata; preferenza promemoria path operativo.",
   "_nota_metabolizzazione_19_07_1739": "Chat 19/7 ~17:38: Nicola «Fatto» passo 3 Playwright. Verifica server: Chromium ✅ /opt/pw-browsers; Playwright ❌ path sbagliato (/usr/lib vs /opt/node22) → ERR_MODULE_NOT_FOUND. L-307 nuova; L-305 aggiornata; preferenza «Fatto» = verifica runtime.",
@@ -26,6 +27,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-308",
+      "testo": "**PNG Playwright sul server ≠ visibili in Diretta — serve commit frontmatter + PR (Nicola 19/7 ~18:20).** Dopo render OK 18:12, Nicola: «Scrivi il commit per vederli su diretta/panello». PNG esistono su filesystem/repo ma tab **Diretta contenuti** legge vault su GitHub via frontmatter `anteprima` (ancora SVG). 5 perché: (1) Content Factory scrive asset localmente, non aggiorna git da sola; (2) Pannello/Diretta legge `main`, non il VPS; (3) Nicola chiede «commit» = vuole **vedere la grafica** in tab, non sapere che «sono sul server»; (4) dopo fix Playwright il passo mancante è collegare PNG al post markdown; (5) fix = commit PNG (se nuovi) + `anteprima` → `.png` + PR (**#478**, `625600fa`). Regola: render stampa 2 OK → **subito** commit+PR Diretta, non fermarsi a «operativo sul worker». Vedi L-303, L-305.",
+      "tag": [
+        "diretta-contenuti",
+        "playwright",
+        "content-factory",
+        "commit",
+        "pannello",
+        "nicola"
+      ],
+      "reparto": "@content-social",
+      "confidenza": 0.96,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 18:20",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-307",
       "testo": "**Playwright passo 3 — `npm install -g` senza `--prefix` mette il pacchetto nel posto sbagliato (Nicola 19/7 ~17:38, fix confermato 18:12).** Nicola «Fatto» dopo passo 3; AD verifica server: Chromium ✅ (`/opt/pw-browsers/chromium-1228`), Playwright ❌ in `/usr/lib/node_modules/playwright` invece di `/opt/node22/lib/node_modules/` → Content Factory `ERR_MODULE_NOT_FOUND`. Fix `--prefix /opt/node22` + env worker + restart → **render 18:12 OK** (2 PNG puliti). 5 perché: (1) `npm -g` senza `--prefix` usa prefix di default del sistema Node, non `/opt/node22`; (2) Content Factory importa da path fisso sotto `/opt/node22`; (3) «Fatto» su passo npm non garantisce path corretto — verificare `ls /opt/node22/lib/node_modules/playwright/package.json`; (4) fix = `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers /opt/node22/bin/npm install -g playwright --prefix /opt/node22`; (5) gate finale = test `render-domenica-settimana.mjs` stampa 2 OK. Regola: setup Playwright VPS = sempre `--prefix /opt/node22` su ogni comando npm globale. Vedi L-305, L-306.",
@@ -128,11 +150,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.97,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 17:17",
+      "ultima_conferma": "2026-07-19 18:20",
       "stato": "attiva",
       "usi": []
     },
@@ -6949,6 +6971,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**PNG in Diretta — «scrivi il commit» dopo render Playwright (chat 19/7 ~18:20):** quando le grafiche esistono sul server ma non compaiono in tab Diretta/Pannello, vuole **commit+PR** che collega frontmatter `anteprima` alle PNG — non spiegazione «sono sul VPS». Dopo merge → ricarica Diretta. Vedi L-308, L-303.",
     "**Playwright setup — gate finale = render PNG OK, non «Fatto» generico (chat 19/7 ~18:12):** dopo passi Termux (font, Node22, Playwright `--prefix`, env `cervello/vps/.env`, restart worker) si aspetta che l'AD **verifichi sul server** che `render-domenica-settimana.mjs` stampi 2 OK e i PNG esistano — solo allora «operativo». Errore `--prefix: command not found` in Termux = pezzo comando incollato per sbaglio, ignorare. Vedi L-305, L-307.",
     "**File segreto worker — «ricordami come si entra» = path nano immediato (chat 19/7 ~18:06):** durante setup Playwright chiede promemoria operativo — si aspetta path assoluto Termux (`/opt/mycity/ad-mycity/cervello/vps/.env`), comandi nano salva/esci, quale riga aggiungere (`PLAYWRIGHT_BROWSERS_PATH`), restart worker; non teoria systemd. Vedi L-247, L-305.",
     "**Playwright «Fatto» — vuole verifica server che trova errori nascosti (chat 19/7 ~17:38):** dopo passo 3 dice «Fatto» ma `npm -g` può finire nel path sbagliato (Chromium ok ≠ Playwright ok) — si aspetta che l'AD controlli runtime, corregga con `--prefix /opt/node22`, poi env worker + test render. Vedi L-307, L-305.",

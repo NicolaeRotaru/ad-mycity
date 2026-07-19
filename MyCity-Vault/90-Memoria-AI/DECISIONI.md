@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 18:20 · 🟡 · [PR #478 — PNG Playwright visibili in Diretta contenuti] · **Nicola: «Scrivi il commit per vederli su diretta/panello».** Dopo render Playwright OK (18:12), PNG sul server ma tab Diretta mostrava ancora SVG/testo. AD commit `625600fa` + PR #478: frontmatter `anteprima` → PNG Playwright del post domenica PQ. Pendente merge Nicola. L-308, L-303.
+
 2026-07-19 18:12 · 🟢 · [Playwright operativo sul worker VPS — setup completato] · **Nicola: screenshot Termux conferma setup + AD verifica server.** Sequenza eseguita: font → Node22 `/opt/node22` → Playwright `--prefix /opt/node22` + Chromium `/opt/pw-browsers` → riga `PLAYWRIGHT_BROWSERS_PATH` in `cervello/vps/.env` → restart worker → render post domenica **2 PNG OK**. Content Factory può esportare grafiche pulite on-brand sul worker. Proposta PR setup automatico in script VPS resta 🟡 opzionale. L-305, L-307.
 
 2026-07-19 17:17 · 🟢 · [Correzione Diretta contenuti — grafica non testo] · **Nicola: «Cio che volevo vedere era la grafica».** AD aveva consegnato post domenica PQ con copy in evidenza in tab Diretta; Nicola voleva anteprima visiva immediata. Fix **PR #477** (immagine grande in scheda, copy sotto). Pendente merge. L-303.

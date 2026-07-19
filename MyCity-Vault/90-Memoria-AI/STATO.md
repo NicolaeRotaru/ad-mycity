@@ -1,10 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 18:13
-fonte: AD digitale (chat Nicola 19/7 18:12)
+aggiornato: 2026-07-19 18:21
+fonte: AD digitale (chat Nicola 19/7 18:20)
 ---
 
-> ✅ **19/7 18:12 — FATTO: Playwright operativo sul worker VPS.** Nicola screenshot Termux (setup completo) — AD verifica server 18:12: Playwright ✅ in `/opt/node22/lib/node_modules/playwright` · Chromium ✅ `/opt/pw-browsers/chromium-1228` · **`PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`** in `cervello/vps/.env` · worker riavviato · **`render-domenica-settimana.mjs` OK** → 2 PNG puliti (feed ~524KB + storia ~664KB in `consegne/content/assets/`). Da ora Content Factory esporta PNG on-brand sul worker (non solo SVG). PNG locali non ancora su GitHub — commit opzionale per Diretta. Fonte: chat Nicola 19/7 18:12.
+> 🟡 **19/7 18:20 — CHAT: PR #478 — PNG Playwright collegate a Diretta contenuti.** Nicola: «Scrivi il commit per vederli su diretta/panello». Dopo render OK 18:12, PNG erano su server/repo ma frontmatter post domenica puntava ancora SVG. AD: commit `625600fa` + **PR #478** — campo `anteprima` → `.png` in `consegne/content/2026-07-19-post-del-giorno-domenica-settimana-PQ.md`. Merge pendente Nicola → ricarica **Diretta contenuti** per vedere grafica Playwright. Pubblicazione social resta 🔴 `#post-domenica-settimana-1907`. Fonte: chat Nicola 19/7 18:20.
+
+> ✅ **19/7 18:12 — FATTO: Playwright operativo sul worker VPS.** Nicola screenshot Termux (setup completo) — AD verifica server 18:12: Playwright ✅ in `/opt/node22/lib/node_modules/playwright` · Chromium ✅ `/opt/pw-browsers/chromium-1228` · **`PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`** in `cervello/vps/.env` · worker riavviato · **`render-domenica-settimana.mjs` OK** → 2 PNG puliti (feed ~524KB + storia ~664KB in `consegne/content/assets/`). Da ora Content Factory esporta PNG on-brand sul worker. ~~PNG locali non ancora su GitHub~~ → **superato 18:20** (PR #478 collega PNG a Diretta). Fonte: chat Nicola 19/7 18:12.
 
 > 💬 **19/7 18:06 — CHAT: «Ricordami come si entra nel file segreto».** Path worker: `/opt/mycity/ad-mycity/cervello/vps/.env` (Termux root → `nano`). AD ha chiesto di aggiungere `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` + `systemctl restart mycity-worker.service`. ~~Verifica 18:06: riga Playwright ancora assente~~ → **superato 18:12** (setup completato). Fonte: chat Nicola 19/7 18:06.
 
