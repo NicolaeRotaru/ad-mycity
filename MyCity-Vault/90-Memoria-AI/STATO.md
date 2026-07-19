@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 19:59
-fonte: AD digitale (chat Nicola 19/7 19:59)
+aggiornato: 2026-07-19 20:04
+fonte: AD digitale (chat Nicola 19/7 20:04)
 ---
+
+> ⏳ **19/7 ~20:03 — CHAT: n8n setup — Nicola su Termux locale per errore (docker not found).** Screenshot Termux: prompt `~ $` (telefono), non `root@ubuntu-…` (VPS) — comandi Docker incollati **fuori SSH** dopo caduta connessione mobile → «No command docker found» (Docker non esiste su Termux). **n8n sul VPS** resta avviato da prima; fix `N8N_SECURE_COOKIE=false` **ancora da fare** (serve riconnettersi SSH). Prossimo: `ssh root@162.55.51.250` → `docker ps` → stop/rm/run con flag → setup browser → «sono dentro n8n». Fonte: chat Nicola 19/7 20:03.
 
 > ⏳ **19/7 ~19:58 — CHAT: n8n Docker avviato sul VPS — blocco secure cookie in setup.** Nicola screenshot Termux+Brave: container n8n **partito** (Docker ok, porta 5678, volume `n8n_data`); caduta SSH Termux **non** ferma il container. Browser su `162.55.51.250:5678/setup` → errore **secure cookie** (accesso IP + http, non https/localhost). Fix in corso: riavvio container con `N8N_SECURE_COOKIE=false` solo fase setup → account admin → import workflow. **`N8N_WEBHOOK_URL` ancora segnaposto** nel worker. Prossimo: «sono dentro n8n» → OAuth Meta + webhook env. Fonte: chat Nicola 19/7 19:58.
 
