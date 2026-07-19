@@ -1,9 +1,9 @@
 ## Summary
-- Aggiorna l'anteprima in Diretta contenuti del post domenica: da SVG a **PNG Playwright** (testo leggibile, feed + storia).
-- I PNG erano già generati sul worker e su main; mancava solo il puntamento nel frontmatter del post.
+- Aggiunge «Parla con questa casella» su ogni scheda in **Diretta contenuti** (post, supervisione, dossier, ecc.)
+- L'AD riceve titolo, estratto, reparto e — se la scheda è aperta — anche il testo completo del contenuto
 
 ## Test plan
-- [ ] Mergia la PR dal Pannello
-- [ ] Apri **Diretta contenuti** → scheda «Domenica sera — fai il turno…»
-- [ ] La card deve mostrare le grafiche PNG (non più le SVG tipografiche)
-- [ ] Clic sulla scheda → immagini grandi + copy sotto
+- [ ] Apri Pannello → tab **Diretta contenuti**
+- [ ] Su ogni scheda compare il pulsante «Parla con questa casella»
+- [ ] Clic → si apre la chat inline; invia un messaggio e verifica risposta dell'AD
+- [ ] Espandi una scheda, riapri «Parla» → il contesto include il contenuto completo
