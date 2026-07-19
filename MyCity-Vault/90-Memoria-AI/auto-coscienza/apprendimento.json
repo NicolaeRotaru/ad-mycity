@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 17:37",
+  "aggiornato": "2026-07-19 17:39",
+  "_nota_metabolizzazione_19_07_1739": "Chat 19/7 ~17:38: Nicola «Fatto» passo 3 Playwright. Verifica server: Chromium ✅ /opt/pw-browsers; Playwright ❌ path sbagliato (/usr/lib vs /opt/node22) → ERR_MODULE_NOT_FOUND. L-307 nuova; L-305 aggiornata; preferenza «Fatto» = verifica runtime.",
   "_nota_metabolizzazione_19_07_1737": "Chat 19/7 ~17:36: Nicola «Controlla se ho fatto tutto giusto» dopo passo 2 Node22 Termux. Verifica server: v22.17.1 in /opt/node22, owner mycity ✅. L-305 aggiornata (node22 presente); L-306 evidenze++; preferenza verifica server post-setup.",
   "_nota_metabolizzazione_19_07_1734": "Chat 19/7 ~17:34: Nicola «Il passo 1 l'ho fatto, il secondo non so come farlo» (Playwright setup). Verifica server: font ✅; /opt/node22 ancora assente. AD comandi Termux blocchi singoli. L-306 nuova; L-305 evidenze++; preferenza comandi uno alla volta.",
   "_nota_metabolizzazione_19_07_1726": "Chat 19/7 ~17:26: Nicola «Come rendo operativo Playwright sul worker?» + strumenti contenuti potenti e come darli. Verifica VPS 17:25: assenti node22/pw-browsers/fontconfig. L-305 nuova; L-304 evidenze++; preferenza setup operativo.",
@@ -23,6 +24,28 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-307",
+      "testo": "**Playwright passo 3 — `npm install -g` senza `--prefix` mette il pacchetto nel posto sbagliato (Nicola 19/7 ~17:38).** Nicola «Fatto» dopo passo 3; AD verifica server: Chromium ✅ (`/opt/pw-browsers/chromium-1228`), Playwright ❌ in `/usr/lib/node_modules/playwright` invece di `/opt/node22/lib/node_modules/` → Content Factory `ERR_MODULE_NOT_FOUND`. 5 perché: (1) `npm -g` senza `--prefix` usa prefix di default del sistema Node, non `/opt/node22`; (2) Content Factory importa da path fisso sotto `/opt/node22`; (3) «Fatto» su passo npm non garantisce path corretto — verificare `ls /opt/node22/lib/node_modules/playwright/package.json`; (4) fix = `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers /opt/node22/bin/npm install -g playwright --prefix /opt/node22`; (5) restano env worker + test `render-domenica-settimana.mjs`. Regola: setup Playwright VPS = sempre `--prefix /opt/node22` su ogni comando npm globale. Vedi L-305, L-306.",
+      "tag": [
+        "playwright",
+        "npm-prefix",
+        "content-factory",
+        "vps",
+        "setup",
+        "nicola",
+        "verifica-server"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.96,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 17:38",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-306",
       "testo": "**Playwright setup VPS — «non so come farlo» = comandi Termux uno alla volta; «controlla se ho fatto giusto» = verifica server (Nicola 19/7 ~17:34→17:36).** Dopo passo 1 font («l'ho fatto»), chiede aiuto passo 2 Node22 — non capisce istruzioni aggregate. 5 perché: (1) Nicola esegue da Termux root sul VPS; (2) «non so come farlo» = blocchi **incollabili singoli**; (3) AD **verifica server** prima (font ok 17:34, node v22.17.1 ok 17:36) — non fiducia cieca sullo screenshot; (4) attendere «fatto» o errore prima del passo successivo; (5) avviso kernel Termux non blocca install Node. Regola: setup VPS root → sequenza numerata, un comando per blocco, checkpoint (`node -v` → v22). Vedi L-305.",
@@ -47,7 +70,7 @@
     },
     {
       "id": "L-2026-0719-305",
-      "testo": "**Playwright sul worker — setup root una tantum + come dare strumenti (Nicola 19/7 ~17:26, passo 1 ✅ 17:34, passo 2 ✅ 17:36).** «Come faccio a rendere operativo playwright su worker?» + «quali strumenti per contenuti potenti e come te li do?». Verifica VPS: **font ✅ 17:34** · **Node22 ✅ 17:36** (`/opt/node22/bin/node -v` → v22.17.1, owner mycity); ancora assente `/opt/pw-browsers`; Node sistema v24 ok; codice Content Factory punta path fisso che lo script setup VPS non crea → PNG rotti, SVG ok in Diretta. 5 perché: (1) Nicola vuole passi operativi, non teoria; (2) install richiede root — chat AD non può eseguirla; (3) ordine: font ✅ → Node22 ✅ → passo 3 `npm i -g playwright` + `npx playwright install chromium` con `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` → env in segreti worker → test `render-domenica-settimana.mjs`; (4) contenuti potenti = foto/video veri (leva #1) + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico per non perdere al prossimo aggiornamento server. Regola: verifica runtime cosa manca PRIMA dei passi; «controlla se ho fatto giusto» = prova server + screenshot, non fiducia cieca. Vedi L-306.",
+      "testo": "**Playwright sul worker — setup root una tantum + come dare strumenti (Nicola 19/7 ~17:26, passo 1 ✅ 17:34, passo 2 ✅ 17:36, passo 3 ⚠️ 17:38).** «Come faccio a rendere operativo playwright su worker?» + «quali strumenti per contenuti potenti e come te li do?». Verifica VPS: **font ✅ 17:34** · **Node22 ✅ 17:36** (`/opt/node22/bin/node -v` → v22.17.1, owner mycity) · **Chromium ✅ 17:38** (`/opt/pw-browsers/chromium-1228`) · **Playwright ⚠️ path sbagliato** (npm globale → `/usr/lib/node_modules/`, assente sotto `/opt/node22` → render fallisce); Node sistema v24 ok; codice Content Factory punta path fisso che lo script setup VPS non crea → PNG rotti, SVG ok in Diretta. 5 perché: (1) Nicola vuole passi operativi, non teoria; (2) install richiede root — chat AD non può eseguirla; (3) ordine: font ✅ → Node22 ✅ → Playwright con **`--prefix /opt/node22`** + `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` → env in segreti worker → test `render-domenica-settimana.mjs`; (4) contenuti potenti = foto/video veri (leva #1) + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico per non perdere al prossimo aggiornamento server. Regola: verifica runtime cosa manca PRIMA dei passi; «Fatto»/«controlla se ho fatto giusto» = prova server, non fiducia cieca. Vedi L-306, L-307.",
       "tag": [
         "playwright",
         "content-factory",
@@ -59,11 +82,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.97,
-      "evidenze": 3,
+      "evidenze": 4,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 17:36",
+      "ultima_conferma": "2026-07-19 17:38",
       "stato": "attiva",
       "usi": []
     },
@@ -6920,6 +6943,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Playwright «Fatto» — vuole verifica server che trova errori nascosti (chat 19/7 ~17:38):** dopo passo 3 dice «Fatto» ma `npm -g` può finire nel path sbagliato (Chromium ok ≠ Playwright ok) — si aspetta che l'AD controlli runtime, corregga con `--prefix /opt/node22`, poi env worker + test render. Vedi L-307, L-305.",
     "**Playwright setup — dopo ogni passo chiede «controlla se ho fatto giusto» (chat 19/7 ~17:36):** si aspetta che l'AD **verifichi sul server** (es. `node -v`, owner cartella), non un ok generico sul solo screenshot; se ok → passo successivo uno alla volta (passo 3 Playwright). Vedi L-305, L-306.",
     "**Playwright setup VPS — comandi Termux uno alla volta quando «non so come farlo» (chat 19/7 ~17:34):** dopo passo 1 font («l'ho fatto»), chiede aiuto passo 2 Node22 — si aspetta blocchi incollabili **singoli** (mkdir → curl → tar → chown → verifica `node -v`), non istruzioni aggregate; AD verifica server prima di dare passi; attende conferma «fatto» o errore prima del passo 3. Termux root ok. Vedi L-306, L-305.",
     "**Grafiche — vuole sapere strumenti usati e cosa serve per livello pro (chat 19/7 ~17:21):** «Quali strumenti hai usato… quali ti servono per grafiche professionali?» — si aspetta risposta concreta su Content Factory/Playwright/SVG vs AI spenta, perché PNG sul server può rompersi (font), e cosa manca (foto bottega, Playwright operativo sul worker o PNG da Canva). Non accetta risposta vaga «l'AI fa tutto». Vedi L-304, L-300.",

@@ -1,10 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 17:37
-fonte: AD digitale (chat Nicola 19/7 17:37)
+aggiornato: 2026-07-19 17:39
+fonte: AD digitale (chat Nicola 19/7 17:39)
 ---
 
-> ✅ **19/7 17:37 — FATTO: Playwright setup passo 2 (Node 22) sul VPS.** Nicola: «Controlla se ho fatto tutto giusto» — AD verifica server 17:36: **`/opt/node22/bin/node -v` → `v22.17.1`**, owner `mycity:mycity` ✅ (screenshot Termux conferma). **Passo 1 font ✅ · passo 2 Node ✅.** **Prossimo:** passo 3 Playwright + Chromium (`PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`), poi env worker + test render `render-domenica-settimana.mjs`. Fonte: chat Nicola 19/7 17:37.
+> ⏳ **19/7 17:39 — Playwright setup passo 3 PARZIALE (Nicola «Fatto»).** AD verifica server 17:38: **Chromium ✅** (`/opt/pw-browsers/chromium-1228`) · **Playwright ❌ path sbagliato** (pacchetto in `/usr/lib/node_modules/playwright`, assente in `/opt/node22/lib/node_modules/` → render `ERR_MODULE_NOT_FOUND`). **Passo 1 font ✅ · passo 2 Node ✅ · passo 3 da correggere:** `npm install -g playwright --prefix /opt/node22` con `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`. **Restano:** riga `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` in segreti worker + restart worker + test `render-domenica-settimana.mjs` (2 PNG OK). Fonte: chat Nicola 19/7 17:39.
+
+> ✅ **19/7 17:37 — FATTO: Playwright setup passo 2 (Node 22) sul VPS.** Nicola: «Controlla se ho fatto tutto giusto» — AD verifica server 17:36: **`/opt/node22/bin/node -v` → `v22.17.1`**, owner `mycity:mycity` ✅ (screenshot Termux conferma). **Passo 1 font ✅ · passo 2 Node ✅.** Fonte: chat Nicola 19/7 17:37.
 
 > ✅ **19/7 17:34 — FATTO: Playwright setup passo 1 (font) sul VPS.** Nicola: «Il passo 1 l'ho fatto» — AD verifica server 17:34: **font installati** (`fontconfig`, DejaVu, Liberation). Fonte: chat Nicola 19/7 17:34.
 
