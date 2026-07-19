@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 01:07
+aggiornato: 2026-07-20 01:17
 fonte: AD digitale (sentinella cassa_sconosciuta)
 ---
+
+> 💬 **20/7 ~01:17 — CHAT: comandi worker senza aprire cmd ogni volta (L-349).** Nicola chiede modo **sicuro** di scrivere comandi sul worker senza aprire Termux/SSH ogni volta. AD: **uso normale = chat Pannello** (AD esegue sul VPS, niente root); **SSH raro** = scorciatoia `ssh mycity` una tantum (chiave ed25519 + config); **tmux** se sessione lunga; **n8n** browser per ripetitivo (pub post); regola «serve SSH?» prima — spesso no; controllare prompt server (`root@…#`) vs telefono (`~ $`). Evitare shell web su internet. Documentato anche in `cervello/vps/CHECKLIST-VIVO.md`. Fonte: chat Nicola 20/7 01:17.
 
 > 💬 **20/7 ~01:06 — CHAT: menu conversazioni dentro riquadro chat — PR #485 (L-348).** Nicola chiede lista conversazioni **integrata a sinistra** nel pannello chat Worker (non cassetto esterno) — vale **sia chat fluttuante sia schermo intero** (pulsante ingrandisci). AD **PR #485** — stesso blocco UI per entrambe le modalità; scroll #483 e barra fissa #484 intatti. Merge 🔴 pendente (card #203). Fonte: chat Nicola 20/7 01:06.
 
