@@ -1,14 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 17:09
-fonte: AD digitale (chat Nicola 19/7 17:09)
+aggiornato: 2026-07-19 17:11
+fonte: AD digitale (chat Nicola 19/7 17:11)
 ---
+
+> 💬 **19/7 17:11 — CHAT: audit chat completa consegnato + PR #475.** Nicola: «Risolvi tutti problemi della chat… ricordati quelli che ti ho detto» (dopo «No, capito» sulla regressione auto-open). AD ha consegnato **mappa unificata** in chat: (1) «+» riapre chat vecchia → **PR #475** 🟡 (`3850bdec`, typecheck ok); (2) sync telefono↔desktop parziale (#446) — #475 separa sync iniziale da nuova chat; (3) pallini rossi — fix luglio (#328, #348), **ritestare** post-merge; (4) pezzo chat sparito — limite AI/worker fermato, salvataggio incompleto; (5) risposta tutta insieme — backlog streaming worker; (6) scroll/triplicazione/timer lista — già su main; (7) MCP numeri live — allowlist ok 16:54, **test runtime** pendente. **Backlog fuori #475:** streaming parola-per-parola, due marce chat, allegati foto/PDF. Card merge **#193**. Fonte: chat Nicola 19/7 17:03–17:11.
 
 > 💬 **19/7 17:09 — CHAT: pipeline contenuti social — strumenti reali spiegati.** Nicola: «Spiegami come crei i contenuti… quali strumenti userai». AD ha descritto catena Modalità Mondiale: testi social (brief + 3 angoli + direttore creativo) → grafiche Content Factory locale (`render.mjs`, PNG in `creativi/output/social/`) → reel script + montaggio interno → QA → accoda pubblicazione 🔴. Canva automatico **spento**; connettori AI immagini/video in prova a secco (vincolo niente API a consumo). Carburante qualità = foto/frasi vere da bottega. Fonte: chat Nicola 19/7 17:09.
 
-> 💬 **19/7 17:03 — CHAT: standing-ask audit chat completa.** Nicola: «Risolvi tutti problemi della chat, fai una bella analisi, ricordati quelli che ti ho detto» — richiesta mappa unificata di tutti i bug chat segnalati (non fix a pezzi). Pendente: documento audit + piano PR batch. Fonte: chat Nicola 19/7 17:03.
-
-> 💬 **19/7 17:03 — CHAT: bug nuova chat — messaggio vecchio allowlist «tornato».** Nicola: «Quando apro una nuova chat appare questa risposta, come mai? È già successo e tu l'avevi risolto, perché è tornato?» — **non è un messaggio nuovo del worker:** è contenuto riciclato dall'ultima conversazione (allowlist/git). Causa verificata in `page.tsx`: fix PR #456 (18/7) bloccava permanentemente l'auto-apri su «+»; fix cross-device stessa sera ha **reintrodotto timer 3s** che resetta `nuovaChatManualeRef` + finestra auto-open **24h** + poll conversazioni **8s** → dopo «+» la chat si svuota poi rientra sola. Fix proposto 🟡: ripristinare blocco permanente senza timer. Fonte: chat Nicola 19/7 17:03 + codice `pannello/src/app/page.tsx`.
+> 💬 **19/7 17:03 — CHAT: bug nuova chat — messaggio vecchio allowlist «tornato».** Nicola: «Quando apro una nuova chat appare questa risposta, come mai? È già successo e tu l'avevi risolto, perché è tornato?» — **non è un messaggio nuovo del worker:** è contenuto riciclato dall'ultima conversazione (allowlist/git). Causa verificata in `page.tsx`: fix PR #456 (18/7) bloccava permanentemente l'auto-apri su «+»; fix cross-device stessa sera ha **reintrodotto timer 3s** che resetta `nuovaChatManualeRef` + finestra auto-open **24h** + poll conversazioni **8s** → dopo «+» la chat si svuota poi rientra sola. Fix **PR #475** 🟡 (blocco permanente senza timer). Fonte: chat Nicola 19/7 17:03 + codice `pannello/src/app/page.tsx`.
 
 > 💬 **19/7 17:01 — CHAT: inventario allowlist GitHub + due repo.** Nicola: «Hai dentro allow tutti gli mcp che ti servono di github mycity e ad-mycity?» — AD verifica: **GitHub non usa MCP** (solo git + `git-pr.mjs`); MCP Supabase+Vercel **completi** (9 voci); repo **marketplace** ok con `git -C …`; repo **ad-mycity** manca ancora **`git push origin fix/*`** per PR branch fix (es. #450). Migrazioni DB via Management API, non MCP write. Fonte: chat Nicola 19/7 17:01.
 

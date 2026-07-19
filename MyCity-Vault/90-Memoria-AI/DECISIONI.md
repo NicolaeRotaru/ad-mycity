@@ -3,7 +3,9 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
-2026-07-19 17:09 · 🟡 · [Standing-ask audit chat completa] · **Nicola: «Risolvi tutti problemi della chat, fai una bella analisi, ricordati quelli che ti ho detto».** Richiesta mappa unificata di tutti i bug chat segnalati nel tempo (auto-open #456, cross-device, limiti motore, debounce, streaming, UX caselle…) — non fix a pezzi. AD deve produrre audit + piano PR batch prioritizzato. Pendente consegna. L-301.
+2026-07-19 17:11 · 🟡 · [Audit chat completa consegnato + PR #475] · **Nicola: «Risolvi tutti problemi della chat… ricordati quelli che ti ho detto»** (dopo aver capito la regressione auto-open). AD ha consegnato mappa unificata 7 filoni + stati in chat e aperto **PR #475** per il fix prioritario (regressione «+» → chat vecchia). Pendente merge Nicola (card #193). Backlog documentato: streaming worker, due marce, allegati. L-301, L-299.
+
+2026-07-19 17:09 · 🟡 · [Standing-ask audit chat completa] · **Nicola: «Risolvi tutti problemi della chat, fai una bella analisi, ricordati quelli che ti ho detto».** Richiesta mappa unificata di tutti i bug chat segnalati nel tempo (auto-open #456, cross-device, limiti motore, debounce, streaming, UX caselle…) — non fix a pezzi. **Superato 17:11** — audit + PR #475 consegnati. L-301.
 
 2026-07-19 17:03 · 🟢 · [Bug nuova chat — regressione PR #456] · **Nicola: «Perché quando apro nuova chat appare di nuovo la risposta allowlist? L'avevi risolto.»** Diagnosi verificata: auto-open cross-device (timer 3s su `nuovaChatManualeRef` + finestra 24h) annulla il fix permanente di PR #456. Contenuto = conversazione precedente riciclata, non output worker. AD propone PR che ripristina blocco permanente su «+» — pendente ok Nicola. L-299.
 
