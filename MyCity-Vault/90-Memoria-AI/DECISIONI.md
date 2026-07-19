@@ -3,6 +3,10 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 17:17 · 🟢 · [Correzione Diretta contenuti — grafica non testo] · **Nicola: «Cio che volevo vedere era la grafica».** AD aveva consegnato post domenica PQ con copy in evidenza in tab Diretta; Nicola voleva anteprima visiva immediata. Fix **PR #477** (immagine grande in scheda, copy sotto). Pendente merge. L-303.
+
+2026-07-19 17:14 · 🟡 · [Post domenica PQ — asset + Diretta contenuti] · **Nicola: «Crea questo contenuto… voglio vederlo in Diretta contenuti».** AD ha prodotto copy + grafiche SVG + collegamento tab Diretta (**PR #476**); pubblicazione social resta 🔴 in coda. Superato parzialmente da correzione grafica 17:17 (#477). L-303.
+
 2026-07-19 17:11 · 🟡 · [Audit chat completa consegnato + PR #475] · **Nicola: «Risolvi tutti problemi della chat… ricordati quelli che ti ho detto»** (dopo aver capito la regressione auto-open). AD ha consegnato mappa unificata 7 filoni + stati in chat e aperto **PR #475** per il fix prioritario (regressione «+» → chat vecchia). Pendente merge Nicola (card #193). Backlog documentato: streaming worker, due marce, allegati. L-301, L-299.
 
 2026-07-19 17:09 · 🟡 · [Standing-ask audit chat completa] · **Nicola: «Risolvi tutti problemi della chat, fai una bella analisi, ricordati quelli che ti ho detto».** Richiesta mappa unificata di tutti i bug chat segnalati nel tempo (auto-open #456, cross-device, limiti motore, debounce, streaming, UX caselle…) — non fix a pezzi. **Superato 17:11** — audit + PR #475 consegnati. L-301.

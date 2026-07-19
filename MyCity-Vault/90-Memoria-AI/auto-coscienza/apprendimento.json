@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 17:13",
+  "aggiornato": "2026-07-19 17:21",
+  "_nota_metabolizzazione_19_07_1721": "Chat 19/7 ~17:14–17:21: Nicola «Crea in Diretta» → PR #476+#477; correzione «volevo la grafica» (L-303); «quali strumenti grafica pro» (L-304). L-303 era in LEZIONI-CHAT ma mancava in JSON — aggiunta.",
   "_nota_metabolizzazione_19_07_1713": "Chat 19/7 ~17:13: dopo pipeline contenuti (L-300), Nicola «Dimmi un contenuto» → AD ha mostrato post domenica PQ già in coda (#post-domenica-settimana-1907). L-302 nuova; L-300 evidenze++.",
   "_nota_metabolizzazione_19_07_1711": "Chat 19/7 ~17:11: standing-ask audit chat consegnato (mappa 7 filoni in chat) + PR #475 per regressione auto-open. L-301 evidenze++, L-299 aggiornata con PR #475. Nicola «No capito» ma vuole tutti i problemi risolti.",
   "_nota_giro_19_07_1448": "Giro 19/7 14:48 north-star AR-111: business invariato (REST ri-conferma 4 buyer, 0 pagati). Vincolo rispettato — zero azioni macchina. Rinforzo: con stallo ~604h, ogni giro ripete la stessa triade ordine test + PI26 + post clienti finché North Star non si muove.",
@@ -19,6 +20,50 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-304",
+      "testo": "**Grafiche professionali — strumenti REALI usati + carburante per alzare livello (Nicola 19/7 ~17:21).** «Quali strumenti hai usato per la parte grafica e quali ti servono per grafiche professionali?» 5 perché: (1) dopo fix Diretta vuole capire **stack vero**, non marketing; (2) oggi = Content Factory locale (template HTML brand → Playwright/Chromium PNG 1080×1350 e 9:16) + SVG a mano per anteprima Diretta; (3) PNG automatici sul VPS **rompono testo** (font mancanti) → SVG ok nel browser finché Playwright non ha font installati; (4) Canva auto, Gemini/Imagen, video AI = **scheletri spenti** — vincolo [[niente-api-ai]]; (5) livello «agenzia» = **materia prima vera** (3–5 foto bottega/prodotto, frase bottegaio) + render Playwright operativo sul worker **oppure** PNG già fatti da Nicola (Canva/Figma). Regola: elencare attivo/spento/esigenze in 3 bin; non promettere output pro senza foto vere.",
+      "tag": [
+        "content-factory",
+        "grafica",
+        "playwright",
+        "svg",
+        "niente-api-ai",
+        "nicola",
+        "trasparenza"
+      ],
+      "reparto": "@content-social",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 17:21",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
+      "id": "L-2026-0719-303",
+      "testo": "**Diretta contenuti — GRAFICA in evidenza, non testo (Nicola 19/7 ~17:17, correzione).** «Crea… voglio vederlo in Diretta contenuti» → AD consegnò copy e asset ma in tab **Diretta** la scheda mostrava testo, non l'anteprima visiva. Nicola: «Cio che volevo vedere era la grafica». 5 perché: (1) «Diretta contenuti» = **vedere il post**, non leggere markdown; (2) mettere copy in evidenza è errore UX opposto all'intento; (3) asset c'erano (SVG feed+storia) ma nascosti nel file; (4) fix = campo `anteprima` + immagine **grande subito** in scheda (mini storia sotto), copy al clic; (5) PNG Playwright sul server può uscire rotto (font) → SVG in Diretta ok nel browser. Regola: consegna Diretta = **preview grafica first**; PR #476 contenuto + **#477** UI anteprima. Vedi L-300, L-304.",
+      "tag": [
+        "diretta-contenuti",
+        "grafica",
+        "pannello",
+        "content-social",
+        "correzione",
+        "nicola",
+        "PR-477"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.97,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 17:17",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-302",
       "testo": "**«Dimmi un contenuto» — esempio VERO dalla coda/repo, non inventato (Nicola 19/7 ~17:13).** Dopo la spiegazione pipeline chiede «Dimmi un contenuto» — vuole vedere post/storia/reel **già scritti** (copy completo + negozio + CTA + timing), pescati da `consegne/content/` o card in [[AZIONI-IN-ATTESA]], non una bozza generica. 5 perché: (1) ha appena chiesto trasparenza strumenti — il contenuto dimostra la pipeline; (2) odia numeri/claim inventati; (3) «dimmi un contenuto» = dimostrazione pratica, non teoria; (4) se c'è coda 🔴 (es. post domenica PQ `#post-domenica-settimana-1907`) va quello; (5) dichiarare cosa manca (foto reale) senza inventare. Regola: cerca prima in repo → mostra copy completo + card approvazione Pannello.",
@@ -6828,6 +6873,8 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Grafiche — vuole sapere strumenti usati e cosa serve per livello pro (chat 19/7 ~17:21):** «Quali strumenti hai usato… quali ti servono per grafiche professionali?» — si aspetta risposta concreta su Content Factory/Playwright/SVG vs AI spenta, perché PNG sul server può rompersi (font), e cosa manca (foto bottega, Playwright operativo sul worker o PNG da Canva). Non accetta risposta vaga «l'AI fa tutto». Vedi L-304, L-300.",
+    "**Diretta contenuti — vuole vedere la GRAFICA, non solo il testo (chat 19/7 ~17:17):** «Cio che volevo vedere era la grafica» — quando chiede contenuto «in Diretta», la scheda deve mostrare **subito l'immagine grande** (feed + mini storia), copy sotto o al clic; odia quando l'anteprima visiva è nascosta nel markdown. Fix PR #477. Vedi L-303.",
     "**«Dimmi un contenuto» — vuole copy VERO già pronto, non bozza inventata (chat 19/7 ~17:13):** dopo la spiegazione pipeline chiede un esempio concreto — si aspetta post/storia/reel **completi** dal repo o dalla coda 🔴 (testo, negozio, CTA, timing), con link alla card «Pubblica…» nel Pannello; dichiarare cosa manca (foto reale) senza inventare claim. Vedi L-302, L-300.",
     "**Pipeline contenuti — vuole sapere strumenti e catena REALE (chat 19/7 ~17:09):** «Spiegami come crei post/storia/reel, quali strumenti userai» — si aspetta risposta concreta (brief → varianti → direttore creativo → Content Factory locale → QA → coda 🔴), cosa è **spento** (Canva auto, API AI a consumo) vs attivo, e cosa serve da lui (foto bottega, frase bottegaio, numeri verificati). Non accetta «l'AI fa tutto» vago. Vedi L-300.",
     "**Chat — vuole audit unificato di TUTTI i problemi segnalati (chat 19/7 ~17:03, consegnato 17:11):** «Risolvi tutti problemi della chat, fai una bella analisi, ricordati quelli che ti ho detto» — mappa completa 7 filoni (auto-open, cross-device, pallini, pezzo sparito, streaming, scroll, MCP) con stati/PR + fix batch prioritario **PR #475**; backlog esplicito (streaming live, due marce, allegati). Vedi L-301.",

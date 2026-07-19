@@ -8,6 +8,9 @@ reparto: content-social
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 17:21 · Nicola chiede strumenti grafica pro · atteso: stack reale + cosa manca per livello agenzia · reale: Content Factory+SVG, PNG VPS rotto (font), AI consumo spenta, serve foto PQ+Playwright · L-304 · #grafica #trasparenza
+- 2026-07-19 17:17 · Nicola «volevo vedere la grafica» in Diretta · atteso: anteprima visiva immediata · reale: fix PR #477 immagine grande in scheda · L-303 · #diretta-contenuti
+- 2026-07-19 17:14 · Nicola «Crea in Diretta contenuti» post domenica PQ · atteso: post completo visibile in tab · reale: PR #476 asset+API, poi correzione anteprima #477 · L-303 · #content-factory
 - 2026-07-19 17:13 · Nicola «Dimmi un contenuto» · atteso: esempio concreto non inventato · reale: post domenica PQ dalla coda (#post-domenica-settimana-1907, copy completo + storia 4 slide + card 🔴) · L-302 · #esempio-concreto
 - 2026-07-19 17:09 · Nicola chiede pipeline contenuti reali · atteso: spiegazione strumenti veri senza inventare · reale: catena Modalità Mondiale consegnata (Content Factory locale, Canva off, AI consumo bandita, pub 🔴) · L-300 · #pipeline #trasparenza
 - 2026-07-14 11:10 · playbook contenuto-giorno 14/7 · post+storia+FB+visual brief · atteso accoda AZIONI-PRONTE A28 → reale già in coda 02:43, verificato 11:10 · #playbook-contenuto-giorno

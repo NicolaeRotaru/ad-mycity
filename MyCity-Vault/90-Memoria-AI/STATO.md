@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 17:13
-fonte: AD digitale (chat Nicola 19/7 17:13)
+aggiornato: 2026-07-19 17:21
+fonte: AD digitale (chat Nicola 19/7 17:21)
 ---
+
+> 💬 **19/7 17:21 — CHAT: strumenti grafica — Content Factory + limiti VPS spiegati.** Nicola: «Quali strumenti hai usato per la grafica e quali ti servono per grafiche professionali?» AD: template HTML/SVG in repo → Content Factory (Playwright PNG) per export; **SVG** per anteprima Diretta (PNG sul VPS esce rotto per font mancanti); Canva/Gemini **spenti** (niente API a consumo). Per livello pro: foto reali Pane Quotidiano + Playwright operativo sul worker (o PNG da Canva/Figma). Asset post domenica in `consegne/content/assets/`. Fonte: chat Nicola 19/7 17:21.
+
+> 💬 **19/7 17:17 — CHAT: correzione Diretta — «volevo vedere la grafica».** Dopo PR #476 (post domenica PQ in Diretta), Nicola segnala che in tab compariva testo, non anteprima visiva. AD fix **PR #477**: scheda mostra immagine grande subito (`anteprima` nel frontmatter + UI). Merge pendente Nicola. Fonte: chat Nicola 19/7 17:17.
+
+> 🟡 **19/7 17:14 — CHAT: post domenica PQ creato con asset per Diretta contenuti.** Nicola: «Crea questo contenuto… voglio vederlo dentro diretta contenuti». AD: copy completo + grafiche SVG (feed + storia 9:16) Pane Quotidiano · **PR #476** (asset + API `/api/contenuti/asset`). Pubblicazione social resta 🔴 (`#post-domenica-settimana-1907`). Fonte: chat Nicola 19/7 17:14.
 
 > 💬 **19/7 17:13 — CHAT: «Dimmi un contenuto» — post domenica PQ mostrato in chat.** Dopo spiegazione pipeline (17:09), Nicola chiede esempio concreto — AD ha consegnato copy completo del post **«Domenica sera: fai il turno per la settimana»** (Pane Quotidiano, Via Calzolai) già in coda 🔴 `#post-domenica-settimana-1907` · file `consegne/content/2026-07-19-post-del-giorno-domenica-settimana-PQ.md` · timing entro 21:00. Pubblicazione resta 🔴 (card Pannello). Fonte: chat Nicola 19/7 17:13.
 
