@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 20:20",
+  "aggiornato": "2026-07-19 20:21",
+  "_nota_metabolizzazione_19_07_2021": "Chat 19/7 ~20:20: Nicola screenshot home n8n «What do you want to build» — setup account ok, fix secure cookie confermato. L-325 nuova; L-323 evidenze++; preferenza n8n-dentro-import; STATO già 20:20; LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2004": "Chat 19/7 ~20:03: Nicola screenshot Termux docker not found — prompt ~$ = telefono locale, non VPS; comandi Docker fuori SSH dopo drop. AD: riconnetti SSH, docker ps, poi fix secure cookie. L-324 nuova; L-323 evidenze++; preferenza termux-prompt-check; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1959": "Chat 19/7 ~19:58: Nicola screenshot Termux+Brave — n8n Docker avviato, blocco secure cookie IP+http. AD: N8N_SECURE_COOKIE=false fase setup, volume ok, SSH drop non ferma container. L-323 nuova; L-322 evidenze++; preferenza n8n-setup-screenshot; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1945": "Chat 19/7 ~19:45: Nicola «Come installo n8n sul worker?» — follow-up L-321. AD: Docker SSH Nicola, import workflow, OAuth Meta, webhook env worker, restart, dry-run; AD non installa da chat. L-322 nuova; L-321 evidenze++; preferenza install-n8n-worker; STATO+LEZIONI-CHAT+builder aggiornati.",
@@ -44,6 +45,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0719-325",
+      "testo": "**n8n setup — home «What do you want to build» = account admin ok, prossimo import workflow (Nicola 19/7 ~20:20).** Nicola allega screenshot (no testo) con home n8n su `162.55.51.250:5678` — conferma che fix `N8N_SECURE_COOKIE=false` ha funzionato e account admin creato. 5 perché: (1) milestone **setup account** ≠ mano social attiva — mancano import workflow, OAuth Meta, attivazione webhook, `N8N_WEBHOOK_URL` in env worker, restart worker; (2) non ripetere passi Docker/cookie/SSH se già dentro la home; (3) prossimo checkpoint operativo = **«workflow importato»**, non di nuovo «sono dentro n8n»; (4) import file JSON da telefono è scomodo → offrire PC (drag file) o scp del workflow sul telefono; (5) post stasera resta copia-incolla manuale finché Meta OAuth non completato. Regola: screenshot home n8n = passa subito a import `pubblica-post-programmato.json` + Meta + webhook env (mai in chat). Vedi L-323, L-322, L-321.",
+      "tag": [
+        "n8n",
+        "setup",
+        "workflow",
+        "meta",
+        "pubblicazione",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 20:20",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-324",
       "testo": "**Termux VPS vs locale — prompt `~ $` + «docker not found» = telefono, non server (Nicola 19/7 ~20:03).** Dopo caduta SSH durante fix n8n secure cookie (L-323), Nicola allega screenshot Termux con `docker stop/rm/run` → `No command docker found`. 5 perché: (1) prompt **`~ $`** = shell Android locale Termux; prompt **`root@ubuntu-…#`** = sessione SSH sul VPS Hetzner; (2) Docker installato **solo sul VPS**, non su Termux del telefono; (3) caduta SSH mobile **non ferma** container già avviato in background sul server; (4) fix `N8N_SECURE_COOKIE=false` va rieseguito **dopo** riconnessione SSH, non in shell locale; (5) pattern ricorrente setup VPS da mobile: tenere Termux in primo piano + `ssh` prima di comandi lunghi. Regola: screenshot «docker not found» → **controllare prompt shell PRIMA** di altre diagnosi; primo passo riconnetti SSH + `docker ps`. Vedi L-323, L-322, L-306.",
       "tag": [
@@ -67,7 +90,7 @@
     },
     {
       "id": "L-2026-0719-323",
-      "testo": "**n8n setup VPS — secure cookie blocca browser su IP+http (Nicola 19/7 ~19:58).** Nicola avvia Docker n8n sul worker (Termux SSH) e allega screenshot: container **ok** (porta 5678, volume `n8n_data` preservato su rm/restart), ma pagina `/setup` errore secure cookie. 5 perché: (1) n8n di default richiede https o localhost per cookie sicuro — IP pubblico + http fallisce; (2) **non** è fallimento Docker — il servizio gira anche se SSH Termux cade (background); (3) fix setup: riavvio container con `N8N_SECURE_COOKIE=false` **solo fase install**, poi account admin; (4) **sicurezza post-setup:** porta 5678 esposta su internet → password n8n o accesso solo localhost+tunnel SSH; (5) sequenza resta L-322: import workflow → OAuth Meta → webhook in env worker (segnaposto oggi). Regola: quando Nicola manda screenshot errore n8n post-Docker, diagnosticare secure cookie prima di altre cause; non dire «Docker fallito» se container running. **ADDENDUM 20:03:** dopo drop SSH incolla fix in Termux locale (`~ $`) → docker not found — serve riconnessione SSH (L-324). Vedi L-322, L-321.",
+      "testo": "**n8n setup VPS — secure cookie blocca browser su IP+http (Nicola 19/7 ~19:58).** Nicola avvia Docker n8n sul worker (Termux SSH) e allega screenshot: container **ok** (porta 5678, volume `n8n_data` preservato su rm/restart), ma pagina `/setup` errore secure cookie. 5 perché: (1) n8n di default richiede https o localhost per cookie sicuro — IP pubblico + http fallisce; (2) **non** è fallimento Docker — il servizio gira anche se SSH Termux cade (background); (3) fix setup: riavvio container con `N8N_SECURE_COOKIE=false` **solo fase install**, poi account admin; (4) **sicurezza post-setup:** porta 5678 esposta su internet → password n8n o accesso solo localhost+tunnel SSH; (5) sequenza resta L-322: import workflow → OAuth Meta → webhook in env worker (segnaposto oggi). Regola: quando Nicola manda screenshot errore n8n post-Docker, diagnosticare secure cookie prima di altre cause; non dire «Docker fallito» se container running. **ADDENDUM 20:03:** dopo drop SSH incolla fix in Termux locale (`~ $`) → docker not found — serve riconnessione SSH (L-324). **ADDENDUM 20:20:** fix secure cookie **confermato** — home n8n «What do you want to build, Nicola» (L-325). Vedi L-322, L-321, L-325.",
       "tag": [
         "n8n",
         "docker",
@@ -78,12 +101,12 @@
         "caso-studio"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.94,
-      "evidenze": 2,
+      "confidenza": 0.96,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 20:03",
+      "ultima_conferma": "2026-07-19 20:20",
       "stato": "attiva",
       "usi": []
     },
@@ -7353,6 +7376,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**n8n — screenshot home «What do you want to build» = setup ok, guida import workflow (chat 19/7 ~20:20):** allega screenshot senza testo ma home n8n visibile — si aspetta conferma breve che fix cookie ha funzionato + **prossimi passi concreti** (import file workflow, OAuth Meta, attiva webhook, poi «workflow importato» per env worker); **non** ripetere Docker/cookie/SSH; ricordare che pubblicazione auto resta dopo Meta; post stasera ancora manuale. Vedi L-325, L-323.",
     "**Termux setup VPS — controllare prompt shell prima di diagnosticare errori Docker (chat 19/7 ~20:03):** dopo caduta SSH durante n8n, incolla comandi in Termux locale → «docker not found» — si aspetta che l'AD **guardi il prompt** (`~ $` vs `root@ubuntu-…`), spieghi telefono≠server, dia primo passo riconnetti SSH + `docker ps`, e chiarisca che container sul VPS non si ferma se la sessione cade. Vedi L-324, L-323.",
     "**n8n setup — screenshot errore browser dopo Docker = diagnosi secure cookie + passi fix (chat 19/7 ~19:58):** avvia container via Termux e manda screenshot — si aspetta che l'AD **non** dica «Docker fallito» se container running; spiega errore secure cookie su IP+http, passi riavvio con flag setup, avviso sicurezza porta 5678; prossimo checkpoint «sono dentro n8n». Vedi L-323, L-322.",
     "**n8n install — «Come installo n8n sul worker?» = passi Docker SSH numerati (chat 19/7 ~19:45):** follow-up immediato dopo L-321 — chiede **come installare** sul VPS, non solo perché serve n8n; si aspetta sequenza concreta (Docker → import workflow → OAuth Meta → webhook in env worker → restart → dry-run), chiarire che l'AD **non installa da chat**, e che stasera resta manuale se Meta non è collegato. Vedi L-322, L-321.",

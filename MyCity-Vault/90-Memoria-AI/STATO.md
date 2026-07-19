@@ -1,10 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 20:20
-fonte: AD digitale (chat Nicola 19/7 20:20)
+aggiornato: 2026-07-19 20:21
+fonte: AD digitale (metabolizzazione chat Nicola 19/7 20:21)
 ---
 
-> ✅ **19/7 ~20:20 — CHAT: n8n setup account completato — Nicola dentro n8n.** Screenshot Brave: home n8n «What do you want to build, Nicola» su `162.55.51.250:5678` — fix `N8N_SECURE_COOKIE=false` **ok**. Prossimo: import workflow `pubblica-post-programmato.json` → OAuth Meta → attiva workflow → `N8N_WEBHOOK_URL` in env worker (mai in chat) → restart worker. **`N8N_WEBHOOK_URL` ancora segnaposto.** Fonte: chat Nicola 19/7 20:20.
+> ✅ **19/7 ~20:20 — CHAT: n8n setup account completato — Nicola dentro n8n.** Screenshot Brave: home n8n «What do you want to build, Nicola» su `162.55.51.250:5678` — fix `N8N_SECURE_COOKIE=false` **ok** (L-325). **Milestone:** account admin creato · container Docker attivo · **non ancora** mano social (manca import workflow + OAuth Meta + webhook env). Prossimo checkpoint Nicola: **«workflow importato»** → AD guida `N8N_WEBHOOK_URL` in env worker (mai in chat) + restart worker. **`N8N_WEBHOOK_URL` ancora segnaposto.** Post domenica `#post-domenica-settimana-1907` resta copia-incolla manuale. Fonte: chat Nicola 19/7 20:20.
 
 > ⏳ **19/7 ~20:03 — CHAT: n8n setup — Nicola su Termux locale per errore (docker not found).** Screenshot Termux: prompt `~ $` (telefono), non `root@ubuntu-…` (VPS) — comandi Docker incollati **fuori SSH** dopo caduta connessione mobile → «No command docker found» (Docker non esiste su Termux). **n8n sul VPS** resta avviato da prima; fix `N8N_SECURE_COOKIE=false` **ancora da fare** (serve riconnettersi SSH). Prossimo: `ssh root@162.55.51.250` → `docker ps` → stop/rm/run con flag → setup browser → «sono dentro n8n». Fonte: chat Nicola 19/7 20:03.
 
