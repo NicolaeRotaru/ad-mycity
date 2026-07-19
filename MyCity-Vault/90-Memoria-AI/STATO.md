@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 00:36
+aggiornato: 2026-07-20 00:42
 fonte: AD digitale (sentinella cassa_sconosciuta + negozio_fermo)
 ---
+
+> 💬 **20/7 ~00:42 — CHAT: chat worker — menu sinistra finisce in cima, non in fondo — PR #482.** Nicola: aprendo chat dal menu Conversazioni a sinistra vedo **l'inizio** della chat, non l'ultimo messaggio. AD: scroll partiva a ~120 ms mentre cassetto ancora in animazione (~200 ms) → layout resetta in alto. **Fix PR #482** (`1240c300`): scroll forzato **a fine animazione** + secondo tentativo per chat lunghe; chiudere menu con X senza cambiare chat non sposta posizione. Distinto da #420 (cambio conv senza drawer). **Merge 🔴 pendente Nicola** (card #200). Fonte: chat Nicola 20/7 00:42.
 
 > 💬 **20/7 ~00:36 — CHAT: Nicola vuole sync E auto-apertura insieme — PR #481.** Corregge proposta rimozione auto-apertura: «no, tieni l'auto-apertura e fai in modo che sync funzioni comunque». AD **PR #481** (`618ffb54`): sync elenco poll ~8s resta; auto-apertura resta; «+» blocca auto-open finché nuova chat non salvata; messaggio da altro device sulla stessa conv → desktop riapre/aggiorna. **Merge 🔴 pendente Nicola** (card #199). Test post-merge: scrivi da telefono → desktop si aggiorna; «+» su desktop → chat vuota. Fonte: chat Nicola 20/7 00:36.
 
