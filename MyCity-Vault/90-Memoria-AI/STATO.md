@@ -1,10 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 12:47
+aggiornato: 2026-07-19 12:50
 fonte: AD digitale (metabolizzazione chat 19/7)
 ---
 
-> 💬 **19/7 12:47 — CHAT: sessione ripresa («Ciao»).** Nessun nuovo dato da Nicola — AD ha riassunto coda (PR pendenti, bando CCIAA domani 10:00, correzione 4 iscritti, Telegram senza chiavi). Memoria locale: file worker non committati (giro interrotto stamattina). Fonte: chat Nicola 19/7 12:47.
+> 💬 **19/7 12:50 — CHAT: Nicola chiede perché 20 file memoria «non pubblicati».** Recovery automatico già completato: 18 file committati alle 12:00 + 4 alle 12:20 (giro interrotto stamattina per limite settimanale AI, reset 23/7 ore 11:00). Restano 3 file locali aperti (sentinella-dati.json, fonti-salute.json, routing.json) — worker li aggiorna in corso. Contenuto: memoria vault (sensori, esperimenti, benchmark, peer review, coda, supervisione negozi) → alimenta caselle auto-coscienza e «Da approvare» nel Pannello. Fonte: chat Nicola 19/7 12:50.
+
+> 💬 **19/7 12:47 — CHAT: sessione ripresa («Ciao»).** AD ha riassunto coda (PR pendenti, bando CCIAA domani 10:00, correzione 4 iscritti, Telegram senza chiavi). Nota «20 file non committati» era vera in quel momento — superata dal recovery entro 12:20. Fonte: chat Nicola 19/7 12:47.
 
 > ✅ **19/7 03:40 — FATTO: PR #467 e #468 mergiate.** #467 = display ricco peer review live. #468 = proposte «implementata» nascoste dal Pannello. Fonte: DECISIONI + merge Nicola.
 
