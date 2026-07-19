@@ -13,20 +13,6 @@
       "aperti_davvero": 0,
       "bloccanti_umani": 1,
       "tipo": "sonda",
-      "nota": "chiusura giro 12:40 · coerenza-fatti OK (exit 0, 8 cacce chiuse) · anti-churn worker committato 12:05 · sensori max cecità 1 · salute 75/100"
-    },
-    {
-      "data": "2026-07-11",
-      "voto_salute": 51,
-      "voto_provvisorio": 75,
-      "voto_pieno": 75,
-      "firma": "",
-      "difetti_aperti": 0,
-      "difetti_chiusi": 42,
-      "pending_merge": 0,
-      "aperti_davvero": 0,
-      "bloccanti_umani": 1,
-      "tipo": "sonda",
       "nota": "giro pomeriggio 14:30 (cloud) · loop chiude · coerenza-fatti OK (confermato, 8 cacce chiuse) · briefing 0h fa · sensori max cecità 1 · salute 75/100"
     },
     {
@@ -1226,6 +1212,20 @@
       "bloccanti_umani": 2,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (12h) · cecità sensori 84 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 18 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-19",
+      "voto_salute": 56,
+      "voto_provvisorio": 20,
+      "voto_pieno": 0,
+      "firma": "AR-124,AR-126,AR-129",
+      "difetti_aperti": 23,
+      "difetti_chiusi": 53,
+      "pending_merge": 18,
+      "aperti_davvero": 3,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (12h) · cecità sensori 85 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 18 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     }
   ]
 }
