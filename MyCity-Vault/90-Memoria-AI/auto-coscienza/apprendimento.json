@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 18:36",
+  "aggiornato": "2026-07-19 18:38",
+  "_nota_metabolizzazione_19_07_1838": "Chat 19/7 ~18:37: Nicola «Tu riesci a lavorare con CI?» + screenshot check PR #214. AD: sì; unit rossi pre-esistenti su main (migration 107 + mock Stripe, 13/715), E2E+integration ok, merge PR #214 ok. L-311 nuova; preferenza CI-capability.",
   "_nota_metabolizzazione_19_07_1832": "Chat 19/7 ~18:29: Nicola «navbar a destra non si vedono le icone» + screenshot marketplace mobile. AD PR #214 mycity: badge carrello copriva icona. L-310 nuova; preferenza marketplace-vs-pannello screenshot.",
   "_nota_metabolizzazione_19_07_1827": "Chat 19/7 ~18:27: Nicola «Aggiungi la possibilità di parlare con queste caselle» + screenshot Diretta contenuti. AD PR #479 (1b9cd7c9): ParlaConCasella su ogni scheda. L-309 nuova; preferenza parla-casella Diretta; L-117 pattern rinforzato.",
   "_nota_metabolizzazione_19_07_1820": "Chat 19/7 ~18:20: Nicola «Scrivi il commit per vederli su diretta/panello» dopo render Playwright OK. AD PR #478 (625600fa): frontmatter anteprima → PNG. L-308 nuova; L-303 evidenze++; preferenza commit per Diretta.",
@@ -29,6 +30,28 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-311",
+      "testo": "**CI marketplace — unit test rossi su main, non bloccano merge PR (Nicola 19/7 ~18:37).** «Tu riesci a lavorare con CI?» + screenshot check GitHub PR #214. 5 perché: (1) Nicola vuole sapere se l'AD può diagnosticare CI, non solo aprire PR; (2) l'AD **può** — legge check GitHub (`gh pr checks`) e rilancia suite in locale sul repo marketplace; (3) PR #214: E2E + integration ✅, unit ❌ — ma verificando su `main` gli unit falliscono **già prima** del fix navbar; (4) causa debito: migration n.107 duplicata + mock Stripe incompleto → 13 fallimenti su 715 test; (5) GitHub mostra «Ready to merge» perché i unit test **non sono required check** — il rosso non blocca merge icona carrello. Regola: check CI rossi su PR → **sempre** confrontare con `main` prima di attribuire regressione alla PR; se pre-esistente, dire esplicitamente «puoi mergiare lo stesso» vs «serve PR separata per CI verde». Vedi L-310.",
+      "tag": [
+        "ci",
+        "unit-test",
+        "github",
+        "pr-214",
+        "marketplace",
+        "sdet",
+        "nicola"
+      ],
+      "reparto": "@sdet",
+      "confidenza": 0.94,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 18:38",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-310",
       "testo": "**Navbar mobile marketplace — badge carrello copriva l'icona (Nicola 19/7 ~18:29).** «Dentro la navbar a destra non si vedono le icone» + screenshot. 5 perché: (1) Nicola segnala icone assenti in alto a destra su mobile; (2) lo screenshot era il **sito MyCity** (header marketplace), non il Pannello — chiedere/confermare superficie prima di cercare nel codice sbagliato; (3) bottom nav (Home/Cerca/Carrello) funzionava — problema solo header top-right; (4) pallino giallo contatore «3» era posizionato **sopra** l'icona carrello, rendendola invisibile; (5) fix **PR #214** repo mycity: riposiziona badge + mostra icona carrello anche con prodotti in carrello e utente non loggato. Regola: bug «icone navbar» con screenshot → distinguere marketplace vs Pannello; verificare se badge/contatore copre l'icona sottostante. Vedi L-303 (grafica vs testo — stessa attenzione a cosa Nicola vede davvero).",
@@ -7018,6 +7041,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**CI — vuole sapere se l'AD legge e sistema i check GitHub (chat 19/7 ~18:37):** «Tu riesci a lavorare con CI?» — si aspetta sì/no concreto + quali check passano/falliscono + se il rosso **blocca merge** o è debito pre-esistente su `main`; distingue «mergia lo stesso» vs «serve PR separata per CI verde». Vedi L-311.",
     "**Navbar icone invisibili — distinguere marketplace vs Pannello dal screenshot (chat 19/7 ~18:29):** «Dentro la navbar a destra non si vedono le icone» — lo screenshot era il **sito MyCity mobile** (header carrello), non il Pannello; si aspetta fix visivo immediato (icona carrello visibile, non solo il numero). Merge **PR #214** mycity → deploy Render → ricarica telefono. Vedi L-310.",
     "**Diretta contenuti — «Parla con questa casella» su ogni scheda (chat 19/7 ~18:27):** stessa frase letterale già usata su Avvisi/Ritmo — sotto ogni post/bozza/supervisione in tab Diretta vuole dialogare sul contenuto (copy, timing, reparto) senza uscire dalla tab; merge **PR #479** → ricarica tab. Vedi L-309, L-117.",
     "**PNG in Diretta — «scrivi il commit» dopo render Playwright (chat 19/7 ~18:20):** quando le grafiche esistono sul server ma non compaiono in tab Diretta/Pannello, vuole **commit+PR** che collega frontmatter `anteprima` alle PNG — non spiegazione «sono sul VPS». Dopo merge → ricarica Diretta. Vedi L-308, L-303.",

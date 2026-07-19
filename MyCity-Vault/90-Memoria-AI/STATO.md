@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 18:32
-fonte: AD digitale (chat Nicola 19/7 18:32)
+aggiornato: 2026-07-19 18:38
+fonte: AD digitale (chat Nicola 19/7 18:38)
 ---
+
+> 💬 **19/7 18:38 — CHAT: CI PR #214 — unit test rossi su main, merge ok.** Nicola: «Tu riesci a lavorare con CI?» + screenshot check GitHub. AD: **sì** — legge check GitHub e può rilanciare test in locale. **PR #214** (navbar carrello): E2E + integration ✅ · unit ❌ ma **pre-esistenti su `main`** (migration n.107 duplicata + mock Stripe incompleto, 13 fallimenti su 715) — non regressione del fix navbar. GitHub «Ready to merge» (unit non sono required check). CI tutta verde = PR separata su `main` (offerta AD, pendente ok Nicola). Fonte: chat Nicola 19/7 18:37–18:38.
 
 > 🟡 **19/7 18:32 — CHAT: PR #214 marketplace — icone navbar mobile invisibili.** Nicola: «Dentro la navbar a destra non si vedono le icone» + screenshot — era **sito MyCity mobile** (non Pannello). Causa: badge contatore carrello (pallino giallo «3») posizionato sopra l'icona, che spariva del tutto; bottom nav (Home/Cerca/Carrello) ok. AD fix **PR #214** repo `NicolaeRotaru/mycity` branch `fix/mobile-navbar-cart-icon` — icona carrello visibile anche con prodotti in carrello non loggato. Merge pendente Nicola → deploy Render (~2–3 min) → ricarica da telefono. Fonte: chat Nicola 19/7 18:29–18:32.
 
