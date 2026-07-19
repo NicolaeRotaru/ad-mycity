@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 20:32
-fonte: AD digitale (metabolizzazione chat Nicola 19/7 20:32)
+aggiornato: 2026-07-19 20:42
+fonte: AD digitale (metabolizzazione chat Nicola 19/7 20:42)
 ---
+
+> ⏳ **19/7 ~20:42 — CHAT: n8n import — picker Android «Download» ≠ Termux Download (file c’è, selettore no).** Screenshot My Files: `pubblica-post-programmato.json` in Download (Termux scp ok); selettore n8n su cartella **Download** mostra solo file di **giugno**, non il JSON appena scaricato — **non** è sparito: memoria condivisa Termux ≠ quella che legge il browser n8n. Fix consigliato AD: import **da SSH sul server** (`docker cp` workflow nel container + `n8n import:workflow` CLI) → ricarica n8n → «workflow importato». **Workflow non ancora importato.** Prossimo: Meta OAuth + webhook env. **`N8N_WEBHOOK_URL` ancora segnaposto.** Fonte: chat Nicola 19/7 20:42.
 
 > ⏳ **19/7 ~20:32 — CHAT: n8n import — «Non trovo il file» ma JSON già in Download.** Screenshot Termux+My Files: scp **ok** (100%, ~6 KB) → `pubblica-post-programmato.json` visibile in **Download** (My Files); selettore n8n «Import from file» resta su **«File recenti»** (solo screenshot, no JSON). **Non** serve riscaricare — serve aprire cartella **Download** (☰ menu) o cercare «pubblica» nella barra. **Workflow non ancora importato.** Prossimo checkpoint: «workflow importato» → OAuth Meta + webhook env. Alternativa PC drag file. **`N8N_WEBHOOK_URL` ancora segnaposto.** Fonte: chat Nicola 19/7 20:32.
 

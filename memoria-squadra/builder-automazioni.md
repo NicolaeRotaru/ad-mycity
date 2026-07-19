@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 20:42 · Nicola «Non trovo il file» import n8n (2° tentativo) — atteso: JSON visibile nel picker n8n · reale: file in My Files Download ma picker n8n su «Download» mostra solo file giugno (Termux storage ≠ browser); AD propone import CLI server-side docker cp + n8n import:workflow; workflow ancora pendente · L-328 · #n8n #termux #android #import #docker
 - 2026-07-19 20:32 · Nicola «Non trovo il file» import n8n — atteso: JSON importato in n8n · reale: scp ok + file in Download (My Files) ma selettore n8n su «File recenti» (solo screenshot); serve navigare a Download o PC drag; workflow ancora pendente · L-327 · #n8n #termux #android #import
 - 2026-07-19 20:27 · Nicola scp workflow n8n fallito — atteso: file JSON su telefono per import · reale: scp lanciato dentro SSH (`root@…#`) → errore `/root/storage/downloads/`; serve `exit` → Termux `~ $` → scp locale; account n8n ok, workflow pendente · L-326 · #n8n #termux #scp #workflow
 - 2026-07-19 20:20 · Nicola screenshot home n8n — atteso: conferma setup + prossimi passi · reale: home «What do you want to build, Nicola» su 162.55.51.250:5678 = account admin ok, fix N8N_SECURE_COOKIE=false confermato; prossimo import workflow pubblica-post-programmato.json → OAuth Meta → webhook env worker (segnaposto); pub auto ancora no · L-325 · #n8n #workflow #meta
