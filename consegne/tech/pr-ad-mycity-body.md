@@ -1,10 +1,9 @@
 ## Summary
-- Caselle di Auto-coscienza (scelte ragionate, benchmark, esperimenti, peer review, proposte) ora sono **piegevoli**: titolo + 2 righe di anteprima, clic per espandere.
-- Nuovo componente `CasellaAnteprima` riusabile — stesso pattern delle decisioni in Governo AD.
-- In chiusura occupano ~metà spazio; il contenuto completo resta disponibile espandendo.
+- Aggiorna l'anteprima in Diretta contenuti del post domenica: da SVG a **PNG Playwright** (testo leggibile, feed + storia).
+- I PNG erano già generati sul worker e su main; mancava solo il puntamento nel frontmatter del post.
 
 ## Test plan
-- [ ] Mergia la PR e attendi deploy Pannello (~2 min)
-- [ ] Vai in Auto-coscienza → tab Analisi → «Scelte ragionate»: Ex Scuderie deve essere una riga compatta
-- [ ] Clic sulla casella → si espande con evidenze, perché, note e «Parla con questa casella»
-- [ ] Tab Miglioramento: stesso comportamento su benchmark, esperimenti, peer review, proposte
+- [ ] Mergia la PR dal Pannello
+- [ ] Apri **Diretta contenuti** → scheda «Domenica sera — fai il turno…»
+- [ ] La card deve mostrare le grafiche PNG (non più le SVG tipografiche)
+- [ ] Clic sulla scheda → immagini grandi + copy sotto
