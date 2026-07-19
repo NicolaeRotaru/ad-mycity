@@ -407,11 +407,10 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                     : "border border-black/[0.07] dark:border-white/10 bg-white dark:bg-white/[0.03]"
                 }`}
               >
-                <div className="flex items-stretch">
                 <button
                   type="button"
                   onClick={() => toggleGruppo(g.id)}
-                  className="flex-1 flex items-start gap-2 p-3.5 text-left hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition min-w-0"
+                  className="w-full flex items-start gap-2 p-3.5 pb-2 text-left hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition min-w-0"
                 >
                   <span className="mt-0.5 text-black/40 dark:text-white/40 shrink-0">
                     {gruppoAperto ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
@@ -431,7 +430,7 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                       )}
                       {miaRisposta && (
                         <span
-                          className="text-[10px] px-1.5 py-0.5 rounded-full bg-green-50 text-green-700 ring-1 ring-green-200 dark:bg-green-950/40 dark:text-green-300 dark:ring-green-800 font-medium max-w-[60%] truncate"
+                          className="text-[10px] px-1.5 py-0.5 rounded-full bg-green-50 text-green-700 ring-1 ring-green-200 dark:bg-green-950/40 dark:text-green-300 dark:ring-green-800 font-medium max-w-full truncate"
                           title={`Hai già risposto: «${miaRisposta}»`}
                         >
                           ✅ hai già risposto: «{miaRisposta}»
@@ -439,24 +438,25 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                       )}
                       <span className="ml-auto text-[11px] text-black/40 dark:text-white/40 shrink-0">{faRelativo(g.ultimoAt)}</span>
                     </div>
-                    <div className="text-sm font-medium text-ink/85 dark:text-white/85 line-clamp-2">{g.titolo}</div>
+                    <div className="text-sm font-medium text-ink/85 dark:text-white/85 line-clamp-2 break-words [overflow-wrap:anywhere]">{g.titolo}</div>
                   </div>
                 </button>
-                {daAnnullare && bottoneRiapprova(daAnnullare)}
-                {daAnnullare && bottoneAnnulla(daAnnullare)}
-                <button
-                  type="button"
-                  onClick={() => toggleChat(g.id)}
-                  className={`shrink-0 self-center mr-2.5 inline-flex items-center gap-1 text-[11px] font-medium border rounded-lg px-2.5 py-1.5 transition ${
-                    chatOn
-                      ? "border-brand bg-brand text-white"
-                      : "border-brand/35 text-brand hover:bg-brand-50/60 dark:hover:bg-brand/10"
-                  }`}
-                  title="Apri la chat di questa casella qui sotto (si apre e si chiude sul posto)"
-                >
-                  <MessageSquare size={12} />
-                  {chatOn ? "Chiudi chat" : "Chat"}
-                </button>
+                <div className="flex items-center justify-end gap-1.5 flex-wrap px-3 pb-3 pt-0">
+                  {daAnnullare && bottoneRiapprova(daAnnullare)}
+                  {daAnnullare && bottoneAnnulla(daAnnullare)}
+                  <button
+                    type="button"
+                    onClick={() => toggleChat(g.id)}
+                    className={`inline-flex items-center gap-1 text-[11px] font-medium border rounded-lg px-2.5 py-1.5 transition ${
+                      chatOn
+                        ? "border-brand bg-brand text-white"
+                        : "border-brand/35 text-brand hover:bg-brand-50/60 dark:hover:bg-brand/10"
+                    }`}
+                    title="Apri la chat di questa casella qui sotto (si apre e si chiude sul posto)"
+                  >
+                    <MessageSquare size={12} />
+                    {chatOn ? "Chiudi chat" : "Chat"}
+                  </button>
                 </div>
 
                 {chatOn && (
