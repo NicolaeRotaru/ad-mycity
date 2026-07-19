@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 01:47",
+  "aggiornato": "2026-07-20 01:53",
+  "_nota_metabolizzazione_20_07_0153": "Chat 20/7 ~01:53: Nicola «crea pulsanti comandi Termux importanti — fammi lista prima» — lista 6+8+SSH, fase 1=4 pulsanti, attesa ok. L-356 nuova; L-355 evidenze++; preferenza pulsanti-termux-lista-prima; STATO+LEZIONI-CHAT+devops-sre aggiornati.",
   "_nota_metabolizzazione_20_07_0147": "Chat 20/7 ~01:47: Nicola «dal menu mando comandi al VPS? perché non pagina terminale?» — chiarimento menu=preset, no shell web. L-355 nuova; L-349 evidenze++ addendum menu; preferenza menu-vs-terminale; STATO+DECISIONI+LEZIONI-CHAT+devops-sre aggiornati.",
   "_nota_metabolizzazione_20_07_0145": "Chat 20/7 ~01:45: Nicola screenshot — chat Lavori visibile a sinistra ma assente nel menu conv Worker. L-354 nuova (caso_studio_nicola); L-348 evidenze++ addendum elenco unificato; preferenza worker-lista-tutte-chat; STATO+LEZIONI-CHAT+frontend-dev aggiornati; PR #487 in coda #205.",
   "_nota_metabolizzazione_20_07_0139": "Chat 20/7 ~01:39: Nicola «ti avevo chiesto di bloccare la box icone/testo» — re-ask barra fissa post-#484. L-353 nuova (caso_studio_nicola); L-346 evidenze++ addendum re-ask; preferenza barra-fissa-gate-nicola; #202+#203+#204 FATTO (merge main); STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
@@ -74,8 +75,30 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-356",
+      "testo": "**Pulsanti comandi Termux — lista PRIMA, implementazione a fasi dopo ok Nicola (20/7 ~01:53).** Follow-up L-355: accetta alternative pulsanti sicuri al posto della pagina terminale, ma chiede «crea pulsanti per ogni comando importante da terminale — **fammi la lista prima**». 5 perché: (1) pattern ricorrente Nicola = **inventario + scelta** prima del codice (come merge PR, workflow n8n); (2) risposta giusta = tre tabelle: **già in Pannello** (6 preset Stato worker) · **da aggiungere** (8 proposti dai comandi Termux più usati) · **solo SSH** (segreti, push forzato, Docker complesso, setup una tantum); (3) **non** aprire PR finché non dice ok/togli-aggiungi — lista è il deliverable del turno; (4) fase 1 consigliata = **4 pulsanti** (aggiorna codice server, diagnostica completa, sensori, review settimana) ≈90% uso Termux post-merge; fase 2 = altri 4 opzionali; (5) ogni pulsante = comando allowlist già usato dal worker, esito in Lavori → Risultati comandi — **mai** shell libera. Regola: «pulsanti per comandi terminale» → lista completa + fasi + attesa ok prima di 🟡 PR. Vedi L-355, L-349, DECISIONI 20/7 01:47.",
+      "tag": [
+        "pannello",
+        "pulsanti",
+        "terminale",
+        "termux",
+        "worker",
+        "vps",
+        "nicola"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.91,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 01:53",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-355",
-      "testo": "**Menu Pannello ≠ terminale libero; pagina terminale web = NO (Nicola 20/7 ~01:47).** Follow-up L-349: «dal menu posso mandare comandi al VPS?» + «perché non una pagina con il terminale?». 5 perché: (1) menu «Stato worker» = **pulsanti sicuri predefiniti** (giro, riavvio worker, piano mattino/sera) — esito in Lavori → Risultati comandi; **non** shell dove scrivere `docker`/`nano`; (2) **chat Worker** copre tutto il resto in linguaggio umano — AD traduce con allowlist, niente root libero; (3) Nicola confonde **tre livelli** — menu=preset · chat=AD · SSH=raro; spiegarli esplicitamente quando chiede «comandi al VPS»; (4) **terminale web nel Pannello = NO** — chiunque entrasse nel Pannello (sessione rubata, link condiviso) potrebbe distruggere il server; già confonde Termux locale vs server (L-324); (5) azioni ripetute → **pulsante sicuro** da aggiungere al menu (come «Fai un giro»), non buco di sicurezza. Regola: richiesta «pagina terminale» → NO con motivo + offrire chat o pulsante custom. Vedi L-349, L-324, DECISIONI 20/7 01:47.",
+      "testo": "**Menu Pannello ≠ terminale libero; pagina terminale web = NO (Nicola 20/7 ~01:47).** Follow-up L-349: «dal menu posso mandare comandi al VPS?» + «perché non una pagina con il terminale?». 5 perché: (1) menu «Stato worker» = **pulsanti sicuri predefiniti** (giro, riavvio worker, piano mattino/sera) — esito in Lavori → Risultati comandi; **non** shell dove scrivere `docker`/`nano`; (2) **chat Worker** copre tutto il resto in linguaggio umano — AD traduce con allowlist, niente root libero; (3) Nicola confonde **tre livelli** — menu=preset · chat=AD · SSH=raro; spiegarli esplicitamente quando chiede «comandi al VPS»; (4) **terminale web nel Pannello = NO** — chiunque entrasse nel Pannello (sessione rubata, link condiviso) potrebbe distruggere il server; già confonde Termux locale vs server (L-324); (5) azioni ripetute → **pulsante sicuro** da aggiungere al menu (come «Fai un giro»), non buco di sicurezza. **Addendum 01:53:** Nicola accetta l'alternativa pulsanti — chiede lista completa comandi Termux importanti prima della PR (L-356). Regola: richiesta «pagina terminale» → NO con motivo + offrire chat o pulsante custom. Vedi L-356, L-349, L-324, DECISIONI 20/7 01:47.",
       "tag": [
         "pannello",
         "menu",
@@ -87,11 +110,11 @@
       ],
       "reparto": "@devops-sre",
       "confidenza": 0.92,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 01:47",
+      "ultima_conferma": "2026-07-20 01:53",
       "stato": "attiva",
       "usi": []
     },
@@ -8081,6 +8104,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Pulsanti comandi Termux — vuole lista completa PRIMA, poi pulsanti sicuri a fasi (chat 20/7 ~01:53):** dopo NO pagina terminale (L-355), chiede «crea pulsanti per ogni comando importante da terminale — **fammi la lista prima**» — si aspetta inventario (già in Pannello + proposti + solo SSH), **non** PR immediata; accetta approccio a fasi (AD propone 4 prioritari: aggiorna codice, diagnostica, sensori, review settimana); dirà ok/togli-aggiungi prima del codice. Vedi L-356, L-355.",
     "**Menu vs terminale — chiede comandi VPS dal menu e pagina terminale (chat 20/7 ~01:47):** follow-up «senza cmd» (L-349) — vuole capire se il **menu** manda comandi al server e perché **non** c'è una pagina con terminale integrato; si aspetta comodità tipo shell ma AD deve chiarire: menu = pulsanti sicuri preset (giro/riavvio), **non** terminale libero; chat = canale completo; **no** pagina terminale web (sicurezza); se stessa azione ripetuta → chiede 2-3 cose e si aggiungono pulsanti al menu. Vedi L-355, L-349.",
     "**Worker chat — menu conv deve elencare TUTTE le chat, incluse quelle da Lavori (chat 20/7 ~01:45):** screenshot con chat Lavori visibile a sinistra ma **assente** dalla lista Conversazioni Worker — si aspetta elenco **unico e completo** (Worker fluttuante, Lavori «Parla con casella», stesso thread); se una chat esiste da un'altra superficie e non compare nel menu → bug storage duplicato, non «normale». Fix PR #487 merge 🔴 #205; post-merge Ctrl+F5 + verifica conv da Lavori in lista. Vedi L-354, L-348.",
     "**Worker chat — barra fissa: «ti avevo chiesto» = per lui non funziona ancora, gate obbligatorio (chat 20/7 ~01:39):** ripete richiesta sticky input+icone dopo #484 — **non** considerare chiuso finché non dice ok post-refresh; distingui merge main vs Vercel live; se «ancora no» → fix #2 come scroll. Vedi L-353, L-346, L-345.",
@@ -8373,13 +8397,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 370,
+    "lezioni_attive": 372,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.21,
-    "tasso_calcolato_il": "2026-07-20 01:44",
+    "tasso_applicazione": 0.2,
+    "tasso_calcolato_il": "2026-07-20 01:54",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 01:44",
+    "tick_leggero_il": "2026-07-20 01:54",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

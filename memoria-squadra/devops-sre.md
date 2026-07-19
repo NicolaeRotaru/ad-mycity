@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 01:53 · Pulsanti comandi Termux — Nicola «crea pulsanti per ogni comando importante — fammi la lista prima» · atteso: inventario + proposta sicura · reale: tabella 6 già in Pannello + 8 nuovi + solo SSH; fase 1 = 4 pulsanti (aggiorna codice, diagnostica, sensori, review); PR dopo ok Nicola · L-356 · L-355 · #pannello #worker #pulsanti #termux #esito
 - 2026-07-20 01:47 · Menu vs terminale — Nicola «dal menu mando comandi al VPS? perché non pagina terminale?» · atteso: chiarire canali + perché no shell web · reale: menu=preset sicuri (Stato worker); chat=canale completo; terminale web=NO policy 🔴; task ripetuti→pulsante custom · L-355 · L-349 · #pannello #sicurezza #terminale #esito
 - 2026-07-20 01:29 · VPS cosa aggiungere — Nicola «cos'altro posso inserire sul VPS?» · atteso: idee concrete da stack esistente · reale: inventario worker+n8n+Playwright; priorità collegare mani (webhook n8n, Telegram 59 avvisi report 19/7, chiavi env); no altri container; Telegram primo win · L-351 · #vps #inventario #telegram #mani
 - 2026-07-20 01:17 · Comandi worker senza cmd — Nicola «modo sicuro senza aprire ogni volta cmd?» · atteso: percorso sicuro + meno frizione Termux · reale: chat Pannello = canale normale; SSH scorciatoia una tantum + tmux casi rari; n8n per ripetitivo; gate prompt server vs telefono · L-349 · #vps #ssh #termux #worker #esito

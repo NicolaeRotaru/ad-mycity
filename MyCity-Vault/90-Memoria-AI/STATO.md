@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 01:47
+aggiornato: 2026-07-20 01:53
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~01:53 — CHAT: pulsanti comandi Termux — lista proposta, attesa ok Nicola (L-356).** Dopo NO pagina terminale (L-355), Nicola: «crea pulsanti per ogni comando importante da terminale — **fammi la lista prima**». AD consegna: **6 già in Pannello** (giro, piano mattino/sera, riavvio worker, sblocca coda, diagnosi) + **8 nuovi proposti** (aggiorna codice server, diagnostica completa, sensori, review settimana, pulisci coda errori, test motore AI, riavvia n8n, supervisiona negozi) + tabella **solo SSH** (segreti, push forzato, Docker complesso, setup una tantum). **Proposta fase 1:** primi **4** pulsanti (aggiorna codice, diagnostica, sensori, review) — coprono ~90% uso Termux. **In attesa:** ok Nicola («ok tutti e 4» / togli-aggiungi) → PR 🟡. Fonte: chat Nicola 20/7 01:53.
 
 > 💬 **20/7 ~01:47 — CHAT: menu vs terminale — NO shell web nel Pannello (L-355).** Nicola follow-up comandi VPS: «dal menu posso mandare comandi? perché non pagina terminale?». AD chiarisce: menu «Stato worker» = **pulsanti sicuri preset** (giro, riavvio) — **non** terminale libero; esito in Lavori → Risultati comandi; **chat Worker** = canale completo in linguaggio umano; **pagina terminale web = NO** (sicurezza — sessione Pannello rubata = rischio server); azioni ripetute → pulsanti sicuri custom. Tre livelli: menu · chat · SSH raro. Fonte: chat Nicola 20/7 01:47.
 
