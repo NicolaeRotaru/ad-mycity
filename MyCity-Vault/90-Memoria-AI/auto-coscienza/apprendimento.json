@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 17:23",
+  "aggiornato": "2026-07-19 17:26",
+  "_nota_metabolizzazione_19_07_1726": "Chat 19/7 ~17:26: Nicola «Come rendo operativo Playwright sul worker?» + strumenti contenuti potenti e come darli. Verifica VPS 17:25: assenti node22/pw-browsers/fontconfig. L-305 nuova; L-304 evidenze++; preferenza setup operativo.",
   "_nota_metabolizzazione_19_07_1721": "Chat 19/7 ~17:14–17:21: Nicola «Crea in Diretta» → PR #476+#477; correzione «volevo la grafica» (L-303); «quali strumenti grafica pro» (L-304). L-303 era in LEZIONI-CHAT ma mancava in JSON — aggiunta.",
   "_nota_metabolizzazione_19_07_1713": "Chat 19/7 ~17:13: dopo pipeline contenuti (L-300), Nicola «Dimmi un contenuto» → AD ha mostrato post domenica PQ già in coda (#post-domenica-settimana-1907). L-302 nuova; L-300 evidenze++.",
   "_nota_metabolizzazione_19_07_1711": "Chat 19/7 ~17:11: standing-ask audit chat consegnato (mappa 7 filoni in chat) + PR #475 per regressione auto-open. L-301 evidenze++, L-299 aggiornata con PR #475. Nicola «No capito» ma vuole tutti i problemi risolti.",
@@ -21,6 +22,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0719-305",
+      "testo": "**Playwright sul worker — oggi assente; setup root una tantum + come dare strumenti (Nicola 19/7 ~17:26).** «Come faccio a rendere operativo playwright su worker?» + «quali strumenti per contenuti potenti e come te li do?». Verifica VPS 17:25: assenti `/opt/node22`, `/opt/pw-browsers`, `fontconfig`; Node sistema v24 ok; codice Content Factory punta path fisso che lo script setup VPS non crea → PNG rotti, SVG ok in Diretta. 5 perché: (1) Nicola vuole passi operativi, non teoria; (2) install richiede root — chat AD non può eseguirla; (3) ordine: font → Node22 in `/opt/node22` → `npm i -g playwright` + `npx playwright install chromium` con `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` → env in segreti worker → test `render-domenica-settimana.mjs`; (4) contenuti potenti = foto/video veri (leva #1) + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico per non perdere al prossimo aggiornamento server. Regola: verifica runtime cosa manca PRIMA dei passi; spiega cosa fa Nicola vs cosa fa l'AD.",
+      "tag": [
+        "playwright",
+        "content-factory",
+        "worker",
+        "vps",
+        "setup",
+        "nicola",
+        "strumenti"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 17:26",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-304",
       "testo": "**Grafiche professionali — strumenti REALI usati + carburante per alzare livello (Nicola 19/7 ~17:21).** «Quali strumenti hai usato per la parte grafica e quali ti servono per grafiche professionali?» 5 perché: (1) dopo fix Diretta vuole capire **stack vero**, non marketing; (2) oggi = Content Factory locale (template HTML brand → Playwright/Chromium PNG 1080×1350 e 9:16) + SVG a mano per anteprima Diretta; (3) PNG automatici sul VPS **rompono testo** (font mancanti) → SVG ok nel browser finché Playwright non ha font installati; (4) Canva auto, Gemini/Imagen, video AI = **scheletri spenti** — vincolo [[niente-api-ai]]; (5) livello «agenzia» = **materia prima vera** (3–5 foto bottega/prodotto, frase bottegaio) + render Playwright operativo sul worker **oppure** PNG già fatti da Nicola (Canva/Figma). Regola: elencare attivo/spento/esigenze in 3 bin; non promettere output pro senza foto vere.",
       "tag": [
@@ -33,12 +56,12 @@
         "trasparenza"
       ],
       "reparto": "@content-social",
-      "confidenza": 0.93,
-      "evidenze": 1,
+      "confidenza": 0.94,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 17:21",
+      "ultima_conferma": "2026-07-19 17:26",
       "stato": "attiva",
       "usi": []
     },
@@ -7107,16 +7130,17 @@
     "**Pitch a botteghe: nessun bando come leva (chat 11/7):** Nicola ha scartato definitivamente il bando FESR ER Commercio 2026 dal pitch del 13/7 — «non userò questo bando ER». Preferenza di standing: nel pitch di acquisizione negozi, NON appoggiare la proposta su bandi istituzionali — usare argomenti di business immediati: calo del retail (es. −6,6% presenze), stagionalità che svuota il centro in estate, perdita di clienti che non ordinano online. Un bando può essere citato SOLO se è aperto, confermato, con scadenza comoda e Nicola lo richiede esplicitamente; altrimenti è rumore burocratico che distrae dal pitch.",
     "**Chat Pannello: nuova pagina = nuova chat (chat 11/7):** Nicola NON vuole che riaprendo il Pannello ritrovi l'ultima conversazione — «voglio solo che quando chiudo la pagina del pannello e quando la riapro riparte con la pagina nuova». La chat corrente va bene durante la sessione di lavoro attiva; è la persistenza CROSS-RELOAD che non vuole. Corollario di design: la chat del Pannello deve essere session-scoped (si resetta alla chiusura/ricarica della tab), NON persistent-scoped (non ripristinare la conversazione al prossimo caricamento). Il salvataggio nella tabella `conversazioni` è corretto per la sync desktop↔telefono, ma l'auto-ripristino all'apertura va disabilitato. Vedi [[chat-sessione-e-sync]].",
     "**Allowlist MCP — mostra sempre Vercel + Supabase insieme (chat 19/7 16:44):** «C'era quello di vercel» quando l'AD elencava solo le righe Supabase — si aspetta di vedere il blocco completo (5 Vercel già presenti + 2 Supabase da aggiungere), non istruzioni che sembrano sostituire ciò che ha già configurato. Spiegare anche la regola virgola: tra le righe sì, mai trailing comma sull'ultima.",
+    "**Playwright worker + strumenti contenuti potenti (chat 19/7 ~17:26):** chiede come rendere operativo Playwright sul worker E quali strumenti servono per contenuti forti + come darli all'AD. Preferenza: risposta operativa con (1) verifica runtime cosa manca sul VPS, (2) passi concreti root SSH (font → Node22 in `/opt/node22` → Playwright+Chromium → env `PLAYWRIGHT_BROWSERS_PATH`), (3) elenco strumenti in bin attivo/spento/carburante, (4) modalità consegna materiale (allegati chat, cartella repo, chiavi solo in segreti VPS se cambia regola niente-API). Vuole sapere cosa fa lui vs cosa fa l'AD; dalla chat l'install non parte senza root.",
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 321,
+    "lezioni_attive": 322,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.23,
-    "tasso_calcolato_il": "2026-07-19 17:23",
+    "tasso_calcolato_il": "2026-07-19 17:26",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 17:23",
+    "tick_leggero_il": "2026-07-19 17:26",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

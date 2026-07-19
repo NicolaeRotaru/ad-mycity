@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 17:21
-fonte: AD digitale (chat Nicola 19/7 17:21)
+aggiornato: 2026-07-19 17:26
+fonte: AD digitale (chat Nicola 19/7 17:26)
 ---
+
+> 💬 **19/7 17:26 — CHAT: Playwright sul worker — verifica VPS + strumenti contenuti potenti.** Nicola: «Come faccio a rendere operativo playwright su worker?» + quali strumenti servono e come darli. AD verifica runtime VPS 17:25: **Playwright NON operativo** — assenti `/opt/node22`, `/opt/pw-browsers`, `fontconfig`; Node sistema v24.18.0 ok; PNG Content Factory escono rotti (font); SVG ok in Diretta. Setup richiede accesso **root** SSH (font → Node22 → Playwright+Chromium → env `PLAYWRIGHT_BROWSERS_PATH` in segreti worker). Contenuti potenti senza AI a consumo: foto/video veri bottega + render Playwright **oppure** PNG da Canva/Figma; chiavi AI solo se cambia regola [[niente-api-ai]]. Proposta PR setup automatico 🟡 pendente ok Nicola. Fonte: chat Nicola 19/7 17:26.
 
 > 💬 **19/7 17:21 — CHAT: strumenti grafica — Content Factory + limiti VPS spiegati.** Nicola: «Quali strumenti hai usato per la grafica e quali ti servono per grafiche professionali?» AD: template HTML/SVG in repo → Content Factory (Playwright PNG) per export; **SVG** per anteprima Diretta (PNG sul VPS esce rotto per font mancanti); Canva/Gemini **spenti** (niente API a consumo). Per livello pro: foto reali Pane Quotidiano + Playwright operativo sul worker (o PNG da Canva/Figma). Asset post domenica in `consegne/content/assets/`. Fonte: chat Nicola 19/7 17:21.
 

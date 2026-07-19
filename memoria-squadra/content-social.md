@@ -8,6 +8,7 @@ reparto: content-social
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 17:26 · Nicola chiede Playwright operativo + strumenti potenti · atteso: come attivare render + come dargli carburante · reale: VPS senza Playwright/font; carburante = foto vere + render OK o PNG Canva; chiavi AI solo se cambia regola · L-305 · #playwright #carburante
 - 2026-07-19 17:21 · Nicola chiede strumenti grafica pro · atteso: stack reale + cosa manca per livello agenzia · reale: Content Factory+SVG, PNG VPS rotto (font), AI consumo spenta, serve foto PQ+Playwright · L-304 · #grafica #trasparenza
 - 2026-07-19 17:17 · Nicola «volevo vedere la grafica» in Diretta · atteso: anteprima visiva immediata · reale: fix PR #477 immagine grande in scheda · L-303 · #diretta-contenuti
 - 2026-07-19 17:14 · Nicola «Crea in Diretta contenuti» post domenica PQ · atteso: post completo visibile in tab · reale: PR #476 asset+API, poi correzione anteprima #477 · L-303 · #content-factory
