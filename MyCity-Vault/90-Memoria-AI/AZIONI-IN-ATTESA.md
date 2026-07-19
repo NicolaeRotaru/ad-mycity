@@ -157,15 +157,10 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 **Contesto:** 9 batch completati (2026-07-18), conflitti risolti via rebase (18/7 19:45). PR #213 pronta senza conflitti. Nicola ha chiesto (18/7 19:50) all'AD di applicare le 3 migrazioni direttamente.
 
-**⚠️ Verifica DB 19/7 16:55:** migrazioni **NON ancora applicate** — mancano `rider_fee_cents` e vista `public_profiles` sul database live.
+**✅ Step 2 FATTO 19/7 16:57:** migrazioni 109→110→111 applicate sul DB live (Management API). Verifica REST: `rider_fee_cents` presente su `orders`, vista `public_profiles` risponde. Nota: la 110 originale falliva su colonne inesistenti (`avatar_url` ecc.) — applicata versione adattata allo schema reale (`public_avatar_url`, `city`, ecc.).
 
-**Step 1 — Nicola mergia la PR:**
+**Step 1 — Nicola mergia la PR (se non già fatto):**
 https://github.com/NicolaeRotaru/mycity/pull/213
-
-**Step 2 — Applica le 3 migrazioni in ordine** (SQL Editor Supabase oppure AD con `apply_migration` se allowlist attiva):
-- `migrations/109_fix_020_rls_columns.sql` (RLS migrazione 020 + 9 indici)
-- `migrations/110_public_profile_view.sql` (view profilo pubblico senza IBAN/CF)
-- `migrations/111_rider_fee_cents.sql` (colonna rider_fee_cents)
 
 **Cosa cambia:** 35 vulnerabilità/bug gravi corretti + schema DB aggiornato.
 **Se va bene:** il marketplace è significativamente più sicuro, i payout rider sono disaccoppiati dal costo spedizione.
