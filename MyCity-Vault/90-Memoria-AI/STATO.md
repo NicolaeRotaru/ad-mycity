@@ -1,12 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 00:34
+aggiornato: 2026-07-20 00:36
 fonte: AD digitale (sentinella cassa_sconosciuta + negozio_fermo)
 ---
 
-> 💬 **20/7 ~00:34 — CHAT: «Perché due fix non combaciano?» — sync e auto-apertura sono separati.** Nicola chiede perché non riesce a combinare i fix chat cross-device. AD: **sync elenco** (lista cassetto poll ~8s, PC↔telefono) e **auto-apertura** (riapre ultima chat se vuota) sono **due pezzi di codice indipendenti** con effetti opposti sulla chat vuota — non un bundle «o tutto o niente». **Combinazione corretta:** sync sì, auto-apertura no; sul desktop apri la conversazione dal cassetto, «+» resta pulito. Se rollback live ha tolto auto-apertura, verificare che sync elenco non sia sparito per errore. **Prossimo:** PR solo rimozione auto-apertura (pendente ok Nicola). Fonte: chat Nicola 20/7 00:34.
+> 💬 **20/7 ~00:36 — CHAT: Nicola vuole sync E auto-apertura insieme — PR #481.** Corregge proposta rimozione auto-apertura: «no, tieni l'auto-apertura e fai in modo che sync funzioni comunque». AD **PR #481** (`618ffb54`): sync elenco poll ~8s resta; auto-apertura resta; «+» blocca auto-open finché nuova chat non salvata; messaggio da altro device sulla stessa conv → desktop riapre/aggiorna. **Merge 🔴 pendente Nicola** (card #199). Test post-merge: scrivi da telefono → desktop si aggiorna; «+» su desktop → chat vuota. Fonte: chat Nicola 20/7 00:36.
 
-> 💬 **20/7 ~00:32 — CHAT: auto-apertura — Nicola tolta su live, repo main ancora presente.** Nicola corregge AD: **auto-apertura l'ha rimossa oggi** sul Pannello live perché crea bug «+» (chat vecchia che rientra). AD verifica **su `main` repo auto-apertura c'è ancora** (ultima mod chat 19/7, nessun revert oggi) — **sync elenco** (poll ~8s) resta voluto. **Divergenza live≠repo:** rollback Vercel o modifica fuori repo; prossimo deploy Pannello può **reintrodurre** auto-apertura. **Strada concordata:** PR che **rimuove solo auto-apertura**, sync elenco intatto (pendente ok Nicola). Fonte: chat Nicola 20/7 00:32.
+> 💬 **20/7 ~00:34 — CHAT: «Perché due fix non combaciano?» — pezzi separati, non bundle.** Nicola chiede perché non riesce a combinare i fix chat. AD: sync elenco e auto-apertura sono **codice indipendente** — non «o tutto o niente». ~~Combinazione sync-sì/auto-no~~ **superato 00:36** — Nicola vuole entrambi (PR #481). Fonte: chat Nicola 20/7 00:34.
+
+> 💬 **20/7 ~00:32 — CHAT: auto-apertura — Nicola tolta su live, poi chiede di tenere (00:36).** Nicola corregge AD: **auto-apertura l'ha rimossa oggi** sul Pannello live perché bug «+». AD verifica **su `main` repo auto-apertura c'è ancora** — **sync elenco** (poll ~8s) resta voluto. ~~Strada concordata: PR rimozione~~ **superato 00:36:** Nicola vuole **tenere** auto-apertura + sync con PR #481. Fonte: chat Nicola 20/7 00:32.
 
 > 💬 **20/7 ~00:29 — CHAT: desktop non vede chat mobile — sync parziale, bug aperto.** Nicola «perché dal Pannello desktop non vedo le chat del telefono? dimmi cosa hai capito». AD: **elenco** cassetto Conversazioni va su DB (poll ~8s) ma **chat aperta adesso** resta locale al browser; footer «Salvate nel database» vs «su questo dispositivo» = prima diagnosi; fix cross-device (#316, #328, #446, #475) su main ma Nicola vede ancora disallineamento → Pannello desktop su Vercel non aggiornato **oppure** salvataggio/caricamento DB fallisce in silenzio. **Prossimo:** Nicola dice cosa scrive il footer su telefono e desktop + se lista desktop vuota o parziale. Fonte: chat Nicola 20/7 00:29.
 
