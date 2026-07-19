@@ -839,6 +839,7 @@ export default function Dashboard() {
     setAllegatiChat((prev) => prev.filter((_, idx) => idx !== i));
   }
   const endRef = useRef<HTMLDivElement>(null);
+  const chatFabEndRef = useRef<HTMLDivElement>(null);
   // 📜 "Segui in fondo" solo se sei GIÀ in fondo: se sei salito a rileggere la chat,
   // una nuova risposta NON ti strappa giù (resti dove stai leggendo). I ref tengono
   // lo stato PRIMA che arrivi il nuovo messaggio (l'onScroll aggiorna, l'effect legge).
@@ -849,6 +850,8 @@ export default function Dashboard() {
   // Quando si cambia/carica una conversazione, forza lo scroll al fondo
   // anche se stickFullRef è false (l'utente era risalito nella chat precedente).
   const forzaScrollRef = useRef(false);
+  /** Dopo scelta dal cassetto: lo scroll a 120ms scatta prima che finisca l'animazione drawer (200ms) → torni in cima. */
+  const scrollDopoDrawerRef = useRef(false);
   function vicinoAlFondo(el: HTMLElement | null) {
     if (!el) return true;
     return el.scrollHeight - el.scrollTop - el.clientHeight < 80;
@@ -880,11 +883,16 @@ export default function Dashboard() {
         if (fab && (stickFabRef.current || forza)) fab.scrollTop = fab.scrollHeight;
       });
     });
-    const t = setTimeout(() => {
+    const scroll = () => {
       if (el && (stickFullRef.current || forza)) el.scrollTop = el.scrollHeight;
       if (fab && (stickFabRef.current || forza)) fab.scrollTop = fab.scrollHeight;
-    }, 120);
-    return () => clearTimeout(t);
+    };
+    const t = setTimeout(scroll, 120);
+    const t2 = forza ? setTimeout(scroll, 250) : undefined;
+    return () => {
+      clearTimeout(t);
+      if (t2) clearTimeout(t2);
+    };
   }, [messages]);
   // Cambio conversazione → sempre al fondo (doppio rAF per aspettare il DOM aggiornato).
   useEffect(() => {
@@ -911,6 +919,29 @@ export default function Dashboard() {
   // ⚡ Finestra "Skill & comandi" dentro la chat (condivisa: chat intera e fluttuante non sono mai visibili insieme).
   // Dentro la chat fluttuante: pannello "Conversazioni" (elenco per aprirne un'altra) a scomparsa.
   const [fabConvOpen, setFabConvOpen] = useState(false);
+  // Cassetto chiuso dopo scelta chat → scroll al fondo quando finisce l'animazione drawer (200ms).
+  useEffect(() => {
+    if (fabConvOpen || convDrawerAperto) return;
+    if (!scrollDopoDrawerRef.current) return;
+    scrollDopoDrawerRef.current = false;
+    stickFabRef.current = true;
+    stickFullRef.current = true;
+    const scroll = () => {
+      const el = scrollBoxRef.current;
+      const fab = chatFabBoxRef.current;
+      if (el) el.scrollTop = el.scrollHeight;
+      if (fab) fab.scrollTop = fab.scrollHeight;
+      endRef.current?.scrollIntoView({ block: "end" });
+      chatFabEndRef.current?.scrollIntoView({ block: "end" });
+    };
+    requestAnimationFrame(() => requestAnimationFrame(scroll));
+    const t = setTimeout(scroll, 240);
+    const t2 = setTimeout(scroll, 450);
+    return () => {
+      clearTimeout(t);
+      clearTimeout(t2);
+    };
+  }, [fabConvOpen, convDrawerAperto]);
   // Riapertura FAB: il contenitore scroll si rimonta (condizionale) → torna all'ultimo messaggio.
   useEffect(() => {
     if (!chatFluttuante && !workerFull) return;
@@ -922,7 +953,6 @@ export default function Dashboard() {
       });
     });
   }, [chatFluttuante, workerFull]);
-  const chatFabEndRef = useRef<HTMLDivElement>(null);
   // Lavori chat in attesa di risposta — MAPPA (non più slot singolo): se mandi messaggi
   // in più chat di fila, OGNI risposta viene recuperata e instradata al thread giusto.
   const pendingLavoroChatRef = useRef<Map<string, PendingChat>>(new Map());
@@ -1313,6 +1343,9 @@ export default function Dashboard() {
     const daLavori = g ? (messaggiDaGruppo(g.lavori) as Msg[]) : [];
     const msgs = daLavori.length ? mergeThread(c.messaggi, daLavori) : c.messaggi;
     forzaScrollRef.current = true;
+    scrollDopoDrawerRef.current = true;
+    stickFabRef.current = true;
+    stickFullRef.current = true;
     setMessages(msgs);
     setConvId(c.id);
     setConvDrawerAperto(false); // aprendo una conversazione, richiudo il cassetto e mostro subito la chat
