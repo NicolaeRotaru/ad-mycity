@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 16:44
-fonte: AD digitale (chat Nicola 19/7 16:44)
+aggiornato: 2026-07-19 16:45
+fonte: AD digitale (chat Nicola 19/7 16:45)
 ---
+
+> 💬 **19/7 16:45 — CHAT: inventario MCP completo tiered per allowlist.** Nicola: «Quali sono tutti gli mcp utili da inserire nell'allow?» — AD ha consegnato mappa a 3 livelli: **Essenziali** (5 Vercel deploy + 2 Supabase marketplace) · **Opzionali** (2 Supabase memoria chat/lavori + 2 debug `get_logs`/`list_migrations`) · **Non mettere** (GitHub MCP non collegato, scritture DB read-only). Blocco JSON integrale 9 righe pronto da incollare. ⚠️ File permessi ancora rotto (trailing comma riga 33) — finché non si corregge, nessun MCP funziona. Fonte: chat Nicola 19/7 16:45.
 
 > 💬 **19/7 16:44 — CHAT: Nicola «C'era quello di vercel» + trailing comma allowlist.** L'AD aveva elencato solo Supabase — Nicola ricorda che Vercel (5 righe deploy) era già in allowlist e va **lasciato**; Supabase si **aggiunge dopo**. Verificato: `settings.local.json` JSON invalido per **virgola di troppo** sull'ultima riga (`Illegal trailing comma` riga 33) → nessun permesso attivo finché non si corregge. Sequenza: Vercel + Supabase, ultima riga senza virgola → salva → nuova chat → «quanti utenti?». Fonte: chat Nicola 19/7 16:44.
 

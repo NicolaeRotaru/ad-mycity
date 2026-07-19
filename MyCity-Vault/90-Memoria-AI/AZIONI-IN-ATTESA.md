@@ -44,22 +44,23 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #abilita-mcp-supabase-chat — Aggiungi MCP Supabase all'allowlist così l'AD vede i dati live dalla chat · ⏳ accodata 2026-07-19 00:22 · richiamata 14:42
+### 🟡 #abilita-mcp-supabase-chat — Aggiungi MCP Supabase all'allowlist così l'AD vede i dati live dalla chat · ⏳ accodata 2026-07-19 00:22 · richiamata 16:45
 
-**Contesto:** Nicola ha chiesto tre volte (00:22, 14:20, 14:42) come abilitare MCP Supabase in chat — l'AD non riusciva a interrogare il DB (né `node` né MCP) e aveva scritto «23 iscritti» in EXP-001 senza verifica live (corretto a 4 da Nicola). Il tool MCP non è nell'allowlist di `.claude/settings.local.json` sul VPS — il box di permesso non compare mai dalla chat del Pannello. **19/7 14:42:** validazione AD → il file è anche **JSON invalido** (virgola mancante dopo voce Vercel `get_project`, riga ~32) → l'intera allowlist può essere ignorata finché non si corregge.
+**Contesto:** Nicola ha chiesto più volte (00:22, 14:20, 14:42, 16:45) come abilitare MCP in chat — l'AD non riusciva a interrogare il DB (né `node` né MCP) e aveva scritto «23 iscritti» in EXP-001 senza verifica live (corretto a 4 da Nicola). **19/7 16:44:** file **JSON invalido** per **trailing comma** sull'ultima riga (`Illegal trailing comma` riga 33) → l'intera allowlist ignorata (né Vercel né Supabase funzionano).
 
-**Cosa fare:** Dal terminale VPS aprire `nano /opt/mycity/ad-mycity/.claude/settings.local.json` e:
-1. **Prima:** dopo `"mcp__claude_ai_Vercel__get_project"` (o l'ultima voce Vercel) aggiungere la **virgola** mancante — senza JSON valido nulla funziona.
-2. Poi aggiungere nell'array `allowedTools` (prima della `]`):
+**Cosa fare:** Dal terminale VPS aprire `nano /opt/mycity/ad-mycity/.claude/settings.local.json` e sostituire il blocco MCP in fondo con questo (ultima riga **senza virgola**):
 ```
-"mcp__supabase-marketplace__execute_sql",
-"mcp__supabase-marketplace__list_tables",
+      "mcp__claude_ai_Vercel__list_teams",
+      "mcp__claude_ai_Vercel__list_projects",
+      "mcp__claude_ai_Vercel__list_deployments",
+      "mcp__claude_ai_Vercel__get_deployment",
+      "mcp__claude_ai_Vercel__get_project",
+      "mcp__supabase-marketplace__execute_sql",
+      "mcp__supabase-marketplace__list_tables",
+      "mcp__supabase-memoria__execute_sql",
+      "mcp__supabase-memoria__list_tables"
 ```
-Opzionale (DB memoria Pannello):
-```
-"mcp__supabase-memoria__execute_sql",
-"mcp__supabase-memoria__list_tables",
-```
+Opzionale debug DB (solo se serve): aggiungere prima dell'ultima riga `mcp__supabase-marketplace__get_logs` e `mcp__supabase-marketplace__list_migrations`.
 Salvare (Ctrl+O → Invio → Ctrl+X) e aprire una **nuova chat** — chiedere «quanti utenti ci sono?» per verificare. Se fallisce: controllare anche env `SUPABASE_ACCESS_TOKEN` nel worker.
 
 **Cosa cambia:** l'AD potrà leggere i dati Supabase live direttamente dalla chat, senza dover aspettare il giro automatico o chiedere a Nicola di ricopiare i numeri.

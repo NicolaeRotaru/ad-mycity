@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 16:45 · 🟢 · [Inventario MCP allowlist tiered consegnato in chat] · **Nicola: «Quali sono tutti gli mcp utili da inserire nell'allow?»** AD ha mappato 3 tier sui server reali in `.mcp.json`: essenziali (5 Vercel + 2 Supabase marketplace), opzionali (2 memoria + 2 debug DB), esclusi (GitHub MCP, scritture). Blocco JSON 9 righe pronto. Pendente esecuzione Nicola: fix trailing comma + salva + nuova chat. Card #abilita-mcp-supabase-chat aggiornata. L-291.
+
 2026-07-19 16:44 · 🟡 · [Fix trailing comma settings.local.json — Vercel + Supabase insieme] · **Nicola: «C'era quello di vercel».** Correzione: le 5 voci Vercel MCP restano in allowlist; le 2 voci Supabase marketplace si aggiungono dopo, non le sostituiscono. Errore attuale verificato = trailing comma sull'ultima riga (riga 33), non virgola mancante — invalida l'intero JSON e blocca tutti i permessi. Sequenza: rimuovi virgola finale → salva → nuova chat → verifica con «quanti utenti ci sono?». Card #abilita-mcp-supabase-chat aggiornata.
 
 2026-07-19 16:16 · 🟢 · [Mappa completa bandi/finanziamenti consegnata in chat] · **Nicola: «Fai una profonda e completa di tutti i bandi e finanziamenti… adatti per MyCity».** AD ha sintetizzato due binari (finanziamento diretto startup tech + arma vendite botteghe PI26/BT26), priorità PI26 sportello 20/7 ore 10:00, esclusi bandi chiusi o non pertinenti (Bando ER commercio chiuso 23/6 — registro-fatti). Nessuna nuova firma richiesta; prossimo passo operativo resta domanda PI26 (#bandi-cciaa-2007).
