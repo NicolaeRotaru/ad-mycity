@@ -75,6 +75,7 @@ echo "BURN_MENSILE_EUR=150" >> /opt/mycity/ad-mycity/cervello/vps/.env && sudo s
 | 14/7 | 98 | BURN assente (prima diagnosi) |
 | 18/7 | 137 | invariato |
 | **19/7 13:11** | **159** | invariato — unica azione = env burn |
+| **20/7 00:00** | **170** | invariato — unica azione = env burn |
 
 ---
 *Fonti live: `node cervello/sensore-cassa.mjs` · `node cervello/verifica-sensori.mjs` exit 0 · `cassa-runway.json` · AR-016/AR-039*

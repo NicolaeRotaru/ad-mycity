@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 23:36
-fonte: AD digitale (metabolizzazione chat Nicola 19/7 23:36)
+aggiornato: 2026-07-20 00:00
+fonte: AD digitale (sentinella cassa_sconosciuta 170 giri + verifica sensori)
 ---
+
+> 🛰️ **20/7 00:00 — SENTINELLA: cassa/runway — verifica 170 giri, blocco invariato.** `cassa_sconosciuta` **170 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe. **Unica mossa:** card **🟡 #burn-mensile-env** (già in coda, non ri-accodata). **Oggi ore 10:00:** 🔴 **PI26 apre a sportello** (`#bandi-cciaa-2007`) — registrazione restart.infocamere.it se non fatta ieri. Diagnosi: `consegne/finanza/2026-07-19-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 00:00.
 
 > 💬 **19/7 ~23:36 — CHAT: «Com'è fatto un workflow molto complesso e molto grande?» — anatomia n8n a 7 blocchi.** Nicola chiede **struttura** di un workflow grosso (non altro catalogo idee). AD: scheletro riusabile — (1) sveglia/trigger, (2) filtro «ha senso agire?», (3) rami per canale/caso, (4) attese + ricontrollo situazione, (5) azioni (messaggio/post/avviso), (6) rete sicurezza (retry + alert Telegram), (7) chiusura/segna fatto. Esempio: carrello abbandonato. **Regola emersa:** «complesso» = catena con regole, non conteggio nodi; tutti i workflow del catalogo (L-335, L-336, L-333) seguono lo stesso scheletro. **Prossimo:** Nicola sceglie un flusso → JSON n8n pezzo per pezzo (dopo webhook collegato). Fonte: chat Nicola 19/7 23:36.
 
@@ -854,12 +856,12 @@ fonte: AD digitale (metabolizzazione chat Nicola 19/7 23:36)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🌙 Report della sera 19/7 18:00)
-**Domani 20/7 ore 10:00 apre PI26 a sportello.** Business INVARIATO dal 24/6, North Star 0, stallo ~608h (~25,3 giorni). Cassa Stripe 0€.
+## Prossime priorità (🛰️ aggiornato 20/7 00:00)
+**OGGI 20/7 ore 10:00 apre PI26 a sportello.** Business INVARIATO dal 24/6, North Star 0, stallo ~608h (~25,3 giorni). Cassa Stripe 0€.
 
-1. [ ] 🔴 **Post domenica PQ entro 21:00** — testo + grafica pronti in Diretta contenuti (`#post-domenica-settimana-1907`).
-2. [ ] 🔴 **restart.infocamere.it stasera** — registrazione obbligatoria prima del bando PI26 domani mattina (`#bandi-cciaa-2007`).
-3. [ ] 🔴 **Domanda PI26 domani ore 10:00** — bozza e checklist in `consegne/relazioni-istituzionali/`.
+1. [ ] 🔴 **Domanda PI26 OGGI ore 10:00** — a sportello, chi prima arriva (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
+2. [ ] 🔴 **restart.infocamere.it** — registrazione se non fatta ieri notte (prerequisito PI26).
+3. [ ] 🟡 **Burn mensile nel VPS** — sblocca runway (`#burn-mensile-env`, 150€ o 3000€).
 4. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1 (`#ordine-test-pq`).
 5. [ ] 🟡 **Playwright sul worker passo 3** — `npm install -g playwright --prefix /opt/node22` + env `PLAYWRIGHT_BROWSERS_PATH`.
 6. [ ] 🟡 **Mergia PR in coda** — #475 chat · #476/#477 contenuti Diretta · #450 bloccanti Pannello.
