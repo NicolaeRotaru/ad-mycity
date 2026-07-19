@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 18:58",
+  "aggiornato": "2026-07-19 19:00",
+  "_nota_metabolizzazione_19_07_1900": "Chat 19/7 ~18:59: Nicola «Perché il push è rifiutato? Devo mettere qualcosa nell allowlist?» dopo spiegazione 403 PR. AD: push OK verificato, solo gh pr create 403 — allowlist non c'entra (già valida 16:54). L-317 nuova; L-316 evidenze++; preferenza push-vs-pr-vs-allowlist.",
   "_nota_metabolizzazione_19_07_1858": "Chat 19/7 ~18:57: Nicola «Perché non apri tu la PR?» dopo fix render build. AD retry gh → 403 rate limit confermato; branch+commit su GitHub, scheda PR mancante. L-316 nuova; preferenza apri-pr-automatica; coda #197 aggiornata.",
   "_nota_metabolizzazione_19_07_1856": "Chat 19/7 ~18:56: Nicola «Non ha fatto il deploy, come mai?» + screenshot Render X. AD: Auto-Deploy ok, build crashato (orders/page TS), fix branch fix/render-build-orders-page, PR manuale (#197). L-315 nuova; L-314 evidenze++; STATO corretto (#214 merged ≠ online); preferenza deploy-vs-merge.",
   "_nota_metabolizzazione_19_07_1841": "Chat 19/7 ~18:40: Nicola «Prepara la pr» dopo diagnosi CI → AD PR #215 (715/715, migration 107 + mock Stripe), accoda #195+#196 merge order. L-313 nuova; L-311 evidenze++; preferenza prepara-pr-ci.",
@@ -48,11 +49,33 @@
       ],
       "reparto": "@devops-sre",
       "confidenza": 0.95,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 19:00",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
+      "id": "L-2026-0719-317",
+      "testo": "**Push ok vs PR 403 — «Perché il push è rifiutato?» ≠ allowlist (Nicola 19/7 ~18:59).** Segue L-316: dopo spiegazione rate limit su apertura PR, Nicola chiede se il push è stato rifiutato e se serve cambiare allowlist. 5 perché: (1) **confusione terminologica** — «push rifiutato» in realtà = `gh pr create` 403, non `git push`; (2) output verificato al retry: `✓ Push fix/render-build-orders-page → origin` **prima** dell'errore 403 API; (3) **allowlist** governa comandi Bash/MCP sul VPS — se mancasse permesso git, fallirebbe il push con errore gate/permesso, non 403 GitHub REST; (4) allowlist già validata 16:54 (JSON ok, 9 voci MCP) — nessun delta richiesto; (5) risposta corretta: **NO allowlist**, tre stati distinti (codice su GitHub ✅ · scheda PR ❌ · compare manuale o «riprova la PR»). Regola: quando Nicola chiede «devo mettere qualcosa nell'allowlist?» dopo un 403 GitHub → verificare quale step ha fallito (push vs gh vs merge) prima di proporre permessi. Vedi L-316, L-293.",
+      "tag": [
+        "github",
+        "push",
+        "allowlist",
+        "rate-limit",
+        "403",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.96,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 18:58",
+      "ultima_conferma": "2026-07-19 19:00",
       "stato": "attiva",
       "usi": []
     },
@@ -7158,6 +7181,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Push vs PR vs allowlist — «Perché il push è rifiutato? Devo mettere qualcosa nell allowlist?» = NO se push ok (chat 19/7 ~18:59):** dopo 403 su apertura PR, Nicola può confondere push rifiutato con permessi — si aspetta risposta secca: push **andato a buon fine**, blocco solo scheda PR (rate limit GitHub), allowlist **già ok** (16:54); non proporre righe allowlist a caso. Mostrare output verificato push OK + errore gh separato. Vedi L-317, L-316.",
     "**PR — «Perché non apri tu la PR?» = si aspetta apertura automatica, non compare manuale (chat 19/7 ~18:57):** dopo fix pushato su branch, chiede perché manca la scheda PR — vuole che l'AD riprovi subito con git-pr/gh; se **403 rate limit** GitHub accetta spiegazione + link Compare come piano B, ma la prima scelta resta automazione AD. Vedi L-316, L-315.",
     "**Deploy Render — «Non ha fatto il deploy?» = vuole PERCHÉ merge non è online (chat 19/7 ~18:56):** dopo merge PR (#214) sito invariato — si aspetta spiegazione concreta: Auto-Deploy sì/no, X rosse Render = build fallito (non «non ha provato»), causa verificata (log/build locale), fix pronto + passi merge. Distinguere merge GitHub vs deploy produzione. Vedi L-315.",
     "**CI — «A cosa serve la CI?» = spiegazione semplice pre-deploy, non gergo (chat 19/7 ~18:44):** dopo merge fuori ordine (#214 prima #215), chiede il significato della CI — si aspetta metafora collaudo (compila+test+E2E), pallini GitHub, cosa fare dopo (#215 per verde su main); rassicurazione se ordine merge invertito. Vedi L-314.",

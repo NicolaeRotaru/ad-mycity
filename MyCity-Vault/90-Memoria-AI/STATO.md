@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 18:58
-fonte: AD digitale (chat Nicola 19/7 18:58)
+aggiornato: 2026-07-19 19:00
+fonte: AD digitale (chat Nicola 19/7 19:00)
 ---
+
+> 💬 **19/7 18:59 — CHAT: «Perché il push è rifiutato? Devo mettere qualcosa nell allowlist?» — NO allowlist.** Nicola confonde push con apertura PR. AD verifica retry: **push su `fix/render-build-orders-page` OK**; rifiutato solo `gh pr create` (**403 rate limit** GitHub). Allowlist validata 16:54 — nessuna modifica richiesta. Codice su GitHub, manca scheda PR (#197). Fonte: chat Nicola 19/7 18:59.
 
 > 💬 **19/7 18:57 — CHAT: «Perché non apri tu la PR?» — rate limit GitHub confermato al retry.** Nicola dopo fix build Render: AD ha **riprovato** `gh pr create` → **403 rate limit** (stesso blocco 18:56). Branch `fix/render-build-orders-page` + commit `5497b96` **su GitHub** — manca solo scheda PR. Retry automatico ~1h o Compare manuale su mycity. Coda **#197** in attesa. Fonte: chat Nicola 19/7 18:57.
 
