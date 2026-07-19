@@ -2973,7 +2973,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         >
           {/* Colonna centrata con bordi laterali — solo workerFull su desktop */}
           <div
-            className={workerFull ? "relative flex flex-col flex-1 min-h-0 w-full sm:max-w-5xl sm:mx-auto sm:border-l sm:border-r" : "flex flex-col flex-1 min-h-0"}
+            className={workerFull ? "relative flex flex-col flex-1 min-h-0 w-full sm:max-w-5xl sm:mx-auto sm:border-l sm:border-r overflow-hidden" : "flex flex-col flex-1 min-h-0 overflow-hidden"}
             style={workerFull ? { borderColor: "var(--border)" } : undefined}
           >
           <div className="px-4 py-3 shrink-0 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
@@ -3018,7 +3018,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </button>
           </div>
           {/* Corpo chat SEMPRE montato; il cassetto "Conversazioni" scorre SOPRA da sinistra (come nel desktop). */}
-          <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 min-h-0 p-3.5 space-y-3 overflow-y-auto">
+          <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 min-h-0 p-3.5 space-y-3 overflow-y-auto overscroll-contain">
             {messages
               .filter((m) => !m.prompt)
               .map((m, i) => (
@@ -3056,7 +3056,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               ))}
             <div ref={chatFabEndRef} />
           </div>
-          <div className="shrink-0">
+          <div
+            className="shrink-0 sticky bottom-0 z-10"
+            style={{
+              background: "var(--bg-surface)",
+              boxShadow: "0 -8px 24px rgba(0,0,0,0.1)",
+              paddingBottom: workerFull ? "env(safe-area-inset-bottom, 0px)" : undefined,
+            }}
+          >
           <BarraScritturaChat
             ref={chatInputRef}
             variant={workerFull ? "assistente" : "fluttuante"}
