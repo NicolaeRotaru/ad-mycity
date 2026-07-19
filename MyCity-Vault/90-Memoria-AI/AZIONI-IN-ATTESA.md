@@ -166,7 +166,7 @@ L'AD usa `mcp__supabase-marketplace__apply_migration` (tool MCP intermittente) p
 
 ### 🔴 #post-siamo-in-23 — Pubblica "Siamo in 23" nei gruppi Facebook locali · ⏳ accodata 2026-07-18 11:30
 
-**Contesto:** Post del 18/7 — angolo "numeri piccoli come forza" (swipe #6). Usa il dato reale 23 iscritti. Neutro, nessun consenso bottega richiesto. Post pronto in `consegne/content/2026-07-18-post-del-giorno-siamo-in-23.md`.
+**Contesto:** Post del 18/7 — angolo "numeri piccoli come forza" (swipe #6). ⚠️ **Correzione Nicola 19/7: iscritti = 4, non 23** — aggiornare il testo del post prima di pubblicare. Neutro, nessun consenso bottega richiesto. Bozza originale in `consegne/content/2026-07-18-post-del-giorno-siamo-in-23.md`.
 
 **Cosa cambia:** il brand appare sui gruppi Facebook con un dato onesto e un countdown ("mancano 27 ai primi 50"). Prima uscita social della settimana.
 
@@ -182,9 +182,9 @@ L'AD usa `mcp__supabase-marketplace__apply_migration` (tool MCP intermittente) p
 
 **Contesto:** North Star è 0 da 24 giorni. Un ordine di test fatto da Nicola (anche piccolo: es. pane €3-5) verifica end-to-end il flusso checkout→pagamento→consegna e conta come primo ordine reale. Costo = il prezzo del prodotto.
 
-**Cosa cambia:** il North Star passa da 0 a 1, si sa che la macchina funziona, si sblocca la comunicazione ai 23 clienti.
+**Cosa cambia:** il North Star passa da 0 a 1, si sa che la macchina funziona, si sblocca la comunicazione ai **4 iscritti** (correzione Nicola 19/7).
 
-**Se va bene:** PQ evade l'ordine → possiamo mandare l'email ai 23 iscritti con "la consegna funziona".
+**Se va bene:** PQ evade l'ordine → possiamo mandare l'email ai 4 iscritti con "la consegna funziona".
 
 **Canale:** manuale (Nicola apre mycity-marketplace.com e ordina)
 
@@ -204,15 +204,15 @@ L'AD usa `mcp__supabase-marketplace__apply_migration` (tool MCP intermittente) p
 
 ---
 
-### 🟡 #welcome-email-23 — Invia la welcome email ai 23 iscritti via Gmail · ⏳ accodata 2026-07-18 06:30
+### 🟡 #welcome-email-23 — Invia la welcome email ai 4 iscritti via Gmail · ⏳ accodata 2026-07-18 06:30
 
-**Contesto:** 23 clienti iscritti non hanno mai ricevuto un messaggio da MyCity. Nessuna welcome email. Rischio: si dimenticano di noi.
+**Contesto:** **4 clienti iscritti** (correzione Nicola 19/7 — non 23) non hanno mai ricevuto un messaggio da MyCity. Nessuna welcome email. Rischio: si dimenticano di noi.
 
 **Gate:** PQ deve essere pronto ad evadere ordini (conferma da Nicola). Senza PQ operativo, rimandare.
 
-**Cosa fare:** recupera le 23 email da /admin/users del Pannello → invia via Gmail BCC. Testo: `consegne/crm/welcome-email-23.md` (da preparare 🟢 prima dell'invio).
+**Cosa fare:** recupera le 4 email da /admin/users del Pannello → invia via Gmail BCC. Testo: `consegne/crm/welcome-email-23.md` (da adattare al numero reale 🟢 prima dell'invio).
 
-**Cosa cambia:** 23 clienti ricevono il primo messaggio → 2-3 risposte/click attesi → 1 primo ordine entro 48h.
+**Cosa cambia:** 4 clienti ricevono il primo messaggio → 1-2 risposte/click attesi → 1 primo ordine entro 48h.
 
 **Se va bene:** 1 ordine completato → sblocca tutto il funnel (recensioni, referral, reputazione).
 
@@ -951,8 +951,8 @@ cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
 | 184 | 2026-07-18 23:11 | @tech | Merge PR #464 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/464 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 185 | 2026-07-18 23:46 | @tech | Merge PR #465 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/465 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 186 | 2026-07-18 23:51 | @tech | Merge PR #466 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/466 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 187 | 2026-07-19 00:20 | @tech | Merge PR #467 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/467 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 188 | 2026-07-19 00:37 | @tech | Merge PR #468 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/468 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 187 | 2026-07-19 00:20 | @tech | Merge PR #467 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/467 | github | ✅ FATTO 2026-07-19 02:00 | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 188 | 2026-07-19 00:37 | @tech | Merge PR #468 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/468 | github | ✅ FATTO 2026-07-19 03:40 | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | ✅ ARCHIVIATA housekeeping 14/7 | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |

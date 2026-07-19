@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 01:45
+aggiornato: 2026-07-19 12:47
 fonte: AD digitale (metabolizzazione chat 19/7)
 ---
+
+> 💬 **19/7 12:47 — CHAT: sessione ripresa («Ciao»).** Nessun nuovo dato da Nicola — AD ha riassunto coda (PR pendenti, bando CCIAA domani 10:00, correzione 4 iscritti, Telegram senza chiavi). Memoria locale: file worker non committati (giro interrotto stamattina). Fonte: chat Nicola 19/7 12:47.
+
+> ✅ **19/7 03:40 — FATTO: PR #467 e #468 mergiate.** #467 = display ricco peer review live. #468 = proposte «implementata» nascoste dal Pannello. Fonte: DECISIONI + merge Nicola.
 
 > ✅ **19/7 02:35 — CHIUSO: delta-gate [REVIEW 3/7] AR-019/AR-025.** Nicola ha chiesto «c'è ancora questo problema?» — AD ha verificato nel codice: `cervello/delta-gate.mjs` usa già lo stato booleano (cieco sì/no) e non il contatore incrementale `max_giri_ciechi`. Fix confermato in produzione. Casella archiviabile. Fonte: chat Nicola 19/7 02:35.
 
@@ -12,7 +16,7 @@ fonte: AD digitale (metabolizzazione chat 19/7)
 
 > ✅ **19/7 01:10 — FATTO: baseline esperimenti corretti 23→4.** EXP-003/004/005 in auto-miglioramento.json aggiornati con il numero confermato da Nicola (19/7: «a me risultano solo 4»). Note benchmark @crm-lifecycle aggiornata. Il «23 clienti» nei giri storici resta come era (storia esente). Fonte: metabolizzazione chat 19/7.
 
-> ⚠️ **19/7 00:40 — CORREZIONE NICOLA: iscritti = 4, non 23.** Nicola: «chi sono i 23 iscritti, a me risultano solo 4». Il «23 clienti» in STATO.md e in EXP-001 non era verificato dal DB live — era stale o contava categorie diverse (profili totali vs clienti reali). Il numero reale nella dashboard Supabase è **4** (da chiarire: auth.users totali o solo clienti esclusi negozi/admin). Pendente: aggiornare EXP-001 baseline da 23→4 quando Nicola conferma. L-2026-0719-279.
+> ✅ **19/7 00:40 — CORREZIONE NICOLA: iscritti = 4, non 23.** Nicola: «chi sono i 23 iscritti, a me risultano solo 4». Il «23 clienti» non era verificato dal DB live. Numero reale dashboard Supabase: **4** (fonte: chat Nicola 19/7 00:22). EXP-001 e azioni coda aggiornati a 4. L-2026-0719-279.
 
 > 💬 **19/7 00:30 — CHAT: peer_review popolata (5 revisioni) + cadenze auto-miglioramento chiarite.** Nicola ha detto «si, popolalo» → 5 peer review aggiunte su fatti reali (qa su tech voto 6, security su backend voto 5, analista su data-engineer voto 6, direttore-creativo su content voto 4, product-manager su frontend/ux voto 6). Cadenze: esperimenti contatori auto ogni 2h, proposte_auto_riscrittura auto ogni giro, benchmark e peer_review solo manuale. Nicola vuole capire cosa si aggiorna da solo — possibile richiesta di aumentare l'automazione. Fonte: chat Nicola 19/7 00:10-00:30.
 
