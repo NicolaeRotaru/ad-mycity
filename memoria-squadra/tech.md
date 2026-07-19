@@ -8,6 +8,8 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 16:55 · Migrazioni 109-111 post-PR #213 · atteso apply_migration o SQL Editor dopo merge · reale: verifica DB — mancano rider_fee_cents + public_profiles → NON applicate; Nicola chiede conferma esplicita · L-294 · #migrazioni #supabase #fix-35-gravi #esito
+- 2026-07-18 19:45 · 35 fix radiografia + PR #213 · atteso branch pushato + conflitti risolti · reale: 9 batch, rebase webhook+Navbar, force-push, PR mergeable; git -C marketplace allowlist attiva dopo Nicola «Fatto» · L-272 · #radiografia #marketplace #pr-213 #esito
 - 2026-07-16 17:45 · Deploy Vercel rotto dopo merge PR #411: confronto vista==='assistente' dentro il blocco della chat fluttuante dove il tipo è già ristretto (page.tsx:2959) · build: da ERROR a verde · atteso tsc e next build passano dopo il fix di 1 riga → reale tsc 0 errori + next build completato in locale · #pannello #vercel #typescript
 - 2026-07-16 12:05 · Secondo giro perfezionamento parity: prompt-attrezzi, classe auth retry+Pannello, registro-fatti motore, test specchia · 21/21 bats + tsc 0 errori · atteso 6 rifiniture senza regressioni → reale 6 rifiniture chiuse, guardiano coerenza exit 0 · #motore-ai #parity #retry
 - 2026-07-16 11:40 · Fix parity motore Cursor→Claude: skill specchiate, preflight auth, Pannello per-motore, rotaie carta al ramo unico · 17/17 bats + tsc 0 errori, 4/4 punti chiusi in una sessione · atteso 4 gap chiusi con test di guardia → reale 4 gap chiusi (residuo: .env.example non toccabile) · #motore-ai #parity #worker

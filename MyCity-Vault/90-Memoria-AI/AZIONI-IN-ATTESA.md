@@ -153,15 +153,16 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🔴 #fix-35-gravi — Mergia la PR #213 e poi dì all'AD di applicare le 3 migrazioni · ⏳ aggiornata 2026-07-18 19:55
+### 🔴 #fix-35-gravi — Mergia la PR #213 e applica le 3 migrazioni (109→110→111) · ⏳ aggiornata 2026-07-19 16:55
 
 **Contesto:** 9 batch completati (2026-07-18), conflitti risolti via rebase (18/7 19:45). PR #213 pronta senza conflitti. Nicola ha chiesto (18/7 19:50) all'AD di applicare le 3 migrazioni direttamente.
+
+**⚠️ Verifica DB 19/7 16:55:** migrazioni **NON ancora applicate** — mancano `rider_fee_cents` e vista `public_profiles` sul database live.
 
 **Step 1 — Nicola mergia la PR:**
 https://github.com/NicolaeRotaru/mycity/pull/213
 
-**Step 2 — Scrivi all'AD «Applica le migrazioni»:**
-L'AD usa `mcp__supabase-marketplace__apply_migration` (tool MCP intermittente) per applicare in ordine:
+**Step 2 — Applica le 3 migrazioni in ordine** (SQL Editor Supabase oppure AD con `apply_migration` se allowlist attiva):
 - `migrations/109_fix_020_rls_columns.sql` (RLS migrazione 020 + 9 indici)
 - `migrations/110_public_profile_view.sql` (view profilo pubblico senza IBAN/CF)
 - `migrations/111_rider_fee_cents.sql` (colonna rider_fee_cents)
@@ -169,7 +170,7 @@ L'AD usa `mcp__supabase-marketplace__apply_migration` (tool MCP intermittente) p
 **Cosa cambia:** 35 vulnerabilità/bug gravi corretti + schema DB aggiornato.
 **Se va bene:** il marketplace è significativamente più sicuro, i payout rider sono disaccoppiati dal costo spedizione.
 
-- **Colore:** 🔴 (deploy marketplace — mergia Nicola + AD applica migrazioni MCP)
+- **Colore:** 🔴 (deploy marketplace — mergia Nicola + migrazioni DB)
 - **Reparto:** tech / backend-dev
 
 ---

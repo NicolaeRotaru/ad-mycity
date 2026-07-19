@@ -3,6 +3,12 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 16:55 · 🟢 · [Migrazioni 109/110/111 — verificate NON applicate sul DB] · **Nicola: «Hai applicato le 3 migrations?»** AD ricontrolla live: mancano colonna `rider_fee_cents` e vista `public_profiles` → migrazioni post-PR #213 **non eseguite**. Turno 18/7 `apply_migration` MCP era bloccato (box approvazione assente in chat Pannello). **Fatto (🟢):** risposta onesta + STATO + card #fix-35-gravi aggiornata. **Pendente (🔴):** merge PR #213 + SQL 109→110→111. L-294.
+
+2026-07-18 19:50 · 🟡 · [Nicola chiede all'AD di applicare le 3 migrazioni marketplace] · **Nicola: «Applica tu le 3 migrazioni».** Dopo PR #213 (35 fix radiografia). AD non ha completato in quel turno — permesso `apply_migration` non approvabile dalla chat. Sequenza concordata: merge PR → migrazioni → verifica DB. · azione:fix-35-gravi
+
+2026-07-18 13:28 · 🟡 · [Nicola «Fai i 4 punti in attesa» — via libera bloccanti macchina] · **Nicola ordina esecuzione dei 4 pacchetti fermi:** ✅ #fix-termometro-guardiani (PR #448) · ✅ #fix-pannello-bloccanti (PR #450) · ✅ #fix-35-gravi (9 batch, PR #213) · ⏳ R4 residuo (AR-043 + AR-040/041/042). Precedente chiarimento 3-tier su «Non avevo già fatto i fix?». · azione:fix-termometro-guardiani #fix-pannello-bloccanti #fix-35-gravi R4
+
 2026-07-19 16:54 · 🟢 · [Allowlist MCP — Nicola ha corretto il file, JSON validato] · **Nicola: «Controlla se ho fatto giusto».** AD ha parseato `settings.local.json` sul VPS: JSON valido, 9 voci MCP (5 Vercel + 2 marketplace + 2 memoria), trailing comma rimosso. Config allowlist completata. Verifica runtime MCP in nuova chat ancora da fare («quanti utenti ci sono?»). Card #abilita-mcp-supabase-chat → ✅ FATTO lato config. L-293.
 
 2026-07-19 16:48 · 🟢 · [Allowlist MCP — istruzioni delta dopo verifica file esistente] · **Nicola: «Controlla quelli che ci sono già e riscrivi le righe che devi inserire».** AD ha letto `settings.local.json` sul VPS: Vercel×5 + Supabase marketplace×2 già incollati; fix minimo = rimuovere trailing comma su ultima riga + (opzionale) aggiungere 2 righe memoria. Non sostituire l'intero blocco quando le voci essenziali ci sono già. Card #abilita-mcp-supabase-chat aggiornata con sequenza delta. L-292.
