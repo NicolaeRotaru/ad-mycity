@@ -40,12 +40,12 @@ function headers() {
 // Il timeout evita che una risposta lenta resti appesa fino al kill di Vercel;
 // il retry copre i singoli intoppi del pooler/rete. I 4xx (tranne 429) NON si ritentano.
 const SB_TIMEOUT_MS = 8000;
-async function sbFetch(url: string, opts: RequestInit = {}, retries = 0): Promise<Response> {
+async function sbFetch(url: string, opts: RequestInit = {}, retries = 0, timeoutMs = SB_TIMEOUT_MS): Promise<Response> {
   let ultimoErrore: unknown;
   for (let tentativo = 0; tentativo <= retries; tentativo++) {
     if (tentativo > 0) await new Promise((r) => setTimeout(r, 300 * tentativo));
     const ac = new AbortController();
-    const timer = setTimeout(() => ac.abort(), SB_TIMEOUT_MS);
+    const timer = setTimeout(() => ac.abort(), timeoutMs);
     try {
       const res = await fetch(url, { ...opts, signal: ac.signal });
       clearTimeout(timer);
@@ -165,12 +165,12 @@ export class MemoriaNonCollegata extends Error {
   }
 }
 
-async function postLavoroUnaVolta(payload: Record<string, string>, gruppoId?: string | null): Promise<Response> {
+async function postLavoroUnaVolta(payload: Record<string, string>, gruppoId?: string | null, timeoutMs = SB_TIMEOUT_MS): Promise<Response> {
   let res = await sbFetch(`${URL}/rest/v1/lavori`, {
     method: "POST",
     headers: { ...headers(), Prefer: "return=representation" },
     body: JSON.stringify(payload),
-  });
+  }, 0, timeoutMs);
   // Se la colonna gruppo_id non esiste sul DB, riprova SUBITO senza (non è un fallimento di rete).
   if (!res.ok && gruppoId) {
     const { gruppo_id: _g, ...senzaGruppo } = payload;
@@ -178,38 +178,73 @@ async function postLavoroUnaVolta(payload: Record<string, string>, gruppoId?: st
       method: "POST",
       headers: { ...headers(), Prefer: "return=representation" },
       body: JSON.stringify(senzaGruppo),
-    });
+    }, 0, timeoutMs);
   }
   return res;
 }
 
-// Crea un lavoro. Lancia MemoriaNonCollegata se mancano le chiavi (config);
-// ritorna null solo se, DOPO i ritentativi, il DB continua a non rispondere
-// (intoppo di connessione passeggero — la tabella esiste, non è "mancante").
-export async function creaLavoro(richiesta: string, tipo = "analisi", gruppoId?: string | null): Promise<Lavoro | null> {
-  if (!memoryConnected()) throw new MemoriaNonCollegata();
+// Perché la creazione del lavoro NON è andata a buon fine. Distingue i casi che
+// prima collassavano tutti nel generico "riprova tra poco":
+//  - config  → mancano le chiavi Supabase negli env (va sistemato, non è passeggero)
+//  - timeout → il DB non ha risposto entro il tempo (passeggero: riprovare ha senso)
+//  - rete    → non ho raggiunto il DB (DNS/connessione)
+//  - rifiuto → il DB ha risposto ma ha RIFIUTATO la scrittura (HTTP 4xx/5xx: RLS,
+//              schema, permessi) → stabile, riprovare non basta, va indagato
+export type MotivoLavoro = "config" | "timeout" | "rete" | "rifiuto";
+export type EsitoLavoro =
+  | { ok: true; lavoro: Lavoro }
+  | { ok: false; motivo: MotivoLavoro; status?: number; dettaglio: string };
+
+// Budget di tempo TOTALE tenuto sotto il limite di durata della funzione Vercel:
+// al massimo 2 tentativi da 4s con 300ms di pausa ≈ 8,3s nel caso peggiore. Così la
+// funzione fa in tempo a RITORNARE l'errore vero, invece di essere uccisa a metà
+// (era la causa per cui usciva sempre il messaggio generico "riprova tra poco").
+const LAVORO_TIMEOUT_MS = 4000;
+const LAVORO_TENTATIVI = 2;
+
+/** Crea un lavoro e dice ESATTAMENTE cosa è successo (per la chat/coda del Pannello). */
+export async function creaLavoroEsito(richiesta: string, tipo = "analisi", gruppoId?: string | null): Promise<EsitoLavoro> {
+  if (!memoryConnected()) {
+    return { ok: false, motivo: "config", dettaglio: "mancano SUPABASE_URL / SUPABASE_SERVICE_KEY negli env di Vercel" };
+  }
   const payload: Record<string, string> = { richiesta, tipo, stato: "in_attesa" };
   if (gruppoId) payload.gruppo_id = gruppoId;
-  // Ritenta i fallimenti transitori (rete/pooler/5xx): 3 tentativi con backoff breve.
-  // Così un singolo intoppo non fa "sparire" il messaggio di Nicola.
-  let ultimoStato = 0;
-  for (let tentativo = 0; tentativo < 3; tentativo++) {
-    if (tentativo > 0) await new Promise((r) => setTimeout(r, 400 * tentativo));
+  let ultimo: { motivo: MotivoLavoro; status?: number; dettaglio: string } = {
+    motivo: "rete",
+    dettaglio: "nessuna risposta dal database di memoria",
+  };
+  for (let tentativo = 0; tentativo < LAVORO_TENTATIVI; tentativo++) {
+    if (tentativo > 0) await new Promise((r) => setTimeout(r, 300 * tentativo));
     try {
-      const res = await postLavoroUnaVolta(payload, gruppoId);
+      const res = await postLavoroUnaVolta(payload, gruppoId, LAVORO_TIMEOUT_MS);
       if (res.ok) {
         const rows = (await res.json()) as Lavoro[];
-        return rows[0] || null;
+        if (rows[0]) return { ok: true, lavoro: rows[0] };
+        ultimo = { motivo: "rifiuto", status: res.status, dettaglio: "il DB ha risposto ma non ha restituito la riga creata" };
+        continue;
       }
-      ultimoStato = res.status;
-      // 4xx diversi da 429 = errore stabile (richiesta malformata, RLS): inutile ritentare.
+      const corpo = (await res.text().catch(() => "")).slice(0, 300).trim();
+      ultimo = { motivo: "rifiuto", status: res.status, dettaglio: corpo || res.statusText || "scrittura rifiutata" };
+      // 4xx diversi da 429 = errore STABILE (richiesta malformata, RLS, permessi): inutile ritentare.
       if (res.status >= 400 && res.status < 500 && res.status !== 429) break;
-    } catch {
-      /* rete caduta: ritento */
+    } catch (e: any) {
+      if (e?.name === "AbortError") {
+        ultimo = { motivo: "timeout", dettaglio: `il DB non ha risposto entro ${LAVORO_TIMEOUT_MS} ms` };
+      } else {
+        ultimo = { motivo: "rete", dettaglio: e?.message || "errore di rete verso il database di memoria" };
+      }
     }
   }
-  void ultimoStato;
-  return null;
+  return { ok: false, ...ultimo };
+}
+
+// Crea un lavoro. Lancia MemoriaNonCollegata se mancano le chiavi (config, per i
+// chiamanti storici che si aspettano l'eccezione); ritorna null se il DB non
+// accetta la scrittura. Chi vuole il MOTIVO preciso usa creaLavoroEsito().
+export async function creaLavoro(richiesta: string, tipo = "analisi", gruppoId?: string | null): Promise<Lavoro | null> {
+  if (!memoryConnected()) throw new MemoriaNonCollegata();
+  const esito = await creaLavoroEsito(richiesta, tipo, gruppoId);
+  return esito.ok ? esito.lavoro : null;
 }
 
 /** Un singolo lavoro per id, corpo completo (o null). */
