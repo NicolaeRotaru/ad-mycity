@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 18:38",
+  "aggiornato": "2026-07-19 18:40",
+  "_nota_metabolizzazione_19_07_1840": "Chat 19/7 ~18:38: Nicola casella Supervisione «Fai i 2 fix» → 252 condition nuovo + 242 unit pezzo live, REST 0 null, PR #480 bug tool. L-312 nuova; preferenza fai-i-2-fix; L-216 evidenze++.",
   "_nota_metabolizzazione_19_07_1838": "Chat 19/7 ~18:37: Nicola «Tu riesci a lavorare con CI?» + screenshot check PR #214. AD: sì; unit rossi pre-esistenti su main (migration 107 + mock Stripe, 13/715), E2E+integration ok, merge PR #214 ok. L-311 nuova; preferenza CI-capability.",
   "_nota_metabolizzazione_19_07_1832": "Chat 19/7 ~18:29: Nicola «navbar a destra non si vedono le icone» + screenshot marketplace mobile. AD PR #214 mycity: badge carrello copriva icona. L-310 nuova; preferenza marketplace-vs-pannello screenshot.",
   "_nota_metabolizzazione_19_07_1827": "Chat 19/7 ~18:27: Nicola «Aggiungi la possibilità di parlare con queste caselle» + screenshot Diretta contenuti. AD PR #479 (1b9cd7c9): ParlaConCasella su ogni scheda. L-309 nuova; preferenza parla-casella Diretta; L-117 pattern rinforzato.",
@@ -30,6 +31,30 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-312",
+      "testo": "**Supervisione — «Fai i 2 fix» dalla casella = eseguire entrambi gli autofill live (Nicola 19/7 ~18:38).** Casella Supervisione negozi 18:20 proponeva 2 gruppi separati (252 `condition=nuovo` + 242 `unit=pezzo`). Nicola «Fai i 2 fix» = via libera esplicita ai 2 batch, non solo uno. 5 perché: (1) standing-ask L-216 — 2 card gialles separate, approvazione gruppo per gruppo; (2) «Fai i 2 fix» conta come ok su entrambi in un colpo; (3) esecuzione `marketplace.mjs aggiorna` con backup batch undo versionato; (4) verifica REST post-run obbligatoria (0 null su condition/unit); (5) caveat food: «pezzo» su frutta/salumeria/latticini può essere errato → segnalare e correggere a mano. **Bug tool:** PR **#480** per fix che bloccava aggiornamento — merge 🟡 pendente Nicola. Regola: dopo ok supervisione → esegui subito + verifica REST + riporta numeri esatti + undo batch id.",
+      "tag": [
+        "supervisione",
+        "autofill",
+        "condition",
+        "unit",
+        "marketplace",
+        "products",
+        "pr-480",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@onboarding-negozi",
+      "confidenza": 0.96,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 18:40",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-311",
       "testo": "**CI marketplace — unit test rossi su main, non bloccano merge PR (Nicola 19/7 ~18:37).** «Tu riesci a lavorare con CI?» + screenshot check GitHub PR #214. 5 perché: (1) Nicola vuole sapere se l'AD può diagnosticare CI, non solo aprire PR; (2) l'AD **può** — legge check GitHub (`gh pr checks`) e rilancia suite in locale sul repo marketplace; (3) PR #214: E2E + integration ✅, unit ❌ — ma verificando su `main` gli unit falliscono **già prima** del fix navbar; (4) causa debito: migration n.107 duplicata + mock Stripe incompleto → 13 fallimenti su 715 test; (5) GitHub mostra «Ready to merge» perché i unit test **non sono required check** — il rosso non blocca merge icona carrello. Regola: check CI rossi su PR → **sempre** confrontare con `main` prima di attribuire regressione alla PR; se pre-esistente, dire esplicitamente «puoi mergiare lo stesso» vs «serve PR separata per CI verde». Vedi L-310.",
@@ -2143,11 +2168,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.94,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-14",
-      "ultima_conferma": "2026-07-14 02:58",
+      "ultima_conferma": "2026-07-19 18:40",
       "stato": "attiva"
     },
     {
@@ -7041,6 +7066,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Supervisione — «Fai i 2 fix» dalla casella = eseguire subito entrambi gli autofill (chat 19/7 ~18:38):** dalla casella Supervisione approva con frase breve i 2 gruppi proposti (condition + unit) — si aspetta esecuzione live immediata, numeri esatti (252+242), verifica REST, batch undo citati, caveat food se «pezzo» non va; se tool bloccato → PR fix + chiedi merge. Vedi L-312, L-216.",
     "**CI — vuole sapere se l'AD legge e sistema i check GitHub (chat 19/7 ~18:37):** «Tu riesci a lavorare con CI?» — si aspetta sì/no concreto + quali check passano/falliscono + se il rosso **blocca merge** o è debito pre-esistente su `main`; distingue «mergia lo stesso» vs «serve PR separata per CI verde». Vedi L-311.",
     "**Navbar icone invisibili — distinguere marketplace vs Pannello dal screenshot (chat 19/7 ~18:29):** «Dentro la navbar a destra non si vedono le icone» — lo screenshot era il **sito MyCity mobile** (header carrello), non il Pannello; si aspetta fix visivo immediato (icona carrello visibile, non solo il numero). Merge **PR #214** mycity → deploy Render → ricarica telefono. Vedi L-310.",
     "**Diretta contenuti — «Parla con questa casella» su ogni scheda (chat 19/7 ~18:27):** stessa frase letterale già usata su Avvisi/Ritmo — sotto ogni post/bozza/supervisione in tab Diretta vuole dialogare sul contenuto (copy, timing, reparto) senza uscire dalla tab; merge **PR #479** → ricarica tab. Vedi L-309, L-117.",

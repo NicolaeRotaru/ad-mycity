@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 18:38
-fonte: AD digitale (chat Nicola 19/7 18:38)
+aggiornato: 2026-07-19 18:40
+fonte: AD digitale (chat Nicola 19/7 18:40)
 ---
+
+> ✅ **19/7 18:38 — FATTO: autofill supervisione — condizione + unità su catalogo live.** Nicola dalla casella Supervisione: «Fai i 2 fix». AD eseguito con `marketplace.mjs aggiorna` (AZIONI_LIVE): **252** prodotti `condition=nuovo` + **242** prodotti `unit=pezzo`, zero errori batch. Verifica REST post-run: **0** prodotti con `condition` null, **0** con `unit` null. Backup reversibile: batch `sup-2026-07-19-products-condition` / `sup-2026-07-19-products-unit`. ⚠️ frutta/salumeria/latticini: «pezzo» può essere sbagliato (kg/etto) — revisione manuale se segnalato. **PR #480** 🟡 (bug che bloccava lo strumento aggiornamento) — merge pendente Nicola. Fonte: chat Nicola 19/7 18:38.
 
 > 💬 **19/7 18:38 — CHAT: CI PR #214 — unit test rossi su main, merge ok.** Nicola: «Tu riesci a lavorare con CI?» + screenshot check GitHub. AD: **sì** — legge check GitHub e può rilanciare test in locale. **PR #214** (navbar carrello): E2E + integration ✅ · unit ❌ ma **pre-esistenti su `main`** (migration n.107 duplicata + mock Stripe incompleto, 13 fallimenti su 715) — non regressione del fix navbar. GitHub «Ready to merge» (unit non sono required check). CI tutta verde = PR separata su `main` (offerta AD, pendente ok Nicola). Fonte: chat Nicola 19/7 18:37–18:38.
 

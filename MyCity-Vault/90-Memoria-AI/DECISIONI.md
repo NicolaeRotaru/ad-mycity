@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 18:38 · 🟡 · [Autofill supervisione — condizione «nuovo» + unità «pezzo»] · **Nicola dalla casella Supervisione: «Fai i 2 fix».** Approvazione esplicita dei 2 gruppi autofill del report 19/7 18:20 (252 condition + 242 unit, valori DEDOTTI, reversibili). AD eseguito live sul marketplace: zero errori, REST post-run 0 null. Batch undo versionati. Attenzione segnalata su categorie food (unità «pezzo» vs kg). **PR #480** aperta per bug `marketplace.mjs` che bloccava lo strumento — merge pendente. L-312.
+
 2026-07-19 18:32 · 🟡 · [PR #214 marketplace — fix icona carrello navbar mobile] · **Nicola: «Dentro la navbar a destra non si vedono le icone».** Screenshot = sito MyCity mobile (header alto a destra), non Pannello. Badge contatore carrello copriva l'icona interamente. AD PR #214 su repo mycity (`fix/mobile-navbar-cart-icon`): riposizionamento badge + icona carrello visibile anche con carrello pieno e utente non loggato. Pendente merge Nicola → deploy Render. L-310.
 
 2026-07-19 18:20 · 🟡 · [PR #478 — PNG Playwright visibili in Diretta contenuti] · **Nicola: «Scrivi il commit per vederli su diretta/panello».** Dopo render Playwright OK (18:12), PNG sul server ma tab Diretta mostrava ancora SVG/testo. AD commit `625600fa` + PR #478: frontmatter `anteprima` → PNG Playwright del post domenica PQ. Pendente merge Nicola. L-308, L-303.

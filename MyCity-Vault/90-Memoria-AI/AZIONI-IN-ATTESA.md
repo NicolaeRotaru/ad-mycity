@@ -1076,23 +1076,23 @@ Report completo con comandi pronti: `consegne/supervisione/2026-07-19-supervisio
 
 ---
 
-### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno
+### ✅ Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno — **FATTO 2026-07-19 18:38**
 
 | Colore | Quanti | Cosa cambia | Se va bene |
 |---|---|---|---|
-| 🟡 | 252 | 252 schede oggi incomplete mostrano condizione = «nuovo» (valore dedotto) ai clienti. | Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passi al gruppo successivo. Undo: annulla-batch. |
+| ✅ | 252 | 252 schede aggiornate con condizione = «nuovo» (valore dedotto). | Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passi al gruppo successivo. Undo: `annulla-batch sup-2026-07-19-products-condition`. |
 
-Approva **solo questo gruppo**: «ok riempi condizione». Comando e undo nel report.
+Nicola «Fai i 2 fix» dalla casella Supervisione — eseguito live, zero errori REST post-run.
 
 ---
 
-### 🟡 Metti «pezzo» come unità di misura ai 242 prodotti che non ce l'hanno
+### ✅ Metti «pezzo» come unità di misura ai 242 prodotti che non ce l'hanno — **FATTO 2026-07-19 18:38**
 
 | Colore | Quanti | Cosa cambia | Se va bene |
 |---|---|---|---|
-| 🟡 | 242 | 242 schede oggi incomplete mostrano unità di misura = «pezzo» (valore dedotto) ai clienti. | Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passi al gruppo successivo. Undo: annulla-batch. |
+| ✅ | 242 | 242 schede aggiornate con unità = «pezzo» (valore dedotto). | Cataloghi più completi = ricerca/filtri migliori e più fiducia. Undo: `annulla-batch sup-2026-07-19-products-unit`. ⚠️ frutta/salumeria/latticini: revisione manuale se unità errata. |
 
-Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo nel report.
+Nicola «Fai i 2 fix» dalla casella Supervisione — eseguito live, zero errori REST post-run.
 
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
