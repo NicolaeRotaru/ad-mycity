@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 21:07",
+  "aggiornato": "2026-07-19 21:47",
   "_nota_metabolizzazione_19_07_2100": "Chat 19/7 ~21:00: Nicola screenshot Termux — docker cp ok, n8n import:workflow fallisce NOT NULL workflow_entity.id; file modello senza id/versionId. AD fix JSON repo, Nicola riprova. L-329 nuova; L-328 addendum; preferenza n8n-cli-import-id; STATO+LEZIONI-CHAT+builder+DECISIONI aggiornati.",
   "_nota_metabolizzazione_19_07_2042": "Chat 19/7 ~20:42: Nicola «Non trovo il file» (2°) + screenshot My Files — JSON in Download ma picker n8n su cartella Download mostra solo file giugno (Termux ≠ browser). AD: import CLI server docker cp + n8n import:workflow. L-328 nuova; L-327 addendum+evidenze++; preferenza n8n-import-cli; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2032": "Chat 19/7 ~20:32: Nicola «Non trovo il file» + screenshot Termux scp ok + My Files Download con JSON — selettore n8n su File recenti (solo foto). AD: navigare Download, non riscaricare. L-327 nuova; L-326 evidenze++; preferenza n8n-file-picker; STATO+LEZIONI-CHAT+builder aggiornati.",
@@ -7738,9 +7738,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.22,
-    "tasso_calcolato_il": "2026-07-19 21:07",
+    "tasso_calcolato_il": "2026-07-19 21:47",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 21:07",
+    "tick_leggero_il": "2026-07-19 21:47",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

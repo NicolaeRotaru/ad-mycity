@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 21:00
-fonte: AD digitale (metabolizzazione chat Nicola 19/7 21:00)
+aggiornato: 2026-07-19 21:54
+fonte: AD digitale (metabolizzazione chat Nicola 19/7 21:54)
 ---
+
+> ✅ **19/7 ~21:54 — CHAT: n8n workflow importato.** Screenshot Brave: editor n8n con **«MyCity — Pubblica post programmato»** (Webhook → Instrada per canale → FB/IG/GBP/Telegram → Rispondi esito). Import CLI **ok** dopo fix `id`/`versionId` nel JSON. **Prossimo:** (1) attiva workflow (toggle **Active**), (2) copia URL webhook produzione dal nodo Webhook, (3) incolla in env worker `N8N_WEBHOOK_URL` (mai in chat), (4) restart worker, (5) login Meta / token pagina FB+IG (lento — post stasera resta copia-incolla). Fonte: chat Nicola 19/7 21:54.
 
 > ⏳ **19/7 ~21:00 — CHAT: n8n import CLI — `NOT NULL constraint failed: workflow_entity.id` (fix JSON).** Screenshot Termux: `docker cp` **ok**; `n8n import:workflow` fallisce perché al file modello mancavano campi **`id`** e **`versionId`** (import UI li genera, CLI no). AD ha aggiunto i campi in `consegne/automazioni/n8n/pubblica-post-programmato.json` sul worker — Nicola **riprova** copia+import in SSH. **Workflow non ancora importato.** Prossimo: successo CLI → ricarica n8n → «workflow importato» → OAuth Meta + webhook env. **`N8N_WEBHOOK_URL` ancora segnaposto.** Fonte: chat Nicola 19/7 21:00.
 
