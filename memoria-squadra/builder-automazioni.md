@@ -8,7 +8,8 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
-- 2026-07-19 17:34 · Playwright setup passo 1 font ✅ — Nicola «passo 1 fatto, passo 2 non so» · atteso: verifica font + comandi Termux passo 2 · reale: font ok server 17:34; 5 blocchi Node22 v22.17.1 consegnati uno alla volta; passo 3 pendente «fatto» · L-306 · #playwright #vps #termux
+- 2026-07-19 17:36 · Playwright setup passo 2 Node22 ✅ — Nicola «controlla se ho fatto tutto giusto» · atteso: verifica server + conferma · reale: `/opt/node22` v22.17.1 owner mycity ✅; passo 3 Playwright+Chromium consegnato · L-305 · #playwright #vps #termux
+- 2026-07-19 17:34 · Playwright setup passo 1 font ✅ — Nicola «passo 1 fatto, passo 2 non so» · atteso: verifica font + comandi Termux passo 2 · reale: font ok server 17:34; 5 blocchi Node22 v22.17.1 consegnati uno alla volta · L-306 · #playwright #vps #termux
 - 2026-07-19 17:26 · Playwright worker assente — Nicola chiede setup · atteso: verifica VPS + passi root + come dare strumenti · reale: assenti `/opt/node22`, `/opt/pw-browsers`, fontconfig; Node v24 ok; passi install consegnati; proposta PR setup auto 🟡 · L-305 · #playwright #content-factory #vps
 - 2026-07-14 01:06 · Coda Lavori percezione ferma — Nicola «perché non partono?» · atteso: diagnosi con telemetry reale · reale: worker ok 303/24h, seriale vs parallelo spiegato, Da approvare≠auto, #342 già chiusa · L-198 · #worker #coda #nicola
 - 2026-07-13 21:13 · Plugin menu ⚡ — Nicola «mettili in skill e comandi» · atteso: discoverability UI per grilling+ponytail · reale: solo 2 in chat per design; PR #352 chip in SKILL_RAPIDE; merge 🔴 #122 · L-172 · #worker #plugin #pannello #pr-352

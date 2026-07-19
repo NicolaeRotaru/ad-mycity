@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 17:36",
+  "aggiornato": "2026-07-19 17:37",
+  "_nota_metabolizzazione_19_07_1737": "Chat 19/7 ~17:36: Nicola «Controlla se ho fatto tutto giusto» dopo passo 2 Node22 Termux. Verifica server: v22.17.1 in /opt/node22, owner mycity ✅. L-305 aggiornata (node22 presente); L-306 evidenze++; preferenza verifica server post-setup.",
   "_nota_metabolizzazione_19_07_1734": "Chat 19/7 ~17:34: Nicola «Il passo 1 l'ho fatto, il secondo non so come farlo» (Playwright setup). Verifica server: font ✅; /opt/node22 ancora assente. AD comandi Termux blocchi singoli. L-306 nuova; L-305 evidenze++; preferenza comandi uno alla volta.",
   "_nota_metabolizzazione_19_07_1726": "Chat 19/7 ~17:26: Nicola «Come rendo operativo Playwright sul worker?» + strumenti contenuti potenti e come darli. Verifica VPS 17:25: assenti node22/pw-browsers/fontconfig. L-305 nuova; L-304 evidenze++; preferenza setup operativo.",
   "_nota_metabolizzazione_19_07_1721": "Chat 19/7 ~17:14–17:21: Nicola «Crea in Diretta» → PR #476+#477; correzione «volevo la grafica» (L-303); «quali strumenti grafica pro» (L-304). L-303 era in LEZIONI-CHAT ma mancava in JSON — aggiunta.",
@@ -24,7 +25,7 @@
   "lezioni": [
     {
       "id": "L-2026-0719-306",
-      "testo": "**Playwright setup VPS — «non so come farlo» = comandi Termux uno alla volta, verifica ogni passo (Nicola 19/7 ~17:34).** Dopo passo 1 font («l'ho fatto»), chiede aiuto passo 2 Node22 — non capisce istruzioni aggregate. 5 perché: (1) Nicola esegue da Termux root sul VPS, non da tutorial generico; (2) «non so come farlo» = vuole blocchi **incollabili singoli**, non paragrafo teorico; (3) AD deve **verificare server** prima (font ok 17:34) e dichiarare cosa resta; (4) attendere «fatto» o errore esatto prima del passo successivo (Playwright); (5) avviso kernel Termux non blocca install Node. Regola: setup VPS root → sequenza numerata, un comando per blocco, checkpoint (`node -v` → v22), niente saltare passi. Vedi L-305.",
+      "testo": "**Playwright setup VPS — «non so come farlo» = comandi Termux uno alla volta; «controlla se ho fatto giusto» = verifica server (Nicola 19/7 ~17:34→17:36).** Dopo passo 1 font («l'ho fatto»), chiede aiuto passo 2 Node22 — non capisce istruzioni aggregate. 5 perché: (1) Nicola esegue da Termux root sul VPS; (2) «non so come farlo» = blocchi **incollabili singoli**; (3) AD **verifica server** prima (font ok 17:34, node v22.17.1 ok 17:36) — non fiducia cieca sullo screenshot; (4) attendere «fatto» o errore prima del passo successivo; (5) avviso kernel Termux non blocca install Node. Regola: setup VPS root → sequenza numerata, un comando per blocco, checkpoint (`node -v` → v22). Vedi L-305.",
       "tag": [
         "playwright",
         "vps",
@@ -35,18 +36,18 @@
         "guida-operativa"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.94,
-      "evidenze": 1,
+      "confidenza": 0.95,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 17:34",
+      "ultima_conferma": "2026-07-19 17:36",
       "stato": "attiva",
       "usi": []
     },
     {
       "id": "L-2026-0719-305",
-      "testo": "**Playwright sul worker — setup root una tantum + come dare strumenti (Nicola 19/7 ~17:26, passo 1 ✅ 17:34).** «Come faccio a rendere operativo playwright su worker?» + «quali strumenti per contenuti potenti e come te li do?». Verifica VPS: **font ✅ 17:34**; ancora assenti `/opt/node22`, `/opt/pw-browsers`; Node sistema v24 ok; codice Content Factory punta path fisso che lo script setup VPS non crea → PNG rotti, SVG ok in Diretta. 5 perché: (1) Nicola vuole passi operativi, non teoria; (2) install richiede root — chat AD non può eseguirla; (3) ordine: font ✅ → Node22 in `/opt/node22` (in corso Termux) → `npm i -g playwright` + `npx playwright install chromium` con `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` → env in segreti worker → test `render-domenica-settimana.mjs`; (4) contenuti potenti = foto/video veri (leva #1) + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico per non perdere al prossimo aggiornamento server. Regola: verifica runtime cosa manca PRIMA dei passi; spiega cosa fa Nicola vs cosa fa l'AD. Vedi L-306.",
+      "testo": "**Playwright sul worker — setup root una tantum + come dare strumenti (Nicola 19/7 ~17:26, passo 1 ✅ 17:34, passo 2 ✅ 17:36).** «Come faccio a rendere operativo playwright su worker?» + «quali strumenti per contenuti potenti e come te li do?». Verifica VPS: **font ✅ 17:34** · **Node22 ✅ 17:36** (`/opt/node22/bin/node -v` → v22.17.1, owner mycity); ancora assente `/opt/pw-browsers`; Node sistema v24 ok; codice Content Factory punta path fisso che lo script setup VPS non crea → PNG rotti, SVG ok in Diretta. 5 perché: (1) Nicola vuole passi operativi, non teoria; (2) install richiede root — chat AD non può eseguirla; (3) ordine: font ✅ → Node22 ✅ → passo 3 `npm i -g playwright` + `npx playwright install chromium` con `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` → env in segreti worker → test `render-domenica-settimana.mjs`; (4) contenuti potenti = foto/video veri (leva #1) + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico per non perdere al prossimo aggiornamento server. Regola: verifica runtime cosa manca PRIMA dei passi; «controlla se ho fatto giusto» = prova server + screenshot, non fiducia cieca. Vedi L-306.",
       "tag": [
         "playwright",
         "content-factory",
@@ -57,12 +58,12 @@
         "strumenti"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.96,
-      "evidenze": 2,
+      "confidenza": 0.97,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 17:34",
+      "ultima_conferma": "2026-07-19 17:36",
       "stato": "attiva",
       "usi": []
     },
@@ -6919,6 +6920,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Playwright setup — dopo ogni passo chiede «controlla se ho fatto giusto» (chat 19/7 ~17:36):** si aspetta che l'AD **verifichi sul server** (es. `node -v`, owner cartella), non un ok generico sul solo screenshot; se ok → passo successivo uno alla volta (passo 3 Playwright). Vedi L-305, L-306.",
     "**Playwright setup VPS — comandi Termux uno alla volta quando «non so come farlo» (chat 19/7 ~17:34):** dopo passo 1 font («l'ho fatto»), chiede aiuto passo 2 Node22 — si aspetta blocchi incollabili **singoli** (mkdir → curl → tar → chown → verifica `node -v`), non istruzioni aggregate; AD verifica server prima di dare passi; attende conferma «fatto» o errore prima del passo 3. Termux root ok. Vedi L-306, L-305.",
     "**Grafiche — vuole sapere strumenti usati e cosa serve per livello pro (chat 19/7 ~17:21):** «Quali strumenti hai usato… quali ti servono per grafiche professionali?» — si aspetta risposta concreta su Content Factory/Playwright/SVG vs AI spenta, perché PNG sul server può rompersi (font), e cosa manca (foto bottega, Playwright operativo sul worker o PNG da Canva). Non accetta risposta vaga «l'AI fa tutto». Vedi L-304, L-300.",
     "**Diretta contenuti — vuole vedere la GRAFICA, non solo il testo (chat 19/7 ~17:17):** «Cio che volevo vedere era la grafica» — quando chiede contenuto «in Diretta», la scheda deve mostrare **subito l'immagine grande** (feed + mini storia), copy sotto o al clic; odia quando l'anteprima visiva è nascosta nel markdown. Fix PR #477. Vedi L-303.",

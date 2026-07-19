@@ -1,10 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 17:34
-fonte: AD digitale (chat Nicola 19/7 17:34)
+aggiornato: 2026-07-19 17:37
+fonte: AD digitale (chat Nicola 19/7 17:37)
 ---
 
-> ✅ **19/7 17:34 — FATTO: Playwright setup passo 1 (font) sul VPS.** Nicola: «Il passo 1 l'ho fatto» — AD verifica server 17:34: **font installati** (`fontconfig`, DejaVu, Liberation). **Passo 2 in corso:** Node 22 in `/opt/node22` — Nicola su Termux root, AD ha consegnato 5 comandi incollabili uno alla volta (tarball v22.17.1). Restano passi 3–6 (Playwright+Chromium, env worker, test render). Fonte: chat Nicola 19/7 17:34.
+> ✅ **19/7 17:37 — FATTO: Playwright setup passo 2 (Node 22) sul VPS.** Nicola: «Controlla se ho fatto tutto giusto» — AD verifica server 17:36: **`/opt/node22/bin/node -v` → `v22.17.1`**, owner `mycity:mycity` ✅ (screenshot Termux conferma). **Passo 1 font ✅ · passo 2 Node ✅.** **Prossimo:** passo 3 Playwright + Chromium (`PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`), poi env worker + test render `render-domenica-settimana.mjs`. Fonte: chat Nicola 19/7 17:37.
+
+> ✅ **19/7 17:34 — FATTO: Playwright setup passo 1 (font) sul VPS.** Nicola: «Il passo 1 l'ho fatto» — AD verifica server 17:34: **font installati** (`fontconfig`, DejaVu, Liberation). Fonte: chat Nicola 19/7 17:34.
 
 > 💬 **19/7 17:26 — CHAT: Playwright sul worker — verifica VPS + strumenti contenuti potenti.** Nicola: «Come faccio a rendere operativo playwright su worker?» + quali strumenti servono e come darli. AD verifica runtime VPS 17:25: **Playwright NON operativo** — assenti `/opt/node22`, `/opt/pw-browsers`, `fontconfig`; Node sistema v24.18.0 ok; PNG Content Factory escono rotti (font); SVG ok in Diretta. Setup richiede accesso **root** SSH (font → Node22 → Playwright+Chromium → env `PLAYWRIGHT_BROWSERS_PATH` in segreti worker). Contenuti potenti senza AI a consumo: foto/video veri bottega + render Playwright **oppure** PNG da Canva/Figma; chiavi AI solo se cambia regola [[niente-api-ai]]. Proposta PR setup automatico 🟡 pendente ok Nicola. Fonte: chat Nicola 19/7 17:26.
 
