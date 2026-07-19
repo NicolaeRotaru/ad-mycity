@@ -1,7 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 00:49",
-  "_nota_metabolizzazione_20_07_0049": "Chat 20/7 ~00:49: Nicola «n8n semplifica worker? stessa cosa? conviene delegare?» — architettura cervello/braccia. L-344 nuova; preferenza worker-vs-n8n-architettura; STATO+LEZIONI-CHAT+builder aggiornati.",
+  "aggiornato": "2026-07-20 00:51",
+  "_nota_metabolizzazione_20_07_0051": "Chat 20/7 ~00:51: Nicola «non è cambiato nulla» post-merge #482 scroll menu — fix animazione insufficiente, serve render async+reload DB. L-345 nuova; L-342 evidenze++ addendum; preferenza scroll-conferma-nicola; #200 FATTO; STATO+LEZIONI-CHAT+frontend-dev aggiornati; PR #483 in coda #201.",
   "_nota_metabolizzazione_20_07_0042b": "Chat 20/7 ~00:42: Nicola «come resi compatibili / perché non prima / quante volte serve dirglielo?» — meta-reflection processo AD. L-343 nuova; L-341 evidenze++ addendum trigger; preferenza no-trade-off-binario; STATO+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0042": "Chat 20/7 ~00:42: Nicola «aprendo chat dal menu sinistra vedo inizio non ultimo messaggio» — scroll prima fine animazione cassetto. L-342 nuova; preferenza scroll-fondo-menu; STATO+LEZIONI-CHAT+frontend-dev aggiornati; PR #482 già in coda #200.",
   "_nota_metabolizzazione_20_07_0036": "Chat 20/7 ~00:36: Nicola «tieni auto-apertura, fai sync comunque» — correzione: vuole ENTRAMBI, non rimozione auto-apertura. L-341 nuova; L-340+L-339 evidenze++ addendum; preferenza sync-e-auto-insieme; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
@@ -64,6 +64,29 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-345",
+      "testo": "**Chat scroll menu — #482 mergiata ma «non è cambiato nulla»: servono render async + reload DB (Nicola 20/7 ~00:51).** Nicola conferma bug **persiste** dopo merge #482 — non era merge mancante. 5 perché: (1) #482 fixava solo timing **animazione cassetto** (L-342) — causa reale parziale; (2) messaggi lunghi finiscono di **renderizzare dopo** lo scroll; (3) **reload lista dal DB** dopo chiusura menu allunga la chat e annulla posizione; (4) scroll «una tantum» post-animazione non segue crescita DOM; (5) Nicola segnala subito quando fix non basta — **non** assumere risolto senza sua verifica su chat lunga. Regola: scroll-to-bottom su chat worker = gestire **3 layer** (animazione drawer + render messaggi async + reload DB); retry persistente ~3s + seguire altezza DOM; PR #483 (`c451af83`). **Non** registrare come lezione definitiva fix parziale (#482) senza conferma utente. Vedi L-342, PR #482, PR #483.",
+      "tag": [
+        "pannello",
+        "chat",
+        "scroll",
+        "worker",
+        "render-async",
+        "nicola",
+        "correzione",
+        "caso-studio"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.96,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 00:51",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-344",
       "testo": "**Worker vs n8n — «può fare la stessa cosa del worker?» = cervello vs braccia; delegare solo ripetitivo (Nicola 20/7 ~00:49).** Nicola chiede come n8n semplifica il worker e se conviene delegare — vede overlap e teme ridondanza. 5 perché: (1) **non** sono la stessa cosa — worker **pensa/decide** (legge dati+memoria, chat, briefing, giro ~2h, propone azioni 🔴, costa AI); n8n **esegue** diagrammi fissi senza ragionamento; (2) collegamento canonico: Nicola approva azione → worker invia **webhook** a n8n → n8n pubblica/avvisa su FB/IG/WhatsApp/Telegram; senza n8n servirebbe codice nuovo per ogni canale; (3) **delegare sì:** flussi sempre uguali (post programmato, alert errore, promemoria carrello, report); (4) **delegare no:** «cosa facciamo questa settimana», scelta negozio, testi strategici, giro dati — resta worker; (5) stato oggi: n8n runtime ok (5678), workflow importato, **`N8N_WEBHOOK_URL` segnaposto** → mano non attiva, post manuali. Regola: domanda overlap worker/n8n → rispondere **cervello/braccia + criterio delega + stato webhook**, non elenco generico feature n8n. Vedi L-332, L-331, L-330.",
       "tag": [
@@ -109,7 +132,7 @@
     },
     {
       "id": "L-2026-0720-342",
-      "testo": "**Chat worker — menu sinistra deve scrollare in fondo, non in cima (Nicola 20/7 ~00:42).** Nicola: aprendo chat dal cassetto Conversazioni (menu a sinistra) → vedo **inizio** storico, non ultimo messaggio. 5 perché: (1) standing-ask UX chat = finire dove si legge (L-120, #420); (2) scroll partiva a ~120 ms **prima** che animazione chiusura cassetto finisse (~200 ms); (3) layout si ricalcola a fine animazione → scroll annullato, chat in cima; (4) #420 fixava cambio conv senza drawer — **caso diverso** (scelta esplicita dal menu); (5) chiudere menu con X senza cambiare conv **non** deve spostare scroll (Nicola legge a metà). Regola: scelta chat dal menu → flag + scroll **post-animazione** + secondo tentativo chat lunghe; test con conv >20 messaggi. PR #482 (`1240c300`). Vedi L-120, PR #420.",
+      "testo": "**Chat worker — menu sinistra deve scrollare in fondo, non in cima (Nicola 20/7 ~00:42→00:51).** Nicola: aprendo chat dal cassetto Conversazioni → **inizio** storico, non ultimo messaggio. 5 perché: (1) standing-ask UX chat = finire dove si legge (L-120, #420); (2) scroll partiva a ~120 ms **prima** che animazione cassetto finisse (~200 ms); (3) layout si ricalcola a fine animazione → scroll annullato; (4) **ADDENDUM 00:51:** #482 (post-animazione + retry) **mergiata ma insufficiente** — Nicola «non è cambiato nulla»; serve anche render async messaggi + reload DB post-menu (L-345, PR #483); (5) chiudere menu con X senza cambiare conv **non** deve spostare scroll. Regola: scelta chat dal menu → flag + scroll post-animazione **+** retry persistente che segue altezza DOM. Vedi L-345, PR #482, PR #483.",
       "tag": [
         "pannello",
         "chat",
@@ -122,11 +145,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.94,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 00:42",
+      "ultima_conferma": "2026-07-20 00:51",
       "stato": "attiva",
       "usi": []
     },
@@ -7818,7 +7841,8 @@
   "preferenze_nicola": [
     "**Worker vs n8n — chiede architettura chiara cervello/braccia e quando delegare (chat 20/7 ~00:49):** vede che n8n «può fare la stessa cosa» del worker — si aspetta spiegazione **concreta** di divisione ruoli (worker pensa/decide/giro/🔴 · n8n esegue flussi fissi via webhook post-approvazione), criterio **sì ripetitivo / no strategia**, e stato reale (webhook ancora segnaposto = post ancora manuali). **Non** risposta generica su cosa fa n8n. Vedi L-344, L-332.",
     "**Chat — odia trade-off «o A o B» quando entrambe le feature sono fattibili (chat 20/7 ~00:42):** chiede perché non ci sei arrivato prima e quante volte serve dirglielo — si aspetta che l'AD **prima** proponga coesistenza con regole chiare (sync+auto-apertura+«+» pulito), non rimozione di una feature; quando manca la sua scelta esplicita tra obiettivi in conflitto, l'AD può sbagliare finché non corregge («tieni entrambe»). Onestà sulla frequenza, non numeri inventati. Vedi L-343, L-341, PR #481.",
-    "**Chat worker — aprire dal menu sinistra = finire sull'ultimo messaggio (chat 20/7 ~00:42):** segnala bug «vedo l'inizio della chat, non l'ultimo messaggio» quando sceglie conv dal cassetto Conversazioni; si aspetta stesso comportamento della chat piena (scroll in fondo). Causa timing animazione cassetto — fix PR #482 merge pendente. Vedi L-342, PR #420.",
+    "**Chat scroll menu — «non è cambiato nulla» dopo fix = verificare tutti i layer timing, non solo animazione (chat 20/7 ~00:51):** dopo merge #482 segnala che scroll menu sinistra **non funziona ancora** — si aspetta che l'AD **non** attribuisca a merge mancante se già mergiata, ma indaghi render async messaggi + reload DB; fix #483 con retry persistente; chiede merge + hard refresh + test chat lunga; **non** dichiarare risolto senza sua conferma. Vedi L-345, L-342, PR #483.",
+    "**Chat worker — aprire dal menu sinistra = finire sull'ultimo messaggio (chat 20/7 ~00:42→00:51):** segnala bug «vedo l'inizio della chat, non l'ultimo messaggio» quando sceglie conv dal cassetto Conversazioni; #482 mergiata ma insufficiente — serve #483. Vedi L-345, L-342, PR #483.",
     "**Chat sync + auto-apertura — vuole ENTRAMBI, non rimuovere auto-apertura (chat 20/7 ~00:36):** corregge proposta «sync sì, auto no» — «tieni l'auto-apertura e fai in modo che sync funzioni comunque»; si aspetta fix che **coesista** sync elenco (poll ~8s, stesso cassetto PC↔telefono) + auto-apertura (ultima chat su schermo vuoto) **senza** rompere «+»; messaggio da altro device sulla stessa conv deve aggiornare desktop. **Non** proporre solo rimozione auto-apertura come soluzione definitiva. PR #481 merge pendente. Vedi L-341, L-340, L-339.",
     "**Chat — «perché due fix non combaciano?» = spiegare meccanismo pezzi separati, poi chiedere cosa vuole tenere (chat 20/7 ~00:34):** chiede perché non riesce a combinare i fix — si aspetta chiarimento che sync elenco e auto-apertura sono **codice indipendente**, non bundle; ~~combo sync-sì/auto-no~~ **superato 00:36** — Nicola vuole entrambi (L-341). Vedi L-340.",
     "**Chat auto-apertura — tolta su live per bug «+», ma vuole tenere con fix (chat 20/7 ~00:32→00:36):** aveva rimosso auto-apertura sul Pannello live perché chat vecchia rientrava con «+»; verifica repo main; **00:36** chiede di **mantenerla** con fix, non eliminarla. Sync elenco resta intatto. Vedi L-341, L-339.",

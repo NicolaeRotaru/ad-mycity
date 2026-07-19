@@ -1,14 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 00:49
+aggiornato: 2026-07-20 00:51
 fonte: AD digitale (sentinella cassa_sconosciuta + negozio_fermo)
 ---
+
+> 💬 **20/7 ~00:51 — CHAT: scroll chat menu — #482 insufficiente, PR #483 (L-345).** Nicola «**non è cambiato nulla**» dopo fix scroll menu sinistra. AD verifica: **#482 già mergiata** — problema nel meccanismo, non merge mancante. Causa aggiuntiva: scroll post-animazione troppo presto; messaggi lunghi finiscono di renderizzare **dopo** + reload lista DB **dopo** chiusura menu → chat si allunga e torna in cima. **Fix PR #483** (`c451af83`): resta in fondo ~3s, retry multipli, segue altezza DOM. **Merge 🔴 pendente Nicola** (card #201). Test post-merge: Ctrl+Shift+R → Worker → menu → chat lunga. Fonte: chat Nicola 20/7 00:51.
 
 > 💬 **20/7 ~00:49 — CHAT: worker vs n8n — cervello vs braccia, quando delegare (L-344).** Nicola «in che modo n8n semplifica il worker? n8n può fare la stessa cosa — conviene delegare?». AD: **no, non sono la stessa cosa** — worker **decide** (dati, memoria, chat, giro ~2h, azioni da firmare, costa AI); n8n **esegue** passi fissi (pub programmata, promemoria carrello, alert Telegram) via webhook **dopo** approvazione. Delegare **sì** a flussi ripetitivi; **no** a strategia, scelta negozio, contenuti strategici. **Stato:** n8n runtime ok (5678), workflow «Pubblica post programmato» importato; **`N8N_WEBHOOK_URL` ancora segnaposto** → mano social non attiva, post restano manuali/in coda 🔴. Prossimo: Active + webhook env + restart → «webhook collegato». Fonte: chat Nicola 20/7 00:49.
 
 > 💬 **20/7 ~00:42 — CHAT: meta-reflection sync+auto — non trade-off binario (L-343).** Nicola chiede come resi compatibili sync e auto-apertura, perché non prima, quante volte serve dirglielo. AD: coesistenza via **trigger separati** in PR **#481** (`618ffb54`) — sync elenco sempre; auto-open solo se chat vuota **e** non «+» appena premuto; messaggio cross-device sulla stessa conv → desktop riapre; «+» blocca subito e riattiva solo a nuova chat salvata. **Errore processo:** bundlare «sync cross-device» e proporre rimozione auto-apertura invece di «A+B con regole chiare». Merge #481 🔴 pendente (#199). Fonte: chat Nicola 20/7 00:42.
 
-> 💬 **20/7 ~00:42 — CHAT: chat worker — menu sinistra finisce in cima, non in fondo — PR #482.** Nicola: aprendo chat dal menu Conversazioni a sinistra vedo **l'inizio** della chat, non l'ultimo messaggio. AD: scroll partiva a ~120 ms mentre cassetto ancora in animazione (~200 ms) → layout resetta in alto. **Fix PR #482** (`1240c300`): scroll forzato **a fine animazione** + secondo tentativo per chat lunghe; chiudere menu con X senza cambiare chat non sposta posizione. Distinto da #420 (cambio conv senza drawer). **Merge 🔴 pendente Nicola** (card #200). Fonte: chat Nicola 20/7 00:42.
+> 💬 **20/7 ~00:42 — CHAT: chat worker — menu sinistra finisce in cima — PR #482 (parziale).** Nicola: aprendo chat dal menu Conversazioni vedo **l'inizio**, non l'ultimo messaggio. **Fix PR #482** (`1240c300`): scroll post-animazione cassetto + retry — **mergiata** ma **insufficiente** (Nicola 00:51 «non è cambiato nulla»). Vedi **PR #483** (L-345). Fonte: chat Nicola 20/7 00:42–00:51.
 
 > 💬 **20/7 ~00:36 — CHAT: Nicola vuole sync E auto-apertura insieme — PR #481.** Corregge proposta rimozione auto-apertura: «no, tieni l'auto-apertura e fai in modo che sync funzioni comunque». AD **PR #481** (`618ffb54`): sync elenco poll ~8s resta; auto-apertura resta; «+» blocca auto-open finché nuova chat non salvata; messaggio da altro device sulla stessa conv → desktop riapre/aggiorna. **Merge 🔴 pendente Nicola** (card #199). Test post-merge: scrivi da telefono → desktop si aggiorna; «+» su desktop → chat vuota. Fonte: chat Nicola 20/7 00:36.
 
