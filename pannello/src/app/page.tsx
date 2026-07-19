@@ -93,6 +93,7 @@ import {
   Microscope,
   Paperclip,
   Maximize2,
+  Minimize2,
   Pin,
   CircleStop,
   Radio,
@@ -928,6 +929,11 @@ export default function Dashboard() {
   // 🤖 "Worker" a SCHERMO INTERO: la stessa chat (messaggi + barra) ma come pagina sovrapposta piena.
   // Riusa l'overlay della chat fluttuante, solo con contenitore fullscreen e barra "assistente" (identica).
   const [workerFull, setWorkerFull] = useState(false);
+  const workerAperto = chatFluttuante || workerFull;
+  const apriWorkerPopup = useCallback((full = false) => {
+    setWorkerFull(full);
+    setChatFluttuante(!full);
+  }, []);
   // 🔊 Live voce (senza API): il worker legge ad alta voce le risposte (sintesi vocale del browser).
   const [voceWorker, setVoceWorker] = useState(false);
   const ultimoParlatoRef = useRef<string | null>(null);
@@ -1824,6 +1830,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }
     // Legacy: auto-coscienza e marketplace erano tab dentro «cervello» — ora voci menu a sé.
     if (v === "cervello-marketplace") setVista("salute-sito");
+    else if (v === "assistente") apriWorkerPopup(false);
     else setVista(v as Vista);
   };
   useEffect(() => {
@@ -1877,10 +1884,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       ultimaVistaStoria.current = v; // evita che l'effetto [vista] ri-aggiunga la voce (niente loop)
       applicaVistaSalvata(v);
       // Ripristina la sotto-scheda: l'assistente qui, le altre aree via EVENTO_SUB.
-      if (v === "assistente") {
-        // Conversazioni ora è un cassetto, non una scheda: il tasto "indietro" lo apre/chiude.
-        setConvDrawerAperto(st?.sub === "conversazioni");
-      }
+      if (v === "assistente") apriWorkerPopup(false);
       if (st?.sub) ripristinaSub(v, st.sub);
     };
     window.addEventListener("popstate", onPop);
@@ -1927,14 +1931,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       // Legacy deep-link: sub marketplace/auto-coscienza sotto vista cervello.
       if (det.vista === "cervello" && det.sub === "marketplace") setVista("salute-sito");
       else if (det.vista === "cervello" && det.sub === "auto-coscienza") setVista("auto-coscienza");
-      else {
-        setVista(det.vista);
-        if (det.vista === "assistente" && det.sub === "conversazioni") setConvDrawerAperto(true);
-        if (det.vista === "assistente" && det.sub === "chat") {
-          setConvDrawerAperto(false);
-          if (det.anchor) void apriChatRef.current(det.anchor);
-        }
-      }
+      else if (det.vista === "assistente") {
+        apriWorkerPopup(false);
+        if (det.sub === "chat" && det.anchor) void apriChatRef.current(det.anchor);
+      } else setVista(det.vista);
       if (det.anchor) {
         const target = det.anchor;
         // Ritenta: la casella può comparire dopo il cambio area, l'apertura della scheda
@@ -2540,13 +2540,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     <button
                       key={v.id}
                       onClick={() => {
-                        setVista(v.id);
+                        if (v.id === "assistente") apriWorkerPopup(false);
+                        else setVista(v.id);
                         if (typeof window !== "undefined" && window.innerWidth < 1024) setNavAperta(false);
                       }}
                       className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[12.5px] font-medium text-left transition ${
-                        vista === v.id ? "bg-brand text-white shadow-card" : "hover:bg-black/[0.04]"
+                        vista === v.id || (v.id === "assistente" && workerAperto) ? "bg-brand text-white shadow-card" : "hover:bg-black/[0.04]"
                       }`}
-                      style={vista === v.id ? undefined : { color: "var(--text-muted)" }}
+                      style={vista === v.id || (v.id === "assistente" && workerAperto) ? undefined : { color: "var(--text-muted)" }}
                     >
                       {v.icon}
                       <span className="truncate">{v.label}</span>
@@ -2941,9 +2942,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       </div>
 
       {/* 💬 Chat fluttuante: "Parla con l'AD" da qualsiasi area. Nascosto nell'area Assistente (lì c'è la chat intera). */}
-      {!chatFluttuante && !workerFull && vista !== "assistente" && (
+      {!chatFluttuante && !workerFull && (
         <button
-          onClick={() => setChatFluttuante(true)}
+          onClick={() => apriWorkerPopup(false)}
           className="fixed right-4 sm:right-6 z-40 inline-flex items-center gap-2 rounded-full bg-brand text-white font-semibold text-sm px-4 py-3 shadow-hover hover:bg-brand-dark active:scale-95 transition"
           // safe-area iPhone (PWA): senza, il bottone finisce sotto la barra del gesto home. (mobile)
           style={{ bottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
@@ -2953,7 +2954,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           {pendingCount > 0 && <span className="w-2 h-2 rounded-full bg-white/90 animate-pulse" />}
         </button>
       )}
-      {((chatFluttuante && vista !== "assistente") || workerFull) && (
+      {(chatFluttuante || workerFull) && (
         <>
         {/* Overlay trasparente: chiude al click fuori (in finestra; in workerFull parte sotto la navbar) */}
         <div className={`fixed ${workerFull ? "inset-x-0 bottom-0 top-[var(--altezza-testata)]" : "inset-0"} z-40`} onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); setWorkerFull(false); }} aria-hidden />
@@ -2990,15 +2991,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <Plus size={16} />
             </button>
             <button
-              onClick={() => {
-                setChatFluttuante(false);
-                setWorkerFull(true);
-              }}
+              onClick={() => apriWorkerPopup(!workerFull)}
               className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
-              aria-label="Schermo intero"
-              title="Apri il Worker a schermo intero"
+              aria-label={workerFull ? "Riduci finestra" : "Schermo intero"}
+              title={workerFull ? "Torna alla finestra piccola" : "Apri il Worker a schermo intero"}
             >
-              <Maximize2 size={15} />
+              {workerFull ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
             </button>
             <button
               onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); setWorkerFull(false); }}
