@@ -1,11 +1,10 @@
 ## Summary
-- In **Lavori**, le chat aperte da una casella mostrano ora il **titolo della casella** (es. «Esperimento: …», «Revisione: …») invece dell'ultimo messaggio breve di Nicola («a», «G»…).
-- Su **mobile**, i pulsanti Riapprova/Annulla/Chat vanno sotto al titolo: niente più testo schiacciato a una lettera per riga.
+- Caselle di Auto-coscienza (scelte ragionate, benchmark, esperimenti, peer review, proposte) ora sono **piegevoli**: titolo + 2 righe di anteprima, clic per espandere.
+- Nuovo componente `CasellaAnteprima` riusabile — stesso pattern delle decisioni in Governo AD.
+- In chiusura occupano ~metà spazio; il contenuto completo resta disponibile espandendo.
 
-## Perché
-Nicola vedeva card «Da riapprovare» illeggibili: il Pannello prendeva il messaggio chat come titolo e, con i tre bottoni affiancati, lo schiacciava in verticale.
-
-## Come provare
-1. Mergia e attendi deploy Pannello.
-2. Apri **Lavori** da telefono (o finestra stretta).
-3. Le card «Da riapprovare» devono mostrare il nome della casella su una o due righe leggibili; i bottoni sotto.
+## Test plan
+- [ ] Mergia la PR e attendi deploy Pannello (~2 min)
+- [ ] Vai in Auto-coscienza → tab Analisi → «Scelte ragionate»: Ex Scuderie deve essere una riga compatta
+- [ ] Clic sulla casella → si espande con evidenze, perché, note e «Parla con questa casella»
+- [ ] Tab Miglioramento: stesso comportamento su benchmark, esperimenti, peer review, proposte
