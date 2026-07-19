@@ -23,6 +23,7 @@ import { dataVault, dataVaultRecente } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
 import { usePanelSync } from "@/lib/panel-sync";
 import ParlaCasella from "@/components/ParlaCasella";
+import CasellaAnteprima, { anteprimaTesto } from "@/components/CasellaAnteprima";
 import { TestoUmano } from "@/components/TestoUmano";
 import { humanizzaErrore, traduciTestoCompleto } from "@/lib/radiografia-umana";
 import {
@@ -457,15 +458,21 @@ export default function AutoCoscienza({
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><CheckCircle2 size={13} /> Scelte ragionate della macchina ({scelteRagionate.length})</div>
                   <div className="space-y-2">
                     {scelteRagionate.map((e, i) => (
-                      <div key={i} className="rounded-xl border border-green-200 bg-green-50/50 p-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[13px] font-medium">{e.nome}</span>
-                          {e.tipo && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{e.tipo}</span>}
-                          <span className="text-[10px] px-1.5 rounded bg-green-100 text-green-700">{statoEntita(e.stato || "scelta_ragionata")}</span>
-                          {e.confidenza != null && <span className="t-eti ml-auto">confidenza {Math.round((e.confidenza || 0) * 100)}%</span>}
-                        </div>
+                      <CasellaAnteprima
+                        key={i}
+                        className="rounded-lg border border-green-200 bg-green-50/50"
+                        titolo={e.nome}
+                        meta={
+                          <>
+                            {e.tipo && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{e.tipo}</span>}
+                            <span className="text-[10px] px-1.5 rounded bg-green-100 text-green-700">{statoEntita(e.stato || "scelta_ragionata")}</span>
+                            {e.confidenza != null && <span className="t-eti">confidenza {Math.round((e.confidenza || 0) * 100)}%</span>}
+                          </>
+                        }
+                        anteprima={anteprimaTesto(e.fonte_ragionamento, e.evidenze?.[0])}
+                      >
                         {e.evidenze && e.evidenze.length > 0 && (
-                          <ul className="mt-1.5 space-y-1">
+                          <ul className="space-y-1">
                             {e.evidenze.map((ev, j) => (
                               <li key={j} className="flex gap-1.5">
                                 <span className="text-green-600 shrink-0">✓</span>
@@ -475,19 +482,19 @@ export default function AutoCoscienza({
                           </ul>
                         )}
                         {e.fonte_ragionamento && (
-                          <div className="mt-1.5">
+                          <div>
                             <div className="text-[11px] font-semibold text-black/50 uppercase tracking-wide">Perché questa scelta</div>
                             <TestoUmano testo={e.fonte_ragionamento} className="text-[12px] text-black/65 mt-0.5" />
                           </div>
                         )}
                         {e.note && (
-                          <div className="mt-1.5">
+                          <div>
                             <div className="text-[11px] font-semibold text-black/50 uppercase tracking-wide">Note</div>
                             <TestoUmano testo={e.note} className="text-[12px] text-black/60 mt-0.5" />
                           </div>
                         )}
                         <ParlaCasella titolo={`Scelta ragionata: ${e.nome}`} contesto={[e.fonte_ragionamento && `Perché: ${e.fonte_ragionamento}`, ...(e.evidenze || []), e.note].filter(Boolean).join(" · ")} />
-                      </div>
+                      </CasellaAnteprima>
                     ))}
                   </div>
                 </div>
@@ -763,12 +770,18 @@ export default function AutoCoscienza({
                       const ultimoProgresso = b.progresso?.length ? b.progresso[b.progresso.length - 1] : undefined;
                       const contesto = contestoBenchmark(b);
                       return (
-                      <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-[13px] font-medium">{titolo}</span>
-                          {b.livello_attuale_L != null && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">livello {b.livello_attuale_L}</span>}
-                          {b.divario && <span className={`text-[10px] px-1.5 rounded ml-auto ${b.divario === "alto" ? "bg-red-100 text-red-700" : b.divario === "medio" ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}`}>{divarioLeggibile(b.divario)}</span>}
-                        </div>
+                      <CasellaAnteprima
+                        key={i}
+                        titolo={titolo}
+                        meta={
+                          <>
+                            {b.livello_attuale_L != null && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">livello {b.livello_attuale_L}</span>}
+                            {b.divario && <span className={`text-[10px] px-1.5 rounded ${b.divario === "alto" ? "bg-red-100 text-red-700" : b.divario === "medio" ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}`}>{divarioLeggibile(b.divario)}</span>}
+                            {ultimoProgresso?.punteggio != null && <span className="t-eti">{ultimoProgresso.punteggio}/100</span>}
+                          </>
+                        }
+                        anteprima={anteprimaTesto(b.obiettivo, b.nostro)}
+                      >
                         {b.obiettivo && (
                           <div className="mt-1.5">
                             <div className="text-[12px] font-semibold text-black/70">Obiettivo</div>
@@ -810,7 +823,7 @@ export default function AutoCoscienza({
                           </div>
                         )}
                         <ParlaCasella titolo={`Confronto: ${titolo}`} contesto={contesto} />
-                      </div>
+                      </CasellaAnteprima>
                     );})}
                   </div>
                 </div>
@@ -821,21 +834,27 @@ export default function AutoCoscienza({
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><CheckCircle2 size={13} /> Esperimenti di miglioria</div>
                   <div className="space-y-2">
                     {mi.esperimenti.map((e, i) => (
-                      <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
+                      <CasellaAnteprima
+                        key={i}
+                        titolo={e.ipotesi || "Esperimento"}
+                        meta={
+                          <>
+                            {e.reparto_guida && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{repartoLeggibile(e.reparto_guida)}</span>}
+                            {e.stato && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55">{traduciTestoCompleto(e.stato)}</span>}
+                          </>
+                        }
+                        anteprima={anteprimaTesto(e.esito)}
+                      >
                         <div className="text-[12px] font-semibold text-black/70">Ipotesi da testare</div>
                         <TestoUmano testo={e.ipotesi} className="text-[12.5px] font-medium mt-0.5" />
-                        <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
-                          {e.reparto_guida && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{repartoLeggibile(e.reparto_guida)}</span>}
-                          {e.stato && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55">{traduciTestoCompleto(e.stato)}</span>}
-                        </div>
                         {e.esito && (
-                          <div className="mt-1.5">
+                          <div>
                             <div className="text-[12px] font-semibold text-black/70">Esito</div>
                             <TestoUmano testo={e.esito} className="text-[12px] text-black/60 mt-0.5" />
                           </div>
                         )}
                         <ParlaCasella titolo={`Esperimento: ${(e.ipotesi || "").slice(0, 50)}`} contesto={[e.ipotesi, e.esito].filter(Boolean).join(" · ")} />
-                      </div>
+                      </CasellaAnteprima>
                     ))}
                   </div>
                 </div>
@@ -849,15 +868,18 @@ export default function AutoCoscienza({
                       const autoreDisplay = p.reviewer || p.autore;
                       const revistiDisplay = p.reviewed || (p.revisori ? p.revisori.join(", ") : undefined);
                       return (
-                        <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-                          <div className="flex items-start justify-between gap-2">
-                            <div className="text-[12.5px] font-medium">
-                              {traduciTestoCompleto(p.lavoro || "")}
-                              {autoreDisplay && <span className="t-eti"> · da {repartoLeggibile(autoreDisplay) || autoreDisplay}</span>}
-                              {revistiDisplay && <span className="t-eti"> su {revistiDisplay}</span>}
-                            </div>
-                            {p.voto != null && <span className="shrink-0 text-[12px] font-bold text-brand">{p.voto}/10</span>}
-                          </div>
+                        <CasellaAnteprima
+                          key={i}
+                          titolo={traduciTestoCompleto(p.lavoro || "")}
+                          meta={
+                            <>
+                              {autoreDisplay && <span className="t-eti">da {repartoLeggibile(autoreDisplay) || autoreDisplay}</span>}
+                              {revistiDisplay && <span className="t-eti">su {revistiDisplay}</span>}
+                              {p.voto != null && <span className="text-[11px] font-bold text-brand">{p.voto}/10</span>}
+                            </>
+                          }
+                          anteprima={anteprimaTesto(p.raccomandazione, p.punti_forza?.[0])}
+                        >
                           {p.punti_forza && p.punti_forza.length > 0 && (
                             <div className="mt-1.5">
                               <div className="text-[11px] font-semibold text-green-700">Punti di forza</div>
@@ -899,7 +921,7 @@ export default function AutoCoscienza({
                             </div>
                           )}
                           <ParlaCasella titolo={`Revisione: ${p.lavoro}`} contesto={[p.lavoro, p.raccomandazione || p.guadagno].filter(Boolean).join(" · ")} />
-                        </div>
+                        </CasellaAnteprima>
                       );
                     })}
                   </div>
@@ -911,23 +933,28 @@ export default function AutoCoscienza({
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><AlertTriangle size={13} /> Proposte di auto-riscrittura (🟡 da validare)</div>
                   <div className="space-y-2">
                     {mi.proposte_auto_riscrittura.filter(p => p.stato !== "implementata").map((p, i) => (
-                      <div key={i} className="rounded-xl border border-amber-200 bg-amber-50/50 p-3">
+                      <CasellaAnteprima
+                        key={i}
+                        className="rounded-lg border border-amber-200 bg-amber-50/50"
+                        titolo={p.cosa || "Proposta"}
+                        anteprima={anteprimaTesto(p.perche)}
+                      >
                         <div className="text-[12px] font-semibold text-amber-900/80">Cosa vorrebbe cambiare</div>
                         <TestoUmano testo={p.cosa} className="text-[12.5px] font-medium mt-0.5" />
                         {p.perche && (
-                          <div className="mt-1.5">
+                          <div>
                             <div className="text-[12px] font-semibold text-black/70">Perché</div>
                             <TestoUmano testo={p.perche} className="text-[12px] text-black/65 mt-0.5" />
                           </div>
                         )}
                         {p.dove && (
-                          <div className="mt-1.5">
+                          <div>
                             <div className="text-[12px] font-semibold text-black/70">Dove nel sistema</div>
                             <TestoUmano testo={p.dove} className="text-[12px] text-black/55 mt-0.5" />
                           </div>
                         )}
                         <ParlaCasella titolo={`Proposta: ${(p.cosa || "").slice(0, 50)}`} contesto={[p.cosa, p.perche, p.dove].filter(Boolean).join(" · ")} />
-                      </div>
+                      </CasellaAnteprima>
                     ))}
                   </div>
                 </div>
