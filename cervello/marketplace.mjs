@@ -18,7 +18,7 @@
 import { mkdirSync, writeFileSync, readdirSync, readFileSync, appendFileSync, existsSync } from "node:fs";
 import { consensoInvio } from "./consenso-azione.mjs";
 
-const URL = process.env.MARKETPLACE_SUPABASE_URL;
+const MKT_URL = process.env.MARKETPLACE_SUPABASE_URL;
 const KEY = process.env.MARKETPLACE_SUPABASE_WRITE_KEY;
 const LIVE = process.env.AZIONI_LIVE === "1" || process.env.AZIONI_LIVE === "on";
 // AR-103: la scrittura reale sul DB è agganciata alla casella firmata (env AZIONE_ID) e alla
@@ -31,7 +31,7 @@ async function scritturaAutorizzata(tabella) {
 // Path ASSOLUTO rispetto alla radice del repo (non alla cwd): il backup va sempre nello stesso posto.
 const BACKUP_DIR = new URL("../creativi/output/marketplace-backup", import.meta.url).pathname;
 
-const can = () => URL && KEY;
+const can = () => MKT_URL && KEY;
 const h = () => ({ apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" });
 
 function stato() {
@@ -44,7 +44,7 @@ function stato() {
 
 async function leggi() {
   if (!can()) return console.log("[DRY-RUN] leggerei site_settings (id=1): branding + home_site. Configura le chiavi per vederlo.");
-  const r = await fetch(`${URL}/rest/v1/site_settings?id=eq.1&select=branding,home_site`, { headers: h(), cache: "no-store" });
+  const r = await fetch(`${MKT_URL}/rest/v1/site_settings?id=eq.1&select=branding,home_site`, { headers: h(), cache: "no-store" });
   console.log(r.ok ? JSON.stringify(await r.json(), null, 2) : `Errore: ${r.status} ${(await r.text()).slice(0, 200)}`);
 }
 
@@ -75,7 +75,7 @@ function backupOriginale(nome) {
 
 async function applicaRipristino(tabella, id, orig, sorgente) {
   if (!LIVE || !can()) return console.log(`[DRY-RUN] ripristinerei ${tabella} id=${id} a:\n${JSON.stringify(orig, null, 2)}\n  (backup: ${sorgente}) — rilancia con AZIONI_LIVE=1 per applicare.`);
-  const r = await fetch(`${URL}/rest/v1/${tabella}?id=eq.${id}`, { method: "PATCH", headers: { ...h(), Prefer: "return=minimal" }, body: JSON.stringify(orig ?? {}) });
+  const r = await fetch(`${MKT_URL}/rest/v1/${tabella}?id=eq.${id}`, { method: "PATCH", headers: { ...h(), Prefer: "return=minimal" }, body: JSON.stringify(orig ?? {}) });
   console.log(r.ok ? `OK: ${tabella} id=${id} ripristinato (${sorgente}).` : `Errore: ${r.status} ${(await r.text()).slice(0, 200)}`);
 }
 
@@ -106,9 +106,9 @@ async function setSettings(campo, jsonStr) {
   let val; try { val = JSON.parse(jsonStr || ""); } catch { return console.log(`JSON non valido. Uso: ${campo === "branding" ? "branding" : "home"} '<json>'`); }
   const g = await scritturaAutorizzata("site_settings");
   if (!g.live) return console.log(`[DRY-RUN] aggiornerei site_settings.${campo} =\n${JSON.stringify(val, null, 2)}${LIVE && can() ? `\n  (bloccato: ${g.motivo})` : ""}`);
-  const cur = await (await fetch(`${URL}/rest/v1/site_settings?id=eq.1&select=${campo}`, { headers: h() })).json();
+  const cur = await (await fetch(`${MKT_URL}/rest/v1/site_settings?id=eq.1&select=${campo}`, { headers: h() })).json();
   backup(`site_settings.${campo}`, cur?.[0]?.[campo]);
-  const r = await fetch(`${URL}/rest/v1/site_settings?id=eq.1`, { method: "PATCH", headers: { ...h(), Prefer: "return=minimal" }, body: JSON.stringify({ [campo]: val }) });
+  const r = await fetch(`${MKT_URL}/rest/v1/site_settings?id=eq.1`, { method: "PATCH", headers: { ...h(), Prefer: "return=minimal" }, body: JSON.stringify({ [campo]: val }) });
   console.log(r.ok ? `OK: site_settings.${campo} aggiornato (backup salvato).` : `Errore: ${r.status} ${(await r.text()).slice(0, 200)}`);
 }
 
@@ -117,7 +117,7 @@ async function inserisci(tabella, jsonStr) {
   if (!/^[a-z_]+$/.test(tabella || "")) return console.log("Tabella non valida. Es: inserisci coupons '<json>'");
   const g = await scritturaAutorizzata(tabella);
   if (!g.live) return console.log(`[DRY-RUN] inserirei in ${tabella}:\n${JSON.stringify(val, null, 2)}${LIVE && can() ? `\n  (bloccato: ${g.motivo})` : ""}`);
-  const r = await fetch(`${URL}/rest/v1/${tabella}`, { method: "POST", headers: { ...h(), Prefer: "return=minimal" }, body: JSON.stringify(val) });
+  const r = await fetch(`${MKT_URL}/rest/v1/${tabella}`, { method: "POST", headers: { ...h(), Prefer: "return=minimal" }, body: JSON.stringify(val) });
   console.log(r.ok ? `OK: riga inserita in ${tabella}.` : `Errore: ${r.status} ${(await r.text()).slice(0, 200)}`);
 }
 
@@ -126,9 +126,9 @@ async function aggiorna(tabella, id, jsonStr) {
   if (!/^[a-z_]+$/.test(tabella || "") || !id) return console.log("Uso: aggiorna <tabella> <id> '<json>'");
   const g = await scritturaAutorizzata(tabella);
   if (!g.live) return console.log(`[DRY-RUN] aggiornerei ${tabella} id=${id}:\n${JSON.stringify(val, null, 2)}${LIVE && can() ? `\n  (bloccato: ${g.motivo})` : ""}`);
-  const cur = await (await fetch(`${URL}/rest/v1/${tabella}?id=eq.${id}`, { headers: h() })).json();
+  const cur = await (await fetch(`${MKT_URL}/rest/v1/${tabella}?id=eq.${id}`, { headers: h() })).json();
   backup(`${tabella}.${id}`, cur?.[0]);
-  const r = await fetch(`${URL}/rest/v1/${tabella}?id=eq.${id}`, { method: "PATCH", headers: { ...h(), Prefer: "return=minimal" }, body: JSON.stringify(val) });
+  const r = await fetch(`${MKT_URL}/rest/v1/${tabella}?id=eq.${id}`, { method: "PATCH", headers: { ...h(), Prefer: "return=minimal" }, body: JSON.stringify(val) });
   console.log(r.ok ? `OK: ${tabella} id=${id} aggiornato (backup salvato).` : `Errore: ${r.status} ${(await r.text()).slice(0, 200)}`);
 }
 
