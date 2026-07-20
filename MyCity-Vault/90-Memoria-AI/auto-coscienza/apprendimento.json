@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 02:10",
+  "aggiornato": "2026-07-20 02:14",
+  "_nota_metabolizzazione_20_07_0213": "Chat 20/7 ~02:13: Nicola «togli testata Worker/Semplice e diretto, + in barra icone basso» — layout compatto Worker. L-359 nuova (caso_studio_nicola); L-348 evidenze++ addendum no-testata; L-233 evidenze++ commit su main per errore #489; preferenza worker-niente-testata-plus-basso; STATO+DECISIONI+#207+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0210": "Chat 20/7 ~02:07: Nicola «ho inserito N8N_WEBHOOK_URL nel file env» — milestone env, non mano attiva; verifica sensori: 3 righe duplicate (prima vince=segnaposto). L-357 nuova; L-331 evidenze++ addendum env inserito; preferenza n8n-webhook-env-inserito; STATO+LEZIONI-CHAT già parziali; builder esito.",
   "_nota_metabolizzazione_20_07_0208": "Chat 20/7 ~02:08: Nicola «icona menu Worker non si apre» — #485 sidebar fissa ha rimosso ☰ header. L-358 nuova (caso_studio_nicola); L-348 evidenze++ addendum toggle; preferenza worker-menu-icona-toggle; STATO+AZIONI #206+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0153": "Chat 20/7 ~01:53: Nicola «crea pulsanti comandi Termux importanti — fammi lista prima» — lista 6+8+SSH, fase 1=4 pulsanti, attesa ok. L-356 nuova; L-355 evidenze++; preferenza pulsanti-termux-lista-prima; STATO+LEZIONI-CHAT+devops-sre aggiornati.",
@@ -76,6 +77,28 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-359",
+      "testo": "**Worker chat — niente testata marketing, «+» nella barra icone basso (Nicola 20/7 ~02:13).** «Togli la barra in alto dove c'è scritto Worker semplice e diretto… e le icone + mettila dentro barra delle icone (allega, video live, prompt, …)». 5 perché: (1) odia spreco verticale — testata con titolo+sottotitolo marketing **non** serve in una chat operativa già riconoscibile; (2) **+ Nuova chat** deve stare **nella stessa toolbar** di allega/video live/prompt/invio — non isolato in testata; (3) in alto restano **solo** controlli finestra (ingrandisci, chiudi) — minimal chrome; (4) **Prompt** deve comparire anche in finestra **piccola** (prima solo ingrandita); (5) filone UX Worker post-sidebar (#485–#487): ogni tweak layout **non** rompe scroll #483, sticky #484, sidebar conv L-348. Regola: Worker popup = massimo spazio messaggi, zero copy marketing in testata, azioni chat tutte in barra basso. Fix PR #489 (`fix/worker-niente-testata`, `ec9f36e0`). Vedi L-348, L-346.",
+      "tag": [
+        "pannello",
+        "chat",
+        "worker",
+        "layout",
+        "toolbar",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.94,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 02:13",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-358",
       "testo": "**Worker chat — icona ☰ menu conv: sidebar sempre visibile ≠ rimuovere toggle (Nicola 20/7 ~02:08).** «Dentro la chat del worker l'icona del menu non si apre». 5 perché: (1) #485 ha reso sidebar conv **permanentemente visibile** a sinistra — requisito L-348 soddisfatto ma **senza** mantenere il controllo ☰; (2) **causa verificata su main:** icona Menu **assente** dal markup header Worker — tap su ☰ impossibile o inerte; (3) **mobile** serve cassetto overlay (sidebar non sempre affordabile); **desktop** utile nascondere colonna per più spazio chat — ☰ = toggle show/hide, non solo «apri drawer esterno»; (4) **non confondere** ☰ testata (elenco conversazioni) con ⚡ basso (Skill & comandi) — Nicola può segnalare «menu» generico; chiedere quale icona; (5) errore processo = fix layout sidebar **senza** checklist «toggle mobile + collapse desktop + icona visibile». Regola: integrare sidebar conv → **mantieni ☰** con toggle funzionante; mai sidebar fissa **e** icona rimossa. Fix branch `fix/worker-menu-conv-apre` (`a6d96d35`). Vedi L-348, PR #485.",
@@ -310,7 +333,7 @@
     },
     {
       "id": "L-2026-0720-348",
-      "testo": "**Worker chat — menu conversazioni DENTRO riquadro a sinistra, fluttuante E ingrandita (Nicola 20/7 ~01:06).** Chiede «inserisci il menu delle conversazioni dentro il riquadro della chat (sulla sinistra)» + chiarimento «anche dentro la chat che si apre quando schiaccio ingrandimento nella chat fluttunante». 5 perché: (1) odia cassetto/drawer che scorre da fuori — vuole lista **sempre visibile** nel pannello; (2) fluttuante e schermo intero devono avere **stesso layout** (lista sinistra + chat destra + barra basso); (3) pattern «dimmi cosa hai capito» prima del fix (L-346, L-338); (4) filone UX Worker in sequenza rapida post-scroll ok — **non** rompere #483 scroll né #484 sticky; (5) PR #485. **ADDENDUM 01:36 (Nicola):** sidebar sì ma il contenitore resta **popup apri/chiudi con icona** — **non** pagina fissa del menù laterale; ingrandisci = stessa popup più grande. Fix popup in PR #486 (L-352). **ADDENDUM 01:45 (Nicola):** sidebar deve elencare **TUTTE** le chat — conv da Lavori («Parla con casella») mancava perché storage separato; fix unificazione PR #487 (L-354). **ADDENDUM 02:08 (Nicola):** sidebar integrata **non** elimina icona ☰ in testata — mobile=cassetto, desktop=toggle colonna; #485 aveva rimosso ☰ → bug «menu non si apre»; fix PR worker-menu (L-358). Regola: richiesta sidebar conv integrata → confermare copertura fluttuante+ingrandita + **popup overlay** + **elenco unificato** + **☰ toggle** + PR dedicata senza toccare fix appena confermati. Vedi L-358, L-354, L-352, L-346, PR #485, PR #487.",
+      "testo": "**Worker chat — menu conversazioni DENTRO riquadro a sinistra, fluttuante E ingrandita (Nicola 20/7 ~01:06).** Chiede «inserisci il menu delle conversazioni dentro il riquadro della chat (sulla sinistra)» + chiarimento «anche dentro la chat che si apre quando schiaccio ingrandimento nella chat fluttunante». 5 perché: (1) odia cassetto/drawer che scorre da fuori — vuole lista **sempre visibile** nel pannello; (2) fluttuante e schermo intero devono avere **stesso layout** (lista sinistra + chat destra + barra basso); (3) pattern «dimmi cosa hai capito» prima del fix (L-346, L-338); (4) filone UX Worker in sequenza rapida post-scroll ok — **non** rompere #483 scroll né #484 sticky; (5) PR #485. **ADDENDUM 01:36 (Nicola):** sidebar sì ma il contenitore resta **popup apri/chiudi con icona** — **non** pagina fissa del menù laterale; ingrandisci = stessa popup più grande. Fix popup in PR #486 (L-352). **ADDENDUM 01:45 (Nicola):** sidebar deve elencare **TUTTE** le chat — conv da Lavori («Parla con casella») mancava perché storage separato; fix unificazione PR #487 (L-354). **ADDENDUM 02:08 (Nicola):** sidebar integrata **non** elimina icona ☰ in testata — mobile=cassetto, desktop=toggle colonna; #485 aveva rimosso ☰ → bug «menu non si apre»; fix PR worker-menu (L-358). **ADDENDUM 02:13 (Nicola):** via testata marketing «Worker / Semplice e diretto…» — solo ingrandisci/chiudi in alto; **+ Nuova chat** nella toolbar basso con allega/video live/prompt; fix PR #489 (L-359). Regola: richiesta sidebar conv integrata → confermare copertura fluttuante+ingrandita + **popup overlay** + **elenco unificato** + **☰ toggle** + **chrome minimo** + PR dedicata senza toccare fix appena confermati. Vedi L-359, L-358, L-354, L-352, L-346, PR #485, PR #487, PR #489.",
       "tag": [
         "pannello",
         "chat",
@@ -328,11 +351,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.94,
-      "evidenze": 5,
+      "evidenze": 6,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 02:08",
+      "ultima_conferma": "2026-07-20 02:13",
       "stato": "attiva",
       "usi": []
     },
@@ -2888,7 +2911,7 @@
     },
     {
       "id": "L-2026-0716-233",
-      "testo": "**Verifica il branch PRIMA di committare — errore ricorrente (16/7 + 18/7):** due volte un `git commit` è finito su `main` locale invece del branch di lavoro. 16/7: PR #409 → rimedio con nuovo branch (PR #410). 18/7: fix/arsenale-tab-v2 → stesso errore, cherry-pick bloccato, rimedio con riapplicazione manuale del fix sul branch v2 (PR #464 sostituisce #463). `git reset --hard` è bloccato per sicurezza. Ordine invariabile: (1) `git branch --show-current`, (2) checkout branch se serve, (3) modifica, (4) build, (5) commit immediato. Watch-main gira ogni ~5 min e resetta main: non c'è finestra sicura tra checkout e commit — eseguirli in sequenza rapida senza pause.",
+      "testo": "**Verifica il branch PRIMA di committare — errore ricorrente (16/7 + 18/7 + 20/7):** tre volte un `git commit` è finito su `main` locale invece del branch di lavoro. 16/7: PR #409 → rimedio con nuovo branch (PR #410). 18/7: fix/arsenale-tab-v2 → stesso errore, cherry-pick bloccato, rimedio con riapplicazione manuale del fix sul branch v2 (PR #464 sostituisce #463). **20/7 ~02:13:** fix Worker layout #489 (`fix/worker-niente-testata`) committato su main per errore → spostato sul branch corretto. `git reset --hard` è bloccato per sicurezza. Ordine invariabile: (1) `git branch --show-current`, (2) checkout branch se serve, (3) modifica, (4) build, (5) commit immediato. Watch-main gira ogni ~5 min e resetta main: non c'è finestra sicura tra checkout e commit — eseguirli in sequenza rapida senza pause.",
       "tag": [
         "git",
         "branch",
@@ -2899,11 +2922,11 @@
       ],
       "reparto": "@tech",
       "confidenza": 1,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-16",
-      "ultima_conferma": "2026-07-18 23:10",
+      "ultima_conferma": "2026-07-20 02:13",
       "stato": "attiva"
     },
     {
@@ -8156,6 +8179,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Worker chat — niente testata «Worker / Semplice e diretto…», «+» in barra icone basso (chat 20/7 ~02:13):** togli barra titolo/sottotitolo marketing in alto — restano solo ingrandisci/chiudi in alto a destra; **+ Nuova chat** integrato nella toolbar bassa **prima** di allega / video live / prompt / invio (anche finestra piccola); vuole **più spazio** per i messaggi, zero copy marketing in testata. Fix PR #489 merge 🔴 #207 + Ctrl+F5. Vedi L-359, L-348.",
     "**Worker chat — icona ☰ menu conv deve aprire/nascondere elenco (chat 20/7 ~02:08):** segnala «l'icona del menu non si apre» — si aspetta che ☰ in **testata** Worker controlli l'elenco conversazioni (mobile=cassetto, desktop=mostra/nascondi colonna sinistra); sidebar integrata (#485) **non** sostituisce il toggle; **non** confondere con ⚡ Skill in basso — se «menu» generico, chiedere quale icona. Fix merge 🔴 #206 + Ctrl+F5 post-deploy. Vedi L-358, L-348.",
     "**Pulsanti comandi Termux — vuole lista completa PRIMA, poi pulsanti sicuri a fasi (chat 20/7 ~01:53):** dopo NO pagina terminale (L-355), chiede «crea pulsanti per ogni comando importante da terminale — **fammi la lista prima**» — si aspetta inventario (già in Pannello + proposti + solo SSH), **non** PR immediata; accetta approccio a fasi (AD propone 4 prioritari: aggiorna codice, diagnostica, sensori, review settimana); dirà ok/togli-aggiungi prima del codice. Vedi L-356, L-355.",
     "**Menu vs terminale — chiede comandi VPS dal menu e pagina terminale (chat 20/7 ~01:47):** follow-up «senza cmd» (L-349) — vuole capire se il **menu** manda comandi al server e perché **non** c'è una pagina con terminale integrato; si aspetta comodità tipo shell ma AD deve chiarire: menu = pulsanti sicuri preset (giro/riavvio), **non** terminale libero; chat = canale completo; **no** pagina terminale web (sicurezza); se stessa azione ripetuta → chiede 2-3 cose e si aggiungono pulsanti al menu. Vedi L-355, L-349.",
@@ -8451,13 +8475,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 374,
+    "lezioni_attive": 376,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.2,
-    "tasso_calcolato_il": "2026-07-20 02:04",
+    "tasso_calcolato_il": "2026-07-20 02:14",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 02:04",
+    "tick_leggero_il": "2026-07-20 02:14",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

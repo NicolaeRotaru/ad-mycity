@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:12
-fonte: AD digitale (worker inventario VPS)
+aggiornato: 2026-07-20 02:13
+fonte: AD digitale (metabolizzazione chat Worker layout)
 ---
+
+> 💬 **20/7 ~02:13 — CHAT: Worker senza testata, «+» in barra icone basso (L-359).** Nicola: togli barra in alto «Worker / Semplice e diretto…» e metti **+** nella barra icone in basso (allega, video live, prompt, …). AD **PR #489** (`fix/worker-niente-testata`, `ec9f36e0`): via testata marketing; solo ingrandisci/chiudi in alto a destra; **+ Nuova chat** prima di allega/video live/prompt/invio (anche finestra piccola); Prompt visibile anche in modalità compatta. Merge 🔴 pendente (#207). Dopo deploy: Ctrl+F5. Fonte: chat Nicola 20/7 02:13.
 
 > 🛰️ **20/7 02:12 — WORKER: «cos'altro sul VPS?» — refresh post N8N env (L-351/L-357).** Verificato live: worker+chat **active**, n8n **HTTP 200** `:5678`, Playwright **ok**, timer giro/ritmo/sentinella **ok**. **Non installare altro software** — collegare **mani env**. **Blocco attuale:** 3 righe `N8N_WEBHOOK_URL` (prime 2 segnaposto → sensori rossi); Nicola ha URL reale ma **prima vince** + URL test non Production. **Ordine:** (1) dedup env + Active n8n + restart → «webhook collegato»; (2) **Telegram** 5 min → 59 avvisi; (3) `BURN_MENSILE_EUR` (#burn-mensile-env); (4) import 2° workflow `raccolta-iscritti-lista-attesa.json`. **NO ora:** 2° cervello, terminale web, WhatsApp diretto. Dossier: `consegne/builder-automazioni/2026-07-20-inventario-vps-cosa-aggiungere.md`. Fonte: systemctl + curl + `verifica-sensori.mjs` 02:11.
 
