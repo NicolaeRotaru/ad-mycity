@@ -1,0 +1,161 @@
+{
+  "ok": true,
+  "quando": "2026-07-20 12:02",
+  "fonti_dovute": 9,
+  "fonti_totali": 18,
+  "agenda": [
+    {
+      "id": "liberta-attualita",
+      "nome": "Libertà — Attualità",
+      "peso": 5,
+      "cadenza": "giornaliera",
+      "scrive_in": "eventi-picchi",
+      "senior": [
+        "intelligence",
+        "pr-stampa"
+      ],
+      "cosa_cercare": "commercio, centro, chiusure/aperture botteghe, istituzioni, eventi",
+      "url": "https://www.liberta.it/attualita",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "giornaliera"
+    },
+    {
+      "id": "liberta-citta",
+      "nome": "Libertà — Città di Piacenza",
+      "peso": 5,
+      "cadenza": "giornaliera",
+      "scrive_in": "reputazione",
+      "senior": [
+        "intelligence",
+        "vendite"
+      ],
+      "cosa_cercare": "botteghe storiche, vie del commercio, decoro/ZTL, cronaca utile al delivery",
+      "url": "https://www.liberta.it/territorio/citta/piacenza",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "giornaliera"
+    },
+    {
+      "id": "cciaa-emilia-bandi",
+      "nome": "Camera Commercio Emilia — Bandi 2026",
+      "peso": 5,
+      "cadenza": "giornaliera",
+      "scrive_in": "leve-uscita",
+      "senior": [
+        "intelligence",
+        "relazioni-istituzionali"
+      ],
+      "cosa_cercare": "PI26 innovazione digitale, piccole imprese territorio, scadenze sportello, fondo perduto",
+      "url": "https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bandi-emanati-nel-corso-del-2026",
+      "url_websearch": "https://www.google.com/search?q=site%3Aemilia.camcom.it+bando+2026+piacenza",
+      "skip_check": true,
+      "motivo": "giornaliera"
+    },
+    {
+      "id": "ilpiacenza-economia",
+      "nome": "IlPiacenza — Economia",
+      "peso": 4,
+      "cadenza": "giornaliera",
+      "scrive_in": "buchi-mercato",
+      "senior": [
+        "intelligence",
+        "analista"
+      ],
+      "cosa_cercare": "aperture/chiusure attività, retail, food, immobiliare commerciale",
+      "url": "https://www.ilpiacenza.it/economia/",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "giornaliera"
+    },
+    {
+      "id": "piacenzasera",
+      "nome": "PiacenzaSera",
+      "peso": 4,
+      "cadenza": "giornaliera",
+      "scrive_in": "eventi-picchi",
+      "senior": [
+        "intelligence",
+        "pr-stampa"
+      ],
+      "cosa_cercare": "commercio, desertificazione centro, eventi, bandi",
+      "url": "https://www.piacenzasera.it/",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "giornaliera"
+    },
+    {
+      "id": "comune-news",
+      "nome": "Comune di Piacenza — News",
+      "peso": 4,
+      "cadenza": "giornaliera",
+      "scrive_in": "eventi-picchi",
+      "senior": [
+        "relazioni-istituzionali",
+        "operations"
+      ],
+      "cosa_cercare": "ZTL, ordinanze traffico, commercio, bandi, dehors, mercati",
+      "url": "https://www.comune.piacenza.it/it/menu/news",
+      "url_websearch": "https://www.google.com/search?q=site%3Acomune.piacenza.it+news+commercio",
+      "skip_check": true,
+      "motivo": "giornaliera"
+    },
+    {
+      "id": "comune-eventi",
+      "nome": "Comune di Piacenza — Eventi",
+      "peso": 4,
+      "cadenza": "giornaliera",
+      "scrive_in": "eventi-picchi",
+      "senior": [
+        "intelligence",
+        "marketing"
+      ],
+      "cosa_cercare": "sagre, fiere, mercati, manifestazioni, chiusure/picchi delivery a 7-14 giorni",
+      "url": "https://www.comune.piacenza.it/it/categorie-eventi/76806",
+      "url_websearch": "https://www.google.com/search?q=eventi+piacenza+comune+settimana",
+      "skip_check": true,
+      "motivo": "giornaliera"
+    },
+    {
+      "id": "unionecommercianti-bandi",
+      "nome": "Unione Commercianti PC — Bandi e agevolazioni",
+      "peso": 4,
+      "cadenza": "giornaliera",
+      "scrive_in": "leve-uscita",
+      "senior": [
+        "intelligence",
+        "vendite"
+      ],
+      "cosa_cercare": "PI26, piccole imprese territorio, scadenze, kit domanda negozi",
+      "url": "https://www.unionecommerciantipc.it/category/bandi/",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "giornaliera"
+    },
+    {
+      "id": "meteo-piacenza",
+      "nome": "Meteo Piacenza (ARPAE/3B)",
+      "peso": 4,
+      "cadenza": "giornaliera",
+      "scrive_in": "eventi-picchi",
+      "senior": [
+        "operations",
+        "content-social"
+      ],
+      "cosa_cercare": "caldo/freddo estremo, pioggia/neve, nebbia, allerte, PM10/blocchi traffico nei prossimi 7gg",
+      "url": "https://www.arpae.it/it/temi-ambientali/meteo",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "giornaliera"
+    }
+  ],
+  "stale": [
+    {
+      "file": "reputazione",
+      "path": "reputazione.md",
+      "ultimo": "2026-07-18",
+      "giorni": 2
+    }
+  ],
+  "prossimo_passo": "Esegui monitora.md sulle fonti in agenda (WebSearch se 403)"
+}
