@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 12:52
-fonte: AD digitale (chat Pannello casella trust-safety badge)
+aggiornato: 2026-07-20 12:59
+fonte: AD digitale (chat Pannello Diretta contenuti)
 ---
+
+> 💬 **20/7 ~12:59 — CHAT: Diretta contenuti — caselle che spariscono al refresh, causa radice (L-394).** Nicola «**analisi completa e profonda**» — caselle diverse a ogni refresh, sembra crollo DB. **Non è Supabase:** ogni casella = **file markdown su GitHub** (`consegne/` + briefing/report, ramo **main**); Pannello rilegge via **API GitHub** (~70 chiamate/refresh). **533** candidati totali, UI mostra max **30** (`MAX_LETTURE` in `api/contenuti/route.ts`); **266** senza data nel nome → quasi invisibili; sort alfabetico nome file, non data nel frontmatter; **timeout 5s/cartella** → intera categoria **vuota** in quell'aggiornamento (poi ricompare); poll **30s** sostituisce tutta la lista (`DirettaContenuti.tsx`). Fix proposto 🟡: paginazione/cache server + non svuotare su errore parziale GitHub — **PR in attesa ok Nicola**. Fonte: chat Nicola 20/7 12:59.
 
 > 💬 **20/7 ~12:52 — CHAT: Bug critico bollino «Negozio Verificato» — fix PR #218 (L-393).** Nicola «**Risolvi il bug critico del bollino**» su casella trust-safety — badge compariva su **tutti** i negozi (4/5 punti UI senza condizione). AD fix repo **mycity** **PR #218** (`f41bac1`): predicato unico `isVerifiedStore` = approvato + `stripe_charges_enabled` + `stripe_payouts_enabled`; applicato a liste/card/home/vetrina/prodotto; migrazione **108** flag Stripe su vista pubblica; test **3/3**. **Effetto oggi:** **0 negozi** mostrano badge (corretto — PQ manca payout ON). Merge 🔴 card **#213**. Fonte: chat Nicola 20/7 12:52.
 
