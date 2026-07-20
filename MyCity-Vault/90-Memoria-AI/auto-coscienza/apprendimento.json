@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 22:15",
+  "aggiornato": "2026-07-20 23:18",
   "_nota_giro_20_07_2022": "Giro 20/7 20:22: coerenza-fatti pricing bonificata (48 file, exit 0). Lezione: esenzioni registro per contratti PQ eccezione 12%/0€. CHECKLIST rigenerata AR-030. North Star focus ordine test PQ.",
   "_nota_metabolizzazione_20_07_2200": "Chat 20/7 ~22:00: Nicola «come si applicano i 5 pilastri» — L-425 nuova; L-424 evidenze++ addendum trigger→azione→misura; preferenza pilastri-applicazione-concreta; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_2157": "Chat 20/7 ~21:57: Nicola correzione «non guardare cosa c'è — gap mercato non collegato» — L-424 caso_studio_nicola; L-423+L-421+L-370 evidenze++ addendum gap mercato; preferenza gap-mercato-non-inventario; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
@@ -10039,9 +10039,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-20 22:15",
+    "tasso_calcolato_il": "2026-07-20 23:18",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 22:15",
+    "tick_leggero_il": "2026-07-20 23:18",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
