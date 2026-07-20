@@ -6,6 +6,57 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
+## 🎟️ Fedeltà di rete — MyCity Punti + Gift Card · 2026-07-20 23:54
+
+Playbook aggiornato (base 6/7). **Meccanica pronta, programma NON acceso** — oggi 1 bottega, 0 ordini pagati: promettere punti su tutta la rete non ha senso finché la rete non c'è.
+
+### Dove siamo
+
+| Fatto | Valore |
+| --- | --- |
+| Negozi attivi | **1** (Pane Quotidiano) |
+| Clienti registrati | **4** |
+| Ordini pagati | **0** |
+| Commissione MyCity | **10%** venduto + **50 €/mese** abbonamento negozio |
+
+**Verdetto:** ARMATO, non acceso. Priorità adesso: PI26 + primo ordine test PQ.
+
+### MyCity Punti (quando accendiamo)
+
+- **1 punto ogni 1 €** speso, valido su **tutta la rete**
+- Valore punto da fissare — proposta lancio: **1%** (100 pt = 1 €), poi **2%** solo se i dati reggono
+- Riscatto: minimo **100 pt**, max **30%** del carrello, scadenza **12 mesi**
+- **Paga MyCity** (dalla commissione), il negozio incassa pieno al riscatto
+- **Oggi: 0%** — non accendere con 1 solo negozio
+
+### Gift Card MyCity
+
+- Tagli **10 · 25 · 50 €**, spendibili su tutta la rete
+- Incasso subito MyCity, negozio pagato quando il cliente spende
+- **Prima di vendere:** parere legale + contabilità (IVA buono multiuso) 🔴
+- Serve Stripe collegato in scrittura + tabella dedicata
+
+### Per accendere servono tutte e 5
+
+1. **≥ 5 negozi** con payout ok (oggi: 1)
+2. **Primo ordine reale** chiuso end-to-end
+3. **Stripe write** collegato
+4. **% cashback firmata** (consiglio: 1% al lancio)
+5. **Ok legale/fiscale** sulle gift card
+
+### Prossimo passo (ordine)
+
+1. Chiudere ordine test Pane Quotidiano + payout
+2. Portare **3–5 botteghe** (Peretti, Garetti, Amendolara…)
+3. Collegare Stripe + parere fiscale gift card
+4. Firmare lancio Punti (1%) e Gift Card
+
+Bozze post/email/banner già pronte. **Niente da firmare oggi su fedeltà** — card in coda (#44 Punti · #45 Gift Card).
+
+Fonte: refresh growth 20/7 · validazione finanza · playbook base 6/7.
+
+---
+
 ## 💰 Costi infrastruttura MyCity · 2026-07-20 23:48
 
 Lista aggiornata da Nicola — importi **mensili** salvo dove indicato.
