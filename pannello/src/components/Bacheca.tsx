@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Pin, ChevronDown } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+import HomeSezione from "@/components/HomeSezione";
 import { dataVault } from "@/lib/format";
 import { usePanelSync } from "@/lib/panel-sync";
 
@@ -58,15 +59,20 @@ export default function Bacheca() {
 
   if (avvisi.length === 0) return null;
 
+  const n = avvisi.length;
+  const riassunto =
+    n === 1
+      ? "1 avviso appuntato — tocca per aprire"
+      : `${n} avvisi appuntati — tocca per aprire`;
+
   return (
-    <section className="card p-3">
-      <div className="sez-head mb-2">
-        <span className="sez-ico w-7 h-7">
-          <Pin size={15} />
-        </span>
-        <span className="t-sez text-[15px]">Bacheca — da sapere</span>
-        <span className="badge badge-on ml-auto">{avvisi.length}</span>
-      </div>
+    <HomeSezione
+      icon={<Pin size={15} />}
+      titolo="Bacheca — da sapere"
+      riassunto={riassunto}
+      defaultOpen={false}
+      badge={<span className="badge badge-on">{n}</span>}
+    >
       <div className="space-y-1.5">
         {avvisi.map((a) => (
           <details key={`${a.data}|${a.titolo}`} className="rounded-xl border border-black/[0.07] bg-paper/30 group">
@@ -89,6 +95,6 @@ export default function Bacheca() {
           </details>
         ))}
       </div>
-    </section>
+    </HomeSezione>
   );
 }
