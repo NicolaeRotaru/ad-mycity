@@ -8,6 +8,7 @@ reparto: intelligence
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 12:42 · correzione Deliveroo Piacenza · atteso radar «non operativo» → reale: **attivo e forte** (deliveroo.it + Nicola); perlustrazione + radar aggiornati · lezione L-392 · #radar #competitor
 - 2026-07-20 12:39 · pitch anti-Glovo — pricing corretto post-Nicola · atteso radar/playbook senza «12% zero fissi» → reale: termini allineati 10%+50€/mese + registro-fatti; errore nato da termini PQ storici riusati come standard · lezione L-391 · #pricing #radar
 - 2026-07-20 12:04 · chat Nicola «Migliora l'intelligence» · scorecard: verita 5 · impatto 5 · concretezza 5 · colore 4 · umano 4 · memoria 5 · atteso sveglia automatica (agenda+workflow 41+accensione) → reale: PR #496 branch fix/intelligence-upgrade (9 fonti/giorno, n.41 RSS non stub, playbook+ card #accendi-intelligence-sveglia); merge+Telegram 🔴 pendente Nicola · lezione L-390 · #intelligence-sveglia #n8n
 - 2026-07-20 11:35 · PLAYBOOK Intelligence 20-26/7 · verità 5/5 · utilità 4/5 · azionabilità 4/5 · atteso 3 mosse con fonte su meteo+PI26+Glovo → reale consegna perlustrazione + memoria aggiornata · #radar #meteo #pi26

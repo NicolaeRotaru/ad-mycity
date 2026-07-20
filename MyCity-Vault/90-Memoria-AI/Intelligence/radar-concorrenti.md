@@ -1,6 +1,6 @@
 # 🔍 Radar Concorrenti — 2026-07-20
 
-> Aggiornato: 20 luglio 2026 11:35 · @intelligence · PLAYBOOK Intelligence · fonte: web scan live
+> Aggiornato: 20 luglio 2026 12:42 · @intelligence · PLAYBOOK Intelligence · fonte: web scan live + correzione Nicola
 
 ## Food delivery a Piacenza
 
@@ -8,7 +8,7 @@
 |------------|-------|---------------|---------|
 | **Glovo** | Attivo | Promo live: I Love Poke **-25%**, Vasinikò **-30%** + **-40% Prime**, referral **16€** nuovi utenti | Guerra sconti su catene — leva pitch «loro bruciano margine, noi bottega 10% + 50€/mese» |
 | **JustEat** | Attivo (91 tipologie) | Sotto **Prosus** da ott 2025 (~€4,2 mld); consolidamento UE in corso | Monitorare integrazione futura con ecosistema Prosus/Glovo |
-| **Deliveroo** | Non operativo a Piacenza | — | Campo libero botteghe |
+| **Deliveroo** | **Attivo** a Piacenza | Presenza forte su ristorazione (Centro Storico + zone città; Nicola + deliveroo.it 20/7) | Competitor food reale — noi su botteghe storiche, non ristoranti |
 | **Amazon-Cortilia** | Emilia-Romagna (mag 2026) | Invariato | Spesa GDO affollata — noi su bottega+volto |
 
 ## Consolidamento europeo (luglio 2026)
@@ -23,7 +23,7 @@
 > **"Noi siamo le botteghe del centro storico, non i ristoranti delle catene."**
 
 **Argomento commerciale aggiornato (20/7):**
-- Glovo oggi sconta catene **-25% a -40%** — il ristorante paga sconto **e** commissione ~30%.
+- Glovo oggi sconta catene **-25% a -40%** — il ristorante paga sconto **e** commissione ~30%. Deliveroo attivo e forte su ristorazione a Piacenza (stesso terreno food, non botteghe).
 - MyCity: **10% commissione, 50€/mese abbonamento, payout a consegna**, bottega con volto.
 - **PI26** (sportello aperto oggi): fino **€10k fondo perduto**, 50% spese digitali — leva istituzionale da usare in pitch.
 
@@ -37,4 +37,4 @@ Postura COMPLEMENTARE. Loro: vetrine statiche patrocinio Comune. Noi: ordine + c
 - **Pressione normativa rider:** Confesercenti Piacenza feb 2026 — settore sotto osservazione. Opportunità rider regolari MyCity.
 
 ---
-*Fonti: glovoapp.com/piacenza · prosus.com lug 2026 · retailfood.it · piacenzasera.it feb 2026 · perlustrazione 20/7*
+*Fonti: glovoapp.com/piacenza · deliveroo.it/piacenza · prosus.com lug 2026 · retailfood.it · piacenzasera.it feb 2026 · perlustrazione 20/7 · correzione Nicola 20/7 12:42*

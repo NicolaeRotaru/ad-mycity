@@ -39,10 +39,10 @@ Contorno confermato:
 |------------|--------|-------------------|
 | **Glovo Piacenza** | Promo aggressive live: I Love Poke **-25%**, Vasinikò **-30%** articoli + **-40% con Prime**, referral **16€** (4×4€) | Guerra sconti su **catene/ristorazione** — leva pitch botteghe: «loro bruciano margine con sconti, voi bottega 10% + 50€/mese» |
 | **Just Eat (Prosus)** | Acquisizione completata ott 2025 (~€4,2 mld); Prosus **lug 2026** impegno irrevocabile vendita quota residua Delivery Hero a **Uber** | Consolidamento europeo delivery accelera — urgenza moat botteghe storiche **prima** che i giganti ottimizzino Italia |
-| **Deliveroo** | Non operativo Piacenza | Invariato |
+| **Deliveroo** | **Attivo** a Piacenza (Centro Storico + altre zone; ristorazione — presenza forte, conferma Nicola + deliveroo.it 20/7) | Terzo player food delivery locale — **non** botteghe da scaffale; moat MyCity = «Turno/bottega storica» vs catene/ristoranti su Glovo/Deliveroo |
 | **Amazon-Cortilia** | Entrato Emilia-Romagna mag 2026 (invariato vs scan 6/7) | Campo spesa GDO affollato — restiamo su bottega+volto |
 
-Fonti: [Glovo categoria cibo Piacenza](https://glovoapp.com/it/it/piacenza/categories/cibo_1) · [Prosus news 2026 Delivery Hero/Uber](https://www.prosus.com/news-insights/2026/prosus-gives-irrevocable-undertaking-to-sell-residual-stake-in-delivery-hero-to-uber) · [Prosus FY26 JET](https://markets.ft.com/data/announce/full?dockey=1323-17660727-5V2KVL59KEC9IHME4OMCP4PV0T)
+Fonti: [Glovo categoria cibo Piacenza](https://glovoapp.com/it/it/piacenza/categories/cibo_1) · [Deliveroo Piacenza](https://deliveroo.it/it/cuisines/italiana-a-domicilio/piacenza) · [Prosus news 2026 Delivery Hero/Uber](https://www.prosus.com/news-insights/2026/prosus-gives-irrevocable-undertaking-to-sell-residual-stake-in-delivery-hero-to-uber) · [Prosus FY26 JET](https://markets.ft.com/data/announce/full?dockey=1323-17660727-5V2KVL59KEC9IHME4OMCP4PV0T)
 
 ---
 

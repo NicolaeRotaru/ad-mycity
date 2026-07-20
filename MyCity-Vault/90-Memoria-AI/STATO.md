@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 12:40
-fonte: AD digitale (chat Pannello casella pitch anti-Glovo)
+aggiornato: 2026-07-20 12:42
+fonte: AD digitale (chat Pannello casella perlustrazione)
 ---
+
+> 💬 **20/7 ~12:42 — CHAT: Nicola corregge radar — Deliveroo attivo a Piacenza (L-392).** Perlustrazione settimana diceva «non operativo» — **sbagliato**: Deliveroo c'è ed è **abbastanza forte** su ristorazione. Corretto perlustrazione + radar intelligence; fonte deliveroo.it/piacenza 20/7. Moat MyCity resta **botteghe storiche**, non ristoranti.
 
 > 💬 **20/7 ~12:39 — CHAT: Nicola corregge pricing pitch — 10% + 50€/mese (L-391).** Casella «Glovo sconta catene» diceva **12% zero fissi** — Nicola: **10% commissione + 50€/mese abbonamento**. Confermato codice marketplace (`MARKETPLACE_FEE_BPS` 10%, subscription 5000 cent). Registrato in `registro-fatti.json` · pitch anti-Glovo + radar intelligence + scout + AZIONI-PRONTE aggiornati · **PQ resta eccezione** (12%/0€ contratto storico 1/7). Fonte: chat Nicola Pannello 20/7 12:39.
 
