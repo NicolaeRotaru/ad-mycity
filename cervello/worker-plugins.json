@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Manifest plugin approvati per il worker (motore Claude o Cursor). Ogni voce ha scope (dove si applica) e target (dove finisce nel repo, fonte unica in .cursor/). Sync: node cervello/sync-worker-plugins.mjs · Specchio per Claude Code (.claude/skills/, generato, non versionato): node cervello/sync-worker-plugins.mjs --specchia — gira da solo a ogni avvio di worker/giro/ritmo.",
-  "aggiornato": "2026-07-20 04:01",
+  "aggiornato": "2026-07-20 04:04",
   "plugin": [
     {
       "id": "grilling",
@@ -1243,284 +1243,284 @@
     {
       "id": "ab-testing",
       "target": ".cursor/skills/ab-testing/SKILL.md",
-      "sha": "1fd229160f60",
-      "byte": 11150
+      "sha": "29871d48922e",
+      "byte": 13676
     },
     {
       "id": "ad-creative",
       "target": ".cursor/skills/ad-creative/SKILL.md",
-      "sha": "e874d7bde2f5",
-      "byte": 20720
+      "sha": "6963293127b1",
+      "byte": 23246
     },
     {
       "id": "ads",
       "target": ".cursor/skills/ads/SKILL.md",
-      "sha": "8be65c0dfa27",
-      "byte": 25493
+      "sha": "c4c1c2431048",
+      "byte": 28019
     },
     {
       "id": "ai-seo",
       "target": ".cursor/skills/ai-seo/SKILL.md",
-      "sha": "009333fb0cd4",
-      "byte": 26914
+      "sha": "dec7456776de",
+      "byte": 29440
     },
     {
       "id": "analytics",
       "target": ".cursor/skills/analytics/SKILL.md",
-      "sha": "16aab197f87b",
-      "byte": 8359
+      "sha": "6c0c0fe8b544",
+      "byte": 10885
     },
     {
       "id": "aso",
       "target": ".cursor/skills/aso/SKILL.md",
-      "sha": "158f42a00846",
-      "byte": 15520
+      "sha": "77ecd548e8d9",
+      "byte": 18046
     },
     {
       "id": "churn-prevention",
       "target": ".cursor/skills/churn-prevention/SKILL.md",
-      "sha": "88fd25b77e44",
-      "byte": 17745
+      "sha": "dd1d063d9d53",
+      "byte": 20271
     },
     {
       "id": "co-marketing",
       "target": ".cursor/skills/co-marketing/SKILL.md",
-      "sha": "893a3115b2e0",
-      "byte": 10143
+      "sha": "d9fb982e1eac",
+      "byte": 12669
     },
     {
       "id": "cold-email",
       "target": ".cursor/skills/cold-email/SKILL.md",
-      "sha": "b7f8d793169a",
-      "byte": 7286
+      "sha": "cb0d5f509a0b",
+      "byte": 9812
     },
     {
       "id": "community-marketing",
       "target": ".cursor/skills/community-marketing/SKILL.md",
-      "sha": "edd8060b6382",
-      "byte": 8855
+      "sha": "db5cf274e0e3",
+      "byte": 11488
     },
     {
       "id": "competitor-profiling",
       "target": ".cursor/skills/competitor-profiling/SKILL.md",
-      "sha": "ea7b5b7feb79",
-      "byte": 14123
+      "sha": "e922a00bc0ca",
+      "byte": 16756
     },
     {
       "id": "competitors",
       "target": ".cursor/skills/competitors/SKILL.md",
-      "sha": "99e9ea715b1a",
-      "byte": 8795
+      "sha": "0b2316329e1d",
+      "byte": 11321
     },
     {
       "id": "content-strategy",
       "target": ".cursor/skills/content-strategy/SKILL.md",
-      "sha": "0611532b2a0d",
-      "byte": 12150
+      "sha": "ac745250a24f",
+      "byte": 14676
     },
     {
       "id": "copy-editing",
       "target": ".cursor/skills/copy-editing/SKILL.md",
-      "sha": "9b5a20be3dc5",
-      "byte": 14974
+      "sha": "77c7f909fa4a",
+      "byte": 17607
     },
     {
       "id": "copywriting",
       "target": ".cursor/skills/copywriting/SKILL.md",
-      "sha": "ecdaabca2886",
-      "byte": 7599
+      "sha": "9205ce2dcd10",
+      "byte": 10125
     },
     {
       "id": "cro",
       "target": ".cursor/skills/cro/SKILL.md",
-      "sha": "199016bec3b4",
-      "byte": 6095
+      "sha": "976eb673c8c0",
+      "byte": 8621
     },
     {
       "id": "customer-research",
       "target": ".cursor/skills/customer-research/SKILL.md",
-      "sha": "f44c116c4690",
-      "byte": 12665
+      "sha": "64db7da73b11",
+      "byte": 15298
     },
     {
       "id": "directory-submissions",
       "target": ".cursor/skills/directory-submissions/SKILL.md",
-      "sha": "dd08854f5cd1",
-      "byte": 23155
+      "sha": "c53426a73017",
+      "byte": 25681
     },
     {
       "id": "emails",
       "target": ".cursor/skills/emails/SKILL.md",
-      "sha": "1fbd54df4c59",
-      "byte": 8550
+      "sha": "a2856c88657b",
+      "byte": 11076
     },
     {
       "id": "free-tools",
       "target": ".cursor/skills/free-tools/SKILL.md",
-      "sha": "76dc45350418",
-      "byte": 5933
+      "sha": "c6199593833f",
+      "byte": 8459
     },
     {
       "id": "image",
       "target": ".cursor/skills/image/SKILL.md",
-      "sha": "c34b67e249e5",
-      "byte": 15634
+      "sha": "112552e657f5",
+      "byte": 18160
     },
     {
       "id": "launch",
       "target": ".cursor/skills/launch/SKILL.md",
-      "sha": "6d8bbd61449c",
-      "byte": 12935
+      "sha": "9fc60c25d144",
+      "byte": 15461
     },
     {
       "id": "lead-magnets",
       "target": ".cursor/skills/lead-magnets/SKILL.md",
-      "sha": "bfb1e260e56f",
-      "byte": 10901
+      "sha": "3a61df3caef9",
+      "byte": 13427
     },
     {
       "id": "marketing-council",
       "target": ".cursor/skills/marketing-council/SKILL.md",
-      "sha": "0b94358427c3",
-      "byte": 12382
+      "sha": "f32565f8b84f",
+      "byte": 15015
     },
     {
       "id": "marketing-ideas",
       "target": ".cursor/skills/marketing-ideas/SKILL.md",
-      "sha": "7fe1f79d0081",
-      "byte": 5301
+      "sha": "a3f2b48883c0",
+      "byte": 7827
     },
     {
       "id": "marketing-loops",
       "target": ".cursor/skills/marketing-loops/SKILL.md",
-      "sha": "db4ba419ee74",
-      "byte": 8980
+      "sha": "e427110d6aa9",
+      "byte": 11613
     },
     {
       "id": "marketing-plan",
       "target": ".cursor/skills/marketing-plan/SKILL.md",
-      "sha": "548e1bd8f31f",
-      "byte": 20988
+      "sha": "6ccd1266b72a",
+      "byte": 23621
     },
     {
       "id": "marketing-psychology",
       "target": ".cursor/skills/marketing-psychology/SKILL.md",
-      "sha": "573bbe4f6e30",
-      "byte": 21836
+      "sha": "abbd640ab61a",
+      "byte": 24469
     },
     {
       "id": "offers",
       "target": ".cursor/skills/offers/SKILL.md",
-      "sha": "cdc291bdf93b",
-      "byte": 9252
+      "sha": "1417b71af566",
+      "byte": 11778
     },
     {
       "id": "onboarding",
       "target": ".cursor/skills/onboarding/SKILL.md",
-      "sha": "15a802ffb738",
-      "byte": 6553
+      "sha": "0b013dbe601b",
+      "byte": 9079
     },
     {
       "id": "paywalls",
       "target": ".cursor/skills/paywalls/SKILL.md",
-      "sha": "d062c03f6b99",
-      "byte": 5781
+      "sha": "72719fd6f777",
+      "byte": 8307
     },
     {
       "id": "popups",
       "target": ".cursor/skills/popups/SKILL.md",
-      "sha": "6c66e7f923c1",
-      "byte": 11795
+      "sha": "e9e57ac3c08c",
+      "byte": 14321
     },
     {
       "id": "pricing",
       "target": ".cursor/skills/pricing/SKILL.md",
-      "sha": "a5d1cfe49b80",
-      "byte": 7148
+      "sha": "0c1241505cab",
+      "byte": 9674
     },
     {
       "id": "product-marketing",
       "target": ".cursor/skills/product-marketing/SKILL.md",
-      "sha": "6dfd6bd485f6",
-      "byte": 9389
+      "sha": "2d5a7ce49b95",
+      "byte": 12022
     },
     {
       "id": "programmatic-seo",
       "target": ".cursor/skills/programmatic-seo/SKILL.md",
-      "sha": "15cb5979cab5",
-      "byte": 7090
+      "sha": "2c658531cca9",
+      "byte": 9616
     },
     {
       "id": "prospecting",
       "target": ".cursor/skills/prospecting/SKILL.md",
-      "sha": "beabb53a99b4",
-      "byte": 16901
+      "sha": "bdf2e6d8c4ac",
+      "byte": 19427
     },
     {
       "id": "public-relations",
       "target": ".cursor/skills/public-relations/SKILL.md",
-      "sha": "d1aeff136f23",
-      "byte": 7033
+      "sha": "297a061c0a69",
+      "byte": 9559
     },
     {
       "id": "referrals",
       "target": ".cursor/skills/referrals/SKILL.md",
-      "sha": "4ddd01713b7e",
-      "byte": 7491
+      "sha": "f638d8ebf403",
+      "byte": 10017
     },
     {
       "id": "revops",
       "target": ".cursor/skills/revops/SKILL.md",
-      "sha": "bb27b16ad41c",
-      "byte": 15247
+      "sha": "2c3775190c24",
+      "byte": 17773
     },
     {
       "id": "sales-enablement",
       "target": ".cursor/skills/sales-enablement/SKILL.md",
-      "sha": "d83c3244dd8e",
-      "byte": 14581
+      "sha": "689c1d157769",
+      "byte": 17107
     },
     {
       "id": "schema",
       "target": ".cursor/skills/schema/SKILL.md",
-      "sha": "d8b7aa7bcd97",
-      "byte": 5248
+      "sha": "2d80b920352e",
+      "byte": 7774
     },
     {
       "id": "seo-audit",
       "target": ".cursor/skills/seo-audit/SKILL.md",
-      "sha": "3b03a2e07578",
-      "byte": 16424
+      "sha": "133d4f8e8a04",
+      "byte": 18950
     },
     {
       "id": "signup",
       "target": ".cursor/skills/signup/SKILL.md",
-      "sha": "9395aabae648",
-      "byte": 10368
+      "sha": "0a2ac9161640",
+      "byte": 12894
     },
     {
       "id": "site-architecture",
       "target": ".cursor/skills/site-architecture/SKILL.md",
-      "sha": "a47f693c6a4f",
-      "byte": 13480
+      "sha": "cc9466eaa5fa",
+      "byte": 16006
     },
     {
       "id": "sms",
       "target": ".cursor/skills/sms/SKILL.md",
-      "sha": "bf649cfac0e3",
-      "byte": 16683
+      "sha": "b172168546a6",
+      "byte": 19209
     },
     {
       "id": "social",
       "target": ".cursor/skills/social/SKILL.md",
-      "sha": "8cc93d9b3616",
-      "byte": 14880
+      "sha": "cca0ad170df2",
+      "byte": 17406
     },
     {
       "id": "video",
       "target": ".cursor/skills/video/SKILL.md",
-      "sha": "3b6d4864bae4",
-      "byte": 14292
+      "sha": "191f94438c89",
+      "byte": 16818
     }
   ]
 }

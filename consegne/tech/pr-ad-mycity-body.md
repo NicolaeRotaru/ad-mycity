@@ -1,17 +1,17 @@
 ## Summary
-Scaricate e vendored tutte le 47 marketing skill community (`coreyhaines31/marketingskills`) nel manifest plugin del worker — da 19 a 66 skill totali.
+47 marketing skill community + **adattamento MyCity**: overlay «Il Turno», Piacenza, onestà numeri, canali locali.
 
 ## Cosa cambia
-- `worker-plugins.json`: +47 voci marketing (copy, CRO, social, SEO, ads, launch…)
-- `.cursor/skills/<id>/SKILL.md`: file vendored pronti offline (sync da GitHub)
-- Lo specchio Claude (`.claude/skills/`, gitignored) si rigenera da solo a ogni avvio worker/giro
+- Ogni skill marketing ha un blocco **MYCITY — contesto obbligatorio** (Turno, tagline, Facebook/IG locali, ONESTA-RULES)
+- `sync-worker-plugins.mjs` applica il patch automaticamente a ogni sync futuro (idempotente)
+- Fragment riusabile: `cervello/prompt-fragments/mycity-marketing-overlay.md`
 
 ## Come provare
 1. Mergia la PR
-2. Riavvia il worker (o attendi prossimo giro) — le skill compaiono nel prompt plugin
-3. Chiedi in chat «scrivi un post Facebook per Pane Quotidiano» — il worker può attivare skill `social` / `copywriting`
-4. `npx bats cervello/test/specchia-skills.bats` — 4/4 verdi (già passato in branch)
+2. Apri `.cursor/skills/social/SKILL.md` — deve comparire «Il Turno» subito dopo l’header
+3. Chiedi al worker: «bozza post Facebook per Pane Quotidiano» — tono Piacenza, niente numeri inventati
+4. `npx bats cervello/test/specchia-skills.bats` — 4/4 (già verde)
 
 ## Note
-- Skill generiche B2B/SaaS: il worker deve adattarle a MyCity (Turno, Piacenza, onestà numeri) — non sostituiscono i senior marketing/content/seo
-- Licenza MIT sul repo sorgente
+- Bozze sì, pubblicazione live resta 🔴 firma Nicola
+- Non sostituisce i senior marketing/content/seo — li potenzia
