@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { Brain, FileText, History, Loader2, Mic, Plus, Send, Volume2, VolumeX } from "lucide-react";
+import { Brain, FileText, Loader2, Menu, Mic, Plus, Send, Volume2, VolumeX } from "lucide-react";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
 import BottoneFotoChat from "@/components/BottoneFotoChat";
@@ -123,20 +123,24 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
         )}
         {!fab && onConversazioni && (
           <button
+            type="button"
             onClick={onConversazioni}
-            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 border border-black/10 text-black/55 px-3 rounded-xl text-xs hover:bg-black/[0.04] active:scale-95 transition"
-            title="Lista conversazioni"
+            className="min-h-[44px] min-w-[44px] grid place-items-center rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] active:scale-95 transition"
+            aria-label="Lista conversazioni"
+            title="Conversazioni"
           >
-            <History size={15} /> Conv
+            <Menu size={16} />
           </button>
         )}
         {!fab && onNuovaChat && (
           <button
+            type="button"
             onClick={onNuovaChat}
-            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 border border-black/10 text-black/55 px-3 rounded-xl text-xs hover:bg-black/[0.04] active:scale-95 transition"
+            className="min-h-[44px] min-w-[44px] grid place-items-center rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] active:scale-95 transition"
+            aria-label="Nuova chat"
             title="Nuova chat"
           >
-            <Plus size={15} /> Nuova
+            <Plus size={16} />
           </button>
         )}
         <BottoneSkill
