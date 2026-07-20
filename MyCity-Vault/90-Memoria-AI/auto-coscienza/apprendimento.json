@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 23:28",
+  "aggiornato": "2026-07-20 23:35",
+  "_nota_metabolizzazione_20_07_2335": "Chat 20/7 ~23:35: Nicola «Fai il fix» casella token audit memoria bloccata — AD PR #506 redattore-segreti AR-124, scan exit 0. L-431 nuova; preferenza token-audit-redattore; STATO+DECISIONI+LEZIONI-CHAT+security+tech+ad esito; merge #506 🔴 pendente Nicola.",
   "_nota_metabolizzazione_20_07_2328": "Chat 20/7 ~23:28: Nicola «C'è un conflitto» PR #504 — AD rebase post #501+#503, giro.sh north-star+OKR, mergeable 5c8dfc7b; #501 ✅ mergiata Nicola. L-429 nuova; L-397 evidenze 6 + #501 merged + #504; L-413 evidenze 3 #501 merged; L-427 evidenze 2; preferenza ce-un-conflitto-pr; STATO+DECISIONI+LEZIONI-CHAT+ad+tech+chief-of-staff esito; merge #504 🔴 pendente.",
   "_nota_metabolizzazione_20_07_2323": "Chat 20/7 ~23:23: Nicola solo screenshot PR #501 conflitti — AD risolve, mergeable; pattern L-397 addendum #501; L-413 evidenze++ mergeable; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+tech+ad esito; merge #501 🔴 pendente Nicola.",
   "_nota_metabolizzazione_20_07_2320": "Chat 20/7 ~23:20: Nicola «Fai il fix» AR-115 OKR stantio — PR #504 freschezza-okr.mjs gate HARD giro. L-427 nuova; L-426+L-428 (23:18/18:52) completate in apprendimento; preferenze okr-freschezza-gate + north-star-gate-hard + vercel-build-non-conflitti; STATO+DECISIONI+LEZIONI-CHAT+ad+chief-of-staff+frontend-dev esito; merge #504+#503 🔴 pendente Nicola.",
@@ -151,6 +152,28 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-431",
+      "testo": "**Memoria bloccata da token in audit — «Fai il fix» AR-124 = redazione + redattore a monte (Nicola 20/7 ~23:32).** Casella Radiografia: memoria **ferma** — PAT GitHub **3×** nel report `consegne/audit/2026-07-16-auto-radiografia.md` → `scan-segreti` exit 1 → `giro.sh` `SEGRETO_TROVATO=1` → `GIRO_PUSH_OK=0` → nessuna pubblicazione su main. 5 perché: (1) auto-radiografia **documentava** un leak citando il valore reale — il leak nel report **replica** il blocco; (2) lo scan a valle è binario — non distingue «segreto operativo» da «segreto citato in audit»; (3) `consegne/` **non** è append-only → redazione ammessa; (4) fix = redigere report → `[REDATTO]` + **`segreti-pattern.mjs`** condiviso + **`redattore-segreti.mjs`** **prima** di scrivere artefatti + regola in `scrittura-umana.md` (mai valore token, solo nome variabile); (5) verificato `node cervello/scan-segreti.mjs` → exit **0** · **PR #506** (`2c4d01ef`). **Non** disattivare lo scan. Se PAT era reale → **#ruota-pat-github** 🔴 separato. Regola: casella «memoria bloccata da segreto» → redigi + prevenzione a monte, mai aggirare il perimetro. Vedi AR-124, AR-004.",
+      "tag": [
+        "sicurezza",
+        "scan-segreti",
+        "redattore",
+        "giro",
+        "AR-124",
+        "audit",
+        "nicola"
+      ],
+      "reparto": "@security",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 23:32",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-428",
       "testo": "**Vercel build — «non hai risolto vercel» = conflitti Git risolti ≠ build ok; API route mai React (Nicola 20/7 ~18:52).** Dopo PR **#499** (fix Parla casella PGRST102) Nicola corregge: conflitti memoria risolti, branch **mergeable**, ma **Vercel build rossa**. 5 perché: (1) AD dichiarava fix chiuso al rebase conflitti — **non** aveva letto log Vercel; (2) causa build: import **React/UI** (`page.tsx` / componenti client) dentro route **API** server; (3) Next/Vercel compila API come server-only — React in bundle server = **fail**; (4) fix = estrarre logica in modulo **server-safe** (sanitize JSON, build payload) senza import client; (5) **regola:** su fix Pannello «fai il fix» → dopo conflitti Git verificare **typecheck + build Vercel** prima di «pronto»; pattern L-397 (conflitti memoria ricorrenti) **non** sostituisce check build. Correlazione L-400 (PGRST102), P2 (`|| true` / gate decorativo).",
@@ -9763,6 +9786,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Token in audit — «Fai il fix» memoria bloccata = redigi + redattore preventivo, non spegnere scan (chat 20/7 ~23:32):** casella PAT nel report auto-radiografia — si aspetta fix **immediato** che sblocchi il push (redazione `[REDATTO]` + prevenzione futura), verifica `scan-segreti` exit 0, **PR #506** link in chat; merge 🔴 + valutare rotazione PAT se token era valido (#ruota-pat-github). Vedi L-431.",
     "**«C'è un conflitto» — AD risolve subito, spiega quale PR e cosa tenere (chat 20/7 ~23:28):** segnala conflitto merge (testo o screenshot) — si aspetta AD **rebase immediato**, identificazione PR (**#504** post #501+#503), spiegazione **memoria vs codice** (su `giro.sh` merge manuale: north-star da main + gate OKR dal branch), conferma **mergeable** + link; **non** chiedere a Nicola di risolvere conflitti a mano; dopo fix indicare merge 🔴 pendente e effetto (es. giro obbliga OKR). Vedi L-429, L-397.",
     "**OKR stantio — «Fai il fix» AR-115 = gate HARD giro + PR #504, poi OKR riscritti (chat 20/7 ~23:20):** casella OKR-Squadra morto dal 24/6 — si aspetta guardiano freschezza come checklist (date scadute, doc >7 gg, faro obsoleto) che **blocchi** il giro finché OKR non aggiornati per fase PQ/primo ordine; merge **#504** → link chat (**no card** L-402). Vedi L-427, AR-030.",
     "**North Star soft — «Fai il fix» AR-113 = gate HARD allocazione + PR #503 (chat 20/7 ~23:18):** promuovere controllo primo ordine da avviso a **vincolo** che limita lavoro macchina a mosse verso 1° incasso; fix deve chiudere casella Radiografia (naming variabile + no `|| true`). Card **#214** merge **#503**. Vedi L-426.",
