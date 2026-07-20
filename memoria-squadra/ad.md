@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-20 21:49 · metabolizzazione chat «versione avanzata worker/AD/Pannello» · atteso: L-421 + preferenza + STATO/DECISIONI/LEZIONI · reale: L-421 nuova, L-370 evidenze 3 addendum versione avanzata, preferenza versione-avanzata-3-salti, STATO/DECISIONI/LEZIONI-CHAT aggiornati · #metabolizzazione #versione-avanzata #L-421
 - 2026-07-20 18:01 · metabolizzazione chat «togli card merge obsolete» · atteso: L-403 + DECISIONI 18:00 + preferenza pulizia retroattiva · reale: L-403, L-402 evidenze 2, 6 card RIMOSSA in AZIONI, coda 47→41, LEZIONI-CHAT aggiornato · #metabolizzazione #coda-approva #L-403
 - 2026-07-20 17:59 · metabolizzazione chat «coda Approva solo iniziativa AD» · atteso: L-402 + preferenza + allineamento L-0701-31 · reale: L-402 caso_studio_nicola, L-0701-31 evidenze 6, STATO/DECISIONI/LEZIONI-CHAT aggiornati · #metabolizzazione #coda-approva #L-402
 - 2026-07-20 06:22 · Giro 20/7 06:20 north-star · coerenza:5 verita:5 focus:5 completezza:4 azioni:5 memoria:5 · atteso briefing+checklist mattina+PI26 oggi → reale business invariato 0 pagati · #north-star #PI26

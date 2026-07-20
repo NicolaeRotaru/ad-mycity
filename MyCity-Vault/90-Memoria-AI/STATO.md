@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 20:25
-fonte: AD digitale (chat 20/7 20:25)
+aggiornato: 2026-07-20 21:49
+fonte: AD digitale (chat 20/7 21:49)
 ---
+
+> 💬 **20/7 ~21:49 — CHAT: «Versione avanzata» worker/AD/Pannello — roadmap 3 salti (L-421).** Nicola chiede come migliorare ulteriormente worker/AD/Pannello e immaginare versione avanzata. AD: non «più AI» — macchina che **vede tutto**, **disturba poco**, **agisce dopo ok**, **impara da ordini veri**. **Salto 1 (1–2 sett):** mani mancanti (Telegram avvisi, Meta n8n FB/IG, email live) — **~41 card** fermate senza canali/approva. **Salto 2:** burn mensile in env VPS + Stripe lettura (stop «runway sconosciuto»). **Salto 3:** **primo ordine Pane Quotidiano + payout ok** — North Star = ordini pagati, non post pronti. Pannello avanzato: meno card, **3 decisioni/giorno**, chat sync telefono/PC, caselle auto-chiuse post-merge. AD avanzato: giro esegue approvati, PostHog funnel abbandono, Telegram solo se cambia qualcosa. **Mossa unica consigliata:** Telegram + Meta + ordine test PQ. Business invariato: 1 PQ · 0 pagati · stallo ~636h. Fonte: chat Nicola 20/7 21:49.
 
 > 💬 **20/7 ~20:25 — CHAT: Meta FB/IG — «collegare Meta» via n8n workflow (L-420).** Nicola «**come faccio a collegare meta per farti pubblicare su facebook ed instagram**» — n8n **già acceso** VPS; workflow **«MyCity — Pubblica post programmato»** già importato. Resta: Pagina FB + IG professionale collegato → app Meta Business (Login + Graph API) → token pagina + ID pagina + ID IG **nei nodi n8n** (mai in chat) → workflow **Active** → test Execute. Flusso: AD prepara post → card **Da approvare** → Nicola Approva → pagina FB + feed IG; **gruppi FB manuali**; IG richiede **URL immagine pubblico**. Checkpoint: scrive «**Meta collegato**» → post prova. **Non fatto** — OAuth/token Meta pendente Nicola. Fonte: chat Nicola 20/7 20:25.
 
