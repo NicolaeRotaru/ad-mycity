@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 18:48 · PostHog Radiografia — Nicola «ancora scollegata» + screenshot · atteso: diagnosi quale UI · reale: `posthogConnected()` in `posthog.ts` legge solo env **Vercel** (`POSTHOG_HOST`+`POSTHOG_PROJECT_ID`+`POSTHOG_API_KEY`); VPS ok ≠ Radiografia verde; project **495230** US · #pannello #posthog #radiografia #vercel · L-411
 - 2026-07-20 17:53 · Parla casella PGRST102 fix — Nicola «fai il fix» post L-399 · atteso: PR Pannello payload valido · reale: **PR #499** — costruzione payload **lato server**, sanitize testo + validazione JSON pre-Supabase; typecheck OK; merge 🔴 **#499** · #pannello #chat #parla-casella #pgrst102 #pr-499 · L-400, L-399
 - 2026-07-20 17:50 · Tre PR mergiate — Nicola «controlla se mergiata» da casella · atteso: verifica GitHub tutte PR recenti · reale: **#498 ✅ 16:36** + **#497 ✅ 16:36** + **#496 ✅ 17:44**; card Approva resta bug DB memoria; prossimo **#accendi-intelligence-sveglia** · #pannello #github-api #pr-merge · L-398
 - 2026-07-20 17:48 · Parla casella PGRST102 — Nicola «hai visto l'errore sotto la casella?» · atteso: spiegare errore giallo + perché AD non risponde da card · reale: POST /api/lavori → Supabase **PGRST102** JSON invalido su percorso **Parla con questa azione**; chat principale ok; testo preservato nel riquadro; #498 già merged — fix 🟡 **#fix-parla-casella-pgrst102** · #pannello #chat #parla-casella #pgrst102 #lavori · L-399, L-398
