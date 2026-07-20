@@ -221,6 +221,30 @@ export async function listNotes(filtro?: string): Promise<string> {
   return "Errore: nessun ramo leggibile per il vault.";
 }
 
+/** Elenco path `.md` sotto prefissi dati — 1 albero git (~3 call), non N listDir. */
+export async function listMarkdownPaths(
+  prefissi: string[]
+): Promise<{ paths: string[]; parziale: boolean; ramo: string | null }> {
+  if (!obsidianConnected()) return { paths: [], parziale: false, ramo: null };
+  const want = prefissi.map((p) => `${p.replace(/\/+$/, "")}/`);
+  for (const ramo of ramiLettura()) {
+    try {
+      const ref: any = await (await fetchTimeout(`${API}/repos/${OWNER}/${REPO}/git/ref/heads/${ramo}`, { headers: h(), cache: "no-store" })).json();
+      if (!ref.object) continue;
+      const commit: any = await (await fetchTimeout(`${API}/repos/${OWNER}/${REPO}/git/commits/${ref.object.sha}`, { headers: h(), cache: "no-store" })).json();
+      const tree: any = await (await fetchTimeout(`${API}/repos/${OWNER}/${REPO}/git/trees/${commit.tree.sha}?recursive=1`, { headers: h(), cache: "no-store" })).json();
+      const paths = (tree.tree || [])
+        .filter((t: any) => t.type === "blob" && typeof t.path === "string" && t.path.endsWith(".md"))
+        .map((t: any) => t.path as string)
+        .filter((p: string) => want.some((pre) => p.startsWith(pre)));
+      return { paths, parziale: Boolean(tree.truncated), ramo };
+    } catch {
+      /* provo il ramo successivo */
+    }
+  }
+  return { paths: [], parziale: true, ramo: null };
+}
+
 /**
  * Elenco dei file .md DIRETTI in una cartella, via Contents API (sempre attuale,
  * niente albero git ricorsivo che con repo grandi può essere troncato e perdere file nuovi).
