@@ -1,14 +1,14 @@
 ## Summary
-- Ripristina l’icona **Menu** (☰) nella testata della chat Worker: apre/chiude l’elenco conversazioni.
-- **Telefono:** cassetto a scomparsa da sinistra (prima mancava del tutto l’icona dopo #485).
-- **Desktop:** sidebar integrata resta il default; l’icona la nasconde/mostra se serve spazio.
-- Fix minore: barra scrittura `z-20` così il pannello ⚡ Skill & comandi non resta sotto i messaggi.
+- Rimuove la barra titolo «Worker / Semplice e diretto…» dalla finestra chat Worker (fluttuante e ingrandita).
+- Sposta **Nuova chat (+)** nella barra icone in basso (accanto ad allega, video live, prompt, ecc.).
+- Chiudi (X) e ingrandisci restano come due piccole icone in alto a destra, senza barra.
 
 ## Perché
-Con la sidebar sempre visibile (#485) è sparita l’icona che apriva le conversazioni — su mobile Nicola clicca e «non si apre niente».
+Nicola chiede più spazio ai messaggi e un’unica barra strumenti in basso, stile WhatsApp.
 
 ## Come provare
-1. Apri il Worker (finestra fluttuante).
-2. Su **telefono** (o finestra stretta): tap ☰ → deve comparire l’elenco chat; tap fuori o su una chat → si chiude.
-3. Su **desktop**: ☰ nasconde/mostra la colonna sinistra; di default è visibile.
-4. Tap ⚡ in basso → si apre «Skill & comandi».
+1. Apri il Worker (icona in basso a destra).
+2. Verifica che **non** ci sia più la strada grigia con «Worker» e sottotitolo.
+3. In basso, prima delle altre icone, c’è **+** → apre chat vuota.
+4. In alto a destra restano solo ingrandisci e X.
+5. Ripeti con chat ingrandita a schermo intero.

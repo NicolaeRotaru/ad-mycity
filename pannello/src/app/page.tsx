@@ -288,6 +288,27 @@ function mergeListaConversazioni(prev: Conversazione[], incoming: Conversazione[
   return merged;
 }
 
+/** Chat aperta da Lavori («Chat con questa casella») vive nei lavori — la aggiungiamo alla lista Worker se manca nel DB. */
+function integraConversazioniDaLavori(list: Conversazione[], lavoriList: Lavoro[]): Conversazione[] {
+  const ids = new Set(list.map((c) => c.id));
+  const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+  const extra: Conversazione[] = [];
+  for (const g of raggruppaLavori(lavoriList, m)) {
+    if (ids.has(g.id)) continue;
+    if (!g.lavori.some((l) => l.tipo === "chat")) continue;
+    const msgs = messaggiDaGruppo(g.lavori).filter((m) => !m.pending) as Msg[];
+    if (!msgs.some((m) => m.role === "user" && m.content.trim())) continue;
+    extra.push({
+      id: g.id,
+      titolo: g.titolo,
+      messaggi: msgs,
+      created_at: g.lavori[0]?.created_at || g.ultimoAt,
+      updated_at: g.ultimoAt,
+    });
+  }
+  return extra.length ? [...extra, ...list] : list;
+}
+
 function conversazioniUguali(a: Conversazione[], b: Conversazione[]): boolean {
   if (a === b) return true;
   if (a.length !== b.length) return false;
@@ -2014,7 +2035,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           for (const g of raggruppaLavori(lavoriRef.current, m)) gruppi.set(g.id, g);
           migraConvLetteBaseline(incoming, gruppi);
           const attiva = convIdRef.current;
-          const merged = mergeListaConversazioni(conversazioniRef.current, incoming, attiva);
+          const merged = integraConversazioniDaLavori(
+            mergeListaConversazioni(conversazioniRef.current, incoming, attiva),
+            lavoriRef.current,
+          );
           if (!conversazioniUguali(conversazioniRef.current, merged)) {
             setConversazioni(merged);
           }
@@ -2122,6 +2146,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   useEffect(() => {
     if (convDrawerAperto || chatFluttuante || workerFull) caricaConversazioni();
   }, [convDrawerAperto, chatFluttuante, workerFull, caricaConversazioni]);
+
+  // Chat da Lavori («Chat con questa casella»): compaiono nel menu Worker appena arrivano i lavori.
+  useEffect(() => {
+    setConversazioni((prev) => {
+      const next = integraConversazioniDaLavori(prev, lavori);
+      return conversazioniUguali(prev, next) ? prev : next;
+    });
+  }, [lavori]);
 
   // Auto-apri l'ultima conversazione recente se la chat è vuota (sync cross-device).
   // (1) Primo caricamento: apre l'ultima conv <24h (smartphone ↔ desktop).
@@ -2978,17 +3010,13 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             className={`relative flex flex-col flex-1 min-h-0 overflow-hidden ${workerFull ? "w-full sm:max-w-5xl sm:mx-auto sm:border-l sm:border-r" : ""}`}
             style={workerFull ? { borderColor: "var(--border)" } : undefined}
           >
-          <div className="px-4 py-3 shrink-0 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
-            <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand text-white shrink-0 text-[13px] font-bold">M</span>
-            <div className="leading-tight min-w-0 flex-1">
-              <div className="text-[14px] font-semibold tracking-tight truncate">Worker</div>
-              <div className="t-eti text-[11px]">Semplice e diretto — penso io a chi lo fa.</div>
-            </div>
+          {/* Niente barra titolo — menu conv, ingrandisci e chiudi in alto a destra; + Nuova chat in barra bassa */}
+          <div className="absolute top-2 right-2 z-20 flex items-center gap-0.5">
             <button
               type="button"
               onClick={() => setWorkerConvMobile((v) => !v)}
-              className={`sm:hidden grid place-items-center w-7 h-7 rounded-lg transition shrink-0 ${
-                workerConvMobile ? "bg-brand/10 text-brand" : "text-black/45 hover:bg-black/[0.05]"
+              className={`sm:hidden grid place-items-center w-8 h-8 rounded-lg transition ${
+                workerConvMobile ? "bg-brand/10 text-brand" : "text-black/45 hover:bg-black/[0.06]"
               }`}
               aria-label="Apri o chiudi le conversazioni"
               aria-expanded={workerConvMobile}
@@ -2999,8 +3027,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <button
               type="button"
               onClick={() => setWorkerConvAperto((v) => !v)}
-              className={`hidden sm:grid place-items-center w-7 h-7 rounded-lg transition shrink-0 ${
-                workerConvAperto ? "bg-brand/10 text-brand" : "text-black/45 hover:bg-black/[0.05]"
+              className={`hidden sm:grid place-items-center w-8 h-8 rounded-lg transition ${
+                workerConvAperto ? "bg-brand/10 text-brand" : "text-black/45 hover:bg-black/[0.06]"
               }`}
               aria-label="Apri o chiudi le conversazioni"
               aria-expanded={workerConvAperto}
@@ -3009,16 +3037,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <Menu size={15} />
             </button>
             <button
-              onClick={() => { nuovaConversazione(); }}
-              className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
-              aria-label="Nuova chat"
-              title="Nuova chat"
-            >
-              <Plus size={16} />
-            </button>
-            <button
               onClick={() => apriWorkerPopup(!workerFull)}
-              className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
+              className="grid place-items-center w-8 h-8 rounded-lg text-black/45 hover:bg-black/[0.06] transition"
               aria-label={workerFull ? "Riduci finestra" : "Schermo intero"}
               title={workerFull ? "Torna alla finestra piccola" : "Apri il Worker a schermo intero"}
             >
@@ -3026,7 +3046,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </button>
             <button
               onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); setWorkerFull(false); }}
-              className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
+              className="grid place-items-center w-8 h-8 rounded-lg text-black/45 hover:bg-black/[0.06] transition"
               aria-label="Chiudi la chat"
             >
               <X size={15} />
@@ -3115,7 +3135,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </aside>
           <div className="flex flex-col flex-1 min-h-0 min-w-0">
           {/* Corpo chat: solo i messaggi scrollano; barra scrittura resta in fondo */}
-          <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 min-h-0 p-3.5 space-y-3 overflow-y-auto overscroll-contain">
+          <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 min-h-0 pt-10 p-3.5 space-y-3 overflow-y-auto overscroll-contain">
             {messages
               .filter((m) => !m.prompt)
               .map((m, i) => (
@@ -3175,7 +3195,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onTogliAllegato={togliAllegatoChat}
             onDetta={dettaVoce}
             onInvia={(t) => void mandaAlCervello(t)}
-            onPrompt={workerFull ? dammiPrompt : undefined}
+            onPrompt={dammiPrompt}
+            onNuovaChat={() => { void nuovaConversazione(); }}
             voceWorker={voceWorker}
             onToggleVoce={toggleVoceWorker}
             chatMessaggi={messages.filter((m) => !m.prompt).map((m) => ({ role: m.role, content: m.content, pending: m.pending }))}
