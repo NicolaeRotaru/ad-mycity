@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:27",
+  "aggiornato": "2026-07-20 03:28",
+  "_nota_metabolizzazione_20_07_0328": "Chat 20/7 ~03:27: Nicola «adesso crea i 50 workflow» — consegna 50 JSON stub importabili. L-379 nuova; L-368 evidenze++ addendum JSON consegnati; preferenza crea-50-workflow-json; STATO+DECISIONI+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0327": "Chat 20/7 ~03:26: Nicola «ci sono senior esperti di n8n dentro mycity?» — chiarimento organigramma. L-378 nuova; L-332 evidenze++ addendum owner unico; preferenza senior-esperto-n8n; STATO+LEZIONI-CHAT+builder+partner-management esito; pendente «50 workflow».",
   "_nota_metabolizzazione_20_07_0325": "Chat 20/7 ~03:25: Nicola «salva le ultime 2 risposte in bacheca home due caselle» — persistenza output chat su BACHECA.md. L-377 nuova; preferenza salva-bacheca-caselle-separate; STATO+LEZIONI-CHAT+ad esito; pendente «50 workflow».",
   "_nota_metabolizzazione_20_07_0319": "Chat 20/7 ~03:19: Nicola «ti stai risparmiando, chiedi a tutti i senior quali mani n8n» — correzione post L-373. L-376 nuova (caso_studio_nicola); L-373 evidenze++ addendum senior; preferenza mani-n8n-chiedi-senior; STATO+LEZIONI-CHAT+builder+ad esito.",
@@ -97,6 +98,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-379",
+      "testo": "**«Crea i 50 workflow» = 50 JSON importabili stub con id/versionId, non attivi senza credenziali (Nicola 20/7 ~03:27).** Nicola «adesso crea i 50 workflow» — follow-up diretto del catalogo 10×5 (L-368). 5 perché: (1) «crea» ≠ elenco testuale — si aspetta **artefatti importabili** pronti in repo; (2) **50 file JSON** in `consegne/automazioni/n8n/workflows/` + indice `CATALOGO-50-WORKFLOW.json` + script rigenerabile `genera-catalogo-50.mjs`; (3) ogni file **deve** avere `id` e `versionId` — altrimenti import n8n CLI fallisce NOT NULL (L-329); (4) **stub collegabili:** trigger + descrizione + nodo Telegram segnaposto — **spenti di default**, sostituire Meta/Resend/Sheets prima di Active; i **2 workflow già completi** (pubblica post + lista attesa) restano i migliori punti di partenza; (5) **priorità accensione:** Telegram (59 avvisi, n.31 card-da-approvare) → Meta FB+IG (n.1–2) → RSS bandi Comune (n.41) → carrello 1h email (n.11) → nuovo ordine negozio (n.21); messaggi/post = **🔴** card anche con webhook ok. Regola: «crea N workflow» dopo catalogo → genera JSON in repo con id/versionId + stub + indice + script rigenerazione; chiudere «quale accendiamo per primo», non «sono pronti online». Vedi L-368, L-329, L-378.",
+      "tag": [
+        "n8n",
+        "workflow",
+        "50x10",
+        "import",
+        "stub",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:27",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-378",
       "testo": "**Organigramma n8n — builder-automazioni UNICO esperto costruttore; altri reparti richiedono; partner-management monitora vendor; devops hosta server (Nicola 20/7 ~03:26).** Nicola «ci sono senior esperti di n8n dentro mycity?» — chiarimento ruoli, non correzione. 5 perché: (1) dopo team-play mani per reparto (L-376) vuole sapere **chi progetta** i workflow, non solo chi li chiede; (2) **builder-automazioni** = owner unico: progetta/costruisce flussi n8n, collega mani (Telegram, email, social, cron, RSS), retry/errori/dry-run; (3) marketing/CRM/ops/vendite/… **chiedono** automazioni — non le disegnano; (4) **partner-management** guarda n8n come **fornitore** (up? scade? si rompe?) — non architettura flussi; **devops-sre** tiene su server/Docker — non progettista workflow; (5) **non esiste** un secondo «esperto n8n» dedicato — i **50 workflow** = Builder li costruisce partendo dalle richieste reparto, messaggi/post/soldi sempre **🔴**. Regola: domanda «chi è esperto n8n?» → **builder-automazioni** costruisce, reparti richiedono, AD orchestra; non elencare tutti i senior come esperti n8n. Vedi L-376, L-332, L-344.",
@@ -330,11 +352,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.9,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 02:59",
+      "ultima_conferma": "2026-07-20 03:27",
       "stato": "attiva",
       "usi": []
     },
@@ -8628,6 +8650,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Crea 50 workflow n8n — «adesso crea i 50 workflow» = file JSON importabili, non solo catalogo testuale (chat 20/7 ~03:27):** dopo griglia 10×5 (L-368) chiede **consegna operativa** — si aspetta **50 JSON** in repo (`consegne/automazioni/n8n/workflows/`) pronti per Import from file in n8n, con `id`/`versionId`, indice catalogo e script rigenerazione; **stub** collegabili (Telegram segnaposto) — **non attivi** finché non si collegano credenziali; 2 workflow completi repo = partenza migliore; **priorità accensione:** Telegram (59 avvisi) → Meta → RSS bandi (#41) → carrello 1h (#11) → ordine negozio (#21); messaggi/post **🔴**; chiude «quale accendiamo per primo». Vedi L-379, L-368, L-329.",
     "**Senior esperto n8n — chiarimento organigramma: builder costruisce, reparti richiedono (chat 20/7 ~03:26):** «ci sono senior esperti di n8n?» — si aspetta risposta **precisa sui ruoli**: **builder-automazioni** = unico che progetta/costruisce flussi n8n; altri senior (marketing, CRM, ops, vendite…) **dichiarano bisogno** (L-376); **partner-management** = SLA fornitore n8n (up/scadenze/rotture), **devops** = server/Docker, **non** architetti workflow; **no secondo esperto n8n** dedicato; 50 workflow = Builder da richieste reparto, 🔴 su messaggi/post/soldi; chiude «quale accendiamo per primo» (Telegram 59 avvisi / RSS PI26 10:00 / notifica ordine). Vedi L-378, L-376, L-332.",
     "**Salva risposte in Bacheca home — caselle separate (chat 20/7 ~03:25):** «salva le ultime N risposte in bacheca / due caselle diverse» = output **persistenti in home Plancia**, **una casella per risposta** (`##` distinto in `BACHECA.md`), contenuto condensato utile — non lasciare solo in chat. Refresh se main non ancora pubblicato. Vedi L-377, DECISIONI 16/7.",
     "**Mani n8n — chiedi a tutti i senior per reparto, non lista generica AD (chat 20/7 ~03:19):** dopo catalogo 20 integrazioni (L-373) corregge «**ti stai risparmiando**» — si aspetta **team-play**: ogni reparto (comunicazione, negozi, ops, soldi, intelligence, governance, builder, creativi) dichiara quali **mani n8n** gli servono; AD **compone e sintetizza**, non elenco generico inventato da solo; ordine condiviso Telegram (59 avvisi) → Meta → RSS bandi → email welcome → notifica ordine; messaggi/post/soldi = **🔴**; chiude «quale reparto accendiamo» («Telegram» / «Meta» / «RSS bandi»). Vedi L-376, L-373, L-370.",
