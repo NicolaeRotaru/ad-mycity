@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
   "aggiornato": "2026-07-20 03:36",
+  "_nota_metabolizzazione_20_07_0336": "Chat 20/7 ~03:34–03:36: Nicola «elencami i 50 workflow in chat» + «inserisci questi 50 workflow in bacheca home». L-383 nuova; L-377 evidenze++ addendum terza casella; preferenze elenco-50-workflow-chat + bacheca-50-workflow; STATO+DECISIONI+LEZIONI-CHAT+builder+ad esito.",
   "_nota_metabolizzazione_20_07_0334": "Chat 20/7 ~03:34: Nicola «bottone worker navbar deve aprire chat grande non fluttuante» — codice main già ok (#492 apriWorkerPopup true), lag deploy. L-382 nuova; L-363 evidenze++ addendum re-ask; preferenza worker-navbar-chat-grande; STATO+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_0333": "Chat 20/7 ~03:33: Nicola «spiegami meglio il punto 3» — chiarimento stub workflow post L-379. L-381 nuova; L-379 evidenze++ addendum punto 3; preferenza spiegami-punto-n-stub; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0329": "Chat 20/7 ~03:28: Nicola «quando si attiva Builder automazioni?» — chiarimento trigger on-demand vs worker. L-380 nuova; preferenza quando-attiva-builder; STATO+LEZIONI-CHAT+builder esito.",
