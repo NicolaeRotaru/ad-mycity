@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-07-20T12:20:24.719Z",
+  "aggiornato": "2026-07-20T14:20:23.901Z",
   "avvisi": [
     {
       "at": "2026-07-18T04:30:10.026Z",
@@ -109,6 +109,11 @@
     {
       "at": "2026-07-20T12:20:24.719Z",
       "testo": "⚠️ MyCity: memoria incoerente/vault sporco — giro NON pubblicato (2026-07-20 14:20). Dettaglio: coerenza-fatti rc=3 (una copia vecchia di un fatto è rimasta in un file vivo); La memoria resta solo sul server, il Pannello NON mostra dati non verificati.",
+      "canale": "casella"
+    },
+    {
+      "at": "2026-07-20T14:20:23.901Z",
+      "testo": "⚠️ MyCity: memoria incoerente/vault sporco — giro NON pubblicato (2026-07-20 16:20). Dettaglio: coerenza-fatti rc=3 (una copia vecchia di un fatto è rimasta in un file vivo); La memoria resta solo sul server, il Pannello NON mostra dati non verificati.",
       "canale": "casella"
     }
   ]

@@ -122,6 +122,7 @@ import BarraScritturaChat, { type BarraScritturaChatHandle } from "@/components/
 import { parla as parlaVoce, fermaVoce } from "@/lib/voce-worker";
 import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro } from "@/lib/comandi";
+import { caricaAllegatiChat } from "@/lib/allegati-chat";
 import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
 import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta";
 import { ripristinaSub } from "@/lib/nav";
@@ -1598,22 +1599,7 @@ export default function Dashboard() {
 
       // 📎 Carico prima gli allegati sullo storage, poi mando al cervello solo i loro percorsi
       // (il worker sul VPS li riscarica e li fa leggere/guardare a Claude).
-      let bloccoAllegati = "";
-      if (daCaricare.length > 0) {
-        const fd = new FormData();
-        fd.append("gruppo_id", gruppoId);
-        daCaricare.forEach((f) => fd.append("file", f));
-        const up = await fetch("/api/allegato", { method: "POST", body: fd })
-          .then((r) => r.json())
-          .catch(() => null);
-        if (!up?.ok) throw new Error(up?.error || "Caricamento degli allegati non riuscito.");
-        const righe = (up.allegati as Array<{ nome: string; tipo: string; percorso: string }>)
-          .map((a) => `@ALLEGATO nome="${a.nome}" tipo="${a.tipo}" percorso="${a.percorso}"`)
-          .join("\n");
-        bloccoAllegati =
-          `\n\n## Allegati di Nicola\nNicola ha allegato ${up.allegati.length} file a questo messaggio ` +
-          `(foto o documenti). Sono nello storage: aprili e tienine conto nella risposta.\n${righe}`;
-      }
+      const bloccoAllegati = await caricaAllegatiChat(gruppoId, daCaricare);
       const richiesta =
         prep.tipo === "giro"
           ? prep.richiesta
@@ -1632,7 +1618,14 @@ export default function Dashboard() {
                 const storiaParla: ParlaMsg[] = messages
                   .filter((m) => !m.prompt && !m.pending)
                   .map((m) => ({ role: m.role, content: m.content }));
-                return buildRichiestaCasella(titoloCasella, contesto, storiaParla, t || "(nessun testo — vedi allegati)", gruppoId);
+                return buildRichiestaCasella(
+                  titoloCasella,
+                  contesto,
+                  storiaParla,
+                  t || "(nessun testo — vedi allegati)",
+                  gruppoId,
+                  bloccoAllegati,
+                );
               }
               const memoria = await bloccoMemoriaChat(gruppoId);
               return (

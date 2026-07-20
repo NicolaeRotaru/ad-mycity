@@ -43,6 +43,7 @@ export async function buildRichiestaCasella(
   storia: ParlaMsg[],
   messaggio: string,
   gruppoId: string | null,
+  bloccoAllegati = "",
 ): Promise<string> {
   const storiaTxt = storia
     .filter((m) => !m.pending)
@@ -54,8 +55,9 @@ export async function buildRichiestaCasella(
     `## Casella del Pannello: ${titolo}\n` +
     (contesto ? `\n## Contenuto della casella\n${contesto}\n` : "") +
     (storiaTxt ? `\n## Conversazione finora\n${storiaTxt}\n` : "") +
-    `\n## Nuovo messaggio di Nicola\n${messaggio}\n\n` +
-    `## Istruzioni\nRispondi in italiano, conciso e concreto, riferito a QUESTA casella. Rispetta 🟢🟡🔴. ` +
+    `\n## Nuovo messaggio di Nicola\n${messaggio}` +
+    bloccoAllegati +
+    `\n\n## Istruzioni\nRispondi in italiano, conciso e concreto, riferito a QUESTA casella. Rispetta 🟢🟡🔴. ` +
     `Se Nicola dà un'informazione o una decisione utile, aggiorna la memoria nel vault e dichiara cosa hai aggiornato.`
   );
 }
@@ -68,11 +70,12 @@ export async function creaLavoroCasella(
   contesto: string,
   storia: ParlaMsg[],
   messaggio: string,
-  gruppoId: string | null
+  gruppoId: string | null,
+  bloccoAllegati = "",
 ): Promise<{ id: string; tipo: string; timeoutMs: number }> {
-  const richiesta = await buildRichiestaCasella(titolo, contesto, storia, messaggio, gruppoId);
+  const richiesta = await buildRichiestaCasella(titolo, contesto, storia, messaggio, gruppoId, bloccoAllegati);
 
-  const prep = preparaLavoro(messaggio);
+  const prep = preparaLavoro(messaggio.trim() || "Guarda gli allegati");
   const post = await fetch("/api/lavori", {
     method: "POST",
     headers: HEADERS,
