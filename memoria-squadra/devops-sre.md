@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 18:27 · Telegram VPS setup — Nicola «di metterlo sul vps come n8n» · atteso: chiarire setup senza altro container · reale: 2 env `TELEGRAM_BOT_TOKEN`+`TELEGRAM_CHAT_ID` in `cervello/vps/.env` (stesso file n8n/URL) → restart worker → sensore ok; push = chiavi anche in n8n Active; non eseguito — attesa token Nicola · L-406 · #telegram #vps #env #sensori #esito
 - 2026-07-20 18:25 · Sensori uptime AR-105 — Nicola «controlla se fix già fatto» · atteso: verifica runtime prima di riproporre · reale: sito_uptime+pannello_uptime ✅ HTTP 200 (env 18/7 già attive); #riavvia-worker-env FATTO obsoleta; telegram_bot ancora non_configurato → #accendi-intelligence-sveglia · L-405 · #sensori #uptime #AR-105 #esito
 - 2026-07-20 18:24 · PostHog VPS setup — Nicola chiede come collegare PostHog al worker · atteso: passi operativi senza installare stack · reale: env `cervello/vps/.env` POSTHOG_OFF=0 + `phx_` key + POSTHOG_HOST EU; restart mycity-worker; check verifica-sensori; non eseguito — attesa chiave Nicola · L-404 · #posthog #vps #env #esito
 - 2026-07-20 02:23 · Verifica deploy Vercel Pannello — Nicola «non vedo i fix» · atteso: conferma oggettiva merge→online · reale: chunk size 478385 byte ≠ prova UI; #489/#488 codice non live; checklist: stringhe UI live + GitHub merged_at + card #207/#206 pendenti · #pannello #vercel #deploy #worker · L-361, L-315

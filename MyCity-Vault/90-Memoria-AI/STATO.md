@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 18:25
+aggiornato: 2026-07-20 18:27
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~18:27 — CHAT: Telegram sul VPS — non si installa come n8n, due righe env + restart worker (L-406).** Nicola «**di metterlo sul vps come n8n**» (casella AR-105) — AD chiarisce: n8n = **programma Docker** sul server; Telegram = **solo collegamento** (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` in `cervello/vps/.env`, stesso file di n8n e URL sito/Pannello) → restart `mycity-worker-chat.service` → sensore `telegram_bot` verde; **messaggi reali** solo dopo stesse chiavi in workflow n8n (**#accendi-intelligence-sveglia** passo 6). **Non fatto** — Nicola non ha ancora incollato token. Fonte: chat Nicola 20/7 18:27.
 
 > 💬 **20/7 ~18:25 — CHAT: Sensori uptime — sito+Pannello ✅, card riavvio worker obsoleta; resta Telegram (L-405).** Nicola da casella AR-105 «**controlla ogni casella e vai guardare se non è già stato il fix**» — AD verifica runtime (`sensori-cecita.json` 18:25): **`sito_uptime`** + **`pannello_uptime`** ✅ HTTP 200 (env `MARKETPLACE_SITE_URL` + `PANNELLO_URL` messe **18/7**, worker già riavviato — effetto attivo senza conferma chat). **Card #riavvia-worker-env → FATTO** (obsoleta). **Ancora aperto:** **`telegram_bot`** `non_configurato` (no `TELEGRAM_BOT_TOKEN`) — chiusura in **#accendi-intelligence-sveglia** 🔴; codice `motivo_spento` registro cecità = miglioramento non bloccante. AR-105 **parziale** (2/3 sensori armati). Fonte: chat Nicola 20/7 18:25 + verifica-sensori 18:25.
 

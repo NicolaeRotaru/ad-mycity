@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 18:25",
+  "aggiornato": "2026-07-20 18:27",
+  "_nota_metabolizzazione_20_07_1827": "Chat 20/7 ~18:27: Nicola «di metterlo sul vps come n8n» (Telegram AR-105) — AD: non Docker, 2 env in cervello/vps/.env + restart worker; n8n workflow stesse chiavi. L-406 nuova; preferenza telegram-vps-setup; STATO+LEZIONI-CHAT+devops-sre+builder-automazioni esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_1825": "Chat 20/7 ~18:25: Nicola casella AR-105 «controlla ogni casella se fix già fatto» — AD verifica sensori: sito+pannello ✅ HTTP 200 (env 18/7); #riavvia-worker-env FATTO obsoleta; resta Telegram (#accendi-intelligence-sveglia). L-405 nuova; preferenza verifica-fix-casella-runtime; STATO+AZIONI+#riavvia-worker-env FATTO+LEZIONI-CHAT+cantiere AR-105+devops-sre esito.",
   "_nota_metabolizzazione_20_07_1824": "Chat 20/7 ~18:24: Nicola «come inserisco posthog nel vps?» — AD: non installare, cloud EU; chiave lettura phx_ (non phc_); env vps/.env POSTHOG_OFF=0; verifica-sensori; sensore spento 5/7. L-404 nuova; preferenza posthog-vps-setup; STATO+LEZIONI-CHAT+data-engineer+devops-sre esito; nessuna decisione/azione completata.",
   "_nota_metabolizzazione_20_07_1801": "Chat 20/7 ~18:00: Nicola «togli card merge obsolete» — AD rimuove 6 card Mergia PR (#499·#480·#464·#446·#443·#450), coda 47→41. L-403 nuova; L-402 evidenze++ addendum pulizia; preferenza pulizia-card-merge-obsolete; DECISIONI+LEZIONI-CHAT+ad esito; STATO+AZIONI già 18:00.",
@@ -126,6 +127,29 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-406",
+      "testo": "**Telegram sul VPS — «metterlo come n8n» = env worker, non installazione Docker (Nicola 20/7 ~18:27).** Nicola: «**di metterlo sul vps come n8n**» (casella AR-105, sensore Telegram ancora `non_configurato`). 5 perché: (1) Nicola pensa «come n8n» = **stesso posto sul server**, non stesso **tipo** di software — n8n è **container Docker**; Telegram è **solo API bot** collegata via env; (2) setup: `cervello/vps/.env` (stesso file di `N8N_WEBHOOK_URL`, `MARKETPLACE_SITE_URL`, `PANNELLO_URL`) → `TELEGRAM_BOT_TOKEN=` (BotFather `/newbot`) + `TELEGRAM_CHAT_ID=` → restart `mycity-worker-chat.service` → `verifica-sensori.mjs` **`telegram_bot` ok**; (3) **token mai in chat/memoria** — solo nel file env sul VPS; (4) sensore verde ≠ messaggi in Telegram: **push reali** richiedono **stesse due chiavi** nei workflow n8n bandi/avvisi + Active (**#accendi-intelligence-sveglia** passo 6); (5) sito+Pannello uptime **già ✅** (L-405) — non ripetere card riavvio env. Regola: su «Telegram sul VPS come n8n» → disambigua Docker vs env, passi numerati stesso file env, distingui sensore vs invii n8n. Vedi L-405, L-404 (pattern PostHog), L-390.",
+      "tag": [
+        "telegram",
+        "vps",
+        "n8n",
+        "sensori",
+        "env",
+        "AR-105",
+        "builder-automazioni",
+        "devops-sre"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 18:27",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-405",
       "testo": "**Casella difetto — «controlla se non è già stato il fix» = verifica runtime prima di riproporre (Nicola 20/7 ~18:25).** Casella AR-105 sensori uptime — Nicola «**controlla ogni casella e vai guardare se non è già stato il fix**». 5 perché: (1) caselle auto-radiografia possono **invecchiare** mentre Nicola agisce fuori chat (env 18/7 senza conferma); (2) **fonte verità** = `verifica-sensori.mjs` / `sensori-cecita.json` **adesso**, non il testo della casella; (3) **20/7 18:25:** `sito_uptime` + `pannello_uptime` ✅ HTTP 200 — env `MARKETPLACE_SITE_URL` + `PANNELLO_URL` già caricate; card **#riavvia-worker-env** **obsoleta** → FATTO; (4) **resta aperto:** `telegram_bot` `non_configurato` (no token) — chiusura in **#accendi-intelligence-sveglia** 🔴, non nuova card duplicata; (5) miglioramento codice `motivo_spento` registro cecità = **non bloccante** quando i sensori girano. Regola: su casella difetto + «già fatto?» → **runtime check** + segna card obsolete FATTO + indica **solo** ciò che resta. Vedi L-222, AR-105.",
@@ -9225,6 +9249,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Telegram sul VPS — «metterlo come n8n» = passi env nello stesso file, non installare Docker (chat 20/7 ~18:27):** chiede Telegram sul server «**come n8n**» — si aspetta risposta **operativa e disambiguata**: (1) n8n = programma che gira sul VPS; Telegram = **solo collegamento** (2 righe env); (2) stesso `cervello/vps/.env` dove ha già n8n e URL sito/Pannello; (3) BotFather → token + chat id → restart worker → sensore verde; (4) **push reali** = stesse chiavi anche in workflow n8n + Active (#accendi-intelligence-sveglia); (5) **non** incollare token in chat. Vedi L-406, L-405.",
     "**Verifica fix casella — «controlla ogni casella / se non è già stato il fix» = runtime check prima di riproporre (chat 20/7 ~18:25):** da casella difetto auto-radiografia chiede che l'AD **verifichi lo stato reale** (sensori, env, card) prima di ripetere la stessa azione — se sito/Pannello già verdi → card riavvio **obsoleta**, dichiarare FATTO e indicare **solo** ciò che resta (es. Telegram in #accendi-intelligence-sveglia). Vedi L-405.",
     "**PostHog sul VPS — «come inserisco posthog?» = passi env chiave lettura, non installazione (chat 20/7 ~18:24):** chiede come collegare PostHog al worker — si aspetta risposta **operativa e onesta**: (1) **non** installare PostHog sul server; (2) sito già traccia da Render; (3) VPS = Personal API Key **`phx_`** (Read) in `cervello/vps/.env`, **non** `phc_`; (4) restart worker + `verifica-sensori.mjs` ok; (5) sensore spento dal **5/7** = scelta/chiave sbagliata, non bug da «fixare» in silenzio; riaccensione briefing solo se lo chiede. Vedi L-404.",
     "**Pulizia card merge obsolete — «togli le card merge rimaste» = esegui subito, PR su GitHub intatte (chat 20/7 ~18:00):** seguito L-402 chiede rimozione retroattiva card «Mergia PR #…» create su ordini chat — si aspetta pulizia **immediata** AZIONI-IN-ATTESA (RIMOSSA con motivo), elenco card tolte, coda snellita (47→41), **PR restano su GitHub**; non toccare #auto-segna-pr-mergiata né card 🔴 vere. Vedi L-403.",

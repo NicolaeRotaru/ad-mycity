@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 18:27 · Telegram env + n8n — Nicola «metterlo sul vps come n8n» · atteso: percorso unico worker+n8n · reale: env worker per sensore; stesse 2 chiavi in workflow n.31/n.41 + Active per 59 avvisi; distinto da Docker n8n; #accendi-intelligence-sveglia passo 6 · L-406 · #telegram #n8n #env #59-avvisi #esito
 - 2026-07-20 03:36 · Nicola «inserisci questi 50 workflow in bacheca home» — atteso: casella condensata BACHECA.md · reale: terza casella «50 workflow n8n MyCity» in cima (10 blocchi + priorità); home 3 caselle n8n; L-383 + L-377 evidenze 2 · L-383 · #bacheca #n8n #50-workflow
 - 2026-07-20 03:34 · Nicola «elencami in chat i 50 workflow» — atteso: lista numerata completa · reale: 10×5 in chat con 🔴🟡🟢, highlight n.31 (59 avvisi) e n.41 (PI26 10:00); CTA quale accendere · L-383 · #n8n #catalogo #elenco
 - 2026-07-20 03:33 · Nicola «spiegami meglio il punto 3» (stub 50 workflow) — atteso: chiarimento concreto punto 3 · reale: stub = trigger+nota, nodo segnaposto STUB da sostituire; esempio n.31 (59 card): import→bot Telegram→Pannello→Active 🔴; perché id import + no invii accidentali; 2 workflow completi repo eccezione; CTA Telegram n.31 nodo per nodo · L-381 · #n8n #stub #workflow #telegram #59-avvisi
