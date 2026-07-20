@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 23:49",
+  "aggiornato": "2026-07-20 23:54",
+  "_nota_metabolizzazione_20_07_2354": "Chat 20/7 ~23:54: Nicola «metti questa casella dentro bacheca» — casella Growth Fedeltà di rete → AD pin BACHECA.md. L-435 nuova; L-377 evidenze 5 addendum casella Pannello; preferenza casella-in-bacheca; STATO+LEZIONI-CHAT+growth+ad esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_20_07_2348": "Chat 20/7 ~23:48: Nicola app store + spiegami SMS + email professionale — AD Bacheca sezioni app store/email/SMS; L-434 nuova; L-433 addendum opzionali; preferenza costi-spiegazione-3-categorie; registro-fatti addendum; STATO+LEZIONI-CHAT+finanza+ad esito.",
   "_nota_metabolizzazione_20_07_2347": "Chat 20/7 ~23:46: Nicola completa costi — VPS 20€/m, dominio 20€/anno, marketplace→Vercel (Render chiusura). L-433 addendum evidenze 2; burn ~302€/m, BURN_MENSILE_EUR=300 proposto; DECISIONI migrazione 🟡; LEZIONI-CHAT+finanza+devops-sre+ad esito.",
   "_nota_metabolizzazione_20_07_2344": "Chat 20/7 ~23:43: Nicola costi infrastruttura (200 Claude + 30 Vercel + 50 Supabase = 280€/m parziale) + «metti in bacheca» + voci future. L-433 nuova; preferenza costi-bacheca-no-inventare; registro-fatti finanza.costi_infrastruttura; STATO+DECISIONI+LEZIONI-CHAT+finanza+ad esito; burn completo pendente Render/VPS/dominio.",
@@ -156,6 +157,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-435",
+      "testo": "**Casella Pannello → Bacheca — «metti questa casella dentro bacheca» = pin condensato in home (Nicola 20/7 ~23:54).** Da casella Growth «Fedeltà di rete» playbook refresh — chiede contenuto **persistente in BACHECA.md**, non solo risposta chat. Regola: (1) blocco `##` in **cima** con data/ora; (2) condensare: **verdetto** (ARMATO/spento) · numeri attuali · gate accensione · prossimi passi · link `consegne/…` per dettaglio; (3) **grep titolo** prima — no duplicati (L-384); (4) 🟢 solo persistenza — **no card Approva** merge (L-402); (5) fedeltà oggi **ARMATO ma spento** — 1 bottega · 0 ordini · gate ≥5 negozi → **non** promettere lancio. Vedi L-377, L-422.",
+      "tag": [
+        "bacheca",
+        "pannello",
+        "casella",
+        "growth",
+        "fedelta",
+        "nicola"
+      ],
+      "reparto": "@growth-monetizzazione",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 23:54",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-434",
       "testo": "**Costi opzionali — «app store + spiegami SMS e email» = 3 categorie distinte, fuori burn (Nicola 20/7 ~23:48).** Follow-up L-433: chiede **inserire costi app store** + **a cosa servono SMS** + **email professionale e costi**. Regola risposta: (1) **app store** — Apple **~99 €/anno**, Google Play **~23 € una tantum**, ~**120 €** 1° anno entrambi; commissione **zero** su prodotti fisici; PWA **0 €** alternativa; (2) **SMS** — **backup urgente** (ritardo consegna, negozio non risponde, pagamento fallito), pay-per-use **~0,05–0,10 €/msg**, **non servono oggi** (Telegram + email); (3) **email** — **due cose diverse**: automatiche dal sito (**Resend**, **0 €** fino 3.000/m) vs casella tua (**Google Workspace**, **~7–8 €/m**/utente). Aggiorna **Bacheca** sezioni dedicate; **non** sommare al burn fisso **~302 €/m** finché non accesi. Cifre da listini verificabili (Resend, Google IT), non inventate. Vedi L-433.",
@@ -1331,16 +1353,17 @@
       ],
       "reparto": "@ad",
       "confidenza": 0.9,
-      "evidenze": 4,
+      "evidenze": 5,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 21:52",
+      "ultima_conferma": "2026-07-20 23:54",
       "stato": "attiva",
       "usi": [],
       "_evidenza_2": "ADDENDUM 03:36: «inserisci questi 50 workflow in bacheca» — terza casella «50 workflow n8n MyCity» condensata in cima; home ora 3 caselle n8n. Vedi L-383.",
       "_evidenza_3": "ADDENDUM 03:37: «togli duplicato mappa negozi piacenza» — 2 copie identiche; eliminata quella in fondo; regola grep prima di inserire. Vedi L-384.",
-      "_evidenza_4": "ADDENDUM 21:52: «salva in bacheca in forma di checklist» — formato `- [ ]` spuntabile, 4 livelli 24 voci versione avanzata; estende L-377 da caselle prosa a checklist operativa. Vedi L-422."
+      "_evidenza_4": "ADDENDUM 21:52: «salva in bacheca in forma di checklist» — formato `- [ ]` spuntabile, 4 livelli 24 voci versione avanzata; estende L-377 da caselle prosa a checklist operativa. Vedi L-422.",
+      "_evidenza_5": "ADDENDUM 23:54: «metti questa casella dentro bacheca» — pin casella Growth Pannello (playbook fedeltà) in cima BACHECA.md; condensato verdetto ARMATO + link consegne. Vedi L-435."
     },
     {
       "id": "L-2026-0720-375",
@@ -9835,6 +9858,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Casella Pannello in Bacheca — «metti questa casella dentro bacheca» = pin condensato in cima BACHECA.md (chat 20/7 ~23:54):** da casella Growth (playbook refresh) chiede persistenza in **home Plancia** — si aspetta blocco `##` con verdetto (**ARMATO/spento**) · numeri attuali · gate · link playbook in `consegne/`; **non** solo risposta chat; grep titolo anti-duplicato; 🟢 senza card Approva se solo persistenza; fedeltà oggi **spenta** (1 bottega · 0 ordini). Vedi L-435, L-377.",
     "**Costi — «metti in bacheca» + «spiegami SMS/email/app store» = cifre confermate + 3 categorie opzionali distinte (chat 20/7 ~23:43–23:48):** burn fisso (Claude **200** + Vercel **30** + Supabase **50** + VPS **20** + dominio **20 €/anno** → **~302 €/m**, env **`BURN_MENSILE_EUR=300`**) separato da **opzionali** in Bacheca: **app store** (~99 €/anno Apple, ~23 € Google una tantum), **SMS** backup urgente pay-per-use (**0 € oggi**), **email** = **Resend** automatiche (0 € fino 3k/m) **≠** **Workspace** casella (~7–8 €/m) — **non confondere**; **non inventare** cifre; Render in chiusura, Vercel post-migrazione da confermare. Vedi L-433, L-434, L-422.",
     "**Chat no duplicati — odia risposta doppia, due bolle su allegato, ordine invertito (chat 20/7 ~23:38):** segnala **3 bug UX** distinti — (1) **stessa risposta AD due volte** (2) allegato solo = **due frasi/bolle** («nessun testo, vedi allegati» + nome file) (3) **suo messaggio sotto** la risposta come se l'avesse scritto dopo. Si aspetta AD spieghi **meccanismo merge** (non «rispondo due volte»), consegni fix PR (**#507** ex #505), verifichi build Vercel (import **no `.ts`** L-428), riapra PR se chiusa per sbaglio; merge 🔴 → test **solo screenshot** senza testo. Link chat **no card merge** (L-402). Vedi L-432.",
     "**Token in audit — «Fai il fix» memoria bloccata = redigi + redattore preventivo, non spegnere scan (chat 20/7 ~23:32):** casella PAT nel report auto-radiografia — si aspetta fix **immediato** che sblocchi il push (redazione `[REDATTO]` + prevenzione futura), verifica `scan-segreti` exit 0, **PR #506** link in chat; merge 🔴 + valutare rotazione PAT se token era valido (#ruota-pat-github). Vedi L-431.",

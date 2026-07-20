@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-20 23:54 · metabolizzazione chat casella fedeltà in bacheca · atteso: L-435 + STATO/LEZIONI · reale: L-435 nuova, L-377 evidenze 5, STATO+LEZIONI+preferenze+growth esito · #metabolizzazione #L-435 #bacheca
 - 2026-07-20 23:48 · metabolizzazione chat app store/SMS/email · atteso: L-434 + STATO/LEZIONI/registro · reale: L-434 nuova, L-433 preferenza addendum opzionali, STATO+LEZIONI-CHAT+registro-fatti+finanza · #metabolizzazione #L-434 #costi
 - 2026-07-20 23:47 · metabolizzazione chat costi completi + Vercel · atteso: L-433 addendum + DECISIONI migrazione · reale: burn ~302€, Render chiusura, L-433 evidenze 2, DECISIONI+LEZIONI-CHAT+finanza+devops-sre · #metabolizzazione #L-433 #vercel
 - 2026-07-20 23:44 · metabolizzazione chat costi infrastruttura in Bacheca · atteso: L-433 + registro-fatti + STATO/DECISIONI/LEZIONI · reale: L-433 nuova, preferenza costi-bacheca-no-inventare, registro finanza.costi_infrastruttura 280€ parziale, STATO/DECISIONI/LEZIONI-CHAT/finanza aggiornati · #metabolizzazione #L-433 #costi

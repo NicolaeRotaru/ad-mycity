@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 23:48
-fonte: AD digitale (chat 20/7 23:48)
+aggiornato: 2026-07-20 23:54
+fonte: AD digitale (chat 20/7 23:54)
 ---
+
+> 💬 **20/7 ~23:54 — CHAT: Casella Fedeltà di rete in Bacheca home (L-435).** Nicola «**metti questa casella dentro bacheca**» — casella Growth playbook refresh 20/7. AD: pin in cima `BACHECA.md` — MyCity Punti + Gift Card **ARMATO ma spento** (1 PQ · 0 ordini · gate ≥5 negozi); **niente da firmare** su fedeltà oggi; priorità restano PI26 + ordine test PQ. Playbook completo: `consegne/growth/2026-07-20-playbook-fedelta-di-rete-refresh.md`. Fonte: chat Nicola 20/7 ~23:54.
 
 > 💬 **20/7 ~23:48 — CHAT: App store + SMS + email professionale in Bacheca (L-434).** Nicola chiede **costi app store** in lista + spiegazione **SMS** e **email professionale**. AD aggiorna `BACHECA.md`: **Apple ~99 €/anno** · **Google Play ~23 € una tantum** · **~120 € 1° anno entrambi** (poi ~99 €/anno solo Apple); **SMS** = backup urgente pay-per-use **~0,05–0,10 €/msg**, **0 € oggi** (Telegram+email bastano); **email** = **Resend** automatiche sito **0 €** fino 3.000/m vs **Google Workspace** casella *info@* **~7–8 €/m**. Opzionali **non** nel burn **~302 €/m**. Fonte: chat Nicola 20/7 ~23:48 + pricing Resend/Google IT.
 
