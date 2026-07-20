@@ -1,10 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:22
-fonte: AD digitale (metabolizzazione chat Worker popup deploy)
+aggiornato: 2026-07-20 02:23
+fonte: AD digitale (metabolizzazione chat verifica deploy Worker)
 ---
 
-> 💬 **20/7 ~02:22 — CHAT: Nicola «non si vede il fix sul panello» — Worker popup #486 (L-360).** Dopo merge #486 (01:39, #204 ✅ FATTO) segnala che sul Pannello **non vede ancora** la finestra popup Worker (lista conv a sinistra, apri/chiudi con icona). AD **verifica Pannello live**: fix **online** su Vercel. Causa probabile: **cache browser/PWA** (stesso pattern barra fissa L-353, scroll L-345). Istruzioni date: chiudi tab/app → hard refresh (PC Ctrl+F5, Mac Cmd+Shift+R) → mobile cancella dati sito → riapri Worker e verifica **finestra** (non pagina intera). Se persiste: chiedere device + screenshot. Bug **aperto** fino a ok Nicola. Fonte: chat Nicola 20/7 02:22.
+> 💬 **20/7 ~02:23 — CHAT: Nicola «no, non riesco a visualizzare i fix sul panello» — correzione AD (L-361).** Dopo domanda «ultimi 5 merge applicati?» AD aveva risposto **sì** (verifica errata: peso chunk JS) — Nicola **smentisce**. Rifatto controllo live: ancora visibile **«Worker / Semplice e diretto…»** e **+ in alto** → **#489 non online** (merge 🔴 #207 pendente). **#488** mergiata su GitHub ma **solo nota tecnica** — codice ☰ menu **non** deployato → rimergiare 🔴 **#206**. **Parziali online** su Vercel: fix stanotte **#483–#487** (scroll, barra sticky, sidebar popup, chat Lavori in lista). **Prossimo Nicola:** mergia **#207** poi **#206** → Ctrl+F5 → verifica assenza testata + ☰ funzionante. Fonte: chat Nicola 20/7 02:23.
+
+> 💬 **20/7 ~02:22 — CHAT: Nicola «non si vede il fix sul panello» — Worker popup #486 (L-360, aggiornato 02:23).** Segnalazione fix assente — metabolizzazione 02:22 aveva detto «online» (**falso positivo**); corretto 02:23: verifica live parziale (#483–#487 sì, #489/#488 codice no). Gate cache resta valido per #486 popup; bug **aperto** fino a ok Nicola + merge #207/#206. Fonte: chat Nicola 20/7 02:22–02:23.
 
 > 💬 **20/7 ~02:13 — CHAT: Worker senza testata, «+» in barra icone basso (L-359).** Nicola: togli barra in alto «Worker / Semplice e diretto…» e metti **+** nella barra icone in basso (allega, video live, prompt, …). AD **PR #489** (`fix/worker-niente-testata`, `ec9f36e0`): via testata marketing; solo ingrandisci/chiudi in alto a destra; **+ Nuova chat** prima di allega/video live/prompt/invio (anche finestra piccola); Prompt visibile anche in modalità compatta. Merge 🔴 pendente (#207). Dopo deploy: Ctrl+F5. Fonte: chat Nicola 20/7 02:13.
 

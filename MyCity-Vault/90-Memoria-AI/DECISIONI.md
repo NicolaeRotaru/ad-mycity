@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 02:23 · 🟢 · [Correzione AD — verifica deploy Pannello Worker] · **Nicola: «no, c'è un problema, non riesco a visualizzare i fix sul panello»** dopo che l'AD aveva affermato tutti e 5 merge (#483→#487) online. AD ammette errore di verifica (peso chunk JS ≠ prova UI). Stato reale live: **#489** (#207) **non mergiata** — testata «Semplice e diretto» ancora visibile; **#488** merge incompleto (solo nota, codice ☰ assente) → rimergiare **#206**; **#483–#487** parzialmente online. Prossimo: merge #207 + #206 + hard refresh. L-361, L-360 aggiornata.
+
 2026-07-20 02:13 · 🟡 · [Worker chat — niente testata, «+» in barra icone basso, PR #489] · **Nicola: «togli la barra in alto dove c'è scritto worker semplice e diretto…, e le icone + mettila dentro barra delle icone».** Layout Worker più compatto: **via** barra titolo/sottotitolo marketing; restano solo icone ingrandisci/chiudi in alto a destra; **+ Nuova chat** integrato nella toolbar bassa (prima di allega, video live, prompt, invio) — stesso pattern in finestra piccola e ingrandita. AD PR #489 (`fix/worker-niente-testata`, `ec9f36e0`). Merge 🔴 pendente (#207). L-359, L-348.
 
 2026-07-20 01:47 · 🔴 · [NO terminale web nel Pannello — policy sicurezza] · **Nicola: «perché non crea un'altra pagina in cui inserire il terminale?»** Follow-up comandi VPS senza cmd (L-349). AD: **non** implementare shell web nel Pannello — esposizione equivalente a lasciare il server aperto su internet; menu resta pulsanti allowlist; chat Worker + SSH raro per casi eccezionali. Alternativa accettabile: pulsanti sicuri custom per azioni ripetute che Nicola chiede spesso. L-355.

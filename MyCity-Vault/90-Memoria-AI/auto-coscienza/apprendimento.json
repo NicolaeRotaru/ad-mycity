@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 02:22",
+  "aggiornato": "2026-07-20 02:23",
+  "_nota_metabolizzazione_20_07_0223": "Chat 20/7 ~02:23: Nicola «no, non riesco a visualizzare i fix» smentisce AD che aveva detto 5 merge online (peso chunk errato). L-361 nuova (caso_studio_nicola); L-360 evidenze++ addendum falso positivo; preferenza verifica-deploy-ui-live; STATO corretto 02:22; DECISIONI+LEZIONI-CHAT+frontend-dev+devops-sre aggiornati.",
   "_nota_metabolizzazione_20_07_0222": "Chat 20/7 ~02:22: Nicola «non si vede il fix sul panello» post-#486 — verifica live ok, cache gate. L-360 nuova; L-352 evidenze++ addendum deploy; preferenza worker-fix-non-visibile; STATO+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0213": "Chat 20/7 ~02:13: Nicola «togli testata Worker/Semplice e diretto, + in barra icone basso» — layout compatto Worker. L-359 nuova (caso_studio_nicola); L-348 evidenze++ addendum no-testata; L-233 evidenze++ commit su main per errore #489; preferenza worker-niente-testata-plus-basso; STATO+DECISIONI+#207+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0210": "Chat 20/7 ~02:07: Nicola «ho inserito N8N_WEBHOOK_URL nel file env» — milestone env, non mano attiva; verifica sensori: 3 righe duplicate (prima vince=segnaposto). L-357 nuova; L-331 evidenze++ addendum env inserito; preferenza n8n-webhook-env-inserito; STATO+LEZIONI-CHAT già parziali; builder esito.",
@@ -79,8 +80,32 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-361",
+      "testo": "**Pannello Vercel — «ultimi N merge online?» = stringhe UI live + stato PR, MAI peso chunk JS (Nicola 20/7 ~02:23).** Nicola chiede se gli ultimi 5 merge Worker (#483→#487) sono sul Pannello; AD risponde **sì** basandosi su dimensione chunk JS (478385 byte) — Nicola **smentisce**: «no, non riesco a visualizzare i fix». 5 perché: (1) peso file ≈ correlazione, **non** prova causa→effetto su ogni fix; (2) verifica giusta = fetch Pannello live + cercare **marker UI** (assenza «Semplice e diretto» per #489, ☰ funzionante per #488, + in basso); (3) **merge GitHub ≠ codice online** se PR pendente (#489 → card **#207**) o merge parziale (#488 = solo nota tecnica, codice ☰ **non** deployato → rimergiare **#206**); (4) batch «5 merge» può essere **parziale** (#483–#487 sì, #489/#488 codice no); (5) se Nicola smentisce → **ammetti errore subito**, non ripetere la stessa verifica. Regola: domanda «fix online?» → UI live + elenco PR merged/pending; **vietato** chiudere solo con byte chunk o «c'è su main». Vedi L-315, L-360, PR #489/#488.",
+      "tag": [
+        "pannello",
+        "vercel",
+        "deploy",
+        "worker",
+        "verifica",
+        "merge",
+        "falso-positivo",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 02:23",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-360",
-      "testo": "**Worker popup #486 — «non si vede il fix sul pannello» = verifica live Vercel + cache gate, bug aperto fino a ok (Nicola 20/7 ~02:22).** Dopo merge #486 (01:39, #204 ✅) segnala che sul Pannello **non vede** la finestra popup Worker (lista conv sinistra, apri/chiudi icona). 5 perché: (1) stesso pattern L-353/L-345 — **repo/main ≠ esperienza Nicola** finché cache PWA/browser non aggiorna; (2) risposta giusta: **prima** verifica oggettiva Pannello live (fix deployato?), **poi** riconoscere che **lui** non lo vede, **poi** istruzioni refresh; (3) **non** chiudere con «c'è su main» — gate obbligatorio come scroll/barra fissa; (4) passi cache: chiudi tab/app → Ctrl+F5 (Mac Cmd+Shift+R) → mobile cancella dati sito → riapri Worker; (5) test atteso: **finestra popup** (X chiude, ingrandisci stessa finestra), **non** pagina `vista=assistente` a tutto schermo — se persiste chiedi device + screenshot. Regola: «non si vede il fix» post-merge Worker → verify live + cache playbook + bug aperto fino a ok Nicola. Vedi L-352, L-353, L-345, PR #486.",
+      "testo": "**Worker popup #486 — «non si vede il fix sul pannello» = verifica live Vercel + cache gate, bug aperto fino a ok (Nicola 20/7 ~02:22, agg. 02:23).** Dopo merge #486 (01:39, #204 ✅) segnala fix assente. 5 perché: (1) **repo/main ≠ esperienza Nicola** (cache PWA + merge parziali); (2) risposta giusta: verifica **UI live con marker concreti**, non peso chunk (L-361); (3) **non** chiudere con «c'è su main» o «tutti online»; (4) cache gate: Ctrl+F5 / cancella dati mobile; (5) test popup = finestra overlay (X chiude), non pagina `vista=assistente`. **ADDENDUM 02:23:** metabolizzazione 02:22 aveva scritto «fix online» — **falso positivo**; Nicola smentisce; parziali #483–#487 online, #489 (#207) e codice #488 (#206) **no**. Regola invariata: bug aperto fino a ok Nicola + merge card pendenti. Vedi L-361, L-352, L-353, L-345.",
       "tag": [
         "pannello",
         "chat",
@@ -93,12 +118,12 @@
         "nicola"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.92,
-      "evidenze": 1,
+      "confidenza": 0.94,
+      "evidenze": 2,
       "fonte": "chat",
-      "caso_studio_nicola": false,
+      "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 02:22",
+      "ultima_conferma": "2026-07-20 02:23",
       "stato": "attiva",
       "usi": []
     },
@@ -8204,6 +8229,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Verifica deploy Pannello — «fix online?» = prova UI live + PR merged/pending, NON peso chunk (chat 20/7 ~02:23):** chiede se ultimi merge Worker sono sul Pannello — si aspetta risposta **verificata** (stringhe UI assenti/presenti: no «Semplice e diretto», + in basso, ☰ funzionante), non «sì» da byte JS; se **lui** non vede → AD ammette errore e indica card pendenti (**#207** #489, **#206** #488 codice); parziale ok (#483–#487) va detto esplicitamente. Vedi L-361, L-315, L-360.",
     "**Worker popup #486 — «non si vede il fix» = verifica live + cache, gate fino a ok (chat 20/7 ~02:22):** dopo merge popup Worker (#486) segnala fix assente sul Pannello — si aspetta che l'AD **verifichi live** (non solo main), dia istruzioni refresh (Ctrl+F5, cancella dati mobile), chieda device+screenshot se persiste; **non** considerare chiuso finché non conferma finestra popup (lista sinistra, X chiude). Vedi L-360, L-352, L-353.",
     "**Worker chat — niente testata «Worker / Semplice e diretto…», «+» in barra icone basso (chat 20/7 ~02:13):** togli barra titolo/sottotitolo marketing in alto — restano solo ingrandisci/chiudi in alto a destra; **+ Nuova chat** integrato nella toolbar bassa **prima** di allega / video live / prompt / invio (anche finestra piccola); vuole **più spazio** per i messaggi, zero copy marketing in testata. Fix PR #489 merge 🔴 #207 + Ctrl+F5. Vedi L-359, L-348.",
     "**Worker chat — icona ☰ menu conv deve aprire/nascondere elenco (chat 20/7 ~02:08):** segnala «l'icona del menu non si apre» — si aspetta che ☰ in **testata** Worker controlli l'elenco conversazioni (mobile=cassetto, desktop=mostra/nascondi colonna sinistra); sidebar integrata (#485) **non** sostituisce il toggle; **non** confondere con ⚡ Skill in basso — se «menu» generico, chiedere quale icona. Fix merge 🔴 #206 + Ctrl+F5 post-deploy. Vedi L-358, L-348.",
