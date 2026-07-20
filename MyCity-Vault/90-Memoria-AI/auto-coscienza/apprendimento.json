@@ -152,7 +152,7 @@
     },
     {
       "id": "L-2026-0720-359",
-      "testo": "**Worker chat — niente testata marketing, «+» nella barra icone basso (Nicola 20/7 ~02:13).** «Togli la barra in alto dove c'è scritto Worker semplice e diretto… e le icone + mettila dentro barra delle icone (allega, video live, prompt, …)». 5 perché: (1) odia spreco verticale — testata con titolo+sottotitolo marketing **non** serve in una chat operativa già riconoscibile; (2) **+ Nuova chat** deve stare **nella stessa toolbar** di allega/video live/prompt/invio — non isolato in testata; (3) in alto restano **solo** controlli finestra (ingrandisci, chiudi) — minimal chrome; (4) **Prompt** deve comparire anche in finestra **piccola** (prima solo ingrandita); (5) filone UX Worker post-sidebar (#485–#487): ogni tweak layout **non** rompe scroll #483, sticky #484, sidebar conv L-348. Regola: Worker popup = massimo spazio messaggi, zero copy marketing in testata, azioni chat tutte in barra basso. Fix PR #489 (`fix/worker-niente-testata`, `ec9f36e0`). Vedi L-348, L-346.",
+      "testo": "**Worker chat — niente testata marketing, «+» nella barra icone basso (Nicola 20/7 ~02:13, agg. 02:31).** «Togli la barra in alto dove c'è scritto Worker semplice e diretto… e le icone + mettila dentro barra delle icone (allega, video live, prompt, …)». 5 perché: (1) odia spreco verticale — testata con titolo+sottotitolo marketing **non** serve in una chat operativa già riconoscibile; (2) **+ Nuova chat** deve stare **nella stessa toolbar** di allega/video live/prompt/invio — non isolato in testata; (3) in alto restano **solo** controlli finestra (ingrandisci, chiudi) — minimal chrome; (4) **Prompt** deve comparire anche in finestra **piccola** (prima solo ingrandita); (5) filone UX Worker post-sidebar (#485–#487): ogni tweak layout **non** rompe scroll #483, sticky #484, sidebar conv L-348. **ADDENDUM 02:31:** conflitto con fix ☰ → **PR #490** unificata (non #489/#207). Regola: Worker popup = massimo spazio messaggi, zero copy marketing in testata, azioni chat tutte in barra basso. Vedi L-362, L-348, L-346.",
       "tag": [
         "pannello",
         "chat",
@@ -164,11 +164,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.94,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 02:13",
+      "ultima_conferma": "2026-07-20 02:31",
       "stato": "attiva",
       "usi": []
     },
@@ -8252,9 +8252,10 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
-    "**Verifica deploy Pannello — «fix online?» = prova UI live + PR merged/pending, NON peso chunk (chat 20/7 ~02:23):** chiede se ultimi merge Worker sono sul Pannello — si aspetta risposta **verificata** (stringhe UI assenti/presenti: no «Semplice e diretto», + in basso, ☰ funzionante), non «sì» da byte JS; se **lui** non vede → AD ammette errore e indica card pendenti (**#207** #489, **#206** #488 codice); parziale ok (#483–#487) va detto esplicitamente. Vedi L-361, L-315, L-360.",
+    "**Worker PR in conflitto — vuole merge unico consolidato, non N card parallele (chat 20/7 ~02:31):** «fammi rimergiare il menu e risolvi il conflitto della #489» — si aspetta che l'AD **risolva il conflitto** e consegni **una sola PR** da mergiare (☰ + layout compatto insieme); **non** lasciare #489/#207/#206 in coda separata quando i fix sono sullo stesso file. Dopo merge: Ctrl+F5 + verifica UI live (L-361). Card attiva: **#208** / PR **#490**. Vedi L-362.",
+    "**Verifica deploy Pannello — «fix online?» = prova UI live + PR merged/pending, NON peso chunk (chat 20/7 ~02:23):** chiede se ultimi merge Worker sono sul Pannello — si aspetta risposta **verificata** (stringhe UI assenti/presenti: no «Semplice e diretto», + in basso, ☰ funzionante), non «sì» da byte JS; se **lui** non vede → AD ammette errore e indica card pendente (**#208** / PR **#490**); parziale ok (#483–#487) va detto esplicitamente. Vedi L-361, L-315, L-360.",
     "**Worker popup #486 — «non si vede il fix» = verifica live + cache, gate fino a ok (chat 20/7 ~02:22):** dopo merge popup Worker (#486) segnala fix assente sul Pannello — si aspetta che l'AD **verifichi live** (non solo main), dia istruzioni refresh (Ctrl+F5, cancella dati mobile), chieda device+screenshot se persiste; **non** considerare chiuso finché non conferma finestra popup (lista sinistra, X chiude). Vedi L-360, L-352, L-353.",
-    "**Worker chat — niente testata «Worker / Semplice e diretto…», «+» in barra icone basso (chat 20/7 ~02:13):** togli barra titolo/sottotitolo marketing in alto — restano solo ingrandisci/chiudi in alto a destra; **+ Nuova chat** integrato nella toolbar bassa **prima** di allega / video live / prompt / invio (anche finestra piccola); vuole **più spazio** per i messaggi, zero copy marketing in testata. Fix PR #489 merge 🔴 #207 + Ctrl+F5. Vedi L-359, L-348.",
+    "**Worker chat — niente testata «Worker / Semplice e diretto…», «+» in barra icone basso (chat 20/7 ~02:13, agg. 02:31):** togli barra titolo/sottotitolo marketing in alto — restano solo ingrandisci/chiudi in alto a destra; **+ Nuova chat** integrato nella toolbar bassa **prima** di allega / video live / prompt / invio (anche finestra piccola); vuole **più spazio** per i messaggi, zero copy marketing in testata. Fix in **PR #490** merge 🔴 **#208** + Ctrl+F5 (supersede #489/#207). Vedi L-362, L-359, L-348.",
     "**Worker chat — icona ☰ menu conv deve aprire/nascondere elenco (chat 20/7 ~02:08):** segnala «l'icona del menu non si apre» — si aspetta che ☰ in **testata** Worker controlli l'elenco conversazioni (mobile=cassetto, desktop=mostra/nascondi colonna sinistra); sidebar integrata (#485) **non** sostituisce il toggle; **non** confondere con ⚡ Skill in basso — se «menu» generico, chiedere quale icona. Fix merge 🔴 #206 + Ctrl+F5 post-deploy. Vedi L-358, L-348.",
     "**Pulsanti comandi Termux — vuole lista completa PRIMA, poi pulsanti sicuri a fasi (chat 20/7 ~01:53):** dopo NO pagina terminale (L-355), chiede «crea pulsanti per ogni comando importante da terminale — **fammi la lista prima**» — si aspetta inventario (già in Pannello + proposti + solo SSH), **non** PR immediata; accetta approccio a fasi (AD propone 4 prioritari: aggiorna codice, diagnostica, sensori, review settimana); dirà ok/togli-aggiungi prima del codice. Vedi L-356, L-355.",
     "**Menu vs terminale — chiede comandi VPS dal menu e pagina terminale (chat 20/7 ~01:47):** follow-up «senza cmd» (L-349) — vuole capire se il **menu** manda comandi al server e perché **non** c'è una pagina con terminale integrato; si aspetta comodità tipo shell ma AD deve chiarire: menu = pulsanti sicuri preset (giro/riavvio), **non** terminale libero; chat = canale completo; **no** pagina terminale web (sicurezza); se stessa azione ripetuta → chiede 2-3 cose e si aggiungono pulsanti al menu. Vedi L-355, L-349.",
