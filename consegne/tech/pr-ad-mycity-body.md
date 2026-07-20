@@ -1,13 +1,15 @@
 ## Summary
-Promuove il controllo **obiettivo principale (1° ordine pagato)** da guardiano soft a **vincolo HARD di allocazione** nel giro (AR-113).
+- Aggiunge `freschezza-okr.mjs`: guardiano che segnala OKR stantio (>7 giorni), target con data passata (es. «27/6») o riferimenti faro obsoleti.
+- Cabla il vincolo HARD nel preambolo di `giro.sh` (stesso pattern di AR-030 checklist): se fallisce, il motore deve riscrivere `OKR-Squadra.md` prima di chiudere il giro.
+- Aggiorna la verifica auto-fix di AR-115 nel cantiere difetti.
 
-- `north-star-check.mjs`: legge lo stallo da STATO, soglia giorni (`NORTH_STAR_GIORNI_GATE`, default 3), flag `--gate` per il giro, segnale `north-star` per freschezza.
-- `giro.sh`: usa `--gate` e passa `NORTH_STAR_VINCOLO` al motore («solo azioni che avvicinano il 1° ordine»).
-- Chiude difetto **AR-113** in cantiere (verifica automatica).
+## Perché
+L'OKR definisce cosa è prioritario per ogni senior ma restava morto senza processo di riscrittura — target scaduti (1° ordine «27/6») e nessun guardiano.
 
-## Test plan
-- [ ] `bash -n cervello/giro.sh`
-- [ ] `node cervello/north-star-check.mjs --gate` → exit 1 con stallo ~26 gg (STATO attuale)
-- [ ] `node cervello/test/north-star-gate.mjs`
-- [ ] `node cervello/auto-fix.mjs verifica` → AR-113 risolto
-- [ ] Dopo merge: prossimo giro mostra vincolo north-star nel prompt AD
+## Come provare
+```bash
+bash -n cervello/giro.sh
+node cervello/test/freschezza-okr.mjs
+node cervello/freschezza-okr.mjs   # exit 1 finché c'è «27/6» in OKR-Squadra.md
+node cervello/auto-fix.mjs verifica | rg AR-115
+```
