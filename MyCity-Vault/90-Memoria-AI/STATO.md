@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:37
+aggiornato: 2026-07-20 03:39
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:39 — CHAT: Intelligence sotto-utilizzata — gap diagnosi + piano accensione (L-385).** Nicola «**l'intelligence non si al massimo del suo potenziale** — spiegami come può essere migliorata». AD diagnosi repo: senior **esiste e ben scritto** ma lavoro resta **on-demand in chat** invece di sveglie automatiche; **ultima perlustrazione completa 6/7**; briefing spesso «intelligence limitata» / meteo non live. **3 gap:** (1) **cron mattutino** — workflow **n.41** RSS bandi/Comune **spento** (PI26 oggi 10:00 arriva da coda, non da intelligence); (2) **Telegram n.31** — **59 card** pronte, **zero push** senza chiavi bot; (3) **Firecrawl** non attivo sul worker → ricerca web debole, Comune **403** da VPS. **Già ok:** radar fonti locali **16/16 vive**; meteo/eventi legati a mosse quando lavoro serio. **Piano proposto:** intelligence programmata ogni mattina → riassunto Telegram solo se conta → collegata a numeri reali + card approvabili; **priorità accensione:** **41** (bandi) o **31** (avvisi) — servono **chiavi Telegram** VPS. CTA: piano «accendi intelligence» 3 passi (41→31→scan concorrenti settimanale). Fonte: chat Nicola 20/7 03:39.
 
 > 💬 **20/7 ~03:37 — CHAT: Bacheca — rimosso duplicato «Mappa negozi Piacenza» (L-384).** Nicola «**togli dalla bacheca il duplicato: mappa negozi piacenza**» — in `BACHECA.md` c'erano **2 copie identiche** del blocco mappa onboarding; AD elimina quella **in fondo**, resta **una sola** sotto le 3 caselle n8n (50 workflow · 20 mani · mani reparto). Se home ancora doppia = refresh (main GitHub). Fonte: chat Nicola 20/7 03:37.
 
