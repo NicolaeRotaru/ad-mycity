@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 20:11
+aggiornato: 2026-07-20 20:16
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~20:16 — CHAT: PostHog RISOLTO anche sul Pannello — Radiografia verde (L-415 chiuso).** Nicola «**ok è diventato verde**» — AD verifica live **20:16**: VPS sensore **ok** · Pannello `/api/diagnosi` **verde** «visite tracciate». Setup completo: account **US**, host `https://us.posthog.com`, project **495230**, chiave personale `phx_` su VPS + Vercel Production. **Residuo opzionale:** allineare host tracking **Render** (sito) se ancora EU. Fonte: chat Nicola 20/7 20:16 + GET diagnosi 20:16 + verifica-sensori 20:16.
 
 > 💬 **20/7 ~20:11 — CHAT: PostHog «ricontrollato su Vercel» ma Radiografia ancora giallo — PR #502 diagnosi env (L-415).** Nicola «**ricontrollato su vercel ma non ancora non funziona**» — terzo round checklist dopo L-411/L-414; AD verifica: VPS sensore **ok** · Pannello `/api/diagnosi` **ancora giallo**; messaggio generico «non collegato» non dice quale env fallisce. **PR #502:** Radiografia indica **quale** delle 3 env Vercel manca (`POSTHOG_HOST` / `POSTHOG_PROJECT_ID` **495230** / `POSTHOG_API_KEY` `phx_`). **Serve Nicola:** mergia **#502** da GitHub → deploy ~2 min → refresh Radiografia → leggi riga dettaglio sotto PostHog. Link in chat, **no card merge** (L-402). Fonte: chat Nicola 20/7 20:11 + verifica live worker.
 
