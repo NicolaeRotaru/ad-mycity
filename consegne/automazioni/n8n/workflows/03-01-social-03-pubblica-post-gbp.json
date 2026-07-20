@@ -1,0 +1,124 @@
+{
+  "id": "6aa62090-3143-4ab6-ae46-af7c2aad440b",
+  "versionId": "6aa62090-3143-4ab6-ae46-af7c2aad440b",
+  "name": "MyCity 03 — Pubblica post Google Business",
+  "_descrizione": "Webhook → localPost su Maps. COLORE: 🔴 — stub importabile: sostituisci «Stub Telegram» con l'azione reale (Meta/Resend/Sheets/API). Attiva solo con credenziali pronte.",
+  "_categoria": "01-social",
+  "_numero": 3,
+  "_colore": "🔴",
+  "_webhook_path": "mycity-wf-03-pubblica-post-gbp",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mycity-wf-03-pubblica-post-gbp",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "trigger-webhook",
+      "name": "Webhook (da worker/card)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "mycity-wf-03-pubblica-post-gbp"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\"workflow\":\"Pubblica post Google Business\",\"categoria\":\"01-social\",\"numero\":3,\"colore\":\"🔴\",\"nota\":\"Webhook → localPost su Maps.\",\"payload\":\"={{ $json.body || $json }}\"}"
+      },
+      "id": "set-meta",
+      "name": "Metadati workflow",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "={{ $env.TELEGRAM_CHAT_ID }}"
+            },
+            {
+              "name": "text",
+              "value": "=🤖 [STUB 3] Pubblica post Google Business\nWebhook → localPost su Maps.\n\nConfigura i nodi azione prima di attivare. Colore: 🔴"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "stub-telegram",
+      "name": "Stub Telegram (sostituire)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"ok\": true, \"workflow\": \"Pubblica post Google Business\" } }}"
+      },
+      "id": "respond",
+      "name": "Rispondi OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        960,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook (da worker/card)": {
+      "main": [
+        [
+          {
+            "node": "Metadati workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Metadati workflow": {
+      "main": [
+        [
+          {
+            "node": "Stub Telegram (sostituire)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stub Telegram (sostituire)": {
+      "main": [
+        [
+          {
+            "node": "Rispondi OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false
+}

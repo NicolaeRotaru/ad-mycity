@@ -1,0 +1,102 @@
+{
+  "id": "3bf927d6-d0ba-4ca7-b6eb-63e4d3f5eb6f",
+  "versionId": "3bf927d6-d0ba-4ca7-b6eb-63e4d3f5eb6f",
+  "name": "MyCity 16 — Win-back dormiente 30 giorni",
+  "_descrizione": "Cron → clienti senza ordine 30gg → email riattivazione. COLORE: 🔴 — stub importabile: sostituisci «Stub Telegram» con l'azione reale (Meta/Resend/Sheets/API). Attiva solo con credenziali pronte.",
+  "_categoria": "04-fidelizzazione",
+  "_numero": 16,
+  "_colore": "🔴",
+  "_webhook_path": null,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * *"
+            }
+          ]
+        }
+      },
+      "id": "trigger-cron",
+      "name": "Schedule (modifica orario)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\"workflow\":\"Win-back dormiente 30 giorni\",\"categoria\":\"04-fidelizzazione\",\"numero\":16,\"colore\":\"🔴\",\"nota\":\"Cron → clienti senza ordine 30gg → email riattivazione.\",\"payload\":\"={{ $json.body || $json }}\"}"
+      },
+      "id": "set-meta",
+      "name": "Metadati workflow",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "={{ $env.TELEGRAM_CHAT_ID }}"
+            },
+            {
+              "name": "text",
+              "value": "=🤖 [STUB 16] Win-back dormiente 30 giorni\nCron → clienti senza ordine 30gg → email riattivazione.\n\nConfigura i nodi azione prima di attivare. Colore: 🔴"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "stub-telegram",
+      "name": "Stub Telegram (sostituire)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule (modifica orario)": {
+      "main": [
+        [
+          {
+            "node": "Metadati workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Metadati workflow": {
+      "main": [
+        [
+          {
+            "node": "Stub Telegram (sostituire)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false
+}

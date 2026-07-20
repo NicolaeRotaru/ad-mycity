@@ -1,0 +1,102 @@
+{
+  "id": "b56e52b8-de29-4cd4-952b-2c659c5ec8dd",
+  "versionId": "b56e52b8-de29-4cd4-952b-2c659c5ec8dd",
+  "name": "MyCity 25 — Check-in settimanale negozio",
+  "_descrizione": "Cron lunedì → WhatsApp/email template check-in anchor. COLORE: 🔴 — stub importabile: sostituisci «Stub Telegram» con l'azione reale (Meta/Resend/Sheets/API). Attiva solo con credenziali pronte.",
+  "_categoria": "05-negozi",
+  "_numero": 25,
+  "_colore": "🔴",
+  "_webhook_path": null,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * *"
+            }
+          ]
+        }
+      },
+      "id": "trigger-cron",
+      "name": "Schedule (modifica orario)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\"workflow\":\"Check-in settimanale negozio\",\"categoria\":\"05-negozi\",\"numero\":25,\"colore\":\"🔴\",\"nota\":\"Cron lunedì → WhatsApp/email template check-in anchor.\",\"payload\":\"={{ $json.body || $json }}\"}"
+      },
+      "id": "set-meta",
+      "name": "Metadati workflow",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "={{ $env.TELEGRAM_CHAT_ID }}"
+            },
+            {
+              "name": "text",
+              "value": "=🤖 [STUB 25] Check-in settimanale negozio\nCron lunedì → WhatsApp/email template check-in anchor.\n\nConfigura i nodi azione prima di attivare. Colore: 🔴"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "stub-telegram",
+      "name": "Stub Telegram (sostituire)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule (modifica orario)": {
+      "main": [
+        [
+          {
+            "node": "Metadati workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Metadati workflow": {
+      "main": [
+        [
+          {
+            "node": "Stub Telegram (sostituire)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false
+}

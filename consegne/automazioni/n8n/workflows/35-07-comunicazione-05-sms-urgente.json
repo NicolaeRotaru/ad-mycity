@@ -1,0 +1,124 @@
+{
+  "id": "08951c66-6d16-4e07-92bf-281e39c25b68",
+  "versionId": "08951c66-6d16-4e07-92bf-281e39c25b68",
+  "name": "MyCity 35 — SMS urgente consegna",
+  "_descrizione": "Fallback Twilio per ritardi critici. COLORE: 🔴 — stub importabile: sostituisci «Stub Telegram» con l'azione reale (Meta/Resend/Sheets/API). Attiva solo con credenziali pronte.",
+  "_categoria": "07-comunicazione",
+  "_numero": 35,
+  "_colore": "🔴",
+  "_webhook_path": "mycity-wf-35-sms-urgente",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mycity-wf-35-sms-urgente",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "trigger-webhook",
+      "name": "Webhook (da worker/card)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "mycity-wf-35-sms-urgente"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\"workflow\":\"SMS urgente consegna\",\"categoria\":\"07-comunicazione\",\"numero\":35,\"colore\":\"🔴\",\"nota\":\"Fallback Twilio per ritardi critici.\",\"payload\":\"={{ $json.body || $json }}\"}"
+      },
+      "id": "set-meta",
+      "name": "Metadati workflow",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "={{ $env.TELEGRAM_CHAT_ID }}"
+            },
+            {
+              "name": "text",
+              "value": "=🤖 [STUB 35] SMS urgente consegna\nFallback Twilio per ritardi critici.\n\nConfigura i nodi azione prima di attivare. Colore: 🔴"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "stub-telegram",
+      "name": "Stub Telegram (sostituire)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"ok\": true, \"workflow\": \"SMS urgente consegna\" } }}"
+      },
+      "id": "respond",
+      "name": "Rispondi OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        960,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook (da worker/card)": {
+      "main": [
+        [
+          {
+            "node": "Metadati workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Metadati workflow": {
+      "main": [
+        [
+          {
+            "node": "Stub Telegram (sostituire)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stub Telegram (sostituire)": {
+      "main": [
+        [
+          {
+            "node": "Rispondi OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false
+}

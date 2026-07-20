@@ -1,0 +1,124 @@
+{
+  "id": "5d5c872f-0735-4510-bc78-26a8cda105c7",
+  "versionId": "5d5c872f-0735-4510-bc78-26a8cda105c7",
+  "name": "MyCity 14 — Coupon recupero carrello",
+  "_descrizione": "Dopo 2 touch → API marketplace coupon (solo se approvato). COLORE: 🔴 — stub importabile: sostituisci «Stub Telegram» con l'azione reale (Meta/Resend/Sheets/API). Attiva solo con credenziali pronte.",
+  "_categoria": "03-carrelli",
+  "_numero": 14,
+  "_colore": "🔴",
+  "_webhook_path": "mycity-wf-14-carrello-coupon-recupero",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mycity-wf-14-carrello-coupon-recupero",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "trigger-webhook",
+      "name": "Webhook (da worker/card)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "mycity-wf-14-carrello-coupon-recupero"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\"workflow\":\"Coupon recupero carrello\",\"categoria\":\"03-carrelli\",\"numero\":14,\"colore\":\"🔴\",\"nota\":\"Dopo 2 touch → API marketplace coupon (solo se approvato).\",\"payload\":\"={{ $json.body || $json }}\"}"
+      },
+      "id": "set-meta",
+      "name": "Metadati workflow",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "={{ $env.TELEGRAM_CHAT_ID }}"
+            },
+            {
+              "name": "text",
+              "value": "=🤖 [STUB 14] Coupon recupero carrello\nDopo 2 touch → API marketplace coupon (solo se approvato).\n\nConfigura i nodi azione prima di attivare. Colore: 🔴"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "stub-telegram",
+      "name": "Stub Telegram (sostituire)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"ok\": true, \"workflow\": \"Coupon recupero carrello\" } }}"
+      },
+      "id": "respond",
+      "name": "Rispondi OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        960,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook (da worker/card)": {
+      "main": [
+        [
+          {
+            "node": "Metadati workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Metadati workflow": {
+      "main": [
+        [
+          {
+            "node": "Stub Telegram (sostituire)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stub Telegram (sostituire)": {
+      "main": [
+        [
+          {
+            "node": "Rispondi OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false
+}

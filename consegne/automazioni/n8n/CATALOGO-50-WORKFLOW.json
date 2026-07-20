@@ -1,0 +1,406 @@
+{
+  "generato": "2026-07-20T01:26:52.781Z",
+  "totale": 50,
+  "workflows": [
+    {
+      "num": 1,
+      "fname": "01-01-social-01-pubblica-post-fb.json",
+      "title": "Pubblica post Facebook",
+      "categoria": "Social & canali",
+      "colore": "🔴",
+      "webhook": "mycity-wf-01-pubblica-post-fb"
+    },
+    {
+      "num": 2,
+      "fname": "02-01-social-02-pubblica-post-ig.json",
+      "title": "Pubblica post Instagram",
+      "categoria": "Social & canali",
+      "colore": "🔴",
+      "webhook": "mycity-wf-02-pubblica-post-ig"
+    },
+    {
+      "num": 3,
+      "fname": "03-01-social-03-pubblica-post-gbp.json",
+      "title": "Pubblica post Google Business",
+      "categoria": "Social & canali",
+      "colore": "🔴",
+      "webhook": "mycity-wf-03-pubblica-post-gbp"
+    },
+    {
+      "num": 4,
+      "fname": "04-01-social-04-calendario-post-cron.json",
+      "title": "Calendario post settimanale",
+      "categoria": "Social & canali",
+      "colore": "🔴",
+      "webhook": null
+    },
+    {
+      "num": 5,
+      "fname": "05-01-social-05-report-social-settimana.json",
+      "title": "Report social settimanale",
+      "categoria": "Social & canali",
+      "colore": "🟢",
+      "webhook": null
+    },
+    {
+      "num": 6,
+      "fname": "06-02-acquisizione-01-nuovo-iscritto-hub.json",
+      "title": "Nuovo iscritto lista attesa",
+      "categoria": "Acquisizione clienti",
+      "colore": "🟡",
+      "webhook": "mycity-wf-06-nuovo-iscritto-hub"
+    },
+    {
+      "num": 7,
+      "fname": "07-02-acquisizione-02-invito-zona-live.json",
+      "title": "Invito zona quando negozio apre",
+      "categoria": "Acquisizione clienti",
+      "colore": "🔴",
+      "webhook": "mycity-wf-07-invito-zona-live"
+    },
+    {
+      "num": 8,
+      "fname": "08-02-acquisizione-03-reminder-lista-attesa.json",
+      "title": "Reminder lista attesa",
+      "categoria": "Acquisizione clienti",
+      "colore": "🔴",
+      "webhook": null
+    },
+    {
+      "num": 9,
+      "fname": "09-02-acquisizione-04-referral-traccia-codice.json",
+      "title": "Referral traccia codice",
+      "categoria": "Acquisizione clienti",
+      "colore": "🟡",
+      "webhook": "mycity-wf-09-referral-traccia-codice"
+    },
+    {
+      "num": 10,
+      "fname": "10-02-acquisizione-05-report-iscrizioni.json",
+      "title": "Report iscrizioni settimanale",
+      "categoria": "Acquisizione clienti",
+      "colore": "🟢",
+      "webhook": null
+    },
+    {
+      "num": 11,
+      "fname": "11-03-carrelli-01-carrello-1h-email.json",
+      "title": "Carrello abbandonato 1 ora",
+      "categoria": "Carrelli abbandonati",
+      "colore": "🔴",
+      "webhook": "mycity-wf-11-carrello-1h-email"
+    },
+    {
+      "num": 12,
+      "fname": "12-03-carrelli-02-carrello-24h-secondo.json",
+      "title": "Carrello abbandonato 24 ore",
+      "categoria": "Carrelli abbandonati",
+      "colore": "🔴",
+      "webhook": "mycity-wf-12-carrello-24h-secondo"
+    },
+    {
+      "num": 13,
+      "fname": "13-03-carrelli-03-carrello-alert-telegram.json",
+      "title": "Alert carrello alto valore",
+      "categoria": "Carrelli abbandonati",
+      "colore": "🟡",
+      "webhook": "mycity-wf-13-carrello-alert-telegram"
+    },
+    {
+      "num": 14,
+      "fname": "14-03-carrelli-04-carrello-coupon-recupero.json",
+      "title": "Coupon recupero carrello",
+      "categoria": "Carrelli abbandonati",
+      "colore": "🔴",
+      "webhook": "mycity-wf-14-carrello-coupon-recupero"
+    },
+    {
+      "num": 15,
+      "fname": "15-03-carrelli-05-report-recupero-carrelli.json",
+      "title": "Report recupero carrelli",
+      "categoria": "Carrelli abbandonati",
+      "colore": "🟢",
+      "webhook": null
+    },
+    {
+      "num": 16,
+      "fname": "16-04-fidelizzazione-01-winback-30gg.json",
+      "title": "Win-back dormiente 30 giorni",
+      "categoria": "Fidelizzazione",
+      "colore": "🔴",
+      "webhook": null
+    },
+    {
+      "num": 17,
+      "fname": "17-04-fidelizzazione-02-winback-60gg.json",
+      "title": "Win-back dormiente 60 giorni",
+      "categoria": "Fidelizzazione",
+      "colore": "🔴",
+      "webhook": null
+    },
+    {
+      "num": 18,
+      "fname": "18-04-fidelizzazione-03-post-consegna-recensione.json",
+      "title": "Grazie + recensione post-consegna",
+      "categoria": "Fidelizzazione",
+      "colore": "🔴",
+      "webhook": "mycity-wf-18-post-consegna-recensione"
+    },
+    {
+      "num": 19,
+      "fname": "19-04-fidelizzazione-04-promemoria-riordino.json",
+      "title": "Promemoria riordino pane/freschi",
+      "categoria": "Fidelizzazione",
+      "colore": "🔴",
+      "webhook": null
+    },
+    {
+      "num": 20,
+      "fname": "20-04-fidelizzazione-05-report-retention.json",
+      "title": "Report retention mensile",
+      "categoria": "Fidelizzazione",
+      "colore": "🟢",
+      "webhook": null
+    },
+    {
+      "num": 21,
+      "fname": "21-05-negozi-01-nuovo-ordine-negozio.json",
+      "title": "Notifica nuovo ordine al negozio",
+      "categoria": "Negozi & onboarding",
+      "colore": "🔴",
+      "webhook": "mycity-wf-21-nuovo-ordine-negozio"
+    },
+    {
+      "num": 22,
+      "fname": "22-05-negozi-02-promemoria-kyc-stripe.json",
+      "title": "Promemoria KYC Stripe",
+      "categoria": "Negozi & onboarding",
+      "colore": "🟡",
+      "webhook": null
+    },
+    {
+      "num": 23,
+      "fname": "23-05-negozi-03-health-score-caldo.json",
+      "title": "Health score negozio in calo",
+      "categoria": "Negozi & onboarding",
+      "colore": "🟡",
+      "webhook": "mycity-wf-23-health-score-caldo"
+    },
+    {
+      "num": 24,
+      "fname": "24-05-negozi-04-catalogo-vuoto.json",
+      "title": "Promemoria catalogo vuoto",
+      "categoria": "Negozi & onboarding",
+      "colore": "🟡",
+      "webhook": "mycity-wf-24-catalogo-vuoto"
+    },
+    {
+      "num": 25,
+      "fname": "25-05-negozi-05-checkin-settimanale-negozio.json",
+      "title": "Check-in settimanale negozio",
+      "categoria": "Negozi & onboarding",
+      "colore": "🔴",
+      "webhook": null
+    },
+    {
+      "num": 26,
+      "fname": "26-06-operations-01-ordine-ritardo.json",
+      "title": "Alert ordine in ritardo",
+      "categoria": "Operations & consegne",
+      "colore": "🟡",
+      "webhook": "mycity-wf-26-ordine-ritardo"
+    },
+    {
+      "num": 27,
+      "fname": "27-06-operations-02-negozio-non-risponde.json",
+      "title": "Escalation negozio non risponde",
+      "categoria": "Operations & consegne",
+      "colore": "🔴",
+      "webhook": "mycity-wf-27-negozio-non-risponde"
+    },
+    {
+      "num": 28,
+      "fname": "28-06-operations-03-meteo-pioggia-ops.json",
+      "title": "Meteo pioggia → post + ops",
+      "categoria": "Operations & consegne",
+      "colore": "🔴",
+      "webhook": "mycity-wf-28-meteo-pioggia-ops"
+    },
+    {
+      "num": 29,
+      "fname": "29-06-operations-04-pagamento-fallito.json",
+      "title": "Pagamento fallito cliente",
+      "categoria": "Operations & consegne",
+      "colore": "🔴",
+      "webhook": "mycity-wf-29-pagamento-fallito"
+    },
+    {
+      "num": 30,
+      "fname": "30-06-operations-05-report-ordini-giorno.json",
+      "title": "Report ordini giornaliero",
+      "categoria": "Operations & consegne",
+      "colore": "🟢",
+      "webhook": null
+    },
+    {
+      "num": 31,
+      "fname": "31-07-comunicazione-01-card-da-approvare.json",
+      "title": "Card Da approvare → Telegram",
+      "categoria": "Comunicazione AD",
+      "colore": "🟡",
+      "webhook": "mycity-wf-31-card-da-approvare"
+    },
+    {
+      "num": 32,
+      "fname": "32-07-comunicazione-02-errore-worker.json",
+      "title": "Errore worker/deploy",
+      "categoria": "Comunicazione AD",
+      "colore": "🟡",
+      "webhook": "mycity-wf-32-errore-worker"
+    },
+    {
+      "num": 33,
+      "fname": "33-07-comunicazione-03-email-transazionale.json",
+      "title": "Email transazionale Resend",
+      "categoria": "Comunicazione AD",
+      "colore": "🔴",
+      "webhook": "mycity-wf-33-email-transazionale"
+    },
+    {
+      "num": 34,
+      "fname": "34-07-comunicazione-04-whatsapp-negozio.json",
+      "title": "WhatsApp template negozio",
+      "categoria": "Comunicazione AD",
+      "colore": "🔴",
+      "webhook": "mycity-wf-34-whatsapp-negozio"
+    },
+    {
+      "num": 35,
+      "fname": "35-07-comunicazione-05-sms-urgente.json",
+      "title": "SMS urgente consegna",
+      "categoria": "Comunicazione AD",
+      "colore": "🔴",
+      "webhook": "mycity-wf-35-sms-urgente"
+    },
+    {
+      "num": 36,
+      "fname": "36-08-marketing-locale-01-post-meteo-pioggia.json",
+      "title": "Post pioggia + delivery",
+      "categoria": "Marketing locale",
+      "colore": "🔴",
+      "webhook": "mycity-wf-36-post-meteo-pioggia"
+    },
+    {
+      "num": 37,
+      "fname": "37-08-marketing-locale-02-storia-bottega.json",
+      "title": "Storia bottega settimanale",
+      "categoria": "Marketing locale",
+      "colore": "🔴",
+      "webhook": null
+    },
+    {
+      "num": 38,
+      "fname": "38-08-marketing-locale-03-evento-vp-locale.json",
+      "title": "Evento Venerdì Piacentini",
+      "categoria": "Marketing locale",
+      "colore": "🔴",
+      "webhook": "mycity-wf-38-evento-vp-locale"
+    },
+    {
+      "num": 39,
+      "fname": "39-08-marketing-locale-04-prodotto-giorno.json",
+      "title": "Prodotto del giorno",
+      "categoria": "Marketing locale",
+      "colore": "🔴",
+      "webhook": null
+    },
+    {
+      "num": 40,
+      "fname": "40-08-marketing-locale-05-report-reach-locale.json",
+      "title": "Report reach post locale",
+      "categoria": "Marketing locale",
+      "colore": "🟢",
+      "webhook": null
+    },
+    {
+      "num": 41,
+      "fname": "41-09-intelligence-01-rss-bandi-comune.json",
+      "title": "RSS bandi Comune",
+      "categoria": "Intelligence programmata",
+      "colore": "🟢",
+      "webhook": null
+    },
+    {
+      "num": 42,
+      "fname": "42-09-intelligence-02-rss-vita-centro.json",
+      "title": "RSS Vita in Centro / CNA",
+      "categoria": "Intelligence programmata",
+      "colore": "🟢",
+      "webhook": null
+    },
+    {
+      "num": 43,
+      "fname": "43-09-intelligence-03-promemoria-scadenza-bando.json",
+      "title": "Promemoria scadenza bando",
+      "categoria": "Intelligence programmata",
+      "colore": "🟡",
+      "webhook": null
+    },
+    {
+      "num": 44,
+      "fname": "44-09-intelligence-04-meteo-domani-ops.json",
+      "title": "Meteo domani per ops",
+      "categoria": "Intelligence programmata",
+      "colore": "🟢",
+      "webhook": null
+    },
+    {
+      "num": 45,
+      "fname": "45-09-intelligence-05-report-intelligence.json",
+      "title": "Report intelligence settimanale",
+      "categoria": "Intelligence programmata",
+      "colore": "🟢",
+      "webhook": null
+    },
+    {
+      "num": 46,
+      "fname": "46-10-backoffice-01-stripe-payout-bloccato.json",
+      "title": "Stripe payout bloccato",
+      "categoria": "Salute macchina & back-office",
+      "colore": "🟡",
+      "webhook": "mycity-wf-46-stripe-payout-bloccato"
+    },
+    {
+      "num": 47,
+      "fname": "47-10-backoffice-02-runway-cassa-alert.json",
+      "title": "Alert runway cassa",
+      "categoria": "Salute macchina & back-office",
+      "colore": "🟡",
+      "webhook": null
+    },
+    {
+      "num": 48,
+      "fname": "48-10-backoffice-03-export-incassi-sheets.json",
+      "title": "Export incassi payout Sheets",
+      "categoria": "Salute macchina & back-office",
+      "colore": "🟢",
+      "webhook": null
+    },
+    {
+      "num": 49,
+      "fname": "49-10-backoffice-04-health-check-n8n.json",
+      "title": "Health check n8n",
+      "categoria": "Salute macchina & back-office",
+      "colore": "🟢",
+      "webhook": null
+    },
+    {
+      "num": 50,
+      "fname": "50-10-backoffice-05-log-uscite-social.json",
+      "title": "Log uscite social audit",
+      "categoria": "Salute macchina & back-office",
+      "colore": "🟢",
+      "webhook": null
+    }
+  ]
+}
