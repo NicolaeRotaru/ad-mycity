@@ -1,10 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:07
+aggiornato: 2026-07-20 02:08
 fonte: AD digitale (metabolizzazione chat)
 ---
 
-> 💬 **20/7 ~02:07 — CHAT: Nicola ha messo N8N_WEBHOOK_URL nel file env worker (L-357).** Milestone «URL webhook in env» — **non ancora verificato** finché non riavvia il worker e scrive «webhook collegato». Prossimo Nicola: (1) workflow «Pubblica post programmato» **Active** in n8n se non lo è già, (2) **riavvio worker** (pulsante Pannello o SSH), (3) «webhook collegato» → AD verifica sensori. Ancora mancano: login Meta in n8n per postare davvero; `AZIONI_LIVE` resta off (sicurezza). Fonte: chat Nicola 20/7 02:07.
+> 🛰️ **20/7 02:07 — SENTINELLA: cassa/runway — verifica 175 giri, blocco invariato.** `cassa_sconosciuta` **175 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe. **Unica mossa:** card **🟡 #burn-mensile-env** (già in coda). **Oggi ore 10:00:** 🔴 **PI26 apre a sportello** (`#bandi-cciaa-2007`). Diagnosi: `consegne/finanza/2026-07-20-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 02:07.
+
+> 💬 **20/7 ~02:07 — CHAT: Nicola ha messo N8N_WEBHOOK_URL nel file env worker (L-357).** Milestone «URL webhook in env» — **non ancora attivo**: nel `.env` ci sono **3 righe** `N8N_WEBHOOK_URL` (2 segnaposto + 1 reale); il loader usa **prima vince** → sensori vedono ancora segnaposto. **Fix Nicola (SSH):** lascia **una sola** riga con URL vero, cancella le duplicate segnaposto → riavvio worker → «webhook collegato» → AD verifica. Anche: workflow **Active** in n8n; Meta OAuth separato; `AZIONI_LIVE` off. Fonte: chat Nicola 20/7 02:07 + `verifica-sensori.mjs` 02:07.
 
 > 💬 **20/7 ~01:53 — CHAT: pulsanti comandi Termux — lista proposta, attesa ok Nicola (L-356).** Dopo NO pagina terminale (L-355), Nicola: «crea pulsanti per ogni comando importante da terminale — **fammi la lista prima**». AD consegna: **6 già in Pannello** (giro, piano mattino/sera, riavvio worker, sblocca coda, diagnosi) + **8 nuovi proposti** (aggiorna codice server, diagnostica completa, sensori, review settimana, pulisci coda errori, test motore AI, riavvia n8n, supervisiona negozi) + tabella **solo SSH** (segreti, push forzato, Docker complesso, setup una tantum). **Proposta fase 1:** primi **4** pulsanti (aggiorna codice, diagnostica, sensori, review) — coprono ~90% uso Termux. **In attesa:** ok Nicola («ok tutti e 4» / togli-aggiungi) → PR 🟡. Fonte: chat Nicola 20/7 01:53.
 
