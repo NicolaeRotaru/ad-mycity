@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-20 11:24
+aggiornato: 2026-07-20 11:28
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -578,3 +578,18 @@ gate_stampare:
 leva_finanziamento: ⛔ bando «Vita in Centro 50% materiali» **inesistente** (A1 ritirata 6/7) · alternativa: **PI26 CCIAA** 50% digitalizzazione (scade 30/7) — `#bandi-cciaa-2007`
 coda_canonica: **#48** stampa+posa PQ · **#49** semina città (≥3 negozi evadibili)
 stato: ASSET ✅ — stampa ⏸ gated su `#ordine-test-pq`
+
+## A36 · 📣 Post del giorno "Lunedì mattina: il turno è già iniziato" (Pane Quotidiano)
+reparto: content-social
+livello: 🔴 (pubblicazione — la bozza 🟢 è già fatta)
+canale: IG feed @mycity.piacenza + storia 9:16 + pagina FB (+ gruppi FB se non già coperti da #post-meteo-pioggia-20lug)
+perche: Post del giorno 20/7 (playbook worker). Angolo **BTS mattutino** (swipe #4 "dietro la saracinesca" + #3 volto bottega) — qualcuno è già al banco mentre la città si sveglia. **Non duplica:** kefir 14/7 · domenica settimana 19/7 · pioggia 20/7 (gruppi). Domanda-ghigliottina "poteva farlo Amazon?" → no.
+preparato: ✍️ content-social (sintesi AD) — gate ONESTA passato (1976 fonte pubblica, prodotti catalogo REST, 0 numeri MyCity, 0 testimonianze)
+contenuto pronto: consegne/content/2026-07-20-post-del-giorno-lunedi-turno-mattina-PQ.md
+cosa cambia: esce post lunedì sul negozio reale — motore Volti + Il Turno, fascia pranzo/pausa lavoro.
+se va bene: click marketplace via UTM `lunedi_turno_2007`; PQ può ripubblicare; complementa post pioggia (gruppi) e recupero domenica (#post-domenica-settimana-1907).
+testo (hook IG):
+☀️ Lunedì mattina a Piacenza: qualcuno è già al lavoro per te. Pane Quotidiano — bio dal 1976, Via Calzolai. Il fornaio ha già alzato il turno. Tu il tuo lo fai da casa. 👉 Fai il tuo turno — link in bio.
+visual: tipografico mattutino su palette brand ("LUNEDÌ · IL TURNO È GIÀ INIZIATO") = pubblicabile subito; foto interno bottega = ok titolare.
+pre-condizioni: (1) link marketplace in bio/1° commento UTM lunedi_turno_2007 · (2) timing 11:00–14:00 · (3) foto reale = ok titolare se boost. Coda canonica = #post-lunedi-turno-mattina-2007 in [[AZIONI-IN-ATTESA]].
+stato: IN ATTESA DI FIRMA NICOLA.

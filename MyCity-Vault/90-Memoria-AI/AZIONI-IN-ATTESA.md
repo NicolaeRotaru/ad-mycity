@@ -58,6 +58,38 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🔴 #post-lunedi-turno-mattina-2007 — Pubblica "Lunedì mattina: il turno è già iniziato" su Instagram e Facebook · ⏳ accodata 2026-07-20 11:28
+
+**Contenuto completo:** `consegne/content/2026-07-20-post-del-giorno-lunedi-turno-mattina-PQ.md` · anteprima [[AZIONI-PRONTE]] **A36**
+
+**Testo pronto (versione feed IG/FB):**
+
+> ☀️ **Lunedì mattina a Piacenza: qualcuno è già al lavoro per te.**
+>
+> Mentre la città si sveglia, in Via Calzolai la saracinesca è già su. **Pane Quotidiano** — bio dal 1976 — impasta e prepara. Non è un magazzino fuori città: è una bottega dove qualcuno fa il **suo turno** ogni mattina da quasi cinquant'anni.
+>
+> Tu il tuo lo fai da casa: pesto, kefir, freschi bio — ordini dal telefono, te li portiamo. Paghi alla consegna se preferisci.
+>
+> **Fai il tuo turno** — anche il lunedì, senza la trafila.
+>
+> 👉 Link in bio / primo commento
+
+**Primo commento suggerito:**
+> Ordina da Pane Quotidiano → https://mycity-marketplace.com?utm_source=ig&utm_medium=social&utm_campaign=lunedi_turno_2007
+
+**Visual:** tipografico mattutino su palette brand (pubblicabile subito) — brief completo nel file consegne. Foto interno bottega = ok titolare.
+
+**Timing:** lunedì **11:00–14:00** (fascia pranzo). Non duplica #post-meteo-pioggia-20lug (gruppi/pioggia) né #post-domenica-settimana-1907 (domenica sera).
+
+**Cosa cambia:** esce il post del giorno sul negozio faro — angolo BTS/volto lunedì mattina, diverso da pioggia e da domenica.
+**Se va bene:** click marketplace + PQ può ripubblicare ai clienti abituali.
+
+- **Colore:** 🔴 (pubblicazione IG/FB — firma Nicola)
+- **Canale:** Instagram/Facebook @mycity.piacenza (+ storia 9:16)
+- **Reparto:** content-social
+
+---
+
 ### 🟡 #ritmo-venerdì-punteggio — Apri e mergia la PR per la regola «venerdì ricalcola il punteggio auto-coscienza» · ⏳ accodata 2026-07-19 00:10
 
 **Contesto:** Il 18/7 Nicola ha notato che il punteggio 42/100 era fermo da 15 giorni. L'AD ha aggiunto la regola esplicita a `cervello/ritmo.md` e creato il body PR in `consegne/tech/pr-ad-mycity-466.md`, ma il worker al termine del turno non mostrava nessuna PR aperta — il comando potrebbe non essere andato a buon fine.

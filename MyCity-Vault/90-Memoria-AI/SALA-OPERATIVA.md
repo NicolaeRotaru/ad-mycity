@@ -1187,3 +1187,7 @@ Assegnazioni reparto (1 mossa ciascuno):
 ### 2026-07-20 11:24 — PLAYBOOK Capillarità
 - 2026-07-20 11:24 · @designer + @vendite · FATTO · PLAYBOOK Capillarità refresh: REST ✅ 1 PQ confermato · **9 asset 🟢** (6 template neutri `creativi/output/kit-capillarita/` + 3 istanza PQ `creativi/output/capillarita/`) · URL QR PQ verificato HTTP 200 · playbook `consegne/vendite/2026-07-20-playbook-capillarita.md` · [[AZIONI-PRONTE]] **A35** · coda **#48** (stampa+posa 🔴 gated `#ordine-test-pq`) · **#49** (semina città ⏸ ≥3 negozi). ⛔ rimosso aggancio bando Vita in Centro inesistente. Zero stampa/posa.
 - 2026-07-20 11:24 · @vendite · PASSO-A · @Nicola — **prima** `#ordine-test-pq`, **poi** preventivo tipografia con file in `creativi/output/capillarita/` → firma **#48**
+
+### 2026-07-20 11:28 — PLAYBOOK Contenuto del giorno
+- 2026-07-20 11:28 · @content-social · FATTO · PLAYBOOK Contenuto del giorno: post **«Lunedì mattina: il turno è già iniziato»** (PQ, angolo BTS/volti swipe #3+#4, Il Turno). Testo IG/FB/gruppi + brief visual tipografico in `consegne/content/2026-07-20-post-del-giorno-lunedi-turno-mattina-PQ.md`. Gate ONESTA marketing ok (1976 pubblico, 0 numeri MyCity). [[AZIONI-PRONTE]] **A36** · coda **#post-lunedi-turno-mattina-2007** 🔴. Zero pubblicazione.
+- 2026-07-20 11:28 · @content-social · PASSO-A · @Nicola — oggi hai **3 post** in coda social: **#post-meteo-pioggia-20lug** (gruppi, mattina) · **#post-domenica-settimana-1907** (recupero domenica) · **#post-lunedi-turno-mattina-2007** (IG/FB pranzo). Firma almeno uno entro le 14:00.
