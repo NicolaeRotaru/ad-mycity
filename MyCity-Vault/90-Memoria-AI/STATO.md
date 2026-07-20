@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-21 00:33
-fonte: AD digitale (chat 21/7 00:33)
+aggiornato: 2026-07-21 00:34
+fonte: AD digitale (chat 21/7 00:34)
 ---
+
+> 💬 **21/7 ~00:34 — CHAT: «Ci sono altri costi?» — quadro business oltre i 302 €/m (L-442).** Nicola chiede se **mancano voci** dopo Bacheca costi (fissi ~302 €/m + fisici + scaling). AD elenca in chat **4° blocco** non ancora pin in Bacheca: **amministrazione** (PEC ~20–30 €/a, commercialista centinaia €/a, firma/visure) · **operatività consegne** (pagamento rider a consegna, noleggio bici ~40–70 €/m) · **marketing attivo** (ads, promo 5+5 € — zero finché non firmi) · **a volume** (Stripe ~1,4%+0,25 €/tx, assicurazioni RC da preventivo). **Regola:** 302 €/m = quasi tutto acceso oggi; resto **on-demand / % vendite** — AD ha proposto pin Bacheca «amministrazione + operatività» se Nicola vuole quadro **solo infra** vs **tutto business**. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:34.
 
 > 💬 **21/7 ~00:33 — CHAT: Chat sparita — fix race lista + backup locale PR #509 (L-441).** Nicola «**fai analisi e fix**» — follow-up L-439 (prima turno: bozza costi mai inviata al server). AD: **due bug codice** oltre la bozza — (1) chat in lista **solo dopo** persist DB → aprire ☰ Conversazioni durante salvataggio = **assente** (falso sparito); (2) con DB attivo **nessuna copia locale** → reload mobile = persa. **Fix consegnato:** **PR #509** commit **`e98f1e85`** — lista ottimistica subito Invio, chat aperta sempre visibile, backup localStorage anche con rete lenta; no PATCH id temporanei `sess_`. **Serve Nicola:** mergia **#509** → refresh → test: scrivi → subito ☰ Conversazioni = presente «aperta ora». Worker 00:32: chat costi **salvata** (`fa84c340…`) dopo reinvio. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:33.
 

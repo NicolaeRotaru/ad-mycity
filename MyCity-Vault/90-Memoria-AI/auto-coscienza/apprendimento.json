@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-21 00:33",
+  "aggiornato": "2026-07-21 00:34",
+  "_nota_metabolizzazione_21_07_0034": "Chat 21/7 ~00:34: Nicola «Ci sono altri costi?» — follow-up Bacheca costi; AD elenca admin/ops/Stripe/assicurazioni in chat, pin Bacheca proposto non eseguito. L-442 nuova; L-433 evidenze 5 addendum quadro business; preferenza costi-quadro-completo; STATO+LEZIONI-CHAT+finanza+ad esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_21_07_0033": "Chat 21/7 ~00:33: Nicola «fai analisi e fix» chat sparita post L-439 — AD PR #509 race lista + backup localStorage; no PATCH sess_. L-441 nuova; L-439 evidenze 2 addendum bug codice; preferenza chat-sparita-fix-codice; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+ad esito; merge #509 🔴 pendente (già in AZIONI).",
   "_nota_metabolizzazione_21_07_0031": "Chat 21/7 ~00:31: Nicola «costi volantini non li hai messi» + «metti tutti i costi che verranno» — AD Bacheca sezione materiali fisici/volantini/stampa + scaling. L-440 nuova (caso_studio_nicola); L-433 evidenze 4 addendum volantini; preferenza costi-tutti-volantini-fisici; STATO+LEZIONI-CHAT+finanza+ad esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_21_07_0026": "Chat 21/7 ~00:26: Nicola «mi è sparita la chat» costi (200+30+50) — AD verifica: assente DB, bozza locale mai Invio; telefono surriscaldato 10% batteria; filtro ricerca. L-439 nuova; L-2026-0719-289 evidenze++ addendum bozza non inviata; preferenza chat-sparita-diagnosi-db; STATO+LEZIONI-CHAT+frontend-dev+ad esito; costi già Bacheca L-433; nessuna azione/decisione completata.",
@@ -164,6 +165,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0721-442",
+      "testo": "**«Ci sono altri costi?» — quadro business completo in Bacheca, non solo risposta chat (Nicola 21/7 ~00:34).** Follow-up dopo Bacheca con fissi (~302 €/m), materiali fisici (L-440) e scaling. 5 perché: (1) Nicola chiede **completezza** — non basta dire «302 € coprono quasi tutto»; (2) AD aveva lasciato fuori Bacheca **amministrazione** (PEC, commercialista, firma/visure), **operatività consegne** (rider, noleggio bici), **marketing attivo** (ads, promo), **costi a volume** (Stripe %, assicurazioni RC); (3) «tutti i costi» (L-440) = anche **variabili e professionali**, non solo SaaS; (4) rispondere **solo in chat** + «dimmi se aggiungo» = secondo giro — Nicola si aspetta mappa **già pin** in Bacheca blocco «Amministrazione + operatività»; (5) distinguere **3+1 categorie**: fissi mensili · fisici 🔴 on-demand · scaling futuro · admin/ops/% vendite. Regola: «ci sono altri costi?» → elenco esaustivo **+ pin Bacheca proattivo** (cifre pro = «da preventivo», range solo se documentati); chiedi solo se vuole quadro **solo infra** vs **tutto business**. Vedi L-440, L-433.",
+      "tag": [
+        "finanza",
+        "costi",
+        "bacheca",
+        "burn",
+        "operativita",
+        "nicola"
+      ],
+      "reparto": "@finanza",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-21",
+      "ultima_conferma": "2026-07-21 00:34",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0721-441",
       "testo": "**Chat lista conversazioni — race salvataggio + assenza backup locale con DB (Nicola 21/7 ~00:33).** Follow-up «**fai analisi e fix**» dopo L-439 (prima diagnosi = bozza costi mai Invio). 5 perché: (1) Nicola non accetta solo spiegazione Invio — vuole **root cause codice**; (2) chat compariva in lista **solo dopo** persist DB — aprire ☰ Conversazioni **durante** salvataggio = **assente** (sembrava sparita); (3) con database attivo il Pannello **non teneva copia locale** di backup → surriscaldamento/reload mobile = persa anche mid-save; (4) bug secondario: PATCH con id temporanei **`sess_`** andava evitato; (5) L-439 resta valida per bozze mai inviate — **questo fix** copre race + backup. **Fix:** PR **#509** commit **`e98f1e85`** — lista ottimistica subito Invio, chat aperta sempre visibile, backup localStorage con rete lenta. Regola: «chat sparita» → L-439 (DB + filtro) **poi** verificare race lista + backup locale; test post-merge: Invio → subito ☰ = presente. Link chat, no card (L-402). Vedi L-439, L-338.",
@@ -349,14 +371,15 @@
       ],
       "reparto": "@finanza",
       "confidenza": 0.94,
-      "evidenze": 4,
+      "evidenze": 5,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-21 00:32",
+      "ultima_conferma": "2026-07-21 00:34",
       "stato": "attiva",
       "usi": [],
-      "_evidenza_4": "ADDENDUM 21/7 ~00:31: Nicola «volantini non li hai messi» — sezione Materiali fisici/volantini/stampa in Bacheca; stampa fuori burn ~302 €/m; cifre da playbook capillarità + DECISIONI 24/6. Vedi L-440."
+      "_evidenza_4": "ADDENDUM 21/7 ~00:31: Nicola «volantini non li hai messi» — sezione Materiali fisici/volantini/stampa in Bacheca; stampa fuori burn ~302 €/m; cifre da playbook capillarità + DECISIONI 24/6. Vedi L-440.",
+      "_evidenza_5": "ADDENDUM 21/7 ~00:34: Nicola «Ci sono altri costi?» — quadro business oltre 302 €/m: admin (PEC, commercialista), ops (rider, bici noleggio), Stripe %, assicurazioni; pin Bacheca «Amministrazione + operatività» proattivo, non solo chat. Vedi L-442."
     },
     {
       "id": "L-2026-0720-431",
@@ -9997,7 +10020,7 @@
     "**Chat sparita — analisi profonda + fix codice, non solo spiegazione Invio (chat 21/7 ~00:26–00:33):** segnala conversazione costi **assente dalla lista** — si aspetta **verifica DB** + spiegazione (**Invio** = salvataggio, filtro ricerca, bozza locale); poi «**fai analisi e fix**» = **root cause codice** (race lista post-Invio + assenza backup localStorage con DB) oltre bozze mai inviate; fix **PR #509**, merge 🔴, test Invio→☰ subito; contenuto critico → **Bacheca/graffetta**. Vedi L-441, L-439, L-433.",
     "**Cadenza casella — «Ogni quanto tempo fai questa analisi?» = due tempi distinti, concreti (chat 20/7 ~23:58):** da casella account-negozi «Dati-come-servizio» chiede **quando** gira l'analisi, non cosa contiene. Si aspetta: **lunedì** = refresh interno (dati live + casella) · **mensile al titolare** = solo post-primo ordine consegnato · oggi **0 DELIVERED** = anteprima onesta, non report vendite · ultimo refresh citato con data/ora · prossimo passo = ordine test PQ. Odia «periodicamente» senza giorni. Vedi L-436, L-219.",
     "**Casella Pannello in Bacheca — «metti questa casella dentro bacheca» = pin condensato in cima BACHECA.md (chat 20/7 ~23:54, ~23:59):** da casella Pannello (Growth fedeltà · Vendite capillarità) chiede persistenza in **home Plancia** — si aspetta blocco `##` con verdetto (**ARMATO/spento**, capillarità = **non stampare**) · numeri attuali · gate · link playbook in `consegne/`; **non** solo risposta chat; grep titolo anti-duplicato; 🟢 senza card Approva se solo persistenza. Vedi L-435, L-437, L-377.",
-    "**Costi — «metti in bacheca» + «tutti i costi che verranno» = fissi + fisici/stampa + scaling (chat 20–21/7):** burn fisso (Claude **200** + Vercel **30** + Supabase **50** + VPS **20** + dominio **20 €/anno** → **~302 €/m**, env **`BURN_MENSILE_EUR=300`**) **≠** materiali fisici (**volantini, kit ~80–150 €, primo lotto ~150–300 €** — **fuori burn**, 🔴 alla stampa, gate ordine test PQ) **≠** opzionali digitali (**app store**, **SMS** 0 € oggi, **email** Resend vs Workspace); Nicola **corregge** se mancano volantini — grep vault (playbook capillarità, DECISIONI) prima di consegnare; **non inventare** cifre. Vedi L-433, L-434, L-440, L-422.",
+    "**Costi — «metti in bacheca» + «tutti i costi che verranno» + «ci sono altri costi?» = mappa esaustiva in Bacheca (chat 20–21/7):** burn fisso (Claude **200** + Vercel **30** + Supabase **50** + VPS **20** + dominio **20 €/anno** → **~302 €/m**, env **`BURN_MENSILE_EUR=300`**) **≠** materiali fisici (**volantini, kit ~80–150 €, primo lotto ~150–300 €** — **fuori burn**, 🔴 alla stampa) **≠** opzionali digitali (**app store**, **SMS** 0 € oggi, **email** Resend vs Workspace) **≠** **admin/ops/% vendite** (PEC, commercialista, rider, noleggio bici, Stripe ~1,4%+0,25 €, assicurazioni — blocco «Amministrazione + operatività», **pin proattivo**, non solo risposta chat); Nicola **corregge** se mancano voci — grep vault prima; **non inventare** cifre pro. Vedi L-433, L-434, L-440, L-442, L-422.",
     "**Chat no duplicati — odia risposta doppia, due bolle su allegato, ordine invertito (chat 20/7 ~23:38):** segnala **3 bug UX** distinti — (1) **stessa risposta AD due volte** (2) allegato solo = **due frasi/bolle** («nessun testo, vedi allegati» + nome file) (3) **suo messaggio sotto** la risposta come se l'avesse scritto dopo. Si aspetta AD spieghi **meccanismo merge** (non «rispondo due volte»), consegni fix PR (**#507** ex #505), verifichi build Vercel (import **no `.ts`** L-428), riapra PR se chiusa per sbaglio; merge 🔴 → test **solo screenshot** senza testo. Link chat **no card merge** (L-402). Vedi L-432.",
     "**Token in audit — «Fai il fix» memoria bloccata = redigi + redattore preventivo, non spegnere scan (chat 20/7 ~23:32):** casella PAT nel report auto-radiografia — si aspetta fix **immediato** che sblocchi il push (redazione `[REDATTO]` + prevenzione futura), verifica `scan-segreti` exit 0, **PR #506** link in chat; merge 🔴 + valutare rotazione PAT se token era valido (#ruota-pat-github). Vedi L-431.",
     "**«C'è un conflitto» — AD risolve subito, spiega quale PR e cosa tenere (chat 20/7 ~23:28):** segnala conflitto merge (testo o screenshot) — si aspetta AD **rebase immediato**, identificazione PR (**#504** post #501+#503), spiegazione **memoria vs codice** (su `giro.sh` merge manuale: north-star da main + gate OKR dal branch), conferma **mergeable** + link; **non** chiedere a Nicola di risolvere conflitti a mano; dopo fix indicare merge 🔴 pendente e effetto (es. giro obbliga OKR). Vedi L-429, L-397.",
