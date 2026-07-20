@@ -1,17 +1,13 @@
 ## Summary
-47 marketing skill community + **adattamento MyCity**: overlay «Il Turno», Piacenza, onestà numeri, canali locali.
+- **Parla casella:** il browser non manda più il prompt gigante a `/api/lavori` — nuova route `/api/lavori/casella` costruisce la richiesta lato server (payload compatto).
+- **Supabase:** sanitizzazione testo prima dell’insert (`NUL` / surrogate isolati) + blocco se il JSON verso PostgREST sarebbe vuoto — previene `PGRST102`.
+- **Test:** `store.sanitize.test.mts`.
 
-## Cosa cambia
-- Ogni skill marketing ha un blocco **MYCITY — contesto obbligatorio** (Turno, tagline, Facebook/IG locali, ONESTA-RULES)
-- `sync-worker-plugins.mjs` applica il patch automaticamente a ogni sync futuro (idempotente)
-- Fragment riusabile: `cervello/prompt-fragments/mycity-marketing-overlay.md`
+## Perché
+Nicola inviando da «Parla con questa azione» riceveva `PGRST102 Empty or invalid json` — il lavoro non entrava in coda e l’AD non rispondeva da quella casella.
 
 ## Come provare
-1. Mergia la PR
-2. Apri `.cursor/skills/social/SKILL.md` — deve comparire «Il Turno» subito dopo l’header
-3. Chiedi al worker: «bozza post Facebook per Pane Quotidiano» — tono Piacenza, niente numeri inventati
-4. `npx bats cervello/test/specchia-skills.bats` — 4/4 (già verde)
-
-## Note
-- Bozze sì, pubblicazione live resta 🔴 firma Nicola
-- Non sostituisce i senior marketing/content/seo — li potenzia
+1. Mergia la PR → attendi deploy Vercel (~2 min).
+2. Apri una card **Da approvare** → **Parla con questa azione**.
+3. Scrivi un messaggio breve e premi Invia — **niente** avviso giallo; compare la risposta dell’AD.
+4. Ripeti da **Diretta contenuti** su una casella qualsiasi.

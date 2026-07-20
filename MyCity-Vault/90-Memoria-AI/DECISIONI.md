@@ -3,6 +3,12 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 18:52 · 🟢 · [tech/frontend-dev/AD] · **PR #499 — conflitti memoria RECORRENTI, ri-risolti mergeable.** Nicola screenshot 1077 (solo allegato) — #499 si era **ri-bloccata** minuti dopo risoluzione 18:50 perché worker ha scritto su main (commit PostHog 18:50); AD rebase di nuovo → **mergeable** (`git-pr.mjs` 18:52). Pattern: PR aperta + worker attivo = re-conflitto atteso su file memoria; codice Parla intatto. Merge 🔴 #499 poi #500. L-397 addendum ricorrenza. · Nicola (chat 20/7 ~18:52 + screenshot)
+
+2026-07-20 18:50 · 🟢 · [tech/frontend-dev/AD] · **PR #499+#500 — conflitti memoria worker risolti, mergeable.** Nicola solo screenshot merge bloccato (1075/1076) — AD rebase: **main vince** su file memoria auto (`STATO`, `LEZIONI-CHAT`, quaderni), **branch vince** su codice fix; **#499** Parla PGRST102 + **#500** Bacheca chiusa entrambe **mergeable** (`git-pr.mjs` 18:49). Merge 🔴 pendente Nicola (**#499** poi **#500**). L-397 addendum. · Nicola (chat 20/7 ~18:50 + screenshot)
+
+2026-07-20 18:47 · 🟡 · [frontend-dev/AD] · **Nicola: «lascia la bacheca chiusa di default» — PR #500.** Screenshot home: 5 caselle Bacheca espande troppo la Plancia. **Fatto (🟢 codice):** branch fix, sezione Bacheca **collassabile** come «Ritmo del giorno» — **chiusa all'apertura**, badge N + riga riassunto, tap per espandere; typecheck OK. **Merge 🔴 pendente** Nicola → deploy ~2 min. Link PR in chat, **no card merge** (L-402). L-412. · Nicola (chat 20/7 ~18:47 + allegato)
+
 2026-07-20 18:44 · 🟢 · [data-engineer/devops-sre/AD] · **Nicola corregge PostHog: account US, non EU.** Dopo 401 «chiave invalida» (18:41), Nicola «**si è us.posthog**» — causa radice = host europeo nel VPS env con account americano. **Fatto (🟢):** `POSTHOG_HOST` → `https://us.posthog.com` + restart worker; sensore **`posthog_api: ok`** (18:44); chiave `phx_` **non** rigenerata. Registrato `sensori.posthog.regione` in registro-fatti. **Residuo:** verificare host tracking Render allineato US. L-410, addendum L-409. · Nicola (chat 20/7 ~18:44)
 
 2026-07-20 18:00 · 🟢 · [AD/Pannello] · **Nicola: «togli le card merge obsolete» — pulizia coda post L-402.** AD rimuove 6 card «Mergia PR #…» (#499 Parla casella, #480 autofill, #464 Arsenale, #446 chat cross-device, #443 UX, #450 Pannello); PR restano su GitHub — mergia da lì. Coda 47→41 aperte. Non toccate #auto-segna-pr-mergiata (fix automatico richiesto da Nicola). L-402 addendum, L-403. · Nicola (chat 20/7 ~18:00)

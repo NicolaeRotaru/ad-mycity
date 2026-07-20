@@ -1,10 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 18:49
+aggiornato: 2026-07-20 18:52
 fonte: AD digitale (metabolizzazione chat)
 ---
 
+> 💬 **20/7 ~18:52 — CHAT: PR #499 ri-bloccata da worker — risolta di nuovo, mergeable (L-397 addendum ricorrenza).** Nicola **solo screenshot** 1077 — #499 era **mergeable 18:50** ma main è andato avanti (commit worker PostHog 18:50) → conflitti **tornati** su `LEZIONI-CHAT.md` + `STATO.md`. AD rebase di nuovo → **`git-pr.mjs` mergeable** (18:52). **Non bug codice** — pattern **ricorrente** finché PR aperta e worker scrive memoria su main. Errore Vercel su branch in conflitto spesso sparisce post-merge. **Serve Nicola:** ricarica GitHub → mergia **#499** poi **#500**. Fonte: chat Nicola 20/7 18:52 + screenshot 1077 + git-pr.mjs.
+
+> 💬 **20/7 ~18:50 — CHAT: PR #499+#500 conflitti memoria risolti — entrambe mergeable (L-397 addendum).** Nicola **solo screenshot** (1075/1076) su merge bloccato — AD risolve: conflitti **solo** su file memoria auto-aggiornati dal worker su main (`STATO.md`, `LEZIONI-CHAT.md`, quaderni) — **codice fix intatto** (**#499** Parla PGRST102 · **#500** Bacheca chiusa). **`git-pr.mjs` → mergeable** entrambe (18:49). **Non era bug codice:** branch indietro vs main che scrive memoria ogni giro. **Serve Nicola:** mergia **#499** poi **#500** (~2 min deploy ciascuna). **Residuo PostHog Radiografia:** env Vercel 3 variabili (L-411). Fonte: chat Nicola 20/7 18:50 + screenshot + git-pr.mjs 18:49.
+
 > 💬 **20/7 ~18:48 — CHAT: PostHog VPS ok ma Pannello Radiografia giallo — env Vercel mancanti (L-411).** Nicola «**è ancora scollegata**» + screenshot — AD verifica: **VPS sensore verde** (`posthog_api: ok`, verifica-sensori **18:45**) · **Pannello Radiografia** legge PostHog da **Vercel**, non dal VPS — mancano `POSTHOG_HOST` (`https://us.posthog.com`), `POSTHOG_PROJECT_ID` (**495230**, «Default project» US), `POSTHOG_API_KEY` (stessa `phx_` del VPS). **Serve Nicola:** 3 env su Vercel (Production+Preview+Development) → **Redeploy** Pannello → refresh Radiografia. **Residuo:** allineare host tracking **Render** se ancora EU. Fonte: chat Nicola 20/7 18:48 + verifica-sensori 18:45 + `pannello/src/lib/posthog.ts`.
+
+> 💬 **20/7 ~18:47 — CHAT: Bacheca home — chiusa di default, pieghevole come Ritmo del giorno (L-412).** Nicola «**lascia la bacheca chiusa di default**» + screenshot (5 avvisi occupano troppo spazio in home) — AD **PR #500**: sezione Bacheca **collassabile**, **chiusa all'apertura**, badge conteggio + riga riassunto («5 avvisi appuntati — tocca per aprire»); tap intestazione → elenco; singoli avvisi restano apribili. Typecheck OK. **Link in chat, no card merge** (L-402). **Serve Nicola:** mergia **#500** → deploy ~2 min → refresh home. Fonte: chat Nicola 20/7 18:47 + allegato letto.
 
 > 💬 **20/7 ~18:44 — CHAT: PostHog RISOLTO — account US, POSTHOG_HOST EU nel env era la causa del 401 (L-410).** Nicola «**si è us.posthog**» — correzione: account **americano**, non europeo. AD cambia `POSTHOG_HOST` → `https://us.posthog.com` in `cervello/vps/.env` + restart worker — **chiave `phx_` valida**, non serviva rigenerarla. Verificato **18:44**: sensore **`posthog_api: ok`** (projects API 200). **Residuo:** allineare host tracking su **Render** se ancora EU (eventi sito vs lettura worker). Riaccensione briefing PostHog (decisione 5/7) ancora solo se chiesto esplicito. Fonte: chat Nicola 20/7 18:44 + verifica-sensori 18:44 + `registro-fatti.json` `sensori.posthog.regione`.
 

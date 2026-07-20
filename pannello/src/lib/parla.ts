@@ -17,26 +17,21 @@ import {
 } from "@/lib/lavori-gruppo";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
 import { emitSync } from "@/lib/panel-sync";
+import {
+  assembleRichiestaCasella,
+  estraiContestoCasellaDaRichiesta,
+  fondiMessaggi,
+  MSG_RISPOSTA_VUOTA,
+  type ParlaMsg,
+} from "@/lib/parla-shared";
 
-// pending = bolla solo a schermo (avviso "ci sto lavorando"): non si salva in
-// Conversazioni e non entra nella storia mandata al cervello.
-export type ParlaMsg = { role: "user" | "assistant"; content: string; pending?: boolean; created_at?: string };
+export type { ParlaMsg };
+export { assembleRichiestaCasella, estraiContestoCasellaDaRichiesta, fondiMessaggi, MSG_RISPOSTA_VUOTA };
 
 const HEADERS = { "Content-Type": "application/json" };
 
-/** Messaggio umano quando il worker chiude «fatto» senza testo (non lasciare «(risposta vuota)»). */
-export const MSG_RISPOSTA_VUOTA =
-  "La risposta non è arrivata. Invia di nuovo il messaggio, oppure vai in Lavori e premi «riparti» sul compito.";
-
 export const EVENTO_LAVORO_CAS = "mycity:lavoro-casella";
 
-/** Estrae il contesto scheda da una richiesta lavoro casella già eseguita. */
-export function estraiContestoCasellaDaRichiesta(richiesta: string): string {
-  const m = richiesta.match(/## Contenuto della casella\n([\s\S]*?)(?:\n## |$)/);
-  return m?.[1]?.trim() || "";
-}
-
-/** Testo richiesta per il cervello su una casella (riusato da ParlaCasella e Assistente). */
 export async function buildRichiestaCasella(
   titolo: string,
   contesto: string,
@@ -45,21 +40,8 @@ export async function buildRichiestaCasella(
   gruppoId: string | null,
   bloccoAllegati = "",
 ): Promise<string> {
-  const storiaTxt = storia
-    .filter((m) => !m.pending)
-    .map((m) => `${m.role === "user" ? "Nicola" : "AD"}: ${m.content}`)
-    .join("\n");
   const memoria = await bloccoMemoriaChat(gruppoId);
-  return (
-    (memoria ? `${memoria}\n` : "") +
-    `## Casella del Pannello: ${titolo}\n` +
-    (contesto ? `\n## Contenuto della casella\n${contesto}\n` : "") +
-    (storiaTxt ? `\n## Conversazione finora\n${storiaTxt}\n` : "") +
-    `\n## Nuovo messaggio di Nicola\n${messaggio}` +
-    bloccoAllegati +
-    `\n\n## Istruzioni\nRispondi in italiano, conciso e concreto, riferito a QUESTA casella. Rispetta 🟢🟡🔴. ` +
-    `Se Nicola dà un'informazione o una decisione utile, aggiorna la memoria nel vault e dichiara cosa hai aggiornato.`
-  );
+  return assembleRichiestaCasella(titolo, contesto, storia, messaggio, memoria, bloccoAllegati);
 }
 
 // Crea il lavoro "su QUESTA casella" per il cervello, legato alla conversazione
@@ -73,13 +55,19 @@ export async function creaLavoroCasella(
   gruppoId: string | null,
   bloccoAllegati = "",
 ): Promise<{ id: string; tipo: string; timeoutMs: number }> {
-  const richiesta = await buildRichiestaCasella(titolo, contesto, storia, messaggio, gruppoId, bloccoAllegati);
-
   const prep = preparaLavoro(messaggio.trim() || "Guarda gli allegati");
-  const post = await fetch("/api/lavori", {
+  const post = await fetch("/api/lavori/casella", {
     method: "POST",
     headers: HEADERS,
-    body: JSON.stringify({ richiesta, tipo: prep.tipo, ...(gruppoId ? { gruppo_id: gruppoId } : {}) }),
+    body: JSON.stringify({
+      titolo,
+      contesto,
+      storia: storia.filter((m) => !m.pending),
+      messaggio: messaggio.trim() || "(nessun testo — vedi allegati)",
+      tipo: prep.tipo,
+      ...(gruppoId ? { gruppo_id: gruppoId } : {}),
+      bloccoAllegati,
+    }),
   })
     .then((r) => r.json())
     .catch(() => null);
@@ -178,18 +166,6 @@ export async function salvaConversazioneCasella(id: string | null, titolo: strin
     /* SSR / nessun window */
   }
   return { id: nuovoId, suServer };
-}
-
-// Fonde due versioni dello stesso thread senza perdere messaggi (stesso criterio del
-// mergeThread della Cabina): base = la più lunga, e appende ciò che c'è solo nell'altra.
-export function fondiMessaggi(a: ParlaMsg[], b: ParlaMsg[]): ParlaMsg[] {
-  const pa = a.filter((m) => !m.pending);
-  const pb = b.filter((m) => !m.pending);
-  const base = pa.length >= pb.length ? pa : pb;
-  const altro = pa.length >= pb.length ? pb : pa;
-  const visti = new Set(base.map((m) => `${m.role}|${m.content}`));
-  const extra = altro.filter((m) => !visti.has(`${m.role}|${m.content}`));
-  return extra.length ? [...base, ...extra] : base;
 }
 
 // 🩹 RECUPERO: se la pagina si era chiusa prima della risposta, il thread salvato finisce
