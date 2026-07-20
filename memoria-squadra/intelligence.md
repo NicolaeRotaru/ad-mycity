@@ -8,6 +8,7 @@ reparto: intelligence
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 11:35 · PLAYBOOK Intelligence 20-26/7 · verità 5/5 · utilità 4/5 · azionabilità 4/5 · atteso 3 mosse con fonte su meteo+PI26+Glovo → reale consegna perlustrazione + memoria aggiornata · #radar #meteo #pi26
 - 2026-07-20 03:39 · chat Nicola «intelligence non al massimo potenziale» · scorecard: verita 5 · impatto 4 · concretezza 5 · colore 4 · umano 4 · memoria 5 · atteso diagnosi gap con fatti repo + piano miglioramento operativo → reale: ultima perlustrazione 6/7; 3 gap (n.41 RSS off, n.31 Telegram senza chiavi, Firecrawl assente); fonti 16/16 ok; piano 41→31→scan concorrenti; CTA accensione · lezione L-385 · #intelligence-gap #n8n #telegram
 - 2026-07-18 11:06 · monitoraggio web 18/7 10:00: 7 fonti giornaliere + reputazione - allerta gialla, VP finiti, Tortello Vigolzone 25-29/7, 20+ chiusure centro · ✅ radar aggiornato ✅ eventi-picchi aggiornato ✅ reputazione 0 menzioni · atteso coprire meteo+eventi+concorrenti+reputazione aggiornati per il giro → reale radar aggiornato con meteo allerta gialla, VP finiti, Tortello Vigolzone, La Ragazzetta lead onboarding · #intelligence-18lug
 - 2026-07-17 11:02 · radar giro 17/7 mattino: nessuna novità esterna rilevante rispetto a ieri (VP 17/7 confermato) · 1,2,1,1,1,2 · atteso nessuna novità esterna urgente → reale confermato: VP 17/7 = focus unico, nessuna minaccia concorrenti · #radar
