@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-20 16:39** — Automatico: **48 aperte · 88 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-20 17:45** — Automatico: **47 aperte · 89 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -27,20 +27,6 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 - **Colore:** 🟡 (merge PR — Nicola approva)
 - **Reparto:** intelligence / builder-automazioni
-
----
-
-### 🟡 #mergia-pr-498 — Mergia PR #498: Diretta contenuti stabile (caselle non spariscono al refresh) · ⏳ accodata 2026-07-20 16:37
-
-**Contesto:** Nicola «**Fai il fix**» dopo analisi radice L-394 (caselle flicker al refresh — GitHub parziale, non DB). **PR #498** branch `fix/diretta-contenuti-stabile` (commit `4094570b`): **1 lettura** albero GitHub invece di ~70 call, **cache server 90s**, max **80** caselle (da 30), UI **non svuota** la lista su risposta incompleta. TypeScript OK.
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/498
-
-**Cosa cambia:** tab Diretta smette di far sparire caselle a ogni refresh; fino a 80 visibili con contatore «N in diretta · M totali».
-**Se va bene:** merge da Pannello → deploy ~2 min → apri **Diretta contenuti** e premi refresh più volte: la lista resta stabile.
-
-- **Colore:** 🟡 (merge PR — Nicola approva)
-- **Reparto:** frontend-dev
 
 ---
 
@@ -1302,7 +1288,19 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-07-20 16:20 · 88 card totali
+> Ultima pulizia: 2026-07-20 17:45 · 89 card totali
+
+### ✅ #mergia-pr-498 — FATTO 2026-07-20 17:45 · PR #498 mergiata da Nicola (GitHub 16:36:51)
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/498 · Commit merge `36402b49` su main. Fix Diretta: 1 lettura GitHub, cache 90s, max 80 caselle, UI sticky su fetch parziale. Card Pannello resta visibile per bug scrittura DB memoria — merge già avvenuto.
+
+**Cosa cambia:** tab Diretta smette di far sparire caselle al refresh.
+**Se va bene:** refresh multipli su Diretta — lista stabile; prossimo merge **#496** intelligence.
+
+- **Colore:** ✅ completato
+- **Reparto:** frontend-dev
+
+---
 
 ### ✅ #bandi-cciaa-kit — Prepara scheda 1-pagina bandi CCIAA per i negozi del batch · ✅ FATTO 2026-07-20 11:30
 

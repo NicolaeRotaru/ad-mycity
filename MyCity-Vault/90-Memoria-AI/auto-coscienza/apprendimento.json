@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 17:36",
+  "aggiornato": "2026-07-20 17:45",
+  "_nota_metabolizzazione_20_07_1745": "Chat 20/7 ~17:45: Nicola screenshot + «controlla se l'ho già margiata» — PR #498 ✅ merged 16:36:51 (36402b49); card Pannello bloccata su DB memoria write; #496 ancora pendente. L-398 nuova; L-394 evidenze++ addendum merge; preferenza verifica-merge-github-api; STATO+DECISIONI+#mergia-pr-498 FATTO+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1639": "Chat 20/7 ~16:39: Nicola solo screenshot PR #496 conflitti merge — AD risolve, mergeable; fix allegati casella #497 confermato (AD legge screenshot). L-397 nuova; L-396+L-390 evidenze++ addendum; preferenza screenshot-pr-status+allegati-casella-ok; STATO+DECISIONI+#mergia-pr-496+LEZIONI-CHAT+frontend-dev+intelligence esito.",
   "_nota_metabolizzazione_20_07_1637": "Chat 20/7 ~16:37: Nicola «Fai il fix» post analisi Diretta L-394 — PR #498 consegnata (1 read GitHub, cache 90s, max 80, sticky UI). L-394 evidenze++ addendum implementazione; preferenza diretta-fai-il-fix; STATO+DECISIONI+#mergia-pr-498+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1445": "Chat 20/7 ~14:45: Nicola «Perché non riesci a leggere l'allegato?» — root cause buildRichiestaCasella scarta bloccoAllegati. L-396 nuova (caso_studio_nicola); L-395 evidenze++; preferenza allegati-casella-pipeline; STATO+LEZIONI-CHAT+frontend-dev esito.",
@@ -118,6 +119,26 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-398",
+      "testo": "**«L'ho già mergiata?» — verifica GitHub API, non card Pannello; card aperta ≠ PR pendente (chat 20/7 ~17:45).** Nicola screenshot card Approva + «**controlla se l'ho già margiata**» su PR #498. 5 perché: (1) la **fonte verità merge** è GitHub API (`state=closed`, `merged_at`), non lo stato visivo della card; (2) AD conferma **#498 ✅ merged 16:36:51**, commit `36402b49` su main — fix Diretta online; (3) card resta visibile per **bug Pannello**: errore giallo **scrittura DB memoria rifiutata** — il Pannello non riesce a segnarla chiusa; (4) **non** dire «devi ancora mergiare» né proporre secondo merge; (5) distinguere PR nel messaggio: **#496** intelligence **ancora aperta**. Regola: domanda merge + screenshot card → **GitHub API prima**, spiega bug chiusura card se merge già ok, indica prossimo passo reale (test Diretta / merge #496). Vedi L-394, DECISIONI 20/7 17:45.",
+      "tag": [
+        "pannello",
+        "github",
+        "pr",
+        "merge",
+        "bug"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 17:45",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-397",
       "testo": "**PR feature branch — conflitti merge con main su file memoria auto-generati (chat 20/7 ~16:39).** Nicola manda **solo screenshot** PR #496: checks ok ma merge bloccato per conflitti. 5 perché: (1) branch `fix/intelligence-upgrade` resta indietro mentre main accumula giri/memoria; (2) conflitti tipici su `sentinella-dati.json`, `consegne/tech/pr-ad-mycity-*.md`, diario operativo — **non** sul codice intelligence; (3) regola risoluzione: **main vince** su file memoria/worker auto-generati, **branch vince** su codice feature (`intelligence-agenda.mjs`, workflow n.41, playbook); (4) dopo rebase+push → GitHub **mergeable** (`git-pr.mjs`); (5) codice intelligence invariato — Nicola mergia 🔴 poi card **#accendi-intelligence-sveglia**. Regola: screenshot «conflitti PR» → AD risolve subito e spiega diario vs codice, non chiedere a Nicola merge manuale sui conflitti. Vedi L-334, L-390.",
       "tag": [
@@ -179,7 +200,7 @@
     },
     {
       "id": "L-2026-0720-394",
-      "testo": "**Diretta contenuti — caselle spariscono al refresh: GitHub parziale + cap 30, non DB (chat 20/7 ~12:59).** Nicola «**analisi completa e profonda**» — caselle diverse ogni refresh, sembra crollo database. 5 perché: (1) caselle = **file markdown su GitHub** (`consegne/` + briefing/report, ramo main), Pannello legge via API GitHub, **zero Supabase**; (2) **533** candidati ma `MAX_LETTURE=30` in `api/contenuti/route.ts` — il resto esiste ma non compare; (3) sort su **nome file**, non data frontmatter → stesso giorno molti post = set casuale; (4) ~**70 chiamate GitHub**/refresh, timeout **5s/cartella** → intera categoria **svuotata** in quell'aggiornamento (poi ricompare); (5) `DirettaContenuti.tsx` poll **30s** e **sostituisce tutta la lista** — errore parziale = flicker/sparizioni. Regola: bug «Diretta sparisce» → **non** diagnosticare DB; verificare route GitHub + cap + timeout + replace-all UI; fix strutturale 🟡 = cache server, paginazione, **non svuotare** su fetch parziale. **Addendum 16:37:** Nicola «**Fai il fix**» → **PR #498** (`4094570b`): 1 lettura albero GitHub, cache **90s**, max **80**, UI **sticky** (tiene lista su parziale). Merge 🔴 pendente. Vedi L-308 (Diretta legge main GitHub).",
+      "testo": "**Diretta contenuti — caselle spariscono al refresh: GitHub parziale + cap 30, non DB (chat 20/7 ~12:59).** Nicola «**analisi completa e profonda**» — caselle diverse ogni refresh, sembra crollo database. 5 perché: (1) caselle = **file markdown su GitHub** (`consegne/` + briefing/report, ramo main), Pannello legge via API GitHub, **zero Supabase**; (2) **533** candidati ma `MAX_LETTURE=30` in `api/contenuti/route.ts` — il resto esiste ma non compare; (3) sort su **nome file**, non data frontmatter → stesso giorno molti post = set casuale; (4) ~**70 chiamate GitHub**/refresh, timeout **5s/cartella** → intera categoria **svuotata** in quell'aggiornamento (poi ricompare); (5) `DirettaContenuti.tsx` poll **30s** e **sostituisce tutta la lista** — errore parziale = flicker/sparizioni. Regola: bug «Diretta sparisce» → **non** diagnosticare DB; verificare route GitHub + cap + timeout + replace-all UI; fix strutturale 🟡 = cache server, paginazione, **non svuotare** su fetch parziale. **Addendum 16:37:** Nicola «**Fai il fix**» → **PR #498** (`4094570b`): 1 lettura albero GitHub, cache **90s**, max **80**, UI **sticky** (tiene lista su parziale). **Addendum 17:45:** Nicola mergia **#498** (merge `36402b49`, 16:36:51) — fix online; test = refresh multipli stabili. Vedi L-308 (Diretta legge main GitHub), L-398.",
       "tag": [
         "diretta-contenuti",
         "pannello",
@@ -188,12 +209,12 @@
         "bug"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.92,
-      "evidenze": 2,
+      "confidenza": 0.94,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 16:37",
+      "ultima_conferma": "2026-07-20 17:45",
       "stato": "attiva",
       "usi": []
     },
@@ -9047,11 +9068,12 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Verifica merge PR — «controlla se l'ho già margiata» = GitHub API, non card Pannello (chat 20/7 ~17:45):** manda screenshot card Approva + chiede se ha già mergiato — si aspetta risposta **basata su GitHub** (merged_at, commit su main), **non** sullo stato visivo della card; se card resta aperta con errore giallo DB memoria → spiega **bug Pannello**, non «devi mergiare ancora»; distingue PR nel contesto (**#498** fatto, **#496** pendente); test post-merge = refresh Diretta. Vedi L-398.",
     "**Screenshot PR GitHub — solo allegato = segnala stato merge/conflitti, AD risolve e spiega (chat 20/7 ~16:39):** manda screenshot PR #496 senza testo (checks ok, merge bloccato) — si aspetta che l'AD **legga l'immagine**, risolva conflitti con main (memoria auto da main, codice feature dal branch), confermi **mergeable** e indichi merge 🔴 + passo successivo (#accendi-intelligence-sveglia); **non** chiedere a Nicola di risolvere conflitti a mano. Vedi L-397, L-390.",
     "**Allegati casella — fix #497 ok: AD deve leggere screenshot da chat casella (chat 20/7 ~16:39, agg. 14:45):** dopo fix PR #497 il path `@ALLEGATO` arriva al worker — AD ha letto screenshot conflitti PR #496 da chat casella; si aspetta **lettura visiva** funzionante post-merge deploy; se ancora cieco = verificare deploy #497 + path pipeline. Vedi L-396.",
     "**Allegati casella — si aspetta che l'AD legga screenshot; se cieco spiega PERCHÉ (bug pipeline), non «non posso» (chat 20/7 ~14:45):** dopo screenshot bollino chiede «perché non leggi l'allegato» — upload funziona ma path non passa al worker (`buildRichiestaCasella` scarta `bloccoAllegati`); vuole **spiegazione tecnica onesta** + workaround (descrivere in testo) + fix 🟡 PR; non accetta risposta generica «non posso leggere foto». Vedi L-396, L-395.",
     "**Follow-up casella — allegato solo screenshot dopo fix consegnato (chat 20/7 ~13:00):** su casella bollino manda **solo screenshot** senza testo — si aspetta che l'AD **capisca dal visivo** cosa vede (sito, card approva, errore); se AD cieco, chiede descrizione ma intanto vuole **triage chiaro**: fix marketplace **non online** fino merge **#213**; badge su tutti pre-merge = normale; post-merge aspetta deploy Render. Vedi L-395, L-393.",
-    "**Diretta contenuti — «Fai il fix» dopo analisi radice = PR subito, non solo proposta (chat 20/7 ~16:37):** post diagnosi L-394 Nicola approva con «**Fai il fix**» — si aspetta **PR consegnata** (#498: 1 lettura GitHub, cache 90s, max 80, UI non svuota su parziale), typecheck OK, merge 🔴 Nicola → deploy ~2 min → test refresh multipli stabili. Pattern: analisi profonda prima, poi implementazione immediata al via. Vedi L-394.",
+    "**Diretta contenuti — «Fai il fix» dopo analisi radice = PR subito; #498 ✅ mergiata 16:36 (chat 20/7 ~16:37, agg. 17:45):** post diagnosi L-394 Nicola approva con «**Fai il fix**» — si aspetta **PR consegnata** (#498: 1 lettura GitHub, cache 90s, max 80, UI non svuota su parziale), typecheck OK, merge Nicola → deploy ~2 min → test refresh multipli stabili. **Confermato merged 16:36:51.** Pattern: analisi profonda prima, poi implementazione immediata al via. Vedi L-394, L-398.",
     "**Diretta contenuti — «analisi completa e profonda» su caselle che spariscono (chat 20/7 ~12:59):** segnala flicker/sparizioni al refresh — si aspetta **causa radice verificata in codice** (file GitHub non DB, cap 30, timeout parziale ~70 call, replace-all UI), non «riprova refresh» né ipotesi database. Vedi L-394.",
     "**Bug critico bollino — «Risolvi il bug critico del bollino» = fix codice marketplace subito, merge 🔴 (chat 20/7 ~12:52):** su casella trust-safety chiede **azione tecnica immediata**, non solo playbook/standard — si aspetta PR con gate reale (`isVerifiedStore`: approvato + Stripe charges + payouts); **0 badge oggi** = comportamento corretto finché nessun payout ON; chiude merge **#213**; standard 5 pilastri resta per badge completo futuro. Vedi L-393, #51, DECISIONI 20/7 12:52.",
     "**Deliveroo Piacenza — corregge radar intelligence se dice «assente/non operativo» (chat 20/7 ~12:42):** su casella perlustrazione segnala errore — **Deliveroo c'è ed è abbastanza forte** su ristorazione; si aspetta **correzione immediata** perlustrazione + radar + memoria viva con **fonte web live** (deliveroo.it/piacenza); moat MyCity resta **botteghe storiche**, non nega presenza competitor food; prima di «assente» su player locale → **verifica sito**, non copiare briefing/scan vecchi. Vedi L-392, DECISIONI 20/7 12:42.",

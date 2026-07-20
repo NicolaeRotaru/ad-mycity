@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 17:45 · 🟢 · [frontend-dev/AD] · **Nicola ha mergiato PR #498 — Diretta contenuti stabile online.** Confermato GitHub API: `merged_at` 2026-07-20 16:36:51, commit merge `36402b49` su main. Fix anti-sparizione caselle deployato Vercel. Card Pannello resta aperta per **bug scrittura DB memoria** (errore giallo), non perché la PR manca — non rifare merge. **PR #496** intelligence ancora da mergiare. L-394, L-398. · Nicola (chat 20/7 ~17:45 + screenshot)
+
 2026-07-20 16:39 · 🟡 · [tech/intelligence/AD] · **PR #496 intelligence — conflitti merge risolti, mergeable.** Nicola screenshot solo allegato: PR #496 bloccata da conflitti con main. AD rebase: file memoria auto da main, codice sveglia (`intelligence-agenda.mjs`, workflow n.41, playbook) invariato; push → GitHub mergeable, test 2/2. Merge 🔴 pendente Nicola → poi card **#accendi-intelligence-sveglia**. Allegati casella **PR #497** confermati funzionanti (AD legge screenshot). L-397, L-396. · Nicola (chat 20/7 ~16:39)
 
 2026-07-20 16:37 · 🟡 · [frontend-dev/AD] · **Nicola: «Fai il fix» — Diretta contenuti stabile, PR #498.** Seguito analisi radice L-394 (12:59): caselle spariscono al refresh per ~70 call GitHub + cap 30 + replace-all UI su errore parziale. **Fatto (🟢):** branch `fix/diretta-contenuti-stabile`, commit `4094570b`, **PR #498** — 1 lettura albero GitHub, cache server 90s, max 80 caselle, UI non svuota lista su fetch incompleto; typecheck OK. **Merge 🔴 pendente** Nicola → deploy ~2 min → test refresh multipli su tab Diretta. L-394. · Nicola (chat 20/7 ~16:37)

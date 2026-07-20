@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 17:45 · PR #498 merge confermato — Nicola «controlla se l'ho già margiata» + screenshot · atteso: verifica reale merge GitHub, non stato card · reale: **#498 ✅ merged 16:36:51** (`36402b49`); card Pannello resta per bug scrittura DB memoria; **#496** ancora pendente · #pannello #diretta-contenuti #pr-498 #github-api · L-398, L-394
 - 2026-07-20 16:39 · Allegati casella fix #497 confermato — Nicola solo screenshot PR #496 · atteso: AD legge immagine da chat casella · reale: path `@ALLEGATO` arriva, AD ha letto screenshot conflitti merge; fix L-396 operativo post-#497 · #pannello #chat #allegati #pr-497 · L-396
 - 2026-07-20 14:45 · Allegati chat casella — Nicola «perché non leggi l'allegato?» · atteso: spiegazione onesta + fix pipeline · reale: upload Vercel ok (#60) ma `buildRichiestaCasella()` scarta `bloccoAllegati` — worker cieco senza righe `@ALLEGATO`; ParlaConCasella senza pulsante allegati; fix 🟡 PR page.tsx pendente · #pannello #chat #allegati #casella #worker · L-396, L-395
 - 2026-07-20 16:37 · Diretta contenuti fix stabile — Nicola «Fai il fix» post L-394 · atteso: PR con cache+anti-sparizione+più caselle · reale: **PR #498** (`4094570b`) — 1 lettura GitHub, cache 90s, max 80, UI sticky su parziale; typecheck OK; merge 🔴 #498 · #pannello #diretta-contenuti #pr-498 · L-394

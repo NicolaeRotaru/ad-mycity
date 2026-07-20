@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 16:39
-fonte: AD digitale (chat PR #496 conflitti + allegati casella ok)
+aggiornato: 2026-07-20 17:45
+fonte: AD digitale (chat PR #498 mergiata + card Pannello DB)
 ---
+
+> 💬 **20/7 ~17:45 — CHAT: PR #498 Diretta — Nicola l'ha già mergiata; card Pannello bloccata su DB memoria (L-398).** Nicola screenshot + «**controlla se l'ho già margiata**» — AD verifica GitHub API: **PR #498 ✅ mergiata 16:36:51** (commit merge `36402b49` su main); fix Diretta **online** (~2 min deploy). Card «Approva e fai» **resta visibile** — errore giallo **scrittura DB memoria rifiutata** (bug Pannello), **non** merge mancante; **non** rifare merge. **Test:** refresh multipli tab Diretta — caselle stabili. **Ancora pendente:** **PR #496** intelligence 🔴 → poi **#accendi-intelligence-sveglia**. Fonte: chat Nicola 20/7 17:45 + GitHub API #498.
 
 > 💬 **20/7 ~16:39 — CHAT: PR #496 intelligence — conflitti risolti, mergeable; allegati casella #497 ok (L-397, L-396).** Nicola **solo screenshot** PR #496 (checks ok, merge bloccato) — AD risolve conflitti con main: file memoria auto (`sentinella-dati.json`, diario tech) da **main**, codice intelligence invariato; branch `fix/intelligence-upgrade` ora **mergeable** (test intelligence 2/2). **Bonus:** AD **legge screenshot** da chat casella — fix allegati **PR #497** confermato. **Serve Nicola:** ① mergia **#496** ② card **#accendi-intelligence-sveglia** (4 passi Telegram+n8n). Fonte: chat Nicola 20/7 16:39.
 
