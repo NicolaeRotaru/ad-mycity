@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-21 00:33 · Chat lista race + backup locale PR #509 — Nicola «fai analisi e fix» post L-439 · atteso: root cause codice + fix · reale: race persist DB (lista vuota se ☰ durante save) + no localStorage backup con DB; PR #509 `e98f1e85` ottimistico Invio + aperta sempre visibile + backup locale; no PATCH `sess_`; merge 🔴 #509 · L-441 · #pannello #chat #persistenza #pr-509
 - 2026-07-21 00:30 · Chat sparita costi — Nicola «mi è sparita la chat» screenshot · atteso: causa + recupero · reale: thread assente DB = bozza locale mai Invio; telefono surriscaldato 10%; filtro ricerca possibile; altre chat ok; costi già Bacheca L-433 · L-439 · #pannello #chat #persistenza #bozza-non-inviata
 - 2026-07-21 00:11 · «Apri pr» Diretta — Nicola chiede apertura PR fix 00:08 · atteso: scheda PR aperta · reale: `gh pr create` 403 x2 rate limit; push `fix/diretta-apri-contenuto` ok; compare manuale browser → merge 🔴 pendente Nicola · L-316, L-438 · #diretta-contenuti #github-rate-limit #pr-pendente
 - 2026-07-21 00:08 · Diretta contenuti second fix post-#498 — Nicola «non hai risolto» click bianco + lista instabile · atteso: contenuto visibile al click + caselle stabili 1–2 min · reale: branch `fix/diretta-apri-contenuto` commit `c0039c2a` (merge filename + show immediato + sticky aperta), typecheck ok, merge 🔴 pendente · L-438 · #diretta-contenuti #pr-pendente

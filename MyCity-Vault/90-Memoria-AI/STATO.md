@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-21 00:32
-fonte: AD digitale (chat 21/7 00:32)
+aggiornato: 2026-07-21 00:33
+fonte: AD digitale (chat 21/7 00:33)
 ---
+
+> 💬 **21/7 ~00:33 — CHAT: Chat sparita — fix race lista + backup locale PR #509 (L-441).** Nicola «**fai analisi e fix**» — follow-up L-439 (prima turno: bozza costi mai inviata al server). AD: **due bug codice** oltre la bozza — (1) chat in lista **solo dopo** persist DB → aprire ☰ Conversazioni durante salvataggio = **assente** (falso sparito); (2) con DB attivo **nessuna copia locale** → reload mobile = persa. **Fix consegnato:** **PR #509** commit **`e98f1e85`** — lista ottimistica subito Invio, chat aperta sempre visibile, backup localStorage anche con rete lenta; no PATCH id temporanei `sess_`. **Serve Nicola:** mergia **#509** → refresh → test: scrivi → subito ☰ Conversazioni = presente «aperta ora». Worker 00:32: chat costi **salvata** (`fa84c340…`) dopo reinvio. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:33.
 
 > 💬 **21/7 ~00:31 — CHAT: Volantini mancanti in Bacheca costi — correzione Nicola (L-440).** Nicola «**I costi dei volantini non li hai messi. Metti tutti i costi che verranno**» — follow-up lista costi in Bacheca. AD: sezione **«Materiali fisici, volantini e stampa»** aggiunta — kit negozio **~80–150 €** · volantini/locandine **da preventivo** · primo lotto **~150–300 €** (DECISIONI 24/6) · 2°–3° negozio **~80–150 €** · presidio eventi 🔴; anche bici **~150–250 €**, rider, Stripe, assicurazioni, packaging, influencer in «Quando scaliamo». **Regola:** stampa/volantini **fuori** burn **~302 €/m** — paghi solo alla firma tipografia; gate **ordine test PQ** prima QR vetrina. **PI26** fino 50% digitalizzazione (scade 30/7). Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:31 + playbook capillarità 20/7 + DECISIONI 24/6.
 

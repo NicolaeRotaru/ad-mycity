@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-21 00:33 · metabolizzazione chat fix chat sparita PR #509 · atteso: L-441 + STATO/DECISIONI/LEZIONI · reale: L-441 nuova caso_studio_nicola, L-439 evidenze 2 addendum bug codice, preferenza chat-sparita-fix-codice, STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati · #metabolizzazione #L-441 #pr-509
 - 2026-07-21 00:32 · metabolizzazione chat volantini Bacheca costi · atteso: L-440 + STATO/LEZIONI · reale: L-440 nuova caso_studio_nicola, L-433 evidenze 4 addendum volantini, preferenza costi-tutti-fisici, STATO+LEZIONI-CHAT+finanza aggiornati · #metabolizzazione #L-440 #costi
 - 2026-07-21 00:30 · metabolizzazione chat «mi è sparita la chat» costi · atteso: L-439 + STATO/LEZIONI · reale: L-439 nuova, L-289 evidenze 2 addendum bozza, preferenza chat-sparita-diagnosi-db, STATO+LEZIONI-CHAT+frontend-dev aggiornati · #metabolizzazione #L-439 #chat-persistenza
 - 2026-07-21 00:11 · metabolizzazione chat «Apri pr» Diretta · atteso: L-316+L-438 addendum + STATO/DECISIONI · reale: rate limit 403 x2, compare manuale, L-316 evidenze 4, L-438 evidenze 2, LEZIONI-CHAT aggiornato · #metabolizzazione #L-316 #L-438 #diretta
