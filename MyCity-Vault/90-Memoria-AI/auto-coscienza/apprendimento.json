@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
   "aggiornato": "2026-07-20 20:16",
+  "_nota_metabolizzazione_20_07_2016": "Chat 20/7 ~20:16: Nicola «ok è diventato verde» — PostHog VPS+Pannello verde verificato live; caso chiuso L-415. L-416 nuova; L-411+L-415 evidenze++ addendum chiusura; preferenza posthog-ok-verde; STATO già 20:16; DECISIONI+LEZIONI-CHAT+registro-fatti+data-engineer+devops-sre+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_2011": "Chat 20/7 ~20:11: Nicola «ricontrollato su vercel ma non ancora non funziona» — AD stop checklist, PR #502 diagnosi quale env Vercel manca in Radiografia. L-415 nuova; L-414 evidenze++ addendum ricontrollato; preferenza posthog-ricontrollato-vercel; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+devops-sre+data-engineer esito.",
   "_nota_metabolizzazione_20_07_2001": "Chat 20/7 ~20:01: Nicola «Fatto redeploy però non ancora non funziona» — AD verifica live: VPS ok, Pannello diagnosi ancora giallo; redeploy insufficiente se env Vercel sbagliate (POSTHOG_PROJECT_ID mancante, phc_ vs phx_, EU host). L-414 nuova; L-411 evidenze++ addendum redeploy; preferenza posthog-redeploy-ancora-giallo; STATO+LEZIONI-CHAT+data-engineer+devops-sre+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1906": "Chat 20/7 ~19:06: Nicola casella «Pochi negozi» — registro 10%+50€ ok ma casella «12%, 0 fissi» hardcoded in sentinelle. L-413 nuova (caso_studio_nicola addendum L-391); L-391 evidenze++ addendum wiring; preferenza caselle-pricing-registro; STATO+DECISIONI+LEZIONI-CHAT+vendite+frontend-dev esito; PR #501 merge 🔴.",
@@ -181,6 +182,30 @@
       "usi": []
     },
     {
+      "id": "L-2026-0720-416",
+      "testo": "**PostHog chiuso — «ok è diventato verde» = verifica live VPS+Pannello, poi chiudi caso (Nicola 20/7 ~20:16).** Nicola: «**ok è diventato verde**» dopo maratona env Vercel (L-411→L-415). 5 perché: (1) conferma Nicola **non** sostituisce verifica AD — controllare **`verifica-sensori`** + **`GET /api/diagnosi`** live prima di «chiuso»; (2) setup completo = account **US**, `https://us.posthog.com`, project **495230**, chiave **`phx_`** su **VPS env + Vercel Production** (3 env + redeploy); (3) VPS era verde dal **18:44** — il gap era **solo Pannello** fino a env Vercel corrette; (4) dopo verde **non** ripetere checklist né chiedere altri redeploy; (5) **residuo opzionale:** host tracking **Render** (sito) allineato US — eventi sito vs numeri Pannello. Regola: «ok verde» PostHog → verifica live **entrambe** superfici → aggiorna memoria → caso chiuso. Vedi L-415 chiuso, L-411, L-410, DECISIONI 20/7 20:16.",
+      "tag": [
+        "posthog",
+        "vercel",
+        "pannello",
+        "vps",
+        "sensori",
+        "chiusura",
+        "data-engineer",
+        "devops-sre",
+        "frontend-dev"
+      ],
+      "reparto": "@data-engineer",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 20:16",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-415",
       "testo": "**PostHog — «ricontrollato su Vercel» ma ancora giallo = stop checklist, PR diagnosi quale env manca (Nicola 20/7 ~20:11).** Nicola: «**ricontrollato su vercel ma non ancora non funziona**» dopo 3+ round istruzioni env+redeploy (L-411, L-414). 5 perché: (1) AD stava **girando in tondo** — ripetere checklist dopo «ho ricontrollato» non sblocca; (2) VPS **`posthog_api: ok`** · Pannello **giallo** — problema solo env **Vercel** del Pannello; (3) messaggio generico «non collegato» **non dice quale** env fallisce — Nicola non può autocorreggere; (4) **PR #502:** Radiografia scrive env mancante/sbagliata sotto «Traffico (PostHog)»; merge → deploy → leggere riga dettaglio = fix mirato; (5) link PR in chat, **no card merge** (L-402). Regola: PostHog Pannello giallo dopo **2+** «ho fatto tutto/ricontrollato» → **fix codice diagnosi**, non altra checklist redeploy. Vedi L-414, L-411, PR #502.",
       "tag": [
@@ -194,11 +219,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.94,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 20:11",
+      "ultima_conferma": "2026-07-20 20:16",
       "stato": "attiva",
       "usi": []
     },
@@ -240,11 +265,11 @@
       ],
       "reparto": "@data-engineer",
       "confidenza": 0.94,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 20:01",
+      "ultima_conferma": "2026-07-20 20:16",
       "stato": "attiva",
       "usi": []
     },
@@ -9437,6 +9462,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**PostHog «ok è diventato verde» — verifica live e chiudi, non ripetere checklist (chat 20/7 ~20:16):** dopo env Vercel + redeploy conferma «**ok è diventato verde**» — si aspetta AD **verifichi live** VPS (`verifica-sensori`) + Pannello (`/api/diagnosi`), aggiorni memoria, **non** continui istruzioni env; caso **chiuso**; residuo solo se chiede: host tracking **Render** US. Vedi L-416, L-415 chiuso.",
     "**PostHog «ricontrollato su Vercel» — stop checklist, diagnosi quale env manca (chat 20/7 ~20:11):** dopo aver ricontrollato Vercel e fatto redeploy dice «**ricontrollato su vercel ma non ancora non funziona**» — si aspetta AD **non ripeta** checklist generica ma consegni **fix Pannello** (**PR #502**) che indica **quale** variabile Vercel manca; merge → deploy ~2 min → leggere riga dettaglio sotto «Traffico (PostHog)» in Radiografia; VPS resta verde — problema solo Pannello. Vedi L-415, L-414.",
     "**PostHog «fatto redeploy» ma ancora giallo — checklist 3 env Vercel esatte, non ripetere redeploy (chat 20/7 ~20:01):** dopo passi env Vercel + redeploy dice «**Fatto redeploy però non ancora non funziona**» — si aspetta AD **verifichi live** Pannello (`/api/diagnosi`) separato da VPS; checklist sì/no: **`POSTHOG_PROJECT_ID`** (**495230**), chiave **`phx_`** (non `phc_`), host **`https://us.posthog.com`** su progetto **ad-mycity** Production; **non** far rifare redeploy finché le 3 non sono corrette; se tutte ok e resta giallo → fix diagnosi Pannello. Vedi L-414, L-411.",
     "**PostHog «ancora scollegata» — distingui VPS worker vs Pannello Radiografia (chat 20/7 ~18:48):** dopo fix env VPS chiede perché il Pannello mostra ancora giallo — si aspetta AD verifichi **quale UI** (screenshot Radiografia = env **Vercel**, non worker); servono 3 variabili Vercel + redeploy; project ID **495230** US; non dire «collegato» solo da `verifica-sensori` VPS. Vedi L-411.",

@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 20:16 · PostHog Radiografia verde — Nicola «ok è diventato verde» · atteso: `posthogConnected()` true live · reale: `/api/diagnosi` **verde** «visite tracciate» 20:16; env Vercel US complete; L-415 chiuso · L-416 · #pannello #posthog #radiografia #chiuso #esito
 - 2026-07-20 20:11 · PostHog diagnosi env — Nicola «ricontrollato su vercel ma non funziona» · atteso: sbloccare senza girare in tondo · reale: VPS ok · Pannello giallo · **PR #502** — Radiografia indica quale env Vercel manca; merge Nicola → deploy → leggi dettaglio · L-415 · #pannello #posthog #vercel #pr-502 #esito
 - 2026-07-20 20:01 · PostHog Radiografia post-redeploy — Nicola «fatto redeploy ma non funziona» · atteso: verde dopo env Vercel · reale: `posthogConnected()` ancora false live 20:01 — spesso `POSTHOG_PROJECT_ID` mancante o `phc_`/EU host; proposta diagnosi quale env manca · L-414 · #pannello #posthog #vercel #radiografia #esito
 - 2026-07-20 18:52 · PR #499 ri-conflitto worker — Nicola screenshot 1077 solo allegato · atteso: risolvere di nuovo + mergeable · reale: #499 mergeable 18:50 ma main avanzato (worker PostHog 18:50) → conflitti tornati; rebase → mergeable; pattern ricorrente finché PR aperta; Vercel rosso spesso = branch in conflitto · merge 🔴 **#499** poi **#500** · #pannello #pr #conflitti #499 #recorrente · L-397
