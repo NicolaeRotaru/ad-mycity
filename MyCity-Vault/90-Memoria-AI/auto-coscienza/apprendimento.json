@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:16",
+  "aggiornato": "2026-07-20 03:17",
+  "_nota_metabolizzazione_20_07_0317": "Chat 20/7 ~03:17: Nicola «voglio rendere mycity il più indipendente dai dipendenti» — preferenza strategica lean/automazione. L-375 nuova; L-370 evidenze++ addendum indipendenza; preferenza indipendenza-dipendenti; STATO+DECISIONI+LEZIONI-CHAT+corporate-strategy+ad+people-talent esito.",
   "_nota_metabolizzazione_20_07_0316": "Chat 20/7 ~03:16: Nicola chiarimento «RSS Comune/bandi → riassunto portali istituzionali» — sveglia cron n8n, 403 worker, workflow non attivo. L-374 nuova; L-365 evidenze++ addendum RSS 403; preferenza rss-bandi-comune; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0314": "Chat 20/7 ~03:14: Nicola «20 mani n8n che servono per MyCity» — catalogo 20 integrazioni per impatto. L-373 nuova; L-366 evidenze++ addendum 20 mani; preferenza catalogo-20-mani-n8n; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0312": "Chat 20/7 ~03:12: Nicola «perché Vercel ci impiega così tanto ad inizializzare una fix?» + screenshot GitHub Outage — analisi pipeline deploy. L-372 nuova; L-361 evidenze++ addendum Initializing; L-371 merge #494; preferenza vercel-perche-lento; #211 FATTO; STATO+DECISIONI+LEZIONI-CHAT+devops-sre aggiornati.",
@@ -94,6 +95,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-375",
+      "testo": "**«Indipendenza dai dipendenti» = automazione ripetizione + umani solo 🔴, bottleneck primo ordine (Nicola 20/7 ~03:17).** Nicola «voglio rendere mycity il più indipendente dai dipendenti». 5 perché: (1) **non** è «assumere meno domani» generico — è **modello operativo**: cervello + n8n fanno il lavoro di un team intero su ciò che si ripete; (2) **resta umano (Nicola 🔴):** firma bandi/contratti, trattative negozi difficili, primo ordine concierge, dispute gravi, deploy e soldi; (3) **3 fasi** allineate L-370: accendi città (onboarding semi-auto + checklist) · abitudine (post/cron/carrelli/recensioni) · default locale (ops ordini/rider con regole, non telefonate); (4) **collo di bottiglia** = **primo ordine reale + botteghe payout-ready** — senza liquidità reale le automazioni scalano a vuoto; (5) **ordine pratico oggi:** PI26 10:00 → Telegram (59 avvisi) → Meta post test 🔴 → notifica ordine negozio → carrello abbandonato; chiudere con **una scelta blocco** («bandi» / «Telegram» / «primo ordine»), non checklist hiring o 50 workflow. Regola: «indipendente dai dipendenti» → automazione + card 🔴 + fasi + bottleneck + CTA blocco — **non** elenco assunzioni né solo catalogo n8n. Vedi L-370, L-367, L-357.",
+      "tag": [
+        "strategia",
+        "automazione",
+        "lean",
+        "dipendenti",
+        "n8n",
+        "cervello",
+        "nicola"
+      ],
+      "reparto": "@corporate-strategy",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:17",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-374",
       "testo": "**RSS bandi Comune via n8n — sveglia cron, 403 worker, workflow non attivo (Nicola 20/7 ~03:16).** Nicola chiede chiarimento su voce catalogo «RSS Comune/bandi → riassunto portali istituzionali». 5 perché: (1) pattern «spiega voce catalogo n8n» = **cosa fa + perché n8n + stato oggi + passi setup + CTA** — non ripetere solo elenco; (2) **RSS bandi** = Schedule cron (es. 7:00) + nodi RSS Read (Comune news/bandi, CCIAA Emilia, CNA/Vita in Centro) + filtro AI (5 righe max) → Telegram o webhook worker; (3) **perché n8n e non worker in chat:** sito Comune **blocca fetch diretto dal VPS worker (403)** — n8n legge feed da rete Docker; **non** promettere workflow già attivo — **oggi non c'è**; (4) contattare negozi o **inviare domande bandi** = **🔴** card — RSS **solo avvisa** con riassunto; (5) delivery ideale **Telegram** (bot mancante, **59** avvisi) — CTA «accendi RSS bandi» / «prima Telegram». Regola: «RSS Comune/bandi» → sveglia + motivo 403 + non attivo + setup 5 passi + 🔴 domande. Vedi L-365, L-373, L-370.",
       "tag": [
@@ -185,7 +208,7 @@
     },
     {
       "id": "L-2026-0720-370",
-      "testo": "**«Pensa più in grande» = moat + fasi + bottleneck, NON catalogo plugin (Nicola 20/7 ~03:05).** Dopo risposta «tutte le mani per colosso Piacenza» (L-367), Nicola corregge con «pensa più in grande». 5 perché: (1) catalogo mani/n8n/automazioni = **tattica setup**, non risposta a «colosso» — suona piccolo; (2) «colosso» per Nicola = **moat difendibile** (centinaia botteghe reali + consegna + «compro qui non Amazon») + **liquidity a due lati**; (3) **collo di bottiglia reale** = **primo ordine vero** (1 negozio incassa, domanda in attesa) — non altro plugin; (4) struttura **3 fasi** (4 sett accendi città 15–25 botteghe · 3 mesi abitudine multi-negozio/QR/istituzioni · 12 mesi default «compro a Piacenza online»); (5) strumenti (n8n, Telegram, Meta) = **ripetizione** storia fase 2, non obiettivo. Regola: «colosso» / «pensa più in grande» → moat + fasi + bottleneck numerato + **una priorità/missione** (PI26, primo ordine fornaio, Telegram…) — **non** elenco 50 automazioni. Vedi L-367, L-368.",
+      "testo": "**«Pensa più in grande» = moat + fasi + bottleneck, NON catalogo plugin (Nicola 20/7 ~03:05).** Dopo risposta «tutte le mani per colosso Piacenza» (L-367), Nicola corregge con «pensa più in grande». 5 perché: (1) catalogo mani/n8n/automazioni = **tattica setup**, non risposta a «colosso» — suona piccolo; (2) «colosso» per Nicola = **moat difendibile** (centinaia botteghe reali + consegna + «compro qui non Amazon») + **liquidity a due lati**; (3) **collo di bottiglia reale** = **primo ordine vero** (1 negozio incassa, domanda in attesa) — non altro plugin; (4) struttura **3 fasi** (4 sett accendi città 15–25 botteghe · 3 mesi abitudine multi-negozio/QR/istituzioni · 12 mesi default «compro a Piacenza online»); (5) strumenti (n8n, Telegram, Meta) = **ripetizione** storia fase 2, non obiettivo. **ADDENDUM 03:17:** «indipendente dai dipendenti» (L-375) riusa moat/fasi/bottleneck ma aggiunge **lean headcount** esplicito — automazione + card 🔴, umani solo fiducia/firma. Regola: «colosso» / «pensa più in grande» / «indipendente dai dipendenti» → moat + fasi + bottleneck + **una priorità/missione** — **non** elenco 50 automazioni. Vedi L-375, L-367, L-368.",
       "tag": [
         "strategia",
         "colosso",
@@ -197,11 +220,11 @@
       ],
       "reparto": "@corporate-strategy",
       "confidenza": 0.93,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 03:05",
+      "ultima_conferma": "2026-07-20 03:17",
       "stato": "attiva",
       "usi": []
     },
@@ -8540,6 +8563,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Indipendenza dai dipendenti — lean headcount via automazione + card 🔴 (chat 20/7 ~03:17):** obiettivo esplicito «rendere mycity il più indipendente dai dipendenti» — si aspetta risposta **operativa-modello**, non piano hiring: cervello+n8n su ripetizione; **umano solo 🔴** (firma, trattative, primo ordine concierge, dispute, deploy/soldi); 3 fasi (accendi città · abitudine · default locale); **primo ordine + payout-ready** come prerequisito (altrimenti automazioni a vuoto); ordine oggi PI26 10:00 → Telegram (59 avvisi) → Meta → notifica ordine → carrello; chiude con **una scelta blocco** («bandi» / «Telegram» / «primo ordine»). Vedi L-375, L-370.",
     "**RSS bandi Comune — chiarimento voce catalogo n8n = cosa fa + perché n8n + stato + setup + CTA (chat 20/7 ~03:16):** quando chiede «RSS Comune/bandi → riassunto portali istituzionali» si aspetta spiegazione **operativa** — sveglia cron (Schedule 7:00), fonti (Comune, CCIAA, CNA/Vita in Centro), filtro 5 righe, motivo tecnico (**403** fetch worker vs n8n Docker), stato **workflow non attivo**, delivery Telegram (59 avvisi) o webhook worker; domande bandi = **🔴**; chiude «accendi RSS bandi» / «prima Telegram». Vedi L-374, L-365, L-370.",
     "**Catalogo 20 mani n8n — «20 mani che può usare n8n per MyCity» = integrazioni per impatto, non 50×10 (chat 20/7 ~03:14):** chiede elenco **focalizzato n8n** — si aspetta **20 connettori/canali** numerati e **ordinati per impatto** (Telegram, Meta, email, marketplace API, Google, cron, RSS, meteo, WhatsApp, Stripe read, Gemini…), distinto da griglia **50 automazioni × 10 funzioni** (L-368) e da catalogo mani generale (L-367); reminder **🔴** su messaggi/post; **ordine:** Telegram (59 avvisi) → Meta → post test → email welcome → notifica ordine; chiude «dimmi blocco» per setup guidato. Vedi L-373, L-366, L-368.",
     "**Vercel lento/Initializing — «perché ci impiega così tanto?» = analisi profonda pipeline, non «aspetta 2 min» (chat 20/7 ~03:12):** chiede spiegazione quando deploy sembra bloccato — si aspetta diagnosi **causa→effetto** (GitHub outage vs build, preview branch vs Production, catena merge→Action→Deploy Hook, N fix in fila stasera), tempi **misurati** se build parte (45–53 s), e cosa fare adesso (attendi GitHub → deploy Production verde → Ctrl+F5); **non** risposta generica «Vercel impiega ~2 min». Vedi L-372, L-361.",

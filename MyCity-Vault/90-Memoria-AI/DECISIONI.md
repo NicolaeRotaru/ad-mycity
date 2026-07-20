@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 03:17 · 🟢 · [Preferenza strategica — indipendenza dai dipendenti via automazione] · **Nicola: «voglio rendere mycity il più indipendente dai dipendenti».** Direzione esplicita: **lean headcount** — cervello + n8n coprono ripetizione; persone (o Nicola) solo dove serve **fiducia, firma o giudizio 🔴**; modello «card approvi e parte»; collo di bottiglia operativo resta **primo ordine + payout-ready**, non assumere. Prossimo passo: Nicola sceglie blocco (PI26/Telegram/primo ordine). L-375, collega L-370.
+
 2026-07-20 03:12 · 🟢 · [Deploy Pannello Vercel — catena merge→Action→Hook, Initializing = GitHub outage] · **Nicola: «perché Vercel ci impiega così tanto ad inizializzare una sola fix?»** + screenshot banner GitHub Outage. AD: Initializing ≠ build lenta (45–53 s se parte); blocco fetch repo per outage GitHub 503; preview branch ≠ Production main; `deploymentEnabled.main: false` + `deploy-pannello.yml` + Deploy Hook voluti (quota memoria); stasera #492→#494 = N deploy. **PR #494** mergiata main `3d912daf` — attendi deploy Production + Ctrl+F5. L-372, L-361.
 
 2026-07-20 03:09 · 🟡 · [Worker chat — menu navbar sito sopra chat grande, PR #494] · **Nicola: «il menu in alto»** (conferma quale ☰ fallisce dopo diagnosi L-369). Fix: elevare z-index menu sito (Home, Azioni, Lavori…) **sopra** overlay Worker fullscreen; tap voce nav chiude chat e naviga. AD PR **#494** (`23bb1a24`). ~~Merge 🔴 pendente (#211)~~ **✅ mergiata main `3d912daf` (03:12)** — deploy Production in attesa GitHub. L-371, L-369.

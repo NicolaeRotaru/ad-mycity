@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:16
+aggiornato: 2026-07-20 03:17
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:17 — CHAT: «Indipendenza dai dipendenti» — automazione + card 🔴, umani solo fiducia/firma (L-375).** Nicola: «voglio rendere mycity il più indipendente dai dipendenti». AD: **automatizzare tutto ciò che si ripete** (cervello + n8n: analisi, memoria, supervisione, «mani» post/email/cron); **resta umano solo 🔴** (firma bandi/contratti, trattative difficili, primo ordine concierge, dispute gravi, deploy/soldi); **3 fasi** (accendi città onboarding semi-auto · abitudine post/cron/carrelli · default locale ops con regole); **collo di bottiglia** = **primo ordine reale + botteghe payout-ready** — senza quello le automazioni girano a vuoto. **Ordine pratico oggi:** PI26 **10:00** → Telegram (**59** avvisi) → Meta post test 🔴 → notifica ordine negozio → carrello abbandonato. CTA: Nicola sceglie blocco («bandi» / «Telegram» / «primo ordine»). Fonte: chat Nicola 20/7 03:17.
 
 > 💬 **20/7 ~03:16 — CHAT: RSS bandi Comune — sveglia n8n, 403 worker, workflow non attivo (L-374).** Nicola chiede chiarimento su automazione catalogo «**RSS Comune/bandi** → controlla portali istituzionali e manda riassunto». AD: **Schedule cron** (es. 7:00) + nodi **RSS Read** (news/bandi Comune, CCIAA Emilia, CNA/Vita in Centro) + filtro AI (5 righe max) → **Telegram** (bot mancante, **59** avvisi) o webhook worker (ok L-357). **Perché n8n:** portale Comune **403** su fetch diretto VPS worker — n8n Docker legge feed RSS. **Stato:** workflow RSS **non ancora acceso** in n8n. **Oggi:** 🔴 **PI26** sportello **10:00**, scadenza **30/7** — card già in coda. Invio domande bandi = **🔴**, RSS solo avvisa. CTA: «accendi RSS bandi» (guida nodo per nodo) / «prima Telegram». Fonte: chat Nicola 20/7 03:16.
 
