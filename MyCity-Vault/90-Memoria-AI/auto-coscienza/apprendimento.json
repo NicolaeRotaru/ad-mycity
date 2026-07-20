@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 20:01",
+  "aggiornato": "2026-07-20 20:06",
   "_nota_metabolizzazione_20_07_2001": "Chat 20/7 ~20:01: Nicola «Fatto redeploy però non ancora non funziona» — AD verifica live: VPS ok, Pannello diagnosi ancora giallo; redeploy insufficiente se env Vercel sbagliate (POSTHOG_PROJECT_ID mancante, phc_ vs phx_, EU host). L-414 nuova; L-411 evidenze++ addendum redeploy; preferenza posthog-redeploy-ancora-giallo; STATO+LEZIONI-CHAT+data-engineer+devops-sre+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1906": "Chat 20/7 ~19:06: Nicola casella «Pochi negozi» — registro 10%+50€ ok ma casella «12%, 0 fissi» hardcoded in sentinelle. L-413 nuova (caso_studio_nicola addendum L-391); L-391 evidenze++ addendum wiring; preferenza caselle-pricing-registro; STATO+DECISIONI+LEZIONI-CHAT+vendite+frontend-dev esito; PR #501 merge 🔴.",
   "_nota_metabolizzazione_20_07_1849": "Chat 20/7 ~18:48: Nicola «è ancora scollegata» + screenshot — VPS PostHog ok ma Pannello Radiografia legge env Vercel (3 variabili + redeploy); project ID 495230 US. L-411 nuova; preferenza posthog-ancora-scollegata; STATO+LEZIONI-CHAT+data-engineer+devops-sre+frontend-dev+registro-fatti project_id esito.",
@@ -9766,13 +9766,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 429,
+    "lezioni_attive": 430,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-20 19:56",
+    "tasso_calcolato_il": "2026-07-20 20:06",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 19:56",
+    "tick_leggero_il": "2026-07-20 20:06",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
