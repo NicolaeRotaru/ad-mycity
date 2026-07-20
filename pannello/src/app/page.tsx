@@ -3005,26 +3005,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         >
           {/* Colonna centrata con bordi laterali — solo workerFull su desktop */}
           <div
-            className={workerFull ? "relative flex flex-col flex-1 min-h-0 w-full sm:max-w-5xl sm:mx-auto sm:border-l sm:border-r overflow-hidden" : "flex flex-col flex-1 min-h-0 overflow-hidden"}
+            className={workerFull ? "relative flex flex-col flex-1 min-h-0 w-full sm:max-w-5xl sm:mx-auto sm:border-l sm:border-r overflow-hidden" : "relative flex flex-col flex-1 min-h-0 overflow-hidden"}
             style={workerFull ? { borderColor: "var(--border)" } : undefined}
           >
-          <div className="px-4 py-3 shrink-0 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
-            <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand text-white shrink-0 text-[13px] font-bold">M</span>
-            <div className="leading-tight min-w-0 flex-1">
-              <div className="text-[14px] font-semibold tracking-tight truncate">Worker</div>
-              <div className="t-eti text-[11px]">Semplice e diretto — penso io a chi lo fa.</div>
-            </div>
-            <button
-              onClick={() => { nuovaConversazione(); }}
-              className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
-              aria-label="Nuova chat"
-              title="Nuova chat"
-            >
-              <Plus size={16} />
-            </button>
+          {/* Solo chiudi + ingrandisci — niente barra titolo Worker */}
+          <div className="absolute top-2 right-2 z-20 flex items-center gap-0.5">
             <button
               onClick={() => apriWorkerPopup(!workerFull)}
-              className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
+              className="grid place-items-center w-8 h-8 rounded-lg text-black/45 hover:bg-black/[0.06] transition"
               aria-label={workerFull ? "Riduci finestra" : "Schermo intero"}
               title={workerFull ? "Torna alla finestra piccola" : "Apri il Worker a schermo intero"}
             >
@@ -3032,7 +3020,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </button>
             <button
               onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); setWorkerFull(false); }}
-              className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
+              className="grid place-items-center w-8 h-8 rounded-lg text-black/45 hover:bg-black/[0.06] transition"
               aria-label="Chiudi la chat"
             >
               <X size={15} />
@@ -3106,7 +3094,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </aside>
           <div className="flex flex-col flex-1 min-h-0 min-w-0">
           {/* Corpo chat: solo i messaggi scrollano; barra scrittura resta in fondo */}
-          <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 min-h-0 p-3.5 space-y-3 overflow-y-auto overscroll-contain">
+          <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 min-h-0 pt-10 p-3.5 space-y-3 overflow-y-auto overscroll-contain">
             {messages
               .filter((m) => !m.prompt)
               .map((m, i) => (
@@ -3166,7 +3154,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onTogliAllegato={togliAllegatoChat}
             onDetta={dettaVoce}
             onInvia={(t) => void mandaAlCervello(t)}
-            onPrompt={workerFull ? dammiPrompt : undefined}
+            onPrompt={dammiPrompt}
+            onNuovaChat={() => { void nuovaConversazione(); }}
             voceWorker={voceWorker}
             onToggleVoce={toggleVoceWorker}
             chatMessaggi={messages.filter((m) => !m.prompt).map((m) => ({ role: m.role, content: m.content, pending: m.pending }))}
