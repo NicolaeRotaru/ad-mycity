@@ -165,11 +165,31 @@ export class MemoriaNonCollegata extends Error {
   }
 }
 
+/** Testo sicuro per colonne Postgres/PostgREST (NUL e surrogate isolati → PGRST102). */
+export function sanitizeDbText(s: string): string {
+  return String(s ?? "")
+    .replace(/\u0000/g, "")
+    .replace(/[\uD800-\uDFFF]/g, "");
+}
+
+function bodyJsonLavoro(payload: Record<string, string>): string {
+  const richiesta = sanitizeDbText(payload.richiesta);
+  const tipo = sanitizeDbText(payload.tipo || "chat") || "chat";
+  const stato = payload.stato || "in_attesa";
+  const body: Record<string, string> = { richiesta, tipo, stato };
+  if (payload.gruppo_id) body.gruppo_id = sanitizeDbText(payload.gruppo_id);
+  const raw = JSON.stringify(body);
+  if (!richiesta.trim() || !raw || raw.length < 10) {
+    throw new Error("payload-lavoro-vuoto");
+  }
+  return raw;
+}
+
 async function postLavoroUnaVolta(payload: Record<string, string>, gruppoId?: string | null, timeoutMs = SB_TIMEOUT_MS): Promise<Response> {
   let res = await sbFetch(`${URL}/rest/v1/lavori`, {
     method: "POST",
     headers: { ...headers(), Prefer: "return=representation" },
-    body: JSON.stringify(payload),
+    body: bodyJsonLavoro(payload),
   }, 0, timeoutMs);
   // Se la colonna gruppo_id non esiste sul DB, riprova SUBITO senza (non è un fallimento di rete).
   if (!res.ok && gruppoId) {
@@ -177,7 +197,7 @@ async function postLavoroUnaVolta(payload: Record<string, string>, gruppoId?: st
     res = await sbFetch(`${URL}/rest/v1/lavori`, {
       method: "POST",
       headers: { ...headers(), Prefer: "return=representation" },
-      body: JSON.stringify(senzaGruppo),
+      body: bodyJsonLavoro(senzaGruppo),
     }, 0, timeoutMs);
   }
   return res;
@@ -207,8 +227,12 @@ export async function creaLavoroEsito(richiesta: string, tipo = "analisi", grupp
   if (!memoryConnected()) {
     return { ok: false, motivo: "config", dettaglio: "mancano SUPABASE_URL / SUPABASE_SERVICE_KEY negli env di Vercel" };
   }
-  const payload: Record<string, string> = { richiesta, tipo, stato: "in_attesa" };
-  if (gruppoId) payload.gruppo_id = gruppoId;
+  const payload: Record<string, string> = {
+    richiesta: sanitizeDbText(richiesta),
+    tipo: sanitizeDbText(tipo || "chat") || "chat",
+    stato: "in_attesa",
+  };
+  if (gruppoId) payload.gruppo_id = sanitizeDbText(gruppoId);
   let ultimo: { motivo: MotivoLavoro; status?: number; dettaglio: string } = {
     motivo: "rete",
     dettaglio: "nessuna risposta dal database di memoria",
