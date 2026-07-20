@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:59
+aggiornato: 2026-07-20 03:04
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:04 — CHAT: Worker chat grande — menu navbar sito vs ☰ conv, z-index (L-369).** Nicola «menu nella navbar ancora non si apre» in chat grande + «dimmi cosa hai capito». AD diagnosi: **due menu ☰ distinti** — **basso** (accanto «+ Nuova») = elenco **conversazioni** Worker; **navbar alto** (accanto logo/Pannello) = menu **sito** (Home, Azioni, Lavori…) — click **arriva** ma drawer sito resta **sotto** overlay chat fullscreen → sembra inerte (L-364 «toggle non collegato» era parziale). Popup piccolo ok (z-index diverso). **Fix pendente:** menu sito **sopra** chat grande o chat cede spazio — chiedere quale ☰ fallisce prima di PR. Bug **aperto**. Fonte: chat Nicola 20/7 03:04.
 
 > 💬 **20/7 ~02:59 — CHAT: «50 cose n8n in 10 funzioni performanti» — catalogo 10×5 + priorità (L-368).** Nicola chiede lista ampia automazioni n8n per MyCity divise in **10 funzioni fondamentali** (5 ciascuna = **50 totali**): (1) social FB/IG/GBP, (2) acquisizione clienti, (3) carrelli abbandonati, (4) fidelizzazione, (5) supporto negozi, (6) operations/consegne, (7) Telegram/email/WhatsApp, (8) marketing locale, (9) intelligence **programmata** (cron, non chat — L-365), (10) salute macchina/back-office. Regola: tutto messaggio/post/soldi = **🔴** card Pannello. **Ordine consigliato:** Telegram → Meta n8n → post test 🔴 → carrello abbandonato → notifica ordine negozio (Pane Quotidiano). Prossimo: Nicola sceglie blocco → workflow JSON da importare. Fonte: chat Nicola 20/7 02:59.
 

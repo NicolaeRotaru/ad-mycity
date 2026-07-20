@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 02:59",
+  "aggiornato": "2026-07-20 03:04",
+  "_nota_metabolizzazione_20_07_0304": "Chat 20/7 ~03:04: Nicola «menu navbar chat grande ancora non si apre, dimmi cosa hai capito» — diagnosi 2 ☰ distinti + z-index overlay (corregge L-364 parziale). L-369 nuova (caso_studio_nicola); L-364 evidenze++ addendum z-index; preferenza worker-menu-navbar-z-index; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0259": "Chat 20/7 ~02:59: Nicola «50 cose n8n in 10 funzioni performanti» — catalogo 10×5 + priorità. L-368 nuova; L-335 evidenze++ addendum 50×10; preferenza catalogo-50-n8n-10-funzioni; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0257": "Chat 20/7 ~02:56: Nicola «tutte le mani per colosso Piacenza» — catalogo completo mani + ordine priorità. L-367 nuova; L-351 evidenze++ addendum colosso; preferenza catalogo-mani-colosso; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0251": "Chat 20/7 ~02:50: Nicola controllo env duplicati (2 righe, non 3) + «cosa posso fare adesso con n8n». L-366 nuova; L-357 evidenze++ addendum 3→2 righe; preferenza n8n-cosa-fare-adesso; STATO+LEZIONI-CHAT+builder esito.",
@@ -88,6 +89,30 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-369",
+      "testo": "**Worker chat grande — DUE menu ☰ distinti; navbar sito bloccato da z-index overlay (Nicola 20/7 ~03:04).** Nicola «menu nella navbar ancora non si apre» in chat grande + «dimmi cosa hai capito». 5 perché: (1) L-364 interpretava «navbar non apre» come toggle non collegato — **parzialmente errato** per il menu **sito**; (2) **☰ basso** accanto «+ Nuova» = elenco **conversazioni** Worker (fix placement #493); (3) **☰ navbar alto** accanto logo/Pannello = menu **sito** (Home, Azioni, Lavori…) — click **arriva** ma drawer sito resta **sotto** overlay chat fullscreen → sembra morto; (4) popup piccolo ok perché z-index/stacking diverso; (5) fix = menu sito **sopra** chat grande (z-index) o chat cede spazio — **non** basta spostare toggle conv in basso per il menu sito; chiedere **quale ☰** fallisce prima di PR. Regola: bug «menu navbar non apre» in chat grande → distinguere menu sito vs conv + controllare z-index overlay. Vedi L-364, L-363.",
+      "tag": [
+        "pannello",
+        "worker",
+        "navbar",
+        "z-index",
+        "overlay",
+        "menu",
+        "fullscreen",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:04",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-368",
       "testo": "**«50 cose n8n / 10 funzioni performanti» = griglia 10×5 ripetitivo ROI, non ragionamento worker (Nicola 20/7 ~02:59).** Nicola chiede lista ampia strutturata per MyCity. 5 perché: (1) pattern «N cose» + «M funzioni fondamentali» = **griglia numerata** (10 categorie × 5 automazioni = 50), non elenco piatto né tutorial setup; (2) **performanti** = ripetitive che fanno soldi/tempo — social, acquisizione, carrelli, fidelizzazione, negozi, ops, comunicazione, marketing locale, intelligence **programmata** (cron), salute macchina; (3) **non** duplicare cervello worker (L-365) — n8n esegue braccia, worker decide; intelligence in n8n solo sveglie fisse, ricerche ad hoc = chat Worker; (4) ogni uscita verso persone/post = **🔴** card Pannello anche con webhook ok (L-357); (5) chiudere con **ordine priorità** numerato (Telegram→Meta→post test 🔴→carrello→notifica ordine negozio) + CTA «dimmi blocco» per workflow JSON import. Regola: «50 cose n8n» / «10 funzioni» → 10×5 + reminder 🔴 + priorità + offer import. Vedi L-366, L-335, L-365, L-367.",
       "tag": [
@@ -133,7 +158,7 @@
     },
     {
       "id": "L-2026-0720-364",
-      "testo": "**Worker UX — posizione controlli per superficie: ☰ accanto a + in grande, barra alta solo popup (Nicola 20/7 ~02:46).** Dopo #492 (tre superfici), Nicola corregge **dove** stanno i controlli: (1) **chat grande** (voce menu Worker) — ☰ elenco conv **accanto a «+ Nuova» in toolbar bassa**, **non** in navbar/header («ancora non posso aprire il menu» = toggle non collegato lì); **zero** icone ingrandisci/chiudi in alto sulla grande; chiudi = tap fuori dal riquadro o di nuovo voce Worker; (2) **popup piccolo** (FAB basso-destra) — **barra alta** con ☰ + ingrandisci + chiudi (estetica chiudi riquadro), non tre icone fluttuanti nel vuoto; (3) errore AD = replicare header popup sulla chat grande o lasciare ☰ solo in navbar non funzionante. Regola: **grande** = controlli conv in **basso** (☰ + +), header pulito · **piccolo** = barra **alta** completa. Fix PR **#493** (`e1ed67d9`), merge 🔴 #210. Vedi L-363.",
+      "testo": "**Worker UX — posizione controlli per superficie: ☰ accanto a + in grande, barra alta solo popup (Nicola 20/7 ~02:46).** Dopo #492 (tre superfici), Nicola corregge **dove** stanno i controlli: (1) **chat grande** (voce menu Worker) — ☰ elenco conv **accanto a «+ Nuova» in toolbar bassa**, **non** in navbar/header; **zero** icone ingrandisci/chiudi in alto sulla grande; chiudi = tap fuori dal riquadro o di nuovo voce Worker; (2) **popup piccolo** (FAB basso-destra) — **barra alta** con ☰ + ingrandisci + chiudi (estetica chiudi riquadro), non tre icone fluttuanti nel vuoto; (3) errore AD = replicare header popup sulla chat grande o lasciare ☰ solo in navbar non funzionante. Regola: **grande** = controlli conv in **basso** (☰ + +), header pulito · **piccolo** = barra **alta** completa. Fix PR **#493** (`e1ed67d9`), merge 🔴 #210. **Addendum 03:04 (L-369):** «navbar non apre» in chat grande ≠ solo toggle non collegato — il **menu sito** (☰ navbar) si apre ma resta **sotto** overlay chat (z-index); distingui conv basso vs sito alto. Vedi L-363, L-369.",
       "tag": [
         "pannello",
         "worker",
@@ -149,11 +174,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 02:46",
+      "ultima_conferma": "2026-07-20 03:04",
       "stato": "attiva",
       "usi": []
     },
@@ -8398,11 +8423,12 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Worker chat grande — menu navbar sito vs ☰ conv, z-index overlay (chat 20/7 ~03:04):** «menu nella navbar ancora non si apre» + «dimmi cosa hai capito» — si aspetta **diagnosi chiara** prima del fix; **due ☰ distinti:** basso accanto «+» = elenco conv · navbar alto = menu **sito** (Home, Azioni, Lavori) — il secondo sembra morto perché chat fullscreen lo copre (z-index), non perché toggle assente; fix = menu sito **sopra** chat o chat cede spazio; chiedere **quale ☰** fallisce. Vedi L-369, L-364.",
     "**Catalogo n8n 50×10 — «50 cose in 10 funzioni performanti» = griglia 10 categorie × 5 idee + priorità (chat 20/7 ~02:59):** chiede inventario ampio ma strutturato per MyCity — si aspetta **10 funzioni fondamentali** (social, acquisizione, carrelli, fidelizzazione, negozi, ops, comunicazione, marketing locale, intelligence cron, back-office) con **5 automazioni ciascuna** (50 totali), tutte ripetitive/ROI; reminder **🔴** su messaggi/post; **ordine consigliato** Telegram→Meta→post test→carrello→notifica ordine negozio; chiude con «dimmi blocco» per preparare workflow import. Non tutorial n8n né ricerche web ad hoc (Worker L-365). Vedi L-368, L-366, L-335.",
     "**Catalogo mani colosso Piacenza — «tutte le mani» = inventario completo + ordine priorità (chat 20/7 ~02:56):** chiede quali canali può usare per far crescere MyCity a Piacenza — si aspetta **catalogo strutturato** (già accese vs da accendere, gratis vs 🔴, leve per reparto) con **ordine consigliato numerato** (Telegram → Meta n8n → post test 🔴 → email welcome → WhatsApp negozi), non teoria strategica; reminder interruttore sicurezza (niente esce senza card); chiudere con CTA singola per partire subito. Vedi L-367, L-366, L-351, azioni.md.",
     "**n8n post-webhook — «cosa posso fare adesso?» = catalogo concreto + ordine priorità (chat 20/7 ~02:50):** dopo webhook collegato chiede controllo env (2 righe, 1 segnaposto da cancellare) + cosa può fare con n8n — si aspetta **lista operativa** (FB/IG post, Telegram, lista attesa, cron) con **ordine consigliato** (dedup env → Telegram → Meta → test post 🔴), non spiegazione generica; gruppi FB manuali; ricerche ad hoc restano Worker. Vedi L-366, L-357.",
     "**n8n ricerche web — chiede se n8n può cercare sul web per il worker (chat 20/7 ~02:47):** si aspetta chiarimento architettura — risposta: **no** oggi e **non serve** per chat (worker/cervello già cerca bandi/concorrenti/intelligence); n8n collegato (webhook ok L-357) = braccia per post/avvisi; ricerche **programmate** (cron fisso, es. bandi Comune ogni mattina) = ok n8n come sveglia; ricerche **ad hoc** = scrivi nel Worker, non passa da n8n. Prossimo passo utile: Meta OAuth in n8n. Vedi L-365, L-344.",
-    "**Worker controlli per superficie — ☰ accanto a + in grande, barra alta solo popup (chat 20/7 ~02:46):** post-#492 chiede (1) **chat grande** — icona ☰ elenco conv **accanto a «+ Nuova» in barra bassa**, **niente** ingrandisci/chiudi in alto; menu navbar non deve essere l’unico toggle (deve funzionare in basso); chiudi grande = tap fuori o voce Worker; (2) **popup FAB** — **barra alta** con ☰ + ingrandisci + chiudi (estetica chiudi riquadro). Fix **PR #493** — merge 🔴 #210, poi Ctrl+F5. Vedi L-364, L-363.",
+    "**Worker controlli per superficie — ☰ accanto a + in grande, barra alta solo popup (chat 20/7 ~02:46, agg. 03:04):** post-#492 chiede (1) **chat grande** — icona ☰ elenco conv **accanto a «+ Nuova» in barra bassa**, **niente** ingrandisci/chiudi in alto; chiudi grande = tap fuori o voce Worker; (2) **popup FAB** — **barra alta** con ☰ + ingrandisci + chiudi (estetica chiudi riquadro). **03:04 addendum:** ☰ **navbar** = menu **sito** — sembra non aprire perché overlay chat lo copre (L-369), non solo placement conv. Fix **PR #493** — merge 🔴 #210, poi Ctrl+F5. Vedi L-364, L-369, L-363.",
     "**Worker UX — tre superfici distinte: FAB popup piccolo · menu Worker fullscreen · lista conv overlay (chat 20/7 ~02:32):** «bottone basso-destra e voce Worker nel menù non devono aprire la stessa finestra» + lista conv «in finestra che si apre/chiude sopra la chat» — **FAB** = popup **piccolo** (ingrandisci/X); **voce «Worker» menù sinistro** = chat **grande** a schermo intero; **☰** = elenco conversazioni **overlay sopra** i messaggi (tap fuori o dopo scelta chiude) — **non** colonna fissa sinistra, **non** stessa finestra FAB=menu. Fix **PR #492** ✅ mergiata (#209); supersede #486 e #490 (#208). Dopo deploy: Ctrl+F5 + test tre entry point. Vedi L-363, L-352, L-348.",
     "**Worker PR in conflitto — vuole merge unico consolidato, non N card parallele (chat 20/7 ~02:31):** «fammi rimergiare il menu e risolvi il conflitto della #489» — si aspetta che l'AD **risolva il conflitto** e consegni **una sola PR** da mergiare (☰ + layout compatto insieme); **non** lasciare #489/#207/#206 in coda separata quando i fix sono sullo stesso file. Dopo merge: Ctrl+F5 + verifica UI live (L-361). Card attiva: **#208** / PR **#490**. Vedi L-362.",
     "**Verifica deploy Pannello — «fix online?» = prova UI live + PR merged/pending, NON peso chunk (chat 20/7 ~02:23):** chiede se ultimi merge Worker sono sul Pannello — si aspetta risposta **verificata** (stringhe UI assenti/presenti: no «Semplice e diretto», + in basso, ☰ funzionante), non «sì» da byte JS; se **lui** non vede → AD ammette errore e indica card pendente (**#208** / PR **#490**); parziale ok (#483–#487) va detto esplicitamente. Vedi L-361, L-315, L-360.",
