@@ -7,6 +7,7 @@ reparto: data-engineer
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 20:23 · PostHog «solo sito o altro? dimmi tutto» · atteso: inventario completo capacità, distinto da L-417 · reale: mappa 4 bucket (MyCity attivo / cruscotto / prodotto non acceso / non fa pagamenti-DB-email) · residuo PR #219 Render US · L-419 · #posthog #capacita #esito
 - 2026-07-20 20:21 · PostHog residuo Render — Nicola «fai il fix del residuo opzionale» · atteso: PR mycity ingest US · reale: **PR #219** default `us.i.posthog.com` + render.yaml; merge 🔴 Nicola → deploy Render · 3 superfici PostHog allineate post-merge · L-418 · #posthog #render #mycity #pr-219 #esito
 - 2026-07-20 20:19 · PostHog «cosa posso fare adesso?» · atteso: catalogo uso operativo, non setup · reale: Live + funnel eventi tracciati + test incognito + sensori ok · residuo opzionale PR #219 Render US · L-417 · #posthog #uso #esito
 - 2026-07-20 20:16 · PostHog chiuso — Nicola «ok è diventato verde» · atteso: confermare chiusura entrambe superfici · reale: VPS **ok** · Pannello `/api/diagnosi` **verde** 20:16 — setup US 495230 `phx_` su VPS+Vercel; residuo opzionale Render tracking · L-416 · #posthog #vercel #pannello #chiuso #esito

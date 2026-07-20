@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-07-20T16:20:26.073Z",
+  "aggiornato": "2026-07-20T18:23:42.826Z",
   "avvisi": [
     {
       "at": "2026-07-18T04:30:10.026Z",
@@ -119,6 +119,11 @@
     {
       "at": "2026-07-20T16:20:26.073Z",
       "testo": "⚠️ MyCity: memoria incoerente/vault sporco — giro NON pubblicato (2026-07-20 18:20). Dettaglio: coerenza-fatti rc=3 (una copia vecchia di un fatto è rimasta in un file vivo); La memoria resta solo sul server, il Pannello NON mostra dati non verificati.",
+      "canale": "casella"
+    },
+    {
+      "at": "2026-07-20T18:23:42.826Z",
+      "testo": "⚠️ MyCity: memoria incoerente/vault sporco — giro NON pubblicato (2026-07-20 20:23). Dettaglio: vault-sanità: auto-coscienza/auto-radiografia.json: JSON non parsabile (Expected ',' or '}' after property value in JSON at position 277261 (line 1791 column 5)) ; La memoria resta solo sul server, il Pannello NON mostra dati non verificati.",
       "canale": "casella"
     }
   ]

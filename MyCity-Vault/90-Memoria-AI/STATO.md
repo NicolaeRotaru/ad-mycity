@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 20:22
-fonte: AD digitale (giro 20/7 20:22)
+aggiornato: 2026-07-20 20:23
+fonte: AD digitale (chat 20/7 20:23)
 ---
+
+> 💬 **20/7 ~20:23 — CHAT: PostHog «solo sito o altro? dimmi tutto» — mappa capacità 4 bucket (L-419).** Nicola chiede inventario completo PostHog (non prossimi passi L-417). AD: **(1) già MyCity** sito+Pannello+worker · **(2) cruscotto** Live/funnel/replay · **(3) prodotto** A/B/sondaggi/app non accesi · **(4) non fa** pagamenti/DB/email. Residuo: merge **PR #219** Render US. Fonte: chat Nicola 20/7 20:23.
 
 > 💬 **20/7 ~20:22 — GIRO 20:22.** Business INVARIATO: 1 PQ · 5 prod · 4 buyer · 0 pagati · stallo ~636h. Coerenza-fatti pricing bonificata. CHECKLIST-NICOLA rigenerata. **Mossa n.1: ordine test PQ.** Briefing: [[Briefing/2026-07-20]].
 
