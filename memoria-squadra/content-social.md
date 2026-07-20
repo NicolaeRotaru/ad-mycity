@@ -8,6 +8,7 @@ reparto: content-social
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 20:25 · Nicola «collegare Meta per pubblicare FB/IG» — atteso: percorso concreto post-approvazione · reale: n8n workflow già importato; blocco = OAuth/token Meta in nodi; flusso Approva card → pagina+feed IG; gruppi locali manuali; IG serve URL immagine live; checkpoint «Meta collegato» · L-420 · #meta #pubblicazione #n8n
 - 2026-07-20 11:27 · playbook contenuto giorno 20/7 · post+lvisual+accoda · atteso 1 post pronto accodato → reale consegne/content/2026-07-20-post-del-giorno-lunedi-turno-mattina-PQ.md + A36 + #post-lunedi-turno-mattina-2007 · #playbook #contenuto
 - 2026-07-20 11:19 · Bozze Punti + Regala Piacenza (playbook fedeltà, gate rete) · atteso: 5 pezzi copy-ready onesti · reale: hook Turno + CTA lista attesa, zero % non verificati, 1 bottega dichiarata · lezione: pre-lancio = tease meccanica qualitativa, numeri solo a gate verde · #punti #giftcard #onesta #turno
 - 2026-07-19 19:43 · Nicola «Come faccio a farti pubblicare su IG/FB?» · atteso: percorso concreto per collegare mano social · reale: publisher in repo, n8n consigliato vs Meta diretto, N8N_WEBHOOK segnaposto, IG serve URL immagine, gruppi FB manuali, card 🔴 anche collegato · L-321 · #pubblicazione #n8n #meta

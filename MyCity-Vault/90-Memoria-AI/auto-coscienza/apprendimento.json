@@ -1,7 +1,8 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 20:23",
+  "aggiornato": "2026-07-20 20:25",
   "_nota_giro_20_07_2022": "Giro 20/7 20:22: coerenza-fatti pricing bonificata (48 file, exit 0). Lezione: esenzioni registro per contratti PQ eccezione 12%/0€. CHECKLIST rigenerata AR-030. North Star focus ordine test PQ.",
+  "_nota_metabolizzazione_20_07_2025": "Chat 20/7 ~20:25: Nicola «collegare meta per FB/IG» — n8n già acceso + workflow importato; checklist Meta Developers + credenziali nodi n8n, checkpoint «Meta collegato». L-420 nuova; L-321 evidenze++ addendum n8n attivo; preferenza collegare-meta-n8n; STATO+LEZIONI-CHAT+builder+content-social esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_20_07_2023": "Chat 20/7 ~20:23: Nicola «posthog solo sito o altro? dimmi tutto» — inventario capacità 4 bucket, distinto da L-417 uso operativo. L-419 nuova; preferenza posthog-dimmi-tutto; STATO+LEZIONI-CHAT+data-engineer esito; nessuna azione/decisione nuova.",
   "_nota_metabolizzazione_20_07_2020": "Chat 20/7 ~20:19: Nicola «che cosa posso fare adesso con posthog?» — PostHog verde (L-416); AD catalogo uso Live+funnel+test, non setup. L-417 nuova; preferenza posthog-cosa-fare-adesso; STATO+LEZIONI-CHAT+data-engineer esito; nessuna azione/decisione nuova.",
   "_nota_metabolizzazione_20_07_2016": "Chat 20/7 ~20:16: Nicola «ok è diventato verde» — PostHog VPS+Pannello verde verificato live; caso chiuso L-415. L-416 nuova; L-411+L-415 evidenze++ addendum chiusura; preferenza posthog-ok-verde; STATO già 20:16; DECISIONI+LEZIONI-CHAT+registro-fatti+data-engineer+devops-sre+frontend-dev esito.",
@@ -142,6 +143,29 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-420",
+      "testo": "**Meta FB/IG — «collegare Meta» = credenziali nodi n8n + Active, non reinstall (Nicola 20/7 ~20:25).** Follow-up L-321 con n8n **già acceso** sul VPS (L-357 webhook ok) e workflow **«MyCity — Pubblica post programmato»** già importato (L-330). 5 perché: (1) Nicola chiede **solo Meta** — **non** ripartire da install Docker/webhook/env worker; (2) prerequisiti Meta: **Pagina Facebook MyCity** + **Instagram professionale** collegato alla pagina + app **Business** su developers.facebook.com (Facebook Login + Instagram Graph API); (3) **token pagina lungo** + ID pagina + ID Instagram → **nodi Facebook/Instagram del workflow n8n**, **mai in chat**; (4) test = **Execute workflow** in n8n; flusso MyCity = AD scrive post → card **Da approvare** → Nicola Approva → pagina FB + feed IG; **gruppi FB locali sempre manuali**; **Instagram API richiede URL immagine pubblico**; (5) checkpoint operativo «**Meta collegato**» → post prova con firma 🔴. Regola: n8n ok + «collegare Meta» → checklist Meta Developers + credenziali workflow + toggle Active, zero ripetizione install. Vedi L-321, L-330, L-357.",
+      "tag": [
+        "meta",
+        "facebook",
+        "instagram",
+        "n8n",
+        "pubblicazione",
+        "oauth",
+        "content-social",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 20:25",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-419",
       "testo": "**PostHog «solo sito o altro / dimmi tutto» = mappa 4 bucket, non checklist setup (Nicola 20/7 ~20:23).** Nicola: «**posthog sa lavorare solo con il sito o sa fare altro? dimmi tutto quello che sa fare posthog**» — diverso da L-417 «cosa posso fare adesso» (prossimi passi operativi). 5 perché: (1) chiede **inventario completo** prodotto vs solo uso MyCity oggi; (2) risposta in **4 bucket**: **già MyCity** (sito eventi carrello/checkout/ordini + Pannello visite + worker sensore), **cruscotto ora** (Live, funnel, session replay, abbandono), **prodotto non acceso** (A/B, sondaggi, cohort, tracking app/backend), **NON fa** (Stripe, Supabase ordini, email/WhatsApp); (3) **non** confondere con L-417 — zero env/redeploy/checklist; (4) citare eventi **già nel codice** sito; (5) residuo **PR #219** Render US se menzionato — merge unifica ingest. Regola: «tutto quello che sa fare X» → mappa capacità 4 bucket; «cosa faccio adesso» → L-417 uso operativo. Vedi L-417, L-418, DECISIONI 20/7 20:16.",
@@ -2288,7 +2312,7 @@
     },
     {
       "id": "L-2026-0719-321",
-      "testo": "**Pubblicazione FB/IG — «Come faccio a farti pubblicare?» = n8n + card 🔴 (Nicola 19/7 ~19:43).** Segue L-320 sulla casella post domenica PQ: Nicola chiede come collegare la mano social, non solo copia-incolla. 5 perché: (1) publisher già in `cervello/publishers/` + guida `collega-le-mani.md` — blocco = chiavi Meta, non codice; (2) **`N8N_WEBHOOK_URL` sul VPS oggi segnaposto** — n8n non riceve nulla; (3) percorso consigliato **n8n** (OAuth Meta una volta nel workflow, webhook in env worker **mai in chat**) vs Meta diretto (Business Verification, giorni/settimane); (4) **Instagram API richiede URL immagine pubblico** — grafiche in repo/Diretta non bastano finché non c'è URL live per l'API; (5) anche mano collegata: post pagina FB + feed IG restano **🟡/🔴** (card Pannello); **gruppi FB locali sempre manuali**. Regola: rispondere con checklist n8n (install → workflow webhook → OAuth → env worker → restart → dry-run → card); non promettere auto-pub stasera se setup non fatto. Vedi L-320, L-2026-0630-06.",
+      "testo": "**Pubblicazione FB/IG — «Come faccio a farti pubblicare?» = n8n + card 🔴 (Nicola 19/7 ~19:43).** Segue L-320 sulla casella post domenica PQ: Nicola chiede come collegare la mano social, non solo copia-incolla. 5 perché: (1) publisher già in `cervello/publishers/` + guida `collega-le-mani.md` — blocco = chiavi Meta, non codice; (2) **`N8N_WEBHOOK_URL` sul VPS oggi segnaposto** — n8n non riceve nulla; (3) percorso consigliato **n8n** (OAuth Meta una volta nel workflow, webhook in env worker **mai in chat**) vs Meta diretto (Business Verification, giorni/settimane); (4) **Instagram API richiede URL immagine pubblico** — grafiche in repo/Diretta non bastano finché non c'è URL live per l'API; (5) anche mano collegata: post pagina FB + feed IG restano **🟡/🔴** (card Pannello); **gruppi FB locali sempre manuali**. Regola: rispondere con checklist n8n (install → workflow webhook → OAuth → env worker → restart → dry-run → card); non promettere auto-pub stasera se setup non fatto. **ADDENDUM 20/7 ~20:25:** webhook n8n **ok** (L-357) + workflow importato (L-330) — «collegare Meta» = **solo credenziali nodi workflow + Active**, vedi L-420; non ripetere install.", Vedi L-320, L-2026-0630-06.",
       "tag": [
         "pubblicazione",
         "instagram",
@@ -2302,11 +2326,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.94,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 19:45",
+      "ultima_conferma": "2026-07-20 20:25",
       "stato": "attiva",
       "usi": []
     },
@@ -9529,6 +9553,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Meta FB/IG — «collegare Meta» = credenziali workflow n8n, non reinstall (chat 20/7 ~20:25):** chiede come collegare Meta per pubblicare su Facebook e Instagram — si aspetta checklist **Meta Developers** (Pagina FB + IG pro + app Business + token pagina) **nei nodi n8n** del workflow già importato, **mai token in chat**; **non** ripetere install Docker/webhook (n8n già acceso); checkpoint «**Meta collegato**» → post prova; gruppi FB manuali; IG = URL immagine pubblico; post resta card 🔴. Vedi L-420, L-321.",
     "**PostHog «dimmi tutto / solo sito o altro» — inventario completo 4 bucket, non prossimi passi (chat 20/7 ~20:23):** chiede se PostHog funziona **solo col sito** o anche altro + «**dimmi tutto quello che sa fare**» — si aspetta **mappa capacità completa** (MyCity attivo · cruscotto · prodotto non acceso · cosa NON fa), **non** checklist env né solo «apri Live» (quello è L-417 «cosa faccio adesso»); citare Stripe/Supabase/email come **fuori scope**; residuo PR #219 Render US se pertinente. Vedi L-419, L-417.",
     "**PostHog residuo Render — «fai il fix del residuo opzionale» = PR #219 mycity, link chat, no card (chat 20/7 ~20:21):** dopo VPS+Pannello verdi chiede esplicitamente il residuo citato in chiusura — si aspetta **PR consegnata** su repo **mycity** (ingest `us.i.posthog.com`), merge Nicola → deploy Render ~5 min; **non** altre istruzioni env VPS/Vercel; controllare override Render se `.eu`; pattern ordine chat «fai fix» = link PR (**L-402**). Vedi L-418, L-416.",
     "**PostHog «ok è diventato verde» — verifica live e chiudi, non ripetere checklist (chat 20/7 ~20:16):** dopo env Vercel + redeploy conferma «**ok è diventato verde**» — si aspetta AD **verifichi live** VPS (`verifica-sensori`) + Pannello (`/api/diagnosi`), aggiorni memoria, **non** continui istruzioni env; caso **chiuso**; residuo solo se chiede: host tracking **Render** US. Vedi L-416, L-415 chiuso.",
@@ -9627,7 +9652,7 @@
     "**Termux setup VPS — controllare prompt shell prima di diagnosticare errori Docker (chat 19/7 ~20:03):** dopo caduta SSH durante n8n, incolla comandi in Termux locale → «docker not found» — si aspetta che l'AD **guardi il prompt** (`~ $` vs `root@ubuntu-…`), spieghi telefono≠server, dia primo passo riconnetti SSH + `docker ps`, e chiarisca che container sul VPS non si ferma se la sessione cade. Vedi L-324, L-323.",
     "**n8n setup — screenshot errore browser dopo Docker = diagnosi secure cookie + passi fix (chat 19/7 ~19:58):** avvia container via Termux e manda screenshot — si aspetta che l'AD **non** dica «Docker fallito» se container running; spiega errore secure cookie su IP+http, passi riavvio con flag setup, avviso sicurezza porta 5678; prossimo checkpoint «sono dentro n8n». Vedi L-323, L-322.",
     "**n8n install — «Come installo n8n sul worker?» = passi Docker SSH numerati (chat 19/7 ~19:45):** follow-up immediato dopo L-321 — chiede **come installare** sul VPS, non solo perché serve n8n; si aspetta sequenza concreta (Docker → import workflow → OAuth Meta → webhook in env worker → restart → dry-run), chiarire che l'AD **non installa da chat**, e che stasera resta manuale se Meta non è collegato. Vedi L-322, L-321.",
-    "**Pubblicazione social — «Come faccio a farti pubblicare su IG/FB?» = checklist operativa n8n (chat 19/7 ~19:43):** dopo aver capito i limiti (L-320), chiede **come collegare** la mano — si aspetta percorso concreto passo-passo (n8n consigliato vs Meta diretto), cosa va in env worker (non in chat), dry-run + card 🔴 anche collegato; gruppi FB manuali; per stasera resta copia-incolla se setup non fatto. Vedi L-321, L-320.",
+    "**Pubblicazione social — «Come faccio a farti pubblicare su IG/FB?» = checklist operativa n8n (chat 19/7 ~19:43):** dopo aver capito i limiti (L-320), chiede **come collegare** la mano — si aspetta percorso concreto passo-passo (n8n consigliato vs Meta diretto), cosa va in env worker (non in chat), dry-run + card 🔴 anche collegato; gruppi FB manuali; per stasera resta copia-incolla se setup non fatto. **ADDENDUM 20/7 ~20:25:** n8n webhook ok + workflow importato — «collegare Meta» = solo credenziali nodi + Active (L-420). Vedi L-321, L-320, L-420.",
     "**Contenuti — «Questo è tutto che puoi fare?» = confini operativi espliciti (chat 19/7 ~19:41):** sulla casella post pronto in Diretta chiede se basta — si aspetta risposta in **4 blocchi**: pacchetto completo ora, cosa l'AD rifà ancora 🟢, cosa resta solo suo 🔴 (pubblicazione social + card Pannello), percorso più veloce se vuole uscire stasera (download grafiche + copia-incolla); **non** interpretare come ok a pubblicare senza firma. Vedi L-320, L-300.",
     "**Logo navbar — «si vede metà del logo» = fix visivo immediato marketplace mobile (chat 19/7 ~19:40):** segnala logo tagliato in header — si aspetta causa concreta (flex-shrink), PR mycity pronta, merge Pannello + deploy Render; stessa giornata del fix carrello (#214) ma problema lato sinistro brand. Vedi L-319, L-310.",
     "**Redeploy — «come redeploy delle due PR?» = istruzioni Render concrete, non re-merge (chat 19/7 ~19:27):** dopo merge multipli (#214 carrello + #215 CI), chiede come portare online — si aspetta passi semplici: codice già su main, **Manual Deploy → Deploy latest commit** su Render se Auto-Deploy non parte, attendi verde, ricarica telefono; chiarire che NON serve rifare merge PR. Vedi L-318, L-315.",
@@ -9886,13 +9911,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 432,
+    "lezioni_attive": 435,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-20 20:20",
+    "tasso_applicazione": 0.17,
+    "tasso_calcolato_il": "2026-07-20 20:26",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 20:16",
+    "tick_leggero_il": "2026-07-20 20:26",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

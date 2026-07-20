@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 20:23
-fonte: AD digitale (chat 20/7 20:23)
+aggiornato: 2026-07-20 20:25
+fonte: AD digitale (chat 20/7 20:25)
 ---
+
+> 💬 **20/7 ~20:25 — CHAT: Meta FB/IG — «collegare Meta» via n8n workflow (L-420).** Nicola «**come faccio a collegare meta per farti pubblicare su facebook ed instagram**» — n8n **già acceso** VPS; workflow **«MyCity — Pubblica post programmato»** già importato. Resta: Pagina FB + IG professionale collegato → app Meta Business (Login + Graph API) → token pagina + ID pagina + ID IG **nei nodi n8n** (mai in chat) → workflow **Active** → test Execute. Flusso: AD prepara post → card **Da approvare** → Nicola Approva → pagina FB + feed IG; **gruppi FB manuali**; IG richiede **URL immagine pubblico**. Checkpoint: scrive «**Meta collegato**» → post prova. **Non fatto** — OAuth/token Meta pendente Nicola. Fonte: chat Nicola 20/7 20:25.
 
 > 💬 **20/7 ~20:23 — CHAT: PostHog «solo sito o altro? dimmi tutto» — mappa capacità 4 bucket (L-419).** Nicola chiede inventario completo PostHog (non prossimi passi L-417). AD: **(1) già MyCity** sito+Pannello+worker · **(2) cruscotto** Live/funnel/replay · **(3) prodotto** A/B/sondaggi/app non accesi · **(4) non fa** pagamenti/DB/email. Residuo: merge **PR #219** Render US. Fonte: chat Nicola 20/7 20:23.
 
