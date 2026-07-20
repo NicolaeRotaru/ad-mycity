@@ -37,19 +37,18 @@ export function estraiContestoCasellaDaRichiesta(richiesta: string): string {
 }
 
 /** Testo richiesta per il cervello su una casella (riusato da ParlaCasella e Assistente). */
-export async function buildRichiestaCasella(
+export function assembleRichiestaCasella(
   titolo: string,
   contesto: string,
   storia: ParlaMsg[],
   messaggio: string,
-  gruppoId: string | null,
+  memoria: string,
   bloccoAllegati = "",
-): Promise<string> {
+): string {
   const storiaTxt = storia
     .filter((m) => !m.pending)
     .map((m) => `${m.role === "user" ? "Nicola" : "AD"}: ${m.content}`)
     .join("\n");
-  const memoria = await bloccoMemoriaChat(gruppoId);
   return (
     (memoria ? `${memoria}\n` : "") +
     `## Casella del Pannello: ${titolo}\n` +
@@ -60,6 +59,18 @@ export async function buildRichiestaCasella(
     `\n\n## Istruzioni\nRispondi in italiano, conciso e concreto, riferito a QUESTA casella. Rispetta 🟢🟡🔴. ` +
     `Se Nicola dà un'informazione o una decisione utile, aggiorna la memoria nel vault e dichiara cosa hai aggiornato.`
   );
+}
+
+export async function buildRichiestaCasella(
+  titolo: string,
+  contesto: string,
+  storia: ParlaMsg[],
+  messaggio: string,
+  gruppoId: string | null,
+  bloccoAllegati = "",
+): Promise<string> {
+  const memoria = await bloccoMemoriaChat(gruppoId);
+  return assembleRichiestaCasella(titolo, contesto, storia, messaggio, memoria, bloccoAllegati);
 }
 
 // Crea il lavoro "su QUESTA casella" per il cervello, legato alla conversazione
@@ -73,13 +84,19 @@ export async function creaLavoroCasella(
   gruppoId: string | null,
   bloccoAllegati = "",
 ): Promise<{ id: string; tipo: string; timeoutMs: number }> {
-  const richiesta = await buildRichiestaCasella(titolo, contesto, storia, messaggio, gruppoId, bloccoAllegati);
-
   const prep = preparaLavoro(messaggio.trim() || "Guarda gli allegati");
-  const post = await fetch("/api/lavori", {
+  const post = await fetch("/api/lavori/casella", {
     method: "POST",
     headers: HEADERS,
-    body: JSON.stringify({ richiesta, tipo: prep.tipo, ...(gruppoId ? { gruppo_id: gruppoId } : {}) }),
+    body: JSON.stringify({
+      titolo,
+      contesto,
+      storia: storia.filter((m) => !m.pending),
+      messaggio: messaggio.trim() || "(nessun testo — vedi allegati)",
+      tipo: prep.tipo,
+      ...(gruppoId ? { gruppo_id: gruppoId } : {}),
+      bloccoAllegati,
+    }),
   })
     .then((r) => r.json())
     .catch(() => null);
