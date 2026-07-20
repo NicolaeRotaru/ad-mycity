@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 02:57",
+  "aggiornato": "2026-07-20 02:59",
+  "_nota_metabolizzazione_20_07_0259": "Chat 20/7 ~02:59: Nicola «50 cose n8n in 10 funzioni performanti» — catalogo 10×5 + priorità. L-368 nuova; L-335 evidenze++ addendum 50×10; preferenza catalogo-50-n8n-10-funzioni; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0257": "Chat 20/7 ~02:56: Nicola «tutte le mani per colosso Piacenza» — catalogo completo mani + ordine priorità. L-367 nuova; L-351 evidenze++ addendum colosso; preferenza catalogo-mani-colosso; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0251": "Chat 20/7 ~02:50: Nicola controllo env duplicati (2 righe, non 3) + «cosa posso fare adesso con n8n». L-366 nuova; L-357 evidenze++ addendum 3→2 righe; preferenza n8n-cosa-fare-adesso; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0247": "Chat 20/7 ~02:47: Nicola «n8n può fare ricerche web per il worker?» — chiarimento architettura: no oggi, worker già cerca, n8n solo cron programmati. L-365 nuova; L-344 evidenze++ addendum ricerca web; preferenza n8n-ricerche-web; STATO+LEZIONI-CHAT+builder esito.",
@@ -86,6 +87,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-368",
+      "testo": "**«50 cose n8n / 10 funzioni performanti» = griglia 10×5 ripetitivo ROI, non ragionamento worker (Nicola 20/7 ~02:59).** Nicola chiede lista ampia strutturata per MyCity. 5 perché: (1) pattern «N cose» + «M funzioni fondamentali» = **griglia numerata** (10 categorie × 5 automazioni = 50), non elenco piatto né tutorial setup; (2) **performanti** = ripetitive che fanno soldi/tempo — social, acquisizione, carrelli, fidelizzazione, negozi, ops, comunicazione, marketing locale, intelligence **programmata** (cron), salute macchina; (3) **non** duplicare cervello worker (L-365) — n8n esegue braccia, worker decide; intelligence in n8n solo sveglie fisse, ricerche ad hoc = chat Worker; (4) ogni uscita verso persone/post = **🔴** card Pannello anche con webhook ok (L-357); (5) chiudere con **ordine priorità** numerato (Telegram→Meta→post test 🔴→carrello→notifica ordine negozio) + CTA «dimmi blocco» per workflow JSON import. Regola: «50 cose n8n» / «10 funzioni» → 10×5 + reminder 🔴 + priorità + offer import. Vedi L-366, L-335, L-365, L-367.",
+      "tag": [
+        "n8n",
+        "catalogo",
+        "workflow",
+        "50x10",
+        "roi",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 02:59",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-367",
       "testo": "**«Tutte le mani per colosso Piacenza» = catalogo 5 blocchi da sensori + ordine priorità (Nicola 20/7 ~02:56).** Nicola chiede inventario completo delle mani per far crescere MyCity localmente. 5 perché: (1) pattern «colosso/crescita/mani» = risposta **strategica operativa**, non teoria — partire da **sensori verificati** (cosa è già acceso) + `cervello/azioni.md`; (2) struttura **5 blocchi:** già accese · gratis alto impatto locale · leve per reparto (clienti/negozi/ops/soldi) · interruttore sicurezza (card 🔴 anche con chiavi) · **ordine consigliato numerato**; (3) post-webhook n8n (L-357) Telegram resta **#1** (59 avvisi bloccati), Meta n8n #2, post test 🔴 #3; (4) **non** confondere «mani possibili» con «mani attive» — distinguere sempre; (5) chiudere con **CTA singola** («facciamo Telegram» / «facciamo Meta») per passo immediato. Regola: «tutte le mani» / «colosso Piacenza» → 5 blocchi + ordine 1→5 + CTA. Vedi L-366, L-351, L-344, azioni.md.",
@@ -840,11 +862,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.9,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 23:33",
+      "ultima_conferma": "2026-07-20 02:59",
       "stato": "attiva",
       "usi": []
     },
@@ -8376,6 +8398,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Catalogo n8n 50×10 — «50 cose in 10 funzioni performanti» = griglia 10 categorie × 5 idee + priorità (chat 20/7 ~02:59):** chiede inventario ampio ma strutturato per MyCity — si aspetta **10 funzioni fondamentali** (social, acquisizione, carrelli, fidelizzazione, negozi, ops, comunicazione, marketing locale, intelligence cron, back-office) con **5 automazioni ciascuna** (50 totali), tutte ripetitive/ROI; reminder **🔴** su messaggi/post; **ordine consigliato** Telegram→Meta→post test→carrello→notifica ordine negozio; chiude con «dimmi blocco» per preparare workflow import. Non tutorial n8n né ricerche web ad hoc (Worker L-365). Vedi L-368, L-366, L-335.",
     "**Catalogo mani colosso Piacenza — «tutte le mani» = inventario completo + ordine priorità (chat 20/7 ~02:56):** chiede quali canali può usare per far crescere MyCity a Piacenza — si aspetta **catalogo strutturato** (già accese vs da accendere, gratis vs 🔴, leve per reparto) con **ordine consigliato numerato** (Telegram → Meta n8n → post test 🔴 → email welcome → WhatsApp negozi), non teoria strategica; reminder interruttore sicurezza (niente esce senza card); chiudere con CTA singola per partire subito. Vedi L-367, L-366, L-351, azioni.md.",
     "**n8n post-webhook — «cosa posso fare adesso?» = catalogo concreto + ordine priorità (chat 20/7 ~02:50):** dopo webhook collegato chiede controllo env (2 righe, 1 segnaposto da cancellare) + cosa può fare con n8n — si aspetta **lista operativa** (FB/IG post, Telegram, lista attesa, cron) con **ordine consigliato** (dedup env → Telegram → Meta → test post 🔴), non spiegazione generica; gruppi FB manuali; ricerche ad hoc restano Worker. Vedi L-366, L-357.",
     "**n8n ricerche web — chiede se n8n può cercare sul web per il worker (chat 20/7 ~02:47):** si aspetta chiarimento architettura — risposta: **no** oggi e **non serve** per chat (worker/cervello già cerca bandi/concorrenti/intelligence); n8n collegato (webhook ok L-357) = braccia per post/avvisi; ricerche **programmate** (cron fisso, es. bandi Comune ogni mattina) = ok n8n come sveglia; ricerche **ad hoc** = scrivi nel Worker, non passa da n8n. Prossimo passo utile: Meta OAuth in n8n. Vedi L-365, L-344.",

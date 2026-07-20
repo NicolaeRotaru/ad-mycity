@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:57
+aggiornato: 2026-07-20 02:59
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~02:59 — CHAT: «50 cose n8n in 10 funzioni performanti» — catalogo 10×5 + priorità (L-368).** Nicola chiede lista ampia automazioni n8n per MyCity divise in **10 funzioni fondamentali** (5 ciascuna = **50 totali**): (1) social FB/IG/GBP, (2) acquisizione clienti, (3) carrelli abbandonati, (4) fidelizzazione, (5) supporto negozi, (6) operations/consegne, (7) Telegram/email/WhatsApp, (8) marketing locale, (9) intelligence **programmata** (cron, non chat — L-365), (10) salute macchina/back-office. Regola: tutto messaggio/post/soldi = **🔴** card Pannello. **Ordine consigliato:** Telegram → Meta n8n → post test 🔴 → carrello abbandonato → notifica ordine negozio (Pane Quotidiano). Prossimo: Nicola sceglie blocco → workflow JSON da importare. Fonte: chat Nicola 20/7 02:59.
 
 > 💬 **20/7 ~02:56 — CHAT: «tutte le mani per colosso Piacenza» — catalogo completo + ordine (L-367).** Nicola chiede **tutte le mani** per far crescere MyCity a Piacenza. AD risponde con inventario strutturato da sensori + `cervello/azioni.md`: **già accese** (REST ordini/negozi, Stripe read, Resend, sito+Pannello, memoria, **n8n webhook ok** L-357, cervello chat/giro/web/Playwright); **gratis alto impatto** (Telegram → **59 avvisi** bloccati, scrittura marketplace, Meta n8n FB pagina+IG feed, GBP, Gemini); **leve reparto** (clienti: email carrelli/win-back/push/social/lista attesa/SEO · negozi: WhatsApp prospect/onboarding/QR · ops: alert ordini · soldi: Stripe write/ads 🔴); **interruttore sicurezza off** — post/messaggi passano card 🔴 anche con chiavi. **Ordine consigliato colosso:** (1) Telegram → (2) Meta n8n → (3) post test 🔴 → (4) email welcome lista attesa → (5) WhatsApp 3 negozi da online. Fonte: chat Nicola 20/7 02:56.
 
