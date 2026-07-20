@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 23:38 · Chat merge PR #507 — Nicola 3 bug UX chat + PR chiusa per sbaglio · atteso: mergeThread dedup + Vercel build + riapri PR · reale: `chat-thread-merge.ts`, import `.ts` rimosso, #507 mergeable · merge 🔴 #507 · #pannello #chat #pr-507 · L-432, L-428
 - 2026-07-20 23:28 · PR #504 conflitto giro.sh post #501+#503 — Nicola «C'è un conflitto» · atteso: rebase + mergeable + north-star+OKR · reale: conflitto `giro.sh` risolto manualmente, commit `5c8dfc7b` mergeable; #501 ✅ mergiata · merge 🔴 #504 · #pr #504 #giro #conflitti · L-429, L-397
 - 2026-07-20 23:23 · PR #501 re-conflitto memoria — Nicola screenshot GitHub · atteso: rebase + mergeable · reale: main avanzato (north-star, memoria) vs branch sentinelle pricing; conflitti risolti → mergeable; codice fix intatto; pattern L-397 (5ª evidenza) · merge 🔴 #501 · #pr #501 #conflitti #sentinelle · L-397
 - 2026-07-20 20:21 · PostHog PR #219 Render — Nicola «fai il fix del residuo opzionale» · atteso: allineare ingest sito US · reale: PR #219 mycity `posthog.tsx`+render.yaml → `us.i.posthog.com`; merge 🔴 Nicola · L-418 · #mycity #posthog #render #pr-219 #esito

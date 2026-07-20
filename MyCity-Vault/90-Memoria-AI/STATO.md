@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 23:32
-fonte: AD digitale (chat 20/7 23:32)
+aggiornato: 2026-07-20 23:38
+fonte: AD digitale (chat 20/7 23:38)
 ---
+
+> 💬 **20/7 ~23:38 — CHAT: Chat allegati duplicati — 3 bug UX + PR #507 (L-432).** Nicola segnala **3 problemi** chat Pannello: (1) **risposta AD doppia** identica (2) allegato senza testo = **due bolle** («nessun testo, vedi allegati» + nome file) (3) **suo messaggio finisce sotto** la risposta. AD: causa = `mergeThreadMsgs` non equivalenza placeholder↔filename + merge copie DB/lavori. **PR #505** consegnata → Vercel rossa (import path **`.ts`**, fix L-428 addendum) → Nicola chiude #505 per sbaglio → **PR #507** riaperta (stesso fix, mergeable). **Serve Nicola:** mergia **#507** → deploy ~2 min → test **solo screenshot** senza testo. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 ~23:38.
 
 > 💬 **20/7 ~23:32 — CHAT: Casella token in audit — «Fai il fix» AR-124 redazione + redattore (L-430).** Nicola «**Fai il fix**» — memoria **bloccata** perché il report auto-radiografia 16/7 conteneva un frammento di PAT GitHub (3×); `scan-segreti` exit 1 → giro non pubblica. AD: redige il report · nuovo **`redattore-segreti.mjs`** (regex condivise con lo scan) · regola «mai il valore del token» in scrittura umana. Verificato locale: **`scan-segreti` → exit 0**. **Serve Nicola:** mergia PR fix → memoria torna pubblicabile; valuta **rotazione PAT** se il token era ancora valido (#ruota-pat-github). Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 23:32.
 
