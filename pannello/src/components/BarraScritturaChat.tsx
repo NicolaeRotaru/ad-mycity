@@ -111,6 +111,16 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
       />
       <AnteprimaAllegatiChat allegati={allegati} onTogli={onTogliAllegato} />
       <div className="flex items-center gap-2 flex-wrap">
+        {fab && onNuovaChat && (
+          <button
+            onClick={onNuovaChat}
+            className="min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
+            aria-label="Nuova chat"
+            title="Nuova chat"
+          >
+            <Plus size={16} />
+          </button>
+        )}
         {!fab && onConversazioni && (
           <button
             onClick={onConversazioni}
@@ -194,15 +204,19 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
             {voceWorker ? <Volume2 size={fab ? 16 : 18} /> : <VolumeX size={fab ? 16 : 18} />}
           </button>
         )}
-        {!fab && onPrompt && (
+        {onPrompt && (
           <button
             onClick={prompt}
             disabled={!bozza.trim()}
-            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 border border-brand/40 text-brand px-3 rounded-xl text-xs font-medium hover:bg-brand-50 active:scale-95 transition disabled:opacity-40 disabled:active:scale-100"
+            className={
+              fab
+                ? "min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-brand/40 text-brand hover:bg-brand/10 transition active:scale-95 disabled:opacity-40 disabled:active:scale-100"
+                : "min-h-[44px] inline-flex items-center justify-center gap-1.5 border border-brand/40 text-brand px-3 rounded-xl text-xs font-medium hover:bg-brand-50 active:scale-95 transition disabled:opacity-40 disabled:active:scale-100"
+            }
             aria-label="Prompt (copia per Max)"
             title="Crea un prompt pronto da incollare in Claude col tuo Max (gratis)"
           >
-            <FileText size={15} /> Prompt
+            {fab ? <FileText size={16} /> : <><FileText size={15} /> Prompt</>}
           </button>
         )}
         <button
