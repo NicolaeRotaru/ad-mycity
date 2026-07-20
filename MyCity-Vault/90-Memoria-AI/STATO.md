@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:51
+aggiornato: 2026-07-20 02:57
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~02:56 — CHAT: «tutte le mani per colosso Piacenza» — catalogo completo + ordine (L-367).** Nicola chiede **tutte le mani** per far crescere MyCity a Piacenza. AD risponde con inventario strutturato da sensori + `cervello/azioni.md`: **già accese** (REST ordini/negozi, Stripe read, Resend, sito+Pannello, memoria, **n8n webhook ok** L-357, cervello chat/giro/web/Playwright); **gratis alto impatto** (Telegram → **59 avvisi** bloccati, scrittura marketplace, Meta n8n FB pagina+IG feed, GBP, Gemini); **leve reparto** (clienti: email carrelli/win-back/push/social/lista attesa/SEO · negozi: WhatsApp prospect/onboarding/QR · ops: alert ordini · soldi: Stripe write/ads 🔴); **interruttore sicurezza off** — post/messaggi passano card 🔴 anche con chiavi. **Ordine consigliato colosso:** (1) Telegram → (2) Meta n8n → (3) post test 🔴 → (4) email welcome lista attesa → (5) WhatsApp 3 negozi da online. Fonte: chat Nicola 20/7 02:56.
 
 > 💬 **20/7 ~02:50 — CHAT: n8n webhook ok — env 2 righe (1 segnaposto); catalogo «cosa fare adesso» (L-366).** Nicola chiede controllo duplicati `N8N_WEBHOOK_URL` + cosa può fare con n8n ora: **2 righe** (1 segnaposto in cima + 1 reale) — **non più 3**; worker **ok** (ultima riga); cancellare ultimo segnaposto. **Con webhook ok, n8n può:** pub **FB pagina + IG feed** (serve Meta OAuth in n8n, post 🔴 card); **Telegram** avvisi/errori (5 min, sblocca **59** avvisi); **lista attesa** (2° workflow da importare); **promemoria cron** solo ripetitivi (ricerche ad hoc = Worker). **Gruppi FB manuali.** **Ordine consigliato:** (1) dedup env → (2) Telegram → (3) Meta n8n → (4) post test 🔴. Fonte: chat Nicola 20/7 02:50.
 

@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 02:51",
+  "aggiornato": "2026-07-20 02:57",
+  "_nota_metabolizzazione_20_07_0257": "Chat 20/7 ~02:56: Nicola «tutte le mani per colosso Piacenza» — catalogo completo mani + ordine priorità. L-367 nuova; L-351 evidenze++ addendum colosso; preferenza catalogo-mani-colosso; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0251": "Chat 20/7 ~02:50: Nicola controllo env duplicati (2 righe, non 3) + «cosa posso fare adesso con n8n». L-366 nuova; L-357 evidenze++ addendum 3→2 righe; preferenza n8n-cosa-fare-adesso; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0247": "Chat 20/7 ~02:47: Nicola «n8n può fare ricerche web per il worker?» — chiarimento architettura: no oggi, worker già cerca, n8n solo cron programmati. L-365 nuova; L-344 evidenze++ addendum ricerca web; preferenza n8n-ricerche-web; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0246": "Chat 20/7 ~02:46: Nicola tre fix post-#492 — ☰ accanto + in chat grande (no icone alto), menu navbar non apriva, barra alta popup FAB. L-364 nuova (caso_studio_nicola); L-363 evidenze++ addendum placement; preferenza worker-controlli-superficie; #210 PR #493 accodata; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
@@ -85,6 +86,29 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-367",
+      "testo": "**«Tutte le mani per colosso Piacenza» = catalogo 5 blocchi da sensori + ordine priorità (Nicola 20/7 ~02:56).** Nicola chiede inventario completo delle mani per far crescere MyCity localmente. 5 perché: (1) pattern «colosso/crescita/mani» = risposta **strategica operativa**, non teoria — partire da **sensori verificati** (cosa è già acceso) + `cervello/azioni.md`; (2) struttura **5 blocchi:** già accese · gratis alto impatto locale · leve per reparto (clienti/negozi/ops/soldi) · interruttore sicurezza (card 🔴 anche con chiavi) · **ordine consigliato numerato**; (3) post-webhook n8n (L-357) Telegram resta **#1** (59 avvisi bloccati), Meta n8n #2, post test 🔴 #3; (4) **non** confondere «mani possibili» con «mani attive» — distinguere sempre; (5) chiudere con **CTA singola** («facciamo Telegram» / «facciamo Meta») per passo immediato. Regola: «tutte le mani» / «colosso Piacenza» → 5 blocchi + ordine 1→5 + CTA. Vedi L-366, L-351, L-344, azioni.md.",
+      "tag": [
+        "mani",
+        "crescita",
+        "colosso",
+        "piacenza",
+        "telegram",
+        "n8n",
+        "catalogo",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 02:57",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-364",
       "testo": "**Worker UX — posizione controlli per superficie: ☰ accanto a + in grande, barra alta solo popup (Nicola 20/7 ~02:46).** Dopo #492 (tre superfici), Nicola corregge **dove** stanno i controlli: (1) **chat grande** (voce menu Worker) — ☰ elenco conv **accanto a «+ Nuova» in toolbar bassa**, **non** in navbar/header («ancora non posso aprire il menu» = toggle non collegato lì); **zero** icone ingrandisci/chiudi in alto sulla grande; chiudi = tap fuori dal riquadro o di nuovo voce Worker; (2) **popup piccolo** (FAB basso-destra) — **barra alta** con ☰ + ingrandisci + chiudi (estetica chiudi riquadro), non tre icone fluttuanti nel vuoto; (3) errore AD = replicare header popup sulla chat grande o lasciare ☰ solo in navbar non funzionante. Regola: **grande** = controlli conv in **basso** (☰ + +), header pulito · **piccolo** = barra **alta** completa. Fix PR **#493** (`e1ed67d9`), merge 🔴 #210. Vedi L-363.",
@@ -450,11 +474,11 @@
       ],
       "reparto": "@devops-sre",
       "confidenza": 0.88,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 01:29",
+      "ultima_conferma": "2026-07-20 02:57",
       "stato": "attiva",
       "usi": []
     },
@@ -8352,6 +8376,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Catalogo mani colosso Piacenza — «tutte le mani» = inventario completo + ordine priorità (chat 20/7 ~02:56):** chiede quali canali può usare per far crescere MyCity a Piacenza — si aspetta **catalogo strutturato** (già accese vs da accendere, gratis vs 🔴, leve per reparto) con **ordine consigliato numerato** (Telegram → Meta n8n → post test 🔴 → email welcome → WhatsApp negozi), non teoria strategica; reminder interruttore sicurezza (niente esce senza card); chiudere con CTA singola per partire subito. Vedi L-367, L-366, L-351, azioni.md.",
     "**n8n post-webhook — «cosa posso fare adesso?» = catalogo concreto + ordine priorità (chat 20/7 ~02:50):** dopo webhook collegato chiede controllo env (2 righe, 1 segnaposto da cancellare) + cosa può fare con n8n — si aspetta **lista operativa** (FB/IG post, Telegram, lista attesa, cron) con **ordine consigliato** (dedup env → Telegram → Meta → test post 🔴), non spiegazione generica; gruppi FB manuali; ricerche ad hoc restano Worker. Vedi L-366, L-357.",
     "**n8n ricerche web — chiede se n8n può cercare sul web per il worker (chat 20/7 ~02:47):** si aspetta chiarimento architettura — risposta: **no** oggi e **non serve** per chat (worker/cervello già cerca bandi/concorrenti/intelligence); n8n collegato (webhook ok L-357) = braccia per post/avvisi; ricerche **programmate** (cron fisso, es. bandi Comune ogni mattina) = ok n8n come sveglia; ricerche **ad hoc** = scrivi nel Worker, non passa da n8n. Prossimo passo utile: Meta OAuth in n8n. Vedi L-365, L-344.",
     "**Worker controlli per superficie — ☰ accanto a + in grande, barra alta solo popup (chat 20/7 ~02:46):** post-#492 chiede (1) **chat grande** — icona ☰ elenco conv **accanto a «+ Nuova» in barra bassa**, **niente** ingrandisci/chiudi in alto; menu navbar non deve essere l’unico toggle (deve funzionare in basso); chiudi grande = tap fuori o voce Worker; (2) **popup FAB** — **barra alta** con ☰ + ingrandisci + chiudi (estetica chiudi riquadro). Fix **PR #493** — merge 🔴 #210, poi Ctrl+F5. Vedi L-364, L-363.",
@@ -8655,13 +8680,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 380,
+    "lezioni_attive": 383,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.2,
-    "tasso_calcolato_il": "2026-07-20 02:46",
+    "tasso_calcolato_il": "2026-07-20 02:56",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 02:46",
+    "tick_leggero_il": "2026-07-20 02:56",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
