@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 20:16
+aggiornato: 2026-07-20 20:18
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~20:18 — CHAT: PostHog residuo Render — tracking sito allineato US (PR #219).** Nicola «**fai il fix del residuo opzionale**» — host ingest marketplace era default **EU** (`eu.i.posthog.com`) mentre account/VPS/Pannello **US**. **PR #219** (mycity): default codice + `render.yaml` → `https://us.i.posthog.com`. **Serve Nicola:** mergia **#219** → deploy Render ~5 min; se su Render dashboard c’era `NEXT_PUBLIC_POSTHOG_HOST` con `.eu`, sostituisci o elimina (codice usa US). Fonte: chat Nicola 20/7 20:18 + `marketplace/lib/analytics/posthog.tsx`.
 
 > 💬 **20/7 ~20:16 — CHAT: PostHog RISOLTO anche sul Pannello — Radiografia verde (L-415 chiuso).** Nicola «**ok è diventato verde**» — AD verifica live **20:16**: VPS sensore **ok** · Pannello `/api/diagnosi` **verde** «visite tracciate». Setup completo: account **US**, host `https://us.posthog.com`, project **495230**, chiave personale `phx_` su VPS + Vercel Production. **Residuo opzionale:** allineare host tracking **Render** (sito) se ancora EU. Fonte: chat Nicola 20/7 20:16 + GET diagnosi 20:16 + verifica-sensori 20:16.
 
