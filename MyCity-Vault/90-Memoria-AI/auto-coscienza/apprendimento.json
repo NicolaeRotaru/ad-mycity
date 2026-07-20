@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 23:18",
+  "aggiornato": "2026-07-20 23:20",
+  "_nota_metabolizzazione_20_07_2320": "Chat 20/7 ~23:20: Nicola «Fai il fix» AR-115 OKR stantio — PR #504 freschezza-okr.mjs gate HARD giro. L-427 nuova; L-426+L-428 (23:18/18:52) completate in apprendimento; preferenze okr-freschezza-gate + north-star-gate-hard + vercel-build-non-conflitti; STATO+DECISIONI+LEZIONI-CHAT+ad+chief-of-staff+frontend-dev esito; merge #504+#503 🔴 pendente Nicola.",
   "_nota_giro_20_07_2022": "Giro 20/7 20:22: coerenza-fatti pricing bonificata (48 file, exit 0). Lezione: esenzioni registro per contratti PQ eccezione 12%/0€. CHECKLIST rigenerata AR-030. North Star focus ordine test PQ.",
   "_nota_metabolizzazione_20_07_2200": "Chat 20/7 ~22:00: Nicola «come si applicano i 5 pilastri» — L-425 nuova; L-424 evidenze++ addendum trigger→azione→misura; preferenza pilastri-applicazione-concreta; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_2157": "Chat 20/7 ~21:57: Nicola correzione «non guardare cosa c'è — gap mercato non collegato» — L-424 caso_studio_nicola; L-423+L-421+L-370 evidenze++ addendum gap mercato; preferenza gap-mercato-non-inventario; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
@@ -148,6 +149,72 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-428",
+      "testo": "**Vercel build — «non hai risolto vercel» = conflitti Git risolti ≠ build ok; API route mai React (Nicola 20/7 ~18:52).** Dopo PR **#499** (fix Parla casella PGRST102) Nicola corregge: conflitti memoria risolti, branch **mergeable**, ma **Vercel build rossa**. 5 perché: (1) AD dichiarava fix chiuso al rebase conflitti — **non** aveva letto log Vercel; (2) causa build: import **React/UI** (`page.tsx` / componenti client) dentro route **API** server; (3) Next/Vercel compila API come server-only — React in bundle server = **fail**; (4) fix = estrarre logica in modulo **server-safe** (sanitize JSON, build payload) senza import client; (5) **regola:** su fix Pannello «fai il fix» → dopo conflitti Git verificare **typecheck + build Vercel** prima di «pronto»; pattern L-397 (conflitti memoria ricorrenti) **non** sostituisce check build. Correlazione L-400 (PGRST102), P2 (`|| true` / gate decorativo).",
+      "tag": [
+        "vercel",
+        "build",
+        "pannello",
+        "api-route",
+        "server-safe",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 18:52",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
+      "id": "L-2026-0720-427",
+      "testo": "**OKR stantio AR-115 — `freschezza-okr.mjs` gate HARD nel giro, come checklist Nicola (Nicola 20/7 ~23:20).** Casella: `OKR-Squadra.md` fermo dal **24/6**, target «1° ordine entro **27/6**» scaduto, unico file-cardine priorità **senza** guardiano freschezza (checklist AR-030 sì, OKR no). 5 perché: (1) OKR definisce «cosa è prioritario» ma nessuno lo riscrive; (2) guardiani nati solo da incidenti visibili (checklist stantia → AR-030); (3) OKR non ha mai bloccato il giro → invisibile; (4) fix = **`freschezza-okr.mjs`**: date target passate · doc >**7** gg senza `aggiornato:` · riferimenti faro obsoleti (Garetti, Casa Linda) → exit 1 + vincolo HARD in `giro.sh`; (5) dopo merge **PR #504** prossimo giro **obbliga** riscrittura OKR fase 0→1 / faro Pane Quotidiano / North Star primo ordine vero — non target giugno. Verificato oggi exit 1. Regola: file-cardine priorità (OKR, piani) = stesso perimetro gate freschezza checklist. Vedi AR-030, P4 (faro cambia → riscrivi OKR).",
+      "tag": [
+        "okr",
+        "freschezza",
+        "giro",
+        "gate-hard",
+        "AR-115",
+        "chief-of-staff",
+        "nicola"
+      ],
+      "reparto": "@chief-of-staff",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 23:20",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
+      "id": "L-2026-0720-426",
+      "testo": "**North Star soft AR-113 — gate HARD allocazione + allinea nome variabile al cantiere (Nicola 20/7 ~23:18).** Casella: controllo «primo ordine reale» unico guardiano **soft** mentre coerenza interna è hard. Doppia causa radice: (1) `north-star-check.mjs` in `giro.sh` con **`|| true`** → exit ignorato, controllo decorativo (P2); (2) codice esportava `NORTH_VINCOLO` ma `cantiere-difetti.json` verifica **`NORTH_STAR_VINCOLO`** → fix a metà, casella resta rossa. Fix **PR #503**: rinomina variabile allineata + soglia stallo **>3 giorni** senza ordini pagati → gate **HARD allocazione** (giro produce solo azioni verso 1° incasso). Verificato: `node cervello/north-star-check.mjs --gate` → exit 1 (~26 gg stallo). Regola: promuovere guardiano soft→hard = (a) togliere `|| true`, (b) **pattern verifica cantiere = simbolo codice**, (c) test exit code esplicito. Card coda **#214** merge **#503**. Vedi AR-111, L-413 (registro vs casella).",
+      "tag": [
+        "north-star",
+        "gate-hard",
+        "allocazione",
+        "AR-113",
+        "cantiere",
+        "giro",
+        "nicola"
+      ],
+      "reparto": "@ad",
+      "confidenza": 0.91,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 23:18",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-425",
       "testo": "**«Come si applicano i 5 pilastri?» = trigger→azione→misura + oggi vs dopo, non teoria (Nicola 20/7 ~22:00).** Follow-up L-424: Nicola «**mostrami in che modo si possono applicare: sensori proattivi, visione, previsione, automazione chiusa e sperimentazione continua**». 5 perché: (1) «come si applica» ≠ ripetere gap mercato abstract — vuole **esempi operativi MyCity**; (2) ogni pilastro = **trigger → azione → misura** (carrello 1h→email; negozio 7gg→check-in; bando 5gg→Telegram; foto→schede; meteo→post+rider; welcome chiusa; A/B soglia spedizione); (3) contrasto **oggi vs dopo** obbligatorio («oggi: niente/aspetti report · dopo: parte da solo»); (4) frame: oggi metà sinistra (leggo dati, scrivo bozze), manca collegamento destro (automatizza, misura, impara); (5) chiude con **2 ROI veloci** già in L-424: carrello abbandonato + catalogo foto PQ. Regola: «come si applica/applicare [pilastri/capacità]» → 1 esempio concreto per pilastro con trigger→azione→misura, zero elenco feature. Vedi L-424, L-333, workflow n.11 n8n.",
@@ -9672,6 +9739,9 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**OKR stantio — «Fai il fix» AR-115 = gate HARD giro + PR #504, poi OKR riscritti (chat 20/7 ~23:20):** casella OKR-Squadra morto dal 24/6 — si aspetta guardiano freschezza come checklist (date scadute, doc >7 gg, faro obsoleto) che **blocchi** il giro finché OKR non aggiornati per fase PQ/primo ordine; merge **#504** → link chat (**no card** L-402). Vedi L-427, AR-030.",
+    "**North Star soft — «Fai il fix» AR-113 = gate HARD allocazione + PR #503 (chat 20/7 ~23:18):** promuovere controllo primo ordine da avviso a **vincolo** che limita lavoro macchina a mosse verso 1° incasso; fix deve chiudere casella Radiografia (naming variabile + no `|| true`). Card **#214** merge **#503**. Vedi L-426.",
+    "**Vercel build — «non hai risolto vercel» dopo conflitti PR = verifica build, non solo mergeable (chat 20/7 ~18:52):** corregge AD che chiudeva **#499** al rebase conflitti memoria — si aspetta controllo **log Vercel** e fix **server-safe** (no React in API route) prima di «pronto»; conflitti Git risolti **≠** deploy ok. Vedi L-428, L-397.",
     "**5 pilastri applicati — «come si applicano» = trigger→azione→misura + oggi vs dopo (chat 20/7 ~22:00):** follow-up L-424 — chiede **applicazione concreta** dei 5 pilastri (sensori proattivi, visione, previsione, automazione chiusa, sperimentazione continua), **non** teoria né elenco capacità; si aspetta 1 esempio MyCity per pilastro con trigger→azione→misura + contrasto oggi/dopo; chiude con 2 ROI veloci (carrello abbandonato + catalogo foto PQ). Vedi L-425, L-424.",
     "**Gap mercato — «non guardare cosa c'è» = buchi sul mercato non collegati (chat 20/7 ~21:57):** corregge L-421/L-423 — **non** elencare stato interno (mani, giro, eccezioni); guardare **cosa manca** e **cosa esiste fuori ma non usiamo** (visione foto→catalogo, forecast proattivo, ops live, A/B PostHog, scraping bandi/concorrenti); chiude con **2 priorità ROI:** catalogo da foto + carrello abbandonato automatico (4 buyer già iscritti). Vedi L-424, L-423, L-421, L-370.",
     "**Versione autopilota eccezioni-only — terzo salto visione (chat 20/7 ~21:54):** dopo checklist L-422 chiede ancora «**versione in cui sa e può fare molto di più**» **senza** «salva in bacheca» — si aspetta frame **«gestisci solo eccezioni»** (AD tiene Piacenza, Nicola firma soldi/legale/visione): autopilota Telegram 3+1, intervento proattivo città, catene 120 senior, auto-apprendimento, replica città post-PQ; **non** solo ripetere L4 checklist; chiude opzionale «scegli una catena da automatizzare». Vedi L-423, L-421, L-422.",

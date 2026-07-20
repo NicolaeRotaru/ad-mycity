@@ -9,4 +9,4 @@ bootstrap: 2026-07-14 02:31
 > Formato: AAAA-MM-GG · contesto · scorecard 6 assi · atteso→reale · #tag
 
 ## Esiti
-- (ancora vuoto — il primo ESITO si registra con: node cervello/chiusura-loop.mjs registra chief-of-staff "…" "…" "…" "…")
+- 2026-07-20 23:20 · AR-115 OKR freschezza gate · atteso: PR #504 + vincolo giro · reale: freschezza-okr.mjs exit 1 oggi, merge 🔴 pendente Nicola · L-427 · #okr #gate-hard #esito

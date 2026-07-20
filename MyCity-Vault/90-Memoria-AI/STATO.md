@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 23:18
-fonte: AD digitale (chat 20/7 23:18)
+aggiornato: 2026-07-20 23:20
+fonte: AD digitale (chat 20/7 23:20)
 ---
+
+> 💬 **20/7 ~23:20 — CHAT: Casella OKR stantio — «Fai il fix» AR-115 gate hard freschezza (L-427).** Nicola «**Fai il fix**» su casella **OKR-Squadra morto dal 24/6** (target «1° ordine entro 27/6» scaduto, doc fermo >26 gg). AD: nuovo **`freschezza-okr.mjs`** (stesso pattern checklist AR-030) — rileva date passate, doc >**7** gg senza `aggiornato:`, riferimenti faro obsoleti (Garetti/Casa Linda) → **vincolo HARD** in `giro.sh` (exit 1, giro non chiude finché OKR non riscritto per fase 0→1 / faro PQ / North Star primo ordine vero). Verificato: `node cervello/freschezza-okr.mjs` → exit 1 oggi. **PR #504** (`fix/freschezza-okr-AR115`, commit `9d11a125`). **Serve Nicola:** mergia **#504** → al prossimo giro la macchina **obbliga** aggiornamento `OKR-Squadra.md` con target reali. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 23:20.
+
+> 💬 **20/7 ~18:52 — CHAT: Correzione Vercel PR #499 — conflitti risolti ≠ build ok (L-428).** Nicola «**non hai risolto il problema di vercel**» dopo rebase conflitti memoria su **#499** — mergeable GitHub ma **build Vercel rossa**. Causa: fix Parla casella importava codice **React** dentro route **API** server. AD separa modulo **server-safe** + verifica typecheck/build locale. Regola: su fix Pannello verificare **sempre** build Vercel, non solo conflitti Git. Fonte: chat Nicola 20/7 ~18:52.
 
 > 💬 **20/7 ~23:18 — CHAT: Casella North Star soft — «Fai il fix» AR-113 gate hard allocazione (L-426).** Nicola «**Fai il fix**» — promuovere controllo **primo ordine reale** da soft a vincolo **HARD di allocazione**. Causa doppia: (1) `north-star-check.mjs` girava con `|| true` (decorativo); (2) codice usava `NORTH_VINCOLO` ma cantiere verifica cercava `NORTH_STAR_VINCOLO` → casella restava rossa a metà fix. **PR #503** (`fix/north-star-gate-hard-AR113`, commit `8b436997`): rinomina variabile + soglia stallo **>3 giorni** senza ordini pagati (oggi ~**26 giorni** / ~636h da STATO) → giro produce **solo** azioni verso 1° incasso (lavoro macchina solo se sblocca card business). Verificato: `node cervello/north-star-check.mjs --gate` → exit 1. **Serve Nicola:** mergia **#503** → refresh Radiografia (casella sparisce). Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 23:18.
 
