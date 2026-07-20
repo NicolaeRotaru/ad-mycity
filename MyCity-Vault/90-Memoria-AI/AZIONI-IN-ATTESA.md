@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-20 18:00** — Manuale (Nicola «togli card merge obsolete», L-402): **41 aperte · 96 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-20 18:20** — Automatico: **48 aperte · 96 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -1193,7 +1193,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-20 16:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-20 18:20)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-20-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1240,14 +1240,36 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 > Ultima pulizia: 2026-07-20 18:00 · 96 card totali
 
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-20 18:20 · 96 card totali
+
 ### ❌ #fix-parla-casella-pgrst102 — RIMOSSA 2026-07-20 18:00 · L-402 (Nicola «togli card merge obsolete»)
 Card merge PR #499 — ordine chat «fai il fix». Link PR consegnato in chat; mergia da GitHub quando vuoi.
 
+---
+
 ### ❌ #mergia-pr-480 — RIMOSSA 2026-07-20 18:00 · L-402
+
+---
+
 ### ❌ #arsenale-tab — RIMOSSA 2026-07-20 18:00 · L-402
+
+---
+
 ### ❌ #mergia-pr-446 — RIMOSSA 2026-07-20 18:00 · L-402
+
+---
+
 ### ❌ #mergia-pr-443 — RIMOSSA 2026-07-20 18:00 · L-402
+
+---
+
 ### ❌ #mergia-pr-450 — RIMOSSA 2026-07-20 18:00 · L-402
+
+---
 
 ### ✅ #mergia-pr-496 — FATTO 2026-07-20 17:50 · PR #496 mergiata da Nicola (GitHub 17:44:45)
 

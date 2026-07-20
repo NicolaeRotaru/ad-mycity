@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 18:16",
+  "aggiornato": "2026-07-20 18:20",
   "_nota_metabolizzazione_20_07_1801": "Chat 20/7 ~18:00: Nicola «togli card merge obsolete» — AD rimuove 6 card Mergia PR (#499·#480·#464·#446·#443·#450), coda 47→41. L-403 nuova; L-402 evidenze++ addendum pulizia; preferenza pulizia-card-merge-obsolete; DECISIONI+LEZIONI-CHAT+ad esito; STATO+AZIONI già 18:00.",
   "_nota_metabolizzazione_20_07_1759": "Chat 20/7 ~17:58: Nicola «coda Approva solo iniziativa AD; chat fai fix/crea PR = link, no card» — L-402 nuova (caso_studio_nicola); L-0701-31 evidenze++ addendum eccezione chat; preferenza coda-solo-iniziativa-ad; STATO+DECISIONI+LEZIONI-CHAT+ad esito.",
   "_nota_metabolizzazione_20_07_1756": "Chat 20/7 ~17:54: Nicola casella Supervisione «elimina tutti tranne pane quotidiano» — AD accoda #elimina-negozi-demo 🔴 (17→1 negozio, 253 prod demo). L-401 nuova; preferenza pulizia-catalogo-demo; STATO+DECISIONI+#elimina-negozi-demo già 17:54; LEZIONI-CHAT+operations esito.",
@@ -9527,7 +9527,7 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-20 18:16",
+    "tasso_calcolato_il": "2026-07-20 18:20",
     "tasso_finestra_giorni": 30,
     "tick_leggero_il": "2026-07-20 18:16",
     "usi_marcati_il": "2026-07-17 07:00",
