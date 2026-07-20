@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:14
+aggiornato: 2026-07-20 03:16
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:16 — CHAT: RSS bandi Comune — sveglia n8n, 403 worker, workflow non attivo (L-374).** Nicola chiede chiarimento su automazione catalogo «**RSS Comune/bandi** → controlla portali istituzionali e manda riassunto». AD: **Schedule cron** (es. 7:00) + nodi **RSS Read** (news/bandi Comune, CCIAA Emilia, CNA/Vita in Centro) + filtro AI (5 righe max) → **Telegram** (bot mancante, **59** avvisi) o webhook worker (ok L-357). **Perché n8n:** portale Comune **403** su fetch diretto VPS worker — n8n Docker legge feed RSS. **Stato:** workflow RSS **non ancora acceso** in n8n. **Oggi:** 🔴 **PI26** sportello **10:00**, scadenza **30/7** — card già in coda. Invio domande bandi = **🔴**, RSS solo avvisa. CTA: «accendi RSS bandi» (guida nodo per nodo) / «prima Telegram». Fonte: chat Nicola 20/7 03:16.
 
 > 💬 **20/7 ~03:14 — CHAT: «20 mani n8n che servono per MyCity» — catalogo integrazioni + priorità (L-373).** Nicola chiede **20 mani** collegabili via n8n utili per MyCity. AD risponde con elenco **20 integrazioni/canali** (Telegram, FB pagina, IG feed, Resend email, API marketplace, Google Sheets/Forms/GBP/Drive/Calendar, cron, RSS bandi, OpenWeather, WhatsApp, Stripe read, Gemini, Twilio SMS, webhook worker, Supabase read, Slack/Discord opzionale) — **ordinate per impatto**, non griglia 10×5 (L-368) né catalogo generale mani (L-367). Regola: messaggi/post/soldi = **🔴** card anche con webhook ok. **Ordine consigliato:** Telegram (**59** avvisi senza bot) → Meta FB+IG → post test 🔴 → email welcome → notifica ordine negozio. CTA: Nicola sceglie blocco (es. «Telegram» / «Meta») per guida passo passo. Fonte: chat Nicola 20/7 03:14.
 

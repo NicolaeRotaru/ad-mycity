@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:14",
+  "aggiornato": "2026-07-20 03:16",
+  "_nota_metabolizzazione_20_07_0316": "Chat 20/7 ~03:16: Nicola chiarimento «RSS Comune/bandi → riassunto portali istituzionali» — sveglia cron n8n, 403 worker, workflow non attivo. L-374 nuova; L-365 evidenze++ addendum RSS 403; preferenza rss-bandi-comune; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0314": "Chat 20/7 ~03:14: Nicola «20 mani n8n che servono per MyCity» — catalogo 20 integrazioni per impatto. L-373 nuova; L-366 evidenze++ addendum 20 mani; preferenza catalogo-20-mani-n8n; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0312": "Chat 20/7 ~03:12: Nicola «perché Vercel ci impiega così tanto ad inizializzare una fix?» + screenshot GitHub Outage — analisi pipeline deploy. L-372 nuova; L-361 evidenze++ addendum Initializing; L-371 merge #494; preferenza vercel-perche-lento; #211 FATTO; STATO+DECISIONI+LEZIONI-CHAT+devops-sre aggiornati.",
   "_nota_metabolizzazione_20_07_0309": "Chat 20/7 ~03:09: Nicola «il menu in alto» — conferma quale ☰ dopo L-369; AD PR #494 z-index navbar sopra chat. L-371 nuova; L-369 evidenze++ addendum conferma+fix; preferenza worker-menu-in-alto; STATO+DECISIONI+#211+LEZIONI-CHAT+frontend-dev aggiornati.",
@@ -92,6 +93,29 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-374",
+      "testo": "**RSS bandi Comune via n8n — sveglia cron, 403 worker, workflow non attivo (Nicola 20/7 ~03:16).** Nicola chiede chiarimento su voce catalogo «RSS Comune/bandi → riassunto portali istituzionali». 5 perché: (1) pattern «spiega voce catalogo n8n» = **cosa fa + perché n8n + stato oggi + passi setup + CTA** — non ripetere solo elenco; (2) **RSS bandi** = Schedule cron (es. 7:00) + nodi RSS Read (Comune news/bandi, CCIAA Emilia, CNA/Vita in Centro) + filtro AI (5 righe max) → Telegram o webhook worker; (3) **perché n8n e non worker in chat:** sito Comune **blocca fetch diretto dal VPS worker (403)** — n8n legge feed da rete Docker; **non** promettere workflow già attivo — **oggi non c'è**; (4) contattare negozi o **inviare domande bandi** = **🔴** card — RSS **solo avvisa** con riassunto; (5) delivery ideale **Telegram** (bot mancante, **59** avvisi) — CTA «accendi RSS bandi» / «prima Telegram». Regola: «RSS Comune/bandi» → sveglia + motivo 403 + non attivo + setup 5 passi + 🔴 domande. Vedi L-365, L-373, L-370.",
+      "tag": [
+        "n8n",
+        "rss",
+        "bandi",
+        "comune",
+        "403",
+        "intelligence",
+        "telegram",
+        "cron"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:16",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-373",
       "testo": "**«20 mani n8n per MyCity» = 20 integrazioni/canali per impatto, non automazioni 10×5 (Nicola 20/7 ~03:14).** Nicola «dimmi 20 mani che può usare n8n che servono per mycity». 5 perché: (1) pattern «N mani n8n» = elenco **numerato di connettori/integrazioni** (Telegram, Meta FB+IG, Resend, API marketplace, Google suite, cron, RSS, meteo, WhatsApp, Stripe read, Gemini, Twilio, webhook worker, Supabase read…) — **non** griglia 10×5 automazioni (L-368) né catalogo mani generale 5 blocchi (L-367); (2) **ordinate per impatto** MyCity (Telegram #1 = 59 avvisi bloccati senza bot); (3) ogni uscita verso persone/post/soldi = **🔴** card Pannello anche con webhook ok (L-357); (4) **ordine consigliato:** Telegram → Meta FB+IG → post test 🔴 → email welcome → notifica ordine negozio; (5) chiudere con CTA «dimmi blocco» (Telegram/Meta) per guida passo passo — non tutorial setup generico. Regola: «20 mani n8n» → 20 integrazioni per impatto + 🔴 + ordine 1→5 + CTA blocco. Vedi L-368, L-366, L-367.",
@@ -299,7 +323,7 @@
     },
     {
       "id": "L-2026-0720-365",
-      "testo": "**n8n ricerche web — NO per worker chat; worker già cerca; n8n solo sveglie programmate (Nicola 20/7 ~02:47).** Nicola «n8n può fare le ricerche sul web per il worker?». 5 perché: (1) oggi n8n **non** fa ricerche web per il worker — workflow importati = braccia (post FB/IG, avvisi Telegram); (2) **worker/cervello** già cerca sul web in chat (concorrenti, bandi Comune, intelligence, eventi); (3) n8n *potrebbe* con nodi Tavily/SerpAPI ma sarebbe **duplicato e più lento** rispetto al cervello; (4) ha senso n8n per ricerche **programmate fisse** (es. «ogni mattina alle 8 controlla bandi Comune → Telegram») — n8n = sveglia/cron, worker elabora il risultato; (5) ricerche **ad hoc in chat** = scrivi nel Worker, **non** passa da n8n. Regola: «n8n fa ricerche web?» → no oggi, non serve per chat; sì solo cron programmato. Prossimo utile: Meta OAuth n8n (webhook già ok L-357). Vedi L-344, L-357.",
+      "testo": "**n8n ricerche web — NO per worker chat; worker già cerca; n8n solo sveglie programmate (Nicola 20/7 ~02:47, agg. 03:16).** Nicola «n8n può fare le ricerche sul web per il worker?». 5 perché: (1) oggi n8n **non** fa ricerche web per il worker — workflow importati = braccia (post FB/IG, avvisi Telegram); (2) **worker/cervello** già cerca sul web in chat (concorrenti, bandi Comune, intelligence, eventi); (3) n8n *potrebbe* con nodi Tavily/SerpAPI ma sarebbe **duplicato e più lento** rispetto al cervello; (4) ha senso n8n per ricerche **programmate fisse** (es. «ogni mattina alle 8 controlla bandi Comune → Telegram») — n8n = sveglia/cron, worker elabora il risultato; (5) ricerche **ad hoc in chat** = scrivi nel Worker, **non** passa da n8n. Regola: «n8n fa ricerche web?» → no oggi, non serve per chat; sì solo cron programmato. Prossimo utile: Meta OAuth n8n (webhook già ok L-357). **ADDENDUM 03:16 (L-374):** caso concreto **RSS bandi Comune** — fetch diretto dal VPS worker → **403** portale Comune; n8n Schedule+RSS Read = caso d'uso giusto; workflow **non ancora acceso**; riassunto ≠ invio domanda bando (**🔴**). Vedi L-344, L-357, L-374.",
       "tag": [
         "n8n",
         "worker",
@@ -310,12 +334,12 @@
         "nicola"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.9,
-      "evidenze": 1,
+      "confidenza": 0.91,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 02:47",
+      "ultima_conferma": "2026-07-20 03:16",
       "stato": "attiva",
       "usi": []
     },
@@ -8516,6 +8540,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**RSS bandi Comune — chiarimento voce catalogo n8n = cosa fa + perché n8n + stato + setup + CTA (chat 20/7 ~03:16):** quando chiede «RSS Comune/bandi → riassunto portali istituzionali» si aspetta spiegazione **operativa** — sveglia cron (Schedule 7:00), fonti (Comune, CCIAA, CNA/Vita in Centro), filtro 5 righe, motivo tecnico (**403** fetch worker vs n8n Docker), stato **workflow non attivo**, delivery Telegram (59 avvisi) o webhook worker; domande bandi = **🔴**; chiude «accendi RSS bandi» / «prima Telegram». Vedi L-374, L-365, L-370.",
     "**Catalogo 20 mani n8n — «20 mani che può usare n8n per MyCity» = integrazioni per impatto, non 50×10 (chat 20/7 ~03:14):** chiede elenco **focalizzato n8n** — si aspetta **20 connettori/canali** numerati e **ordinati per impatto** (Telegram, Meta, email, marketplace API, Google, cron, RSS, meteo, WhatsApp, Stripe read, Gemini…), distinto da griglia **50 automazioni × 10 funzioni** (L-368) e da catalogo mani generale (L-367); reminder **🔴** su messaggi/post; **ordine:** Telegram (59 avvisi) → Meta → post test → email welcome → notifica ordine; chiude «dimmi blocco» per setup guidato. Vedi L-373, L-366, L-368.",
     "**Vercel lento/Initializing — «perché ci impiega così tanto?» = analisi profonda pipeline, non «aspetta 2 min» (chat 20/7 ~03:12):** chiede spiegazione quando deploy sembra bloccato — si aspetta diagnosi **causa→effetto** (GitHub outage vs build, preview branch vs Production, catena merge→Action→Deploy Hook, N fix in fila stasera), tempi **misurati** se build parte (45–53 s), e cosa fare adesso (attendi GitHub → deploy Production verde → Ctrl+F5); **non** risposta generica «Vercel impiega ~2 min». Vedi L-372, L-361.",
     "**Worker menu in alto — conferma ☰ navbar dopo diagnosi; fix z-index sopra chat (chat 20/7 ~03:09, agg. 03:12):** dopo spiegazione L-369 («dimmi cosa hai capito») risponde **«il menu in alto»** — intende ☰ **navbar** (menu sito Home/Azioni/Lavori), **non** ☰ basso elenco conv; si aspetta fix che menu sito esca **sopra** chat fullscreen; **PR #494** ✅ mergiata main `3d912daf` — deploy Production + Ctrl+F5. Vedi L-371, L-369, L-372.",
@@ -8826,13 +8851,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 383,
+    "lezioni_attive": 390,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.2,
-    "tasso_calcolato_il": "2026-07-20 02:56",
+    "tasso_applicazione": 0.19,
+    "tasso_calcolato_il": "2026-07-20 03:16",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 03:06",
+    "tick_leggero_il": "2026-07-20 03:16",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
