@@ -3,7 +3,7 @@ tipo: playbook-standard
 titolo: "Bollino «Negozio Verificato MyCity» — refresh idoneità + comunicazione"
 reparto: trust-safety (owner) · legale-privacy (claim) · content-social (bozze)
 data: 2026-07-20 11:33
-stato: STANDARD CONFERMATO (🟢) · 0 assegnati · 1 candidato · comunicazione pronta in attesa del 1° ordine consegnato
+stato: FIX IN PR #218 (🟡 merge Nicola) · 0 assegnati · 1 candidato PQ 3/5 · comunicazione pronta post-primo ordine
 fonte_dati: REST marketplace 2026-07-20 11:33 · registro-realta.json · consegne/trust-safety/2026-07-06-badge-negozio-verificato.md (standard originale)
 ---
 
@@ -49,7 +49,7 @@ fonte_dati: REST marketplace 2026-07-20 11:33 · registro-realta.json · consegn
 
 ## 3) Bug critico da chiudere PRIMA del bollino (🟡 #51)
 
-Oggi `VerifiedBadge.tsx` compare su **quasi tutti** i punti del sito **senza condizione** → anche negozi non idonei sembrano «verificati». **Prima** di assegnare il badge a PQ, mergiare il gate codice (`lib/store-trust.ts::isVerifiedStore`) — spec: `consegne/trust-safety/2026-07-06-gate-codice-badge-verificato.md`.
+Oggi `VerifiedBadge.tsx` compariva su **quasi tutti** i punti del sito **senza condizione** → anche negozi non idonei sembravano «verificati». **Fix pronto:** PR **#218** marketplace (`isVerifiedStore` + migrazione 108 flag Stripe in vetrina pubblica). Merge 🔴 Nicola.
 
 ---
 
