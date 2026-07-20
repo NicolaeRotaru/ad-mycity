@@ -8,6 +8,7 @@ reparto: vendite
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 11:15 · playbook scout negozi 20/7 · 3 target+pitch PI26+AZIONI-PRONTE A18 · atteso deliverable aggiornato REST 1 negozio approvato → reale consegne/vendite/2026-07-20-playbook-scout-negozi-categorie-mancanti.md + A18 pitch PI26 · #scout #playbook
 - 2026-07-18 11:06 · pitch 3 botteghe anchor 18/7: WhatsApp Garetti+Peretti+Amendolara con leva PI26, schede 13 prospect · ✅ testi WhatsApp pronti ✅ schede prospect complete · atteso produrre materiali pitch per le 3 botteghe anchor da usare con la leva PI26 → reale testi WhatsApp accodati 🟡, schede pitch consegnate in consegne/vendite/ · #pitch-18lug
 - 2026-07-13 22:34 · Chat Nicola «clienti = botteghe, niente ristoranti e niente trattorie» · atteso: registro + file vivi senza ristoranti/trattorie come clienti · reale: `strategia.cliente-core` aggiornato, ~29 copie, coerenza exit 0, lezione L-188 · focus vendite Garetti/Peretti/Amendolara · #vendite #cliente-core #strategia
 - 2026-07-13 20:13 · Conflitto PR #346 ondata 3+4 — Nicola «ci sono ancora conflitti» · atteso: PR mergeable, registro intatto · reale: 4 file memoria + body PR, `0c770216`, zero residui, 10 voci check ok, merge 🔴 #117 · L-165 · #vendite #pr-346 #registro-realta

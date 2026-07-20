@@ -1163,3 +1163,7 @@ Assegnazioni reparto (1 mossa ciascuno):
 ### 2026-07-20 11:15 — Playbook Win-back dormienti
 - 2026-07-20 11:15 · @crm-lifecycle · FATTO · Playbook win-back RIPROVA: REST live ✅ — **4 buyer**, **0 ordini consegnati**, **0 dormienti win-back** (coorte vuota per definizione). Sequenza 2 touch + SPED5/consegna offerta armata (Pane Quotidiano). samir → A3 (no doppione). 4 buyer = attivazione (#welcome-email-23), non win-back. Deliverable: `consegne/crm/2026-07-20-playbook-win-back-pronte.md` · [[AZIONI-PRONTE]] **A32**. Zero invii.
 - 2026-07-20 11:15 · @crm-lifecycle · PASSO-A · @Nicola — priorità oggi: ① PI26 ② #ordine-test-pq (sblocca win-back tra 14 gg) ③ #welcome-email-23 (4 buyer mai attivati)
+
+### 2026-07-20 11:15 — Playbook Scout negozi (cluster-spesa)
+- 2026-07-20 11:15 · @vendite · FATTO · Playbook Scout negozi ri-verifica: REST ✅ **17 negozi / 1 approvato** (PQ). 3 categorie mancanti confermate — **Peretti** (ortofrutta) · **Garetti** (DOP) · **Amendolara** (formaggi). Pitch aggiornati: leva **PI26 50%** (scade 30/7); ⛔ bando ER 40% chiuso 23/6. Deliverable: `consegne/vendite/2026-07-20-playbook-scout-negozi-categorie-mancanti.md` · [[AZIONI-PRONTE]] **A18** aggiornato. Zero contatti.
+- 2026-07-20 11:15 · @vendite · PASSO-A · @Nicola — primo passo 🔴 **#whatsapp-3-anchor-pi26** (3 WhatsApp già pronti 18/7); poi chiamate pitch A18 se rispondono
