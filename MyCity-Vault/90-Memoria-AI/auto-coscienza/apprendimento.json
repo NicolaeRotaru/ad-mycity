@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 12:40",
+  "aggiornato": "2026-07-20 12:43",
+  "_nota_metabolizzazione_20_07_1243": "Chat 20/7 ~12:42: Nicola corregge perlustrazione — Deliveroo ATTIVO e forte a Piacenza (non «non operativo»). L-392 nuova (caso_studio_nicola); preferenza deliveroo-verifica-live; STATO+DECISIONI+LEZIONI-CHAT+radar+perlustrazione+intelligence esito già 12:42; apprendimento.json completato ora.",
   "_nota_metabolizzazione_20_07_1240": "Chat 20/7 ~12:39: Nicola corregge pricing pitch — 10%+50€/mese (non 12% zero fissi). L-391 nuova (caso_studio_nicola); preferenza pricing-verificato; STATO+LEZIONI-CHAT+vendite+intelligence esito; DECISIONI+registro-fatti già 12:39.",
   "_nota_metabolizzazione_20_07_1204": "Chat 20/7 ~12:04: Nicola «Migliora l'intelligence» — implementata sveglia PR #496. L-390 nuova; L-385 evidenze++ addendum implementazione; preferenza migliora-intelligence; STATO+DECISIONI+#accendi-intelligence-sveglia+LEZIONI-CHAT+intelligence esito.",
   "_nota_metabolizzazione_20_07_0405": "Chat 20/7 ~04:05: Nicola «Addattale a mycity» — overlay 47 skill, patch sync auto, commit 9e2f08a9 PR #495. L-388 nuova; L-387 evidenze++ addendum adattamento esplicito; preferenza adattale-a-mycity; STATO+DECISIONI+#212+LEZIONI-CHAT+marketing+prompt-engineer esito.",
@@ -110,6 +111,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-392",
+      "testo": "**Caso-studio Nicola — Deliveroo ATTIVO e forte a Piacenza, mai «non operativo» (chat 20/7 ~12:42).** Perlustrazione settimana 20/7 e radar dicevano Deliveroo assente/non operativo; Nicola: «**c'è deliveroo e va abbastanza forte**». 5 perché: (1) l'AD ha **ereditato** un dato stale dal briefing 17/7 («Deliveroo/Just Eat non operano nella città») senza ri-verificare; (2) intelligence copiava memoria vecchia invece di check live; (3) **fonte vera:** deliveroo.it/piacenza (pagine cucina + zone Centro Storico, 20/7) + conferma campo Nicola + dossier Tigellabella già su Deliveroo (6/7); (4) il segnale strategico cambia il **contesto** (food delivery affollato: Glovo+Deliveroo+JustEat), **non** il moat MyCity (botteghe storiche, non ristoranti); (5) **fix:** perlustrazione + radar-concorrenti aggiornati nello stesso turno. Regola: **prima di scrivere «assente/non operativo» su un competitor locale** → verifica sito live del player; memoria/briefing vecchi non bastano; correzione campo Nicola = priorità massima. Vedi DECISIONI 20/7 12:42, L-2026-0718 (ristoranti esclusi ≠ Deliveroo assente).",
+      "tag": [
+        "intelligence",
+        "competitor",
+        "deliveroo",
+        "radar",
+        "onestà",
+        "nicola"
+      ],
+      "reparto": "@intelligence",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 12:42",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-391",
       "testo": "**Caso-studio Nicola — pricing pitch: MyCity = 10% + 50€/mese, non 12% zero fissi (chat 20/7 ~12:39).** Casella pitch anti-Glovo diceva «12%, zero fissi»; Nicola: «**mycity ha il 10% di commissione e 50€/mese di abbonamento**». 5 perché: (1) l'AD ha riusato termini **storici Pane Quotidiano** (12%/0€ firmati 1/7) e vecchie decisioni vault come se fossero standard piattaforma; (2) **fonte vera:** codice marketplace `MARKETPLACE_FEE_BPS` **10%**, abbonamento venditore **5000 cent = 50€/mese**; (3) PQ resta **eccezione contrattuale**, non il pitch per nuovi negozi; (4) intelligence/vendite hanno propagato l'errore in radar, scout e AZIONI-PRONTE; (5) **fix:** `registro-fatti.json` (`pricing.commissione`, `pricing.abbonamento`) + caccia coerenza + pitch/radar/scout aggiornati nello stesso turno. Regola: **prima di ogni pitch/card con termini commerciali** → leggere registro-fatti pricing + verificare codice sito; mai «12% zero fissi» salvo citare esplicitamente contratto PQ storico. Vedi L-2026-0707-02 (AR-102), DECISIONI 20/7 12:39.",
@@ -8919,6 +8941,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Deliveroo Piacenza — corregge radar intelligence se dice «assente/non operativo» (chat 20/7 ~12:42):** su casella perlustrazione segnala errore — **Deliveroo c'è ed è abbastanza forte** su ristorazione; si aspetta **correzione immediata** perlustrazione + radar + memoria viva con **fonte web live** (deliveroo.it/piacenza); moat MyCity resta **botteghe storiche**, non nega presenza competitor food; prima di «assente» su player locale → **verifica sito**, non copiare briefing/scan vecchi. Vedi L-392, DECISIONI 20/7 12:42.",
     "**Pricing piattaforma — corregge subito numeri commerciali sbagliati (chat 20/7 ~12:39):** su casella pitch anti-Glovo segnala errore «**10% commissione + 50€/mese abbonamento**» (non 12% zero fissi) — si aspetta **correzione immediata** del pitch + propagazione a radar/scout/coda vendite + registro-fatti; standard piattaforma = codice marketplace; **PQ 12%/0€** = eccezione storica da citare solo esplicitamente. Vedi L-391, DECISIONI 20/7 12:39.",
     "**Migliora intelligence — vuole implementazione+sveglia, non solo diagnosi (chat 20/7 ~12:04):** dopo L-385 chiede «**Migliora l'intelligence**» — si aspetta **consegna operativa** (agenda 9 fonti/giorno nel giro, workflow n.41 RSS non stub, playbook accensione, card 🔴), non ripetizione gap; **PR #496** da mergiare Nicola → poi Telegram+n8n Active; Firecrawl = qualità **dopo** sveglia. Vedi L-390, L-385.",
     "**Adattale a MyCity — vuole overlay applicato, non solo avviso «sono B2B» (chat 20/7 ~04:05):** «Addattale a mycity» subito dopo download 47 skill — si aspetta blocco Il Turno/Piacenza/onestà **in ogni skill** + meccanismo che **persiste** ai futuri sync GitHub; stessa PR #495 commit `9e2f08a9`; merge 🔴 + riavvio worker; pubblicare resta 🔴. Vedi L-388, L-387.",
