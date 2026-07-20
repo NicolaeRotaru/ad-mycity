@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-20 12:20",
+  "aggiornato": "2026-07-20 14:20",
   "soglia_giorni": 7,
   "totale": 120,
   "mancanti": 0,
@@ -632,8 +632,8 @@
       "reparto": "frontend-dev",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 147,
-      "ultimo_esito": "2026-07-20 03:34",
+      "righe_esito": 148,
+      "ultimo_esito": "2026-07-20 12:59",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -702,8 +702,8 @@
       "reparto": "intelligence",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 14,
-      "ultimo_esito": "2026-07-20 12:04",
+      "righe_esito": 16,
+      "ultimo_esito": "2026-07-20 12:42",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -754,7 +754,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01 01:06",
-      "giorni_fa": 19,
+      "giorni_fa": 20,
       "vuoto": false,
       "fermo": true
     },
@@ -1034,7 +1034,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01 01:57",
-      "giorni_fa": 19,
+      "giorni_fa": 20,
       "vuoto": false,
       "fermo": true
     },
@@ -1272,8 +1272,8 @@
       "reparto": "trust-safety",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 2,
-      "ultimo_esito": "2026-07-20 11:34",
+      "righe_esito": 4,
+      "ultimo_esito": "2026-07-20 13:00",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -1292,8 +1292,8 @@
       "reparto": "vendite",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 19,
-      "ultimo_esito": "2026-07-20 11:25",
+      "righe_esito": 20,
+      "ultimo_esito": "2026-07-20 12:39",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false

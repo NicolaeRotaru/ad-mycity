@@ -1,9 +1,9 @@
 {
-  "data": "2026-07-20 12:39",
+  "data": "2026-07-20 14:20",
   "esito": "incoerenze",
   "fatti_totali": 15,
   "cacce_aperte": 7,
-  "file_scansionati": 1366,
+  "file_scansionati": 1368,
   "incoerenze": [
     {
       "fatto": "pricing.commissione",
@@ -55,42 +55,26 @@
     },
     {
       "fatto": "pricing.abbonamento",
-      "pattern": "0€ costi fissi",
+      "pattern": "zero fissi",
       "valore_nuovo": "50€/mese",
-      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md",
-      "riga": 59,
-      "testo": "commissione 12%, 0€ costi fissi, payout a consegna confermata, nessun vincolo."
-    },
-    {
-      "fatto": "pricing.commissione",
-      "pattern": "commissione 12%",
-      "valore_nuovo": "10% sul venduto",
-      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md",
-      "riga": 59,
-      "testo": "commissione 12%, 0€ costi fissi, payout a consegna confermata, nessun vincolo."
+      "file": "MyCity-Vault/90-Memoria-AI/LEZIONI-CHAT.md",
+      "riga": 13,
+      "testo": "- [2026-07-20] **Pricing pitch — MyCity = 10% sul venduto + 50€/mese abbonamento; mai «12% zero fissi» salvo contratto PQ storico (Nicola 20/7 ~12:39).** Casella pitch anti-Glovo aveva termini sbaglia"
     },
     {
       "fatto": "pricing.abbonamento",
-      "pattern": "0€ fissi",
+      "pattern": "zero fissi",
       "valore_nuovo": "50€/mese",
-      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md",
-      "riga": 151,
-      "testo": "condizioni comuni: commissione 12% · 0€ fissi · payout a consegna · vetrina ~20 min · primo ordine prova offerto · leva PI26 50% fino 30/7."
-    },
-    {
-      "fatto": "pricing.commissione",
-      "pattern": "commissione 12%",
-      "valore_nuovo": "10% sul venduto",
-      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md",
-      "riga": 151,
-      "testo": "condizioni comuni: commissione 12% · 0€ fissi · payout a consegna · vetrina ~20 min · primo ordine prova offerto · leva PI26 50% fino 30/7."
+      "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
+      "riga": 15,
+      "testo": "> 💬 **20/7 ~12:39 — CHAT: Nicola corregge pricing pitch — 10% + 50€/mese (L-391).** Casella «Glovo sconta catene» diceva **12% zero fissi** — Nicola: **10% commissione + 50€/mese abbonamento**. Confe"
     },
     {
       "fatto": "pricing.commissione",
       "pattern": "commissione 12%",
       "valore_nuovo": "10% sul venduto",
       "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
-      "riga": 945,
+      "riga": 955,
       "testo": "0. **🛠️ +2 capacità COSTRUITE 6/7 16:52 — ora 7 girano sui dati veri.** Su «vai» di Nicola: **#13 Il Bilancio Vivo** (`cervello/bilancio-vivo.mjs` — unit economics per ordine sui numeri reali: 1 ordi"
     },
     {
@@ -164,30 +148,6 @@
       "file": "consegne/finanza/payout-faro.md",
       "riga": 26,
       "testo": "Termine firmato/proposto: **commissione 12%, payout a consegna confermata, zero costi fissi** (Parte C pitch + §3-5 contratto)."
-    },
-    {
-      "fatto": "pricing.abbonamento",
-      "pattern": "zero fissi",
-      "valore_nuovo": "50€/mese",
-      "file": "consegne/intelligence/2026-07-20-perlustrazione-settimana.md",
-      "riga": 40,
-      "testo": "| **Glovo Piacenza** | Promo aggressive live: I Love Poke **-25%**, Vasinikò **-30%** articoli + **-40% con Prime**, referral **16€** (4×4€) | Guerra sconti su **catene/ristorazione** — leva pitch bot"
-    },
-    {
-      "fatto": "pricing.abbonamento",
-      "pattern": "zero fissi",
-      "valore_nuovo": "50€/mese",
-      "file": "consegne/intelligence/2026-07-20-perlustrazione-settimana.md",
-      "riga": 71,
-      "testo": "Glovo oggi spinge **-25% a -40%** su poke/pizza/catene + abbonamento Prime — i ristoranti pagano sconti **e** commissioni ~30%. MyCity resta complementare (botteghe centro, 12%, zero fissi)."
-    },
-    {
-      "fatto": "pricing.commissione",
-      "pattern": "12%, zero fissi",
-      "valore_nuovo": "10% sul venduto",
-      "file": "consegne/intelligence/2026-07-20-perlustrazione-settimana.md",
-      "riga": 71,
-      "testo": "Glovo oggi spinge **-25% a -40%** su poke/pizza/catene + abbonamento Prime — i ristoranti pagano sconti **e** commissioni ~30%. MyCity resta complementare (botteghe centro, 12%, zero fissi)."
     },
     {
       "fatto": "pricing.abbonamento",
@@ -414,14 +374,6 @@
       "testo": "- **Economico:** 0€ fissi · 12% sul venduto · payout a consegna · uscita libera."
     },
     {
-      "fatto": "pricing.abbonamento",
-      "pattern": "0€ costi fissi",
-      "valore_nuovo": "50€/mese",
-      "file": "consegne/vendite/2026-07-20-playbook-scout-negozi-categorie-mancanti.md",
-      "riga": 40,
-      "testo": "**Condizioni comuni (invariate):** commissione **12%** · **0€ costi fissi** · payout a consegna · vetrina done-for-you **~20 min** (<48h) · primo ordine di prova offerto."
-    },
-    {
       "fatto": "pricing.commissione",
       "pattern": "commissione 12%",
       "valore_nuovo": "10% sul venduto",
@@ -457,25 +409,25 @@
       "fatto": "pricing.abbonamento",
       "pattern": "0€ costi fissi",
       "dal": "2026-07-20 12:39",
-      "copie_trovate": 6
+      "copie_trovate": 4
     },
     {
       "fatto": "pricing.abbonamento",
       "pattern": "0€ fissi",
       "dal": "2026-07-20 12:39",
-      "copie_trovate": 19
+      "copie_trovate": 18
     },
     {
       "fatto": "pricing.commissione",
       "pattern": "commissione 12%",
       "dal": "2026-07-20 12:39",
-      "copie_trovate": 21
+      "copie_trovate": 19
     },
     {
       "fatto": "pricing.commissione",
       "pattern": "12%, zero fissi",
       "dal": "2026-07-20 12:39",
-      "copie_trovate": 1
+      "copie_trovate": 0
     },
     {
       "fatto": "pricing.commissione",

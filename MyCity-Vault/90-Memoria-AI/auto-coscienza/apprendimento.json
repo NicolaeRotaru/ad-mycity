@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 14:17",
+  "aggiornato": "2026-07-20 14:37",
   "_nota_metabolizzazione_20_07_1300": "Chat 20/7 ~13:00: Nicola follow-up casella bollino — solo allegato screenshot, no testo; AD cieco. L-395 nuova; L-393 evidenze++ addendum follow-up pre-merge; preferenza allegato-solo-follow-up; STATO+LEZIONI-CHAT+trust-safety esito.",
   "_nota_metabolizzazione_20_07_1259": "Chat 20/7 ~12:59: Nicola «caselle Diretta spariscono al refresh — analisi profonda» — root cause GitHub non DB, MAX_LETTURE 30, timeout parziale. L-394 nuova; preferenza diretta-analisi-radice; STATO+LEZIONI-CHAT+frontend-dev esito; fix 🟡 proposto PR pendente ok Nicola.",
   "_nota_metabolizzazione_20_07_1252": "Chat 20/7 ~12:52: Nicola «Risolvi bug critico bollino» — fix PR #218 isVerifiedStore. L-393 nuova; preferenza risolvi-bug-critico; STATO+DECISIONI+#51+#213+LEZIONI-CHAT+trust-safety esito.",
@@ -9340,9 +9340,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-20 14:17",
+    "tasso_calcolato_il": "2026-07-20 14:37",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 14:17",
+    "tick_leggero_il": "2026-07-20 14:37",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
