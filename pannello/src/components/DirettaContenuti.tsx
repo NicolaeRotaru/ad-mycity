@@ -29,6 +29,7 @@ type Contenuto = {
   quando: string;
   quandoIso: string;
   vuoto: boolean;
+  contenuto?: string;
 };
 
 const MD: Components = {
@@ -73,14 +74,29 @@ function contestoContenuto(c: Contenuto, testoCompleto?: string): string {
 const CHIAVE_VISTO = "mycity_contenuti_visto"; // ISO dell'ultima volta che Nicola ha guardato la diretta
 
 function unisciContenuti(prev: Contenuto[], next: Contenuto[], parziale: boolean): Contenuto[] {
-  if (!parziale || prev.length === 0) return next;
-  // Refresh GitHub a metà: non far sparire caselle già visibili.
-  if (next.length >= prev.length) return next;
-  const map = new Map(next.map((c) => [c.path, c]));
-  for (const c of prev) {
-    if (!map.has(c.path)) map.set(c.path, c);
+  if (prev.length === 0) return next;
+  if (next.length === 0) return prev;
+
+  const map = new Map(prev.map((c) => [c.path, c]));
+  for (const c of next) {
+    const old = map.get(c.path);
+    map.set(c.path, old
+      ? { ...c, contenuto: c.contenuto || old.contenuto }
+      : c);
   }
+
+  if (!parziale) {
+    const nextPaths = new Set(next.map((c) => c.path));
+    for (const key of [...map.keys()]) {
+      if (!nextPaths.has(key)) map.delete(key);
+    }
+  }
+
   return [...map.values()].sort((a, b) => (Date.parse(b.quandoIso) || 0) - (Date.parse(a.quandoIso) || 0));
+}
+
+function testoContenuto(c: Contenuto, dettaglio: Record<string, string>): string {
+  return dettaglio[c.path] ?? c.contenuto ?? "";
 }
 
 export default function DirettaContenuti() {
@@ -100,6 +116,7 @@ export default function DirettaContenuti() {
   const [dettaglio, setDettaglio] = useState<Record<string, string>>({});
   const [caricaDett, setCaricaDett] = useState<string | null>(null);
   const primaVolta = useRef(true);
+  const ultimoAperto = useRef<Contenuto | null>(null);
 
   const carica = useCallback(async () => {
     try {
@@ -140,6 +157,19 @@ export default function DirettaContenuti() {
     return contenuti.filter((c) => (Date.parse(c.quandoIso) || 0) > soglia).length;
   }, [contenuti, vistoAt]);
 
+  useEffect(() => {
+    if (!aperto) return;
+    const c = contenuti.find((x) => x.path === aperto);
+    if (c) ultimoAperto.current = c;
+  }, [aperto, contenuti]);
+
+  const contenutiVisibili = useMemo(() => {
+    if (!aperto || contenuti.some((c) => c.path === aperto)) return contenuti;
+    const pin = ultimoAperto.current;
+    if (pin?.path === aperto) return [pin, ...contenuti];
+    return contenuti;
+  }, [contenuti, aperto]);
+
   function segnaLetti() {
     const ora = new Date().toISOString();
     setVistoAt(ora);
@@ -149,7 +179,11 @@ export default function DirettaContenuti() {
   async function apri(path: string) {
     if (aperto === path) { setAperto(null); return; }
     setAperto(path);
-    if (dettaglio[path]) return;
+    const giaInLista = contenuti.find((c) => c.path === path)?.contenuto;
+    if (dettaglio[path] || giaInLista) {
+      if (giaInLista && !dettaglio[path]) setDettaglio((m) => ({ ...m, [path]: giaInLista }));
+      return;
+    }
     setCaricaDett(path);
     try {
       const r = await fetch(`/api/contenuti?file=${encodeURIComponent(path)}`, { cache: "no-store" });
@@ -224,9 +258,10 @@ export default function DirettaContenuti() {
         </div>
       ) : (
         <ul className="space-y-2">
-          {contenuti.map((c) => {
+          {contenutiVisibili.map((c) => {
             const nuovo = (Date.parse(c.quandoIso) || 0) > soglia;
             const isOpen = aperto === c.path;
+            const testo = testoContenuto(c, dettaglio);
             return (
               <li
                 key={c.path}
@@ -290,16 +325,18 @@ export default function DirettaContenuti() {
 
                 {isOpen && (
                   <div className="px-3.5 pb-3.5 pt-1 border-t" style={{ borderColor: "var(--border)" }}>
-                    {caricaDett === c.path && !dettaglio[c.path] ? (
+                    {caricaDett === c.path && !testo ? (
                       <div className="flex items-center gap-2 text-sm text-black/50 dark:text-white/50 py-3">
                         <Loader2 size={14} className="animate-spin" /> Apro il contenuto…
                       </div>
-                    ) : (
+                    ) : testo ? (
                       <div className="pt-2 max-h-[60vh] overflow-y-auto scroll-soft pr-1">
                         <ReactMarkdown components={MD} remarkPlugins={[remarkGfm, remarkBreaks]}>
-                          {dettaglio[c.path] || ""}
+                          {testo}
                         </ReactMarkdown>
                       </div>
+                    ) : (
+                      <p className="py-3 text-sm text-black/50 dark:text-white/50">Contenuto non disponibile al momento — riprova tra poco.</p>
                     )}
                     <div className="mt-2 text-[10.5px] text-black/35 dark:text-white/35 font-mono truncate">{c.path}</div>
                   </div>
@@ -307,7 +344,7 @@ export default function DirettaContenuti() {
                 <div className="px-3.5 pb-3 border-t border-black/[0.04] dark:border-white/[0.06]">
                   <ParlaCasella
                     titolo={`${c.etichetta}: ${c.titolo}`}
-                    contesto={contestoContenuto(c, isOpen ? dettaglio[c.path] : undefined)}
+                    contesto={contestoContenuto(c, isOpen ? testo : undefined)}
                   />
                 </div>
               </li>
