@@ -7,6 +7,7 @@ reparto: data-engineer
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 18:48 · PostHog «ancora scollegata» — Nicola screenshot Radiografia · atteso: capire quale superficie · reale: VPS **ok** (18:45) ma Pannello legge env **Vercel** — servono `POSTHOG_HOST`+`POSTHOG_PROJECT_ID` **495230**+`POSTHOG_API_KEY` + redeploy; non confondere con worker · L-411 · #posthog #vercel #pannello #sensori #esito
 - 2026-07-20 18:44 · PostHog US host fix — Nicola «si è us.posthog» · atteso: chiudere 401 senza rigenerare chiave · reale: host EU→US in env VPS + restart → `posthog_api: ok`; chiave `phx_` era valida; allineare Render se serve · L-410 · #posthog #us #sensori #esito
 - 2026-07-20 18:41 · PostHog «ho fatto tutto» — Nicola env ok ma sensori no · atteso: verifica live, non ripetere passi · reale: env letto (`phx_`, host europeo) ma API **401** → `posthog_api: cieco`; causa vera = account US (L-410) · L-409 · #posthog #401 #sensori #esito
 - 2026-07-20 18:28 · PostHog VPS follow-up — Nicola «metterlo sul vps come n8n» · atteso: disambigua Docker vs env · reale: stesso pattern L-406 — cloud + 3 righe env worker, self-host scartato; pendente chiave `phx_` · L-404 evidenze++ · #posthog #n8n #vps #esito

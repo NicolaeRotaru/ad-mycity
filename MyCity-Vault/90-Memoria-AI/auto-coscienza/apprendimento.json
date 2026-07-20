@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 18:46",
+  "aggiornato": "2026-07-20 18:49",
+  "_nota_metabolizzazione_20_07_1849": "Chat 20/7 ~18:48: Nicola «è ancora scollegata» + screenshot — VPS PostHog ok ma Pannello Radiografia legge env Vercel (3 variabili + redeploy); project ID 495230 US. L-411 nuova; preferenza posthog-ancora-scollegata; STATO+LEZIONI-CHAT+data-engineer+devops-sre+frontend-dev+registro-fatti project_id esito.",
   "_nota_metabolizzazione_20_07_1845": "Chat 20/7 ~18:44: Nicola «si è us.posthog» — 401 era host EU sbagliato, non chiave invalida; AD fix POSTHOG_HOST US → sensore ok. L-410 nuova (caso_studio_nicola); L-409+L-404 evidenze++ addendum; preferenza posthog-us-account; registro-fatti sensori.posthog.regione; STATO+DECISIONI+LEZIONI-CHAT+data-engineer+devops-sre esito.",
   "_nota_metabolizzazione_20_07_1842": "Metabolizzazione completata chat 20/7 ~18:41: preferenza posthog-ho-fatto-tutto aggiunta; L-404 addendum 401 evidenze 3. Resto già presente (L-409, STATO, LEZIONI-CHAT, quaderni).",
   "_nota_metabolizzazione_20_07_1841": "Chat 20/7 ~18:41: Nicola «ho fatto tutto ma posthog non collegato» — AD verifica live: env ok (phx_, EU) ma HTTP 401 chiave invalida; sensore cieco non assente. L-409 nuova; L-404 evidenze++ addendum 401; preferenza posthog-ho-fatto-tutto; STATO+LEZIONI-CHAT+data-engineer+devops-sre esito; nessuna azione/decisione completata.",
@@ -152,6 +153,29 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 18:32",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
+      "id": "L-2026-0720-411",
+      "testo": "**PostHog VPS ok ≠ Pannello Radiografia — due env separate (Nicola 20/7 ~18:48).** Nicola: «**è ancora scollegata**» + screenshot dopo fix VPS (sensore **ok** 18:44–18:45). 5 perché: (1) AD aveva comunicato «collegato» basandosi solo su `verifica-sensori` **worker**; (2) screenshot = pagina **Radiografia Pannello** su Vercel — `posthogConnected()` in `pannello/src/lib/posthog.ts` legge **`POSTHOG_HOST` + `POSTHOG_PROJECT_ID` + `POSTHOG_API_KEY` da Vercel**, non dal VPS; (3) stessa Personal API Key `phx_` va configurata **anche** su Vercel + **Redeploy**; (4) project US **495230** («Default project»); (5) su «ancora scollegata» **chiedi quale superficie** (worker vs Pannello) e verifica **entrambe** prima di ripetere passi env. Regola: PostHog MyCity = **2 posti indipendenti** (VPS worker + Vercel Pannello); fix uno **non** implica fix altro. Vedi L-410, L-409, L-404.",
+      "tag": [
+        "posthog",
+        "vercel",
+        "pannello",
+        "radiografia",
+        "vps",
+        "sensori",
+        "frontend-dev",
+        "data-engineer"
+      ],
+      "reparto": "@data-engineer",
+      "confidenza": 0.94,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 18:48",
       "stato": "attiva",
       "usi": []
     },
@@ -9344,6 +9368,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**PostHog «ancora scollegata» — distingui VPS worker vs Pannello Radiografia (chat 20/7 ~18:48):** dopo fix env VPS chiede perché il Pannello mostra ancora giallo — si aspetta AD verifichi **quale UI** (screenshot Radiografia = env **Vercel**, non worker); servono 3 variabili Vercel + redeploy; project ID **495230** US; non dire «collegato» solo da `verifica-sensori` VPS. Vedi L-411.",
     "**PostHog account US — chiedi EU/US prima del setup; 401 ≠ sempre chiave invalida (chat 20/7 ~18:44):** Nicola conferma «**si è us.posthog**» — account **americano**; host europeo nel env causava **401** con chiave `phx_` valida; fix = `POSTHOG_HOST=https://us.posthog.com` + restart → sensore **ok** senza rigenerare chiave; allinea anche Render se tracking diverso. Vedi L-410, `sensori.posthog.regione`.",
     "**PostHog «ho fatto tutto» — env ok ma sensori no = verifica 401 + host EU/US, non ripetere setup env (chat 20/7 ~18:41, risolto 18:44):** dopo passi env chiede perché sensori/Pannello dicono ancora «non collegato» — si aspetta AD **verifichi runtime** (`verifica-sensori.mjs`), distingua env assente vs **HTTP 401** (stato **`cieco`**) e **prima** controlli regione account/host; non far rigenerare chiave se host sbagliato. Vedi L-409, L-410, L-404.",
     "**Elimina prodotti finti — «elimina i 245 prodotti finti» = DELETE dal DB, non basta nascosti (chat 20/7 ~18:31):** dopo pulizia negozi demo (18:30) chiede eliminazione esplicita dei prod demo — si aspetta **cancellazione fisica irreversibile** dal database, non solo draft/nascosto; 253 righe eliminate, restano **5 prodotti PQ**; nella stessa sessione pulizia **esegui subito** al follow-up senza ri-chiedere ok. Vedi L-408, L-407.",

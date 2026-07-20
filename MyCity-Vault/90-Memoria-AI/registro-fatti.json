@@ -300,6 +300,16 @@
       "esenzioni": []
     },
     {
+      "id": "sensori.posthog.project_id",
+      "nome": "sensori.posthog.project_id",
+      "valore": "495230 — «Default project» account US (PostHog Impostazioni → Project); usato da Pannello Radiografia via POSTHOG_PROJECT_ID su Vercel",
+      "fonte": "Nicola chat 20/7 18:48 + diagnosi AD posthog.ts",
+      "aggiornato": "2026-07-20 18:49",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "strategia.cliente-core",
       "nome": "strategia.cliente-core",
       "valore": "I clienti MyCity sono le botteghe (carrello multi-negozio settimanale) — né ristoranti né trattorie",
