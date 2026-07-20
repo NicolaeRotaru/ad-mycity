@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 23:23 · PR #501 conflitti memoria — Nicola screenshot solo allegato · atteso: risolvere + mergeable · reale: rebase main (north-star/memoria) → **mergeable** check verdi; codice sentinelle pricing intatto; merge 🔴 **#501** → casella 10%+50€ · #pannello #pr #501 #conflitti #sentinelle · L-397, L-413
 - 2026-07-20 20:16 · PostHog Radiografia verde — Nicola «ok è diventato verde» · atteso: `posthogConnected()` true live · reale: `/api/diagnosi` **verde** «visite tracciate» 20:16; env Vercel US complete; L-415 chiuso · L-416 · #pannello #posthog #radiografia #chiuso #esito
 - 2026-07-20 20:11 · PostHog diagnosi env — Nicola «ricontrollato su vercel ma non funziona» · atteso: sbloccare senza girare in tondo · reale: VPS ok · Pannello giallo · **PR #502** — Radiografia indica quale env Vercel manca; merge Nicola → deploy → leggi dettaglio · L-415 · #pannello #posthog #vercel #pr-502 #esito
 - 2026-07-20 20:01 · PostHog Radiografia post-redeploy — Nicola «fatto redeploy ma non funziona» · atteso: verde dopo env Vercel · reale: `posthogConnected()` ancora false live 20:01 — spesso `POSTHOG_PROJECT_ID` mancante o `phc_`/EU host; proposta diagnosi quale env manca · L-414 · #pannello #posthog #vercel #radiografia #esito

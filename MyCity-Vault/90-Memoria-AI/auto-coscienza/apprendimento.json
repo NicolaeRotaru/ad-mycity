@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 23:20",
+  "aggiornato": "2026-07-20 23:23",
+  "_nota_metabolizzazione_20_07_2323": "Chat 20/7 ~23:23: Nicola solo screenshot PR #501 conflitti — AD risolve, mergeable; pattern L-397 addendum #501; L-413 evidenze++ mergeable; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+tech+ad esito; merge #501 🔴 pendente Nicola.",
   "_nota_metabolizzazione_20_07_2320": "Chat 20/7 ~23:20: Nicola «Fai il fix» AR-115 OKR stantio — PR #504 freschezza-okr.mjs gate HARD giro. L-427 nuova; L-426+L-428 (23:18/18:52) completate in apprendimento; preferenze okr-freschezza-gate + north-star-gate-hard + vercel-build-non-conflitti; STATO+DECISIONI+LEZIONI-CHAT+ad+chief-of-staff+frontend-dev esito; merge #504+#503 🔴 pendente Nicola.",
   "_nota_giro_20_07_2022": "Giro 20/7 20:22: coerenza-fatti pricing bonificata (48 file, exit 0). Lezione: esenzioni registro per contratti PQ eccezione 12%/0€. CHECKLIST rigenerata AR-030. North Star focus ordine test PQ.",
   "_nota_metabolizzazione_20_07_2200": "Chat 20/7 ~22:00: Nicola «come si applicano i 5 pilastri» — L-425 nuova; L-424 evidenze++ addendum trigger→azione→misura; preferenza pilastri-applicazione-concreta; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
@@ -416,7 +417,7 @@
     },
     {
       "id": "L-2026-0720-413",
-      "testo": "**Registro ok ≠ casella ok — sentinelle devono leggere registro-fatti, non pitch hardcoded (Nicola 20/7 ~19:06).** Casella «Pochi negozi»: Nicola «**non hai aggiornato memoria centrale o caselle non collegate**» — pricing **10% + 50€/mese**. 5 perché: (1) `registro-fatti.json` era **già corretto** dal fix 12:39 (L-391); (2) casella mostrava ancora «12%, 0 fissi» perché **pitch fisso nel codice** sentinelle, non lettura registro; (3) fix parziale L-391 aggiornò vault/radar/scout ma **non** wiring UI caselle; (4) **PR #501:** sentinelle leggono `pricing.commissione` + `pricing.abbonamento` dal registro; (5) PQ resta eccezione 12%/0€ — pitch standard nuovi negozi = registro. Regola: dopo correzione pricing in registro → **cerca TUTTE le superfici** (sentinelle, caselle Pannello, pitch vendite) e collega al registro nello **stesso fix**; «memoria giusta ma casella sbagliata» = bug codice, non registro. Vedi L-391, AR-102, DECISIONI 20/7 19:06.",
+      "testo": "**Registro ok ≠ casella ok — sentinelle devono leggere registro-fatti, non pitch hardcoded (Nicola 20/7 ~19:06).** Casella «Pochi negozi»: Nicola «**non hai aggiornato memoria centrale o caselle non collegate**» — pricing **10% + 50€/mese**. 5 perché: (1) `registro-fatti.json` era **già corretto** dal fix 12:39 (L-391); (2) casella mostrava ancora «12%, 0 fissi» perché **pitch fisso nel codice** sentinelle, non lettura registro; (3) fix parziale L-391 aggiornò vault/radar/scout ma **non** wiring UI caselle; (4) **PR #501:** sentinelle leggono `pricing.commissione` + `pricing.abbonamento` dal registro; (5) PQ resta eccezione 12%/0€ — pitch standard nuovi negozi = registro. Regola: dopo correzione pricing in registro → **cerca TUTTE le superfici** (sentinelle, caselle Pannello, pitch vendite) e collega al registro nello **stesso fix**; «memoria giusta ma casella sbagliata» = bug codice, non registro. **Addendum 23:23:** Nicola screenshot — **#501** ri-bloccata vs main (north-star/memoria); AD rebase → **mergeable**; merge 🔴 pendente Nicola. Vedi L-391, L-397, AR-102, DECISIONI 20/7 19:06.",
       "tag": [
         "pricing",
         "sentinelle",
@@ -427,11 +428,11 @@
       ],
       "reparto": "@vendite",
       "confidenza": 0.95,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 19:06",
+      "ultima_conferma": "2026-07-20 23:23",
       "stato": "attiva",
       "usi": []
     },
@@ -808,7 +809,7 @@
     },
     {
       "id": "L-2026-0720-397",
-      "testo": "**PR feature branch — conflitti merge con main su file memoria auto-generati (chat 20/7 ~16:39).** Nicola manda **solo screenshot** PR #496: checks ok ma merge bloccato per conflitti. 5 perché: (1) branch `fix/intelligence-upgrade` resta indietro mentre main accumula giri/memoria; (2) conflitti tipici su `sentinella-dati.json`, `consegne/tech/pr-ad-mycity-*.md`, diario operativo — **non** sul codice intelligence; (3) regola risoluzione: **main vince** su file memoria/worker auto-generati, **branch vince** su codice feature (`intelligence-agenda.mjs`, workflow n.41, playbook); (4) dopo rebase+push → GitHub **mergeable** (`git-pr.mjs`); (5) codice intelligence invariato — Nicola mergia 🔴 poi card **#accendi-intelligence-sveglia**. Regola: screenshot «conflitti PR» → AD risolve subito e spiega diario vs codice, non chiedere a Nicola merge manuale sui conflitti. **Addendum 17:50:** Nicola ha mergiato **#496 ✅ 17:44:45** (`1cd606e0`) — risoluzione conflitti confermata ok. Vedi L-334, L-390.",
+      "testo": "**PR feature branch — conflitti merge con main su file memoria auto-generati (chat 20/7 ~16:39).** Nicola manda **solo screenshot** PR #496: checks ok ma merge bloccato per conflitti. 5 perché: (1) branch feature resta indietro mentre main accumula giri/memoria; (2) conflitti tipici su `STATO.md`, `LEZIONI-CHAT.md`, `sentinella-dati.json`, diario operativo — **non** sul codice fix; (3) regola risoluzione: **main vince** su file memoria/worker auto-generati, **branch vince** su codice feature; (4) dopo rebase+push → GitHub **mergeable** (`git-pr.mjs`); (5) codice fix intatto — Nicola mergia 🔴. Regola: screenshot «conflitti PR» → AD risolve subito e spiega memoria vs codice, non chiedere a Nicola merge manuale sui conflitti. **Addendum 17:50:** **#496 ✅** mergiata. **Addendum 18:50–18:52:** **#499** re-conflitto worker → risolto mergeable. **Addendum 23:23:** **#501** (sentinelle pricing) stesso pattern vs main north-star/memoria → mergeable. Vedi L-334, L-390, L-413.",
       "tag": [
         "github",
         "pr",
@@ -817,12 +818,12 @@
         "conflitto"
       ],
       "reparto": "@tech",
-      "confidenza": 0.88,
-      "evidenze": 2,
+      "confidenza": 0.91,
+      "evidenze": 5,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 17:50",
+      "ultima_conferma": "2026-07-20 23:23",
       "stato": "attiva",
       "usi": []
     },

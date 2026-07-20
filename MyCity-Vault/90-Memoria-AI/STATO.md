@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 23:20
-fonte: AD digitale (chat 20/7 23:20)
+aggiornato: 2026-07-20 23:23
+fonte: AD digitale (chat 20/7 23:23)
 ---
+
+> 💬 **20/7 ~23:23 — CHAT: PR #501 conflitti risolti — mergeable (L-397 addendum #501).** Nicola **solo screenshot** GitHub — **#501** (casella «Pochi negozi» → registro **10% + 50€/mese**) bloccata da conflitti con main (north-star, memoria avanzati). AD rebase + risoluzione conflitti → **mergeable**, check verdi; codice sentinelle pricing intatto. **Serve Nicola:** mergia **#501** → deploy ~2 min → refresh casella. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 ~23:23 + screenshot GitHub.
 
 > 💬 **20/7 ~23:20 — CHAT: Casella OKR stantio — «Fai il fix» AR-115 gate hard freschezza (L-427).** Nicola «**Fai il fix**» su casella **OKR-Squadra morto dal 24/6** (target «1° ordine entro 27/6» scaduto, doc fermo >26 gg). AD: nuovo **`freschezza-okr.mjs`** (stesso pattern checklist AR-030) — rileva date passate, doc >**7** gg senza `aggiornato:`, riferimenti faro obsoleti (Garetti/Casa Linda) → **vincolo HARD** in `giro.sh` (exit 1, giro non chiude finché OKR non riscritto per fase 0→1 / faro PQ / North Star primo ordine vero). Verificato: `node cervello/freschezza-okr.mjs` → exit 1 oggi. **PR #504** (`fix/freschezza-okr-AR115`, commit `9d11a125`). **Serve Nicola:** mergia **#504** → al prossimo giro la macchina **obbliga** aggiornamento `OKR-Squadra.md` con target reali. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 23:20.
 
