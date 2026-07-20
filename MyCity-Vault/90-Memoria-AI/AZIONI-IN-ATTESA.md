@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-20 17:50** — Automatico: **47 aperte · 90 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-20 18:00** — Manuale (Nicola «togli card merge obsolete», L-402): **41 aperte · 96 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -37,17 +37,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #fix-parla-casella-pgrst102 — Mergia PR #499: fix Parla casella PGRST102 (JSON invalido) · ⏳ accodata 2026-07-20 17:48 · PR consegnata 17:53
-
-**Contesto:** Nicola invia da **Parla con questa azione** su card Approva — avviso giallo **PGRST102** («Empty or invalid json») su POST /api/lavori. Messaggio **resta nel riquadro** (non perso). Chat principale ok; percorso card bloccato finché non merge.
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/499 · branch `fix/parla-casella-pgrst102` · payload costruito **lato server** con testo ripulito + JSON validato prima di Supabase.
-
-**Cosa cambia:** invio da casella Approva/Diretta/Scoperte crea lavoro in coda e l'AD risponde come dalla chat principale.
-**Se va bene:** mergia **#499** → aspetta ~2 min → riprova «Invia» dalla stessa card — niente errore giallo.
-
-- **Colore:** 🟡 (merge PR Pannello — Nicola approva)
-- **Reparto:** frontend-dev
+❌ #fix-parla-casella-pgrst102 — ~~Mergia PR #499~~ → RIMOSSA 2026-07-20 18:00 · L-402: ordine chat «fai il fix» — link PR in chat, niente card merge. PR #499 resta su GitHub.
 
 ---
 
@@ -68,17 +58,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #mergia-pr-480 — Mergia PR #480: fix strumento autofill supervisione · ⏳ accodata 2026-07-19 23:23
-
-**Contesto:** Autofill 252 `condition=nuovo` + 242 `unit=pezzo` già **live** sul marketplace (19/7 18:38, zero errori). **PR #480** corregge bug in `marketplace.mjs` che bloccava batch futuri. Conflitto diario su `AZIONI-IN-ATTESA.md` **risolto** dall'AD (19/7 23:23) — branch ora **mergeable**, solo 1 file codice.
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/480
-
-**Cosa cambia:** i prossimi autofill supervisione (`marketplace.mjs aggiorna`) girano senza blocco tool.
-**Se va bene:** merge da Pannello → prossimi «Fai i 2 fix» automatici dalla casella Supervisione.
-
-- **Colore:** 🟡 (merge PR — Nicola approva)
-- **Reparto:** tech / supervisione
+❌ #mergia-pr-480 — ~~Mergia PR #480~~ → RIMOSSA 2026-07-20 18:00 · L-402: card merge obsoleta. PR #480 resta su GitHub.
 
 ---
 
@@ -254,20 +234,7 @@ node /opt/mycity/ad-mycity/cervello/housekeeping-azioni.mjs
 
 ---
 
-### 🟡 #arsenale-tab — Mergia la PR #464 che sposta l'Arsenale in un tab · ⏳ aggiornata 2026-07-18 23:10
-
-**Contesto:** Nicola ha chiesto (18/7) di spostare l'Arsenale dall'area in fondo alla pagina dentro un tab «Arsenale» 🗡️ nella barra in alto delle Azioni, accanto ai tab esistenti.
-
-**Fix implementato:** `Arsenale` rimosso da `page.tsx` e aggiunto come tab in `Azioni.tsx` — la barra ha ora un tab «Arsenale» che mostra lo stesso contenuto.
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/464 · branch `fix/arsenale-tab-v2` · commit `c70e4f2a`
-_(sostituisce PR #463 che aveva conflitti — già chiusa)_
-
-**Cosa cambia:** l'Arsenale compare nella barra in alto di Azioni — non più come blocco in fondo alla pagina.
-**Se va bene:** Nicola trova i playbook direttamente nel tab, insieme a tutti gli altri strumenti.
-
-- **Colore:** 🟡 (codice Pannello → mergia Nicola)
-- **Reparto:** frontend-dev
+❌ #arsenale-tab — ~~Mergia PR #464~~ → RIMOSSA 2026-07-20 18:00 · L-402: richiesta in chat — mergia da GitHub quando vuoi, niente card.
 
 ---
 
@@ -422,40 +389,11 @@ sudo systemctl restart mycity-worker-chat.service
 
 ---
 
-### 🟡 #mergia-pr-446 — Mergia PR #446: fix chat cross-device (smartphone vede chat vuota invece di quella desktop) · ⏳ accodata 2026-07-18 02:30
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/446
-
-**Due problemi risolti in un fix:**
-1. Messaggio da smartphone appare nella coda/archivio ma non nella lista conversazioni
-2. Risposte del desktop non visibili aprendo il Pannello da smartphone (sessione vuota)
-
-**Il fix:** quando il Pannello si apre e la chat è vuota, controlla se esiste una conversazione aggiornata nelle ultime 2 ore e la apre automaticamente. "Nuova chat" esplicita continua a funzionare come prima.
-
-**Cosa cambia:** apertura del Pannello da smartphone → la conversazione del desktop è già lì, niente da cliccare.
-**Se va bene:** chat desktop/smartphone sincronizzate automaticamente.
-
-- **Colore:** 🟡 (merge codice)
-- **Reparto:** frontend-dev
+❌ #mergia-pr-446 — ~~Mergia PR #446~~ → RIMOSSA 2026-07-20 18:00 · L-402: card merge obsoleta. PR #446 resta su GitHub.
 
 ---
 
-🟡 #mergia-pr-443 — Mergia PR #443: 5 fix UX Pannello (riapprova, testo umano, scroll, flash, layout) · ⏳ accodata 2026-07-18 01:40
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/443 · Branch: `feature/lavori-riapprova-ux`
-
-**5 fix nel Pannello:**
-1. **Bottone Riapprova** — spostato dall'area gialla in fondo all'**header della casella**, affiancato ad "Annulla" e "Chat", visibile senza dover aprire la casella.
-2. **Testo errore** — riformulato in italiano: *«L'azione non è partita — premi Riapprova per rimetterla in coda. Nessun dato è stato modificato.»* (no `rc=1/timeout/…` grezzo).
-3. **Scroll chat all'ultimo messaggio** — aprire la chat dalla casella porta direttamente all'ultimo messaggio, non all'inizio.
-4. **Flash durante streaming eliminato** — stessa struttura DOM per `pending=true` e per messaggio finale: React aggiorna in-place invece di smontare/rimontare, il testo non sparisce più nel momento della transizione.
-5. **Layout shift eliminato** — aggiunto `min-h-0` al div messaggi Worker + `shrink-0` all'header: le nuove righe durante la risposta non spingono più header e input verso il basso.
-
-**Cosa cambia:** 5 fastidi visivi del Pannello spariscono in un solo deploy.
-**Se va bene:** il Pannello è stabile durante lo streaming, le caselle parlano in italiano, la chat apre all'ultimo messaggio.
-
-- **Colore:** 🟡 (merge codice)
-- **Reparto:** frontend-dev
+❌ #mergia-pr-443 — ~~Mergia PR #443~~ → RIMOSSA 2026-07-20 18:00 · L-402: card merge obsoleta. PR #443 resta su GitHub.
 
 ---
 
@@ -1282,16 +1220,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-### 🟡 #mergia-pr-450 — Mergia PR #450: 3 fix Pannello (risposta vuota, in_attesa, Parla azzera chat) · ⏳ accodata 2026-07-18 13:28
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/450 · Branch: `fix/pannello-bloccanti-v2`
-
-**Cosa cambia:** (1) la risposta non scompare più se lo streaming l'aveva già mostrata; (2) azioni stuck in «in_attesa» possono essere ri-approvate o annullate; (3) aprire «Parla con questa casella» non azzera più la chat principale.
-
-**Se va bene:** il Pannello risponde in modo affidabile — bottone Approva e chat tornano stabili.
-
-- **Colore:** 🟡 (merge PR — Nicola approva da GitHub)
-- **Reparto:** frontend-dev
+❌ #mergia-pr-450 — ~~Mergia PR #450~~ → RIMOSSA 2026-07-20 18:00 · L-402: card merge obsoleta. PR #450 resta su GitHub.
 
 ---
 
@@ -1309,7 +1238,16 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-07-20 17:50 · 90 card totali
+> Ultima pulizia: 2026-07-20 18:00 · 96 card totali
+
+### ❌ #fix-parla-casella-pgrst102 — RIMOSSA 2026-07-20 18:00 · L-402 (Nicola «togli card merge obsolete»)
+Card merge PR #499 — ordine chat «fai il fix». Link PR consegnato in chat; mergia da GitHub quando vuoi.
+
+### ❌ #mergia-pr-480 — RIMOSSA 2026-07-20 18:00 · L-402
+### ❌ #arsenale-tab — RIMOSSA 2026-07-20 18:00 · L-402
+### ❌ #mergia-pr-446 — RIMOSSA 2026-07-20 18:00 · L-402
+### ❌ #mergia-pr-443 — RIMOSSA 2026-07-20 18:00 · L-402
+### ❌ #mergia-pr-450 — RIMOSSA 2026-07-20 18:00 · L-402
 
 ### ✅ #mergia-pr-496 — FATTO 2026-07-20 17:50 · PR #496 mergiata da Nicola (GitHub 17:44:45)
 
