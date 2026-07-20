@@ -299,6 +299,34 @@ function integraConversazioniDaLavori(list: Conversazione[], lavoriList: Lavoro[
   return extra.length ? [...extra, ...list] : list;
 }
 
+function titoloConversazioneDa(msgs: Msg[]): string {
+  const u = msgs.find((m) => m.role === "user" && !m.prompt)?.content || "";
+  const t = u.replace(/\s+/g, " ").trim();
+  if (!t) return "Conversazione";
+  return t.length > 60 ? t.slice(0, 60) + "…" : t;
+}
+
+function messaggiConversazioneSalvabili(msgs: Msg[]): Msg[] {
+  return msgs.filter((m) => !m.prompt && !m.pending && (m.role === "user" || m.role === "assistant"));
+}
+
+/** Chat aperta con messaggi ma assente dall'elenco (race persist/poll, rete mobile): reinseriscila. */
+function integraConversazioneAttiva(list: Conversazione[], id: string | null, msgs: Msg[]): Conversazione[] {
+  if (!id) return list;
+  const reali = messaggiConversazioneSalvabili(msgs);
+  if (reali.length === 0) return list;
+  const idx = list.findIndex((c) => c.id === id);
+  if (idx === -1) {
+    const now = new Date().toISOString();
+    return [{ id, titolo: titoloConversazioneDa(reali), messaggi: reali, created_at: now, updated_at: now }, ...list];
+  }
+  const merged = mergeThreadMsgs(list[idx].messaggi, reali);
+  if (JSON.stringify(merged) === JSON.stringify(list[idx].messaggi)) return list;
+  const copia = [...list];
+  copia[idx] = { ...copia[idx], messaggi: merged, updated_at: new Date().toISOString() };
+  return copia;
+}
+
 function conversazioniUguali(a: Conversazione[], b: Conversazione[]): boolean {
   if (a === b) return true;
   if (a.length !== b.length) return false;
@@ -986,6 +1014,7 @@ export default function Dashboard() {
   const loadingRef = useRef(false);
   const convIdRef = useRef<string | null>(null);
   const conversazioniRef = useRef<Conversazione[]>([]);
+  const messagesRef = useRef<Msg[]>([]);
   const lavoriRef = useRef<Lavoro[]>([]);
   const convServerRef = useRef(false);
   const sessionGruppoRef = useRef<string | null>(null);
@@ -996,6 +1025,7 @@ export default function Dashboard() {
   // (e salvata) nella conversazione SBAGLIATA. Assegnandoli in render restano sempre allineati allo stato.
   convIdRef.current = convId;
   conversazioniRef.current = conversazioni;
+  messagesRef.current = messages;
   lavoriRef.current = lavori;
   convServerRef.current = convServer;
   loadingRef.current = loading;
@@ -1178,10 +1208,7 @@ export default function Dashboard() {
   }
   // --- Conversazioni: ricordare e riprendere le chat ---
   function titoloDa(msgs: Msg[]): string {
-    const u = msgs.find((m) => m.role === "user" && !m.prompt)?.content || "";
-    const t = u.replace(/\s+/g, " ").trim();
-    if (!t) return "Conversazione";
-    return t.length > 60 ? t.slice(0, 60) + "…" : t;
+    return titoloConversazioneDa(msgs);
   }
   function leggiConvLocali(): Conversazione[] {
     try {
@@ -1277,7 +1304,7 @@ export default function Dashboard() {
   // ANTI-RACE: prima di salvare, fonde con la versione già in memoria — uno snapshot
   // vecchio (es. al cambio chat) non può più sovrascrivere una risposta arrivata dopo.
   async function persistConversazione(id: string | null, msgs: Msg[]): Promise<string | null> {
-    let reali = msgs.filter((m) => !m.prompt && !m.pending && (m.role === "user" || m.role === "assistant"));
+    let reali = messaggiConversazioneSalvabili(msgs);
     if (reali.length === 0) return id;
     let esistente: Conversazione | undefined;
     if (id) {
@@ -1325,7 +1352,8 @@ export default function Dashboard() {
       };
       // Aggiornamento: resta al suo posto (aprire un'altra chat non la sposta in cima).
       const nuova = esiste ? list.map((c) => (c.id === newId ? riga : c)) : [riga, ...list];
-      if (!convServer) scriviConvLocali(nuova);
+      // Cache locale sempre: backup se il DB non ha ancora la riga (rete mobile, reload surriscaldamento).
+      scriviConvLocali(nuova);
       return nuova;
     });
     return newId;
@@ -1574,10 +1602,25 @@ export default function Dashboard() {
         sessionGruppoRef.current = gruppoId;
       }
       targetConvId = gruppoId;
-      const savedConv = await persistConversazione(convId, [
+      const msgsOptimistic = [
         ...messages.filter((m) => !m.prompt && !m.pending),
-        { role: "user", content: bollaUtente },
-      ]);
+        { role: "user" as const, content: bollaUtente },
+      ];
+      // Subito in lista + convId: non aspettare il POST (su mobile la rete può tardare e la chat «sparisce»).
+      setConvId(gruppoId);
+      setConversazioni((list) => integraConversazioneAttiva(list, gruppoId, msgsOptimistic));
+      const idPersist =
+        convId && !convId.startsWith("sess_") && !convId.startsWith("loc_") ? convId : null;
+      const savedConv = await persistConversazione(idPersist, msgsOptimistic);
+      if (savedConv && savedConv !== gruppoId) {
+        setConversazioni((list) => {
+          const idx = list.findIndex((c) => c.id === gruppoId);
+          if (idx === -1) return integraConversazioneAttiva(list, savedConv, msgsOptimistic);
+          const copia = [...list];
+          copia[idx] = { ...copia[idx], id: savedConv };
+          return copia;
+        });
+      }
       if (savedConv) {
         setConvId(savedConv);
         gruppoId = savedConv;
@@ -2014,10 +2057,19 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           const gruppi = new Map<string, GruppoLavori>();
           for (const g of raggruppaLavori(lavoriRef.current, m)) gruppi.set(g.id, g);
           migraConvLetteBaseline(incoming, gruppi);
-          const attiva = convIdRef.current;
-          const merged = integraConversazioniDaLavori(
-            mergeListaConversazioni(conversazioniRef.current, incoming, attiva),
-            lavoriRef.current,
+          const attiva = convIdRef.current || sessionGruppoRef.current;
+          const localBackup = typeof window !== "undefined" ? leggiConvLocali() : [];
+          const merged = integraConversazioneAttiva(
+            integraConversazioniDaLavori(
+              mergeListaConversazioni(
+                mergeListaConversazioni(conversazioniRef.current, incoming, attiva),
+                localBackup,
+                attiva,
+              ),
+              lavoriRef.current,
+            ),
+            attiva,
+            messagesRef.current,
           );
           if (!conversazioniUguali(conversazioniRef.current, merged)) {
             setConversazioni(merged);
@@ -2120,6 +2172,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       document.removeEventListener("visibilitychange", onVis);
     };
   }, [convServer, caricaConversazioni]);
+
+  // La chat aperta deve restare sempre visibile nel cassetto (anche durante persist/poll).
+  useEffect(() => {
+    const id = convId || sessionGruppoRef.current;
+    if (!id) return;
+    setConversazioni((prev) => {
+      const next = integraConversazioneAttiva(prev, id, messages);
+      return conversazioniUguali(prev, next) ? prev : next;
+    });
+  }, [convId, messages]);
 
   // Refresh immediato quando si apre il cassetto conversazioni (desktop o FAB mobile):
   // senza questo, l'utente vede la lista "congelata" all'ultimo poll (fino a 8s fa).
