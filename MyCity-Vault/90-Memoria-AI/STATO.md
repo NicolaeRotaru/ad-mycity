@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 23:59
-fonte: AD digitale (chat 20/7 23:59)
+aggiornato: 2026-07-21 00:08
+fonte: AD digitale (chat 21/7 00:08)
 ---
+
+> 💬 **21/7 ~00:08 — CHAT: Diretta contenuti — #498 incompleta, second fix PR pendente (L-438).** Nicola «**non hai risolto**» + caselle spariscono/cambiano + **contenuto non si apre** al click (screenshot). AD: **due bug distinti** oltre #498 (già mergiata 16:36): (1) **click bianco** — testo in memoria ma UI aspettava refresh interno; (2) **lista instabile** — poll 30s sostituiva tutto su risposta GitHub parziale. **Fix consegnato:** branch `fix/diretta-apri-contenuto`, commit **`c0039c2a`** — merge per filename + contenuto immediato + scheda aperta sticky; typecheck ok. **Non ancora online** — merge 🔴 pendente (PR bloccata da rate limit GitHub API al momento del turno). **Test post-deploy:** apri una scheda, resta 1–2 min — testo visibile + lista stabile. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:08.
 
 > 💬 **20/7 ~23:59 — CHAT: Casella Capillarità in Bacheca home (L-437).** Nicola «**metti questa casella dentro bacheca**» — casella Vendite playbook capillarità refresh 20/7. AD: pin in cima `BACHECA.md` — kit PQ **ARMATO ma non stampare** (grafica pronta · 0 DELIVERED · gate ordine test → stampa ~80–150 € → semina città ≥3 negozi); prospect solo template neutri. Playbook: `consegne/vendite/2026-07-20-playbook-capillarita.md`. Fonte: chat Nicola 20/7 ~23:59.
 
