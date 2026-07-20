@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:34
+aggiornato: 2026-07-20 02:35
 fonte: AD digitale (metabolizzazione chat)
 ---
 

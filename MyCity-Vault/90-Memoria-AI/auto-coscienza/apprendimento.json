@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 02:32",
+  "aggiornato": "2026-07-20 02:35",
+  "_nota_metabolizzazione_20_07_0235": "Chat 20/7 ~02:34: Nicola «webhook collegato» — verificato OK worker (n8n health ok); correzione loader: worker=ultima riga env, sensori manuali=prima. L-357 evidenze++ addendum collegato; preferenza n8n-webhook aggiornata; LEZIONI-CHAT fix duplicati; builder esito.",
   "_nota_metabolizzazione_20_07_0232": "Chat 20/7 ~02:32: Nicola «FAB e menu Worker non stessa finestra + lista conv overlay sopra chat» — PR #492 tre superfici. L-363 nuova (caso_studio_nicola); L-352 evidenze++ addendum superseded parziale; preferenza worker-tre-superfici; #208 SUPERSEDED, #209 FATTO; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0231": "Chat 20/7 ~02:31: Nicola «fammi rimergiare menu e risolvi conflitto #489» — PR #490 unificata (menu+layout). L-362 nuova; L-359 evidenze++ superseded; preferenza pr-unificata-conflitto; #207 SUPERSEDED, #208 nuova; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0223": "Chat 20/7 ~02:23: Nicola «no, non riesco a visualizzare i fix» smentisce AD che aveva detto 5 merge online (peso chunk errato). L-361 nuova (caso_studio_nicola); L-360 evidenze++ addendum falso positivo; preferenza verifica-deploy-ui-live; STATO corretto 02:22; DECISIONI+LEZIONI-CHAT+frontend-dev+devops-sre aggiornati.",
@@ -225,7 +226,7 @@
     },
     {
       "id": "L-2026-0720-357",
-      "testo": "**n8n webhook env — «ho inserito N8N_WEBHOOK_URL» = milestone env, non «mano attiva» finché restart+verifica sensori (Nicola 20/7 ~02:07).** Nicola conferma di aver incollato l'URL webhook nel file segreto worker. 5 perché: (1) «inserito nel env» = **passo Nicola completato**, non conferma che la macchina invii già a n8n — il worker legge `.env` **solo al riavvio**; (2) **non** dire «collegato» / «mano attiva» senza `verifica-sensori.mjs` verde post-restart; (3) prossimi passi **numerati**: workflow **Active** in n8n → riavvio worker (Pannello «Riavvia worker» o SSH) → Nicola scrive **«webhook collegato»** → AD verifica sensori; (4) **ADDENDUM verifica 02:07:** nel `.env` **3 righe** `N8N_WEBHOOK_URL` (2 segnaposto + 1 reale) — loader **prima vince** → sensori ancora rossi; fix = **una sola** riga con URL vero, cancellare duplicate; vale per qualsiasi chiave env; (5) Meta OAuth e `AZIONI_LIVE` restano **separati** — webhook ok ≠ post automatico su FB/IG; interruttore sicurezza resta off. Regola: milestone env → congratula passo + elenca cosa manca + verifica oggettiva solo su «webhook collegato». Vedi L-331, L-330, L-351, L-344.",
+      "testo": "**n8n webhook env — milestone env → restart → «webhook collegato» → verifica runtime (Nicola 20/7 ~02:07, chiuso 02:34).** Nicola conferma di aver incollato l'URL webhook nel file segreto worker. 5 perché: (1) «inserito nel env» = **passo Nicola completato**, non conferma che la macchina invii già a n8n — il worker legge `.env` **solo al riavvio**; (2) **non** dire «collegato» / «mano attiva» senza verifica post-restart con lo **stesso loader del worker**; (3) prossimi passi **numerati**: workflow **Active** in n8n → riavvio worker → Nicola scrive **«webhook collegato»** → AD verifica (`n8n health ok`); (4) **ADDENDUM env duplicati (corretto 02:34):** nel `.env` possono restare **3 righe** `N8N_WEBHOOK_URL` (2 segnaposto + 1 reale) — il **worker usa l'ultima** (reale) e il webhook **funziona**, ma i sensori/controlli «a mano» leggono spesso la **prima** (segnaposto) → chiedi **una sola** riga per chiarezza; vale per qualsiasi chiave env; (5) **ADDENDUM 02:34:** Nicola «webhook collegato» — verificato OK sul worker; Meta OAuth e `AZIONI_LIVE` restano **separati** — webhook ok ≠ post automatico su FB/IG; interruttore sicurezza resta off. Regola: milestone env → passi numerati → verifica oggettiva su «webhook collegato» → prossimo passo (Meta/Telegram). Vedi L-331, L-330, L-351, L-344.",
       "tag": [
         "n8n",
         "webhook",
@@ -237,12 +238,12 @@
         "milestone"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.94,
-      "evidenze": 1,
+      "confidenza": 0.96,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 02:07",
+      "ultima_conferma": "2026-07-20 02:34",
       "stato": "attiva",
       "usi": []
     },
@@ -8574,7 +8575,7 @@
     "**Allowlist MCP — mostra sempre Vercel + Supabase insieme (chat 19/7 16:44):** «C'era quello di vercel» quando l'AD elencava solo le righe Supabase — si aspetta di vedere il blocco completo (5 Vercel già presenti + 2 Supabase da aggiungere), non istruzioni che sembrano sostituire ciò che ha già configurato. Spiegare anche la regola virgola: tra le righe sì, mai trailing comma sull'ultima.",
     "**Playwright worker + strumenti contenuti potenti (chat 19/7 ~17:26):** chiede come rendere operativo Playwright sul worker E quali strumenti servono per contenuti forti + come darli all'AD. Preferenza: risposta operativa con (1) verifica runtime cosa manca sul VPS, (2) passi concreti root SSH (font → Node22 in `/opt/node22` → Playwright+Chromium → env `PLAYWRIGHT_BROWSERS_PATH`), (3) elenco strumenti in bin attivo/spento/carburante, (4) modalità consegna materiale (allegati chat, cartella repo, chiavi solo in segreti VPS se cambia regola niente-API). Vuole sapere cosa fa lui vs cosa fa l'AD; dalla chat l'install non parte senza root.",
     "**Verifica n8n sul worker (chat 19/7 ~21:56):** chiede «Riesci a vedere che n8n è dentro il worker?» — vuole che l'AD **controlli runtime** (servizio/porta 5678 risponde), non solo deduca dallo screenshot; risposta con stato reale + cosa manca (webhook env segnaposto) + passi numerati fino a «webhook collegato».",
-    "**n8n webhook env inserito (chat 20/7 ~02:07):** «ho inserito N8N_WEBHOOK_URL nel file env» = conferma passo env, **non** «collegato»; AD verifica sensori solo dopo riavvio worker; se nel `.env` ci sono righe duplicate/segnaposto sopra l'URL vero spiega «prima riga vince» e chiedi pulizia; prossimi passi numerati: Active in n8n → restart worker → scrive «webhook collegato» → AD verifica. Meta OAuth e `AZIONI_LIVE` restano separati.",
+    "**n8n webhook collegato (chat 20/7 ~02:34):** «webhook collegato» dopo restart = checkpoint verificabile — AD conferma solo con test runtime sul worker (`n8n health ok`); env duplicati: worker usa **ultima** riga, sensori manuali spesso **prima** → chiedi una sola riga per chiarezza; prossimo Meta OAuth in n8n; post restano 🔴 + interruttore sicurezza off.",
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
