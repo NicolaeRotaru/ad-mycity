@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:34
+aggiornato: 2026-07-20 03:36
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:36 — CHAT: Bacheca home — 3 caselle n8n (20 mani + reparto + 50 workflow) (L-377, L-383).** Nicola «**inserisci questi 50 workflow dentro la bacheca della home**» — dopo elenco completo in chat (L-383). AD aggiunge **terza casella** in cima `BACHECA.md`: **«50 workflow n8n MyCity»** — catalogo condensato 10 blocchi (1–50) con 🔴🟡🟢 + priorità accensione (31 Telegram → Meta → 41 RSS → 11 carrello → 21 ordine negozio). Sotto: caselle **20 mani** (03:25) e **mani per reparto senior** (03:25). Home Plancia legge **main** — refresh se non visibile. Fonte: chat Nicola 20/7 03:36.
+
+> 💬 **20/7 ~03:34 — CHAT: «Elencami i 50 workflow» — lista numerata completa in chat (L-383).** Nicola chiede **tutti e 50** workflow dopo consegna JSON stub (L-379). AD elenca in chat **10 categorie × 5** (social, acquisizione, carrelli, fidelizzazione, negozi, ops, comunicazione AD, marketing locale, intelligence/bandi, back-office) con numeri 1–50, colori 🔴🟡🟢, highlight **n.31** (59 card Telegram) e **n.41** (RSS bandi, PI26 **10:00**). CTA: «quale numero accendiamo per primo» — consiglio **31** o **41**. Fonte: chat Nicola 20/7 03:34.
 
 > 💬 **20/7 ~03:34 — CHAT: Worker navbar — voce Worker = chat grande, non popup (L-382).** Nicola «**dentro la navbar in alto, il bottone worker deve aprire la chat grande e non la fluttuante**» — requisito **già in codice** su main da ~02:30 (**PR #492**): voce **Worker** nel menu laterale chiama `apriWorkerPopup(true)` → fullscreen; **FAB** basso-destra resta popup piccolo (accesso rapido). Se da menu vede ancora popup = **Pannello Production non aggiornato** (GitHub outage stasera, deploy post-#492/#493/#494 in attesa — L-372); Ctrl+F5, poi redeploy 🔴 se persiste. Fonte: chat Nicola 20/7 03:34.
 

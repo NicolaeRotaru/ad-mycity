@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:34",
+  "aggiornato": "2026-07-20 03:36",
   "_nota_metabolizzazione_20_07_0334": "Chat 20/7 ~03:34: Nicola «bottone worker navbar deve aprire chat grande non fluttuante» — codice main già ok (#492 apriWorkerPopup true), lag deploy. L-382 nuova; L-363 evidenze++ addendum re-ask; preferenza worker-navbar-chat-grande; STATO+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_0333": "Chat 20/7 ~03:33: Nicola «spiegami meglio il punto 3» — chiarimento stub workflow post L-379. L-381 nuova; L-379 evidenze++ addendum punto 3; preferenza spiegami-punto-n-stub; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0329": "Chat 20/7 ~03:28: Nicola «quando si attiva Builder automazioni?» — chiarimento trigger on-demand vs worker. L-380 nuova; preferenza quando-attiva-builder; STATO+LEZIONI-CHAT+builder esito.",
@@ -101,6 +101,28 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-383",
+      "testo": "**«Elencami i 50 workflow» = lista numerata completa in chat, 10 blocchi + 🔴🟡🟢 (Nicola 20/7 ~03:34).** Dopo consegna 50 JSON stub (L-379), Nicola «**allora elencami in chat i 50 workflow**». 5 perché: (1) «elencami» ≠ «crea JSON» (L-379) — vuole **leggere tutti i titoli** in chat, numerati e raggruppati; (2) formato atteso: **10 categorie × 5** con numeri 1–50, titolo breve per workflow, colore **🔴** messaggi/post · **🟡** avvisi interni · **🟢** solo report; (3) evidenziare **n.31** (59 card Da approvare → Telegram) e **n.41** (RSS bandi Comune, PI26 oggi 10:00) come priorità; (4) reminder stub: bozze importabili, spente finché non completate (L-381); (5) chiudere «**quale numero accendiamo per primo**» — consiglio 31 o 41. **ADDENDUM 03:36:** «inserisci questi 50 workflow in bacheca» → casella condensata in cima BACHECA.md (L-377). Regola: post-consegna JSON, «elencami N workflow» → elenco chat completo strutturato; se chiede bacheca → blocco ## condensato separato. Vedi L-379, L-377, L-381.",
+      "tag": [
+        "n8n",
+        "workflow",
+        "catalogo",
+        "elenco",
+        "bacheca",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.9,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:36",
+      "stato": "attiva",
+      "usi": [],
+      "_evidenza_2": "ADDENDUM 03:36: «inserisci questi 50 workflow in bacheca home» — terza casella BACHECA.md condensata 10 blocchi; pattern L-377 esteso."
+    },
     {
       "id": "L-2026-0720-382",
       "testo": "**Worker navbar — voce Worker apre chat grande, FAB popup; codice ok su main, se vede popup = deploy (Nicola 20/7 ~03:34).** «Dentro la navbar in alto, il bottone worker deve aprire la chat grande e non la fluttuante» — follow-up L-363 (tre superfici). 5 perché: (1) Nicola **re-chiede** perché produzione **non** mostra ancora il fix (#492 ~02:30), non perché il requisito è nuovo; (2) codice su main già corretto — voce **Worker** menu laterale = `apriWorkerPopup(true)` fullscreen (`page.tsx` ~2580); **FAB** basso-destra resta popup piccolo **volutamente**; (3) se menu apre ancora popup = **deploy Production** indietro (GitHub outage, merge #492/#493/#494 deploy pendente — L-372), non bug codice da rifare; (4) risposta giusta: verifica codice main + spiega lag deploy + Ctrl+F5 + offri redeploy 🔴 se persiste; (5) **non** dire «è già così» senza distinguere repo vs Pannello live (L-361). Regola: re-ask Worker grande vs popup → codice main + FAB≠menu + deploy gate, non nuova PR se già `true`. Vedi L-363, L-361, L-372.",
@@ -209,7 +231,7 @@
     },
     {
       "id": "L-2026-0720-377",
-      "testo": "**«Salva in bacheca» = N caselle separate in BACHECA.md, una per risposta (Nicola 20/7 ~03:25).** Nicola «salva le ultime 2 risposte dentro la bacheca della home in due caselle diverse» — dopo catalogo 20 mani n8n (L-373) e mani per reparto senior (L-376). 5 perché: (1) chat volatili — Nicola vuole output **persistenti e visibili in home** senza riaprire la conversazione; (2) **due risposte = due caselle** distinte (`## Titolo · data ora`), non un blocco unico mescolato; (3) file = `MyCity-Vault/90-Memoria-AI/BACHECA.md`, servito da `/api/bacheca` in Plancia (DECISIONI 16/7); (4) più recenti in cima; Pannello legge **main** GitHub — se non visibile subito = refresh, non «fatto» senza publish; (5) contenuto = **condensato utile** (elenco, ordine, regole 🔴), non dump chat grezzo. Regola: «salva in bacheca / salva le ultime N risposte» → 🟢 scrivi **N blocchi ## separati** in BACHECA.md subito. Vedi DECISIONI 16/7 bacheca, L-373, L-376.",
+      "testo": "**«Salva in bacheca» = N caselle separate in BACHECA.md, una per risposta (Nicola 20/7 ~03:25).** Nicola «salva le ultime 2 risposte dentro la bacheca della home in due caselle diverse» — dopo catalogo 20 mani n8n (L-373) e mani per reparto senior (L-376). 5 perché: (1) chat volatili — Nicola vuole output **persistenti e visibili in home** senza riaprire la conversazione; (2) **due risposte = due caselle** distinte (`## Titolo · data ora`), non un blocco unico mescolato; (3) file = `MyCity-Vault/90-Memoria-AI/BACHECA.md`, servito da `/api/bacheca` in Plancia (DECISIONI 16/7); (4) più recenti in cima; Pannello legge **main** GitHub — se non visibile subito = refresh, non «fatto» senza publish; (5) contenuto = **condensato utile** (elenco, ordine, regole 🔴), non dump chat grezzo. Regola: «salva in bacheca / salva le ultime N risposte / inserisci [contenuto] in bacheca» → 🟢 scrivi **N blocchi ## separati** in BACHECA.md subito. Vedi DECISIONI 16/7 bacheca, L-373, L-376, L-383.",
       "tag": [
         "bacheca",
         "pannello",
@@ -218,14 +240,15 @@
         "nicola"
       ],
       "reparto": "@ad",
-      "confidenza": 0.88,
-      "evidenze": 1,
+      "confidenza": 0.9,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 03:25",
+      "ultima_conferma": "2026-07-20 03:36",
       "stato": "attiva",
-      "usi": []
+      "usi": [],
+      "_evidenza_2": "ADDENDUM 03:36: «inserisci questi 50 workflow in bacheca» — terza casella «50 workflow n8n MyCity» condensata in cima; home ora 3 caselle n8n. Vedi L-383."
     },
     {
       "id": "L-2026-0720-375",
@@ -8718,12 +8741,14 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**50 workflow in bacheca — «inserisci questi 50 workflow in bacheca home» = terza casella condensata (chat 20/7 ~03:36):** dopo elenco completo in chat (L-383) chiede persistenza — si aspetta **nuovo blocco ## in cima** a `BACHECA.md` con catalogo **condensato** (10 blocchi, colori 🔴🟡🟢, priorità accensione), non dump chat grezzo; sotto restano caselle 20 mani + mani per reparto; refresh se main non pubblicato. Vedi L-377, L-383.",
+    "**Elenco 50 workflow in chat — «elencami i 50 workflow» = lista numerata completa (chat 20/7 ~03:34):** dopo JSON stub (L-379) vuole **tutti e 50 in chat** — 10 categorie × 5, numeri 1–50, titoli brevi, colori 🔴🟡🟢; evidenziare n.31 (59 avvisi Telegram) e n.41 (RSS bandi PI26 10:00); chiudere «quale numero accendiamo per primo». Vedi L-383, L-379.",
     "**Worker navbar — voce Worker = chat grande, FAB = popup; se live diverso = deploy (chat 20/7 ~03:34):** «dentro la navbar in alto, il bottone worker deve aprire la chat grande e non la fluttuante» — conferma/rinforzo L-363: voce **Worker** nel menu laterale = **fullscreen**; **FAB** basso-destra = popup piccolo voluto; si aspetta che il codice lo faccia (già su main #492) — se vede ancora popup dal menu = **Production non aggiornata** (GitHub outage, deploy pendente), non «fix mancante»; Ctrl+F5 poi redeploy 🔴. Vedi L-382, L-363, L-372, L-361.",
     "**Spiegami meglio il punto N — chiarimento stub workflow = esempio concreto + passi n8n (chat 20/7 ~03:33):** dopo lista numerata su 50 workflow (L-379) chiede «**spiegami meglio il punto 3**» — si aspetta **walkthrough operativo**, non ripetizione abstract: cosa c’è già (trigger+nota) vs cosa manca (nodo segnaposto STUB), **esempio file reale** (n.31, 59 card), perché stub (id import + no invii accidentali, 🔴), eccezione 2 workflow completi repo; chiude con **un solo prossimo passo** («Telegram n.31 nodo per nodo»). Vedi L-381, L-379.",
     "**Quando si attiva Builder automazioni — chiarimento trigger on-demand, non cron mattutino (chat 20/7 ~03:28):** «quando si attiva Builder automazioni?» — si aspetta modello **operativo chiaro**: Builder **non** gira come worker ogni mattina; entra quando (1) Nicola chiede un'automazione/mano, (2) un reparto richiede via AD, (3) approva card 🔴 che deve uscire, (4) radar occasionale su salute n8n; **bozze/file JSON 🟢** subito, **accendere server + invii 🔴**; chiude con CTA («accendi Telegram» / «importa workflow» / «RSS bandi»). Vedi L-380, L-378.",
     "**Crea 50 workflow n8n — «adesso crea i 50 workflow» = file JSON importabili, non solo catalogo testuale (chat 20/7 ~03:27):** dopo griglia 10×5 (L-368) chiede **consegna operativa** — si aspetta **50 JSON** in repo (`consegne/automazioni/n8n/workflows/`) pronti per Import from file in n8n, con `id`/`versionId`, indice catalogo e script rigenerazione; **stub** collegabili (Telegram segnaposto) — **non attivi** finché non si collegano credenziali; 2 workflow completi repo = partenza migliore; **priorità accensione:** Telegram (59 avvisi) → Meta → RSS bandi (#41) → carrello 1h (#11) → ordine negozio (#21); messaggi/post **🔴**; chiude «quale accendiamo per primo». Vedi L-379, L-368, L-329.",
     "**Senior esperto n8n — chiarimento organigramma: builder costruisce, reparti richiedono (chat 20/7 ~03:26):** «ci sono senior esperti di n8n?» — si aspetta risposta **precisa sui ruoli**: **builder-automazioni** = unico che progetta/costruisce flussi n8n; altri senior (marketing, CRM, ops, vendite…) **dichiarano bisogno** (L-376); **partner-management** = SLA fornitore n8n (up/scadenze/rotture), **devops** = server/Docker, **non** architetti workflow; **no secondo esperto n8n** dedicato; 50 workflow = Builder da richieste reparto, 🔴 su messaggi/post/soldi; chiude «quale accendiamo per primo» (Telegram 59 avvisi / RSS PI26 10:00 / notifica ordine). Vedi L-378, L-376, L-332.",
-    "**Salva risposte in Bacheca home — caselle separate (chat 20/7 ~03:25):** «salva le ultime N risposte in bacheca / due caselle diverse» = output **persistenti in home Plancia**, **una casella per risposta** (`##` distinto in `BACHECA.md`), contenuto condensato utile — non lasciare solo in chat. Refresh se main non ancora pubblicato. Vedi L-377, DECISIONI 16/7.",
+    "**Salva risposte in Bacheca home — caselle separate (chat 20/7 ~03:25, agg. 03:36):** «salva le ultime N risposte in bacheca / due caselle diverse / **inserisci questi 50 workflow in bacheca**» = output **persistenti in home Plancia**, **una casella per risposta/contenuto** (`##` distinto in `BACHECA.md`), condensato utile — non lasciare solo in chat; oggi **3 caselle** n8n (20 mani · reparto · 50 workflow). Refresh se main non ancora pubblicato. Vedi L-377, L-383, DECISIONI 16/7.",
     "**Mani n8n — chiedi a tutti i senior per reparto, non lista generica AD (chat 20/7 ~03:19):** dopo catalogo 20 integrazioni (L-373) corregge «**ti stai risparmiando**» — si aspetta **team-play**: ogni reparto (comunicazione, negozi, ops, soldi, intelligence, governance, builder, creativi) dichiara quali **mani n8n** gli servono; AD **compone e sintetizza**, non elenco generico inventato da solo; ordine condiviso Telegram (59 avvisi) → Meta → RSS bandi → email welcome → notifica ordine; messaggi/post/soldi = **🔴**; chiude «quale reparto accendiamo» («Telegram» / «Meta» / «RSS bandi»). Vedi L-376, L-373, L-370.",
     "**Indipendenza dai dipendenti — lean headcount via automazione + card 🔴 (chat 20/7 ~03:17):** obiettivo esplicito «rendere mycity il più indipendente dai dipendenti» — si aspetta risposta **operativa-modello**, non piano hiring: cervello+n8n su ripetizione; **umano solo 🔴** (firma, trattative, primo ordine concierge, dispute, deploy/soldi); 3 fasi (accendi città · abitudine · default locale); **primo ordine + payout-ready** come prerequisito (altrimenti automazioni a vuoto); ordine oggi PI26 10:00 → Telegram (59 avvisi) → Meta → notifica ordine → carrello; chiude con **una scelta blocco** («bandi» / «Telegram» / «primo ordine»). Vedi L-375, L-370.",
     "**RSS bandi Comune — chiarimento voce catalogo n8n = cosa fa + perché n8n + stato + setup + CTA (chat 20/7 ~03:16):** quando chiede «RSS Comune/bandi → riassunto portali istituzionali» si aspetta spiegazione **operativa** — sveglia cron (Schedule 7:00), fonti (Comune, CCIAA, CNA/Vita in Centro), filtro 5 righe, motivo tecnico (**403** fetch worker vs n8n Docker), stato **workflow non attivo**, delivery Telegram (59 avvisi) o webhook worker; domande bandi = **🔴**; chiude «accendi RSS bandi» / «prima Telegram». Vedi L-374, L-365, L-370.",
@@ -9037,13 +9062,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 394,
+    "lezioni_attive": 399,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.19,
-    "tasso_calcolato_il": "2026-07-20 03:26",
+    "tasso_calcolato_il": "2026-07-20 03:36",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 03:26",
+    "tick_leggero_il": "2026-07-20 03:36",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
