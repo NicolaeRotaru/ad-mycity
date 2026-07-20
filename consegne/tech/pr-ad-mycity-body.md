@@ -1,10 +1,13 @@
 ## Summary
-- **Chat grande (menu Worker):** icona ☰ lista conversazioni accanto a **+ Nuova** nella barra in basso; tolte le icone ingrandisci/chiudi dall’alto.
-- **Popup fluttuante (bottone basso-destra):** ripristinata **barra alta** con menu conversazioni, ingrandisci e chiudi (estetica + chiusura chiara).
-- **Fix menu:** in chat grande il toggle elenco conversazioni era scollegato — ora `onConversazioni` apre/chiude il cassetto.
+Con la chat Worker a schermo intero, il menu sito (☰ in navbar) restava sotto l'overlay chat (z-40 vs z-50) e sembrava morto.
 
-## Test plan
-1. Merge + deploy, poi **Ctrl+F5** sul Pannello.
-2. **Popup piccolo** (bottone basso-destra): barra alta visibile con ☰ · ingrandisci · chiudi; ☰ apre elenco conv sopra la chat.
-3. **Chat grande** (voce Worker nel menu): nessuna icona in alto a destra; in basso ☰ accanto a **+**; tap ☰ apre/chiude elenco conversazioni.
-4. Da popup, ingrandisci → passa a chat grande con menu solo in basso.
+## Cosa cambia
+- Quando chat grande + menu sito aperto: drawer nav e velo mobile passano sopra la chat (z-55/z-60), header resta cliccabile (z-70).
+- Scegliendo una voce del menu (es. Home, Azioni) si chiude anche la chat grande — torni alla sezione scelta.
+
+## Come provare
+1. Apri Worker a schermo intero (voce «Worker» nel menu o ingrandisci dal popup).
+2. Tocca ☰ accanto a «Pannello di Controllo» in alto.
+3. Deve comparire il menu laterale (Home, Azioni, Lavori…) sopra la chat.
+4. Scegli «Home» → menu si chiude e vedi la plancia, chat grande sparita.
+5. Ctrl+F5 se il browser aveva cache vecchia.

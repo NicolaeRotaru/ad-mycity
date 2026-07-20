@@ -2428,9 +2428,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   }
 
 
+  // Chat Worker fullscreen (z-50) copriva il drawer nav (z-40): con menu sito aperto in grande, nav sopra.
+  const navSopraWorker = workerFull && navAperta;
+
   return (
     <div className="min-h-screen flex flex-col">
-      <header ref={headerRef} className="sticky top-0 z-20 backdrop-blur-md border-b" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-page) 88%, transparent)" }}>
+      <header ref={headerRef} className={`sticky top-0 backdrop-blur-md border-b ${navSopraWorker ? "z-[70]" : "z-20"}`} style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-page) 88%, transparent)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-5 py-3 flex items-center gap-3">
           {/* Icona menù nella barra in alto: apre/chiude il menù laterale su tutti i
               formati (desktop e telefono). */}
@@ -2516,14 +2519,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       <div className="flex flex-1 min-h-0 items-stretch">
         {navAperta && (
           <button
-            className="fixed inset-x-0 bottom-0 top-[var(--altezza-testata)] z-30 bg-black/40 lg:hidden"
+            className={`fixed inset-x-0 bottom-0 top-[var(--altezza-testata)] bg-black/40 lg:hidden ${navSopraWorker ? "z-[55]" : "z-30"}`}
             onClick={() => setNavAperta(false)}
             aria-label="Chiudi il menù"
           />
         )}
 
         <aside
-          className={`fixed lg:sticky z-40 top-[var(--altezza-testata)] left-0 h-[calc(100dvh-var(--altezza-testata))] lg:self-start shrink-0 overflow-hidden transition-[width,transform] duration-200 ${
+          className={`fixed lg:sticky top-[var(--altezza-testata)] left-0 h-[calc(100dvh-var(--altezza-testata))] lg:self-start shrink-0 overflow-hidden transition-[width,transform] duration-200 ${
+            navSopraWorker ? "z-[60]" : "z-40"
+          } ${
             navAperta ? "w-64 translate-x-0" : "w-64 -translate-x-full lg:w-0"
           }`}
           style={{ background: "var(--bg-surface)", borderRight: "1px solid var(--border)" }}
@@ -2573,7 +2578,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                       key={v.id}
                       onClick={() => {
                         if (v.id === "assistente") apriWorkerPopup(true);
-                        else setVista(v.id);
+                        else {
+                          setVista(v.id);
+                          setWorkerFull(false);
+                          setChatFluttuante(false);
+                        }
                         if (typeof window !== "undefined" && window.innerWidth < 1024) setNavAperta(false);
                       }}
                       className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[12.5px] font-medium text-left transition ${
