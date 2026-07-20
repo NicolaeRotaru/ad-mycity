@@ -1,10 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 18:41
+aggiornato: 2026-07-20 18:45
 fonte: AD digitale (metabolizzazione chat)
 ---
 
-> 💬 **20/7 ~18:41 — CHAT: PostHog env ok ma chiave invalida — HTTP 401, non «manca collegamento» (L-409).** Nicola «**ho fatto tutto quello che mi hai detto**» ma sensori/Pannello dicono ancora non collegato — AD verifica live **18:41**: env **letto** (`POSTHOG_OFF=0`, prefix `phx_`, host `https://eu.posthog.com`, lunghezza 52) → collegamento c'è; PostHog API risponde **401** «Personal API key … is invalid» → sensore **`posthog_api: cieco`** (non più `non_configurato`). **Causa:** chiave revocata/copiata male/account EU-US mismatch — **non** file env mancante. **Fix:** rigenerare Personal API Key su **eu.posthog.com** (permesso Project: Read) → sostituire riga env → restart worker → «posthog ok» in chat per ricontrollo. Riaccensione briefing PostHog (decisione 5/7) ancora solo se chiesto esplicito. Fonte: chat Nicola 20/7 18:41 + verifica-sensori 18:41.
+> 💬 **20/7 ~18:44 — CHAT: PostHog RISOLTO — account US, host europeo era la causa del 401 (L-410).** Nicola «**si è us.posthog**» — correzione: account **americano**, non europeo. AD cambia `POSTHOG_HOST` → `https://us.posthog.com` in `cervello/vps/.env` + restart worker — **chiave `phx_` valida**, non serviva rigenerarla. Verificato **18:44**: sensore **`posthog_api: ok`** (projects API 200). **Residuo:** allineare host tracking su **Render** se ancora europeo (eventi sito vs lettura worker). Riaccensione briefing PostHog (decisione 5/7) ancora solo se chiesto esplicito. Fonte: chat Nicola 20/7 18:44 + verifica-sensori 18:44 + `registro-fatti.json` `sensori.posthog.regione`.
+
+> 💬 **20/7 ~18:41 — CHAT: PostHog env ok ma HTTP 401 — non «manca collegamento» (L-409, risolto L-410).** Nicola «**ho fatto tutto quello che mi hai detto**» ma sensori/Pannello dicono ancora non collegato — AD verifica live **18:41**: env **letto** (`POSTHOG_OFF=0`, prefix `phx_`, host **europeo** nel file, lunghezza 52) → collegamento c'è; PostHog API risponde **401** «Personal API key … is invalid» → sensore **`posthog_api: cieco`**. **Diagnosi iniziale sbagliata:** sembrava chiave invalida; **causa vera (18:44):** account **US** con host europeo. Fonte: chat Nicola 20/7 18:41 + verifica-sensori 18:41.
 
 > 💬 **20/7 ~18:32 — CHAT: AR-105 audit completo — «ricominciamo da capo, controlla tutte le caselle» (L-405 addendum).** Nicola chiede **tabella stato reale** di ogni sotto-voce casella uptime — AD verifica runtime **18:32**: **sito_uptime** ✅ · **pannello_uptime** ✅ · **telegram_bot** ❌ (mancano env) · card **#riavvia-worker-env** obsoleta ✅ · **#accendi-intelligence-sveglia** ⏳ · codice `motivo_spento` ❌ non bloccante. **Invariato vs 18:25** — conferma 2/3 sensori armati; chiusura casella quando Nicola scrive «telegram ok». Fonte: chat Nicola 20/7 18:32 + verifica-sensori 18:32.
 
