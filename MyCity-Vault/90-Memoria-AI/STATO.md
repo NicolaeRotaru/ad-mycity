@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:29
+aggiornato: 2026-07-20 03:33
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:33 — CHAT: «spiegami meglio il punto 3» — workflow stub = scheletro importabile, non automazione attiva (L-381).** Nicola chiede chiarimento sul **punto 3** della consegna 50 workflow (L-379): **stub ≠ pronti** — ogni JSON ha **trigger + nota** ma azione vera = nodo **segnaposto** (es. «STUB 31» Telegram), va sostituito con bot/credenziali reali prima di Active. **Esempio n.31** (59 card Da approvare): import n8n → rimuovi Stub Telegram → token bot + chat → collega Pannello → accendi **solo dopo 🔴**. **Perché stub:** import con `id` ok (L-329) + niente messaggi/post accidentali senza chiavi; **2 workflow completi** repo (pubblica post + lista attesa) restano eccezione migliore. CTA proposta: **solo Telegram n.31** guida nodo per nodo. Fonte: chat Nicola 20/7 03:33.
 
 > 💬 **20/7 ~03:28 — CHAT: quando si attiva Builder automazioni — on-demand, non ogni mattina (L-380).** Nicola «**quando si attiva Builder automazioni?**» (dopo organigramma n8n L-378). AD: Builder **non** parte da solo come worker/giro — entra su **trigger espliciti:** (1) Nicola chiede automazione/mano («collega Telegram», «importa 50 workflow», «accendi RSS bandi»); (2) reparto richiede via AD (L-376); (3) **ok card 🔴** su post/email/avviso → collega mano + flusso (dry-run prima); (4) **radar occasionale** (salute n8n, strumenti) — non ogni giro. **🟢** = bozze JSON/script repo · **🔴/chiavi** = Active n8n + invii (Telegram **59** avvisi). CTA: «accendi Telegram» / «importa workflow» / «RSS bandi». Fonte: chat Nicola 20/7 03:28.
 

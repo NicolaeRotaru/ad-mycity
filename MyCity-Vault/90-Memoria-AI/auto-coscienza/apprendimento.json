@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:29",
+  "aggiornato": "2026-07-20 03:33",
+  "_nota_metabolizzazione_20_07_0333": "Chat 20/7 ~03:33: Nicola «spiegami meglio il punto 3» — chiarimento stub workflow post L-379. L-381 nuova; L-379 evidenze++ addendum punto 3; preferenza spiegami-punto-n-stub; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0329": "Chat 20/7 ~03:28: Nicola «quando si attiva Builder automazioni?» — chiarimento trigger on-demand vs worker. L-380 nuova; preferenza quando-attiva-builder; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0328": "Chat 20/7 ~03:27: Nicola «adesso crea i 50 workflow» — consegna 50 JSON stub importabili. L-379 nuova; L-368 evidenze++ addendum JSON consegnati; preferenza crea-50-workflow-json; STATO+DECISIONI+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0327": "Chat 20/7 ~03:26: Nicola «ci sono senior esperti di n8n dentro mycity?» — chiarimento organigramma. L-378 nuova; L-332 evidenze++ addendum owner unico; preferenza senior-esperto-n8n; STATO+LEZIONI-CHAT+builder+partner-management esito; pendente «50 workflow».",
@@ -100,6 +101,27 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-381",
+      "testo": "**«Spiegami meglio il punto N» su workflow stub = esempio concreto + passi n8n, non ripetere abstract (Nicola 20/7 ~03:33).** Dopo consegna 50 JSON stub (L-379), Nicola «**spiegami meglio il punto 3**» — il punto 3 era «stub collegabili, non attivi». 5 perché: (1) «spiegami meglio» su voce numerata = **non** ripetere la stessa frase — vuole **walkthrough operativo** con esempio file; (2) **stub** = ha **trigger + nota** che spiega lo scopo, **manca** azione vera (nodo Telegram/Meta segnaposto tipo «STUB 31», non avviso reale); (3) **esempio concreto n.31** (59 card Da approvare): import → apri flusso → togli Stub Telegram → metti bot vero (token+chat) → collega Pannello → **solo allora** Active; (4) **perché così:** `id`/`versionId` evitano errore import NOT NULL (L-329) + niente messaggi/post per sbaglio senza chiavi — invii restano **🔴**; (5) **2 workflow completi** repo (pubblica post + lista attesa) = eccezione più vicina al reale; chiudere con **un solo prossimo passo** («solo Telegram n.31 nodo per nodo»). Regola: chiarimento «punto N» post-lista workflow → apri 1 JSON, mostra cosa c’è/manca, numeri workflow reali, perché stub, CTA singola. Vedi L-379, L-329.",
+      "tag": [
+        "n8n",
+        "workflow",
+        "stub",
+        "spiegazione",
+        "telegram",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:33",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-380",
       "testo": "**Builder automazioni — ON-DEMAND, non ogni mattina; trigger: comando Nicola, richiesta reparto, ok card 🔴, radar occasionale (Nicola 20/7 ~03:28).** Nicola «quando si attiva Builder automazioni?» — follow-up organigramma L-378. 5 perché: (1) confonde Builder con **worker/giro** che gira in background — Builder **non** parte da solo ogni mattina; (2) **trigger espliciti:** Nicola chiede («collega Telegram», «crea 50 workflow», «accendi RSS bandi») → AD delega subito; altri reparti dichiarano bisogno mano → passa da Builder; **dopo ok card 🔴** (post/email/avviso) → Builder collega mano e avvia flusso (dry-run prima); (3) **radar occasionale** («n8n su?», strumento utile da aggiungere) — **non ogni giro**; (4) **🟢 da solo:** preparare JSON/bozze workflow/script repo; **🔴/chiavi:** accendere sul server n8n, far mandare messaggi/post/soldi (Telegram 59 avvisi bloccati); (5) chiude con **CTA concreta** («accendi Telegram» / «importa 50 workflow» / «RSS bandi»), non «Builder gira in background». Regola: «quando si attiva Builder?» → on-demand per compito automazione/mano, distinto dal worker; bozze sì subito, live 🔴. Vedi L-378, L-379, L-376.",
       "tag": [
@@ -132,13 +154,14 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.92,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 03:27",
+      "ultima_conferma": "2026-07-20 03:33",
       "stato": "attiva",
-      "usi": []
+      "usi": [],
+      "_evidenza_2": "ADDENDUM 03:33: Nicola «spiegami meglio il punto 3» — punto 3 = stub; serve esempio n.31 (59 card) + passi import→sostituisci segnaposto→Active solo post 🔴, non ripetere elenco. Vedi L-381."
     },
     {
       "id": "L-2026-0720-378",
@@ -8671,6 +8694,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Spiegami meglio il punto N — chiarimento stub workflow = esempio concreto + passi n8n (chat 20/7 ~03:33):** dopo lista numerata su 50 workflow (L-379) chiede «**spiegami meglio il punto 3**» — si aspetta **walkthrough operativo**, non ripetizione abstract: cosa c’è già (trigger+nota) vs cosa manca (nodo segnaposto STUB), **esempio file reale** (n.31, 59 card), perché stub (id import + no invii accidentali, 🔴), eccezione 2 workflow completi repo; chiude con **un solo prossimo passo** («Telegram n.31 nodo per nodo»). Vedi L-381, L-379.",
     "**Quando si attiva Builder automazioni — chiarimento trigger on-demand, non cron mattutino (chat 20/7 ~03:28):** «quando si attiva Builder automazioni?» — si aspetta modello **operativo chiaro**: Builder **non** gira come worker ogni mattina; entra quando (1) Nicola chiede un'automazione/mano, (2) un reparto richiede via AD, (3) approva card 🔴 che deve uscire, (4) radar occasionale su salute n8n; **bozze/file JSON 🟢** subito, **accendere server + invii 🔴**; chiude con CTA («accendi Telegram» / «importa workflow» / «RSS bandi»). Vedi L-380, L-378.",
     "**Crea 50 workflow n8n — «adesso crea i 50 workflow» = file JSON importabili, non solo catalogo testuale (chat 20/7 ~03:27):** dopo griglia 10×5 (L-368) chiede **consegna operativa** — si aspetta **50 JSON** in repo (`consegne/automazioni/n8n/workflows/`) pronti per Import from file in n8n, con `id`/`versionId`, indice catalogo e script rigenerazione; **stub** collegabili (Telegram segnaposto) — **non attivi** finché non si collegano credenziali; 2 workflow completi repo = partenza migliore; **priorità accensione:** Telegram (59 avvisi) → Meta → RSS bandi (#41) → carrello 1h (#11) → ordine negozio (#21); messaggi/post **🔴**; chiude «quale accendiamo per primo». Vedi L-379, L-368, L-329.",
     "**Senior esperto n8n — chiarimento organigramma: builder costruisce, reparti richiedono (chat 20/7 ~03:26):** «ci sono senior esperti di n8n?» — si aspetta risposta **precisa sui ruoli**: **builder-automazioni** = unico che progetta/costruisce flussi n8n; altri senior (marketing, CRM, ops, vendite…) **dichiarano bisogno** (L-376); **partner-management** = SLA fornitore n8n (up/scadenze/rotture), **devops** = server/Docker, **non** architetti workflow; **no secondo esperto n8n** dedicato; 50 workflow = Builder da richieste reparto, 🔴 su messaggi/post/soldi; chiude «quale accendiamo per primo» (Telegram 59 avvisi / RSS PI26 10:00 / notifica ordine). Vedi L-378, L-376, L-332.",
