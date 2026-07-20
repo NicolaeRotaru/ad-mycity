@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:12",
+  "aggiornato": "2026-07-20 03:14",
+  "_nota_metabolizzazione_20_07_0314": "Chat 20/7 ~03:14: Nicola «20 mani n8n che servono per MyCity» — catalogo 20 integrazioni per impatto. L-373 nuova; L-366 evidenze++ addendum 20 mani; preferenza catalogo-20-mani-n8n; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0312": "Chat 20/7 ~03:12: Nicola «perché Vercel ci impiega così tanto ad inizializzare una fix?» + screenshot GitHub Outage — analisi pipeline deploy. L-372 nuova; L-361 evidenze++ addendum Initializing; L-371 merge #494; preferenza vercel-perche-lento; #211 FATTO; STATO+DECISIONI+LEZIONI-CHAT+devops-sre aggiornati.",
   "_nota_metabolizzazione_20_07_0309": "Chat 20/7 ~03:09: Nicola «il menu in alto» — conferma quale ☰ dopo L-369; AD PR #494 z-index navbar sopra chat. L-371 nuova; L-369 evidenze++ addendum conferma+fix; preferenza worker-menu-in-alto; STATO+DECISIONI+#211+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0305": "Chat 20/7 ~03:05: Nicola «pensa più in grande» — correzione post-catalogo mani: vuole moat/fasi/bottleneck, non plugin. L-370 nuova (caso_studio_nicola); L-367 evidenze++ addendum visione; preferenza pensa-piu-in-grande; STATO+DECISIONI+LEZIONI-CHAT+corporate-strategy+ad esito.",
@@ -91,6 +92,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-373",
+      "testo": "**«20 mani n8n per MyCity» = 20 integrazioni/canali per impatto, non automazioni 10×5 (Nicola 20/7 ~03:14).** Nicola «dimmi 20 mani che può usare n8n che servono per mycity». 5 perché: (1) pattern «N mani n8n» = elenco **numerato di connettori/integrazioni** (Telegram, Meta FB+IG, Resend, API marketplace, Google suite, cron, RSS, meteo, WhatsApp, Stripe read, Gemini, Twilio, webhook worker, Supabase read…) — **non** griglia 10×5 automazioni (L-368) né catalogo mani generale 5 blocchi (L-367); (2) **ordinate per impatto** MyCity (Telegram #1 = 59 avvisi bloccati senza bot); (3) ogni uscita verso persone/post/soldi = **🔴** card Pannello anche con webhook ok (L-357); (4) **ordine consigliato:** Telegram → Meta FB+IG → post test 🔴 → email welcome → notifica ordine negozio; (5) chiudere con CTA «dimmi blocco» (Telegram/Meta) per guida passo passo — non tutorial setup generico. Regola: «20 mani n8n» → 20 integrazioni per impatto + 🔴 + ordine 1→5 + CTA blocco. Vedi L-368, L-366, L-367.",
+      "tag": [
+        "n8n",
+        "mani",
+        "integrazioni",
+        "telegram",
+        "catalogo",
+        "mycity"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:14",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-372",
       "testo": "**Vercel «Initializing» ≠ build lenta — GitHub outage blocca fetch; preview ≠ Production; pipeline merge→Action→Hook (Nicola 20/7 ~03:12).** «Perché ci impiega così tanto ad inizializzare una sola fix?» + screenshot banner **GitHub Outage** (03:10). 5 perché: (1) **Initializing** = Vercel non riesce a **scaricare il repo** da GitHub (503/outage) — **non** fase compile lenta; (2) quando build **parte davvero**, deploy riusciti misurati **45–53 s** (~36 s build locale) — attesa percepita ≠ durata build; (3) **due mondi:** riga Initializing nel dashboard = spesso **anteprima branch fix**; **Production** = main post-merge via `.github/workflows/deploy-pannello.yml` + Deploy Hook — `pannello/vercel.json` `deploymentEnabled.main: false` **voluto** (worker pusha memoria ogni pochi min → evita 100 deploy/giorno); (4) stasera fila **#492→#493→#494** = **N** cicli merge+deploy, Nicola percepisce «una fix» ma sono **3+** round-trip; (5) post-deploy verde: **Ctrl+F5** / chiudi tab (cache PWA) — merge main ≠ UI aggiornata subito (L-361). **ADDENDUM verificato:** PR **#494** mergiata main **`3d912daf`** — Production pre-merge era a #493; deploy Production post-#494 in coda finché GitHub torna su. Regola: «Vercel lento/Initializing» → controllare **stato GitHub** + distinguere preview vs Production + spiegare catena Hook, non dire «~2 min» generico. Vedi L-361, L-315, L-8398.",
@@ -255,7 +277,7 @@
     },
     {
       "id": "L-2026-0720-366",
-      "testo": "**n8n webhook ok — «cosa posso fare adesso?» = catalogo 4 blocchi + ordine priorità (Nicola 20/7 ~02:50).** Dopo webhook collegato (L-357), Nicola chiede controllo env duplicati + cosa può fare con n8n. 5 perché: (1) controllo env = **conteggio righe attuale** (2 righe: 1 segnaposto + 1 reale — **non più 3**) + worker ok se ultima riga reale; (2) «cosa posso fare adesso» = risposta **catalogo strutturato**, non tutorial generico: pub **FB pagina + IG feed** (Meta OAuth, post 🔴 card), **Telegram** avvisi (59 pendenti), **lista attesa** (2° workflow), **promemoria cron** solo ripetitivi; (3) **gruppi FB restano manuali**; ricerche ad hoc = Worker, non n8n (L-365); (4) **ordine consigliato numerato:** dedup env → Telegram → Meta in n8n → post test 🔴; (5) anche tutto ok, **interruttore sicurezza off** — niente esce senza card. Regola: post-webhook «cosa fare con n8n» → 4 blocchi + ordine 1→4 + reminder 🔴. Vedi L-357, L-351, L-365.",
+      "testo": "**n8n webhook ok — «cosa posso fare adesso?» = catalogo 4 blocchi + ordine priorità (Nicola 20/7 ~02:50, agg. 03:14).** Dopo webhook collegato (L-357), Nicola chiede controllo env duplicati + cosa può fare con n8n. 5 perché: (1) controllo env = **conteggio righe attuale** (2 righe: 1 segnaposto + 1 reale — **non più 3**) + worker ok se ultima riga reale; (2) «cosa posso fare adesso» = risposta **catalogo strutturato**, non tutorial generico: pub **FB pagina + IG feed** (Meta OAuth, post 🔴 card), **Telegram** avvisi (59 pendenti), **lista attesa** (2° workflow), **promemoria cron** solo ripetitivi; (3) **gruppi FB restano manuali**; ricerche ad hoc = Worker, non n8n (L-365); (4) **ordine consigliato numerato:** dedup env → Telegram → Meta in n8n → post test 🔴; (5) anche tutto ok, **interruttore sicurezza off** — niente esce senza card. Regola: post-webhook «cosa fare con n8n» → 4 blocchi + ordine 1→4 + reminder 🔴. **ADDENDUM 03:14 (L-373):** «20 mani n8n» = variante **elenco integrazioni** (20 connettori per impatto), non 4 blocchi né 50×10 — stesso ordine priorità Telegram→Meta. Vedi L-357, L-351, L-365, L-373.",
       "tag": [
         "n8n",
         "webhook",
@@ -267,11 +289,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.92,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 02:51",
+      "ultima_conferma": "2026-07-20 03:14",
       "stato": "attiva",
       "usi": []
     },
@@ -8494,6 +8516,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Catalogo 20 mani n8n — «20 mani che può usare n8n per MyCity» = integrazioni per impatto, non 50×10 (chat 20/7 ~03:14):** chiede elenco **focalizzato n8n** — si aspetta **20 connettori/canali** numerati e **ordinati per impatto** (Telegram, Meta, email, marketplace API, Google, cron, RSS, meteo, WhatsApp, Stripe read, Gemini…), distinto da griglia **50 automazioni × 10 funzioni** (L-368) e da catalogo mani generale (L-367); reminder **🔴** su messaggi/post; **ordine:** Telegram (59 avvisi) → Meta → post test → email welcome → notifica ordine; chiude «dimmi blocco» per setup guidato. Vedi L-373, L-366, L-368.",
     "**Vercel lento/Initializing — «perché ci impiega così tanto?» = analisi profonda pipeline, non «aspetta 2 min» (chat 20/7 ~03:12):** chiede spiegazione quando deploy sembra bloccato — si aspetta diagnosi **causa→effetto** (GitHub outage vs build, preview branch vs Production, catena merge→Action→Deploy Hook, N fix in fila stasera), tempi **misurati** se build parte (45–53 s), e cosa fare adesso (attendi GitHub → deploy Production verde → Ctrl+F5); **non** risposta generica «Vercel impiega ~2 min». Vedi L-372, L-361.",
     "**Worker menu in alto — conferma ☰ navbar dopo diagnosi; fix z-index sopra chat (chat 20/7 ~03:09, agg. 03:12):** dopo spiegazione L-369 («dimmi cosa hai capito») risponde **«il menu in alto»** — intende ☰ **navbar** (menu sito Home/Azioni/Lavori), **non** ☰ basso elenco conv; si aspetta fix che menu sito esca **sopra** chat fullscreen; **PR #494** ✅ mergiata main `3d912daf` — deploy Production + Ctrl+F5. Vedi L-371, L-369, L-372.",
     "**«Pensa più in grande» — colosso = visione moat/fasi, non catalogo plugin (chat 20/7 ~03:05):** dopo elenco mani/n8n/automazioni corregge con «pensa più in grande» — si aspetta **strategia** (moat botteghe+consegna+identità locale, liquidity a due lati, **collo di bottiglia = primo ordine reale**, 3 fasi 4 sett/3 mesi/12 mesi); strumenti citati solo come **ripetizione** fase 2; oggi **PI26 10:00** leva istituzionale grossa; chiudere con **una priorità/missione** (bandi / primo ordine fornaio / Telegram / Meta), **non** checklist 50 automazioni. Vedi L-370, L-367.",

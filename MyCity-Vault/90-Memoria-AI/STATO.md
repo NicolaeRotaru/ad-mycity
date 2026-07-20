@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:12
+aggiornato: 2026-07-20 03:14
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:14 — CHAT: «20 mani n8n che servono per MyCity» — catalogo integrazioni + priorità (L-373).** Nicola chiede **20 mani** collegabili via n8n utili per MyCity. AD risponde con elenco **20 integrazioni/canali** (Telegram, FB pagina, IG feed, Resend email, API marketplace, Google Sheets/Forms/GBP/Drive/Calendar, cron, RSS bandi, OpenWeather, WhatsApp, Stripe read, Gemini, Twilio SMS, webhook worker, Supabase read, Slack/Discord opzionale) — **ordinate per impatto**, non griglia 10×5 (L-368) né catalogo generale mani (L-367). Regola: messaggi/post/soldi = **🔴** card anche con webhook ok. **Ordine consigliato:** Telegram (**59** avvisi senza bot) → Meta FB+IG → post test 🔴 → email welcome → notifica ordine negozio. CTA: Nicola sceglie blocco (es. «Telegram» / «Meta») per guida passo passo. Fonte: chat Nicola 20/7 03:14.
 
 > 💬 **20/7 ~03:12 — CHAT: Vercel «Initializing» — GitHub outage, preview≠Production, pipeline deploy (L-372).** Nicola «perché Vercel ci impiega così tanto ad inizializzare una sola fix?» + screenshot banner **GitHub Outage** (03:10). AD analisi: **non** è compile lenta — Vercel **bloccato in Initializing** perché GitHub **503/outage** non consegna il repo; build riuscite misurate **45–53 s** Vercel (~36 s locale). **Due deploy distinti:** anteprima **branch fix** (Initializing nel screenshot) vs **Production** su main (post-merge via `.github/workflows/deploy-pannello.yml` + Deploy Hook — `deploymentEnabled.main: false` voluto per non bruciare quota su push memoria). **PR #494** menu navbar (**`23bb1a24`**, merge main **`3d912daf`**) ✅ mergiata — Production pre-merge era a **#493**; deploy Production post-#494 **in attesa** finché GitHub torna su. Stasera fila **#492→#494** = **N** cicli merge+deploy, non una fix. Dopo deploy verde: **Ctrl+F5** (cache PWA). Fonte: chat Nicola 20/7 03:12 + screenshot 1071.
 
