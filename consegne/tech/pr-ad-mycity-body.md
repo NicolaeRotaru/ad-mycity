@@ -1,13 +1,17 @@
 ## Summary
-Con la chat Worker a schermo intero, il menu sito (☰ in navbar) restava sotto l'overlay chat (z-40 vs z-50) e sembrava morto.
+Scaricate e vendored tutte le 47 marketing skill community (`coreyhaines31/marketingskills`) nel manifest plugin del worker — da 19 a 66 skill totali.
 
 ## Cosa cambia
-- Quando chat grande + menu sito aperto: drawer nav e velo mobile passano sopra la chat (z-55/z-60), header resta cliccabile (z-70).
-- Scegliendo una voce del menu (es. Home, Azioni) si chiude anche la chat grande — torni alla sezione scelta.
+- `worker-plugins.json`: +47 voci marketing (copy, CRO, social, SEO, ads, launch…)
+- `.cursor/skills/<id>/SKILL.md`: file vendored pronti offline (sync da GitHub)
+- Lo specchio Claude (`.claude/skills/`, gitignored) si rigenera da solo a ogni avvio worker/giro
 
 ## Come provare
-1. Apri Worker a schermo intero (voce «Worker» nel menu o ingrandisci dal popup).
-2. Tocca ☰ accanto a «Pannello di Controllo» in alto.
-3. Deve comparire il menu laterale (Home, Azioni, Lavori…) sopra la chat.
-4. Scegli «Home» → menu si chiude e vedi la plancia, chat grande sparita.
-5. Ctrl+F5 se il browser aveva cache vecchia.
+1. Mergia la PR
+2. Riavvia il worker (o attendi prossimo giro) — le skill compaiono nel prompt plugin
+3. Chiedi in chat «scrivi un post Facebook per Pane Quotidiano» — il worker può attivare skill `social` / `copywriting`
+4. `npx bats cervello/test/specchia-skills.bats` — 4/4 verdi (già passato in branch)
+
+## Note
+- Skill generiche B2B/SaaS: il worker deve adattarle a MyCity (Turno, Piacenza, onestà numeri) — non sostituiscono i senior marketing/content/seo
+- Licenza MIT sul repo sorgente

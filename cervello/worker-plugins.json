@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Manifest plugin approvati per il worker (motore Claude o Cursor). Ogni voce ha scope (dove si applica) e target (dove finisce nel repo, fonte unica in .cursor/). Sync: node cervello/sync-worker-plugins.mjs · Specchio per Claude Code (.claude/skills/, generato, non versionato): node cervello/sync-worker-plugins.mjs --specchia — gira da solo a ogni avvio di worker/giro/ritmo.",
-  "aggiornato": "2026-07-13 17:19",
+  "aggiornato": "2026-07-20 04:01",
   "plugin": [
     {
       "id": "grilling",
@@ -351,6 +351,758 @@
       ],
       "quando": "Moduli bando, contratti Word, bozze legali.",
       "licenza": "MIT"
+    },
+    {
+      "id": "ab-testing",
+      "nome": "Marketing: Ab Testing",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/ab-testing/SKILL.md",
+      "target": ".cursor/skills/ab-testing/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to plan, design, or implement an A/B test or experiment, or build a growth experimentation program. Also use when the user mentions \"A/B test,\" \"split test,\" \"experiment,\" \"test this change,\" \"variant copy,\" \"multivariat",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "ad-creative",
+      "nome": "Marketing: Ad Creative",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/ad-creative/SKILL.md",
+      "target": ".cursor/skills/ad-creative/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to generate, iterate, or scale ad creative — headlines, descriptions, primary text, or full ad variations — for any paid advertising platform. Also use when the user mentions 'ad copy variations,' 'ad creative,' 'genera",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "ads",
+      "nome": "Marketing: Ads",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/ads/SKILL.md",
+      "target": ".cursor/skills/ads/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants help with paid advertising campaigns on Google Ads, Meta (Facebook/Instagram), LinkedIn, Twitter/X, or other ad platforms. Also use when the user mentions 'PPC,' 'paid media,' 'ROAS,' 'CPA,' 'ad campaign,' 'retargeting,",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "ai-seo",
+      "nome": "Marketing: Ai Seo",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/ai-seo/SKILL.md",
+      "target": ".cursor/skills/ai-seo/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to optimize content for AI search engines, get cited by LLMs, or appear in AI-generated answers. Also use when the user mentions 'AI SEO,' 'AEO,' 'GEO,' 'LLMO,' 'answer engine optimization,' 'generative engine optimizat",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "analytics",
+      "nome": "Marketing: Analytics",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/analytics/SKILL.md",
+      "target": ".cursor/skills/analytics/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to set up, improve, or audit analytics tracking and measurement. Also use when the user mentions \"set up tracking,\" \"GA4,\" \"Google Analytics,\" \"conversion tracking,\" \"event tracking,\" \"UTM parameters,\" \"tag manager,\" \"GT",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "aso",
+      "nome": "Marketing: Aso",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/aso/SKILL.md",
+      "target": ".cursor/skills/aso/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to audit or optimize an App Store or Google Play listing. Also use when the user mentions 'ASO audit,' 'app store optimization,' 'optimize my app listing,' 'improve app visibility,' 'app store ranking,' 'audit my listin",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "churn-prevention",
+      "nome": "Marketing: Churn Prevention",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/churn-prevention/SKILL.md",
+      "target": ".cursor/skills/churn-prevention/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to reduce churn, build cancellation flows, set up save offers, recover failed payments, or implement retention strategies. Also use when the user mentions 'churn,' 'cancel flow,' 'offboarding,' 'save offer,' 'dunning,' ",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "co-marketing",
+      "nome": "Marketing: Co Marketing",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/co-marketing/SKILL.md",
+      "target": ".cursor/skills/co-marketing/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to find co-marketing partners, plan joint campaigns, or brainstorm partnership opportunities. Use when the user says 'co-marketing,' 'partner marketing,' 'joint campaign,' 'who should we partner with,' 'integration mark",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "cold-email",
+      "nome": "Marketing: Cold Email",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/cold-email/SKILL.md",
+      "target": ".cursor/skills/cold-email/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "Write B2B cold emails and follow-up sequences that get replies. Use when the user wants to write cold outreach emails, prospecting emails, cold email campaigns, sales development emails, or SDR emails. Also use when the user mentions \"cold ",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "community-marketing",
+      "nome": "Marketing: Community Marketing",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/community-marketing/SKILL.md",
+      "target": ".cursor/skills/community-marketing/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"Build and leverage online communities to drive product growth and brand loyalty. Use when the user wants to create a community strategy, grow a Discord or Slack community, manage a forum or subreddit, build brand advocates, increase word-o",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "competitor-profiling",
+      "nome": "Marketing: Competitor Profiling",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/competitor-profiling/SKILL.md",
+      "target": ".cursor/skills/competitor-profiling/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to research, profile, or analyze competitors from their URLs. Also use when the user mentions 'competitor profile,' 'competitor research,' 'competitor analysis,' 'profile this competitor,' 'analyze competitor,' 'competi",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "competitors",
+      "nome": "Marketing: Competitors",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/competitors/SKILL.md",
+      "target": ".cursor/skills/competitors/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to create competitor comparison or alternative pages for SEO and sales enablement. Also use when the user mentions 'alternative page,' 'vs page,' 'competitor comparison,' 'comparison page,' '[Product] vs [Product],' '[P",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "content-strategy",
+      "nome": "Marketing: Content Strategy",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/content-strategy/SKILL.md",
+      "target": ".cursor/skills/content-strategy/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to plan a content strategy, decide what content to create, or figure out what topics to cover. Also use when the user mentions \"content strategy,\" \"what should I write about,\" \"content ideas,\" \"blog strategy,\" \"topic clu",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "copy-editing",
+      "nome": "Marketing: Copy Editing",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/copy-editing/SKILL.md",
+      "target": ".cursor/skills/copy-editing/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to edit, review, or improve existing marketing copy, or refresh outdated content. Also use when the user mentions 'edit this copy,' 'review my copy,' 'copy feedback,' 'proofread,' 'polish this,' 'make this better,' 'cop",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "copywriting",
+      "nome": "Marketing: Copywriting",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/copywriting/SKILL.md",
+      "target": ".cursor/skills/copywriting/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature pages, about pages, or product pages. Also use when the user says \"write copy for,\" \"improve this copy",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "cro",
+      "nome": "Marketing: Cro",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/cro/SKILL.md",
+      "target": ".cursor/skills/cro/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to optimize, improve, or increase conversions on any marketing page or form — including homepage, landing pages, pricing pages, feature pages, lead capture forms, or contact forms. Also use when the user says 'CRO,' 'co",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "customer-research",
+      "nome": "Marketing: Customer Research",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/customer-research/SKILL.md",
+      "target": ".cursor/skills/customer-research/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to conduct, analyze, or synthesize customer research. Use when the user mentions \"customer research,\" \"ICP research,\" \"talk to customers,\" \"analyze transcripts,\" \"customer interviews,\" \"survey analysis,\" \"support ticket ",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "directory-submissions",
+      "nome": "Marketing: Directory Submissions",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/directory-submissions/SKILL.md",
+      "target": ".cursor/skills/directory-submissions/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to submit their product to startup, SaaS, AI, agent, MCP, no-code, or review directories for backlinks, domain rating, and discovery. Also use when the user mentions \"directory submissions,\" \"submit to directories,\" \"bac",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "emails",
+      "nome": "Marketing: Emails",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/emails/SKILL.md",
+      "target": ".cursor/skills/emails/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to create or optimize an email sequence, drip campaign, automated email flow, or lifecycle email program. Also use when the user mentions \"email sequence,\" \"drip campaign,\" \"nurture sequence,\" \"onboarding emails,\" \"welco",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "free-tools",
+      "nome": "Marketing: Free Tools",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/free-tools/SKILL.md",
+      "target": ".cursor/skills/free-tools/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to plan, evaluate, or build a free tool for marketing purposes — lead generation, SEO value, or brand awareness. Also use when the user mentions \"engineering as marketing,\" \"free tool,\" \"marketing tool,\" \"calculator,\" \"g",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "image",
+      "nome": "Marketing: Image",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/image/SKILL.md",
+      "target": ".cursor/skills/image/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to create, generate, edit, or optimize images for marketing — blog heroes, social graphics, product mockups, profile banners, listing visuals, or brand assets. Also use when the user mentions 'AI image generation,' 'gen",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "launch",
+      "nome": "Marketing: Launch",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/launch/SKILL.md",
+      "target": ".cursor/skills/launch/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to plan a product launch, feature announcement, or release strategy. Also use when the user mentions 'launch,' 'Product Hunt,' 'feature release,' 'announcement,' 'go-to-market,' 'beta launch,' 'early access,' 'waitlist,",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "lead-magnets",
+      "nome": "Marketing: Lead Magnets",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/lead-magnets/SKILL.md",
+      "target": ".cursor/skills/lead-magnets/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to create, plan, or optimize a lead magnet for email capture or lead generation. Also use when the user mentions \"lead magnet,\" \"gated content,\" \"content upgrade,\" \"downloadable,\" \"ebook,\" \"cheat sheet,\" \"checklist,\" \"te",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "marketing-council",
+      "nome": "Marketing: Marketing Council",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/marketing-council/SKILL.md",
+      "target": ".cursor/skills/marketing-council/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants multiple expert perspectives on a marketing question — a simulated board of advisors staffed by legendary marketers (Seth Godin, David Ogilvy, Eugene Schwartz, April Dunford, Rory Sutherland, Alex Hormozi, Byron Sharp, ",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "marketing-ideas",
+      "nome": "Marketing: Marketing Ideas",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/marketing-ideas/SKILL.md",
+      "target": ".cursor/skills/marketing-ideas/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user needs marketing ideas, inspiration, or strategies for their SaaS or software product. Also use when the user asks for 'marketing ideas,' 'growth ideas,' 'how to market,' 'marketing strategies,' 'marketing tactics,' 'ways to p",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "marketing-loops",
+      "nome": "Marketing: Marketing Loops",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/marketing-loops/SKILL.md",
+      "target": ".cursor/skills/marketing-loops/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to set up a recurring, self-running marketing workflow — a repeatable loop an AI agent runs on a cadence (weekly, daily, on a trigger) rather than a one-off task. Also use when the user mentions 'marketing loop,' 'recur",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "marketing-plan",
+      "nome": "Marketing: Marketing Plan",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/marketing-plan/SKILL.md",
+      "target": ".cursor/skills/marketing-plan/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user needs a comprehensive marketing plan for a client, a company they advise, or their own product. Also use when the user mentions \"marketing plan,\" \"growth plan,\" \"GTM plan,\" \"go-to-market plan,\" \"AARRR plan,\" \"90-day marketing ",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "marketing-psychology",
+      "nome": "Marketing: Marketing Psychology",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/marketing-psychology/SKILL.md",
+      "target": ".cursor/skills/marketing-psychology/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to apply psychological principles, mental models, or behavioral science to marketing. Also use when the user mentions 'psychology,' 'mental models,' 'cognitive bias,' 'persuasion,' 'behavioral science,' 'why people buy,",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "offers",
+      "nome": "Marketing: Offers",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/offers/SKILL.md",
+      "target": ".cursor/skills/offers/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to design, construct, or improve an offer — the thing they actually sell — including value framing, bonus stacking, guarantee design, scarcity/urgency, naming, and payment structure. Also use when the user mentions 'off",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "onboarding",
+      "nome": "Marketing: Onboarding",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/onboarding/SKILL.md",
+      "target": ".cursor/skills/onboarding/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to optimize post-signup onboarding, user activation, first-run experience, or time-to-value. Also use when the user mentions \"onboarding flow,\" \"activation rate,\" \"user activation,\" \"first-run experience,\" \"empty states,",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "paywalls",
+      "nome": "Marketing: Paywalls",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/paywalls/SKILL.md",
+      "target": ".cursor/skills/paywalls/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to create or optimize in-app paywalls, upgrade screens, upsell modals, or feature gates. Also use when the user mentions \"paywall,\" \"upgrade screen,\" \"upgrade modal,\" \"upsell,\" \"feature gate,\" \"convert free to paid,\" \"fr",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "popups",
+      "nome": "Marketing: Popups",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/popups/SKILL.md",
+      "target": ".cursor/skills/popups/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to create or optimize popups, modals, overlays, slide-ins, or banners for conversion purposes. Also use when the user mentions \"exit intent,\" \"popup conversions,\" \"modal optimization,\" \"lead capture popup,\" \"email popup,",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "pricing",
+      "nome": "Marketing: Pricing",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/pricing/SKILL.md",
+      "target": ".cursor/skills/pricing/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants help with pricing decisions, packaging, or monetization strategy. Also use when the user mentions 'pricing,' 'pricing tiers,' 'freemium,' 'free trial,' 'packaging,' 'price increase,' 'value metric,' 'Van Westendorp,' 'w",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "product-marketing",
+      "nome": "Marketing: Product Marketing",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/product-marketing/SKILL.md",
+      "target": ".cursor/skills/product-marketing/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to create or update their product marketing context document. Also use when the user mentions 'product context,' 'marketing context,' 'set up context,' 'positioning,' 'who is my target audience,' 'describe my product,' ",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "programmatic-seo",
+      "nome": "Marketing: Programmatic Seo",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/programmatic-seo/SKILL.md",
+      "target": ".cursor/skills/programmatic-seo/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to create SEO-driven pages at scale using templates and data. Also use when the user mentions \"programmatic SEO,\" \"template pages,\" \"pages at scale,\" \"directory pages,\" \"location pages,\" \"[keyword] + [city] pages,\" \"comp",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "prospecting",
+      "nome": "Marketing: Prospecting",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/prospecting/SKILL.md",
+      "target": ".cursor/skills/prospecting/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to find, qualify, and build a list of prospects to reach out to — across B2B SaaS, general B2B, or local small businesses. Also use when the user mentions \"prospecting,\" \"build a prospect list,\" \"find prospects,\" \"find l",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "public-relations",
+      "nome": "Marketing: Public Relations",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/public-relations/SKILL.md",
+      "target": ".cursor/skills/public-relations/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants help with public relations, earned media, press coverage, journalist outreach, or media strategy (not pull requests). Also use when the user mentions 'PR,' 'public relations,' 'press,' 'press release,' 'press coverage,'",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "referrals",
+      "nome": "Marketing: Referrals",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/referrals/SKILL.md",
+      "target": ".cursor/skills/referrals/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to create, optimize, or analyze a referral program, affiliate program, or word-of-mouth strategy. Also use when the user mentions 'referral,' 'affiliate,' 'ambassador,' 'word of mouth,' 'viral loop,' 'refer a friend,' '",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "revops",
+      "nome": "Marketing: Revops",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/revops/SKILL.md",
+      "target": ".cursor/skills/revops/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants help with revenue operations, lead lifecycle management, or marketing-to-sales handoff processes. Also use when the user mentions 'RevOps,' 'revenue operations,' 'lead scoring,' 'lead routing,' 'MQL,' 'SQL,' 'pipeline s",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "sales-enablement",
+      "nome": "Marketing: Sales Enablement",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/sales-enablement/SKILL.md",
+      "target": ".cursor/skills/sales-enablement/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to create sales collateral, pitch decks, one-pagers, objection handling docs, or demo scripts. Also use when the user mentions 'sales deck,' 'pitch deck,' 'one-pager,' 'leave-behind,' 'objection handling,' 'deal-specifi",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "schema",
+      "nome": "Marketing: Schema",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/schema/SKILL.md",
+      "target": ".cursor/skills/schema/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to add, fix, or optimize schema markup and structured data on their site. Also use when the user mentions \"schema markup,\" \"structured data,\" \"JSON-LD,\" \"rich snippets,\" \"schema.org,\" \"FAQ schema,\" \"product schema,\" \"rev",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "seo-audit",
+      "nome": "Marketing: Seo Audit",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/seo-audit/SKILL.md",
+      "target": ".cursor/skills/seo-audit/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to audit, review, or diagnose SEO issues on their site. Also use when the user mentions \"SEO audit,\" \"technical SEO,\" \"why am I not ranking,\" \"SEO issues,\" \"on-page SEO,\" \"meta tags review,\" \"SEO health check,\" \"my traff",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "signup",
+      "nome": "Marketing: Signup",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/signup/SKILL.md",
+      "target": ".cursor/skills/signup/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to optimize signup, registration, account creation, or trial activation flows. Also use when the user mentions \"signup conversions,\" \"registration friction,\" \"signup form optimization,\" \"free trial signup,\" \"reduce signu",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "site-architecture",
+      "nome": "Marketing: Site Architecture",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/site-architecture/SKILL.md",
+      "target": ".cursor/skills/site-architecture/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to plan, map, or restructure their website's page hierarchy, navigation, URL structure, or internal linking. Also use when the user mentions \"sitemap,\" \"site map,\" \"visual sitemap,\" \"site structure,\" \"page hierarchy,\" \"i",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "sms",
+      "nome": "Marketing: Sms",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/sms/SKILL.md",
+      "target": ".cursor/skills/sms/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "When the user wants to plan, build, or optimize SMS or MMS marketing — including welcome flows, abandoned cart texts, post-purchase, win-back, promotional sends, or transactional/auth SMS. Also use when the user mentions \"SMS marketing,\" \"t",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "social",
+      "nome": "Marketing: Social",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/social/SKILL.md",
+      "target": ".cursor/skills/social/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, Facebook, or other platforms, or wants to do social listening and engagement triage. Also use when the user menti",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
+    },
+    {
+      "id": "video",
+      "nome": "Marketing: Video",
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path_sorgente": "skills/video/SKILL.md",
+      "target": ".cursor/skills/video/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "chat"
+      ],
+      "quando": "\"When the user wants to create, generate, or produce video content using AI tools or programmatic frameworks. Also use when the user mentions 'video production,' 'AI video,' 'Remotion,' 'Hyperframes,' 'HeyGen,' 'Synthesia,' 'Veo,' 'Sora,' '",
+      "licenza": "MIT",
+      "nota": "Community marketing skill — adattare tono MyCity (Turno/Piacenza)"
     }
   ],
   "candidati_fase4": [
@@ -363,10 +1115,412 @@
   ],
   "ultimo_sync": [
     {
+      "id": "grilling",
+      "target": ".cursor/skills/grilling/SKILL.md",
+      "sha": "44331dda57f4",
+      "byte": 841
+    },
+    {
+      "id": "ponytail",
+      "target": ".cursor/rules/ponytail-code.mdc",
+      "sha": "c58c4ba91a83",
+      "byte": 2673
+    },
+    {
+      "id": "caveman-internal",
+      "target": "cervello/prompt-fragments/caveman-internal.md",
+      "sha": "6394f098a343",
+      "byte": 5215
+    },
+    {
+      "id": "diagnosing-bugs",
+      "target": ".cursor/skills/diagnosing-bugs/SKILL.md",
+      "sha": "7a0779480f32",
+      "byte": 8471
+    },
+    {
+      "id": "tdd",
+      "target": ".cursor/skills/tdd/SKILL.md",
+      "sha": "5363bb277567",
+      "byte": 3185
+    },
+    {
+      "id": "handoff",
+      "target": ".cursor/skills/handoff/SKILL.md",
+      "sha": "57c9f1f392d7",
+      "byte": 879
+    },
+    {
+      "id": "superpowers",
+      "target": ".cursor/skills/superpowers/SKILL.md",
+      "sha": "55379fe7c1c4",
+      "byte": 3051
+    },
+    {
+      "id": "differential-review",
+      "target": ".cursor/skills/differential-review/SKILL.md",
+      "sha": "1499d68ed446",
+      "byte": 6999
+    },
+    {
+      "id": "react-best-practices",
+      "target": ".cursor/skills/react-best-practices/SKILL.md",
+      "sha": "71ed7794962f",
+      "byte": 7251
+    },
+    {
+      "id": "web-design-guidelines",
+      "target": ".cursor/skills/web-design-guidelines/SKILL.md",
+      "sha": "f4647ca866a3",
+      "byte": 1231
+    },
+    {
+      "id": "webapp-testing",
+      "target": ".cursor/skills/webapp-testing/SKILL.md",
+      "sha": "51b7349e77ec",
+      "byte": 3861
+    },
+    {
+      "id": "code-simplifier",
+      "target": ".cursor/skills/code-simplifier/SKILL.md",
+      "sha": "ad4ce00d2759",
+      "byte": 3963
+    },
+    {
+      "id": "firecrawl",
+      "target": ".cursor/skills/firecrawl/SKILL.md",
+      "sha": "b02b8467e6f4",
+      "byte": 17585
+    },
+    {
+      "id": "systematic-debugging",
+      "target": ".cursor/skills/systematic-debugging/SKILL.md",
+      "sha": "3b20719eca4f",
+      "byte": 9861
+    },
+    {
+      "id": "codebase-design",
+      "target": ".cursor/skills/codebase-design/SKILL.md",
+      "sha": "a8d50abac5a4",
+      "byte": 6080
+    },
+    {
+      "id": "supabase",
+      "target": ".cursor/skills/supabase/SKILL.md",
+      "sha": "4aa35891985d",
+      "byte": 11910
+    },
+    {
+      "id": "supabase-postgres-best-practices",
+      "target": ".cursor/skills/supabase-postgres-best-practices/SKILL.md",
+      "sha": "ccd6e4596bd5",
+      "byte": 2576
+    },
+    {
+      "id": "codebase-search",
+      "target": ".cursor/skills/codebase-search/SKILL.md",
+      "sha": "6945bc500a25",
+      "byte": 1473
+    },
+    {
+      "id": "pdf",
+      "target": ".cursor/skills/pdf/SKILL.md",
+      "sha": "9f78b8359fbd",
+      "byte": 8035
+    },
+    {
+      "id": "xlsx",
+      "target": ".cursor/skills/xlsx/SKILL.md",
+      "sha": "6712b39718fe",
+      "byte": 8542
+    },
+    {
       "id": "docx",
       "target": ".cursor/skills/docx/SKILL.md",
-      "sha": "cfbabd72b1ae",
-      "byte": 20056
+      "sha": "8017469ea95f",
+      "byte": 6868
+    },
+    {
+      "id": "ab-testing",
+      "target": ".cursor/skills/ab-testing/SKILL.md",
+      "sha": "1fd229160f60",
+      "byte": 11150
+    },
+    {
+      "id": "ad-creative",
+      "target": ".cursor/skills/ad-creative/SKILL.md",
+      "sha": "e874d7bde2f5",
+      "byte": 20720
+    },
+    {
+      "id": "ads",
+      "target": ".cursor/skills/ads/SKILL.md",
+      "sha": "8be65c0dfa27",
+      "byte": 25493
+    },
+    {
+      "id": "ai-seo",
+      "target": ".cursor/skills/ai-seo/SKILL.md",
+      "sha": "009333fb0cd4",
+      "byte": 26914
+    },
+    {
+      "id": "analytics",
+      "target": ".cursor/skills/analytics/SKILL.md",
+      "sha": "16aab197f87b",
+      "byte": 8359
+    },
+    {
+      "id": "aso",
+      "target": ".cursor/skills/aso/SKILL.md",
+      "sha": "158f42a00846",
+      "byte": 15520
+    },
+    {
+      "id": "churn-prevention",
+      "target": ".cursor/skills/churn-prevention/SKILL.md",
+      "sha": "88fd25b77e44",
+      "byte": 17745
+    },
+    {
+      "id": "co-marketing",
+      "target": ".cursor/skills/co-marketing/SKILL.md",
+      "sha": "893a3115b2e0",
+      "byte": 10143
+    },
+    {
+      "id": "cold-email",
+      "target": ".cursor/skills/cold-email/SKILL.md",
+      "sha": "b7f8d793169a",
+      "byte": 7286
+    },
+    {
+      "id": "community-marketing",
+      "target": ".cursor/skills/community-marketing/SKILL.md",
+      "sha": "edd8060b6382",
+      "byte": 8855
+    },
+    {
+      "id": "competitor-profiling",
+      "target": ".cursor/skills/competitor-profiling/SKILL.md",
+      "sha": "ea7b5b7feb79",
+      "byte": 14123
+    },
+    {
+      "id": "competitors",
+      "target": ".cursor/skills/competitors/SKILL.md",
+      "sha": "99e9ea715b1a",
+      "byte": 8795
+    },
+    {
+      "id": "content-strategy",
+      "target": ".cursor/skills/content-strategy/SKILL.md",
+      "sha": "0611532b2a0d",
+      "byte": 12150
+    },
+    {
+      "id": "copy-editing",
+      "target": ".cursor/skills/copy-editing/SKILL.md",
+      "sha": "9b5a20be3dc5",
+      "byte": 14974
+    },
+    {
+      "id": "copywriting",
+      "target": ".cursor/skills/copywriting/SKILL.md",
+      "sha": "ecdaabca2886",
+      "byte": 7599
+    },
+    {
+      "id": "cro",
+      "target": ".cursor/skills/cro/SKILL.md",
+      "sha": "199016bec3b4",
+      "byte": 6095
+    },
+    {
+      "id": "customer-research",
+      "target": ".cursor/skills/customer-research/SKILL.md",
+      "sha": "f44c116c4690",
+      "byte": 12665
+    },
+    {
+      "id": "directory-submissions",
+      "target": ".cursor/skills/directory-submissions/SKILL.md",
+      "sha": "dd08854f5cd1",
+      "byte": 23155
+    },
+    {
+      "id": "emails",
+      "target": ".cursor/skills/emails/SKILL.md",
+      "sha": "1fbd54df4c59",
+      "byte": 8550
+    },
+    {
+      "id": "free-tools",
+      "target": ".cursor/skills/free-tools/SKILL.md",
+      "sha": "76dc45350418",
+      "byte": 5933
+    },
+    {
+      "id": "image",
+      "target": ".cursor/skills/image/SKILL.md",
+      "sha": "c34b67e249e5",
+      "byte": 15634
+    },
+    {
+      "id": "launch",
+      "target": ".cursor/skills/launch/SKILL.md",
+      "sha": "6d8bbd61449c",
+      "byte": 12935
+    },
+    {
+      "id": "lead-magnets",
+      "target": ".cursor/skills/lead-magnets/SKILL.md",
+      "sha": "bfb1e260e56f",
+      "byte": 10901
+    },
+    {
+      "id": "marketing-council",
+      "target": ".cursor/skills/marketing-council/SKILL.md",
+      "sha": "0b94358427c3",
+      "byte": 12382
+    },
+    {
+      "id": "marketing-ideas",
+      "target": ".cursor/skills/marketing-ideas/SKILL.md",
+      "sha": "7fe1f79d0081",
+      "byte": 5301
+    },
+    {
+      "id": "marketing-loops",
+      "target": ".cursor/skills/marketing-loops/SKILL.md",
+      "sha": "db4ba419ee74",
+      "byte": 8980
+    },
+    {
+      "id": "marketing-plan",
+      "target": ".cursor/skills/marketing-plan/SKILL.md",
+      "sha": "548e1bd8f31f",
+      "byte": 20988
+    },
+    {
+      "id": "marketing-psychology",
+      "target": ".cursor/skills/marketing-psychology/SKILL.md",
+      "sha": "573bbe4f6e30",
+      "byte": 21836
+    },
+    {
+      "id": "offers",
+      "target": ".cursor/skills/offers/SKILL.md",
+      "sha": "cdc291bdf93b",
+      "byte": 9252
+    },
+    {
+      "id": "onboarding",
+      "target": ".cursor/skills/onboarding/SKILL.md",
+      "sha": "15a802ffb738",
+      "byte": 6553
+    },
+    {
+      "id": "paywalls",
+      "target": ".cursor/skills/paywalls/SKILL.md",
+      "sha": "d062c03f6b99",
+      "byte": 5781
+    },
+    {
+      "id": "popups",
+      "target": ".cursor/skills/popups/SKILL.md",
+      "sha": "6c66e7f923c1",
+      "byte": 11795
+    },
+    {
+      "id": "pricing",
+      "target": ".cursor/skills/pricing/SKILL.md",
+      "sha": "a5d1cfe49b80",
+      "byte": 7148
+    },
+    {
+      "id": "product-marketing",
+      "target": ".cursor/skills/product-marketing/SKILL.md",
+      "sha": "6dfd6bd485f6",
+      "byte": 9389
+    },
+    {
+      "id": "programmatic-seo",
+      "target": ".cursor/skills/programmatic-seo/SKILL.md",
+      "sha": "15cb5979cab5",
+      "byte": 7090
+    },
+    {
+      "id": "prospecting",
+      "target": ".cursor/skills/prospecting/SKILL.md",
+      "sha": "beabb53a99b4",
+      "byte": 16901
+    },
+    {
+      "id": "public-relations",
+      "target": ".cursor/skills/public-relations/SKILL.md",
+      "sha": "d1aeff136f23",
+      "byte": 7033
+    },
+    {
+      "id": "referrals",
+      "target": ".cursor/skills/referrals/SKILL.md",
+      "sha": "4ddd01713b7e",
+      "byte": 7491
+    },
+    {
+      "id": "revops",
+      "target": ".cursor/skills/revops/SKILL.md",
+      "sha": "bb27b16ad41c",
+      "byte": 15247
+    },
+    {
+      "id": "sales-enablement",
+      "target": ".cursor/skills/sales-enablement/SKILL.md",
+      "sha": "d83c3244dd8e",
+      "byte": 14581
+    },
+    {
+      "id": "schema",
+      "target": ".cursor/skills/schema/SKILL.md",
+      "sha": "d8b7aa7bcd97",
+      "byte": 5248
+    },
+    {
+      "id": "seo-audit",
+      "target": ".cursor/skills/seo-audit/SKILL.md",
+      "sha": "3b03a2e07578",
+      "byte": 16424
+    },
+    {
+      "id": "signup",
+      "target": ".cursor/skills/signup/SKILL.md",
+      "sha": "9395aabae648",
+      "byte": 10368
+    },
+    {
+      "id": "site-architecture",
+      "target": ".cursor/skills/site-architecture/SKILL.md",
+      "sha": "a47f693c6a4f",
+      "byte": 13480
+    },
+    {
+      "id": "sms",
+      "target": ".cursor/skills/sms/SKILL.md",
+      "sha": "bf649cfac0e3",
+      "byte": 16683
+    },
+    {
+      "id": "social",
+      "target": ".cursor/skills/social/SKILL.md",
+      "sha": "8cc93d9b3616",
+      "byte": 14880
+    },
+    {
+      "id": "video",
+      "target": ".cursor/skills/video/SKILL.md",
+      "sha": "3b6d4864bae4",
+      "byte": 14292
     }
   ]
 }
