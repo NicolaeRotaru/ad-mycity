@@ -1199,3 +1199,7 @@ Assegnazioni reparto (1 mossa ciascuno):
 ### 2026-07-20 11:30 — PLAYBOOK Istituzioni
 - 2026-07-20 11:30 · @relazioni-istituzionali · FATTO · PLAYBOOK Istituzioni: verifica web bandi 20/7 — **PI26/BT26 APERTI** (sportello → 30/7), **ER FESR CHIUSO**, nessun bando comunale materiali. Playbook + 2 mail Hub aggiornate + kit negozi 1 pagina in `consegne/relazioni-istituzionali/2026-07-20-*`. [[AZIONI-PRONTE]] **A38** · **#bandi-cciaa-kit** ✅ · **#52** aggiornata (leva PI26). Zero invii.
 - 2026-07-20 11:30 · @relazioni-istituzionali · PASSO-A · @Nicola — **Mossa n.1 oggi:** `#bandi-cciaa-2007` (PI26 MyCity, sportello già aperto). **Poi:** invia mail #52 Comune+Unione (testi A38) — gate parcheggiato 9/7 ma PQ è online e PI26 scade 30/7.
+
+### 2026-07-20 11:34 — PLAYBOOK Standard Negozio Verificato
+- 2026-07-20 11:34 · @trust-safety · FATTO · PLAYBOOK badge «Negozio Verificato MyCity»: 5 pilastri confermati · **0 verificati oggi** · PQ candidato **3/5** (mancano payout Stripe + 1ª consegna). Refresh REST 11:33 + bozze comunicazione in `consegne/trust-safety/2026-07-20-playbook-badge-negozio-verificato.md`. [[AZIONI-PRONTE]] **A24** aggiornato · **A39** sequenza 4 step. Coda esistente **#38** + gate **#51**. Zero badge assegnato, zero annuncio.
+- 2026-07-20 11:34 · @trust-safety · PASSO-A · @Nicola — sblocco badge = **`#ordine-test-pq`** + payout ON → poi sequenza **A39** (prima mergia **#51** o il sito mente). Non annunciare «standard città» finché 0 verificati.

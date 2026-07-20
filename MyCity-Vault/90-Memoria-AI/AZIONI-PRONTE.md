@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-20 11:30
+aggiornato: 2026-07-20 11:33
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -428,18 +428,34 @@ stato: BOZZE PRONTE — NESSUN INVIO. Coda canonica = riga #37 in [[AZIONI-IN-AT
 reparto: trust-safety (owner) · legale-privacy (claim) · content-social (bozze)
 livello: 🟢 (definire lo standard — fatto) · 🔴 (assegnarlo/mostrarlo a video e annunciarlo — firma Nicola)
 canale: vetrina negozio sul sito (bollino) + annuncio IG @mycity.piacenza/gruppi FB + messaggio al titolare
-perche: La fiducia è il fossato di MyCity contro Glovo (che consegna da supermercati anonimi). Un bollino con 5 criteri verificabili — identità reale, negozio attivo, pagamenti sicuri, consegna provata, regole rispettate — dice al cliente «di questo negozio ti puoi fidare, ci mettiamo la faccia noi». Diventa lo standard d'ingresso per l'ondata di negozi dal 13/7.
-preparato: 🛡️ trust-safety + ⚖️ legale-privacy + ✍️ content-social — standard completo + criteri + eligibilità + bozze in `consegne/trust-safety/2026-07-06-badge-negozio-verificato.md`
-idoneità reale (2026-07-06): **0 negozi Verificati oggi, 1 candidato** = Pane Quotidiano (unico negozio reale). PQ ha 3/5 pilastri (identità ✅, catalogo ✅, contratto ✅); mancano **payout attivo** (Stripe OFF) e **≥1 consegna** (#16 in consegna). Casa Linda = demo (esclusa), Garetti = prospect non nel DB (non idoneo). PQ diventa il **1° Negozio Verificato di Piacenza** nell'istante in cui #16 è consegnato + payout acceso — combacia con la North Star di oggi.
-cosa cambia: nasce lo standard di fiducia cittadino; il primo negozio reale che consegna si guadagna il bollino a video → i clienti hanno un segnale di garanzia visibile. Nessun negozio dichiarato "verificato" senza averlo meritato.
-se va bene: il badge diventa il rito di qualità dell'onboarding post-9/7 (entri → payout+catalogo → 1ª consegna → bollino); l'annuncio pubblico crea il posizionamento «la spesa di cui ti fidi» incopiabile da Amazon/Glovo.
-pre-condizioni: (1) 🔴 annuncio pubblico parte SOLO con ≥1 negozio davvero verificato (oggi: dopo #16 consegnato + payout PQ ON) — annunciare "lo standard" con 0 verificati sfonda il gate ONESTÀ · (2) 🔴 mostrare il bollino su PQ = ok Nicola + validazione claim @legale-privacy · (3) 🟡 corsia tecnica: flag `verified` sul profilo (backend-dev) + bollino a video (frontend-dev/CONFIG), in branch, da collegare al via.
-testo (annuncio pubblico · 🔴 · bozza neutra):
+perche: La fiducia è il fossato di MyCity contro Glovo (che consegna da supermercati anonimi). Un bollino con 5 criteri verificabili — identità reale, negozio attivo, pagamenti sicuri, consegna provata, regole rispettate — dice al cliente «di questo negozio ti puoi fidare, ci mettiamo la faccia noi». Diventa lo standard d'ingresso per ogni negozio che entra live.
+preparato: 🛡️ trust-safety + ⚖️ legale-privacy + ✍️ content-social — standard + refresh idoneità 20/7 in `consegne/trust-safety/2026-07-20-playbook-badge-negozio-verificato.md` (originale 6/7: `2026-07-06-badge-negozio-verificato.md`)
+idoneità reale (2026-07-20 11:33 REST): **0 Verificati · 1 candidato = Pane Quotidiano** (3/5). ✅ P1 identità (Via Calzolai 25, tel.) · ✅ P2 approved + 5 prodotti `available` · ❌ P3 Stripe charges+payouts **OFF** · ❌ P4 **0** consegnati (1 ordine CANCELED 24/6) · 🟡 P5 contratto firmato 1/7 [DOC], consensi DB nulli. Casa Linda = demo suspended (esclusa). Garetti/Peretti/Amendolara = prospect (non nel DB).
+cosa cambia: lo standard è pronto e onesto (0 badge finti oggi); al **1° ordine consegnato + payout ON** PQ diventa il 1° Negozio Verificato di Piacenza — combacia con `#ordine-test-pq` e North Star 0→1.
+se va bene: rito onboarding (payout → catalogo → 1ª consegna → bollino); annuncio «standard cittadino» solo dopo il fatto; gate codice #51 chiude il bug «badge su tutti».
+pre-condizioni: (1) 🔴 annuncio pubblico SOLO con ≥1 verificato reale · (2) 🔴 bollino su PQ = ok Nicola · (3) 🟡 mergia #51 prima (altrimenti il sito mente) · (4) 🟡 flag `verified` + CONFIG tooltip.
+testo (annuncio pubblico · 🔴 · bozza — vedi A39 step 4):
 [HOOK] A Piacenza è nato un bollino che prima non c'era: Negozio Verificato.
-[CORPO] Comprare online da una bottega è bello solo se ti puoi fidare. Cinque regole chiare: negozio reale, pagamento sicuro, consegna provata, regole rispettate. Chi le rispetta tutte prende il bollino 🛡️. Chi lo tradisce lo perde. Non è un adesivo che regaliamo: è una garanzia che ci mettiamo noi.
+[CORPO] … Il primo a guadagnarselo è **Pane Quotidiano** — gente vera, non un magazzino fuori città.
 [CTA] 👉 Cerca il bollino 🛡️ quando fai la spesa su MyCity.
 [FIRMA] La spesa che tiene viva la città. — MyCity Piacenza · VOLTI, NON ALGORITMI
-stato: STANDARD DEFINITO (🟢) — assegnazione + annuncio IN ATTESA DI FIRMA NICOLA. Coda canonica = riga #38 in [[AZIONI-IN-ATTESA]].
+stato: STANDARD CONFERMATO (🟢 refresh 20/7) — assegnazione + annuncio IN ATTESA (coda #38 · sequenza A39 · gate #51).
+
+## A39 · 🛡️ Sequenza «primo Negozio Verificato» — esegui quando PQ fa 5/5
+reparto: trust-safety → tech → content-social
+livello: 🔴 (assegnazione + comunicazione) · 🟡 (gate codice prima)
+canale: marketplace (flag + bollino) · WhatsApp titolare · IG/FB
+perche: Il badge vale solo se guadagnato e mostrato onestamente. Oggi il sito mostra «Verificato» a tutti (bug #51) — chiudere prima, poi celebrare PQ.
+trigger: Pane Quotidiano passa **5/5 pilastri** (REST: payouts ON + ≥1 ordine DELIVERED + resto già ok).
+sequenza:
+  1 · 🟡 Mergia **#51** (gate `isVerifiedStore` su tutti i punti badge) — PR marketplace in branch
+  2 · 🔴 Imposta flag verified su profilo PQ + bollino visibile (backend-dev + frontend-dev/CONFIG)
+  3 · 🔴 WhatsApp titolare: «siete il primo Negozio Verificato di Piacenza» (testo in A24 / consegne 20/7 §4a)
+  4 · 🔴 Pubblica annuncio standard città (testo A24 §4b) su IG + gruppi FB locali
+cosa cambia: nasce il segnale di fiducia visibile — differenzia MyCity da delivery anonimo; PQ diventa faro per Garetti/Peretti/Amendolara.
+se va bene: ogni nuovo negozio replica il rito 30 giorni; clienti cercano il bollino 🛡️ prima di ordinare.
+pre-condizioni: mai saltare step 1 · mai annunciare con 0 verificati · claim validato @legale-privacy (in doc 20/7).
+stato: ARMATA — parte al via di #38 / dopo `#ordine-test-pq` + payout PQ. Dettaglio: `consegne/trust-safety/2026-07-20-playbook-badge-negozio-verificato.md` §5.
 
 ## A26 · 📣 Post del giorno "Il tuo ordine ha un nome" (motore Volti, non algoritmi)
 reparto: content-social
