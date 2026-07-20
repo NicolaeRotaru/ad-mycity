@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-20 23:27",
+  "aggiornato": "2026-07-20 23:38",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
     {
@@ -972,15 +972,16 @@
       "causa_radice": "①Perché l'OKR è stantio? Nessun processo lo riscrive. ②Perché nessun processo? La riscrittura OKR è prosa in CLAUDE.md, senza guardiano. ③Perché non ha guardiano? I guardiani nascono per reazione a incidenti visti da Nicola (checklist stantia → AR-030); l'OKR non ha mai prodotto un incidente visibile. ④Perché non visibile? Il Pannello non mostra i target scaduti come errore. ⑤Causa di sistema: la freschezza è garantita solo dove un incidente ha generato un guardiano — manca la copertura sistematica dei file-cardine della prioritizzazione (OKR, piani) nel perimetro dei gate di freschezza.",
       "fix_proposto": "Estendere freschezza-checklist.mjs (o un okr-check dedicato) a OKR-Squadra.md: target con data scaduta o riferimento al faro obsoleto ⇒ vincolo HARD nel giro che impone la riscrittura per la fase corrente. 🟡 firma Nicola.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 16:55",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-20 23:38",
       "verifica": {
         "file": "cervello/freschezza-okr.mjs",
         "pattern": "OKR-Squadra",
         "presente": true
       },
-      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
+      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
+      "chiuso_come": "cervello/freschezza-okr.mjs contiene /OKR-Squadra/ → trovato"
     },
     {
       "id": "AR-116",
@@ -1146,15 +1147,16 @@
       "causa_radice": "Dove: consegne/audit/2026-07-16-auto-radiografia.md (token reale, 3×) · cervello/giro.sh:556 (scan tree-wide) e :626 (SEGRETO_TROVATO→GIRO_PUSH_OK=0) · cervello/scan-segreti.mjs:27,130 (regex PAT, exit 1) · MEM_DIRS giro.sh:72 — Il perimetro-segreti è disegnato come muro binario (blocca/non blocca) senza un canale di REDAZIONE a monte per i testi che la macchina scrive di sé: lo scanner a valle non distingue 'segreto operativo' da 'segreto CITATO in un audit del leak' e blocca tutto. Documentare un leak diventa esso stesso un leak che si auto-blocca (loop auto-amplificante: ogni nuova radiografia che ridocumenta il difetto re-inietta il valor",
       "fix_proposto": "🟡 da firmare: (a) redigere SUBITO le 3 occorrenze nel report (consegne/ non è append-only) → github_pat_11…[REDATTO]; (b) nuovo pezzo 'redattore-segreti' (riuso delle regex di scan-segreti.mjs) che il workflow giro/auto-radiografia passa su OGNI artefatto PRIMA di scriverlo, sostituendo i match con placeholder; (c) regola in scrittura-umana.md/onesta: mai il VALORE di un token nei testi, solo il NOME della variabile.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 23:58",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-20 23:38",
       "verifica": {
         "file": "consegne/audit/2026-07-16-auto-radiografia.md",
         "pattern": "github_pat_11[A-Za-z0-9]{20,}",
         "presente": false
       },
-      "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)"
+      "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)",
+      "chiuso_come": "consegne/audit/2026-07-16-auto-radiografia.md NON contiene /github_pat_11[A-Za-z0-9]{20,}/ → assente"
     },
     {
       "id": "AR-125",
@@ -1411,8 +1413,8 @@
     }
   ],
   "meta": {
-    "aperti": 21,
+    "aperti": 19,
     "in_corso": 0,
-    "chiusi": 55
+    "chiusi": 57
   }
 }
