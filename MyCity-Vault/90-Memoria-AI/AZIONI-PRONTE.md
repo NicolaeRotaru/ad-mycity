@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-20 11:22
+aggiornato: 2026-07-20 11:24
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -558,3 +558,23 @@ gate (❌ oggi): ≥1 ordine `DELIVERED` su PQ · `#ordine-test-pq` chiuso
 testo (anteprima onesta — da inviare SOLO post-1° ordine · 🔴):
 Ciao [nome], ogni mese MyCity ti manda cosa vendi *online*, a che ora ordinano a domicilio e chi torna — dal banco non lo vedi. Questo mese: [TOP] · fascia [GIORNO/ORA] · [N] clienti di ritorno · €[Y] in carrelli recuperabili. Prossimo report tra 30 giorni. Nicola — MyCity.
 stato: STAMPO ✅ + mini-report pre-revenue ✅ — **zero consegne al titolare** finché North Star = 0 · coda canonica = **#50** [[AZIONI-IN-ATTESA]]
+
+## A35 · 📍 Kit capillarità Pane Quotidiano — asset pronti, stampa gated
+reparto: designer → vendite
+livello: 🟢 (template + istanza PQ prodotti) · 🔴 (preventivo tipografia + stampa + posa fisica)
+canale: tipografia locale Piacenza + posa a mano in negozio (Via Calzolai 25)
+perche: **Playbook Capillarità 20/7 11:24** — unico negozio `confermato` (PQ). Kit fisico = ogni vetrina e ogni sacchetto diventa cartellone MyCity. Prospect Garetti/Peretti/Amendolara = solo template neutri (AR-006), nessun pacchetto intestato.
+preparato: 🎨 designer + 🤝 vendite — refresh `consegne/vendite/2026-07-20-playbook-capillarita.md`
+asset_pronti:
+  · Template neutri: `creativi/output/kit-capillarita/` (6 file: A5, vetrofania, adesivo tondo, 2 sacchetti, QR home PNG)
+  · Istanza PQ: `creativi/output/capillarita/` (A5 cassa + vetrofania SVG + `qr-pane-quotidiano.png`)
+  · URL QR verificato live HTTP 200: `https://mycity-marketplace.com/store/c0b240c0-2a86-4218-9d0f-5154f08ff929/pane-quotidiano?utm_source=qr&utm_medium=vetrina&utm_campaign=qr-pane-quotidiano`
+cosa_cambia: nessuna spesa oggi — i file vanno in tipografia solo dopo firma 🔴. Quando stampi e posi, ogni cliente in vetrina può ordinare PQ da telefono.
+se_va_bene: PQ ha QR in cassa + vetrofania → tracciamento UTM → primi ordini da vetrina; al 2° negozio firmato basta istanziare il template neutro in 2 min.
+gate_stampare:
+  · PQ **evadibile** (`#ordine-test-pq` chiuso) — NON stampare prima (brucia prima impressione)
+  · ok titolare PQ per posa vetrina
+  · preventivo tipografia (~€80–150 stimati, 1 colore terracotta)
+leva_finanziamento: ⛔ bando «Vita in Centro 50% materiali» **inesistente** (A1 ritirata 6/7) · alternativa: **PI26 CCIAA** 50% digitalizzazione (scade 30/7) — `#bandi-cciaa-2007`
+coda_canonica: **#48** stampa+posa PQ · **#49** semina città (≥3 negozi evadibili)
+stato: ASSET ✅ — stampa ⏸ gated su `#ordine-test-pq`

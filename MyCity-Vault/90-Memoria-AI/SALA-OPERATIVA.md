@@ -1183,3 +1183,7 @@ Assegnazioni reparto (1 mossa ciascuno):
 - 2026-07-20 11:22 · @account-negozi + @analista · FATTO · PLAYBOOK Dati-come-servizio: REST live ✅ (11:21) → 1 PQ, 5 prodotti, **0 DELIVERED**, 1 carrello buyer reale (samir €10 pesto+kefir), pudding mai in carrello. Mini-report pre-revenue + query schema corretto in `consegne/account-negozi/2026-07-20-playbook-dati-come-servizio.md`. [[AZIONI-PRONTE]] **A34** · coda **#50**. Zero consegne al titolare — gate `#ordine-test-pq`.
 - 2026-07-20 11:22 · @account-negozi · PASSO-A · @Nicola — chiudi **`#ordine-test-pq`** → rigenera report con transato e consegna al fornaio (🔴 card #50)
 - 2026-07-20 11:20 · @growth-monetizzazione · PASSO-A · @Nicola — oggi **niente firma fedeltà**; priorità PI26 + ordine PQ. Quando rete pronta: firma **#44** (% cashback) + **#45** (dopo parere fiscale gift card).
+
+### 2026-07-20 11:24 — PLAYBOOK Capillarità
+- 2026-07-20 11:24 · @designer + @vendite · FATTO · PLAYBOOK Capillarità refresh: REST ✅ 1 PQ confermato · **9 asset 🟢** (6 template neutri `creativi/output/kit-capillarita/` + 3 istanza PQ `creativi/output/capillarita/`) · URL QR PQ verificato HTTP 200 · playbook `consegne/vendite/2026-07-20-playbook-capillarita.md` · [[AZIONI-PRONTE]] **A35** · coda **#48** (stampa+posa 🔴 gated `#ordine-test-pq`) · **#49** (semina città ⏸ ≥3 negozi). ⛔ rimosso aggancio bando Vita in Centro inesistente. Zero stampa/posa.
+- 2026-07-20 11:24 · @vendite · PASSO-A · @Nicola — **prima** `#ordine-test-pq`, **poi** preventivo tipografia con file in `creativi/output/capillarita/` → firma **#48**
