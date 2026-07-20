@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 02:46 · 🟡 · [Worker UX — posizione controlli per superficie, PR #493] · **Nicola: (1) ☰ accanto a «+ Nuova» in chat grande, sparisci ingrandisci/chiudi in alto lì; (2) menu navbar grande ancora non apre; (3) barra alta sul popup fluttuante.** Refinement post-#492: **chat grande** = ☰ lista conv in toolbar bassa accanto a +, header pulito, chiudi tap fuori/voce Worker; **popup FAB** = barra superiore con ☰ + ingrandisci + chiudi. AD PR **#493** (`e1ed67d9`). Merge 🔴 pendente (#210). L-364, L-363.
+
 2026-07-20 02:32 · 🟡 · [Worker UX — tre superfici: FAB popup / menu Worker fullscreen / lista conv overlay, PR #492] · **Nicola: «bottone basso-destra e voce Worker non devono aprire la stessa finestra» + lista conv in finestra sopra la chat.** Corregge #486 (FAB=menu stessa popup) e #485/#490 (sidebar fissa sinistra): **FAB** = popup piccolo; **voce Worker menù** = chat grande schermo intero; **☰** = elenco conversazioni overlay sopra messaggi (apri/chiudi). AD PR **#492** — ✅ mergiata Pannello 02:31. #490 (#208) superseded. Attesa deploy + test Nicola. L-363, L-352, L-348.
 
 2026-07-20 02:31 · 🟡 · [Worker chat — PR #490 unificata menu + layout, conflitto #489 risolto] · **Nicola: «fammi rimergiare il menu e risolvi il conflitto della 489».** Fix paralleli ☰ menu (#488→#491) e niente testata/#489 conflittavano su `pannello/src/app/page.tsx`. AD: branch `fix/worker-menu-e-testata`, conflitto risolto a mano, **PR #490** con menu ☰ + layout compatto (+ in basso, via testata marketing). Card **#489/#207** e rimergio **#206** sostituite — **una merge #490**. Merge 🔴 pendente Nicola. L-362, L-359, L-358.

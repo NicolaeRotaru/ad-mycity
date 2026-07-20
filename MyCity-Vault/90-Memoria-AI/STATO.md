@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:35
+aggiornato: 2026-07-20 02:46
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~02:46 — CHAT: Worker controlli per superficie — ☰ accanto + in grande, barra alta popup (L-364).** Nicola tre fix post-#492: (1) **chat grande** (voce menu Worker) — icona **☰** elenco conv **accanto a «+ Nuova»** in barra bassa; **niente** ingrandisci/chiudi in alto; menu navbar non apriva → toggle collegato in basso; chiudi = tap fuori o voce Worker; (2) **popup piccolo** (FAB) — **barra alta** con ☰ + ingrandisci + chiudi (estetica chiudi riquadro). AD **PR #493** (`e1ed67d9`, commit su branch fix). Merge 🔴 **#210** → deploy Vercel ~2 min + Ctrl+F5. Fonte: chat Nicola 20/7 02:46 + screenshot 1070.
 
 > ✅ **20/7 ~02:34 — CHAT: «webhook collegato» — verificato OK sul worker (L-357).** Nicola conferma restart + env. **Verifica live:** con lo stesso caricamento del worker, sensore n8n **ok** (`n8n health ok`). **Pulizia consigliata:** nel file env ci sono ancora **3 righe** `N8N_WEBHOOK_URL` (2 segnaposto + 1 reale) — il worker usa l’ultima (reale), i sensori «a mano» vedono la prima (segnaposto). Nicola: lascia **una sola** riga reale, cancella le 2 segnaposto. **Prossimo:** login Meta in n8n per postare; post restano 🔴 + interruttore sicurezza off. Fonte: `verifica-sensori.mjs` 02:34.
 
