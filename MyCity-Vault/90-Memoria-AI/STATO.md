@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 22:00
-fonte: AD digitale (chat 20/7 22:00)
+aggiornato: 2026-07-20 23:18
+fonte: AD digitale (chat 20/7 23:18)
 ---
+
+> 💬 **20/7 ~23:18 — CHAT: Casella North Star soft — «Fai il fix» AR-113 gate hard allocazione (L-426).** Nicola «**Fai il fix**» — promuovere controllo **primo ordine reale** da soft a vincolo **HARD di allocazione**. Causa doppia: (1) `north-star-check.mjs` girava con `|| true` (decorativo); (2) codice usava `NORTH_VINCOLO` ma cantiere verifica cercava `NORTH_STAR_VINCOLO` → casella restava rossa a metà fix. **PR #503** (`fix/north-star-gate-hard-AR113`, commit `8b436997`): rinomina variabile + soglia stallo **>3 giorni** senza ordini pagati (oggi ~**26 giorni** / ~636h da STATO) → giro produce **solo** azioni verso 1° incasso (lavoro macchina solo se sblocca card business). Verificato: `node cervello/north-star-check.mjs --gate` → exit 1. **Serve Nicola:** mergia **#503** → refresh Radiografia (casella sparisce). Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 23:18.
 
 > 💬 **20/7 ~22:00 — CHAT: «Come si applicano i 5 pilastri?» — trigger→azione→misura (L-425).** Nicola «**mostrami in che modo si possono applicare: sensori proattivi, visione, previsione, automazione chiusa e sperimentazione continua**» — follow-up L-424, non correzione. AD risponde con **5 esempi concreti MyCity** (carrello 1h, negozio 7gg senza ordini, bando PI26, foto fornaio→schede, meteo venerdì+pioggia, welcome email chiusa, A/B soglia spedizione) ciascuno con **trigger → azione → misura** e contrasto **oggi vs dopo**. Frame: oggi metà sinistra (leggo+scrivo bozze), manca collegamento destro (parte da solo+misura+impara). **2 veloci da accendere:** carrello abbandonato + catalogo da foto PQ. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 22:00.
 
