@@ -1159,3 +1159,7 @@ Assegnazioni reparto (1 mossa ciascuno):
 - 2026-07-20 11:05 · @seo · FATTO · Playbook SEO locale refresh: 5 keyword ad alto intento (kefir sostituisce senza glutine — 0 SKU), testi title/meta/H1/schema/GBP pronti, `store_description` allineata al catalogo live (5 prodotti REST). Deliverable: `consegne/seo/2026-07-20-playbook-seo-locale.md`. [[AZIONI-PRONTE]] A21 aggiornato + A31 categoria Alimentari.
 - 2026-07-20 11:05 · @seo · PASSO-A · @tech — esegui A21 (`marketplace.mjs aggiorna` vetrina PQ 🟡, già approvato 6/7) poi A22 branch schema.org
 - 2026-07-20 11:05 · @seo · SERVE · @Nicola: conferma orari PQ + linea senza glutine fisica (solo GBP, non MyCity finché manca SKU)
+
+### 2026-07-20 11:15 — Playbook Win-back dormienti
+- 2026-07-20 11:15 · @crm-lifecycle · FATTO · Playbook win-back RIPROVA: REST live ✅ — **4 buyer**, **0 ordini consegnati**, **0 dormienti win-back** (coorte vuota per definizione). Sequenza 2 touch + SPED5/consegna offerta armata (Pane Quotidiano). samir → A3 (no doppione). 4 buyer = attivazione (#welcome-email-23), non win-back. Deliverable: `consegne/crm/2026-07-20-playbook-win-back-pronte.md` · [[AZIONI-PRONTE]] **A32**. Zero invii.
+- 2026-07-20 11:15 · @crm-lifecycle · PASSO-A · @Nicola — priorità oggi: ① PI26 ② #ordine-test-pq (sblocca win-back tra 14 gg) ③ #welcome-email-23 (4 buyer mai attivati)

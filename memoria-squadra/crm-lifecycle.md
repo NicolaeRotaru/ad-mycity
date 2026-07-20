@@ -8,6 +8,7 @@ reparto: crm-lifecycle
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 11:14 · playbook win-back 20/7 · 4 buyer,0 delivered,0 winback,2 touch+SPED5 · atteso bozze+AZIONI-PRONTE A32 per ogni dormiente → reale 0 dormienti; attivazione=welcome/carrello · #win-back #playbook
 - 2026-07-19 23:33 · Nicola «Dimmi altri 10 workflow diversi» — atteso: ampliare mappa lifecycle oltre carrello · reale: 10 leve distinte (welcome, post-consegna/recensione, dormiente, pagamento fallito, referral, meteo…) allineate a CRM; carrello resta #1; JSON n8n dopo webhook + scelta Nicola · L-335 · #n8n #lifecycle
 - 2026-07-19 22:34 · Nicola chiede workflow n8n «in soldi» — atteso: leva revenue concreta · reale: **carrello abbandonato** confermato come workflow n8n prioritario (funnel multi-touch vs playbook email manuale attuale); owner CRM allineato con builder-automazioni; JSON n8n dopo webhook · L-333 · #carrello-abbandonato #n8n
 - 2026-07-19 13:01 · playbook recupero carrelli 19/7 RIPROVA · 4 record / 1 buyer reale / 2 touch · atteso bozze A3 per ogni carrello reale fermo → reale 1 samir €10 PQ + 3 SKIP admin/demo/seller · #recupero-carrelli

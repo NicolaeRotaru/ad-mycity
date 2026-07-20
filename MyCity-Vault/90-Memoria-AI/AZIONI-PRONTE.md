@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-20 11:05
+aggiornato: 2026-07-20 11:15
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -514,3 +514,21 @@ se va bene: capisci com'è andato venerdì al banco, pianifichi primo ordine rea
 retention_già_in_coda: `#checkin-pq-postvp` in [[AZIONI-IN-ATTESA]] · tel. **0523 388601** · script 2 min in coda
 non-duplicato: non tocca #25/#29 (chiuse) · non riapre #antichurn-13lug (scaduta) · prospect Garetti/Peretti/Amendolara = vendite, non anti-churn
 stato: SCAN ✅ — azione retention = firma `#checkin-pq-postvp` (🟡 lun 20/7 o WhatsApp weekend)
+
+## A32 · 🔁 Win-back dormienti — ri-verifica 20/7 (0 destinatari, sequenza armata)
+reparto: crm-lifecycle
+livello: 🟡 (Touch #1 «ci manchi», €0) · 🔴 (Touch #2 consegna offerta ~€4 o SPED5)
+canale: Email Resend (dominio ok — invio marketing = firma Nicola)
+perche: **Playbook win-back 20/7 11:15 — coorte win-back VUOTA.** REST live: **4 buyer**, **1 ordine** (CANCELED, mai consegnato), **0** `DELIVERED` → **0 dormienti** per definizione (≥1 consegnato + 14 gg fermo). I 4 buyer sono **attivazione primo ordine** (#welcome-email-23 + A3 samir), non win-back.
+preparato: 🔁 crm-lifecycle — pacchetto `consegne/crm/2026-07-20-playbook-win-back-pronte.md` (aggiorna base 6/7 con PQ faro + coupon live)
+cosa cambia: nessuna email win-back oggi (corretto). Sequenza pronta: mail #1 relazionale €0 → mail #2 **consegna offerta cap ~€4** oppure **SPED5** (€5 sopra €25, già in DB, `first_order_only=false`) → telefonata se ≥2 ordini storici. **Budget €0:** nessun coupon nuovo · **BENVENUTO10 escluso** (first_order_only).
+se va bene: dopo `#ordine-test-pq` consegnato, il primo cliente fermo 14 gg entra in coorte → Nicola firma Touch #1 🟡 → se muto, Touch #2 🔴.
+anti-doppione: samir → **A3** carrello (AR-008) · welcome 4 buyer → **#welcome-email-23** · coda canonica win-back = riga **#42** [[AZIONI-IN-ATTESA]]
+gate (tutti ❌ oggi): dormiente reale · consenso marketing (3/4 false) · firma incentivo 🔴
+testo (Touch #1 — anteprima):
+Oggetto: [Nome], è un po' che non ti portiamo niente 💛
+Ciao [Nome], è un paio di settimane che non ci vediamo. Pane Quotidiano (Via Calzolai, bio dal 1976) prepara sempre fresco. 👉 Torna da Pane Quotidiano — rispondi se qualcosa non andò bene. Nicola — MyCity.
+testo (Touch #2 — solo se ancora fermo · 🔴):
+Oggetto: [Nome], la prossima consegna la offro io 🚲
+Consegna offerta sul prossimo ordine da Pane Quotidiano — oppure codice SPED5 (€5 sopra €25). Una volta per cliente. Firma Nicola.
+stato: ARMATO DRY-RUN — 0 invii · trigger = 1ª consegna PQ + 14 gg fermo
