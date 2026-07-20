@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:23
-fonte: AD digitale (metabolizzazione chat verifica deploy Worker)
+aggiornato: 2026-07-20 02:31
+fonte: AD digitale (metabolizzazione chat PR #490 Worker)
 ---
+
+> 💬 **20/7 ~02:31 — CHAT: Nicola «fammi rimergiare il menu e risolvi conflitto #489» — PR #490 unificata (L-362).** Conflitto tra fix ☰ menu (#488/#491) e layout senza testata (#489) sullo stesso file `page.tsx` — AD branch **`fix/worker-menu-e-testata`**, **PR #490** unifica: via «Worker / Semplice e diretto…», ☰ funzionante, **+** in barra icone bassa; build ok. **Ignorare** PR #489 e card **#207**; merge **una sola volta** 🔴 **#490** (sostituisce anche richiesta layout #489). Dopo merge: deploy Vercel ~2 min + Ctrl+F5 → verifica UI live (L-361). Fonte: chat Nicola 20/7 02:31.
 
 > 💬 **20/7 ~02:23 — CHAT: Nicola «no, non riesco a visualizzare i fix sul panello» — correzione AD (L-361).** Dopo domanda «ultimi 5 merge applicati?» AD aveva risposto **sì** (verifica errata: peso chunk JS) — Nicola **smentisce**. Rifatto controllo live: ancora visibile **«Worker / Semplice e diretto…»** e **+ in alto** → **#489 non online** (merge 🔴 #207 pendente). **#488** mergiata su GitHub ma **solo nota tecnica** — codice ☰ menu **non** deployato → rimergiare 🔴 **#206**. **Parziali online** su Vercel: fix stanotte **#483–#487** (scroll, barra sticky, sidebar popup, chat Lavori in lista). **Prossimo Nicola:** mergia **#207** poi **#206** → Ctrl+F5 → verifica assenza testata + ☰ funzionante. Fonte: chat Nicola 20/7 02:23.
 

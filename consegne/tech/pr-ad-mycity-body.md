@@ -1,14 +1,18 @@
-## Summary
-- Rimuove la barra titolo «Worker / Semplice e diretto…» dalla finestra chat Worker (fluttuante e ingrandita).
-- Sposta **Nuova chat (+)** nella barra icone in basso (accanto ad allega, video live, prompt, ecc.).
-- Chiudi (X) e ingrandisci restano come due piccole icone in alto a destra, senza barra.
+## Cosa
+Separa i due modi di aprire il Worker e mette l'elenco conversazioni in un cassetto sopra la chat.
 
 ## Perché
-Nicola chiede più spazio ai messaggi e un’unica barra strumenti in basso, stile WhatsApp.
+Nicola (20/7): il bottone in basso a destra e la voce «Worker» nel menu **non** devono aprire la stessa finestra; la lista chat deve aprirsi/chiudersi **sopra** i messaggi, non come colonna fissa.
+
+## Cambiamenti
+- **Menu laterale «Worker»** → chat a schermo intero (`workerFull`)
+- **Bottone FAB in basso a destra** → finestra piccola flottante (popup)
+- **Icona ☰** → cassetto conversazioni overlay (mobile e desktop), chiuso di default
+- Deep-link / vista salvata `assistente` → fullscreen
 
 ## Come provare
-1. Apri il Worker (icona in basso a destra).
-2. Verifica che **non** ci sia più la strada grigia con «Worker» e sottotitolo.
-3. In basso, prima delle altre icone, c’è **+** → apre chat vuota.
-4. In alto a destra restano solo ingrandisci e X.
-5. Ripeti con chat ingrandita a schermo intero.
+1. Merge PR e attendi deploy Vercel (o build locale)
+2. Ctrl+F5 sul Pannello
+3. **FAB «Worker»** in basso → finestra piccola; **ingrandisci** → grande; **X** chiude
+4. **Voce «Worker»** nel menu sinistro → direttamente grande
+5. Dentro la chat: **☰** apre lista sopra i messaggi; tap fuori o scelta chat la chiude

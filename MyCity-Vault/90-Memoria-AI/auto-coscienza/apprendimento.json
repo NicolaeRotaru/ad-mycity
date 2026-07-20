@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 02:27",
+  "aggiornato": "2026-07-20 02:31",
+  "_nota_metabolizzazione_20_07_0231": "Chat 20/7 ~02:31: Nicola «fammi rimergiare menu e risolvi conflitto #489» — PR #490 unificata (menu+layout). L-362 nuova; L-359 evidenze++ superseded; preferenza pr-unificata-conflitto; #207 SUPERSEDED, #208 nuova; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0223": "Chat 20/7 ~02:23: Nicola «no, non riesco a visualizzare i fix» smentisce AD che aveva detto 5 merge online (peso chunk errato). L-361 nuova (caso_studio_nicola); L-360 evidenze++ addendum falso positivo; preferenza verifica-deploy-ui-live; STATO corretto 02:22; DECISIONI+LEZIONI-CHAT+frontend-dev+devops-sre aggiornati.",
   "_nota_metabolizzazione_20_07_0222": "Chat 20/7 ~02:22: Nicola «non si vede il fix sul panello» post-#486 — verifica live ok, cache gate. L-360 nuova; L-352 evidenze++ addendum deploy; preferenza worker-fix-non-visibile; STATO+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0213": "Chat 20/7 ~02:13: Nicola «togli testata Worker/Semplice e diretto, + in barra icone basso» — layout compatto Worker. L-359 nuova (caso_studio_nicola); L-348 evidenze++ addendum no-testata; L-233 evidenze++ commit su main per errore #489; preferenza worker-niente-testata-plus-basso; STATO+DECISIONI+#207+LEZIONI-CHAT+frontend-dev aggiornati.",
@@ -79,6 +80,28 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-362",
+      "testo": "**Worker PR parallele — conflitto su stesso file → una sola PR consolidata, una card (Nicola 20/7 ~02:31).** «Fammi rimergiare il menu e risolvi il conflitto della #489» — fix ☰ menu (#488→#491) e layout senza testata (#489) toccavano `page.tsx` → conflitto merge. 5 perché: (1) PR parallele sullo **stesso file** generano conflitto prevedibile — unificarle **prima** di chiedere merge a Nicola; (2) Nicola vuole **un merge**, non N card (#206+#207) quando i fix sono complementari; (3) risoluzione = branch unico `fix/worker-menu-e-testata` + **PR #490** (☰ + niente testata + + in basso); (4) card vecchie (#489/#207) → **SUPERSEDED**, non lasciare in coda; (5) dopo merge unico → verifica UI live (L-361), non peso chunk. Regola: conflitto GitHub su filone Worker → consolidare, non «mergia prima A poi B». Vedi L-359, L-358, PR #490.",
+      "tag": [
+        "pannello",
+        "worker",
+        "pr",
+        "conflitto",
+        "merge",
+        "consolidazione",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 02:31",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-361",
       "testo": "**Pannello Vercel — «ultimi N merge online?» = stringhe UI live + stato PR, MAI peso chunk JS (Nicola 20/7 ~02:23).** Nicola chiede se gli ultimi 5 merge Worker (#483→#487) sono sul Pannello; AD risponde **sì** basandosi su dimensione chunk JS (478385 byte) — Nicola **smentisce**: «no, non riesco a visualizzare i fix». 5 perché: (1) peso file ≈ correlazione, **non** prova causa→effetto su ogni fix; (2) verifica giusta = fetch Pannello live + cercare **marker UI** (assenza «Semplice e diretto» per #489, ☰ funzionante per #488, + in basso); (3) **merge GitHub ≠ codice online** se PR pendente (#489 → card **#207**) o merge parziale (#488 = solo nota tecnica, codice ☰ **non** deployato → rimergiare **#206**); (4) batch «5 merge» può essere **parziale** (#483–#487 sì, #489/#488 codice no); (5) se Nicola smentisce → **ammetti errore subito**, non ripetere la stessa verifica. Regola: domanda «fix online?» → UI live + elenco PR merged/pending; **vietato** chiudere solo con byte chunk o «c'è su main». Vedi L-315, L-360, PR #489/#488.",
