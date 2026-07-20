@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 18:00 · 🟢 · [AD/Pannello] · **Nicola: «togli le card merge obsolete» — pulizia coda post L-402.** AD rimuove 6 card «Mergia PR #…» (#499 Parla casella, #480 autofill, #464 Arsenale, #446 chat cross-device, #443 UX, #450 Pannello); PR restano su GitHub — mergia da lì. Coda 47→41 aperte. Non toccate #auto-segna-pr-mergiata (fix automatico richiesto da Nicola). L-402 addendum, L-403. · Nicola (chat 20/7 ~18:00)
+
 2026-07-20 17:58 · 🟢 · [AD/Pannello] · **Nicola: coda «Da approvare» solo per iniziativa AD; chat «fai fix/crea PR» = link, no card merge.** «Le cose da approvare devono essere quelle a cui ci arrivi da solo» — se Nicola chiede in chat (fix, PR, modifica codice): AD lavora + **link PR in risposta**, **non** accoda «Mergia PR #…»; card Approva solo per mosse **autonome** (giro, sentinella) o 🔴 mondo reale **senza** ordine esplicito in chat. Errore oggi: #499 accodata dopo «Fai il fix». L-402, addendum L-0701-31. · Nicola (chat 20/7 ~17:58)
 
 2026-07-20 17:53 · 🟡 · [frontend-dev/AD] · **Nicola: «fai il fix» — Parla casella PGRST102, PR #499.** Seguito diagnosi L-399 (~17:48): errore giallo JSON invalido su invio da card «Parla con questa azione». **Fatto (🟢):** branch `fix/parla-casella-pgrst102`, **PR #499** — payload lavoro costruito lato server con sanitize + validazione JSON prima di Supabase; typecheck OK; test sanitize OK. **Merge 🔴 pendente** Nicola → deploy ~2 min → riprova Invio da stessa card. L-400, collega L-399. · Nicola (chat 20/7 ~17:53)
