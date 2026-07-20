@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-20 06:22 · Giro 20/7 06:20 north-star · coerenza:5 verita:5 focus:5 completezza:4 azioni:5 memoria:5 · atteso briefing+checklist mattina+PI26 oggi → reale business invariato 0 pagati · #north-star #PI26
 - 2026-07-20 03:37 · metabolizzazione chat «togli duplicato mappa negozi bacheca» · atteso: L-384 + L-377 addendum dedup · reale: L-384, L-377 evidenze 3, STATO/DECISIONI/LEZIONI-CHAT/ad aggiornati · #metabolizzazione #bacheca #L-384
 - 2026-07-20 03:36 · metabolizzazione chat «inserisci 50 workflow in bacheca» · atteso: L-383 + L-377 addendum · reale: L-383, L-377 evidenze 2, STATO/DECISIONI/LEZIONI-CHAT/builder/ad aggiornati · #metabolizzazione #bacheca #L-383
 - 2026-07-20 03:27 · metabolizzazione chat «ci sono senior esperti n8n?» · atteso: lezione L-378 + preferenza organigramma · reale: L-378, L-332 evidenze 2, STATO/LEZIONI-CHAT/builder/partner-management aggiornati · #metabolizzazione #n8n #L-378

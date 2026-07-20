@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 06:17",
+  "aggiornato": "2026-07-20 08:17",
   "_nota_metabolizzazione_20_07_0405": "Chat 20/7 ~04:05: Nicola «Addattale a mycity» — overlay 47 skill, patch sync auto, commit 9e2f08a9 PR #495. L-388 nuova; L-387 evidenze++ addendum adattamento esplicito; preferenza adattale-a-mycity; STATO+DECISIONI+#212+LEZIONI-CHAT+marketing+prompt-engineer esito.",
   "_nota_metabolizzazione_20_07_0402": "Chat 20/7 ~04:02: Nicola «Scarica tutti quelli della community» — 47 skill coreyhaines31, PR #495, 19→66. L-387 nuova; L-386 evidenze++ addendum scelta community; preferenza marketing-skills-community-completo; STATO+DECISIONI+#212+LEZIONI-CHAT+marketing+prompt-engineer+tech esito.",
   "_nota_metabolizzazione_20_07_0359": "Chat 20/7 ~03:59: Nicola «riesci a scaricare marketing skills cloud claude?» — verifica GitHub+manifest, due pacchetti, path sync PR. L-386 nuova; preferenza marketing-skills-github; STATO+LEZIONI-CHAT+marketing+prompt-engineer esito.",
@@ -92,6 +92,7 @@
   "_nota_metabolizzazione_19_07_1713": "Chat 19/7 ~17:13: dopo pipeline contenuti (L-300), Nicola «Dimmi un contenuto» → AD ha mostrato post domenica PQ già in coda (#post-domenica-settimana-1907). L-302 nuova; L-300 evidenze++.",
   "_nota_metabolizzazione_19_07_1711": "Chat 19/7 ~17:11: standing-ask audit chat consegnato (mappa 7 filoni in chat) + PR #475 per regressione auto-open. L-301 evidenze++, L-299 aggiornata con PR #475. Nicola «No capito» ma vuole tutti i problemi risolti.",
   "_nota_giro_19_07_1448": "Giro 19/7 14:48 north-star AR-111: business invariato (REST ri-conferma 4 buyer, 0 pagati). Vincolo rispettato — zero azioni macchina. Rinforzo: con stallo ~604h, ogni giro ripete la stessa triade ordine test + PI26 + post clienti finché North Star non si muove.",
+  "_nota_giro_20_07_0620": "Giro 20/7 06:20 north-star AR-111: business invariato (REST 06:20 — 1 PQ, 4 buyer, 0 pagati, stallo ~620h). n8n ok. PI26 OGGI 10:00 — corretti piani che dicevano «domani». Post domenica 19/7 scaduto non pubblicato. Zero card tech nuove. Checklist mattina + briefing + Supabase briefings POST 201.",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -107,6 +108,25 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-389",
+      "testo": "**Eventi a data fissa — al cambio giorno aggiorna TUTTI i file vivi da «domani» a «oggi» (giro 20/7 06:20).** PI26 era «apre DOMANI 20/7» in Piano Istituzionale fino a questa mattina — oggi è il giorno zero. Regola: per scadenze/eventi con data-orario (bandi, post programmati, sportelli), a ogni giro del giorno J controllare piani/briefing/intenzioni/SALA e riscrivere il framing temporale (ieri→oggi, domani→oggi, «stasera»→«alle HH:MM»). Post con deadline scaduta (domenica 19/7 21:00) → flag in sentinelle + card recupero, non silenzio. Collegato AR-102 (registro-fatti) ma vale anche per testo narrativo non numerico.",
+      "tag": [
+        "ritmo",
+        "coerenza",
+        "bandi",
+        "north-star"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.75,
+      "evidenze": 1,
+      "fonte": "giro",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 06:20",
+      "stato": "in-prova",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-388",
       "testo": "**«Addattale a mycity» — overlay obbligatorio su marketing skill community + patch auto sync (Nicola 20/7 ~04:05).** Seguito L-387 (47 skill scaricate): Nicola «**Addattale a mycity**» — non basta avvisare che sono B2B generiche; vuole **adattamento implementato**. 5 perché: (1) coerente con onestà brand (ONESTA-RULES, Il Turno) — skill US senza patch rischiano numeri/testimonianze finte; (2) **fatto:** blocco MYCITY in **tutte e 47** skill (Il Turno, Piacenza, FB/IG locali, no LinkedIn B2B default, pubblicare 🔴); (3) overlay centralizzato `cervello/prompt-fragments/mycity-marketing-overlay.md` + `patchMarketingSkillForMyCity` in `sync-worker-plugins.mjs` — **idempotente**, si riapplica ai futuri update GitHub community; (4) commit **`9e2f08a9`** nella stessa **PR #495** (2 commit: download + adattamento); (5) skill **potenziano** senior marketing/content/seo, non sostituiscono. Regola: dopo import skill marketing esterne → **sempre** overlay MyCity + patch sync; se Nicola dice «adattale a mycity» → esegui subito, non solo consiglio. Vedi L-387, L-386, PIATTAFORMA-CREATIVA.",
@@ -9182,13 +9202,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 405,
+    "lezioni_attive": 406,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.19,
-    "tasso_calcolato_il": "2026-07-20 06:17",
+    "tasso_calcolato_il": "2026-07-20 08:17",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 06:17",
+    "tick_leggero_il": "2026-07-20 08:17",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

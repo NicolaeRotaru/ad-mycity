@@ -1,40 +1,40 @@
 {
-  "data": "2026-07-19 14:48",
-  "sintesi": "Stallo ~604h senza ordini pagati — focus totale North Star. Mossa n.1: ordine test su Pane Quotidiano (10 min). Domani 20/7 ore 10:00 apre PI26 a sportello — registrazione restart.infocamere.it stasera se non fatta. Post domenica PQ in coda per stasera entro 21:00. Giro botteghe 13 prospect quando bici pronta (sett. 21-25/7).",
+  "data": "2026-07-20 06:20",
+  "sintesi": "Giornata critica: PI26 a sportello ore 10:00 (restart.infocamere.it) + ordine test PQ per sbloccare North Star 0→1. Post domenica ieri sera non uscito — recupero oggi. Business fermo dal 24/6: 1 negozio, 4 buyer, 0 pagati, stallo ~620h.",
   "prossime_mosse": [
     {
-      "titolo": "Fai un ordine di prova su Pane Quotidiano",
-      "quando": "Oggi 19/7 pomeriggio",
-      "come": "mycity-marketplace.com → prodotto PQ → checkout → consegna/ritiro. Sblocca North Star 0→1.",
+      "titolo": "Presenta la domanda PI26 alle 10:00",
+      "quando": "Oggi 20/7 ore 10:00",
+      "come": "restart.infocamere.it a sportello — bozza e fatture in consegne/relazioni-istituzionali/",
       "priorita": "alta",
-      "ad_prepara": "Flusso già live — nessuna prep necessaria.",
-      "senior": "@operations",
-      "colore": "🟡"
-    },
-    {
-      "titolo": "Registrati su restart.infocamere.it per PI26",
-      "quando": "Stasera 19/7 (prima di dormire)",
-      "come": "Portale bandi CCIAA. Raccogli fatture tech da maggio 2026.",
-      "priorita": "alta",
-      "ad_prepara": "Bozza domanda in consegne/relazioni-istituzionali/",
+      "ad_prepara": "Checklist mattina in consegne/operations/2026-07-20-checklist-mattina-north-star.md",
       "senior": "@relazioni-istituzionali",
       "colore": "🔴"
     },
     {
-      "titolo": "Pubblica il post domenica su Facebook e Instagram",
-      "quando": "Stasera entro le 21:00",
-      "come": "Testo in consegne/content/2026-07-19-post-del-giorno-domenica-settimana-PQ.md",
+      "titolo": "Fai un ordine di prova su Pane Quotidiano",
+      "quando": "Oggi 20/7 mattina o pranzo",
+      "come": "mycity-marketplace.com → prodotto PQ → checkout → consegna/ritiro",
+      "priorita": "alta",
+      "ad_prepara": "Flusso live — card #ordine-test-pq",
+      "senior": "@operations",
+      "colore": "🟡"
+    },
+    {
+      "titolo": "Pubblica il post social su Facebook e Instagram",
+      "quando": "Oggi 20/7",
+      "come": "Recupero post domenica (#post-domenica) o meteo (#post-meteo-pioggia-20lug) — testo in consegne/content/",
       "priorita": "media",
-      "ad_prepara": "Post già scritto — solo firma pubblicazione.",
+      "ad_prepara": "Contenuti pronti — solo firma pubblicazione",
       "senior": "@content-social",
       "colore": "🔴"
     },
     {
       "titolo": "Ripara la bici e pianifica giro botteghe",
       "quando": "Settimana 21-25/7",
-      "come": "Visita 13 prospect botteghe (non ristoranti). Schede pitch pronte.",
+      "come": "Visita 13 prospect botteghe — schede in consegne/vendite/",
       "priorita": "alta",
-      "ad_prepara": "13 schede in consegne/vendite/",
+      "ad_prepara": "13 schede pitch pronte",
       "senior": "@vendite",
       "colore": "🟡"
     }
@@ -43,7 +43,7 @@
     {
       "nome": "Pane Quotidiano",
       "perche": "Unico negozio REALE (Via Calzolai 25). Già online.",
-      "stato": "attivo — North Star 0, stallo ~604h"
+      "stato": "attivo — North Star 0, stallo ~620h"
     },
     {
       "nome": "Frolla Couture",
@@ -57,25 +57,26 @@
     }
   ],
   "rischi": [
-    "PI26 perso se non registrato stasera (sportello domani 10:00)",
-    "Stallo PQ >25 giorni — bottega può perdere motivazione",
-    "4 buyer dormienti — nessuna welcome email inviata ancora"
+    "PI26 perso se non presente alle 10:00 (sportello)",
+    "Post domenica mancato — zero visibilità ieri sera",
+    "Stallo PQ >26 giorni — bottega può perdere motivazione",
+    "4 buyer dormienti — nessuna welcome email inviata"
   ],
   "serve_da_nicola": [
     {
-      "ambito": "north star",
-      "cosa_manca": "Ordine test su PQ eseguito da Nicola",
-      "domanda_per_nicola": "Fai l'ordine test su Pane Quotidiano oggi? È la mossa n.1."
-    },
-    {
       "ambito": "PI26",
-      "cosa_manca": "Registrazione restart.infocamere.it",
-      "domanda_per_nicola": "Sei già registrato per PI26? Altrimenti fallo stasera — apre domani 10:00."
+      "cosa_manca": "Domanda presentata alle 10:00",
+      "domanda_per_nicola": "Sei pronto per PI26 alle 10:00? Registrazione restart.infocamere.it ok?"
     },
     {
-      "ambito": "post stasera",
-      "cosa_manca": "Firma pubblicazione post domenica",
-      "domanda_per_nicola": "Ok pubblicare il post PQ stasera entro le 21:00?"
+      "ambito": "north star",
+      "cosa_manca": "Ordine test su PQ eseguito",
+      "domanda_per_nicola": "Fai l'ordine test su Pane Quotidiano oggi? È la mossa n.2."
+    },
+    {
+      "ambito": "post social",
+      "cosa_manca": "Pubblicazione recupero post",
+      "domanda_per_nicola": "Ok a pubblicare oggi — domenica o meteo?"
     }
   ]
 }

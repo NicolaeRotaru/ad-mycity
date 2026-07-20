@@ -1140,3 +1140,9 @@ Assegnazioni reparto (1 mossa ciascuno):
 
 - 2026-07-20 06:00 · @AD · FATTO · Piano del mattino completato. RITMO.md (blocco «Piano del mattino · 2026-07-20 06:00»), STATO.md «Prossime priorità» aggiornato, sensori 06:00 ok (REST/Stripe/n8n/webhook · Telegram assente · runway senza BURN_MENSILE_EUR).
 - 2026-07-20 06:00 · @AD · SERVE · @Nicola: ① 🔴 **PI26 ore 10:00** (restart.infocamere.it) ② 🟡 **ordine test PQ** ③ 🔴 **pubblica post** (domenica o pioggia) ④ 🟡 **mergia PR #495** skill marketing + riavvio worker.
+
+### 2026-07-20 06:20 — 🔭 Giro pieno (AR-111 North Star)
+- 2026-07-20 06:20 · @AD · FATTO · Giro pieno: briefing 2026-07-20.md, ultimo-briefing.json, STATO 7 numeri REST 06:20, auto-analisi 90/100. Business invariato: 1 PQ, 4 buyer, 0 pagati, stallo ~620h. n8n ok. Post domenica 19/7 non pubblicato.
+- 2026-07-20 06:20 · @operations · FATTO · Checklist mattina North Star: consegne/operations/2026-07-20-checklist-mattina-north-star.md
+- 2026-07-20 06:20 · @intelligence · FATTO · eventi-picchi.md aggiornato — PI26 oggi 10:00, meteo 32°C + pioggia 21/7
+- 2026-07-20 06:20 · @AD · SERVE · @Nicola: ① 🔴 **PI26 alle 10:00** ② 🟡 **ordine test PQ** ③ 🔴 **recupero post social oggi**

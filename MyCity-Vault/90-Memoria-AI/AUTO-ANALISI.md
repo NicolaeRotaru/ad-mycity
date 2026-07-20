@@ -1,33 +1,33 @@
-# 🔬 AUTO-ANALISI — 2026-07-19 14:48
+# 🔬 AUTO-ANALISI — 2026-07-20 06:20
 
-**Voto di fiducia: 91/100** (= vs 14:20)
+**Voto di fiducia: 90/100** (▼ vs 91 del 19/7 14:48)
 
 ## Verdetto
 
-Giro allineato al vincolo **north-star (AR-111)**: zero lavoro macchina laterale, focus su ordine test PQ + PI26 domani + post stasera. Numeri da REST live 14:48 (4 buyer, 0 pagati), invariati dal 24/6. Coerenza-fatti exit 0 · automazione VPS verde.
+Giro allineato al vincolo **north-star (AR-111)**: zero lavoro macchina laterale, focus su PI26 **oggi ore 10:00** + ordine test PQ + recupero post. Numeri da REST/delta-gate (4 buyer, 0 pagati), invariati dal 24/6. Post domenica scaduto segnalato onestamente. Coerenza-fatti exit 0.
 
 ## L1 — Checklist
 
 | Controllo | Esito |
 |-----------|-------|
-| Grounding entità | ✅ PQ confermato · 13 prospect scelta_ragionata · 6 ristoranti esclusi |
-| Numeri con fonte | ✅ REST 14:48 · buyer=4 · ordini pagati=0 |
+| Grounding entità | ✅ PQ confermato · PI26 da registro-fatti · prospect scelta_ragionata |
+| Numeri con fonte | ✅ delta-gate + REST buyer=4 · ordini pagati=0 |
 | Semaforo | ✅ Nessuna 🔴 eseguita senza firma |
 | Freschezza sensori | ✅ REST ok · MCP cieco coperto |
-| North-star focus | ✅ Solo azioni verso 1° ordine |
+| North-star focus | ✅ Solo azioni verso 1° ordine + PI26 |
 
 ## Errori / gap
 
-- MCP Supabase cieco (7 giri) — non blocca, REST copre
-- n8n non configurato — hub mani assente, non blocca checkout
-- Lead 407 non ri-misurato (REST anon)
+- Post domenica non pubblicato (deadline 19/7 21:00) — card ancora in coda
+- MCP Supabase cieco (7 giri) — REST copre
+- GitHub 503 — segnale automazione `pr` fail, non blocca business oggi
 
 ## Domande per Nicola
 
-1. Ordine test PQ oggi/pomeriggio? (mossa n.1)
-2. Registrazione PI26 fatta?
-3. Ok post domenica stasera entro 21:00?
+1. PI26 alle 10:00 — registrazione ok?
+2. Ordine test PQ oggi?
+3. Quale post recupero — domenica o meteo?
 
 ## Salute macchina
 
-Automazione VPS verde. Runway sconosciuto (BURN_MENSILE_EUR). Radiografia completa consigliata dalla sonda — **non priorità vs North Star**.
+Automazione quasi tutta verde (1 fail GitHub). n8n ok. Radiografia completa consigliata dalla sonda — **non priorità vs North Star**.

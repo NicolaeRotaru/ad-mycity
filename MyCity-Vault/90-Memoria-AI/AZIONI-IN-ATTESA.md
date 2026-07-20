@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-19 22:20** — Automatico: **42 aperte · 87 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-20 06:20** — Automatico: **43 aperte · 87 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -1108,8 +1108,8 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-19 22:20)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-19-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-20 06:20)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-20-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1319,6 +1319,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-19 22:20 · 87 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-20 06:20 · 87 card totali
 
 ### ✅ FATTO #abilita-mcp-supabase-chat — Allowlist MCP Supabase abilitata in chat · ✅ FATTO 2026-07-19 16:54
 

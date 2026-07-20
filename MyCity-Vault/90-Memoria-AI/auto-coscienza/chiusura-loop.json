@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-19 22:20",
+  "aggiornato": "2026-07-20 06:21",
   "soglia_giorni": 7,
   "totale": 120,
   "mancanti": 0,
-  "vuoti": 77,
-  "fermi": 94,
-  "vivi": 26,
+  "vuoti": 75,
+  "fermi": 92,
+  "vivi": 28,
   "reparti_fermi": [
     "accessibility",
     "account-security",
@@ -33,7 +33,6 @@
     "consulente-bancario",
     "consulente-lavoro",
     "contabilita",
-    "corporate-strategy",
     "courier-acquisition",
     "credito-impresa",
     "cro",
@@ -72,7 +71,6 @@
     "new-verticals",
     "notaio",
     "office-manager",
-    "partner-management",
     "personalization",
     "platform-infra",
     "pr-stampa",
@@ -118,8 +116,8 @@
       "reparto": "account-negozi",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 13,
-      "ultimo_esito": "2026-07-19 13:04",
+      "righe_esito": 14,
+      "ultimo_esito": "2026-07-20 00:02",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -140,7 +138,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -150,7 +148,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -160,7 +158,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -170,7 +168,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -180,7 +178,7 @@
       "mancante": false,
       "righe_esito": 18,
       "ultimo_esito": "2026-07-19 14:33",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -240,7 +238,7 @@
       "mancante": false,
       "righe_esito": 4,
       "ultimo_esito": "2026-07-19 17:00",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -278,8 +276,8 @@
       "reparto": "builder-automazioni",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 46,
-      "ultimo_esito": "2026-07-19 22:00",
+      "righe_esito": 69,
+      "ultimo_esito": "2026-07-20 03:36",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -390,7 +388,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -408,11 +406,11 @@
       "reparto": "corporate-strategy",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 0,
-      "ultimo_esito": null,
-      "giorni_fa": null,
-      "vuoto": true,
-      "fermo": true
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-20 03:17",
+      "giorni_fa": 0,
+      "vuoto": false,
+      "fermo": false
     },
     {
       "reparto": "courier-acquisition",
@@ -438,8 +436,8 @@
       "reparto": "crm-lifecycle",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 8,
-      "ultimo_esito": "2026-07-19 13:01",
+      "righe_esito": 10,
+      "ultimo_esito": "2026-07-19 23:33",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -450,7 +448,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -460,7 +458,7 @@
       "mancante": false,
       "righe_esito": 5,
       "ultimo_esito": "2026-07-19 12:54",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -470,7 +468,7 @@
       "mancante": false,
       "righe_esito": 3,
       "ultimo_esito": "2026-07-19 14:20",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -490,7 +488,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -508,8 +506,8 @@
       "reparto": "devops-sre",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 59,
-      "ultimo_esito": "2026-07-19 19:28",
+      "righe_esito": 64,
+      "ultimo_esito": "2026-07-20 03:12",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -530,7 +528,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -540,7 +538,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -570,7 +568,7 @@
       "mancante": false,
       "righe_esito": 15,
       "ultimo_esito": "2026-07-19 13:11",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -580,7 +578,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-19 16:16",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -638,8 +636,8 @@
       "reparto": "frontend-dev",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 123,
-      "ultimo_esito": "2026-07-19 19:40",
+      "righe_esito": 147,
+      "ultimo_esito": "2026-07-20 03:34",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -670,7 +668,7 @@
       "mancante": false,
       "righe_esito": 3,
       "ultimo_esito": "2026-07-18 11:06",
-      "giorni_fa": 1,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -680,7 +678,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -708,9 +706,9 @@
       "reparto": "intelligence",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 11,
-      "ultimo_esito": "2026-07-18 11:06",
-      "giorni_fa": 1,
+      "righe_esito": 12,
+      "ultimo_esito": "2026-07-20 03:39",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -798,9 +796,9 @@
       "reparto": "marketing",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 2,
-      "ultimo_esito": "2026-07-18 11:06",
-      "giorni_fa": 1,
+      "righe_esito": 6,
+      "ultimo_esito": "2026-07-20 04:05",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -910,7 +908,7 @@
       "mancante": false,
       "righe_esito": 9,
       "ultimo_esito": "2026-07-18 11:06",
-      "giorni_fa": 1,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -918,19 +916,19 @@
       "reparto": "partner-management",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 0,
-      "ultimo_esito": null,
-      "giorni_fa": null,
-      "vuoto": true,
-      "fermo": true
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-20 03:26",
+      "giorni_fa": 0,
+      "vuoto": false,
+      "fermo": false
     },
     {
       "reparto": "people-talent",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 1,
-      "ultimo_esito": "2026-07-14 02:34",
-      "giorni_fa": 6,
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-20 03:17",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -960,7 +958,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -1008,9 +1006,9 @@
       "reparto": "prompt-engineer",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 9,
-      "ultimo_esito": "2026-07-14 13:09",
-      "giorni_fa": 5,
+      "righe_esito": 12,
+      "ultimo_esito": "2026-07-20 04:05",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -1080,7 +1078,7 @@
       "mancante": false,
       "righe_esito": 3,
       "ultimo_esito": "2026-07-19 16:16",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -1130,7 +1128,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -1200,7 +1198,7 @@
       "mancante": false,
       "righe_esito": 8,
       "ultimo_esito": "2026-07-14 13:11",
-      "giorni_fa": 5,
+      "giorni_fa": 6,
       "vuoto": false,
       "fermo": false
     },
@@ -1240,7 +1238,7 @@
       "mancante": false,
       "righe_esito": 5,
       "ultimo_esito": "2026-07-06 16:08",
-      "giorni_fa": 13,
+      "giorni_fa": 14,
       "vuoto": false,
       "fermo": true
     },
@@ -1250,7 +1248,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -1268,8 +1266,8 @@
       "reparto": "tech",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 41,
-      "ultimo_esito": "2026-07-19 19:40",
+      "righe_esito": 42,
+      "ultimo_esito": "2026-07-19 23:23",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -1280,7 +1278,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 18,
+      "giorni_fa": 19,
       "vuoto": false,
       "fermo": true
     },
@@ -1300,7 +1298,7 @@
       "mancante": false,
       "righe_esito": 17,
       "ultimo_esito": "2026-07-18 11:06",
-      "giorni_fa": 1,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     }

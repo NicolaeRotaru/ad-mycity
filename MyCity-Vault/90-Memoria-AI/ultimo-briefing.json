@@ -1,47 +1,48 @@
 {
-  "data": "2026-07-19 14:48",
-  "situazione": "Business invariato dal 24/6: 1 PQ live, 0 ordini pagati, stallo ~604h (~25 giorni). REST+Stripe+automazione ok. 4 buyer reali (REST 14:48). Vincolo north-star: solo mosse verso il 1° ordine. Domani 20/7 ore 10:00 apre PI26 — restart.infocamere.it stasera. Post domenica PQ entro le 21:00 in coda.",
+  "data": "2026-07-20 06:20",
+  "situazione": "Business invariato dal 24/6: 1 PQ live, 0 ordini pagati, stallo ~620h (~26 giorni). REST+Stripe+n8n ok. Oggi 20/7 ore 10:00 apre PI26 a sportello — domanda su restart.infocamere.it. Mossa n.2: ordine test PQ per North Star 0→1. Post domenica ieri sera non pubblicato.",
   "opportunita": [
     {
-      "titolo": "Ordine di test su Pane Quotidiano",
-      "motivo": "Sblocca North Star 0→1 in 10 minuti. Non serve bici né altri negozi.",
+      "titolo": "Presenta la domanda PI26 alle 10:00",
+      "motivo": "Sportello CCIAA apre oggi — fino a €10k fondo perduto su digitalizzazione",
+      "impatto": "alto",
+      "sforzo": "medio"
+    },
+    {
+      "titolo": "Fai un ordine di test su Pane Quotidiano",
+      "motivo": "Sblocca North Star 0→1 in 10 minuti — unica leva diretta sul business",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Registrati su restart.infocamere.it per il bando PI26",
-      "motivo": "Sportello apre domani 20/7 ore 10:00. Max €10k fondo perduto.",
-      "impatto": "alto",
-      "sforzo": "basso"
-    },
-    {
-      "titolo": "Pubblica il post domenica su Pane Quotidiano stasera",
-      "motivo": "Testo pronto in consegne/content/. Angolo «pianifica la settimana stasera».",
+      "titolo": "Recupera il post social di ieri sera",
+      "motivo": "Visibilità su PQ persa — testo già pronto in consegne/content/",
       "impatto": "medio",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "North Star a 0 da ~604h — un ordine sblocca la prova che il sistema funziona",
-      "livello": "giallo"
-    },
-    {
-      "titolo": "Registrati su restart.infocamere.it per il bando PI26",
-      "motivo": "A sportello domani 20/7 ore 10:00 — senza registrazione non si presenta domanda",
+      "titolo": "Presenta la domanda PI26 alle 10:00",
+      "motivo": "Sportello apertura oggi — senza domanda perdi il contributo",
       "livello": "rosso"
     },
     {
-      "titolo": "Pubblica il post domenica su Facebook e Instagram",
-      "motivo": "Post pronto per PQ — entro le 21:00 di oggi",
+      "titolo": "Fai un ordine di test su Pane Quotidiano",
+      "motivo": "North Star a 0 da ~620h — prova che checkout e pagamento funzionano",
+      "livello": "giallo"
+    },
+    {
+      "titolo": "Pubblica il post su Facebook e Instagram",
+      "motivo": "Recupero post domenica mancato — angolo lunedì o pioggia",
       "livello": "rosso"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo ~604h (>25 giorni)",
+    "North Star 0 — stallo ~620h (>25 giorni)",
     "Negozio LIVE fermo — Pane Quotidiano 0 ordini in 14g",
+    "Post domenica non pubblicato (deadline 19/7 21:00)",
     "MCP Supabase cieco 7 giri (REST copre)",
-    "BURN_MENSILE_EUR assente — runway sconosciuto"
+    "GitHub 503 — segnale PR automazione in errore"
   ]
 }

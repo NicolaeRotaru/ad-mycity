@@ -182,9 +182,9 @@ Questa è la sezione che trasforma la relazione istituzionale in **fatturato**. 
 #istituzionale #bandi #relazioni #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-19 14:48
+## 🤖 Aggiornamento dell'AD — 2026-07-20 06:20
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **PI26 apre DOMANI 20/7 ore 10:00 a sportello** — registrazione restart.infocamere.it stasera (🔴). Max €10k 50% fondo perduto.
+- **PI26 APRE OGGI 20/7 ore 10:00 a sportello** — domanda su restart.infocamere.it (🔴 #bandi-cciaa-2007). Checklist: `consegne/operations/2026-07-20-checklist-mattina-north-star.md`
 - **BT26/BE26** (scadenza 30/7): leva vendita per botteghe — «lo Stato paga fino al 50% della digitalizzazione».
 - **Bando ER FESR: CHIUSO 23/6** — non citare (registro-fatti).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->
