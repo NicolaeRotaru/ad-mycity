@@ -1,70 +1,94 @@
 #!/usr/bin/env node
-// AR-082 — Guardiano della NORTH STAR: misura in modo deterministico le 3 metriche-faro
-// dell'azienda (ORDINI reali · NEGOZI live · MARGINE) leggendo la baseline in STATO.md, e
-// segnala se la stella polare è ferma (stallo) o se manca la fonte del numero.
+// AR-082 / AR-113 — Guardiano della NORTH STAR: misura in modo deterministico le metriche-faro
+// (ORDINI pagati · NEGOZI live · MARGINE) da STATO.md e segnala stallo prolungato sul 1° ordine.
 //
-// 🟢 Sola lettura: NON scrive nel vault, NON fa git. Estrae i numeri dalla tabella "I 7 numeri"
-// di STATO.md (fonte-di-verità della sessione quando i sensori live sono ciechi) — nessun numero
-// inventato: se un valore non è nel testo, resta "n/d" con la fonte dichiarata.
+// 🟢 Sola lettura: NON scrive nel vault, NON fa git.
 //
 // Uso:
-//   node cervello/north-star-check.mjs           -> report leggibile
-//   node cervello/north-star-check.mjs --json     -> output JSON (per gate / sentinelle)
+//   node cervello/north-star-check.mjs              -> report (exit 1 se stallo o numeri orfani)
+//   node cervello/north-star-check.mjs --gate       -> exit 1 solo se stallo ≥ N giorni (vincolo giro)
+//   node cervello/north-star-check.mjs --json       -> output JSON
 //
-// Exit: 0 = la north star si muove (≥1 ordine pagato) · 1 = stallo o numero senza fonte
+// Exit --gate: 0 = ok o stallo breve · 1 = stallo ≥ NORTH_STAR_GIORNI_GATE (default 3) → vincolo HARD
 
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
+const GATE_MODE = process.argv.includes("--gate");
+const GIORNI_SOGLIA = Number(process.env.NORTH_STAR_GIORNI_GATE || 3);
 const STATO = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/STATO.md");
 
-// Estrae il primo intero dalla riga-tabella la cui prima colonna combacia con `etichetta`.
 function numeroDaRiga(testo, etichetta) {
   const re = new RegExp("\\|\\s*" + etichetta + "[^|]*\\|\\s*\\**([0-9]+)", "i");
   const m = testo.match(re);
   return m ? { valore: Number(m[1]), fonte: "STATO.md · tabella 7 numeri" } : { valore: null, fonte: null };
 }
 
-function main() {
+/** Primo riferimento a stallo ~Nh in STATO (fonte dichiarata, non inventato). */
+function stalloDaStato(testo) {
+  const m = testo.match(/stallo[^~]*~?\s*(\d+)\s*h/i);
+  if (!m) return { ore: null, giorni: null, fonte: null };
+  const ore = Number(m[1]);
+  return { ore, giorni: Math.round((ore / 24) * 10) / 10, fonte: "STATO.md · stallo ~h" };
+}
+
+async function main() {
   const quando = nowPiacenza();
   if (!existsSync(STATO)) {
     const out = { ok: false, quando, errore: "STATO.md non trovato" };
     console.log(JSON_MODE ? JSON.stringify(out) : "❌ STATO.md non trovato");
+    await stampSegnale("north-star", "errore", `STATO.md assente · ${quando}`);
     process.exit(1);
   }
   const testo = readFileSync(STATO, "utf8");
 
-  // Le 3 metriche-faro (north star). Il margine non è nella tabella baseline → resta n/d con fonte.
   const negozi = numeroDaRiga(testo, "Negozi REALI");
   const ordiniCreati = numeroDaRiga(testo, "Ordini creati");
   const ordiniPagati = numeroDaRiga(testo, "Ordini pagati");
   const ordiniConsegnati = numeroDaRiga(testo, "Ordini consegnati");
-  const margine = { valore: null, fonte: null }; // manca una fonte deterministica → NON inventiamo
+  const margine = { valore: null, fonte: null };
 
   const northStar = {
     negozi_live: negozi,
     ordini_creati: ordiniCreati,
-    ordini_pagati: ordiniPagati, // ← la vera stella polare: soldi incassati end-to-end
+    ordini_pagati: ordiniPagati,
     ordini_consegnati: ordiniConsegnati,
     margine,
   };
 
-  // Numeri senza fonte = violazione del cancello "nessun numero orfano" (ma il margine è per-design n/d).
   const orfani = Object.entries(northStar)
     .filter(([k, v]) => v.valore === null && k !== "margine")
     .map(([k]) => k);
 
   const stallo = (ordiniPagati.valore ?? 0) === 0;
+  const { ore: oreStallo, giorni: giorniStallo, fonte: fonteStallo } = stalloDaStato(testo);
+  const stalloProlungato =
+    stallo && (giorniStallo == null ? true : giorniStallo >= GIORNI_SOGLIA);
+
+  const gateFail = orfani.length > 0 || (GATE_MODE ? stalloProlungato : stallo);
   const out = {
-    ok: !stallo && orfani.length === 0,
+    ok: !gateFail,
     quando,
     fonte: "STATO.md (baseline; i sensori live restano prioritari quando disponibili)",
     north_star: northStar,
     stallo,
+    stallo_ore: oreStallo,
+    stallo_giorni: giorniStallo,
+    stallo_fonte: fonteStallo,
+    soglia_giorni_gate: GIORNI_SOGLIA,
+    stallo_prolungato: stalloProlungato,
+    gate_mode: GATE_MODE,
     numeri_senza_fonte: orfani,
   };
+
+  const msgSegnale = stalloProlungato
+    ? `stallo ${giorniStallo ?? "?"}gg (soglia ${GIORNI_SOGLIA}) · 0 pagati · ${quando}`
+    : stallo
+      ? `stallo breve ${giorniStallo ?? "?"}gg (<${GIORNI_SOGLIA}) · ${quando}`
+      : `north star ok · pagati=${ordiniPagati.valore ?? 0} · ${quando}`;
+  await stampSegnale("north-star", gateFail ? "warn" : "ok", msgSegnale);
 
   if (JSON_MODE) {
     console.log(JSON.stringify(out, null, 2));
@@ -75,11 +99,23 @@ function main() {
     console.log(`  Ordini pagati:    ${ordiniPagati.valore ?? "n/d"}  ← stella polare`);
     console.log(`  Ordini consegnati:${ordiniConsegnati.valore ?? "n/d"}`);
     console.log(`  Margine:          ${margine.valore ?? "n/d (nessuna fonte deterministica)"}`);
-    if (stallo) console.log("  🔴 STALLO: 0 ordini pagati — la north star è ferma.");
+    if (oreStallo != null) {
+      console.log(`  Stallo:           ~${oreStallo}h (~${giorniStallo} gg) · fonte ${fonteStallo}`);
+    }
+    if (stallo) {
+      console.log(
+        stalloProlungato
+          ? `  🔴 STALLO PROLUNGATO (≥${GIORNI_SOGLIA} gg): vincolo allocazione al giro.`
+          : `  🟡 STALLO breve (<${GIORNI_SOGLIA} gg): monitoraggio, nessun vincolo gate.`
+      );
+    }
     if (orfani.length) console.log(`  ❌ numeri senza fonte: ${orfani.join(", ")}`);
-    if (out.ok) console.log("  ✅ la north star si muove.");
+    if (!stallo && orfani.length === 0) console.log("  ✅ la north star si muove.");
   }
-  process.exit(out.ok ? 0 : 1);
+  process.exit(gateFail ? 1 : 0);
 }
 
-main();
+main().catch((e) => {
+  console.error("ERRORE north-star-check:", e?.message || e);
+  process.exit(1);
+});

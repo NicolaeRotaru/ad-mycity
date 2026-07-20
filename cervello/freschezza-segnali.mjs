@@ -16,6 +16,7 @@ const ATTESI = [
   "chiusura-loop",
   "coerenza-fatti",
   "allocazione",
+  "north-star",
   "delta-gate",
   "auto-fix",
 ];
