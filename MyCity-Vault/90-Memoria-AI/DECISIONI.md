@@ -3,7 +3,9 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
-2026-07-20 03:09 · 🟡 · [Worker chat — menu navbar sito sopra chat grande, PR #494] · **Nicola: «il menu in alto»** (conferma quale ☰ fallisce dopo diagnosi L-369). Fix: elevare z-index menu sito (Home, Azioni, Lavori…) **sopra** overlay Worker fullscreen; tap voce nav chiude chat e naviga. AD PR **#494** (`23bb1a24`). Merge 🔴 pendente (#211). L-371, L-369.
+2026-07-20 03:12 · 🟢 · [Deploy Pannello Vercel — catena merge→Action→Hook, Initializing = GitHub outage] · **Nicola: «perché Vercel ci impiega così tanto ad inizializzare una sola fix?»** + screenshot banner GitHub Outage. AD: Initializing ≠ build lenta (45–53 s se parte); blocco fetch repo per outage GitHub 503; preview branch ≠ Production main; `deploymentEnabled.main: false` + `deploy-pannello.yml` + Deploy Hook voluti (quota memoria); stasera #492→#494 = N deploy. **PR #494** mergiata main `3d912daf` — attendi deploy Production + Ctrl+F5. L-372, L-361.
+
+2026-07-20 03:09 · 🟡 · [Worker chat — menu navbar sito sopra chat grande, PR #494] · **Nicola: «il menu in alto»** (conferma quale ☰ fallisce dopo diagnosi L-369). Fix: elevare z-index menu sito (Home, Azioni, Lavori…) **sopra** overlay Worker fullscreen; tap voce nav chiude chat e naviga. AD PR **#494** (`23bb1a24`). ~~Merge 🔴 pendente (#211)~~ **✅ mergiata main `3d912daf` (03:12)** — deploy Production in attesa GitHub. L-371, L-369.
 
 2026-07-20 03:05 · 🟢 · [Preferenza risposta — «pensa più in grande» = visione moat/fasi, non catalogo plugin] · **Nicola: «pensa più in grande»** dopo risposta AD su «tutte le mani per colosso Piacenza». Correzione esplicita: elenco mani/n8n/automazioni è **troppo piccolo** — si aspetta **strategia** (moat difendibile, liquidity a due lati, collo di bottiglia = primo ordine reale, fasi 4 sett / 3 mesi / 12 mesi); strumenti citati solo come leva di **ripetizione**, non come risposta. Chiudere con **una priorità/missione**, non checklist. L-370, aggiorna L-367. Prossimo: Nicola sceglie tra PI26 10:00, primo ordine fornaio, Telegram, Meta.
 
