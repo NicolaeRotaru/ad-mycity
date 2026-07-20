@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 18:24
+aggiornato: 2026-07-20 18:25
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~18:25 — CHAT: Sensori uptime — sito+Pannello ✅, card riavvio worker obsoleta; resta Telegram (L-405).** Nicola da casella AR-105 «**controlla ogni casella e vai guardare se non è già stato il fix**» — AD verifica runtime (`sensori-cecita.json` 18:25): **`sito_uptime`** + **`pannello_uptime`** ✅ HTTP 200 (env `MARKETPLACE_SITE_URL` + `PANNELLO_URL` messe **18/7**, worker già riavviato — effetto attivo senza conferma chat). **Card #riavvia-worker-env → FATTO** (obsoleta). **Ancora aperto:** **`telegram_bot`** `non_configurato` (no `TELEGRAM_BOT_TOKEN`) — chiusura in **#accendi-intelligence-sveglia** 🔴; codice `motivo_spento` registro cecità = miglioramento non bloccante. AR-105 **parziale** (2/3 sensori armati). Fonte: chat Nicola 20/7 18:25 + verifica-sensori 18:25.
 
 > 💬 **20/7 ~18:24 — CHAT: PostHog sul VPS — non si installa, si collega chiave lettura (L-404).** Nicola «**come faccio ad inserire posthog dentro il vps?**» — AD chiarisce: PostHog è **cloud EU** (sul sito già attivo via Render); sul VPS serve solo **Personal API Key `phx_…`** (permesso Project: Read), **non** la chiave progetto `phc_` (quella del 5/7 era sbagliata → sensore spento). Env `cervello/vps/.env`: `POSTHOG_OFF=0`, `POSTHOG_API_KEY`, `POSTHOG_HOST` → restart `mycity-worker` → `verifica-sensori.mjs` deve dare **ok**. **Non fatto** — Nicola non ha ancora incollato la chiave né chiesto riaccensione sensore lato memoria (decisione 5/7). Fonte: chat Nicola 20/7 18:24.
 

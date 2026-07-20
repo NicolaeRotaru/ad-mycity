@@ -779,7 +779,7 @@
       "gravita": "grave",
       "impatto_crescita": "alto",
       "causa_radice": "Il pattern 'non_configurato non è cecità' (AR-035, giusto per non gonfiare gli allarmi) ha tolto ogni pressione a chiudere il collegamento: un sensore spento non fa scattare nulla, quindi resta spento per sempre. Manca un processo che distingua 'spento per decisione' (PostHog, documentato nel campo dettaglio) da 'spento per inerzia' (uptime sito/Pannello/Telegram, mai deciso da nessuno) e che ri-escali i secondi.",
-      "fix_proposto": "Card unica 🟡 a Nicola con i 3 valori .env da impostare sul VPS (MARKETPLACE_SITE_URL è pubblico: zero rischio); nel registro cecità aggiungere il campo 'motivo_spento: decisione|inerzia' — le voci 'inerzia' entrano nella checklist di Nicola finché non diventano ok o 'decisione'.",
+      "fix_proposto": "Card unica 🟡 a Nicola con i 3 valori .env da impostare sul VPS (MARKETPLACE_SITE_URL è pubblico: zero rischio); nel registro cecità aggiungere il campo 'motivo_spento: decisione|inerzia' — le voci 'inerzia' entrano nella checklist di Nicola finché non diventano ok o 'decisione'. **Aggiornamento 20/7 18:25:** sito_uptime + pannello_uptime ✅ (env 18/7, verifica-sensori HTTP 200); #riavvia-worker-env FATTO; resta telegram_bot → #accendi-intelligence-sveglia; campo motivo_spento codice ancora pendente.",
       "colore": "🟡",
       "stato": "aperto",
       "nato": "2026-07-16 16:55",

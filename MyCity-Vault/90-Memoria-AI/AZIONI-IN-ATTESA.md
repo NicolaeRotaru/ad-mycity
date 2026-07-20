@@ -363,14 +363,14 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #riavvia-worker-env — Riavvia il worker per caricare le 2 nuove variabili env · ⏳ accodata 2026-07-18 05:30
+### ✅ #riavvia-worker-env — Riavvia il worker per caricare le 2 nuove variabili env · ✅ FATTO 2026-07-20 18:25
 
 **Contesto:** Nicola ha inserito il 18/7 in `cervello/vps/.env`:
 ```
 PANNELLO_URL=https://ad-mycity.vercel.app
 MARKETPLACE_SITE_URL=https://mycity-marketplace.com
 ```
-Senza riavvio del worker, le variabili non vengono caricate e i sensori `pannello_uptime` e `sito_uptime` restano ❌.
+~~Senza riavvio del worker, le variabili non vengono caricate e i sensori `pannello_uptime` e `sito_uptime` restano ❌.~~ **Verificato 20/7 18:25:** worker ha già caricato le env; `sito_uptime` + `pannello_uptime` ✅ HTTP 200 — card obsoleta (L-405).
 
 **Comando (1 riga dal terminale VPS):**
 ```bash
