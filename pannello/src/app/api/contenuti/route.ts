@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import { readRepoFile, readVaultFile } from "@/lib/vault";
-import { obsidianConnected, listDir, listDirEntries, listMarkdownPaths } from "@/lib/obsidian";
+import { obsidianConnected, listDir, listDirEntries, listMarkdownPaths, leggiNota } from "@/lib/obsidian";
 import { vaultToIso } from "@/lib/format";
 
 export const runtime = "nodejs";
@@ -127,6 +127,8 @@ function titolo(md: string, fm: Record<string, string>, name: string): string {
 type Candidato = { path: string; cat: string; nome: string; dataFile: string };
 
 let cacheCandidati: { at: number; candidati: Candidato[]; parziale: boolean } | null = null;
+// ponytail: cache breve contenuti — la lista li legge già; apri scheda non rifà GitHub.
+const cacheContenuti = new Map<string, { at: number; testo: string }>();
 
 function candidatoDaPath(p: string): Candidato | null {
   if (p.startsWith(`${ROOT_CONSEGNE}/`)) {
@@ -260,9 +262,45 @@ async function raccogliCandidati(): Promise<{ candidati: Candidato[]; parziale: 
   return { candidati: [], parziale: true, daCache: false };
 }
 
+function leggiDaCache(p: string): string | null {
+  const hit = cacheContenuti.get(p);
+  if (!hit || Date.now() - hit.at >= CACHE_MS) return null;
+  return hit.testo;
+}
+
+function salvaInCache(p: string, testo: string) {
+  if (testo) cacheContenuti.set(p, { at: Date.now(), testo });
+}
+
 async function leggi(p: string): Promise<string | null> {
-  if (p.startsWith("MyCity-Vault/")) return readVaultFile(p.slice("MyCity-Vault/".length));
-  return readRepoFile(p);
+  const cached = leggiDaCache(p);
+  if (cached != null) return cached;
+  let testo: string | null;
+  if (p.startsWith("MyCity-Vault/")) testo = await readVaultFile(p.slice("MyCity-Vault/".length));
+  else testo = await readRepoFile(p);
+  if (testo) salvaInCache(p, testo);
+  return testo;
+}
+
+async function leggiDettaglio(p: string): Promise<{ testo: string | null; errore?: string; status: number }> {
+  const cached = leggiDaCache(p);
+  if (cached != null) return { testo: cached, status: 200 };
+  if (obsidianConnected()) {
+    const esito = await leggiNota(p);
+    if (esito.stato === "ok" && esito.testo) {
+      salvaInCache(p, esito.testo);
+      return { testo: esito.testo, status: 200 };
+    }
+    if (esito.stato === "assente") return { testo: null, errore: "contenuto non trovato", status: 404 };
+    return {
+      testo: null,
+      errore: esito.stato === "auth" ? "GitHub ha rifiutato la lettura (token o limite)" : "GitHub non raggiungibile, riprova tra poco",
+      status: esito.stato === "auth" ? 503 : 502,
+    };
+  }
+  const testo = await leggi(p);
+  if (testo == null) return { testo: null, errore: "contenuto non trovato", status: 404 };
+  return { testo, status: 200 };
 }
 
 async function mapLimit<T, R>(items: T[], limit: number, fn: (item: T) => Promise<R>): Promise<R[]> {
@@ -282,9 +320,9 @@ export async function GET(req: NextRequest) {
     if (rel.includes("..") || !/\.md$/i.test(rel) || !consentito) {
       return NextResponse.json({ errore: "percorso non valido" }, { status: 400 });
     }
-    const contenuto = await leggi(rel);
-    if (contenuto == null) return NextResponse.json({ errore: "contenuto non trovato", file: rel }, { status: 404 });
-    return NextResponse.json({ file: rel, contenuto });
+    const { testo, errore, status } = await leggiDettaglio(rel);
+    if (testo == null) return NextResponse.json({ errore: errore || "contenuto non trovato", file: rel }, { status });
+    return NextResponse.json({ file: rel, contenuto: testo });
   }
 
   const { candidati, parziale, daCache } = await raccogliCandidati();
@@ -311,6 +349,7 @@ export async function GET(req: NextRequest) {
       quando,
       quandoIso: quando ? vaultToIso(quando) : "",
       vuoto: md.length === 0,
+      contenuto: md.length > 0 ? md : undefined,
     };
   });
 
