@@ -6,6 +6,50 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
+## 💰 Costi infrastruttura MyCity · 2026-07-20 23:43
+
+Lista aggiornata da Nicola — importi **mensili** salvo dove indicato.
+
+### Oggi — confermati
+
+| Voce | €/mese | Note |
+| --- | ---: | --- |
+| **Claude Max** (AD / worker) | **200** | Abbonamento fisso AI |
+| **Vercel** (Pannello Cabina) | **30** | Hosting Pannello |
+| **Supabase** (database marketplace) | **50** | DB + auth + storage |
+| **Totale confermato** | **280** | Solo queste tre voci |
+
+### In stack — importo da mettere
+
+| Voce | €/mese | Note |
+| --- | ---: | --- |
+| **Render** | *?* | Sito marketplace online — attivo, manca cifra |
+| **VPS worker** | *?* | Cervello AD + n8n + sensori — manca cifra |
+| **Dominio / DNS** | *?* | mycity + eventuali alias |
+| **PostHog** | 0 (oggi) | Piano cloud free US — monitorare se superiamo i limiti |
+| **Stripe** | variabile | Nessun canone fisso — solo % su transazione |
+| **Resend** (email) | *?* | Quando accendiamo welcome / carrelli / notifiche |
+| **Telegram bot** | 0 | Gratis |
+| **GitHub** | 0 | Repo pubblici/privati attuali |
+
+### Quando scaliamo — previsti
+
+| Voce | Stima | Quando |
+| --- | --- | --- |
+| **Meta / Google Ads** | budget variabile 🔴 | Campagne acquisizione — decidi tu importo |
+| **Apple App Store** | ~99 €/anno | App iPhone (vedi avviso store sotto) |
+| **Google Play** | ~23 € una tantum | App Android |
+| **Twilio SMS** | pay-per-use | Solo se accendiamo SMS urgenti |
+| **Cursor API** | pay-per-use | Fallback se Claude Max satura (oggi raro) |
+| **Supabase Pro+** | sale con traffico | Se superiamo piano attuale |
+| **Vercel Pro+** | sale con traffico | Se superiamo piano attuale |
+
+**Runway:** per calcolarlo serve anche il **burn completo** (Render + VPS + dominio) nel file env del server — oggi mancano quelle cifre. Quando le hai, scrivimele e aggiorno il totale.
+
+Fonte importi confermati: Nicola, chat 20/7 ~23:43.
+
+---
+
 ## 🚀 Versione avanzata — checklist worker · AD · Pannello · 2026-07-20 21:52
 
 Obiettivo: macchina che **vede tutto**, **ti disturba poco**, **agisce dopo il tuo ok**, **impara dagli ordini veri** — non «più AI».
