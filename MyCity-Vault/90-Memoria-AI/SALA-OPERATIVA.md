@@ -1171,3 +1171,7 @@ Assegnazioni reparto (1 mossa ciascuno):
 ### 2026-07-20 11:17 — PLAYBOOK Anti-churn negozi
 - 2026-07-20 11:17 · @account-negozi · FATTO · PLAYBOOK Anti-churn: REST live ✅ (`verifica-sensori` 11:16) → **0 negozi in calo** (1 reale PQ, 0 ordini consegnati, VP 17/7 passato senza ordini). PQ = falso positivo sentinella (attesa concordata Nicola 6/7) — **nessuna telefonata anti-churn**. Retention già in coda: **#checkin-pq-postvp** (debrief lun 20/7). Report `consegne/account-negozi/2026-07-20-antichurn-playbook.md` · [[AZIONI-PRONTE]] **A33**. Zero contatti inviati.
 - 2026-07-20 11:17 · @account-negozi · PASSO-A · @Nicola — **firma `#checkin-pq-postvp`** (0523 388601, 2 min post-VP) poi **`#ordine-test-pq`** — anti-churn vero partirà con Garetti/Peretti/Amendolara onboardati
+
+### 2026-07-20 11:19 — PLAYBOOK Recupero carrelli
+- 2026-07-20 11:19 · @crm-lifecycle · FATTO · PLAYBOOK Recupero carrelli: REST live ✅ (`verifica-sensori` 11:18) → 4 `abandoned_carts`, **1 buyer reale** (samir €10 PQ pesto+kefir, ~803h), 3 SKIP admin/demo/seller-test. Touch #1 🟡 + Touch #2 🔴 `BENVENUTO10` in [[AZIONI-PRONTE]] **A3** + `consegne/crm/2026-07-20-recupero-carrelli-pronte.md`. Zero invii. Gate PQ **CHIUSO** (0 ordini consegnati) — invio solo dopo `#ordine-test-pq`.
+- 2026-07-20 11:19 · @crm-lifecycle · PASSO-A · @Nicola — prima **`#ordine-test-pq`** (PQ evadibile), poi firma Touch #1 🟡 in **A3**; email samir da `/admin/users`

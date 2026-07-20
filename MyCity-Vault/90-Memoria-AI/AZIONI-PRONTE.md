@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-20 11:17
+aggiornato: 2026-07-20 11:19
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -64,8 +64,8 @@ Ti va se passo a sistemare tutto insieme?
 reparto: crm-lifecycle
 livello: 🟡 (Touch #1 senza sconto) · 🔴 (Touch #2 col codice)
 canale: Email al buyer samir — indirizzo da recuperare da /admin/users (chiave anon non lo legge)
-perche: Un solo carrello recuperabile REALE (verificato REST live 19/7 13:01: 4 record `abandoned_carts`, 1 buyer reale su 4 buyer registrati). Buyer samir, 3 prodotti bio, €10,00, fermo dal 16/6 (~781h). Gli altri 3 = admin/seller-autotest/seed Casa Linda → SKIP. Tutti hanno `recovery_email_sent_at` già settato (giugno) → re-touch manuale, non cron.
-preparato: 🔁 crm-lifecycle — testo pieno in `consegne/crm/2026-07-19-recupero-carrelli-pronte.md` (agg. 19/7 13:01 playbook RIPROVA)
+perche: Un solo carrello recuperabile REALE (verificato REST live 20/7 11:19: 4 record `abandoned_carts`, 1 buyer reale su 4 buyer registrati). Buyer samir, 3 prodotti bio, €10,00, fermo dal 16/6 (~803h). Gli altri 3 = admin/seller-autotest/seed Casa Linda → SKIP. Tutti hanno `recovery_email_sent_at` già settato (giugno) → re-touch manuale, non cron.
+preparato: 🔁 crm-lifecycle — testo pieno in `consegne/crm/2026-07-20-recupero-carrelli-pronte.md` (agg. 20/7 11:19 playbook)
 cosa cambia: l'unico cliente reale riceve un promemoria del carrello da €10 (pesto + kefir bio di Pane Quotidiano). Ri-aggancio caldo, non promo fredda. ⚠️ **Aggiornato 6/7 12:48:** il gate «dopo #16 consegnato» è MORTO — l'ordine #16 di samir è stato ANNULLATO il 3/7. Nuovo gate: parte quando Pane Quotidiano torna evadibile (ordine-prova #21 chiuso), così il carrello non spinge samir verso una **2ª delusione**. Le mail NON citano #16.
 se va bene: samir torna → primo cliente con 2 ordini, base per riordino/referral; se muto dopo Touch #2, si archivia.
 pre-condizioni: parte SOLO dopo che PQ è di nuovo evadibile (ordine-prova #21 chiuso: accetta→consegna→payout-test) · ok @legale-privacy sul consenso (`email_marketing=false`, transazionale vs marketing) · email da /admin/users (chiave anon non la legge) · mani Resend accese (→ builder-automazioni). Finché non attive, resta in coda.
@@ -84,7 +84,7 @@ codice BENVENUTO10 al checkout (10% sul primo ordine, ~€1 in meno). 👉 Compl
 Se hai cambiato idea nessun problema, il carrello si svuota da solo — ma se la spesa la volevi davvero è a un clic.
 Nicola — MyCity.
 Codice: BENVENUTO10 (tabella `coupons`, `first_order_only=true`, costo max ~€1 — incentivo reale → firma Nicola).
-stato: BOZZE PRONTE — NESSUN INVIO. **Ri-verificato 19/7 13:01 (playbook RIPROVA Nicola 10:52):** REST live (`verifica-sensori` ok) — 4 carrelli invariati, 1 solo recuperabile (samir €10, ~781h). 23 profili / 4 buyer / 0 ordini consegnati → gate PQ ancora CHIUSO. Per invio reale: firma Touch #1 🟡 dopo `#ordine-test-pq` + email da `/admin/users`.
+stato: BOZZE PRONTE — NESSUN INVIO. **Ri-verificato 20/7 11:19 (playbook worker):** REST live (`verifica-sensori` ok) — 4 carrelli invariati, 1 solo recuperabile (samir €10, ~803h). 23 profili / 4 buyer / 0 ordini consegnati → gate PQ ancora CHIUSO. Per invio reale: firma Touch #1 🟡 dopo `#ordine-test-pq` + email da `/admin/users`.
 
 ## A4 · 💌 Messaggio post-consegna (grazie + recensione) — MODELLO NEUTRO RIUSABILE
 reparto: customer-success
