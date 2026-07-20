@@ -90,6 +90,35 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🔴 #invio-comunicato-stampa-pi26-2007 — Invia il comunicato stampa su PI26 e le botteghe del centro a Libertà (poi alle testate online) · ⏳ accodata 2026-07-20 11:29
+
+**Contenuto completo:** `consegne/pr/2026-07-20-playbook-stampa-settimana.md` · anteprima [[AZIONI-PRONTE]] **A37**
+
+**Angolo:** bando **PI26** Camera di Commercio a sportello **oggi 20/7** (chiusura 30/7) + MyCity chiede fondi per digitalizzare le botteghe del centro, partendo dal **Pane Quotidiano** (dal 1976). Storia **onesta** (avvio, 1 bottega online, 0 ordini completati — non si nasconde se chiesto).
+
+**Sequenza consigliata:**
+1. **Prima:** completa domanda PI26 (`#bandi-cciaa-2007`) — così il comunicato dice "presenta domanda" al passato.
+2. **Martedì/mercoledì mattina (8–10):** email **esclusiva Libertà** (pitch D1 nel playbook) + proposta servizio **Telelibertà**.
+3. **+48h o dopo uscita Libertà:** PiacenzaSera → Piacenza24 → IlPiacenza (pitch D2).
+
+**Oggetto email Libertà (copia-incolla):**
+> Esclusiva Libertà: bando PI26 aperto oggi — un piacentino digitalizza le botteghe del centro (parte dal Pane Quotidiano)
+
+**Prerequisiti prima di inviare:**
+- [ ] Domanda PI26 inviata
+- [ ] Ok scritto titolare Pane Quotidiano per nome/citazione (altrimenti togli citazione dal comunicato)
+- [ ] Numero + email stampa inseriti nel comunicato
+- [ ] Nome direttore Libertà ri-verificato
+
+**Cosa cambia:** MyCity entra nell'earned media locale con storia verificabile (bando + bottega reale) — reach potenziale 25–40k via Libertà senza budget ads.
+**Se va bene:** articolo su Libertà/Telelibertà → online ripubblicano → @content-social amplifica → commercianti chiedono info bando e botteghe.
+
+- **Colore:** 🔴 (email a giornalisti = voce pubblica — firma Nicola)
+- **Canale:** email redazione Libertà → poi PiacenzaSera / Piacenza24 / IlPiacenza
+- **Reparto:** pr-stampa
+
+---
+
 ### 🟡 #ritmo-venerdì-punteggio — Apri e mergia la PR per la regola «venerdì ricalcola il punteggio auto-coscienza» · ⏳ accodata 2026-07-19 00:10
 
 **Contesto:** Il 18/7 Nicola ha notato che il punteggio 42/100 era fermo da 15 giorni. L'AD ha aggiunto la regola esplicita a `cervello/ritmo.md` e creato il body PR in `consegne/tech/pr-ad-mycity-466.md`, ma il worker al termine del turno non mostrava nessuna PR aperta — il comando potrebbe non essere andato a buon fine.

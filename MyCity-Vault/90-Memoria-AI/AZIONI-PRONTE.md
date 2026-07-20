@@ -593,3 +593,21 @@ testo (hook IG):
 visual: tipografico mattutino su palette brand ("LUNEDÌ · IL TURNO È GIÀ INIZIATO") = pubblicabile subito; foto interno bottega = ok titolare.
 pre-condizioni: (1) link marketplace in bio/1° commento UTM lunedi_turno_2007 · (2) timing 11:00–14:00 · (3) foto reale = ok titolare se boost. Coda canonica = #post-lunedi-turno-mattina-2007 in [[AZIONI-IN-ATTESA]].
 stato: IN ATTESA DI FIRMA NICOLA.
+
+## A37 · 📰 Comunicato stampa PI26 + invio Libertà (botteghe del centro)
+reparto: pr-stampa
+livello: 🟢 (playbook + comunicato + pitch pronti) · 🔴 (invio email a redazioni — firma Nicola)
+canale: email redazione Libertà (+ Telelibertà) → poi PiacenzaSera / Piacenza24 / IlPiacenza
+perche: PLAYBOOK Stampa worker 20/7. Angolo **PI26 a sportello oggi** (attualità forte) + MyCity chiede fondi per digitalizzare botteghe del centro — eroe = bottega/città, non l'app. Onestà: 1 negozio (Pane Quotidiano), 0 ordini completati, 4 buyer (MAI "23 iscritti").
+preparato: 📰 pr-stampa — comunicato 1 pagina + 5 contatti + 2 pitch in `consegne/pr/2026-07-20-playbook-stampa-settimana.md`
+cosa cambia: parte l'earned media locale — Libertà prima (esclusiva), online dopo 48h.
+se va bene: articolo/TG → reach 25–40k gratis → commercianti e cittadini scoprono MyCity + bando PI26.
+testo (oggetto Libertà):
+Esclusiva Libertà: bando PI26 aperto oggi — un piacentino digitalizza le botteghe del centro (parte dal Pane Quotidiano)
+pre-condizioni:
+  · **Prima** domanda PI26 inviata (`#bandi-cciaa-2007`)
+  · Ok scritto titolare PQ per citazione (altrimenti versione senza nome)
+  · Numero/email stampa + nomi giornalisti ri-verificati
+  · Timing: martedì/mercoledì mattina 8–10 (dopo PI26)
+coda_canonica: **#invio-comunicato-stampa-pi26-2007** in [[AZIONI-IN-ATTESA]]
+stato: BOZZE PRONTE — NESSUN INVIO.
