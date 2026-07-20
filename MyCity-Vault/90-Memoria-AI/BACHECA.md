@@ -6,6 +6,50 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
+## 🚀 Versione avanzata — checklist worker · AD · Pannello · 2026-07-20 21:52
+
+Obiettivo: macchina che **vede tutto**, **ti disturba poco**, **agisce dopo il tuo ok**, **impara dagli ordini veri** — non «più AI».
+
+### Livello 1 — Fondamenta (lo fai tu, 1–2 settimane)
+
+- [ ] **Telegram** collegato (avvisi card + sveglia bandi alle 7)
+- [ ] **Meta FB + IG** su n8n (post solo dopo Approva)
+- [ ] **Email / notifiche** in modalità live (non solo bozze)
+- [ ] **Burn mensile** nel file env del server (runway visibile)
+- [ ] **Stripe in lettura** (cassa e payout monitorati)
+- [ ] **Primo ordine test** su Pane Quotidiano + payout ok
+
+### Livello 2 — Pannello che non stanca
+
+- [ ] In cima solo **3 decisioni al giorno** (priorità automatica)
+- [ ] Chat **stesso filo** tra telefono e PC
+- [ ] Card che **spariscono sole** dopo merge o fix online
+- [ ] Radiografia dice **cosa fare**, non solo rosso/verde
+
+### Livello 3 — AD operatore
+
+- [ ] Il giro **esegue** ciò che hai approvato (non solo accoda)
+- [ ] Impara da ogni **ok / no** nelle card
+- [ ] **PostHog funnel**: dove si perde il cliente (non solo visite)
+- [ ] **Telegram** solo se cambia qualcosa di importante
+
+### Livello 4 — Ultra avanzata (fa molto di più, sempre con firma su soldi/messaggi)
+
+- [ ] **Carrello abbandonato** → recupero automatico (email/push) dopo regole ok
+- [ ] **Negozio fermo** → check-in proposto prima che molla
+- [ ] **Meteo + eventi città** → post e ops adattati (tu approvi solo eccezioni)
+- [ ] **Bandi e scadenze** → promemoria + bozza domanda pronta (PI26, CCIAA…)
+- [ ] **Health score negozi** → alert anti-churn automatici
+- [ ] **Onboarding negozio** done-for-you end-to-end in meno di 48 ore
+- [ ] **Report mattino/sera** su Telegram: 3 numeri + 1 mossa consigliata
+- [ ] **Esperimenti prezzo/consegna** guidati dai dati (A/B con PostHog)
+- [ ] **Gestionale negozio** collegato (catalogo e stock sincronizzati)
+- [ ] **App / push nativa** — il cliente torna senza aspettare email
+
+**Mossa unica consigliata adesso:** Telegram + Meta + ordine test PQ — trasforma la macchina da «assistente che scrive» a «operatore che agisce e misura».
+
+---
+
 ## ⚙️ 50 workflow n8n MyCity (catalogo completo) · 2026-07-20 03:36
 
 Bozze importabili in n8n — tutte **spente** finché non le completi. 🔴 messaggi/post · 🟡 avvisi interni · 🟢 solo report.
