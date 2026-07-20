@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { memoryConnected, getImpostazione } from "@/lib/store";
 import { marketplaceDbConnected } from "@/lib/marketplace-db";
-import { getPostHog } from "@/lib/posthog";
+import { getPostHog, posthogDiagnosiDettaglio } from "@/lib/posthog";
 import { getBudget } from "@/lib/ai-budget";
 import { vaultGithubInfo, testVaultGithub } from "@/lib/obsidian";
 import { marketplaceGithubInfo, testMarketplaceGithub } from "@/lib/github";
@@ -56,7 +56,11 @@ export async function GET() {
 
   // 4) Traffico (PostHog).
   const ph = await getPostHog().catch(() => ({ connected: false }) as any);
-  checks.push({ nome: "Traffico (PostHog)", stato: ph?.connected ? "verde" : "giallo", dettaglio: ph?.connected ? "visite tracciate" : "non collegato: niente funnel/conversione" });
+  checks.push({
+    nome: "Traffico (PostHog)",
+    stato: ph?.connected ? "verde" : "giallo",
+    dettaglio: ph?.connected ? "visite tracciate" : posthogDiagnosiDettaglio(ph?.apiErrore),
+  });
 
   // 5) Ultimo briefing: fresco se < 24h (fuso Piacenza corretto).
   const dataBriefing = segnali.ultimoGiro?.quando ?? null;

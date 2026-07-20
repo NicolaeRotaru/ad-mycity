@@ -9,6 +9,20 @@ export function posthogConnected(): boolean {
   return Boolean(HOST && PROJECT && KEY);
 }
 
+/** Diagnosi senza segreti: cosa manca o è sbagliato nelle env Vercel. */
+export function posthogDiagnosiDettaglio(apiErrore?: string): string {
+  const host = HOST?.trim() || "";
+  const project = PROJECT?.trim() || "";
+  const key = KEY?.trim() || "";
+  if (!host) return "manca POSTHOG_HOST su Vercel (https://us.posthog.com per account US)";
+  if (!project) return "manca POSTHOG_PROJECT_ID su Vercel (495230 per il tuo progetto US)";
+  if (!key) return "manca POSTHOG_API_KEY su Vercel (chiave personale che inizia con phx_)";
+  if (key.startsWith("phc_")) return "POSTHOG_API_KEY è phc_ (solo tracking): serve phx_ (personale, lettura)";
+  if (host.includes("eu.posthog")) return "POSTHOG_HOST è EU ma l'account è US — usa https://us.posthog.com";
+  if (apiErrore) return `env presenti ma PostHog risponde errore: ${apiErrore.slice(0, 80)}`;
+  return "non collegato: controlla env Vercel Production + redeploy";
+}
+
 async function hogql(query: string): Promise<number> {
   const r = await fetch(`${HOST}/api/projects/${PROJECT}/query/`, {
     method: "POST",
@@ -21,7 +35,12 @@ async function hogql(query: string): Promise<number> {
   return Number(d.results?.[0]?.[0]) || 0;
 }
 
-export async function getPostHog(): Promise<{ connected: boolean; visite_7g?: number; visitatori_7g?: number }> {
+export async function getPostHog(): Promise<{
+  connected: boolean;
+  visite_7g?: number;
+  visitatori_7g?: number;
+  apiErrore?: string;
+}> {
   if (!posthogConnected()) return { connected: false };
   try {
     const visite = await hogql(
@@ -31,7 +50,8 @@ export async function getPostHog(): Promise<{ connected: boolean; visite_7g?: nu
       "select count(distinct person_id) from events where event = '$pageview' and timestamp >= now() - interval 7 day"
     );
     return { connected: true, visite_7g: visite, visitatori_7g: visitatori };
-  } catch {
-    return { connected: false };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return { connected: false, apiErrore: msg };
   }
 }
