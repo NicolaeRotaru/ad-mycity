@@ -75,6 +75,36 @@ function patchCavemanForInternal(content) {
   return header + scoped;
 }
 
+const MYCITY_MARKETING_MARKER = "## MYCITY — contesto obbligatorio";
+let _mycityMarketingOverlay = null;
+
+function mycityMarketingOverlay() {
+  if (_mycityMarketingOverlay) return _mycityMarketingOverlay;
+  const path = join(AD_ROOT, "cervello/prompt-fragments/mycity-marketing-overlay.md");
+  _mycityMarketingOverlay = readFileSync(path, "utf8").trim();
+  return _mycityMarketingOverlay;
+}
+
+/** Adatta le skill community (coreyhaines31/marketingskills) a MyCity — idempotente. */
+export function patchMarketingSkillForMyCity(content) {
+  if (content.includes(MYCITY_MARKETING_MARKER)) return content;
+  const overlay = mycityMarketingOverlay();
+  const adapted = content
+    .replace(
+      /If `\.agents\/product-marketing\.md` exists[\s\S]*?specific to this task\./,
+      "Leggi PRIMA il blocco MYCITY sotto e, se serve, `MyCity-Vault/90-Memoria-AI/STATO.md` + `consegne/marketing/PIATTAFORMA-CREATIVA.md`. Chiedi solo ciò che manca ancora."
+    )
+    .replace(
+      /If `\.claude\/product-marketing\.md` exists[\s\S]*?specific to this task\./,
+      "Leggi PRIMA il blocco MYCITY sotto e, se serve, `MyCity-Vault/90-Memoria-AI/STATO.md` + `consegne/marketing/PIATTAFORMA-CREATIVA.md`. Chiedi solo ciò che manca ancora."
+    );
+  const m = adapted.match(/^---\n[\s\S]*?\n---\n/);
+  if (m) {
+    return `${m[0]}\n${overlay}\n\n---\n\n${adapted.slice(m[0].length).replace(/^---\n\n/, "")}`;
+  }
+  return `${overlay}\n\n---\n\n${adapted}`;
+}
+
 // Path dello specchio Claude per un plugin del manifest (null = non si specchia).
 // .cursor/skills/<id>/SKILL.md → .claude/skills/<id>/SKILL.md; la rule ponytail (.mdc) diventa
 // una skill; caveman-internal resta un frammento prompt del worker (già engine-agnostico).
@@ -145,6 +175,7 @@ async function main() {
     let body = await fetchRaw(p.repo, p.ref, p.path_sorgente);
     if (p.id === "ponytail") body = patchPonytailForMyCity(body);
     if (p.id === "caveman-internal") body = patchCavemanForInternal(body);
+    if (p.repo === "coreyhaines31/marketingskills") body = patchMarketingSkillForMyCity(body);
     const hash = sha256(body);
     if (dryRun) {
       console.log(`[dry-run] ${p.id} → ${p.target} (${body.length} byte, sha ${hash})`);

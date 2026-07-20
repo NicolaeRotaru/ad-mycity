@@ -1,13 +1,17 @@
 ## Summary
-Con la chat Worker a schermo intero, il menu sito (☰ in navbar) restava sotto l'overlay chat (z-40 vs z-50) e sembrava morto.
+47 marketing skill community + **adattamento MyCity**: overlay «Il Turno», Piacenza, onestà numeri, canali locali.
 
 ## Cosa cambia
-- Quando chat grande + menu sito aperto: drawer nav e velo mobile passano sopra la chat (z-55/z-60), header resta cliccabile (z-70).
-- Scegliendo una voce del menu (es. Home, Azioni) si chiude anche la chat grande — torni alla sezione scelta.
+- Ogni skill marketing ha un blocco **MYCITY — contesto obbligatorio** (Turno, tagline, Facebook/IG locali, ONESTA-RULES)
+- `sync-worker-plugins.mjs` applica il patch automaticamente a ogni sync futuro (idempotente)
+- Fragment riusabile: `cervello/prompt-fragments/mycity-marketing-overlay.md`
 
 ## Come provare
-1. Apri Worker a schermo intero (voce «Worker» nel menu o ingrandisci dal popup).
-2. Tocca ☰ accanto a «Pannello di Controllo» in alto.
-3. Deve comparire il menu laterale (Home, Azioni, Lavori…) sopra la chat.
-4. Scegli «Home» → menu si chiude e vedi la plancia, chat grande sparita.
-5. Ctrl+F5 se il browser aveva cache vecchia.
+1. Mergia la PR
+2. Apri `.cursor/skills/social/SKILL.md` — deve comparire «Il Turno» subito dopo l’header
+3. Chiedi al worker: «bozza post Facebook per Pane Quotidiano» — tono Piacenza, niente numeri inventati
+4. `npx bats cervello/test/specchia-skills.bats` — 4/4 (già verde)
+
+## Note
+- Bozze sì, pubblicazione live resta 🔴 firma Nicola
+- Non sostituisce i senior marketing/content/seo — li potenzia
