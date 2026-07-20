@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:39",
+  "aggiornato": "2026-07-20 03:56",
   "_nota_metabolizzazione_20_07_0339": "Chat 20/7 ~03:39: Nicola «intelligence non al massimo potenziale — come migliorarla?» — diagnosi gap + piano accensione. L-385 nuova; preferenza intelligence-massimo-potenziale; STATO+LEZIONI-CHAT+intelligence esito.",
   "_nota_metabolizzazione_20_07_0337": "Chat 20/7 ~03:37: Nicola «togli dalla bacheca il duplicato mappa negozi piacenza» — dedup BACHECA.md. L-384 nuova; L-377 evidenze++ addendum grep/dedup; preferenza bacheca-dedup; STATO+DECISIONI+LEZIONI-CHAT+ad esito.",
   "_nota_metabolizzazione_20_07_0336": "Chat 20/7 ~03:34–03:36: Nicola «elencami i 50 workflow in chat» + «inserisci questi 50 workflow in bacheca home». L-383 nuova; L-377 evidenze++ addendum terza casella; preferenze elenco-50-workflow-chat + bacheca-50-workflow; STATO+DECISIONI+LEZIONI-CHAT+builder+ad esito.",
@@ -9110,13 +9110,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 399,
+    "lezioni_attive": 402,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.19,
-    "tasso_calcolato_il": "2026-07-20 03:36",
+    "tasso_calcolato_il": "2026-07-20 03:56",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 03:36",
+    "tick_leggero_il": "2026-07-20 03:56",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
