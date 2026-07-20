@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:10
-fonte: AD digitale (metabolizzazione chat)
+aggiornato: 2026-07-20 02:12
+fonte: AD digitale (worker inventario VPS)
 ---
+
+> 🛰️ **20/7 02:12 — WORKER: «cos'altro sul VPS?» — refresh post N8N env (L-351/L-357).** Verificato live: worker+chat **active**, n8n **HTTP 200** `:5678`, Playwright **ok**, timer giro/ritmo/sentinella **ok**. **Non installare altro software** — collegare **mani env**. **Blocco attuale:** 3 righe `N8N_WEBHOOK_URL` (prime 2 segnaposto → sensori rossi); Nicola ha URL reale ma **prima vince** + URL test non Production. **Ordine:** (1) dedup env + Active n8n + restart → «webhook collegato»; (2) **Telegram** 5 min → 59 avvisi; (3) `BURN_MENSILE_EUR` (#burn-mensile-env); (4) import 2° workflow `raccolta-iscritti-lista-attesa.json`. **NO ora:** 2° cervello, terminale web, WhatsApp diretto. Dossier: `consegne/builder-automazioni/2026-07-20-inventario-vps-cosa-aggiungere.md`. Fonte: systemctl + curl + `verifica-sensori.mjs` 02:11.
 
 > 💬 **20/7 ~02:08 — CHAT: icona ☰ menu conv Worker non si apre (L-358).** Nicola: «dentro la chat del worker l'icona del menu non si apre». **Causa:** PR #485 resa sidebar conv **sempre visibile** ma **rimossa l'icona ☰** in testata — tap su icona assente/inerte. **Fix:** branch `fix/worker-menu-conv-apre` (`a6d96d35`, `page.tsx`) — ☰ ripristinata; **mobile** = cassetto elenco chat; **desktop** = colonna default visibile, ☰ nasconde/mostra; ⚡ Skill in basso resta separato. PR merge 🔴 pendente (#206 — GitHub 503 all'apertura). Dopo deploy: Ctrl+F5 → Worker → tap ☰. Fonte: chat Nicola 20/7 02:08.
 
