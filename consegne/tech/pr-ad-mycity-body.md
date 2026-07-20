@@ -1,10 +1,14 @@
 ## Summary
-- Le chat aperte da **Lavori** («Chat con questa casella») non comparivano nel menu **Conversazioni** del Worker: vivevano solo nei lavori, non nella tabella condivisa.
-- Ora la lista Worker integra i gruppi-lavoro di tipo chat mancanti nel DB.
-- Quando scrivi da Lavori, la chat viene anche salvata in memoria condivisa (come le altre).
+- Ripristina l’icona **Menu** (☰) nella testata della chat Worker: apre/chiude l’elenco conversazioni.
+- **Telefono:** cassetto a scomparsa da sinistra (prima mancava del tutto l’icona dopo #485).
+- **Desktop:** sidebar integrata resta il default; l’icona la nasconde/mostra se serve spazio.
+- Fix minore: barra scrittura `z-20` così il pannello ⚡ Skill & comandi non resta sotto i messaggi.
 
-## Test plan
-- [ ] Apri una chat da Lavori («Chat con questa casella»), scrivi un messaggio
-- [ ] Apri il Worker → nel menu a sinistra deve comparire quella conversazione (titolo = primo messaggio)
-- [ ] Cliccala: deve riaprire lo stesso thread
-- [ ] Hard refresh (Ctrl+F5) → la chat resta in lista
+## Perché
+Con la sidebar sempre visibile (#485) è sparita l’icona che apriva le conversazioni — su mobile Nicola clicca e «non si apre niente».
+
+## Come provare
+1. Apri il Worker (finestra fluttuante).
+2. Su **telefono** (o finestra stretta): tap ☰ → deve comparire l’elenco chat; tap fuori o su una chat → si chiude.
+3. Su **desktop**: ☰ nasconde/mostra la colonna sinistra; di default è visibile.
+4. Tap ⚡ in basso → si apre «Skill & comandi».
