@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 18:28
+aggiornato: 2026-07-20 18:30
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~18:30 — CHAT: Pulizia demo ESEGUITA — «te lo approvo in chat» → 1 negozio · 5 prodotti (L-407).** Nicola approva **#elimina-negozi-demo** in chat (18:28) — AD esegue subito: **16** negozi demo rimossi (Casa Linda inclusa) · **245** prodotti nascosti (243 demo + 2 orfani) · **Pane Quotidiano** intatto. **Verifica REST 18:30:** **1** negozio · **5** prodotti available · supervisione **1 negozio** (restano 3 gap da te: logo/città/foto). Card **✅ FATTA**. Fonte: chat Nicola 20/7 18:28 + REST 18:30.
 
 > 💬 **20/7 ~18:28 — CHAT: PostHog — follow-up «metterlo sul vps come n8n» = env, non Docker (L-404 addendum).** Nicola ripete frame «**come n8n**» dopo domanda PostHog 18:24 — AD chiarisce: **n8n = container Docker**; PostHog = **SaaS cloud** + **3 righe env** nello stesso `cervello/vps/.env` (pattern Telegram L-406); **self-host scartato** (pesante + cambierebbe tracking Render). **Non fatto** — chiave `phx_` ancora da incollare. Fonte: chat Nicola 20/7 18:28.
 
@@ -917,12 +919,12 @@ fonte: AD digitale (metabolizzazione chat)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 20/7 18:00 · invariati dal 24/6)
-| Numero | Oggi (20/7 18:00) | Δ vs ieri sera | "Riuscito" | Note |
+## I 7 numeri (✅ REST 20/7 18:30 · pulizia demo completata)
+| Numero | Oggi (20/7 18:30) | Δ vs ieri sera | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 16 negozi demo seed in coda pulizia 🔴 `#elimina-negozi-demo` |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | ▼16 demo | ≥1 LIVE vero | ✅ Pulizia demo **18:30** — solo PQ live (era 17 negozi) |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ ha Stripe collegato ma payout-test mai chiuso su ordine vero |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ stock>0 (catalogo totale 258 prodotti REST) |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ stock>0 · catalogo pubblico **5** prodotti (245 demo nascosti 18:30) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · CANCELED — 1° ordine reale va CREATO ex-novo |
 | Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~634h (~26,4 gg) ▲ +26h vs report 19/7 18:00 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
@@ -1022,16 +1024,16 @@ fonte: AD digitale (metabolizzazione chat)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 20/7 18:00)
-**Sportello PI26 aperto da stamattina — domanda non risulta inviata (scade 30/7).** Business INVARIATO dal 24/6, North Star 0, stallo ~634h (~26,4 giorni). Cassa Stripe 0€.
+## Prossime priorità (🛰️ aggiornato 20/7 18:30)
+**Sportello PI26 aperto da stamattina — domanda non risulta inviata (scade 30/7).** Business INVARIATO dal 24/6, North Star 0, stallo ~634h (~26,4 giorni). Cassa Stripe 0€. **Catalogo:** solo Pane Quotidiano live (pulizia demo ✅ 18:30).
 
 1. [ ] 🔴 **Invia domanda PI26** — sportello già aperto (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
 2. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1 (`#ordine-test-pq`).
 3. [ ] 🔴 **Pubblica almeno un post** — lunedì turno mattina (`#post-lunedi-turno-mattina-2007`) o recupero domenica/pioggia.
-4. [ ] 🔴 **Approva pulizia negozi demo** — tieni solo Pane Quotidiano (`#elimina-negozi-demo`).
-5. [ ] 🟡 **Mergia PR #499 su GitHub** — fix casella Parla (errore JSON giallo; niente card in coda per regola L-402).
-6. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice #496 già su main).
-7. [ ] 🟡 **Burn mensile nel VPS** — sblocca runway (`#burn-mensile-env`).
+4. [ ] 🟡 **Mergia PR #499 su GitHub** — fix casella Parla (errore JSON giallo; niente card in coda per regola L-402).
+5. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice #496 già su main).
+6. [ ] 🟡 **Burn mensile nel VPS** — sblocca runway (`#burn-mensile-env`).
+7. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
 
 **Sentinelle attive:** loop business 🔴 (0 ordini reali) · `cassa_sconosciuta` (175 giri, manca BURN_MENSILE_EUR) · Telegram assente · PostHog spento (scelta 5/7) · n8n ✅ · REST/Stripe/Resend/Sito/Pannello ✅ (18:00).
 

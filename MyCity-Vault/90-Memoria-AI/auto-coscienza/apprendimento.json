@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 18:28",
+  "aggiornato": "2026-07-20 18:30",
+  "_nota_metabolizzazione_20_07_1830": "Chat 20/7 ~18:28: Nicola «te lo approvo in chat» — #elimina-negozi-demo ESEGUITO: 16 demo rimossi, 245 prod nascosti, REST 1 negozio 5 prodotti. L-407 nuova (caso_studio_nicola); L-401 evidenze++ addendum esecuzione; preferenza approvazione-chat-irreversibile + pulizia-catalogo-demo aggiornata; STATO+DECISIONI+AZIONI già 18:30; LEZIONI-CHAT+operations esito.",
   "_nota_metabolizzazione_20_07_1828": "Chat 20/7 ~18:28: Nicola follow-up PostHog «dico di metterlo sul vps come n8n» — AD: stessa disambiguazione L-406 (n8n=Docker vs cloud=env); self-host PostHog scartato. L-404 evidenze++ addendum 18:28; preferenza posthog-vps-setup aggiornata; STATO+LEZIONI-CHAT+data-engineer+devops-sre esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_1827": "Chat 20/7 ~18:27: Nicola «di metterlo sul vps come n8n» (Telegram AR-105) — AD: non Docker, 2 env in cervello/vps/.env + restart worker; n8n workflow stesse chiavi. L-406 nuova; preferenza telegram-vps-setup; STATO+LEZIONI-CHAT+devops-sre+builder-automazioni esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_1825": "Chat 20/7 ~18:25: Nicola casella AR-105 «controlla ogni casella se fix già fatto» — AD verifica sensori: sito+pannello ✅ HTTP 200 (env 18/7); #riavvia-worker-env FATTO obsoleta; resta Telegram (#accendi-intelligence-sveglia). L-405 nuova; preferenza verifica-fix-casella-runtime; STATO+AZIONI+#riavvia-worker-env FATTO+LEZIONI-CHAT+cantiere AR-105+devops-sre esito.",
@@ -129,6 +130,27 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-407",
+      "testo": "**Approva in chat — «te lo approvo in chat» = firma 🔴 valida, esegui subito + verifica REST (Nicola 20/7 ~18:28).** Casella Supervisione — Nicola approva **#elimina-negozi-demo** con «**te lo approvo in chat**» (non solo card Pannello). 5 perché: (1) ok esplicito in chat = **stessa validità** di Approva card per azioni 🔴 già accodate con piano completo; (2) AD **non** rimandare al Pannello se la firma è chiara in chat; (3) **esecuzione immediata** + segna FATTO in AZIONI + append DECISIONI esito; (4) **verifica numeri REST** post-azione (18:30: **1** negozio · **5** prodotti, 16 demo + 245 prod nascosti); (5) PQ intatto — confermare esplicitamente al Nicola. Regola: «te lo approvo» / «ok elimina negozi demo» in chat su card 🔴 preparata = **esegui**, non «vai in Approva». Vedi L-401, DECISIONI 20/7 18:30.",
+      "tag": [
+        "approvazione",
+        "chat",
+        "irreversibile",
+        "operations",
+        "supervisione",
+        "firma-nicola"
+      ],
+      "reparto": "@operations",
+      "confidenza": 0.94,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 18:30",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-406",
       "testo": "**Telegram sul VPS — «metterlo come n8n» = env worker, non installazione Docker (Nicola 20/7 ~18:27).** Nicola: «**di metterlo sul vps come n8n**» (casella AR-105, sensore Telegram ancora `non_configurato`). 5 perché: (1) Nicola pensa «come n8n» = **stesso posto sul server**, non stesso **tipo** di software — n8n è **container Docker**; Telegram è **solo API bot** collegata via env; (2) setup: `cervello/vps/.env` (stesso file di `N8N_WEBHOOK_URL`, `MARKETPLACE_SITE_URL`, `PANNELLO_URL`) → `TELEGRAM_BOT_TOKEN=` (BotFather `/newbot`) + `TELEGRAM_CHAT_ID=` → restart `mycity-worker-chat.service` → `verifica-sensori.mjs` **`telegram_bot` ok**; (3) **token mai in chat/memoria** — solo nel file env sul VPS; (4) sensore verde ≠ messaggi in Telegram: **push reali** richiedono **stesse due chiavi** nei workflow n8n bandi/avvisi + Active (**#accendi-intelligence-sveglia** passo 6); (5) sito+Pannello uptime **già ✅** (L-405) — non ripetere card riavvio env. Regola: su «Telegram sul VPS come n8n» → disambigua Docker vs env, passi numerati stesso file env, distingui sensore vs invii n8n. Vedi L-405, L-404 (pattern PostHog), L-390.",
       "tag": [
@@ -238,7 +260,7 @@
     },
     {
       "id": "L-2026-0720-401",
-      "testo": "**Elimina negozi demo — casella Supervisione, solo PQ reale, accoda 🔴 non eseguire (chat 20/7 ~17:54).** Nicola da casella Supervisione: «**elimina tutti i negozi tranne pane quotidiano**». 5 perché: (1) REST live **17 negozi** = 1 **Pane Quotidiano** reale (5 prodotti) + **16 seed/demo** (UUID `11111111…`, Casa Linda inclusa); (2) **253 prodotti finti** intasano supervisione e catalogo pubblico; (3) cancellazione marketplace **irreversibile** → 🔴, **mai eseguire** senza ok esplicito Nicola; (4) piano: elimina prodotti demo + account venditori demo, **PQ intatto**; (5) **#elimina-negozi-demo** accodato con dettaglio in `consegne/operations/2026-07-20-pulizia-negozi-demo.md`. Regola: imperativo «elimina tutti tranne X» su catalogo = verifica numeri REST + elenco esatto cosa sparisce + card 🔴 + attendi «ok elimina negozi demo». Vedi L-393 Casa Linda demo, DECISIONI 20/7 17:54.",
+      "testo": "**Elimina negozi demo — casella Supervisione, accoda 🔴 poi esegui al ok (chat 20/7 ~17:54, ✅ 18:30).** Nicola da casella Supervisione: «**elimina tutti i negozi tranne pane quotidiano**». 5 perché: (1) REST live **17 negozi** = 1 **Pane Quotidiano** reale (5 prodotti) + **16 seed/demo** (UUID `11111111…`, Casa Linda inclusa); (2) **253 prodotti finti** intasano supervisione e catalogo pubblico; (3) cancellazione marketplace **irreversibile** → 🔴, **mai eseguire** senza ok esplicito Nicola; (4) piano: elimina prodotti demo + account venditori demo, **PQ intatto** — accoda **#elimina-negozi-demo**; (5) **ESEGUITO 18:30** (L-407): Nicola «te lo approvo in chat» → **16** demo rimossi · **245** prod nascosti · REST **1 negozio · 5 prodotti**. Regola: imperativo «elimina tutti tranne X» = numeri REST + elenco + card 🔴 + ok → esegui + verifica. Vedi L-407, L-393, DECISIONI 20/7 17:54–18:30.",
       "tag": [
         "supervisione",
         "demo",
@@ -248,12 +270,12 @@
         "irreversibile"
       ],
       "reparto": "@operations",
-      "confidenza": 0.92,
-      "evidenze": 1,
+      "confidenza": 0.95,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 17:56",
+      "ultima_conferma": "2026-07-20 18:30",
       "stato": "attiva",
       "usi": []
     },
@@ -9251,12 +9273,13 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Approva in chat — «te lo approvo in chat» = firma 🔴 valida, esegui subito (chat 20/7 ~18:28):** su azione 🔴 già accodata con piano completo (#elimina-negozi-demo) approva con frase esplicita in chat — **non** rimandare solo al Pannello; si aspetta **esecuzione immediata**, card FATTO, numeri REST verificati (1 negozio · 5 prodotti), PQ intatto confermato. Vedi L-407, DECISIONI 20/7 18:30.",
+    "**Pulizia catalogo demo — «elimina tutti tranne pane quotidiano» = accoda 🔴 poi esegui al ok (chat 20/7 ~17:54, ✅ 18:30):** da casella Supervisione chiede rimuovere **16 negozi demo** lasciando solo **Pane Quotidiano** — numeri verificati, elenco negozi, card **#elimina-negozi-demo**; ok in chat («te lo approvo») → **eseguito** 18:30: **1 negozio · 5 prodotti** live, 245 prod demo nascosti. Vedi L-401, L-407.",
     "**Telegram sul VPS — «metterlo come n8n» = passi env nello stesso file, non installare Docker (chat 20/7 ~18:27):** chiede Telegram sul server «**come n8n**» — si aspetta risposta **operativa e disambiguata**: (1) n8n = programma che gira sul VPS; Telegram = **solo collegamento** (2 righe env); (2) stesso `cervello/vps/.env` dove ha già n8n e URL sito/Pannello; (3) BotFather → token + chat id → restart worker → sensore verde; (4) **push reali** = stesse chiavi anche in workflow n8n + Active (#accendi-intelligence-sveglia); (5) **non** incollare token in chat. Vedi L-406, L-405.",
     "**Verifica fix casella — «controlla ogni casella / se non è già stato il fix» = runtime check prima di riproporre (chat 20/7 ~18:25):** da casella difetto auto-radiografia chiede che l'AD **verifichi lo stato reale** (sensori, env, card) prima di ripetere la stessa azione — se sito/Pannello già verdi → card riavvio **obsoleta**, dichiarare FATTO e indicare **solo** ciò che resta (es. Telegram in #accendi-intelligence-sveglia). Vedi L-405.",
     "**PostHog sul VPS — «come n8n» = env worker, non Docker/self-host (chat 20/7 ~18:24–18:28):** chiede come collegare PostHog — poi «**metterlo sul vps come n8n**» — si aspetta disambiguazione **come Telegram L-406**: (1) n8n = programma sul VPS; PostHog = **cloud** + collegamento env; (2) **non** installare/self-host; (3) sito già traccia da Render; (4) VPS = Personal API Key **`phx_`** (Read) in `cervello/vps/.env`, **non** `phc_`; (5) restart worker + `verifica-sensori.mjs` ok; sensore spento **5/7** = normale; riaccensione briefing solo se lo chiede. Vedi L-404, L-406.",
     "**Pulizia card merge obsolete — «togli le card merge rimaste» = esegui subito, PR su GitHub intatte (chat 20/7 ~18:00):** seguito L-402 chiede rimozione retroattiva card «Mergia PR #…» create su ordini chat — si aspetta pulizia **immediata** AZIONI-IN-ATTESA (RIMOSSA con motivo), elenco card tolte, coda snellita (47→41), **PR restano su GitHub**; non toccare #auto-segna-pr-mergiata né card 🔴 vere. Vedi L-403.",
-    "**Coda Approva solo iniziativa AD — chat «fai fix/crea PR» = link in risposta, ZERO card merge (chat 20/7 ~17:58):** «le cose da approvare devono essere quelle a cui ci arrivi da solo» — se chiede in chat fix/PR/modifica codice: AD lavora e mette **link PR in chat**, **non** accoda «Mergia PR #…»; card Approva solo per **mosse autonome** (giro, sentinella, proposta non richiesta) o 🔴 mondo reale **senza** ordine esplicito in chat; se chiede elimina/pubblica/spendi in chat → chat + ok basta. Esempio errore: #499 dopo «Fai il fix». Vedi L-402.",
-    "**Pulizia catalogo demo — «elimina tutti tranne pane quotidiano» = accoda 🔴, non eseguire (chat 20/7 ~17:54):** da casella Supervisione chiede rimuovere **16 negozi demo** lasciando solo **Pane Quotidiano** — si aspetta **numeri verificati** (17→1 negozio, 253 prodotti demo), **elenco negozi che spariscono**, card **#elimina-negozi-demo** 🔴 e ok esplicito («ok elimina negozi demo»); PQ resta intatto (5 prodotti, vetrina, Stripe). Vedi L-401, DECISIONI 20/7 17:54.",
+    "**Coda Approva solo iniziativa AD — chat «fai fix/crea PR» = link in risposta, ZERO card merge (chat 20/7 ~17:58):** «le cose da approvare devono essere quelle a cui ci arrivi da solo» — se chiede in chat fix/PR/modifica codice: AD lavora e mette **link PR in chat**, **non** accoda «Mergia PR #…»; card Approva solo per **mosse autonome** (giro, sentinella, proposta non richiesta) o 🔴 mondo reale **senza** ordine esplicito in chat; se chiede elimina/pubblica/spendi in chat → chat + ok basta (**L-407**: «te lo approvo in chat» = esegui). Esempio errore: #499 dopo «Fai il fix». Vedi L-402, L-407.",
     "**Fai il fix Parla casella — dopo diagnosi PGRST102 = PR immediata (#499), merge Nicola (chat 20/7 ~17:53):** «fai il fix» seguito a spiegazione errore giallo — si aspetta **PR consegnata** con root cause (payload browser invalido → server sanitize + JSON validato), typecheck OK, merge 🔴 → deploy ~2 min → riprova Invio da card; pattern come Diretta #498. Vedi L-400, L-399.",
     "**Errore giallo Parla casella — «hai visto l'errore sotto la casella?» = spiega PGRST102 + testo non perso + fix codice (chat 20/7 ~17:48, fix 17:53):** dopo invio fallito da **Parla con questa azione** segnala l'avviso giallo esplicitamente — si aspetta che l'AD **legga e spieghi** l'errore (PGRST102 JSON invalido), confermi che il **testo resta nel riquadro**, distingua chat principale (ok) vs card (rotta), e **non** proponga solo «riprova» — fix 🟡 **PR #499** (**#fix-parla-casella-pgrst102**). Vedi L-399, L-400.",
     "**Verifica merge PR — «controlla se l'ho già margiata/mergiata» = GitHub API, non card Pannello; verifica tutte le PR recenti (chat 20/7 ~17:45–17:50):** manda screenshot card Approva + chiede se ha già mergiato — si aspetta risposta **basata su GitHub** (merged_at, commit su main), **non** sullo stato visivo della card; se card resta aperta con errore giallo DB memoria → spiega **bug Pannello**, non «devi mergiare ancora»; 20/7 pomeriggio **#498+#497+#496** tutte mergiate — prossimo passo **#accendi-intelligence-sveglia**, non altri merge. Vedi L-398.",
