@@ -4,7 +4,7 @@
 - **Branch:** `fix/parla-casella-pgrst102` → `main`
 - **URL:** https://github.com/NicolaeRotaru/ad-mycity/pull/499
 - **Titolo:** fix(pannello): Parla casella — niente più PGRST102 su invio da card
-- **Creato:** 2026-07-20 17:53 (Europe/Rome)
+- **Creato:** 2026-07-20 18:51 (Europe/Rome)
 
 ## Merge
 🔴 **Non mergeare da solo.** Nicola approva dal Pannello → `node cervello/git-merge.mjs --repo ad-mycity --pr 499`
