@@ -8,6 +8,7 @@ reparto: operations
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 17:56 · Casella Supervisione pulizia demo · Nicola «elimina tutti tranne pane quotidiano» · REST 17 negozi (16 demo + PQ) · accodato #elimina-negozi-demo 🔴 con piano pulizia · atteso firma Nicola → 1 negozio 5 prodotti · L-401 · #supervisione #demo #pq
 - 2026-07-20 11:01 · Checklist mattina North Star 20/7 · completezza:5|chiarezza:5|azione:5|fonti:5|onesta:5|impatto:5 · atteso Nicola segue checklist entro pranzo → reale in attesa — PI26 sportello aperto 10:00, ordine test non ancora eseguito · #north-star #checklist
 - 2026-07-18 11:06 · runbook prima consegna + zona/orario/ordine-minimo PQ · ✅ runbook consegnato ✅ parametri operativi definiti · atteso definire il runbook operativo per la prima consegna con PQ → reale runbook 🟢 in consegne/operations/, parametri zona/orario/ordine-minimo 🟡 accodati · #ops-18lug
 - 2026-07-14 03:00 · chat VP 17/7 · Nicola: bici non pronta venerdì (corretto bollette 21-27/7, riparazione ~28/7+) → VP = presidio PQ + **ritiro al banco**, non domicilio; North Star+payout-test restano validi con ritiro; domicilio gated su bici · lezione L-218 · #vp17 #bici #ritiro-prima

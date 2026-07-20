@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 17:53
-fonte: AD digitale (chat fix Parla casella PR #499)
+aggiornato: 2026-07-20 17:56
+fonte: AD digitale (chat Supervisione pulizia demo negozi)
 ---
+
+> 💬 **20/7 ~17:54 — CHAT: Supervisione — pulizia negozi demo, solo Pane Quotidiano (L-401).** Nicola «**elimina tutti i negozi tranne pane quotidiano**» da casella Supervisione — REST live: **17 negozi** (1 **Pane Quotidiano** approvato, 5 prodotti + **16 demo** seed UUID `11111111…`, inclusa Casa Linda, con **253 prodotti finti**). AD **non esegue** (🔴 irreversibile) — accoda **#elimina-negozi-demo** con piano in `consegne/operations/2026-07-20-pulizia-negozi-demo.md`. **Serve Nicola:** Approva **#elimina-negozi-demo** o scrivi «ok elimina negozi demo». Fonte: chat Nicola 20/7 17:54.
 
 > 💬 **20/7 ~17:53 — CHAT: Parla casella PGRST102 — fix PR #499 consegnato, merge 🔴 pendente (L-400).** Nicola «**fai il fix**» dopo errore giallo L-399 — AD **PR #499** (`fix/parla-casella-pgrst102`, typecheck OK, test sanitize OK): payload lavoro **costruito lato server** (non più blocco enorme dal browser), testo ripulito + JSON validato **prima** di scrivere su Supabase memoria. **Causa radice:** browser mandava JSON invalido → **PGRST102** su POST /api/lavori. **Serve Nicola:** mergia **#499** → deploy ~2 min → riprova «Invia» da card Approva/Parla. Fonte: chat Nicola 20/7 17:53 + GitHub PR #499.
 
