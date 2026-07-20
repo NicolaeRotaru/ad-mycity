@@ -1,82 +1,82 @@
 {
-  "data": "2026-07-20 11:00",
-  "sintesi": "Ore 11:00: PI26 a sportello da un'ora — priorità invio domanda se non fatto. Poi ordine test PQ (North Star 0→1) e recupero post domenica. Business fermo dal 24/6: 1 negozio, 4 buyer, 0 pagati, stallo ~625h.",
+  "data": "2026-07-20 20:22",
+  "sintesi": "Serata 20/7: business invariato (1 PQ, 0 pagati). Priorità assoluta ordine test PQ per North Star 0→1. PI26 ancora inviabile fino al 30/7. Post social da recuperare. Demo eliminati oggi — catalogo pulito 5 prodotti. PostHog operativo.",
   "prossime_mosse": [
     {
-      "titolo": "Invia la domanda PI26 adesso",
-      "quando": "ORA — sportello aperto dal 20/7 ore 10:00",
-      "come": "restart.infocamere.it con SPID — bozza e fatture in consegne/relazioni-istituzionali/",
-      "priorita": "alta",
-      "ad_prepara": "Checklist mattina in consegne/operations/2026-07-20-checklist-mattina-north-star.md",
-      "senior": "@relazioni-istituzionali",
-      "colore": "🔴"
-    },
-    {
       "titolo": "Fai un ordine di prova su Pane Quotidiano",
-      "quando": "Oggi 20/7 dopo PI26",
-      "come": "mycity-marketplace.com → prodotto PQ → checkout → consegna/ritiro",
+      "quando": "Stasera 20/7 — prima mossa",
+      "come": "mycity-marketplace.com → prodotto PQ → checkout → COD o carta",
       "priorita": "alta",
-      "ad_prepara": "Flusso live — card #ordine-test-pq",
+      "ad_prepara": "Flusso live verificato REST — card #ordine-test-pq",
       "senior": "@operations",
       "colore": "🟡"
     },
     {
-      "titolo": "Pubblica il post social su Facebook e Instagram",
-      "quando": "Oggi 20/7 pomeriggio",
-      "come": "Recupero post domenica (#post-domenica) o meteo (#post-meteo-pioggia-20lug)",
+      "titolo": "Invia la domanda PI26",
+      "quando": "Entro il 30/7 ore 16:00 (sportello aperto)",
+      "come": "restart.infocamere.it con SPID — bozza in consegne/relazioni-istituzionali/",
+      "priorita": "alta",
+      "ad_prepara": "Checklist bando + fatture tech da maggio 2026",
+      "senior": "@relazioni-istituzionali",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Pubblica il post social su PQ",
+      "quando": "Stasera o domani mattina",
+      "come": "Recupero #post-domenica o #post-lunedi-turno — testi in consegne/content/",
       "priorita": "media",
-      "ad_prepara": "Contenuti pronti in consegne/content/",
+      "ad_prepara": "Contenuti pronti + UTM",
       "senior": "@content-social",
       "colore": "🔴"
     },
     {
-      "titolo": "Ripara la bici e pianifica giro botteghe",
-      "quando": "Settimana 21-25/7",
-      "come": "Visita 13 prospect botteghe — schede in consegne/vendite/",
-      "priorita": "alta",
-      "ad_prepara": "13 schede pitch pronte",
-      "senior": "@vendite",
-      "colore": "🟡"
+      "titolo": "Configura Telegram sul VPS",
+      "quando": "Questa settimana",
+      "come": "TELEGRAM_BOT_TOKEN + CHAT_ID in .env → n8n workflow Active",
+      "priorita": "media",
+      "ad_prepara": "Playbook consegne/intelligence/PLAYBOOK-ACCENSIONE-2026-07-20.md",
+      "senior": "@builder-automazioni",
+      "colore": "🔴"
     }
   ],
   "primi_negozi": [
     {
       "nome": "Pane Quotidiano",
-      "perche": "Unico negozio REALE (Via Calzolai 25). Già online.",
-      "stato": "attivo — North Star 0, stallo ~625h"
-    },
-    {
-      "nome": "Frolla Couture",
-      "perche": "Score più alto prospect panetteria. Onda 2.",
-      "stato": "scelta_ragionata — visita sett. 21-25/7"
+      "perche": "Unico negozio REALE (Via Calzolai 25). Già online, 5 prodotti.",
+      "stato": "attivo — North Star 0, stallo ~636h"
     },
     {
       "nome": "Antica Salumeria Garetti",
-      "perche": "Anchor DOP + WhatsApp PI26 pronto.",
+      "perche": "Anchor DOP + WhatsApp PI26 pronto. Onda 2.",
       "stato": "scelta_ragionata — dopo ordine test"
+    },
+    {
+      "nome": "Frolla Couture",
+      "perche": "Score più alto prospect panetteria.",
+      "stato": "scelta_ragionata — visita sett. 21-25/7"
     }
   ],
   "rischi": [
-    "PI26 — sportello aperto ma domanda non inviata (ordine cronologico)",
-    "Post domenica mancato — zero visibilità ieri sera",
     "Stallo PQ >26 giorni — bottega può perdere motivazione",
-    "4 buyer dormienti — nessuna welcome email inviata"
+    "4 buyer dormienti — nessuna welcome email inviata",
+    "Post social mancato — zero visibilità weekend",
+    "Logo/città PQ mancanti — scheda negozio incompleta"
   ],
   "serve_da_nicola": [
     {
-      "ambito": "PI26",
-      "cosa_manca": "Conferma invio domanda su restart.infocamere.it",
-      "domanda_per_nicola": "Hai già inviato PI26? Se no — fallo adesso (sportello aperto da 10:00)."
-    },
-    {
       "ambito": "north star",
       "cosa_manca": "Ordine test su PQ eseguito",
-      "domanda_per_nicola": "Fai l'ordine test su Pane Quotidiano oggi? È la mossa n.2."
+      "domanda_per_nicola": "Fai l'ordine test su Pane Quotidiano stasera? È la mossa n.1."
+    },
+    {
+      "ambito": "PI26",
+      "cosa_manca": "Conferma invio domanda",
+      "domanda_per_nicola": "Hai già inviato PI26? Se no — sportello aperto fino al 30/7."
     },
     {
       "ambito": "post social",
-      "cosa_manca": "Pubblicazione recupero post",
-      "domanda_per_nicola": "Ok a pubblicare oggi pomeriggio — domenica o meteo?"
+      "cosa_manca": "Pubblicazione recupero",
+      "domanda_per_nicola": "Ok a pubblicare stasera domenia-settimana o lunedì-turno?"
     }
   ]
 }

@@ -1765,7 +1765,7 @@
     }
   ],
   "sonda": {
-    "data": "2026-07-20 20:20",
+    "data": "2026-07-20 20:22",
     "loop_chiude": true,
     "tasso_applicazione": 0.18,
     "prova_chiusura": true,
@@ -1778,13 +1778,16 @@
     "prova_business": true,
     "prova_architettura": true,
     "esperimenti_misurati": true,
-    "giro_a_cadenza": false,
+    "giro_a_cadenza": true,
     "sentinelle_scattano": true,
     "ore_da_ultima_completa": 92,
-    "ore_da_ultimo_briefing": 9,
+    "ore_da_ultimo_briefing": 0,
     "max_giri_ciechi_sensori": 7,
     "giri_tasso_basso": 65,
     "serve_radiografia_completa": true,
+    "coerenza_fatti_ok": true,
+    "north_star_stallo": true,
+    "nota_giro": "Coerenza-fatti pricing bonificata (48 file). CHECKLIST rigenerata. Focus ordine test PQ."
     "salute_stato": "pending-merge",
     "voto_provvisorio": 20,
     "voto_pieno": 0,

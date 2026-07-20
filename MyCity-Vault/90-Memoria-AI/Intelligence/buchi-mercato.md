@@ -1,14 +1,15 @@
 # 🕳️ Buchi di Mercato — 2026-07-20
 
-> Aggiornato: 20 luglio 2026 08:30 · fonte: supervisione marketplace + monitora.md (IlPiacenza economia, PiacenzaSera)
+> Aggiornato: 20 luglio 2026 20:22 · fonte: supervisione REST + monitora.md
 
 ---
 
 ## Stato attuale del catalogo MyCity
 
 - **1 negozio attivo** (Pane Quotidiano — panetteria/bio, Via Calzolai)
+- **5 prodotti** reali (demo eliminati 20/7)
 - **13 prospect validi** identificati (ristoranti/osterie ESCLUSI per decisione Nicola 18/7)
-- **258 prodotti** catalogati · **494 campi vuoti** (batch autofill in coda approvazione)
+- **Gap PQ:** logo + città da procurare (supervisione 20:22)
 
 ---
 

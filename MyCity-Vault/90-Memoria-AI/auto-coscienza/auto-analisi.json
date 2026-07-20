@@ -1,48 +1,46 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-20 11:00",
-  "voto_fiducia": 91,
-  "sintesi": "Giro 20/7 11:00: REST live invariato (4 buyer, 0 pagati), PI26 sportello aperto da 10:00. Loop @operations chiuso. North-star focus rispettato. Coerenza-fatti ok.",
-  "trend_fiducia": "▲ 91 vs 90 (06:20) — aggiornamento ora PI26 + loop chiuso",
+  "data": "2026-07-20 20:22",
+  "voto_fiducia": 92,
+  "sintesi": "Giro 20/7 20:22: business invariato (4 buyer, 0 pagati). Coerenza-fatti chiusa (48→0). CHECKLIST rigenerata. North-star focus: ordine test PQ. Sensori 8/9 ok.",
+  "trend_fiducia": "▲ 92 vs 91 (11:00) — coerenza-fatti chiusa + catalogo pulito post-demo",
   "errori_giro": [],
   "domande_bloccanti": [
     {
-      "tipo": "PI26_sportello_aperto",
-      "domanda": "PI26 a sportello dal 20/7 ore 10:00. Domanda inviata su restart.infocamere.it?",
-      "azione": "card 🔴 #bandi-cciaa-2007 in AZIONI-IN-ATTESA",
-      "colore": "🔴"
-    },
-    {
       "tipo": "north_star",
-      "domanda": "North Star 0 da ~625h. Ordine test PQ = unica mossa diretta verso 1° ordine pagato.",
+      "domanda": "North Star 0 da ~636h. Ordine test PQ = unica mossa diretta verso 1° ordine pagato.",
       "azione": "card 🟡 #ordine-test-pq in AZIONI-IN-ATTESA",
       "colore": "🟡"
     },
     {
+      "tipo": "PI26",
+      "domanda": "PI26 sportello aperto fino 30/7 16:00. Domanda inviata?",
+      "azione": "card 🔴 #bandi-cciaa-2007",
+      "colore": "🔴"
+    },
+    {
       "tipo": "post_recupero",
-      "domanda": "Post domenica deadline 19/7 21:00 non eseguito — recupero oggi pomeriggio.",
-      "azione": "card 🔴 #post-domenica-settimana-1907 o #post-meteo-pioggia-20lug",
+      "domanda": "Post domenica/lunedì non pubblicati — recupero stasera?",
+      "azione": "card 🔴 #post-domenica-settimana-1907 o #post-lunedi-turno-mattina-2007",
       "colore": "🔴"
     }
   ],
   "entita_verificate": [
-    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "REST profiles approved + registro-realtà"},
-    {"nome": "13 prospect botteghe onda-2", "stato": "scelta_ragionata", "fonte": "registro-realtà.json"},
-    {"nome": "4 buyer", "stato": "confermato", "fonte": "REST role=buyer count 4"},
-    {"nome": "PI26 CCIAA", "stato": "confermato", "fonte": "registro-fatti + ART-ER/Baldi Finance web 11:00"}
+    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "REST profiles approved + supervisione 20:22"},
+    {"nome": "Garetti/Peretti/Amendolara", "stato": "scelta_ragionata", "fonte": "registro-realta.json + scout vendite"},
+    {"nome": "4 buyer", "stato": "confermato", "fonte": "REST role=buyer · STATO 18:00"},
+    {"nome": "Pricing 10%+50€/mese", "stato": "confermato", "fonte": "registro-fatti + codice marketplace"},
+    {"nome": "PI26 CCIAA", "stato": "confermato", "fonte": "registro-fatti + Camcom Emilia web 20:22"}
   ],
-  "benchmark": "Cold-start: PI26 + ordine test oggi prima di qualsiasi lavoro macchina. Giorno istituzionale non va sprecato.",
+  "benchmark": "Cold-start: ordine test PQ stasera > qualsiasi lavoro macchina. Coerenza memoria chiusa = prerequisito Cabina pulita.",
   "salute_macchina": {
-    "sensori_ok": 7,
+    "sensori_ok": 8,
     "max_giri_ciechi": 7,
-    "automazione": "warn (GitHub 503 su segnale pr)",
-    "coerenza_fatti": "ok",
-    "chiusura_loop": "ok (gate exit 0)",
-    "registro_scelte": "ok"
+    "automazione": "ok",
+    "coerenza_fatti": "ok (exit 0, 0 cacce aperte)",
+    "chiusura_loop": "ok",
+    "north_star_stallo": true
   },
-  "verifiche": {
-    "L1": "pass",
-    "benchmark": "ok",
-    "note": "AR-111 rispettato: zero PR/tech accodati. ESITO @operations registrato."
-  }
+  "livello_verifica": "L1+L2",
+  "refutazione": "Nessuna entità inventata. Numeri da REST/sensori. Pricing PQ eccezione documentata con esenzioni registro."
 }

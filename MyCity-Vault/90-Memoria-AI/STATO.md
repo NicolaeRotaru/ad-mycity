@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 20:21
-fonte: AD digitale (metabolizzazione chat)
+aggiornato: 2026-07-20 20:22
+fonte: AD digitale (giro 20/7 20:22)
 ---
+
+> 💬 **20/7 ~20:22 — GIRO 20:22.** Business INVARIATO: 1 PQ · 5 prod · 4 buyer · 0 pagati · stallo ~636h. Coerenza-fatti pricing bonificata. CHECKLIST-NICOLA rigenerata. **Mossa n.1: ordine test PQ.** Briefing: [[Briefing/2026-07-20]].
 
 > 💬 **20/7 ~20:21 — CHAT: PostHog residuo Render ESEGUITO lato codice — PR #219 (L-418).** Nicola «**fai il fix del residuo opzionale**» — AD consegna **PR #219** (mycity): ingest tracking **EU→US** (`us.i.posthog.com`) allineato a VPS+Pannello+account **495230**. **Serve Nicola:** mergia **#219** → deploy Render ~5 min; verifica override env Render se `.eu` rimasto. Fonte: chat Nicola 20/7 20:21.
 
@@ -949,17 +951,17 @@ fonte: AD digitale (metabolizzazione chat)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 20/7 18:32 · pulizia demo completata)
-| Numero | Oggi (20/7 18:32) | Δ vs ieri sera | "Riuscito" | Note |
+## I 7 numeri (✅ REST 20/7 20:22 · pulizia demo completata)
+| Numero | Oggi (20/7 20:22) | Δ vs 11:00 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | ▼16 demo | ≥1 LIVE vero | ✅ Pulizia demo **18:30** — solo PQ live (era 17 negozi) |
-| Negozi con payout attivo | **0 reali** | = | 1 | PQ ha Stripe collegato ma payout-test mai chiuso su ordine vero |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ stock>0 · catalogo **5** prod · **253 demo eliminati dal DB 18:32** |
-| Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · CANCELED — 1° ordine reale va CREATO ex-novo |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~634h (~26,4 gg) ▲ +26h vs report 19/7 18:00 |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Pulizia demo 18:30 — solo PQ live |
+| Negozi con payout attivo | **0 reali** | = | 1 | PQ Stripe collegato, payout-test su ordine vero |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ · 253 demo eliminati dal DB 18:32 |
+| Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 24/6 CANCELED — 1° ordine va CREATO ex-novo |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~636h (~26,5 gg) ▲ +11h vs 11:00 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
-| Payout testato | **0** | = | 1 | payout-test sandbox da fare su ordine vero |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST live 18:00 · sentinella-dati ordini=1 · delta-gate invariato |
+| Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero |
+| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST · sentinella-dati ordini=1 |
 | **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)

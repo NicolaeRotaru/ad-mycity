@@ -182,9 +182,9 @@ Questa è la sezione che trasforma la relazione istituzionale in **fatturato**. 
 #istituzionale #bandi #relazioni #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-20 11:00
+## 🤖 Aggiornamento dell'AD — 2026-07-20 20:22
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **PI26 SPORTELLO APERTO dal 20/7 ore 10:00** — se domanda non inviata, **priorità assoluta ORA** (🔴 #bandi-cciaa-2007). Ordine cronologico fino esaurimento fondi.
-- **BT26/BE26** (scadenza 30/7): leva vendita per botteghe — «lo Stato paga fino al 50% della digitalizzazione».
+- **PI26 sportello APERTO fino 30/7 ore 16:00** — se non inviata, priorità alta (🔴 #bandi-cciaa-2007). Fonte: [Camcom Emilia PI26](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bando-innovazione-digitale-2026-pi26)
+- **North Star 0** — ordine test PQ stasera prima di qualsiasi altra leva istituzionale in pitch negozi.
 - **Bando ER FESR: CHIUSO 23/6** — non citare (registro-fatti).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

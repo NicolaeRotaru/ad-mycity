@@ -1208,3 +1208,7 @@ Assegnazioni reparto (1 mossa ciascuno):
 - 2026-07-20 18:00 · @AD · FATTO · Report della sera completato. RITMO.md (blocco «Report della sera · 2026-07-20 18:00»), STATO.md 7 numeri REST 18:00 aggiornati. Business INVARIATO: 1 PQ, 4 buyer, 0 pagati, stallo ~634h (~26,4 gg). Sensori REST/Stripe/Resend/Sito/Pannello/n8n ✅ · MCP Supabase cieco (REST copre).
 - 2026-07-20 18:00 · @AD · FATTO · Fatto oggi (sintesi): sportello PI26 aperto 10:00 (domanda non inviata) · 15 playbook mattina · pomeriggio PR #496/#498/#497 mergiate · #499 Parla casella pronta · pitch 10%+50€/m · accoda `#elimina-negozi-demo` (16 demo).
 - 2026-07-20 18:00 · @AD · SERVE · @Nicola: ① 🔴 **domanda PI26** (`#bandi-cciaa-2007`) ② 🟡 **ordine test PQ** ③ 🔴 **post social** ④ 🔴 **ok elimina negozi demo** ⑤ 🟡 **mergia #499** Parla casella.
+
+### 2026-07-20 20:22 — Giro serale
+- 2026-07-20 20:22 · @AD · FATTO · Giro 20:22 completato: coerenza-fatti pricing bonificata (48→0 exit 0) · CHECKLIST-NICOLA rigenerata · briefing+ultimo-briefing+intenzioni+auto-analisi scritti. Business: 1 PQ · 5 prod · 4 buyer · 0 pagati · stallo ~636h.
+- 2026-07-20 20:22 · @AD · PASSO-A · @Nicola — **Mossa n.1:** ordine test PQ stasera (#ordine-test-pq). **Mossa n.2:** PI26 se non inviata + post social recupero.

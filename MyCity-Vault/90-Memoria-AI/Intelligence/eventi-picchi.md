@@ -1,6 +1,6 @@
 # 📅 Eventi & Picchi di Domanda — 2026-07-20
 
-> Aggiornato: 20 luglio 2026 11:35 · @intelligence · PLAYBOOK Intelligence settimana 20-26/7
+> Aggiornato: 20 luglio 2026 20:22 · @intelligence · serata 20/7
 
 ---
 
@@ -8,8 +8,8 @@
 
 | Data | Condizione | T max / T min | Impatto delivery |
 |------|-----------|---------------|-----------------|
-| **Lun 20/7 (OGGI)** | Sereno/poco nuvoloso, **afa** | **32° / 23°** | **PI26 sportello APERTO dal 10:00** · push freschi mattina PQ |
-| **Mar 21/7** | Nuvoloso, pioggia debole possibile | **31° / 22°** | **Picco push indoor** — card `#post-meteo-pioggia-20lug` (dopo ordine test PQ) |
+| **Lun 20/7 (OGGI)** | Sereno, afa serale | **32° / 23°** | Recupero post social stasera |
+| **Mar 21/7** | Pioggia debole/temporali | **31° / 22°** | **Picco push indoor** — dopo ordine test PQ |
 | Mer 22/7 | Nuvoloso, più fresco | **29° / 18°** | Normale |
 | Gio 23/7 | Sereno/caldo | **32° / 18°** | Jazz Castell'Arquato serale (fuori città) |
 | Ven 24/7 | Sereno | **30° / 20°** | **Inizio Festa Tortello Vigolzone** (serale provincia) |

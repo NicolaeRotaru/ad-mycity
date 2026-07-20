@@ -1,7 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 20:21",
-  "_nota_metabolizzazione_20_07_2021": "Chat 20/7 ~20:21: Nicola «fai il fix del residuo opzionale» — PR #219 mycity Render ingest US. L-418 nuova; L-416 evidenze++ addendum 3 superfici; preferenza posthog-residuo-render; STATO+DECISIONI+LEZIONI-CHAT+registro-fatti+data-engineer+tech esito.",
+  "aggiornato": "2026-07-20 20:22",
+  "_nota_giro_20_07_2022": "Giro 20/7 20:22: coerenza-fatti pricing bonificata (48 file, exit 0). Lezione: esenzioni registro per contratti PQ eccezione 12%/0€. CHECKLIST rigenerata AR-030. North Star focus ordine test PQ.",
   "_nota_metabolizzazione_20_07_2020": "Chat 20/7 ~20:19: Nicola «che cosa posso fare adesso con posthog?» — PostHog verde (L-416); AD catalogo uso Live+funnel+test, non setup. L-417 nuova; preferenza posthog-cosa-fare-adesso; STATO+LEZIONI-CHAT+data-engineer esito; nessuna azione/decisione nuova.",
   "_nota_metabolizzazione_20_07_2016": "Chat 20/7 ~20:16: Nicola «ok è diventato verde» — PostHog VPS+Pannello verde verificato live; caso chiuso L-415. L-416 nuova; L-411+L-415 evidenze++ addendum chiusura; preferenza posthog-ok-verde; STATO già 20:16; DECISIONI+LEZIONI-CHAT+registro-fatti+data-engineer+devops-sre+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_2011": "Chat 20/7 ~20:11: Nicola «ricontrollato su vercel ma non ancora non funziona» — AD stop checklist, PR #502 diagnosi quale env Vercel manca in Radiografia. L-415 nuova; L-414 evidenze++ addendum ricontrollato; preferenza posthog-ricontrollato-vercel; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+devops-sre+data-engineer esito.",
