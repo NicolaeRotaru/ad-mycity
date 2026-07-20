@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 02:35",
+  "aggiornato": "2026-07-20 02:46",
   "_nota_metabolizzazione_20_07_0235": "Chat 20/7 ~02:34: Nicola «webhook collegato» — verificato OK worker (n8n health ok); correzione loader: worker=ultima riga env, sensori manuali=prima. L-357 evidenze++ addendum collegato; preferenza n8n-webhook aggiornata; LEZIONI-CHAT fix duplicati; builder esito.",
   "_nota_metabolizzazione_20_07_0232": "Chat 20/7 ~02:32: Nicola «FAB e menu Worker non stessa finestra + lista conv overlay sopra chat» — PR #492 tre superfici. L-363 nuova (caso_studio_nicola); L-352 evidenze++ addendum superseded parziale; preferenza worker-tre-superfici; #208 SUPERSEDED, #209 FATTO; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0231": "Chat 20/7 ~02:31: Nicola «fammi rimergiare menu e risolvi conflitto #489» — PR #490 unificata (menu+layout). L-362 nuova; L-359 evidenze++ superseded; preferenza pr-unificata-conflitto; #207 SUPERSEDED, #208 nuova; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
@@ -8579,13 +8579,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 378,
+    "lezioni_attive": 380,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.2,
-    "tasso_calcolato_il": "2026-07-20 02:26",
+    "tasso_calcolato_il": "2026-07-20 02:46",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 02:26",
+    "tick_leggero_il": "2026-07-20 02:46",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

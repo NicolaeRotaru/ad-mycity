@@ -1,18 +1,10 @@
-## Cosa
-Separa i due modi di aprire il Worker e mette l'elenco conversazioni in un cassetto sopra la chat.
+## Summary
+- **Chat grande (menu Worker):** icona ☰ lista conversazioni accanto a **+ Nuova** nella barra in basso; tolte le icone ingrandisci/chiudi dall’alto.
+- **Popup fluttuante (bottone basso-destra):** ripristinata **barra alta** con menu conversazioni, ingrandisci e chiudi (estetica + chiusura chiara).
+- **Fix menu:** in chat grande il toggle elenco conversazioni era scollegato — ora `onConversazioni` apre/chiude il cassetto.
 
-## Perché
-Nicola (20/7): il bottone in basso a destra e la voce «Worker» nel menu **non** devono aprire la stessa finestra; la lista chat deve aprirsi/chiudersi **sopra** i messaggi, non come colonna fissa.
-
-## Cambiamenti
-- **Menu laterale «Worker»** → chat a schermo intero (`workerFull`)
-- **Bottone FAB in basso a destra** → finestra piccola flottante (popup)
-- **Icona ☰** → cassetto conversazioni overlay (mobile e desktop), chiuso di default
-- Deep-link / vista salvata `assistente` → fullscreen
-
-## Come provare
-1. Merge PR e attendi deploy Vercel (o build locale)
-2. Ctrl+F5 sul Pannello
-3. **FAB «Worker»** in basso → finestra piccola; **ingrandisci** → grande; **X** chiude
-4. **Voce «Worker»** nel menu sinistro → direttamente grande
-5. Dentro la chat: **☰** apre lista sopra i messaggi; tap fuori o scelta chat la chiude
+## Test plan
+1. Merge + deploy, poi **Ctrl+F5** sul Pannello.
+2. **Popup piccolo** (bottone basso-destra): barra alta visibile con ☰ · ingrandisci · chiudi; ☰ apre elenco conv sopra la chat.
+3. **Chat grande** (voce Worker nel menu): nessuna icona in alto a destra; in basso ☰ accanto a **+**; tap ☰ apre/chiude elenco conversazioni.
+4. Da popup, ingrandisci → passa a chat grande con menu solo in basso.
