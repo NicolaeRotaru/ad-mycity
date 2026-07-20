@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 17:54 · 🔴 · [operations/AD] · **Nicola: «elimina tutti i negozi tranne pane quotidiano»** (casella Supervisione). REST live: 17 negozi (16 demo seed + Pane Quotidiano), 253 prodotti demo + 5 PQ. AD **non esegue** — accoda **#elimina-negozi-demo** 🔴 con piano in `consegne/operations/2026-07-20-pulizia-negozi-demo.md`. Attende firma Nicola. · Nicola (chat 20/7 ~17:53)
+
 2026-07-20 17:50 · 🟢 · [intelligence/frontend-dev/AD] · **Nicola ha mergiato PR #496 e #497 — sveglia intelligence + allegati casella online.** Confermato GitHub API: **#496** `merged_at` 17:44:45 (commit `1cd606e0`) — agenda 9 fonti + workflow n.41 RSS bandi su main; **#497** mergiata 16:36 — path `@ALLEGATO` da chat casella. Con **#498** (16:36) tutte e 3 le PR del pomeriggio sono su main. Card Pannello può restare aperta (bug DB memoria) — non rifare merge. **Prossimo:** card **#accendi-intelligence-sveglia** (Telegram+n8n Active). L-398, L-397, L-390. · Nicola (chat 20/7 ~17:50 «controlla se mergiata»)
 
 2026-07-20 17:48 · 🟡 · [frontend-dev/AD] · **Bug Parla casella card — PGRST102 JSON invalido su POST /api/lavori.** Nicola segnala errore giallo sotto card «Parla con questa azione»: Supabase PGRST102 blocca scrittura lavoro; messaggio resta nel riquadro (non perso); chat principale funziona; AD non risponde finché payload non entra in coda. Fix codice Pannello 🟡 accodato **#fix-parla-casella-pgrst102**. L-399, collega L-398. · Nicola (chat 20/7 ~17:48)

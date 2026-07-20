@@ -16,6 +16,27 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🔴 #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ⏳ accodata 2026-07-20 17:54
+
+**Contesto:** Nicola dalla casella Supervisione (20/7 ~17:53): «elimina tutti i negozi tranne pane quotidiano». Oggi sul sito ci sono **17 negozi**: **1 reale** (Pane Quotidiano, approvato, 5 prodotti) + **16 seed/demo** (UUID `11111111…`, inclusa Casa Linda) con **253 prodotti finti** che intasano supervisione e catalogo.
+
+**Cosa faccio dopo il tuo ok (irreversibile):**
+1. Nascondo/elimino i **253 prodotti** dei 16 demo (tabella `products` — backup automatico prima di ogni riga)
+2. Anonimizzo e cancello i **16 account venditore demo** (admin marketplace — stessa pipeline di «Elimina utente»)
+3. **Pane Quotidiano resta intatto** (5 prodotti, vetrina, Stripe)
+
+**Negozi demo che spariscono:** Bellezza Naturale, Boutique Eleganza, Cartoleria Centrale, Casa Linda, Cucina Plus, Frutteto Verde, Giardino Bello, Libreria Romana, Outdoor Avventura, Profumeria Charme, Salumeria del Borgo, Smart Store, SportFit Piacenza, Stile Urbano, TechZone Piacenza, Verde Casa.
+
+**Dettaglio esecuzione:** `consegne/operations/2026-07-20-pulizia-negozi-demo.md`
+
+**Cosa cambia:** sul sito resta un solo negozio vero; la supervisione smette di segnalare 16 botteghe fantasma e 253 prodotti inutili.
+**Se va bene:** domani la casella Supervisione dice «1 negozio · 5 prodotti» e il catalogo pubblico mostra solo Pane Quotidiano.
+
+- **Colore:** 🔴 (cancellazione dati marketplace — irreversibile)
+- **Reparto:** operations / backend-dev
+
+---
+
 ### 🟡 #fix-parla-casella-pgrst102 — Fix invio chat da card «Parla con questa azione» (PGRST102 JSON invalido) · ⏳ accodata 2026-07-20 17:48
 
 **Contesto:** Nicola invia «controlla se l'ho già margiata» da **Parla con questa azione** su card #498 — avviso giallo: DB memoria rifiuta scrittura **PGRST102** («Empty or invalid json»). Messaggio **resta nel riquadro** (non perso). Chat principale funziona; solo percorso card bloccato.
