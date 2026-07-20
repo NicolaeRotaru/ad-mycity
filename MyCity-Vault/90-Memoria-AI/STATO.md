@@ -1,8 +1,10 @@
 ---
 tipo: stato
 aggiornato: 2026-07-20 18:00
-fonte: AD digitale (chat pulizia card merge obsolete)
+fonte: AD digitale (Report della sera)
 ---
+
+> 🌙 **20/7 18:00 — REPORT DELLA SERA.** Business INVARIATO: 1 PQ, **4 buyer** (REST 18:00), 0 ordini pagati, stallo **~634h** (~26,4 giorni). North Star 0, cassa 0€. Fatto oggi: sportello **PI26 aperto ore 10** (domanda non risulta inviata) · mattina **15 playbook** reparto · pomeriggio **maratona Pannello** (PR #496 intelligence ✅, #498 Diretta ✅, #497 allegati ✅; #499 Parla pronta su GitHub) · correzione pitch **10%+50€/mese** · accoda **pulizia 16 negozi demo** · coda ripulita (41 card). **Mancano:** domanda PI26 · ordine test PQ · post social · burn mensile. Dettaglio: [[RITMO]] 20/7 18:00.
 
 > 💬 **20/7 ~18:00 — CHAT: Pulizia card merge obsolete (L-402).** Nicola «**togli le card merge obsolete**» — AD **rimuove 6 card** «Mergia PR #…» da AZIONI-IN-ATTESA: **#499** (Parla casella), **#480**, **#464** (Arsenale), **#446**, **#443**, **#450**. PR restano su GitHub — mergia da lì quando vuoi, **niente card**. Coda: **41 aperte** (era 47). Fonte: chat Nicola 20/7 18:00.
 
@@ -907,17 +909,17 @@ fonte: AD digitale (chat pulizia card merge obsolete)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 20/7 11:00 · invariati dal 24/6)
-| Numero | Oggi (20/7 11:00) | Δ vs giro 06:20 | "Riuscito" | Note |
+## I 7 numeri (✅ REST 20/7 18:00 · invariati dal 24/6)
+| Numero | Oggi (20/7 18:00) | Δ vs ieri sera | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa · 16 altri seller non approvati |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 16 negozi demo seed in coda pulizia 🔴 `#elimina-negozi-demo` |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ ha Stripe collegato ma payout-test mai chiuso su ordine vero |
 | Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ stock>0 (catalogo totale 258 prodotti REST) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · CANCELED — 1° ordine reale va CREATO ex-novo |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~625h (~26 gg) ▲ +5h vs giro 06:20 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~634h (~26,4 gg) ▲ +26h vs report 19/7 18:00 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox da fare su ordine vero |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST live 11:00 · delta-gate invariato |
+| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST live 18:00 · sentinella-dati ordini=1 · delta-gate invariato |
 | **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)
@@ -1012,17 +1014,18 @@ fonte: AD digitale (chat pulizia card merge obsolete)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 20/7 06:00)
-**OGGI 20/7 ore 10:00 apre PI26 a sportello.** Business INVARIATO dal 24/6, North Star 0, stallo ~620h (~25,8 giorni). Cassa Stripe 0€.
+## Prossime priorità (🛰️ aggiornato 20/7 18:00)
+**Sportello PI26 aperto da stamattina — domanda non risulta inviata (scade 30/7).** Business INVARIATO dal 24/6, North Star 0, stallo ~634h (~26,4 giorni). Cassa Stripe 0€.
 
-1. [ ] 🔴 **Domanda PI26 OGGI ore 10:00** — a sportello, chi prima arriva (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
-2. [ ] 🔴 **restart.infocamere.it** — registrazione se non fatta ieri notte (prerequisito PI26).
-3. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1 (`#ordine-test-pq`).
-4. [ ] 🔴 **Post social** — recupero post domenica (`#post-domenica-settimana-1907`) o post pioggia 20/7 (`#post-meteo-pioggia-20lug`).
-5. [ ] 🟡 **Mergia PR #495** — skill marketing MyCity + riavvio worker.
-6. [ ] 🟡 **Burn mensile nel VPS** — sblocca runway (`#burn-mensile-env`).
+1. [ ] 🔴 **Invia domanda PI26** — sportello già aperto (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
+2. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1 (`#ordine-test-pq`).
+3. [ ] 🔴 **Pubblica almeno un post** — lunedì turno mattina (`#post-lunedi-turno-mattina-2007`) o recupero domenica/pioggia.
+4. [ ] 🔴 **Approva pulizia negozi demo** — tieni solo Pane Quotidiano (`#elimina-negozi-demo`).
+5. [ ] 🟡 **Mergia PR #499 su GitHub** — fix casella Parla (errore JSON giallo; niente card in coda per regola L-402).
+6. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice #496 già su main).
+7. [ ] 🟡 **Burn mensile nel VPS** — sblocca runway (`#burn-mensile-env`).
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali) · `cassa_sconosciuta` (~175 giri, manca BURN_MENSILE_EUR) · Telegram assente (59 avvisi bloccati) · PostHog spento (scelta 5/7) · n8n ✅ (webhook ok da stanotte).
+**Sentinelle attive:** loop business 🔴 (0 ordini reali) · `cassa_sconosciuta` (175 giri, manca BURN_MENSILE_EUR) · Telegram assente · PostHog spento (scelta 5/7) · n8n ✅ · REST/Stripe/Resend/Sito/Pannello ✅ (18:00).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*

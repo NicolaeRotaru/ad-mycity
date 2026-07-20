@@ -546,3 +546,28 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 - Business invariato: 1 PQ · 4 clienti · 0 ordini pagati · stallo ~620h (~26 giorni) · sensori REST ok 06:00 · n8n e webhook ok · bozza PI26 in consegne/relazioni-istituzionali/
+
+## Report della sera · 2026-07-20 18:00
+
+**Com'è andata oggi**
+- Alle 10 è partito lo sportello PI26 — la domanda sul portale CCIAA non risulta ancora inviata
+- Giornata intensa sul Pannello: intelligence automatica, Diretta contenuti stabile, fix casella Parla pronto al merge
+- Zero ordini e zero post pubblicati — l'azienda resta ferma dal 24 giugno
+
+**I numeri**
+- 1 negozio · 4 clienti iscritti · 0 ordini pagati · stallo 634 ore (~26 giorni) — invariati rispetto a ieri
+
+**Da approvare**
+- Invia la domanda PI26 su restart.infocamere.it — scade il 30 luglio
+- Fai un ordine di prova su Pane Quotidiano per portare la North Star da 0 a 1
+- Tieni solo il fornaio vero ed elimina i 16 negozi demo dal sito
+- Mergia su GitHub la PR del fix casella Parla (niente card in coda)
+
+**Lezione di oggi**
+- Una giornata piena di fix al Pannello non muove la North Star: oggi contavano PI26 alle 10 e l'ordine test, non un'altra PR
+
+**Domani**
+- Prima cosa: chiudi la domanda PI26 se manca, poi ordine test al fornaio
+
+**Dettagli tecnici**
+- REST 18:00 ok · delta-gate invariato · PR #496 #498 #497 mergiate · PR #499 in coda · 15 playbook in consegne/ · sensori n8n ok · MCP Supabase cieco (REST copre)

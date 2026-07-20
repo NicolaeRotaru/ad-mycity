@@ -1203,3 +1203,8 @@ Assegnazioni reparto (1 mossa ciascuno):
 ### 2026-07-20 11:36 — PLAYBOOK Referral
 - 2026-07-20 11:36 · @crm-lifecycle · FATTO · PLAYBOOK Referral: verificato loop **già in codice** (mig.015/029/089/092, `/profile/referral` live). Refresh 20/7 in `consegne/crm/2026-07-20-playbook-referral-refresh.md` — messaggi WhatsApp/email pronti, anti-frode base ok, proposte scala 🟡. [[AZIONI-PRONTE]] **A17** aggiornato · card **#referral-porta-un-amico** 🔴 in coda. **Zero invii** — gate G1 ❌ (0 ordini consegnati, STATO 11:00).
 - 2026-07-20 11:36 · @crm-lifecycle · PASSO-A · @Nicola — referral **non aspetta codice**, aspetta **ordine test PQ consegnato** + A13 👍. Poi firma **#referral-porta-un-amico** (€5+5€, cap 250€/mese). vs Glovo: loro 16€ referral + sconti catena; noi CAC ≈€5 solo a ordine consegnato.
+
+### 2026-07-20 18:00 — 🌙 REPORT DELLA SERA
+- 2026-07-20 18:00 · @AD · FATTO · Report della sera completato. RITMO.md (blocco «Report della sera · 2026-07-20 18:00»), STATO.md 7 numeri REST 18:00 aggiornati. Business INVARIATO: 1 PQ, 4 buyer, 0 pagati, stallo ~634h (~26,4 gg). Sensori REST/Stripe/Resend/Sito/Pannello/n8n ✅ · MCP Supabase cieco (REST copre).
+- 2026-07-20 18:00 · @AD · FATTO · Fatto oggi (sintesi): sportello PI26 aperto 10:00 (domanda non inviata) · 15 playbook mattina · pomeriggio PR #496/#498/#497 mergiate · #499 Parla casella pronta · pitch 10%+50€/m · accoda `#elimina-negozi-demo` (16 demo).
+- 2026-07-20 18:00 · @AD · SERVE · @Nicola: ① 🔴 **domanda PI26** (`#bandi-cciaa-2007`) ② 🟡 **ordine test PQ** ③ 🔴 **post social** ④ 🔴 **ok elimina negozi demo** ⑤ 🟡 **mergia #499** Parla casella.
