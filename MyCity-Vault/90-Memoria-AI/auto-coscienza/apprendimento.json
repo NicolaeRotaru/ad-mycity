@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 18:41",
+  "aggiornato": "2026-07-20 18:42",
+  "_nota_metabolizzazione_20_07_1842": "Metabolizzazione completata chat 20/7 ~18:41: preferenza posthog-ho-fatto-tutto aggiunta; L-404 addendum 401 evidenze 3. Resto già presente (L-409, STATO, LEZIONI-CHAT, quaderni).",
   "_nota_metabolizzazione_20_07_1841": "Chat 20/7 ~18:41: Nicola «ho fatto tutto ma posthog non collegato» — AD verifica live: env ok (phx_, EU) ma HTTP 401 chiave invalida; sensore cieco non assente. L-409 nuova; L-404 evidenze++ addendum 401; preferenza posthog-ho-fatto-tutto; STATO+LEZIONI-CHAT+data-engineer+devops-sre esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_20_07_1834": "Chat 20/7 ~18:32: Nicola «ricominciamo da capo, controlla tutte le caselle» — AD audit tabella AR-105: 2/3 sensori ok, Telegram pendente, invariato vs 18:25. L-405 evidenze++ addendum tabella; preferenza verifica-fix aggiornata; STATO+LEZIONI-CHAT+devops-sre esito; nessuna azione/decisione nuova.",
   "_nota_metabolizzazione_20_07_1832": "Chat 20/7 ~18:31: Nicola «elimina i 245 prodotti finti» — erano nascosti (draft) dal passo 18:30; AD DELETE 253 righe DB, REST 1 negozio 5 prod. L-408 nuova (caso_studio_nicola); L-401+L-407 evidenze++ addendum hard delete; preferenza elimina-prodotti-finti-db; STATO+LEZIONI-CHAT+operations; DECISIONI+AZIONI già 18:32.",
@@ -243,7 +244,7 @@
     },
     {
       "id": "L-2026-0720-404",
-      "testo": "**PostHog sul VPS — non si installa: cloud EU + chiave lettura `phx_` in env worker (Nicola 20/7 ~18:24).** Nicola: «**come faccio ad inserire posthog dentro il vps?**». 5 perché: (1) PostHog **non va installato** sul VPS — è **SaaS cloud** (EU/US); sul sito gli eventi partono già da Render con chiave pubblica; (2) sul VPS serve solo **leggere** funnel/conversioni per briefing — Personal API Key **`phx_…`** con permesso **Project: Read**, **non** la chiave progetto **`phc_…`** (solo tracking/scrittura); (3) **5/7** sensore spento (`POSTHOG_OFF` / chiave sbagliata) — oggi `posthog_api:non_configurato` è **normale**, non bug; (4) setup: env `cervello/vps/.env` → `POSTHOG_OFF=0`, `POSTHOG_API_KEY=phx_…`, `POSTHOG_HOST` (EU o US) → restart `mycity-worker` → `verifica-sensori.mjs` = **ok**; (5) **riaccensione sensore nei briefing** = decisione Nicola esplicita (non automatica al solo env). Regola: su «PostHog nel VPS» → **mai** proporre Docker/self-host; spiega cloud + tipo chiave + verifica sensore; **non** incollare chiavi in chat/memoria. Vedi L-222 (PostHog spento = scelta), DECISIONI 5/7. **Addendum 18:28:** Nicola «**dico di metterlo sul vps come n8n**» — stesso frame mentale L-406: n8n = **programma Docker** sul VPS; PostHog = **servizio cloud** + **3 righe env** nello stesso file di n8n/Telegram; self-host PostHog **scartato** (RAM/manutenzione + cambiare tracking Render).",
+      "testo": "**PostHog sul VPS — non si installa: cloud EU + chiave lettura `phx_` in env worker (Nicola 20/7 ~18:24).** Nicola: «**come faccio ad inserire posthog dentro il vps?**». 5 perché: (1) PostHog **non va installato** sul VPS — è **SaaS cloud** (EU/US); sul sito gli eventi partono già da Render con chiave pubblica; (2) sul VPS serve solo **leggere** funnel/conversioni per briefing — Personal API Key **`phx_…`** con permesso **Project: Read**, **non** la chiave progetto **`phc_…`** (solo tracking/scrittura); (3) **5/7** sensore spento (`POSTHOG_OFF` / chiave sbagliata) — oggi `posthog_api:non_configurato` è **normale**, non bug; (4) setup: env `cervello/vps/.env` → `POSTHOG_OFF=0`, `POSTHOG_API_KEY=phx_…`, `POSTHOG_HOST` (EU o US) → restart `mycity-worker` → `verifica-sensori.mjs` = **ok**; (5) **riaccensione sensore nei briefing** = decisione Nicola esplicita (non automatica al solo env). Regola: su «PostHog nel VPS» → **mai** proporre Docker/self-host; spiega cloud + tipo chiave + verifica sensore; **non** incollare chiavi in chat/memoria. Vedi L-222 (PostHog spento = scelta), DECISIONI 5/7. **Addendum 18:28:** Nicola «**dico di metterlo sul vps come n8n**» — stesso frame mentale L-406: n8n = **programma Docker** sul VPS; PostHog = **servizio cloud** + **3 righe env** nello stesso file di n8n/Telegram; self-host PostHog **scartato** (RAM/manutenzione + cambiare tracking Render). **Addendum 18:41:** Nicola «**ho fatto tutto**» ma sensori no — env **letto** (`phx_`, EU) ma PostHog **HTTP 401** chiave invalida → **`cieco`**, non `non_configurato`; **non** ripetere passi env — rigenerare `phx_` su account/host corretto. Vedi L-409.",
       "tag": [
         "posthog",
         "vps",
@@ -255,11 +256,11 @@
       ],
       "reparto": "@data-engineer",
       "confidenza": 0.94,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 18:28",
+      "ultima_conferma": "2026-07-20 18:41",
       "stato": "attiva",
       "usi": []
     },
@@ -9320,6 +9321,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**PostHog «ho fatto tutto» — env ok ma sensori no = verifica 401 chiave, non ripetere setup env (chat 20/7 ~18:41):** dopo passi env chiede perché sensori/Pannello dicono ancora «non collegato» — si aspetta AD **verifichi runtime** (`verifica-sensori.mjs`), distingua env assente vs **HTTP 401** chiave invalida (stato **`cieco`**, non «mancante»), fix = rigenerare Personal API Key su account/host EU corretto; scrive «posthog ok» per ricontrollo. Vedi L-409, L-404.",
     "**Elimina prodotti finti — «elimina i 245 prodotti finti» = DELETE dal DB, non basta nascosti (chat 20/7 ~18:31):** dopo pulizia negozi demo (18:30) chiede eliminazione esplicita dei prod demo — si aspetta **cancellazione fisica irreversibile** dal database, non solo draft/nascosto; 253 righe eliminate, restano **5 prodotti PQ**; nella stessa sessione pulizia **esegui subito** al follow-up senza ri-chiedere ok. Vedi L-408, L-407.",
     "**Approva in chat — «te lo approvo in chat» = firma 🔴 valida, esegui subito (chat 20/7 ~18:28):** su azione 🔴 già accodata con piano completo (#elimina-negozi-demo) approva con frase esplicita in chat — **non** rimandare solo al Pannello; si aspetta **esecuzione immediata**, card FATTO, numeri REST verificati (1 negozio · 5 prodotti), PQ intatto confermato. Vedi L-407, DECISIONI 20/7 18:30.",
     "**Pulizia catalogo demo — «elimina tutti tranne pane quotidiano» = accoda 🔴 poi esegui al ok (chat 20/7 ~17:54, ✅ 18:30–18:32):** da casella Supervisione chiede rimuovere **16 negozi demo** lasciando solo **Pane Quotidiano** — numeri verificati, elenco negozi, card **#elimina-negozi-demo**; ok in chat («te lo approvo») → **eseguito**: **1 negozio · 5 prodotti** live, **253 prod demo eliminati dal DB** (non solo nascosti). Vedi L-401, L-407, L-408.",
