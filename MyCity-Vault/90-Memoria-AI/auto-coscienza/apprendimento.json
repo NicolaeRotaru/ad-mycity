@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 14:37",
+  "aggiornato": "2026-07-20 14:45",
+  "_nota_metabolizzazione_20_07_1445": "Chat 20/7 ~14:45: Nicola «Perché non riesci a leggere l'allegato?» — root cause buildRichiestaCasella scarta bloccoAllegati. L-396 nuova (caso_studio_nicola); L-395 evidenze++; preferenza allegati-casella-pipeline; STATO+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1300": "Chat 20/7 ~13:00: Nicola follow-up casella bollino — solo allegato screenshot, no testo; AD cieco. L-395 nuova; L-393 evidenze++ addendum follow-up pre-merge; preferenza allegato-solo-follow-up; STATO+LEZIONI-CHAT+trust-safety esito.",
   "_nota_metabolizzazione_20_07_1259": "Chat 20/7 ~12:59: Nicola «caselle Diretta spariscono al refresh — analisi profonda» — root cause GitHub non DB, MAX_LETTURE 30, timeout parziale. L-394 nuova; preferenza diretta-analisi-radice; STATO+LEZIONI-CHAT+frontend-dev esito; fix 🟡 proposto PR pendente ok Nicola.",
   "_nota_metabolizzazione_20_07_1252": "Chat 20/7 ~12:52: Nicola «Risolvi bug critico bollino» — fix PR #218 isVerifiedStore. L-393 nuova; preferenza risolvi-bug-critico; STATO+DECISIONI+#51+#213+LEZIONI-CHAT+trust-safety esito.",
@@ -115,8 +116,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-396",
+      "testo": "**Allegati chat casella — percorso file non arriva al worker, AD cieco (chat 20/7 ~14:45).** Nicola «**Perché non riesci a leggere l'allegato?**» dopo screenshot bollino. 5 perché: (1) AD **può** leggere foto **se** ha percorso file — non dire «non posso leggere immagini» in assoluto; (2) **bug pipeline casella:** upload Vercel/Storage ok (#60) ma `buildRichiestaCasella()` in `page.tsx` **scarta** `bloccoAllegati` già caricato — messaggio al worker ha solo nome file, **non** path; (3) `worker.sh` `prepara_allegati_chat` gira **solo** con righe `@ALLEGATO` — senza path non scarica sul VPS; (4) box piccolo «Parla con questa casella» **non ha** pulsante allegati — solo chat principale/Lavori; (5) fix 🟡 = includere bloccoAllegati in richiesta casella. Regola: «perché non leggi?» → spiega **buco pipeline** (non incapacità generica) + chiedi testo descrittivo intanto + proponi fix PR. Vedi L-395, L-117.",
+      "tag": [
+        "pannello",
+        "chat",
+        "allegati",
+        "casella",
+        "bug"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 14:45",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-395",
-      "testo": "**Follow-up casella — allegato solo screenshot: AD cieco, triage stati noti + chiedi keyword (chat 20/7 ~13:00).** Dopo fix bollino PR #218 (~12:52), Nicola risponde con **solo allegato** (nessun testo) su casella trust-safety. 5 perché: (1) worker/chat **non sempre vede** l'immagine allegata — non inventare diagnosi dal contesto; (2) pattern ricorrente Nicola: screenshot = prova visiva, spesso **senza parole** (L-330, L-325); (3) su fix marketplace **pending merge**, triage **senza vedere** l'immagine: badge su tutti sul **sito live** = **normale** finché PR #218 non mergiata (#213 🔴); card «Da approvare» = percorso corretto; post-merge Render deploy ~minuti; (4) **0 badge post-fix** = comportamento atteso (PQ manca payout ON) — non promettere badge finché Stripe attivo; (5) chiedi **una riga** o keyword «sito» / «card approva» / «errore» prima di fix aggiuntivi. Regola: allegato-only su casella con fix in coda → **non indovinare**; spiega stati merge/deploy + chiedi descrizione; WhatsApp/post «primo verificato» resta bloccato fino payout ON + prima consegna. Vedi L-393, #213.",
+      "testo": "**Follow-up casella — allegato solo screenshot: AD cieco, triage stati noti + chiedi keyword (chat 20/7 ~13:00).** Dopo fix bollino PR #218 (~12:52), Nicola risponde con **solo allegato** (nessun testo) su casella trust-safety. 5 perché: (1) worker/chat **non vede** l'immagine — **root cause L-396:** `buildRichiestaCasella()` scarta `bloccoAllegati`, worker senza `@ALLEGATO`; non inventare diagnosi dal contesto; (2) pattern ricorrente Nicola: screenshot = prova visiva, spesso **senza parole** (L-330, L-325); (3) su fix marketplace **pending merge**, triage **senza vedere** l'immagine: badge su tutti sul **sito live** = **normale** finché PR #218 non mergiata (#213 🔴); card «Da approvare» = percorso corretto; post-merge Render deploy ~minuti; (4) **0 badge post-fix** = comportamento atteso (PQ manca payout ON) — non promettere badge finché Stripe attivo; (5) chiedi **una riga** o keyword «sito» / «card approva» / «errore» prima di fix aggiuntivi. Regola: allegato-only su casella con fix in coda → **non indovinare**; spiega stati merge/deploy + chiedi descrizione; WhatsApp/post «primo verificato» resta bloccato fino payout ON + prima consegna. Vedi L-396, L-393, #213.",
       "tag": [
         "trust-safety",
         "chat",
@@ -125,12 +146,12 @@
         "marketplace"
       ],
       "reparto": "@trust-safety",
-      "confidenza": 0.88,
-      "evidenze": 1,
+      "confidenza": 0.9,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 13:00",
+      "ultima_conferma": "2026-07-20 14:45",
       "stato": "attiva",
       "usi": []
     },
@@ -9004,6 +9025,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Allegati casella — si aspetta che l'AD legga screenshot; se cieco spiega PERCHÉ (bug pipeline), non «non posso» (chat 20/7 ~14:45):** dopo screenshot bollino chiede «perché non leggi l'allegato» — upload funziona ma path non passa al worker (`buildRichiestaCasella` scarta `bloccoAllegati`); vuole **spiegazione tecnica onesta** + workaround (descrivere in testo) + fix 🟡 PR; non accetta risposta generica «non posso leggere foto». Vedi L-396, L-395.",
     "**Follow-up casella — allegato solo screenshot dopo fix consegnato (chat 20/7 ~13:00):** su casella bollino manda **solo screenshot** senza testo — si aspetta che l'AD **capisca dal visivo** cosa vede (sito, card approva, errore); se AD cieco, chiede descrizione ma intanto vuole **triage chiaro**: fix marketplace **non online** fino merge **#213**; badge su tutti pre-merge = normale; post-merge aspetta deploy Render. Vedi L-395, L-393.",
     "**Diretta contenuti — «analisi completa e profonda» su caselle che spariscono (chat 20/7 ~12:59):** segnala flicker/sparizioni al refresh — si aspetta **causa radice verificata in codice** (file GitHub non DB, cap 30, timeout parziale ~70 call, replace-all UI), non «riprova refresh» né ipotesi database; fix strutturale 🟡 (cache, paginazione, non svuotare su errore parziale) — PR solo dopo ok Nicola. Vedi L-394.",
     "**Bug critico bollino — «Risolvi il bug critico del bollino» = fix codice marketplace subito, merge 🔴 (chat 20/7 ~12:52):** su casella trust-safety chiede **azione tecnica immediata**, non solo playbook/standard — si aspetta PR con gate reale (`isVerifiedStore`: approvato + Stripe charges + payouts); **0 badge oggi** = comportamento corretto finché nessun payout ON; chiude merge **#213**; standard 5 pilastri resta per badge completo futuro. Vedi L-393, #51, DECISIONI 20/7 12:52.",

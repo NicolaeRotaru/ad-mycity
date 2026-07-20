@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 13:00
+aggiornato: 2026-07-20 14:45
 fonte: AD digitale (chat Pannello trust-safety bollino)
 ---
+
+> 💬 **20/7 ~14:45 — CHAT: Allegati casella — causa radice pipeline, non incapacità AD (L-396).** Nicola «**Perché non riesci a leggere l'allegato?**» — AD **può** leggere foto se ha percorso file; **bug pipeline casella:** `buildRichiestaCasella()` in `page.tsx` **scarta** `bloccoAllegati` già caricato → messaggio worker senza path → `prepara_allegati_chat` non scarica sul VPS; upload Vercel/Storage ok (#60); box «Parla con questa casella» **senza** pulsante allegati. Fix 🟡 PR pendente. Fonte: chat Nicola 20/7 14:45.
 
 > 💬 **20/7 ~13:00 — CHAT: Bollino — follow-up allegato senza testo, fix non ancora online (L-395).** Nicola risponde alla casella trust-safety con **solo screenshot** (nessun testo) — AD **non vede** l'allegato dal worker. Chiarimento: fix **PR #218** mycity **non è sul sito live** finché Nicola non approva merge 🔴 **#213**; badge su tutti i negozi **oggi = normale** pre-deploy; dopo merge Render deploy automatico (~minuti); **0 badge post-fix** = corretto (PQ manca payout ON); comunicazione WhatsApp/post «primo verificato» **ancora bloccata**. Fonte: chat Nicola 20/7 13:00.
 
