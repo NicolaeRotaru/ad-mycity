@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-20 12:39",
+  "aggiornato": "2026-07-20 18:46",
   "fatti": [
     {
       "id": "bando.commercio-er.scadenza",
@@ -283,6 +283,21 @@
       "esenzioni": [
         "MyCity-Vault/90-Memoria-AI/Report/"
       ]
+    },
+    {
+      "id": "sensori.posthog.regione",
+      "nome": "sensori.posthog.regione",
+      "valore": "Account US — POSTHOG_HOST=https://us.posthog.com sul VPS worker; sensore posthog_api ok (verifica-sensori 20/7 18:44)",
+      "fonte": "Nicola chat 20/7 18:44 + verifica-sensori.mjs",
+      "aggiornato": "2026-07-20 18:46",
+      "storia": [],
+      "caccia": [
+        {
+          "pattern": "host europeo",
+          "dal": "2026-07-20 18:46"
+        }
+      ],
+      "esenzioni": []
     },
     {
       "id": "strategia.cliente-core",

@@ -1,8 +1,8 @@
 {
-  "data": "2026-07-20 18:46",
+  "data": "2026-07-20 18:47",
   "esito": "incoerenze",
-  "fatti_totali": 15,
-  "cacce_aperte": 7,
+  "fatti_totali": 16,
+  "cacce_aperte": 8,
   "file_scansionati": 1377,
   "incoerenze": [
     {
@@ -432,6 +432,12 @@
       "pattern": "12% solo sul venduto",
       "dal": "2026-07-20 12:39",
       "copie_trovate": 5
+    },
+    {
+      "fatto": "sensori.posthog.regione",
+      "pattern": "host europeo",
+      "dal": "2026-07-20 18:46",
+      "copie_trovate": 0
     }
   ],
   "esenzioni_default": [

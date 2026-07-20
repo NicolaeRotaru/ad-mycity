@@ -7,7 +7,8 @@ reparto: data-engineer
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
-- 2026-07-20 18:41 · PostHog «ho fatto tutto» — Nicola env ok ma sensori no · atteso: verifica live, non ripetere passi · reale: env letto (`phx_`, EU) ma API **401** chiave invalida → `posthog_api: cieco`; fix = rigenerare Personal API Key · L-409 · #posthog #401 #sensori #esito
+- 2026-07-20 18:44 · PostHog US host fix — Nicola «si è us.posthog» · atteso: chiudere 401 senza rigenerare chiave · reale: host EU→US in env VPS + restart → `posthog_api: ok`; chiave `phx_` era valida; allineare Render se serve · L-410 · #posthog #us #sensori #esito
+- 2026-07-20 18:41 · PostHog «ho fatto tutto» — Nicola env ok ma sensori no · atteso: verifica live, non ripetere passi · reale: env letto (`phx_`, host europeo) ma API **401** → `posthog_api: cieco`; causa vera = account US (L-410) · L-409 · #posthog #401 #sensori #esito
 - 2026-07-20 18:28 · PostHog VPS follow-up — Nicola «metterlo sul vps come n8n» · atteso: disambigua Docker vs env · reale: stesso pattern L-406 — cloud + 3 righe env worker, self-host scartato; pendente chiave `phx_` · L-404 evidenze++ · #posthog #n8n #vps #esito
 - 2026-07-20 18:24 · PostHog VPS — Nicola «come inserisco posthog nel vps?» · atteso: chiarimento architettura + passi env · reale: non self-host — cloud EU; VPS chiave lettura `phx_` (non `phc_`); sensore non_configurato dal 5/7; verifica `verifica-sensori.mjs`; pendente Nicola incolla chiave · L-404 · #posthog #sensori #vps #esito
 - 2026-07-19 14:20 · metabolizzazione chat allowlist MCP Supabase · atteso: lezione L-285 + aggiornamento coda #abilita-mcp-supabase-chat · reale: STATO/DECISIONI/AZIONI/LEZIONI-CHAT/apprendimento aggiornati; Nicola chiede righe esatte, pendente incolla VPS · L-285 · #mcp #allowlist
