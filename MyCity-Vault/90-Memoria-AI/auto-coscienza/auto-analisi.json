@@ -1,47 +1,48 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-20 06:20",
-  "voto_fiducia": 90,
-  "sintesi": "Giro 20/7 06:20: REST live (4 buyer, 0 pagati), numeri invariati, vincolo north-star rispettato. PI26 oggi 10:00. Post domenica scaduto non eseguito. Coerenza-fatti ok.",
-  "trend_fiducia": "▼ 90 vs 91 (14:48) — post domenica mancato segnalato; nessun errore numerico",
+  "data": "2026-07-20 11:00",
+  "voto_fiducia": 91,
+  "sintesi": "Giro 20/7 11:00: REST live invariato (4 buyer, 0 pagati), PI26 sportello aperto da 10:00. Loop @operations chiuso. North-star focus rispettato. Coerenza-fatti ok.",
+  "trend_fiducia": "▲ 91 vs 90 (06:20) — aggiornamento ora PI26 + loop chiuso",
   "errori_giro": [],
   "domande_bloccanti": [
     {
-      "tipo": "PI26_oggi",
-      "domanda": "PI26 apre OGGI 20/7 ore 10:00 a sportello. Domanda su restart.infocamere.it.",
+      "tipo": "PI26_sportello_aperto",
+      "domanda": "PI26 a sportello dal 20/7 ore 10:00. Domanda inviata su restart.infocamere.it?",
       "azione": "card 🔴 #bandi-cciaa-2007 in AZIONI-IN-ATTESA",
       "colore": "🔴"
     },
     {
       "tipo": "north_star",
-      "domanda": "North Star 0 da ~620h. Ordine test PQ = unica mossa diretta verso 1° ordine pagato.",
+      "domanda": "North Star 0 da ~625h. Ordine test PQ = unica mossa diretta verso 1° ordine pagato.",
       "azione": "card 🟡 #ordine-test-pq in AZIONI-IN-ATTESA",
       "colore": "🟡"
     },
     {
       "tipo": "post_recupero",
-      "domanda": "Post domenica deadline 19/7 21:00 non eseguito — recupero oggi.",
+      "domanda": "Post domenica deadline 19/7 21:00 non eseguito — recupero oggi pomeriggio.",
       "azione": "card 🔴 #post-domenica-settimana-1907 o #post-meteo-pioggia-20lug",
       "colore": "🔴"
     }
   ],
   "entita_verificate": [
-    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "REST profiles is_approved + registro-realtà"},
+    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "REST profiles approved + registro-realtà"},
     {"nome": "13 prospect botteghe onda-2", "stato": "scelta_ragionata", "fonte": "registro-realtà.json"},
     {"nome": "4 buyer", "stato": "confermato", "fonte": "REST role=buyer count 4"},
-    {"nome": "PI26 CCIAA", "stato": "confermato", "fonte": "registro-fatti + card coda #bandi-cciaa-2007"}
+    {"nome": "PI26 CCIAA", "stato": "confermato", "fonte": "registro-fatti + ART-ER/Baldi Finance web 11:00"}
   ],
-  "benchmark": "Cold-start: 1 negozio + 1 ordine reale prima di scalare. Giorno PI26 non va sprecato in lavoro macchina.",
+  "benchmark": "Cold-start: PI26 + ordine test oggi prima di qualsiasi lavoro macchina. Giorno istituzionale non va sprecato.",
   "salute_macchina": {
     "sensori_ok": 7,
     "max_giri_ciechi": 7,
     "automazione": "warn (GitHub 503 su segnale pr)",
     "coerenza_fatti": "ok",
+    "chiusura_loop": "ok (gate exit 0)",
     "registro_scelte": "ok"
   },
   "verifiche": {
     "L1": "pass",
     "benchmark": "ok",
-    "note": "AR-111 rispettato: zero PR/tech accodati. Checklist mattina 🟢 prodotta."
+    "note": "AR-111 rispettato: zero PR/tech accodati. ESITO @operations registrato."
   }
 }

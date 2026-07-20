@@ -173,10 +173,10 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 #vendite #acquisizione #negozi #piano #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-20 06:20
+## 🤖 Aggiornamento dell'AD — 2026-07-20 11:00
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **North Star 0 — stallo ~620h:** ordine test PQ (🟡) + PI26 oggi 10:00 (🔴) = leve del giorno.
-- **PI26 OGGI a sportello** — WhatsApp anchor botteghe dopo chiusura domanda.
+- **North Star 0 — stallo ~625h:** ordine test PQ (🟡) + **PI26 invio ORA** (🔴) = leve del giorno.
+- **PI26 sportello aperto** — WhatsApp anchor botteghe dopo chiusura domanda.
 - **13 botteghe onda-2** — giro settimana 21-25/7 quando bici pronta (6 ristoranti esclusi).
 - **Meteo 21/7 pioggia** → push clienti (gate: ordine test fatto).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

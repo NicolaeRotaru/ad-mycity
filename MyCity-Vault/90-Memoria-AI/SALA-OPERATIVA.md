@@ -1149,3 +1149,13 @@ Assegnazioni reparto (1 mossa ciascuno):
 
 ### 2026-07-20 08:30 — Monitoraggio web (Ondata 3)
 - 2026-07-20 08:30 · @intelligence · FATTO · monitoraggio web: 7 fonti giornaliere (Libertà×2, IlPiacenza, PiacenzaSera, Comune×2, 3BMeteo) · settimanali saltate (<7gg) · novità: PI26 sportello aperto oggi 10:00, cornicione Corso V.E. 226–234 (19/7), Confcommercio −22,1% retail · aggiornati eventi-picchi, buchi-mercato, leve-uscita
+
+### 2026-07-20 11:00 — 🔭 Giro pieno (AR-111 North Star)
+- 2026-07-20 11:00 · @AD · FATTO · Giro pieno 11:00: briefing aggiornato, ultimo-briefing.json, STATO 7 numeri REST, auto-analisi 91/100. Business invariato: 1 PQ, 4 buyer, 0 pagati, stallo ~625h. PI26 a sportello da 10:00. Loop @operations chiuso ✅.
+- 2026-07-20 11:00 · @operations · FATTO · ESITO loop checklist mattina North Star registrato — atteso ordine test entro pranzo
+- 2026-07-20 11:00 · @AD · SERVE · @Nicola: ① 🔴 **PI26 — invia domanda ORA** (sportello aperto) ② 🟡 **ordine test PQ** ③ 🔴 **recupero post social pomeriggio**
+
+### 2026-07-20 11:05 — Playbook SEO locale (refresh PQ)
+- 2026-07-20 11:05 · @seo · FATTO · Playbook SEO locale refresh: 5 keyword ad alto intento (kefir sostituisce senza glutine — 0 SKU), testi title/meta/H1/schema/GBP pronti, `store_description` allineata al catalogo live (5 prodotti REST). Deliverable: `consegne/seo/2026-07-20-playbook-seo-locale.md`. [[AZIONI-PRONTE]] A21 aggiornato + A31 categoria Alimentari.
+- 2026-07-20 11:05 · @seo · PASSO-A · @tech — esegui A21 (`marketplace.mjs aggiorna` vetrina PQ 🟡, già approvato 6/7) poi A22 branch schema.org
+- 2026-07-20 11:05 · @seo · SERVE · @Nicola: conferma orari PQ + linea senza glutine fisica (solo GBP, non MyCity finché manca SKU)

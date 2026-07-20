@@ -1,6 +1,6 @@
 # 📅 Eventi & Picchi di Domanda — 2026-07-20
 
-> Aggiornato: 20 luglio 2026 08:30 · @intelligence · fonti: 3BMeteo, IlPiacenza, comune.piacenza.it, Unione Commercianti (monitora.md)
+> Aggiornato: 20 luglio 2026 11:00 · @intelligence · fonti: Exa/3BMeteo, ART-ER PI26, comune.piacenza.it, Unione Commercianti (monitora.md)
 
 ---
 
@@ -8,7 +8,7 @@
 
 | Data | Condizione | T max | Impatto delivery |
 |------|-----------|-------|-----------------|
-| **Lun 20/7 (OGGI)** | Parz nuvoloso → sereno, **allerta calore/afa** | **32°C** | Freschi PQ = mattina · **PI26 ore 10:00** |
+| **Lun 20/7 (OGGI)** | Parz nuvoloso, **24°C ora / max ~31°C** | **31°C** | Freschi PQ = mattina · **PI26 sportello APERTO dal 10:00** |
 | **Mar 21/7** | Pioggia debole probabile | 31°C | **Picco delivery indoor** — push clienti |
 | Mer 22/7 | Nuvoloso | 31°C | Normale |
 | Gio-Ven 23-24/7 | Sereno | 33°C / 31°C | Baseline |

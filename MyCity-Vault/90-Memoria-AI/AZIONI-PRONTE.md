@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-19 13:05
+aggiornato: 2026-07-20 11:05
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -326,28 +326,32 @@ gate di lancio: (1) parere @legale-privacy + @contabilita su IVA/termini · (2) 
 dettaglio: consegne/growth/2026-07-06-playbook-fedelta-di-rete.md (Parte B). Coda canonica = riga #29 in [[AZIONI-IN-ATTESA]].
 stato: ⏸ ARMATO — nessuna vendita finché Stripe write e parere fiscale non ci sono.
 
-## A21 · 🔎 SEO locale — riempi i campi vetrina di Pane Quotidiano (la leva n.1, reversibile)
+## A21 · 🔎 SEO locale — allinea la vetrina di Pane Quotidiano al catalogo reale (refresh 20/7)
 reparto: seo → tech (esecuzione config)
 livello: 🟡 (config sul marketplace, backup per riga → reversibile)
-canale: corsia CONFIG `node cervello/marketplace.mjs aggiorna profiles <id-PQ> '<json>'` (mai deploy, mai DB clienti)
-perche: Ho letto il codice del sito (`app/store/[id]/layout.tsx` + `page.tsx`): titolo, meta-descrizione, Open Graph e lo schema.org `Store` sono TUTTI derivati dai campi vetrina nel DB (`store_name`, `store_description`, `store_address`). Due scoperte verificate: (a) il titolo aggiunge "**a Piacenza**" SOLO se `store_address` è pieno (riga 46 del layout) → local intent gratis; (b) se `store_description` è vuota esce una descrizione generica → oggi PQ non intercetta nessuna keyword. Riempire questi campi migliora in un colpo solo meta-title, meta-description, OG **e** lo schema.org — senza toccare codice.
-preparato: 🔎 seo — testi veri (fatti pubblici PQ, ≤160 char) + verifica del meccanismo nel codice. Deliverable: `consegne/seo/2026-07-06-playbook-seo-locale-PQ.md`
-le 5 ricerche ad alto intento intercettate (stime scala Piacenza, verità in Search Console post-live):
-  ① prodotti bio a domicilio Piacenza / dove comprare biologico a Piacenza (~40–120/mese, concorrenza bassa) → pagina PQ
-  ② alimenti dietetici Piacenza / negozio dietetico centro (~20–60, molto bassa) → pagina PQ
-  ③ spesa bio online Piacenza / biologico consegna a casa (~30–90, bassa-media) → home/categoria bio
-  ④ prodotti senza glutine Piacenza (~40–110, bassa) → pagina PQ ⚠️ SOSPESA finché Nicola/PQ non conferma la linea senza glutine (non inventiamo il catalogo)
-  ⑤ negozi del centro storico Piacenza con consegna a casa (~30–80, bassa) → pagina PQ (Via Calzolai, centro)
-campi da scrivere (tutti veri; l'esecutore fa PRIMA `node cervello/marketplace.mjs leggi` per confermare l'id seller PQ `c0b240c0…` e i valori attuali):
-  store_description → «Pane Quotidiano: alimenti biologici e dietetici a Piacenza dal 1976, in Via Calzolai 25 (centro). Prodotti bio per mangiar sano — su MyCity con consegna locale o ritiro in negozio.» (≈155 char)
-  store_address → «Via Calzolai 25, 29121 Piacenza (PC)» (già a DB per la parte via/telefono — confermare che il campo che alimenta il title sia pieno)
-  store_phone → «0523 388601»
-  (store_lat / store_lng → SOLO se geocodifica reale di Via Calzolai 25 confermata; non inventiamo coordinate)
-cosa cambia: la pagina di Pane Quotidiano smette di uscire "generica" su Google: title con "a Piacenza", meta-descrizione ricca di parole vere (biologici, dietetici, bio, consegna) e schema.org con indirizzo/telefono pieni. Reversibile (backup per riga).
-se va bene: PQ inizia a comparire per le ricerche 1–2–5; con Search Console (gratis) misuriamo impression/click veri a 30/90 gg e capiamo dove spingere.
-cancello AR-006: PQ è `confermato` (unico negozio reale) → pacchetto pieno intestato = legittimo. Nessun campo legale/fiscale/IBAN toccato.
-dettaglio: consegne/seo/2026-07-06-playbook-seo-locale-PQ.md (§0-2). Coda canonica = riga #30 in [[AZIONI-IN-ATTESA]].
-stato: PRONTA — testi pronti, nessuna scrittura fatta. Aspetta il via.
+canale: corsia CONFIG `node cervello/marketplace.mjs aggiorna profiles c0b240c0-2a86-4218-9d0f-5154f08ff929 '<json>'` (mai deploy, mai DB clienti)
+perche: REST 20/7 11:04 — la `store_description` attuale cita **pane e miele** ma il catalogo live ha **5 prodotti** (2 kefir, pesto, hummus, pudding) e **0 SKU senza glutine**. Title/meta/schema derivano da quel campo (`layout.tsx`) → oggi Google vede testo **disallineato** dal negozio. Refresh keyword + testo allineato al catalogo verificato.
+preparato: 🔎 seo — playbook refresh `consegne/seo/2026-07-20-playbook-seo-locale.md` (REST live + SERP spot-check)
+le 5 ricerche ad alto intento (refresh 20/7, stime scala Piacenza):
+  ① prodotti bio a domicilio Piacenza (~40–120/mese) → pagina PQ
+  ② negozio dietetico Piacenza centro (~20–60) → pagina PQ
+  ③ spesa bio online Piacenza (~30–90) → home + `/category/alimentari`
+  ④ **kefir biologico Piacenza** (~15–45) → pagina PQ + 2 schede prodotto kefir — **sostituisce «senza glutine»** (0 SKU MyCity; soft claim solo GBP fisico se titolare conferma)
+  ⑤ botteghe centro storico con consegna (~30–80) → pagina PQ (Via Calzolai)
+campi da scrivere (l'esecutore fa PRIMA `node cervello/marketplace.mjs leggi`):
+  store_description → «Pane Quotidiano: alimenti biologici e dietetici a Piacenza dal 1976, Via Calzolai 25 (centro). Kefir, pesto e prodotti bio — ordina online con consegna locale MyCity.» (≈158 char)
+  store_address → già pieno «Via Calzolai, 25, 29100 Piacenza PC» — non toccare se invariato
+  store_phone → già «0523388601» — ok
+comando pronto:
+```bash
+node cervello/marketplace.mjs aggiorna profiles c0b240c0-2a86-4218-9d0f-5154f08ff929 '{
+  "store_description": "Pane Quotidiano: alimenti biologici e dietetici a Piacenza dal 1976, Via Calzolai 25 (centro). Kefir, pesto e prodotti bio — ordina online con consegna locale MyCity."
+}'
+```
+cosa cambia: meta title/description e schema.org PQ smettono di promettere pane/miele assenti e puntano su kefir/pesto/bio verificati — base per le 5 ricerche locali.
+se va bene: prime impressioni Search Console su bio/dietetico/kefir Piacenza entro 90 gg; poi A22 (schema tecnico) e A23 (GBP).
+dettaglio: `consegne/seo/2026-07-20-playbook-seo-locale.md` · approvazione originaria 6/7 ancora valida · esecuzione DB **non ancora fatta** (descrizione vecchia ancora live).
+stato: PRONTA — refresh 20/7, aspetta esecuzione via Pannello/giro autorizzato.
 
 ## A22 · 🧩 SEO tecnica — completa lo schema.org e correggi l'URL canonico (in branch)
 reparto: seo → frontend-dev / tech
@@ -362,8 +366,8 @@ i 4 interventi (in ordine di impatto):
 cosa cambia: lo schema.org di ogni negozio (a partire da PQ) esce completo e leggibile dai motori: telefono, indirizzo, orari, tipo corretto, prodotti con prezzo. Migliora come MyCity appare su Google/Maps.
 se va bene: base tecnica SEO solida e riusabile per OGNI negozio futuro, non solo PQ — si scrive una volta e vale per tutta la rete.
 serve da Nicola: orari reali di PQ (per ②) + firma al merge/deploy (🔴).
-dettaglio: consegne/seo/2026-07-06-playbook-seo-locale-PQ.md (§3). Coda canonica = riga #31 in [[AZIONI-IN-ATTESA]].
-stato: PRONTA (specifica) — nessun codice scritto. Alla firma apro il branch.
+dettaglio: consegne/seo/2026-07-20-playbook-seo-locale.md (§2-3) + consegne/seo/2026-07-06-playbook-seo-locale-PQ.md (§3). Coda canonica = riga #31 in [[AZIONI-IN-ATTESA]].
+stato: PRONTA (specifica) — nessun codice scritto. Alla firma apro il branch. Priorità Product schema sui 2 kefir (keyword #4 refresh).
 
 ## A23 · 📍 SEO locale — rivendica i due Google Business Profile (PQ + MyCity)
 reparto: seo → relazioni con il titolare PQ
@@ -376,8 +380,22 @@ le 2 schede:
 cosa cambia: PQ e MyCity diventano trovabili su Google Maps e nel "local pack" per chi cerca spesa/bio a Piacenza — il canale che porta più clic locali. I campi esatti (nome, categorie, descrizione, orari, foto) li preparo al via; non pubblico nulla senza firma.
 se va bene: traffico organico locale "a costo zero" verso la vetrina PQ e verso MyCity; misurato in GBP Insights (gratis).
 serve da Nicola: (1) ok a rivendicare/gestire i due profili · (2) ok del titolare PQ per la sua scheda · (3) orari + foto reali PQ.
-dettaglio: consegne/seo/2026-07-06-playbook-seo-locale-PQ.md (§4). Coda canonica = riga #32 in [[AZIONI-IN-ATTESA]].
+dettaglio: consegne/seo/2026-07-20-playbook-seo-locale.md (§2 keyword 1-2-5 + §6) + consegne/seo/2026-07-06-playbook-seo-locale-PQ.md (§4). Coda canonica = riga #32 in [[AZIONI-IN-ATTESA]].
 stato: PRONTA — campi da compilare al via, nessuna pubblicazione fatta.
+
+## A31 · 🔎 SEO categoria — ottimizza «Alimentari» per spesa bio online (branch marketplace)
+reparto: seo → frontend-dev / tech
+livello: 🟡 (patch meta/H1/copy in branch marketplace — mai deploy senza firma)
+canale: branch `marketplace/` → `app/category/[slug]/layout.tsx` + JSON-LD `CollectionPage`/`ItemList`
+perche: Keyword #3 «spesa bio online Piacenza» punta a `/category/alimentari` (5 SKU PQ, tutti bio). Oggi meta generici — quick win senza creare pagina «bio» thin (1 negozio).
+preparato: 🔎 seo — testi pronti in `consegne/seo/2026-07-20-playbook-seo-locale.md` §4
+title → `Alimentari biologici a Piacenza — Compra online dai negozi locali · MyCity`
+meta (134 char) → `Alimentari bio e dietetici a Piacenza: kefir, pesto e prodotti biologici delle botteghe locali. Consegna a domicilio con MyCity.`
+copy sotto griglia (2 frasi) → vedi playbook §4
+cosa cambia: la categoria Alimentari intercetta «spesa bio online» senza doorway page; ItemList schema collega i 5 prodotti PQ.
+se va bene: terzo pilastro SEO oltre pagina negozio (A21) e schema tecnico (A22); misurabile in Search Console su query categoria.
+dettaglio: consegne/seo/2026-07-20-playbook-seo-locale.md §4
+stato: PRONTA — specifica completa, nessun branch aperto.
 
 ## A17 · 🧡 Accendi il "porta un amico" (5€ a te, 5€ al tuo amico) e manda il primo invito
 reparto: crm-lifecycle

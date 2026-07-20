@@ -1,10 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 06:20
+aggiornato: 2026-07-20 11:00
 fonte: AD digitale (giro pieno)
 ---
 
-> 🔭 **20/7 06:20 — GIRO PIENO.** Business INVARIATO: 1 PQ, **4 buyer**, 0 ordini pagati, stallo **~620h** (~25,8 gg). REST+Stripe+Resend+Sito+Pannello+n8n ✅ · MCP cieco (REST copre) · GitHub 503 su segnale PR. **Mossa n.1: PI26 ore 10:00 oggi** (restart.infocamere.it). **Mossa n.2: ordine test PQ.** Post domenica **non uscito** 19/7 21:00 — recupero oggi. Briefing: [[Briefing/2026-07-20]].
+> 🔭 **20/7 11:00 — GIRO PIENO.** Business INVARIATO: 1 PQ, **4 buyer**, 0 ordini pagati, stallo **~625h** (~26 gg). REST+Stripe+Resend+Sito+Pannello+n8n ✅ · MCP cieco (REST copre) · GitHub 503 su segnale PR. **PI26 a sportello da 10:00** — **Mossa n.1: invia domanda ORA** (restart.infocamere.it). **Mossa n.2: ordine test PQ.** Post domenica **non uscito** 19/7 21:00 — recupero oggi pomeriggio. Loop @operations chiuso ✅. Briefing: [[Briefing/2026-07-20]].
+
+> 🔭 **20/7 06:20 — GIRO PIENO (passaggio precedente).** Business INVARIATO: 1 PQ, **4 buyer**, 0 ordini pagati, stallo **~620h** (~25,8 gg). REST+Stripe+Resend+Sito+Pannello+n8n ✅ · MCP cieco (REST copre) · GitHub 503 su segnale PR. **Mossa n.1: PI26 ore 10:00 oggi** (restart.infocamere.it). **Mossa n.2: ordine test PQ.** Post domenica **non uscito** 19/7 21:00 — recupero oggi. Briefing: [[Briefing/2026-07-20]].
 
 > ☀️ **20/7 06:00 — PIANO DEL MATTINO.** Business INVARIATO: 1 PQ, **4 buyer**, 0 ordini pagati, stallo **~620h** (~25,8 giorni). North Star 0, cassa 0€. Sensori 06:00: REST+Stripe+Resend+Sito+Pannello+n8n ✅ · Telegram assente · runway senza BURN_MENSILE_EUR. **3 priorità oggi:** ① 🔴 **PI26 ore 10:00** a sportello (restart.infocamere.it) ② 🟡 **ordine test PQ** (North Star 0→1) ③ 🔴 **post social** (domenica mancato o pioggia 20/7). Dettaglio: [[RITMO]] · [[SALA-OPERATIVA]].
 
@@ -873,17 +875,17 @@ fonte: AD digitale (giro pieno)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 20/7 06:20 · invariati dal 24/6)
-| Numero | Oggi (20/7 06:20) | Δ vs giro 19/7 14:48 | "Riuscito" | Note |
+## I 7 numeri (✅ REST 20/7 11:00 · invariati dal 24/6)
+| Numero | Oggi (20/7 11:00) | Δ vs giro 06:20 | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa · 16 altri seller non approvati |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ ha Stripe collegato ma payout-test mai chiuso su ordine vero |
 | Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ stock>0 (catalogo totale 258 prodotti REST) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · CANCELED — 1° ordine reale va CREATO ex-novo |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~620h (~25,8 gg) ▲ +16h vs giro 19/7 14:48 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~625h (~26 gg) ▲ +5h vs giro 06:20 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox da fare su ordine vero |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST live 06:20 · 23 account totali (4+17 seller+1 admin+1 rider) |
+| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST live 11:00 · delta-gate invariato |
 | **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)

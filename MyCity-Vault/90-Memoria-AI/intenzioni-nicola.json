@@ -1,11 +1,11 @@
 {
-  "data": "2026-07-20 06:20",
-  "sintesi": "Giornata critica: PI26 a sportello ore 10:00 (restart.infocamere.it) + ordine test PQ per sbloccare North Star 0→1. Post domenica ieri sera non uscito — recupero oggi. Business fermo dal 24/6: 1 negozio, 4 buyer, 0 pagati, stallo ~620h.",
+  "data": "2026-07-20 11:00",
+  "sintesi": "Ore 11:00: PI26 a sportello da un'ora — priorità invio domanda se non fatto. Poi ordine test PQ (North Star 0→1) e recupero post domenica. Business fermo dal 24/6: 1 negozio, 4 buyer, 0 pagati, stallo ~625h.",
   "prossime_mosse": [
     {
-      "titolo": "Presenta la domanda PI26 alle 10:00",
-      "quando": "Oggi 20/7 ore 10:00",
-      "come": "restart.infocamere.it a sportello — bozza e fatture in consegne/relazioni-istituzionali/",
+      "titolo": "Invia la domanda PI26 adesso",
+      "quando": "ORA — sportello aperto dal 20/7 ore 10:00",
+      "come": "restart.infocamere.it con SPID — bozza e fatture in consegne/relazioni-istituzionali/",
       "priorita": "alta",
       "ad_prepara": "Checklist mattina in consegne/operations/2026-07-20-checklist-mattina-north-star.md",
       "senior": "@relazioni-istituzionali",
@@ -13,7 +13,7 @@
     },
     {
       "titolo": "Fai un ordine di prova su Pane Quotidiano",
-      "quando": "Oggi 20/7 mattina o pranzo",
+      "quando": "Oggi 20/7 dopo PI26",
       "come": "mycity-marketplace.com → prodotto PQ → checkout → consegna/ritiro",
       "priorita": "alta",
       "ad_prepara": "Flusso live — card #ordine-test-pq",
@@ -22,10 +22,10 @@
     },
     {
       "titolo": "Pubblica il post social su Facebook e Instagram",
-      "quando": "Oggi 20/7",
-      "come": "Recupero post domenica (#post-domenica) o meteo (#post-meteo-pioggia-20lug) — testo in consegne/content/",
+      "quando": "Oggi 20/7 pomeriggio",
+      "come": "Recupero post domenica (#post-domenica) o meteo (#post-meteo-pioggia-20lug)",
       "priorita": "media",
-      "ad_prepara": "Contenuti pronti — solo firma pubblicazione",
+      "ad_prepara": "Contenuti pronti in consegne/content/",
       "senior": "@content-social",
       "colore": "🔴"
     },
@@ -43,7 +43,7 @@
     {
       "nome": "Pane Quotidiano",
       "perche": "Unico negozio REALE (Via Calzolai 25). Già online.",
-      "stato": "attivo — North Star 0, stallo ~620h"
+      "stato": "attivo — North Star 0, stallo ~625h"
     },
     {
       "nome": "Frolla Couture",
@@ -57,7 +57,7 @@
     }
   ],
   "rischi": [
-    "PI26 perso se non presente alle 10:00 (sportello)",
+    "PI26 — sportello aperto ma domanda non inviata (ordine cronologico)",
     "Post domenica mancato — zero visibilità ieri sera",
     "Stallo PQ >26 giorni — bottega può perdere motivazione",
     "4 buyer dormienti — nessuna welcome email inviata"
@@ -65,8 +65,8 @@
   "serve_da_nicola": [
     {
       "ambito": "PI26",
-      "cosa_manca": "Domanda presentata alle 10:00",
-      "domanda_per_nicola": "Sei pronto per PI26 alle 10:00? Registrazione restart.infocamere.it ok?"
+      "cosa_manca": "Conferma invio domanda su restart.infocamere.it",
+      "domanda_per_nicola": "Hai già inviato PI26? Se no — fallo adesso (sportello aperto da 10:00)."
     },
     {
       "ambito": "north star",
@@ -76,7 +76,7 @@
     {
       "ambito": "post social",
       "cosa_manca": "Pubblicazione recupero post",
-      "domanda_per_nicola": "Ok a pubblicare oggi — domenica o meteo?"
+      "domanda_per_nicola": "Ok a pubblicare oggi pomeriggio — domenica o meteo?"
     }
   ]
 }

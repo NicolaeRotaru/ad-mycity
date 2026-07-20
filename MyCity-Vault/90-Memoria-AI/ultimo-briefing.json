@@ -1,10 +1,10 @@
 {
-  "data": "2026-07-20 06:20",
-  "situazione": "Business invariato dal 24/6: 1 PQ live, 0 ordini pagati, stallo ~620h (~26 giorni). REST+Stripe+n8n ok. Oggi 20/7 ore 10:00 apre PI26 a sportello — domanda su restart.infocamere.it. Mossa n.2: ordine test PQ per North Star 0→1. Post domenica ieri sera non pubblicato.",
+  "data": "2026-07-20 11:00",
+  "situazione": "Business invariato dal 24/6: 1 PQ live, 0 ordini pagati, stallo ~625h (~26 giorni). REST+Stripe+n8n ok. PI26 a sportello da un'ora (10:00) — se non inviata, domanda ORA. Mossa n.2: ordine test PQ. Post domenica ieri non pubblicato.",
   "opportunita": [
     {
-      "titolo": "Presenta la domanda PI26 alle 10:00",
-      "motivo": "Sportello CCIAA apre oggi — fino a €10k fondo perduto su digitalizzazione",
+      "titolo": "Invia la domanda PI26 adesso",
+      "motivo": "Sportello aperto dal 20/7 ore 10:00 — ordine cronologico, fino a €10k fondo perduto",
       "impatto": "alto",
       "sforzo": "medio"
     },
@@ -23,13 +23,13 @@
   ],
   "azioni": [
     {
-      "titolo": "Presenta la domanda PI26 alle 10:00",
-      "motivo": "Sportello apertura oggi — senza domanda perdi il contributo",
+      "titolo": "Invia la domanda PI26 su restart.infocamere.it",
+      "motivo": "Sportello aperto — ogni ritardo penalizza l'ordine cronologico",
       "livello": "rosso"
     },
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "North Star a 0 da ~620h — prova che checkout e pagamento funzionano",
+      "motivo": "North Star a 0 da ~625h — prova che checkout e pagamento funzionano",
       "livello": "giallo"
     },
     {
@@ -39,8 +39,9 @@
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo ~620h (>25 giorni)",
+    "North Star 0 — stallo ~625h (>26 giorni)",
     "Negozio LIVE fermo — Pane Quotidiano 0 ordini in 14g",
+    "PI26 sportello APERTO — domanda da inviare",
     "Post domenica non pubblicato (deadline 19/7 21:00)",
     "MCP Supabase cieco 7 giri (REST copre)",
     "GitHub 503 — segnale PR automazione in errore"

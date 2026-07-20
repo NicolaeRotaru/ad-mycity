@@ -190,10 +190,10 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-20 06:20
+## 🤖 Aggiornamento dell'AD — 2026-07-20 11:00
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Oggi 20/7:** 23–32°C, allerta calore pomeriggio (3BMeteo) → freschi PQ solo mattina.
-- **PI26 ore 10:00** — blocco agenda Nicola fino a domanda inviata.
+- **Oggi 20/7 ore 11:00:** ~24°C, max ~31°C (Exa/3BMeteo) → freschi PQ mattina.
+- **PI26 sportello APERTO** — blocco agenda fino a domanda inviata.
 - **Ordine test PQ** = mossa operativa n.2 (North Star 0→1).
 - **21/7 pioggia** → push delivery solo dopo ordine test.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

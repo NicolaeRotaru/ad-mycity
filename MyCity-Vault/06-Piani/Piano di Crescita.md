@@ -170,10 +170,10 @@ Ogni esperimento ha **5 campi obbligatori PRIMA di partire** (se ne manca uno, n
 #growth #monetizzazione #esperimenti #ice #retention #piano #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-20 06:20
+## 🤖 Aggiornamento dell'AD — 2026-07-20 11:00
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **North Star ancora 0** (~620h stallo ≈ 26 giorni) — sblocco: **ordine test PQ** + **PI26 oggi 10:00**.
-- **PI26 OGGI 20/7 ore 10:00** — restart.infocamere.it (🔴 #bandi-cciaa-2007).
-- **Post domenica mancato** — recupero visibilità oggi prima di scalare ads.
+- **North Star ancora 0** (~625h stallo ≈ 26 giorni) — sblocco: **ordine test PQ** + **PI26 invio ORA**.
+- **PI26 sportello APERTO** — restart.infocamere.it (🔴 #bandi-cciaa-2007).
+- **Post domenica mancato** — recupero visibilità oggi pomeriggio.
 - **21/7 pioggia:** push delivery solo DOPO ordine test.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

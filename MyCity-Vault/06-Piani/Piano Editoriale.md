@@ -180,10 +180,10 @@ Catena di squadra (chi fa cosa). Il contenuto si produce **a lotti settimanali**
 #editoriale #piano #content #social #piacenza
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-20 06:20
+## 🤖 Aggiornamento dell'AD — 2026-07-20 11:00
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Post domenica NON pubblicato 19/7 21:00** — recupero oggi 20/7 (#post-domenica o #post-meteo-pioggia-20lug).
-- **Angolo lunedì mattina** ancora valido se pubblicato stamattina.
+- **Post domenica NON pubblicato 19/7 21:00** — recupero oggi 20/7 pomeriggio (#post-domenica o #post-meteo-pioggia-20lug).
+- **PI26 sportello aperto** — niente campagne finché domanda non inviata.
 - **Martedì 21/7 pioggia** — tema «fresco a casa»; gate: ordine test PQ fatto.
 - **North Star 0:** nessuna campagna massiva finché non c'è 1 ordine completato.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->
