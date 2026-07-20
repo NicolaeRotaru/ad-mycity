@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-20 03:19 · metabolizzazione chat «chiedi a tutti i senior mani n8n» · atteso: lezione L-376 + preferenza team-play · reale: L-376 caso_studio_nicola, L-373 evidenze 2, STATO/LEZIONI-CHAT/builder aggiornati · #metabolizzazione #team-play #L-376
 - 2026-07-20 03:17 · metabolizzazione chat «indipendenza dai dipendenti» · atteso: lezione L-375 + preferenza lean · reale: L-375, L-370 evidenze 2, STATO/DECISIONI/LEZIONI-CHAT aggiornati · #metabolizzazione #lean #L-375
 - 2026-07-20 03:05 · metabolizzazione chat «pensa più in grande» · atteso: lezione L-370 + preferenza visione vs catalogo · reale: L-370 caso_studio_nicola, L-367 evidenze 2, STATO/DECISIONI/LEZIONI-CHAT aggiornati · #metabolizzazione #colosso #L-370
 - 2026-07-19 16:54 · metabolizzazione chat «Controlla se ho fatto giusto» allowlist · atteso: STATO/DECISIONI/AZIONI/LEZIONI + lezione verifica JSON · reale: L-293, L-286 evidenze 3, preferenza, #abilita-mcp-supabase-chat → FATTO · #metabolizzazione #allowlist #mcp

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:17
+aggiornato: 2026-07-20 03:19
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:19 — CHAT: mani n8n per reparto — senior consultati, non lista generica AD (L-376).** Dopo catalogo **20 integrazioni** n8n (L-373), Nicola corregge: «**ti stai risparmiando**, chiedi a **tutti i senior** di quali mani hanno bisogno che n8n gli può dare». AD risponde con inventario **per reparto** (comunicazione/clienti, negozi/vendite, ops/consegne, soldi/pagamenti, intelligence/istituzioni, governance/numeri, automazioni/tech, creativi/influencer) + cosa **NON** passa da n8n (bandi portale, contratti, trattative, rimborsi, deploy). **Ordine condiviso:** Telegram (**59** avvisi) → Meta FB+IG → RSS bandi sveglia → email welcome → notifica ordine negozio. CTA: Nicola sceglie reparto/blocco («Telegram» / «Meta» / «RSS bandi»). Fonte: chat Nicola 20/7 03:19.
 
 > 💬 **20/7 ~03:17 — CHAT: «Indipendenza dai dipendenti» — automazione + card 🔴, umani solo fiducia/firma (L-375).** Nicola: «voglio rendere mycity il più indipendente dai dipendenti». AD: **automatizzare tutto ciò che si ripete** (cervello + n8n: analisi, memoria, supervisione, «mani» post/email/cron); **resta umano solo 🔴** (firma bandi/contratti, trattative difficili, primo ordine concierge, dispute gravi, deploy/soldi); **3 fasi** (accendi città onboarding semi-auto · abitudine post/cron/carrelli · default locale ops con regole); **collo di bottiglia** = **primo ordine reale + botteghe payout-ready** — senza quello le automazioni girano a vuoto. **Ordine pratico oggi:** PI26 **10:00** → Telegram (**59** avvisi) → Meta post test 🔴 → notifica ordine negozio → carrello abbandonato. CTA: Nicola sceglie blocco («bandi» / «Telegram» / «primo ordine»). Fonte: chat Nicola 20/7 03:17.
 

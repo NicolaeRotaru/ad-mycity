@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:17",
+  "aggiornato": "2026-07-20 03:19",
+  "_nota_metabolizzazione_20_07_0319": "Chat 20/7 ~03:19: Nicola «ti stai risparmiando, chiedi a tutti i senior quali mani n8n» — correzione post L-373. L-376 nuova (caso_studio_nicola); L-373 evidenze++ addendum senior; preferenza mani-n8n-chiedi-senior; STATO+LEZIONI-CHAT+builder+ad esito.",
   "_nota_metabolizzazione_20_07_0317": "Chat 20/7 ~03:17: Nicola «voglio rendere mycity il più indipendente dai dipendenti» — preferenza strategica lean/automazione. L-375 nuova; L-370 evidenze++ addendum indipendenza; preferenza indipendenza-dipendenti; STATO+DECISIONI+LEZIONI-CHAT+corporate-strategy+ad+people-talent esito.",
   "_nota_metabolizzazione_20_07_0316": "Chat 20/7 ~03:16: Nicola chiarimento «RSS Comune/bandi → riassunto portali istituzionali» — sveglia cron n8n, 403 worker, workflow non attivo. L-374 nuova; L-365 evidenze++ addendum RSS 403; preferenza rss-bandi-comune; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0314": "Chat 20/7 ~03:14: Nicola «20 mani n8n che servono per MyCity» — catalogo 20 integrazioni per impatto. L-373 nuova; L-366 evidenze++ addendum 20 mani; preferenza catalogo-20-mani-n8n; STATO+LEZIONI-CHAT+builder esito.",
@@ -117,6 +118,28 @@
       "usi": []
     },
     {
+      "id": "L-2026-0720-376",
+      "testo": "**Mani n8n — chiedi a TUTTI i senior per reparto, non lista generica AD (Nicola 20/7 ~03:19).** Dopo risposta «20 mani n8n» (L-373), Nicola corregge: «**ti stai risparmiando**, chiedi a **tutti i senior** di quali mani hanno bisogno che n8n gli può dare». 5 perché: (1) catalogo integrazioni dall'AD solo = **risparmio di delega** — suona inventato e non usa la squadra; (2) Nicola vuole **team-play** (CULTURA-SQUADRA): ogni reparto dichiara le **proprie** mani n8n (marketing→Meta/email/GBP/meteo; negozi→WhatsApp/onboarding; ops→Supabase trigger/Telegram alert; soldi→Stripe read/Sheets; intelligence→RSS+cron 403 Comune; governance→Telegram 59 card/cron report; builder→webhook bidirezionale; creativi→Meta pub); (3) ruolo AD = **comporre e sintetizzare** i contributi senior, **non** sostituirli con elenco generico; (4) ordine priorità **condiviso** resta valido: Telegram (59 avvisi) → Meta → RSS bandi → email welcome → notifica ordine; (5) chiudere con CTA **reparto/blocco** («Telegram» / «Meta» / «RSS bandi»), non «dimmi blocco» generico senza aver consultato i senior. Regola: «mani n8n / automazioni» → **delega per reparto ai senior** + sintesi AD + 🔴 + ordine 1→5 + CTA — **mai** lista generica dall'AD da solo. Vedi L-373, L-370, L-367.",
+      "tag": [
+        "n8n",
+        "mani",
+        "senior",
+        "team-play",
+        "delega",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@ad",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:19",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-374",
       "testo": "**RSS bandi Comune via n8n — sveglia cron, 403 worker, workflow non attivo (Nicola 20/7 ~03:16).** Nicola chiede chiarimento su voce catalogo «RSS Comune/bandi → riassunto portali istituzionali». 5 perché: (1) pattern «spiega voce catalogo n8n» = **cosa fa + perché n8n + stato oggi + passi setup + CTA** — non ripetere solo elenco; (2) **RSS bandi** = Schedule cron (es. 7:00) + nodi RSS Read (Comune news/bandi, CCIAA Emilia, CNA/Vita in Centro) + filtro AI (5 righe max) → Telegram o webhook worker; (3) **perché n8n e non worker in chat:** sito Comune **blocca fetch diretto dal VPS worker (403)** — n8n legge feed da rete Docker; **non** promettere workflow già attivo — **oggi non c'è**; (4) contattare negozi o **inviare domande bandi** = **🔴** card — RSS **solo avvisa** con riassunto; (5) delivery ideale **Telegram** (bot mancante, **59** avvisi) — CTA «accendi RSS bandi» / «prima Telegram». Regola: «RSS Comune/bandi» → sveglia + motivo 403 + non attivo + setup 5 passi + 🔴 domande. Vedi L-365, L-373, L-370.",
       "tag": [
@@ -141,7 +164,7 @@
     },
     {
       "id": "L-2026-0720-373",
-      "testo": "**«20 mani n8n per MyCity» = 20 integrazioni/canali per impatto, non automazioni 10×5 (Nicola 20/7 ~03:14).** Nicola «dimmi 20 mani che può usare n8n che servono per mycity». 5 perché: (1) pattern «N mani n8n» = elenco **numerato di connettori/integrazioni** (Telegram, Meta FB+IG, Resend, API marketplace, Google suite, cron, RSS, meteo, WhatsApp, Stripe read, Gemini, Twilio, webhook worker, Supabase read…) — **non** griglia 10×5 automazioni (L-368) né catalogo mani generale 5 blocchi (L-367); (2) **ordinate per impatto** MyCity (Telegram #1 = 59 avvisi bloccati senza bot); (3) ogni uscita verso persone/post/soldi = **🔴** card Pannello anche con webhook ok (L-357); (4) **ordine consigliato:** Telegram → Meta FB+IG → post test 🔴 → email welcome → notifica ordine negozio; (5) chiudere con CTA «dimmi blocco» (Telegram/Meta) per guida passo passo — non tutorial setup generico. Regola: «20 mani n8n» → 20 integrazioni per impatto + 🔴 + ordine 1→5 + CTA blocco. Vedi L-368, L-366, L-367.",
+      "testo": "**«20 mani n8n per MyCity» = 20 integrazioni/canali per impatto, non automazioni 10×5 (Nicola 20/7 ~03:14).** Nicola «dimmi 20 mani che può usare n8n che servono per mycity». 5 perché: (1) pattern «N mani n8n» = elenco **numerato di connettori/integrazioni** (Telegram, Meta FB+IG, Resend, API marketplace, Google suite, cron, RSS, meteo, WhatsApp, Stripe read, Gemini, Twilio, webhook worker, Supabase read…) — **non** griglia 10×5 automazioni (L-368) né catalogo mani generale 5 blocchi (L-367); (2) **ordinate per impatto** MyCity (Telegram #1 = 59 avvisi bloccati senza bot); (3) ogni uscita verso persone/post/soldi = **🔴** card Pannello anche con webhook ok (L-357); (4) **ordine consigliato:** Telegram → Meta FB+IG → post test 🔴 → email welcome → notifica ordine negozio; (5) chiudere con CTA «dimmi blocco» (Telegram/Meta) per guida passo passo — non tutorial setup generico. **ADDENDUM 03:19:** se Nicola chiede mani n8n **per reparto/senior** o corregge «ti stai risparmiando» → **delega ai senior** per reparto e sintetizza (L-376) — elenco generico AD solo **non basta**. Regola: «20 mani n8n» → 20 integrazioni per impatto + 🔴 + ordine 1→5 + CTA blocco; se contesto «senior/reparto» → L-376. Vedi L-376, L-368, L-366, L-367.",
       "tag": [
         "n8n",
         "mani",
@@ -152,11 +175,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.88,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 03:14",
+      "ultima_conferma": "2026-07-20 03:19",
       "stato": "attiva",
       "usi": []
     },
@@ -8563,6 +8586,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Mani n8n — chiedi a tutti i senior per reparto, non lista generica AD (chat 20/7 ~03:19):** dopo catalogo 20 integrazioni (L-373) corregge «**ti stai risparmiando**» — si aspetta **team-play**: ogni reparto (comunicazione, negozi, ops, soldi, intelligence, governance, builder, creativi) dichiara quali **mani n8n** gli servono; AD **compone e sintetizza**, non elenco generico inventato da solo; ordine condiviso Telegram (59 avvisi) → Meta → RSS bandi → email welcome → notifica ordine; messaggi/post/soldi = **🔴**; chiude «quale reparto accendiamo» («Telegram» / «Meta» / «RSS bandi»). Vedi L-376, L-373, L-370.",
     "**Indipendenza dai dipendenti — lean headcount via automazione + card 🔴 (chat 20/7 ~03:17):** obiettivo esplicito «rendere mycity il più indipendente dai dipendenti» — si aspetta risposta **operativa-modello**, non piano hiring: cervello+n8n su ripetizione; **umano solo 🔴** (firma, trattative, primo ordine concierge, dispute, deploy/soldi); 3 fasi (accendi città · abitudine · default locale); **primo ordine + payout-ready** come prerequisito (altrimenti automazioni a vuoto); ordine oggi PI26 10:00 → Telegram (59 avvisi) → Meta → notifica ordine → carrello; chiude con **una scelta blocco** («bandi» / «Telegram» / «primo ordine»). Vedi L-375, L-370.",
     "**RSS bandi Comune — chiarimento voce catalogo n8n = cosa fa + perché n8n + stato + setup + CTA (chat 20/7 ~03:16):** quando chiede «RSS Comune/bandi → riassunto portali istituzionali» si aspetta spiegazione **operativa** — sveglia cron (Schedule 7:00), fonti (Comune, CCIAA, CNA/Vita in Centro), filtro 5 righe, motivo tecnico (**403** fetch worker vs n8n Docker), stato **workflow non attivo**, delivery Telegram (59 avvisi) o webhook worker; domande bandi = **🔴**; chiude «accendi RSS bandi» / «prima Telegram». Vedi L-374, L-365, L-370.",
     "**Catalogo 20 mani n8n — «20 mani che può usare n8n per MyCity» = integrazioni per impatto, non 50×10 (chat 20/7 ~03:14):** chiede elenco **focalizzato n8n** — si aspetta **20 connettori/canali** numerati e **ordinati per impatto** (Telegram, Meta, email, marketplace API, Google, cron, RSS, meteo, WhatsApp, Stripe read, Gemini…), distinto da griglia **50 automazioni × 10 funzioni** (L-368) e da catalogo mani generale (L-367); reminder **🔴** su messaggi/post; **ordine:** Telegram (59 avvisi) → Meta → post test → email welcome → notifica ordine; chiude «dimmi blocco» per setup guidato. Vedi L-373, L-366, L-368.",
