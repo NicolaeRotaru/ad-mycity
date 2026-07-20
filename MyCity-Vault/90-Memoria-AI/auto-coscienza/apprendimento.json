@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:05",
+  "aggiornato": "2026-07-20 03:09",
+  "_nota_metabolizzazione_20_07_0309": "Chat 20/7 ~03:09: Nicola «il menu in alto» — conferma quale ☰ dopo L-369; AD PR #494 z-index navbar sopra chat. L-371 nuova; L-369 evidenze++ addendum conferma+fix; preferenza worker-menu-in-alto; STATO+DECISIONI+#211+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0305": "Chat 20/7 ~03:05: Nicola «pensa più in grande» — correzione post-catalogo mani: vuole moat/fasi/bottleneck, non plugin. L-370 nuova (caso_studio_nicola); L-367 evidenze++ addendum visione; preferenza pensa-piu-in-grande; STATO+DECISIONI+LEZIONI-CHAT+corporate-strategy+ad esito.",
   "_nota_metabolizzazione_20_07_0304": "Chat 20/7 ~03:04: Nicola «menu navbar chat grande ancora non si apre, dimmi cosa hai capito» — diagnosi 2 ☰ distinti + z-index overlay (corregge L-364 parziale). L-369 nuova (caso_studio_nicola); L-364 evidenze++ addendum z-index; preferenza worker-menu-navbar-z-index; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0259": "Chat 20/7 ~02:59: Nicola «50 cose n8n in 10 funzioni performanti» — catalogo 10×5 + priorità. L-368 nuova; L-335 evidenze++ addendum 50×10; preferenza catalogo-50-n8n-10-funzioni; STATO+LEZIONI-CHAT+builder esito.",
@@ -90,6 +91,29 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-371",
+      "testo": "**Worker menu in alto — fix z-index menu sito sopra chat + chiude chat su nav (Nicola 20/7 ~03:09).** Dopo diagnosi L-369 («dimmi cosa hai capito»), Nicola conferma **«il menu in alto»** — ☰ **navbar** (menu sito Home/Azioni/Lavori), **non** ☰ basso (elenco conv). 5 perché: (1) chiedere quale ☰ **prima del fix** evita PR sbagliata (#493 era conv placement); (2) causa confermata = overlay chat fullscreen copre drawer sito (z-index); (3) fix = elevare menu sito **sopra** chat quando `workerFullscreen` aperto — **non** solo collegare toggle; (4) UX: scelta voce nav **chiude** chat grande e naviga — altrimenti menu resta sotto o chat blocca vista; (5) verifica post-merge = tap ☰ navbar con Worker a schermo intero + Ctrl+F5 (L-361). Regola: dopo diagnosi 2 ☰ → attendi conferma Nicola → PR z-index navbar. Fix **PR #494** (`23bb1a24`), merge 🔴 #211. Vedi L-369, L-364.",
+      "tag": [
+        "pannello",
+        "worker",
+        "navbar",
+        "z-index",
+        "fix",
+        "pr-494",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.94,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:09",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-370",
       "testo": "**«Pensa più in grande» = moat + fasi + bottleneck, NON catalogo plugin (Nicola 20/7 ~03:05).** Dopo risposta «tutte le mani per colosso Piacenza» (L-367), Nicola corregge con «pensa più in grande». 5 perché: (1) catalogo mani/n8n/automazioni = **tattica setup**, non risposta a «colosso» — suona piccolo; (2) «colosso» per Nicola = **moat difendibile** (centinaia botteghe reali + consegna + «compro qui non Amazon») + **liquidity a due lati**; (3) **collo di bottiglia reale** = **primo ordine vero** (1 negozio incassa, domanda in attesa) — non altro plugin; (4) struttura **3 fasi** (4 sett accendi città 15–25 botteghe · 3 mesi abitudine multi-negozio/QR/istituzioni · 12 mesi default «compro a Piacenza online»); (5) strumenti (n8n, Telegram, Meta) = **ripetizione** storia fase 2, non obiettivo. Regola: «colosso» / «pensa più in grande» → moat + fasi + bottleneck numerato + **una priorità/missione** (PI26, primo ordine fornaio, Telegram…) — **non** elenco 50 automazioni. Vedi L-367, L-368.",
       "tag": [
@@ -113,7 +137,7 @@
     },
     {
       "id": "L-2026-0720-369",
-      "testo": "**Worker chat grande — DUE menu ☰ distinti; navbar sito bloccato da z-index overlay (Nicola 20/7 ~03:04).** Nicola «menu nella navbar ancora non si apre» in chat grande + «dimmi cosa hai capito». 5 perché: (1) L-364 interpretava «navbar non apre» come toggle non collegato — **parzialmente errato** per il menu **sito**; (2) **☰ basso** accanto «+ Nuova» = elenco **conversazioni** Worker (fix placement #493); (3) **☰ navbar alto** accanto logo/Pannello = menu **sito** (Home, Azioni, Lavori…) — click **arriva** ma drawer sito resta **sotto** overlay chat fullscreen → sembra morto; (4) popup piccolo ok perché z-index/stacking diverso; (5) fix = menu sito **sopra** chat grande (z-index) o chat cede spazio — **non** basta spostare toggle conv in basso per il menu sito; chiedere **quale ☰** fallisce prima di PR. Regola: bug «menu navbar non apre» in chat grande → distinguere menu sito vs conv + controllare z-index overlay. Vedi L-364, L-363.",
+      "testo": "**Worker chat grande — DUE menu ☰ distinti; navbar sito bloccato da z-index overlay (Nicola 20/7 ~03:04, agg. 03:09).** Nicola «menu nella navbar ancora non si apre» in chat grande + «dimmi cosa hai capito». 5 perché: (1) L-364 interpretava «navbar non apre» come toggle non collegato — **parzialmente errato** per il menu **sito**; (2) **☰ basso** accanto «+ Nuova» = elenco **conversazioni** Worker (fix placement #493); (3) **☰ navbar alto** accanto logo/Pannello = menu **sito** (Home, Azioni, Lavori…) — click **arriva** ma drawer sito resta **sotto** overlay chat fullscreen → sembra morto; (4) popup piccolo ok perché z-index/stacking diverso; (5) fix = menu sito **sopra** chat grande (z-index) o chat cede spazio — **non** basta spostare toggle conv in basso per il menu sito; chiedere **quale ☰** fallisce prima di PR. **ADDENDUM 03:09:** Nicola conferma **«il menu in alto»** → fix **PR #494** (z-index + chiude chat su nav). Regola: bug «menu navbar non apre» in chat grande → distinguere menu sito vs conv + controllare z-index overlay. Vedi L-371, L-364, L-363.",
       "tag": [
         "pannello",
         "worker",
@@ -126,12 +150,12 @@
         "correzione"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.92,
-      "evidenze": 1,
+      "confidenza": 0.95,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 03:04",
+      "ultima_conferma": "2026-07-20 03:09",
       "stato": "attiva",
       "usi": []
     },
@@ -8446,8 +8470,9 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Worker menu in alto — conferma ☰ navbar dopo diagnosi; fix z-index sopra chat (chat 20/7 ~03:09):** dopo spiegazione L-369 («dimmi cosa hai capito») risponde **«il menu in alto»** — intende ☰ **navbar** (menu sito Home/Azioni/Lavori), **non** ☰ basso elenco conv; si aspetta fix che menu sito esca **sopra** chat fullscreen; merge **PR #494** 🔴 #211 + Ctrl+F5. Vedi L-371, L-369.",
     "**«Pensa più in grande» — colosso = visione moat/fasi, non catalogo plugin (chat 20/7 ~03:05):** dopo elenco mani/n8n/automazioni corregge con «pensa più in grande» — si aspetta **strategia** (moat botteghe+consegna+identità locale, liquidity a due lati, **collo di bottiglia = primo ordine reale**, 3 fasi 4 sett/3 mesi/12 mesi); strumenti citati solo come **ripetizione** fase 2; oggi **PI26 10:00** leva istituzionale grossa; chiudere con **una priorità/missione** (bandi / primo ordine fornaio / Telegram / Meta), **non** checklist 50 automazioni. Vedi L-370, L-367.",
-    "**Worker chat grande — menu navbar sito vs ☰ conv, z-index overlay (chat 20/7 ~03:04):** «menu nella navbar ancora non si apre» + «dimmi cosa hai capito» — si aspetta **diagnosi chiara** prima del fix; **due ☰ distinti:** basso accanto «+» = elenco conv · navbar alto = menu **sito** (Home, Azioni, Lavori) — il secondo sembra morto perché chat fullscreen lo copre (z-index), non perché toggle assente; fix = menu sito **sopra** chat o chat cede spazio; chiedere **quale ☰** fallisce. Vedi L-369, L-364.",
+    "**Worker chat grande — menu navbar sito vs ☰ conv, z-index overlay (chat 20/7 ~03:04, agg. 03:09):** «menu nella navbar ancora non si apre» + «dimmi cosa hai capito» — si aspetta **diagnosi chiara** prima del fix; **due ☰ distinti:** basso accanto «+» = elenco conv · navbar alto = menu **sito** (Home, Azioni, Lavori) — il secondo sembra morto perché chat fullscreen lo copre (z-index); **03:09** conferma «il menu in alto» → **PR #494**. Vedi L-371, L-369, L-364.",
     "**Catalogo n8n 50×10 — «50 cose in 10 funzioni performanti» = griglia 10 categorie × 5 idee + priorità (chat 20/7 ~02:59):** chiede inventario ampio ma strutturato per MyCity — si aspetta **10 funzioni fondamentali** (social, acquisizione, carrelli, fidelizzazione, negozi, ops, comunicazione, marketing locale, intelligence cron, back-office) con **5 automazioni ciascuna** (50 totali), tutte ripetitive/ROI; reminder **🔴** su messaggi/post; **ordine consigliato** Telegram→Meta→post test→carrello→notifica ordine negozio; chiude con «dimmi blocco» per preparare workflow import. Non tutorial n8n né ricerche web ad hoc (Worker L-365). Vedi L-368, L-366, L-335.",
     "**Catalogo mani colosso Piacenza — «tutte le mani» = inventario + ordine, MA se dice «pensa più in grande» aggiungi visione (chat 20/7 ~02:56, agg. 03:05):** chiede quali canali per crescere — si aspetta **catalogo strutturato** (già accese vs da accendere, ordine Telegram→Meta→…) **E**, se chiede colosso/«pensa più in grande», anche **moat + fasi + bottleneck primo ordine** — non fermarsi al catalogo plugin. Vedi L-370, L-367, L-366, L-351.",
     "**n8n post-webhook — «cosa posso fare adesso?» = catalogo concreto + ordine priorità (chat 20/7 ~02:50):** dopo webhook collegato chiede controllo env (2 righe, 1 segnaposto da cancellare) + cosa può fare con n8n — si aspetta **lista operativa** (FB/IG post, Telegram, lista attesa, cron) con **ordine consigliato** (dedup env → Telegram → Meta → test post 🔴), non spiegazione generica; gruppi FB manuali; ricerche ad hoc restano Worker. Vedi L-366, L-357.",

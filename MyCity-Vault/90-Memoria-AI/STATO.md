@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:05
+aggiornato: 2026-07-20 03:09
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:09 — CHAT: Worker menu in alto — Nicola conferma ☰ navbar; fix PR #494 (L-371).** Dopo diagnosi L-369 (due ☰ distinti), Nicola risponde **«il menu in alto»** — non quello basso accanto a «+». AD **PR #494** (`23bb1a24`): menu **sito** (Home, Azioni, Lavori…) sale **sopra** overlay chat grande (z-index); scelta voce nav **chiude** chat fullscreen e naviga. Typecheck ok. Merge 🔴 **#211** → deploy Vercel ~2 min + Ctrl+F5 → Worker fullscreen → tap ☰ navbar. Bug **fix pronto**, attesa merge. Fonte: chat Nicola 20/7 03:09.
 
 > 💬 **20/7 ~03:05 — CHAT: «pensa più in grande» — colosso = moat + fasi, non altri plugin (L-370).** Dopo catalogo mani/n8n (L-367), Nicola corregge: vuole **visione strategica**, non elenco strumenti. AD risponde con **moat** (botteghe reali + consegna + identità locale vs Glovo/Amazon), **collo di bottiglia** = **primo ordine reale** (1 negozio incassa Pane Quotidiano, domanda in attesa ~23 iscritti), **3 fasi** (4 sett accendi città 15–25 botteghe · 3 mesi abitudine multi-negozio · 12 mesi default «compro a Piacenza online»), strumenti (n8n/Telegram/Meta) = **ripetizione** fase 2 non obiettivo. **Oggi ore 10:00:** 🔴 **PI26 sportello** = leva istituzionale più grossa. CTA: **una priorità** tra bandi 10:00 / primo ordine fornaio / Telegram / Meta — missione non checkbox. Fonte: chat Nicola 20/7 03:05.
 

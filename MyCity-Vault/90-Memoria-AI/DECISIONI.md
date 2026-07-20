@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 03:09 · 🟡 · [Worker chat — menu navbar sito sopra chat grande, PR #494] · **Nicola: «il menu in alto»** (conferma quale ☰ fallisce dopo diagnosi L-369). Fix: elevare z-index menu sito (Home, Azioni, Lavori…) **sopra** overlay Worker fullscreen; tap voce nav chiude chat e naviga. AD PR **#494** (`23bb1a24`). Merge 🔴 pendente (#211). L-371, L-369.
+
 2026-07-20 03:05 · 🟢 · [Preferenza risposta — «pensa più in grande» = visione moat/fasi, non catalogo plugin] · **Nicola: «pensa più in grande»** dopo risposta AD su «tutte le mani per colosso Piacenza». Correzione esplicita: elenco mani/n8n/automazioni è **troppo piccolo** — si aspetta **strategia** (moat difendibile, liquidity a due lati, collo di bottiglia = primo ordine reale, fasi 4 sett / 3 mesi / 12 mesi); strumenti citati solo come leva di **ripetizione**, non come risposta. Chiudere con **una priorità/missione**, non checklist. L-370, aggiorna L-367. Prossimo: Nicola sceglie tra PI26 10:00, primo ordine fornaio, Telegram, Meta.
 
 2026-07-20 03:04 · 🟢 · [Diagnosi Worker — menu navbar in chat grande = z-index overlay, non toggle] · **Nicola: «menu nella navbar ancora non si apre» + dimmi cosa hai capito.** AD corregge parzialmente L-364: in chat grande ci sono **due ☰ distinti** — basso = elenco conv, navbar = menu sito (Home, Azioni, Lavori); il menu sito si apre ma resta **sotto** l'overlay chat fullscreen → sembra morto. Fix pendente: z-index menu sito sopra chat o chat cede spazio. L-369.
