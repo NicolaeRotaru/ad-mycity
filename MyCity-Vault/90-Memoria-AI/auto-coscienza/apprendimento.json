@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 18:42",
+  "aggiornato": "2026-07-20 18:45",
+  "_nota_metabolizzazione_20_07_1845": "Chat 20/7 ~18:44: Nicola «si è us.posthog» — 401 era host EU sbagliato, non chiave invalida; AD fix POSTHOG_HOST US → sensore ok. L-410 nuova (caso_studio_nicola); L-409+L-404 evidenze++ addendum; preferenza posthog-us-account; registro-fatti sensori.posthog.regione; STATO+DECISIONI+LEZIONI-CHAT+data-engineer+devops-sre esito.",
   "_nota_metabolizzazione_20_07_1842": "Metabolizzazione completata chat 20/7 ~18:41: preferenza posthog-ho-fatto-tutto aggiunta; L-404 addendum 401 evidenze 3. Resto già presente (L-409, STATO, LEZIONI-CHAT, quaderni).",
   "_nota_metabolizzazione_20_07_1841": "Chat 20/7 ~18:41: Nicola «ho fatto tutto ma posthog non collegato» — AD verifica live: env ok (phx_, EU) ma HTTP 401 chiave invalida; sensore cieco non assente. L-409 nuova; L-404 evidenze++ addendum 401; preferenza posthog-ho-fatto-tutto; STATO+LEZIONI-CHAT+data-engineer+devops-sre esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_20_07_1834": "Chat 20/7 ~18:32: Nicola «ricominciamo da capo, controlla tutte le caselle» — AD audit tabella AR-105: 2/3 sensori ok, Telegram pendente, invariato vs 18:25. L-405 evidenze++ addendum tabella; preferenza verifica-fix aggiornata; STATO+LEZIONI-CHAT+devops-sre esito; nessuna azione/decisione nuova.",
@@ -155,8 +156,30 @@
       "usi": []
     },
     {
+      "id": "L-2026-0720-410",
+      "testo": "**PostHog EU vs US — HTTP 401 «chiave invalida» può essere host sbagliato, chiedi regione prima (Nicola 20/7 ~18:44).** Nicola: «**si è us.posthog**» dopo 401 con env ok (`phx_`, `POSTHOG_OFF=0`, host **europeo** nel file). 5 perché: (1) AD aveva **assunto EU default** e suggerito rigenerare chiave — diagnosi incompleta; (2) account **US** + host europeo → PostHog risponde **401** «Personal API key … is invalid» **anche con chiave valida**; (3) fix verificato: `POSTHOG_HOST=https://us.posthog.com` + restart worker → sensore **`posthog_api: ok`** **senza** rigenerare chiave; (4) **prima** del setup chiedere sempre **EU o US** (app.posthog.com vs eu.posthog.com); (5) allineare anche **tracking Render** se host diverso — altrimenti eventi sito e lettura worker non coincidono. Regola: PostHog 401 con `phx_` presente → **verifica host/account region PRIMA** di far rigenerare la chiave. Vedi L-409, L-404, `registro-fatti.json` `sensori.posthog.regione`, DECISIONI 20/7 18:44.",
+      "tag": [
+        "posthog",
+        "401",
+        "eu-us",
+        "sensori",
+        "vps",
+        "data-engineer",
+        "devops-sre"
+      ],
+      "reparto": "@data-engineer",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 18:44",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-409",
-      "testo": "**PostHog «ho fatto tutto» — env ok + HTTP 401 = chiave invalida, non ripetere passi env (Nicola 20/7 ~18:41).** Nicola: «**ho fatto tutto quello che mi hai detto**» ma sensori/Pannello dicono ancora PostHog non collegato. 5 perché: (1) AD deve **verificare runtime** (`verifica-sensori.mjs`) prima di dire «manca env» o ripetere istruzioni; (2) **18:41:** env **letto** (`POSTHOG_OFF=0`, prefix `phx_`, host EU, len 52) — collegamento c'è; PostHog risponde **HTTP 401** «Personal API key … is invalid»; (3) stato passa da `non_configurato`/`spento` a **`cieco`** — non è «assente», è **chiave rifiutata**; Pannello può mostrare «non collegato» finché non refresh; (4) cause tipiche: chiave copiata male/troncata, revocata, account **EU vs US** sbagliato, permessi insufficienti; (5) fix: rigenerare Personal API Key su **eu.posthog.com** (Project: Read minimo) → sostituire riga env → restart worker → Nicola «posthog ok» per ricontrollo. Regola: su «ho fatto tutto» PostHog → **non** ripetere setup env; verifica API live + distingui env assente vs 401 chiave. Vedi L-404, L-222.",
+      "testo": "**PostHog «ho fatto tutto» — env ok + HTTP 401 = verifica host/chiave, non ripetere passi env (Nicola 20/7 ~18:41, risolto L-410).** Nicola: «**ho fatto tutto quello che mi hai detto**» ma sensori/Pannello dicono ancora PostHog non collegato. 5 perché: (1) AD deve **verificare runtime** (`verifica-sensori.mjs`) prima di dire «manca env» o ripetere istruzioni; (2) **18:41:** env **letto** (`POSTHOG_OFF=0`, prefix `phx_`, host europeo nel file, len 52) — collegamento c'è; PostHog risponde **HTTP 401** «Personal API key … is invalid»; (3) stato passa da `non_configurato`/`spento` a **`cieco`** — non è «assente»; (4) cause: chiave copiata male/revocata **oppure** account **EU vs US** mismatch (**18:44:** era host sbagliato, chiave valida); (5) **non** ripetere setup env — verifica API live + chiedi regione account. Regola: su «ho fatto tutto» PostHog → distingui env assente vs 401; **host region prima di rigenerare chiave**. Vedi L-410, L-404, L-222.",
       "tag": [
         "posthog",
         "sensori",
@@ -167,12 +190,12 @@
         "devops-sre"
       ],
       "reparto": "@data-engineer",
-      "confidenza": 0.93,
-      "evidenze": 1,
+      "confidenza": 0.94,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 18:41",
+      "ultima_conferma": "2026-07-20 18:44",
       "stato": "attiva",
       "usi": []
     },
@@ -244,7 +267,7 @@
     },
     {
       "id": "L-2026-0720-404",
-      "testo": "**PostHog sul VPS — non si installa: cloud EU + chiave lettura `phx_` in env worker (Nicola 20/7 ~18:24).** Nicola: «**come faccio ad inserire posthog dentro il vps?**». 5 perché: (1) PostHog **non va installato** sul VPS — è **SaaS cloud** (EU/US); sul sito gli eventi partono già da Render con chiave pubblica; (2) sul VPS serve solo **leggere** funnel/conversioni per briefing — Personal API Key **`phx_…`** con permesso **Project: Read**, **non** la chiave progetto **`phc_…`** (solo tracking/scrittura); (3) **5/7** sensore spento (`POSTHOG_OFF` / chiave sbagliata) — oggi `posthog_api:non_configurato` è **normale**, non bug; (4) setup: env `cervello/vps/.env` → `POSTHOG_OFF=0`, `POSTHOG_API_KEY=phx_…`, `POSTHOG_HOST` (EU o US) → restart `mycity-worker` → `verifica-sensori.mjs` = **ok**; (5) **riaccensione sensore nei briefing** = decisione Nicola esplicita (non automatica al solo env). Regola: su «PostHog nel VPS» → **mai** proporre Docker/self-host; spiega cloud + tipo chiave + verifica sensore; **non** incollare chiavi in chat/memoria. Vedi L-222 (PostHog spento = scelta), DECISIONI 5/7. **Addendum 18:28:** Nicola «**dico di metterlo sul vps come n8n**» — stesso frame mentale L-406: n8n = **programma Docker** sul VPS; PostHog = **servizio cloud** + **3 righe env** nello stesso file di n8n/Telegram; self-host PostHog **scartato** (RAM/manutenzione + cambiare tracking Render). **Addendum 18:41:** Nicola «**ho fatto tutto**» ma sensori no — env **letto** (`phx_`, EU) ma PostHog **HTTP 401** chiave invalida → **`cieco`**, non `non_configurato`; **non** ripetere passi env — rigenerare `phx_` su account/host corretto. Vedi L-409.",
+      "testo": "**PostHog sul VPS — non si installa: cloud + chiave lettura `phx_` in env worker (Nicola 20/7 ~18:24).** Nicola: «**come faccio ad inserire posthog dentro il vps?**». 5 perché: (1) PostHog **non va installato** sul VPS — è **SaaS cloud** (EU/US); sul sito gli eventi partono già da Render con chiave pubblica; (2) sul VPS serve solo **leggere** funnel/conversioni per briefing — Personal API Key **`phx_…`** con permesso **Project: Read**, **non** la chiave progetto **`phc_…`** (solo tracking/scrittura); (3) **5/7** sensore spento (`POSTHOG_OFF` / chiave sbagliata) — oggi `posthog_api:non_configurato` è **normale**, non bug; (4) setup: env `cervello/vps/.env` → `POSTHOG_OFF=0`, `POSTHOG_API_KEY=phx_…`, `POSTHOG_HOST` (**US** = `https://us.posthog.com` per account MyCity — vedi `sensori.posthog.regione`) → restart `mycity-worker` → `verifica-sensori.mjs` = **ok**; (5) **riaccensione sensore nei briefing** = decisione Nicola esplicita (non automatica al solo env). Regola: su «PostHog nel VPS» → **mai** proporre Docker/self-host; spiega cloud + tipo chiave + **chiedi EU/US** + verifica sensore; **non** incollare chiavi in chat/memoria. Vedi L-222 (PostHog spento = scelta), DECISIONI 5/7. **Addendum 18:28:** Nicola «**dico di metterlo sul vps come n8n**» — stesso frame mentale L-406: n8n = **programma Docker** sul VPS; PostHog = **servizio cloud** + **3 righe env** nello stesso file di n8n/Telegram; self-host PostHog **scartato** (RAM/manutenzione + cambiare tracking Render). **Addendum 18:41:** Nicola «**ho fatto tutto**» ma sensori no — env **letto** (`phx_`, host europeo) ma PostHog **HTTP 401** → **`cieco`**. **Addendum 18:44 (L-410):** account **US** — host europeo era la causa; fix host US → sensore **ok** senza rigenerare chiave. Vedi L-409, L-410.",
       "tag": [
         "posthog",
         "vps",
@@ -256,11 +279,11 @@
       ],
       "reparto": "@data-engineer",
       "confidenza": 0.94,
-      "evidenze": 3,
+      "evidenze": 4,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 18:41",
+      "ultima_conferma": "2026-07-20 18:44",
       "stato": "attiva",
       "usi": []
     },
