@@ -98,103 +98,125 @@ Fonte: refresh growth 20/7 · validazione finanza · playbook base 6/7.
 
 ---
 
-## 💰 Costi infrastruttura MyCity · 2026-07-21 00:30
+## 💰 Costi infrastruttura MyCity · 2026-07-21 00:36
 
-Lista aggiornata da Nicola — importi **mensili** salvo dove indicato.
+Lista completa per Nicola — **✅ = confermato da te** · **📊 = stima orientativa** (tipografia, listini, mercato PMI — da rifinire col preventivo reale).
 
-### Oggi — confermati (fissi)
+### Oggi — confermati (fissi mensili)
 
 | Voce | €/mese | Note |
 | --- | ---: | --- |
-| **Claude Max** (AD / worker) | **200** | Abbonamento fisso AI |
-| **Vercel** (Pannello Cabina) | **30** | Oggi solo Pannello — **marketplace in arrivo** sullo stesso Vercel |
-| **Supabase** (database marketplace) | **50** | DB + auth + storage |
-| **VPS worker** | **20** | Cervello AD + n8n + sensori |
-| **Dominio** | **~2** | **20 €/anno** (≈ 1,67 €/m ammortizzato) |
-| **Totale fisso mensile** | **~302** | 300 €/m + dominio |
+| **Claude Max** (AD / worker) | **200** ✅ | Abbonamento fisso AI |
+| **Vercel** (Pannello Cabina) | **30** ✅ | Oggi solo Pannello |
+| **Supabase** (database marketplace) | **50** ✅ | DB + auth + storage |
+| **VPS worker** | **20** ✅ | Cervello AD + n8n + sensori |
+| **Dominio** | **~2** ✅ | **20 €/anno** ammortizzato |
+| **Totale fisso mensile** | **~302** | 300 €/m servizi + dominio |
 
 ### In transizione
 
-| Voce | Stato | Note |
-| --- | --- | --- |
-| **Render** (marketplace) | **→ Vercel** | Nicola sposta il sito su Vercel — Render si spegne; **importo Vercel finale da confermare** dopo la migrazione |
+| Voce | Stima | Note |
+| --- | ---: | --- |
+| **Render** (marketplace) | **0** (chiusura) | Spegni quando migri — oggi **~7–25 €/m** se ancora attivo 📊 |
+| **Vercel totale** (Pannello + sito) | **~50–70 €/m** 📊 | Dopo migrazione marketplace — oggi paghi 30 €; il piano può salire con traffico |
 
-### Materiali fisici, volantini e stampa (🔴 quando stampiamo — non nel burn mensile)
+### Materiali fisici, volantini e stampa (🔴 on-demand — non nel burn mensile)
 
-Grafica **già pronta su disco** (🟢); i soldi escono solo alla **tipografia**. Gate: **ordine test PQ** chiuso prima di mettere QR in vetrina.
+Grafica pronta su disco; paghi solo in tipografia. Gate: **ordine test PQ** prima del QR in vetrina.
 
-| Voce | Stima | Cosa include | Fonte |
-| --- | ---: | --- | --- |
-| **Kit negozio** (1° bottega) | **~80–150 €** | Cartoncino QR cassa, vetrofania vetrina, adesivi, sacchetti kraft brandizzati | Playbook capillarità 20/7 |
-| **Volantini + locandine quartiere** | **da preventivo** | Tiratura piccola (100–500 pz A5/A6) per cluster/zona | Inclusi nel «primo lotto» sotto — chiedi preventivo tipografia |
-| **Locandine bacheche** (Comune, associazioni) | **da preventivo** | Pochi esemplari A5 + adesivi partner | Gate ≥3 negozi evadibili |
-| **Presidio eventi** (fiera, Venerdì Piacentini…) | **da preventivo** 🔴 | QR plastificato + volantini lista d'attesa | Firma per ogni evento |
-| **Primo lotto completo** (kit + volantini cluster) | **~150–300 €** | Tutto il materiale fisico del lancio | DECISIONI 24/6 |
-| **2°–3° negozio** | **~80–150 €** ciascuno | Stesso kit, stampa batch | Playbook capillarità |
+| Voce | Stima | Cosa include |
+| --- | ---: | --- |
+| **Kit negozio** (1° bottega) | **~80–150 €** | QR cassa, vetrofania, adesivi, sacchetti kraft |
+| **Volantini quartiere** (200–500 pz A5) | **~50–100 €** 📊 | Tiratura color tipografia Piacenza |
+| **Locandine bacheche** (10–20 pz A5) | **~25–40 €** 📊 | Comune, associazioni, partner |
+| **Presidio evento** (fiera, Venerdì Piacentini) | **~70–100 €** 📊 | ~200 volantini + QR plastificato |
+| **Primo lotto completo** (kit + volantini cluster) | **~150–300 €** | Lancio zona — DECISIONI 24/6 |
+| **2°–3° negozio** (kit) | **~80–150 €** ciascuno | Stampa batch |
 
-**Leva possibile:** bando **PI26 CCIAA** (50% digitalizzazione, scade 30/7) — può coprire parte stampa/digital, **non** sostituisce il preventivo in tipografia.
-
-Distribuzione volantini in zona = **costo quasi zero** (tu o presidio a mano); il costo è la **stampa**, non la consegna.
+**PI26 CCIAA** — fino al **50%** digitalizzazione (scadenza **30/7**): può ridurre kit/stampa. Distribuire volantini a mano = **~0 €**.
 
 ### App store (quando pubblichiamo l'app)
 
 | Store | Costo | Quando |
-| --- | --- | --- |
-| **Apple App Store** (iPhone) | **~99 €/anno** | Ogni anno — se smetti di pagare, l'app sparisce dallo store |
-| **Google Play** (Android) | **~23 € una tantum** | Paghi una volta sola, per sempre |
+| --- | ---: | --- |
+| **Apple App Store** | **~99 €/anno** 📊 | Rinnovo annuale |
+| **Google Play** | **~23 €** una tantum 📊 | Paghi una volta |
 | **Primo anno entrambi** | **~120 €** | Poi **~99 €/anno** (solo Apple) |
-| **PWA gratis** (alternativa) | **0 €** | Sito installabile da browser — niente store, limiti su iPhone |
+| **PWA gratis** (alternativa) | **0 €** | Sito installabile — limiti su iPhone |
 
-Sugli ordini di prodotti fisici **Apple e Google non prendono commissione** — incassi restano su Stripe come oggi.
+### Email
 
-### Email — due cose diverse
+| Tipo | Costo | Quando |
+| --- | --- | --- |
+| **Email automatiche** (Resend) | **0 €** → **~19 €/m** 📊 | Gratis fino 3.000/mese, poi Pro |
+| **Casella tua** (Google Workspace) | **~7–8 €/m** per casella 📊 | info@ / nicola@ |
 
-| Tipo | A cosa serve | Costo indicativo | Quando |
-| --- | --- | --- | --- |
-| **Email automatiche dal sito** (Resend) | Conferma ordine, welcome, carrello abbandonato, «grazie» — partono da *ordini@tuodominio* | **0 €** fino a 3.000/mese (piano free Resend); poi **~20 $/mese** (~19 €) | Quando accendiamo le email automatiche |
-| **Casella professionale tua** (Google Workspace) | Leggere e rispondere come *info@* o *nicola@* — Gmail col tuo dominio | **~6,80–8,10 €/utente/mese** (listino Google Italia) | Quando vuoi email «seria» per te/team |
+### SMS (Twilio)
 
-Per entrambe serve il **dominio già pagato** (20 €/anno) + qualche record DNS (te lo guido quando scegli).
+**~0,05–0,10 €** a messaggio 📊 — backup urgente. Oggi **0 €** (Telegram + email bastano).
 
-### SMS (Twilio) — a cosa servono
+### Amministrazione e professionisti (annuali, ammortizzati)
 
-**Non servono oggi.** Sono un **canale di backup urgente** quando email/Telegram non bastano:
+| Voce | Stima | Frequenza |
+| --- | ---: | --- |
+| **PEC** | **~25–35 €/anno** (~3 €/m) 📊 | Obbligatoria per bandi/enti |
+| **Firma digitale / SPID** | **~25–40 €/anno** (~3 €/m) 📊 | Se non ce l'hai già |
+| **Commercialista** (micro/PMI) | **~800–1.200 €/anno** (~70–100 €/m) 📊 | Bilancio, IVA, dichiarazioni |
+| **Visure / pratiche CCIAA** | **~15 €** a visura 📊 | Su richiesta |
+| **Notaio** (atti societari) | **~200–500 €** a atto 📊 | Solo quando serve |
+| **Consulente del lavoro** | **~50–150 €** a pratica 📊 | Quando assumi rider dipendente |
 
-- Cliente: «Il rider è in ritardo» / pagamento fallito
-- Negozio: «Hai un ordine — rispondi subito»
-- Rider: alert operativo last-minute
+### Operatività consegne (quando parti)
 
-Costo: **pay-per-use** — circa **5–10 centesimi a SMS** in Italia (Twilio), nessun abbonamento fisso. Le accendiamo solo se serve davvero; finché hai Telegram + email, puoi restare a **0 €**.
+| Voce | Stima | Note |
+| --- | ---: | --- |
+| **Bici elettrica usata** | **~150–250 €** una tantum | Subito.it / Marketplace — DECISIONI 11/7 |
+| **Bici normale usata** (avvio) | **~50 €** una tantum 📊 | Primi 5–10 ordini in centro |
+| **Noleggio bici elettrica** | **~40–70 €/m** 📊 | Alternativa all'acquisto — DECISIONI 11/7 |
+| **Pagamento rider** (freelance) | **~3–5 €** a consegna 📊 | Oppure **~8–12 €/ora** 📊 se a turno |
+| **Packaging food extra** (termico) | **~0,30–0,80 €** a ordine 📊 | Oltre sacchetti brand |
 
-### In stack — importo da mettere
+### Marketing attivo (🔴 quando accendi)
+
+| Voce | Stima | Note |
+| --- | ---: | --- |
+| **Meta / Google Ads** | **~300–500 €/m** minimo test 📊 | Tu decidi budget — 🔴 firma |
+| **Promo «porta un amico»** | **~10 €** a coppia attivata 📊 | 5 € + 5 € cliente/amico |
+| **Influencer micro locali** | **~50–150 €** o baratto 📊 | Creator food/Piacenza |
+| **Comunicato stampa** (invio) | **~0 €** | Email giornalisti — tempo tuo |
+
+### A volume — quando incassi ordini
+
+| Voce | Stima | Note |
+| --- | ---: | --- |
+| **Stripe** (commissioni carta) | **~1,4% + 0,25 €** / transazione 📊 | Esempio ordine 20 € → **~0,53 €** |
+| **Assicurazione RC marketplace** | **~500–1.000 €/anno** (~40–85 €/m) 📊 | Da preventivo broker 🔴 |
+| **Assicurazione RC consegne / rider** | **~300–600 €/anno** (~25–50 €/m) 📊 | Da preventivo broker 🔴 |
+
+### In stack — oggi a zero o variabile
 
 | Voce | €/mese | Note |
 | --- | ---: | --- |
-| **PostHog** | 0 (oggi) | Piano cloud free US — monitorare se superiamo i limiti |
-| **Stripe** | variabile | Nessun canone fisso — solo % su transazione |
-| **Telegram bot** | 0 | Gratis |
-| **GitHub** | 0 | Repo attuali |
+| **PostHog** | **0** (oggi) | Piano free — se superi limiti **~50 €/m** 📊 |
+| **Telegram bot** | **0** | Gratis |
+| **GitHub** | **0** | Repo attuali |
+| **Cursor API** (fallback AI) | **~0–20 €/m** 📊 | Solo se Claude Max satura |
+| **Supabase Pro+** | **~23 €/m**+ 📊 | Se superi piano attuale (50 €) |
+| **Resend Pro** | **~19 €/m** 📊 | Oltre 3.000 email/mese |
 
-### Quando scaliamo — previsti
+### Riepilogo scenari (solo per orientarti)
 
-| Voce | Stima | Quando |
-| --- | --- | --- |
-| **Meta / Google Ads** | budget variabile 🔴 | Campagne acquisizione — decidi tu importo |
-| **Mezzo consegna** (bici elettrica usata) | **~150–250 €** una tantum | Prima consegne a domicilio — alternativa: rider freelance a consegna |
-| **Pagamento rider** | variabile | A consegna o a turno — non abbonamento fisso oggi |
-| **Stripe** (commissioni) | **~1,4% + 0,25 €** / transazione | Solo quando incassi ordini — nessun canone fisso |
-| **Assicurazioni** (RC marketplace/consegne) | da quotare 🔴 | RC prodotti, RC consegne, infortuni rider |
-| **Twilio SMS** | ~0,05–0,10 €/SMS | Solo se accendiamo alert urgenti |
-| **Resend Pro** | ~19 €/m | Se superiamo 3.000 email automatiche/mese |
-| **Cursor API** | pay-per-use | Fallback se Claude Max satura (oggi raro) |
-| **Supabase Pro+** | sale con traffico | Se superiamo piano attuale |
-| **Vercel Pro+** | sale con traffico | Probabile dopo migrazione marketplace |
-| **Influencer locali** | baratto / pochi € | Collaborazioni micro-creator Piacenza |
-| **Packaging extra** | variabile | Oltre sacchetti brand — sacche termiche, ecc. food |
+| Scenario | €/mese indicativi | Cosa include |
+| --- | ---: | --- |
+| **Oggi (minimo)** | **~302** ✅ | Solo infrastruttura accesa |
+| **+ amministrazione base** | **~310–320** 📊 | Aggiungi PEC + commercialista ammortizzato |
+| **+ operativo leggero** | **~350–400** 📊 | + noleggio bici + qualche consegna rider |
+| **+ marketing test** | **~650–850** 📊 | + ads 300–500 €/m (tu decidi) |
+| **One-shot lancio zona** | **+150–300 €** una tantum | Primo lotto stampa + kit negozio |
 
-**Runway:** burn fisso oggi **~302 €/m** (300 + dominio). Stampa, app store, ads, bici e assicurazioni **non** entrano nel mensile fisso finché non li accendi.
+**Runway:** il burn **certo oggi** resta **~302 €/m**. Tutto il resto entra solo quando lo accendi.
 
-Fonte: Nicola chat 20–21/7 · volantini playbook `consegne/vendite/2026-07-20-playbook-capillarita.md` · primo lotto DECISIONI 24/6 · app store Bacheca 16/7 · Resend/Google listini IT.
+Fonte: Nicola chat 20–21/7 ✅ · playbook capillarità · DECISIONI 11/7 e 24/6 · listini Resend/Google/Stripe · stime PMI 📊 su richiesta Nicola 21/7.
 
 ---
 
