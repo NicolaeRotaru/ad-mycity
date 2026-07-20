@@ -13,7 +13,7 @@ import { salvaGruppoLavoroLocale, messaggiDaGruppo, type LavoroBase, type MsgCha
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
 import { gestisciInvioChat, hintInvioChat } from "@/lib/chat-input";
 import { emitSync } from "@/lib/panel-sync";
-import { MSG_RISPOSTA_VUOTA } from "@/lib/parla";
+import { MSG_RISPOSTA_VUOTA, salvaConversazioneCasella } from "@/lib/parla";
 
 const HEADERS = { "Content-Type": "application/json" };
 
@@ -173,12 +173,17 @@ export default function ChatCasella({
       const risposta = await attendiLavoro(post.lavoro.id, prep.tipo, prep.timeoutMs, (parziale) =>
         setStreamingText(parziale),
       );
-      setMsgs((m) => {
-        // Guard triplicazione: se la risposta è già l'ultimo messaggio (es. il polling l'ha già applicata), non duplicarla.
-        const last = m[m.length - 1];
-        if (last?.role === "assistant" && !last.pending && last.content === risposta) return m;
-        return [...m, { role: "assistant", content: risposta }];
-      });
+      const finalMsgs: MsgChat[] = (() => {
+        const base = [...msgs, { role: "user" as const, content: bollaUtente }];
+        const last = base[base.length - 1];
+        if (last?.role === "assistant" && last.content === risposta) return base;
+        return [...base, { role: "assistant" as const, content: risposta }];
+      })();
+      setMsgs(finalMsgs);
+      const titolo =
+        finalMsgs.find((m) => m.role === "user")?.content.replace(/\n📎 .+$/gm, "").replace(/\s+/g, " ").trim().slice(0, 60) ||
+        "Conversazione";
+      void salvaConversazioneCasella(gruppoId, titolo, finalMsgs);
       setStreamingText("");
       if (typeof window !== "undefined") {
         emitSync("memoria");
