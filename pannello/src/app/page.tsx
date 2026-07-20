@@ -961,12 +961,11 @@ export default function Dashboard() {
   // 🔍 Ricerca nel cassetto conversazioni
   const [convRicerca, setConvRicerca] = useState("");
   // ⚡ Finestra "Skill & comandi" dentro la chat (condivisa: chat intera e fluttuante non sono mai visibili insieme).
-  // Worker popup: elenco conv integrato (desktop) + cassetto mobile (icona Menu in testata).
-  const [workerConvAperto, setWorkerConvAperto] = useState(true);
-  const [workerConvMobile, setWorkerConvMobile] = useState(false);
+  // Worker popup: elenco conv in cassetto sopra la chat (icona ☰ in testata, mobile e desktop).
+  const [workerConvAperto, setWorkerConvAperto] = useState(false);
   // Cassetto Assistente chiuso dopo scelta chat → scroll al fondo post-animazione.
   useEffect(() => {
-    if (convDrawerAperto || workerConvMobile) return;
+    if (convDrawerAperto || workerConvAperto) return;
     if (!scrollDopoDrawerRef.current) return;
     scrollDopoDrawerRef.current = false;
     stickFabRef.current = true;
@@ -976,7 +975,7 @@ export default function Dashboard() {
     requestAnimationFrame(() => requestAnimationFrame(scroll));
     const timers = [240, 450, 800, 1200].map((ms) => setTimeout(scroll, ms));
     return () => timers.forEach(clearTimeout);
-  }, [convDrawerAperto, workerConvMobile]);
+  }, [convDrawerAperto, workerConvAperto]);
   // Riapertura FAB: il contenitore scroll si rimonta (condizionale) → torna all'ultimo messaggio.
   useEffect(() => {
     if (!chatFluttuante && !workerFull) return;
@@ -1853,7 +1852,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }
     // Legacy: auto-coscienza e marketplace erano tab dentro «cervello» — ora voci menu a sé.
     if (v === "cervello-marketplace") setVista("salute-sito");
-    else if (v === "assistente") apriWorkerPopup(false);
+    else if (v === "assistente") apriWorkerPopup(true);
     else setVista(v as Vista);
   };
   useEffect(() => {
@@ -1907,7 +1906,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       ultimaVistaStoria.current = v; // evita che l'effetto [vista] ri-aggiunga la voce (niente loop)
       applicaVistaSalvata(v);
       // Ripristina la sotto-scheda: l'assistente qui, le altre aree via EVENTO_SUB.
-      if (v === "assistente") apriWorkerPopup(false);
+      if (v === "assistente") apriWorkerPopup(true);
       if (st?.sub) ripristinaSub(v, st.sub);
     };
     window.addEventListener("popstate", onPop);
@@ -1955,7 +1954,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       if (det.vista === "cervello" && det.sub === "marketplace") setVista("salute-sito");
       else if (det.vista === "cervello" && det.sub === "auto-coscienza") setVista("auto-coscienza");
       else if (det.vista === "assistente") {
-        apriWorkerPopup(false);
+        apriWorkerPopup(true);
         if (det.sub === "chat" && det.anchor) void apriChatRef.current(det.anchor);
       } else setVista(det.vista);
       if (det.anchor) {
@@ -2574,7 +2573,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     <button
                       key={v.id}
                       onClick={() => {
-                        if (v.id === "assistente") apriWorkerPopup(false);
+                        if (v.id === "assistente") apriWorkerPopup(true);
                         else setVista(v.id);
                         if (typeof window !== "undefined" && window.innerWidth < 1024) setNavAperta(false);
                       }}
@@ -3014,20 +3013,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <div className="absolute top-2 right-2 z-20 flex items-center gap-0.5">
             <button
               type="button"
-              onClick={() => setWorkerConvMobile((v) => !v)}
-              className={`sm:hidden grid place-items-center w-8 h-8 rounded-lg transition ${
-                workerConvMobile ? "bg-brand/10 text-brand" : "text-black/45 hover:bg-black/[0.06]"
-              }`}
-              aria-label="Apri o chiudi le conversazioni"
-              aria-expanded={workerConvMobile}
-              title="Conversazioni"
-            >
-              <Menu size={15} />
-            </button>
-            <button
-              type="button"
               onClick={() => setWorkerConvAperto((v) => !v)}
-              className={`hidden sm:grid place-items-center w-8 h-8 rounded-lg transition ${
+              className={`grid place-items-center w-8 h-8 rounded-lg transition ${
                 workerConvAperto ? "bg-brand/10 text-brand" : "text-black/45 hover:bg-black/[0.06]"
               }`}
               aria-label="Apri o chiudi le conversazioni"
@@ -3052,22 +3039,20 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <X size={15} />
             </button>
           </div>
-          {/* Due colonne: conversazioni + chat (mobile = cassetto via icona Menu) */}
+          {/* Cassetto conversazioni sopra la chat (mobile e desktop) */}
           <div className="relative flex flex-1 min-h-0 overflow-hidden">
           <div
-            className={`absolute inset-0 z-20 bg-black/25 transition-opacity duration-200 sm:hidden ${workerConvMobile ? "opacity-100" : "opacity-0 pointer-events-none"}`}
-            onClick={() => setWorkerConvMobile(false)}
+            className={`absolute inset-0 z-20 bg-black/25 transition-opacity duration-200 ${workerConvAperto ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+            onClick={() => setWorkerConvAperto(false)}
             aria-hidden="true"
           />
           <aside
             className={`flex flex-col overflow-hidden border-r shrink-0 z-30 transition-transform duration-200
               absolute inset-y-0 left-0 w-[min(280px,88%)] shadow-2xl
-              ${workerConvMobile ? "translate-x-0" : "-translate-x-full pointer-events-none"}
-              sm:relative sm:inset-auto sm:w-[min(240px,38%)] sm:shadow-none sm:translate-x-0 sm:pointer-events-auto
-              ${workerConvAperto ? "sm:flex" : "sm:hidden"}
+              ${workerConvAperto ? "translate-x-0" : "-translate-x-full pointer-events-none"}
             `}
             style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}
-            aria-hidden={!workerConvMobile && !workerConvAperto}
+            aria-hidden={!workerConvAperto}
           >
             <div className="px-3 py-2.5 flex items-center gap-2 border-b shrink-0" style={{ borderColor: "var(--border)" }}>
               <MessagesSquare size={14} className="text-brand shrink-0" />
@@ -3104,7 +3089,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                         onClick={() => {
                           scrollDopoDrawerRef.current = true;
                           void continuaConversazione(c.id);
-                          setWorkerConvMobile(false);
+                          setWorkerConvAperto(false);
                         }}
                         className="flex-1 min-w-0 text-left"
                       >
