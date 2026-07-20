@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 18:36",
+  "aggiornato": "2026-07-20 18:41",
+  "_nota_metabolizzazione_20_07_1841": "Chat 20/7 ~18:41: Nicola «ho fatto tutto ma posthog non collegato» — AD verifica live: env ok (phx_, EU) ma HTTP 401 chiave invalida; sensore cieco non assente. L-409 nuova; L-404 evidenze++ addendum 401; preferenza posthog-ho-fatto-tutto; STATO+LEZIONI-CHAT+data-engineer+devops-sre esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_20_07_1834": "Chat 20/7 ~18:32: Nicola «ricominciamo da capo, controlla tutte le caselle» — AD audit tabella AR-105: 2/3 sensori ok, Telegram pendente, invariato vs 18:25. L-405 evidenze++ addendum tabella; preferenza verifica-fix aggiornata; STATO+LEZIONI-CHAT+devops-sre esito; nessuna azione/decisione nuova.",
   "_nota_metabolizzazione_20_07_1832": "Chat 20/7 ~18:31: Nicola «elimina i 245 prodotti finti» — erano nascosti (draft) dal passo 18:30; AD DELETE 253 righe DB, REST 1 negozio 5 prod. L-408 nuova (caso_studio_nicola); L-401+L-407 evidenze++ addendum hard delete; preferenza elimina-prodotti-finti-db; STATO+LEZIONI-CHAT+operations; DECISIONI+AZIONI già 18:32.",
   "_nota_metabolizzazione_20_07_1830": "Chat 20/7 ~18:28: Nicola «te lo approvo in chat» — #elimina-negozi-demo ESEGUITO: 16 demo rimossi, 245 prod nascosti, REST 1 negozio 5 prodotti. L-407 nuova (caso_studio_nicola); L-401 evidenze++ addendum esecuzione; preferenza approvazione-chat-irreversibile + pulizia-catalogo-demo aggiornata; STATO+DECISIONI+AZIONI già 18:30; LEZIONI-CHAT+operations esito.",
@@ -149,6 +150,28 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 18:32",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
+      "id": "L-2026-0720-409",
+      "testo": "**PostHog «ho fatto tutto» — env ok + HTTP 401 = chiave invalida, non ripetere passi env (Nicola 20/7 ~18:41).** Nicola: «**ho fatto tutto quello che mi hai detto**» ma sensori/Pannello dicono ancora PostHog non collegato. 5 perché: (1) AD deve **verificare runtime** (`verifica-sensori.mjs`) prima di dire «manca env» o ripetere istruzioni; (2) **18:41:** env **letto** (`POSTHOG_OFF=0`, prefix `phx_`, host EU, len 52) — collegamento c'è; PostHog risponde **HTTP 401** «Personal API key … is invalid»; (3) stato passa da `non_configurato`/`spento` a **`cieco`** — non è «assente», è **chiave rifiutata**; Pannello può mostrare «non collegato» finché non refresh; (4) cause tipiche: chiave copiata male/troncata, revocata, account **EU vs US** sbagliato, permessi insufficienti; (5) fix: rigenerare Personal API Key su **eu.posthog.com** (Project: Read minimo) → sostituire riga env → restart worker → Nicola «posthog ok» per ricontrollo. Regola: su «ho fatto tutto» PostHog → **non** ripetere setup env; verifica API live + distingui env assente vs 401 chiave. Vedi L-404, L-222.",
+      "tag": [
+        "posthog",
+        "sensori",
+        "401",
+        "vps",
+        "env",
+        "data-engineer",
+        "devops-sre"
+      ],
+      "reparto": "@data-engineer",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 18:41",
       "stato": "attiva",
       "usi": []
     },
