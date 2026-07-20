@@ -1,6 +1,6 @@
 import { readVaultFile } from "@/lib/vault";
 import { getMetriche } from "@/lib/marketplace-db";
-import { azioniDaSentinelle } from "@/lib/sentinelle";
+import { azioniDaSentinelle, PRICING_PITCH_DEFAULT, type PricingPitch } from "@/lib/sentinelle";
 import { parseAzioniAttesa } from "@/lib/azioni-attesa";
 
 // Logica condivisa della corsia "Azioni pronte": parsing del vault, unione con
@@ -50,6 +50,21 @@ function bloccoDaAttesa(a: ReturnType<typeof parseAzioniAttesa>[number]): Blocco
   };
 }
 
+async function leggiPricingDaRegistro(): Promise<PricingPitch> {
+  const raw = await readVaultFile("90-Memoria-AI/registro-fatti.json");
+  if (!raw) return PRICING_PITCH_DEFAULT;
+  try {
+    const reg = JSON.parse(raw) as { fatti?: { id?: string; valore?: string }[] };
+    const byId = (id: string) => reg.fatti?.find((f) => f.id === id)?.valore;
+    return {
+      commissione: byId("pricing.commissione") || PRICING_PITCH_DEFAULT.commissione,
+      abbonamento: byId("pricing.abbonamento") || PRICING_PITCH_DEFAULT.abbonamento,
+    };
+  } catch {
+    return PRICING_PITCH_DEFAULT;
+  }
+}
+
 export function statoDa(raw: string): StatoAzione {
   if (raw === "approvata") return "coda"; // compatibilità con la Tappa 1
   if (raw === "rifiutata" || raw === "fatta" || raw === "simulata" || raw === "coda") return raw;
@@ -68,8 +83,14 @@ export async function tutteLeAzioni(): Promise<Blocco[]> {
     : [];
   let sentinelle: Blocco[] = [];
   try {
-    const m: any = await getMetriche();
-    sentinelle = azioniDaSentinelle(m).map((s) => ({ ...s, fonte: "sentinella" as const, cambia: "", seguito: "", origine: `sentinella:${s.id}` }));
+    const [m, pricing] = await Promise.all([getMetriche(), leggiPricingDaRegistro()]);
+    sentinelle = azioniDaSentinelle(m, pricing).map((s) => ({
+      ...s,
+      fonte: "sentinella" as const,
+      cambia: "",
+      seguito: "",
+      origine: `sentinella:${s.id}`,
+    }));
   } catch {
     sentinelle = [];
   }
