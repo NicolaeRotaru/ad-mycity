@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:04
+aggiornato: 2026-07-20 03:05
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:05 — CHAT: «pensa più in grande» — colosso = moat + fasi, non altri plugin (L-370).** Dopo catalogo mani/n8n (L-367), Nicola corregge: vuole **visione strategica**, non elenco strumenti. AD risponde con **moat** (botteghe reali + consegna + identità locale vs Glovo/Amazon), **collo di bottiglia** = **primo ordine reale** (1 negozio incassa Pane Quotidiano, domanda in attesa ~23 iscritti), **3 fasi** (4 sett accendi città 15–25 botteghe · 3 mesi abitudine multi-negozio · 12 mesi default «compro a Piacenza online»), strumenti (n8n/Telegram/Meta) = **ripetizione** fase 2 non obiettivo. **Oggi ore 10:00:** 🔴 **PI26 sportello** = leva istituzionale più grossa. CTA: **una priorità** tra bandi 10:00 / primo ordine fornaio / Telegram / Meta — missione non checkbox. Fonte: chat Nicola 20/7 03:05.
 
 > 💬 **20/7 ~03:04 — CHAT: Worker chat grande — menu navbar sito vs ☰ conv, z-index (L-369).** Nicola «menu nella navbar ancora non si apre» in chat grande + «dimmi cosa hai capito». AD diagnosi: **due menu ☰ distinti** — **basso** (accanto «+ Nuova») = elenco **conversazioni** Worker; **navbar alto** (accanto logo/Pannello) = menu **sito** (Home, Azioni, Lavori…) — click **arriva** ma drawer sito resta **sotto** overlay chat fullscreen → sembra inerte (L-364 «toggle non collegato» era parziale). Popup piccolo ok (z-index diverso). **Fix pendente:** menu sito **sopra** chat grande o chat cede spazio — chiedere quale ☰ fallisce prima di PR. Bug **aperto**. Fonte: chat Nicola 20/7 03:04.
 

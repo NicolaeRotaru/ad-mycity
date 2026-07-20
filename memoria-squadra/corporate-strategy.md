@@ -9,4 +9,4 @@ bootstrap: 2026-07-14 02:31
 > Formato: AAAA-MM-GG · contesto · scorecard 6 assi · atteso→reale · #tag
 
 ## Esiti
-- (ancora vuoto — il primo ESITO si registra con: node cervello/chiusura-loop.mjs registra corporate-strategy "…" "…" "…" "…")
+- 2026-07-20 03:05 · metabolizzazione chat «pensa più in grande» · atteso: L-370 moat/fasi + aggiornamento L-367 · reale: correzione catalogo→visione, preferenza, STATO/DECISIONI/LEZIONI · #colosso #strategia #L-370

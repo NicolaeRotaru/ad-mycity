@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:04",
+  "aggiornato": "2026-07-20 03:05",
+  "_nota_metabolizzazione_20_07_0305": "Chat 20/7 ~03:05: Nicola «pensa più in grande» — correzione post-catalogo mani: vuole moat/fasi/bottleneck, non plugin. L-370 nuova (caso_studio_nicola); L-367 evidenze++ addendum visione; preferenza pensa-piu-in-grande; STATO+DECISIONI+LEZIONI-CHAT+corporate-strategy+ad esito.",
   "_nota_metabolizzazione_20_07_0304": "Chat 20/7 ~03:04: Nicola «menu navbar chat grande ancora non si apre, dimmi cosa hai capito» — diagnosi 2 ☰ distinti + z-index overlay (corregge L-364 parziale). L-369 nuova (caso_studio_nicola); L-364 evidenze++ addendum z-index; preferenza worker-menu-navbar-z-index; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0259": "Chat 20/7 ~02:59: Nicola «50 cose n8n in 10 funzioni performanti» — catalogo 10×5 + priorità. L-368 nuova; L-335 evidenze++ addendum 50×10; preferenza catalogo-50-n8n-10-funzioni; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0257": "Chat 20/7 ~02:56: Nicola «tutte le mani per colosso Piacenza» — catalogo completo mani + ordine priorità. L-367 nuova; L-351 evidenze++ addendum colosso; preferenza catalogo-mani-colosso; STATO+LEZIONI-CHAT+builder esito.",
@@ -89,6 +90,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-370",
+      "testo": "**«Pensa più in grande» = moat + fasi + bottleneck, NON catalogo plugin (Nicola 20/7 ~03:05).** Dopo risposta «tutte le mani per colosso Piacenza» (L-367), Nicola corregge con «pensa più in grande». 5 perché: (1) catalogo mani/n8n/automazioni = **tattica setup**, non risposta a «colosso» — suona piccolo; (2) «colosso» per Nicola = **moat difendibile** (centinaia botteghe reali + consegna + «compro qui non Amazon») + **liquidity a due lati**; (3) **collo di bottiglia reale** = **primo ordine vero** (1 negozio incassa, domanda in attesa) — non altro plugin; (4) struttura **3 fasi** (4 sett accendi città 15–25 botteghe · 3 mesi abitudine multi-negozio/QR/istituzioni · 12 mesi default «compro a Piacenza online»); (5) strumenti (n8n, Telegram, Meta) = **ripetizione** storia fase 2, non obiettivo. Regola: «colosso» / «pensa più in grande» → moat + fasi + bottleneck numerato + **una priorità/missione** (PI26, primo ordine fornaio, Telegram…) — **non** elenco 50 automazioni. Vedi L-367, L-368.",
+      "tag": [
+        "strategia",
+        "colosso",
+        "moat",
+        "visione",
+        "piacenza",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@corporate-strategy",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:05",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-369",
       "testo": "**Worker chat grande — DUE menu ☰ distinti; navbar sito bloccato da z-index overlay (Nicola 20/7 ~03:04).** Nicola «menu nella navbar ancora non si apre» in chat grande + «dimmi cosa hai capito». 5 perché: (1) L-364 interpretava «navbar non apre» come toggle non collegato — **parzialmente errato** per il menu **sito**; (2) **☰ basso** accanto «+ Nuova» = elenco **conversazioni** Worker (fix placement #493); (3) **☰ navbar alto** accanto logo/Pannello = menu **sito** (Home, Azioni, Lavori…) — click **arriva** ma drawer sito resta **sotto** overlay chat fullscreen → sembra morto; (4) popup piccolo ok perché z-index/stacking diverso; (5) fix = menu sito **sopra** chat grande (z-index) o chat cede spazio — **non** basta spostare toggle conv in basso per il menu sito; chiedere **quale ☰** fallisce prima di PR. Regola: bug «menu navbar non apre» in chat grande → distinguere menu sito vs conv + controllare z-index overlay. Vedi L-364, L-363.",
       "tag": [
@@ -135,7 +158,7 @@
     },
     {
       "id": "L-2026-0720-367",
-      "testo": "**«Tutte le mani per colosso Piacenza» = catalogo 5 blocchi da sensori + ordine priorità (Nicola 20/7 ~02:56).** Nicola chiede inventario completo delle mani per far crescere MyCity localmente. 5 perché: (1) pattern «colosso/crescita/mani» = risposta **strategica operativa**, non teoria — partire da **sensori verificati** (cosa è già acceso) + `cervello/azioni.md`; (2) struttura **5 blocchi:** già accese · gratis alto impatto locale · leve per reparto (clienti/negozi/ops/soldi) · interruttore sicurezza (card 🔴 anche con chiavi) · **ordine consigliato numerato**; (3) post-webhook n8n (L-357) Telegram resta **#1** (59 avvisi bloccati), Meta n8n #2, post test 🔴 #3; (4) **non** confondere «mani possibili» con «mani attive» — distinguere sempre; (5) chiudere con **CTA singola** («facciamo Telegram» / «facciamo Meta») per passo immediato. Regola: «tutte le mani» / «colosso Piacenza» → 5 blocchi + ordine 1→5 + CTA. Vedi L-366, L-351, L-344, azioni.md.",
+      "testo": "**«Tutte le mani per colosso Piacenza» = catalogo 5 blocchi da sensori + ordine priorità (Nicola 20/7 ~02:56).** Nicola chiede inventario completo delle mani per far crescere MyCity localmente. 5 perché: (1) pattern «colosso/crescita/mani» = risposta **strategica operativa**, non teoria — partire da **sensori verificati** (cosa è già acceso) + `cervello/azioni.md`; (2) struttura **5 blocchi:** già accese · gratis alto impatto locale · leve per reparto (clienti/negozi/ops/soldi) · interruttore sicurezza (card 🔴 anche con chiavi) · **ordine consigliato numerato**; (3) post-webhook n8n (L-357) Telegram resta **#1** (59 avvisi bloccati), Meta n8n #2, post test 🔴 #3; (4) **non** confondere «mani possibili» con «mani attive» — distinguere sempre; (5) chiudere con **CTA singola** («facciamo Telegram» / «facciamo Meta») per passo immediato. Regola: «tutte le mani» / «colosso Piacenza» → 5 blocchi + ordine 1→5 + CTA. **Addendum 03:05 (L-370):** se Nicola dice «pensa più in grande» dopo il catalogo → **non basta** — aggiungere **moat + 3 fasi + bottleneck primo ordine** e chiudere con **una missione**, non più plugin. Vedi L-366, L-351, L-344, L-370, azioni.md.",
       "tag": [
         "mani",
         "crescita",
@@ -148,11 +171,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.9,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 02:57",
+      "ultima_conferma": "2026-07-20 03:05",
       "stato": "attiva",
       "usi": []
     },
@@ -8423,9 +8446,10 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**«Pensa più in grande» — colosso = visione moat/fasi, non catalogo plugin (chat 20/7 ~03:05):** dopo elenco mani/n8n/automazioni corregge con «pensa più in grande» — si aspetta **strategia** (moat botteghe+consegna+identità locale, liquidity a due lati, **collo di bottiglia = primo ordine reale**, 3 fasi 4 sett/3 mesi/12 mesi); strumenti citati solo come **ripetizione** fase 2; oggi **PI26 10:00** leva istituzionale grossa; chiudere con **una priorità/missione** (bandi / primo ordine fornaio / Telegram / Meta), **non** checklist 50 automazioni. Vedi L-370, L-367.",
     "**Worker chat grande — menu navbar sito vs ☰ conv, z-index overlay (chat 20/7 ~03:04):** «menu nella navbar ancora non si apre» + «dimmi cosa hai capito» — si aspetta **diagnosi chiara** prima del fix; **due ☰ distinti:** basso accanto «+» = elenco conv · navbar alto = menu **sito** (Home, Azioni, Lavori) — il secondo sembra morto perché chat fullscreen lo copre (z-index), non perché toggle assente; fix = menu sito **sopra** chat o chat cede spazio; chiedere **quale ☰** fallisce. Vedi L-369, L-364.",
     "**Catalogo n8n 50×10 — «50 cose in 10 funzioni performanti» = griglia 10 categorie × 5 idee + priorità (chat 20/7 ~02:59):** chiede inventario ampio ma strutturato per MyCity — si aspetta **10 funzioni fondamentali** (social, acquisizione, carrelli, fidelizzazione, negozi, ops, comunicazione, marketing locale, intelligence cron, back-office) con **5 automazioni ciascuna** (50 totali), tutte ripetitive/ROI; reminder **🔴** su messaggi/post; **ordine consigliato** Telegram→Meta→post test→carrello→notifica ordine negozio; chiude con «dimmi blocco» per preparare workflow import. Non tutorial n8n né ricerche web ad hoc (Worker L-365). Vedi L-368, L-366, L-335.",
-    "**Catalogo mani colosso Piacenza — «tutte le mani» = inventario completo + ordine priorità (chat 20/7 ~02:56):** chiede quali canali può usare per far crescere MyCity a Piacenza — si aspetta **catalogo strutturato** (già accese vs da accendere, gratis vs 🔴, leve per reparto) con **ordine consigliato numerato** (Telegram → Meta n8n → post test 🔴 → email welcome → WhatsApp negozi), non teoria strategica; reminder interruttore sicurezza (niente esce senza card); chiudere con CTA singola per partire subito. Vedi L-367, L-366, L-351, azioni.md.",
+    "**Catalogo mani colosso Piacenza — «tutte le mani» = inventario + ordine, MA se dice «pensa più in grande» aggiungi visione (chat 20/7 ~02:56, agg. 03:05):** chiede quali canali per crescere — si aspetta **catalogo strutturato** (già accese vs da accendere, ordine Telegram→Meta→…) **E**, se chiede colosso/«pensa più in grande», anche **moat + fasi + bottleneck primo ordine** — non fermarsi al catalogo plugin. Vedi L-370, L-367, L-366, L-351.",
     "**n8n post-webhook — «cosa posso fare adesso?» = catalogo concreto + ordine priorità (chat 20/7 ~02:50):** dopo webhook collegato chiede controllo env (2 righe, 1 segnaposto da cancellare) + cosa può fare con n8n — si aspetta **lista operativa** (FB/IG post, Telegram, lista attesa, cron) con **ordine consigliato** (dedup env → Telegram → Meta → test post 🔴), non spiegazione generica; gruppi FB manuali; ricerche ad hoc restano Worker. Vedi L-366, L-357.",
     "**n8n ricerche web — chiede se n8n può cercare sul web per il worker (chat 20/7 ~02:47):** si aspetta chiarimento architettura — risposta: **no** oggi e **non serve** per chat (worker/cervello già cerca bandi/concorrenti/intelligence); n8n collegato (webhook ok L-357) = braccia per post/avvisi; ricerche **programmate** (cron fisso, es. bandi Comune ogni mattina) = ok n8n come sveglia; ricerche **ad hoc** = scrivi nel Worker, non passa da n8n. Prossimo passo utile: Meta OAuth in n8n. Vedi L-365, L-344.",
     "**Worker controlli per superficie — ☰ accanto a + in grande, barra alta solo popup (chat 20/7 ~02:46, agg. 03:04):** post-#492 chiede (1) **chat grande** — icona ☰ elenco conv **accanto a «+ Nuova» in barra bassa**, **niente** ingrandisci/chiudi in alto; chiudi grande = tap fuori o voce Worker; (2) **popup FAB** — **barra alta** con ☰ + ingrandisci + chiudi (estetica chiudi riquadro). **03:04 addendum:** ☰ **navbar** = menu **sito** — sembra non aprire perché overlay chat lo copre (L-369), non solo placement conv. Fix **PR #493** — merge 🔴 #210, poi Ctrl+F5. Vedi L-364, L-369, L-363.",
@@ -8735,7 +8759,7 @@
     "tasso_applicazione": 0.2,
     "tasso_calcolato_il": "2026-07-20 02:56",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 02:56",
+    "tick_leggero_il": "2026-07-20 03:06",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

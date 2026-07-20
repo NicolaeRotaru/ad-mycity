@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 03:05 · 🟢 · [Preferenza risposta — «pensa più in grande» = visione moat/fasi, non catalogo plugin] · **Nicola: «pensa più in grande»** dopo risposta AD su «tutte le mani per colosso Piacenza». Correzione esplicita: elenco mani/n8n/automazioni è **troppo piccolo** — si aspetta **strategia** (moat difendibile, liquidity a due lati, collo di bottiglia = primo ordine reale, fasi 4 sett / 3 mesi / 12 mesi); strumenti citati solo come leva di **ripetizione**, non come risposta. Chiudere con **una priorità/missione**, non checklist. L-370, aggiorna L-367. Prossimo: Nicola sceglie tra PI26 10:00, primo ordine fornaio, Telegram, Meta.
+
 2026-07-20 03:04 · 🟢 · [Diagnosi Worker — menu navbar in chat grande = z-index overlay, non toggle] · **Nicola: «menu nella navbar ancora non si apre» + dimmi cosa hai capito.** AD corregge parzialmente L-364: in chat grande ci sono **due ☰ distinti** — basso = elenco conv, navbar = menu sito (Home, Azioni, Lavori); il menu sito si apre ma resta **sotto** l'overlay chat fullscreen → sembra morto. Fix pendente: z-index menu sito sopra chat o chat cede spazio. L-369.
 
 2026-07-20 02:46 · 🟡 · [Worker UX — posizione controlli per superficie, PR #493] · **Nicola: (1) ☰ accanto a «+ Nuova» in chat grande, sparisci ingrandisci/chiudi in alto lì; (2) menu navbar grande ancora non apre; (3) barra alta sul popup fluttuante.** Refinement post-#492: **chat grande** = ☰ lista conv in toolbar bassa accanto a +, header pulito, chiudi tap fuori/voce Worker; **popup FAB** = barra superiore con ☰ + ingrandisci + chiudi. AD PR **#493** (`e1ed67d9`). Merge 🔴 pendente (#210). L-364, L-363.
