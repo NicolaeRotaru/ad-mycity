@@ -1167,3 +1167,7 @@ Assegnazioni reparto (1 mossa ciascuno):
 ### 2026-07-20 11:15 — Playbook Scout negozi (cluster-spesa)
 - 2026-07-20 11:15 · @vendite · FATTO · Playbook Scout negozi ri-verifica: REST ✅ **17 negozi / 1 approvato** (PQ). 3 categorie mancanti confermate — **Peretti** (ortofrutta) · **Garetti** (DOP) · **Amendolara** (formaggi). Pitch aggiornati: leva **PI26 50%** (scade 30/7); ⛔ bando ER 40% chiuso 23/6. Deliverable: `consegne/vendite/2026-07-20-playbook-scout-negozi-categorie-mancanti.md` · [[AZIONI-PRONTE]] **A18** aggiornato. Zero contatti.
 - 2026-07-20 11:15 · @vendite · PASSO-A · @Nicola — primo passo 🔴 **#whatsapp-3-anchor-pi26** (3 WhatsApp già pronti 18/7); poi chiamate pitch A18 se rispondono
+
+### 2026-07-20 11:17 — PLAYBOOK Anti-churn negozi
+- 2026-07-20 11:17 · @account-negozi · FATTO · PLAYBOOK Anti-churn: REST live ✅ (`verifica-sensori` 11:16) → **0 negozi in calo** (1 reale PQ, 0 ordini consegnati, VP 17/7 passato senza ordini). PQ = falso positivo sentinella (attesa concordata Nicola 6/7) — **nessuna telefonata anti-churn**. Retention già in coda: **#checkin-pq-postvp** (debrief lun 20/7). Report `consegne/account-negozi/2026-07-20-antichurn-playbook.md` · [[AZIONI-PRONTE]] **A33**. Zero contatti inviati.
+- 2026-07-20 11:17 · @account-negozi · PASSO-A · @Nicola — **firma `#checkin-pq-postvp`** (0523 388601, 2 min post-VP) poi **`#ordine-test-pq`** — anti-churn vero partirà con Garetti/Peretti/Amendolara onboardati

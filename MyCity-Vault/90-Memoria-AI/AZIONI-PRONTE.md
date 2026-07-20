@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-20 11:15
+aggiornato: 2026-07-20 11:17
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -533,3 +533,15 @@ testo (Touch #2 — solo se ancora fermo · 🔴):
 Oggetto: [Nome], la prossima consegna la offro io 🚲
 Consegna offerta sul prossimo ordine da Pane Quotidiano — oppure codice SPED5 (€5 sopra €25). Una volta per cliente. Firma Nicola.
 stato: ARMATO DRY-RUN — 0 invii · trigger = 1ª consegna PQ + 14 gg fermo
+
+## A33 · 💚 Playbook anti-churn — ri-verifica 20/7 (0 negozi in calo, retention PQ puntata)
+reparto: account-negozi
+livello: 🟢 (scan sola lettura) · 🟡 (check-in reale = firma Nicola)
+canale: REST Supabase + coda `#checkin-pq-postvp` (telefono/WhatsApp)
+perche: **Playbook anti-churn 20/7 11:17 — verdetto onesto: 0 negozi con ordini in calo.** 1 solo negozio reale (Pane Quotidiano), 0 ordini consegnati, nessun trend −40% calcolabile. PQ **non è churn** (Nicola 6/7: attesa concordata). VP 17/7 passato senza ordini → il rischio è **no-value realized** (~26 gg stallo), non abbandono post-vendita.
+preparato: 💚 account-negozi — report `consegne/account-negozi/2026-07-20-antichurn-playbook.md`
+cosa cambia: nessuna nuova telefonata anti-churn (evita doppione #25/#29). La mossa giusta è il debrief post-VP già in coda.
+se va bene: capisci com'è andato venerdì al banco, pianifichi primo ordine reale (#ordine-test-pq) con finestra piogge oggi.
+retention_già_in_coda: `#checkin-pq-postvp` in [[AZIONI-IN-ATTESA]] · tel. **0523 388601** · script 2 min in coda
+non-duplicato: non tocca #25/#29 (chiuse) · non riapre #antichurn-13lug (scaduta) · prospect Garetti/Peretti/Amendolara = vendite, non anti-churn · supersede scan A30 (19/7)
+stato: SCAN ✅ — azione retention = firma `#checkin-pq-postvp` (🟡 **oggi 20/7 mattina**, card scaduta nel timing)
