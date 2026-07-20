@@ -1,7 +1,7 @@
 ## Summary
 - **Parla casella:** il browser non manda più il prompt gigante a `/api/lavori` — nuova route `/api/lavori/casella` costruisce la richiesta lato server (payload compatto).
 - **Supabase:** sanitizzazione testo prima dell’insert (`NUL` / surrogate isolati) + blocco se il JSON verso PostgREST sarebbe vuoto — previene `PGRST102`.
-- **Test:** `store.sanitize.test.mts` (2 asserzioni).
+- **Test:** `store.sanitize.test.mts`.
 
 ## Perché
 Nicola inviando da «Parla con questa azione» riceveva `PGRST102 Empty or invalid json` — il lavoro non entrava in coda e l’AD non rispondeva da quella casella.
