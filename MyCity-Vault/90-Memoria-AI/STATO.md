@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 23:44
-fonte: AD digitale (chat 20/7 23:44)
+aggiornato: 2026-07-20 23:48
+fonte: AD digitale (chat 20/7 23:48)
 ---
+
+> 💬 **20/7 ~23:48 — CHAT: App store + SMS + email professionale in Bacheca (L-434).** Nicola chiede **costi app store** in lista + spiegazione **SMS** e **email professionale**. AD aggiorna `BACHECA.md`: **Apple ~99 €/anno** · **Google Play ~23 € una tantum** · **~120 € 1° anno entrambi** (poi ~99 €/anno solo Apple); **SMS** = backup urgente pay-per-use **~0,05–0,10 €/msg**, **0 € oggi** (Telegram+email bastano); **email** = **Resend** automatiche sito **0 €** fino 3.000/m vs **Google Workspace** casella *info@* **~7–8 €/m**. Opzionali **non** nel burn **~302 €/m**. Fonte: chat Nicola 20/7 ~23:48 + pricing Resend/Google IT.
 
 > 💬 **20/7 ~23:46 — CHAT: Costi aggiornati — ~302 €/m totale, marketplace → Vercel (L-433 addendum).** Nicola: **VPS 20 €/m** · **dominio 20 €/anno** · **marketplace su Vercel** (Render si spegne). Totale fisso **300 €/m** (Claude 200 + Vercel 30 + Supabase 50 + VPS 20) + dominio ≈ **302 €/m**. Bacheca + registro-fatti aggiornati; card burn env ora propone **300**. **Da confermare:** importo Vercel dopo migrazione marketplace. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 ~23:46.
 

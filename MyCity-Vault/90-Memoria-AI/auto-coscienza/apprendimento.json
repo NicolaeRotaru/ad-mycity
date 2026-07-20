@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 23:47",
+  "aggiornato": "2026-07-20 23:49",
+  "_nota_metabolizzazione_20_07_2348": "Chat 20/7 ~23:48: Nicola app store + spiegami SMS + email professionale — AD Bacheca sezioni app store/email/SMS; L-434 nuova; L-433 addendum opzionali; preferenza costi-spiegazione-3-categorie; registro-fatti addendum; STATO+LEZIONI-CHAT+finanza+ad esito.",
   "_nota_metabolizzazione_20_07_2347": "Chat 20/7 ~23:46: Nicola completa costi — VPS 20€/m, dominio 20€/anno, marketplace→Vercel (Render chiusura). L-433 addendum evidenze 2; burn ~302€/m, BURN_MENSILE_EUR=300 proposto; DECISIONI migrazione 🟡; LEZIONI-CHAT+finanza+devops-sre+ad esito.",
   "_nota_metabolizzazione_20_07_2344": "Chat 20/7 ~23:43: Nicola costi infrastruttura (200 Claude + 30 Vercel + 50 Supabase = 280€/m parziale) + «metti in bacheca» + voci future. L-433 nuova; preferenza costi-bacheca-no-inventare; registro-fatti finanza.costi_infrastruttura; STATO+DECISIONI+LEZIONI-CHAT+finanza+ad esito; burn completo pendente Render/VPS/dominio.",
   "_nota_metabolizzazione_20_07_2338": "Chat 20/7 ~23:38: Nicola 3 bug chat (risposta doppia, 2 bolle allegato, ordine invertito) + «Ho per sbaglio chiuso la pr» → AD PR #507 (ex #505) chat-thread-merge; Vercel import .ts addendum L-428. L-432 nuova (caso_studio_nicola); preferenza chat-no-duplicati; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+tech+ad esito; merge #507 🔴 pendente.",
@@ -156,8 +157,30 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-434",
+      "testo": "**Costi opzionali — «app store + spiegami SMS e email» = 3 categorie distinte, fuori burn (Nicola 20/7 ~23:48).** Follow-up L-433: chiede **inserire costi app store** + **a cosa servono SMS** + **email professionale e costi**. Regola risposta: (1) **app store** — Apple **~99 €/anno**, Google Play **~23 € una tantum**, ~**120 €** 1° anno entrambi; commissione **zero** su prodotti fisici; PWA **0 €** alternativa; (2) **SMS** — **backup urgente** (ritardo consegna, negozio non risponde, pagamento fallito), pay-per-use **~0,05–0,10 €/msg**, **non servono oggi** (Telegram + email); (3) **email** — **due cose diverse**: automatiche dal sito (**Resend**, **0 €** fino 3.000/m) vs casella tua (**Google Workspace**, **~7–8 €/m**/utente). Aggiorna **Bacheca** sezioni dedicate; **non** sommare al burn fisso **~302 €/m** finché non accesi. Cifre da listini verificabili (Resend, Google IT), non inventate. Vedi L-433.",
+      "tag": [
+        "finanza",
+        "costi",
+        "bacheca",
+        "app-store",
+        "sms",
+        "email",
+        "nicola"
+      ],
+      "reparto": "@finanza",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 23:48",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-433",
-      "testo": "**Costi infrastruttura — «metti in bacheca» = cifre Nicola + `?` sul resto, mai inventare (Nicola 20/7 ~23:43, addendum ~23:46).** Nicola comunica costi mensili confermati: **Claude Max 200 €**, **Vercel 30 €**, **Supabase 50 €** (= **280 €/m parziale**) e chiede lista in **Bacheca home** + altre voci future. **Addendum ~23:46:** **VPS 20 €/m**, **dominio 20 €/anno**, **marketplace → Vercel** (Render in chiusura) → burn fisso **300 €/m**, totale **~302 €/m**; card env propone `BURN_MENSILE_EUR=300`. 5 perché: (1) burn/runway era «sconosciuto» da **175+ giri** — ora fonte reale Nicola; (2) cambio hosting = segna vecchio provider **in chiusura**, **non** sommare Render+Vercel; (3) fix = blocco `## 💰 Costi infrastruttura` **in cima** `BACHECA.md` + **`registro-fatti.json`** `finanza.costi_infrastruttura`; (4) **non** inventare Resend né Vercel post-migrazione — chiedi/conferma; (5) quando burn completo → aggiorna proposta env. Regola: costi da Nicola → bacheca + registro + burn; importo sconosciuto = **?** zero stime. Vedi L-422, L-377, card #burn-mensile-env.",
+      "testo": "**Costi infrastruttura — «metti in bacheca» = cifre Nicola + `?` sul resto, mai inventare (Nicola 20/7 ~23:43, addendum ~23:46, ~23:48).** Nicola comunica costi mensili confermati: **Claude Max 200 €**, **Vercel 30 €**, **Supabase 50 €** (= **280 €/m parziale**) e chiede lista in **Bacheca home** + altre voci future. **Addendum ~23:46:** **VPS 20 €/m**, **dominio 20 €/anno**, **marketplace → Vercel** (Render in chiusura) → burn fisso **300 €/m**, totale **~302 €/m**; card env propone `BURN_MENSILE_EUR=300`. **Addendum ~23:48:** opzionali in Bacheca (app store, SMS, email Resend vs Workspace) — **fuori** burn finché non accesi (L-434). 5 perché: (1) burn/runway era «sconosciuto» da **175+ giri** — ora fonte reale Nicola; (2) cambio hosting = segna vecchio provider **in chiusura**, **non** sommare Render+Vercel; (3) fix = blocco `## 💰 Costi infrastruttura` **in cima** `BACHECA.md` + **`registro-fatti.json`** `finanza.costi_infrastruttura`; (4) **non** inventare Resend né Vercel post-migrazione — chiedi/conferma; (5) quando burn completo → aggiorna proposta env. Regola: costi da Nicola → bacheca + registro + burn; importo sconosciuto = **?** zero stime. Vedi L-422, L-434, card #burn-mensile-env.",
       "tag": [
         "finanza",
         "burn",
@@ -170,11 +193,11 @@
       ],
       "reparto": "@finanza",
       "confidenza": 0.94,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 23:47",
+      "ultima_conferma": "2026-07-20 23:48",
       "stato": "attiva",
       "usi": []
     },
@@ -9812,7 +9835,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
-    "**Costi infrastruttura — «metti in bacheca» = lista in cima BACHECA + registro-fatti, mai inventare cifre (chat 20/7 ~23:43, completato ~23:46):** comunica importi confermati (Claude **200** + Vercel **30** + Supabase **50** + VPS **20** + dominio **20 €/anno**; **marketplace → Vercel**, Render in chiusura) → burn **~302 €/m**, env **`BURN_MENSILE_EUR=300`**; chiede anche **voci future** in Bacheca — blocco **in cima** `BACHECA.md` + `registro-fatti`; **non** accetta stime (Resend ancora **?**, Vercel post-migrazione da confermare); cambio hosting = vecchio «in chiusura», non doppio conteggio. Vedi L-433, L-422.",
+    "**Costi — «metti in bacheca» + «spiegami SMS/email/app store» = cifre confermate + 3 categorie opzionali distinte (chat 20/7 ~23:43–23:48):** burn fisso (Claude **200** + Vercel **30** + Supabase **50** + VPS **20** + dominio **20 €/anno** → **~302 €/m**, env **`BURN_MENSILE_EUR=300`**) separato da **opzionali** in Bacheca: **app store** (~99 €/anno Apple, ~23 € Google una tantum), **SMS** backup urgente pay-per-use (**0 € oggi**), **email** = **Resend** automatiche (0 € fino 3k/m) **≠** **Workspace** casella (~7–8 €/m) — **non confondere**; **non inventare** cifre; Render in chiusura, Vercel post-migrazione da confermare. Vedi L-433, L-434, L-422.",
     "**Chat no duplicati — odia risposta doppia, due bolle su allegato, ordine invertito (chat 20/7 ~23:38):** segnala **3 bug UX** distinti — (1) **stessa risposta AD due volte** (2) allegato solo = **due frasi/bolle** («nessun testo, vedi allegati» + nome file) (3) **suo messaggio sotto** la risposta come se l'avesse scritto dopo. Si aspetta AD spieghi **meccanismo merge** (non «rispondo due volte»), consegni fix PR (**#507** ex #505), verifichi build Vercel (import **no `.ts`** L-428), riapra PR se chiusa per sbaglio; merge 🔴 → test **solo screenshot** senza testo. Link chat **no card merge** (L-402). Vedi L-432.",
     "**Token in audit — «Fai il fix» memoria bloccata = redigi + redattore preventivo, non spegnere scan (chat 20/7 ~23:32):** casella PAT nel report auto-radiografia — si aspetta fix **immediato** che sblocchi il push (redazione `[REDATTO]` + prevenzione futura), verifica `scan-segreti` exit 0, **PR #506** link in chat; merge 🔴 + valutare rotazione PAT se token era valido (#ruota-pat-github). Vedi L-431.",
     "**«C'è un conflitto» — AD risolve subito, spiega quale PR e cosa tenere (chat 20/7 ~23:28):** segnala conflitto merge (testo o screenshot) — si aspetta AD **rebase immediato**, identificazione PR (**#504** post #501+#503), spiegazione **memoria vs codice** (su `giro.sh` merge manuale: north-star da main + gate OKR dal branch), conferma **mergeable** + link; **non** chiedere a Nicola di risolvere conflitti a mano; dopo fix indicare merge 🔴 pendente e effetto (es. giro obbliga OKR). Vedi L-429, L-397.",
@@ -10182,13 +10205,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 446,
+    "lezioni_attive": 448,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-20 23:39",
+    "tasso_calcolato_il": "2026-07-20 23:49",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 23:39",
+    "tick_leggero_il": "2026-07-20 23:49",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

@@ -8,6 +8,7 @@ reparto: finanza
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 23:48 · metabolizzazione chat app store + SMS + email professionale · atteso: Bacheca sezioni opzionali + spiegazione 3 categorie · reale: Apple ~99€/a Google ~23€, SMS 0€ oggi, Resend vs Workspace distinti, L-434 nuova, registro-fatti addendum · #costi #app-store #sms #email #L-434
 - 2026-07-20 23:47 · metabolizzazione chat costi completi + migrazione Vercel · atteso: burn ~302€ + Render in chiusura · reale: VPS 20 + dominio 20/anno + marketplace→Vercel, BURN_MENSILE_EUR=300 proposto, Resend ?, L-433 evidenze 2 · #burn #runway #costi #vercel
 - 2026-07-20 23:44 · metabolizzazione chat costi infrastruttura Bacheca · atteso: registro-fatti burn parziale 280€ + BACHECA · reale: Nicola 200+30+50 confermati, Render/VPS/dominio ?, BURN_MENSILE_EUR ancora incompleto, L-433 · #burn #runway #costi
 - 2026-07-19 13:11 · sentinella cassa_sconosciuta retry 19/7 13:11 · Stripe ok 0€ burn assente 159 giri · atteso diagnosi aggiornata + card burn in coda → reale diagnosi consegne/finanza/2026-07-19-diagnosi-cassa-runway.md verificata live 13:11 · #cassa-runway
