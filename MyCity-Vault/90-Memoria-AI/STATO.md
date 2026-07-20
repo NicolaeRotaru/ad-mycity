@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:32
-fonte: AD digitale (metabolizzazione chat PR #492 Worker UX)
+aggiornato: 2026-07-20 02:34
+fonte: AD digitale (metabolizzazione chat)
 ---
+
+> ✅ **20/7 ~02:34 — CHAT: «webhook collegato» — verificato OK sul worker (L-357).** Nicola conferma restart + env. **Verifica live:** con lo stesso caricamento del worker, sensore n8n **ok** (`n8n health ok`). **Pulizia consigliata:** nel file env ci sono ancora **3 righe** `N8N_WEBHOOK_URL` (2 segnaposto + 1 reale) — il worker usa l’ultima (reale), i sensori «a mano» vedono la prima (segnaposto). Nicola: lascia **una sola** riga reale, cancella le 2 segnaposto. **Prossimo:** login Meta in n8n per postare; post restano 🔴 + interruttore sicurezza off. Fonte: `verifica-sensori.mjs` 02:34.
 
 > 💬 **20/7 ~02:32 — CHAT: Worker tre superfici — FAB≠menu Worker, lista conv overlay (L-363).** Nicola: bottone basso-destra e voce «Worker» nel menù **non** devono aprire la stessa finestra — **FAB** = popup **piccolo**; **menu Worker** = chat **grande** fullscreen; elenco conversazioni = pannello **overlay sopra** la chat (☰ apre/chiude), **non** colonna fissa sinistra. AD **PR #492** — ✅ mergiata Pannello 02:31. **Supersede** unificazione FAB=menu (#486) e sidebar fissa (#485/#490); card **#208** (#490) → SUPERSEDED, usa **#209** / **#492**. Dopo deploy Vercel: Ctrl+F5 → test tre entry point. Fonte: chat Nicola 20/7 02:32.
 
