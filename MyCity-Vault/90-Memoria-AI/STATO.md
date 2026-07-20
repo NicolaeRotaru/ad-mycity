@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 12:59
-fonte: AD digitale (chat Pannello Diretta contenuti)
+aggiornato: 2026-07-20 13:00
+fonte: AD digitale (chat Pannello trust-safety bollino)
 ---
+
+> 💬 **20/7 ~13:00 — CHAT: Bollino — follow-up allegato senza testo, fix non ancora online (L-395).** Nicola risponde alla casella trust-safety con **solo screenshot** (nessun testo) — AD **non vede** l'allegato dal worker. Chiarimento: fix **PR #218** mycity **non è sul sito live** finché Nicola non approva merge 🔴 **#213**; badge su tutti i negozi **oggi = normale** pre-deploy; dopo merge Render deploy automatico (~minuti); **0 badge post-fix** = corretto (PQ manca payout ON); comunicazione WhatsApp/post «primo verificato» **ancora bloccata**. Fonte: chat Nicola 20/7 13:00.
 
 > 💬 **20/7 ~12:59 — CHAT: Diretta contenuti — caselle che spariscono al refresh, causa radice (L-394).** Nicola «**analisi completa e profonda**» — caselle diverse a ogni refresh, sembra crollo DB. **Non è Supabase:** ogni casella = **file markdown su GitHub** (`consegne/` + briefing/report, ramo **main**); Pannello rilegge via **API GitHub** (~70 chiamate/refresh). **533** candidati totali, UI mostra max **30** (`MAX_LETTURE` in `api/contenuti/route.ts`); **266** senza data nel nome → quasi invisibili; sort alfabetico nome file, non data nel frontmatter; **timeout 5s/cartella** → intera categoria **vuota** in quell'aggiornamento (poi ricompare); poll **30s** sostituisce tutta la lista (`DirettaContenuti.tsx`). Fix proposto 🟡: paginazione/cache server + non svuotare su errore parziale GitHub — **PR in attesa ok Nicola**. Fonte: chat Nicola 20/7 12:59.
 
