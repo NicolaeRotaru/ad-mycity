@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 02:09",
+  "aggiornato": "2026-07-20 02:10",
+  "_nota_metabolizzazione_20_07_0210": "Chat 20/7 ~02:07: Nicola «ho inserito N8N_WEBHOOK_URL nel file env» — milestone env, non mano attiva; verifica sensori: 3 righe duplicate (prima vince=segnaposto). L-357 nuova; L-331 evidenze++ addendum env inserito; preferenza n8n-webhook-env-inserito; STATO+LEZIONI-CHAT già parziali; builder esito.",
   "_nota_metabolizzazione_20_07_0208": "Chat 20/7 ~02:08: Nicola «icona menu Worker non si apre» — #485 sidebar fissa ha rimosso ☰ header. L-358 nuova (caso_studio_nicola); L-348 evidenze++ addendum toggle; preferenza worker-menu-icona-toggle; STATO+AZIONI #206+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0153": "Chat 20/7 ~01:53: Nicola «crea pulsanti comandi Termux importanti — fammi lista prima» — lista 6+8+SSH, fase 1=4 pulsanti, attesa ok. L-356 nuova; L-355 evidenze++; preferenza pulsanti-termux-lista-prima; STATO+LEZIONI-CHAT+devops-sre aggiornati.",
   "_nota_metabolizzazione_20_07_0147": "Chat 20/7 ~01:47: Nicola «dal menu mando comandi al VPS? perché non pagina terminale?» — chiarimento menu=preset, no shell web. L-355 nuova; L-349 evidenze++ addendum menu; preferenza menu-vs-terminale; STATO+DECISIONI+LEZIONI-CHAT+devops-sre aggiornati.",
@@ -97,6 +98,29 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 02:08",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
+      "id": "L-2026-0720-357",
+      "testo": "**n8n webhook env — «ho inserito N8N_WEBHOOK_URL» = milestone env, non «mano attiva» finché restart+verifica sensori (Nicola 20/7 ~02:07).** Nicola conferma di aver incollato l'URL webhook nel file segreto worker. 5 perché: (1) «inserito nel env» = **passo Nicola completato**, non conferma che la macchina invii già a n8n — il worker legge `.env` **solo al riavvio**; (2) **non** dire «collegato» / «mano attiva» senza `verifica-sensori.mjs` verde post-restart; (3) prossimi passi **numerati**: workflow **Active** in n8n → riavvio worker (Pannello «Riavvia worker» o SSH) → Nicola scrive **«webhook collegato»** → AD verifica sensori; (4) **ADDENDUM verifica 02:07:** nel `.env` **3 righe** `N8N_WEBHOOK_URL` (2 segnaposto + 1 reale) — loader **prima vince** → sensori ancora rossi; fix = **una sola** riga con URL vero, cancellare duplicate; vale per qualsiasi chiave env; (5) Meta OAuth e `AZIONI_LIVE` restano **separati** — webhook ok ≠ post automatico su FB/IG; interruttore sicurezza resta off. Regola: milestone env → congratula passo + elenca cosa manca + verifica oggettiva solo su «webhook collegato». Vedi L-331, L-330, L-351, L-344.",
+      "tag": [
+        "n8n",
+        "webhook",
+        "env",
+        "worker",
+        "vps",
+        "sensori",
+        "nicola",
+        "milestone"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.94,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 02:07",
       "stato": "attiva",
       "usi": []
     },
@@ -670,7 +694,7 @@
     },
     {
       "id": "L-2026-0719-331",
-      "testo": "**n8n sul worker — «Riesci a vedere n8n?» = verifica runtime, non solo screenshot (Nicola 19/7 ~21:56).** Dopo import workflow (L-330), Nicola chiede se l'AD vede n8n acceso sul worker. 5 perché: (1) vuole **conferma oggettiva** (servizio risponde), non deduzione da screenshot precedente; (2) verifica runtime = porta **5678** in ascolto + risposta HTTP — pattern come Playwright setup L-305/L-307; (3) import workflow ≠ mano attiva: **`N8N_WEBHOOK_URL` segnaposto** nel file segreto worker = la macchina non invia nulla a n8n; (4) prossimo checkpoint = **«webhook collegato»** dopo Active + URL produzione in env + restart worker; (5) Meta OAuth resta passo separato (lento). Regola: domanda «riesci a vedere X sul worker?» → **verifica live** + stato mancante esplicito + passi numerati Nicola; non ripetere import/scp/picker. Vedi L-330, L-322, L-305.",
+      "testo": "**n8n sul worker — «Riesci a vedere n8n?» = verifica runtime, non solo screenshot (Nicola 19/7 ~21:56).** Dopo import workflow (L-330), Nicola chiede se l'AD vede n8n acceso sul worker. 5 perché: (1) vuole **conferma oggettiva** (servizio risponde), non deduzione da screenshot precedente; (2) verifica runtime = porta **5678** in ascolto + risposta HTTP — pattern come Playwright setup L-305/L-307; (3) import workflow ≠ mano attiva: **`N8N_WEBHOOK_URL` segnaposto** nel file segreto worker = la macchina non invia nulla a n8n; (4) prossimo checkpoint = **«webhook collegato»** dopo Active + URL produzione in env + restart worker; (5) Meta OAuth resta passo separato (lento). Regola: domanda «riesci a vedere X sul worker?» → **verifica live** + stato mancante esplicito + passi numerati Nicola; non ripetere import/scp/picker. **ADDENDUM 20/7 02:07:** Nicola «ho inserito N8N_WEBHOOK_URL» — URL reale presente ma 3 righe duplicate (prima=segnaposto) + worker non riavviato → sensori ancora rossi (L-357). Vedi L-330, L-322, L-305, L-357.",
       "tag": [
         "n8n",
         "worker",
@@ -681,11 +705,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.95,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 21:56",
+      "ultima_conferma": "2026-07-20 02:07",
       "stato": "attiva",
       "usi": []
     },
@@ -8423,10 +8447,11 @@
     "**Allowlist MCP — mostra sempre Vercel + Supabase insieme (chat 19/7 16:44):** «C'era quello di vercel» quando l'AD elencava solo le righe Supabase — si aspetta di vedere il blocco completo (5 Vercel già presenti + 2 Supabase da aggiungere), non istruzioni che sembrano sostituire ciò che ha già configurato. Spiegare anche la regola virgola: tra le righe sì, mai trailing comma sull'ultima.",
     "**Playwright worker + strumenti contenuti potenti (chat 19/7 ~17:26):** chiede come rendere operativo Playwright sul worker E quali strumenti servono per contenuti forti + come darli all'AD. Preferenza: risposta operativa con (1) verifica runtime cosa manca sul VPS, (2) passi concreti root SSH (font → Node22 in `/opt/node22` → Playwright+Chromium → env `PLAYWRIGHT_BROWSERS_PATH`), (3) elenco strumenti in bin attivo/spento/carburante, (4) modalità consegna materiale (allegati chat, cartella repo, chiavi solo in segreti VPS se cambia regola niente-API). Vuole sapere cosa fa lui vs cosa fa l'AD; dalla chat l'install non parte senza root.",
     "**Verifica n8n sul worker (chat 19/7 ~21:56):** chiede «Riesci a vedere che n8n è dentro il worker?» — vuole che l'AD **controlli runtime** (servizio/porta 5678 risponde), non solo deduca dallo screenshot; risposta con stato reale + cosa manca (webhook env segnaposto) + passi numerati fino a «webhook collegato».",
+    "**n8n webhook env inserito (chat 20/7 ~02:07):** «ho inserito N8N_WEBHOOK_URL nel file env» = conferma passo env, **non** «collegato»; AD verifica sensori solo dopo riavvio worker; se nel `.env` ci sono righe duplicate/segnaposto sopra l'URL vero spiega «prima riga vince» e chiedi pulizia; prossimi passi numerati: Active in n8n → restart worker → scrive «webhook collegato» → AD verifica. Meta OAuth e `AZIONI_LIVE` restano separati.",
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 373,
+    "lezioni_attive": 374,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.2,
