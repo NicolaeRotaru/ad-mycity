@@ -7,6 +7,7 @@ reparto: data-engineer
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 18:28 · PostHog VPS follow-up — Nicola «metterlo sul vps come n8n» · atteso: disambigua Docker vs env · reale: stesso pattern L-406 — cloud + 3 righe env worker, self-host scartato; pendente chiave `phx_` · L-404 evidenze++ · #posthog #n8n #vps #esito
 - 2026-07-20 18:24 · PostHog VPS — Nicola «come inserisco posthog nel vps?» · atteso: chiarimento architettura + passi env · reale: non self-host — cloud EU; VPS chiave lettura `phx_` (non `phc_`); sensore non_configurato dal 5/7; verifica `verifica-sensori.mjs`; pendente Nicola incolla chiave · L-404 · #posthog #sensori #vps #esito
 - 2026-07-19 14:20 · metabolizzazione chat allowlist MCP Supabase · atteso: lezione L-285 + aggiornamento coda #abilita-mcp-supabase-chat · reale: STATO/DECISIONI/AZIONI/LEZIONI-CHAT/apprendimento aggiornati; Nicola chiede righe esatte, pendente incolla VPS · L-285 · #mcp #allowlist
 - 2026-07-14 03:31 · Sensori salute-sensori-dati — PR #377 · atteso: pipeline sensori verificata a ogni giro, errori fantasma eliminati · reale: fonti web nel giro, sentinel occhi, auto-clear su ok, 0 findings post-scan; PostHog spento = scelta Nicola non bug · L-222 · #sensori #fonti-web #esito

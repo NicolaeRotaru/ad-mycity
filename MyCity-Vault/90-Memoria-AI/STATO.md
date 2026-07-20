@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 18:27
+aggiornato: 2026-07-20 18:28
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~18:28 — CHAT: PostHog — follow-up «metterlo sul vps come n8n» = env, non Docker (L-404 addendum).** Nicola ripete frame «**come n8n**» dopo domanda PostHog 18:24 — AD chiarisce: **n8n = container Docker**; PostHog = **SaaS cloud** + **3 righe env** nello stesso `cervello/vps/.env` (pattern Telegram L-406); **self-host scartato** (pesante + cambierebbe tracking Render). **Non fatto** — chiave `phx_` ancora da incollare. Fonte: chat Nicola 20/7 18:28.
 
 > 💬 **20/7 ~18:27 — CHAT: Telegram sul VPS — non si installa come n8n, due righe env + restart worker (L-406).** Nicola «**di metterlo sul vps come n8n**» (casella AR-105) — AD chiarisce: n8n = **programma Docker** sul server; Telegram = **solo collegamento** (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` in `cervello/vps/.env`, stesso file di n8n e URL sito/Pannello) → restart `mycity-worker-chat.service` → sensore `telegram_bot` verde; **messaggi reali** solo dopo stesse chiavi in workflow n8n (**#accendi-intelligence-sveglia** passo 6). **Non fatto** — Nicola non ha ancora incollato token. Fonte: chat Nicola 20/7 18:27.
 
