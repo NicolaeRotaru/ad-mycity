@@ -56,3 +56,11 @@ I codici delle celle di sinistra non spariscono: **scendono nel Contenuto**, dov
 - **Cosa cambia** e **Se va bene** sono piene e in italiano semplice? (Se vuote, la card mette un testo generico peggiore.)
 
 > Regola d'oro del reparto: **se poteva scriverlo un terminale, riscrivilo.** Nicola non deve tradurre: deve capire.
+
+---
+
+## Segreti e chiavi (mai il valore, solo il nome)
+Quando citi un token, una chiave API o una password — in audit, DECISIONI, consegne, chat:
+- **Scrivi solo il nome della variabile** («la chiave GitHub del Pannello», «OBSIDIAN_TOKEN»), **mai** la stringa che inizia con `github_pat_`, `sk_live_`, `phc_`, ecc.
+- Se devi documentare che c'era un leak, usa `github_pat_11…[REDATTO]` o `[REDATTO]` — non copiare nemmeno un frammento lungo 20+ caratteri.
+- Prima di salvare file in `consegne/audit/`, passa il testo da `node cervello/redattore-segreti.mjs` (vedi `auto-radiografia.md`).
