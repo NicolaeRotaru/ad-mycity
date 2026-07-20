@@ -298,34 +298,34 @@ stato: IN ATTESA DI FIRMA NICOLA.
 reparto: growth-monetizzazione
 livello: 🔴 (tocca i soldi — il montepremi punti è costo di margine)
 canale: banner home (config) + scheda "I miei punti" nell'account cliente (codice, frontend-dev) + email annuncio (Resend)
-perche: Un cliente che compra da un negozio guadagna un vantaggio spendibile in TUTTI i negozi MyCity → moat locale che Amazon non copia e che alza frequenza + scontrino. Oggi però la rete è 1 negozio e 0 transazioni: si prepara la meccanica, non si lancia.
-preparato: 🚀 growth + 💶 finanza (economia) + 🧾 contabilita (passività punti) + 🔁 crm + 🎨 designer (comunicazione)
+perche: Un cliente che compra da un negozio guadagna un vantaggio spendibile in TUTTI i negozi MyCity → moat locale che Amazon non copia e che alza frequenza + scontrino. Oggi però la rete è 1 negozio, 4 buyer, 0 ordini pagati (~625h stallo): si prepara la meccanica, non si lancia.
+preparato: 🚀 growth + 💶 finanza (economia refresh 20/7) + 🧾 contabilita (passività punti) + 🔁 crm + 🎨 designer + ✍️ content-social (bozze 20/7)
 meccanica:
-- Accumulo: 1 punto ogni €1 speso su qualunque negozio. 1 punto = €0,02 (cashback effettivo 2%, default da validare @finanza).
-- Spesa: valgono su TUTTA la rete. Soglia riscatto 100 punti = €2. Tetto uso 30–50% del carrello (il negozio incassa sempre una quota reale). Scadenza 12 mesi (riduce liability, obbligo trasparenza Codice del Consumo).
+- Accumulo: 1 punto ogni €1 speso su qualunque negozio. Valore punto da fissare @finanza — **consiglio lancio 1% (1 pt = €0,01)**, scale a 2% solo se holdout ≥+20% GMV.
+- Spesa: valgono su TUTTA la rete. Soglia riscatto 100 punti = €2. Tetto uso **30%** del carrello (finanza 20/7; playbook ammette 30–50%). Scadenza 12 mesi.
 - Chi paga: il MARGINE MyCity, NON il negozio. Al riscatto il negozio incassa pieno; MyCity scala dal proprio take. Registro `punti_liability` (deferred), breakage a scadenza = ricavo.
 - Bonus onboarding: nessun coupon nuovo (budget €0), riuso `BENVENUTO10` già a DB.
-cosa cambia: ⚠️ impatto sistema — cashback 2% finanziato dal margine ≈ 2/12 ≈ 17% delle commissioni sul venduto che matura punti. Sostenibile SOLO se l'incrementale (holdout, @analista) ripaga il costo → @finanza fissa il % PRIMA del lancio, non a intuito.
-se va bene: quando la rete arriva (≥5 negozi), la leva di fidelizzazione è già scritta e firmabile in 2 minuti; misurata con holdout per il dato incrementale reale (non il lordo).
-gate di lancio (tutte e 4): (1) ≥5 negozi reali con payout · (2) flusso ordini reali avviato (#21 chiuso end-to-end) · (3) Stripe write collegato · (4) % e tetti validati @finanza.
-dettaglio: consegne/growth/2026-07-06-playbook-fedelta-di-rete.md (Parte A). Coda canonica = riga #28 in [[AZIONI-IN-ATTESA]].
-stato: ⏸ ARMATO — meccanica pronta, nessun lancio finché il gate non è verde.
+cosa cambia: ⚠️ impatto sistema — a 2% cashback erode ~17% delle commissioni (AOV €50 🟡: €1/ordine su €6 commissione). Break-even = +20% GMV incrementale. @finanza raccomanda **0% oggi**, **1% al lancio rete**.
+se va bene: quando la rete arriva (≥5 negozi), la leva è scritta + copy pronta + firmabile in 2 minuti; misurata con holdout.
+gate di lancio (5): (1) ≥5 negozi payout OK · (2) #41 ordine-prova PQ chiuso · (3) Stripe write · (4) % firmato @finanza · (5) copy senza % finché non firmato.
+dettaglio: consegne/growth/2026-07-06-playbook-fedelta-di-rete.md + refresh `consegne/growth/2026-07-20-playbook-fedelta-di-rete-refresh.md` · bozze `consegne/content/2026-07-20-bozze-punti-giftcard-turno.md` · coda #44 in [[AZIONI-IN-ATTESA]].
+stato: ⏸ ARMATO — refresh 20/7, nessun lancio finché il gate non è verde.
 
 ## A20 · 🎁 Vendi le Gift Card MyCity (incasso anticipato)
 reparto: growth-monetizzazione → legale-privacy / contabilita
 livello: 🔴 (incasso reale + passività fiscale — firma Nicola)
 canale: pagina "Gift Card" sul marketplace (frontend-dev) + Stripe (incasso) + email/PDF "Regala Piacenza"
-perche: Gift card digitali €10/€25/€50 spendibili su tutta la rete = incasso anticipato (cassa positiva upfront senza debito) + prodotto-regalo che porta clienti nuovi ("Regala Piacenza", welfare aziendale locale B2B). Il non-usato dopo scadenza = breakage → ricavo.
-preparato: 🚀 growth + ⚖️ legale-privacy (IVA/termini) + 🧾 contabilita (deferred revenue) + 🛡️ trust-safety (anti-frode) + 🧰 builder (mani)
+perche: Gift card digitali €10/€25/€50 spendibili su tutta la rete = incasso anticipato (cassa positiva upfront senza debito) + prodotto-regalo che porta clienti nuovi ("Regala Piacenza", welfare aziendale locale B2B). Il non-usato dopo scadenza = breakage → ricavo. Oggi: 1 negozio, Stripe sola lettura → nessuna vendita possibile.
+preparato: 🚀 growth + ⚖️ legale-privacy (IVA/termini) + 🧾 contabilita (deferred revenue) + 🛡️ trust-safety (anti-frode) + 🧰 builder (mani) + ✍️ content-social (post «Regala Piacenza» 20/7)
 meccanica:
 - Incasso subito l'intero importo; il negozio è pagato SOLO al riscatto, sul venduto reale. Scadenza dichiarata in chiaro. Codici a uso singolo.
 - Fiscale (da confermare @legale + @contabilita): spendibili su categorie a IVA diversa → buono MULTIUSO (art. 6-ter DPR 633/72) = IVA all'UTILIZZO, non all'emissione. Registro passività `giftcard_liability`.
-- Anti-frode (@trust-safety): limite acquisto/giorno, blocco rivendita massiva, watch chargeback.
+- Anti-frode (@trust-safety): cap **€100/giorno/cliente**, blocco rivendita massiva, watch chargeback.
 cosa cambia: entrano soldi veri oggi che poi girano nelle botteghe reali — non su Amazon. Ma serve il sì fiscale (IVA multiuso) e la mano Stripe write (oggi sola lettura) prima di vendere una sola card.
 se va bene: carburante di cassa senza debito + un canale di acquisizione clienti nuovi (chi riceve il regalo scopre la rete).
-gate di lancio: (1) parere @legale-privacy + @contabilita su IVA/termini · (2) Stripe write + generatore codici (@builder) · (3) tabella `gift_cards` + redemption al checkout.
-dettaglio: consegne/growth/2026-07-06-playbook-fedelta-di-rete.md (Parte B). Coda canonica = riga #29 in [[AZIONI-IN-ATTESA]].
-stato: ⏸ ARMATO — nessuna vendita finché Stripe write e parere fiscale non ci sono.
+gate di lancio: (1) parere @legale-privacy + @contabilita su IVA/termini · (2) Stripe write + generatore codici (@builder) · (3) tabella `gift_cards` + redemption al checkout · (4) ≥3 negozi evadibili (passività senza rete = rischio).
+dettaglio: consegne/growth/2026-07-06-playbook-fedelta-di-rete.md (Parte B) + refresh 20/7 · bozze `consegne/content/2026-07-20-bozze-punti-giftcard-turno.md` · coda #45 in [[AZIONI-IN-ATTESA]].
+stato: ⏸ ARMATO — refresh 20/7, nessuna vendita finché Stripe write e parere fiscale non ci sono.
 
 ## A21 · 🔎 SEO locale — allinea la vetrina di Pane Quotidiano al catalogo reale (refresh 20/7)
 reparto: seo → tech (esecuzione config)

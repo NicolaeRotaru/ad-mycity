@@ -1175,3 +1175,7 @@ Assegnazioni reparto (1 mossa ciascuno):
 ### 2026-07-20 11:19 — PLAYBOOK Recupero carrelli
 - 2026-07-20 11:19 · @crm-lifecycle · FATTO · PLAYBOOK Recupero carrelli: REST live ✅ (`verifica-sensori` 11:18) → 4 `abandoned_carts`, **1 buyer reale** (samir €10 PQ pesto+kefir, ~803h), 3 SKIP admin/demo/seller-test. Touch #1 🟡 + Touch #2 🔴 `BENVENUTO10` in [[AZIONI-PRONTE]] **A3** + `consegne/crm/2026-07-20-recupero-carrelli-pronte.md`. Zero invii. Gate PQ **CHIUSO** (0 ordini consegnati) — invio solo dopo `#ordine-test-pq`.
 - 2026-07-20 11:19 · @crm-lifecycle · PASSO-A · @Nicola — prima **`#ordine-test-pq`** (PQ evadibile), poi firma Touch #1 🟡 in **A3**; email samir da `/admin/users`
+
+### 2026-07-20 11:20 — PLAYBOOK Fedeltà di rete
+- 2026-07-20 11:20 · @growth-monetizzazione · FATTO · PLAYBOOK Fedeltà refresh: meccanica punti+gift card confermata, economia @finanza (1% lancio / 2% solo se holdout +20% GMV), bozze copy Il Turno in `consegne/content/2026-07-20-bozze-punti-giftcard-turno.md`, refresh `consegne/growth/2026-07-20-playbook-fedelta-di-rete-refresh.md`, A19–A20 aggiornati. **ARMATO** — gate ≥5 negozi + #41 + Stripe write. Zero lancio.
+- 2026-07-20 11:20 · @growth-monetizzazione · PASSO-A · @Nicola — oggi **niente firma fedeltà**; priorità PI26 + ordine PQ. Quando rete pronta: firma **#44** (% cashback) + **#45** (dopo parere fiscale gift card).
