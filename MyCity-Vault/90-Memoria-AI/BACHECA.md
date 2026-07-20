@@ -98,11 +98,11 @@ Fonte: refresh growth 20/7 · validazione finanza · playbook base 6/7.
 
 ---
 
-## 💰 Costi infrastruttura MyCity · 2026-07-20 23:48
+## 💰 Costi infrastruttura MyCity · 2026-07-21 00:30
 
 Lista aggiornata da Nicola — importi **mensili** salvo dove indicato.
 
-### Oggi — confermati
+### Oggi — confermati (fissi)
 
 | Voce | €/mese | Note |
 | --- | ---: | --- |
@@ -118,6 +118,23 @@ Lista aggiornata da Nicola — importi **mensili** salvo dove indicato.
 | Voce | Stato | Note |
 | --- | --- | --- |
 | **Render** (marketplace) | **→ Vercel** | Nicola sposta il sito su Vercel — Render si spegne; **importo Vercel finale da confermare** dopo la migrazione |
+
+### Materiali fisici, volantini e stampa (🔴 quando stampiamo — non nel burn mensile)
+
+Grafica **già pronta su disco** (🟢); i soldi escono solo alla **tipografia**. Gate: **ordine test PQ** chiuso prima di mettere QR in vetrina.
+
+| Voce | Stima | Cosa include | Fonte |
+| --- | ---: | --- | --- |
+| **Kit negozio** (1° bottega) | **~80–150 €** | Cartoncino QR cassa, vetrofania vetrina, adesivi, sacchetti kraft brandizzati | Playbook capillarità 20/7 |
+| **Volantini + locandine quartiere** | **da preventivo** | Tiratura piccola (100–500 pz A5/A6) per cluster/zona | Inclusi nel «primo lotto» sotto — chiedi preventivo tipografia |
+| **Locandine bacheche** (Comune, associazioni) | **da preventivo** | Pochi esemplari A5 + adesivi partner | Gate ≥3 negozi evadibili |
+| **Presidio eventi** (fiera, Venerdì Piacentini…) | **da preventivo** 🔴 | QR plastificato + volantini lista d'attesa | Firma per ogni evento |
+| **Primo lotto completo** (kit + volantini cluster) | **~150–300 €** | Tutto il materiale fisico del lancio | DECISIONI 24/6 |
+| **2°–3° negozio** | **~80–150 €** ciascuno | Stesso kit, stampa batch | Playbook capillarità |
+
+**Leva possibile:** bando **PI26 CCIAA** (50% digitalizzazione, scade 30/7) — può coprire parte stampa/digital, **non** sostituisce il preventivo in tipografia.
+
+Distribuzione volantini in zona = **costo quasi zero** (tu o presidio a mano); il costo è la **stampa**, non la consegna.
 
 ### App store (quando pubblichiamo l'app)
 
@@ -163,15 +180,21 @@ Costo: **pay-per-use** — circa **5–10 centesimi a SMS** in Italia (Twilio), 
 | Voce | Stima | Quando |
 | --- | --- | --- |
 | **Meta / Google Ads** | budget variabile 🔴 | Campagne acquisizione — decidi tu importo |
+| **Mezzo consegna** (bici elettrica usata) | **~150–250 €** una tantum | Prima consegne a domicilio — alternativa: rider freelance a consegna |
+| **Pagamento rider** | variabile | A consegna o a turno — non abbonamento fisso oggi |
+| **Stripe** (commissioni) | **~1,4% + 0,25 €** / transazione | Solo quando incassi ordini — nessun canone fisso |
+| **Assicurazioni** (RC marketplace/consegne) | da quotare 🔴 | RC prodotti, RC consegne, infortuni rider |
 | **Twilio SMS** | ~0,05–0,10 €/SMS | Solo se accendiamo alert urgenti |
 | **Resend Pro** | ~19 €/m | Se superiamo 3.000 email automatiche/mese |
 | **Cursor API** | pay-per-use | Fallback se Claude Max satura (oggi raro) |
 | **Supabase Pro+** | sale con traffico | Se superiamo piano attuale |
 | **Vercel Pro+** | sale con traffico | Probabile dopo migrazione marketplace |
+| **Influencer locali** | baratto / pochi € | Collaborazioni micro-creator Piacenza |
+| **Packaging extra** | variabile | Oltre sacchetti brand — sacche termiche, ecc. food |
 
-**Runway:** burn fisso oggi **~302 €/m** (300 + dominio). App store e email professionale **non** sono nel totale mensile finché non le accendi.
+**Runway:** burn fisso oggi **~302 €/m** (300 + dominio). Stampa, app store, ads, bici e assicurazioni **non** entrano nel mensile fisso finché non li accendi.
 
-Fonte: Nicola chat 20/7 ~23:43–23:48 · app store da avviso Bacheca 16/7 · Resend resend.com/pricing · Google workspace.google.it/pricing (IT).
+Fonte: Nicola chat 20–21/7 · volantini playbook `consegne/vendite/2026-07-20-playbook-capillarita.md` · primo lotto DECISIONI 24/6 · app store Bacheca 16/7 · Resend/Google listini IT.
 
 ---
 

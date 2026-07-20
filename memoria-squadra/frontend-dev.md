@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-21 00:30 · Chat sparita costi — Nicola «mi è sparita la chat» screenshot · atteso: causa + recupero · reale: thread assente DB = bozza locale mai Invio; telefono surriscaldato 10%; filtro ricerca possibile; altre chat ok; costi già Bacheca L-433 · L-439 · #pannello #chat #persistenza #bozza-non-inviata
 - 2026-07-21 00:11 · «Apri pr» Diretta — Nicola chiede apertura PR fix 00:08 · atteso: scheda PR aperta · reale: `gh pr create` 403 x2 rate limit; push `fix/diretta-apri-contenuto` ok; compare manuale browser → merge 🔴 pendente Nicola · L-316, L-438 · #diretta-contenuti #github-rate-limit #pr-pendente
 - 2026-07-21 00:08 · Diretta contenuti second fix post-#498 — Nicola «non hai risolto» click bianco + lista instabile · atteso: contenuto visibile al click + caselle stabili 1–2 min · reale: branch `fix/diretta-apri-contenuto` commit `c0039c2a` (merge filename + show immediato + sticky aperta), typecheck ok, merge 🔴 pendente · L-438 · #diretta-contenuti #pr-pendente
 - 2026-07-20 23:38 · Chat allegati duplicati PR #507 — Nicola 3 bug UX chat · atteso: una bolla allegato, una risposta, ordine tuo→AD · reale: `chat-thread-merge.ts` + test 5/5; Vercel fix import no `.ts`; #507 mergeable post-chiusura #505 · merge 🔴 #507 · #pannello #chat #merge-thread #pr-507 · L-432, L-428

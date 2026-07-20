@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-21 00:11
-fonte: AD digitale (chat 21/7 00:11)
+aggiornato: 2026-07-21 00:30
+fonte: AD digitale (chat 21/7 00:30)
 ---
+
+> 💬 **21/7 ~00:26 — CHAT: Conversazione costi «sparita» — mai salvata server-side (L-439).** Nicola «**mi è sparita dalle conversazioni la chat**» (screenshot lista costi 200€ Claude + 30€ Vercel + 50€ Supabase). AD verifica DB: quel thread **non esiste** né in conversazioni né in lavori — era **solo bozza locale** sul telefono, **mai inviata con Invio**. Telefono **surriscaldato ~10% batteria** → reload/chiusura scheda = persa irrecuperabile lato server. Altre chat recenti (Diretta, duplicati, ecc.) **presenti**. Campo **«Cerca nelle conversazioni»** non vuoto = filtro che nasconde voci. Costi parziali già in **Bacheca** da 20/7 ~23:43–23:46 (L-433); Nicola può **rimandare elenco con Invio** per salvare chat + eventuale pin Bacheca. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:26 + verifica AD 00:30.
 
 > 💬 **21/7 ~00:11 — CHAT: «Apri pr» Diretta — rate limit GitHub, compare manuale (L-438 + L-316).** Nicola «**Apri pr**» sul fix Diretta post-00:08. AD **riprova x2** → **`GitHub 403 rate limit exceeded`** (stesso blocco token worker del 19/7). Branch **`fix/diretta-apri-contenuto`** + commit **`c0039c2a`** **push ok** — manca solo scheda PR. **Piano B Nicola:** Compare `main...fix/diretta-apri-contenuto` nel browser → Create PR → mergia dal Pannello → deploy ~2 min → test Diretta (testo al click + lista stabile 1–2 min). **Produzione:** ancora comportamento vecchio. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:11.
 
