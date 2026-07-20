@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 20:11 · PostHog Vercel ricontrollato — Nicola «ricontrollato su vercel ma non funziona» · atteso: capire env sbagliata · reale: checklist esaurita → **PR #502** diagnosi Pannello quale env manca; VPS resta ok · L-415 · #posthog #vercel #diagnosi #esito
 - 2026-07-20 20:01 · PostHog Vercel redeploy — Nicola «fatto redeploy» · atteso: Pannello verde post-redeploy · reale: redeploy ok ma diagnosi **giallo** — env Vercel nomi/chiavi sbagliate (PROJECT_ID, phx_, US host); VPS resta ok · L-414 · #posthog #vercel #redeploy #esito
 - 2026-07-20 18:48 · PostHog Pannello Vercel — Nicola «ancora scollegata» post-VPS ok · atteso: spiegare due env separate · reale: worker verde ma Radiografia gialla — 3 variabili Vercel + redeploy; project ID **495230** US · L-411 · #posthog #vercel #pannello #esito
 - 2026-07-20 18:44 · PostHog sensore ok — Nicola account US · atteso: sensore verde dopo fix env · reale: `POSTHOG_HOST=https://us.posthog.com` + restart worker → verifica-sensori **ok** (era cieco 401 con host europeo) · L-410 · #posthog #vps #sensori #esito

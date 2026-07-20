@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 20:11 · 🟡 · [frontend-dev/AD] · **PostHog Radiografia — PR #502 diagnosi env mancante.** Nicola «**ricontrollato su vercel ma non ancora non funziona**» dopo 3 round checklist env+redeploy (L-411, L-414) — VPS **`posthog_api: ok`**, Pannello Radiografia **ancora giallo**; messaggio generico inutile. **Fatto (🟢 codice):** **PR #502** — sotto «Traffico (PostHog)» la Radiografia indica **quale** env Vercel manca invece di solo «non collegato». **Merge 🔴 pendente** Nicola → deploy ~2 min → leggere riga dettaglio. Link PR in chat, **no card merge** (L-402). L-415, addendum L-414. · Nicola (chat 20/7 ~20:11)
+
 2026-07-20 19:06 · 🟡 · [vendite/frontend-dev/AD] · **Casella «Pochi negozi» — sentinelle collegate a registro-fatti pricing (PR #501).** Nicola segnala disallineamento: registro **10% + 50€/mese** già ok (12:39), casella ancora «12%, 0 fissi» perché pitch hardcoded nel codice sentinelle. **Fatto (🟢 codice):** PR #501 — sentinelle leggono pricing dal registro; typecheck + build OK. **Merge 🔴 pendente** Nicola → deploy ~2 min → refresh casella. PQ resta eccezione 12%/0€. L-413, addendum L-391. · Nicola (chat casella Pochi negozi 20/7 ~19:06)
 
 2026-07-20 18:52 · 🟢 · [tech/frontend-dev/AD] · **PR #499 — conflitti memoria RECORRENTI, ri-risolti mergeable.** Nicola screenshot 1077 (solo allegato) — #499 si era **ri-bloccata** minuti dopo risoluzione 18:50 perché worker ha scritto su main (commit PostHog 18:50); AD rebase di nuovo → **mergeable** (`git-pr.mjs` 18:52). Pattern: PR aperta + worker attivo = re-conflitto atteso su file memoria; codice Parla intatto. Merge 🔴 #499 poi #500. L-397 addendum ricorrenza. · Nicola (chat 20/7 ~18:52 + screenshot)

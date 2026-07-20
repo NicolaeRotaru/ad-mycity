@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 20:01
+aggiornato: 2026-07-20 20:11
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~20:11 — CHAT: PostHog «ricontrollato su Vercel» ma Radiografia ancora giallo — PR #502 diagnosi env (L-415).** Nicola «**ricontrollato su vercel ma non ancora non funziona**» — terzo round checklist dopo L-411/L-414; AD verifica: VPS sensore **ok** · Pannello `/api/diagnosi` **ancora giallo**; messaggio generico «non collegato» non dice quale env fallisce. **PR #502:** Radiografia indica **quale** delle 3 env Vercel manca (`POSTHOG_HOST` / `POSTHOG_PROJECT_ID` **495230** / `POSTHOG_API_KEY` `phx_`). **Serve Nicola:** mergia **#502** da GitHub → deploy ~2 min → refresh Radiografia → leggi riga dettaglio sotto PostHog. Link in chat, **no card merge** (L-402). Fonte: chat Nicola 20/7 20:11 + verifica live worker.
 
 > 💬 **20/7 ~20:01 — CHAT: PostHog Vercel redeploy fatto ma Radiografia ancora giallo — env nomi/chiavi sbagliate (L-414).** Nicola «**Fatto redeploy però non ancora non funziona**» — AD verifica live **20:01**: VPS sensore **ok** · Pannello `/api/diagnosi` **ancora giallo** «Traffico (PostHog)». Redeploy c'è ma Vercel **non usa** le 3 env corrette su progetto **ad-mycity**: spesso manca **`POSTHOG_PROJECT_ID`** (**495230**), oppure chiave **`phc_`** (tracking) invece **`phx_`** (Personal API), oppure host EU. **Serve Nicola:** checklist 3 sì/no su Vercel Production → redeploy se corretto → «posthog pannello ok». **Residuo AD:** diagnosi Radiografia che indica variabile mancante. Fonte: chat Nicola 20/7 20:01 + GET diagnosi 20:01.
 

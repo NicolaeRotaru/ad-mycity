@@ -7,6 +7,7 @@ reparto: data-engineer
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 20:11 · PostHog «ricontrollato Vercel» — Nicola terzo round · atteso: chiudere collegamento Pannello · reale: VPS **ok** · Pannello giallo — messaggio generico insufficiente; **PR #502** diagnosi env mancante in Radiografia · L-415 · #posthog #vercel #pannello #esito
 - 2026-07-20 20:01 · PostHog redeploy Vercel — Nicola «fatto redeploy ma non funziona» · atteso: capire perché Radiografia ancora gialla · reale: VPS **ok** · Pannello `/api/diagnosi` **giallo** 20:01 — redeploy insufficiente se manca `POSTHOG_PROJECT_ID` 495230, `phc_` vs `phx_`, host EU; checklist 3 env · L-414 · #posthog #vercel #pannello #esito
 - 2026-07-20 18:48 · PostHog «ancora scollegata» — Nicola screenshot Radiografia · atteso: capire quale superficie · reale: VPS **ok** (18:45) ma Pannello legge env **Vercel** — servono `POSTHOG_HOST`+`POSTHOG_PROJECT_ID` **495230**+`POSTHOG_API_KEY` + redeploy; non confondere con worker · L-411 · #posthog #vercel #pannello #sensori #esito
 - 2026-07-20 18:44 · PostHog US host fix — Nicola «si è us.posthog» · atteso: chiudere 401 senza rigenerare chiave · reale: host EU→US in env VPS + restart → `posthog_api: ok`; chiave `phx_` era valida; allineare Render se serve · L-410 · #posthog #us #sensori #esito
