@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import { readRepoFile, readVaultFile } from "@/lib/vault";
-import { obsidianConnected, listDir, listDirEntries } from "@/lib/obsidian";
+import { obsidianConnected, listDir, listDirEntries, listMarkdownPaths } from "@/lib/obsidian";
 import { vaultToIso } from "@/lib/format";
 
 export const runtime = "nodejs";
@@ -16,20 +16,21 @@ export const revalidate = 0;
 // appare, con titolo, reparto, colore 🟢🟡🔴, orario preciso ed estratto — clicca e leggi tutto.
 // Legge da disco in locale e da GitHub (ramo unico main) in produzione, come il resto del Pannello.
 
-// Quante schede leggere davvero (frontmatter + estratto) a ogni giro: le più fresche per
-// nome/data-file. Tetto per non martellare la GitHub API in produzione a ogni poll.
-const MAX_LETTURE = 30;
+// Schede mostrate in tab; leggo un po' di più per ordinare bene su frontmatter `data:`.
+const MAX_MOSTRATI = 80;
+const MAX_LETTURE = 100;
+// ponytail: cache breve candidati — evita ~40 listDir a ogni poll da 30s.
+const CACHE_MS = 90_000;
+const LETTURA_PARALLELA = 8;
 
 const ROOT_CONSEGNE = "consegne";
 
-// Sorgenti del vault (memoria AI) che contengono contenuti prodotti dal worker.
 const SORGENTI_VAULT: { dir: string; cat: string }[] = [
   { dir: "90-Memoria-AI/Briefing", cat: "briefing" },
   { dir: "90-Memoria-AI/Report", cat: "report" },
   { dir: "90-Memoria-AI/Intelligence", cat: "intelligence-vault" },
 ];
 
-// Etichetta + emoji per categoria (sottocartella di consegne/ o sorgente vault).
 const ETICHETTE: Record<string, { emoji: string; label: string }> = {
   "": { emoji: "📄", label: "Radice" },
   audit: { emoji: "🔬", label: "Audit & radiografie" },
@@ -63,29 +64,29 @@ const ETICHETTE: Record<string, { emoji: string; label: string }> = {
   supervisione: { emoji: "🛡️", label: "Supervisione negozi" },
   briefing: { emoji: "🔭", label: "Giro / Briefing" },
   report: { emoji: "🧾", label: "Report" },
+  "builder-automazioni": { emoji: "🧰", label: "Automazioni" },
+  "trust-safety": { emoji: "🛡️", label: "Trust & safety" },
+  tech: { emoji: "🛠️", label: "Tech" },
 };
 
 function etichetta(cat: string): { emoji: string; label: string } {
   return ETICHETTE[cat] || { emoji: "📁", label: cat };
 }
 
-// Nome leggibile da un filename: toglie il prefisso data e l'estensione, spazia i separatori.
 function titoloDaFile(name: string): string {
   let s = name.replace(/\.md$/i, "");
-  s = s.replace(/^\d{4}-\d{2}-\d{2}(?:[-_ ]\d{2}[:.]?\d{2})?[-_]?/, ""); // togli prefisso data (+ora)
+  s = s.replace(/^\d{4}-\d{2}-\d{2}(?:[-_ ]\d{2}[:.]?\d{2})?[-_]?/, "");
   s = s.replace(/[-_]+/g, " ").trim();
   if (!s) return name.replace(/\.md$/i, "");
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-// Data da un filename (prefisso AAAA-MM-GG, eventualmente con -HHMM) o "".
 function dataDaFile(name: string): string {
   const m = name.match(/(\d{4}-\d{2}-\d{2})(?:[-_ ](\d{2})[:.]?(\d{2}))?/);
   if (!m) return "";
   return m[2] ? `${m[1]} ${m[2]}:${m[3]}` : m[1];
 }
 
-// Frontmatter YAML piatto (chiave: valore) → mappa. Solo il primo blocco --- … ---.
 function frontmatter(md: string): Record<string, string> {
   const fm = md.match(/^---\s*\n([\s\S]*?)\n---/);
   if (!fm) return {};
@@ -97,7 +98,6 @@ function frontmatter(md: string): Record<string, string> {
   return out;
 }
 
-// Colore 🟢🟡🔴 da una stringa (campo colore del frontmatter). "" se assente.
 function coloreDa(s: string): string {
   if (/🔴/.test(s)) return "🔴";
   if (/🟡/.test(s)) return "🟡";
@@ -105,7 +105,6 @@ function coloreDa(s: string): string {
   return "";
 }
 
-// Corpo senza frontmatter, senza heading iniziali, ridotto a un estratto pulito di ~220 caratteri.
 function estratto(md: string): string {
   let body = md.replace(/^---\s*\n[\s\S]*?\n---\s*/, "");
   const righe = body
@@ -116,7 +115,6 @@ function estratto(md: string): string {
   return testo.length > 220 ? testo.slice(0, 220).trimEnd() + "…" : testo;
 }
 
-// Primo titolo vero: frontmatter (titolo/oggetto/tipo) → primo heading # → nome file umanizzato.
 function titolo(md: string, fm: Record<string, string>, name: string): string {
   if (fm.titolo) return fm.titolo;
   if (fm.oggetto) return fm.oggetto;
@@ -128,71 +126,76 @@ function titolo(md: string, fm: Record<string, string>, name: string): string {
 
 type Candidato = { path: string; cat: string; nome: string; dataFile: string };
 
-// Raccoglie tutti i file .md (consegne/* + sorgenti vault) come candidati, senza leggerne il corpo.
-async function raccogliCandidati(): Promise<Candidato[]> {
-  const out: Candidato[] = [];
+let cacheCandidati: { at: number; candidati: Candidato[]; parziale: boolean } | null = null;
 
-  // — consegne/* —
-  if (obsidianConnected()) {
-    const entries = (await listDirEntries(ROOT_CONSEGNE)) || [];
-    const dirs = entries.filter((e) => e.type === "dir").map((e) => e.name);
-    const [subResults, rootFiles] = await Promise.all([
-      Promise.all(
-        dirs.map(async (d) => ({ cat: d, files: (await listDir(`${ROOT_CONSEGNE}/${d}`)) || [] }))
-      ),
-      listDir(ROOT_CONSEGNE),
-    ]);
-    for (const { cat, files } of subResults) {
-      for (const nome of files) out.push({ path: `${ROOT_CONSEGNE}/${cat}/${nome}`, cat, nome, dataFile: dataDaFile(nome) });
+function candidatoDaPath(p: string): Candidato | null {
+  if (p.startsWith(`${ROOT_CONSEGNE}/`)) {
+    const rest = p.slice(`${ROOT_CONSEGNE}/`.length);
+    const slash = rest.indexOf("/");
+    if (slash === -1) {
+      if (!rest.endsWith(".md")) return null;
+      return { path: p, cat: "", nome: rest, dataFile: dataDaFile(rest) };
     }
-    for (const nome of rootFiles || []) out.push({ path: `${ROOT_CONSEGNE}/${nome}`, cat: "", nome, dataFile: dataDaFile(nome) });
-  } else {
-    for (const base of [process.cwd(), path.join(process.cwd(), "..")]) {
-      const dir = path.join(base, ROOT_CONSEGNE);
-      let trovato = false;
-      try {
-        const entries = await fs.readdir(dir, { withFileTypes: true });
-        for (const e of entries.filter((x) => x.isFile() && x.name.endsWith(".md"))) {
-          out.push({ path: `${ROOT_CONSEGNE}/${e.name}`, cat: "", nome: e.name, dataFile: dataDaFile(e.name) });
-          trovato = true;
-        }
-        for (const e of entries.filter((x) => x.isDirectory())) {
-          try {
-            const files = (await fs.readdir(path.join(dir, e.name))).filter((n) => n.endsWith(".md"));
-            for (const nome of files) {
-              out.push({ path: `${ROOT_CONSEGNE}/${e.name}/${nome}`, cat: e.name, nome, dataFile: dataDaFile(nome) });
-              trovato = true;
-            }
-          } catch {
-            /* salto sottocartella */
-          }
-        }
-      } catch {
-        /* provo la radice successiva */
+    const cat = rest.slice(0, slash);
+    const nome = rest.slice(slash + 1);
+    if (!nome.endsWith(".md") || nome.includes("/")) return null;
+    return { path: p, cat, nome, dataFile: dataDaFile(nome) };
+  }
+  for (const { dir, cat } of SORGENTI_VAULT) {
+    const prefix = `MyCity-Vault/${dir}/`;
+    if (!p.startsWith(prefix)) continue;
+    const nome = p.slice(prefix.length);
+    if (!nome.endsWith(".md") || nome.includes("/") || nome.startsWith("_")) return null;
+    return { path: p, cat, nome, dataFile: dataDaFile(nome) };
+  }
+  return null;
+}
+
+async function raccogliCandidatiDaDisco(): Promise<Candidato[]> {
+  const out: Candidato[] = [];
+  for (const base of [process.cwd(), path.join(process.cwd(), "..")]) {
+    const dir = path.join(base, ROOT_CONSEGNE);
+    let trovato = false;
+    try {
+      const entries = await fs.readdir(dir, { withFileTypes: true });
+      for (const e of entries.filter((x) => x.isFile() && x.name.endsWith(".md"))) {
+        out.push({ path: `${ROOT_CONSEGNE}/${e.name}`, cat: "", nome: e.name, dataFile: dataDaFile(e.name) });
+        trovato = true;
       }
-      if (trovato) break;
+      for (const e of entries.filter((x) => x.isDirectory())) {
+        try {
+          const files = (await fs.readdir(path.join(dir, e.name))).filter((n) => n.endsWith(".md"));
+          for (const nome of files) {
+            out.push({ path: `${ROOT_CONSEGNE}/${e.name}/${nome}`, cat: e.name, nome, dataFile: dataDaFile(nome) });
+            trovato = true;
+          }
+        } catch {
+          /* salto sottocartella */
+        }
+      }
+    } catch {
+      /* provo la radice successiva */
     }
+    if (trovato) break;
   }
 
-  // — sorgenti del vault (Briefing / Report / Intelligence) —
   await Promise.all(
     SORGENTI_VAULT.map(async ({ dir, cat }) => {
       let files: string[] = [];
-      if (obsidianConnected()) {
-        files = (await listDir(`MyCity-Vault/${dir}`)) || [];
-      } else {
-        for (const base of [process.cwd(), path.join(process.cwd(), "..")]) {
-          try {
-            const names = await fs.readdir(path.join(base, "MyCity-Vault", dir));
-            const md = names.filter((n) => n.endsWith(".md"));
-            if (md.length) { files = md; break; }
-          } catch {
-            /* provo la radice successiva */
+      for (const base of [process.cwd(), path.join(process.cwd(), "..")]) {
+        try {
+          const names = await fs.readdir(path.join(base, "MyCity-Vault", dir));
+          const md = names.filter((n) => n.endsWith(".md"));
+          if (md.length) {
+            files = md;
+            break;
           }
+        } catch {
+          /* provo la radice successiva */
         }
       }
       for (const nome of files) {
-        if (nome.startsWith("_")) continue; // _README e simili: non sono contenuti
+        if (nome.startsWith("_")) continue;
         out.push({ path: `MyCity-Vault/${dir}/${nome}`, cat, nome, dataFile: dataDaFile(nome) });
       }
     })
@@ -201,16 +204,78 @@ async function raccogliCandidati(): Promise<Candidato[]> {
   return out;
 }
 
-// Legge un file: da consegne/ (repo) o da MyCity-Vault/ (vault).
+async function raccogliCandidatiLegacyListDir(): Promise<Candidato[]> {
+  const out: Candidato[] = [];
+  const entries = (await listDirEntries(ROOT_CONSEGNE)) || [];
+  const dirs = entries.filter((e) => e.type === "dir").map((e) => e.name);
+  const [subResults, rootFiles] = await Promise.all([
+    Promise.all(dirs.map(async (d) => ({ cat: d, files: (await listDir(`${ROOT_CONSEGNE}/${d}`)) || [] }))),
+    listDir(ROOT_CONSEGNE),
+  ]);
+  for (const { cat, files } of subResults) {
+    for (const nome of files) out.push({ path: `${ROOT_CONSEGNE}/${cat}/${nome}`, cat, nome, dataFile: dataDaFile(nome) });
+  }
+  for (const nome of rootFiles || []) out.push({ path: `${ROOT_CONSEGNE}/${nome}`, cat: "", nome, dataFile: dataDaFile(nome) });
+  await Promise.all(
+    SORGENTI_VAULT.map(async ({ dir, cat }) => {
+      const files = (await listDir(`MyCity-Vault/${dir}`)) || [];
+      for (const nome of files) {
+        if (nome.startsWith("_")) continue;
+        out.push({ path: `MyCity-Vault/${dir}/${nome}`, cat, nome, dataFile: dataDaFile(nome) });
+      }
+    })
+  );
+  return out;
+}
+
+async function raccogliCandidati(): Promise<{ candidati: Candidato[]; parziale: boolean; daCache: boolean }> {
+  const now = Date.now();
+  if (cacheCandidati && now - cacheCandidati.at < CACHE_MS) {
+    return { candidati: cacheCandidati.candidati, parziale: cacheCandidati.parziale, daCache: true };
+  }
+
+  if (!obsidianConnected()) {
+    const candidati = await raccogliCandidatiDaDisco();
+    cacheCandidati = { at: now, candidati, parziale: false };
+    return { candidati, parziale: false, daCache: false };
+  }
+
+  const prefissi = [ROOT_CONSEGNE, ...SORGENTI_VAULT.map((s) => `MyCity-Vault/${s.dir}`)];
+  const tree = await listMarkdownPaths(prefissi);
+  let candidati = tree.paths.map(candidatoDaPath).filter((c): c is Candidato => c !== null);
+
+  if (candidati.length === 0 && tree.parziale) {
+    candidati = await raccogliCandidatiLegacyListDir();
+  }
+
+  if (candidati.length > 0) {
+    cacheCandidati = { at: now, candidati, parziale: tree.parziale };
+    return { candidati, parziale: tree.parziale, daCache: false };
+  }
+
+  if (cacheCandidati) {
+    return { candidati: cacheCandidati.candidati, parziale: true, daCache: true };
+  }
+
+  return { candidati: [], parziale: true, daCache: false };
+}
+
 async function leggi(p: string): Promise<string | null> {
   if (p.startsWith("MyCity-Vault/")) return readVaultFile(p.slice("MyCity-Vault/".length));
   return readRepoFile(p);
 }
 
+async function mapLimit<T, R>(items: T[], limit: number, fn: (item: T) => Promise<R>): Promise<R[]> {
+  const out: R[] = [];
+  for (let i = 0; i < items.length; i += limit) {
+    out.push(...(await Promise.all(items.slice(i, i + limit).map(fn))));
+  }
+  return out;
+}
+
 export async function GET(req: NextRequest) {
   const file = req.nextUrl.searchParams.get("file");
 
-  // Dettaglio: contenuto markdown completo di un contenuto (per l'anteprima inline).
   if (file) {
     const rel = file.replace(/^\/+/, "");
     const consentito = rel.startsWith(`${ROOT_CONSEGNE}/`) || rel.startsWith("MyCity-Vault/90-Memoria-AI/");
@@ -222,44 +287,50 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ file: rel, contenuto });
   }
 
-  // Lista: i contenuti più recenti, arricchiti (titolo/reparto/colore/estratto), ordinati al minuto.
-  const candidati = await raccogliCandidati();
-  // Pre-ordina per data-file (poi nome) e leggi solo i più freschi: risparmia chiamate GitHub.
+  const { candidati, parziale, daCache } = await raccogliCandidati();
   candidati.sort((a, b) => (b.dataFile || "").localeCompare(a.dataFile || "") || b.nome.localeCompare(a.nome));
   const daLeggere = candidati.slice(0, MAX_LETTURE);
 
-  const letti = await Promise.all(
-    daLeggere.map(async (c) => {
-      const md = (await leggi(c.path)) || "";
-      const fm = frontmatter(md);
-      const et = etichetta(c.cat);
-      const quando = (fm.data || c.dataFile || "").trim();
-      return {
-        path: c.path,
-        categoria: c.cat,
-        emoji: et.emoji,
-        etichetta: et.label,
-        reparto: (fm.reparto || "").replace(/\s*\(.*$/, "").trim(),
-        titolo: titolo(md, fm, c.nome),
-        estratto: estratto(md),
-        colore: coloreDa(fm.colore || fm.allocazione || ""),
-        tipo: fm.tipo || "",
-        anteprima: (fm.anteprima || "").trim(),
-        anteprimaStoria: (fm.anteprima_storia || fm.anteprimastoria || "").trim(),
-        quando, // stringa grezza (vault-Piacenza o data-file); il client la formatta con faRelativo
-        quandoIso: quando ? vaultToIso(quando) : "",
-        vuoto: md.length === 0,
-      };
-    })
-  );
+  const letti = await mapLimit(daLeggere, LETTURA_PARALLELA, async (c) => {
+    const md = (await leggi(c.path)) || "";
+    const fm = frontmatter(md);
+    const et = etichetta(c.cat);
+    const quando = (fm.data || c.dataFile || "").trim();
+    return {
+      path: c.path,
+      categoria: c.cat,
+      emoji: et.emoji,
+      etichetta: et.label,
+      reparto: (fm.reparto || "").replace(/\s*\(.*$/, "").trim(),
+      titolo: titolo(md, fm, c.nome),
+      estratto: estratto(md),
+      colore: coloreDa(fm.colore || fm.allocazione || ""),
+      tipo: fm.tipo || "",
+      anteprima: (fm.anteprima || "").trim(),
+      anteprimaStoria: (fm.anteprima_storia || fm.anteprimastoria || "").trim(),
+      quando,
+      quandoIso: quando ? vaultToIso(quando) : "",
+      vuoto: md.length === 0,
+    };
+  });
 
-  // Ordine finale sull'ISTANTE reale (minuto): i frontmatter con HH:MM battono le date secche.
   letti.sort((a, b) => (Date.parse(b.quandoIso) || 0) - (Date.parse(a.quandoIso) || 0));
+  const contenuti = letti.slice(0, MAX_MOSTRATI);
+
+  const avviso =
+    parziale || daCache
+      ? "Elenco da GitHub incompleto o in cache — le caselle già caricate restano visibili finché la connessione non torna stabile."
+      : candidati.length > MAX_MOSTRATI
+        ? `Mostro i ${MAX_MOSTRATI} più recenti su ${candidati.length} totali.`
+        : undefined;
 
   return NextResponse.json({
-    collegato: letti.length > 0,
+    collegato: contenuti.length > 0,
     totale: candidati.length,
+    mostrati: contenuti.length,
+    parziale: parziale || daCache,
+    avviso,
     fonte: obsidianConnected() ? "github" : "disco",
-    contenuti: letti,
+    contenuti,
   });
 }
