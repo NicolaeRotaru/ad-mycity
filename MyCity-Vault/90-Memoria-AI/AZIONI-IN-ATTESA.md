@@ -119,6 +119,39 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🔴 #referral-porta-un-amico — Accendi «porta un amico» (5€+5€) e manda il primo invito a samir · ⏳ refresh 2026-07-20 11:36
+
+**Contenuto completo:** `consegne/crm/2026-07-20-playbook-referral-refresh.md` · playbook base `consegne/crm/2026-07-06-playbook-referral.md` · anteprima [[AZIONI-PRONTE]] **A17**
+
+**Cosa c'è già nel sito (verificato 20/7):** tabella `referrals`, premio €5 al referrer solo su ordine **CONSEGNATO** (mig.089), welcome €5 nuovi iscritti (mig.029), no self-referral (mig.092), pagina `/profile/referral` live. **Non serve nuovo codice** per partire.
+
+**Economia:** messaggio pubblico 5€+5€ · costo incrementale MyCity ≈ **€5** per nuovo cliente che riceve un ordine (i 5€ invitato = welcome standard). Cap mensile proposto **250€** (≈25 conversioni) — da firmare.
+
+**Anti-frode (già attiva):** premio solo su CONSEGNATO · no auto-invito · un premio per invitato · welcome solo ≥€10. A volume (🟡 branch): tetto 5 inviti/7g, clawback rimborso.
+
+**Gate — NON partire finché tutti ❌→✅:**
+- [ ] Ordine-prova Pane Quotidiano **Consegnato** (oggi 0 — North Star bloccato)
+- [ ] Feedback cliente contento (A13 👍)
+- [ ] Firma Nicola su incentivo + cap 250€/mese
+- [ ] Codice referral samir recuperato da admin/DB
+
+**Testo WhatsApp pronto (samir · 🔴):**
+
+> Ciao [Nome], com'è andata la consegna da **Pane Quotidiano**? Se ti è piaciuto, **dillo a un vicino.**
+> Quando qualcuno si iscrive col tuo link e riceve il primo ordine, **5€ vanno a lui e 5€ a te** — automatici.
+> 👉 https://mycity-marketplace.com/sign-up?ref=**[CODICE-SAMIR]**
+> Ogni vicino che ordina è una bottega del centro che incassa. 🧡 Nicola — MyCity
+
+**Cosa cambia:** si accende il canale di crescita più economico (CAC ≈€5) — passaparola incentivato del quartiere.
+**Se va bene:** un cliente reale porta un vicino → secondo buyer senza ads; poi si misura k-factor.
+
+- **Colore:** 🔴 (incentivo € reale + messaggio a cliente — firma Nicola)
+- **Canale:** WhatsApp 348 642 1766 (Resend spento — email opzionale dopo accensione mani)
+- **Reparto:** crm-lifecycle
+- **Nota:** rimandato 9/7 «dopo primo negozio» — PQ è live dal 1/7; blocco reale = zero consegne. **Prima:** ordine test PQ (#ordine-test-pq).
+
+---
+
 ### 🟡 #ritmo-venerdì-punteggio — Apri e mergia la PR per la regola «venerdì ricalcola il punteggio auto-coscienza» · ⏳ accodata 2026-07-19 00:10
 
 **Contesto:** Il 18/7 Nicola ha notato che il punteggio 42/100 era fermo da 15 giorni. L'AD ha aggiunto la regola esplicita a `cervello/ritmo.md` e creato il body PR in `consegne/tech/pr-ad-mycity-466.md`, ma il worker al termine del turno non mostrava nessuna PR aperta — il comando potrebbe non essere andato a buon fine.

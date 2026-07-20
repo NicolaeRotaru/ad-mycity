@@ -8,6 +8,7 @@ reparto: crm-lifecycle
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 11:37 · PLAYBOOK Referral 20/7 · loop già in codice; messaggi+anti-frode refresh; card #referral-porta-un-amico 🔴 · atteso card A17 in coda + primo invito dopo G1 → reale gate G1 ❌ 0 consegnati — invio bloccato · #referral #give-get
 - 2026-07-20 11:18 · playbook recupero carrelli 20/7 · 4 record,1 buyer,2 touch · atteso bozze A3 per ogni carrello reale fermo → reale 1 samir €10 PQ + 3 SKIP admin/demo/seller; gate PQ chiuso; zero invii · #recupero-carrelli #playbook #REST-live
 - 2026-07-20 11:14 · playbook win-back 20/7 · 4 buyer,0 delivered,0 winback,2 touch+SPED5 · atteso bozze+AZIONI-PRONTE A32 per ogni dormiente → reale 0 dormienti; attivazione=welcome/carrello · #win-back #playbook
 - 2026-07-19 23:33 · Nicola «Dimmi altri 10 workflow diversi» — atteso: ampliare mappa lifecycle oltre carrello · reale: 10 leve distinte (welcome, post-consegna/recensione, dormiente, pagamento fallito, referral, meteo…) allineate a CRM; carrello resta #1; JSON n8n dopo webhook + scelta Nicola · L-335 · #n8n #lifecycle

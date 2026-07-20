@@ -401,12 +401,12 @@ stato: PRONTA — specifica completa, nessun branch aperto.
 ## A17 · 🧡 Accendi il "porta un amico" (5€ a te, 5€ al tuo amico) e manda il primo invito
 reparto: crm-lifecycle
 livello: 🔴 (incentivo in denaro/credito reale)
-canale: Email/WhatsApp all'invitante (Resend, oggi spento) + pagina Invita amici già live nel sito
-perche: Il loop give-get è GIÀ costruito nel codice (referrals mig.015, premio €5 su consegna mig.089, welcome €5 mig.029, no self-referral mig.092, pagina /profile/referral). Serve solo firma sull'incentivo + le mani email. Costo reale incrementale ≈ €5 per cliente nuovo che riceve davvero un ordine — più economico e più caldo di un click pagato.
-preparato: 🔁 crm-lifecycle + 🛡️ trust-safety (anti-frode) — playbook completo + messaggi in consegne/crm/2026-07-06-playbook-referral.md
-cosa cambia: si accende il programma referral e parte il primo invito al primo cliente reale (samir, dopo che riceve #16): 5€ a lui se un amico ordina e riceve, 5€ all'amico di benvenuto. Anti-frode già in codice (premio solo su ordine consegnato, no auto-invito).
-se va bene: primo cliente porta un vicino → crescita organica a CAC ≈€5, il canale meno costoso che abbiamo; base per il volano "un cliente ne porta un altro".
-pre-condizioni: parte SOLO quando (1) #16 è "Consegnato" (serve ≥1 cliente con un ordine ricevuto) · (2) il cliente è confermato contento (A13 👍) · (3) mani Resend accese (@builder-automazioni) · (4) faro = Pane Quotidiano (i testi parlano di PQ, non Garetti/Casa Linda). Finché non veri, resta in coda.
+canale: WhatsApp manuale (348 642 1766) o Email (Resend, oggi spento) + pagina `/profile/referral` già live
+perche: Il loop give-get è GIÀ costruito nel codice (referrals mig.015, premio €5 su consegna mig.089, welcome €5 mig.029, no self-referral mig.092). Refresh verificato 20/7 11:36. Costo incrementale ≈€5 per cliente nuovo con ordine consegnato — vs Glovo referral 16€ + sconti catena -25/-40% (intelligence 20/7). Cap mensile proposto 250€ (≈25 conversioni) — da firmare.
+preparato: 🔁 crm-lifecycle + 🛡️ trust-safety — `consegne/crm/2026-07-06-playbook-referral.md` + refresh `consegne/crm/2026-07-20-playbook-referral-refresh.md`
+cosa cambia: si accende il referral e parte il primo invito a samir dopo ordine-prova PQ consegnato: 5€ a lui se un amico ordina e riceve, 5€ welcome all'amico. Anti-frode base in codice; a volume tetto 5 inviti/7g + clawback (🟡 branch).
+se va bene: primo cliente porta un vicino → crescita organica a CAC ≈€5; base volano «un cliente ne porta un altro».
+pre-condizioni: (1) ordine-prova PQ **Consegnato** (#16 annullato 3/7) · (2) A13 feedback 👍 · (3) firma Nicola €5+5€ + cap 250€/mese · (4) WhatsApp ok a mano OR Resend · (5) faro Pane Quotidiano. **Gate G1 oggi ❌** (0 consegnati, STATO 20/7). Rimando 9/7 «dopo primo negozio» superato — PQ live dal 1/7.
 testo (invito a chi invita · 🔴):
 Oggetto: Porta un vicino da Pane Quotidiano — 5€ a te, 5€ a lui 🧡
 Ciao [Nome], ti è arrivato il pane e i prodotti di Pane Quotidiano? Fai una cosa bella: dillo a un vicino.
@@ -420,8 +420,8 @@ Ciao, [Nome] ti ha invitato su MyCity — e con il suo invito hai 5€ sul tuo p
 casa le vere botteghe del centro: si parte da Pane Quotidiano, pane fresco e prodotti bio, ordinati dal telefono
 e portati a mano. Paghi anche alla consegna. 👉 [Usa i tuoi 5€ — iscriviti e ordina]. Le botteghe del centro
 stanno sparendo. Con un ordine, le tieni aperte. Benvenuto tra i vicini, Nicola — MyCity.
-anti-frode (già in codice): premio solo su ordine CONSEGNATO (mig.089, no crea-annulla) · no self-referral CHECK+RLS (mig.092) · un premio per invitato (UNIQUE) · welcome solo ≥€10 (mig.029). Da aggiungere a volume (🟡 branch): tetto 5 invitati/7g, flag stesso indirizzo/telefono, soglia minima sul premio invitante, clawback su rimborso.
-stato: BOZZE PRONTE — NESSUN INVIO. Coda canonica = riga #37 in [[AZIONI-IN-ATTESA]].
+anti-frode (già in codice): premio solo su ordine CONSEGNATO (mig.089) · no self-referral (mig.092) · un premio per invitato · welcome ≥€10 (mig.029). A volume (🟡): tetto 5/7g, flag indirizzo/telefono, clawback rimborso.
+stato: BOZZE PRONTE — NESSUN INVIO. Card [[AZIONI-IN-ATTESA]] **#referral-porta-un-amico** · refresh 20/7 11:36.
 
 ## A24 · 🛡️ Bollino «Negozio Verificato MyCity» — lo standard di fiducia della città
 > (nato come «A18» nella coda del VPS: rinumerato A24 nella riconciliazione del 6/7 per collisione col A18 «scout 3 botteghe» — i vecchi rimandi «A18 bollino» puntano qui)
