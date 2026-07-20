@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 23:28
-fonte: AD digitale (chat 20/7 23:28)
+aggiornato: 2026-07-20 23:32
+fonte: AD digitale (chat 20/7 23:32)
 ---
+
+> 💬 **20/7 ~23:32 — CHAT: Casella token in audit — «Fai il fix» AR-124 redazione + redattore (L-430).** Nicola «**Fai il fix**» — memoria **bloccata** perché il report auto-radiografia 16/7 conteneva un frammento di PAT GitHub (3×); `scan-segreti` exit 1 → giro non pubblica. AD: redige il report · nuovo **`redattore-segreti.mjs`** (regex condivise con lo scan) · regola «mai il valore del token» in scrittura umana. Verificato locale: **`scan-segreti` → exit 0**. **Serve Nicola:** mergia PR fix → memoria torna pubblicabile; valuta **rotazione PAT** se il token era ancora valido (#ruota-pat-github). Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 23:32.
 
 > 💬 **20/7 ~23:28 — CHAT: PR #504 conflitto risolto — mergeable; #501 già mergiata (L-429).** Nicola «**C'è un conflitto**» su **#504** (gate OKR `freschezza-okr.mjs`) — nel frattempo su main erano entrati **#501** (sentinelle pricing) e **#503** (north-star hard). AD rebase: conflitto **`giro.sh`** — tenuto north-star già su main + gate OKR nuovo; commit **`5c8dfc7b`** → **mergeable**. **#501 ✅ mergiata** da Nicola (casella «Pochi negozi» → **10% + 50€/mese** live post-deploy). **Serve Nicola:** mergia **#504** → al prossimo giro la macchina **obbliga** riscrittura `OKR-Squadra.md` (target «27/6» ancora scaduti — voluto finché OKR non aggiornati). Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 ~23:28 + worker verifica main `0acbff66`.
 

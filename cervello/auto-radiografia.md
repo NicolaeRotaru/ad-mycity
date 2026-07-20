@@ -119,6 +119,9 @@ proposte/esperimenti fermi da troppo? Aggiorna il blocco `sonda` di `auto-radiog
 2. Aggiorna `cantiere-difetti.json` (nuovi/chiusi) e `storico-salute.json` (snapshot).
 3. `MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md` (report umano) + archivio
    `consegne/audit/AAAA-MM-GG-auto-radiografia.md`.
+   > 🔒 **Prima di salvare** ogni report/audit in `consegne/`, passa il testo da
+   > `node cervello/redattore-segreti.mjs --stdin` (o `--in-place`): mai scrivere il **valore** di un token,
+   > solo il nome della variabile o `[REDATTO]`.
 4. **La LETTERA settimanale** `auto-coscienza/LETTERA-A-NICOLA.md` (vedi `ritmo.md`): in parole semplici —
    come sto andando, dove sbaglio, cosa mi serve da te, «saresti fiero se mi guardassi adesso?».
 5. Effetti a valle (volano): i findings `genera:lezione` → `apprendimento.md`; `auto-riscrittura`/`nuovo-pezzo`

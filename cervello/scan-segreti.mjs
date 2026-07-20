@@ -17,35 +17,19 @@ import { execFileSync } from "node:child_process";
 import { readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { REGOLE_SEGRETI, campioneRedatto } from "./segreti-pattern.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const STAGED_ONLY = process.argv.includes("--staged");
 
-// Pattern di segreti REALI (non placeholder). Ognuno ha un nome e una regex ancorata a prefissi veri.
-// I placeholder tipici (xxxx, <...>, your_, REDATTO, INSERISCI, service_role_della_…) NON matchano.
-const REGOLE = [
-  { nome: "GitHub fine-grained PAT", re: /github_pat_11[A-Za-z0-9]{20,}/g },
-  { nome: "GitHub classic/OAuth token", re: /gh[pousr]_[A-Za-z0-9]{36,}/g },
-  { nome: "Supabase management token (sbp_)", re: /sbp_[A-Za-z0-9]{20,}/g },
-  { nome: "Stripe secret/live key", re: /sk_live_[A-Za-z0-9]{20,}/g },
-  { nome: "Stripe restricted key", re: /rk_live_[A-Za-z0-9]{20,}/g },
-  { nome: "Supabase/JWT service_role", re: /eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}/g },
-  { nome: "Google API key", re: /AIza[0-9A-Za-z_-]{35}/g },
-  { nome: "OpenAI key", re: /sk-[A-Za-z0-9]{32,}/g },
-  { nome: "Slack token", re: /xox[baprs]-[A-Za-z0-9-]{10,}/g },
-  { nome: "AWS access key id", re: /AKIA[0-9A-Z]{16}/g },
-  { nome: "Chiave privata PEM", re: /-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----/g },
-  { nome: "Resend API key", re: /(?:^|[^A-Za-z0-9_])re_[A-Za-z0-9_]{16,}/g },
-  { nome: "n8n API key", re: /n8n_api_[A-Za-z0-9]{20,}/g },
-];
+const REGOLE = REGOLE_SEGRETI;
 
 // Estensioni binarie/di rumore da saltare.
 const SKIP_EXT = /\.(png|jpe?g|gif|webp|ico|pdf|zip|gz|tar|mp4|mov|woff2?|ttf|otf|lock)$/i;
 
 /** Redige un segreto: mostra solo i primi 7 e gli ultimi 3 caratteri. */
 function reda(s) {
-  if (s.length <= 12) return s.slice(0, 3) + "…";
-  return `${s.slice(0, 7)}…${s.slice(-3)} [${s.length} char]`;
+  return campioneRedatto(s);
 }
 
 /** Elenco dei file da scansionare: quelli che git considera versionabili (tracciati + non-ignorati). */
