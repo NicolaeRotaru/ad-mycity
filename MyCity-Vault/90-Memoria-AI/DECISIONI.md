@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-21 00:11 · 🟡 · [frontend-dev/AD] · **Diretta — «Apri pr» bloccato da rate limit GitHub; compare manuale.** Nicola «**Apri pr**» sul fix 00:08. AD retry **`gh pr create`** x2 → **403 rate limit** (token worker, pattern L-316). Codice su GitHub ✅ · scheda PR ❌. **Istruzione:** Compare browser `main...fix/diretta-apri-contenuto` → Create PR → merge Pannello → test Diretta. Alternativa: «riprova la PR» ~1h. **No card merge** (L-402). · Nicola (chat 21/7 ~00:11)
+
 2026-07-21 00:08 · 🟡 · [frontend-dev/AD] · **Diretta contenuti — second fix post-#498: click bianco + merge lista (branch `fix/diretta-apri-contenuto`).** Nicola segnala che **#498 non ha risolto**: contenuto non si apre, caselle spariscono/cambiano al refresh. **Fatto (🟢 codice):** commit **`c0039c2a`** — mostra testo subito al click; merge caselle per **nome file** (non replace-all); scheda aperta resta finché l'utente chiude. Typecheck ok. **Merge 🔴 pendente** Nicola → deploy ~2 min → test tab Diretta 1–2 min. Link PR in chat quando GitHub API disponibile (**no card merge**, L-402). L-438, addendum L-394. · Nicola (chat 21/7 ~00:08 + screenshot)
 
 2026-07-20 23:47 · 🟡 · [devops-sre/finanza/AD] · **Marketplace → Vercel; Render in dismissione + burn completo.** Nicola: trasferisce il **marketplace su Vercel**; **VPS 20 €/m**; **dominio 20 €/anno**. AD aggiorna Bacheca + `registro-fatti`: burn fisso **300 €/m** (Claude 200 + Vercel 30 + Supabase 50 + VPS 20), totale **~302 €/m** con dominio; **Render segnato in chiusura** (non sommato al burn). Card `#burn-mensile-env` propone `BURN_MENSILE_EUR=300`. **Da confermare:** costo Vercel dopo migrazione marketplace (piano potrebbe salire). L-433 addendum. · Nicola (chat 20/7 ~23:46)

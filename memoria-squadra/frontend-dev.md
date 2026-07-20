@@ -7,6 +7,8 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-21 00:11 · «Apri pr» Diretta — Nicola chiede apertura PR fix 00:08 · atteso: scheda PR aperta · reale: `gh pr create` 403 x2 rate limit; push `fix/diretta-apri-contenuto` ok; compare manuale browser → merge 🔴 pendente Nicola · L-316, L-438 · #diretta-contenuti #github-rate-limit #pr-pendente
+- 2026-07-21 00:08 · Diretta contenuti second fix post-#498 — Nicola «non hai risolto» click bianco + lista instabile · atteso: contenuto visibile al click + caselle stabili 1–2 min · reale: branch `fix/diretta-apri-contenuto` commit `c0039c2a` (merge filename + show immediato + sticky aperta), typecheck ok, merge 🔴 pendente · L-438 · #diretta-contenuti #pr-pendente
 - 2026-07-20 23:38 · Chat allegati duplicati PR #507 — Nicola 3 bug UX chat · atteso: una bolla allegato, una risposta, ordine tuo→AD · reale: `chat-thread-merge.ts` + test 5/5; Vercel fix import no `.ts`; #507 mergeable post-chiusura #505 · merge 🔴 #507 · #pannello #chat #merge-thread #pr-507 · L-432, L-428
 - 2026-07-20 23:28 · PR #501 ✅ mergiata + #504 conflitto risolto — Nicola «C'è un conflitto» · atteso: pricing live + #504 mergeable · reale: #501 su main (casella 10%+50€); #504 rebase `giro.sh` → mergeable `5c8dfc7b` · #pannello #pr #501 #504 · L-413, L-429
 - 2026-07-20 23:23 · PR #501 conflitti memoria — Nicola screenshot solo allegato · atteso: risolvere + mergeable · reale: rebase main (north-star/memoria) → **mergeable** check verdi; codice sentinelle pricing intatto; merge 🔴 **#501** → casella 10%+50€ · #pannello #pr #501 #conflitti #sentinelle · L-397, L-413

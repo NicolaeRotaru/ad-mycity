@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-21 00:08
-fonte: AD digitale (chat 21/7 00:08)
+aggiornato: 2026-07-21 00:11
+fonte: AD digitale (chat 21/7 00:11)
 ---
+
+> 💬 **21/7 ~00:11 — CHAT: «Apri pr» Diretta — rate limit GitHub, compare manuale (L-438 + L-316).** Nicola «**Apri pr**» sul fix Diretta post-00:08. AD **riprova x2** → **`GitHub 403 rate limit exceeded`** (stesso blocco token worker del 19/7). Branch **`fix/diretta-apri-contenuto`** + commit **`c0039c2a`** **push ok** — manca solo scheda PR. **Piano B Nicola:** Compare `main...fix/diretta-apri-contenuto` nel browser → Create PR → mergia dal Pannello → deploy ~2 min → test Diretta (testo al click + lista stabile 1–2 min). **Produzione:** ancora comportamento vecchio. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:11.
 
 > 💬 **21/7 ~00:08 — CHAT: Diretta contenuti — #498 incompleta, second fix PR pendente (L-438).** Nicola «**non hai risolto**» + caselle spariscono/cambiano + **contenuto non si apre** al click (screenshot). AD: **due bug distinti** oltre #498 (già mergiata 16:36): (1) **click bianco** — testo in memoria ma UI aspettava refresh interno; (2) **lista instabile** — poll 30s sostituiva tutto su risposta GitHub parziale. **Fix consegnato:** branch `fix/diretta-apri-contenuto`, commit **`c0039c2a`** — merge per filename + contenuto immediato + scheda aperta sticky; typecheck ok. **Non ancora online** — merge 🔴 pendente (PR bloccata da rate limit GitHub API al momento del turno). **Test post-deploy:** apri una scheda, resta 1–2 min — testo visibile + lista stabile. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:08.
 

@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-21 00:11 · metabolizzazione chat «Apri pr» Diretta · atteso: L-316+L-438 addendum + STATO/DECISIONI · reale: rate limit 403 x2, compare manuale, L-316 evidenze 4, L-438 evidenze 2, LEZIONI-CHAT aggiornato · #metabolizzazione #L-316 #L-438 #diretta
 - 2026-07-20 23:59 · metabolizzazione chat casella capillarità in bacheca · atteso: L-437 + apprendimento + quaderni · reale: L-437 nuova, L-435+L-377 evidenze++, preferenza casella-in-bacheca addendum, STATO+LEZIONI già AD turno, vendite esito · #metabolizzazione #L-437 #bacheca
 - 2026-07-20 23:54 · metabolizzazione chat casella fedeltà in bacheca · atteso: L-435 + STATO/LEZIONI · reale: L-435 nuova, L-377 evidenze 5, STATO+LEZIONI+preferenze+growth esito · #metabolizzazione #L-435 #bacheca
 - 2026-07-20 23:48 · metabolizzazione chat app store/SMS/email · atteso: L-434 + STATO/LEZIONI/registro · reale: L-434 nuova, L-433 preferenza addendum opzionali, STATO+LEZIONI-CHAT+registro-fatti+finanza · #metabolizzazione #L-434 #costi
