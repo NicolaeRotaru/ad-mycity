@@ -1,5 +1,7 @@
 // Funzioni pure condivise da Parla casella — sicure per import server (API route) senza React.
 
+import { mergeThreadMsgs } from "@/lib/chat-thread-merge";
+
 export type ParlaMsg = { role: "user" | "assistant"; content: string; pending?: boolean; created_at?: string };
 
 export const MSG_RISPOSTA_VUOTA =
@@ -37,11 +39,5 @@ export function assembleRichiestaCasella(
 }
 
 export function fondiMessaggi(a: ParlaMsg[], b: ParlaMsg[]): ParlaMsg[] {
-  const pa = a.filter((m) => !m.pending);
-  const pb = b.filter((m) => !m.pending);
-  const base = pa.length >= pb.length ? pa : pb;
-  const altro = pa.length >= pb.length ? pb : pa;
-  const visti = new Set(base.map((m) => `${m.role}|${m.content}`));
-  const extra = altro.filter((m) => !visti.has(`${m.role}|${m.content}`));
-  return extra.length ? [...base, ...extra] : base;
+  return mergeThreadMsgs(a, b);
 }
