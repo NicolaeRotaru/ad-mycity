@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:28
+aggiornato: 2026-07-20 03:29
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:28 — CHAT: quando si attiva Builder automazioni — on-demand, non ogni mattina (L-380).** Nicola «**quando si attiva Builder automazioni?**» (dopo organigramma n8n L-378). AD: Builder **non** parte da solo come worker/giro — entra su **trigger espliciti:** (1) Nicola chiede automazione/mano («collega Telegram», «importa 50 workflow», «accendi RSS bandi»); (2) reparto richiede via AD (L-376); (3) **ok card 🔴** su post/email/avviso → collega mano + flusso (dry-run prima); (4) **radar occasionale** (salute n8n, strumenti) — non ogni giro. **🟢** = bozze JSON/script repo · **🔴/chiavi** = Active n8n + invii (Telegram **59** avvisi). CTA: «accendi Telegram» / «importa workflow» / «RSS bandi». Fonte: chat Nicola 20/7 03:28.
 
 > 💬 **20/7 ~03:27 — CHAT: 50 workflow n8n creati — JSON importabili, stub collegabili (L-379).** Nicola «**adesso crea i 50 workflow**» (dopo catalogo 10×5 L-368). AD consegna **50 file JSON** importabili in `consegne/automazioni/n8n/workflows/` + indice `CATALOGO-50-WORKFLOW.json` + script rigenerabile `genera-catalogo-50.mjs` — verificati **50/50** con `id`/`versionId` (fix NOT NULL L-329). **Stub:** trigger + descrizione + nodo Telegram segnaposto — **non attivi** finché non si collegano Meta/Resend/Sheets ecc.; i **2 workflow già completi** (pubblica post + lista attesa) restano i punti di partenza migliori. **Priorità accensione:** Telegram (**59** avvisi, n.31) → Meta (n.1–2) → RSS bandi Comune (n.41) → carrello 1h (n.11) → nuovo ordine negozio (n.21). Messaggi/post = **🔴** card. Import: n8n → Import from file → credenziali → Active solo scelti. Commit **`d1e4aa6e`**. Fonte: chat Nicola 20/7 03:27.
 
