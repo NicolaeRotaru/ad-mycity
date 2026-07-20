@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 12:42
-fonte: AD digitale (chat Pannello casella perlustrazione)
+aggiornato: 2026-07-20 12:52
+fonte: AD digitale (chat Pannello casella trust-safety badge)
 ---
+
+> 💬 **20/7 ~12:52 — CHAT: Bug critico bollino «Negozio Verificato» — fix PR #218 (L-393).** Nicola «**Risolvi il bug critico del bollino**» su casella trust-safety — badge compariva su **tutti** i negozi (4/5 punti UI senza condizione). AD fix repo **mycity** **PR #218** (`f41bac1`): predicato unico `isVerifiedStore` = approvato + `stripe_charges_enabled` + `stripe_payouts_enabled`; applicato a liste/card/home/vetrina/prodotto; migrazione **108** flag Stripe su vista pubblica; test **3/3**. **Effetto oggi:** **0 negozi** mostrano badge (corretto — PQ manca payout ON). Merge 🔴 card **#213**. Fonte: chat Nicola 20/7 12:52.
 
 > 💬 **20/7 ~12:42 — CHAT: Nicola corregge radar — Deliveroo attivo a Piacenza (L-392).** Perlustrazione settimana diceva «non operativo» — **sbagliato**: Deliveroo c'è ed è **abbastanza forte** su ristorazione. Corretto perlustrazione + radar intelligence; fonte deliveroo.it/piacenza 20/7. Moat MyCity resta **botteghe storiche**, non ristoranti.
 

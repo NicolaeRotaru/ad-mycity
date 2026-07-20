@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 12:52 · 🟡 · [trust-safety/tech/frontend-dev] · **Nicola: «Risolvi il bug critico del bollino» — fix codice PR #218 marketplace.** Badge «Negozio verificato» era decorativo (render senza gate in 4/5 punti UI). Fix: `isVerifiedStore` unico (approvato + Stripe charges + payouts) + migrazione 108 + test anti-regressione 3/3. Oggi 0 badge visibili finché nessun negozio ha payout ON — PQ incluso, corretto. **Merge 🔴 pendente** card #213. L-393. · Nicola (chat casella trust-safety badge 20/7)
+
 2026-07-20 12:42 · 🟢 · [intelligence/AD] · **Nicola corregge radar: Deliveroo ATTIVO e forte a Piacenza** (non «non operativo»). Perlustrazione 20/7 + radar-concorrenti aggiornati; fonte web deliveroo.it/piacenza (20/7) + conferma campo Nicola. Segnale: food delivery affollato (Glovo+Deliveroo+JustEat); moat MyCity resta botteghe storiche. L-392. · Nicola (chat casella perlustrazione 20/7)
 
 2026-07-20 12:39 · 🟢 · [vendite/AD] · **Nicola corregge pricing pitch: MyCity = 10% commissione + 50€/mese abbonamento** (non 12% zero fissi). Allineato a codice marketplace (`MARKETPLACE_FEE_BPS` 10%, subscription 5000 cent). Registrato in `registro-fatti.json` (`pricing.commissione`, `pricing.abbonamento`). Pitch anti-Glovo + radar intelligence + scout + AZIONI-PRONTE aggiornati. Nota: contratto PQ storico restava 12%/0€ fissi — standard piattaforma ora 10%+50€. · Nicola (chat Pannello casella pitch anti-Glovo)
