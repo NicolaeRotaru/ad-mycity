@@ -136,6 +136,7 @@ import {
   type ParlaMsg,
 } from "@/lib/parla";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
+import { bollaUtenteDaTesto, mergeThreadMsgs, PLACEHOLDER_ALLEGATI } from "@/lib/chat-thread-merge";
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
 // (non più l'indice), così durante il polling/il passaggio "pending → risposta" le bolle
@@ -254,17 +255,6 @@ function haRispostaNonLetta(
   const ts = tsUltimoAssistantFinale(c, gruppo);
   if (!ts) return true;
   return new Date(ts).getTime() > new Date(lettaAt).getTime();
-}
-
-function mergeThreadMsgs(a: Msg[], b: Msg[]): Msg[] {
-  const pulisci = (list: Msg[]) => list.filter((m) => !m.pending && !m.prompt);
-  const pa = pulisci(a);
-  const pb = pulisci(b);
-  const base = pa.length >= pb.length ? pa : pb;
-  const altro = pa.length >= pb.length ? pb : pa;
-  const visti = new Set(base.map((m) => `${m.role}|${m.content}`));
-  const extra = altro.filter((m) => !visti.has(`${m.role}|${m.content}`));
-  return extra.length ? [...base, ...extra] : base;
 }
 
 function mergeListaConversazioni(prev: Conversazione[], incoming: Conversazione[], convAttiva: string | null): Conversazione[] {
@@ -1552,9 +1542,8 @@ export default function Dashboard() {
       .join("\n");
     const baseTxt = base?.testo ? `\n\n## Contesto (conversazioni scelte come base)\n${base.testo}` : "";
     const prep = preparaLavoro(t || "Guarda gli allegati");
-    // Nella bolla mostro il testo + i nomi degli allegati (così la conversazione resta leggibile).
-    const nomiAllegati = daCaricare.map((f) => `📎 ${f.name}`).join("  ");
-    const bollaUtente = [t, nomiAllegati].filter(Boolean).join("\n");
+    const nomiAllegati = daCaricare.map((f) => f.name);
+    const bollaUtente = bollaUtenteDaTesto(t, nomiAllegati);
 
     // Aggiunge la bolla utente (se non già mostrata dal meccanismo di coda) + la bolla pending.
     setMessages((m) => [
@@ -1622,7 +1611,7 @@ export default function Dashboard() {
                   titoloCasella,
                   contesto,
                   storiaParla,
-                  t || "(nessun testo — vedi allegati)",
+                  bollaUtente || PLACEHOLDER_ALLEGATI,
                   gruppoId,
                   bloccoAllegati,
                 );
@@ -1631,7 +1620,7 @@ export default function Dashboard() {
               return (
                 (memoria ? `${memoria}\n` : "") +
                 (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
-                `## Nuovo messaggio di Nicola\n${t || "(nessun testo — vedi allegati)"}` +
+                `## Nuovo messaggio di Nicola\n${bollaUtente || PLACEHOLDER_ALLEGATI}` +
                 baseTxt +
                 bloccoAllegati +
                 `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +

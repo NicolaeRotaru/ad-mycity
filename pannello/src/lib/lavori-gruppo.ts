@@ -1,5 +1,7 @@
 /** Raggruppamento lavori per conversazione (stesso gruppo = stesso contenitore collassabile). */
 
+import { userContentDaRichiesta } from "./chat-thread-merge.ts";
+
 export type LavoroBase = {
   id: string;
   created_at: string;
@@ -75,9 +77,9 @@ export function messaggiDaLavoro(lv: LavoroBase): MsgChat[] {
   if (lv.tipo === "giro") {
     out.push({ role: "user", content: "fai un giro" });
   } else if (richiesta.trim()) {
-    const nuovo = richiesta.match(/## Nuovo messaggio di Nicola\n([\s\S]*?)(?:\n\n## |\n*$)/);
-    if (nuovo?.[1]?.trim()) {
-      out.push({ role: "user", content: nuovo[1].trim() });
+    const daRichiesta = userContentDaRichiesta(richiesta);
+    if (daRichiesta.trim()) {
+      out.push({ role: "user", content: daRichiesta });
     } else {
       const prima = richiesta.split("\n").find((l) => l.trim() && !l.startsWith("#"));
       if (prima?.trim()) out.push({ role: "user", content: prima.trim() });

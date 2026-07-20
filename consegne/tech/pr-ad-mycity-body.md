@@ -1,15 +1,14 @@
 ## Summary
-- Aggiunge `freschezza-okr.mjs`: guardiano che segnala OKR stantio (>7 giorni), target con data passata (es. «27/6») o riferimenti faro obsoleti.
-- Cabla il vincolo HARD nel preambolo di `giro.sh` (stesso pattern di AR-030 checklist): se fallisce, il motore deve riscrivere `OKR-Squadra.md` prima di chiudere il giro.
-- Aggiorna la verifica auto-fix di AR-115 nel cantiere difetti.
+- Fix chat: invio solo allegato non crea più due messaggi utente + due risposte AD identiche.
+- Unifica la bolla salvata con quella ricostruita dai Lavori (📎 nome file invece del placeholder).
+- Merge thread più intelligente: stesso turno allegato, ordine cronologico, dedup risposte duplicate.
 
 ## Perché
-L'OKR definisce cosa è prioritario per ogni senior ma restava morto senza processo di riscrittura — target scaduti (1° ordine «27/6») e nessun guardiano.
+Nicola segnalava: risposta doppia, due frasi all’invio allegato, messaggio utente che finiva sotto la risposta. Causa: placeholder `(nessun testo — vedi allegati)` trattato come messaggio diverso da `📎 filename`, e merge che appendeva copie in fondo.
 
 ## Come provare
-```bash
-bash -n cervello/giro.sh
-node cervello/test/freschezza-okr.mjs
-node cervello/freschezza-okr.mjs   # exit 1 finché c'è «27/6» in OKR-Squadra.md
-node cervello/auto-fix.mjs verifica | rg AR-115
-```
+1. Apri Assistente nel Pannello (dopo merge + deploy Vercel).
+2. Invia **solo** uno screenshot (senza testo) e attendi la risposta.
+3. Verifica: **una** bolla tua con 📎 nome file, **una** risposta AD, ordine corretto (tu → AD).
+4. Ricarica la pagina o riapri la conversazione: niente duplicati.
+5. Test automatici: `cd pannello && node --test src/lib/chat-thread-merge.test.mts`
