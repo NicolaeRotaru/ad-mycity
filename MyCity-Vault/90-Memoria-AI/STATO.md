@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:08
+aggiornato: 2026-07-20 02:09
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~02:08 — CHAT: icona ☰ menu conv Worker non si apre (L-358).** Nicola: «dentro la chat del worker l'icona del menu non si apre». **Causa:** PR #485 resa sidebar conv **sempre visibile** ma **rimossa l'icona ☰** in testata — tap su icona assente/inerte. **Fix:** branch `fix/worker-menu-conv-apre` (`a6d96d35`, `page.tsx`) — ☰ ripristinata; **mobile** = cassetto elenco chat; **desktop** = colonna default visibile, ☰ nasconde/mostra; ⚡ Skill in basso resta separato. PR merge 🔴 pendente (#206 — GitHub 503 all'apertura). Dopo deploy: Ctrl+F5 → Worker → tap ☰. Fonte: chat Nicola 20/7 02:08.
 
 > 🛰️ **20/7 02:07 — SENTINELLA: cassa/runway — verifica 175 giri, blocco invariato.** `cassa_sconosciuta` **175 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe. **Unica mossa:** card **🟡 #burn-mensile-env** (già in coda). **Oggi ore 10:00:** 🔴 **PI26 apre a sportello** (`#bandi-cciaa-2007`). Diagnosi: `consegne/finanza/2026-07-20-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 02:07.
 
