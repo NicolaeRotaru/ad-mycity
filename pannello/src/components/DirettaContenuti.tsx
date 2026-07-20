@@ -72,10 +72,23 @@ function contestoContenuto(c: Contenuto, testoCompleto?: string): string {
 
 const CHIAVE_VISTO = "mycity_contenuti_visto"; // ISO dell'ultima volta che Nicola ha guardato la diretta
 
+function unisciContenuti(prev: Contenuto[], next: Contenuto[], parziale: boolean): Contenuto[] {
+  if (!parziale || prev.length === 0) return next;
+  // Refresh GitHub a metà: non far sparire caselle già visibili.
+  if (next.length >= prev.length) return next;
+  const map = new Map(next.map((c) => [c.path, c]));
+  for (const c of prev) {
+    if (!map.has(c.path)) map.set(c.path, c);
+  }
+  return [...map.values()].sort((a, b) => (Date.parse(b.quandoIso) || 0) - (Date.parse(a.quandoIso) || 0));
+}
+
 export default function DirettaContenuti() {
   const [contenuti, setContenuti] = useState<Contenuto[]>([]);
   const [caricato, setCaricato] = useState(false);
   const [fonte, setFonte] = useState<string>("");
+  const [totale, setTotale] = useState<number | null>(null);
+  const [avviso, setAvviso] = useState<string>("");
   const [aggAt, setAggAt] = useState<number | null>(null);
   // Riferimento "ultima volta vista": fissato al montaggio, così le novità restano evidenziate
   // per tutta la sessione finché non premi "Segna come letti".
@@ -92,8 +105,11 @@ export default function DirettaContenuti() {
     try {
       const r = await fetch("/api/contenuti", { cache: "no-store" });
       const d = await r.json();
-      setContenuti(Array.isArray(d.contenuti) ? d.contenuti : []);
-      setFonte(d.fonte || "");
+      const next = Array.isArray(d.contenuti) ? (d.contenuti as Contenuto[]) : [];
+      setContenuti((prev) => unisciContenuti(prev, next, Boolean(d.parziale)));
+      setFonte(typeof d.fonte === "string" ? d.fonte : "");
+      setTotale(typeof d.totale === "number" ? d.totale : null);
+      setAvviso(typeof d.avviso === "string" ? d.avviso : "");
       setAggAt(Date.now());
     } catch {
       /* rete giù: tengo l'ultimo elenco */
@@ -300,9 +316,16 @@ export default function DirettaContenuti() {
         </ul>
       )}
 
+      {avviso && (
+        <p className="text-[11.5px] text-amber-700 dark:text-amber-400/90 text-center px-2">{avviso}</p>
+      )}
+
       {caricato && contenuti.length > 0 && (
         <p className="t-eti text-center">
-          Diretta dei {contenuti.length} contenuti più recenti{fonte === "github" ? " · da GitHub (main)" : fonte === "disco" ? " · da disco" : ""}.
+          {totale != null && totale > contenuti.length
+            ? `${contenuti.length} in diretta · ${totale} totali in archivio`
+            : `${contenuti.length} contenuti in diretta`}
+          {fonte === "github" ? " · da GitHub (main)" : fonte === "disco" ? " · da disco" : ""}.
         </p>
       )}
     </div>
