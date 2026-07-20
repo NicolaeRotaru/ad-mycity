@@ -19,7 +19,18 @@ export type AzioneSentinella = {
   testo: string;
 };
 
-export function azioniDaSentinelle(m: Record<string, any> | null | undefined): AzioneSentinella[] {
+/** Termini commerciali standard piattaforma — da registro-fatti.json (AR-102). */
+export type PricingPitch = { commissione: string; abbonamento: string };
+
+export const PRICING_PITCH_DEFAULT: PricingPitch = {
+  commissione: "10% sul venduto",
+  abbonamento: "50€/mese",
+};
+
+export function azioniDaSentinelle(
+  m: Record<string, any> | null | undefined,
+  pricing: PricingPitch = PRICING_PITCH_DEFAULT,
+): AzioneSentinella[] {
   if (!m || !m.connected) return [];
   const n = (k: string) => Number(m[k] || 0);
   const out: AzioneSentinella[] = [];
@@ -124,7 +135,7 @@ export function azioniDaSentinelle(m: Record<string, any> | null | undefined): A
       destinatario: "",
       perche: `L'offerta è ancora limitata (${n("negozi")} negozi): più botteghe = più ordini.`,
       preparato: "🤝 vendite + 🔎 intelligence",
-      testo: "1) Scegli 3 botteghe ideali del cluster. 2) Manda il pitch (commissione 12%, 0 fissi). 3) Fissa l'onboarding (~20 min).",
+      testo: `1) Scegli 3 botteghe ideali del cluster. 2) Manda il pitch (${pricing.commissione}, ${pricing.abbonamento}). 3) Fissa l'onboarding (~20 min).`,
     });
   }
 
