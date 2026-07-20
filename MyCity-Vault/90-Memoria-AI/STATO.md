@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 21:54
-fonte: AD digitale (chat 20/7 21:54)
+aggiornato: 2026-07-20 21:57
+fonte: AD digitale (chat 20/7 21:57)
 ---
+
+> 💬 **20/7 ~21:57 — CHAT: Correzione «non guardare cosa c'è» — gap di mercato (L-424).** Nicola corregge il filone L-421/L-423: **non** elencare cosa abbiamo (mani, giro, eccezioni) — guardare **cosa manca** e **cosa esiste sul mercato ma non è collegato**. AD risponde con **5 buchi collegabili:** visione foto→catalogo · forecast proattivo (meteo/churn/cliente) · sala ops live ordini/consegne · esperimenti A/B automatici (PostHog già può, noi no) · ricerca/burocrazia automatica (concorrenti, bandi PDF, recensioni). Frame: salto = **sensori proattivi + visione + previsione + automazione chiusa** — non «AI più furba». **2 ROI immediati:** catalogo da foto (onboarding negozi) + carrello abbandonato automatico (**4 buyer** già iscritti, 0 pagati). Business invariato: 1 PQ · 0 pagati. Fonte: chat Nicola 20/7 21:57.
 
 > 💬 **20/7 ~21:54 — CHAT: «Versione ancora più avanzata» — frame autopilota eccezioni-only (L-423).** Nicola «**ok, adesso dimmi una versione ancora più… in cui sa e può fare molto di più**» (terzo salto dopo L-421/L-422, **senza** chiedere salvataggio bacheca). AD articola visione **«gestisci solo eccezioni»**: AD tiene Piacenza dentro regole fissate; Nicola firma solo 🔴 soldi/legale/visione. Pilastri: **autopilota** Telegram mattino «3 numeri + 1 decisione» · **città intera** proattiva (meteo/eventi/PI26/negozi fermi) · **catene intere** 120 senior (es. negozio online end-to-end) · **auto-apprendimento** da ordini/no/campagne · **replica città** post-PQ. Stato attuale: «preparo molto, aspetto mani e ok» — salto via checklist Bacheca L1. CTA opzionale: scegliere **una catena** da automatizzare per prima. Fonte: chat Nicola 20/7 21:54.
 

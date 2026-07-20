@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 21:57 · 🟢 · [Correzione Nicola — gap mercato, non inventario interno] · **Nicola: «non guardare a quello che c'è, ma quello che non c'è, e che c'è sul mercato e non viene ancora usato».** Corregge L-421/L-423 che elencavano ancora stato interno — si aspetta **gap analysis vs mercato** (visione, forecast, ops live, A/B, scraping documenti) e capacità **collegabili ma assenti**; chiude con **2 priorità ROI:** catalogo da foto + carrello abbandonato automatico. L-424 (caso_studio_nicola), addendum L-423/L-421/L-370. · Nicola (chat 20/7 ~21:57)
+
 2026-07-20 21:54 · 🟢 · [Preferenza risposta — «versione ancora più avanzata» = autopilota eccezioni-only] · **Nicola: «ok, adesso dimmi una versione ancora più… in cui sa e può fare molto di più»** (terzo salto, senza «salva in bacheca»). Si aspetta frame **gestisci solo eccezioni** — AD opera Piacenza, Nicola firma 🔴; pilastri: autopilota 3+1 Telegram, città proattiva, catene 120 senior, auto-apprendimento, replica città post-PQ; collegamento a checklist Bacheca L1, non ripetizione L4. L-423, addendum L-421. · Nicola (chat 20/7 ~21:54)
 
 2026-07-20 21:52 · 🟢 · [Bacheca home — checklist versione avanzata 4 livelli] · **Nicola: «salva in bacheca in forma di checklist»** dopo «ancora più avanzata». AD aggiunge in cima `BACHECA.md` blocco **«Versione avanzata — checklist worker · AD · Pannello»** con **24 voci** `- [ ]` in 4 livelli (fondamenta · Pannello · AD · ultra avanzata) + mossa unica Telegram+Meta+ordine test PQ. Reversibile, solo memoria vault — pattern L-377 esteso a checklist spuntabile. L-422, addendum L-421/L-377. · Nicola (chat 20/7 ~21:52)

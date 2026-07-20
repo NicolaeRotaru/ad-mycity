@@ -9,4 +9,4 @@ bootstrap: 2026-07-14 02:31
 > Formato: AAAA-MM-GG · contesto · scorecard 6 assi · atteso→reale · #tag
 
 ## Esiti
-- (ancora vuoto — il primo ESITO si registra con: node cervello/chiusura-loop.mjs registra innovation-lab "…" "…" "…" "…")
+- 2026-07-20 21:57 · metabolizzazione chat «gap mercato» · atteso: lezione reparto visione/forecast · reale: L-424 — 5 buchi collegabili sul mercato, priorità catalogo da foto + carrello abbandonato · #gap-mercato #L-424
