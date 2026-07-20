@@ -7,6 +7,7 @@ reparto: account-negozi
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 23:58 · chat cadenza dati-come-servizio · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso Nicola chiede «ogni quanto» → cadenza lunedì interno + mensile titolare post-DELIVERED → reale risposta L-436; 0 DELIVERED = anteprima; gate #50/#ordine-test-pq · #dati-servizio #cadenza
 - 2026-07-20 11:22 · playbook dati-come-servizio 20/7 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso mini-report+AZIONI-PRONTE A34 per ogni negozio attivo → reale 1 PQ pre-revenue; stampo+segnali deboli; A34+deliverable; gate #50/#ordine-test-pq · #dati-servizio #playbook
 - 2026-07-20 11:17 · playbook anti-churn 20/7 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso trova negozi in calo e accoda check-in in AZIONI-PRONTE → reale 0 in calo; 1 pre-revenue (PQ falso positivo); A33 in AZIONI-PRONTE; retention = #checkin-pq-postvp già in coda · #antichurn #playbook #REST-live
 - 2026-07-20 11:17 · playbook anti-churn 20/7 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso trova negozi in calo e accoda check-in in AZIONI-PRONTE → reale 0 in calo; 1 pre-revenue (PQ falso positivo); A33 in AZIONI-PRONTE; retention = #checkin-pq-postvp già in coda · #antichurn #playbook #REST-live

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 23:54
-fonte: AD digitale (chat 20/7 23:54)
+aggiornato: 2026-07-20 23:58
+fonte: AD digitale (chat 20/7 23:58)
 ---
+
+> 💬 **20/7 ~23:58 — CHAT: Cadenza Dati-come-servizio — lunedì interno, mensile al fornaio post-DELIVERED (L-436).** Nicola «**Ogni quanto tempo fai questa analisi?**» — casella account-negozi playbook 20/7 11:22. AD: **refresh interno settimanale di lunedì** (REST live → stampo + casella) · **consegna al titolare mensile** (best-seller, orari, clienti che tornano) **solo dopo** primo ordine **DELIVERED** → 🔴 #50 · oggi **0 DELIVERED** su PQ → anteprima onesta (carrello samir €10), non report vendite · ultimo refresh **20/7 11:22** · prossimo passo `#ordine-test-pq`. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 ~23:58.
 
 > 💬 **20/7 ~23:54 — CHAT: Casella Fedeltà di rete in Bacheca home (L-435).** Nicola «**metti questa casella dentro bacheca**» — casella Growth playbook refresh 20/7. AD: pin in cima `BACHECA.md` — MyCity Punti + Gift Card **ARMATO ma spento** (1 PQ · 0 ordini · gate ≥5 negozi); **niente da firmare** su fedeltà oggi; priorità restano PI26 + ordine test PQ. Playbook completo: `consegne/growth/2026-07-20-playbook-fedelta-di-rete-refresh.md`. Fonte: chat Nicola 20/7 ~23:54.
 
