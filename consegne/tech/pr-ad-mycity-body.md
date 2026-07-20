@@ -1,18 +1,9 @@
 ## Summary
-- Redige 3 frammenti di PAT GitHub nel report auto-radiografia 16/7 che bloccavano ogni pubblicazione memoria (`scan-segreti` exit 1).
-- Aggiunge `redattore-segreti.mjs` + `segreti-pattern.mjs` (regex condivise con lo scan) per prevenire leak futuri negli audit.
-- Regola in `scrittura-umana.md` e nota in `auto-radiografia.md`: mai scrivere il valore di un token, solo `[REDATTO]`.
+- La tab **Diretta contenuti** legge già i file markdown quando costruisce la lista, ma aprendo una scheda rifaceva una seconda chiamata a GitHub → spesso falliva (limite API) e mostrava «contenuto non trovato» pur con titolo/estratto visibili.
+- Ora la lista passa anche il **testo completo** già letto; apri scheda lo usa subito, senza seconda richiesta.
+- Cache server 90s sui contenuti + errori onesti (502/503) quando GitHub è giù o al limite, non più finto «non trovato».
 
-## Perché
-AR-124: documentare un leak in un audit re-iniettava il token e bloccava il giro in loop. DECISIONI.md era già pulito; il blocco restava solo nel report in `consegne/audit/`.
-
-## Come provare
-```bash
-node cervello/scan-segreti.mjs          # deve uscire 0
-node --test cervello/test/segreti-pattern.test.mjs
-echo "test github_pat_11$(python3 -c 'print(\"X\"*25)')" | node cervello/redattore-segreti.mjs --stdin
-```
-
-## Dopo il merge
-- Il prossimo giro può pubblicare memoria su main.
-- Se il PAT trapelato era ancora valido, Nicola dovrebbe ruotarlo (#ruota-pat-github in coda).
+## Test plan
+- [ ] Dopo merge e deploy (~2 min): tab **Diretta contenuti** → apri la scheda «Pitch 1-pager Glovo» → deve mostrare il testo completo, non «contenuto non trovato»
+- [ ] Apri/chiudi 2–3 schede diverse: nessun errore finto
+- [ ] Refresh pagina → lista stabile (fix #498 invariato)

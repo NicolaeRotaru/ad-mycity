@@ -29,6 +29,7 @@ type Contenuto = {
   quando: string;
   quandoIso: string;
   vuoto: boolean;
+  contenuto?: string;
 };
 
 const MD: Components = {
@@ -78,7 +79,9 @@ function unisciContenuti(prev: Contenuto[], next: Contenuto[], parziale: boolean
   if (next.length >= prev.length) return next;
   const map = new Map(next.map((c) => [c.path, c]));
   for (const c of prev) {
-    if (!map.has(c.path)) map.set(c.path, c);
+    const nuovo = map.get(c.path);
+    if (!nuovo) map.set(c.path, c);
+    else if (!nuovo.contenuto && c.contenuto) map.set(c.path, { ...nuovo, contenuto: c.contenuto });
   }
   return [...map.values()].sort((a, b) => (Date.parse(b.quandoIso) || 0) - (Date.parse(a.quandoIso) || 0));
 }
@@ -149,7 +152,11 @@ export default function DirettaContenuti() {
   async function apri(path: string) {
     if (aperto === path) { setAperto(null); return; }
     setAperto(path);
-    if (dettaglio[path]) return;
+    const giaInLista = contenuti.find((c) => c.path === path)?.contenuto;
+    if (dettaglio[path] || giaInLista) {
+      if (giaInLista && !dettaglio[path]) setDettaglio((m) => ({ ...m, [path]: giaInLista }));
+      return;
+    }
     setCaricaDett(path);
     try {
       const r = await fetch(`/api/contenuti?file=${encodeURIComponent(path)}`, { cache: "no-store" });
