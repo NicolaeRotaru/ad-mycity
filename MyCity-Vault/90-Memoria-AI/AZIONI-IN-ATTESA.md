@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-20 16:20** — Automatico: **46 aperte · 88 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-20 16:37** — Automatico: **47 aperte · 88 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -13,6 +13,20 @@ fonte: senior dell'AD
 
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
+
+---
+
+### 🟡 #mergia-pr-498 — Mergia PR #498: Diretta contenuti stabile (caselle non spariscono al refresh) · ⏳ accodata 2026-07-20 16:37
+
+**Contesto:** Nicola «**Fai il fix**» dopo analisi radice L-394 (caselle flicker al refresh — GitHub parziale, non DB). **PR #498** branch `fix/diretta-contenuti-stabile` (commit `4094570b`): **1 lettura** albero GitHub invece di ~70 call, **cache server 90s**, max **80** caselle (da 30), UI **non svuota** la lista su risposta incompleta. TypeScript OK.
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/498
+
+**Cosa cambia:** tab Diretta smette di far sparire caselle a ogni refresh; fino a 80 visibili con contatore «N in diretta · M totali».
+**Se va bene:** merge da Pannello → deploy ~2 min → apri **Diretta contenuti** e premi refresh più volte: la lista resta stabile.
+
+- **Colore:** 🟡 (merge PR — Nicola approva)
+- **Reparto:** frontend-dev
 
 ---
 

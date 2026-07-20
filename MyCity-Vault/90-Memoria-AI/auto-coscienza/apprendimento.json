@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 16:17",
+  "aggiornato": "2026-07-20 16:37",
+  "_nota_metabolizzazione_20_07_1637": "Chat 20/7 ~16:37: Nicola «Fai il fix» post analisi Diretta L-394 — PR #498 consegnata (1 read GitHub, cache 90s, max 80, sticky UI). L-394 evidenze++ addendum implementazione; preferenza diretta-fai-il-fix; STATO+DECISIONI+#mergia-pr-498+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1445": "Chat 20/7 ~14:45: Nicola «Perché non riesci a leggere l'allegato?» — root cause buildRichiestaCasella scarta bloccoAllegati. L-396 nuova (caso_studio_nicola); L-395 evidenze++; preferenza allegati-casella-pipeline; STATO+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1300": "Chat 20/7 ~13:00: Nicola follow-up casella bollino — solo allegato screenshot, no testo; AD cieco. L-395 nuova; L-393 evidenze++ addendum follow-up pre-merge; preferenza allegato-solo-follow-up; STATO+LEZIONI-CHAT+trust-safety esito.",
   "_nota_metabolizzazione_20_07_1259": "Chat 20/7 ~12:59: Nicola «caselle Diretta spariscono al refresh — analisi profonda» — root cause GitHub non DB, MAX_LETTURE 30, timeout parziale. L-394 nuova; preferenza diretta-analisi-radice; STATO+LEZIONI-CHAT+frontend-dev esito; fix 🟡 proposto PR pendente ok Nicola.",
@@ -157,7 +158,7 @@
     },
     {
       "id": "L-2026-0720-394",
-      "testo": "**Diretta contenuti — caselle spariscono al refresh: GitHub parziale + cap 30, non DB (chat 20/7 ~12:59).** Nicola «**analisi completa e profonda**» — caselle diverse ogni refresh, sembra crollo database. 5 perché: (1) caselle = **file markdown su GitHub** (`consegne/` + briefing/report, ramo main), Pannello legge via API GitHub, **zero Supabase**; (2) **533** candidati ma `MAX_LETTURE=30` in `api/contenuti/route.ts` — il resto esiste ma non compare; (3) sort su **nome file**, non data frontmatter → stesso giorno molti post = set casuale; (4) ~**70 chiamate GitHub**/refresh, timeout **5s/cartella** → intera categoria **svuotata** in quell'aggiornamento (poi ricompare); (5) `DirettaContenuti.tsx` poll **30s** e **sostituisce tutta la lista** — errore parziale = flicker/sparizioni. Regola: bug «Diretta sparisce» → **non** diagnosticare DB; verificare route GitHub + cap + timeout + replace-all UI; fix strutturale 🟡 = cache server, paginazione, **non svuotare** su fetch parziale. PR proposta, merge 🔴 pendente Nicola. Vedi L-308 (Diretta legge main GitHub).",
+      "testo": "**Diretta contenuti — caselle spariscono al refresh: GitHub parziale + cap 30, non DB (chat 20/7 ~12:59).** Nicola «**analisi completa e profonda**» — caselle diverse ogni refresh, sembra crollo database. 5 perché: (1) caselle = **file markdown su GitHub** (`consegne/` + briefing/report, ramo main), Pannello legge via API GitHub, **zero Supabase**; (2) **533** candidati ma `MAX_LETTURE=30` in `api/contenuti/route.ts` — il resto esiste ma non compare; (3) sort su **nome file**, non data frontmatter → stesso giorno molti post = set casuale; (4) ~**70 chiamate GitHub**/refresh, timeout **5s/cartella** → intera categoria **svuotata** in quell'aggiornamento (poi ricompare); (5) `DirettaContenuti.tsx` poll **30s** e **sostituisce tutta la lista** — errore parziale = flicker/sparizioni. Regola: bug «Diretta sparisce» → **non** diagnosticare DB; verificare route GitHub + cap + timeout + replace-all UI; fix strutturale 🟡 = cache server, paginazione, **non svuotare** su fetch parziale. **Addendum 16:37:** Nicola «**Fai il fix**» → **PR #498** (`4094570b`): 1 lettura albero GitHub, cache **90s**, max **80**, UI **sticky** (tiene lista su parziale). Merge 🔴 pendente. Vedi L-308 (Diretta legge main GitHub).",
       "tag": [
         "diretta-contenuti",
         "pannello",
@@ -166,12 +167,12 @@
         "bug"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.9,
-      "evidenze": 1,
+      "confidenza": 0.92,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 12:59",
+      "ultima_conferma": "2026-07-20 16:37",
       "stato": "attiva",
       "usi": []
     },
@@ -9027,7 +9028,8 @@
   "preferenze_nicola": [
     "**Allegati casella — si aspetta che l'AD legga screenshot; se cieco spiega PERCHÉ (bug pipeline), non «non posso» (chat 20/7 ~14:45):** dopo screenshot bollino chiede «perché non leggi l'allegato» — upload funziona ma path non passa al worker (`buildRichiestaCasella` scarta `bloccoAllegati`); vuole **spiegazione tecnica onesta** + workaround (descrivere in testo) + fix 🟡 PR; non accetta risposta generica «non posso leggere foto». Vedi L-396, L-395.",
     "**Follow-up casella — allegato solo screenshot dopo fix consegnato (chat 20/7 ~13:00):** su casella bollino manda **solo screenshot** senza testo — si aspetta che l'AD **capisca dal visivo** cosa vede (sito, card approva, errore); se AD cieco, chiede descrizione ma intanto vuole **triage chiaro**: fix marketplace **non online** fino merge **#213**; badge su tutti pre-merge = normale; post-merge aspetta deploy Render. Vedi L-395, L-393.",
-    "**Diretta contenuti — «analisi completa e profonda» su caselle che spariscono (chat 20/7 ~12:59):** segnala flicker/sparizioni al refresh — si aspetta **causa radice verificata in codice** (file GitHub non DB, cap 30, timeout parziale ~70 call, replace-all UI), non «riprova refresh» né ipotesi database; fix strutturale 🟡 (cache, paginazione, non svuotare su errore parziale) — PR solo dopo ok Nicola. Vedi L-394.",
+    "**Diretta contenuti — «Fai il fix» dopo analisi radice = PR subito, non solo proposta (chat 20/7 ~16:37):** post diagnosi L-394 Nicola approva con «**Fai il fix**» — si aspetta **PR consegnata** (#498: 1 lettura GitHub, cache 90s, max 80, UI non svuota su parziale), typecheck OK, merge 🔴 Nicola → deploy ~2 min → test refresh multipli stabili. Pattern: analisi profonda prima, poi implementazione immediata al via. Vedi L-394.",
+    "**Diretta contenuti — «analisi completa e profonda» su caselle che spariscono (chat 20/7 ~12:59):** segnala flicker/sparizioni al refresh — si aspetta **causa radice verificata in codice** (file GitHub non DB, cap 30, timeout parziale ~70 call, replace-all UI), non «riprova refresh» né ipotesi database. Vedi L-394.",
     "**Bug critico bollino — «Risolvi il bug critico del bollino» = fix codice marketplace subito, merge 🔴 (chat 20/7 ~12:52):** su casella trust-safety chiede **azione tecnica immediata**, non solo playbook/standard — si aspetta PR con gate reale (`isVerifiedStore`: approvato + Stripe charges + payouts); **0 badge oggi** = comportamento corretto finché nessun payout ON; chiude merge **#213**; standard 5 pilastri resta per badge completo futuro. Vedi L-393, #51, DECISIONI 20/7 12:52.",
     "**Deliveroo Piacenza — corregge radar intelligence se dice «assente/non operativo» (chat 20/7 ~12:42):** su casella perlustrazione segnala errore — **Deliveroo c'è ed è abbastanza forte** su ristorazione; si aspetta **correzione immediata** perlustrazione + radar + memoria viva con **fonte web live** (deliveroo.it/piacenza); moat MyCity resta **botteghe storiche**, non nega presenza competitor food; prima di «assente» su player locale → **verifica sito**, non copiare briefing/scan vecchi. Vedi L-392, DECISIONI 20/7 12:42.",
     "**Pricing piattaforma — corregge subito numeri commerciali sbagliati (chat 20/7 ~12:39):** su casella pitch anti-Glovo segnala errore «**10% commissione + 50€/mese abbonamento**» (non 12% zero fissi) — si aspetta **correzione immediata** del pitch + propagazione a radar/scout/coda vendite + registro-fatti; standard piattaforma = codice marketplace; **PQ 12%/0€** = eccezione storica da citare solo esplicitamente. Vedi L-391, DECISIONI 20/7 12:39.",

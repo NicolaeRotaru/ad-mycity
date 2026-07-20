@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 16:37 · 🟡 · [frontend-dev/AD] · **Nicola: «Fai il fix» — Diretta contenuti stabile, PR #498.** Seguito analisi radice L-394 (12:59): caselle spariscono al refresh per ~70 call GitHub + cap 30 + replace-all UI su errore parziale. **Fatto (🟢):** branch `fix/diretta-contenuti-stabile`, commit `4094570b`, **PR #498** — 1 lettura albero GitHub, cache server 90s, max 80 caselle, UI non svuota lista su fetch incompleto; typecheck OK. **Merge 🔴 pendente** Nicola → deploy ~2 min → test refresh multipli su tab Diretta. L-394. · Nicola (chat 20/7 ~16:37)
+
 2026-07-20 12:52 · 🟡 · [trust-safety/tech/frontend-dev] · **Nicola: «Risolvi il bug critico del bollino» — fix codice PR #218 marketplace.** Badge «Negozio verificato» era decorativo (render senza gate in 4/5 punti UI). Fix: `isVerifiedStore` unico (approvato + Stripe charges + payouts) + migrazione 108 + test anti-regressione 3/3. Oggi 0 badge visibili finché nessun negozio ha payout ON — PQ incluso, corretto. **Merge 🔴 pendente** card #213. L-393. · Nicola (chat casella trust-safety badge 20/7)
 
 2026-07-20 12:42 · 🟢 · [intelligence/AD] · **Nicola corregge radar: Deliveroo ATTIVO e forte a Piacenza** (non «non operativo»). Perlustrazione 20/7 + radar-concorrenti aggiornati; fonte web deliveroo.it/piacenza (20/7) + conferma campo Nicola. Segnale: food delivery affollato (Glovo+Deliveroo+JustEat); moat MyCity resta botteghe storiche. L-392. · Nicola (chat casella perlustrazione 20/7)
