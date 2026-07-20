@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-20 20:13",
+  "aggiornato": "2026-07-20 23:17",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
     {
@@ -933,15 +933,16 @@
       "causa_radice": "①Perché la North Star non blocca il giro? Perché è esplicitamente non-gate ('trasformarli in gate hard è un passo successivo', giro.sh:320). ②Perché è rimasta un passo successivo? Perché i gate hard nascono dai difetti che la radiografia trova nei FILE. ③Perché la radiografia trova solo difetti nei file? Perché il volano auto-coscienza verifica ciò che è machine-checkable internamente. ④Perché la North Star non è trattata così? Perché dipende dal mondo esterno (telefonata, consegna) che la macchina non controlla. ⑤Causa di sistema: l'architettura dei gate ottimizza ciò che la macchina può controllare (coerenza interna) invece di ciò che conta (movimento del business) — manca il principio 'stallo business ⇒ vincolo sull'allocazione del prossimo giro'.",
       "fix_proposto": "Promuovere north-star-check a vincolo HARD di ALLOCAZIONE (non di blocco): se stallo > N giorni, giro.sh passa al motore 'questo giro produce SOLO azioni che avvicinano il 1° ordine pagato; lavoro sulla macchina ammesso solo se sblocca una card business in coda', simmetrico ad ALLOC_VINCOLO (AR-081). 🟡 firma Nicola.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 16:55",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-20 23:17",
       "verifica": {
         "file": "cervello/giro.sh",
         "pattern": "NORTH_STAR_VINCOLO",
         "presente": true
       },
-      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
+      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
+      "chiuso_come": "cervello/giro.sh contiene /NORTH_STAR_VINCOLO/ → trovato"
     },
     {
       "id": "AR-114",
@@ -1410,8 +1411,8 @@
     }
   ],
   "meta": {
-    "aperti": 22,
+    "aperti": 21,
     "in_corso": 0,
-    "chiusi": 54
+    "chiusi": 55
   }
 }

@@ -1,13 +1,13 @@
 ## Summary
-- **Parla casella:** il browser non manda più il prompt gigante a `/api/lavori` — nuova route `/api/lavori/casella` costruisce la richiesta lato server (payload compatto).
-- **Supabase:** sanitizzazione testo prima dell’insert (`NUL` / surrogate isolati) + blocco se il JSON verso PostgREST sarebbe vuoto — previene `PGRST102`.
-- **Test:** `store.sanitize.test.mts`.
+Promuove il controllo **obiettivo principale (1° ordine pagato)** da guardiano soft a **vincolo HARD di allocazione** nel giro (AR-113).
 
-## Perché
-Nicola inviando da «Parla con questa azione» riceveva `PGRST102 Empty or invalid json` — il lavoro non entrava in coda e l’AD non rispondeva da quella casella.
+- `north-star-check.mjs`: legge lo stallo da STATO, soglia giorni (`NORTH_STAR_GIORNI_GATE`, default 3), flag `--gate` per il giro, segnale `north-star` per freschezza.
+- `giro.sh`: usa `--gate` e passa `NORTH_STAR_VINCOLO` al motore («solo azioni che avvicinano il 1° ordine»).
+- Chiude difetto **AR-113** in cantiere (verifica automatica).
 
-## Come provare
-1. Mergia la PR → attendi deploy Vercel (~2 min).
-2. Apri una card **Da approvare** → **Parla con questa azione**.
-3. Scrivi un messaggio breve e premi Invia — **niente** avviso giallo; compare la risposta dell’AD.
-4. Ripeti da **Diretta contenuti** su una casella qualsiasi.
+## Test plan
+- [ ] `bash -n cervello/giro.sh`
+- [ ] `node cervello/north-star-check.mjs --gate` → exit 1 con stallo ~26 gg (STATO attuale)
+- [ ] `node cervello/test/north-star-gate.mjs`
+- [ ] `node cervello/auto-fix.mjs verifica` → AR-113 risolto
+- [ ] Dopo merge: prossimo giro mostra vincolo north-star nel prompt AD

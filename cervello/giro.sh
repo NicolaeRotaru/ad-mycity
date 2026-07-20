@@ -143,7 +143,7 @@ CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se 
 CAL_VINCOLO=""        # AR-042: vincolo calibrazione senza voci strutturate (schema legacy)
 AGENTI_VINCOLO=""     # AR-007/008: guardiano registro agenti (promosso a gate hard da || true)
 ESP_VINCOLO=""        # AR-041/106: guardiano esperimenti (promosso a gate hard da || true)
-NORTH_VINCOLO=""      # AR-111: guardiano north-star (promosso a gate hard da || true)
+NORTH_STAR_VINCOLO="" # AR-113: north-star → vincolo HARD di allocazione (non blocca il giro)
 KEYWORD_VINCOLO=""    # AR-009/027: guardiano owner-keyword (promosso a gate hard da || true)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
@@ -333,16 +333,13 @@ if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Meta-guardiano freschezza-segnali (guardiani del preambolo hanno battuto?)..."
   node "$SCRIPT_DIR/freschezza-segnali.mjs" 2>&1 | tail -4 || true
 
-  # === CAPACITÀ VIVE + GUARDIANI ORFANI ORA CABLATI NEL BATTITO (sola lettura, informativi) ===
-  # Resi vivi su richiesta di Nicola (6/7): girano a ogni giro e lasciano il loro esito nel log/Cabina.
-  # NON sono gate (|| true): non bloccano il giro — trasformarli in gate hard è un passo successivo (🟡).
-  # Guardiani read-only che erano ORFANI dal battito (audit 6/7):
-  echo "[$(ts)] ⭐ North Star (AR-111 — ora gate hard)..."
-  _north_out="$(node "$SCRIPT_DIR/north-star-check.mjs" 2>&1)"; _north_rc=$?
-  printf '%s\n' "$_north_out" | tail -6
+  # === CAPACITÀ VIVE + GUARDIANI ORFANI (6/7) — north-star/keyword = vincolo HARD allocazione (AR-113) ===
+  echo "[$(ts)] ⭐ North Star (AR-113 — vincolo allocazione se stallo ≥ soglia giorni)..."
+  _north_out="$(node "$SCRIPT_DIR/north-star-check.mjs" --gate 2>&1)"; _north_rc=$?
+  printf '%s\n' "$_north_out" | tail -8
   if [ "$_north_rc" -ne 0 ]; then
-    NORTH_VINCOLO="⛔ NORTH STAR IN STALLO (north-star-check.mjs rc=$_north_rc, AR-111): stallo prolungato sul 1° ordine pagato. Questo giro produce SOLO azioni che avvicinano il 1° ordine; lavoro sulla macchina ammesso solo se sblocca direttamente una card business in coda."
-    echo "[$(ts)] ⚠️  AR-111: north-star-check FALLITO (rc=$_north_rc) → vincolo hard al motore." >&2
+    NORTH_STAR_VINCOLO="⛔ NORTH STAR IN STALLO (north-star-check.mjs --gate rc=$_north_rc, AR-113): 0 ordini pagati da ≥${NORTH_STAR_GIORNI_GATE:-3} giorni. Questo giro produce SOLO azioni che avvicinano il 1° ordine pagato; lavoro sulla macchina ammesso solo se sblocca direttamente una card business in coda (es. ordine test PQ, payout, contatto negozio)."
+    echo "[$(ts)] ⚠️  AR-113: north-star-check FALLITO (rc=$_north_rc) → vincolo hard allocazione al motore." >&2
   fi
   echo "[$(ts)] Guardiano owner-keyword (AR-009/AR-027 — ora gate hard)..."
   _keyword_out="$(node "$SCRIPT_DIR/keyword-owner-check.mjs" 2>&1)"; _keyword_rc=$?
@@ -485,11 +482,11 @@ if [ -n "${ESP_VINCOLO:-}" ]; then
 ## Vincolo esperimenti (HARD — AR-041/106: nessun esperimento aperto, volano cieco)
 $ESP_VINCOLO"
 fi
-if [ -n "${NORTH_VINCOLO:-}" ]; then
+if [ -n "${NORTH_STAR_VINCOLO:-}" ]; then
   PROMPT="$PROMPT
 
-## Vincolo north-star (HARD — AR-111: stallo prolungato sul 1° ordine)
-$NORTH_VINCOLO"
+## Vincolo north-star (HARD allocazione — AR-113: stallo ≥ soglia sul 1° ordine pagato)
+$NORTH_STAR_VINCOLO"
 fi
 if [ -n "${KEYWORD_VINCOLO:-}" ]; then
   PROMPT="$PROMPT
