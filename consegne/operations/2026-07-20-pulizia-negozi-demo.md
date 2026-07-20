@@ -40,6 +40,18 @@ richiesta: Nicola — «elimina tutti i negozi tranne pane quotidiano» (casella
 
 Tutti hanno UUID prefisso `11111111-1111-1111-1111-`.
 
+## Esito esecuzione (2026-07-20 18:30)
+
+| Step | Risultato |
+|---|---|
+| Prodotti demo → draft | 243 |
+| Prodotti orfani (seller nullo) → draft | 2 |
+| Profili demo anonimizzati | 16/16 |
+| Auth demo cancellati | 16/16 |
+| **Verifica finale** | **1 negozio** (Pane Quotidiano) · **5 prodotti available** |
+
+Supervisione post-pulizia: 1 negozio (1 approvato) · 3 campi servono da te (logo, città, foto prodotto).
+
 ## Piano esecuzione (post-firma Nicola)
 
 1. **Prodotti demo** — batch `status=deleted` (o rimozione) via `marketplace.mjs` con backup per riga; tabella `products` in allowlist.

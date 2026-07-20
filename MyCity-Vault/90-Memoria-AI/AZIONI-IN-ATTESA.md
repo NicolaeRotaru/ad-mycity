@@ -16,7 +16,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🔴 #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ⏳ accodata 2026-07-20 17:54
+### ✅ #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ✅ FATTO 2026-07-20 18:30 · {approvato: Nicola 20/7 18:28}
+
+**Esito:** 16 demo rimossi · 245 prodotti nascosti (243 demo + 2 orfani) · **1 negozio · 5 prodotti live** (solo Pane Quotidiano). Verifica supervisione 18:30 ok.
 
 **Contesto:** Nicola dalla casella Supervisione (20/7 ~17:53): «elimina tutti i negozi tranne pane quotidiano». Oggi sul sito ci sono **17 negozi**: **1 reale** (Pane Quotidiano, approvato, 5 prodotti) + **16 seed/demo** (UUID `11111111…`, inclusa Casa Linda) con **253 prodotti finti** che intasano supervisione e catalogo.
 
