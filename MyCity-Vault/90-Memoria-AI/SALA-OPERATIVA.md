@@ -1195,3 +1195,7 @@ Assegnazioni reparto (1 mossa ciascuno):
 ### 2026-07-20 11:28 — PLAYBOOK Contenuto del giorno
 - 2026-07-20 11:28 · @content-social · FATTO · PLAYBOOK Contenuto del giorno: post **«Lunedì mattina: il turno è già iniziato»** (PQ, angolo BTS/volti swipe #3+#4, Il Turno). Testo IG/FB/gruppi + brief visual tipografico in `consegne/content/2026-07-20-post-del-giorno-lunedi-turno-mattina-PQ.md`. Gate ONESTA marketing ok (1976 pubblico, 0 numeri MyCity). [[AZIONI-PRONTE]] **A36** · coda **#post-lunedi-turno-mattina-2007** 🔴. Zero pubblicazione.
 - 2026-07-20 11:28 · @content-social · PASSO-A · @Nicola — oggi hai **3 post** in coda social: **#post-meteo-pioggia-20lug** (gruppi, mattina) · **#post-domenica-settimana-1907** (recupero domenica) · **#post-lunedi-turno-mattina-2007** (IG/FB pranzo). Firma almeno uno entro le 14:00.
+
+### 2026-07-20 11:30 — PLAYBOOK Istituzioni
+- 2026-07-20 11:30 · @relazioni-istituzionali · FATTO · PLAYBOOK Istituzioni: verifica web bandi 20/7 — **PI26/BT26 APERTI** (sportello → 30/7), **ER FESR CHIUSO**, nessun bando comunale materiali. Playbook + 2 mail Hub aggiornate + kit negozi 1 pagina in `consegne/relazioni-istituzionali/2026-07-20-*`. [[AZIONI-PRONTE]] **A38** · **#bandi-cciaa-kit** ✅ · **#52** aggiornata (leva PI26). Zero invii.
+- 2026-07-20 11:30 · @relazioni-istituzionali · PASSO-A · @Nicola — **Mossa n.1 oggi:** `#bandi-cciaa-2007` (PI26 MyCity, sportello già aperto). **Poi:** invia mail #52 Comune+Unione (testi A38) — gate parcheggiato 9/7 ma PQ è online e PI26 scade 30/7.

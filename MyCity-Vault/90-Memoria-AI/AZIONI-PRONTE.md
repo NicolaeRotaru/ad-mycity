@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-20 11:28
+aggiornato: 2026-07-20 11:30
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -611,3 +611,32 @@ pre-condizioni:
   · Timing: martedì/mercoledì mattina 8–10 (dopo PI26)
 coda_canonica: **#invio-comunicato-stampa-pi26-2007** in [[AZIONI-IN-ATTESA]]
 stato: BOZZE PRONTE — NESSUN INVIO.
+
+## A38 · 🏛️ Playbook Istituzioni 20/7 — bandi verificati + 2 mail Hub + kit negozi
+reparto: relazioni-istituzionali + finanza-agevolata
+livello: 🟢 (verifica + bozze) · 🔴 (invio mail Comune/Unione + domanda PI26 MyCity)
+canale: email istituzionale + restart.infocamere.it + kit WhatsApp negozi
+perche: PLAYBOOK Istituzioni worker 20/7 11:30. **PI26/BT26 a sportello ORA** (scade 30/7). Bando ER Regione **chiuso** (350 domande). Nessun bando comunale «rimborso materiali».
+preparato: 🏛️ relazioni-istituzionali — `consegne/relazioni-istituzionali/2026-07-20-playbook-bandi-mail-istituzioni.md` + kit `2026-07-20-kit-bandi-cciaa-negozi-1pagina.md`
+bandi_aperti_oggi:
+  · **PI26** 50% max €10k — digitalizzazione (MyCity + negozi) — 20/7 10:00 → 30/7 16:00
+  · **BT26** 40% max €7k — riqualificazione punto vendita (botteghe retail/food)
+  · **BE26** solo se spese energetiche — ignorare per MyCity
+bandi_chiusi_non_citare:
+  · Bando Commercio ER FESR (esaurito giugno) · «Vita in Centro 50% materiali» (inesistente)
+cosa_cambia: mail Hub aggiornate con leva PI26 (non bando ER 21/7); ogni pitch negozio ha scheda bandi 1 pagina.
+se_va_bene: Comune/Unione aprono pilota Hub → onboarding 3–5 botteghe con bando CCIAA; MyCity incassa rimborso PI26.
+testo (mail #1 Comune — oggetto):
+MyCity al servizio dell'Hub Urbano — digitalizzazione botteghe + bando Camera a sportello (scade 30/7)
+testo (mail #2 Unione — oggetto):
+MyCity per i soci dell'Hub — vendita online + consegna, e una mano sul bando PI26 (scade 30/7)
+destinatari:
+  · Comune: margherita.maini@comune.piacenza.it · PEC suap@cert.comune.piacenza.it
+  · Unione Commercianti: direzione@unionecommerciantipc.it · 0523 461852
+pre-condizioni:
+  · Firma reale Nicola (tel/email/sito) al posto dei segnaposto
+  · Esempio citato: **Pane Quotidiano** only (AR-006)
+  · **Prima** domanda PI26 MyCity (`#bandi-cciaa-2007`) — poi mail/comunicato stampa
+coda_canonica: **#52** (2 mail Hub) · **#bandi-cciaa-2007** (PI26 MyCity) · **#bandi-cciaa-kit** ✅ kit negozi · **#whatsapp-3-anchor-pi26**
+raccomandazione_ad: gate #52 (parcheggiata 9/7) **sbloccabile** — PQ è online; leva PI26 scade tra 10 giorni.
+stato: PRONTO — zero mail inviate.
