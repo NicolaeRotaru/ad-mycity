@@ -7,7 +7,7 @@ data: 2026-06-24
 go-live-target: 2026-06-25
 stato: FINITO — pronto da usare al colloquio di domani
 costruito-su: consegne/vendite/pitch-garetti.md (Parte C, termini) · consegne/legale/contratto-venditore-bozza.md (§5 payout) · MyCity-Vault/05-Soldi-Rischi/Finanza & Unit Economics.md · MyCity-Vault/05-Soldi-Rischi/Rischi & Compliance.md (N1, N2)
-allineato-con: DECISIONI.md (commissione 12%, IN ATTESA DI FIRMA di Nicola)
+allineato-con: DECISIONI.md (commissione 10%, IN ATTESA DI FIRMA di Nicola)
 ---
 
 > ⚠️ **Nota CFO (onestà):** muovere denaro reale (transfer/payout/refund) è 🔴 → si **propone, non si esegue** senza firma di Nicola.
@@ -23,7 +23,7 @@ allineato-con: DECISIONI.md (commissione 12%, IN ATTESA DI FIRMA di Nicola)
 
 ## Il numero che gli mostro (lo dico mentre la cifra appare)
 
-Termine firmato/proposto: **commissione 12%, payout a consegna confermata, zero costi fissi** (Parte C pitch + §3-5 contratto).
+Termine firmato/proposto: **commissione 10%, payout a consegna confermata, zero costi fissi** (Parte C pitch + §3-5 contratto).
 
 | Su un ordine da… | MyCity trattiene (12%) | **A Garetti restano** |
 |---:|---:|---:|

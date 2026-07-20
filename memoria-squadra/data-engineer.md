@@ -7,6 +7,7 @@ reparto: data-engineer
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 20:21 · PostHog residuo Render — Nicola «fai il fix del residuo opzionale» · atteso: PR mycity ingest US · reale: **PR #219** default `us.i.posthog.com` + render.yaml; merge 🔴 Nicola → deploy Render · 3 superfici PostHog allineate post-merge · L-418 · #posthog #render #mycity #pr-219 #esito
 - 2026-07-20 20:19 · PostHog «cosa posso fare adesso?» · atteso: catalogo uso operativo, non setup · reale: Live + funnel eventi tracciati + test incognito + sensori ok · residuo opzionale PR #219 Render US · L-417 · #posthog #uso #esito
 - 2026-07-20 20:16 · PostHog chiuso — Nicola «ok è diventato verde» · atteso: confermare chiusura entrambe superfici · reale: VPS **ok** · Pannello `/api/diagnosi` **verde** 20:16 — setup US 495230 `phx_` su VPS+Vercel; residuo opzionale Render tracking · L-416 · #posthog #vercel #pannello #chiuso #esito
 - 2026-07-20 20:11 · PostHog «ricontrollato Vercel» — Nicola terzo round · atteso: chiudere collegamento Pannello · reale: VPS **ok** · Pannello giallo — messaggio generico insufficiente; **PR #502** diagnosi env mancante in Radiografia · L-415 · #posthog #vercel #pannello #esito

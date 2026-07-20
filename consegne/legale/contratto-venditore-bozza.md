@@ -6,7 +6,7 @@ data: 2026-06-24
 go-live-target: 2026-06-25
 stato: BOZZA — da far validare da un legale abilitato prima dell'uso
 costruito-su: consegne/vendite/pitch-garetti.md (termini Parte C) · MyCity-Vault/05-Soldi-Rischi/Rischi & Compliance.md
-allineato-con: DECISIONI.md (commissione 12%, IN ATTESA DI FIRMA di Nicola)
+allineato-con: DECISIONI.md (commissione 10%, IN ATTESA DI FIRMA di Nicola)
 ---
 
 > ⚠️ **BOZZA — da far validare da un legale abilitato prima dell'uso.**

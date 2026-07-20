@@ -26,7 +26,7 @@ stato_registro: ESCLUSI — Nicola 16-18/7 «i ristoranti non sono il nostro tar
 - **▶ APRI COSÌ:** *"Fai già delivery su Deliveroo, quindi sai che le tigelle da asporto tirano. Ma loro si tengono il 30% e il cliente. Io ti do lo stesso servizio a costo più basso, su una piattaforma piacentina, e il cliente resta tuo."*
 - **🎁 Cosa non sa di volere:** riempirgli i **weekend a pranzo** (ora chiuso) con l'asporto.
 - **✅ Firma perché:** non devi convincerlo che il delivery serve — lo fa già; gli abbassi solo il costo.
-- **🛡 Obiezioni:** costo → *0€ fissi, 12% sul venduto (Deliveroo 30%)* · tempo → *lo montiamo noi* · consegna → *centro a piedi/bici*.
+- **🛡 Obiezioni:** costo → *abbonamento 50€/mese, 10% sul venduto (Deliveroo 30%)* · tempo → *lo montiamo noi* · consegna → *centro a piedi/bici*.
 - **⚠ PRIMA DOMANDA:** *"Il locale è tuo o in franchising?"* → decide chi firma e se ci sono vincoli di brand.
 - **🔎 Verifica dal vivo:** franchising vs proprietà · recensioni negative recenti.
 
@@ -40,7 +40,7 @@ stato_registro: ESCLUSI — Nicola 16-18/7 «i ristoranti non sono il nostro tar
 - **▶ APRI COSÌ:** *"Lo sapete che chi cerca 'La Forchetta Piacenza' su Google può finire su un sito di scommesse? Il vostro vecchio dominio ora rimanda lì."* → *"Vi ridò una casa online **vostra**, con menu e ordini, e ci aggiungo **asporto e consegna** che oggi non avete."*
 - **🎁 Cosa non sa di volere:** i suoi **pisarei e anolini portati a casa nel weekend** — domanda che oggi incassa solo al tavolo.
 - **✅ Firma perché:** ha **perso un asset** (il sito) e non ha delivery → gli tappi due buchi reali, zero lavoro suo. È a 300 m da PQ = densità di consegna ideale.
-- **🛡 Obiezioni:** costo → *0€ fissi, 12%* · tempo → *facciamo noi* · consegna → *centro, a piedi*.
+- **🛡 Obiezioni:** costo → *abbonamento 50€/mese, 12%* · tempo → *facciamo noi* · consegna → *centro, a piedi*.
 - **🔎 Verifica dal vivo:** giorni di chiusura totale · social attivi? · anni di attività.
 
 ---
@@ -53,7 +53,7 @@ stato_registro: ESCLUSI — Nicola 16-18/7 «i ristoranti non sono il nostro tar
 - **▶ APRI COSÌ:** *"Complimenti, siete #4 su oltre 600 e Travelers' Choice. So che Andrea viene dall'Agnello, scuola di Renato e Carmen."* → *"Oltre 1.000 recensioni entusiaste, ma quella fiducia la incassate solo quando uno si siede. Vi do il modo di vendere anolini e bolliti **da portare a casa il weekend** — vetrina e ordini fatti da noi."*
 - **🎁 Cosa non sa di volere:** mettere a reddito una **reputazione enorme e ferma** senza toccare nulla di tecnico.
 - **✅ Firma perché:** valori 100% MyCity (territorio, km 0, famiglia); già aperto a convenzioni locali (Banca di Piacenza).
-- **🛡 Obiezioni:** "già pieno al tavolo" → *questo è ricavo IN PIÙ, fuori orario di sala* · costo → *0€ fissi, 12%* · tempo → *noi*.
+- **🛡 Obiezioni:** "già pieno al tavolo" → *questo è ricavo IN PIÙ, fuori orario di sala* · costo → *abbonamento 50€/mese, 12%* · tempo → *noi*.
 - **🔎 Verifica dal vivo:** giorni chiusura (fonti discordi: forse mar+mer) · leggi 1-2 recensioni negative per non sembrare impreparato.
 
 ---
@@ -67,7 +67,7 @@ stato_registro: ESCLUSI — Nicola 16-18/7 «i ristoranti non sono il nostro tar
 - **▶ APRI COSÌ:** *"La cosa che i clienti citano di più è che pasta, pane e dolci ve li fate voi. Ma oggi li vendete solo a chi entra. Vi do il canale per far ordinare anolini, pisarei e la sbrisolona per il weekend, con consegna in centro."*
 - **🎁 Cosa non sa di volere:** un **test a rischio zero su 3-4 piatti-icona** — misuriamo gli ordini in 2 settimane (parla la sua lingua: i piatti di cui è orgoglioso).
 - **✅ Firma perché:** prodotto fatto in casa perfetto per l'asporto premium; 7.000+ giudizi = domanda enorme non monetizzata online.
-- **🛡 Obiezioni:** costo → *0€ fissi, 12%* · tempo → *noi* · "non so se funziona" → *test 3-4 piatti, 2 settimane, misuriamo*.
+- **🛡 Obiezioni:** costo → *abbonamento 50€/mese, 12%* · tempo → *noi* · "non so se funziona" → *test 3-4 piatti, 2 settimane, misuriamo*.
 - **🔎 Verifica dal vivo:** nome titolare · giorno di riposo · l'Instagram @osteriacarducci è loro? (potrebbe essere di Piacenza d'Adige — **chiedi, non affermare**).
 
 ---
@@ -80,7 +80,7 @@ stato_registro: ESCLUSI — Nicola 16-18/7 «i ristoranti non sono il nostro tar
 - **▶ APRI COSÌ:** *"Ho provato ad aprire il vostro sito e mi dava errore di sicurezza — lo sapevate? Un locale del vostro livello con la vetrina web guasta è un peccato."* → *"Vi do una linea **box gastronomici / taglieri / bottiglie / piatti da riscaldare** su una vetrina piacentina che funziona."*
 - **🎁 Cosa non sa di volere:** **margine alto su prodotto che già fa**, venduto a clienti che lo amano ma non possono cenare lì ogni sera.
 - **✅ Firma perché:** già a suo agio col digitale (capisce il valore); il sito rotto è un problema visibile; il posizionamento territoriale (vacche rosse, Asveri/Groppi) risuona.
-- **🛡 Obiezioni:** "svilisce il fine dining" → *box premium curati, non fast* · costo → *0€ fissi, 12%* · tempo → *noi, tu approvi*.
+- **🛡 Obiezioni:** "svilisce il fine dining" → *box premium curati, non fast* · costo → *abbonamento 50€/mese, 12%* · tempo → *noi, tu approvi*.
 - **🔎 Verifica dal vivo:** giorno di chiusura reale · legame con "I Balocchi" (chiedi) · Google rating.
 
 ---
@@ -94,7 +94,7 @@ stato_registro: ESCLUSI — Nicola 16-18/7 «i ristoranti non sono il nostro tar
 - **▶ APRI COSÌ:** *"Complimenti, siete #1 a Calendasco. Ma il sito è lentissimo, non avete Instagram né prenotazione online — chi vi vuole prenotare col telefono in mano non vi trova bene."* → *"Vi do vetrina moderna + **prenotazione e asporto ordinabile** (risolve la coda e il caos-telefono del weekend)."*
 - **🎁 Cosa non sa di volere:** l'**asporto con orario di ritiro** che **risolve la sua lamentela n°1** (attese/prenotazioni) e gli porta i clienti di Piacenza città come destinazione food.
 - **✅ Firma perché:** mette a reddito il #1 che già ha, **senza costo né rischio logistico su di lui**.
-- **🛡 Obiezioni:** "sono lontano" → *proprio per questo NON consegna, ma vetrina+prenotazione+ritiro* · costo → *0€ fissi, 12%* · tempo → *noi*.
+- **🛡 Obiezioni:** "sono lontano" → *proprio per questo NON consegna, ma vetrina+prenotazione+ritiro* · costo → *abbonamento 50€/mese, 12%* · tempo → *noi*.
 - **🔎 NON promettere la consegna urbana** (candore). 🔎 Verifica: orari reali · se già fanno asporto · km/tempo esatti.
 
 ---
@@ -102,7 +102,7 @@ stato_registro: ESCLUSI — Nicola 16-18/7 «i ristoranti non sono il nostro tar
 
 ## 🧰 Da tenere a mente per tutti (retro-scheda)
 
-- **Patto economico:** **0€ fissi · 12% solo sul venduto · payout a consegna · nessun vincolo.** (Glovo/Deliveroo 25-30%.)
+- **Patto economico:** **abbonamento 50€/mese · 10% sul venduto · payout a consegna · nessun vincolo.** (Glovo/Deliveroo 25-30%.)
 - **Done-for-you <48h:** vetrina + catalogo + primo incasso di test lo montiamo noi. Tu approvi e cucini.
 - **Leva del momento:** il retail fisico italiano ha perso **−6,6% di presenze** nell'ultimo anno. D'estate peggiora: caldo e vacanze svuotano i centri storici. *"Chi non è online perde quei tavoli."*
 - **Se uno dice sì →** avvisami: parte @onboarding-negozi (vetrina+catalogo <48h).

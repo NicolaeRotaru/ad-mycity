@@ -481,7 +481,7 @@ metodo: workflow auto-radiografia (12 dimensioni, revisore + verificatore avvers
   - Impatto crescita: medio · ↷ conferma della mappa del mattino
 
 - **[minore]** north-star-check dichiara il MARGINE 'senza fonte deterministica' mentre bilancio-vivo lo calcola in modo deterministico nello stesso giro
-  - Dove: cervello/north-star-check.mjs:44 (margine = {valore:null, fonte:null}, 'manca una fonte deterministica → NON inventiamo') vs cervello/bilancio-vivo.mjs:46-52 (margine = commissione 12% documentata × ordini) · entrambi lanciati nello stesso giro (giro.sh:323 e 
+  - Dove: cervello/north-star-check.mjs:44 (margine = {valore:null, fonte:null}, 'manca una fonte deterministica → NON inventiamo') vs cervello/bilancio-vivo.mjs:46-52 (margine = commissione 10% documentata × ordini) · entrambi lanciati nello stesso giro (giro.sh:323 e 
   - Causa radice: 1) Due letture del margine. 2) Due script separati lo trattano in modo opposto. 3) north-star-check è nato senza consumare bilancio-vivo (o viceversa). 4) Non esiste un unico modulo 'unit economics' che entrambi importano. 5) Le metriche-faro sono calcolate in silos-script non condivisi. Causa di si
   - Fix (🟡 da firmare): north-star-check.mjs importa il margine da bilancio-vivo.mjs (o entrambi da un cervello/unit-economics.mjs comune) così la North Star mostra il margine realizzato con la sua fonte, coerente in tutta la macchina. 🟡 firma.
   - Impatto crescita: medio · ↷ conferma della mappa del mattino

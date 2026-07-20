@@ -45,7 +45,7 @@ Doppio messaggio per doppio pubblico:
 ## 4. Materiali necessari (cosa stampare/preparare)
 - **QR → lista d'attesa** con UTM `santantonino_2026` (riusa il generatore QR del designer).
 - **Volantino A6** «Te lo portiamo a casa» (riusa template Content Factory, angolo caldo già pronto).
-- **1 pagina condizioni negoziante** (commissione 12%, 0 fissi, payout a consegna) — già in `consegne/vendite/pitch-garetti.md` (Parte C) + bozza @legale.
+- **1 pagina condizioni negoziante** (commissione 10%, 0 fissi, payout a consegna) — già in `consegne/vendite/pitch-garetti.md` (Parte C) + bozza @legale.
 - **Lista negozianti aperti da agganciare** — da compilare quando il link lista d'attesa è reale.
 - ⚠️ Stampa fisica = **🔴 (spesa)**: importo da stimare e firmare (vedi azione accodata).
 

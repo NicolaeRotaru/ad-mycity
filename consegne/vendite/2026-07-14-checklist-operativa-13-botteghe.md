@@ -22,7 +22,7 @@ accoppia: 2026-07-14-stampa-tascabile-13-botteghe.md
 | ☐ | Telefono/tablet carico + hotspot |
 | ☐ | Scheda tascabile aperta (nome e pitch giusto) |
 | ☐ | Demo **Pane Quotidiano** pronta sul telefono |
-| ☐ | Termini 1 pagina (12% / 0€ fissi / payout a consegna) — se firmati da Nicola |
+| ☐ | Termini 1 pagina (10% / abbonamento 50€/mese / payout a consegna) — se firmati da Nicola |
 | ☐ | Mini-promemoria «Hai un ordine: cosa fare» (stampa o PDF) |
 
 ---

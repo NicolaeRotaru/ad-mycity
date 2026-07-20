@@ -39,7 +39,7 @@ diventano **principi**. L'archivio resta piccolo e vivo, non un cimitero.
 ## 2) L'auto-analisi (il posto dove si controlla + ti fa le domande)
 **Non esisteva.** Per questo è successo l'errore **Garetti**: nessuno verificava che un'entità su cui agisce
 sia reale e confermata da te. Ho controllato: **Garetti compare in `DECISIONI.md` solo come esempio di
-contenuto**, mai come negozio che hai scelto — eppure tutta la memoria (pitch, kit, commissione 12%,
+contenuto**, mai come negozio che hai scelto — eppure tutta la memoria (pitch, kit, commissione 10%,
 payout-test) lo tratta come reale. Esattamente il tipo di errore piccolo che fa danni grossi.
 
 **Cosa ho costruito** (`cervello/auto-analisi.md`): un **cancello di serietà** che gira a ogni giro, con

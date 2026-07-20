@@ -99,7 +99,7 @@ prodotto a riordino naturale · già fa consegne informali · titolare/figlio <5
 | "Non ho tempo per la piattaforma." | "Imposto tutto io in 20 min: foto, listino, pubblicazione. Poi gestisci dal telefono se vuoi." |
 | "Voglio prima vedere che funziona." (Seg. B/C) | "Giusto. [Vicino] ha già fatto N ordini questa settimana — passa a vederlo." (prova sociale concreta) |
 
-➡️ *Prossima azione:* per Garetti il pitch è già confezionato in `consegne/vendite/pitch-garetti.md` (commissione 12%, 0 fissi, payout a consegna, COD-first) — riusare, non riscrivere.
+➡️ *Prossima azione:* per Garetti il pitch è già confezionato in `consegne/vendite/pitch-garetti.md` (commissione 10%, 0 fissi, payout a consegna, COD-first) — riusare, non riscrivere.
 
 ---
 

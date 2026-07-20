@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 20:21 · PostHog PR #219 Render — Nicola «fai il fix del residuo opzionale» · atteso: allineare ingest sito US · reale: PR #219 mycity `posthog.tsx`+render.yaml → `us.i.posthog.com`; merge 🔴 Nicola · L-418 · #mycity #posthog #render #pr-219 #esito
 - 2026-07-19 23:23 · PR #480 conflitto post-autofill — Nicola «C'è un conflitto» · atteso: catalogo ok + branch mergeable · reale: 252+242 già live; conflitto solo diario AZIONI-IN-ATTESA; branch ripulito 1 file codice; API mergeable; merge #480 pendente · L-334 · #pr-480 #conflitti #supervisione #esito
 - 2026-07-19 19:40 · PR #217 logo navbar — Nicola «Si vede metà del logo» · atteso: fix su repo marketplace worker · reale: primo tentativo clone sbagliato, poi fix su `marketplace/` corretto; PR #217 aperta · L-319 · #mycity #navbar #pr-217 #marketplace-repo #esito
 - 2026-07-19 18:59 · Push vs allowlist — Nicola «Perché il push è rifiutato?» · atteso: no confusione permessi · reale: push OK, PR 403 GitHub API, allowlist non c'entra · L-317 · #github #allowlist #pr #esito

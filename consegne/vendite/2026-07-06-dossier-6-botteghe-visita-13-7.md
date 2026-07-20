@@ -31,7 +31,7 @@ stato_registro: ESCLUSI — Nicola 16-18/7 «i ristoranti non sono il nostro tar
 👉 **L'offerta che "ha bisogno ma ancora non lo sa"** (la stessa frase per tutti, calibrata sul locale):
 > *"La tua cucina la incassi solo al tavolo. Ti do il canale per venderla anche a casa — i tuoi piatti-icona
 > in asporto/consegna — dentro una vetrina piacentina che funziona, **te la montiamo noi in 48h** (tu cucini,
-> basta), **senza le commissioni del 30% di Glovo/Deliveroo** (paghi 12% solo sul venduto, come Pane Quotidiano),
+> basta), **senza le commissioni del 30% di Glovo/Deliveroo** (paghi 10% sul venduto, come Pane Quotidiano),
 > e **il cliente resta tuo** (dati, riordino). Zero costi fissi, payout a consegna."*
 
 **Perché è credibile (non fumo):** c'è già **Pane Quotidiano**, bottega vera del centro che riceve ordini
@@ -189,12 +189,12 @@ la consegna urbana.** Il prodotto giusto per loro è **vetrina + prenotazione on
 ## 🧰 Kit pratico da portare in visita
 
 **Ancoraggio economico (uguale per tutti — è il patto di Pane Quotidiano):**
-- **0€ costi fissi.** Commissione **12% solo sul venduto.** Payout a consegna. Nessun vincolo.
+- **abbonamento 50€/mese.** Commissione **10% sul venduto.** Payout a consegna. Nessun vincolo.
 - Confronto choc: **Glovo/Deliveroo 25-30% → MyCity 12%.** *(Tigellabella: leva diretta, già paga Deliveroo.)*
 - **Onboarding done-for-you <48h:** vetrina + catalogo + primo incasso di test lo facciamo noi.
 
 **Le 3 obiezioni + risposta:**
-- *"Quanto mi costa?"* → 0€ fissi, 12% solo sul venduto, come Pane Quotidiano.
+- *"Quanto mi costa?"* → abbonamento 50€/mese, 10% sul venduto, come Pane Quotidiano.
 - *"Non ho tempo."* → Lo facciamo noi: menu, foto, vetrina pronti. Tu approvi e cucini.
 - *"Chi consegna?"* → Consegna locale in centro a piedi/bici; dove non arriviamo (Calendasco) = ritiro/asporto.
 

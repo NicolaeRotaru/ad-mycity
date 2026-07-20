@@ -12,7 +12,7 @@ nota: NO bando ER nel pitch (Nicola 11/7 — chiuso 23/6)
 
 > **Come usarla:** in bottega **prima/durante** la conversazione. Dopo il «sì» passa alla **checklist operativa**.
 > **Demo sempre valida:** *«Pane Quotidiano, in Via Calzolai, è già su MyCity — te lo mostro dal telefono.»*
-> **Patto (tutte):** 0€ fissi · **12%** solo sul venduto · payout a consegna · nessun vincolo · montiamo noi in ~20 min.
+> **Patto (tutte):** abbonamento 50€/mese · **10%** sul venduto · payout a consegna · nessun vincolo · montiamo noi in ~20 min.
 
 ---
 
@@ -129,7 +129,7 @@ nota: NO bando ER nel pitch (Nicola 11/7 — chiuso 23/6)
 - Spedizione cesti ≠ consegna quartiere — buco per «cosa mangio stasera» in città.
 
 ### ▶ Apertura
-> *«Buongiorno, Amendolara è una tappa obbligata per chi vuole il meglio piacentino — lo sanno tutti. MyCity porta quella qualità **a domicilio in città**, nel carrello con Pane Quotidiano e le altre botteghe del centro. Voi già spedite i cesti: qui è la stessa fiducia, ma **ordini ripetuti in Piacenza**, zero costi fissi, 12% solo sul venduto. 5 minuti per mostrarvi Pane Quotidiano live?»*
+> *«Buongiorno, Amendolara è una tappa obbligata per chi vuole il meglio piacentino — lo sanno tutti. MyCity porta quella qualità **a domicilio in città**, nel carrello con Pane Quotidiano e le altre botteghe del centro. Voi già spedite i cesti: qui è la stessa fiducia, ma **ordini ripetuti in Piacenza**, zero costi fissi, 10% sul venduto. 5 minuti per mostrarvi Pane Quotidiano live?»*
 
 ### Cosa non sa di volere
 - **Scontrino alto** (formaggi + tortelli + vino) senza nuovo personale — ordini pianificati (ritiro/consegna mattina).
@@ -260,7 +260,7 @@ nota: NO bando ER nel pitch (Nicola 11/7 — chiuso 23/6)
 
 ## 🧰 Retro-scheda (tutte)
 
-- **Economico:** 0€ fissi · 12% sul venduto · payout a consegna · uscita libera.
+- **Economico:** abbonamento 50€/mese · 10% sul venduto · payout a consegna · uscita libera.
 - **Operativo:** vetrina + 5–15 prodotti in ~20 min · ordine test · notifica come squillo negozio.
 - **Comunità:** QR in vetrina · «Il Turno» · Venerdì Piacentini · gruppi locali (dopo primo ordine reale).
 - **Enti:** Vita in Centro · Albo Botteghe Storiche · Camera/associazioni (co-marketing futuro).

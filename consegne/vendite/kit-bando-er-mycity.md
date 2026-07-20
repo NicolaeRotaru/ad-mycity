@@ -17,7 +17,7 @@ Il bando Emilia-Romagna **Sostegno all'innovazione del commercio** offre fino al
 
 | Voce | Dettaglio |
 |---|---|
-| Commissione | **12%** sul venduto (0€ fissi mensili) |
+| Commissione | **10%** sul venduto (abbonamento 50€/mese mensili) |
 | Payout | A consegna confermata |
 | Onboarding | ~20 min (done-for-you) |
 | Vincoli | Nessun esclusiva |

@@ -28,7 +28,7 @@ a costo zero per voi e per gli associati che vogliono provare.*
 > Gentile [Referente Confcommercio Piacenza],
 >
 > sono Nicola Florea di MyCity, il marketplace dei negozi di Piacenza che porta la spesa delle
-> botteghe a casa dei piacentini (commissione 12%, zero costi fissi, consegna locale in giornata).
+> botteghe a casa dei piacentini (commissione 10%, zero costi fissi, consegna locale in giornata).
 >
 > Ho visto la vostra iniziativa per una guida online unica dei negozi di vicinato del centro: è
 > esattamente la direzione giusta. Noi facciamo il pezzo che a una guida manca — il **carrello e la

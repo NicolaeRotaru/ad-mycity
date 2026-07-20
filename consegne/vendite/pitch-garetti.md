@@ -143,7 +143,7 @@ domino piccolissimo** e ogni passo successivo è già implicato dal precedente.
 - Telefono/tablet carico + hotspot (non dipendo dal WiFi del negozio).
 - Mini-promemoria 1 pagina “Hai un ordine: cosa fare” (→ chiedo a @content/@designer la versione stampabile).
 - Kit candidatura bando da lasciare come regalo (→ @legale).
-- Termini scritti su 1 pagina (commissione 12% / zero costi / payout a consegna) da firmare/contrassegnare (→ @legale).
+- Termini scritti su 1 pagina (commissione 10% / zero costi / payout a consegna) da firmare/contrassegnare (→ @legale).
 
 ---
 
@@ -172,7 +172,7 @@ domino piccolissimo** e ogni passo successivo è già implicato dal precedente.
 
 ## ✅ Handoff
 
-- **PASSO-A @legale:** ho deciso i **termini esatti** (tabella Parte C) — commissione **12%**, **zero costi fissi**, **payout a consegna confermata**, **nessun vincolo**, COD-first. Mi serve la **1 pagina di condizioni commerciali** da firmare/contrassegnare con Garetti + il **kit candidatura bando** da lasciargli come regalo (rafforza l'urgenza del 21/7) + conferma se serve qualcosa per il consenso/privacy dell'account venditore.
+- **PASSO-A @legale:** ho deciso i **termini esatti** (tabella Parte C) — commissione **10%**, **zero costi fissi**, **payout a consegna confermata**, **nessun vincolo**, COD-first. Mi serve la **1 pagina di condizioni commerciali** da firmare/contrassegnare con Garetti + il **kit candidatura bando** da lasciargli come regalo (rafforza l'urgenza del 21/7) + conferma se serve qualcosa per il consenso/privacy dell'account venditore.
 - **PASSO-A @finanza:** confermo di aver usato il tuo **12%** (DECISIONI.md). Serve solo la **firma** perché lo possa dire come impegno al colloquio.
 - **PASSO-A @content / @growth:** propongo un **bundle "Tris DOP"** come prodotto-vetrina del primo weekend → serve **locandina/post** legati al **mercato di sabato 27/6** in Piazza Cavalli.
 - **PASSO-A @designer / @content:** mi serve il **mini-promemoria 1 pagina** "Hai un ordine: cosa fare" stampabile da lasciare a Garetti.

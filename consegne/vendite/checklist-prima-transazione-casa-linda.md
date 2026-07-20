@@ -16,7 +16,7 @@ Verificato live Supabase 30/6 17:17:
 |---|---|---|---|
 | 1 | Scegli **1 prodotto vero** dal catalogo Casa Linda (non seed) e verifica prezzo/disponibilità | @vendite | 🟢 |
 | 2 | Conferma slot consegna e zona coperta | @operations | 🟢 |
-| 3 | **Firma le 3 decisioni di lancio** (Stripe, commissione 12%, fee) se non già fatto | Nicola | 🔴 |
+| 3 | **Firma le 3 decisioni di lancio** (Stripe, commissione 10%, fee) se non già fatto | Nicola | 🔴 |
 | 4 | Ordine-test: Nicola o buyer di fiducia, pagamento **COD o carta** (1 transazione reale) | @operations | 🔴 |
 | 5 | Negozio accetta → prepara → rider ritira | @operations | 🟡 |
 | 6 | Consegna + conferma in app | @operations | 🟡 |

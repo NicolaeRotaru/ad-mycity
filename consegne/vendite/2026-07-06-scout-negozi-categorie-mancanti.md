@@ -64,7 +64,7 @@ vere del centro, in un carrello solo. È la cosa che nessun'altra app in città 
 ## 📞 Pitch di onboarding pronto (30 secondi, per categoria)
 
 **Struttura comune (condizioni di lancio, valide per tutti e 3):**
-commissione **12%**, **0€ costi fissi**, **payout a consegna confermata**, nessun vincolo, vetrina + catalogo
+commissione **10%**, **abbonamento 50€/mese**, **payout a consegna confermata**, nessun vincolo, vetrina + catalogo
 iniziale **done-for-you in ~20 minuti** (time-to-live <48h), primo **ordine di prova gratuito**.
 Agganci da usare: **Bando ER digitalizzazione — 40% a fondo perduto, scade 21/7** · **Venerdì Piacentini
 10 e 17 luglio** (centro pieno le sere, buon momento per il primo presidio).

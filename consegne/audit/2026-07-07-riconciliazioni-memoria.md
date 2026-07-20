@@ -17,7 +17,7 @@ fonte: radiografia totale 7/7 (deep-dive memoria)
 ## ⏳ Da applicare (3)
 
 ### 1) CHECKLIST-NICOLA.md ferma al 26/6 — il Pannello serve una to-do morta
-Il file ha `aggiornato: 2026-06-26` e ripropone firme già date (es. commissione 12% a Garetti, firmata
+Il file ha `aggiornato: 2026-06-26` e ripropone firme già date (es. commissione 10% a Garetti, firmata
 1/7) e date scadute. Il Pannello (`/api/memoria/todo`) la mostra come "cose da fare di Nicola".
 **Fix (giro/report della sera):** rigenerare la checklist dalle azioni VIVE — le voci `⏳` di
 `AZIONI-IN-ATTESA.md` — e agganciarla come output obbligatorio del report della sera, così non invecchia

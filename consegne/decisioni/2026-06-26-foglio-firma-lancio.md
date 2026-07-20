@@ -15,8 +15,8 @@ scopo: sbloccare in 2 minuti le 3 decisioni 🔴 che bloccano la prima consegna 
 
 ## Le 3 firme (metti ✅ o scrivi "ok N")
 
-### 1) 💶 Termini commerciali a Garetti — commissione **12%**
-- **Cosa firmi:** commissione **12%** sul valore ordine · **0€ costi fissi** · **payout a consegna confermata** · **nessun vincolo / nessuna penale d'uscita**.
+### 1) 💶 Termini commerciali a Garetti — commissione **10%**
+- **Cosa firmi:** commissione **10%** sul valore ordine · **abbonamento 50€/mese** · **payout a consegna confermata** · **nessun vincolo / nessuna penale d'uscita**.
 - **Perché 12%:** proposta di Finanza già nel registro (range vault 10-15%), vs ~25-35% di Glovo. Su 50€ → a Garetti restano **44€** (su Glovo ~33-37€).
 - **Fonte:** `consegne/vendite/pitch-garetti.md` Parte C · `DECISIONI.md`.
 - **Firma:** [ ] OK al 12% e ai termini  ·  [ ] Voglio cambiare → ___________

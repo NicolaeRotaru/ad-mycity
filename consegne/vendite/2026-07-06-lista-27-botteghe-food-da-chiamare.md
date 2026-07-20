@@ -38,7 +38,7 @@ così la demo "guarda, funziona già in centro" è credibile), poi le categorie 
 5. **Se dice sì →** handoff a **@onboarding-negozi** (vetrina <48h) + kit bando (`consegne/vendite/kit-bando-er-mycity.md`).
 
 ### Obiezioni pronte
-- *«Quanto mi costa?»* → 0€ fissi, commissione **12%** solo sul venduto, payout a consegna, nessun vincolo (stesso patto di Pane Quotidiano).
+- *«Quanto mi costa?»* → abbonamento 50€/mese, commissione **10%** solo sul venduto, payout a consegna, nessun vincolo (stesso patto di Pane Quotidiano).
 - *«Non ho tempo per il sito.»* → Lo facciamo noi: foto/catalogo/vetrina pronti, lei approva e basta.
 - *«Chi consegna?»* → Consegna locale in centro, a piedi/bici; per ora anche ritiro/COD.
 - *«Chi c'è già?»* → Pane Quotidiano (centro), e stiamo aprendo il quartiere bottega per bottega.

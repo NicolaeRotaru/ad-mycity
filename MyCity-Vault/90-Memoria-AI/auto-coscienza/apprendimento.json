@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 20:20",
+  "aggiornato": "2026-07-20 20:21",
+  "_nota_metabolizzazione_20_07_2021": "Chat 20/7 ~20:21: Nicola «fai il fix del residuo opzionale» — PR #219 mycity Render ingest US. L-418 nuova; L-416 evidenze++ addendum 3 superfici; preferenza posthog-residuo-render; STATO+DECISIONI+LEZIONI-CHAT+registro-fatti+data-engineer+tech esito.",
   "_nota_metabolizzazione_20_07_2020": "Chat 20/7 ~20:19: Nicola «che cosa posso fare adesso con posthog?» — PostHog verde (L-416); AD catalogo uso Live+funnel+test, non setup. L-417 nuova; preferenza posthog-cosa-fare-adesso; STATO+LEZIONI-CHAT+data-engineer esito; nessuna azione/decisione nuova.",
   "_nota_metabolizzazione_20_07_2016": "Chat 20/7 ~20:16: Nicola «ok è diventato verde» — PostHog VPS+Pannello verde verificato live; caso chiuso L-415. L-416 nuova; L-411+L-415 evidenze++ addendum chiusura; preferenza posthog-ok-verde; STATO già 20:16; DECISIONI+LEZIONI-CHAT+registro-fatti+data-engineer+devops-sre+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_2011": "Chat 20/7 ~20:11: Nicola «ricontrollato su vercel ma non ancora non funziona» — AD stop checklist, PR #502 diagnosi quale env Vercel manca in Radiografia. L-415 nuova; L-414 evidenze++ addendum ricontrollato; preferenza posthog-ricontrollato-vercel; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+devops-sre+data-engineer esito.",
@@ -141,6 +142,29 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-418",
+      "testo": "**PostHog 3 superfici — «fai il fix del residuo opzionale» = PR Render ingest US, non altro env (Nicola 20/7 ~20:21).** Dopo VPS+Pannello verdi (L-416) Nicola chiede il **residuo opzionale** citato in chiusura — tracking marketplace su Render ancora default **EU** (`eu.i.posthog.com`) vs account/project **US** **495230**. 5 perché: (1) PostHog MyCity = **3 posti** distinti: worker env (lettura API), Vercel Pannello (3 env diagnosi), **Render** (ingest eventi sito); (2) verde su 2/3 **non** allinea eventi visita/checkout al project US; (3) «residuo opzionale» in chiusura = **invito esplicito** — AD **consegna PR**, non ripete checklist VPS/Vercel; (4) **PR #219** mycity: default codice + `render.yaml` → `https://us.i.posthog.com`; merge Nicola → deploy Render ~5 min; (5) controllare override `NEXT_PUBLIC_POSTHOG_HOST` su dashboard Render se `.eu` rimasto. Regola: citato residuo Render in chiusura PostHog → **PR mycity + link chat** (**no card merge** L-402). Vedi L-416, L-410, DECISIONI 20/7 20:21.",
+      "tag": [
+        "posthog",
+        "render",
+        "mycity",
+        "tracking",
+        "3-superfici",
+        "data-engineer",
+        "tech",
+        "nicola"
+      ],
+      "reparto": "@data-engineer",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 20:21",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-417",
       "testo": "**PostHog verde — «cosa posso fare adesso?» = catalogo uso + test Live, non checklist setup (Nicola 20/7 ~20:19).** PostHog chiuso (L-416) — Nicola chiede prossimi passi operativi, non configurazione. 5 perché: (1) pattern identico **L-366** n8n — si aspetta **lista concreta** (Live, funnel acquisto, test incognito), **non** altro env/redeploy; (2) sito traccia già registrazione·prodotti·carrello·checkout·ordine — citare eventi **reali** già nel codice; (3) macchina legge sensori VPS+Pannello — Nicola **non** deve riconfigurare nulla; (4) **primo passo hands-on:** PostHog Live + visita sito con cookie analytics accettati → chiedere conferma eventi; (5) residuo **opzionale** Render US (PR #219) solo se chiede allineamento — **non** confondere con «non funziona». Regola: PostHog verde + «cosa faccio adesso» → **uso operativo** + test live, zero checklist. Vedi L-416, L-366, DECISIONI 20/7 20:16.",
       "tag": [
@@ -219,11 +243,11 @@
       ],
       "reparto": "@data-engineer",
       "confidenza": 0.95,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 20:16",
+      "ultima_conferma": "2026-07-20 20:21",
       "stato": "attiva",
       "usi": []
     },
@@ -9484,6 +9508,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**PostHog residuo Render — «fai il fix del residuo opzionale» = PR #219 mycity, link chat, no card (chat 20/7 ~20:21):** dopo VPS+Pannello verdi chiede esplicitamente il residuo citato in chiusura — si aspetta **PR consegnata** su repo **mycity** (ingest `us.i.posthog.com`), merge Nicola → deploy Render ~5 min; **non** altre istruzioni env VPS/Vercel; controllare override Render se `.eu`; pattern ordine chat «fai fix» = link PR (**L-402**). Vedi L-418, L-416.",
     "**PostHog «ok è diventato verde» — verifica live e chiudi, non ripetere checklist (chat 20/7 ~20:16):** dopo env Vercel + redeploy conferma «**ok è diventato verde**» — si aspetta AD **verifichi live** VPS (`verifica-sensori`) + Pannello (`/api/diagnosi`), aggiorni memoria, **non** continui istruzioni env; caso **chiuso**; residuo solo se chiede: host tracking **Render** US. Vedi L-416, L-415 chiuso.",
     "**PostHog «ricontrollato su Vercel» — stop checklist, diagnosi quale env manca (chat 20/7 ~20:11):** dopo aver ricontrollato Vercel e fatto redeploy dice «**ricontrollato su vercel ma non ancora non funziona**» — si aspetta AD **non ripeta** checklist generica ma consegni **fix Pannello** (**PR #502**) che indica **quale** variabile Vercel manca; merge → deploy ~2 min → leggere riga dettaglio sotto «Traffico (PostHog)» in Radiografia; VPS resta verde — problema solo Pannello. Vedi L-415, L-414.",
     "**PostHog «fatto redeploy» ma ancora giallo — checklist 3 env Vercel esatte, non ripetere redeploy (chat 20/7 ~20:01):** dopo passi env Vercel + redeploy dice «**Fatto redeploy però non ancora non funziona**» — si aspetta AD **verifichi live** Pannello (`/api/diagnosi`) separato da VPS; checklist sì/no: **`POSTHOG_PROJECT_ID`** (**495230**), chiave **`phx_`** (non `phc_`), host **`https://us.posthog.com`** su progetto **ad-mycity** Production; **non** far rifare redeploy finché le 3 non sono corrette; se tutte ok e resta giallo → fix diagnosi Pannello. Vedi L-414, L-411.",

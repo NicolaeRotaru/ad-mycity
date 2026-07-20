@@ -21,7 +21,7 @@ Nicola sta accendendo MyCity **da un solo negozio reale — Garetti, P.za Duomo 
 ## ⏱️ Le prossime mosse, in ordine
 
 ### Blocco 0 — SBLOCCARE IL LANCIO (oggi, 🔴)
-1. **Foglio-firma da 2 minuti** (`consegne/decisioni/2026-06-26-foglio-firma-lancio.md`): conferma **Stripe LIVE o sandbox**, firma **commissione 12% + 0€ fissi + payout a consegna** per Garetti, sceglie la **modalità payout-test** (1€ reale da stornare o ambiente test Stripe).
+1. **Foglio-firma da 2 minuti** (`consegne/decisioni/2026-06-26-foglio-firma-lancio.md`): conferma **Stripe LIVE o sandbox**, firma **commissione 10% + abbonamento 50€/mese + payout a consegna** per Garetti, sceglie la **modalità payout-test** (1€ reale da stornare o ambiente test Stripe).
    - *AD ha pronto:* condizioni 1 pagina (legale), scheda payout (finanza), pitch (vendite).
 2. **Fornire il LINK reale della lista d'attesa** — pre-condizione n.1: senza, ogni canale converte 0.
    - *AD ha pronto:* form/landing (1 campo + "primi 50 gratis" + UTM), bozza Google Form + IG @mycity.piacenza + Google Business (builder + frontend + cro + marketing).

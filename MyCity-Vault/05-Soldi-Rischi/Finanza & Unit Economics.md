@@ -3,7 +3,7 @@
 > Sintesi azionabile. 🟢 fonte · 🟡 assunzione da validare · 🔴 dato critico da raccogliere. Collega a [[Mercato, Numeri & Contesto]] · [[Metriche & KPI]].
 
 ## Il conto che decide tutto: contribution margin per ordine
-Assunzioni 🟡: AOV €50 · commissione 12% (€6) · fee consegna €3,50 · costo rider €7/giro · packaging €1,20 · Stripe €1,37.
+Assunzioni 🟡: AOV €50 · commissione 10% (€6) · fee consegna €3,50 · costo rider €7/giro · packaging €1,20 · Stripe €1,37.
 Ricavo/ordine = **€9,50**. Costo variabile non-rider = **€2,57**.
 
 | Ordini/giro | Costo rider/ordine | **CM/ordine** |
