@@ -8,7 +8,8 @@ reparto: operations
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
-- 2026-07-20 18:30 · #elimina-negozi-demo ESEGUITO · Nicola «te lo approvo in chat» 18:28 · 16 demo rimossi · 245 prod nascosti · REST: 1 negozio PQ · 5 prodotti · supervisione 1 negozio · atteso→reale ok · L-407 · #supervisione #demo #pq
+- 2026-07-20 18:32 · eliminazione fisica prodotti finti · Nicola «elimina i 245 prodotti finti» 18:31 · 253 righe DELETE dal DB (252 draft + 1 orfano) · REST: 1 negozio · 5 prodotti PQ · atteso→reale ok · L-408 · #supervisione #demo #catalogo
+- 2026-07-20 18:30 · #elimina-negozi-demo ESEGUITO · Nicola «te lo approvo in chat» 18:28 · 16 demo rimossi · prod demo prima nascosti (draft) · REST: 1 negozio PQ · 5 prodotti · supervisione 1 negozio · atteso→reale ok · L-407 · #supervisione #demo #pq
 - 2026-07-20 17:56 · Casella Supervisione pulizia demo · Nicola «elimina tutti tranne pane quotidiano» · REST 17 negozi (16 demo + PQ) · accodato #elimina-negozi-demo 🔴 con piano pulizia · atteso firma Nicola → 1 negozio 5 prodotti · L-401 · #supervisione #demo #pq
 - 2026-07-20 11:01 · Checklist mattina North Star 20/7 · completezza:5|chiarezza:5|azione:5|fonti:5|onesta:5|impatto:5 · atteso Nicola segue checklist entro pranzo → reale in attesa — PI26 sportello aperto 10:00, ordine test non ancora eseguito · #north-star #checklist
 - 2026-07-18 11:06 · runbook prima consegna + zona/orario/ordine-minimo PQ · ✅ runbook consegnato ✅ parametri operativi definiti · atteso definire il runbook operativo per la prima consegna con PQ → reale runbook 🟢 in consegne/operations/, parametri zona/orario/ordine-minimo 🟡 accodati · #ops-18lug

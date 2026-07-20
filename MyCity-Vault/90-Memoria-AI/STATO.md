@@ -1,10 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 18:30
+aggiornato: 2026-07-20 18:32
 fonte: AD digitale (metabolizzazione chat)
 ---
 
-> 💬 **20/7 ~18:30 — CHAT: Pulizia demo ESEGUITA — «te lo approvo in chat» → 1 negozio · 5 prodotti (L-407).** Nicola approva **#elimina-negozi-demo** in chat (18:28) — AD esegue subito: **16** negozi demo rimossi (Casa Linda inclusa) · **245** prodotti nascosti (243 demo + 2 orfani) · **Pane Quotidiano** intatto. **Verifica REST 18:30:** **1** negozio · **5** prodotti available · supervisione **1 negozio** (restano 3 gap da te: logo/città/foto). Card **✅ FATTA**. Fonte: chat Nicola 20/7 18:28 + REST 18:30.
+> 💬 **20/7 ~18:32 — CHAT: Prodotti finti ELIMINATI dal DB — «elimina i 245 prodotti finti» (L-408).** Follow-up pulizia demo: al passo 18:30 i prod demo erano solo **nascosti** (draft); Nicola chiede eliminazione esplicita (18:31) — AD **cancella 253 righe** dal database (252 draft + 1 orfano sold) · **irreversibile**. **Verifica REST 18:32:** **1** negozio · **5** prodotti (solo Pane Quotidiano: pesto, kefir, hummus, pudding, kefir Berchtesgadener) · supervisione **1 negozio · 5 prodotti** (restano gap da te: logo/città/foto). Fonte: chat Nicola 20/7 18:31 + REST 18:32.
+
+> 💬 **20/7 ~18:30 — CHAT: Pulizia demo ESEGUITA — «te lo approvo in chat» → 1 negozio · 5 prodotti (L-407).** Nicola approva **#elimina-negozi-demo** in chat (18:28) — AD esegue subito: **16** negozi demo rimossi (Casa Linda inclusa) · prod demo prima **nascosti** (draft) · **Pane Quotidiano** intatto. **Verifica REST 18:30:** **1** negozio · **5** prodotti available · supervisione **1 negozio**. Card **✅ FATTA** (esito aggiornato 18:32: prod **eliminati** dal DB). Fonte: chat Nicola 20/7 18:28 + REST 18:30.
 
 > 💬 **20/7 ~18:28 — CHAT: PostHog — follow-up «metterlo sul vps come n8n» = env, non Docker (L-404 addendum).** Nicola ripete frame «**come n8n**» dopo domanda PostHog 18:24 — AD chiarisce: **n8n = container Docker**; PostHog = **SaaS cloud** + **3 righe env** nello stesso `cervello/vps/.env` (pattern Telegram L-406); **self-host scartato** (pesante + cambierebbe tracking Render). **Non fatto** — chiave `phx_` ancora da incollare. Fonte: chat Nicola 20/7 18:28.
 
@@ -919,12 +921,12 @@ fonte: AD digitale (metabolizzazione chat)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 20/7 18:30 · pulizia demo completata)
-| Numero | Oggi (20/7 18:30) | Δ vs ieri sera | "Riuscito" | Note |
+## I 7 numeri (✅ REST 20/7 18:32 · pulizia demo completata)
+| Numero | Oggi (20/7 18:32) | Δ vs ieri sera | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ▼16 demo | ≥1 LIVE vero | ✅ Pulizia demo **18:30** — solo PQ live (era 17 negozi) |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ ha Stripe collegato ma payout-test mai chiuso su ordine vero |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ stock>0 · catalogo pubblico **5** prodotti (245 demo nascosti 18:30) |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ stock>0 · catalogo **5** prod · **253 demo eliminati dal DB 18:32** |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · CANCELED — 1° ordine reale va CREATO ex-novo |
 | Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~634h (~26,4 gg) ▲ +26h vs report 19/7 18:00 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |

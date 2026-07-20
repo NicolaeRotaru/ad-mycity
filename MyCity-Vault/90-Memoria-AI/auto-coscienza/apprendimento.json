@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 18:30",
+  "aggiornato": "2026-07-20 18:32",
+  "_nota_metabolizzazione_20_07_1832": "Chat 20/7 ~18:31: Nicola «elimina i 245 prodotti finti» — erano nascosti (draft) dal passo 18:30; AD DELETE 253 righe DB, REST 1 negozio 5 prod. L-408 nuova (caso_studio_nicola); L-401+L-407 evidenze++ addendum hard delete; preferenza elimina-prodotti-finti-db; STATO+LEZIONI-CHAT+operations; DECISIONI+AZIONI già 18:32.",
   "_nota_metabolizzazione_20_07_1830": "Chat 20/7 ~18:28: Nicola «te lo approvo in chat» — #elimina-negozi-demo ESEGUITO: 16 demo rimossi, 245 prod nascosti, REST 1 negozio 5 prodotti. L-407 nuova (caso_studio_nicola); L-401 evidenze++ addendum esecuzione; preferenza approvazione-chat-irreversibile + pulizia-catalogo-demo aggiornata; STATO+DECISIONI+AZIONI già 18:30; LEZIONI-CHAT+operations esito.",
   "_nota_metabolizzazione_20_07_1828": "Chat 20/7 ~18:28: Nicola follow-up PostHog «dico di metterlo sul vps come n8n» — AD: stessa disambiguazione L-406 (n8n=Docker vs cloud=env); self-host PostHog scartato. L-404 evidenze++ addendum 18:28; preferenza posthog-vps-setup aggiornata; STATO+LEZIONI-CHAT+data-engineer+devops-sre esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_1827": "Chat 20/7 ~18:27: Nicola «di metterlo sul vps come n8n» (Telegram AR-105) — AD: non Docker, 2 env in cervello/vps/.env + restart worker; n8n workflow stesse chiavi. L-406 nuova; preferenza telegram-vps-setup; STATO+LEZIONI-CHAT+devops-sre+builder-automazioni esito; nessuna azione completata.",
@@ -131,7 +132,7 @@
   "lezioni": [
     {
       "id": "L-2026-0720-407",
-      "testo": "**Approva in chat — «te lo approvo in chat» = firma 🔴 valida, esegui subito + verifica REST (Nicola 20/7 ~18:28).** Casella Supervisione — Nicola approva **#elimina-negozi-demo** con «**te lo approvo in chat**» (non solo card Pannello). 5 perché: (1) ok esplicito in chat = **stessa validità** di Approva card per azioni 🔴 già accodate con piano completo; (2) AD **non** rimandare al Pannello se la firma è chiara in chat; (3) **esecuzione immediata** + segna FATTO in AZIONI + append DECISIONI esito; (4) **verifica numeri REST** post-azione (18:30: **1** negozio · **5** prodotti, 16 demo + 245 prod nascosti); (5) PQ intatto — confermare esplicitamente al Nicola. Regola: «te lo approvo» / «ok elimina negozi demo» in chat su card 🔴 preparata = **esegui**, non «vai in Approva». Vedi L-401, DECISIONI 20/7 18:30.",
+      "testo": "**Approva in chat — «te lo approvo in chat» = firma 🔴 valida, esegui subito + verifica REST (Nicola 20/7 ~18:28).** Casella Supervisione — Nicola approva **#elimina-negozi-demo** con «**te lo approvo in chat**» (non solo card Pannello). 5 perché: (1) ok esplicito in chat = **stessa validità** di Approva card per azioni 🔴 già accodate con piano completo; (2) AD **non** rimandare al Pannello se la firma è chiara in chat; (3) **esecuzione immediata** + segna FATTO in AZIONI + append DECISIONI esito; (4) **verifica numeri REST** post-azione (18:32: **1** negozio · **5** prodotti, 16 demo rimossi, prod poi **DELETE dal DB** — L-408); (5) PQ intatto — confermare esplicitamente al Nicola. Regola: «te lo approvo» / «ok elimina negozi demo» in chat su card 🔴 preparata = **esegui**, non «vai in Approva». Vedi L-401, L-408, DECISIONI 20/7 18:30–18:32.",
       "tag": [
         "approvazione",
         "chat",
@@ -142,11 +143,33 @@
       ],
       "reparto": "@operations",
       "confidenza": 0.94,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 18:32",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
+      "id": "L-2026-0720-408",
+      "testo": "**Elimina prodotti finti — «elimina i 245 prodotti finti» = DELETE dal DB, non basta draft/nascosto (Nicola 20/7 ~18:31).** Follow-up pulizia demo: al passo 18:30 i prod demo erano solo **nascosti** (status draft — spariscono dal catalogo ma restano nel DB); Nicola chiede eliminazione esplicita. 5 perché: (1) **nascondere ≠ eliminare** — draft lascia righe in `products` che intasano supervisione/DB; (2) «**elimina**» in italiano = **hard delete irreversibile**, non soft-hide; (3) AD aveva nascosto 245 ma Nicola vuole **zero tracce** — chiarire differenza se il primo passo era solo draft; (4) esecuzione 18:32: **253 righe** cancellate (252 draft + 1 sold orfano post-rimozione seller demo); (5) verifica REST: **5 prodotti** Pane Quotidiano intatti. Regola: su «elimina prodotti finti/demo» dopo pulizia negozi → DELETE fisico con backup, non fermarsi al draft; se il primo passo era hide, **esegui subito** al follow-up senza ri-chiedere ok (stessa sessione pulizia). Vedi L-407, L-401, DECISIONI 20/7 18:32.",
+      "tag": [
+        "supervisione",
+        "demo",
+        "catalogo",
+        "products",
+        "delete",
+        "operations",
+        "irreversibile"
+      ],
+      "reparto": "@operations",
+      "confidenza": 0.93,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 18:30",
+      "ultima_conferma": "2026-07-20 18:32",
       "stato": "attiva",
       "usi": []
     },
@@ -260,7 +283,7 @@
     },
     {
       "id": "L-2026-0720-401",
-      "testo": "**Elimina negozi demo — casella Supervisione, accoda 🔴 poi esegui al ok (chat 20/7 ~17:54, ✅ 18:30).** Nicola da casella Supervisione: «**elimina tutti i negozi tranne pane quotidiano**». 5 perché: (1) REST live **17 negozi** = 1 **Pane Quotidiano** reale (5 prodotti) + **16 seed/demo** (UUID `11111111…`, Casa Linda inclusa); (2) **253 prodotti finti** intasano supervisione e catalogo pubblico; (3) cancellazione marketplace **irreversibile** → 🔴, **mai eseguire** senza ok esplicito Nicola; (4) piano: elimina prodotti demo + account venditori demo, **PQ intatto** — accoda **#elimina-negozi-demo**; (5) **ESEGUITO 18:30** (L-407): Nicola «te lo approvo in chat» → **16** demo rimossi · **245** prod nascosti · REST **1 negozio · 5 prodotti**. Regola: imperativo «elimina tutti tranne X» = numeri REST + elenco + card 🔴 + ok → esegui + verifica. Vedi L-407, L-393, DECISIONI 20/7 17:54–18:30.",
+      "testo": "**Elimina negozi demo — casella Supervisione, accoda 🔴 poi esegui al ok (chat 20/7 ~17:54, ✅ 18:30–18:32).** Nicola da casella Supervisione: «**elimina tutti i negozi tranne pane quotidiano**». 5 perché: (1) REST live **17 negozi** = 1 **Pane Quotidiano** reale (5 prodotti) + **16 seed/demo** (UUID `11111111…`, Casa Linda inclusa); (2) **253 prodotti finti** intasano supervisione e catalogo pubblico; (3) cancellazione marketplace **irreversibile** → 🔴, **mai eseguire** senza ok esplicito Nicola; (4) piano: elimina prodotti demo + account venditori demo, **PQ intatto** — accoda **#elimina-negozi-demo**; (5) **ESEGUITO 18:30–18:32** (L-407+L-408): Nicola «te lo approvo in chat» → **16** demo rimossi · prod prima nascosti poi **253 DELETE dal DB** · REST **1 negozio · 5 prodotti**. Regola: imperativo «elimina tutti tranne X» = numeri REST + elenco + card 🔴 + ok → esegui + verifica; «elimina prodotti finti» = hard delete, non draft. Vedi L-407, L-408, DECISIONI 20/7 17:54–18:32.",
       "tag": [
         "supervisione",
         "demo",
@@ -271,11 +294,11 @@
       ],
       "reparto": "@operations",
       "confidenza": 0.95,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 18:30",
+      "ultima_conferma": "2026-07-20 18:32",
       "stato": "attiva",
       "usi": []
     },
@@ -9273,8 +9296,9 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Elimina prodotti finti — «elimina i 245 prodotti finti» = DELETE dal DB, non basta nascosti (chat 20/7 ~18:31):** dopo pulizia negozi demo (18:30) chiede eliminazione esplicita dei prod demo — si aspetta **cancellazione fisica irreversibile** dal database, non solo draft/nascosto; 253 righe eliminate, restano **5 prodotti PQ**; nella stessa sessione pulizia **esegui subito** al follow-up senza ri-chiedere ok. Vedi L-408, L-407.",
     "**Approva in chat — «te lo approvo in chat» = firma 🔴 valida, esegui subito (chat 20/7 ~18:28):** su azione 🔴 già accodata con piano completo (#elimina-negozi-demo) approva con frase esplicita in chat — **non** rimandare solo al Pannello; si aspetta **esecuzione immediata**, card FATTO, numeri REST verificati (1 negozio · 5 prodotti), PQ intatto confermato. Vedi L-407, DECISIONI 20/7 18:30.",
-    "**Pulizia catalogo demo — «elimina tutti tranne pane quotidiano» = accoda 🔴 poi esegui al ok (chat 20/7 ~17:54, ✅ 18:30):** da casella Supervisione chiede rimuovere **16 negozi demo** lasciando solo **Pane Quotidiano** — numeri verificati, elenco negozi, card **#elimina-negozi-demo**; ok in chat («te lo approvo») → **eseguito** 18:30: **1 negozio · 5 prodotti** live, 245 prod demo nascosti. Vedi L-401, L-407.",
+    "**Pulizia catalogo demo — «elimina tutti tranne pane quotidiano» = accoda 🔴 poi esegui al ok (chat 20/7 ~17:54, ✅ 18:30–18:32):** da casella Supervisione chiede rimuovere **16 negozi demo** lasciando solo **Pane Quotidiano** — numeri verificati, elenco negozi, card **#elimina-negozi-demo**; ok in chat («te lo approvo») → **eseguito**: **1 negozio · 5 prodotti** live, **253 prod demo eliminati dal DB** (non solo nascosti). Vedi L-401, L-407, L-408.",
     "**Telegram sul VPS — «metterlo come n8n» = passi env nello stesso file, non installare Docker (chat 20/7 ~18:27):** chiede Telegram sul server «**come n8n**» — si aspetta risposta **operativa e disambiguata**: (1) n8n = programma che gira sul VPS; Telegram = **solo collegamento** (2 righe env); (2) stesso `cervello/vps/.env` dove ha già n8n e URL sito/Pannello; (3) BotFather → token + chat id → restart worker → sensore verde; (4) **push reali** = stesse chiavi anche in workflow n8n + Active (#accendi-intelligence-sveglia); (5) **non** incollare token in chat. Vedi L-406, L-405.",
     "**Verifica fix casella — «controlla ogni casella / se non è già stato il fix» = runtime check prima di riproporre (chat 20/7 ~18:25):** da casella difetto auto-radiografia chiede che l'AD **verifichi lo stato reale** (sensori, env, card) prima di ripetere la stessa azione — se sito/Pannello già verdi → card riavvio **obsoleta**, dichiarare FATTO e indicare **solo** ciò che resta (es. Telegram in #accendi-intelligence-sveglia). Vedi L-405.",
     "**PostHog sul VPS — «come n8n» = env worker, non Docker/self-host (chat 20/7 ~18:24–18:28):** chiede come collegare PostHog — poi «**metterlo sul vps come n8n**» — si aspetta disambiguazione **come Telegram L-406**: (1) n8n = programma sul VPS; PostHog = **cloud** + collegamento env; (2) **non** installare/self-host; (3) sito già traccia da Render; (4) VPS = Personal API Key **`phx_`** (Read) in `cervello/vps/.env`, **non** `phc_`; (5) restart worker + `verifica-sensori.mjs` ok; sensore spento **5/7** = normale; riaccensione briefing solo se lo chiede. Vedi L-404, L-406.",
