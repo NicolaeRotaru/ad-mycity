@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:25
+aggiornato: 2026-07-20 03:27
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:26 — CHAT: senior esperto n8n — builder-automazioni unico costruttore (L-378).** Nicola «**ci sono senior esperti di n8n** dentro mycity?». AD: **builder-automazioni** = owner unico progettazione/costruzione flussi n8n (mani, retry, dry-run); altri reparti **richiedono** automazioni (L-376); **partner-management** monitora n8n come fornitore (uptime/scadenze); **devops-sre** hosta server/Docker — non disegna workflow; **no secondo esperto** dedicato. **50 workflow** pendenti = Builder costruisce da richieste reparto, messaggi/post/soldi **🔴**. CTA: Telegram (**59** avvisi) / RSS bandi **PI26 10:00** / notifica ordine negozio. Fonte: chat Nicola 20/7 03:26.
 
 > 💬 **20/7 ~03:25 — CHAT: Bacheca home — 2 caselle (20 mani n8n + mani per reparto) (L-377).** Nicola «**salva le ultime 2 risposte** dentro la bacheca della home in **due caselle diverse**» → AD aggiorna `BACHECA.md`: **Casella 1** catalogo **20 integrazioni** n8n + ordine consigliato; **Casella 2** mani n8n **per reparto senior** (8 blocchi + esclusioni 🔴). Home Plancia legge da GitHub **main** — refresh se non visibile subito. **Pendente stessa sessione:** richiesta precedente «**adessi dimmi 50 workflow**» n8n **non ancora risposta**. Fonte: chat Nicola 20/7 03:25.
 

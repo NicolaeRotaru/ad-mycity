@@ -9,4 +9,4 @@ bootstrap: 2026-07-14 02:31
 > Formato: AAAA-MM-GG · contesto · scorecard 6 assi · atteso→reale · #tag
 
 ## Esiti
-- (ancora vuoto — il primo ESITO si registra con: node cervello/chiusura-loop.mjs registra partner-management "…" "…" "…" "…")
+- 2026-07-20 03:26 · Nicola «ci sono senior esperti n8n?» — atteso: ruolo partner-management chiarito · reale: n8n = fornitore strategico da monitorare (up/scadenze/rotture), non architetto flussi — owner costruttore = builder-automazioni (L-378) · #n8n #partner #sla

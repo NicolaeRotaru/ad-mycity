@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-20 03:27 · metabolizzazione chat «ci sono senior esperti n8n?» · atteso: lezione L-378 + preferenza organigramma · reale: L-378, L-332 evidenze 2, STATO/LEZIONI-CHAT/builder/partner-management aggiornati · #metabolizzazione #n8n #L-378
 - 2026-07-20 03:25 · metabolizzazione chat «salva ultime 2 risposte in bacheca home» · atteso: lezione L-377 + preferenza bacheca · reale: L-377, STATO/LEZIONI-CHAT aggiornati; BACHECA.md già scritto AD · #metabolizzazione #bacheca #L-377
 - 2026-07-20 03:19 · metabolizzazione chat «chiedi a tutti i senior mani n8n» · atteso: lezione L-376 + preferenza team-play · reale: L-376 caso_studio_nicola, L-373 evidenze 2, STATO/LEZIONI-CHAT/builder aggiornati · #metabolizzazione #team-play #L-376
 - 2026-07-20 03:17 · metabolizzazione chat «indipendenza dai dipendenti» · atteso: lezione L-375 + preferenza lean · reale: L-375, L-370 evidenze 2, STATO/DECISIONI/LEZIONI-CHAT aggiornati · #metabolizzazione #lean #L-375

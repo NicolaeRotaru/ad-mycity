@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:26",
+  "aggiornato": "2026-07-20 03:27",
+  "_nota_metabolizzazione_20_07_0327": "Chat 20/7 ~03:26: Nicola «ci sono senior esperti di n8n dentro mycity?» — chiarimento organigramma. L-378 nuova; L-332 evidenze++ addendum owner unico; preferenza senior-esperto-n8n; STATO+LEZIONI-CHAT+builder+partner-management esito; pendente «50 workflow».",
   "_nota_metabolizzazione_20_07_0325": "Chat 20/7 ~03:25: Nicola «salva le ultime 2 risposte in bacheca home due caselle» — persistenza output chat su BACHECA.md. L-377 nuova; preferenza salva-bacheca-caselle-separate; STATO+LEZIONI-CHAT+ad esito; pendente «50 workflow».",
   "_nota_metabolizzazione_20_07_0319": "Chat 20/7 ~03:19: Nicola «ti stai risparmiando, chiedi a tutti i senior quali mani n8n» — correzione post L-373. L-376 nuova (caso_studio_nicola); L-373 evidenze++ addendum senior; preferenza mani-n8n-chiedi-senior; STATO+LEZIONI-CHAT+builder+ad esito.",
   "_nota_metabolizzazione_20_07_0317": "Chat 20/7 ~03:17: Nicola «voglio rendere mycity il più indipendente dai dipendenti» — preferenza strategica lean/automazione. L-375 nuova; L-370 evidenze++ addendum indipendenza; preferenza indipendenza-dipendenti; STATO+DECISIONI+LEZIONI-CHAT+corporate-strategy+ad+people-talent esito.",
@@ -96,6 +97,26 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-378",
+      "testo": "**Organigramma n8n — builder-automazioni UNICO esperto costruttore; altri reparti richiedono; partner-management monitora vendor; devops hosta server (Nicola 20/7 ~03:26).** Nicola «ci sono senior esperti di n8n dentro mycity?» — chiarimento ruoli, non correzione. 5 perché: (1) dopo team-play mani per reparto (L-376) vuole sapere **chi progetta** i workflow, non solo chi li chiede; (2) **builder-automazioni** = owner unico: progetta/costruisce flussi n8n, collega mani (Telegram, email, social, cron, RSS), retry/errori/dry-run; (3) marketing/CRM/ops/vendite/… **chiedono** automazioni — non le disegnano; (4) **partner-management** guarda n8n come **fornitore** (up? scade? si rompe?) — non architettura flussi; **devops-sre** tiene su server/Docker — non progettista workflow; (5) **non esiste** un secondo «esperto n8n» dedicato — i **50 workflow** = Builder li costruisce partendo dalle richieste reparto, messaggi/post/soldi sempre **🔴**. Regola: domanda «chi è esperto n8n?» → **builder-automazioni** costruisce, reparti richiedono, AD orchestra; non elencare tutti i senior come esperti n8n. Vedi L-376, L-332, L-344.",
+      "tag": [
+        "n8n",
+        "organigramma",
+        "builder-automazioni",
+        "owner",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:26",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-377",
       "testo": "**«Salva in bacheca» = N caselle separate in BACHECA.md, una per risposta (Nicola 20/7 ~03:25).** Nicola «salva le ultime 2 risposte dentro la bacheca della home in due caselle diverse» — dopo catalogo 20 mani n8n (L-373) e mani per reparto senior (L-376). 5 perché: (1) chat volatili — Nicola vuole output **persistenti e visibili in home** senza riaprire la conversazione; (2) **due risposte = due caselle** distinte (`## Titolo · data ora`), non un blocco unico mescolato; (3) file = `MyCity-Vault/90-Memoria-AI/BACHECA.md`, servito da `/api/bacheca` in Plancia (DECISIONI 16/7); (4) più recenti in cima; Pannello legge **main** GitHub — se non visibile subito = refresh, non «fatto» senza publish; (5) contenuto = **condensato utile** (elenco, ordine, regole 🔴), non dump chat grezzo. Regola: «salva in bacheca / salva le ultime N risposte» → 🟢 scrivi **N blocchi ## separati** in BACHECA.md subito. Vedi DECISIONI 16/7 bacheca, L-373, L-376.",
@@ -1124,7 +1145,7 @@
     },
     {
       "id": "L-2026-0719-332",
-      "testo": "**n8n — «Come farti ragionare come un esperto?» = architetto workflow, non tutorial collegamento (Nicola 19/7 ~22:00).** Nicola chiede come far ragionare l'AD come un automazionista bravo che crea «workflow pazzeschi» — non solo «installa n8n / metti webhook». 5 perché: (1) n8n installato ≠ valore — vuole **progettazione** (social, ordini, alert, bandi); (2) l'AD stava dando passi setup, Nicola vuole **output** (JSON completo + spiegazione + error handling/retry/notifica Telegram); (3) oggi l'AD è **cieco** sull'istanza n8n (no esecuzioni, errori nodi, modifiche live); (4) scala capacità: webhook attivo → **chiave API n8n** in env worker (Nicola la mette, mai in chat; read-only basta per diagnosi) → workflow nuovi in repo pronti import; (5) OAuth Meta/WhatsApp/Google resta Nicola; azioni reali 🔴. Regola: domanda su n8n = rispondere come **esperto automazioni** (disegna workflow concreti su richiesta), non ripetere loop install/import; finché webhook segnaposto, proporre un flusso concreto + passi Nicola in parallelo. Vedi L-331, L-321, L-322.",
+      "testo": "**n8n — «Come farti ragionare come un esperto?» = architetto workflow, non tutorial collegamento (Nicola 19/7 ~22:00).** Nicola chiede come far ragionare l'AD come un automazionista bravo che crea «workflow pazzeschi» — non solo «installa n8n / metti webhook». 5 perché: (1) n8n installato ≠ valore — vuole **progettazione** (social, ordini, alert, bandi); (2) l'AD stava dando passi setup, Nicola vuole **output** (JSON completo + spiegazione + error handling/retry/notifica Telegram); (3) oggi l'AD è **cieco** sull'istanza n8n (no esecuzioni, errori nodi, modifiche live); (4) scala capacità: webhook attivo → **chiave API n8n** in env worker (Nicola la mette, mai in chat; read-only basta per diagnosi) → workflow nuovi in repo pronti import; (5) OAuth Meta/WhatsApp/Google resta Nicola; azioni reali 🔴. Regola: domanda su n8n = rispondere come **esperto automazioni** (disegna workflow concreti su richiesta), non ripetere loop install/import; finché webhook segnaposto, proporre un flusso concreto + passi Nicola in parallelo. **ADDENDUM 20/7 03:26:** Nicola «ci sono senior esperti n8n?» — **owner costruttore = solo builder-automazioni**; reparti richiedono; partner-management = vendor SLA; devops = host server; no secondo esperto (L-378). Vedi L-331, L-321, L-322, L-378.",
       "tag": [
         "n8n",
         "workflow",
@@ -1135,11 +1156,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.95,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 22:00",
+      "ultima_conferma": "2026-07-20 03:26",
       "stato": "attiva",
       "usi": []
     },
@@ -8607,6 +8628,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Senior esperto n8n — chiarimento organigramma: builder costruisce, reparti richiedono (chat 20/7 ~03:26):** «ci sono senior esperti di n8n?» — si aspetta risposta **precisa sui ruoli**: **builder-automazioni** = unico che progetta/costruisce flussi n8n; altri senior (marketing, CRM, ops, vendite…) **dichiarano bisogno** (L-376); **partner-management** = SLA fornitore n8n (up/scadenze/rotture), **devops** = server/Docker, **non** architetti workflow; **no secondo esperto n8n** dedicato; 50 workflow = Builder da richieste reparto, 🔴 su messaggi/post/soldi; chiude «quale accendiamo per primo» (Telegram 59 avvisi / RSS PI26 10:00 / notifica ordine). Vedi L-378, L-376, L-332.",
     "**Salva risposte in Bacheca home — caselle separate (chat 20/7 ~03:25):** «salva le ultime N risposte in bacheca / due caselle diverse» = output **persistenti in home Plancia**, **una casella per risposta** (`##` distinto in `BACHECA.md`), contenuto condensato utile — non lasciare solo in chat. Refresh se main non ancora pubblicato. Vedi L-377, DECISIONI 16/7.",
     "**Mani n8n — chiedi a tutti i senior per reparto, non lista generica AD (chat 20/7 ~03:19):** dopo catalogo 20 integrazioni (L-373) corregge «**ti stai risparmiando**» — si aspetta **team-play**: ogni reparto (comunicazione, negozi, ops, soldi, intelligence, governance, builder, creativi) dichiara quali **mani n8n** gli servono; AD **compone e sintetizza**, non elenco generico inventato da solo; ordine condiviso Telegram (59 avvisi) → Meta → RSS bandi → email welcome → notifica ordine; messaggi/post/soldi = **🔴**; chiude «quale reparto accendiamo» («Telegram» / «Meta» / «RSS bandi»). Vedi L-376, L-373, L-370.",
     "**Indipendenza dai dipendenti — lean headcount via automazione + card 🔴 (chat 20/7 ~03:17):** obiettivo esplicito «rendere mycity il più indipendente dai dipendenti» — si aspetta risposta **operativa-modello**, non piano hiring: cervello+n8n su ripetizione; **umano solo 🔴** (firma, trattative, primo ordine concierge, dispute, deploy/soldi); 3 fasi (accendi città · abitudine · default locale); **primo ordine + payout-ready** come prerequisito (altrimenti automazioni a vuoto); ordine oggi PI26 10:00 → Telegram (59 avvisi) → Meta → notifica ordine → carrello; chiude con **una scelta blocco** («bandi» / «Telegram» / «primo ordine»). Vedi L-375, L-370.",
