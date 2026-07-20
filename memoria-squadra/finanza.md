@@ -8,6 +8,7 @@ reparto: finanza
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-21 00:37 · metabolizzazione chat «prezzo su tutti i costi» · atteso: L-443 + Bacheca stime complete · reale: Nicola vuole stima 📊 su ogni riga no ?, AD Bacheca ✅/📊 + 4 scenari, L-443 nuova, L-442 evidenze 2 pin eseguito · #costi #bacheca #L-443
 - 2026-07-21 00:34 · metabolizzazione chat «Ci sono altri costi?» · atteso: L-442 + blocco admin/ops · reale: Nicola chiede completezza post-Bacheca, AD elenca admin/ops/Stripe/assicurazioni in chat (Bacheca pin proposto, non fatto), L-442 nuova, L-433 evidenze 5 · #costi #burn #L-442
 - 2026-07-21 00:32 · metabolizzazione chat volantini mancanti in Bacheca costi · atteso: L-440 + sezione materiali fisici · reale: Nicola correzione «volantini non li hai messi», Bacheca kit/volantini/primo lotto, L-440 caso_studio, L-433 evidenze 4 · #costi #volantini #stampa #L-440
 - 2026-07-20 23:48 · metabolizzazione chat app store + SMS + email professionale · atteso: Bacheca sezioni opzionali + spiegazione 3 categorie · reale: Apple ~99€/a Google ~23€, SMS 0€ oggi, Resend vs Workspace distinti, L-434 nuova, registro-fatti addendum · #costi #app-store #sms #email #L-434

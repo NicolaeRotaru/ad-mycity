@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-21 00:37 · metabolizzazione chat «prezzo su tutti i costi» · atteso: L-443 + STATO/LEZIONI · reale: L-443 nuova, preferenza costi-stime-su-tutte-voci, L-442 evidenze 2, STATO+LEZIONI-CHAT+finanza+registro-fatti aggiornati · #metabolizzazione #L-443 #costi
 - 2026-07-21 00:34 · metabolizzazione chat «Ci sono altri costi?» · atteso: L-442 + STATO/LEZIONI · reale: L-442 nuova, L-433 evidenze 5 addendum admin/ops, preferenza costi-quadro-completo, STATO+LEZIONI-CHAT+finanza aggiornati · #metabolizzazione #L-442 #costi
 - 2026-07-21 00:33 · metabolizzazione chat fix chat sparita PR #509 · atteso: L-441 + STATO/DECISIONI/LEZIONI · reale: L-441 nuova caso_studio_nicola, L-439 evidenze 2 addendum bug codice, preferenza chat-sparita-fix-codice, STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati · #metabolizzazione #L-441 #pr-509
 - 2026-07-21 00:32 · metabolizzazione chat volantini Bacheca costi · atteso: L-440 + STATO/LEZIONI · reale: L-440 nuova caso_studio_nicola, L-433 evidenze 4 addendum volantini, preferenza costi-tutti-fisici, STATO+LEZIONI-CHAT+finanza aggiornati · #metabolizzazione #L-440 #costi

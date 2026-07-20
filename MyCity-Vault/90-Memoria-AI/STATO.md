@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-21 00:34
-fonte: AD digitale (chat 21/7 00:34)
+aggiornato: 2026-07-21 00:37
+fonte: AD digitale (chat 21/7 00:37)
 ---
+
+> 💬 **21/7 ~00:37 — CHAT: Prezzo su ogni voce costi — stime 📊 in Bacheca (L-443).** Nicola «**Metti un prezzo reale o ipotetico ma che si avvicina al reale su tutti i costi**» — follow-up Bacheca dopo L-442 (admin/ops ancora solo in chat). AD: **ogni riga** in `BACHECA.md` ha importo — **✅** = confermati Nicola (burn **~302 €/m**: Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio) · **📊** = stime orientative (PEC ~30 €/a, commercialista ~70–100 €/m ammortizzato, volantini ~50–100 €, bici ~150–250 € o noleggio ~40–70 €/m, rider ~3–5 €/consegna, ads/assicurazioni…) · **4 scenari** in fondo (minimo oggi → con scaling). Regola: **no `?` vuoti** — stima realistica + etichetta; cifre pro restano «da preventivo». Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:37.
 
 > 💬 **21/7 ~00:34 — CHAT: «Ci sono altri costi?» — quadro business oltre i 302 €/m (L-442).** Nicola chiede se **mancano voci** dopo Bacheca costi (fissi ~302 €/m + fisici + scaling). AD elenca in chat **4° blocco** non ancora pin in Bacheca: **amministrazione** (PEC ~20–30 €/a, commercialista centinaia €/a, firma/visure) · **operatività consegne** (pagamento rider a consegna, noleggio bici ~40–70 €/m) · **marketing attivo** (ads, promo 5+5 € — zero finché non firmi) · **a volume** (Stripe ~1,4%+0,25 €/tx, assicurazioni RC da preventivo). **Regola:** 302 €/m = quasi tutto acceso oggi; resto **on-demand / % vendite** — AD ha proposto pin Bacheca «amministrazione + operatività» se Nicola vuole quadro **solo infra** vs **tutto business**. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:34.
 
