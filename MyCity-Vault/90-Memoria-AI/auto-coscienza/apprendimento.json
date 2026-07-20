@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:19",
+  "aggiornato": "2026-07-20 03:25",
+  "_nota_metabolizzazione_20_07_0325": "Chat 20/7 ~03:25: Nicola «salva le ultime 2 risposte in bacheca home due caselle» — persistenza output chat su BACHECA.md. L-377 nuova; preferenza salva-bacheca-caselle-separate; STATO+LEZIONI-CHAT+ad esito; pendente «50 workflow».",
   "_nota_metabolizzazione_20_07_0319": "Chat 20/7 ~03:19: Nicola «ti stai risparmiando, chiedi a tutti i senior quali mani n8n» — correzione post L-373. L-376 nuova (caso_studio_nicola); L-373 evidenze++ addendum senior; preferenza mani-n8n-chiedi-senior; STATO+LEZIONI-CHAT+builder+ad esito.",
   "_nota_metabolizzazione_20_07_0317": "Chat 20/7 ~03:17: Nicola «voglio rendere mycity il più indipendente dai dipendenti» — preferenza strategica lean/automazione. L-375 nuova; L-370 evidenze++ addendum indipendenza; preferenza indipendenza-dipendenti; STATO+DECISIONI+LEZIONI-CHAT+corporate-strategy+ad+people-talent esito.",
   "_nota_metabolizzazione_20_07_0316": "Chat 20/7 ~03:16: Nicola chiarimento «RSS Comune/bandi → riassunto portali istituzionali» — sveglia cron n8n, 403 worker, workflow non attivo. L-374 nuova; L-365 evidenze++ addendum RSS 403; preferenza rss-bandi-comune; STATO+LEZIONI-CHAT+builder esito.",
@@ -95,6 +96,26 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-377",
+      "testo": "**«Salva in bacheca» = N caselle separate in BACHECA.md, una per risposta (Nicola 20/7 ~03:25).** Nicola «salva le ultime 2 risposte dentro la bacheca della home in due caselle diverse» — dopo catalogo 20 mani n8n (L-373) e mani per reparto senior (L-376). 5 perché: (1) chat volatili — Nicola vuole output **persistenti e visibili in home** senza riaprire la conversazione; (2) **due risposte = due caselle** distinte (`## Titolo · data ora`), non un blocco unico mescolato; (3) file = `MyCity-Vault/90-Memoria-AI/BACHECA.md`, servito da `/api/bacheca` in Plancia (DECISIONI 16/7); (4) più recenti in cima; Pannello legge **main** GitHub — se non visibile subito = refresh, non «fatto» senza publish; (5) contenuto = **condensato utile** (elenco, ordine, regole 🔴), non dump chat grezzo. Regola: «salva in bacheca / salva le ultime N risposte» → 🟢 scrivi **N blocchi ## separati** in BACHECA.md subito. Vedi DECISIONI 16/7 bacheca, L-373, L-376.",
+      "tag": [
+        "bacheca",
+        "pannello",
+        "home",
+        "persistenza",
+        "nicola"
+      ],
+      "reparto": "@ad",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:25",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-375",
       "testo": "**«Indipendenza dai dipendenti» = automazione ripetizione + umani solo 🔴, bottleneck primo ordine (Nicola 20/7 ~03:17).** Nicola «voglio rendere mycity il più indipendente dai dipendenti». 5 perché: (1) **non** è «assumere meno domani» generico — è **modello operativo**: cervello + n8n fanno il lavoro di un team intero su ciò che si ripete; (2) **resta umano (Nicola 🔴):** firma bandi/contratti, trattative negozi difficili, primo ordine concierge, dispute gravi, deploy e soldi; (3) **3 fasi** allineate L-370: accendi città (onboarding semi-auto + checklist) · abitudine (post/cron/carrelli/recensioni) · default locale (ops ordini/rider con regole, non telefonate); (4) **collo di bottiglia** = **primo ordine reale + botteghe payout-ready** — senza liquidità reale le automazioni scalano a vuoto; (5) **ordine pratico oggi:** PI26 10:00 → Telegram (59 avvisi) → Meta post test 🔴 → notifica ordine negozio → carrello abbandonato; chiudere con **una scelta blocco** («bandi» / «Telegram» / «primo ordine»), non checklist hiring o 50 workflow. Regola: «indipendente dai dipendenti» → automazione + card 🔴 + fasi + bottleneck + CTA blocco — **non** elenco assunzioni né solo catalogo n8n. Vedi L-370, L-367, L-357.",
@@ -8586,6 +8607,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Salva risposte in Bacheca home — caselle separate (chat 20/7 ~03:25):** «salva le ultime N risposte in bacheca / due caselle diverse» = output **persistenti in home Plancia**, **una casella per risposta** (`##` distinto in `BACHECA.md`), contenuto condensato utile — non lasciare solo in chat. Refresh se main non ancora pubblicato. Vedi L-377, DECISIONI 16/7.",
     "**Mani n8n — chiedi a tutti i senior per reparto, non lista generica AD (chat 20/7 ~03:19):** dopo catalogo 20 integrazioni (L-373) corregge «**ti stai risparmiando**» — si aspetta **team-play**: ogni reparto (comunicazione, negozi, ops, soldi, intelligence, governance, builder, creativi) dichiara quali **mani n8n** gli servono; AD **compone e sintetizza**, non elenco generico inventato da solo; ordine condiviso Telegram (59 avvisi) → Meta → RSS bandi → email welcome → notifica ordine; messaggi/post/soldi = **🔴**; chiude «quale reparto accendiamo» («Telegram» / «Meta» / «RSS bandi»). Vedi L-376, L-373, L-370.",
     "**Indipendenza dai dipendenti — lean headcount via automazione + card 🔴 (chat 20/7 ~03:17):** obiettivo esplicito «rendere mycity il più indipendente dai dipendenti» — si aspetta risposta **operativa-modello**, non piano hiring: cervello+n8n su ripetizione; **umano solo 🔴** (firma, trattative, primo ordine concierge, dispute, deploy/soldi); 3 fasi (accendi città · abitudine · default locale); **primo ordine + payout-ready** come prerequisito (altrimenti automazioni a vuoto); ordine oggi PI26 10:00 → Telegram (59 avvisi) → Meta → notifica ordine → carrello; chiude con **una scelta blocco** («bandi» / «Telegram» / «primo ordine»). Vedi L-375, L-370.",
     "**RSS bandi Comune — chiarimento voce catalogo n8n = cosa fa + perché n8n + stato + setup + CTA (chat 20/7 ~03:16):** quando chiede «RSS Comune/bandi → riassunto portali istituzionali» si aspetta spiegazione **operativa** — sveglia cron (Schedule 7:00), fonti (Comune, CCIAA, CNA/Vita in Centro), filtro 5 righe, motivo tecnico (**403** fetch worker vs n8n Docker), stato **workflow non attivo**, delivery Telegram (59 avvisi) o webhook worker; domande bandi = **🔴**; chiude «accendi RSS bandi» / «prima Telegram». Vedi L-374, L-365, L-370.",
@@ -8899,7 +8921,7 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 390,
+    "lezioni_attive": 391,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.19,

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:19
+aggiornato: 2026-07-20 03:25
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:25 — CHAT: Bacheca home — 2 caselle (20 mani n8n + mani per reparto) (L-377).** Nicola «**salva le ultime 2 risposte** dentro la bacheca della home in **due caselle diverse**» → AD aggiorna `BACHECA.md`: **Casella 1** catalogo **20 integrazioni** n8n + ordine consigliato; **Casella 2** mani n8n **per reparto senior** (8 blocchi + esclusioni 🔴). Home Plancia legge da GitHub **main** — refresh se non visibile subito. **Pendente stessa sessione:** richiesta precedente «**adessi dimmi 50 workflow**» n8n **non ancora risposta**. Fonte: chat Nicola 20/7 03:25.
 
 > 💬 **20/7 ~03:19 — CHAT: mani n8n per reparto — senior consultati, non lista generica AD (L-376).** Dopo catalogo **20 integrazioni** n8n (L-373), Nicola corregge: «**ti stai risparmiando**, chiedi a **tutti i senior** di quali mani hanno bisogno che n8n gli può dare». AD risponde con inventario **per reparto** (comunicazione/clienti, negozi/vendite, ops/consegne, soldi/pagamenti, intelligence/istituzioni, governance/numeri, automazioni/tech, creativi/influencer) + cosa **NON** passa da n8n (bandi portale, contratti, trattative, rimborsi, deploy). **Ordine condiviso:** Telegram (**59** avvisi) → Meta FB+IG → RSS bandi sveglia → email welcome → notifica ordine negozio. CTA: Nicola sceglie reparto/blocco («Telegram» / «Meta» / «RSS bandi»). Fonte: chat Nicola 20/7 03:19.
 
