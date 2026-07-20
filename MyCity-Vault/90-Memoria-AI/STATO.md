@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 21:57
-fonte: AD digitale (chat 20/7 21:57)
+aggiornato: 2026-07-20 22:00
+fonte: AD digitale (chat 20/7 22:00)
 ---
+
+> 💬 **20/7 ~22:00 — CHAT: «Come si applicano i 5 pilastri?» — trigger→azione→misura (L-425).** Nicola «**mostrami in che modo si possono applicare: sensori proattivi, visione, previsione, automazione chiusa e sperimentazione continua**» — follow-up L-424, non correzione. AD risponde con **5 esempi concreti MyCity** (carrello 1h, negozio 7gg senza ordini, bando PI26, foto fornaio→schede, meteo venerdì+pioggia, welcome email chiusa, A/B soglia spedizione) ciascuno con **trigger → azione → misura** e contrasto **oggi vs dopo**. Frame: oggi metà sinistra (leggo+scrivo bozze), manca collegamento destro (parte da solo+misura+impara). **2 veloci da accendere:** carrello abbandonato + catalogo da foto PQ. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 22:00.
 
 > 💬 **20/7 ~21:57 — CHAT: Correzione «non guardare cosa c'è» — gap di mercato (L-424).** Nicola corregge il filone L-421/L-423: **non** elencare cosa abbiamo (mani, giro, eccezioni) — guardare **cosa manca** e **cosa esiste sul mercato ma non è collegato**. AD risponde con **5 buchi collegabili:** visione foto→catalogo · forecast proattivo (meteo/churn/cliente) · sala ops live ordini/consegne · esperimenti A/B automatici (PostHog già può, noi no) · ricerca/burocrazia automatica (concorrenti, bandi PDF, recensioni). Frame: salto = **sensori proattivi + visione + previsione + automazione chiusa** — non «AI più furba». **2 ROI immediati:** catalogo da foto (onboarding negozi) + carrello abbandonato automatico (**4 buyer** già iscritti, 0 pagati). Business invariato: 1 PQ · 0 pagati. Fonte: chat Nicola 20/7 21:57.
 

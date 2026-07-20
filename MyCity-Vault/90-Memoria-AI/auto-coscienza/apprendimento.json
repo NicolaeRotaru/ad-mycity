@@ -1,7 +1,8 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 21:57",
+  "aggiornato": "2026-07-20 22:00",
   "_nota_giro_20_07_2022": "Giro 20/7 20:22: coerenza-fatti pricing bonificata (48 file, exit 0). Lezione: esenzioni registro per contratti PQ eccezione 12%/0€. CHECKLIST rigenerata AR-030. North Star focus ordine test PQ.",
+  "_nota_metabolizzazione_20_07_2200": "Chat 20/7 ~22:00: Nicola «come si applicano i 5 pilastri» — L-425 nuova; L-424 evidenze++ addendum trigger→azione→misura; preferenza pilastri-applicazione-concreta; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_2157": "Chat 20/7 ~21:57: Nicola correzione «non guardare cosa c'è — gap mercato non collegato» — L-424 caso_studio_nicola; L-423+L-421+L-370 evidenze++ addendum gap mercato; preferenza gap-mercato-non-inventario; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_2154": "Chat 20/7 ~21:54: Nicola «versione ancora più avanzata, sa e può fare molto di più» (3° salto, no bacheca) — frame autopilota eccezioni-only, 5 pilastri. L-423 nuova; L-421 evidenze++ addendum eccezioni; preferenza versione-autopilota-eccezioni; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_2153": "Chat 20/7 ~21:52: Nicola «ancora più avanzata» + «salva in bacheca checklist» — BACHECA.md 4 livelli 24 voci - [ ]. L-422 nuova; L-421+L-377 evidenze++ addendum Livello 4/checklist; preferenza bacheca-checklist-versione-avanzata; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
@@ -148,6 +149,27 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-425",
+      "testo": "**«Come si applicano i 5 pilastri?» = trigger→azione→misura + oggi vs dopo, non teoria (Nicola 20/7 ~22:00).** Follow-up L-424: Nicola «**mostrami in che modo si possono applicare: sensori proattivi, visione, previsione, automazione chiusa e sperimentazione continua**». 5 perché: (1) «come si applica» ≠ ripetere gap mercato abstract — vuole **esempi operativi MyCity**; (2) ogni pilastro = **trigger → azione → misura** (carrello 1h→email; negozio 7gg→check-in; bando 5gg→Telegram; foto→schede; meteo→post+rider; welcome chiusa; A/B soglia spedizione); (3) contrasto **oggi vs dopo** obbligatorio («oggi: niente/aspetti report · dopo: parte da solo»); (4) frame: oggi metà sinistra (leggo dati, scrivo bozze), manca collegamento destro (automatizza, misura, impara); (5) chiude con **2 ROI veloci** già in L-424: carrello abbandonato + catalogo foto PQ. Regola: «come si applica/applicare [pilastri/capacità]» → 1 esempio concreto per pilastro con trigger→azione→misura, zero elenco feature. Vedi L-424, L-333, workflow n.11 n8n.",
+      "tag": [
+        "strategia",
+        "pilastri",
+        "trigger-azione-misura",
+        "gap-mercato",
+        "applicazione-concreta",
+        "nicola"
+      ],
+      "reparto": "@ad",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 22:00",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-424",
       "testo": "**«Non guardare cosa c'è» = buchi di mercato non collegati, non inventario interno (Nicola 20/7 ~21:57).** Quarto salto/correzione dopo L-421 (3 salti), L-422 (checklist), L-423 (eccezioni): Nicola «**non guardare a quello che c'è, ma quello che non c'è, e che c'è sul mercato e non viene ancora usato**». 5 perché: (1) L-421/L-423 elencavano ancora **stato interno MyCity** (mani, giro, eccezioni) — Nicola vuole **gap vs mercato**; (2) player grandi usano già **visione, forecast, ops live, A/B, scraping** — noi abbiamo soprattutto memoria+coda+senior che scrivono; (3) risposta = **5 buchi collegabili**: foto→catalogo/prezzi/schede · previsione proattiva (meteo/churn/cliente) · sala ops live ordini/consegne · esperimenti automatici (PostHog può, noi no) · ricerca/burocrazia (concorrenti, bandi PDF, recensioni Google); (4) frame: salto = **collegare pezzi che esistono fuori** al primo ordine vero, **non** «AI più furba»; (5) **2 ROI immediati** oggi: **catalogo da foto** (sblocca onboarding) + **carrello abbandonato automatico** (4 buyer già iscritti, 0 pagati). Regola: correzione «non c'è sul mercato» / 4° «ancora più avanzata» → **gap analysis mercato**, zero ripetere L1–L4/checklist/eccezioni/inventario interno. Vedi L-423, L-421, L-370, BACHECA L4.",
       "tag": [
@@ -161,13 +183,14 @@
       ],
       "reparto": "@ad",
       "confidenza": 0.94,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 21:57",
+      "ultima_conferma": "2026-07-20 22:00",
       "stato": "attiva",
-      "usi": []
+      "usi": [],
+      "_evidenza_2": "ADDENDUM 22:00: Nicola «**come si applicano i 5 pilastri**» — follow-up chiede **applicazione concreta** (trigger→azione→misura + oggi/dopo), non altro gap abstract. Vedi L-425."
     },
     {
       "id": "L-2026-0720-423",
@@ -9649,6 +9672,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**5 pilastri applicati — «come si applicano» = trigger→azione→misura + oggi vs dopo (chat 20/7 ~22:00):** follow-up L-424 — chiede **applicazione concreta** dei 5 pilastri (sensori proattivi, visione, previsione, automazione chiusa, sperimentazione continua), **non** teoria né elenco capacità; si aspetta 1 esempio MyCity per pilastro con trigger→azione→misura + contrasto oggi/dopo; chiude con 2 ROI veloci (carrello abbandonato + catalogo foto PQ). Vedi L-425, L-424.",
     "**Gap mercato — «non guardare cosa c'è» = buchi sul mercato non collegati (chat 20/7 ~21:57):** corregge L-421/L-423 — **non** elencare stato interno (mani, giro, eccezioni); guardare **cosa manca** e **cosa esiste fuori ma non usiamo** (visione foto→catalogo, forecast proattivo, ops live, A/B PostHog, scraping bandi/concorrenti); chiude con **2 priorità ROI:** catalogo da foto + carrello abbandonato automatico (4 buyer già iscritti). Vedi L-424, L-423, L-421, L-370.",
     "**Versione autopilota eccezioni-only — terzo salto visione (chat 20/7 ~21:54):** dopo checklist L-422 chiede ancora «**versione in cui sa e può fare molto di più**» **senza** «salva in bacheca» — si aspetta frame **«gestisci solo eccezioni»** (AD tiene Piacenza, Nicola firma soldi/legale/visione): autopilota Telegram 3+1, intervento proattivo città, catene 120 senior, auto-apprendimento, replica città post-PQ; **non** solo ripetere L4 checklist; chiude opzionale «scegli una catena da automatizzare». Vedi L-423, L-421, L-422.",
     "**Bacheca checklist versione avanzata — `- [ ]` 4 livelli in home (chat 20/7 ~21:52):** dopo roadmap L-421 chiede «**ancora più avanzata**» + «**salva in bacheca in forma di checklist**» — si aspetta **24 voci spuntabili** in `BACHECA.md` (L1 mani/burn/ordine PQ · L2 Pannello · L3 AD · **L4 ultra** carrelli/meteo/bandi/onboarding/report/A/B/gestionale/app) + mossa unica in fondo; **non** solo testo in chat; visibile in home Plancia dopo publish main. Vedi L-422, L-421, L-377.",
