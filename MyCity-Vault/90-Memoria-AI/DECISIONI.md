@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 21:54 · 🟢 · [Preferenza risposta — «versione ancora più avanzata» = autopilota eccezioni-only] · **Nicola: «ok, adesso dimmi una versione ancora più… in cui sa e può fare molto di più»** (terzo salto, senza «salva in bacheca»). Si aspetta frame **gestisci solo eccezioni** — AD opera Piacenza, Nicola firma 🔴; pilastri: autopilota 3+1 Telegram, città proattiva, catene 120 senior, auto-apprendimento, replica città post-PQ; collegamento a checklist Bacheca L1, non ripetizione L4. L-423, addendum L-421. · Nicola (chat 20/7 ~21:54)
+
 2026-07-20 21:52 · 🟢 · [Bacheca home — checklist versione avanzata 4 livelli] · **Nicola: «salva in bacheca in forma di checklist»** dopo «ancora più avanzata». AD aggiunge in cima `BACHECA.md` blocco **«Versione avanzata — checklist worker · AD · Pannello»** con **24 voci** `- [ ]` in 4 livelli (fondamenta · Pannello · AD · ultra avanzata) + mossa unica Telegram+Meta+ordine test PQ. Reversibile, solo memoria vault — pattern L-377 esteso a checklist spuntabile. L-422, addendum L-421/L-377. · Nicola (chat 20/7 ~21:52)
 
 2026-07-20 21:49 · 🟢 · [Preferenza risposta — «versione avanzata» = 3 salti operativi + una mossa] · **Nicola: «se volessi migliorare ulteriormente worker/AD/panello… pensa versione avanzata».** Non chiede feature AI generiche — si aspetta roadmap **concreta a fasi**: (1) accendi mani (Telegram, Meta n8n, email) · (2) burn+Stripe lettura · (3) primo ordine PQ+payout; frame «vede tutto/disturba poco/agisce dopo ok/impara da ordini»; Pannello meno card + AD che esegue post-approva. **CTA unica:** Telegram + Meta + ordine test PQ. L-421, collega L-370/L-375. · Nicola (chat 20/7 ~21:49)

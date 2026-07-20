@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 21:53
-fonte: AD digitale (chat 20/7 21:53)
+aggiornato: 2026-07-20 21:54
+fonte: AD digitale (chat 20/7 21:54)
 ---
+
+> 💬 **20/7 ~21:54 — CHAT: «Versione ancora più avanzata» — frame autopilota eccezioni-only (L-423).** Nicola «**ok, adesso dimmi una versione ancora più… in cui sa e può fare molto di più**» (terzo salto dopo L-421/L-422, **senza** chiedere salvataggio bacheca). AD articola visione **«gestisci solo eccezioni»**: AD tiene Piacenza dentro regole fissate; Nicola firma solo 🔴 soldi/legale/visione. Pilastri: **autopilota** Telegram mattino «3 numeri + 1 decisione» · **città intera** proattiva (meteo/eventi/PI26/negozi fermi) · **catene intere** 120 senior (es. negozio online end-to-end) · **auto-apprendimento** da ordini/no/campagne · **replica città** post-PQ. Stato attuale: «preparo molto, aspetto mani e ok» — salto via checklist Bacheca L1. CTA opzionale: scegliere **una catena** da automatizzare per prima. Fonte: chat Nicola 20/7 21:54.
 
 > 💬 **20/7 ~21:52 — CHAT: Checklist «versione avanzata» in Bacheca home (L-422).** Nicola «**dico ancora più avanzata**» poi «**salva in bacheca in forma di checklist**» — AD scrive in cima `BACHECA.md` checklist **4 livelli · 24 voci** `- [ ]`: L1 fondamenta (Telegram/Meta/email/burn/Stripe/ordine PQ) · L2 Pannello · L3 AD operatore · **L4 ultra avanzata** (carrelli, anti-churn, meteo, bandi, onboarding 48h, report Telegram, A/B, gestionale, app) + mossa unica Telegram+Meta+ordine test PQ. **Non committato** al momento verifica worker (21:50) — refresh home dopo publish main. Fonte: chat Nicola 20/7 21:52.
 

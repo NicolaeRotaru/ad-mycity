@@ -1,7 +1,8 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 21:53",
+  "aggiornato": "2026-07-20 21:55",
   "_nota_giro_20_07_2022": "Giro 20/7 20:22: coerenza-fatti pricing bonificata (48 file, exit 0). Lezione: esenzioni registro per contratti PQ eccezione 12%/0€. CHECKLIST rigenerata AR-030. North Star focus ordine test PQ.",
+  "_nota_metabolizzazione_20_07_2154": "Chat 20/7 ~21:54: Nicola «versione ancora più avanzata, sa e può fare molto di più» (3° salto, no bacheca) — frame autopilota eccezioni-only, 5 pilastri. L-423 nuova; L-421 evidenze++ addendum eccezioni; preferenza versione-autopilota-eccezioni; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_2153": "Chat 20/7 ~21:52: Nicola «ancora più avanzata» + «salva in bacheca checklist» — BACHECA.md 4 livelli 24 voci - [ ]. L-422 nuova; L-421+L-377 evidenze++ addendum Livello 4/checklist; preferenza bacheca-checklist-versione-avanzata; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_2149": "Chat 20/7 ~21:49: Nicola «versione avanzata worker/AD/Pannello» — roadmap 3 salti (mani→numeri→ordine PQ), frame vede/disturba/agisce/impara, CTA Telegram+Meta+ordine test. L-421 nuova; L-370 evidenze++ addendum versione avanzata; preferenza versione-avanzata-3-salti; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_2025": "Chat 20/7 ~20:25: Nicola «collegare meta per FB/IG» — n8n già acceso + workflow importato; checklist Meta Developers + credenziali nodi n8n, checkpoint «Meta collegato». L-420 nuova; L-321 evidenze++ addendum n8n attivo; preferenza collegare-meta-n8n; STATO+LEZIONI-CHAT+builder+content-social esito; nessuna azione/decisione completata.",
@@ -146,6 +147,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-423",
+      "testo": "**«Versione autopilota/eccezioni» = Nicola firma solo soldi/legale/visione, AD tiene Piacenza (Nicola 20/7 ~21:54).** Terzo salto dopo L-421 (3 salti) e L-422 (checklist L4): «**ok, adesso dimmi una versione ancora più… in cui sa e può fare molto di più**» — **senza** chiedere salvataggio bacheca. Frame: **gestisci solo eccezioni** — AD tiene la città dentro regole fissate una volta; Nicola firma 🔴 soldi/legale/scelte di visione. 5 pilastri: (1) **autopilota quotidiano** — Telegram mattino «3 numeri + 1 decisione», resto (post, check-in, carrelli, bandi, report) autonomo; (2) **città intera proattiva** — concorrenti/meteo/eventi/PI26/negozi che non rispondono/clienti che non tornano → **intervenire prima** (es. pioggia→post+rider; negozio fermo 48h→WhatsApp+piano rientro); (3) **catene intere** — «porta online salumeria» = pitch+contratto+catalogo+vetrina+post+ordine test, **120 senior in sequenza**, solo passi 🔴 approvati; (4) **auto-apprendimento** — ogni ordine/no/campagna fallita → priorità, playbook, Radiografia **auto-ripara** (fix proposti, Nicola mergia); (5) **replica città** — quando PQ regge (ordini pagati, consegne, payout) clona modello altra città in giorni. Stato oggi: «preparo molto, aspetto mani e ok» — salto via checklist Bacheca **L1 completo**. CTA opzionale: **scegli una catena** da automatizzare per prima (carrello abbandonato vs negozio 48h). Regola: 3° «ancora più avanzata» → frame eccezioni + 5 pilastri, **non** ripetere checklist L4 né elenco AI. Vedi L-421, L-422, BACHECA.md.",
+      "tag": [
+        "strategia",
+        "autopilota",
+        "eccezioni",
+        "versione-avanzata",
+        "worker",
+        "roadmap",
+        "nicola"
+      ],
+      "reparto": "@ad",
+      "confidenza": 0.91,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 21:54",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-421",
       "testo": "**«Versione avanzata» worker/AD/Pannello = 3 salti operativi + una mossa, non «più AI» (Nicola 20/7 ~21:49).** Nicola: «**se volessi migliorare ulteriormente il worker/AD/panello… pensa versione avanzata**». 5 perché: (1) «avanzata» ≠ modelli più potenti — = macchina che **vede tutto**, **disturba poco**, **agisce dopo ok**, **impara da ordini veri**; (2) **salto 1 (1–2 sett):** accendi **mani** mancanti (Telegram avvisi+sveglia bandi, Meta n8n post FB/IG, email/notifiche live) — oggi **~41 cose** fermano senza canali o senza approva; (3) **salto 2:** burn mensile in env VPS + Stripe lettura → stop «runway sconosciuto», proposte solo mosse che reggono cassa; (4) **salto 3:** **primo ordine Pane Quotidiano + payout ok** — North Star misura ordini pagati, non post pronti; (5) Pannello avanzato = meno card / **3 decisioni/giorno** / chat sync telefono-PC / caselle auto-chiuse post-merge / Radiografia dice **cosa fare**; AD avanzato = giro **esegue** approvati + impara da ok/no card + PostHog funnel abbandono + Telegram **solo** se cambia qualcosa importante. **CTA unica:** Telegram + Meta + ordine test PQ. Regola: «versione avanzata» / «migliorare worker» → 3 salti concreti + anti-pattern «più AI», chiudi **una mossa**. Vedi L-370, L-375, L-367, `cervello/collega-le-mani.md`.",
       "tag": [
@@ -158,14 +181,15 @@
       ],
       "reparto": "@ad",
       "confidenza": 0.91,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 21:52",
+      "ultima_conferma": "2026-07-20 21:54",
       "stato": "attiva",
       "usi": [],
-      "_evidenza_2": "ADDENDUM 21:52: «**ancora più avanzata, che sa fare molto di più**» dopo L-421 — Nicola vuole **Livello 4 ultra** (carrelli, meteo, bandi, onboarding 48h, report Telegram, A/B, gestionale, app) oltre ai 3 salti; checklist 24 voci in BACHECA.md. Vedi L-422."
+      "_evidenza_2": "ADDENDUM 21:52: «**ancora più avanzata, che sa fare molto di più**» dopo L-421 — Nicola vuole **Livello 4 ultra** (carrelli, meteo, bandi, onboarding 48h, report Telegram, A/B, gestionale, app) oltre ai 3 salti; checklist 24 voci in BACHECA.md. Vedi L-422.",
+      "_evidenza_3": "ADDENDUM 21:54: terzo salto «**versione in cui sa e può fare molto di più**» senza bacheca — frame **eccezioni-only** (AD tiene Piacenza, Nicola firma 🔴), 5 pilastri autopilota/città proattiva/catene/auto-apprendimento/replica città. Vedi L-423."
     },
     {
       "id": "L-2026-0720-422",
@@ -2358,7 +2382,7 @@
     },
     {
       "id": "L-2026-0719-321",
-      "testo": "**Pubblicazione FB/IG — «Come faccio a farti pubblicare?» = n8n + card 🔴 (Nicola 19/7 ~19:43).** Segue L-320 sulla casella post domenica PQ: Nicola chiede come collegare la mano social, non solo copia-incolla. 5 perché: (1) publisher già in `cervello/publishers/` + guida `collega-le-mani.md` — blocco = chiavi Meta, non codice; (2) **`N8N_WEBHOOK_URL` sul VPS oggi segnaposto** — n8n non riceve nulla; (3) percorso consigliato **n8n** (OAuth Meta una volta nel workflow, webhook in env worker **mai in chat**) vs Meta diretto (Business Verification, giorni/settimane); (4) **Instagram API richiede URL immagine pubblico** — grafiche in repo/Diretta non bastano finché non c'è URL live per l'API; (5) anche mano collegata: post pagina FB + feed IG restano **🟡/🔴** (card Pannello); **gruppi FB locali sempre manuali**. Regola: rispondere con checklist n8n (install → workflow webhook → OAuth → env worker → restart → dry-run → card); non promettere auto-pub stasera se setup non fatto. **ADDENDUM 20/7 ~20:25:** webhook n8n **ok** (L-357) + workflow importato (L-330) — «collegare Meta» = **solo credenziali nodi workflow + Active**, vedi L-420; non ripetere install.", Vedi L-320, L-2026-0630-06.",
+      "testo": "**Pubblicazione FB/IG — «Come faccio a farti pubblicare?» = n8n + card 🔴 (Nicola 19/7 ~19:43).** Segue L-320 sulla casella post domenica PQ: Nicola chiede come collegare la mano social, non solo copia-incolla. 5 perché: (1) publisher già in `cervello/publishers/` + guida `collega-le-mani.md` — blocco = chiavi Meta, non codice; (2) **`N8N_WEBHOOK_URL` sul VPS oggi segnaposto** — n8n non riceve nulla; (3) percorso consigliato **n8n** (OAuth Meta una volta nel workflow, webhook in env worker **mai in chat**) vs Meta diretto (Business Verification, giorni/settimane); (4) **Instagram API richiede URL immagine pubblico** — grafiche in repo/Diretta non bastano finché non c'è URL live per l'API; (5) anche mano collegata: post pagina FB + feed IG restano **🟡/🔴** (card Pannello); **gruppi FB locali sempre manuali**. Regola: rispondere con checklist n8n (install → workflow webhook → OAuth → env worker → restart → dry-run → card); non promettere auto-pub stasera se setup non fatto. **ADDENDUM 20/7 ~20:25:** webhook n8n **ok** (L-357) + workflow importato (L-330) — «collegare Meta» = **solo credenziali nodi workflow + Active**, vedi L-420; non ripetere install. Vedi L-320, L-2026-0630-06.",
       "tag": [
         "pubblicazione",
         "instagram",
@@ -9599,6 +9623,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Versione autopilota eccezioni-only — terzo salto visione (chat 20/7 ~21:54):** dopo checklist L-422 chiede ancora «**versione in cui sa e può fare molto di più**» **senza** «salva in bacheca» — si aspetta frame **«gestisci solo eccezioni»** (AD tiene Piacenza, Nicola firma soldi/legale/visione): autopilota Telegram 3+1, intervento proattivo città, catene 120 senior, auto-apprendimento, replica città post-PQ; **non** solo ripetere L4 checklist; chiude opzionale «scegli una catena da automatizzare». Vedi L-423, L-421, L-422.",
     "**Bacheca checklist versione avanzata — `- [ ]` 4 livelli in home (chat 20/7 ~21:52):** dopo roadmap L-421 chiede «**ancora più avanzata**» + «**salva in bacheca in forma di checklist**» — si aspetta **24 voci spuntabili** in `BACHECA.md` (L1 mani/burn/ordine PQ · L2 Pannello · L3 AD · **L4 ultra** carrelli/meteo/bandi/onboarding/report/A/B/gestionale/app) + mossa unica in fondo; **non** solo testo in chat; visibile in home Plancia dopo publish main. Vedi L-422, L-421, L-377.",
     "**Versione avanzata worker/AD/Pannello — 3 salti + una mossa, non lista AI (chat 20/7 ~21:49):** chiede come migliorare ulteriormente e «**pensa versione avanzata**» — si aspetta roadmap **operativa a fasi** (1 mani Telegram/Meta/email · 2 burn+Stripe · 3 primo ordine PQ+payout), frame «vede tutto/disturba poco/agisce dopo ok/impara da ordini», dettaglio Pannello (meno card, 3 decisioni/giorno) + AD (giro esegue approvati, Telegram solo importante); **non** elenco generico «più AI»; chiude **una mossa**: Telegram + Meta + ordine test PQ. Vedi L-421, L-370.",
     "**Meta FB/IG — «collegare Meta» = credenziali workflow n8n, non reinstall (chat 20/7 ~20:25):** chiede come collegare Meta per pubblicare su Facebook e Instagram — si aspetta checklist **Meta Developers** (Pagina FB + IG pro + app Business + token pagina) **nei nodi n8n** del workflow già importato, **mai token in chat**; **non** ripetere install Docker/webhook (n8n già acceso); checkpoint «**Meta collegato**» → post prova; gruppi FB manuali; IG = URL immagine pubblico; post resta card 🔴. Vedi L-420, L-321.",
@@ -9959,13 +9984,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 435,
+    "lezioni_attive": 439,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-20 20:26",
+    "tasso_calcolato_il": "2026-07-20 21:55",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 20:26",
+    "tick_leggero_il": "2026-07-20 21:55",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
