@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 12:04
-fonte: AD digitale (chat + branch fix/intelligence-upgrade)
+aggiornato: 2026-07-20 12:40
+fonte: AD digitale (chat Pannello casella pitch anti-Glovo)
 ---
+
+> 💬 **20/7 ~12:39 — CHAT: Nicola corregge pricing pitch — 10% + 50€/mese (L-391).** Casella «Glovo sconta catene» diceva **12% zero fissi** — Nicola: **10% commissione + 50€/mese abbonamento**. Confermato codice marketplace (`MARKETPLACE_FEE_BPS` 10%, subscription 5000 cent). Registrato in `registro-fatti.json` · pitch anti-Glovo + radar intelligence + scout + AZIONI-PRONTE aggiornati · **PQ resta eccezione** (12%/0€ contratto storico 1/7). Fonte: chat Nicola Pannello 20/7 12:39.
 
 > 💬 **20/7 ~12:04 — CHAT: «Migliora l'intelligence» — sveglia automatica implementata, accensione 🔴 (L-390).** Nicola seguito diagnosi L-385 — AD consegna **codice operativo** su branch `fix/intelligence-upgrade` (**PR #496**, commit `0e76f0d3`, test **2/2**): **`intelligence-agenda.mjs`** calcola **9 fonti/giorno** nel giro (prima «a occhio»); **`giro.sh`** aggiorna agenda; workflow **n.41** RSS bandi **non più stub** (3 feed Artigiani/Unione/PiacenzaSera, Telegram **7:00 solo se novità bandi); fonti bandi **Camera Commercio + Unione Commercianti** in radar; playbook `consegne/intelligence/PLAYBOOK-ACCENSIONE-2026-07-20.md`; card **`#accendi-intelligence-sveglia`** 🔴 (Telegram+n8n Active). **Serve Nicola:** ① mergia **PR #496** ② card accensione 4 passi. **Oggi 12:00:** PI26 sportello ancora **Mossa n.1**. Fonte: chat Nicola 20/7 12:04.
 
