@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-21 00:41",
+  "aggiornato": "2026-07-21 00:57",
+  "_nota_metabolizzazione_21_07_0057": "Chat 21/7 ~00:57: Nicola «controlla davvero tutti i bandi… sul web» — AD re-audit vault+portali 00:41, verdetto quasi completa, bottleneck PI26 30/7 + startup innovativa. L-444 nuova; L-288 evidenze 2 addendum re-audit; preferenza bandi-reaudit-web; STATO+LEZIONI-CHAT+finanza-agevolata+relazioni-istituzionali+ad esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_21_07_0037": "Chat 21/7 ~00:37: Nicola «prezzo reale o ipotetico su tutti i costi» — AD Bacheca ogni riga ✅/📊 + scenari; L-443 nuova (caso_studio_nicola); L-442 evidenze 2 pin eseguito; preferenza costi-stime-su-tutte-voci; registro-fatti addendum; STATO+LEZIONI-CHAT+finanza+ad esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_21_07_0034": "Chat 21/7 ~00:34: Nicola «Ci sono altri costi?» — follow-up Bacheca costi; AD elenca admin/ops/Stripe/assicurazioni in chat, pin Bacheca proposto non eseguito. L-442 nuova; L-433 evidenze 5 addendum quadro business; preferenza costi-quadro-completo; STATO+LEZIONI-CHAT+finanza+ad esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_21_07_0033": "Chat 21/7 ~00:33: Nicola «fai analisi e fix» chat sparita post L-439 — AD PR #509 race lista + backup localStorage; no PATCH sess_. L-441 nuova; L-439 evidenze 2 addendum bug codice; preferenza chat-sparita-fix-codice; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+ad esito; merge #509 🔴 pendente (già in AZIONI).",
@@ -166,6 +167,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0721-444",
+      "testo": "**Bandi — «controlla davvero tutti» = re-audit web+vault + verdetto esaustività (Nicola 21/7 ~00:57).** Follow-up L-288 (19/7): «**controlla se hai davvero trovato tutti i bandi… controlla molto bene, fai analisi ovunque sul web**». 5 perché: (1) Nicola **non** accetta ripetizione vault — vuole **conferma esaustività** con portali ricontrollati; (2) risposta = **verdetto esplicito** («quasi completa / nulla di grosso nascosto») + **collo di bottiglia operativo**, non solo elenco; (3) audit **21/7 ~00:41**: PI26 scade **30/7** (9 gg, fino **5.000 €**) · **Registro Startup Innovativa non iscritta** blocca **Smart&Start** (1,5 M€) · STEP ER **1–30/9/2026** · Voucher Cloud MIMIT **H2 2026** · ON dal **1/7/2026** solo prestito (no fondo perduto); (4) esclusi **ribaditi** con fonte: ER commercio 23/6 · Resto al Sud · bando Vita in Centro materiali inesistente; (5) chiudere con **ordine azioni numerato** (PI26 → startup innovativa → Smart&Start → botteghe BT26/PI26 → STEP). Regola: «hai trovato tutti?» / «controlla molto bene» → audit **web + vault** + link `consegne/relazioni-istituzionali/` — mai elenco parziale né promesse su bandi chiusi. Vedi L-288.",
+      "tag": [
+        "bandi",
+        "PI26",
+        "finanza-agevolata",
+        "relazioni-istituzionali",
+        "nicola",
+        "re-audit"
+      ],
+      "reparto": "@finanza-agevolata",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-21",
+      "ultima_conferma": "2026-07-21 00:57",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0721-443",
       "testo": "**Costi — «prezzo su tutti» = stima 📊 su ogni riga Bacheca, zero `?` vuoti (Nicola 21/7 ~00:37, correzione).** «**Metti un prezzo reale o ipotetico ma che si avvicina al reale su tutti i costi**» — follow-up dopo L-442 (admin/ops proposti in chat ma Bacheca ancora con **`?`**). 5 perché: (1) Nicola **non accetta placeholder** — vuole **numero leggibile** su ogni voce, anche se orientativo; (2) distinzione obbligatoria **✅ confermato** (solo cifre sue: burn **~302 €/m**) vs **📊 stima** (commercialista, PEC, volantini, bici, rider, ads…); (3) «ipotetico ma realistica» ≠ inventare — range da vault/listini/DECISIONI, etichetta chiara; (4) L-433 diceva «non inventare cifre pro» — resta valido: stima **marcata**, pro = «da preventivo»; (5) completare **in Bacheca**, non solo elenco chat. Regola: lista costi consegnata = **zero `?`** · ogni riga ha € · scenari opzionali in fondo (minimo oggi → con ads). Vedi L-433, L-442, L-440.",
@@ -3532,7 +3554,7 @@
     },
     {
       "id": "L-2026-0719-288",
-      "testo": "**Analisi bandi «profonda e completa» — struttura a due binari + 5 fasce (chat 19/7 16:16).** Nicola: «Fai una profonda e completa di tutti i bandi… adatti per MyCity». 5 perché: (1) MyCity è finanziabile come startup tech E come fornitore pagato col bando del negozio — vanno separati; (2) PI26 apre 20/7 ore 10:00 a sportello = unica urgenza 🔴; (3) bando ER commercio 40% è CHIUSO 23/6 (registro-fatti) — non prometterlo mai; (4) Smart&Start/Startup Innovativa/Nuova Sabatini = pipeline mesi, non domani; (5) Nicola vuole mappa esaustiva con priorità, non elenco parziale. Regola: rispondere con tabella 🔴/🟢/🟡/🔵/❌ + fonti (`consegne/relazioni-istituzionali/` + vault Bandi + registro-fatti) + prossimo passo concreto (PI26 stasera: Restart + fatture maggio+).",
+      "testo": "**Analisi bandi «profonda e completa» — struttura a due binari + 5 fasce (chat 19/7 16:16).** Nicola: «Fai una profonda e completa di tutti i bandi… adatti per MyCity». 5 perché: (1) MyCity è finanziabile come startup tech E come fornitore pagato col bando del negozio — vanno separati; (2) PI26 apre 20/7 ore 10:00 a sportello = unica urgenza 🔴; (3) bando ER commercio 40% è CHIUSO 23/6 (registro-fatti) — non prometterlo mai; (4) Smart&Start/Startup Innovativa/Nuova Sabatini = pipeline mesi, non domani; (5) Nicola vuole mappa esaustiva con priorità, non elenco parziale. Regola: rispondere con tabella 🔴/🟢/🟡/🔵/❌ + fonti (`consegne/relazioni-istituzionali/` + vault Bandi + registro-fatti) + prossimo passo concreto (PI26 stasera: Restart + fatture maggio+). **Addendum 21/7:** follow-up «controlla davvero tutti sul web» → re-audit portali + verdetto esaustività (L-444).",
       "tag": [
         "bandi",
         "PI26",
@@ -3543,13 +3565,14 @@
       ],
       "reparto": "@finanza-agevolata",
       "confidenza": 0.92,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 16:16",
+      "ultima_conferma": "2026-07-21 00:57",
       "stato": "attiva",
-      "usi": []
+      "usi": [],
+      "_evidenza_2": "ADDENDUM 21/7 ~00:57: Nicola «controlla davvero tutti i bandi sul web» — AD re-verifica portali 00:41, verdetto quasi completa, bottleneck PI26 30/7 + startup innovativa non iscritta; L-444."
     },
     {
       "id": "L-2026-0719-287",
@@ -10040,6 +10063,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Bandi — «controlla davvero tutti» = re-audit web+vault + verdetto esaustività (chat 21/7 ~00:57):** follow-up mappa 19/7 — «**controlla se hai trovato tutti… controlla molto bene ovunque sul web**» — si aspetta **conferma esplicita** che nulla di grosso manca, con portali ricontrollati (non solo ripetere vault); **collo di bottiglia** nominato (**PI26 scade 30/7** + **startup innovativa non iscritta** blocca Smart&Start); pipeline settembre/autunno separata da urgenze; ordine azioni numerato; esclusi ribaditi (ER 23/6, Resto al Sud, ON solo prestito dal 1/7). Vedi L-444, L-288.",
     "**Costi — «prezzo su tutti» = stima 📊 su ogni riga Bacheca, niente `?` vuoti (chat 21/7 ~00:37):** «**Metti un prezzo reale o ipotetico ma che si avvicina al reale su tutti i costi**» — dopo lista con placeholder — si aspetta **ogni voce numerata** in Bacheca: **✅** solo confermati Nicola (burn **~302 €/m**) · **📊** stime orientative (admin, stampa, consegne, ads…) · range da fonti vault, **non** presentare stime come certe; scenari in fondo ok; **non** lasciare `?` né rispondere solo in chat. Vedi L-443, L-442, L-433.",
     "**Chat sparita — analisi profonda + fix codice, non solo spiegazione Invio (chat 21/7 ~00:26–00:33):** segnala conversazione costi **assente dalla lista** — si aspetta **verifica DB** + spiegazione (**Invio** = salvataggio, filtro ricerca, bozza locale); poi «**fai analisi e fix**» = **root cause codice** (race lista post-Invio + assenza backup localStorage con DB) oltre bozze mai inviate; fix **PR #509**, merge 🔴, test Invio→☰ subito; contenuto critico → **Bacheca/graffetta**. Vedi L-441, L-439, L-433.",
     "**Cadenza casella — «Ogni quanto tempo fai questa analisi?» = due tempi distinti, concreti (chat 20/7 ~23:58):** da casella account-negozi «Dati-come-servizio» chiede **quando** gira l'analisi, non cosa contiene. Si aspetta: **lunedì** = refresh interno (dati live + casella) · **mensile al titolare** = solo post-primo ordine consegnato · oggi **0 DELIVERED** = anteprima onesta, non report vendite · ultimo refresh citato con data/ora · prossimo passo = ordine test PQ. Odia «periodicamente» senza giorni. Vedi L-436, L-219.",
@@ -10190,7 +10214,7 @@
     "**Allowlist MCP — dopo il blocco completo, vuole verifica file + istruzioni delta (chat 19/7 ~16:48):** «Controlla quelli che ci sono già e riscrivi le righe che devi inserire» — non riscrivere tutto se Vercel×5 + Supabase×2 ci sono già; indica solo fix (trailing comma) + righe mancanti (memoria opzionale). Blocco integrale solo al primo giro o su «quali sono tutti». Vedi L-292, L-291.",
     "**Allowlist MCP — vuole l'elenco COMPLETO tiered, non solo «le 2 righe Supabase» (chat 19/7 ~16:45):** «Quali sono tutti gli mcp utili?» — si aspetta 3 gruppi (Essenziali / Utili opzionali / Non mettere), blocco JSON integrale pronto da incollare (5 Vercel + 2 marketplace + 2 memoria opz.), reminder trailing comma rompe tutto. Vedi L-291, L-290.",
     "**Chat — si aspetta che le risposte operative persistano (chat 19/7 ~16:42):** chiede «perché è sparito questo pezzo?» quando istruzioni MCP allowlist non sono più visibili — vuole spiegazione del meccanismo (interruzione sessione, non cancellazione AD) + contenuto rimesso subito, senza dover ripescare la cronologia. Vedi L-289.",
-    "**Bandi/finanziamenti — vuole mappa esaustiva con priorità operative (chat 19/7 16:16):** «Fai una profonda e completa di tutti i bandi… adatti per questa attività e la situazione attuale» — si aspetta due binari (MyCity diretto + leva botteghe), fasce urgenza (🔴 domani vs 🟢 prossimi mesi), esclusi espliciti (bandi chiusi/non pertinenti), fonti verificabili e prossimo passo concreto — non elenco parziale né promesse su bandi chiusi (ER commercio 23/6). Vedi L-288.",
+    "**Bandi/finanziamenti — vuole mappa esaustiva con priorità operative (chat 19/7 16:16, agg. 21/7 ~00:57):** «Fai una profonda e completa di tutti i bandi… adatti per questa attività e la situazione attuale» — si aspetta due binari (MyCity diretto + leva botteghe), fasce urgenza (🔴 domani vs 🟢 prossimi mesi), esclusi espliciti (bandi chiusi/non pertinenti), fonti verificabili e prossimo passo concreto — non elenco parziale né promesse su bandi chiusi (ER commercio 23/6). **Addendum 21/7:** follow-up «controlla davvero tutti sul web» = re-audit portali + verdetto «quasi completa» + bottleneck operativo. Vedi L-444, L-288.",
     "**Inventario MCP minimalista (chat 19/7 14:42):** «Ci sono altri mcp che ti servono?» — vuole sapere solo cosa serve DAVVERO, non una lista infinita di integrazioni. Si aspetta: priorità Supabase marketplace, memoria opzionale, resto via REST; niente MCP Stripe/PostHog/n8n adesso. Se l'allowlist non funziona, prima validare JSON (virgola mancante può invalidare tutto). Vedi L-286, L-287.",
     "**Conteggio utenti — vuole il numero vero dal DB con breakdown per ruolo (chat 19/7 14:33):** chiede «Quanti utenti ci sono?» — si aspetta risposta verificata live (4 clienti buyer, non 23 profili totali) con breakdown esplicito (4 buyer · 17 seller · 1 admin · 1 rider). Vedi L-2026-0719-279.",
     "**MCP Supabase — vuole le righe esatte da incollare (chat 19/7 14:20):** «Cosa devo inserire nell'allowlist?» — si aspetta risposta concreta (nomi tool MCP, file da editare, nuova chat per verificare), non spiegazione generica «manca il permesso». Vuole che l'AD legga il DB live in chat dopo lo sblocco, non numeri copiati da memoria. Vedi L-2026-0719-285, #abilita-mcp-supabase-chat.",
@@ -10419,9 +10443,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-21 00:41",
+    "tasso_calcolato_il": "2026-07-21 00:51",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-21 00:41",
+    "tick_leggero_il": "2026-07-21 00:51",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

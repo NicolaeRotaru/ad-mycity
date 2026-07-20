@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-21 00:37
-fonte: AD digitale (chat 21/7 00:37)
+aggiornato: 2026-07-21 00:57
+fonte: AD digitale (chat 21/7 00:57)
 ---
+
+> 💬 **21/7 ~00:57 — CHAT: Audit bandi/finanziamenti — mappa quasi completa, PI26 + startup innovativa (L-444).** Nicola «**controlla se hai davvero trovato tutti i bandi… controlla molto bene sul web**» — AD re-verifica vault + portali ufficiali (CamCom PI26, Invitalia Smart&Start/ON, FESR STEP, MIMIT Voucher Cloud) **21/7 ~00:41**. **Verdetto:** niente grosso nascosto; **collo di bottiglia operativo:** **PI26 Camera Emilia** scade **30/7** (fino **5.000 €** fondo perduto, minimo **5.000 €** spese tech) · **Registro Startup Innovativa non iscritta** → blocca **Smart&Start** (fino **1,5 M€** tasso zero). **Pipeline:** Nuova Sabatini + Fondo Garanzia PMI via banca · **STEP ER 1–30/9/2026** (45 M€) · Voucher Cloud/Cybersecurity MIMIT **H2 2026** · Hub Urbano Piacenza = leva indiretta botteghe (non candidatura diretta MyCity). **Esclusi/confermati chiusi:** ER commercio 40% (~23/6) · startup ER 2025 (30/1) · Resto al Sud (Piacenza Nord) · **ON Tasso Zero dal 1/7/2026** solo prestito (niente fondo perduto) · bando comunale «materiali Vita in Centro» **inesistente**. **Ordine:** ① PI26 Restart entro 30/7 ② iscrizione startup innovativa CCIAA ③ Smart&Start ④ BT26/PI26 botteghe ⑤ STEP settembre. Playbook: `consegne/relazioni-istituzionali/2026-07-20-playbook-bandi-mail-istituzioni.md`. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:57 + web verificato 21/7 00:41.
 
 > 💬 **21/7 ~00:37 — CHAT: Prezzo su ogni voce costi — stime 📊 in Bacheca (L-443).** Nicola «**Metti un prezzo reale o ipotetico ma che si avvicina al reale su tutti i costi**» — follow-up Bacheca dopo L-442 (admin/ops ancora solo in chat). AD: **ogni riga** in `BACHECA.md` ha importo — **✅** = confermati Nicola (burn **~302 €/m**: Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio) · **📊** = stime orientative (PEC ~30 €/a, commercialista ~70–100 €/m ammortizzato, volantini ~50–100 €, bici ~150–250 € o noleggio ~40–70 €/m, rider ~3–5 €/consegna, ads/assicurazioni…) · **4 scenari** in fondo (minimo oggi → con scaling). Regola: **no `?` vuoti** — stima realistica + etichetta; cifre pro restano «da preventivo». Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:37.
 
