@@ -4,7 +4,7 @@
 - **Branch:** `fix/intelligence-upgrade` → `main`
 - **URL:** https://github.com/NicolaeRotaru/ad-mycity/pull/496
 - **Titolo:** chore: fix/intelligence-upgrade
-- **Creato:** 2026-07-20 12:03 (Europe/Rome)
+- **Creato:** 2026-07-20 16:37 (Europe/Rome)
 
 ## Merge
 🔴 **Non mergeare da solo.** Nicola approva dal Pannello → `node cervello/git-merge.mjs --repo ad-mycity --pr 496`
