@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-20 17:45** — Automatico: **47 aperte · 89 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-20 17:48** — Automatico: **48 aperte · 89 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -13,6 +13,20 @@ fonte: senior dell'AD
 
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
+
+---
+
+### 🟡 #fix-parla-casella-pgrst102 — Fix invio chat da card «Parla con questa azione» (PGRST102 JSON invalido) · ⏳ accodata 2026-07-20 17:48
+
+**Contesto:** Nicola invia «controlla se l'ho già margiata» da **Parla con questa azione** su card #498 — avviso giallo: DB memoria rifiuta scrittura **PGRST102** («Empty or invalid json»). Messaggio **resta nel riquadro** (non perso). Chat principale funziona; solo percorso card bloccato.
+
+**Fix atteso:** validare/normalizzare payload casella→`POST /api/lavori` (campo JSON inviato a Supabase memoria); PR Pannello 🟡.
+
+**Cosa cambia:** invio da casella Approva/Diretta/Scoperte crea lavoro in coda e l'AD risponde come dalla chat principale.
+**Se va bene:** riprova «Invia» dalla stessa card — niente errore giallo; card #498 ignorabile (già mergiata).
+
+- **Colore:** 🟡 (merge PR Pannello — Nicola approva)
+- **Reparto:** frontend-dev
 
 ---
 

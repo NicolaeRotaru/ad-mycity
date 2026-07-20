@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 17:46",
+  "aggiornato": "2026-07-20 17:48",
+  "_nota_metabolizzazione_20_07_1748": "Chat 20/7 ~17:48: Nicola «hai visto l'errore sotto la casella?» — PGRST102 JSON invalido POST /api/lavori su Parla casella card; testo preservato; chat principale ok. L-399 nuova; L-398 evidenze++ addendum PGRST102; preferenza errore-giallo-parla-casella; STATO+DECISIONI+#fix-parla-casella-pgrst102+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1745": "Chat 20/7 ~17:45: Nicola screenshot + «controlla se l'ho già margiata» — PR #498 ✅ merged 16:36:51 (36402b49); card Pannello bloccata su DB memoria write; #496 ancora pendente. L-398 nuova; L-394 evidenze++ addendum merge; preferenza verifica-merge-github-api; STATO+DECISIONI+#mergia-pr-498 FATTO+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1639": "Chat 20/7 ~16:39: Nicola solo screenshot PR #496 conflitti merge — AD risolve, mergeable; fix allegati casella #497 confermato (AD legge screenshot). L-397 nuova; L-396+L-390 evidenze++ addendum; preferenza screenshot-pr-status+allegati-casella-ok; STATO+DECISIONI+#mergia-pr-496+LEZIONI-CHAT+frontend-dev+intelligence esito.",
   "_nota_metabolizzazione_20_07_1637": "Chat 20/7 ~16:37: Nicola «Fai il fix» post analisi Diretta L-394 — PR #498 consegnata (1 read GitHub, cache 90s, max 80, sticky UI). L-394 evidenze++ addendum implementazione; preferenza diretta-fai-il-fix; STATO+DECISIONI+#mergia-pr-498+LEZIONI-CHAT+frontend-dev esito.",
@@ -119,8 +120,29 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-399",
+      "testo": "**Parla casella card — PGRST102 JSON invalido blocca invio lavoro (chat 20/7 ~17:48).** Nicola «**hai visto l'errore sotto la casella?**» — avviso giallo: DB memoria rifiuta scrittura **PGRST102** («Empty or invalid json») su **POST /api/lavori** quando invia da **Parla con questa azione** (es. «controlla se l'ho già margiata» su card #498). 5 perché: (1) **percorso card ≠ chat principale** — la principale funziona, la card no; (2) messaggio **non perso** — Pannello lo rimette nel riquadro sotto l'avviso; (3) AD **non risponde** da quella casella finché il lavoro non entra in coda; (4) errore **non** legato al merge PR (#498 già merged 16:36); (5) **non** consigliare solo «riprova» — fix codice Pannello 🟡 (**#fix-parla-casella-pgrst102**: validare payload casella→Supabase memoria). Regola: errore giallo PGRST102 su Parla casella → spiega meccanismo + testo preservato + usa chat principale intanto + accoda fix. Vedi L-398, DECISIONI 20/7 17:48.",
+      "tag": [
+        "pannello",
+        "chat",
+        "parla-casella",
+        "pgrst102",
+        "lavori",
+        "bug"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 17:48",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-398",
-      "testo": "**«L'ho già mergiata?» — verifica GitHub API, non card Pannello; card aperta ≠ PR pendente (chat 20/7 ~17:45).** Nicola screenshot card Approva + «**controlla se l'ho già margiata**» su PR #498. 5 perché: (1) la **fonte verità merge** è GitHub API (`state=closed`, `merged_at`), non lo stato visivo della card; (2) AD conferma **#498 ✅ merged 16:36:51**, commit `36402b49` su main — fix Diretta online; (3) card resta visibile per **bug Pannello**: errore giallo **scrittura DB memoria rifiutata** — il Pannello non riesce a segnarla chiusa; (4) **non** dire «devi ancora mergiare» né proporre secondo merge; (5) distinguere PR nel messaggio: **#496** intelligence **ancora aperta**. Regola: domanda merge + screenshot card → **GitHub API prima**, spiega bug chiusura card se merge già ok, indica prossimo passo reale (test Diretta / merge #496). Vedi L-394, DECISIONI 20/7 17:45.",
+      "testo": "**«L'ho già mergiata?» — verifica GitHub API, non card Pannello; card aperta ≠ PR pendente (chat 20/7 ~17:45).** Nicola screenshot card Approva + «**controlla se l'ho già margiata**» su PR #498. 5 perché: (1) la **fonte verità merge** è GitHub API (`state=closed`, `merged_at`), non lo stato visivo della card; (2) AD conferma **#498 ✅ merged 16:36:51**, commit `36402b49` su main — fix Diretta online; (3) card resta visibile per **bug Pannello**: errore giallo **scrittura DB memoria rifiutata** — il Pannello non riesce a segnarla chiusa; (4) **non** dire «devi ancora mergiare» né proporre secondo merge; (5) distinguere PR nel messaggio: **#496** intelligence **ancora aperta**. Regola: domanda merge + screenshot card → **GitHub API prima**, spiega bug chiusura card se merge già ok, indica prossimo passo reale (test Diretta / merge #496). **Addendum 17:48:** errore specifico **PGRST102** su Parla casella — vedi L-399. Vedi L-394, DECISIONI 20/7 17:45.",
       "tag": [
         "pannello",
         "github",
@@ -130,11 +152,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.9,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 17:45",
+      "ultima_conferma": "2026-07-20 17:48",
       "stato": "attiva",
       "usi": []
     },
@@ -9068,6 +9090,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Errore giallo Parla casella — «hai visto l'errore sotto la casella?» = spiega PGRST102 + testo non perso + fix codice (chat 20/7 ~17:48):** dopo invio fallito da **Parla con questa azione** segnala l'avviso giallo esplicitamente — si aspetta che l'AD **legga e spieghi** l'errore (PGRST102 JSON invalido), confermi che il **testo resta nel riquadro**, distingua chat principale (ok) vs card (rotta), e **non** proponga solo «riprova» — fix 🟡 Pannello **#fix-parla-casella-pgrst102**. Vedi L-399.",
     "**Verifica merge PR — «controlla se l'ho già margiata» = GitHub API, non card Pannello (chat 20/7 ~17:45):** manda screenshot card Approva + chiede se ha già mergiato — si aspetta risposta **basata su GitHub** (merged_at, commit su main), **non** sullo stato visivo della card; se card resta aperta con errore giallo DB memoria → spiega **bug Pannello**, non «devi mergiare ancora»; distingue PR nel contesto (**#498** fatto, **#496** pendente); test post-merge = refresh Diretta. Vedi L-398.",
     "**Screenshot PR GitHub — solo allegato = segnala stato merge/conflitti, AD risolve e spiega (chat 20/7 ~16:39):** manda screenshot PR #496 senza testo (checks ok, merge bloccato) — si aspetta che l'AD **legga l'immagine**, risolva conflitti con main (memoria auto da main, codice feature dal branch), confermi **mergeable** e indichi merge 🔴 + passo successivo (#accendi-intelligence-sveglia); **non** chiedere a Nicola di risolvere conflitti a mano. Vedi L-397, L-390.",
     "**Allegati casella — fix #497 ok: AD deve leggere screenshot da chat casella (chat 20/7 ~16:39, agg. 14:45):** dopo fix PR #497 il path `@ALLEGATO` arriva al worker — AD ha letto screenshot conflitti PR #496 da chat casella; si aspetta **lettura visiva** funzionante post-merge deploy; se ancora cieco = verificare deploy #497 + path pipeline. Vedi L-396.",
