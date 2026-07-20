@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 23:32 · 🟡 · [security/cervello/AD] · **AR-124 token in audit — redazione + redattore-segreti (PR in apertura).** Nicola «**Fai il fix**» su casella memoria bloccata da PAT nel report auto-radiografia 16/7. AD redige **3 occorrenze** in `consegne/audit/2026-07-16-auto-radiografia.md` → `github_pat_11…[REDATTO]`; aggiunge **`segreti-pattern.mjs`** + **`redattore-segreti.mjs`** (prevenzione a monte) e regola in `scrittura-umana.md`. Verificato: `node cervello/scan-segreti.mjs` → exit **0**. **Merge 🔴 pendente** Nicola → prossimo giro può pubblicare memoria. **Consiglio 🔴 separato:** ruota il PAT se il frammento era reale (#ruota-pat-github già in coda). L-430. · Nicola (chat 20/7 ~23:32)
+
 2026-07-20 23:28 · 🟢 · [tech/chief-of-staff/AD] · **PR #504 conflitto post-merge #501+#503 — risolto, mergeable; #501 ✅ mergiata.** Nicola «**C'è un conflitto**» — **#504** (AR-115 OKR freschezza) bloccata dopo merge **#501** + **#503** su main. AD rebase: **`giro.sh`** allineato (north-star da main + `freschezza-okr.mjs` gate); commit **`5c8dfc7b`** → mergeable. **#501 già mergiata** Nicola → sentinelle pricing live. **Merge 🔴 #504** pendente → prossimo giro forza OKR fase PQ/primo ordine. L-429, addendum L-397/L-427. · Nicola (chat 20/7 ~23:28)
 
 2026-07-20 23:23 · 🟢 · [tech/frontend-dev/AD] · **PR #501 — conflitti memoria ricorrenti risolti, mergeable.** Nicola solo screenshot — **#501** (sentinelle pricing da registro, L-413) si era ri-bloccata vs main (north-star + memoria worker). AD rebase → **mergeable**, check verdi; fix codice intatto. **Merge 🔴 pendente** Nicola → casella «Pochi negozi» mostra **10% + 50€/mese**. Pattern L-397 (3ª+ conferma oggi). · Nicola (chat 20/7 ~23:23 + screenshot)
