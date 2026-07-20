@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 04:02
+aggiornato: 2026-07-20 04:05
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~04:05 — CHAT: Marketing skills — adattate a MyCity (Il Turno, Piacenza, onestà) in PR #495 (L-388).** Nicola «**Addattale a mycity**» (dopo download 47 skill L-387) — AD applica overlay obbligatorio in **tutte e 47** skill community: blocco MYCITY con «Il Turno», tagline, tono botteghe vere, canali FB/IG locali (no LinkedIn B2B default), regole onestà numeri/testimonianze, bozze sì ma pubblicare 🔴. **Meccanismo:** `cervello/prompt-fragments/mycity-marketing-overlay.md` + `patchMarketingSkillForMyCity` in `sync-worker-plugins.mjs` — si **riapplica** ai futuri sync da GitHub. Commit **`9e2f08a9`** · stessa **PR #495** 🔴 mergiare Nicola → riavvio worker. Fonte: chat Nicola 20/7 04:05.
 
 > 💬 **20/7 ~04:02 — CHAT: Marketing skills community — 47 scaricate, PR #495 in attesa merge (L-387).** Nicola «**Scarica tutti quelli della community**» (dopo L-386) — AD consegna **47 skill** `coreyhaines31/marketingskills` nel worker: manifest aggiornato, sync `.claude/skills/`, test **4/4** OK. **Prima:** 19 plugin (solo tech) · **dopo merge:** **66** totali. Branch `fix/marketing-skills-community` · commit `30e9cb4a` (+ adattamento MyCity `9e2f08a9`) · **PR #495** 🔴 mergiare Nicola → riavvio worker. **Attenzione:** skill B2B generiche — adattare Turno/Piacenza/onestà numeri; **potenziano** senior marketing/content/seo, non sostituiscono. Fonte: chat Nicola 20/7 04:02.
 

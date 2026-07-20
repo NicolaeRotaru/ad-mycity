@@ -8,6 +8,7 @@ reparto: marketing
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 04:05 · Nicola «Addattale a mycity» — atteso: overlay Turno/Piacenza/onestà su 47 skill · reale: blocco MYCITY in tutte e 47, overlay centralizzato + patch auto sync, commit 9e2f08a9 in PR #495 🔴 merge pendente · L-388 · #skills #overlay #onestà
 - 2026-07-20 04:02 · Nicola «Scarica tutti quelli della community» — atteso: 47 skill integrate + PR · reale: pacchetto intero coreyhaines31 scaricato, manifest+sync, test 4/4, PR #495 🔴 merge pendente, 19→66 skill post-merge; adattamento Turno/Piacenza obbligatorio · L-387 · #skills #community #worker
 - 2026-07-20 03:59 · Nicola «riesci a scaricare marketing skills cloud claude?» — atteso: sì/no + come integrarle · reale: download GitHub OK, worker 19 plugin zero marketing, due pacchetti (Anthropic ~8 / community ~45), sync manifest+PR 🟡 pendente scelta Nicola; skill generiche → adattare Turno/Piacenza · L-386 · #skills #worker #github
 - 2026-07-19 23:34 · Nicola «Invece nel marketing?» — atteso: idee n8n acquisizione/contenuti · reale: 10 workflow marketing distinti da blocco ops (visibilità, calendario, eventi Piacenza, lancio negozio, retargeting, UGC, stagionali, micro-influencer, report Telegram); Nicola esplora automazioni per reparto · L-336 · #n8n #marketing #workflow

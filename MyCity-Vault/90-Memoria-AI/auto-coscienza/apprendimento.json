@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 04:02",
+  "aggiornato": "2026-07-20 04:05",
+  "_nota_metabolizzazione_20_07_0405": "Chat 20/7 ~04:05: Nicola «Addattale a mycity» — overlay 47 skill, patch sync auto, commit 9e2f08a9 PR #495. L-388 nuova; L-387 evidenze++ addendum adattamento esplicito; preferenza adattale-a-mycity; STATO+DECISIONI+#212+LEZIONI-CHAT+marketing+prompt-engineer esito.",
   "_nota_metabolizzazione_20_07_0402": "Chat 20/7 ~04:02: Nicola «Scarica tutti quelli della community» — 47 skill coreyhaines31, PR #495, 19→66. L-387 nuova; L-386 evidenze++ addendum scelta community; preferenza marketing-skills-community-completo; STATO+DECISIONI+#212+LEZIONI-CHAT+marketing+prompt-engineer+tech esito.",
   "_nota_metabolizzazione_20_07_0359": "Chat 20/7 ~03:59: Nicola «riesci a scaricare marketing skills cloud claude?» — verifica GitHub+manifest, due pacchetti, path sync PR. L-386 nuova; preferenza marketing-skills-github; STATO+LEZIONI-CHAT+marketing+prompt-engineer esito.",
   "_nota_metabolizzazione_20_07_0339": "Chat 20/7 ~03:39: Nicola «intelligence non al massimo potenziale — come migliorarla?» — diagnosi gap + piano accensione. L-385 nuova; preferenza intelligence-massimo-potenziale; STATO+LEZIONI-CHAT+intelligence esito.",
@@ -107,6 +108,29 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-388",
+      "testo": "**«Addattale a mycity» — overlay obbligatorio su marketing skill community + patch auto sync (Nicola 20/7 ~04:05).** Seguito L-387 (47 skill scaricate): Nicola «**Addattale a mycity**» — non basta avvisare che sono B2B generiche; vuole **adattamento implementato**. 5 perché: (1) coerente con onestà brand (ONESTA-RULES, Il Turno) — skill US senza patch rischiano numeri/testimonianze finte; (2) **fatto:** blocco MYCITY in **tutte e 47** skill (Il Turno, Piacenza, FB/IG locali, no LinkedIn B2B default, pubblicare 🔴); (3) overlay centralizzato `cervello/prompt-fragments/mycity-marketing-overlay.md` + `patchMarketingSkillForMyCity` in `sync-worker-plugins.mjs` — **idempotente**, si riapplica ai futuri update GitHub community; (4) commit **`9e2f08a9`** nella stessa **PR #495** (2 commit: download + adattamento); (5) skill **potenziano** senior marketing/content/seo, non sostituiscono. Regola: dopo import skill marketing esterne → **sempre** overlay MyCity + patch sync; se Nicola dice «adattale a mycity» → esegui subito, non solo consiglio. Vedi L-387, L-386, PIATTAFORMA-CREATIVA.",
+      "tag": [
+        "marketing",
+        "worker",
+        "plugin",
+        "skills",
+        "overlay",
+        "mycity",
+        "onestà",
+        "nicola"
+      ],
+      "reparto": "@prompt-engineer",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 04:05",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-387",
       "testo": "**Marketing skills community — Nicola sceglie pacchetto intero, 47 skill, PR #495, worker 19→66 (Nicola 20/7 ~04:02).** Seguito L-386: Nicola «**Scarica tutti quelli della community**» — **non** Anthropic leggero né subset 4–5. 5 perché: (1) coerente con indipendenza dipendenti (L-375) — massimo tooling copy/marketing nel worker; (2) **fatto:** **47 skill** da `coreyhaines31/marketingskills` scaricate, manifest `worker-plugins.json` aggiornato, sync `.claude/skills/`, test **4/4**; branch `fix/marketing-skills-community` commit `30e9cb4a` (+ adattamento MyCity `9e2f08a9`); **PR #495** 🔴 merge Nicola; (3) conteggio: **19** plugin tech-only oggi → **66** post-merge; (4) skill = marketing **generico B2B** — obbligo adattare Turno/Piacenza/onestà numeri; **non** sostituiscono senior marketing/content/seo; (5) post-merge: **riavvio worker** (o prossimo giro) per caricare skill. Regola: se Nicola dice «scarica tutti community» / «tutto il pacchetto community» → **non** riproporre Anthropic o subset — scarica intero repo approvato + PR 🟡/🔴; ricordare adattamento scope MyCity. Vedi L-386, L-375.",
       "tag": [
@@ -119,12 +143,12 @@
         "nicola"
       ],
       "reparto": "@prompt-engineer",
-      "confidenza": 0.9,
-      "evidenze": 1,
+      "confidenza": 0.92,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 04:02",
+      "ultima_conferma": "2026-07-20 04:05",
       "stato": "attiva",
       "usi": []
     },
@@ -8832,6 +8856,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Adattale a MyCity — vuole overlay applicato, non solo avviso «sono B2B» (chat 20/7 ~04:05):** «Addattale a mycity» subito dopo download 47 skill — si aspetta blocco Il Turno/Piacenza/onestà **in ogni skill** + meccanismo che **persiste** ai futuri sync GitHub; stessa PR #495 commit `9e2f08a9`; merge 🔴 + riavvio worker; pubblicare resta 🔴. Vedi L-388, L-387.",
     "**Marketing skills community completo — vuole TUTTO il pacchetto community, non Anthropic leggero (chat 20/7 ~04:02):** «Scarica tutti quelli della community» — scelta esplicita vs consiglio AD (Anthropic ~8 o 4–5 community); si aspetta **47 skill** integrate nel worker + **PR #495** da mergiare; post-merge **riavvio worker**; skill generiche → **adattare** MyCity (Turno, Piacenza, onestà); potenziano senior, non sostituiscono. Vedi L-387, L-386.",
     "**Marketing skills Claude Cloud — vuole portarle nel worker da GitHub (chat 20/7 ~03:59):** «riesci a scaricare da github, marketing skills cloud claude?» — si aspetta risposta **operativa** (sì/no + cosa c'è oggi + come si integrano), non teoria: oggi worker **19 plugin zero marketing**; due pacchetti GitHub (Anthropic ufficiale ~8 vs community ~45); path manifest+sync+**PR 🟡**; skill vanno **adattate** MyCity (Turno, Piacenza, onestà); potenziano senior, non sostituiscono; chiude scelta **ufficiale / community / entrambi** prima di preparare PR. Vedi L-386, L-375 indipendenza.",
     "**Intelligence al massimo potenziale — vuole sveglie automatiche, non solo report on-demand (chat 20/7 ~03:39):** «l'intelligence non si al massimo del suo potenziale» — si aspetta spiegazione **con fatti** (ultima scan, cosa manca, cosa già funziona) e **piano operativo** per portarla al livello giusto: cron mattutino bandi/eventi/concorrenti → **Telegram** solo se conta → collegata a numeri reali e card approvabili; **non** elenco teorico capacità senior; priorità accensione **n.41** (RSS bandi) o **n.31** (59 avvisi Telegram); chiavi Telegram VPS = prerequisito; Firecrawl = qualità **dopo** sveglia automatica; chiude «accendi 41 o 31» / piano 3 passi. Vedi L-385, L-374, L-375 indipendenza.",
