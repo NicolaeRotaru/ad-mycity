@@ -140,6 +140,7 @@ REGISTRO_SCELTE_VINCOLO=""  # AR-103: dossier vendite scelta_ragionata non sincr
 LOOP_VINCOLO=""       # PZ-008: vincolo del gate chiusura-loop (FATTO in Sala senza ESITO nel quaderno)
 FATTI_VINCOLO=""      # AR-102: vincolo del gate coerenza-fatti (copie vecchie di un fatto in file vivi)
 CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se > 2 giorni)
+OKR_VINCOLO=""        # AR-115: vincolo freschezza OKR-Squadra (target scaduti o doc stantio)
 CAL_VINCOLO=""        # AR-042: vincolo calibrazione senza voci strutturate (schema legacy)
 AGENTI_VINCOLO=""     # AR-007/008: guardiano registro agenti (promosso a gate hard da || true)
 ESP_VINCOLO=""        # AR-041/106: guardiano esperimenti (promosso a gate hard da || true)
@@ -287,6 +288,14 @@ if command -v node >/dev/null 2>&1; then
   if [ "$_checklist_rc" -ne 0 ]; then
     CHECKLIST_VINCOLO="$(printf '%s\n' "$_checklist_out" | head -1)"
     echo "[$(ts)] ⚠️  AR-030: checklist stantia → vincolo hard al motore." >&2
+  fi
+  # AR-115: freschezza OKR-Squadra.md — target con data passata o doc stantio ⇒ riscrittura obbligatoria.
+  echo "[$(ts)] Freschezza OKR-Squadra (AR-115)..."
+  _okr_out="$(node "$SCRIPT_DIR/freschezza-okr.mjs" 2>&1)"; _okr_rc=$?
+  printf '%s\n' "$_okr_out" | tail -3
+  if [ "$_okr_rc" -ne 0 ]; then
+    OKR_VINCOLO="$(printf '%s\n' "$_okr_out" | head -1)"
+    echo "[$(ts)] ⚠️  AR-115: OKR stantio/scaduto → vincolo hard al motore." >&2
   fi
   # PZ-012 (era AR-077, mai cablato): sentinella BUDGET per reparto — se un reparto sfora il suo
   # budget (OKR) accoda lo STOP 🔴; se non c'è spesa collegata lo dice onestamente (sensore non attivo).
@@ -462,6 +471,12 @@ if [ -n "${CHECKLIST_VINCOLO:-}" ]; then
 
 ## Vincolo checklist Nicola (HARD — AR-030: stantia oltre 2 giorni)
 $CHECKLIST_VINCOLO"
+fi
+if [ -n "${OKR_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo OKR-Squadra (HARD — AR-115: target scaduti o priorità stantie)
+$OKR_VINCOLO"
 fi
 if [ -n "${CAL_VINCOLO:-}" ]; then
   # AR-042: il registro calibrazione ha solo voci legacy → il motore deve usare la CLI prevedi.
