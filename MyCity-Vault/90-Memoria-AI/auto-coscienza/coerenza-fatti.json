@@ -1,9 +1,9 @@
 {
-  "data": "2026-07-20 18:47",
+  "data": "2026-07-20 20:20",
   "esito": "incoerenze",
-  "fatti_totali": 16,
+  "fatti_totali": 17,
   "cacce_aperte": 8,
-  "file_scansionati": 1377,
+  "file_scansionati": 1382,
   "incoerenze": [
     {
       "fatto": "pricing.commissione",
@@ -26,7 +26,15 @@
       "pattern": "0€ costi fissi",
       "valore_nuovo": "50€/mese",
       "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
-      "riga": 831,
+      "riga": 786,
+      "testo": "| 1 | 2026-06-25 10:09 | vendite→legale | Termini commerciali **Pane Quotidiano**: commissione **12%**, **0€ costi fissi**, **payout a consegna**, **nessun vincolo** | 🔴 | `consegne/legale/contratto-"
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+      "riga": 786,
       "testo": "| 1 | 2026-06-25 10:09 | vendite→legale | Termini commerciali **Pane Quotidiano**: commissione **12%**, **0€ costi fissi**, **payout a consegna**, **nessun vincolo** | 🔴 | `consegne/legale/contratto-"
     },
     {
@@ -35,14 +43,6 @@
       "valore_nuovo": "50€/mese",
       "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
       "riga": 831,
-      "testo": "| 1 | 2026-06-25 10:09 | vendite→legale | Termini commerciali **Pane Quotidiano**: commissione **12%**, **0€ costi fissi**, **payout a consegna**, **nessun vincolo** | 🔴 | `consegne/legale/contratto-"
-    },
-    {
-      "fatto": "pricing.abbonamento",
-      "pattern": "0€ fissi",
-      "valore_nuovo": "50€/mese",
-      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
-      "riga": 876,
       "testo": "| 43 | 2026-07-06 12:40 | @vendite | Dal 9/7 aggiungi al giro chiamate le 3 botteghe della spesa fresca che mancano nel centro | 🔴 | Scout categorie mancanti nel cluster (oggi solo Pane Quotidiano; l"
     },
     {
@@ -50,7 +50,7 @@
       "pattern": "12%/0€ fissi",
       "valore_nuovo": "10% sul venduto",
       "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
-      "riga": 876,
+      "riga": 831,
       "testo": "| 43 | 2026-07-06 12:40 | @vendite | Dal 9/7 aggiungi al giro chiamate le 3 botteghe della spesa fresca che mancano nel centro | 🔴 | Scout categorie mancanti nel cluster (oggi solo Pane Quotidiano; l"
     },
     {
@@ -58,7 +58,7 @@
       "pattern": "zero fissi",
       "valore_nuovo": "50€/mese",
       "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
-      "riga": 55,
+      "riga": 73,
       "testo": "> 💬 **20/7 ~12:39 — CHAT: Nicola corregge pricing pitch — 10% + 50€/mese (L-391).** Casella «Glovo sconta catene» diceva **12% zero fissi** — Nicola: **10% commissione + 50€/mese abbonamento**. Confe"
     },
     {
@@ -66,7 +66,7 @@
       "pattern": "commissione 12%",
       "valore_nuovo": "10% sul venduto",
       "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
-      "riga": 995,
+      "riga": 1013,
       "testo": "0. **🛠️ +2 capacità COSTRUITE 6/7 16:52 — ora 7 girano sui dati veri.** Su «vai» di Nicola: **#13 Il Bilancio Vivo** (`cervello/bilancio-vivo.mjs` — unit economics per ordine sui numeri reali: 1 ordi"
     },
     {

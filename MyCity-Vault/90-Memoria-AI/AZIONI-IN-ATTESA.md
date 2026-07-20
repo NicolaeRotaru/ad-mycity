@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-20 18:20** — Automatico: **48 aperte · 96 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-20 20:20** — Automatico: **46 aperte · 98 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -13,29 +13,6 @@ fonte: senior dell'AD
 
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
-
----
-
-### ✅ #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ✅ FATTO 2026-07-20 18:30 · {approvato: Nicola 20/7 18:28}
-
-**Esito:** 16 demo rimossi · prodotti finti **eliminati dal DB** (253 righe, 18:32) · **1 negozio · 5 prodotti live** (solo Pane Quotidiano). Verifica supervisione 18:32 ok.
-
-**Contesto:** Nicola dalla casella Supervisione (20/7 ~17:53): «elimina tutti i negozi tranne pane quotidiano». Oggi sul sito ci sono **17 negozi**: **1 reale** (Pane Quotidiano, approvato, 5 prodotti) + **16 seed/demo** (UUID `11111111…`, inclusa Casa Linda) con **253 prodotti finti** che intasano supervisione e catalogo.
-
-**Cosa faccio dopo il tuo ok (irreversibile):**
-1. Nascondo/elimino i **253 prodotti** dei 16 demo (tabella `products` — backup automatico prima di ogni riga)
-2. Anonimizzo e cancello i **16 account venditore demo** (admin marketplace — stessa pipeline di «Elimina utente»)
-3. **Pane Quotidiano resta intatto** (5 prodotti, vetrina, Stripe)
-
-**Negozi demo che spariscono:** Bellezza Naturale, Boutique Eleganza, Cartoleria Centrale, Casa Linda, Cucina Plus, Frutteto Verde, Giardino Bello, Libreria Romana, Outdoor Avventura, Profumeria Charme, Salumeria del Borgo, Smart Store, SportFit Piacenza, Stile Urbano, TechZone Piacenza, Verde Casa.
-
-**Dettaglio esecuzione:** `consegne/operations/2026-07-20-pulizia-negozi-demo.md`
-
-**Cosa cambia:** sul sito resta un solo negozio vero; la supervisione smette di segnalare 16 botteghe fantasma e 253 prodotti inutili.
-**Se va bene:** domani la casella Supervisione dice «1 negozio · 5 prodotti» e il catalogo pubblico mostra solo Pane Quotidiano.
-
-- **Colore:** 🔴 (cancellazione dati marketplace — irreversibile)
-- **Reparto:** operations / backend-dev
 
 ---
 
@@ -362,28 +339,6 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 **Se va bene:** parametri impostati → attivi per il lancio.
 
 **Canale:** decisione Nicola → l'AD applica 🟢
-
----
-
-### ✅ #riavvia-worker-env — Riavvia il worker per caricare le 2 nuove variabili env · ✅ FATTO 2026-07-20 18:25
-
-**Contesto:** Nicola ha inserito il 18/7 in `cervello/vps/.env`:
-```
-PANNELLO_URL=https://ad-mycity.vercel.app
-MARKETPLACE_SITE_URL=https://mycity-marketplace.com
-```
-~~Senza riavvio del worker, le variabili non vengono caricate e i sensori `pannello_uptime` e `sito_uptime` restano ❌.~~ **Verificato 20/7 18:25:** worker ha già caricato le env; `sito_uptime` + `pannello_uptime` ✅ HTTP 200 — card obsoleta (L-405).
-
-**Comando (1 riga dal terminale VPS):**
-```bash
-sudo systemctl restart mycity-worker-chat.service
-```
-
-**Cosa cambia:** al prossimo giro automatico (~5 min) i sensori `pannello_uptime` e `sito_uptime` passano da ❌ a ✅.
-**Se va bene:** 2 sensori ciechi eliminati senza scrivere altro codice.
-
-- **Colore:** 🟡 (sudo — Nicola esegue dal terminale VPS)
-- **Reparto:** devops-sre
 
 ---
 
@@ -1195,7 +1150,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-20 18:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-20 20:20)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-20-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1247,6 +1202,57 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-20 18:20 · 96 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-20 20:20 · 98 card totali
+
+### ✅ #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ✅ FATTO 2026-07-20 18:30 · {approvato: Nicola 20/7 18:28}
+
+**Esito:** 16 demo rimossi · prodotti finti **eliminati dal DB** (253 righe, 18:32) · **1 negozio · 5 prodotti live** (solo Pane Quotidiano). Verifica supervisione 18:32 ok.
+
+**Contesto:** Nicola dalla casella Supervisione (20/7 ~17:53): «elimina tutti i negozi tranne pane quotidiano». Oggi sul sito ci sono **17 negozi**: **1 reale** (Pane Quotidiano, approvato, 5 prodotti) + **16 seed/demo** (UUID `11111111…`, inclusa Casa Linda) con **253 prodotti finti** che intasano supervisione e catalogo.
+
+**Cosa faccio dopo il tuo ok (irreversibile):**
+1. Nascondo/elimino i **253 prodotti** dei 16 demo (tabella `products` — backup automatico prima di ogni riga)
+2. Anonimizzo e cancello i **16 account venditore demo** (admin marketplace — stessa pipeline di «Elimina utente»)
+3. **Pane Quotidiano resta intatto** (5 prodotti, vetrina, Stripe)
+
+**Negozi demo che spariscono:** Bellezza Naturale, Boutique Eleganza, Cartoleria Centrale, Casa Linda, Cucina Plus, Frutteto Verde, Giardino Bello, Libreria Romana, Outdoor Avventura, Profumeria Charme, Salumeria del Borgo, Smart Store, SportFit Piacenza, Stile Urbano, TechZone Piacenza, Verde Casa.
+
+**Dettaglio esecuzione:** `consegne/operations/2026-07-20-pulizia-negozi-demo.md`
+
+**Cosa cambia:** sul sito resta un solo negozio vero; la supervisione smette di segnalare 16 botteghe fantasma e 253 prodotti inutili.
+**Se va bene:** domani la casella Supervisione dice «1 negozio · 5 prodotti» e il catalogo pubblico mostra solo Pane Quotidiano.
+
+- **Colore:** 🔴 (cancellazione dati marketplace — irreversibile)
+- **Reparto:** operations / backend-dev
+
+---
+
+### ✅ #riavvia-worker-env — Riavvia il worker per caricare le 2 nuove variabili env · ✅ FATTO 2026-07-20 18:25
+
+**Contesto:** Nicola ha inserito il 18/7 in `cervello/vps/.env`:
+```
+PANNELLO_URL=https://ad-mycity.vercel.app
+MARKETPLACE_SITE_URL=https://mycity-marketplace.com
+```
+~~Senza riavvio del worker, le variabili non vengono caricate e i sensori `pannello_uptime` e `sito_uptime` restano ❌.~~ **Verificato 20/7 18:25:** worker ha già caricato le env; `sito_uptime` + `pannello_uptime` ✅ HTTP 200 — card obsoleta (L-405).
+
+**Comando (1 riga dal terminale VPS):**
+```bash
+sudo systemctl restart mycity-worker-chat.service
+```
+
+**Cosa cambia:** al prossimo giro automatico (~5 min) i sensori `pannello_uptime` e `sito_uptime` passano da ❌ a ✅.
+**Se va bene:** 2 sensori ciechi eliminati senza scrivere altro codice.
+
+- **Colore:** 🟡 (sudo — Nicola esegue dal terminale VPS)
+- **Reparto:** devops-sre
+
+---
 
 ### ❌ #fix-parla-casella-pgrst102 — RIMOSSA 2026-07-20 18:00 · L-402 (Nicola «togli card merge obsolete»)
 Card merge PR #499 — ordine chat «fai il fix». Link PR consegnato in chat; mergia da GitHub quando vuoi.

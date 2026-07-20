@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 20:16",
+  "aggiornato": "2026-07-20 20:20",
+  "_nota_metabolizzazione_20_07_2020": "Chat 20/7 ~20:19: Nicola «che cosa posso fare adesso con posthog?» — PostHog verde (L-416); AD catalogo uso Live+funnel+test, non setup. L-417 nuova; preferenza posthog-cosa-fare-adesso; STATO+LEZIONI-CHAT+data-engineer esito; nessuna azione/decisione nuova.",
   "_nota_metabolizzazione_20_07_2016": "Chat 20/7 ~20:16: Nicola «ok è diventato verde» — PostHog VPS+Pannello verde verificato live; caso chiuso L-415. L-416 nuova; L-411+L-415 evidenze++ addendum chiusura; preferenza posthog-ok-verde; STATO già 20:16; DECISIONI+LEZIONI-CHAT+registro-fatti+data-engineer+devops-sre+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_2011": "Chat 20/7 ~20:11: Nicola «ricontrollato su vercel ma non ancora non funziona» — AD stop checklist, PR #502 diagnosi quale env Vercel manca in Radiografia. L-415 nuova; L-414 evidenze++ addendum ricontrollato; preferenza posthog-ricontrollato-vercel; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+devops-sre+data-engineer esito.",
   "_nota_metabolizzazione_20_07_2001": "Chat 20/7 ~20:01: Nicola «Fatto redeploy però non ancora non funziona» — AD verifica live: VPS ok, Pannello diagnosi ancora giallo; redeploy insufficiente se env Vercel sbagliate (POSTHOG_PROJECT_ID mancante, phc_ vs phx_, EU host). L-414 nuova; L-411 evidenze++ addendum redeploy; preferenza posthog-redeploy-ancora-giallo; STATO+LEZIONI-CHAT+data-engineer+devops-sre+frontend-dev esito.",
@@ -139,6 +140,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-417",
+      "testo": "**PostHog verde — «cosa posso fare adesso?» = catalogo uso + test Live, non checklist setup (Nicola 20/7 ~20:19).** PostHog chiuso (L-416) — Nicola chiede prossimi passi operativi, non configurazione. 5 perché: (1) pattern identico **L-366** n8n — si aspetta **lista concreta** (Live, funnel acquisto, test incognito), **non** altro env/redeploy; (2) sito traccia già registrazione·prodotti·carrello·checkout·ordine — citare eventi **reali** già nel codice; (3) macchina legge sensori VPS+Pannello — Nicola **non** deve riconfigurare nulla; (4) **primo passo hands-on:** PostHog Live + visita sito con cookie analytics accettati → chiedere conferma eventi; (5) residuo **opzionale** Render US (PR #219) solo se chiede allineamento — **non** confondere con «non funziona». Regola: PostHog verde + «cosa faccio adesso» → **uso operativo** + test live, zero checklist. Vedi L-416, L-366, DECISIONI 20/7 20:16.",
+      "tag": [
+        "posthog",
+        "uso",
+        "live",
+        "funnel",
+        "data-engineer",
+        "nicola"
+      ],
+      "reparto": "@data-engineer",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 20:19",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-413",
       "testo": "**Registro ok ≠ casella ok — sentinelle devono leggere registro-fatti, non pitch hardcoded (Nicola 20/7 ~19:06).** Casella «Pochi negozi»: Nicola «**non hai aggiornato memoria centrale o caselle non collegate**» — pricing **10% + 50€/mese**. 5 perché: (1) `registro-fatti.json` era **già corretto** dal fix 12:39 (L-391); (2) casella mostrava ancora «12%, 0 fissi» perché **pitch fisso nel codice** sentinelle, non lettura registro; (3) fix parziale L-391 aggiornò vault/radar/scout ma **non** wiring UI caselle; (4) **PR #501:** sentinelle leggono `pricing.commissione` + `pricing.abbonamento` dal registro; (5) PQ resta eccezione 12%/0€ — pitch standard nuovi negozi = registro. Regola: dopo correzione pricing in registro → **cerca TUTTE le superfici** (sentinelle, caselle Pannello, pitch vendite) e collega al registro nello **stesso fix**; «memoria giusta ma casella sbagliata» = bug codice, non registro. Vedi L-391, AR-102, DECISIONI 20/7 19:06.",
@@ -9513,6 +9535,7 @@
     "**Worker chat grande — menu navbar sito vs ☰ conv, z-index overlay (chat 20/7 ~03:04, agg. 03:09):** «menu nella navbar ancora non si apre» + «dimmi cosa hai capito» — si aspetta **diagnosi chiara** prima del fix; **due ☰ distinti:** basso accanto «+» = elenco conv · navbar alto = menu **sito** (Home, Azioni, Lavori) — il secondo sembra morto perché chat fullscreen lo copre (z-index); **03:09** conferma «il menu in alto» → **PR #494**. Vedi L-371, L-369, L-364.",
     "**Catalogo n8n 50×10 — «50 cose in 10 funzioni performanti» = griglia 10 categorie × 5 idee + priorità (chat 20/7 ~02:59):** chiede inventario ampio ma strutturato per MyCity — si aspetta **10 funzioni fondamentali** (social, acquisizione, carrelli, fidelizzazione, negozi, ops, comunicazione, marketing locale, intelligence cron, back-office) con **5 automazioni ciascuna** (50 totali), tutte ripetitive/ROI; reminder **🔴** su messaggi/post; **ordine consigliato** Telegram→Meta→post test→carrello→notifica ordine negozio; chiude con «dimmi blocco» per preparare workflow import. Non tutorial n8n né ricerche web ad hoc (Worker L-365). Vedi L-368, L-366, L-335.",
     "**Catalogo mani colosso Piacenza — «tutte le mani» = inventario + ordine, MA se dice «pensa più in grande» aggiungi visione (chat 20/7 ~02:56, agg. 03:05):** chiede quali canali per crescere — si aspetta **catalogo strutturato** (già accese vs da accendere, ordine Telegram→Meta→…) **E**, se chiede colosso/«pensa più in grande», anche **moat + fasi + bottleneck primo ordine** — non fermarsi al catalogo plugin. Vedi L-370, L-367, L-366, L-351.",
+    "**PostHog post-green — «cosa posso fare adesso?» = catalogo uso concreto + test hands-on Live, non setup (chat 20/7 ~20:19):** dopo sensore verde chiede cosa può fare con PostHog — si aspetta **azioni immediate** (cruscotto us.posthog.com Live, funnel su passi acquisto già tracciati, test incognito cookie accettati); macchina già legge numeri; residuo Render US = opzionale solo se chiede allineamento; chiude «entra in Live e dimmi se vedi eventi». Vedi L-417, L-416, L-366 pattern.",
     "**n8n post-webhook — «cosa posso fare adesso?» = catalogo concreto + ordine priorità (chat 20/7 ~02:50):** dopo webhook collegato chiede controllo env (2 righe, 1 segnaposto da cancellare) + cosa può fare con n8n — si aspetta **lista operativa** (FB/IG post, Telegram, lista attesa, cron) con **ordine consigliato** (dedup env → Telegram → Meta → test post 🔴), non spiegazione generica; gruppi FB manuali; ricerche ad hoc restano Worker. Vedi L-366, L-357.",
     "**n8n ricerche web — chiede se n8n può cercare sul web per il worker (chat 20/7 ~02:47):** si aspetta chiarimento architettura — risposta: **no** oggi e **non serve** per chat (worker/cervello già cerca bandi/concorrenti/intelligence); n8n collegato (webhook ok L-357) = braccia per post/avvisi; ricerche **programmate** (cron fisso, es. bandi Comune ogni mattina) = ok n8n come sveglia; ricerche **ad hoc** = scrivi nel Worker, non passa da n8n. Prossimo passo utile: Meta OAuth in n8n. Vedi L-365, L-344.",
     "**Worker controlli per superficie — ☰ accanto a + in grande, barra alta solo popup (chat 20/7 ~02:46, agg. 03:04):** post-#492 chiede (1) **chat grande** — icona ☰ elenco conv **accanto a «+ Nuova» in barra bassa**, **niente** ingrandisci/chiudi in alto; chiudi grande = tap fuori o voce Worker; (2) **popup FAB** — **barra alta** con ☰ + ingrandisci + chiudi (estetica chiudi riquadro). **03:04 addendum:** ☰ **navbar** = menu **sito** — sembra non aprire perché overlay chat lo copre (L-369), non solo placement conv. Fix **PR #493** — merge 🔴 #210, poi Ctrl+F5. Vedi L-364, L-369, L-363.",
@@ -9816,11 +9839,11 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 431,
+    "lezioni_attive": 432,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-20 20:16",
+    "tasso_calcolato_il": "2026-07-20 20:20",
     "tasso_finestra_giorni": 30,
     "tick_leggero_il": "2026-07-20 20:16",
     "usi_marcati_il": "2026-07-17 07:00",

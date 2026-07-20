@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 20:18
+aggiornato: 2026-07-20 20:20
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~20:19 — CHAT: PostHog operativo — Nicola «cosa posso fare adesso?» (L-417).** PostHog **verde** VPS+Pannello (L-416). AD: uso **Live** su us.posthog.com · funnel su eventi già tracciati (registrazione, prodotto visto, carrello, checkout, ordine) · test incognito con cookie analytics · sensori macchina ok — **nessun altro setup** VPS/Vercel · **opzionale** PR **#219** Render host US se vuole unificare eventi sito con account US. Fonte: chat Nicola 20/7 20:19.
 
 > 💬 **20/7 ~20:18 — CHAT: PostHog residuo Render — tracking sito allineato US (PR #219).** Nicola «**fai il fix del residuo opzionale**» — host ingest marketplace era default **EU** (`eu.i.posthog.com`) mentre account/VPS/Pannello **US**. **PR #219** (mycity): default codice + `render.yaml` → `https://us.i.posthog.com`. **Serve Nicola:** mergia **#219** → deploy Render ~5 min; se su Render dashboard c’era `NEXT_PUBLIC_POSTHOG_HOST` con `.eu`, sostituisci o elimina (codice usa US). Fonte: chat Nicola 20/7 20:18 + `marketplace/lib/analytics/posthog.tsx`.
 
