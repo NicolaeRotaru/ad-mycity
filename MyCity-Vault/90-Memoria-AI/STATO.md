@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 19:06
+aggiornato: 2026-07-20 20:01
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~20:01 — CHAT: PostHog Vercel redeploy fatto ma Radiografia ancora giallo — env nomi/chiavi sbagliate (L-414).** Nicola «**Fatto redeploy però non ancora non funziona**» — AD verifica live **20:01**: VPS sensore **ok** · Pannello `/api/diagnosi` **ancora giallo** «Traffico (PostHog)». Redeploy c'è ma Vercel **non usa** le 3 env corrette su progetto **ad-mycity**: spesso manca **`POSTHOG_PROJECT_ID`** (**495230**), oppure chiave **`phc_`** (tracking) invece **`phx_`** (Personal API), oppure host EU. **Serve Nicola:** checklist 3 sì/no su Vercel Production → redeploy se corretto → «posthog pannello ok». **Residuo AD:** diagnosi Radiografia che indica variabile mancante. Fonte: chat Nicola 20/7 20:01 + GET diagnosi 20:01.
 
 > 💬 **20/7 ~19:06 — CHAT: Casella «Pochi negozi» pitch vecchio — registro ok, sentinelle hardcoded (L-413).** Nicola «**non hai aggiornato memoria centrale o caselle non collegate**» — commissione **10%** + abbonamento **50€/mese**. AD verifica: **registro-fatti già corretto** (12:39 L-391); casella leggeva pitch **fisso** «12%, 0 fissi» nel codice sentinelle, non dal registro. **PR #501:** sentinelle leggono `pricing.commissione` + `pricing.abbonamento` dal registro · typecheck OK · build verificata. **Serve Nicola:** mergia **#501** → deploy ~2 min → refresh casella. **PQ eccezione** 12%/0€ contratto storico. Fonte: chat Nicola 20/7 19:06 + casella Pochi negozi.
 
