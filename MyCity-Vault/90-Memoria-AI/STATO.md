@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 18:52
+aggiornato: 2026-07-20 19:06
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~19:06 — CHAT: Casella «Pochi negozi» pitch vecchio — registro ok, sentinelle hardcoded (L-413).** Nicola «**non hai aggiornato memoria centrale o caselle non collegate**» — commissione **10%** + abbonamento **50€/mese**. AD verifica: **registro-fatti già corretto** (12:39 L-391); casella leggeva pitch **fisso** «12%, 0 fissi» nel codice sentinelle, non dal registro. **PR #501:** sentinelle leggono `pricing.commissione` + `pricing.abbonamento` dal registro · typecheck OK · build verificata. **Serve Nicola:** mergia **#501** → deploy ~2 min → refresh casella. **PQ eccezione** 12%/0€ contratto storico. Fonte: chat Nicola 20/7 19:06 + casella Pochi negozi.
 
 > 💬 **20/7 ~18:52 — CHAT: PR #499 ri-bloccata da worker — risolta di nuovo, mergeable (L-397 addendum ricorrenza).** Nicola **solo screenshot** 1077 — #499 era **mergeable 18:50** ma main è andato avanti (commit worker PostHog 18:50) → conflitti **tornati** su `LEZIONI-CHAT.md` + `STATO.md`. AD rebase di nuovo → **`git-pr.mjs` mergeable** (18:52). **Non bug codice** — pattern **ricorrente** finché PR aperta e worker scrive memoria su main. Errore Vercel su branch in conflitto spesso sparisce post-merge. **Serve Nicola:** ricarica GitHub → mergia **#499** poi **#500**. Fonte: chat Nicola 20/7 18:52 + screenshot 1077 + git-pr.mjs.
 

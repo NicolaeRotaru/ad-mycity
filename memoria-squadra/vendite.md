@@ -8,6 +8,7 @@ reparto: vendite
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 19:06 · chat casella «Pochi negozi» — registro ok, pitch casella hardcoded · atteso: casella mostra 10%+50€/mese come registro → reale: registro già ok (L-391), bug codice sentinelle; PR #501 collega registro; merge 🔴 pendente · lezione L-413 · #pricing #sentinelle #registro-fatti
 - 2026-07-20 12:39 · chat Nicola correzione pricing pitch anti-Glovo · atteso termini commerciali corretti in pitch+coda → reale: 10%+50€/mese (codice marketplace), registro-fatti aggiornato, pitch/radar/scout/AZIONI-PRONTE allineati; PQ 12%/0€ = eccezione storica · lezione L-391 · #pricing #pitch #onestà
 - 2026-07-20 11:25 · playbook capillarita 20/7 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso kit PQ+template neutri+accoda A35 → reale 9 asset+playbook+gate ordine-test-pq · #capillarita #playbook
 - 2026-07-20 11:15 · playbook scout negozi 20/7 · 3 target+pitch PI26+AZIONI-PRONTE A18 · atteso deliverable aggiornato REST 1 negozio approvato → reale consegne/vendite/2026-07-20-playbook-scout-negozi-categorie-mancanti.md + A18 pitch PI26 · #scout #playbook
