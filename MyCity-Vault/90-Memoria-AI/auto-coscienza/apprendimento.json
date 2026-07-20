@@ -1,7 +1,8 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 21:49",
+  "aggiornato": "2026-07-20 21:53",
   "_nota_giro_20_07_2022": "Giro 20/7 20:22: coerenza-fatti pricing bonificata (48 file, exit 0). Lezione: esenzioni registro per contratti PQ eccezione 12%/0€. CHECKLIST rigenerata AR-030. North Star focus ordine test PQ.",
+  "_nota_metabolizzazione_20_07_2153": "Chat 20/7 ~21:52: Nicola «ancora più avanzata» + «salva in bacheca checklist» — BACHECA.md 4 livelli 24 voci - [ ]. L-422 nuova; L-421+L-377 evidenze++ addendum Livello 4/checklist; preferenza bacheca-checklist-versione-avanzata; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_2149": "Chat 20/7 ~21:49: Nicola «versione avanzata worker/AD/Pannello» — roadmap 3 salti (mani→numeri→ordine PQ), frame vede/disturba/agisce/impara, CTA Telegram+Meta+ordine test. L-421 nuova; L-370 evidenze++ addendum versione avanzata; preferenza versione-avanzata-3-salti; STATO+DECISIONI+LEZIONI-CHAT+ad esito; nessuna azione completata.",
   "_nota_metabolizzazione_20_07_2025": "Chat 20/7 ~20:25: Nicola «collegare meta per FB/IG» — n8n già acceso + workflow importato; checklist Meta Developers + credenziali nodi n8n, checkpoint «Meta collegato». L-420 nuova; L-321 evidenze++ addendum n8n attivo; preferenza collegare-meta-n8n; STATO+LEZIONI-CHAT+builder+content-social esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_20_07_2023": "Chat 20/7 ~20:23: Nicola «posthog solo sito o altro? dimmi tutto» — inventario capacità 4 bucket, distinto da L-417 uso operativo. L-419 nuova; preferenza posthog-dimmi-tutto; STATO+LEZIONI-CHAT+data-engineer esito; nessuna azione/decisione nuova.",
@@ -157,11 +158,33 @@
       ],
       "reparto": "@ad",
       "confidenza": 0.91,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 21:52",
+      "stato": "attiva",
+      "usi": [],
+      "_evidenza_2": "ADDENDUM 21:52: «**ancora più avanzata, che sa fare molto di più**» dopo L-421 — Nicola vuole **Livello 4 ultra** (carrelli, meteo, bandi, onboarding 48h, report Telegram, A/B, gestionale, app) oltre ai 3 salti; checklist 24 voci in BACHECA.md. Vedi L-422."
+    },
+    {
+      "id": "L-2026-0720-422",
+      "testo": "**«Salva in bacheca checklist» + «ancora più avanzata» = `- [ ]` 4 livelli in BACHECA.md (Nicola 20/7 ~21:52).** Follow-up L-421: Nicola «**dico ancora più avanzata**» poi «**salva in bacheca in forma di checklist**». 5 perché: (1) «ancora più avanzata» ≠ ripetere 3 salti — aggiunge **Livello 4 ultra** (automazioni business: carrelli abbandonati, anti-churn negozi, meteo/eventi, bandi/scadenze, health score, onboarding 48h, report Telegram mattino/sera, A/B PostHog, gestionale, app/push); (2) «in forma di checklist» = voci **spuntabili** `- [ ]`, non solo elenco prosa; (3) file = `BACHECA.md` in cima (pattern L-377), titolo `## … · data ora`; (4) struttura: L1 fondamenta · L2 Pannello · L3 AD operatore · L4 ultra + **mossa unica** in fondo (Telegram+Meta+ordine PQ); (5) **grep titolo** prima di inserire (L-384) — publish main per home Plancia. Regola: «salva checklist bacheca» → 🟢 blocco ## con `- [ ]` per ogni voce; «ancora più avanzata» dopo roadmap → estendi con Livello 4 operativo. Vedi L-421, L-377, BACHECA.md 21:52.",
+      "tag": [
+        "bacheca",
+        "checklist",
+        "versione-avanzata",
+        "pannello",
+        "roadmap",
+        "nicola"
+      ],
+      "reparto": "@ad",
+      "confidenza": 0.92,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 21:49",
+      "ultima_conferma": "2026-07-20 21:52",
       "stato": "attiva",
       "usi": []
     },
@@ -1073,15 +1096,16 @@
       ],
       "reparto": "@ad",
       "confidenza": 0.9,
-      "evidenze": 3,
+      "evidenze": 4,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 03:37",
+      "ultima_conferma": "2026-07-20 21:52",
       "stato": "attiva",
       "usi": [],
       "_evidenza_2": "ADDENDUM 03:36: «inserisci questi 50 workflow in bacheca» — terza casella «50 workflow n8n MyCity» condensata in cima; home ora 3 caselle n8n. Vedi L-383.",
-      "_evidenza_3": "ADDENDUM 03:37: «togli duplicato mappa negozi piacenza» — 2 copie identiche; eliminata quella in fondo; regola grep prima di inserire. Vedi L-384."
+      "_evidenza_3": "ADDENDUM 03:37: «togli duplicato mappa negozi piacenza» — 2 copie identiche; eliminata quella in fondo; regola grep prima di inserire. Vedi L-384.",
+      "_evidenza_4": "ADDENDUM 21:52: «salva in bacheca in forma di checklist» — formato `- [ ]` spuntabile, 4 livelli 24 voci versione avanzata; estende L-377 da caselle prosa a checklist operativa. Vedi L-422."
     },
     {
       "id": "L-2026-0720-375",
@@ -9575,6 +9599,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Bacheca checklist versione avanzata — `- [ ]` 4 livelli in home (chat 20/7 ~21:52):** dopo roadmap L-421 chiede «**ancora più avanzata**» + «**salva in bacheca in forma di checklist**» — si aspetta **24 voci spuntabili** in `BACHECA.md` (L1 mani/burn/ordine PQ · L2 Pannello · L3 AD · **L4 ultra** carrelli/meteo/bandi/onboarding/report/A/B/gestionale/app) + mossa unica in fondo; **non** solo testo in chat; visibile in home Plancia dopo publish main. Vedi L-422, L-421, L-377.",
     "**Versione avanzata worker/AD/Pannello — 3 salti + una mossa, non lista AI (chat 20/7 ~21:49):** chiede come migliorare ulteriormente e «**pensa versione avanzata**» — si aspetta roadmap **operativa a fasi** (1 mani Telegram/Meta/email · 2 burn+Stripe · 3 primo ordine PQ+payout), frame «vede tutto/disturba poco/agisce dopo ok/impara da ordini», dettaglio Pannello (meno card, 3 decisioni/giorno) + AD (giro esegue approvati, Telegram solo importante); **non** elenco generico «più AI»; chiude **una mossa**: Telegram + Meta + ordine test PQ. Vedi L-421, L-370.",
     "**Meta FB/IG — «collegare Meta» = credenziali workflow n8n, non reinstall (chat 20/7 ~20:25):** chiede come collegare Meta per pubblicare su Facebook e Instagram — si aspetta checklist **Meta Developers** (Pagina FB + IG pro + app Business + token pagina) **nei nodi n8n** del workflow già importato, **mai token in chat**; **non** ripetere install Docker/webhook (n8n già acceso); checkpoint «**Meta collegato**» → post prova; gruppi FB manuali; IG = URL immagine pubblico; post resta card 🔴. Vedi L-420, L-321.",
     "**PostHog «dimmi tutto / solo sito o altro» — inventario completo 4 bucket, non prossimi passi (chat 20/7 ~20:23):** chiede se PostHog funziona **solo col sito** o anche altro + «**dimmi tutto quello che sa fare**» — si aspetta **mappa capacità completa** (MyCity attivo · cruscotto · prodotto non acceso · cosa NON fa), **non** checklist env né solo «apri Live» (quello è L-417 «cosa faccio adesso»); citare Stripe/Supabase/email come **fuori scope**; residuo PR #219 Render US se pertinente. Vedi L-419, L-417.",

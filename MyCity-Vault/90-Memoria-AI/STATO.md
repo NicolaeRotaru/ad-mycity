@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 21:49
-fonte: AD digitale (chat 20/7 21:49)
+aggiornato: 2026-07-20 21:53
+fonte: AD digitale (chat 20/7 21:53)
 ---
+
+> 💬 **20/7 ~21:52 — CHAT: Checklist «versione avanzata» in Bacheca home (L-422).** Nicola «**dico ancora più avanzata**» poi «**salva in bacheca in forma di checklist**» — AD scrive in cima `BACHECA.md` checklist **4 livelli · 24 voci** `- [ ]`: L1 fondamenta (Telegram/Meta/email/burn/Stripe/ordine PQ) · L2 Pannello · L3 AD operatore · **L4 ultra avanzata** (carrelli, anti-churn, meteo, bandi, onboarding 48h, report Telegram, A/B, gestionale, app) + mossa unica Telegram+Meta+ordine test PQ. **Non committato** al momento verifica worker (21:50) — refresh home dopo publish main. Fonte: chat Nicola 20/7 21:52.
 
 > 💬 **20/7 ~21:49 — CHAT: «Versione avanzata» worker/AD/Pannello — roadmap 3 salti (L-421).** Nicola chiede come migliorare ulteriormente worker/AD/Pannello e immaginare versione avanzata. AD: non «più AI» — macchina che **vede tutto**, **disturba poco**, **agisce dopo ok**, **impara da ordini veri**. **Salto 1 (1–2 sett):** mani mancanti (Telegram avvisi, Meta n8n FB/IG, email live) — **~41 card** fermate senza canali/approva. **Salto 2:** burn mensile in env VPS + Stripe lettura (stop «runway sconosciuto»). **Salto 3:** **primo ordine Pane Quotidiano + payout ok** — North Star = ordini pagati, non post pronti. Pannello avanzato: meno card, **3 decisioni/giorno**, chat sync telefono/PC, caselle auto-chiuse post-merge. AD avanzato: giro esegue approvati, PostHog funnel abbandono, Telegram solo se cambia qualcosa. **Mossa unica consigliata:** Telegram + Meta + ordine test PQ. Business invariato: 1 PQ · 0 pagati · stallo ~636h. Fonte: chat Nicola 20/7 21:49.
 
