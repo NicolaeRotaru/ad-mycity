@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:31
-fonte: AD digitale (metabolizzazione chat PR #490 Worker)
+aggiornato: 2026-07-20 02:32
+fonte: AD digitale (metabolizzazione chat PR #492 Worker UX)
 ---
+
+> 💬 **20/7 ~02:32 — CHAT: Worker tre superfici — FAB≠menu Worker, lista conv overlay (L-363).** Nicola: bottone basso-destra e voce «Worker» nel menù **non** devono aprire la stessa finestra — **FAB** = popup **piccolo**; **menu Worker** = chat **grande** fullscreen; elenco conversazioni = pannello **overlay sopra** la chat (☰ apre/chiude), **non** colonna fissa sinistra. AD **PR #492** — ✅ mergiata Pannello 02:31. **Supersede** unificazione FAB=menu (#486) e sidebar fissa (#485/#490); card **#208** (#490) → SUPERSEDED, usa **#209** / **#492**. Dopo deploy Vercel: Ctrl+F5 → test tre entry point. Fonte: chat Nicola 20/7 02:32.
 
 > 💬 **20/7 ~02:31 — CHAT: Nicola «fammi rimergiare il menu e risolvi conflitto #489» — PR #490 unificata (L-362).** Conflitto tra fix ☰ menu (#488/#491) e layout senza testata (#489) sullo stesso file `page.tsx` — AD branch **`fix/worker-menu-e-testata`**, **PR #490** unifica: via «Worker / Semplice e diretto…», ☰ funzionante, **+** in barra icone bassa; build ok. **Ignorare** PR #489 e card **#207**; merge **una sola volta** 🔴 **#490** (sostituisce anche richiesta layout #489). Dopo merge: deploy Vercel ~2 min + Ctrl+F5 → verifica UI live (L-361). Fonte: chat Nicola 20/7 02:31.
 

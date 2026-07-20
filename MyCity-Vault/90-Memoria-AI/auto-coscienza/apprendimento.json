@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 02:31",
+  "aggiornato": "2026-07-20 02:32",
+  "_nota_metabolizzazione_20_07_0232": "Chat 20/7 ~02:32: Nicola «FAB e menu Worker non stessa finestra + lista conv overlay sopra chat» — PR #492 tre superfici. L-363 nuova (caso_studio_nicola); L-352 evidenze++ addendum superseded parziale; preferenza worker-tre-superfici; #208 SUPERSEDED, #209 FATTO; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0231": "Chat 20/7 ~02:31: Nicola «fammi rimergiare menu e risolvi conflitto #489» — PR #490 unificata (menu+layout). L-362 nuova; L-359 evidenze++ superseded; preferenza pr-unificata-conflitto; #207 SUPERSEDED, #208 nuova; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0223": "Chat 20/7 ~02:23: Nicola «no, non riesco a visualizzare i fix» smentisce AD che aveva detto 5 merge online (peso chunk errato). L-361 nuova (caso_studio_nicola); L-360 evidenze++ addendum falso positivo; preferenza verifica-deploy-ui-live; STATO corretto 02:22; DECISIONI+LEZIONI-CHAT+frontend-dev+devops-sre aggiornati.",
   "_nota_metabolizzazione_20_07_0222": "Chat 20/7 ~02:22: Nicola «non si vede il fix sul panello» post-#486 — verifica live ok, cache gate. L-360 nuova; L-352 evidenze++ addendum deploy; preferenza worker-fix-non-visibile; STATO+LEZIONI-CHAT+frontend-dev aggiornati.",
@@ -80,6 +81,31 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-363",
+      "testo": "**Worker UX — tre superfici distinte: FAB popup · menu Worker fullscreen · lista conv overlay (Nicola 20/7 ~02:32).** «Bottone basso-destra e voce Worker nel menù non devono aprire la stessa finestra» + «lista conversazioni in finestra che si apre/chiude sopra la chat». 5 perché: (1) AD aveva unificato FAB e voce menù nella **stessa** popup (#486) — Nicola li distingue: FAB = accesso rapido piccolo, menù Worker = workspace grande; (2) AD aveva reso lista conv **colonna fissa sinistra** (#485/#490) — Nicola vuole **overlay sopra** i messaggi (☰ toggle, tap fuori chiude); (3) tre entry point = **tre modalità UX**, non scorciatoie allo stesso componente; (4) ingrandisci sul popup piccolo = ingrandisce popup, **non** apre la pagina menù Worker; (5) errore processo = implementare metà requisito (sidebar integrata) senza chiedere distinzione contenitore per ogni entry point. Regola: **FAB** = popup piccolo · **menu Worker** = fullscreen · **☰** = overlay conv list — mai unificare FAB=menu; mai sidebar fissa se chiede overlay. Fix PR **#492** ✅ mergiata; supersede #486 unificazione e #490 sidebar fissa. Vedi L-352, L-348, L-350.",
+      "tag": [
+        "pannello",
+        "worker",
+        "ux",
+        "fab",
+        "popup",
+        "fullscreen",
+        "overlay",
+        "conversazioni",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 02:32",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-362",
       "testo": "**Worker PR parallele — conflitto su stesso file → una sola PR consolidata, una card (Nicola 20/7 ~02:31).** «Fammi rimergiare il menu e risolvi il conflitto della #489» — fix ☰ menu (#488→#491) e layout senza testata (#489) toccavano `page.tsx` → conflitto merge. 5 perché: (1) PR parallele sullo **stesso file** generano conflitto prevedibile — unificarle **prima** di chiedere merge a Nicola; (2) Nicola vuole **un merge**, non N card (#206+#207) quando i fix sono complementari; (3) risoluzione = branch unico `fix/worker-menu-e-testata` + **PR #490** (☰ + niente testata + + in basso); (4) card vecchie (#489/#207) → **SUPERSEDED**, non lasciare in coda; (5) dopo merge unico → verifica UI live (L-361), non peso chunk. Regola: conflitto GitHub su filone Worker → consolidare, non «mergia prima A poi B». Vedi L-359, L-358, PR #490.",
@@ -314,7 +340,7 @@
     },
     {
       "id": "L-2026-0720-352",
-      "testo": "**Worker chat — sidebar dentro riquadro MA resta POPUP apri/chiudi, NON pagina fissa (Nicola 20/7 ~01:36).** Correzione esplicita dopo #485: «non ti ho specificato che deve restare una finestra che si apre e si chiude, schiacciando l'apposita icona». 5 perché: (1) richiesta 01:06 copriva **layout** (lista conv integrata a sinistra) ma **non** il **contenitore** — AD ha esteso a pagina fissa `vista=assistente` quando voce menù «Worker» apriva schermo intero; (2) Nicola vuole **overlay popup** (icona basso-destra + voce menù → stessa finestra; **X** chiude; resti su Plancia/Azioni); (3) ingrandisci/riduci = **stessa** popup più grande/piccola, non cambio pagina; (4) sidebar sinistra + chat destra + barra sticky restano **dentro** il popup — compatibile con L-348/L-350; (5) errore processo = implementare metà requisito (sidebar) senza chiedere/confermare modalità contenitore quando si cambia entry point menù. Regola: Worker UX = **popup first** (apri/chiudi icona) + sidebar integrata; **mai** promuovere a pagina fissa senza ok esplicito. Fix PR #486 merge 🔴 #204. Vedi L-348, L-350, PR #485.",
+      "testo": "**Worker chat — sidebar dentro riquadro MA resta POPUP apri/chiudi, NON pagina fissa (Nicola 20/7 ~01:36, agg. 02:32).** Correzione esplicita dopo #485: «non ti ho specificato che deve restare una finestra che si apre e si chiude, schiacciando l'apposita icona». 5 perché: (1) richiesta 01:06 copriva **layout** (lista conv integrata a sinistra) ma **non** il **contenitore** — AD ha esteso a pagina fissa `vista=assistente` quando voce menù «Worker» apriva schermo intero; (2) Nicola vuole **overlay popup** (icona basso-destra; **X** chiude; resti su Plancia/Azioni); (3) ingrandisci/riduci = **stessa** popup più grande/piccola, non cambio pagina; (4) sidebar sinistra + chat destra + barra sticky restano **dentro** il popup — compatibile con L-348/L-350; (5) errore processo = implementare metà requisito (sidebar) senza chiedere/confermare modalità contenitore quando si cambia entry point menù. Regola: Worker UX = **popup first** (apri/chiudi icona). **ADDENDUM 02:32 (Nicola):** FAB popup piccolo **≠** voce menu Worker fullscreen — **non** unificare (#486); lista conv = **overlay sopra** chat, non colonna fissa (#492, L-363). Vedi L-363, L-348, L-350, PR #486.",
       "tag": [
         "pannello",
         "chat",
@@ -328,11 +354,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 02:22",
+      "ultima_conferma": "2026-07-20 02:32",
       "stato": "attiva",
       "usi": []
     },
@@ -8252,6 +8278,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Worker UX — tre superfici distinte: FAB popup piccolo · menu Worker fullscreen · lista conv overlay (chat 20/7 ~02:32):** «bottone basso-destra e voce Worker nel menù non devono aprire la stessa finestra» + lista conv «in finestra che si apre/chiude sopra la chat» — **FAB** = popup **piccolo** (ingrandisci/X); **voce «Worker» menù sinistro** = chat **grande** a schermo intero; **☰** = elenco conversazioni **overlay sopra** i messaggi (tap fuori o dopo scelta chiude) — **non** colonna fissa sinistra, **non** stessa finestra FAB=menu. Fix **PR #492** ✅ mergiata (#209); supersede #486 e #490 (#208). Dopo deploy: Ctrl+F5 + test tre entry point. Vedi L-363, L-352, L-348.",
     "**Worker PR in conflitto — vuole merge unico consolidato, non N card parallele (chat 20/7 ~02:31):** «fammi rimergiare il menu e risolvi il conflitto della #489» — si aspetta che l'AD **risolva il conflitto** e consegni **una sola PR** da mergiare (☰ + layout compatto insieme); **non** lasciare #489/#207/#206 in coda separata quando i fix sono sullo stesso file. Dopo merge: Ctrl+F5 + verifica UI live (L-361). Card attiva: **#208** / PR **#490**. Vedi L-362.",
     "**Verifica deploy Pannello — «fix online?» = prova UI live + PR merged/pending, NON peso chunk (chat 20/7 ~02:23):** chiede se ultimi merge Worker sono sul Pannello — si aspetta risposta **verificata** (stringhe UI assenti/presenti: no «Semplice e diretto», + in basso, ☰ funzionante), non «sì» da byte JS; se **lui** non vede → AD ammette errore e indica card pendente (**#208** / PR **#490**); parziale ok (#483–#487) va detto esplicitamente. Vedi L-361, L-315, L-360.",
     "**Worker popup #486 — «non si vede il fix» = verifica live + cache, gate fino a ok (chat 20/7 ~02:22):** dopo merge popup Worker (#486) segnala fix assente sul Pannello — si aspetta che l'AD **verifichi live** (non solo main), dia istruzioni refresh (Ctrl+F5, cancella dati mobile), chieda device+screenshot se persiste; **non** considerare chiuso finché non conferma finestra popup (lista sinistra, X chiude). Vedi L-360, L-352, L-353.",
@@ -8261,7 +8288,7 @@
     "**Menu vs terminale — chiede comandi VPS dal menu e pagina terminale (chat 20/7 ~01:47):** follow-up «senza cmd» (L-349) — vuole capire se il **menu** manda comandi al server e perché **non** c'è una pagina con terminale integrato; si aspetta comodità tipo shell ma AD deve chiarire: menu = pulsanti sicuri preset (giro/riavvio), **non** terminale libero; chat = canale completo; **no** pagina terminale web (sicurezza); se stessa azione ripetuta → chiede 2-3 cose e si aggiungono pulsanti al menu. Vedi L-355, L-349.",
     "**Worker chat — menu conv deve elencare TUTTE le chat, incluse quelle da Lavori (chat 20/7 ~01:45):** screenshot con chat Lavori visibile a sinistra ma **assente** dalla lista Conversazioni Worker — si aspetta elenco **unico e completo** (Worker fluttuante, Lavori «Parla con casella», stesso thread); se una chat esiste da un'altra superficie e non compare nel menu → bug storage duplicato, non «normale». Fix PR #487 merge 🔴 #205; post-merge Ctrl+F5 + verifica conv da Lavori in lista. Vedi L-354, L-348.",
     "**Worker chat — barra fissa: «ti avevo chiesto» = per lui non funziona ancora, gate obbligatorio (chat 20/7 ~01:39):** ripete richiesta sticky input+icone dopo #484 — **non** considerare chiuso finché non dice ok post-refresh; distingui merge main vs Vercel live; se «ancora no» → fix #2 come scroll. Vedi L-353, L-346, L-345.",
-    "**Worker chat — sidebar dentro riquadro MA resta POPUP apri/chiudi (chat 20/7 ~01:36):** corregge dopo #485 — lista conv integrata a sinistra **sì**, ma la Worker deve restare **finestra overlay** (icona basso-destra o voce menù → apre; **X** chiude; ingrandisci = più grande, stessa finestra) — **non** pagina a tutto schermo del menù laterale. Fix PR #486 merge 🔴 #204. Vedi L-352, L-348.",
+    "**Worker chat — sidebar dentro riquadro MA resta POPUP apri/chiudi (chat 20/7 ~01:36, agg. 02:32):** corregge dopo #485 — Worker resta **finestra overlay** (FAB apre popup; **X** chiude) — **non** pagina a tutto schermo. **02:32 addendum:** FAB popup piccolo **≠** voce menu Worker fullscreen; lista conv = **overlay sopra** chat, non colonna fissa (#492, L-363). Vedi L-363, L-352, L-348.",
     "**VPS — «cos'altro posso inserire?» = risposta da inventario reale + prossimi collegamenti, non catalogo software (chat 20/7 ~01:29):** dopo setup n8n chiede cosa aggiungere sul server — si aspetta elenco **concreto di cosa c'è già** (worker, n8n, Playwright) e **cosa manca per sbloccare valore** (webhook, Telegram, chiavi env), con priorità chiara (Telegram = avvisi bloccati); **non** suggerimenti generici «installa X/Y/Z» né secondo cervello/container extra. Vedi L-351, L-347.",
     "**Worker chat — ingrandisci = stessa chat Worker con menu sinistra, non pagina Assistente (chat 20/7 ~01:25):** segnala che pulsante ingrandisci sulla chat flottante apre **altra schermata** — si aspetta la **stessa** chat Worker (conv aperta + lista conv integrata a sinistra nel riquadro), solo a schermo intero; **non** la voce Worker del menù laterale (layout vecchio). Fix PR #485 workerFull; merge 🔴 #203; hard refresh se cache. Vedi L-350, L-348.",
     "**Comandi worker — vuole percorso sicuro senza aprire Termux/cmd ogni volta (chat 20/7 ~01:17):** chiede come scrivere comandi sul worker **senza** aprire il terminale a ogni operazione — si aspetta gerarchia chiara: **chat Pannello = uso normale** (AD esegue); SSH solo casi rari con scorciatoia una tantum; tmux sessioni lunghe; n8n per ripetitivo; regola «serve SSH?» + controllo prompt server vs telefono; **non** shell web su internet. Vedi L-349, L-6832, L-324.",
