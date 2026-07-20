@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-20 16:37** — Automatico: **47 aperte · 88 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-20 16:39** — Automatico: **48 aperte · 88 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -13,6 +13,20 @@ fonte: senior dell'AD
 
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
+
+---
+
+### 🟡 #mergia-pr-496 — Mergia PR #496: sveglia intelligence (agenda 9 fonti + workflow bandi) · ⏳ accodata 2026-07-20 16:39
+
+**Contesto:** Nicola screenshot PR #496 — checks ok ma **conflitti merge** con main. AD risolto 16:39: file memoria auto allineati a main, codice intelligence invariato; GitHub ora **mergeable**, test intelligence **2/2**.
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/496
+
+**Cosa cambia:** nel giro entra l'agenda intelligence (9 fonti/giorno) e il workflow n.41 RSS bandi non-stub.
+**Se va bene:** merge da Pannello → poi card **#accendi-intelligence-sveglia** (Telegram + n8n, 4 passi nel playbook).
+
+- **Colore:** 🟡 (merge PR — Nicola approva)
+- **Reparto:** intelligence / builder-automazioni
 
 ---
 

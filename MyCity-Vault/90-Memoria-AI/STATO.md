@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 16:37
-fonte: AD digitale (chat Pannello Diretta contenuti fix)
+aggiornato: 2026-07-20 16:39
+fonte: AD digitale (chat PR #496 conflitti + allegati casella ok)
 ---
+
+> 💬 **20/7 ~16:39 — CHAT: PR #496 intelligence — conflitti risolti, mergeable; allegati casella #497 ok (L-397, L-396).** Nicola **solo screenshot** PR #496 (checks ok, merge bloccato) — AD risolve conflitti con main: file memoria auto (`sentinella-dati.json`, diario tech) da **main**, codice intelligence invariato; branch `fix/intelligence-upgrade` ora **mergeable** (test intelligence 2/2). **Bonus:** AD **legge screenshot** da chat casella — fix allegati **PR #497** confermato. **Serve Nicola:** ① mergia **#496** ② card **#accendi-intelligence-sveglia** (4 passi Telegram+n8n). Fonte: chat Nicola 20/7 16:39.
 
 > 💬 **20/7 ~16:37 — CHAT: Diretta contenuti — fix PR #498 consegnato, merge 🔴 pendente (L-394).** Nicola «**Fai il fix**» dopo analisi radice 12:59 — AD **PR #498** (`fix/diretta-contenuti-stabile`, commit `4094570b`, typecheck OK): **1 lettura** albero GitHub (non ~70 call/refresh), **cache server 90s**, max **80** caselle visibili (da 30, ~530 totali), UI **tiene lista già caricata** se GitHub risponde a metà (anti-sparizione). **Serve Nicola:** mergia **#498** → deploy ~2 min → refresh multipli su Diretta — caselle devono restare stabili. Fonte: chat Nicola 20/7 16:37.
 

@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 16:37",
+  "aggiornato": "2026-07-20 16:39",
+  "_nota_metabolizzazione_20_07_1639": "Chat 20/7 ~16:39: Nicola solo screenshot PR #496 conflitti merge — AD risolve, mergeable; fix allegati casella #497 confermato (AD legge screenshot). L-397 nuova; L-396+L-390 evidenze++ addendum; preferenza screenshot-pr-status+allegati-casella-ok; STATO+DECISIONI+#mergia-pr-496+LEZIONI-CHAT+frontend-dev+intelligence esito.",
   "_nota_metabolizzazione_20_07_1637": "Chat 20/7 ~16:37: Nicola «Fai il fix» post analisi Diretta L-394 — PR #498 consegnata (1 read GitHub, cache 90s, max 80, sticky UI). L-394 evidenze++ addendum implementazione; preferenza diretta-fai-il-fix; STATO+DECISIONI+#mergia-pr-498+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1445": "Chat 20/7 ~14:45: Nicola «Perché non riesci a leggere l'allegato?» — root cause buildRichiestaCasella scarta bloccoAllegati. L-396 nuova (caso_studio_nicola); L-395 evidenze++; preferenza allegati-casella-pipeline; STATO+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1300": "Chat 20/7 ~13:00: Nicola follow-up casella bollino — solo allegato screenshot, no testo; AD cieco. L-395 nuova; L-393 evidenze++ addendum follow-up pre-merge; preferenza allegato-solo-follow-up; STATO+LEZIONI-CHAT+trust-safety esito.",
@@ -117,8 +118,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-397",
+      "testo": "**PR feature branch — conflitti merge con main su file memoria auto-generati (chat 20/7 ~16:39).** Nicola manda **solo screenshot** PR #496: checks ok ma merge bloccato per conflitti. 5 perché: (1) branch `fix/intelligence-upgrade` resta indietro mentre main accumula giri/memoria; (2) conflitti tipici su `sentinella-dati.json`, `consegne/tech/pr-ad-mycity-*.md`, diario operativo — **non** sul codice intelligence; (3) regola risoluzione: **main vince** su file memoria/worker auto-generati, **branch vince** su codice feature (`intelligence-agenda.mjs`, workflow n.41, playbook); (4) dopo rebase+push → GitHub **mergeable** (`git-pr.mjs`); (5) codice intelligence invariato — Nicola mergia 🔴 poi card **#accendi-intelligence-sveglia**. Regola: screenshot «conflitti PR» → AD risolve subito e spiega diario vs codice, non chiedere a Nicola merge manuale sui conflitti. Vedi L-334, L-390.",
+      "tag": [
+        "github",
+        "pr",
+        "merge",
+        "intelligence",
+        "conflitto"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 16:39",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-396",
-      "testo": "**Allegati chat casella — percorso file non arriva al worker, AD cieco (chat 20/7 ~14:45).** Nicola «**Perché non riesci a leggere l'allegato?**» dopo screenshot bollino. 5 perché: (1) AD **può** leggere foto **se** ha percorso file — non dire «non posso leggere immagini» in assoluto; (2) **bug pipeline casella:** upload Vercel/Storage ok (#60) ma `buildRichiestaCasella()` in `page.tsx` **scarta** `bloccoAllegati` già caricato — messaggio al worker ha solo nome file, **non** path; (3) `worker.sh` `prepara_allegati_chat` gira **solo** con righe `@ALLEGATO` — senza path non scarica sul VPS; (4) box piccolo «Parla con questa casella» **non ha** pulsante allegati — solo chat principale/Lavori; (5) fix 🟡 = includere bloccoAllegati in richiesta casella. Regola: «perché non leggi?» → spiega **buco pipeline** (non incapacità generica) + chiedi testo descrittivo intanto + proponi fix PR. Vedi L-395, L-117.",
+      "testo": "**Allegati chat casella — percorso file non arriva al worker, AD cieco (chat 20/7 ~14:45).** Nicola «**Perché non riesci a leggere l'allegato?**» dopo screenshot bollino. 5 perché: (1) AD **può** leggere foto **se** ha percorso file — non dire «non posso leggere immagini» in assoluto; (2) **bug pipeline casella:** upload Vercel/Storage ok (#60) ma `buildRichiestaCasella()` in `page.tsx` **scarta** `bloccoAllegati` già caricato — messaggio al worker ha solo nome file, **non** path; (3) `worker.sh` `prepara_allegati_chat` gira **solo** con righe `@ALLEGATO` — senza path non scarica sul VPS; (4) box piccolo «Parla con questa casella» **non ha** pulsante allegati — solo chat principale/Lavori; (5) fix 🟡 = includere bloccoAllegati in richiesta casella. Regola: «perché non leggi?» → spiega **buco pipeline** (non incapacità generica) + chiedi testo descrittivo intanto + proponi fix PR. **Addendum 16:39:** fix **PR #497** confermato — path `@ALLEGATO` arriva al worker da chat casella; AD ha letto screenshot PR #496 senza testo. Vedi L-395, L-117.",
       "tag": [
         "pannello",
         "chat",
@@ -127,12 +148,12 @@
         "bug"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.92,
-      "evidenze": 1,
+      "confidenza": 0.95,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 14:45",
+      "ultima_conferma": "2026-07-20 16:39",
       "stato": "attiva",
       "usi": []
     },
@@ -239,7 +260,7 @@
     },
     {
       "id": "L-2026-0720-390",
-      "testo": "**«Migliora l'intelligence» = implementare sveglia automatica, non solo diagnosi (Nicola 20/7 ~12:04).** Seguito L-385 (gap 03:39): Nicola «**Migliora l'intelligence**» — vuole **codice+accensione**, non altro piano teorico. 5 perché: (1) diagnosi senza sveglia lascia intelligence on-demand; (2) **fatto:** branch `fix/intelligence-upgrade` **PR #496** commit `0e76f0d3`, test 2/2 — `intelligence-agenda.mjs` (**9 fonti/giorno** nel giro), hook `giro.sh`, workflow **n.41** RSS **non stub** (3 feed, Telegram **7:00 solo novità bandi**), fonti bandi Camera+Unione Commercianti; (3) playbook `PLAYBOOK-ACCENSIONE-2026-07-20.md` + card **#accendi-intelligence-sveglia** 🔴; (4) **ancora 🔴:** mergia PR + chiavi Telegram + Active n8n (n.41 poi n.31); (5) Firecrawl **dopo** sveglia, non prima. Regola: «migliora intelligence» dopo diagnosi → **consegna operativa** (script+workflow+card), chiude merge PR + accensione. Vedi L-385, L-374.",
+      "testo": "**«Migliora l'intelligence» = implementare sveglia automatica, non solo diagnosi (Nicola 20/7 ~12:04).** Seguito L-385 (gap 03:39): Nicola «**Migliora l'intelligence**» — vuole **codice+accensione**, non altro piano teorico. 5 perché: (1) diagnosi senza sveglia lascia intelligence on-demand; (2) **fatto:** branch `fix/intelligence-upgrade` **PR #496** commit `0e76f0d3`, test 2/2 — `intelligence-agenda.mjs` (**9 fonti/giorno** nel giro), hook `giro.sh`, workflow **n.41** RSS **non stub** (3 feed, Telegram **7:00 solo novità bandi**), fonti bandi Camera+Unione Commercianti; (3) playbook `PLAYBOOK-ACCENSIONE-2026-07-20.md` + card **#accendi-intelligence-sveglia** 🔴; (4) **ancora 🔴:** mergia PR + chiavi Telegram + Active n8n (n.41 poi n.31); (5) Firecrawl **dopo** sveglia, non prima. Regola: «migliora intelligence» dopo diagnosi → **consegna operativa** (script+workflow+card), chiude merge PR + accensione. **Addendum 16:39:** conflitti merge con main risolti (file memoria da main, codice intelligence invariato) — PR **mergeable**, card **#mergia-pr-496** 🔴. Vedi L-385, L-374, L-397.",
       "tag": [
         "intelligence",
         "sveglia",
@@ -250,11 +271,11 @@
       ],
       "reparto": "@intelligence",
       "confidenza": 0.9,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 12:04",
+      "ultima_conferma": "2026-07-20 16:39",
       "stato": "attiva",
       "usi": []
     },
@@ -9026,6 +9047,8 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Screenshot PR GitHub — solo allegato = segnala stato merge/conflitti, AD risolve e spiega (chat 20/7 ~16:39):** manda screenshot PR #496 senza testo (checks ok, merge bloccato) — si aspetta che l'AD **legga l'immagine**, risolva conflitti con main (memoria auto da main, codice feature dal branch), confermi **mergeable** e indichi merge 🔴 + passo successivo (#accendi-intelligence-sveglia); **non** chiedere a Nicola di risolvere conflitti a mano. Vedi L-397, L-390.",
+    "**Allegati casella — fix #497 ok: AD deve leggere screenshot da chat casella (chat 20/7 ~16:39, agg. 14:45):** dopo fix PR #497 il path `@ALLEGATO` arriva al worker — AD ha letto screenshot conflitti PR #496 da chat casella; si aspetta **lettura visiva** funzionante post-merge deploy; se ancora cieco = verificare deploy #497 + path pipeline. Vedi L-396.",
     "**Allegati casella — si aspetta che l'AD legga screenshot; se cieco spiega PERCHÉ (bug pipeline), non «non posso» (chat 20/7 ~14:45):** dopo screenshot bollino chiede «perché non leggi l'allegato» — upload funziona ma path non passa al worker (`buildRichiestaCasella` scarta `bloccoAllegati`); vuole **spiegazione tecnica onesta** + workaround (descrivere in testo) + fix 🟡 PR; non accetta risposta generica «non posso leggere foto». Vedi L-396, L-395.",
     "**Follow-up casella — allegato solo screenshot dopo fix consegnato (chat 20/7 ~13:00):** su casella bollino manda **solo screenshot** senza testo — si aspetta che l'AD **capisca dal visivo** cosa vede (sito, card approva, errore); se AD cieco, chiede descrizione ma intanto vuole **triage chiaro**: fix marketplace **non online** fino merge **#213**; badge su tutti pre-merge = normale; post-merge aspetta deploy Render. Vedi L-395, L-393.",
     "**Diretta contenuti — «Fai il fix» dopo analisi radice = PR subito, non solo proposta (chat 20/7 ~16:37):** post diagnosi L-394 Nicola approva con «**Fai il fix**» — si aspetta **PR consegnata** (#498: 1 lettura GitHub, cache 90s, max 80, UI non svuota su parziale), typecheck OK, merge 🔴 Nicola → deploy ~2 min → test refresh multipli stabili. Pattern: analisi profonda prima, poi implementazione immediata al via. Vedi L-394.",

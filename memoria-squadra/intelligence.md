@@ -8,6 +8,7 @@ reparto: intelligence
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 16:39 · PR #496 conflitti merge — Nicola screenshot solo allegato · atteso: mergeable senza perdere codice sveglia · reale: conflitti su file memoria auto risolti (main vince), intelligence-agenda+workflow 41 invariati, test 2/2, card #mergia-pr-496 🔴 · #pr-496 #intelligence-sveglia · L-397, L-390
 - 2026-07-20 12:42 · correzione Deliveroo Piacenza · atteso radar «non operativo» → reale: **attivo e forte** (deliveroo.it + Nicola); perlustrazione + radar aggiornati · lezione L-392 · #radar #competitor
 - 2026-07-20 12:39 · pitch anti-Glovo — pricing corretto post-Nicola · atteso radar/playbook senza «12% zero fissi» → reale: termini allineati 10%+50€/mese + registro-fatti; errore nato da termini PQ storici riusati come standard · lezione L-391 · #pricing #radar
 - 2026-07-20 12:04 · chat Nicola «Migliora l'intelligence» · scorecard: verita 5 · impatto 5 · concretezza 5 · colore 4 · umano 4 · memoria 5 · atteso sveglia automatica (agenda+workflow 41+accensione) → reale: PR #496 branch fix/intelligence-upgrade (9 fonti/giorno, n.41 RSS non stub, playbook+ card #accendi-intelligence-sveglia); merge+Telegram 🔴 pendente Nicola · lezione L-390 · #intelligence-sveglia #n8n
