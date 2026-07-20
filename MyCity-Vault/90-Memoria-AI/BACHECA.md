@@ -6,6 +6,47 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
+## 📍 Capillarità — kit fisico QR e vetrine · 2026-07-20 23:59
+
+Ogni negozio **confermato** esce dal go-live con kit fisico (QR cassa/vetrina, vetrofania, sacchetti) + mappa presenza in città. **Grafica pronta, stampa e posa bloccate** — non mettere QR in vetrina prima che il fornaio sappia evadere ordini.
+
+### Dove siamo
+
+| Fatto | Valore |
+| --- | --- |
+| Negozi approvati | **1** (Pane Quotidiano) |
+| Ordini consegnati | **0** |
+| Kit PQ intestato | **Pronto su disco** (QR live verificato) |
+| Template neutri prospect | **Pronti** (Garetti / Peretti / Amendolara — solo dopo firma) |
+
+**Verdetto:** ARMATO, non stampare. Priorità: ordine test PQ → preventivo tipografia → posa in negozio.
+
+### Cosa c'è già (gratis, su disco)
+
+- **Pane Quotidiano:** cartoncino cassa, vetrofania, QR vetrina — file pronti per la tipografia
+- **Prospect non firmati:** solo template neutri con segnaposto — niente pacchetto intestato finché non aderiscono
+- **Casa Linda:** esclusa (demo)
+
+### Cosa resta in coda (🔴 firma Nicola — costa soldi)
+
+| Passo | Gate |
+| --- | --- |
+| Preventivo + stampa kit PQ | Dopo **ordine test PQ** chiuso — stima **~80–150 €** tipografia locale |
+| Posa vetrina + cassa | Stesso gate + ok titolare |
+| QR sparsi in città (bar, edicole) | **≥ 3 negozi** reali che evadono — oggi ne abbiamo 1 |
+
+> Il bando «Vita in Centro rimborsa materiali» **non esiste**. Alternativa stampa: **PI26 CCIAA** (50% digitalizzazione, scade 30/7).
+
+### Prossimo passo (ordine)
+
+1. **Ordine test Pane Quotidiano** — il fornaio deve sapere evadere
+2. Chiedi preventivo tipografia con i file PQ → firma stampa
+3. Dopo **≥ 3 negozi evadibili:** semina QR in città
+
+Playbook completo: `consegne/vendite/2026-07-20-playbook-capillarita.md` · refresh vendite 20/7 11:24.
+
+---
+
 ## 🎟️ Fedeltà di rete — MyCity Punti + Gift Card · 2026-07-20 23:54
 
 Playbook aggiornato (base 6/7). **Meccanica pronta, programma NON acceso** — oggi 1 bottega, 0 ordini pagati: promettere punti su tutta la rete non ha senso finché la rete non c'è.

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 23:58
-fonte: AD digitale (chat 20/7 23:58)
+aggiornato: 2026-07-20 23:59
+fonte: AD digitale (chat 20/7 23:59)
 ---
+
+> 💬 **20/7 ~23:59 — CHAT: Casella Capillarità in Bacheca home (L-437).** Nicola «**metti questa casella dentro bacheca**» — casella Vendite playbook capillarità refresh 20/7. AD: pin in cima `BACHECA.md` — kit PQ **ARMATO ma non stampare** (grafica pronta · 0 DELIVERED · gate ordine test → stampa ~80–150 € → semina città ≥3 negozi); prospect solo template neutri. Playbook: `consegne/vendite/2026-07-20-playbook-capillarita.md`. Fonte: chat Nicola 20/7 ~23:59.
 
 > 💬 **20/7 ~23:58 — CHAT: Cadenza Dati-come-servizio — lunedì interno, mensile al fornaio post-DELIVERED (L-436).** Nicola «**Ogni quanto tempo fai questa analisi?**» — casella account-negozi playbook 20/7 11:22. AD: **refresh interno settimanale di lunedì** (REST live → stampo + casella) · **consegna al titolare mensile** (best-seller, orari, clienti che tornano) **solo dopo** primo ordine **DELIVERED** → 🔴 #50 · oggi **0 DELIVERED** su PQ → anteprima onesta (carrello samir €10), non report vendite · ultimo refresh **20/7 11:22** · prossimo passo `#ordine-test-pq`. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 ~23:58.
 
