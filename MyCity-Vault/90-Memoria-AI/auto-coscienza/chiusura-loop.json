@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-20 11:00",
+  "aggiornato": "2026-07-20 12:20",
   "soglia_giorni": 7,
   "totale": 120,
   "mancanti": 0,
   "vuoti": 75,
-  "fermi": 92,
-  "vivi": 28,
+  "fermi": 88,
+  "vivi": 32,
   "reparti_fermi": [
     "accessibility",
     "account-security",
@@ -37,7 +37,6 @@
     "credito-impresa",
     "cro",
     "demand-forecasting",
-    "designer",
     "developer-platform",
     "direttore-creativo",
     "dispatch",
@@ -73,7 +72,6 @@
     "office-manager",
     "personalization",
     "platform-infra",
-    "pr-stampa",
     "pricing-scientist",
     "private-label",
     "procurement",
@@ -96,10 +94,8 @@
     "segreteria-ea",
     "seller-financing",
     "seller-standards",
-    "seo",
     "supporto",
-    "sustainability-esg",
-    "trust-safety"
+    "sustainability-esg"
   ],
   "quaderni": [
     {
@@ -116,8 +112,8 @@
       "reparto": "account-negozi",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 14,
-      "ultimo_esito": "2026-07-20 00:02",
+      "righe_esito": 17,
+      "ultimo_esito": "2026-07-20 11:22",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -396,9 +392,9 @@
       "reparto": "content-social",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 14,
-      "ultimo_esito": "2026-07-19 19:43",
-      "giorni_fa": 1,
+      "righe_esito": 16,
+      "ultimo_esito": "2026-07-20 11:27",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -436,8 +432,8 @@
       "reparto": "crm-lifecycle",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 10,
-      "ultimo_esito": "2026-07-19 23:33",
+      "righe_esito": 13,
+      "ultimo_esito": "2026-07-20 11:37",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -456,9 +452,9 @@
       "reparto": "customer-success",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 5,
-      "ultimo_esito": "2026-07-19 12:54",
-      "giorni_fa": 1,
+      "righe_esito": 6,
+      "ultimo_esito": "2026-07-20 11:28",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -486,11 +482,11 @@
       "reparto": "designer",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 1,
-      "ultimo_esito": "2026-07-01",
-      "giorni_fa": 19,
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-20 11:25",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "developer-platform",
@@ -666,9 +662,9 @@
       "reparto": "growth-monetizzazione",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 3,
-      "ultimo_esito": "2026-07-18 11:06",
-      "giorni_fa": 2,
+      "righe_esito": 4,
+      "ultimo_esito": "2026-07-20 11:20",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -706,8 +702,8 @@
       "reparto": "intelligence",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 12,
-      "ultimo_esito": "2026-07-20 03:39",
+      "righe_esito": 14,
+      "ultimo_esito": "2026-07-20 12:04",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -906,9 +902,9 @@
       "reparto": "operations",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 9,
-      "ultimo_esito": "2026-07-18 11:06",
-      "giorni_fa": 2,
+      "righe_esito": 10,
+      "ultimo_esito": "2026-07-20 11:01",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -956,11 +952,11 @@
       "reparto": "pr-stampa",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 2,
-      "ultimo_esito": "2026-07-01",
-      "giorni_fa": 19,
+      "righe_esito": 3,
+      "ultimo_esito": "2026-07-20 11:29",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "pricing-scientist",
@@ -1236,11 +1232,11 @@
       "reparto": "seo",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 5,
-      "ultimo_esito": "2026-07-06 16:08",
-      "giorni_fa": 14,
+      "righe_esito": 7,
+      "ultimo_esito": "2026-07-20 11:12",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "supporto",
@@ -1268,7 +1264,7 @@
       "mancante": false,
       "righe_esito": 42,
       "ultimo_esito": "2026-07-19 23:23",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -1276,11 +1272,11 @@
       "reparto": "trust-safety",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 1,
-      "ultimo_esito": "2026-07-01",
-      "giorni_fa": 19,
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-20 11:34",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "ux-designer",
@@ -1288,7 +1284,7 @@
       "mancante": false,
       "righe_esito": 10,
       "ultimo_esito": "2026-07-13 23:32",
-      "giorni_fa": 6,
+      "giorni_fa": 7,
       "vuoto": false,
       "fermo": false
     },
@@ -1296,9 +1292,9 @@
       "reparto": "vendite",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 17,
-      "ultimo_esito": "2026-07-18 11:06",
-      "giorni_fa": 2,
+      "righe_esito": 19,
+      "ultimo_esito": "2026-07-20 11:25",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     }

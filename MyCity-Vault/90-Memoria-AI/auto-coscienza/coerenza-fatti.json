@@ -1,11 +1,495 @@
 {
-  "data": "2026-07-20 11:03",
-  "esito": "ok",
-  "fatti_totali": 13,
-  "cacce_aperte": 0,
-  "file_scansionati": 0,
-  "incoerenze": [],
-  "cacce": [],
+  "data": "2026-07-20 12:39",
+  "esito": "incoerenze",
+  "fatti_totali": 15,
+  "cacce_aperte": 7,
+  "file_scansionati": 1366,
+  "incoerenze": [
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "MyCity-Vault/05-Soldi-Rischi/Finanza & Unit Economics.md",
+      "riga": 6,
+      "testo": "Assunzioni 🟡: AOV €50 · commissione 12% (€6) · fee consegna €3,50 · costo rider €7/giro · packaging €1,20 · Stripe €1,37."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "MyCity-Vault/06-Piani/Piano Vendite.md",
+      "riga": 102,
+      "testo": "➡️ *Prossima azione:* per Garetti il pitch è già confezionato in `consegne/vendite/pitch-garetti.md` (commissione 12%, 0 fissi, payout a consegna, COD-first) — riusare, non riscrivere."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ costi fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+      "riga": 856,
+      "testo": "| 1 | 2026-06-25 10:09 | vendite→legale | Termini commerciali **Pane Quotidiano**: commissione **12%**, **0€ costi fissi**, **payout a consegna**, **nessun vincolo** | 🔴 | `consegne/legale/contratto-"
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+      "riga": 856,
+      "testo": "| 1 | 2026-06-25 10:09 | vendite→legale | Termini commerciali **Pane Quotidiano**: commissione **12%**, **0€ costi fissi**, **payout a consegna**, **nessun vincolo** | 🔴 | `consegne/legale/contratto-"
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+      "riga": 901,
+      "testo": "| 43 | 2026-07-06 12:40 | @vendite | Dal 9/7 aggiungi al giro chiamate le 3 botteghe della spesa fresca che mancano nel centro | 🔴 | Scout categorie mancanti nel cluster (oggi solo Pane Quotidiano; l"
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "12%/0€ fissi",
+      "valore_nuovo": "10% sul venduto",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+      "riga": 901,
+      "testo": "| 43 | 2026-07-06 12:40 | @vendite | Dal 9/7 aggiungi al giro chiamate le 3 botteghe della spesa fresca che mancano nel centro | 🔴 | Scout categorie mancanti nel cluster (oggi solo Pane Quotidiano; l"
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ costi fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md",
+      "riga": 59,
+      "testo": "commissione 12%, 0€ costi fissi, payout a consegna confermata, nessun vincolo."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md",
+      "riga": 59,
+      "testo": "commissione 12%, 0€ costi fissi, payout a consegna confermata, nessun vincolo."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md",
+      "riga": 151,
+      "testo": "condizioni comuni: commissione 12% · 0€ fissi · payout a consegna · vetrina ~20 min · primo ordine prova offerto · leva PI26 50% fino 30/7."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md",
+      "riga": 151,
+      "testo": "condizioni comuni: commissione 12% · 0€ fissi · payout a consegna · vetrina ~20 min · primo ordine prova offerto · leva PI26 50% fino 30/7."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
+      "riga": 945,
+      "testo": "0. **🛠️ +2 capacità COSTRUITE 6/7 16:52 — ora 7 girano sui dati veri.** Su «vai» di Nicola: **#13 Il Bilancio Vivo** (`cervello/bilancio-vivo.mjs` — unit economics per ordine sui numeri reali: 1 ordi"
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/account-negozi/2026-07-04-anti-churn-standalone-pane-quotidiano.md",
+      "riga": 17,
+      "testo": "- **Coorte = 1 negozio.** Unico seller reale su MyCity: **Pane Quotidiano** (contratto firmato 1/7, commissione 12%). Casa Linda = demo/seed, esclusa."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/audit/2026-06-27-radiografia-v2.md",
+      "riga": 454,
+      "testo": "- **Causa:** Nessuna distinzione tra 404 (relazione assente) e altri stati HTTP. Le funzioni 'impostazioni' alimentano kill-switch, budget AI, commissione (unit economics): un falso 'tabella assente' "
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/audit/2026-07-07-cantiere-nuovi-difetti.json",
+      "riga": 71,
+      "testo": "\"fix_proposto\": \"🟡 Seeding del registro con i 6-8 fatti vivi già firmati/verificati (9/7, 10/7-17/7, 13/7, 21/7, faro PQ, commissione 12%, ramo unico main) via coerenza-fatti.mjs registra, con caccia"
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/audit/2026-07-07-cantiere-nuovi-difetti.json",
+      "riga": 94,
+      "testo": "\"nota\": \"Ripropone firme già date (commissione 12% firmata l'1/7) e date scadute.\","
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/audit/2026-07-07-riconciliazioni-memoria.md",
+      "riga": 20,
+      "testo": "Il file ha `aggiornato: 2026-06-26` e ripropone firme già date (es. commissione 12% a Garetti, firmata"
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/audit/2026-07-16-radiografia-performance.md",
+      "riga": 484,
+      "testo": "- Dove: cervello/north-star-check.mjs:44 (margine = {valore:null, fonte:null}, 'manca una fonte deterministica → NON inventiamo') vs cervello/bilancio-vivo.mjs:46-52 (margine = commissione 12% documen"
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ costi fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/decisioni/2026-06-26-foglio-firma-lancio.md",
+      "riga": 19,
+      "testo": "- **Cosa firmi:** commissione **12%** sul valore ordine · **0€ costi fissi** · **payout a consegna confermata** · **nessun vincolo / nessuna penale d'uscita**."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/finanza/payout-faro.md",
+      "riga": 10,
+      "testo": "allineato-con: DECISIONI.md (commissione 12%, IN ATTESA DI FIRMA di Nicola)"
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/finanza/payout-faro.md",
+      "riga": 26,
+      "testo": "Termine firmato/proposto: **commissione 12%, payout a consegna confermata, zero costi fissi** (Parte C pitch + §3-5 contratto)."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "zero fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/intelligence/2026-07-20-perlustrazione-settimana.md",
+      "riga": 40,
+      "testo": "| **Glovo Piacenza** | Promo aggressive live: I Love Poke **-25%**, Vasinikò **-30%** articoli + **-40% con Prime**, referral **16€** (4×4€) | Guerra sconti su **catene/ristorazione** — leva pitch bot"
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "zero fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/intelligence/2026-07-20-perlustrazione-settimana.md",
+      "riga": 71,
+      "testo": "Glovo oggi spinge **-25% a -40%** su poke/pizza/catene + abbonamento Prime — i ristoranti pagano sconti **e** commissioni ~30%. MyCity resta complementare (botteghe centro, 12%, zero fissi)."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "12%, zero fissi",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/intelligence/2026-07-20-perlustrazione-settimana.md",
+      "riga": 71,
+      "testo": "Glovo oggi spinge **-25% a -40%** su poke/pizza/catene + abbonamento Prime — i ristoranti pagano sconti **e** commissioni ~30%. MyCity resta complementare (botteghe centro, 12%, zero fissi)."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/legale/contratto-pane-quotidiano-bozza.md",
+      "riga": 8,
+      "testo": "termini-firmati: commissione 12% · 0€ fissi · payout a consegna · nessun vincolo · COD-first (Stripe sandbox fino a LIVE)"
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/legale/contratto-pane-quotidiano-bozza.md",
+      "riga": 8,
+      "testo": "termini-firmati: commissione 12% · 0€ fissi · payout a consegna · nessun vincolo · COD-first (Stripe sandbox fino a LIVE)"
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/legale/contratto-pane-quotidiano-bozza.md",
+      "riga": 117,
+      "testo": "> Termini commerciali approvati da Nicola (1/7/2026): 12% · 0€ fissi · payout a consegna · no vincolo."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/legale/contratto-venditore-bozza.md",
+      "riga": 9,
+      "testo": "allineato-con: DECISIONI.md (commissione 12%, IN ATTESA DI FIRMA di Nicola)"
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/marketing/2026-07-04-piano-santantonino.md",
+      "riga": 48,
+      "testo": "- **1 pagina condizioni negoziante** (commissione 12%, 0 fissi, payout a consegna) — già in `consegne/vendite/pitch-garetti.md` (Parte C) + bozza @legale."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/relazioni-istituzionali/2026-06-27-confcommercio-guida-online.md",
+      "riga": 31,
+      "testo": "> botteghe a casa dei piacentini (commissione 12%, zero costi fissi, consegna locale in giornata)."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/strategia/2026-06-27-intenzioni-nicola.md",
+      "riga": 24,
+      "testo": "1. **Foglio-firma da 2 minuti** (`consegne/decisioni/2026-06-26-foglio-firma-lancio.md`): conferma **Stripe LIVE o sandbox**, firma **commissione 12% + 0€ fissi + payout a consegna** per Garetti, sceg"
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/strategia/2026-06-27-intenzioni-nicola.md",
+      "riga": 24,
+      "testo": "1. **Foglio-firma da 2 minuti** (`consegne/decisioni/2026-06-26-foglio-firma-lancio.md`): conferma **Stripe LIVE o sandbox**, firma **commissione 12% + 0€ fissi + payout a consegna** per Garetti, sceg"
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/strategia/2026-06-28-auto-coscienza.md",
+      "riga": 42,
+      "testo": "contenuto**, mai come negozio che hai scelto — eppure tutta la memoria (pitch, kit, commissione 12%,"
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "12% solo sul venduto",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md",
+      "riga": 34,
+      "testo": "> basta), **senza le commissioni del 30% di Glovo/Deliveroo** (paghi 12% solo sul venduto, come Pane Quotidiano),"
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ costi fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md",
+      "riga": 192,
+      "testo": "- **0€ costi fissi.** Commissione **12% solo sul venduto.** Payout a consegna. Nessun vincolo."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "12% solo sul venduto",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md",
+      "riga": 192,
+      "testo": "- **0€ costi fissi.** Commissione **12% solo sul venduto.** Payout a consegna. Nessun vincolo."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md",
+      "riga": 197,
+      "testo": "- *\"Quanto mi costa?\"* → 0€ fissi, 12% solo sul venduto, come Pane Quotidiano."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "12% solo sul venduto",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md",
+      "riga": 197,
+      "testo": "- *\"Quanto mi costa?\"* → 0€ fissi, 12% solo sul venduto, come Pane Quotidiano."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-06-lista-27-botteghe-food-da-chiamare.md",
+      "riga": 41,
+      "testo": "- *«Quanto mi costa?»* → 0€ fissi, commissione **12%** solo sul venduto, payout a consegna, nessun vincolo (stesso patto di Pane Quotidiano)."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-06-schede-cheat-6-botteghe-visita-13-7.md",
+      "riga": 29,
+      "testo": "- **🛡 Obiezioni:** costo → *0€ fissi, 12% sul venduto (Deliveroo 30%)* · tempo → *lo montiamo noi* · consegna → *centro a piedi/bici*."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-06-schede-cheat-6-botteghe-visita-13-7.md",
+      "riga": 43,
+      "testo": "- **🛡 Obiezioni:** costo → *0€ fissi, 12%* · tempo → *facciamo noi* · consegna → *centro, a piedi*."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-06-schede-cheat-6-botteghe-visita-13-7.md",
+      "riga": 56,
+      "testo": "- **🛡 Obiezioni:** \"già pieno al tavolo\" → *questo è ricavo IN PIÙ, fuori orario di sala* · costo → *0€ fissi, 12%* · tempo → *noi*."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-06-schede-cheat-6-botteghe-visita-13-7.md",
+      "riga": 70,
+      "testo": "- **🛡 Obiezioni:** costo → *0€ fissi, 12%* · tempo → *noi* · \"non so se funziona\" → *test 3-4 piatti, 2 settimane, misuriamo*."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-06-schede-cheat-6-botteghe-visita-13-7.md",
+      "riga": 83,
+      "testo": "- **🛡 Obiezioni:** \"svilisce il fine dining\" → *box premium curati, non fast* · costo → *0€ fissi, 12%* · tempo → *noi, tu approvi*."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-06-schede-cheat-6-botteghe-visita-13-7.md",
+      "riga": 97,
+      "testo": "- **🛡 Obiezioni:** \"sono lontano\" → *proprio per questo NON consegna, ma vetrina+prenotazione+ritiro* · costo → *0€ fissi, 12%* · tempo → *noi*."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-06-schede-cheat-6-botteghe-visita-13-7.md",
+      "riga": 105,
+      "testo": "- **Patto economico:** **0€ fissi · 12% solo sul venduto · payout a consegna · nessun vincolo.** (Glovo/Deliveroo 25-30%.)"
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "12% solo sul venduto",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/vendite/2026-07-06-schede-cheat-6-botteghe-visita-13-7.md",
+      "riga": 105,
+      "testo": "- **Patto economico:** **0€ fissi · 12% solo sul venduto · payout a consegna · nessun vincolo.** (Glovo/Deliveroo 25-30%.)"
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ costi fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-06-scout-negozi-categorie-mancanti.md",
+      "riga": 67,
+      "testo": "commissione **12%**, **0€ costi fissi**, **payout a consegna confermata**, nessun vincolo, vetrina + catalogo"
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-14-checklist-operativa-13-botteghe.md",
+      "riga": 25,
+      "testo": "| ☐ | Termini 1 pagina (12% / 0€ fissi / payout a consegna) — se firmati da Nicola |"
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md",
+      "riga": 15,
+      "testo": "> **Patto (tutte):** 0€ fissi · **12%** solo sul venduto · payout a consegna · nessun vincolo · montiamo noi in ~20 min."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "12% solo sul venduto",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md",
+      "riga": 132,
+      "testo": "> *«Buongiorno, Amendolara è una tappa obbligata per chi vuole il meglio piacentino — lo sanno tutti. MyCity porta quella qualità **a domicilio in città**, nel carrello con Pane Quotidiano e le altre "
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md",
+      "riga": 263,
+      "testo": "- **Economico:** 0€ fissi · 12% sul venduto · payout a consegna · uscita libera."
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ costi fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/2026-07-20-playbook-scout-negozi-categorie-mancanti.md",
+      "riga": 40,
+      "testo": "**Condizioni comuni (invariate):** commissione **12%** · **0€ costi fissi** · payout a consegna · vetrina done-for-you **~20 min** (<48h) · primo ordine di prova offerto."
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/vendite/checklist-prima-transazione-casa-linda.md",
+      "riga": 19,
+      "testo": "| 3 | **Firma le 3 decisioni di lancio** (Stripe, commissione 12%, fee) se non già fatto | Nicola | 🔴 |"
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "valore_nuovo": "50€/mese",
+      "file": "consegne/vendite/kit-bando-er-mycity.md",
+      "riga": 20,
+      "testo": "| Commissione | **12%** sul venduto (0€ fissi mensili) |"
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "valore_nuovo": "10% sul venduto",
+      "file": "consegne/vendite/pitch-garetti.md",
+      "riga": 146,
+      "testo": "- Termini scritti su 1 pagina (commissione 12% / zero costi / payout a consegna) da firmare/contrassegnare (→ @legale)."
+    }
+  ],
+  "cacce": [
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "zero fissi",
+      "dal": "2026-07-20 12:39",
+      "copie_trovate": 2
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ costi fissi",
+      "dal": "2026-07-20 12:39",
+      "copie_trovate": 6
+    },
+    {
+      "fatto": "pricing.abbonamento",
+      "pattern": "0€ fissi",
+      "dal": "2026-07-20 12:39",
+      "copie_trovate": 19
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "commissione 12%",
+      "dal": "2026-07-20 12:39",
+      "copie_trovate": 21
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "12%, zero fissi",
+      "dal": "2026-07-20 12:39",
+      "copie_trovate": 1
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "12%/0€ fissi",
+      "dal": "2026-07-20 12:39",
+      "copie_trovate": 1
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "12% solo sul venduto",
+      "dal": "2026-07-20 12:39",
+      "copie_trovate": 5
+    }
+  ],
   "esenzioni_default": [
     "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
     "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
@@ -15,5 +499,5 @@
     "MyCity-Vault/90-Memoria-AI/registro-fatti.json",
     "memoria-squadra/"
   ],
-  "istruzioni": "Memoria coerente: nessuna copia vecchia nei file vivi."
+  "istruzioni": "Riscrivi ogni file elencato col valore nuovo del fatto, poi riesegui `node cervello/coerenza-fatti.mjs` finché passa. Le cacce con 0 copie sono bonificate: chiudile con `chiudi-caccia <id>`."
 }

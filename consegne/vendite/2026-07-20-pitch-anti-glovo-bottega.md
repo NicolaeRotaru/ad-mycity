@@ -1,8 +1,8 @@
 ---
 tipo: pitch-vendite
 reparto: vendite
-data: 2026-07-20 11:35
-fonte: @intelligence (PLAYBOOK) · pagina Glovo Piacenza live
+data: 2026-07-20 12:39
+fonte: @intelligence (PLAYBOOK) · pagina Glovo Piacenza live · correzione pricing Nicola
 stato: bozza riusabile — NON inviare senza 🔴 Nicola
 ---
 
@@ -10,7 +10,7 @@ stato: bozza riusabile — NON inviare senza 🔴 Nicola
 
 ## Hook (30 secondi)
 
-Su Glovo oggi a Piacenza ci sono sconti **-25% a -40%** su poke, pizza e catene — pagati dal ristorante **oltre** alla commissione ~30%. MyCity è complementare: **botteghe del centro**, **12%**, zero fissi, consegna con il volto del negoziante. E con **PI26** (sportello aperto oggi) metà delle spese digitali può essere a fondo perduto.
+Su Glovo oggi a Piacenza ci sono sconti **-25% a -40%** su poke, pizza e catene — pagati dal ristorante **oltre** alla commissione ~30%. MyCity è complementare: **botteghe del centro**, **10%** sul venduto, **50€/mese** di abbonamento, consegna con il volto del negoziante. E con **PI26** (sportello aperto oggi) metà delle spese digitali può essere a fondo perduto.
 
 ## Prova (fonte live 20/7)
 

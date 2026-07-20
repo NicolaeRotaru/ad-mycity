@@ -23,7 +23,7 @@ fonte-dati: STATO 20/7 11:00 · playbook base 6/7 · @finanza validazione 20/7
 | Buyer registrati | **4** | STATO 20/7 |
 | Ordini pagati | **0** | STATO 20/7 |
 | Stallo business | **~625 h** (~26 gg) | STATO 20/7 |
-| Commissione MyCity | **12%** | contratto PQ / pitch vendite |
+| Commissione MyCity | **10%** sul venduto + **50€/mese** abbonamento | registro-fatti + codice marketplace 20/7 |
 | Stripe write | **non collegato** | sensori worker |
 
 **Verdetto:** il programma resta **ARMATO, non acceso**. Lanciarlo oggi = promessa senza rete (1 bottega → punti spendibili… da 1 bottega).

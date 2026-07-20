@@ -37,7 +37,7 @@ Contorno confermato:
 
 | Competitor | Novità | Segnale per MyCity |
 |------------|--------|-------------------|
-| **Glovo Piacenza** | Promo aggressive live: I Love Poke **-25%**, Vasinikò **-30%** articoli + **-40% con Prime**, referral **16€** (4×4€) | Guerra sconti su **catene/ristorazione** — leva pitch botteghe: «loro bruciano margine con sconti, voi bottega 12% zero fissi» |
+| **Glovo Piacenza** | Promo aggressive live: I Love Poke **-25%**, Vasinikò **-30%** articoli + **-40% con Prime**, referral **16€** (4×4€) | Guerra sconti su **catene/ristorazione** — leva pitch botteghe: «loro bruciano margine con sconti, voi bottega 10% + 50€/mese» |
 | **Just Eat (Prosus)** | Acquisizione completata ott 2025 (~€4,2 mld); Prosus **lug 2026** impegno irrevocabile vendita quota residua Delivery Hero a **Uber** | Consolidamento europeo delivery accelera — urgenza moat botteghe storiche **prima** che i giganti ottimizzino Italia |
 | **Deliveroo** | Non operativo Piacenza | Invariato |
 | **Amazon-Cortilia** | Entrato Emilia-Romagna mag 2026 (invariato vs scan 6/7) | Campo spesa GDO affollato — restiamo su bottega+volto |
@@ -68,7 +68,7 @@ Combinazione **pioggia debole** (meteo33 ~2mm lun, probabilità 30-40% mar-dom s
 
 ### 3) 🟢 Aggiorna pitch vendite — «Glovo sconta catene, noi bottega storica»
 
-Glovo oggi spinge **-25% a -40%** su poke/pizza/catene + abbonamento Prime — i ristoranti pagano sconti **e** commissioni ~30%. MyCity resta complementare (botteghe centro, 12%, zero fissi).
+Glovo oggi spinge **-25% a -40%** su poke/pizza/catene + abbonamento Prime — i ristoranti pagano sconti **e** commissioni ~30%. MyCity resta complementare (botteghe centro, **10%** sul venduto, **50€/mese** abbonamento).
 
 - **Cosa cambia:** script vendite aggiornato con prove live dalla pagina Glovo Piacenza (non teoria).
 - **Se va bene:** prossimo pitch bottega (Garetti, Peretti, Amendolara in coda WhatsApp) usa argomento «catene vs bottega» + PI26 come incentivo.

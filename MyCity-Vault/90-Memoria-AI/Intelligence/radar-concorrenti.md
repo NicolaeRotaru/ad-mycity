@@ -6,7 +6,7 @@
 
 | Competitor | Stato | Novità (20/7) | Segnale |
 |------------|-------|---------------|---------|
-| **Glovo** | Attivo | Promo live: I Love Poke **-25%**, Vasinikò **-30%** + **-40% Prime**, referral **16€** nuovi utenti | Guerra sconti su catene — leva pitch «loro bruciano margine, noi bottega 12%» |
+| **Glovo** | Attivo | Promo live: I Love Poke **-25%**, Vasinikò **-30%** + **-40% Prime**, referral **16€** nuovi utenti | Guerra sconti su catene — leva pitch «loro bruciano margine, noi bottega 10% + 50€/mese» |
 | **JustEat** | Attivo (91 tipologie) | Sotto **Prosus** da ott 2025 (~€4,2 mld); consolidamento UE in corso | Monitorare integrazione futura con ecosistema Prosus/Glovo |
 | **Deliveroo** | Non operativo a Piacenza | — | Campo libero botteghe |
 | **Amazon-Cortilia** | Emilia-Romagna (mag 2026) | Invariato | Spesa GDO affollata — noi su bottega+volto |
@@ -24,7 +24,7 @@
 
 **Argomento commerciale aggiornato (20/7):**
 - Glovo oggi sconta catene **-25% a -40%** — il ristorante paga sconto **e** commissione ~30%.
-- MyCity: **12% commissione, zero fissi, payout a consegna**, bottega con volto.
+- MyCity: **10% commissione, 50€/mese abbonamento, payout a consegna**, bottega con volto.
 - **PI26** (sportello aperto oggi): fino **€10k fondo perduto**, 50% spese digitali — leva istituzionale da usare in pitch.
 
 ## Postura vs CompraPiacenza.it

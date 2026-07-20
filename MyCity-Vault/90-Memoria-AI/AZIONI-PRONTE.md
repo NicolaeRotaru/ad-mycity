@@ -56,7 +56,7 @@ perche: È il negozio "faro" per il primo go-live. Condizioni chiare = parte sub
 preparato: 🤝 vendite + ⚖️ legale
 testo:
 Ciao, ti proponiamo l'ingresso su MyCity a condizioni di lancio:
-commissione 12%, 0€ costi fissi, payout a consegna confermata, nessun vincolo.
+commissione 10% sul venduto, abbonamento 50€/mese, payout a consegna confermata, nessun vincolo.
 Mettiamo online la tua vetrina in ~20 minuti e il primo sabato la consegna è gratis.
 Ti va se passo a sistemare tutto insieme?
 
@@ -148,9 +148,9 @@ i 3 target (scelta_ragionata, prospect NON nel DB):
   ③ Formaggi & gastronomia → Caseificio Amendolara, Via Trento 7 (dal 1939, formaggi + culatello Zibello).
 cosa cambia: pitch allineati al bando **PI26 CCIAA** (50%, max €10k, sportello dal 20/7, scade 30/7). ⛔ Bando ER 40% **chiuso** 23/6 — non citare più.
 se va bene: anche 1–2 sì → carrello-spesa completo (pane+frutta+salumi+formaggi) — offerta unica a Piacenza; riduce rischio «un solo negozio reale».
-condizioni comuni: commissione 12% · 0€ fissi · payout a consegna · vetrina ~20 min · primo ordine prova offerto · leva PI26 50% fino 30/7.
+condizioni comuni: commissione 10% · 50€/mese abbonamento · payout a consegna · vetrina ~20 min · primo ordine prova offerto · leva PI26 50% fino 30/7.
 pitch ① Peretti (ortofrutta):
-«Buongiorno, sono di MyCity — portiamo a casa la spesa dal centro, come con Pane Quotidiano in Via Calzolai. La vostra frutta e verdura fresca in consegna a Piacenza non la fa nessuno. Zero costi fissi, commissione solo sul venduto. Dal 20 luglio c'è un bando CCIAA che copre il 50% della digitalizzazione — scade il 30. Vi va se vi preparo la vetrina e facciamo un primo ordine di prova questa settimana?»
+«Buongiorno, sono di MyCity — portiamo a casa la spesa dal centro, come con Pane Quotidiano in Via Calzolai. La vostra frutta e verdura fresca in consegna a Piacenza non la fa nessuno. Abbonamento 50€/mese e commissione 10% solo sul venduto. Dal 20 luglio c'è un bando CCIAA che copre il 50% della digitalizzazione — scade il 30. Vi va se vi preparo la vetrina e facciamo un primo ordine di prova questa settimana?»
 pitch ② Garetti (salumeria/DOP):
 «Buongiorno, sono di MyCity. I vostri salumi DOP — Coppa, Pancetta, Salame piacentino — nessuno li consegna a domicilio a Piacenza: vi ho pensati per primi. Zero costi fissi, vetrina in 20 minuti. Bando Camera di Commercio aperto da oggi: rimborsa metà dei costi di digitalizzazione, fino a 10.000 euro, scadenza 30 luglio. Vi va se passo a mostrarvi come funziona e facciamo un ordine di prova?»
 pitch ③ Amendolara (formaggi/gastronomia):

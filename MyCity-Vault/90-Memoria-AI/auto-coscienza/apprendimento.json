@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 12:17",
+  "aggiornato": "2026-07-20 12:37",
   "_nota_metabolizzazione_20_07_1204": "Chat 20/7 ~12:04: Nicola «Migliora l'intelligence» — implementata sveglia PR #496. L-390 nuova; L-385 evidenze++ addendum implementazione; preferenza migliora-intelligence; STATO+DECISIONI+#accendi-intelligence-sveglia+LEZIONI-CHAT+intelligence esito.",
   "_nota_metabolizzazione_20_07_0405": "Chat 20/7 ~04:05: Nicola «Addattale a mycity» — overlay 47 skill, patch sync auto, commit 9e2f08a9 PR #495. L-388 nuova; L-387 evidenze++ addendum adattamento esplicito; preferenza adattale-a-mycity; STATO+DECISIONI+#212+LEZIONI-CHAT+marketing+prompt-engineer esito.",
   "_nota_metabolizzazione_20_07_0402": "Chat 20/7 ~04:02: Nicola «Scarica tutti quelli della community» — 47 skill coreyhaines31, PR #495, 19→66. L-387 nuova; L-386 evidenze++ addendum scelta community; preferenza marketing-skills-community-completo; STATO+DECISIONI+#212+LEZIONI-CHAT+marketing+prompt-engineer+tech esito.",
@@ -9229,9 +9229,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.19,
-    "tasso_calcolato_il": "2026-07-20 12:17",
+    "tasso_calcolato_il": "2026-07-20 12:37",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 12:17",
+    "tick_leggero_il": "2026-07-20 12:37",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

@@ -37,7 +37,7 @@ Con queste + PQ un piacentino fa pane, frutta/verdura, salumi e formaggi **in un
 
 ## 📞 Pitch di onboarding (30 secondi, telefono o di persona)
 
-**Condizioni comuni (invariate):** commissione **12%** · **0€ costi fissi** · payout a consegna · vetrina done-for-you **~20 min** (<48h) · primo ordine di prova offerto.
+**Condizioni comuni (invariate):** commissione **10%** sul venduto · **50€/mese** abbonamento · payout a consegna · vetrina done-for-you **~20 min** (<48h) · primo ordine di prova offerto.
 
 **Leva bandi aggiornata 20/7:**
 - ⛔ **Bando Commercio ER 40%** — **CHIUSO** il 23/6 (350 domande, limite raggiunto). Non citarlo più. Fonte: `registro-fatti.json` → `bando.commercio-er.scadenza`.
