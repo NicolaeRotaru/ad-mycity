@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 17:56",
+  "aggiornato": "2026-07-20 17:59",
+  "_nota_metabolizzazione_20_07_1759": "Chat 20/7 ~17:58: Nicola «coda Approva solo iniziativa AD; chat fai fix/crea PR = link, no card» — L-402 nuova (caso_studio_nicola); L-0701-31 evidenze++ addendum eccezione chat; preferenza coda-solo-iniziativa-ad; STATO+DECISIONI+LEZIONI-CHAT+ad esito.",
   "_nota_metabolizzazione_20_07_1756": "Chat 20/7 ~17:54: Nicola casella Supervisione «elimina tutti tranne pane quotidiano» — AD accoda #elimina-negozi-demo 🔴 (17→1 negozio, 253 prod demo). L-401 nuova; preferenza pulizia-catalogo-demo; STATO+DECISIONI+#elimina-negozi-demo già 17:54; LEZIONI-CHAT+operations esito.",
   "_nota_metabolizzazione_20_07_1753": "Chat 20/7 ~17:53: Nicola «fai il fix» post PGRST102 L-399 — AD consegna PR #499 (payload server-side + sanitize JSON). L-400 nuova; L-399 evidenze++ addendum fix; preferenza fai-il-fix-parla-casella; STATO+DECISIONI+#fix-parla-casella-pgrst102 aggiornata PR #499+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1750": "Chat 20/7 ~17:50: Nicola «controlla se mergiata» da casella — AD conferma #498+#497+#496 tutte mergiate (GitHub API); card resta bug DB memoria. L-398 evidenze++ addendum tre PR; preferenza verifica-merge-github-api aggiornata; STATO+DECISIONI+#mergia-pr-496 FATTO+#accendi-intelligence-sveglia+LEZIONI-CHAT+frontend-dev+intelligence esito.",
@@ -122,6 +123,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-402",
+      "testo": "**Coda «Da approvare» = solo iniziativa AD; chat «fai fix/crea PR» = link in chat, ZERO card merge (Nicola 20/7 ~17:58).** Nicola: «**le cose da approvare devono essere quelle a cui ci arrivi da solo**; se ti chiedo in chat di creare una PR, **non** inserire la casella da approvare». 5 perché: (1) la coda Approva serve a **proporre** mosse autonome (giro, sentinella, analisi), non a chiedere conferma su un ordine già dato in chat; (2) quando Nicola dice «fai il fix» / «crea la PR», il **ok è implicito nel comando** — accodare «Mergia PR #…» è ridondante e intasa il Pannello; (3) errore oggi: **PR #499** Parla casella accodata dopo «Fai il fix» — sbagliato (L-400 consegnava già il link); (4) **🔴 mondo reale** (elimina negozi, pubblica post, soldi) → card **solo se** Nicola **non** ha già chiesto esplicitamente in chat; se chiede in chat, basta chat + «ok»; (5) **regola:** distingui **ordine in chat** (lavoro + link PR in risposta, niente card merge) vs **proposta autonoma AD** (sì card Approva). **Non abrogare** merge-on-approval L-0701-31 per proposte autonome — lo **restringe** al caso giusto. Vedi L-0709-64 (codice vs coda), DECISIONI 20/7 17:58.",
+      "tag": [
+        "coda-approvazione",
+        "merge-pr",
+        "chat-vs-autonomo",
+        "pannello",
+        "nicola",
+        "regola-permanente"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 17:59",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-401",
       "testo": "**Elimina negozi demo — casella Supervisione, solo PQ reale, accoda 🔴 non eseguire (chat 20/7 ~17:54).** Nicola da casella Supervisione: «**elimina tutti i negozi tranne pane quotidiano**». 5 perché: (1) REST live **17 negozi** = 1 **Pane Quotidiano** reale (5 prodotti) + **16 seed/demo** (UUID `11111111…`, Casa Linda inclusa); (2) **253 prodotti finti** intasano supervisione e catalogo pubblico; (3) cancellazione marketplace **irreversibile** → 🔴, **mai eseguire** senza ok esplicito Nicola; (4) piano: elimina prodotti demo + account venditori demo, **PQ intatto**; (5) **#elimina-negozi-demo** accodato con dettaglio in `consegne/operations/2026-07-20-pulizia-negozi-demo.md`. Regola: imperativo «elimina tutti tranne X» su catalogo = verifica numeri REST + elenco esatto cosa sparisce + card 🔴 + attendi «ok elimina negozi demo». Vedi L-393 Casa Linda demo, DECISIONI 20/7 17:54.",
@@ -8214,11 +8236,12 @@
       ],
       "reparto": "@devops-sre",
       "confidenza": 0.96,
-      "evidenze": 5,
+      "evidenze": 6,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01 19:56",
+      "ultima_conferma": "2026-07-20 17:59",
+      "_evidenza_6": "RESTRIZIONE (chat 20/7 ~17:58, L-402): merge-on-approval resta per **proposte autonome AD** (giro, sentinella, deploy non richiesto in chat) — card «Merge PR #N» sì. **Eccezione esplicita Nicola:** se **lui chiede in chat** «fai il fix» / «crea la PR» → consegnare **solo link PR in chat**, **NON** accodare card merge (ordine in chat = ok implicito; card ridondante). Errore: #499 accodata dopo «Fai il fix». 🔴 mondo reale senza ordine chat → card resta.",
       "stato": "attiva"
     },
     {
@@ -9136,6 +9159,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Coda Approva solo iniziativa AD — chat «fai fix/crea PR» = link in risposta, ZERO card merge (chat 20/7 ~17:58):** «le cose da approvare devono essere quelle a cui ci arrivi da solo» — se chiede in chat fix/PR/modifica codice: AD lavora e mette **link PR in chat**, **non** accoda «Mergia PR #…»; card Approva solo per **mosse autonome** (giro, sentinella, proposta non richiesta) o 🔴 mondo reale **senza** ordine esplicito in chat; se chiede elimina/pubblica/spendi in chat → chat + ok basta. Esempio errore: #499 dopo «Fai il fix». Vedi L-402.",
     "**Pulizia catalogo demo — «elimina tutti tranne pane quotidiano» = accoda 🔴, non eseguire (chat 20/7 ~17:54):** da casella Supervisione chiede rimuovere **16 negozi demo** lasciando solo **Pane Quotidiano** — si aspetta **numeri verificati** (17→1 negozio, 253 prodotti demo), **elenco negozi che spariscono**, card **#elimina-negozi-demo** 🔴 e ok esplicito («ok elimina negozi demo»); PQ resta intatto (5 prodotti, vetrina, Stripe). Vedi L-401, DECISIONI 20/7 17:54.",
     "**Fai il fix Parla casella — dopo diagnosi PGRST102 = PR immediata (#499), merge Nicola (chat 20/7 ~17:53):** «fai il fix» seguito a spiegazione errore giallo — si aspetta **PR consegnata** con root cause (payload browser invalido → server sanitize + JSON validato), typecheck OK, merge 🔴 → deploy ~2 min → riprova Invio da card; pattern come Diretta #498. Vedi L-400, L-399.",
     "**Errore giallo Parla casella — «hai visto l'errore sotto la casella?» = spiega PGRST102 + testo non perso + fix codice (chat 20/7 ~17:48, fix 17:53):** dopo invio fallito da **Parla con questa azione** segnala l'avviso giallo esplicitamente — si aspetta che l'AD **legga e spieghi** l'errore (PGRST102 JSON invalido), confermi che il **testo resta nel riquadro**, distingua chat principale (ok) vs card (rotta), e **non** proponga solo «riprova» — fix 🟡 **PR #499** (**#fix-parla-casella-pgrst102**). Vedi L-399, L-400.",

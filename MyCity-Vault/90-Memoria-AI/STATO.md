@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 17:56
-fonte: AD digitale (chat Supervisione pulizia demo negozi)
+aggiornato: 2026-07-20 17:59
+fonte: AD digitale (chat regola coda Approva vs ordini in chat)
 ---
+
+> 💬 **20/7 ~17:58 — CHAT: Regola coda Approva — solo iniziativa AD; ordine in chat = link PR, no card (L-402).** Nicola chiarisce: **«Da approvare»** = mosse a cui l'AD **arriva da solo** (giro, sentinella, proposta autonoma), **non** obbedienza a un ordine chat. Se chiede «**fai il fix**» / «**crea la PR**» → AD lavora + **link PR in risposta**, **zero** card «Mergia PR #…». 🔴 mondo reale (elimina negozi, pubblica, soldi) → card **solo se** non ha già chiesto esplicitamente in chat. Errore oggi: **#499** accodata dopo «Fai il fix» — da non ripetere. Fonte: chat Nicola 20/7 17:58.
 
 > 💬 **20/7 ~17:54 — CHAT: Supervisione — pulizia negozi demo, solo Pane Quotidiano (L-401).** Nicola «**elimina tutti i negozi tranne pane quotidiano**» da casella Supervisione — REST live: **17 negozi** (1 **Pane Quotidiano** approvato, 5 prodotti + **16 demo** seed UUID `11111111…`, inclusa Casa Linda, con **253 prodotti finti**). AD **non esegue** (🔴 irreversibile) — accoda **#elimina-negozi-demo** con piano in `consegne/operations/2026-07-20-pulizia-negozi-demo.md`. **Serve Nicola:** Approva **#elimina-negozi-demo** o scrivi «ok elimina negozi demo». Fonte: chat Nicola 20/7 17:54.
 

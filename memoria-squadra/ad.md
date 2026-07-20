@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-20 17:59 · metabolizzazione chat «coda Approva solo iniziativa AD» · atteso: L-402 + preferenza + allineamento L-0701-31 · reale: L-402 caso_studio_nicola, L-0701-31 evidenze 6, STATO/DECISIONI/LEZIONI-CHAT aggiornati · #metabolizzazione #coda-approva #L-402
 - 2026-07-20 06:22 · Giro 20/7 06:20 north-star · coerenza:5 verita:5 focus:5 completezza:4 azioni:5 memoria:5 · atteso briefing+checklist mattina+PI26 oggi → reale business invariato 0 pagati · #north-star #PI26
 - 2026-07-20 03:37 · metabolizzazione chat «togli duplicato mappa negozi bacheca» · atteso: L-384 + L-377 addendum dedup · reale: L-384, L-377 evidenze 3, STATO/DECISIONI/LEZIONI-CHAT/ad aggiornati · #metabolizzazione #bacheca #L-384
 - 2026-07-20 03:36 · metabolizzazione chat «inserisci 50 workflow in bacheca» · atteso: L-383 + L-377 addendum · reale: L-383, L-377 evidenze 2, STATO/DECISIONI/LEZIONI-CHAT/builder/ad aggiornati · #metabolizzazione #bacheca #L-383
