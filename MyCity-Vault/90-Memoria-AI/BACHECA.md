@@ -6,6 +6,59 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
+## 🔌 20 mani n8n utili per MyCity · 2026-07-20 03:25
+
+n8n collega il worker a uscite diverse — ordine per impatto:
+
+1. **Telegram** — avvisi immediati (59 card in attesa senza bot)
+2. **Facebook pagina** — post programmati
+3. **Instagram feed** — stesso post su IG
+4. **Email (Resend)** — welcome, carrelli, promemoria negozi
+5. **Marketplace (API)** — notifiche in-app, push, coupon, catalogo
+6. **Google Sheets** — report ordini, liste negozi, log uscite
+7. **Google Forms** — lista d'attesa iscritti (modello pronto)
+8. **Google Business Profile** — post Maps + recensioni
+9. **Cron** — sveglie fisse: bandi, report, meteo
+10. **RSS Comune/bandi** — riassunto portali istituzionali
+11. **Meteo** — trigger post «pioggia + consegna»
+12. **WhatsApp Business** — messaggi ai negozi
+13. **Stripe (solo lettura)** — alert pagamenti/payout
+14. **Gemini (API)** — bozze testi in volume
+15. **Google Drive** — PDF, locandine, export
+16. **Google Calendar** — PI26, check-in, scadenze
+17. **SMS (Twilio)** — backup Telegram/email
+18. **Webhook → worker** — n8n sveglia il cervello
+19. **Supabase (lettura)** — trigger ordine, iscritto, carrello
+20. **Slack/Discord** — opzionale, team separato
+
+**Regola:** messaggi, post e soldi = 🔴 (approvi la card). **Ordine:** Telegram → Meta → post test 🔴 → email welcome → notifica ordine negozio.
+
+---
+
+## 👥 Mani n8n per reparto (cosa chiedono i senior) · 2026-07-20 03:25
+
+**Comunicazione & clienti** — Meta FB+IG, email (welcome/carrelli/win-back/recensioni), Google Business Profile, meteo, Google Forms.
+
+**Negozi & vendite** — WhatsApp follow-up, email onboarding/KYC, Telegram health score, API marketplace (nuovo ordine, catalogo vuoto).
+
+**Operations & consegne** — Supabase trigger (ordine/ritardo), Telegram/SMS alert urgenti, push cliente, WhatsApp rider/negozio 🔴.
+
+**Soldi & pagamenti** — Stripe read (falliti/payout/chargeback), Telegram anomalie cassa, Sheets quadratura.
+
+**Intelligence & istituzioni** — RSS+cron bandi (Comune 403 al worker), Calendar PI26 (**apre oggi 10:00**, scade 30/7), Telegram riassunto mattutino.
+
+**Governance & numeri** — Telegram 59 card bloccate, cron report mattino/sera, Sheets/Drive KPI, webhook worker↔n8n (ok).
+
+**Builder & tech** — webhook bidirezionale, cron health n8n, Gemini bozze.
+
+**Creativi & ads** — Meta post/reel 🔴, email creator, ads solo con budget firmato 🔴.
+
+**NON passa da n8n (umano 🔴):** invio bandi su portale, contratti, trattative, rimborsi, deploy, primo ordine fornaio.
+
+**Ordine condiviso:** Telegram → Meta → RSS bandi → email welcome → notifica ordine negozio.
+
+---
+
 ## 🗺️ Mappa negozi Piacenza — ordine di onboarding per MyCity · 2026-07-16 16:55
 
 **L'obiettivo è creare 3 motivi per aprire l'app ogni settimana + 1 impulso emotivo.**
