@@ -1,8 +1,27 @@
 # 📤 Leve in uscita — cosa MyCity può spingere ADESSO
 
-> **2026-07-18 10:00** · @intelligence (monitora.md · WebSearch commercio Piacenza luglio 2026 · 18/7 — aggiornamento giornaliero su fonti locali)
-> **2026-07-17 11:00** · WebFetch CCIAA Emilia + WebSearch Vita in Centro / Unione Commercianti (settimanale)
+> **2026-07-20 08:30** · @intelligence (monitora.md · PI26 apertura sportello OGGI · Unione Commercianti · comune.piacenza.it)
+> **2026-07-18 10:00** · WebSearch commercio Piacenza luglio 2026
 > Le azioni reali si firmano in [[AZIONI-IN-ATTESA]].
+
+---
+
+## 🔴 OGGI 20/7 — PI26 Innovazione Digitale (sportello APERTO ore 10:00)
+
+| Dettaglio | Valore |
+|-----------|--------|
+| **Portale** | [restart.infocamere.it](https://restart.infocamere.it) (SPID/CNS/CIE) |
+| **Finestra** | 20/7 ore 10:00 → 30/7 ore 16:00 |
+| **Contributo** | 50% spese ammissibili, max **€10.000** (€10.250 con rating legalità) |
+| **Investimento min** | €5.000 · spese tra 1/5/2026 e 31/5/2027 |
+| **Chi** | MPMI con **sede legale** Parma/Piacenza/Reggio (non basta unità operativa) |
+| **Graduatoria** | Ordine cronologico fino a esaurimento fondi |
+| **Spese ok** | ERP, e-commerce, AI, cloud, consulenza/formazione accreditata, software |
+
+**Leva pitch negozi:** «Digitalizza la bottega ORA — fino a €10k a fondo perduto, sportello aperto fino al 30/7. MyCity = e-commerce reale ammissibile.»
+
+- Fonte: [Unione Commercianti PI26](https://www.unionecommerciantipc.it/bando-innovazione-digitale-2026/) · [LAA Piacenza](https://www.artigianipiacenza.it/bando-innovazione-digitale-2026-pi26camera-di-commercio-dellemilia/)
+- Azione già in coda: `#bandi-cciaa-2007` (🔴 firma Nicola)
 
 ---
 
@@ -20,14 +39,14 @@
 
 ## Il momento (filtro che decide tutto)
 
-- **Oggi 17/7**: VP finale stasera. Saldi estivi in corso (3/9). Meteo: rottura ondata caldo **dal 19/7** (→ normalità operativa dal 20/7).
-- **1 negozio reale — Pane Quotidiano**; bici elettrica in riparazione; onboarding batch in avanzamento.
+- **Oggi 20/7**: **PI26 sportello ore 10:00** (priorità assoluta). Saldi estivi in corso (→ 1/9). Meteo: caldo oggi, **pioggia probabile 21/7**.
+- **1 negozio reale — Pane Quotidiano**; bici consegna non operativa; onboarding batch in avanzamento.
 - **Regola-gate stabile**: niente traffico/asset pesante verso marketplace prima del primo ordine evadibile.
-- **NOVITÀ URGENTE**: 2 bandi CCIAA Emilia aprono il **20 luglio** (tra 3 giorni) — finestra 20–30/7 — perfetti come argomento onboarding botteghe.
+- **Cornicione Corso V.E. 226–234** (19/7): chiusura temporanea attività fronte strada — simbolo fragilità centro.
 
 ---
 
-## 🔥 URGENTE — Bandi CCIAA Emilia (apertura 20/7 = tra 3 giorni)
+## 🔥 URGENTE — Bandi CCIAA Emilia (PI26 aperto OGGI · BT26/BE26 in parallelo)
 
 ### 📌 Bando Piccole Imprese per il Territorio 2026 — **€7.000 a fondo perduto**
 

@@ -1146,3 +1146,6 @@ Assegnazioni reparto (1 mossa ciascuno):
 - 2026-07-20 06:20 · @operations · FATTO · Checklist mattina North Star: consegne/operations/2026-07-20-checklist-mattina-north-star.md
 - 2026-07-20 06:20 · @intelligence · FATTO · eventi-picchi.md aggiornato — PI26 oggi 10:00, meteo 32°C + pioggia 21/7
 - 2026-07-20 06:20 · @AD · SERVE · @Nicola: ① 🔴 **PI26 alle 10:00** ② 🟡 **ordine test PQ** ③ 🔴 **recupero post social oggi**
+
+### 2026-07-20 08:30 — Monitoraggio web (Ondata 3)
+- 2026-07-20 08:30 · @intelligence · FATTO · monitoraggio web: 7 fonti giornaliere (Libertà×2, IlPiacenza, PiacenzaSera, Comune×2, 3BMeteo) · settimanali saltate (<7gg) · novità: PI26 sportello aperto oggi 10:00, cornicione Corso V.E. 226–234 (19/7), Confcommercio −22,1% retail · aggiornati eventi-picchi, buchi-mercato, leve-uscita

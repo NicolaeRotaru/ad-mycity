@@ -1,6 +1,6 @@
-# 🕳️ Buchi di Mercato — 2026-07-18
+# 🕳️ Buchi di Mercato — 2026-07-20
 
-> Aggiornato: 18 luglio 2026 10:00 · fonte: supervisione marketplace + monitora.md web scan (IlPiacenza, PiacenzaSera)
+> Aggiornato: 20 luglio 2026 08:30 · fonte: supervisione marketplace + monitora.md (IlPiacenza economia, PiacenzaSera)
 
 ---
 
@@ -82,12 +82,20 @@ Richiesta di apertura prolungata anche nel pomeriggio per rivitalizzarlo (luglio
 
 ---
 
+## 🟡 Segnale operativo (19/7): cornicione Corso V.E.
+
+Chiusura temporanea **Corso Vittorio Emanuele 226–234** (Pubblico Passeggio): attività commerciali fronte strada **non operativi** fino a ripristino cornicione. Non impatta PQ (Via Calzolai) ma conferma fragilità del tessuto commerciale sul Corso — stessa zona della desertificazione.
+- Fonte: [IlPiacenza 19/7](https://www.ilpiacenza.it/attualita/cornicione-pericolante-transennato-l-ultimo-tratto-del-corso.html)
+
+---
+
 ## Contesto macro (luglio 2026)
 
+- **Confcommercio Osservatorio demografia imprese (2012–2025)**: commercio al dettaglio a Piacenza **−22,1%** (96° su 122 comuni monitorati); crescita parallela di **+19k attività ristorazione/alloggio** a livello nazionale — la città **metamorfosi** verso turismo/food, meno retail tradizionale ([IlPiacenza economia](https://www.ilpiacenza.it/economia/metamorfosi-piacenza-meno-negozi-di-abbigliamento-boom-di-b-b-e-ristorazione.html)).
 - **Saldi estivi**: in corso dal 4/7 fino al 1° settembre — negozi cercano visibilità aggiuntiva.
 - **Manifattura piacentina Q1 2026**: −2,8% produzione, −4,7% fatturato, −13,2% export (IlPiacenza). Economia locale sotto pressione → commercianti più ricettivi a canali nuovi.
 - **Confesercenti "Sos Imprenditori"**: vademecum multilingue per imprenditori in difficoltà — segnala tensione nel tessuto commerciale ([IlPiacenza](https://www.ilpiacenza.it/economia/confesercenti-presenta-sos-imprenditori-vademecum-multilingue.html)).
 
 ---
 
-*Fonti: supervisione marketplace 18/7 · monitora.md web scan 18/7 · IlPiacenza · PiacenzaSera · STATO.md · registro-realta.json*
+*Fonti: supervisione marketplace 18/7 · monitora.md 20/7 08:30 · IlPiacenza · PiacenzaSera · STATO.md · registro-realta.json*
