@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-20 17:48** — Automatico: **48 aperte · 89 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-20 17:50** — Automatico: **47 aperte · 90 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -30,23 +30,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #mergia-pr-496 — Mergia PR #496: sveglia intelligence (agenda 9 fonti + workflow bandi) · ⏳ accodata 2026-07-20 16:39
-
-**Contesto:** Nicola screenshot PR #496 — checks ok ma **conflitti merge** con main. AD risolto 16:39: file memoria auto allineati a main, codice intelligence invariato; GitHub ora **mergeable**, test intelligence **2/2**.
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/496
-
-**Cosa cambia:** nel giro entra l'agenda intelligence (9 fonti/giorno) e il workflow n.41 RSS bandi non-stub.
-**Se va bene:** merge da Pannello → poi card **#accendi-intelligence-sveglia** (Telegram + n8n, 4 passi nel playbook).
-
-- **Colore:** 🟡 (merge PR — Nicola approva)
-- **Reparto:** intelligence / builder-automazioni
-
----
-
 ### 🔴 #accendi-intelligence-sveglia — Accendi la sveglia intelligence (bandi alle 7 + Telegram) · ⏳ accodata 2026-07-20 12:02
 
-**Playbook:** `consegne/intelligence/PLAYBOOK-ACCENSIONE-2026-07-20.md` (in **PR #496** — mergia prima)
+**Playbook:** `consegne/intelligence/PLAYBOOK-ACCENSIONE-2026-07-20.md` (**PR #496 ✅ mergiata 17:44** — codice su main)
 
 1. Importa in n8n il workflow **n.41** (RSS bandi — file aggiornato, non più stub)
 2. Aggiungi `TELEGRAM_BOT_TOKEN` e `TELEGRAM_CHAT_ID` in n8n
@@ -1302,7 +1288,19 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-07-20 17:45 · 89 card totali
+> Ultima pulizia: 2026-07-20 17:50 · 90 card totali
+
+### ✅ #mergia-pr-496 — FATTO 2026-07-20 17:50 · PR #496 mergiata da Nicola (GitHub 17:44:45)
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/496 · Commit merge `1cd606e0` su main. Sveglia intelligence: agenda 9 fonti/giorno + workflow n.41 RSS bandi non-stub. **Prossimo:** card **#accendi-intelligence-sveglia** (Telegram+n8n Active).
+
+**Cosa cambia:** il giro calcola l'agenda intelligence automaticamente.
+**Se va bene:** import workflow n.41/n.31 in n8n + chiavi Telegram → Active.
+
+- **Colore:** ✅ completato
+- **Reparto:** intelligence / builder-automazioni
+
+---
 
 ### ✅ #mergia-pr-498 — FATTO 2026-07-20 17:45 · PR #498 mergiata da Nicola (GitHub 16:36:51)
 

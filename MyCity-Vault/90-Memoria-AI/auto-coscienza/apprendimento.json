@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 17:48",
+  "aggiornato": "2026-07-20 17:50",
+  "_nota_metabolizzazione_20_07_1750": "Chat 20/7 ~17:50: Nicola «controlla se mergiata» da casella — AD conferma #498+#497+#496 tutte mergiate (GitHub API); card resta bug DB memoria. L-398 evidenze++ addendum tre PR; preferenza verifica-merge-github-api aggiornata; STATO+DECISIONI+#mergia-pr-496 FATTO+#accendi-intelligence-sveglia+LEZIONI-CHAT+frontend-dev+intelligence esito.",
   "_nota_metabolizzazione_20_07_1748": "Chat 20/7 ~17:48: Nicola «hai visto l'errore sotto la casella?» — PGRST102 JSON invalido POST /api/lavori su Parla casella card; testo preservato; chat principale ok. L-399 nuova; L-398 evidenze++ addendum PGRST102; preferenza errore-giallo-parla-casella; STATO+DECISIONI+#fix-parla-casella-pgrst102+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1745": "Chat 20/7 ~17:45: Nicola screenshot + «controlla se l'ho già margiata» — PR #498 ✅ merged 16:36:51 (36402b49); card Pannello bloccata su DB memoria write; #496 ancora pendente. L-398 nuova; L-394 evidenze++ addendum merge; preferenza verifica-merge-github-api; STATO+DECISIONI+#mergia-pr-498 FATTO+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1639": "Chat 20/7 ~16:39: Nicola solo screenshot PR #496 conflitti merge — AD risolve, mergeable; fix allegati casella #497 confermato (AD legge screenshot). L-397 nuova; L-396+L-390 evidenze++ addendum; preferenza screenshot-pr-status+allegati-casella-ok; STATO+DECISIONI+#mergia-pr-496+LEZIONI-CHAT+frontend-dev+intelligence esito.",
@@ -142,7 +143,7 @@
     },
     {
       "id": "L-2026-0720-398",
-      "testo": "**«L'ho già mergiata?» — verifica GitHub API, non card Pannello; card aperta ≠ PR pendente (chat 20/7 ~17:45).** Nicola screenshot card Approva + «**controlla se l'ho già margiata**» su PR #498. 5 perché: (1) la **fonte verità merge** è GitHub API (`state=closed`, `merged_at`), non lo stato visivo della card; (2) AD conferma **#498 ✅ merged 16:36:51**, commit `36402b49` su main — fix Diretta online; (3) card resta visibile per **bug Pannello**: errore giallo **scrittura DB memoria rifiutata** — il Pannello non riesce a segnarla chiusa; (4) **non** dire «devi ancora mergiare» né proporre secondo merge; (5) distinguere PR nel messaggio: **#496** intelligence **ancora aperta**. Regola: domanda merge + screenshot card → **GitHub API prima**, spiega bug chiusura card se merge già ok, indica prossimo passo reale (test Diretta / merge #496). **Addendum 17:48:** errore specifico **PGRST102** su Parla casella — vedi L-399. Vedi L-394, DECISIONI 20/7 17:45.",
+      "testo": "**«L'ho già mergiata?» — verifica GitHub API, non card Pannello; card aperta ≠ PR pendente (chat 20/7 ~17:45).** Nicola screenshot card Approva + «**controlla se l'ho già margiata**» su PR #498. 5 perché: (1) la **fonte verità merge** è GitHub API (`state=closed`, `merged_at`), non lo stato visivo della card; (2) AD conferma **#498 ✅ merged 16:36:51**, commit `36402b49` su main — fix Diretta online; (3) card resta visibile per **bug Pannello**: errore giallo **scrittura DB memoria rifiutata** — il Pannello non riesce a segnarla chiusa; (4) **non** dire «devi ancora mergiare» né proporre secondo merge; (5) quando chiede «controlla se mergiata» **senza specificare PR**, verificare **tutte** le PR recenti in coda — non assumere solo la card mostrata. Regola: domanda merge + screenshot card → **GitHub API prima**, spiega bug chiusura card se merge già ok, indica prossimo passo reale. **Addendum 17:48:** errore specifico **PGRST102** su Parla casella — vedi L-399. **Addendum 17:50:** Nicola follow-up da casella — **#496 ✅ 17:44:45** (`1cd606e0`) + **#497 ✅ 16:36** confermate; prossimo passo = **#accendi-intelligence-sveglia**, non altri merge. Vedi L-394, DECISIONI 20/7 17:45–17:50.",
       "tag": [
         "pannello",
         "github",
@@ -151,18 +152,18 @@
         "bug"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.9,
-      "evidenze": 2,
+      "confidenza": 0.92,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 17:48",
+      "ultima_conferma": "2026-07-20 17:50",
       "stato": "attiva",
       "usi": []
     },
     {
       "id": "L-2026-0720-397",
-      "testo": "**PR feature branch — conflitti merge con main su file memoria auto-generati (chat 20/7 ~16:39).** Nicola manda **solo screenshot** PR #496: checks ok ma merge bloccato per conflitti. 5 perché: (1) branch `fix/intelligence-upgrade` resta indietro mentre main accumula giri/memoria; (2) conflitti tipici su `sentinella-dati.json`, `consegne/tech/pr-ad-mycity-*.md`, diario operativo — **non** sul codice intelligence; (3) regola risoluzione: **main vince** su file memoria/worker auto-generati, **branch vince** su codice feature (`intelligence-agenda.mjs`, workflow n.41, playbook); (4) dopo rebase+push → GitHub **mergeable** (`git-pr.mjs`); (5) codice intelligence invariato — Nicola mergia 🔴 poi card **#accendi-intelligence-sveglia**. Regola: screenshot «conflitti PR» → AD risolve subito e spiega diario vs codice, non chiedere a Nicola merge manuale sui conflitti. Vedi L-334, L-390.",
+      "testo": "**PR feature branch — conflitti merge con main su file memoria auto-generati (chat 20/7 ~16:39).** Nicola manda **solo screenshot** PR #496: checks ok ma merge bloccato per conflitti. 5 perché: (1) branch `fix/intelligence-upgrade` resta indietro mentre main accumula giri/memoria; (2) conflitti tipici su `sentinella-dati.json`, `consegne/tech/pr-ad-mycity-*.md`, diario operativo — **non** sul codice intelligence; (3) regola risoluzione: **main vince** su file memoria/worker auto-generati, **branch vince** su codice feature (`intelligence-agenda.mjs`, workflow n.41, playbook); (4) dopo rebase+push → GitHub **mergeable** (`git-pr.mjs`); (5) codice intelligence invariato — Nicola mergia 🔴 poi card **#accendi-intelligence-sveglia**. Regola: screenshot «conflitti PR» → AD risolve subito e spiega diario vs codice, non chiedere a Nicola merge manuale sui conflitti. **Addendum 17:50:** Nicola ha mergiato **#496 ✅ 17:44:45** (`1cd606e0`) — risoluzione conflitti confermata ok. Vedi L-334, L-390.",
       "tag": [
         "github",
         "pr",
@@ -172,11 +173,11 @@
       ],
       "reparto": "@tech",
       "confidenza": 0.88,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 16:39",
+      "ultima_conferma": "2026-07-20 17:50",
       "stato": "attiva",
       "usi": []
     },
@@ -9091,7 +9092,7 @@
   ],
   "preferenze_nicola": [
     "**Errore giallo Parla casella — «hai visto l'errore sotto la casella?» = spiega PGRST102 + testo non perso + fix codice (chat 20/7 ~17:48):** dopo invio fallito da **Parla con questa azione** segnala l'avviso giallo esplicitamente — si aspetta che l'AD **legga e spieghi** l'errore (PGRST102 JSON invalido), confermi che il **testo resta nel riquadro**, distingua chat principale (ok) vs card (rotta), e **non** proponga solo «riprova» — fix 🟡 Pannello **#fix-parla-casella-pgrst102**. Vedi L-399.",
-    "**Verifica merge PR — «controlla se l'ho già margiata» = GitHub API, non card Pannello (chat 20/7 ~17:45):** manda screenshot card Approva + chiede se ha già mergiato — si aspetta risposta **basata su GitHub** (merged_at, commit su main), **non** sullo stato visivo della card; se card resta aperta con errore giallo DB memoria → spiega **bug Pannello**, non «devi mergiare ancora»; distingue PR nel contesto (**#498** fatto, **#496** pendente); test post-merge = refresh Diretta. Vedi L-398.",
+    "**Verifica merge PR — «controlla se l'ho già margiata/mergiata» = GitHub API, non card Pannello; verifica tutte le PR recenti (chat 20/7 ~17:45–17:50):** manda screenshot card Approva + chiede se ha già mergiato — si aspetta risposta **basata su GitHub** (merged_at, commit su main), **non** sullo stato visivo della card; se card resta aperta con errore giallo DB memoria → spiega **bug Pannello**, non «devi mergiare ancora»; 20/7 pomeriggio **#498+#497+#496** tutte mergiate — prossimo passo **#accendi-intelligence-sveglia**, non altri merge. Vedi L-398.",
     "**Screenshot PR GitHub — solo allegato = segnala stato merge/conflitti, AD risolve e spiega (chat 20/7 ~16:39):** manda screenshot PR #496 senza testo (checks ok, merge bloccato) — si aspetta che l'AD **legga l'immagine**, risolva conflitti con main (memoria auto da main, codice feature dal branch), confermi **mergeable** e indichi merge 🔴 + passo successivo (#accendi-intelligence-sveglia); **non** chiedere a Nicola di risolvere conflitti a mano. Vedi L-397, L-390.",
     "**Allegati casella — fix #497 ok: AD deve leggere screenshot da chat casella (chat 20/7 ~16:39, agg. 14:45):** dopo fix PR #497 il path `@ALLEGATO` arriva al worker — AD ha letto screenshot conflitti PR #496 da chat casella; si aspetta **lettura visiva** funzionante post-merge deploy; se ancora cieco = verificare deploy #497 + path pipeline. Vedi L-396.",
     "**Allegati casella — si aspetta che l'AD legga screenshot; se cieco spiega PERCHÉ (bug pipeline), non «non posso» (chat 20/7 ~14:45):** dopo screenshot bollino chiede «perché non leggi l'allegato» — upload funziona ma path non passa al worker (`buildRichiestaCasella` scarta `bloccoAllegati`); vuole **spiegazione tecnica onesta** + workaround (descrivere in testo) + fix 🟡 PR; non accetta risposta generica «non posso leggere foto». Vedi L-396, L-395.",

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 17:48
-fonte: AD digitale (chat PGRST102 Parla casella + PR #498)
+aggiornato: 2026-07-20 17:50
+fonte: AD digitale (chat merge PR #496+#497+#498)
 ---
+
+> 💬 **20/7 ~17:50 — CHAT: Nicola «controlla se mergiata» — tutte e 3 PR mergiate; card Approva può restare (L-398).** Da casella Parla — AD verifica GitHub API: **#498 Diretta ✅ 16:36** (`36402b49`) · **#496 intelligence ✅ 17:44** (`1cd606e0`) · **#497 allegati casella ✅ 16:36**. Card «Approva e fai» **resta visibile** = bug Pannello scrittura DB memoria, **non** merge mancante — **non rifare merge**. **Prossimo passo reale:** card **#accendi-intelligence-sveglia** (4 passi Telegram+n8n). Fonte: chat Nicola 20/7 17:50 + GitHub API.
 
 > 💬 **20/7 ~17:48 — CHAT: Parla casella card — errore PGRST102 JSON invalido; testo non perso (L-399).** Nicola «**hai visto l'errore sotto la casella?**» — avviso giallo: DB memoria rifiuta scrittura **PGRST102** («Empty or invalid json») su **POST /api/lavori** quando invia da **Parla con questa azione** (es. «controlla se l'ho già margiata» su card #498). **Chat principale ok** — percorso card diverso. Messaggio **non sparito**: Pannello lo rimette nel riquadro sotto. AD **non ha risposto** da quella casella perché il lavoro non è entrato in coda. **#498 ✅ già mergiata 16:36** — errore **non** legato al merge. Fix 🟡 Pannello: validare payload casella→lavori (**#fix-parla-casella-pgrst102**). Fonte: chat Nicola 20/7 17:48.
 

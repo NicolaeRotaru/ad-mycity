@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 17:50 · Tre PR mergiate — Nicola «controlla se mergiata» da casella · atteso: verifica GitHub tutte PR recenti · reale: **#498 ✅ 16:36** + **#497 ✅ 16:36** + **#496 ✅ 17:44**; card Approva resta bug DB memoria; prossimo **#accendi-intelligence-sveglia** · #pannello #github-api #pr-merge · L-398
 - 2026-07-20 17:48 · Parla casella PGRST102 — Nicola «hai visto l'errore sotto la casella?» · atteso: spiegare errore giallo + perché AD non risponde da card · reale: POST /api/lavori → Supabase **PGRST102** JSON invalido su percorso **Parla con questa azione**; chat principale ok; testo preservato nel riquadro; #498 già merged — fix 🟡 **#fix-parla-casella-pgrst102** · #pannello #chat #parla-casella #pgrst102 #lavori · L-399, L-398
 - 2026-07-20 17:45 · PR #498 merge confermato — Nicola «controlla se l'ho già margiata» + screenshot · atteso: verifica reale merge GitHub, non stato card · reale: **#498 ✅ merged 16:36:51** (`36402b49`); card Pannello resta per bug scrittura DB memoria; **#496** ancora pendente · #pannello #diretta-contenuti #pr-498 #github-api · L-398, L-394
 - 2026-07-20 16:39 · Allegati casella fix #497 confermato — Nicola solo screenshot PR #496 · atteso: AD legge immagine da chat casella · reale: path `@ALLEGATO` arriva, AD ha letto screenshot conflitti merge; fix L-396 operativo post-#497 · #pannello #chat #allegati #pr-497 · L-396
