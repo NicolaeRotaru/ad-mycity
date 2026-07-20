@@ -1,8 +1,8 @@
 {
   "id": "fed65e99-3670-4865-8802-ef3aceaf2c7f",
-  "versionId": "fed65e99-3670-4865-8802-ef3aceaf2c7f",
+  "versionId": "fed65e99-3670-4865-8802-ef3aceaf2c7f-v2",
   "name": "MyCity 41 — RSS bandi Comune",
-  "_descrizione": "Cron 7:00 → RSS Comune/CCIAA → filtro 5 righe → Telegram. COLORE: 🟢 — stub importabile: sostituisci «Stub Telegram» con l'azione reale (Meta/Resend/Sheets/API). Attiva solo con credenziali pronte.",
+  "_descrizione": "Cron 7:00 → RSS bandi/CCIAA (feed locali) → filtro keyword → Telegram max 5 righe. Richiede TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID in n8n. Attiva solo dopo dry-run.",
   "_categoria": "09-intelligence",
   "_numero": 41,
   "_colore": "🟢",
@@ -20,27 +20,98 @@
         }
       },
       "id": "trigger-cron",
-      "name": "Schedule (modifica orario)",
+      "name": "Ogni mattina 7:00",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [
-        240,
-        300
-      ]
+      "position": [240, 360]
     },
     {
       "parameters": {
-        "mode": "raw",
-        "jsonOutput": "{\"workflow\":\"RSS bandi Comune\",\"categoria\":\"09-intelligence\",\"numero\":41,\"colore\":\"🟢\",\"nota\":\"Cron 7:00 → RSS Comune/CCIAA → filtro 5 righe → Telegram.\",\"payload\":\"={{ $json.body || $json }}\"}"
+        "url": "https://www.artigianipiacenza.it/feed/"
       },
-      "id": "set-meta",
-      "name": "Metadati workflow",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        480,
-        300
-      ]
+      "id": "rss-artigiani",
+      "name": "RSS Artigiani PC",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [480, 200]
+    },
+    {
+      "parameters": {
+        "url": "https://www.unionecommerciantipc.it/feed/"
+      },
+      "id": "rss-unione",
+      "name": "RSS Unione Commercianti",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [480, 360]
+    },
+    {
+      "parameters": {
+        "url": "https://www.piacenzasera.it/feed/"
+      },
+      "id": "rss-piacenzasera",
+      "name": "RSS PiacenzaSera",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [480, 520]
+    },
+    {
+      "parameters": {
+        "mode": "append"
+      },
+      "id": "merge-feeds",
+      "name": "Unisci feed",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [720, 360]
+    },
+    {
+      "parameters": {
+        "jsCode": "const keywords = ['bando', 'contributo', 'scadenza', 'fondo perduto', 'camcom', 'cciaa', 'pi26', 'innovazione digitale', 'piccole imprese', 'agevolaz'];\nconst items = $input.all();\nconst out = [];\nfor (const item of items) {\n  const j = item.json || {};\n  const text = `${j.title || ''} ${j.contentSnippet || ''} ${j.content || ''} ${j.link || ''}`.toLowerCase();\n  if (keywords.some((k) => text.includes(k))) {\n    out.push({ json: { title: j.title, link: j.link, pubDate: j.pubDate || j.isoDate } });\n  }\n}\nout.sort((a, b) => new Date(b.json.pubDate || 0) - new Date(a.json.pubDate || 0));\nreturn out.slice(0, 5);"
+      },
+      "id": "filter-bandi",
+      "name": "Filtra bandi (max 5)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 360]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-items",
+              "leftValue": "={{ $input.all().length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "if-hits",
+      "name": "Ci sono novità?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1180, 360]
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().map((i, n) => `${n + 1}. ${i.json.title}\\n   ${i.json.link}`);\nconst oggi = new Date().toLocaleDateString('it-IT', { timeZone: 'Europe/Rome' });\nreturn [{ json: { text: `📡 Bandi & agevolazioni — ${oggi}\\n\\n${rows.join('\\n\\n')}\\n\\n(MyCity intelligence n.41)` } }];"
+      },
+      "id": "format-msg",
+      "name": "Formatta messaggio",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1400, 280]
     },
     {
       "parameters": {
@@ -55,44 +126,64 @@
             },
             {
               "name": "text",
-              "value": "=🤖 [STUB 41] RSS bandi Comune\nCron 7:00 → RSS Comune/CCIAA → filtro 5 righe → Telegram.\n\nConfigura i nodi azione prima di attivare. Colore: 🟢"
+              "value": "={{ $json.text }}"
+            },
+            {
+              "name": "disable_web_page_preview",
+              "value": "true"
             }
           ]
         },
         "options": {}
       },
-      "id": "stub-telegram",
-      "name": "Stub Telegram (sostituire)",
+      "id": "telegram-send",
+      "name": "Telegram Nicola",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [
-        720,
-        300
-      ]
+      "position": [1620, 280]
+    },
+    {
+      "parameters": {},
+      "id": "noop-empty",
+      "name": "Nessuna novità bandi",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1400, 460]
     }
   ],
   "connections": {
-    "Schedule (modifica orario)": {
+    "Ogni mattina 7:00": {
       "main": [
         [
-          {
-            "node": "Metadati workflow",
-            "type": "main",
-            "index": 0
-          }
+          { "node": "RSS Artigiani PC", "type": "main", "index": 0 },
+          { "node": "RSS Unione Commercianti", "type": "main", "index": 0 },
+          { "node": "RSS PiacenzaSera", "type": "main", "index": 0 }
         ]
       ]
     },
-    "Metadati workflow": {
+    "RSS Artigiani PC": {
+      "main": [[{ "node": "Unisci feed", "type": "main", "index": 0 }]]
+    },
+    "RSS Unione Commercianti": {
+      "main": [[{ "node": "Unisci feed", "type": "main", "index": 1 }]]
+    },
+    "RSS PiacenzaSera": {
+      "main": [[{ "node": "Unisci feed", "type": "main", "index": 0 }]]
+    },
+    "Unisci feed": {
+      "main": [[{ "node": "Filtra bandi (max 5)", "type": "main", "index": 0 }]]
+    },
+    "Filtra bandi (max 5)": {
+      "main": [[{ "node": "Ci sono novità?", "type": "main", "index": 0 }]]
+    },
+    "Ci sono novità?": {
       "main": [
-        [
-          {
-            "node": "Stub Telegram (sostituire)",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [{ "node": "Formatta messaggio", "type": "main", "index": 0 }],
+        [{ "node": "Nessuna novità bandi", "type": "main", "index": 0 }]
       ]
+    },
+    "Formatta messaggio": {
+      "main": [[{ "node": "Telegram Nicola", "type": "main", "index": 0 }]]
     }
   },
   "settings": {
