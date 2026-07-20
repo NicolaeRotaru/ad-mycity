@@ -8,6 +8,7 @@ reparto: marketing
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 04:02 · Nicola «Scarica tutti quelli della community» — atteso: 47 skill integrate + PR · reale: pacchetto intero coreyhaines31 scaricato, manifest+sync, test 4/4, PR #495 🔴 merge pendente, 19→66 skill post-merge; adattamento Turno/Piacenza obbligatorio · L-387 · #skills #community #worker
 - 2026-07-20 03:59 · Nicola «riesci a scaricare marketing skills cloud claude?» — atteso: sì/no + come integrarle · reale: download GitHub OK, worker 19 plugin zero marketing, due pacchetti (Anthropic ~8 / community ~45), sync manifest+PR 🟡 pendente scelta Nicola; skill generiche → adattare Turno/Piacenza · L-386 · #skills #worker #github
 - 2026-07-19 23:34 · Nicola «Invece nel marketing?» — atteso: idee n8n acquisizione/contenuti · reale: 10 workflow marketing distinti da blocco ops (visibilità, calendario, eventi Piacenza, lancio negozio, retargeting, UGC, stagionali, micro-influencer, report Telegram); Nicola esplora automazioni per reparto · L-336 · #n8n #marketing #workflow
 - 2026-07-18 11:06 · strategia 18/7: post meteo pioggia 20/7, PR PI26 Libertà, commenti Google Maps 13 prospect · ✅ 3 mosse pronte in AZIONI-IN-ATTESA · atteso preparare 3 mosse di acquisizione allineate con finestra piogge+PI26 → reale post meteo 🟡 accodato, PR PI26 🟡 accodata, commenti Google Maps 🟢 pronti in consegne/ · #marketing-18lug

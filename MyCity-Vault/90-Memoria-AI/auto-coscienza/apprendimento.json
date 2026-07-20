@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:59",
+  "aggiornato": "2026-07-20 04:02",
+  "_nota_metabolizzazione_20_07_0402": "Chat 20/7 ~04:02: Nicola «Scarica tutti quelli della community» — 47 skill coreyhaines31, PR #495, 19→66. L-387 nuova; L-386 evidenze++ addendum scelta community; preferenza marketing-skills-community-completo; STATO+DECISIONI+#212+LEZIONI-CHAT+marketing+prompt-engineer+tech esito.",
   "_nota_metabolizzazione_20_07_0359": "Chat 20/7 ~03:59: Nicola «riesci a scaricare marketing skills cloud claude?» — verifica GitHub+manifest, due pacchetti, path sync PR. L-386 nuova; preferenza marketing-skills-github; STATO+LEZIONI-CHAT+marketing+prompt-engineer esito.",
   "_nota_metabolizzazione_20_07_0339": "Chat 20/7 ~03:39: Nicola «intelligence non al massimo potenziale — come migliorarla?» — diagnosi gap + piano accensione. L-385 nuova; preferenza intelligence-massimo-potenziale; STATO+LEZIONI-CHAT+intelligence esito.",
   "_nota_metabolizzazione_20_07_0337": "Chat 20/7 ~03:37: Nicola «togli dalla bacheca il duplicato mappa negozi piacenza» — dedup BACHECA.md. L-384 nuova; L-377 evidenze++ addendum grep/dedup; preferenza bacheca-dedup; STATO+DECISIONI+LEZIONI-CHAT+ad esito.",
@@ -106,6 +107,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-387",
+      "testo": "**Marketing skills community — Nicola sceglie pacchetto intero, 47 skill, PR #495, worker 19→66 (Nicola 20/7 ~04:02).** Seguito L-386: Nicola «**Scarica tutti quelli della community**» — **non** Anthropic leggero né subset 4–5. 5 perché: (1) coerente con indipendenza dipendenti (L-375) — massimo tooling copy/marketing nel worker; (2) **fatto:** **47 skill** da `coreyhaines31/marketingskills` scaricate, manifest `worker-plugins.json` aggiornato, sync `.claude/skills/`, test **4/4**; branch `fix/marketing-skills-community` commit `30e9cb4a` (+ adattamento MyCity `9e2f08a9`); **PR #495** 🔴 merge Nicola; (3) conteggio: **19** plugin tech-only oggi → **66** post-merge; (4) skill = marketing **generico B2B** — obbligo adattare Turno/Piacenza/onestà numeri; **non** sostituiscono senior marketing/content/seo; (5) post-merge: **riavvio worker** (o prossimo giro) per caricare skill. Regola: se Nicola dice «scarica tutti community» / «tutto il pacchetto community» → **non** riproporre Anthropic o subset — scarica intero repo approvato + PR 🟡/🔴; ricordare adattamento scope MyCity. Vedi L-386, L-375.",
+      "tag": [
+        "marketing",
+        "worker",
+        "plugin",
+        "skills",
+        "github",
+        "community",
+        "nicola"
+      ],
+      "reparto": "@prompt-engineer",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 04:02",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-386",
       "testo": "**Marketing skills Claude Cloud — scaricabili GitHub, worker oggi zero marketing; due pacchetti + sync manifest + adattamento MyCity (Nicola 20/7 ~03:59).** Nicola «**riesci a scaricare da github, marketing skills cloud claude?**» — vuole portare nel worker le skill marketing di Claude Cloud/Cowork. 5 perché: (1) collegato a indipendenza dipendenti (L-375) — potenziare worker su post/piani copy; (2) **fatti verificati:** fetch GitHub **OK** (prova skill `content-creation` Anthropic); manifest `cervello/worker-plugins.json` = **19 plugin tutti tecnici**, zero marketing; (3) **due sorgenti:** Anthropic ufficiale `anthropics/knowledge-work-plugins/marketing` (~8 skill contenuti/campagne/brand/SEO/email) vs community `coreyhaines31/marketingskills` (~45 copy/CRO/social/ads/launch); (4) **integrazione:** aggiungere voci manifest → `node cervello/sync-worker-plugins.mjs` (+ specchio Claude) → **PR 🟡** merge Nicola + riavvio worker; GitHub PR API può essere 503 ma download file funziona; (5) skill = marketing **generico B2B** — obbligo adattare Turno/Piacenza/onestà numeri; **non** sostituiscono senior marketing/content/seo. Regola: «marketing skills cloud» / «skill marketing github» → verifica manifest attuale + due pacchetti + path sync + chiedi scelta ufficiale/community/entrambi prima di PR; consiglio default Anthropic leggero o 4–5 community (copywriting, social, seo-audit, cro, launch). Vedi L-375, plugin worker L-128/L-320.",
       "tag": [
@@ -118,11 +141,11 @@
       ],
       "reparto": "@prompt-engineer",
       "confidenza": 0.86,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 03:59",
+      "ultima_conferma": "2026-07-20 04:02",
       "stato": "attiva",
       "usi": []
     },
@@ -8809,6 +8832,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Marketing skills community completo — vuole TUTTO il pacchetto community, non Anthropic leggero (chat 20/7 ~04:02):** «Scarica tutti quelli della community» — scelta esplicita vs consiglio AD (Anthropic ~8 o 4–5 community); si aspetta **47 skill** integrate nel worker + **PR #495** da mergiare; post-merge **riavvio worker**; skill generiche → **adattare** MyCity (Turno, Piacenza, onestà); potenziano senior, non sostituiscono. Vedi L-387, L-386.",
     "**Marketing skills Claude Cloud — vuole portarle nel worker da GitHub (chat 20/7 ~03:59):** «riesci a scaricare da github, marketing skills cloud claude?» — si aspetta risposta **operativa** (sì/no + cosa c'è oggi + come si integrano), non teoria: oggi worker **19 plugin zero marketing**; due pacchetti GitHub (Anthropic ufficiale ~8 vs community ~45); path manifest+sync+**PR 🟡**; skill vanno **adattate** MyCity (Turno, Piacenza, onestà); potenziano senior, non sostituiscono; chiude scelta **ufficiale / community / entrambi** prima di preparare PR. Vedi L-386, L-375 indipendenza.",
     "**Intelligence al massimo potenziale — vuole sveglie automatiche, non solo report on-demand (chat 20/7 ~03:39):** «l'intelligence non si al massimo del suo potenziale» — si aspetta spiegazione **con fatti** (ultima scan, cosa manca, cosa già funziona) e **piano operativo** per portarla al livello giusto: cron mattutino bandi/eventi/concorrenti → **Telegram** solo se conta → collegata a numeri reali e card approvabili; **non** elenco teorico capacità senior; priorità accensione **n.41** (RSS bandi) o **n.31** (59 avvisi Telegram); chiavi Telegram VPS = prerequisito; Firecrawl = qualità **dopo** sveglia automatica; chiude «accendi 41 o 31» / piano 3 passi. Vedi L-385, L-374, L-375 indipendenza.",
     "**Bacheca dedup — «togli il duplicato X» = una sola casella, grep prima di inserire (chat 20/7 ~03:37):** dopo aggiunte multiple in bacheca, Nicola segnala duplicato «mappa negozi piacenza» — si aspetta **pulizia immediata** (tieni copia più in alta, elimina ripetizione in fondo) e **prevenzione** (grep titolo prima di «salva/inserisci in bacheca», aggiorna se esiste). Vedi L-384, L-377.",

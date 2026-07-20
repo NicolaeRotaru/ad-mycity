@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:59
+aggiornato: 2026-07-20 04:02
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~04:02 — CHAT: Marketing skills community — 47 scaricate, PR #495 in attesa merge (L-387).** Nicola «**Scarica tutti quelli della community**» (dopo L-386) — AD consegna **47 skill** `coreyhaines31/marketingskills` nel worker: manifest aggiornato, sync `.claude/skills/`, test **4/4** OK. **Prima:** 19 plugin (solo tech) · **dopo merge:** **66** totali. Branch `fix/marketing-skills-community` · commit `30e9cb4a` (+ adattamento MyCity `9e2f08a9`) · **PR #495** 🔴 mergiare Nicola → riavvio worker. **Attenzione:** skill B2B generiche — adattare Turno/Piacenza/onestà numeri; **potenziano** senior marketing/content/seo, non sostituiscono. Fonte: chat Nicola 20/7 04:02.
 
 > 💬 **20/7 ~03:59 — CHAT: Marketing skills Claude Cloud — scaricabili da GitHub, worker oggi zero marketing (L-386).** Nicola «**riesci a scaricare da github, marketing skills cloud claude?**» — AD verifica: **sì, download OK** (prova `content-creation` Anthropic); manifest `cervello/worker-plugins.json` ha **19 plugin**, tutti **tecnici** — **zero skill marketing**. **Due sorgenti:** (1) **Anthropic ufficiale** `anthropics/knowledge-work-plugins/marketing` (~8 skill: contenuti, campagne, brand, SEO, email); (2) **community** `coreyhaines31/marketingskills` (~45: copy, CRO, social, ads, launch…). **Integrazione:** aggiungere al manifest → `sync-worker-plugins.mjs` → specchio Claude → **PR 🟡** da mergiare Nicola; GitHub **503** su PR stasera ma fetch file funziona. **Attenzione:** skill generiche B2B — vanno adattate MyCity (Turno, Piacenza, onestà numeri); **potenziano** senior marketing/content/seo, non sostituiscono. **Consiglio AD:** pacchetto Anthropic leggero **oppure** 4–5 community (copywriting, social, seo-audit, cro, launch). **In attesa:** Nicola sceglie ufficiale / community / entrambi → AD prepara PR. Fonte: chat Nicola 20/7 03:59.
 
