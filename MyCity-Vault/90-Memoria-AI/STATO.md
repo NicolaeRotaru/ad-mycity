@@ -1,14 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:47
+aggiornato: 2026-07-20 02:51
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~02:50 — CHAT: n8n webhook ok — env 2 righe (1 segnaposto); catalogo «cosa fare adesso» (L-366).** Nicola chiede controllo duplicati `N8N_WEBHOOK_URL` + cosa può fare con n8n ora: **2 righe** (1 segnaposto in cima + 1 reale) — **non più 3**; worker **ok** (ultima riga); cancellare ultimo segnaposto. **Con webhook ok, n8n può:** pub **FB pagina + IG feed** (serve Meta OAuth in n8n, post 🔴 card); **Telegram** avvisi/errori (5 min, sblocca **59** avvisi); **lista attesa** (2° workflow da importare); **promemoria cron** solo ripetitivi (ricerche ad hoc = Worker). **Gruppi FB manuali.** **Ordine consigliato:** (1) dedup env → (2) Telegram → (3) Meta n8n → (4) post test 🔴. Fonte: chat Nicola 20/7 02:50.
 
 > 💬 **20/7 ~02:47 — CHAT: n8n ricerche web per worker — NO oggi, worker già cerca (L-365).** Nicola «n8n può fare le ricerche sul web per il worker?». AD: **no** al momento e **non necessario** — worker/cervello fa già ricerche web in chat (intelligence, bandi, concorrenti); n8n collegato (**webhook ok** L-357) = braccia per post programmati/avvisi; n8n *potrebbe* con Tavily/SerpAPI ma duplicato/lento; ha senso solo per **cron fissi** (es. bandi Comune ogni mattina → Telegram). Ricerche ad hoc = scrivi in chat Worker. Prossimo utile: **Meta OAuth** in n8n. Fonte: chat Nicola 20/7 02:47.
 
 > 💬 **20/7 ~02:46 — CHAT: Worker controlli per superficie — ☰ accanto + in grande, barra alta popup (L-364).** Nicola tre fix post-#492: (1) **chat grande** (voce menu Worker) — icona **☰** elenco conv **accanto a «+ Nuova»** in barra bassa; **niente** ingrandisci/chiudi in alto; menu navbar non apriva → toggle collegato in basso; chiudi = tap fuori o voce Worker; (2) **popup piccolo** (FAB) — **barra alta** con ☰ + ingrandisci + chiudi (estetica chiudi riquadro). AD **PR #493** (`e1ed67d9`, commit su branch fix). Merge 🔴 **#210** → deploy Vercel ~2 min + Ctrl+F5. Fonte: chat Nicola 20/7 02:46 + screenshot 1070.
-
-> ✅ **20/7 ~02:50 — CHAT: env n8n — da 3 a 2 righe; resta 1 segnaposto da cancellare (L-357).** Nicola chiede controllo: **2 righe** `N8N_WEBHOOK_URL` (1 segnaposto + 1 reale). Worker **ok** (ultima riga); controlli «puliti» ancora rossi finché resta segnaposto in cima. **Prossimo utile n8n:** Meta OAuth (post FB/IG), Telegram BotFather (avvisi + nodo Telegram), import 2° workflow lista attesa. Fonte: grep env + `verifica-sensori.mjs` 02:50.
 
 > ✅ **20/7 ~02:34 — CHAT: «webhook collegato» — verificato OK sul worker (L-357).**
 
