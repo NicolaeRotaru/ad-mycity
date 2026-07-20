@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { preparaLavoro } from "@/lib/comandi";
-import { assembleRichiestaCasella, type ParlaMsg } from "@/lib/parla";
+import { assembleRichiestaCasella, type ParlaMsg } from "@/lib/parla-shared";
 import { formattaBloccoMemoriaChat } from "@/lib/memoria-chat";
 import { creaLavoroEsito, getConversazioni } from "@/lib/store";
 
