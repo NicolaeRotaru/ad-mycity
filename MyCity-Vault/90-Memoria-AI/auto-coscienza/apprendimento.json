@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
   "aggiornato": "2026-07-20 23:59",
+  "_nota_metabolizzazione_20_07_2359": "Chat 20/7 ~23:59: Nicola «metti questa casella dentro bacheca» — casella Vendite playbook capillarità → AD pin BACHECA.md. L-437 nuova; L-435+L-377 evidenze++ addendum capillarità; preferenza casella-in-bacheca addendum kit fisico; STATO+LEZIONI-CHAT già aggiornati AD turno; vendite+ad esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_20_07_2358": "Chat 20/7 ~23:58: Nicola «Ogni quanto tempo fai questa analisi?» — casella account-negozi Dati-come-servizio. L-436 nuova; preferenza ogni-quanto-cadenza-casella; STATO+LEZIONI-CHAT+account-negozi esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_20_07_2354": "Chat 20/7 ~23:54: Nicola «metti questa casella dentro bacheca» — casella Growth Fedeltà di rete → AD pin BACHECA.md. L-435 nuova; L-377 evidenze 5 addendum casella Pannello; preferenza casella-in-bacheca; STATO+LEZIONI-CHAT+growth+ad esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_20_07_2348": "Chat 20/7 ~23:48: Nicola app store + spiegami SMS + email professionale — AD Bacheca sezioni app store/email/SMS; L-434 nuova; L-433 addendum opzionali; preferenza costi-spiegazione-3-categorie; registro-fatti addendum; STATO+LEZIONI-CHAT+finanza+ad esito.",
@@ -159,6 +160,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-437",
+      "testo": "**Casella Capillarità → Bacheca — «metti questa casella dentro bacheca» = pin kit fisico in cima (Nicola 20/7 ~23:59).** Da casella Vendite playbook capillarità refresh 20/7 — stessa regola L-435, contenuto diverso: kit QR/vetrina/sacchetti. Regola: (1) blocco `##` in cima con verdetto **ARMATO, non stampare** — grafica pronta ma **0 DELIVERED** → QR in vetrina prima che il fornaio evada non ha senso; (2) **1 PQ** kit intestato pronto su disco · prospect solo **template neutri** (AR-006); (3) gate sequenza: ordine test PQ → preventivo tipografia **~80–150 €** → posa negozio → QR città solo con **≥3 bottegi** evadibili; (4) **grep titolo** anti-duplicato (L-384); (5) 🟢 solo persistenza — **no card Approva** (L-402). Vedi L-435, playbook `consegne/vendite/2026-07-20-playbook-capillarita.md`.",
+      "tag": [
+        "bacheca",
+        "pannello",
+        "casella",
+        "vendite",
+        "capillarita",
+        "kit-fisico",
+        "nicola"
+      ],
+      "reparto": "@vendite",
+      "confidenza": 0.87,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 23:59",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-436",
       "testo": "**Dati-come-servizio — «ogni quanto fai questa analisi?» = lunedì interno + mensile al titolare post-DELIVERED (Nicola 20/7 ~23:58).** Da casella account-negozi playbook refresh 20/7 11:22 — chiede **cadenza**, non contenuto. Regola risposta: (1) **aggiornamento interno** — playbook + casella **settimanalmente di lunedì** (rilegge REST live, stampo + mini-report onesto); (2) **consegna al titolare** — **mensile** (best-seller, orari punta, clienti che tornano) **solo dopo** primo ordine **DELIVERED** → 🔴 firma Nicola (#50); (3) **oggi pre-revenue** — **0 DELIVERED** su PQ → anteprima onesta (es. carrello samir €10), **non** report vendite; (4) ultimo refresh casella = **20/7 11:22**; (5) prossimo passo = `#ordine-test-pq` → primo report vero → ciclo mensile. Pattern L-219: cadenze **distinte** (interno vs esterno), mai vago «periodicamente». Vedi playbook `consegne/account-negozi/2026-07-20-playbook-dati-come-servizio.md`, #50.",
       "tag": [
@@ -190,14 +213,15 @@
         "nicola"
       ],
       "reparto": "@growth-monetizzazione",
-      "confidenza": 0.88,
-      "evidenze": 1,
+      "confidenza": 0.89,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 23:54",
+      "ultima_conferma": "2026-07-20 23:59",
       "stato": "attiva",
-      "usi": []
+      "usi": [],
+      "_evidenza_2": "ADDENDUM 23:59: stesso comando su casella Vendite «Capillarità» — pin kit fisico in Bacheca; verdetto **ARMATO non stampare** · gate ordine test → stampa ~80–150 € → semina città ≥3 negozi. Pattern confermato cross-reparto (Growth + Vendite). Vedi L-437."
     },
     {
       "id": "L-2026-0720-434",
@@ -1374,17 +1398,18 @@
       ],
       "reparto": "@ad",
       "confidenza": 0.9,
-      "evidenze": 5,
+      "evidenze": 6,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 23:54",
+      "ultima_conferma": "2026-07-20 23:59",
       "stato": "attiva",
       "usi": [],
       "_evidenza_2": "ADDENDUM 03:36: «inserisci questi 50 workflow in bacheca» — terza casella «50 workflow n8n MyCity» condensata in cima; home ora 3 caselle n8n. Vedi L-383.",
       "_evidenza_3": "ADDENDUM 03:37: «togli duplicato mappa negozi piacenza» — 2 copie identiche; eliminata quella in fondo; regola grep prima di inserire. Vedi L-384.",
       "_evidenza_4": "ADDENDUM 21:52: «salva in bacheca in forma di checklist» — formato `- [ ]` spuntabile, 4 livelli 24 voci versione avanzata; estende L-377 da caselle prosa a checklist operativa. Vedi L-422.",
-      "_evidenza_5": "ADDENDUM 23:54: «metti questa casella dentro bacheca» — pin casella Growth Pannello (playbook fedeltà) in cima BACHECA.md; condensato verdetto ARMATO + link consegne. Vedi L-435."
+      "_evidenza_5": "ADDENDUM 23:54: «metti questa casella dentro bacheca» — pin casella Growth Pannello (playbook fedeltà) in cima BACHECA.md; condensato verdetto ARMATO + link consegne. Vedi L-435.",
+      "_evidenza_6": "ADDENDUM 23:59: seconda istanza stesso comando — casella Vendite capillarità (kit fisico); verdetto **non stampare** + gate ordine test. Vedi L-437."
     },
     {
       "id": "L-2026-0720-375",
@@ -9880,7 +9905,7 @@
   ],
   "preferenze_nicola": [
     "**Cadenza casella — «Ogni quanto tempo fai questa analisi?» = due tempi distinti, concreti (chat 20/7 ~23:58):** da casella account-negozi «Dati-come-servizio» chiede **quando** gira l'analisi, non cosa contiene. Si aspetta: **lunedì** = refresh interno (dati live + casella) · **mensile al titolare** = solo post-primo ordine consegnato · oggi **0 DELIVERED** = anteprima onesta, non report vendite · ultimo refresh citato con data/ora · prossimo passo = ordine test PQ. Odia «periodicamente» senza giorni. Vedi L-436, L-219.",
-    "**Casella Pannello in Bacheca — «metti questa casella dentro bacheca» = pin condensato in cima BACHECA.md (chat 20/7 ~23:54):** da casella Growth (playbook refresh) chiede persistenza in **home Plancia** — si aspetta blocco `##` con verdetto (**ARMATO/spento**) · numeri attuali · gate · link playbook in `consegne/`; **non** solo risposta chat; grep titolo anti-duplicato; 🟢 senza card Approva se solo persistenza; fedeltà oggi **spenta** (1 bottega · 0 ordini). Vedi L-435, L-377.",
+    "**Casella Pannello in Bacheca — «metti questa casella dentro bacheca» = pin condensato in cima BACHECA.md (chat 20/7 ~23:54, ~23:59):** da casella Pannello (Growth fedeltà · Vendite capillarità) chiede persistenza in **home Plancia** — si aspetta blocco `##` con verdetto (**ARMATO/spento**, capillarità = **non stampare**) · numeri attuali · gate · link playbook in `consegne/`; **non** solo risposta chat; grep titolo anti-duplicato; 🟢 senza card Approva se solo persistenza. Vedi L-435, L-437, L-377.",
     "**Costi — «metti in bacheca» + «spiegami SMS/email/app store» = cifre confermate + 3 categorie opzionali distinte (chat 20/7 ~23:43–23:48):** burn fisso (Claude **200** + Vercel **30** + Supabase **50** + VPS **20** + dominio **20 €/anno** → **~302 €/m**, env **`BURN_MENSILE_EUR=300`**) separato da **opzionali** in Bacheca: **app store** (~99 €/anno Apple, ~23 € Google una tantum), **SMS** backup urgente pay-per-use (**0 € oggi**), **email** = **Resend** automatiche (0 € fino 3k/m) **≠** **Workspace** casella (~7–8 €/m) — **non confondere**; **non inventare** cifre; Render in chiusura, Vercel post-migrazione da confermare. Vedi L-433, L-434, L-422.",
     "**Chat no duplicati — odia risposta doppia, due bolle su allegato, ordine invertito (chat 20/7 ~23:38):** segnala **3 bug UX** distinti — (1) **stessa risposta AD due volte** (2) allegato solo = **due frasi/bolle** («nessun testo, vedi allegati» + nome file) (3) **suo messaggio sotto** la risposta come se l'avesse scritto dopo. Si aspetta AD spieghi **meccanismo merge** (non «rispondo due volte»), consegni fix PR (**#507** ex #505), verifichi build Vercel (import **no `.ts`** L-428), riapra PR se chiusa per sbaglio; merge 🔴 → test **solo screenshot** senza testo. Link chat **no card merge** (L-402). Vedi L-432.",
     "**Token in audit — «Fai il fix» memoria bloccata = redigi + redattore preventivo, non spegnere scan (chat 20/7 ~23:32):** casella PAT nel report auto-radiografia — si aspetta fix **immediato** che sblocchi il push (redazione `[REDATTO]` + prevenzione futura), verifica `scan-segreti` exit 0, **PR #506** link in chat; merge 🔴 + valutare rotazione PAT se token era valido (#ruota-pat-github). Vedi L-431.",
