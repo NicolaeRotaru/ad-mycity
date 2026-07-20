@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 18:32 · AR-105 audit completo — Nicola «ricominciamo da capo, controlla tutte le caselle» · atteso: tabella stato reale ogni sotto-voce · reale: sito+pannello ✅ · telegram ❌ · card riavvio obsoleta · #accendi-intelligence-sveglia pendente · motivo_spento non fatto (non bloccante) · invariato vs 18:25 · L-405 addendum · #sensori #uptime #AR-105 #esito
 - 2026-07-20 18:27 · Telegram VPS setup — Nicola «di metterlo sul vps come n8n» · atteso: chiarire setup senza altro container · reale: 2 env `TELEGRAM_BOT_TOKEN`+`TELEGRAM_CHAT_ID` in `cervello/vps/.env` (stesso file n8n/URL) → restart worker → sensore ok; push = chiavi anche in n8n Active; non eseguito — attesa token Nicola · L-406 · #telegram #vps #env #sensori #esito
 - 2026-07-20 18:25 · Sensori uptime AR-105 — Nicola «controlla se fix già fatto» · atteso: verifica runtime prima di riproporre · reale: sito_uptime+pannello_uptime ✅ HTTP 200 (env 18/7 già attive); #riavvia-worker-env FATTO obsoleta; telegram_bot ancora non_configurato → #accendi-intelligence-sveglia · L-405 · #sensori #uptime #AR-105 #esito
 - 2026-07-20 18:28 · PostHog «come n8n» — Nicola follow-up frame installazione · atteso: chiarire n8n≠PostHog · reale: env worker stesso file n8n/Telegram, no Docker PostHog; self-host scartato · L-404 · #posthog #vps #n8n #esito

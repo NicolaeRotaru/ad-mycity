@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 18:32
+aggiornato: 2026-07-20 18:34
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~18:32 — CHAT: AR-105 audit completo — «ricominciamo da capo, controlla tutte le caselle» (L-405 addendum).** Nicola chiede **tabella stato reale** di ogni sotto-voce casella uptime — AD verifica runtime **18:32**: **sito_uptime** ✅ · **pannello_uptime** ✅ · **telegram_bot** ❌ (mancano env) · card **#riavvia-worker-env** obsoleta ✅ · **#accendi-intelligence-sveglia** ⏳ · codice `motivo_spento` ❌ non bloccante. **Invariato vs 18:25** — conferma 2/3 sensori armati; chiusura casella quando Nicola scrive «telegram ok». Fonte: chat Nicola 20/7 18:32 + verifica-sensori 18:32.
 
 > 💬 **20/7 ~18:32 — CHAT: Prodotti finti ELIMINATI dal DB — «elimina i 245 prodotti finti» (L-408).** Follow-up pulizia demo: al passo 18:30 i prod demo erano solo **nascosti** (draft); Nicola chiede eliminazione esplicita (18:31) — AD **cancella 253 righe** dal database (252 draft + 1 orfano sold) · **irreversibile**. **Verifica REST 18:32:** **1** negozio · **5** prodotti (solo Pane Quotidiano: pesto, kefir, hummus, pudding, kefir Berchtesgadener) · supervisione **1 negozio · 5 prodotti** (restano gap da te: logo/città/foto). Fonte: chat Nicola 20/7 18:31 + REST 18:32.
 

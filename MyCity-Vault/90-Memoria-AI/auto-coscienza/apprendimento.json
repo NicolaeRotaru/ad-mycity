@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 18:32",
+  "aggiornato": "2026-07-20 18:34",
+  "_nota_metabolizzazione_20_07_1834": "Chat 20/7 ~18:32: Nicola «ricominciamo da capo, controlla tutte le caselle» — AD audit tabella AR-105: 2/3 sensori ok, Telegram pendente, invariato vs 18:25. L-405 evidenze++ addendum tabella; preferenza verifica-fix aggiornata; STATO+LEZIONI-CHAT+devops-sre esito; nessuna azione/decisione nuova.",
   "_nota_metabolizzazione_20_07_1832": "Chat 20/7 ~18:31: Nicola «elimina i 245 prodotti finti» — erano nascosti (draft) dal passo 18:30; AD DELETE 253 righe DB, REST 1 negozio 5 prod. L-408 nuova (caso_studio_nicola); L-401+L-407 evidenze++ addendum hard delete; preferenza elimina-prodotti-finti-db; STATO+LEZIONI-CHAT+operations; DECISIONI+AZIONI già 18:32.",
   "_nota_metabolizzazione_20_07_1830": "Chat 20/7 ~18:28: Nicola «te lo approvo in chat» — #elimina-negozi-demo ESEGUITO: 16 demo rimossi, 245 prod nascosti, REST 1 negozio 5 prodotti. L-407 nuova (caso_studio_nicola); L-401 evidenze++ addendum esecuzione; preferenza approvazione-chat-irreversibile + pulizia-catalogo-demo aggiornata; STATO+DECISIONI+AZIONI già 18:30; LEZIONI-CHAT+operations esito.",
   "_nota_metabolizzazione_20_07_1828": "Chat 20/7 ~18:28: Nicola follow-up PostHog «dico di metterlo sul vps come n8n» — AD: stessa disambiguazione L-406 (n8n=Docker vs cloud=env); self-host PostHog scartato. L-404 evidenze++ addendum 18:28; preferenza posthog-vps-setup aggiornata; STATO+LEZIONI-CHAT+data-engineer+devops-sre esito; nessuna azione completata.",
@@ -198,7 +199,7 @@
     },
     {
       "id": "L-2026-0720-405",
-      "testo": "**Casella difetto — «controlla se non è già stato il fix» = verifica runtime prima di riproporre (Nicola 20/7 ~18:25).** Casella AR-105 sensori uptime — Nicola «**controlla ogni casella e vai guardare se non è già stato il fix**». 5 perché: (1) caselle auto-radiografia possono **invecchiare** mentre Nicola agisce fuori chat (env 18/7 senza conferma); (2) **fonte verità** = `verifica-sensori.mjs` / `sensori-cecita.json` **adesso**, non il testo della casella; (3) **20/7 18:25:** `sito_uptime` + `pannello_uptime` ✅ HTTP 200 — env `MARKETPLACE_SITE_URL` + `PANNELLO_URL` già caricate; card **#riavvia-worker-env** **obsoleta** → FATTO; (4) **resta aperto:** `telegram_bot` `non_configurato` (no token) — chiusura in **#accendi-intelligence-sveglia** 🔴, non nuova card duplicata; (5) miglioramento codice `motivo_spento` registro cecità = **non bloccante** quando i sensori girano. Regola: su casella difetto + «già fatto?» → **runtime check** + segna card obsolete FATTO + indica **solo** ciò che resta. Vedi L-222, AR-105.",
+      "testo": "**Casella difetto — «controlla se non è già stato il fix» = verifica runtime prima di riproporre (Nicola 20/7 ~18:25).** Casella AR-105 sensori uptime — Nicola «**controlla ogni casella e vai guardare se non è già stato il fix**». 5 perché: (1) caselle auto-radiografia possono **invecchiare** mentre Nicola agisce fuori chat (env 18/7 senza conferma); (2) **fonte verità** = `verifica-sensori.mjs` / `sensori-cecita.json` **adesso**, non il testo della casella; (3) **20/7 18:25:** `sito_uptime` + `pannello_uptime` ✅ HTTP 200 — env `MARKETPLACE_SITE_URL` + `PANNELLO_URL` già caricate; card **#riavvia-worker-env** **obsoleta** → FATTO; (4) **resta aperto:** `telegram_bot` `non_configurato` (no token) — chiusura in **#accendi-intelligence-sveglia** 🔴, non nuova card duplicata; (5) miglioramento codice `motivo_spento` registro cecità = **non bloccante** quando i sensori girano. Regola: su casella difetto + «già fatto?» → **runtime check** + segna card obsolete FATTO + indica **solo** ciò che resta. Vedi L-222, AR-105. **Addendum 18:32:** Nicola «**ricominciamo da capo, controlla tutte le caselle**» — vuole **tabella completa** di ogni sotto-voce (sito · Pannello · Telegram · card · miglioramento), non ripetizione narrativa; seconda verifica **invariata** (2/3 ok); chiudere casella cantiere al «telegram ok».",
       "tag": [
         "sensori",
         "uptime",
@@ -208,12 +209,12 @@
         "devops-sre"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.91,
-      "evidenze": 1,
+      "confidenza": 0.93,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 18:25",
+      "ultima_conferma": "2026-07-20 18:32",
       "stato": "attiva",
       "usi": []
     },
@@ -9300,7 +9301,7 @@
     "**Approva in chat — «te lo approvo in chat» = firma 🔴 valida, esegui subito (chat 20/7 ~18:28):** su azione 🔴 già accodata con piano completo (#elimina-negozi-demo) approva con frase esplicita in chat — **non** rimandare solo al Pannello; si aspetta **esecuzione immediata**, card FATTO, numeri REST verificati (1 negozio · 5 prodotti), PQ intatto confermato. Vedi L-407, DECISIONI 20/7 18:30.",
     "**Pulizia catalogo demo — «elimina tutti tranne pane quotidiano» = accoda 🔴 poi esegui al ok (chat 20/7 ~17:54, ✅ 18:30–18:32):** da casella Supervisione chiede rimuovere **16 negozi demo** lasciando solo **Pane Quotidiano** — numeri verificati, elenco negozi, card **#elimina-negozi-demo**; ok in chat («te lo approvo») → **eseguito**: **1 negozio · 5 prodotti** live, **253 prod demo eliminati dal DB** (non solo nascosti). Vedi L-401, L-407, L-408.",
     "**Telegram sul VPS — «metterlo come n8n» = passi env nello stesso file, non installare Docker (chat 20/7 ~18:27):** chiede Telegram sul server «**come n8n**» — si aspetta risposta **operativa e disambiguata**: (1) n8n = programma che gira sul VPS; Telegram = **solo collegamento** (2 righe env); (2) stesso `cervello/vps/.env` dove ha già n8n e URL sito/Pannello; (3) BotFather → token + chat id → restart worker → sensore verde; (4) **push reali** = stesse chiavi anche in workflow n8n + Active (#accendi-intelligence-sveglia); (5) **non** incollare token in chat. Vedi L-406, L-405.",
-    "**Verifica fix casella — «controlla ogni casella / se non è già stato il fix» = runtime check prima di riproporre (chat 20/7 ~18:25):** da casella difetto auto-radiografia chiede che l'AD **verifichi lo stato reale** (sensori, env, card) prima di ripetere la stessa azione — se sito/Pannello già verdi → card riavvio **obsoleta**, dichiarare FATTO e indicare **solo** ciò che resta (es. Telegram in #accendi-intelligence-sveglia). Vedi L-405.",
+    "**Verifica fix casella — «ricominciamo da capo / controlla tutte le caselle» = tabella runtime completa (chat 20/7 ~18:25–18:32):** da casella difetto chiede audit **da zero** con **tabella** di ogni sotto-voce (✅/❌) basata su `verifica-sensori` adesso — non ripetere la stessa diagnosi narrativa; se sito/Pannello già verdi → card riavvio **obsoleta**; indicare **solo** ciò che resta (Telegram in #accendi-intelligence-sveglia); chiudere casella cantiere al «telegram ok». Vedi L-405.",
     "**PostHog sul VPS — «come n8n» = env worker, non Docker/self-host (chat 20/7 ~18:24–18:28):** chiede come collegare PostHog — poi «**metterlo sul vps come n8n**» — si aspetta disambiguazione **come Telegram L-406**: (1) n8n = programma sul VPS; PostHog = **cloud** + collegamento env; (2) **non** installare/self-host; (3) sito già traccia da Render; (4) VPS = Personal API Key **`phx_`** (Read) in `cervello/vps/.env`, **non** `phc_`; (5) restart worker + `verifica-sensori.mjs` ok; sensore spento **5/7** = normale; riaccensione briefing solo se lo chiede. Vedi L-404, L-406.",
     "**Pulizia card merge obsolete — «togli le card merge rimaste» = esegui subito, PR su GitHub intatte (chat 20/7 ~18:00):** seguito L-402 chiede rimozione retroattiva card «Mergia PR #…» create su ordini chat — si aspetta pulizia **immediata** AZIONI-IN-ATTESA (RIMOSSA con motivo), elenco card tolte, coda snellita (47→41), **PR restano su GitHub**; non toccare #auto-segna-pr-mergiata né card 🔴 vere. Vedi L-403.",
     "**Coda Approva solo iniziativa AD — chat «fai fix/crea PR» = link in risposta, ZERO card merge (chat 20/7 ~17:58):** «le cose da approvare devono essere quelle a cui ci arrivi da solo» — se chiede in chat fix/PR/modifica codice: AD lavora e mette **link PR in chat**, **non** accoda «Mergia PR #…»; card Approva solo per **mosse autonome** (giro, sentinella, proposta non richiesta) o 🔴 mondo reale **senza** ordine esplicito in chat; se chiede elimina/pubblica/spendi in chat → chat + ok basta (**L-407**: «te lo approvo in chat» = esegui). Esempio errore: #499 dopo «Fai il fix». Vedi L-402, L-407.",
