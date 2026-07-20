@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:33
+aggiornato: 2026-07-20 03:34
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:34 — CHAT: Worker navbar — voce Worker = chat grande, non popup (L-382).** Nicola «**dentro la navbar in alto, il bottone worker deve aprire la chat grande e non la fluttuante**» — requisito **già in codice** su main da ~02:30 (**PR #492**): voce **Worker** nel menu laterale chiama `apriWorkerPopup(true)` → fullscreen; **FAB** basso-destra resta popup piccolo (accesso rapido). Se da menu vede ancora popup = **Pannello Production non aggiornato** (GitHub outage stasera, deploy post-#492/#493/#494 in attesa — L-372); Ctrl+F5, poi redeploy 🔴 se persiste. Fonte: chat Nicola 20/7 03:34.
 
 > 💬 **20/7 ~03:33 — CHAT: «spiegami meglio il punto 3» — workflow stub = scheletro importabile, non automazione attiva (L-381).** Nicola chiede chiarimento sul **punto 3** della consegna 50 workflow (L-379): **stub ≠ pronti** — ogni JSON ha **trigger + nota** ma azione vera = nodo **segnaposto** (es. «STUB 31» Telegram), va sostituito con bot/credenziali reali prima di Active. **Esempio n.31** (59 card Da approvare): import n8n → rimuovi Stub Telegram → token bot + chat → collega Pannello → accendi **solo dopo 🔴**. **Perché stub:** import con `id` ok (L-329) + niente messaggi/post accidentali senza chiavi; **2 workflow completi** repo (pubblica post + lista attesa) restano eccezione migliore. CTA proposta: **solo Telegram n.31** guida nodo per nodo. Fonte: chat Nicola 20/7 03:33.
 

@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:33",
+  "aggiornato": "2026-07-20 03:34",
+  "_nota_metabolizzazione_20_07_0334": "Chat 20/7 ~03:34: Nicola «bottone worker navbar deve aprire chat grande non fluttuante» — codice main già ok (#492 apriWorkerPopup true), lag deploy. L-382 nuova; L-363 evidenze++ addendum re-ask; preferenza worker-navbar-chat-grande; STATO+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_0333": "Chat 20/7 ~03:33: Nicola «spiegami meglio il punto 3» — chiarimento stub workflow post L-379. L-381 nuova; L-379 evidenze++ addendum punto 3; preferenza spiegami-punto-n-stub; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0329": "Chat 20/7 ~03:28: Nicola «quando si attiva Builder automazioni?» — chiarimento trigger on-demand vs worker. L-380 nuova; preferenza quando-attiva-builder; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0328": "Chat 20/7 ~03:27: Nicola «adesso crea i 50 workflow» — consegna 50 JSON stub importabili. L-379 nuova; L-368 evidenze++ addendum JSON consegnati; preferenza crea-50-workflow-json; STATO+DECISIONI+LEZIONI-CHAT+builder esito.",
@@ -100,6 +101,29 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-382",
+      "testo": "**Worker navbar — voce Worker apre chat grande, FAB popup; codice ok su main, se vede popup = deploy (Nicola 20/7 ~03:34).** «Dentro la navbar in alto, il bottone worker deve aprire la chat grande e non la fluttuante» — follow-up L-363 (tre superfici). 5 perché: (1) Nicola **re-chiede** perché produzione **non** mostra ancora il fix (#492 ~02:30), non perché il requisito è nuovo; (2) codice su main già corretto — voce **Worker** menu laterale = `apriWorkerPopup(true)` fullscreen (`page.tsx` ~2580); **FAB** basso-destra resta popup piccolo **volutamente**; (3) se menu apre ancora popup = **deploy Production** indietro (GitHub outage, merge #492/#493/#494 deploy pendente — L-372), non bug codice da rifare; (4) risposta giusta: verifica codice main + spiega lag deploy + Ctrl+F5 + offri redeploy 🔴 se persiste; (5) **non** dire «è già così» senza distinguere repo vs Pannello live (L-361). Regola: re-ask Worker grande vs popup → codice main + FAB≠menu + deploy gate, non nuova PR se già `true`. Vedi L-363, L-361, L-372.",
+      "tag": [
+        "pannello",
+        "worker",
+        "navbar",
+        "fullscreen",
+        "popup",
+        "fab",
+        "deploy",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:34",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-381",
       "testo": "**«Spiegami meglio il punto N» su workflow stub = esempio concreto + passi n8n, non ripetere abstract (Nicola 20/7 ~03:33).** Dopo consegna 50 JSON stub (L-379), Nicola «**spiegami meglio il punto 3**» — il punto 3 era «stub collegabili, non attivi». 5 perché: (1) «spiegami meglio» su voce numerata = **non** ripetere la stessa frase — vuole **walkthrough operativo** con esempio file; (2) **stub** = ha **trigger + nota** che spiega lo scopo, **manca** azione vera (nodo Telegram/Meta segnaposto tipo «STUB 31», non avviso reale); (3) **esempio concreto n.31** (59 card Da approvare): import → apri flusso → togli Stub Telegram → metti bot vero (token+chat) → collega Pannello → **solo allora** Active; (4) **perché così:** `id`/`versionId` evitano errore import NOT NULL (L-329) + niente messaggi/post per sbaglio senza chiavi — invii restano **🔴**; (5) **2 workflow completi** repo (pubblica post + lista attesa) = eccezione più vicina al reale; chiudere con **un solo prossimo passo** («solo Telegram n.31 nodo per nodo»). Regola: chiarimento «punto N» post-lista workflow → apri 1 JSON, mostra cosa c’è/manca, numeri workflow reali, perché stub, CTA singola. Vedi L-379, L-329.",
@@ -499,7 +523,7 @@
     },
     {
       "id": "L-2026-0720-363",
-      "testo": "**Worker UX — tre superfici distinte: FAB popup · menu Worker fullscreen · lista conv overlay (Nicola 20/7 ~02:32).** «Bottone basso-destra e voce Worker nel menù non devono aprire la stessa finestra» + «lista conversazioni in finestra che si apre/chiude sopra la chat». 5 perché: (1) AD aveva unificato FAB e voce menù nella **stessa** popup (#486) — Nicola li distingue: FAB = accesso rapido piccolo, menù Worker = workspace grande; (2) AD aveva reso lista conv **colonna fissa sinistra** (#485/#490) — Nicola vuole **overlay sopra** i messaggi (☰ toggle, tap fuori chiude); (3) tre entry point = **tre modalità UX**, non scorciatoie allo stesso componente; (4) ingrandisci sul popup piccolo = ingrandisce popup, **non** apre la pagina menù Worker; (5) errore processo = implementare metà requisito (sidebar integrata) senza chiedere distinzione contenitore per ogni entry point. Regola: **FAB** = popup piccolo · **menu Worker** = fullscreen · **☰** = overlay conv list — mai unificare FAB=menu; mai sidebar fissa se chiede overlay. Fix PR **#492** ✅ mergiata; supersede #486 unificazione e #490 sidebar fissa. **ADDENDUM 02:46:** posizione controlli per superficie in **L-364** (grande=☰+ in basso; popup=barra alta). Vedi L-352, L-348, L-350, L-364.",
+      "testo": "**Worker UX — tre superfici distinte: FAB popup · menu Worker fullscreen · lista conv overlay (Nicola 20/7 ~02:32).** «Bottone basso-destra e voce Worker nel menù non devono aprire la stessa finestra» + «lista conversazioni in finestra che si apre/chiude sopra la chat». 5 perché: (1) AD aveva unificato FAB e voce menù nella **stessa** popup (#486) — Nicola li distingue: FAB = accesso rapido piccolo, menù Worker = workspace grande; (2) AD aveva reso lista conv **colonna fissa sinistra** (#485/#490) — Nicola vuole **overlay sopra** i messaggi (☰ toggle, tap fuori chiude); (3) tre entry point = **tre modalità UX**, non scorciatoie allo stesso componente; (4) ingrandisci sul popup piccolo = ingrandisce popup, **non** apre la pagina menù Worker; (5) errore processo = implementare metà requisito (sidebar integrata) senza chiedere distinzione contenitore per ogni entry point. Regola: **FAB** = popup piccolo · **menu Worker** = fullscreen · **☰** = overlay conv list — mai unificare FAB=menu; mai sidebar fissa se chiede overlay. Fix PR **#492** ✅ mergiata; supersede #486 unificazione e #490 sidebar fissa. **ADDENDUM 02:46:** posizione controlli per superficie in **L-364** (grande=☰+ in basso; popup=barra alta). **ADDENDUM 03:34 (L-382):** re-chiede «navbar Worker = grande» — codice main già `apriWorkerPopup(true)`; se live mostra popup = deploy, non nuova PR. Vedi L-382, L-352, L-348, L-350, L-364.",
       "tag": [
         "pannello",
         "worker",
@@ -514,11 +538,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 02:46",
+      "ultima_conferma": "2026-07-20 03:34",
       "stato": "attiva",
       "usi": []
     },
@@ -8694,6 +8718,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Worker navbar — voce Worker = chat grande, FAB = popup; se live diverso = deploy (chat 20/7 ~03:34):** «dentro la navbar in alto, il bottone worker deve aprire la chat grande e non la fluttuante» — conferma/rinforzo L-363: voce **Worker** nel menu laterale = **fullscreen**; **FAB** basso-destra = popup piccolo voluto; si aspetta che il codice lo faccia (già su main #492) — se vede ancora popup dal menu = **Production non aggiornata** (GitHub outage, deploy pendente), non «fix mancante»; Ctrl+F5 poi redeploy 🔴. Vedi L-382, L-363, L-372, L-361.",
     "**Spiegami meglio il punto N — chiarimento stub workflow = esempio concreto + passi n8n (chat 20/7 ~03:33):** dopo lista numerata su 50 workflow (L-379) chiede «**spiegami meglio il punto 3**» — si aspetta **walkthrough operativo**, non ripetizione abstract: cosa c’è già (trigger+nota) vs cosa manca (nodo segnaposto STUB), **esempio file reale** (n.31, 59 card), perché stub (id import + no invii accidentali, 🔴), eccezione 2 workflow completi repo; chiude con **un solo prossimo passo** («Telegram n.31 nodo per nodo»). Vedi L-381, L-379.",
     "**Quando si attiva Builder automazioni — chiarimento trigger on-demand, non cron mattutino (chat 20/7 ~03:28):** «quando si attiva Builder automazioni?» — si aspetta modello **operativo chiaro**: Builder **non** gira come worker ogni mattina; entra quando (1) Nicola chiede un'automazione/mano, (2) un reparto richiede via AD, (3) approva card 🔴 che deve uscire, (4) radar occasionale su salute n8n; **bozze/file JSON 🟢** subito, **accendere server + invii 🔴**; chiude con CTA («accendi Telegram» / «importa workflow» / «RSS bandi»). Vedi L-380, L-378.",
     "**Crea 50 workflow n8n — «adesso crea i 50 workflow» = file JSON importabili, non solo catalogo testuale (chat 20/7 ~03:27):** dopo griglia 10×5 (L-368) chiede **consegna operativa** — si aspetta **50 JSON** in repo (`consegne/automazioni/n8n/workflows/`) pronti per Import from file in n8n, con `id`/`versionId`, indice catalogo e script rigenerazione; **stub** collegabili (Telegram segnaposto) — **non attivi** finché non si collegano credenziali; 2 workflow completi repo = partenza migliore; **priorità accensione:** Telegram (59 avvisi) → Meta → RSS bandi (#41) → carrello 1h (#11) → ordine negozio (#21); messaggi/post **🔴**; chiude «quale accendiamo per primo». Vedi L-379, L-368, L-329.",
