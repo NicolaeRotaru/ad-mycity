@@ -5,6 +5,10 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { MessageSquarePlus, Send, Loader2, CheckCircle2 } from "lucide-react";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
+import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
+import BottoneFotoChat from "@/components/BottoneFotoChat";
+import AnteprimaAllegatiChat from "@/components/AnteprimaAllegatiChat";
+import { caricaAllegatiChat } from "@/lib/allegati-chat";
 import {
   attendiEsitoLavoro,
   creaLavoroCasella,
@@ -59,6 +63,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   // questo dispositivo ed è volatile: va detto, non spacciato per «salvata in Conversazioni».
   const [salvataSuServer, setSalvataSuServer] = useState(false);
   const [err, setErr] = useState("");
+  const [allegati, setAllegati] = useState<File[]>([]);
   // ⚡ Finestra "Skill & comandi" dentro la chat (si apre dal pulsante ⚡ accanto a Invia).
   const [skillAperte, setSkillAperte] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -178,16 +183,32 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
     scrollBottom();
   }, [msgs]);
 
+  function aggiungiFile(lista: FileList | null) {
+    if (!lista || lista.length === 0) {
+      setErr("La foto non è arrivata — riprova o scegline un'altra.");
+      return;
+    }
+    setErr("");
+    setAllegati((prev) => [...prev, ...Array.from(lista)].slice(0, 6));
+  }
+  function togliAllegato(i: number) {
+    setAllegati((prev) => prev.filter((_, idx) => idx !== i));
+  }
+
   async function invia() {
     const testo = bozza.trim();
-    if (!testo || inviando) return;
+    const daCaricare = allegati;
+    if ((!testo && daCaricare.length === 0) || inviando) return;
     setErr("");
-    setSalvata(false); // 🐛 Bug #5: azzera la spunta "salvata" all'inizio di ogni invio
+    setSalvata(false);
     setSalvataSuServer(false);
     setBozza("");
+    setAllegati([]);
     const chiave = chiaveTitolo;
     const storia = msgs.filter((m) => !m.pending);
-    const conMio: ParlaMsg[] = [...storia, { role: "user", content: testo, created_at: new Date().toISOString() }];
+    const nomiAllegati = daCaricare.map((f) => `📎 ${f.name}`).join("  ");
+    const bollaUtente = [testo, nomiAllegati].filter(Boolean).join("\n");
+    const conMio: ParlaMsg[] = [...storia, { role: "user", content: bollaUtente, created_at: new Date().toISOString() }];
     setMsgs(conMio);
     setInviando(true);
     try {
@@ -199,10 +220,17 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
       const id = salvataggio.id ?? convId;
       if (id) setConvId(id);
       setSalvata(true);
-      setSalvataSuServer(salvataggio.suServer); // verità: server (durevole) vs solo-dispositivo
-      // ② Il lavoro nasce nello STESSO gruppo della conversazione (gruppo_id): Archivio e
-      //    Assistente restano collegati e la risposta è sempre ricostruibile dai lavori.
-      const lavoro = await creaLavoroCasella(titolo, contesto || "", storia, testo, id);
+      setSalvataSuServer(salvataggio.suServer);
+      const gruppoUpload = id || convId || "casella";
+      const bloccoAllegati = await caricaAllegatiChat(gruppoUpload, daCaricare);
+      const lavoro = await creaLavoroCasella(
+        titolo,
+        contesto || "",
+        storia,
+        testo || "(nessun testo — vedi allegati)",
+        id,
+        bloccoAllegati,
+      );
       // ③ Aspetta la risposta e completa il thread salvato.
       const esito = await attendiEsitoLavoro(lavoro.id, lavoro.tipo, lavoro.timeoutMs);
       if (esito.definitiva) {
@@ -223,7 +251,8 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
       //    invece di far credere — con la spunta verde — che sia tutto salvato e in arrivo.
       const msg = e?.message || "Il messaggio non è partito. Riprova.";
       setErr(`⚠️ ${msg} Il testo è qui sotto: non l'ho perso.`);
-      setBozza(testo); // 🐛 Bug #5: non perdere la bozza se l'invio fallisce, ripristinala
+      setBozza(testo);
+      setAllegati(daCaricare);
     } finally {
       setInviando(false);
     }
@@ -280,6 +309,8 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
         }}
       />
 
+      <AnteprimaAllegatiChat allegati={allegati} onTogli={togliAllegato} disabilitato={inviando} />
+
       <textarea
         ref={textareaRef}
         value={bozza}
@@ -291,9 +322,23 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
       />
       <div className="flex items-center gap-2 flex-wrap">
         <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} lato={32} icona={14} />
+        <BottoneAllegatiChat
+          disabled={inviando || allegati.length >= 6}
+          iconSize={13}
+          etichetta="Allega"
+          className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
+          onScegli={aggiungiFile}
+        />
+        <BottoneFotoChat
+          disabled={inviando || allegati.length >= 6}
+          iconSize={13}
+          etichetta="Foto"
+          className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
+          onScegli={aggiungiFile}
+        />
         <button
           onClick={invia}
-          disabled={inviando || !bozza.trim()}
+          disabled={inviando || (!bozza.trim() && allegati.length === 0)}
           className="inline-flex items-center gap-1.5 bg-brand text-white text-[12px] font-medium px-3 py-1.5 rounded-lg hover:bg-brand-dark disabled:opacity-50 transition"
         >
           {inviando ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />} Invia a Claude Max

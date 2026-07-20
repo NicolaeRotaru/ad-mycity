@@ -8,6 +8,7 @@ import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandi
 import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
 import BottoneFotoChat from "@/components/BottoneFotoChat";
 import AnteprimaAllegatiChat from "@/components/AnteprimaAllegatiChat";
+import { caricaAllegatiChat } from "@/lib/allegati-chat";
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, messaggiDaGruppo, type LavoroBase, type MsgChat } from "@/lib/lavori-gruppo";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
@@ -129,23 +130,7 @@ export default function ChatCasella({
     setMsgs((m) => [...m, { role: "user", content: bollaUtente }]);
     setInviando(true);
     try {
-      // 1) Carico prima gli allegati sullo storage, poi mando al cervello solo i loro percorsi.
-      let bloccoAllegati = "";
-      if (daCaricare.length > 0) {
-        const fd = new FormData();
-        fd.append("gruppo_id", gruppoId);
-        daCaricare.forEach((f) => fd.append("file", f));
-        const up = await fetch("/api/allegato", { method: "POST", body: fd })
-          .then((r) => r.json())
-          .catch(() => null);
-        if (!up?.ok) throw new Error(up?.error || "Caricamento degli allegati non riuscito.");
-        const righe = (up.allegati as Array<{ nome: string; tipo: string; percorso: string }>)
-          .map((a) => `@ALLEGATO nome="${a.nome}" tipo="${a.tipo}" percorso="${a.percorso}"`)
-          .join("\n");
-        bloccoAllegati =
-          `\n\n## Allegati di Nicola\nNicola ha allegato ${up.allegati.length} file a questo messaggio ` +
-          `(foto o documenti). Sono nello storage: aprili e tienine conto nella risposta.\n${righe}`;
-      }
+      const bloccoAllegati = await caricaAllegatiChat(gruppoId, daCaricare);
       const prep = preparaLavoro(testo || "Guarda gli allegati");
       const memoria = await bloccoMemoriaChat(gruppoId);
       const richiesta =
