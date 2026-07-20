@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-20 03:37 · metabolizzazione chat «togli duplicato mappa negozi bacheca» · atteso: L-384 + L-377 addendum dedup · reale: L-384, L-377 evidenze 3, STATO/DECISIONI/LEZIONI-CHAT/ad aggiornati · #metabolizzazione #bacheca #L-384
 - 2026-07-20 03:36 · metabolizzazione chat «inserisci 50 workflow in bacheca» · atteso: L-383 + L-377 addendum · reale: L-383, L-377 evidenze 2, STATO/DECISIONI/LEZIONI-CHAT/builder/ad aggiornati · #metabolizzazione #bacheca #L-383
 - 2026-07-20 03:27 · metabolizzazione chat «ci sono senior esperti n8n?» · atteso: lezione L-378 + preferenza organigramma · reale: L-378, L-332 evidenze 2, STATO/LEZIONI-CHAT/builder/partner-management aggiornati · #metabolizzazione #n8n #L-378
 - 2026-07-20 03:25 · metabolizzazione chat «salva ultime 2 risposte in bacheca home» · atteso: lezione L-377 + preferenza bacheca · reale: L-377, STATO/LEZIONI-CHAT aggiornati; BACHECA.md già scritto AD · #metabolizzazione #bacheca #L-377

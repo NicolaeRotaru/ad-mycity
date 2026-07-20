@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 03:36
+aggiornato: 2026-07-20 03:37
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~03:37 — CHAT: Bacheca — rimosso duplicato «Mappa negozi Piacenza» (L-384).** Nicola «**togli dalla bacheca il duplicato: mappa negozi piacenza**» — in `BACHECA.md` c'erano **2 copie identiche** del blocco mappa onboarding; AD elimina quella **in fondo**, resta **una sola** sotto le 3 caselle n8n (50 workflow · 20 mani · mani reparto). Se home ancora doppia = refresh (main GitHub). Fonte: chat Nicola 20/7 03:37.
 
 > 💬 **20/7 ~03:36 — CHAT: Bacheca home — 3 caselle n8n (20 mani + reparto + 50 workflow) (L-377, L-383).** Nicola «**inserisci questi 50 workflow dentro la bacheca della home**» — dopo elenco completo in chat (L-383). AD aggiunge **terza casella** in cima `BACHECA.md`: **«50 workflow n8n MyCity»** — catalogo condensato 10 blocchi (1–50) con 🔴🟡🟢 + priorità accensione (31 Telegram → Meta → 41 RSS → 11 carrello → 21 ordine negozio). Sotto: caselle **20 mani** (03:25) e **mani per reparto senior** (03:25). Home Plancia legge **main** — refresh se non visibile. Fonte: chat Nicola 20/7 03:36.
 

@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 03:37 · 🟢 · [Bacheca home — dedup casella Mappa negozi Piacenza] · **Nicola: «togli dalla bacheca il duplicato: mappa negozi piacenza».** Due copie identiche del blocco mappa onboarding in `BACHECA.md` — AD elimina la seconda (in fondo), resta una sola sotto le caselle n8n. Regola preventiva: grep titolo prima di inserire nuovi blocchi. L-384, addendum L-377.
+
 2026-07-20 03:36 · 🟢 · [Bacheca home — terza casella catalogo 50 workflow n8n] · **Nicola: «inserisci questi 50 workflow dentro la bacheca della home».** Dopo elenco completo in chat (L-383): AD aggiunge blocco **«50 workflow n8n MyCity»** in cima `BACHECA.md` — versione condensata 10×5 con colori 🔴🟡🟢 e priorità accensione; home Plancia ora ha **3 caselle** n8n (20 mani · mani per reparto · 50 workflow). Reversibile, solo memoria vault. L-377 addendum, L-383.
 
 2026-07-20 03:27 · 🟢 · [Catalogo n8n — 50 workflow JSON stub importabili in repo] · **Nicola: «adesso crea i 50 workflow».** Dopo griglia 10×5 (L-368): AD genera **50 file JSON** in `consegne/automazioni/n8n/workflows/` + indice `CATALOGO-50-WORKFLOW.json` + script `genera-catalogo-50.mjs`; tutti con `id`/`versionId` (compatibile import n8n post-L-329). **Stub collegabili, non attivi** — Telegram segnaposto, credenziali Meta/Resend/Sheets da collegare prima di Active; messaggi/post restano **🔴** card. Priorità accensione: Telegram (59 avvisi) → Meta → RSS bandi (#41) → carrello 1h (#11) → nuovo ordine negozio (#21). Commit `d1e4aa6e`. L-379, collega L-368.

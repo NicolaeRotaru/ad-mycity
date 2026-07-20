@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 03:36",
+  "aggiornato": "2026-07-20 03:37",
+  "_nota_metabolizzazione_20_07_0337": "Chat 20/7 ~03:37: Nicola «togli dalla bacheca il duplicato mappa negozi piacenza» — dedup BACHECA.md. L-384 nuova; L-377 evidenze++ addendum grep/dedup; preferenza bacheca-dedup; STATO+DECISIONI+LEZIONI-CHAT+ad esito.",
   "_nota_metabolizzazione_20_07_0336": "Chat 20/7 ~03:34–03:36: Nicola «elencami i 50 workflow in chat» + «inserisci questi 50 workflow in bacheca home». L-383 nuova; L-377 evidenze++ addendum terza casella; preferenze elenco-50-workflow-chat + bacheca-50-workflow; STATO+DECISIONI+LEZIONI-CHAT+builder+ad esito.",
   "_nota_metabolizzazione_20_07_0334": "Chat 20/7 ~03:34: Nicola «bottone worker navbar deve aprire chat grande non fluttuante» — codice main già ok (#492 apriWorkerPopup true), lag deploy. L-382 nuova; L-363 evidenze++ addendum re-ask; preferenza worker-navbar-chat-grande; STATO+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_0333": "Chat 20/7 ~03:33: Nicola «spiegami meglio il punto 3» — chiarimento stub workflow post L-379. L-381 nuova; L-379 evidenze++ addendum punto 3; preferenza spiegami-punto-n-stub; STATO+LEZIONI-CHAT+builder esito.",
@@ -102,6 +103,26 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-384",
+      "testo": "**«Togli duplicato da bacheca» = grep titolo, tieni copia più in alto, elimina ripetizione in fondo (Nicola 20/7 ~03:37).** Nicola «**togli dalla bacheca il duplicato: mappa negozi piacenza**» — dopo aggiunte caselle n8n (L-377). 5 perché: (1) ogni `##` in `BACHECA.md` = **casella in home** Plancia — duplicati identici confondono; (2) causa: blocco già presente + re-inserimento senza controllo; (3) fix: **grep titolo** in BACHECA.md — se 2+ copie → **tieni quella più in alto**, **elimina quella in fondo**; (4) **prevenzione:** prima di «salva/inserisci in bacheca» grep titolo — se esiste, **aggiorna** blocco esistente, non aggiungere duplicato; (5) se UI ancora doppia = refresh main GitHub. Regola: «togli duplicato X» → 🟢 dedup immediato; inserimento bacheca → grep prima. Vedi L-377, DECISIONI 16/7 bacheca.",
+      "tag": [
+        "bacheca",
+        "pannello",
+        "home",
+        "dedup",
+        "nicola"
+      ],
+      "reparto": "@ad",
+      "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 03:37",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-383",
       "testo": "**«Elencami i 50 workflow» = lista numerata completa in chat, 10 blocchi + 🔴🟡🟢 (Nicola 20/7 ~03:34).** Dopo consegna 50 JSON stub (L-379), Nicola «**allora elencami in chat i 50 workflow**». 5 perché: (1) «elencami» ≠ «crea JSON» (L-379) — vuole **leggere tutti i titoli** in chat, numerati e raggruppati; (2) formato atteso: **10 categorie × 5** con numeri 1–50, titolo breve per workflow, colore **🔴** messaggi/post · **🟡** avvisi interni · **🟢** solo report; (3) evidenziare **n.31** (59 card Da approvare → Telegram) e **n.41** (RSS bandi Comune, PI26 oggi 10:00) come priorità; (4) reminder stub: bozze importabili, spente finché non completate (L-381); (5) chiudere «**quale numero accendiamo per primo**» — consiglio 31 o 41. **ADDENDUM 03:36:** «inserisci questi 50 workflow in bacheca» → casella condensata in cima BACHECA.md (L-377). Regola: post-consegna JSON, «elencami N workflow» → elenco chat completo strutturato; se chiede bacheca → blocco ## condensato separato. Vedi L-379, L-377, L-381.",
@@ -232,7 +253,7 @@
     },
     {
       "id": "L-2026-0720-377",
-      "testo": "**«Salva in bacheca» = N caselle separate in BACHECA.md, una per risposta (Nicola 20/7 ~03:25).** Nicola «salva le ultime 2 risposte dentro la bacheca della home in due caselle diverse» — dopo catalogo 20 mani n8n (L-373) e mani per reparto senior (L-376). 5 perché: (1) chat volatili — Nicola vuole output **persistenti e visibili in home** senza riaprire la conversazione; (2) **due risposte = due caselle** distinte (`## Titolo · data ora`), non un blocco unico mescolato; (3) file = `MyCity-Vault/90-Memoria-AI/BACHECA.md`, servito da `/api/bacheca` in Plancia (DECISIONI 16/7); (4) più recenti in cima; Pannello legge **main** GitHub — se non visibile subito = refresh, non «fatto» senza publish; (5) contenuto = **condensato utile** (elenco, ordine, regole 🔴), non dump chat grezzo. Regola: «salva in bacheca / salva le ultime N risposte / inserisci [contenuto] in bacheca» → 🟢 scrivi **N blocchi ## separati** in BACHECA.md subito. Vedi DECISIONI 16/7 bacheca, L-373, L-376, L-383.",
+      "testo": "**«Salva in bacheca» = N caselle separate in BACHECA.md, una per risposta (Nicola 20/7 ~03:25).** Nicola «salva le ultime 2 risposte dentro la bacheca della home in due caselle diverse» — dopo catalogo 20 mani n8n (L-373) e mani per reparto senior (L-376). 5 perché: (1) chat volatili — Nicola vuole output **persistenti e visibili in home** senza riaprire la conversazione; (2) **due risposte = due caselle** distinte (`## Titolo · data ora`), non un blocco unico mescolato; (3) file = `MyCity-Vault/90-Memoria-AI/BACHECA.md`, servito da `/api/bacheca` in Plancia (DECISIONI 16/7); (4) più recenti in cima; Pannello legge **main** GitHub — se non visibile subito = refresh, non «fatto» senza publish; (5) contenuto = **condensato utile** (elenco, ordine, regole 🔴), non dump chat grezzo. Regola: «salva in bacheca / salva le ultime N risposte / inserisci [contenuto] in bacheca» → 🟢 scrivi **N blocchi ## separati** in BACHECA.md subito; **grep titolo prima** per non duplicare (L-384). Vedi DECISIONI 16/7 bacheca, L-373, L-376, L-383, L-384.",
       "tag": [
         "bacheca",
         "pannello",
@@ -242,14 +263,15 @@
       ],
       "reparto": "@ad",
       "confidenza": 0.9,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 03:36",
+      "ultima_conferma": "2026-07-20 03:37",
       "stato": "attiva",
       "usi": [],
-      "_evidenza_2": "ADDENDUM 03:36: «inserisci questi 50 workflow in bacheca» — terza casella «50 workflow n8n MyCity» condensata in cima; home ora 3 caselle n8n. Vedi L-383."
+      "_evidenza_2": "ADDENDUM 03:36: «inserisci questi 50 workflow in bacheca» — terza casella «50 workflow n8n MyCity» condensata in cima; home ora 3 caselle n8n. Vedi L-383.",
+      "_evidenza_3": "ADDENDUM 03:37: «togli duplicato mappa negozi piacenza» — 2 copie identiche; eliminata quella in fondo; regola grep prima di inserire. Vedi L-384."
     },
     {
       "id": "L-2026-0720-375",
@@ -8742,6 +8764,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Bacheca dedup — «togli il duplicato X» = una sola casella, grep prima di inserire (chat 20/7 ~03:37):** dopo aggiunte multiple in bacheca, Nicola segnala duplicato «mappa negozi piacenza» — si aspetta **pulizia immediata** (tieni copia più in alta, elimina ripetizione in fondo) e **prevenzione** (grep titolo prima di «salva/inserisci in bacheca», aggiorna se esiste). Vedi L-384, L-377.",
     "**50 workflow in bacheca — «inserisci questi 50 workflow in bacheca home» = terza casella condensata (chat 20/7 ~03:36):** dopo elenco completo in chat (L-383) chiede persistenza — si aspetta **nuovo blocco ## in cima** a `BACHECA.md` con catalogo **condensato** (10 blocchi, colori 🔴🟡🟢, priorità accensione), non dump chat grezzo; sotto restano caselle 20 mani + mani per reparto; refresh se main non pubblicato. Vedi L-377, L-383.",
     "**Elenco 50 workflow in chat — «elencami i 50 workflow» = lista numerata completa (chat 20/7 ~03:34):** dopo JSON stub (L-379) vuole **tutti e 50 in chat** — 10 categorie × 5, numeri 1–50, titoli brevi, colori 🔴🟡🟢; evidenziare n.31 (59 avvisi Telegram) e n.41 (RSS bandi PI26 10:00); chiudere «quale numero accendiamo per primo». Vedi L-383, L-379.",
     "**Worker navbar — voce Worker = chat grande, FAB = popup; se live diverso = deploy (chat 20/7 ~03:34):** «dentro la navbar in alto, il bottone worker deve aprire la chat grande e non la fluttuante» — conferma/rinforzo L-363: voce **Worker** nel menu laterale = **fullscreen**; **FAB** basso-destra = popup piccolo voluto; si aspetta che il codice lo faccia (già su main #492) — se vede ancora popup dal menu = **Production non aggiornata** (GitHub outage, deploy pendente), non «fix mancante»; Ctrl+F5 poi redeploy 🔴. Vedi L-382, L-363, L-372, L-361.",
