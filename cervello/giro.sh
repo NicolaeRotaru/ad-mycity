@@ -180,6 +180,8 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/sensore-cassa.mjs" --json 2>&1 | tail -4 || true
   echo "[$(ts)] Sentinella fonti web (AR-036)..."
   node "$SCRIPT_DIR/sentinella-fonti.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] Agenda intelligence (fonti dovute oggi)..."
+  node "$SCRIPT_DIR/intelligence-agenda.mjs" 2>&1 | tail -3 || true
   echo "[$(ts)] Guardiano registro agenti (AR-007/008 — gate hard)..."
   _agenti_out="$(node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1)"; _agenti_rc=$?
   printf '%s\n' "$_agenti_out" | tail -4
