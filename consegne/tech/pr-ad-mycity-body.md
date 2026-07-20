@@ -1,11 +1,18 @@
 ## Summary
-- **Contenuto vuoto al click:** la lista leggeva già il markdown ma aprendo la scheda mostrava bianco (aspettava uno state async invece di usare il testo già in memoria).
-- **Caselle che spariscono/cambiano:** ogni refresh (30s o fine lavoro) sostituiva tutta la lista quando GitHub rispondeva parziale o con lo stesso numero di file diversi — ora unisce per path e toglie solo su refresh completo.
-- **Scheda aperta:** se stai leggendo e arriva un refresh instabile, la casella aperta resta visibile finché non chiudi tu.
-- Cache server 90s + errori onesti (502/503) se GitHub è al limite.
+Fix chat che «sparisce» dal cassetto Conversazioni mentre è ancora aperta a schermo (race persist/poll su mobile).
+
+## Causa
+- La lista si aggiornava solo **dopo** il salvataggio async sul database: aprendo il menu nel frattempo la chat non c’era.
+- Con DB attivo la **cache locale non veniva scritta**: un reload (telefono surriscaldato/batteria) perdeva conversazioni non ancora syncate.
+
+## Fix
+- Inserimento **ottimistico** in lista + `convId` al momento dell’Invio (prima del POST).
+- `integraConversazioneAttiva`: la chat aperta resta sempre nel cassetto anche durante poll/rete lenta.
+- Merge **cache localStorage** al caricamento dal server (backup mobile).
+- Cache locale scritta **sempre** al persist, non solo offline.
 
 ## Test plan
-- [ ] Dopo merge e deploy (~2 min): tab **Diretta contenuti** → apri una scheda → testo completo subito, non bianco né «contenuto non trovato»
-- [ ] Resta sulla tab 1–2 minuti: le caselle non devono sparire e riapparire a caso
-- [ ] Apri una scheda, aspetta un refresh: la scheda aperta resta lì con il testo
-- [ ] Apri/chiudi 2–3 schede diverse: nessun errore finto
+- [ ] Invia un messaggio, apri subito ☰ Conversazioni: la chat c’è con «aperta ora».
+- [ ] Invia messaggio con rete lenta (throttle): resta in lista.
+- [ ] Refresh pagina dopo un messaggio inviato: la chat compare (DB o cache locale).
+- [ ] Cambia chat / Nuova: la precedente resta in elenco.
