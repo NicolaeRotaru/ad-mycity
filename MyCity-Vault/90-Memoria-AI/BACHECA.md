@@ -6,7 +6,7 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
-## 💰 Costi infrastruttura MyCity · 2026-07-20 23:46
+## 💰 Costi infrastruttura MyCity · 2026-07-20 23:48
 
 Lista aggiornata da Nicola — importi **mensili** salvo dove indicato.
 
@@ -27,11 +27,40 @@ Lista aggiornata da Nicola — importi **mensili** salvo dove indicato.
 | --- | --- | --- |
 | **Render** (marketplace) | **→ Vercel** | Nicola sposta il sito su Vercel — Render si spegne; **importo Vercel finale da confermare** dopo la migrazione |
 
+### App store (quando pubblichiamo l'app)
+
+| Store | Costo | Quando |
+| --- | --- | --- |
+| **Apple App Store** (iPhone) | **~99 €/anno** | Ogni anno — se smetti di pagare, l'app sparisce dallo store |
+| **Google Play** (Android) | **~23 € una tantum** | Paghi una volta sola, per sempre |
+| **Primo anno entrambi** | **~120 €** | Poi **~99 €/anno** (solo Apple) |
+| **PWA gratis** (alternativa) | **0 €** | Sito installabile da browser — niente store, limiti su iPhone |
+
+Sugli ordini di prodotti fisici **Apple e Google non prendono commissione** — incassi restano su Stripe come oggi.
+
+### Email — due cose diverse
+
+| Tipo | A cosa serve | Costo indicativo | Quando |
+| --- | --- | --- | --- |
+| **Email automatiche dal sito** (Resend) | Conferma ordine, welcome, carrello abbandonato, «grazie» — partono da *ordini@tuodominio* | **0 €** fino a 3.000/mese (piano free Resend); poi **~20 $/mese** (~19 €) | Quando accendiamo le email automatiche |
+| **Casella professionale tua** (Google Workspace) | Leggere e rispondere come *info@* o *nicola@* — Gmail col tuo dominio | **~6,80–8,10 €/utente/mese** (listino Google Italia) | Quando vuoi email «seria» per te/team |
+
+Per entrambe serve il **dominio già pagato** (20 €/anno) + qualche record DNS (te lo guido quando scegli).
+
+### SMS (Twilio) — a cosa servono
+
+**Non servono oggi.** Sono un **canale di backup urgente** quando email/Telegram non bastano:
+
+- Cliente: «Il rider è in ritardo» / pagamento fallito
+- Negozio: «Hai un ordine — rispondi subito»
+- Rider: alert operativo last-minute
+
+Costo: **pay-per-use** — circa **5–10 centesimi a SMS** in Italia (Twilio), nessun abbonamento fisso. Le accendiamo solo se serve davvero; finché hai Telegram + email, puoi restare a **0 €**.
+
 ### In stack — importo da mettere
 
 | Voce | €/mese | Note |
 | --- | ---: | --- |
-| **Resend** (email) | *?* | Quando accendiamo welcome / carrelli / notifiche |
 | **PostHog** | 0 (oggi) | Piano cloud free US — monitorare se superiamo i limiti |
 | **Stripe** | variabile | Nessun canone fisso — solo % su transazione |
 | **Telegram bot** | 0 | Gratis |
@@ -42,16 +71,15 @@ Lista aggiornata da Nicola — importi **mensili** salvo dove indicato.
 | Voce | Stima | Quando |
 | --- | --- | --- |
 | **Meta / Google Ads** | budget variabile 🔴 | Campagne acquisizione — decidi tu importo |
-| **Apple App Store** | ~99 €/anno | App iPhone (vedi avviso store sotto) |
-| **Google Play** | ~23 € una tantum | App Android |
-| **Twilio SMS** | pay-per-use | Solo se accendiamo SMS urgenti |
+| **Twilio SMS** | ~0,05–0,10 €/SMS | Solo se accendiamo alert urgenti |
+| **Resend Pro** | ~19 €/m | Se superiamo 3.000 email automatiche/mese |
 | **Cursor API** | pay-per-use | Fallback se Claude Max satura (oggi raro) |
 | **Supabase Pro+** | sale con traffico | Se superiamo piano attuale |
 | **Vercel Pro+** | sale con traffico | Probabile dopo migrazione marketplace |
 
-**Runway:** burn fisso oggi **~302 €/m** (300 + dominio). Quando il marketplace è su Vercel, aggiorniamo la riga Vercel se il piano sale.
+**Runway:** burn fisso oggi **~302 €/m** (300 + dominio). App store e email professionale **non** sono nel totale mensile finché non le accendi.
 
-Fonte: Nicola chat 20/7 ~23:43 (Claude/Vercel/Supabase) + ~23:46 (VPS 20, dominio 20/anno, migrazione Vercel).
+Fonte: Nicola chat 20/7 ~23:43–23:48 · app store da avviso Bacheca 16/7 · Resend resend.com/pricing · Google workspace.google.it/pricing (IT).
 
 ---
 
