@@ -8,6 +8,7 @@ reparto: finanza
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 23:44 · metabolizzazione chat costi infrastruttura Bacheca · atteso: registro-fatti burn parziale 280€ + BACHECA · reale: Nicola 200+30+50 confermati, Render/VPS/dominio ?, BURN_MENSILE_EUR ancora incompleto, L-433 · #burn #runway #costi
 - 2026-07-19 13:11 · sentinella cassa_sconosciuta retry 19/7 13:11 · Stripe ok 0€ burn assente 159 giri · atteso diagnosi aggiornata + card burn in coda → reale diagnosi consegne/finanza/2026-07-19-diagnosi-cassa-runway.md verificata live 13:11 · #cassa-runway
 - 2026-07-19 13:09 · sentinella cassa_sconosciuta retry 19/7 · Stripe ok cassa 0€ burn assente 158 giri · atteso diagnosi aggiornata + Nicola imposta BURN → reale diagnosi scritta consegne/finanza/2026-07-19-diagnosi-cassa-runway.md verificata live · #cassa-runway
 - 2026-07-15 12:57 · sentinella cassa_sconosciuta 104 giri 12:57 · diagnosi+verifica sensori · atteso atteso diagnosi 104 giri card burn in coda → reale reale Stripe ok 0€ BURN assente giri 104 card #burn-mensile-runway in coda · #runway #burn #esito

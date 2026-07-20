@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 23:39",
+  "aggiornato": "2026-07-20 23:44",
+  "_nota_metabolizzazione_20_07_2344": "Chat 20/7 ~23:43: Nicola costi infrastruttura (200 Claude + 30 Vercel + 50 Supabase = 280€/m parziale) + «metti in bacheca» + voci future. L-433 nuova; preferenza costi-bacheca-no-inventare; registro-fatti finanza.costi_infrastruttura; STATO+DECISIONI+LEZIONI-CHAT+finanza+ad esito; burn completo pendente Render/VPS/dominio.",
   "_nota_metabolizzazione_20_07_2338": "Chat 20/7 ~23:38: Nicola 3 bug chat (risposta doppia, 2 bolle allegato, ordine invertito) + «Ho per sbaglio chiuso la pr» → AD PR #507 (ex #505) chat-thread-merge; Vercel import .ts addendum L-428. L-432 nuova (caso_studio_nicola); preferenza chat-no-duplicati; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+tech+ad esito; merge #507 🔴 pendente.",
   "_nota_metabolizzazione_20_07_2335": "Chat 20/7 ~23:35: Nicola «Fai il fix» casella token audit memoria bloccata — AD PR #506 redattore-segreti AR-124, scan exit 0. L-431 nuova; preferenza token-audit-redattore; STATO+DECISIONI+LEZIONI-CHAT+security+tech+ad esito; merge #506 🔴 pendente Nicola.",
   "_nota_metabolizzazione_20_07_2328": "Chat 20/7 ~23:28: Nicola «C'è un conflitto» PR #504 — AD rebase post #501+#503, giro.sh north-star+OKR, mergeable 5c8dfc7b; #501 ✅ mergiata Nicola. L-429 nuova; L-397 evidenze 6 + #501 merged + #504; L-413 evidenze 3 #501 merged; L-427 evidenze 2; preferenza ce-un-conflitto-pr; STATO+DECISIONI+LEZIONI-CHAT+ad+tech+chief-of-staff esito; merge #504 🔴 pendente.",
@@ -153,6 +154,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-433",
+      "testo": "**Costi infrastruttura — «metti in bacheca» = cifre Nicola + `?` sul resto, mai inventare (Nicola 20/7 ~23:43).** Nicola comunica costi mensili confermati: **Claude Max 200 €**, **Vercel 30 €**, **Supabase 50 €** (= **280 €/m parziale**) e chiede lista in **Bacheca home** + altre voci future. 5 perché: (1) burn/runway era «sconosciuto» da **175+ giri** — ora abbiamo **prima fonte reale** da Nicola, non stima AD; (2) 280 € **non** è burn completo — mancano **Render**, **VPS**, **dominio**, **Resend**; (3) fix = blocco `## 💰 Costi infrastruttura` **in cima** `BACHECA.md` (confermati · stack `?` · previsti scaling) + fatto in **`registro-fatti.json`** `finanza.costi_infrastruttura`; (4) **non** scrivere `BURN_MENSILE_EUR=280` in env finché mancano voci — runway mentirebbe; (5) chiedi esplicitamente le cifre mancanti per totale. Regola: Nicola dà costi → bacheca + registro; importo sconosciuto = **?** zero stime; supersede stime vecchie (150 € bootstrap). Vedi L-422, L-377, card #burn-mensile-env.",
+      "tag": [
+        "finanza",
+        "burn",
+        "bacheca",
+        "costi",
+        "runway",
+        "nicola"
+      ],
+      "reparto": "@finanza",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 23:44",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-431",
       "testo": "**Memoria bloccata da token in audit — «Fai il fix» AR-124 = redazione + redattore a monte (Nicola 20/7 ~23:32).** Casella Radiografia: memoria **ferma** — PAT GitHub **3×** nel report `consegne/audit/2026-07-16-auto-radiografia.md` → `scan-segreti` exit 1 → `giro.sh` `SEGRETO_TROVATO=1` → `GIRO_PUSH_OK=0` → nessuna pubblicazione su main. 5 perché: (1) auto-radiografia **documentava** un leak citando il valore reale — il leak nel report **replica** il blocco; (2) lo scan a valle è binario — non distingue «segreto operativo» da «segreto citato in audit»; (3) `consegne/` **non** è append-only → redazione ammessa; (4) fix = redigere report → `[REDATTO]` + **`segreti-pattern.mjs`** condiviso + **`redattore-segreti.mjs`** **prima** di scrivere artefatti + regola in `scrittura-umana.md` (mai valore token, solo nome variabile); (5) verificato `node cervello/scan-segreti.mjs` → exit **0** · **PR #506** (`2c4d01ef`). **Non** disattivare lo scan. Se PAT era reale → **#ruota-pat-github** 🔴 separato. Regola: casella «memoria bloccata da segreto» → redigi + prevenzione a monte, mai aggirare il perimetro. Vedi AR-124, AR-004.",
@@ -9787,6 +9809,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Costi infrastruttura — «metti in bacheca» = lista in cima BACHECA + registro-fatti, mai inventare cifre (chat 20/7 ~23:43):** comunica importi **mensili confermati** (Claude **200** + Vercel **30** + Supabase **50** = **280 €/m parziale**) e chiede anche **voci future** in Bacheca home — si aspetta blocco costi **in cima** `BACHECA.md` con confermati + stack con **?** (Render, VPS, dominio) + previsti scaling; **non** accetta stime inventate; chiede esplicitamente le cifre mancanti per **burn/runway** completo prima di aggiornare env `BURN_MENSILE_EUR`. Vedi L-433, L-422.",
     "**Chat no duplicati — odia risposta doppia, due bolle su allegato, ordine invertito (chat 20/7 ~23:38):** segnala **3 bug UX** distinti — (1) **stessa risposta AD due volte** (2) allegato solo = **due frasi/bolle** («nessun testo, vedi allegati» + nome file) (3) **suo messaggio sotto** la risposta come se l'avesse scritto dopo. Si aspetta AD spieghi **meccanismo merge** (non «rispondo due volte»), consegni fix PR (**#507** ex #505), verifichi build Vercel (import **no `.ts`** L-428), riapra PR se chiusa per sbaglio; merge 🔴 → test **solo screenshot** senza testo. Link chat **no card merge** (L-402). Vedi L-432.",
     "**Token in audit — «Fai il fix» memoria bloccata = redigi + redattore preventivo, non spegnere scan (chat 20/7 ~23:32):** casella PAT nel report auto-radiografia — si aspetta fix **immediato** che sblocchi il push (redazione `[REDATTO]` + prevenzione futura), verifica `scan-segreti` exit 0, **PR #506** link in chat; merge 🔴 + valutare rotazione PAT se token era valido (#ruota-pat-github). Vedi L-431.",
     "**«C'è un conflitto» — AD risolve subito, spiega quale PR e cosa tenere (chat 20/7 ~23:28):** segnala conflitto merge (testo o screenshot) — si aspetta AD **rebase immediato**, identificazione PR (**#504** post #501+#503), spiegazione **memoria vs codice** (su `giro.sh` merge manuale: north-star da main + gate OKR dal branch), conferma **mergeable** + link; **non** chiedere a Nicola di risolvere conflitti a mano; dopo fix indicare merge 🔴 pendente e effetto (es. giro obbliga OKR). Vedi L-429, L-397.",

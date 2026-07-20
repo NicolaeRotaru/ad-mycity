@@ -1,8 +1,38 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-20 20:21",
+  "aggiornato": "2026-07-20 23:44",
   "fatti": [
+    {
+      "id": "finanza.costi_infrastruttura",
+      "nome": "Costi infrastruttura mensili (burn parziale)",
+      "valore": "Confermati da Nicola 20/7/2026: Claude Max 200 €/m + Vercel 30 €/m + Supabase 50 €/m = 280 €/m (parziale). Mancano ancora: Render, VPS worker, dominio/DNS, Resend — burn completo e BURN_MENSILE_EUR env VPS da completare. PostHog/Telegram/GitHub 0 € oggi; Stripe solo commissione transazione.",
+      "fonte": "Nicola chat 2026-07-20 23:43 + BACHECA.md",
+      "aggiornato": "2026-07-20 23:44",
+      "storia": [
+        {
+          "valore": "Stima burn env 150 €/m (DECISIONI 16/7 — non verificata da Nicola)",
+          "fino_a": "2026-07-20 23:44"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "150€/mese.*burn",
+          "dal": "2026-07-20 23:44"
+        },
+        {
+          "pattern": "BURN_MENSILE_EUR=150",
+          "dal": "2026-07-20 23:44"
+        },
+        {
+          "pattern": "stima bootstrap €150/mese",
+          "dal": "2026-07-20 23:44"
+        }
+      ],
+      "esenzioni": [
+        "MyCity-Vault/90-Memoria-AI/DECISIONI.md"
+      ]
+    },
     {
       "id": "bando.commercio-er.scadenza",
       "nome": "Stato bando Commercio ER FESR (40% fondo perduto)",
