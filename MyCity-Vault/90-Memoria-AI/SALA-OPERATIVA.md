@@ -1178,4 +1178,8 @@ Assegnazioni reparto (1 mossa ciascuno):
 
 ### 2026-07-20 11:20 — PLAYBOOK Fedeltà di rete
 - 2026-07-20 11:20 · @growth-monetizzazione · FATTO · PLAYBOOK Fedeltà refresh: meccanica punti+gift card confermata, economia @finanza (1% lancio / 2% solo se holdout +20% GMV), bozze copy Il Turno in `consegne/content/2026-07-20-bozze-punti-giftcard-turno.md`, refresh `consegne/growth/2026-07-20-playbook-fedelta-di-rete-refresh.md`, A19–A20 aggiornati. **ARMATO** — gate ≥5 negozi + #41 + Stripe write. Zero lancio.
+
+### 2026-07-20 11:22 — PLAYBOOK Dati-come-servizio
+- 2026-07-20 11:22 · @account-negozi + @analista · FATTO · PLAYBOOK Dati-come-servizio: REST live ✅ (11:21) → 1 PQ, 5 prodotti, **0 DELIVERED**, 1 carrello buyer reale (samir €10 pesto+kefir), pudding mai in carrello. Mini-report pre-revenue + query schema corretto in `consegne/account-negozi/2026-07-20-playbook-dati-come-servizio.md`. [[AZIONI-PRONTE]] **A34** · coda **#50**. Zero consegne al titolare — gate `#ordine-test-pq`.
+- 2026-07-20 11:22 · @account-negozi · PASSO-A · @Nicola — chiudi **`#ordine-test-pq`** → rigenera report con transato e consegna al fornaio (🔴 card #50)
 - 2026-07-20 11:20 · @growth-monetizzazione · PASSO-A · @Nicola — oggi **niente firma fedeltà**; priorità PI26 + ordine PQ. Quando rete pronta: firma **#44** (% cashback) + **#45** (dopo parere fiscale gift card).

@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-20 11:19
+aggiornato: 2026-07-20 11:22
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -545,3 +545,16 @@ se va bene: capisci com'è andato venerdì al banco, pianifichi primo ordine rea
 retention_già_in_coda: `#checkin-pq-postvp` in [[AZIONI-IN-ATTESA]] · tel. **0523 388601** · script 2 min in coda
 non-duplicato: non tocca #25/#29 (chiuse) · non riapre #antichurn-13lug (scaduta) · prospect Garetti/Peretti/Amendolara = vendite, non anti-churn · supersede scan A30 (19/7)
 stato: SCAN ✅ — azione retention = firma `#checkin-pq-postvp` (🟡 **oggi 20/7 mattina**, card scaduta nel timing)
+
+## A34 · 📊 Report dati MyCity per Pane Quotidiano — stampo + anteprima pre-revenue
+reparto: account-negozi (+ analista)
+livello: 🟢 (report generato, sola lettura) · 🔴 (consegna al titolare = firma Nicola)
+canale: WhatsApp / email / di persona al fornaio (0523 388601)
+perche: **Playbook Dati-come-servizio 20/7 11:22 — MyCity può regalare al negozio insight che dal banco non vede.** Oggi **0 ordini DELIVERED** → sezioni venduto/orari/ritorno **vuote per onestà**; c’è però segnale debole reale (samir: pesto+2 kefir €10) + pudding mai in carrello. **Gate consegna:** `#ordine-test-pq` — prima non c’è transato da mostrare.
+preparato: 💚 account-negozi + 📊 analista — `consegne/account-negozi/2026-07-20-playbook-dati-come-servizio.md` (query schema corretto `seller_id`/`total_price`)
+cosa cambia: il fornaio riceve (dopo il 1° ordine) un mini-report mensile: cosa tira online, fascia oraria domanda a domicilio, chi torna, carrelli persi. Oggi = anteprima del servizio + leva retention.
+se va bene: al primo ordine consegnato rigeneri il report con numeri veri e lo mandi come «regalo MyCity»; poi mensile automatico; a ≥5 negozi tier premium (@growth-monetizzazione).
+gate (❌ oggi): ≥1 ordine `DELIVERED` su PQ · `#ordine-test-pq` chiuso
+testo (anteprima onesta — da inviare SOLO post-1° ordine · 🔴):
+Ciao [nome], ogni mese MyCity ti manda cosa vendi *online*, a che ora ordinano a domicilio e chi torna — dal banco non lo vedi. Questo mese: [TOP] · fascia [GIORNO/ORA] · [N] clienti di ritorno · €[Y] in carrelli recuperabili. Prossimo report tra 30 giorni. Nicola — MyCity.
+stato: STAMPO ✅ + mini-report pre-revenue ✅ — **zero consegne al titolare** finché North Star = 0 · coda canonica = **#50** [[AZIONI-IN-ATTESA]]

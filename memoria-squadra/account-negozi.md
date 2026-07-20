@@ -7,6 +7,7 @@ reparto: account-negozi
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 11:22 · playbook dati-come-servizio 20/7 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso mini-report+AZIONI-PRONTE A34 per ogni negozio attivo → reale 1 PQ pre-revenue; stampo+segnali deboli; A34+deliverable; gate #50/#ordine-test-pq · #dati-servizio #playbook
 - 2026-07-20 11:17 · playbook anti-churn 20/7 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso trova negozi in calo e accoda check-in in AZIONI-PRONTE → reale 0 in calo; 1 pre-revenue (PQ falso positivo); A33 in AZIONI-PRONTE; retention = #checkin-pq-postvp già in coda · #antichurn #playbook #REST-live
 - 2026-07-20 11:17 · playbook anti-churn 20/7 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso trova negozi in calo e accoda check-in in AZIONI-PRONTE → reale 0 in calo; 1 pre-revenue (PQ falso positivo); A33 in AZIONI-PRONTE; retention = #checkin-pq-postvp già in coda · #antichurn #playbook #REST-live
 - 2026-07-20 00:02 · sentinella negozio_fermo PQ 20/7 · 5/5 verita/completezza/onesta/anti-doppione · atteso card check-in aggiornata post-VP → reale card #checkin-pq-postvp aggiornata + dossier 2026-07-20 · #anti-churn #pane-quotidiano
