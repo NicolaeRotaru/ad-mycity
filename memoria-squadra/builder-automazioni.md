@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 02:47 · Nicola «n8n può fare ricerche web per il worker?» — atteso: chiarimento architettura · reale: no oggi e non serve in chat (worker già cerca); n8n=braccia post/avvisi webhook ok; n8n solo per cron programmati; ad hoc=Worker; prossimo Meta OAuth · L-365 · #n8n #worker #ricerca-web #architettura
 - 2026-07-20 02:11 · VPS cosa aggiungere refresh 20/7 · inventario+ordine passi env · atteso doc L-351 aggiornato post N8N → reale verificato live stack+3 righe N8N duplicate · #vps #n8n #telegram #env
 - 2026-07-20 02:07 · Nicola «ho inserito N8N_WEBHOOK_URL nel file env» — atteso: milestone env + passi mancanti · reale: URL reale incollato ma 3 righe duplicate (prima=segnaposto) + worker non riavviato → sensori ancora rossi; prossimo dedup env → Active n8n → restart → «webhook collegato» → verifica AD; Meta OAuth e AZIONI_LIVE separati · L-357 · #n8n #webhook #env #sensori
 - 2026-07-20 01:29 · VPS cosa aggiungere — Nicola «cos'altro inserire sul VPS?» · atteso: prossimi passi automazioni · reale: finire n8n (Active+webhook env); Telegram sblocca 59 avvisi; altri workflow da modelli repo; no WhatsApp/secondo cervello ora · L-351 · #vps #n8n #telegram #workflow

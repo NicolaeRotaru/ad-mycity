@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 02:46",
+  "aggiornato": "2026-07-20 02:47",
+  "_nota_metabolizzazione_20_07_0247": "Chat 20/7 ~02:47: Nicola «n8n può fare ricerche web per il worker?» — chiarimento architettura: no oggi, worker già cerca, n8n solo cron programmati. L-365 nuova; L-344 evidenze++ addendum ricerca web; preferenza n8n-ricerche-web; STATO+LEZIONI-CHAT+builder esito.",
   "_nota_metabolizzazione_20_07_0246": "Chat 20/7 ~02:46: Nicola tre fix post-#492 — ☰ accanto + in chat grande (no icone alto), menu navbar non apriva, barra alta popup FAB. L-364 nuova (caso_studio_nicola); L-363 evidenze++ addendum placement; preferenza worker-controlli-superficie; #210 PR #493 accodata; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0235": "Chat 20/7 ~02:34: Nicola «webhook collegato» — verificato OK worker (n8n health ok); correzione loader: worker=ultima riga env, sensori manuali=prima. L-357 evidenze++ addendum collegato; preferenza n8n-webhook aggiornata; LEZIONI-CHAT fix duplicati; builder esito.",
   "_nota_metabolizzazione_20_07_0232": "Chat 20/7 ~02:32: Nicola «FAB e menu Worker non stessa finestra + lista conv overlay sopra chat» — PR #492 tre superfici. L-363 nuova (caso_studio_nicola); L-352 evidenze++ addendum superseded parziale; preferenza worker-tre-superfici; #208 SUPERSEDED, #209 FATTO; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
@@ -106,6 +107,28 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 02:46",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
+      "id": "L-2026-0720-365",
+      "testo": "**n8n ricerche web — NO per worker chat; worker già cerca; n8n solo sveglie programmate (Nicola 20/7 ~02:47).** Nicola «n8n può fare le ricerche sul web per il worker?». 5 perché: (1) oggi n8n **non** fa ricerche web per il worker — workflow importati = braccia (post FB/IG, avvisi Telegram); (2) **worker/cervello** già cerca sul web in chat (concorrenti, bandi Comune, intelligence, eventi); (3) n8n *potrebbe* con nodi Tavily/SerpAPI ma sarebbe **duplicato e più lento** rispetto al cervello; (4) ha senso n8n per ricerche **programmate fisse** (es. «ogni mattina alle 8 controlla bandi Comune → Telegram») — n8n = sveglia/cron, worker elabora il risultato; (5) ricerche **ad hoc in chat** = scrivi nel Worker, **non** passa da n8n. Regola: «n8n fa ricerche web?» → no oggi, non serve per chat; sì solo cron programmato. Prossimo utile: Meta OAuth n8n (webhook già ok L-357). Vedi L-344, L-357.",
+      "tag": [
+        "n8n",
+        "worker",
+        "architettura",
+        "ricerca-web",
+        "intelligence",
+        "delega",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 02:47",
       "stato": "attiva",
       "usi": []
     },
@@ -555,7 +578,7 @@
     },
     {
       "id": "L-2026-0720-344",
-      "testo": "**Worker vs n8n — «può fare la stessa cosa del worker?» = cervello vs braccia; delegare solo ripetitivo (Nicola 20/7 ~00:49).** Nicola chiede come n8n semplifica il worker e se conviene delegare — vede overlap e teme ridondanza. 5 perché: (1) **non** sono la stessa cosa — worker **pensa/decide** (legge dati+memoria, chat, briefing, giro ~2h, propone azioni 🔴, costa AI); n8n **esegue** diagrammi fissi senza ragionamento; (2) collegamento canonico: Nicola approva azione → worker invia **webhook** a n8n → n8n pubblica/avvisa su FB/IG/WhatsApp/Telegram; senza n8n servirebbe codice nuovo per ogni canale; (3) **delegare sì:** flussi sempre uguali (post programmato, alert errore, promemoria carrello, report); (4) **delegare no:** «cosa facciamo questa settimana», scelta negozio, testi strategici, giro dati — resta worker; (5) stato oggi: n8n runtime ok (5678), workflow importato, **`N8N_WEBHOOK_URL` segnaposto** → mano non attiva, post manuali. Regola: domanda overlap worker/n8n → rispondere **cervello/braccia + criterio delega + stato webhook**, non elenco generico feature n8n. Vedi L-332, L-331, L-330.",
+      "testo": "**Worker vs n8n — «può fare la stessa cosa del worker?» = cervello vs braccia; delegare solo ripetitivo (Nicola 20/7 ~00:49).** Nicola chiede come n8n semplifica il worker e se conviene delegare — vede overlap e teme ridondanza. 5 perché: (1) **non** sono la stessa cosa — worker **pensa/decide** (legge dati+memoria, chat, briefing, giro ~2h, propone azioni 🔴, costa AI); n8n **esegue** diagrammi fissi senza ragionamento; (2) collegamento canonico: Nicola approva azione → worker invia **webhook** a n8n → n8n pubblica/avvisa su FB/IG/WhatsApp/Telegram; senza n8n servirebbe codice nuovo per ogni canale; (3) **delegare sì:** flussi sempre uguali (post programmato, alert errore, promemoria carrello, report); (4) **delegare no:** «cosa facciamo questa settimana», scelta negozio, testi strategici, giro dati — resta worker; (5) stato oggi: n8n runtime ok (5678), workflow importato, **`N8N_WEBHOOK_URL` segnaposto** → mano non attiva, post manuali. Regola: domanda overlap worker/n8n → rispondere **cervello/braccia + criterio delega + stato webhook**, non elenco generico feature n8n. **ADDENDUM 02:47:** sotto-dominio **ricerche web** — n8n **non** le fa per il worker in chat (worker già cerca); n8n solo per cron programmati → **L-365**. Vedi L-332, L-331, L-330, L-365.",
       "tag": [
         "n8n",
         "worker",
@@ -566,11 +589,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.92,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 00:49",
+      "ultima_conferma": "2026-07-20 02:47",
       "stato": "attiva",
       "usi": []
     },
@@ -8306,6 +8329,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**n8n ricerche web — chiede se n8n può cercare sul web per il worker (chat 20/7 ~02:47):** si aspetta chiarimento architettura — risposta: **no** oggi e **non serve** per chat (worker/cervello già cerca bandi/concorrenti/intelligence); n8n collegato (webhook ok L-357) = braccia per post/avvisi; ricerche **programmate** (cron fisso, es. bandi Comune ogni mattina) = ok n8n come sveglia; ricerche **ad hoc** = scrivi nel Worker, non passa da n8n. Prossimo passo utile: Meta OAuth in n8n. Vedi L-365, L-344.",
     "**Worker controlli per superficie — ☰ accanto a + in grande, barra alta solo popup (chat 20/7 ~02:46):** post-#492 chiede (1) **chat grande** — icona ☰ elenco conv **accanto a «+ Nuova» in barra bassa**, **niente** ingrandisci/chiudi in alto; menu navbar non deve essere l’unico toggle (deve funzionare in basso); chiudi grande = tap fuori o voce Worker; (2) **popup FAB** — **barra alta** con ☰ + ingrandisci + chiudi (estetica chiudi riquadro). Fix **PR #493** — merge 🔴 #210, poi Ctrl+F5. Vedi L-364, L-363.",
     "**Worker UX — tre superfici distinte: FAB popup piccolo · menu Worker fullscreen · lista conv overlay (chat 20/7 ~02:32):** «bottone basso-destra e voce Worker nel menù non devono aprire la stessa finestra» + lista conv «in finestra che si apre/chiude sopra la chat» — **FAB** = popup **piccolo** (ingrandisci/X); **voce «Worker» menù sinistro** = chat **grande** a schermo intero; **☰** = elenco conversazioni **overlay sopra** i messaggi (tap fuori o dopo scelta chiude) — **non** colonna fissa sinistra, **non** stessa finestra FAB=menu. Fix **PR #492** ✅ mergiata (#209); supersede #486 e #490 (#208). Dopo deploy: Ctrl+F5 + test tre entry point. Vedi L-363, L-352, L-348.",
     "**Worker PR in conflitto — vuole merge unico consolidato, non N card parallele (chat 20/7 ~02:31):** «fammi rimergiare il menu e risolvi il conflitto della #489» — si aspetta che l'AD **risolva il conflitto** e consegni **una sola PR** da mergiare (☰ + layout compatto insieme); **non** lasciare #489/#207/#206 in coda separata quando i fix sono sullo stesso file. Dopo merge: Ctrl+F5 + verifica UI live (L-361). Card attiva: **#208** / PR **#490**. Vedi L-362.",
