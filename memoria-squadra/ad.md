@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-21 00:32 · metabolizzazione chat volantini Bacheca costi · atteso: L-440 + STATO/LEZIONI · reale: L-440 nuova caso_studio_nicola, L-433 evidenze 4 addendum volantini, preferenza costi-tutti-fisici, STATO+LEZIONI-CHAT+finanza aggiornati · #metabolizzazione #L-440 #costi
 - 2026-07-21 00:30 · metabolizzazione chat «mi è sparita la chat» costi · atteso: L-439 + STATO/LEZIONI · reale: L-439 nuova, L-289 evidenze 2 addendum bozza, preferenza chat-sparita-diagnosi-db, STATO+LEZIONI-CHAT+frontend-dev aggiornati · #metabolizzazione #L-439 #chat-persistenza
 - 2026-07-21 00:11 · metabolizzazione chat «Apri pr» Diretta · atteso: L-316+L-438 addendum + STATO/DECISIONI · reale: rate limit 403 x2, compare manuale, L-316 evidenze 4, L-438 evidenze 2, LEZIONI-CHAT aggiornato · #metabolizzazione #L-316 #L-438 #diretta
 - 2026-07-20 23:59 · metabolizzazione chat casella capillarità in bacheca · atteso: L-437 + apprendimento + quaderni · reale: L-437 nuova, L-435+L-377 evidenze++, preferenza casella-in-bacheca addendum, STATO+LEZIONI già AD turno, vendite esito · #metabolizzazione #L-437 #bacheca

@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-21 00:30",
+  "aggiornato": "2026-07-21 00:32",
+  "_nota_metabolizzazione_21_07_0031": "Chat 21/7 ~00:31: Nicola «costi volantini non li hai messi» + «metti tutti i costi che verranno» — AD Bacheca sezione materiali fisici/volantini/stampa + scaling. L-440 nuova (caso_studio_nicola); L-433 evidenze 4 addendum volantini; preferenza costi-tutti-volantini-fisici; STATO+LEZIONI-CHAT+finanza+ad esito; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_21_07_0026": "Chat 21/7 ~00:26: Nicola «mi è sparita la chat» costi (200+30+50) — AD verifica: assente DB, bozza locale mai Invio; telefono surriscaldato 10% batteria; filtro ricerca. L-439 nuova; L-2026-0719-289 evidenze++ addendum bozza non inviata; preferenza chat-sparita-diagnosi-db; STATO+LEZIONI-CHAT+frontend-dev+ad esito; costi già Bacheca L-433; nessuna azione/decisione completata.",
   "_nota_metabolizzazione_21_07_0011": "Chat 21/7 ~00:11: Nicola «Apri pr» fix Diretta — AD 403 rate limit x2; compare manuale main...fix/diretta-apri-contenuto. L-316 evidenze 4 addendum Diretta; L-438 evidenze 2 addendum Apri pr; preferenza apri-pr; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+ad esito; merge 🔴 pendente Nicola browser.",
   "_nota_metabolizzazione_21_07_0008": "Chat 21/7 ~00:08: Nicola «non hai risolto» Diretta — contenuto bianco al click + caselle spariscono/cambiano post-#498. L-438 nuova (caso_studio_nicola); L-394 evidenze++ addendum #498 incompleto; preferenza diretta-fix-completo; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev esito; merge fix/diretta-apri-contenuto 🔴 pendente.",
@@ -163,6 +164,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0721-440",
+      "testo": "**Costi «tutti che verranno» — volantini/stampa fisica obbligatori, fuori burn (Nicola 21/7 ~00:31, correzione).** «**I costi dei volantini non li hai messi. Metti tutti i costi che verranno**» — follow-up Bacheca costi dopo L-433/L-434. 5 perché: (1) AD aveva coperto **SaaS/fissi** (~302 €/m) ma **saltato materiali fisici** — volantini, kit negozio, locandine; (2) «**tutti i costi che verranno**» per Nicola = **ricorrenti + one-shot + scaling**, non solo abbonamenti digitali; (3) le cifre volantini **esistevano già** in playbook capillarità 20/7 e DECISIONI 24/6 — non cercare solo nella chat, **grep vault** prima di consegnare; (4) sezione dedicata **«Materiali fisici, volantini e stampa»** — **fuori** burn mensile, 🔴 alla firma tipografia, gate **ordine test PQ** prima QR vetrina; (5) AD aveva tentato cifre non documentate → **corretto** legandole a fonti (kit **~80–150 €**, primo lotto **~150–300 €**, volantini **da preventivo**). Regola: lista costi Bacheca = **3 blocchi** (fissi · fisici/stampa · scaling); completare sempre il blocco fisico se capillarità/lancio attivi. Vedi L-433, L-437, L-434.",
+      "tag": [
+        "finanza",
+        "costi",
+        "bacheca",
+        "volantini",
+        "stampa",
+        "correzione-nicola",
+        "nicola"
+      ],
+      "reparto": "@finanza",
+      "confidenza": 0.91,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-21",
+      "ultima_conferma": "2026-07-21 00:32",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0721-439",
       "testo": "**Chat «sparita» — bozza non inviata ≠ cancellata dal server (Nicola 21/7 ~00:26).** «**Mi è sparita dalle conversazioni la chat**» — screenshot lista costi (200€ Claude + 30€ Vercel + 50€ Supabase). 5 perché: (1) AD verifica DB: thread **assente** da conversazioni **e** lavori → **mai persistito** — esisteva solo come bozza locale sul telefono; (2) finché Nicola **non preme Invio**, la chat **non è salvata** server-side — cambiare scheda/reload/chiudere browser = sparisce dalla lista senza recovery; (3) telefono **surriscaldato + batteria ~10%** → reload/kill tab = scenario plausibile; (4) campo **«Cerca nelle conversazioni»** con testo = **filtro attivo** che fa sembrare mancanti chat ancora presenti; (5) altre chat recenti **ci sono** — non è wipe globale né bug AD che cancella. Regola: «chat sparita» → **query DB prima** + chiedi filtro ricerca + spiega meccanismo Invio; **non** promettere recupero se assente da DB; contenuto importante → **Bacheca** (L-433 costi già pin 20/7) o **graffetta**; chiedi **rimanda con Invio** per salvare. Distinto da L-289 (mid-turno worker). Vedi L-433, L-338.",
       "tag": [
@@ -291,7 +314,7 @@
     },
     {
       "id": "L-2026-0720-433",
-      "testo": "**Costi infrastruttura — «metti in bacheca» = cifre Nicola + `?` sul resto, mai inventare (Nicola 20/7 ~23:43, addendum ~23:46, ~23:48).** Nicola comunica costi mensili confermati: **Claude Max 200 €**, **Vercel 30 €**, **Supabase 50 €** (= **280 €/m parziale**) e chiede lista in **Bacheca home** + altre voci future. **Addendum ~23:46:** **VPS 20 €/m**, **dominio 20 €/anno**, **marketplace → Vercel** (Render in chiusura) → burn fisso **300 €/m**, totale **~302 €/m**; card env propone `BURN_MENSILE_EUR=300`. **Addendum ~23:48:** opzionali in Bacheca (app store, SMS, email Resend vs Workspace) — **fuori** burn finché non accesi (L-434). 5 perché: (1) burn/runway era «sconosciuto» da **175+ giri** — ora fonte reale Nicola; (2) cambio hosting = segna vecchio provider **in chiusura**, **non** sommare Render+Vercel; (3) fix = blocco `## 💰 Costi infrastruttura` **in cima** `BACHECA.md` + **`registro-fatti.json`** `finanza.costi_infrastruttura`; (4) **non** inventare Resend né Vercel post-migrazione — chiedi/conferma; (5) quando burn completo → aggiorna proposta env. Regola: costi da Nicola → bacheca + registro + burn; importo sconosciuto = **?** zero stime. Vedi L-422, L-434, card #burn-mensile-env.",
+      "testo": "**Costi infrastruttura — «metti in bacheca» = cifre Nicola + `?` sul resto, mai inventare (Nicola 20/7 ~23:43, addendum ~23:46, ~23:48, ~00:31).** Nicola comunica costi mensili confermati: **Claude Max 200 €**, **Vercel 30 €**, **Supabase 50 €** (= **280 €/m parziale**) e chiede lista in **Bacheca home** + altre voci future. **Addendum ~23:46:** **VPS 20 €/m**, **dominio 20 €/anno**, **marketplace → Vercel** (Render in chiusura) → burn fisso **300 €/m**, totale **~302 €/m**; card env propone `BURN_MENSILE_EUR=300`. **Addendum ~23:48:** opzionali in Bacheca (app store, SMS, email Resend vs Workspace) — **fuori** burn finché non accesi (L-434). **Addendum 21/7 ~00:31:** Nicola corregge — mancavano **volantini/stampa fisica**; «tutti i costi che verranno» include sezione **Materiali fisici** (kit ~80–150 €, primo lotto ~150–300 € DECISIONI 24/6, volantini da preventivo) — **fuori** burn, fonti playbook capillarità (L-440). 5 perché: (1) burn/runway era «sconosciuto» da **175+ giri** — ora fonte reale Nicola; (2) cambio hosting = segna vecchio provider **in chiusura**, **non** sommare Render+Vercel; (3) fix = blocco `## 💰 Costi infrastruttura` **in cima** `BACHECA.md` + **`registro-fatti.json`** `finanza.costi_infrastruttura`; (4) **non** inventare Resend né Vercel post-migrazione — chiedi/conferma; (5) quando burn completo → aggiorna proposta env. Regola: costi da Nicola → bacheca + registro + burn; importo sconosciuto = **?** zero stime; «tutti i costi» = anche fisici/stampa (grep vault). Vedi L-422, L-434, L-440, card #burn-mensile-env.",
       "tag": [
         "finanza",
         "burn",
@@ -304,13 +327,14 @@
       ],
       "reparto": "@finanza",
       "confidenza": 0.94,
-      "evidenze": 3,
+      "evidenze": 4,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 23:48",
+      "ultima_conferma": "2026-07-21 00:32",
       "stato": "attiva",
-      "usi": []
+      "usi": [],
+      "_evidenza_4": "ADDENDUM 21/7 ~00:31: Nicola «volantini non li hai messi» — sezione Materiali fisici/volantini/stampa in Bacheca; stampa fuori burn ~302 €/m; cifre da playbook capillarità + DECISIONI 24/6. Vedi L-440."
     },
     {
       "id": "L-2026-0720-431",
@@ -9951,7 +9975,7 @@
     "**Chat sparita — vuole sapere PERCHÉ e se recuperabile; contenuto critico deve restare (chat 21/7 ~00:26):** segnala conversazione costi **assente dalla lista** — si aspetta **verifica reale DB** (non ipotesi), spiegazione meccanismo (**Invio** = salvataggio), controllo **filtro ricerca**; se persa = **rimanda con Invio** o pin **Bacheca/graffetta**; odia perdere elenco costi già digitato — costi parziali già in Bacheca (L-433) ma chat originale non recuperabile. Vedi L-439, L-433.",
     "**Cadenza casella — «Ogni quanto tempo fai questa analisi?» = due tempi distinti, concreti (chat 20/7 ~23:58):** da casella account-negozi «Dati-come-servizio» chiede **quando** gira l'analisi, non cosa contiene. Si aspetta: **lunedì** = refresh interno (dati live + casella) · **mensile al titolare** = solo post-primo ordine consegnato · oggi **0 DELIVERED** = anteprima onesta, non report vendite · ultimo refresh citato con data/ora · prossimo passo = ordine test PQ. Odia «periodicamente» senza giorni. Vedi L-436, L-219.",
     "**Casella Pannello in Bacheca — «metti questa casella dentro bacheca» = pin condensato in cima BACHECA.md (chat 20/7 ~23:54, ~23:59):** da casella Pannello (Growth fedeltà · Vendite capillarità) chiede persistenza in **home Plancia** — si aspetta blocco `##` con verdetto (**ARMATO/spento**, capillarità = **non stampare**) · numeri attuali · gate · link playbook in `consegne/`; **non** solo risposta chat; grep titolo anti-duplicato; 🟢 senza card Approva se solo persistenza. Vedi L-435, L-437, L-377.",
-    "**Costi — «metti in bacheca» + «spiegami SMS/email/app store» = cifre confermate + 3 categorie opzionali distinte (chat 20/7 ~23:43–23:48):** burn fisso (Claude **200** + Vercel **30** + Supabase **50** + VPS **20** + dominio **20 €/anno** → **~302 €/m**, env **`BURN_MENSILE_EUR=300`**) separato da **opzionali** in Bacheca: **app store** (~99 €/anno Apple, ~23 € Google una tantum), **SMS** backup urgente pay-per-use (**0 € oggi**), **email** = **Resend** automatiche (0 € fino 3k/m) **≠** **Workspace** casella (~7–8 €/m) — **non confondere**; **non inventare** cifre; Render in chiusura, Vercel post-migrazione da confermare. Vedi L-433, L-434, L-422.",
+    "**Costi — «metti in bacheca» + «tutti i costi che verranno» = fissi + fisici/stampa + scaling (chat 20–21/7):** burn fisso (Claude **200** + Vercel **30** + Supabase **50** + VPS **20** + dominio **20 €/anno** → **~302 €/m**, env **`BURN_MENSILE_EUR=300`**) **≠** materiali fisici (**volantini, kit ~80–150 €, primo lotto ~150–300 €** — **fuori burn**, 🔴 alla stampa, gate ordine test PQ) **≠** opzionali digitali (**app store**, **SMS** 0 € oggi, **email** Resend vs Workspace); Nicola **corregge** se mancano volantini — grep vault (playbook capillarità, DECISIONI) prima di consegnare; **non inventare** cifre. Vedi L-433, L-434, L-440, L-422.",
     "**Chat no duplicati — odia risposta doppia, due bolle su allegato, ordine invertito (chat 20/7 ~23:38):** segnala **3 bug UX** distinti — (1) **stessa risposta AD due volte** (2) allegato solo = **due frasi/bolle** («nessun testo, vedi allegati» + nome file) (3) **suo messaggio sotto** la risposta come se l'avesse scritto dopo. Si aspetta AD spieghi **meccanismo merge** (non «rispondo due volte»), consegni fix PR (**#507** ex #505), verifichi build Vercel (import **no `.ts`** L-428), riapra PR se chiusa per sbaglio; merge 🔴 → test **solo screenshot** senza testo. Link chat **no card merge** (L-402). Vedi L-432.",
     "**Token in audit — «Fai il fix» memoria bloccata = redigi + redattore preventivo, non spegnere scan (chat 20/7 ~23:32):** casella PAT nel report auto-radiografia — si aspetta fix **immediato** che sblocchi il push (redazione `[REDATTO]` + prevenzione futura), verifica `scan-segreti` exit 0, **PR #506** link in chat; merge 🔴 + valutare rotazione PAT se token era valido (#ruota-pat-github). Vedi L-431.",
     "**«C'è un conflitto» — AD risolve subito, spiega quale PR e cosa tenere (chat 20/7 ~23:28):** segnala conflitto merge (testo o screenshot) — si aspetta AD **rebase immediato**, identificazione PR (**#504** post #501+#503), spiegazione **memoria vs codice** (su `giro.sh` merge manuale: north-star da main + gate OKR dal branch), conferma **mergeable** + link; **non** chiedere a Nicola di risolvere conflitti a mano; dopo fix indicare merge 🔴 pendente e effetto (es. giro obbliga OKR). Vedi L-429, L-397.",
@@ -10322,13 +10346,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 452,
+    "lezioni_attive": 453,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-21 00:21",
+    "tasso_calcolato_il": "2026-07-21 00:31",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-21 00:21",
+    "tick_leggero_il": "2026-07-21 00:31",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

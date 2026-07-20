@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-21 00:30
-fonte: AD digitale (chat 21/7 00:30)
+aggiornato: 2026-07-21 00:32
+fonte: AD digitale (chat 21/7 00:32)
 ---
+
+> 💬 **21/7 ~00:31 — CHAT: Volantini mancanti in Bacheca costi — correzione Nicola (L-440).** Nicola «**I costi dei volantini non li hai messi. Metti tutti i costi che verranno**» — follow-up lista costi in Bacheca. AD: sezione **«Materiali fisici, volantini e stampa»** aggiunta — kit negozio **~80–150 €** · volantini/locandine **da preventivo** · primo lotto **~150–300 €** (DECISIONI 24/6) · 2°–3° negozio **~80–150 €** · presidio eventi 🔴; anche bici **~150–250 €**, rider, Stripe, assicurazioni, packaging, influencer in «Quando scaliamo». **Regola:** stampa/volantini **fuori** burn **~302 €/m** — paghi solo alla firma tipografia; gate **ordine test PQ** prima QR vetrina. **PI26** fino 50% digitalizzazione (scade 30/7). Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:31 + playbook capillarità 20/7 + DECISIONI 24/6.
 
 > 💬 **21/7 ~00:26 — CHAT: Conversazione costi «sparita» — mai salvata server-side (L-439).** Nicola «**mi è sparita dalle conversazioni la chat**» (screenshot lista costi 200€ Claude + 30€ Vercel + 50€ Supabase). AD verifica DB: quel thread **non esiste** né in conversazioni né in lavori — era **solo bozza locale** sul telefono, **mai inviata con Invio**. Telefono **surriscaldato ~10% batteria** → reload/chiusura scheda = persa irrecuperabile lato server. Altre chat recenti (Diretta, duplicati, ecc.) **presenti**. Campo **«Cerca nelle conversazioni»** non vuoto = filtro che nasconde voci. Costi parziali già in **Bacheca** da 20/7 ~23:43–23:46 (L-433); Nicola può **rimandare elenco con Invio** per salvare chat + eventuale pin Bacheca. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 21/7 ~00:26 + verifica AD 00:30.
 
