@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 18:24 · PostHog VPS setup — Nicola chiede come collegare PostHog al worker · atteso: passi operativi senza installare stack · reale: env `cervello/vps/.env` POSTHOG_OFF=0 + `phx_` key + POSTHOG_HOST EU; restart mycity-worker; check verifica-sensori; non eseguito — attesa chiave Nicola · L-404 · #posthog #vps #env #esito
 - 2026-07-20 02:23 · Verifica deploy Vercel Pannello — Nicola «non vedo i fix» · atteso: conferma oggettiva merge→online · reale: chunk size 478385 byte ≠ prova UI; #489/#488 codice non live; checklist: stringhe UI live + GitHub merged_at + card #207/#206 pendenti · #pannello #vercel #deploy #worker · L-361, L-315
 - 2026-07-20 01:53 · Pulsanti comandi Termux — Nicola «crea pulsanti per ogni comando importante — fammi la lista prima» · atteso: inventario + proposta sicura · reale: tabella 6 già in Pannello + 8 nuovi + solo SSH; fase 1 = 4 pulsanti (aggiorna codice, diagnostica, sensori, review); PR dopo ok Nicola · L-356 · L-355 · #pannello #worker #pulsanti #termux #esito
 - 2026-07-20 01:47 · Menu vs terminale — Nicola «dal menu mando comandi al VPS? perché non pagina terminale?» · atteso: chiarire canali + perché no shell web · reale: menu=preset sicuri (Stato worker); chat=canale completo; terminale web=NO policy 🔴; task ripetuti→pulsante custom · L-355 · L-349 · #pannello #sicurezza #terminale #esito

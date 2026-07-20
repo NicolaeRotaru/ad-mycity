@@ -1,13 +1,13 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-20 18:20",
+  "aggiornato": "2026-07-20 18:25",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders leggibili via REST",
-      "ultimo_ok": "2026-07-20 18:20",
+      "ultimo_ok": "2026-07-20 18:25",
       "ultimo_errore": ""
     },
     "mcp_supabase": {
@@ -23,7 +23,7 @@
       "ultimo_errore": "",
       "canale": "Stripe API",
       "dettaglio": "balance API ok",
-      "ultimo_ok": "2026-07-20 18:20"
+      "ultimo_ok": "2026-07-20 18:25"
     },
     "posthog_api": {
       "giri_ciechi": 0,
@@ -38,7 +38,7 @@
       "stato": "ok",
       "canale": "Resend API",
       "dettaglio": "domains API ok",
-      "ultimo_ok": "2026-07-20 18:20",
+      "ultimo_ok": "2026-07-20 18:25",
       "ultimo_errore": ""
     },
     "sito_uptime": {
@@ -46,13 +46,13 @@
       "stato": "ok",
       "canale": "storefront GET",
       "dettaglio": "storefront raggiungibile (HTTP 200)",
-      "ultimo_ok": "2026-07-20 18:20",
+      "ultimo_ok": "2026-07-20 18:25",
       "ultimo_errore": ""
     },
     "supabase_memoria": {
       "giri_ciechi": 0,
       "stato": "ok",
-      "ultimo_ok": "2026-07-20 18:20",
+      "ultimo_ok": "2026-07-20 18:25",
       "ultimo_errore": "",
       "canale": "REST memoria",
       "dettaglio": "impostazioni leggibili via REST (DB memoria)"
@@ -62,7 +62,7 @@
       "stato": "ok",
       "canale": "Cabina GET",
       "dettaglio": "Pannello raggiungibile (HTTP 200)",
-      "ultimo_ok": "2026-07-20 18:20",
+      "ultimo_ok": "2026-07-20 18:25",
       "ultimo_errore": ""
     },
     "telegram_bot": {
@@ -77,7 +77,7 @@
       "ultimo_errore": "",
       "canale": "n8n healthz",
       "dettaglio": "n8n health ok",
-      "ultimo_ok": "2026-07-20 18:20"
+      "ultimo_ok": "2026-07-20 18:25"
     },
     "mcp_stripe": {
       "giri_ciechi": 0,
@@ -90,7 +90,7 @@
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 299,
+    "giri_totali": 300,
     "sensori_ok": 7,
     "max_giri_ciechi": 7,
     "sensori_totali": 7,

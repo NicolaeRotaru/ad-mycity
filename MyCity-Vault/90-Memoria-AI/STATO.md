@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 18:00
-fonte: AD digitale (Report della sera)
+aggiornato: 2026-07-20 18:24
+fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~18:24 — CHAT: PostHog sul VPS — non si installa, si collega chiave lettura (L-404).** Nicola «**come faccio ad inserire posthog dentro il vps?**» — AD chiarisce: PostHog è **cloud EU** (sul sito già attivo via Render); sul VPS serve solo **Personal API Key `phx_…`** (permesso Project: Read), **non** la chiave progetto `phc_` (quella del 5/7 era sbagliata → sensore spento). Env `cervello/vps/.env`: `POSTHOG_OFF=0`, `POSTHOG_API_KEY`, `POSTHOG_HOST` → restart `mycity-worker` → `verifica-sensori.mjs` deve dare **ok**. **Non fatto** — Nicola non ha ancora incollato la chiave né chiesto riaccensione sensore lato memoria (decisione 5/7). Fonte: chat Nicola 20/7 18:24.
 
 > 🌙 **20/7 18:00 — REPORT DELLA SERA.** Business INVARIATO: 1 PQ, **4 buyer** (REST 18:00), 0 ordini pagati, stallo **~634h** (~26,4 giorni). North Star 0, cassa 0€. Fatto oggi: sportello **PI26 aperto ore 10** (domanda non risulta inviata) · mattina **15 playbook** reparto · pomeriggio **maratona Pannello** (PR #496 intelligence ✅, #498 Diretta ✅, #497 allegati ✅; #499 Parla pronta su GitHub) · correzione pitch **10%+50€/mese** · accoda **pulizia 16 negozi demo** · coda ripulita (41 card). **Mancano:** domanda PI26 · ordine test PQ · post social · burn mensile. Dettaglio: [[RITMO]] 20/7 18:00.
 
