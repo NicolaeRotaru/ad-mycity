@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 17:50
-fonte: AD digitale (chat merge PR #496+#497+#498)
+aggiornato: 2026-07-20 17:53
+fonte: AD digitale (chat fix Parla casella PR #499)
 ---
+
+> 💬 **20/7 ~17:53 — CHAT: Parla casella PGRST102 — fix PR #499 consegnato, merge 🔴 pendente (L-400).** Nicola «**fai il fix**» dopo errore giallo L-399 — AD **PR #499** (`fix/parla-casella-pgrst102`, typecheck OK, test sanitize OK): payload lavoro **costruito lato server** (non più blocco enorme dal browser), testo ripulito + JSON validato **prima** di scrivere su Supabase memoria. **Causa radice:** browser mandava JSON invalido → **PGRST102** su POST /api/lavori. **Serve Nicola:** mergia **#499** → deploy ~2 min → riprova «Invia» da card Approva/Parla. Fonte: chat Nicola 20/7 17:53 + GitHub PR #499.
 
 > 💬 **20/7 ~17:50 — CHAT: Nicola «controlla se mergiata» — tutte e 3 PR mergiate; card Approva può restare (L-398).** Da casella Parla — AD verifica GitHub API: **#498 Diretta ✅ 16:36** (`36402b49`) · **#496 intelligence ✅ 17:44** (`1cd606e0`) · **#497 allegati casella ✅ 16:36**. Card «Approva e fai» **resta visibile** = bug Pannello scrittura DB memoria, **non** merge mancante — **non rifare merge**. **Prossimo passo reale:** card **#accendi-intelligence-sveglia** (4 passi Telegram+n8n). Fonte: chat Nicola 20/7 17:50 + GitHub API.
 

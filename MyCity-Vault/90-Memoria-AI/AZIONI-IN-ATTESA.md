@@ -37,14 +37,14 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #fix-parla-casella-pgrst102 — Fix invio chat da card «Parla con questa azione» (PGRST102 JSON invalido) · ⏳ accodata 2026-07-20 17:48
+### 🟡 #fix-parla-casella-pgrst102 — Mergia PR #499: fix Parla casella PGRST102 (JSON invalido) · ⏳ accodata 2026-07-20 17:48 · PR consegnata 17:53
 
-**Contesto:** Nicola invia «controlla se l'ho già margiata» da **Parla con questa azione** su card #498 — avviso giallo: DB memoria rifiuta scrittura **PGRST102** («Empty or invalid json»). Messaggio **resta nel riquadro** (non perso). Chat principale funziona; solo percorso card bloccato.
+**Contesto:** Nicola invia da **Parla con questa azione** su card Approva — avviso giallo **PGRST102** («Empty or invalid json») su POST /api/lavori. Messaggio **resta nel riquadro** (non perso). Chat principale ok; percorso card bloccato finché non merge.
 
-**Fix atteso:** validare/normalizzare payload casella→`POST /api/lavori` (campo JSON inviato a Supabase memoria); PR Pannello 🟡.
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/499 · branch `fix/parla-casella-pgrst102` · payload costruito **lato server** con testo ripulito + JSON validato prima di Supabase.
 
 **Cosa cambia:** invio da casella Approva/Diretta/Scoperte crea lavoro in coda e l'AD risponde come dalla chat principale.
-**Se va bene:** riprova «Invia» dalla stessa card — niente errore giallo; card #498 ignorabile (già mergiata).
+**Se va bene:** mergia **#499** → aspetta ~2 min → riprova «Invia» dalla stessa card — niente errore giallo.
 
 - **Colore:** 🟡 (merge PR Pannello — Nicola approva)
 - **Reparto:** frontend-dev

@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 17:50",
+  "aggiornato": "2026-07-20 17:53",
+  "_nota_metabolizzazione_20_07_1753": "Chat 20/7 ~17:53: Nicola «fai il fix» post PGRST102 L-399 — AD consegna PR #499 (payload server-side + sanitize JSON). L-400 nuova; L-399 evidenze++ addendum fix; preferenza fai-il-fix-parla-casella; STATO+DECISIONI+#fix-parla-casella-pgrst102 aggiornata PR #499+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1750": "Chat 20/7 ~17:50: Nicola «controlla se mergiata» da casella — AD conferma #498+#497+#496 tutte mergiate (GitHub API); card resta bug DB memoria. L-398 evidenze++ addendum tre PR; preferenza verifica-merge-github-api aggiornata; STATO+DECISIONI+#mergia-pr-496 FATTO+#accendi-intelligence-sveglia+LEZIONI-CHAT+frontend-dev+intelligence esito.",
   "_nota_metabolizzazione_20_07_1748": "Chat 20/7 ~17:48: Nicola «hai visto l'errore sotto la casella?» — PGRST102 JSON invalido POST /api/lavori su Parla casella card; testo preservato; chat principale ok. L-399 nuova; L-398 evidenze++ addendum PGRST102; preferenza errore-giallo-parla-casella; STATO+DECISIONI+#fix-parla-casella-pgrst102+LEZIONI-CHAT+frontend-dev esito.",
   "_nota_metabolizzazione_20_07_1745": "Chat 20/7 ~17:45: Nicola screenshot + «controlla se l'ho già margiata» — PR #498 ✅ merged 16:36:51 (36402b49); card Pannello bloccata su DB memoria write; #496 ancora pendente. L-398 nuova; L-394 evidenze++ addendum merge; preferenza verifica-merge-github-api; STATO+DECISIONI+#mergia-pr-498 FATTO+LEZIONI-CHAT+frontend-dev esito.",
@@ -121,8 +122,30 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-400",
+      "testo": "**Parla casella PGRST102 — fix PR #499: payload lato server + JSON validato (chat 20/7 ~17:53).** Nicola «**fai il fix**» dopo diagnosi L-399 (~17:48). 5 perché: (1) **causa radice** = browser inviava payload JSON **invalido/enorme** a POST /api/lavori → Supabase **PGRST102**; (2) chat principale usa percorso diverso e **funzionava**; (3) fix = **costruire payload lato server** con testo ripulito + validazione JSON **prima** della scrittura Supabase — non solo «validare nel browser»; (4) **PR #499** consegnata (typecheck OK, test sanitize OK); (5) pattern Nicola post-diagnosi errore = **PR immediata**, merge 🔴 → deploy ~2 min → riprova Invio da card. Regola: PGRST102 su Parla casella risolto con server-side sanitize; dopo merge Nicola testare stessa card. Vedi L-399, DECISIONI 20/7 17:53.",
+      "tag": [
+        "pannello",
+        "chat",
+        "parla-casella",
+        "pgrst102",
+        "lavori",
+        "fix",
+        "pr-499"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 17:53",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-399",
-      "testo": "**Parla casella card — PGRST102 JSON invalido blocca invio lavoro (chat 20/7 ~17:48).** Nicola «**hai visto l'errore sotto la casella?**» — avviso giallo: DB memoria rifiuta scrittura **PGRST102** («Empty or invalid json») su **POST /api/lavori** quando invia da **Parla con questa azione** (es. «controlla se l'ho già margiata» su card #498). 5 perché: (1) **percorso card ≠ chat principale** — la principale funziona, la card no; (2) messaggio **non perso** — Pannello lo rimette nel riquadro sotto l'avviso; (3) AD **non risponde** da quella casella finché il lavoro non entra in coda; (4) errore **non** legato al merge PR (#498 già merged 16:36); (5) **non** consigliare solo «riprova» — fix codice Pannello 🟡 (**#fix-parla-casella-pgrst102**: validare payload casella→Supabase memoria). Regola: errore giallo PGRST102 su Parla casella → spiega meccanismo + testo preservato + usa chat principale intanto + accoda fix. Vedi L-398, DECISIONI 20/7 17:48.",
+      "testo": "**Parla casella card — PGRST102 JSON invalido blocca invio lavoro (chat 20/7 ~17:48).** Nicola «**hai visto l'errore sotto la casella?**» — avviso giallo: DB memoria rifiuta scrittura **PGRST102** («Empty or invalid json») su **POST /api/lavori** quando invia da **Parla con questa azione** (es. «controlla se l'ho già margiata» su card #498). 5 perché: (1) **percorso card ≠ chat principale** — la principale funziona, la card no; (2) messaggio **non perso** — Pannello lo rimette nel riquadro sotto l'avviso; (3) AD **non risponde** da quella casella finché il lavoro non entra in coda; (4) errore **non** legato al merge PR (#498 già merged 16:36); (5) **non** consigliare solo «riprova» — fix codice Pannello 🟡 (**#fix-parla-casella-pgrst102** → **PR #499**). Regola: errore giallo PGRST102 su Parla casella → spiega meccanismo + testo preservato + usa chat principale intanto + accoda fix. **Addendum 17:53:** fix consegnato **PR #499** — payload server-side + sanitize; merge Nicola pendente. Vedi L-400, DECISIONI 20/7 17:48–17:53.",
       "tag": [
         "pannello",
         "chat",
@@ -132,12 +155,12 @@
         "bug"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.88,
-      "evidenze": 1,
+      "confidenza": 0.92,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 17:48",
+      "ultima_conferma": "2026-07-20 17:53",
       "stato": "attiva",
       "usi": []
     },
@@ -9091,7 +9114,8 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
-    "**Errore giallo Parla casella — «hai visto l'errore sotto la casella?» = spiega PGRST102 + testo non perso + fix codice (chat 20/7 ~17:48):** dopo invio fallito da **Parla con questa azione** segnala l'avviso giallo esplicitamente — si aspetta che l'AD **legga e spieghi** l'errore (PGRST102 JSON invalido), confermi che il **testo resta nel riquadro**, distingua chat principale (ok) vs card (rotta), e **non** proponga solo «riprova» — fix 🟡 Pannello **#fix-parla-casella-pgrst102**. Vedi L-399.",
+    "**Fai il fix Parla casella — dopo diagnosi PGRST102 = PR immediata (#499), merge Nicola (chat 20/7 ~17:53):** «fai il fix» seguito a spiegazione errore giallo — si aspetta **PR consegnata** con root cause (payload browser invalido → server sanitize + JSON validato), typecheck OK, merge 🔴 → deploy ~2 min → riprova Invio da card; pattern come Diretta #498. Vedi L-400, L-399.",
+    "**Errore giallo Parla casella — «hai visto l'errore sotto la casella?» = spiega PGRST102 + testo non perso + fix codice (chat 20/7 ~17:48, fix 17:53):** dopo invio fallito da **Parla con questa azione** segnala l'avviso giallo esplicitamente — si aspetta che l'AD **legga e spieghi** l'errore (PGRST102 JSON invalido), confermi che il **testo resta nel riquadro**, distingua chat principale (ok) vs card (rotta), e **non** proponga solo «riprova» — fix 🟡 **PR #499** (**#fix-parla-casella-pgrst102**). Vedi L-399, L-400.",
     "**Verifica merge PR — «controlla se l'ho già margiata/mergiata» = GitHub API, non card Pannello; verifica tutte le PR recenti (chat 20/7 ~17:45–17:50):** manda screenshot card Approva + chiede se ha già mergiato — si aspetta risposta **basata su GitHub** (merged_at, commit su main), **non** sullo stato visivo della card; se card resta aperta con errore giallo DB memoria → spiega **bug Pannello**, non «devi mergiare ancora»; 20/7 pomeriggio **#498+#497+#496** tutte mergiate — prossimo passo **#accendi-intelligence-sveglia**, non altri merge. Vedi L-398.",
     "**Screenshot PR GitHub — solo allegato = segnala stato merge/conflitti, AD risolve e spiega (chat 20/7 ~16:39):** manda screenshot PR #496 senza testo (checks ok, merge bloccato) — si aspetta che l'AD **legga l'immagine**, risolva conflitti con main (memoria auto da main, codice feature dal branch), confermi **mergeable** e indichi merge 🔴 + passo successivo (#accendi-intelligence-sveglia); **non** chiedere a Nicola di risolvere conflitti a mano. Vedi L-397, L-390.",
     "**Allegati casella — fix #497 ok: AD deve leggere screenshot da chat casella (chat 20/7 ~16:39, agg. 14:45):** dopo fix PR #497 il path `@ALLEGATO` arriva al worker — AD ha letto screenshot conflitti PR #496 da chat casella; si aspetta **lettura visiva** funzionante post-merge deploy; se ancora cieco = verificare deploy #497 + path pipeline. Vedi L-396.",
@@ -9429,13 +9453,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 415,
+    "lezioni_attive": 416,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-20 17:46",
+    "tasso_calcolato_il": "2026-07-20 17:56",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 17:46",
+    "tick_leggero_il": "2026-07-20 17:56",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
