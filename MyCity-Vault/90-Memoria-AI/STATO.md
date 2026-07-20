@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 02:13
-fonte: AD digitale (metabolizzazione chat Worker layout)
+aggiornato: 2026-07-20 02:22
+fonte: AD digitale (metabolizzazione chat Worker popup deploy)
 ---
+
+> 💬 **20/7 ~02:22 — CHAT: Nicola «non si vede il fix sul panello» — Worker popup #486 (L-360).** Dopo merge #486 (01:39, #204 ✅ FATTO) segnala che sul Pannello **non vede ancora** la finestra popup Worker (lista conv a sinistra, apri/chiudi con icona). AD **verifica Pannello live**: fix **online** su Vercel. Causa probabile: **cache browser/PWA** (stesso pattern barra fissa L-353, scroll L-345). Istruzioni date: chiudi tab/app → hard refresh (PC Ctrl+F5, Mac Cmd+Shift+R) → mobile cancella dati sito → riapri Worker e verifica **finestra** (non pagina intera). Se persiste: chiedere device + screenshot. Bug **aperto** fino a ok Nicola. Fonte: chat Nicola 20/7 02:22.
 
 > 💬 **20/7 ~02:13 — CHAT: Worker senza testata, «+» in barra icone basso (L-359).** Nicola: togli barra in alto «Worker / Semplice e diretto…» e metti **+** nella barra icone in basso (allega, video live, prompt, …). AD **PR #489** (`fix/worker-niente-testata`, `ec9f36e0`): via testata marketing; solo ingrandisci/chiudi in alto a destra; **+ Nuova chat** prima di allega/video live/prompt/invio (anche finestra piccola); Prompt visibile anche in modalità compatta. Merge 🔴 pendente (#207). Dopo deploy: Ctrl+F5. Fonte: chat Nicola 20/7 02:13.
 
