@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 18:34",
+  "aggiornato": "2026-07-20 18:36",
   "_nota_metabolizzazione_20_07_1834": "Chat 20/7 ~18:32: Nicola «ricominciamo da capo, controlla tutte le caselle» — AD audit tabella AR-105: 2/3 sensori ok, Telegram pendente, invariato vs 18:25. L-405 evidenze++ addendum tabella; preferenza verifica-fix aggiornata; STATO+LEZIONI-CHAT+devops-sre esito; nessuna azione/decisione nuova.",
   "_nota_metabolizzazione_20_07_1832": "Chat 20/7 ~18:31: Nicola «elimina i 245 prodotti finti» — erano nascosti (draft) dal passo 18:30; AD DELETE 253 righe DB, REST 1 negozio 5 prod. L-408 nuova (caso_studio_nicola); L-401+L-407 evidenze++ addendum hard delete; preferenza elimina-prodotti-finti-db; STATO+LEZIONI-CHAT+operations; DECISIONI+AZIONI già 18:32.",
   "_nota_metabolizzazione_20_07_1830": "Chat 20/7 ~18:28: Nicola «te lo approvo in chat» — #elimina-negozi-demo ESEGUITO: 16 demo rimossi, 245 prod nascosti, REST 1 negozio 5 prodotti. L-407 nuova (caso_studio_nicola); L-401 evidenze++ addendum esecuzione; preferenza approvazione-chat-irreversibile + pulizia-catalogo-demo aggiornata; STATO+DECISIONI+AZIONI già 18:30; LEZIONI-CHAT+operations esito.",
@@ -9644,13 +9644,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 421,
+    "lezioni_attive": 425,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-20 18:26",
+    "tasso_calcolato_il": "2026-07-20 18:36",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 18:26",
+    "tick_leggero_il": "2026-07-20 18:36",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

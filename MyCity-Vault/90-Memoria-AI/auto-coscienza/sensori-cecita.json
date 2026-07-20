@@ -1,13 +1,13 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-20 18:33",
+  "aggiornato": "2026-07-20 18:41",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders leggibili via REST",
-      "ultimo_ok": "2026-07-20 18:33",
+      "ultimo_ok": "2026-07-20 18:41",
       "ultimo_errore": ""
     },
     "mcp_supabase": {
@@ -23,14 +23,14 @@
       "ultimo_errore": "",
       "canale": "Stripe API",
       "dettaglio": "balance API ok",
-      "ultimo_ok": "2026-07-20 18:33"
+      "ultimo_ok": "2026-07-20 18:41"
     },
     "posthog_api": {
-      "giri_ciechi": 0,
-      "stato": "non_configurato",
+      "giri_ciechi": 2,
+      "stato": "cieco",
       "canale": "PostHog API",
-      "dettaglio": "POSTHOG_API_KEY assente — sensore spento (decisione Nicola 5/7: non usarlo per ora), nessuna azione da accodare",
-      "ultimo_errore": "",
+      "dettaglio": "HTTP 401: {\"type\":\"authentication_error\",\"code\":\"authentication_failed\",\"detail\":\"Personal API key found in request Authorization  (dopo 3 tentativi)",
+      "ultimo_errore": "HTTP 401: {\"type\":\"authentication_error\",\"code\":\"authentication_failed\",\"detail\":\"Personal API key found in request Authorization  (dopo 3 tentativi)",
       "nota_riconciliazione": "2026-07-06 15:58 AD: contatore 27 era congelato al giro del 2026-07-04 16:20 (ultimo giro completo prima della pausa limiti Claude), quindi PRECEDE la decisione 5/7 di togliere PostHog. Riconciliato a mano alla verità; sarà riscritto dal prossimo verifica-sensori.mjs alla ripresa dei giri."
     },
     "resend_api": {
@@ -38,7 +38,7 @@
       "stato": "ok",
       "canale": "Resend API",
       "dettaglio": "domains API ok",
-      "ultimo_ok": "2026-07-20 18:33",
+      "ultimo_ok": "2026-07-20 18:41",
       "ultimo_errore": ""
     },
     "sito_uptime": {
@@ -46,13 +46,13 @@
       "stato": "ok",
       "canale": "storefront GET",
       "dettaglio": "storefront raggiungibile (HTTP 200)",
-      "ultimo_ok": "2026-07-20 18:33",
+      "ultimo_ok": "2026-07-20 18:41",
       "ultimo_errore": ""
     },
     "supabase_memoria": {
       "giri_ciechi": 0,
       "stato": "ok",
-      "ultimo_ok": "2026-07-20 18:33",
+      "ultimo_ok": "2026-07-20 18:41",
       "ultimo_errore": "",
       "canale": "REST memoria",
       "dettaglio": "impostazioni leggibili via REST (DB memoria)"
@@ -62,7 +62,7 @@
       "stato": "ok",
       "canale": "Cabina GET",
       "dettaglio": "Pannello raggiungibile (HTTP 200)",
-      "ultimo_ok": "2026-07-20 18:33",
+      "ultimo_ok": "2026-07-20 18:41",
       "ultimo_errore": ""
     },
     "telegram_bot": {
@@ -77,7 +77,7 @@
       "ultimo_errore": "",
       "canale": "n8n healthz",
       "dettaglio": "n8n health ok",
-      "ultimo_ok": "2026-07-20 18:33"
+      "ultimo_ok": "2026-07-20 18:41"
     },
     "mcp_stripe": {
       "giri_ciechi": 0,
@@ -90,12 +90,12 @@
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 301,
+    "giri_totali": 303,
     "sensori_ok": 7,
     "max_giri_ciechi": 7,
-    "sensori_totali": 7,
+    "sensori_totali": 8,
     "almeno_un_dato": true,
-    "sensori_non_configurati": 2,
+    "sensori_non_configurati": 1,
     "dati_ordini_ciechi": false,
     "max_giri_ciechi_dati": 0
   }
