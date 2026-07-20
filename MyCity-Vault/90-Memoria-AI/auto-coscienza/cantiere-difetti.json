@@ -975,7 +975,7 @@
       "nato": "2026-07-16 16:55",
       "chiuso_il": "",
       "verifica": {
-        "file": "cervello/freschezza-checklist.mjs",
+        "file": "cervello/freschezza-okr.mjs",
         "pattern": "OKR-Squadra",
         "presente": true
       },
