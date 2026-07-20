@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 23:23",
+  "aggiornato": "2026-07-20 23:28",
+  "_nota_metabolizzazione_20_07_2328": "Chat 20/7 ~23:28: Nicola «C'è un conflitto» PR #504 — AD rebase post #501+#503, giro.sh north-star+OKR, mergeable 5c8dfc7b; #501 ✅ mergiata Nicola. L-429 nuova; L-397 evidenze 6 + #501 merged + #504; L-413 evidenze 3 #501 merged; L-427 evidenze 2; preferenza ce-un-conflitto-pr; STATO+DECISIONI+LEZIONI-CHAT+ad+tech+chief-of-staff esito; merge #504 🔴 pendente.",
   "_nota_metabolizzazione_20_07_2323": "Chat 20/7 ~23:23: Nicola solo screenshot PR #501 conflitti — AD risolve, mergeable; pattern L-397 addendum #501; L-413 evidenze++ mergeable; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev+tech+ad esito; merge #501 🔴 pendente Nicola.",
   "_nota_metabolizzazione_20_07_2320": "Chat 20/7 ~23:20: Nicola «Fai il fix» AR-115 OKR stantio — PR #504 freschezza-okr.mjs gate HARD giro. L-427 nuova; L-426+L-428 (23:18/18:52) completate in apprendimento; preferenze okr-freschezza-gate + north-star-gate-hard + vercel-build-non-conflitti; STATO+DECISIONI+LEZIONI-CHAT+ad+chief-of-staff+frontend-dev esito; merge #504+#503 🔴 pendente Nicola.",
   "_nota_giro_20_07_2022": "Giro 20/7 20:22: coerenza-fatti pricing bonificata (48 file, exit 0). Lezione: esenzioni registro per contratti PQ eccezione 12%/0€. CHECKLIST rigenerata AR-030. North Star focus ordine test PQ.",
@@ -173,6 +174,28 @@
       "usi": []
     },
     {
+      "id": "L-2026-0720-429",
+      "testo": "**PR #504 conflitto post-merge — «C'è un conflitto» dopo #501+#503 su main; `giro.sh` merge manuale (Nicola 20/7 ~23:28).** Nicola segnala conflitto su **#504** (gate OKR `freschezza-okr.mjs`) — nel frattempo **#501** (sentinelle pricing) e **#503** (north-star hard) mergiate su main. 5 perché: (1) pattern L-397 ricorrente — PR gate aperta + merge paralleli stessa sera; (2) conflitto **`giro.sh`** perché entrambe le PR toccano wiring giro; (3) rebase ha rischiato versione **vecchia** north-star — fix: tenere north-star **da main** + `freschezza-okr.mjs` **dal branch**; (4) **#501 ✅** mergiata Nicola → casella pricing live; (5) **#504 mergeable** commit `5c8dfc7b` → merge Nicola → prossimo giro **obbliga** OKR reali (target 27/6 scaduti voluto). Regola: «C'è un conflitto» su PR gate giro → rebase subito, **`giro.sh` merge manuale** (non accettare versione pre-merge), verifica mergeable prima di dire pronto. Vedi L-397, L-427.",
+      "tag": [
+        "github",
+        "pr",
+        "conflitto",
+        "giro",
+        "okr",
+        "north-star",
+        "nicola"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 23:28",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-427",
       "testo": "**OKR stantio AR-115 — `freschezza-okr.mjs` gate HARD nel giro, come checklist Nicola (Nicola 20/7 ~23:20).** Casella: `OKR-Squadra.md` fermo dal **24/6**, target «1° ordine entro **27/6**» scaduto, unico file-cardine priorità **senza** guardiano freschezza (checklist AR-030 sì, OKR no). 5 perché: (1) OKR definisce «cosa è prioritario» ma nessuno lo riscrive; (2) guardiani nati solo da incidenti visibili (checklist stantia → AR-030); (3) OKR non ha mai bloccato il giro → invisibile; (4) fix = **`freschezza-okr.mjs`**: date target passate · doc >**7** gg senza `aggiornato:` · riferimenti faro obsoleti (Garetti, Casa Linda) → exit 1 + vincolo HARD in `giro.sh`; (5) dopo merge **PR #504** prossimo giro **obbliga** riscrittura OKR fase 0→1 / faro Pane Quotidiano / North Star primo ordine vero — non target giugno. Verificato oggi exit 1. Regola: file-cardine priorità (OKR, piani) = stesso perimetro gate freschezza checklist. Vedi AR-030, P4 (faro cambia → riscrivi OKR).",
       "tag": [
@@ -186,11 +209,11 @@
       ],
       "reparto": "@chief-of-staff",
       "confidenza": 0.92,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 23:20",
+      "ultima_conferma": "2026-07-20 23:28",
       "stato": "attiva",
       "usi": []
     },
@@ -417,7 +440,7 @@
     },
     {
       "id": "L-2026-0720-413",
-      "testo": "**Registro ok ≠ casella ok — sentinelle devono leggere registro-fatti, non pitch hardcoded (Nicola 20/7 ~19:06).** Casella «Pochi negozi»: Nicola «**non hai aggiornato memoria centrale o caselle non collegate**» — pricing **10% + 50€/mese**. 5 perché: (1) `registro-fatti.json` era **già corretto** dal fix 12:39 (L-391); (2) casella mostrava ancora «12%, 0 fissi» perché **pitch fisso nel codice** sentinelle, non lettura registro; (3) fix parziale L-391 aggiornò vault/radar/scout ma **non** wiring UI caselle; (4) **PR #501:** sentinelle leggono `pricing.commissione` + `pricing.abbonamento` dal registro; (5) PQ resta eccezione 12%/0€ — pitch standard nuovi negozi = registro. Regola: dopo correzione pricing in registro → **cerca TUTTE le superfici** (sentinelle, caselle Pannello, pitch vendite) e collega al registro nello **stesso fix**; «memoria giusta ma casella sbagliata» = bug codice, non registro. **Addendum 23:23:** Nicola screenshot — **#501** ri-bloccata vs main (north-star/memoria); AD rebase → **mergeable**; merge 🔴 pendente Nicola. Vedi L-391, L-397, AR-102, DECISIONI 20/7 19:06.",
+      "testo": "**Registro ok ≠ casella ok — sentinelle devono leggere registro-fatti, non pitch hardcoded (Nicola 20/7 ~19:06).** Casella «Pochi negozi»: Nicola «**non hai aggiornato memoria centrale o caselle non collegate**» — pricing **10% + 50€/mese**. 5 perché: (1) `registro-fatti.json` era **già corretto** dal fix 12:39 (L-391); (2) casella mostrava ancora «12%, 0 fissi» perché **pitch fisso nel codice** sentinelle, non lettura registro; (3) fix parziale L-391 aggiornò vault/radar/scout ma **non** wiring UI caselle; (4) **PR #501:** sentinelle leggono `pricing.commissione` + `pricing.abbonamento` dal registro; (5) PQ resta eccezione 12%/0€ — pitch standard nuovi negozi = registro. Regola: dopo correzione pricing in registro → **cerca TUTTE le superfici** (sentinelle, caselle Pannello, pitch vendite) e collega al registro nello **stesso fix**; «memoria giusta ma casella sbagliata» = bug codice, non registro. **Addendum 23:23:** Nicola screenshot — **#501** ri-bloccata vs main (north-star/memoria); AD rebase → **mergeable**; merge 🔴 pendente Nicola. **Addendum 23:28:** **#501 ✅** mergiata Nicola → casella pricing live. Vedi L-391, L-397, AR-102, DECISIONI 20/7 19:06.",
       "tag": [
         "pricing",
         "sentinelle",
@@ -428,11 +451,11 @@
       ],
       "reparto": "@vendite",
       "confidenza": 0.95,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 23:23",
+      "ultima_conferma": "2026-07-20 23:28",
       "stato": "attiva",
       "usi": []
     },
@@ -809,7 +832,7 @@
     },
     {
       "id": "L-2026-0720-397",
-      "testo": "**PR feature branch — conflitti merge con main su file memoria auto-generati (chat 20/7 ~16:39).** Nicola manda **solo screenshot** PR #496: checks ok ma merge bloccato per conflitti. 5 perché: (1) branch feature resta indietro mentre main accumula giri/memoria; (2) conflitti tipici su `STATO.md`, `LEZIONI-CHAT.md`, `sentinella-dati.json`, diario operativo — **non** sul codice fix; (3) regola risoluzione: **main vince** su file memoria/worker auto-generati, **branch vince** su codice feature; (4) dopo rebase+push → GitHub **mergeable** (`git-pr.mjs`); (5) codice fix intatto — Nicola mergia 🔴. Regola: screenshot «conflitti PR» → AD risolve subito e spiega memoria vs codice, non chiedere a Nicola merge manuale sui conflitti. **Addendum 17:50:** **#496 ✅** mergiata. **Addendum 18:50–18:52:** **#499** re-conflitto worker → risolto mergeable. **Addendum 23:23:** **#501** (sentinelle pricing) stesso pattern vs main north-star/memoria → mergeable. Vedi L-334, L-390, L-413.",
+      "testo": "**PR feature branch — conflitti merge con main su file memoria auto-generati (chat 20/7 ~16:39).** Nicola manda **solo screenshot** PR #496: checks ok ma merge bloccato per conflitti. 5 perché: (1) branch feature resta indietro mentre main accumula giri/memoria; (2) conflitti tipici su `STATO.md`, `LEZIONI-CHAT.md`, `sentinella-dati.json`, diario operativo — **non** sul codice fix; (3) regola risoluzione: **main vince** su file memoria/worker auto-generati, **branch vince** su codice feature; (4) dopo rebase+push → GitHub **mergeable** (`git-pr.mjs`); (5) codice fix intatto — Nicola mergia 🔴. Regola: screenshot «conflitti PR» → AD risolve subito e spiega memoria vs codice, non chiedere a Nicola merge manuale sui conflitti. **Addendum 17:50:** **#496 ✅** mergiata. **Addendum 18:50–18:52:** **#499** re-conflitto worker → risolto mergeable. **Addendum 23:23:** **#501** (sentinelle pricing) stesso pattern vs main north-star/memoria → mergeable. **Addendum 23:28:** **#501 ✅** mergiata Nicola; **#504** conflitto `giro.sh` post #501+#503 → mergeable `5c8dfc7b`. Vedi L-334, L-390, L-413, L-429.",
       "tag": [
         "github",
         "pr",
@@ -819,11 +842,11 @@
       ],
       "reparto": "@tech",
       "confidenza": 0.91,
-      "evidenze": 5,
+      "evidenze": 6,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 23:23",
+      "ultima_conferma": "2026-07-20 23:28",
       "stato": "attiva",
       "usi": []
     },
@@ -9740,6 +9763,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**«C'è un conflitto» — AD risolve subito, spiega quale PR e cosa tenere (chat 20/7 ~23:28):** segnala conflitto merge (testo o screenshot) — si aspetta AD **rebase immediato**, identificazione PR (**#504** post #501+#503), spiegazione **memoria vs codice** (su `giro.sh` merge manuale: north-star da main + gate OKR dal branch), conferma **mergeable** + link; **non** chiedere a Nicola di risolvere conflitti a mano; dopo fix indicare merge 🔴 pendente e effetto (es. giro obbliga OKR). Vedi L-429, L-397.",
     "**OKR stantio — «Fai il fix» AR-115 = gate HARD giro + PR #504, poi OKR riscritti (chat 20/7 ~23:20):** casella OKR-Squadra morto dal 24/6 — si aspetta guardiano freschezza come checklist (date scadute, doc >7 gg, faro obsoleto) che **blocchi** il giro finché OKR non aggiornati per fase PQ/primo ordine; merge **#504** → link chat (**no card** L-402). Vedi L-427, AR-030.",
     "**North Star soft — «Fai il fix» AR-113 = gate HARD allocazione + PR #503 (chat 20/7 ~23:18):** promuovere controllo primo ordine da avviso a **vincolo** che limita lavoro macchina a mosse verso 1° incasso; fix deve chiudere casella Radiografia (naming variabile + no `|| true`). Card **#214** merge **#503**. Vedi L-426.",
     "**Vercel build — «non hai risolto vercel» dopo conflitti PR = verifica build, non solo mergeable (chat 20/7 ~18:52):** corregge AD che chiudeva **#499** al rebase conflitti memoria — si aspetta controllo **log Vercel** e fix **server-safe** (no React in API route) prima di «pronto»; conflitti Git risolti **≠** deploy ok. Vedi L-428, L-397.",
@@ -10106,13 +10130,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 441,
+    "lezioni_attive": 444,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-20 23:18",
+    "tasso_calcolato_il": "2026-07-20 23:28",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 23:18",
+    "tick_leggero_il": "2026-07-20 23:28",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

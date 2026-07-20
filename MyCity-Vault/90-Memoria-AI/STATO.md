@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 23:23
-fonte: AD digitale (chat 20/7 23:23)
+aggiornato: 2026-07-20 23:28
+fonte: AD digitale (chat 20/7 23:28)
 ---
+
+> 💬 **20/7 ~23:28 — CHAT: PR #504 conflitto risolto — mergeable; #501 già mergiata (L-429).** Nicola «**C'è un conflitto**» su **#504** (gate OKR `freschezza-okr.mjs`) — nel frattempo su main erano entrati **#501** (sentinelle pricing) e **#503** (north-star hard). AD rebase: conflitto **`giro.sh`** — tenuto north-star già su main + gate OKR nuovo; commit **`5c8dfc7b`** → **mergeable**. **#501 ✅ mergiata** da Nicola (casella «Pochi negozi» → **10% + 50€/mese** live post-deploy). **Serve Nicola:** mergia **#504** → al prossimo giro la macchina **obbliga** riscrittura `OKR-Squadra.md` (target «27/6» ancora scaduti — voluto finché OKR non aggiornati). Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 ~23:28 + worker verifica main `0acbff66`.
 
 > 💬 **20/7 ~23:23 — CHAT: PR #501 conflitti risolti — mergeable (L-397 addendum #501).** Nicola **solo screenshot** GitHub — **#501** (casella «Pochi negozi» → registro **10% + 50€/mese**) bloccata da conflitti con main (north-star, memoria avanzati). AD rebase + risoluzione conflitti → **mergeable**, check verdi; codice sentinelle pricing intatto. **Serve Nicola:** mergia **#501** → deploy ~2 min → refresh casella. Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 20/7 ~23:23 + screenshot GitHub.
 

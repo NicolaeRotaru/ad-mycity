@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 23:28 · 🟢 · [tech/chief-of-staff/AD] · **PR #504 conflitto post-merge #501+#503 — risolto, mergeable; #501 ✅ mergiata.** Nicola «**C'è un conflitto**» — **#504** (AR-115 OKR freschezza) bloccata dopo merge **#501** + **#503** su main. AD rebase: **`giro.sh`** allineato (north-star da main + `freschezza-okr.mjs` gate); commit **`5c8dfc7b`** → mergeable. **#501 già mergiata** Nicola → sentinelle pricing live. **Merge 🔴 #504** pendente → prossimo giro forza OKR fase PQ/primo ordine. L-429, addendum L-397/L-427. · Nicola (chat 20/7 ~23:28)
+
 2026-07-20 23:23 · 🟢 · [tech/frontend-dev/AD] · **PR #501 — conflitti memoria ricorrenti risolti, mergeable.** Nicola solo screenshot — **#501** (sentinelle pricing da registro, L-413) si era ri-bloccata vs main (north-star + memoria worker). AD rebase → **mergeable**, check verdi; fix codice intatto. **Merge 🔴 pendente** Nicola → casella «Pochi negozi» mostra **10% + 50€/mese**. Pattern L-397 (3ª+ conferma oggi). · Nicola (chat 20/7 ~23:23 + screenshot)
 
 2026-07-20 23:20 · 🟡 · [cervello/chief-of-staff/AD] · **AR-115 OKR freschezza — gate HARD nel giro (PR #504).** Nicola «**Fai il fix**» su casella OKR-Squadra stantio dal 24/6. AD consegna **`freschezza-okr.mjs`** + wiring in `giro.sh`: target scaduti / doc >7 gg / faro obsoleto ⇒ vincolo obbligatorio riscrittura OKR fase corrente (0→1, PQ, primo ordine vero). Verificato exit 1 oggi. **Merge 🔴 PR #504** — link in chat (L-402, no card merge). Dopo merge: prossimo giro forza OKR aggiornati. L-427. · Nicola (chat 20/7 ~23:20)

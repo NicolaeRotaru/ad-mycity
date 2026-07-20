@@ -8,6 +8,7 @@ reparto: vendite
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-20 23:28 · PR #501 ✅ mergiata — casella pricing live · atteso: 10%+50€ in casella · reale: #501 su main post-merge Nicola; #504 conflitto risolto separatamente · L-413 addendum · #pricing #pr-501
 - 2026-07-20 19:06 · chat casella «Pochi negozi» — registro ok, pitch casella hardcoded · atteso: casella mostra 10%+50€/mese come registro → reale: registro già ok (L-391), bug codice sentinelle; PR #501 collega registro; merge 🔴 pendente · lezione L-413 · #pricing #sentinelle #registro-fatti
 - 2026-07-20 12:39 · chat Nicola correzione pricing pitch anti-Glovo · atteso termini commerciali corretti in pitch+coda → reale: 10%+50€/mese (codice marketplace), registro-fatti aggiornato, pitch/radar/scout/AZIONI-PRONTE allineati; PQ 12%/0€ = eccezione storica · lezione L-391 · #pricing #pitch #onestà
 - 2026-07-20 11:25 · playbook capillarita 20/7 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso kit PQ+template neutri+accoda A35 → reale 9 asset+playbook+gate ordine-test-pq · #capillarita #playbook
