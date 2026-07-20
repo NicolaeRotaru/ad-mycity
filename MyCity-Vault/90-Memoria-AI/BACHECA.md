@@ -6,7 +6,7 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
-## 💰 Costi infrastruttura MyCity · 2026-07-20 23:43
+## 💰 Costi infrastruttura MyCity · 2026-07-20 23:46
 
 Lista aggiornata da Nicola — importi **mensili** salvo dove indicato.
 
@@ -15,22 +15,27 @@ Lista aggiornata da Nicola — importi **mensili** salvo dove indicato.
 | Voce | €/mese | Note |
 | --- | ---: | --- |
 | **Claude Max** (AD / worker) | **200** | Abbonamento fisso AI |
-| **Vercel** (Pannello Cabina) | **30** | Hosting Pannello |
+| **Vercel** (Pannello Cabina) | **30** | Oggi solo Pannello — **marketplace in arrivo** sullo stesso Vercel |
 | **Supabase** (database marketplace) | **50** | DB + auth + storage |
-| **Totale confermato** | **280** | Solo queste tre voci |
+| **VPS worker** | **20** | Cervello AD + n8n + sensori |
+| **Dominio** | **~2** | **20 €/anno** (≈ 1,67 €/m ammortizzato) |
+| **Totale fisso mensile** | **~302** | 300 €/m + dominio |
+
+### In transizione
+
+| Voce | Stato | Note |
+| --- | --- | --- |
+| **Render** (marketplace) | **→ Vercel** | Nicola sposta il sito su Vercel — Render si spegne; **importo Vercel finale da confermare** dopo la migrazione |
 
 ### In stack — importo da mettere
 
 | Voce | €/mese | Note |
 | --- | ---: | --- |
-| **Render** | *?* | Sito marketplace online — attivo, manca cifra |
-| **VPS worker** | *?* | Cervello AD + n8n + sensori — manca cifra |
-| **Dominio / DNS** | *?* | mycity + eventuali alias |
+| **Resend** (email) | *?* | Quando accendiamo welcome / carrelli / notifiche |
 | **PostHog** | 0 (oggi) | Piano cloud free US — monitorare se superiamo i limiti |
 | **Stripe** | variabile | Nessun canone fisso — solo % su transazione |
-| **Resend** (email) | *?* | Quando accendiamo welcome / carrelli / notifiche |
 | **Telegram bot** | 0 | Gratis |
-| **GitHub** | 0 | Repo pubblici/privati attuali |
+| **GitHub** | 0 | Repo attuali |
 
 ### Quando scaliamo — previsti
 
@@ -42,11 +47,11 @@ Lista aggiornata da Nicola — importi **mensili** salvo dove indicato.
 | **Twilio SMS** | pay-per-use | Solo se accendiamo SMS urgenti |
 | **Cursor API** | pay-per-use | Fallback se Claude Max satura (oggi raro) |
 | **Supabase Pro+** | sale con traffico | Se superiamo piano attuale |
-| **Vercel Pro+** | sale con traffico | Se superiamo piano attuale |
+| **Vercel Pro+** | sale con traffico | Probabile dopo migrazione marketplace |
 
-**Runway:** per calcolarlo serve anche il **burn completo** (Render + VPS + dominio) nel file env del server — oggi mancano quelle cifre. Quando le hai, scrivimele e aggiorno il totale.
+**Runway:** burn fisso oggi **~302 €/m** (300 + dominio). Quando il marketplace è su Vercel, aggiorniamo la riga Vercel se il piano sale.
 
-Fonte importi confermati: Nicola, chat 20/7 ~23:43.
+Fonte: Nicola chat 20/7 ~23:43 (Claude/Vercel/Supabase) + ~23:46 (VPS 20, dominio 20/anno, migrazione Vercel).
 
 ---
 

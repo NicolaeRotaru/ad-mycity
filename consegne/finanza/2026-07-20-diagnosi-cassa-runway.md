@@ -45,13 +45,13 @@ Scegli il burn che rispecchia oggi:
 
 | Opzione | Valore | Quando usarlo |
 |---|---|---|
-| A — solo costi tech attuali | `150` €/mese | VPS + Vercel + dominio + tool (senza stipendio fondatore) |
+| A — infrastruttura confermata Nicola 20/7 | `300` €/mese | Claude 200 + Vercel 30 + Supabase 50 + VPS 20 (dominio 20 €/anno escluso; Render → Vercel) |
 | B — burn Anno 1 proiettato | `3000` €/mese | include fondatore parziale + marketing (da vault fp-and-a) |
 
 **Comando sul terminale VPS** (sostituisci 150 se il tuo numero è diverso):
 
 ```bash
-echo "BURN_MENSILE_EUR=150" >> /opt/mycity/ad-mycity/cervello/vps/.env && sudo systemctl restart mycity-worker-chat.service
+echo "BURN_MENSILE_EUR=300" >> /opt/mycity/ad-mycity/cervello/vps/.env && sudo systemctl restart mycity-worker-chat.service
 ```
 
 **Cosa cambia:** al giro successivo il Pannello mostra runway numerico (0 mesi con cassa attuale) invece del punto interrogativo; la sentinella `cassa_sconosciuta` si spegne.

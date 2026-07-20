@@ -43,7 +43,7 @@ aggiornato: 2026-07-20 20:22
 - [ ] 🟡 **Accendi Telegram sul VPS** — `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` in `cervello/vps/.env` → restart worker. Poi workflow n.31 e n.41 in n8n Active.
   → Card: `#accendi-intelligence-sveglia`
 
-- [ ] 🟡 **Aggiungi BURN_MENSILE_EUR nel .env VPS** — es. `BURN_MENSILE_EUR=150` → restart worker. Sblocca calcolo runway.
+- [ ] 🟡 **Aggiungi BURN_MENSILE_EUR nel .env VPS** — es. `BURN_MENSILE_EUR=300` (Nicola 20/7: Claude 200 + Vercel 30 + Supabase 50 + VPS 20) → restart worker. Sblocca calcolo runway.
   → Card: `#burn-mensile-env`
 
 - [ ] 🟡 **Mergia PR #219** (opzionale) — allinea host PostHog sito Render a US (`us.i.posthog.com`). Unifica eventi sito con account US.

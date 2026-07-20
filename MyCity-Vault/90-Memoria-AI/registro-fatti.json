@@ -1,18 +1,22 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-20 23:44",
+  "aggiornato": "2026-07-20 23:46",
   "fatti": [
     {
       "id": "finanza.costi_infrastruttura",
       "nome": "Costi infrastruttura mensili (burn parziale)",
-      "valore": "Confermati da Nicola 20/7/2026: Claude Max 200 €/m + Vercel 30 €/m + Supabase 50 €/m = 280 €/m (parziale). Mancano ancora: Render, VPS worker, dominio/DNS, Resend — burn completo e BURN_MENSILE_EUR env VPS da completare. PostHog/Telegram/GitHub 0 € oggi; Stripe solo commissione transazione.",
-      "fonte": "Nicola chat 2026-07-20 23:43 + BACHECA.md",
-      "aggiornato": "2026-07-20 23:44",
+      "valore": "Confermati Nicola 20/7: Claude Max 200 + Vercel 30 + Supabase 50 + VPS 20 = 300 €/m fissi; dominio 20 €/anno (~2 €/m). Totale ~302 €/m. Render in dismissione — marketplace → Vercel (importo Vercel post-migrazione da confermare). Manca Resend. PostHog/Telegram/GitHub 0 €.",
+      "fonte": "Nicola chat 2026-07-20 23:46 + BACHECA.md",
+      "aggiornato": "2026-07-20 23:46",
       "storia": [
         {
           "valore": "Stima burn env 150 €/m (DECISIONI 16/7 — non verificata da Nicola)",
           "fino_a": "2026-07-20 23:44"
+        },
+        {
+          "valore": "Confermati da Nicola 20/7/2026: Claude Max 200 €/m + Vercel 30 €/m + Supabase 50 €/m = 280 €/m (parziale). Mancano ancora: Render, VPS worker, dominio/DNS, Resend — burn completo e BURN_MENSILE_EUR env VPS da completare. PostHog/Telegram/GitHub 0 € oggi; Stripe solo commissione transazione.",
+          "fino_a": "2026-07-20 23:46"
         }
       ],
       "caccia": [
@@ -27,6 +31,14 @@
         {
           "pattern": "stima bootstrap €150/mese",
           "dal": "2026-07-20 23:44"
+        },
+        {
+          "pattern": "280 €/m (parziale)",
+          "dal": "2026-07-20 23:46"
+        },
+        {
+          "pattern": "Confermati da Nicola 20/7/2026: Claude Max 200 €/m + Vercel 30 €/m + Supabase 50 €/m = 280 €/m (parziale). Mancano ancora: Render, VPS worker, dominio/DNS, Resend — burn completo e BURN_MENSILE_EUR env VPS da completare. PostHog/Telegram/GitHub 0 € oggi; Stripe solo commissione transazione.",
+          "dal": "2026-07-20 23:46"
         }
       ],
       "esenzioni": [

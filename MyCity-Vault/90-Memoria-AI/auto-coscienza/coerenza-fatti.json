@@ -1,11 +1,42 @@
 {
-  "data": "2026-07-20 22:20",
+  "data": "2026-07-20 23:47",
   "esito": "ok",
-  "fatti_totali": 17,
-  "cacce_aperte": 0,
-  "file_scansionati": 0,
+  "fatti_totali": 18,
+  "cacce_aperte": 5,
+  "file_scansionati": 1388,
   "incoerenze": [],
-  "cacce": [],
+  "cacce": [
+    {
+      "fatto": "finanza.costi_infrastruttura",
+      "pattern": "150€/mese.*burn",
+      "dal": "2026-07-20 23:44",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "finanza.costi_infrastruttura",
+      "pattern": "BURN_MENSILE_EUR=150",
+      "dal": "2026-07-20 23:44",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "finanza.costi_infrastruttura",
+      "pattern": "stima bootstrap €150/mese",
+      "dal": "2026-07-20 23:44",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "finanza.costi_infrastruttura",
+      "pattern": "280 €/m (parziale)",
+      "dal": "2026-07-20 23:46",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "finanza.costi_infrastruttura",
+      "pattern": "Confermati da Nicola 20/7/2026: Claude Max 200 €/m + Vercel 30 €/m + Supabase 50 €/m = 280 €/m (parziale). Mancano ancora: Render, VPS worker, dominio/DNS, Resend — burn completo e BURN_MENSILE_EUR env VPS da completare. PostHog/Telegram/GitHub 0 € oggi; Stripe solo commissione transazione.",
+      "dal": "2026-07-20 23:46",
+      "copie_trovate": 0
+    }
+  ],
   "esenzioni_default": [
     "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
     "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
