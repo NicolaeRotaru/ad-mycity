@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 11:57",
+  "aggiornato": "2026-07-20 12:04",
+  "_nota_metabolizzazione_20_07_1204": "Chat 20/7 ~12:04: Nicola «Migliora l'intelligence» — implementata sveglia PR #496. L-390 nuova; L-385 evidenze++ addendum implementazione; preferenza migliora-intelligence; STATO+DECISIONI+#accendi-intelligence-sveglia+LEZIONI-CHAT+intelligence esito.",
   "_nota_metabolizzazione_20_07_0405": "Chat 20/7 ~04:05: Nicola «Addattale a mycity» — overlay 47 skill, patch sync auto, commit 9e2f08a9 PR #495. L-388 nuova; L-387 evidenze++ addendum adattamento esplicito; preferenza adattale-a-mycity; STATO+DECISIONI+#212+LEZIONI-CHAT+marketing+prompt-engineer esito.",
   "_nota_metabolizzazione_20_07_0402": "Chat 20/7 ~04:02: Nicola «Scarica tutti quelli della community» — 47 skill coreyhaines31, PR #495, 19→66. L-387 nuova; L-386 evidenze++ addendum scelta community; preferenza marketing-skills-community-completo; STATO+DECISIONI+#212+LEZIONI-CHAT+marketing+prompt-engineer+tech esito.",
   "_nota_metabolizzazione_20_07_0359": "Chat 20/7 ~03:59: Nicola «riesci a scaricare marketing skills cloud claude?» — verifica GitHub+manifest, due pacchetti, path sync PR. L-386 nuova; preferenza marketing-skills-github; STATO+LEZIONI-CHAT+marketing+prompt-engineer esito.",
@@ -109,6 +110,27 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0720-390",
+      "testo": "**«Migliora l'intelligence» = implementare sveglia automatica, non solo diagnosi (Nicola 20/7 ~12:04).** Seguito L-385 (gap 03:39): Nicola «**Migliora l'intelligence**» — vuole **codice+accensione**, non altro piano teorico. 5 perché: (1) diagnosi senza sveglia lascia intelligence on-demand; (2) **fatto:** branch `fix/intelligence-upgrade` **PR #496** commit `0e76f0d3`, test 2/2 — `intelligence-agenda.mjs` (**9 fonti/giorno** nel giro), hook `giro.sh`, workflow **n.41** RSS **non stub** (3 feed, Telegram **7:00 solo novità bandi**), fonti bandi Camera+Unione Commercianti; (3) playbook `PLAYBOOK-ACCENSIONE-2026-07-20.md` + card **#accendi-intelligence-sveglia** 🔴; (4) **ancora 🔴:** mergia PR + chiavi Telegram + Active n8n (n.41 poi n.31); (5) Firecrawl **dopo** sveglia, non prima. Regola: «migliora intelligence» dopo diagnosi → **consegna operativa** (script+workflow+card), chiude merge PR + accensione. Vedi L-385, L-374.",
+      "tag": [
+        "intelligence",
+        "sveglia",
+        "n8n",
+        "agenda",
+        "telegram",
+        "nicola"
+      ],
+      "reparto": "@intelligence",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 12:04",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0720-389",
       "testo": "**Eventi a data fissa — al cambio giorno aggiorna TUTTI i file vivi da «domani» a «oggi» (giro 20/7 06:20).** PI26 era «apre DOMANI 20/7» in Piano Istituzionale fino a questa mattina — oggi è il giorno zero. Regola: per scadenze/eventi con data-orario (bandi, post programmati, sportelli), a ogni giro del giorno J controllare piani/briefing/intenzioni/SALA e riscrivere il framing temporale (ieri→oggi, domani→oggi, «stasera»→«alle HH:MM»). Post con deadline scaduta (domenica 19/7 21:00) → flag in sentinelle + card recupero, non silenzio. Collegato AR-102 (registro-fatti) ma vale anche per testo narrativo non numerico.",
       "tag": [
@@ -207,11 +229,11 @@
       ],
       "reparto": "@intelligence",
       "confidenza": 0.88,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 03:39",
+      "ultima_conferma": "2026-07-20 12:04",
       "stato": "attiva",
       "usi": []
     },
@@ -8876,6 +8898,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Migliora intelligence — vuole implementazione+sveglia, non solo diagnosi (chat 20/7 ~12:04):** dopo L-385 chiede «**Migliora l'intelligence**» — si aspetta **consegna operativa** (agenda 9 fonti/giorno nel giro, workflow n.41 RSS non stub, playbook accensione, card 🔴), non ripetizione gap; **PR #496** da mergiare Nicola → poi Telegram+n8n Active; Firecrawl = qualità **dopo** sveglia. Vedi L-390, L-385.",
     "**Adattale a MyCity — vuole overlay applicato, non solo avviso «sono B2B» (chat 20/7 ~04:05):** «Addattale a mycity» subito dopo download 47 skill — si aspetta blocco Il Turno/Piacenza/onestà **in ogni skill** + meccanismo che **persiste** ai futuri sync GitHub; stessa PR #495 commit `9e2f08a9`; merge 🔴 + riavvio worker; pubblicare resta 🔴. Vedi L-388, L-387.",
     "**Marketing skills community completo — vuole TUTTO il pacchetto community, non Anthropic leggero (chat 20/7 ~04:02):** «Scarica tutti quelli della community» — scelta esplicita vs consiglio AD (Anthropic ~8 o 4–5 community); si aspetta **47 skill** integrate nel worker + **PR #495** da mergiare; post-merge **riavvio worker**; skill generiche → **adattare** MyCity (Turno, Piacenza, onestà); potenziano senior, non sostituiscono. Vedi L-387, L-386.",
     "**Marketing skills Claude Cloud — vuole portarle nel worker da GitHub (chat 20/7 ~03:59):** «riesci a scaricare da github, marketing skills cloud claude?» — si aspetta risposta **operativa** (sì/no + cosa c'è oggi + come si integrano), non teoria: oggi worker **19 plugin zero marketing**; due pacchetti GitHub (Anthropic ufficiale ~8 vs community ~45); path manifest+sync+**PR 🟡**; skill vanno **adattate** MyCity (Turno, Piacenza, onestà); potenziano senior, non sostituiscono; chiude scelta **ufficiale / community / entrambi** prima di preparare PR. Vedi L-386, L-375 indipendenza.",

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 11:00
-fonte: AD digitale (giro pieno)
+aggiornato: 2026-07-20 12:04
+fonte: AD digitale (chat + branch fix/intelligence-upgrade)
 ---
+
+> 💬 **20/7 ~12:04 — CHAT: «Migliora l'intelligence» — sveglia automatica implementata, accensione 🔴 (L-390).** Nicola seguito diagnosi L-385 — AD consegna **codice operativo** su branch `fix/intelligence-upgrade` (**PR #496**, commit `0e76f0d3`, test **2/2**): **`intelligence-agenda.mjs`** calcola **9 fonti/giorno** nel giro (prima «a occhio»); **`giro.sh`** aggiorna agenda; workflow **n.41** RSS bandi **non più stub** (3 feed Artigiani/Unione/PiacenzaSera, Telegram **7:00 solo se novità bandi); fonti bandi **Camera Commercio + Unione Commercianti** in radar; playbook `consegne/intelligence/PLAYBOOK-ACCENSIONE-2026-07-20.md`; card **`#accendi-intelligence-sveglia`** 🔴 (Telegram+n8n Active). **Serve Nicola:** ① mergia **PR #496** ② card accensione 4 passi. **Oggi 12:00:** PI26 sportello ancora **Mossa n.1**. Fonte: chat Nicola 20/7 12:04.
 
 > 🔭 **20/7 11:00 — GIRO PIENO.** Business INVARIATO: 1 PQ, **4 buyer**, 0 ordini pagati, stallo **~625h** (~26 gg). REST+Stripe+Resend+Sito+Pannello+n8n ✅ · MCP cieco (REST copre) · GitHub 503 su segnale PR. **PI26 a sportello da 10:00** — **Mossa n.1: invia domanda ORA** (restart.infocamere.it). **Mossa n.2: ordine test PQ.** Post domenica **non uscito** 19/7 21:00 — recupero oggi pomeriggio. Loop @operations chiuso ✅. Briefing: [[Briefing/2026-07-20]].
 

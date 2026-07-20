@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 12:04 · 🟡 · [intelligence/builder-automazioni/AD] · **Nicola: «Migliora l'intelligence» — sveglia automatica in PR #496, accensione Telegram+n8n 🔴 pendente.** Seguito diagnosi L-385 (~03:39): AD implementa su branch `fix/intelligence-upgrade` (commit `0e76f0d3`, test 2/2): agenda giornaliera **9 fonti** (`intelligence-agenda.mjs` + hook in `giro.sh`), workflow **n.41** RSS bandi aggiornato (3 feed, Telegram 7:00 solo novità), fonti bandi Camera+Unione Commercianti, playbook `consegne/intelligence/PLAYBOOK-ACCENSIONE-2026-07-20.md`, card **#accendi-intelligence-sveglia**. **Serve Nicola (🔴):** mergia **PR #496** → import workflow n.41/n.31 in n8n + chiavi Telegram + Active. L-390, collega L-385.
+
 2026-07-20 03:37 · 🟢 · [Bacheca home — dedup casella Mappa negozi Piacenza] · **Nicola: «togli dalla bacheca il duplicato: mappa negozi piacenza».** Due copie identiche del blocco mappa onboarding in `BACHECA.md` — AD elimina la seconda (in fondo), resta una sola sotto le caselle n8n. Regola preventiva: grep titolo prima di inserire nuovi blocchi. L-384, addendum L-377.
 
 2026-07-20 03:36 · 🟢 · [Bacheca home — terza casella catalogo 50 workflow n8n] · **Nicola: «inserisci questi 50 workflow dentro la bacheca della home».** Dopo elenco completo in chat (L-383): AD aggiunge blocco **«50 workflow n8n MyCity»** in cima `BACHECA.md` — versione condensata 10×5 con colori 🔴🟡🟢 e priorità accensione; home Plancia ora ha **3 caselle** n8n (20 mani · mani per reparto · 50 workflow). Reversibile, solo memoria vault. L-377 addendum, L-383.

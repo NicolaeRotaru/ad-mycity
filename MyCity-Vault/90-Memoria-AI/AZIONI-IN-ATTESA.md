@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-20 11:00** — Automatico: **43 aperte · 87 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-20 12:04** — Automatico: **44 aperte · 87 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -13,6 +13,23 @@ fonte: senior dell'AD
 
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
+
+---
+
+### 🔴 #accendi-intelligence-sveglia — Accendi la sveglia intelligence (bandi alle 7 + Telegram) · ⏳ accodata 2026-07-20 12:02
+
+**Playbook:** `consegne/intelligence/PLAYBOOK-ACCENSIONE-2026-07-20.md` (in **PR #496** — mergia prima)
+
+1. Importa in n8n il workflow **n.41** (RSS bandi — file aggiornato, non più stub)
+2. Aggiungi `TELEGRAM_BOT_TOKEN` e `TELEGRAM_CHAT_ID` in n8n
+3. Test workflow → se ok **Active** (messaggio alle 7:00 solo se ci sono bandi)
+4. Stesso per workflow **n.31** (card Da approvare → Telegram) — sblocca le notifiche pendenti
+
+**Cosa cambia:** intelligence ti avvisa da sola su bandi e scadenze, senza chiedere in chat.
+**Se va bene:** domani mattina ricevi il riassunto bandi su Telegram; ogni nuova card 🔴 arriva subito.
+
+- **Colore:** 🔴 (chiavi Telegram + Active n8n)
+- **Reparto:** builder-automazioni / intelligence
 
 ---
 
