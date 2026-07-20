@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 04:05
-fonte: AD digitale (metabolizzazione chat)
+aggiornato: 2026-07-20 06:00
+fonte: AD digitale (piano del mattino)
 ---
+
+> ☀️ **20/7 06:00 — PIANO DEL MATTINO.** Business INVARIATO: 1 PQ, **4 buyer**, 0 ordini pagati, stallo **~620h** (~25,8 giorni). North Star 0, cassa 0€. Sensori 06:00: REST+Stripe+Resend+Sito+Pannello+n8n ✅ · Telegram assente · runway senza BURN_MENSILE_EUR. **3 priorità oggi:** ① 🔴 **PI26 ore 10:00** a sportello (restart.infocamere.it) ② 🟡 **ordine test PQ** (North Star 0→1) ③ 🔴 **post social** (domenica mancato o pioggia 20/7). Dettaglio: [[RITMO]] · [[SALA-OPERATIVA]].
 
 > 💬 **20/7 ~04:05 — CHAT: Marketing skills — adattate a MyCity (Il Turno, Piacenza, onestà) in PR #495 (L-388).** Nicola «**Addattale a mycity**» (dopo download 47 skill L-387) — AD applica overlay obbligatorio in **tutte e 47** skill community: blocco MYCITY con «Il Turno», tagline, tono botteghe vere, canali FB/IG locali (no LinkedIn B2B default), regole onestà numeri/testimonianze, bozze sì ma pubblicare 🔴. **Meccanismo:** `cervello/prompt-fragments/mycity-marketing-overlay.md` + `patchMarketingSkillForMyCity` in `sync-worker-plugins.mjs` — si **riapplica** ai futuri sync da GitHub. Commit **`9e2f08a9`** · stessa **PR #495** 🔴 mergiare Nicola → riavvio worker. Fonte: chat Nicola 20/7 04:05.
 
@@ -876,7 +878,7 @@ fonte: AD digitale (metabolizzazione chat)
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ ha Stripe collegato ma payout-test mai chiuso su ordine vero |
 | Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ stock>0 (catalogo totale 258 prodotti REST) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · CANCELED — 1° ordine reale va CREATO ex-novo |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~608h (~25,3 gg) ▲ +21h vs ieri |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~620h (~25,8 gg) ▲ +12h vs report 19/7 18:00 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox da fare su ordine vero |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = (corretto oggi) | crescita | REST live 18:00 · 23 account totali (4+17 seller+1 admin+1 rider) |
@@ -974,17 +976,17 @@ fonte: AD digitale (metabolizzazione chat)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 20/7 00:00)
-**OGGI 20/7 ore 10:00 apre PI26 a sportello.** Business INVARIATO dal 24/6, North Star 0, stallo ~608h (~25,3 giorni). Cassa Stripe 0€.
+## Prossime priorità (🛰️ aggiornato 20/7 06:00)
+**OGGI 20/7 ore 10:00 apre PI26 a sportello.** Business INVARIATO dal 24/6, North Star 0, stallo ~620h (~25,8 giorni). Cassa Stripe 0€.
 
 1. [ ] 🔴 **Domanda PI26 OGGI ore 10:00** — a sportello, chi prima arriva (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
 2. [ ] 🔴 **restart.infocamere.it** — registrazione se non fatta ieri notte (prerequisito PI26).
-3. [ ] 🟡 **Burn mensile nel VPS** — sblocca runway (`#burn-mensile-env`, 150€ o 3000€).
-4. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1 (`#ordine-test-pq`).
-5. [ ] 🟡 **Playwright sul worker passo 3** — `npm install -g playwright --prefix /opt/node22` + env `PLAYWRIGHT_BROWSERS_PATH`.
-6. [ ] 🟡 **Mergia PR in coda** — #475 chat · #476/#477 contenuti Diretta · #450 bloccanti Pannello.
+3. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1 (`#ordine-test-pq`).
+4. [ ] 🔴 **Post social** — recupero post domenica (`#post-domenica-settimana-1907`) o post pioggia 20/7 (`#post-meteo-pioggia-20lug`).
+5. [ ] 🟡 **Mergia PR #495** — skill marketing MyCity + riavvio worker.
+6. [ ] 🟡 **Burn mensile nel VPS** — sblocca runway (`#burn-mensile-env`).
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali) · `negozio_fermo` PQ (falso positivo, cooldown) · n8n non_configurato · PostHog spento (scelta 5/7) · runway sconosciuto (manca BURN_MENSILE_EUR).
+**Sentinelle attive:** loop business 🔴 (0 ordini reali) · `cassa_sconosciuta` (~175 giri, manca BURN_MENSILE_EUR) · Telegram assente (59 avvisi bloccati) · PostHog spento (scelta 5/7) · n8n ✅ (webhook ok da stanotte).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*

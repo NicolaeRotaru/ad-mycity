@@ -1113,3 +1113,30 @@ Assegnazioni (1 mossa per reparto):
 ### 2026-07-19 18:00 — 🌙 Report della sera
 - 2026-07-19 18:00 · @AD · FATTO · Report della sera completato. RITMO.md (blocco «Report della sera · 2026-07-19 18:00»), STATO.md aggiornato (7 numeri REST 18:00). Business INVARIATO: 1 PQ, 4 buyer, 0 ordini pagati, stallo ~608h (~25,3 gg). Fatto oggi: PR #213 marketplace + migrazioni DB · MCP allowlist validata · post domenica PQ in Diretta · audit chat/bandi · Playwright passi 1-2 ok.
 - 2026-07-19 18:00 · @AD · SERVE · @Nicola: ① 🔴 **post domenica entro 21:00** ② 🔴 **restart.infocamere.it stasera** (PI26 domani 10:00) ③ 🟡 **ordine test PQ** (North Star 0→1).
+
+### 2026-07-20 06:00 — ☀️ PIANO DEL MATTINO
+**Obiettivo del giorno:** PI26 a sportello ore 10:00 + sbloccare North Star 0→1. Business invariato dal 24/6: 1 PQ, 4 buyer, 0 ordini pagati, stallo ~620h (~26 giorni), cassa 0€.
+
+**Le 3 priorità North Star:**
+1. 🔴 **Domanda PI26 ore 10:00** — restart.infocamere.it, a sportello (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
+2. 🟡 **Ordine test Pane Quotidiano** — unica leva diretta 0→1 (`#ordine-test-pq`).
+3. 🔴 **Post social** — recupero post domenica mancato (`#post-domenica-settimana-1907`) o post pioggia 20/7 (`#post-meteo-pioggia-20lug`).
+
+Assegnazioni reparto (1 mossa ciascuno):
+- @relazioni-istituzionali · 🟢 · checklist domanda PI26 + fatture ammissibili pronte accanto alla bozza · 🔴 invio ore 10:00 = Nicola
+- @grant-writer · 🟢 · rivede bozza PI26 vs requisiti portale (ultimo controllo pre-invio)
+- @vendite · 🟢 · script ordine test PQ + 3 WhatsApp anchor PI26 pronti in `consegne/vendite/` (invio 🟡/🔴 Nicola)
+- @customer-success · 🟢 · playbook primo ordine concierge in standby — parte al primo ordine reale
+- @content-social · 🟡 · prepara pubblicazione post domenica o meteo (testo+grafica in coda) · 🔴 firma Nicola
+- @marketing · 🟢 · piano settimana post-PI26 (Turno + PQ, no numeri inventati)
+- @finanza · 🟡 · card burn mensile VPS (`#burn-mensile-env`) — sblocca runway
+- @tech · 🟡 · mergia PR #480 autofill + #495 skill marketing (Nicola firma)
+- @devops-sre · 🟢 · sensori verificati 06:00 (REST/Stripe/n8n ok) · monitor deploy post-merge
+- @builder-automazioni · 🟢 · n8n webhook ok — guida Telegram pronta se Nicola chiede (59 avvisi bloccati senza bot)
+- @intelligence · 🟢 · meteo live: oggi caldo, martedì 21/7 pioggia → aggiorna angolo post se serve
+- @analista · 🟢 · baseline 7 numeri REST (invariati vs 19/7 18:00, stallo +12h)
+- @operations · 🟢 · slot consegna e script COD pronti — si accende al primo ordine
+- @onboarding-negozi · 🟢 · supervisione PQ invariata, nessun autofill prioritario vs North Star
+
+- 2026-07-20 06:00 · @AD · FATTO · Piano del mattino completato. RITMO.md (blocco «Piano del mattino · 2026-07-20 06:00»), STATO.md «Prossime priorità» aggiornato, sensori 06:00 ok (REST/Stripe/n8n/webhook · Telegram assente · runway senza BURN_MENSILE_EUR).
+- 2026-07-20 06:00 · @AD · SERVE · @Nicola: ① 🔴 **PI26 ore 10:00** (restart.infocamere.it) ② 🟡 **ordine test PQ** ③ 🔴 **pubblica post** (domenica o pioggia) ④ 🟡 **mergia PR #495** skill marketing + riavvio worker.

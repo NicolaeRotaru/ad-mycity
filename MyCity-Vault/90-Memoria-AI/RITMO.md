@@ -529,3 +529,20 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 - REST 18:00 ok · stallo 608h · PR marketplace #213 mergiata · migrazioni 109-110-111 · MCP allowlist validata 16:54 · Playwright worker: font+Node ok, modulo da reinstallare in /opt/node22 · merge pendenti: #475 #476 #477 #450
+
+## Piano del mattino · 2026-07-20 06:00
+
+**Oggi alle 10 apre il bando PI26 a sportello — è la leva istituzionale del mese; senza ordini veri tutto il resto (n8n, post, automazioni) non muove la North Star.**
+
+**Le 3 cose di oggi**
+1. Presenta la domanda PI26 alle 10 — a sportello, chi arriva prima ha più chance; bozza e checklist già pronte, serve firma digitale e fatture tech da maggio 2026.
+2. Fai un ordine di prova su Pane Quotidiano — unica leva diretta per portare la North Star da zero a uno (dieci minuti sul sito).
+3. Pubblica un post sui social — recupera quello domenical mancato oppure il post pioggia previsto per oggi; testo e grafica già in coda.
+
+**Serve da te**
+- Presenta la domanda PI26 alle 10 sul portale CCIAA (restart.infocamere.it)
+- Registrati sul portale se non l'hai fatto ieri sera
+- Mergia la PR con le skill marketing e riavvia il worker così le usa da subito
+
+**Dettagli tecnici**
+- Business invariato: 1 PQ · 4 clienti · 0 ordini pagati · stallo ~620h (~26 giorni) · sensori REST ok 06:00 · n8n e webhook ok · bozza PI26 in consegne/relazioni-istituzionali/
