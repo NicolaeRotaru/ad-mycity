@@ -4,7 +4,7 @@
 - **Branch:** `fix/freschezza-okr-AR115` → `main`
 - **URL:** https://github.com/NicolaeRotaru/ad-mycity/pull/504
 - **Titolo:** fix(cervello): gate hard freschezza OKR-Squadra (AR-115)
-- **Creato:** 2026-07-20 23:18 (Europe/Rome)
+- **Creato:** 2026-07-20 23:27 (Europe/Rome)
 
 ## Merge
 🔴 **Non mergeare da solo.** Nicola approva dal Pannello → `node cervello/git-merge.mjs --repo ad-mycity --pr 504`
