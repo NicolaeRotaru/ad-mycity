@@ -4,20 +4,6 @@
     {
       "data": "2026-07-16",
       "voto_salute": 0,
-      "voto_provvisorio": 0,
-      "voto_pieno": 0,
-      "firma": "radiografia-completa",
-      "difetti_aperti": 19,
-      "difetti_chiusi": 43,
-      "pending_merge": 0,
-      "aperti_davvero": 19,
-      "bloccanti_umani": 2,
-      "tipo": "completa",
-      "nota": "RADIOGRAFIA COMPLETA (comando Nicola): 111 difetti macchina confermati (8 bloccanti) + 62 bug Pannello (7 bloccanti). Il 100 delle sonde era falsificato da allinea-scan-cantiere.mjs:166. Cantiere: +19 difetti AR-105..AR-123 (i soli impatto-alto; il resto negli archivi consegne/audit/2026-07-16-auto-radiografia.md)."
-    },
-    {
-      "data": "2026-07-16",
-      "voto_salute": 0,
       "difetti_aperti": 14,
       "difetti_chiusi": 5,
       "tipo": "auto-fix",
@@ -1208,6 +1194,20 @@
       "bloccanti_umani": 2,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (22h) · cecità sensori 7 giri · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-21",
+      "voto_salute": 72,
+      "voto_provvisorio": 45,
+      "voto_pieno": 0,
+      "firma": "AR-126,AR-129",
+      "difetti_aperti": 19,
+      "difetti_chiusi": 57,
+      "pending_merge": 15,
+      "aperti_davvero": 2,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (24h) · cecità sensori 7 giri · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     }
   ]
 }
