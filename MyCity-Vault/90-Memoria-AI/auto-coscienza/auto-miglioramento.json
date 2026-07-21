@@ -574,7 +574,7 @@
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-07-21 08:11",
+    "aggiornato": "2026-07-21 08:20",
     "totale": 12,
     "aperti": 7,
     "in_scadenza": 1,
@@ -800,9 +800,9 @@
     }
   ],
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
-  "aggiornato": "2026-07-21 08:11",
+  "aggiornato": "2026-07-21 08:20",
   "proposte_sync": {
-    "aggiornato": "2026-07-21 06:20",
+    "aggiornato": "2026-07-21 08:20",
     "totale": 11,
     "aggiornate": 0
   }
