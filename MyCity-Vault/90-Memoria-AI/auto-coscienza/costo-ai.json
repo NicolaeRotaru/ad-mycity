@@ -1,114 +1,31 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-07-20 22:20",
+  "aggiornato": "2026-07-21 06:01",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
-    "data": "2026-07-20",
-    "runs": 13,
+    "data": "2026-07-21",
+    "runs": 1,
     "token_totali": 0,
-    "durata_sec_totale": 843,
+    "durata_sec_totale": 83,
     "voci": [
       {
-        "quando": "2026-07-20 06:01",
+        "quando": "2026-07-21 06:01",
         "tipo": "ritmo-mattino",
-        "durata_sec": 57,
+        "durata_sec": 83,
         "token": 50000,
         "modello": "cursor",
         "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-20 06:23",
-        "tipo": "giro",
-        "durata_sec": 169,
-        "token": 50000,
-        "modello": "cursor",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-20 08:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-20 08:31",
-        "tipo": "monitora",
-        "durata_sec": 78,
-        "token": 50000,
-        "modello": "cursor",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-20 10:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-20 11:03",
-        "tipo": "giro",
-        "durata_sec": 200,
-        "token": 50000,
-        "modello": "cursor",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-20 12:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-20 14:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-20 16:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-20 18:02",
-        "tipo": "ritmo-sera",
-        "durata_sec": 133,
-        "token": 50000,
-        "modello": "cursor",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-20 18:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-20 20:23",
-        "tipo": "giro",
-        "durata_sec": 199,
-        "token": 50000,
-        "modello": "cursor",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-20 22:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
       }
     ],
-    "token_stimati": 300000
+    "token_stimati": 50000
   },
   "storico_giorni": [
+    {
+      "data": "2026-07-20",
+      "runs": 13,
+      "token_totali": 0,
+      "durata_sec_totale": 843
+    },
     {
       "data": "2026-07-19",
       "runs": 20,
@@ -215,9 +132,9 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 100000,
-    "runs_sessione": 5,
+    "token_sessione_rolling": 50000,
+    "runs_sessione": 1,
     "finestra_min": 360,
-    "aggiornato": "2026-07-20 22:20"
+    "aggiornato": "2026-07-21 06:01"
   }
 }
