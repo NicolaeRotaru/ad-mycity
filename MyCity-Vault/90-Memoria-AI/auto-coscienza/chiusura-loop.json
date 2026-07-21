@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-21 11:00",
+  "aggiornato": "2026-07-21 12:20",
   "soglia_giorni": 7,
   "totale": 120,
   "mancanti": 0,
@@ -115,7 +115,7 @@
       "mancante": false,
       "righe_esito": 19,
       "ultimo_esito": "2026-07-21 00:02",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -325,7 +325,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-20 23:28",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -505,7 +505,7 @@
       "mancante": false,
       "righe_esito": 77,
       "ultimo_esito": "2026-07-20 23:47",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -665,7 +665,7 @@
       "mancante": false,
       "righe_esito": 5,
       "ultimo_esito": "2026-07-20 23:54",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -1195,7 +1195,7 @@
       "mancante": false,
       "righe_esito": 9,
       "ultimo_esito": "2026-07-20 23:35",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -1265,7 +1265,7 @@
       "mancante": false,
       "righe_esito": 47,
       "ultimo_esito": "2026-07-20 23:38",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -1285,7 +1285,7 @@
       "mancante": false,
       "righe_esito": 10,
       "ultimo_esito": "2026-07-13 23:32",
-      "giorni_fa": 7,
+      "giorni_fa": 8,
       "vuoto": false,
       "fermo": true
     },
@@ -1295,7 +1295,7 @@
       "mancante": false,
       "righe_esito": 23,
       "ultimo_esito": "2026-07-20 23:59",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     }
