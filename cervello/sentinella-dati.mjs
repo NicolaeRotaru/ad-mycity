@@ -290,12 +290,15 @@ function valutaRegole(s, state) {
     });
   }
 
-  // M2 — Sensori dati ciechi ≥3 giri.
+  // M2 — Sensori dati ciechi ≥3 giri. dedupPersistente + firma stabile (AR-114, come cassa_sconosciuta
+  // sotto): la firma NON è il numero di giri (cresce ad ogni giro → il dedup non scattava mai e la
+  // stessa diagnosi veniva riaccodata a ripetizione — 39 volte in 5 giorni, verificato nel DB).
   if (s.sensori_max_ciechi >= 3) {
     eventi.push({
       ambito: "macchina", chiave: "sensori_ciechi", colore: "🟡", reparto: "AD",
+      dedupPersistente: true,
       titolo: `Sensore dati cieco da ${s.sensori_max_ciechi} giri`,
-      firma: String(s.sensori_max_ciechi),
+      firma: "cieco",
       prompt: `Sentinella macchina 🧠 — SENSORE CIECO: almeno un sensore dati è cieco da ${s.sensori_max_ciechi} giri (sensori-cecita.json). Controlla il .env sul VPS e riprova la connessione. Finché è cieco NON scrivere numeri nuovi come fatti: usa la baseline di STATO + la sezione Gap.`,
     });
   }
@@ -358,6 +361,9 @@ function valutaRegole(s, state) {
   }
 
   // M6b — Sensore-cassa cieco da N giri (runway 'sconosciuto', AR-039): replica M2 sul sensore-cassa.
+  // dedupPersistente era già impostato ma NON funzionava (AR-114): la firma era il numero di giri, che
+  // cambia ad ogni giro, quindi "stessa firma" non era mai vero e la diagnosi si riaccodava ogni volta
+  // (76 volte in 9 giorni, verificato nel DB). Fix: firma stabile ("cieco"), il titolo tiene il conteggio.
   if (
     s.runway_stato === "sconosciuto"
     && typeof s.giri_sconosciuto === "number"
@@ -367,7 +373,7 @@ function valutaRegole(s, state) {
       ambito: "macchina", chiave: "cassa_sconosciuta", colore: "🟡", reparto: "finanza", cooldownOre: 24,
       dedupPersistente: true,
       titolo: `Sensore-cassa cieco da ${s.giri_sconosciuto} giri (runway sconosciuto)`,
-      firma: String(s.giri_sconosciuto),
+      firma: "cieco",
       prompt: `Sentinella macchina 🧠 — SENSORE-CASSA CIECO: runway 'sconosciuto' da ${s.giri_sconosciuto} giri (cassa-runway.json). Verifica: Stripe spesso GIÀ ok (cassa letta); blocco tipico = BURN_MENSILE_EUR mancante nel .env VPS. Prepara diagnosi per Nicola (consegne/finanza/) — NON muovere denaro da solo.`,
     });
   }

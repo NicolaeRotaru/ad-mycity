@@ -271,6 +271,29 @@ export async function creaLavoro(richiesta: string, tipo = "analisi", gruppoId?:
   return esito.ok ? esito.lavoro : null;
 }
 
+/** Estrae la chiave sentinella dal marcatore "[sentinella-dati key=X firma=...]" in fondo alla
+ * richiesta (vedi cervello/sentinella-dati.mjs). Null se il lavoro non viene da una sentinella. */
+export function chiaveSentinella(richiesta: string): string | null {
+  const m = /\[sentinella-dati key=([a-z0-9_]+)/i.exec(richiesta);
+  return m ? m[1] : null;
+}
+
+/** Un lavoro in_attesa/in_corso con la stessa chiave sentinella è già in coda? Anti-doppione per
+ * il Riprova (AR-114): quando N lavori della stessa sentinella falliscono in fila (es. limite
+ * Claude scaduto) e vengono riprovati uno per uno, senza questo controllo ognuno crea un nuovo
+ * lavoro invece di riconoscere che la diagnosi è già in coda una volta. */
+export async function lavoroSentinellaGiaInCoda(chiave: string): Promise<string | null> {
+  if (!memoryConnected()) return null;
+  const marker = encodeURIComponent(`key=${chiave}`);
+  const res = await sbGet(
+    `${URL}/rest/v1/lavori?select=id&stato=in.(in_attesa,in_corso)&richiesta=like.*${marker}*&limit=1`,
+    { headers: headers(), cache: "no-store" }
+  );
+  if (!res.ok) return null;
+  const rows = (await res.json()) as { id: string }[];
+  return rows[0]?.id || null;
+}
+
 /** Un singolo lavoro per id, corpo completo (o null). */
 export async function getLavoroById(id: string): Promise<Lavoro | null> {
   if (!memoryConnected()) return null;
