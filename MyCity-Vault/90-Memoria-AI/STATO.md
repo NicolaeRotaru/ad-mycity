@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 11:59
+aggiornato: 2026-07-23 12:28
 fonte: AD digitale (giro chat — ri-verifica con vincolo AR-113 attivo)
 ---
+
+> 💬 **23/7 ~12:28 — CHAT: "Ciao" — token GitHub ad-mycity rotto, 103 commit locali mai arrivati su GitHub (verificato).** Nicola scrive solo «Ciao» (RIPROVA dopo stop per limite settimanale). AD verifica col repo: `git fetch` + confronto `origin/main..HEAD` = **103 commit locali non pushati**, fermi dal **22/7 08:20** (ultimo push riuscito su `origin/main`) — nessuna memoria/PR nuova arrivata su GitHub da allora, causa probabile token push scaduto/rotto (coerente con l'accodamento già scritto dal giro automatico). **Non urgente** per il business (nessuna PR in scadenza oggi), ma finché non si ripara nessuna modifica di codice esce dal branch locale, e la copia hosted del Pannello (se legge da GitHub) resta indietro. Business invariato: 1 PQ · 4 buyer · 0 pagati · stallo ~29gg. Un post carosello pronto in coda da approvare. Fonte: chat Nicola 23/7 ~12:28 + verifica git diretta (`git rev-list --count origin/main..HEAD`).
 
 > 🛰️ **23/7 11:59 — GIRO (chat), ri-verifica sotto vincolo AR-113 (stallo North Star ≥3gg).** Query SQL diretta su `orders` (MCP Supabase): **1 sola riga in tutto il DB**, lo stesso ordine zombie del 24/6 (19,05€, PENDING/CANCELED) — **0 ordini pagati**, nessun cambiamento dall'ultima verifica (11:36). Business invariato: 1 seller (Pane Quotidiano), 5 prodotti, 4 buyer, stallo ~698h (~29 giorni). Il gate AR-113 resta attivo: nessun lavoro macchina nuovo prodotto oggi oltre questa verifica — **Mossa n.1: ordine test PQ** (invariata), **Mossa n.2: domanda PI26** entro il 30/7. Briefing: [[Briefing/2026-07-23]].
 
