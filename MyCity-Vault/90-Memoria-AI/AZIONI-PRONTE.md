@@ -656,3 +656,18 @@ pre-condizioni:
 coda_canonica: **#52** (2 mail Hub) · **#bandi-cciaa-2007** (PI26 MyCity) · **#bandi-cciaa-kit** ✅ kit negozi · **#whatsapp-3-anchor-pi26**
 raccomandazione_ad: gate #52 (parcheggiata 9/7) **sbloccabile** — PQ è online; leva PI26 scade tra 10 giorni.
 stato: PRONTO — zero mail inviate.
+
+## A40 · 📣 Post del giorno 23/7 — carosello "Cosa c'è di buono questa settimana" (Pane Quotidiano)
+reparto: content-social
+livello: 🔴 (pubblicazione — la bozza 🟢 è già fatta)
+canale: IG feed carosello @mycity.piacenza + storia 9:16 + pagina FB + gruppi FB
+perche: PLAYBOOK Contenuto del giorno (worker 23/7). Angolo **CAROSELLO EDUCATIVO** (swipe #2 Cortilia "oggi ti proponiamo…") — prima volta che mostriamo TUTTO il catalogo reale (5 prodotti) invece di un prodotto singolo o il negozio/turno. **Non duplica:** pesto+temporali 1/7 · kefir-colazione (prodotto singolo) 14/7 · turno-mattina (BTS/volto) 20/7.
+preparato: ✍️ content-social (sintesi AD) — gate ONESTA passato: i 5 prodotti e prezzi letti ORA dal DB live (query REST 23/7), bio dal 1976 = fonte pubblica, 0 numeri MyCity inventati, 0 testimonianze, nessuna prova sociale numerica (0 ordini pagati reali → non citata)
+contenuto pronto: consegne/content/2026-07-23-post-del-giorno-carosello-bio-settimana-PQ.md
+cosa cambia: esce un post che mostra l'intero catalogo reale (kefir capra 2,95€ · kefir Berchtesgadener 2,05€ · hummus 2,95€ · pesto genovese 5€ · pudding vaniglia 2,05€) invece di un solo prodotto — può diventare rubrica settimanale fissa.
+se va bene: click marketplace via UTM `carosello_bio_2307`; PQ può ripubblicare; prima pietra di una rubrica ricorrente che si aggiorna da sola dal DB ogni settimana (zero rischio di inventare numeri).
+testo (hook IG):
+🛒 Cosa c'è di buono questa settimana da Pane Quotidiano (Via Calzolai, bio dal 1976): kefir, hummus, pesto genovese, pudding — tutto bio, tutto ordinabile ora. Scorri il carosello →
+visual: carosello 6 slide tipografico su palette brand (copertina + 1 slide a prodotto con prezzo reale) = pubblicabile subito senza foto; boost futuro = foto reale dei 5 prodotti (serve ok titolare).
+pre-condizioni: (1) link marketplace in bio/1° commento UTM carosello_bio_2307 · (2) timing 17:00–19:00 · (3) foto reale = ok titolare se boost. Coda canonica = #post-carosello-bio-2307 in [[AZIONI-IN-ATTESA]].
+stato: IN ATTESA DI FIRMA NICOLA.

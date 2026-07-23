@@ -16,6 +16,26 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🔴 #post-carosello-bio-2307 — Pubblica il carosello "Cosa c'è di buono questa settimana" su Instagram e Facebook · ⏳ accodata 2026-07-23 11:23
+
+**Contenuto completo:** `consegne/content/2026-07-23-post-del-giorno-carosello-bio-settimana-PQ.md` · anteprima [[AZIONI-PRONTE]] **A40**
+
+**Testo pronto (hook IG/carosello):**
+
+> 🛒 Cosa c'è di buono questa settimana da Pane Quotidiano (Via Calzolai, bio dal 1976): kefir di capra bio 2,95€, kefir Berchtesgadener 2,05€, hummus di ceci bio 2,95€, pesto genovese bio 5€, pudding alla vaniglia bio 2,05€ — tutto ordinabile ora. Scorri il carosello → link in bio.
+
+**Visual:** carosello 6 slide (copertina + 1 slide a prodotto, prezzo reale) tipografico su palette brand — pubblicabile subito senza foto; boost futuro = foto reale dei 5 prodotti (serve ok titolare).
+
+**Timing:** oggi **17:00–19:00** (pre-cena). Non duplica #post-lunedi-turno-mattina-2007 (BTS/volto) né il post kefir del 14/7 (prodotto singolo) — oggi è il PRIMO carosello con tutto il catalogo reale, letto in diretta dal DB (0 numeri inventati, 0 prova sociale perché 0 ordini pagati reali).
+
+**Cosa cambia:** esce il primo post-rubrica "tutto il catalogo" — se funziona diventa appuntamento settimanale fisso (si aggiorna da solo dal DB, zero rischio di inventare numeri).
+**Se va bene:** click marketplace via UTM `carosello_bio_2307`; PQ può ripubblicare; nasce una rubrica ricorrente riusabile ogni settimana.
+
+- **Colore:** 🔴 (pubblicazione — bozza 🟢 già fatta)
+- **Reparto:** content-social
+
+---
+
 ❌ #fix-parla-casella-pgrst102 — ~~Mergia PR #499~~ → RIMOSSA 2026-07-20 18:00 · L-402: ordine chat «fai il fix» — link PR in chat, niente card merge. PR #499 resta su GitHub.
 
 ---
