@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 17:31
-fonte: AD digitale (report giornaliero rigenerato)
+aggiornato: 2026-07-23 18:05
+fonte: AD digitale (report della sera)
 ---
+
+> 🌙 **23/7 18:05 — REPORT DELLA SERA (chiude la giornata).** Business INVARIATO dal 24/6 (riconfermato via query SQL diretta 18:02): 1 PQ, 5 prodotti, 4 buyer, 1 ordine CANCELED, **0 pagati**, 0 recensioni, stallo ~29 giorni. **Fatto vero di oggi:** entrambi i token GitHub rotti risolti (VPS 16:02 + Vercel 16:27, PR #510 mergiata) · causa dei lavori duplicati in coda trovata e corretta (PR #512, in attesa merge) · auto-deploy del Pannello preparato (PR #513, in attesa merge) · **decisione strategica di Nicola: inserimento nuovi negozi rinviato al 24/8-1/9**, priorità fino ad allora = stabilizzare Pannello/AD/worker/marketplace, non acquisizione · soglia di **~5.000€/mese di utile netto** fissata prima di riattivare i costi discrezionali (amministrazione/assicurazioni/app store), referral portato a 15€, punti fedeltà al 2%. **Coda:** 47 aperte, di cui 12 marcate "in pausa" (post/referral/ordine-test/WhatsApp — riprendono da sole al 24/8-1/9); restano attive PI26, la sveglia intelligence e tutto il lavoro tecnico (PR Pannello/worker/cervello). Dettaglio: [[RITMO]].
 
 > 💬 **23/7 ~21:xx — CHAT: inserimento negozi rinviato a dopo il 24 agosto - 1 settembre 2026 — priorità ora è "blindare" Pannello/AD/worker/marketplace.** Nicola, sulla casella check-in anti-churn PQ: «di questo passo guarda ai costi personali che ho, inizierò ad inserire i primi negozi dopo il 24 agosto - 1 settembre, Pane Quotidiano compreso. Per adesso mi concentro sui perfezionare/aggiustare/completare il pannello/ad/worker ed il marketplace, così quando inizierò mi concentrerò solo sul business e non dovrò più preoccuparmi di migliorare o aggiustare questi due». **Sostituisce la data precedente (13/7/2026, superata senza conferma di ripresa)** — aggiornato `registro-fatti.json` (`ripresa.lavoro-operativo`) via `coerenza-fatti.mjs`, nessuna copia vecchia trovata nei file vivi (guardiano exit 0). **Implicazione operativa fino al 24/8-1/9:** niente check-in/spinte commerciali su Pane Quotidiano né su nuovi negozi (resta fermo, previsto — vedi [[pane-quotidiano-non-e-churn]]); il lavoro prioritario è tecnico — fix e stabilizzazione di Pannello, AD (worker/motore), marketplace — non acquisizione. Business invariato: 1 PQ, 4 buyer, 0 pagati. Fonte: chat Nicola 23/7 ~21:xx (casella `consegne/account-negozi/2026-07-21-negozio-fermo-pane-quotidiano.md`).
 
@@ -1039,14 +1041,14 @@ fonte: AD digitale (report giornaliero rigenerato)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ riconfermati SQL diretta 23/7 18:28 · invariati dal 20/7 20:22)
-| Numero | Oggi (23/7 18:28) | Δ vs 20/7 | "Riuscito" | Note |
+## I 7 numeri (✅ riconfermati SQL diretta 23/7 18:02 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
+| Numero | Oggi (23/7 18:02) | Δ vs 20/7 | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Pulizia demo 18:30 — solo PQ live |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ Stripe collegato, payout-test su ordine vero |
 | Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ · 253 demo eliminati dal DB 18:32 |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 24/6 CANCELED — 1° ordine va CREATO ex-novo |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~636h (~26,5 gg) ▲ +11h vs 11:00 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~29 giorni · ordine test in pausa fino al 24/8-1/9 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST · sentinella-dati ordini=1 |
@@ -1147,17 +1149,14 @@ fonte: AD digitale (report giornaliero rigenerato)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 23/7 ~18:00 — chat)
-**Entrambi i token GitHub sono chiusi:** ✅ #219 (scrittura VPS, risolto 16:02, PR #510 mergiata) e ✅ #221 (lettura Vercel/Pannello, risolto 16:27, confermato da Nicola «tutto verde» 16:53) — un solo PAT unico (repo `mycity`+`ad-mycity`, Contents+PR read/write) messo in `cervello/vps/.env` + `GITHUB_TOKEN` + `OBSIDIAN_TOKEN` su Vercel. Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~704h** (~29,3 giorni). Cassa Stripe 0€. **Nuovo problema aperto:** 🟡 tab "Diretta contenuti" sparito dal menu Pannello dopo il Redeploy — verifica in corso, vedi entry chat 16:53. **Lavori duplicati in coda (cassa-cieca 76x, sensori-ciechi 39x):** RISOLTO 17:11 — fix implementato (etichetta fissa + anti-doppione sul tasto Riprova, generale su tutte le sentinelle), **PR #512 aperta, in attesa merge Nicola (card #225)**.
+## Prossime priorità (🛰️ aggiornato 23/7 18:05 — report della sera)
+**Entrambi i token GitHub sono chiusi:** ✅ #219 (scrittura VPS, risolto 16:02, PR #510 mergiata) e ✅ #221 (lettura Vercel/Pannello, risolto 16:27, confermato da Nicola «tutto verde» 16:53) — un solo PAT unico (repo `mycity`+`ad-mycity`, Contents+PR read/write) messo in `cervello/vps/.env` + `GITHUB_TOKEN` + `OBSIDIAN_TOKEN` su Vercel. Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~29 giorni**. Cassa Stripe 0€. **⏸ DECISIONE 23/7 ~17:45 (Nicola):** inserimento nuovi negozi rinviato al **24/8-1/9** per motivi di costi personali — fino ad allora si lavora SOLO su Pannello/AD/worker/marketplace (tecnico), non su acquisizione/marketing verso l'esterno. 12 azioni negozi/marketing marcate "in pausa" in coda (riprendono da sole al 24/8-1/9): carosello catalogo PQ, post social, referral, WhatsApp anchor, ordine test PQ, welcome email, ecc. **Restano attive:** PI26 (finanzia il marketplace stesso, non l'acquisizione), la sveglia intelligence (monitoraggio bandi/mercato) e tutto il lavoro tecnico.
 
-1. [ ] 🔴 **Invia domanda PI26** — sportello a esaurimento, scade 30/7 ore 16:00 (7 giorni residui), fino a €10.000 fondo perduto; bozza pronta in `consegne/relazioni-istituzionali/`. Priorità economica più alta di oggi.
-2. [ ] 🔴 **Pubblica il carosello del catalogo PQ** — pronto, finestra consigliata **17:00-19:00 di oggi** (`#post-carosello-bio-2307`).
-3. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1, fermo da giorni (`#ordine-test-pq`).
-4. [ ] 🟡 **Verifica "Diretta contenuti" sparito dal Pannello** — controllare su Vercel → Deployments quale build è marcato Production (deve essere di oggi, commit `e98f1e85`+); se in cima c'è un deployment più vecchio del 19/7, rifare Redeploy scegliendo quello più recente.
-5. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice già su main).
-6. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
-7. [ ] 🟡 **`BURN_MENSILE_EUR=302` nel `.env` VPS** — chiude alla radice la card sensore-cassa, identica da 9+ diagnosi consecutive (14/7→23/7); @finanza passa da ridiagnosi a proposta-fix.
-8. [ ] 🔴 **Mergia PR #512** — fix dedup lavori duplicati (etichetta fissa cassa-cieca/sensori-ciechi + anti-doppione generale sul tasto "Riprova", copre tutte le sentinelle), card #225 in coda. Dopo il merge: verificare anche salute-bassa (7x), volano-fermo (7x), fonti-web-morte (6x) — stessa causa o diversa, non ancora controllate.
+1. [ ] 🔴 **Invia domanda PI26** — sportello a esaurimento, scade 30/7 ore 16:00 (7 giorni residui), fino a €10.000 fondo perduto; bozza pronta in `consegne/relazioni-istituzionali/`. Priorità economica più alta, non è toccata dal rinvio negozi.
+2. [ ] 🔴 **Mergia le due PR pronte del Pannello** — #512 (fix dei lavori duplicati in coda, card #225) e #513 (deploy automatico del Pannello a ogni merge, card #226). Poi chiudi su GitHub la #511 senza mergiarla (sostituita dalla #513, card #224).
+3. [ ] 🟡 **Verifica "Diretta contenuti" sparito dal Pannello** — controllare su Vercel → Deployments quale build è marcato Production (deve essere di oggi, commit `e98f1e85`+); se in cima c'è un deployment più vecchio del 19/7, rifare Redeploy scegliendo quello più recente.
+4. [ ] 🟡 **`BURN_MENSILE_EUR=302` nel `.env` VPS** — chiude alla radice la card sensore-cassa, identica da 9+ diagnosi consecutive (14/7→23/7); @finanza passa da ridiagnosi a proposta-fix.
+5. ⏸ **In pausa fino al 24/8-1/9** (non riproporre prima): ordine test PQ, carosello catalogo PQ, post social (domenica/lunedì/siamo-in-23), referral porta-un-amico, 3 WhatsApp anchor, welcome email, zona/orario consegna, tazzina PQ, check-in PQ, comunicato stampa PI26 (cita PQ).
 
 **Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~704h) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª+ diagnosi identica) · Telegram assente · n8n/REST/Stripe/Resend/Sito/Pannello ✅ · push GitHub VPS ✅ RISOLTO 16:02 · token Vercel/Pannello ✅ RISOLTO 16:27 (confermato 16:53) · loop ritmo/giro ✅ fermo da solo dopo 13:23 · "Diretta contenuti" nel menu Pannello 🟡 NUOVO (da verificare) · lavori duplicati in coda 🟡 NUOVO (causa trovata, fix in attesa del sì).
 

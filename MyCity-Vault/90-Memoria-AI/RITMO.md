@@ -740,3 +740,27 @@ Push GitHub VPS risolto (16:02, PAT rigenerato, PR #510 mergiata). Resta rosso s
 
 **Dettagli tecnici**
 7 numeri riconfermati con query SQL diretta (orders/products/profiles), invariati dal 20/7. Push GitHub VPS: da 130 commit fermi a 1 solo (risolto 16:02, PR #510 `82dd378f`). Resta aperto il token separato di Vercel (#221). Coda AZIONI-IN-ATTESA: 47 aperte, 0 nuove oggi. Consegne di oggi: PR #510, diagnosi cassa-runway, supervisione negozi, playbook recensioni, playbook recupero carrelli, post carosello PQ.
+
+## Report della sera · 2026-07-23 18:05
+
+**Com'è andata oggi**
+- Nicola ha deciso di rinviare l'inserimento di nuovi negozi al 24 agosto - 1 settembre per motivi di costi personali: fino ad allora si lavora solo su Pannello, AD e marketplace, non su acquisizione o marketing verso i negozi
+- I due token GitHub rotti (uno sul server, uno su Vercel) sono stati sistemati e verificati con un push vero, non solo dichiarati a parole
+- Trovata la causa dei lavori che si ripetevano decine di volte nel Pannello (un'etichetta sbagliata) e preparato il fix, pronto da mergiare
+
+**I numeri**
+- 1 negozio · 4 clienti iscritti · 0 ordini pagati · stallo ~29 giorni — invariati, ma ora è una pausa voluta, non un blocco subito
+
+**Da approvare**
+- Invia la domanda del bando PI26 — scade il 30 luglio, fino a 10.000€ a fondo perduto, non è toccata dalla pausa sui negozi
+- Mergia le due PR pronte del Pannello: il fix dei lavori doppi e il deploy automatico
+- Controlla su Vercel se la voce "Diretta contenuti" è tornata nel menu del Pannello
+
+**Lezione di oggi**
+- Quando un lavoro si ripete decine di volte senza motivo, quasi sempre è un'etichetta che cambia a ogni giro invece di restare fissa — trovato e sistemato oggi
+
+**Domani**
+- Prima cosa utile: verifica se le due PR del Pannello sono state mergiate, poi il lavoro macchina resta su Pannello/AD/marketplace com'è stato deciso oggi (i negozi restano fermi fino al 24/8-1/9)
+
+**Dettagli tecnici**
+7 numeri riconfermati via SQL diretta alle 18:02 (invariati dal 24/6, stesso ordine zombie CANCELED del 24/6). Token GitHub VPS risolto 16:02 (PR #510 `82dd378f` mergiata), token Vercel/Pannello risolto 16:27. Causa lavori duplicati (cassa-cieca 76×, sensori-ciechi 39×): etichetta di dedup legata al numero di giro invece che fissa → fix in PR #512 (card #225). Auto-deploy Pannello filtrato su `pannello/` → PR #513 (card #226), sostituisce la #511 in conflitto (card #224, chiudere senza merge). Decisione rinvio negozi registrata in `registro-fatti.json` (`ripresa.lavoro-operativo`) via `coerenza-fatti.mjs`, guardiano exit 0. Coda AZIONI-IN-ATTESA: 47 aperte (35 attive + 12 marcate "in pausa" fino al 24/8-1/9), 0 nuove oggi oltre quelle già in coda.
