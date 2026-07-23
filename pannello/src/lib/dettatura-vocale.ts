@@ -26,6 +26,14 @@ function suIOS(): boolean {
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 }
 
+/** Brave espone `navigator.brave` (sincrono): usato per dare un messaggio vero invece di "vai nelle
+ * impostazioni" — Brave blocca di proposito il servizio Google di riconoscimento vocale, non è un
+ * permesso che si sblocca da lì (limite noto e permanente del browser). */
+function suBrave(): boolean {
+  if (typeof navigator === "undefined") return false;
+  return Boolean((navigator as Navigator & { brave?: unknown }).brave);
+}
+
 /** Messaggio chiaro se il browser non può dettare (es. iPhone/Safari). */
 export function avvisoDettaturaNonDisponibile(): string | null {
   const SR = speechRecognitionCtor();
@@ -38,6 +46,9 @@ export function avvisoDettaturaNonDisponibile(): string | null {
 
 function messaggioErrore(code: string): string {
   if (code === "not-allowed" || code === "service-not-allowed") {
+    if (suBrave()) {
+      return "Su Brave la dettatura vocale non funziona: il browser blocca di proposito il servizio Google usato per capire la voce (limite di Brave, non un permesso da sbloccare). Apri il Pannello da Chrome per dettare, oppure scrivi il messaggio a mano.";
+    }
     return "Microfono bloccato. Nelle impostazioni del browser o del telefono consenti l'accesso al microfono per MyCity, poi riprova.";
   }
   if (code === "no-speech") {
