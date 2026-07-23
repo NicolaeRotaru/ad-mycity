@@ -679,3 +679,22 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 - Business invariato (verificato 12:58, non ri-controllato ora per non sprecare un altro giro a vuoto): 1 negozio, 5 prodotti, 4 clienti, 0 ordini pagati, stallo ~699h. Push GitHub: 121 commit locali fermi (era 119 alle 12:58) — peggiora ma stessa causa nota (token PAT). **Scoperta di questo giro:** il timer di sistema (`mycity-ritmo-mattino.timer`) è configurato correttamente per le sole 06:00 (`OnCalendar=*-*-* 06:00:00 Europe/Rome`, verificato nel file) — quindi le 6 esecuzioni di oggi (11:45/12:26/12:47/12:52×2/13:01) **non vengono dal timer di sistema**, ma da invocazioni ravvicinate esterne (chat/loop) che rilanciano lo stesso comando. I commit `ritmo AD (mattino)` + `recupero: scritture pendenti da ritmo interrotto` delle 12:53/13:00/13:01 confermano run precedenti interrotti prima di scrivere questo blocco. **Passo-a @devops-sre:** trovare cosa sta rilanciando "piano del mattino" ogni pochi minuti (non il timer) e fermarlo — è lo spreco reale di oggi, non il business fermo. Nessuna nuova card 🟡/🔴 accodata.
+
+## Piano del mattino · 2026-07-23 13:20
+
+**In una riga:** Questo è il 6° "piano del mattino" scritto oggi in meno di 2 ore — il business è fermo esattamente come alle 13:01, l'unica cosa che sta davvero cambiando è il push GitHub, sempre più indietro.
+
+**Le 3 cose di oggi**
+1. Fai un ordine di prova su Pane Quotidiano — sblocca la crescita da zero a uno, ferma da tre giorni.
+2. Invia la domanda del bando PI26 — chiude tra 7 giorni (30 luglio), bozza già pronta.
+3. Dai l'ok per pubblicare il carosello con tutto il catalogo di Pane Quotidiano — pronto, meglio nel tardo pomeriggio.
+
+**Serve da te**
+- Fai un ordine di prova su Pane Quotidiano (10 minuti, sul sito)
+- Invia la domanda PI26 su restart.infocamere.it
+- Dai l'ok per pubblicare il carosello di oggi
+- Controlla il token di GitHub del progetto — 128 commit del mio lavoro sono fermi qui sul server dal 22/7 mattina, non arrivano online
+- Chiedi a chi gestisce il server perché il "piano del mattino" si sta riscrivendo da solo ogni 15-20 minuti da quasi 2 ore (non è il timer, verificato) — è lo spreco vero di oggi
+
+**Dettagli tecnici**
+- Non ho ri-verificato i 7 numeri (invariati da 12:58, un'altra query sarebbe un altro giro a vuoto — vincolo AR-113/delta-gate). Push GitHub: 128 commit locali fermi (era 121 alle 13:01), stessa causa nota (token PAT rotto dal 22/7 08:20), in peggioramento costante. Nessuna nuova card 🟡/🔴 accodata: le 4 in [[AZIONI-IN-ATTESA]] restano le uniche valide. Il loop stesso (giro+ritmo+recupero che si rilanciano ogni 2-5 minuti da 90+ minuti, con run interrotti a metà scrittura) è ora il rischio operativo più alto della giornata — va sopra il business fermo nella lista delle priorità per @devops-sre.

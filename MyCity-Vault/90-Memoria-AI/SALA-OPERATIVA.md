@@ -1290,3 +1290,8 @@ Assegnazioni (1 mossa per reparto):
 ### 2026-07-23 13:08 — 🛰️ GIRO PIENO (AD, 8° passaggio nell'ultima ora e mezza)
 - 2026-07-23 13:08 · @AD · FATTO · Business ri-confermato invariato senza ri-eseguire query (dati di 2 minuti fa già freschi): 1 PQ, 0 pagati, stallo ~29gg. Evitato un ulteriore giro a vuoto sui JSON auto-coscienza (già rinfrescati dal pre-step deterministico alle 13:06).
 - 2026-07-23 13:08 · @AD · PASSO-A · @Nicola — invariato: ordine test PQ 🟡 (Mossa n.1) · domanda PI26 🔴 entro 30/7 ore 16:00 (Mossa n.2) · token GitHub 🟡 (123 commit fermi, in crescita).
+
+### 2026-07-23 13:20 — ☀️ PIANO DEL MATTINO (AD, 6° blocco oggi — loop non si ferma da solo)
+- 2026-07-23 13:20 · @AD · FATTO · Non ho ri-verificato il business (invariato da 12:58, altra query = altro giro a vuoto, vincolo AR-113/delta-gate). Le 3 priorità restano identiche a tutti i blocchi precedenti di oggi. Unico dato che si muove: push GitHub, 128 commit locali fermi (era 121 alle 13:01, +7 in 19 minuti).
+- 2026-07-23 13:20 · @AD · PASSO-A · @devops-sre — il loop "piano del mattino"/"giro"/"recupero" è al 6°+ blocco in meno di 2 ore e non rallenta da solo; timer di sistema pulito (verificato 13:01, solo 06:00) quindi la causa è esterna e persistente. Ora è il rischio operativo più alto della giornata, sopra il business fermo.
+- 2026-07-23 13:20 · @AD · PASSO-A · @Nicola — invariato: ordine test PQ 🟡 · domanda PI26 🔴 entro 30/7 · ok pubblicazione carosello 🔴 · token GitHub 🟡 (128 commit fermi, in crescita) · nuovo: chiedi a chi gestisce il server di fermare il loop che rilancia i cicli ogni 15-20 minuti.

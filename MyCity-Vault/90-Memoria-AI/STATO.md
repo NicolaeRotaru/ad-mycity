@@ -1129,19 +1129,19 @@ fonte: AD digitale (giro pieno richiesto, 8° passaggio nell'ultima ora e mezza)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 23/7 13:01 — Piano del mattino, 6° blocco oggi: causa del loop trovata)
-**PI26 scade tra 7 giorni (30/7) — domanda non ancora inviata.** Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~699h** (~29,1 giorni). Cassa Stripe 0€. **Nuovo:** `git rev-list origin/main..HEAD` = **121 commit locali mai arrivati su GitHub** (erano 119 alle 12:58) — stesso token rotto dal 22/7 08:20, in peggioramento. **Nuovo (2):** il timer di sistema del mattino è configurato correttamente per le sole 06:00 — le 6 esecuzioni di "piano del mattino" di oggi (11:45→13:01) non vengono da lì ma da invocazioni ravvicinate esterne che si sono anche interrotte prima di scrivere (commit `recupero: scritture pendenti` alle 12:51/12:53/13:01); questo, non il business, è lo spreco reale della mattinata.
+## Prossime priorità (🛰️ aggiornato 23/7 13:20 — Piano del mattino, 6° blocco oggi: loop peggiora, non si ferma da solo)
+**PI26 scade tra 7 giorni (30/7) — domanda non ancora inviata.** Business INVARIATO dal 24/6 (non ri-verificato dalle 12:58 per non sprecare un altro giro a vuoto): 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~699h** (~29,1 giorni). Cassa Stripe 0€. **Nuovo:** `git rev-list origin/main..HEAD` = **128 commit locali mai arrivati su GitHub** (erano 121 alle 13:01, saliti in 19 minuti) — stesso token rotto dal 22/7 08:20, in peggioramento costante. **Nuovo (2):** il loop di "piano del mattino"/"giro"/"recupero" non si è fermato da solo — 6° blocco piano-mattino in meno di 2 ore, con run interrotti a metà scrittura; il timer di sistema resta pulito (solo 06:00, verificato alle 13:01), quindi la causa è esterna e continua a ripetersi.
 
 1. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1, fermo da 3 giorni (`#ordine-test-pq`).
 2. [ ] 🔴 **Invia domanda PI26** — sportello aperto, 7 giorni residui (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
 3. [ ] 🔴 **Pubblica il carosello del catalogo PQ** — pronto oggi, fascia 17:00-19:00 (`#post-carosello-bio-2307`).
-4. [ ] 🟡 **Ripara il token GitHub** — 121 commit fermi sul VPS dal 22/7 08:20, nessuna PR/memoria nuova arriva online; senza fix il Pannello hosted resta indietro.
-5. [ ] 🟡 **Trova e ferma cosa rilancia "piano del mattino" ogni pochi minuti** — non è il timer di sistema (verificato: solo 06:00); 6 esecuzioni oggi tra 11:45 e 13:01, alcune interrotte a metà scrittura. Passo-a @devops-sre.
+4. [ ] 🟡 **Ripara il token GitHub** — 128 commit fermi sul VPS dal 22/7 08:20, in crescita continua; nessuna PR/memoria nuova arriva online; senza fix il Pannello hosted resta indietro.
+5. [ ] 🟡 **Trova e ferma cosa rilancia "piano del mattino"/"giro" ogni pochi minuti** — non è il timer di sistema (verificato: solo 06:00); 6+ esecuzioni oggi tra 11:45 e 13:20, alcune interrotte a metà scrittura, il ritmo non rallenta. Ora il rischio più alto della giornata. Passo-a @devops-sre.
 6. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice già su main).
 7. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
 8. [ ] 🟡 **`BURN_MENSILE_EUR=302` nel `.env` VPS** — chiude alla radice la card sensore-cassa, identica da 9 diagnosi consecutive (14/7→23/7); @finanza passa da ridiagnosi a proposta-fix.
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~699h) · push GitHub rotto 🔴 (121 commit non pushati, dal 22/7 08:20, in crescita) · piano-mattino ri-lanciato ripetutamente 🟡 (nuovo, causa non-timer da trovare) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª diagnosi identica — vedi voce 8) · Telegram assente · n8n ✅ · REST/Stripe/Resend/Sito/Pannello/MCP Supabase ✅ (12:58).
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~699h) · push GitHub rotto 🔴 (128 commit non pushati, dal 22/7 08:20, in crescita) · loop ritmo/giro ri-lanciato ripetutamente 🔴 (peggiorato: 6+ blocchi in 2h, non rallenta da solo) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª diagnosi identica — vedi voce 8) · Telegram assente · n8n ✅ · REST/Stripe/Resend/Sito/Pannello/MCP Supabase ✅ (12:58, non ri-controllato).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
