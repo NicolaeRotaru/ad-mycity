@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 23:17
+aggiornato: 2026-07-24 00:10
 fonte: AD digitale (auto-radiografia)
 ---
+
+> 💬 **24/7 ~00:10 — CHAT: causa trovata del "deploy Vercel che parte e sparisce" — commit di memoria su main lo cancella, non un guasto Vercel.** Nicola ha collegato il fix duplicati chat (PR #517, mergiata 23/7 20:46, verificato già su main) al problema che il deploy manuale su Vercel «parte, poi sparisce» quando lo prova lui. L'AD ha confermato: è il comportamento normale di Vercel (un commit nuovo su `main` cancella il deploy in corso e ne fa partire uno per l'ultimo) incrociato con la cadenza di scrittura memoria→main di questa macchina (quasi a ogni messaggio) — non serve rifare il deploy manuale se la versione online è già successiva al fix. Verificato: il deployment Production di 15 min prima è **successivo** al merge delle 20:46 → il fix dei duplicati dovrebbe essere già live, resta da confermare con un refresh forte lato Nicola. Lezione salvata in [[LEZIONI-CHAT]]. Business invariato: 1 PQ, 4 buyer, 0 pagati. Fonte: chat Nicola 24/7 ~00:10.
 
 > 🔧 **23/7 22:53-23:17 — Primi 2 fix bloccanti della radiografia in PR, `/loop 10m` attivato per proseguire da sola.** Nicola «Risolvi tutti i problemi» sui 16 difetti trovati — l'AD ha rifiutato il blitz unico («farli tutti insieme è più rischioso che utile, alcuni toccano proprio il sistema che ti protegge») e ha sequenziato: **PR #518** (autopilota Pannello ora rispetta la PAUSA + verifica l'allowlist email prima di inviare, stesso controllo già esistente da terminale, card #231) e **PR #519** (freno "stop se superi il budget token" ora conta anche le stime, prima restava a zero anche oltre 1,3M token/giorno, card #232) — entrambe in attesa di merge Nicola. La #519 non è stata testata dal vivo (comando bloccato dai permessi di sessione), solo verificata a codice. Nicola ha poi attivato **`/loop 10m`**: l'AD procede da sola ogni 10 minuti sul prossimo bug più serio in coda (PI26 senza allarme reale, permessi di sessione troppo larghi, ecc.), un fix alla volta con branch+PR separata. Fonte: chat Nicola 23/7 22:53-23:17.
 
