@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-23 11:37",
+  "aggiornato": "2026-07-23 11:47",
   "_nota_giro_23_07_1136": "Passaggio di verifica sul giro 23/7 11:35 (stessa giornata, ~1 minuto dopo): con MCP Supabase disponibile in questa sessione, ho ri-verificato con query dirette tutto ciò che il passaggio precedente aveva segnato come Gap L1 (\"nessun accesso REST/MCP live\") — confermati 1 seller/4 buyer/5 prodotti/1 ordine zombie/0 pagati, più un dato nuovo: 3 carrelli abbandonati reali su PQ mai convertiti. Lezione riusabile: il sensore `mcp_supabase` può segnare \"cieco\" per più giri consecutivi e poi rispondere normalmente nella sessione successiva — è intermittenza di canale (CLAUDE.md: \"comodità di sessione\"), non un guasto da riparare; prima di dichiarare un Gap definitivo, vale la pena ritentare l'accesso diretto quando il canale lo permette, invece di accettare passivamente lo stato del sensore dell'ultimo giro.",
   "_nota_giro_23_07_1135": "Giro 23/7 11:35 (primo giro pieno dopo 3 giorni di sole sentinelle automatiche 21-23/7): business invariato (4 buyer, 0 pagati, stallo ~698h). Chiusi i 3 vincoli macchina rimasti scaduti: CHECKLIST-NICOLA (AR-030), OKR-Squadra target scaduto→gate (AR-115), EXP-004 misurato/mancato + EXP-013 aperto (AR-041/106). L-2026-0723-445 nuova (lezione giri interrotti). Card 🟡 #218 accodata a devops-sre. Nessuna query REST/MCP live in questa sessione (canale senza quei tool in allowlist) — numeri riportati dall'ultimo giro pieno confermato (20/7 20:22).",
   "_nota_metabolizzazione_21_07_0057": "Chat 21/7 ~00:57: Nicola «controlla davvero tutti i bandi… sul web» — AD re-audit vault+portali 00:41, verdetto quasi completa, bottleneck PI26 30/7 + startup innovativa. L-444 nuova; L-288 evidenze 2 addendum re-audit; preferenza bandi-reaudit-web; STATO+LEZIONI-CHAT+finanza-agevolata+relazioni-istituzionali+ad esito; nessuna azione/decisione completata.",
@@ -10449,9 +10449,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-23 11:37",
+    "tasso_calcolato_il": "2026-07-23 11:47",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-23 11:37",
+    "tick_leggero_il": "2026-07-23 11:47",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
