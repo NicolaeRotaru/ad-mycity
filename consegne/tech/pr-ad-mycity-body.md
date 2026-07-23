@@ -1,43 +1,36 @@
 ## Cosa
 
-L'autopilota del Pannello (esegue da solo le azioni 🟢) e la funzione che invia le email reali
-(`eseguiAzione`, usata sia dal click "Approva" sia dall'autopilota) non controllavano due cose che
-invece la via da terminale (`cervello/consenso-azione.mjs`, AR-103) già controlla:
-
-1. **La PAUSA (kill-switch)**: se Nicola la preme dal Pannello, oggi l'autopilota continua comunque
-   a eseguire azioni verdi — l'interruttore non arriva fin lì.
-2. **L'allowlist destinatari email** (`cervello/mani-allowlist.json`): un'email poteva partire verso
-   qualunque indirizzo scritto nel testo dell'azione, senza controllare che sia autorizzato.
+Il freno "fermati se superi il budget token giornaliero" (`cervello/costo-ai.mjs`) non scattava mai:
+il contatore usato dal gate (`token_totali`) resta a 0 per costruzione, perché `giro.sh`/`ritmo.sh`
+passano SEMPRE `--stima` (nessuna fonte di conteggio reale esiste in questa sessione CLI) — e le
+stime, per design, non alzavano quel contatore.
 
 ## Perché
 
-Trovato nell'auto-radiografia del 23/7 (AR-138, AR-139) — dettagli in
-`MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md`. Nessun danno reale è mai successo (oggi non
-ci sono destinatari email in allowlist, quindi ogni invio sarebbe comunque finito in coda), ma le
-condizioni tecniche per un'azione reale senza vera firma esistevano già.
+Trovato nell'auto-radiografia del 23/7 (AR-144) — nello stesso giorno il "Piano del mattino" si è
+ripetuto 7 volte in ~100 minuti (oltre 1,3M token stimati), e il gate è rimasto silenzioso per
+tutto il tempo perché confrontava la soglia con uno zero. Dettagli in
+`MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md`.
 
 ## Cosa cambia (in pratica)
 
-- Se la pausa è attiva, l'autopilota non esegue nulla (e si ferma a metà giro se viene premuta
-  mentre sta lavorando) — stesso comportamento del kill-switch da terminale.
-- Un'email reale parte solo se il destinatario è nella lista `cervello/mani-allowlist.json → "email"`
-  (oggi vuota — quindi NESSUNA email reale può partire finché non la popoli tu, com'è già oggi via
-  terminale). Se non è in lista, l'azione resta "in coda" con il motivo scritto in chiaro.
+Il gate ora guarda il PIÙ ALTO fra token reali e token stimati (non li somma, così se un giorno
+arriva un conteggio vero non si "diluisce" con le stime). Finché arriva solo la stima — sempre,
+oggi — è lei a far scattare l'allarme oltre soglia. Il messaggio del sensore ora mostra entrambi i
+numeri (reali + stimati) invece di uno solo, così è chiaro su cosa si basa il gate.
 
 ## Come si prova
 
-- `cd pannello && npx tsc --noEmit` → nessun errore (verificato).
-- Attivare `pausa` da Supabase (`impostazioni.chiave=pausa` → `valore=on`) e lanciare
-  `POST /api/azioni-pronte/autopilota` → risposta `{ok:true, attivo:true, eseguite:0, in_pausa:true}`,
-  nessuna azione eseguita.
-- Con `pausa` off e un'azione 🟢 canale email con destinatario NON in `mani-allowlist.json`:
-  l'esito torna "coda" con dettaglio "Bloccata dall'allowlist: …".
-- Non verificato dal vivo nel browser (sessione headless): solo typecheck + lettura del codice.
+- Letto il codice riga per riga e contato parentesi/graffe bilanciate (52/52 `{}`, 99/99 `()`) —
+  **non sono riuscito a eseguire `node cervello/costo-ai.mjs` per una prova dal vivo**: il comando è
+  stato negato dal sistema di permessi in questa sessione (stesso comando che in teoria è in
+  allowlist, ma il permesso non è arrivato). Lo dichiaro esplicitamente: verifica solo per lettura,
+  non per esecuzione. Consiglio di lanciarlo a mano una volta (`node cervello/costo-ai.mjs --json`)
+  dopo il merge per conferma, prima di fidarsi ciecamente del gate nuovo.
+- Modifica piccola e localizzata (due righe di calcolo + due stringhe di log), nessun cambio allo
+  schema del file salvato né alla logica di accumulo dei contatori esistenti.
 
-## Non ancora fatto (fuori scope di questa PR, per non farla troppo grande)
+## Non ancora fatto (fuori scope)
 
-- Il controllo AZIONE_ID/APPROVATA (per le azioni 🟡/🔴) non è stato portato qui: si applica solo
-  alla via CLI perché le azioni 🟢 sono per design auto-eseguibili senza quella firma testuale
-  (vedi CLAUDE.md, "Doer mode"). Se in futuro l'autopilota dovesse eseguire anche 🟡/🔴, va aggiunto.
-- Il colore 🟢/🟡/🔴 resta testo libero non riverificato lato server (AR-140) — proposto come fix
-  separato, non incluso qui per tenere questa PR piccola e sicura da rivedere.
+- Non risolve la causa delle ripetizioni a raffica del giro/ritmo (AR-145) — quello è un fix
+  separato, già proposto, non incluso qui.
