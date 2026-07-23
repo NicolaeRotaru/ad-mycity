@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { creaLavoro, getLavoroById, patchLavoro } from "@/lib/store";
+import { chiaveSentinella, creaLavoro, getLavoroById, lavoroSentinellaGiaInCoda, patchLavoro } from "@/lib/store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -29,6 +29,22 @@ export async function POST(req: NextRequest) {
         { ok: false, error: "Questa azione è già stata rimessa in coda. Controlla i lavori in attesa prima di riprovare.", giaRiproposto: true },
         { status: 409 }
       );
+    }
+
+    // Anti-doppione (AR-114): se questo lavoro viene da una sentinella (es. "cassa cieca") e c'è
+    // GIÀ un lavoro identico in coda (in_attesa/in_corso) — tipico quando più lavori della stessa
+    // sentinella falliscono in fila e vengono riprovati uno per uno — non ne creo un altro: la
+    // diagnosi è già in coda una volta, basta.
+    const chiave = chiaveSentinella(vecchio.richiesta || "");
+    if (chiave) {
+      const esistente = await lavoroSentinellaGiaInCoda(chiave);
+      if (esistente) {
+        await patchLavoro(jobId, {
+          stato: "fatto",
+          risultato: `${(vecchio.risultato || "").slice(0, 1500)}\n[non riproposto: stessa diagnosi già in coda come ${esistente} il ${new Date().toISOString()}]`,
+        });
+        return NextResponse.json({ ok: true, nuovo: null, duplicato: esistente });
+      }
     }
 
     const nota = `RIPROVA (riapprovata da Nicola dal Pannello il ${new Date().toISOString()}). Azione originale fallita:\n\n`;
