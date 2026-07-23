@@ -9,6 +9,7 @@
 import { creaLavoro } from "@/lib/store";
 import { isCanaleGithub } from "@/lib/github-pr-merge";
 import { esaminaOnesta, riassuntoViolazioni } from "@/lib/onesta-check";
+import { readRepoFile } from "@/lib/vault";
 
 export type EsitoStato = "fatta" | "simulata" | "coda";
 export type Esito = { stato: EsitoStato; dettaglio: string };
@@ -38,6 +39,24 @@ function oggettoDa(testo: string, titolo: string): string {
 // Il corpo: il testo senza la riga "Oggetto:".
 function corpoDa(testo: string): string {
   return (testo || "").replace(/^\s*Oggetto:\s*.+$/im, "").trim();
+}
+
+// AR-139: la via CLI (cervello/consenso-azione.mjs::destinatarioAmmesso) blocca l'invio email
+// a destinatari non in allowlist; questa via (click "Approva" dal Pannello + autopilota) non lo
+// faceva — stesso file, stessa logica, letto qui con lo stesso fail-closed (file illeggibile o
+// email assente dalla lista → non ammesso).
+async function destinatarioEmailAmmesso(dest: string): Promise<{ ok: boolean; motivo?: string }> {
+  const raw = await readRepoFile("cervello/mani-allowlist.json");
+  let lista: string[] = [];
+  try {
+    const al = raw ? JSON.parse(raw) : {};
+    lista = Array.isArray(al.email) ? al.email.map((x: unknown) => String(x).toLowerCase()) : [];
+  } catch {
+    lista = [];
+  }
+  return lista.includes(String(dest || "").toLowerCase())
+    ? { ok: true }
+    : { ok: false, motivo: `email "${dest}" non in allowlist — aggiungila a cervello/mani-allowlist.json → "email"` };
 }
 
 async function inviaEmail(a: string, oggetto: string, testo: string): Promise<{ ok: boolean; error?: string }> {
@@ -106,6 +125,10 @@ export async function eseguiAzione(a: AzioneEseguibile): Promise<Esito> {
   const live = process.env.AZIONI_LIVE === "on" || process.env.AZIONI_LIVE === "1";
   if (!live) {
     return { stato: "simulata", dettaglio: `Simulata (modalità test) → ${a.destinatario} · ${ora}. Per inviare davvero imposta AZIONI_LIVE=1.` };
+  }
+  const ammesso = await destinatarioEmailAmmesso(a.destinatario);
+  if (!ammesso.ok) {
+    return { stato: "coda", dettaglio: `Bloccata dall'allowlist: ${ammesso.motivo}` };
   }
   const r = await inviaEmail(a.destinatario, oggetto, corpo);
   return r.ok
