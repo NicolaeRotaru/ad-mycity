@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 16:53
-fonte: AD digitale (chat — token GitHub risolto, nuovo bug UI segnalato)
+aggiornato: 2026-07-23 17:10
+fonte: AD digitale (report giornaliero rigenerato)
 ---
+
+> 📋 **23/7 17:10 — Report giornaliero rigenerato (retry azione approvata).** Numeri riverificati con query SQL diretta (`orders`/`profiles`/`products`): business invariato (1 PQ, 4 buyer, 0 pagati, stallo ~29gg). Aggiornato rispetto al report delle 11:49 con i due sblocchi di oggi (token GitHub VPS #219 e Vercel #221, entrambi chiusi) e il nuovo bug segnalato da Nicola (voce menu "Diretta contenuti" sparita dal Pannello, da verificare su Vercel Deployments). **Invio email non eseguito**: `mani-allowlist.json.email` è vuota (AR-103 fail-closed) — serve l'indirizzo di Nicola per attivarlo. Report: [[Report/2026-07-23-giornaliero]].
 
 > 💬 **23/7 ~16:53 — CHAT: entrambi i token GitHub risolti (#219+#221 chiusi) — nuovo bug: tab "Diretta contenuti" sparito dal menu Pannello.** Nicola conferma: «ho creato il nuovo token repo mycity+ad-mycity, contents e pr in read e write e l'ho incollato dentro vps.env, vercel github_token e obsidian_token, è tornato tutto verde» — un solo PAT unico messo in 3 posti chiude sia #219 (scrittura VPS) sia #221 (lettura Vercel/Pannello), come da lezione L-447 (i due token sono distinti ma qui Nicola li ha allineati insieme). **Card #221 chiusa in [[AZIONI-IN-ATTESA]]** (commit `154c43b4`). **Nuovo problema segnalato:** dopo l'ultimo Redeploy manuale su Vercel è sparita la voce di menu "Diretta contenuti" (sopra "Lavori") dal Pannello — ipotesi AD (non ancora verificata): il Redeploy ha ripubblicato un deployment Vercel precedente al 19/7 (data in cui quella voce è entrata nel codice) invece dell'ultimo commit `e98f1e85`+. **Serve da Nicola:** controllare su Vercel → Deployments quale build è marcato Production e se serve un Redeploy sul deployment più recente (non uno storico). Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 23/7 ~16:53.
 

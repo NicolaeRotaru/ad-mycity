@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-23 18:00",
+  "aggiornato": "2026-07-23 17:07",
   "_preferenza_nicola_23_07_1800_dedup_lavori_identici": "📌 FATTO DUREVOLE Nicola (chat 23/7 ~18:00, allegati screenshot lavori) — vuole che i lavori IDENTICI ripetuti in coda (stessa analisi rigenerata più volte, es. dopo che i limiti Claude erano scaduti e le analisi fallite sono state riprovate) vengano SOVRAPPOSTI/aggiornati invece di accumularsi come card separate. Preferenza generale riusabile: quando una sentinella/analisi produce lo stesso risultato di un lavoro già in coda, il sistema deve riconoscerlo come lo STESSO lavoro (aggiorna timestamp/contenuto) e non crearne uno nuovo — vale sia per il ciclo normale sia per i retry dopo un blocco (limite settimanale, errore). Vedi anche la lezione root-cause in LEZIONI-CHAT.md 23/7 (etichetta di dedup instabile = numero di giro invece di etichetta fissa).",
   "_nota_metabolizzazione_23_07_1800": "Chat 23/7 ~18:00: Nicola segnala analisi duplicate nei lavori (screenshot) dopo che i limiti Claude erano scaduti e i retry dal Pannello ne avevano creati di nuovi invece di riusare quelli esistenti. AD ha verificato nel DB: cassa-cieca ripetuta 76x dal 14/7, sensori-ciechi 39x — causa: le due sentinelle usano il numero del giro come etichetta invece di una fissa, quindi il controllo anti-doppione non scatta mai; negozi-fermi 25x è invece normale (si ripete ogni 24h a negozio fermo). Fix proposto (etichetta fissa + check-prima-di-creare sul tasto Riprova) in attesa del sì di Nicola. Aggiornati STATO.md (nuova mossa + priorità #8) e LEZIONI-CHAT.md (nuova lezione in cima, rimossa la più debole/vecchia del 20/7 per restare a 12).",
   "_nota_metabolizzazione_23_07_1656": "Chat 23/7 ~16:56-16:58: Nicola, allarmato («è una cagata enorme, non deve mai più succedere»), attribuisce alla PR #510 appena mergiata il fatto che il Pannello «è tornato indietro di un paio di aggiornamenti» e chiede di annullare tutto. L'AD ha verificato col diff reale (`git diff` sul merge commit) invece di eseguire il rollback richiesto: PR #510 tocca SOLO 5 file (2 script Ollama nuovi + 3 dati interni, orari solo in avanti, zero righe di Pannello) — innocente, un revert avrebbe buttato lavoro buono senza risolvere nulla. Causa vera trovata: `pannello/vercel.json` con `deploymentEnabled.main:false` — il Pannello non si aggiorna da solo al merge, richiede Redeploy manuale su Vercel, ed è facile scegliere per sbaglio un deployment vecchio dalla lista invece dell'ultimo. L-2026-0723-448 nuova (caso_studio_nicola, root-cause RICORRENTE — stesso identico difetto già trovato e corretto il 10/7, poi rimesso a `false` per la quota Vercel Hobby con un Deploy Hook, vedi lezione 10/7 18:50 in questo stesso file). Card 🟡 #223 accodata (fix: `ignoreCommand` filtrato su `pannello/` invece di `deploymentEnabled:false` totale — auto-deploy solo sui commit che toccano il Pannello, niente spreco di quota sui commit di sola memoria). Nessuna azione business/decisione da registrare oltre #223 (già in AZIONI-IN-ATTESA con tutto il dettaglio tecnico).",
@@ -10518,13 +10518,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 461,
+    "lezioni_attive": 462,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.16,
-    "tasso_calcolato_il": "2026-07-23 16:57",
+    "tasso_calcolato_il": "2026-07-23 17:07",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-23 16:57",
+    "tick_leggero_il": "2026-07-23 17:07",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
