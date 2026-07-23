@@ -792,7 +792,7 @@ rispondi_chat_stream() {
   if [ -z "$out" ]; then
     # streaming non disponibile/vuoto → esecuzione normale, risposta finale garantita corretta.
     local cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
-    out="$(timeout --kill-after=30s "$to" "${cmd[@]}" "$prompt" 2>&1)"; rc=$?
+    out="$(ai_run_con_fallback_ollama "$to" "$prompt" "${cmd[@]}")"; rc=$?
   fi
 }
 
@@ -1361,7 +1361,7 @@ $richiesta"
       salva_sessione_chat "$gruppo_id" "${CHAT_NUOVA_SESSIONE:-}"
     else
       [ "$compito_router" != "ragionamento" ] && echo "[$(ts)] Lavoro $id: router suggerisce ${modello_scelto:-?} ma ROUTER_SOLO_CONSIGLIO → esecuzione premium ($(ai_engine))." >&2
-      out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" "$prompt" 2>&1)"; rc=$?
+      out="$(ai_run_con_fallback_ollama "$to" "$prompt" "${AI_CMD[@]}")"; rc=$?
     fi
     if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
       stato="errore"; out="$out
