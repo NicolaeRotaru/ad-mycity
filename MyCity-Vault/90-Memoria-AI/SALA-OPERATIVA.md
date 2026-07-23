@@ -1311,3 +1311,7 @@ Assegnazioni (1 mossa per reparto):
 ### 2026-07-23 16:39 — 🛰️ GIRO PIENO richiesto (AD, 10°+ passaggio in giornata)
 - 2026-07-23 16:39 · @AD · FATTO · Business riconfermato invariato senza ri-eseguire query MCP/REST né riscrivere i JSON auto-coscienza: `delta-gate.json` conferma firma identica dalle 13:27 (ultima verifica 16:20, 19 min fa). Applicata la strategia snella già validata in memoria (`[[playbook-giro-pieno-ripetuto-strategia]]`) sotto vincolo AR-113. Unico fatto nuovo dal giro delle 13:27: token GitHub VPS rigenerato da Nicola e verificato con push reale (PR #510), commit fermi 130→~1.
 - 2026-07-23 16:39 · @AD · PASSO-A · @Nicola — invariato: ordine test PQ 🟡 (Mossa n.1) · domanda PI26 🔴 entro 30/7 ore 16:00 (Mossa n.2) · firma pubblicazione carosello catalogo PQ 🔴 (Mossa n.3, finestra di oggi).
+
+### 2026-07-23 16:46 — 🛰️ GIRO PIENO richiesto (AD, 11°+ passaggio in giornata)
+- 2026-07-23 16:46 · @AD · FATTO · Business riconfermato invariato senza ri-eseguire query MCP/REST: `delta-gate.json` conferma firma identica dalle 16:40 (7 minuti fa). Applicata di nuovo la strategia snella (`[[playbook-giro-pieno-ripetuto-strategia]]`) sotto vincolo AR-113 — nessun fatto nuovo dal passaggio precedente oltre il trascorrere del tempo.
+- 2026-07-23 16:46 · @AD · PASSO-A · @Nicola — invariato: ordine test PQ 🟡 (Mossa n.1) · domanda PI26 🔴 entro 30/7 ore 16:00 (Mossa n.2) · firma pubblicazione carosello catalogo PQ 🔴 (Mossa n.3, in scadenza entro le 19:00 di oggi).

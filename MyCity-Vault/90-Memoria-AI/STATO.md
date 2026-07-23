@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 18:28
-fonte: AD digitale (report della sera — 7 numeri riconfermati via query SQL diretta)
+aggiornato: 2026-07-23 16:46
+fonte: AD digitale (giro pieno richiesto — 11°+ passaggio in giornata, strategia snella)
 ---
+
+> 🛰️ **23/7 16:46 — GIRO PIENO richiesto, 11°+ passaggio in giornata, business invariato.** Delta-gate conferma firma identica dalle 16:40 (7 minuti fa): 1 PQ, 5 prodotti, 4 buyer, 0 pagati, stallo ~29gg. Nessuna ri-query pesante (strategia snella, `giro.md` §0 + AR-113 — vedi [[playbook-giro-pieno-ripetuto-strategia]]). Coda 47 aperte, nessuna nuova. **Mossa n.1: ordine test PQ. Mossa n.2: PI26 entro 30/7. Mossa n.3: firma carosello catalogo PQ (scade entro le 19 di oggi).** Briefing: [[Briefing/2026-07-23]].
 
 > 🌙 **23/7 18:28 — REPORT DELLA SERA.** Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 1 ordine (CANCELED), **0 pagati**, stallo confermato via query SQL diretta (`orders`/`products`/`profiles`) — identica alle verifiche di oggi 11:59/12:00/12:52/12:58. Giornata segnata da un fatto vero: **token GitHub VPS rotto → rigenerato da Nicola 16:02, push verificato con PR #510 mergiata**, i 130 commit fermi sono tornati a 1 solo non pushato. Coda AZIONI-IN-ATTESA: **47 aperte**, nessuna nuova oggi (evitato il pattern "loop a vuoto" segnalato ripetutamente in memoria — 6+ blocchi "piano del mattino" ravvicinati fermatisi da soli dopo le 13:23). 3 consegne pronte aspettano solo la firma: carosello catalogo PQ (finestra 17-19 oggi), domanda PI26 (scade 30/7), ordine test PQ. Dettaglio: [[RITMO]].
 
