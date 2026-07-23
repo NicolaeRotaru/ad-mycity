@@ -212,24 +212,24 @@ Sarebbe la prima recensione verificata di MyCity a Piacenza — grazie di cuore!
 promemoria: una sola ripetizione gentile +2 giorni se silenzio, poi stop.
 stato: BOZZA PRONTA — gate ordine-prova PQ **Consegnato**. **Ri-verificato 2026-07-20 11:27:** 0 consegne → nessun invio oggi. Link `{ID-ORDINE-PROVA}` si riempie all'atto della prima consegna reale.
 
-## A27 · ⭐ Playbook recensioni — ri-verifica 20/7 (0 consegne, messaggi armati)
+## A27 · ⭐ Playbook recensioni — ri-verifica 23/7 (0 consegne, messaggi armati, 8ª verifica identica dal 14/7)
 reparto: customer-success
 livello: 🟢 (sola lettura + bozze) · 🔴 l'invio al cliente reale
 canale: WhatsApp/email/in-app (manuale A13→A14) oppure email automatica Resend (#recensioni-trigger)
-perche: Nicola ha riapprovato il playbook recensioni. Serve sapere **chi** contattare dopo ogni consegna e avere il testo pronto — senza inventare destinatari quando non c'è nessuna consegna.
+perche: Nicola ha riapprovato il playbook recensioni (RIPROVA dal Pannello, 23/7 09:28). Serve sapere **chi** contattare dopo ogni consegna e avere il testo pronto — senza inventare destinatari quando non c'è nessuna consegna.
 preparato: 🤗 customer-success — playbook `consegne/customer-success/2026-07-01-playbook-recensioni.md` + pacchetto `consegne/customer-success/2026-07-20-playbook-recensioni-pronte.md`
-snapshot live (REST 20/7 11:27 · playbook worker):
+snapshot live (SQL diretta 23/7 12:09 · tabella `orders` intera):
   · Ordini totali: **1**
-  · Consegne completate: **0**
-  · Recensioni (negozio + prodotto): **0**
+  · Consegne completate (`delivery_status=DELIVERED`): **0**
+  · Recensioni (`store_reviews`+`reviews`, verificate 20/7, invariate): **0**
   · Consegne senza recensione da sollecitare: **0**
-  · Ordine zombie CANCELED `58094956…` — **non contattare**
+  · Ordine zombie CANCELED `58094956…` — **non contattare** (stesso ordine dal 24/6, mai consegnato)
 gate: messaggio parte SOLO su `delivery_status=DELIVERED`. Touch 2 recensione solo se Touch 1 ≠ 👎.
 cosa usare:
   · **Concierge (primi ordini):** A13 (grazie + feedback +3h) → se 👍 A14 (link recensione +1g)
   · **Automazione volume:** template `consegne/customer-success/2026-07-11-template-email-recensione.md` — firma **#recensioni-trigger** in [[AZIONI-IN-ATTESA]]
 se va bene: alla prima consegna PQ il cliente riceve grazie entro poche ore e, se contento, link recensione → prime stelle verificate su MyCity.
-stato: VERIFICATO 2026-07-20 11:27 — nessun destinatario oggi; bozze pronte per la prima consegna reale (pacchetto `consegne/customer-success/2026-07-20-playbook-recensioni-pronte.md`).
+stato: VERIFICATO 2026-07-23 12:09 — nessun destinatario oggi (8ª verifica di fila con lo stesso esito, dal 14/7); bozze pronte e invariate per la prima consegna reale. **Nota efficienza:** ri-eseguire questo playbook ogni giorno non produce nulla di nuovo finché non c'è una consegna DELIVERED — conviene agganciarlo come trigger sull'evento (o attendere `#ordine-test-pq`), non come cadenza giornaliera.
 
 ## A9 · 💚 Rassicurazione standalone al titolare — Pane Quotidiano (parte anche se l'ordine è ancora fermo)
 ⚠️ **SUPERATA il 2026-07-06 12:41 → sostituita dalla riga #26 in [[AZIONI-IN-ATTESA]].** Premessa morta: lo script diceva «il primo ordine sta tardando ad arrivare», ma l'ordine #16 è stato ANNULLATO il 3/7 (non "in ritardo"). NON usare questo testo. Usa lo script post-annullamento §3 di `consegne/account-negozi/2026-07-06-anti-churn-pane-quotidiano-post-annullamento.md` (coda #26).

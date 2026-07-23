@@ -8,6 +8,7 @@ reparto: customer-success
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-23 12:10 · playbook recensioni post-consegna (RIPROVA 23/7, 8a esecuzione identica dal 14/7) · verificato dati live, 0 destinatari — corretto non inventare · atteso individuare consegne senza recensione → reale 0 consegne DELIVERED in tutto il DB (stesso stato dal 14/7) · #recensioni-trigger
 - 2026-07-20 11:28 · playbook recensioni 20/7 11:27 · 0 destinatari, bozze A4/A13/A14 ok · atteso 0 consegne senza recensione identificate → reale 0 consegne senza recensione (REST live) · #recensioni
 - 2026-07-19 12:54 · playbook recensioni 19/7 · 0 consegne, 0 recensioni, messaggi A4/A13/A14 pronti · atteso destinatari da sollecitare se consegna → reale 0 · #recensioni
 - 2026-07-14 11:13 · playbook recensioni 14/7 11:11 · REST ok;0 consegne;0 recensioni;messaggi A4+A13+A14+A27 pronti · atteso 0 invii (nessun destinatario) → reale 0 invii · #recensioni
