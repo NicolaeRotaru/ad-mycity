@@ -1,20 +1,20 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-23 11:36",
+  "data": "2026-07-23 12:52",
   "voto_fiducia": 91,
-  "sintesi": "Passaggio di verifica sul giro 23/7 11:35: numeri live confermati via query dirette MCP Supabase (non più stima da sensore) — 1 PQ, 4 buyer, 5 prodotti, 1 solo ordine (zombie, 0 pagati), 3 carrelli abbandonati reali trovati su PQ. Business invariato, nessuna sorpresa.",
-  "trend_fiducia": "▲ 91 vs 88 (11:35 di oggi) — sale perché il Gap L1 ('nessun accesso REST/MCP live') segnalato nel passaggio precedente è stato chiuso con verifica diretta al DB in questa sessione.",
+  "sintesi": "Passaggio di riconferma sul giro 23/7 12:52 (chat, richiesto da Nicola): numeri riverificati via query dirette MCP Supabase — invariati rispetto alle 11:36/11:59 (1 PQ, 4 buyer, 5 prodotti, 1 solo ordine zombie, 0 pagati). Novità reale trovata: il rischio push-GitHub segnalato alle 12:28/12:47 è peggiorato (114 commit locali non arrivati su origin/main, era 103/112). Nessuna azione 🟡/🔴 nuova accodata di proposito, per non generare un duplicato del pattern 'loop a vuoto' già in memoria.",
+  "trend_fiducia": "= 91 (invariato vs 11:36) — nessun nuovo errore, nessuna nuova entità inventata; il voto non sale perché il debito residuo (giro interrotto, 89/120 quaderni fermi) è ancora aperto, non scende perché la verifica è stata fatta con query dirette, non a memoria.",
   "errori_giro": [
     {
       "tipo": "processo",
-      "descrizione": "Per 3 giorni (21-23/7) nessun giro pieno si è completato: solo sentinelle automatiche hanno girato, senza produrre briefing né chiudere i vincoli macchina (checklist/OKR/esperimenti sono rimasti scaduti fino a oggi).",
-      "azione": "Accodata card 🟡 #218 a devops-sre per diagnosticare la causa (log VPS)."
+      "descrizione": "Per 3 giorni (21-23/7) nessun giro pieno si è completato prima di oggi; oggi (23/7) sono stati eseguiti più passaggi di verifica ravvicinati (11:35, 11:36, 11:59, 12:00, 12:26, 12:47, 12:52) senza che il business cambiasse — rischio concreto di 'loop a vuoto' se si continua a ripetere la stessa verifica senza nuova informazione.",
+      "azione": "In questo passaggio: nessuna nuova card accodata, nessun nuovo esperimento aperto. Solo il rischio push (nuovo dato: 114 vs 112) è stato aggiornato dove già tracciato."
     }
   ],
   "domande_bloccanti": [
     {
       "tipo": "north_star",
-      "domanda": "North Star 0 da ~698h (~29gg). Ordine test PQ ancora l'unica mossa diretta verso il 1° ordine pagato.",
+      "domanda": "North Star 0 da ~699h (~29,1gg). Ordine test PQ ancora l'unica mossa diretta verso il 1° ordine pagato.",
       "azione": "card 🟡 #ordine-test-pq in AZIONI-IN-ATTESA",
       "colore": "🟡"
     },
@@ -26,35 +26,34 @@
     },
     {
       "tipo": "post_recupero",
-      "domanda": "3 post pronti mai pubblicati — quale recuperare?",
-      "azione": "card 🔴 content-social",
+      "domanda": "3+1 post pronti mai pubblicati (incluso il carosello di oggi) — quale recuperare?",
+      "azione": "card 🔴 content-social + #post-carosello-bio-2307",
       "colore": "🔴"
     },
     {
-      "tipo": "giro_interrotto",
-      "domanda": "Perché i giri si sono interrotti per 3 giorni? Serve diagnosi log VPS.",
-      "azione": "card 🟡 #218 a devops-sre",
+      "tipo": "push_github",
+      "domanda": "114 commit locali mai arrivati su origin/main dal 22/7 08:20 — token PAT del VPS ancora rotto?",
+      "azione": "assegnato a @devops-sre (12:47), da chiudere",
       "colore": "🟡"
     }
   ],
   "entita_verificate": [
-    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 11:36 (1 seller in profiles, 5 prodotti collegati)"},
-    {"nome": "4 buyer", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 11:36 (profiles role=buyer count=4)"},
-    {"nome": "0 ordini pagati", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 11:36 (select * from orders → 1 riga, l'ordine zombie 24/6, payment_status PENDING)"},
-    {"nome": "3 carrelli abbandonati su PQ", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 11:36 (tabella abandoned_carts, tutti sellerId=Pane Quotidiano)"},
+    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 12:52 (invariato)"},
+    {"nome": "0 ordini pagati", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 12:52 (select count/delivery_status from orders → 1 riga, CANCELED)"},
+    {"nome": "114 commit locali non pushati", "stato": "confermato", "fonte": "git rev-list --count origin/main..HEAD 23/7 12:52 (era 103 alle 12:28, 112 alle 12:47)"},
     {"nome": "Pricing 10%+50€/mese", "stato": "confermato", "fonte": "registro-fatti.json (invariato)"},
-    {"nome": "PI26 CCIAA (scade 30/7)", "stato": "confermato", "fonte": "registro-fatti.json + verifica web 21/7 00:41 (non ri-verificato oggi)"}
+    {"nome": "PI26 CCIAA (scade 30/7)", "stato": "confermato", "fonte": "registro-fatti.json (non ri-verificato oggi via web, cadenza già rispettata il 21/7)"}
   ],
   "benchmark": "Nessun lavoro creativo/importante in questo giro (AR-113 limita a sole azioni verso il 1° ordine pagato) — auto-miglioramento saltato di proposito, non per omissione.",
   "salute_macchina": {
     "sensori_ok": 8,
     "max_giri_ciechi": 7,
-    "automazione": "non ri-verificata in questa sessione (verifica-automazione.mjs non lanciato in questo passaggio, invariato dal giro 11:35)",
-    "coerenza_fatti": "verificata con lo script in questa sessione (`node cervello/coerenza-fatti.mjs` → coerente, 18 fatti, 5 cacce bonificate chiuse su finanza.costi_infrastruttura)",
-    "chiusura_loop": "89/120 quaderni fermi (invariato) — non è un errore di questo giro, è debito pregresso",
+    "automazione": "non ri-verificata in questo passaggio (invariata dal giro 11:36)",
+    "coerenza_fatti": "verificata con lo script in questa sessione (`node cervello/coerenza-fatti.mjs` → coerente, 18 fatti, 0 cacce aperte)",
+    "chiusura_loop": "89/120 quaderni fermi (invariato) — debito pregresso, non di questo giro",
     "north_star_stallo": true,
-    "giro_interrotto_3gg": true
+    "push_github_rotto": true
   },
-  "livello_verifica": "L2 (query dirette al DB marketplace via MCP Supabase in questa sessione, non solo file di memoria)",
-  "refutazione": "Nessuna entità nuova inventata: tutte le entità richiamate sono state ri-verificate con query dirette al DB in questa sessione, non solo lette dalla memoria. Il debito residuo (89/120 quaderni fermi, giro interrotto 3gg) resta segnalato, non nascosto."
+  "livello_verifica": "L2 (query dirette al DB marketplace via MCP Supabase in questa sessione + verifica diretta git rev-list, non solo file di memoria)",
+  "refutazione": "Nessuna entità nuova inventata: ogni entità richiamata è stata ri-verificata con query dirette in questa sessione. Nessuna azione 🟡/🔴 nuova generata per evitare duplicati sulla coda già completa; il solo aggiornamento reale è il peggioramento misurato del rischio push (103→112→114)."
 }

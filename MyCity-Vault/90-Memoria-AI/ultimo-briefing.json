@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-23 11:59",
-  "situazione": "Ri-verificato con query SQL diretta su orders (MCP Supabase): 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine in tutto il DB (zombie 24/6, PENDING/CANCELED) — 0 ordini pagati, stallo ~698h (~29gg). Nessun cambiamento vs la verifica delle 11:36. Vincolo AR-113 attivo: nessun lavoro macchina nuovo oltre questa conferma. Mossa n.1: ordine test PQ (North Star). Mossa n.2: PI26 entro 7 giorni.",
+  "data": "2026-07-23 12:52",
+  "situazione": "Ri-verificato con query SQL diretta su orders (MCP Supabase): 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine in tutto il DB (zombie 24/6, CANCELED) — 0 ordini pagati, stallo ~699h (~29,1gg). Nessun cambiamento vs le verifiche delle 11:36/11:59. Vincolo AR-113 attivo: nessun lavoro macchina nuovo oltre questa conferma. Confermato peggiorato il rischio push: 114 commit locali non arrivati su origin/main (era 103 alle 12:28). Mossa n.1: ordine test PQ (North Star). Mossa n.2: PI26 entro 7 giorni.",
   "opportunita": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
@@ -24,7 +24,7 @@
   "azioni": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "North Star a 0 da ~698h (~29 giorni) — prova end-to-end checkout e pagamento",
+      "motivo": "North Star a 0 da ~699h (~29,1 giorni) — prova end-to-end checkout e pagamento",
       "livello": "giallo"
     },
     {
@@ -38,16 +38,16 @@
       "livello": "rosso"
     },
     {
-      "titolo": "Fai controllare a devops-sre perché i giri si interrompono",
-      "motivo": "3 giorni senza un giro pieno completato (solo sentinelle automatiche) — Nicola perde visibilità aggiornata",
+      "titolo": "Controlla e rinnova il token GitHub del progetto",
+      "motivo": "114 commit locali non arrivano su GitHub dal 22/7 08:20 — la Cabina e le PR restano indietro",
       "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo ~698h (>29 giorni), confermato via query diretta al DB",
+    "North Star 0 — stallo ~699h (>29 giorni), confermato via query diretta al DB",
+    "114 commit locali mai arrivati su origin/main (era 103 alle 12:28, push VPS ancora rotto)",
     "3 carrelli abbandonati reali su PQ mai recuperati (email inviate a giugno, nessuna conversione)",
-    "MCP Supabase riconciliato a ok (era segnato cieco 7 giri, ha risposto in questa sessione)",
-    "Runway sconosciuto — BURN_MENSILE_EUR assente (215 giri)",
+    "Runway sconosciuto — BURN_MENSILE_EUR assente",
     "Telegram non configurato — notifiche approvazione assenti"
   ]
 }

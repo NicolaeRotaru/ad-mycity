@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 12:28
+aggiornato: 2026-07-23 12:52
 fonte: AD digitale (giro chat — ri-verifica con vincolo AR-113 attivo)
 ---
+
+> 🛰️ **23/7 12:52 — GIRO (chat), ri-verifica sotto vincolo AR-113.** Query SQL diretta su `orders` (MCP): ancora **1 sola riga**, stesso ordine zombie del 24/6, **0 pagati**. Business invariato: 1 seller (Pane Quotidiano), 5 prodotti, 4 buyer, stallo ~699h (~29,1gg). Sensori 8/9 ok, coerenza-fatti pulita. **Confermato peggiorato:** 114 commit locali non ancora su `origin/main` (era 103 alle 12:28) — token push VPS ancora rotto, non blocca il business ma tiene la Cabina indietro. Nessuna azione nuova accodata (le 4 già in [[AZIONI-IN-ATTESA]] restano valide, niente duplicati). **Mossa n.1: ordine test PQ** (invariata). **Mossa n.2:** PI26 entro il 30/7. Briefing: [[Briefing/2026-07-23]].
 
 > 💬 **23/7 ~12:28 — CHAT: "Ciao" — token GitHub ad-mycity rotto, 103 commit locali mai arrivati su GitHub (verificato).** Nicola scrive solo «Ciao» (RIPROVA dopo stop per limite settimanale). AD verifica col repo: `git fetch` + confronto `origin/main..HEAD` = **103 commit locali non pushati**, fermi dal **22/7 08:20** (ultimo push riuscito su `origin/main`) — nessuna memoria/PR nuova arrivata su GitHub da allora, causa probabile token push scaduto/rotto (coerente con l'accodamento già scritto dal giro automatico). **Non urgente** per il business (nessuna PR in scadenza oggi), ma finché non si ripara nessuna modifica di codice esce dal branch locale, e la copia hosted del Pannello (se legge da GitHub) resta indietro. Business invariato: 1 PQ · 4 buyer · 0 pagati · stallo ~29gg. Un post carosello pronto in coda da approvare. Fonte: chat Nicola 23/7 ~12:28 + verifica git diretta (`git rev-list --count origin/main..HEAD`).
 
