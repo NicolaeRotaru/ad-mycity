@@ -73,3 +73,13 @@ In `AZIONI-IN-ATTESA.md` lo stesso comando è accodato **due volte** con nomi di
 ## Addendum 12:13 — RIPROVA riapprovata da Nicola, nessun cambiamento (8ª volta)
 
 Rieseguita perché Nicola ha premuto "riprova" sulla card dal Pannello alle 09:29. Ricontrollato `cassa-runway.json` (aggiornato 11:57, non ri-lanciato il sensore per non interrogare Stripe due volte a vuoto): **`giri_sconosciuto` ora 218** (era 217), cassa 0€, `burn_mensile_eur: null` — tutto invariato rispetto a sopra. Non c'è niente di nuovo da diagnosticare: il blocco resta lo stesso comando VPS che solo Nicola può lanciare (vedi sopra). Non serve una card "RIPROVA" per questa sentinella finché il comando non viene eseguito — riprovare non cambia l'esito perché non è un guasto della macchina, è un'azione che aspetta la sua firma sul terminale.
+
+## Addendum 12:23 — RIPROVA di nuovo (9ª volta, terza in 10 minuti)
+
+Nicola ha ripremuto "riprova" alle 09:29:03Z (stesso minuto della precedente, verosimilmente click ripetuti sulla stessa card). Ricontrollato `cassa-runway.json`: **`giri_sconosciuto` ora 219**, cassa 0€, `burn_mensile_eur: null` — invariato. **Fermo qui, non serve una quarta rilettura:** premere "riprova" su questa card non fa nulla, perché il blocco non è nella macchina — è un comando da incollare a mano nel terminale del VPS (Nicola ha accesso SSH, l'AD no sul file protetto). Se Nicola vuole chiudere davvero questa sentinella, l'unico passo è:
+
+```bash
+echo "BURN_MENSILE_EUR=302" >> /opt/mycity/ad-mycity/cervello/vps/.env && sudo systemctl restart mycity-worker-chat.service
+```
+
+Un comando, una volta sola, dal terminale del VPS — non dal Pannello. Finché non parte da lì, ogni "riprova" tornerà a questa stessa riga.
