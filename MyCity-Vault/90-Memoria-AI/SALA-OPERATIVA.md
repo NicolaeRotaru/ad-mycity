@@ -1244,3 +1244,8 @@ Assegnazioni (1 mossa per reparto):
 ### 2026-07-23 11:59 — Ri-verifica giro (vincolo AR-113 attivo)
 - 2026-07-23 11:59 · @AD · FATTO · Query diretta SQL su `orders` (MCP Supabase marketplace): 1 sola riga in tutto il DB — lo stesso ordine zombie del 24/6 (`58094956…`, 19,05€, payment_status PENDING, delivery_status CANCELED). Nessun ordine nuovo, nessun pagamento arrivato. North Star ancora ferma a 0.
 - 2026-07-23 11:59 · @AD · PASSO-A · @Nicola — invariato: **Mossa n.1 ordine test PQ**, **Mossa n.2 domanda PI26** (scade tra 7 giorni, 30/7 ore 16). Gate AR-113 resta attivo: nessun lavoro macchina nuovo oltre questa verifica finché non arriva il primo ordine pagato.
+
+### 2026-07-23 12:00 — 🕛 PUNTO DI MEZZOGIORNO (AD)
+- 2026-07-23 12:00 · @AD · FATTO · Ripreso il piano del mattino (RITMO.md 11:45): le 3 priorità sono ferme, nessuna sbloccata. ① ordine test PQ ❌ (SQL diretta: 1 ordine totale, 0 pagati, ultimo 24/6 — identico alle 11:59) ② domanda PI26 ❌ (non inviata, 7gg residui) ③ carosello `#post-carosello-bio-2307` 🔄 (pronto, gate orario 17-19, non ancora in ritardo). Coda AZIONI-IN-ATTESA: nessuna voce nuova, tutte e tre le card (#ordine-test-pq, #bandi-cciaa-2007, #post-carosello-bio-2307) ancora aperte come stamattina.
+- 2026-07-23 12:00 · @AD · FATTO · Nessuna correzione di rotta: il blocco è 100% decisionale (attesa firma Nicola), non tecnico — niente da riassegnare o sbloccare lato squadra. Diagnosi @devops-sre sui giri interrotti ancora in corso, dovuta entro il report della sera (non in ritardo).
+- 2026-07-23 12:00 · @AD · PASSO-A · @Nicola — invariato: ordine test PQ 🟡 · domanda PI26 🔴 (7gg) · ok pubblicazione carosello 🔴 (tardo pomeriggio).

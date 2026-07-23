@@ -1118,8 +1118,8 @@ fonte: AD digitale (giro chat — ri-verifica con vincolo AR-113 attivo)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 23/7 11:45 — Piano del mattino)
-**PI26 scade tra 7 giorni (30/7) — domanda non ancora inviata.** Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~698h** (~29,1 giorni). Cassa Stripe 0€. Sensori 9/9 ok (11:36).
+## Prossime priorità (🛰️ aggiornato 23/7 12:00 — Punto di mezzogiorno)
+**PI26 scade tra 7 giorni (30/7) — domanda non ancora inviata.** Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~698h** (~29,1 giorni). Cassa Stripe 0€. Sensori 9/9 ok (verifica diretta SQL 12:00: 1 ordine, 0 pagati, invariato dalle 11:45).
 
 1. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1, fermo da 3 giorni (`#ordine-test-pq`).
 2. [ ] 🔴 **Invia domanda PI26** — sportello aperto, 7 giorni residui (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.

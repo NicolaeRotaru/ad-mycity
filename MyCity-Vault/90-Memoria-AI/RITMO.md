@@ -588,3 +588,22 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 - Business invariato: 1 negozio, 5 prodotti, 4 clienti, 0 ordini pagati, stallo ~698h (~29 giorni). Sensori 9/9 ok (11:36) incluso MCP Supabase tornato attivo. Coda 47 azioni aperte, carosello `#post-carosello-bio-2307` pronto. Passo-a devops-sre: diagnosi 3 giorni di giri interrotti (solo sentinelle automatiche).
+
+## Punto di mezzogiorno · 2026-07-23 12:00
+
+**Le 3 di oggi, a che punto sono**
+1. ❌ Ordine di prova su Pane Quotidiano — ancora fermo. Ricontrollato ora sul database: sempre lo stesso unico ordine di giugno, zero pagati.
+2. ❌ Domanda PI26 — non ancora inviata. Restano 7 giorni (scade il 30 luglio).
+3. 🔄 Carosello del catalogo — pronto, in attesa dell'orario migliore (tardo pomeriggio, 17-19), niente da fare ora.
+
+**Correzioni di rotta**
+- Nessuna: non è emersa nessuna urgenza nuova nella mattinata, e nessuna delle tre priorità è bloccata da un problema tecnico — sono tutte ferme in attesa di un tuo sì.
+- Non sposto energie altrove: finché non parte il primo ordine, il resto del lavoro (nuovi negozi, campagne, automazioni) resta giustamente in pausa.
+
+**Serve da te entro sera**
+- Fai l'ordine di prova su Pane Quotidiano (10 minuti)
+- Invia la domanda PI26
+- Dai l'ok per pubblicare il carosello nel tardo pomeriggio
+
+**Dettagli tecnici**
+- Verifica diretta SQL 12:00: 1 ordine totale, 0 pagati, ultimo il 24/6 — invariato. Sensori 11/11 ok. Nessun avviso macchina nuovo dal 20/7. Diagnosi devops-sre sui giri interrotti in corso, risposta attesa entro il report della sera.
