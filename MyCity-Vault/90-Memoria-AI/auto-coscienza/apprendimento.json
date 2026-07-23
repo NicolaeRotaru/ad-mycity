@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-23 23:12",
+  "aggiornato": "2026-07-23 23:17",
+  "_nota_metabolizzazione_23_07_2317": "Chat 23/7 22:53-23:17: seguito diretto dell'auto-radiografia (22:20, 16 difetti trovati). Nicola «Risolvi tutti i problemi» → l'AD ha rifiutato il blitz unico e sequenziato: PR #518 (autopilota rispetta PAUSA + allowlist email, card #231) e PR #519 (freno budget-token conta anche le stime, card #232), entrambe in attesa di merge. Nicola ha chiesto perché non c'era ancora una PR — chiarito che i fix precedenti erano solo memoria (commit diretto). La #519 non testata dal vivo (comando bloccato dai permessi, terza occorrenza oggi dello stesso pattern dopo PR #512 e #517 — già ben coperto dalle lezioni esistenti su permessi/verifica, non serve una nuova voce). Nicola ha attivato `/loop 10m` per proseguire da sola sui prossimi bug. **Conferma pratica di L-2026-0723-455:** il fan-out con `Agent` in parallelo (14 chiamate) invece di `Workflow` ha funzionato end-to-end — tutti e 14 completati, sintesi scritta, nessun blocco — non solo teoria, evidenza incrementata. STATO+DECISIONI aggiornati; AZIONI-IN-ATTESA già aggiornata in sessione (card #231/#232); LEZIONI-CHAT.md invariato (nessuna lezione nuova abbastanza forte da spostare le 12 esistenti).",
   "_nota_metabolizzazione_23_07_2215": "Chat 23/7 ~22:15: Nicola chiede se il tool `Workflow` semplifica il lavoro e di usarlo se non crea problemi. L'AD ha provato una chiamata reale (`Workflow({name:\"auto-radiografia\"})`) e ha ricevuto l'errore \"Review dynamic workflow before running\" — il gate di conferma richiesto dal tool non è disponibile in sessione headless, quindi resta bloccato qui strutturalmente, non per un errore di setup. L-2026-0723-455 nuova (non caso_studio_nicola: è una scoperta tecnica confermata da un tentativo diretto, non una correzione); nessun nuovo fatto/decisione di business; LEZIONI-CHAT.md aggiornato in cima (rimossa la voce più debole/ridondante del 23/7 su git-pr.mjs, già coperta dalla lezione più recente e dettagliata sullo stesso tema).",
   "_nota_metabolizzazione_23_07_2044": "Chat 23/7 ~20:43-20:44 (continuazione della 19:45, stesso filo dei 3 bug segnalati da Nicola): «Vai con il punto 2 e 3» → l'AD ha fatto i punti (b) e (c) rimasti aperti. (b) 'Nuova chat' apriva 2 chat: causa trovata — un messaggio con ID provvisorio (in attesa di quello vero dal server) restava a video come seconda chat finta se nel frattempo scattava il refresh periodico del Pannello; ora riconosciuto e tolto. (c) chat Worker sovrapposta alla pagina: non era un bug per errore ma il comportamento costruito così — ora il click sul menu 'Worker' apre una scheda nuova del browser. `tsc`+test verificati (5 warning pre-esistenti invariati) prima del commit; PR #517 aperta, card #230 in coda. **Non verificato dal vivo nel browser** (sessione headless) — resta da provare dopo il merge. Punto (a) 'contatore token non visibile' resta non toccato. Nessuna lezione nuova da aggiungere: l'incidente git-pr.mjs ripetuto una terza volta con file diversi è già in LEZIONI-CHAT.md (riga sul git-pr/NUL, estesa nello stesso commit a7bc6f38) — questa nota completa solo la struttura lezioni/apprendimento.json e chiude il filo aperto dalla nota 19:45. STATO.md (priorità #2/#6, nuovo punto #8) e DECISIONI.md aggiornati con l'esito.",
   "_nota_metabolizzazione_23_07_2003": "Chat 23/7 ~20:00-20:03: Nicola segnala che si è duplicato un altro messaggio (screenshot), diverso dal caso già chiuso con PR #514 (quello copriva solo bolle ADIACENTI identiche). L'AD ha trovato il caso reale: un messaggio vecchio che ricompare più in fondo alla lista, non subito sotto l'originale — il vecchio `dedupRenderMsgs` non lo vedeva. Fix: dedup esteso a TUTTA la conversazione, non solo alla bolla precedente; funzione morta rimossa. **Incidente nello stesso giro (già corretto prima di consegnare, non arrivato a Nicola):** un `Edit` con placeholder `${a} ${b} ${c}` separati da spazio ha scritto byte NUL al posto degli spazi (git ha visto `page.tsx` come binario) — ricostruito riga per riga e riverificato identico al resto del file prima di committare. **Ripetuto anche l'errore della lezione di 3h prima** (file `.txt` estranei notati con `git status` ma non tolti PRIMA di lanciare `git-pr.mjs` → committati per sbaglio, poi ripuliti in un commit separato). PR #516 aperta, card #229 in coda per merge Nicola. L-2026-0723-454 nuova (git-pr.mjs: notare un rischio non basta, va rimosso PRIMA di lanciare lo script; NUL da Edit su placeholder consecutivi = verificare `git diff --stat`/\"Binary files differ\" prima di committare). Punti (b) Nuova-chat-doppia e (c) worker-sovrapposto della nota 19:45 restano NON toccati (fuori scope di questo turno). Già in LEZIONI-CHAT.md (rigo git-pr/NUL, commit e5d0cb6a) e AZIONI-IN-ATTESA (card #229) dal lavoro stesso della chat — questa nota completa la struttura lezioni/apprendimento.json.",
@@ -197,14 +198,14 @@
         "strumenti"
       ],
       "reparto": "@ad",
-      "confidenza": 0.9,
-      "evidenze": 1,
+      "confidenza": 0.95,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-23",
-      "ultima_conferma": "2026-07-23 22:15",
+      "ultima_conferma": "2026-07-23 22:53",
       "stato": "attiva",
-      "usi": []
+      "usi": ["auto-radiografia 23/7 22:20 — 14 Agent in parallelo completati end-to-end, sintesi scritta, nessun blocco"]
     },
     {
       "id": "L-2026-0723-454",
