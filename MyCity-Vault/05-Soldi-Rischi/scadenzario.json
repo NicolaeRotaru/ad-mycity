@@ -1,0 +1,17 @@
+{
+  "_cosa_e": "AR-147 — calendario unico delle scadenze ESTERNE reali di MyCity (bandi, fiscali, contrattuali, assicurative). Letto da cervello/scadenzario-check.mjs a ogni giro: calcola i giorni residui e accoda una card 🔴 (una sola volta, dedup su marcatore) quando una scadenza entra nella finestra di allarme e non è ancora chiusa. Popolato SOLO con date reali/fondate (fonte obbligatoria) — mai inventate.",
+  "aggiornato": "2026-07-24 00:10",
+  "scadenze": [
+    {
+      "id": "pi26-innovazione-digitale",
+      "titolo": "Bando PI26 (Innovazione Digitale, CCIAA) — 50% a fondo perduto, max 10.000€",
+      "scadenza": "2026-07-30 16:00",
+      "finestra_allarme_giorni": 7,
+      "importo": "fino a 10.000€ (50% a fondo perduto)",
+      "note": "A sportello (ordine cronologico) — domanda apre 20/7 ore 10:00, chi arriva prima ha priorità. Serve a finanziare hosting/consulenze/software del marketplace stesso.",
+      "fonte": "consegne/relazioni-istituzionali/2026-07-18-bandi-cciaa-pi26-be26.md",
+      "stato": "aperta",
+      "azione_collegata": "#bandi-cciaa-2007"
+    }
+  ]
+}
