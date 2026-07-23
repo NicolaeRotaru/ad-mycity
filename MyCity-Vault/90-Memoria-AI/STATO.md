@@ -1139,7 +1139,7 @@ fonte: AD digitale (chat Nicola — token GitHub VPS rigenerato e verificato)
 1. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1, fermo da 3 giorni (`#ordine-test-pq`).
 2. [ ] 🔴 **Invia domanda PI26** — sportello aperto, 7 giorni residui (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
 3. [ ] 🔴 **Pubblica il carosello del catalogo PQ** — pronto oggi, fascia 17:00-19:00 (`#post-carosello-bio-2307`).
-4. [ ] 🟡 **Ripara il token GitHub** — 128 commit fermi sul VPS dal 22/7 08:20, in crescita continua; nessuna PR/memoria nuova arriva online; senza fix il Pannello hosted resta indietro.
+4. [x] 🟡 **Ripara il token GitHub del VPS** — ✅ RISOLTO 23/7 16:02: Nicola ha rigenerato il PAT, l'AD ha verificato con push reale (PR #510 aperta e mergiata `82dd378f`, 16:03). Resta aperto un token DIVERSO: 🔴 **#221 — token GitHub di Vercel/Pannello** (`GITHUB_TOKEN`/`OBSIDIAN_TOKEN` su Vercel) — ancora rosso alle 16:04 nonostante un tentativo di Nicola; ipotesi non confermata: `OBSIDIAN_TOKEN` col valore vecchio ha priorità su `GITHUB_TOKEN` in `pannello/src/lib/obsidian.ts:7`. Finché resta rosso, il Pannello online mostra solo la cache vecchia e gli audit del codice del sito sono ciechi.
 5. [ ] 🟡 **Trova e ferma cosa rilancia "piano del mattino"/"giro" ogni pochi minuti** — non è il timer di sistema (verificato: solo 06:00); 6+ esecuzioni oggi tra 11:45 e 13:20, alcune interrotte a metà scrittura, il ritmo non rallenta. Ora il rischio più alto della giornata. Passo-a @devops-sre.
 6. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice già su main).
 7. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
