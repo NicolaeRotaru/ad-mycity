@@ -1,14 +1,43 @@
-## Cosa cambia
-Due bug della chat segnalati insieme da Nicola con screenshot:
+## Cosa
 
-1. **"Nuova chat" apriva a volte due conversazioni** — una che cresce normalmente, una gemella ferma al primo messaggio con lo stesso titolo.
-2. **La voce "Worker" nel menu apriva la chat sovrapposta alla pagina che si stava guardando**, non una finestra a sé come richiesto.
+L'autopilota del Pannello (esegue da solo le azioni 🟢) e la funzione che invia le email reali
+(`eseguiAzione`, usata sia dal click "Approva" sia dall'autopilota) non controllavano due cose che
+invece la via da terminale (`cervello/consenso-azione.mjs`, AR-103) già controlla:
+
+1. **La PAUSA (kill-switch)**: se Nicola la preme dal Pannello, oggi l'autopilota continua comunque
+   a eseguire azioni verdi — l'interruttore non arriva fin lì.
+2. **L'allowlist destinatari email** (`cervello/mani-allowlist.json`): un'email poteva partire verso
+   qualunque indirizzo scritto nel testo dell'azione, senza controllare che sia autorizzato.
 
 ## Perché
-1. Il primo messaggio di una chat nuova usa un id provvisorio (`sess_...`) finché il server non risponde con l'id vero. Se il poller che ricarica le conversazioni scatta prima che questa "promozione" sia completata, il segnaposto provvisorio non risulta mai nella lista fresca del server e la fusione delle liste lo rimetteva comunque a video per sempre, come una seconda chat fantasma. Ora un segnaposto che non è più la chat attiva ed è assente dalla lista del server viene scartato.
-2. La voce "Worker" nel menu apre ora una vera scheda del browser (`window.open`), non più un overlay sopra la pagina corrente. La nuova scheda riconosce il parametro `?worker=1` nell'URL, pulisce l'URL e apre subito la vista Worker a schermo intero.
+
+Trovato nell'auto-radiografia del 23/7 (AR-138, AR-139) — dettagli in
+`MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md`. Nessun danno reale è mai successo (oggi non
+ci sono destinatari email in allowlist, quindi ogni invio sarebbe comunque finito in coda), ma le
+condizioni tecniche per un'azione reale senza vera firma esistevano già.
+
+## Cosa cambia (in pratica)
+
+- Se la pausa è attiva, l'autopilota non esegue nulla (e si ferma a metà giro se viene premuta
+  mentre sta lavorando) — stesso comportamento del kill-switch da terminale.
+- Un'email reale parte solo se il destinatario è nella lista `cervello/mani-allowlist.json → "email"`
+  (oggi vuota — quindi NESSUNA email reale può partire finché non la popoli tu, com'è già oggi via
+  terminale). Se non è in lista, l'azione resta "in coda" con il motivo scritto in chiaro.
 
 ## Come si prova
-- `npx tsc --noEmit` pulito (dentro `pannello/`)
-- `node --test src/lib/chat-thread-merge.test.mts` → 4/4 verde (non toccata da questo fix, solo a riprova che non regredisce)
-- Non verificato dal vivo nel browser (sessione headless, npm run dev richiederebbe un'approvazione che qui non può comparire). Da provare a mano: 1) aprire una chat nuova e mandare subito un messaggio, controllare che in "Conversazioni" resti UNA sola voce; 2) dal menu, cliccare "Worker" e controllare che si apra una scheda nuova del browser invece di sovrapporsi.
+
+- `cd pannello && npx tsc --noEmit` → nessun errore (verificato).
+- Attivare `pausa` da Supabase (`impostazioni.chiave=pausa` → `valore=on`) e lanciare
+  `POST /api/azioni-pronte/autopilota` → risposta `{ok:true, attivo:true, eseguite:0, in_pausa:true}`,
+  nessuna azione eseguita.
+- Con `pausa` off e un'azione 🟢 canale email con destinatario NON in `mani-allowlist.json`:
+  l'esito torna "coda" con dettaglio "Bloccata dall'allowlist: …".
+- Non verificato dal vivo nel browser (sessione headless): solo typecheck + lettura del codice.
+
+## Non ancora fatto (fuori scope di questa PR, per non farla troppo grande)
+
+- Il controllo AZIONE_ID/APPROVATA (per le azioni 🟡/🔴) non è stato portato qui: si applica solo
+  alla via CLI perché le azioni 🟢 sono per design auto-eseguibili senza quella firma testuale
+  (vedi CLAUDE.md, "Doer mode"). Se in futuro l'autopilota dovesse eseguire anche 🟡/🔴, va aggiunto.
+- Il colore 🟢/🟡/🔴 resta testo libero non riverificato lato server (AR-140) — proposto come fix
+  separato, non incluso qui per tenere questa PR piccola e sicura da rivedere.
