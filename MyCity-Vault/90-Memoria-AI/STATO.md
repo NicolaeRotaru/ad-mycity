@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-24 00:26
+aggiornato: 2026-07-24 00:33
 fonte: AD digitale (auto-radiografia)
 ---
+
+> 💬 **24/7 ~00:33 — CHAT: Nicola approva «applica la pausa» — fix scritto e pushato, PR bloccata di nuovo dal rate limit GitHub.** Seguito diretto della causa trovata alle 00:26 (il commit di log dell'AD dopo un proprio merge cancella il deploy Vercel in corso). Fix: il commit di memoria post-merge resta salvato in locale ma il **push su GitHub aspetta 3 minuti** prima di partire (`cervello/worker.sh`, +17 righe) — branch `fix/sync-vault-pausa-post-merge` pushato (commit `812e945a`), ma l'apertura della PR è fallita per lo stesso rate limit GitHub che ha bloccato anche AR-147 poco prima stanotte. **Card #merge-pausa-post-merge-worker in [[AZIONI-IN-ATTESA]]** (🟡, firma Nicola al merge) — serve riprovare `git-pr.mjs` tra qualche minuto o aprire la PR a mano. **Ancora manca la conferma visiva su Vercel** (fila "Canceled — superseded") e la verifica che il fix funzioni davvero al prossimo merge. Business invariato: 1 PQ, 4 buyer, 0 pagati. Fonte: chat Nicola 24/7 ~00:33.
 
 > 💬 **24/7 ~00:26 — CHAT: trovato il colpevole preciso — è l'AD stessa, col commit di log che scrive SUBITO dopo aver mergiato una PR.** Nicola ha chiesto conferma di aver capito bene: «i branch delle PR che crei tu vengono sovrapposti ai commit della memoria». L'AD ha verificato con gli orari veri dei commit (non a occhio) su 3 PR recenti: **#520** merge 23:48:43 → commit di log dell'AD 23:48:44 (**1 secondo dopo**); **#518** merge 22:55:57 → commit di log 22:56:44 (47s dopo); **#517** merge ~20:47 → commit di log 20:52:10 (~5 min dopo). In tutti e 3 i casi il commit di log arriva mentre Vercel sta ancora costruendo il sito dal merge — e lo cancella lui stesso. Non è la cadenza generica di scrittura memoria→main (nota delle 00:10/00:22): è specificamente il **riflesso "mergi → registro subito in memoria"** che ammazza il proprio deploy appena partito. Fix proposto (non ancora applicato, in attesa del sì di Nicola): aspettare qualche minuto dopo un merge prima di scrivere il commit di log. **Ancora da confermare visivamente su Vercel** (fila di "Canceled — superseded"), ma ora la causa ha un meccanismo preciso e riproducibile, non solo plausibile. Business invariato: 1 PQ, 4 buyer, 0 pagati. Fonte: chat Nicola 24/7 ~00:26.
 
