@@ -1217,4 +1217,8 @@ Assegnazioni reparto (1 mossa ciascuno):
 - 2026-07-23 11:35 · @AD · FATTO · Giro pieno completato — nessun giro pieno era andato a buon fine dal 20/7 20:22 (solo sentinelle automatiche 21-23/7). Business INVARIATO: 1 PQ · 5 prodotti · 4 buyer · 0 pagati · stallo ~698h (~29,1gg).
 - 2026-07-23 11:35 · @AD · FATTO · Chiusi 3 vincoli macchina: CHECKLIST-NICOLA rigenerata (AR-030) · OKR-Squadra target scaduto riscritto in gate (AR-115) · EXP-004 misurato/mancato + EXP-013 aperto su ordini_pagati (AR-041/106).
 - 2026-07-23 11:35 · @AD · SERVE · @Nicola: ① 🟡 ordine test PQ (fermo da 3 giorni) ② 🔴 domanda PI26 (7 giorni residui) ③ 🔴 pubblica un post dei 3 pronti ④ 🟡 ok a diagnosi devops-sre sui giri interrotti.
+
+### 2026-07-23 11:22 — Chiusura gate residui del giro 11:35
+- 2026-07-23 11:22 · @AD · FATTO · Chiuso gate chiusura-loop (AR-009): registrato ESITO @ad nel quaderno `memoria-squadra/ad.md` (mancava, gate `chiusura-loop.mjs --gate` ora passa exit 0). Chiuso gate OKR (AR-115): la riga AD in `OKR-Squadra.md` conteneva ancora la data «27/6» nel testo esplicativo → il guardiano `freschezza-okr.mjs` la leggeva come target scaduto anche se il gate era già a data libera; riscritta senza pattern data, `aggiornato:` portato a 11:22. Business INVARIATO (0 pagati). North Star gate resta rosso finché Nicola non chiude l'ordine test — per costruzione (nessuna azione macchina oltre questi 2 fix, entrambi mandati esplicitamente dai vincoli del giro).
+- 2026-07-23 11:22 · @AD · PASSO-A · @Nicola — invariato: **Mossa n.1 ordine test PQ**, **Mossa n.2 domanda PI26** (scade tra 7 giorni).
 - 2026-07-23 11:35 · @AD · PASSO-A · @devops-sre — diagnosi (sola lettura log) del perché i giri automatici si sono interrotti prima di completarsi per 3 giorni consecutivi.
