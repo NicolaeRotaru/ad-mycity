@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-20 20:22",
-  "situazione": "Business fermo dal 24/6: 1 PQ live, 5 prodotti, 4 buyer, 0 ordini pagati, stallo ~636h. Demo puliti oggi. REST+Stripe+PostHog+Sito+Pannello+n8n ok · Telegram assente. Coerenza-fatti pricing bonificata. Mossa n.1: ordine test PQ (North Star). Mossa n.2: PI26 se non inviata + post social recupero.",
+  "data": "2026-07-23 11:35",
+  "situazione": "Business fermo dal 24/6: 1 PQ live, 5 prodotti, 4 buyer, 0 ordini pagati, stallo ~698h (~29 giorni). Nessun giro pieno tra 20/7 20:22 e oggi (solo sentinelle automatiche) — oggi rigenerata CHECKLIST-NICOLA (AR-030), riscritto OKR con target scaduto (AR-115), misurato EXP-004 e aperto EXP-013 (AR-041/106). Mossa n.1: ordine test PQ (North Star). Mossa n.2: PI26 entro 7 giorni + post social recupero.",
   "opportunita": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
@@ -10,13 +10,13 @@
     },
     {
       "titolo": "Invia la domanda PI26",
-      "motivo": "Sportello aperto fino al 30/7 ore 16:00 — fino a €10k fondo perduto digitalizzazione",
+      "motivo": "Sportello aperto fino al 30/7 ore 16:00 (7 giorni residui) — fino a €10k fondo perduto digitalizzazione",
       "impatto": "alto",
       "sforzo": "medio"
     },
     {
       "titolo": "Recupera il post social su PQ",
-      "motivo": "Post domenica/lunedì non usciti — visibilità persa, testi già pronti",
+      "motivo": "3 post pronti mai usciti — l'esperimento collegato è scaduto senza poter essere misurato",
       "impatto": "medio",
       "sforzo": "basso"
     }
@@ -24,26 +24,33 @@
   "azioni": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "North Star a 0 da ~636h — prova end-to-end checkout e pagamento",
+      "motivo": "North Star a 0 da ~698h (~29 giorni) — prova end-to-end checkout e pagamento",
       "livello": "giallo"
     },
     {
       "titolo": "Invia la domanda PI26 su restart.infocamere.it",
-      "motivo": "Contributo 50% spese digitali — sportello ancora aperto",
+      "motivo": "Contributo 50% spese digitali — sportello chiude tra 7 giorni",
       "livello": "rosso"
     },
     {
       "titolo": "Pubblica il post su Facebook e Instagram",
-      "motivo": "Recupero visibilità su negozio faro — angolo lunedì o settimana",
+      "motivo": "Recupero visibilità su negozio faro — 3 varianti pronte",
       "livello": "rosso"
+    },
+    {
+      "titolo": "Fai controllare a devops-sre perché i giri si interrompono",
+      "motivo": "3 giorni senza un giro pieno completato (solo sentinelle automatiche) — Nicola perde visibilità aggiornata",
+      "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo ~636h (>26 giorni)",
-    "Negozio LIVE fermo — Pane Quotidiano 0 ordini in 14g",
+    "North Star 0 — stallo ~698h (>29 giorni)",
+    "Checklist Nicola stantia >2gg (AR-030) — rigenerata oggi",
+    "OKR-Squadra target scaduto (AR-115) — riscritto oggi",
+    "Esperimento in scadenza (AR-041/106) — EXP-004 misurato/mancato, EXP-013 aperto",
     "MCP Supabase cieco 7 giri (REST copre)",
-    "Runway sconosciuto — BURN_MENSILE_EUR assente",
+    "Runway sconosciuto — BURN_MENSILE_EUR assente (215 giri)",
     "Telegram non configurato — notifiche approvazione assenti",
-    "Post domenica/lunedì non pubblicati"
+    "3 giorni senza giro pieno completato (solo sentinelle automatiche)"
   ]
 }

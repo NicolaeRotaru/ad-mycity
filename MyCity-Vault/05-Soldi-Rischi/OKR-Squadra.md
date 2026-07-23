@@ -1,18 +1,19 @@
 ---
 tipo: okr
 fonte: AD digitale
-aggiornato: 2026-07-18
+aggiornato: 2026-07-23 11:20
 ---
 
 # 🎯 OKR-Squadra — chi possiede quale numero
 
 > Ogni senior **possiede** un KPI, ha un target e un budget. Lo legge nella Carta del Dipendente (regola #3).
 > North Star dell'azienda: **ordini qualificati consegnati / settimana** (vedi [[Metriche & KPI]] e [[Piano d'Azione]] §7).
-> Fase attuale: **0→1 (primo passo)**. Budget spese reali = **🔴 sempre da firmare**; il "budget" qui è soprattutto tempo.
+> Fase attuale: **0→1 (primo passo)** — faro **Pane Quotidiano** (unico negozio reale, 5 prodotti). Budget spese reali = **🔴 sempre da firmare**; il "budget" qui è soprattutto tempo.
+> ⚠️ **North Star in stallo ~29 giorni** (0 ordini pagati dal ~24-25/6): il vecchio target «entro sab 27/6» è scaduto senza data di rinnovo fissa — sostituito da un **gate azionabile** (non una scadenza calendario) finché Nicola non chiude `#ordine-test-pq`.
 
-| Senior | KPI che possiede | Target (fase 1, primi 14 gg) | Budget |
+| Senior | KPI che possiede | Target (fase 1 — gate, non scadenza fissa) | Budget |
 |---|---|---|---|
-| 🧠 AD | North Star: ordini consegnati/sett | 1° ordine reale entro sab 27/6 | — |
+| 🧠 AD | North Star: ordini pagati/consegnati | 1° ordine reale — **gate: Nicola chiude `#ordine-test-pq`** (nessuna data fissa, ex-target 27/6 scaduto) | — |
 | 🤝 vendite | Negozi LIVE nel cluster | +2 negozi LIVE | tempo · offerte 🔴 |
 | 📣 marketing | Iscritti lista d'attesa | 20 iscritti | €0 · ads 🔴 |
 | 🚀 growth-monetizzazione | € extra per esperimento | 1 esperimento partito | €0 · spesa 🔴 |

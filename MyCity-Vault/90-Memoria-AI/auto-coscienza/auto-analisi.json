@@ -1,46 +1,58 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-20 20:22",
-  "voto_fiducia": 92,
-  "sintesi": "Giro 20/7 20:22: business invariato (4 buyer, 0 pagati). Coerenza-fatti chiusa (48→0). CHECKLIST rigenerata. North-star focus: ordine test PQ. Sensori 8/9 ok.",
-  "trend_fiducia": "▲ 92 vs 91 (11:00) — coerenza-fatti chiusa + catalogo pulito post-demo",
-  "errori_giro": [],
+  "data": "2026-07-23 11:35",
+  "voto_fiducia": 88,
+  "sintesi": "Giro 23/7 11:35 (primo giro pieno dopo 3 giorni di sole sentinelle automatiche): business invariato (4 buyer, 0 pagati, stallo ~698h). Chiusi 3 vincoli macchina rimasti aperti: CHECKLIST-NICOLA (AR-030), OKR target scaduto (AR-115), esperimento in scadenza EXP-004 + apertura EXP-013 (AR-041/106).",
+  "trend_fiducia": "▼ 88 vs 92 (20/7 20:22) — non per un errore di questo giro, ma perché per 3 giorni la macchina non ha prodotto un giro pieno (solo bookkeeping): il gap di visibilità va segnalato, non nascosto sotto un voto invariato.",
+  "errori_giro": [
+    {
+      "tipo": "processo",
+      "descrizione": "Per 3 giorni (21-23/7) nessun giro pieno si è completato: solo sentinelle automatiche hanno girato, senza produrre briefing né chiudere i vincoli macchina (checklist/OKR/esperimenti sono rimasti scaduti fino a oggi).",
+      "azione": "Accodata card 🟡 #218 a devops-sre per diagnosticare la causa (log VPS)."
+    }
+  ],
   "domande_bloccanti": [
     {
       "tipo": "north_star",
-      "domanda": "North Star 0 da ~636h. Ordine test PQ = unica mossa diretta verso 1° ordine pagato.",
+      "domanda": "North Star 0 da ~698h (~29gg). Ordine test PQ ancora l'unica mossa diretta verso il 1° ordine pagato.",
       "azione": "card 🟡 #ordine-test-pq in AZIONI-IN-ATTESA",
       "colore": "🟡"
     },
     {
       "tipo": "PI26",
-      "domanda": "PI26 sportello aperto fino 30/7 16:00. Domanda inviata?",
+      "domanda": "PI26 sportello chiude tra 7 giorni (30/7 16:00). Domanda inviata?",
       "azione": "card 🔴 #bandi-cciaa-2007",
       "colore": "🔴"
     },
     {
       "tipo": "post_recupero",
-      "domanda": "Post domenica/lunedì non pubblicati — recupero stasera?",
-      "azione": "card 🔴 #post-domenica-settimana-1907 o #post-lunedi-turno-mattina-2007",
+      "domanda": "3 post pronti mai pubblicati — quale recuperare?",
+      "azione": "card 🔴 content-social",
       "colore": "🔴"
+    },
+    {
+      "tipo": "giro_interrotto",
+      "domanda": "Perché i giri si sono interrotti per 3 giorni? Serve diagnosi log VPS.",
+      "azione": "card 🟡 #218 a devops-sre",
+      "colore": "🟡"
     }
   ],
   "entita_verificate": [
-    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "REST profiles approved + supervisione 20:22"},
-    {"nome": "Garetti/Peretti/Amendolara", "stato": "scelta_ragionata", "fonte": "registro-realta.json + scout vendite"},
-    {"nome": "4 buyer", "stato": "confermato", "fonte": "REST role=buyer · STATO 18:00"},
-    {"nome": "Pricing 10%+50€/mese", "stato": "confermato", "fonte": "registro-fatti + codice marketplace"},
-    {"nome": "PI26 CCIAA", "stato": "confermato", "fonte": "registro-fatti + Camcom Emilia web 20:22"}
+    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "registro-realta.json (invariato dal 20/7, non ri-verificato via REST live in questa sessione)"},
+    {"nome": "4 buyer", "stato": "confermato", "fonte": "ultimo giro pieno 20/7 20:22 (STATO.md) — non ri-query in questa sessione, vedi Gap briefing"},
+    {"nome": "Pricing 10%+50€/mese", "stato": "confermato", "fonte": "registro-fatti.json (invariato)"},
+    {"nome": "PI26 CCIAA (scade 30/7)", "stato": "confermato", "fonte": "registro-fatti.json + verifica web 21/7 00:41 (non ri-verificato oggi)"}
   ],
-  "benchmark": "Cold-start: ordine test PQ stasera > qualsiasi lavoro macchina. Coerenza memoria chiusa = prerequisito Cabina pulita.",
+  "benchmark": "Nessun lavoro creativo/importante in questo giro (AR-113 limita a sole azioni verso il 1° ordine pagato) — auto-miglioramento saltato di proposito, non per omissione.",
   "salute_macchina": {
     "sensori_ok": 8,
     "max_giri_ciechi": 7,
-    "automazione": "ok",
-    "coerenza_fatti": "ok (exit 0, 0 cacce aperte)",
-    "chiusura_loop": "ok",
-    "north_star_stallo": true
+    "automazione": "non ri-verificata in questa sessione (verifica-automazione.mjs non eseguibile — canale senza node in allowlist)",
+    "coerenza_fatti": "non ri-verificata con lo script (non eseguibile) — controllo a vista: nessun fatto-chiave cambiato in questo giro",
+    "chiusura_loop": "89/120 quaderni fermi (invariato) — non è un errore di questo giro, è debito pregresso",
+    "north_star_stallo": true,
+    "giro_interrotto_3gg": true
   },
-  "livello_verifica": "L1+L2",
-  "refutazione": "Nessuna entità inventata. Numeri da REST/sensori. Pricing PQ eccezione documentata con esenzioni registro."
+  "livello_verifica": "L1 (nessun accesso REST/MCP live in questa sessione — vedi Gap nel briefing)",
+  "refutazione": "Nessuna entità nuova inventata: solo entità già confermate nel registro-realta.json sono state richiamate, senza modificarne lo stato. Il voto scende onestamente per il gap di 3 giorni senza giro pieno, non per errori nel lavoro di oggi."
 }

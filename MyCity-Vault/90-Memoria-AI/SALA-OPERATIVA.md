@@ -1212,3 +1212,9 @@ Assegnazioni reparto (1 mossa ciascuno):
 ### 2026-07-20 20:22 — Giro serale
 - 2026-07-20 20:22 · @AD · FATTO · Giro 20:22 completato: coerenza-fatti pricing bonificata (48→0 exit 0) · CHECKLIST-NICOLA rigenerata · briefing+ultimo-briefing+intenzioni+auto-analisi scritti. Business: 1 PQ · 5 prod · 4 buyer · 0 pagati · stallo ~636h.
 - 2026-07-20 20:22 · @AD · PASSO-A · @Nicola — **Mossa n.1:** ordine test PQ stasera (#ordine-test-pq). **Mossa n.2:** PI26 se non inviata + post social recupero.
+
+### 2026-07-23 11:35 — Giro pieno (primo dopo 3 giorni di sole sentinelle)
+- 2026-07-23 11:35 · @AD · FATTO · Giro pieno completato — nessun giro pieno era andato a buon fine dal 20/7 20:22 (solo sentinelle automatiche 21-23/7). Business INVARIATO: 1 PQ · 5 prodotti · 4 buyer · 0 pagati · stallo ~698h (~29,1gg).
+- 2026-07-23 11:35 · @AD · FATTO · Chiusi 3 vincoli macchina: CHECKLIST-NICOLA rigenerata (AR-030) · OKR-Squadra target scaduto riscritto in gate (AR-115) · EXP-004 misurato/mancato + EXP-013 aperto su ordini_pagati (AR-041/106).
+- 2026-07-23 11:35 · @AD · SERVE · @Nicola: ① 🟡 ordine test PQ (fermo da 3 giorni) ② 🔴 domanda PI26 (7 giorni residui) ③ 🔴 pubblica un post dei 3 pronti ④ 🟡 ok a diagnosi devops-sre sui giri interrotti.
+- 2026-07-23 11:35 · @AD · PASSO-A · @devops-sre — diagnosi (sola lettura log) del perché i giri automatici si sono interrotti prima di completarsi per 3 giorni consecutivi.

@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-23 10:20** — Automatico: **46 aperte · 98 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-23 11:35** — Automatico: **47 aperte · 98 chiuse in archivio** (+1: #218 diagnosi giri interrotti).
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -1010,6 +1010,7 @@ cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
 | 215 | 2026-07-20 23:30 | @tech | Merge PR #505 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/505 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 216 | 2026-07-20 23:32 | @tech | Merge PR #506 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/506 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 217 | 2026-07-21 00:33 | @tech | Merge PR #509 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/509 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 218 | 2026-07-23 11:35 | @devops-sre | Capisci perché i giri si sono interrotti per 3 giorni di fila | 🟡 | Dal 20/7 20:22 al 23/7 11:35 nessun giro pieno si è chiuso — solo sentinelle automatiche hanno girato (bookkeeping JSON), senza produrre briefing né chiudere i vincoli macchina (checklist/OKR/esperimenti rimasti scaduti fino a oggi). Controlla i log del worker/VPS per capire se è un timeout, un limite del motore Claude o un problema del processo `giro.sh`. | manuale (log VPS) | in attesa | Se si ripete, Nicola perde per giorni la visibilità aggiornata sul Pannello (briefing, checklist, azioni) senza accorgersene. | Trovi la causa (timeout/motore/processo) e proponi un fix — es. un alert quando un giro si interrompe, o un retry automatico. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | ✅ ARCHIVIATA housekeeping 14/7 | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
@@ -1154,7 +1155,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-23 10:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-23 11:02)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-23-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1374,6 +1375,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-23 10:20 · 98 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-23 11:02 · 98 card totali
 
 ### ✅ #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ✅ FATTO 2026-07-20 18:30 · {approvato: Nicola 20/7 18:28}
 

@@ -433,18 +433,21 @@
     {
       "id": "EXP-004",
       "titolo": "Post pioggia 20/7 → nuovi iscritti al marketplace",
-      "stato": "aperto",
+      "stato": "misurato",
       "ambito": "acquisizione-clienti",
       "ipotesi": "Un post social il 20 luglio che lega il maltempo previsto alla comodità della consegna a casa porta almeno 3 nuovi iscritti al marketplace nelle 24h successive.",
       "metrica": "nuovi_iscritti_24h",
       "baseline": 4,
       "atteso": 3,
+      "reale": 4,
+      "delta": 0,
       "data_misura": "2026-07-21",
+      "data_misurato": "2026-07-23 11:20",
       "aperto_il": "2026-07-18 23:58",
       "azioni_gate": [
         "#post-meteo-pioggia-20lug"
       ],
-      "nota": "Gate: pubblicazione post approvata da Nicola. Misura: REST profiles count > 4 nelle 24h post-post. Baseline corretto da 23→4 su conferma Nicola 19/7."
+      "nota": "MANCATA (non testata): il gate `#post-meteo-pioggia-20lug` non è mai stato pubblicato (Nicola non l'ha ancora approvato) — il post resta in coda in [[AZIONI-IN-ATTESA]]. Buyer REST invariati a 4 dal 18/7. Lezione: un esperimento gated su un'azione 🔴 non approvata scade prima di poter essere testato — la data_misura andrebbe legata all'esecuzione del gate, non a un timer fisso da apertura."
     },
     {
       "id": "EXP-005",
@@ -571,14 +574,30 @@
       "azioni_gate": [],
       "dipende_da": "EXP-003",
       "nota": "Pianificato: si apre dopo 60 giorni di dati ordini reali. Benchmark industria: 8-12% win-back."
+    },
+    {
+      "id": "EXP-013",
+      "titolo": "Ordine test PQ pagato entro 7 giorni",
+      "stato": "aperto",
+      "ambito": "north-star",
+      "ipotesi": "Se Nicola chiude l'ordine test su Pane Quotidiano (checkout reale, anche €3-5), il 1° ordine PAGATO del marketplace arriva entro 7 giorni dall'apertura di questo esperimento.",
+      "metrica": "ordini_pagati",
+      "baseline": 0,
+      "atteso": 1,
+      "data_misura": "2026-07-30",
+      "aperto_il": "2026-07-23 11:20",
+      "azioni_gate": [
+        "#ordine-test-pq"
+      ],
+      "nota": "Aperto per AR-041/AR-106 (esperimenti-check.mjs): il volano non può misurare esiti senza esperimenti attivi sul KPI più critico. Complementare a EXP-001 (ordini_consegnati, gate 25/7) — questo misura il pagamento, distinto dalla consegna. Stallo attuale: 0 ordini pagati da ~29 giorni."
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-07-23 10:57",
-    "totale": 12,
+    "aggiornato": "2026-07-23 11:20",
+    "totale": 13,
     "aperti": 7,
-    "in_scadenza": 1,
-    "misurati": 0,
+    "in_scadenza": 0,
+    "misurati": 1,
     "chiusi": 0
   },
   "peer_review": [
@@ -800,9 +819,9 @@
     }
   ],
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
-  "aggiornato": "2026-07-23 10:57",
+  "aggiornato": "2026-07-23 11:08",
   "proposte_sync": {
-    "aggiornato": "2026-07-23 10:20",
+    "aggiornato": "2026-07-23 11:02",
     "totale": 11,
     "aggiornate": 0
   }

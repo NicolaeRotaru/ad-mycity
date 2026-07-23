@@ -1,10 +1,10 @@
 {
-  "data": "2026-07-20 20:22",
-  "sintesi": "Serata 20/7: business invariato (1 PQ, 0 pagati). Priorità assoluta ordine test PQ per North Star 0→1. PI26 ancora inviabile fino al 30/7. Post social da recuperare. Demo eliminati oggi — catalogo pulito 5 prodotti. PostHog operativo.",
+  "data": "2026-07-23 11:35",
+  "sintesi": "Business invariato dal 20/7 (1 PQ, 0 pagati, stallo ~29gg). Priorità assoluta resta l'ordine test PQ per North Star 0→1. PI26 ancora inviabile ma restano solo 7 giorni (scade 30/7 ore 16). Post social da recuperare (3 pronti). Nessuna nuova mossa dichiarata da Nicola dal 21/7 ~00:57 — queste restano le intenzioni note, non ancora eseguite.",
   "prossime_mosse": [
     {
       "titolo": "Fai un ordine di prova su Pane Quotidiano",
-      "quando": "Stasera 20/7 — prima mossa",
+      "quando": "Appena possibile — ferma da 3 giorni",
       "come": "mycity-marketplace.com → prodotto PQ → checkout → COD o carta",
       "priorita": "alta",
       "ad_prepara": "Flusso live verificato REST — card #ordine-test-pq",
@@ -13,7 +13,7 @@
     },
     {
       "titolo": "Invia la domanda PI26",
-      "quando": "Entro il 30/7 ore 16:00 (sportello aperto)",
+      "quando": "Entro il 30/7 ore 16:00 (7 giorni residui, sportello aperto)",
       "come": "restart.infocamere.it con SPID — bozza in consegne/relazioni-istituzionali/",
       "priorita": "alta",
       "ad_prepara": "Checklist bando + fatture tech da maggio 2026",
@@ -22,8 +22,8 @@
     },
     {
       "titolo": "Pubblica il post social su PQ",
-      "quando": "Stasera o domani mattina",
-      "come": "Recupero #post-domenica o #post-lunedi-turno — testi in consegne/content/",
+      "quando": "Appena possibile — 3 varianti pronte da giorni",
+      "come": "Recupero #post-domenica, #post-lunedi-turno o #post-meteo-pioggia — testi in consegne/content/",
       "priorita": "media",
       "ad_prepara": "Contenuti pronti + UTM",
       "senior": "@content-social",
@@ -31,9 +31,9 @@
     },
     {
       "titolo": "Configura Telegram sul VPS",
-      "quando": "Questa settimana",
+      "quando": "Quando c'è tempo — non bloccante",
       "come": "TELEGRAM_BOT_TOKEN + CHAT_ID in .env → n8n workflow Active",
-      "priorita": "media",
+      "priorita": "bassa",
       "ad_prepara": "Playbook consegne/intelligence/PLAYBOOK-ACCENSIONE-2026-07-20.md",
       "senior": "@builder-automazioni",
       "colore": "🔴"
@@ -43,7 +43,7 @@
     {
       "nome": "Pane Quotidiano",
       "perche": "Unico negozio REALE (Via Calzolai 25). Già online, 5 prodotti.",
-      "stato": "attivo — North Star 0, stallo ~636h"
+      "stato": "attivo — North Star 0, stallo ~698h"
     },
     {
       "nome": "Antica Salumeria Garetti",
@@ -53,30 +53,36 @@
     {
       "nome": "Frolla Couture",
       "perche": "Score più alto prospect panetteria.",
-      "stato": "scelta_ragionata — visita sett. 21-25/7"
+      "stato": "scelta_ragionata — visita da programmare"
     }
   ],
   "rischi": [
-    "Stallo PQ >26 giorni — bottega può perdere motivazione",
+    "Stallo PQ >29 giorni — bottega può perdere motivazione",
     "4 buyer dormienti — nessuna welcome email inviata",
-    "Post social mancato — zero visibilità weekend",
-    "Logo/città PQ mancanti — scheda negozio incompleta"
+    "3 post social mai pubblicati — esperimento collegato scaduto senza poter essere misurato",
+    "PI26 scade tra 7 giorni — domanda ancora non risulta inviata",
+    "3 giorni senza un giro pieno completato — visibilità Pannello indietro"
   ],
   "serve_da_nicola": [
     {
       "ambito": "north star",
       "cosa_manca": "Ordine test su PQ eseguito",
-      "domanda_per_nicola": "Fai l'ordine test su Pane Quotidiano stasera? È la mossa n.1."
+      "domanda_per_nicola": "Fai l'ordine test su Pane Quotidiano? È ancora la mossa n.1, ferma da 3 giorni."
     },
     {
       "ambito": "PI26",
       "cosa_manca": "Conferma invio domanda",
-      "domanda_per_nicola": "Hai già inviato PI26? Se no — sportello aperto fino al 30/7."
+      "domanda_per_nicola": "Hai già inviato PI26? Restano 7 giorni (scade 30/7 ore 16)."
     },
     {
       "ambito": "post social",
       "cosa_manca": "Pubblicazione recupero",
-      "domanda_per_nicola": "Ok a pubblicare stasera domenia-settimana o lunedì-turno?"
+      "domanda_per_nicola": "Quale dei 3 post pubblichi (domenica-settimana, lunedì-turno, meteo-pioggia)?"
+    },
+    {
+      "ambito": "macchina",
+      "cosa_manca": "Diagnosi giri interrotti",
+      "domanda_per_nicola": "Ok a far controllare a devops-sre (sola lettura log) perché i giri si sono interrotti per 3 giorni?"
     }
   ]
 }

@@ -2,25 +2,25 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-07-20 20:22
+aggiornato: 2026-07-23 11:20
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata dal giro 20/7 20:22 — focus **1° ordine pagato** (AR-111).
+> Rigenerata dal giro 23/7 11:20 — focus **1° ordine pagato** (AR-111/AR-113). Nessun giro pieno completato dal 20/7 20:22 (solo sentinelle automatiche) — checklist era ferma da 3 giorni, business INVARIATO nel frattempo.
 
 ---
 
-## 🔴 URGENTE — sblocca la North Star
+## 🔴 URGENTE — sblocca la North Star (stallo ~29 giorni, 0 pagati)
 
-- [ ] 🟡 **Fai un ordine su Pane Quotidiano** — anche piccolo (€3–5). Unico sblocco diretto North Star 0→1. Apri mycity-marketplace.com → prodotto PQ → checkout. ~10 min.
+- [ ] 🟡 **Fai un ordine su Pane Quotidiano** — anche piccolo (€3–5). Unico sblocco diretto North Star 0→1, ancora aperto da giorni. Apri mycity-marketplace.com → prodotto PQ → checkout. ~10 min.
   → Card: `#ordine-test-pq`
 
-- [ ] 🔴 **Manda la domanda PI26 su restart.infocamere.it** — sportello **aperto fino al 30/7 ore 16:00** (ordine cronologico). 50% fondo perduto, max €10.000. Bozza in `consegne/relazioni-istituzionali/`.
+- [ ] 🔴 **Manda la domanda PI26 su restart.infocamere.it** — sportello **aperto fino al 30/7 ore 16:00**, mancano **7 giorni**. 50% fondo perduto, max €10.000. Bozza in `consegne/relazioni-istituzionali/`.
   → Card: `#bandi-cciaa-2007`
 
-- [ ] 🔴 **Pubblica un post social su PQ** — recupero domenica/lunedì: `#post-domenica-settimana-1907` o `#post-lunedi-turno-mattina-2007` (testi pronti in `consegne/content/`).
+- [ ] 🔴 **Pubblica un post social su PQ** — 3 testi pronti e mai usciti: `#post-domenica-settimana-1907`, `#post-lunedi-turno-mattina-2007`, `#post-meteo-pioggia-20lug` (testi in `consegne/content/`).
   → Card: content-social
 
 ---
@@ -75,3 +75,4 @@ aggiornato: 2026-07-20 20:22
 ---
 
 > ✅ Fatto oggi 20/7: demo eliminati (1 PQ · 5 prodotti) · PostHog verde VPS+Pannello · coerenza-fatti pricing bonificata · card merge obsolete rimosse (L-402)
+> ✅ Fatto oggi 23/7 (giro 11:20, primo giro pieno dopo 3 giorni di soli sentinelle): OKR-Squadra target scaduto riscritto in gate · EXP-004 misurato (mancata, gate mai pubblicato) · EXP-013 aperto (ordini_pagati, AR-041/106) · checklist rigenerata (AR-030).
