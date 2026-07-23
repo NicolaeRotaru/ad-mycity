@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 12:58
-fonte: AD digitale (giro chat — ri-verifica con vincolo AR-113 attivo)
+aggiornato: 2026-07-23 13:01
+fonte: AD digitale (Piano del mattino, 6° blocco oggi)
 ---
+
+> ☀️ **23/7 13:01 — PIANO DEL MATTINO (6° blocco scritto oggi) — trovata la causa del loop.** Business non ri-verificato apposta (già confermato alle 12:58, 3 minuti fa: 1 PQ, 0 pagati, stallo ~699h) — ripeterlo avrebbe sprecato un altro giro senza nuova informazione. **La vera scoperta di questo passaggio:** il timer di sistema del mattino è configurato bene (solo 06:00, verificato nel file `.timer`) — le 6 esecuzioni di oggi (11:45/12:26/12:47/12:52×2/13:01) vengono quindi da invocazioni ravvicinate esterne, non dal timer; alcune si sono pure interrotte prima di scrivere (commit "recupero: scritture pendenti" alle 12:51/12:53/13:01). **Passo-a @devops-sre:** trovare e fermare cosa rilancia "piano del mattino" ogni pochi minuti — è lo spreco reale di oggi, non il business fermo. Push GitHub: 121 commit locali fermi (era 119 alle 12:58), stesso token rotto. Nessuna nuova card 🟡/🔴 accodata. Mossa n.1 invariata: ordine test PQ. Mossa n.2: PI26 entro il 30/7. Briefing: [[Briefing/2026-07-23]].
 
 > 🛰️ **23/7 12:58 — GIRO (chat, su richiesta di Nicola) — ennesima riconferma, stesso quadro.** Query SQL diretta su `orders` (MCP): ancora **1 sola riga**, stesso ordine zombie del 24/6, **0 pagati**. Business invariato: 1 seller (Pane Quotidiano), 5 prodotti, 4 buyer (+1 rider +1 admin = 7 profili totali, nessun nuovo iscritto), 0 recensioni, stallo ~699h (~29,1gg). Sensori 8/9 ok, coerenza-fatti pulita (18 fatti, 0 cacce). **Rischio push in ulteriore peggioramento:** 119 commit locali non ancora su `origin/main` (103→112→114→117→119 in ~30 min) — token PAT VPS ancora rotto, assegnato a @devops-sre, non blocca il business ma tiene la Cabina indietro. **Nota di processo:** questo è il **6°+ giro/passaggio quasi identico nell'ultima ora** (11:35/11:36/11:59/12:00/12:26/12:47/12:52/12:58) — nessuna nuova azione accodata di proposito (pattern "loop a vuoto"): ri-verificare a distanza di minuti senza che sia passato tempo reale non produce nuova informazione. **Mossa n.1 invariata: ordine test PQ.** Mossa n.2: PI26 entro il 30/7. Briefing: [[Briefing/2026-07-23]].
 
@@ -1125,19 +1127,19 @@ fonte: AD digitale (giro chat — ri-verifica con vincolo AR-113 attivo)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 23/7 12:52 — Piano del mattino, 4ª riconferma + push GitHub peggiora)
-**PI26 scade tra 7 giorni (30/7) — domanda non ancora inviata.** Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~699h** (~29,1 giorni). Cassa Stripe 0€. Sensori 9/9 ok (invariato dalle 12:00). **Nuovo:** `git rev-list origin/main..HEAD` = **117 commit locali mai arrivati su GitHub** (erano 112 alle 12:47), fermi dal 22/7 08:20 — stesso pattern del token rotto del 9/7, in peggioramento.
+## Prossime priorità (🛰️ aggiornato 23/7 13:01 — Piano del mattino, 6° blocco oggi: causa del loop trovata)
+**PI26 scade tra 7 giorni (30/7) — domanda non ancora inviata.** Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~699h** (~29,1 giorni). Cassa Stripe 0€. **Nuovo:** `git rev-list origin/main..HEAD` = **121 commit locali mai arrivati su GitHub** (erano 119 alle 12:58) — stesso token rotto dal 22/7 08:20, in peggioramento. **Nuovo (2):** il timer di sistema del mattino è configurato correttamente per le sole 06:00 — le 6 esecuzioni di "piano del mattino" di oggi (11:45→13:01) non vengono da lì ma da invocazioni ravvicinate esterne che si sono anche interrotte prima di scrivere (commit `recupero: scritture pendenti` alle 12:51/12:53/13:01); questo, non il business, è lo spreco reale della mattinata.
 
 1. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1, fermo da 3 giorni (`#ordine-test-pq`).
 2. [ ] 🔴 **Invia domanda PI26** — sportello aperto, 7 giorni residui (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
 3. [ ] 🔴 **Pubblica il carosello del catalogo PQ** — pronto oggi, fascia 17:00-19:00 (`#post-carosello-bio-2307`).
-4. [ ] 🟡 **Ripara il token GitHub** — 117 commit fermi sul VPS dal 22/7 08:20, nessuna PR/memoria nuova arriva online; senza fix il Pannello hosted resta indietro.
-5. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice già su main).
-6. [ ] 🟡 **Diagnosi giri interrotti** — passata a @devops-sre (3 giorni con solo sentinelle automatiche, nessun giro pieno); da verificare se stessa causa del token rotto.
+4. [ ] 🟡 **Ripara il token GitHub** — 121 commit fermi sul VPS dal 22/7 08:20, nessuna PR/memoria nuova arriva online; senza fix il Pannello hosted resta indietro.
+5. [ ] 🟡 **Trova e ferma cosa rilancia "piano del mattino" ogni pochi minuti** — non è il timer di sistema (verificato: solo 06:00); 6 esecuzioni oggi tra 11:45 e 13:01, alcune interrotte a metà scrittura. Passo-a @devops-sre.
+6. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice già su main).
 7. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
 8. [ ] 🟡 **`BURN_MENSILE_EUR=302` nel `.env` VPS** — chiude alla radice la card sensore-cassa, identica da 9 diagnosi consecutive (14/7→23/7); @finanza passa da ridiagnosi a proposta-fix.
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~699h) · push GitHub rotto 🔴 (117 commit non pushati, dal 22/7 08:20, in crescita) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª diagnosi identica — vedi voce 8) · Telegram assente · n8n ✅ · REST/Stripe/Resend/Sito/Pannello/MCP Supabase ✅ (11:36).
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~699h) · push GitHub rotto 🔴 (121 commit non pushati, dal 22/7 08:20, in crescita) · piano-mattino ri-lanciato ripetutamente 🟡 (nuovo, causa non-timer da trovare) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª diagnosi identica — vedi voce 8) · Telegram assente · n8n ✅ · REST/Stripe/Resend/Sito/Pannello/MCP Supabase ✅ (12:58).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*

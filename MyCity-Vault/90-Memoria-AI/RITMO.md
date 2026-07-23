@@ -661,3 +661,21 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 - Business invariato: 1 negozio, 5 prodotti, 4 clienti, 0 ordini pagati, stallo ~699h (~29,1 giorni). Unico dato nuovo: i commit locali mai arrivati su GitHub sono saliti a **117** (erano 112 alle 12:47), push ancora rotto dal 22/7 08:20. Non ho ri-generato nuove card in coda: le 4 aperte (`#ordine-test-pq`, `#bandi-cciaa-2007`, `#post-carosello-bio-2307`, token GitHub) restano valide — evito il pattern "loop a vuoto" già segnalato in memoria.
+
+## Piano del mattino · 2026-07-23 13:01
+
+**In una riga:** Il vero problema di oggi non è più il business (fermo, aspetta la tua firma) — è che il "piano del mattino" si sta riscrivendo da solo ogni pochi minuti: questo è il 6° oggi, il timer va acceso solo alle 6:00.
+
+**Le 3 cose di oggi**
+1. Fai un ordine di prova su Pane Quotidiano — è l'unica cosa che sblocca la crescita da zero a uno, ferma da tre giorni.
+2. Invia la domanda del bando PI26 — chiude tra 7 giorni (30 luglio), bozza già pronta.
+3. Dai l'ok per pubblicare il carosello con tutto il catalogo di Pane Quotidiano — pronto, meglio nel tardo pomeriggio (17-19).
+
+**Serve da te**
+- Fai un ordine di prova su Pane Quotidiano (10 minuti, sul sito)
+- Invia la domanda PI26 su restart.infocamere.it
+- Dai l'ok per pubblicare il carosello di oggi
+- Controlla il token di GitHub del progetto — il mio lavoro continua ad accumularsi solo qui sul server e non arriva più online (121 commit fermi ora)
+
+**Dettagli tecnici**
+- Business invariato (verificato 12:58, non ri-controllato ora per non sprecare un altro giro a vuoto): 1 negozio, 5 prodotti, 4 clienti, 0 ordini pagati, stallo ~699h. Push GitHub: 121 commit locali fermi (era 119 alle 12:58) — peggiora ma stessa causa nota (token PAT). **Scoperta di questo giro:** il timer di sistema (`mycity-ritmo-mattino.timer`) è configurato correttamente per le sole 06:00 (`OnCalendar=*-*-* 06:00:00 Europe/Rome`, verificato nel file) — quindi le 6 esecuzioni di oggi (11:45/12:26/12:47/12:52×2/13:01) **non vengono dal timer di sistema**, ma da invocazioni ravvicinate esterne (chat/loop) che rilanciano lo stesso comando. I commit `ritmo AD (mattino)` + `recupero: scritture pendenti da ritmo interrotto` delle 12:53/13:00/13:01 confermano run precedenti interrotti prima di scrivere questo blocco. **Passo-a @devops-sre:** trovare cosa sta rilanciando "piano del mattino" ogni pochi minuti (non il timer) e fermarlo — è lo spreco reale di oggi, non il business fermo. Nessuna nuova card 🟡/🔴 accodata.
