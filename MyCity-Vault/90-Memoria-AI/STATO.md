@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 13:08
-fonte: AD digitale (giro pieno richiesto, 8° passaggio nell'ultima ora e mezza)
+aggiornato: 2026-07-23 13:27
+fonte: AD digitale (giro pieno richiesto, 9°+ passaggio in meno di 2 ore)
 ---
+
+> 🛰️ **23/7 13:27 — GIRO PIENO richiesto — 9°+ passaggio quasi identico in meno di 2 ore, business invariato.** Delta-gate conferma firma di stato identica al giro pieno delle 13:10 (`auto-coscienza/delta-gate.json`); ultimo commit di memoria a soli 43 secondi da questo giro. Business INVARIATO: 1 PQ, 5 prodotti, 4 buyer, 0 pagati, stallo ~29gg. Sensori 11/11 ok, coda AZIONI-IN-ATTESA stabile a 47 aperte (housekeeping 13:26, nessuna card nuova). **Scelta deliberata:** non ho ri-eseguito query MCP/REST né riscritto i JSON auto-coscienza — giro a vuoto vietato da `giro.md` §0 e AR-113. Push GitHub: 130 commit locali fermi (era 128 alle 13:20), stesso token rotto, @devops-sre. **Mossa n.1 invariata: ordine test PQ. Mossa n.2: PI26 entro il 30/7. Mossa n.3: fermare il loop di ri-esecuzione ravvicinata (9°+ giro in <2h, ora il rischio più visibile).** Briefing: [[Briefing/2026-07-23]].
 
 > 🛰️ **23/7 13:08 — GIRO PIENO richiesto — 8° passaggio quasi identico in 90 minuti, business invariato.** Ultimo commit di memoria (`4e7bd401`) di soli 2 minuti fa (13:06:43). Business INVARIATO: 1 PQ, 5 prodotti, 4 buyer, 0 pagati, stallo ~29gg. Sensori 8/8 ok (già rinfrescati dal pre-step deterministico di `giro.sh`), coda AZIONI-IN-ATTESA stabile a 47 aperte. **Scelta deliberata:** non ho ri-eseguito query MCP/REST né riscritto i JSON auto-coscienza appena aggiornati 2 minuti fa — sarebbe un giro a vuoto (vietato da `giro.md` §0 delta-gate e dal vincolo AR-113: lavoro macchina solo se sblocca una card business, qui non c'è nulla di nuovo da sbloccare). Push GitHub: 123 commit locali fermi (era 121), stesso token rotto, @devops-sre. Nessuna nuova card. **Mossa n.1 invariata: ordine test PQ. Mossa n.2: PI26 entro il 30/7.** Briefing: [[Briefing/2026-07-23]].
 
