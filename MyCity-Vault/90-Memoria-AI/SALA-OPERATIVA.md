@@ -1240,3 +1240,7 @@ Assegnazioni (1 mossa per reparto):
 - @vendite/@onboarding-negozi · nessuna nuova apertura oggi (fase 0→1, faro unico Pane Quotidiano) — resta in attesa del primo ordine prima di ampliare · 🟢
 
 🙋 Serve da Nicola per sbloccare: 🟡 ordine di prova su Pane Quotidiano · 🔴 invio domanda PI26 · 🔴 ok pubblicazione carosello oggi.
+
+### 2026-07-23 11:59 — Ri-verifica giro (vincolo AR-113 attivo)
+- 2026-07-23 11:59 · @AD · FATTO · Query diretta SQL su `orders` (MCP Supabase marketplace): 1 sola riga in tutto il DB — lo stesso ordine zombie del 24/6 (`58094956…`, 19,05€, payment_status PENDING, delivery_status CANCELED). Nessun ordine nuovo, nessun pagamento arrivato. North Star ancora ferma a 0.
+- 2026-07-23 11:59 · @AD · PASSO-A · @Nicola — invariato: **Mossa n.1 ordine test PQ**, **Mossa n.2 domanda PI26** (scade tra 7 giorni, 30/7 ore 16). Gate AR-113 resta attivo: nessun lavoro macchina nuovo oltre questa verifica finché non arriva il primo ordine pagato.

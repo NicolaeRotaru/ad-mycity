@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 11:36
-fonte: AD digitale (passaggio di verifica sullo stesso giro — 11:36)
+aggiornato: 2026-07-23 11:59
+fonte: AD digitale (giro chat — ri-verifica con vincolo AR-113 attivo)
 ---
+
+> 🛰️ **23/7 11:59 — GIRO (chat), ri-verifica sotto vincolo AR-113 (stallo North Star ≥3gg).** Query SQL diretta su `orders` (MCP Supabase): **1 sola riga in tutto il DB**, lo stesso ordine zombie del 24/6 (19,05€, PENDING/CANCELED) — **0 ordini pagati**, nessun cambiamento dall'ultima verifica (11:36). Business invariato: 1 seller (Pane Quotidiano), 5 prodotti, 4 buyer, stallo ~698h (~29 giorni). Il gate AR-113 resta attivo: nessun lavoro macchina nuovo prodotto oggi oltre questa verifica — **Mossa n.1: ordine test PQ** (invariata), **Mossa n.2: domanda PI26** entro il 30/7. Briefing: [[Briefing/2026-07-23]].
 
 > 🛰️ **23/7 11:36 — verifica dati live (stesso giro delle 11:35).** Numeri **confermati via MCP Supabase** (query diretta, non più stima da sensore): 1 seller (Pane Quotidiano), 4 buyer, 5 prodotti, **1 solo ordine in tutto il DB** — lo zombie noto del 24/6, 0 pagati. Trovati **3 carrelli abbandonati reali** su PQ (13,90€/10€/7,95€, giugno-luglio) — materia prima per @crm-lifecycle post-sblocco, nessuna azione nuova oggi. MCP Supabase riconciliato a `ok` (ha risposto in sessione). Coerenza-fatti pulita, 5 cacce bonificate chiuse. **Mossa n.1 e n.2 invariate** (vedi riga sotto). Briefing: [[Briefing/2026-07-23]].
 
