@@ -1,14 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Camera, Video, X, RefreshCw, Check, Loader2, SwitchCamera, Mic, Send } from "lucide-react";
+import { Camera, Video, X, RefreshCw, Check, Loader2, SwitchCamera, Mic, Send, ScreenShare } from "lucide-react";
 
-// 📷/📹 Telecamera DENTRO la chat. Due modalità, stessa base:
+// 📷/📹/🖥️ Telecamera o schermo DENTRO la chat. Tre modalità, stessa base:
 //  - variante FOTO (default): modalino compatto, scatti UNA foto e si chiude.
 //  - variante VIDEO LIVE (`videoLive`): overlay a schermo intero, la telecamera resta in diretta,
 //    scatti quante foto vuoi e, se passati i props `chatXxx`, hai anche microfono + textarea +
 //    finestra messaggi nella stessa schermata senza dover chiudere la telecamera.
-// In entrambe: la foto entra nel normale flusso allegati (stesso `onScegli` della graffetta).
+//  - variante SCHERMO LIVE (`schermo`): come video live ma condivide lo SCHERMO (getDisplayMedia)
+//    invece della telecamera — per mostrare un errore del Pannello mentre lo si guarda dal vivo.
+// In tutte: la foto/fotogramma entra nel normale flusso allegati (stesso `onScegli` della graffetta).
 export default function BottoneFotoChat({
   disabled,
   iconSize,
@@ -16,6 +18,7 @@ export default function BottoneFotoChat({
   onScegli,
   etichetta,
   videoLive = false,
+  schermo = false,
   chatMessaggi,
   chatLoading,
   chatOnInvia,
@@ -28,6 +31,8 @@ export default function BottoneFotoChat({
   onScegli: (lista: FileList | null) => void;
   etichetta?: string;
   videoLive?: boolean;
+  /** Condivide lo schermo (tab/finestra) invece della telecamera. Implica il layout "live" con chat a fianco. */
+  schermo?: boolean;
   // Props opzionali per la chat embedded nel video live
   chatMessaggi?: { role: string; content: string; pending?: boolean }[];
   chatLoading?: boolean;
@@ -46,7 +51,8 @@ export default function BottoneFotoChat({
   const streamRef = useRef<MediaStream | null>(null);
   const msgBottomRef = useRef<HTMLDivElement | null>(null);
 
-  const conChat = videoLive && !!chatOnInvia;
+  const live = videoLive || schermo;
+  const conChat = live && !!chatOnInvia;
 
   const stopCamera = useCallback(() => {
     if (streamRef.current) {
@@ -74,6 +80,31 @@ export default function BottoneFotoChat({
       msgBottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [chatMessaggi, chatLoading]);
+
+  const avviaSchermo = useCallback(async () => {
+    setErrore(null);
+    setPronta(false);
+    stopCamera();
+    if (typeof navigator === "undefined" || !navigator.mediaDevices?.getDisplayMedia) {
+      setErrore("Questo browser non permette la condivisione dello schermo.");
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play().catch(() => {});
+      }
+      // Se Nicola preme "Interrompi condivisione" dal browser, chiudiamo la finestra da soli.
+      stream.getVideoTracks()[0]?.addEventListener("ended", () => chiudi());
+      setPronta(true);
+    } catch (e: any) {
+      const nome = e?.name || "";
+      if (nome === "NotAllowedError") setErrore("Condivisione schermo annullata o negata.");
+      else setErrore("Non riesco a condividere lo schermo. " + (e?.message || ""));
+    }
+  }, [stopCamera, chiudi]);
 
   const avvia = useCallback(
     async (modo: "environment" | "user") => {
@@ -109,8 +140,9 @@ export default function BottoneFotoChat({
     if (disabled) return;
     setAperto(true);
     setScattate(0);
-    void avvia(facing);
-  }, [disabled, avvia, facing]);
+    if (schermo) void avviaSchermo();
+    else void avvia(facing);
+  }, [disabled, avvia, avviaSchermo, schermo, facing]);
 
   const cambiaCamera = useCallback(() => {
     const nuovo = facing === "environment" ? "user" : "environment";
@@ -121,7 +153,7 @@ export default function BottoneFotoChat({
   const scatta = useCallback(() => {
     const v = videoRef.current;
     if (!v || !v.videoWidth) {
-      setErrore("La telecamera non è ancora pronta. Attendi un istante e riprova.");
+      setErrore(schermo ? "Lo schermo non è ancora pronto. Attendi un istante e riprova." : "La telecamera non è ancora pronta. Attendi un istante e riprova.");
       return;
     }
     setSalvando(true);
@@ -154,7 +186,7 @@ export default function BottoneFotoChat({
           onScegli({ 0: file, length: 1, item: (i: number) => (i === 0 ? file : null) } as unknown as FileList);
         }
         setSalvando(false);
-        if (videoLive) {
+        if (live) {
           setScattate((n) => n + 1);
         } else {
           chiudi();
@@ -163,7 +195,7 @@ export default function BottoneFotoChat({
       "image/jpeg",
       0.85
     );
-  }, [onScegli, chiudi, videoLive]);
+  }, [onScegli, chiudi, live]);
 
   function inviaMessaggio() {
     const t = bozza.trim();
@@ -172,7 +204,8 @@ export default function BottoneFotoChat({
     setBozza("");
   }
 
-  const Icona = videoLive ? Video : Camera;
+  const Icona = schermo ? ScreenShare : videoLive ? Video : Camera;
+  const etichettaFinestra = schermo ? "Schermo live" : videoLive ? "Video live" : "Scatta una foto";
 
   return (
     <>
@@ -181,8 +214,8 @@ export default function BottoneFotoChat({
         onClick={apri}
         disabled={disabled}
         className={`${className} ${disabled ? "opacity-40 pointer-events-none" : ""}`}
-        aria-label={videoLive ? "Apri il video live" : "Scatta una foto"}
-        title={videoLive ? "Apri la telecamera in diretta (video live)" : "Scatta una foto con la telecamera"}
+        aria-label={schermo ? "Condividi lo schermo in diretta" : videoLive ? "Apri il video live" : "Scatta una foto"}
+        title={schermo ? "Condividi lo schermo (tab/finestra) in diretta col worker" : videoLive ? "Apri la telecamera in diretta (video live)" : "Scatta una foto con la telecamera"}
       >
         <span className="inline-flex items-center gap-1.5">
           <Icona size={iconSize} />
@@ -194,7 +227,7 @@ export default function BottoneFotoChat({
         <div className="fixed inset-0 z-[100] bg-black/85 grid place-items-center p-0 sm:p-4" role="dialog" aria-modal="true">
           <div
             className={
-              videoLive
+              live
                 ? "w-full h-full sm:h-auto sm:max-w-5xl flex flex-col sm:rounded-2xl overflow-hidden shadow-xl"
                 : "w-full max-w-lg rounded-2xl overflow-hidden shadow-xl"
             }
@@ -203,8 +236,8 @@ export default function BottoneFotoChat({
             {/* Testata */}
             <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
               <span className="text-[13px] font-semibold inline-flex items-center gap-2">
-                <Icona size={16} /> {videoLive ? "Video live" : "Scatta una foto"}
-                {videoLive && scattate > 0 && (
+                <Icona size={16} /> {etichettaFinestra}
+                {live && scattate > 0 && (
                   <span className="text-[11px] font-normal text-emerald-400">· {scattate} foto aggiunte al messaggio</span>
                 )}
               </span>
@@ -213,16 +246,16 @@ export default function BottoneFotoChat({
               </button>
             </div>
 
-            {/* Corpo: affiancato su desktop (camera + chat) o in pila su mobile */}
+            {/* Corpo: affiancato su desktop (camera/schermo + chat) o in pila su mobile */}
             <div className={conChat ? "flex flex-col sm:flex-row flex-1 overflow-hidden" : "flex flex-col flex-1"}>
 
-              {/* ── SEZIONE TELECAMERA ── */}
+              {/* ── SEZIONE TELECAMERA/SCHERMO ── */}
               <div className={conChat ? "flex flex-col sm:w-[55%]" : "flex flex-col flex-1"}>
-                <div className={`relative bg-black flex items-center justify-center ${videoLive ? "flex-1 min-h-[35vh] sm:min-h-[60vh]" : "aspect-[4/3]"}`}>
+                <div className={`relative bg-black flex items-center justify-center ${live ? "flex-1 min-h-[35vh] sm:min-h-[60vh]" : "aspect-[4/3]"}`}>
                   <video ref={videoRef} playsInline muted className="w-full h-full object-contain" />
                   {!pronta && !errore && (
                     <div className="absolute inset-0 flex items-center justify-center text-white/70 text-[13px] gap-2">
-                      <Loader2 size={18} className="animate-spin" /> Apro la telecamera…
+                      <Loader2 size={18} className="animate-spin" /> {schermo ? "Scegli lo schermo/tab da condividere…" : "Apro la telecamera…"}
                     </div>
                   )}
                 </div>
@@ -237,21 +270,23 @@ export default function BottoneFotoChat({
                   >
                     {salvando ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />} Scatta
                   </button>
+                  {!schermo && (
+                    <button
+                      onClick={cambiaCamera}
+                      disabled={salvando}
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border text-[13px] font-medium active:scale-95 transition"
+                      style={{ borderColor: "rgba(255,255,255,0.18)" }}
+                      title="Cambia fotocamera (fronte/retro)"
+                    >
+                      <SwitchCamera size={15} />
+                    </button>
+                  )}
                   <button
-                    onClick={cambiaCamera}
+                    onClick={() => (schermo ? void avviaSchermo() : void avvia(facing))}
                     disabled={salvando}
                     className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border text-[13px] font-medium active:scale-95 transition"
                     style={{ borderColor: "rgba(255,255,255,0.18)" }}
-                    title="Cambia fotocamera (fronte/retro)"
-                  >
-                    <SwitchCamera size={15} />
-                  </button>
-                  <button
-                    onClick={() => void avvia(facing)}
-                    disabled={salvando}
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border text-[13px] font-medium active:scale-95 transition"
-                    style={{ borderColor: "rgba(255,255,255,0.18)" }}
-                    title="Riavvia la telecamera"
+                    title={schermo ? "Ricondividi lo schermo" : "Riavvia la telecamera"}
                   >
                     <RefreshCw size={15} />
                   </button>
