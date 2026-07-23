@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-21 00:37",
+  "aggiornato": "2026-07-23 11:36",
   "fatti": [
     {
       "id": "finanza.costi_infrastruttura",
@@ -26,23 +26,28 @@
       "caccia": [
         {
           "pattern": "150€/mese.*burn",
-          "dal": "2026-07-20 23:44"
+          "dal": "2026-07-20 23:44",
+          "chiusa": "2026-07-23 11:36"
         },
         {
           "pattern": "BURN_MENSILE_EUR=150",
-          "dal": "2026-07-20 23:44"
+          "dal": "2026-07-20 23:44",
+          "chiusa": "2026-07-23 11:36"
         },
         {
           "pattern": "stima bootstrap €150/mese",
-          "dal": "2026-07-20 23:44"
+          "dal": "2026-07-20 23:44",
+          "chiusa": "2026-07-23 11:36"
         },
         {
           "pattern": "280 €/m (parziale)",
-          "dal": "2026-07-20 23:46"
+          "dal": "2026-07-20 23:46",
+          "chiusa": "2026-07-23 11:36"
         },
         {
           "pattern": "Confermati da Nicola 20/7/2026: Claude Max 200 €/m + Vercel 30 €/m + Supabase 50 €/m = 280 €/m (parziale). Mancano ancora: Render, VPS worker, dominio/DNS, Resend — burn completo e BURN_MENSILE_EUR env VPS da completare. PostHog/Telegram/GitHub 0 € oggi; Stripe solo commissione transazione.",
-          "dal": "2026-07-20 23:46"
+          "dal": "2026-07-20 23:46",
+          "chiusa": "2026-07-23 11:36"
         }
       ],
       "esenzioni": [

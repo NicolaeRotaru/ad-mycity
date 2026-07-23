@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 11:35
-fonte: AD digitale (giro pieno 23/7 11:35 — primo dopo 3 giorni di sole sentinelle automatiche)
+aggiornato: 2026-07-23 11:36
+fonte: AD digitale (passaggio di verifica sullo stesso giro — 11:36)
 ---
+
+> 🛰️ **23/7 11:36 — verifica dati live (stesso giro delle 11:35).** Numeri **confermati via MCP Supabase** (query diretta, non più stima da sensore): 1 seller (Pane Quotidiano), 4 buyer, 5 prodotti, **1 solo ordine in tutto il DB** — lo zombie noto del 24/6, 0 pagati. Trovati **3 carrelli abbandonati reali** su PQ (13,90€/10€/7,95€, giugno-luglio) — materia prima per @crm-lifecycle post-sblocco, nessuna azione nuova oggi. MCP Supabase riconciliato a `ok` (ha risposto in sessione). Coerenza-fatti pulita, 5 cacce bonificate chiuse. **Mossa n.1 e n.2 invariate** (vedi riga sotto). Briefing: [[Briefing/2026-07-23]].
 
 > 🛰️ **23/7 11:35 — GIRO PIENO (primo dal 20/7 20:22 — 3 giorni di soli sentinelle automatiche).** Business INVARIATO: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~698h** (~29,1 giorni). Sensori 8/9 ok (REST+Stripe+Resend+Sito+Pannello+n8n+REST memoria+PostHog) · MCP Supabase cieco 7 giri (REST copre) · Telegram non configurato. **Vincoli macchina chiusi oggi:** CHECKLIST-NICOLA rigenerata (AR-030, stantia 3gg) · OKR-Squadra target scaduto "27/6" riscritto in gate (AR-115) · EXP-004 misurato/mancato (gate mai eseguito) + EXP-013 aperto su ordini_pagati gate 30/7 (AR-041/106). **PI26 scade tra 7 giorni** (30/7 16:00) — domanda non risulta ancora inviata. 3 post social pronti mai pubblicati. **Mossa n.1: ordine test PQ** (unico sblocco North Star 0→1, fermo da 3 giorni). **Mossa n.2:** PI26 entro 7 giorni. **Nuovo:** segnalata a devops-sre (🟡) la diagnosi del pattern "giro interrotto" — 3 giorni senza un giro pieno completato, solo bookkeeping automatico. Briefing: [[Briefing/2026-07-23]].
 

@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-23 11:35",
-  "situazione": "Business fermo dal 24/6: 1 PQ live, 5 prodotti, 4 buyer, 0 ordini pagati, stallo ~698h (~29 giorni). Nessun giro pieno tra 20/7 20:22 e oggi (solo sentinelle automatiche) — oggi rigenerata CHECKLIST-NICOLA (AR-030), riscritto OKR con target scaduto (AR-115), misurato EXP-004 e aperto EXP-013 (AR-041/106). Mossa n.1: ordine test PQ (North Star). Mossa n.2: PI26 entro 7 giorni + post social recupero.",
+  "data": "2026-07-23 11:36",
+  "situazione": "Numeri live VERIFICATI via MCP Supabase: 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine in tutto il DB (zombie 24/6, PENDING/CANCELED) — 0 ordini pagati, stallo ~698h (~29gg). Trovati 3 carrelli abbandonati reali su PQ (13,90€/10€/7,95€), materia prima per il win-back post-sblocco. Nessun cambiamento vs il giro delle 11:35 di oggi. Mossa n.1: ordine test PQ (North Star). Mossa n.2: PI26 entro 7 giorni + post social recupero.",
   "opportunita": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
@@ -44,13 +44,10 @@
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo ~698h (>29 giorni)",
-    "Checklist Nicola stantia >2gg (AR-030) — rigenerata oggi",
-    "OKR-Squadra target scaduto (AR-115) — riscritto oggi",
-    "Esperimento in scadenza (AR-041/106) — EXP-004 misurato/mancato, EXP-013 aperto",
-    "MCP Supabase cieco 7 giri (REST copre)",
+    "North Star 0 — stallo ~698h (>29 giorni), confermato via query diretta al DB",
+    "3 carrelli abbandonati reali su PQ mai recuperati (email inviate a giugno, nessuna conversione)",
+    "MCP Supabase riconciliato a ok (era segnato cieco 7 giri, ha risposto in questa sessione)",
     "Runway sconosciuto — BURN_MENSILE_EUR assente (215 giri)",
-    "Telegram non configurato — notifiche approvazione assenti",
-    "3 giorni senza giro pieno completato (solo sentinelle automatiche)"
+    "Telegram non configurato — notifiche approvazione assenti"
   ]
 }
