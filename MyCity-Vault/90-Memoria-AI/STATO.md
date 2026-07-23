@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 17:10
+aggiornato: 2026-07-23 17:31
 fonte: AD digitale (report giornaliero rigenerato)
 ---
+
+> 💬 **23/7 ~17:25 — CHAT: soglia utile netto per i costi discrezionali, referral/punti al rialzo.** Nicola, dopo lo scenario "profitti primo mese" (perdita stimata ~-2.000 €): amministrazione (PEC/firma/commercialista/notaio/consulente-lavoro), assicurazioni RC e app store **sospesi dal calcolo** finché l'utile netto mensile non arriva a **~5.000 €/mese** (si attivano prima solo per obbligo esterno); bici elettrica **già posseduta**, mai calcolare acquisto/noleggio; referral **10€→15€** a coppia (margine abuso/cannibalizzazione), punti fedeltà **1%→2%** al lancio. Aggiornati `BACHECA.md` + `registro-fatti.json` (finanza.soglia-costi-extra) nello stesso turno — scenario "oggi minimo" resta **~302 €/m** invariato. Fonte: chat Nicola 23/7 ~17:25.
 
 > 📋 **23/7 17:10 — Report giornaliero rigenerato (retry azione approvata).** Numeri riverificati con query SQL diretta (`orders`/`profiles`/`products`): business invariato (1 PQ, 4 buyer, 0 pagati, stallo ~29gg). Aggiornato rispetto al report delle 11:49 con i due sblocchi di oggi (token GitHub VPS #219 e Vercel #221, entrambi chiusi) e il nuovo bug segnalato da Nicola (voce menu "Diretta contenuti" sparita dal Pannello, da verificare su Vercel Deployments). **Invio email non eseguito**: `mani-allowlist.json.email` è vuota (AR-103 fail-closed) — serve l'indirizzo di Nicola per attivarlo. Report: [[Report/2026-07-23-giornaliero]].
 
