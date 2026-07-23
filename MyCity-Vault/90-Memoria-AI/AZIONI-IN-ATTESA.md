@@ -14,6 +14,15 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+<!-- scadenzario-check-ar147 -->
+### 🟡 #merge-scadenzario-check-ar147 — Mergia il fix "countdown scadenze esterne" (AR-147) · ⏳ accodata 2026-07-24 00:12
+**Cosa cambia:** nuovo script `cervello/scadenzario-check.mjs` che segnala in automatico quando una scadenza esterna (bandi, fiscali, contrattuali) entra negli ultimi 7 giorni — parte da PI26 (10.000€, scade 30/7). Prima erano solo promemoria scritti a mano, facili da perdere.
+**Se va bene:** al primo giro dopo il merge compare una card 🔴 in questa coda per PI26 (se non è già stata inviata la domanda).
+**Nota tecnica:** branch `fix/scadenzario-check-ar147` già pushato su GitHub, ma l'apertura automatica della PR è fallita per **rate limit dell'API GitHub** (troppe richieste stasera per l'attività intensa del `/loop 10m`) — non un problema del codice. Serve riprovare `node cervello/git-pr.mjs --repo ad-mycity --base main --branch fix/scadenzario-check-ar147 --title "fix(cervello): countdown reale sulle scadenze esterne (AR-147)" --body-file consegne/tech/2026-07-24-pr-scadenzario-check-ar147.md` tra qualche minuto, oppure aprire la PR a mano da GitHub sul branch già pushato.
+- **Colore:** 🟡 (codice in branch, nessun deploy — firma tua al merge)
+- **Reparto:** tech/devops-sre
+- **Origine:** `{origine:auto-radiografia-2026-07-23, difetto:AR-147}`
+
 ---
 
 ### 🔴 #post-carosello-bio-2307 — Pubblica il carosello "Cosa c'è di buono questa settimana" su Instagram e Facebook · ⏳ accodata 2026-07-23 11:23 · ⏸ in pausa (rinvio negozi 24/8-1/9, Nicola 23/7 21:xx)
