@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 16:02
-fonte: AD digitale (chat Nicola — token GitHub VPS rigenerato e verificato)
+aggiornato: 2026-07-23 18:28
+fonte: AD digitale (report della sera — 7 numeri riconfermati via query SQL diretta)
 ---
+
+> 🌙 **23/7 18:28 — REPORT DELLA SERA.** Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 1 ordine (CANCELED), **0 pagati**, stallo confermato via query SQL diretta (`orders`/`products`/`profiles`) — identica alle verifiche di oggi 11:59/12:00/12:52/12:58. Giornata segnata da un fatto vero: **token GitHub VPS rotto → rigenerato da Nicola 16:02, push verificato con PR #510 mergiata**, i 130 commit fermi sono tornati a 1 solo non pushato. Coda AZIONI-IN-ATTESA: **47 aperte**, nessuna nuova oggi (evitato il pattern "loop a vuoto" segnalato ripetutamente in memoria — 6+ blocchi "piano del mattino" ravvicinati fermatisi da soli dopo le 13:23). 3 consegne pronte aspettano solo la firma: carosello catalogo PQ (finestra 17-19 oggi), domanda PI26 (scade 30/7), ordine test PQ. Dettaglio: [[RITMO]].
 
 > 💬 **23/7 ~16:02 — CHAT: token GitHub VPS rigenerato da Nicola, verificato con push reale — PR #510 aperta (L-447).** Nicola «**ho rigenerato il token**» (seguito di #219/#221, screenshot GitHub rotto delle 11:26). AD non si è fidato solo del "dovrebbe funzionare": ha aperto **davvero** la PR Ollama sul branch pulito → **push riuscito**, **PR #510** creata (https://github.com/NicolaeRotaru/ad-mycity/pull/510) — prova concreta, non un test a vuoto. **Card #219 (token VPS rotto) → RISOLTA.** Card **#222** accodata (🔴 merge PR #510). **Resta aperta #221** (token Vercel/Pannello, DIVERSO da questo — legge da fuori, non scrive): non toccato in questa chat, ancora da confermare separatamente su `/api/diagnosi`. Push GitHub sul VPS: sblocco — i commit di memoria fermi da giorni (130+ alle 13:27) ora possono tornare a salire su `origin/main`. Fonte: chat Nicola 23/7 ~16:02.
 
@@ -1027,8 +1029,8 @@ fonte: AD digitale (chat Nicola — token GitHub VPS rigenerato e verificato)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 20/7 20:22 · pulizia demo completata)
-| Numero | Oggi (20/7 20:22) | Δ vs 11:00 | "Riuscito" | Note |
+## I 7 numeri (✅ riconfermati SQL diretta 23/7 18:28 · invariati dal 20/7 20:22)
+| Numero | Oggi (23/7 18:28) | Δ vs 20/7 | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Pulizia demo 18:30 — solo PQ live |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ Stripe collegato, payout-test su ordine vero |

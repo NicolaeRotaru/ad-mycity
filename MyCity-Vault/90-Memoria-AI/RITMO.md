@@ -716,3 +716,27 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 Push GitHub VPS risolto (16:02, PAT rigenerato, PR #510 mergiata). Resta rosso solo il token separato di Vercel (#221, `GITHUB_TOKEN`/`OBSIDIAN_TOKEN` in `obsidian.ts`/`github.ts`). Il loop "piano del mattino" ripetuto stamattina non si è ripresentato dopo le 13:23. Stallo North Star ~704h (~29,3 giorni), business invariato dal 24/6.
+
+## Report della sera · 2026-07-23 18:28
+
+**Com'è andata oggi**
+- Il token GitHub del server si è rotto stamattina: Nicola l'ha rigenerato alle 16:02 e il push è ripartito davvero — la PR del fix Ollama è stata mergiata
+- Tre lavori sono pronti e aspettano solo il tuo ok: il carosello del catalogo del fornaio, la domanda del bando PI26, l'ordine di prova
+- Nessun ordine nuovo, nessun post uscito — l'azienda resta ferma dal 24 giugno
+
+**I numeri**
+- 1 negozio · 4 clienti iscritti · 0 ordini pagati · stallo ~29 giorni — invariati rispetto a ieri
+
+**Da approvare**
+- Pubblica il carosello del catalogo di Pane Quotidiano (la finestra buona è tra le 17 e le 19 di oggi)
+- Invia la domanda del bando PI26 — scade il 30 luglio, fino a 10.000€ a fondo perduto
+- Fai l'ordine di prova su Pane Quotidiano
+
+**Lezione di oggi**
+- Rifare lo stesso giro tante volte di fila non sposta niente — quello che sblocca la giornata sei tu che firmi, non un'altra rilettura dei dati
+
+**Domani**
+- Prima cosa utile: se il carosello e il bando hanno il tuo ok, spingi di nuovo sull'ordine di prova
+
+**Dettagli tecnici**
+7 numeri riconfermati con query SQL diretta (orders/products/profiles), invariati dal 20/7. Push GitHub VPS: da 130 commit fermi a 1 solo (risolto 16:02, PR #510 `82dd378f`). Resta aperto il token separato di Vercel (#221). Coda AZIONI-IN-ATTESA: 47 aperte, 0 nuove oggi. Consegne di oggi: PR #510, diagnosi cassa-runway, supervisione negozi, playbook recensioni, playbook recupero carrelli, post carosello PQ.
