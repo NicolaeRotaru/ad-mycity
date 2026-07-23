@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-23 13:08",
-  "situazione": "Giro pieno richiesto: 8° passaggio quasi identico nell'ultima ora e mezza (11:35→13:08), business invariato — 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine in tutto il DB (zombie 24/6, CANCELED), 0 ordini pagati, stallo ~29gg. Dati confermati freschi (ultimo commit 2 minuti fa, 13:06:43) — non ri-eseguite query né riscritti i JSON auto-coscienza per evitare un ulteriore giro a vuoto (AR-113: lavoro macchina solo se sblocca una card business reale). Push GitHub peggiora ancora (123 commit locali non su origin/main, era 119 alle 13:01). Mossa n.1: ordine test PQ. Mossa n.2: PI26 entro 7 giorni.",
+  "data": "2026-07-23 16:39",
+  "situazione": "Giro pieno richiesto: 10°+ passaggio in giornata, business ancora invariato — 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine in tutto il DB (zombie 24/6, CANCELED), 0 ordini pagati, stallo ~29gg. Delta-gate conferma firma identica dalle 13:27 (ricontrollata alle 16:20, 19 minuti fa): non ho ri-eseguito query MCP/REST né riscritto i JSON auto-coscienza (AR-113 + strategia 'giro ripetuto' già validata in memoria). Unica cosa vera cambiata da stamattina: il token GitHub del VPS è stato rigenerato da Nicola e verificato con un push reale (PR #510 mergiata) — i commit fermi sono scesi da 130 a ~1. Mossa n.1: ordine test PQ. Mossa n.2: PI26 entro il 30/7. Mossa n.3: firma pubblicazione carosello catalogo PQ.",
   "opportunita": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
@@ -10,13 +10,13 @@
     },
     {
       "titolo": "Invia la domanda PI26",
-      "motivo": "Sportello aperto fino al 30/7 ore 16:00 (7 giorni residui) — fino a €10k fondo perduto digitalizzazione",
+      "motivo": "Sportello aperto fino al 30/7 ore 16:00 — fino a €10k fondo perduto digitalizzazione",
       "impatto": "alto",
       "sforzo": "medio"
     },
     {
-      "titolo": "Recupera il post social su PQ",
-      "motivo": "3+1 post pronti mai usciti — l'esperimento collegato è scaduto senza poter essere misurato",
+      "titolo": "Pubblica il carosello catalogo su Pane Quotidiano",
+      "motivo": "Contenuto pronto da giorni, finestra di pubblicazione di oggi in scadenza",
       "impatto": "medio",
       "sforzo": "basso"
     }
@@ -24,30 +24,24 @@
   "azioni": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "North Star a 0 da ~699h (~29,1 giorni) — prova end-to-end checkout e pagamento",
+      "motivo": "North Star a 0 da ~29 giorni — prova end-to-end checkout e pagamento",
       "livello": "giallo"
     },
     {
       "titolo": "Invia la domanda PI26 su restart.infocamere.it",
-      "motivo": "Contributo 50% spese digitali — sportello chiude tra 7 giorni",
+      "motivo": "Contributo 50% spese digitali — sportello chiude il 30/7",
       "livello": "rosso"
     },
     {
-      "titolo": "Pubblica il post su Facebook e Instagram",
-      "motivo": "Recupero visibilità su negozio faro — varianti pronte",
+      "titolo": "Pubblica il carosello catalogo su Facebook e Instagram",
+      "motivo": "Recupero visibilità su negozio faro — pronto, finestra di oggi",
       "livello": "rosso"
-    },
-    {
-      "titolo": "Controlla e rinnova il token GitHub del progetto",
-      "motivo": "119 commit locali non arrivano su GitHub dal 22/7 08:20 — la Cabina e le PR restano indietro",
-      "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo ~29 giorni, confermato via query diretta al DB (dati di 2 minuti fa)",
-    "123 commit locali mai arrivati su origin/main (era 119 alle 13:01, push VPS ancora rotto, in peggioramento continuo)",
+    "North Star 0 — stallo ~29 giorni, confermato dal delta-gate (ricontrollato alle 16:20)",
     "3 carrelli abbandonati reali su PQ mai recuperati (email inviate a giugno, nessuna conversione)",
     "Runway sconosciuto — BURN_MENSILE_EUR assente",
-    "8° passaggio quasi identico in 90 minuti — pattern 'loop a vuoto' confermato, nessuna nuova macchina pesante rilanciata su dati vecchi di 2 minuti"
+    "10°+ passaggio quasi identico in giornata — pattern 'loop a vuoto' confermato, niente ri-esecuzione della macchina pesante su dati invariati (RISOLTO nel frattempo: token GitHub VPS rigenerato e verificato)"
   ]
 }
