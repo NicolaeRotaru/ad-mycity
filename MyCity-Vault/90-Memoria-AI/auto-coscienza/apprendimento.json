@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-23 19:10",
+  "aggiornato": "2026-07-23 19:20",
   "_nota_metabolizzazione_23_07_1857": "Chat 23/7 ~18:42-18:57: Nicola segnala 3 bug chat (risposta doppia, scroll che salta, menu che non si chiude, screenshot Brave) — l'agente frontend-dev delegato in background si è bloccato 2 volte senza completare, l'AD ha smesso di aspettarlo e ha scritto la patch da sé (dedup risposta doppia, `tsc`+test verificati, PR #514/card #227), lasciando lo scroll intatto (6 tentativi falliti pregressi). Nicola poi chiede esplicitamente un'analisi retrospettiva («hai fatto cose che non hai mai fatto… perché ci sono stati tutti questi problemi»): l'AD ha risposto con auto-critica onesta, incluso un rischio non ancora corretto (agente background senza isolamento, stessa copia file dell'AD). Non è una correzione di Nicola (non ha contraddetto la diagnosi), è una richiesta di trasparenza — L nuova in LEZIONI-CHAT.md (background-agent-fallback-diretto + isolamento mancante); nessun nuovo fatto/decisione di business; card #227 già in AZIONI-IN-ATTESA, nessuna azione nuova da accodare.",
   "_nota_metabolizzazione_23_07_1838": "Chat 23/7 ~18:30-18:38: Nicola segnala che il tab dettatura vocale non funziona («fai in modo che funzioni») poi precisa «lo uso di più in versione app» (screenshot Brave). AD ha verificato online (non solo ipotesi): Brave blocca di proposito il servizio Google di riconoscimento vocale (2 issue GitHub Brave citate come fonte) — non è un permesso mancante, è un limite permanente del browser. Fix consegnato: `dettatura-vocale.ts` rileva `navigator.brave` e mostra il messaggio vero (\"Brave blocca il servizio vocale, usa Chrome\") invece di mandare l'utente a cercare un permesso inesistente nelle impostazioni; typecheck pulito; PR #515 aperta, card #228 già in coda (creata nello stesso turno precedente, non duplicata). L-2026-0723-452 nuova (non caso_studio_nicola: diagnosi tecnica confermata da fonte esterna, non una correzione); nessuna azione/decisione business nuova; STATO/AZIONI-IN-ATTESA già coerenti (card #228 esistente).",
   "_preferenza_nicola_23_07_1725_soglia_costi_extra": "📌 FATTO DUREVOLE Nicola (chat 23/7 ~17:25) — i costi non-vitali (amministrazione: PEC/firma/commercialista/notaio/consulente-lavoro; assicurazioni RC; app store) si sospendono dal calcolo/scenari finché l'utile netto mensile di MyCity non arriva a **~5.000 €/mese** — si riattivano PRIMA di quella soglia solo se un obbligo esterno li impone (es. bando, assunzione). La bici elettrica è già posseduta (in riparazione): mai calcolare acquisto/noleggio come costo, a meno che serva una seconda bici. Referral rivisto **10€→15€** a coppia (margine per abuso/auto-referral e cannibalizzazione) e punti fedeltà **1%→2%** al lancio (l'1% era una stima troppo bassa) — quando una stima di costo/incentivo gli sembra bassa, il numero realistico include il margine di rischio, non solo il prezzo nominale. Registrato in `registro-fatti.json` (finanza.soglia-costi-extra) + `BACHECA.md` (commit 50138cba).",
@@ -10616,9 +10616,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-23 19:10",
+    "tasso_calcolato_il": "2026-07-23 19:20",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-23 19:10",
+    "tick_leggero_il": "2026-07-23 19:20",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
