@@ -1422,11 +1422,14 @@
       "causa_radice": "cervello/consenso-azione.mjs (AR-103) verifica pausa+AZIONE_ID+allowlist ma è cablato SOLO nella via CLI (esegui-azione.mjs). pannello/src/lib/autopilota.ts esegue ogni azione 🟢 chiamando eseguiAzione() senza mai importare/chiamare la verifica pausa — due esecutori, un solo cancello.",
       "fix_proposto": "🟡 estrarre pausaAttiva()/consensoInvio() in un modulo condivisibile (o riprodurlo 1:1 in TS) e farlo chiamare da eseguiAutopilota() prima di ogni esecuzione, non solo dalla CLI.",
       "colore": "🔴",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-23 22:20",
+      "chiuso_il": "2026-07-24 00:12",
       "origine": "auto-radiografia 2026-07-23 (dimensione guardrail-semaforo)",
+      "nota_fix": "PR #518 mergiata su main (commit 62134293, verificato ancestor di origin/main). pannello/src/lib/autopilota.ts:15-22,30 chiama pausaAttiva() prima E durante il loop delle azioni verdi.",
       "verifica": {
-        "tipo": "umano"
+        "tipo": "umano",
+        "esito": "Verificato in codice su origin/main 24/7 00:12 — pausaAttiva() presente e cablata in eseguiAutopilota()."
       }
     },
     {
@@ -1438,11 +1441,14 @@
       "causa_radice": "pannello/src/lib/mani.ts invia email reali controllando solo canale/destinatario-presente/chiave/onestà/AZIONI_LIVE — non consulta mai cervello/mani-allowlist.json né lega l'invio a un AZIONE_ID approvato, a differenza di esegui-azione.mjs (CLI) che lo fa fail-closed.",
       "fix_proposto": "🟡 portare destinatarioAmmesso()/approvata()/trovaAzione() dentro mani.ts, oppure far girare l'invio reale SEMPRE attraverso lo script CLI invece di duplicare la logica in TypeScript.",
       "colore": "🔴",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-23 22:20",
+      "chiuso_il": "2026-07-24 00:12",
       "origine": "auto-radiografia 2026-07-23 (dimensione guardrail-semaforo)",
+      "nota_fix": "PR #518 mergiata su main (stesso commit di AR-138). pannello/src/lib/mani.ts:44-60 aggiunge destinatarioEmailAmmesso() (legge cervello/mani-allowlist.json) e la chiama nel percorso live (riga 129) prima di inviare. Resta parziale: il legame esplicito con l'AZIONE_ID approvato (come fa esegui-azione.mjs via consenso-azione.mjs) non è ancora replicato in mani.ts — l'unico gate reale oggi è l'allowlist destinatario + il click di approvazione stesso in azioni-pronte/route.ts (che esegue SOLO su decisione:approva). Se serve il legame AZIONE_ID esplicito, riaprire come nuovo difetto mirato invece di questo.",
       "verifica": {
-        "tipo": "umano"
+        "tipo": "umano",
+        "esito": "Verificato in codice su origin/main 24/7 00:12 — allowlist email presente e cablata in eseguiAzione()."
       }
     },
     {
