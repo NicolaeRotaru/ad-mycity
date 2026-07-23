@@ -187,26 +187,25 @@ function tsMaxIso(a: string, b: string): string {
   return new Date(a).getTime() >= new Date(b).getTime() ? a : b;
 }
 
-/** Rete di sicurezza a video: collassa bolle CONSECUTIVE identiche (stesso ruolo, testo,
- *  pending/prompt) prima di disegnarle. La causa vera dei doppioni (più percorsi che scrivono
- *  in `messages` — poller lavori, ricostruzione da Lavori, chat-unificata — con normalizzazioni
- *  leggermente diverse tra loro) resta da chiudere caso per caso, ma qui garantiamo che Nicola
- *  non veda MAI due bolle identiche una sotto l'altra, qualunque sia la causa a monte. */
+/** Rete di sicurezza a video: collassa bolle identiche (stesso ruolo, testo, pending/prompt)
+ *  OVUNQUE si trovino nella lista, non solo se una attaccata all'altra. 23/7 20:00: un merge col
+ *  server (mergeThreadMsgs, chiamato dal poller di caricaConversazioni) può ri-accodare in FONDO
+ *  un messaggio già presente PIÙ IN ALTO nello storico — non due bolle consecutive, quindi la
+ *  prima versione di dedupRenderMsgs (solo consecutive) non lo vedeva. Qui teniamo la PRIMA
+ *  occorrenza (l'ordine cronologico reale) e scartiamo ogni ripetizione successiva, ovunque sia.
+ *  La causa vera dei doppioni (più percorsi che scrivono in `messages` — poller lavori,
+ *  ricostruzione da Lavori, chat-unificata — con normalizzazioni leggermente diverse tra loro)
+ *  resta da chiudere caso per caso, ma qui garantiamo che Nicola non veda MAI due bolle identiche,
+ *  qualunque sia la causa a monte e qualunque sia la distanza tra le due. */
 function dedupRenderMsgs<T extends { role: string; content: string; pending?: boolean; prompt?: boolean }>(
   msgs: T[],
 ): T[] {
   const out: T[] = [];
+  const visti = new Set<string>();
   for (const m of msgs) {
-    const prev = out[out.length - 1];
-    if (
-      prev &&
-      prev.role === m.role &&
-      prev.content === m.content &&
-      !!prev.pending === !!m.pending &&
-      !!prev.prompt === !!m.prompt
-    ) {
-      continue;
-    }
+    const chiave = `${m.role}|${m.content}|${!!m.pending}|${!!m.prompt}`;
+    if (!m.pending && visti.has(chiave)) continue;
+    visti.add(chiave);
     out.push(m);
   }
   return out;
