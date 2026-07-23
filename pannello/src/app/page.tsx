@@ -187,6 +187,31 @@ function tsMaxIso(a: string, b: string): string {
   return new Date(a).getTime() >= new Date(b).getTime() ? a : b;
 }
 
+/** Rete di sicurezza a video: collassa bolle CONSECUTIVE identiche (stesso ruolo, testo,
+ *  pending/prompt) prima di disegnarle. La causa vera dei doppioni (più percorsi che scrivono
+ *  in `messages` — poller lavori, ricostruzione da Lavori, chat-unificata — con normalizzazioni
+ *  leggermente diverse tra loro) resta da chiudere caso per caso, ma qui garantiamo che Nicola
+ *  non veda MAI due bolle identiche una sotto l'altra, qualunque sia la causa a monte. */
+function dedupRenderMsgs<T extends { role: string; content: string; pending?: boolean; prompt?: boolean }>(
+  msgs: T[],
+): T[] {
+  const out: T[] = [];
+  for (const m of msgs) {
+    const prev = out[out.length - 1];
+    if (
+      prev &&
+      prev.role === m.role &&
+      prev.content === m.content &&
+      !!prev.pending === !!m.pending &&
+      !!prev.prompt === !!m.prompt
+    ) {
+      continue;
+    }
+    out.push(m);
+  }
+  return out;
+}
+
 /** Timestamp «ultimo messaggio» — usa created_at dei messaggi reali (non updated_at che si aggiorna a ogni apertura). */
 function tsConvAggiornato(c: Conversazione, gruppo?: GruppoLavori | null): string {
   // Prende il created_at più recente tra i messaggi non-prompt che ce l'hanno
@@ -1192,7 +1217,11 @@ export default function Dashboard() {
         if (l.stato === "in_corso" && l.risultato) aggiornaPendingParziale(pend.targetConvId, l.risultato);
         continue;
       }
-      const testo = l.risultato || (l.stato === "errore" ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte." : MSG_RISPOSTA_VUOTA);
+      // .trim() allineato a messaggiDaLavoro(): senza, un risultato con solo spazi/a-capo in coda
+      // veniva applicato "grezzo" qui ma "pulito" nella ricostruzione da Lavori (continuaConversazione/
+      // apriChatDaGruppo) → due stringhe diverse per la STESSA risposta, che la dedup per uguaglianza
+      // esatta (mergeThreadMsgs) non riconosceva come lo stesso messaggio → bolla doppia al cambio chat.
+      const testo = (l.risultato || "").trim() || (l.stato === "errore" ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte." : MSG_RISPOSTA_VUOTA);
       applicaRispostaChat(pend.id, testo, pend.targetConvId);
     }
   }
@@ -2784,7 +2813,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
           )}
           <div ref={scrollBoxRef} onScroll={(e) => { stickFullRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-5 space-y-3 overflow-y-auto min-h-0">
-            {messages.map((m, i) =>
+            {dedupRenderMsgs(messages).map((m, i) =>
               m.prompt ? (
                 <div key={m.id ?? i} className="text-left">
                   <div className="t-eti text-xs mb-1.5 flex items-center gap-1">
@@ -3181,8 +3210,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <div className="flex flex-col flex-1 min-h-0 min-w-0">
           {/* Corpo chat: solo i messaggi scrollano; barra scrittura resta in fondo */}
           <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 min-h-0 p-3.5 space-y-3 overflow-y-auto overscroll-contain">
-            {messages
-              .filter((m) => !m.prompt)
+            {dedupRenderMsgs(messages.filter((m) => !m.prompt))
               .map((m, i) => (
                 <div key={m.id ?? i} className={m.role === "user" ? "text-right" : "text-left"}>
                   {m.role === "user" ? (

@@ -65,6 +65,7 @@ export function titoloLavoro(lv: LavoroBase): string {
 }
 
 export type MsgChat = {
+  id?: string;
   role: "user" | "assistant";
   content: string;
   pending?: boolean;
@@ -75,14 +76,14 @@ export function messaggiDaLavoro(lv: LavoroBase): MsgChat[] {
   const out: MsgChat[] = [];
   const richiesta = lv.richiesta || "";
   if (lv.tipo === "giro") {
-    out.push({ role: "user", content: "fai un giro" });
+    out.push({ id: `${lv.id}:u`, role: "user", content: "fai un giro" });
   } else if (richiesta.trim()) {
     const daRichiesta = userContentDaRichiesta(richiesta);
     if (daRichiesta.trim()) {
-      out.push({ role: "user", content: daRichiesta });
+      out.push({ id: `${lv.id}:u`, role: "user", content: daRichiesta });
     } else {
       const prima = richiesta.split("\n").find((l) => l.trim() && !l.startsWith("#"));
-      if (prima?.trim()) out.push({ role: "user", content: prima.trim() });
+      if (prima?.trim()) out.push({ id: `${lv.id}:u`, role: "user", content: prima.trim() });
     }
   }
   if (lv.stato === "annullato") {
@@ -91,10 +92,18 @@ export function messaggiDaLavoro(lv: LavoroBase): MsgChat[] {
     // Se è stato annullato manualmente, nessuna risposta è corretta.
     return out;
   }
-  if (lv.risultato?.trim()) {
-    out.push({ role: "assistant", content: lv.risultato.trim() });
-  } else if (lv.stato === "in_attesa" || lv.stato === "in_corso") {
-    out.push({ role: "assistant", content: "", pending: true });
+  // FIX (risposta duplicata/ferma al cambio chat, AR — segnalato da Nicola): un lavoro NON ancora
+  // concluso ("in_attesa"/"in_corso") è SEMPRE un turno pendente, anche se ha già del testo
+  // parziale (streaming in corso) — prima si guardava PRIMA se c'era testo e solo se vuoto si
+  // marcava pending, quindi riaprendo la conversazione (continuaConversazione/apriChatDaGruppo)
+  // mentre l'AD stava ancora scrivendo, il parziale veniva ricostruito come risposta GIÀ FINITA
+  // (pending mancante): il poller in tempo reale (che invece marca correttamente pending) non
+  // riusciva più a farla crescere (bolla "congelata"), e i due percorsi di ricostruzione
+  // finivano per disallinearsi producendo la bolla doppia/che sparisce un istante.
+  if (lv.stato === "in_attesa" || lv.stato === "in_corso") {
+    out.push({ id: `${lv.id}:a`, role: "assistant", content: lv.risultato?.trim() || "", pending: true });
+  } else if (lv.risultato?.trim()) {
+    out.push({ id: `${lv.id}:a`, role: "assistant", content: lv.risultato.trim() });
   }
   return out;
 }
