@@ -1,40 +1,43 @@
 ## Cosa
 
-`sync_vault()` in `cervello/worker.sh`, dopo aver committato la memoria in locale, ora controlla se
-l'ultimo commit "Merge pull request" raggiungibile da HEAD è più recente di `VERCEL_DEPLOY_COOLDOWN`
-secondi (default 180 = 3 minuti). Se sì, salta il `git push` di questo giro (il commit resta locale,
-niente lavoro perso) e riprova al prossimo `sync_vault` — quando il cooldown sarà scaduto.
+Aggiunta a `pannello/vercel.json`: `"github": { "autoJobCancelation": false }` — impostazione UFFICIALE
+di Vercel (non un trucco nostro) che dice a Vercel di costruire i push **in sequenza** invece di
+cancellare il deploy in corso ogni volta che arriva un commit più nuovo sullo stesso branch.
 
 ## Perché
 
-Nicola: "vercel non riesce a fare il deploy delle merge, ho provato il deploy manuale, è partito, poi
-è sparito". Causa trovata guardando i timestamp reali dei commit (non un'ipotesi): dopo ogni merge di
-una PR, il worker scrive quasi subito un commit di log in memoria e lo pusha su `main` — e quel push
-fa ripartire il deploy su Vercel, che quindi **cancella** il build vero (ancora in corso) partito dal
-merge:
+Il fix di stasera (`cervello/worker.sh`, la "pausa" dopo un merge) copre solo UN caso: il mio commit
+di log scritto subito dopo un mio merge. Ma Nicola ha provato un "Redeploy" manuale su Vercel e si è
+comunque interrotto — perché la causa vera è più a monte: **Vercel, di default, cancella qualsiasi
+deploy in corso appena arriva un nuovo commit su quel branch**, prima ancora di sapere se quel commit
+verrà davvero costruito o scartato dal filtro `ignoreCommand`. Con questa chat che scrive su `main`
+quasi a ogni messaggio, QUALSIASI deploy (merge, manuale, automatico) rischia di essere interrotto da
+un mio prossimo commit — non solo quelli subito dopo un merge.
 
-- PR #520 (schermo/voce): merge 23:48:43 → commit di log 23:48:44 — **1 secondo dopo**.
-- PR #518 (fix pausa): merge 22:55:57 → commit di log 22:56:44 — 47 secondi dopo.
-- PR #517 (chat doppia): merge ~20:47 → commit di log 20:52:10.
+Verificato sulla documentazione ufficiale Vercel (non un'ipotesi): la proprietà
+`github.autoJobCancelation` esiste esattamente per questo — quando è `false`, Vercel accoda i build
+invece di cancellarli. Fonte: https://vercel.com/docs/project-configuration/git-configuration
+("github.autoJobCancelation ... When set to false, Vercel for GitHub will always build pushes in
+sequence without cancelling a build for the most recent commit").
 
-In tutti i casi il push del worker arriva mentre Vercel sta ancora costruendo dal merge, e lo
-interrompe. Non è statistica: è un riflesso automatico del flusso (mergi → il worker registra subito
-in memoria e pusha) che oggi succede quasi sempre a poca distanza da ogni merge.
+Questo fix è complementare a `ignoreCommand` già presente nello stesso file: `ignoreCommand` scarta
+velocemente i commit che non toccano `pannello/` (quindi non intasa la coda con build inutili);
+`autoJobCancelation: false` garantisce che i pochi commit che TOCCANO `pannello/` (i merge veri)
+arrivino sempre in fondo, anche se un altro commit arriva mentre stanno ancora costruendo.
 
 ## Come provare
 
-1. `bash -n cervello/worker.sh` (verifica sintassi — **non eseguito in questa sessione**: il comando
-   `bash -n` è risultato bloccato dai permessi headless del VPS, stesso tipo di blocco già visto su
-   altri comandi in questa chat. Ho riletto a mano il diff — if/fi ed apici sono bilanciati e lo stile
-   ricalca il resto della funzione — ma va confermato con un vero `bash -n` prima o dopo il merge.
-2. Simulare: fare un merge di prova (o guardare i log del prossimo merge reale) e controllare nei log
-   del worker la riga `sync_vault: merge recente (...) — push rimandato...` nei minuti subito dopo.
-3. Su Vercel, verificare che dopo il prossimo merge il deploy arrivi in fondo senza essere cancellato
-   da un push di memoria nei primi 3 minuti.
+1. Verifica JSON: non sono riuscita a far girare `node -e` per validare la sintassi — bloccato dai
+   permessi headless di questa sessione (stesso tipo di blocco già visto stasera su `bash -n`). Ho
+   riletto il file a mano: la struttura ricalca esattamente l'esempio nella documentazione ufficiale
+   citata sopra (stessa indentazione, stesse virgolette, stessa chiave `github.autoJobCancelation`).
+2. Dopo il merge, il prossimo deploy reale da un cambio a `pannello/` dovrebbe comparire su Vercel
+   come "Queued" invece di "Canceled" se arriva un commit mentre sta ancora costruendo, e finire in
+   fondo (anche se con qualche minuto di ritardo) invece di sparire.
 
 ## Rischio
 
-Basso: se `git log --grep` non trova nessun "Merge pull request" (repo senza merge recenti), il
-comportamento resta identico a oggi (push immediato). Il ritardo massimo introdotto è il valore del
-cooldown (180s di default), e solo per il PUSH — il commit locale è comunque immediato, nessuna
-scrittura viene persa.
+Basso — è una sola proprietà di configurazione documentata da Vercel stesso, pensata apposta per
+questo scenario. L'unico costo è che, se arrivano molti commit ravvicinati, i build si accodano invece
+di saltare direttamente all'ultimo: possono volerci più minuti perché un deploy compaia online, ma
+prima o poi arriva — invece di non arrivare mai come succede oggi.
