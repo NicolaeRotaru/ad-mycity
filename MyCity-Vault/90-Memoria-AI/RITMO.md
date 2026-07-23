@@ -571,3 +571,20 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 - REST 18:00 ok · delta-gate invariato · PR #496 #498 #497 mergiate · PR #499 in coda · 15 playbook in consegne/ · sensori n8n ok · MCP Supabase cieco (REST copre)
+
+## Piano del mattino · 2026-07-23 11:45
+
+**In una riga:** Il fornaio aspetta ancora il primo ordine vero — oggi contano tre cose sole: l'ordine di prova, la domanda del bando e il post già pronto.
+
+**Le 3 cose di oggi**
+1. Fai un ordine di prova su Pane Quotidiano — è l'unica cosa che sblocca la crescita da zero a uno, ferma da tre giorni.
+2. Invia la domanda del bando PI26 — chiude tra 7 giorni (30 luglio), rimborsa parte delle spese tecniche.
+3. Dai l'ok per pubblicare il carosello con tutto il catalogo di Pane Quotidiano — testo e grafica pronti, meglio nel tardo pomeriggio (17-19).
+
+**Serve da te**
+- Fai un ordine di prova su Pane Quotidiano (10 minuti, sul sito)
+- Invia la domanda PI26 su restart.infocamere.it
+- Dai l'ok per pubblicare il carosello di oggi su Instagram e Facebook
+
+**Dettagli tecnici**
+- Business invariato: 1 negozio, 5 prodotti, 4 clienti, 0 ordini pagati, stallo ~698h (~29 giorni). Sensori 9/9 ok (11:36) incluso MCP Supabase tornato attivo. Coda 47 azioni aperte, carosello `#post-carosello-bio-2307` pronto. Passo-a devops-sre: diagnosi 3 giorni di giri interrotti (solo sentinelle automatiche).

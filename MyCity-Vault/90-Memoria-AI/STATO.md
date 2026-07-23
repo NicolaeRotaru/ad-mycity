@@ -1116,18 +1116,17 @@ fonte: AD digitale (passaggio di verifica sullo stesso giro — 11:36)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 20/7 18:30)
-**Sportello PI26 aperto da stamattina — domanda non risulta inviata (scade 30/7).** Business INVARIATO dal 24/6, North Star 0, stallo ~634h (~26,4 giorni). Cassa Stripe 0€. **Catalogo:** solo Pane Quotidiano live (pulizia demo ✅ 18:30).
+## Prossime priorità (🛰️ aggiornato 23/7 11:45 — Piano del mattino)
+**PI26 scade tra 7 giorni (30/7) — domanda non ancora inviata.** Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~698h** (~29,1 giorni). Cassa Stripe 0€. Sensori 9/9 ok (11:36).
 
-1. [ ] 🔴 **Invia domanda PI26** — sportello già aperto (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
-2. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1 (`#ordine-test-pq`).
-3. [ ] 🔴 **Pubblica almeno un post** — lunedì turno mattina (`#post-lunedi-turno-mattina-2007`) o recupero domenica/pioggia.
-4. [ ] 🟡 **Mergia PR #499 su GitHub** — fix casella Parla (errore JSON giallo; niente card in coda per regola L-402).
-5. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice #496 già su main).
-6. [ ] 🟡 **Burn mensile nel VPS** — sblocca runway (`#burn-mensile-env`).
-7. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
+1. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1, fermo da 3 giorni (`#ordine-test-pq`).
+2. [ ] 🔴 **Invia domanda PI26** — sportello aperto, 7 giorni residui (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
+3. [ ] 🔴 **Pubblica il carosello del catalogo PQ** — pronto oggi, fascia 17:00-19:00 (`#post-carosello-bio-2307`).
+4. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice già su main).
+5. [ ] 🟡 **Diagnosi giri interrotti** — passata a @devops-sre (3 giorni con solo sentinelle automatiche, nessun giro pieno).
+6. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali) · `cassa_sconosciuta` (175 giri, manca BURN_MENSILE_EUR) · Telegram assente · PostHog spento (scelta 5/7) · n8n ✅ · REST/Stripe/Resend/Sito/Pannello ✅ (18:00).
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~698h) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente · n8n ✅ · REST/Stripe/Resend/Sito/Pannello/MCP Supabase ✅ (11:36).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*

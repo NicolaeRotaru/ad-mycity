@@ -1226,3 +1226,17 @@ Assegnazioni reparto (1 mossa ciascuno):
 ### 2026-07-23 11:36 — Verifica dati live (stesso giro delle 11:35)
 - 2026-07-23 11:36 · @AD · FATTO · Query dirette MCP Supabase marketplace: confermati 1 seller/4 buyer/5 prodotti/1 ordine (zombie, 0 pagati) — nessun ordine nuovo nell'ultima ora. Trovati 3 carrelli abbandonati reali su PQ (materia prima crm-lifecycle post-sblocco). Chiuse 5 cacce bonificate in coerenza-fatti. MCP Supabase riconciliato a ok.
 - 2026-07-23 11:36 · @AD · PASSO-A · @Nicola — invariato: **Mossa n.1 ordine test PQ**, **Mossa n.2 domanda PI26** (scade tra 7 giorni).
+
+### 2026-07-23 11:45 — ☀️ PIANO DEL MATTINO (AD)
+**Obiettivo del giorno:** sbloccare la North Star (0→1) e chiudere PI26 prima della scadenza. Le 3 priorità: ① ordine test PQ · ② domanda PI26 (7gg residui) · ③ pubblica il carosello catalogo PQ (17:00-19:00).
+
+Assegnazioni (1 mossa per reparto):
+- @AD · tiene pronta l'esecuzione dell'ordine test e la coda pulita; aggiorna STATO/RITMO a fine giornata · 🟢
+- @relazioni-istituzionali · ultimo controllo checklist PI26 (fatture tech da maggio, firma digitale) — pronta per l'invio · 🟢 (invio = 🔴 Nicola)
+- @content-social · pubblica il carosello `#post-carosello-bio-2307` nella fascia 17-19 se arriva l'ok · 🔴 (bozza già pronta 🟢)
+- @crm-lifecycle · prepara bozza di riattivazione sui 3 carrelli abbandonati reali trovati stamattina (13,90€/10€/7,95€) — da usare appena sblocca il primo ordine · 🟢
+- @analista · a fine giornata verifica se l'ordine test è arrivato e aggiorna lo snapshot KPI · 🟢
+- @devops-sre · completa la diagnosi sui 3 giorni di giri interrotti (solo sentinelle automatiche, nessun giro pieno) e riferisce la causa entro sera · 🟡 (già passo-a 11:35)
+- @vendite/@onboarding-negozi · nessuna nuova apertura oggi (fase 0→1, faro unico Pane Quotidiano) — resta in attesa del primo ordine prima di ampliare · 🟢
+
+🙋 Serve da Nicola per sbloccare: 🟡 ordine di prova su Pane Quotidiano · 🔴 invio domanda PI26 · 🔴 ok pubblicazione carosello oggi.
