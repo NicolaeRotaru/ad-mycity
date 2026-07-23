@@ -14,6 +14,17 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+<!-- pausa-post-merge-worker -->
+### 🟡 #merge-pausa-post-merge-worker — Mergia il fix "aspetta 3 minuti prima di scrivere in memoria dopo un merge" · ⏳ accodata 2026-07-24 00:33
+**Cosa cambia:** hai chiesto di applicare la pausa dopo la caccia al perché Vercel "parte e sparisce" — trovato che l'AD stessa uccideva i tuoi deploy, scrivendo un commit di log su `main` a pochi secondi da ogni merge, mentre Vercel stava ancora buildando. Ora quel commit aspetta 3 minuti prima di partire.
+**Se va bene:** i prossimi deploy dopo un tuo merge dovrebbero arrivare a "Ready" senza sparire — verificalo su Vercel → Deployments dopo il prossimo merge (niente più fila di "Canceled — superseded" negli stessi minuti).
+**Nota tecnica:** branch `fix/sync-vault-pausa-post-merge` già pushato su GitHub (commit `812e945a`, solo `cervello/worker.sh` +17 righe), ma l'apertura automatica della PR è fallita per **rate limit dell'API GitHub** (stessa causa di stasera su AR-147) — riprovare `git-pr.mjs` tra qualche minuto o aprire la PR a mano da GitHub sul branch già pushato.
+- **Colore:** 🟡 (codice del worker in branch — firma tua al merge)
+- **Reparto:** tech/devops-sre
+- **Origine:** caccia Vercel-deploy-cancellato (chat 24/7 00:08→00:33)
+
+---
+
 <!-- scadenzario-check-ar147 -->
 ### 🟡 #merge-scadenzario-check-ar147 — Mergia il fix "countdown scadenze esterne" (AR-147) · ⏳ accodata 2026-07-24 00:12
 **Cosa cambia:** nuovo script `cervello/scadenzario-check.mjs` che segnala in automatico quando una scadenza esterna (bandi, fiscali, contrattuali) entra negli ultimi 7 giorni — parte da PI26 (10.000€, scade 30/7). Prima erano solo promemoria scritti a mano, facili da perdere.
