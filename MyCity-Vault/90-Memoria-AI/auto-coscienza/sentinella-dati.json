@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-23 12:24",
+  "aggiornato": "2026-07-23 12:26",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "84",
@@ -27,10 +27,10 @@
       "ambito": "macchina"
     },
     "cassa_sconosciuta": {
-      "ultima_firma": "215",
-      "ultimo_accodato": "2026-07-23 11:02",
-      "ultimo_accodato_iso": "2026-07-23T09:02:56.558Z",
-      "ultimo_job": "f890f31f-cb2c-46d5-8d99-5f8d79bb3b23",
+      "ultima_firma": "219",
+      "ultimo_accodato": "2026-07-23 12:25",
+      "ultimo_accodato_iso": "2026-07-23T10:25:54.891Z",
+      "ultimo_job": "5b894fea-22ad-4276-ba27-fc6d1195c17a",
       "colore": "🟡",
       "ambito": "macchina"
     },
@@ -45,7 +45,7 @@
   },
   "accodati_giorno": {
     "giorno": "2026-07-23",
-    "n": 6
+    "n": 7
   },
   "accodati_ts": [
     "2026-07-18T11:28:59.844Z",
@@ -89,23 +89,12 @@
     "2026-07-23T04:21:04.528Z",
     "2026-07-23T06:20:48.901Z",
     "2026-07-23T08:20:37.431Z",
-    "2026-07-23T09:02:56.558Z"
+    "2026-07-23T09:02:56.558Z",
+    "2026-07-23T10:25:54.891Z"
   ],
   "ultima_recensione_vista": "2026-07-18T11:28:59.844Z",
-  "tick": 6463,
+  "tick": 6465,
   "storia": [
-    {
-      "quando": "2026-07-23 10:44",
-      "eventi": 2,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-23 10:45",
-      "eventi": 2,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-23 10:46",
       "eventi": 2,
@@ -693,10 +682,22 @@
       "eventi": 2,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-23 12:25",
+      "eventi": 2,
+      "accodati": 1,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-23 12:26",
+      "eventi": 2,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-23 12:24",
+    "quando": "2026-07-23 12:26",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
