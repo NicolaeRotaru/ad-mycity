@@ -65,7 +65,7 @@ Playbook aggiornato (base 6/7). **Meccanica pronta, programma NON acceso** — o
 ### MyCity Punti (quando accendiamo)
 
 - **1 punto ogni 1 €** speso, valido su **tutta la rete**
-- Valore punto da fissare — proposta lancio: **1%** (100 pt = 1 €), poi **2%** solo se i dati reggono
+- Valore punto — stima rivista al rialzo 23/7 (Nicola: il costo è più alto di quanto pensavo): proposta lancio **2%** (100 pt = 2 €), può salire a **3–5%** se serve competere con Glovo/altri programmi fedeltà locali — l'1% iniziale era troppo ottimistico, i programmi fedeltà reali che spostano comportamento stanno nella fascia 2–5%
 - Riscatto: minimo **100 pt**, max **30%** del carrello, scadenza **12 mesi**
 - **Paga MyCity** (dalla commissione), il negozio incassa pieno al riscatto
 - **Oggi: 0%** — non accendere con 1 solo negozio
@@ -98,9 +98,9 @@ Fonte: refresh growth 20/7 · validazione finanza · playbook base 6/7.
 
 ---
 
-## 💰 Costi infrastruttura MyCity · 2026-07-21 00:36
+## 💰 Costi infrastruttura MyCity · 2026-07-23 17:26
 
-Lista completa per Nicola — **✅ = confermato da te** · **📊 = stima orientativa** (tipografia, listini, mercato PMI — da rifinire col preventivo reale).
+Lista completa per Nicola — **✅ = confermato da te** · **📊 = stima orientativa** (tipografia, listini, mercato PMI — da rifinire col preventivo reale) · **🚫 = sospeso** (Nicola 23/7: niente amministrazione/assicurazioni/app store finché l'utile netto mensile non arriva a **~5.000 €/mese** — si attivano prima solo se un evento le rende obbligatorie, es. bando o assunzione).
 
 ### Oggi — confermati (fissi mensili)
 
@@ -135,14 +135,14 @@ Grafica pronta su disco; paghi solo in tipografia. Gate: **ordine test PQ** prim
 
 **PI26 CCIAA** — fino al **50%** digitalizzazione (scadenza **30/7**): può ridurre kit/stampa. Distribuire volantini a mano = **~0 €**.
 
-### App store (quando pubblichiamo l'app)
+### App store (🚫 sospeso fino a 5.000 €/mese di utile — Nicola 23/7)
 
 | Store | Costo | Quando |
 | --- | ---: | --- |
 | **Apple App Store** | **~99 €/anno** 📊 | Rinnovo annuale |
 | **Google Play** | **~23 €** una tantum 📊 | Paghi una volta |
 | **Primo anno entrambi** | **~120 €** | Poi **~99 €/anno** (solo Apple) |
-| **PWA gratis** (alternativa) | **0 €** | Sito installabile — limiti su iPhone |
+| **PWA gratis** (alternativa) | **0 €** | Sito installabile — limiti su iPhone — **unica via oggi, resta gratis** |
 
 ### Email
 
@@ -155,7 +155,7 @@ Grafica pronta su disco; paghi solo in tipografia. Gate: **ordine test PQ** prim
 
 **~0,05–0,10 €** a messaggio 📊 — backup urgente. Oggi **0 €** (Telegram + email bastano).
 
-### Amministrazione e professionisti (annuali, ammortizzati)
+### Amministrazione e professionisti (🚫 sospeso fino a 5.000 €/mese di utile — Nicola 23/7)
 
 | Voce | Stima | Frequenza |
 | --- | ---: | --- |
@@ -166,13 +166,13 @@ Grafica pronta su disco; paghi solo in tipografia. Gate: **ordine test PQ** prim
 | **Notaio** (atti societari) | **~200–500 €** a atto 📊 | Solo quando serve |
 | **Consulente del lavoro** | **~50–150 €** a pratica 📊 | Quando assumi rider dipendente |
 
+> Eccezione: se un bando/adempimento impone PEC o firma digitale PRIMA della soglia, si attiva comunque (obbligo, non scelta).
+
 ### Operatività consegne (quando parti)
 
 | Voce | Stima | Note |
 | --- | ---: | --- |
-| **Bici elettrica usata** | **~150–250 €** una tantum | Subito.it / Marketplace — DECISIONI 11/7 |
-| **Bici normale usata** (avvio) | **~50 €** una tantum 📊 | Primi 5–10 ordini in centro |
-| **Noleggio bici elettrica** | **~40–70 €/m** 📊 | Alternativa all'acquisto — DECISIONI 11/7 |
+| **Bici** | **0 €** | Nicola ha già una bici elettrica (in riparazione) — **non calcolare acquisto/noleggio** finché non serve una seconda |
 | **Pagamento rider** (freelance) | **~3–5 €** a consegna 📊 | Oppure **~8–12 €/ora** 📊 se a turno |
 | **Packaging food extra** (termico) | **~0,30–0,80 €** a ordine 📊 | Oltre sacchetti brand |
 
@@ -181,7 +181,7 @@ Grafica pronta su disco; paghi solo in tipografia. Gate: **ordine test PQ** prim
 | Voce | Stima | Note |
 | --- | ---: | --- |
 | **Meta / Google Ads** | **~300–500 €/m** minimo test 📊 | Tu decidi budget — 🔴 firma |
-| **Promo «porta un amico»** | **~10 €** a coppia attivata 📊 | 5 € + 5 € cliente/amico |
+| **Promo «porta un amico»** | **~15 €** a coppia attivata 📊 | 5 € + 5 € cliente/amico + ~5 € margine per abusi (auto-referral, doppi account) e cannibalizzazione (chi avrebbe comprato comunque) — stima rivista al rialzo 23/7 su richiesta Nicola |
 | **Influencer micro locali** | **~50–150 €** o baratto 📊 | Creator food/Piacenza |
 | **Comunicato stampa** (invio) | **~0 €** | Email giornalisti — tempo tuo |
 
@@ -190,8 +190,8 @@ Grafica pronta su disco; paghi solo in tipografia. Gate: **ordine test PQ** prim
 | Voce | Stima | Note |
 | --- | ---: | --- |
 | **Stripe** (commissioni carta) | **~1,4% + 0,25 €** / transazione 📊 | Esempio ordine 20 € → **~0,53 €** |
-| **Assicurazione RC marketplace** | **~500–1.000 €/anno** (~40–85 €/m) 📊 | Da preventivo broker 🔴 |
-| **Assicurazione RC consegne / rider** | **~300–600 €/anno** (~25–50 €/m) 📊 | Da preventivo broker 🔴 |
+| **Assicurazione RC marketplace** | 🚫 sospesa fino a 5.000 €/m utile | **~500–1.000 €/anno** (~40–85 €/m) 📊 quando riattivata — da preventivo broker 🔴 |
+| **Assicurazione RC consegne / rider** | 🚫 sospesa fino a 5.000 €/m utile | **~300–600 €/anno** (~25–50 €/m) 📊 quando riattivata — da preventivo broker 🔴 |
 
 ### In stack — oggi a zero o variabile
 
@@ -209,14 +209,13 @@ Grafica pronta su disco; paghi solo in tipografia. Gate: **ordine test PQ** prim
 | Scenario | €/mese indicativi | Cosa include |
 | --- | ---: | --- |
 | **Oggi (minimo)** | **~302** ✅ | Solo infrastruttura accesa |
-| **+ amministrazione base** | **~310–320** 📊 | Aggiungi PEC + commercialista ammortizzato |
-| **+ operativo leggero** | **~350–400** 📊 | + noleggio bici + qualche consegna rider |
-| **+ marketing test** | **~650–850** 📊 | + ads 300–500 €/m (tu decidi) |
+| **+ operativo leggero** | **~320–370** 📊 | + qualche consegna rider (bici già c'è, gratis) |
+| **+ marketing test** | **~620–870** 📊 | + ads 300–500 €/m (tu decidi) |
 | **One-shot lancio zona** | **+150–300 €** una tantum | Primo lotto stampa + kit negozio |
 
-**Runway:** il burn **certo oggi** resta **~302 €/m**. Tutto il resto entra solo quando lo accendi.
+**Runway:** il burn **certo oggi** resta **~302 €/m**. Amministrazione, assicurazioni e app store sono **fuori da ogni scenario** finché l'utile netto non arriva a **~5.000 €/mese** (Nicola 23/7). Tutto il resto entra solo quando lo accendi.
 
-Fonte: Nicola chat 20–21/7 ✅ · playbook capillarità · DECISIONI 11/7 e 24/6 · listini Resend/Google/Stripe · stime PMI 📊 su richiesta Nicola 21/7.
+Fonte: Nicola chat 20–21/7 ✅ e 23/7 17:25 ✅ (soglia 5.000 €/m, bici già presente, referral/punti rivisti al rialzo) · playbook capillarità · DECISIONI 11/7 e 24/6 · listini Resend/Google/Stripe · stime PMI 📊.
 
 ---
 
