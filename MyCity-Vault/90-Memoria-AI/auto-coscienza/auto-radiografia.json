@@ -11,9 +11,31 @@
       "stato": "critico",
       "sintesi": "120/120 file coerenti col conteggio dichiarato, KPI coperti, nessun orfano vero. Ma: prompt del workflow stesso cita ancora '42 agenti' (stale), AR-130 (routing ambiguo) è 4x più esteso di quanto tracciato (34 file senza deferral, non 8), e AR-008 fu chiuso il 2/7 verificato contro l'artefatto sbagliato — lo stesso problema è poi riemerso identico come AR-130.",
       "findings": [
-        { "titolo": "Conteggio '42 agenti' stale nel prompt del workflow auto-radiografia (reale: 120)", "severita": "grave", "impatto_crescita": "medio", "genera": "auto-riscrittura" },
-        { "titolo": "AR-130 (routing ambiguo) sottostima il perimetro: 34 file senza deferral, non 8", "severita": "grave", "impatto_crescita": "medio", "genera": "auto-riscrittura", "collegato": "AR-130" },
-        { "titolo": "AR-008 chiuso il 2/7 contro l'artefatto sbagliato — stesso problema riaperto come AR-130", "severita": "bloccante", "impatto_crescita": "medio", "genera": "sentinella", "collegato": "AR-151" }
+        {
+          "titolo": "Conteggio '42 agenti' stale nel prompt del workflow auto-radiografia (reale: 120)",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "auto-riscrittura"
+        },
+        {
+          "titolo": "AR-130 (routing ambiguo) sottostima il perimetro: 34 file senza deferral, non 8",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "auto-riscrittura",
+          "collegato": "AR-130",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "AR-008 chiuso il 2/7 contro l'artefatto sbagliato — stesso problema riaperto come AR-130",
+          "severita": "bloccante",
+          "impatto_crescita": "medio",
+          "genera": "sentinella",
+          "collegato": "AR-151",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-02",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-008"
+        }
       ]
     },
     {
@@ -22,11 +44,36 @@
       "stato": "attenzione",
       "sintesi": "Buona notizia: i vettori (STAMPO-SENIOR-PRO) sono davvero scritti in tutti i 120 mansionari, non solo teoria — verificato con grep mirato, non impressione. Punti deboli: il cluster banche/finanziamenti (8 agenti) è più sottile degli altri; il TASTE-FILE-NICOLA (il 'gusto' di Nicola che gli agenti usano come metro) è quasi vuoto; il loop chiuso sui risultati (quaderni memoria-squadra) resta aperto per la maggior parte dei 124 reparti.",
       "findings": [
-        { "titolo": "Cluster banche/finanziamenti (8 agenti) ha i vettori nella forma ma non nella profondità dichiarata come riferimento", "severita": "grave", "impatto_crescita": "medio", "genera": "auto-riscrittura" },
-        { "titolo": "TASTE-FILE-NICOLA quasi vuoto (2 VERDETTO reali su 65 righe) ma già usato come metro di giudizio da decine di agenti", "severita": "grave", "impatto_crescita": "alto", "genera": "sentinella" },
-        { "titolo": "Loop chiuso sui risultati aperto per la maggior parte dei quaderni memoria-squadra (già noto, verificare esecuzione sonda)", "severita": "grave", "impatto_crescita": "medio", "genera": "solo-report" },
-        { "titolo": "Duplicazione meccanica 'STRATO 5 GALLERIA' negli 8 kit del cluster bancario (segno di patch senza editing)", "severita": "minore", "impatto_crescita": "basso", "genera": "sentinella" },
-        { "titolo": "Nessun agente ha ricevuto il test prima/dopo richiesto dalla propria checklist di rollout STAMPO", "severita": "minore", "impatto_crescita": "alto", "genera": "domanda-nicola" }
+        {
+          "titolo": "Cluster banche/finanziamenti (8 agenti) ha i vettori nella forma ma non nella profondità dichiarata come riferimento",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "auto-riscrittura"
+        },
+        {
+          "titolo": "TASTE-FILE-NICOLA quasi vuoto (2 VERDETTO reali su 65 righe) ma già usato come metro di giudizio da decine di agenti",
+          "severita": "grave",
+          "impatto_crescita": "alto",
+          "genera": "sentinella"
+        },
+        {
+          "titolo": "Loop chiuso sui risultati aperto per la maggior parte dei quaderni memoria-squadra (già noto, verificare esecuzione sonda)",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "solo-report"
+        },
+        {
+          "titolo": "Duplicazione meccanica 'STRATO 5 GALLERIA' negli 8 kit del cluster bancario (segno di patch senza editing)",
+          "severita": "minore",
+          "impatto_crescita": "basso",
+          "genera": "sentinella"
+        },
+        {
+          "titolo": "Nessun agente ha ricevuto il test prima/dopo richiesto dalla propria checklist di rollout STAMPO",
+          "severita": "minore",
+          "impatto_crescita": "alto",
+          "genera": "domanda-nicola"
+        }
       ]
     },
     {
@@ -35,10 +82,31 @@
       "stato": "attenzione",
       "sintesi": "I sensori core (REST Supabase, Stripe, Resend) sono vivi e aggiornati. Ma: il sensore MCP Stripe dice 'ok' senza essere controllato sul serio da 5 giorni; 4 fonti web (incl. quella che segue PI26) sono segnate 'vive' senza mai essere realmente verificate; il sensore cassa/runway resta cieco da 229 giri (blocco umano noto, non di codice).",
       "findings": [
-        { "titolo": "mcp_stripe dichiarato 'ok' ma non verificato realmente da 5 giorni (nessun health-check automatico)", "severita": "grave", "impatto_crescita": "basso", "genera": "nuovo-pezzo" },
-        { "titolo": "4 fonti web skip_check sempre marcate 'vive' senza verifica reale, incluso il radar che segue la scadenza PI26 (peso 5)", "severita": "grave", "impatto_crescita": "medio", "genera": "sentinella", "collegato": "AR-147" },
-        { "titolo": "Sensore cassa/runway cieco da 229 giri — manca solo BURN_MENSILE_EUR nel .env (blocco umano, non di codice)", "severita": "grave", "impatto_crescita": "alto", "genera": "domanda-nicola" },
-        { "titolo": "storico-salute.json cresce con voci quasi-duplicate senza dedup, offusca i trend", "severita": "minore", "impatto_crescita": "basso", "genera": "auto-riscrittura" }
+        {
+          "titolo": "mcp_stripe dichiarato 'ok' ma non verificato realmente da 5 giorni (nessun health-check automatico)",
+          "severita": "grave",
+          "impatto_crescita": "basso",
+          "genera": "nuovo-pezzo"
+        },
+        {
+          "titolo": "4 fonti web skip_check sempre marcate 'vive' senza verifica reale, incluso il radar che segue la scadenza PI26 (peso 5)",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "sentinella",
+          "collegato": "AR-147"
+        },
+        {
+          "titolo": "Sensore cassa/runway cieco da 229 giri — manca solo BURN_MENSILE_EUR nel .env (blocco umano, non di codice)",
+          "severita": "grave",
+          "impatto_crescita": "alto",
+          "genera": "domanda-nicola"
+        },
+        {
+          "titolo": "storico-salute.json cresce con voci quasi-duplicate senza dedup, offusca i trend",
+          "severita": "minore",
+          "impatto_crescita": "basso",
+          "genera": "auto-riscrittura"
+        }
       ]
     },
     {
@@ -47,11 +115,43 @@
       "stato": "critico",
       "sintesi": "Trovati e CORRETTI in questo stesso turno (🟢, solo memoria): una card in coda con l'ID del difetto sbagliato (chiedeva la firma di Nicola su un problema già chiuso dal 16/7), e il piano di crescita 12 mesi che calcolava ancora con la vecchia commissione 20% invece del 10%+50€/mese confermato il 20/7. Restano aperti: GLOSSARIO-KPI fermo al seed dal 27/6 (7 divergenze mai chiuse con Nicola), e l'ultima radiografia 'completa' aveva l'array dimensioni vuoto nel JSON pur avendo un voto — il Pannello mostrava un numero senza nessun dettaglio a supporto.",
       "findings": [
-        { "titolo": "Card in coda con ID difetto sbagliato (AR-112 invece di AR-118), difetto reale già chiuso dal 16/7 — RIMOSSA in questo turno", "severita": "bloccante", "impatto_crescita": "medio", "genera": "sentinella", "collegato": "AR-153", "stato": "chiuso" },
-        { "titolo": "Piano crescita 12 mesi con commissione stale 20% invece di 10%+50€/mese — segnalato STALE in questo turno", "severita": "grave", "impatto_crescita": "alto", "genera": "domanda-nicola", "collegato": "AR-152", "stato": "chiuso" },
-        { "titolo": "GLOSSARIO-KPI fermo al seed del 27/6, 7 divergenze di definizione mai chiuse con Nicola", "severita": "grave", "impatto_crescita": "medio", "genera": "domanda-nicola" },
-        { "titolo": "auto-radiografia.json precedente aveva dimensioni:[] vuoto pur avendo un voto — Pannello senza dettaglio a supporto", "severita": "grave", "impatto_crescita": "basso", "genera": "sentinella" },
-        { "titolo": "apprendimento.json: meta.lezioni_attive conta TUTTE le lezioni non solo quelle attive, meccanismo di decadimento mai eseguito", "severita": "minore", "impatto_crescita": "basso", "genera": "sentinella" }
+        {
+          "titolo": "Card in coda con ID difetto sbagliato (AR-112 invece di AR-118), difetto reale già chiuso dal 16/7 — RIMOSSA in questo turno",
+          "severita": "bloccante",
+          "impatto_crescita": "medio",
+          "genera": "sentinella",
+          "collegato": "AR-153",
+          "stato": "chiuso"
+        },
+        {
+          "titolo": "Piano crescita 12 mesi con commissione stale 20% invece di 10%+50€/mese — segnalato STALE in questo turno",
+          "severita": "grave",
+          "impatto_crescita": "alto",
+          "genera": "domanda-nicola",
+          "collegato": "AR-152",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-23 22:25",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-152"
+        },
+        {
+          "titolo": "GLOSSARIO-KPI fermo al seed del 27/6, 7 divergenze di definizione mai chiuse con Nicola",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "domanda-nicola"
+        },
+        {
+          "titolo": "auto-radiografia.json precedente aveva dimensioni:[] vuoto pur avendo un voto — Pannello senza dettaglio a supporto",
+          "severita": "grave",
+          "impatto_crescita": "basso",
+          "genera": "sentinella"
+        },
+        {
+          "titolo": "apprendimento.json: meta.lezioni_attive conta TUTTE le lezioni non solo quelle attive, meccanismo di decadimento mai eseguito",
+          "severita": "minore",
+          "impatto_crescita": "basso",
+          "genera": "sentinella"
+        }
       ]
     },
     {
@@ -60,13 +160,58 @@
       "stato": "critico",
       "sintesi": "Il pezzo messo peggio. Tasso di applicazione delle lezioni al 17% da 42 giri consecutivi, e il flag che dovrebbe dire 'il ciclo chiude' usa una soglia più bassa di quella dichiarata (mente per omissione). Diversi reparti (finanza, vendite, l'AD stesso) hanno 0 previsioni azzeccate su 5-7 tentativi senza mai scrivere il perché. Un esperimento è segnato 'misurato con successo' mentre la sua stessa nota dice che il test non è mai partito. Nessun esperimento ha mai raggiunto lo stato 'chiuso'.",
       "findings": [
-        { "titolo": "Tasso di applicazione lezioni 17%, sotto soglia da 42 giri consecutivi", "severita": "bloccante", "impatto_crescita": "alto", "genera": "auto-riscrittura", "collegato": "AR-149" },
-        { "titolo": "Flag loop_chiude usa soglia >0 invece di >=0.3 dichiarata — falso 'tutto ok' possibile", "severita": "grave", "impatto_crescita": "medio", "genera": "auto-riscrittura", "collegato": "AR-149" },
-        { "titolo": "5 previsioni di calibrazione scadute senza mai essere misurate (reale:null)", "severita": "grave", "impatto_crescita": "medio", "genera": "sentinella" },
-        { "titolo": "Reparti con 0% di previsioni azzeccate su campioni non banali, nessun campo che colleghi lo scarto a una lezione", "severita": "grave", "impatto_crescita": "alto", "genera": "lezione" },
-        { "titolo": "EXP-004 marcato 'misurato' ma il gate non è mai scattato — falso positivo autoregistrato", "severita": "grave", "impatto_crescita": "alto", "genera": "auto-riscrittura", "collegato": "AR-150" },
-        { "titolo": "Nessun esperimento ha mai raggiunto lo stato 'chiuso' (contatore chiusi sempre 0)", "severita": "grave", "impatto_crescita": "medio", "genera": "nuovo-pezzo" },
-        { "titolo": "Proposte di auto-riscrittura ferme in 'proposta' da settimane senza mai un verdetto", "severita": "minore", "impatto_crescita": "basso", "genera": "sentinella" }
+        {
+          "titolo": "Tasso di applicazione lezioni 17%, sotto soglia da 42 giri consecutivi",
+          "severita": "bloccante",
+          "impatto_crescita": "alto",
+          "genera": "auto-riscrittura",
+          "collegato": "AR-149",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Flag loop_chiude usa soglia >0 invece di >=0.3 dichiarata — falso 'tutto ok' possibile",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "auto-riscrittura",
+          "collegato": "AR-149",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "5 previsioni di calibrazione scadute senza mai essere misurate (reale:null)",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "sentinella"
+        },
+        {
+          "titolo": "Reparti con 0% di previsioni azzeccate su campioni non banali, nessun campo che colleghi lo scarto a una lezione",
+          "severita": "grave",
+          "impatto_crescita": "alto",
+          "genera": "lezione"
+        },
+        {
+          "titolo": "EXP-004 marcato 'misurato' ma il gate non è mai scattato — falso positivo autoregistrato",
+          "severita": "grave",
+          "impatto_crescita": "alto",
+          "genera": "auto-riscrittura",
+          "collegato": "AR-150",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Nessun esperimento ha mai raggiunto lo stato 'chiuso' (contatore chiusi sempre 0)",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "nuovo-pezzo",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-10 06:35",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-041"
+        },
+        {
+          "titolo": "Proposte di auto-riscrittura ferme in 'proposta' da settimane senza mai un verdetto",
+          "severita": "minore",
+          "impatto_crescita": "basso",
+          "genera": "sentinella"
+        }
       ]
     },
     {
@@ -75,12 +220,49 @@
       "stato": "critico",
       "sintesi": "Il 'Piano del mattino' si è ripetuto 7 volte in ~100 minuti lo stesso giorno (23/7), causa non isolata nonostante 3 escalation a devops-sre — possibile fix già mergiato la sera stessa (PR #517, da confermare con un giorno pulito). Il 'Punto di mezzogiorno' quasi non scrive mai nulla quando il business è fermo. 4 giorni (5/7, 12/7, 21/7, 22/7) senza nessuna traccia in memoria. Uno script (aggiorna-cervello.sh) usa ancora il comando 'committa tutto' vietato dopo l'incidente di aprile.",
       "findings": [
-        { "titolo": "Piano del mattino ripetuto 7 volte in ~100 minuti lo stesso giorno, causa non isolata", "severita": "bloccante", "impatto_crescita": "alto", "genera": "domanda-nicola", "collegato": "AR-145" },
-        { "titolo": "Punto di mezzogiorno silenziato quasi sempre dal delta-gate quando il business è fermo (design non voluto)", "severita": "grave", "impatto_crescita": "medio", "genera": "auto-riscrittura" },
-        { "titolo": "Report della sera duplicato lo stesso giorno, blocchi fuori ordine cronologico nel file", "severita": "grave", "impatto_crescita": "medio", "genera": "sentinella" },
-        { "titolo": "aggiorna-cervello.sh usa ancora 'git add -A' non perimetrato (bug AR-044 riaperto in un 4° script)", "severita": "grave", "impatto_crescita": "basso", "genera": "auto-riscrittura" },
-        { "titolo": "4 giorni (5/7, 12/7, 21/7, 22/7) senza né Briefing né Report — buco totale di traccia", "severita": "grave", "impatto_crescita": "basso", "genera": "nuovo-pezzo" },
-        { "titolo": "Review settimanale del venerdì saltata almeno 1 volta su 3", "severita": "minore", "impatto_crescita": "medio", "genera": "sentinella" }
+        {
+          "titolo": "Piano del mattino ripetuto 7 volte in ~100 minuti lo stesso giorno, causa non isolata",
+          "severita": "bloccante",
+          "impatto_crescita": "alto",
+          "genera": "domanda-nicola",
+          "collegato": "AR-145",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Punto di mezzogiorno silenziato quasi sempre dal delta-gate quando il business è fermo (design non voluto)",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "auto-riscrittura"
+        },
+        {
+          "titolo": "Report della sera duplicato lo stesso giorno, blocchi fuori ordine cronologico nel file",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "sentinella",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "aggiorna-cervello.sh usa ancora 'git add -A' non perimetrato (bug AR-044 riaperto in un 4° script)",
+          "severita": "grave",
+          "impatto_crescita": "basso",
+          "genera": "auto-riscrittura",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-10 06:35",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-044"
+        },
+        {
+          "titolo": "4 giorni (5/7, 12/7, 21/7, 22/7) senza né Briefing né Report — buco totale di traccia",
+          "severita": "grave",
+          "impatto_crescita": "basso",
+          "genera": "nuovo-pezzo"
+        },
+        {
+          "titolo": "Review settimanale del venerdì saltata almeno 1 volta su 3",
+          "severita": "minore",
+          "impatto_crescita": "medio",
+          "genera": "sentinella"
+        }
       ]
     },
     {
@@ -89,12 +271,46 @@
       "stato": "critico",
       "sintesi": "Il motore di calibrazione è ben progettato (Wilson bound, filtro banale) ma due bug tecnici nascondono il vero tasso di errore invece di gonfiarlo: il track record reale dell'AD (5 previsioni, 0 azzeccate) finisce in una riga con etichetta 'sporca' (@AD vs @ad) che sembra vuota; un bug di parsing ha scritto una data (2026) al posto di un numero reale in due voci. Le correzioni dirette di Nicola in chat oggi non alimentano mai il punteggio di affidabilità.",
       "findings": [
-        { "titolo": "@AD e @ad sono due reparti diversi per il motore di calibrazione — il vero track record dell'AD (0/5) resta nascosto", "severita": "bloccante", "impatto_crescita": "alto", "genera": "auto-riscrittura" },
-        { "titolo": "Bug di parsing genera 'reale' da una data (2026) invece che dal numero vero, scarto 202.500%", "severita": "grave", "impatto_crescita": "medio", "genera": "auto-riscrittura" },
-        { "titolo": "@customer-success '1/1 azzeccata' grazie a una previsione banale mai backfillata dopo l'introduzione del filtro AR-044", "severita": "grave", "impatto_crescita": "medio", "genera": "auto-riscrittura" },
-        { "titolo": "Le correzioni dirette di Nicola in chat (LEZIONI-CHAT/DECISIONI) non alimentano mai la calibrazione numerica", "severita": "grave", "impatto_crescita": "alto", "genera": "nuovo-pezzo" },
-        { "titolo": "@finanza a 0/7 per colpa di una sentinella bloccata (cassa cieca), non di un giudizio finanziario sbagliato", "severita": "minore", "impatto_crescita": "basso", "genera": "solo-report" },
-        { "titolo": "Voto headline auto-radiografia.json stale (72) mentre la sonda fresca dice 45 — solo il Pannello corregge, il file grezzo no", "severita": "minore", "impatto_crescita": "basso", "genera": "auto-riscrittura" }
+        {
+          "titolo": "@AD e @ad sono due reparti diversi per il motore di calibrazione — il vero track record dell'AD (0/5) resta nascosto",
+          "severita": "bloccante",
+          "impatto_crescita": "alto",
+          "genera": "auto-riscrittura"
+        },
+        {
+          "titolo": "Bug di parsing genera 'reale' da una data (2026) invece che dal numero vero, scarto 202.500%",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "auto-riscrittura"
+        },
+        {
+          "titolo": "@customer-success '1/1 azzeccata' grazie a una previsione banale mai backfillata dopo l'introduzione del filtro AR-044",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "auto-riscrittura",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-10 06:35",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-044"
+        },
+        {
+          "titolo": "Le correzioni dirette di Nicola in chat (LEZIONI-CHAT/DECISIONI) non alimentano mai la calibrazione numerica",
+          "severita": "grave",
+          "impatto_crescita": "alto",
+          "genera": "nuovo-pezzo"
+        },
+        {
+          "titolo": "@finanza a 0/7 per colpa di una sentinella bloccata (cassa cieca), non di un giudizio finanziario sbagliato",
+          "severita": "minore",
+          "impatto_crescita": "basso",
+          "genera": "solo-report"
+        },
+        {
+          "titolo": "Voto headline auto-radiografia.json stale (72) mentre la sonda fresca dice 45 — solo il Pannello corregge, il file grezzo no",
+          "severita": "minore",
+          "impatto_crescita": "basso",
+          "genera": "auto-riscrittura"
+        }
       ]
     },
     {
@@ -103,12 +319,52 @@
       "stato": "critico",
       "sintesi": "Il bando PI26 (10.000€, scade tra 7 giorni) non ha nessun countdown/allarme automatico — vive solo nei promemoria scritti a mano. La soglia 'utile netto 5.000€/mese' per riattivare i costi discrezionali non ha nessun sensore che la misuri. Un rischio aziendale (AR-015) creduto chiuso al 100% in realtà copriva solo 8/14 voci. Confermati ancora aperti: sentinella dispute/chargeback mai costruita, mappa-copertura.mjs mai scritto, Pannello mai auditato dal ciclo di auto-coscienza.",
       "findings": [
-        { "titolo": "PI26 (10.000€, scade 30/7) senza countdown/allarme automatico reale", "severita": "grave", "impatto_crescita": "alto", "genera": "nuovo-pezzo", "collegato": "AR-147" },
-        { "titolo": "Soglia 'utile netto 5.000€/mese' (per riattivare costi sospesi) non ha nessun sensore che la misuri", "severita": "grave", "impatto_crescita": "medio", "genera": "sentinella" },
-        { "titolo": "AR-015 (registro rischi) chiuso dichiarando 14/14 sentinelle collegate — in realtà 6/14 hanno il campo vuoto", "severita": "grave", "impatto_crescita": "alto", "genera": "sentinella", "collegato": "AR-148" },
-        { "titolo": "Nessun sensore/sentinella per dispute/chargeback Stripe — ancora aperto (AR-128), più urgente ora che Stripe è live", "severita": "grave", "impatto_crescita": "medio", "genera": "sentinella" },
-        { "titolo": "mappa-copertura.mjs (proposto AR-132) non è mai stato scritto — ogni radiografia riparte da zero senza base persistente", "severita": "grave", "impatto_crescita": "medio", "genera": "nuovo-pezzo" },
-        { "titolo": "Il Pannello resta fuori dalle 12 dimensioni dell'auto-radiografia; verify-marge.sh scritto ma mai agganciato al giro", "severita": "grave", "impatto_crescita": "medio", "genera": "auto-riscrittura" }
+        {
+          "titolo": "PI26 (10.000€, scade 30/7) senza countdown/allarme automatico reale",
+          "severita": "grave",
+          "impatto_crescita": "alto",
+          "genera": "nuovo-pezzo",
+          "collegato": "AR-147",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Soglia 'utile netto 5.000€/mese' (per riattivare costi sospesi) non ha nessun sensore che la misuri",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "sentinella"
+        },
+        {
+          "titolo": "AR-015 (registro rischi) chiuso dichiarando 14/14 sentinelle collegate — in realtà 6/14 hanno il campo vuoto",
+          "severita": "grave",
+          "impatto_crescita": "alto",
+          "genera": "sentinella",
+          "collegato": "AR-148",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-02",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-015"
+        },
+        {
+          "titolo": "Nessun sensore/sentinella per dispute/chargeback Stripe — ancora aperto (AR-128), più urgente ora che Stripe è live",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "sentinella",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "mappa-copertura.mjs (proposto AR-132) non è mai stato scritto — ogni radiografia riparte da zero senza base persistente",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "nuovo-pezzo",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Il Pannello resta fuori dalle 12 dimensioni dell'auto-radiografia; verify-marge.sh scritto ma mai agganciato al giro",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "auto-riscrittura",
+          "stato": "aperto"
+        }
       ]
     },
     {
@@ -117,10 +373,38 @@
       "stato": "critico",
       "sintesi": "Il rischio più serio della radiografia. L'autopilota del Pannello esegue azioni verdi senza mai controllare la PAUSA né l'allowlist destinatari — controlli che invece esistono e funzionano nella via da terminale. Il colore 🟢🟡🔴 che decide l'esecuzione automatica è testo libero mai riverificato lato server. L'aggiornamento del marketplace scrive per tabella intera, non per campo, quindi un'approvazione innocua potrebbe in teoria portare con sé anche un cambio di prezzo.",
       "findings": [
-        { "titolo": "Autopilota del Pannello non verifica mai la PAUSA prima di eseguire azioni verdi", "severita": "bloccante", "impatto_crescita": "alto", "genera": "auto-riscrittura", "collegato": "AR-138" },
-        { "titolo": "eseguiAzione del Pannello non passa dal cancello AR-103 (nessuna allowlist destinatari, nessun AZIONE_ID verificato)", "severita": "bloccante", "impatto_crescita": "alto", "genera": "nuovo-pezzo", "collegato": "AR-139" },
-        { "titolo": "Il colore 🟢🟡🔴 è testo libero scritto nella card, mai riverificato da una regola server indipendente dal canale", "severita": "grave", "impatto_crescita": "alto", "genera": "sentinella", "collegato": "AR-140" },
-        { "titolo": "marketplace.mjs aggiorna autorizza per tabella intera, non per campo — il prezzo può viaggiare a bordo di un'altra approvazione", "severita": "grave", "impatto_crescita": "medio", "genera": "auto-riscrittura", "collegato": "AR-141" }
+        {
+          "titolo": "Autopilota del Pannello non verifica mai la PAUSA prima di eseguire azioni verdi",
+          "severita": "bloccante",
+          "impatto_crescita": "alto",
+          "genera": "auto-riscrittura",
+          "collegato": "AR-138",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "eseguiAzione del Pannello non passa dal cancello AR-103 (nessuna allowlist destinatari, nessun AZIONE_ID verificato)",
+          "severita": "bloccante",
+          "impatto_crescita": "alto",
+          "genera": "nuovo-pezzo",
+          "collegato": "AR-139",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Il colore 🟢🟡🔴 è testo libero scritto nella card, mai riverificato da una regola server indipendente dal canale",
+          "severita": "grave",
+          "impatto_crescita": "alto",
+          "genera": "sentinella",
+          "collegato": "AR-140",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "marketplace.mjs aggiorna autorizza per tabella intera, non per campo — il prezzo può viaggiare a bordo di un'altra approvazione",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "auto-riscrittura",
+          "collegato": "AR-141",
+          "stato": "aperto"
+        }
       ]
     },
     {
@@ -129,12 +413,45 @@
       "stato": "critico",
       "sintesi": "Il lavoro tecnico del 23/7 era coerente con la priorità dichiarata da Nicola (stabilizzare Pannello/AD/marketplace). Ma: il giro si è fermato 3 giorni (20-23/7) senza causa trovata, poi ha girato 11+ volte in poche ore lo stesso giorno; PI26 riceve solo promemoria passivi senza escalation reale (Telegram spento); lo stesso bug di git-pr.mjs ha causato 3 incidenti nello stesso giorno senza mai essere corretto alla radice; un ordine esplicito di Nicola ('applica il fix a tutte le analisi duplicate') è stato eseguito solo su 2 sentinelle su 5.",
       "findings": [
-        { "titolo": "Il giro si è fermato 3 giorni (20-23/7), causa mai trovata, card #218 aperta", "severita": "bloccante", "impatto_crescita": "alto", "genera": "domanda-nicola", "collegato": "AR-146" },
-        { "titolo": "Stesso difetto di git-pr.mjs (file sporchi nel commit) ha causato 3 incidenti nello stesso giorno, mai corretto in codice", "severita": "grave", "impatto_crescita": "medio", "genera": "auto-riscrittura" },
-        { "titolo": "Ritmo del giro instabile: da 3 giorni di silenzio a 11+ giri quasi-identici in poche ore, lo stesso giorno", "severita": "grave", "impatto_crescita": "medio", "genera": "sentinella" },
-        { "titolo": "PI26 riceve solo promemoria passivi, zero escalation proattiva (Telegram ancora spento)", "severita": "grave", "impatto_crescita": "alto", "genera": "domanda-nicola", "collegato": "AR-147" },
-        { "titolo": "Ordine esplicito di Nicola ('fix su tutte le analisi duplicate') eseguito solo su 2 sentinelle su 5", "severita": "minore", "impatto_crescita": "basso", "genera": "nuovo-pezzo" },
-        { "titolo": "Delega ad agente in background/tool multi-agente fallita ripetutamente in sessione, nessun fix strutturale ancora", "severita": "minore", "impatto_crescita": "basso", "genera": "lezione" }
+        {
+          "titolo": "Il giro si è fermato 3 giorni (20-23/7), causa mai trovata, card #218 aperta",
+          "severita": "bloccante",
+          "impatto_crescita": "alto",
+          "genera": "domanda-nicola",
+          "collegato": "AR-146",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Stesso difetto di git-pr.mjs (file sporchi nel commit) ha causato 3 incidenti nello stesso giorno, mai corretto in codice",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "auto-riscrittura"
+        },
+        {
+          "titolo": "Ritmo del giro instabile: da 3 giorni di silenzio a 11+ giri quasi-identici in poche ore, lo stesso giorno",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "sentinella"
+        },
+        {
+          "titolo": "PI26 riceve solo promemoria passivi, zero escalation proattiva (Telegram ancora spento)",
+          "severita": "grave",
+          "impatto_crescita": "alto",
+          "genera": "domanda-nicola",
+          "collegato": "AR-147"
+        },
+        {
+          "titolo": "Ordine esplicito di Nicola ('fix su tutte le analisi duplicate') eseguito solo su 2 sentinelle su 5",
+          "severita": "minore",
+          "impatto_crescita": "basso",
+          "genera": "nuovo-pezzo"
+        },
+        {
+          "titolo": "Delega ad agente in background/tool multi-agente fallita ripetutamente in sessione, nessun fix strutturale ancora",
+          "severita": "minore",
+          "impatto_crescita": "basso",
+          "genera": "lezione"
+        }
       ]
     },
     {
@@ -143,11 +460,39 @@
       "stato": "critico",
       "sintesi": "Il freno 'stop se superi il budget token giornaliero' non scatta mai per un bug di conteggio (resta sempre a 0 anche a 1,3M token/giorno) — è il secondo pezzo mancante per fermare da sola una raffica di giri a vuoto. 4 playbook di reparto si ripetono identici da settimane perché nessuno controlla se è cambiato qualcosa da ieri. L'archivio delle lezioni non pota mai (455 lezioni attive, 0 mai decadute) nonostante lo preveda il proprio manuale.",
       "findings": [
-        { "titolo": "Cadenza ritmo/giro si autorilancia a raffica, root cause non isolata (stesso di cadenza-esecuzione, impatto su token)", "severita": "bloccante", "impatto_crescita": "alto", "genera": "sentinella", "collegato": "AR-145" },
-        { "titolo": "4 playbook di reparto (recensioni, cassa, anti-churn, carrelli) rieseguiti 8-10 volte identici senza guardia deterministica", "severita": "grave", "impatto_crescita": "medio", "genera": "nuovo-pezzo" },
-        { "titolo": "apprendimento.json non pota mai (455 lezioni attive, 0 decadute) nonostante lo preveda il proprio manuale", "severita": "grave", "impatto_crescita": "medio", "genera": "sentinella" },
-        { "titolo": "Router 'banco AI economiche' è solo un consiglio mai eseguito — 30% dei task di volume resta su Claude premium", "severita": "minore", "impatto_crescita": "basso", "genera": "domanda-nicola" },
-        { "titolo": "Il gate di budget-token giornaliero non può mai scattare: conta solo token reali mai popolati (token_totali sempre 0)", "severita": "grave", "impatto_crescita": "alto", "genera": "sentinella", "collegato": "AR-144" }
+        {
+          "titolo": "Cadenza ritmo/giro si autorilancia a raffica, root cause non isolata (stesso di cadenza-esecuzione, impatto su token)",
+          "severita": "bloccante",
+          "impatto_crescita": "alto",
+          "genera": "sentinella",
+          "collegato": "AR-145"
+        },
+        {
+          "titolo": "4 playbook di reparto (recensioni, cassa, anti-churn, carrelli) rieseguiti 8-10 volte identici senza guardia deterministica",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "nuovo-pezzo"
+        },
+        {
+          "titolo": "apprendimento.json non pota mai (455 lezioni attive, 0 decadute) nonostante lo preveda il proprio manuale",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "sentinella"
+        },
+        {
+          "titolo": "Router 'banco AI economiche' è solo un consiglio mai eseguito — 30% dei task di volume resta su Claude premium",
+          "severita": "minore",
+          "impatto_crescita": "basso",
+          "genera": "domanda-nicola"
+        },
+        {
+          "titolo": "Il gate di budget-token giornaliero non può mai scattare: conta solo token reali mai popolati (token_totali sempre 0)",
+          "severita": "grave",
+          "impatto_crescita": "alto",
+          "genera": "sentinella",
+          "collegato": "AR-144",
+          "stato": "aperto"
+        }
       ]
     },
     {
@@ -156,44 +501,155 @@
       "stato": "critico",
       "sintesi": "Token GitHub persistito in chiaro nel file di collegamento al marketplace (collega-marketplace.mjs non lo ripulisce dopo il clone, a differenza di trigger-build.sh). Permessi di sessione più larghi del dovuto (Write senza path, push diretto su main, merge, curl senza limiti, node su /tmp). Nessun segreto trovato tracciato nel codice versionato. Il layer di consenso per-azione (AR-103) è ben progettato dove viene usato.",
       "findings": [
-        { "titolo": "Token GitHub persistito in chiaro in marketplace/.git/config, mai ripulito dopo il clone", "severita": "grave", "impatto_crescita": "basso", "genera": "domanda-nicola", "collegato": "AR-143" },
-        { "titolo": "Permessi di sessione troppo larghi: Write senza path, git push origin main, git merge, curl:*, node /tmp/*.mjs", "severita": "bloccante", "impatto_crescita": "medio", "genera": "sentinella", "collegato": "AR-142" },
-        { "titolo": "Wildcard 'node cervello/*.mjs:*' copre anche git-merge.mjs --force, bypass teorico del gate AZIONI_LIVE", "severita": "grave", "impatto_crescita": "medio", "genera": "auto-riscrittura" },
-        { "titolo": "curl:* e node /tmp/*.mjs:* senza restrizioni — superficie ampia per exfiltration o esecuzione non controllata", "severita": "grave", "impatto_crescita": "medio", "genera": "domanda-nicola" }
+        {
+          "titolo": "Token GitHub persistito in chiaro in marketplace/.git/config, mai ripulito dopo il clone",
+          "severita": "grave",
+          "impatto_crescita": "basso",
+          "genera": "domanda-nicola",
+          "collegato": "AR-143",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Permessi di sessione troppo larghi: Write senza path, git push origin main, git merge, curl:*, node /tmp/*.mjs",
+          "severita": "bloccante",
+          "impatto_crescita": "medio",
+          "genera": "sentinella",
+          "collegato": "AR-142",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Wildcard 'node cervello/*.mjs:*' copre anche git-merge.mjs --force, bypass teorico del gate AZIONI_LIVE",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "auto-riscrittura"
+        },
+        {
+          "titolo": "curl:* e node /tmp/*.mjs:* senza restrizioni — superficie ampia per exfiltration o esecuzione non controllata",
+          "severita": "grave",
+          "impatto_crescita": "medio",
+          "genera": "domanda-nicola"
+        }
       ]
     }
   ],
   "punti_ciechi": [
-    { "cosa": "Verifiche solo-LLM senza reviewer deterministico su più dimensioni (calibrazione, chiusura-volano)", "perche": "il giudizio del modello non sostituisce un guardiano script per i numeri che contano" },
-    { "cosa": "Repo marketplace (mycity-live) fuori da questa radiografia", "perche": "audit macchina ≠ audit sito, serve radiografia.js separata (già esiste, va rilanciata a parte)" },
-    { "cosa": "Il tool Workflow (orchestrazione dichiarativa) resta bloccato in sessione headless", "perche": "gate di conferma non disponibile qui; la radiografia è stata fatta con 14 Agent paralleli, valido ma meno strutturato di un vero pipeline" }
+    {
+      "cosa": "Verifiche solo-LLM senza reviewer deterministico su più dimensioni (calibrazione, chiusura-volano)",
+      "perche": "il giudizio del modello non sostituisce un guardiano script per i numeri che contano"
+    },
+    {
+      "cosa": "Repo marketplace (mycity-live) fuori da questa radiografia",
+      "perche": "audit macchina ≠ audit sito, serve radiografia.js separata (già esiste, va rilanciata a parte)"
+    },
+    {
+      "cosa": "Il tool Workflow (orchestrazione dichiarativa) resta bloccato in sessione headless",
+      "perche": "gate di conferma non disponibile qui; la radiografia è stata fatta con 14 Agent paralleli, valido ma meno strutturato di un vero pipeline"
+    }
   ],
   "pre_mortem": [
-    { "disastro": "Un'azione reale (merge codice, scrittura marketplace) parte senza vera firma di Nicola", "probabilita": "alta", "come": "le route del Pannello (approva/esegui/proposta) non hanno autenticazione server-side — 'il click è la conferma' è un commento nel codice, non un controllo; oggi AZIONI_LIVE è acceso e alcune mani sono già sbloccate", "difesa_proposta": "🟡 autenticazione server-side reale su tutte le route che creano lavori con effetto, prima di sbloccare altre mani" },
-    { "disastro": "Memoria corrotta da un commit sporco durante lavoro in parallelo", "probabilita": "media-alta", "come": "git-pr.mjs senza --message committa tutto lo stato sporco del momento, già successo 3 volte in un giorno (23/7)", "difesa_proposta": "🟡 git-pr.mjs fail-closed se ci sono modifiche non committate senza --message esplicito" },
-    { "disastro": "Loop che ri-esegue lavoro pesante e brucia budget Claude", "probabilita": "alta", "come": "pattern già osservato ripetutamente (piano mattino 7x, 4 playbook 8-10x), nessun lock di cadenza nel codice", "difesa_proposta": "🟡 contatore nel codice che blocca da sé l'ennesima ripetizione identica in una finestra di tempo" },
-    { "disastro": "Messaggio o incentivo reale (referral, email) eseguito due volte", "probabilita": "media", "come": "bug di duplicazione messaggi già visto 3 volte oggi in chat; nessuna idempotency key sugli invii reali", "difesa_proposta": "🟡 idempotency key (hash azione+destinatario+giorno) prima di sbloccare mani a volume" },
-    { "disastro": "Azione sbagliata eseguita per matching ambiguo del codice-casella", "probabilita": "bassa", "come": "trovaAzione() in consenso-azione.mjs ha un fallback su token letterale che potrebbe agganciare l'ID sbagliato tra due blocchi simili", "difesa_proposta": "🟡 fail-closed su ambiguità invece di prendere il primo match" }
+    {
+      "disastro": "Un'azione reale (merge codice, scrittura marketplace) parte senza vera firma di Nicola",
+      "probabilita": "alta",
+      "come": "le route del Pannello (approva/esegui/proposta) non hanno autenticazione server-side — 'il click è la conferma' è un commento nel codice, non un controllo; oggi AZIONI_LIVE è acceso e alcune mani sono già sbloccate",
+      "difesa_proposta": "🟡 autenticazione server-side reale su tutte le route che creano lavori con effetto, prima di sbloccare altre mani"
+    },
+    {
+      "disastro": "Memoria corrotta da un commit sporco durante lavoro in parallelo",
+      "probabilita": "media-alta",
+      "come": "git-pr.mjs senza --message committa tutto lo stato sporco del momento, già successo 3 volte in un giorno (23/7)",
+      "difesa_proposta": "🟡 git-pr.mjs fail-closed se ci sono modifiche non committate senza --message esplicito"
+    },
+    {
+      "disastro": "Loop che ri-esegue lavoro pesante e brucia budget Claude",
+      "probabilita": "alta",
+      "come": "pattern già osservato ripetutamente (piano mattino 7x, 4 playbook 8-10x), nessun lock di cadenza nel codice",
+      "difesa_proposta": "🟡 contatore nel codice che blocca da sé l'ennesima ripetizione identica in una finestra di tempo"
+    },
+    {
+      "disastro": "Messaggio o incentivo reale (referral, email) eseguito due volte",
+      "probabilita": "media",
+      "come": "bug di duplicazione messaggi già visto 3 volte oggi in chat; nessuna idempotency key sugli invii reali",
+      "difesa_proposta": "🟡 idempotency key (hash azione+destinatario+giorno) prima di sbloccare mani a volume"
+    },
+    {
+      "disastro": "Azione sbagliata eseguita per matching ambiguo del codice-casella",
+      "probabilita": "bassa",
+      "come": "trovaAzione() in consenso-azione.mjs ha un fallback su token letterale che potrebbe agganciare l'ID sbagliato tra due blocchi simili",
+      "difesa_proposta": "🟡 fail-closed su ambiguità invece di prendere il primo match"
+    }
   ],
   "benchmark_vs_migliori": [
-    { "ambito": "Governo di un'azienda gestita in autonomia da agenti AI", "come_fanno_i_migliori": "Sierra AI: autonomia con guardrail deterministici + agenti supervisori sui temi sensibili. Anthropic (Project Vend/Claudius): un'AI ha gestito un vero negozio per un mese, senza controlli sullo stato reale ha riordinato/scontato a vuoto — lezione: governare gli agenti economici come persone (least privilege, monitoraggio).", "nostro_divario": "medio", "obiettivo": "azzerare le riesecuzioni a vuoto di playbook su dati invariati", "primo_passo": "circuit-breaker per playbook: confrontare un fingerprint dei dati di input con l'ultima esecuzione prima di rilanciare" },
-    { "ambito": "Onboarding negozi", "come_fanno_i_migliori": "DoorDash: concierge dedicato per merchant onboarding", "nostro_divario": "basso in teoria, alto in esecuzione (1 solo negozio reale)", "obiettivo": "2°-3° negozio live entro 2 settimane dalla ripresa (24/8-1/9)", "primo_passo": "preparare ora il pacchetto pronto-a-partire per i prospect già mappati" },
-    { "ambito": "Prezzi e commissioni", "come_fanno_i_migliori": "Amazon: modello ibrido fisso+percentuale", "nostro_divario": "medio (scelta ragionata, non validata con dati reali)", "obiettivo": "calcolo di break-even tra modello attuale e alternativa solo-commissione", "primo_passo": "far produrre a @pricing-scientist il calcolo ora, pronto per i primi dati di volume" }
+    {
+      "ambito": "Governo di un'azienda gestita in autonomia da agenti AI",
+      "come_fanno_i_migliori": "Sierra AI: autonomia con guardrail deterministici + agenti supervisori sui temi sensibili. Anthropic (Project Vend/Claudius): un'AI ha gestito un vero negozio per un mese, senza controlli sullo stato reale ha riordinato/scontato a vuoto — lezione: governare gli agenti economici come persone (least privilege, monitoraggio).",
+      "nostro_divario": "medio",
+      "obiettivo": "azzerare le riesecuzioni a vuoto di playbook su dati invariati",
+      "primo_passo": "circuit-breaker per playbook: confrontare un fingerprint dei dati di input con l'ultima esecuzione prima di rilanciare"
+    },
+    {
+      "ambito": "Onboarding negozi",
+      "come_fanno_i_migliori": "DoorDash: concierge dedicato per merchant onboarding",
+      "nostro_divario": "basso in teoria, alto in esecuzione (1 solo negozio reale)",
+      "obiettivo": "2°-3° negozio live entro 2 settimane dalla ripresa (24/8-1/9)",
+      "primo_passo": "preparare ora il pacchetto pronto-a-partire per i prospect già mappati"
+    },
+    {
+      "ambito": "Prezzi e commissioni",
+      "come_fanno_i_migliori": "Amazon: modello ibrido fisso+percentuale",
+      "nostro_divario": "medio (scelta ragionata, non validata con dati reali)",
+      "obiettivo": "calcolo di break-even tra modello attuale e alternativa solo-commissione",
+      "primo_passo": "far produrre a @pricing-scientist il calcolo ora, pronto per i primi dati di volume"
+    }
   ],
   "proposte_nuovi_pezzi": [
-    { "cosa": "cervello/scadenzario-check.mjs — countdown automatico sulle scadenze esterne (PI26 e le prossime)", "perche": "oggi la scadenza più costosa dell'azienda vive solo in prosa scritta a mano", "colore": "🟡" },
-    { "cosa": "Modulo di consenso condiviso CLI↔Pannello (pausa + allowlist + AZIONE_ID) per l'autopilota", "perche": "oggi la via Pannello/autopilota non eredita nessuna delle protezioni della via CLI", "colore": "🟡" },
-    { "cosa": "Ponte lezioni→calibrazione (le correzioni dirette di Nicola in chat diventano una metrica calibrata)", "perche": "oggi il canale più ricco di prova di errore/correzione non alimenta mai il punteggio di affidabilità", "colore": "🟡" },
-    { "cosa": "mappa-copertura.mjs — inventario deterministico dominio×sensore/sentinella/KPI/owner (proposto 16/7, mai scritto)", "perche": "senza base persistente, ogni radiografia ripete la stessa ricognizione manuale da zero", "colore": "🟡" }
+    {
+      "cosa": "cervello/scadenzario-check.mjs — countdown automatico sulle scadenze esterne (PI26 e le prossime)",
+      "perche": "oggi la scadenza più costosa dell'azienda vive solo in prosa scritta a mano",
+      "colore": "🟡"
+    },
+    {
+      "cosa": "Modulo di consenso condiviso CLI↔Pannello (pausa + allowlist + AZIONE_ID) per l'autopilota",
+      "perche": "oggi la via Pannello/autopilota non eredita nessuna delle protezioni della via CLI",
+      "colore": "🟡"
+    },
+    {
+      "cosa": "Ponte lezioni→calibrazione (le correzioni dirette di Nicola in chat diventano una metrica calibrata)",
+      "perche": "oggi il canale più ricco di prova di errore/correzione non alimenta mai il punteggio di affidabilità",
+      "colore": "🟡"
+    },
+    {
+      "cosa": "mappa-copertura.mjs — inventario deterministico dominio×sensore/sentinella/KPI/owner (proposto 16/7, mai scritto)",
+      "perche": "senza base persistente, ogni radiografia ripete la stessa ricognizione manuale da zero",
+      "colore": "🟡"
+    }
   ],
   "domande_per_nicola": [
-    { "domanda": "Vuoi che restringa i permessi di questa sessione (niente push diretto su main, niente git merge, curl limitato)?", "perche_serve": "oggi sono più larghi del necessario, nessuno li ha sfruttati ma vanno stretti", "se_rispondi": "preparo il branch con i permessi corretti, tu confermi il file finale", "gravita": "alta" },
-    { "domanda": "Confermi la rotazione del PAT GitHub (già in coda dal 17/7, #ruota-pat-github)? È anche persistito in chiaro in marketplace/.git/config.", "perche_serve": "il token è ancora leggibile in due punti del filesystem", "se_rispondi": "eseguo il fix di collega-marketplace.mjs per non farlo più succedere", "gravita": "media" },
-    { "domanda": "Vuoi che il piano di crescita 12 mesi venga ricalcolato per intero da @finanza/@pricing-scientist con la commissione vera (10%+50€/mese)?", "perche_serve": "oggi i target 'ricavi 387k€' sono sovrastimati quasi al doppio", "se_rispondi": "avvio il ricalcolo completo (margine incluso, serve il modello costi variabili)", "gravita": "media" }
+    {
+      "domanda": "Vuoi che restringa i permessi di questa sessione (niente push diretto su main, niente git merge, curl limitato)?",
+      "perche_serve": "oggi sono più larghi del necessario, nessuno li ha sfruttati ma vanno stretti",
+      "se_rispondi": "preparo il branch con i permessi corretti, tu confermi il file finale",
+      "gravita": "alta"
+    },
+    {
+      "domanda": "Confermi la rotazione del PAT GitHub (già in coda dal 17/7, #ruota-pat-github)? È anche persistito in chiaro in marketplace/.git/config.",
+      "perche_serve": "il token è ancora leggibile in due punti del filesystem",
+      "se_rispondi": "eseguo il fix di collega-marketplace.mjs per non farlo più succedere",
+      "gravita": "media"
+    },
+    {
+      "domanda": "Vuoi che il piano di crescita 12 mesi venga ricalcolato per intero da @finanza/@pricing-scientist con la commissione vera (10%+50€/mese)?",
+      "perche_serve": "oggi i target 'ricavi 387k€' sono sovrastimati quasi al doppio",
+      "se_rispondi": "avvio il ricalcolo completo (margine incluso, serve il modello costi variabili)",
+      "gravita": "media"
+    }
   ],
-  "meta": { "agenti_totali": 120, "dimensioni_critiche": 10, "bloccanti": 12 },
+  "meta": {
+    "agenti_totali": 120,
+    "dimensioni_critiche": 10,
+    "bloccanti": 12
+  },
   "sonda": {
-    "data": "2026-07-23 20:20",
+    "data": "2026-07-23 22:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.17,
     "prova_chiusura": true,
@@ -209,22 +665,35 @@
     "giro_a_cadenza": true,
     "sentinelle_scattano": false,
     "ore_da_ultima_completa": 0,
-    "ore_da_ultimo_briefing": 4,
+    "ore_da_ultimo_briefing": 6,
     "max_giri_ciechi_sensori": 0,
-    "giri_tasso_basso": 42,
-    "serve_radiografia_completa": false,
-    "salute_stato": "completata",
+    "giri_tasso_basso": 43,
+    "serve_radiografia_completa": true,
+    "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
     "voto_pieno": 0,
     "pending_merge": 15,
-    "aperti_davvero": 33,
-    "bloccanti_umani": 2,
-    "salute_firma": "AR-138..AR-153",
-    "verdetto": "completata-oggi",
-    "nota": "Radiografia completa 23/7 22:20 a 14 senior in parallelo (Agent, Workflow bloccato in headless). Voto 0 coerente col voto_pieno già segnalato dalla sonda precedente. 16 nuovi difetti (AR-138..153), 2 chiusi nello stesso turno."
+    "aperti_davvero": 2,
+    "bloccanti_umani": 16,
+    "salute_firma": "AR-126,AR-129",
+    "verdetto": "serve-completa",
+    "nota": "loop chiude (con prova) · briefing 6h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 16 bloccanti umani · tasso basso 3+ giri → radiografia completa"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 42,
+    "giri_tasso_basso": 43,
     "aggiornato": "2026-07-23 22:20"
+  },
+  "sync_scan": {
+    "aggiornato": "2026-07-23 22:20",
+    "findings_aperti": 54,
+    "findings_in_corso": 0,
+    "findings_chiusi": 7,
+    "findings_tot": 61,
+    "cantiere_aperti": 33,
+    "cantiere_in_corso": 0,
+    "cantiere_chiusi": 59,
+    "match_aggiornati": 23,
+    "chiusi_verifica": 0,
+    "data_scan": "2026-07-23 22:20"
   }
 }
