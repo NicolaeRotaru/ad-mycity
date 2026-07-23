@@ -8,6 +8,7 @@ reparto: finanza
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-23 12:14 · RIPROVA sentinella cassa_sconosciuta 23/7 12:13, riapprovata da Nicola dal Pannello · 8ª diagnosi identica, giri_sconosciuto 218 · atteso diagnosi rivela causa nuova o azione della macchina → reale stesso blocco dal 14/7 (98→218 giri): serve solo comando terminale VPS di Nicola, la macchina non può scrivere .env da sola · #cassa-runway #ar-039
 - 2026-07-23 12:06 · Retry sentinella cassa_sconosciuta (RIPROVA Nicola 23/7 09:28) · Verificato: stato invariato (Stripe 0€, BURN_MENSILE_EUR assente, 218 giri sconosciuto); trovata e corretta card #burn-mensile-env in coda con cifra stale 300€ invece di 302€ (fonte registro-fatti.json) · atteso nessuna nuova diagnosi necessaria, solo conferma + fix coerenza → reale confermato invariato + 1 inconsistenza corretta · #cassa-runway #AR-102
 - 2026-07-21 00:37 · metabolizzazione chat «prezzo su tutti i costi» · atteso: L-443 + Bacheca stime complete · reale: Nicola vuole stima 📊 su ogni riga no ?, AD Bacheca ✅/📊 + 4 scenari, L-443 nuova, L-442 evidenze 2 pin eseguito · #costi #bacheca #L-443
 - 2026-07-21 00:34 · metabolizzazione chat «Ci sono altri costi?» · atteso: L-442 + blocco admin/ops · reale: Nicola chiede completezza post-Bacheca, AD elenca admin/ops/Stripe/assicurazioni in chat (Bacheca pin proposto, non fatto), L-442 nuova, L-433 evidenze 5 · #costi #burn #L-442

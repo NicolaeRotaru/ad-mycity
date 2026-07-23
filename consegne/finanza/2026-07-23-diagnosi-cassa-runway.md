@@ -67,3 +67,9 @@ In `AZIONI-IN-ATTESA.md` lo stesso comando è accodato **due volte** con nomi di
 
 ---
 *Fonti: `MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json` (11:32, dato del giro di stamattina) · `MyCity-Vault/90-Memoria-AI/registro-fatti.json` (burn 302 €/m confermato 20/7) · `consegne/finanza/2026-07-20-diagnosi-cassa-runway.md` (diagnosi precedente) · sola lettura, nessuna scrittura su Stripe o sul DB.*
+
+---
+
+## Addendum 12:13 — RIPROVA riapprovata da Nicola, nessun cambiamento (8ª volta)
+
+Rieseguita perché Nicola ha premuto "riprova" sulla card dal Pannello alle 09:29. Ricontrollato `cassa-runway.json` (aggiornato 11:57, non ri-lanciato il sensore per non interrogare Stripe due volte a vuoto): **`giri_sconosciuto` ora 218** (era 217), cassa 0€, `burn_mensile_eur: null` — tutto invariato rispetto a sopra. Non c'è niente di nuovo da diagnosticare: il blocco resta lo stesso comando VPS che solo Nicola può lanciare (vedi sopra). Non serve una card "RIPROVA" per questa sentinella finché il comando non viene eseguito — riprovare non cambia l'esito perché non è un guasto della macchina, è un'azione che aspetta la sua firma sul terminale.
