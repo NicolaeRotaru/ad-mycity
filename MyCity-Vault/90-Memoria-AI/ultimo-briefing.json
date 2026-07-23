@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-23 11:36",
-  "situazione": "Numeri live VERIFICATI via MCP Supabase: 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine in tutto il DB (zombie 24/6, PENDING/CANCELED) — 0 ordini pagati, stallo ~698h (~29gg). Trovati 3 carrelli abbandonati reali su PQ (13,90€/10€/7,95€), materia prima per il win-back post-sblocco. Nessun cambiamento vs il giro delle 11:35 di oggi. Mossa n.1: ordine test PQ (North Star). Mossa n.2: PI26 entro 7 giorni + post social recupero.",
+  "data": "2026-07-23 11:59",
+  "situazione": "Ri-verificato con query SQL diretta su orders (MCP Supabase): 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine in tutto il DB (zombie 24/6, PENDING/CANCELED) — 0 ordini pagati, stallo ~698h (~29gg). Nessun cambiamento vs la verifica delle 11:36. Vincolo AR-113 attivo: nessun lavoro macchina nuovo oltre questa conferma. Mossa n.1: ordine test PQ (North Star). Mossa n.2: PI26 entro 7 giorni.",
   "opportunita": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
