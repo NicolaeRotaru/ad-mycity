@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 13:01
-fonte: AD digitale (Piano del mattino, 6° blocco oggi)
+aggiornato: 2026-07-23 13:08
+fonte: AD digitale (giro pieno richiesto, 8° passaggio nell'ultima ora e mezza)
 ---
+
+> 🛰️ **23/7 13:08 — GIRO PIENO richiesto — 8° passaggio quasi identico in 90 minuti, business invariato.** Ultimo commit di memoria (`4e7bd401`) di soli 2 minuti fa (13:06:43). Business INVARIATO: 1 PQ, 5 prodotti, 4 buyer, 0 pagati, stallo ~29gg. Sensori 8/8 ok (già rinfrescati dal pre-step deterministico di `giro.sh`), coda AZIONI-IN-ATTESA stabile a 47 aperte. **Scelta deliberata:** non ho ri-eseguito query MCP/REST né riscritto i JSON auto-coscienza appena aggiornati 2 minuti fa — sarebbe un giro a vuoto (vietato da `giro.md` §0 delta-gate e dal vincolo AR-113: lavoro macchina solo se sblocca una card business, qui non c'è nulla di nuovo da sbloccare). Push GitHub: 123 commit locali fermi (era 121), stesso token rotto, @devops-sre. Nessuna nuova card. **Mossa n.1 invariata: ordine test PQ. Mossa n.2: PI26 entro il 30/7.** Briefing: [[Briefing/2026-07-23]].
 
 > ☀️ **23/7 13:01 — PIANO DEL MATTINO (6° blocco scritto oggi) — trovata la causa del loop.** Business non ri-verificato apposta (già confermato alle 12:58, 3 minuti fa: 1 PQ, 0 pagati, stallo ~699h) — ripeterlo avrebbe sprecato un altro giro senza nuova informazione. **La vera scoperta di questo passaggio:** il timer di sistema del mattino è configurato bene (solo 06:00, verificato nel file `.timer`) — le 6 esecuzioni di oggi (11:45/12:26/12:47/12:52×2/13:01) vengono quindi da invocazioni ravvicinate esterne, non dal timer; alcune si sono pure interrotte prima di scrivere (commit "recupero: scritture pendenti" alle 12:51/12:53/13:01). **Passo-a @devops-sre:** trovare e fermare cosa rilancia "piano del mattino" ogni pochi minuti — è lo spreco reale di oggi, non il business fermo. Push GitHub: 121 commit locali fermi (era 119 alle 12:58), stesso token rotto. Nessuna nuova card 🟡/🔴 accodata. Mossa n.1 invariata: ordine test PQ. Mossa n.2: PI26 entro il 30/7. Briefing: [[Briefing/2026-07-23]].
 
