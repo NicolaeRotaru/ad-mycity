@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 18:05
+aggiornato: 2026-07-23 18:57
 fonte: AD digitale (report della sera)
 ---
+
+> 💬 **23/7 ~18:57 — CHAT: 3 bug chat segnalati, agente in background bloccato 2 volte → l'AD ha scritto la patch da sé.** Nicola: risposta doppia (cambio chat mentre l'AD sta ancora rispondendo), scroll che salta durante la risposta, menu che non si chiude col click fuori. L'agente frontend-dev delegato in background si è fermato 2 volte senza completare — l'AD ha smesso di aspettarlo, letto il codice e scritto il fix da sé: **risposta doppia risolta** (dedup in `lavori-gruppo.ts`/`page.tsx`, `tsc`+test verificati), **menu già sistemato il 10/7** (probabile versione vecchia sul telefono, stesso tema auto-deploy di oggi), **scroll lasciato intatto** (6 tentativi falliti pregressi, niente 7° fix alla cieca). **PR #514 aperta, card #227 in coda per merge.** Poi Nicola ha chiesto un'analisi retrospettiva del perché — l'AD ha risposto con auto-critica: l'agente in background lavorava senza isolamento nella stessa copia di file dell'AD (rischio non ancora corretto, andata bene per caso). Business invariato: 1 PQ, 4 buyer, 0 pagati. Fonte: chat Nicola 23/7 ~18:42-18:57.
 
 > 🌙 **23/7 18:05 — REPORT DELLA SERA (chiude la giornata).** Business INVARIATO dal 24/6 (riconfermato via query SQL diretta 18:02): 1 PQ, 5 prodotti, 4 buyer, 1 ordine CANCELED, **0 pagati**, 0 recensioni, stallo ~29 giorni. **Fatto vero di oggi:** entrambi i token GitHub rotti risolti (VPS 16:02 + Vercel 16:27, PR #510 mergiata) · causa dei lavori duplicati in coda trovata e corretta (PR #512, in attesa merge) · auto-deploy del Pannello preparato (PR #513, in attesa merge) · **decisione strategica di Nicola: inserimento nuovi negozi rinviato al 24/8-1/9**, priorità fino ad allora = stabilizzare Pannello/AD/worker/marketplace, non acquisizione · soglia di **~5.000€/mese di utile netto** fissata prima di riattivare i costi discrezionali (amministrazione/assicurazioni/app store), referral portato a 15€, punti fedeltà al 2%. **Coda:** 47 aperte, di cui 12 marcate "in pausa" (post/referral/ordine-test/WhatsApp — riprendono da sole al 24/8-1/9); restano attive PI26, la sveglia intelligence e tutto il lavoro tecnico (PR Pannello/worker/cervello). Dettaglio: [[RITMO]].
 
