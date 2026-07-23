@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-23 17:31",
+  "aggiornato": "2026-07-23 17:38",
   "_preferenza_nicola_23_07_1725_soglia_costi_extra": "📌 FATTO DUREVOLE Nicola (chat 23/7 ~17:25) — i costi non-vitali (amministrazione: PEC/firma/commercialista/notaio/consulente-lavoro; assicurazioni RC; app store) si sospendono dal calcolo/scenari finché l'utile netto mensile di MyCity non arriva a **~5.000 €/mese** — si riattivano PRIMA di quella soglia solo se un obbligo esterno li impone (es. bando, assunzione). La bici elettrica è già posseduta (in riparazione): mai calcolare acquisto/noleggio come costo, a meno che serva una seconda bici. Referral rivisto **10€→15€** a coppia (margine per abuso/auto-referral e cannibalizzazione) e punti fedeltà **1%→2%** al lancio (l'1% era una stima troppo bassa) — quando una stima di costo/incentivo gli sembra bassa, il numero realistico include il margine di rischio, non solo il prezzo nominale. Registrato in `registro-fatti.json` (finanza.soglia-costi-extra) + `BACHECA.md` (commit 50138cba).",
   "_nota_metabolizzazione_23_07_1731": "Chat 23/7 ~17:25-17:31: Nicola corregge lo scenario 'profitti primo mese' appena consegnato — sospendi amministrazione/assicurazioni/app-store fino a 5.000€/m di utile, togli la bici (già posseduta), alza referral e punti fedeltà. L'AD aveva già scritto tutto in BACHECA.md + registro-fatti.json nello stesso turno (commit 50138cba, prima di questa metabolizzazione) — verificato che il Pannello (Bacheca.tsx via /api/bacheca) legge BACHECA.md live, quindi la 'sezione dashboard home' chiesta da Nicola è già coperta senza codice nuovo. L-2026-0723-450 nuova (pattern riusabile: gating dei costi per soglia di business, non per data); preferenza soglia-costi-extra registrata sopra; nessuna azione/decisione operativa nuova da accodare (nessun 🟡/🔴 aperto da questo scambio).",
   "_preferenza_nicola_23_07_1800_dedup_lavori_identici": "📌 FATTO DUREVOLE Nicola (chat 23/7 ~18:00, allegati screenshot lavori) — vuole che i lavori IDENTICI ripetuti in coda (stessa analisi rigenerata più volte, es. dopo che i limiti Claude erano scaduti e le analisi fallite sono state riprovate) vengano SOVRAPPOSTI/aggiornati invece di accumularsi come card separate. **Generalizzata 18:10** (dopo aver ripetuto lo stesso messaggio 9 volte): «queste ripetizioni deve essere applicata su tutte le analisi» — la preferenza non è «sistema le due sentinelle che hai trovato», è un principio SISTEMICO: ogni sentinella/analisi che produce lo stesso risultato di un lavoro già in coda deve essere riconosciuta come lo STESSO lavoro, e il controllo va messo nel punto unico dove i lavori si ricreano (tasto Riprova), non ripetuto sentinella per sentinella. Vedi anche la lezione root-cause in LEZIONI-CHAT.md 23/7 (etichetta di dedup instabile = numero di giro invece di etichetta fissa).",
@@ -180,6 +180,29 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0723-451",
+      "testo": "**Nicola sposta la ripresa dell'inserimento negozi a dopo il 24 agosto - 1 settembre 2026 (era 13/7, mai confermata come avvenuta) e dichiara esplicitamente la sequenza: prima blindare Pannello/AD/worker/marketplace, POI concentrarsi solo sul business (Nicola 23/7 ~21:xx, sulla casella check-in anti-churn Pane Quotidiano).** «Di questo passo guarda ai costi personali che ho, inizierò ad inserire i primi negozi dopo il 24 agosto - 1 settembre, pano quotidiano compreso. Per adesso mi concentro sui perfezionare/aggiustare/completare... il panello/ad/worker ed il marketplace, così quando inizierò mi concentrò solo sul business e non dovrò più preoccuparmi di migliorare o aggiustare questi due». Applicato: `registro-fatti.json` (`ripresa.lavoro-operativo`) aggiornato via `coerenza-fatti.mjs registra` con caccia sul valore vecchio, guardiano verificato pulito (nessuna copia vecchia in file vivi). Regola riusabile: (1) questa è la QUARTA volta che Nicola rimanda la stessa soglia (9/7→13/7→ora 24/8-1/9) — non trattarla come un ritardo isolato ma come un pattern: la data reale di ripresa business è un fatto INSTABILE finché non arriva la conferma diretta di Nicola nel momento stesso, mai dedurla da un piano precedente scaduto silenziosamente; (2) la motivazione stavolta è nuova ed esplicita — costi personali correnti + volontà di NON dover più toccare la parte tecnica una volta partito il business — quindi fino al 24/8-1/9 il lavoro a maggior valore per l'AD è hardening/fix di Pannello-AD-marketplace, non azioni commerciali verso negozi (coerente con la regola-standing L-2026-0709-66/AR-gate 'niente crescita prima di un negozio evadibile', ma qui il gate è temporale+esplicito, non solo per-negozio); (3) niente check-in/spinte su Pane Quotidiano fino alla finestra indicata, resta un'attesa concordata non un abbandono (vedi [[pane-quotidiano-non-e-churn]]).",
+      "tag": [
+        "timeline",
+        "priorita",
+        "negozi",
+        "onboarding",
+        "pannello",
+        "worker",
+        "nicola",
+        "gate-temporale"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-23",
+      "ultima_conferma": "2026-07-23 21:36",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0723-450",
       "testo": "**I costi discrezionali si sospendono per SOGLIA di business raggiunta (utile netto), non per una data — e quando Nicola dice che una stima 'gli sembra più alta', il numero corretto include il margine di rischio/abuso, non solo il prezzo di listino (Nicola 23/7 ~17:25).** Dopo lo scenario 'profitti primo mese' (perdita ~-2.000 €), Nicola: «I costi di amministrazione, di assicurazione e app store non ci saranno finché non faccio 5000€/mese di utile... i costi dei refferal ed i punti secondo me sono più alti (ipotizza un numero realistico)». Applicato: PEC/firma/commercialista/notaio/consulente-lavoro + RC marketplace/consegne + app store → 🚫 sospesi fino a ~5.000 €/m di utile netto (si riattivano prima solo per obbligo esterno, es. bando/assunzione); bici elettrica già posseduta → tolta dal calcolo (non ricalcolare acquisto/noleggio finché non ne serve una seconda); referral 10€→15€ a coppia (margine abuso/auto-referral + cannibalizzazione); punti fedeltà 1%→2% al lancio (1% troppo ottimistico). Regola riusabile: (1) i costi/scenari finanziari non vanno gestiti con gate temporali fissi se esiste un gate di business più corretto (qui: soglia di utile netto, non una data calendario) — chiedi/proponi il gate giusto prima di sommare tutto in ogni scenario; (2) quando Nicola giudica una stima 'bassa', il fix non è solo alzare il numero ma aggiungere esplicitamente la componente di rischio che la stima nominale ignora (abuso promo, cannibalizzazione, auto-referral); (3) l'aggiornamento va SEMPRE sia in `registro-fatti.json` (fonte unica) sia nel file vivo che Nicola guarda (`BACHECA.md`) nello stesso turno — se il Pannello legge quel file live (verificato: `Bacheca.tsx` via `/api/bacheca` legge `BACHECA.md` senza cache), non serve toccare codice per la 'dashboard home'.",
@@ -10566,13 +10589,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 463,
+    "lezioni_attive": 465,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-23 17:27",
+    "tasso_calcolato_il": "2026-07-23 17:38",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-23 17:27",
+    "tick_leggero_il": "2026-07-23 17:37",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },

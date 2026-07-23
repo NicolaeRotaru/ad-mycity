@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-23 17:26",
+  "aggiornato": "2026-07-23 17:36",
   "fatti": [
     {
       "id": "bando.commercio-er.scadenza",
@@ -322,13 +322,17 @@
     {
       "id": "ripresa.lavoro-operativo",
       "nome": "Ripresa lavoro operativo di Nicola (inserimento negozi)",
-      "valore": "13/7/2026 (Nicola riprende il lavoro operativo di inserimento negozi)",
-      "fonte": "Nicola, chat 2026-07-07 (ripresa lavoro 13/7)",
-      "aggiornato": "2026-07-07 00:15",
+      "valore": "dopo il 24 agosto - 1 settembre 2026 (Nicola: prima completa/perfeziona Pannello+AD+worker+marketplace, poi si concentra solo sul business)",
+      "fonte": "Nicola, chat 2026-07-23 21:xx (casella check-in anti-churn PQ)",
+      "aggiornato": "2026-07-23 17:36",
       "storia": [
         {
           "valore": "dopo il 9/7/2026 (attende reset limiti Claude)",
           "fino_a": "2026-07-07 00:15"
+        },
+        {
+          "valore": "13/7/2026 (Nicola riprende il lavoro operativo di inserimento negozi)",
+          "fino_a": "2026-07-23 17:36"
         }
       ],
       "caccia": [
@@ -351,6 +355,11 @@
           "pattern": "Dopo il 9/7, fai nascere",
           "dal": "2026-07-07 00:15",
           "chiusa": "2026-07-11 12:24"
+        },
+        {
+          "pattern": "13/7/2026 (Nicola riprende il lavoro operativo di inserimento negozi)",
+          "dal": "2026-07-23 17:36",
+          "chiusa": "2026-07-23 17:36"
         }
       ],
       "esenzioni": [

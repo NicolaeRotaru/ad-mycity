@@ -590,9 +590,11 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
-### 🟡 #checkin-pq-postvp — Senti il fornaio: com'è andata venerdì e fissiamo il primo ordine · ⏳ accodata 2026-07-18 01:09 · **aggiornata 2026-07-21 00:01**
+### 🟡 #checkin-pq-postvp — Senti il fornaio: com'è andata venerdì e fissiamo il primo ordine · ⏳ accodata 2026-07-18 01:09 · **in pausa dal 2026-07-23 21:36**
 
-**📊 Health score PQ — 21/7 00:01 (fonte: REST Supabase live):**
+**⏸️ IN PAUSA (non riproporre come urgente):** Nicola 23/7 ~21:xx, rispondendo proprio su questa card: rimanda l'INTERO inserimento negozi — Pane Quotidiano compreso — a **dopo il 24 agosto - 1 settembre 2026** (motivi personali/costi + priorità nel frattempo su Pannello/AD/worker/marketplace). Non è abbandono né urgenza mancata: è una scelta esplicita. Vedi `registro-fatti.json` (`ripresa.lavoro-operativo`), STATO e DECISIONI 23/7 ~21:xx.
+
+**📊 Health score PQ — 21/7 00:01 (fonte: REST Supabase live, ultimo dato prima della pausa):**
 - 🔴 Ordini: **0** — stallo **~27 giorni** (dal 24/6) · VP 17/7 passato **4 giorni fa** senza ordini
 - 🟡 Catalogo PQ: **solo 5 prodotti** (kefir ×2, hummus, pesto, pudding)
 - 🟢 Descrizione vetrina ok · negozio approvato LIVE · **4 buyer** registrati, **0 pagati**
@@ -600,7 +602,7 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 - ❌ Payout Stripe non testato
 - ✅ **Non è abbandono:** Nicola li conosce — rischio = **zero incassi**, non churn
 
-**Quando:** **⚠️ SCADUTA** — prevista lun 20/7 mattina · **fai oggi mar 21/7** (prima possibile)
+**Quando:** **in pausa** — non prima del **24/8-1/9/2026** (era scaduta 20/7, superata dalla decisione di rinvio)
 
 **Chi:** Pane Quotidiano · **0523 388601** · Via Calzolai 25
 
