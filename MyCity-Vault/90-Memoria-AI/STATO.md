@@ -1133,19 +1133,18 @@ fonte: AD digitale (chat Nicola — token GitHub VPS rigenerato e verificato)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 23/7 13:20 — Piano del mattino, 6° blocco oggi: loop peggiora, non si ferma da solo)
-**PI26 scade tra 7 giorni (30/7) — domanda non ancora inviata.** Business INVARIATO dal 24/6 (non ri-verificato dalle 12:58 per non sprecare un altro giro a vuoto): 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~699h** (~29,1 giorni). Cassa Stripe 0€. **Nuovo:** `git rev-list origin/main..HEAD` = **128 commit locali mai arrivati su GitHub** (erano 121 alle 13:01, saliti in 19 minuti) — stesso token rotto dal 22/7 08:20, in peggioramento costante. **Nuovo (2):** il loop di "piano del mattino"/"giro"/"recupero" non si è fermato da solo — 6° blocco piano-mattino in meno di 2 ore, con run interrotti a metà scrittura; il timer di sistema resta pulito (solo 06:00, verificato alle 13:01), quindi la causa è esterna e continua a ripetersi.
+## Prossime priorità (🛰️ aggiornato 23/7 16:24 — Piano del mattino)
+**Le due grane di stamattina sono chiuse:** ✅ push GitHub VPS risolto 16:02 (Nicola ha rigenerato il PAT, verificato con push reale — PR #510 mergiata `82dd378f`, ora solo 1 commit locale non pushato, niente più accumulo); ✅ il loop "piano del mattino ogni 15-20 min" si è fermato da solo dopo le 13:23 (nessuna ripetizione ravvicinata da 3 ore, cadenza tornata normale). Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~704h** (~29,3 giorni). Cassa Stripe 0€. **Resta aperto un secondo token, diverso dal primo:** 🔴 #221 — `GITHUB_TOKEN`/`OBSIDIAN_TOKEN` su Vercel (Pannello online), ancora rosso alle 16:04 nonostante il tentativo di Nicola.
 
-1. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1, fermo da 3 giorni (`#ordine-test-pq`).
-2. [ ] 🔴 **Invia domanda PI26** — sportello aperto, 7 giorni residui (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
-3. [ ] 🔴 **Pubblica il carosello del catalogo PQ** — pronto oggi, fascia 17:00-19:00 (`#post-carosello-bio-2307`).
-4. [x] 🟡 **Ripara il token GitHub del VPS** — ✅ RISOLTO 23/7 16:02: Nicola ha rigenerato il PAT, l'AD ha verificato con push reale (PR #510 aperta e mergiata `82dd378f`, 16:03). Resta aperto un token DIVERSO: 🔴 **#221 — token GitHub di Vercel/Pannello** (`GITHUB_TOKEN`/`OBSIDIAN_TOKEN` su Vercel) — ancora rosso alle 16:04 nonostante un tentativo di Nicola; ipotesi non confermata: `OBSIDIAN_TOKEN` col valore vecchio ha priorità su `GITHUB_TOKEN` in `pannello/src/lib/obsidian.ts:7`. Finché resta rosso, il Pannello online mostra solo la cache vecchia e gli audit del codice del sito sono ciechi.
-5. [ ] 🟡 **Trova e ferma cosa rilancia "piano del mattino"/"giro" ogni pochi minuti** — non è il timer di sistema (verificato: solo 06:00); 6+ esecuzioni oggi tra 11:45 e 13:20, alcune interrotte a metà scrittura, il ritmo non rallenta. Ora il rischio più alto della giornata. Passo-a @devops-sre.
-6. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice già su main).
-7. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
-8. [ ] 🟡 **`BURN_MENSILE_EUR=302` nel `.env` VPS** — chiude alla radice la card sensore-cassa, identica da 9 diagnosi consecutive (14/7→23/7); @finanza passa da ridiagnosi a proposta-fix.
+1. [ ] 🔴 **Invia domanda PI26** — sportello a esaurimento, scade 30/7 ore 16:00 (7 giorni residui), fino a €10.000 fondo perduto; bozza pronta in `consegne/relazioni-istituzionali/`. Priorità economica più alta di oggi.
+2. [ ] 🔴 **Pubblica il carosello del catalogo PQ** — pronto, finestra consigliata **17:00-19:00 di oggi** (`#post-carosello-bio-2307`).
+3. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1, fermo da giorni (`#ordine-test-pq`).
+4. [ ] 🔴 **Sblocca il token Vercel del Pannello (#221)** — su Vercel controlla se esiste ANCHE `OBSIDIAN_TOKEN` col valore vecchio (ha priorità su `GITHUB_TOKEN` in `obsidian.ts:7`): se sì, aggiornalo o rimuovilo, poi Redeploy manuale. Finché resta rosso il Pannello online mostra solo la cache vecchia.
+5. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice già su main).
+6. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
+7. [ ] 🟡 **`BURN_MENSILE_EUR=302` nel `.env` VPS** — chiude alla radice la card sensore-cassa, identica da 9+ diagnosi consecutive (14/7→23/7); @finanza passa da ridiagnosi a proposta-fix.
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~699h) · push GitHub rotto 🔴 (128 commit non pushati, dal 22/7 08:20, in crescita) · loop ritmo/giro ri-lanciato ripetutamente 🔴 (peggiorato: 6+ blocchi in 2h, non rallenta da solo) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª diagnosi identica — vedi voce 8) · Telegram assente · n8n ✅ · REST/Stripe/Resend/Sito/Pannello/MCP Supabase ✅ (12:58, non ri-controllato).
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~704h) · token Vercel/Pannello rotto 🔴 (#221, GitHub 401 su `obsidian.ts`/`github.ts`) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª+ diagnosi identica) · Telegram assente · n8n/REST/Stripe/Resend/Sito/Pannello ✅ · push GitHub VPS ✅ RISOLTO 16:02 · loop ritmo/giro ✅ fermo da solo dopo 13:23.
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*

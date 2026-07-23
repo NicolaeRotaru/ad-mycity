@@ -698,3 +698,21 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 - Non ho ri-verificato i 7 numeri (invariati da 12:58, un'altra query sarebbe un altro giro a vuoto — vincolo AR-113/delta-gate). Push GitHub: 128 commit locali fermi (era 121 alle 13:01), stessa causa nota (token PAT rotto dal 22/7 08:20), in peggioramento costante. Nessuna nuova card 🟡/🔴 accodata: le 4 in [[AZIONI-IN-ATTESA]] restano le uniche valide. Il loop stesso (giro+ritmo+recupero che si rilanciano ogni 2-5 minuti da 90+ minuti, con run interrotti a metà scrittura) è ora il rischio operativo più alto della giornata — va sopra il business fermo nella lista delle priorità per @devops-sre.
+
+## Piano del mattino · 2026-07-23 16:24
+
+**In una riga:** le due grane di stamattina (token GitHub e giri che si rilanciavano da soli) si sono risolte da sole; oggi la vera priorità è il bando PI26, che scade tra 7 giorni.
+
+**Le 3 cose di oggi**
+1. Invia la domanda **PI26** (Camera di Commercio) — fino a 10.000€ a fondo perduto, sportello a esaurimento posti, scade il 30 luglio.
+2. Pubblica il carosello del catalogo di Pane Quotidiano — è pronto, meglio tra le 17 e le 19 di oggi.
+3. Fai l'ordine di prova su Pane Quotidiano — è l'unica cosa che manca per sbloccare il primo ordine vero.
+
+**Serve da te**
+- Manda la domanda PI26 sul portale della Camera di Commercio (bozza già pronta).
+- Dai l'ok a pubblicare il carosello.
+- Fai l'ordine di prova su Pane Quotidiano.
+- Su Vercel controlla se c'è ancora una chiave GitHub vecchia che blocca il Pannello online (schermata "Environment Variables").
+
+**Dettagli tecnici**
+Push GitHub VPS risolto (16:02, PAT rigenerato, PR #510 mergiata). Resta rosso solo il token separato di Vercel (#221, `GITHUB_TOKEN`/`OBSIDIAN_TOKEN` in `obsidian.ts`/`github.ts`). Il loop "piano del mattino" ripetuto stamattina non si è ripresentato dopo le 13:23. Stallo North Star ~704h (~29,3 giorni), business invariato dal 24/6.
