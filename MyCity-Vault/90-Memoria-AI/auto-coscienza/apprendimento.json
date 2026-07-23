@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-23 18:20",
+  "aggiornato": "2026-07-23 18:30",
   "_preferenza_nicola_23_07_1725_soglia_costi_extra": "📌 FATTO DUREVOLE Nicola (chat 23/7 ~17:25) — i costi non-vitali (amministrazione: PEC/firma/commercialista/notaio/consulente-lavoro; assicurazioni RC; app store) si sospendono dal calcolo/scenari finché l'utile netto mensile di MyCity non arriva a **~5.000 €/mese** — si riattivano PRIMA di quella soglia solo se un obbligo esterno li impone (es. bando, assunzione). La bici elettrica è già posseduta (in riparazione): mai calcolare acquisto/noleggio come costo, a meno che serva una seconda bici. Referral rivisto **10€→15€** a coppia (margine per abuso/auto-referral e cannibalizzazione) e punti fedeltà **1%→2%** al lancio (l'1% era una stima troppo bassa) — quando una stima di costo/incentivo gli sembra bassa, il numero realistico include il margine di rischio, non solo il prezzo nominale. Registrato in `registro-fatti.json` (finanza.soglia-costi-extra) + `BACHECA.md` (commit 50138cba).",
   "_nota_metabolizzazione_23_07_1731": "Chat 23/7 ~17:25-17:31: Nicola corregge lo scenario 'profitti primo mese' appena consegnato — sospendi amministrazione/assicurazioni/app-store fino a 5.000€/m di utile, togli la bici (già posseduta), alza referral e punti fedeltà. L'AD aveva già scritto tutto in BACHECA.md + registro-fatti.json nello stesso turno (commit 50138cba, prima di questa metabolizzazione) — verificato che il Pannello (Bacheca.tsx via /api/bacheca) legge BACHECA.md live, quindi la 'sezione dashboard home' chiesta da Nicola è già coperta senza codice nuovo. L-2026-0723-450 nuova (pattern riusabile: gating dei costi per soglia di business, non per data); preferenza soglia-costi-extra registrata sopra; nessuna azione/decisione operativa nuova da accodare (nessun 🟡/🔴 aperto da questo scambio).",
   "_preferenza_nicola_23_07_1800_dedup_lavori_identici": "📌 FATTO DUREVOLE Nicola (chat 23/7 ~18:00, allegati screenshot lavori) — vuole che i lavori IDENTICI ripetuti in coda (stessa analisi rigenerata più volte, es. dopo che i limiti Claude erano scaduti e le analisi fallite sono state riprovate) vengano SOVRAPPOSTI/aggiornati invece di accumularsi come card separate. **Generalizzata 18:10** (dopo aver ripetuto lo stesso messaggio 9 volte): «queste ripetizioni deve essere applicata su tutte le analisi» — la preferenza non è «sistema le due sentinelle che hai trovato», è un principio SISTEMICO: ogni sentinella/analisi che produce lo stesso risultato di un lavoro già in coda deve essere riconosciuta come lo STESSO lavoro, e il controllo va messo nel punto unico dove i lavori si ricreano (tasto Riprova), non ripetuto sentinella per sentinella. Vedi anche la lezione root-cause in LEZIONI-CHAT.md 23/7 (etichetta di dedup instabile = numero di giro invece di etichetta fissa).",
@@ -10593,9 +10593,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-23 18:20",
+    "tasso_calcolato_il": "2026-07-23 18:30",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-23 18:20",
+    "tick_leggero_il": "2026-07-23 18:30",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
