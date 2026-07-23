@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "quando": "2026-07-23 14:20",
+  "quando": "2026-07-23 16:20",
   "radar": "cervello/radar-fonti.json",
   "fonti_totali": 18,
   "vive": 18,
@@ -16,7 +16,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "liberta-citta",
@@ -27,7 +27,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "ilpiacenza-economia",
@@ -38,7 +38,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "piacenzasera",
@@ -49,7 +49,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "comune-news",
@@ -60,7 +60,7 @@
       "status": 0,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20",
+      "ultimo_controllo": "2026-07-23 16:20",
       "skip_check": true,
       "nota_check": "403 CDN Google — IP VPS bloccato. Usa WebSearch: site:comune.piacenza.it news commercio"
     },
@@ -73,7 +73,7 @@
       "status": 0,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20",
+      "ultimo_controllo": "2026-07-23 16:20",
       "skip_check": true,
       "nota_check": "403 CDN Google — IP VPS bloccato. Usa WebSearch: site:comune.piacenza.it eventi"
     },
@@ -86,7 +86,7 @@
       "status": 0,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20",
+      "ultimo_controllo": "2026-07-23 16:20",
       "skip_check": true,
       "nota_check": "403 CDN Google — IP VPS bloccato. Usa WebSearch: comune piacenza bandi imprese commercio"
     },
@@ -99,7 +99,7 @@
       "status": 0,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20",
+      "ultimo_controllo": "2026-07-23 16:20",
       "skip_check": true,
       "nota_check": "Pagina istituzionale senza RSS ufficiale — WebSearch + feed sindacati locali"
     },
@@ -112,7 +112,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "vitaincentro",
@@ -123,7 +123,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "unionecommercianti",
@@ -134,7 +134,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "cna-piacenza",
@@ -145,7 +145,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "glovo-piacenza",
@@ -156,7 +156,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "conad-consegna",
@@ -167,7 +167,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "cortilia",
@@ -178,7 +178,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "meteo-piacenza",
@@ -189,7 +189,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "sagre-provincia",
@@ -200,7 +200,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     },
     {
       "id": "reputazione-mycity",
@@ -211,7 +211,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-23 14:20"
+      "ultimo_controllo": "2026-07-23 16:20"
     }
   ]
 }
