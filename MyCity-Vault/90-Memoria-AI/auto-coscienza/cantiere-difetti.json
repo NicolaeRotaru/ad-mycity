@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-23 22:25",
+  "aggiornato": "2026-07-23 22:56",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -896,15 +896,16 @@
       "causa_radice": "Il Pannello su Vercel non può fare spawn degli script del cervello, quindi le mani sono state re-implementate in TS (come già per onesta-check.ts); il port ha copiato la funzione (inviare) ma non il contratto di sicurezza (pausa+firma+allowlist), che vive in un file (mani-allowlist.json) e in controlli letti solo dal lato VPS. Causa di sistema: i guardrail sono implementazioni locali, non un contratto unico condiviso — ogni nuova superficie d'esecuzione riparte da zero.",
       "fix_proposto": "🟡 Port TS di consensoInvio (come fu per onesta-check.ts): mani.ts e azioni.ts prima di ogni invio LIVE verificano pausa (impostazioni), stato/decisione della casella e una allowlist letta da Supabase o dal vault (stessa fonte di mani-allowlist.json); /api/azioni-pronte POST rifiuta l'esecuzione diretta dei 🔴 con destinatario non sbloccato. Test: azione rossa sentinella + AZIONI_LIVE=1 + destinatario non in allowlist ⇒ 'coda', mai 'fatta'.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 16:55",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-23 22:56",
       "verifica": {
         "file": "pannello/src/lib/mani.ts",
         "pattern": "pausa|allowlist|consenso",
         "presente": true
       },
-      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
+      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
+      "chiuso_come": "pannello/src/lib/mani.ts contiene /pausa|allowlist|consenso/ → trovato"
     },
     {
       "id": "AR-112",
@@ -1424,7 +1425,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione guardrail-semaforo)",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-139",
@@ -1438,7 +1441,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione guardrail-semaforo)",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-140",
@@ -1452,7 +1457,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione guardrail-semaforo)",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-141",
@@ -1466,7 +1473,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione guardrail-semaforo)",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-142",
@@ -1480,7 +1489,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione rischio-sicurezza-se)",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-143",
@@ -1494,7 +1505,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione rischio-sicurezza-se)",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-144",
@@ -1508,7 +1521,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione efficienza-costo)",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-145",
@@ -1522,7 +1537,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensioni cadenza-esecuzione + efficienza-costo)",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-146",
@@ -1536,7 +1553,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione allineamento-northstar), card #218 già in coda dal 23/7 11:35",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-147",
@@ -1550,7 +1569,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensioni copertura-cieca + allineamento-northstar)",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-148",
@@ -1564,7 +1585,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione copertura-cieca) — riapre parzialmente AR-015 (chiuso 2/7)",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-149",
@@ -1578,7 +1601,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione chiusura-volano)",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-150",
@@ -1592,7 +1617,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione chiusura-volano)",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-151",
@@ -1606,7 +1633,9 @@
       "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione coerenza-agenti) — segnala invalidità della chiusura di AR-008",
-      "verifica": { "tipo": "umano" }
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-152",
@@ -1622,7 +1651,11 @@
       "chiuso_il": "2026-07-23 22:25",
       "origine": "auto-radiografia 2026-07-23 (dimensione integrita-memoria)",
       "nota_fix": "Nota STALE aggiunta in MyCity-Vault/90-Memoria-AI/STATO.md (blocco storico 11/7 lasciato intatto, append-only).",
-      "verifica": { "file": "MyCity-Vault/90-Memoria-AI/STATO.md", "pattern": "STALE — lo scenario 12 mesi", "presente": true }
+      "verifica": {
+        "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
+        "pattern": "STALE — lo scenario 12 mesi",
+        "presente": true
+      }
     },
     {
       "id": "AR-153",
@@ -1638,12 +1671,16 @@
       "chiuso_il": "2026-07-23 22:25",
       "origine": "auto-radiografia 2026-07-23 (dimensione integrita-memoria)",
       "nota_fix": "Card sostituita con riga ❌ RIMOSSA in AZIONI-IN-ATTESA.md.",
-      "verifica": { "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", "pattern": "pat-decisioni-redazione — RIMOSSA", "presente": true }
+      "verifica": {
+        "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+        "pattern": "pat-decisioni-redazione — RIMOSSA",
+        "presente": true
+      }
     }
   ],
   "meta": {
-    "aperti": 33,
+    "aperti": 32,
     "in_corso": 0,
-    "chiusi": 59
+    "chiusi": 60
   }
 }
