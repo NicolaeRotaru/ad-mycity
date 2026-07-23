@@ -1199,20 +1199,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-### 🔴 #pat-decisioni-redazione — Ruota il token GitHub e lasciami cancellare il pezzo rimasto nel diario · ⏳ accodata 2026-07-16 16:55
-
-**Cosa è successo:** nella riga 205 di `DECISIONI.md` è rimasto un frammento di un token GitHub (PAT). Lo scan-segreti lo becca a **ogni giro** e per sicurezza blocca la pubblicazione della memoria: la Cabina non riceve più aggiornamenti freschi finché quella riga resta lì.
-
-**Cosa fare (2 passi):**
-1. Su GitHub → Settings → Developer settings → Tokens: **revoca/rigenera** il PAT (se è quello in uso come `GIT_PUSH_TOKEN`, aggiorna anche il `.env` del VPS).
-2. Rispondi «ok pat» a questa card: farò **un solo commit di redazione** su DECISIONI.md (`github_pat_…` → `[REDATTO]`), unica eccezione all'append-only, documentata.
-
-**Cosa cambia:** lo scan-segreti torna verde e la memoria riprende a pubblicarsi sulla Cabina a ogni giro.
-**Se va bene:** deadlock chiuso; aggiungo un guardiano che rifiuta i commit con pattern di token (così non risuccede).
-
-- **Colore:** 🔴 (rotazione credenziale + eccezione a una regola di memoria — decidi tu)
-- **Reparto:** security
-- **Origine:** `{origine:auto-radiografia-2026-07-16, difetto:AR-112}`
+❌ #pat-decisioni-redazione — RIMOSSA 2026-07-23 22:xx · verificato in auto-radiografia: il difetto reale era AR-118 (non AR-112, ID scritto sbagliato nella card), già chiuso il 16/7 17:21 — `DECISIONI.md` non contiene più nessun frammento `github_pat_…` (verificato ora con grep), `scan-segreti.mjs` verde anche il 20/7 (AR-124). Non serve più firma su questa. La rotazione del PAT resta comunque in coda separata (#ruota-pat-github, motivo: il token era comunque esposto in chiaro nel config git del marketplace, non per questo diario).
 
 ---
 

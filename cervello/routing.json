@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🤖 ROUTING COSTO/MODELLO (upgrade U19) — la tabella che dice quale AI usare per ogni tipo di compito. Regola: Claude (costo fisso) SOLO per ragionamento/decisioni; il volume va all'AI economica capace. Lo legge cervello/banco-ai.mjs. Prezzi/free-tier cambiano: verificare al collegamento. Spec: cervello/banco-ai.md.",
-  "aggiornato": "2026-07-23 18:36",
+  "aggiornato": "2026-07-23 22:06",
   "tier_costo": {
     "forfait": "Claude Max: costo fisso, nessun consumo extra",
     "gratis": "free tier o self-host (Groq/DeepSeek/Gemini Flash-Lite/OSM/WebSearch)",
@@ -83,42 +83,6 @@
     }
   ],
   "log": [
-    {
-      "quando": "2026-07-18 00:25",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-18 00:30",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-18 00:31",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-18 00:32",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
     {
       "quando": "2026-07-18 00:34",
       "compito": "ragionamento",
@@ -4582,6 +4546,42 @@
       "router_solo_consiglio": true,
       "tier": "gratis",
       "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-23 21:07",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 21:45",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 21:55",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-23 22:06",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
     }
   ],
   "uso": {

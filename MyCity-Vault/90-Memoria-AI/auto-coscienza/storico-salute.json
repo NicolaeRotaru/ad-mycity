@@ -1232,6 +1232,20 @@
       "bloccanti_umani": 2,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 4h fa · sensori max cecità 0 · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-23",
+      "voto_salute": 0,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-138..AR-153",
+      "difetti_aperti": 33,
+      "difetti_chiusi": 59,
+      "pending_merge": 15,
+      "aperti_davvero": 33,
+      "bloccanti_umani": 2,
+      "tipo": "completa",
+      "nota": "Radiografia completa a 14 senior in parallelo (su richiesta Nicola, tool Workflow bloccato in sessione headless). Voto 0 = il floor della formula pesata quando si audita davvero tutte le 12 dimensioni con rigore (coerente col voto_pieno già a 0 nella sonda precedente), non un crollo improvviso della macchina. 16 difetti nuovi (AR-138..153), 2 chiusi nello stesso turno (card con ID sbagliato, piano crescita con commissione stale). 3 bloccanti prioritari: autopilota Pannello senza verifica pausa, freno budget-token inerte, PI26 senza allarme automatico."
     }
   ]
 }
