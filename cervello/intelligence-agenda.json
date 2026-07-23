@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "quando": "2026-07-20 22:20",
+  "quando": "2026-07-23 11:32",
   "fonti_dovute": 9,
   "fonti_totali": 18,
   "agenda": [
@@ -151,10 +151,34 @@
   ],
   "stale": [
     {
+      "file": "radar-concorrenti",
+      "path": "radar-concorrenti.md",
+      "ultimo": "2026-07-20",
+      "giorni": 3
+    },
+    {
+      "file": "eventi-picchi",
+      "path": "eventi-picchi.md",
+      "ultimo": "2026-07-20",
+      "giorni": 3
+    },
+    {
+      "file": "buchi-mercato",
+      "path": "buchi-mercato.md",
+      "ultimo": "2026-07-20",
+      "giorni": 3
+    },
+    {
+      "file": "leve-uscita",
+      "path": "leve-uscita.md",
+      "ultimo": "2026-07-20",
+      "giorni": 3
+    },
+    {
       "file": "reputazione",
       "path": "reputazione.md",
       "ultimo": "2026-07-18",
-      "giorni": 2
+      "giorni": 5
     }
   ],
   "prossimo_passo": "Esegui monitora.md sulle fonti in agenda (WebSearch se 403)"

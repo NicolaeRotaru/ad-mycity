@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🤖 ROUTING COSTO/MODELLO (upgrade U19) — la tabella che dice quale AI usare per ogni tipo di compito. Regola: Claude (costo fisso) SOLO per ragionamento/decisioni; il volume va all'AI economica capace. Lo legge cervello/banco-ai.mjs. Prezzi/free-tier cambiano: verificare al collegamento. Spec: cervello/banco-ai.md.",
-  "aggiornato": "2026-07-20 23:19",
+  "aggiornato": "2026-07-23 11:41",
   "tier_costo": {
     "forfait": "Claude Max: costo fisso, nessun consumo extra",
     "gratis": "free tier o self-host (Groq/DeepSeek/Gemini Flash-Lite/OSM/WebSearch)",
@@ -83,1572 +83,6 @@
     }
   ],
   "log": [
-    {
-      "quando": "2026-07-16 17:14",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-16 17:15",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 17:15",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-16 21:22",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-16 22:58",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-16 22:58",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:01",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:05",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-16 23:11",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:12",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:28",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:36",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-16 23:39",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-16 23:39",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:41",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:45",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:47",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:49",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:50",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:51",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-16 23:52",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:54",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:54",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-16 23:58",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:00",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:02",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:04",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:04",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:07",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:07",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:09",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:12",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:16",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:17",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:17",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:21",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:21",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:23",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:23",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:29",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:29",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:30",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:30",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:31",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:32",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:33",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:35",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:37",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:38",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:40",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:42",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:44",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:46",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:47",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:48",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:48",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:49",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 00:50",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:53",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 00:55",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 01:00",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 01:01",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 01:03",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 01:04",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 01:04",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 01:05",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 01:06",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 01:06",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 01:07",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 01:08",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 01:10",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 01:11",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 01:18",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 01:18",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 02:02",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 02:02",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 02:05",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 02:05",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 02:08",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 02:11",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 02:14",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 02:15",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 02:15",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 02:16",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 02:17",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 02:17",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 02:19",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 02:21",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 02:23",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 02:25",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 03:15",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 03:15",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 03:53",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 03:53",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 03:55",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 03:57",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 03:58",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 03:59",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 04:01",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 04:14",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 04:14",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 04:16",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 06:20",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 06:29",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 09:55",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 09:55",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 09:59",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:00",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:01",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:02",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:10",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:10",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:12",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:13",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:13",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:16",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:17",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:19",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:20",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:23",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:25",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:25",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:26",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:27",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:27",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:29",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:29",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:30",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:31",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:31",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:34",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:35",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:35",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:36",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:37",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:38",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:39",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:39",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:42",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:44",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:44",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:52",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:54",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:55",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 10:57",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 10:59",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 11:05",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 11:39",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 11:41",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 11:53",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 11:56",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 11:58",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 12:00",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 12:02",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 12:03",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 12:07",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 12:07",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 12:21",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 12:41",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 12:45",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 12:46",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 12:46",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 12:47",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 12:49",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 12:50",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 12:51",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 12:53",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 12:53",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-17 12:55",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 12:59",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 13:01",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 13:04",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 13:16",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-17 13:19",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "modello_eseguito": "claude",
-      "router_solo_consiglio": true,
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
     {
       "quando": "2026-07-17 14:39",
       "compito": "ragionamento",
@@ -4576,6 +3010,1572 @@
     },
     {
       "quando": "2026-07-20 23:19",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 00:11",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-21 00:28",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 00:30",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-21 00:30",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 00:30",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-21 00:31",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 00:33",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-21 00:33",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 00:34",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-21 00:36",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 00:37",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-21 00:41",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 00:42",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-21 00:57",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-21 06:20",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 06:35",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 07:06",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 08:06",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 10:06",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 11:01",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 11:02",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 11:02",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 11:02",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 11:17",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 11:17",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 11:17",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 11:17",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 11:47",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 11:47",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 11:47",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 11:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 12:43",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 12:47",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 12:47",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 12:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 12:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 12:59",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 13:29",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 14:06",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 14:30",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 14:47",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 14:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 14:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 14:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 16:30",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 18:07",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 18:07",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 18:22",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 18:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 18:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 18:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 18:49",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 18:53",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 19:53",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 20:31",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 21:07",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 21:22",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 21:52",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 21:53",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 22:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 22:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 22:49",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 22:49",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-21 22:53",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 00:01",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 00:16",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 00:31",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 00:46",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 00:53",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 01:46",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 01:53",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 03:47",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 04:53",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 05:54",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 05:54",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 06:09",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 06:40",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 07:40",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 07:47",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 08:53",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:06",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:09",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:11",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:13",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:13",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:15",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:15",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:20",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:20",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:35",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:35",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:40",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:41",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:43",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 09:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 10:03",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 10:20",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 10:22",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 10:27",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 10:42",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 11:02",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 11:02",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 11:02",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 11:03",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 11:03",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 11:06",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 11:06",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 11:06",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 11:06",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 11:06",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:15",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:17",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:17",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:18",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:18",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:18",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:34",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:34",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:34",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:34",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:34",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:35",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:37",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:43",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 12:58",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 14:20",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 14:22",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 14:27",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 14:42",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 15:56",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 15:56",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 15:57",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 15:57",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 15:58",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 15:58",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 16:00",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 16:03",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 16:05",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 16:19",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 16:20",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 16:20",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 16:22",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 16:27",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 16:42",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 21:07",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 22:14",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 22:17",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 22:22",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 22:37",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 23:56",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-22 23:58",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 00:00",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 00:03",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 00:05",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 00:19",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 06:21",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 08:20",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 10:20",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:14",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:14",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:19",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:19",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:20",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:22",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:23",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:25",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:28",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:28",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:29",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:33",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:35",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:37",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:40",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-23 11:41",
       "compito": "ragionamento",
       "modello": "claude",
       "modello_eseguito": "claude",
