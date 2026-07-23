@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-23 12:52",
-  "situazione": "Ri-verificato con query SQL diretta su orders (MCP Supabase): 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine in tutto il DB (zombie 24/6, CANCELED) — 0 ordini pagati, stallo ~699h (~29,1gg). Nessun cambiamento vs le verifiche delle 11:36/11:59. Vincolo AR-113 attivo: nessun lavoro macchina nuovo oltre questa conferma. Confermato peggiorato il rischio push: 114 commit locali non arrivati su origin/main (era 103 alle 12:28). Mossa n.1: ordine test PQ (North Star). Mossa n.2: PI26 entro 7 giorni.",
+  "data": "2026-07-23 12:58",
+  "situazione": "Ennesima riconferma via query SQL diretta (MCP Supabase): 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine in tutto il DB (zombie 24/6, CANCELED) — 0 ordini pagati, stallo ~699h (~29,1gg). Nessun cambiamento sul business dai passaggi precedenti di oggi (11:35→12:52). Unico dato che si muove: il rischio push-GitHub peggiora ancora (119 commit locali non su origin/main, era 114 alle 12:52). Questo è il 6°+ passaggio quasi identico nell'ultima ora: nessuna nuova azione accodata di proposito, per non ripetere il pattern 'loop a vuoto'. Mossa n.1: ordine test PQ. Mossa n.2: PI26 entro 7 giorni.",
   "opportunita": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
@@ -16,7 +16,7 @@
     },
     {
       "titolo": "Recupera il post social su PQ",
-      "motivo": "3 post pronti mai usciti — l'esperimento collegato è scaduto senza poter essere misurato",
+      "motivo": "3+1 post pronti mai usciti — l'esperimento collegato è scaduto senza poter essere misurato",
       "impatto": "medio",
       "sforzo": "basso"
     }
@@ -34,20 +34,20 @@
     },
     {
       "titolo": "Pubblica il post su Facebook e Instagram",
-      "motivo": "Recupero visibilità su negozio faro — 3 varianti pronte",
+      "motivo": "Recupero visibilità su negozio faro — varianti pronte",
       "livello": "rosso"
     },
     {
       "titolo": "Controlla e rinnova il token GitHub del progetto",
-      "motivo": "114 commit locali non arrivano su GitHub dal 22/7 08:20 — la Cabina e le PR restano indietro",
+      "motivo": "119 commit locali non arrivano su GitHub dal 22/7 08:20 — la Cabina e le PR restano indietro",
       "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
     "North Star 0 — stallo ~699h (>29 giorni), confermato via query diretta al DB",
-    "114 commit locali mai arrivati su origin/main (era 103 alle 12:28, push VPS ancora rotto)",
+    "119 commit locali mai arrivati su origin/main (era 114 alle 12:52, push VPS ancora rotto, in peggioramento continuo)",
     "3 carrelli abbandonati reali su PQ mai recuperati (email inviate a giugno, nessuna conversione)",
     "Runway sconosciuto — BURN_MENSILE_EUR assente",
-    "Telegram non configurato — notifiche approvazione assenti"
+    "6°+ passaggio quasi identico nell'ultima ora — rischio 'loop a vuoto' se si continua a ri-invocare senza che passi tempo reale o un'azione di Nicola"
   ]
 }

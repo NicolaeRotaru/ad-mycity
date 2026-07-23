@@ -1,6 +1,7 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-20 20:22",
+  "aggiornato": "2026-07-23 12:58",
+  "_nota_giro_23_07_1258": "6°+ passaggio quasi identico nell'ultima ora: PQ, 5 prod, 4 buyer, 1 seller, 1 rider, 1 admin (7 profili), 0 pagati, 0 recensioni — tutto riverificato con query dirette MCP Supabase, nessuna entità nuova, nessun declassamento. Unico movimento reale: rischio push-GitHub (119 commit locali non pushati, in crescita continua).",
   "_nota_giro_20_07_2022": "Giro 20/7 20:22: 1 PQ, 5 prod, 4 buyer, 0 pagati, stallo ~636h. Demo eliminati. Coerenza-fatti pricing ok. Mossa n.1 ordine test PQ.",
   "_nota_giro_20_07_0620": "Giro 20/7 06:20: REST ok — 1 PQ approvato, 4 buyer, 0 pagati, stallo ~620h. n8n ok. PI26 sportello OGGI 10:00. Post domenica non pubblicato.",
   "_nota_sync_13_07": "Sync scelte ragionate: 8 prospect del dossier 6/7 e scout categorie erano analizzati ma non nel registro → aggiunti. Guardiano registro-scelte-check.mjs (AR-103) a ogni giro.",

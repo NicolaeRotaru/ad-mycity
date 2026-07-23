@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 12:52
+aggiornato: 2026-07-23 12:58
 fonte: AD digitale (giro chat — ri-verifica con vincolo AR-113 attivo)
 ---
+
+> 🛰️ **23/7 12:58 — GIRO (chat, su richiesta di Nicola) — ennesima riconferma, stesso quadro.** Query SQL diretta su `orders` (MCP): ancora **1 sola riga**, stesso ordine zombie del 24/6, **0 pagati**. Business invariato: 1 seller (Pane Quotidiano), 5 prodotti, 4 buyer (+1 rider +1 admin = 7 profili totali, nessun nuovo iscritto), 0 recensioni, stallo ~699h (~29,1gg). Sensori 8/9 ok, coerenza-fatti pulita (18 fatti, 0 cacce). **Rischio push in ulteriore peggioramento:** 119 commit locali non ancora su `origin/main` (103→112→114→117→119 in ~30 min) — token PAT VPS ancora rotto, assegnato a @devops-sre, non blocca il business ma tiene la Cabina indietro. **Nota di processo:** questo è il **6°+ giro/passaggio quasi identico nell'ultima ora** (11:35/11:36/11:59/12:00/12:26/12:47/12:52/12:58) — nessuna nuova azione accodata di proposito (pattern "loop a vuoto"): ri-verificare a distanza di minuti senza che sia passato tempo reale non produce nuova informazione. **Mossa n.1 invariata: ordine test PQ.** Mossa n.2: PI26 entro il 30/7. Briefing: [[Briefing/2026-07-23]].
 
 > 🛰️ **23/7 12:52 — GIRO (chat), ri-verifica sotto vincolo AR-113.** Query SQL diretta su `orders` (MCP): ancora **1 sola riga**, stesso ordine zombie del 24/6, **0 pagati**. Business invariato: 1 seller (Pane Quotidiano), 5 prodotti, 4 buyer, stallo ~699h (~29,1gg). Sensori 8/9 ok, coerenza-fatti pulita. **Confermato peggiorato:** 114 commit locali non ancora su `origin/main` (era 103 alle 12:28) — token push VPS ancora rotto, non blocca il business ma tiene la Cabina indietro. Nessuna azione nuova accodata (le 4 già in [[AZIONI-IN-ATTESA]] restano valide, niente duplicati). **Mossa n.1: ordine test PQ** (invariata). **Mossa n.2:** PI26 entro il 30/7. Briefing: [[Briefing/2026-07-23]].
 
