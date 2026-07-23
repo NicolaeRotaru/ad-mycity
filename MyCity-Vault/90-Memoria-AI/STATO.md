@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 18:57
+aggiornato: 2026-07-23 19:45
 fonte: AD digitale (report della sera)
 ---
 
@@ -1161,6 +1161,8 @@ fonte: AD digitale (report della sera)
 5. ⏸ **In pausa fino al 24/8-1/9** (non riproporre prima): ordine test PQ, carosello catalogo PQ, post social (domenica/lunedì/siamo-in-23), referral porta-un-amico, 3 WhatsApp anchor, welcome email, zona/orario consegna, tazzina PQ, check-in PQ, comunicato stampa PI26 (cita PQ).
 
 **Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~704h) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª+ diagnosi identica) · Telegram assente · n8n/REST/Stripe/Resend/Sito/Pannello ✅ · push GitHub VPS ✅ RISOLTO 16:02 · token Vercel/Pannello ✅ RISOLTO 16:27 (confermato 16:53) · loop ritmo/giro ✅ fermo da solo dopo 13:23 · "Diretta contenuti" nel menu Pannello 🟡 NUOVO (da verificare) · lavori duplicati in coda 🟡 NUOVO (causa trovata, fix in attesa del sì).
+
+6. [ ] 🟡 **3 nuovi bug Pannello segnalati da Nicola 23/7 ~19:4x** (screenshot, dopo PR #514 risposta-doppia già mergiata oggi): (a) **contatore token non visibile** — causa probabile: il Pannello lo legge da GitHub non dal disco, può mostrare «—» se la lettura fallisce o non ha ancora preso l'ultima versione (da riverificare prima di toccare codice, non ancora un bug di codice); (b) **"Nuova chat" apre 2 chat invece di 1** — bug diverso da quello già risolto oggi (PR #514, risposta doppia): manca un controllo anti-doppione sul tasto "Nuova chat"; (c) **chat Worker si apre sovrapposta alla pagina invece che in finestra separata** — non è un bug, è così che è costruita oggi: serve un cambio di comportamento vero, non un fix. ⚠️ Trovati **diversi branch già chiusi in passato sugli stessi temi** (fix-chat-dedup, fix-worker-nav-sopra-chat, fix-chat-nuova-chat-e-sync): prima di rifare il fix da zero, verificare se è una regressione di un fix già fatto o un caso davvero nuovo. AD in attesa del via di Nicola per (b) e (c); su (a) prima ricontrolla se il numero appare ora prima di scrivere codice.
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
