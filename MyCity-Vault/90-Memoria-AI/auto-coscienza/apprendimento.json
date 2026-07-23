@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-23 18:38",
+  "aggiornato": "2026-07-23 18:40",
   "_nota_metabolizzazione_23_07_1838": "Chat 23/7 ~18:30-18:38: Nicola segnala che il tab dettatura vocale non funziona («fai in modo che funzioni») poi precisa «lo uso di più in versione app» (screenshot Brave). AD ha verificato online (non solo ipotesi): Brave blocca di proposito il servizio Google di riconoscimento vocale (2 issue GitHub Brave citate come fonte) — non è un permesso mancante, è un limite permanente del browser. Fix consegnato: `dettatura-vocale.ts` rileva `navigator.brave` e mostra il messaggio vero (\"Brave blocca il servizio vocale, usa Chrome\") invece di mandare l'utente a cercare un permesso inesistente nelle impostazioni; typecheck pulito; PR #515 aperta, card #228 già in coda (creata nello stesso turno precedente, non duplicata). L-2026-0723-452 nuova (non caso_studio_nicola: diagnosi tecnica confermata da fonte esterna, non una correzione); nessuna azione/decisione business nuova; STATO/AZIONI-IN-ATTESA già coerenti (card #228 esistente).",
   "_preferenza_nicola_23_07_1725_soglia_costi_extra": "📌 FATTO DUREVOLE Nicola (chat 23/7 ~17:25) — i costi non-vitali (amministrazione: PEC/firma/commercialista/notaio/consulente-lavoro; assicurazioni RC; app store) si sospendono dal calcolo/scenari finché l'utile netto mensile di MyCity non arriva a **~5.000 €/mese** — si riattivano PRIMA di quella soglia solo se un obbligo esterno li impone (es. bando, assunzione). La bici elettrica è già posseduta (in riparazione): mai calcolare acquisto/noleggio come costo, a meno che serva una seconda bici. Referral rivisto **10€→15€** a coppia (margine per abuso/auto-referral e cannibalizzazione) e punti fedeltà **1%→2%** al lancio (l'1% era una stima troppo bassa) — quando una stima di costo/incentivo gli sembra bassa, il numero realistico include il margine di rischio, non solo il prezzo nominale. Registrato in `registro-fatti.json` (finanza.soglia-costi-extra) + `BACHECA.md` (commit 50138cba).",
   "_nota_metabolizzazione_23_07_1731": "Chat 23/7 ~17:25-17:31: Nicola corregge lo scenario 'profitti primo mese' appena consegnato — sospendi amministrazione/assicurazioni/app-store fino a 5.000€/m di utile, togli la bici (già posseduta), alza referral e punti fedeltà. L'AD aveva già scritto tutto in BACHECA.md + registro-fatti.json nello stesso turno (commit 50138cba, prima di questa metabolizzazione) — verificato che il Pannello (Bacheca.tsx via /api/bacheca) legge BACHECA.md live, quindi la 'sezione dashboard home' chiesta da Nicola è già coperta senza codice nuovo. L-2026-0723-450 nuova (pattern riusabile: gating dei costi per soglia di business, non per data); preferenza soglia-costi-extra registrata sopra; nessuna azione/decisione operativa nuova da accodare (nessun 🟡/🔴 aperto da questo scambio).",
@@ -10611,13 +10611,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 465,
+    "lezioni_attive": 466,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-23 18:30",
+    "tasso_calcolato_il": "2026-07-23 18:40",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-23 18:30",
+    "tick_leggero_il": "2026-07-23 18:40",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
