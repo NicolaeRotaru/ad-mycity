@@ -290,7 +290,16 @@ function mergeListaConversazioni(prev: Conversazione[], incoming: Conversazione[
     return JSON.stringify(messaggi) === JSON.stringify(inc.messaggi) ? inc : { ...inc, messaggi };
   });
   for (const c of prev) {
-    if (!incoming.some((x) => x.id === c.id)) merged.push(c);
+    if (incoming.some((x) => x.id === c.id)) continue;
+    // 23/7: id "sess_..." è SOLO un segnaposto locale in attesa che persistConversazione() lo promuova
+    // a un id vero — mandaAlCervello lo rinomina appena il server risponde, ma se il poller di
+    // caricaConversazioni ricarica la lista PRIMA che la promozione sia avvenuta (o subito dopo, prima
+    // che questo stato locale si aggiorni), il segnaposto non compare mai in `incoming` (il server non
+    // l'ha mai visto con quell'id) e restava qui per sempre come una SECONDA chat fantasma, ferma al
+    // primo messaggio, accanto a quella vera che continua a crescere. Se non è più la chat attiva, la
+    // promozione è già avvenuta altrove: è un residuo, non un'altra conversazione — si scarta.
+    if (c.id.startsWith("sess_") && c.id !== convAttiva) continue;
+    merged.push(c);
   }
   if (convAttiva) {
     const idx = merged.findIndex((c) => c.id === convAttiva);
@@ -997,6 +1006,20 @@ export default function Dashboard() {
     setWorkerFull(full);
     setChatFluttuante(!full);
   }, []);
+  // 23/7: la voce "Worker" nel menu ora apre una scheda del browser A SÉ (window.open), non più
+  // sovrapposta alla pagina che si stava guardando (Nicola: «la chat del worker deve essere una
+  // finestra a sé»). La nuova scheda carica il Pannello con ?worker=1 in coda all'URL: qui a mount
+  // lo intercettiamo, apriamo subito la vista Worker a schermo intero e puliamo l'URL (altrimenti un
+  // refresh/condivisione del link riaprirebbe sempre e solo il worker).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("worker") !== "1") return;
+    apriWorkerPopup(true);
+    params.delete("worker");
+    const resto = params.toString();
+    window.history.replaceState(window.history.state || {}, "", window.location.pathname + (resto ? `?${resto}` : ""));
+  }, [apriWorkerPopup]);
   // 🔊 Live voce (senza API): il worker legge ad alta voce le risposte (sintesi vocale del browser).
   const [voceWorker, setVoceWorker] = useState(false);
   const ultimoParlatoRef = useRef<string | null>(null);
@@ -2649,8 +2672,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     <button
                       key={v.id}
                       onClick={() => {
-                        if (v.id === "assistente") apriWorkerPopup(true);
-                        else {
+                        if (v.id === "assistente") {
+                          window.open(`${window.location.pathname}?worker=1`, "_blank");
+                        } else {
                           setVista(v.id);
                           setWorkerFull(false);
                           setChatFluttuante(false);
