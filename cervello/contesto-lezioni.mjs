@@ -21,6 +21,7 @@
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { caricaEAnalizza } from "./apprendimento-guardiano.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const MEM = join(ROOT, "MyCity-Vault", "90-Memoria-AI");
@@ -30,6 +31,7 @@ const COERENZA = join(MEM, "auto-coscienza", "coerenza-fatti.json");
 
 const args = process.argv.slice(2);
 const HOOK = args.includes("--hook");
+const RIGHE = args.includes("--righe"); // solo le righe-regola nette (per l'iniezione in chat del worker)
 const maxIdx = args.indexOf("--max");
 const MAX_LEZIONI = maxIdx >= 0 && args[maxIdx + 1] ? Math.max(1, Number(args[maxIdx + 1]) || 12) : 12;
 const MAX_VAL = 220; // tronca i valori lunghi per tenere il blocco compatto
@@ -66,17 +68,49 @@ function bloccoFatti() {
   return `Fatti-chiave (FONTE UNICA della verità — registro-fatti.json; fidati di questi, non dei ricordi di sessione):\n${righe.join("\n")}`;
 }
 
-// (2) LEZIONI operative recenti.
+// Estrae la REGOLA OPERATIVA netta da una riga-lezione (che spesso è un paragrafo da 150+ parole).
+// Priorità: (1) la frase dopo «Regola:» — è la parte imperativa; (2) il testo in **grassetto** —
+// è il titolo-regola; (3) troncamento. Così nel contesto arriva una regola scannabile, non un diario.
+function nucleoRegola(riga) {
+  let s = String(riga || "").replace(/^\s*-\s+/, ""); // via il bullet
+  s = s.replace(/^\[\d{4}-\d{2}-\d{2}[^\]]*\]\s*/, ""); // via la data iniziale [AAAA-MM-GG]
+  const mRegola = s.match(/Regola(?:\s+\w+)?\s*[:：]\s*(.+?)(?:\s*(?:\([^)]*\)\s*)?$)/is);
+  if (mRegola && mRegola[1].trim().length > 15) return tronca(mRegola[1], MAX_VAL);
+  const mBold = s.match(/\*\*(.+?)\*\*/s);
+  if (mBold && mBold[1].trim().length > 15) return tronca(mBold[1], MAX_VAL);
+  return tronca(s, MAX_VAL);
+}
+
+// (2) LEZIONI operative recenti — solo il NUCLEO-REGOLA di ognuna.
 function bloccoLezioni() {
   const raw = leggi(LEZIONI);
   if (!raw) return null;
   const righe = raw
     .split("\n")
     .filter((r) => /^\s*-\s+/.test(r))
-    .map((r) => r.trim())
-    .slice(0, MAX_LEZIONI);
+    .slice(0, MAX_LEZIONI)
+    .map((r) => `- ${nucleoRegola(r)}`);
   if (!righe.length) return null;
   return `Lezioni da rispettare (LEZIONI-CHAT.md — errori da non ripetere e correzioni di Nicola):\n${righe.join("\n")}`;
+}
+
+// (2-bis) ERRORI CHE SI RIPETONO — dal guardiano dell'apprendimento. È il segnale più importante per
+// la richiesta di Nicola («errori che devo continuare a ripeterti»): mette in cima le aree dove lo
+// stesso tipo di errore è tornato molte volte e non è mai diventato un gate. Non fallisce mai.
+function bloccoErroriRicorrenti() {
+  let r;
+  try {
+    r = caricaEAnalizza();
+  } catch {
+    return null;
+  }
+  if (!r || !Array.isArray(r.clusters) || !r.clusters.length) return null;
+  const top = r.clusters.slice(0, 4).filter((c) => c.evidenze >= 6 || c.daNicola >= 4);
+  if (!top.length) return null;
+  const righe = top.map(
+    (c) => `- ${c.tag}: ripetuto ${c.evidenze}× in ${c.lezioni} lezioni${c.daNicola ? ` (${c.daNicola} da correzioni di Nicola)` : ""} e mai reso un gate — se rientra nel lavoro di adesso, applica la regola, non rifarlo.`,
+  );
+  return `⛔ Errori che si RIPETONO (falli diventare comportamento, non riloggarli):\n${righe.join("\n")}`;
 }
 
 // (3) Esito del guardiano di coerenza (se ci sono copie vecchie in giro, dillo).
@@ -98,12 +132,26 @@ function bloccoCoerenza() {
 }
 
 function componi() {
-  const parti = [bloccoFatti(), bloccoLezioni(), bloccoCoerenza()].filter(Boolean);
+  const parti = [bloccoFatti(), bloccoErroriRicorrenti(), bloccoLezioni(), bloccoCoerenza()].filter(Boolean);
   if (!parti.length) return "";
   return (
     "## 📌 MEMORIA PERSISTENTE (vale SEMPRE, anche fuori dalla chat: giro, azioni, sessioni nuove)\n" +
     parti.join("\n\n")
   );
+}
+
+// --righe: solo le righe-regola nette (senza intestazione), per sostituire l'head-8 grezzo nel worker.
+if (RIGHE) {
+  const raw = leggi(LEZIONI);
+  const righe = raw
+    ? raw
+        .split("\n")
+        .filter((r) => /^\s*-\s+/.test(r))
+        .slice(0, MAX_LEZIONI)
+        .map((r) => `- ${nucleoRegola(r)}`)
+    : [];
+  if (righe.length) process.stdout.write(righe.join("\n") + "\n");
+  process.exit(0);
 }
 
 const blocco = componi();
