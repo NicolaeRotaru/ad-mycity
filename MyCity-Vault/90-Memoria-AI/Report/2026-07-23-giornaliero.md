@@ -1,60 +1,69 @@
 ---
 tipo: report-giornaliero
-data: 2026-07-23 17:10
+data: 2026-07-23 21:10
 fonte: AD digitale
 ---
 
-# Report giornaliero — 23 luglio 2026 (aggiornamento pomeriggio)
+# Report giornaliero — 23 luglio 2026 (aggiornamento sera — sostituisce la versione delle 17:10)
 
 ## La situazione in una riga
 
-Il business resta fermo agli stessi numeri da fine giugno (0 ordini pagati, stallo ~29 giorni), ma oggi è stata una giornata di sblocchi tecnici importanti: entrambi i token GitHub rotti (VPS e Vercel) sono stati rigenerati da Nicola e verificati con un push reale — la macchina può di nuovo aprire PR e il Pannello online torna ad aggiornarsi. Resta un nuovo bug di interfaccia da controllare (voce di menu sparita) e restano da firmare le stesse 3 mosse umane di sempre.
+Il business resta fermo agli stessi numeri da fine giugno (0 ordini pagati, stallo 29 giorni), ma oggi è stata una giornata pesante sul fronte tecnico: **2 PR mergiate** che chiudono 3 bug reali della chat del Pannello (risposta doppia, chat doppia su "Nuova chat", worker sovrapposto), e **Nicola ha preso 2 decisioni strategiche** — rimandare l'inserimento dei negozi al 24 agosto-1° settembre (per concentrarsi prima su Pannello/AD/worker/marketplace) e sospendere i costi discrezionali fino a 5.000 €/mese di utile netto. Resta un solo vero orologio che corre: **PI26, scade tra 7 giorni (30/7)**.
 
 ---
 
-## Numeri chiave (ore 17:06 — fonte: query SQL diretta al database Supabase del marketplace, tabelle `orders`/`profiles`/`products`)
+## Numeri chiave (ore 21:07 — fonte: SQL diretto sul database Supabase del marketplace, verificato ora)
 
-| KPI | Valore | Var. vs report mattina (11:49) |
-|-----|--------|---------------------------|
+| KPI | Valore | Var. vs oggi 17:06 |
+|-----|--------|---------------------|
 | **Ordini pagati (North Star)** | **0** | = (stallo dal 24/6) |
 | Ordini creati nel database | 1 (annullato, €19,05 COD, 24/6) | = |
 | Ordini consegnati | 0 | = |
 | **Clienti (buyer)** | **4** | = |
 | Negozi live/approvati | **1** (Pane Quotidiano) | = |
-| Prodotti a catalogo | **5** (tutti in stato "available") | = |
+| Prodotti a catalogo | **5** | = |
 | Incasso pagato (Stripe) | **0 €** | = |
-| Stallo North Star | **~29 giorni** dall'ultimo ordine (24/6) | invariato |
-| Runway | non calcolabile — `BURN_MENSILE_EUR` ancora assente nel `.env` VPS (burn reale noto: **~302 €/m**, confermato da Nicola il 20/7, ma non ancora scritto in env) | = |
+| Stallo North Star | **~29 giorni** dall'ultimo ordine (24/6) | = |
+| Prospect negozi in pipeline (`merchants_leads`) | **407** | dato di contesto, non lavorato oggi (rinvio negozi) |
+| Runway | non calcolabile — `BURN_MENSILE_EUR` ancora assente nel `.env` VPS (burn reale noto: **~302 €/m**, confermato da Nicola) | = |
 
-Sensori: 8/9 canali ok (REST marketplace, Stripe, PostHog, Resend, sito, Pannello, n8n, REST memoria). Solo Telegram non collegato (canale mai attivato, non un guasto).
+Nessun numero di business è cambiato oggi: il lavoro di oggi è stato quasi interamente tecnico/decisionale, non commerciale (per scelta, vedi sotto).
 
 ---
 
-## Cosa è cambiato da stamattina (11:49 → 17:06)
+## Cosa è successo oggi (giornata intera)
 
-**✅ Risolto — Token GitHub del VPS (blocco PR).** Nicola ha rigenerato un PAT unico e lo ha messo su VPS `.env`, verificato con una PR vera (#510). Card #219 chiusa.
+**Mattina — sbloccati 2 guasti tecnici vecchi di settimane.** Token GitHub del VPS e di Vercel rigenerati e verificati da Nicola: la macchina torna ad aprire PR e il Pannello online torna ad aggiornarsi (card #219, #221 chiuse).
 
-**✅ Risolto — Token GitHub di Vercel (Pannello bloccato in cache).** Stesso PAT incollato anche in `GITHUB_TOKEN`/`OBSIDIAN_TOKEN` su Vercel, confermato "tutto verde" da Nicola. Card #221 chiusa.
+**Pomeriggio (~18:30-19:00) — 3 bug chat segnalati da Nicola.** Risposta doppia (cambio chat mentre l'AD sta ancora rispondendo), scroll che salta, menu che non si chiude col click fuori. L'agente frontend-dev delegato in background si è bloccato 2 volte senza completare — l'AD ha smesso di aspettarlo e ha scritto la patch da sé (dedup in `lavori-gruppo.ts`/`page.tsx`, verificato con `tsc`+test). **PR #514** aperta (scroll lasciato intatto di proposito: già 6 tentativi falliti in passato).
 
-**🆕 Nuovo problema segnalato da Nicola (~16:53) — non ancora verificato.** Dopo l'ultimo Redeploy manuale su Vercel è sparita la voce di menu "Diretta contenuti" (sopra "Lavori") dal Pannello. Ipotesi dell'AD, da confermare: il Redeploy ha ripubblicato un build di Vercel precedente al 19/7 (data in cui quella voce è entrata nel codice) invece dell'ultimo commit. **Serve da Nicola:** su Vercel → Deployments, controllare quale build è marcato "Production" e se serve un Redeploy sul deployment più recente, non uno storico.
+**Sera (20:00-20:52) — trovate e chiuse 2 varianti nuove dello stesso problema.**
+- **PR #516** (mergiata): il dedup della PR #514 copriva solo bolle adiacenti, non tutta la conversazione — esteso a tutto l'array.
+- **PR #517** (mergiata): 2 bug distinti — "Nuova chat" apriva 2 chat invece di una, e il pannello worker si sovrapponeva alla chat invece di restare finestra a sé.
 
-**Nessun cambiamento sui numeri di business**: stessi 4 clienti, 1 negozio, 0 ordini pagati.
+**Decisioni di Nicola (registrate in `registro-fatti.json`, guardiano coerenza pulito):**
+1. **Inserimento negozi rimandato al 24 agosto - 1° settembre 2026** (sostituisce la data 13/7, mai confermata). Fino ad allora: niente check-in/spinte commerciali su negozi, priorità = perfezionare Pannello/AD/worker/marketplace.
+2. **Costi discrezionali sospesi fino a ~5.000 €/mese di utile netto**: PEC, commercialista, notaio, consulente del lavoro, RC, app store restano fermi finché non serve un obbligo esterno. Referral alzato 10€→15€, punti fedeltà 1%→2% (margine su abuso/cannibalizzazione).
+
+**Coda ripulita di conseguenza:** 12 azioni negozi/marketing marcate "⏸ in pausa" nella coda (post social, referral, WhatsApp anchor, welcome email) — non cancellate, solo in attesa della finestra di ripartenza. Le azioni tecniche restano attive.
 
 ---
 
 ## Da firmare — in ordine di urgenza
 
-### 🔴 Business (soldi e visibilità)
+### 🔴 Con orologio reale
 
-1. **PI26** — Invia la domanda sul portale CCIAA (fondo perduto fino a 10.000€, scade **30/7 ore 16:00**, 7 giorni residui, non risulta ancora inviata).
-2. **Pubblica il carosello** "Cosa c'è di buono questa settimana" (testo e visual già pronti, proposto per oggi 17:00-19:00 — è l'orario in cui siamo ora).
-3. **Ordine di prova su Pane Quotidiano** (~10 minuti) — è l'unica cosa che sblocca la North Star da 0 a 1 ordine pagato e a cascata recupero carrelli, referral e recensioni, tutti già pronti e fermi in attesa di questo.
+1. **PI26 (bando CCIAA)** — Invia la domanda sul portale CCIAA (fondo perduto fino a 10.000€). **Scade 30/7 ore 16:00 — 7 giorni residui**, non risulta ancora inviata. È l'unica cosa nella coda con una vera scadenza esterna, non è in pausa (il rinvio negozi non tocca i bandi).
 
-### 🟡 Da controllare
+### 🟡 Tecnico — coerente con la priorità "stabilizza Pannello/AD/worker" decisa oggi
 
-4. **Bug "Diretta contenuti" sparito dal menu Pannello** — verificare su Vercel quale deployment è in Production e ri-lanciare il Redeploy sull'ultimo commit se serve.
-5. **BURN_MENSILE_EUR** nel `.env` del VPS — il valore (~302 €/m) è già confermato da Nicola, manca solo scriverlo in env per sbloccare il calcolo del runway.
-6. Restano **~47 azioni aperte** in coda (post social, referral "porta un amico", welcome email, WhatsApp ai 3 negozi target PI26, ecc.) — quasi tutte in attesa dello stesso sblocco: il primo ordine pagato su Pane Quotidiano.
+2. **BURN_MENSILE_EUR** nel `.env` del VPS — valore già confermato da Nicola (~302 €/m), manca solo scriverlo per sbloccare il calcolo del runway.
+3. PR aperte in coda da mergiare: **cadenza housekeeping coda**, **PR chat cross-device (finestra 24h)**, **blocco auto-ricarica vecchia chat**, **ricalcolo punteggio auto-coscienza il venerdì** — nessuna urgente, ma sono lavoro tecnico già pronto, in linea con la priorità di oggi.
+4. **75 avvisi macchina non inviati** (manca la chiave Telegram) — non bloccante, ma il numero cresce ogni giorno che passa senza collegare il canale.
+
+### ⏸ In pausa (non toccare fino al 24/8-1/9)
+
+Carosello social, referral "porta un amico", comunicato stampa PI26 alle testate, WhatsApp ai 3 negozi target, welcome email, ordine di prova su Pane Quotidiano — tutte pronte, restano ferme per scelta di Nicola.
 
 ---
 
@@ -62,35 +71,37 @@ Sensori: 8/9 canali ok (REST marketplace, Stripe, PostHog, Resend, sito, Pannell
 
 | Segnale | Stato | Impatto |
 |---------|-------|---------|
-| north-star | warn | stallo 29,1 giorni (soglia d'allarme: 3) |
-| notifica-approvazioni | warn | 71 avvisi pronti non inviati (mancano le chiavi Telegram) |
+| north-star | warn | stallo 29,1 giorni (soglia d'allarme: 3) — atteso, i negozi sono in pausa |
+| notifica-approvazioni | warn | 75 avvisi pronti non inviati (mancano le chiavi Telegram) |
 | tick-coscienza-leggero | warn | tasso di avviso sopra soglia, esperimenti ok |
-| freschezza-segnali | warn | 8 guardiani senza battito fresco (max 60min) |
-| cassa-runway | warn (invariato) | runway sconosciuto, manca il burn mensile in env (valore noto, solo da scrivere) |
+| freschezza-segnali | warn | 8 guardiani senza battito fresco (max 60min): manca sensori, manca allinea-scan-canvas |
+| cassa-runway | warn (invariato) | runway sconosciuto, manca solo scrivere il burn mensile in env |
 
-Nessuno di questi blocca il lavoro immediato. Il vero collo di bottiglia resta lo stesso da settimane: **zero ordini pagati** + **PI26 da inviare**.
+Nessuno di questi blocca il lavoro. Il collo di bottiglia commerciale (0 ordini pagati) è oggi una scelta consapevole di Nicola, non un blocco da risolvere.
 
 ---
 
 ## Lezione del giorno
 
-Oggi la macchina ha chiuso due guasti tecnici reali che bloccavano da giorni PR e aggiornamento del Pannello — un progresso concreto sull'infrastruttura. Ma nessuno di questi due sblocchi sposta la North Star di un millimetro. Le uniche tre cose che contano restano umane: **l'ordine di prova**, **l'invio di PI26**, **la pubblicazione del carosello**.
+Due lezioni operative, entrambe confermate da un tentativo reale in giornata, non da un'ipotesi:
+1. **Un agente delegato in background che si blocca 2 volte va sostituito con lavoro diretto, non rilanciato una terza volta alla cieca.** Ha funzionato oggi sui bug chat: l'AD ha letto il codice da sé, verificato con `tsc`+test, aperto le PR. Resta un rischio aperto non ancora corretto: l'agente in background lavorava senza isolamento (stessa copia file della sessione principale) — andata bene per caso.
+2. **Il tool `Workflow` (orchestrazione multi-agente) non si può usare in questa sessione headless** — si blocca su un gate di conferma non disponibile qui, verificato con un tentativo reale. L'alternativa (più chiamate `Agent` in parallelo, poi sintesi) resta il metodo valido.
 
 ---
 
 ## Domani (24 luglio)
 
-- Prima cosa: se PI26 non è ancora partita, è la priorità assoluta (6 giorni residui dopo oggi).
-- Verificare se il bug "Diretta contenuti" è stato risolto col Redeploy corretto.
-- Se il carosello è uscito, controllare i risultati (click, eventuali ordini).
-- Se l'ordine di prova è stato fatto, avviare a cascata welcome email, recensione e primo dato reale al negozio.
+- **Priorità assoluta: PI26**, se non ancora inviata (6 giorni residui dopo oggi).
+- Verificare che le PR #516/#517 mergiate oggi non abbiano introdotto regressioni (controllo rapido della chat dal vivo).
+- Continuare la linea "stabilità tecnica prima del business" decisa oggi: prossimo candidato naturale è chiudere le PR tecniche già pronte in coda (housekeeping, cross-device, auto-ricarica).
+- Non toccare check-in/marketing sui negozi fino al 24/8-1/9 (decisione di oggi).
 
 ---
 
 ## Mano email
 
-Resend è configurato e funzionante (sensore verde), ma **l'invio automatico di questo report non è stato eseguito**: la lista degli indirizzi autorizzati (`cervello/mani-allowlist.json` → campo `email`) è vuota — per la regola di sicurezza AR-103 questo forza la modalità "pronto ma non inviato" anche con i permessi attivi. Per ricevere questo report via email ogni giorno: aggiungi la tua email nella allowlist e dimmi "ok invio report".
+Resend è configurato (sensore verde), ma **l'invio automatico di questo report non è avvenuto**: la allowlist dei destinatari (`cervello/mani-allowlist.json` → campo `email`) è ancora vuota — per la regola di sicurezza AR-103 questo blocca l'invio anche con i permessi attivi (fail-closed voluto, non un guasto). Per riceverlo via email ogni giorno: aggiungi la tua email nella allowlist e dimmi "ok invio report".
 
 ---
 
-*Generato da AD digitale MyCity — 2026-07-23 17:10 (Europe/Rome)*
+*Generato da AD digitale MyCity — 2026-07-23 21:10 (Europe/Rome)*
