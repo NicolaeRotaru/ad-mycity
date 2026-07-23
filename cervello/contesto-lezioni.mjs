@@ -28,6 +28,7 @@ const MEM = join(ROOT, "MyCity-Vault", "90-Memoria-AI");
 const LEZIONI = join(MEM, "LEZIONI-CHAT.md");
 const REGISTRO = join(MEM, "registro-fatti.json");
 const COERENZA = join(MEM, "auto-coscienza", "coerenza-fatti.json");
+const APPR = join(MEM, "auto-coscienza", "apprendimento.json");
 
 const args = process.argv.slice(2);
 const HOOK = args.includes("--hook");
@@ -113,6 +114,42 @@ function bloccoErroriRicorrenti() {
   return `⛔ Errori che si RIPETONO (falli diventare comportamento, non riloggarli):\n${righe.join("\n")}`;
 }
 
+function leggiAppr() {
+  const raw = leggi(APPR);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+// (0-bis) PRINCIPI cristallizzati — le regole stabili promosse dall'apprendimento (da cristallizza-
+// apprendimento.mjs). Devono raggiungere OGNI contesto: è il vero «cristallizzato_in: memoria-persistente».
+// Un principio che non arriva alla mossa è inutile — questo è il pezzo che lo fa arrivare.
+function bloccoPrincipi() {
+  const d = leggiAppr();
+  if (!d) return null;
+  let pr = [];
+  if (Array.isArray(d.principi))
+    pr = d.principi.map((p) => (typeof p === "string" ? p : p?.testo)).filter(Boolean);
+  if (!pr.length && Array.isArray(d.lezioni))
+    pr = d.lezioni.filter((l) => l?.stato === "principio").map((l) => l.testo).filter(Boolean);
+  const righe = pr.slice(0, 8).map((p) => `- ${nucleoRegola(String(p))}`);
+  if (!righe.length) return null;
+  return `Principi (regole STABILI — valgono sempre, non solo se te le ricordi):\n${righe.join("\n")}`;
+}
+
+// (0-ter) PREFERENZE DI NICOLA — «il segnale più prezioso» (il suo gusto/priorità). Finora vivevano SOLO
+// nel Pannello (campo morto per le decisioni): qui entrano nel contesto così le mosse ci si allineano.
+function bloccoPreferenze() {
+  const d = leggiAppr();
+  if (!d || !Array.isArray(d.preferenze_nicola) || !d.preferenze_nicola.length) return null;
+  const righe = d.preferenze_nicola.slice(0, 5).map((p) => `- ${nucleoRegola(String(p))}`);
+  if (!righe.length) return null;
+  return `Preferenze di Nicola (il suo gusto — allinea le mosse a questo):\n${righe.join("\n")}`;
+}
+
 // (3) Esito del guardiano di coerenza (se ci sono copie vecchie in giro, dillo).
 function bloccoCoerenza() {
   const raw = leggi(COERENZA);
@@ -132,7 +169,14 @@ function bloccoCoerenza() {
 }
 
 function componi() {
-  const parti = [bloccoFatti(), bloccoErroriRicorrenti(), bloccoLezioni(), bloccoCoerenza()].filter(Boolean);
+  const parti = [
+    bloccoFatti(),
+    bloccoPrincipi(),
+    bloccoErroriRicorrenti(),
+    bloccoPreferenze(),
+    bloccoLezioni(),
+    bloccoCoerenza(),
+  ].filter(Boolean);
   if (!parti.length) return "";
   return (
     "## 📌 MEMORIA PERSISTENTE (vale SEMPRE, anche fuori dalla chat: giro, azioni, sessioni nuove)\n" +
