@@ -27,3 +27,8 @@ Primo giro pieno dopo 3 giorni di sole sentinelle automatiche (21-23/7 nessun br
 
 ## Perché il voto scende
 Non per un errore nel lavoro di oggi, ma perché **onestà > compiacenza**: 3 giorni di buio sulla visibilità di Nicola sono un fatto reale della salute della macchina, e nasconderlo dietro un voto stabile sarebbe la bugia che l'auto-analisi esiste per impedire.
+
+---
+
+## Aggiornamento 11:36 — verifica live chiude il gap
+Query dirette MCP Supabase in questa sessione hanno confermato tutti i 4 numeri del passaggio 11:35 (1 PQ, 4 buyer, 5 prodotti, 0 ordini pagati) e aggiunto un dato nuovo: **3 carrelli abbandonati reali su Pane Quotidiano**, mai convertiti nonostante l'email di recupero (giugno). Coerenza-fatti verificata con lo script (`node cervello/coerenza-fatti.mjs` → coerente, 5 cacce bonificate chiuse). MCP Supabase riconciliato a `ok`. **Voto fiducia sale a 91** (gap L1→L2 chiuso). Nessuna nuova azione da accodare: le mosse n.1/n.2 restano quelle già in coda.

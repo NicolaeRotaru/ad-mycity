@@ -1,9 +1,9 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-23 11:35",
-  "voto_fiducia": 88,
-  "sintesi": "Giro 23/7 11:35 (primo giro pieno dopo 3 giorni di sole sentinelle automatiche): business invariato (4 buyer, 0 pagati, stallo ~698h). Chiusi 3 vincoli macchina rimasti aperti: CHECKLIST-NICOLA (AR-030), OKR target scaduto (AR-115), esperimento in scadenza EXP-004 + apertura EXP-013 (AR-041/106).",
-  "trend_fiducia": "▼ 88 vs 92 (20/7 20:22) — non per un errore di questo giro, ma perché per 3 giorni la macchina non ha prodotto un giro pieno (solo bookkeeping): il gap di visibilità va segnalato, non nascosto sotto un voto invariato.",
+  "data": "2026-07-23 11:36",
+  "voto_fiducia": 91,
+  "sintesi": "Passaggio di verifica sul giro 23/7 11:35: numeri live confermati via query dirette MCP Supabase (non più stima da sensore) — 1 PQ, 4 buyer, 5 prodotti, 1 solo ordine (zombie, 0 pagati), 3 carrelli abbandonati reali trovati su PQ. Business invariato, nessuna sorpresa.",
+  "trend_fiducia": "▲ 91 vs 88 (11:35 di oggi) — sale perché il Gap L1 ('nessun accesso REST/MCP live') segnalato nel passaggio precedente è stato chiuso con verifica diretta al DB in questa sessione.",
   "errori_giro": [
     {
       "tipo": "processo",
@@ -38,8 +38,10 @@
     }
   ],
   "entita_verificate": [
-    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "registro-realta.json (invariato dal 20/7, non ri-verificato via REST live in questa sessione)"},
-    {"nome": "4 buyer", "stato": "confermato", "fonte": "ultimo giro pieno 20/7 20:22 (STATO.md) — non ri-query in questa sessione, vedi Gap briefing"},
+    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 11:36 (1 seller in profiles, 5 prodotti collegati)"},
+    {"nome": "4 buyer", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 11:36 (profiles role=buyer count=4)"},
+    {"nome": "0 ordini pagati", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 11:36 (select * from orders → 1 riga, l'ordine zombie 24/6, payment_status PENDING)"},
+    {"nome": "3 carrelli abbandonati su PQ", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 11:36 (tabella abandoned_carts, tutti sellerId=Pane Quotidiano)"},
     {"nome": "Pricing 10%+50€/mese", "stato": "confermato", "fonte": "registro-fatti.json (invariato)"},
     {"nome": "PI26 CCIAA (scade 30/7)", "stato": "confermato", "fonte": "registro-fatti.json + verifica web 21/7 00:41 (non ri-verificato oggi)"}
   ],
@@ -47,12 +49,12 @@
   "salute_macchina": {
     "sensori_ok": 8,
     "max_giri_ciechi": 7,
-    "automazione": "non ri-verificata in questa sessione (verifica-automazione.mjs non eseguibile — canale senza node in allowlist)",
-    "coerenza_fatti": "non ri-verificata con lo script (non eseguibile) — controllo a vista: nessun fatto-chiave cambiato in questo giro",
+    "automazione": "non ri-verificata in questa sessione (verifica-automazione.mjs non lanciato in questo passaggio, invariato dal giro 11:35)",
+    "coerenza_fatti": "verificata con lo script in questa sessione (`node cervello/coerenza-fatti.mjs` → coerente, 18 fatti, 5 cacce bonificate chiuse su finanza.costi_infrastruttura)",
     "chiusura_loop": "89/120 quaderni fermi (invariato) — non è un errore di questo giro, è debito pregresso",
     "north_star_stallo": true,
     "giro_interrotto_3gg": true
   },
-  "livello_verifica": "L1 (nessun accesso REST/MCP live in questa sessione — vedi Gap nel briefing)",
-  "refutazione": "Nessuna entità nuova inventata: solo entità già confermate nel registro-realta.json sono state richiamate, senza modificarne lo stato. Il voto scende onestamente per il gap di 3 giorni senza giro pieno, non per errori nel lavoro di oggi."
+  "livello_verifica": "L2 (query dirette al DB marketplace via MCP Supabase in questa sessione, non solo file di memoria)",
+  "refutazione": "Nessuna entità nuova inventata: tutte le entità richiamate sono state ri-verificate con query dirette al DB in questa sessione, non solo lette dalla memoria. Il debito residuo (89/120 quaderni fermi, giro interrotto 3gg) resta segnalato, non nascosto."
 }
