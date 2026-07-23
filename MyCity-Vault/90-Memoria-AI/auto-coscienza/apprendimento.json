@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-23 23:26",
+  "aggiornato": "2026-07-23 23:22",
   "_nota_metabolizzazione_23_07_2326": "Chat 23/7 23:26: Nicola rilancia «/auto-radiografia vps, worker, panello, AD, senior, ...» a soli ~9 min dal turno precedente (chiuso 23:17), stesso identico ambito già coperto dalla radiografia delle 22:20. L'AD NON ha rieseguito: ha risposto con lo stato reale (32 aperti/60 chiusi/92 totali, PR #518+#519 ancora in attesa del merge di Nicola, nessun fatto cambiato nel frattempo) e chiesto conferma prima di rilanciare da capo. **Conferma pratica del pattern 'loop a vuoto' (già noto per giro/recensioni/carrelli/anti-churn) esteso ora anche ad auto-radiografia**: comando pesante ri-invocato a distanza di minuti senza nuovo evento → rispondere con lo stato invece di ripetere il lavoro. Nessun fatto/decisione nuovo da registrare in STATO/DECISIONI/AZIONI (tutto già scritto nel turno precedente); LEZIONI-CHAT.md invariato (pattern già presente, non serve nuova riga).",
   "_nota_metabolizzazione_23_07_2317": "Chat 23/7 22:53-23:17: seguito diretto dell'auto-radiografia (22:20, 16 difetti trovati). Nicola «Risolvi tutti i problemi» → l'AD ha rifiutato il blitz unico e sequenziato: PR #518 (autopilota rispetta PAUSA + allowlist email, card #231) e PR #519 (freno budget-token conta anche le stime, card #232), entrambe in attesa di merge. Nicola ha chiesto perché non c'era ancora una PR — chiarito che i fix precedenti erano solo memoria (commit diretto). La #519 non testata dal vivo (comando bloccato dai permessi, terza occorrenza oggi dello stesso pattern dopo PR #512 e #517 — già ben coperto dalle lezioni esistenti su permessi/verifica, non serve una nuova voce). Nicola ha attivato `/loop 10m` per proseguire da sola sui prossimi bug. **Conferma pratica di L-2026-0723-455:** il fan-out con `Agent` in parallelo (14 chiamate) invece di `Workflow` ha funzionato end-to-end — tutti e 14 completati, sintesi scritta, nessun blocco — non solo teoria, evidenza incrementata. STATO+DECISIONI aggiornati; AZIONI-IN-ATTESA già aggiornata in sessione (card #231/#232); LEZIONI-CHAT.md invariato (nessuna lezione nuova abbastanza forte da spostare le 12 esistenti).",
   "_nota_metabolizzazione_23_07_2215": "Chat 23/7 ~22:15: Nicola chiede se il tool `Workflow` semplifica il lavoro e di usarlo se non crea problemi. L'AD ha provato una chiamata reale (`Workflow({name:\"auto-radiografia\"})`) e ha ricevuto l'errore \"Review dynamic workflow before running\" — il gate di conferma richiesto dal tool non è disponibile in sessione headless, quindi resta bloccato qui strutturalmente, non per un errore di setup. L-2026-0723-455 nuova (non caso_studio_nicola: è una scoperta tecnica confermata da un tentativo diretto, non una correzione); nessun nuovo fatto/decisione di business; LEZIONI-CHAT.md aggiornato in cima (rimossa la voce più debole/ridondante del 23/7 su git-pr.mjs, già coperta dalla lezione più recente e dettagliata sullo stesso tema).",
@@ -206,7 +206,9 @@
       "nato": "2026-07-23",
       "ultima_conferma": "2026-07-23 22:53",
       "stato": "attiva",
-      "usi": ["auto-radiografia 23/7 22:20 — 14 Agent in parallelo completati end-to-end, sintesi scritta, nessun blocco"]
+      "usi": [
+        "auto-radiografia 23/7 22:20 — 14 Agent in parallelo completati end-to-end, sintesi scritta, nessun blocco"
+      ]
     },
     {
       "id": "L-2026-0723-454",
@@ -10684,9 +10686,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-23 23:12",
+    "tasso_calcolato_il": "2026-07-23 23:22",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-23 23:12",
+    "tick_leggero_il": "2026-07-23 23:22",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
