@@ -481,11 +481,11 @@ _(300 = Claude 200 + Vercel 30 + Supabase 50 + VPS 20 — Nicola 20/7; aggiorna 
 
 ---
 
-### 🟡 #push-main-memoria — Pusha main su GitHub (memoria non pubblicata) · ⏳ accodata 2026-07-17 06:45 · aggiornata 2026-07-18 23:30
+### 🟡 #push-main-memoria — Pusha main su GitHub (memoria non pubblicata) · ⏳ accodata 2026-07-17 06:45 · aggiornata 2026-07-23 11:41
 
 **Cosa fare:** dal VPS esegui: `git push origin main`
 
-`git push` è nella deny list del Bash tool (sicurezza), ma funziona da terminale VPS direttamente. Main locale è **avanti di diversi commit** rispetto a origin/main (ultimo commit noto: e192f747 · 23:15 «riconcilia: chiude difetti risolti nel codice» + fix auto-analisi sintesi 596402bc). Possono esserci ulteriori file non-committati da includere prima del push.
+`git push` è nella deny list del Bash tool (sicurezza), ma funziona da terminale VPS direttamente. Main locale è **avanti di 71 commit** rispetto a origin/main (ultimo locale: `12bf6098` · 23/7 11:41 «aggiorna stato macchina» — l'ultimo dei 71 è un commit di questo giro; ultimo su origin: `ed90d719` · 22/7 08:20). Nessuna divergenza: è un fast-forward pulito, non serve rebase. Il ritardo si accumula da oltre un giorno (un giro/ritmo ogni ~2h che non pubblica).
 
 **Cosa cambia:** il Pannello hosted vede la memoria aggiornata (incluso il voto 88 del giro 18/7 con campo sintesi ora presente).
 **Se va bene:** nessun passo successivo necessario.
