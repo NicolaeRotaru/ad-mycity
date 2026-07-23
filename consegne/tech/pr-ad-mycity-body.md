@@ -1,36 +1,24 @@
 ## Cosa
 
-Il freno "fermati se superi il budget token giornaliero" (`cervello/costo-ai.mjs`) non scattava mai:
-il contatore usato dal gate (`token_totali`) resta a 0 per costruzione, perché `giro.sh`/`ritmo.sh`
-passano SEMPRE `--stima` (nessuna fonte di conteggio reale esiste in questa sessione CLI) — e le
-stime, per design, non alzavano quel contatore.
+Nuovo pulsante "Schermo" nella chat del worker (barra scrittura, sia versione fluttuante che a schermo intero), accanto a quello già esistente "Video live" (telecamera).
 
 ## Perché
 
-Trovato nell'auto-radiografia del 23/7 (AR-144) — nello stesso giorno il "Piano del mattino" si è
-ripetuto 7 volte in ~100 minuti (oltre 1,3M token stimati), e il gate è rimasto silenzioso per
-tutto il tempo perché confrontava la soglia con uno zero. Dettagli in
-`MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md`.
+Nicola ha chiesto di poter mostrare in tempo reale gli errori che vede nel Pannello, mentre mi scrive, invece di dover fare uno screenshot manuale e allegarlo. Il video live con la telecamera esisteva già ma inquadra l'ambiente (o lui stesso), non lo schermo — per mostrare un errore del Pannello serve condividere lo SCHERMO/tab, non la telecamera.
 
-## Cosa cambia (in pratica)
+## Come funziona
 
-Il gate ora guarda il PIÙ ALTO fra token reali e token stimati (non li somma, così se un giorno
-arriva un conteggio vero non si "diluisce" con le stime). Finché arriva solo la stima — sempre,
-oggi — è lei a far scattare l'allarme oltre soglia. Il messaggio del sensore ora mostra entrambi i
-numeri (reali + stimati) invece di uno solo, così è chiaro su cosa si basa il gate.
+- Stesso componente `BottoneFotoChat`, nuova opzione `schermo` (oltre a `videoLive`): usa `navigator.mediaDevices.getDisplayMedia()` invece di `getUserMedia()`.
+- Overlay identico al video live: schermo condiviso a sinistra, chat con testo/microfono a destra, nella stessa finestra.
+- Ogni "Scatta" cattura il fotogramma corrente dello schermo condiviso e lo allega al prossimo messaggio (stesso flusso allegati già in uso per le foto).
+- Se Nicola preme "Interrompi condivisione" dal browser, la finestra si chiude da sola.
+- Nascosto il pulsante "cambia fotocamera" (non pertinente per lo schermo); "riavvia" ricondivide lo schermo.
 
-## Come si prova
+## Limite onesto (da dire a Nicola)
 
-- Letto il codice riga per riga e contato parentesi/graffe bilanciate (52/52 `{}`, 99/99 `()`) —
-  **non sono riuscito a eseguire `node cervello/costo-ai.mjs` per una prova dal vivo**: il comando è
-  stato negato dal sistema di permessi in questa sessione (stesso comando che in teoria è in
-  allowlist, ma il permesso non è arrivato). Lo dichiaro esplicitamente: verifica solo per lettura,
-  non per esecuzione. Consiglio di lanciarlo a mano una volta (`node cervello/costo-ai.mjs --json`)
-  dopo il merge per conferma, prima di fidarsi ciecamente del gate nuovo.
-- Modifica piccola e localizzata (due righe di calcolo + due stringhe di log), nessun cambio allo
-  schema del file salvato né alla logica di accumulo dei contatori esistenti.
+Non è un canale sempre-acceso: richiede che lui apra la chat e scelga "Schermo" ogni volta (permesso del browser, non bypassabile per sicurezza). Non è "l'AD vede sempre lo schermo in automatico" — è "condividi quando serve, dura finché la chat resta aperta".
 
-## Non ancora fatto (fuori scope)
+## Come provare
 
-- Non risolve la causa delle ripetizioni a raffica del giro/ritmo (AR-145) — quello è un fix
-  separato, già proposto, non incluso qui.
+1. `npx tsc --noEmit` da dentro `pannello/` → pulito (verificato).
+2. In locale/anteprima: aprire la chat worker (fluttuante o a schermo intero), premere "Schermo" (icona ScreenShare accanto al video), scegliere una tab da condividere, premere "Scatta" → il fotogramma appare come allegato pronto da inviare.
