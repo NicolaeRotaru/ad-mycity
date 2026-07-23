@@ -3894,7 +3894,7 @@
     },
     {
       "id": "L-2026-0719-284",
-      "testo": "**PR #473/#474 duplicate — sessioni parallele rifanno la stessa fix (Nicola 19/7 ~14:05).** Nicola: «Non ho mergiato la 473 perché mi sembra uguale alla 474» — aveva ragione. 5 perché: (1) due chat/worker paralleli hanno aperto la stessa fix n8n/sentinella M2 senza controllare PR esistente; (2) #473 = prima versione (codice + doc diagnosi), #474 = stessa fix + test automatici (migliore); (3) #474 mergiata 13:59 — fix già su main (`99cf5017`); (4) #473 resta doppione → chiudere senza merge, non lasciare due card «Da approvare»; (5) pattern già visto (#455→#457, #305/#306) ma qui la causa è sessioni parallele, non sostituzione intenzionale. Regola: prima di `git-pr.mjs` verificare PR aperta sullo stesso fix; se ne apri una migliore, chiudi la vecchia IMMEDIATAMENTE con commento «sostituita da #NNN».",
+      "testo": "**PR #473/#474 duplicate — sessioni parallele rifanno la stessa fix (Nicola 19/7 ~14:05).** Nicola: «Non ho mergiato la 473 perché mi sembra uguale alla 474» — aveva ragione. 5 perché: (1) due chat/worker paralleli hanno aperto la stessa fix n8n/sentinella M2 senza controllare PR esistente; (2) #473 = prima versione (codice + doc diagnosi), #474 = stessa fix + test automatici (migliore); (3) #474 mergiata 13:59 — fix già su main (`99cf5017`); (4) #473 resta doppione → chiudere senza merge, non lasciare due card «Da approvare»; (5) pattern già visto (#455→#457, #305/#306) ma qui la causa è sessioni parallele, non sostituzione intenzionale. Regola: prima di `git-pr.mjs` verificare PR aperta sullo stesso fix; se ne apri una migliore, chiudi la vecchia IMMEDIATAMENTE con commento «sostituita da #NNN». **Ricorso 24/7 ~00:33:** questa chat e il `/loop 10m` attivo in parallelo hanno lavorato sulla STESSA copia di codice sul fix \"pausa post-merge\" di `cervello/worker.sh` — questa chat ha aperto branch `fix/sync-vault-pausa-post-merge` (commit `812e945a`, PR mai aperta per rate limit GitHub) mentre l'altra sessione ha scritto e mergiato lo stesso fix da sola (commit `f9d6cbd1` \"worker: applica la pausa\", già su main). Stavolta nessun danno (stesso contenuto, una delle due non è mai arrivata a PR), ma conferma che il rischio non è isolato al 19/7: quando due sessioni sono attive sulla stessa working copy, prima di aprire un branch controllare `git log`/PR aperte per lo stesso fix, non solo prima del merge finale.",
       "tag": [
         "pr-duplicata",
         "sessioni-parallele",
@@ -3903,15 +3903,17 @@
         "n8n",
         "sentinella",
         "nicola",
-        "correzione"
+        "correzione",
+        "worker.sh",
+        "pausa-post-merge"
       ],
       "reparto": "@tech",
       "confidenza": 0.97,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 14:05",
+      "ultima_conferma": "2026-07-24 00:37",
       "stato": "attiva",
       "usi": []
     },

@@ -15,11 +15,11 @@ fonte: senior dell'AD
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
 <!-- pausa-post-merge-worker -->
-### 🟡 #merge-pausa-post-merge-worker — Mergia il fix "aspetta 3 minuti prima di scrivere in memoria dopo un merge" · ⏳ accodata 2026-07-24 00:33
-**Cosa cambia:** hai chiesto di applicare la pausa dopo la caccia al perché Vercel "parte e sparisce" — trovato che l'AD stessa uccideva i tuoi deploy, scrivendo un commit di log su `main` a pochi secondi da ogni merge, mentre Vercel stava ancora buildando. Ora quel commit aspetta 3 minuti prima di partire.
-**Se va bene:** i prossimi deploy dopo un tuo merge dovrebbero arrivare a "Ready" senza sparire — verificalo su Vercel → Deployments dopo il prossimo merge (niente più fila di "Canceled — superseded" negli stessi minuti).
-**Nota tecnica:** branch `fix/sync-vault-pausa-post-merge` già pushato su GitHub (commit `812e945a`, solo `cervello/worker.sh` +17 righe), ma l'apertura automatica della PR è fallita per **rate limit dell'API GitHub** (stessa causa di stasera su AR-147) — riprovare `git-pr.mjs` tra qualche minuto o aprire la PR a mano da GitHub sul branch già pushato.
-- **Colore:** 🟡 (codice del worker in branch — firma tua al merge)
+### ✅ #merge-pausa-post-merge-worker — Il fix "aspetta 3 minuti prima di scrivere in memoria dopo un merge" è live · ⏳ accodata 2026-07-24 00:33 · **FATTO 2026-07-24 00:37**
+**Cosa è cambiato:** hai chiesto di applicare la pausa dopo la caccia al perché Vercel "parte e sparisce" — trovato che l'AD stessa uccideva i tuoi deploy, scrivendo un commit di log su `main` a pochi secondi da ogni merge, mentre Vercel stava ancora buildando. Ora quel commit aspetta 3 minuti prima di partire.
+**Verifica:** i prossimi deploy dopo un tuo merge dovrebbero arrivare a "Ready" senza sparire — verificalo su Vercel → Deployments dopo il prossimo merge (niente più fila di "Canceled — superseded" negli stessi minuti). Non ancora confermato a video da Nicola.
+**Nota tecnica:** il fix è entrato su `main` con commit `0592c843` ("fix(worker): pausa il push memoria dopo un merge") — direttamente, non tramite il branch `fix/sync-vault-pausa-post-merge`/commit `812e945a` di questa chat, la cui PR non si è mai aperta (rate limit GitHub): un'altra sessione parallela (`/loop 10m`) ha scritto e portato in main lo stesso fix in autonomia. Branch `fix/sync-vault-pausa-post-merge` ora superato, non serve più aprirne la PR. Vedi [[vercel-deploy-cancellato-da-commit-main]].
+- **Colore:** 🟡 (codice del worker — già in main)
 - **Reparto:** tech/devops-sre
 - **Origine:** caccia Vercel-deploy-cancellato (chat 24/7 00:08→00:33)
 
