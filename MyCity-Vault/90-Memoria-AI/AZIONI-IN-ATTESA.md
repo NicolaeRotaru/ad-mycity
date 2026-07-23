@@ -16,7 +16,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🔴 #post-carosello-bio-2307 — Pubblica il carosello "Cosa c'è di buono questa settimana" su Instagram e Facebook · ⏳ accodata 2026-07-23 11:23
+### 🔴 #post-carosello-bio-2307 — Pubblica il carosello "Cosa c'è di buono questa settimana" su Instagram e Facebook · ⏳ accodata 2026-07-23 11:23 · ⏸ in pausa (rinvio negozi 24/8-1/9, Nicola 23/7 21:xx)
 
 **Contenuto completo:** `consegne/content/2026-07-23-post-del-giorno-carosello-bio-settimana-PQ.md` · anteprima [[AZIONI-PRONTE]] **A40**
 
@@ -61,7 +61,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🔴 #post-domenica-settimana-1907 — Pubblica il post di stasera "Prepara la settimana da casa" su Facebook e Instagram · ⏳ accodata 2026-07-19 12:58
+### 🔴 #post-domenica-settimana-1907 — Pubblica il post di stasera "Prepara la settimana da casa" su Facebook e Instagram · ⏳ accodata 2026-07-19 12:58 · ⏸ in pausa (rinvio negozi 24/8-1/9)
 
 **Contenuto completo:** `consegne/content/2026-07-19-post-del-giorno-domenica-settimana-PQ.md` · anteprima [[AZIONI-PRONTE]] **A29**
 
@@ -89,7 +89,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🔴 #post-lunedi-turno-mattina-2007 — Pubblica "Lunedì mattina: il turno è già iniziato" su Instagram e Facebook · ⏳ accodata 2026-07-20 11:28
+### 🔴 #post-lunedi-turno-mattina-2007 — Pubblica "Lunedì mattina: il turno è già iniziato" su Instagram e Facebook · ⏳ accodata 2026-07-20 11:28 · ⏸ in pausa (rinvio negozi 24/8-1/9)
 
 **Contenuto completo:** `consegne/content/2026-07-20-post-del-giorno-lunedi-turno-mattina-PQ.md` · anteprima [[AZIONI-PRONTE]] **A36**
 
@@ -121,7 +121,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🔴 #invio-comunicato-stampa-pi26-2007 — Invia il comunicato stampa su PI26 e le botteghe del centro a Libertà (poi alle testate online) · ⏳ accodata 2026-07-20 11:29
+### 🔴 #invio-comunicato-stampa-pi26-2007 — Invia il comunicato stampa su PI26 e le botteghe del centro a Libertà (poi alle testate online) · ⏳ accodata 2026-07-20 11:29 · ⏸ in pausa (rinvio negozi 24/8-1/9 — cita Pane Quotidiano, aspetta)
 
 **Contenuto completo:** `consegne/pr/2026-07-20-playbook-stampa-settimana.md` · anteprima [[AZIONI-PRONTE]] **A37**
 
@@ -150,7 +150,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🔴 #referral-porta-un-amico — Accendi «porta un amico» (5€+5€) e manda il primo invito a samir · ⏳ refresh 2026-07-20 11:36
+### 🔴 #referral-porta-un-amico — Accendi «porta un amico» (5€+5€) e manda il primo invito a samir · ⏳ refresh 2026-07-20 11:36 · ⏸ in pausa (rinvio negozi 24/8-1/9)
 
 **Contenuto completo:** `consegne/crm/2026-07-20-playbook-referral-refresh.md` · playbook base `consegne/crm/2026-07-06-playbook-referral.md` · anteprima [[AZIONI-PRONTE]] **A17**
 
@@ -278,7 +278,7 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🔴 #post-siamo-in-23 — Pubblica "Siamo in 23" nei gruppi Facebook locali · ⏳ accodata 2026-07-18 11:30
+### 🔴 #post-siamo-in-23 — Pubblica "Siamo in 23" nei gruppi Facebook locali · ⏳ accodata 2026-07-18 11:30 · ⏸ in pausa (rinvio negozi 24/8-1/9)
 
 **Contesto:** Post del 18/7 — angolo "numeri piccoli come forza" (swipe #6). ⚠️ **Correzione Nicola 19/7: iscritti = 4, non 23** — aggiornare il testo del post prima di pubblicare. Neutro, nessun consenso bottega richiesto. Bozza originale in `consegne/content/2026-07-18-post-del-giorno-siamo-in-23.md`.
 
@@ -292,7 +292,7 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #ordine-test-pq — Fai un ordine su Pane Quotidiano per testare la macchina · ⏳ accodata 2026-07-18 06:30
+### 🟡 #ordine-test-pq — Fai un ordine su Pane Quotidiano per testare la macchina · ⏳ accodata 2026-07-18 06:30 · ⏸ in pausa (rinvio negozi 24/8-1/9, PQ compreso)
 
 **Contesto:** North Star è 0 da 24 giorni. Un ordine di test fatto da Nicola (anche piccolo: es. pane €3-5) verifica end-to-end il flusso checkout→pagamento→consegna e conta come primo ordine reale. Costo = il prezzo del prodotto.
 
@@ -304,7 +304,7 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #whatsapp-3-anchor-pi26 — Manda 3 WhatsApp a Garetti, Peretti e Amendolara · ⏳ accodata 2026-07-18 06:30
+### 🟡 #whatsapp-3-anchor-pi26 — Manda 3 WhatsApp a Garetti, Peretti e Amendolara · ⏳ accodata 2026-07-18 06:30 · ⏸ in pausa (rinvio negozi 24/8-1/9)
 
 **Contesto:** Le 3 botteghe più calde. Il bando PI26 (50% fondo perduto max €10k su spese tech) apre DOMANI 20/7 ore 10:00 → leva urgenza reale senza bisogno della bici.
 
@@ -318,7 +318,7 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #welcome-email-23 — Invia la welcome email ai 4 iscritti via Gmail · ⏳ accodata 2026-07-18 06:30
+### 🟡 #welcome-email-23 — Invia la welcome email ai 4 iscritti via Gmail · ⏳ accodata 2026-07-18 06:30 · ⏸ in pausa (rinvio negozi 24/8-1/9 — gate su PQ operativo)
 
 **Contesto:** **4 clienti iscritti** (correzione Nicola 19/7 — non 23) non hanno mai ricevuto un messaggio da MyCity. Nessuna welcome email. Rischio: si dimenticano di noi.
 
@@ -334,7 +334,7 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #post-meteo-pioggia-20lug — Pubblica post nei gruppi Facebook il 20/7 (piogge + delivery) · ⏳ accodata 2026-07-18 06:30
+### 🟡 #post-meteo-pioggia-20lug — Pubblica post nei gruppi Facebook il 20/7 (piogge + delivery) · ⏳ accodata 2026-07-18 06:30 · ⚠️ data passata (20/7) + rinvio negozi 24/8-1/9 — da chiudere come scaduta
 
 **Contesto:** Piogge previste dal 20/7 su Piacenza. Delivery domestico ha il massimo valore percepito quando piove.
 
@@ -348,7 +348,7 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #zona-orario-consegna — Definisci zona, orario e ordine minimo per la prima consegna · ⏳ accodata 2026-07-18 06:30
+### 🟡 #zona-orario-consegna — Definisci zona, orario e ordine minimo per la prima consegna · ⏳ accodata 2026-07-18 06:30 · ⏸ in pausa (rinvio negozi 24/8-1/9)
 
 **Contesto:** Bici presto operativa (settimana 21-25/7). Prima di accettare ordini dal pubblico serve definire: raggio max (es. 3 km dal centro), fasce orarie (es. 12-14 / 18-20), ordine minimo (es. €10).
 
@@ -422,7 +422,7 @@ _(302 = Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2 — fonte uni
 
 ---
 
-### 🟡 #inserisci-tazzina-pq — Inserisci tazzina espresso decorata su Pane Quotidiano · ⏳ accodata 2026-07-17 10:10 · aggiornata 2026-07-17 12:52
+### 🟡 #inserisci-tazzina-pq — Inserisci tazzina espresso decorata su Pane Quotidiano · ⏳ accodata 2026-07-17 10:10 · aggiornata 2026-07-17 12:52 · ⏸ in pausa (rinvio negozi 24/8-1/9)
 
 **Prodotto:** tazzina da espresso bianca con decorazioni colorate (blu/rosso, stile decorativo italiano) — PQ vende la tazzina stessa (oggetto fisico), non il caffè.
 
