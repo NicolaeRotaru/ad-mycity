@@ -1,7 +1,7 @@
 ---
 tipo: okr
 fonte: AD digitale
-aggiornato: 2026-07-23 11:20
+aggiornato: 2026-07-23 12:05
 ---
 
 # 🎯 OKR-Squadra — chi possiede quale numero
@@ -13,7 +13,7 @@ aggiornato: 2026-07-23 11:20
 
 | Senior | KPI che possiede | Target (fase 1 — gate, non scadenza fissa) | Budget |
 |---|---|---|---|
-| 🧠 AD | North Star: ordini pagati/consegnati | 1° ordine reale — **gate: Nicola chiude `#ordine-test-pq`** (nessuna data fissa, ex-target 27/6 scaduto) | — |
+| 🧠 AD | North Star: ordini pagati/consegnati | 1° ordine reale — **gate: Nicola chiude `#ordine-test-pq`** (nessuna data fissa: il vecchio target di fine giugno è superato dal nuovo gate) | — |
 | 🤝 vendite | Negozi LIVE nel cluster | +2 negozi LIVE | tempo · offerte 🔴 |
 | 📣 marketing | Iscritti lista d'attesa | 20 iscritti | €0 · ads 🔴 |
 | 🚀 growth-monetizzazione | € extra per esperimento | 1 esperimento partito | €0 · spesa 🔴 |
