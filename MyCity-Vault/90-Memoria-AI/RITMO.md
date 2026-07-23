@@ -625,3 +625,21 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 - Business invariato: 1 negozio, 5 prodotti, 4 clienti, 0 ordini pagati, stallo ~698h (~29 giorni). Aggiungi `BURN_MENSILE_EUR=302` in `cervello/vps/.env` + riavvia `mycity-worker-chat.service`: chiude la card sensore-cassa, ferma identica dal 14/7 (9ª ripetizione oggi). Assegnato a @finanza il passaggio da ridiagnosi a proposta-fix; @devops-sre continua la diagnosi giri-interrotti.
+
+## Piano del mattino · 2026-07-23 12:47
+
+**In una riga:** Le tre cose di oggi non si muovono senza la tua firma — in più, da ieri mattina, GitHub non riceve più il mio lavoro.
+
+**Le 3 cose di oggi**
+1. Fai un ordine di prova su Pane Quotidiano — è l'unica cosa che sblocca la crescita da zero a uno, ferma da tre giorni.
+2. Invia la domanda del bando PI26 — chiude tra 7 giorni (30 luglio), bozza già pronta.
+3. Dai l'ok per pubblicare il carosello con tutto il catalogo di Pane Quotidiano — pronto, meglio nel tardo pomeriggio (17-19).
+
+**Serve da te**
+- Fai un ordine di prova su Pane Quotidiano (10 minuti, sul sito)
+- Invia la domanda PI26 su restart.infocamere.it
+- Dai l'ok per pubblicare il carosello di oggi
+- Controlla il token di GitHub del progetto — da ieri mattina (22 luglio, ore 8:20) il mio lavoro si accumula solo qui sul server e non arriva più online
+
+**Dettagli tecnici**
+- Business invariato: 1 negozio, 5 prodotti, 4 clienti, 0 ordini pagati, stallo ~699h (~29,1 giorni). Verificato ora: 112 commit locali non pushati su `origin/main`, fermi dal 22/7 08:20 (`git rev-list origin/main..HEAD`) — stesso pattern del token PAT rotto del 9/7. Passo-a devops-sre: verificare se è la stessa causa dei 3 giorni di giri interrotti (21-23/7).

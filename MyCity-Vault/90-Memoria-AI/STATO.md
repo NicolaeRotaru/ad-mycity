@@ -1121,18 +1121,19 @@ fonte: AD digitale (giro chat — ri-verifica con vincolo AR-113 attivo)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 23/7 12:26 — Piano del mattino, riconferma)
-**PI26 scade tra 7 giorni (30/7) — domanda non ancora inviata.** Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~698h** (~29,1 giorni). Cassa Stripe 0€. Sensori 9/9 ok (invariato dalle 12:00).
+## Prossime priorità (🛰️ aggiornato 23/7 12:47 — Piano del mattino, riconferma + push GitHub bloccato)
+**PI26 scade tra 7 giorni (30/7) — domanda non ancora inviata.** Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~699h** (~29,1 giorni). Cassa Stripe 0€. Sensori 9/9 ok (invariato dalle 12:00). **Nuovo:** verificato `git rev-list origin/main..HEAD` = **112 commit locali mai arrivati su GitHub**, fermi dal 22/7 08:20 — stesso pattern del token rotto del 9/7.
 
 1. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1, fermo da 3 giorni (`#ordine-test-pq`).
 2. [ ] 🔴 **Invia domanda PI26** — sportello aperto, 7 giorni residui (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
 3. [ ] 🔴 **Pubblica il carosello del catalogo PQ** — pronto oggi, fascia 17:00-19:00 (`#post-carosello-bio-2307`).
-4. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice già su main).
-5. [ ] 🟡 **Diagnosi giri interrotti** — passata a @devops-sre (3 giorni con solo sentinelle automatiche, nessun giro pieno).
-6. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
-7. [ ] 🟡 **`BURN_MENSILE_EUR=302` nel `.env` VPS** — chiude alla radice la card sensore-cassa, identica da 9 diagnosi consecutive (14/7→23/7); @finanza passa da ridiagnosi a proposta-fix.
+4. [ ] 🟡 **Ripara il token GitHub** — 112 commit fermi sul VPS dal 22/7 08:20, nessuna PR/memoria nuova arriva online; senza fix il Pannello hosted resta indietro.
+5. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice già su main).
+6. [ ] 🟡 **Diagnosi giri interrotti** — passata a @devops-sre (3 giorni con solo sentinelle automatiche, nessun giro pieno); da verificare se stessa causa del token rotto.
+7. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
+8. [ ] 🟡 **`BURN_MENSILE_EUR=302` nel `.env` VPS** — chiude alla radice la card sensore-cassa, identica da 9 diagnosi consecutive (14/7→23/7); @finanza passa da ridiagnosi a proposta-fix.
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~698h) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª diagnosi identica — vedi voce 7) · Telegram assente · n8n ✅ · REST/Stripe/Resend/Sito/Pannello/MCP Supabase ✅ (11:36).
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~699h) · push GitHub rotto 🔴 (112 commit non pushati, dal 22/7 08:20) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª diagnosi identica — vedi voce 8) · Telegram assente · n8n ✅ · REST/Stripe/Resend/Sito/Pannello/MCP Supabase ✅ (11:36).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
