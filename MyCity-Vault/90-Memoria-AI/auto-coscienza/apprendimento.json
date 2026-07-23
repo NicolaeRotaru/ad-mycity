@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-23 12:37",
+  "aggiornato": "2026-07-23 12:47",
   "_nota_giro_23_07_1136": "Passaggio di verifica sul giro 23/7 11:35 (stessa giornata, ~1 minuto dopo): con MCP Supabase disponibile in questa sessione, ho ri-verificato con query dirette tutto ciò che il passaggio precedente aveva segnato come Gap L1 (\"nessun accesso REST/MCP live\") — confermati 1 seller/4 buyer/5 prodotti/1 ordine zombie/0 pagati, più un dato nuovo: 3 carrelli abbandonati reali su PQ mai convertiti. Lezione riusabile: il sensore `mcp_supabase` può segnare \"cieco\" per più giri consecutivi e poi rispondere normalmente nella sessione successiva — è intermittenza di canale (CLAUDE.md: \"comodità di sessione\"), non un guasto da riparare; prima di dichiarare un Gap definitivo, vale la pena ritentare l'accesso diretto quando il canale lo permette, invece di accettare passivamente lo stato del sensore dell'ultimo giro.",
   "_nota_giro_23_07_1135": "Giro 23/7 11:35 (primo giro pieno dopo 3 giorni di sole sentinelle automatiche 21-23/7): business invariato (4 buyer, 0 pagati, stallo ~698h). Chiusi i 3 vincoli macchina rimasti scaduti: CHECKLIST-NICOLA (AR-030), OKR-Squadra target scaduto→gate (AR-115), EXP-004 misurato/mancato + EXP-013 aperto (AR-041/106). L-2026-0723-445 nuova (lezione giri interrotti). Card 🟡 #218 accodata a devops-sre. Nessuna query REST/MCP live in questa sessione (canale senza quei tool in allowlist) — numeri riportati dall'ultimo giro pieno confermato (20/7 20:22).",
   "_nota_metabolizzazione_23_07_1136": "Chat 23/7 ~11:36: Nicola correzione dura — «perché mi hai detto una cosa ma poi ne hai fatto un'altra? è incoerenza» — AD aveva chiesto rm manuale VPS su 3 file poi spariti da soli per un git checkout fatto nel frattempo. L-2026-0723-446 nuova (caso_studio_nicola); preferenza niente-istruzioni-manuali-su-stato-che-continuo-a-toccare; nessuna azione/decisione/dato business nuovo da registrare in STATO/AZIONI/DECISIONI (i due blocchi token-GitHub #219 e cleanup #220 restano aperti come prima, nessun cambiamento di stato).",
@@ -10468,13 +10468,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 459,
+    "lezioni_attive": 460,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-23 12:37",
+    "tasso_calcolato_il": "2026-07-23 12:47",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-23 12:37",
+    "tick_leggero_il": "2026-07-23 12:47",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
