@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-23 17:17",
+  "aggiornato": "2026-07-23 17:27",
   "_preferenza_nicola_23_07_1800_dedup_lavori_identici": "📌 FATTO DUREVOLE Nicola (chat 23/7 ~18:00, allegati screenshot lavori) — vuole che i lavori IDENTICI ripetuti in coda (stessa analisi rigenerata più volte, es. dopo che i limiti Claude erano scaduti e le analisi fallite sono state riprovate) vengano SOVRAPPOSTI/aggiornati invece di accumularsi come card separate. **Generalizzata 18:10** (dopo aver ripetuto lo stesso messaggio 9 volte): «queste ripetizioni deve essere applicata su tutte le analisi» — la preferenza non è «sistema le due sentinelle che hai trovato», è un principio SISTEMICO: ogni sentinella/analisi che produce lo stesso risultato di un lavoro già in coda deve essere riconosciuta come lo STESSO lavoro, e il controllo va messo nel punto unico dove i lavori si ricreano (tasto Riprova), non ripetuto sentinella per sentinella. Vedi anche la lezione root-cause in LEZIONI-CHAT.md 23/7 (etichetta di dedup instabile = numero di giro invece di etichetta fissa).",
   "_nota_metabolizzazione_23_07_1810": "Chat 23/7 ~18:10 (continuazione della 18:00): dopo la diagnosi su cassa-cieca (76x) e sensori-ciechi (39x), Nicola ha ripetuto lo stesso messaggio/screenshot 9 volte poi ha chiarito esplicitamente che il fix deve valere su TUTTE le analisi, non solo le due segnalate. L'AD aveva già i numeri per rispondere: negozi-fermi 25x è normale (24h/negozio fermo); salute-bassa 7x, volano-fermo 7x, fonti-web-morte 6x — ancora da verificare se condividono la stessa causa (etichetta=numero di giro). Il fix sul tasto Riprova (check-prima-di-creare) risolve strutturalmente TUTTE le sentinelle in un colpo solo, non serve patchare una per una. Ancora in attesa del sì di Nicola per procedere (nessun codice toccato). Aggiornati STATO.md (nuova mossa in cima + priorità #8 estesa) e LEZIONI-CHAT.md (lezione 23/7 generalizzata invece di duplicata, rimossa la voce più debole/superata del 21/7 per restare a 12).",
   "_nota_metabolizzazione_23_07_1800": "Chat 23/7 ~18:00: Nicola segnala analisi duplicate nei lavori (screenshot) dopo che i limiti Claude erano scaduti e i retry dal Pannello ne avevano creati di nuovi invece di riusare quelli esistenti. AD ha verificato nel DB: cassa-cieca ripetuta 76x dal 14/7, sensori-ciechi 39x — causa: le due sentinelle usano il numero del giro come etichetta invece di una fissa, quindi il controllo anti-doppione non scatta mai; negozi-fermi 25x è invece normale (si ripete ogni 24h a negozio fermo). Fix proposto (etichetta fissa + check-prima-di-creare sul tasto Riprova) in attesa del sì di Nicola. Aggiornati STATO.md (nuova mossa + priorità #8) e LEZIONI-CHAT.md (nuova lezione in cima, rimossa la più debole/vecchia del 20/7 per restare a 12).",
@@ -10546,9 +10546,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-23 17:17",
+    "tasso_calcolato_il": "2026-07-23 17:27",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-23 17:17",
+    "tick_leggero_il": "2026-07-23 17:27",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
