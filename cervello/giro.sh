@@ -301,6 +301,12 @@ if command -v node >/dev/null 2>&1; then
   # budget (OKR) accoda lo STOP 🔴; se non c'è spesa collegata lo dice onestamente (sensore non attivo).
   echo "[$(ts)] Sentinella budget per reparto (AR-077)..."
   node "$SCRIPT_DIR/sentinella-budget.mjs" 2>&1 | tail -4 || true
+  # AR-147: SCADENZARIO — countdown reale sulle scadenze esterne (bandi/fiscali/contrattuali).
+  # Prima erano solo promemoria scritti a mano nei Report: nessun allarme automatico se qualcuno
+  # se ne dimenticava. Accoda una card 🔴 UNA SOLA VOLTA (dedup su marcatore) quando una scadenza
+  # entra nella sua finestra di allarme e non è ancora chiusa. Mai un blocco hard: solo un promemoria.
+  echo "[$(ts)] Scadenzario: countdown scadenze esterne (AR-147)..."
+  node "$SCRIPT_DIR/scadenzario-check.mjs" 2>&1 | tail -6 || true
   # PZ-013: SEMAFORO DINAMICO — i reparti con autonomia 'alta' GUADAGNATA (Wilson ≥0.7 su ≥8 esiti
   # reali) generano una PROPOSTA 🟡 di promozione giallo→verde in AZIONI-IN-ATTESA. Mai auto-applicata:
   # la firma resta a Nicola. È l'autonomia a punti che si espande sulle prove, non a simpatia.
