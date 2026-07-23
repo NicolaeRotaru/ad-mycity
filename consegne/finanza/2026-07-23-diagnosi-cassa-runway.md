@@ -83,3 +83,7 @@ echo "BURN_MENSILE_EUR=302" >> /opt/mycity/ad-mycity/cervello/vps/.env && sudo s
 ```
 
 Un comando, una volta sola, dal terminale del VPS — non dal Pannello. Finché non parte da lì, ogni "riprova" tornerà a questa stessa riga.
+
+## Addendum 16:47 — RIPROVA di nuovo (10ª volta, oltre 5 ore dopo l'ultima)
+
+Ricontrollato `cassa-runway.json` (dato delle 16:42, non ri-lanciato il sensore): **`giri_sconosciuto` ora 227** (era 219 alle 12:23), cassa Stripe 0€, `burn_mensile_eur` ancora `null` — tutto invariato. Nessuna nuova diagnosi necessaria: il blocco è sempre lo stesso comando VPS che solo Nicola può lanciare dal terminale (non dal Pannello, non toccabile dalla macchina — il file `.env` è protetto dal sistema operativo). Vedi comando sopra, invariato dal 14/7.
