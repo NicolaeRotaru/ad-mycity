@@ -231,6 +231,19 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-30 23:10 · @devops-sre · FATTO · Sentinella ops-02: Supabase mgmt incident 30/6 — REST read OK 23:10; Stripe operativo.
 - 2026-06-30 23:10 · @AD · SERVE · Da Nicola: invariato — Casa Linda 🔴 · ordine zombie 🔴 · link lista VP 🔴 (~47h) · foglio-firma 🔴.
 
+### 2026-07-23 12:26 — ☀️ Piano del mattino (riconferma, secondo passaggio della giornata)
+**Obiettivo del giorno:** invariato dalle 11:45 — 1° ordine reale su PQ + domanda PI26 + pubblicazione carosello. North Star ferma a 0, stallo ~698h (~29 giorni).
+**Le 3 priorità:** ① ordine di prova su Pane Quotidiano · ② invio domanda PI26 (scade 30/7, tra 7 giorni) · ③ pubblicazione carosello catalogo PQ (fascia 17-19).
+
+Assegnazioni (1 mossa per reparto coinvolto):
+- @AD · presidia il gate North Star (AR-113): nessun nuovo lavoro macchina finché lo stallo non si sblocca · 🟢
+- @relazioni-istituzionali · tiene pronta la bozza PI26 per l'invio immediato, nessun altro blocco noto · 🟢
+- @content-social · carosello già pronto (`#post-carosello-bio-2307`), attende solo la firma per 17-19h · 🟢 (pubblicare = 🔴)
+- @devops-sre · prosegue la diagnosi "giri interrotti" (3 giorni con solo sentinelle automatiche, nessun giro pieno) · 🟡
+- @finanza · **root cause invece di ridiagnosi:** la card sensore-cassa si ripete identica da 9 giorni (14/7→23/7) perché manca `BURN_MENSILE_EUR` nel `.env` del VPS — smette di ridiagnosticare e propone a Nicola la riga esatta da incollare · 🟡
+
+🙋 Serve da Nicola: ordine test PQ · invio PI26 · ok pubblicazione carosello · incolla `BURN_MENSILE_EUR=302` nel `.env` VPS (chiude 9 diagnosi ripetute identiche).
+
 ### 2026-07-01 — Nicola ok Sprint 1 + push PR 403 (07:30-07:41)
 - 2026-07-01 07:30 · @Nicola · FATTO · «ok Sprint 1» — autorizza branch fix 4 bloccanti radiografia marketplace.
 - 2026-07-01 07:30 · @tech · FATTO · Branch `fix/sprint-1-radiografia-2026-07-01` commit `8dc0f88` (6 fix) + spec in `consegne/tech/sprint-1-radiografia-marketplace.md`.

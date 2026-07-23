@@ -607,3 +607,21 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 - Verifica diretta SQL 12:00: 1 ordine totale, 0 pagati, ultimo il 24/6 — invariato. Sensori 11/11 ok. Nessun avviso macchina nuovo dal 20/7. Diagnosi devops-sre sui giri interrotti in corso, risposta attesa entro il report della sera.
+
+## Piano del mattino · 2026-07-23 12:26
+
+**In una riga:** Le tre cose di oggi restano quelle di stamattina — in più c'è un fix da due minuti che chiude un controllo ripetuto identico da 9 giorni.
+
+**Le 3 cose di oggi**
+1. Fai un ordine di prova su Pane Quotidiano — è l'unica cosa che sblocca la crescita da zero a uno, ferma da tre giorni.
+2. Invia la domanda del bando PI26 — chiude tra 7 giorni (30 luglio), bozza già pronta.
+3. Dai l'ok per pubblicare il carosello con tutto il catalogo di Pane Quotidiano — testo e grafica pronti, meglio nel tardo pomeriggio (17-19).
+
+**Serve da te**
+- Fai un ordine di prova su Pane Quotidiano (10 minuti, sul sito)
+- Invia la domanda PI26 su restart.infocamere.it
+- Dai l'ok per pubblicare il carosello di oggi
+- Scrivi il costo mensile fisso nel file di configurazione del server (2 minuti) — chiude un controllo di cassa che si ripete identico da 9 giorni
+
+**Dettagli tecnici**
+- Business invariato: 1 negozio, 5 prodotti, 4 clienti, 0 ordini pagati, stallo ~698h (~29 giorni). Aggiungi `BURN_MENSILE_EUR=302` in `cervello/vps/.env` + riavvia `mycity-worker-chat.service`: chiude la card sensore-cassa, ferma identica dal 14/7 (9ª ripetizione oggi). Assegnato a @finanza il passaggio da ridiagnosi a proposta-fix; @devops-sre continua la diagnosi giri-interrotti.

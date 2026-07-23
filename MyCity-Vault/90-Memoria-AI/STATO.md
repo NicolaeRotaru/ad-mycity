@@ -1118,8 +1118,8 @@ fonte: AD digitale (giro chat — ri-verifica con vincolo AR-113 attivo)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 23/7 12:00 — Punto di mezzogiorno)
-**PI26 scade tra 7 giorni (30/7) — domanda non ancora inviata.** Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~698h** (~29,1 giorni). Cassa Stripe 0€. Sensori 9/9 ok (verifica diretta SQL 12:00: 1 ordine, 0 pagati, invariato dalle 11:45).
+## Prossime priorità (🛰️ aggiornato 23/7 12:26 — Piano del mattino, riconferma)
+**PI26 scade tra 7 giorni (30/7) — domanda non ancora inviata.** Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~698h** (~29,1 giorni). Cassa Stripe 0€. Sensori 9/9 ok (invariato dalle 12:00).
 
 1. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1, fermo da 3 giorni (`#ordine-test-pq`).
 2. [ ] 🔴 **Invia domanda PI26** — sportello aperto, 7 giorni residui (`#bandi-cciaa-2007`); bozza in `consegne/relazioni-istituzionali/`.
@@ -1127,8 +1127,9 @@ fonte: AD digitale (giro chat — ri-verifica con vincolo AR-113 attivo)
 4. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice già su main).
 5. [ ] 🟡 **Diagnosi giri interrotti** — passata a @devops-sre (3 giorni con solo sentinelle automatiche, nessun giro pieno).
 6. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
+7. [ ] 🟡 **`BURN_MENSILE_EUR=302` nel `.env` VPS** — chiude alla radice la card sensore-cassa, identica da 9 diagnosi consecutive (14/7→23/7); @finanza passa da ridiagnosi a proposta-fix.
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~698h) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente · n8n ✅ · REST/Stripe/Resend/Sito/Pannello/MCP Supabase ✅ (11:36).
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~698h) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª diagnosi identica — vedi voce 7) · Telegram assente · n8n ✅ · REST/Stripe/Resend/Sito/Pannello/MCP Supabase ✅ (11:36).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
