@@ -279,6 +279,39 @@ ai_build_cmd() {
   esac
 }
 
+
+# ═══════════════════════════════════════════════════════════════
+# FALLBACK OLLAMA (locale, gratuito — NON è un motore a consumo,
+# quindi non viola la Decisione Nicola #59 che vieta Groq/Gemini).
+# Ultima rete di sicurezza SOLO quando Claude/Cursor sono in limite
+# settimanale/quota. Richiede Ollama installato e un modello scaricato.
+# ═══════════════════════════════════════════════════════════════
+OLLAMA_MODEL="${OLLAMA_MODEL:-qwen2.5:3b-instruct}"
+
+ai_run_con_fallback_ollama() {
+    # Uso: ai_run_con_fallback_ollama "$to" "$prompt" "${cmd[@]}"
+    local to="$1" prompt="$2"; shift 2
+    local -a cmd=("$@")
+    local out
+    out="$(timeout --kill-after=30s "$to" "${cmd[@]}" "$prompt" 2>&1)"
+    rc=$?
+
+    if echo "$out" | grep -qiE "weekly limit|usage limit|rate limit|limit reached|try again later"; then
+        if command -v ollama >/dev/null 2>&1; then
+            echo "[$(date '+%Y-%m-%d %H:%M:%S')] Motore $(ai_engine) in limite quota — fallback su Ollama ($OLLAMA_MODEL)." >&2
+            out="$(timeout --kill-after=30s "$to" ollama run "$OLLAMA_MODEL" "$prompt" 2>&1)"
+            rc=$?
+            out="⚠️ [risposta da Ollama locale — motore premium in limite quota]
+$out"
+        else
+            echo "[$(date '+%Y-%m-%d %H:%M:%S')] Motore $(ai_engine) in limite quota — Ollama non installato, nessun fallback." >&2
+        fi
+    fi
+
+    echo "$out"
+    return $rc
+}
+
 # AR-043 / efficienza-costo: stima token da durata+testo quando la CLI non espone usage strutturato.
 # Resta STIMA (non misura): i gate che contano sul serio devono leggere --stima e non fidarsi ciecamente.
 ai_stima_token() {
