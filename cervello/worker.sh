@@ -245,6 +245,23 @@ sync_vault() {
   [ -n "$scrub_utf8" ] && titolo_breve="$scrub_utf8"
   [ -z "$titolo_breve" ] && titolo_breve="lavoro ${id:-?}"
   git "${GIT_ID[@]}" commit -q -m "worker: ${titolo_breve} (${id:-?} · $(ts))" 2>/dev/null || true
+  # 🚦 PAUSA POST-MERGE (24/7, Nicola: "vercel non fa il deploy delle PR"): un push del worker
+  # arrivato pochi secondi/minuti dopo un merge cancella su Vercel il deploy vero (in corso) —
+  # verificato sui timestamp reali di 3 PR (#517/#518/#520: gap 5min/47s/1s). Il commit di memoria
+  # resta locale (nessun lavoro perso) e parte al prossimo sync_vault, quando il cooldown è passato.
+  local _cd="${VERCEL_DEPLOY_COOLDOWN:-180}"
+  local _ultimo_merge_ts
+  _ultimo_merge_ts="$(git log -1 --grep='^Merge pull request' --format=%ct 2>/dev/null || true)"
+  if [ -n "$_ultimo_merge_ts" ]; then
+    local _ora _delta
+    _ora="$(date +%s)"
+    _delta=$((_ora - _ultimo_merge_ts))
+    if [ "$_delta" -lt "$_cd" ]; then
+      echo "[$(ts)] sync_vault: merge recente (${_delta}s fa) — push rimandato altri $((_cd - _delta))s per non cancellare il deploy Vercel in corso." >&2
+      exec 9>&-
+      return 2
+    fi
+  fi
   # ⏱️ TIMEOUT su fetch/push (radiografia 2026-07-11): senza, un socket mezzo-aperto congela il loop
   # del worker fino al watchdog-kill (~55 min). GIT_NET_TIMEOUT (default 60s) le copre; rc di timeout
   # (124/143) è un fallimento come un altro → si ritenta nel for, poi si rimanda.
