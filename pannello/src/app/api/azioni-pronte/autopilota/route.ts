@@ -24,5 +24,5 @@ export async function POST(req: Request) {
   }
 
   const r = await eseguiAutopilota();
-  return NextResponse.json({ ok: true, attivo: r.attivo, eseguite: r.eseguite });
+  return NextResponse.json({ ok: true, attivo: r.attivo, eseguite: r.eseguite, in_pausa: r.in_pausa === true });
 }

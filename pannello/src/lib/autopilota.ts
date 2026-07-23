@@ -7,9 +7,19 @@ import { tutteLeAzioni, statoDa } from "@/lib/azioni-pronte";
 // Stesse cinture delle mani: senza chiave/live → simula o resta in coda. Mai invii a sorpresa.
 // Marca l'esito con "🤖 (automatico)" così si vede che l'ha fatto da solo.
 // Usata dall'endpoint /api/azioni-pronte/autopilota (pannello) e dal cron (cuore su Vercel).
-export async function eseguiAutopilota(): Promise<{ attivo: boolean; eseguite: number }> {
+//
+// AR-138: la PAUSA (kill-switch dal Pannello) DEVE fermare anche questa via, non solo la CLI
+// (cervello/consenso-azione.mjs::pausaAttiva). Stessa chiave "pausa" nella stessa tabella
+// impostazioni — letta qui prima di eseguire qualunque cosa, e ricontrollata a ogni azione
+// (un giro può durare secondi/minuti: se Nicola preme pausa a metà, si ferma da lì).
+async function pausaAttiva(): Promise<boolean> {
+  return (await getImpostazione("pausa")) === "on";
+}
+
+export async function eseguiAutopilota(): Promise<{ attivo: boolean; eseguite: number; in_pausa?: boolean }> {
   const attivo = (await getImpostazione("autopilota")) === "on";
   if (!attivo) return { attivo: false, eseguite: 0 };
+  if (await pausaAttiva()) return { attivo: true, eseguite: 0, in_pausa: true };
 
   const blocchi = await tutteLeAzioni();
   const { valori } = await getImpostazioni();
@@ -17,6 +27,7 @@ export async function eseguiAutopilota(): Promise<{ attivo: boolean; eseguite: n
 
   let eseguite = 0;
   for (const a of sicure) {
+    if (await pausaAttiva()) break; // pausa premuta durante il giro → fermati subito, non a fine ciclo
     const esito = await eseguiAzione({ titolo: a.titolo, canale: a.canale, destinatario: a.destinatario, testo: a.testo });
     await setImpostazione(`azione:${a.id}`, esito.stato);
     await setImpostazione(`azione:${a.id}:nota`, `🤖 (automatico) ${esito.dettaglio}`);
