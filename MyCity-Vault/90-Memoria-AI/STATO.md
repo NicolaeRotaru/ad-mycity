@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 13:27
-fonte: AD digitale (giro pieno richiesto, 9°+ passaggio in meno di 2 ore)
+aggiornato: 2026-07-23 16:02
+fonte: AD digitale (chat Nicola — token GitHub VPS rigenerato e verificato)
 ---
+
+> 💬 **23/7 ~16:02 — CHAT: token GitHub VPS rigenerato da Nicola, verificato con push reale — PR #510 aperta (L-447).** Nicola «**ho rigenerato il token**» (seguito di #219/#221, screenshot GitHub rotto delle 11:26). AD non si è fidato solo del "dovrebbe funzionare": ha aperto **davvero** la PR Ollama sul branch pulito → **push riuscito**, **PR #510** creata (https://github.com/NicolaeRotaru/ad-mycity/pull/510) — prova concreta, non un test a vuoto. **Card #219 (token VPS rotto) → RISOLTA.** Card **#222** accodata (🔴 merge PR #510). **Resta aperta #221** (token Vercel/Pannello, DIVERSO da questo — legge da fuori, non scrive): non toccato in questa chat, ancora da confermare separatamente su `/api/diagnosi`. Push GitHub sul VPS: sblocco — i commit di memoria fermi da giorni (130+ alle 13:27) ora possono tornare a salire su `origin/main`. Fonte: chat Nicola 23/7 ~16:02.
 
 > 🛰️ **23/7 13:27 — GIRO PIENO richiesto — 9°+ passaggio quasi identico in meno di 2 ore, business invariato.** Delta-gate conferma firma di stato identica al giro pieno delle 13:10 (`auto-coscienza/delta-gate.json`); ultimo commit di memoria a soli 43 secondi da questo giro. Business INVARIATO: 1 PQ, 5 prodotti, 4 buyer, 0 pagati, stallo ~29gg. Sensori 11/11 ok, coda AZIONI-IN-ATTESA stabile a 47 aperte (housekeeping 13:26, nessuna card nuova). **Scelta deliberata:** non ho ri-eseguito query MCP/REST né riscritto i JSON auto-coscienza — giro a vuoto vietato da `giro.md` §0 e AR-113. Push GitHub: 130 commit locali fermi (era 128 alle 13:20), stesso token rotto, @devops-sre. **Mossa n.1 invariata: ordine test PQ. Mossa n.2: PI26 entro il 30/7. Mossa n.3: fermare il loop di ri-esecuzione ravvicinata (9°+ giro in <2h, ora il rischio più visibile).** Briefing: [[Briefing/2026-07-23]].
 
