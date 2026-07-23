@@ -19,7 +19,7 @@ export default function LetteraAdCard() {
       .then((d) => {
         if (d?.lettera) setLettera(String(d.lettera));
         const dt = d?.radiografia?.data || d?.live?.data_scan;
-        if (dt) setData(String(dt).slice(0, 10));
+        if (dt) setData(String(dt)); // niente slice: se c'è l'ora, dataVault la mostra (giorno+ora)
       })
       .catch(() => {});
   }, []);

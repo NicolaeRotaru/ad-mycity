@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import { usePanelSync } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 
 type Stella = { id: string; emoji: string; nome: string; descrizione: string; principale: boolean; attiva: boolean };
 
@@ -42,6 +44,7 @@ function valoreStella(id: string, m: Record<string, any> | null): string {
 }
 
 export default function StellePolari() {
+  const caricato = useCaricato();
   const [stelle, setStelle] = useState<Stella[]>([]);
   const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
   const carica = useCallback(() =>
@@ -78,6 +81,7 @@ export default function StellePolari() {
         <Star size={15} className="text-brand shrink-0" />
         <span className="t-sez">Stelle Polari</span>
         <span className="t-eti min-w-0">la principale è sempre accesa; le altre le accendi tu</span>
+        <Aggiornato at={caricato} prefisso="aggiornato" className="ml-auto shrink-0" />
       </div>
       {stelle.map((s) => (
         <div

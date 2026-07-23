@@ -5,6 +5,8 @@ import { Activity, ChevronDown, HeartPulse } from "lucide-react";
 import { istante } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
 import { usePanelSync } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 
 type Cuore = {
   collegato: boolean;
@@ -34,6 +36,7 @@ function dot(stato: "verde" | "giallo" | "rosso") {
 
 /** Card unica home: semaforo + 8 pallini + link alle 3 pagine salute. */
 export default function MacchinaHomeCard() {
+  const caricato = useCaricato();
   const [c, setC] = useState<Cuore | null>(null);
   const [diag, setDiag] = useState<Diagnosi | null>(null);
   const [m, setM] = useState<Record<string, any> | null>(null);
@@ -119,6 +122,7 @@ export default function MacchinaHomeCard() {
           <span className="t-sez text-[15px]">La macchina</span>
           <p className="t-corpo text-[13px] font-medium mt-0.5">{riga}</p>
         </div>
+        <Aggiornato at={caricato} prefisso="aggiornato" className="ml-auto shrink-0" />
       </div>
 
       <div className="flex items-center justify-center gap-1.5 py-1" role="list" aria-label="Stato degli 8 organi">

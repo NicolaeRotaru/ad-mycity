@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Stethoscope, RefreshCw, Unlock, Loader2, Power, Play, Sunrise, Moon, Terminal } from "lucide-react";
 import { emitSync, usePanelSync } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 
 type Salute = {
   memoria: boolean;
@@ -25,6 +27,7 @@ type Salute = {
 };
 
 export default function DiagnosticaWorker() {
+  const caricato = useCaricato();
   const [d, setD] = useState<Salute | null>(null);
   const [loading, setLoading] = useState(true);
   const [sbloccando, setSbloccando] = useState(false);
@@ -149,7 +152,10 @@ export default function DiagnosticaWorker() {
       <div className="flex items-start gap-2 flex-wrap">
         <Stethoscope size={16} className="text-brand shrink-0 mt-0.5" />
         <div className="flex-1 min-w-0">
-          <div className="t-sez text-[14px]">Stato worker (coda chat)</div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="t-sez text-[14px]">Stato worker (coda chat)</div>
+            <Aggiornato at={caricato} prefisso="aggiornato" className="ml-auto shrink-0" />
+          </div>
           <div className="t-eti mt-0.5 text-[12px]">
             {d.workerVivo ? (
               <span className="text-green-700 dark:text-green-400 font-medium">Worker ON</span>

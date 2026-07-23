@@ -2,12 +2,16 @@
 
 import { ChevronDown } from "lucide-react";
 import { LISTA_PROSPECT_CENTRO, totaleProspect } from "@/lib/lista-prospect-centro";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 
 export default function ListaProspectHome() {
   const tot = totaleProspect();
+  const caricato = useCaricato();
 
   return (
     <div className="space-y-1.5">
+      <div className="flex justify-end"><Aggiornato at={caricato} prefisso="aggiornato" /></div>
       <p className="t-eti mb-1.5 text-[12px]">
         Bottega = spesa casa. Clienti MyCity = botteghe, non ristoranti.
       </p>

@@ -7,6 +7,8 @@ import remarkGfm from "remark-gfm";
 import { faRelativo } from "@/lib/format";
 import ChatCasella from "@/components/ChatCasella";
 import { emitSync } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 import {
   type LavoroBase,
   leggiMappaGruppiLocali,
@@ -65,6 +67,7 @@ function sogliaBloccoMs(lv: LavoroBase): number {
 }
 
 export default function LavoriCervello({ lavori, onSvuota, embedded = false, workerVivo, adInPausa }: Props) {
+  const caricato = useCaricato();
   // [fix radiografia-pannello 2026-07-03 — perf: useMemo con dip [lavori] rileggeva localStorage a ogni tick
   // ma NON reagiva ai veri cambi della mappa-gruppi. Ora è stato reattivo, riletto solo sugli eventi giusti.]
   const [mappa, setMappa] = useState<Record<string, string>>({});
@@ -532,6 +535,7 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
             <Brain size={16} />
           </span>
           <span className="t-sez">Lavori del cervello (Max)</span>
+          <Aggiornato at={caricato} prefisso="aggiornato" className="shrink-0" />
         </div>
         {lavori.length > 0 && (
           <button

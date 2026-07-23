@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ArrowRight, Loader2 } from "lucide-react";
+import Aggiornato from "@/components/Aggiornato";
 
 type AreaIn = { area: string; n: number; peso: number; top: string[] };
 type LevaOut = { nome: string; peso: number; leva: string; indiretto: string; colore: string; senior: string[] };
@@ -36,6 +37,7 @@ export default function GrafoInfluenza() {
 
   return (
     <div className="space-y-4">
+      <div className="flex justify-end -mb-2"><Aggiornato at={g.generato} prefisso="aggiornato" /></div>
       <p className="text-[12px] text-black/50">
         {g.totali.in} fattori in entrata ({g.totali.aree_in} aree) · {g.totali.out} leve in uscita · {g.totali.catene} catene. Tutto ciò che a Piacenza ci tocca e che noi possiamo muovere.
       </p>

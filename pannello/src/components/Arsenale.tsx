@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { Swords } from "lucide-react";
 import { istante } from "@/lib/format";
 import { usePanelSync } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 
 type PB = {
   id: string;
@@ -22,6 +24,7 @@ const dot = (l: string) => (l === "rosso" ? "bg-red-500" : l === "giallo" ? "bg-
 
 // 🗡️ L'arsenale: i playbook delle leve dietro le quinte e quando sono partiti.
 export default function Arsenale() {
+  const caricato = useCaricato();
   const [pb, setPb] = useState<PB[] | null>(null);
   const [aperto, setAperto] = useState(false);
   const carica = useCallback(() => {
@@ -46,7 +49,8 @@ export default function Arsenale() {
           <div className="t-sez">Arsenale — le leve dietro le quinte</div>
           <div className="t-eti">{forme.length} forme di dominio · {pb.length} playbook · {partitiOggi} partiti oggi</div>
         </div>
-        <span className="ml-auto t-eti">{aperto ? "nascondi" : "mostra"}</span>
+        <Aggiornato at={caricato} prefisso="aggiornato" className="ml-auto shrink-0" />
+        <span className="t-eti shrink-0">{aperto ? "nascondi" : "mostra"}</span>
       </button>
 
       {aperto && (
