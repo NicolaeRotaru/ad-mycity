@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-23 16:46
-fonte: AD digitale (giro pieno richiesto — 11°+ passaggio in giornata, strategia snella)
+aggiornato: 2026-07-23 16:53
+fonte: AD digitale (chat — token GitHub risolto, nuovo bug UI segnalato)
 ---
+
+> 💬 **23/7 ~16:53 — CHAT: entrambi i token GitHub risolti (#219+#221 chiusi) — nuovo bug: tab "Diretta contenuti" sparito dal menu Pannello.** Nicola conferma: «ho creato il nuovo token repo mycity+ad-mycity, contents e pr in read e write e l'ho incollato dentro vps.env, vercel github_token e obsidian_token, è tornato tutto verde» — un solo PAT unico messo in 3 posti chiude sia #219 (scrittura VPS) sia #221 (lettura Vercel/Pannello), come da lezione L-447 (i due token sono distinti ma qui Nicola li ha allineati insieme). **Card #221 chiusa in [[AZIONI-IN-ATTESA]]** (commit `154c43b4`). **Nuovo problema segnalato:** dopo l'ultimo Redeploy manuale su Vercel è sparita la voce di menu "Diretta contenuti" (sopra "Lavori") dal Pannello — ipotesi AD (non ancora verificata): il Redeploy ha ripubblicato un deployment Vercel precedente al 19/7 (data in cui quella voce è entrata nel codice) invece dell'ultimo commit `e98f1e85`+. **Serve da Nicola:** controllare su Vercel → Deployments quale build è marcato Production e se serve un Redeploy sul deployment più recente (non uno storico). Business invariato: 1 PQ · 4 buyer · 0 pagati. Fonte: chat Nicola 23/7 ~16:53.
 
 > 🛰️ **23/7 16:46 — GIRO PIENO richiesto, 11°+ passaggio in giornata, business invariato.** Delta-gate conferma firma identica dalle 16:40 (7 minuti fa): 1 PQ, 5 prodotti, 4 buyer, 0 pagati, stallo ~29gg. Nessuna ri-query pesante (strategia snella, `giro.md` §0 + AR-113 — vedi [[playbook-giro-pieno-ripetuto-strategia]]). Coda 47 aperte, nessuna nuova. **Mossa n.1: ordine test PQ. Mossa n.2: PI26 entro 30/7. Mossa n.3: firma carosello catalogo PQ (scade entro le 19 di oggi).** Briefing: [[Briefing/2026-07-23]].
 
@@ -1137,18 +1139,18 @@ fonte: AD digitale (giro pieno richiesto — 11°+ passaggio in giornata, strate
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 23/7 16:24 — Piano del mattino)
-**Le due grane di stamattina sono chiuse:** ✅ push GitHub VPS risolto 16:02 (Nicola ha rigenerato il PAT, verificato con push reale — PR #510 mergiata `82dd378f`, ora solo 1 commit locale non pushato, niente più accumulo); ✅ il loop "piano del mattino ogni 15-20 min" si è fermato da solo dopo le 13:23 (nessuna ripetizione ravvicinata da 3 ore, cadenza tornata normale). Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~704h** (~29,3 giorni). Cassa Stripe 0€. **Resta aperto un secondo token, diverso dal primo:** 🔴 #221 — `GITHUB_TOKEN`/`OBSIDIAN_TOKEN` su Vercel (Pannello online), ancora rosso alle 16:04 nonostante il tentativo di Nicola.
+## Prossime priorità (🛰️ aggiornato 23/7 16:53 — chat)
+**Entrambi i token GitHub sono chiusi:** ✅ #219 (scrittura VPS, risolto 16:02, PR #510 mergiata) e ✅ #221 (lettura Vercel/Pannello, risolto 16:27, confermato da Nicola «tutto verde» 16:53) — un solo PAT unico (repo `mycity`+`ad-mycity`, Contents+PR read/write) messo in `cervello/vps/.env` + `GITHUB_TOKEN` + `OBSIDIAN_TOKEN` su Vercel. Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~704h** (~29,3 giorni). Cassa Stripe 0€. **Nuovo problema aperto:** 🟡 tab "Diretta contenuti" sparito dal menu Pannello dopo il Redeploy — verifica in corso, vedi entry chat 16:53.
 
 1. [ ] 🔴 **Invia domanda PI26** — sportello a esaurimento, scade 30/7 ore 16:00 (7 giorni residui), fino a €10.000 fondo perduto; bozza pronta in `consegne/relazioni-istituzionali/`. Priorità economica più alta di oggi.
 2. [ ] 🔴 **Pubblica il carosello del catalogo PQ** — pronto, finestra consigliata **17:00-19:00 di oggi** (`#post-carosello-bio-2307`).
 3. [ ] 🟡 **Ordine test su Pane Quotidiano** — unica leva diretta North Star 0→1, fermo da giorni (`#ordine-test-pq`).
-4. [ ] 🔴 **Sblocca il token Vercel del Pannello (#221)** — su Vercel controlla se esiste ANCHE `OBSIDIAN_TOKEN` col valore vecchio (ha priorità su `GITHUB_TOKEN` in `obsidian.ts:7`): se sì, aggiornalo o rimuovilo, poi Redeploy manuale. Finché resta rosso il Pannello online mostra solo la cache vecchia.
+4. [ ] 🟡 **Verifica "Diretta contenuti" sparito dal Pannello** — controllare su Vercel → Deployments quale build è marcato Production (deve essere di oggi, commit `e98f1e85`+); se in cima c'è un deployment più vecchio del 19/7, rifare Redeploy scegliendo quello più recente.
 5. [ ] 🟡 **Accendi intelligence sveglia** — Telegram + RSS bandi (`#accendi-intelligence-sveglia`, codice già su main).
 6. [ ] 🟡 **Supervisione PQ** — logo, città, foto prodotto (3 gap da Nicola).
 7. [ ] 🟡 **`BURN_MENSILE_EUR=302` nel `.env` VPS** — chiude alla radice la card sensore-cassa, identica da 9+ diagnosi consecutive (14/7→23/7); @finanza passa da ridiagnosi a proposta-fix.
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~704h) · token Vercel/Pannello rotto 🔴 (#221, GitHub 401 su `obsidian.ts`/`github.ts`) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª+ diagnosi identica) · Telegram assente · n8n/REST/Stripe/Resend/Sito/Pannello ✅ · push GitHub VPS ✅ RISOLTO 16:02 · loop ritmo/giro ✅ fermo da solo dopo 13:23.
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo ~704h) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª+ diagnosi identica) · Telegram assente · n8n/REST/Stripe/Resend/Sito/Pannello ✅ · push GitHub VPS ✅ RISOLTO 16:02 · token Vercel/Pannello ✅ RISOLTO 16:27 (confermato 16:53) · loop ritmo/giro ✅ fermo da solo dopo 13:23 · "Diretta contenuti" nel menu Pannello 🟡 NUOVO (da verificare).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
