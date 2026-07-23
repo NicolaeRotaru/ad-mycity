@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Bot, Loader2 } from "lucide-react";
 import { emitSync, usePanelSync } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 
 // 🤖 Autopilota — controllo unico, spostato QUI nella Plancia (fix #4: prima stava
 // nascosto dentro la scheda "Da approvare"). Quando è ON, la macchina esegue DA SOLA
@@ -10,6 +12,7 @@ import { emitSync, usePanelSync } from "@/lib/panel-sync";
 // senza worker acceso e chiave del canale, l'azione viene simulata o resta in coda —
 // non parte mai nulla per sbaglio.
 export default function Autopilota() {
+  const caricato = useCaricato();
   const [attivo, setAttivo] = useState(false);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -64,6 +67,7 @@ export default function Autopilota() {
           <div className="flex items-center gap-2 flex-wrap">
             <span className="t-sez">Autopilota</span>
             <span className={`badge ${attivo ? "badge-on" : "badge-off"}`}>{loading ? "…" : attivo ? "ACCESO" : "SPENTO"}</span>
+            <Aggiornato at={caricato} prefisso="aggiornato" className="ml-auto" />
           </div>
           <p className="t-eti mt-1 leading-relaxed">
             Quando è acceso, la macchina fa da sola solo le mosse <b>sicure</b> 🟢 (quelle senza rischi,

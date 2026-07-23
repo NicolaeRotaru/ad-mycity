@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Activity } from "lucide-react";
 import { usePanelSync } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 
 type Cuore = {
   collegato: boolean;
@@ -19,6 +21,7 @@ type Cuore = {
 
 // 🧬 Stato della macchina — gli 8 organi, ognuno ✅ pronto / 🟡 da accendere.
 export default function StatoMacchina() {
+  const caricato = useCaricato();
   const [c, setC] = useState<Cuore | null>(null);
   const [m, setM] = useState<Record<string, any> | null>(null);
   const carica = useCallback(() => {
@@ -47,6 +50,7 @@ export default function StatoMacchina() {
       <div className="sez-head mb-3">
         <span className="sez-ico"><Activity size={16} /></span>
         <span className="t-sez">Stato della macchina — gli 8 organi</span>
+        <Aggiornato at={caricato} prefisso="aggiornato" className="ml-auto" />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {organi.map((o) => (

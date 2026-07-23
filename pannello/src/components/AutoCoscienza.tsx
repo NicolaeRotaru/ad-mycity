@@ -22,6 +22,8 @@ import {
 import { dataVault, dataVaultRecente } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
 import { usePanelSync } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 import ParlaCasella from "@/components/ParlaCasella";
 import { TestoUmano } from "@/components/TestoUmano";
 import { humanizzaErrore, traduciTestoCompleto } from "@/lib/radiografia-umana";
@@ -256,6 +258,7 @@ export default function AutoCoscienza({
   fixedTab?: Tab;
   hideSwitcher?: boolean;
 } = {}) {
+  const caricato = useCaricato();
   const [d, setD] = useState<Dati | null>(null);
   const [tabInterno, setTabInterno] = useState<Tab>("analisi");
   const tab = fixedTab ?? tabInterno;
@@ -357,6 +360,7 @@ export default function AutoCoscienza({
                       : ""}
             </div>
           </div>
+          <Aggiornato at={caricato} prefisso="aggiornato" className="ml-auto shrink-0" />
         </div>
         {votoFOk ? (
           <div className="text-right shrink-0 max-w-[42%]">

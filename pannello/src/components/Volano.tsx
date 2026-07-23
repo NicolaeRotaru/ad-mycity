@@ -4,9 +4,12 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 import { ChevronDown, RefreshCw } from "lucide-react";
 import { formatta } from "@/lib/format";
 import { usePanelSync } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 
 // 🔄 Il volano (effetto-rete): più negozi → più clienti → più ordini → più negozi.
 export default function Volano() {
+  const caricato = useCaricato();
   const [m, setM] = useState<Record<string, any> | null>(null);
   const [aperto, setAperto] = useState(false);
   const carica = useCallback(() => {
@@ -37,6 +40,7 @@ export default function Volano() {
           <span className="t-sez text-[15px]">Il volano (effetto-rete)</span>
           {!aperto && <p className="t-eti mt-0.5 tabular-nums truncate">{riassunto} ↻</p>}
         </div>
+        <Aggiornato at={caricato} prefisso="aggiornato" className="ml-auto shrink-0" />
         <ChevronDown size={16} className={`shrink-0 text-black/35 transition ${aperto ? "rotate-180" : ""}`} />
       </button>
       {aperto && (

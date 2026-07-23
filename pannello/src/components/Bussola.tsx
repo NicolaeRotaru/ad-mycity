@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Compass, ChevronDown } from "lucide-react";
 import { vaiArea, type VistaNav } from "@/lib/nav";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 
 // 🧭 La Bussola: "non so dove andare a cercare". Questa guida traduce ogni domanda
 // comune ("dove firmo?", "dov'è il piano?", "dove sono i numeri?") nell'area giusta,
@@ -28,6 +30,7 @@ const RIGHE: Riga[] = [
 ];
 
 export default function Bussola() {
+  const caricato = useCaricato();
   const [aperto, setAperto] = useState(false);
   return (
     <section className="card overflow-hidden">
@@ -40,6 +43,7 @@ export default function Bussola() {
           <span className="t-sez block">Dove trovo cosa?</span>
           <span className="t-eti">Non sai dove andare? Apri la bussola: ogni cosa, con il pulsante che ti ci porta.</span>
         </span>
+        <Aggiornato at={caricato} prefisso="aggiornato" className="ml-auto shrink-0" />
         <ChevronDown size={16} className={`ml-auto shrink-0 text-black/40 transition-transform ${aperto ? "rotate-180" : ""}`} />
       </button>
       {aperto && (

@@ -5,9 +5,12 @@ import ParlaCasella from "@/components/ParlaCasella";
 import { pulisciTitolo } from "@/lib/azioni-attesa";
 import { contestoOpportunita, descrizioneOpportunita } from "@/lib/descrizione-opportunita";
 import { useBriefingVivo } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 
 export default function ScoperteProposte() {
   const { briefing, ultimoLabel } = useBriefingVivo();
+  const caricato = useCaricato();
 
   return (
     <section className="card p-4">
@@ -19,6 +22,7 @@ export default function ScoperteProposte() {
             {ultimoLabel ? `L'analisi dell'ultimo giro · ${ultimoLabel}` : "L'analisi dell'ultimo giro"}
           </div>
         </div>
+        <Aggiornato at={caricato} prefisso="aggiornato" className="ml-auto" />
       </div>
       {!briefing ? (
         <div className="text-center text-black/45 py-8">

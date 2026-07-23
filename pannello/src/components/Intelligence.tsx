@@ -8,6 +8,8 @@ import remarkBreaks from "remark-breaks";
 import GrafoInfluenza from "@/components/GrafoInfluenza";
 import ParlaCasella from "@/components/ParlaCasella";
 import { usePanelSync } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 
 type Tab = "alert" | "mappa" | "concorrenti" | "eventi" | "buchi" | "leve" | "reputazione";
 type Alert = { livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
@@ -23,6 +25,7 @@ const INTEL: { id: Tab; label: string; icon: React.ReactNode }[] = [
 ];
 
 export default function Intelligence() {
+  const caricato = useCaricato();
   const [tab, setTab] = useState<Tab>("alert");
   const [loading, setLoading] = useState(false);
 
@@ -79,6 +82,7 @@ export default function Intelligence() {
           <Telescope size={16} />
         </span>
         <span className="text-[15px] font-semibold tracking-tight">Intelligence & opportunità</span>
+        <Aggiornato at={caricato} prefisso="aggiornato" className="ml-auto" />
         <button
           onClick={() => carica(tab)}
           disabled={loading}

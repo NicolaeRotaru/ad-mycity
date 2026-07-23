@@ -6,6 +6,8 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { dataVault } from "@/lib/format";
 import { usePanelSync } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { useCaricato } from "@/lib/usa-caricato";
 
 // 📌 Bacheca in home: le informazioni da sapere, appuntate dall'AD nel vault
 // (90-Memoria-AI/BACHECA.md, servite da /api/bacheca). Ogni avviso è una riga
@@ -42,6 +44,7 @@ const MD: Components = {
 };
 
 export default function Bacheca() {
+  const caricato = useCaricato();
   const [avvisi, setAvvisi] = useState<Avviso[]>([]);
 
   const carica = useCallback(() => {
@@ -66,6 +69,7 @@ export default function Bacheca() {
         </span>
         <span className="t-sez text-[15px]">Bacheca — da sapere</span>
         <span className="badge badge-on ml-auto">{avvisi.length}</span>
+        <Aggiornato at={caricato} prefisso="aggiornato" className="ml-auto" />
       </div>
       <div className="space-y-1.5">
         {avvisi.map((a) => (
