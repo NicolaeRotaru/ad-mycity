@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-23 13:27",
+  "aggiornato": "2026-07-23 14:17",
   "_nota_giro_23_07_1258": "Giro chat 23/7 12:58, richiesto da Nicola come 'giro completo': è il 6°+ passaggio quasi identico nell'ultima ora (11:35→12:58), tutti con lo stesso esito (business invariato, 0 pagati). Lezione riusabile per il volano: quando un giro pieno viene ri-invocato a distanza di pochi minuti dal precedente SENZA che sia intervenuta un'azione umana o un evento esterno, la procedura completa (radar, piani, auto-miglioramento, radiografia) va SALTATA a favore di una verifica minima onesta — rieseguire tutto da capo ogni volta è il pattern 'loop a vuoto' già noto (playbook recensioni, recupero-carrelli) applicato al giro stesso. Segnale operativo: se il timestamp dell'ultimo briefing è a <15 minuti e nessun fatto di registro-fatti.json è cambiato, il giro dovrebbe auto-limitarsi a (a) ri-verifica dati con query dirette, (b) file obbligatori del cancello di serietà, (c) comunicazione esplicita a Nicola del pattern, invece di rigenerare sezioni intere del briefing.",
   "_nota_giro_23_07_1136": "Passaggio di verifica sul giro 23/7 11:35 (stessa giornata, ~1 minuto dopo): con MCP Supabase disponibile in questa sessione, ho ri-verificato con query dirette tutto ciò che il passaggio precedente aveva segnato come Gap L1 (\"nessun accesso REST/MCP live\") — confermati 1 seller/4 buyer/5 prodotti/1 ordine zombie/0 pagati, più un dato nuovo: 3 carrelli abbandonati reali su PQ mai convertiti. Lezione riusabile: il sensore `mcp_supabase` può segnare \"cieco\" per più giri consecutivi e poi rispondere normalmente nella sessione successiva — è intermittenza di canale (CLAUDE.md: \"comodità di sessione\"), non un guasto da riparare; prima di dichiarare un Gap definitivo, vale la pena ritentare l'accesso diretto quando il canale lo permette, invece di accettare passivamente lo stato del sensore dell'ultimo giro.",
   "_nota_giro_23_07_1135": "Giro 23/7 11:35 (primo giro pieno dopo 3 giorni di sole sentinelle automatiche 21-23/7): business invariato (4 buyer, 0 pagati, stallo ~698h). Chiusi i 3 vincoli macchina rimasti scaduti: CHECKLIST-NICOLA (AR-030), OKR-Squadra target scaduto→gate (AR-115), EXP-004 misurato/mancato + EXP-013 aperto (AR-041/106). L-2026-0723-445 nuova (lezione giri interrotti). Card 🟡 #218 accodata a devops-sre. Nessuna query REST/MCP live in questa sessione (canale senza quei tool in allowlist) — numeri riportati dall'ultimo giro pieno confermato (20/7 20:22).",
@@ -10475,9 +10475,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-23 13:27",
+    "tasso_calcolato_il": "2026-07-23 14:17",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-23 13:27",
+    "tick_leggero_il": "2026-07-23 14:17",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
