@@ -396,9 +396,9 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 Hai due opzioni — scegli quella che rispecchia la realtà di oggi:
 
-**A) Costi infrastruttura confermati da Nicola (20/7/2026)** — Claude 200 + Vercel 30 + Supabase 50 + VPS 20 = **300 €/m** (dominio 20 €/anno non incluso; Render in dismissione → marketplace su Vercel):
+**A) Costi infrastruttura confermati da Nicola (20/7/2026, valore aggiornato 21/7 con dominio incluso)** — Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2 = **302 €/m** (Render in dismissione → marketplace su Vercel):
 ```
-BURN_MENSILE_EUR=300
+BURN_MENSILE_EUR=302
 ```
 
 **B) Burn Anno 1 proiettato** (fondatore parzialmente pagato + marketing, da vault):
@@ -408,9 +408,9 @@ BURN_MENSILE_EUR=3000
 
 **Comando completo (una riga nel terminale VPS):**
 ```bash
-echo "BURN_MENSILE_EUR=300" >> /opt/mycity/ad-mycity/cervello/vps/.env && sudo systemctl restart mycity-worker-chat.service
+echo "BURN_MENSILE_EUR=302" >> /opt/mycity/ad-mycity/cervello/vps/.env && sudo systemctl restart mycity-worker-chat.service
 ```
-_(300 = Claude 200 + Vercel 30 + Supabase 50 + VPS 20 — Nicola 20/7; aggiorna se Vercel sale dopo migrazione marketplace)_
+_(302 = Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2 — fonte unica: registro-fatti.json, confermato Nicola 20/7, aggiornato 21/7; aggiorna se Vercel sale dopo migrazione marketplace)_
 
 **Cosa cambia:** il sensore smette di essere "sconosciuto" da 128 giri — calcola `runway = cassa / burn`. Oggi cassa=0€ → runway=0 mesi (critico) finché non entra liquidità. Il Pannello mostra il numero reale invece del punto interrogativo.
 
