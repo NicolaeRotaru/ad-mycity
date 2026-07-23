@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-24 00:22",
+  "aggiornato": "2026-07-24 00:26",
+  "_nota_metabolizzazione_24_07_0026": "Chat 24/7 ~00:24-00:26 (seguito diretto delle note 00:10/00:22, stesso filo Vercel): Nicola chiede conferma diretta che l'AD abbia capito il meccanismo — «i branch delle PR che crei tu vengono sovrapposti ai commit della memoria». L'AD ha verificato con gli orari REALI dei commit (non a occhio) su 3 PR recenti e trovato il pattern preciso: il commit di log che l'AD scrive SUBITO dopo aver mergiato una propria PR arriva mentre Vercel sta ancora buildando dal merge (#520: 1s dopo, #518: 47s dopo, #517: ~5min dopo) e lo cancella lui stesso — non è la cadenza generica di scrittura memoria→main (nota 00:10/00:22), è specificamente il riflesso \"mergi → registro subito\". L-2026-0724-02 nuova (evoluzione diretta di L-2026-0724-01, evidenza da dati non da ipotesi). STATO.md (nuova voce 00:26 in cima) e LEZIONI-CHAT.md (riga in cima estesa, non duplicata) aggiornati; memoria di progetto vercel-deploy-cancellato-da-commit-main.md precisata con gli stessi timestamp. Fix proposto (pausa prima del log post-merge) NON ancora applicato — in attesa del sì di Nicola, resta anche da confermare visivamente su Vercel. Nessun dato di business cambiato (1 PQ, 4 buyer, 0 pagati).",
   "_nota_metabolizzazione_24_07_0022": "Chat 24/7 ~00:20-00:22 (seguito diretto della chat 00:10 sullo stesso filo Vercel): Nicola chiede perché, se il filtro builda solo su modifiche a `pannello/`, gli ultimi branch non sono stati deployati — domanda che espone un buco nella spiegazione scritta 10 minuti prima come acquisita. L'AD ha corretto: il filtro decide solo se un deploy NUOVO parte, non se un deploy GIÀ IN CORSO viene cancellato (Vercel cancella sempre su un commit più recente, prima di guardare il filtro) — e ha dichiarato esplicitamente a Nicola che la nota delle 00:10 aveva indurito un'ipotesi non confermata come fatto. L-2026-0724-01 nuova (caso_studio_nicola: la domanda di Nicola, non un controllo interno, ha trovato il problema di processo — una diagnosi tecnica scritta come fatto senza prova diretta). STATO.md (nuova voce 00:22 in cima, non sostituisce quella delle 00:10 che resta come storico) e LEZIONI-CHAT.md (riga in cima estesa con l'affinamento + il flag 'ancora ipotesi') aggiornati. Nessuna azione/decisione business nuova; nessun dato di business cambiato (1 PQ, 4 buyer, 0 pagati).",
   "_nota_metabolizzazione_23_07_2341": "Chat 23/7 ~23:22-23:41: Nicola chiede costi/utile (risposta dal vault, nessun fatto nuovo — lo scenario '50 negozi' resta un'ipotesi non verificabile, non salvato come fatto). Poi reazione di soglia: «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose». Non è una correzione puntuale (gli errori citabili — pattern-match 'tasto', file sporchi in git-pr — sono già lezioni esistenti) ma un segnale cumulativo di fiducia dopo una sera ad altissimo volume (7 PR in ~6h). Nuova lezione L-2026-0723-456 (5 perché fino alla causa radice: densità di errori visibile sotto alto ritmo + memoria non comunicata proattivamente) + preferenza_nicola aggiunta. LEZIONI-CHAT.md non toccato: il contenuto operativo (rallenta quando il ritmo sale, spiega i limiti PRIMA che siano un problema di fiducia) è già coperto dalle 12 righe esistenti sui singoli episodi di oggi, una riga in più sarebbe ridondanza non nuova regola. STATO/DECISIONI/AZIONI invariati (nessun fatto di business, nessuna decisione, nessuna azione completata da registrare).",
   "_nota_metabolizzazione_23_07_2335": "Chat 23/7 ~23:31-23:35: Nicola chiede un tasto 'Jarvis' che permetta all'AD di vedere il pannello in tempo reale per gli errori che Nicola segnala mentre li guarda. L'AD ha risposto pattern-matchando 'tasto' sul bottone Worker già esistente ('c'è già, apri la chat lì'), ignorando il pezzo nuovo della richiesta (visibilità automatica, non dipendente da screenshot/descrizione di Nicola) — correzione secca 'non hai capito'. L'AD si è auto-corretta nel turno successivo chiedendo quale delle due letture intendeva (screen-share dal vivo, impossibile oggi vs assistente vocale sempre acceso) invece di ritentare alla cieca. Lezione nuova in LEZIONI-CHAT.md (scomporre le richieste composte prima di dichiarare 'già fatto'), rimossa la più vecchia (11:36 istruzione-manuale-incoerenza) per restare a 12. Nessun fatto/decisione/azione business da registrare — richiesta non ancora chiarita, nessun codice toccato.",
@@ -10338,6 +10339,25 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-24",
       "ultima_conferma": "2026-07-24 00:22",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0724-02",
+      "testo": "**Il colpevole del deploy Vercel cancellato non è la cadenza generica memoria→main, è SPECIFICAMENTE il commit di log che l'AD scrive subito dopo aver mergiato una propria PR — trovato verificando gli orari REALI dei commit, non a occhio (chat 24/7 ~00:26, seguito diretto di L-2026-0724-01).** Nicola ha chiesto conferma esplicita di aver capito il meccanismo giusto; l'AD ha controllato 3 PR recenti: #520 merge 23:48:43 → commit di log 23:48:44 (1s dopo), #518 merge 22:55:57 → log 22:56:44 (47s dopo), #517 merge ~20:47 → log 20:52:10 (~5min dopo). In tutti e 3 i casi il log arriva mentre Vercel sta ancora buildando dal merge appena avviato — e lo cancella. **Causa radice:** il riflesso \"appena una PR viene mergiata, registro subito l'esito in memoria\" colpisce esattamente il deploy che quel merge ha appena fatto partire — un effetto collaterale diretto del proprio flusso di lavoro, non del volume generico di scritture. **Regola riusabile:** quando un sintomo ricorrente (qui: deploy che sparisce) ha una spiegazione plausibile ma generica già scritta in memoria, prima di accontentarsene cercare SEMPRE il trigger preciso con dati verificabili (timestamp, log, diff) — la generica \"scrivo spesso su main\" nascondeva il vero pattern (\"scrivo IMMEDIATAMENTE dopo ogni merge\"), che è anche l'unico su cui si può intervenire con un fix mirato (pausa post-merge) invece che con un cambiamento drastico di comportamento.",
+      "tag": [
+        "vercel-deploy",
+        "root-cause-precisa",
+        "timestamp-evidenza",
+        "auto-correzione",
+        "AD"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-24",
+      "ultima_conferma": "2026-07-24 00:26",
       "stato": "attiva"
     }
   ],
