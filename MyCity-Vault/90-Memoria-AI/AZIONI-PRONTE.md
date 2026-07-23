@@ -84,7 +84,7 @@ codice BENVENUTO10 al checkout (10% sul primo ordine, ~€1 in meno). 👉 Compl
 Se hai cambiato idea nessun problema, il carrello si svuota da solo — ma se la spesa la volevi davvero è a un clic.
 Nicola — MyCity.
 Codice: BENVENUTO10 (tabella `coupons`, `first_order_only=true`, costo max ~€1 — incentivo reale → firma Nicola).
-stato: BOZZE PRONTE — NESSUN INVIO. **Ri-verificato 20/7 11:19 (playbook worker):** REST live (`verifica-sensori` ok) — 4 carrelli invariati, 1 solo recuperabile (samir €10, ~803h). 23 profili / 4 buyer / 0 ordini consegnati → gate PQ ancora CHIUSO. Per invio reale: firma Touch #1 🟡 dopo `#ordine-test-pq` + email da `/admin/users`.
+stato: BOZZE PRONTE — NESSUN INVIO. **Ri-verificato 23/7 11:45 (playbook worker, query dirette DB):** stesso carrello samir invariato (€10, ~875h/~36,5gg fermo) — unico recuperabile. Il carrello demo "Casa Linda" è sparito dalla tabella (pulizia dati, ora 3 record non 4). Profili totali corretti a 7 (il "23" del 20/7 era obsoleto) — 4 buyer confermati. 0 ordini `DELIVERED`, l'unico ordine resta quello CANCELED del 3/7 → gate PQ ancora CHIUSO. Dossier: `consegne/crm/2026-07-23-recupero-carrelli-pronte.md`. Per invio reale: firma Touch #1 🟡 dopo `#ordine-test-pq` + email da `/admin/users`.
 
 ## A4 · 💌 Messaggio post-consegna (grazie + recensione) — MODELLO NEUTRO RIUSABILE
 reparto: customer-success
