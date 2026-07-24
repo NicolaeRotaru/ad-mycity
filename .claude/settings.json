@@ -84,5 +84,17 @@
       "Edit(./.claude/settings.local.json)",
       "Write(./.claude/settings.local.json)"
     ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/contesto-lezioni.mjs --hook"
+          }
+        ]
+      }
+    ]
   }
 }

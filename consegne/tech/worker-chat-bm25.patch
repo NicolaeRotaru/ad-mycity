@@ -1,0 +1,39 @@
+diff --git a/cervello/worker.sh b/cervello/worker.sh
+index 3cb35e7..bb1c646 100755
+--- a/cervello/worker.sh
++++ b/cervello/worker.sh
+@@ -633,6 +633,7 @@ EOF
+ }
+ 
+ contesto_macchina_chat() {
++  local query_bm25="${1:-}" msg_bm25
+   local branch_ora commit_ora dirty_n dirty_top coda segnali lezioni decisioni azioni_aperte blocco origine_riga
+   branch_ora="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '?')"
+   commit_ora="$(git log -1 --format='%h · %s' 2>/dev/null || echo '?')"
+@@ -666,7 +667,16 @@ contesto_macchina_chat() {
+       | jq -r '.[] | select(.valore | test("^(errore|warn)")) | "  - \(.chiave | sub("automazione:";"")): \(.valore[0:90])"' 2>/dev/null \
+       | head -4 || true)"
+   fi
+-  lezioni="$(grep '^- ' MyCity-Vault/90-Memoria-AI/LEZIONI-CHAT.md 2>/dev/null | head -8 || true)"
++  # 🔎 Lezioni per TEMA (Mossa 4): col messaggio di Nicola recupera le lezioni RILEVANTI (BM25 su
++  # LEZIONI-CHAT.md + apprendimento.json) invece delle 8 più recenti a caso — così la lezione giusta
++  # affiora anche se non è l'ultima. Fallback robusto all'head-8 se il recupero è vuoto/rotto (query
++  # assente, file mancante, errore node): la chat non resta MAI senza lezioni.
++  msg_bm25="${query_bm25##*Nicola:}"   # ultimo turno di Nicola (se la busta ha le etichette); altrimenti tutta la query
++  lezioni=""
++  if [ -n "${msg_bm25//[[:space:]]/}" ]; then
++    lezioni="$(node "$SCRIPT_DIR/recupero-memoria.mjs" "$msg_bm25" --k 8 --righe 2>/dev/null || true)"
++  fi
++  [ -z "$lezioni" ] && lezioni="$(grep '^- ' MyCity-Vault/90-Memoria-AI/LEZIONI-CHAT.md 2>/dev/null | head -8 || true)"
+   stato_breve="$(grep '^> ' MyCity-Vault/90-Memoria-AI/STATO.md 2>/dev/null | head -1 | sed 's/^> //' | cut -c1-280 || true)"
+   # Ultime decisioni: solo il titolo (tutto fino a punto fermo), tronco a 160 char, ultime 5
+   decisioni="$(grep '^- 2026-' MyCity-Vault/90-Memoria-AI/DECISIONI.md 2>/dev/null \
+@@ -1284,7 +1294,7 @@ LA TUA CASSETTA DEGLI ATTREZZI (non esiste altro — non inventare strumenti):
+ 
+ $_plugin_block"
+     # 🧭 Realtà della macchina raccolta dal worker (branch, sporco, coda, segnali, lezioni).
+-    _ctx_block="$(contesto_macchina_chat 2>/dev/null || true)"
++    _ctx_block="$(contesto_macchina_chat "$richiesta" 2>/dev/null || true)"
+     [ -n "$_ctx_block" ] && prompt="$prompt
+ 
+ $_ctx_block"
