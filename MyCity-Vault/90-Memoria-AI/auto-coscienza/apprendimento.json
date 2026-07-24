@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-24 20:16",
+  "aggiornato": "2026-07-24 20:20",
   "_nota_metabolizzazione_24_07_2002": "Chat 24/7 ~20:02 (chiusura del filo doppioni 'Nuova chat' già raccontato nella nota 19:57/STATO.md): nessun nuovo messaggio di contenuto da Nicola in questo turno (solo 'Abc', ambiguo, seconda volta consecutiva) — verificato via `git log` che PR #531 (blocco doppio-tap sul bottone invia) è GIÀ mergiata su main (commit `575721d2`), non più 'in attesa' come risultava nella card #236. Aggiornati AZIONI-IN-ATTESA (#236 → FATTO) e STATO.md (nuova voce in cima). Nessuna lezione nuova: conferma pratica (non caso_studio_nicola) del pattern già in LEZIONI-CHAT — bug UI 'ricorrente' trattato con screenshot reale + verifica del codice esistente prima di riscrivere la diagnosi da zero, invece di assumere che il fix di ieri (PR #517) fosse insufficiente senza controllare. Resta da confermare dal vivo nel browser dopo il prossimo deploy Vercel (nessun accesso browser in sessione headless). Nessun fatto/decisione/dato business nuovo.",
   "_nota_metabolizzazione_24_07_1740": "Chat 24/7 17:36: Nicola \"aggiungi parla con la casella a tutte le caselle della bacheca\" — AD ha aggiunto ParlaCasella agli avvisi Bacheca (unico file mancante), PR #527 aperta e già accodata in AZIONI-IN-ATTESA (card #235, riga tabella). Registrata lezione L-2026-0724-527: pattern ricorrente (7ma volta) di aggiungere ParlaCasella superficie-per-superficie invece che con audit unico. Sul filone precedente (registro dei fatti incompleto, turno prima), Nicola non ha ancora dato l'esempio concreto richiesto dall'AD — resta aperto, nessuna azione da registrare finché non risponde.",
   "_nota_metabolizzazione_24_07_1710": "Chat 24/7 ~17:10: Nicola «metti registro-fatti.json dentro la bacheca e tienilo aggiornato anche dentro la bacheca» — AD ha aggiunto tabella specchio in BACHECA.md (commit 7e5e29c9), regola AR-102 già documentata nell'header della sezione (nessuna preferenza nuova da registrare, è l'esecuzione di uno standing-ask già noto). Push su origin/main bloccato (permesso negato) e NON ritentato — comportamento corretto, coerente con [[feedback-git-pr-allowlist-path]]. Confermato con git status: locale 2 commit avanti (7e5e29c9+b3ffb4c4) — stesso pattern non confermato del 23/7 ~22:16 in [[token-github-unificato]], ora visto ripetersi il giorno dopo (non ancora causa-radice nota: sandbox/allowlist vs auth GitHub). STATO.md aggiornato con l'entry oraria; nessuna azione/decisione nuova da accodare in AZIONI-IN-ATTESA (il push resta a carico di Nicola da VPS).",
@@ -7205,7 +7205,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 18:19",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-24 20:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0713-130",
@@ -7909,7 +7911,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 19:32",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-24 20:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0713-99",
@@ -7933,7 +7937,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-14 02:49",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-24 20:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0712-98",
@@ -8589,7 +8595,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-09",
       "ultima_conferma": "2026-07-09 14:30",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-24 20:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0709-68",
@@ -8688,7 +8696,9 @@
       "_evidenza_4": "FORMALIZZAZIONE come regola dura (chat 9/7 ~01:55, risposta al punto 3): Nicola trasforma la correzione in vincolo permanente — «ti do il permesso però, mi devi sempre chiedere il permesso, non lo devi fare da solo in autonomia. e la devi smettere di dirmi che non lo puoi fare, ma invece di chiedermi il permesso di farlo, se no mi incasini e mi fai pensare che non lo puoi fare e che lo devo fare io manualmente su cmd». Due parti inscindibili: (a) autonomia CONCESSA sui runner di test MA sempre con la sua approvazione a video (mai da solo); (b) mai più il framing «non posso» → sempre «chiedo l'OK per fare ESATTAMENTE X». L'AD stavolta ha aperto la risposta dichiarando di aver salvato la regola e ha applicato la forma corretta nel resto del turno (comandi esatti + richiesta di un unico OK sulla sequenza). Segnale: la lezione sta attecchendo, ma resta da rendere FUNZIONE FISSA (non buona volontà) come i test.",
       "_evidenza_2": "RICORRENZA stessa sera (chat 9/7 01:31, feature Annulla-lavoro): l'AD ha scritto di nuovo «Non ho potuto lanciare il typecheck né la prova nel browser: qui i permessi bloccano il runner di build… e anche git». Nicola RI-CORREGGE, spazientito: «non mi dire più che non riesci a farlo, ma chiedimi sempre il permesso di farlo… te l'ho già detto dentro un'altra chat, però si vede che non è ancora arrivato il comando». Segnale forte: la lezione NON ha ancora attecchito nel comportamento del turno → va resa FUNZIONE FISSA della macchina (come L-2026-0709-60 sui test), non lasciata alla buona volontà. Nella SECONDA risposta l'AD ha corretto il framing («Non è 'non riesco': è che il permesso non è installato» + ha CHIESTO l'OK ad aggiungere lui i runner all'allowlist ristretta invece di rimbalzare a Nicola) — è la forma giusta, da applicare SUBITO al primo turno, non dopo il rimprovero.",
       "_evidenza_3": "CONFERMA + applicazione RIUSCITA al primo colpo (chat 9/7 ~01:34, verifica push su origin/main per R2/#35-#54): dopo che l'AD aveva ammesso onestamente di non poter confermare il push dal VPS in sessione e aveva preso il fatto «sulla parola» di Nicola, Nicola apre lui la porta giusta: «se mi chiedi il permesso, puoi andare sul vps e confermarlo?». Stavolta l'AD risponde NELLA FORMA CORRETTA senza farsi rimproverare: lancia `git fetch origin main` (🟢 sola lettura), spiega in linguaggio umano cosa fa/perché è sicuro/cosa controllerà dopo (data ultimo commit + presenza dei 20 fix e memoria #54), e chiede solo l'OK a video — l'azione la esegue lui, non la rimbalza. Conferma il gusto: Nicola vuole PROATTIVAMENTE l'offerta «chiedo il permesso e lo faccio io», e la verifica reale dal VPS batte il 'sulla tua parola'. La lezione comincia ad attecchire nel comportamento del turno.",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-24 20:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0709-64",
@@ -10589,6 +10599,21 @@
       "promosso_il": "2026-07-24 14:20"
     },
     {
+      "id": "L-2026-0713-131",
+      "testo": "**Streaming chat assente con motore Cursor (chat 13/7 ~17:31–18:18):** Nicola «fino ieri… perché non lo fai più?» → «apri pr» → «riesci a mostrarmi la risposta in streaming?». 5 perché: (1) con Claude il worker chiamava `rispondi_chat_stream` → testo parola-per-parola; (2) in `worker.sh` lo streaming chat era gated su `ai_engine=claude` — Cursor cadeva nel ramo senza parziali; (3) CLI Cursor = `stream-json` + `--stream-partial-output` (NON flag Claude); (4) #335 merge ha ripristinato codice vecchio su main (L-137) — fix in #338+#339 mergiate ~18:14; (5) **Nicola vuole dimostrazione live:** la risposta in chat è il test — chiedere feedback (cresce / tutta insieme / a colonna); tutta insieme o colonna con codice ok = worker VPS non riavviato dal 16:08. Regola: verifica `git show HEAD:cervello/worker.sh` post-merge; segnalazione streaming → diagnosi worker prima del Pannello.",
+      "tag": [
+        "worker",
+        "streaming",
+        "cursor",
+        "pannello",
+        "chat",
+        "ux",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "promosso_il": "2026-07-24 20:20"
+    },
+    {
       "id": "L-2026-0713-129",
       "testo": "**Doppia/tripla PR stesso bug + «impara questi errori» (chat 13/7 ~17:15–17:45):** Nicola «ci sono dei conflitti, risolvili» + «hai creato due pr, le mergio entrambe?» + «impara questi errori» su pallini rossi + residuo pallino ~5s. 5 perché: (1) nella stessa sessione ho aperto #327 (badge parziale), #328 (sync server), #332 (orologio), #334 (poll) → 4 PR per un bug = confusione su quale mergiare; (2) conflitto #328 = file memoria worker nel branch Pannello (pattern #318/#324/#316, non codice fix); (3) ho detto «pronta» senza simulare merge su main HEAD — Nicola trove conflitti dopo; (4) #330 era plugin worker (mergiata separatamente 17:19), non pallini — va detto esplicitamente per non confonderla con #327/#328; (5) **regole:** mai 2+ PR per lo stesso bug nella stessa sessione — iterare sulla STESSA PR o chiudere la vecchia; fix incompleto (#332) = push su #332, NON aprire #334; quando Nicola chiede «mergio entrambe?» rispondere quale SÌ, quale CHIUDI e perché; branch PR = solo la cartella del fix (`pannello/` o singolo file `cervello/*.mjs`), ribasa su main, **simula merge prima di «pronto»**. Fix #328 ripulito commit `812cff8b`; #332 annullata → solo #334 merge 🔴 #107.",
       "tag": [
@@ -10607,6 +10632,74 @@
       ],
       "reparto": "@tech",
       "promosso_il": "2026-07-24 14:20"
+    },
+    {
+      "id": "L-2026-0713-100",
+      "testo": "**Caso-studio Nicola — auto-coscienza «ferma al 03/07», vuole aggiornamento in tempo reale (chat 13/7):** Nicola screenshot + «Perché i dati sono aggiornati al 03/7? Voglio che auto coscienza sia aggiornata in tempo reale sempre» → poi «Prepara pr» + «Aggiornamento leggere ogni 10 minuti». 5 perché: (1) le schede Apprendimento e Auto-miglioramento nel Pannello mostrano il campo `data` (es. review settimanale 3/7), NON `aggiornato` (file toccato 12–13/7) — bug UI in `AutoCoscienza.tsx` riga ~264; (2) i file JSON hanno entrambi i campi; (3) sensori/sonde girano ogni ~10 min via worker tick; (4) apprendimento si aggiorna post-chat (metabolizzazione) + review settimanale; miglioramento leggero ogni ~10 min, benchmark pesante venerdì/giro AI — vedi L-2026-0713-103; (5) se `OBSIDIAN_BRANCH` punta ancora a `memoria-ad`, il Pannello hosted legge dati fermi al 6/7. **Nicola ha approvato PR #315** (UI max(data,aggiornato) + tick leggero ogni ~10 min), merge 🔴 in attesa. Regola: quando Nicola chiede «perché è fermo?», distinguere SUBITO dati reali freschi vs data mostrata in UI vs metabolizzazione bloccata vs review pesante vs ramo/env sbagliato.",
+      "tag": [
+        "auto-coscienza",
+        "pannello",
+        "data",
+        "aggiornato",
+        "tempo-reale",
+        "OBSIDIAN_BRANCH",
+        "worker",
+        "caso-studio",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-24 20:20"
+    },
+    {
+      "id": "L-2026-0713-99",
+      "testo": "**Caso-studio Nicola — conflitti PR ricorrenti «impara, ormai 20 volte» (chat 13/7 11:20 + 11:42 + 16:12 #324):** dopo fix dark mode (#308→#309 merged), l'AD ha aperto #310 per fix strutturale git-pr.mjs ma il branch trascinava routing/sentinella/memoria auto-coscienza → conflitti di nuovo; Nicola: «ci sono conflitti, ma immagino sono sempre gli stessi, impara da questo errore, ormai è 20 volte che ricapita». Stesso giorno #315 conflitta con #314 (PR parallele stesso file UI, non file worker). 5 perché: (1) git-pr.mjs faceva `git add -A` includendo file worker auto-modificati; (2) branch creato da main stale o con working tree sporco; (3) PR parallele sullo stesso componente senza rebase post-merge altra PR; (4) ogni PR diventa roulette conflitti per Nicola; (5) **fix:** PR #312 = branch da main HEAD + SOLO `cervello/git-pr.mjs`, simula merge prima di aprire; ribasare ogni PR aperta se main avanza sullo stesso file (L-107); chiudere #308/#310/#311 senza merge. Regola: MAI dire «PR pulita» senza verificare file list e merge simulato.",
+      "tag": [
+        "git",
+        "pr",
+        "conflitti",
+        "git-pr.mjs",
+        "worker",
+        "routing",
+        "sentinella",
+        "caso-studio",
+        "nicola",
+        "ricorrente"
+      ],
+      "reparto": "@devops-sre",
+      "promosso_il": "2026-07-24 20:20"
+    },
+    {
+      "id": "L-2026-0709-69",
+      "testo": "**Caso-studio Nicola — «pushato/mergiato/deployato» sono 4 stati distinti, e una UI online vecchia ha 4 cause possibili da NON confondere (chat 9/7):** Nicola era confuso perché l'AD aveva usato committare/pushare/mergiare come sinonimi, e insisteva «devi interrogare Vercel, non ha fatto il deploy». Aveva ragione a diffidare. La catena vera è: **committare** (solo sul VPS) → **pushare** (arriva su GitHub) → **build/deploy** (Vercel costruisce dal push). Errori commessi nel filone: (1) per settimane l'AD ha detto «~414 commit avanti» mentre erano **1.994+** fermi, perché il remote aveva un token SEGNAPOSTO `il_nuovo_token` → ogni push falliva in silenzio da settimane (nessun errore mostrato all'AD, solo accumulo); (2) l'AD ha rincorso la diagnosi «Vercel è rotto» quando Vercel **funziona** e salta APPOSTA i commit di sola-memoria (`ignored-build-step`) — corretto, perché il Pannello legge la memoria in diretta dal filesystem; (3) la RADICE vera del «Pannello online vecchio» era la QUARTA: 12 file/+647 righe di CODICE Pannello committati su GitHub ma **mai buildati** (ultimo build = PR #224), sbloccabili con 1 commit che tocca `pannello/`. **5 perché:** l'AD trattava «up-to-date» come sinonimo di «deployato» → saltava di conclusione senza verificare a runtime ogni anello (push? build? quale commit costruito?). **Regola/fix riusabile:** davanti a «l'online è vecchio» NON dichiarare una causa finché non hai verificato i 4 stati separatamente — (a) i commit sono su GitHub? (b) il build è partito? (c) su quale commit? (d) quel commit contiene il codice che manca o è solo memoria? Ognuno ha un fix diverso. E davanti a un push che 'non fa nulla', sospetta prima le CREDENZIALI (token segnaposto/scaduto) che il codice. **AGGIORNAMENTO 13:55 (evidenza 2, 5° stato scoperto):** dopo che il commit-trigger `pannello/` (`842eb935`) ha correttamente fatto partire il build (NON annullato), è emerso un QUINTO stato distinto oltre a commit/push/build/annullato — il deploy `BLOCKED` a livello **account/piano** (`live:false`): non è ERROR (codice sano), non è annullamento → è la quota di deploy del piano Hobby esaurita, perché il worker pusha ~ogni 5 min e OGNI push (anche i CANCELED) conta come un deploy. Lezione rafforzata: 'il build è partito' ≠ 'il build è andato online' — dopo il trigger va verificato ANCHE lo stato finale (READY vs BLOCKED vs ERROR), e un BLOCKED punta al piano/quota, non al codice. Radice ricorrente collegata: la cadenza di push del worker va accorpata, o il blocco Vercel torna ogni giorno. Corollario di superficie: dalla chat del Pannello i box di permesso non compaiono → i comandi gated (git push, MCP Vercel) sono dead-lock finché non c'è l'allowlist in `.claude/settings.local.json` sul VPS (creata da Nicola 9/7, «FATTO»). Vedi [[chat-pannello-non-mostra-box-permessi]], [[pannello-legge-filesystem-non-github]], [[regola-testare-sempre]], DECISIONI 9/7 12:45/12:52/13:00/13:55. **CORREZIONE 14:05 (Nicola, evidenza 3 — la causa del BLOCKED NON era la quota):** l'inspector Vercel letto da Nicola dice testualmente «The deployment was blocked because the commit author email (ad@mycity.local) is not valid. Ensure your git email matches your GitHub account.» → il deploy `BLOCKED` NON era il tetto di deploy del piano Hobby (mia ipotesi delle 13:55, sbagliata) ma una **firma-email del commit non valida**: il commit-trigger `842eb935` era firmato `ad@mycity.local`, un'email finta non collegata a nessun account GitHub → Vercel rifiuta il build. 5 perché sull'errore mio: ho DEDOTTO 'quota Hobby' per plausibilità invece di leggere la causa esatta (che era fuori dall'allowlist: `get_deployment_build_logs`) → ho dichiarato una causa non verificata, esattamente l'anti-pattern che questa stessa lezione predica. **Regola/fix riusabile aggiunta:** (1) prima di preparare QUALSIASI commit-trigger, impostare un'email git VALIDA e collegata all'account GitHub (`git config user.email <email-github>`), MAI lasciare il default `ad@mycity.local`; il worker/cervello che committa a ogni giro va configurato con un'email valida una volta per tutte, o ogni suo commit che tocca `pannello/` verrà bloccato allo stesso modo. (2) Un BLOCKED non ha una sola causa: prima di attribuirlo al piano/quota, LEGGI il messaggio esatto dell'inspector — qui era author-email, non quota. **CONFERMA 14:14 (Nicola «fatto», evidenza 4 — il fix ha funzionato):** Nicola ha impostato un'email git valida e ri-lanciato il blocchetto sul VPS → i commit nuovi ora risultano `CANCELED` (non più `BLOCKED`) = firma-email a posto. Resta il solo passo strutturale: il Pannello online resta a PR #224 finché non arriva un commit fresco che tocca `pannello/` (i CANCELED sono i commit-memoria, saltati apposta da `vercel.json`) — quel commit builda le 12 modifiche già su GitHub. La radice ricorrente (worker che committa con email valida una volta per tutte) resta da fissare per non ri-bloccare i futuri trigger su `pannello/`. **CONFERMA 14:30 (Nicola «fatto», evidenza 5 — il «fatto» NON aveva prodotto il commit):** Nicola risponde «fatto» dopo il blocchetto commit-trigger, ma verificando il git reale l'ultimo commit che tocca `pannello/` è ANCORA `842eb935` (quello vecchio firmato `ad@mycity.local`, che Vercel tiene BLOCKED) → il blocchetto non è attecchito (non partito o senza toccare `pannello/`), il Pannello online resta a PR #224. Rafforza il fix riusabile della lezione: dopo un «fatto» di Nicola NON dare per eseguita l'azione — VERIFICA lo stato git reale (qual è l'ultimo commit su `pannello/`, con che email), la parola può non corrispondere a ciò che è successo nel terminale. La firma-email è comunque a posto per i commit futuri (i commit-memoria del worker ora sono CANCELED, non BLOCKED); manca solo UN commit fresco pulito che tocchi `pannello/` con email valida per buildare le 12 modifiche già su GitHub. Offerta 🟡 aperta a Nicola: allargare l'allowlist con `Bash(git add:*)`+`Bash(git commit:*)` così l'AD chiude i deploy da solo (decide lui). **EVIDENZA 6 (Nicola «fatto» ~20:41 — `git config user.email` NON ha fatto presa sui commit fatti a mano):** dopo l'ennesimo blocchetto, verificando il git l'ultimo commit su `pannello/` è `6857c35f` (etichettato «firma valida») ma è ANCORA firmato `ad@mycity.local` → Vercel lo tiene BLOCKED. Cioè il `git config user.email <email-github>` impostato prima NON si è applicato ai commit già creati a mano: giravamo in tondo perché ogni commit-trigger ripartiva con l'email finta. **Fix riusabile RAFFINATO (sostituisce il «basta git config»):** forzare l'email/nome GitHub validi DENTRO il comando stesso con `git -c user.email=\"98592323+NicolaeRotaru@users.noreply.github.com\" -c user.name=\"AD MyCity VPS\" commit -m ...`, così non dipende da nessuna config che non tiene; e verificare SUBITO l'esito con `git log -1 --format=\"%h | %ae | %s\" -- pannello/` (l'email stampata deve essere quella GitHub, non `ad@mycity.local`). Vale la conferma già nota: dopo un «fatto» di Nicola NON dare per eseguito — leggi lo stato git reale. La radice strutturale (worker che committa con email valida una volta per tutte) resta aperta.",
+      "tag": [
+        "nicola",
+        "commit-push-merge-deploy",
+        "vercel-build",
+        "token-segnaposto",
+        "radice-prima-del-fix",
+        "verifica-a-runtime",
+        "pannello-online-vecchio",
+        "allowlist-permessi",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "promosso_il": "2026-07-24 20:20"
+    },
+    {
+      "id": "L-2026-0709-65",
+      "testo": "**Caso-studio Nicola — non dire mai «non posso fare niente sul VPS, fallo tu sul cmd»: ti confonde perché SA che sei capace (chat 9/7):** l'AD aveva scritto a Nicola che non poteva agire sul VPS e che i comandi (i test) doveva lanciarli lui sul cmd. Nicola: «dicendomi prima che non potevi fare niente sul vps e che dovevo farlo io sul cmd mi ha messo in confusione perché sapevo che ne sei capace». Verità: l'AD È dentro il VPS e sa usare Bash — il muro non è la CAPACITÀ ma il PERMESSO a video (il comando `node` è gated dall'allowlist). 5 perché: (1) l'AD ha confuso «bloccato dal permesso» con «incapace» e ha dato a Nicola la versione sbagliata; (2) framing negativo («non posso, fallo tu») invece di una richiesta precisa; (3) Nicola ha già in memoria che l'AD sa usare Bash → la frase contraddiceva ciò che sapeva e lo ha confuso; (4) risultato: lavoro rimbalzato a lui inutilmente e fiducia scossa; (5) **regola/fix riusabile:** quando un permesso manca, NON dire «non posso / fallo tu sul cmd»; di' «chiedo il tuo OK per fare ESATTAMENTE questa azione sul VPS: <comando>» e spiegala in linguaggio umano (cosa fa, perché è sicura, il peggio che può succedere). Il permesso lo concede Nicola a video, ma l'azione la eseguo IO. Applicazione operativa di [[nicola-spiegazioni-piu-chiare]] e gemello di [[modo-lavoro-una-chat-approva]] (ricordagli che sei capace di Bash). Vedi [[regola-testare-sempre]], [[consenso-per-azione-ar-103]].",
+      "tag": [
+        "nicola",
+        "permessi",
+        "vps",
+        "bash",
+        "spiegazioni-semplici",
+        "framing",
+        "caso-studio",
+        "AD"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-24 20:20"
     },
     {
       "id": "L-2026-0703-52",
@@ -11098,16 +11191,16 @@
     "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
   ],
   "meta": {
-    "lezioni_attive": 473,
-    "promosse_a_principio": 19,
+    "lezioni_attive": 439,
+    "promosse_a_principio": 24,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-24 20:16",
+    "tasso_calcolato_il": "2026-07-24 20:20",
     "tasso_finestra_giorni": 30,
     "tick_leggero_il": "2026-07-24 20:16",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-24 18:20"
+    "cristallizzazione_ultima": "2026-07-24 20:20"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
