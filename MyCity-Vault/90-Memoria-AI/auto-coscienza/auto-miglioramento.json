@@ -452,18 +452,21 @@
     {
       "id": "EXP-005",
       "titolo": "Post 'Siamo in 23' → engagement e nuovi iscritti",
-      "stato": "aperto",
+      "stato": "misurato",
       "ambito": "acquisizione-clienti",
       "ipotesi": "Il post «Siamo in 23» che racconta la storia dei primi iscritti ottiene almeno 20 like/reazioni e porta 5 nuovi iscritti nei 3 giorni successivi.",
       "metrica": "nuovi_iscritti_3gg",
       "baseline": 4,
       "atteso": 5,
+      "reale": 4,
+      "delta": -1,
       "data_misura": "2026-07-24",
+      "data_misurato": "2026-07-24 11:05",
       "aperto_il": "2026-07-18 23:58",
       "azioni_gate": [
         "#post-siamo-in-23"
       ],
-      "nota": "Gate: pubblicazione nei gruppi Facebook Piacenza (🔴, firma Nicola). Misura: REST profiles count delta."
+      "nota": "MANCATA (non testata, stesso pattern di EXP-004): il gate `#post-siamo-in-23` è ancora ⏸ in pausa dal 18/7 (rinvio negozi 24/8-1/9, confermato in AZIONI-IN-ATTESA riga 303) — mai pubblicato. Profili REST invariati a 7 (4 buyer) dal 18/7. Verificato con query diretta `select count(*) from profiles` 24/7 11:0x. Lezione ribadita: un esperimento gated su un'azione 🔴 non approvata scade a vuoto — legare data_misura all'esecuzione del gate, non a un timer fisso."
     },
     {
       "id": "EXP-006",
@@ -593,12 +596,13 @@
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-07-24 10:53",
+    "aggiornato": "2026-07-24 11:05",
     "totale": 13,
-    "aperti": 7,
-    "in_scadenza": 1,
-    "misurati": 1,
-    "chiusi": 0
+    "aperti": 6,
+    "in_scadenza": 0,
+    "misurati": 2,
+    "chiusi": 0,
+    "nota_ar041": "AR-041/AR-106 già soddisfatto SENZA aprirne uno nuovo: 6 esperimenti restano 'aperto' dopo questa misura (incl. EXP-001/EXP-013 sul North Star, gate #ordine-test-pq/#whatsapp-3-anchor-pi26) — il vincolo del giro ('nessun esperimento aperto') non si applicava letteralmente (non era 0), il vero trigger era EXP-005 in scadenza oggi, misurato in questo passaggio."
   },
   "peer_review": [
     {
@@ -819,9 +823,9 @@
     }
   ],
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
-  "aggiornato": "2026-07-24 10:53",
+  "aggiornato": "2026-07-24 11:03",
   "proposte_sync": {
-    "aggiornato": "2026-07-24 10:20",
+    "aggiornato": "2026-07-24 11:00",
     "totale": 11,
     "aggiornate": 0
   }

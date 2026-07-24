@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-24 06:24
-fonte: AD digitale (giro pieno — heartbeat)
+aggiornato: 2026-07-24 11:05
+fonte: AD digitale (giro pieno, su richiesta esplicita — riconferma)
 ---
+
+> 🛰️ **24/7 11:05 — GIRO PIENO (su richiesta esplicita di Nicola in chat), riconferma — business INVARIATO.** Query SQL diretta appena eseguita (`orders`/`profiles`/`products`/`reviews`): 1 ordine totale (zombie 24/6, annullato), **0 pagati**, 7 profili (4 buyer), 5 prodotti, 0 recensioni — identico al giro pieno di stamattina (06:24) e a ogni verifica dei giorni scorsi. Delta-gate coerente (firma invariata dalle 06:30, 2 giri sonda saltati nel mezzo). Rispettato **AR-113** (north-star gate attivo, 0 pagati da ~30gg): nessuna azione fuori scope. Rispettato **AR-041/AR-106** (esperimenti): verificato che l'esperimenti-check NON era realmente a "zero aperti" (6 restano aperti, incl. EXP-001/EXP-013 sul North Star) — il vero trigger era **EXP-005** ("Post Siamo in 23") in scadenza oggi: misurato ora (mancata, gate `#post-siamo-in-23` ancora in pausa per il rinvio negozi al 24/8-1/9, profili invariati a 7). Nessuna nuova card 🟡/🔴 accodata (le mosse giuste — ordine test PQ, PI26 — sono già in coda). **Mossa n.1 invariata: ordine test PQ. Mossa n.2: domanda PI26 entro il 30/7 (6 giorni residui).** Briefing aggiornato: [[Briefing/2026-07-24]].
 
 > 🛰️ **24/7 06:24 — GIRO PIENO (heartbeat, 14h dall'ultimo giro pieno di ieri 23/7 16:47).** Business INVARIATO: 1 PQ, 5 prodotti, 4 buyer, 0 pagati, 0 recensioni, stallo ~718h (~30gg) — riconfermato con query SQL diretta (non solo sensore). Nessuna nuova card in coda (le mosse giuste sono già lì). Notte assorbita dal falso allarme Vercel, ora chiarito (vedi entry 01:00 sotto). **Mossa n.1: ordine test PQ. Mossa n.2: domanda PI26 entro il 30/7 (6 giorni).** Fatto 🟢: corretto refuso "Garetti" → "Pane Quotidiano" in `cervello/radar.json` (fattore negozio-01). Briefing: [[Briefing/2026-07-24]].
 

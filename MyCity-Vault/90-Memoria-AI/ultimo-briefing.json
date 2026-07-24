@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-24 06:24",
-  "situazione": "Giro pieno scattato per heartbeat (14h dall'ultimo giro pieno di ieri 23/7 16:47), non per novità di business. Business invariato da 30 giorni: 1 negozio (Pane Quotidiano), 5 prodotti, 4 buyer, 1 solo ordine in tutto il DB (zombie 24/6, annullato), 0 ordini pagati, 0 recensioni, stallo ~718h (~30gg) — riconfermato oggi con query SQL diretta (non solo sensore). La notte è stata assorbita da un falso allarme tecnico sul deploy Vercel, ora chiarito: nessun deploy è mai stato davvero cancellato (era una PR aperta ma non mergiata). Nessuna azione nuova accodata: le mosse giuste sono già in coda. Mossa n.1: ordine test PQ. Mossa n.2: domanda PI26 entro il 30/7 (6 giorni).",
+  "data": "2026-07-24 11:05",
+  "situazione": "Giro pieno su richiesta esplicita di Nicola — riconferma, non novità: query SQL diretta appena rieseguita conferma il quadro delle 06:24 invariato. Business invariato da ~30 giorni: 1 negozio (Pane Quotidiano), 5 prodotti, 4 buyer, 1 solo ordine in tutto il DB (zombie 24/6, annullato), 0 ordini pagati, 0 recensioni. Vincoli rispettati: AR-113 (north-star fermo, solo azioni che avvicinano il 1° ordine pagato) e AR-041/AR-106 (esperimenti: 6 restano aperti, non zero — misurato EXP-005 in scadenza oggi, mancata perché il suo gate social resta in pausa fino al 24/8-1/9). Nessuna azione nuova accodata: le mosse giuste sono già in coda. Mossa n.1: ordine test PQ. Mossa n.2: domanda PI26 entro il 30/7 (6 giorni).",
   "opportunita": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",

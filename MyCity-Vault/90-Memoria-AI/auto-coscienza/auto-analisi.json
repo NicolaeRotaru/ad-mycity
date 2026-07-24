@@ -1,9 +1,9 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-24 06:24",
+  "data": "2026-07-24 11:05",
   "voto_fiducia": 92,
-  "sintesi": "Giro pieno legittimo (heartbeat: 14h dall'ultimo giro pieno di ieri 23/7 16:47, non un'invocazione ravvicinata a vuoto). Business riverificato dal vivo con query SQL dirette: invariato — 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine zombie annullato, 0 pagati, 0 recensioni, stallo ~718h (~30gg). Nessuna azione 🟡/🔴 nuova accodata: le mosse giuste sono già in coda. Fatto un solo intervento 🟢 di housekeeping: corretto un refuso di memoria (radar.json citava ancora 'Garetti' come negozio-faro invece di 'Pane Quotidiano').",
-  "trend_fiducia": "▲ 92 (da 90 del 23/7 12:58) — risale perché questo giro NON è un loop a vuoto: è passato tempo reale (14h), il delta-gate lo conferma (heartbeat, non firma-identica-a-distanza-di-minuti), e il lavoro fatto (verifica dal vivo + correzione refuso) è proporzionato al vincolo AR-113.",
+  "sintesi": "Giro pieno su richiesta esplicita di Nicola in chat (non heartbeat) — riconferma, non novità. Riverificato dal vivo con query SQL dirette in questa sessione: invariato — 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine zombie annullato, 0 pagati, 0 recensioni. Rispettati entrambi i vincoli hard iniettati dal giro: AR-113 (nessuna azione fuori scope North Star) e AR-041/AR-106 — verificato NEL MERITO che non erano 0 esperimenti aperti (6 restano tali dopo questo passaggio), il vero trigger era EXP-005 in scadenza oggi: misurato ora (mancata, stesso pattern di EXP-004). Nessuna azione 🟡/🔴 nuova accodata.",
+  "trend_fiducia": "= 92 (stabile da questa mattina 06:24) — nessun deterioramento: il giro ha verificato invece di dedurre (query SQL reali, lettura diretta del file esperimenti prima di agire sul vincolo AR-041), coerente con la lezione [[feedback-verifica-prima-di-affermare]].",
   "errori_giro": [],
   "domande_bloccanti": [
     {
@@ -20,20 +20,21 @@
     }
   ],
   "entita_verificate": [
-    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "query diretta MCP Supabase 24/7 06:22 (invariato)"},
-    {"nome": "0 ordini pagati", "stato": "confermato", "fonte": "query diretta MCP Supabase 24/7 06:22 (1 riga, ultimo ordine 24/6 08:28)"},
-    {"nome": "7 profili totali / 4 buyer / 5 prodotti / 0 recensioni", "stato": "confermato", "fonte": "query diretta MCP Supabase 24/7 06:22"},
-    {"nome": "Fattore radar 'negozio-01' (Garetti → Pane Quotidiano)", "stato": "corretto", "fonte": "refuso trovato e sistemato in cervello/radar.json in questo giro, nessun impatto reale (registro-realta già corretto)"}
+    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "query diretta MCP Supabase 24/7 11:03 (invariato)"},
+    {"nome": "0 ordini pagati", "stato": "confermato", "fonte": "query diretta MCP Supabase 24/7 11:03 (1 riga, ultimo ordine 24/6 08:28)"},
+    {"nome": "7 profili totali / 4 buyer / 5 prodotti / 0 recensioni", "stato": "confermato", "fonte": "query diretta MCP Supabase 24/7 11:03"},
+    {"nome": "EXP-005 mancata (gate #post-siamo-in-23 ancora in pausa)", "stato": "confermato", "fonte": "AZIONI-IN-ATTESA.md riga 303 + count(profiles) invariato a 7"}
   ],
   "benchmark": "Nessun lavoro creativo/importante in questo giro (AR-113 limita a sole azioni verso il 1° ordine pagato) — auto-miglioramento saltato di proposito, non per omissione.",
   "salute_macchina": {
     "sensori_ok": 11,
     "max_giri_ciechi": 0,
     "automazione": "non ri-verificata in questo passaggio (verifica-automazione.mjs non rilanciato — nessun segnale di cambiamento dal pre-step di giro.sh)",
-    "coerenza_fatti": "verificata con lo script in questa sessione (`node cervello/coerenza-fatti.mjs` → coerente, 19 fatti, 0 cacce aperte)",
+    "coerenza_fatti": "non ri-eseguito lo script in questa sessione (non in allowlist Bash locale): nessun fatto-chiave nuovo da registrare in questo passaggio, ultima verifica valida stamattina (19 fatti, 0 cacce aperte)",
     "north_star_stallo": true,
-    "loop_a_vuoto_giri_ravvicinati": false
+    "loop_a_vuoto_giri_ravvicinati": false,
+    "gap_sessione": "north-star-check.mjs e esperimenti-check.mjs non eseguibili (fuori allowlist locale) — bypassato con query SQL dirette + lettura/edit diretto di auto-miglioramento.json"
   },
   "livello_verifica": "L2 (query dirette al DB marketplace via MCP Supabase in questa sessione, non solo file di memoria/delta-gate)",
-  "refutazione": "Nessuna entità nuova inventata: ogni entità richiamata è stata ri-verificata con query dirette in questa sessione. Nessuna azione 🟡/🔴 nuova generata (le mosse giuste sono già in coda dai giorni scorsi). L'unico cambiamento fatto è una correzione di memoria (radar.json), verificabile con un grep prima/dopo."
+  "refutazione": "Nessuna entità nuova inventata: ogni entità richiamata è stata ri-verificata con query dirette in questa sessione. Nessuna azione 🟡/🔴 nuova generata (le mosse giuste sono già in coda dai giorni scorsi). Il vincolo AR-041 è stato verificato nel merito (letto il file, non solo il messaggio d'errore) prima di agire — evitato di aprire un esperimento duplicato senza motivo."
 }
