@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-23 17:36",
+  "aggiornato": "2026-07-25 00:05",
   "fatti": [
     {
       "id": "bando.commercio-er.scadenza",
@@ -199,6 +199,16 @@
           "chiusa": "2026-07-16 12:23"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "negozi.attesa-concordata",
+      "nome": "negozi.attesa-concordata",
+      "valore": "c0b240c0-2a86-4218-9d0f-5154f08ff929 (Pane Quotidiano) — attesa concordata con Nicola, non e' churn: la sentinella negozio_fermo non deve alzare l'allarme anti-churn su questo id finche' ripresa.lavoro-operativo non e' raggiunta",
+      "fonte": "Nicola 6/7 e 23/7 (li conosce, aspettano la piattaforma); confermato ripetutamente falso positivo (esiti account-negozi 6/7, 8/7, 13/7, 15/7 e 25 registrazioni successive)",
+      "aggiornato": "2026-07-25 00:05",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {

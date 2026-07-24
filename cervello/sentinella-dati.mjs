@@ -74,6 +74,7 @@ const RADIOGRAFIA_PATH = join(VAULT, "auto-radiografia.json");
 const APPRENDIMENTO_PATH = join(VAULT, "apprendimento.json");
 const CASSA_RUNWAY_PATH = join(VAULT, "cassa-runway.json"); // AR-035: la sentinella M6 LEGGE il file del sensore-cassa
 const FONTI_SALUTE_PATH = join(AD_ROOT, "cervello/fonti-salute.json"); // AR-036: consumatore fonti web
+const REGISTRO_FATTI_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/registro-fatti.json"); // AR-102: fonte unica
 const CASSA_SCONOSCIUTO_GIRI = Number(process.env.SENTINELLA_DATI_CASSA_SCONOSCIUTO_GIRI || 5);
 
 // ---------- util ----------
@@ -87,6 +88,16 @@ function writeJson(path, data) {
 }
 const isoFa = (ms) => new Date(Date.now() - ms).toISOString();
 const oreMs = (h) => h * 3600 * 1000;
+
+// Negozi in "attesa concordata" con Nicola (es. Pane Quotidiano): non sono churn, la sentinella
+// negozio_fermo non deve allertare su di loro. Fonte unica: registro-fatti.json (AR-102), fatto
+// "negozi.attesa-concordata" — nessun id hardcoded nel codice.
+function negoziAttesaConcordataIds() {
+  const registro = readJson(REGISTRO_FATTI_PATH, { fatti: [] });
+  const fatto = (registro.fatti || []).find((f) => f.id === "negozi.attesa-concordata");
+  const ids = String(fatto?.valore || "").match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi) || [];
+  return new Set(ids.map((id) => id.toLowerCase()));
+}
 
 // ore trascorse da una data "AAAA-MM-DD HH:MM" (fuso Piacenza) o ISO.
 function oreDa(dataStr) {
@@ -191,9 +202,11 @@ async function leggiStatoReale(state) {
     if (Array.isArray(sellers)) {
       const recenti = await fetchRows(MK_URL, MK_KEY, `orders?created_at=gte.${isoFa(oreMs(24 * 14))}&select=seller_id`);
       const attivi = new Set((recenti || []).map((o) => o.seller_id).filter(Boolean));
+      const inAttesaConcordata = negoziAttesaConcordataIds();
       s.negozi_fermi = sellers
         .filter((v) => oreDa(v.created_at) > 24 * 14)   // approvato da più di 14g
         .filter((v) => !attivi.has(v.id))
+        .filter((v) => !inAttesaConcordata.has(String(v.id).toLowerCase())) // attesa concordata ≠ churn
         .map((v) => ({ id: v.id, nome: v.store_name || v.id }));
     }
 
