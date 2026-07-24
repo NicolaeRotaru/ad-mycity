@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-07-24 01:00
-fonte: AD digitale (auto-radiografia)
+aggiornato: 2026-07-24 06:02
+fonte: AD digitale (piano del mattino)
 ---
 
 > 💬 **24/7 ~01:00 — CHAT: SMENTITA da screenshot reale l'intera teoria delle cancellazioni Vercel — il "deploy che spariva" era solo la PR #523 mai mergiata.** Nicola ha mandato uno screenshot vero della pagina Deployments di Vercel: ogni deploy della serata, incluso ogni commit di memoria dell'AD, risulta **"Ready"** — nessuno "Canceled". La teoria `autoJobCancelation` (trovata alle 00:57 nella doc ufficiale) era un'inferenza mai confrontata con lo stato reale: sbagliata come spiegazione del problema di stanotte. **Causa vera, banale:** PR #523 era ancora **aperta**, non mergiata — Vercel builda solo `main`, una PR aperta per lui non esiste. Basta mergiarla per vederla online. **Lezione:** davanti a "il deploy sparisce", guardare/chiedere SUBITO lo stato reale (screenshot Deployments) prima di dedurre da timestamp o documentazione — vedi [[LEZIONI-CHAT]] e [[feedback-verifica-prima-di-affermare]] ep.5. **Trovato ma da verificare con calma:** dallo stesso screenshot, i commit di sola memoria sembrano generare build reali da 40-55s nonostante il filtro `pannello/vercel.json` dovrebbe scartarli — possibile spreco, non urgente, non la causa di stanotte. Business invariato: 1 PQ, 4 buyer, 0 pagati. Fonte: chat Nicola 24/7 ~01:00 (screenshot Deployments).
@@ -1173,7 +1173,18 @@ fonte: AD digitale (auto-radiografia)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🛰️ aggiornato 23/7 18:05 — report della sera)
+## Prossime priorità (☀️ aggiornato 24/7 06:02 — piano del mattino)
+Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 1 ordine (CANCELED), 0 pagati — **stallo 30 giorni esatti oggi**. Negozi in pausa fino al 24/8-1/9 (decisione Nicola 23/7): niente spinte commerciali, solo tecnico + PI26 + analisi di mercato.
+
+1. [ ] 🔴 **Invia domanda PI26** — sportello a esaurimento, scade **30/7 ore 16:00 (6 giorni residui)**, fino a €10.000 fondo perduto; bozza pronta in `consegne/relazioni-istituzionali/2026-07-18-bandi-cciaa-pi26-be26.md`. Priorità economica più alta, non toccata dal rinvio negozi.
+2. [ ] 🟡 **Chiudi il cantiere "il deploy si cancella"** — il fix parziale (pausa 3 min dopo un merge) NON basta: Nicola ha verificato che un Redeploy manuale viene comunque cancellato da un commit di log durante una chat fitta. Serve il suo ok per allargare la pausa a "silenzio dopo qualsiasi scrittura recente su `main`". Nello stesso cantiere: riaprire la PR `fix/scadenzario-check-ar147` (AR-147, countdown scadenze esterne) — il branch è pronto ma il corpo-PR citato ieri notte non è mai stato scritto.
+3. [ ] 🟡 **Punch-list tecnico aperto** — `BURN_MENSILE_EUR=302` nel `.env` VPS (comando pronto, 9ª+ diagnosi identica dal 14/7, chiude alla radice la card sensore-cassa); verifica se "Diretta contenuti" è tornato nel menu del Pannello dopo l'ultimo Redeploy; scrivere nel cantiere-difetti i 3 rischi trovati dall'auto-radiografia di ieri sera (tasto PAUSA che non ferma davvero l'autopilota, freno "budget giornaliero token" che non scatta mai, PI26 senza allarme automatico — solo promemoria a mano).
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 30gg) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª+ diagnosi identica) · Telegram assente · n8n cieco · REST/Stripe/Sito/Pannello ✅ · push GitHub VPS+Vercel ✅ risolti 23/7 · PR #512/#513 (Pannello) ancora da mergiare · #511 da chiudere senza merge.
+
+---
+
+## Prossime priorità (storico 23/7 18:05 — report della sera)
 **Entrambi i token GitHub sono chiusi:** ✅ #219 (scrittura VPS, risolto 16:02, PR #510 mergiata) e ✅ #221 (lettura Vercel/Pannello, risolto 16:27, confermato da Nicola «tutto verde» 16:53) — un solo PAT unico (repo `mycity`+`ad-mycity`, Contents+PR read/write) messo in `cervello/vps/.env` + `GITHUB_TOKEN` + `OBSIDIAN_TOKEN` su Vercel. Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 0 ordini pagati, stallo **~29 giorni**. Cassa Stripe 0€. **⏸ DECISIONE 23/7 ~17:45 (Nicola):** inserimento nuovi negozi rinviato al **24/8-1/9** per motivi di costi personali — fino ad allora si lavora SOLO su Pannello/AD/worker/marketplace (tecnico), non su acquisizione/marketing verso l'esterno. 12 azioni negozi/marketing marcate "in pausa" in coda (riprendono da sole al 24/8-1/9): carosello catalogo PQ, post social, referral, WhatsApp anchor, ordine test PQ, welcome email, ecc. **Restano attive:** PI26 (finanzia il marketplace stesso, non l'acquisizione), la sveglia intelligence (monitoraggio bandi/mercato) e tutto il lavoro tecnico.
 
 1. [ ] 🔴 **Invia domanda PI26** — sportello a esaurimento, scade 30/7 ore 16:00 (7 giorni residui), fino a €10.000 fondo perduto; bozza pronta in `consegne/relazioni-istituzionali/`. Priorità economica più alta, non è toccata dal rinvio negozi.

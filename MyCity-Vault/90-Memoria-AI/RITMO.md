@@ -764,3 +764,20 @@ Push GitHub VPS risolto (16:02, PAT rigenerato, PR #510 mergiata). Resta rosso s
 
 **Dettagli tecnici**
 7 numeri riconfermati via SQL diretta alle 18:02 (invariati dal 24/6, stesso ordine zombie CANCELED del 24/6). Token GitHub VPS risolto 16:02 (PR #510 `82dd378f` mergiata), token Vercel/Pannello risolto 16:27. Causa lavori duplicati (cassa-cieca 76×, sensori-ciechi 39×): etichetta di dedup legata al numero di giro invece che fissa → fix in PR #512 (card #225). Auto-deploy Pannello filtrato su `pannello/` → PR #513 (card #226), sostituisce la #511 in conflitto (card #224, chiudere senza merge). Decisione rinvio negozi registrata in `registro-fatti.json` (`ripresa.lavoro-operativo`) via `coerenza-fatti.mjs`, guardiano exit 0. Coda AZIONI-IN-ATTESA: 47 aperte (35 attive + 12 marcate "in pausa" fino al 24/8-1/9), 0 nuove oggi oltre quelle già in coda.
+
+## Piano del mattino · 2026-07-24 06:02
+
+**In una riga:** oggi la priorità è PI26 (scade tra 6 giorni), poi due grane tecniche piccole da chiudere — il business resta fermo com'era ieri sera.
+
+**Le 3 cose di oggi**
+1. Manda la domanda PI26 — bozza già pronta, sportello a esaurimento posti, scade il 30/7 alle 16:00.
+2. Chiudi il problema del deploy che sparisce: il primo fix non è bastato, e c'è un secondo piccolo fix pronto ma non ancora proposto per l'approvazione.
+3. Sistema tre cosette tecniche in sospeso da giorni: il numero delle spese fisse nel VPS, un pezzo di menu del Pannello da verificare, e mettere per iscritto tre rischi trovati ieri sera nella tua analisi di me stessa.
+
+**Serve da te**
+- Invia la domanda PI26 entro il 30/7 alle 16:00
+- Mergia le due PR del Pannello ancora aperte (e chiudi quella vecchia senza mergiarla)
+- Incolla la riga con la spesa mensile fissa nel file di configurazione del VPS e riavvia il worker
+
+**Dettagli tecnici** (opzionale)
+Business invariato dal 24/6 (30 giorni esatti oggi): 1 PQ, 5 prodotti, 4 buyer, 0 pagati. Branch `fix/scadenzario-check-ar147` (AR-147) pronto ma la PR non si apre — manca ancora il corpo-PR. Pausa post-merge (commit `0592c843`) verificata insufficiente da Nicola (00:47): un Redeploy manuale viene comunque cancellato da un commit di log durante una chat fitta — serve ok per allargarla a "silenzio dopo qualsiasi scrittura su main".
