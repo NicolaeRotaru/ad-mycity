@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-24 14:20** — Automatico: **48 aperte · 98 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-24 16:20** — Automatico: **50 aperte · 98 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -15,6 +15,7 @@ fonte: senior dell'AD
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
 <!-- pi26-conferma-ammissibilita -->
+
 ### 🔴 #pi26-conferma-ammissibilita — Conferma 3 cose prima di inviare la domanda PI26 (10.000€, scade 30/7 ore 16:00) · ⏳ accodata 2026-07-24 16:00 (review settimanale)
 **Cosa cambia:** un valutatore indipendente ha esaminato la bozza (`consegne/relazioni-istituzionali/2026-07-18-bandi-cciaa-pi26-be26.md`) con l'occhio scettico della nostra regola di qualità e ha dato verdetto **DA SISTEMARE**: (1) la spesa minima richiesta dal bando (5.000€ dal 1° maggio) non è mai stata confrontata col nostro burn reale — da maggio a oggi fa ~850€, molto sotto soglia; (2) non risulta da nessuna parte se MyCity ha già una Partita IVA o un'entità giuridica registrata (requisito base di ammissibilità); (3) mancano documenti di spesa reali (fatture/preventivi) che sommino la soglia richiesta.
 **Se va bene:** rispondi con le 3 risposte (P.IVA sì/no, spese reali documentabili sì/no e quanto, firma digitale attiva sì/no) — l'AD aggiorna la bozza e la prepara per l'invio finale entro il 29/7, un giorno di margine sulla scadenza.
@@ -26,6 +27,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 <!-- auto-riscrittura-git-pr-esito -->
+
+---
+
 ### 🟡 #auto-riscrittura-git-pr-esito — Due piccoli fix ai guardiani della macchina (da chiudere un incidente ripetuto 3 volte e un buco nel rituale ESITO) · ⏳ accodata 2026-07-24 16:00 (review settimanale)
 **Cosa cambia:** (1) `cervello/git-pr.mjs` fallirebbe con un errore chiaro se trova file NON legati al lavoro dichiarato invece di committarli in silenzio — è successo 3 volte in 24 ore il 23/7 (PR #513, #516, #517) con file diversi ogni volta, sempre per lo stesso motivo. (2) Un gate che impedisce di segnare chiuso un lavoro 🟡/🔴 senza la riga ESITO in `chiusura-loop.mjs` — questa settimana il quaderno di @tech si è fermato al 20/7 nonostante decine di PR mergiate dopo (AR-154), proprio nei giorni con più da imparare.
 **Se va bene:** l'AD scrive le due modifiche in un branch, le testa (script + 1 caso finto), apre la PR e te la segnala qui per il merge — nessun rischio per il sito, sono solo controlli interni della macchina.
@@ -49,6 +53,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 <!-- scadenzario-check-ar147 -->
+
+---
 
 ### 🟡 #merge-scadenzario-check-ar147 — Mergia il fix "countdown scadenze esterne" (AR-147) · ⏳ accodata 2026-07-24 00:12
 **Cosa cambia:** nuovo script `cervello/scadenzario-check.mjs` che segnala in automatico quando una scadenza esterna (bandi, fiscali, contrattuali) entra negli ultimi 7 giorni — parte da PI26 (10.000€, scade 30/7). Prima erano solo promemoria scritti a mano, facili da perdere.
@@ -1237,7 +1243,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-24 14:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-24 16:20)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-24-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1576,6 +1582,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-24 14:20 · 98 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-24 16:20 · 98 card totali
 
 ### ✅ #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ✅ FATTO 2026-07-20 18:30 · {approvato: Nicola 20/7 18:28}
 
