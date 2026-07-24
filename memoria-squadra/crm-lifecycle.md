@@ -8,6 +8,7 @@ reparto: crm-lifecycle
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-24 11:10 · Playbook recupero carrelli, 5ª riesecuzione richiesta (dopo 16/7,18/7,20/7,23/7×2) · verifica SQL live: abandoned_carts invariato, 1 solo carrello reale (samir €10 PQ, fermo dal 16/6); le altre 2 righe sono rumore (admin Assistenza MyCity €7,95 e seller PQ stesso €13,90, non clienti). orders: ancora 1 zombie CANCELED, 0 DELIVERED. Gate #ordine-test-pq resta ⏸ in pausa fino 24/8-1/9 (decisione Nicola) · atteso nessuna azione nuova, nessun dossier duplicato → reale loop chiuso confermato, 0 dossier generati, ESITO registrato · #loop-a-vuoto #recupero-carrelli
 - 2026-07-20 11:37 · PLAYBOOK Referral 20/7 · loop già in codice; messaggi+anti-frode refresh; card #referral-porta-un-amico 🔴 · atteso card A17 in coda + primo invito dopo G1 → reale gate G1 ❌ 0 consegnati — invio bloccato · #referral #give-get
 - 2026-07-20 11:18 · playbook recupero carrelli 20/7 · 4 record,1 buyer,2 touch · atteso bozze A3 per ogni carrello reale fermo → reale 1 samir €10 PQ + 3 SKIP admin/demo/seller; gate PQ chiuso; zero invii · #recupero-carrelli #playbook #REST-live
 - 2026-07-20 11:14 · playbook win-back 20/7 · 4 buyer,0 delivered,0 winback,2 touch+SPED5 · atteso bozze+AZIONI-PRONTE A32 per ogni dormiente → reale 0 dormienti; attivazione=welcome/carrello · #win-back #playbook
