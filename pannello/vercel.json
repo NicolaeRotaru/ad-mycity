@@ -1,7 +1,7 @@
 {
   "framework": "nextjs",
   "regions": ["fra1"],
-  "git": { "deploymentEnabled": { "main": true } },
+  "git": { "deploymentEnabled": false },
   "github": { "autoJobCancelation": false },
   "ignoreCommand": "git cat-file -e ${VERCEL_GIT_PREVIOUS_SHA:-HEAD^} 2>/dev/null && git diff --quiet ${VERCEL_GIT_PREVIOUS_SHA:-HEAD^} HEAD -- pannello/ || exit 1",
   "crons": [
