@@ -116,7 +116,14 @@ function main() {
   }
 
   stato.aggiornato = quando;
-  const superata = stato.oggi.token_totali > stato.soglia_giornaliera_token;
+  // AR-144: nessuna chiamata da giro.sh/ritmo.sh passa MAI un token reale (sempre --stima),
+  // quindi token_totali restava a 0 per costruzione e il gate non scattava mai, anche a
+  // milioni di token stimati/giorno. Il gate ora guarda il PIÙ ALTO fra i due contatori:
+  // se un giorno arriva un conteggio reale, non si diluisce con le stime; finché arrivano
+  // solo stime (oggi sempre), sono loro a far scattare l'allarme — meglio un margine di
+  // errore che un freno che non frena mai.
+  const tokenPerGate = Math.max(stato.oggi.token_totali, stato.oggi.token_stimati || 0);
+  const superata = tokenPerGate > stato.soglia_giornaliera_token;
   const oraMs = parseQuando(quando) || Date.now();
   const sessione = tokenSessioneRolling(stato.oggi.voci, oraMs);
   stato.sessione_rolling = { ...sessione, aggiornato: quando };
@@ -127,7 +134,7 @@ function main() {
   stampSegnale(
     "costo-ai",
     superata ? "warn" : "ok",
-    `token oggi ${stato.oggi.token_totali} / soglia ${stato.soglia_giornaliera_token} · ${quando}`
+    `token oggi ${stato.oggi.token_totali} reali + ${stato.oggi.token_stimati || 0} stimati (gate su ${tokenPerGate}) / soglia ${stato.soglia_giornaliera_token} · ${quando}`
   ).catch(() => {});
 
   if (JSON_MODE) {
@@ -135,7 +142,7 @@ function main() {
   } else {
     console.log(`\n🪙 COSTO AI — ${oggiData}\n`);
     console.log(`Runs oggi:    ${stato.oggi.runs}`);
-    console.log(`Token oggi:   ${stato.oggi.token_totali} / soglia ${stato.soglia_giornaliera_token}${superata ? "  ⚠️  SOGLIA SUPERATA" : ""}`);
+    console.log(`Token oggi:   ${stato.oggi.token_totali} reali + ${stato.oggi.token_stimati || 0} stimati (gate su ${tokenPerGate}) / soglia ${stato.soglia_giornaliera_token}${superata ? "  ⚠️  SOGLIA SUPERATA" : ""}`);
     console.log(`Durata oggi:  ${stato.oggi.durata_sec_totale}s`);
     console.log(`\nScritto: ${OUT_PATH}`);
   }
