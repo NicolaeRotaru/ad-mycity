@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { Brain, FileText, Loader2, Menu, Mic, Plus, Send, Volume2, VolumeX } from "lucide-react";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
@@ -64,6 +64,12 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
 ) {
   const [bozza, setBozza] = useState(() => bozzaCondivisaRef.current);
   const [skillAperte, setSkillAperte] = useState(false);
+  // 24/7: doppio tap ravvicinato sul bottone invia (comune su touch) chiamava invia() due volte
+  // PRIMA che React ri-renderizzasse con bozza="" — il secondo click leggeva ancora il testo vecchio
+  // (setBozza è asincrono) e mandava lo STESSO messaggio due volte, creando due chat reali distinte
+  // (una "fantasma" ferma a 1 msg accanto a quella vera). Lock sincrono: il secondo tap entro la
+  // finestra viene ignorato, quelli davvero distanziati restano liberi di partire.
+  const invioBloccatoRef = useRef(false);
 
   useEffect(() => {
     bozzaCondivisaRef.current = bozza;
@@ -80,8 +86,13 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
   );
 
   function invia() {
+    if (invioBloccatoRef.current) return;
     const t = bozza.trim();
     if (!t && allegati.length === 0) return;
+    invioBloccatoRef.current = true;
+    setTimeout(() => {
+      invioBloccatoRef.current = false;
+    }, 800);
     setBozza("");
     bozzaCondivisaRef.current = "";
     onInvia(t);
