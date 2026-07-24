@@ -8,6 +8,11 @@
 #   2. QUESTA action → scatta SOLO sui push a main che toccano pannello/** e chiama il
 #      Deploy Hook di Vercel. Risultato: deployment creati solo quando serve davvero.
 #
+# ⚠️ NON reintrodurre "ignoreCommand" in pannello/vercel.json: nel contesto del Deploy Hook
+# (clone superficiale, VERCEL_GIT_PREVIOUS_SHA inaffidabile) quel comando ANNULLAVA build valide
+# ("Ignored Build Step" → CANCELED), lasciando il Pannello indietro. Il filtro paths: pannello/**
+# qui sotto è già l'unico cancello necessario.
+#
 # SETUP (una volta sola, ~2 minuti):
 #   1. Vercel → progetto ad-mycity → Settings → Git → Deploy Hooks →
 #      Create Hook: nome "deploy-pannello", branch "main" → copia l'URL.
