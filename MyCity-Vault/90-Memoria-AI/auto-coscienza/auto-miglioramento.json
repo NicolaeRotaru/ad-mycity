@@ -602,7 +602,7 @@
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-07-24 18:20",
+    "aggiornato": "2026-07-24 18:55",
     "totale": 13,
     "aperti": 6,
     "in_scadenza": 0,
@@ -887,7 +887,7 @@
   ],
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
   "_review_settimanale_24_07": "REVIEW SETTIMANALE 24/7 16:00 — benchmark @AD aggiornato (43, radiografia completa 23/7). 2 nuove peer_review (PR-006 tech/frontend-dev sullo sprint Pannello, PR-007 valutatore indipendente sulla bozza PI26 → DA SISTEMARE). Torneo tra senior ancora rinviato (stesso motivo del 3/7: nessun esito di business reale da confrontare, negozi in pausa fino al 24/8-1/9). Verifica loop-chiuso esperimenti: 2 misurati su 13 aperti (EXP-004 e EXP-005, entrambi mancata) — il volano-business osserva ma continua a non chiudere sui numeri.",
-  "aggiornato": "2026-07-24 18:20",
+  "aggiornato": "2026-07-24 18:55",
   "proposte_sync": {
     "aggiornato": "2026-07-24 18:20",
     "totale": 13,
