@@ -2,20 +2,6 @@
   "_cosa_e": "📈 STORICO SALUTE — la serie storica del voto di salute dell'architettura, per vedere se la macchina sta MIGLIORANDO nel tempo (il volano che gira). Lo aggiorna la radiografia completa e la sonda di ogni giro. Schema in cervello/auto-coscienza.md.",
   "serie": [
     {
-      "data": "2026-07-18 16:07",
-      "voto_salute": 60,
-      "voto_provvisorio": 60,
-      "voto_pieno": 0,
-      "firma": "hard-constraints-ok",
-      "difetti_aperti": 20,
-      "difetti_chiusi": 52,
-      "pending_merge": 4,
-      "aperti_davvero": 0,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "sesto giro — 5 hard constraints chiusi (registro-scelte rc=0, CHECKLIST-NICOLA AR-030, agent-registry drift=0 AR-007/008, EXP-001 AR-041/106, north-star focus) · briefing aggiornato a 16:07 · agent-registry fissato 81 KPI + drift=0 · cecità n8n 64 giri · MCP Supabase cieco 4 giri"
-    },
-    {
       "data": "2026-07-18",
       "voto_salute": 56,
       "voto_provvisorio": 20,
@@ -1234,6 +1220,20 @@
       "bloccanti_umani": 14,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (9h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 14 in attesa merge · 14 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-24",
+      "voto_salute": 43,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-126,AR-129,AR-154",
+      "difetti_aperti": 31,
+      "difetti_chiusi": 62,
+      "pending_merge": 14,
+      "aperti_davvero": 3,
+      "bloccanti_umani": 14,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (11h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 14 in attesa merge · 14 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     }
   ]
 }

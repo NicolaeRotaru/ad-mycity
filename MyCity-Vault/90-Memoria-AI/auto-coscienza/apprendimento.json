@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-24 22:16",
+  "aggiornato": "2026-07-24 22:20",
   "_nota_metabolizzazione_24_07_2002": "Chat 24/7 ~20:02 (chiusura del filo doppioni 'Nuova chat' già raccontato nella nota 19:57/STATO.md): nessun nuovo messaggio di contenuto da Nicola in questo turno (solo 'Abc', ambiguo, seconda volta consecutiva) — verificato via `git log` che PR #531 (blocco doppio-tap sul bottone invia) è GIÀ mergiata su main (commit `575721d2`), non più 'in attesa' come risultava nella card #236. Aggiornati AZIONI-IN-ATTESA (#236 → FATTO) e STATO.md (nuova voce in cima). Nessuna lezione nuova: conferma pratica (non caso_studio_nicola) del pattern già in LEZIONI-CHAT — bug UI 'ricorrente' trattato con screenshot reale + verifica del codice esistente prima di riscrivere la diagnosi da zero, invece di assumere che il fix di ieri (PR #517) fosse insufficiente senza controllare. Resta da confermare dal vivo nel browser dopo il prossimo deploy Vercel (nessun accesso browser in sessione headless). Nessun fatto/decisione/dato business nuovo.",
   "_nota_metabolizzazione_24_07_1740": "Chat 24/7 17:36: Nicola \"aggiungi parla con la casella a tutte le caselle della bacheca\" — AD ha aggiunto ParlaCasella agli avvisi Bacheca (unico file mancante), PR #527 aperta e già accodata in AZIONI-IN-ATTESA (card #235, riga tabella). Registrata lezione L-2026-0724-527: pattern ricorrente (7ma volta) di aggiungere ParlaCasella superficie-per-superficie invece che con audit unico. Sul filone precedente (registro dei fatti incompleto, turno prima), Nicola non ha ancora dato l'esempio concreto richiesto dall'AD — resta aperto, nessuna azione da registrare finché non risponde.",
   "_nota_metabolizzazione_24_07_1710": "Chat 24/7 ~17:10: Nicola «metti registro-fatti.json dentro la bacheca e tienilo aggiornato anche dentro la bacheca» — AD ha aggiunto tabella specchio in BACHECA.md (commit 7e5e29c9), regola AR-102 già documentata nell'header della sezione (nessuna preferenza nuova da registrare, è l'esecuzione di uno standing-ask già noto). Push su origin/main bloccato (permesso negato) e NON ritentato — comportamento corretto, coerente con [[feedback-git-pr-allowlist-path]]. Confermato con git status: locale 2 commit avanti (7e5e29c9+b3ffb4c4) — stesso pattern non confermato del 23/7 ~22:16 in [[token-github-unificato]], ora visto ripetersi il giorno dopo (non ancora causa-radice nota: sandbox/allowlist vs auth GitHub). STATO.md aggiornato con l'entry oraria; nessuna azione/decisione nuova da accodare in AZIONI-IN-ATTESA (il push resta a carico di Nicola da VPS).",
@@ -880,11 +880,13 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 21:57",
-      "stato": "attiva",
+      "stato": "principio",
       "usi": [],
       "_evidenza_2": "ADDENDUM 21:52: «**ancora più avanzata, che sa fare molto di più**» dopo L-421 — Nicola vuole **Livello 4 ultra** (carrelli, meteo, bandi, onboarding 48h, report Telegram, A/B, gestionale, app) oltre ai 3 salti; checklist 24 voci in BACHECA.md. Vedi L-422.",
       "_evidenza_3": "ADDENDUM 21:54: terzo salto «**versione in cui sa e può fare molto di più**» senza bacheca — frame **eccezioni-only** (AD tiene Piacenza, Nicola firma 🔴), 5 pilastri autopilota/città proattiva/catene/auto-apprendimento/replica città. Vedi L-423.",
-      "_evidenza_4": "ADDENDUM 21:57: Nicola corregge «**non guardare cosa c'è**» — roadmap interna insufficiente; serve **gap mercato** (visione, forecast, ops live, A/B, scraping). Vedi L-424."
+      "_evidenza_4": "ADDENDUM 21:57: Nicola corregge «**non guardare cosa c'è**» — roadmap interna insufficiente; serve **gap mercato** (visione, forecast, ops live, A/B, scraping). Vedi L-424.",
+      "promosso_il": "2026-07-24 22:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-422",
@@ -1257,8 +1259,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 18:44",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-24 22:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-403",
@@ -1465,8 +1469,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-21 00:08",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-24 22:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-393",
@@ -1985,9 +1991,11 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 21:57",
-      "stato": "attiva",
+      "stato": "principio",
       "usi": [],
-      "_evidenza_4": "ADDENDUM 21:57: «**non guardare cosa c'è — gap mercato**» (L-424) estende «pensa più in grande» — visione = **cosa manca sul mercato e non è collegato**, non solo moat/fasi interne."
+      "_evidenza_4": "ADDENDUM 21:57: «**non guardare cosa c'è — gap mercato**» (L-424) estende «pensa più in grande» — visione = **cosa manca sul mercato e non è collegato**, non solo moat/fasi interne.",
+      "promosso_il": "2026-07-24 22:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-369",
@@ -9883,7 +9891,9 @@
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 01:34",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-24 22:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0701-07",
@@ -10452,6 +10462,35 @@
       "promosso_il": "2026-07-24 18:20"
     },
     {
+      "id": "L-2026-0720-421",
+      "testo": "**«Versione avanzata» worker/AD/Pannello = 3 salti operativi + una mossa, non «più AI» (Nicola 20/7 ~21:49).** Nicola: «**se volessi migliorare ulteriormente il worker/AD/panello… pensa versione avanzata**». 5 perché: (1) «avanzata» ≠ modelli più potenti — = macchina che **vede tutto**, **disturba poco**, **agisce dopo ok**, **impara da ordini veri**; (2) **salto 1 (1–2 sett):** accendi **mani** mancanti (Telegram avvisi+sveglia bandi, Meta n8n post FB/IG, email/notifiche live) — oggi **~41 cose** fermano senza canali o senza approva; (3) **salto 2:** burn mensile in env VPS + Stripe lettura → stop «runway sconosciuto», proposte solo mosse che reggono cassa; (4) **salto 3:** **primo ordine Pane Quotidiano + payout ok** — North Star misura ordini pagati, non post pronti; (5) Pannello avanzato = meno card / **3 decisioni/giorno** / chat sync telefono-PC / caselle auto-chiuse post-merge / Radiografia dice **cosa fare**; AD avanzato = giro **esegue** approvati + impara da ok/no card + PostHog funnel abbandono + Telegram **solo** se cambia qualcosa importante. **CTA unica:** Telegram + Meta + ordine test PQ. Regola: «versione avanzata» / «migliorare worker» → 3 salti concreti + anti-pattern «più AI», chiudi **una mossa**. Vedi L-370, L-375, L-367, `cervello/collega-le-mani.md`.",
+      "tag": [
+        "strategia",
+        "versione-avanzata",
+        "worker",
+        "pannello",
+        "roadmap",
+        "nicola"
+      ],
+      "reparto": "@ad",
+      "promosso_il": "2026-07-24 22:20"
+    },
+    {
+      "id": "L-2026-0720-404",
+      "testo": "**PostHog sul VPS — non si installa: cloud + chiave lettura `phx_` in env worker (Nicola 20/7 ~18:24).** Nicola: «**come faccio ad inserire posthog dentro il vps?**». 5 perché: (1) PostHog **non va installato** sul VPS — è **SaaS cloud** (EU/US); sul sito gli eventi partono già da Render con chiave pubblica; (2) sul VPS serve solo **leggere** funnel/conversioni per briefing — Personal API Key **`phx_…`** con permesso **Project: Read**, **non** la chiave progetto **`phc_…`** (solo tracking/scrittura); (3) **5/7** sensore spento (`POSTHOG_OFF` / chiave sbagliata) — oggi `posthog_api:non_configurato` è **normale**, non bug; (4) setup: env `cervello/vps/.env` → `POSTHOG_OFF=0`, `POSTHOG_API_KEY=phx_…`, `POSTHOG_HOST` (**US** = `https://us.posthog.com` per account MyCity — vedi `sensori.posthog.regione`) → restart `mycity-worker` → `verifica-sensori.mjs` = **ok**; (5) **riaccensione sensore nei briefing** = decisione Nicola esplicita (non automatica al solo env). Regola: su «PostHog nel VPS» → **mai** proporre Docker/self-host; spiega cloud + tipo chiave + **chiedi EU/US** + verifica sensore; **non** incollare chiavi in chat/memoria. Vedi L-222 (PostHog spento = scelta), DECISIONI 5/7. **Addendum 18:28:** Nicola «**dico di metterlo sul vps come n8n**» — stesso frame mentale L-406: n8n = **programma Docker** sul VPS; PostHog = **servizio cloud** + **3 righe env** nello stesso file di n8n/Telegram; self-host PostHog **scartato** (RAM/manutenzione + cambiare tracking Render). **Addendum 18:41:** Nicola «**ho fatto tutto**» ma sensori no — env **letto** (`phx_`, host europeo) ma PostHog **HTTP 401** → **`cieco`**. **Addendum 18:44 (L-410):** account **US** — host europeo era la causa; fix host US → sensore **ok** senza rigenerare chiave. Vedi L-409, L-410.",
+      "tag": [
+        "posthog",
+        "vps",
+        "n8n",
+        "sensori",
+        "env",
+        "data-engineer",
+        "devops-sre"
+      ],
+      "reparto": "@data-engineer",
+      "promosso_il": "2026-07-24 22:20"
+    },
+    {
       "id": "L-2026-0720-397",
       "testo": "**PR feature branch — conflitti merge con main su file memoria auto-generati (chat 20/7 ~16:39).** Nicola manda **solo screenshot** PR #496: checks ok ma merge bloccato per conflitti. 5 perché: (1) branch feature resta indietro mentre main accumula giri/memoria; (2) conflitti tipici su `STATO.md`, `LEZIONI-CHAT.md`, `sentinella-dati.json`, diario operativo — **non** sul codice fix; (3) regola risoluzione: **main vince** su file memoria/worker auto-generati, **branch vince** su codice feature; (4) dopo rebase+push → GitHub **mergeable** (`git-pr.mjs`); (5) codice fix intatto — Nicola mergia 🔴. Regola: screenshot «conflitti PR» → AD risolve subito e spiega memoria vs codice, non chiedere a Nicola merge manuale sui conflitti. **Addendum 17:50:** **#496 ✅** mergiata. **Addendum 18:50–18:52:** **#499** re-conflitto worker → risolto mergeable. **Addendum 23:23:** **#501** (sentinelle pricing) stesso pattern vs main north-star/memoria → mergeable. **Addendum 23:28:** **#501 ✅** mergiata Nicola; **#504** conflitto `giro.sh` post #501+#503 → mergeable `5c8dfc7b`. Vedi L-334, L-390, L-413, L-429.",
       "tag": [
@@ -10465,6 +10504,19 @@
       "promosso_il": "2026-07-24 16:20"
     },
     {
+      "id": "L-2026-0720-394",
+      "testo": "**Diretta contenuti — caselle spariscono al refresh: GitHub parziale + cap 30, non DB (chat 20/7 ~12:59).** Nicola «**analisi completa e profonda**» — caselle diverse ogni refresh, sembra crollo database. 5 perché: (1) caselle = **file markdown su GitHub** (`consegne/` + briefing/report, ramo main), Pannello legge via API GitHub, **zero Supabase**; (2) **533** candidati ma `MAX_LETTURE=30` in `api/contenuti/route.ts` — il resto esiste ma non compare; (3) sort su **nome file**, non data frontmatter → stesso giorno molti post = set casuale; (4) ~**70 chiamate GitHub**/refresh, timeout **5s/cartella** → intera categoria **svuotata** in quell'aggiornamento (poi ricompare); (5) `DirettaContenuti.tsx` poll **30s** e **sostituisce tutta la lista** — errore parziale = flicker/sparizioni. Regola: bug «Diretta sparisce» → **non** diagnosticare DB; verificare route GitHub + cap + timeout + replace-all UI; fix strutturale 🟡 = cache server, paginazione, **non svuotare** su fetch parziale. **Addendum 16:37:** Nicola «**Fai il fix**» → **PR #498** (`4094570b`): 1 lettura albero GitHub, cache **90s**, max **80**, UI **sticky** (tiene lista su parziale). **Addendum 17:45:** Nicola mergia **#498** (merge `36402b49`, 16:36:51) — fix online; test = refresh multipli stabili. **Addendum 21/7 ~00:08:** Nicola «**non hai risolto**» — #498 **insufficiente**: restano **click bianco** (testo in memoria, UI aspetta update) + **replace-all** client senza merge per filename → second fix **`fix/diretta-apri-contenuto`** `c0039c2a` merge 🔴. Vedi L-438, L-308 (Diretta legge main GitHub), L-398.",
+      "tag": [
+        "diretta-contenuti",
+        "pannello",
+        "github",
+        "frontend-dev",
+        "bug"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-24 22:20"
+    },
+    {
       "id": "L-2026-0720-377",
       "testo": "**«Salva in bacheca» = N caselle separate in BACHECA.md, una per risposta (Nicola 20/7 ~03:25).** Nicola «salva le ultime 2 risposte dentro la bacheca della home in due caselle diverse» — dopo catalogo 20 mani n8n (L-373) e mani per reparto senior (L-376). 5 perché: (1) chat volatili — Nicola vuole output **persistenti e visibili in home** senza riaprire la conversazione; (2) **due risposte = due caselle** distinte (`## Titolo · data ora`), non un blocco unico mescolato; (3) file = `MyCity-Vault/90-Memoria-AI/BACHECA.md`, servito da `/api/bacheca` in Plancia (DECISIONI 16/7); (4) più recenti in cima; Pannello legge **main** GitHub — se non visibile subito = refresh, non «fatto» senza publish; (5) contenuto = **condensato utile** (elenco, ordine, regole 🔴), non dump chat grezzo. Regola: «salva in bacheca / salva le ultime N risposte / inserisci [contenuto] in bacheca» → 🟢 scrivi **N blocchi ## separati** in BACHECA.md subito; **grep titolo prima** per non duplicare (L-384). Vedi DECISIONI 16/7 bacheca, L-373, L-376, L-383, L-384.",
       "tag": [
@@ -10476,6 +10528,21 @@
       ],
       "reparto": "@ad",
       "promosso_il": "2026-07-24 16:20"
+    },
+    {
+      "id": "L-2026-0720-370",
+      "testo": "**«Pensa più in grande» = moat + fasi + bottleneck, NON catalogo plugin (Nicola 20/7 ~03:05).** Dopo risposta «tutte le mani per colosso Piacenza» (L-367), Nicola corregge con «pensa più in grande». 5 perché: (1) catalogo mani/n8n/automazioni = **tattica setup**, non risposta a «colosso» — suona piccolo; (2) «colosso» per Nicola = **moat difendibile** (centinaia botteghe reali + consegna + «compro qui non Amazon») + **liquidity a due lati**; (3) **collo di bottiglia reale** = **primo ordine vero** (1 negozio incassa, domanda in attesa) — non altro plugin; (4) struttura **3 fasi** (4 sett accendi città 15–25 botteghe · 3 mesi abitudine multi-negozio/QR/istituzioni · 12 mesi default «compro a Piacenza online»); (5) strumenti (n8n, Telegram, Meta) = **ripetizione** storia fase 2, non obiettivo. **ADDENDUM 03:17:** «indipendente dai dipendenti» (L-375) riusa moat/fasi/bottleneck ma aggiunge **lean headcount** esplicito — automazione + card 🔴, umani solo fiducia/firma. **ADDENDUM 21:49:** «versione avanzata worker/AD/Pannello» (L-421) = **istanza operativa** della visione — 3 salti concreti (mani→numeri→ordine PQ) + frame «vede/disturba/agisce/impara», non elenco AI. Regola: «colosso» / «pensa più in grande» / «indipendente dai dipendenti» / «versione avanzata» → moat + fasi + bottleneck + **una priorità/missione** — **non** elenco 50 automazioni. Vedi L-421, L-375, L-367, L-368.",
+      "tag": [
+        "strategia",
+        "colosso",
+        "moat",
+        "visione",
+        "piacenza",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@corporate-strategy",
+      "promosso_il": "2026-07-24 22:20"
     },
     {
       "id": "L-2026-0720-348",
@@ -10732,6 +10799,19 @@
       ],
       "reparto": "@devops-sre",
       "promosso_il": "2026-07-24 18:20"
+    },
+    {
+      "id": "L-2026-0701-08",
+      "testo": "Quando Nicola chiede «come verifico?» / «come vedo i dati?» dopo un cambio infrastruttura (es. WebFetch globale), rispondere in **due binari**: (A) **verifica** — prima `git show origin/main:.claude/settings.json` (mai assumere merge fatto, L-2026-0701-10); grep VPS post-`aggiorna-cervello.sh` o giro (**main**, mai pull manuale `memoria-ad` — L-2026-0701-09); test funzionale **sul worker** con `@seo` su dominio ex-whitelist → URL+data; **Cursor IDE ≠ worker** (test in chat non prova config repo); (B) **osservabilità** — output distillato in chat, `memoria-squadra/`, `consegne/`, `SALA-OPERATIVA.md`, briefing — no log HTTP. **Pannello:** tab «Quaderni senior» legge `memoria-squadra/` da memoria-ad (L-2026-0701-15) — locale già ok, deploy PR su `main`.",
+      "tag": [
+        "web",
+        "osservabilita",
+        "verifica",
+        "pannello",
+        "nicola"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-24 22:20"
     },
     {
       "id": "L-2026-0701-04",
@@ -11191,16 +11271,16 @@
     "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
   ],
   "meta": {
-    "lezioni_attive": 473,
-    "promosse_a_principio": 24,
+    "lezioni_attive": 434,
+    "promosse_a_principio": 29,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-24 22:16",
+    "tasso_calcolato_il": "2026-07-24 22:20",
     "tasso_finestra_giorni": 30,
     "tick_leggero_il": "2026-07-24 22:16",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-24 20:20"
+    "cristallizzazione_ultima": "2026-07-24 22:20"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
