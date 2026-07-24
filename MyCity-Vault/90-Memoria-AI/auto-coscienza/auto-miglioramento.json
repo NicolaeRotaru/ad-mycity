@@ -596,13 +596,12 @@
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-07-24 11:05",
+    "aggiornato": "2026-07-24 11:54",
     "totale": 13,
     "aperti": 6,
     "in_scadenza": 0,
     "misurati": 2,
-    "chiusi": 0,
-    "nota_ar041": "AR-041/AR-106 già soddisfatto SENZA aprirne uno nuovo: 6 esperimenti restano 'aperto' dopo questa misura (incl. EXP-001/EXP-013 sul North Star, gate #ordine-test-pq/#whatsapp-3-anchor-pi26) — il vincolo del giro ('nessun esperimento aperto') non si applicava letteralmente (non era 0), il vero trigger era EXP-005 in scadenza oggi, misurato in questo passaggio."
+    "chiusi": 0
   },
   "peer_review": [
     {
@@ -823,7 +822,7 @@
     }
   ],
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
-  "aggiornato": "2026-07-24 11:03",
+  "aggiornato": "2026-07-24 11:54",
   "proposte_sync": {
     "aggiornato": "2026-07-24 11:00",
     "totale": 11,
