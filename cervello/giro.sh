@@ -146,6 +146,8 @@ AGENTI_VINCOLO=""     # AR-007/008: guardiano registro agenti (promosso a gate h
 ESP_VINCOLO=""        # AR-041/106: guardiano esperimenti (promosso a gate hard da || true)
 NORTH_STAR_VINCOLO="" # AR-113: north-star → vincolo HARD di allocazione (non blocca il giro)
 KEYWORD_VINCOLO=""    # AR-009/027: guardiano owner-keyword (promosso a gate hard da || true)
+APPRENDIMENTO_VINCOLO="" # Lever 1: guardiano apprendimento (archivio malato / errori ricorrenti non cristallizzati)
+VERIFICA_VINCOLO=""      # Lever 2: verificatore avversariale (auto-analisi vuota) + validatore contratti come gate
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
   # AR-038: il canale MCP è trasporto di sessione, NON testabile da script. Passiamo lo stato del
@@ -357,8 +359,35 @@ if command -v node >/dev/null 2>&1; then
     KEYWORD_VINCOLO="⛔ KEYWORD OWNER DUPLICATO (keyword-owner-check.mjs rc=$_keyword_rc, AR-009/AR-027): due agenti si dichiarano owner della stessa keyword → routing ambiguo. Correggi il mansionario prima di delegare."
     echo "[$(ts)] ⚠️  AR-109: keyword-owner-check FALLITO (rc=$_keyword_rc) → vincolo hard al motore." >&2
   fi
-  echo "[$(ts)] Validatore contratti JSON auto-coscienza (AR-043)..."
-  node "$SCRIPT_DIR/valida-contratti.mjs" 2>&1 | tail -4 || true
+  # ── Lever 1 — Guardiano apprendimento (impara o solo accumula?) → vincolo hard «cristallizza». ──
+  echo "[$(ts)] Guardiano apprendimento (Lever 1: impara o accumula?)..."
+  _appr_out="$(node "$SCRIPT_DIR/apprendimento-guardiano.mjs" --gate 2>&1)"; _appr_rc=$?
+  printf '%s\n' "$_appr_out" | tail -6
+  if [ "$_appr_rc" -ne 0 ]; then
+    _appr_ric="$(node "$SCRIPT_DIR/apprendimento-guardiano.mjs" --memoria 2>&1 || true)"
+    APPRENDIMENTO_VINCOLO="⛔ APPRENDIMENTO FERMO (apprendimento-guardiano.mjs rc=$_appr_rc): promuovi a \`principio\` 2-3 lezioni mature con più evidenze (scrivi la regola in un mansionario/sentinella) e rendi la 1ª area ricorrente qui sotto un GATE; NON loggare l'ennesima lezione uguale.
+$_appr_ric"
+    echo "[$(ts)] ⚠️  Lever 1: apprendimento malato → vincolo hard al motore." >&2
+  fi
+  # ── Lever 3 — Cristallizzazione: promuovi le mature a principio + decadimento (meccanico, con backup). ──
+  echo "[$(ts)] Cristallizzazione apprendimento (Lever 3: lezione→principio)..."
+  node "$SCRIPT_DIR/cristallizza-apprendimento.mjs" --applica 2>&1 | tail -4 || true
+  # ── Lever 2 — Verificatore avversariale: l'ultima auto-analisi era una refutazione VERA o un timbro? ──
+  echo "[$(ts)] Verificatore avversariale (Lever 2: auto-verifica vera o timbro?)..."
+  _verif_out="$(node "$SCRIPT_DIR/verifica-avversariale.mjs" --gate 2>&1)"; _verif_rc=$?
+  if [ "$_verif_rc" -ne 0 ] && [ -n "$_verif_out" ]; then
+    VERIFICA_VINCOLO="$_verif_out"
+    echo "[$(ts)] ⚠️  Lever 2: auto-verifica vuota → vincolo hard al motore." >&2
+  fi
+  # ── Lever 2 — Validatore contratti JSON ora GATE HARD (niente più «|| true» silenzioso, AR-043). ──
+  echo "[$(ts)] Validatore contratti JSON auto-coscienza (AR-043 — ora gate)..."
+  _contr_out="$(node "$SCRIPT_DIR/valida-contratti.mjs" 2>&1)"; _contr_rc=$?
+  printf '%s\n' "$_contr_out" | tail -4
+  if [ "$_contr_rc" -ne 0 ]; then
+    VERIFICA_VINCOLO="$VERIFICA_VINCOLO
+⛔ CONTRATTI JSON FUORI-CONTRATTO (valida-contratti.mjs rc=$_contr_rc): un file auto-coscienza usa nomi-campo fuori dal contratto → il Pannello legge campi vuoti e mostra a Nicola una salute cieca. Rinomina ai nomi canonici PRIMA di chiudere il giro."
+    echo "[$(ts)] ⚠️  Lever 2: contratti JSON fuori-contratto → vincolo hard al motore." >&2
+  fi
   # Le 7 capacità costruite (visione 53) — sola lettura sui dati reali della macchina:
   echo "[$(ts)] ⏱️  #38 Guardiano del Tuo Tempo (carico firme)..."
   node "$SCRIPT_DIR/guardiano-tempo.mjs" 2>&1 | tail -3 || true
@@ -431,6 +460,14 @@ if [ -n "${GIRO_EXTRA_INSTRUCTION:-}" ]; then
 
 ## Istruzione aggiuntiva
 $GIRO_EXTRA_INSTRUCTION"
+fi
+# Lever 1 — Memoria persistente nel giro: fatti + principi + errori ricorrenti + preferenze + lezioni nette.
+# Prima il giro ripartiva CIECO (contesto-lezioni.mjs non era cablato). Sola lettura, non fallisce mai.
+_MEMORIA_BLOCK="$(node "$SCRIPT_DIR/contesto-lezioni.mjs" 2>/dev/null || true)"
+if [ -n "$_MEMORIA_BLOCK" ]; then
+  PROMPT="$PROMPT
+
+$_MEMORIA_BLOCK"
 fi
 if [ -n "$SENSORI_VINCOLO" ]; then
   PROMPT="$PROMPT
@@ -508,6 +545,18 @@ if [ -n "${KEYWORD_VINCOLO:-}" ]; then
 
 ## Vincolo keyword-owner (HARD — AR-109: doppione owner, routing ambiguo)
 $KEYWORD_VINCOLO"
+fi
+if [ -n "${APPRENDIMENTO_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo apprendimento (HARD — Lever 1: la macchina deve imparare, non solo accumulare)
+$APPRENDIMENTO_VINCOLO"
+fi
+if [ -n "${VERIFICA_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo auto-verifica (HARD — Lever 2: refutazione vera + contratti JSON in regola)
+$VERIFICA_VINCOLO"
 fi
 PROMPT="$PROMPT
 
