@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-24 16:20
+aggiornato: 2026-07-24 17:36
 fonte: AD digitale (review settimanale, venerdì)
 ---
+
+> 💬 **24/7 17:36 — CHAT: "Parla con questa casella" aggiunto agli avvisi della Bacheca — PR #527 aperta, in attesa di merge.** Nicola: «aggiungi "parla con la casella" a tutte le caselle della bacheca». Fatto: il componente `ParlaConCasella` mancava solo lì (già presente su Azioni/Intelligence/Auto-coscienza/Ritmo/Avvisi/Diretta contenuti/Opportunità) — aggiunto, `tsc --noEmit` pulito, PR contiene solo questo file. **PR #527 accodata in [[AZIONI-IN-ATTESA]] (card #235)**, merge = firma Nicola. **Nota di processo:** è la 7ª volta che questo pulsante viene aggiunto sezione per sezione solo perché Nicola nota che manca — lezione registrata in `apprendimento.json` (L-2026-0724-527) e [[LEZIONI-CHAT]]: la prossima richiesta va accompagnata da un audit di tutte le sezioni ancora prive. Sul filo separato "il registro dei fatti mi sembra incompleto" (turno precedente): verificato che i 19 fatti del JSON e della tabella Bacheca coincidono esattamente — chiesto a Nicola un esempio concreto di cosa si aspettava e non trova, resta senza risposta. Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 24/7 ~17:36.
 
 > 💬 **24/7 17:10 — CHAT: registro-fatti.json specchiato in Bacheca (fatto) + push GitHub bloccato di nuovo (pattern ricorrente confermato).** Nicola: «metti registro-fatti.json dentro la bacheca e tienilo aggiornato». Fatto: nuova tabella "📒 Registro dei fatti" in cima a `BACHECA.md` con i 18 fatti chiave (negozio faro, commissione, soglie, date) — commit `7e5e29c9`, committato in locale. **Push su `origin/main` bloccato** (permesso negato, non ritentato per non insistere sullo stesso blocco): verificato ora, locale è **2 commit avanti** (`7e5e29c9` + `b3ffb4c4`) rispetto a `origin/main` — stesso pattern del blocco non confermato del 23/7 ~22:16 (vedi [[token-github-unificato]]), si ripete anche il giorno dopo. Business invariato: 1 PQ, 0 pagati.
 
