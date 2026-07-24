@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-24 16:20** — Automatico: **50 aperte · 98 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-24 18:20** — Automatico: **50 aperte · 98 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -1244,7 +1244,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-24 16:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-24 18:20)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-24-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1589,6 +1589,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-24 16:20 · 98 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-24 18:20 · 98 card totali
 
 ### ✅ #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ✅ FATTO 2026-07-20 18:30 · {approvato: Nicola 20/7 18:28}
 

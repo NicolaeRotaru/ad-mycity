@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-24 18:15",
+  "aggiornato": "2026-07-24 18:20",
   "_nota_metabolizzazione_24_07_1740": "Chat 24/7 17:36: Nicola \"aggiungi parla con la casella a tutte le caselle della bacheca\" — AD ha aggiunto ParlaCasella agli avvisi Bacheca (unico file mancante), PR #527 aperta e già accodata in AZIONI-IN-ATTESA (card #235, riga tabella). Registrata lezione L-2026-0724-527: pattern ricorrente (7ma volta) di aggiungere ParlaCasella superficie-per-superficie invece che con audit unico. Sul filone precedente (registro dei fatti incompleto, turno prima), Nicola non ha ancora dato l'esempio concreto richiesto dall'AD — resta aperto, nessuna azione da registrare finché non risponde.",
   "_nota_metabolizzazione_24_07_1710": "Chat 24/7 ~17:10: Nicola «metti registro-fatti.json dentro la bacheca e tienilo aggiornato anche dentro la bacheca» — AD ha aggiunto tabella specchio in BACHECA.md (commit 7e5e29c9), regola AR-102 già documentata nell'header della sezione (nessuna preferenza nuova da registrare, è l'esecuzione di uno standing-ask già noto). Push su origin/main bloccato (permesso negato) e NON ritentato — comportamento corretto, coerente con [[feedback-git-pr-allowlist-path]]. Confermato con git status: locale 2 commit avanti (7e5e29c9+b3ffb4c4) — stesso pattern non confermato del 23/7 ~22:16 in [[token-github-unificato]], ora visto ripetersi il giorno dopo (non ancora causa-radice nota: sandbox/allowlist vs auth GitHub). STATO.md aggiornato con l'entry oraria; nessuna azione/decisione nuova da accodare in AZIONI-IN-ATTESA (il push resta a carico di Nicola da VPS).",
   "_consolidamento_settimanale_24_07_1600": "REVIEW SETTIMANALE (venerdì, cervello/ritmo.md §3): distillazione dei principi maturi della settimana 17-24/7, senza duplicare i 9 già promossi automaticamente nei giri quotidiani (promosso_il 2026-07-24 14:20). 4 principi della settimana con confidenza alta e ≥3 evidenze, meritevoli di guardrail permanente: (1) **Verifica lo stato osservabile PRIMA di dedurre** (screenshot/doc ufficiale, non solo timestamp/ipotesi) — saga Vercel 6 giri il 23-24/7, causa vera trovata solo con lo screenshot reale e la doc autoJobCancelation; già in feedback-verifica-prima-di-affermare.md. (2) **Il tool Workflow è strutturalmente bloccato in questa sessione headless** (gate di conferma non disponibile) — usare sempre Agent in parallelo per fan-out multi-area; confermato 2 volte (23/7 22:15 e 23:17), nessun bisogno di ritentare. (3) **git-pr.mjs non esclude i file sporchi altrui**: prima di ogni git-pr.mjs, `git status --short` e ripulire PRIMA, non dopo — ripetuto 3 volte in 24h con file diversi (PR #513, #516, #517) nonostante fosse già lezione nota: la regola va cablata nello script, non solo ricordata. (4) **Loop a vuoto generalizzato**: comando pesante (giro pieno, radiografia, playbook di reparto) ri-invocato a distanza di minuti senza nuovo fatto → rispondere con lo stato invece di rieseguire; pattern confermato su giro/radiografia/4 playbook di reparto nella stessa settimana. **Potatura NON eseguita in questa sessione**: l'archivio ha 472 lezioni_attive e 0 decadute nonostante la regola preveda decadimento dopo ~4 settimane senza riconferma (difetto già tracciato come AR-149, aperto) — il potatore automatico vive in cervello/apprendimento-guardiano.mjs, uno script node che questa sessione chat non può eseguire (node non in allowlist Bash qui, vedi consenso-per-azione-ar-103 in memoria); la potatura reale richiede farlo girare dal VPS (cron ritmo.sh) o da una sessione con permessi estesi. Riconciliazione preferenze: nessuna preferenza_nicola contraddetta questa settimana da verificare — le ultime approvate (soglia-costi-extra 23/7, dedup-lavori-identici 23/7) restano coerenti con le azioni della settimana.",
@@ -677,10 +677,12 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-21 00:34",
-      "stato": "attiva",
+      "stato": "principio",
       "usi": [],
       "_evidenza_4": "ADDENDUM 21/7 ~00:31: Nicola «volantini non li hai messi» — sezione Materiali fisici/volantini/stampa in Bacheca; stampa fuori burn ~302 €/m; cifre da playbook capillarità + DECISIONI 24/6. Vedi L-440.",
-      "_evidenza_5": "ADDENDUM 21/7 ~00:34: Nicola «Ci sono altri costi?» — quadro business oltre 302 €/m: admin (PEC, commercialista), ops (rider, bici noleggio), Stripe %, assicurazioni; pin Bacheca «Amministrazione + operatività» proattivo, non solo chat. Vedi L-442."
+      "_evidenza_5": "ADDENDUM 21/7 ~00:34: Nicola «Ci sono altri costi?» — quadro business oltre 302 €/m: admin (PEC, commercialista), ops (rider, bici noleggio), Stripe %, assicurazioni; pin Bacheca «Amministrazione + operatività» proattivo, non solo chat. Vedi L-442.",
+      "promosso_il": "2026-07-24 18:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-431",
@@ -5584,7 +5586,9 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-14",
       "ultima_conferma": "2026-07-19 13:54",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-24 18:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0714-208",
@@ -5732,7 +5736,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-14",
       "ultima_conferma": "2026-07-14 03:02",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-24 18:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0714-201",
@@ -9422,7 +9428,9 @@
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-20 17:59",
       "_evidenza_6": "RESTRIZIONE (chat 20/7 ~17:58, L-402): merge-on-approval resta per **proposte autonome AD** (giro, sentinella, deploy non richiesto in chat) — card «Merge PR #N» sì. **Eccezione esplicita Nicola:** se **lui chiede in chat** «fai il fix» / «crea la PR» → consegnare **solo link PR in chat**, **NON** accodare card merge (ordine in chat = ok implicito; card ridondante). Errore: #499 accodata dopo «Fai il fix». 🔴 mondo reale senza ordine chat → card resta.",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-24 18:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0701-30",
@@ -10409,11 +10417,29 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-24",
       "ultima_conferma": "2026-07-24 17:40",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-24 18:20",
+      "cristallizzato_in": "memoria-persistente"
     }
   ],
   "principi": [
+    {
+      "id": "L-2026-0720-433",
+      "testo": "**Costi infrastruttura — «metti in bacheca» = cifre Nicola + `?` sul resto, mai inventare (Nicola 20/7 ~23:43, addendum ~23:46, ~23:48, ~00:31).** Nicola comunica costi mensili confermati: **Claude Max 200 €**, **Vercel 30 €**, **Supabase 50 €** (= **280 €/m parziale**) e chiede lista in **Bacheca home** + altre voci future. **Addendum ~23:46:** **VPS 20 €/m**, **dominio 20 €/anno**, **marketplace → Vercel** (Render in chiusura) → burn fisso **300 €/m**, totale **~302 €/m**; card env propone `BURN_MENSILE_EUR=300`. **Addendum ~23:48:** opzionali in Bacheca (app store, SMS, email Resend vs Workspace) — **fuori** burn finché non accesi (L-434). **Addendum 21/7 ~00:31:** Nicola corregge — mancavano **volantini/stampa fisica**; «tutti i costi che verranno» include sezione **Materiali fisici** (kit ~80–150 €, primo lotto ~150–300 € DECISIONI 24/6, volantini da preventivo) — **fuori** burn, fonti playbook capillarità (L-440). 5 perché: (1) burn/runway era «sconosciuto» da **175+ giri** — ora fonte reale Nicola; (2) cambio hosting = segna vecchio provider **in chiusura**, **non** sommare Render+Vercel; (3) fix = blocco `## 💰 Costi infrastruttura` **in cima** `BACHECA.md` + **`registro-fatti.json`** `finanza.costi_infrastruttura`; (4) **non** inventare Resend né Vercel post-migrazione — chiedi/conferma; (5) quando burn completo → aggiorna proposta env. Regola: costi da Nicola → bacheca + registro + burn; importo sconosciuto = **?** zero stime; «tutti i costi» = anche fisici/stampa (grep vault). Vedi L-422, L-434, L-440, card #burn-mensile-env.",
+      "tag": [
+        "finanza",
+        "burn",
+        "bacheca",
+        "costi",
+        "runway",
+        "nicola",
+        "vercel",
+        "hosting"
+      ],
+      "reparto": "@finanza",
+      "promosso_il": "2026-07-24 18:20"
+    },
     {
       "id": "L-2026-0720-397",
       "testo": "**PR feature branch — conflitti merge con main su file memoria auto-generati (chat 20/7 ~16:39).** Nicola manda **solo screenshot** PR #496: checks ok ma merge bloccato per conflitti. 5 perché: (1) branch feature resta indietro mentre main accumula giri/memoria; (2) conflitti tipici su `STATO.md`, `LEZIONI-CHAT.md`, `sentinella-dati.json`, diario operativo — **non** sul codice fix; (3) regola risoluzione: **main vince** su file memoria/worker auto-generati, **branch vince** su codice feature; (4) dopo rebase+push → GitHub **mergeable** (`git-pr.mjs`); (5) codice fix intatto — Nicola mergia 🔴. Regola: screenshot «conflitti PR» → AD risolve subito e spiega memoria vs codice, non chiedere a Nicola merge manuale sui conflitti. **Addendum 17:50:** **#496 ✅** mergiata. **Addendum 18:50–18:52:** **#499** re-conflitto worker → risolto mergeable. **Addendum 23:23:** **#501** (sentinelle pricing) stesso pattern vs main north-star/memoria → mergeable. **Addendum 23:28:** **#501 ✅** mergiata Nicola; **#504** conflitto `giro.sh` post #501+#503 → mergeable `5c8dfc7b`. Vedi L-334, L-390, L-413, L-429.",
@@ -10475,6 +10501,39 @@
       ],
       "reparto": "@builder-automazioni",
       "promosso_il": "2026-07-24 16:20"
+    },
+    {
+      "id": "L-2026-0714-209",
+      "testo": "**PR parallele — conflitto body condiviso, codice intatto (pattern #369+#370, confermato #472+#471 19/7):** Nicola segnala conflitto («ci sono conflitti», «Ha un conflitto») su PR aperta in parallelo con altra PR stessa sessione. 5 perché: (1) `consegne/tech/pr-ad-mycity-body.md` è **unico** per tutte le PR — testi diversi si pestano; (2) main avanza mentre branch resta aperta → conflitto inevitabile sul body, **non** sul codice fix (#369 sync intatto; #472 `CasellaAnteprima` intatto); (3) Nicola non distingue body vs codice — AD spiega tipo conflitto e risolve branch, non istruzioni GitHub; (4) fix = rebase su main, verificare mergeable API; (5) **riapprova** card merge Pannello. **Regola:** PR Pannello parallele nella stessa sessione → aspettarsi conflitto body; risolvere prima di dire «pronta». Ultimo caso: #472+#471 (19/7 13:54, head `5c2f8821`). Correlazione L-175, L-181, L-205, L-283.",
+      "tag": [
+        "pr-369",
+        "pr-472",
+        "conflitti",
+        "body-pr",
+        "sync",
+        "nicola",
+        "fallo-tu"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-24 18:20"
+    },
+    {
+      "id": "L-2026-0714-202",
+      "testo": "**Scoperte & proposte — sync vs contenuto giro (chat 14/7 ~02:10, agg. 03:00):** Nicola «l'ho già mangiata» + «2 caselle non aggiornate» + «era azioni» + **«perché non è scomparsa?»** dopo Approva #134/#369. 5 perché: (1) tab Scoperte legge `ultimo-briefing.json` (ultimo giro AD), non conversazione né `STATO.md`; (2) **PR #369** collega Scoperte/Proposte a `mycity:sync` — aggiornamento **istantaneo** post-approva/ignora/worker; poll **60s** (**15s** se merge PR in coda) su Azioni/Proposte; (3) **limite persistente:** contenuto Opportunità in Scoperte resta fotografia **ultimo giro** finché non parte giro nuovo — approvare in Da approvare **non** cancella la riga Opportunità (Nicola si aspetta parità UX); (4) chat→STATO ok; spiegare doppio canale (Memoria viva vs Scoperte=giorno) **prima** che chieda; (5) **regola:** non confondere «casella ferma» (bug sync) con «testo vecchio» (serve giro); backlog prodotto accettabile = «nascondi opportunità già completate». Correlazione L-150, L-204, L-205.",
+      "tag": [
+        "pannello",
+        "scoperte",
+        "briefing",
+        "chat",
+        "debrief",
+        "giro",
+        "metabolizzazione",
+        "nicola",
+        "poll-60s",
+        "da-approvare"
+      ],
+      "reparto": "@ad",
+      "promosso_il": "2026-07-24 18:20"
     },
     {
       "id": "L-2026-0713-179",
@@ -10564,6 +10623,23 @@
       "promosso_il": "2026-07-24 14:20"
     },
     {
+      "id": "L-2026-0701-31",
+      "testo": "**Merge-on-approval — REGOLA PERMANENTE (Nicola 1/7 10:22, testato 10:36+11:00, fissato 10:45):** «c'è modo che fai merge tu? però chiedimi permesso» → poi «**impara questo, applica sempre il flusso target — risparmia tempo**». Vuole **zero GitHub browser**, **non** delegare giudizio. **Pattern obbligatorio su ogni deploy 🟡:** AD prepara branch+PR **oppure** codice locale → card «Merge PR #N?» **oppure** chat «ok merge [nome]» → AD merge/push → Vercel redeploy → (opz.) `aggiorna-cervello.sh`. **Test riusciti:** «ok merge bottoni A/B» → **`main` `c50148d`** · «ok merge scelta-ab universale» → **`main` `853c33a`**. **Mai merge/push senza ok esplicito.** Chiede guida pratica PAT fine-grained (Contents+PR R/W su `ad-mycity`+`mycity`) → #15 + `.env.example`. Architettura **3 tubi**: memoria→`memoria-ad` · codice→`main`→Vercel+VPS · marketplace→`mycity`→Render 🔴. **`pannello/` ≠ repo separato**.",
+      "tag": [
+        "merge",
+        "github",
+        "devops",
+        "nicola",
+        "pannello",
+        "vps",
+        "automazione",
+        "permesso",
+        "regola-permanente"
+      ],
+      "reparto": "@devops-sre",
+      "promosso_il": "2026-07-24 18:20"
+    },
+    {
       "id": "L-2026-0701-04",
       "testo": "**Caso-studio Nicola:** Casa Linda trattata come negozio reale perché approvata+payout attivo nel DB — Nicola corregge: **è demo/seed** (UUID 11111111…, catalogo finto). **Unico negozio reale oggi = Pane Quotidiano** (Via Calzolai 25, tel. 0523 388601, 5 prodotti bio, payout OFF, ordine zombie €19,05 COD). 5 perché: (1) ho confuso presenza DB con entità reale; (2) non ho controllato segnali seed; (3) registro-realta le aveva entrambe «confermate» solo da query; (4) processo KPI non distingue demo da LIVE; (5) fix: contare come REALE solo negozi confermati da Nicola o verificabili sul campo (Maps/tel/prodotti veri) — demo esclusi da proposte 🔴 e dai 7 numeri. Proposta «Forzare transazione Casa Linda» RITIRATA → priorità ordine zombie Pane Quotidiano.",
       "tag": [
@@ -10624,6 +10700,20 @@
       ],
       "reparto": "@AD",
       "promosso_il": "2026-06-29"
+    },
+    {
+      "id": "L-2026-0724-527",
+      "testo": "**«Parla con questa casella» continua a mancare superficie per superficie invece che ovunque insieme — Bacheca è la 7ª volta (dopo Ritmo PR#355, Diretta contenuti PR#479, Avvisi PR#323/#373, Opportunità PR#374, Lavori/ChatCasella), ogni volta perché Nicola nota la superficie mancante, non perché l'AD l'ha auditata prima.** Il componente esiste già pronto e riusabile (`ParlaCasella`/pattern chat contestuale), ma viene aggiunto una scheda alla volta su richiesta anziché con un giro unico che lo applica a TUTTE le sezioni del Pannello. Regola: la prossima volta che Nicola chiede «aggiungi parla con la casella a X», prima di limitarsi a X fare un giro rapido (grep dei componenti-scheda del Pannello) per vedere quali altre sezioni ne sono ancora prive e proporle nello stesso lavoro — evita 6+ piccole PR consecutive sullo stesso tema a distanza di giorni/settimane.",
+      "tag": [
+        "pannello",
+        "parla-casella",
+        "ux",
+        "pattern-ricorrente",
+        "bacheca",
+        "pr-527"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-24 18:20"
     }
   ],
   "preferenze_nicola": [
@@ -11007,16 +11097,16 @@
     "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
   ],
   "meta": {
-    "lezioni_attive": 473,
-    "promosse_a_principio": 14,
+    "lezioni_attive": 444,
+    "promosse_a_principio": 19,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-24 18:15",
+    "tasso_calcolato_il": "2026-07-24 18:20",
     "tasso_finestra_giorni": 30,
     "tick_leggero_il": "2026-07-24 18:15",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-24 16:20"
+    "cristallizzazione_ultima": "2026-07-24 18:20"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
