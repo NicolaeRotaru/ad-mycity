@@ -8,6 +8,7 @@ reparto: customer-success
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-24 11:13 · Playbook Recensioni (10a esecuzione, 1/7-24/7): query diretta orders.delivery_status · 0 ordini DELIVERED, unico ordine in DB resta lo zombie CANCELED 24/6 (19,05€) — nessuna consegna reale da cui chiedere recensioni · atteso 0 messaggi da preparare (come le 9 esecuzioni precedenti) → reale confermato: stesso blocco strutturale, nessuna consegna reale ancora — non tecnico, non da rilavorare · #loop-a-vuoto #playbook-recensioni
 - 2026-07-23 12:19 · playbook recensioni RIPROVA 23/7 · 9ª esecuzione identica, 0 consegne reali dal 1/7 · atteso trovare consegne senza recensione → reale 0 consegne completate — invariato, blocco strutturale non tecnico · #recensioni #loop-a-vuoto
 - 2026-07-23 12:10 · playbook recensioni post-consegna (RIPROVA 23/7, 8a esecuzione identica dal 14/7) · verificato dati live, 0 destinatari — corretto non inventare · atteso individuare consegne senza recensione → reale 0 consegne DELIVERED in tutto il DB (stesso stato dal 14/7) · #recensioni-trigger
 - 2026-07-20 11:28 · playbook recensioni 20/7 11:27 · 0 destinatari, bozze A4/A13/A14 ok · atteso 0 consegne senza recensione identificate → reale 0 consegne senza recensione (REST live) · #recensioni
