@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-24 18:00
+aggiornato: 2026-07-24 20:02
 fonte: AD digitale (report della sera)
 ---
+
+> 💬 **24/7 ~20:02 — CHAT: PR #531 (fix doppio-tap "Nuova chat") MERGIATA — verificato `git log` (merge commit `575721d2` già su `main`).** Card #236 chiusa in [[AZIONI-IN-ATTESA]]. Resta da provare dal vivo nel browser dopo il prossimo deploy Vercel: tap deciso su "invia" per una chat nuova, deve comparire 1 sola riga. Business invariato: 1 PQ, 0 pagati. Fonte: git log (nessun nuovo messaggio di contenuto da Nicola in questo turno, solo "Abc").
 
 > 💬 **24/7 ~19:57 — CHAT: doppioni di "Nuova chat" ANCORA segnalati (screenshot) — causa vera trovata, DIVERSA dal fix di ieri: doppio-tap sul bottone invia — PR #531 aperta, in attesa merge (card #236).** Nicola: «Ci sono ancora i probe dei doppioni delle nuove chat». Verificato PRIMA che il fix di ieri (PR #517, ID provvisorio ripulito) fosse ancora intatto su main, senza commit sopra — confermato: non è tornato indietro, è un bug diverso con lo stesso sintomo. Causa: il bottone invia non si disabilita subito dopo il click, un doppio tap ravvicinato (comune su telefono) crea due chat reali sul server prima che lo schermo si aggiorni. Fix: blocco di un secondo invio entro <1s dal primo. `tsc` pulito, diff verificato = solo il file del fix. **Non verificato dal vivo nel browser** (sessione headless) — da provare dopo il merge: tap deciso su "invia" per una chat nuova, deve comparire 1 sola riga. Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 24/7 ~19:44-19:57.
 
