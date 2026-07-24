@@ -30,6 +30,7 @@ const APPR = join(MEM, "auto-coscienza", "apprendimento.json");
 
 const args = process.argv.slice(2);
 const JSON_OUT = args.includes("--json");
+const RIGHE = args.includes("--righe"); // righe-regola nette (- testo), per iniezione diretta nel worker/chat
 const kIdx = args.indexOf("--k");
 const K = kIdx >= 0 && args[kIdx + 1] ? Math.max(1, Number(args[kIdx + 1]) || 8) : 8;
 const query = args.filter((a, i) => !a.startsWith("--") && !(kIdx >= 0 && i === kIdx + 1)).join(" ").trim();
@@ -131,6 +132,13 @@ function nucleo(t) {
 
 if (JSON_OUT) {
   process.stdout.write(JSON.stringify({ esito: "ok", query, risultati: top }, null, 2));
+  process.exit(0);
+}
+
+if (RIGHE) {
+  // Solo le righe-regola nette (- testo), senza header né [fonte · score]: rimpiazzano l'head-8 grezzo
+  // nel worker. Nessun output se niente è rilevante → chi chiama torna al fallback (head-8), mai vuoto.
+  for (const t of top) process.stdout.write(`- ${t.testo}\n`);
   process.exit(0);
 }
 
