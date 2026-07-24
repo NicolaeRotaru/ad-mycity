@@ -1,0 +1,105 @@
+{
+  "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
+  "aggiornato": "2026-07-25 00:57",
+  "pronta": false,
+  "voci_superate": 0,
+  "voci_totali": 5,
+  "voci_cieche": 0,
+  "migliorate": 0,
+  "peggiorate": 0,
+  "soglie": {
+    "lezioni_tasso_min": 0.7,
+    "calibrazione_reparti_min": 5,
+    "calibrazione_richiede_ad": true,
+    "freni_bloccanti_max": 0,
+    "quaderni_vivi_quota_min": 0.6,
+    "salute_min": 80
+  },
+  "voci": [
+    {
+      "id": "lezioni",
+      "titolo": "Applica le lezioni che scrive",
+      "valore": 0.18,
+      "etichetta": "18% (83/473)",
+      "soglia": "70%",
+      "ok": false,
+      "cieco": false,
+      "fonte": "cervello/tasso-lezioni.mjs",
+      "come_si_alza": "rendere le lezioni dei blocchi automatici, non promemoria da ricordarsi (AR-149)",
+      "movimento": "prima misura"
+    },
+    {
+      "id": "calibrazione",
+      "titolo": "Sa prevedere le conseguenze delle sue mosse",
+      "valore": 0,
+      "etichetta": "0 reparti su 14 (AD escluso)",
+      "soglia": "≥5 reparti, AD incluso",
+      "ok": false,
+      "cieco": false,
+      "fonte": "auto-coscienza/calibrazione.json",
+      "come_si_alza": "obbligo di scrivere «mi aspetto X» prima di ogni mossa, poi confronto col reale",
+      "movimento": "prima misura"
+    },
+    {
+      "id": "freni",
+      "titolo": "Freni di sicurezza rotti",
+      "valore": 8,
+      "etichetta": "8 bloccanti aperti",
+      "soglia": "0",
+      "ok": false,
+      "cieco": false,
+      "inverso": true,
+      "dettaglio": [
+        "AR-109",
+        "AR-110",
+        "AR-114",
+        "AR-117",
+        "AR-123",
+        "AR-142",
+        "AR-144",
+        "AR-151"
+      ],
+      "fonte": "auto-coscienza/cantiere-difetti.json",
+      "come_si_alza": "chiudere i bloccanti aperti: i fix sono già scritti, aspettano il merge di Nicola",
+      "movimento": "prima misura"
+    },
+    {
+      "id": "quaderni",
+      "titolo": "Quaderni vivi (i senior imparano)",
+      "valore": 0.25833333333333336,
+      "etichetta": "31 su 120 (26%)",
+      "soglia": "60% (72 su 120)",
+      "ok": false,
+      "cieco": false,
+      "fonte": "auto-coscienza/chiusura-loop.json",
+      "come_si_alza": "gate: non si chiude un lavoro 🟡/🔴 senza la riga ESITO nel quaderno (AR-154)",
+      "movimento": "prima misura"
+    },
+    {
+      "id": "salute",
+      "titolo": "Voto salute che si dà da sola",
+      "valore": 43,
+      "etichetta": "43/100 (misurato 2026-07-24)",
+      "soglia": "≥80/100",
+      "ok": false,
+      "cieco": false,
+      "fonte": "auto-coscienza/storico-salute.json",
+      "come_si_alza": "sale da solo quando salgono le altre 4 voci — non si tocca a mano",
+      "movimento": "prima misura"
+    }
+  ],
+  "serie": [
+    {
+      "data": "2026-07-25 00:57",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.18,
+        "calibrazione": 0,
+        "freni": 8,
+        "quaderni": 0.25833333333333336,
+        "salute": 43
+      }
+    }
+  ]
+}
