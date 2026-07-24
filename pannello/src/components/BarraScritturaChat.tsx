@@ -24,6 +24,8 @@ type Props = {
   ascoltando: boolean;
   /** Persiste la bozza tra chat intera e fluttuante (una sola superficie montata per volta). */
   bozzaCondivisaRef: React.MutableRefObject<string>;
+  /** Lock invio condiviso tra le due superfici (assistente + fluttuante) quando sono montate insieme. */
+  invioBloccatoCondivisoRef?: React.MutableRefObject<boolean>;
   onAllegati: (lista: FileList | null) => void;
   onTogliAllegato: (i: number) => void;
   onDetta: () => void;
@@ -49,6 +51,7 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
     avvisoVoce,
     ascoltando,
     bozzaCondivisaRef,
+    invioBloccatoCondivisoRef,
     onAllegati,
     onTogliAllegato,
     onDetta,
@@ -69,7 +72,11 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
   // (setBozza è asincrono) e mandava lo STESSO messaggio due volte, creando due chat reali distinte
   // (una "fantasma" ferma a 1 msg accanto a quella vera). Lock sincrono: il secondo tap entro la
   // finestra viene ignorato, quelli davvero distanziati restano liberi di partire.
-  const invioBloccatoRef = useRef(false);
+  // 24/7 (2°): scoperto che "assistente" e "fluttuante/workerFull" possono restare MONTATE
+  // ENTRAMBE insieme — un lock locale non basta perché ogni istanza aveva il suo. Se il chiamante
+  // passa un lock condiviso (page.tsx) lo usiamo, altrimenti restiamo sul lock locale.
+  const invioBloccatoLocaleRef = useRef(false);
+  const invioBloccatoRef = invioBloccatoCondivisoRef ?? invioBloccatoLocaleRef;
 
   useEffect(() => {
     bozzaCondivisaRef.current = bozza;

@@ -882,6 +882,12 @@ export default function Dashboard() {
   const [caricato, setCaricato] = useState(false);
   const bozzaChatRef = useRef("");
   const chatInputRef = useRef<BarraScritturaChatHandle>(null);
+  // 24/7 (2°): "assistente" (vista intera) e "fluttuante/workerFull" possono restare montati
+  // ENTRAMBI insieme (vista==="assistente" mentre chatFluttuante/workerFull è aperto sopra) —
+  // due BarraScritturaChat vive contemporaneamente, ciascuna col proprio lock locale: il lock
+  // per-istanza di PR #531 non bastava a fermare un doppio invio tra le DUE superfici. Lock
+  // condiviso qui, passato a entrambe, così un invio blocca anche l'altra istanza.
+  const invioChatBloccatoRef = useRef(false);
   const [hintInvio, setHintInvio] = useState("Invio = invia · Maiusc+Invio = a capo");
   const [ascoltando, setAscoltando] = useState(false);
   const [avvisoVoce, setAvvisoVoce] = useState("");
@@ -2922,6 +2928,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             avvisoVoce={avvisoVoce}
             ascoltando={ascoltando}
             bozzaCondivisaRef={bozzaChatRef}
+            invioBloccatoCondivisoRef={invioChatBloccatoRef}
             onAllegati={aggiungiAllegatiChat}
             onTogliAllegato={togliAllegatoChat}
             onDetta={dettaVoce}
@@ -3287,6 +3294,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             avvisoVoce={avvisoVoce}
             ascoltando={ascoltando}
             bozzaCondivisaRef={bozzaChatRef}
+            invioBloccatoCondivisoRef={invioChatBloccatoRef}
             onAllegati={aggiungiAllegatiChat}
             onTogliAllegato={togliAllegatoChat}
             onDetta={dettaVoce}
