@@ -27,7 +27,7 @@
 // Sola scrittura su apprendimento.json (memoria AI, area della macchina). Fail-safe: se il file manca
 // o è rotto, non fa nulla ed esce 0 (non deve mai rompere un giro).
 
-import { readFileSync, writeFileSync, existsSync, copyFileSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -146,12 +146,18 @@ const report = {
   totali: { attive: nAttive, principi: nPrincipi, decadute: nDecadute },
 };
 
-if (APPLICA && (promosse.length || decadute.length || true)) {
+if (APPLICA) {
   try {
-    copyFileSync(APPR, APPR + ".bak"); // backup reversibile
+    // Reversibilità = storia git dell'archivio (committato ogni giro). NIENTE .bak nel perimetro-
+    // memoria: il giro (git add -A MyCity-Vault) lo ricommitterebbe come ~1MB di churn a ogni giro.
+    // Se un vecchio .bak è rimasto tracciato, rimuovilo: il git add -A del giro lo toglie da main.
+    try {
+      if (existsSync(APPR + ".bak")) rmSync(APPR + ".bak");
+    } catch {
+      /* best-effort */
+    }
     writeFileSync(APPR, JSON.stringify(dati, null, 2));
     report.scritto = true;
-    report.backup = APPR + ".bak";
   } catch (e) {
     report.esito = "errore-scrittura";
     report.errore = String(e.message || e);

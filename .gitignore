@@ -47,3 +47,9 @@ _tmp_*
 # Resta versionata solo `verify`, skill nativa Claude scritta a mano.
 .claude/skills/*
 !.claude/skills/verify
+
+# Backup di lavoro (es. apprendimento.json.bak scritto da cristallizza-apprendimento.mjs prima di
+# riscrivere l'archivio). Servono al rollback immediato locale, ma NON vanno in git: il perimetro-
+# memoria del giro (git add -A MyCity-Vault) li ricommitterebbe a ogni giro (~1MB di churn). La vera
+# reversibilità è la storia git dell'archivio stesso.
+*.bak
