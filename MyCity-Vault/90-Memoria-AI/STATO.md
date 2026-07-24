@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-24 06:02
-fonte: AD digitale (piano del mattino)
+aggiornato: 2026-07-24 06:24
+fonte: AD digitale (giro pieno — heartbeat)
 ---
+
+> 🛰️ **24/7 06:24 — GIRO PIENO (heartbeat, 14h dall'ultimo giro pieno di ieri 23/7 16:47).** Business INVARIATO: 1 PQ, 5 prodotti, 4 buyer, 0 pagati, 0 recensioni, stallo ~718h (~30gg) — riconfermato con query SQL diretta (non solo sensore). Nessuna nuova card in coda (le mosse giuste sono già lì). Notte assorbita dal falso allarme Vercel, ora chiarito (vedi entry 01:00 sotto). **Mossa n.1: ordine test PQ. Mossa n.2: domanda PI26 entro il 30/7 (6 giorni).** Fatto 🟢: corretto refuso "Garetti" → "Pane Quotidiano" in `cervello/radar.json` (fattore negozio-01). Briefing: [[Briefing/2026-07-24]].
 
 > 💬 **24/7 ~01:00 — CHAT: SMENTITA da screenshot reale l'intera teoria delle cancellazioni Vercel — il "deploy che spariva" era solo la PR #523 mai mergiata.** Nicola ha mandato uno screenshot vero della pagina Deployments di Vercel: ogni deploy della serata, incluso ogni commit di memoria dell'AD, risulta **"Ready"** — nessuno "Canceled". La teoria `autoJobCancelation` (trovata alle 00:57 nella doc ufficiale) era un'inferenza mai confrontata con lo stato reale: sbagliata come spiegazione del problema di stanotte. **Causa vera, banale:** PR #523 era ancora **aperta**, non mergiata — Vercel builda solo `main`, una PR aperta per lui non esiste. Basta mergiarla per vederla online. **Lezione:** davanti a "il deploy sparisce", guardare/chiedere SUBITO lo stato reale (screenshot Deployments) prima di dedurre da timestamp o documentazione — vedi [[LEZIONI-CHAT]] e [[feedback-verifica-prima-di-affermare]] ep.5. **Trovato ma da verificare con calma:** dallo stesso screenshot, i commit di sola memoria sembrano generare build reali da 40-55s nonostante il filtro `pannello/vercel.json` dovrebbe scartarli — possibile spreco, non urgente, non la causa di stanotte. Business invariato: 1 PQ, 4 buyer, 0 pagati. Fonte: chat Nicola 24/7 ~01:00 (screenshot Deployments).
 

@@ -1,60 +1,39 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-23 12:58",
-  "voto_fiducia": 90,
-  "sintesi": "6°+ passaggio quasi identico nell'ultima ora (11:35→12:58): numeri riverificati via query dirette MCP Supabase — invariati (1 PQ, 4 buyer, 5 prodotti, 1 solo ordine zombie, 0 pagati, 0 recensioni). Unico dato che si muove: il rischio push-GitHub peggiora ancora (119 commit locali, era 114 alle 12:52). Nessuna azione 🟡/🔴 nuova accodata, deliberatamente, per non alimentare il pattern 'loop a vuoto' già segnalato in memoria su altri playbook (recensioni, recupero carrelli).",
-  "trend_fiducia": "▼ 90 (da 91 alle 12:52) — non per un errore, ma perché onestà>compiacenza: ripetere la stessa verifica ogni pochi minuti senza che passi tempo reale o arrivi un'azione di Nicola non è un progresso da premiare, ed è il tipo di ciclo che l'auto-analisi deve segnalare invece di nascondere dietro un voto piatto.",
-  "errori_giro": [
-    {
-      "tipo": "processo",
-      "descrizione": "Questo giro chat è stato invocato per la 6a+ volta nell'ultima ora (11:35, 11:36, 11:59, 12:00, 12:26, 12:47, 12:52, 12:58) con il business sempre invariato — il pattern è lo stesso 'loop a vuoto' già registrato in memoria per i playbook recensioni e recupero-carrelli: ri-eseguire l'intera procedura del giro senza che sia passato tempo reale o un'azione umana produce zero nuova informazione e consuma solo risorse.",
-      "azione": "In questo passaggio: nessuna nuova card accodata, nessun nuovo file Intelligence/Piani toccato, nessun lavoro macchina oltre la verifica minima richiesta dal cancello di serietà. Segnalato esplicitamente a Nicola nel TL;DR del briefing con una raccomandazione: il prossimo giro utile arriva con un'azione sua o con tempo reale trascorso, non con un'altra invocazione ravvicinata."
-    }
-  ],
+  "data": "2026-07-24 06:24",
+  "voto_fiducia": 92,
+  "sintesi": "Giro pieno legittimo (heartbeat: 14h dall'ultimo giro pieno di ieri 23/7 16:47, non un'invocazione ravvicinata a vuoto). Business riverificato dal vivo con query SQL dirette: invariato — 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine zombie annullato, 0 pagati, 0 recensioni, stallo ~718h (~30gg). Nessuna azione 🟡/🔴 nuova accodata: le mosse giuste sono già in coda. Fatto un solo intervento 🟢 di housekeeping: corretto un refuso di memoria (radar.json citava ancora 'Garetti' come negozio-faro invece di 'Pane Quotidiano').",
+  "trend_fiducia": "▲ 92 (da 90 del 23/7 12:58) — risale perché questo giro NON è un loop a vuoto: è passato tempo reale (14h), il delta-gate lo conferma (heartbeat, non firma-identica-a-distanza-di-minuti), e il lavoro fatto (verifica dal vivo + correzione refuso) è proporzionato al vincolo AR-113.",
+  "errori_giro": [],
   "domande_bloccanti": [
     {
       "tipo": "north_star",
-      "domanda": "North Star 0 da ~699h (~29,1gg). Ordine test PQ ancora l'unica mossa diretta verso il 1° ordine pagato.",
-      "azione": "card 🟡 #ordine-test-pq in AZIONI-IN-ATTESA",
-      "colore": "🟡"
+      "domanda": "North Star 0 da ~718h (~30gg). Ordine test PQ ancora l'unica mossa diretta verso il 1° ordine pagato.",
+      "azione": "card 🔴 #ordine-test-pq in AZIONI-IN-ATTESA",
+      "colore": "🔴"
     },
     {
       "tipo": "PI26",
-      "domanda": "PI26 sportello chiude tra 7 giorni (30/7 16:00). Domanda inviata?",
+      "domanda": "PI26 sportello chiude tra 6 giorni (30/7 16:00). Domanda ancora non risulta inviata.",
       "azione": "card 🔴 #bandi-cciaa-2007",
       "colore": "🔴"
-    },
-    {
-      "tipo": "post_recupero",
-      "domanda": "3+1 post pronti mai pubblicati — quale recuperare?",
-      "azione": "card 🔴 content-social + #post-carosello-bio-2307",
-      "colore": "🔴"
-    },
-    {
-      "tipo": "push_github",
-      "domanda": "119 commit locali mai arrivati su origin/main dal 22/7 08:20 — token PAT del VPS ancora rotto, in peggioramento continuo.",
-      "azione": "assegnato a @devops-sre (12:47), da chiudere",
-      "colore": "🟡"
     }
   ],
   "entita_verificate": [
-    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 12:58 (invariato)"},
-    {"nome": "0 ordini pagati", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 12:58 (1 riga, CANCELED)"},
-    {"nome": "119 commit locali non pushati", "stato": "confermato", "fonte": "git rev-list --count origin/main..HEAD 23/7 12:58 (103→112→114→117→119, in crescita continua)"},
-    {"nome": "7 profili totali (4 buyer/1 seller/1 rider/1 admin)", "stato": "confermato", "fonte": "query diretta MCP Supabase 23/7 12:58 (group by role)"},
-    {"nome": "PI26 CCIAA (scade 30/7)", "stato": "confermato", "fonte": "registro-fatti.json (non ri-verificato oggi via web, cadenza già rispettata il 21/7)"}
+    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "query diretta MCP Supabase 24/7 06:22 (invariato)"},
+    {"nome": "0 ordini pagati", "stato": "confermato", "fonte": "query diretta MCP Supabase 24/7 06:22 (1 riga, ultimo ordine 24/6 08:28)"},
+    {"nome": "7 profili totali / 4 buyer / 5 prodotti / 0 recensioni", "stato": "confermato", "fonte": "query diretta MCP Supabase 24/7 06:22"},
+    {"nome": "Fattore radar 'negozio-01' (Garetti → Pane Quotidiano)", "stato": "corretto", "fonte": "refuso trovato e sistemato in cervello/radar.json in questo giro, nessun impatto reale (registro-realta già corretto)"}
   ],
   "benchmark": "Nessun lavoro creativo/importante in questo giro (AR-113 limita a sole azioni verso il 1° ordine pagato) — auto-miglioramento saltato di proposito, non per omissione.",
   "salute_macchina": {
-    "sensori_ok": 8,
-    "max_giri_ciechi": 7,
-    "automazione": "non ri-verificata in questo passaggio (invariata dal giro 11:36)",
-    "coerenza_fatti": "verificata con lo script in questa sessione (`node cervello/coerenza-fatti.mjs` → coerente, 18 fatti, 0 cacce aperte)",
-    "chiusura_loop": "89/120 quaderni fermi (invariato) — debito pregresso, non di questo giro",
+    "sensori_ok": 11,
+    "max_giri_ciechi": 0,
+    "automazione": "non ri-verificata in questo passaggio (verifica-automazione.mjs non rilanciato — nessun segnale di cambiamento dal pre-step di giro.sh)",
+    "coerenza_fatti": "verificata con lo script in questa sessione (`node cervello/coerenza-fatti.mjs` → coerente, 19 fatti, 0 cacce aperte)",
     "north_star_stallo": true,
-    "push_github_rotto": true,
-    "loop_a_vuoto_giri_ravvicinati": true
+    "loop_a_vuoto_giri_ravvicinati": false
   },
-  "livello_verifica": "L2 (query dirette al DB marketplace via MCP Supabase in questa sessione + git rev-list diretto, non solo file di memoria)",
-  "refutazione": "Nessuna entità nuova inventata: ogni entità richiamata è stata ri-verificata con query dirette in questa sessione. Nessuna azione 🟡/🔴 nuova generata per evitare duplicati sulla coda già completa; il solo aggiornamento reale è il peggioramento misurato del rischio push (114→119). Il voto scende leggermente non per un errore ma per onestà sul pattern di ri-esecuzione ravvicinata, che è un segnale di salute macchina da non nascondere."
+  "livello_verifica": "L2 (query dirette al DB marketplace via MCP Supabase in questa sessione, non solo file di memoria/delta-gate)",
+  "refutazione": "Nessuna entità nuova inventata: ogni entità richiamata è stata ri-verificata con query dirette in questa sessione. Nessuna azione 🟡/🔴 nuova generata (le mosse giuste sono già in coda dai giorni scorsi). L'unico cambiamento fatto è una correzione di memoria (radar.json), verificabile con un grep prima/dopo."
 }

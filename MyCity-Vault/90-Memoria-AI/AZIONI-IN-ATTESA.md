@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-23 22:20** — Automatico: **47 aperte · 98 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-24 06:20** — Automatico: **48 aperte · 98 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -27,6 +27,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 <!-- scadenzario-check-ar147 -->
+
 ### 🟡 #merge-scadenzario-check-ar147 — Mergia il fix "countdown scadenze esterne" (AR-147) · ⏳ accodata 2026-07-24 00:12
 **Cosa cambia:** nuovo script `cervello/scadenzario-check.mjs` che segnala in automatico quando una scadenza esterna (bandi, fiscali, contrattuali) entra negli ultimi 7 giorni — parte da PI26 (10.000€, scade 30/7). Prima erano solo promemoria scritti a mano, facili da perdere.
 **Se va bene:** al primo giro dopo il merge compare una card 🔴 in questa coda per PI26 (se non è già stata inviata la domanda).
@@ -1214,8 +1215,8 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-23 22:20)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-23-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-24 06:20)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-24-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1517,6 +1518,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-23 22:20 · 98 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-24 06:20 · 98 card totali
 
 ### ✅ #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ✅ FATTO 2026-07-20 18:30 · {approvato: Nicola 20/7 18:28}
 
