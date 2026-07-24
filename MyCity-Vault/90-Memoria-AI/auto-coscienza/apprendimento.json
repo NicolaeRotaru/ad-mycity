@@ -1,6 +1,8 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-24 16:20",
+  "aggiornato": "2026-07-24 17:40",
+  "_nota_metabolizzazione_24_07_1740": "Chat 24/7 17:36: Nicola \"aggiungi parla con la casella a tutte le caselle della bacheca\" — AD ha aggiunto ParlaCasella agli avvisi Bacheca (unico file mancante), PR #527 aperta e già accodata in AZIONI-IN-ATTESA (card #235, riga tabella). Registrata lezione L-2026-0724-527: pattern ricorrente (7ma volta) di aggiungere ParlaCasella superficie-per-superficie invece che con audit unico. Sul filone precedente (registro dei fatti incompleto, turno prima), Nicola non ha ancora dato l'esempio concreto richiesto dall'AD — resta aperto, nessuna azione da registrare finché non risponde.",
+  "_nota_metabolizzazione_24_07_1710": "Chat 24/7 ~17:10: Nicola «metti registro-fatti.json dentro la bacheca e tienilo aggiornato anche dentro la bacheca» — AD ha aggiunto tabella specchio in BACHECA.md (commit 7e5e29c9), regola AR-102 già documentata nell'header della sezione (nessuna preferenza nuova da registrare, è l'esecuzione di uno standing-ask già noto). Push su origin/main bloccato (permesso negato) e NON ritentato — comportamento corretto, coerente con [[feedback-git-pr-allowlist-path]]. Confermato con git status: locale 2 commit avanti (7e5e29c9+b3ffb4c4) — stesso pattern non confermato del 23/7 ~22:16 in [[token-github-unificato]], ora visto ripetersi il giorno dopo (non ancora causa-radice nota: sandbox/allowlist vs auth GitHub). STATO.md aggiornato con l'entry oraria; nessuna azione/decisione nuova da accodare in AZIONI-IN-ATTESA (il push resta a carico di Nicola da VPS).",
   "_consolidamento_settimanale_24_07_1600": "REVIEW SETTIMANALE (venerdì, cervello/ritmo.md §3): distillazione dei principi maturi della settimana 17-24/7, senza duplicare i 9 già promossi automaticamente nei giri quotidiani (promosso_il 2026-07-24 14:20). 4 principi della settimana con confidenza alta e ≥3 evidenze, meritevoli di guardrail permanente: (1) **Verifica lo stato osservabile PRIMA di dedurre** (screenshot/doc ufficiale, non solo timestamp/ipotesi) — saga Vercel 6 giri il 23-24/7, causa vera trovata solo con lo screenshot reale e la doc autoJobCancelation; già in feedback-verifica-prima-di-affermare.md. (2) **Il tool Workflow è strutturalmente bloccato in questa sessione headless** (gate di conferma non disponibile) — usare sempre Agent in parallelo per fan-out multi-area; confermato 2 volte (23/7 22:15 e 23:17), nessun bisogno di ritentare. (3) **git-pr.mjs non esclude i file sporchi altrui**: prima di ogni git-pr.mjs, `git status --short` e ripulire PRIMA, non dopo — ripetuto 3 volte in 24h con file diversi (PR #513, #516, #517) nonostante fosse già lezione nota: la regola va cablata nello script, non solo ricordata. (4) **Loop a vuoto generalizzato**: comando pesante (giro pieno, radiografia, playbook di reparto) ri-invocato a distanza di minuti senza nuovo fatto → rispondere con lo stato invece di rieseguire; pattern confermato su giro/radiografia/4 playbook di reparto nella stessa settimana. **Potatura NON eseguita in questa sessione**: l'archivio ha 472 lezioni_attive e 0 decadute nonostante la regola preveda decadimento dopo ~4 settimane senza riconferma (difetto già tracciato come AR-149, aperto) — il potatore automatico vive in cervello/apprendimento-guardiano.mjs, uno script node che questa sessione chat non può eseguire (node non in allowlist Bash qui, vedi consenso-per-azione-ar-103 in memoria); la potatura reale richiede farlo girare dal VPS (cron ritmo.sh) o da una sessione con permessi estesi. Riconciliazione preferenze: nessuna preferenza_nicola contraddetta questa settimana da verificare — le ultime approvate (soglia-costi-extra 23/7, dedup-lavori-identici 23/7) restano coerenti con le azioni della settimana.",
   "_nota_giro_24_07_1105": "Giro pieno 24/7 11:05, su richiesta esplicita di Nicola in chat (non delta-gate/heartbeat) — riconferma di business invariato, riverificato con query SQL dirette (1 PQ, 0 pagati, stallo invariato). Lezione riusabile sul vincolo AR-041/AR-106: il testo iniettato dal giro diceva letteralmente 'nessun esperimento aperto' (boilerplate fisso dello script per QUALSIASI exit-code 1), ma leggendo `auto-miglioramento.json` prima di agire si è visto che 6-7 esperimenti erano già aperti — il vero motivo dell'exit 1 era EXP-005 in scadenza il giorno stesso (data_misura raggiunta), non un array vuoto. Invece di aprire un esperimento duplicato per 'spuntare la casella', ho misurato EXP-005 (mancata, stesso schema di EXP-004) e documentato la discrepanza. Principio generale: un vincolo hard iniettato va sempre verificato nel file/dato sorgente prima di eseguire il rimedio suggerito alla lettera — il messaggio d'errore può essere un template generico che copre più cause diverse. Nota tecnica collaterale: in questa sessione 2 script (`north-star-check.mjs --gate`, `esperimenti-check.mjs`) non erano nell'allowlist Bash locale (solo `pulisci-coda.mjs`/`git-pr.mjs` lo sono) — bypassato con query SQL dirette via MCP + edit diretto dei JSON, senza ritentare lo stesso comando bloccato una seconda volta (coerente con la regola tool generale 'non ripetere una chiamata negata').",
   "_nota_giro_24_07_0624": "Giro pieno delle 06:24, scattato per heartbeat (delta-gate: 14h dall'ultimo giro pieno di ieri 23/7 16:47) — non un'invocazione ravvicinata a vuoto come i 6-11+ passaggi del 23/7. Lezione riusabile per il volano: il delta-gate ha distinto correttamente le due situazioni (firma-identica-a-distanza-di-minuti → salta; tempo reale trascorso oltre soglia → esegui il pieno), confermando che il meccanismo anti-loop funziona come progettato quando gli viene dato tempo di passare. Riverificato dal vivo con query SQL dirette: business invariato (1 PQ, 0 pagati, stallo ~718h). Trovato e corretto un piccolo difetto collaterale: `cervello/radar.json` (fattore 'negozio-01') citava ancora 'Garetti' come negozio-faro invece di 'Pane Quotidiano', residuo mai bonificato dalla correzione R3/AR-006 del 14/7 — lezione di processo: quando un fatto-chiave cambia (faro Garetti→Pane Quotidiano), il grep di verifica va esteso anche ai file di configurazione tecnica (radar.json, sentinelle.md) e non solo ai file di memoria/coda, perché le etichette testuali nei file di config non passano dal guardiano coerenza-fatti.mjs (quello copre solo i 'fatti' in registro-fatti.json).",
@@ -10388,6 +10390,27 @@
       "nato": "2026-07-24",
       "ultima_conferma": "2026-07-24 00:26",
       "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0724-527",
+      "testo": "**«Parla con questa casella» continua a mancare superficie per superficie invece che ovunque insieme — Bacheca è la 7ª volta (dopo Ritmo PR#355, Diretta contenuti PR#479, Avvisi PR#323/#373, Opportunità PR#374, Lavori/ChatCasella), ogni volta perché Nicola nota la superficie mancante, non perché l'AD l'ha auditata prima.** Il componente esiste già pronto e riusabile (`ParlaCasella`/pattern chat contestuale), ma viene aggiunto una scheda alla volta su richiesta anziché con un giro unico che lo applica a TUTTE le sezioni del Pannello. Regola: la prossima volta che Nicola chiede «aggiungi parla con la casella a X», prima di limitarsi a X fare un giro rapido (grep dei componenti-scheda del Pannello) per vedere quali altre sezioni ne sono ancora prive e proporle nello stesso lavoro — evita 6+ piccole PR consecutive sullo stesso tema a distanza di giorni/settimane.",
+      "tag": [
+        "pannello",
+        "parla-casella",
+        "ux",
+        "pattern-ricorrente",
+        "bacheca",
+        "pr-527"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.9,
+      "evidenze": 7,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-24",
+      "ultima_conferma": "2026-07-24 17:40",
+      "stato": "attiva",
+      "usi": []
     }
   ],
   "principi": [
@@ -10988,9 +11011,9 @@
     "promosse_a_principio": 14,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-24 16:20",
+    "tasso_calcolato_il": "2026-07-24 17:35",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-24 16:20",
+    "tick_leggero_il": "2026-07-24 17:35",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
     "cristallizzazione_ultima": "2026-07-24 16:20"

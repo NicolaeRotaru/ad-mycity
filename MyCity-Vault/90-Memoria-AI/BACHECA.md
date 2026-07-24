@@ -6,6 +6,36 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
+## 📒 Registro dei fatti — fonte unica della verità · 2026-07-24 17:10
+
+Specchio umano di `registro-fatti.json` (AR-102): qui vivono i fatti-chiave del business già concordati/verificati. Se un fatto cambia nel registro, questa tabella si riscrive nello stesso momento — niente copie vecchie in giro.
+
+| Fatto | Valore | Aggiornato |
+| --- | --- | --- |
+| Negozio faro | **Pane Quotidiano** — unico negozio reale attivo (demo Casa Linda esclusa) | 06/7 23:55 |
+| Cliente core | **Botteghe** (carrello multi-negozio settimanale) — non ristoranti/trattorie | 13/7 22:35 |
+| Commissione MyCity | **10%** sul venduto | 20/7 12:39 |
+| Abbonamento venditore | **50 €/mese** | 20/7 12:39 |
+| Costi infrastruttura | **~302 €/mese** fissi (dettaglio nella sezione "💰 Costi infrastruttura" qui sotto) | 21/7 00:37 |
+| Soglia costi extra (admin/assicurazioni/app store) | Sospesi finché l'utile netto non arriva a **~5.000 €/mese** | 23/7 17:26 |
+| Ripresa lavoro operativo (inserimento negozi) | **Dopo il 24 agosto – 1 settembre 2026** | 23/7 17:36 |
+| Bici consegna | Non operativa; riparazione da **~28/7** in poi | 14/7 02:59 |
+| Ordini consegnati (North Star) | **0** | 07/7 00:29 |
+| Ordine #16 (test 19,05 € del 24/6) | **Annullato** — non riesumare, il primo ordine reale va creato ex-novo | 07/7 00:29 |
+| Ristoranti/trattorie | **Esclusi** — MyCity lavora solo con botteghe | 16/7 12:57 |
+| Bando Commercio ER (40% fondo perduto) | **Chiuso** il 23/6 (350 domande raggiunte) — nessuna azione possibile | 11/7 11:40 |
+| Motore AI del cervello | **Claude Code** — Cursor solo con flag esplicito | 16/7 12:03 |
+| Ramo di pubblicazione memoria | **main** (ramo unico) | 07/7 00:29 |
+| Deploy Pannello su Vercel | Solo quando cambia `pannello/`, via Deploy Hook | 07/7 00:29 |
+| PostHog — regione | Account US (us.posthog.com) | 20/7 20:21 |
+| PostHog — project id | **495230** | 20/7 18:49 |
+| Venerdì Piacentini (date passate) | 10/7 e 17/7 — nessuna data futura ancora fissata | 07/7 00:29 |
+| Visita 6 botteghe food | Nicola c'è andato **di persona** il 13/7 | 06/7 23:55 |
+
+Fonte di ogni riga: campo `fonte` in `MyCity-Vault/90-Memoria-AI/registro-fatti.json` — lì c'è anche la storia delle correzioni.
+
+---
+
 ## 📍 Capillarità — kit fisico QR e vetrine · 2026-07-20 23:59
 
 Ogni negozio **confermato** esce dal go-live con kit fisico (QR cassa/vetrina, vetrofania, sacchetti) + mappa presenza in città. **Grafica pronta, stampa e posa bloccate** — non mettere QR in vetrina prima che il fornaio sappia evadere ordini.
