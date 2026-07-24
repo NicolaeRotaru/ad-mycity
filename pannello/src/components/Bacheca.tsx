@@ -5,6 +5,7 @@ import { Pin, ChevronDown } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import HomeSezione from "@/components/HomeSezione";
+import ParlaCasella from "@/components/ParlaCasella";
 import { dataVault } from "@/lib/format";
 import { usePanelSync } from "@/lib/panel-sync";
 
@@ -91,6 +92,7 @@ export default function Bacheca() {
                   {a.testo}
                 </ReactMarkdown>
               </div>
+              <ParlaCasella titolo={`Bacheca: ${a.titolo}`} contesto={a.testo.slice(0, 800)} />
             </div>
           </details>
         ))}
