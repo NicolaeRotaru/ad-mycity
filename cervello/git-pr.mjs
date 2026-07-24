@@ -12,6 +12,7 @@
 import { execFileSync } from "node:child_process";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   AD_ROOT,
   findOpenPrForBranch,
@@ -503,6 +504,19 @@ async function main() {
         console.error("ERRORE push:", sanitize(e, cfg.token));
         process.exit(1);
       }
+    }
+    // 🚦 GATE (gate-claim-git): non basta che `git push` non abbia lanciato — verifica che il ref sia
+    // DAVVERO su origin prima di considerare il push fatto. È la lezione più ripetuta di Nicola
+    // («committato ≠ pushato»), qui resa un controllo che blocca, non un promemoria nel prompt.
+    try {
+      const gate = fileURLToPath(new URL("./gate-claim-git.mjs", import.meta.url));
+      execFileSync("node", [gate, "pushed", branch, "--cwd", cfg.cwd], { stdio: "inherit" });
+    } catch (ge) {
+      if (ge && ge.status === 2) {
+        console.error("ERRORE: il push risulta NON arrivato su origin (gate-claim-git). Non dichiaro il push fatto.");
+        process.exit(1);
+      }
+      // status 3 (indeterminato: offline/tooling) → non blocco, ma l'avviso del gate è già a schermo.
     }
   } else if (!noPush && dryRun) {
     console.log(`[DRY-RUN] Push refs/heads/${branch} su ${cfg.slug}`);
