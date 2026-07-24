@@ -655,25 +655,25 @@
     "bloccanti": 12
   },
   "sonda": {
-    "data": "2026-07-24 06:20",
+    "data": "2026-07-24 08:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.17,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
     "difetti_chiusi": 62,
-    "difetti_chiusi_recenti": 28,
+    "difetti_chiusi_recenti": 20,
     "calibrazione_piena": true,
     "previsioni_aperte_recenti": 0,
     "esperimenti_aperti": 7,
     "prova_business": true,
     "prova_architettura": true,
     "esperimenti_misurati": true,
-    "giro_a_cadenza": false,
+    "giro_a_cadenza": true,
     "sentinelle_scattano": false,
-    "ore_da_ultima_completa": 8,
-    "ore_da_ultimo_briefing": 14,
+    "ore_da_ultima_completa": 10,
+    "ore_da_ultimo_briefing": 2,
     "max_giri_ciechi_sensori": 0,
-    "giri_tasso_basso": 44,
+    "giri_tasso_basso": 45,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
@@ -683,14 +683,14 @@
     "bloccanti_umani": 14,
     "salute_firma": "AR-126,AR-129",
     "verdetto": "serve-completa",
-    "nota": "loop chiude (con prova) · briefing STALE (14h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 2 aperti-davvero · 14 in attesa merge · 14 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    "nota": "loop chiude (con prova) · briefing 2h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 2 aperti-davvero · 14 in attesa merge · 14 bloccanti umani · tasso basso 3+ giri → radiografia completa"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 44,
-    "aggiornato": "2026-07-24 06:20"
+    "giri_tasso_basso": 45,
+    "aggiornato": "2026-07-24 08:20"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-24 06:20",
+    "aggiornato": "2026-07-24 08:20",
     "findings_aperti": 52,
     "findings_in_corso": 0,
     "findings_chiusi": 9,
@@ -698,7 +698,7 @@
     "cantiere_aperti": 30,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 62,
-    "match_aggiornati": 2,
+    "match_aggiornati": 0,
     "chiusi_verifica": 0,
     "data_scan": "2026-07-23 22:20"
   }

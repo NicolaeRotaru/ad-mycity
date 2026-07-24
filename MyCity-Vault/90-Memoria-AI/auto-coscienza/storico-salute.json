@@ -4,20 +4,6 @@
     {
       "data": "2026-07-18",
       "voto_salute": 56,
-      "voto_provvisorio": 15,
-      "voto_pieno": 0,
-      "firma": "AR-124,AR-125,AR-126,AR-129",
-      "difetti_aperti": 25,
-      "difetti_chiusi": 50,
-      "pending_merge": 13,
-      "aperti_davvero": 4,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "briefing fresco (11:10) · vincoli hard guardiano risolti: allocazione+registro+loop (gate rc=0) · cecità sensori 51 giri · salute pending-merge 15/100: 4 aperti-davvero · ~13 in attesa merge (8 PR mergiate oggi) · 2 bloccanti umani · PI26 apre domani 20/7 → urgenza massima"
-    },
-    {
-      "data": "2026-07-18",
-      "voto_salute": 56,
       "voto_provvisorio": 10,
       "voto_pieno": 0,
       "firma": "AR-124,AR-125,AR-126,AR-129",
@@ -1226,6 +1212,20 @@
       "bloccanti_umani": 14,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (14h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 2 aperti-davvero · 14 in attesa merge · 14 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-24",
+      "voto_salute": 43,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-126,AR-129",
+      "difetti_aperti": 30,
+      "difetti_chiusi": 62,
+      "pending_merge": 14,
+      "aperti_davvero": 2,
+      "bloccanti_umani": 14,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 2h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 2 aperti-davvero · 14 in attesa merge · 14 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     }
   ]
 }
