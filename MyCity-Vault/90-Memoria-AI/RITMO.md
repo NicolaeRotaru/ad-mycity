@@ -817,4 +817,29 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - 🟡 Un sì o un no sulla proposta "rallenta quando il ritmo sale" — preferisco chiedertelo che continuare a scoprirlo dai tuoi rimproveri
 - 🟡 Quando hai un minuto, dai un'occhiata al pacchetto di due piccoli fix ai guardiani della macchina (card `#auto-riscrittura-git-pr-esito`)
 
+## Report della sera · 2026-07-24 18:00
+
+**Com'è andata oggi**
+- Il Pannello ha fatto un salto vero: i deploy che si annullavano a vicenda su Vercel sono stati sistemati, e ora la macchina mostra dentro il Pannello stesso la sua salute e quanto lavorano i vari reparti, con una chat dedicata per ogni argomento.
+- Il pulsante "parla con questa casella" ora c'è ovunque nella Bacheca — mancava solo lì, era la settima volta che lo aggiungevo pezzo per pezzo.
+- Il negozio resta fermo: ancora nessun ordine pagato, un mese esatto di stallo — la pausa sui negozi decisa ieri tiene, il lavoro di oggi è stato tutto tecnico.
+
+**I numeri**
+- Negozi attivi: 1 (Pane Quotidiano) — invariato
+- Ordini pagati: 0 — invariato, 30 giorni di stallo
+- Clienti iscritti: 4 — invariato
+
+**Da approvare**
+- Rispondi a 3 domande veloci prima di inviare la domanda del bando PI26 (10.000€, scade tra 6 giorni)
+- Dammi un sì o un no: allargo la pausa che ferma i deploy Vercel che si cancellano a vicenda?
+- Quando hai un minuto, dai l'ok al fix del countdown scadenze (così PI26 e le prossime non restano solo un promemoria a mano)
+
+**Lezione di oggi**
+- Un pulsante mancante aggiunto sette volte, una sezione alla volta, è un segnale che devo controllare tutte le sezioni insieme la prossima volta, non aspettare che tu me lo faccia notare di nuovo.
+
+**Domani**
+- La prima cosa utile è chiudere PI26: bastano le tue 3 risposte.
+
+**Dettagli tecnici** — PR mergiate oggi: #526 (`autoJobCancelation`/ignoreCommand Vercel), #527 (ParlaConCasella su tutti gli avvisi), #528 (rimozione ignoreCommand residuo), #529 (hook recupero-memoria + SaluteOnesta.tsx + UtilizzoSenior.tsx + chat per tema). Motori consegnati: contesto-lezioni, cristallizza, verifica-avversariale (Lever 1-3) + recupero-memoria BM25, salute-onesta, utilizzo-senior (mosse 4/6/7). Branch `fix/scadenzario-check-ar147` pronto, PR non ancora aperta (rate-limit GitHub di ieri notte). Coda: 50 aperte. 7 numeri riconfermati via query SQL diretta su `orders`/`products`/`profiles`/`reviews` (18:00).
+
 **Dettagli tecnici** — salute: 43 sonda (56 la settimana scorsa, picco 72 il 20/7) · difetti: 31 aperti / 62 chiusi (+1 oggi, AR-154) · radiografia completa 23/7 22:20 (16 nuovi, AR-138..153) · peer_review PR-006 (tech, voto 7) e PR-007 (relazioni-istituzionali, voto 4, DA SISTEMARE) in `auto-miglioramento.json` · calibrazione: nessun reparto sopra "autonomia bassa" (35 chiuse, 0 promozioni) · apprendimento: 4 principi distillati questa settimana, tasso applicazione 17% (AR-149, invariato) · 107 merge Pannello 17-24/7 su 1409 commit totali.

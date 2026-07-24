@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-24 17:36
-fonte: AD digitale (review settimanale, venerdì)
+aggiornato: 2026-07-24 18:00
+fonte: AD digitale (report della sera)
 ---
+
+> 🌙 **24/7 18:00 — REPORT DELLA SERA.** Business INVARIATO dal 24/6 (riconfermato via query SQL diretta 18:00): 1 negozio (Pane Quotidiano), 5 prodotti, 4 buyer, 1 ordine (CANCELED), **0 pagati**, 0 recensioni, stallo **30 giorni**. Giornata tecnica intensa: **4 PR mergiate su `main`** (#526 spegne i deploy Git nativi di Vercel + squash-merge col titolo "(#N)", #527 "Parla con questa casella" ovunque mancava, #528 rimuove l'`ignoreCommand` che annullava le build del Pannello, #529 "Intelligenza cablata" — hook memoria + card salute/utilizzo senior + chat per tema nel Pannello) più i 3 motori della settimana (contesto-lezioni, cristallizza, verifica-avversariale) e le mosse 4/6/7 (recupero-memoria, salute-onesta, utilizzo-senior). **Resta aperto:** branch `fix/scadenzario-check-ar147` (countdown scadenze come PI26) non ancora mergiato — PR mai aperta per rate-limit GitHub di ieri notte, corpo-PR ora pronto. Coda: **50 aperte** (housekeeping 16:20). **Mossa n.1 di domani: chiudere PI26** (rispondere alle 3 domande di ammissibilità, scade 30/7 ore 16:00, 6 giorni residui). Dettaglio: [[RITMO]].
 
 > 💬 **24/7 17:36 — CHAT: "Parla con questa casella" aggiunto agli avvisi della Bacheca — PR #527 aperta, in attesa di merge.** Nicola: «aggiungi "parla con la casella" a tutte le caselle della bacheca». Fatto: il componente `ParlaConCasella` mancava solo lì (già presente su Azioni/Intelligence/Auto-coscienza/Ritmo/Avvisi/Diretta contenuti/Opportunità) — aggiunto, `tsc --noEmit` pulito, PR contiene solo questo file. **PR #527 accodata in [[AZIONI-IN-ATTESA]] (card #235)**, merge = firma Nicola. **Nota di processo:** è la 7ª volta che questo pulsante viene aggiunto sezione per sezione solo perché Nicola nota che manca — lezione registrata in `apprendimento.json` (L-2026-0724-527) e [[LEZIONI-CHAT]]: la prossima richiesta va accompagnata da un audit di tutte le sezioni ancora prive. Sul filo separato "il registro dei fatti mi sembra incompleto" (turno precedente): verificato che i 19 fatti del JSON e della tabella Bacheca coincidono esattamente — chiesto a Nicola un esempio concreto di cosa si aspettava e non trova, resta senza risposta. Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 24/7 ~17:36.
 
@@ -1075,17 +1077,17 @@ fonte: AD digitale (review settimanale, venerdì)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ riconfermati SQL diretta 23/7 18:02 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
-| Numero | Oggi (23/7 18:02) | Δ vs 20/7 | "Riuscito" | Note |
+## I 7 numeri (✅ riconfermati SQL diretta 24/7 18:00 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
+| Numero | Oggi (24/7 18:00) | Δ vs 23/7 | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Pulizia demo 18:30 — solo PQ live |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ Stripe collegato, payout-test su ordine vero |
 | Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ · 253 demo eliminati dal DB 18:32 |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 24/6 CANCELED — 1° ordine va CREATO ex-novo |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo ~29 giorni · ordine test in pausa fino al 24/8-1/9 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **30 giorni** · ordine test in pausa fino al 24/8-1/9 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST · sentinella-dati ordini=1 |
+| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST/SQL diretta · ordini=1 |
 | **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)
@@ -1183,14 +1185,14 @@ fonte: AD digitale (review settimanale, venerdì)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (☀️ aggiornato 24/7 06:02 — piano del mattino)
-Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 1 ordine (CANCELED), 0 pagati — **stallo 30 giorni esatti oggi**. Negozi in pausa fino al 24/8-1/9 (decisione Nicola 23/7): niente spinte commerciali, solo tecnico + PI26 + analisi di mercato.
+## Prossime priorità (🌙 aggiornato 24/7 18:00 — report della sera)
+Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 1 ordine (CANCELED), 0 pagati — **stallo 30 giorni**. Negozi in pausa fino al 24/8-1/9 (decisione Nicola 23/7): niente spinte commerciali, solo tecnico + PI26 + analisi di mercato. Giornata piena su Pannello/AD: 4 PR mergiate (#526 #527 #528 #529), deploy Vercel stabilizzato, memoria collegata più a fondo nel Pannello (salute/utilizzo senior, chat per tema).
 
-1. [ ] 🔴 **Invia domanda PI26** — sportello a esaurimento, scade **30/7 ore 16:00 (6 giorni residui)**, fino a €10.000 fondo perduto; bozza pronta in `consegne/relazioni-istituzionali/2026-07-18-bandi-cciaa-pi26-be26.md`. Priorità economica più alta, non toccata dal rinvio negozi.
-2. [ ] 🟡 **Chiudi il cantiere "il deploy si cancella"** — il fix parziale (pausa 3 min dopo un merge) NON basta: Nicola ha verificato che un Redeploy manuale viene comunque cancellato da un commit di log durante una chat fitta. Serve il suo ok per allargare la pausa a "silenzio dopo qualsiasi scrittura recente su `main`". Nello stesso cantiere: riaprire la PR `fix/scadenzario-check-ar147` (AR-147, countdown scadenze esterne) — il branch è pronto ma il corpo-PR citato ieri notte non è mai stato scritto.
-3. [ ] 🟡 **Punch-list tecnico aperto** — `BURN_MENSILE_EUR=302` nel `.env` VPS (comando pronto, 9ª+ diagnosi identica dal 14/7, chiude alla radice la card sensore-cassa); verifica se "Diretta contenuti" è tornato nel menu del Pannello dopo l'ultimo Redeploy; scrivere nel cantiere-difetti i 3 rischi trovati dall'auto-radiografia di ieri sera (tasto PAUSA che non ferma davvero l'autopilota, freno "budget giornaliero token" che non scatta mai, PI26 senza allarme automatico — solo promemoria a mano).
+1. [ ] 🔴 **Rispondi alle 3 domande PI26** (P.IVA/entità giuridica sì-no · spese reali documentabili sì-no e quanto · firma digitale attiva sì-no) — un valutatore indipendente ha bocciato la bozza come "non pronta all'invio", scade **30/7 ore 16:00 (6 giorni residui)**, fino a €10.000 fondo perduto. Priorità economica più alta, non toccata dal rinvio negozi.
+2. [ ] 🟡 **Decidi se allargare la pausa anti-cancellazione deploy Vercel** — il fix di stanotte (pausa 3 min dopo un merge) resta insufficiente: un commit qualsiasi durante una chat fitta cancella comunque un deploy in corso. Proposta in coda: silenzio di qualche minuto dopo QUALSIASI scrittura su `main` (costo: più ritardo nella memoria che arriva al Pannello, nessuna perdita dati).
+3. [ ] 🟡 **Mergia il countdown scadenze esterne (AR-147)** — branch `fix/scadenzario-check-ar147` pronto (script + descrizione PR scritti stanotte), non ancora aperta la PR: serve un retry di `git-pr.mjs` o l'apertura manuale da GitHub. Farà comparire da sola una card 🔴 quando PI26 o altre scadenze entrano negli ultimi 7 giorni.
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 30gg) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª+ diagnosi identica) · Telegram assente · n8n cieco · REST/Stripe/Sito/Pannello ✅ · push GitHub VPS+Vercel ✅ risolti 23/7 · PR #512/#513 (Pannello) ancora da mergiare · #511 da chiudere senza merge.
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 30gg) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR, 9ª+ diagnosi identica) · Telegram assente · n8n cieco · REST/Stripe/Sito/Pannello ✅ · push GitHub VPS+Vercel ✅ · deploy Vercel: 2 fix mergiati oggi (#526/#528), pausa post-merge ancora da allargare.
 
 ---
 
