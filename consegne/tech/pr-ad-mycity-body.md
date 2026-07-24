@@ -1,22 +1,18 @@
-## Cosa
+## Cosa cambia
 
-Blocca il doppio invio ravvicinato nella barra di scrittura della chat (`BarraScritturaChat.tsx`), che duplicava le chat nuove.
+Le chat continuavano a duplicarsi ("Oiinn" x2, "Abc" x2, stesso minuto) ANCHE dopo il merge di PR #531 (fix del doppio-tap). Causa vera trovata leggendo il codice: la casella di scrittura chat esiste in DUE punti di `page.tsx` — la vista "Assistente" a pagina intera e il widget flottante/worker — e queste **possono restare montate entrambe insieme** (quando sei sulla vista Assistente e apri anche il widget flottante sopra). Il lock anti-doppio-invio di #531 era locale a ciascuna istanza: bloccava un doppio tap sullo STESSO bottone, ma non due caselle diverse che inviano nello stesso momento.
 
 ## Perché
 
-Nicola ha segnalato (24/7, screenshot alla mano) chat duplicate nella lista: stesso titolo, stesso minuto, una con 1 messaggio e una con 2. Verificato nel codice: il bottone "invia" non ha un blocco contro il doppio tap. `invia()` legge il testo dallo state `bozza`; `setBozza("")` è asincrono, quindi un secondo tap arrivato prima del ri-render leggeva ANCORA il testo vecchio e richiamava `onInvia(t)` una seconda volta con lo stesso messaggio — due chiamate a `mandaAlCervello` creano due conversazioni reali distinte sul server (una resta "fantasma" ferma al primo messaggio, l'altra riceve la risposta e cresce).
-
-Non è lo stesso bug della PR #517 (23/7): quello copriva un id-segnaposto locale rimasto orfano dopo un poll; questo è un doppio-submit reale prima ancora che una conversazione esista.
+Il commento originale nel codice diceva "una sola superficie montata per volta" — un'assunzione che in pratica non è sempre vera (confermato leggendo le condizioni in `page.tsx`: `vista === "assistente"` e `chatFluttuante || workerFull` non si escludono a vicenda). Serve un lock condiviso, non uno a testa.
 
 ## Come
 
-Aggiunto un lock sincrono (`useRef`) in `invia()`: il primo tap parte normalmente e blocca ogni tap successivo per 800ms, poi si riapre. Essendo sincrono (non uno state), il secondo tap ravvicinato viene scartato PRIMA di chiamare `onInvia`, anche se arriva nello stesso istante del primo.
+Il lock (`invioChatBloccatoRef`) ora vive in `page.tsx` e viene passato come prop (`invioBloccatoCondivisoRef`) a entrambe le istanze di `BarraScritturaChat`. Un invio da una casella blocca per 800ms anche l'altra. Se il prop non arriva (uso futuro del componente altrove) resta il lock locale come prima, per compatibilità.
 
 ## Come provare
 
-1. Sul Pannello (mobile o desktop), scrivere un messaggio in una chat nuova.
-2. Fare doppio tap/click molto rapido sul bottone invia.
-3. Atteso dopo il fix: un solo messaggio parte, una sola chat compare nella lista.
-4. Verificato: `npx tsc --noEmit` pulito, nessun errore.
+1. `npx tsc --noEmit` da dentro `pannello/` — pulito (verificato).
+2. Dal vivo dopo il deploy: apri la vista Assistente, apri anche il widget flottante sopra, scrivi un messaggio breve e invia — deve comparire UNA sola chat nella lista, non due.
 
-Non testato dal vivo nel browser (sessione headless, nessun accesso a un browser reale) — verifica visiva sul Pannello dopo il merge consigliata.
+Non testato dal vivo nel browser (sessione headless, nessun accesso a un browser reale) — verifica visiva sul Pannello dopo il merge consigliata, come per #531.
