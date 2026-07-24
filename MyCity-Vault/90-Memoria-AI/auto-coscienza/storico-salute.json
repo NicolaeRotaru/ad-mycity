@@ -13,20 +13,6 @@
       "aperti_davvero": 3,
       "bloccanti_umani": 2,
       "tipo": "sonda",
-      "nota": "tasso=0 ma c'è chiusura · briefing 0h fa · cecità sensori 56 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 19 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-18",
-      "voto_salute": 56,
-      "voto_provvisorio": 20,
-      "voto_pieno": 0,
-      "firma": "AR-124,AR-126,AR-129",
-      "difetti_aperti": 24,
-      "difetti_chiusi": 51,
-      "pending_merge": 19,
-      "aperti_davvero": 3,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
       "nota": "tasso=0 ma c'è chiusura · briefing 0h fa · cecità sensori 59 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 19 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     },
     {
@@ -1232,6 +1218,20 @@
       "bloccanti_umani": 14,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 1h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 2 aperti-davvero · 14 in attesa merge · 14 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-24",
+      "voto_salute": 43,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-126,AR-129",
+      "difetti_aperti": 30,
+      "difetti_chiusi": 62,
+      "pending_merge": 14,
+      "aperti_davvero": 2,
+      "bloccanti_umani": 14,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 3h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 2 aperti-davvero · 14 in attesa merge · 14 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     }
   ]
 }

@@ -6161,9 +6161,7 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 21:58",
-      "stato": "principio",
-      "promosso_il": "2026-07-24 14:20",
-      "cristallizzato_in": "memoria-persistente"
+      "stato": "attiva"
     },
     {
       "id": "L-2026-0713-178",
@@ -7030,9 +7028,7 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 21:47",
-      "stato": "principio",
-      "promosso_il": "2026-07-24 14:20",
-      "cristallizzato_in": "memoria-persistente"
+      "stato": "attiva"
     },
     {
       "id": "L-2026-0713-137",
@@ -7143,9 +7139,7 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 18:14",
-      "stato": "principio",
-      "promosso_il": "2026-07-24 14:20",
-      "cristallizzato_in": "memoria-persistente"
+      "stato": "attiva"
     },
     {
       "id": "L-2026-0713-132",
@@ -7237,9 +7231,7 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 19:52",
-      "stato": "principio",
-      "promosso_il": "2026-07-24 14:20",
-      "cristallizzato_in": "memoria-persistente"
+      "stato": "attiva"
     },
     {
       "id": "L-2026-0713-128",
@@ -8950,9 +8942,7 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-03",
       "ultima_conferma": "2026-07-03 21:21",
-      "stato": "principio",
-      "promosso_il": "2026-07-24 14:20",
-      "cristallizzato_in": "memoria-persistente"
+      "stato": "attiva"
     },
     {
       "id": "L-2026-0702-51",
@@ -10380,142 +10370,9 @@
     }
   ],
   "principi": [
-    {
-      "id": "L-2026-0713-179",
-      "testo": "**Controllo/La macchina — grilling completo A+B+B+B+B+rename+A (chat 13/7 ~21:52–21:58):** «grillami, non mi piace come è impostata» → **Q1 A:** in 10s solo **semaforo** (🟢🟡🔴) + **un passo** se problema (lettura rapida dagli organi in home). **Q2 B:** cuore e 8 organi in **home** + pagina dedicata **ampliata**. **Q3 B:** **Radiografia sito esce** da questa pagina (audit marketplace). **Q4 B:** audit sito → voce menu **«Salute sito»**. **Q5 B modificato:** cuore+organismi grandi + contenuto sotto **MA** Nicola chiede: (1) **Auto-coscienza** → **voce menu a sé** (stesso pattern Salute sito); (2) rinominare **«Controllo»** → **«Radiografia macchina»**. **Q6 A:** dentro Radiografia macchina = cuore+organismi grandi + **report radiografia subito sotto**, **niente tab**. **Menu finale:** 3 voci separate (Radiografia macchina, Salute sito, Auto-coscienza). 5 perché: (1) Nicola separa concetti nel menu, non nelle tab; (2) nomi menu = cosa contiene la pagina; (3) pattern ripetibile: ogni audit/sistema = voce propria; (4) grilling sequenziale funziona — non proporre PR finché tutte le domande non chiudono; (5) home = semaforo veloce, pagina dedicata = referto completo. **PR redesign 🟡** solo dopo «sì» Nicola. Correlazione L-172, nicola-spiegazioni-piu-chiare.",
-      "tag": [
-        "pannello",
-        "controllo",
-        "radiografia-macchina",
-        "auto-coscienza",
-        "salute-sito",
-        "la-macchina",
-        "ux",
-        "grilling",
-        "nicola",
-        "semaforo",
-        "menu"
-      ],
-      "reparto": "@frontend-dev",
-      "promosso_il": "2026-07-24 14:20"
-    },
-    {
-      "id": "L-2026-0713-138",
-      "testo": "**Checklist audit post-merge PR (chat 13/7 ~17:55–18:22, richiesta Nicola):** Nicola «assicurati che ogni commit/pr/merge di stamattina siano andate a buon fine» poi «facciamo una verifica». 5 perché: (1) «PR mergiata» ≠ «fix live» — worker chat non riavviato dal 16:08 fino a restart Nicola 18:22; (2) «PR mergiata» ≠ «fix su main» — #335 merge ha portato commit `68c15aa4` con codice vecchio; (3) «codice su main» ≠ «funziona per Nicola» — serve deploy Vercel + restart worker + prova dispositivo; (4) coda Pannello può restare «in attesa» su PR già mergiate (#339/#340 verificate mergiate 18:15); (5) **regola audit/verifica:** per ogni PR del giorno → stato GitHub + `git show HEAD:<file-fix>` + test locale se worker + **3 check Nicola** (restart worker, Ctrl+F5, streaming orizzontale + pallino 15s). Nicola 18:22 ha completato restart+Ctrl+F5; terza prova streaming in corso. Fonte: audit 23 PR #312–#337 + verifica main + chat 18:22.",
-      "tag": [
-        "audit",
-        "pr",
-        "merge",
-        "worker",
-        "verifica",
-        "post-merge",
-        "nicola"
-      ],
-      "reparto": "@devops-sre",
-      "promosso_il": "2026-07-24 14:20"
-    },
-    {
-      "id": "L-2026-0713-133",
-      "testo": "**Pallino riaccende dopo ~5s — orologio browser vs lavoro AD (chat 13/7 ~17:36–18:01):** Nicola «c'è ancora il problema dei pallini… dopo che apro la chat della risposta non letta il pallino sparisce ma dopo 5 secondi ritorna». 5 perché: (1) aprire chat salva `lettoAt` con `Date.now()` del client; (2) il poll elenco conversazioni (~5s) ricalcola non-letto confrontando con `updated_at`/`finished_at` del **Lavoro** AD; (3) il lavoro spesso termina qualche secondo DOPO che Nicola ha già aperto la chat → timestamp lavoro > timestamp lettura → pallino torna; (4) #328 (sync server) già su main — non risolve questo race; (5) **fix #336** mergiata ~17:49 incompleta (race `persistConversazione`); **#338 mergiata 17:58** (`81c28c0b`) — `segnaLetta` salva orario «adesso» in persist. Nicola ~18:01 può ancora vedere bug = versione Vercel pre-deploy (2–3 min). Regola: una fonte temporale per «letto»; prima di nuovo fix verifica deploy + test 15s in chat aperta.",
-      "tag": [
-        "pannello",
-        "conversazioni",
-        "pallini",
-        "badge",
-        "poll",
-        "timestamp",
-        "pr-336",
-        "pr-334",
-        "pr-332",
-        "nicola"
-      ],
-      "reparto": "@frontend-dev",
-      "promosso_il": "2026-07-24 14:20"
-    },
-    {
-      "id": "L-2026-0713-129",
-      "testo": "**Doppia/tripla PR stesso bug + «impara questi errori» (chat 13/7 ~17:15–17:45):** Nicola «ci sono dei conflitti, risolvili» + «hai creato due pr, le mergio entrambe?» + «impara questi errori» su pallini rossi + residuo pallino ~5s. 5 perché: (1) nella stessa sessione ho aperto #327 (badge parziale), #328 (sync server), #332 (orologio), #334 (poll) → 4 PR per un bug = confusione su quale mergiare; (2) conflitto #328 = file memoria worker nel branch Pannello (pattern #318/#324/#316, non codice fix); (3) ho detto «pronta» senza simulare merge su main HEAD — Nicola trove conflitti dopo; (4) #330 era plugin worker (mergiata separatamente 17:19), non pallini — va detto esplicitamente per non confonderla con #327/#328; (5) **regole:** mai 2+ PR per lo stesso bug nella stessa sessione — iterare sulla STESSA PR o chiudere la vecchia; fix incompleto (#332) = push su #332, NON aprire #334; quando Nicola chiede «mergio entrambe?» rispondere quale SÌ, quale CHIUDI e perché; branch PR = solo la cartella del fix (`pannello/` o singolo file `cervello/*.mjs`), ribasa su main, **simula merge prima di «pronto»**. Fix #328 ripulito commit `812cff8b`; #332 annullata → solo #334 merge 🔴 #107.",
-      "tag": [
-        "pannello",
-        "pr",
-        "doppioni",
-        "conflitti",
-        "pallini",
-        "pr-327",
-        "pr-328",
-        "pr-332",
-        "pr-334",
-        "cervello",
-        "impara-errori",
-        "nicola"
-      ],
-      "reparto": "@tech",
-      "promosso_il": "2026-07-24 14:20"
-    },
-    {
-      "id": "L-2026-0703-52",
-      "testo": "**Il delta-gate scatta 'pieno' sul rumore di un sensore cieco-ma-opzionale (giro mattino 3/7 06:20):** la firma dello stato reale include `max_giri_ciechi`; PostHog è cieco (401) e opzionale (0 ordini pagati) ma il suo contatore cresce di 1 a OGNI giro → la firma differisce sempre dall'ultimo_pieno → il gate decide 'cambiato: stato sensori' e fa girare il motore AI pesante anche quando business, incassi e sentinelle azionabili sono identici. È lo stesso spreco che AR-019 doveva chiudere, rientrato da una porta laterale (AR-024 lo tocca lato sonda/alert, non lato firma). **Regola/fix proposto:** nella firma del delta-gate, per i sensori marcati OPZIONALI/non-critici, usa lo STATO booleano (cieco sì/no) e non il contatore incrementale; così un sensore già-noto-cieco non forza giri pieni. Finché non è implementato: quando l'unica differenza di firma è l'incremento del contatore di un sensore opzionale, tratta il giro come minimale (timestamp + delta), non pesante.",
-      "tag": [
-        "delta-gate",
-        "AR-019",
-        "AR-024",
-        "efficienza-costo",
-        "sensori",
-        "posthog",
-        "firma-stato"
-      ],
-      "reparto": "@AD",
-      "promosso_il": "2026-07-24 14:20"
-    },
-    {
-      "id": "L-2026-0701-04",
-      "testo": "**Caso-studio Nicola:** Casa Linda trattata come negozio reale perché approvata+payout attivo nel DB — Nicola corregge: **è demo/seed** (UUID 11111111…, catalogo finto). **Unico negozio reale oggi = Pane Quotidiano** (Via Calzolai 25, tel. 0523 388601, 5 prodotti bio, payout OFF, ordine zombie €19,05 COD). 5 perché: (1) ho confuso presenza DB con entità reale; (2) non ho controllato segnali seed; (3) registro-realta le aveva entrambe «confermate» solo da query; (4) processo KPI non distingue demo da LIVE; (5) fix: contare come REALE solo negozi confermati da Nicola o verificabili sul campo (Maps/tel/prodotti veri) — demo esclusi da proposte 🔴 e dai 7 numeri. Proposta «Forzare transazione Casa Linda» RITIRATA → priorità ordine zombie Pane Quotidiano.",
-      "tag": [
-        "verita",
-        "entita",
-        "demo",
-        "nicola",
-        "negozi",
-        "guardrail"
-      ],
-      "reparto": "@AD",
-      "promosso_il": "2026-07-01"
-    },
-    {
-      "id": "L-2026-0628-01",
-      "testo": "Grounding delle entità a 3 strade, da fare DA SOLA prima di disturbare Nicola: (a) nei dati reali → confermata; (b) scelta ragionata con prove verificabili (gap di mercato, profilo, fatti pubblici) → legittima, mostra il perché; (c) nessun fondamento → blocca e chiedi. Solo (c) è il vero 'inventato'.",
-      "tag": [
-        "verita",
-        "guardrail",
-        "entita",
-        "autonomia"
-      ],
-      "reparto": "@AD",
-      "promosso_il": "2026-07-01"
-    },
-    {
-      "id": "L-2026-0628-04",
-      "testo": "Non delegare a Nicola ciò che puoi dedurre da sola. Se un'entità/scelta non è nei dati, cerca PRIMA il tuo stesso trail di analisi: una scelta ragionata con prove (es. Garetti fondato su campo-aperto-faro.md) è legittima e va presentata col suo perché, non rimbalzata come 'è reale?'. Chiedere è prudenza solo quando manca davvero il fondamento.",
-      "tag": [
-        "autonomia",
-        "intelligenza",
-        "nicola",
-        "metacognizione"
-      ],
-      "reparto": "@AD",
-      "promosso_il": "2026-06-29"
-    },
-    {
-      "id": "L-2026-0628-02",
-      "testo": "Nessun numero come fatto senza fonte ammessa (Supabase/Stripe/PostHog/documento/conferma). Senza fonte → 'stima' o nei Gap.",
-      "tag": [
-        "verita",
-        "numeri",
-        "guardrail"
-      ],
-      "reparto": "@AD",
-      "promosso_il": "2026-06-29"
-    }
+    "Verità prima di tutto: nessuna entità o numero senza fonte verificabile.",
+    "L'autonomia si guadagna azzeccando le previsioni (calibrazione).",
+    "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
     "**Coerenza tra parola e fatto — mai chiedere un'azione manuale e poi cambiare lo stato da solo prima che sia eseguita (chat 23/7 ~11:36, correzione dura; generalizzata 11:43-11:46):** dopo aver chiesto a Nicola `rm` manuale su 3 file VPS, l'AD è tornato su `main` e i file sono spariti da soli (git checkout) — Nicola l'ha letta come menzogna/incoerenza, non come dettaglio tecnico. Si aspetta: (1) se chiedo un'azione manuale su uno stato mutabile (VPS, branch, file, servizio), non lo tocco più finché non conferma fatto, oppure ri-verifico lo stato nell'istante esatto in cui glielo chiedo; (2) se qualcosa cambia da solo per un mio effetto collaterale, spiegazione chiara e onesta SUBITO, non solo quando richiesta due volte; (3) su prod/VPS evitare di far digitare comandi manuali che poi si rivelano inutili — rischio di fiducia oltre che operativo. **Generalizzazione 11:43** («riesci a essere più efficiente su questo, su molte più cose?»): stesso principio esteso a numeri di business, stato azioni/PR in coda, stato sensori/guardiani — sempre il dato fresco del momento del turno, mai quello memorizzato dal turno prima. Vedi L-2026-0723-446.",
@@ -10896,16 +10753,15 @@
     "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
   ],
   "meta": {
-    "lezioni_attive": 453,
-    "promosse_a_principio": 9,
+    "lezioni_attive": 472,
+    "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.17,
     "tasso_calcolato_il": "2026-07-24 14:20",
     "tasso_finestra_giorni": 30,
     "tick_leggero_il": "2026-07-24 14:20",
     "usi_marcati_il": "2026-07-17 07:00",
-    "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-24 14:20"
+    "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
