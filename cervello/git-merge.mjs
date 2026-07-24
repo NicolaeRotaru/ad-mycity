@@ -4,8 +4,11 @@
 //
 // Uso:
 //   node cervello/git-merge.mjs --repo mycity --pr 42
-//   node cervello/git-merge.mjs --repo ad-mycity --pr 15 --method squash
+//   node cervello/git-merge.mjs --repo ad-mycity --pr 15 --method merge
 //   node cervello/git-merge.mjs --repo mycity --pr 42 --dry-run
+//
+// Default: SQUASH con titolo commit = "Titolo della PR (#N)" — così il deploy
+// Vercel porta il nome della PR mergiata, non "Merge pull request #N from …".
 //
 // LIVE: AZIONI_LIVE=1 (o "on") — altrimenti dry-run come esegui-azione.mjs.
 
@@ -25,7 +28,7 @@ function usage() {
 Opzioni:
   --repo ad-mycity|mycity   Repo (obbligatorio)
   --pr NUMERO               Numero PR (obbligatorio)
-  --method merge|squash|rebase   Metodo merge (default: merge)
+  --method squash|merge|rebase   Metodo merge (default: squash → titolo "Titolo PR (#N)")
   --dry-run                 Simula senza mergeare
   --force                   Merge anche se AZIONI_LIVE=0 (solo test/dev)
   --help                    Aiuto
@@ -76,7 +79,7 @@ async function main() {
 
   const dryRun = Boolean(args["dry-run"]);
   const force = Boolean(args.force);
-  const method = String(args.method || "merge");
+  const method = String(args.method || "squash");
   if (!["merge", "squash", "rebase"].includes(method)) {
     console.error("ERRORE: --method deve essere merge, squash o rebase.");
     process.exit(1);
@@ -118,7 +121,10 @@ async function main() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         merge_method: method,
-        commit_title: pr.title,
+        // Titolo del commit di merge = "Titolo della PR (#N)": è ciò che Vercel
+        // mostra come nome del deploy. Con merge_method=merge questo sostituisce
+        // il default "Merge pull request #N from …".
+        commit_title: `${pr.title} (#${prNum})`,
       }),
     }
   );
