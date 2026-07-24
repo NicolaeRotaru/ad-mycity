@@ -14,6 +14,28 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+<!-- pi26-conferma-ammissibilita -->
+### 🔴 #pi26-conferma-ammissibilita — Conferma 3 cose prima di inviare la domanda PI26 (10.000€, scade 30/7 ore 16:00) · ⏳ accodata 2026-07-24 16:00 (review settimanale)
+**Cosa cambia:** un valutatore indipendente ha esaminato la bozza (`consegne/relazioni-istituzionali/2026-07-18-bandi-cciaa-pi26-be26.md`) con l'occhio scettico della nostra regola di qualità e ha dato verdetto **DA SISTEMARE**: (1) la spesa minima richiesta dal bando (5.000€ dal 1° maggio) non è mai stata confrontata col nostro burn reale — da maggio a oggi fa ~850€, molto sotto soglia; (2) non risulta da nessuna parte se MyCity ha già una Partita IVA o un'entità giuridica registrata (requisito base di ammissibilità); (3) mancano documenti di spesa reali (fatture/preventivi) che sommino la soglia richiesta.
+**Se va bene:** rispondi con le 3 risposte (P.IVA sì/no, spese reali documentabili sì/no e quanto, firma digitale attiva sì/no) — l'AD aggiorna la bozza e la prepara per l'invio finale entro il 29/7, un giorno di margine sulla scadenza.
+**Nota tecnica:** verdetto completo in `MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json` (peer_review PR-007). Sportello a esaurimento: se la domanda risulta inammissibile dopo l'invio non si può correggere.
+- **Colore:** 🔴 (decisione economica, 10.000€, richiede dati reali solo tuoi)
+- **Reparto:** relazioni-istituzionali
+- **Origine:** `{origine:review-settimanale-2026-07-24, valutatore:indipendente}`
+
+---
+
+<!-- auto-riscrittura-git-pr-esito -->
+### 🟡 #auto-riscrittura-git-pr-esito — Due piccoli fix ai guardiani della macchina (da chiudere un incidente ripetuto 3 volte e un buco nel rituale ESITO) · ⏳ accodata 2026-07-24 16:00 (review settimanale)
+**Cosa cambia:** (1) `cervello/git-pr.mjs` fallirebbe con un errore chiaro se trova file NON legati al lavoro dichiarato invece di committarli in silenzio — è successo 3 volte in 24 ore il 23/7 (PR #513, #516, #517) con file diversi ogni volta, sempre per lo stesso motivo. (2) Un gate che impedisce di segnare chiuso un lavoro 🟡/🔴 senza la riga ESITO in `chiusura-loop.mjs` — questa settimana il quaderno di @tech si è fermato al 20/7 nonostante decine di PR mergiate dopo (AR-154), proprio nei giorni con più da imparare.
+**Se va bene:** l'AD scrive le due modifiche in un branch, le testa (script + 1 caso finto), apre la PR e te la segnala qui per il merge — nessun rischio per il sito, sono solo controlli interni della macchina.
+**Nota tecnica:** dettaglio completo in `auto-coscienza/auto-miglioramento.json` (proposte_auto_riscrittura, finding AR-154 + episodi LEZIONI-CHAT 23/7).
+- **Colore:** 🟡 (tocca script interni della macchina, non il sito)
+- **Reparto:** tech/prompt-engineer
+- **Origine:** `{origine:review-settimanale-2026-07-24}`
+
+---
+
 <!-- pausa-post-merge-worker -->
 ### ⚠️ #merge-pausa-post-merge-worker — Il fix "aspetta 3 minuti dopo un merge" è live ma NON BASTA · ⏳ accodata 2026-07-24 00:33 · **VERIFICATO INSUFFICIENTE 2026-07-24 00:47**
 **Cosa è cambiato:** hai chiesto di applicare la pausa dopo la caccia al perché Vercel "parte e sparisce" — trovato che l'AD stessa uccideva i tuoi deploy, scrivendo un commit di log su `main` a pochi secondi da ogni merge, mentre Vercel stava ancora buildando. Quel commit ora aspetta 3 minuti prima di partire.

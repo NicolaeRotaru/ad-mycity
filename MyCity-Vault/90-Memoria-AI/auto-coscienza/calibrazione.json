@@ -1,6 +1,7 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-24 14:20",
+  "_review_settimanale_24_07_1600": "REVIEW SETTIMANALE: nessuna previsione nuova nel registro dal 20/7 20:23 (4 giorni) — coerente con la decisione di Nicola del 23/7 di mettere in pausa i playbook di reparto verso negozi/marketing fino al 24/8-1/9 (meno mosse misurabili da prevedere). Ricalcolo confermato sui dati esistenti (35 chiuse, 0 aperte): nessun reparto supera 'autonomia bassa' — @customer-success e @designer hanno il punteggio più alto (1.0 su 1 previsione ciascuno, ma lower_bound 0.38 = ancora troppo poche evidenze per fidarsi); @finanza, @crm-lifecycle, @vendite, @ad restano a 0 (previsioni sistematicamente sbagliate, soprattutto sulle stime numeriche dei playbook — scarti spesso >90%). Nessuna promozione di autonomia questa settimana: il segnale è insufficiente per tutti, non solo per chi sbaglia.",
+  "aggiornato": "2026-07-24 16:00",
   "per_reparto": [
     {
       "reparto": "@customer-success",

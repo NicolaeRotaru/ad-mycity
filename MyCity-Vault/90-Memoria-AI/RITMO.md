@@ -781,3 +781,40 @@ Push GitHub VPS risolto (16:02, PAT rigenerato, PR #510 mergiata). Resta rosso s
 
 **Dettagli tecnici** (opzionale)
 Business invariato dal 24/6 (30 giorni esatti oggi): 1 PQ, 5 prodotti, 4 buyer, 0 pagati. Branch `fix/scadenzario-check-ar147` (AR-147) pronto ma la PR non si apre — manca ancora il corpo-PR. Pausa post-merge (commit `0592c843`) verificata insufficiente da Nicola (00:47): un Redeploy manuale viene comunque cancellato da un commit di log durante una chat fitta — serve ok per allargarla a "silenzio dopo qualsiasi scrittura su main".
+
+## Review settimanale · 2026-07-24 16:20
+
+**In una riga:** questa settimana la macchina è cresciuta tanto (107 PR sul Pannello) e il business è rimasto fermo a zero per il 30° giorno di fila — ma il fatto più importante di oggi è un errore evitato: una domanda da 10.000€ che rischiava di partire incompleta.
+
+**Come è andata questa settimana**
+
+Stessa storia della settimana scorsa, più marcata. Sul Pannello: 107 PR mergiate in 7 giorni — condivisione schermo, cassetto conversazioni cross-device, 3 bug della chat chiusi nello stesso giorno il 23/7, causa vera del deploy Vercel trovata nella documentazione ufficiale dopo 6 tentativi a vuoto. Sul business: zero movimento — stallo a 30 giorni esatti dal 24/6. Il 23/7 hai deciso, per motivi tuoi personali, di mettere in pausa l'inserimento di nuovi negozi fino al 24/8-1/9: decisione rispettata, da allora solo lavoro tecnico + il bando PI26 (che vale la pena tenere vivo perché finanzia la macchina stessa, non l'acquisizione).
+
+La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trovato 16 difetti nuovi con 3 bloccanti: due sono già chiusi in 24 ore (l'autopilota del Pannello ora rispetta davvero la pausa e la lista destinatari), uno resta aperto (il freno "budget giornaliero di token" non scatta mai). Oggi, verificando il lavoro più importante della settimana con un valutatore indipendente scettico (come da nostra regola di qualità), è emerso che la bozza della domanda PI26 — 10.000€ a fondo perduto, scade tra 6 giorni — non è pronta: manca il confronto tra la spesa minima richiesta e i nostri costi reali, e non risulta verificato se MyCity abbia già una Partita IVA. Trovato in tempo, non dopo.
+
+**Pagella per reparto**
+
+- 🧠 **AD / North Star:** 0 ordini pagati, stallo 30 giorni — MANCATO, di nuovo. Ma questa settimana ho anche trovato da sola (radiografia + valutatore indipendente) rischi reali prima che diventassero danni: è il tipo di controllo che voglio rendere abituale, non eccezionale.
+- 🛠️ **Tech / Frontend-dev / DevOps-SRE:** velocità e qualità dei fix altissime (voto peer-review 7/10), ma il quaderno degli esiti si è fermato al 20/7 nonostante lo sprint più attivo della settimana — nuovo difetto aperto (AR-154). 3 incidenti ripetuti con `git-pr.mjs` (file sporchi committati per sbaglio) nello stesso giorno.
+- 🏛️ **Relazioni-istituzionali:** bozza PI26 scritta con 12 giorni di anticipo (buono), ma voto peer-review 4/10 — 3 verifiche di ammissibilità di base mai fatte. Da sistemare prima del 29/7.
+- 🔎 **Intelligence:** attiva sul monitoraggio bandi/mercato come da mandato residuo durante la pausa negozi.
+- 💶 **Finanza:** soglia costi-extra e margini di rischio sugli incentivi ora fissati da Nicola come regola durevole (referral 15€, punti 2%, costi non-vitali sospesi sotto 5.000€/mese di utile).
+- 📣 **Marketing/Content:** in pausa per decisione di Nicola, coerente con lo stop all'acquisizione fino al 24/8-1/9.
+
+**Le 3 mosse per la prossima settimana**
+
+1. 🔴 **Entro il 29/7** — chiudere le 3 verifiche di ammissibilità PI26 con Nicola (P.IVA/entità giuridica, spese reali ≥5.000€, firma digitale) e inviare la domanda entro la scadenza del 30/7 ore 16:00.
+2. 🟡 **Appena possibile** — mergiare il pacchetto di fix del freno budget-token (AR-144) e riportare il quaderno ESITO di tech allineato allo sprint appena fatto.
+3. 🟡 **Nei prossimi giri** — applicare davvero (non solo scrivere) la lezione su rallentare quando il ritmo sale: è la causa comune dietro quasi tutti gli errori segnalati da Nicola questa settimana.
+
+**Voto salute architettura**
+
+43/100 su base sonda (pending-merge) — 31 difetti aperti, 62 chiusi, 2 dei 3 bloccanti della radiografia di ieri sera già chiusi. Il voto scende rispetto alla settimana scorsa (56) non perché la macchina peggiora, ma perché la radiografia completa del 23/7 ha guardato 12 dimensioni con più rigore del solito — è il prezzo di un'analisi onesta, non un incidente. La metrica da smuovere davvero è il tasso di applicazione delle lezioni: 17% su 42 giri, praticamente invariato.
+
+**Serve da te**
+
+- 🔴 Conferma le 3 cose su PI26 prima del 29/7 (card `#pi26-conferma-ammissibilita` in coda)
+- 🟡 Un sì o un no sulla proposta "rallenta quando il ritmo sale" — preferisco chiedertelo che continuare a scoprirlo dai tuoi rimproveri
+- 🟡 Quando hai un minuto, dai un'occhiata al pacchetto di due piccoli fix ai guardiani della macchina (card `#auto-riscrittura-git-pr-esito`)
+
+**Dettagli tecnici** — salute: 43 sonda (56 la settimana scorsa, picco 72 il 20/7) · difetti: 31 aperti / 62 chiusi (+1 oggi, AR-154) · radiografia completa 23/7 22:20 (16 nuovi, AR-138..153) · peer_review PR-006 (tech, voto 7) e PR-007 (relazioni-istituzionali, voto 4, DA SISTEMARE) in `auto-miglioramento.json` · calibrazione: nessun reparto sopra "autonomia bassa" (35 chiuse, 0 promozioni) · apprendimento: 4 principi distillati questa settimana, tasso applicazione 17% (AR-149, invariato) · 107 merge Pannello 17-24/7 su 1409 commit totali.

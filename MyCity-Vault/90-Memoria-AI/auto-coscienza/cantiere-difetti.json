@@ -1682,10 +1682,25 @@
         "pattern": "pat-decisioni-redazione — RIMOSSA",
         "presente": true
       }
+    },
+    {
+      "id": "AR-154",
+      "titolo": "Il rituale ESITO (AR-009) non ha coperto lo sprint Pannello 21-24/7: @tech ha 47 righe ferme al 20/7 nonostante decine di PR mergiate dopo",
+      "dimensione": "chiusura-volano",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Il rituale 'una riga ESITO dopo ogni lavoro 🟡/🔴' (cervello/chiusura-loop.mjs) dipende da un passo manuale a fine lavoro; durante i giorni ad altissimo ritmo (7+ PR/giorno, bug segnalati a raffica da Nicola) l'AD ha dato priorità a chiudere il bug successivo piuttosto che registrare l'esito del precedente — la forcing-function esiste ma non ha un gate deterministico che blocchi la chiusura di un lavoro senza la riga ESITO, a differenza di altri gate (es. auto-analisi/apprendimento in AR-014).",
+      "fix_proposto": "🟡 Nel flusso di git-pr.mjs (o in un hook post-merge): se il branch tocca codice di reparto, ricordare/forzare la riga ESITO prima di considerare il lavoro chiuso — stesso pattern del gate deterministico già usato per auto-analisi.json/apprendimento.json (AR-014), esteso a chiusura-loop.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-24 16:00",
+      "origine": "review-settimanale 2026-07-24 (peer_review PR-006)",
+      "nota": "Trovato confrontando chiusura-loop.json (ultimo_esito @tech = 2026-07-20 23:38) con git log (107 merge 17-24/7, la maggioranza dopo il 20/7). Non blocca nulla di reale oggi (nessuna azione 🔴 eseguita senza controllo), ma svuota la calibrazione futura: senza ESITO, il volano previsto-vs-reale su @tech resta cieco proprio nella settimana di maggiore attività."
     }
   ],
+  "aggiornato": "2026-07-24 16:00",
   "meta": {
-    "aperti": 30,
+    "aperti": 31,
     "in_corso": 0,
     "chiusi": 62
   }

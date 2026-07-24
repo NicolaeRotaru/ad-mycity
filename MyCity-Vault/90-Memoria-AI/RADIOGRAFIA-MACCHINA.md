@@ -113,3 +113,20 @@ ancora testato con negozi veri — normale, siamo fermi apposta fino al 24/8-1/9
 - Decidere se restringere ora i permessi di sessione (AR-142) o lasciarli per comodità operativa.
 - Confermare la rotazione del PAT GitHub (già in coda, ora anche più urgente per AR-143: era persistito in
   chiaro anche nel file di collegamento al marketplace).
+
+## Aggiornamento review settimanale — 2026-07-24 16:00
+
+Non ri-eseguita la radiografia completa (fatta ieri sera, <24h fa, stesso ambito — ripeterla ora sarebbe il
+loop a vuoto che questa stessa settimana ha imparato a evitare). Delta rispetto ai 3 bloccanti sopra:
+
+- ✅ **[AR-138/AR-139] Autopilota senza pausa/allowlist — CHIUSI** in 24h (PR #518/#519 mergiate).
+- ⏳ **[AR-144] Budget-token inerte — ancora aperto.**
+- ⏳ **[AR-147] PI26 senza allarme — ancora aperto**, e ora la scadenza è a **6 giorni** (30/7 ore 16:00).
+- 🆕 **[AR-154] Nuovo, trovato in questa review**: il rituale ESITO (AR-009) non ha coperto lo sprint Pannello
+  21-24/7 — @tech ha 47 righe ferme al 20/7 nonostante decine di PR mergiate dopo. Non blocca nulla oggi, ma
+  svuota la calibrazione futura sul reparto più attivo della settimana. Dettaglio in `cantiere-difetti.json`.
+- 🆕 **Rischio più grave trovato oggi, fuori dalla radiografia tecnica**: un valutatore indipendente ha
+  esaminato la bozza della domanda PI26 (€10.000, scade 30/7) e l'ha giudicata **DA SISTEMARE**, non pronta
+  — mancano 3 verifiche di base (spesa minima ammissibile ~€5.000 mai confrontata col burn reale ~850€
+  accumulati, esistenza di una P.IVA/entità giuridica MyCity mai controllata, documenti di spesa reali).
+  Vedi `MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json` (peer_review PR-007).

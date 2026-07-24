@@ -72,6 +72,12 @@
           "punteggio": 55,
           "fonte": "ricalcolo-post-pr",
           "nota": "4 PR mergiate (archivio, arsenale, volano, auto-apri), EXP-001 aperto, 7+ difetti chiusi da luglio. Punteggio aggiornato — sale a 55 ma resta sotto 60 finché il 1° esperimento non è misurato."
+        },
+        {
+          "data": "2026-07-24",
+          "punteggio": 43,
+          "fonte": "review-settimanale",
+          "nota": "Radiografia completa 23/7 (14 senior in parallelo, Workflow bloccato in sessione → Agent) ha trovato 16 nuovi difetti (AR-138..153): voto pieno a 0 nella formula rigorosa, 43 nella sonda pending-merge. 2 dei 3 bloccanti trovati (autopilota senza pausa, allowlist mancante) già chiusi in 24h; restano aperti il freno budget-token (AR-144) e l'allarme PI26 (AR-147). Onestà della settimana: 30 difetti aperti (vs 19 la settimana scorsa) — il numero sale perché si guarda più a fondo, non perché la macchina peggiora; ma il tasso di applicazione delle lezioni resta al 17% (AR-149) ed è la vera metrica da smuovere, non il conteggio dei difetti."
         }
       ]
     },
@@ -596,7 +602,7 @@
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-07-24 14:50",
+    "aggiornato": "2026-07-24 15:10",
     "totale": 13,
     "aperti": 6,
     "in_scadenza": 0,
@@ -708,6 +714,46 @@
       ],
       "raccomandazione": "Mergiare le PR in coda (#464 arsenale-tab, #446 cross-device). Aggiungere aggiornamento automatico del punteggio ogni venerdì (#ritmo-venerdì-punteggio). Testare ogni modifica su mobile prima di considerarla chiusa.",
       "fonte": "osservazione sessioni luglio + AZIONI-IN-ATTESA + LEZIONI-CHAT"
+    },
+    {
+      "id": "PR-006",
+      "data": "2026-07-24",
+      "reviewer": "@AD",
+      "reviewed": "@tech + @frontend-dev + @devops-sre",
+      "lavoro": "Sprint Pannello 17-24/7: 107 merge in 7 giorni (video live+microfono, cassetto conversazioni cross-device, dedup chat, fix mobile, redesign menu, 3 bug chat chiusi in un giorno il 23/7)",
+      "voto": 7,
+      "punti_forza": [
+        "Velocità e volume altissimi: bug segnalati da Nicola con screenshot risolti quasi sempre entro poche ore",
+        "Root-cause reale trovata più volte invece di patch sul sintomo (autoJobCancelation Vercel, dedup esteso a tutta la conversazione non solo bolle adiacenti)",
+        "Quando un agente delegato si bloccava 2 volte, l'AD ha smesso di aspettare e ha scritto la patch da sé con tsc+test verificati prima della PR"
+      ],
+      "punti_deboli": [
+        "Il quaderno ESITO di @tech (chiusura-loop.mjs) è fermo al 20/7 23:38 nonostante decine di PR mergiate 21-24/7: la regola AR-009 (una riga ESITO dopo ogni lavoro 🟡/🔴) non è stata rispettata su tutto lo sprint, solo su una parte",
+        "3 incidenti ripetuti di file sporchi committati per errore con git-pr.mjs nello stesso giorno (PR #513, #516, #517) nonostante la lezione fosse già nota dal primo episodio",
+        "0 ordini pagati nello stesso periodo: tutto lo sforzo del reparto è andato sulla macchina, zero sul motore che genera ricavo",
+        "Diversi fix sono la ri-apertura di bug già chiusi in passato (fix-chat-dedup, fix-worker-nav) — nessun controllo sistematico se un bug 'nuovo' è in realtà una regressione prima di scrivere la diagnosi da zero"
+      ],
+      "raccomandazione": "Prima di ogni git-pr.mjs: git status --short e ripulire SUBITO, non dopo (mettere il controllo nello script stesso, non solo nella lezione). Chiudere il loop: una riga ESITO per ogni PR mergiata, non a campione. Nella prossima settimana, almeno una mossa del reparto tech deve muovere direttamente la North Star (es. verifica end-to-end dell'ordine test PQ), non solo l'infrastruttura del Pannello.",
+      "fonte": "git log 17-24/7 (107 merge) + LEZIONI-CHAT.md + chiusura-loop.json"
+    },
+    {
+      "id": "PR-007",
+      "data": "2026-07-24",
+      "reviewer": "@AD (valutatore indipendente delegato)",
+      "reviewed": "@relazioni-istituzionali",
+      "lavoro": "Bozza domanda bando camerale PI26 (fino a €10.000 a fondo perduto, scade 30/7 ore 16:00)",
+      "voto": 4,
+      "punti_forza": [
+        "Bozza scritta con largo anticipo (18/7) rispetto alla scadenza (30/7): 12 giorni di margine per sistemare eventuali problemi",
+        "Individuata correttamente la finestra di ammissibilità (sportello a esaurimento) e la scadenza esatta"
+      ],
+      "punti_deboli": [
+        "La soglia minima di spesa ammissibile (€5.000 dal 1/5) non è mai confrontata col burn reale di MyCity (~302€/mese, ~850€ accumulati da maggio): la bozza rischia di far presentare una domanda sotto-soglia",
+        "Nessuna verifica nel vault che MyCity abbia già Partita IVA/visura camerale/sia un'entità giuridica costituita — requisito di ammissibilità di base mai controllato",
+        "Mancano 3 conferme concrete prima dell'invio: esistenza reale di P.IVA/sede legale, fatture/preventivi che sommino ≥€5.000, firma digitale attiva"
+      ],
+      "raccomandazione": "PRONTO/DA SISTEMARE: DA SISTEMARE. Prima di inviare, verificare con Nicola i 3 punti mancanti sopra — un'ammissibilità mancante scoperta dopo l'invio brucia lo sportello a esaurimento senza possibilità di correggere.",
+      "fonte": "valutatore indipendente su richiesta AD, 2026-07-24 — vedi consegne/relazioni-istituzionali/2026-07-18-bandi-cciaa-pi26-be26.md"
     }
   ],
   "proposte_auto_riscrittura": [
@@ -819,10 +865,29 @@
       "dove": ".claude/workflows/radiografia.js",
       "stato": "implementata",
       "sincronizzato_il": "2026-07-14 06:20"
+    },
+    {
+      "cosa": "git-pr.mjs: fallire con errore esplicito se `git status --short` mostra file NON toccati dal lavoro dichiarato del branch, invece di committarli in silenzio dentro `git add -A`",
+      "perche": "Stesso incidente 3 volte in 24 ore (23/7, PR #513/#516/#517) con file diversi ogni volta: file sporchi lasciati da sentinelle/worker finiscono nella PR di qualcun altro. La lezione era già scritta dopo il primo episodio ma non è bastato ricordarla — va cablata nello script, non nella memoria.",
+      "colore": "🟡",
+      "origine": "review-settimanale",
+      "finding_id": "n/d (3 episodi in LEZIONI-CHAT 23/7, nessun AR-numero ancora assegnato)",
+      "dove": "cervello/git-pr.mjs",
+      "stato": "proposta"
+    },
+    {
+      "cosa": "Gate deterministico che impedisce di segnare un lavoro 🟡/🔴 come chiuso senza la riga ESITO in chiusura-loop.mjs, sullo stesso pattern del gate già esistente per auto-analisi.json/apprendimento.json (AR-014)",
+      "perche": "AR-154: durante lo sprint Pannello 21-24/7 (decine di PR mergiate) il quaderno ESITO di @tech è rimasto fermo al 20/7 — il rituale esiste ma dipende da un passo manuale a fine lavoro, che salta proprio nei giorni a ritmo più alto (quando servirebbe di più per calibrare).",
+      "colore": "🟡",
+      "origine": "review-settimanale",
+      "finding_id": "AR-154",
+      "dove": "cervello/chiusura-loop.mjs + cervello/git-pr.mjs (hook post-merge)",
+      "stato": "proposta"
     }
   ],
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
-  "aggiornato": "2026-07-24 14:50",
+  "_review_settimanale_24_07": "REVIEW SETTIMANALE 24/7 16:00 — benchmark @AD aggiornato (43, radiografia completa 23/7). 2 nuove peer_review (PR-006 tech/frontend-dev sullo sprint Pannello, PR-007 valutatore indipendente sulla bozza PI26 → DA SISTEMARE). Torneo tra senior ancora rinviato (stesso motivo del 3/7: nessun esito di business reale da confrontare, negozi in pausa fino al 24/8-1/9). Verifica loop-chiuso esperimenti: 2 misurati su 13 aperti (EXP-004 e EXP-005, entrambi mancata) — il volano-business osserva ma continua a non chiudere sui numeri.",
+  "aggiornato": "2026-07-24 15:10",
   "proposte_sync": {
     "aggiornato": "2026-07-24 14:20",
     "totale": 11,

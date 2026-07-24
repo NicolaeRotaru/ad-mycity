@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-24 11:05
-fonte: AD digitale (giro pieno, su richiesta esplicita — riconferma)
+aggiornato: 2026-07-24 16:20
+fonte: AD digitale (review settimanale, venerdì)
 ---
+
+> 📅 **24/7 16:20 — REVIEW SETTIMANALE (17-24/7).** Business INVARIATO: 1 PQ, 0 pagati, stallo 30 giorni esatti. Salute architettura 43/100 (radiografia completa 23/7 sera: 2 dei 3 bloccanti già chiusi in 24h, resta aperto il freno budget-token AR-144). **Scoperta più importante di oggi:** un valutatore indipendente ha giudicato la bozza PI26 (10.000€, scade 30/7) NON pronta — 3 verifiche di ammissibilità mai fatte (spesa minima vs burn reale, P.IVA/entità giuridica, documenti di spesa); card 🔴 `#pi26-conferma-ammissibilita` accodata. Calibrazione: nessun reparto sopra "autonomia bassa". Nuovo difetto AR-154 (rituale ESITO non rispettato sullo sprint Pannello 21-24/7, 107 PR mergiate). Dettaglio completo: [[RITMO]] (blocco "Review settimanale · 2026-07-24 16:20") + [[LETTERA-A-NICOLA]] + `auto-coscienza/auto-miglioramento.json`. **Mossa n.1 invariata: ordine test PQ. Mossa n.2: chiudere PI26 entro il 29/7.**
 
 > 🛰️ **24/7 11:05 — GIRO PIENO (su richiesta esplicita di Nicola in chat), riconferma — business INVARIATO.** Query SQL diretta appena eseguita (`orders`/`profiles`/`products`/`reviews`): 1 ordine totale (zombie 24/6, annullato), **0 pagati**, 7 profili (4 buyer), 5 prodotti, 0 recensioni — identico al giro pieno di stamattina (06:24) e a ogni verifica dei giorni scorsi. Delta-gate coerente (firma invariata dalle 06:30, 2 giri sonda saltati nel mezzo). Rispettato **AR-113** (north-star gate attivo, 0 pagati da ~30gg): nessuna azione fuori scope. Rispettato **AR-041/AR-106** (esperimenti): verificato che l'esperimenti-check NON era realmente a "zero aperti" (6 restano aperti, incl. EXP-001/EXP-013 sul North Star) — il vero trigger era **EXP-005** ("Post Siamo in 23") in scadenza oggi: misurato ora (mancata, gate `#post-siamo-in-23` ancora in pausa per il rinvio negozi al 24/8-1/9, profili invariati a 7). Nessuna nuova card 🟡/🔴 accodata (le mosse giuste — ordine test PQ, PI26 — sono già in coda). **Mossa n.1 invariata: ordine test PQ. Mossa n.2: domanda PI26 entro il 30/7 (6 giorni residui).** Briefing aggiornato: [[Briefing/2026-07-24]].
 
