@@ -12,6 +12,7 @@
 //        --metrica=ordini --atteso=1 --entro=2026-07-09 [--nota="..."] [--id=...]
 //   node cervello/calibrazione.mjs esito   --id=<id> --reale=2 --fonte="Supabase MCP" [--nota="..."]
 //   node cervello/calibrazione.mjs scadute            # marca 'scaduta' le previsioni oltre 'entro' senza esito
+//   node cervello/calibrazione.mjs debito [--gate]    # previsioni fatte e mai confrontate col reale
 //   node cervello/calibrazione.mjs report [--json]    # tabella per-reparto + previsioni aperte
 //
 // Regola "azzeccata": |reale - atteso| / max(|atteso|,1) <= tolleranza (default 0.25).
@@ -156,9 +157,59 @@ function write(data) {
   writeFileSync(PATH, JSON.stringify(data, null, 2) + "\n", "utf8");
 }
 
-function normReparto(r) {
+/**
+ * Nome del reparto, in una forma sola.
+ *
+ * Prima non abbassava le maiuscole, e nel registro convivevano `@AD` (3 previsioni) e `@ad` (6):
+ * lo STESSO reparto contato due volte, con le prove spezzate a metà. Nessuna delle due metà
+ * arrivava al campione minimo, quindi l'AD non poteva guadagnare autonomia nemmeno azzeccando —
+ * e l'AD è l'unico reparto che la voce 2 della pagella pretende per forza.
+ */
+export function normReparto(r) {
   if (!r) return "";
-  return r.startsWith("@") ? r : `@${r}`;
+  const s = String(r).trim().toLowerCase();
+  return s.startsWith("@") ? s : `@${s}`;
+}
+
+/**
+ * Un campo conta come NUMERO solo se lo è davvero.
+ *
+ * IL DIFETTO CHE CHIUDE (25/7). Il ponte `da-loop` prende `atteso` e `reale` dalle righe ESITO dei
+ * quaderni — che per contratto sono PROSA: «atteso: trovare consegne senza recensione → reale:
+ * nessuna consegna reale esiste ancora». La versione precedente cercava il primo numero ovunque
+ * nella frase, quindi da
+ *
+ *     atteso «L-443 + Bacheca stime complete»          → -443
+ *     reale  «…AD Bacheca + 4 scenari, L-443 nuova…»   →    4
+ *
+ * nasceva una «previsione mancata al 101%». Non era una previsione sbagliata: non era una
+ * previsione. Così sono nate 36 righe su 42 (86% del registro), e la voce 2 della pagella
+ * dichiarava «0 reparti su 14 sanno prevedere» misurando un'espressione regolare che leggeva male
+ * il diario della macchina.
+ *
+ * Ora passa solo un campo che È un numero: eventualmente un comparatore davanti e UNA parola di
+ * unità dietro («12%», «3 ordini», «≈4»). Tutto il resto è prosa e il ponte si limita al quaderno,
+ * che è quello per cui la riga ESITO esiste.
+ */
+export function numeroDichiarato(s) {
+  const t = String(s ?? "").trim();
+  if (!t) return null;
+  const m = t.match(/^[<>~≈]?\s*(-?\d+(?:[.,]\d+)?)\s*(?:%|€|[a-zà-ù]{1,12})?$/i);
+  if (!m) return null;
+  const n = Number(m[1].replace(",", "."));
+  return Number.isFinite(n) ? n : null;
+}
+
+/**
+ * Le righe che NON sono previsioni e non devono entrare nel punteggio.
+ *
+ * `metrica: "esito_loop"` è il marchio del ponte rotto (vedi numeroDichiarato): 36 righe su 42
+ * nate pescando il primo numero di una frase di diario. Non si cancellano — la storia non si
+ * riscrive — ma smettono di contare come previsioni, perché previsioni non sono mai state.
+ * Il ponte corretto scrive `esito_loop_numerico`, e quelle contano.
+ */
+export function nonEUnaPrevisione(e) {
+  return e?.metrica === "esito_loop";
 }
 
 // Ricalcola gli aggregati per_reparto dal registro (unica fonte di verità).
@@ -167,22 +218,29 @@ function ricalcolaReparti(data) {
   const perRep = new Map();
   for (const e of data.registro) {
     if (!e.reparto) continue;
-    const cur = perRep.get(e.reparto) || { reparto: e.reparto, previsioni: 0, azzeccate: 0 };
+    // Normalizzato QUI e non solo in scrittura: nel registro ci sono già righe `@AD` e righe `@ad`,
+    // e senza questo resterebbero due reparti distinti con le prove spezzate a metà per sempre.
+    const rep = normReparto(e.reparto);
+    const cur = perRep.get(rep) || { reparto: rep, previsioni: 0, azzeccate: 0 };
+    if (nonEUnaPrevisione(e)) {
+      perRep.set(rep, cur);
+      continue;
+    }
     if (e.stato === "azzeccata" || e.stato === "mancata") {
       // AR-061: un esito misurato con sensore-fonte cieco NON conta nel punteggio (autonomia non si guadagna al buio).
       if (e.sensore_stato === "cieco") {
-        perRep.set(e.reparto, cur);
+        perRep.set(rep, cur);
         continue;
       }
       // AR-044: previsioni banali (status-quo) non contano per l'autonomia.
       if (e.banale === true) {
-        perRep.set(e.reparto, cur);
+        perRep.set(rep, cur);
         continue;
       }
       cur.previsioni += 1;
       if (e.stato === "azzeccata") cur.azzeccate += 1;
     }
-    perRep.set(e.reparto, cur);
+    perRep.set(rep, cur);
   }
   data.per_reparto = [...perRep.values()].map((r) => {
     const punteggio = r.previsioni > 0 ? Number((r.azzeccate / r.previsioni).toFixed(2)) : 0;
@@ -348,6 +406,7 @@ function cmdScadute(data) {
   ricalcolaReparti(data);
   write(data);
   console.log(`⏱️  ${n} previsioni marcate 'scaduta' (oltre 'entro' senza esito). Le scadute NON contano nel punteggio: chiedono un esito o una lezione.`);
+  console.log(`   Il conto di quelle mai misurate:  node cervello/calibrazione.mjs debito`);
 }
 
 // PZ-013 (piano "chiudi i loop") — SEMAFORO DINAMICO, lato proposta. Il semaforo 🟢🟡🔴 era statico;
@@ -446,12 +505,6 @@ function cmdArchiviaLegacy(data) {
 }
 
 // Ponte chiusura-loop → calibrazione: un ESITO nel quaderno diventa anche un punto-dato strutturato.
-function parseNumeroLoop(s) {
-  const m = String(s ?? "").match(/-?\d+(?:[.,]\d+)?/);
-  if (!m) return null;
-  const n = Number(m[0].replace(",", "."));
-  return Number.isFinite(n) ? n : null;
-}
 
 function cmdDaLoop(data) {
   const reparto = normReparto(arg("reparto"));
@@ -465,10 +518,12 @@ function cmdDaLoop(data) {
     );
     process.exit(2);
   }
-  const atteso = parseNumeroLoop(attesoRaw);
-  const reale = parseNumeroLoop(realeRaw);
+  const atteso = numeroDichiarato(attesoRaw);
+  const reale = numeroDichiarato(realeRaw);
   if (atteso == null || reale == null) {
-    console.log("⏭️  da-loop: atteso/reale non numerici — salto calibrazione (solo quaderno).");
+    // È il caso NORMALE, non un'eccezione: le righe ESITO sono prose, e una prosa non è una
+    // previsione. Prima qui si pescava il primo numero della frase e nasceva una previsione finta.
+    console.log("⏭️  da-loop: atteso/reale non sono numeri dichiarati — resta solo nel quaderno (giusto così).");
     return;
   }
   const id = nuovoId(reparto);
@@ -479,7 +534,10 @@ function cmdDaLoop(data) {
     id,
     reparto,
     azione,
-    metrica: "esito_loop",
+    // Nome NUOVO, e non è cosmesi: `esito_loop` è il marchio delle 36 righe fabbricate dal ponte
+    // rotto, e `ricalcolaReparti` le esclude dal punteggio per quel nome. Le righe che nascono da
+    // qui in avanti sono passate da `numeroDichiarato()` — sono previsioni vere e devono contare.
+    metrica: "esito_loop_numerico",
     atteso,
     reale,
     entro: quando.slice(0, 10),
@@ -532,6 +590,58 @@ function cmdAutoprevedi(data) {
   write(data);
   console.log(`✅ AR-040/autoprevedi: prima previsione strutturata aperta [${id}] @AD: ordini_totali atteso 1 entro ${domani}.`);
   console.log(`   Al giro dopo: node cervello/calibrazione.mjs esito --id=${id} --reale=<n> --fonte="Supabase MCP"`);
+}
+
+/**
+ * IL DEBITO DI MISURA: le previsioni che la macchina deve ancora confrontare col reale.
+ *
+ * PERCHÉ ESISTE (25/7). Ogni giro chiama `calibrazione.mjs scadute`, che marca «scaduta» tutto ciò
+ * che ha superato la data senza esito — e il giro tira dritto (`|| true`). Nei fatti quello sweep
+ * è un'AMNISTIA: alle 06:20 trasforma «devi ancora misurare» in «scaduta, pazienza», in silenzio.
+ * Così cinque previsioni vere (ordini_totali, prospect_con_esito, click_lista_attesa, ordini_pagati
+ * ×2) sono nate, sono morte e non hanno insegnato niente a nessuno.
+ *
+ * Prevedere senza mai misurare non è calibrazione: è oroscopo. Questa funzione dice quanto si deve.
+ *
+ * Due debiti diversi, perché chiedono due mosse diverse:
+ *   · DOVUTE  = ancora aperte ma oltre la data → si misurano ADESSO, il numero esiste.
+ *   · SCADUTE = già passate dall'amnistia, senza reale → si saldano (misura tardiva o rinuncia
+ *               motivata). Restano visibili finché qualcuno non le chiude: è il punto.
+ *
+ * Pura sui dati: il test la prova senza toccare il disco.
+ */
+export function debitoDiMisura(registro = [], oggi = new Date().toISOString().slice(0, 10)) {
+  const dovute = registro.filter((e) => e.stato === "aperta" && e.entro && e.entro < oggi);
+  const scadute = registro.filter((e) => e.stato === "scaduta" && e.reale == null);
+  return { dovute, scadute, totale: dovute.length + scadute.length };
+}
+
+function cmdDebito(data) {
+  const GATE = process.argv.includes("--gate");
+  const { dovute, scadute, totale } = debitoDiMisura(data.registro);
+
+  console.log(`\n🧾 DEBITO DI MISURA — previsioni fatte e mai confrontate col reale\n`);
+  if (!totale) {
+    console.log(`  ✅ Nessun debito: ogni previsione è stata misurata o è ancora nei tempi.`);
+    return;
+  }
+  if (dovute.length) {
+    console.log(`  ⏰ ${dovute.length} DOVUTE (aperte oltre la data): il numero esiste, va solo letto.`);
+    for (const e of dovute) {
+      console.log(`     ${e.reparto} · ${e.metrica} atteso ${e.atteso} · scaduta il ${e.entro}`);
+      console.log(`       node cervello/calibrazione.mjs esito --id=${e.id} --reale=<n> --fonte="Supabase MCP"`);
+    }
+  }
+  if (scadute.length) {
+    console.log(`\n  💀 ${scadute.length} SCADUTE senza reale: l'amnistia le ha archiviate, ma non hanno insegnato niente.`);
+    for (const e of scadute) {
+      console.log(`     ${e.reparto} · ${e.metrica} atteso ${e.atteso} · era entro ${e.entro}`);
+      console.log(`       node cervello/calibrazione.mjs esito --id=${e.id} --reale=<n> --fonte="<fonte>"`);
+    }
+  }
+  console.log(`\n  Finché questo debito non scende, la voce 2 della pagella non può salire: misura`);
+  console.log(`  «sa prevedere le conseguenze delle sue mosse», e senza confronto col reale non c'è risposta.`);
+  if (GATE) process.exitCode = 1;
 }
 
 // AR-061: backfill sensore_stato mancante sulle voci chiuse (es. create prima del ponte da-loop).
@@ -607,12 +717,15 @@ async function main() {
     case "da-loop":
       cmdDaLoop(data);
       break;
+    case "debito":
+      cmdDebito(data);
+      break;
     case "report":
     case undefined:
       cmdReport(data);
       break;
     default:
-      console.error(`Comando sconosciuto: ${cmd}. Usa: prevedi | esito | scadute | promozioni | archivia-legacy | autoprevedi | valida | ripara | da-loop | report`);
+      console.error(`Comando sconosciuto: ${cmd}. Usa: prevedi | esito | scadute | debito | promozioni | archivia-legacy | autoprevedi | valida | ripara | da-loop | report`);
       process.exit(2);
   }
   const chiuse = data.registro.filter((e) => e.stato === "azzeccata" || e.stato === "mancata").length;

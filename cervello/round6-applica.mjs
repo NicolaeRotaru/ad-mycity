@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🔌 LE MODIFICHE CHE NON PASSANO DALL'API. Un comando solo, dopo il merge della PR #549.
+// 🔌 LE MODIFICHE CHE NON PASSANO DALL'API. Un comando solo, dopo il merge.
 // 🟡 Tocca due file grossi: il ciclo principale della macchina e una schermata del Pannello.
 //
 // PERCHÉ ESISTE. Il lavoro arriva a Nicola attraverso l'API di GitHub, e l'API vuole il file
@@ -13,19 +13,23 @@
 // COSA APPLICA:
 //
 //   ① giro.sh — I TEST GIRANO A OGNI GIRO.
-//      Il difetto, trovato controllando il guardiano appena costruito: i 101 test del cervello e i
-//      18 del Pannello non li lanciava nessuno. Non il giro, non una CI — solo una persona che li
+//      Il difetto, trovato controllando il guardiano appena costruito: i test del cervello e del
+//      Pannello non li lanciava nessuno. Non il giro, non una CI — solo una persona che li
 //      digitava. Avevo costruito `test-pannello.mjs` proprio per scoprire i test che nessuno
-//      esegue, e l'avevo lasciato nella stessa condizione. Tre modifiche: dichiara il vincolo,
-//      esegue i due guardiani, e passa il rosso al motore come regola hard.
+//      esegue, e l'avevo lasciato nella stessa condizione.
 //
-//   ② AutoCoscienza.tsx — L'ETICHETTA DICE QUELLO CHE IL NUMERO MISURA.
-//      Due parole. Il Pannello mostra `tasso_applicazione` — la metrica delle CITAZIONI, quella
-//      che la PR #549 sostituisce — sotto le scritte «% applicazione» e «Tasso applic.». Il numero
-//      resta (serve per confrontare col passato), ma l'etichetta smette di promettere una cosa
-//      che quel numero non misura: diventa «% citate» e «Lezioni citate».
+//   ② giro.sh — IL DEBITO DI MISURA NON SI CONDONA (voce 2).
+//      Ogni giro `calibrazione.mjs scadute` marcava 'scaduta' e il giro tirava dritto: alle 06:20
+//      «devi ancora misurare» diventava «pazienza», in silenzio. Cinque previsioni vere sono nate,
+//      morte e non hanno insegnato niente. Ora il debito arriva al motore come vincolo hard.
 //
-// È IDEMPOTENTE: se le modifiche ci sono già non fa niente ed esce 0. Si può rilanciare.
+//   ③ AutoCoscienza.tsx — L'ETICHETTA DICE QUELLO CHE IL NUMERO MISURA.
+//      Due parole. Il Pannello mostra `tasso_applicazione` — la metrica delle CITAZIONI — sotto le
+//      scritte «% applicazione» e «Tasso applic.». Il numero resta (serve per confrontare col
+//      passato), ma l'etichetta smette di promettere una cosa che quel numero non misura.
+//
+// È IDEMPOTENTE: se le modifiche ci sono già non fa niente ed esce 0. Si può rilanciare — chi lo
+// ha già lanciato una volta rilancia e applica solo quelle nuove.
 //
 // Uso (dal VPS, dentro /opt/mycity/ad-mycity, dopo il merge):
 //   node cervello/round6-applica.mjs            -> mostra cosa cambierebbe, NON scrive
@@ -96,6 +100,31 @@ $TEST_VINCOLO"
 fi
 `;
 
+const BLOCCO_DEBITO = `
+  # ─── IL DEBITO DI MISURA NON SI CONDONA PIÙ (25/7, voce 2) ────────────────────────
+  # Lo sweep qui sopra marca 'scaduta' e il giro tirava dritto: alle 06:20 «devi ancora misurare»
+  # diventava «pazienza», in silenzio. Cinque previsioni vere sono nate, morte e non hanno
+  # insegnato niente. Prevedere senza mai misurare non è calibrazione, è oroscopo — e la voce 2
+  # della pagella («sa prevedere le conseguenze delle sue mosse») resta cieca finché è così.
+  echo "[$(ts)] Debito di misura (previsioni mai confrontate col reale)..."
+  _deb_out="$(node "$SCRIPT_DIR/calibrazione.mjs" debito --gate 2>&1)"; _deb_rc=$?
+  printf '%s\\n' "$_deb_out" | tail -12
+  if [ "$_deb_rc" -ne 0 ]; then
+    DEBITO_VINCOLO="⛔ DEBITO DI MISURA APERTO (calibrazione.mjs debito rc=$_deb_rc): ci sono previsioni fatte e mai confrontate col reale. PRIMA di chiudere questo giro chiudine almeno UNA con 'node cervello/calibrazione.mjs esito --id=<id> --reale=<n> --fonte=<fonte>' — il numero va LETTO da una fonte ammessa, mai stimato. Se una previsione non è più misurabile, chiudila lo stesso dicendo perché nella nota: una rinuncia motivata insegna, una scadenza silenziosa no."
+    echo "[$(ts)] ⚠️  Debito di misura aperto (rc=$_deb_rc) → passo un vincolo hard al motore." >&2
+  fi
+`;
+
+const BLOCCO_DEBITO_PROMPT = `if [ -n "\${DEBITO_VINCOLO:-}" ]; then
+  # 25/7: le previsioni scadute senza misura arrivano al motore come debito da saldare, non come
+  # archivio. È la voce 2 della pagella: senza confronto col reale non c'è nessuna calibrazione.
+  PROMPT="$PROMPT
+
+## Vincolo debito di misura (HARD — dal gate calibrazione prima di te)
+$DEBITO_VINCOLO"
+fi
+`;
+
 /**
  * I due file e le loro modifiche. `gia` = come si riconosce che è già applicata (idempotenza),
  * `ancora` = il testo esistente su cui agganciarsi, `dopo` = come diventa.
@@ -104,7 +133,7 @@ fi
 export const PIANO = [
   {
     file: "cervello/giro.sh",
-    perche: "i test girano a ogni giro (prima non li lanciava nessuno)",
+    perche: "i test girano a ogni giro, e il debito di misura non si condona",
     verifica: ["bash", "-n"],
     modifiche: [
       {
@@ -134,6 +163,28 @@ $LOOP_VINCOLO"
 fi
 `,
         dopo: (a) => `${a}${BLOCCO_PROMPT}`,
+      },
+      {
+        nome: "④ il debito di misura non si condona più (voce 2)",
+        gia: 'calibrazione.mjs" debito',
+        ancora: '  node "$SCRIPT_DIR/calibrazione.mjs" scadute 2>&1 | tail -4 || true',
+        dopo: (a) => `${a}\n${BLOCCO_DEBITO}`,
+      },
+      {
+        nome: "⑤ il debito arriva al motore come vincolo hard",
+        gia: "## Vincolo debito di misura",
+        ancora: `## Vincolo test del cervello (HARD — dal guardiano test-cervello prima di te)
+$TEST_VINCOLO"
+fi
+`,
+        dopo: (a) => `${a}${BLOCCO_DEBITO_PROMPT}`,
+      },
+      {
+        nome: "⑥ dichiarazione DEBITO_VINCOLO",
+        gia: 'DEBITO_VINCOLO=""',
+        ancora: 'TEST_VINCOLO=""       # 25/7: test del cervello rossi o ineseguibili (prima non li lanciava nessuno)',
+        dopo: (a) =>
+          `${a}\nDEBITO_VINCOLO=""     # 25/7: previsioni fatte e mai confrontate col reale (voce 2)`,
       },
     ],
   },

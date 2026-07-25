@@ -201,19 +201,56 @@ function misuraCalibrazione(soglie) {
   const affidabili = cal.per_reparto.filter((r) => r.autonomia && r.autonomia !== "bassa");
   const nomi = affidabili.map((r) => r.reparto);
   const adOk = nomi.some((n) => String(n).toLowerCase().includes("@ad"));
+  const base = {
+    id: "calibrazione",
+    titolo: "Sa prevedere le conseguenze delle sue mosse",
+    metrica: "reparti-con-autonomia-guadagnata@1",
+    soglia: `≥${soglie.calibrazione_reparti_min} reparti${soglie.calibrazione_richiede_ad ? ", AD incluso" : ""}`,
+    fonte: "auto-coscienza/calibrazione.json",
+    come_si_alza: "obbligo di scrivere «mi aspetto X» prima di ogni mossa, poi confronto col reale",
+    debito: debitoCalibrazione(cal),
+  };
+
+  // CORREZIONE (25/7). Prima qui usciva sempre «0 reparti su 14», che si legge come «hanno provato
+  // tutti e sbagliano tutti». Falso: al 25/7 le previsioni CHIUSE erano zero — nessuno aveva mai
+  // confrontato una previsione col reale. Dire «va male» dove non c'è misura è lo stesso difetto
+  // che la voce 1 aveva con «zero correzioni». Un buco nei dati non è una bocciatura: è un buco,
+  // e va chiamato col suo nome perché la mossa da fare è diversa (misurare, non migliorare).
+  const chiuse = cal.per_reparto.reduce((n, r) => n + (Number(r.previsioni) || 0), 0);
+  if (chiuse === 0) {
+    return {
+      ...base,
+      valore: null,
+      etichetta: "nessuna previsione mai confrontata col reale",
+      ok: false,
+      cieco: true,
+    };
+  }
+
   const ok =
     affidabili.length >= soglie.calibrazione_reparti_min && (!soglie.calibrazione_richiede_ad || adOk);
   return {
-    id: "calibrazione",
-    titolo: "Sa prevedere le conseguenze delle sue mosse",
+    ...base,
     valore: affidabili.length,
-    etichetta: `${affidabili.length} reparti su ${cal.per_reparto.length}${adOk ? " (AD incluso)" : " (AD escluso)"}`,
-    soglia: `≥${soglie.calibrazione_reparti_min} reparti${soglie.calibrazione_richiede_ad ? ", AD incluso" : ""}`,
+    etichetta: `${affidabili.length} reparti su ${cal.per_reparto.length} (${chiuse} previsioni misurate)${adOk ? " · AD incluso" : " · AD escluso"}`,
     ok,
     cieco: false,
-    fonte: "auto-coscienza/calibrazione.json",
-    come_si_alza: "obbligo di scrivere «mi aspetto X» prima di ogni mossa, poi confronto col reale",
   };
+}
+
+/**
+ * Quante previsioni la macchina deve ancora confrontare col reale.
+ *
+ * Sta sotto la voce 2 per lo stesso motivo per cui `ricadute` e `gate` stanno sotto la voce 1: è il
+ * numero che spiega PERCHÉ la voce non si muove. Finché il debito non scende la voce resta cieca,
+ * e nessun lavoro sulla «capacità di prevedere» può cambiarla — manca il confronto, non la bravura.
+ */
+function debitoCalibrazione(cal) {
+  const reg = Array.isArray(cal.registro) ? cal.registro : [];
+  const oggi = nowPiacenza().slice(0, 10);
+  const dovute = reg.filter((e) => e.stato === "aperta" && e.entro && e.entro < oggi).length;
+  const scadute = reg.filter((e) => e.stato === "scaduta" && e.reale == null).length;
+  return dovute + scadute ? { dovute, scadute, totale: dovute + scadute } : null;
 }
 
 /** 3. I freni di sicurezza funzionano? Conta i bloccanti NON chiusi nel cantiere. */
@@ -440,6 +477,13 @@ async function main() {
         console.log(
           `   correzioni legate a un gate che può fallire: ${v.gate.con_gate}/${v.gate.correzioni} = ${pct(v.gate.quota)}`,
         );
+      }
+      // Sotto la voce 2: il debito spiega perché non si muove — manca il confronto, non la bravura.
+      if (v.debito) {
+        console.log(
+          `   previsioni mai confrontate col reale: ${v.debito.totale} (${v.debito.dovute} da misurare · ${v.debito.scadute} scadute nel silenzio)`,
+        );
+        console.log(`   il conto per nome:  node cervello/calibrazione.mjs debito`);
       }
       if (!v.ok && v.come_si_alza) console.log(`   come si alza: ${v.come_si_alza}`);
       console.log("");
