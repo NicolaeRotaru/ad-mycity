@@ -7,6 +7,7 @@ reparto: prompt-engineer
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-25 17:27 · voce 1 pagella: metrica riscritta + ri-audit (25/7) · correzioni-di-nicola-diventate-regola · atteso la voce misura l'apprendimento, non le citazioni → reale 12% (32/277) piu severo del 18% vecchio; trovati 4 difetti lasciati indietro, 1 risolto qui, 3 richiedono firma · #pagella #auto-coscienza
 - 2026-07-20 04:05 · Marketing skills adattamento MyCity — Nicola «Addattale a mycity» · atteso: overlay in ogni skill + persistenza sync · reale: mycity-marketing-overlay.md + patchMarketingSkillForMyCity idempotente, 47/47 patchate, commit 9e2f08a9 PR #495 · L-388 · #marketing-skills #overlay
 - 2026-07-20 04:02 · Marketing skills community — Nicola «Scarica tutti quelli della community» · atteso: download+integrazione manifest · reale: 47 skill coreyhaines31, branch fix/marketing-skills-community, PR #495, test 4/4, 19→66 post-merge; adattamento scope MyCity in commit 9e2f08a9 · L-387 · #worker-plugins #marketing-skills
 - 2026-07-20 03:59 · Marketing skills Claude Cloud — Nicola chiede download GitHub · atteso: verifica manifest+path sync · reale: 19 plugin tech-only, fetch Anthropic OK, due repo (ufficiale/community), integrazione via worker-plugins.json+sync-worker-plugins.mjs+PR 🟡; adattamento scope MyCity obbligatorio · L-386 · #worker-plugins #marketing-skills
