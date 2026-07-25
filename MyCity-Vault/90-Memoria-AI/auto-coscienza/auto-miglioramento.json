@@ -390,19 +390,22 @@
     {
       "id": "EXP-001",
       "titolo": "Primo ordine consegnato entro il 25 luglio",
-      "stato": "aperto",
+      "stato": "misurato",
       "ambito": "north-star",
       "ipotesi": "Se facciamo l'ordine test su Pane Quotidiano e mandiamo 3 WhatsApp agli anchor (Garetti, Peretti, Amendolara), il primo ordine consegnato arriva entro il 25 luglio.",
       "metrica": "ordini_consegnati",
       "baseline": 0,
       "atteso": 1,
+      "reale": 0,
+      "delta": -1,
       "data_misura": "2026-07-25",
+      "data_misurato": "2026-07-25 06:30",
       "aperto_il": "2026-07-18 16:06",
       "azioni_gate": [
         "#ordine-test-pq",
         "#whatsapp-3-anchor-pi26"
       ],
-      "nota": "Esperimento critico North Star. Misura: REST ordini_consegnati > 0."
+      "nota": "MANCATA — verificato con query SQL diretta MCP (orders, 25/7 ~06:30): 1 solo ordine in tabella, zombie CANCELED del 24/6, 0 consegnati, 0 pagati. Nessun WhatsApp anchor risulta inviato (gate #whatsapp-3-anchor-pi26 mai eseguito — 🔴 manuale di Nicola, non partito). Stesso pattern di EXP-004/EXP-005: esperimento gated su un'azione 🔴 non approvata scade a vuoto. North Star ferma a 0 da ~31 giorni. Resta aperto EXP-013 (ordini_pagati, gate 30/7) come prossima finestra di misura."
     },
     {
       "id": "EXP-002",
@@ -493,18 +496,21 @@
     {
       "id": "EXP-007",
       "titolo": "Check-in PQ post VP → data prima consegna reale concordata",
-      "stato": "aperto",
+      "stato": "misurato",
       "ambito": "operazioni",
       "ipotesi": "Una telefonata a Pane Quotidiano questa settimana ci permette di concordare la data del primo slot di consegna reale e sbloccare l'operatività.",
       "metrica": "data_primo_slot_concordata",
       "baseline": null,
       "atteso": "data entro 2026-07-25",
+      "reale": "non_concordata",
+      "delta": "mancata",
       "data_misura": "2026-07-25",
+      "data_misurato": "2026-07-25 06:30",
       "aperto_il": "2026-07-18 23:58",
       "azioni_gate": [
         "#checkin-pq-postvp"
       ],
-      "nota": "Misura: data concordata sì/no. Sblocca EXP-001 e EXP-008."
+      "nota": "MANCATA — non per il merito dell'ipotesi ma per un evento a monte che l'ha superata: `registro-fatti.json` (`negozi.attesa-concordata`) registra che PQ è in una pausa CONCORDATA con Nicola fino a `ripresa.lavoro-operativo` (dopo il 24/8-1/9), quindi nessuna telefonata di check-in operativo è stata (né doveva essere) fatta in questa finestra. Non riaprire un EXP-007-bis prima della ripresa: sarebbe rumore contro una decisione già presa."
     },
     {
       "id": "EXP-008",
@@ -602,11 +608,11 @@
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-07-25 06:13",
+    "aggiornato": "2026-07-25 08:14",
     "totale": 13,
-    "aperti": 6,
-    "in_scadenza": 2,
-    "misurati": 2,
+    "aperti": 4,
+    "in_scadenza": 0,
+    "misurati": 4,
     "chiusi": 0
   },
   "peer_review": [
@@ -887,9 +893,10 @@
   ],
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
   "_review_settimanale_24_07": "REVIEW SETTIMANALE 24/7 16:00 — benchmark @AD aggiornato (43, radiografia completa 23/7). 2 nuove peer_review (PR-006 tech/frontend-dev sullo sprint Pannello, PR-007 valutatore indipendente sulla bozza PI26 → DA SISTEMARE). Torneo tra senior ancora rinviato (stesso motivo del 3/7: nessun esito di business reale da confrontare, negozi in pausa fino al 24/8-1/9). Verifica loop-chiuso esperimenti: 2 misurati su 13 aperti (EXP-004 e EXP-005, entrambi mancata) — il volano-business osserva ma continua a non chiudere sui numeri.",
-  "aggiornato": "2026-07-25 06:13",
+  "_giro_25_07_0631": "GIRO 25/7 06:31 — misurati i 2 esperimenti in scadenza oggi: EXP-001 (ordini_consegnati, MANCATA, reale 0 vs atteso 1 — North Star ferma) ed EXP-007 (check-in PQ concordato, MANCATA, superato dalla pausa concordata coi negozi fino al 24/8-1/9, non un fallimento operativo). 4/13 esperimenti ora misurati, tutti e 4 mancata — nessun esito positivo del volano-business finché la pausa negozi resta attiva. 0 esperimenti in scadenza residui oggi.",
+  "aggiornato": "2026-07-25 08:14",
   "proposte_sync": {
-    "aggiornato": "2026-07-24 22:20",
+    "aggiornato": "2026-07-25 06:20",
     "totale": 13,
     "aggiornate": 0
   }

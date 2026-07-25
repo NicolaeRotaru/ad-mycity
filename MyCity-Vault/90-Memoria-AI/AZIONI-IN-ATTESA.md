@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-24 22:20** — Automatico: **50 aperte · 98 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-25 06:20** — Automatico: **50 aperte · 98 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -1103,6 +1103,9 @@ cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
 | 236 | 2026-07-24 19:56 | @tech | Merge PR #531 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/531 | github | ✅ FATTO (verificato `git log` — merge commit `575721d2` già su `main`) | Il codice in anteprima è online (dopo il prossimo deploy Vercel). | Da provare dal vivo nel browser: tap deciso su "invia" per una chat nuova, deve comparire 1 sola riga. |
 | 237 | 2026-07-24 20:16 | @tech | Merge PR #532 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/532 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 238 | 2026-07-25 00:08 | @tech | Merge PR #533 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/533 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 239 | 2026-07-25 06:35 | @AD | Sblocca gli script di controllo che si bloccano da soli | 🟡 | Aggiungere a `.claude/settings.local.json` → `permissions.allow`: `"Bash(node cervello/esperimenti-check.mjs:*)"`, `"Bash(node cervello/valida-contratti.mjs:*)"`, `"Bash(node cervello/apprendimento-guardiano.mjs:*)"`, `"Bash(node cervello/cristallizza-apprendimento.mjs:*)"`, `"Bash(node cervello/north-star-check.mjs:*)"`, `"Bash(node cervello/sonda-volano.mjs:*)"`, `"Bash(node cervello/coerenza-fatti.mjs:*)"`, `"Bash(node cervello/calibrazione.mjs:*)"` — sono tutti script dichiarati «sola lettura»/bookkeeping nella loro stessa intestazione (nessuna scrittura su dati reali, nessuna azione verso l'esterno). | manuale (file di config) | in attesa | Oggi (25/7) questi comandi mi si sono bloccati 2 volte ciascuno durante il giro: ho dovuto leggere il codice a mano e rifare i loro calcoli manualmente invece di lanciarli — più lento e più a rischio di errore di calcolo mio. È il cluster «allowlist» che torna da 19 lezioni/27 correzioni tue negli ultimi giorni, non ancora sistemato alla radice. | Il prossimo giro questi controlli girano da soli, veloci e senza il tuo intervento — meno tempo mio sprecato a ricostruire a mano quello che uno script già fa. |
+| 240 | 2026-07-25 06:35 | @tech | Pulisci il tag "marketplace" dal contatore errori-ripetuti | 🟡 | `cervello/apprendimento-guardiano.mjs` riga ~52-55 (`TAG_GENERICI`): aggiungere `"marketplace"` all'elenco. Verificato a mano su 8 delle 22 lezioni taggate: sono bug/richieste scollegate (navbar mobile, allowlist MCP, allegati chat, conflitti PR) che condividono solo la parola "marketplace" perché citano il sito — non un tipo di errore ricorrente da poter chiudere con UNA regola. | manuale (1 riga di codice, branch+PR) | in attesa | Il pannello di controllo dell'apprendimento segnala "marketplace" come il difetto più ricorrente (22 lezioni), ma è un'etichetta troppo larga, non un problema vero: tenerla nel conteggio nasconde i cluster che contano davvero (allowlist, workflow, radiografia). | Il prossimo report "errori che si ripetono" mostra solo pattern reali su cui vale la pena scrivere una regola, non un'etichetta-ombrello. |
+| 241 | 2026-07-25 06:45 | @AD | Decidi se rilanciare la radiografia completa di te stessa | 🟡 | La sonda (`auto-radiografia.json`) segnala `serve_radiografia_completa=true` da **54 giri consecutivi** (salute "pending-merge" 0/100, 11 bloccanti umani mai chiusi, tasso di applicazione delle lezioni fermo al 18%). Non l'ho lanciata da sola in questo giro: è un workflow pesante (`.claude/workflows/auto-radiografia.js`, 12 dimensioni multi-agente) fuori dallo scopo di un giro di routine. | manuale (comando "radiografia di te stessa") | in attesa | La macchina ha 11 problemi noti su di sé che nessuno sta più guardando da settimane — potrebbero includere cose che rallentano ogni giro (come i blocchi Bash di oggi, card #239). | Se dici "fai la radiografia di te stessa" la lancio nel prossimo turno; è un lavoro lungo (tanti agenti in parallelo), non istantaneo. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | ✅ ARCHIVIATA housekeeping 14/7 | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
@@ -1247,8 +1250,8 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-24 22:20)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-24-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-25 06:20)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-25-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1610,6 +1613,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-24 22:20 · 98 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-25 06:20 · 98 card totali
 
 ### ✅ #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ✅ FATTO 2026-07-20 18:30 · {approvato: Nicola 20/7 18:28}
 

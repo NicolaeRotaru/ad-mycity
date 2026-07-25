@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-25 06:13",
+  "aggiornato": "2026-07-25 08:14",
+  "_gate_25_07": "GIRO 25/7: cristallizzazione meccanica già girata da giro.sh alle 06:20 (34 principi, 0 arretrato evidente su evidenze>=7/6/5 — tutti già promossi in 3 batch ieri 14:20/16:20/18:20). Sul cluster #1 segnalato dal guardiano ('marketplace': 22 lezioni/36 ripetizioni) verificato A MANO (8 lezioni lette): NON è un'unica causa radice, è un tag-contenitore troppo generico (label 'tocca il sito marketplace', non firma di un tipo di bug) — cristallizzarlo in un gate sarebbe un principio vago e inutile. Proposta reale invece: (1) tech fix proposto a Nicola — aggiungere 'marketplace' a TAG_GENERICI in cervello/apprendimento-guardiano.mjs (rumore di tassonomia, non errore ricorrente); (2) gate concreto sul cluster #4 'allowlist' (19 lezioni/27 rip./11 da Nicola), rinforzato da evidenza fresca di QUESTO giro (node cervello/esperimenti-check.mjs, valida-contratti.mjs, apprendimento-guardiano.mjs, cristallizza-apprendimento.mjs tutti bloccati da approvazione pur essendo sola-lettura/bookkeeping dichiarati nel loro stesso header) — proposta 🟡 #allowlist-diagnostica-gate in AZIONI-IN-ATTESA: estendere .claude/settings.local.json con un pattern che copre gli script *-check.mjs/*-guardiano.mjs di sola lettura, così l'AD non deve più bypassare a mano leggendo il sorgente ogni volta.",
   "_nota_metabolizzazione_24_07_2002": "Chat 24/7 ~20:02 (chiusura del filo doppioni 'Nuova chat' già raccontato nella nota 19:57/STATO.md): nessun nuovo messaggio di contenuto da Nicola in questo turno (solo 'Abc', ambiguo, seconda volta consecutiva) — verificato via `git log` che PR #531 (blocco doppio-tap sul bottone invia) è GIÀ mergiata su main (commit `575721d2`), non più 'in attesa' come risultava nella card #236. Aggiornati AZIONI-IN-ATTESA (#236 → FATTO) e STATO.md (nuova voce in cima). Nessuna lezione nuova: conferma pratica (non caso_studio_nicola) del pattern già in LEZIONI-CHAT — bug UI 'ricorrente' trattato con screenshot reale + verifica del codice esistente prima di riscrivere la diagnosi da zero, invece di assumere che il fix di ieri (PR #517) fosse insufficiente senza controllare. Resta da confermare dal vivo nel browser dopo il prossimo deploy Vercel (nessun accesso browser in sessione headless). Nessun fatto/decisione/dato business nuovo.",
   "_nota_metabolizzazione_24_07_1740": "Chat 24/7 17:36: Nicola \"aggiungi parla con la casella a tutte le caselle della bacheca\" — AD ha aggiunto ParlaCasella agli avvisi Bacheca (unico file mancante), PR #527 aperta e già accodata in AZIONI-IN-ATTESA (card #235, riga tabella). Registrata lezione L-2026-0724-527: pattern ricorrente (7ma volta) di aggiungere ParlaCasella superficie-per-superficie invece che con audit unico. Sul filone precedente (registro dei fatti incompleto, turno prima), Nicola non ha ancora dato l'esempio concreto richiesto dall'AD — resta aperto, nessuna azione da registrare finché non risponde.",
   "_nota_metabolizzazione_24_07_1710": "Chat 24/7 ~17:10: Nicola «metti registro-fatti.json dentro la bacheca e tienilo aggiornato anche dentro la bacheca» — AD ha aggiunto tabella specchio in BACHECA.md (commit 7e5e29c9), regola AR-102 già documentata nell'header della sezione (nessuna preferenza nuova da registrare, è l'esecuzione di uno standing-ask già noto). Push su origin/main bloccato (permesso negato) e NON ritentato — comportamento corretto, coerente con [[feedback-git-pr-allowlist-path]]. Confermato con git status: locale 2 commit avanti (7e5e29c9+b3ffb4c4) — stesso pattern non confermato del 23/7 ~22:16 in [[token-github-unificato]], ora visto ripetersi il giorno dopo (non ancora causa-radice nota: sandbox/allowlist vs auth GitHub). STATO.md aggiornato con l'entry oraria; nessuna azione/decisione nuova da accodare in AZIONI-IN-ATTESA (il push resta a carico di Nicola da VPS).",
@@ -3205,8 +3206,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-21 00:11",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-317",
@@ -4058,8 +4061,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-19 14:33",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-278",
@@ -7192,7 +7197,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-14 13:08",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0713-131",
@@ -7495,7 +7502,9 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 17:32",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0713-118",
@@ -8098,7 +8107,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-12",
       "ultima_conferma": "2026-07-14 03:10",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0712-91",
@@ -10566,6 +10577,21 @@
       "promosso_il": "2026-07-24 16:20"
     },
     {
+      "id": "L-2026-0719-316",
+      "testo": "**GitHub rate limit — «Perché non apri/aprire la PR?» (Nicola 19/7 ~18:57–19:01).** Dopo push fix su `fix/render-build-orders-page` (build Render), Nicola chiede perché l'AD non ha aperto la scheda PR (tre varianti: 18:57, 18:59 push/allowlist, **19:01 «Perché non riesci ad aprire la pr?»**). 5 perché: (1) **standing-ask:** Nicola si aspetta che l'AD apra PR automaticamente (`git-pr.mjs`/`gh pr create`), non istruzioni manuali come prima scelta; (2) retry 18:57, 18:59, **19:01** = stesso **403 rate limit** — giornata intensa esaurisce quota API **token worker** (user 98592323); (3) **push ≠ PR aperta:** codice (`5497b96`) su GitHub, manca scheda; (4) limite sul **token automazione worker**, non sull'account Nicola — da browser/app GitHub può aprire Compare **subito**; (5) risposta: retry immediato, se 403 → spiega token worker + compare manuale Nicola + «riprova la PR» ~1h — **MAI** aggirare (LEZIONI-CHAT). Regola: domanda ripetuta = frustrazione automazione; dimostrare retry + causa esterna + piano B browser Nicola. Vedi L-317, L-315.",
+      "tag": [
+        "github",
+        "rate-limit",
+        "git-pr",
+        "pr-apri-automatica",
+        "render",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "promosso_il": "2026-07-25 06:20"
+    },
+    {
       "id": "L-2026-0719-305",
       "testo": "**Playwright sul worker — setup root COMPLETATO (Nicola 19/7 ~17:26→18:12).** «Come faccio a rendere operativo playwright su worker?» + strumenti contenuti potenti. Sequenza eseguita e verificata: **font ✅ 17:34** · **Node22 ✅ 17:36** (`v22.17.1`, owner mycity) · **Chromium ✅** (`/opt/pw-browsers/chromium-1228`) · **Playwright ✅ 18:12** (`/opt/node22/lib/node_modules/playwright`, dopo fix `--prefix`) · **env ✅** (`PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` in `cervello/vps/.env`) · **render ✅** (`render-domenica-settimana.mjs` → feed ~524KB + storia ~664KB in `consegne/content/assets/`). 5 perché: (1) Nicola vuole passi operativi Termux uno alla volta + «controlla se ho fatto giusto» = verifica server; (2) install richiede root — chat AD non può eseguirla; (3) ordine canonico: font → Node22 → Playwright `--prefix /opt/node22` → env worker → restart → test render; (4) contenuti potenti = foto/video veri + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico 🟡 per non perdere al prossimo aggiornamento server. Regola: «Fatto» ≠ ok finché render non stampa 2 OK. Vedi L-306, L-307, L-247.",
       "tag": [
@@ -10579,6 +10605,23 @@
       ],
       "reparto": "@builder-automazioni",
       "promosso_il": "2026-07-24 16:20"
+    },
+    {
+      "id": "L-2026-0719-279",
+      "testo": "**Correzione Nicola (19/7): «clienti/utenti iscritti» = solo role=buyer — MAI confondere con profili totali.** EXP-001 diceva '23 iscritti'; Nicola ha corretto: 'a me risultano solo 4'. Il 23 veniva da STATO.md ('23 clienti') che contava TUTTI i profili (4 buyer + 17 seller + 1 admin + 1 rider = 23 account). Confermato DB live 19/7 14:33 via REST `profiles?role=eq.buyer` → 4. 5 perché: (1) memoria usava conteggio profili totali come 'clienti'; (2) seller/admin/rider non sono clienti; (3) Nicola chiede «quanti utenti?» → rispondi con breakdown per ruolo; (4) numeri in esperimenti/STATO vanno verificati live, non copiati; (5) se DB non raggiungibile → 'dato da verificare'. Regola: query live (REST o MCP) prima di ogni numero presentato a Nicola.",
+      "tag": [
+        "esperimenti",
+        "numeri",
+        "verifica-dato",
+        "nicola",
+        "correzione",
+        "EXP-001",
+        "DB-live",
+        "buyer",
+        "role-breakdown"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 06:20"
     },
     {
       "id": "L-2026-0714-209",
@@ -10666,6 +10709,21 @@
       "promosso_il": "2026-07-24 14:20"
     },
     {
+      "id": "L-2026-0713-132",
+      "testo": "**Allegati chat — 3 superfici diverse (chat 13/7 ~17:32–17:47, correzione Nicola):** dopo ok #60 («upload funziona») Nicola corregge: «problema è dentro la chat fluttuante» + «controlla anche parla con questa casella» + «no la chat fluttuante non mi lascia allegare i file» (iPhone). 5 perché: (1) risposta AD era corretta su env Vercel ma generica — non ha chiesto QUale chat né dispositivo; (2) **tre superfici verificate codice:** chat intera + fluttuante «Parla con l'AD» (`page.tsx` ~2716, graffetta+upload), «Parla con questa casella» (`ParlaCasella.tsx`, **zero graffetta**, solo testo), Archivio lavori (`ChatCasella.tsx`, allegati ok); (3) Nicola usa fluttuante e caselle contestuali — si aspetta allegati ovunque scrive; (4) post-#60 fallimento fluttuante iPhone = **bug Safari selettore** (input nascosto+click finto), non Storage — fix **#333**; ParlaCasella = feature mancante; (5) **regola:** su «non riesco ad allegare» → chiedi superficie + dispositivo + verifica componente; ordine diagnosi: env 503 → superficie → browser.",
+      "tag": [
+        "pannello",
+        "allegati",
+        "ParlaCasella",
+        "fluttuante",
+        "ChatCasella",
+        "ux",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 06:20"
+    },
+    {
       "id": "L-2026-0713-131",
       "testo": "**Streaming chat assente con motore Cursor (chat 13/7 ~17:31–18:18):** Nicola «fino ieri… perché non lo fai più?» → «apri pr» → «riesci a mostrarmi la risposta in streaming?». 5 perché: (1) con Claude il worker chiamava `rispondi_chat_stream` → testo parola-per-parola; (2) in `worker.sh` lo streaming chat era gated su `ai_engine=claude` — Cursor cadeva nel ramo senza parziali; (3) CLI Cursor = `stream-json` + `--stream-partial-output` (NON flag Claude); (4) #335 merge ha ripristinato codice vecchio su main (L-137) — fix in #338+#339 mergiate ~18:14; (5) **Nicola vuole dimostrazione live:** la risposta in chat è il test — chiedere feedback (cresce / tutta insieme / a colonna); tutta insieme o colonna con codice ok = worker VPS non riavviato dal 16:08. Regola: verifica `git show HEAD:cervello/worker.sh` post-merge; segnalazione streaming → diagnosi worker prima del Pannello.",
       "tag": [
@@ -10701,6 +10759,21 @@
       "promosso_il": "2026-07-24 14:20"
     },
     {
+      "id": "L-2026-0713-119",
+      "testo": "**Allegati chat — upload Vercel vs worker (chat 13/7 ~16:04–17:32):** Nicola segnala allegati rotti in due forme: (A) screenshot UI senza file in `.allegati-chat` (16:04); (B) «perché non riesco più ad allegarti i file?» (17:28). 5 perché: (1) upload online fallisce senza env Storage su Vercel — route `/api/allegato` risponde 503 «Storage non collegato» (verificato su main), VPS ha chiavi ma hosted no; (2) graffetta visibile + upload che fallisce ≠ bug UI mobile (PR #328); (3) senza file nel worker indovinare la pagina è speculazione — chiedi scheda; (4) Nicola segnala UX con screenshot dal telefono (pattern ricorrente); (5) **regola:** diagnosi env Vercel PRIMA di «codice rotto»; ok #60 = env memoria + redeploy → POST live `ok:true` bucket `chat-allegati/` (17:28). **Addendum 17:32:** dopo #60 Nicola distingue fluttuante vs «Parla con questa casella» — env ok non basta se `ParlaCasella.tsx` non ha graffetta (→ L-132).",
+      "tag": [
+        "pannello",
+        "allegati",
+        "screenshot",
+        "ux",
+        "vercel",
+        "nicola",
+        "#60"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 06:20"
+    },
+    {
       "id": "L-2026-0713-100",
       "testo": "**Caso-studio Nicola — auto-coscienza «ferma al 03/07», vuole aggiornamento in tempo reale (chat 13/7):** Nicola screenshot + «Perché i dati sono aggiornati al 03/7? Voglio che auto coscienza sia aggiornata in tempo reale sempre» → poi «Prepara pr» + «Aggiornamento leggere ogni 10 minuti». 5 perché: (1) le schede Apprendimento e Auto-miglioramento nel Pannello mostrano il campo `data` (es. review settimanale 3/7), NON `aggiornato` (file toccato 12–13/7) — bug UI in `AutoCoscienza.tsx` riga ~264; (2) i file JSON hanno entrambi i campi; (3) sensori/sonde girano ogni ~10 min via worker tick; (4) apprendimento si aggiorna post-chat (metabolizzazione) + review settimanale; miglioramento leggero ogni ~10 min, benchmark pesante venerdì/giro AI — vedi L-2026-0713-103; (5) se `OBSIDIAN_BRANCH` punta ancora a `memoria-ad`, il Pannello hosted legge dati fermi al 6/7. **Nicola ha approvato PR #315** (UI max(data,aggiornato) + tick leggero ogni ~10 min), merge 🔴 in attesa. Regola: quando Nicola chiede «perché è fermo?», distinguere SUBITO dati reali freschi vs data mostrata in UI vs metabolizzazione bloccata vs review pesante vs ramo/env sbagliato.",
       "tag": [
@@ -10734,6 +10807,21 @@
       ],
       "reparto": "@devops-sre",
       "promosso_il": "2026-07-24 20:20"
+    },
+    {
+      "id": "L-2026-0712-92",
+      "testo": "**Ordine lista conversazioni: aprire/cambiare chat NON deve riordinarla (PR #303 mergiata 17:44, chat 12/7):** Nicola segnala che passando da una chat all'altra la precedente finiva in cima alla lista — comportamento indesiderato. Causa radice: l'auto-save al cambio conversazione promuoveva la chat lasciata in prima posizione (sort per ultima attività/`updated_at`). Fix LIVE su main: ordine stabile in `page.tsx` + `store.ts` — pinnate (📌) in cima, poi per data di creazione; commit `67c6b804` via merge #303. PR #305/#306/#304 doppioni da chiudere. Nicola ha confermato la diagnosi con «confermo». Principio UX riusabile: **visualizzare ≠ promuovere** — aprire una chat non deve cambiarne la posizione nella lista, salvo pin esplicito dell'utente.",
+      "tag": [
+        "conversazioni",
+        "ordine-lista",
+        "ux",
+        "pannello",
+        "localStorage",
+        "bug",
+        "caso-studio"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 06:20"
     },
     {
       "id": "L-2026-0709-69",
@@ -11272,15 +11360,15 @@
   ],
   "meta": {
     "lezioni_attive": 473,
-    "promosse_a_principio": 29,
+    "promosse_a_principio": 34,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-25 06:13",
+    "tasso_calcolato_il": "2026-07-25 08:14",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-25 06:13",
+    "tick_leggero_il": "2026-07-25 08:14",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-24 22:20"
+    "cristallizzazione_ultima": "2026-07-25 06:20"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
