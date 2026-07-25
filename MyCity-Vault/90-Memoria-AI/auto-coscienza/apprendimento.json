@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-25 12:15",
+  "aggiornato": "2026-07-25 14:15",
   "_gate_25_07": "GIRO 25/7: cristallizzazione meccanica già girata da giro.sh alle 06:20 (34 principi, 0 arretrato evidente su evidenze>=7/6/5 — tutti già promossi in 3 batch ieri 14:20/16:20/18:20). Sul cluster #1 segnalato dal guardiano ('marketplace': 22 lezioni/36 ripetizioni) verificato A MANO (8 lezioni lette): NON è un'unica causa radice, è un tag-contenitore troppo generico (label 'tocca il sito marketplace', non firma di un tipo di bug) — cristallizzarlo in un gate sarebbe un principio vago e inutile. Proposta reale invece: (1) tech fix proposto a Nicola — aggiungere 'marketplace' a TAG_GENERICI in cervello/apprendimento-guardiano.mjs (rumore di tassonomia, non errore ricorrente); (2) gate concreto sul cluster #4 'allowlist' (19 lezioni/27 rip./11 da Nicola), rinforzato da evidenza fresca di QUESTO giro (node cervello/esperimenti-check.mjs, valida-contratti.mjs, apprendimento-guardiano.mjs, cristallizza-apprendimento.mjs tutti bloccati da approvazione pur essendo sola-lettura/bookkeeping dichiarati nel loro stesso header) — proposta 🟡 #allowlist-diagnostica-gate in AZIONI-IN-ATTESA: estendere .claude/settings.local.json con un pattern che copre gli script *-check.mjs/*-guardiano.mjs di sola lettura, così l'AD non deve più bypassare a mano leggendo il sorgente ogni volta.",
   "_nota_metabolizzazione_24_07_2002": "Chat 24/7 ~20:02 (chiusura del filo doppioni 'Nuova chat' già raccontato nella nota 19:57/STATO.md): nessun nuovo messaggio di contenuto da Nicola in questo turno (solo 'Abc', ambiguo, seconda volta consecutiva) — verificato via `git log` che PR #531 (blocco doppio-tap sul bottone invia) è GIÀ mergiata su main (commit `575721d2`), non più 'in attesa' come risultava nella card #236. Aggiornati AZIONI-IN-ATTESA (#236 → FATTO) e STATO.md (nuova voce in cima). Nessuna lezione nuova: conferma pratica (non caso_studio_nicola) del pattern già in LEZIONI-CHAT — bug UI 'ricorrente' trattato con screenshot reale + verifica del codice esistente prima di riscrivere la diagnosi da zero, invece di assumere che il fix di ieri (PR #517) fosse insufficiente senza controllare. Resta da confermare dal vivo nel browser dopo il prossimo deploy Vercel (nessun accesso browser in sessione headless). Nessun fatto/decisione/dato business nuovo.",
   "_nota_metabolizzazione_24_07_1740": "Chat 24/7 17:36: Nicola \"aggiungi parla con la casella a tutte le caselle della bacheca\" — AD ha aggiunto ParlaCasella agli avvisi Bacheca (unico file mancante), PR #527 aperta e già accodata in AZIONI-IN-ATTESA (card #235, riga tabella). Registrata lezione L-2026-0724-527: pattern ricorrente (7ma volta) di aggiungere ParlaCasella superficie-per-superficie invece che con audit unico. Sul filone precedente (registro dei fatti incompleto, turno prima), Nicola non ha ancora dato l'esempio concreto richiesto dall'AD — resta aperto, nessuna azione da registrare finché non risponde.",
@@ -3082,8 +3082,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-19 20:20",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 12:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-322",
@@ -3130,8 +3132,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-20 20:25",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 12:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-320",
@@ -3269,8 +3273,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-19 19:28",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 12:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-314",
@@ -3515,8 +3521,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-19 18:12",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 12:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-303",
@@ -3579,8 +3587,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-20 00:29",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 12:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-300",
@@ -10732,6 +10742,38 @@
       "promosso_il": "2026-07-25 11:00"
     },
     {
+      "id": "L-2026-0719-323",
+      "testo": "**n8n setup VPS — secure cookie blocca browser su IP+http (Nicola 19/7 ~19:58).** Nicola avvia Docker n8n sul worker (Termux SSH) e allega screenshot: container **ok** (porta 5678, volume `n8n_data` preservato su rm/restart), ma pagina `/setup` errore secure cookie. 5 perché: (1) n8n di default richiede https o localhost per cookie sicuro — IP pubblico + http fallisce; (2) **non** è fallimento Docker — il servizio gira anche se SSH Termux cade (background); (3) fix setup: riavvio container con `N8N_SECURE_COOKIE=false` **solo fase install**, poi account admin; (4) **sicurezza post-setup:** porta 5678 esposta su internet → password n8n o accesso solo localhost+tunnel SSH; (5) sequenza resta L-322: import workflow → OAuth Meta → webhook in env worker (segnaposto oggi). Regola: quando Nicola manda screenshot errore n8n post-Docker, diagnosticare secure cookie prima di altre cause; non dire «Docker fallito» se container running. **ADDENDUM 20:03:** dopo drop SSH incolla fix in Termux locale (`~ $`) → docker not found — serve riconnessione SSH (L-324). **ADDENDUM 20:20:** fix secure cookie **confermato** — home n8n «What do you want to build, Nicola» (L-325). Vedi L-322, L-321, L-325.",
+      "tag": [
+        "n8n",
+        "docker",
+        "vps",
+        "secure-cookie",
+        "setup",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "promosso_il": "2026-07-25 12:20"
+    },
+    {
+      "id": "L-2026-0719-321",
+      "testo": "**Pubblicazione FB/IG — «Come faccio a farti pubblicare?» = n8n + card 🔴 (Nicola 19/7 ~19:43).** Segue L-320 sulla casella post domenica PQ: Nicola chiede come collegare la mano social, non solo copia-incolla. 5 perché: (1) publisher già in `cervello/publishers/` + guida `collega-le-mani.md` — blocco = chiavi Meta, non codice; (2) **`N8N_WEBHOOK_URL` sul VPS oggi segnaposto** — n8n non riceve nulla; (3) percorso consigliato **n8n** (OAuth Meta una volta nel workflow, webhook in env worker **mai in chat**) vs Meta diretto (Business Verification, giorni/settimane); (4) **Instagram API richiede URL immagine pubblico** — grafiche in repo/Diretta non bastano finché non c'è URL live per l'API; (5) anche mano collegata: post pagina FB + feed IG restano **🟡/🔴** (card Pannello); **gruppi FB locali sempre manuali**. Regola: rispondere con checklist n8n (install → workflow webhook → OAuth → env worker → restart → dry-run → card); non promettere auto-pub stasera se setup non fatto. **ADDENDUM 20/7 ~20:25:** webhook n8n **ok** (L-357) + workflow importato (L-330) — «collegare Meta» = **solo credenziali nodi workflow + Active**, vedi L-420; non ripetere install. Vedi L-320, L-2026-0630-06.",
+      "tag": [
+        "pubblicazione",
+        "instagram",
+        "facebook",
+        "n8n",
+        "meta",
+        "mani",
+        "content-social",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "promosso_il": "2026-07-25 12:20"
+    },
+    {
       "id": "L-2026-0719-316",
       "testo": "**GitHub rate limit — «Perché non apri/aprire la PR?» (Nicola 19/7 ~18:57–19:01).** Dopo push fix su `fix/render-build-orders-page` (build Render), Nicola chiede perché l'AD non ha aperto la scheda PR (tre varianti: 18:57, 18:59 push/allowlist, **19:01 «Perché non riesci ad aprire la pr?»**). 5 perché: (1) **standing-ask:** Nicola si aspetta che l'AD apra PR automaticamente (`git-pr.mjs`/`gh pr create`), non istruzioni manuali come prima scelta; (2) retry 18:57, 18:59, **19:01** = stesso **403 rate limit** — giornata intensa esaurisce quota API **token worker** (user 98592323); (3) **push ≠ PR aperta:** codice (`5497b96`) su GitHub, manca scheda; (4) limite sul **token automazione worker**, non sull'account Nicola — da browser/app GitHub può aprire Compare **subito**; (5) risposta: retry immediato, se 403 → spiega token worker + compare manuale Nicola + «riprova la PR» ~1h — **MAI** aggirare (LEZIONI-CHAT). Regola: domanda ripetuta = frustrazione automazione; dimostrare retry + causa esterna + piano B browser Nicola. Vedi L-317, L-315.",
       "tag": [
@@ -10747,6 +10789,22 @@
       "promosso_il": "2026-07-25 06:20"
     },
     {
+      "id": "L-2026-0719-315",
+      "testo": "**Render marketplace — X rosse = build fallito, non «deploy non partito» (Nicola 19/7 ~18:56).** Dopo merge #214 Nicola: «Non ha fatto il deploy, come mai?» + screenshot Render. 5 perché: (1) interpreta sito vecchio = Auto-Deploy non attivo; (2) Render **ha tentato** deploy ma build crashato ~2 min (X rosse = failed, non canceled); (3) causa verificata in locale: errore TypeScript `app/orders/page.tsx` (`.catch` su PromiseLike Supabase) — già su main dal merge radiografia 18/7, **non** introdotto da #214/#215; (4) **merge GitHub ≠ online**: ogni PR mergiata resta offline finché un build completa con successo; (5) fix su branch `fix/render-build-orders-page` (+ `NODE_OPTIONS=4096` anti-OOM), build locale OK; PR automatica bloccata da rate limit GitHub API → aprire/mergiare a mano (#197). Regola: «deploy non fatto» → controllare **stato build Render** (failed vs never started); non dire «non ha deployato» se c'è un deploy failed; non attribuire al PR feature se il build fallisce su debito pre-esistente su main. Vedi L-314, L-311.",
+      "tag": [
+        "render",
+        "deploy",
+        "build-failed",
+        "marketplace",
+        "pr-214",
+        "orders-page",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "promosso_il": "2026-07-25 12:20"
+    },
+    {
       "id": "L-2026-0719-305",
       "testo": "**Playwright sul worker — setup root COMPLETATO (Nicola 19/7 ~17:26→18:12).** «Come faccio a rendere operativo playwright su worker?» + strumenti contenuti potenti. Sequenza eseguita e verificata: **font ✅ 17:34** · **Node22 ✅ 17:36** (`v22.17.1`, owner mycity) · **Chromium ✅** (`/opt/pw-browsers/chromium-1228`) · **Playwright ✅ 18:12** (`/opt/node22/lib/node_modules/playwright`, dopo fix `--prefix`) · **env ✅** (`PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` in `cervello/vps/.env`) · **render ✅** (`render-domenica-settimana.mjs` → feed ~524KB + storia ~664KB in `consegne/content/assets/`). 5 perché: (1) Nicola vuole passi operativi Termux uno alla volta + «controlla se ho fatto giusto» = verifica server; (2) install richiede root — chat AD non può eseguirla; (3) ordine canonico: font → Node22 → Playwright `--prefix /opt/node22` → env worker → restart → test render; (4) contenuti potenti = foto/video veri + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico 🟡 per non perdere al prossimo aggiornamento server. Regola: «Fatto» ≠ ok finché render non stampa 2 OK. Vedi L-306, L-307, L-247.",
       "tag": [
@@ -10760,6 +10818,36 @@
       ],
       "reparto": "@builder-automazioni",
       "promosso_il": "2026-07-24 16:20"
+    },
+    {
+      "id": "L-2026-0719-304",
+      "testo": "**Grafiche professionali — strumenti REALI usati + carburante per alzare livello (Nicola 19/7 ~17:21, Playwright ✅ 18:12).** «Quali strumenti hai usato per la parte grafica e quali ti servono per grafiche professionali?» 5 perché: (1) dopo fix Diretta vuole capire **stack vero**, non marketing; (2) oggi = Content Factory locale (template HTML brand → Playwright/Chromium PNG 1080×1350 e 9:16) + SVG per anteprima Diretta quando serve; (3) PNG automatici sul VPS **erano rotti** senza font/Playwright — **risolto 18:12** (font + Node22 + Playwright operativi → render domenica OK); (4) Canva auto, Gemini/Imagen, video AI = **scheletri spenti** — vincolo [[niente-api-ai]]; (5) livello «agenzia» = **materia prima vera** (3–5 foto bottega/prodotto, frase bottegaio) + render Playwright operativo **oppure** PNG già fatti da Nicola (Canva/Figma). Regola: elencare attivo/spento/esigenze in 3 bin; non promettere output pro senza foto vere.",
+      "tag": [
+        "content-factory",
+        "grafica",
+        "playwright",
+        "svg",
+        "niente-api-ai",
+        "nicola",
+        "trasparenza"
+      ],
+      "reparto": "@content-social",
+      "promosso_il": "2026-07-25 12:20"
+    },
+    {
+      "id": "L-2026-0719-301",
+      "testo": "**«Risolvi tutti i problemi della chat» — analisi unificata + PR priorità, non fix a pezzi (Nicola 19/7 ~17:03, consegnato 17:11).** Dopo spiegazione regressione auto-open (#456 vs cross-device), Nicola: «voglio risolvi tutti problemi della chat, fai una bella analisi, ricordati tutti i problemi che ti ho detto». 5 perché: (1) ha segnalato più bug nel tempo (auto-open, cross-device, limiti motore, debounce, streaming, titoli caselle, ecc.) — vuole **mappa unica**; (2) fix isolati senza inventario fanno «tornare» lo stesso sintomo; (3) «bella analisi» = elenco verificato + priorità + piano batch, non altra PR singola; (4) AD deve **aggregare** da memoria/chat precedenti, non chiedere di ripetere; (5) consegna = tabella sintomo→stato→PR **e** fix batch prioritario (**PR #475** per auto-open). Inventario canonico 7 filoni: auto-open (#475), cross-device (#446+#475), pallini (#328/#348 ritest), pezzo sparito (salvataggio incompleto/limiti AI), streaming (backlog worker), scroll/triplicazione (main), MCP (allowlist ok, test runtime). Backlog fuori PR: streaming live, due marce, allegati.",
+      "tag": [
+        "chat",
+        "pannello",
+        "audit",
+        "standing-ask",
+        "regressione",
+        "PR-475",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 12:20"
     },
     {
       "id": "L-2026-0719-279",
@@ -11614,15 +11702,15 @@
   ],
   "meta": {
     "lezioni_attive": 473,
-    "promosse_a_principio": 49,
+    "promosse_a_principio": 54,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-25 12:15",
+    "tasso_calcolato_il": "2026-07-25 14:15",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-25 12:15",
+    "tick_leggero_il": "2026-07-25 14:15",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-25 11:00"
+    "cristallizzazione_ultima": "2026-07-25 12:20"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
