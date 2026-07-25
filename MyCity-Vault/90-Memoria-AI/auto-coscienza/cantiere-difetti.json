@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-25 03:19",
+  "aggiornato": "2026-07-25 03:52",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -957,15 +957,16 @@
       "causa_radice": "①Perché il lavoro Pannello non è contato? Perché ROOT_PESANTI esclude consegne/tech per design dichiarato. ②Perché fu escluso? Perché il guardiano nacque dal caso Garetti: asset creativi intestati a un NEGOZIO. ③Perché non fu generalizzato? Perché il lavoro tech non è 'intestabile a un negozio' e non esisteva un'altra entità a cui intestarlo. ④Perché manca quell'entità? Perché la macchina non ha mai definito SÉ STESSA come destinazione di sforzo nel registro-realtà. ⑤Causa di sistema: la contabilità dello sforzo conosce solo la destinazione 'negozio' — manca la dimensione {business, macchina} nel modello di allocazione, quindi la meta-attività è strutturalmente fuori bilancio.",
       "fix_proposto": "Nuovo pezzo (o estensione di allocazione-check): classificare consegne/PR/card per destinazione {business, macchina-pannello} su finestra 7gg e fallire (vincolo HARD nel giro) se quota-macchina supera una soglia mentre north-star-check segnala stallo. 🟡 firma Nicola.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 16:55",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-25 03:52",
       "verifica": {
         "file": "cervello/allocazione-check.mjs",
         "pattern": "consegne/tech",
         "presente": true
       },
-      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
+      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
+      "chiuso_come": "cervello/allocazione-check.mjs contiene /consegne/tech/ → trovato"
     },
     {
       "id": "AR-115",
@@ -1726,8 +1727,8 @@
     }
   ],
   "meta": {
-    "aperti": 27,
+    "aperti": 26,
     "in_corso": 0,
-    "chiusi": 67
+    "chiusi": 68
   }
 }
