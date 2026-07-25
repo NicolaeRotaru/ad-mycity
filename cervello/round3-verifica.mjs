@@ -41,12 +41,30 @@ const mancanti = FILE_TEST.filter((f) => !existsSync(R(f)));
 if (mancanti.length) {
   ko("Test del round 3 presenti", `mancano: ${mancanti.join(", ")}`);
 } else {
-  const r = spawnSync(process.execPath, ["--test", ...FILE_TEST.map(R)], { encoding: "utf8", cwd: AD_ROOT });
+  // `--test-reporter=tap` — il formato del report va PINZATO, non lasciato al default: cambia con
+  // la versione di Node (su v22 è TAP, su v24 no) e il conteggio qui sotto lo legge. Trovato sul
+  // VPS: girando su Node v24 il verificatore stampava «Test: ? passati» perché il regex non
+  // agganciava più. Stesso difetto di nascita di AR-109 in miniatura — uno strumento provato in un
+  // ambiente e usato in un altro.
+  const r = spawnSync(process.execPath, ["--test", "--test-reporter=tap", ...FILE_TEST.map(R)], {
+    encoding: "utf8",
+    cwd: AD_ROOT,
+  });
   const out = `${r.stdout || ""}${r.stderr || ""}`;
-  const passati = (out.match(/^# pass (\d+)$/m) || [])[1] || "?";
-  const falliti = (out.match(/^# fail (\d+)$/m) || [])[1] || "?";
-  if (r.status === 0) ok(`Test: ${passati} passati, 0 falliti`);
-  else ko(`Test: ${falliti} FALLITI su ${Number(passati) + Number(falliti)}`, "rilancia: node --test cervello/test/*.test.mjs");
+  const conta = (re) => {
+    const m = out.match(re);
+    return m ? Number(m[1]) : null;
+  };
+  const passati = conta(/^# pass (\d+)$/m);
+  const falliti = conta(/^# fail (\d+)$/m);
+  // Il verdetto è l'EXIT CODE, non il testo del report: se il conteggio non si legge lo si dice,
+  // non si stampa un numero inventato (prima usciva "NaN" quando il parsing falliva).
+  if (r.status === 0) {
+    ok(passati === null ? "Test: tutti passati (conteggio non leggibile)" : `Test: ${passati} passati, 0 falliti`);
+  } else {
+    const quanti = falliti === null ? "" : ` (${falliti} su ${(passati ?? 0) + falliti})`;
+    ko(`Test: FALLITI${quanti}`, "rilancia: node --test cervello/test/*.test.mjs");
+  }
 }
 
 // ─────────────── ② le prove del cantiere ───────────────
