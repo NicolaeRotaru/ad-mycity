@@ -92,3 +92,61 @@ test("giorniFa(): legge la data ovunque stia nella stringa, e non inventa quando
   assert.equal(giorniFa("", OGGI), Infinity);
   assert.equal(giorniFa("senza data", OGGI), Infinity);
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// I DUE NUMERI aggiunti il 25/7 rispondendo a «l'hai risolto del tutto?». La risposta era no:
+// `diventataRegola()` si fida di campi che la macchina scrive sul proprio lavoro, e tutte le
+// lezioni «cristallizzate» finiscono in `memoria-persistente` — testo nel prompt, non un gate.
+
+import { ricadute, conGate } from "../tasso-regole.mjs";
+
+test("ricadute(): conta solo i temi CRONICI, e guarda com'era PRIMA di quella correzione", () => {
+  // «pannello» diventa cronico dopo 3 correzioni: la 4ª è una ricaduta, le prime 3 no.
+  const r = ricadute(
+    [
+      lez({ id: "1", tag: ["pannello"], nato: "2026-07-01" }),
+      lez({ id: "2", tag: ["pannello"], nato: "2026-07-02" }),
+      lez({ id: "3", tag: ["pannello"], nato: "2026-07-03" }),
+      lez({ id: "4", tag: ["pannello"], nato: "2026-07-04" }),
+    ],
+    90,
+    OGGI,
+  );
+  assert.equal(r.correzioni, 4);
+  assert.equal(r.su_tema_cronico, 1, "solo la quarta cade su un tema già cronico");
+  assert.equal(r.temi_cronici, 1);
+});
+
+test("ricadute(): i tag generici non fanno testo (se no «nicola» renderebbe tutto cronico)", () => {
+  const r = ricadute(
+    ["a", "b", "c", "d"].map((id, i) => lez({ id, tag: ["nicola", "caso-studio"], nato: `2026-07-0${i + 1}` })),
+    90,
+    OGGI,
+  );
+  assert.equal(r.su_tema_cronico, 0);
+  assert.equal(r.temi_cronici, 0);
+});
+
+test("ricadute(): scende solo se le correzioni smettono di ripetersi", () => {
+  const ripetute = ["1", "2", "3", "4", "5"].map((id, i) => lez({ id, tag: ["worker"], nato: `2026-07-0${i + 1}` }));
+  const sparse = ["1", "2", "3", "4", "5"].map((id, i) => lez({ id, tag: [`tema-${id}`], nato: `2026-07-0${i + 1}` }));
+  assert.ok(ricadute(ripetute, 90, OGGI).quota > 0, "ripetersi sullo stesso tema si vede");
+  assert.equal(ricadute(sparse, 90, OGGI).quota, 0, "temi sempre nuovi = nessuna ricaduta");
+});
+
+test("conGate(): conta solo le correzioni legate a un controllo che può fallire", () => {
+  const g = conGate(
+    [lez({ id: "a", gate: "node cervello/permessi-check.mjs" }), lez({ id: "b" }), lez({ id: "c", gate: "   " })],
+    30,
+    OGGI,
+  );
+  assert.equal(g.correzioni, 3);
+  assert.equal(g.con_gate, 1, "un campo vuoto non è un gate");
+  assert.equal(g.quota, 0.33);
+});
+
+test("conGate(): un principio NON conta come gate — è un promemoria, non un impedimento", () => {
+  // È il punto dell'intera analisi: promuovere a principio significa iniettare testo nel prompt.
+  const g = conGate([lez({ id: "a", promosso_il: "x", cristallizzato_in: "memoria-persistente" })], 30, OGGI);
+  assert.equal(g.con_gate, 0);
+});
