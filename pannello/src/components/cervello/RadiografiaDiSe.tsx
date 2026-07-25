@@ -9,6 +9,8 @@ import { dataVault } from "@/lib/format";
 import { vaiArea, EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
 import ParlaCasella from "@/components/ParlaCasella";
 import SchedaProblema from "@/components/cervello/SchedaProblema";
+import SaluteOnesta from "@/components/cervello/SaluteOnesta";
+import UtilizzoSenior from "@/components/cervello/UtilizzoSenior";
 import { usePanelSync } from "@/lib/panel-sync";
 import { dimensioneLeggibile, humanizzaDifetto } from "@/lib/radiografia-umana";
 
@@ -473,6 +475,13 @@ export default function RadiografiaDiSe() {
                     </div>
                   );
                 })}
+              </div>
+              {/* Metri onesti della macchina su sé stessa: sto migliorando davvero + quanto uso il roster.
+                  Vivono qui (non sempre in vista) su richiesta di Nicola: sono un giudizio, non un dato
+                  del cantiere corrente — hanno senso solo quando si guarda l'andamento nel tempo. */}
+              <div className="grid gap-3 lg:grid-cols-2 pt-2">
+                <SaluteOnesta />
+                <UtilizzoSenior />
               </div>
             </div>
           )}
