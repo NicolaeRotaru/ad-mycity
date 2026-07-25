@@ -380,8 +380,9 @@ export default function RadiografiaDiSe() {
                 const azId = x.id ? azPerOrigine[`difetto:${x.id}`] : undefined;
                 const umano = humanizzaDifetto(x);
                 return (
-                  <div id={x.id ? `difetto-${x.id}` : undefined} key={i} className={`rounded-xl border p-3 scroll-mt-24 ${g.cls}`}>
-                    <div className="flex items-center gap-2 flex-wrap">
+                  <details id={x.id ? `difetto-${x.id}` : undefined} key={i} className={`group rounded-xl border scroll-mt-24 ${g.cls}`}>
+                    <summary className="p-3 cursor-pointer select-none list-none flex items-center gap-2 flex-wrap [&::-webkit-details-marker]:hidden">
+                      <span className="group-open:rotate-90 transition-transform inline-block text-black/40 shrink-0">▸</span>
                       <span className={`w-1.5 h-1.5 rounded-full ${g.dot}`} />
                       <span className="text-[10px] font-bold text-black/50">{g.label}</span>
                       {x.impatto_crescita && <span className={`text-[10px] px-1.5 rounded ${IMPATTO[x.impatto_crescita] || ""}`}>crescita {x.impatto_crescita}</span>}
@@ -391,34 +392,36 @@ export default function RadiografiaDiSe() {
                         </span>
                       )}
                       <span className="t-eti ml-auto">{x.id}</span>
+                      <div className="text-[12.5px] font-medium w-full">{umano.titolo}</div>
+                    </summary>
+                    <div className="px-3 pb-3">
+                      {umano.cosaSuccede && umano.cosaSuccede !== umano.titolo && (
+                        <div className="text-[12px] text-black/70 mt-0.5">{umano.cosaSuccede}</div>
+                      )}
+                      {umano.perche && (
+                        <div className="text-[12px] text-black/65 mt-1"><b>Perché succede:</b> {umano.perche}</div>
+                      )}
+                      {umano.cosaFare && (
+                        <div className="text-[12px] text-black/65 mt-0.5"><b>Cosa fare:</b> {umano.cosaFare}</div>
+                      )}
+                      {x.nota_fix && <div className="text-[12px] mt-1 rounded-lg bg-blue-50/70 ring-1 ring-blue-100 px-2 py-1 text-blue-900/80"><b>Già fatto nel codice:</b> {x.nota_fix}</div>}
+                      {x.verifica?.tipo === "umano" && x.stato === "in-corso" && <div className="text-[11px] text-black/45 mt-0.5">Chiusura riservata a Nicola (azione umana: revoca chiave, giudizio, firma).</div>}
+                      {umano.tecnici && (
+                        <details className="mt-2 group/tecnici">
+                          <summary className="text-[11px] font-medium text-black/45 cursor-pointer select-none hover:text-brand list-none flex items-center gap-1 [&::-webkit-details-marker]:hidden">
+                            <span className="group-open/tecnici:rotate-90 transition-transform inline-block">▸</span> Dettagli tecnici
+                          </summary>
+                          <div className="text-[11px] text-black/50 mt-1.5 whitespace-pre-wrap break-words font-mono leading-relaxed">{umano.tecnici}</div>
+                        </details>
+                      )}
+                      {azId && (
+                        <button onClick={() => vaiArea("azioni", `azione-${azId}`, "approvare")} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                          <ArrowRight size={12} /> Vai all'azione collegata
+                        </button>
+                      )}
+                      <ParlaCasella titolo={`Difetto: ${umano.titolo}`} contesto={[umano.cosaSuccede, umano.perche && `Perché: ${umano.perche}`, umano.cosaFare && `Cosa fare: ${umano.cosaFare}`].filter(Boolean).join(" · ")} />
                     </div>
-                    <div className="text-[12.5px] font-medium mt-1">{umano.titolo}</div>
-                    {umano.cosaSuccede && umano.cosaSuccede !== umano.titolo && (
-                      <div className="text-[12px] text-black/70 mt-0.5">{umano.cosaSuccede}</div>
-                    )}
-                    {umano.perche && (
-                      <div className="text-[12px] text-black/65 mt-1"><b>Perché succede:</b> {umano.perche}</div>
-                    )}
-                    {umano.cosaFare && (
-                      <div className="text-[12px] text-black/65 mt-0.5"><b>Cosa fare:</b> {umano.cosaFare}</div>
-                    )}
-                    {x.nota_fix && <div className="text-[12px] mt-1 rounded-lg bg-blue-50/70 ring-1 ring-blue-100 px-2 py-1 text-blue-900/80"><b>Già fatto nel codice:</b> {x.nota_fix}</div>}
-                    {x.verifica?.tipo === "umano" && x.stato === "in-corso" && <div className="text-[11px] text-black/45 mt-0.5">Chiusura riservata a Nicola (azione umana: revoca chiave, giudizio, firma).</div>}
-                    {umano.tecnici && (
-                      <details className="mt-2 group">
-                        <summary className="text-[11px] font-medium text-black/45 cursor-pointer select-none hover:text-brand list-none flex items-center gap-1">
-                          <span className="group-open:rotate-90 transition-transform inline-block">▸</span> Dettagli tecnici
-                        </summary>
-                        <div className="text-[11px] text-black/50 mt-1.5 whitespace-pre-wrap break-words font-mono leading-relaxed">{umano.tecnici}</div>
-                      </details>
-                    )}
-                    {azId && (
-                      <button onClick={() => vaiArea("azioni", `azione-${azId}`, "approvare")} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
-                        <ArrowRight size={12} /> Vai all'azione collegata
-                      </button>
-                    )}
-                    <ParlaCasella titolo={`Difetto: ${umano.titolo}`} contesto={[umano.cosaSuccede, umano.perche && `Perché: ${umano.perche}`, umano.cosaFare && `Cosa fare: ${umano.cosaFare}`].filter(Boolean).join(" · ")} />
-                  </div>
+                  </details>
                 );
               })}
               {chiusi.length > 0 && (
