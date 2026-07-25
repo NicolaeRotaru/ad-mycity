@@ -3,18 +3,19 @@
 //
 // Il difetto: `pannello/src/lib/*.test.mts` esisteva da settimane e NESSUNO li lanciava — nessuno
 // script, nessuna CI, nessun giro. Un test che non gira non è una rete, è un file. Sotto ci si è
-// nascosto un secondo difetto: `lavori-gruppo.annulla.test.mts` non parte affatto, perché
+// nascosto un secondo difetto: `lavori-gruppo.annulla.test.mts` non partiva affatto, perché
 // `lavori-gruppo.ts` importa `./chat-thread-merge` senza estensione (il bundler la indovina, Node
-// ESM no) — e sbloccandolo saltano fuori 2 asserzioni rosse vere.
+// ESM no) — e sbloccandolo saltarono fuori 2 asserzioni rosse, che erano un test rimasto indietro
+// rispetto a una correzione di Nicola. Entrambe le cose sistemate il 25/7.
 //
 // Questo è il guardiano che dice la verità su tutti quanti. Li SCOPRE dalla cartella invece di
 // tenerne un elenco: un elenco si dimentica di aggiornare, e un test nuovo resterebbe fuori senza
 // che nessuno se ne accorga — che è esattamente il male che stiamo curando.
 //
-// Perché serve un guardiano e non un elenco in round3-verifica: la prova di AR-156 nel cantiere
-// deve chiudersi DA SOLA quando l'ultimo test rotto viene sistemato. Una prova a pattern su un file
-// dipenderebbe da come qualcuno formatta una riga (è la trappola di AR-037: un pattern che non può
-// mai scattare). Qui la condizione è quella vera: girano tutti e passano tutti.
+// Perché un guardiano e non un elenco in round3-verifica: la prova di AR-156 nel cantiere si
+// chiude DA SOLA quando tutti i test girano e passano. Una prova a pattern su un file dipenderebbe
+// da come qualcuno formatta una riga (è la trappola di AR-037: un pattern che non può mai
+// scattare). Qui la condizione è quella vera: girano tutti e passano tutti.
 //
 // Uso:
 //   node cervello/test-pannello.mjs           -> report
@@ -63,7 +64,10 @@ function main() {
   // non si saprebbe quali degli altri stanno bene.
   const righe = [];
   for (const f of file) {
-    const r = spawnSync(process.execPath, ["--test", "--test-reporter=tap", join(AD_ROOT, f)], { encoding: "utf8", cwd: AD_ROOT });
+    // `--import hook-ts.mjs`: insegna a Node la risoluzione che il bundler già applica (import
+    // relativi senza estensione). Senza, `lavori-gruppo.annulla.test.mts` non parte nemmeno.
+    // Vedi cervello/test/risolvi-ts.mjs per il perché sta qui e non nel codice del Pannello.
+    const r = spawnSync(process.execPath, ["--import", join(AD_ROOT, "cervello/test/hook-ts.mjs"), "--test", "--test-reporter=tap", join(AD_ROOT, f)], { encoding: "utf8", cwd: AD_ROOT });
     const out = `${r.stdout || ""}${r.stderr || ""}`;
     const passati = out.match(/^# pass (\d+)$/m);
     righe.push({ file: f, ...verdetto(r.status, out), passati: passati ? Number(passati[1]) : null });
