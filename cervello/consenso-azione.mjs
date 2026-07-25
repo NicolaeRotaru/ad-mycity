@@ -150,6 +150,53 @@ export function approvata(blocco) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// AR-110 — LA FIRMA VIVE DOVE NICOLA LA METTE, E L'ESECUTORE LA LEGGE DA LÌ.
+//
+// Il difetto: quando Nicola preme «Approva» sul Pannello, la firma finisce in Supabase
+// (impostazioni → azione:<id>). Il cancello qui sopra invece cercava un marcatore dentro
+// AZIONI-IN-ATTESA.md, che NESSUNO scriveva. Risultato: o l'azione firmata degradava a DRY-RUN,
+// o il worker — per farla funzionare — scriveva lui il marcatore nel file che poi il cancello
+// verifica. Cioè: l'esecutore firmava se stesso. Due verità mai riconciliate.
+//
+// Il contratto, ora esplicito e in UNA sola direzione:
+//   · chi firma:  il Pannello, e SOLO su un clic umano di Nicola;
+//   · dove:       Supabase, chiave `azione:<id stabile>:firma`, valore "nicola AAAA-MM-GG HH:MM";
+//   · chi legge:  l'esecutore (qui), che non può scriverla come prova di se stesso.
+// L'autopilota del Pannello, che decide da solo sulle 🟢, scrive "auto …": esiste per lasciare
+// traccia, ma NON vale come consenso — altrimenti bastava accendere l'autopilota per autorizzare
+// un invio reale dalla CLI. Solo "nicola" apre il cancello.
+//
+// Fail-closed: memoria scollegata, rete giù, chiave assente o firma di chiunque altro → non
+// firmata. Questa via si AGGIUNGE al marcatore nel file, non lo sostituisce.
+
+const FIRMA_UMANA_RE = /^\s*nicola\b/i;
+
+export async function firmaPannello(idAzione) {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_KEY;
+  const id = String(idAzione || "").trim();
+  if (!id) return { firmata: false, motivo: "id azione mancante" };
+  if (!url || !key) return { firmata: false, motivo: "memoria non collegata (SUPABASE_URL/KEY assenti)" };
+  const chiave = `azione:${id}:firma`;
+  try {
+    const r = await fetch(
+      `${url}/rest/v1/impostazioni?select=valore&chiave=eq.${encodeURIComponent(chiave)}&limit=1`,
+      { headers: { apikey: key, Authorization: `Bearer ${key}` }, cache: "no-store" }
+    );
+    if (!r.ok) return { firmata: false, motivo: `firma non verificabile (HTTP ${r.status})` };
+    const j = await r.json();
+    const valore = Array.isArray(j) && j[0] ? String(j[0].valore || "") : "";
+    if (!valore) return { firmata: false, motivo: "nessuna firma dal Pannello" };
+    if (!FIRMA_UMANA_RE.test(valore)) {
+      return { firmata: false, motivo: `firma "${valore}" non è di Nicola (decisione automatica) → non vale come consenso` };
+    }
+    return { firmata: true, motivo: `firmata dal Pannello (${valore.trim()})` };
+  } catch (e) {
+    return { firmata: false, motivo: `firma non verificabile (${e.message})` };
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // PAUSA kill-switch dentro l'esecutore (non solo giro.sh) — FAIL-CLOSED come AR-100.
 export async function pausaAttiva() {
   const url = process.env.SUPABASE_URL;
@@ -235,13 +282,24 @@ export async function consensoInvio({ azioneId, canale, destinatario }) {
   if (!blk) {
     return { live: false, motivo: `AZIONE_ID "${id}" non trovato in AZIONI-IN-ATTESA.md → invio bloccato` };
   }
+  // AR-110: la firma vale se è nel file (marcatore) OPPURE registrata dal Pannello al clic di
+  // Nicola. Due strade per lo stesso consenso, nessuna delle due scrivibile dall'esecutore come
+  // prova di se stesso; se mancano entrambe, si blocca dicendo perché.
+  let dove = `casella ${blk.code} firmata in coda`;
   if (!approvata(blk.blocco)) {
-    return { live: false, motivo: `azione "${id}" presente ma NON marcata APPROVATA da Nicola → invio bloccato` };
+    const f = await firmaPannello(blk.id);
+    if (!f.firmata) {
+      return {
+        live: false,
+        motivo: `azione "${id}" presente ma NON firmata da Nicola — né marcata APPROVATA in coda, né dal Pannello (${f.motivo}) → invio bloccato`,
+      };
+    }
+    dove = `casella ${blk.code} ${f.motivo}`;
   }
 
   // 3) Destinatario in allowlist (DRY-RUN forzato finché non sbloccato).
   const a = destinatarioAmmesso(canale, destinatario);
   if (!a.ok) return { live: false, motivo: a.motivo };
 
-  return { live: true, motivo: `consenso OK (casella ${blk.code} firmata, destinatario sbloccato, pausa off)` };
+  return { live: true, motivo: `consenso OK (${dove}, destinatario sbloccato, pausa off)` };
 }
