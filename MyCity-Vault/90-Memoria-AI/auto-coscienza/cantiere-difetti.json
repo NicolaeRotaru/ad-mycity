@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-25 01:38",
+  "aggiornato": "2026-07-25 01:15",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -1014,15 +1014,16 @@
       "causa_radice": "① Perché il gate non scatta? Perché token_totali resta 0. ② Perché resta 0? Perché tutte le voci sono marcate --stima e le stime non contano nei gate (AR-043, costo-ai.mjs:104-115). ③ Perché sono tutte stime? Perché nessuno script cattura l'usage reale che la CLI già emette nello stream-json. ④ Perché due fix (AR-043 onestà-stima e AR-087 freno-budget) si annullano a vicenda? Perché sono stati chiusi in giri diversi senza un test funzionale end-to-end del freno (nessun test simula 'token oltre soglia → RUN_AI=0'). ⑤ Causa di sistema: i guardiani di costo si verificano per PRESENZA di codice, non per COMPORTAMENTO — un freno può essere sintatticamente presente e funzionalmente morto senza che nessun controllo lo veda.",
       "fix_proposto": "🟡 (a) Catturare l'usage reale dagli eventi result dello stream-json in UN punto unico (motore-ai.sh) e registrarlo senza --stima; (b) finché la misura reale non c'è, far leggere al gate max(token_totali, token_stimati) e/o sessione_rolling (che già include le stime «per onestà», costo-ai.mjs:39-40); (c) aggiungere un test bats che con un costo-ai.json fittizio oltre soglia verifichi RUN_AI=0.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 16:55",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-25 01:15",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "token_stimati|sessione_rolling",
+        "file": "cervello/costo-ai.mjs",
+        "pattern": "tokenPerGate",
         "presente": true
       },
-      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
+      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
+      "chiuso_come": "DUPLICATO di AR-144 per la parte bloccante (stesso freno, stessa causa, stesso file costo-ai.mjs): chiuso dallo stesso fix, provato end-to-end. La sua prova puntava al file SBAGLIATO (cercava token_stimati in giro.sh, il fix è in costo-ai.mjs) — per questo non si è mai chiuso da solo. Il residuo NON bloccante (conteggio token reale da motore-ai.sh + test bats) resta tracciato in AR-155."
     },
     {
       "id": "AR-118",
@@ -1524,12 +1525,16 @@
       "causa_radice": "cervello/costo-ai.mjs esclude le stime (stima_grezza:true) dal contatore che alimenta il gate, per non generare falsi allarmi — ma giro.sh/ritmo.sh passano SEMPRE valori stimati, mai un conteggio reale: token_totali resta permanentemente 0 anche a 1,3M token/giorno stimati. Il guardrail pensato per fermare una raffica di giri ravvicinati è di fatto inerte.",
       "fix_proposto": "🟡 far contare le stime nel gate con soglia tarata al margine di errore, oppure segnalare nel Pannello che il gate è 'non protettivo' finché non c'è una fonte di conteggio reale.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione efficienza-costo)",
       "verifica": {
-        "tipo": "umano"
-      }
+        "file": "cervello/costo-ai.mjs",
+        "pattern": "tokenPerGate",
+        "presente": true
+      },
+      "chiuso_il": "2026-07-25 01:15",
+      "chiuso_come": "Fix mergiato in main (PR #519, cervello/costo-ai.mjs): il gate ora usa max(token_totali, token_stimati). PROVATO end-to-end il 25/7: con 275.000 stimati e soglia 100.000 stampa SOGLIA SUPERATA; con 50.000 non scatta. Il contatore delle stime è vivo (275.000 registrati il 24/7)."
     },
     {
       "id": "AR-145",
@@ -1696,6 +1701,24 @@
       "nato": "2026-07-24 16:00",
       "origine": "review-settimanale 2026-07-24 (peer_review PR-006)",
       "nota": "Trovato confrontando chiusura-loop.json (ultimo_esito @tech = 2026-07-20 23:38) con git log (107 merge 17-24/7, la maggioranza dopo il 20/7). Non blocca nulla di reale oggi (nessuna azione 🔴 eseguita senza controllo), ma svuota la calibrazione futura: senza ESITO, il volano previsto-vs-reale su @tech resta cieco proprio nella settimana di maggiore attività."
+    },
+    {
+      "id": "AR-155",
+      "titolo": "Il gate budget-token protegge con le STIME, non con il consumo reale: manca la cattura usage da motore-ai.sh e il test automatico",
+      "dimensione": "freni-sicurezza",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "PR #519 ha reso vivo il gate usando max(token_totali, token_stimati), ma token_totali resta sempre 0 perché nessuno registra il consumo reale: le stime hanno un margine di errore non misurato. Residuo dei punti (a) e (c) di AR-117.",
+      "fix_proposto": "🟡 (a) catturare usage reale dagli eventi result dello stream-json in un punto unico (motore-ai.sh) e registrarlo senza --stima; (c) test bats con un costo-ai.json fittizio oltre soglia che verifichi RUN_AI=0.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-25 01:15",
+      "origine": "round 2 programma intelligenza (2026-07-25): residuo scorporato da AR-117 alla sua chiusura",
+      "verifica": {
+        "file": "cervello/motore-ai.sh",
+        "pattern": "token_reali|usage",
+        "presente": true
+      }
     }
   ],
   "meta": {

@@ -196,6 +196,16 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/stampo-check.mjs" 2>&1 | tail -6 || true
   echo "[$(ts)] Guardiano capacità (workflow ↔ comandi)..."
   node "$SCRIPT_DIR/guardiano-capacita.mjs" 2>&1 | tail -4 || true
+  # Round 2 programma intelligenza (2026-07-25). Due misure, per ora INFORMATIVE (|| true):
+  #  · cantiere-prove: quanti difetti nessun guardiano può chiudere (il caso AR-144/AR-117 — fix
+  #    mergiato e provato, ma il cantiere lo contava ancora aperto perché la prova puntava altrove).
+  #  · pagella-intelligenza: i 5 numeri di "quando la macchina è pronta", con lo storico del movimento.
+  # NON sono vincoli hard: oggi cantiere-prove fallirebbe subito (bloccanti non verificabili) e
+  # bloccherebbe ogni giro invece di migliorarlo. Si promuove a cancello quando bloccanti_ciechi = 0.
+  echo "[$(ts)] Guardiano prove del cantiere (difetti che nessuno può chiudere)..."
+  node "$SCRIPT_DIR/cantiere-prove.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] Pagella dell'intelligenza (quanto manca a 'pronta')..."
+  node "$SCRIPT_DIR/pagella-intelligenza.mjs" 2>&1 | tail -8 || true
   echo "[$(ts)] Guardiano allocazione sforzo (AR-006: pesante solo su entità confermata)..."
   # AR-081: NON scartiamo più l'exit-code con "|| true". Cattura rc del guardiano e trattalo come
   # VINCOLO: se fallisce (una 'scelta_ragionata' accumula asset pesanti mentre un negozio 'confermato'
