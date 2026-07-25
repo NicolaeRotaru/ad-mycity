@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-25 17:35
-fonte: AD digitale (giro pieno, riconferma)
+aggiornato: 2026-07-26 00:44
+fonte: AD digitale (chat)
 ---
+
+> 💬 **26/7 ~00:44 — CHAT: nuova proiezione RICAVI (solo lordi, senza costi) primo mese con 1 negozio — prudente 166€, medio 308€, ottimista 523€.** Nicola: «ricordami quanto guadagno il totale il primo mese» poi «parlami solo dei guadagni e non dei costi». Lo scenario del 23/7 (~-2.000€ di perdita, finanza.soglia-costi-extra) aveva salvato solo il risultato NETTO, senza i ricavi isolati — servita una nuova run di **finanza**. Scenari basati sui prezzi decisi (abbonamento 50€/m, commissione 10%) con volume di vendite stimato ragionevolmente, **non misurato** (Pane Quotidiano ha ancora 0 ordini pagati). File: `consegne/finanza/proiezione-ricavi-primo-mese-2026-07-26.md`. Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 26/7 ~00:37-00:44.
 
 > 💬 **25/7 ~20:35 — CHAT: causa VERA dei doppioni "Nuova chat" trovata (6ª segnalazione sul tema) — non un doppio-tap, una race nella CREAZIONE della chat sul server. PR #556 aperta, card #246 in attesa merge.** Nicola segnala di nuovo doppioni (screenshot, coppie con lo STESSO timestamp esatto). Causa: il primo messaggio di una chat nuova fa una POST di creazione su Supabase; se un secondo invio parte prima che quella POST torni, anche lui crede "nessun id ancora" e crea la SUA riga → due chat reali. Scoperto un buco mai coperto dai fix precedenti (#531/#532): la mini-chat del video-live/schermo condiviso mandava messaggi SENZA nessun lock. Fix: un ref tiene la Promise della creazione in corso, chi arriva mentre è in volo aspetta la STESSA creazione (protegge anche superfici future non ancora scoperte) + lock condiviso aggiunto alla mini-chat. `tsc --noEmit` pulito. **Non verificato dal vivo nel browser** (sessione headless). Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 25/7 20:14, screenshot Conversazioni.
 
