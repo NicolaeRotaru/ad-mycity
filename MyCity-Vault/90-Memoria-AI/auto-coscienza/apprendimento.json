@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-25 04:43",
+  "aggiornato": "2026-07-25 14:55",
+  "_gate_25_07": "GIRO 25/7: cristallizzazione meccanica già girata da giro.sh alle 06:20 (34 principi, 0 arretrato evidente su evidenze>=7/6/5 — tutti già promossi in 3 batch ieri 14:20/16:20/18:20). Sul cluster #1 segnalato dal guardiano ('marketplace': 22 lezioni/36 ripetizioni) verificato A MANO (8 lezioni lette): NON è un'unica causa radice, è un tag-contenitore troppo generico (label 'tocca il sito marketplace', non firma di un tipo di bug) — cristallizzarlo in un gate sarebbe un principio vago e inutile. Proposta reale invece: (1) tech fix proposto a Nicola — aggiungere 'marketplace' a TAG_GENERICI in cervello/apprendimento-guardiano.mjs (rumore di tassonomia, non errore ricorrente); (2) gate concreto sul cluster #4 'allowlist' (19 lezioni/27 rip./11 da Nicola), rinforzato da evidenza fresca di QUESTO giro (node cervello/esperimenti-check.mjs, valida-contratti.mjs, apprendimento-guardiano.mjs, cristallizza-apprendimento.mjs tutti bloccati da approvazione pur essendo sola-lettura/bookkeeping dichiarati nel loro stesso header) — proposta 🟡 #allowlist-diagnostica-gate in AZIONI-IN-ATTESA: estendere .claude/settings.local.json con un pattern che copre gli script *-check.mjs/*-guardiano.mjs di sola lettura, così l'AD non deve più bypassare a mano leggendo il sorgente ogni volta.",
   "_nota_metabolizzazione_24_07_2002": "Chat 24/7 ~20:02 (chiusura del filo doppioni 'Nuova chat' già raccontato nella nota 19:57/STATO.md): nessun nuovo messaggio di contenuto da Nicola in questo turno (solo 'Abc', ambiguo, seconda volta consecutiva) — verificato via `git log` che PR #531 (blocco doppio-tap sul bottone invia) è GIÀ mergiata su main (commit `575721d2`), non più 'in attesa' come risultava nella card #236. Aggiornati AZIONI-IN-ATTESA (#236 → FATTO) e STATO.md (nuova voce in cima). Nessuna lezione nuova: conferma pratica (non caso_studio_nicola) del pattern già in LEZIONI-CHAT — bug UI 'ricorrente' trattato con screenshot reale + verifica del codice esistente prima di riscrivere la diagnosi da zero, invece di assumere che il fix di ieri (PR #517) fosse insufficiente senza controllare. Resta da confermare dal vivo nel browser dopo il prossimo deploy Vercel (nessun accesso browser in sessione headless). Nessun fatto/decisione/dato business nuovo.",
   "_nota_metabolizzazione_24_07_1740": "Chat 24/7 17:36: Nicola \"aggiungi parla con la casella a tutte le caselle della bacheca\" — AD ha aggiunto ParlaCasella agli avvisi Bacheca (unico file mancante), PR #527 aperta e già accodata in AZIONI-IN-ATTESA (card #235, riga tabella). Registrata lezione L-2026-0724-527: pattern ricorrente (7ma volta) di aggiungere ParlaCasella superficie-per-superficie invece che con audit unico. Sul filone precedente (registro dei fatti incompleto, turno prima), Nicola non ha ancora dato l'esempio concreto richiesto dall'AD — resta aperto, nessuna azione da registrare finché non risponde.",
   "_nota_metabolizzazione_24_07_1710": "Chat 24/7 ~17:10: Nicola «metti registro-fatti.json dentro la bacheca e tienilo aggiornato anche dentro la bacheca» — AD ha aggiunto tabella specchio in BACHECA.md (commit 7e5e29c9), regola AR-102 già documentata nell'header della sezione (nessuna preferenza nuova da registrare, è l'esecuzione di uno standing-ask già noto). Push su origin/main bloccato (permesso negato) e NON ritentato — comportamento corretto, coerente con [[feedback-git-pr-allowlist-path]]. Confermato con git status: locale 2 commit avanti (7e5e29c9+b3ffb4c4) — stesso pattern non confermato del 23/7 ~22:16 in [[token-github-unificato]], ora visto ripetersi il giorno dopo (non ancora causa-radice nota: sandbox/allowlist vs auth GitHub). STATO.md aggiornato con l'entry oraria; nessuna azione/decisione nuova da accodare in AZIONI-IN-ATTESA (il push resta a carico di Nicola da VPS).",
@@ -1014,8 +1015,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 23:28",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 10:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-407",
@@ -1127,8 +1130,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 20:16",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 10:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-410",
@@ -1324,8 +1329,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 18:32",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 10:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-400",
@@ -1387,8 +1394,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 17:50",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 11:00",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-397",
@@ -2157,8 +2166,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 03:34",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 11:00",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-362",
@@ -2297,8 +2308,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 02:51",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 11:00",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-356",
@@ -2413,8 +2426,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 02:32",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 11:00",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-351",
@@ -2716,9 +2731,11 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 00:36",
-      "stato": "attiva",
+      "stato": "principio",
       "usi": [],
-      "_addendum_00_36": "Tolta su live 00:32 per bug «+», ma 00:36 Nicola chiede di **tenere** auto-apertura con fix — non PR solo rimozione. Vedi L-341, PR #481."
+      "_addendum_00_36": "Tolta su live 00:32 per bug «+», ma 00:36 Nicola chiede di **tenere** auto-apertura con fix — non PR solo rimozione. Vedi L-341, PR #481.",
+      "promosso_il": "2026-07-25 11:00",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-338",
@@ -3065,8 +3082,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-19 20:20",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 12:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-322",
@@ -3113,8 +3132,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-20 20:25",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 12:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-320",
@@ -3205,8 +3226,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-21 00:11",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-317",
@@ -3250,8 +3273,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-19 19:28",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 12:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-314",
@@ -3496,8 +3521,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-19 18:12",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 12:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-303",
@@ -3560,8 +3587,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-20 00:29",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 12:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-300",
@@ -3607,8 +3636,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-20 00:32",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 14:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-298",
@@ -3893,8 +3924,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-19 16:54",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 14:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-285",
@@ -4058,8 +4091,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-19 14:33",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-278",
@@ -4213,8 +4248,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-18",
       "ultima_conferma": "2026-07-19 17:00",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 14:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0718-271",
@@ -4403,8 +4440,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-18",
       "ultima_conferma": "2026-07-20 00:55",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 14:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0718-262",
@@ -4755,7 +4794,7 @@
       "permanente_nicola": true,
       "nato": "2026-07-17",
       "ultima_conferma": "2026-07-19 18:06",
-      "stato": "attiva",
+      "stato": "principio",
       "usi": [
         {
           "quando": "2026-07-17 07:00",
@@ -4765,7 +4804,9 @@
           "quando": "2026-07-19 18:06",
           "ref": "chat Playwright — Nicola «ricordami file segreto»; verifica riga PLAYWRIGHT_BROWSERS_PATH ancora assente"
         }
-      ]
+      ],
+      "promosso_il": "2026-07-25 14:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0717-246",
@@ -7192,7 +7233,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-14 13:08",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0713-131",
@@ -7495,7 +7538,9 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 17:32",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0713-118",
@@ -8098,7 +8143,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-12",
       "ultima_conferma": "2026-07-14 03:10",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0712-91",
@@ -8536,7 +8583,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-10",
       "ultima_conferma": "2026-07-10 22:30",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 08:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0710-75",
@@ -8678,7 +8727,9 @@
       "_evidenza_4_esito_RISOLTO": "ESITO CHIUSO (chat 9/7 12:45): il push è ANDATO. Radice operativa confermata = CASO B: dalla chat del Pannello i box di approvazione NON compaiono (Nicola risponde secco «B» quando gli chiedo se vede il box), quindi ogni git set-url/push lanciato dall'AD resta appeso a un click che a Nicola non appare → da lì è irrealizzabile. La strada che ha funzionato è la stessa di GIT_BRANCH=main: Nicola incolla le 2 righe (`git -C … remote set-url origin https://NicolaeRotaru:<PAT>@github.com/NicolaeRotaru/ad-mycity.git` poi `git … push origin main`) nel TERMINALE del VPS, dove non c'è il gate permessi. Il terminale ha stampato «Everything up-to-date» → verificato a livello git: 0 commit da spedire, VPS e origin/main sullo STESSO commit 02373323 (12:22). NB semantico da ricordare: «Everything up-to-date» ≠ «non ho fatto niente» = «è già tutto arrivato»; se il token fosse ancora rotto git avrebbe dato errore di autenticazione, non up-to-date → i ~2.033 commit SONO su GitHub, blocco di settimane CHIUSO. RESIDUI APERTI: (a) Vercel deploy NON ancora confermato — Nicola dice «non ha fatto il deploy»; il deploy da GitHub è automatico ma va VERIFICATO (interrogare Vercel / aprire il Pannello hosted e vedere se mostra i dati di oggi); (b) il PAT è stato incollato in chiaro in chat → va rigenerato su GitHub; (c) modifiche Pannello (chat-casella, annulla-lavori, store) NON incluse nel push perché non testate (regola [[regola-testare-sempre]]) — restano da testare nel browser prima di committare. Rinforza [[chat-pannello-non-mostra-box-permessi]]: dalla chat i comandi non-allowlisted sono dead-lock, la via reale è Nicola sul terminale VPS (o l'allowlist).",
       "_evidenza_3_esito": "ESITO POSITIVO (chat 9/7 12:10): applicata la forma giusta della spiegazione (Nicola non mette il token da nessuna parte, non tocca Vercel, preme solo «approva» sui 2 box), Nicola risponde «vai» = via libera a eseguire ① set-url col PAT reale ② push. Conferma che spiegare DOVE vive la cosa + COSA deve fare LUI (una sola azione: approvare) sblocca la decisione. Numero di commit di scarto salito da ~1.994 a ~2.016 (i commit del worker si accumulano finché il push non parte). Promemoria aperto: l'esito reale (push OK/GitHub allineato/Vercel deploy) va confermato DOPO l'esecuzione, non dato per fatto; e il PAT incollato in chiaro va rigenerato su GitHub dopo il push.",
       "_evidenza_2": "RICORRENZA lato utente (chat 9/7, dopo reset limiti 11am): Nicola ha incollato il PAT vero in chat e poi chiede «non ho capito dove devo mettere il vero token, quale segnaposto?». Segnale: anche dopo l'analogia lettera/cassetto, il concetto di 'token segnaposto in un file di config del VPS' resta astratto per lui → assume di dover METTERE il token da qualche parte. Fix applicato nel turno (forma giusta): «non devi metterlo da nessuna parte, me l'hai già dato incollandolo — il segnaposto `il_nuovo_token` sta in un file di sistema del VPS che TU non vedi e non tocchi, lo sostituisco IO con un comando; a te resta solo premere approva sui 2 box di conferma; non tocchi Vercel». Rinforza il fix ③ (Nicola non deve toccare Vercel) e [[nicola-spiegazioni-piu-chiare]]: spiegare DOVE vive la cosa e COSA deve fare LUI (una cosa sola), non solo cos'è. NB sicurezza: token incollato in chiaro in chat → dopo il push va rigenerato su GitHub (già segnalato a Nicola nel turno).",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 08:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0709-65",
@@ -9068,7 +9119,9 @@
       "nato": "2026-07-02",
       "nota_18_21": "2/7 18:21: delta-gate.json ORA scritto su disco dal runner (AR-019 materializzato) — la macchina osservata funzionare. Resta da attivare come GATE hard che salta la parte AI (oggi valuta ma il giro pieno gira comunque via R2/deploy).",
       "ultima_conferma": "2026-07-02 18:21",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 08:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0702-03",
@@ -9810,7 +9863,9 @@
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 10:22",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 08:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0701-11",
@@ -10068,7 +10123,9 @@
       "fonte": "chat",
       "nato": "2026-06-30",
       "ultima_conferma": "2026-07-01 10:51",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 08:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0630-03",
@@ -10085,7 +10142,9 @@
       "fonte": "auto-analisi",
       "nato": "2026-06-30",
       "ultima_conferma": "2026-07-01 01:57",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 10:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0630-01",
@@ -10139,7 +10198,9 @@
       "fonte": "auto-analisi",
       "nato": "2026-06-29",
       "ultima_conferma": "2026-06-30",
-      "stato": "in-prova"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 10:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0629-04",
@@ -10476,6 +10537,36 @@
       "promosso_il": "2026-07-24 22:20"
     },
     {
+      "id": "L-2026-0720-413",
+      "testo": "**Registro ok ≠ casella ok — sentinelle devono leggere registro-fatti, non pitch hardcoded (Nicola 20/7 ~19:06).** Casella «Pochi negozi»: Nicola «**non hai aggiornato memoria centrale o caselle non collegate**» — pricing **10% + 50€/mese**. 5 perché: (1) `registro-fatti.json` era **già corretto** dal fix 12:39 (L-391); (2) casella mostrava ancora «12%, 0 fissi» perché **pitch fisso nel codice** sentinelle, non lettura registro; (3) fix parziale L-391 aggiornò vault/radar/scout ma **non** wiring UI caselle; (4) **PR #501:** sentinelle leggono `pricing.commissione` + `pricing.abbonamento` dal registro; (5) PQ resta eccezione 12%/0€ — pitch standard nuovi negozi = registro. Regola: dopo correzione pricing in registro → **cerca TUTTE le superfici** (sentinelle, caselle Pannello, pitch vendite) e collega al registro nello **stesso fix**; «memoria giusta ma casella sbagliata» = bug codice, non registro. **Addendum 23:23:** Nicola screenshot — **#501** ri-bloccata vs main (north-star/memoria); AD rebase → **mergeable**; merge 🔴 pendente Nicola. **Addendum 23:28:** **#501 ✅** mergiata Nicola → casella pricing live. Vedi L-391, L-397, AR-102, DECISIONI 20/7 19:06.",
+      "tag": [
+        "pricing",
+        "sentinelle",
+        "registro-fatti",
+        "pannello",
+        "vendite",
+        "nicola"
+      ],
+      "reparto": "@vendite",
+      "promosso_il": "2026-07-25 10:20"
+    },
+    {
+      "id": "L-2026-0720-411",
+      "testo": "**PostHog VPS ok ≠ Pannello Radiografia — due env separate (Nicola 20/7 ~18:48, addendum redeploy 20:01 L-414).** Nicola: «**è ancora scollegata**» + screenshot dopo fix VPS (sensore **ok** 18:44–18:45). 5 perché: (1) AD aveva comunicato «collegato» basandosi solo su `verifica-sensori` **worker**; (2) screenshot = pagina **Radiografia Pannello** su Vercel — `posthogConnected()` in `pannello/src/lib/posthog.ts` legge **`POSTHOG_HOST` + `POSTHOG_PROJECT_ID` + `POSTHOG_API_KEY` da Vercel**, non dal VPS; (3) stessa Personal API Key `phx_` va configurata **anche** su Vercel + **Redeploy** — ma redeploy **20:01** non basta se env sbagliate (L-414); (4) project US **495230** («Default project»); (5) su «ancora scollegata» **chiedi quale superficie** (worker vs Pannello) e verifica **entrambe** prima di ripetere passi env. Regola: PostHog MyCity = **2 posti indipendenti** (VPS worker + Vercel Pannello); fix uno **non** implica fix altro. Vedi L-414, L-410, L-409, L-404.",
+      "tag": [
+        "posthog",
+        "vercel",
+        "pannello",
+        "radiografia",
+        "vps",
+        "sensori",
+        "frontend-dev",
+        "data-engineer"
+      ],
+      "reparto": "@data-engineer",
+      "promosso_il": "2026-07-25 10:20"
+    },
+    {
       "id": "L-2026-0720-404",
       "testo": "**PostHog sul VPS — non si installa: cloud + chiave lettura `phx_` in env worker (Nicola 20/7 ~18:24).** Nicola: «**come faccio ad inserire posthog dentro il vps?**». 5 perché: (1) PostHog **non va installato** sul VPS — è **SaaS cloud** (EU/US); sul sito gli eventi partono già da Render con chiave pubblica; (2) sul VPS serve solo **leggere** funnel/conversioni per briefing — Personal API Key **`phx_…`** con permesso **Project: Read**, **non** la chiave progetto **`phc_…`** (solo tracking/scrittura); (3) **5/7** sensore spento (`POSTHOG_OFF` / chiave sbagliata) — oggi `posthog_api:non_configurato` è **normale**, non bug; (4) setup: env `cervello/vps/.env` → `POSTHOG_OFF=0`, `POSTHOG_API_KEY=phx_…`, `POSTHOG_HOST` (**US** = `https://us.posthog.com` per account MyCity — vedi `sensori.posthog.regione`) → restart `mycity-worker` → `verifica-sensori.mjs` = **ok**; (5) **riaccensione sensore nei briefing** = decisione Nicola esplicita (non automatica al solo env). Regola: su «PostHog nel VPS» → **mai** proporre Docker/self-host; spiega cloud + tipo chiave + **chiedi EU/US** + verifica sensore; **non** incollare chiavi in chat/memoria. Vedi L-222 (PostHog spento = scelta), DECISIONI 5/7. **Addendum 18:28:** Nicola «**dico di metterlo sul vps come n8n**» — stesso frame mentale L-406: n8n = **programma Docker** sul VPS; PostHog = **servizio cloud** + **3 righe env** nello stesso file di n8n/Telegram; self-host PostHog **scartato** (RAM/manutenzione + cambiare tracking Render). **Addendum 18:41:** Nicola «**ho fatto tutto**» ma sensori no — env **letto** (`phx_`, host europeo) ma PostHog **HTTP 401** → **`cieco`**. **Addendum 18:44 (L-410):** account **US** — host europeo era la causa; fix host US → sensore **ok** senza rigenerare chiave. Vedi L-409, L-410.",
       "tag": [
@@ -10489,6 +10580,33 @@
       ],
       "reparto": "@data-engineer",
       "promosso_il": "2026-07-24 22:20"
+    },
+    {
+      "id": "L-2026-0720-401",
+      "testo": "**Elimina negozi demo — casella Supervisione, accoda 🔴 poi esegui al ok (chat 20/7 ~17:54, ✅ 18:30–18:32).** Nicola da casella Supervisione: «**elimina tutti i negozi tranne pane quotidiano**». 5 perché: (1) REST live **17 negozi** = 1 **Pane Quotidiano** reale (5 prodotti) + **16 seed/demo** (UUID `11111111…`, Casa Linda inclusa); (2) **253 prodotti finti** intasano supervisione e catalogo pubblico; (3) cancellazione marketplace **irreversibile** → 🔴, **mai eseguire** senza ok esplicito Nicola; (4) piano: elimina prodotti demo + account venditori demo, **PQ intatto** — accoda **#elimina-negozi-demo**; (5) **ESEGUITO 18:30–18:32** (L-407+L-408): Nicola «te lo approvo in chat» → **16** demo rimossi · prod prima nascosti poi **253 DELETE dal DB** · REST **1 negozio · 5 prodotti**. Regola: imperativo «elimina tutti tranne X» = numeri REST + elenco + card 🔴 + ok → esegui + verifica; «elimina prodotti finti» = hard delete, non draft. Vedi L-407, L-408, DECISIONI 20/7 17:54–18:32.",
+      "tag": [
+        "supervisione",
+        "demo",
+        "pane-quotidiano",
+        "catalogo",
+        "operations",
+        "irreversibile"
+      ],
+      "reparto": "@operations",
+      "promosso_il": "2026-07-25 10:20"
+    },
+    {
+      "id": "L-2026-0720-398",
+      "testo": "**«L'ho già mergiata?» — verifica GitHub API, non card Pannello; card aperta ≠ PR pendente (chat 20/7 ~17:45).** Nicola screenshot card Approva + «**controlla se l'ho già margiata**» su PR #498. 5 perché: (1) la **fonte verità merge** è GitHub API (`state=closed`, `merged_at`), non lo stato visivo della card; (2) AD conferma **#498 ✅ merged 16:36:51**, commit `36402b49` su main — fix Diretta online; (3) card resta visibile per **bug Pannello**: errore giallo **scrittura DB memoria rifiutata** — il Pannello non riesce a segnarla chiusa; (4) **non** dire «devi ancora mergiare» né proporre secondo merge; (5) quando chiede «controlla se mergiata» **senza specificare PR**, verificare **tutte** le PR recenti in coda — non assumere solo la card mostrata. Regola: domanda merge + screenshot card → **GitHub API prima**, spiega bug chiusura card se merge già ok, indica prossimo passo reale. **Addendum 17:48:** errore specifico **PGRST102** su Parla casella — vedi L-399. **Addendum 17:50:** Nicola follow-up da casella — **#496 ✅ 17:44:45** (`1cd606e0`) + **#497 ✅ 16:36** confermate; prossimo passo = **#accendi-intelligence-sveglia**, non altri merge. Vedi L-394, DECISIONI 20/7 17:45–17:50.",
+      "tag": [
+        "pannello",
+        "github",
+        "pr",
+        "merge",
+        "bug"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 11:00"
     },
     {
       "id": "L-2026-0720-397",
@@ -10545,6 +10663,57 @@
       "promosso_il": "2026-07-24 22:20"
     },
     {
+      "id": "L-2026-0720-363",
+      "testo": "**Worker UX — tre superfici distinte: FAB popup · menu Worker fullscreen · lista conv overlay (Nicola 20/7 ~02:32).** «Bottone basso-destra e voce Worker nel menù non devono aprire la stessa finestra» + «lista conversazioni in finestra che si apre/chiude sopra la chat». 5 perché: (1) AD aveva unificato FAB e voce menù nella **stessa** popup (#486) — Nicola li distingue: FAB = accesso rapido piccolo, menù Worker = workspace grande; (2) AD aveva reso lista conv **colonna fissa sinistra** (#485/#490) — Nicola vuole **overlay sopra** i messaggi (☰ toggle, tap fuori chiude); (3) tre entry point = **tre modalità UX**, non scorciatoie allo stesso componente; (4) ingrandisci sul popup piccolo = ingrandisce popup, **non** apre la pagina menù Worker; (5) errore processo = implementare metà requisito (sidebar integrata) senza chiedere distinzione contenitore per ogni entry point. Regola: **FAB** = popup piccolo · **menu Worker** = fullscreen · **☰** = overlay conv list — mai unificare FAB=menu; mai sidebar fissa se chiede overlay. Fix PR **#492** ✅ mergiata; supersede #486 unificazione e #490 sidebar fissa. **ADDENDUM 02:46:** posizione controlli per superficie in **L-364** (grande=☰+ in basso; popup=barra alta). **ADDENDUM 03:34 (L-382):** re-chiede «navbar Worker = grande» — codice main già `apriWorkerPopup(true)`; se live mostra popup = deploy, non nuova PR. Vedi L-382, L-352, L-348, L-350, L-364.",
+      "tag": [
+        "pannello",
+        "worker",
+        "ux",
+        "fab",
+        "popup",
+        "fullscreen",
+        "overlay",
+        "conversazioni",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 11:00"
+    },
+    {
+      "id": "L-2026-0720-357",
+      "testo": "**n8n webhook env — milestone env → restart → «webhook collegato» → verifica runtime (Nicola 20/7 ~02:07, chiuso 02:34).** Nicola conferma di aver incollato l'URL webhook nel file segreto worker. 5 perché: (1) «inserito nel env» = **passo Nicola completato**, non conferma che la macchina invii già a n8n — il worker legge `.env` **solo al riavvio**; (2) **non** dire «collegato» / «mano attiva» senza verifica post-restart con lo **stesso loader del worker**; (3) prossimi passi **numerati**: workflow **Active** in n8n → riavvio worker → Nicola scrive **«webhook collegato»** → AD verifica (`n8n health ok`); (4) **ADDENDUM env duplicati (corretto 02:34):** nel `.env` possono restare righe duplicate `N8N_WEBHOOK_URL` — il **worker usa l'ultima** (reale) e il webhook **funziona**, ma i sensori/controlli «a mano» leggono spesso la **prima** (segnaposto) → chiedi **una sola** riga per chiarezza; vale per qualsiasi chiave env; **ADDENDUM 02:50:** da **3 a 2 righe** (1 segnaposto + 1 reale) — worker ok, cancellare ultimo segnaposto; (5) **ADDENDUM 02:34:** Nicola «webhook collegato» — verificato OK sul worker; Meta OAuth e `AZIONI_LIVE` restano **separati** — webhook ok ≠ post automatico su FB/IG; interruttore sicurezza resta off. Regola: milestone env → passi numerati → verifica oggettiva su «webhook collegato» → catalogo cosa fare (L-366). Vedi L-331, L-330, L-351, L-344, L-366.",
+      "tag": [
+        "n8n",
+        "webhook",
+        "env",
+        "worker",
+        "vps",
+        "sensori",
+        "nicola",
+        "milestone"
+      ],
+      "reparto": "@builder-automazioni",
+      "promosso_il": "2026-07-25 11:00"
+    },
+    {
+      "id": "L-2026-0720-352",
+      "testo": "**Worker chat — sidebar dentro riquadro MA resta POPUP apri/chiudi, NON pagina fissa (Nicola 20/7 ~01:36, agg. 02:32).** Correzione esplicita dopo #485: «non ti ho specificato che deve restare una finestra che si apre e si chiude, schiacciando l'apposita icona». 5 perché: (1) richiesta 01:06 copriva **layout** (lista conv integrata a sinistra) ma **non** il **contenitore** — AD ha esteso a pagina fissa `vista=assistente` quando voce menù «Worker» apriva schermo intero; (2) Nicola vuole **overlay popup** (icona basso-destra; **X** chiude; resti su Plancia/Azioni); (3) ingrandisci/riduci = **stessa** popup più grande/piccola, non cambio pagina; (4) sidebar sinistra + chat destra + barra sticky restano **dentro** il popup — compatibile con L-348/L-350; (5) errore processo = implementare metà requisito (sidebar) senza chiedere/confermare modalità contenitore quando si cambia entry point menù. Regola: Worker UX = **popup first** (apri/chiudi icona). **ADDENDUM 02:32 (Nicola):** FAB popup piccolo **≠** voce menu Worker fullscreen — **non** unificare (#486); lista conv = **overlay sopra** chat, non colonna fissa (#492, L-363). Vedi L-363, L-348, L-350, PR #486.",
+      "tag": [
+        "pannello",
+        "chat",
+        "worker",
+        "popup",
+        "overlay",
+        "sidebar",
+        "layout",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 11:00"
+    },
+    {
       "id": "L-2026-0720-348",
       "testo": "**Worker chat — menu conversazioni DENTRO riquadro a sinistra, fluttuante E ingrandita (Nicola 20/7 ~01:06).** Chiede «inserisci il menu delle conversazioni dentro il riquadro della chat (sulla sinistra)» + chiarimento «anche dentro la chat che si apre quando schiaccio ingrandimento nella chat fluttunante». 5 perché: (1) odia cassetto/drawer che scorre da fuori — vuole lista **sempre visibile** nel pannello; (2) fluttuante e schermo intero devono avere **stesso layout** (lista sinistra + chat destra + barra basso); (3) pattern «dimmi cosa hai capito» prima del fix (L-346, L-338); (4) filone UX Worker in sequenza rapida post-scroll ok — **non** rompere #483 scroll né #484 sticky; (5) PR #485. **ADDENDUM 01:36 (Nicola):** sidebar sì ma il contenitore resta **popup apri/chiudi con icona** — **non** pagina fissa del menù laterale; ingrandisci = stessa popup più grande. Fix popup in PR #486 (L-352). **ADDENDUM 01:45 (Nicola):** sidebar deve elencare **TUTTE** le chat — conv da Lavori («Parla con casella») mancava perché storage separato; fix unificazione PR #487 (L-354). **ADDENDUM 02:08 (Nicola):** sidebar integrata **non** elimina icona ☰ in testata — mobile=cassetto, desktop=toggle colonna; #485 aveva rimosso ☰ → bug «menu non si apre»; fix PR worker-menu (L-358). **ADDENDUM 02:13 (Nicola):** via testata marketing «Worker / Semplice e diretto…» — solo ingrandisci/chiudi in alto; **+ Nuova chat** nella toolbar basso con allega/video live/prompt; fix PR #489 (L-359). Regola: richiesta sidebar conv integrata → confermare copertura fluttuante+ingrandita + **popup overlay** + **elenco unificato** + **☰ toggle** + **chrome minimo** + PR dedicata senza toccare fix appena confermati. Vedi L-359, L-358, L-354, L-352, L-346, PR #485, PR #487, PR #489.",
       "tag": [
@@ -10566,6 +10735,86 @@
       "promosso_il": "2026-07-24 16:20"
     },
     {
+      "id": "L-2026-0720-339",
+      "testo": "**Auto-apertura chat — Nicola rimossa su live oggi, repo main ancora presente; sync elenco resta (Nicola 20/7 ~00:32).** Dopo spiegazione sync desktop/mobile (L-338), Nicola corregge: **auto-apertura l'ha tolta oggi** sul Pannello live perché crea bug «+» (chat vecchia rientra). 5 perché: (1) Nicola distingue **due fix** — sync elenco ok, auto-apertura no; (2) AD aveva descritto entrambi come «fix su main» senza chiedere se live=repo; (3) verifica repo: auto-apertura **ancora in codice main** (ultima mod 19/7), nessun commit rimozione oggi; (4) live Panel può essere **avanti** (rollback Vercel) o **indietro** (deploy vecchio) vs repo — prossimo deploy può **reintrodurre** auto-apertura se non PR; (5) stessa radice L-299/PR #475 — timer auto-open annulla «+». Regola: quando Nicola dice «l'ho tolta» → verificare **repo E live**; PR **solo** rimozione auto-apertura, **mai** togliere sync elenco insieme; se chiede «controlla main» = diff codice ufficiale, non assumere live=main. Vedi L-299, L-338, PR #475.",
+      "tag": [
+        "pannello",
+        "chat",
+        "auto-open",
+        "sync",
+        "regressione",
+        "vercel",
+        "nicola",
+        "correzione",
+        "caso-studio"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 11:00"
+    },
+    {
+      "id": "L-2026-0719-323",
+      "testo": "**n8n setup VPS — secure cookie blocca browser su IP+http (Nicola 19/7 ~19:58).** Nicola avvia Docker n8n sul worker (Termux SSH) e allega screenshot: container **ok** (porta 5678, volume `n8n_data` preservato su rm/restart), ma pagina `/setup` errore secure cookie. 5 perché: (1) n8n di default richiede https o localhost per cookie sicuro — IP pubblico + http fallisce; (2) **non** è fallimento Docker — il servizio gira anche se SSH Termux cade (background); (3) fix setup: riavvio container con `N8N_SECURE_COOKIE=false` **solo fase install**, poi account admin; (4) **sicurezza post-setup:** porta 5678 esposta su internet → password n8n o accesso solo localhost+tunnel SSH; (5) sequenza resta L-322: import workflow → OAuth Meta → webhook in env worker (segnaposto oggi). Regola: quando Nicola manda screenshot errore n8n post-Docker, diagnosticare secure cookie prima di altre cause; non dire «Docker fallito» se container running. **ADDENDUM 20:03:** dopo drop SSH incolla fix in Termux locale (`~ $`) → docker not found — serve riconnessione SSH (L-324). **ADDENDUM 20:20:** fix secure cookie **confermato** — home n8n «What do you want to build, Nicola» (L-325). Vedi L-322, L-321, L-325.",
+      "tag": [
+        "n8n",
+        "docker",
+        "vps",
+        "secure-cookie",
+        "setup",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "promosso_il": "2026-07-25 12:20"
+    },
+    {
+      "id": "L-2026-0719-321",
+      "testo": "**Pubblicazione FB/IG — «Come faccio a farti pubblicare?» = n8n + card 🔴 (Nicola 19/7 ~19:43).** Segue L-320 sulla casella post domenica PQ: Nicola chiede come collegare la mano social, non solo copia-incolla. 5 perché: (1) publisher già in `cervello/publishers/` + guida `collega-le-mani.md` — blocco = chiavi Meta, non codice; (2) **`N8N_WEBHOOK_URL` sul VPS oggi segnaposto** — n8n non riceve nulla; (3) percorso consigliato **n8n** (OAuth Meta una volta nel workflow, webhook in env worker **mai in chat**) vs Meta diretto (Business Verification, giorni/settimane); (4) **Instagram API richiede URL immagine pubblico** — grafiche in repo/Diretta non bastano finché non c'è URL live per l'API; (5) anche mano collegata: post pagina FB + feed IG restano **🟡/🔴** (card Pannello); **gruppi FB locali sempre manuali**. Regola: rispondere con checklist n8n (install → workflow webhook → OAuth → env worker → restart → dry-run → card); non promettere auto-pub stasera se setup non fatto. **ADDENDUM 20/7 ~20:25:** webhook n8n **ok** (L-357) + workflow importato (L-330) — «collegare Meta» = **solo credenziali nodi workflow + Active**, vedi L-420; non ripetere install. Vedi L-320, L-2026-0630-06.",
+      "tag": [
+        "pubblicazione",
+        "instagram",
+        "facebook",
+        "n8n",
+        "meta",
+        "mani",
+        "content-social",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "promosso_il": "2026-07-25 12:20"
+    },
+    {
+      "id": "L-2026-0719-316",
+      "testo": "**GitHub rate limit — «Perché non apri/aprire la PR?» (Nicola 19/7 ~18:57–19:01).** Dopo push fix su `fix/render-build-orders-page` (build Render), Nicola chiede perché l'AD non ha aperto la scheda PR (tre varianti: 18:57, 18:59 push/allowlist, **19:01 «Perché non riesci ad aprire la pr?»**). 5 perché: (1) **standing-ask:** Nicola si aspetta che l'AD apra PR automaticamente (`git-pr.mjs`/`gh pr create`), non istruzioni manuali come prima scelta; (2) retry 18:57, 18:59, **19:01** = stesso **403 rate limit** — giornata intensa esaurisce quota API **token worker** (user 98592323); (3) **push ≠ PR aperta:** codice (`5497b96`) su GitHub, manca scheda; (4) limite sul **token automazione worker**, non sull'account Nicola — da browser/app GitHub può aprire Compare **subito**; (5) risposta: retry immediato, se 403 → spiega token worker + compare manuale Nicola + «riprova la PR» ~1h — **MAI** aggirare (LEZIONI-CHAT). Regola: domanda ripetuta = frustrazione automazione; dimostrare retry + causa esterna + piano B browser Nicola. Vedi L-317, L-315.",
+      "tag": [
+        "github",
+        "rate-limit",
+        "git-pr",
+        "pr-apri-automatica",
+        "render",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "promosso_il": "2026-07-25 06:20"
+    },
+    {
+      "id": "L-2026-0719-315",
+      "testo": "**Render marketplace — X rosse = build fallito, non «deploy non partito» (Nicola 19/7 ~18:56).** Dopo merge #214 Nicola: «Non ha fatto il deploy, come mai?» + screenshot Render. 5 perché: (1) interpreta sito vecchio = Auto-Deploy non attivo; (2) Render **ha tentato** deploy ma build crashato ~2 min (X rosse = failed, non canceled); (3) causa verificata in locale: errore TypeScript `app/orders/page.tsx` (`.catch` su PromiseLike Supabase) — già su main dal merge radiografia 18/7, **non** introdotto da #214/#215; (4) **merge GitHub ≠ online**: ogni PR mergiata resta offline finché un build completa con successo; (5) fix su branch `fix/render-build-orders-page` (+ `NODE_OPTIONS=4096` anti-OOM), build locale OK; PR automatica bloccata da rate limit GitHub API → aprire/mergiare a mano (#197). Regola: «deploy non fatto» → controllare **stato build Render** (failed vs never started); non dire «non ha deployato» se c'è un deploy failed; non attribuire al PR feature se il build fallisce su debito pre-esistente su main. Vedi L-314, L-311.",
+      "tag": [
+        "render",
+        "deploy",
+        "build-failed",
+        "marketplace",
+        "pr-214",
+        "orders-page",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "promosso_il": "2026-07-25 12:20"
+    },
+    {
       "id": "L-2026-0719-305",
       "testo": "**Playwright sul worker — setup root COMPLETATO (Nicola 19/7 ~17:26→18:12).** «Come faccio a rendere operativo playwright su worker?» + strumenti contenuti potenti. Sequenza eseguita e verificata: **font ✅ 17:34** · **Node22 ✅ 17:36** (`v22.17.1`, owner mycity) · **Chromium ✅** (`/opt/pw-browsers/chromium-1228`) · **Playwright ✅ 18:12** (`/opt/node22/lib/node_modules/playwright`, dopo fix `--prefix`) · **env ✅** (`PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` in `cervello/vps/.env`) · **render ✅** (`render-domenica-settimana.mjs` → feed ~524KB + storia ~664KB in `consegne/content/assets/`). 5 perché: (1) Nicola vuole passi operativi Termux uno alla volta + «controlla se ho fatto giusto» = verifica server; (2) install richiede root — chat AD non può eseguirla; (3) ordine canonico: font → Node22 → Playwright `--prefix /opt/node22` → env worker → restart → test render; (4) contenuti potenti = foto/video veri + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico 🟡 per non perdere al prossimo aggiornamento server. Regola: «Fatto» ≠ ok finché render non stampa 2 OK. Vedi L-306, L-307, L-247.",
       "tag": [
@@ -10579,6 +10828,135 @@
       ],
       "reparto": "@builder-automazioni",
       "promosso_il": "2026-07-24 16:20"
+    },
+    {
+      "id": "L-2026-0719-304",
+      "testo": "**Grafiche professionali — strumenti REALI usati + carburante per alzare livello (Nicola 19/7 ~17:21, Playwright ✅ 18:12).** «Quali strumenti hai usato per la parte grafica e quali ti servono per grafiche professionali?» 5 perché: (1) dopo fix Diretta vuole capire **stack vero**, non marketing; (2) oggi = Content Factory locale (template HTML brand → Playwright/Chromium PNG 1080×1350 e 9:16) + SVG per anteprima Diretta quando serve; (3) PNG automatici sul VPS **erano rotti** senza font/Playwright — **risolto 18:12** (font + Node22 + Playwright operativi → render domenica OK); (4) Canva auto, Gemini/Imagen, video AI = **scheletri spenti** — vincolo [[niente-api-ai]]; (5) livello «agenzia» = **materia prima vera** (3–5 foto bottega/prodotto, frase bottegaio) + render Playwright operativo **oppure** PNG già fatti da Nicola (Canva/Figma). Regola: elencare attivo/spento/esigenze in 3 bin; non promettere output pro senza foto vere.",
+      "tag": [
+        "content-factory",
+        "grafica",
+        "playwright",
+        "svg",
+        "niente-api-ai",
+        "nicola",
+        "trasparenza"
+      ],
+      "reparto": "@content-social",
+      "promosso_il": "2026-07-25 12:20"
+    },
+    {
+      "id": "L-2026-0719-301",
+      "testo": "**«Risolvi tutti i problemi della chat» — analisi unificata + PR priorità, non fix a pezzi (Nicola 19/7 ~17:03, consegnato 17:11).** Dopo spiegazione regressione auto-open (#456 vs cross-device), Nicola: «voglio risolvi tutti problemi della chat, fai una bella analisi, ricordati tutti i problemi che ti ho detto». 5 perché: (1) ha segnalato più bug nel tempo (auto-open, cross-device, limiti motore, debounce, streaming, titoli caselle, ecc.) — vuole **mappa unica**; (2) fix isolati senza inventario fanno «tornare» lo stesso sintomo; (3) «bella analisi» = elenco verificato + priorità + piano batch, non altra PR singola; (4) AD deve **aggregare** da memoria/chat precedenti, non chiedere di ripetere; (5) consegna = tabella sintomo→stato→PR **e** fix batch prioritario (**PR #475** per auto-open). Inventario canonico 7 filoni: auto-open (#475), cross-device (#446+#475), pallini (#328/#348 ritest), pezzo sparito (salvataggio incompleto/limiti AI), streaming (backlog worker), scroll/triplicazione (main), MCP (allowlist ok, test runtime). Backlog fuori PR: streaming live, due marce, allegati.",
+      "tag": [
+        "chat",
+        "pannello",
+        "audit",
+        "standing-ask",
+        "regressione",
+        "PR-475",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 12:20"
+    },
+    {
+      "id": "L-2026-0719-299",
+      "testo": "**Bug nuova chat — PR #456 annullata dal fix cross-device; fix PR #475 (Nicola 19/7 17:03 «perché è tornato?», consegnato 17:11).** Premendo «+» la chat si svuota poi riappare l'ultima conversazione (es. messaggi allowlist/git) — NON è output worker nuovo, è contenuto riciclato. 5 perché: (1) PR #456 (18/7) bloccava permanentemente auto-open quando Nicola preme «+» via `nuovaChatManualeRef`; (2) fix cross-device stessa sera ha esteso auto-open a 24h per sync smartphone↔desktop; (3) per «non bloccare sync successivi» hanno messo `setTimeout(..., 3000)` che resetta il flag — dopo 3s l'auto-open torna attivo; (4) poll conversazioni ogni 8s (`setInterval` ~2067) + `useEffect` ~2090 riapre l'ultima conv <24h se chat vuota; (5) Nicola chiede «perché è tornato?» → vuole causa radice regressione, non solo «riprovo fix». Regola: fix cross-device su chat NON deve reintrodurre timer che annulla blocchi UX manuali; verifica `page.tsx` ~1284 e ~2090; spiegare meccanismo prima di proporre PR. Fix: **PR #475** — blocco permanente su «+» senza reset timer (come #456) + sync iniziale separato. Vedi DECISIONI 19/7 17:03, 17:11.",
+      "tag": [
+        "pannello",
+        "chat",
+        "regressione",
+        "cross-device",
+        "nuova-chat",
+        "auto-open",
+        "PR-456",
+        "PR-475",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 14:20"
+    },
+    {
+      "id": "L-2026-0719-286",
+      "testo": "**settings.local.json JSON invalido → l'intera allowlist viene ignorata (19/7 14:42, confermato 16:44).** Due errori virgola osservati sullo stesso file mentre Nicola aggiunge MCP: (a) 14:42 — virgola **mancante** tra voci (dopo Vercel `get_project`); (b) 16:44 — **trailing comma** sull'ultima riga Supabase (`Illegal trailing comma` riga 33). Entrambi invalidano il JSON → nessun permesso attivo (né Vercel né Supabase). 5 perché: (1) parser JSON all-or-nothing; (2) pattern già visto 18/7 su virgola git-pr.mjs; (3) sintomo = permessi «già presenti» ma tool bloccati; (4) Nicola aggiunge voci ma nulla cambia → validare JSON PRIMA; (5) dopo fix serve nuova chat. Regola: virgola TRA le righe, MAI dopo l'ultima. Vedi #abilita-mcp-supabase-chat, L-290.",
+      "tag": [
+        "allowlist",
+        "json-invalido",
+        "settings-local",
+        "vercel",
+        "mcp",
+        "supabase",
+        "nicola",
+        "correzione",
+        "trailing-comma"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 14:20"
+    },
+    {
+      "id": "L-2026-0719-279",
+      "testo": "**Correzione Nicola (19/7): «clienti/utenti iscritti» = solo role=buyer — MAI confondere con profili totali.** EXP-001 diceva '23 iscritti'; Nicola ha corretto: 'a me risultano solo 4'. Il 23 veniva da STATO.md ('23 clienti') che contava TUTTI i profili (4 buyer + 17 seller + 1 admin + 1 rider = 23 account). Confermato DB live 19/7 14:33 via REST `profiles?role=eq.buyer` → 4. 5 perché: (1) memoria usava conteggio profili totali come 'clienti'; (2) seller/admin/rider non sono clienti; (3) Nicola chiede «quanti utenti?» → rispondi con breakdown per ruolo; (4) numeri in esperimenti/STATO vanno verificati live, non copiati; (5) se DB non raggiungibile → 'dato da verificare'. Regola: query live (REST o MCP) prima di ogni numero presentato a Nicola.",
+      "tag": [
+        "esperimenti",
+        "numeri",
+        "verifica-dato",
+        "nicola",
+        "correzione",
+        "EXP-001",
+        "DB-live",
+        "buyer",
+        "role-breakdown"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 06:20"
+    },
+    {
+      "id": "L-2026-0718-272",
+      "testo": "**Allowlist `git -C /opt/mycity/ad-mycity/marketplace:*` aggiunta da Nicola il 18/7 — i comandi git sul repo marketplace ora funzionano dalla chat.** Prima era bloccato (solo la root `ad-mycity/` era in allowlist). `git-pr.mjs` NON supporta `marketplace` come target (solo `ad-mycity`): per aprire una PR su mycity, fare `git push origin <branch>` direttamente nel repo marketplace e aprire il link PR da GitHub. Se il repo marketplace ha un rebase interrotto, fare `git rebase --abort` prima di creare nuovi branch. PR #213 (35 fix radiografia): conflitti risolti 18/7 via rebase; **mergiata 19/7 17:00** (`304fe07` su main).",
+      "tag": [
+        "allowlist",
+        "marketplace",
+        "git-C",
+        "git-pr.mjs",
+        "pr",
+        "rebase",
+        "force-push"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 14:20"
+    },
+    {
+      "id": "L-2026-0718-263",
+      "testo": "**3 bug chat Worker (18/7) — scroll menu, layout messaggi, sticky input:** (1) chat si apre dall'inizio invece che dall'ultimo messaggio dal menu → **#482+#483 ✅ Nicola 00:55**; (2) risposta AD spinge box verso il basso → layout flex min-h-0 (parziale #443); (3) box scrittura+icone **sticky in fondo** tipo WhatsApp → **PR #484** (20/7 ~00:55, L-346). Componente: ChatCasella Worker. Fix (3): position sticky/fixed barra input, solo messaggi scrollano.",
+      "tag": [
+        "ux-chat",
+        "scroll",
+        "sticky",
+        "apertura-chat",
+        "box-input",
+        "pannello",
+        "bug",
+        "frontend-dev"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 14:20"
+    },
+    {
+      "id": "L-2026-0717-247",
+      "testo": "**⭐ PERMANENTE — Il file `.env` del worker è `cervello/vps/.env`, MAI la root (caso-studio Nicola 17/7 × 3 conferme, ultima 19/7 18:06):** Nicola ha detto «impara questa lezione e ricordatela per sempre». Il systemd usa `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env`. Il file root `/opt/mycity/ad-mycity/.env` è vuoto/assente e IGNORATO dal processo. Ogni nuova variabile d'ambiente (VERCEL_TOKEN, STRIPE_KEY, `PLAYWRIGHT_BROWSERS_PATH`, ecc.) va SOLO in `cervello/vps/.env` + restart worker (`mycity-worker.service` o `mycity-worker-chat.service`). Quando chiede «ricordami come si entra nel file segreto» → path assoluto Termux + `nano` + riga in fondo + restart; non leggere il file in chat. Quando Nicola dice 'ho inserito il token', chiedere subito DOVE: nel `cervello/vps/.env`? nel codice? nel root .env? Solo il primo funziona.",
+      "tag": [
+        "vercel",
+        "token",
+        "env",
+        "mcp-vercel",
+        "configurazione",
+        "worker",
+        "permanente",
+        "cervello-vps-env"
+      ],
+      "reparto": "@devops-sre",
+      "promosso_il": "2026-07-25 14:20"
     },
     {
       "id": "L-2026-0714-209",
@@ -10666,6 +11044,21 @@
       "promosso_il": "2026-07-24 14:20"
     },
     {
+      "id": "L-2026-0713-132",
+      "testo": "**Allegati chat — 3 superfici diverse (chat 13/7 ~17:32–17:47, correzione Nicola):** dopo ok #60 («upload funziona») Nicola corregge: «problema è dentro la chat fluttuante» + «controlla anche parla con questa casella» + «no la chat fluttuante non mi lascia allegare i file» (iPhone). 5 perché: (1) risposta AD era corretta su env Vercel ma generica — non ha chiesto QUale chat né dispositivo; (2) **tre superfici verificate codice:** chat intera + fluttuante «Parla con l'AD» (`page.tsx` ~2716, graffetta+upload), «Parla con questa casella» (`ParlaCasella.tsx`, **zero graffetta**, solo testo), Archivio lavori (`ChatCasella.tsx`, allegati ok); (3) Nicola usa fluttuante e caselle contestuali — si aspetta allegati ovunque scrive; (4) post-#60 fallimento fluttuante iPhone = **bug Safari selettore** (input nascosto+click finto), non Storage — fix **#333**; ParlaCasella = feature mancante; (5) **regola:** su «non riesco ad allegare» → chiedi superficie + dispositivo + verifica componente; ordine diagnosi: env 503 → superficie → browser.",
+      "tag": [
+        "pannello",
+        "allegati",
+        "ParlaCasella",
+        "fluttuante",
+        "ChatCasella",
+        "ux",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 06:20"
+    },
+    {
       "id": "L-2026-0713-131",
       "testo": "**Streaming chat assente con motore Cursor (chat 13/7 ~17:31–18:18):** Nicola «fino ieri… perché non lo fai più?» → «apri pr» → «riesci a mostrarmi la risposta in streaming?». 5 perché: (1) con Claude il worker chiamava `rispondi_chat_stream` → testo parola-per-parola; (2) in `worker.sh` lo streaming chat era gated su `ai_engine=claude` — Cursor cadeva nel ramo senza parziali; (3) CLI Cursor = `stream-json` + `--stream-partial-output` (NON flag Claude); (4) #335 merge ha ripristinato codice vecchio su main (L-137) — fix in #338+#339 mergiate ~18:14; (5) **Nicola vuole dimostrazione live:** la risposta in chat è il test — chiedere feedback (cresce / tutta insieme / a colonna); tutta insieme o colonna con codice ok = worker VPS non riavviato dal 16:08. Regola: verifica `git show HEAD:cervello/worker.sh` post-merge; segnalazione streaming → diagnosi worker prima del Pannello.",
       "tag": [
@@ -10699,6 +11092,21 @@
       ],
       "reparto": "@tech",
       "promosso_il": "2026-07-24 14:20"
+    },
+    {
+      "id": "L-2026-0713-119",
+      "testo": "**Allegati chat — upload Vercel vs worker (chat 13/7 ~16:04–17:32):** Nicola segnala allegati rotti in due forme: (A) screenshot UI senza file in `.allegati-chat` (16:04); (B) «perché non riesco più ad allegarti i file?» (17:28). 5 perché: (1) upload online fallisce senza env Storage su Vercel — route `/api/allegato` risponde 503 «Storage non collegato» (verificato su main), VPS ha chiavi ma hosted no; (2) graffetta visibile + upload che fallisce ≠ bug UI mobile (PR #328); (3) senza file nel worker indovinare la pagina è speculazione — chiedi scheda; (4) Nicola segnala UX con screenshot dal telefono (pattern ricorrente); (5) **regola:** diagnosi env Vercel PRIMA di «codice rotto»; ok #60 = env memoria + redeploy → POST live `ok:true` bucket `chat-allegati/` (17:28). **Addendum 17:32:** dopo #60 Nicola distingue fluttuante vs «Parla con questa casella» — env ok non basta se `ParlaCasella.tsx` non ha graffetta (→ L-132).",
+      "tag": [
+        "pannello",
+        "allegati",
+        "screenshot",
+        "ux",
+        "vercel",
+        "nicola",
+        "#60"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 06:20"
     },
     {
       "id": "L-2026-0713-100",
@@ -10736,6 +11144,37 @@
       "promosso_il": "2026-07-24 20:20"
     },
     {
+      "id": "L-2026-0712-92",
+      "testo": "**Ordine lista conversazioni: aprire/cambiare chat NON deve riordinarla (PR #303 mergiata 17:44, chat 12/7):** Nicola segnala che passando da una chat all'altra la precedente finiva in cima alla lista — comportamento indesiderato. Causa radice: l'auto-save al cambio conversazione promuoveva la chat lasciata in prima posizione (sort per ultima attività/`updated_at`). Fix LIVE su main: ordine stabile in `page.tsx` + `store.ts` — pinnate (📌) in cima, poi per data di creazione; commit `67c6b804` via merge #303. PR #305/#306/#304 doppioni da chiudere. Nicola ha confermato la diagnosi con «confermo». Principio UX riusabile: **visualizzare ≠ promuovere** — aprire una chat non deve cambiarne la posizione nella lista, salvo pin esplicito dell'utente.",
+      "tag": [
+        "conversazioni",
+        "ordine-lista",
+        "ux",
+        "pannello",
+        "localStorage",
+        "bug",
+        "caso-studio"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 06:20"
+    },
+    {
+      "id": "L-2026-0710-71",
+      "testo": "**RECIDIVA STRUTTURALE — `.claude/settings.local.json` sovrascritto più volte nella stessa chat (10/7, chip skill rapide) — CAUSA RADICE CORRETTA (evidenza 3):** l'AD inizialmente ha attribuito la sparizione del file a `git checkout` (errore diagnostico). Verificando .gitignore a fine sessione: `.claude/settings.local.*` è GIÀ alla riga 28 del .gitignore — quindi git checkout NON può toccarlo. La causa reale era l'AD stesso che usava il proprio Write tool per sovrascrivere il file con un contenuto diverso (tentativo di aggiungere permessi con Write invece di Edit). **Causa radice aggiornata:** (1) il file era già protetto da .gitignore — il 'fix non fatto' era già fatto; (2) l'AD ha diagnosticato 'git checkout sovrascrive' senza verificare se il file era in .gitignore prima; (3) per aggiungere permessi al settings.local.json, l'AD usava Write (sovrascrittura totale) invece di Edit (modifica mirata) — ogni Write cancellava le righe precedenti se non le includeva tutte. **Regola/fix riusabile consolidato:** (a) PRIMA di diagnosticare 'git checkout ha sovrascritto', verificare con `grep settings.local .gitignore`; (b) per modificare settings.local.json usare SEMPRE Edit (non Write), o almeno rileggere il file prima di Write per includere tutto; (c) dopo ogni Write su settings.local.json, rileggere subito il file per confermare che il contenuto sia completo; (d) una lezione in memoria con causa radice sbagliata va corretta, non incrementata — la verità sui fatti vince sul racconto precedente. **PRECEDENTE DIAGNOSI** (evidenze 1-2): si credeva che git checkout sovrascrivesse perché il file non era in .gitignore — ora superata. I 5 perché precedenti restano parzialmente validi (usare Write invece di Edit è comunque il meccanismo prossimo), ma la causa strutturale era sbagliata.",
+      "tag": [
+        "settings-local",
+        "gitignore",
+        "git-checkout",
+        "recidiva",
+        "debito-tecnico",
+        "fix-mai-applicato",
+        "pannello",
+        "permessi"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 08:20"
+    },
+    {
       "id": "L-2026-0709-69",
       "testo": "**Caso-studio Nicola — «pushato/mergiato/deployato» sono 4 stati distinti, e una UI online vecchia ha 4 cause possibili da NON confondere (chat 9/7):** Nicola era confuso perché l'AD aveva usato committare/pushare/mergiare come sinonimi, e insisteva «devi interrogare Vercel, non ha fatto il deploy». Aveva ragione a diffidare. La catena vera è: **committare** (solo sul VPS) → **pushare** (arriva su GitHub) → **build/deploy** (Vercel costruisce dal push). Errori commessi nel filone: (1) per settimane l'AD ha detto «~414 commit avanti» mentre erano **1.994+** fermi, perché il remote aveva un token SEGNAPOSTO `il_nuovo_token` → ogni push falliva in silenzio da settimane (nessun errore mostrato all'AD, solo accumulo); (2) l'AD ha rincorso la diagnosi «Vercel è rotto» quando Vercel **funziona** e salta APPOSTA i commit di sola-memoria (`ignored-build-step`) — corretto, perché il Pannello legge la memoria in diretta dal filesystem; (3) la RADICE vera del «Pannello online vecchio» era la QUARTA: 12 file/+647 righe di CODICE Pannello committati su GitHub ma **mai buildati** (ultimo build = PR #224), sbloccabili con 1 commit che tocca `pannello/`. **5 perché:** l'AD trattava «up-to-date» come sinonimo di «deployato» → saltava di conclusione senza verificare a runtime ogni anello (push? build? quale commit costruito?). **Regola/fix riusabile:** davanti a «l'online è vecchio» NON dichiarare una causa finché non hai verificato i 4 stati separatamente — (a) i commit sono su GitHub? (b) il build è partito? (c) su quale commit? (d) quel commit contiene il codice che manca o è solo memoria? Ognuno ha un fix diverso. E davanti a un push che 'non fa nulla', sospetta prima le CREDENZIALI (token segnaposto/scaduto) che il codice. **AGGIORNAMENTO 13:55 (evidenza 2, 5° stato scoperto):** dopo che il commit-trigger `pannello/` (`842eb935`) ha correttamente fatto partire il build (NON annullato), è emerso un QUINTO stato distinto oltre a commit/push/build/annullato — il deploy `BLOCKED` a livello **account/piano** (`live:false`): non è ERROR (codice sano), non è annullamento → è la quota di deploy del piano Hobby esaurita, perché il worker pusha ~ogni 5 min e OGNI push (anche i CANCELED) conta come un deploy. Lezione rafforzata: 'il build è partito' ≠ 'il build è andato online' — dopo il trigger va verificato ANCHE lo stato finale (READY vs BLOCKED vs ERROR), e un BLOCKED punta al piano/quota, non al codice. Radice ricorrente collegata: la cadenza di push del worker va accorpata, o il blocco Vercel torna ogni giorno. Corollario di superficie: dalla chat del Pannello i box di permesso non compaiono → i comandi gated (git push, MCP Vercel) sono dead-lock finché non c'è l'allowlist in `.claude/settings.local.json` sul VPS (creata da Nicola 9/7, «FATTO»). Vedi [[chat-pannello-non-mostra-box-permessi]], [[pannello-legge-filesystem-non-github]], [[regola-testare-sempre]], DECISIONI 9/7 12:45/12:52/13:00/13:55. **CORREZIONE 14:05 (Nicola, evidenza 3 — la causa del BLOCKED NON era la quota):** l'inspector Vercel letto da Nicola dice testualmente «The deployment was blocked because the commit author email (ad@mycity.local) is not valid. Ensure your git email matches your GitHub account.» → il deploy `BLOCKED` NON era il tetto di deploy del piano Hobby (mia ipotesi delle 13:55, sbagliata) ma una **firma-email del commit non valida**: il commit-trigger `842eb935` era firmato `ad@mycity.local`, un'email finta non collegata a nessun account GitHub → Vercel rifiuta il build. 5 perché sull'errore mio: ho DEDOTTO 'quota Hobby' per plausibilità invece di leggere la causa esatta (che era fuori dall'allowlist: `get_deployment_build_logs`) → ho dichiarato una causa non verificata, esattamente l'anti-pattern che questa stessa lezione predica. **Regola/fix riusabile aggiunta:** (1) prima di preparare QUALSIASI commit-trigger, impostare un'email git VALIDA e collegata all'account GitHub (`git config user.email <email-github>`), MAI lasciare il default `ad@mycity.local`; il worker/cervello che committa a ogni giro va configurato con un'email valida una volta per tutte, o ogni suo commit che tocca `pannello/` verrà bloccato allo stesso modo. (2) Un BLOCKED non ha una sola causa: prima di attribuirlo al piano/quota, LEGGI il messaggio esatto dell'inspector — qui era author-email, non quota. **CONFERMA 14:14 (Nicola «fatto», evidenza 4 — il fix ha funzionato):** Nicola ha impostato un'email git valida e ri-lanciato il blocchetto sul VPS → i commit nuovi ora risultano `CANCELED` (non più `BLOCKED`) = firma-email a posto. Resta il solo passo strutturale: il Pannello online resta a PR #224 finché non arriva un commit fresco che tocca `pannello/` (i CANCELED sono i commit-memoria, saltati apposta da `vercel.json`) — quel commit builda le 12 modifiche già su GitHub. La radice ricorrente (worker che committa con email valida una volta per tutte) resta da fissare per non ri-bloccare i futuri trigger su `pannello/`. **CONFERMA 14:30 (Nicola «fatto», evidenza 5 — il «fatto» NON aveva prodotto il commit):** Nicola risponde «fatto» dopo il blocchetto commit-trigger, ma verificando il git reale l'ultimo commit che tocca `pannello/` è ANCORA `842eb935` (quello vecchio firmato `ad@mycity.local`, che Vercel tiene BLOCKED) → il blocchetto non è attecchito (non partito o senza toccare `pannello/`), il Pannello online resta a PR #224. Rafforza il fix riusabile della lezione: dopo un «fatto» di Nicola NON dare per eseguita l'azione — VERIFICA lo stato git reale (qual è l'ultimo commit su `pannello/`, con che email), la parola può non corrispondere a ciò che è successo nel terminale. La firma-email è comunque a posto per i commit futuri (i commit-memoria del worker ora sono CANCELED, non BLOCKED); manca solo UN commit fresco pulito che tocchi `pannello/` con email valida per buildare le 12 modifiche già su GitHub. Offerta 🟡 aperta a Nicola: allargare l'allowlist con `Bash(git add:*)`+`Bash(git commit:*)` così l'AD chiude i deploy da solo (decide lui). **EVIDENZA 6 (Nicola «fatto» ~20:41 — `git config user.email` NON ha fatto presa sui commit fatti a mano):** dopo l'ennesimo blocchetto, verificando il git l'ultimo commit su `pannello/` è `6857c35f` (etichettato «firma valida») ma è ANCORA firmato `ad@mycity.local` → Vercel lo tiene BLOCKED. Cioè il `git config user.email <email-github>` impostato prima NON si è applicato ai commit già creati a mano: giravamo in tondo perché ogni commit-trigger ripartiva con l'email finta. **Fix riusabile RAFFINATO (sostituisce il «basta git config»):** forzare l'email/nome GitHub validi DENTRO il comando stesso con `git -c user.email=\"98592323+NicolaeRotaru@users.noreply.github.com\" -c user.name=\"AD MyCity VPS\" commit -m ...`, così non dipende da nessuna config che non tiene; e verificare SUBITO l'esito con `git log -1 --format=\"%h | %ae | %s\" -- pannello/` (l'email stampata deve essere quella GitHub, non `ad@mycity.local`). Vale la conferma già nota: dopo un «fatto» di Nicola NON dare per eseguito — leggi lo stato git reale. La radice strutturale (worker che committa con email valida una volta per tutte) resta aperta.",
       "tag": [
@@ -10751,6 +11190,23 @@
       ],
       "reparto": "@devops-sre",
       "promosso_il": "2026-07-24 20:20"
+    },
+    {
+      "id": "L-2026-0709-66",
+      "testo": "**Caso-studio Nicola — «committato» ≠ «pushato» ≠ «mergiato», e NON dire mai «pushato/mergiato» senza aver verificato che il push sia davvero arrivato (chat 9/7):** l'AD aveva riferito a Nicola, giro dopo giro, di aver «pushato»/«mergiato» le sue modifiche, ma NIENTE era mai uscito dal VPS. Nicola confuso: «mi dici che dovresti aprire la PR per farmele mergiare, però mi dici anche che le hai già pushate o mergiate, non ho capito cosa hai fatto… in più Vercel non deploya ed io non posso farlo». Radice tecnica trovata nel turno: il remote `origin` porta un token SEGNAPOSTO (`https://NicolaeRotaru:il_nuovo_token@github.com/...`) → ogni `git push` fallisce per autenticazione da settimane; `main` locale VPS è **1.993 commit avanti** rispetto a `origin/main`, fermo al Merge PR #66; quindi Vercel (che deploya DA GitHub) non ha nulla di nuovo → un Redeploy manuale ripubblicherebbe solo il codice vecchio. 5 perché: (1) l'AD ha usato committato/pushato/mergiato come sinonimi, mentre sono 3 passi distinti (scrivere nel cassetto di casa=VPS → imbucare verso GitHub → far entrare nel ramo ufficiale); (2) ha DICHIARATO il push come fatto senza mai verificare l'esito reale (il push falliva in silenzio per il token finto); (3) Nicola vede Vercel fermo e si sente in colpa/impotente pur non essendo il collo di bottiglia; (4) risultato: settimane di lavoro bloccate nel cassetto + fiducia scossa; (5) **regola/fix riusabile:** ① mai dire «pushato/mergiato» senza aver verificato lo stato reale del remote — controlla `git status -sb` (ahead N), `git rev-list --count origin/<branch>..<branch>` e che il remote NON contenga un token segnaposto; ② separa sempre i 3 verbi in linguaggio umano quando riferisci a Nicola; ③ se il push è rotto, la catena è UNA sola (sistema token → push funziona → GitHub aggiornato → Vercel deploya DA SOLO), e Nicola non deve toccare Vercel. È il gemello operativo di [[ramo-unico-main-applicato]] (push-non-merge, L-2026-0709-61: lì il verbo mergiare→push; qui il fatto che il push NON stava proprio partendo) e di [[pannello-legge-filesystem-non-github]] (correzione ~414→1.993 commit avanti, radice = token segnaposto). Applicazione di [[nicola-spiegazioni-piu-chiare]].",
+      "tag": [
+        "nicola",
+        "git",
+        "push-non-pushato",
+        "committato-pushato-mergiato",
+        "vercel-deploy",
+        "token-segnaposto",
+        "verifica-prima-di-dire-fatto",
+        "caso-studio",
+        "devops-sre"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 08:20"
     },
     {
       "id": "L-2026-0709-65",
@@ -10784,6 +11240,19 @@
       "promosso_il": "2026-07-24 14:20"
     },
     {
+      "id": "L-2026-0702-48",
+      "testo": "**Delta-gate mancante = giri a rendimento basso (passaggi 2/7 17:01 e 17:21):** il giro è ripartito a orario/comando con novità minima (17:01 nulla; 17:21 la sola decisione #16 già catturata in STATO/ultimo-briefing alle 17:09) e ha comunque riscritto snapshot e auto-analisi, coi sensori live gated. **Regola:** quando ordini/clienti/incassi/sentinelle sono invariati rispetto all'ultimo passaggio E i sensori live sono gated, il valore aggiunto è ~0 → fare SOLO il passaggio minimo (timestamp + sonda leggera + delta 'cosa è cambiato') e NON ri-eseguire l'analisi pesante. È esattamente AR-019 (delta-gate, ancora in-corso): finché non è un gate deterministico nel runner, la macchina spreca il Max. Priorità di chiusura alta perché è ricorrente (visto 29/6 L-2026-0629-03, 2/7 17:01, 2/7 17:21).",
+      "tag": [
+        "delta-gate",
+        "efficienza-costo",
+        "AR-019",
+        "giro",
+        "dispersione"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 08:20"
+    },
+    {
       "id": "L-2026-0701-31",
       "testo": "**Merge-on-approval — REGOLA PERMANENTE (Nicola 1/7 10:22, testato 10:36+11:00, fissato 10:45):** «c'è modo che fai merge tu? però chiedimi permesso» → poi «**impara questo, applica sempre il flusso target — risparmia tempo**». Vuole **zero GitHub browser**, **non** delegare giudizio. **Pattern obbligatorio su ogni deploy 🟡:** AD prepara branch+PR **oppure** codice locale → card «Merge PR #N?» **oppure** chat «ok merge [nome]» → AD merge/push → Vercel redeploy → (opz.) `aggiorna-cervello.sh`. **Test riusciti:** «ok merge bottoni A/B» → **`main` `c50148d`** · «ok merge scelta-ab universale» → **`main` `853c33a`**. **Mai merge/push senza ok esplicito.** Chiede guida pratica PAT fine-grained (Contents+PR R/W su `ad-mycity`+`mycity`) → #15 + `.env.example`. Architettura **3 tubi**: memoria→`memoria-ad` · codice→`main`→Vercel+VPS · marketplace→`mycity`→Render 🔴. **`pannello/` ≠ repo separato**.",
       "tag": [
@@ -10799,6 +11268,21 @@
       ],
       "reparto": "@devops-sre",
       "promosso_il": "2026-07-24 18:20"
+    },
+    {
+      "id": "L-2026-0701-12",
+      "testo": "Dopo «apri la pr su main» (Nicola delega): AD crea branch da `main`, modifica **solo** `.claude/settings.json`, push. **Limite VPS:** token GitHub del worker **pusha** ma **non crea PR** via `gh`/API — consegnare link compare diretto + istruzioni 3 click (Create PR → base `main` → Merge). Nicola merge browser; poi **stesso** `aggiorna-cervello.sh` (non nuovo comando). Non dire «PR aperta» se solo push — dire «branch pronto, merge 1 click». Se chiede «rimandami la PR / non ho mergiato» → **re-inviare lo stesso link compare** + post-merge script; **non** assumere merge fatto. **Confermato 1/7 01:37:** Nicola merge `fix/webfetch-globale` + sync → worker OK (L-2026-0701-16).",
+      "tag": [
+        "git",
+        "pr",
+        "main",
+        "vps",
+        "github",
+        "nicola",
+        "devops"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 08:20"
     },
     {
       "id": "L-2026-0701-08",
@@ -10839,6 +11323,44 @@
       ],
       "reparto": "@AD",
       "promosso_il": "2026-07-24 16:20"
+    },
+    {
+      "id": "L-2026-0630-05",
+      "testo": "Le approvazioni/rifiuti del Pannello finiscono in Supabase memoria (`azione:{n}`, `azioni_log`) ma NON aggiornano da soli il vault (`AZIONI-IN-ATTESA.md`, `DECISIONI.md`). L'AD può leggerle dal DB memoria; a ogni giro/metabolizzazione deve sincronizzarle nel vault. Non riproporre azioni rifiutate (#10 wiring Vercel, kit PR earned media — rifiutate 30/6 09:08). **Estensione 1/7:** «Approva» su Proposta non persiste scelta di dominio (L-29); fix 🟡 = bottoni A/B + API persistenza (L-30 ordine zombie, **L-33 universale** `tipo: scelta_ab` su ogni scelta binaria — Nicola 10:50).",
+      "tag": [
+        "pannello",
+        "memoria",
+        "sync",
+        "approvazioni",
+        "vault"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 08:20"
+    },
+    {
+      "id": "L-2026-0630-03",
+      "testo": "Quando il Supabase MCP è cieco (needsAuth / manca SUPABASE_ACCESS_TOKEN), usare il fallback REST via env in cervello/vps/.env — marketplace MARKETPLACE_SUPABASE_URL/KEY e memoria Pannello — verificato funzionante 30/6 serale e 1/7 (REST HTTP 200 anche in chat MCP 01:57). Documentare in giro.md: MCP preferito, REST fallback obbligatorio prima di dichiarare 'sensori ciechi'.",
+      "tag": [
+        "sensori",
+        "fallback",
+        "supabase",
+        "rest"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 10:20"
+    },
+    {
+      "id": "L-2026-0629-03",
+      "testo": "Non moltiplicare i giri nello stesso giorno se i sensori sono ciechi e fuori non è cambiato nulla: il valore aggiunto è ~zero e si brucia Max. Riconoscere la condizione (dati congelati + MCP/WebFetch non autorizzati + scan locale invariato) e produrre un passaggio MINIMO e onesto — o saltare — invece di ri-scansionare i fattori settimanali del radar o inventare novità. Un giro che dice 'niente di nuovo, la palla è a Nicola' vale più di uno gonfiato. (Confermata di nuovo al 5° passaggio del 29/6.)",
+      "tag": [
+        "efficienza",
+        "metacognizione",
+        "sensori",
+        "max",
+        "onesta"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 10:20"
     },
     {
       "id": "L-2026-0628-01",
@@ -11272,15 +11794,15 @@
   ],
   "meta": {
     "lezioni_attive": 473,
-    "promosse_a_principio": 29,
+    "promosse_a_principio": 59,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-25 04:43",
+    "tasso_calcolato_il": "2026-07-25 14:55",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-25 04:43",
+    "tick_leggero_il": "2026-07-25 14:55",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-24 22:20"
+    "cristallizzazione_ultima": "2026-07-25 14:20"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }

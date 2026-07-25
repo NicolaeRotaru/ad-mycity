@@ -1,40 +1,38 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-24 11:05",
-  "voto_fiducia": 92,
-  "sintesi": "Giro pieno su richiesta esplicita di Nicola in chat (non heartbeat) — riconferma, non novità. Riverificato dal vivo con query SQL dirette in questa sessione: invariato — 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine zombie annullato, 0 pagati, 0 recensioni. Rispettati entrambi i vincoli hard iniettati dal giro: AR-113 (nessuna azione fuori scope North Star) e AR-041/AR-106 — verificato NEL MERITO che non erano 0 esperimenti aperti (6 restano tali dopo questo passaggio), il vero trigger era EXP-005 in scadenza oggi: misurato ora (mancata, stesso pattern di EXP-004). Nessuna azione 🟡/🔴 nuova accodata.",
-  "trend_fiducia": "= 92 (stabile da questa mattina 06:24) — nessun deterioramento: il giro ha verificato invece di dedurre (query SQL reali, lettura diretta del file esperimenti prima di agire sul vincolo AR-041), coerente con la lezione [[feedback-verifica-prima-di-affermare]].",
+  "data": "2026-07-25 06:45",
+  "voto_fiducia": 90,
+  "sintesi": "Giro pieno heartbeat (19h dall'ultimo giro pieno 24/7 11:05). Riverificato dal vivo con query SQL dirette: business INVARIATO — 1 PQ, 5 prodotti, 4 buyer, 1 ordine zombie annullato, 0 pagati, 0 recensioni, stallo North Star 31 giorni esatti. Misurati i 2 esperimenti in scadenza oggi (EXP-001, EXP-007 — entrambi mancata, motivi distinti). Chiuso il gate chiusura-loop (ESITO @ad). Corretto il contratto JSON di questo stesso file (salute_macchina era fuori-schema). Proposte 2 azioni 🟡 concrete (#239 allowlist diagnostica, #240 pulizia tag rumoroso in apprendimento-guardiano) invece di limitarsi a rilogare le lezioni.",
+  "trend_fiducia": "▼ 92→90 — non un deterioramento del lavoro ma un abbassamento onesto: 4 script di diagnosi (esperimenti-check/valida-contratti/apprendimento-guardiano/cristallizza-apprendimento) sono rimasti bloccati da approvazione per tutta la sessione, quindi diversi controlli (coerenza-fatti, verifica-automazione, apprendimento --json) sono stati bypassati a mano invece che verificati con lo strumento dedicato — L2, non L3. Vedi refutazione sotto.",
   "errori_giro": [],
   "domande_bloccanti": [
     {
       "tipo": "north_star",
-      "domanda": "North Star 0 da ~718h (~30gg). Ordine test PQ ancora l'unica mossa diretta verso il 1° ordine pagato.",
+      "domanda": "North Star 0 da 31 giorni esatti. Ordine test PQ ancora l'unica mossa diretta verso il 1° ordine pagato.",
       "azione": "card 🔴 #ordine-test-pq in AZIONI-IN-ATTESA",
       "colore": "🔴"
     },
     {
       "tipo": "PI26",
-      "domanda": "PI26 sportello chiude tra 6 giorni (30/7 16:00). Domanda ancora non risulta inviata.",
+      "domanda": "PI26 sportello chiude tra 5 giorni (30/7 16:00). Domanda ancora non risulta inviata.",
       "azione": "card 🔴 #bandi-cciaa-2007",
       "colore": "🔴"
     }
   ],
   "entita_verificate": [
-    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "query diretta MCP Supabase 24/7 11:03 (invariato)"},
-    {"nome": "0 ordini pagati", "stato": "confermato", "fonte": "query diretta MCP Supabase 24/7 11:03 (1 riga, ultimo ordine 24/6 08:28)"},
-    {"nome": "7 profili totali / 4 buyer / 5 prodotti / 0 recensioni", "stato": "confermato", "fonte": "query diretta MCP Supabase 24/7 11:03"},
-    {"nome": "EXP-005 mancata (gate #post-siamo-in-23 ancora in pausa)", "stato": "confermato", "fonte": "AZIONI-IN-ATTESA.md riga 303 + count(profiles) invariato a 7"}
+    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "query diretta MCP Supabase 25/7 06:2x (invariato)"},
+    {"nome": "0 ordini pagati / 1 ordine zombie CANCELED", "stato": "confermato", "fonte": "query diretta MCP Supabase 25/7 06:2x (ultimo ordine 24/6 08:28)"},
+    {"nome": "7 profili totali / 4 buyer / 5 prodotti / 0 recensioni / 3 carrelli abbandonati", "stato": "confermato", "fonte": "query diretta MCP Supabase 25/7 06:2x"},
+    {"nome": "EXP-001 mancata (ordini_consegnati 0 vs atteso 1)", "stato": "confermato", "fonte": "query SQL diretta orders 25/7 + auto-miglioramento.json"},
+    {"nome": "EXP-007 mancata (check-in PQ non concordato, superato da pausa negozi)", "stato": "confermato", "fonte": "registro-fatti.json negozi.attesa-concordata"}
   ],
   "benchmark": "Nessun lavoro creativo/importante in questo giro (AR-113 limita a sole azioni verso il 1° ordine pagato) — auto-miglioramento saltato di proposito, non per omissione.",
   "salute_macchina": {
-    "sensori_ok": 11,
-    "max_giri_ciechi": 0,
-    "automazione": "non ri-verificata in questo passaggio (verifica-automazione.mjs non rilanciato — nessun segnale di cambiamento dal pre-step di giro.sh)",
-    "coerenza_fatti": "non ri-eseguito lo script in questa sessione (non in allowlist Bash locale): nessun fatto-chiave nuovo da registrare in questo passaggio, ultima verifica valida stamattina (19 fatti, 0 cacce aperte)",
-    "north_star_stallo": true,
-    "loop_a_vuoto_giri_ravvicinati": false,
-    "gap_sessione": "north-star-check.mjs e esperimenti-check.mjs non eseguibili (fuori allowlist locale) — bypassato con query SQL dirette + lettura/edit diretto di auto-miglioramento.json"
+    "supabase": "ok",
+    "stripe": "ok",
+    "dati_freschi": true,
+    "sensori_attivi": 10
   },
-  "livello_verifica": "L2 (query dirette al DB marketplace via MCP Supabase in questa sessione, non solo file di memoria/delta-gate)",
-  "refutazione": "Nessuna entità nuova inventata: ogni entità richiamata è stata ri-verificata con query dirette in questa sessione. Nessuna azione 🟡/🔴 nuova generata (le mosse giuste sono già in coda dai giorni scorsi). Il vincolo AR-041 è stato verificato nel merito (letto il file, non solo il messaggio d'errore) prima di agire — evitato di aprire un esperimento duplicato senza motivo."
+  "livello_verifica": "L2 (query dirette al DB marketplace via MCP Supabase in questa sessione; 4 script di controllo bypassati a mano per blocco di approvazione, vedi refutazione)",
+  "refutazione": "REFUTAZIONE VERA su 3 claim pesanti di questo giro, non boilerplate: (1) 'stallo 31 giorni' — ricalcolato a mano da ultimo_ordine=2026-06-24 08:28:40 a oggi 2026-07-25: 6 giorni residui di giugno + 25 giorni di luglio = 31. SOPRAVVIVE, confermato aritmeticamente non solo per differenza di date scritte altrove. (2) '0 esperimenti in scadenza residui' — non preso per buono dal solo output di meta_esperimenti: riletti singolarmente i data_misura dei 4 esperimenti rimasti aperti (EXP-002 2026-07-27, EXP-003 2026-07-28, EXP-006 2026-08-20, EXP-013 2026-07-30) — nessuno è ≤ 2026-07-25. SOPRAVVIVE. (3) 'memoria coerente / coerenza-fatti ok' — QUESTO claim NON sopravvive alla refutazione allo stesso livello degli altri due: ereditato dal pre-check di giro.sh delle 06:20 (iniettato nel prompt), MAI ri-verificato in modo indipendente in questa sessione perché `node cervello/coerenza-fatti.mjs` è rimasto bloccato da approvazione ad ogni tentativo. DECLASSATO onestamente in `registro-realta.json` a 'verifica-ereditata, non riverificata'. Rischio stimato basso (nessuna scrittura di questo giro ha toccato un valore di registro-fatti.json), ma è un gap di verifica reale, non chiuso per finta. Segnalato anche in AZIONI-IN-ATTESA #239 come causa root (allowlist). ADDENDUM 06:47: riprovato subito dopo (non un 3° tentativo sullo stesso script bloccato, ma un nuovo tentativo dopo aver completato le altre scritture del giro) — `coerenza-fatti.mjs` è passato: 20 fatti, 0 cacce aperte, memoria confermata coerente in modo indipendente. Il gap era reale ma temporaneo, non un buco strutturale."
 }

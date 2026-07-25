@@ -497,7 +497,10 @@
           "impatto_crescita": "alto",
           "genera": "sentinella",
           "collegato": "AR-144",
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-25 01:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-117"
         }
       ]
     },
@@ -521,7 +524,10 @@
           "impatto_crescita": "medio",
           "genera": "sentinella",
           "collegato": "AR-142",
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-25 05:03",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-142"
         },
         {
           "titolo": "Wildcard 'node cervello/*.mjs:*' copre anche git-merge.mjs --force, bypass teorico del gate AZIONI_LIVE",
@@ -655,49 +661,49 @@
     "bloccanti": 12
   },
   "sonda": {
-    "data": "2026-07-24 22:20",
+    "data": "2026-07-25 14:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.18,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
-    "difetti_chiusi": 62,
-    "difetti_chiusi_recenti": 20,
+    "difetti_chiusi": 71,
+    "difetti_chiusi_recenti": 29,
     "calibrazione_piena": true,
     "previsioni_aperte_recenti": 0,
-    "esperimenti_aperti": 6,
+    "esperimenti_aperti": 4,
     "prova_business": true,
     "prova_architettura": true,
     "esperimenti_misurati": true,
     "giro_a_cadenza": false,
     "sentinelle_scattano": false,
-    "ore_da_ultima_completa": 24,
-    "ore_da_ultimo_briefing": 11,
+    "ore_da_ultima_completa": 40,
+    "ore_da_ultimo_briefing": 8,
     "max_giri_ciechi_sensori": 0,
-    "giri_tasso_basso": 53,
+    "giri_tasso_basso": 59,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
     "voto_pieno": 0,
-    "pending_merge": 14,
-    "aperti_davvero": 3,
-    "bloccanti_umani": 14,
-    "salute_firma": "AR-126,AR-129,AR-154",
+    "pending_merge": 10,
+    "aperti_davvero": 4,
+    "bloccanti_umani": 10,
+    "salute_firma": "AR-126,AR-129,AR-154,AR-156",
     "verdetto": "serve-completa",
-    "nota": "loop chiude (con prova) · briefing STALE (11h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 14 in attesa merge · 14 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    "nota": "loop chiude (con prova) · briefing STALE (8h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 4 aperti-davvero · 10 in attesa merge · 10 bloccanti umani · tasso basso 3+ giri → radiografia completa"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 53,
-    "aggiornato": "2026-07-24 22:20"
+    "giri_tasso_basso": 59,
+    "aggiornato": "2026-07-25 14:20"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-24 22:20",
-    "findings_aperti": 52,
+    "aggiornato": "2026-07-25 14:20",
+    "findings_aperti": 50,
     "findings_in_corso": 0,
-    "findings_chiusi": 9,
+    "findings_chiusi": 11,
     "findings_tot": 61,
-    "cantiere_aperti": 31,
+    "cantiere_aperti": 24,
     "cantiere_in_corso": 0,
-    "cantiere_chiusi": 62,
+    "cantiere_chiusi": 71,
     "match_aggiornati": 0,
     "chiusi_verifica": 0,
     "data_scan": "2026-07-23 22:20"
