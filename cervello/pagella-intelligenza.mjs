@@ -70,6 +70,39 @@ function pct(n) {
   return `${Math.round((Number(n) || 0) * 100)}%`;
 }
 
+/**
+ * Legge il JSON che uno script figlio ha stampato, anche se prima ha stampato altro.
+ *
+ * PERCHÉ (misurato il 25/7). Prima era `JSON.parse(stdout)` secco: bastava UNA riga di rumore
+ * sullo stdout del figlio — un avviso di Node, un `console.log` dimenticato da qualcuno mesi dopo —
+ * perché il parse fallisse, la voce tornasse `null` e la pagella la mostrasse «non misurabile».
+ * Rossa e cieca, senza dire perché: il guasto peggiore, quello che si traveste da misura.
+ * Provato: `console.log("(node) attenzione…")` prima del JSON accecava la voce 1.
+ *
+ * Qui si prende l'ultimo oggetto JSON ben formato dell'output, che è quello che il figlio stampa
+ * per ultimo. Se non c'è NIENTE di valido resta `null` — cieco davvero, e allora è giusto dirlo.
+ */
+export function estraiJson(stdout) {
+  const testo = String(stdout || "").trim();
+  if (!testo) return null;
+  try {
+    return JSON.parse(testo);
+  } catch {
+    /* c'è del rumore: lo cerco riga per riga qui sotto */
+  }
+  // Dall'ultima riga che apre un oggetto, all'indietro: il JSON "buono" è l'ultimo stampato.
+  const righe = testo.split("\n");
+  for (let i = righe.length - 1; i >= 0; i--) {
+    if (!righe[i].startsWith("{")) continue;
+    try {
+      return JSON.parse(righe.slice(i).join("\n"));
+    } catch {
+      /* non era quello: continuo a salire */
+    }
+  }
+  return null;
+}
+
 // ───────────────────────── le 5 misure ─────────────────────────
 
 /**
@@ -93,11 +126,7 @@ function pct(n) {
 function misuraLezioni(soglie) {
   const leggi = (script, args) => {
     const r = spawnSync(process.execPath, [join(AD_ROOT, script), ...args], { encoding: "utf8", timeout: 120000 });
-    try {
-      return JSON.parse(r.stdout || "{}");
-    } catch {
-      return null;
-    }
+    return estraiJson(r.stdout);
   };
   const dati = leggi("cervello/tasso-regole.mjs", ["--json"]);
   // Informativo: il numero che la voce mostrava fino al 25/7. Se non si legge, pazienza — non è
@@ -437,9 +466,14 @@ async function main() {
     console.error(
       `\n❌ GATE: ${peggiorate} voce/i PEGGIORATA/E dall'ultima misura — il lavoro appena fatto ha tolto, non aggiunto.`,
     );
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
-  process.exit(0);
+  // `exitCode` e non `exit()`: su una pipe `process.exit()` chiude prima che Node abbia svuotato lo
+  // stdout e taglia l'output a 65536 byte esatti (riproduttore nel commento di tasso-regole.mjs).
+  // Qui non è teoria: in `--json` questo report porta la `serie` storica, che cresce a ogni giro
+  // fino al tetto di 200 voci ≈ 34 KB — metà del buffer. Il codice di uscita resta identico.
+  process.exitCode = 0;
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) await main();
