@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-25 10:55",
+  "aggiornato": "2026-07-25 11:00",
   "_gate_25_07": "GIRO 25/7: cristallizzazione meccanica già girata da giro.sh alle 06:20 (34 principi, 0 arretrato evidente su evidenze>=7/6/5 — tutti già promossi in 3 batch ieri 14:20/16:20/18:20). Sul cluster #1 segnalato dal guardiano ('marketplace': 22 lezioni/36 ripetizioni) verificato A MANO (8 lezioni lette): NON è un'unica causa radice, è un tag-contenitore troppo generico (label 'tocca il sito marketplace', non firma di un tipo di bug) — cristallizzarlo in un gate sarebbe un principio vago e inutile. Proposta reale invece: (1) tech fix proposto a Nicola — aggiungere 'marketplace' a TAG_GENERICI in cervello/apprendimento-guardiano.mjs (rumore di tassonomia, non errore ricorrente); (2) gate concreto sul cluster #4 'allowlist' (19 lezioni/27 rip./11 da Nicola), rinforzato da evidenza fresca di QUESTO giro (node cervello/esperimenti-check.mjs, valida-contratti.mjs, apprendimento-guardiano.mjs, cristallizza-apprendimento.mjs tutti bloccati da approvazione pur essendo sola-lettura/bookkeeping dichiarati nel loro stesso header) — proposta 🟡 #allowlist-diagnostica-gate in AZIONI-IN-ATTESA: estendere .claude/settings.local.json con un pattern che copre gli script *-check.mjs/*-guardiano.mjs di sola lettura, così l'AD non deve più bypassare a mano leggendo il sorgente ogni volta.",
   "_nota_metabolizzazione_24_07_2002": "Chat 24/7 ~20:02 (chiusura del filo doppioni 'Nuova chat' già raccontato nella nota 19:57/STATO.md): nessun nuovo messaggio di contenuto da Nicola in questo turno (solo 'Abc', ambiguo, seconda volta consecutiva) — verificato via `git log` che PR #531 (blocco doppio-tap sul bottone invia) è GIÀ mergiata su main (commit `575721d2`), non più 'in attesa' come risultava nella card #236. Aggiornati AZIONI-IN-ATTESA (#236 → FATTO) e STATO.md (nuova voce in cima). Nessuna lezione nuova: conferma pratica (non caso_studio_nicola) del pattern già in LEZIONI-CHAT — bug UI 'ricorrente' trattato con screenshot reale + verifica del codice esistente prima di riscrivere la diagnosi da zero, invece di assumere che il fix di ieri (PR #517) fosse insufficiente senza controllare. Resta da confermare dal vivo nel browser dopo il prossimo deploy Vercel (nessun accesso browser in sessione headless). Nessun fatto/decisione/dato business nuovo.",
   "_nota_metabolizzazione_24_07_1740": "Chat 24/7 17:36: Nicola \"aggiungi parla con la casella a tutte le caselle della bacheca\" — AD ha aggiunto ParlaCasella agli avvisi Bacheca (unico file mancante), PR #527 aperta e già accodata in AZIONI-IN-ATTESA (card #235, riga tabella). Registrata lezione L-2026-0724-527: pattern ricorrente (7ma volta) di aggiungere ParlaCasella superficie-per-superficie invece che con audit unico. Sul filone precedente (registro dei fatti incompleto, turno prima), Nicola non ha ancora dato l'esempio concreto richiesto dall'AD — resta aperto, nessuna azione da registrare finché non risponde.",
@@ -1394,8 +1394,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 17:50",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 11:00",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-397",
@@ -2164,8 +2166,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 03:34",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 11:00",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-362",
@@ -2304,8 +2308,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 02:51",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 11:00",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-356",
@@ -2420,8 +2426,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 02:32",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 11:00",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-351",
@@ -2723,9 +2731,11 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 00:36",
-      "stato": "attiva",
+      "stato": "principio",
       "usi": [],
-      "_addendum_00_36": "Tolta su live 00:32 per bug «+», ma 00:36 Nicola chiede di **tenere** auto-apertura con fix — non PR solo rimozione. Vedi L-341, PR #481."
+      "_addendum_00_36": "Tolta su live 00:32 per bug «+», ma 00:36 Nicola chiede di **tenere** auto-apertura con fix — non PR solo rimozione. Vedi L-341, PR #481.",
+      "promosso_il": "2026-07-25 11:00",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-338",
@@ -10566,6 +10576,19 @@
       "promosso_il": "2026-07-25 10:20"
     },
     {
+      "id": "L-2026-0720-398",
+      "testo": "**«L'ho già mergiata?» — verifica GitHub API, non card Pannello; card aperta ≠ PR pendente (chat 20/7 ~17:45).** Nicola screenshot card Approva + «**controlla se l'ho già margiata**» su PR #498. 5 perché: (1) la **fonte verità merge** è GitHub API (`state=closed`, `merged_at`), non lo stato visivo della card; (2) AD conferma **#498 ✅ merged 16:36:51**, commit `36402b49` su main — fix Diretta online; (3) card resta visibile per **bug Pannello**: errore giallo **scrittura DB memoria rifiutata** — il Pannello non riesce a segnarla chiusa; (4) **non** dire «devi ancora mergiare» né proporre secondo merge; (5) quando chiede «controlla se mergiata» **senza specificare PR**, verificare **tutte** le PR recenti in coda — non assumere solo la card mostrata. Regola: domanda merge + screenshot card → **GitHub API prima**, spiega bug chiusura card se merge già ok, indica prossimo passo reale. **Addendum 17:48:** errore specifico **PGRST102** su Parla casella — vedi L-399. **Addendum 17:50:** Nicola follow-up da casella — **#496 ✅ 17:44:45** (`1cd606e0`) + **#497 ✅ 16:36** confermate; prossimo passo = **#accendi-intelligence-sveglia**, non altri merge. Vedi L-394, DECISIONI 20/7 17:45–17:50.",
+      "tag": [
+        "pannello",
+        "github",
+        "pr",
+        "merge",
+        "bug"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 11:00"
+    },
+    {
       "id": "L-2026-0720-397",
       "testo": "**PR feature branch — conflitti merge con main su file memoria auto-generati (chat 20/7 ~16:39).** Nicola manda **solo screenshot** PR #496: checks ok ma merge bloccato per conflitti. 5 perché: (1) branch feature resta indietro mentre main accumula giri/memoria; (2) conflitti tipici su `STATO.md`, `LEZIONI-CHAT.md`, `sentinella-dati.json`, diario operativo — **non** sul codice fix; (3) regola risoluzione: **main vince** su file memoria/worker auto-generati, **branch vince** su codice feature; (4) dopo rebase+push → GitHub **mergeable** (`git-pr.mjs`); (5) codice fix intatto — Nicola mergia 🔴. Regola: screenshot «conflitti PR» → AD risolve subito e spiega memoria vs codice, non chiedere a Nicola merge manuale sui conflitti. **Addendum 17:50:** **#496 ✅** mergiata. **Addendum 18:50–18:52:** **#499** re-conflitto worker → risolto mergeable. **Addendum 23:23:** **#501** (sentinelle pricing) stesso pattern vs main north-star/memoria → mergeable. **Addendum 23:28:** **#501 ✅** mergiata Nicola; **#504** conflitto `giro.sh` post #501+#503 → mergeable `5c8dfc7b`. Vedi L-334, L-390, L-413, L-429.",
       "tag": [
@@ -10620,6 +10643,57 @@
       "promosso_il": "2026-07-24 22:20"
     },
     {
+      "id": "L-2026-0720-363",
+      "testo": "**Worker UX — tre superfici distinte: FAB popup · menu Worker fullscreen · lista conv overlay (Nicola 20/7 ~02:32).** «Bottone basso-destra e voce Worker nel menù non devono aprire la stessa finestra» + «lista conversazioni in finestra che si apre/chiude sopra la chat». 5 perché: (1) AD aveva unificato FAB e voce menù nella **stessa** popup (#486) — Nicola li distingue: FAB = accesso rapido piccolo, menù Worker = workspace grande; (2) AD aveva reso lista conv **colonna fissa sinistra** (#485/#490) — Nicola vuole **overlay sopra** i messaggi (☰ toggle, tap fuori chiude); (3) tre entry point = **tre modalità UX**, non scorciatoie allo stesso componente; (4) ingrandisci sul popup piccolo = ingrandisce popup, **non** apre la pagina menù Worker; (5) errore processo = implementare metà requisito (sidebar integrata) senza chiedere distinzione contenitore per ogni entry point. Regola: **FAB** = popup piccolo · **menu Worker** = fullscreen · **☰** = overlay conv list — mai unificare FAB=menu; mai sidebar fissa se chiede overlay. Fix PR **#492** ✅ mergiata; supersede #486 unificazione e #490 sidebar fissa. **ADDENDUM 02:46:** posizione controlli per superficie in **L-364** (grande=☰+ in basso; popup=barra alta). **ADDENDUM 03:34 (L-382):** re-chiede «navbar Worker = grande» — codice main già `apriWorkerPopup(true)`; se live mostra popup = deploy, non nuova PR. Vedi L-382, L-352, L-348, L-350, L-364.",
+      "tag": [
+        "pannello",
+        "worker",
+        "ux",
+        "fab",
+        "popup",
+        "fullscreen",
+        "overlay",
+        "conversazioni",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 11:00"
+    },
+    {
+      "id": "L-2026-0720-357",
+      "testo": "**n8n webhook env — milestone env → restart → «webhook collegato» → verifica runtime (Nicola 20/7 ~02:07, chiuso 02:34).** Nicola conferma di aver incollato l'URL webhook nel file segreto worker. 5 perché: (1) «inserito nel env» = **passo Nicola completato**, non conferma che la macchina invii già a n8n — il worker legge `.env` **solo al riavvio**; (2) **non** dire «collegato» / «mano attiva» senza verifica post-restart con lo **stesso loader del worker**; (3) prossimi passi **numerati**: workflow **Active** in n8n → riavvio worker → Nicola scrive **«webhook collegato»** → AD verifica (`n8n health ok`); (4) **ADDENDUM env duplicati (corretto 02:34):** nel `.env` possono restare righe duplicate `N8N_WEBHOOK_URL` — il **worker usa l'ultima** (reale) e il webhook **funziona**, ma i sensori/controlli «a mano» leggono spesso la **prima** (segnaposto) → chiedi **una sola** riga per chiarezza; vale per qualsiasi chiave env; **ADDENDUM 02:50:** da **3 a 2 righe** (1 segnaposto + 1 reale) — worker ok, cancellare ultimo segnaposto; (5) **ADDENDUM 02:34:** Nicola «webhook collegato» — verificato OK sul worker; Meta OAuth e `AZIONI_LIVE` restano **separati** — webhook ok ≠ post automatico su FB/IG; interruttore sicurezza resta off. Regola: milestone env → passi numerati → verifica oggettiva su «webhook collegato» → catalogo cosa fare (L-366). Vedi L-331, L-330, L-351, L-344, L-366.",
+      "tag": [
+        "n8n",
+        "webhook",
+        "env",
+        "worker",
+        "vps",
+        "sensori",
+        "nicola",
+        "milestone"
+      ],
+      "reparto": "@builder-automazioni",
+      "promosso_il": "2026-07-25 11:00"
+    },
+    {
+      "id": "L-2026-0720-352",
+      "testo": "**Worker chat — sidebar dentro riquadro MA resta POPUP apri/chiudi, NON pagina fissa (Nicola 20/7 ~01:36, agg. 02:32).** Correzione esplicita dopo #485: «non ti ho specificato che deve restare una finestra che si apre e si chiude, schiacciando l'apposita icona». 5 perché: (1) richiesta 01:06 copriva **layout** (lista conv integrata a sinistra) ma **non** il **contenitore** — AD ha esteso a pagina fissa `vista=assistente` quando voce menù «Worker» apriva schermo intero; (2) Nicola vuole **overlay popup** (icona basso-destra; **X** chiude; resti su Plancia/Azioni); (3) ingrandisci/riduci = **stessa** popup più grande/piccola, non cambio pagina; (4) sidebar sinistra + chat destra + barra sticky restano **dentro** il popup — compatibile con L-348/L-350; (5) errore processo = implementare metà requisito (sidebar) senza chiedere/confermare modalità contenitore quando si cambia entry point menù. Regola: Worker UX = **popup first** (apri/chiudi icona). **ADDENDUM 02:32 (Nicola):** FAB popup piccolo **≠** voce menu Worker fullscreen — **non** unificare (#486); lista conv = **overlay sopra** chat, non colonna fissa (#492, L-363). Vedi L-363, L-348, L-350, PR #486.",
+      "tag": [
+        "pannello",
+        "chat",
+        "worker",
+        "popup",
+        "overlay",
+        "sidebar",
+        "layout",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 11:00"
+    },
+    {
       "id": "L-2026-0720-348",
       "testo": "**Worker chat — menu conversazioni DENTRO riquadro a sinistra, fluttuante E ingrandita (Nicola 20/7 ~01:06).** Chiede «inserisci il menu delle conversazioni dentro il riquadro della chat (sulla sinistra)» + chiarimento «anche dentro la chat che si apre quando schiaccio ingrandimento nella chat fluttunante». 5 perché: (1) odia cassetto/drawer che scorre da fuori — vuole lista **sempre visibile** nel pannello; (2) fluttuante e schermo intero devono avere **stesso layout** (lista sinistra + chat destra + barra basso); (3) pattern «dimmi cosa hai capito» prima del fix (L-346, L-338); (4) filone UX Worker in sequenza rapida post-scroll ok — **non** rompere #483 scroll né #484 sticky; (5) PR #485. **ADDENDUM 01:36 (Nicola):** sidebar sì ma il contenitore resta **popup apri/chiudi con icona** — **non** pagina fissa del menù laterale; ingrandisci = stessa popup più grande. Fix popup in PR #486 (L-352). **ADDENDUM 01:45 (Nicola):** sidebar deve elencare **TUTTE** le chat — conv da Lavori («Parla con casella») mancava perché storage separato; fix unificazione PR #487 (L-354). **ADDENDUM 02:08 (Nicola):** sidebar integrata **non** elimina icona ☰ in testata — mobile=cassetto, desktop=toggle colonna; #485 aveva rimosso ☰ → bug «menu non si apre»; fix PR worker-menu (L-358). **ADDENDUM 02:13 (Nicola):** via testata marketing «Worker / Semplice e diretto…» — solo ingrandisci/chiudi in alto; **+ Nuova chat** nella toolbar basso con allega/video live/prompt; fix PR #489 (L-359). Regola: richiesta sidebar conv integrata → confermare copertura fluttuante+ingrandita + **popup overlay** + **elenco unificato** + **☰ toggle** + **chrome minimo** + PR dedicata senza toccare fix appena confermati. Vedi L-359, L-358, L-354, L-352, L-346, PR #485, PR #487, PR #489.",
       "tag": [
@@ -10639,6 +10713,23 @@
       ],
       "reparto": "@frontend-dev",
       "promosso_il": "2026-07-24 16:20"
+    },
+    {
+      "id": "L-2026-0720-339",
+      "testo": "**Auto-apertura chat — Nicola rimossa su live oggi, repo main ancora presente; sync elenco resta (Nicola 20/7 ~00:32).** Dopo spiegazione sync desktop/mobile (L-338), Nicola corregge: **auto-apertura l'ha tolta oggi** sul Pannello live perché crea bug «+» (chat vecchia rientra). 5 perché: (1) Nicola distingue **due fix** — sync elenco ok, auto-apertura no; (2) AD aveva descritto entrambi come «fix su main» senza chiedere se live=repo; (3) verifica repo: auto-apertura **ancora in codice main** (ultima mod 19/7), nessun commit rimozione oggi; (4) live Panel può essere **avanti** (rollback Vercel) o **indietro** (deploy vecchio) vs repo — prossimo deploy può **reintrodurre** auto-apertura se non PR; (5) stessa radice L-299/PR #475 — timer auto-open annulla «+». Regola: quando Nicola dice «l'ho tolta» → verificare **repo E live**; PR **solo** rimozione auto-apertura, **mai** togliere sync elenco insieme; se chiede «controlla main» = diff codice ufficiale, non assumere live=main. Vedi L-299, L-338, PR #475.",
+      "tag": [
+        "pannello",
+        "chat",
+        "auto-open",
+        "sync",
+        "regressione",
+        "vercel",
+        "nicola",
+        "correzione",
+        "caso-studio"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 11:00"
     },
     {
       "id": "L-2026-0719-316",
@@ -11522,16 +11613,16 @@
     "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
   ],
   "meta": {
-    "lezioni_attive": 473,
-    "promosse_a_principio": 44,
+    "lezioni_attive": 415,
+    "promosse_a_principio": 49,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-25 10:55",
+    "tasso_calcolato_il": "2026-07-25 11:00",
     "tasso_finestra_giorni": 30,
     "tick_leggero_il": "2026-07-25 10:55",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-25 10:20"
+    "cristallizzazione_ultima": "2026-07-25 11:00"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }

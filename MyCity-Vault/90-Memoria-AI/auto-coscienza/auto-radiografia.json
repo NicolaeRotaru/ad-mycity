@@ -661,7 +661,7 @@
     "bloccanti": 12
   },
   "sonda": {
-    "data": "2026-07-25 10:20",
+    "data": "2026-07-25 11:00",
     "loop_chiude": true,
     "tasso_applicazione": 0.18,
     "prova_chiusura": true,
@@ -676,10 +676,10 @@
     "esperimenti_misurati": true,
     "giro_a_cadenza": true,
     "sentinelle_scattano": false,
-    "ore_da_ultima_completa": 36,
+    "ore_da_ultima_completa": 37,
     "ore_da_ultimo_briefing": 4,
     "max_giri_ciechi_sensori": 0,
-    "giri_tasso_basso": 56,
+    "giri_tasso_basso": 57,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
@@ -692,11 +692,11 @@
     "nota": "loop chiude (con prova) · briefing 4h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 10 in attesa merge · 11 bloccanti umani · tasso basso 3+ giri → radiografia completa"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 56,
-    "aggiornato": "2026-07-25 10:20"
+    "giri_tasso_basso": 57,
+    "aggiornato": "2026-07-25 11:00"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-25 10:20",
+    "aggiornato": "2026-07-25 11:00",
     "findings_aperti": 50,
     "findings_in_corso": 0,
     "findings_chiusi": 11,
