@@ -843,3 +843,19 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 **Dettagli tecnici** — PR mergiate oggi: #526 (`autoJobCancelation`/ignoreCommand Vercel), #527 (ParlaConCasella su tutti gli avvisi), #528 (rimozione ignoreCommand residuo), #529 (hook recupero-memoria + SaluteOnesta.tsx + UtilizzoSenior.tsx + chat per tema). Motori consegnati: contesto-lezioni, cristallizza, verifica-avversariale (Lever 1-3) + recupero-memoria BM25, salute-onesta, utilizzo-senior (mosse 4/6/7). Branch `fix/scadenzario-check-ar147` pronto, PR non ancora aperta (rate-limit GitHub di ieri notte). Coda: 50 aperte. 7 numeri riconfermati via query SQL diretta su `orders`/`products`/`profiles`/`reviews` (18:00).
 
 **Dettagli tecnici** — salute: 43 sonda (56 la settimana scorsa, picco 72 il 20/7) · difetti: 31 aperti / 62 chiusi (+1 oggi, AR-154) · radiografia completa 23/7 22:20 (16 nuovi, AR-138..153) · peer_review PR-006 (tech, voto 7) e PR-007 (relazioni-istituzionali, voto 4, DA SISTEMARE) in `auto-miglioramento.json` · calibrazione: nessun reparto sopra "autonomia bassa" (35 chiuse, 0 promozioni) · apprendimento: 4 principi distillati questa settimana, tasso applicazione 17% (AR-149, invariato) · 107 merge Pannello 17-24/7 su 1409 commit totali.
+
+## Piano del mattino · 2026-07-25 06:00
+
+**In una riga:** oggi la priorità resta PI26 (scade tra 5 giorni) — il negozio è ancora fermo, esattamente come ieri sera.
+
+**Le 3 cose di oggi**
+1. Manda la domanda PI26 — bozza pronta, sportello a esaurimento posti, scade il 30/7 alle 16:00.
+2. Decidi se allargare la pausa che ferma i deploy Vercel che si cancellano a vicenda — il fix di ieri non basta ancora.
+3. Dai l'ok al fix del countdown scadenze, così PI26 e le prossime scadenze non restano solo un promemoria scritto a mano.
+
+**Serve da te**
+- Rispondi alle 3 domande PI26 entro il 30/7 alle 16:00
+- Dammi un sì o un no sull'allargare la pausa dei deploy Vercel
+- Dai l'ok ad aprire la PR del countdown scadenze quando è pronta
+
+**Dettagli tecnici** — riconfermato con query SQL diretta stamattina: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 ordine (annullato, 24/6), 0 pagati — stallo 31 giorni esatti, nessun numero inventato (REST+MCP entrambi ok). Nessuna card nuova in coda (stato invariato, anti-doppione AR-008). Branch `fix/scadenzario-check-ar147` ancora da aprire come PR.
