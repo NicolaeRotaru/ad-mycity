@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-26 01:29
+aggiornato: 2026-07-26 01:44
 fonte: AD digitale (chat)
 ---
+
+> 💬 **26/7 ~01:44 — CHAT: quanto serve per 10.000€/mese — l'AD ha isolato l'ambiguità lordo/netto nella parola "profitto" usata da Nicola nel piano squadra.** Nicola: «quanti ordini devo consegnare per produrre 10.000€ al mese?» (riferito alla soglia che sblocca il pagamento di fratello+2 amici). Calcolo con gli stessi prezzi/scontrino-medio ipotetico usati nei turni precedenti (commissione 10%, scontrino 18-22€): **~4.500-5.500 ordini/mese (150-185/giorno) per 10.000€ di RICAVO lordo**; se invece Nicola intendeva PROFITTO netto (ricavo meno i costi del mese: burn 302€ + eventuali kit fisici 4.600-8.100€ se dati a tutti i 50 negozi), servono **~6.500-8.200 ordini**. L'AD ha segnalato esplicitamente la differenza invece di scegliere un'interpretazione a caso — in attesa che Nicola chiarisca quale intendeva. Nessun nuovo fatto/decisione: il piano squadra (fratello+2 amici, trigger 15/8, kit fisico 50 negozi) resta NON confermato, stesse 3 domande aperte dei turni precedenti. Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 26/7 ~01:37-01:44.
 
 > 💬 **26/7 ~01:29 — CHAT: Nicola corregge — «perché solo 600€? inserisco 50 negozi»: il totale saliva a ~4.600-8.100€ per il kit fisico per-negozio dimenticato.** L'AD aveva risposto (turno 01:10) coi soli costi fissi+una-tantum (602€: burn 302€/m + bici 100€ + volantini 200€), omettendo il kit fisico QR/vetrofania/sacchetti (80-150€/negozio, già in playbook capillarità 20/7 + STATO 21/7) che SCALA con 50 negozi. Corretto: **~4.600€ (kit a tutti i 50) - 8.100€ (fascia alta)**. **2 domande aperte, non ancora risposte da Nicola:** (1) il kit va a tutti i 50 negozi subito o solo a un primo gruppo (5-10)? (2) i kit li paga Nicola di tasca (come bici/volantini) o sono spesa aziendale da recuperare sui primi ricavi? Non ancora registrato in memoria permanente (aspetta risposta, poi si scrive in un solo passaggio insieme al piano squadra della riga sotto). Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 26/7 ~01:29.
 
