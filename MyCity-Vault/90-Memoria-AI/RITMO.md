@@ -859,3 +859,27 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - Dai l'ok ad aprire la PR del countdown scadenze quando è pronta
 
 **Dettagli tecnici** — riconfermato con query SQL diretta stamattina: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 ordine (annullato, 24/6), 0 pagati — stallo 31 giorni esatti, nessun numero inventato (REST+MCP entrambi ok). Nessuna card nuova in coda (stato invariato, anti-doppione AR-008). Branch `fix/scadenzario-check-ar147` ancora da aprire come PR.
+
+## Report della sera · 2026-07-25 18:00
+
+**Com'è andata oggi**
+- Il negozio è fermo come ieri (è la pausa che hai deciso tu, non un problema) — ho passato la giornata a rendere la macchina più solida invece.
+- Ho chiuso tutti gli 8 "freni di sicurezza" rotti che avevo trovato la settimana scorsa: adesso sono a zero.
+- Ho tolto un falso allarme che ti segnalava Pane Quotidiano come negozio in difficoltà — è solo in pausa concordata con te, non sta calando.
+
+**I numeri**
+- Negozio: 1 (Pane Quotidiano) · prodotti: 5 · clienti: 4 · ordini pagati: 0 — fermo da 31 giorni, invariato e atteso.
+- Pagella della macchina: 1 voto su 5 superato (stamattina erano 0) — ancora non pronta, ma il pezzo più pesante (i freni rotti) è chiuso.
+
+**Da approvare**
+- Rispondi a 3 domande veloci prima di inviare la domanda del bando PI26 (10.000€, scade tra 5 giorni)
+- Dai l'ok a mergiare il fix che avvisa da solo quando una scadenza come PI26 si avvicina
+- Dammi un sì o un no: allargo la pausa che ferma i deploy Vercel che si cancellano a vicenda? (il fix di ieri non basta ancora)
+
+**Lezione di oggi**
+- Chiudere un difetto sulla carta non basta: oggi ho ricontrollato il numero dopo ogni chiusura, ed è davvero sceso da 8 a 0 — è la prova che erano fix veri, non solo spuntati.
+
+**Domani**
+- La prima cosa utile resta PI26: bastano le tue 3 risposte, poi la mando io.
+
+**Dettagli tecnici** — PR mergiate oggi: #533 (fix sentinella negozio_fermo), #534 (pagella-intelligenza.mjs), #535 (guardiano delle prove), #536 (AR-109/AR-110), #537 (AR-142 round 3), #538-#542 (round 3-4, freni 4→2), #544-#548 (AR-114/AR-123/AR-156, freni →0), #550-#554 (5 fix Pannello Cantiere: cartelle chiuse di default, data di chiusura, ordinamento). Pagella (`auto-coscienza/pagella-intelligenza.json`, 14:20): freni 8→0 (migliorata), lezioni 18%/70% (ferma), calibrazione 0/14 reparti (ferma), quaderni 26%/60% (ferma), salute 43/100 (ferma) — `pronta: false`. 7 numeri riconfermati via query SQL diretta su `profiles`/`products`/`orders` (18:00). Coda AZIONI-IN-ATTESA: 50 aperte.

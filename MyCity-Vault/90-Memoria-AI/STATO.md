@@ -1095,17 +1095,17 @@ fonte: AD digitale (giro pieno, riconferma)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ riconfermati SQL diretta 25/7 06:00 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
-| Numero | Oggi (25/7 06:00) | Δ vs 24/7 | "Riuscito" | Note |
+## I 7 numeri (✅ riconfermati SQL diretta 25/7 18:00 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
+| Numero | Oggi (25/7 18:00) | Δ vs 25/7 06:00 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Pulizia demo 18:30 — solo PQ live |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `seller` confermato SQL |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ Stripe collegato, payout-test su ordine vero |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ · 253 demo eliminati dal DB 18:32 |
-| Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 24/6 CANCELED — 1° ordine va CREATO ex-novo |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **30 giorni** · ordine test in pausa fino al 24/8-1/9 |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato SQL diretta 18:00 |
+| Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 24/6 CANCELED — ultimo ordine tuttora il 24/6 08:28 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **31 giorni** · ordine test in pausa fino al 24/8-1/9 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | REST/SQL diretta · ordini=1 |
+| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | confermato SQL diretta 18:00 |
 | **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)
@@ -1203,6 +1203,17 @@ fonte: AD digitale (giro pieno, riconferma)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (🌙 aggiornato 25/7 18:00 — report della sera)
+Business INVARIATO dal 24/6, riconfermato con SQL diretta alle 18:00 (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 4 buyer, 1 ordine (CANCELED), 0 pagati — **stallo 31 giorni**. Negozi in pausa fino al 24/8-1/9 (decisione Nicola 23/7): oggi nessuna spinta commerciale, giornata quasi interamente dedicata a rendere la macchina più affidabile. Chiusi tutti gli 8 freni di sicurezza rotti trovati la settimana scorsa (ora 0 aperti) + tolto un falso allarme sulla sentinella di Pane Quotidiano + 5 piccoli fix al Pannello (Cantiere difetti).
+
+1. [ ] 🔴 **Rispondi alle 3 domande PI26** (P.IVA/entità giuridica sì-no · spese reali documentabili sì-no e quanto · firma digitale attiva sì-no) — un valutatore indipendente ha bocciato la bozza come "non pronta all'invio", scade **30/7 ore 16:00 (5 giorni residui)**, fino a €10.000 fondo perduto. Priorità economica più alta, non toccata dal rinvio negozi.
+2. [ ] 🟡 **Decidi se allargare la pausa anti-cancellazione deploy Vercel** — il fix del 24/7 (pausa 3 min dopo un merge) resta insufficiente: un commit qualsiasi durante una chat fitta cancella comunque un deploy in corso. Proposta in coda: silenzio di qualche minuto dopo QUALSIASI scrittura su `main`.
+3. [ ] 🟡 **Mergia il countdown scadenze esterne (AR-147)** — branch `fix/scadenzario-check-ar147` pronto, PR non ancora aperta (retry `git-pr.mjs` o apertura manuale da GitHub). Farà comparire da sola una card 🔴 quando PI26 o altre scadenze entrano negli ultimi 7 giorni.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 31gg, atteso — negozi in pausa) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente · n8n cieco · REST/MCP/Stripe/Sito/Pannello ✅ (verificati 18:00) · push GitHub VPS+Vercel ✅.
+
+---
 
 ## Prossime priorità (☀️ aggiornato 25/7 06:00 — piano del mattino)
 Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 7 clienti, 1 ordine (CANCELED), 0 pagati — **stallo 31 giorni**, riconfermato con SQL diretta stamattina (0 numeri inventati). Negozi in pausa fino al 24/8-1/9 (decisione Nicola 23/7): niente spinte commerciali, solo tecnico + PI26 + analisi di mercato. Le 3 priorità sono le stesse di ieri sera — nessun fatto nuovo le ha spostate.
