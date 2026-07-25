@@ -32,14 +32,36 @@
 //   node cervello/round6-applica.mjs --applica  -> scrive (dopo aver verificato la sintassi)
 
 import { existsSync, readFileSync, writeFileSync, unlinkSync } from "node:fs";
-import { join } from "node:path";
+import { join, basename } from "node:path";
+import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { AD_ROOT } from "./git-github.mjs";
 
 const APPLICA = process.argv.includes("--applica");
 
+/**
+ * Un percorso di lavoro FUORI dal repo.
+ *
+ * IL DIFETTO CHE CHIUDE (25/7 sera, trovato dopo che Nicola aveva già lanciato lo script sul VPS).
+ * La prima versione lasciava due file accanto agli originali: una copia di sicurezza
+ * `<file>.prima-del-round6` e un `<file>.round6-prova` per il controllo di sintassi. Sembrava
+ * prudenza. Non lo era: `cervello/vps/aggiorna-cervello.sh` fa `git add -A` su tutto ciò che
+ * trova sporco e lo pusha su main. Quelle due copie — l'intero `giro.sh` e l'intero
+ * `AutoCoscienza.tsx` — sarebbero finite nel repo per sempre al primo giro del cron.
+ *
+ * E la copia di sicurezza era anche INUTILE: il repo è git. `git checkout -- <file>` rimette
+ * l'originale in un secondo, senza lasciare niente in giro. Una rete di sicurezza che duplica una
+ * rete già esistente e in più sporca il repo non è prudenza, è disordine.
+ *
+ * Quindi: la copia non si scrive più, e il file di prova nasce in /tmp. Dentro il repo entra solo
+ * il file che stiamo davvero modificando.
+ */
+export function fuoriRepo(file, suffisso) {
+  return join(tmpdir(), `round6-${suffisso}-${basename(file)}`);
+}
+
 const BLOCCO_TEST = `
-  # ─── I TEST GIRANO A OGNI GIRO (25/7) ─────────────────────────────────────────────────
+  # ─── I TEST GIRANO A OGNI GIRO (25/7) ────────────────────────────────────
   # Il difetto, trovato controllando il guardiano che avevo appena costruito: i test di
   # \`cervello/test/\` e quelli del Pannello NON li lanciava nessuno. Non il giro, non una CI — solo
   # una persona che li digitava a mano. Avevo costruito \`test-pannello.mjs\` proprio per scoprire
@@ -188,8 +210,9 @@ function lavora(voce) {
 
   // Cintura di sicurezza: si scrive solo se il risultato passa il suo controllo di sintassi.
   // Un giro.sh con un errore di sintassi non parte più, e la macchina non «degrada»: si ferma.
+  // Il file di prova va in /tmp, MAI accanto all'originale: vedi il commento su fuoriRepo().
   if (voce.verifica) {
-    const tmp = `${path}.round6-prova`;
+    const tmp = fuoriRepo(voce.file, "prova");
     writeFileSync(tmp, out, "utf8");
     const check = spawnSync(voce.verifica[0], [...voce.verifica.slice(1), tmp], { encoding: "utf8" });
     unlinkSync(tmp);
@@ -199,9 +222,10 @@ function lavora(voce) {
       return false;
     }
   }
-  writeFileSync(`${path}.prima-del-round6`, originale, "utf8");
   writeFileSync(path, out, "utf8");
-  console.log(`   ✅ scritto (copia di sicurezza: ${voce.file}.prima-del-round6)`);
+  // Niente copia di sicurezza accanto all'originale: il repo È git. Per tornare indietro basta
+  // `git checkout -- <file>`, e lo diciamo qui invece di lasciare un file in giro.
+  console.log(`   ✅ scritto  (per annullare: git checkout -- ${voce.file})`);
   return true;
 }
 
