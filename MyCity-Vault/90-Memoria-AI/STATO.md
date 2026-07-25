@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-25 11:01
+aggiornato: 2026-07-25 17:35
 fonte: AD digitale (giro pieno, riconferma)
 ---
+
+> 💬 **25/7 ~17:35 — CHAT: 5° fix della serie — voce "Worker" nel menu tornava ad aprire una scheda nuova del browser, ripristinato il comportamento normale da tab.** Nicola: «quando schiaccio su worker nella finestra del menù mi apre ancora una nuova pagina del browser, non è questo che deve fare, ma deve solo aprire una nuova pagina come gli altri tab del menu». **Causa:** un `window.open(...)` era stato aggiunto apposta il 23/7 (PR #517) su richiesta esplicita di allora di Nicola («la chat del worker deve essere una finestra a sé») — ora la vuole di nuovo come le altre voci del menu (resta nella stessa pagina). Fix: riusa `apriWorkerPopup` (già in produzione sui pulsanti Worker mobile/flottante) invece del `window.open`; rimosso anche il codice morto che intercettava l'URL `?worker=1` della vecchia scheda separata. **PR #554 aperta**, branch `fix/worker-menu-niente-tab-nuova`, file `pannello/src/app/page.tsx`, merge pendente. Stesso limite di sessione delle 4 PR precedenti oggi: verifica dal vivo nel browser non eseguibile qui (`npm run dev` bloccato in sessione headless), dichiarato a Nicola, solo `tsc --noEmit` pulito — rischio basso perché riusa una funzione già testata altrove. Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 25/7 ~17:35.
 
 > 💬 **25/7 ~17:26 — CHAT: 4° fix della serie — "Salute onesta" e "Utilizzo senior" spostate dentro il tab Andamento.** Nicola: «Salute onesta e utilizzo senior inseriscili solo dentro il tab andamento» — le due card erano sempre visibili sotto il Cantiere qualsiasi tab fosse aperto (rumore quando si guardavano solo i difetti); spostate dentro `RadiografiaMacchinaArea.tsx` nel tab "Andamento", tolte dal contenitore esterno. **PR #553 aperta** (card #245, merge pendente). Stesso limite di sessione delle 3 PR precedenti: verifica dal vivo nel browser non eseguibile qui (comando dev server bloccato), dichiarato a Nicola, solo `tsc --noEmit` pulito. Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 25/7 ~17:23.
 
