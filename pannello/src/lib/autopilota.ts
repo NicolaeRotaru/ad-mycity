@@ -1,6 +1,7 @@
 import { getImpostazione, getImpostazioni, setImpostazione, logAzione } from "@/lib/store";
 import { eseguiAzione } from "@/lib/mani";
 import { tutteLeAzioni, statoDa } from "@/lib/azioni-pronte";
+import { registraFirma } from "@/lib/firma-azione";
 
 // Autopilota — il "battito" GRATIS della macchina (nessuna API AI, €0).
 // Esegue DA SOLO le azioni SICURE (🟢 verde) non ancora decise.
@@ -29,6 +30,11 @@ export async function eseguiAutopilota(): Promise<{ attivo: boolean; eseguite: n
   for (const a of sicure) {
     if (await pausaAttiva()) break; // pausa premuta durante il giro → fermati subito, non a fine ciclo
     const esito = await eseguiAzione({ titolo: a.titolo, canale: a.canale, destinatario: a.destinatario, testo: a.testo });
+    // AR-110: qui ha deciso la MACCHINA, non Nicola. La firma si scrive lo stesso — serve la
+    // traccia di chi ha deciso — ma col nome "auto", che il cancello lato cervello
+    // (consenso-azione.mjs::firmaPannello) rifiuta. Senza questa distinzione bastava accendere
+    // l'autopilota per far passare per "firmato da Nicola" un invio reale lanciato dalla CLI.
+    await registraFirma(a.id, "auto");
     await setImpostazione(`azione:${a.id}`, esito.stato);
     await setImpostazione(`azione:${a.id}:nota`, `🤖 (automatico) ${esito.dettaglio}`);
     await logAzione({ id: a.id, titolo: a.titolo, reparto: a.reparto, livello: a.livello, stato: esito.stato, esito: esito.dettaglio, auto: true });
