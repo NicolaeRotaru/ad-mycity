@@ -72,7 +72,7 @@ export async function POST(req: Request) {
   const azione = (await tutteLeAzioni()).find((a) => a.id === id);
 
   if (dec === "rifiuta" || dec === "annulla") {
-    // 🔴 BLOCCANTE (radiografia 3/7): "annulla" NON deve azzerare lo stato di un'azione GiÀ ESEGUITA.
+    // 🔴 BLOCCANTE (radiografia 3/7): "annulla" NON deve azzerare lo stato di un'azione GIÀ ESEGUITA.
     // Prima lo faceva incondizionatamente: annulla → ri-approva ri-eseguiva le "mani" (doppio merge/email/payout).
     // Ora: annulla consentito SOLO se l'azione non è ancora partita ('' o 'rifiutata'); altrimenti 409.
     if (dec === "annulla") {
@@ -100,7 +100,7 @@ export async function POST(req: Request) {
   if (dec !== "approva") return NextResponse.json({ ok: false, error: "Decisione non valida." }, { status: 400 });
   if (!azione) return NextResponse.json({ ok: false, error: "Azione non trovata." }, { status: 404 });
 
-  // 🔴 Idempotenza: se l'azione è GiÀ stata approvata/eseguita (stato salvato ≠ "" e ≠ "rifiutata"),
+  // 🔴 Idempotenza: se l'azione è GIÀ stata approvata/eseguita (stato salvato ≠ "" e ≠ "rifiutata"),
   // NON rieseguire le "mani" — un doppio clic o una ri-approvazione dopo refresh manderebbe l'azione
   // reale (email/payout/notifica) una seconda volta.
   const { valori: valoriPre } = await getImpostazioni();
