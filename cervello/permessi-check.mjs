@@ -13,6 +13,15 @@
 // Il guardiano trasforma «verifica umana» (che nessuno può mai chiudere) in un numero che si vede
 // a ogni giro: se la lista si riallarga, salta fuori subito invece che alla prossima radiografia.
 //
+// COME FUNZIONANO DAVVERO I PERMESSI (verificato il 2026-07-25, ed è il perno di questo script):
+//   ① allow e deny di TUTTI i file di configurazione si SOMMANO — non sono due mondi separati;
+//   ② il DENY VINCE SEMPRE sull'allow, da qualunque file arrivi.
+// Da qui due conseguenze che la prima versione di questo guardiano sbagliava entrambe:
+//   · un divieto scritto in `settings.json` copre anche `settings.local.json` → cercare i divieti
+//     file per file produceva violazioni FANTASMA (il file locale non ha deny propri: ha i suoi);
+//   · un permesso largo già coperto da un divieto NON è una violazione: è configurazione MORTA.
+//     Va segnalata (confonde chi legge) ma non conta come «la macchina può fare troppo».
+//
 // Uso:
 //   node cervello/permessi-check.mjs           -> report leggibile
 //   node cervello/permessi-check.mjs --json    -> JSON (per il giro / la Cabina)
@@ -31,9 +40,20 @@ const FILES = [".claude/settings.json", ".claude/settings.local.json"];
 export const REGOLE = [
   {
     id: "no-push-diretto",
-    perche: "CLAUDE.md: si lavora in branch e si apre PR — mai push diretto su main. Il merge è di Nicola (🔴).",
+    perche: "CLAUDE.md: da agente cloud si lavora in branch e si apre PR — mai push diretto su main.",
     deve_negare: /^Bash\(git push/,
     vieta: /^Bash\(git push(?!\s*--dry-run)/,
+    // NOTA (2026-07-25). Qui era nato l'allarme sbagliato: sul VPS il guardiano segnalava come
+    // violazione un `git push origin main` che CLAUDE.md riga 355 sembra prescrivere
+    // («dal VPS commit+push diretto su main»). Ho controllato chi pubblica davvero la memoria:
+    //   · i push su main li fanno gli SCRIPT bash (aggiorna-cervello.sh, giro.sh, worker.sh,
+    //     monitora.sh, ritmo.sh) lanciati da cron/systemd — non passano da questi permessi;
+    //   · quando è Claude a girare sul VPS, `motore-ai.sh` gli costruisce una --allowedTools che
+    //     il push NON lo contiene, apposta: «il push autenticato lo fa solo git-pr.mjs, su un
+    //     branch di PR, mai su main».
+    // Quindi la regola è giusta anche sul VPS, e togliere quel permesso non ferma niente.
+    // Il difetto era nel guardiano: vedi `neutralizzato()` — quel permesso è già coperto dal
+    // divieto `Bash(git push:*)` di settings.json, quindi è inerte, non pericoloso.
   },
   {
     id: "no-merge-generico",
@@ -83,28 +103,71 @@ function leggiSettings() {
   return out;
 }
 
+/** Spezza `Bash(git push:*)` in { tool:"Bash", spec:"git push:*" }. Una voce nuda (`Write`) resta tool. */
+function scomponi(voce) {
+  const s = String(voce || "").trim();
+  const m = /^([A-Za-z_][\w-]*)\((.*)\)$/.exec(s);
+  return m ? { tool: m[1], spec: m[2] } : { tool: s, spec: "" };
+}
+
+/** Toglie il suffisso `:*` (che nei permessi significa «e tutto ciò che comincia così»). */
+function radice(spec) {
+  return spec.endsWith(":*") ? spec.slice(0, -2) : spec;
+}
+
 /**
- * Applica le regole a una coppia allow/deny. Pura, così il test la prova senza toccare il disco.
- * Ritorna la lista delle violazioni: { regola, tipo: "allow-troppo-largo" | "deny-mancante", voce, perche }.
+ * Un permesso è NEUTRALIZZATO se un divieto lo copre già: il deny vince sempre, quindi quel permesso
+ * non concede nulla. Serve per non gridare al lupo su configurazione morta — e per non far togliere
+ * a Nicola una riga credendo che stia aprendo una porta che in realtà è già murata.
+ * Confronto per prefisso, che è la semantica vera di `:*`, con il confine a fine parola: `git push`
+ * copre `git push origin main` ma non deve coprire un ipotetico `git pushx`.
  */
-export function violazioni(allow = [], deny = [], regole = REGOLE) {
-  const out = [];
-  for (const r of regole) {
-    if (r.vieta) {
-      for (const voce of allow) {
-        if (r.vieta.test(String(voce))) {
-          out.push({ regola: r.id, tipo: "allow-troppo-largo", voce: String(voce), perche: r.perche });
-        }
-      }
-    }
-    if (r.deve_negare) {
-      const coperto = deny.some((d) => r.deve_negare.test(String(d)));
-      if (!coperto) {
-        out.push({ regola: r.id, tipo: "deny-mancante", voce: String(r.deve_negare), perche: r.perche });
+export function neutralizzato(voce, deny = []) {
+  const a = scomponi(voce);
+  const suo = radice(a.spec);
+  return deny.some((d) => {
+    const b = scomponi(d);
+    if (b.tool !== a.tool) return false;
+    const pref = radice(b.spec);
+    if (!pref || pref === "*") return true; // il divieto copre l'intero strumento
+    if (suo === pref) return true;
+    return suo.startsWith(pref) && /[\s:]/.test(suo.charAt(pref.length));
+  });
+}
+
+/**
+ * Applica le regole a TUTTI i file insieme. È l'unica forma corretta: allow e deny si sommano fra
+ * file e il deny vince, quindi né i permessi né i divieti si possono giudicare un file per volta.
+ * Pura (riceve i file già letti), così il test la prova senza toccare il disco.
+ *
+ * Ritorna { violazioni, inerti }:
+ *   · violazioni = la macchina PUÒ fare più di quanto dovrebbe (allow scoperto, o divieto assente);
+ *   · inerti     = permesso largo scritto ma già murato da un divieto: da ripulire, non pericoloso.
+ */
+export function analizza(files = [], regole = REGOLE) {
+  const denyUnione = files.flatMap((f) => f.deny || []).map(String);
+  const violaz = [], inerti = [];
+  for (const f of files) {
+    for (const voce of f.allow || []) {
+      for (const r of regole) {
+        if (!r.vieta || !r.vieta.test(String(voce))) continue;
+        const riga = { regola: r.id, voce: String(voce), perche: r.perche, file: f.file };
+        if (neutralizzato(voce, denyUnione)) inerti.push({ ...riga, tipo: "allow-inerte" });
+        else violaz.push({ ...riga, tipo: "allow-troppo-largo" });
       }
     }
   }
-  return out;
+  for (const r of regole) {
+    if (!r.deve_negare) continue;
+    if (denyUnione.some((d) => r.deve_negare.test(d))) continue;
+    violaz.push({ regola: r.id, tipo: "deny-mancante", voce: String(r.deve_negare), perche: r.perche, file: "(tutti)" });
+  }
+  return { violazioni: violaz, inerti };
+}
+
+/** Scorciatoia su un solo file — la usano i test per provare una regola alla volta. */
+export function violazioni(allow = [], deny = [], regole = REGOLE) {
+  return analizza([{ file: ".claude/settings.json", allow, deny }], regole).violazioni;
 }
 
 function main() {
@@ -117,13 +180,10 @@ function main() {
     process.exit(1);
   }
 
-  const tutte = [];
-  for (const f of files) {
-    for (const v of violazioni(f.allow, f.deny)) tutte.push({ ...v, file: f.file });
-  }
+  const { violazioni: tutte, inerti } = analizza(files);
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ esito: tutte.length ? "violazioni" : "ok", quando, files: files.map((f) => ({ file: f.file, allow: f.allow.length, deny: f.deny.length })), violazioni: tutte }, null, 2));
+    console.log(JSON.stringify({ esito: tutte.length ? "violazioni" : "ok", quando, files: files.map((f) => ({ file: f.file, allow: f.allow.length, deny: f.deny.length })), violazioni: tutte, inerti }, null, 2));
     process.exit(tutte.length ? 1 : 0);
   }
 
@@ -131,15 +191,27 @@ function main() {
   for (const f of files) {
     console.log(`  ${f.file}: ${f.allow.length} allow · ${f.deny.length} deny${f.errore ? ` · ⚠️ ${f.errore}` : ""}`);
   }
+  console.log(`  (allow e deny dei due file si sommano, e il deny vince: il controllo li guarda insieme)`);
+
+  if (tutte.length) {
+    console.log(`\n❌ ${tutte.length} violazione/i — la macchina può fare più di quanto dovrebbe:\n`);
+    for (const v of tutte) {
+      const cosa = v.tipo === "allow-troppo-largo" ? `permesso troppo largo: ${v.voce}` : `manca il divieto: ${v.voce}`;
+      console.log(`  • [${v.regola}] ${cosa}   (${v.file})`);
+      console.log(`      perché: ${v.perche}`);
+    }
+  }
+
+  if (inerti.length) {
+    // Non sono violazioni: un divieto le copre già. Le mostro perché una riga che sembra concedere
+    // e non concede è una bugia nel file — ma toglierle non cambia cosa la macchina può fare.
+    console.log(`\n🪦 ${inerti.length} permesso/i largo/i ma GIÀ MURATO da un divieto (da ripulire, non pericolosi):`);
+    for (const v of inerti) console.log(`  • ${v.voce}   (${v.file}) — coperto da un deny: non concede nulla`);
+  }
+
   if (!tutte.length) {
     console.log(`\n✅ Permessi entro le regole d'oro (${REGOLE.length} regole controllate).`);
     process.exit(0);
-  }
-  console.log(`\n❌ ${tutte.length} violazione/i — la macchina può fare più di quanto dovrebbe:\n`);
-  for (const v of tutte) {
-    const cosa = v.tipo === "allow-troppo-largo" ? `permesso troppo largo: ${v.voce}` : `manca il divieto: ${v.voce}`;
-    console.log(`  • [${v.regola}] ${cosa}   (${v.file})`);
-    console.log(`      perché: ${v.perche}`);
   }
   console.log(`\n→ Le correzioni le fa NICOLA: .claude/settings.json è negato in Edit/Write alla macchina, apposta.`);
   process.exit(1);

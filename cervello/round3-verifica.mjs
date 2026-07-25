@@ -36,6 +36,11 @@ const FILE_TEST = [
   "cervello/test/consenso-firma-pannello.test.mjs",
   "cervello/test/auto-fix-salute.test.mjs",
   "cervello/test/consenso-azione.test.mjs",
+  // Round 4 (25/7): i due guardiani nati per la voce 3 della pagella. Vanno provati da QUI e non da
+  // uno script separato, altrimenti il verificatore che Nicola lancia dice «tutto verde» senza
+  // averli guardati — che è la stessa malattia che questi round stanno curando.
+  "cervello/test/permessi-check.test.mjs",
+  "cervello/test/chiusure-audit.test.mjs",
 ];
 const mancanti = FILE_TEST.filter((f) => !existsSync(R(f)));
 if (mancanti.length) {
