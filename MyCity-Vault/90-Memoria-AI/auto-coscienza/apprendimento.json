@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-26 00:47",
+  "aggiornato": "2026-07-26 00:57",
   "_nota_metabolizzazione_26_07_0044": "Chat 26/7 ~00:37-00:44: Nicola «ricordami quanto guadagno il totale il primo mese» poi «parlami solo dei guadagni e non dei costi». Trovato che lo scenario del 23/7 (finanza.soglia-costi-extra) aveva salvato solo il risultato netto (~-2.000€), senza ricavi lordi isolati — impossibile rispondere «solo guadagni» senza rilanciare finanza. Fatto girare finanza: 3 scenari basati sui prezzi decisi (abbonamento 50€/m + commissione 10%) con volume di vendite stimato ragionevolmente (non misurato, PQ ha 0 ordini pagati) — prudente 166€, medio 308€, ottimista 523€ nel primo mese con 1 negozio. File: consegne/finanza/proiezione-ricavi-primo-mese-2026-07-26.md. L-2026-0726-01 nuova (regola: salvare sempre la scomposizione ricavi/costi, non solo il netto). Nessuna correzione di Nicola, nessun cambio di stato/decisione da registrare oltre la nuova cifra; business invariato (1 PQ, 0 pagati).",
   "_nota_metabolizzazione_25_07_2050": "Chat 25/7 20:14-20:35: Nicola «risolvi una volta per sempre il problema dei doppioni delle chat nuove» (6ª segnalazione, screenshot). Trovata la causa vera: race asincrona nella POST di creazione della conversazione (non il doppio-tap già chiuso da #531/#532), più una terza superficie mai coperta (mini-chat video-live/schermo). Fix strutturale: lock sulla Promise di creazione, non sui punti di invio — PR #556 aperta, card #246. Lezione aggiunta in LEZIONI-CHAT.md (rinforza/estende quella del 24/7 20:16 sulle istanze multiple: qui il principio è 'il lock va al confine della creazione, non moltiplicato sui bottoni'). Rimosse 2 righe di LEZIONI-CHAT ridondanti con registro-fatti.json/DECISIONI.md (inserimento negozi post-24/8, soglia costi discrezionali) per restare nel tetto di 12. Nessun nuovo fatto di business (1 PQ, 0 pagati, invariato).",
   "_gate_25_07": "GIRO 25/7: cristallizzazione meccanica già girata da giro.sh alle 06:20 (34 principi, 0 arretrato evidente su evidenze>=7/6/5 — tutti già promossi in 3 batch ieri 14:20/16:20/18:20). Sul cluster #1 segnalato dal guardiano ('marketplace': 22 lezioni/36 ripetizioni) verificato A MANO (8 lezioni lette): NON è un'unica causa radice, è un tag-contenitore troppo generico (label 'tocca il sito marketplace', non firma di un tipo di bug) — cristallizzarlo in un gate sarebbe un principio vago e inutile. Proposta reale invece: (1) tech fix proposto a Nicola — aggiungere 'marketplace' a TAG_GENERICI in cervello/apprendimento-guardiano.mjs (rumore di tassonomia, non errore ricorrente); (2) gate concreto sul cluster #4 'allowlist' (19 lezioni/27 rip./11 da Nicola), rinforzato da evidenza fresca di QUESTO giro (node cervello/esperimenti-check.mjs, valida-contratti.mjs, apprendimento-guardiano.mjs, cristallizza-apprendimento.mjs tutti bloccati da approvazione pur essendo sola-lettura/bookkeeping dichiarati nel loro stesso header) — proposta 🟡 #allowlist-diagnostica-gate in AZIONI-IN-ATTESA: estendere .claude/settings.local.json con un pattern che copre gli script *-check.mjs/*-guardiano.mjs di sola lettura, così l'AD non deve più bypassare a mano leggendo il sorgente ogni volta.",
@@ -11902,13 +11902,13 @@
     "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
   ],
   "meta": {
-    "lezioni_attive": 473,
+    "lezioni_attive": 474,
     "promosse_a_principio": 64,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-26 00:47",
+    "tasso_calcolato_il": "2026-07-26 00:57",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-26 00:47",
+    "tick_leggero_il": "2026-07-26 00:57",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
     "cristallizzazione_ultima": "2026-07-25 22:20"
