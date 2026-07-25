@@ -1012,20 +1012,6 @@ export default function Dashboard() {
     setWorkerFull(full);
     setChatFluttuante(!full);
   }, []);
-  // 23/7: la voce "Worker" nel menu ora apre una scheda del browser A SÉ (window.open), non più
-  // sovrapposta alla pagina che si stava guardando (Nicola: «la chat del worker deve essere una
-  // finestra a sé»). La nuova scheda carica il Pannello con ?worker=1 in coda all'URL: qui a mount
-  // lo intercettiamo, apriamo subito la vista Worker a schermo intero e puliamo l'URL (altrimenti un
-  // refresh/condivisione del link riaprirebbe sempre e solo il worker).
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("worker") !== "1") return;
-    apriWorkerPopup(true);
-    params.delete("worker");
-    const resto = params.toString();
-    window.history.replaceState(window.history.state || {}, "", window.location.pathname + (resto ? `?${resto}` : ""));
-  }, [apriWorkerPopup]);
   // 🔊 Live voce (senza API): il worker legge ad alta voce le risposte (sintesi vocale del browser).
   const [voceWorker, setVoceWorker] = useState(false);
   const ultimoParlatoRef = useRef<string | null>(null);
@@ -2680,7 +2666,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                       key={v.id}
                       onClick={() => {
                         if (v.id === "assistente") {
-                          window.open(`${window.location.pathname}?worker=1`, "_blank");
+                          apriWorkerPopup(true);
                         } else {
                           setVista(v.id);
                           setWorkerFull(false);
