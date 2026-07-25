@@ -28,6 +28,11 @@ export function coloreMinimo(voce = {}) {
   return soloTest ? "🟢" : "🔴";
 }
 
+// Destinatario reale dell'invio: serve all'autopilot per il controllo allowlist prima del LIVE.
+export function destinatario(voce = {}) {
+  return voce.to || TEST_TO || "";
+}
+
 export async function pubblica(voce, ctx) {
   const testo = conUtm(voce.testo, voce.utm);
   const to = voce.to || TEST_TO; // in dry-run mostra il destinatario previsto

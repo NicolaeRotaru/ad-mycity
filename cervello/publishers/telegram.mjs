@@ -13,6 +13,19 @@ import { postJSON, conUtm, logRiga, esito } from "./_comune.mjs";
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT = process.env.TELEGRAM_CHAT_ID;
 
+// AR-074/AR-109 — colore MINIMO del canale (non quello auto-dichiarato nella voce).
+// Telegram scrive alla chat dell'env, che è quella di Nicola: canale-proprietario, non clienti
+// reali → 🟢. (Stessa lettura di consenso-azione.mjs::destinatarioAmmesso, che ammette Telegram
+// come owner-channel.) Se un giorno la chat diventa un canale pubblico, questo va alzato a 🟡.
+export function coloreMinimo() {
+  return "🟢";
+}
+
+// Destinatario reale dell'invio: serve all'autopilot per il controllo allowlist prima del LIVE.
+export function destinatario() {
+  return CHAT || "";
+}
+
 export async function pubblica(voce, ctx) {
   const testo = conUtm(voce.testo, voce.utm);
   const haChiavi = TOKEN && CHAT;

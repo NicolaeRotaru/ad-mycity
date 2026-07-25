@@ -86,29 +86,61 @@ function verificaFix(dif) {
   };
 }
 
+/**
+ * Quale voto salute va scritto nello storico quando si chiude un difetto.
+ * Pura (nessun I/O) apposta: è la regola che ha fatto danno, e va potuta provare da sola.
+ *   · la radiografia offre una misura vera (numero > 0) → si usa quella;
+ *   · altrimenti → si RIPORTA l'ultimo voto noto dello storico, marcandolo come non ri-misurato.
+ * Non ritorna mai 0 per "non lo so": chiudere un difetto non deve poter abbassare il voto.
+ */
+export function votoSaluteDaRegistrare(rad = {}, serie = []) {
+  const votoRad = Number(rad?.voto_salute_architettura);
+  if (Number.isFinite(votoRad) && votoRad > 0) return { voto: votoRad, misurato: true };
+  const ultimoNoto = [...(serie || [])].reverse().find((v) => Number(v?.voto_salute) > 0);
+  return { voto: Number(ultimoNoto?.voto_salute) || 0, misurato: false };
+}
+
 function bumpSalute(chiusiOra, note) {
   if (chiusiOra <= 0) return;
   // AR-096: il voto NON si auto-gonfia più qui (era +2 fisso a ogni chiusura, solo in salita, scritto
   // dal processo che ha interesse a farlo salire). Il voto_salute_architettura resta un output della
   // radiografia completa (che vede aperti/gravità/nuovi difetti): auto-fix lo LEGGE come-è, non lo tocca,
   // e si limita ad aggiornare il conteggio dei difetti chiusi nello storico.
+  //
+  // Round 3 (2026-07-25) — AR-096 aveva chiuso solo la salita. Restava aperta la DISCESA, che è peggio:
+  // auto-fix leggeva `voto_salute_architettura` da auto-radiografia.json e oggi quel campo vale 0
+  // (è la salute "pending-merge", con floor 0, non il voto architettura che lo storico traccia a 43).
+  // Risultato: OGNI chiusura di difetto appendeva allo storico un voto 0, e la pagella —  che legge
+  // l'ultima riga — vedeva il voto salute crollare da 43 a 0. Cioè: chiudere un freno di sicurezza
+  // FACEVA PEGGIORARE il voto della macchina, punendo esattamente il comportamento che vogliamo.
+  // Ora: se la radiografia non offre una misura utilizzabile (assente, non numerica o 0), il voto NON
+  // si inventa e non si azzera — si RIPORTA l'ultimo noto, dicendo che non è stato ri-misurato.
+  // Il voto si muove solo quando qualcuno lo misura davvero.
   const rad = readJson(RAD, {});
-  const voto = Number(rad.voto_salute_architettura ?? 72);
-
   const cantiere = readJson(CANTIERE, { meta: {} });
   const storico = readJson(STORICO, { serie: [] });
   storico.serie = storico.serie || [];
+
+  const { voto, misurato } = votoSaluteDaRegistrare(rad, storico.serie);
+
   storico.serie.push({
     data: nowPiacenza().slice(0, 10),
     voto_salute: voto,
+    voto_riportato: !misurato, // true = non ri-misurato qui, ereditato dall'ultima misura vera
     difetti_aperti: cantiere.meta?.aperti ?? 0,
     difetti_chiusi: chiusiOra,
     tipo: "auto-fix",
-    nota: note,
+    nota: misurato
+      ? note
+      : `${note} · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato ${voto} dall'ultima misura vera.`,
   });
   if (storico.serie.length > 90) storico.serie = storico.serie.slice(-90);
   writeJson(STORICO, storico);
-  console.log(`📈 ${chiusiOra} difetti chiusi · voto salute (dalla radiografia, non gonfiato): ${voto}.`);
+  console.log(
+    misurato
+      ? `📈 ${chiusiOra} difetti chiusi · voto salute (dalla radiografia, non gonfiato): ${voto}.`
+      : `📈 ${chiusiOra} difetti chiusi · voto salute non ri-misurato qui: riportato ${voto} (chiudere un difetto non abbassa il voto).`
+  );
 }
 
 async function cmdVerifica(cantiere) {
@@ -202,8 +234,12 @@ async function main() {
   await stampSegnale("auto-fix", "ok", `${cantiere.meta?.chiusi ?? 0} chiusi · ${cantiere.meta?.aperti ?? 0} aperti · ${nowPiacenza()}`);
 }
 
-main().catch(async (e) => {
-  console.error("ERRORE auto-fix:", e.message || e);
-  await stampSegnale("auto-fix", "errore", `crash: ${(e.message || e).toString().slice(0, 180)}`);
-  process.exit(1);
-});
+// Il CLI parte solo se questo file è LANCIATO, non quando un test ne importa
+// votoSaluteDaRegistrare (importarlo non deve far girare una verifica del cantiere né scrivere segnali).
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch(async (e) => {
+    console.error("ERRORE auto-fix:", e.message || e);
+    await stampSegnale("auto-fix", "errore", `crash: ${(e.message || e).toString().slice(0, 180)}`);
+    process.exit(1);
+  });
+}

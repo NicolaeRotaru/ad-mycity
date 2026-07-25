@@ -3,6 +3,7 @@
 // e l'anti-drift dei codici casella vs il Pannello.
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import {
   idSezione,
   codiceAzione,
@@ -67,14 +68,26 @@ test("trovaAzione(): match per codice calcolato #Axx", () => {
   assert.equal(found.heading, target.heading);
 });
 
-test("destinatarioAmmesso(): allowlist di default blocca tutto tranne Telegram-owner", () => {
-  // La allowlist reale (mani-allowlist.json) è vuota di default.
-  assert.equal(destinatarioAmmesso("email", "cliente@x.it").ok, false);
-  assert.equal(destinatarioAmmesso("notifica", "user-123").ok, false);
-  assert.equal(destinatarioAmmesso("n8n", "+39...").ok, false);
-  assert.equal(destinatarioAmmesso("github", "mycity#5").ok, false);
-  assert.equal(destinatarioAmmesso("marketplace", "profiles").ok, false);
+test("destinatarioAmmesso(): passa solo ciò che è ESPLICITAMENTE nella allowlist", () => {
+  // Questo test pinzava i valori del 6/7 ("tutto bloccato") e si è rotto quando Nicola ha
+  // sbloccato GitHub per i merge: falliva da allora, cioè il guardiano dei destinatari non
+  // guardava più nessuno. Ora la prova segue il FILE, non una fotografia di com'era.
+  const allow = JSON.parse(readFileSync(new URL("../mani-allowlist.json", import.meta.url), "utf8"));
+
+  // Chi non è in lista non passa mai — è la regola che protegge davvero.
+  assert.equal(destinatarioAmmesso("email", "mai-visto@x.it").ok, false);
+  assert.equal(destinatarioAmmesso("notifica", "utente-mai-visto").ok, false);
+  assert.equal(destinatarioAmmesso("marketplace", "tabella-mai-vista").ok, false);
+  assert.equal(destinatarioAmmesso("boh", "x").ok, false, "canale sconosciuto → bloccato");
+
+  // I canali a interruttore seguono il file: se domani si spengono, il test lo segue.
+  assert.equal(destinatarioAmmesso("n8n", "+39...").ok, allow.n8n === true);
+  assert.equal(destinatarioAmmesso("github", "mycity#5").ok, allow.github === true);
+  // …e le liste pure: ogni voce presente dev'essere ammessa.
+  for (const mail of allow.email || []) assert.equal(destinatarioAmmesso("email", mail).ok, true, `email in lista: ${mail}`);
+  for (const t of allow.marketplace_tables || []) assert.equal(destinatarioAmmesso("marketplace", t).ok, true, `tabella in lista: ${t}`);
+
+  // Telegram è canale-proprietario: la chat è quella dell'env, cioè solo Nicola.
   assert.equal(destinatarioAmmesso("telegram", "12345").ok, true, "owner-channel ammesso se chat configurata");
   assert.equal(destinatarioAmmesso("telegram", "").ok, false, "senza chat → bloccato");
-  assert.equal(destinatarioAmmesso("boh", "x").ok, false, "canale sconosciuto → bloccato");
 });
