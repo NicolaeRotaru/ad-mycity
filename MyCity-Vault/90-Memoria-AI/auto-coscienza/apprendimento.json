@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-25 11:55",
+  "aggiornato": "2026-07-25 12:15",
   "_gate_25_07": "GIRO 25/7: cristallizzazione meccanica già girata da giro.sh alle 06:20 (34 principi, 0 arretrato evidente su evidenze>=7/6/5 — tutti già promossi in 3 batch ieri 14:20/16:20/18:20). Sul cluster #1 segnalato dal guardiano ('marketplace': 22 lezioni/36 ripetizioni) verificato A MANO (8 lezioni lette): NON è un'unica causa radice, è un tag-contenitore troppo generico (label 'tocca il sito marketplace', non firma di un tipo di bug) — cristallizzarlo in un gate sarebbe un principio vago e inutile. Proposta reale invece: (1) tech fix proposto a Nicola — aggiungere 'marketplace' a TAG_GENERICI in cervello/apprendimento-guardiano.mjs (rumore di tassonomia, non errore ricorrente); (2) gate concreto sul cluster #4 'allowlist' (19 lezioni/27 rip./11 da Nicola), rinforzato da evidenza fresca di QUESTO giro (node cervello/esperimenti-check.mjs, valida-contratti.mjs, apprendimento-guardiano.mjs, cristallizza-apprendimento.mjs tutti bloccati da approvazione pur essendo sola-lettura/bookkeeping dichiarati nel loro stesso header) — proposta 🟡 #allowlist-diagnostica-gate in AZIONI-IN-ATTESA: estendere .claude/settings.local.json con un pattern che copre gli script *-check.mjs/*-guardiano.mjs di sola lettura, così l'AD non deve più bypassare a mano leggendo il sorgente ogni volta.",
   "_nota_metabolizzazione_24_07_2002": "Chat 24/7 ~20:02 (chiusura del filo doppioni 'Nuova chat' già raccontato nella nota 19:57/STATO.md): nessun nuovo messaggio di contenuto da Nicola in questo turno (solo 'Abc', ambiguo, seconda volta consecutiva) — verificato via `git log` che PR #531 (blocco doppio-tap sul bottone invia) è GIÀ mergiata su main (commit `575721d2`), non più 'in attesa' come risultava nella card #236. Aggiornati AZIONI-IN-ATTESA (#236 → FATTO) e STATO.md (nuova voce in cima). Nessuna lezione nuova: conferma pratica (non caso_studio_nicola) del pattern già in LEZIONI-CHAT — bug UI 'ricorrente' trattato con screenshot reale + verifica del codice esistente prima di riscrivere la diagnosi da zero, invece di assumere che il fix di ieri (PR #517) fosse insufficiente senza controllare. Resta da confermare dal vivo nel browser dopo il prossimo deploy Vercel (nessun accesso browser in sessione headless). Nessun fatto/decisione/dato business nuovo.",
   "_nota_metabolizzazione_24_07_1740": "Chat 24/7 17:36: Nicola \"aggiungi parla con la casella a tutte le caselle della bacheca\" — AD ha aggiunto ParlaCasella agli avvisi Bacheca (unico file mancante), PR #527 aperta e già accodata in AZIONI-IN-ATTESA (card #235, riga tabella). Registrata lezione L-2026-0724-527: pattern ricorrente (7ma volta) di aggiungere ParlaCasella superficie-per-superficie invece che con audit unico. Sul filone precedente (registro dei fatti incompleto, turno prima), Nicola non ha ancora dato l'esempio concreto richiesto dall'AD — resta aperto, nessuna azione da registrare finché non risponde.",
@@ -11617,9 +11617,9 @@
     "promosse_a_principio": 49,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-25 11:55",
+    "tasso_calcolato_il": "2026-07-25 12:15",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-25 11:55",
+    "tick_leggero_il": "2026-07-25 12:15",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
     "cristallizzazione_ultima": "2026-07-25 11:00"
