@@ -1,9 +1,10 @@
 ---
 tipo: programma
 data: 2026-07-25 03:31
+aggiornato: 2026-07-25 04:43 (correzione AR-114 applicata: freni 4 → 3; 13 comandi su 13 rieseguiti e verificati)
 programma: intelligenza (rendere la macchina pronta a gestire il business)
 stato: round 1-2-3 chiusi · questo è il piano di lavoro dei round successivi
-misura: cervello/pagella-intelligenza.mjs (0 voci su 5 il 2026-07-25 03:02)
+misura: cervello/pagella-intelligenza.mjs (0 voci su 5 il 2026-07-25 04:10)
 ---
 
 # 🗺️ PROGRAMMA INTELLIGENZA — la lista di cosa c'è da fare
@@ -28,15 +29,15 @@ misura: cervello/pagella-intelligenza.mjs (0 voci su 5 il 2026-07-25 03:02)
 |---|---|---|---|
 | applica le lezioni che scrive | **18%** (83 su 473) | ≥ 70% | ferma |
 | sa prevedere le sue mosse | **0 reparti** su 14 | ≥ 5, AD incluso | ferma |
-| freni di sicurezza rotti | **4** (AR-114, AR-123, AR-142, AR-151) | 0 | 8 → 6 → 4 ✅ |
+| freni di sicurezza rotti | **3** (AR-123, AR-142, AR-151) | 0 | 8 → 6 → 4 → 3 ✅ |
 | quaderni vivi | **31 su 120** (26%) | ≥ 72 (60%) | ferma |
 | voto salute | **43 / 100** | ≥ 80 | ferma |
 
 Altri numeri veri, che la pagella **non** guarda:
 
-- **cantiere:** 27 difetti aperti (4 bloccanti · 23 gravi), 67 chiusi.
-- **prove:** **25 dei 27 aperti non sono chiudibili da nessun guardiano** (14 senza prova
-  automatica, 11 con prova che non fa centro da 9 giorni).
+- **cantiere:** 26 difetti aperti (3 bloccanti · 23 gravi), 68 chiusi.
+- **prove:** **24 dei 26 aperti non sono chiudibili da nessun guardiano** (14 senza prova
+  automatica, 10 con prova che non fa centro da 9 giorni).
 - **coda firme:** **50 card aperte** · 98 chiuse in archivio. La più vecchia ancora aperta è del
   **24/6: 31 giorni**. Sei card aspettano da almeno due settimane.
 - **mani:** l'elenco dei destinatari autorizzati (`cervello/mani-allowlist.json`) è **vuoto** per
@@ -114,21 +115,30 @@ macchina che si dà i voti e poi si riscrive il registro.
 
 ---
 
-## C1 · I quattro freni rotti
+## C1 · I freni rotti
 *(cantiere n.1 della richiesta di Nicola)*
 
-**Il problema.** Restano **4 difetti bloccanti aperti**: AR-114, AR-123, AR-142, AR-151.
+**Il problema.** Restano **3 difetti bloccanti aperti**: AR-123, AR-142, AR-151.
 
 Cosa protegge ciascuno e cosa succede a Nicola se cede:
 
 | difetto | cosa protegge | se cede |
 |---|---|---|
 | **AR-142** — permessi di sessione troppo larghi (scrittura senza percorso, `git push` diretto su main, `git merge`, `curl` verso qualsiasi indirizzo) | la regola d'oro «solo proposte, mai una modifica pubblicata da sola» | una sessione dell'AD può pubblicare su `main` **senza passare da te**: il cancello della firma esiste sulla carta e si scavalca in una riga |
-| **AR-114** — nessun sensore misura quanto sforzo va sulla macchina e quanto sul business | l'allocazione del tempo | la macchina può passare **un mese intero su sé stessa** mentre tutti i guardiani dichiarano «allocazione sana» — è successo: 107 merge sul Pannello in 7 giorni, 0 ordini |
-| **AR-151** — chiusure vecchie verificate contro il file sbagliato | l'attendibilità dei «67 difetti chiusi» | i difetti «chiusi» possono essere vivi. È già successo: AR-008 chiuso il 2/7, riemerso identico come AR-130 |
+| **AR-151** — chiusure vecchie verificate contro il file sbagliato | l'attendibilità dei «68 difetti chiusi» | i difetti «chiusi» possono essere vivi. È già successo: AR-008 chiuso il 2/7, riemerso identico come AR-130 |
 | **AR-123** — nel Pannello, aprire «Parla con questa casella» cancella la chat aperta | la superficie su cui firmi | perdi quello che hai scritto proprio nel punto in cui approvi le azioni |
 
-**Nota onesta sul conteggio:** tre di questi quattro sono freni. AR-123 è un bug del Pannello
+> **AR-114 è stato chiuso alle 03:52 del 25/7, mentre questo programma veniva scritto** — da una
+> sessione parallela, con una prova che fa centro **davvero** (non un falso positivo come AR-155:
+> `allocazione-check.mjs` adesso classifica ogni file toccato in {business, macchina} e produce
+> numeri veri). Ri-misurato alle 04:43 del 25/7, ultimi 7 giorni: **1321 file macchina · 375
+> business · 202 non classificati → quota macchina 78%**, sopra la soglia del 70%. (La prima misura
+> delle 03:52 diceva 76%: il sensore è vivo e il numero si muove coi commit, non è una targa fissa.)
+> Il cancello che fallirebbe il giro è **spento per decisione tua** (fase tecnica fino al 24/8-1/9,
+> letta dal registro dei fatti); si riaccende con `ALLOCAZIONE_GATE_MACCHINA=1` quando la fase
+> finisce. Il sensore che mancava adesso c'è, e dice 78%: **il numero che dà ragione a C10 e C11**.
+
+**Nota onesta sul conteggio:** due di questi tre sono freni. AR-123 è un bug del Pannello
 promosso a bloccante. La voce «freni» della pagella conta i **bloccanti**, non i **freni**: è un
 piccolo buco del metro, da correggere quando si toccheranno le soglie (verità A e C).
 
@@ -138,38 +148,39 @@ codice di oggi**: `ParlaCasella.tsx` ha ora il proprio stato locale (`msgs`, `co
 condivisa della sola *lista*. Il primo passo su AR-123 è **provarlo davvero nel Pannello** (skill
 `verify`, Playwright), non riscriverlo. Esattamente la lezione del round 3.
 
-**Perché conta.** Sono i quattro punti in cui la macchina può fare male a Nicola invece che aiutarlo:
-pubblicare senza firma, lavorare su di sé mentre il business muore, dichiarare chiuso ciò che è
-aperto, e fargli perdere il lavoro nel punto in cui approva.
+**Perché conta.** Sono i tre punti in cui la macchina può fare male a Nicola invece che aiutarlo:
+pubblicare senza firma, dichiarare chiuso ciò che è aperto, e fargli perdere il lavoro nel punto in
+cui approva. (Il quarto — lavorare su di sé mentre il business muore — adesso ha il suo sensore:
+è AR-114, chiuso, e dice **78%**.)
 
-**Voce della pagella.** «Freni di sicurezza rotti»: 4 → 0. È l'unica voce che si muove scrivendo codice.
+**Voce della pagella.** «Freni di sicurezza rotti»: 3 → 0. È l'unica voce che si muove scrivendo codice.
 
 **Fatto vuol dire.**
 ```
 node -e "const fs=require('fs');const d=JSON.parse(fs.readFileSync('MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json','utf8'));const b=d.difetti.filter(x=>x.gravita==='bloccante'&&x.stato!=='chiuso');console.log(b.length+' bloccanti aperti: '+b.map(x=>x.id).join(', '))"
 ```
-Oggi stampa `4 bloccanti aperti: AR-114, AR-123, AR-142, AR-151`. Fatto = `0 bloccanti aperti`,
+Oggi stampa `3 bloccanti aperti: AR-123, AR-142, AR-151`. Fatto = `0 bloccanti aperti`,
 **e** ognuno chiuso con una prova che passa da sola (vedi C2: chiuderli a mano senza prova rimette
 in piedi il problema del round 2).
 
-**Dipende da.** AR-114 e AR-151 dipendono da **C2** (senza una prova valida non si chiudono, si
-dichiarano). AR-142 e AR-123 sono indipendenti: si possono fare subito.
+**Dipende da.** AR-151 dipende da **C2** (senza una prova valida non si chiude, si
+dichiara). AR-142 e AR-123 sono indipendenti: si possono fare subito.
 
-**Chi lo sblocca.** La macchina scrive i quattro fix; **Nicola firma il merge** (sono tutti 🟡).
+**Chi lo sblocca.** La macchina scrive i tre fix; **Nicola firma il merge** (sono tutti 🟡).
 AR-142 tocca i permessi della sessione stessa: va fatto con Nicola presente, perché restringe ciò
 che l'AD può fare — e va restretto senza rompere il giro automatico.
 
 **Quanto pesa.** Medio in totale. AR-142 piccolo (è un file di permessi). AR-123 piccolo se la
-verifica conferma che è già risolto, medio se no. AR-114 medio (sensore nuovo). AR-151 medio
-(ri-verifica a campione di ~67 chiusure).
+verifica conferma che è già risolto, medio se no. AR-151 medio
+(ri-verifica a campione di ~68 chiusure).
 
 ---
 
-## C2 · Le prove congelate: 25 difetti che nessuno può chiudere
+## C2 · Le prove congelate: 24 difetti che nessuno può chiudere
 *(cantiere n.2 della richiesta di Nicola)*
 
-**Il problema.** Su 27 difetti aperti, **25 non sono chiudibili da nessun guardiano**: 14 non hanno
-nessuna prova automatica («verifica umana»), 11 hanno una prova che non fa centro **da 9 giorni**.
+**Il problema.** Su 26 difetti aperti, **24 non sono chiudibili da nessun guardiano**: 14 non hanno
+nessuna prova automatica («verifica umana»), 10 hanno una prova che non fa centro **da 9 giorni**.
 Solo 2 sono in attesa normale.
 
 La causa non è che si sono rotte col tempo: **sono nate descrivendo il fix che si voleva fare, non
@@ -191,7 +202,7 @@ conta i bloccanti aperti, ma **non conta quanti difetti sono verificabili**. Ind
 ```
 node cervello/cantiere-prove.mjs --dry --json | node -e "let s='';process.stdin.on('data',c=>s+=c).on('end',()=>{const j=JSON.parse(s);console.log('non chiudibili: '+j.non_auto_chiudibili+' su '+j.difetti_aperti+' — '+JSON.stringify(j.per_classe))})"
 ```
-Oggi stampa `non chiudibili: 25 su 27 — {"umana":14,"auto-sospetta":11,"auto-attesa":2}`.
+Oggi stampa `non chiudibili: 24 su 26 — {"umana":14,"auto-sospetta":10,"auto-attesa":2}`.
 Fatto = **0 «auto-sospetta»** (ogni prova punta a un file e a un testo che possono davvero
 diventare veri) e **ogni bloccante con una prova automatica** (nessun bloccante «umano»).
 I difetti che davvero richiedono un occhio umano (es. un bug visivo) restano «umana», ma con una
@@ -200,12 +211,12 @@ regola nuova: **un difetto umano non può essere bloccante** — o si trova un m
 
 **Dipende da.** Niente. Si può iniziare subito. È il cantiere che sblocca gli altri.
 
-**Chi lo sblocca.** La macchina, da sola, per la riscrittura delle 11 prove sospette (ognuna va
+**Chi lo sblocca.** La macchina, da sola, per la riscrittura delle 10 prove sospette (ognuna va
 riscritta guardando il codice vero, non l'intenzione). Le 14 «umane» richiedono una scelta:
 trovare un controllo automatico, oppure declassarle. **Nicola firma il merge.**
 
-**Quanto pesa.** Grosso. Sono 25 difetti da riprendere uno per uno, e farlo di fretta significa
-riscrivere 25 prove finte al posto di 25 prove rotte.
+**Quanto pesa.** Grosso. Sono 24 difetti da riprendere uno per uno, e farlo di fretta significa
+riscrivere 24 prove finte al posto di 24 prove rotte.
 
 ---
 
@@ -247,7 +258,7 @@ per errore, e nessuno se ne sarebbe accorto.
 3. «in attesa di merge» viene calcolato dal **branch/PR reale**, non dalla presenza di una prova —
    oppure viene rinominato in «ha un controllo automatico», che è quello che significa davvero.
 
-**Dipende da.** Niente. Va fatto **prima o insieme a C2**: riscrivere 25 prove con un motore che
+**Dipende da.** Niente. Va fatto **prima o insieme a C2**: riscrivere 24 prove con un motore che
 può chiudere per sbaglio significa fabbricare chiusure false più in fretta.
 
 **Chi lo sblocca.** La macchina; **Nicola firma il merge**. Serve anche una decisione piccola:
@@ -533,8 +544,9 @@ libera.
 **Perché conta.** È il freno che avrebbe dovuto dire «basta Pannello, il business è fermo da un
 mese». Nei 7 giorni con 107 merge sul Pannello e 0 ordini, questo guardiano **ha dato luce verde ogni
 volta**. Non è un dettaglio tecnico: è il motivo per cui la macchina ha potuto lavorare su sé stessa
-senza che nessun controllo alzasse la mano. Ed è parente stretto di AR-114 (C1), che dice la stessa
-cosa dall'altro lato.
+senza che nessun controllo alzasse la mano. Ed è parente stretto di AR-114 (C1), chiuso il 25/7
+alle 03:52, che dice la stessa cosa dall'altro lato con un numero: **78% dello sforzo sulla
+macchina** negli ultimi 7 giorni.
 
 **Voce della pagella.** **Nessuna** — quinto buco, e il più costoso: **il metro dell'intelligenza non
 guarda il business.** La macchina può fare 5 su 5 con zero ordini consegnati.
@@ -694,7 +706,7 @@ volta sola e bene).
 | round | cantieri | perché in questo punto | serve una firma per partire? |
 |---|---|---|---|
 | **R4 — «il metro dice la verità»** | **C3**, **C2**, **C10**, **C13** | Tutti i controlli che non controllano. Finché una prova può chiudere un difetto vivo (C3), un guardiano può dare via libera su uno stallo di 31 giorni (C10) e un voto vecchio si presenta come fresco (C13), **ogni round successivo lavora al buio** e rischiamo di ripetere i round 1-3 con più fatica | no |
-| **R5 — «i freni»** | **C1** (AR-142 e AR-123 subito; AR-114 e AR-151 dopo R4) | Sicurezza prima. AR-142 è il freno che impedisce alla macchina di pubblicare senza di te: va chiuso **prima** di darle mani nuove (C8) e prima di allargare ciò che passa in automatico (C7) | sì, sul merge |
+| **R5 — «i freni»** | **C1** (AR-142 e AR-123 subito; AR-151 dopo R4) | Sicurezza prima. AR-142 è il freno che impedisce alla macchina di pubblicare senza di te: va chiuso **prima** di darle mani nuove (C8) e prima di allargare ciò che passa in automatico (C7) | sì, sul merge |
 | **R6 — «sbloccare il flusso»** | **C7** (coda), **C8** (mani), **C9** (sensori), **C12** (costi) | È quasi tutto lavoro **di Nicola**, non della macchina: firme, chiavi, due righe di configurazione. Per questo non consuma il tempo della macchina e può correre accanto agli altri | sì, è quasi tutto firma |
 | **R7 — «imparare davvero»** | **C4** (lezioni → blocchi), **C6** (il gate dell'esito) | È qui che la macchina diventa più intelligente invece che più ordinata. Parte dopo R4 perché senza un metro onesto non si distingue un blocco che funziona da uno che sembra funzionare | sì, sul metro (verità C) |
 | **R8 — «prima di settembre»** | **C11** (business), **C5** (calibrazione), **C6** a soglia piena | Dipende dalla ripresa decisa da Nicola (24/8-1/9). L'unico pezzo che va anticipato: **l'ordine di prova su Pane Quotidiano**, che si può fare stasera | sì, è Nicola |
@@ -743,7 +755,7 @@ volta sola e bene).
 
 # 🎯 LE TRE MOSSE CHE SBLOCCANO IL RESTO
 
-1. **Riparare il metro (C3 + C2).** Finché una prova può chiudere un difetto vivo e 25 difetti su 27
+1. **Riparare il metro (C3 + C2).** Finché una prova può chiudere un difetto vivo e 24 difetti su 26
    non sono chiudibili da nessuno, ogni round successivo produce numeri che non significano niente.
    È la mossa che rende **misurabile** tutto il resto del programma.
 2. **Smaltire la coda (C7).** 50 firme ferme sono lavoro già fatto che non produce effetto, e il
@@ -754,6 +766,46 @@ volta sola e bene).
    rende **reale** tutto il resto.
 
 Le prime due le fa la macchina con la tua firma. **La terza puoi farla solo tu, e costa cinque euro.**
+
+---
+
+## ✅ Riverifica del 2026-07-25 04:43 — tutti i comandi rieseguiti
+
+Il programma è nato alle 03:31. Un'ora dopo è stato **riletto e ricontrollato riga per riga**,
+rieseguendo ogni comando invece di fidarsi di quanto c'era scritto. Esito: **13 comandi su 13
+girano e stampano quello che il documento dice**, dopo le correzioni qui sopra.
+
+| cantiere | comando | output vero di oggi | combacia? |
+|---|---|---|---|
+| C1 | bloccanti aperti | `3 bloccanti aperti: AR-123, AR-142, AR-151` | ✅ *(corretto: diceva 4)* |
+| C2 | `cantiere-prove.mjs --dry --json` | `non chiudibili: 24 su 26 — {umana:14, auto-sospetta:10, auto-attesa:2}` | ✅ *(corretto: diceva 25 su 27)* |
+| C3 | stato di AR-155 | `AR-155: chiuso · cattura consumo reale: 0 · token contati oggi: 0` | ✅ **il difetto è ancora chiuso senza fix** |
+| C4 | `tasso-lezioni.mjs` | `tasso 0.18 (83/473)` | ✅ |
+| C5 | reparti calibrati | `0 reparti affidabili: nessuno` | ✅ |
+| C6 | quaderni | `vivi 31/120 (26%) · vuoti 73 · fermi 89` | ✅ |
+| C7 | `housekeeping-azioni.mjs --dry-run` | `Card aperte: 50 · Card chiuse (da spostare): 98` | ✅ |
+| C8 | elenco destinatari | `email 0 · notifiche 0 · tabelle [products] · n8n false · github true` | ✅ **mani ancora vuote** |
+| C10 | `north-star-check.mjs --gate` | `esito: 0` (via libera, con 31 giorni di stallo) | ✅ **freno ancora disarmato** |
+| C11 | north star | `negozi 1 · pagati 0 · consegnati 0` | ✅ |
+| C12 | autonomia di cassa | `runway: sconosciuto · burn=null · cassa=0€` | ✅ |
+| C13 | voto salute | `voto 43 (RIPORTATO) · voto scritto: 0 · serve completa da 53 giri` | ✅ |
+| C1/AR-114 | `allocazione-check.mjs --json` | `macchina 1321 · business 375 · quota 78% · gate_acceso false` | ✅ **chiusura legittima** |
+
+**Tre cose imparate rileggendo, che valgono più della tabella:**
+
+1. **AR-114 è stato chiuso davvero, non per sbaglio.** Era il sospetto giusto da avere — la sua
+   prova cerca solo la parola `consegne/tech` dentro un file, e quella parola compare **anche in un
+   commento** (riga 46): la firma esatta del falso positivo di C3. Ma il codice sotto esiste per
+   davvero (una tabella che classifica ogni cartella in `macchina`/`business`, righe 62-84) e
+   produce numeri. **Prova debole, fix vero.** Da rifare comunque la prova quando si farà C2.
+2. **PR #542 si intitola «freni 4 → 3» ma non aveva cambiato il programma.** Aveva scritto lo
+   script della correzione e si era fermata lì: per 50 minuti il documento ha detto «4 bloccanti»
+   con il cantiere che ne segnava 3. È **lo stesso difetto che questo programma condanna in C3 e
+   nella regola del ciclo** — dichiarare fatto ciò che è solo scritto — arrivato addosso a chi lo
+   stava scrivendo. Lo script è stato eseguito ora, e il documento riverificato dopo.
+3. **La coda non è di 140 card, è di 50.** Il numero 140 conta anche le 98 già chiuse e archiviate
+   nello stesso file. Le firme che aspettano Nicola sono **50**. La differenza non è un dettaglio:
+   140 sembra ingestibile, 50 in tre blocchi è una seduta.
 
 ---
 
@@ -773,7 +825,7 @@ dall'elenco.
 
 ---
 
-*Scritto dall'AD il 2026-07-25 03:31. Tutti i numeri hanno una fonte verificata in questa sessione;
-tutti i comandi sono stati eseguiti prima di essere scritti. Le tre decisioni della sezione «cosa
-serve da Nicola» sono proposte, non scelte fatte: riguardano il metro con cui la macchina viene
-giudicata, e quel metro lo firma Nicola.*
+*Scritto dall'AD il 2026-07-25 03:31, corretto e riverificato alle 04:43. Tutti i numeri hanno una
+fonte verificata; tutti i comandi sono stati eseguiti prima di essere scritti, e rieseguiti alla
+riverifica — 13 su 13. Le tre decisioni della sezione «cosa serve da Nicola» sono proposte, non
+scelte fatte: riguardano il metro con cui la macchina viene giudicata, e quel metro lo firma Nicola.*
