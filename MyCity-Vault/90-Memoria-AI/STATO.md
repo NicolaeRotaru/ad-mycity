@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-26 00:44
+aggiornato: 2026-07-26 01:05
 fonte: AD digitale (chat)
 ---
+
+> 💬 **26/7 ~01:05 — CHAT: Nicola propone un piano squadra non retribuita per accelerare l'inserimento negozi — PROPOSTA, non ancora confermata, in conflitto con la pausa negozi fino al 24/8-1/9.** Nicola: vuole inserire 1-3 negozi al giorno con l'aiuto di fratello + il suo migliore amico + un amico fedele di Nicola (loro: consegna prodotti, inserimento prodotti, volantini; solo Nicola inserisce i negozi), tutti NON pagati finché l'azienda non arriva a 10.000€ di profitto; chiede quanto guadagnerebbe con 50 negozi il primo mese. L'AD ha risposto con una stima (5.000-16.000€ lordi, ramp-up realistico non a regime) e ha segnalato il conflitto esplicito con [[registro-fatti|ripresa.lavoro-operativo]] (pausa negozi concordata 23/7 fino al 24/8-1/9) — **in attesa che Nicola confermi se questo piano sostituisce quella data o parte comunque dopo**. Non registrato in `registro-fatti.json` (non confermato). Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 26/7 ~00:59.
 
 > 💬 **26/7 ~00:44 — CHAT: nuova proiezione RICAVI (solo lordi, senza costi) primo mese con 1 negozio — prudente 166€, medio 308€, ottimista 523€.** Nicola: «ricordami quanto guadagno il totale il primo mese» poi «parlami solo dei guadagni e non dei costi». Lo scenario del 23/7 (~-2.000€ di perdita, finanza.soglia-costi-extra) aveva salvato solo il risultato NETTO, senza i ricavi isolati — servita una nuova run di **finanza**. Scenari basati sui prezzi decisi (abbonamento 50€/m, commissione 10%) con volume di vendite stimato ragionevolmente, **non misurato** (Pane Quotidiano ha ancora 0 ordini pagati). File: `consegne/finanza/proiezione-ricavi-primo-mese-2026-07-26.md`. Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 26/7 ~00:37-00:44.
 
