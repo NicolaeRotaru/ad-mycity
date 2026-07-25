@@ -2,21 +2,6 @@
   "_cosa_e": "📈 STORICO SALUTE — la serie storica del voto di salute dell'architettura, per vedere se la macchina sta MIGLIORANDO nel tempo (il volano che gira). Lo aggiorna la radiografia completa e la sonda di ogni giro. Schema in cervello/auto-coscienza.md.",
   "serie": [
     {
-      "data": "2026-07-18",
-      "ora": "22:40",
-      "voto_salute": 56,
-      "voto_provvisorio": 20,
-      "voto_pieno": 0,
-      "firma": "AR-124,AR-126,AR-129",
-      "difetti_aperti": 23,
-      "difetti_chiusi": 53,
-      "pending_merge": 18,
-      "aperti_davvero": 3,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "giro 18° (22:40) · loop chiude · briefing 0h fa · cecità sensori n8n=80 MCP=7 · salute pending-merge invariata · voto fiducia AD=88 (guardiani node non eseguibili in shell -3) · North Star 0 ~594h"
-    },
-    {
       "data": "2026-07-19",
       "voto_salute": 56,
       "voto_provvisorio": 20,
@@ -1203,6 +1188,20 @@
       "difetti_chiusi": 1,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-156 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 43 dall'ultima misura vera."
+    },
+    {
+      "data": "2026-07-25",
+      "voto_salute": 43,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-126,AR-129,AR-154",
+      "difetti_aperti": 23,
+      "difetti_chiusi": 72,
+      "pending_merge": 10,
+      "aperti_davvero": 3,
+      "bloccanti_umani": 10,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (16h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 10 in attesa merge · 10 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     }
   ]
 }

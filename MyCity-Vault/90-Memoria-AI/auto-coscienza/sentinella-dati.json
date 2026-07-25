@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-25 22:19",
+  "aggiornato": "2026-07-25 22:20",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "84",
@@ -11,10 +11,10 @@
       "ambito": "macchina"
     },
     "salute_bassa": {
-      "ultima_firma": "AR-126,AR-129,AR-154,AR-156",
-      "ultimo_accodato": "2026-07-25 14:20",
-      "ultimo_accodato_iso": "2026-07-25T12:20:41.268Z",
-      "ultimo_job": "da7fc96c-46a3-4c8f-bb09-24b8470daa36",
+      "ultima_firma": "AR-126,AR-129,AR-154",
+      "ultimo_accodato": "2026-07-25 22:20",
+      "ultimo_accodato_iso": "2026-07-25T20:20:14.986Z",
+      "ultimo_job": "ac3fa5f0-2d80-4e81-b2cf-11ab33782be5",
       "colore": "🟡",
       "ambito": "macchina"
     },
@@ -45,10 +45,9 @@
   },
   "accodati_giorno": {
     "giorno": "2026-07-25",
-    "n": 2
+    "n": 3
   },
   "accodati_ts": [
-    "2026-07-18T11:28:59.844Z",
     "2026-07-18T11:28:59.844Z",
     "2026-07-18T11:28:59.844Z",
     "2026-07-18T12:29:44.459Z",
@@ -97,17 +96,12 @@
     "2026-07-23T22:02:13.252Z",
     "2026-07-24T14:20:56.909Z",
     "2026-07-24T22:03:04.324Z",
-    "2026-07-25T12:20:41.268Z"
+    "2026-07-25T12:20:41.268Z",
+    "2026-07-25T20:20:14.986Z"
   ],
   "ultima_recensione_vista": "2026-07-18T11:28:59.844Z",
-  "tick": 9599,
+  "tick": 9600,
   "storia": [
-    {
-      "quando": "2026-07-25 20:39",
-      "eventi": 2,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-25 20:40",
       "eventi": 2,
@@ -701,10 +695,16 @@
       "eventi": 2,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-25 22:20",
+      "eventi": 2,
+      "accodati": 1,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-25 22:19",
+    "quando": "2026-07-25 22:20",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,

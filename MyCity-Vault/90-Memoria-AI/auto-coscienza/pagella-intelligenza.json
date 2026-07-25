@@ -1,11 +1,11 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
-  "aggiornato": "2026-07-25 14:20",
+  "aggiornato": "2026-07-25 22:20",
   "pronta": false,
   "voci_superate": 1,
   "voci_totali": 5,
   "voci_cieche": 0,
-  "migliorate": 1,
+  "migliorate": 0,
   "peggiorate": 0,
   "soglie": {
     "lezioni_tasso_min": 0.7,
@@ -18,16 +18,31 @@
   "voci": [
     {
       "id": "lezioni",
-      "titolo": "Applica le lezioni che scrive",
-      "valore": 0.18,
-      "etichetta": "18% (83/473)",
+      "metrica": "correzioni-nicola-diventate-regola@1",
+      "titolo": "Chiude alla radice ciò che Nicola corregge",
       "soglia": "70%",
+      "fonte": "cervello/tasso-regole.mjs",
+      "come_si_alza": "prendere una correzione di Nicola e chiuderla alla radice (principio + gate automatico): scrivere altre lezioni non aiuta, finiscono nel denominatore",
+      "tasso_citazioni": 0.18,
+      "valore": 0.12,
+      "etichetta": "12% (32/277 correzioni)",
       "ok": false,
       "cieco": false,
-      "fonte": "cervello/tasso-lezioni.mjs",
-      "come_si_alza": "rendere le lezioni dei blocchi automatici, non promemoria da ricordarsi (AR-149)",
+      "ricadute": {
+        "correzioni": 277,
+        "su_tema_cronico": 234,
+        "quota": 0.84,
+        "temi_cronici": 156,
+        "temi_totali": 753
+      },
+      "gate": {
+        "correzioni": 277,
+        "con_gate": 0,
+        "quota": 0
+      },
+      "movimento": "misura cambiata",
       "precedente": 0.18,
-      "movimento": "ferma"
+      "precedente_metrica": null
     },
     {
       "id": "calibrazione",
@@ -54,8 +69,8 @@
       "dettaglio": [],
       "fonte": "auto-coscienza/cantiere-difetti.json",
       "come_si_alza": "chiudere i bloccanti aperti: i fix sono già scritti, aspettano il merge di Nicola",
-      "precedente": 1,
-      "movimento": "migliorata"
+      "precedente": 0,
+      "movimento": "ferma"
     },
     {
       "id": "quaderni",
@@ -235,6 +250,18 @@
       "pronta": false,
       "valori": {
         "lezioni": 0.18,
+        "calibrazione": 0,
+        "freni": 0,
+        "quaderni": 0.25833333333333336,
+        "salute": 43
+      }
+    },
+    {
+      "data": "2026-07-25 22:20",
+      "voci_superate": 1,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.12,
         "calibrazione": 0,
         "freni": 0,
         "quaderni": 0.25833333333333336,

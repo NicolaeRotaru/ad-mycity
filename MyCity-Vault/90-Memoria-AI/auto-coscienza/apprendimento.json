@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-25 22:17",
+  "aggiornato": "2026-07-25 22:20",
   "_nota_metabolizzazione_25_07_2050": "Chat 25/7 20:14-20:35: Nicola «risolvi una volta per sempre il problema dei doppioni delle chat nuove» (6ª segnalazione, screenshot). Trovata la causa vera: race asincrona nella POST di creazione della conversazione (non il doppio-tap già chiuso da #531/#532), più una terza superficie mai coperta (mini-chat video-live/schermo). Fix strutturale: lock sulla Promise di creazione, non sui punti di invio — PR #556 aperta, card #246. Lezione aggiunta in LEZIONI-CHAT.md (rinforza/estende quella del 24/7 20:16 sulle istanze multiple: qui il principio è 'il lock va al confine della creazione, non moltiplicato sui bottoni'). Rimosse 2 righe di LEZIONI-CHAT ridondanti con registro-fatti.json/DECISIONI.md (inserimento negozi post-24/8, soglia costi discrezionali) per restare nel tetto di 12. Nessun nuovo fatto di business (1 PQ, 0 pagati, invariato).",
   "_gate_25_07": "GIRO 25/7: cristallizzazione meccanica già girata da giro.sh alle 06:20 (34 principi, 0 arretrato evidente su evidenze>=7/6/5 — tutti già promossi in 3 batch ieri 14:20/16:20/18:20). Sul cluster #1 segnalato dal guardiano ('marketplace': 22 lezioni/36 ripetizioni) verificato A MANO (8 lezioni lette): NON è un'unica causa radice, è un tag-contenitore troppo generico (label 'tocca il sito marketplace', non firma di un tipo di bug) — cristallizzarlo in un gate sarebbe un principio vago e inutile. Proposta reale invece: (1) tech fix proposto a Nicola — aggiungere 'marketplace' a TAG_GENERICI in cervello/apprendimento-guardiano.mjs (rumore di tassonomia, non errore ricorrente); (2) gate concreto sul cluster #4 'allowlist' (19 lezioni/27 rip./11 da Nicola), rinforzato da evidenza fresca di QUESTO giro (node cervello/esperimenti-check.mjs, valida-contratti.mjs, apprendimento-guardiano.mjs, cristallizza-apprendimento.mjs tutti bloccati da approvazione pur essendo sola-lettura/bookkeeping dichiarati nel loro stesso header) — proposta 🟡 #allowlist-diagnostica-gate in AZIONI-IN-ATTESA: estendere .claude/settings.local.json con un pattern che copre gli script *-check.mjs/*-guardiano.mjs di sola lettura, così l'AD non deve più bypassare a mano leggendo il sorgente ogni volta.",
   "_nota_metabolizzazione_25_07_1721": "Chat 25/7 16:47-17:21: Nicola segnala col Cantiere del Pannello che i difetti chiusi di recente non si vedevano più — l'AD ha trovato la causa vera (lista 'Chiusi' mai ordinata per data, ordine-del-file) e fatto merge di PR #550. Poi Nicola ha chiesto la data di chiusura su ogni riga (PR #551, card #243) e infine di rendere le card dei difetti aperti (20+, tutte espanse insieme) un accordion chiuso di default che si apre al click (PR #552, card #244) — entrambe in attesa del suo merge. Nessuna correzione di Nicola, nessun nuovo fatto di business (1 PQ, 0 pagati invariato). L'AD ha di nuovo dichiarato onestamente di non poter verificare dal vivo nel browser (comando dev server bloccato dai permessi in sessione headless) prima di aprire le PR — coerente con le lezioni già esistenti su questo vincolo, nessuna lezione nuova da aggiungere (pattern già ben coperto). Registrata solo una preferenza nuova (densità delle liste lunghe nel Pannello, sotto) perché è una scelta di design riusabile per altre sezioni simili (es. coda Azioni, quaderni senior) non ancora toccate.",
@@ -5130,7 +5130,9 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-16",
       "ultima_conferma": "2026-07-20 02:13",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 22:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0716-232",
@@ -5327,7 +5329,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-14",
       "ultima_conferma": "2026-07-14 03:37",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 22:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0714-223",
@@ -5552,7 +5556,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-14",
       "ultima_conferma": "2026-07-14 03:33",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 22:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0714-213",
@@ -6315,7 +6321,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-14 02:41",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 22:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0713-174",
@@ -6487,7 +6495,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-14 01:04",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 22:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0713-166",
@@ -10961,6 +10971,52 @@
       "promosso_il": "2026-07-25 14:20"
     },
     {
+      "id": "L-2026-0716-233",
+      "testo": "**Verifica il branch PRIMA di committare — errore ricorrente (16/7 + 18/7 + 20/7):** tre volte un `git commit` è finito su `main` locale invece del branch di lavoro. 16/7: PR #409 → rimedio con nuovo branch (PR #410). 18/7: fix/arsenale-tab-v2 → stesso errore, cherry-pick bloccato, rimedio con riapplicazione manuale del fix sul branch v2 (PR #464 sostituisce #463). **20/7 ~02:13:** fix Worker layout #489 (`fix/worker-niente-testata`) committato su main per errore → spostato sul branch corretto. `git reset --hard` è bloccato per sicurezza. Ordine invariabile: (1) `git branch --show-current`, (2) checkout branch se serve, (3) modifica, (4) build, (5) commit immediato. Watch-main gira ogni ~5 min e resetta main: non c'è finestra sicura tra checkout e commit — eseguirli in sequenza rapida senza pause.",
+      "tag": [
+        "git",
+        "branch",
+        "commit-su-main",
+        "errore-ad",
+        "sicurezza",
+        "watch-main"
+      ],
+      "reparto": "@tech",
+      "promosso_il": "2026-07-25 22:20"
+    },
+    {
+      "id": "L-2026-0714-224",
+      "testo": "**PR #378 Chi impara — «non hai guardato la pr dopo che l'hai aperta» (chat 14/7 ~03:33, correzione Nicola):** Nicola segnala conflitto su PR #378 (`fix/chi-impara-da-cosa`) — AD aveva detto «pronta» senza ricontrollare dopo merge parallelo **#377** sensori su main. 5 perché: (1) gate L-214 vale **anche dopo l'apertura** — main si muove mentre lavori altro fix; (2) conflitto su radiografia/giro/body memoria, codice Chi impara **intatto** (pattern #369/#371/#374); (3) «non hai guardato ancora una volta» = Nicola paga due volte (apertura + segnalazione) se AD non riesegue `git-pr.mjs`; (4) fix = rebase su main post-#377, head `c17abc33`, mergeable API ok; (5) casella **6/6** verde **dopo** merge Nicola — **confermato 03:36** merge `2162a760` su main. **Regola:** ogni «PR pronta» = mergeable **fresh** sul main **adesso**, non al momento del push iniziale. Correlazione L-214, L-220, L-215.",
+      "tag": [
+        "pr-378",
+        "chi-impara",
+        "conflitti",
+        "gate",
+        "mergeable",
+        "ricontrollo",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@tech",
+      "promosso_il": "2026-07-25 22:20"
+    },
+    {
+      "id": "L-2026-0714-214",
+      "testo": "**PR #371 — «ti ho già detto»: mergeable PRIMA di accodare (chat 14/7 ~02:43, correzione Nicola):** Nicola «ha dei conflitti e ti ho già detto che se apri una pr devi controllare che non ci siano conflitti» — terza PR stessa notte con conflitto body post-apertura. 5 perché: (1) AD aprì/accodò #371 senza verificare mergeable su main aggiornato (STATO aveva detto «senza conflitti» — falso al momento merge); (2) stesso pattern L-209/#369: solo `consegne/tech/pr-ad-mycity-body.md`, codice Pannello intatto; (3) «ti ho già detto» = regola L-129 (simula merge) già in memoria ma **non applicata al gate di apertura/accodamento** — Nicola paga il prezzo al Approva; (4) fix = rebase su main, head `6fa822bf`, API mergeable verificata; (5) **gate permanente:** `git-pr.mjs` deve stampare «mergeable» **prima** di creare card in AZIONI-IN-ATTESA — non accodare finché check non passa; se Nicola segnala conflitto = AD ha violato il gate. Correlazione L-209, L-129, L-99.",
+      "tag": [
+        "pr-371",
+        "conflitti",
+        "gate",
+        "mergeable",
+        "git-pr.mjs",
+        "ti-ho-gia-detto",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@tech",
+      "promosso_il": "2026-07-25 22:20"
+    },
+    {
       "id": "L-2026-0714-209",
       "testo": "**PR parallele — conflitto body condiviso, codice intatto (pattern #369+#370, confermato #472+#471 19/7):** Nicola segnala conflitto («ci sono conflitti», «Ha un conflitto») su PR aperta in parallelo con altra PR stessa sessione. 5 perché: (1) `consegne/tech/pr-ad-mycity-body.md` è **unico** per tutte le PR — testi diversi si pestano; (2) main avanza mentre branch resta aperta → conflitto inevitabile sul body, **non** sul codice fix (#369 sync intatto; #472 `CasellaAnteprima` intatto); (3) Nicola non distingue body vs codice — AD spiega tipo conflitto e risolve branch, non istruzioni GitHub; (4) fix = rebase su main, verificare mergeable API; (5) **riapprova** card merge Pannello. **Regola:** PR Pannello parallele nella stessa sessione → aspettarsi conflitto body; risolvere prima di dire «pronta». Ultimo caso: #472+#471 (19/7 13:54, head `5c2f8821`). Correlazione L-175, L-181, L-205, L-283.",
       "tag": [
@@ -11011,6 +11067,37 @@
       ],
       "reparto": "@frontend-dev",
       "promosso_il": "2026-07-24 14:20"
+    },
+    {
+      "id": "L-2026-0713-175",
+      "testo": "**Nicola «fallo tu» su conflitto PR — eseguire, non istruire (chat 13/7 ~21:42, rinforzo 22:04 #354/#355):** dopo spiegazione conflitto #352 con passi manuali GitHub (Resolve conflicts, Accept main), Nicola dice solo «fallo tu». 5 perché: (1) preferenza consolidata modo-lavoro — AD capace, deve portare a termine; (2) istruzioni UI GitHub = frizione quando AD può toccare il branch; (3) L-122/L-174 dicevano risolvere sulla stessa PR ma AD aveva dato manual steps prima; (4) «fallo tu» su conflitto ≠ firma merge 🔴 — risoluzione branch è 🟢 AD, Approva merge resta Nicola; (5) **regola:** su conflitto PR il primo tentativo = AD rebase+merge+verifica mergeable API, poi chiede solo Approva — istruzioni GitHub UI solo se push bloccato; se chiede «cosa ti avevo chiesto?» = reminder fallo tu, non ripetere spiegazione lunga. #352 → `ac9606fc`; #354/#355 → mergeable 22:04. Correlazione L-122, L-174, L-181, modo-lavoro-una-chat.",
+      "tag": [
+        "pr-352",
+        "pr-354",
+        "pr-355",
+        "conflitti",
+        "fallo-tu",
+        "nicola",
+        "modo-lavoro"
+      ],
+      "reparto": "@tech",
+      "promosso_il": "2026-07-25 22:20"
+    },
+    {
+      "id": "L-2026-0713-167",
+      "testo": "**Caso-studio Nicola — silo allocazione «fai il fix» (chat 13/7 ~21:01, chiuso 14/7 ~01:04):** casella BLOCCANTE: 12 pacchetti pesanti su Garetti (`scelta_ragionata`, non firmato) mentre Pane Quotidiano (unico reale; Casa Linda = demo) a 0 copertura attiva. Nicola «fai il fix» — vuole esecuzione, non altra diagnosi. 5 perché: (1) cancello AR-006 esisteva ma asset Garetti restavano in `consegne/` attive; (2) faro corretto (PQ) non propagato a coda/consegne nello stesso giro (P4); (3) auto-analisi segnalava ma non archiviava; (4) fix = spostare 12 file in `_archivio-prospect/garetti/` + verificare `allocazione-check` exit 0; (5) merge PR #349 (13/7 21:44 `444439af`) + allocazione-check verde **non bastano** — casella rossa resta finché AR-006 è `in-corso` in cantiere e #119 non è FATTO; Nicola «cosa manca?» = checklist 3 bucket (tecnico · housekeeping · materia prima/umano); Nicola «chiudi AR-006» = 🟢 housekeeping eseguito (cantiere `chiuso`, #119 FATTO). **Regola:** su casella allocazione BLOCCANTE, chiudere cantiere+coda **nello stesso giro post-merge**, non lasciare casella rossa con fix tecnico già su main. Correlazione P4/L-2026-0702-01, AR-006.",
+      "tag": [
+        "allocazione",
+        "AR-006",
+        "silo",
+        "garetti",
+        "pane-quotidiano",
+        "nicola",
+        "pr-349",
+        "cantiere"
+      ],
+      "reparto": "@ad",
+      "promosso_il": "2026-07-25 22:20"
     },
     {
       "id": "L-2026-0713-138",
@@ -11796,16 +11883,16 @@
     "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
   ],
   "meta": {
-    "lezioni_attive": 473,
-    "promosse_a_principio": 59,
+    "lezioni_attive": 400,
+    "promosse_a_principio": 64,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-25 22:17",
+    "tasso_calcolato_il": "2026-07-25 22:20",
     "tasso_finestra_giorni": 30,
     "tick_leggero_il": "2026-07-25 22:17",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-25 14:20"
+    "cristallizzazione_ultima": "2026-07-25 22:20"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
