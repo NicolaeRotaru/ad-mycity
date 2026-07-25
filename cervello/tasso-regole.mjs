@@ -30,7 +30,8 @@
 // diceva 18%. Era la condizione per proporla — cambiare il metro con cui si è misurati è
 // legittimo solo se il metro nuovo non è più comodo. La firma resta di Nicola: il merge della PR.
 //
-// ⚠️ MA NON BASTA, e sotto ci sono i due numeri che lo dimostrano: vedi ricadute() e conGate().
+// ⚠️ MA NON BASTA, e sotto ci sono i numeri che lo dimostrano: vedi ricadute(), conGate() e
+// qualitaDenominatore().
 //
 // Non si può gonfiare scrivendo più lezioni: le lezioni nuove finiscono nel DENOMINATORE. L'unico
 // modo di alzarla è chiudere alla radice ciò che Nicola ha già corretto.
@@ -84,10 +85,54 @@ export function misura(lezioni = [], giorni = GIORNI, adesso = Date.now()) {
     correzioni: dentro.length,
     diventate_regola: chiuse.length,
     tasso: dentro.length ? Math.round((chiuse.length / dentro.length) * 100) / 100 : 0,
-    // Quando non c'è NIENTE da misurare il tasso è 0 ma non significa «va male»: significa
-    // «nessuna correzione in finestra». Chi legge deve poterlo distinguere.
     misurabile: dentro.length > 0,
+    // Se in 30 giorni Nicola non ha dovuto correggere NIENTE, quello è l'obiettivo raggiunto, non
+    // un buco nei dati. La prima versione di questa misura lo trattava come «cieco → non ok», cioè
+    // teneva la voce rossa proprio quando la macchina aveva smesso di sbagliare: una metrica che
+    // punisce il successo. Distinguere serve: `silenzio` = niente da correggere (bene),
+    // `senza_dati` = non ci sono lezioni affatto (il tubo è rotto, e va detto).
+    silenzio: dentro.length === 0 && lezioni.length > 0,
+    senza_dati: lezioni.length === 0,
     aperte_ids: aperte.map((l) => l.id),
+    qualita: qualitaDenominatore(dentro),
+  };
+}
+
+/**
+ * QUANTO CI SI PUÒ FIDARE DEL DENOMINATORE.
+ *
+ * `caso_studio_nicola` lo scrive la MACCHINA, istruita dalla prosa dei suoi stessi mansionari
+ * («crea la lezione con caso_studio_nicola=true — vale doppio», metabolizza.md / giro.md).
+ * Al 25/7 le 277 «correzioni di Nicola» in 30 giorni fanno 15 al giorno, con picchi di 84 in una
+ * giornata sola (13/7), 49 e 43 in altre due: non sono correzioni ricevute da una persona, sono
+ * osservazioni retrospettive generate in blocco durante le radiografie.
+ *
+ * Non le filtro: TUTTE dichiarano `fonte: "chat"`, comprese le 84 dello stesso giorno, quindi nei
+ * dati non esiste il segnale per separarle e qualunque filtro sarebbe una supposizione travestita
+ * da misura. Quello che si può fare onestamente è NON presentare il numero come pulito quando non
+ * lo è: qui si misura la concentrazione, e chi legge decide quanto fidarsi.
+ *
+ * Si risolve a monte, e serve una scelta di Nicola: chi crea una lezione deve registrare DA DOVE
+ * viene la correzione (un turno di chat vero vs un'auto-osservazione), non un flag booleano che
+ * la macchina si assegna da sola.
+ */
+export function qualitaDenominatore(correzioni = []) {
+  if (!correzioni.length) return { giorni: 0, max_in_un_giorno: 0, concentrazione: 0, sospetto: false };
+  const perGiorno = {};
+  for (const l of correzioni) {
+    const g = String(l.nato || "").slice(0, 10) || "?";
+    perGiorno[g] = (perGiorno[g] || 0) + 1;
+  }
+  const conteggi = Object.values(perGiorno);
+  const max = Math.max(...conteggi);
+  const concentrazione = Math.round((max / correzioni.length) * 100) / 100;
+  return {
+    giorni: conteggi.length,
+    max_in_un_giorno: max,
+    concentrazione,
+    // Una persona non corregge venti volte in un giorno: oltre quella soglia è quasi certamente
+    // un blocco generato dalla macchina, e il numero va letto come tendenza, non come livello.
+    sospetto: max >= 20,
   };
 }
 
@@ -206,8 +251,12 @@ function main() {
   }
 
   console.log(`\n📐 CORREZIONI DI NICOLA DIVENTATE REGOLA — ${quando}\n`);
-  if (!m.misurabile) {
-    console.log(`  Nessuna correzione negli ultimi ${GIORNI} giorni: niente da misurare.`);
+  if (m.senza_dati) {
+    console.log(`  ⚠️ Nessuna lezione in apprendimento.json: non è silenzio, è un tubo rotto.`);
+    process.exit(0);
+  }
+  if (m.silenzio) {
+    console.log(`  ✅ Nessuna correzione negli ultimi ${GIORNI} giorni: è l'obiettivo, non un buco.`);
     process.exit(0);
   }
   console.log(`  ${m.diventate_regola} su ${m.correzioni} = ${Math.round(m.tasso * 100)}%   (ultimi ${GIORNI} giorni)`);
@@ -220,6 +269,14 @@ function main() {
   console.log(
     `    correzioni legate a un GATE che può fallire:                  ${gate.con_gate}/${gate.correzioni} = ${Math.round(gate.quota * 100)}%`,
   );
+  if (m.qualita.sospetto) {
+    console.log(
+      `\n  ⚠️ DENOMINATORE POCO AFFIDABILE: ${m.qualita.max_in_un_giorno} «correzioni» in un solo giorno ` +
+        `(${Math.round(m.qualita.concentrazione * 100)}% del totale, su ${m.qualita.giorni} giorni).`,
+    );
+    console.log(`     Nessuna persona corregge così: sono osservazioni generate in blocco e marcate`);
+    console.log(`     come correzioni di Nicola. Leggi il numero come TENDENZA, non come livello.`);
+  }
   if (temi.length) {
     console.log(`\n  I temi che tornano e non sono ancora una regola:`);
     for (const t of temi) console.log(`    ${String(t.volte).padStart(3)}×  ${t.tag}`);
