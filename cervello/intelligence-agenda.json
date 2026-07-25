@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "quando": "2026-07-24 22:20",
-  "fonti_dovute": 9,
+  "quando": "2026-07-25 08:20",
+  "fonti_dovute": 10,
   "fonti_totali": 18,
   "agenda": [
     {
@@ -147,6 +147,22 @@
       "url_websearch": null,
       "skip_check": false,
       "motivo": "giornaliera"
+    },
+    {
+      "id": "reputazione-mycity",
+      "nome": "Reputazione MyCity & negozi (ricerca aperta)",
+      "peso": 3,
+      "cadenza": "settimanale",
+      "scrive_in": "reputazione",
+      "senior": [
+        "supporto",
+        "pr-stampa"
+      ],
+      "cosa_cercare": "menzioni di MyCity e dei nostri negozi, recensioni Google/social, sentiment, lamentele ricorrenti",
+      "url": "https://www.google.com/search?q=MyCity+Piacenza",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "settimanale_stale_7g"
     }
   ],
   "stale": [
@@ -154,31 +170,31 @@
       "file": "radar-concorrenti",
       "path": "radar-concorrenti.md",
       "ultimo": "2026-07-20",
-      "giorni": 4
+      "giorni": 5
     },
     {
       "file": "eventi-picchi",
       "path": "eventi-picchi.md",
       "ultimo": "2026-07-20",
-      "giorni": 4
+      "giorni": 5
     },
     {
       "file": "buchi-mercato",
       "path": "buchi-mercato.md",
       "ultimo": "2026-07-20",
-      "giorni": 4
+      "giorni": 5
     },
     {
       "file": "leve-uscita",
       "path": "leve-uscita.md",
       "ultimo": "2026-07-20",
-      "giorni": 4
+      "giorni": 5
     },
     {
       "file": "reputazione",
       "path": "reputazione.md",
       "ultimo": "2026-07-18",
-      "giorni": 6
+      "giorni": 7
     }
   ],
   "prossimo_passo": "Esegui monitora.md sulle fonti in agenda (WebSearch se 403)"

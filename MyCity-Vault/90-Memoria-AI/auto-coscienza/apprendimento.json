@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-25 08:14",
+  "aggiornato": "2026-07-25 09:54",
   "_gate_25_07": "GIRO 25/7: cristallizzazione meccanica già girata da giro.sh alle 06:20 (34 principi, 0 arretrato evidente su evidenze>=7/6/5 — tutti già promossi in 3 batch ieri 14:20/16:20/18:20). Sul cluster #1 segnalato dal guardiano ('marketplace': 22 lezioni/36 ripetizioni) verificato A MANO (8 lezioni lette): NON è un'unica causa radice, è un tag-contenitore troppo generico (label 'tocca il sito marketplace', non firma di un tipo di bug) — cristallizzarlo in un gate sarebbe un principio vago e inutile. Proposta reale invece: (1) tech fix proposto a Nicola — aggiungere 'marketplace' a TAG_GENERICI in cervello/apprendimento-guardiano.mjs (rumore di tassonomia, non errore ricorrente); (2) gate concreto sul cluster #4 'allowlist' (19 lezioni/27 rip./11 da Nicola), rinforzato da evidenza fresca di QUESTO giro (node cervello/esperimenti-check.mjs, valida-contratti.mjs, apprendimento-guardiano.mjs, cristallizza-apprendimento.mjs tutti bloccati da approvazione pur essendo sola-lettura/bookkeeping dichiarati nel loro stesso header) — proposta 🟡 #allowlist-diagnostica-gate in AZIONI-IN-ATTESA: estendere .claude/settings.local.json con un pattern che copre gli script *-check.mjs/*-guardiano.mjs di sola lettura, così l'AD non deve più bypassare a mano leggendo il sorgente ogni volta.",
   "_nota_metabolizzazione_24_07_2002": "Chat 24/7 ~20:02 (chiusura del filo doppioni 'Nuova chat' già raccontato nella nota 19:57/STATO.md): nessun nuovo messaggio di contenuto da Nicola in questo turno (solo 'Abc', ambiguo, seconda volta consecutiva) — verificato via `git log` che PR #531 (blocco doppio-tap sul bottone invia) è GIÀ mergiata su main (commit `575721d2`), non più 'in attesa' come risultava nella card #236. Aggiornati AZIONI-IN-ATTESA (#236 → FATTO) e STATO.md (nuova voce in cima). Nessuna lezione nuova: conferma pratica (non caso_studio_nicola) del pattern già in LEZIONI-CHAT — bug UI 'ricorrente' trattato con screenshot reale + verifica del codice esistente prima di riscrivere la diagnosi da zero, invece di assumere che il fix di ieri (PR #517) fosse insufficiente senza controllare. Resta da confermare dal vivo nel browser dopo il prossimo deploy Vercel (nessun accesso browser in sessione headless). Nessun fatto/decisione/dato business nuovo.",
   "_nota_metabolizzazione_24_07_1740": "Chat 24/7 17:36: Nicola \"aggiungi parla con la casella a tutte le caselle della bacheca\" — AD ha aggiunto ParlaCasella agli avvisi Bacheca (unico file mancante), PR #527 aperta e già accodata in AZIONI-IN-ATTESA (card #235, riga tabella). Registrata lezione L-2026-0724-527: pattern ricorrente (7ma volta) di aggiungere ParlaCasella superficie-per-superficie invece che con audit unico. Sul filone precedente (registro dei fatti incompleto, turno prima), Nicola non ha ancora dato l'esempio concreto richiesto dall'AD — resta aperto, nessuna azione da registrare finché non risponde.",
@@ -8547,7 +8547,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-10",
       "ultima_conferma": "2026-07-10 22:30",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 08:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0710-75",
@@ -8689,7 +8691,9 @@
       "_evidenza_4_esito_RISOLTO": "ESITO CHIUSO (chat 9/7 12:45): il push è ANDATO. Radice operativa confermata = CASO B: dalla chat del Pannello i box di approvazione NON compaiono (Nicola risponde secco «B» quando gli chiedo se vede il box), quindi ogni git set-url/push lanciato dall'AD resta appeso a un click che a Nicola non appare → da lì è irrealizzabile. La strada che ha funzionato è la stessa di GIT_BRANCH=main: Nicola incolla le 2 righe (`git -C … remote set-url origin https://NicolaeRotaru:<PAT>@github.com/NicolaeRotaru/ad-mycity.git` poi `git … push origin main`) nel TERMINALE del VPS, dove non c'è il gate permessi. Il terminale ha stampato «Everything up-to-date» → verificato a livello git: 0 commit da spedire, VPS e origin/main sullo STESSO commit 02373323 (12:22). NB semantico da ricordare: «Everything up-to-date» ≠ «non ho fatto niente» = «è già tutto arrivato»; se il token fosse ancora rotto git avrebbe dato errore di autenticazione, non up-to-date → i ~2.033 commit SONO su GitHub, blocco di settimane CHIUSO. RESIDUI APERTI: (a) Vercel deploy NON ancora confermato — Nicola dice «non ha fatto il deploy»; il deploy da GitHub è automatico ma va VERIFICATO (interrogare Vercel / aprire il Pannello hosted e vedere se mostra i dati di oggi); (b) il PAT è stato incollato in chiaro in chat → va rigenerato su GitHub; (c) modifiche Pannello (chat-casella, annulla-lavori, store) NON incluse nel push perché non testate (regola [[regola-testare-sempre]]) — restano da testare nel browser prima di committare. Rinforza [[chat-pannello-non-mostra-box-permessi]]: dalla chat i comandi non-allowlisted sono dead-lock, la via reale è Nicola sul terminale VPS (o l'allowlist).",
       "_evidenza_3_esito": "ESITO POSITIVO (chat 9/7 12:10): applicata la forma giusta della spiegazione (Nicola non mette il token da nessuna parte, non tocca Vercel, preme solo «approva» sui 2 box), Nicola risponde «vai» = via libera a eseguire ① set-url col PAT reale ② push. Conferma che spiegare DOVE vive la cosa + COSA deve fare LUI (una sola azione: approvare) sblocca la decisione. Numero di commit di scarto salito da ~1.994 a ~2.016 (i commit del worker si accumulano finché il push non parte). Promemoria aperto: l'esito reale (push OK/GitHub allineato/Vercel deploy) va confermato DOPO l'esecuzione, non dato per fatto; e il PAT incollato in chiaro va rigenerato su GitHub dopo il push.",
       "_evidenza_2": "RICORRENZA lato utente (chat 9/7, dopo reset limiti 11am): Nicola ha incollato il PAT vero in chat e poi chiede «non ho capito dove devo mettere il vero token, quale segnaposto?». Segnale: anche dopo l'analogia lettera/cassetto, il concetto di 'token segnaposto in un file di config del VPS' resta astratto per lui → assume di dover METTERE il token da qualche parte. Fix applicato nel turno (forma giusta): «non devi metterlo da nessuna parte, me l'hai già dato incollandolo — il segnaposto `il_nuovo_token` sta in un file di sistema del VPS che TU non vedi e non tocchi, lo sostituisco IO con un comando; a te resta solo premere approva sui 2 box di conferma; non tocchi Vercel». Rinforza il fix ③ (Nicola non deve toccare Vercel) e [[nicola-spiegazioni-piu-chiare]]: spiegare DOVE vive la cosa e COSA deve fare LUI (una cosa sola), non solo cos'è. NB sicurezza: token incollato in chiaro in chat → dopo il push va rigenerato su GitHub (già segnalato a Nicola nel turno).",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 08:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0709-65",
@@ -9079,7 +9083,9 @@
       "nato": "2026-07-02",
       "nota_18_21": "2/7 18:21: delta-gate.json ORA scritto su disco dal runner (AR-019 materializzato) — la macchina osservata funzionare. Resta da attivare come GATE hard che salta la parte AI (oggi valuta ma il giro pieno gira comunque via R2/deploy).",
       "ultima_conferma": "2026-07-02 18:21",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 08:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0702-03",
@@ -9821,7 +9827,9 @@
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 10:22",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 08:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0701-11",
@@ -10079,7 +10087,9 @@
       "fonte": "chat",
       "nato": "2026-06-30",
       "ultima_conferma": "2026-07-01 10:51",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 08:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0630-03",
@@ -10824,6 +10834,22 @@
       "promosso_il": "2026-07-25 06:20"
     },
     {
+      "id": "L-2026-0710-71",
+      "testo": "**RECIDIVA STRUTTURALE — `.claude/settings.local.json` sovrascritto più volte nella stessa chat (10/7, chip skill rapide) — CAUSA RADICE CORRETTA (evidenza 3):** l'AD inizialmente ha attribuito la sparizione del file a `git checkout` (errore diagnostico). Verificando .gitignore a fine sessione: `.claude/settings.local.*` è GIÀ alla riga 28 del .gitignore — quindi git checkout NON può toccarlo. La causa reale era l'AD stesso che usava il proprio Write tool per sovrascrivere il file con un contenuto diverso (tentativo di aggiungere permessi con Write invece di Edit). **Causa radice aggiornata:** (1) il file era già protetto da .gitignore — il 'fix non fatto' era già fatto; (2) l'AD ha diagnosticato 'git checkout sovrascrive' senza verificare se il file era in .gitignore prima; (3) per aggiungere permessi al settings.local.json, l'AD usava Write (sovrascrittura totale) invece di Edit (modifica mirata) — ogni Write cancellava le righe precedenti se non le includeva tutte. **Regola/fix riusabile consolidato:** (a) PRIMA di diagnosticare 'git checkout ha sovrascritto', verificare con `grep settings.local .gitignore`; (b) per modificare settings.local.json usare SEMPRE Edit (non Write), o almeno rileggere il file prima di Write per includere tutto; (c) dopo ogni Write su settings.local.json, rileggere subito il file per confermare che il contenuto sia completo; (d) una lezione in memoria con causa radice sbagliata va corretta, non incrementata — la verità sui fatti vince sul racconto precedente. **PRECEDENTE DIAGNOSI** (evidenze 1-2): si credeva che git checkout sovrascrivesse perché il file non era in .gitignore — ora superata. I 5 perché precedenti restano parzialmente validi (usare Write invece di Edit è comunque il meccanismo prossimo), ma la causa strutturale era sbagliata.",
+      "tag": [
+        "settings-local",
+        "gitignore",
+        "git-checkout",
+        "recidiva",
+        "debito-tecnico",
+        "fix-mai-applicato",
+        "pannello",
+        "permessi"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 08:20"
+    },
+    {
       "id": "L-2026-0709-69",
       "testo": "**Caso-studio Nicola — «pushato/mergiato/deployato» sono 4 stati distinti, e una UI online vecchia ha 4 cause possibili da NON confondere (chat 9/7):** Nicola era confuso perché l'AD aveva usato committare/pushare/mergiare come sinonimi, e insisteva «devi interrogare Vercel, non ha fatto il deploy». Aveva ragione a diffidare. La catena vera è: **committare** (solo sul VPS) → **pushare** (arriva su GitHub) → **build/deploy** (Vercel costruisce dal push). Errori commessi nel filone: (1) per settimane l'AD ha detto «~414 commit avanti» mentre erano **1.994+** fermi, perché il remote aveva un token SEGNAPOSTO `il_nuovo_token` → ogni push falliva in silenzio da settimane (nessun errore mostrato all'AD, solo accumulo); (2) l'AD ha rincorso la diagnosi «Vercel è rotto» quando Vercel **funziona** e salta APPOSTA i commit di sola-memoria (`ignored-build-step`) — corretto, perché il Pannello legge la memoria in diretta dal filesystem; (3) la RADICE vera del «Pannello online vecchio» era la QUARTA: 12 file/+647 righe di CODICE Pannello committati su GitHub ma **mai buildati** (ultimo build = PR #224), sbloccabili con 1 commit che tocca `pannello/`. **5 perché:** l'AD trattava «up-to-date» come sinonimo di «deployato» → saltava di conclusione senza verificare a runtime ogni anello (push? build? quale commit costruito?). **Regola/fix riusabile:** davanti a «l'online è vecchio» NON dichiarare una causa finché non hai verificato i 4 stati separatamente — (a) i commit sono su GitHub? (b) il build è partito? (c) su quale commit? (d) quel commit contiene il codice che manca o è solo memoria? Ognuno ha un fix diverso. E davanti a un push che 'non fa nulla', sospetta prima le CREDENZIALI (token segnaposto/scaduto) che il codice. **AGGIORNAMENTO 13:55 (evidenza 2, 5° stato scoperto):** dopo che il commit-trigger `pannello/` (`842eb935`) ha correttamente fatto partire il build (NON annullato), è emerso un QUINTO stato distinto oltre a commit/push/build/annullato — il deploy `BLOCKED` a livello **account/piano** (`live:false`): non è ERROR (codice sano), non è annullamento → è la quota di deploy del piano Hobby esaurita, perché il worker pusha ~ogni 5 min e OGNI push (anche i CANCELED) conta come un deploy. Lezione rafforzata: 'il build è partito' ≠ 'il build è andato online' — dopo il trigger va verificato ANCHE lo stato finale (READY vs BLOCKED vs ERROR), e un BLOCKED punta al piano/quota, non al codice. Radice ricorrente collegata: la cadenza di push del worker va accorpata, o il blocco Vercel torna ogni giorno. Corollario di superficie: dalla chat del Pannello i box di permesso non compaiono → i comandi gated (git push, MCP Vercel) sono dead-lock finché non c'è l'allowlist in `.claude/settings.local.json` sul VPS (creata da Nicola 9/7, «FATTO»). Vedi [[chat-pannello-non-mostra-box-permessi]], [[pannello-legge-filesystem-non-github]], [[regola-testare-sempre]], DECISIONI 9/7 12:45/12:52/13:00/13:55. **CORREZIONE 14:05 (Nicola, evidenza 3 — la causa del BLOCKED NON era la quota):** l'inspector Vercel letto da Nicola dice testualmente «The deployment was blocked because the commit author email (ad@mycity.local) is not valid. Ensure your git email matches your GitHub account.» → il deploy `BLOCKED` NON era il tetto di deploy del piano Hobby (mia ipotesi delle 13:55, sbagliata) ma una **firma-email del commit non valida**: il commit-trigger `842eb935` era firmato `ad@mycity.local`, un'email finta non collegata a nessun account GitHub → Vercel rifiuta il build. 5 perché sull'errore mio: ho DEDOTTO 'quota Hobby' per plausibilità invece di leggere la causa esatta (che era fuori dall'allowlist: `get_deployment_build_logs`) → ho dichiarato una causa non verificata, esattamente l'anti-pattern che questa stessa lezione predica. **Regola/fix riusabile aggiunta:** (1) prima di preparare QUALSIASI commit-trigger, impostare un'email git VALIDA e collegata all'account GitHub (`git config user.email <email-github>`), MAI lasciare il default `ad@mycity.local`; il worker/cervello che committa a ogni giro va configurato con un'email valida una volta per tutte, o ogni suo commit che tocca `pannello/` verrà bloccato allo stesso modo. (2) Un BLOCKED non ha una sola causa: prima di attribuirlo al piano/quota, LEGGI il messaggio esatto dell'inspector — qui era author-email, non quota. **CONFERMA 14:14 (Nicola «fatto», evidenza 4 — il fix ha funzionato):** Nicola ha impostato un'email git valida e ri-lanciato il blocchetto sul VPS → i commit nuovi ora risultano `CANCELED` (non più `BLOCKED`) = firma-email a posto. Resta il solo passo strutturale: il Pannello online resta a PR #224 finché non arriva un commit fresco che tocca `pannello/` (i CANCELED sono i commit-memoria, saltati apposta da `vercel.json`) — quel commit builda le 12 modifiche già su GitHub. La radice ricorrente (worker che committa con email valida una volta per tutte) resta da fissare per non ri-bloccare i futuri trigger su `pannello/`. **CONFERMA 14:30 (Nicola «fatto», evidenza 5 — il «fatto» NON aveva prodotto il commit):** Nicola risponde «fatto» dopo il blocchetto commit-trigger, ma verificando il git reale l'ultimo commit che tocca `pannello/` è ANCORA `842eb935` (quello vecchio firmato `ad@mycity.local`, che Vercel tiene BLOCKED) → il blocchetto non è attecchito (non partito o senza toccare `pannello/`), il Pannello online resta a PR #224. Rafforza il fix riusabile della lezione: dopo un «fatto» di Nicola NON dare per eseguita l'azione — VERIFICA lo stato git reale (qual è l'ultimo commit su `pannello/`, con che email), la parola può non corrispondere a ciò che è successo nel terminale. La firma-email è comunque a posto per i commit futuri (i commit-memoria del worker ora sono CANCELED, non BLOCKED); manca solo UN commit fresco pulito che tocchi `pannello/` con email valida per buildare le 12 modifiche già su GitHub. Offerta 🟡 aperta a Nicola: allargare l'allowlist con `Bash(git add:*)`+`Bash(git commit:*)` così l'AD chiude i deploy da solo (decide lui). **EVIDENZA 6 (Nicola «fatto» ~20:41 — `git config user.email` NON ha fatto presa sui commit fatti a mano):** dopo l'ennesimo blocchetto, verificando il git l'ultimo commit su `pannello/` è `6857c35f` (etichettato «firma valida») ma è ANCORA firmato `ad@mycity.local` → Vercel lo tiene BLOCKED. Cioè il `git config user.email <email-github>` impostato prima NON si è applicato ai commit già creati a mano: giravamo in tondo perché ogni commit-trigger ripartiva con l'email finta. **Fix riusabile RAFFINATO (sostituisce il «basta git config»):** forzare l'email/nome GitHub validi DENTRO il comando stesso con `git -c user.email=\"98592323+NicolaeRotaru@users.noreply.github.com\" -c user.name=\"AD MyCity VPS\" commit -m ...`, così non dipende da nessuna config che non tiene; e verificare SUBITO l'esito con `git log -1 --format=\"%h | %ae | %s\" -- pannello/` (l'email stampata deve essere quella GitHub, non `ad@mycity.local`). Vale la conferma già nota: dopo un «fatto» di Nicola NON dare per eseguito — leggi lo stato git reale. La radice strutturale (worker che committa con email valida una volta per tutte) resta aperta.",
       "tag": [
@@ -10839,6 +10865,23 @@
       ],
       "reparto": "@devops-sre",
       "promosso_il": "2026-07-24 20:20"
+    },
+    {
+      "id": "L-2026-0709-66",
+      "testo": "**Caso-studio Nicola — «committato» ≠ «pushato» ≠ «mergiato», e NON dire mai «pushato/mergiato» senza aver verificato che il push sia davvero arrivato (chat 9/7):** l'AD aveva riferito a Nicola, giro dopo giro, di aver «pushato»/«mergiato» le sue modifiche, ma NIENTE era mai uscito dal VPS. Nicola confuso: «mi dici che dovresti aprire la PR per farmele mergiare, però mi dici anche che le hai già pushate o mergiate, non ho capito cosa hai fatto… in più Vercel non deploya ed io non posso farlo». Radice tecnica trovata nel turno: il remote `origin` porta un token SEGNAPOSTO (`https://NicolaeRotaru:il_nuovo_token@github.com/...`) → ogni `git push` fallisce per autenticazione da settimane; `main` locale VPS è **1.993 commit avanti** rispetto a `origin/main`, fermo al Merge PR #66; quindi Vercel (che deploya DA GitHub) non ha nulla di nuovo → un Redeploy manuale ripubblicherebbe solo il codice vecchio. 5 perché: (1) l'AD ha usato committato/pushato/mergiato come sinonimi, mentre sono 3 passi distinti (scrivere nel cassetto di casa=VPS → imbucare verso GitHub → far entrare nel ramo ufficiale); (2) ha DICHIARATO il push come fatto senza mai verificare l'esito reale (il push falliva in silenzio per il token finto); (3) Nicola vede Vercel fermo e si sente in colpa/impotente pur non essendo il collo di bottiglia; (4) risultato: settimane di lavoro bloccate nel cassetto + fiducia scossa; (5) **regola/fix riusabile:** ① mai dire «pushato/mergiato» senza aver verificato lo stato reale del remote — controlla `git status -sb` (ahead N), `git rev-list --count origin/<branch>..<branch>` e che il remote NON contenga un token segnaposto; ② separa sempre i 3 verbi in linguaggio umano quando riferisci a Nicola; ③ se il push è rotto, la catena è UNA sola (sistema token → push funziona → GitHub aggiornato → Vercel deploya DA SOLO), e Nicola non deve toccare Vercel. È il gemello operativo di [[ramo-unico-main-applicato]] (push-non-merge, L-2026-0709-61: lì il verbo mergiare→push; qui il fatto che il push NON stava proprio partendo) e di [[pannello-legge-filesystem-non-github]] (correzione ~414→1.993 commit avanti, radice = token segnaposto). Applicazione di [[nicola-spiegazioni-piu-chiare]].",
+      "tag": [
+        "nicola",
+        "git",
+        "push-non-pushato",
+        "committato-pushato-mergiato",
+        "vercel-deploy",
+        "token-segnaposto",
+        "verifica-prima-di-dire-fatto",
+        "caso-studio",
+        "devops-sre"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 08:20"
     },
     {
       "id": "L-2026-0709-65",
@@ -10872,6 +10915,19 @@
       "promosso_il": "2026-07-24 14:20"
     },
     {
+      "id": "L-2026-0702-48",
+      "testo": "**Delta-gate mancante = giri a rendimento basso (passaggi 2/7 17:01 e 17:21):** il giro è ripartito a orario/comando con novità minima (17:01 nulla; 17:21 la sola decisione #16 già catturata in STATO/ultimo-briefing alle 17:09) e ha comunque riscritto snapshot e auto-analisi, coi sensori live gated. **Regola:** quando ordini/clienti/incassi/sentinelle sono invariati rispetto all'ultimo passaggio E i sensori live sono gated, il valore aggiunto è ~0 → fare SOLO il passaggio minimo (timestamp + sonda leggera + delta 'cosa è cambiato') e NON ri-eseguire l'analisi pesante. È esattamente AR-019 (delta-gate, ancora in-corso): finché non è un gate deterministico nel runner, la macchina spreca il Max. Priorità di chiusura alta perché è ricorrente (visto 29/6 L-2026-0629-03, 2/7 17:01, 2/7 17:21).",
+      "tag": [
+        "delta-gate",
+        "efficienza-costo",
+        "AR-019",
+        "giro",
+        "dispersione"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 08:20"
+    },
+    {
       "id": "L-2026-0701-31",
       "testo": "**Merge-on-approval — REGOLA PERMANENTE (Nicola 1/7 10:22, testato 10:36+11:00, fissato 10:45):** «c'è modo che fai merge tu? però chiedimi permesso» → poi «**impara questo, applica sempre il flusso target — risparmia tempo**». Vuole **zero GitHub browser**, **non** delegare giudizio. **Pattern obbligatorio su ogni deploy 🟡:** AD prepara branch+PR **oppure** codice locale → card «Merge PR #N?» **oppure** chat «ok merge [nome]» → AD merge/push → Vercel redeploy → (opz.) `aggiorna-cervello.sh`. **Test riusciti:** «ok merge bottoni A/B» → **`main` `c50148d`** · «ok merge scelta-ab universale» → **`main` `853c33a`**. **Mai merge/push senza ok esplicito.** Chiede guida pratica PAT fine-grained (Contents+PR R/W su `ad-mycity`+`mycity`) → #15 + `.env.example`. Architettura **3 tubi**: memoria→`memoria-ad` · codice→`main`→Vercel+VPS · marketplace→`mycity`→Render 🔴. **`pannello/` ≠ repo separato**.",
       "tag": [
@@ -10887,6 +10943,21 @@
       ],
       "reparto": "@devops-sre",
       "promosso_il": "2026-07-24 18:20"
+    },
+    {
+      "id": "L-2026-0701-12",
+      "testo": "Dopo «apri la pr su main» (Nicola delega): AD crea branch da `main`, modifica **solo** `.claude/settings.json`, push. **Limite VPS:** token GitHub del worker **pusha** ma **non crea PR** via `gh`/API — consegnare link compare diretto + istruzioni 3 click (Create PR → base `main` → Merge). Nicola merge browser; poi **stesso** `aggiorna-cervello.sh` (non nuovo comando). Non dire «PR aperta» se solo push — dire «branch pronto, merge 1 click». Se chiede «rimandami la PR / non ho mergiato» → **re-inviare lo stesso link compare** + post-merge script; **non** assumere merge fatto. **Confermato 1/7 01:37:** Nicola merge `fix/webfetch-globale` + sync → worker OK (L-2026-0701-16).",
+      "tag": [
+        "git",
+        "pr",
+        "main",
+        "vps",
+        "github",
+        "nicola",
+        "devops"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 08:20"
     },
     {
       "id": "L-2026-0701-08",
@@ -10927,6 +10998,19 @@
       ],
       "reparto": "@AD",
       "promosso_il": "2026-07-24 16:20"
+    },
+    {
+      "id": "L-2026-0630-05",
+      "testo": "Le approvazioni/rifiuti del Pannello finiscono in Supabase memoria (`azione:{n}`, `azioni_log`) ma NON aggiornano da soli il vault (`AZIONI-IN-ATTESA.md`, `DECISIONI.md`). L'AD può leggerle dal DB memoria; a ogni giro/metabolizzazione deve sincronizzarle nel vault. Non riproporre azioni rifiutate (#10 wiring Vercel, kit PR earned media — rifiutate 30/6 09:08). **Estensione 1/7:** «Approva» su Proposta non persiste scelta di dominio (L-29); fix 🟡 = bottoni A/B + API persistenza (L-30 ordine zombie, **L-33 universale** `tipo: scelta_ab` su ogni scelta binaria — Nicola 10:50).",
+      "tag": [
+        "pannello",
+        "memoria",
+        "sync",
+        "approvazioni",
+        "vault"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 08:20"
     },
     {
       "id": "L-2026-0628-01",
@@ -11360,15 +11444,15 @@
   ],
   "meta": {
     "lezioni_attive": 473,
-    "promosse_a_principio": 34,
+    "promosse_a_principio": 39,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-25 08:14",
+    "tasso_calcolato_il": "2026-07-25 09:54",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-25 08:14",
+    "tick_leggero_il": "2026-07-25 09:54",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-25 06:20"
+    "cristallizzazione_ultima": "2026-07-25 08:20"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
