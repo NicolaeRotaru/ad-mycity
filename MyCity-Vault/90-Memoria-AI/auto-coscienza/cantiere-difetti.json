@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-25 04:43",
+  "aggiornato": "2026-07-25 04:48",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -1645,7 +1645,7 @@
       "causa_radice": "al 2/7 la distinzione fra 'roster descrittivo' e 'contratto di routing reale' non era ancora esplicita nel processo di chiusura; il cantiere non ha un passo di audit delle chiusure passate quando lo standard di verifica migliora (oggi AR-130 punta correttamente al file agente reale).",
       "fix_proposto": "🟡 ri-verificare a campione le chiusure più vecchie (pre AR-023/024) contro il file reale dichiarato in verifica.file; se non verificabile, riaprire con nota di invalidazione. Anche AR-130 va esteso: la scansione esaustiva mostra 34 file senza deferral, non 8 come originariamente stimato.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione coerenza-agenti) — segnala invalidità della chiusura di AR-008",
       "verifica": {
@@ -1653,7 +1653,9 @@
         "pattern": "export function riverifica",
         "presente": true
       },
-      "nota_round4": "Round 4: creato il passo di audit che mancava (cervello/chiusure-audit.mjs): ri-esegue la prova di ogni difetto chiuso e separa regrediti / senza prova / prova debole (quest'ultima è l'errore di AR-008: verificare contro un file che descrive). Prima esecuzione: 67 chiusi ricontrollati, 0 regrediti reali, 22 senza prova, 4 con prova debole. Resta aperta l'estensione di AR-130 (34 file senza deferral) dichiarata nello stesso difetto: NON è coperta da questo round."
+      "nota_round4": "Round 4: creato il passo di audit che mancava (cervello/chiusure-audit.mjs): ri-esegue la prova di ogni difetto chiuso e separa regrediti / senza prova / prova debole (quest'ultima è l'errore di AR-008: verificare contro un file che descrive). Prima esecuzione: 67 chiusi ricontrollati, 0 regrediti reali, 22 senza prova, 4 con prova debole. Resta aperta l'estensione di AR-130 (34 file senza deferral) dichiarata nello stesso difetto: NON è coperta da questo round.",
+      "chiuso_il": "2026-07-25 04:48",
+      "chiuso_come": "cervello/chiusure-audit.mjs contiene /export function riverifica/ → trovato"
     },
     {
       "id": "AR-152",
@@ -1731,8 +1733,8 @@
     }
   ],
   "meta": {
-    "aperti": 26,
+    "aperti": 25,
     "in_corso": 0,
-    "chiusi": 68
+    "chiusi": 69
   }
 }
