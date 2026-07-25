@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
-  "aggiornato": "2026-07-25 00:57",
+  "aggiornato": "2026-07-25 02:39",
   "pronta": false,
   "voci_superate": 0,
   "voci_totali": 5,
@@ -26,7 +26,8 @@
       "cieco": false,
       "fonte": "cervello/tasso-lezioni.mjs",
       "come_si_alza": "rendere le lezioni dei blocchi automatici, non promemoria da ricordarsi (AR-149)",
-      "movimento": "prima misura"
+      "precedente": 0.18,
+      "movimento": "ferma"
     },
     {
       "id": "calibrazione",
@@ -38,13 +39,14 @@
       "cieco": false,
       "fonte": "auto-coscienza/calibrazione.json",
       "come_si_alza": "obbligo di scrivere «mi aspetto X» prima di ogni mossa, poi confronto col reale",
-      "movimento": "prima misura"
+      "precedente": 0,
+      "movimento": "ferma"
     },
     {
       "id": "freni",
       "titolo": "Freni di sicurezza rotti",
-      "valore": 8,
-      "etichetta": "8 bloccanti aperti",
+      "valore": 6,
+      "etichetta": "6 bloccanti aperti",
       "soglia": "0",
       "ok": false,
       "cieco": false,
@@ -53,15 +55,14 @@
         "AR-109",
         "AR-110",
         "AR-114",
-        "AR-117",
         "AR-123",
         "AR-142",
-        "AR-144",
         "AR-151"
       ],
       "fonte": "auto-coscienza/cantiere-difetti.json",
       "come_si_alza": "chiudere i bloccanti aperti: i fix sono già scritti, aspettano il merge di Nicola",
-      "movimento": "prima misura"
+      "precedente": 6,
+      "movimento": "ferma"
     },
     {
       "id": "quaderni",
@@ -73,7 +74,8 @@
       "cieco": false,
       "fonte": "auto-coscienza/chiusura-loop.json",
       "come_si_alza": "gate: non si chiude un lavoro 🟡/🔴 senza la riga ESITO nel quaderno (AR-154)",
-      "movimento": "prima misura"
+      "precedente": 0.25833333333333336,
+      "movimento": "ferma"
     },
     {
       "id": "salute",
@@ -85,7 +87,8 @@
       "cieco": false,
       "fonte": "auto-coscienza/storico-salute.json",
       "come_si_alza": "sale da solo quando salgono le altre 4 voci — non si tocca a mano",
-      "movimento": "prima misura"
+      "precedente": 43,
+      "movimento": "ferma"
     }
   ],
   "serie": [
@@ -97,6 +100,30 @@
         "lezioni": 0.18,
         "calibrazione": 0,
         "freni": 8,
+        "quaderni": 0.25833333333333336,
+        "salute": 43
+      }
+    },
+    {
+      "data": "2026-07-25 01:43",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.18,
+        "calibrazione": 0,
+        "freni": 6,
+        "quaderni": 0.25833333333333336,
+        "salute": 43
+      }
+    },
+    {
+      "data": "2026-07-25 02:39",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.18,
+        "calibrazione": 0,
+        "freni": 6,
         "quaderni": 0.25833333333333336,
         "salute": 43
       }
