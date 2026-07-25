@@ -409,7 +409,7 @@ export default function AutoCoscienza({
               {tab === "apprendimento" && (
                 <p className="t-corpo text-[13px] font-semibold">
                   {lezioniRecenti.length} lezioni negli ultimi 7 giorni
-                  {ap?.meta?.tasso_applicazione != null ? ` · ${Math.round((ap.meta.tasso_applicazione || 0) * 100)}% applicazione` : ""}
+                  {ap?.meta?.tasso_applicazione != null ? ` · ${Math.round((ap.meta.tasso_applicazione || 0) * 100)}% citate` : ""}
                 </p>
               )}
               {tab === "miglioramento" && (
@@ -683,7 +683,7 @@ export default function AutoCoscienza({
                     { l: "Lezioni attive", v: ap.meta.lezioni_attive },
                     { l: "Principi", v: ap.meta.promosse_a_principio },
                     { l: "Decadute", v: ap.meta.decadute },
-                    { l: "Tasso applic.", v: ap.meta.tasso_applicazione != null ? `${Math.round((ap.meta.tasso_applicazione || 0) * 100)}%` : "—" },
+                    { l: "Lezioni citate", v: ap.meta.tasso_applicazione != null ? `${Math.round((ap.meta.tasso_applicazione || 0) * 100)}%` : "—" },
                   ].map((m) => (
                     <div key={m.l} className="rounded-xl border border-black/[0.06] bg-paper/40 p-2.5">
                       <div className="text-[18px] font-semibold tabular-nums">{m.v ?? "—"}</div>

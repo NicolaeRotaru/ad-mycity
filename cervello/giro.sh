@@ -138,6 +138,7 @@ SENSORI_VINCOLO=""
 ALLOC_VINCOLO=""      # AR-081: vincolo dell'allocazione-check (popolato sotto se il guardiano fallisce)
 REGISTRO_SCELTE_VINCOLO=""  # AR-103: dossier vendite scelta_ragionata non sincronizzati nel registro
 LOOP_VINCOLO=""       # PZ-008: vincolo del gate chiusura-loop (FATTO in Sala senza ESITO nel quaderno)
+TEST_VINCOLO=""       # 25/7: test del cervello rossi o ineseguibili (prima non li lanciava nessuno)
 FATTI_VINCOLO=""      # AR-102: vincolo del gate coerenza-fatti (copie vecchie di un fatto in file vivi)
 CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se > 2 giorni)
 OKR_VINCOLO=""        # AR-115: vincolo freschezza OKR-Squadra (target scaduti o doc stantio)
@@ -206,6 +207,31 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/cantiere-prove.mjs" 2>&1 | tail -4 || true
   echo "[$(ts)] Pagella dell'intelligenza (quanto manca a 'pronta')..."
   node "$SCRIPT_DIR/pagella-intelligenza.mjs" 2>&1 | tail -8 || true
+
+  # ─── I TEST GIRANO A OGNI GIRO (25/7) ─────────────────────────────────────────────────
+  # Il difetto, trovato controllando il guardiano che avevo appena costruito: i test di
+  # `cervello/test/` e quelli del Pannello NON li lanciava nessuno. Non il giro, non una CI — solo
+  # una persona che li digitava a mano. Avevo costruito `test-pannello.mjs` proprio per scoprire
+  # i test che nessuno esegue, e l'avevo lasciato nella stessa condizione. Una rete che nessuno
+  # tende non è una rete.
+  #
+  # CERVELLO = VINCOLO HARD. Sono test puri di Node su moduli .mjs: niente rete, niente DB, niente
+  # compilatore. Se diventano rossi sono rossi davvero, e il giro deve saperlo prima di decidere
+  # qualsiasi cosa — non dopo. ~2 secondi.
+  echo "[$(ts)] Test del cervello (la rete c'è o non c'è)..."
+  _testc_out="$(node "$SCRIPT_DIR/test-cervello.mjs" 2>&1)"; _testc_rc=$?
+  printf '%s\n' "$_testc_out" | tail -6
+  if [ "$_testc_rc" -ne 0 ]; then
+    TEST_VINCOLO="⛔ TEST DEL CERVELLO ROSSI (test-cervello.mjs rc=$_testc_rc): uno o più file di test non passano o non partono. NON dichiarare 'fatto' e non aprire PR finché non tornano verdi: rimettili a posto PRIMA di ogni altro lavoro, poi rilancia 'node cervello/test-cervello.mjs'. Un test rosso ignorato è il difetto che ha generato tutti gli altri."
+    echo "[$(ts)] ⚠️  Test del cervello ROSSI (rc=$_testc_rc) → passo un vincolo hard al motore." >&2
+  fi
+  # PANNELLO = INFORMATIVO, e il motivo è onesto: girano solo col type-stripping di Node (≥22.18),
+  # e da qui non posso verificare quale Node esegue davvero il giro sul VPS. Consegnare un vincolo
+  # hard che non ho potuto provare sulla macchina bersaglio è l'errore che ho già fatto. Si promuove
+  # a cancello il giorno che lo si vede verde nel log del VPS.
+  echo "[$(ts)] Test del Pannello (informativo finché non provato sul VPS)..."
+  node "$SCRIPT_DIR/test-pannello.mjs" 2>&1 | tail -4 || true
+
   echo "[$(ts)] Guardiano allocazione sforzo (AR-006: pesante solo su entità confermata)..."
   # AR-081: NON scartiamo più l'exit-code con "|| true". Cattura rc del guardiano e trattalo come
   # VINCOLO: se fallisce (una 'scelta_ragionata' accumula asset pesanti mentre un negozio 'confermato'
@@ -504,6 +530,14 @@ if [ -n "${LOOP_VINCOLO:-}" ]; then
 
 ## Vincolo chiusura-loop (HARD — dal gate chiusura-loop prima di te)
 $LOOP_VINCOLO"
+fi
+if [ -n "${TEST_VINCOLO:-}" ]; then
+  # 25/7: i test del cervello girano a ogni giro e il loro rosso arriva al motore come regola hard.
+  # Prima non li lanciava nessuno: esistevano solo quando una persona li digitava a mano.
+  PROMPT="$PROMPT
+
+## Vincolo test del cervello (HARD — dal guardiano test-cervello prima di te)
+$TEST_VINCOLO"
 fi
 if [ -n "${FATTI_VINCOLO:-}" ]; then
   # AR-102: il gate coerenza-fatti arriva al motore come regola hard (propaga PRIMA di chiudere il giro).
