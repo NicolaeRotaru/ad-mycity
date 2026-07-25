@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-25 10:14",
+  "aggiornato": "2026-07-25 10:55",
   "_gate_25_07": "GIRO 25/7: cristallizzazione meccanica già girata da giro.sh alle 06:20 (34 principi, 0 arretrato evidente su evidenze>=7/6/5 — tutti già promossi in 3 batch ieri 14:20/16:20/18:20). Sul cluster #1 segnalato dal guardiano ('marketplace': 22 lezioni/36 ripetizioni) verificato A MANO (8 lezioni lette): NON è un'unica causa radice, è un tag-contenitore troppo generico (label 'tocca il sito marketplace', non firma di un tipo di bug) — cristallizzarlo in un gate sarebbe un principio vago e inutile. Proposta reale invece: (1) tech fix proposto a Nicola — aggiungere 'marketplace' a TAG_GENERICI in cervello/apprendimento-guardiano.mjs (rumore di tassonomia, non errore ricorrente); (2) gate concreto sul cluster #4 'allowlist' (19 lezioni/27 rip./11 da Nicola), rinforzato da evidenza fresca di QUESTO giro (node cervello/esperimenti-check.mjs, valida-contratti.mjs, apprendimento-guardiano.mjs, cristallizza-apprendimento.mjs tutti bloccati da approvazione pur essendo sola-lettura/bookkeeping dichiarati nel loro stesso header) — proposta 🟡 #allowlist-diagnostica-gate in AZIONI-IN-ATTESA: estendere .claude/settings.local.json con un pattern che copre gli script *-check.mjs/*-guardiano.mjs di sola lettura, così l'AD non deve più bypassare a mano leggendo il sorgente ogni volta.",
   "_nota_metabolizzazione_24_07_2002": "Chat 24/7 ~20:02 (chiusura del filo doppioni 'Nuova chat' già raccontato nella nota 19:57/STATO.md): nessun nuovo messaggio di contenuto da Nicola in questo turno (solo 'Abc', ambiguo, seconda volta consecutiva) — verificato via `git log` che PR #531 (blocco doppio-tap sul bottone invia) è GIÀ mergiata su main (commit `575721d2`), non più 'in attesa' come risultava nella card #236. Aggiornati AZIONI-IN-ATTESA (#236 → FATTO) e STATO.md (nuova voce in cima). Nessuna lezione nuova: conferma pratica (non caso_studio_nicola) del pattern già in LEZIONI-CHAT — bug UI 'ricorrente' trattato con screenshot reale + verifica del codice esistente prima di riscrivere la diagnosi da zero, invece di assumere che il fix di ieri (PR #517) fosse insufficiente senza controllare. Resta da confermare dal vivo nel browser dopo il prossimo deploy Vercel (nessun accesso browser in sessione headless). Nessun fatto/decisione/dato business nuovo.",
   "_nota_metabolizzazione_24_07_1740": "Chat 24/7 17:36: Nicola \"aggiungi parla con la casella a tutte le caselle della bacheca\" — AD ha aggiunto ParlaCasella agli avvisi Bacheca (unico file mancante), PR #527 aperta e già accodata in AZIONI-IN-ATTESA (card #235, riga tabella). Registrata lezione L-2026-0724-527: pattern ricorrente (7ma volta) di aggiungere ParlaCasella superficie-per-superficie invece che con audit unico. Sul filone precedente (registro dei fatti incompleto, turno prima), Nicola non ha ancora dato l'esempio concreto richiesto dall'AD — resta aperto, nessuna azione da registrare finché non risponde.",
@@ -1015,8 +1015,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 23:28",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 10:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-407",
@@ -1128,8 +1130,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 20:16",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 10:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-410",
@@ -1325,8 +1329,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 18:32",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 10:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0720-400",
@@ -10106,7 +10112,9 @@
       "fonte": "auto-analisi",
       "nato": "2026-06-30",
       "ultima_conferma": "2026-07-01 01:57",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 10:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0630-01",
@@ -10160,7 +10168,9 @@
       "fonte": "auto-analisi",
       "nato": "2026-06-29",
       "ultima_conferma": "2026-06-30",
-      "stato": "in-prova"
+      "stato": "principio",
+      "promosso_il": "2026-07-25 10:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0629-04",
@@ -10497,6 +10507,36 @@
       "promosso_il": "2026-07-24 22:20"
     },
     {
+      "id": "L-2026-0720-413",
+      "testo": "**Registro ok ≠ casella ok — sentinelle devono leggere registro-fatti, non pitch hardcoded (Nicola 20/7 ~19:06).** Casella «Pochi negozi»: Nicola «**non hai aggiornato memoria centrale o caselle non collegate**» — pricing **10% + 50€/mese**. 5 perché: (1) `registro-fatti.json` era **già corretto** dal fix 12:39 (L-391); (2) casella mostrava ancora «12%, 0 fissi» perché **pitch fisso nel codice** sentinelle, non lettura registro; (3) fix parziale L-391 aggiornò vault/radar/scout ma **non** wiring UI caselle; (4) **PR #501:** sentinelle leggono `pricing.commissione` + `pricing.abbonamento` dal registro; (5) PQ resta eccezione 12%/0€ — pitch standard nuovi negozi = registro. Regola: dopo correzione pricing in registro → **cerca TUTTE le superfici** (sentinelle, caselle Pannello, pitch vendite) e collega al registro nello **stesso fix**; «memoria giusta ma casella sbagliata» = bug codice, non registro. **Addendum 23:23:** Nicola screenshot — **#501** ri-bloccata vs main (north-star/memoria); AD rebase → **mergeable**; merge 🔴 pendente Nicola. **Addendum 23:28:** **#501 ✅** mergiata Nicola → casella pricing live. Vedi L-391, L-397, AR-102, DECISIONI 20/7 19:06.",
+      "tag": [
+        "pricing",
+        "sentinelle",
+        "registro-fatti",
+        "pannello",
+        "vendite",
+        "nicola"
+      ],
+      "reparto": "@vendite",
+      "promosso_il": "2026-07-25 10:20"
+    },
+    {
+      "id": "L-2026-0720-411",
+      "testo": "**PostHog VPS ok ≠ Pannello Radiografia — due env separate (Nicola 20/7 ~18:48, addendum redeploy 20:01 L-414).** Nicola: «**è ancora scollegata**» + screenshot dopo fix VPS (sensore **ok** 18:44–18:45). 5 perché: (1) AD aveva comunicato «collegato» basandosi solo su `verifica-sensori` **worker**; (2) screenshot = pagina **Radiografia Pannello** su Vercel — `posthogConnected()` in `pannello/src/lib/posthog.ts` legge **`POSTHOG_HOST` + `POSTHOG_PROJECT_ID` + `POSTHOG_API_KEY` da Vercel**, non dal VPS; (3) stessa Personal API Key `phx_` va configurata **anche** su Vercel + **Redeploy** — ma redeploy **20:01** non basta se env sbagliate (L-414); (4) project US **495230** («Default project»); (5) su «ancora scollegata» **chiedi quale superficie** (worker vs Pannello) e verifica **entrambe** prima di ripetere passi env. Regola: PostHog MyCity = **2 posti indipendenti** (VPS worker + Vercel Pannello); fix uno **non** implica fix altro. Vedi L-414, L-410, L-409, L-404.",
+      "tag": [
+        "posthog",
+        "vercel",
+        "pannello",
+        "radiografia",
+        "vps",
+        "sensori",
+        "frontend-dev",
+        "data-engineer"
+      ],
+      "reparto": "@data-engineer",
+      "promosso_il": "2026-07-25 10:20"
+    },
+    {
       "id": "L-2026-0720-404",
       "testo": "**PostHog sul VPS — non si installa: cloud + chiave lettura `phx_` in env worker (Nicola 20/7 ~18:24).** Nicola: «**come faccio ad inserire posthog dentro il vps?**». 5 perché: (1) PostHog **non va installato** sul VPS — è **SaaS cloud** (EU/US); sul sito gli eventi partono già da Render con chiave pubblica; (2) sul VPS serve solo **leggere** funnel/conversioni per briefing — Personal API Key **`phx_…`** con permesso **Project: Read**, **non** la chiave progetto **`phc_…`** (solo tracking/scrittura); (3) **5/7** sensore spento (`POSTHOG_OFF` / chiave sbagliata) — oggi `posthog_api:non_configurato` è **normale**, non bug; (4) setup: env `cervello/vps/.env` → `POSTHOG_OFF=0`, `POSTHOG_API_KEY=phx_…`, `POSTHOG_HOST` (**US** = `https://us.posthog.com` per account MyCity — vedi `sensori.posthog.regione`) → restart `mycity-worker` → `verifica-sensori.mjs` = **ok**; (5) **riaccensione sensore nei briefing** = decisione Nicola esplicita (non automatica al solo env). Regola: su «PostHog nel VPS» → **mai** proporre Docker/self-host; spiega cloud + tipo chiave + **chiedi EU/US** + verifica sensore; **non** incollare chiavi in chat/memoria. Vedi L-222 (PostHog spento = scelta), DECISIONI 5/7. **Addendum 18:28:** Nicola «**dico di metterlo sul vps come n8n**» — stesso frame mentale L-406: n8n = **programma Docker** sul VPS; PostHog = **servizio cloud** + **3 righe env** nello stesso file di n8n/Telegram; self-host PostHog **scartato** (RAM/manutenzione + cambiare tracking Render). **Addendum 18:41:** Nicola «**ho fatto tutto**» ma sensori no — env **letto** (`phx_`, host europeo) ma PostHog **HTTP 401** → **`cieco`**. **Addendum 18:44 (L-410):** account **US** — host europeo era la causa; fix host US → sensore **ok** senza rigenerare chiave. Vedi L-409, L-410.",
       "tag": [
@@ -10510,6 +10550,20 @@
       ],
       "reparto": "@data-engineer",
       "promosso_il": "2026-07-24 22:20"
+    },
+    {
+      "id": "L-2026-0720-401",
+      "testo": "**Elimina negozi demo — casella Supervisione, accoda 🔴 poi esegui al ok (chat 20/7 ~17:54, ✅ 18:30–18:32).** Nicola da casella Supervisione: «**elimina tutti i negozi tranne pane quotidiano**». 5 perché: (1) REST live **17 negozi** = 1 **Pane Quotidiano** reale (5 prodotti) + **16 seed/demo** (UUID `11111111…`, Casa Linda inclusa); (2) **253 prodotti finti** intasano supervisione e catalogo pubblico; (3) cancellazione marketplace **irreversibile** → 🔴, **mai eseguire** senza ok esplicito Nicola; (4) piano: elimina prodotti demo + account venditori demo, **PQ intatto** — accoda **#elimina-negozi-demo**; (5) **ESEGUITO 18:30–18:32** (L-407+L-408): Nicola «te lo approvo in chat» → **16** demo rimossi · prod prima nascosti poi **253 DELETE dal DB** · REST **1 negozio · 5 prodotti**. Regola: imperativo «elimina tutti tranne X» = numeri REST + elenco + card 🔴 + ok → esegui + verifica; «elimina prodotti finti» = hard delete, non draft. Vedi L-407, L-408, DECISIONI 20/7 17:54–18:32.",
+      "tag": [
+        "supervisione",
+        "demo",
+        "pane-quotidiano",
+        "catalogo",
+        "operations",
+        "irreversibile"
+      ],
+      "reparto": "@operations",
+      "promosso_il": "2026-07-25 10:20"
     },
     {
       "id": "L-2026-0720-397",
@@ -11013,6 +11067,31 @@
       "promosso_il": "2026-07-25 08:20"
     },
     {
+      "id": "L-2026-0630-03",
+      "testo": "Quando il Supabase MCP è cieco (needsAuth / manca SUPABASE_ACCESS_TOKEN), usare il fallback REST via env in cervello/vps/.env — marketplace MARKETPLACE_SUPABASE_URL/KEY e memoria Pannello — verificato funzionante 30/6 serale e 1/7 (REST HTTP 200 anche in chat MCP 01:57). Documentare in giro.md: MCP preferito, REST fallback obbligatorio prima di dichiarare 'sensori ciechi'.",
+      "tag": [
+        "sensori",
+        "fallback",
+        "supabase",
+        "rest"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 10:20"
+    },
+    {
+      "id": "L-2026-0629-03",
+      "testo": "Non moltiplicare i giri nello stesso giorno se i sensori sono ciechi e fuori non è cambiato nulla: il valore aggiunto è ~zero e si brucia Max. Riconoscere la condizione (dati congelati + MCP/WebFetch non autorizzati + scan locale invariato) e produrre un passaggio MINIMO e onesto — o saltare — invece di ri-scansionare i fattori settimanali del radar o inventare novità. Un giro che dice 'niente di nuovo, la palla è a Nicola' vale più di uno gonfiato. (Confermata di nuovo al 5° passaggio del 29/6.)",
+      "tag": [
+        "efficienza",
+        "metacognizione",
+        "sensori",
+        "max",
+        "onesta"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 10:20"
+    },
+    {
       "id": "L-2026-0628-01",
       "testo": "Grounding delle entità a 3 strade, da fare DA SOLA prima di disturbare Nicola: (a) nei dati reali → confermata; (b) scelta ragionata con prove verificabili (gap di mercato, profilo, fatti pubblici) → legittima, mostra il perché; (c) nessun fondamento → blocca e chiedi. Solo (c) è il vero 'inventato'.",
       "tag": [
@@ -11444,15 +11523,15 @@
   ],
   "meta": {
     "lezioni_attive": 473,
-    "promosse_a_principio": 39,
+    "promosse_a_principio": 44,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-25 10:14",
+    "tasso_calcolato_il": "2026-07-25 10:55",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-25 10:14",
+    "tick_leggero_il": "2026-07-25 10:55",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-25 08:20"
+    "cristallizzazione_ultima": "2026-07-25 10:20"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
