@@ -1,11 +1,11 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
-  "aggiornato": "2026-07-25 22:20",
+  "aggiornato": "2026-07-26 01:18",
   "pronta": false,
   "voci_superate": 1,
   "voci_totali": 5,
   "voci_cieche": 0,
-  "migliorate": 0,
+  "migliorate": 1,
   "peggiorate": 0,
   "soglie": {
     "lezioni_tasso_min": 0.7,
@@ -24,8 +24,8 @@
       "fonte": "cervello/tasso-regole.mjs",
       "come_si_alza": "prendere una correzione di Nicola e chiuderla alla radice (principio + gate automatico): scrivere altre lezioni non aiuta, finiscono nel denominatore",
       "tasso_citazioni": 0.18,
-      "valore": 0.12,
-      "etichetta": "12% (32/277 correzioni)",
+      "valore": 0.13,
+      "etichetta": "13% (36/277 correzioni)",
       "ok": false,
       "cieco": false,
       "ricadute": {
@@ -40,9 +40,8 @@
         "con_gate": 0,
         "quota": 0
       },
-      "movimento": "misura cambiata",
-      "precedente": 0.18,
-      "precedente_metrica": null
+      "precedente": 0.12,
+      "movimento": "migliorata"
     },
     {
       "id": "calibrazione",
@@ -262,6 +261,18 @@
       "pronta": false,
       "valori": {
         "lezioni": 0.12,
+        "calibrazione": 0,
+        "freni": 0,
+        "quaderni": 0.25833333333333336,
+        "salute": 43
+      }
+    },
+    {
+      "data": "2026-07-26 01:18",
+      "voci_superate": 1,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.13,
         "calibrazione": 0,
         "freni": 0,
         "quaderni": 0.25833333333333336,

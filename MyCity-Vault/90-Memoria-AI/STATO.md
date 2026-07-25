@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-26 01:05
+aggiornato: 2026-07-26 01:10
 fonte: AD digitale (chat)
 ---
+
+> 💬 **26/7 ~01:10 — CHAT: costi certi del primo mese elencati (~602€: burn 302€/m + bici 100€ + volantini 200€) — Nicola fissa il TRIGGER di partenza al 15 agosto (stipendio), non più al 24/8-1/9.** Nicola: «si parte appena riparo la bici e stampo tutti i tipo di volantini, vedrò lo stipendio il 15 di agosto, con cui potrò riparare la bici (100€) e stampare i volantini (200€). Dimmi tutti gli altri costi del primo mese». L'AD ha risposto coi soli costi certi (burn fisso 302€/m + le due spese una-tantum), lasciato a 0€ il costo squadra (pagamento rimandato a 10.000€ di profitto, non un costo del mese 1) e i costi sospesi (soglia 5.000€/m di utile) invariati. **Conflitto ancora aperto, non risolto:** questa è la 2ª volta che Nicola indica una data di ripartenza (metà agosto) diversa da quella registrata in `registro-fatti.json` (ripresa.lavoro-operativo = dopo il 24/8-1/9, decisione 23/7) — l'AD ha rifatto la domanda esplicita, in attesa di conferma prima di riscrivere il fatto. Card 🟡 `#conferma-piano-squadra-ripresa-negozi` accodata in [[AZIONI-IN-ATTESA]]. Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 26/7 ~01:10.
 
 > 💬 **26/7 ~01:05 — CHAT: Nicola propone un piano squadra non retribuita per accelerare l'inserimento negozi — PROPOSTA, non ancora confermata, in conflitto con la pausa negozi fino al 24/8-1/9.** Nicola: vuole inserire 1-3 negozi al giorno con l'aiuto di fratello + il suo migliore amico + un amico fedele di Nicola (loro: consegna prodotti, inserimento prodotti, volantini; solo Nicola inserisce i negozi), tutti NON pagati finché l'azienda non arriva a 10.000€ di profitto; chiede quanto guadagnerebbe con 50 negozi il primo mese. L'AD ha risposto con una stima (5.000-16.000€ lordi, ramp-up realistico non a regime) e ha segnalato il conflitto esplicito con [[registro-fatti|ripresa.lavoro-operativo]] (pausa negozi concordata 23/7 fino al 24/8-1/9) — **in attesa che Nicola confermi se questo piano sostituisce quella data o parte comunque dopo**. Non registrato in `registro-fatti.json` (non confermato). Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 26/7 ~00:59.
 

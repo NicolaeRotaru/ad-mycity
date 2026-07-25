@@ -14,6 +14,18 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+<!-- conferma-piano-squadra-ripresa-negozi -->
+
+### 🟡 #conferma-piano-squadra-ripresa-negozi — Conferma se il piano squadra (fratello + 2 amici non pagati) e la nuova data di ripartenza (metà agosto) sostituiscono la pausa negozi decisa il 23/7 (24/8-1/9) · ⏳ accodata 2026-07-26 01:10
+**Cosa cambia:** Nicola ha descritto un piano concreto per accelerare l'inserimento negozi (1-3/giorno) con l'aiuto del fratello + il suo migliore amico + un amico fedele (loro: consegna prodotti, inserimento prodotti, volantini — solo Nicola inserisce i negozi), tutti non pagati finché l'azienda non arriva a 10.000€ di profitto. Ha detto che si parte "appena riparo la bici e stampo i volantini", finanziati dallo stipendio del 15 agosto (bici 100€ + volantini 200€) — una data PRIMA di quella già registrata in `registro-fatti.json` (`ripresa.lavoro-operativo` = dopo il 24/8-1/9, decisione Nicola del 23/7).
+**Se va bene:** l'AD registra il piano squadra come decisione ufficiale in DECISIONI.md, aggiorna `ripresa.lavoro-operativo` con `coerenza-fatti.mjs` e riscrive la data vecchia ovunque compaia nel vault (STATO, coda pause, calendario).
+**Nota:** in attesa — l'AD ha chiesto conferma esplicita a Nicola due volte (26/7 ~01:05 e ~01:10), non ancora arrivata; nessun fatto riscritto finché non conferma.
+- **Colore:** 🟡 (cambia una data/decisione ufficiale + registra un piano operativo nuovo)
+- **Reparto:** AD
+- **Origine:** `{origine:chat-2026-07-26, tema:ripresa-negozi-squadra}`
+
+---
+
 <!-- pi26-conferma-ammissibilita -->
 
 ### 🔴 #pi26-conferma-ammissibilita — Conferma 3 cose prima di inviare la domanda PI26 (10.000€, scade 30/7 ore 16:00) · ⏳ accodata 2026-07-24 16:00 (review settimanale)
