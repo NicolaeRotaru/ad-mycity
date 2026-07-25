@@ -44,11 +44,6 @@ export function provaDebole(file) {
 /** Ri-esegue la prova di un difetto. Ritorna "ok" | "regredito" | "senza-prova" | "file-assente". */
 export function riverifica(dif, leggiFile) {
   const v = dif && dif.verifica;
-  // Prova a COMANDO (round 4): la condizione è strutturale e la sa valutare solo un guardiano.
-  // L'audit non li ri-esegue — far girare 67 guardiani a ogni controllo costerebbe minuti — ma li
-  // conta a parte invece di scambiarli per "senza prova": una prova a comando È verificabile,
-  // semplicemente non qui. Chi la ri-esegue è auto-fix, a ogni giro.
-  if (v && v.comando) return "comando";
   if (!v || !v.file || !v.pattern) return "senza-prova";
   const txt = leggiFile(v.file);
   if (txt == null) return "file-assente";
@@ -85,19 +80,18 @@ function main() {
   const cant = JSON.parse(readFileSync(p, "utf8"));
   const chiusi = (cant.difetti || []).filter((d) => d.stato === "chiuso");
 
-  const regrediti = [], senzaProva = [], deboli = [], fileAssente = [], aComando = [];
+  const regrediti = [], senzaProva = [], deboli = [], fileAssente = [];
   for (const d of chiusi) {
     const esito = riverifica(d, leggiFileRepo);
     const riga = { id: d.id, titolo: (d.titolo || "").slice(0, 90), file: d.verifica?.file || null, chiuso_il: d.chiuso_il || "" };
     if (esito === "regredito") regrediti.push(riga);
     else if (esito === "senza-prova") senzaProva.push(riga);
     else if (esito === "file-assente") fileAssente.push(riga);
-    else if (esito === "comando") aComando.push(riga);
     if (d.verifica?.file && provaDebole(d.verifica.file)) deboli.push(riga);
   }
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ quando, chiusi: chiusi.length, regrediti, senza_prova: senzaProva, prova_debole: deboli, file_assente: fileAssente, a_comando: aComando }, null, 2));
+    console.log(JSON.stringify({ quando, chiusi: chiusi.length, regrediti, senza_prova: senzaProva, prova_debole: deboli, file_assente: fileAssente }, null, 2));
     process.exit(GATE && regrediti.length ? 1 : 0);
   }
 
@@ -107,7 +101,6 @@ function main() {
   console.log(`  🖐️  chiusi senza prova automatica:    ${senzaProva.length}`);
   console.log(`  ⚠️  prova debole (punta alla prosa):  ${deboli.length}`);
   console.log(`  ❔ file della prova sparito:          ${fileAssente.length}`);
-  if (aComando.length) console.log(`  ⚙️  prova a comando (la ri-esegue auto-fix): ${aComando.length}`);
 
   const mostra = (titolo, arr, n = 8) => {
     if (!arr.length) return;
