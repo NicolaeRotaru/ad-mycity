@@ -27,9 +27,28 @@ function uguale(a: Payload | null, b: Payload): boolean {
   return JSON.stringify(sa) === JSON.stringify(sb);
 }
 
+/**
+ * Un thread SENZA id e SENZA messaggi non è una conversazione: non c'è niente da condividere.
+ *
+ * AR-123. Pubblicarlo equivale a dichiarare «la chat attiva adesso è questa», e chi ascolta si
+ * allinea — cioè si SVUOTA. Bastava aprire una casella mai usata («💬 Parla con questa casella»,
+ * msgs=[] e convId=null al primo istante) perché l'Assistente cancellasse la conversazione che
+ * Nicola aveva aperto. Riprodotto nel browser il 25/7: chat con 2 messaggi → click sulla casella →
+ * riapro il Worker → vuota.
+ *
+ * Il guardo sta QUI e non nel chiamante perché è una proprietà dell'evento: il protocollo non ha
+ * un modo di dire «non ho niente da dire», quindi ogni superficie nuova che lo usasse rifarebbe lo
+ * stesso errore. (ParlaCasella lo aveva già sul percorso di CHIUSURA e non su quello di APERTURA:
+ * la disparità era il bug.)
+ */
+function nienteDaDire(det: DettaglioChatUnificata): boolean {
+  return !det.convId && det.messaggi.length === 0;
+}
+
 /** Pubblica il thread attivo (ignora se identico all'ultimo emit della stessa origine). */
 export function pubblicaChatUnificata(det: DettaglioChatUnificata, origine: Payload["origine"]) {
   if (typeof window === "undefined") return;
+  if (nienteDaDire(det)) return;
   const payload: Payload = { ...det, origine };
   if (uguale(ultima, payload)) return;
   ultima = payload;
