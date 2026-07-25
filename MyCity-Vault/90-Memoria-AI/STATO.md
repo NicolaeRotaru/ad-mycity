@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-26 01:10
+aggiornato: 2026-07-26 01:29
 fonte: AD digitale (chat)
 ---
+
+> 💬 **26/7 ~01:29 — CHAT: Nicola corregge — «perché solo 600€? inserisco 50 negozi»: il totale saliva a ~4.600-8.100€ per il kit fisico per-negozio dimenticato.** L'AD aveva risposto (turno 01:10) coi soli costi fissi+una-tantum (602€: burn 302€/m + bici 100€ + volantini 200€), omettendo il kit fisico QR/vetrofania/sacchetti (80-150€/negozio, già in playbook capillarità 20/7 + STATO 21/7) che SCALA con 50 negozi. Corretto: **~4.600€ (kit a tutti i 50) - 8.100€ (fascia alta)**. **2 domande aperte, non ancora risposte da Nicola:** (1) il kit va a tutti i 50 negozi subito o solo a un primo gruppo (5-10)? (2) i kit li paga Nicola di tasca (come bici/volantini) o sono spesa aziendale da recuperare sui primi ricavi? Non ancora registrato in memoria permanente (aspetta risposta, poi si scrive in un solo passaggio insieme al piano squadra della riga sotto). Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 26/7 ~01:29.
 
 > 💬 **26/7 ~01:10 — CHAT: costi certi del primo mese elencati (~602€: burn 302€/m + bici 100€ + volantini 200€) — Nicola fissa il TRIGGER di partenza al 15 agosto (stipendio), non più al 24/8-1/9.** Nicola: «si parte appena riparo la bici e stampo tutti i tipo di volantini, vedrò lo stipendio il 15 di agosto, con cui potrò riparare la bici (100€) e stampare i volantini (200€). Dimmi tutti gli altri costi del primo mese». L'AD ha risposto coi soli costi certi (burn fisso 302€/m + le due spese una-tantum), lasciato a 0€ il costo squadra (pagamento rimandato a 10.000€ di profitto, non un costo del mese 1) e i costi sospesi (soglia 5.000€/m di utile) invariati. **Conflitto ancora aperto, non risolto:** questa è la 2ª volta che Nicola indica una data di ripartenza (metà agosto) diversa da quella registrata in `registro-fatti.json` (ripresa.lavoro-operativo = dopo il 24/8-1/9, decisione 23/7) — l'AD ha rifatto la domanda esplicita, in attesa di conferma prima di riscrivere il fatto. Card 🟡 `#conferma-piano-squadra-ripresa-negozi` accodata in [[AZIONI-IN-ATTESA]]. Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 26/7 ~01:10.
 
