@@ -109,7 +109,11 @@ export default function RadiografiaDiSe() {
   const sintesiR = r?.sintesi || (!votoSOk && typeof r?.voto_salute_architettura === "string" ? r!.voto_salute_architettura : "");
   const cantiere = d?.cantiere;
   const aperti = (cantiere?.difetti || []).filter((x) => x.stato !== "chiuso");
-  const chiusi = (cantiere?.difetti || []).filter((x) => x.stato === "chiuso");
+  // Più recenti prima: senza questo i nuovi chiusi finiscono in fondo a una lista di 70+ righe
+  // (ordine file = ordine inserimento, quasi sempre vecchio) e sembrano "spariti" a chi scorre dall'alto.
+  const chiusi = (cantiere?.difetti || [])
+    .filter((x) => x.stato === "chiuso")
+    .sort((a, b) => String(b.chiuso_il || "").localeCompare(String(a.chiuso_il || "")));
   const serie = d?.storico?.serie || [];
   // 📈 Andamento LEGGIBILE: lo storico grezzo ha più radiografie nello stesso giorno →
   // qui si tiene UNA voce per giorno (l'ultima) e si mostrano al massimo le ultime 3 settimane.
