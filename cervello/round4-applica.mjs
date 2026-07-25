@@ -11,12 +11,12 @@
 // si potrebbe fingere una chiusura, quindi qui ogni prova nuova è agganciata a un fatto verificabile
 // e NESSUNA chiude un difetto che non sia davvero risolto:
 //
-//   · AR-142 (permessi troppo larghi) → la prova diventa: «in .claude/settings.json NON c'è più
-//     Bash(curl:*)». Dei 5 permessi contestati 4 erano già stati stretti; resta solo quello.
-//     Il difetto quindi NON si chiude adesso: si chiuderà DA SOLO il giorno in cui Nicola toglie
-//     quella riga. La macchina non può farlo da sé — settings.json le è negato in Edit/Write, apposta.
-//     In più ora esiste il guardiano che mancava (cervello/permessi-check.mjs), che era la
-//     causa-radice dichiarata: «nessuno confronta i permessi effettivi con la regola d'oro».
+//   · AR-142 (permessi troppo larghi) → la prova diventa il GUARDIANO: «`permessi-check.mjs` esce 0».
+//     Il difetto NON si chiude adesso: sul VPS il guardiano trova 11 violazioni, e le correzioni le
+//     fa Nicola — la macchina non può toccarsi i permessi, `.claude/settings.json` le è negato in
+//     Edit/Write apposta. Si chiuderà da solo quando l'ultima violazione sparisce.
+//     Perché il guardiano e non un pattern: vedi il commento lungo sulla voce AR-142 qui sotto.
+//     Due tentativi precedenti erano sbagliati, ed è documentato dove e perché.
 //
 //   · AR-151 (nessun audit delle chiusure passate) → la prova diventa: «esiste chiusure-audit.mjs
 //     con la funzione riverifica». Il difetto chiedeva esattamente quel passo mancante, e ora c'è:
@@ -47,12 +47,32 @@ const CANTIERE = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantie
 const PROVE = [
   {
     id: "AR-142",
-    verifica: { file: ".claude/settings.json", pattern: "Bash\\(curl:\\*\\)", presente: false },
+    // CORREZIONE (2026-07-25 04:10). La prima versione di questa prova puntava a
+    // `.claude/settings.json` e dava per stretti 4 permessi su 5. Sbagliato: quella diagnosi è stata
+    // fatta nella sessione cloud, dove `.claude/settings.local.json` NON ESISTE. Sul VPS esiste, ha
+    // 33 allow e ZERO deny, e contiene TUTTI i permessi che AR-142 denunciava — git push diretto su
+    // main, git merge generico, Write senza path, node /tmp/*.mjs, curl senza dominio — più nessun
+    // divieto su .env e su settings.json stesso. Il guardiano nuovo l'ha rilevato al primo giro
+    // sul VPS: 11 violazioni, 10 delle quali nel file locale.
+    //
+    // Con la prova vecchia il difetto si sarebbe chiuso da solo togliendo `curl` dal file SBAGLIATO,
+    // mentre la macchina restava larga: la stessa trappola che questo round doveva estirpare.
+    //
+    // E nemmeno spostare il pattern sul file giusto bastava: `git push` compare sia fra i permessi
+    // CONCESSI sia fra i DIVIETI, e una regex sul testo grezzo non li distingue — un file
+    // configurato BENE sarebbe risultato sporco (provato). I divieti MANCANTI, poi, non sono
+    // esprimibili affatto: non si cerca l'assenza di una regola in un elenco che non la contiene.
+    // Per questo la prova è ora il GUARDIANO: l'unica cosa che legge la struttura e sa la verità.
+    verifica: { comando: "node cervello/permessi-check.mjs" },
     nota:
-      "Round 4: 4 dei 5 permessi contestati risultano già stretti (git push in deny, niente Write senza " +
-      "path, niente /tmp, settings.local.json rimosso). Resta Bash(curl:*), che solo Nicola può togliere. " +
-      "La prova ora è machine-checkable e si chiuderà da sola quando la riga sparisce. " +
-      "Guardiano nuovo: cervello/permessi-check.mjs (era la causa-radice: nessuno controllava).",
+      "Round 4 (corretto due volte). ① La prima diagnosi diceva «4 su 5 già stretti»: sbagliata, " +
+      "misurata nella sessione cloud dove settings.local.json non esiste. Sul VPS quel file ha 33 allow " +
+      "e 0 deny e contiene TUTTI i permessi contestati (11 violazioni totali). ② La prima correzione " +
+      "usava file+pattern su settings.local.json: sbagliata anche quella, perché `git push` compare sia " +
+      "fra i permessi sia fra i divieti e una regex sul testo grezzo non li distingue — un file " +
+      "configurato bene sarebbe risultato sporco. ③ Ora la prova è il guardiano stesso: si chiude " +
+      "quando `permessi-check.mjs` esce 0, cioè quando NON c'è più nessuna violazione in nessuno dei " +
+      "due file, divieti mancanti compresi. È l'unica formulazione che dice la verità.",
   },
   {
     id: "AR-151",
@@ -79,7 +99,11 @@ for (const p of PROVE) {
     saltato.push(`${p.id}: non trovato nel cantiere`);
     continue;
   }
-  if (d.verifica && d.verifica.file === p.verifica.file && d.verifica.pattern === p.verifica.pattern) {
+  // Idempotenza: confronto sulla prova INTERA, non sui singoli campi. Con le prove a comando
+  // `file` e `pattern` sono entrambi undefined da tutte e due le parti, e un confronto campo-a-campo
+  // dichiarava «già aggiornata» senza applicare niente — lo script sarebbe stato un no-op silenzioso.
+  const uguale = d.verifica && JSON.stringify(d.verifica) === JSON.stringify(p.verifica);
+  if (uguale) {
     saltato.push(`${p.id}: prova già aggiornata`);
     continue;
   }
@@ -87,7 +111,10 @@ for (const p of PROVE) {
     d.verifica = p.verifica;
     d.nota_round4 = p.nota;
   }
-  fatto.push(`${p.id}: prova «umana» → ${p.verifica.file} /${p.verifica.pattern}/ (presente:${p.verifica.presente})`);
+  const descrizione = p.verifica.comando
+    ? `guardiano: \`${p.verifica.comando}\` deve uscire 0`
+    : `${p.verifica.file} /${p.verifica.pattern}/ (presente:${p.verifica.presente})`;
+  fatto.push(`${p.id}: prova «umana» → ${descrizione}`);
 }
 
 if (DRY) {
