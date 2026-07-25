@@ -69,12 +69,25 @@ test("ogni regola dichiara la fonte del proprio perché", () => {
 // questa prova copre solo metà della realtà del VPS. La verità completa la dice il guardiano
 // lanciato nell'ambiente vero, ed è per questo che la prova di AR-142 nel cantiere è il COMANDO,
 // non un pattern su un file.
+// Il residuo che al 25/7 era ancora aperto qui. È un TETTO, non un valore atteso: la prova chiede che
+// non compaia niente di NUOVO, non che questo resti.
+const RESIDUO_NOTO = ["curl-limitato"];
+
 test("i permessi reali di questo repo non peggiorano oltre il residuo noto", () => {
   const j = JSON.parse(readFileSync(new URL("../../.claude/settings.json", import.meta.url), "utf8"));
   const p = j.permissions || {};
   const v = violazioni(p.allow || [], p.deny || []);
-  const ids = v.map((x) => x.regola).sort();
-  assert.deepEqual(ids, ["curl-limitato"], `violazioni inattese: ${JSON.stringify(v, null, 1)}`);
+  const nuove = v.filter((x) => !RESIDUO_NOTO.includes(x.regola));
+  // CORREZIONE (2026-07-25 05:05). Qui c'era un `deepEqual(ids, ["curl-limitato"])`, cioè una
+  // fotografia. Nicola ha tolto `Bash(curl:*)` — ha fatto ESATTAMENTE la cosa giusta — e il test è
+  // diventato rosso per quello: pretendeva che la violazione ci FOSSE ancora. Un test che punisce
+  // chi risolve il problema è peggio di nessun test, perché insegna a non risolverlo.
+  // E il titolo diceva già la verità: «non peggiorano OLTRE il residuo noto». Sbagliato era
+  // l'operatore, non l'intenzione: serve un sottoinsieme, non un'uguaglianza.
+  // Nota pratica: questo file vive nel repo, quindi la copia cloud e quella del VPS restano diverse
+  // finché il worker non pubblica — un test a fotografia sarebbe rosso da una parte o dall'altra
+  // per tutto quell'intervallo, senza che nulla sia rotto.
+  assert.deepEqual(nuove, [], `violazioni NUOVE, fuori dal residuo noto: ${JSON.stringify(nuove, null, 1)}`);
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
