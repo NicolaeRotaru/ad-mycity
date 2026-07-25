@@ -17,6 +17,7 @@
 // Exit: 0 = allocazione sana · 1 = silo/violazione (così può fare da gate nel giro)
 
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
@@ -36,6 +37,124 @@ const ROOT_PESANTI = [
 // Soglia: sopra questo numero di asset pesanti su UNA entità 'scelta_ragionata' scatta la violazione.
 // (Bozza-template neutra occasionale = ok; un pacchetto completo intestato = no.)
 const SOGLIA_PESANTI = 3;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-114 — LA SECONDA DIMENSIONE: MACCHINA vs BUSINESS.
+//
+// Il guardiano qui sopra sa rispondere a «a QUALE NEGOZIO è intestato lo sforzo», ma è cieco su
+// «lo sforzo è andato al business o alla macchina stessa?». Ed è lì che sta la quota dominante:
+// al 25/7 `consegne/tech` da solo pesa 263 file, più di tutte le cartelle di business messe insieme,
+// e non entrava in nessun conteggio — quindi ogni guardiano dichiarava «allocazione sana».
+//
+// Le 5 perché di AR-114 arrivano qui: la contabilità dello sforzo conosceva solo la destinazione
+// «negozio», e la meta-attività (migliorare il Pannello, il cervello, se stessa) non era intestabile
+// a nessun negozio → restava strutturalmente fuori bilancio. La dimensione mancava, non il dato.
+//
+// Come si misura: si guardano i file toccati negli ULTIMI 7 GIORNI secondo GIT, non secondo l'mtime.
+// L'mtime qui mente: su un clone fresco (il VPS ne fa) tutti i file risultano "di oggi" e la finestra
+// non esisterebbe. Git è l'unica fonte che sa davvero quando una cosa è stata fatta.
+const GIORNI_FINESTRA = 7;
+
+// Dove finisce lo sforzo. Prefisso di percorso → destinazione. Il primo che matcha vince.
+// Chi non è in lista NON viene assegnato d'ufficio a una delle due: finisce in "non classificato"
+// e il report lo dice. Assegnarlo a caso falserebbe la quota in un senso o nell'altro; dirlo no.
+const DESTINAZIONE = [
+  // — la macchina che lavora su se stessa —
+  ["cervello/", "macchina"],
+  ["pannello/", "macchina"],
+  ["consegne/tech/", "macchina"],
+  ["consegne/audit/", "macchina"],
+  ["consegne/automazioni/", "macchina"],
+  ["consegne/bonifica/", "macchina"],
+  ["consegne/devops/", "macchina"],
+  ["consegne/qa/", "macchina"],
+  ["consegne/collaudo/", "macchina"],
+  ["consegne/giro/", "macchina"],
+  ["MyCity-Vault/90-Memoria-AI/auto-coscienza/", "macchina"],
+  ["MyCity-Vault/07-Agenti/", "macchina"], // mansionari e organigramma: la macchina che si organizza
+  ["MyCity-Vault/90-Memoria-AI/memoria-squadra/", "macchina"],
+  ["consegne/ad/", "macchina"], // note di regia dell'AD su se stessa
+  [".claude/", "macchina"],
+  [".cursor/", "macchina"],
+  [".github/", "macchina"],
+  // — il business: negozi, clienti, soldi, mercato —
+  ["consegne/content/", "business"],
+  ["consegne/design/", "business"],
+  ["consegne/pr/", "business"],
+  ["consegne/seo/", "business"],
+  ["consegne/vendite/", "business"],
+  ["consegne/marketing/", "business"],
+  ["consegne/crm/", "business"],
+  ["consegne/growth/", "business"],
+  ["consegne/account-negozi/", "business"],
+  ["consegne/customer-success/", "business"],
+  ["consegne/onboarding/", "business"],
+  ["consegne/supervisione/", "business"],
+  ["consegne/operations/", "business"],
+  ["consegne/intelligence/", "business"],
+  ["consegne/analista/", "business"],
+  ["consegne/finanza/", "business"],
+  ["consegne/strategia/", "business"],
+  ["consegne/relazioni-istituzionali/", "business"],
+  ["consegne/trust-safety/", "business"],
+  ["consegne/legale/", "business"],
+  ["consegne/security/", "business"],
+  ["consegne/marketplace/", "business"],
+  ["consegne/video/", "business"],
+  ["creativi/", "business"],
+  // Il vault di Nicola: strategia, mercato, prodotto, soldi, piani. È il pensiero SULL'AZIENDA.
+  ["MyCity-Vault/01-Strategia/", "business"],
+  ["MyCity-Vault/02-Mercato/", "business"],
+  ["MyCity-Vault/03-", "business"],
+  ["MyCity-Vault/04-Prodotto-Ops/", "business"],
+  ["MyCity-Vault/05-Soldi-Rischi/", "business"],
+  ["MyCity-Vault/06-Piani/", "business"],
+  // Il resto della memoria AI (STATO, DECISIONI, briefing, coda azioni): è il diario del lavoro
+  // sull'azienda, non lavoro sulla macchina. Sta DOPO le regole macchina, che sono più specifiche.
+  ["MyCity-Vault/90-Memoria-AI/", "business"],
+];
+
+/** Destinazione di un percorso: "macchina" | "business" | null (non classificato). */
+export function destinazioneDi(rel) {
+  const p = String(rel || "");
+  for (const [pref, dest] of DESTINAZIONE) if (p.startsWith(pref)) return dest;
+  return null;
+}
+
+/**
+ * Quota di sforzo per destinazione. Pura: prende la lista dei file toccati e conta.
+ * Ritorna { macchina, business, non_classificato, totale, quota_macchina }.
+ * quota_macchina è calcolata sui soli file CLASSIFICATI: un non-classificato non deve
+ * far scendere la quota per finta (sarebbe un modo per nascondere il meta-lavoro).
+ */
+export function quotaSforzo(fileToccati = []) {
+  let macchina = 0, business = 0, non_classificato = 0;
+  for (const f of fileToccati) {
+    const d = destinazioneDi(f);
+    if (d === "macchina") macchina++;
+    else if (d === "business") business++;
+    else non_classificato++;
+  }
+  const classificati = macchina + business;
+  return {
+    macchina,
+    business,
+    non_classificato,
+    totale: fileToccati.length,
+    quota_macchina: classificati ? macchina / classificati : null,
+  };
+}
+
+/** I file toccati da git negli ultimi N giorni. Se git non risponde torna [] (il report lo dice). */
+function fileToccatiDaGit(giorni = GIORNI_FINESTRA) {
+  const r = spawnSync("git", ["log", `--since=${giorni} days ago`, "--name-only", "--pretty=format:"], {
+    cwd: AD_ROOT,
+    encoding: "utf8",
+    timeout: 60000,
+  });
+  if (r.status !== 0 || !r.stdout) return [];
+  return [...new Set(r.stdout.split("\n").map((s) => s.trim()).filter(Boolean))];
+}
 
 // Parole troppo generiche per essere un alias affidabile di un negozio (evita falsi match).
 const STOPWORD_ALIAS = new Set([
@@ -191,7 +310,21 @@ async function main() {
     .filter((x) => x.n === 0);
   const siloAttivo = sovra.length > 0 && confermatiAZero.length > 0;
 
-  const violazioni = sovra.length + (siloAttivo ? 1 : 0);
+  // AR-114 — la seconda dimensione. Si misura SEMPRE; diventa una violazione solo se Nicola accende
+  // il cancello (ALLOCAZIONE_GATE_MACCHINA=1). Non è timidezza: al 25/7 Nicola ha DECISO che fino al
+  // 24/8-1/9 si perfezionano Pannello, AD, worker e marketplace, e solo dopo si torna sul business
+  // (registro-fatti → ripresa.lavoro-operativo). Un guardiano che fallisse ogni giro contraddicendo
+  // una decisione presa diventerebbe rumore, e il rumore si impara a ignorare: sarebbe il modo più
+  // sicuro per rendere inutile proprio la misura che mancava. Quando la fase tecnica finisce, il
+  // cancello si accende con una riga di env e il numero è già lì, con la sua storia.
+  const GATE_MACCHINA = process.env.ALLOCAZIONE_GATE_MACCHINA === "1";
+  const SOGLIA_MACCHINA = Number(process.env.ALLOCAZIONE_SOGLIA_MACCHINA || 0.7);
+  const toccati = fileToccatiDaGit();
+  const quota = quotaSforzo(toccati);
+  const quotaOltre = quota.quota_macchina != null && quota.quota_macchina > SOGLIA_MACCHINA;
+  const violazioneMacchina = GATE_MACCHINA && quotaOltre;
+
+  const violazioni = sovra.length + (siloAttivo ? 1 : 0) + (violazioneMacchina ? 1 : 0);
   const esito = violazioni > 0 ? "silo" : "sano";
 
   await stampSegnale(
@@ -203,7 +336,7 @@ async function main() {
   );
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ esito, quando, totaleFile, conteggio, sovra, confermatiAZero, siloAttivo }, null, 2));
+    console.log(JSON.stringify({ esito, quando, totaleFile, conteggio, sovra, confermatiAZero, siloAttivo, sforzo: { ...quota, giorni: GIORNI_FINESTRA, soglia: SOGLIA_MACCHINA, gate_acceso: GATE_MACCHINA, oltre_soglia: quotaOltre } }, null, 2));
     process.exit(violazioni > 0 ? 1 : 0);
   }
 
@@ -214,6 +347,20 @@ async function main() {
     const c = conteggio[e.nome] || { n: 0, stato: e.stato };
     const bandiera = e.stato === "confermato" ? "✅" : "🟨";
     console.log(`  ${bandiera} ${e.nome} — ${c.n} asset · ${e.stato}`);
+  }
+
+  // AR-114: la quota macchina-vs-business, che prima non compariva da nessuna parte.
+  const pc = (x) => (x == null ? "—" : `${Math.round(x * 100)}%`);
+  console.log(`\nDove è andato lo sforzo (ultimi ${GIORNI_FINESTRA} giorni, file toccati secondo git):`);
+  console.log(`  🔧 macchina (cervello, Pannello, tech, audit…): ${quota.macchina}`);
+  console.log(`  🏪 business (negozi, clienti, contenuti, soldi): ${quota.business}`);
+  if (quota.non_classificato) console.log(`  ❔ non classificato: ${quota.non_classificato} (aggiungi il percorso a DESTINAZIONE)`);
+  console.log(`  → quota macchina: ${pc(quota.quota_macchina)} (soglia ${pc(SOGLIA_MACCHINA)})`);
+  if (!GATE_MACCHINA) {
+    console.log(`     cancello SPENTO: fase tecnica dichiarata da Nicola fino al 24/8-1/9 (registro-fatti → ripresa.lavoro-operativo).`);
+    console.log(`     Per accenderlo quando la fase finisce: ALLOCAZIONE_GATE_MACCHINA=1`);
+  } else if (quotaOltre) {
+    console.log(`     ❌ oltre soglia col cancello ACCESO → violazione.`);
   }
 
   if (violazioni === 0) {

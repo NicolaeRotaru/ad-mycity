@@ -71,13 +71,20 @@ function verificaFix(dif) {
   } catch (e) {
     return { esito: "aperto", dettaglio: `illeggibile: ${e.message}` };
   }
-  let re;
+  // La prova vale se il pattern matcha come REGEX **oppure** se è contenuto LETTERALMENTE.
+  // Round 4 (AR-151): AR-037 era chiuso ma risultava regredito, e il fix invece c'era eccome
+  // (worker.sh:1133). Il pattern era `id=eq.$id&stato=eq.in_attesa`, scritto come testo — ma
+  // compilato come regex quel `$` in mezzo asserisce fine-stringa e non può MAI matchare.
+  // Terza variante dello stesso male: dopo le prove che puntano al file sbagliato (round 2) e
+  // quelle che descrivono un fix immaginato (round 3), ecco quelle impossibili per sintassi.
+  // L'intento di `verifica.pattern` è «nel file ci dev'essere questo»: il match letterale lo onora.
+  let re = null;
   try {
     re = new RegExp(v.pattern);
-  } catch (e) {
-    return { esito: "manuale", dettaglio: `pattern non valido: ${e.message}` };
+  } catch {
+    re = null; // regex non compilabile → resta il confronto letterale, non si butta via la prova
   }
-  const trovato = re.test(txt);
+  const trovato = (re ? re.test(txt) : false) || txt.includes(v.pattern);
   const vuolePresente = v.presente !== false; // default: presente=true
   const risolto = vuolePresente ? trovato : !trovato;
   return {
