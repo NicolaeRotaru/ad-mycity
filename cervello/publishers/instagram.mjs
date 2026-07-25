@@ -20,6 +20,17 @@ const TOKEN = process.env.IG_ACCESS_TOKEN;
 const N8N = process.env.N8N_WEBHOOK_URL;
 const GRAPH = "https://graph.facebook.com/v21.0";
 
+// AR-074/AR-109 — colore MINIMO del canale (non quello auto-dichiarato nella voce).
+// Post pubblico sul profilo, visto dai clienti reali: 🟡 anche se la voce si dichiara "verde".
+export function coloreMinimo() {
+  return "🟡";
+}
+
+// Destinatario reale dell'invio: serve all'autopilot per il controllo allowlist prima del LIVE.
+export function destinatario() {
+  return IG ? `instagram:${IG}` : N8N ? "instagram:n8n" : "";
+}
+
 export async function pubblica(voce, ctx) {
   const testo = conUtm(voce.testo, voce.utm);
   const viaApi = IG && TOKEN;

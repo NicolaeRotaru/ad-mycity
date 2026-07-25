@@ -19,6 +19,18 @@ const TOKEN = process.env.FB_PAGE_ACCESS_TOKEN;
 const N8N = process.env.N8N_WEBHOOK_URL;
 const GRAPH = "https://graph.facebook.com/v21.0";
 
+// AR-074/AR-109 — colore MINIMO del canale (non quello auto-dichiarato nella voce).
+// Post pubblico sulla Pagina, visto dai clienti reali: 🟡 anche se la voce si dichiara "verde".
+// Non è 🔴 perché è cancellabile, ma non può partire da solo senza la firma di Nicola.
+export function coloreMinimo() {
+  return "🟡";
+}
+
+// Destinatario reale dell'invio: serve all'autopilot per il controllo allowlist prima del LIVE.
+export function destinatario() {
+  return PAGE ? `facebook:${PAGE}` : N8N ? "facebook:n8n" : "";
+}
+
 export async function pubblica(voce, ctx) {
   const testo = conUtm(voce.testo, voce.utm);
   const viaApi = PAGE && TOKEN;

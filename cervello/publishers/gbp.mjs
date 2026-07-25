@@ -21,6 +21,18 @@ const ACC = process.env.GBP_ACCOUNT_ID;
 const LOC = process.env.GBP_LOCATION_ID;
 const N8N = process.env.N8N_WEBHOOK_URL;
 
+// AR-074/AR-109 — colore MINIMO del canale (non quello auto-dichiarato nella voce).
+// Post pubblico sulla scheda Google/Maps, visto dai clienti reali: 🟡 anche se la voce
+// si dichiara "verde". Cancellabile, quindi non 🔴, ma mai automatico.
+export function coloreMinimo() {
+  return "🟡";
+}
+
+// Destinatario reale dell'invio: serve all'autopilot per il controllo allowlist prima del LIVE.
+export function destinatario() {
+  return LOC ? `gbp:${LOC}` : N8N ? "gbp:n8n" : "";
+}
+
 export async function pubblica(voce, ctx) {
   const testo = conUtm(voce.testo, voce.utm);
   const viaApi = TOKEN && ACC && LOC;
