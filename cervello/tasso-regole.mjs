@@ -136,7 +136,7 @@ export function qualitaDenominatore(correzioni = []) {
   };
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────────────────────
 // I DUE NUMERI CHE DICONO LA VERITÀ PIÙ DI QUELLO SOPRA (misurati il 25/7, dopo che Nicola ha
 // chiesto «l'hai risolto del tutto?»). Rispondere era no, e il motivo sta qui.
 //
@@ -219,13 +219,21 @@ export function temiAperti(lezioni = [], giorni = GIORNI, adesso = Date.now(), q
     .map(([tag, volte]) => ({ tag, volte }));
 }
 
+// ⚠️ NIENTE `process.exit()` qui dentro, e non è pignoleria: misurato il 25/7. Quando lo stdout è
+// una PIPE — ed è sempre una pipe, la pagella legge questo script con spawnSync — `process.exit()`
+// subito dopo un `console.log` CHIUDE il processo prima che Node abbia svuotato il buffer, e
+// l'output viene troncato a 65536 byte esatti. Riproduttore: un payload da 100.000 byte ne
+// consegna 65.536. Oggi il JSON pesa 6,5 KB (10% del buffer) quindi non succede — ma `aperte_ids`
+// cresce con le correzioni aperte, e il giorno che si supera il tetto la pagella riceverebbe un
+// JSON tagliato a metà: parse fallito, voce 1 «non misurabile». Un guasto silenzioso che sembra
+// una misura. Si esce restituendo il controllo: Node svuota lo stdout e chiude da solo.
 function main() {
   const quando = nowPiacenza();
   if (!existsSync(APPR)) {
     const msg = `apprendimento.json non trovato: ${APPR}`;
     if (JSON_MODE) console.log(JSON.stringify({ ok: false, errore: msg }));
     else console.error("❌ " + msg);
-    process.exit(0);
+    return;
   }
   let appr = null;
   try {
@@ -234,7 +242,7 @@ function main() {
     const msg = `apprendimento.json illeggibile: ${e.message}`;
     if (JSON_MODE) console.log(JSON.stringify({ ok: false, errore: msg }));
     else console.error("❌ " + msg);
-    process.exit(0);
+    return;
   }
 
   const lezioni = Array.isArray(appr.lezioni) ? appr.lezioni : [];
@@ -247,17 +255,17 @@ function main() {
     console.log(
       JSON.stringify({ ok: true, quando, finestra_giorni: GIORNI, ...m, ricadute: ric, gate, temi_aperti: temi }, null, 2),
     );
-    process.exit(0);
+    return;
   }
 
   console.log(`\n📐 CORREZIONI DI NICOLA DIVENTATE REGOLA — ${quando}\n`);
   if (m.senza_dati) {
     console.log(`  ⚠️ Nessuna lezione in apprendimento.json: non è silenzio, è un tubo rotto.`);
-    process.exit(0);
+    return;
   }
   if (m.silenzio) {
     console.log(`  ✅ Nessuna correzione negli ultimi ${GIORNI} giorni: è l'obiettivo, non un buco.`);
-    process.exit(0);
+    return;
   }
   console.log(`  ${m.diventate_regola} su ${m.correzioni} = ${Math.round(m.tasso * 100)}%   (ultimi ${GIORNI} giorni)`);
   console.log(`  restano aperte: ${m.aperte_ids.length}`);
@@ -283,7 +291,7 @@ function main() {
   }
   console.log(`\n  Si alza in un modo solo: prendere una correzione e chiuderla alla radice`);
   console.log(`  (principio + gate automatico), non scrivendo altre lezioni — quelle finiscono nel denominatore.`);
-  process.exit(0);
+  return;
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();
