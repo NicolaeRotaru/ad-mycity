@@ -133,6 +133,16 @@ function misuraLezioni(soglie) {
     etichetta: `${pct(tasso)} (${dati.diventate_regola}/${dati.correzioni} correzioni)`,
     ok: tasso >= soglie.lezioni_tasso_min,
     cieco: false,
+    // I due numeri che dicono la verità più del voto qui sopra, misurati il 25/7 rispondendo a
+    // «l'hai risolto del tutto?». NON decidono l'esito — quale domanda debba fare questa voce, e
+    // con che soglia, è una firma di Nicola, non una cosa da cambiare dentro un altro lavoro.
+    // Stanno qui perché un numero scomodo nascosto è peggio di un numero scomodo scritto.
+    //   · ricadute  = quante correzioni cadono su un tema già corretto ≥3 volte. Non dipende da
+    //                 nessun campo che la macchina si autoassegna: scende solo se smette davvero.
+    //   · gate      = quante correzioni sono legate a un controllo che può FALLIRE. Oggi zero:
+    //                 «promossa a principio» significa iniettata nel prompt, non impedita.
+    ricadute: dati.ricadute || null,
+    gate: dati.gate || null,
   };
 }
 
@@ -384,6 +394,17 @@ async function main() {
                 : "";
       console.log(`${segno} ${v.titolo}`);
       console.log(`   oggi: ${v.etichetta}${mov}   →  pronta a: ${v.soglia}`);
+      // I due numeri scomodi sotto la voce 1: non decidono l'esito, ma non si nascondono.
+      if (v.ricadute && v.ricadute.correzioni) {
+        console.log(
+          `   ricadute su un tema già corretto ≥3 volte: ${v.ricadute.su_tema_cronico}/${v.ricadute.correzioni} = ${pct(v.ricadute.quota)}`,
+        );
+      }
+      if (v.gate && v.gate.correzioni) {
+        console.log(
+          `   correzioni legate a un gate che può fallire: ${v.gate.con_gate}/${v.gate.correzioni} = ${pct(v.gate.quota)}`,
+        );
+      }
       if (!v.ok && v.come_si_alza) console.log(`   come si alza: ${v.come_si_alza}`);
       console.log("");
     }
