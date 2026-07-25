@@ -1500,8 +1500,9 @@
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione rischio-sicurezza-se)",
       "verifica": {
-        "tipo": "umano"
-      }
+        "comando": "node cervello/permessi-check.mjs"
+      },
+      "nota_round4": "Round 4 (corretto due volte). ① La prima diagnosi diceva «4 su 5 già stretti»: sbagliata, misurata nella sessione cloud dove settings.local.json non esiste. Sul VPS quel file ha 33 allow e 0 deny e contiene TUTTI i permessi contestati (11 violazioni totali). ② La prima correzione usava file+pattern su settings.local.json: sbagliata anche quella, perché `git push` compare sia fra i permessi sia fra i divieti e una regex sul testo grezzo non li distingue — un file configurato bene sarebbe risultato sporco. ③ Ora la prova è il guardiano stesso: si chiude quando `permessi-check.mjs` esce 0, cioè quando NON c'è più nessuna violazione in nessuno dei due file, divieti mancanti compresi. È l'unica formulazione che dice la verità."
     },
     {
       "id": "AR-143",
@@ -1648,8 +1649,11 @@
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione coerenza-agenti) — segnala invalidità della chiusura di AR-008",
       "verifica": {
-        "tipo": "umano"
-      }
+        "file": "cervello/chiusure-audit.mjs",
+        "pattern": "export function riverifica",
+        "presente": true
+      },
+      "nota_round4": "Round 4: creato il passo di audit che mancava (cervello/chiusure-audit.mjs): ri-esegue la prova di ogni difetto chiuso e separa regrediti / senza prova / prova debole (quest'ultima è l'errore di AR-008: verificare contro un file che descrive). Prima esecuzione: 67 chiusi ricontrollati, 0 regrediti reali, 22 senza prova, 4 con prova debole. Resta aperta l'estensione di AR-130 (34 file senza deferral) dichiarata nello stesso difetto: NON è coperta da questo round."
     },
     {
       "id": "AR-152",
