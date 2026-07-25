@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-26 01:44
+aggiornato: 2026-07-26 01:48
 fonte: AD digitale (chat)
 ---
+
+> 💬 **26/7 ~01:48 — CHAT: Nicola corregge — «non hai calcolato l'abbonamento, le fee del consumatore, etc.»: il calcolo ordini→10.000€/mese contava solo la commissione, mancava un ricavo reale trovato nel codice.** L'AD aveva risposto (turno 01:44) con ~4.500-5.500 ordini/mese contando solo la commissione 10%. Correzione: leggendo `marketplace/lib/constants.ts` è emersa una **fee di consegna fissa di 3€ a ordine** (ricavo reale del codice, mai censita in vault/memoria) da sommare all'abbonamento 50€/mese/negozio (già noto) e alla commissione. Con tutti e tre i ricavi dentro (50 negozi abbonati attivi): **~1.450-1.560 ordini/mese (circa 1 ordine/giorno/negozio) per 10.000€ di RICAVO LORDO**; per il PROFITTO NETTO (tolti i costi del mese) servono **~2.400-3.300 ordini**. Non ancora verificato se la fee di consegna si applica anche al ritiro in negozio o solo a domicilio. Nessuna decisione/azione nuova: il piano squadra (fratello+2 amici, kit fisico, data 15/8) resta NON confermato. Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 26/7 ~01:48; codice: `marketplace/lib/constants.ts`.
 
 > 💬 **26/7 ~01:44 — CHAT: quanto serve per 10.000€/mese — l'AD ha isolato l'ambiguità lordo/netto nella parola "profitto" usata da Nicola nel piano squadra.** Nicola: «quanti ordini devo consegnare per produrre 10.000€ al mese?» (riferito alla soglia che sblocca il pagamento di fratello+2 amici). Calcolo con gli stessi prezzi/scontrino-medio ipotetico usati nei turni precedenti (commissione 10%, scontrino 18-22€): **~4.500-5.500 ordini/mese (150-185/giorno) per 10.000€ di RICAVO lordo**; se invece Nicola intendeva PROFITTO netto (ricavo meno i costi del mese: burn 302€ + eventuali kit fisici 4.600-8.100€ se dati a tutti i 50 negozi), servono **~6.500-8.200 ordini**. L'AD ha segnalato esplicitamente la differenza invece di scegliere un'interpretazione a caso — in attesa che Nicola chiarisca quale intendeva. Nessun nuovo fatto/decisione: il piano squadra (fratello+2 amici, trigger 15/8, kit fisico 50 negozi) resta NON confermato, stesse 3 domande aperte dei turni precedenti. Business invariato: 1 PQ, 0 pagati. Fonte: chat Nicola 26/7 ~01:37-01:44.
 
