@@ -7,6 +7,7 @@ import {
   type Lavoro,
 } from "@/lib/store";
 import { tutteLeAzioni } from "@/lib/azioni-pronte";
+import { revocaFirma } from "@/lib/firma-azione";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -45,6 +46,10 @@ async function rimettiAzioneInApprovazione(lv: Lavoro, ora: string): Promise<boo
   const { valori } = await getImpostazioni();
   const cur = valori[`azione:${az.id}`] || "";
   if (cur === "fatta" || cur === "simulata") return false;
+  // AR-110: l'azione torna "da approvare", quindi la firma di Nicola va revocata. Se restasse,
+  // il worker che riprende in mano il lavoro la troverebbe ancora firmata e potrebbe inviare
+  // davvero un'azione che Nicola ha appena annullato.
+  await revocaFirma(az.id);
   const okStato = await setImpostazione(`azione:${az.id}`, "");
   const nota = `↩️ Tornata in Da approvare perché annullata da Nicola dal Pannello (Lavori) il ${ora}. Non era ancora partita: nulla è stato inviato. Riapprovala se la vuoi eseguire.`;
   const okNota = await setImpostazione(`azione:${az.id}:nota`, nota);

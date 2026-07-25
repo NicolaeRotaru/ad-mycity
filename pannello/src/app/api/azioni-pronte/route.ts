@@ -4,6 +4,7 @@ import { eseguiAzione } from "@/lib/mani";
 import { tutteLeAzioni, statoDa } from "@/lib/azioni-pronte";
 import { verificaQualita } from "@/lib/qualita";
 import { chiudiAzioniMergeCompletate, estraiMergePr, isCanaleGithub, prGiaMergiata } from "@/lib/github-pr-merge";
+import { registraFirma, revocaFirma } from "@/lib/firma-azione";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -11,6 +12,14 @@ export const revalidate = 0;
 
 // "Azioni pronte" = la corsia operativa. Mosse del vault + sentinelle (lib/azioni-pronte).
 // Approvare → esegue tramite le "mani" (lib/mani) e salva esito in Supabase.
+//
+// AR-110 — LA FIRMA DI NICOLA È UN DATO, NON UN SOTTINTESO.
+// Il click «Approva» scrive `azione:<id>:firma` = "nicola AAAA-MM-GG HH:MM". È l'unico posto che
+// la scrive con quel nome: l'autopilota (lib/autopilota.ts) marca "auto …", e il cancello lato
+// cervello (cervello/consenso-azione.mjs::firmaPannello) accetta solo "nicola".
+// Prima esisteva solo `azione:<id>` = stato, che vale sia per il clic umano sia per l'autopilota:
+// l'esecutore CLI non poteva distinguerli, quindi non poteva fidarsi di nessuno dei due e ogni
+// invio firmato degradava a DRY-RUN.
 
 export async function GET() {
   const blocchi = await tutteLeAzioni();
@@ -63,7 +72,7 @@ export async function POST(req: Request) {
   const azione = (await tutteLeAzioni()).find((a) => a.id === id);
 
   if (dec === "rifiuta" || dec === "annulla") {
-    // 🔴 BLOCCANTE (radiografia 3/7): "annulla" NON deve azzerare lo stato di un'azione GIÀ ESEGUITA.
+    // 🔴 BLOCCANTE (radiografia 3/7): "annulla" NON deve azzerare lo stato di un'azione GiÀ ESEGUITA.
     // Prima lo faceva incondizionatamente: annulla → ri-approva ri-eseguiva le "mani" (doppio merge/email/payout).
     // Ora: annulla consentito SOLO se l'azione non è ancora partita ('' o 'rifiutata'); altrimenti 409.
     if (dec === "annulla") {
@@ -78,6 +87,9 @@ export async function POST(req: Request) {
       }
     }
     const stato = dec === "rifiuta" ? "rifiutata" : "";
+    // AR-110: rifiutare/annullare TOGLIE anche la firma. Senza, un'azione approvata e poi
+    // rifiutata resterebbe "firmata da Nicola" e potrebbe ancora autorizzare un invio dalla CLI.
+    await revocaFirma(id);
     const salv = (await setImpostazione(`azione:${id}`, stato)) && (await setImpostazione(`azione:${id}:nota`, ""));
     if (dec === "rifiuta" && azione) {
       await logAzione({ id, titolo: azione.titolo, reparto: azione.reparto, livello: azione.livello, stato: "rifiutata", esito: "", auto: false });
@@ -88,7 +100,7 @@ export async function POST(req: Request) {
   if (dec !== "approva") return NextResponse.json({ ok: false, error: "Decisione non valida." }, { status: 400 });
   if (!azione) return NextResponse.json({ ok: false, error: "Azione non trovata." }, { status: 404 });
 
-  // 🔴 Idempotenza: se l'azione è GIÀ stata approvata/eseguita (stato salvato ≠ "" e ≠ "rifiutata"),
+  // 🔴 Idempotenza: se l'azione è GiÀ stata approvata/eseguita (stato salvato ≠ "" e ≠ "rifiutata"),
   // NON rieseguire le "mani" — un doppio clic o una ri-approvazione dopo refresh manderebbe l'azione
   // reale (email/payout/notifica) una seconda volta.
   const { valori: valoriPre } = await getImpostazioni();
@@ -101,6 +113,13 @@ export async function POST(req: Request) {
       giaFatta: true,
     });
   }
+
+  // AR-110: la firma si registra PRIMA di far partire qualsiasi cosa. Le azioni che il Pannello
+  // non esegue da sé (merge PR, canali non collegati) finiscono al worker sul VPS, che ripassa dal
+  // cancello di cervello/consenso-azione.mjs: quel cancello deve trovare la firma già scritta,
+  // altrimenti l'azione che Nicola ha appena approvato gli arriva come "non firmata" e muore in
+  // DRY-RUN. È esattamente il punto in cui il percorso firma→esecuzione si spezzava.
+  await registraFirma(id, "nicola");
 
   // Merge PR già chiusa su GitHub → chiudi subito senza ri-accodare il worker.
   if (isCanaleGithub(azione.canale)) {
