@@ -122,9 +122,16 @@ function misuraLezioni(soglie) {
   if (!dati || dati.ok === false) {
     return { ...base, valore: null, etichetta: "non misurabile", ok: false, cieco: true };
   }
+  if (dati.senza_dati) {
+    // Nessuna lezione affatto: non è silenzio, è il tubo rotto. Va detto come guasto.
+    return { ...base, valore: null, etichetta: "apprendimento.json vuoto: misura cieca", ok: false, cieco: true };
+  }
   if (!dati.misurabile) {
-    // Zero correzioni in finestra non è «va male»: è «niente da misurare». Dirlo, non fingere 0%.
-    return { ...base, valore: null, etichetta: "nessuna correzione in finestra", ok: false, cieco: true };
+    // CORREZIONE (25/7, dopo il ri-audit): prima questo caso era `ok: false`, cioè la voce restava
+    // ROSSA proprio quando Nicola non aveva più avuto niente da correggere in 30 giorni. Una
+    // metrica che punisce il successo è peggio di una che non misura: zero correzioni è
+    // l'obiettivo di tutta la voce, non un buco nei dati.
+    return { ...base, valore: 1, etichetta: `nessuna correzione in ${dati.finestra_giorni || 30} giorni`, ok: true, cieco: false };
   }
   const tasso = Number(dati.tasso) || 0;
   return {
