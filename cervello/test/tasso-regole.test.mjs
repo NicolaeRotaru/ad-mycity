@@ -150,3 +150,39 @@ test("conGate(): un principio NON conta come gate — è un promemoria, non un i
   const g = conGate([lez({ id: "a", promosso_il: "x", cristallizzato_in: "memoria-persistente" })], 30, OGGI);
   assert.equal(g.con_gate, 0);
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RI-AUDIT del 25/7 («ricontrolla, avrai lasciato qualcosa indietro»). Aveva ragione.
+
+import { qualitaDenominatore } from "../tasso-regole.mjs";
+
+test("silenzio ≠ fallimento: zero correzioni in finestra è l'OBIETTIVO, non un buco", () => {
+  // Prima questo caso teneva la voce rossa proprio quando la macchina aveva smesso di sbagliare.
+  const m = misura([lez({ id: "vecchia", nato: "2026-01-01" })], 30, OGGI);
+  assert.equal(m.correzioni, 0);
+  assert.equal(m.silenzio, true, "ci sono lezioni, ma nessuna da correggere in finestra");
+  assert.equal(m.senza_dati, false);
+});
+
+test("silenzio ≠ tubo rotto: senza NESSUNA lezione è un guasto, e si dice", () => {
+  const m = misura([], 30, OGGI);
+  assert.equal(m.silenzio, false);
+  assert.equal(m.senza_dati, true, "un file vuoto non è un traguardo");
+});
+
+test("qualitaDenominatore(): un picco in un giorno solo non è una persona che corregge", () => {
+  // Il caso reale: 84 «correzioni di Nicola» il 13/7. Non le filtro (nei dati non c'è il segnale
+  // per separarle: dicono tutte fonte:"chat"), ma il numero non si presenta come pulito.
+  const burst = Array.from({ length: 25 }, (_, i) => lez({ id: `b${i}`, nato: "2026-07-13" }));
+  const q = qualitaDenominatore([...burst, lez({ id: "x", nato: "2026-07-20" })]);
+  assert.equal(q.max_in_un_giorno, 25);
+  assert.equal(q.giorni, 2);
+  assert.equal(q.sospetto, true);
+});
+
+test("qualitaDenominatore(): correzioni sparse su più giorni non fanno scattare l'avviso", () => {
+  const sparse = ["01", "05", "09", "14", "20"].map((d, i) => lez({ id: `s${i}`, nato: `2026-07-${d}` }));
+  const q = qualitaDenominatore(sparse);
+  assert.equal(q.max_in_un_giorno, 1);
+  assert.equal(q.sospetto, false);
+});
