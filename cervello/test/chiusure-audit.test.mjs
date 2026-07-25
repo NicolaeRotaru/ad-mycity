@@ -52,3 +52,9 @@ test("provaDebole(): riconosce le prove puntate a un file che DESCRIVE", () => {
   assert.equal(provaDebole(".claude/agents/operations.md"), false, "il file dell'agente è il contratto, non prosa");
   assert.equal(provaDebole(""), false);
 });
+
+// Round 4 — le prove a COMANDO non vanno scambiate per "senza prova": sono verificabili, solo non qui.
+test("riverifica(): una prova a comando è riconosciuta come tale", () => {
+  const leggi = () => null;
+  assert.equal(riverifica({ verifica: { comando: "node cervello/permessi-check.mjs" } }, leggi), "comando");
+});

@@ -12,6 +12,8 @@
 //   "verifica": { "file": "cervello/x.mjs", "pattern": "regex", "presente": true }
 //   presente:true  → il difetto è risolto QUANDO il pattern è presente nel file (fix installato)
 //   presente:false → il difetto è risolto QUANDO il pattern è ASSENTE (es. path Windows rimosso)
+//   "verifica": { "comando": "node cervello/guardiano.mjs" }
+//                  → il difetto è risolto QUANDO quel guardiano esce 0 (condizioni strutturali)
 //
 // Uso:
 //   node cervello/auto-fix.mjs verifica              # report: quali difetti risultano risolti nel codice
@@ -20,6 +22,7 @@
 //   node cervello/auto-fix.mjs report                # stato del cantiere (aperti/in-corso/chiusi)
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
@@ -59,9 +62,47 @@ function ricalcolaMeta(cantiere) {
   };
 }
 
+/**
+ * Prova di tipo COMANDO: il difetto è risolto quando un guardiano esce 0.
+ *
+ * Perché esiste (round 4, 2026-07-25). AR-142 («permessi di sessione più larghi del dovuto») non è
+ * esprimibile come file+pattern: la stessa stringa `git push` compare sia fra i permessi CONCESSI
+ * sia fra i DIVIETI, e una regex sul testo grezzo non sa distinguerli — un file configurato BENE
+ * matcherebbe come uno configurato male. Provato: la prima versione della prova falliva proprio così.
+ * E i divieti MANCANTI non sono esprimibili affatto: non si può cercare l'assenza di una regola in
+ * un elenco che non la contiene.
+ *
+ * Il guardiano invece lo sa fare, perché legge la struttura. Quindi la prova diventa: «gira il
+ * guardiano e guarda l'esito». Non è auto-firma — il guardiano legge un file che la macchina non
+ * può scrivere (settings.json le è negato in Edit/Write) e non può farsi passare da solo.
+ *
+ * Vale per tutta la classe di difetti che oggi sono marcati «verifica umana» solo perché la loro
+ * condizione è strutturale invece che testuale: era il male che il round 2 aveva smascherato.
+ *
+ * Sicurezza: si eseguono SOLO comandi `node <script>` dentro cervello/, senza shell, con un timeout.
+ * Un difetto non deve poter far girare qualcosa di arbitrario per dichiararsi risolto.
+ */
+export function eseguiProvaComando(comando, run = spawnSync) {
+  const c = String(comando || "").trim();
+  const m = /^node\s+(cervello\/[\w./-]+\.mjs)((?:\s+--[\w-]+)*)$/.exec(c);
+  if (!m) return { esito: "manuale", dettaglio: `comando non ammesso: "${c}" (solo: node cervello/<script>.mjs [--flag])` };
+  const argomenti = m[2] ? m[2].trim().split(/\s+/) : [];
+  const r = run(process.execPath, [join(AD_ROOT, m[1]), ...argomenti], {
+    cwd: AD_ROOT,
+    encoding: "utf8",
+    timeout: 120000,
+  });
+  if (r.error) return { esito: "aperto", dettaglio: `${c} non eseguibile: ${r.error.message}` };
+  return {
+    esito: r.status === 0 ? "risolto" : "aperto",
+    dettaglio: `${c} → exit ${r.status}${r.status === 0 ? " (guardiano soddisfatto)" : " (il guardiano segnala ancora violazioni)"}`,
+  };
+}
+
 // Verifica oggettiva: il fix è presente nel codice?
 function verificaFix(dif) {
   const v = dif.verifica;
+  if (v && v.comando) return eseguiProvaComando(v.comando);
   if (!v || !v.file || !v.pattern) return { esito: "manuale", dettaglio: "nessuna prova automatica: verifica umana" };
   const p = join(AD_ROOT, v.file);
   if (!existsSync(p)) return { esito: "aperto", dettaglio: `file assente: ${v.file}` };
