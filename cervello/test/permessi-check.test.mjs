@@ -10,7 +10,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { violazioni, REGOLE } from "../permessi-check.mjs";
+import { violazioni, analizza, neutralizzato, REGOLE } from "../permessi-check.mjs";
 
 // Il set "sano" minimo: nessun allow proibito, tutti i deny richiesti presenti.
 const DENY_OK = [
@@ -34,10 +34,11 @@ test("becca i permessi troppo larghi, uno per uno", () => {
     ["Bash(curl:*)", "curl-limitato"],
   ];
   for (const [voce, regola] of casi) {
-    const v = violazioni([voce], DENY_OK);
+    // Deny vuoto di proposito: qui si prova che la regola RICONOSCE il permesso largo. Con un deny
+    // che lo copre già il verdetto è diverso — ed è giusto che lo sia: vedi i test su neutralizzato().
+    const v = violazioni([voce], []).filter((x) => x.tipo === "allow-troppo-largo");
     assert.equal(v.length, 1, `"${voce}" doveva produrre 1 violazione, ne ha prodotte ${v.length}`);
     assert.equal(v[0].regola, regola);
-    assert.equal(v[0].tipo, "allow-troppo-largo");
     assert.ok(v[0].perche.length > 20, "ogni violazione deve dire PERCHÉ, non solo che");
   }
 });
@@ -65,15 +66,66 @@ test("ogni regola dichiara la fonte del proprio perché", () => {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Il file VERO di QUESTO repo. Attenzione: qui `.claude/settings.local.json` non esiste, quindi
-// questa prova copre solo metà della realtà del VPS — dove il guardiano trova 11 violazioni.
-// La verità completa la dice il guardiano lanciato nell'ambiente vero, ed è per questo che la prova
-// di AR-142 nel cantiere è il COMANDO, non un pattern su un file.
+// questa prova copre solo metà della realtà del VPS. La verità completa la dice il guardiano
+// lanciato nell'ambiente vero, ed è per questo che la prova di AR-142 nel cantiere è il COMANDO,
+// non un pattern su un file.
 test("i permessi reali di questo repo non peggiorano oltre il residuo noto", () => {
   const j = JSON.parse(readFileSync(new URL("../../.claude/settings.json", import.meta.url), "utf8"));
   const p = j.permissions || {};
   const v = violazioni(p.allow || [], p.deny || []);
   const ids = v.map((x) => x.regola).sort();
   assert.deepEqual(ids, ["curl-limitato"], `violazioni inattese: ${JSON.stringify(v, null, 1)}`);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// I DUE ERRORI DI PROGETTO del guardiano, corretti il 25/7. Nascono entrambi dallo stesso fatto:
+// allow e deny dei due file SI SOMMANO, e il deny vince sempre. Giudicare un file per volta è
+// quindi sbagliato in tutte e due le direzioni. Sul VPS produceva 11 violazioni, alcune inesistenti,
+// e avrebbe mandato Nicola a togliere righe innocue dai permessi.
+
+test("neutralizzato(): un permesso già coperto da un divieto non concede nulla", () => {
+  const deny = ["Bash(git push:*)"];
+  assert.equal(neutralizzato("Bash(git push origin main:*)", deny), true, "il deny copre il prefisso");
+  assert.equal(neutralizzato("Bash(git push)", deny), true);
+  assert.equal(neutralizzato("Bash(git merge:*)", deny), false, "altro comando: scoperto");
+  assert.equal(neutralizzato("Write(**)", deny), false, "altro strumento: scoperto");
+  // Il confine dev'essere a fine parola, altrimenti un divieto coprirebbe comandi che non c'entrano.
+  assert.equal(neutralizzato("Bash(git pushx:*)", deny), false, "`git pushx` non è `git push`");
+});
+
+test("un divieto scritto in un file vale anche per i permessi dell'altro", () => {
+  // L'ERRORE N°1: i divieti venivano cercati file per file. `settings.local.json` sul VPS ha 33
+  // allow e ZERO deny propri — e il guardiano gridava «manca il divieto» tre volte, mentre i
+  // divieti c'erano tutti in settings.json, che vale anche lì.
+  const r = analizza([
+    { file: ".claude/settings.json", allow: [], deny: DENY_OK },
+    { file: ".claude/settings.local.json", allow: ["Bash(git status:*)"], deny: [] },
+  ]);
+  assert.deepEqual(r.violazioni, [], `divieti fantasma: ${JSON.stringify(r.violazioni, null, 1)}`);
+});
+
+test("un permesso largo nel file locale, già murato dal divieto condiviso, è inerte e non violazione", () => {
+  // L'ERRORE N°2: `Bash(git push origin main:*)` nel file del VPS veniva contato come violazione.
+  // Ma settings.json nega `Bash(git push:*)`, e il deny vince: quel permesso non apre niente.
+  // Con la versione vecchia avrei fatto togliere a Nicola una riga innocua spacciandola per pericolo.
+  const r = analizza([
+    { file: ".claude/settings.json", allow: [], deny: DENY_OK },
+    { file: ".claude/settings.local.json", allow: ["Bash(git push origin main:*)", "Bash(curl:*)"], deny: [] },
+  ]);
+  assert.deepEqual(r.violazioni.map((v) => v.regola), ["curl-limitato"], "solo curl è davvero scoperto");
+  assert.deepEqual(r.inerti.map((v) => v.voce), ["Bash(git push origin main:*)"]);
+  assert.equal(r.inerti[0].tipo, "allow-inerte");
+});
+
+test("un permesso largo NON coperto resta una violazione anche nel file locale", () => {
+  // Il guardiano non deve diventare accomodante: senza un divieto che lo copra, il permesso apre
+  // davvero una porta, e il file in cui è scritto non c'entra.
+  const r = analizza([
+    { file: ".claude/settings.json", allow: [], deny: DENY_OK },
+    { file: ".claude/settings.local.json", allow: ["Bash(git merge:*)", "Write"], deny: [] },
+  ]);
+  assert.deepEqual(r.violazioni.map((v) => v.regola).sort(), ["no-merge-generico", "write-con-path"]);
+  assert.ok(r.violazioni.every((v) => v.file === ".claude/settings.local.json"), "dice in quale file sta");
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
