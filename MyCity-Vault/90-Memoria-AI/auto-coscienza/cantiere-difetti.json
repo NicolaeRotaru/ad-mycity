@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-25 01:15",
+  "aggiornato": "2026-07-25 02:42",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -858,15 +858,16 @@
       "causa_radice": "Il gate guarda solo il colore dichiarato perché AR-072/073 hanno rafforzato il confronto colore ma il fix AR-074 (colore derivato dal canale+destinatario) è stato scritto come funzione nel publisher e mai collegato allo scheduler; i due fix sono nati in giri diversi senza un test end-to-end «voce verde con destinatario reale ⇒ accodata». Causa di sistema: i guardrail nascono come convenzioni nei commenti e la verifica machine-checkable arriva solo dopo l'incidente, non insieme al fix.",
       "fix_proposto": "🟡 (firma Nicola) In autopilot.mjs, prima del cancello LIVE: chiedere a ogni publisher il suo coloreMinimo(voce) (esportarlo da tutti, default '🔴' se assente) e usare il max(coloreMinimo, colore voce); in più far passare gli invii LIVE dal consensoInvio() di consenso-azione.mjs (pausa + allowlist) come fa esegui-azione.mjs. Aggiungere un test bats: voce verde + to reale ⇒ accodata, mai inviata.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 16:55",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-25 02:42",
       "verifica": {
         "file": "cervello/autopilot.mjs",
         "pattern": "coloreMinimo",
         "presente": true
       },
-      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
+      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
+      "chiuso_come": "cervello/autopilot.mjs contiene /coloreMinimo/ → trovato"
     },
     {
       "id": "AR-110",
@@ -877,15 +878,16 @@
       "causa_radice": "La firma è registrata in DB dal Pannello, il cancello legge il file MD: due verità mai riconciliate. consenso-azione.mjs è nato lato-cervello leggendo l'unico artefatto condiviso (il vault), mentre il Pannello salva in Supabase; il fix AR-103 è stato progettato come difesa del cervello senza ridisegnare il contratto end-to-end col Pannello. Causa di sistema: manca un contratto unico di 'firma' (chi la scrive, dove, come si verifica) condiviso tra le due metà della macchina.",
       "fix_proposto": "🟡 Definire il contratto: al click Approva il Pannello (o il primo passo del lavoro) scrive nel blocco della coda il token macchina `{approvato: Pannello AAAA-MM-GG HH:MM}` E il lavoro passa esplicitamente `AZIONE_ID=<S-id>` da esportare prima di esegui-azione.mjs (istruzione nel prompt del worker). In alternativa (più robusto): consensoInvio verifica ANCHE la chiave Supabase azione:<id> scritta solo dal Pannello. Test end-to-end nel bats: card non marcata ⇒ dry-run; card marcata dal flusso Approva ⇒ live.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 16:55",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-25 02:42",
       "verifica": {
         "file": "pannello/src/app/api/approva/route.ts",
         "pattern": "AZIONE_ID|\\{approvato",
         "presente": true
       },
-      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
+      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
+      "chiuso_come": "pannello/src/app/api/approva/route.ts contiene /AZIONE_ID|\\{approvato/ → trovato"
     },
     {
       "id": "AR-111",
@@ -1711,19 +1713,21 @@
       "causa_radice": "PR #519 ha reso vivo il gate usando max(token_totali, token_stimati), ma token_totali resta sempre 0 perché nessuno registra il consumo reale: le stime hanno un margine di errore non misurato. Residuo dei punti (a) e (c) di AR-117.",
       "fix_proposto": "🟡 (a) catturare usage reale dagli eventi result dello stream-json in un punto unico (motore-ai.sh) e registrarlo senza --stima; (c) test bats con un costo-ai.json fittizio oltre soglia che verifichi RUN_AI=0.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-25 01:15",
       "origine": "round 2 programma intelligenza (2026-07-25): residuo scorporato da AR-117 alla sua chiusura",
       "verifica": {
         "file": "cervello/motore-ai.sh",
         "pattern": "token_reali|usage",
         "presente": true
-      }
+      },
+      "chiuso_il": "2026-07-25 02:42",
+      "chiuso_come": "cervello/motore-ai.sh contiene /token_reali|usage/ → trovato"
     }
   ],
   "meta": {
-    "aperti": 31,
+    "aperti": 27,
     "in_corso": 0,
-    "chiusi": 62
+    "chiusi": 67
   }
 }
