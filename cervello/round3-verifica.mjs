@@ -18,7 +18,7 @@
 //
 // Uso:  node cervello/round3-verifica.mjs
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { AD_ROOT } from "./git-github.mjs";
@@ -31,18 +31,23 @@ const ok = (t, d = "") => esiti.push({ ok: true, t, d });
 const ko = (t, d = "") => esiti.push({ ok: false, t, d });
 
 // ─────────────── ① i test ───────────────
-const FILE_TEST = [
+// SCOPERTI dalla cartella, non elencati a mano. Round 4 l'elenco l'aveva, e ha funzionato finché
+// qualcuno si è ricordato di aggiornarlo; il round 5 ha trovato la stessa malattia in grande nel
+// Pannello (AR-156: cinque test che nessuno lanciava). Un test nuovo qui dentro entra da solo.
+// Restano ELENCATI solo i pilastri: se uno sparisce è una regressione, non una scelta.
+const RICHIESTI = [
   "cervello/test/autopilot-colore.test.mjs",
   "cervello/test/consenso-firma-pannello.test.mjs",
   "cervello/test/auto-fix-salute.test.mjs",
   "cervello/test/consenso-azione.test.mjs",
-  // Round 4 (25/7): i due guardiani nati per la voce 3 della pagella. Vanno provati da QUI e non da
-  // uno script separato, altrimenti il verificatore che Nicola lancia dice «tutto verde» senza
-  // averli guardati — che è la stessa malattia che questi round stanno curando.
   "cervello/test/permessi-check.test.mjs",
   "cervello/test/chiusure-audit.test.mjs",
 ];
-const mancanti = FILE_TEST.filter((f) => !existsSync(R(f)));
+const FILE_TEST = (existsSync(R("cervello/test")) ? readdirSync(R("cervello/test")) : [])
+  .filter((f) => f.endsWith(".test.mjs"))
+  .sort()
+  .map((f) => `cervello/test/${f}`);
+const mancanti = RICHIESTI.filter((f) => !FILE_TEST.includes(f) || !existsSync(R(f)));
 if (mancanti.length) {
   ko("Test del round 3 presenti", `mancano: ${mancanti.join(", ")}`);
 } else {
@@ -70,6 +75,44 @@ if (mancanti.length) {
     const quanti = falliti === null ? "" : ` (${falliti} su ${(passati ?? 0) + falliti})`;
     ko(`Test: FALLITI${quanti}`, "rilancia: node --test cervello/test/*.test.mjs");
   }
+}
+
+// ─────────────── ①bis i test del PANNELLO (.test.mts) ───────────────
+// Nascosti in piena vista: `pannello/src/lib/*.test.mts` esisteva da settimane e NESSUNO li
+// lanciava — nessuno script, nessuna CI. Un test che non gira non è una rete, è un file. Il 25/7
+// ne è arrivato uno che conta (AR-123: aprire una casella cancellava la chat), e valeva zero se
+// restava fuori dal comando che Nicola lancia davvero. Ora girano da qui.
+// Node li esegue direttamente (type-stripping): su v22.18+/v24 `process.features.typescript` è
+// attivo. Se non lo è, si DICE che sono stati saltati — non si tace fingendo verde.
+const FILE_TEST_PANNELLO = [
+  "pannello/src/lib/chat-unificata.test.mts",
+  "pannello/src/lib/chat-thread-merge.test.mts",
+  "pannello/src/lib/store.sanitize.test.mts",
+  "pannello/src/lib/github-pr-merge.test.mts",
+];
+// ⚠️ FUORI, e detto ad alta voce invece che tolto in silenzio (che sarebbe la bugia peggiore):
+//   · pannello/src/lib/lavori-gruppo.annulla.test.mts
+// Non parte affatto: `lavori-gruppo.ts` importa `./chat-thread-merge` senza estensione e Node ESM
+// non la indovina. Aggiungendo `.ts` il test parte — e allora ne falliscono 2 per davvero:
+// `messaggiDaLavoro()` su un lavoro ANNULLATO ora chiude con un messaggio 'user' invece del
+// '🚫 Messaggio annullato.' dell'assistente. È un difetto a sé, non un dettaglio di questo lavoro:
+// va guardato con calma, non sistemato di straforo dentro una PR su AR-123.
+const ESCLUSI_PANNELLO = ["pannello/src/lib/lavori-gruppo.annulla.test.mts"];
+const presentiPannello = FILE_TEST_PANNELLO.filter((f) => existsSync(R(f)));
+if (!process.features.typescript) {
+  ko("Test del Pannello: SALTATI", `questo Node (${process.version}) non esegue i .ts — servono v22.18+ o v24`);
+} else if (!presentiPannello.length) {
+  ko("Test del Pannello: nessun file trovato", FILE_TEST_PANNELLO.join(", "));
+} else {
+  const rp = spawnSync(process.execPath, ["--test", "--test-reporter=tap", ...presentiPannello.map(R)], {
+    encoding: "utf8",
+    cwd: AD_ROOT,
+  });
+  const outP = `${rp.stdout || ""}${rp.stderr || ""}`;
+  const mP = outP.match(/^# pass (\d+)$/m);
+  const coda = ESCLUSI_PANNELLO.length ? ` · ⚠️ ${ESCLUSI_PANNELLO.length} ESCLUSO: ${ESCLUSI_PANNELLO.join(", ")} (non eseguibile — vedi il commento in round3-verifica.mjs)` : "";
+  if (rp.status === 0) ok(`Test Pannello: ${mP ? mP[1] : "tutti"} passati, 0 falliti`, `${presentiPannello.length} file${coda}`);
+  else ko("Test Pannello: FALLITI", `rilancia: node --test ${presentiPannello.join(" ")}`);
 }
 
 // ─────────────── ② le prove del cantiere ───────────────
