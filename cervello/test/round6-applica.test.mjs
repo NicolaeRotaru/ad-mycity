@@ -95,3 +95,31 @@ test("giro.sh ha un controllo di sintassi prima di essere scritto, il Pannello n
   assert.deepEqual(giro.verifica, ["bash", "-n"]);
   assert.equal(PIANO.find((v) => v.file.endsWith(".tsx")).verifica, null);
 });
+
+// ────────────────────────────────────────────────────────────────────────────
+// 25/7 sera — il difetto trovato DOPO che Nicola aveva già lanciato lo script sul VPS.
+//
+// La prima versione lasciava due file accanto agli originali: `<file>.prima-del-round6` (copia di
+// sicurezza) e `<file>.round6-prova` (per il controllo di sintassi). Sembrava prudenza. Ma
+// `aggiorna-cervello.sh` fa `git add -A` e pusha tutto lo sporco: al primo giro del cron quelle
+// copie — l'intero giro.sh e l'intero AutoCoscienza.tsx — sarebbero finite su main per sempre.
+// L'abbiamo presa al volo perché Nicola ha mandato lo screenshot; la prossima volta magari no.
+
+import { fuoriRepo } from "../round6-applica.mjs";
+import { AD_ROOT } from "../git-github.mjs";
+
+test("il file di lavoro nasce FUORI dal repo: dentro entra solo ciò che modifichiamo", () => {
+  // È la proprietà che impedisce a `git add -A` di raccoglierlo. Vale per qualunque file del piano.
+  for (const v of PIANO) {
+    const p = fuoriRepo(v.file, "prova");
+    assert.ok(!p.startsWith(AD_ROOT), `${v.file}: il file di prova finirebbe nel repo (${p})`);
+  }
+});
+
+test("il nome del file di lavoro resta riconoscibile, e non collide fra i due file", () => {
+  const a = fuoriRepo("cervello/giro.sh", "prova");
+  const b = fuoriRepo("pannello/src/components/AutoCoscienza.tsx", "prova");
+  assert.notEqual(a, b, "due file diversi non devono scriversi sopra a vicenda");
+  assert.match(a, /giro\.sh$/);
+  assert.match(b, /AutoCoscienza\.tsx$/);
+});
