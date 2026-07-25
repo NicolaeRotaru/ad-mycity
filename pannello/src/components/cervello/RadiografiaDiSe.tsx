@@ -424,7 +424,13 @@ export default function RadiografiaDiSe() {
               {chiusi.length > 0 && (
                 <div className="pt-1">
                   <div className="t-micro mb-1.5">Chiusi</div>
-                  {chiusi.map((x, i) => <div key={i} className="text-[12px] text-black/50 flex gap-1.5"><CheckCircle2 size={13} className="text-green-600 shrink-0" /><span className="line-through">{x.titolo}</span></div>)}
+                  {chiusi.map((x, i) => (
+                    <div key={i} className="text-[12px] text-black/50 flex gap-1.5">
+                      <CheckCircle2 size={13} className="text-green-600 shrink-0" />
+                      <span className="line-through">{x.titolo}</span>
+                      {x.chiuso_il && <span className="shrink-0 text-black/35">· {dataVault(x.chiuso_il)}</span>}
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
