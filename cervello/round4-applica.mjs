@@ -12,11 +12,13 @@
 // e NESSUNA chiude un difetto che non sia davvero risolto:
 //
 //   · AR-142 (permessi troppo larghi) → la prova diventa il GUARDIANO: «`permessi-check.mjs` esce 0».
-//     Il difetto NON si chiude adesso: sul VPS il guardiano trova 11 violazioni, e le correzioni le
-//     fa Nicola — la macchina non può toccarsi i permessi, `.claude/settings.json` le è negato in
-//     Edit/Write apposta. Si chiuderà da solo quando l'ultima violazione sparisce.
+//     Il difetto NON si chiude adesso: sul VPS il guardiano trova ancora dei permessi scoperti, e le
+//     correzioni le fa Nicola — la macchina non può toccarsi i permessi, `.claude/settings.json` le è
+//     negato in Edit/Write apposta. Si chiuderà da solo quando l'ultima violazione sparisce.
 //     Perché il guardiano e non un pattern: vedi il commento lungo sulla voce AR-142 qui sotto.
-//     Due tentativi precedenti erano sbagliati, ed è documentato dove e perché.
+//     TRE tentativi precedenti erano sbagliati, ed è documentato dove e perché — l'ultimo (le «11
+//     violazioni») stava per far togliere a Nicola permessi che non aprono nulla. Il numero vero lo
+//     dice il guardiano corretto lanciato sul VPS, non questo commento.
 //
 //   · AR-151 (nessun audit delle chiusure passate) → la prova diventa: «esiste chiusure-audit.mjs
 //     con la funzione riverifica». Il difetto chiedeva esattamente quel passo mancante, e ora c'è:
@@ -63,6 +65,10 @@ const PROVE = [
     // configurato BENE sarebbe risultato sporco (provato). I divieti MANCANTI, poi, non sono
     // esprimibili affatto: non si cerca l'assenza di una regola in un elenco che non la contiene.
     // Per questo la prova è ora il GUARDIANO: l'unica cosa che legge la struttura e sa la verità.
+    //
+    // CORREZIONE (04:30). Anche quelle 11 violazioni erano gonfiate, e il guardiano stava per far
+    // togliere a Nicola permessi che non aprono niente. Vedi il commento in cima a permessi-check.mjs:
+    // allow e deny dei due file si sommano e il deny vince sempre.
     verifica: { comando: "node cervello/permessi-check.mjs" },
     nota:
       "Round 4 (corretto due volte). ① La prima diagnosi diceva «4 su 5 già stretti»: sbagliata, " +
@@ -72,7 +78,13 @@ const PROVE = [
       "fra i permessi sia fra i divieti e una regex sul testo grezzo non li distingue — un file " +
       "configurato bene sarebbe risultato sporco. ③ Ora la prova è il guardiano stesso: si chiude " +
       "quando `permessi-check.mjs` esce 0, cioè quando NON c'è più nessuna violazione in nessuno dei " +
-      "due file, divieti mancanti compresi. È l'unica formulazione che dice la verità.",
+      "due file, divieti mancanti compresi. È l'unica formulazione che dice la verità. " +
+      "④ 25/7 04:30 — anche le 11 violazioni erano sbagliate, e il guardiano stava per far togliere " +
+      "a Nicola permessi innocui. I permessi dei due file SI SOMMANO e il DENY VINCE SEMPRE: cercare " +
+      "i divieti file per file inventava «divieti mancanti» che erano scritti nell'altro file, e un " +
+      "permesso già coperto da un divieto veniva contato come pericolo mentre non concede nulla. " +
+      "Corretto: il controllo guarda i file insieme e separa le violazioni vere dai permessi INERTI. " +
+      "Il conteggio vero lo ridà il guardiano sul VPS.",
   },
   {
     id: "AR-151",
@@ -102,7 +114,12 @@ for (const p of PROVE) {
   // Idempotenza: confronto sulla prova INTERA, non sui singoli campi. Con le prove a comando
   // `file` e `pattern` sono entrambi undefined da tutte e due le parti, e un confronto campo-a-campo
   // dichiarava «già aggiornata» senza applicare niente — lo script sarebbe stato un no-op silenzioso.
-  const uguale = d.verifica && JSON.stringify(d.verifica) === JSON.stringify(p.verifica);
+  // Nel confronto entra anche la NOTA: quando una diagnosi si corregge (ed è successo quattro volte
+  // su AR-142) la correzione deve arrivare nel cantiere, non restare solo qui dentro.
+  const uguale =
+    d.verifica &&
+    JSON.stringify(d.verifica) === JSON.stringify(p.verifica) &&
+    d.nota_round4 === p.nota;
   if (uguale) {
     saltato.push(`${p.id}: prova già aggiornata`);
     continue;
