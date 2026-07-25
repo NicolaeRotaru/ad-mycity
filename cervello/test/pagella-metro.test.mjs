@@ -64,3 +64,39 @@ test("prima misura in assoluto: nessun verdetto inventato", () => {
   assert.equal(voci[0].movimento, "prima misura");
   assert.equal(r.peggiorate, 0);
 });
+
+// ────────────────────────────────────────────────────────────────────────────
+// 25/7, quarto giro di analisi: due guasti che si travestivano da misura.
+// La pagella legge gli script figli via pipe. Su una pipe due cose vanno storte in SILENZIO:
+// una riga di rumore rompe il parse, e process.exit() dopo console.log tronca a 65536 byte.
+// In entrambi i casi la voce diventa «non misurabile» — rossa e cieca senza dire perché.
+
+import { estraiJson } from "../pagella-intelligenza.mjs";
+
+test("estraiJson(): una riga di rumore prima del JSON non acceca più la voce", () => {
+  // Provato sul campo: `console.log("(node) attenzione…")` prima del JSON e la voce 1 spariva.
+  const r = estraiJson('(node) attenzione: qualcosa\n{"ok":true,"tasso":0.12}');
+  assert.deepEqual(r, { ok: true, tasso: 0.12 });
+});
+
+test("estraiJson(): regge il JSON indentato su più righe (quello vero lo è)", () => {
+  const r = estraiJson('warning\n{\n  "ok": true,\n  "correzioni": 277\n}');
+  assert.equal(r.correzioni, 277);
+});
+
+test("estraiJson(): se il figlio stampa due oggetti, vale l'ULTIMO", () => {
+  // L'ultimo è quello che lo script stampa come risultato: un residuo precedente non deve vincere.
+  assert.deepEqual(estraiJson('{"ok":false}\n{"ok":true}'), { ok: true });
+});
+
+test("estraiJson(): senza NIENTE di valido resta null — cieco davvero, e va detto", () => {
+  // Il guardo non deve diventare un modo per inventare una misura dove non c'è.
+  assert.equal(estraiJson("boom, nessun json"), null);
+  assert.equal(estraiJson(""), null);
+  assert.equal(estraiJson(null), null);
+});
+
+test("estraiJson(): un JSON troncato a metà non passa per buono", () => {
+  // È esattamente la forma che arriverebbe da una pipe tagliata a 65536 byte.
+  assert.equal(estraiJson('{"ok":true,"aperte_ids":["a","b","c'), null);
+});
