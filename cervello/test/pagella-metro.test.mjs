@@ -1,0 +1,102 @@
+// Il guardo «metro nuovo» della pagella (node --test, nessun I/O).
+//
+// Il 25/7 la voce 1 ha cambiato domanda: da «quante lezioni ho citato» a «quante correzioni di
+// Nicola sono diventate una regola». Il numero è passato da 18% a 12%, e senza un guardo il gate
+// avrebbe gridato «PEGGIORATA» — punendo chi ha sistemato uno strumento rotto.
+//
+// Ma il guardo è pericoloso quanto utile: se bastasse cambiare il nome del metro per far sparire
+// un peggioramento, sarebbe una scappatoia perfetta. Qui si prova che copre SOLO il caso vero.
+
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { confronta } from "../pagella-intelligenza.mjs";
+
+const voce = (p = {}) => ({ id: "lezioni", valore: 0.12, metrica: "nuova@1", ...p });
+const prima = (p = {}) => ({ voci: [{ id: "lezioni", valore: 0.18, metrica: "vecchia@1", ...p }] });
+
+test("metro cambiato: non è «peggiorata», e non conta nel gate", () => {
+  const voci = [voce()];
+  const r = confronta(voci, prima());
+  assert.equal(voci[0].movimento, "misura cambiata");
+  assert.equal(r.peggiorate, 0, "il gate non deve bloccare perché è cambiata la domanda");
+  assert.equal(r.migliorate, 0);
+});
+
+// ⬇️ Il test che rende il guardo onesto invece che comodo.
+test("stesso metro: un calo resta PEGGIORATA — il guardo non è una scappatoia", () => {
+  const voci = [voce({ valore: 0.05, metrica: "vecchia@1" })];
+  const r = confronta(voci, prima());
+  assert.equal(voci[0].movimento, "peggiorata");
+  assert.equal(r.peggiorate, 1);
+});
+
+test("stesso metro: un rialzo resta MIGLIORATA", () => {
+  const voci = [voce({ valore: 0.4, metrica: "vecchia@1" })];
+  const r = confronta(voci, prima());
+  assert.equal(voci[0].movimento, "migliorata");
+  assert.equal(r.migliorate, 1);
+});
+
+test("metro cambiato non si spaccia nemmeno per MIGLIORATA (vale nei due sensi)", () => {
+  const voci = [voce({ valore: 0.95 })];
+  const r = confronta(voci, prima());
+  assert.equal(voci[0].movimento, "misura cambiata");
+  assert.equal(r.migliorate, 0, "un numero più alto con un altro metro non è un miglioramento");
+});
+
+test("il numero vecchio resta scritto accanto: il confronto si può sempre rifare a mano", () => {
+  const voci = [voce()];
+  confronta(voci, prima());
+  assert.equal(voci[0].precedente, 0.18);
+  assert.equal(voci[0].precedente_metrica, "vecchia@1");
+});
+
+test("voci senza metro (le altre quattro) si confrontano come prima", () => {
+  const voci = [{ id: "freni", valore: 2, inverso: true }];
+  const r = confronta(voci, { voci: [{ id: "freni", valore: 4 }] });
+  assert.equal(voci[0].movimento, "migliorata", "meno freni rotti = meglio, anche senza campo metrica");
+  assert.equal(r.migliorate, 1);
+});
+
+test("prima misura in assoluto: nessun verdetto inventato", () => {
+  const voci = [voce()];
+  const r = confronta(voci, null);
+  assert.equal(voci[0].movimento, "prima misura");
+  assert.equal(r.peggiorate, 0);
+});
+
+// ────────────────────────────────────────────────────────────────────────────
+// 25/7, quarto giro di analisi: due guasti che si travestivano da misura.
+// La pagella legge gli script figli via pipe. Su una pipe due cose vanno storte in SILENZIO:
+// una riga di rumore rompe il parse, e process.exit() dopo console.log tronca a 65536 byte.
+// In entrambi i casi la voce diventa «non misurabile» — rossa e cieca senza dire perché.
+
+import { estraiJson } from "../pagella-intelligenza.mjs";
+
+test("estraiJson(): una riga di rumore prima del JSON non acceca più la voce", () => {
+  // Provato sul campo: `console.log("(node) attenzione…")` prima del JSON e la voce 1 spariva.
+  const r = estraiJson('(node) attenzione: qualcosa\n{"ok":true,"tasso":0.12}');
+  assert.deepEqual(r, { ok: true, tasso: 0.12 });
+});
+
+test("estraiJson(): regge il JSON indentato su più righe (quello vero lo è)", () => {
+  const r = estraiJson('warning\n{\n  "ok": true,\n  "correzioni": 277\n}');
+  assert.equal(r.correzioni, 277);
+});
+
+test("estraiJson(): se il figlio stampa due oggetti, vale l'ULTIMO", () => {
+  // L'ultimo è quello che lo script stampa come risultato: un residuo precedente non deve vincere.
+  assert.deepEqual(estraiJson('{"ok":false}\n{"ok":true}'), { ok: true });
+});
+
+test("estraiJson(): senza NIENTE di valido resta null — cieco davvero, e va detto", () => {
+  // Il guardo non deve diventare un modo per inventare una misura dove non c'è.
+  assert.equal(estraiJson("boom, nessun json"), null);
+  assert.equal(estraiJson(""), null);
+  assert.equal(estraiJson(null), null);
+});
+
+test("estraiJson(): un JSON troncato a metà non passa per buono", () => {
+  // È esattamente la forma che arriverebbe da una pipe tagliata a 65536 byte.
+  assert.equal(estraiJson('{"ok":true,"aperte_ids":["a","b","c'), null);
+});

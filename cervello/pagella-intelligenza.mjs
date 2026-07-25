@@ -13,7 +13,7 @@
 // mosso, il fix era finto — il gate lo dice invece di lasciarlo passare come "fatto".
 //
 // Le 5 voci (fonte verificabile, mai auto-dichiarata):
-//   1. lezioni     — applica davvero le lezioni che scrive?   fonte: cervello/tasso-lezioni.mjs --json
+//   1. lezioni     — chiude alla radice ciò che Nicola corregge?  fonte: cervello/tasso-regole.mjs --json
 //   2. calibrazione— sa prevedere le conseguenze delle mosse?  fonte: auto-coscienza/calibrazione.json
 //   3. freni       — i freni di sicurezza funzionano?          fonte: auto-coscienza/cantiere-difetti.json
 //   4. quaderni    — i senior imparano o sono decorativi?      fonte: auto-coscienza/chiusura-loop.json
@@ -70,46 +70,115 @@ function pct(n) {
   return `${Math.round((Number(n) || 0) * 100)}%`;
 }
 
-// ─────────────────────────── le 5 misure ───────────────────────────
-
-/** 1. Applica davvero le lezioni che scrive? Delega al calcolatore esistente (AR-051), in sola lettura. */
-function misuraLezioni(soglie) {
-  const r = spawnSync(process.execPath, [join(AD_ROOT, "cervello/tasso-lezioni.mjs"), "--json", "--dry"], {
-    encoding: "utf8",
-    timeout: 120000,
-  });
-  let dati = null;
-  if (r.stdout) {
+/**
+ * Legge il JSON che uno script figlio ha stampato, anche se prima ha stampato altro.
+ *
+ * PERCHÉ (misurato il 25/7). Prima era `JSON.parse(stdout)` secco: bastava UNA riga di rumore
+ * sullo stdout del figlio — un avviso di Node, un `console.log` dimenticato da qualcuno mesi dopo —
+ * perché il parse fallisse, la voce tornasse `null` e la pagella la mostrasse «non misurabile».
+ * Rossa e cieca, senza dire perché: il guasto peggiore, quello che si traveste da misura.
+ * Provato: `console.log("(node) attenzione…")` prima del JSON accecava la voce 1.
+ *
+ * Qui si prende l'ultimo oggetto JSON ben formato dell'output, che è quello che il figlio stampa
+ * per ultimo. Se non c'è NIENTE di valido resta `null` — cieco davvero, e allora è giusto dirlo.
+ */
+export function estraiJson(stdout) {
+  const testo = String(stdout || "").trim();
+  if (!testo) return null;
+  try {
+    return JSON.parse(testo);
+  } catch {
+    /* c'è del rumore: lo cerco riga per riga qui sotto */
+  }
+  // Dall'ultima riga che apre un oggetto, all'indietro: il JSON "buono" è l'ultimo stampato.
+  const righe = testo.split("\n");
+  for (let i = righe.length - 1; i >= 0; i--) {
+    if (!righe[i].startsWith("{")) continue;
     try {
-      dati = JSON.parse(r.stdout);
+      return JSON.parse(righe.slice(i).join("\n"));
     } catch {
-      dati = null;
+      /* non era quello: continuo a salire */
     }
   }
-  if (!dati || dati.ok === false) {
-    return {
-      id: "lezioni",
-      titolo: "Applica le lezioni che scrive",
-      valore: null,
-      etichetta: "non misurabile",
-      soglia: pct(soglie.lezioni_tasso_min),
-      ok: false,
-      cieco: true,
-      fonte: "cervello/tasso-lezioni.mjs",
-      come_si_alza: "rendere le lezioni dei blocchi automatici, non promemoria da ricordarsi (AR-149)",
-    };
-  }
-  const tasso = Number(dati.tasso_applicazione) || 0;
-  return {
+  return null;
+}
+
+// ───────────────────────── le 5 misure ─────────────────────────
+
+/**
+ * 1. Chiude alla radice ciò che Nicola corregge?
+ *
+ * CAMBIATA IL 25/7 (firma: merge di Nicola). Prima chiedeva «applica le lezioni che scrive» e
+ * delegava a `tasso-lezioni.mjs`, che però misura una cosa diversa da quella che dichiara: là una
+ * lezione conta come applicata se la sua SIGLA compare in un documento recente
+ * (`blob.includes(lez.id)`). Non se ha cambiato un comportamento: se qualcuno l'ha citata. Per
+ * arrivare al 70% servivano 331 sigle citate in un mese — undici al giorno. Cancelleria.
+ *
+ * Le alternative sono state MISURATE prima di scegliere, non ragionate: allineare le finestre dà
+ * 17% (irrilevante: 469 lezioni su 473 sono nate in 30 giorni); deduplicare non dà niente (473
+ * testi, 473 distinti). La domanda giusta la macchina se la stampa già addosso a ogni avvio di
+ * sessione: «ripetuto 32× in 18 lezioni e mai reso un gate».
+ *
+ * La misura nuova è PIÙ SEVERA: 12% dove la vecchia diceva 18%. Era la condizione per proporla.
+ * Il vecchio numero resta visibile qui sotto come `tasso_citazioni`, così il confronto è possibile
+ * e nessuno deve fidarsi sulla parola.
+ */
+function misuraLezioni(soglie) {
+  const leggi = (script, args) => {
+    const r = spawnSync(process.execPath, [join(AD_ROOT, script), ...args], { encoding: "utf8", timeout: 120000 });
+    return estraiJson(r.stdout);
+  };
+  const dati = leggi("cervello/tasso-regole.mjs", ["--json"]);
+  // Informativo: il numero che la voce mostrava fino al 25/7. Se non si legge, pazienza — non è
+  // lui a decidere l'esito.
+  const vecchio = leggi("cervello/tasso-lezioni.mjs", ["--json", "--dry"]);
+  const citazioni = vecchio && vecchio.ok !== false ? Number(vecchio.tasso_applicazione) || 0 : null;
+
+  const base = {
     id: "lezioni",
-    titolo: "Applica le lezioni che scrive",
-    valore: tasso,
-    etichetta: `${pct(tasso)} (${dati.lezioni_applicate}/${dati.lezioni_attive})`,
+    // Nome del METRO, non della voce: quando cambia, il confronto con la misura precedente si
+    // ferma invece di gridare «peggiorata» (vedi confronta()). Il vecchio metro era
+    // "citazioni-id-lezione@1"; questo è un'altra domanda, e lo dice.
+    metrica: "correzioni-nicola-diventate-regola@1",
+    titolo: "Chiude alla radice ciò che Nicola corregge",
     soglia: pct(soglie.lezioni_tasso_min),
+    fonte: "cervello/tasso-regole.mjs",
+    come_si_alza:
+      "prendere una correzione di Nicola e chiuderla alla radice (principio + gate automatico): " +
+      "scrivere altre lezioni non aiuta, finiscono nel denominatore",
+    tasso_citazioni: citazioni,
+  };
+  if (!dati || dati.ok === false) {
+    return { ...base, valore: null, etichetta: "non misurabile", ok: false, cieco: true };
+  }
+  if (dati.senza_dati) {
+    // Nessuna lezione affatto: non è silenzio, è il tubo rotto. Va detto come guasto.
+    return { ...base, valore: null, etichetta: "apprendimento.json vuoto: misura cieca", ok: false, cieco: true };
+  }
+  if (!dati.misurabile) {
+    // CORREZIONE (25/7, dopo il ri-audit): prima questo caso era `ok: false`, cioè la voce restava
+    // ROSSA proprio quando Nicola non aveva più avuto niente da correggere in 30 giorni. Una
+    // metrica che punisce il successo è peggio di una che non misura: zero correzioni è
+    // l'obiettivo di tutta la voce, non un buco nei dati.
+    return { ...base, valore: 1, etichetta: `nessuna correzione in ${dati.finestra_giorni || 30} giorni`, ok: true, cieco: false };
+  }
+  const tasso = Number(dati.tasso) || 0;
+  return {
+    ...base,
+    valore: tasso,
+    etichetta: `${pct(tasso)} (${dati.diventate_regola}/${dati.correzioni} correzioni)`,
     ok: tasso >= soglie.lezioni_tasso_min,
     cieco: false,
-    fonte: "cervello/tasso-lezioni.mjs",
-    come_si_alza: "rendere le lezioni dei blocchi automatici, non promemoria da ricordarsi (AR-149)",
+    // I due numeri che dicono la verità più del voto qui sopra, misurati il 25/7 rispondendo a
+    // «l'hai risolto del tutto?». NON decidono l'esito — quale domanda debba fare questa voce, e
+    // con che soglia, è una firma di Nicola, non una cosa da cambiare dentro un altro lavoro.
+    // Stanno qui perché un numero scomodo nascosto è peggio di un numero scomodo scritto.
+    //   · ricadute  = quante correzioni cadono su un tema già corretto ≥3 volte. Non dipende da
+    //                 nessun campo che la macchina si autoassegna: scende solo se smette davvero.
+    //   · gate      = quante correzioni sono legate a un controllo che può FALLIRE. Oggi zero:
+    //                 «promossa a principio» significa iniettata nel prompt, non impedita.
+    ricadute: dati.ricadute || null,
+    gate: dati.gate || null,
   };
 }
 
@@ -241,7 +310,7 @@ function misuraSalute(soglie) {
   };
 }
 
-// ─────────────────────────── confronto con la misura precedente ───────────────────────────
+// ───────────────────────── confronto con la misura precedente ─────────────────────────
 
 const EPSILON = 1e-9;
 
@@ -249,7 +318,7 @@ const EPSILON = 1e-9;
  * Il gate anti-illusione: confronta ogni voce con l'ultima misura e dice se è
  * MIGLIORATA / FERMA / PEGGIORATA. Una voce "ferma" dopo un fix dichiarato = il fix era finto.
  */
-function confronta(voci, precedente) {
+export function confronta(voci, precedente) {
   const prec = precedente && Array.isArray(precedente.voci) ? precedente.voci : [];
   const mappa = new Map(prec.map((v) => [v.id, v]));
   let peggiorate = 0;
@@ -258,6 +327,17 @@ function confronta(voci, precedente) {
     const p = mappa.get(v.id);
     if (!p || p.valore === null || v.valore === null) {
       v.movimento = "prima misura";
+      continue;
+    }
+    // Se il METRO è cambiato, i due numeri non sono confrontabili: 12% con la domanda nuova non è
+    // «peggio» di 18% con quella vecchia, è un'altra cosa. Senza questo guardo, il giorno in cui si
+    // corregge una misura sbagliata il gate griderebbe «PEGGIORATA» — un falso allarme che punisce
+    // chi sistema lo strumento. (Vale anche al contrario: una misura resa più comoda non deve
+    // potersi spacciare per «MIGLIORATA».) Lo storico riparte da qui, dichiarandolo.
+    if ((p.metrica || null) !== (v.metrica || null)) {
+      v.movimento = "misura cambiata";
+      v.precedente = p.valore;
+      v.precedente_metrica = p.metrica || null;
       continue;
     }
     const delta = Number(v.valore) - Number(p.valore);
@@ -280,95 +360,120 @@ function confronta(voci, precedente) {
   return { peggiorate, migliorate };
 }
 
-// ─────────────────────────── esecuzione ───────────────────────────
+// ───────────────────────── esecuzione ─────────────────────────
 
-const soglie = caricaSoglie();
-const precedente = readJson(OUT_PATH);
+// Il corpo vive dentro main(): senza, importare questo file per PROVARE confronta() farebbe
+// partire l'intera pagella e riscrivere il report. Un modulo che non si può importare non si
+// può nemmeno testare — ed è il guardo anti-abuso di confronta() che va provato più di tutto.
+async function main() {
+  const soglie = caricaSoglie();
+  const precedente = readJson(OUT_PATH);
 
-const voci = [
-  misuraLezioni(soglie),
-  misuraCalibrazione(soglie),
-  misuraFreni(soglie),
-  misuraQuaderni(soglie),
-  misuraSalute(soglie),
-];
+  const voci = [
+    misuraLezioni(soglie),
+    misuraCalibrazione(soglie),
+    misuraFreni(soglie),
+    misuraQuaderni(soglie),
+    misuraSalute(soglie),
+  ];
 
-const { peggiorate, migliorate } = confronta(voci, precedente);
-const superate = voci.filter((v) => v.ok).length;
-const cieche = voci.filter((v) => v.cieco).length;
-const pronta = superate === voci.length;
+  const { peggiorate, migliorate } = confronta(voci, precedente);
+  const superate = voci.filter((v) => v.ok).length;
+  const cieche = voci.filter((v) => v.cieco).length;
+  const pronta = superate === voci.length;
 
-const report = {
-  _cosa_e:
-    "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
-  aggiornato: nowPiacenza(),
-  pronta,
-  voci_superate: superate,
-  voci_totali: voci.length,
-  voci_cieche: cieche,
-  migliorate,
-  peggiorate,
-  soglie,
-  voci,
-};
-
-if (!DRY) {
-  const serie = precedente && Array.isArray(precedente.serie) ? precedente.serie : [];
-  serie.push({
-    data: report.aggiornato,
-    voci_superate: superate,
+  const report = {
+    _cosa_e:
+      "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
+    aggiornato: nowPiacenza(),
     pronta,
-    valori: Object.fromEntries(voci.map((v) => [v.id, v.valore])),
-  });
-  report.serie = serie.slice(-200);
-  writeFileSync(OUT_PATH, `${JSON.stringify(report, null, 2)}\n`, "utf8");
-} else if (precedente && Array.isArray(precedente.serie)) {
-  report.serie = precedente.serie;
-}
+    voci_superate: superate,
+    voci_totali: voci.length,
+    voci_cieche: cieche,
+    migliorate,
+    peggiorate,
+    soglie,
+    voci,
+  };
 
-if (JSON_MODE) {
-  console.log(JSON.stringify(report, null, 2));
-} else {
-  console.log(`\n🎓 PAGELLA DELL'INTELLIGENZA — ${report.aggiornato}\n`);
-  for (const v of voci) {
-    const segno = v.cieco ? "⬜" : v.ok ? "✅" : "❌";
-    // Niente frecce ↑/↓: su una voce "inversa" (meno bloccanti = meglio) una freccia in su
-    // accanto a "8 bloccanti" si legge come un peggioramento. Diciamo la parola.
-    const mov =
-      v.movimento === "migliorata"
-        ? "  (meglio)"
-        : v.movimento === "peggiorata"
-          ? "  (PEGGIO)"
-          : v.movimento === "ferma"
-            ? "  (ferma)"
-            : "";
-    console.log(`${segno} ${v.titolo}`);
-    console.log(`   oggi: ${v.etichetta}${mov}   →  pronta a: ${v.soglia}`);
-    if (!v.ok && v.come_si_alza) console.log(`   come si alza: ${v.come_si_alza}`);
-    console.log("");
+  if (!DRY) {
+    const serie = precedente && Array.isArray(precedente.serie) ? precedente.serie : [];
+    serie.push({
+      data: report.aggiornato,
+      voci_superate: superate,
+      pronta,
+      valori: Object.fromEntries(voci.map((v) => [v.id, v.valore])),
+    });
+    report.serie = serie.slice(-200);
+    writeFileSync(OUT_PATH, `${JSON.stringify(report, null, 2)}\n`, "utf8");
+  } else if (precedente && Array.isArray(precedente.serie)) {
+    report.serie = precedente.serie;
   }
-  console.log(`   Voci a posto: ${superate}/${voci.length}${cieche ? ` · cieche: ${cieche}` : ""}`);
-  if (migliorate || peggiorate) {
-    console.log(`   Dall'ultima misura: ${migliorate} migliorate · ${peggiorate} peggiorate`);
+
+  if (JSON_MODE) {
+    console.log(JSON.stringify(report, null, 2));
+  } else {
+    console.log(`\n🎓 PAGELLA DELL'INTELLIGENZA — ${report.aggiornato}\n`);
+    for (const v of voci) {
+      const segno = v.cieco ? "⬜" : v.ok ? "✅" : "❌";
+      // Niente frecce ↑/↓: su una voce "inversa" (meno bloccanti = meglio) una freccia in su
+      // accanto a "8 bloccanti" si legge come un peggioramento. Diciamo la parola.
+      const mov =
+        v.movimento === "migliorata"
+          ? "  (meglio)"
+          : v.movimento === "peggiorata"
+            ? "  (PEGGIO)"
+            : v.movimento === "ferma"
+              ? "  (ferma)"
+              : v.movimento === "misura cambiata"
+                ? "  (metro nuovo: non confrontabile col numero di ieri)"
+                : "";
+      console.log(`${segno} ${v.titolo}`);
+      console.log(`   oggi: ${v.etichetta}${mov}   →  pronta a: ${v.soglia}`);
+      // I due numeri scomodi sotto la voce 1: non decidono l'esito, ma non si nascondono.
+      if (v.ricadute && v.ricadute.correzioni) {
+        console.log(
+          `   ricadute su un tema già corretto ≥3 volte: ${v.ricadute.su_tema_cronico}/${v.ricadute.correzioni} = ${pct(v.ricadute.quota)}`,
+        );
+      }
+      if (v.gate && v.gate.correzioni) {
+        console.log(
+          `   correzioni legate a un gate che può fallire: ${v.gate.con_gate}/${v.gate.correzioni} = ${pct(v.gate.quota)}`,
+        );
+      }
+      if (!v.ok && v.come_si_alza) console.log(`   come si alza: ${v.come_si_alza}`);
+      console.log("");
+    }
+    console.log(`   Voci a posto: ${superate}/${voci.length}${cieche ? ` · cieche: ${cieche}` : ""}`);
+    if (migliorate || peggiorate) {
+      console.log(`   Dall'ultima misura: ${migliorate} migliorate · ${peggiorate} peggiorate`);
+    }
+    console.log(
+      pronta
+        ? "\n✅ PRONTA — tutte le soglie superate. Si può tornare sul business."
+        : `\n⏳ NON ancora pronta — mancano ${voci.length - superate} voci su ${voci.length}.`,
+    );
+    if (!DRY) console.log(`   report: ${OUT_PATH.replace(`${AD_ROOT}/`, "")}\n`);
   }
-  console.log(
-    pronta
-      ? "\n✅ PRONTA — tutte le soglie superate. Si può tornare sul business."
-      : `\n⏳ NON ancora pronta — mancano ${voci.length - superate} voci su ${voci.length}.`,
-  );
-  if (!DRY) console.log(`   report: ${OUT_PATH.replace(`${AD_ROOT}/`, "")}\n`);
+
+  await stampSegnale(
+    "pagella-intelligenza",
+    pronta ? "ok" : peggiorate > 0 ? "attenzione" : "info",
+    `${superate}/${voci.length} voci a posto · ${migliorate} migliorate · ${peggiorate} peggiorate`,
+  ).catch(() => {});
+
+  if (GATE && peggiorate > 0) {
+    console.error(
+      `\n❌ GATE: ${peggiorate} voce/i PEGGIORATA/E dall'ultima misura — il lavoro appena fatto ha tolto, non aggiunto.`,
+    );
+    process.exitCode = 1;
+    return;
+  }
+  // `exitCode` e non `exit()`: su una pipe `process.exit()` chiude prima che Node abbia svuotato lo
+  // stdout e taglia l'output a 65536 byte esatti (riproduttore nel commento di tasso-regole.mjs).
+  // Qui non è teoria: in `--json` questo report porta la `serie` storica, che cresce a ogni giro
+  // fino al tetto di 200 voci ≈ 34 KB — metà del buffer. Il codice di uscita resta identico.
+  process.exitCode = 0;
 }
 
-await stampSegnale(
-  "pagella-intelligenza",
-  pronta ? "ok" : peggiorate > 0 ? "attenzione" : "info",
-  `${superate}/${voci.length} voci a posto · ${migliorate} migliorate · ${peggiorate} peggiorate`,
-).catch(() => {});
-
-if (GATE && peggiorate > 0) {
-  console.error(
-    `\n❌ GATE: ${peggiorate} voce/i PEGGIORATA/E dall'ultima misura — il lavoro appena fatto ha tolto, non aggiunto.`,
-  );
-  process.exit(1);
-}
-process.exit(0);
+if (import.meta.url === `file://${process.argv[1]}`) await main();
