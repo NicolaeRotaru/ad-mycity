@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
-  "aggiornato": "2026-07-25 12:20",
+  "aggiornato": "2026-07-25 14:20",
   "giorni_sospetto": 3,
   "difetti_aperti": 24,
   "per_classe": {
@@ -9,9 +9,7 @@
     "auto-attesa": 2
   },
   "non_auto_chiudibili": 22,
-  "bloccanti_ciechi": [
-    "AR-123"
-  ],
+  "bloccanti_ciechi": [],
   "voci": [
     {
       "id": "AR-105",
@@ -47,15 +45,6 @@
       "titolo": "La 'firma di Nicola' che sblocca l'invio reale è un marcatore testuale in un file che la macchina stessa scriv",
       "classe": "auto-sospetta",
       "perche": "prova mai soddisfatta da 9 giorni (cervello/consenso-azione.mjs ~ /rest/v1/approvazioni|firma_pannello/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-123",
-      "gravita": "bloccante",
-      "eta_giorni": 9,
-      "titolo": "Pannello: aprire «Parla con questa casella» cancella la chat aperta nell'Assistente",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
     },
     {
@@ -225,6 +214,15 @@
       "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Il rituale ESITO (AR-009) non ha coperto lo sprint Pannello 21-24/7: @tech ha 47 righe ferme al 20/7 nonostant",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-156",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "I test del Pannello non li lanciava nessuno, e uno non parte nemmeno",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false

@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-25 14:15",
+  "aggiornato": "2026-07-25 14:20",
   "_gate_25_07": "GIRO 25/7: cristallizzazione meccanica già girata da giro.sh alle 06:20 (34 principi, 0 arretrato evidente su evidenze>=7/6/5 — tutti già promossi in 3 batch ieri 14:20/16:20/18:20). Sul cluster #1 segnalato dal guardiano ('marketplace': 22 lezioni/36 ripetizioni) verificato A MANO (8 lezioni lette): NON è un'unica causa radice, è un tag-contenitore troppo generico (label 'tocca il sito marketplace', non firma di un tipo di bug) — cristallizzarlo in un gate sarebbe un principio vago e inutile. Proposta reale invece: (1) tech fix proposto a Nicola — aggiungere 'marketplace' a TAG_GENERICI in cervello/apprendimento-guardiano.mjs (rumore di tassonomia, non errore ricorrente); (2) gate concreto sul cluster #4 'allowlist' (19 lezioni/27 rip./11 da Nicola), rinforzato da evidenza fresca di QUESTO giro (node cervello/esperimenti-check.mjs, valida-contratti.mjs, apprendimento-guardiano.mjs, cristallizza-apprendimento.mjs tutti bloccati da approvazione pur essendo sola-lettura/bookkeeping dichiarati nel loro stesso header) — proposta 🟡 #allowlist-diagnostica-gate in AZIONI-IN-ATTESA: estendere .claude/settings.local.json con un pattern che copre gli script *-check.mjs/*-guardiano.mjs di sola lettura, così l'AD non deve più bypassare a mano leggendo il sorgente ogni volta.",
   "_nota_metabolizzazione_24_07_2002": "Chat 24/7 ~20:02 (chiusura del filo doppioni 'Nuova chat' già raccontato nella nota 19:57/STATO.md): nessun nuovo messaggio di contenuto da Nicola in questo turno (solo 'Abc', ambiguo, seconda volta consecutiva) — verificato via `git log` che PR #531 (blocco doppio-tap sul bottone invia) è GIÀ mergiata su main (commit `575721d2`), non più 'in attesa' come risultava nella card #236. Aggiornati AZIONI-IN-ATTESA (#236 → FATTO) e STATO.md (nuova voce in cima). Nessuna lezione nuova: conferma pratica (non caso_studio_nicola) del pattern già in LEZIONI-CHAT — bug UI 'ricorrente' trattato con screenshot reale + verifica del codice esistente prima di riscrivere la diagnosi da zero, invece di assumere che il fix di ieri (PR #517) fosse insufficiente senza controllare. Resta da confermare dal vivo nel browser dopo il prossimo deploy Vercel (nessun accesso browser in sessione headless). Nessun fatto/decisione/dato business nuovo.",
   "_nota_metabolizzazione_24_07_1740": "Chat 24/7 17:36: Nicola \"aggiungi parla con la casella a tutte le caselle della bacheca\" — AD ha aggiunto ParlaCasella agli avvisi Bacheca (unico file mancante), PR #527 aperta e già accodata in AZIONI-IN-ATTESA (card #235, riga tabella). Registrata lezione L-2026-0724-527: pattern ricorrente (7ma volta) di aggiungere ParlaCasella superficie-per-superficie invece che con audit unico. Sul filone precedente (registro dei fatti incompleto, turno prima), Nicola non ha ancora dato l'esempio concreto richiesto dall'AD — resta aperto, nessuna azione da registrare finché non risponde.",
@@ -3636,8 +3636,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-20 00:32",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 14:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-298",
@@ -3922,8 +3924,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-19 16:54",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 14:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0719-285",
@@ -4244,8 +4248,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-18",
       "ultima_conferma": "2026-07-19 17:00",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 14:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0718-271",
@@ -4434,8 +4440,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-18",
       "ultima_conferma": "2026-07-20 00:55",
-      "stato": "attiva",
-      "usi": []
+      "stato": "principio",
+      "usi": [],
+      "promosso_il": "2026-07-25 14:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0718-262",
@@ -4786,7 +4794,7 @@
       "permanente_nicola": true,
       "nato": "2026-07-17",
       "ultima_conferma": "2026-07-19 18:06",
-      "stato": "attiva",
+      "stato": "principio",
       "usi": [
         {
           "quando": "2026-07-17 07:00",
@@ -4796,7 +4804,9 @@
           "quando": "2026-07-19 18:06",
           "ref": "chat Playwright — Nicola «ricordami file segreto»; verifica riga PLAYWRIGHT_BROWSERS_PATH ancora assente"
         }
-      ]
+      ],
+      "promosso_il": "2026-07-25 14:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0717-246",
@@ -10850,6 +10860,41 @@
       "promosso_il": "2026-07-25 12:20"
     },
     {
+      "id": "L-2026-0719-299",
+      "testo": "**Bug nuova chat — PR #456 annullata dal fix cross-device; fix PR #475 (Nicola 19/7 17:03 «perché è tornato?», consegnato 17:11).** Premendo «+» la chat si svuota poi riappare l'ultima conversazione (es. messaggi allowlist/git) — NON è output worker nuovo, è contenuto riciclato. 5 perché: (1) PR #456 (18/7) bloccava permanentemente auto-open quando Nicola preme «+» via `nuovaChatManualeRef`; (2) fix cross-device stessa sera ha esteso auto-open a 24h per sync smartphone↔desktop; (3) per «non bloccare sync successivi» hanno messo `setTimeout(..., 3000)` che resetta il flag — dopo 3s l'auto-open torna attivo; (4) poll conversazioni ogni 8s (`setInterval` ~2067) + `useEffect` ~2090 riapre l'ultima conv <24h se chat vuota; (5) Nicola chiede «perché è tornato?» → vuole causa radice regressione, non solo «riprovo fix». Regola: fix cross-device su chat NON deve reintrodurre timer che annulla blocchi UX manuali; verifica `page.tsx` ~1284 e ~2090; spiegare meccanismo prima di proporre PR. Fix: **PR #475** — blocco permanente su «+» senza reset timer (come #456) + sync iniziale separato. Vedi DECISIONI 19/7 17:03, 17:11.",
+      "tag": [
+        "pannello",
+        "chat",
+        "regressione",
+        "cross-device",
+        "nuova-chat",
+        "auto-open",
+        "PR-456",
+        "PR-475",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 14:20"
+    },
+    {
+      "id": "L-2026-0719-286",
+      "testo": "**settings.local.json JSON invalido → l'intera allowlist viene ignorata (19/7 14:42, confermato 16:44).** Due errori virgola osservati sullo stesso file mentre Nicola aggiunge MCP: (a) 14:42 — virgola **mancante** tra voci (dopo Vercel `get_project`); (b) 16:44 — **trailing comma** sull'ultima riga Supabase (`Illegal trailing comma` riga 33). Entrambi invalidano il JSON → nessun permesso attivo (né Vercel né Supabase). 5 perché: (1) parser JSON all-or-nothing; (2) pattern già visto 18/7 su virgola git-pr.mjs; (3) sintomo = permessi «già presenti» ma tool bloccati; (4) Nicola aggiunge voci ma nulla cambia → validare JSON PRIMA; (5) dopo fix serve nuova chat. Regola: virgola TRA le righe, MAI dopo l'ultima. Vedi #abilita-mcp-supabase-chat, L-290.",
+      "tag": [
+        "allowlist",
+        "json-invalido",
+        "settings-local",
+        "vercel",
+        "mcp",
+        "supabase",
+        "nicola",
+        "correzione",
+        "trailing-comma"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 14:20"
+    },
+    {
       "id": "L-2026-0719-279",
       "testo": "**Correzione Nicola (19/7): «clienti/utenti iscritti» = solo role=buyer — MAI confondere con profili totali.** EXP-001 diceva '23 iscritti'; Nicola ha corretto: 'a me risultano solo 4'. Il 23 veniva da STATO.md ('23 clienti') che contava TUTTI i profili (4 buyer + 17 seller + 1 admin + 1 rider = 23 account). Confermato DB live 19/7 14:33 via REST `profiles?role=eq.buyer` → 4. 5 perché: (1) memoria usava conteggio profili totali come 'clienti'; (2) seller/admin/rider non sono clienti; (3) Nicola chiede «quanti utenti?» → rispondi con breakdown per ruolo; (4) numeri in esperimenti/STATO vanno verificati live, non copiati; (5) se DB non raggiungibile → 'dato da verificare'. Regola: query live (REST o MCP) prima di ogni numero presentato a Nicola.",
       "tag": [
@@ -10865,6 +10910,53 @@
       ],
       "reparto": "@AD",
       "promosso_il": "2026-07-25 06:20"
+    },
+    {
+      "id": "L-2026-0718-272",
+      "testo": "**Allowlist `git -C /opt/mycity/ad-mycity/marketplace:*` aggiunta da Nicola il 18/7 — i comandi git sul repo marketplace ora funzionano dalla chat.** Prima era bloccato (solo la root `ad-mycity/` era in allowlist). `git-pr.mjs` NON supporta `marketplace` come target (solo `ad-mycity`): per aprire una PR su mycity, fare `git push origin <branch>` direttamente nel repo marketplace e aprire il link PR da GitHub. Se il repo marketplace ha un rebase interrotto, fare `git rebase --abort` prima di creare nuovi branch. PR #213 (35 fix radiografia): conflitti risolti 18/7 via rebase; **mergiata 19/7 17:00** (`304fe07` su main).",
+      "tag": [
+        "allowlist",
+        "marketplace",
+        "git-C",
+        "git-pr.mjs",
+        "pr",
+        "rebase",
+        "force-push"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-25 14:20"
+    },
+    {
+      "id": "L-2026-0718-263",
+      "testo": "**3 bug chat Worker (18/7) — scroll menu, layout messaggi, sticky input:** (1) chat si apre dall'inizio invece che dall'ultimo messaggio dal menu → **#482+#483 ✅ Nicola 00:55**; (2) risposta AD spinge box verso il basso → layout flex min-h-0 (parziale #443); (3) box scrittura+icone **sticky in fondo** tipo WhatsApp → **PR #484** (20/7 ~00:55, L-346). Componente: ChatCasella Worker. Fix (3): position sticky/fixed barra input, solo messaggi scrollano.",
+      "tag": [
+        "ux-chat",
+        "scroll",
+        "sticky",
+        "apertura-chat",
+        "box-input",
+        "pannello",
+        "bug",
+        "frontend-dev"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-25 14:20"
+    },
+    {
+      "id": "L-2026-0717-247",
+      "testo": "**⭐ PERMANENTE — Il file `.env` del worker è `cervello/vps/.env`, MAI la root (caso-studio Nicola 17/7 × 3 conferme, ultima 19/7 18:06):** Nicola ha detto «impara questa lezione e ricordatela per sempre». Il systemd usa `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env`. Il file root `/opt/mycity/ad-mycity/.env` è vuoto/assente e IGNORATO dal processo. Ogni nuova variabile d'ambiente (VERCEL_TOKEN, STRIPE_KEY, `PLAYWRIGHT_BROWSERS_PATH`, ecc.) va SOLO in `cervello/vps/.env` + restart worker (`mycity-worker.service` o `mycity-worker-chat.service`). Quando chiede «ricordami come si entra nel file segreto» → path assoluto Termux + `nano` + riga in fondo + restart; non leggere il file in chat. Quando Nicola dice 'ho inserito il token', chiedere subito DOVE: nel `cervello/vps/.env`? nel codice? nel root .env? Solo il primo funziona.",
+      "tag": [
+        "vercel",
+        "token",
+        "env",
+        "mcp-vercel",
+        "configurazione",
+        "worker",
+        "permanente",
+        "cervello-vps-env"
+      ],
+      "reparto": "@devops-sre",
+      "promosso_il": "2026-07-25 14:20"
     },
     {
       "id": "L-2026-0714-209",
@@ -11701,16 +11793,16 @@
     "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
   ],
   "meta": {
-    "lezioni_attive": 473,
-    "promosse_a_principio": 54,
+    "lezioni_attive": 405,
+    "promosse_a_principio": 59,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-25 14:15",
+    "tasso_calcolato_il": "2026-07-25 14:20",
     "tasso_finestra_giorni": 30,
     "tick_leggero_il": "2026-07-25 14:15",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-25 12:20"
+    "cristallizzazione_ultima": "2026-07-25 14:20"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
