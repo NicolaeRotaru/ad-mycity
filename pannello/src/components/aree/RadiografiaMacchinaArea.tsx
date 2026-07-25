@@ -3,8 +3,6 @@
 import CuoreMacchina from "@/components/CuoreMacchina";
 import StatoMacchina from "@/components/StatoMacchina";
 import RadiografiaDiSe from "@/components/cervello/RadiografiaDiSe";
-import SaluteOnesta from "@/components/cervello/SaluteOnesta";
-import UtilizzoSenior from "@/components/cervello/UtilizzoSenior";
 
 /** Radiografia macchina: organi grandi + report sotto, senza tab esterne. */
 export default function RadiografiaMacchinaArea() {
@@ -16,12 +14,8 @@ export default function RadiografiaMacchinaArea() {
       </div>
       <CuoreMacchina />
       <StatoMacchina />
+      {/* Salute onesta + Utilizzo senior ora vivono dentro RadiografiaDiSe, tab "Andamento". */}
       <RadiografiaDiSe />
-      {/* Metri onesti della macchina su sé stessa: sto migliorando davvero + quanto uso il roster. */}
-      <div className="grid gap-4 lg:grid-cols-2">
-        <SaluteOnesta />
-        <UtilizzoSenior />
-      </div>
     </div>
   );
 }
