@@ -2046,6 +2046,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         const cerca = () => {
           const el = document.getElementById(target);
           if (el) {
+            if (el instanceof HTMLDetailsElement) el.open = true; // caselle-finestra (es. Cantiere): apri prima di scorrere, altrimenti il contenuto resta nascosto
             el.scrollIntoView({ behavior: "smooth", block: "center" });
             el.classList.add("flash-target");
             setTimeout(() => el.classList.remove("flash-target"), 2200);
