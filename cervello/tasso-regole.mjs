@@ -30,9 +30,7 @@
 // diceva 18%. Era la condizione per proporla — cambiare il metro con cui si è misurati è
 // legittimo solo se il metro nuovo non è più comodo. La firma resta di Nicola: il merge della PR.
 //
-// Perché una regola conta e una citazione no: un principio entra nel contesto di OGNI sessione
-// (SessionStart → contesto-lezioni.mjs). È davanti alla macchina nel momento in cui decide. Una
-// sigla in un file .md non lo è.
+// ⚠️ MA NON BASTA, e sotto ci sono i due numeri che lo dimostrano: vedi ricadute() e conGate().
 //
 // Non si può gonfiare scrivendo più lezioni: le lezioni nuove finiscono nel DENOMINATORE. L'unico
 // modo di alzarla è chiudere alla radice ciò che Nicola ha già corretto.
@@ -93,6 +91,76 @@ export function misura(lezioni = [], giorni = GIORNI, adesso = Date.now()) {
   };
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// I DUE NUMERI CHE DICONO LA VERITÀ PIÙ DI QUELLO SOPRA (misurati il 25/7, dopo che Nicola ha
+// chiesto «l'hai risolto del tutto?»). Rispondere era no, e il motivo sta qui.
+//
+// `diventataRegola()` si fida di `promosso_il` / `cristallizzato_in`. Chi li scrive? Lo script
+// `cristallizza-apprendimento.mjs`, in automatico dentro il giro, promuovendo le lezioni con
+// `confidenza ≥ 0.8` ed `evidenze ≥ 3` — due campi che la macchina scrive sul PROPRIO lavoro.
+// Le 277 correzioni hanno confidenza fra 0.85 e 1.00: quel filtro non filtra niente.
+// E tutte e 55 le lezioni «cristallizzate» puntano allo stesso posto: `memoria-persistente`,
+// cioè testo iniettato nel prompt. NESSUNA è legata a un controllo che può fallire.
+//
+// La parola giusta la macchina se la stampa addosso da sola a ogni avvio di sessione:
+// «ripetuto 32× in 18 lezioni e mai reso un GATE». Non «mai citata», non «mai promossa».
+
+const TAG_GENERICI = new Set(["nicola", "caso-studio", "correzione", "lezione", "ad"]);
+const SOGLIA_CRONICO = 3; // un tema è cronico dopo che Nicola c'è già tornato 3 volte
+
+/**
+ * RICADUTE: quante correzioni cadono su un tema CRONICO, cioè già corretto ≥3 volte prima.
+ *
+ * È il numero più onesto che si possa costruire qui, perché non dipende da nessun campo che la
+ * macchina si autoassegna: scende solo se Nicola smette davvero di ripetersi.
+ *
+ * Perché «cronico» e non «già visto almeno una volta»: quella versione dava 97%, ma era gonfiata
+ * dal metodo — ogni lezione porta più tag e basta che uno sia comune (`pannello` compare 124 volte)
+ * perché scatti. Misurata sul tema cronico: 84%. Verificato prima di crederci.
+ *
+ * L'ordine conta: si guarda cosa era già cronico PRIMA di quella correzione, non dopo.
+ */
+export function ricadute(lezioni = [], giorni = GIORNI, adesso = Date.now()) {
+  const ordinate = correzioniDiNicola(lezioni, giorni, adesso)
+    .slice()
+    .sort((a, b) => String(a.nato || "").localeCompare(String(b.nato || "")));
+  const visti = {};
+  let croniche = 0;
+  for (const l of ordinate) {
+    const tag = (Array.isArray(l.tag) ? l.tag : []).filter((t) => !TAG_GENERICI.has(t));
+    if (tag.some((t) => (visti[t] || 0) >= SOGLIA_CRONICO)) croniche++;
+    for (const t of tag) visti[t] = (visti[t] || 0) + 1;
+  }
+  const cronici = Object.entries(visti).filter(([, n]) => n >= SOGLIA_CRONICO);
+  return {
+    correzioni: ordinate.length,
+    su_tema_cronico: croniche,
+    quota: ordinate.length ? Math.round((croniche / ordinate.length) * 100) / 100 : 0,
+    temi_cronici: cronici.length,
+    temi_totali: Object.keys(visti).length,
+  };
+}
+
+/**
+ * GATE: quante correzioni sono legate a un controllo che può FALLIRE.
+ *
+ * Una lezione lo dichiara col campo `gate` (es. "node cervello/permessi-check.mjs"): stessa forma
+ * delle prove a comando del cantiere, quelle che stanotte hanno chiuso AR-142 e AR-156 da sole.
+ * Un principio iniettato nel prompt è un promemoria; un gate è un impedimento.
+ *
+ * Al 25/7 vale 0 su 277 — e va detto così com'è: in `cervello/` ci sono dodici guardiani veri, e
+ * nessuna lezione è agganciata a uno di loro. È il vuoto che questa misura serve a rendere visibile.
+ */
+export function conGate(lezioni = [], giorni = GIORNI, adesso = Date.now()) {
+  const dentro = correzioniDiNicola(lezioni, giorni, adesso);
+  const legate = dentro.filter((l) => typeof l.gate === "string" && l.gate.trim());
+  return {
+    correzioni: dentro.length,
+    con_gate: legate.length,
+    quota: dentro.length ? Math.round((legate.length / dentro.length) * 100) / 100 : 0,
+  };
+}
+
 /** I temi che tornano più spesso fra le correzioni ANCORA senza regola: da lì si comincia. */
 export function temiAperti(lezioni = [], giorni = GIORNI, adesso = Date.now(), quanti = 6) {
   const conta = {};
@@ -127,9 +195,13 @@ function main() {
   const lezioni = Array.isArray(appr.lezioni) ? appr.lezioni : [];
   const m = misura(lezioni, GIORNI);
   const temi = temiAperti(lezioni, GIORNI);
+  const ric = ricadute(lezioni, GIORNI);
+  const gate = conGate(lezioni, GIORNI);
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ ok: true, quando, finestra_giorni: GIORNI, ...m, temi_aperti: temi }, null, 2));
+    console.log(
+      JSON.stringify({ ok: true, quando, finestra_giorni: GIORNI, ...m, ricadute: ric, gate, temi_aperti: temi }, null, 2),
+    );
     process.exit(0);
   }
 
@@ -140,6 +212,14 @@ function main() {
   }
   console.log(`  ${m.diventate_regola} su ${m.correzioni} = ${Math.round(m.tasso * 100)}%   (ultimi ${GIORNI} giorni)`);
   console.log(`  restano aperte: ${m.aperte_ids.length}`);
+  console.log(`\n  Ma «promossa a principio» vuol dire iniettata nel prompt, non impedita. I due numeri veri:`);
+  console.log(
+    `    ricadute su un tema CRONICO (già corretto ≥${SOGLIA_CRONICO} volte):  ${ric.su_tema_cronico}/${ric.correzioni} = ${Math.round(ric.quota * 100)}%` +
+      `   [${ric.temi_cronici} temi cronici su ${ric.temi_totali}]`,
+  );
+  console.log(
+    `    correzioni legate a un GATE che può fallire:                  ${gate.con_gate}/${gate.correzioni} = ${Math.round(gate.quota * 100)}%`,
+  );
   if (temi.length) {
     console.log(`\n  I temi che tornano e non sono ancora una regola:`);
     for (const t of temi) console.log(`    ${String(t.volte).padStart(3)}×  ${t.tag}`);
