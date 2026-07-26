@@ -1,11 +1,11 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
-  "aggiornato": "2026-07-26 01:18",
+  "aggiornato": "2026-07-26 06:20",
   "pronta": false,
   "voci_superate": 1,
   "voci_totali": 5,
   "voci_cieche": 0,
-  "migliorate": 1,
+  "migliorate": 0,
   "peggiorate": 0,
   "soglie": {
     "lezioni_tasso_min": 0.7,
@@ -23,38 +23,45 @@
       "soglia": "70%",
       "fonte": "cervello/tasso-regole.mjs",
       "come_si_alza": "prendere una correzione di Nicola e chiuderla alla radice (principio + gate automatico): scrivere altre lezioni non aiuta, finiscono nel denominatore",
-      "tasso_citazioni": 0.18,
+      "tasso_citazioni": 0.17,
       "valore": 0.13,
-      "etichetta": "13% (36/277 correzioni)",
+      "etichetta": "13% (37/279 correzioni)",
       "ok": false,
       "cieco": false,
       "ricadute": {
-        "correzioni": 277,
-        "su_tema_cronico": 234,
-        "quota": 0.84,
-        "temi_cronici": 156,
-        "temi_totali": 753
+        "correzioni": 279,
+        "su_tema_cronico": 236,
+        "quota": 0.85,
+        "temi_cronici": 159,
+        "temi_totali": 760
       },
       "gate": {
-        "correzioni": 277,
+        "correzioni": 279,
         "con_gate": 0,
         "quota": 0
       },
-      "precedente": 0.12,
-      "movimento": "migliorata"
+      "precedente": 0.13,
+      "movimento": "ferma"
     },
     {
       "id": "calibrazione",
       "titolo": "Sa prevedere le conseguenze delle sue mosse",
-      "valore": 0,
-      "etichetta": "0 reparti su 14 (AD escluso)",
+      "metrica": "reparti-con-autonomia-guadagnata@1",
       "soglia": "≥5 reparti, AD incluso",
-      "ok": false,
-      "cieco": false,
       "fonte": "auto-coscienza/calibrazione.json",
       "come_si_alza": "obbligo di scrivere «mi aspetto X» prima di ogni mossa, poi confronto col reale",
+      "debito": {
+        "dovute": 0,
+        "scadute": 5,
+        "totale": 5
+      },
+      "valore": 0,
+      "etichetta": "0 reparti su 14 (34 previsioni misurate) · AD escluso",
+      "ok": false,
+      "cieco": false,
+      "movimento": "misura cambiata",
       "precedente": 0,
-      "movimento": "ferma"
+      "precedente_metrica": null
     },
     {
       "id": "freni",
@@ -88,7 +95,7 @@
       "id": "salute",
       "titolo": "Voto salute che si dà da sola",
       "valore": 43,
-      "etichetta": "43/100 (misurato 2026-07-25)",
+      "etichetta": "43/100 (misurato 2026-07-26)",
       "soglia": "≥80/100",
       "ok": false,
       "cieco": false,
@@ -269,6 +276,18 @@
     },
     {
       "data": "2026-07-26 01:18",
+      "voci_superate": 1,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.13,
+        "calibrazione": 0,
+        "freni": 0,
+        "quaderni": 0.25833333333333336,
+        "salute": 43
+      }
+    },
+    {
+      "data": "2026-07-26 06:20",
       "voci_superate": 1,
       "pronta": false,
       "valori": {

@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-25 22:20** — Automatico: **50 aperte · 98 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-26 06:20** — Automatico: **51 aperte · 98 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -27,6 +27,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 <!-- pi26-conferma-ammissibilita -->
+
+---
 
 ### 🔴 #pi26-conferma-ammissibilita — Conferma 3 cose prima di inviare la domanda PI26 (10.000€, scade 30/7 ore 16:00) · ⏳ accodata 2026-07-24 16:00 (review settimanale)
 **Cosa cambia:** un valutatore indipendente ha esaminato la bozza (`consegne/relazioni-istituzionali/2026-07-18-bandi-cciaa-pi26-be26.md`) con l'occhio scettico della nostra regola di qualità e ha dato verdetto **DA SISTEMARE**: (1) la spesa minima richiesta dal bando (5.000€ dal 1° maggio) non è mai stata confrontata col nostro burn reale — da maggio a oggi fa ~850€, molto sotto soglia; (2) non risulta da nessuna parte se MyCity ha già una Partita IVA o un'entità giuridica registrata (requisito base di ammissibilità); (3) mancano documenti di spesa reali (fatture/preventivi) che sommino la soglia richiesta.
@@ -1116,7 +1118,7 @@ cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
 | 237 | 2026-07-24 20:16 | @tech | Merge PR #532 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/532 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 238 | 2026-07-25 00:08 | @tech | Merge PR #533 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/533 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 239 | 2026-07-25 06:35 | @AD | Sblocca gli script di controllo che si bloccano da soli | 🟡 | Aggiungere a `.claude/settings.local.json` → `permissions.allow`: `"Bash(node cervello/esperimenti-check.mjs:*)"`, `"Bash(node cervello/valida-contratti.mjs:*)"`, `"Bash(node cervello/apprendimento-guardiano.mjs:*)"`, `"Bash(node cervello/cristallizza-apprendimento.mjs:*)"`, `"Bash(node cervello/north-star-check.mjs:*)"`, `"Bash(node cervello/sonda-volano.mjs:*)"`, `"Bash(node cervello/coerenza-fatti.mjs:*)"`, `"Bash(node cervello/calibrazione.mjs:*)"` — sono tutti script dichiarati «sola lettura»/bookkeeping nella loro stessa intestazione (nessuna scrittura su dati reali, nessuna azione verso l'esterno). | manuale (file di config) | in attesa | Oggi (25/7) questi comandi mi si sono bloccati 2 volte ciascuno durante il giro: ho dovuto leggere il codice a mano e rifare i loro calcoli manualmente invece di lanciarli — più lento e più a rischio di errore di calcolo mio. È il cluster «allowlist» che torna da 19 lezioni/27 correzioni tue negli ultimi giorni, non ancora sistemato alla radice. | Il prossimo giro questi controlli girano da soli, veloci e senza il tuo intervento — meno tempo mio sprecato a ricostruire a mano quello che uno script già fa. |
-| 240 | 2026-07-25 06:35 | @tech | Pulisci il tag "marketplace" dal contatore errori-ripetuti | 🟡 | `cervello/apprendimento-guardiano.mjs` riga ~52-55 (`TAG_GENERICI`): aggiungere `"marketplace"` all'elenco. Verificato a mano su 8 delle 22 lezioni taggate: sono bug/richieste scollegate (navbar mobile, allowlist MCP, allegati chat, conflitti PR) che condividono solo la parola "marketplace" perché citano il sito — non un tipo di errore ricorrente da poter chiudere con UNA regola. | manuale (1 riga di codice, branch+PR) | in attesa | Il pannello di controllo dell'apprendimento segnala "marketplace" come il difetto più ricorrente (22 lezioni), ma è un'etichetta troppo larga, non un problema vero: tenerla nel conteggio nasconde i cluster che contano davvero (allowlist, workflow, radiografia). | Il prossimo report "errori che si ripetono" mostra solo pattern reali su cui vale la pena scrivere una regola, non un'etichetta-ombrello. |
+| 240 | 2026-07-25 06:35 | @tech | Pulisci i tag-ombrello dal contatore errori-ripetuti (esteso 26/7 06:23: marketplace + workflow + correzione-nicola) | 🟡 | `cervello/apprendimento-guardiano.mjs` riga ~52-55 (`TAG_GENERICI`): aggiungere `"marketplace"`, `"workflow"` e `"correzione-nicola"` all'elenco. Verificato a mano: "marketplace" (8/22 lezioni lette) e "workflow" (campione letto 26/7) mischiano temi scollegati sotto la stessa parola (navbar mobile, allowlist MCP, conflitti PR / tool Workflow bloccato in headless + cataloghi n8n con Nicola — solo IL PRIMO è un vero errore ricorrente, già promosso a principio in L-2026-0723-455); "correzione-nicola" è puro doppione di due tag già in whitelist ("correzione"+"nicola" separati), sfugge al filtro perché la whitelist cerca la stringa esatta. | manuale (3 righe di codice, stesso branch/PR di #240) | in attesa | Il pannello di controllo dell'apprendimento segnala questi tag come i difetti più ricorrenti (18-22 lezioni ciascuno), ma sono etichette-ombrello, non un problema vero: tenerle nel conteggio nasconde i cluster che contano davvero (allowlist, radiografia, plugin/mobile/information-architecture — questi ultimi 3 invece letti a campione 26/7 e confermati REALI, troppo pochi ancora per un gate: da riguardare al prossimo giro pieno). | Il prossimo report "errori che si ripetono" mostra solo pattern reali su cui vale la pena scrivere una regola, non un'etichetta-ombrello. |
 | 241 | 2026-07-25 06:45 | @AD | Decidi se rilanciare la radiografia completa di te stessa | 🟡 | La sonda (`auto-radiografia.json`) segnala `serve_radiografia_completa=true` da **54 giri consecutivi** (salute "pending-merge" 0/100, 11 bloccanti umani mai chiusi, tasso di applicazione delle lezioni fermo al 18%). Non l'ho lanciata da sola in questo giro: è un workflow pesante (`.claude/workflows/auto-radiografia.js`, 12 dimensioni multi-agente) fuori dallo scopo di un giro di routine. | manuale (comando "radiografia di te stessa") | in attesa | La macchina ha 11 problemi noti su di sé che nessuno sta più guardando da settimane — potrebbero includere cose che rallentano ogni giro (come i blocchi Bash di oggi, card #239). | Se dici "fai la radiografia di te stessa" la lancio nel prossimo turno; è un lavoro lungo (tanti agenti in parallelo), non istantaneo. |
 | 242 | 2026-07-25 16:51 | @tech | Merge PR #550 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/550 | github | ✅ FATTO 2026-07-25 16:58 (merge commit `b922fdc1`, verificato in `git log`) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Chiusi del Cantiere ora ordinati per data (più recenti prima) — online. |
 | 243 | 2026-07-25 17:01 | @tech | Merge PR #551 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/551 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
@@ -1267,8 +1269,8 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-25 22:20)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-25-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-26 06:20)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-26-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1672,6 +1674,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-25 22:20 · 98 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-26 06:20 · 98 card totali
 
 ### ✅ #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ✅ FATTO 2026-07-20 18:30 · {approvato: Nicola 20/7 18:28}
 

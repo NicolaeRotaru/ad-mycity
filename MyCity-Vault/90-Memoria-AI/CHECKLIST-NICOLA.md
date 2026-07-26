@@ -2,77 +2,75 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-07-23 11:20
+aggiornato: 2026-07-26 06:23
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata dal giro 23/7 11:20 — focus **1° ordine pagato** (AR-111/AR-113). Nessun giro pieno completato dal 20/7 20:22 (solo sentinelle automatiche) — checklist era ferma da 3 giorni, business INVARIATO nel frattempo.
+> Rigenerata dal giro 26/7 06:23 (checklist era ferma dal 23/7 11:20, 3 giorni — AR-030). Business ancora
+> **invariato**: 1 ordine totale (annullato, 24/6), 0 pagati, verificato ora via Supabase MCP live.
 
 ---
 
-## 🔴 URGENTE — sblocca la North Star (stallo ~29 giorni, 0 pagati)
+## 🔴 URGENTE — 2 decisioni con l'orologio che corre
 
-- [ ] 🟡 **Fai un ordine su Pane Quotidiano** — anche piccolo (€3–5). Unico sblocco diretto North Star 0→1, ancora aperto da giorni. Apri mycity-marketplace.com → prodotto PQ → checkout. ~10 min.
+- [ ] 🔴 **Rispondi alle 3 domande sul bando PI26 (10.000€, scadenza 30/7 ore 16:00 — mancano 4 giorni)** — un valutatore indipendente ha bocciato la bozza attuale come «da sistemare»: ① abbiamo Partita IVA/entità giuridica registrata? ② abbiamo spese reali documentabili (fatture/preventivi) che coprano la soglia minima richiesta (5.000€ dal 1° maggio — il nostro burn da maggio è solo ~850€, molto sotto)? ③ abbiamo firma digitale attiva? Sportello a esaurimento: se la domanda risulta inammissibile dopo l'invio non si può correggere.
+  → Card: `#pi26-conferma-ammissibilita`
+
+- [ ] 🟡 **Conferma se il piano squadra (fratello + 2 amici non pagati) con nuova data metà agosto sostituisce la pausa negozi decisa il 23/7 (24/8-1/9)** — l'hai descritto in chat 26/7 ~01:10 («si parte appena riparo la bici e stampo i volantini») ma è una data diversa da quella già registrata come ufficiale. Senza il tuo ok non riscrivo il fatto in memoria.
+  → Card: `#conferma-piano-squadra-ripresa-negozi`
+
+---
+
+## 🟡 SBLOCCO NORTH STAR (resta a 0 da 32 giorni)
+
+- [ ] 🟡 **Fai un ordine su Pane Quotidiano** — anche piccolo (€3–5). Unico sblocco diretto North Star 0→1. Apri mycity-marketplace.com → prodotto PQ → checkout. ~10 min. Sblocca anche referral e stampa kit fisico (entrambi gated su questo).
   → Card: `#ordine-test-pq`
 
-- [ ] 🔴 **Manda la domanda PI26 su restart.infocamere.it** — sportello **aperto fino al 30/7 ore 16:00**, mancano **7 giorni**. 50% fondo perduto, max €10.000. Bozza in `consegne/relazioni-istituzionali/`.
-  → Card: `#bandi-cciaa-2007`
+---
 
-- [ ] 🔴 **Pubblica un post social su PQ** — 3 testi pronti e mai usciti: `#post-domenica-settimana-1907`, `#post-lunedi-turno-mattina-2007`, `#post-meteo-pioggia-20lug` (testi in `consegne/content/`).
-  → Card: content-social
+## 🟡 MERGE PR in attesa (solo click "Approva" — nessun rischio per il sito)
+
+- [ ] 🔴 Mergia PR #556 — causa vera dei doppioni "Nuova chat" (race di creazione, chiude alla radice un bug segnalato 6 volte)
+- [ ] 🔴 Mergia PR #553
+- [ ] 🔴 Mergia PR #552
+- [ ] 🔴 Mergia PR #551
+  → Righe #243–#246 in [[AZIONI-IN-ATTESA]]. Se qualcuna risulta già mergiata quando la apri, è normale: fai comunque un giro di verifica, la coda non si auto-pulisce sui merge fatti da GitHub direttamente.
+
+> ⚠️ Ci sono anche ~11 righe di merge PR più vecchie (13–20/7, #126–#212) rimaste "in attesa" nella coda: quasi certamente già mergiate nella realtà (il codice è andato molto avanti da allora) ma mai segnate FATTO. Non serve che tu le riguardi una per una: è un lavoro di pulizia interno (housekeeping) che metto in coda per il prossimo giro tech, non una tua decisione.
 
 ---
 
-## 🟡 QUESTA SETTIMANA — dopo il 1° ordine
+## 🟡 ENV & INFRA (sblocchi macchina, 5 minuti ciascuno)
 
-- [ ] 🟡 **Senti il fornaio (Pane Quotidiano)** — tel. 0523 388601. «Com'è andata? Con la pioggia di domani proviamo la consegna a domicilio?» + chiedi prezzo tazzina.
-  → Card: `#checkin-pq-postvp`
-
-- [ ] 🟡 **Pubblica post meteo martedì 21/7** — piogge previste. Testo in `consegne/content/2026-07-18-post-meteo-pioggia.md`. **Dopo** ordine test PQ.
-  → Card: `#post-meteo-pioggia-20lug`
-
-- [ ] 🟡 **Definisci zona, orario e ordine minimo prima consegna** — raggio (es. 3 km), fasce (12–14 / 18–20), minimo (es. €10).
-  → Card: `#zona-orario-consegna`
-
----
-
-## 🟡 ENV & INFRA (sblocchi macchina)
-
-- [ ] 🟡 **Accendi Telegram sul VPS** — `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` in `cervello/vps/.env` → restart worker. Poi workflow n.31 e n.41 in n8n Active.
-  → Card: `#accendi-intelligence-sveglia`
-
-- [ ] 🟡 **Aggiungi BURN_MENSILE_EUR nel .env VPS** — es. `BURN_MENSILE_EUR=300` (Nicola 20/7: Claude 200 + Vercel 30 + Supabase 50 + VPS 20) → restart worker. Sblocca calcolo runway.
+- [ ] 🟡 **Aggiungi `BURN_MENSILE_EUR=302` in `cervello/vps/.env`** → restart worker. Sblocca il calcolo del runway (fermo a "sconosciuto" da 248 giri — cassa Stripe letta, manca solo questo numero).
   → Card: `#burn-mensile-env`
 
-- [ ] 🟡 **Mergia PR #219** (opzionale) — allinea host PostHog sito Render a US (`us.i.posthog.com`). Unifica eventi sito con account US.
-  → Link in chat 20/7 — nessuna card merge (L-402)
+- [ ] 🟡 **Accendi Telegram sul VPS** — `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` in `cervello/vps/.env` → restart worker → workflow n8n n.31 e n.41 in Active.
+  → Card: `#accendi-intelligence-sveglia`
 
 ---
 
-## 🟡 MATERIALI MANCANTI (procura)
+## 🟡 MATERIALI MANCANTI (procura — la macchina non li inventa)
 
-- [ ] 🟡 **Logo e città Pane Quotidiano** — supervisione segnala gap: serve foto/logo reale per scheda negozio.
-  → Report: `consegne/supervisione/2026-07-20-supervisione.md`
+- [ ] 🟡 **Logo e città Pane Quotidiano** — supervisione negozi segnala il gap (report `consegne/supervisione/2026-07-26-supervisione.md`): serve foto/logo reale e la città per completare la scheda negozio.
 
 - [ ] 🟡 **Tazzina espresso PQ** — scegli candidato + prezzo vendita (Excelsa ~€31 set 6 vs Ginori ~€55).
   → Card: `#inserisci-tazzina-pq`
 
 ---
 
-## ⏳ IN CODA (non bloccano il 1° ordine)
+## ⏸️ IN PAUSA (rinvio negozi 24/8-1/9 — non richiedono azione ora)
 
-- [ ] 🔴 **Accendi referral 5€+5€** — gate: ordine PQ consegnato + cliente contento. Playbook in `consegne/crm/`.
-  → Card: `#referral-porta-un-amico`
-
-- [ ] 🟡 **Welcome email ai 4 buyer** — solo dopo PQ operativo. Testo: `consegne/crm/welcome-email-23.md` (aggiorna numero).
-  → Card: `#welcome-email-23`
-
-- [ ] 🟡 **3 WhatsApp anchor PI26** — Garetti, Peretti, Amendolara. Testi in `consegne/vendite/2026-07-18-whatsapp-anchor-pi26.md`.
-  → Card: `#whatsapp-3-anchor-pi26`
+Post social PQ (domenica/lunedì/pioggia), comunicato stampa PI26, referral "porta un amico", mail Hub Urbano
+Comune+Unione Commercianti: tutti pronti in coda ma volutamente fermi finché non riparte l'inserimento negozi
+(o finché non confermi la nuova data di metà agosto, vedi urgente sopra). Nessuna azione richiesta.
 
 ---
 
-> ✅ Fatto oggi 20/7: demo eliminati (1 PQ · 5 prodotti) · PostHog verde VPS+Pannello · coerenza-fatti pricing bonificata · card merge obsolete rimosse (L-402)
-> ✅ Fatto oggi 23/7 (giro 11:20, primo giro pieno dopo 3 giorni di soli sentinelle): OKR-Squadra target scaduto riscritto in gate · EXP-004 misurato (mancata, gate mai pubblicato) · EXP-013 aperto (ordini_pagati, AR-041/106) · checklist rigenerata (AR-030).
+> ✅ Fatto nel giro 26/7 06:23: chiuso 1 debito di misura in calibrazione (previsione ordini_totali 10/7,
+> confermata azzeccata via Supabase MCP live) · esteso il fix "pulisci tag generici" (card #240) a
+> workflow/correzione-nicola · promossa a principio la regola "non riproporre Workflow in sessione headless".
+> ✅ Fatto 20/7: demo eliminati (1 PQ · 5 prodotti) · PostHog verde VPS+Pannello · coerenza-fatti pricing bonificata.
+> ✅ Fatto 23/7 (giro 11:20): OKR-Squadra target scaduto riscritto in gate · checklist rigenerata (AR-030).

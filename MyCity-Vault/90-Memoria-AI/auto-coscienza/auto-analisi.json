@@ -1,38 +1,43 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-25 06:45",
+  "data": "2026-07-26 06:23",
   "voto_fiducia": 90,
-  "sintesi": "Giro pieno heartbeat (19h dall'ultimo giro pieno 24/7 11:05). Riverificato dal vivo con query SQL dirette: business INVARIATO — 1 PQ, 5 prodotti, 4 buyer, 1 ordine zombie annullato, 0 pagati, 0 recensioni, stallo North Star 31 giorni esatti. Misurati i 2 esperimenti in scadenza oggi (EXP-001, EXP-007 — entrambi mancata, motivi distinti). Chiuso il gate chiusura-loop (ESITO @ad). Corretto il contratto JSON di questo stesso file (salute_macchina era fuori-schema). Proposte 2 azioni 🟡 concrete (#239 allowlist diagnostica, #240 pulizia tag rumoroso in apprendimento-guardiano) invece di limitarsi a rilogare le lezioni.",
-  "trend_fiducia": "▼ 92→90 — non un deterioramento del lavoro ma un abbassamento onesto: 4 script di diagnosi (esperimenti-check/valida-contratti/apprendimento-guardiano/cristallizza-apprendimento) sono rimasti bloccati da approvazione per tutta la sessione, quindi diversi controlli (coerenza-fatti, verifica-automazione, apprendimento --json) sono stati bypassati a mano invece che verificati con lo strumento dedicato — L2, non L3. Vedi refutazione sotto.",
+  "sintesi": "Giro pieno heartbeat (19h dall'ultimo giro pieno 25/7 11:03). Riverificato dal vivo con query dirette (mcp__supabase-marketplace): business INVARIATO — 1 PQ, 5 prodotti, 7 profili, 1 ordine zombie annullato, 0 pagati, 0 recensioni, 3 carrelli abbandonati, stallo North Star ~32 giorni. Applicata la strategia snella per giri ripetuti a stato invariato, concentrando lo sforzo sui 4 vincoli hard di questo giro invece di rifare l'analisi già fatta ieri: (1) chiuso 1 debito di misura in calibrazione.json (previsione ordini_totali del 10/7, ora azzeccata); (2) rigenerata CHECKLIST-NICOLA.md, stantia da 3 giorni (AR-030); (3) promossa a principio la lezione 'non riproporre Workflow in sessione headless' (3ª evidenza, raccolta stamattina) e trovato che i tag 'workflow'/'correzione-nicola' nell'apprendimento sono rumore di tassonomia come 'marketplace' — estesa la card #240 invece di rilogare; (4) coerenza-fatti non riverificata con lo strumento in questa sessione (bloccato da approvazione), ereditata dal pre-check di giro.sh — vedi refutazione.",
+  "trend_fiducia": "▬ 90→90 — stabile: stesso gap di ieri (script diagnostici non eseguibili in Bash in questa sessione), ma questa volta i 4 vincoli hard sono stati soddisfatti con lavoro manuale verificabile (edit puntuali, non stime), non solo dichiarati. Vedi refutazione.",
   "errori_giro": [],
   "domande_bloccanti": [
     {
-      "tipo": "north_star",
-      "domanda": "North Star 0 da 31 giorni esatti. Ordine test PQ ancora l'unica mossa diretta verso il 1° ordine pagato.",
-      "azione": "card 🔴 #ordine-test-pq in AZIONI-IN-ATTESA",
+      "tipo": "PI26",
+      "domanda": "PI26 sportello chiude tra 4 giorni (30/7 16:00). Un valutatore indipendente ha bocciato la bozza attuale: mancano 3 risposte di Nicola su ammissibilità.",
+      "azione": "card 🔴 #pi26-conferma-ammissibilita",
       "colore": "🔴"
     },
     {
-      "tipo": "PI26",
-      "domanda": "PI26 sportello chiude tra 5 giorni (30/7 16:00). Domanda ancora non risulta inviata.",
-      "azione": "card 🔴 #bandi-cciaa-2007",
-      "colore": "🔴"
+      "tipo": "piano-squadra",
+      "domanda": "Nicola ha proposto stanotte (01:10) una data di ripartenza (metà agosto) diversa da quella registrata (24/8-1/9) — non riscrivo il fatto senza conferma esplicita.",
+      "azione": "card 🟡 #conferma-piano-squadra-ripresa-negozi",
+      "colore": "🟡"
+    },
+    {
+      "tipo": "north_star",
+      "domanda": "North Star 0 da ~32 giorni. Ordine test PQ ancora l'unica mossa diretta verso il 1° ordine pagato.",
+      "azione": "card 🟡 #ordine-test-pq",
+      "colore": "🟡"
     }
   ],
   "entita_verificate": [
-    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "query diretta MCP Supabase 25/7 06:2x (invariato)"},
-    {"nome": "0 ordini pagati / 1 ordine zombie CANCELED", "stato": "confermato", "fonte": "query diretta MCP Supabase 25/7 06:2x (ultimo ordine 24/6 08:28)"},
-    {"nome": "7 profili totali / 4 buyer / 5 prodotti / 0 recensioni / 3 carrelli abbandonati", "stato": "confermato", "fonte": "query diretta MCP Supabase 25/7 06:2x"},
-    {"nome": "EXP-001 mancata (ordini_consegnati 0 vs atteso 1)", "stato": "confermato", "fonte": "query SQL diretta orders 25/7 + auto-miglioramento.json"},
-    {"nome": "EXP-007 mancata (check-in PQ non concordato, superato da pausa negozi)", "stato": "confermato", "fonte": "registro-fatti.json negozi.attesa-concordata"}
+    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "mcp__supabase-marketplace list_tables + execute_sql 26/7 06:2x (invariato)"},
+    {"nome": "0 ordini pagati / 1 ordine zombie CANCELED", "stato": "confermato", "fonte": "execute_sql orders 26/7 06:2x (ultimo ordine 24/6 08:28, id 58094956…)"},
+    {"nome": "7 profili totali / 1 venditore approvato / 5 prodotti / 0 recensioni / 3 carrelli abbandonati", "stato": "confermato", "fonte": "mcp__supabase-marketplace list_tables 26/7 06:2x"},
+    {"nome": "CAL-20260710042004-AD ordini_totali=1", "stato": "confermato", "fonte": "execute_sql orders count 26/7 06:2x — previsione azzeccata (chiude il debito di misura)"}
   ],
-  "benchmark": "Nessun lavoro creativo/importante in questo giro (AR-113 limita a sole azioni verso il 1° ordine pagato) — auto-miglioramento saltato di proposito, non per omissione.",
+  "benchmark": "Nessun lavoro creativo/importante in questo giro (business fermo per scelta di Nicola, nessuna pubblicazione/campagna in scope) — auto-miglioramento saltato di proposito, non per omissione.",
   "salute_macchina": {
     "supabase": "ok",
     "stripe": "ok",
     "dati_freschi": true,
     "sensori_attivi": 10
   },
-  "livello_verifica": "L2 (query dirette al DB marketplace via MCP Supabase in questa sessione; 4 script di controllo bypassati a mano per blocco di approvazione, vedi refutazione)",
-  "refutazione": "REFUTAZIONE VERA su 3 claim pesanti di questo giro, non boilerplate: (1) 'stallo 31 giorni' — ricalcolato a mano da ultimo_ordine=2026-06-24 08:28:40 a oggi 2026-07-25: 6 giorni residui di giugno + 25 giorni di luglio = 31. SOPRAVVIVE, confermato aritmeticamente non solo per differenza di date scritte altrove. (2) '0 esperimenti in scadenza residui' — non preso per buono dal solo output di meta_esperimenti: riletti singolarmente i data_misura dei 4 esperimenti rimasti aperti (EXP-002 2026-07-27, EXP-003 2026-07-28, EXP-006 2026-08-20, EXP-013 2026-07-30) — nessuno è ≤ 2026-07-25. SOPRAVVIVE. (3) 'memoria coerente / coerenza-fatti ok' — QUESTO claim NON sopravvive alla refutazione allo stesso livello degli altri due: ereditato dal pre-check di giro.sh delle 06:20 (iniettato nel prompt), MAI ri-verificato in modo indipendente in questa sessione perché `node cervello/coerenza-fatti.mjs` è rimasto bloccato da approvazione ad ogni tentativo. DECLASSATO onestamente in `registro-realta.json` a 'verifica-ereditata, non riverificata'. Rischio stimato basso (nessuna scrittura di questo giro ha toccato un valore di registro-fatti.json), ma è un gap di verifica reale, non chiuso per finta. Segnalato anche in AZIONI-IN-ATTESA #239 come causa root (allowlist). ADDENDUM 06:47: riprovato subito dopo (non un 3° tentativo sullo stesso script bloccato, ma un nuovo tentativo dopo aver completato le altre scritture del giro) — `coerenza-fatti.mjs` è passato: 20 fatti, 0 cacce aperte, memoria confermata coerente in modo indipendente. Il gap era reale ma temporaneo, non un buco strutturale."
+  "livello_verifica": "L2 (query dirette al DB marketplace via MCP in questa sessione per i 7 numeri; gli script cervello/*.mjs non eseguibili in Bash — nessun prompt di approvazione raggiungibile in questa sessione headless — sostituiti da edit manuali che replicano la stessa logica di calcolo, verificati a mano riga per riga)",
+  "refutazione": "REFUTAZIONE VERA su 3 claim pesanti di questo giro: (1) 'business invariato' — non preso per buono dal delta-gate: ri-eseguita la query diretta (list_tables + execute_sql su orders/profiles/products/reviews/abandoned_carts), confronto numero per numero coi valori del giro di ieri 11:03 (ordini=1, ultimo_ordine=2026-06-24T08:28:40, clienti=7) — IDENTICI. SOPRAVVIVE. (2) 'la previsione ordini_totali del 10/7 è azzeccata' — non assunto: ricalcolato lo scarto a mano (|1-1|/max(1,1)=0, tolleranza 0.25) prima di scrivere stato=azzeccata in calibrazione.json, e verificato che la fonte (Supabase MCP) è tra quelle ammesse in registro-realta.json e che il sensore mcp_supabase risulta 'ok' in sensori-cecita.json (non si può chiudere azzeccata al buio, AR-061). SOPRAVVIVE. (3) 'workflow/correzione-nicola sono rumore di tassonomia, non un vero errore ricorrente' — NON accettato a scatola chiusa dal solo conteggio del guardiano: letti a campione 6 testi di lezioni taggate 'workflow' (3 sul tool Workflow bloccato, 3 su cataloghi n8n con Nicola — due temi scollegati) e 3 testi taggate 'correzione-nicola' (finanza/bandi/costi, nessun tema comune se non la ridondanza con i tag 'correzione'+'nicola' già in whitelist) prima di concludere che il tag è un'etichetta-ombrello. SOPRAVVIVE, con l'eccezione dichiarata che 'plugin'/'mobile'/'information-architecture' (letti anch'essi a campione) sono invece cluster REALI, troppo piccoli per un gate oggi — non equiparati a rumore."
 }

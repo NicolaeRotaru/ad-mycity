@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
   "_review_settimanale_24_07_1600": "REVIEW SETTIMANALE: nessuna previsione nuova nel registro dal 20/7 20:23 (4 giorni) — coerente con la decisione di Nicola del 23/7 di mettere in pausa i playbook di reparto verso negozi/marketing fino al 24/8-1/9 (meno mosse misurabili da prevedere). Ricalcolo confermato sui dati esistenti (35 chiuse, 0 aperte): nessun reparto supera 'autonomia bassa' — @customer-success e @designer hanno il punteggio più alto (1.0 su 1 previsione ciascuno, ma lower_bound 0.38 = ancora troppo poche evidenze per fidarsi); @finanza, @crm-lifecycle, @vendite, @ad restano a 0 (previsioni sistematicamente sbagliate, soprattutto sulle stime numeriche dei playbook — scarti spesso >90%). Nessuna promozione di autonomia questa settimana: il segnale è insufficiente per tutti, non solo per chi sbaglia.",
-  "aggiornato": "2026-07-25 22:20",
+  "aggiornato": "2026-07-26 06:23",
   "per_reparto": [
     {
-      "reparto": "@customer-success",
+      "reparto": "@ad",
       "previsioni": 1,
       "azzeccate": 1,
       "punteggio": 1,
@@ -12,23 +12,7 @@
       "autonomia": "bassa"
     },
     {
-      "reparto": "@designer",
-      "previsioni": 1,
-      "azzeccate": 1,
-      "punteggio": 1,
-      "lower_bound": 0.38,
-      "autonomia": "bassa"
-    },
-    {
-      "reparto": "@tech",
-      "previsioni": 4,
-      "azzeccate": 2,
-      "punteggio": 0.5,
-      "lower_bound": 0.23,
-      "autonomia": "bassa"
-    },
-    {
-      "reparto": "@AD",
+      "reparto": "@vendite",
       "previsioni": 0,
       "azzeccate": 0,
       "punteggio": 0,
@@ -36,16 +20,8 @@
       "autonomia": "bassa"
     },
     {
-      "reparto": "@vendite",
-      "previsioni": 2,
-      "azzeccate": 0,
-      "punteggio": 0,
-      "lower_bound": 0,
-      "autonomia": "bassa"
-    },
-    {
       "reparto": "@content-social",
-      "previsioni": 2,
+      "previsioni": 0,
       "azzeccate": 0,
       "punteggio": 0,
       "lower_bound": 0,
@@ -53,7 +29,7 @@
     },
     {
       "reparto": "@finanza",
-      "previsioni": 7,
+      "previsioni": 0,
       "azzeccate": 0,
       "punteggio": 0,
       "lower_bound": 0,
@@ -61,7 +37,7 @@
     },
     {
       "reparto": "@analista",
-      "previsioni": 2,
+      "previsioni": 0,
       "azzeccate": 0,
       "punteggio": 0,
       "lower_bound": 0,
@@ -69,7 +45,15 @@
     },
     {
       "reparto": "@crm-lifecycle",
-      "previsioni": 5,
+      "previsioni": 0,
+      "azzeccate": 0,
+      "punteggio": 0,
+      "lower_bound": 0,
+      "autonomia": "bassa"
+    },
+    {
+      "reparto": "@customer-success",
+      "previsioni": 0,
       "azzeccate": 0,
       "punteggio": 0,
       "lower_bound": 0,
@@ -77,15 +61,15 @@
     },
     {
       "reparto": "@account-negozi",
-      "previsioni": 2,
+      "previsioni": 0,
       "azzeccate": 0,
       "punteggio": 0,
       "lower_bound": 0,
       "autonomia": "bassa"
     },
     {
-      "reparto": "@ad",
-      "previsioni": 6,
+      "reparto": "@tech",
+      "previsioni": 0,
       "azzeccate": 0,
       "punteggio": 0,
       "lower_bound": 0,
@@ -93,7 +77,7 @@
     },
     {
       "reparto": "@marketing",
-      "previsioni": 1,
+      "previsioni": 0,
       "azzeccate": 0,
       "punteggio": 0,
       "lower_bound": 0,
@@ -109,7 +93,15 @@
     },
     {
       "reparto": "@builder-automazioni",
-      "previsioni": 1,
+      "previsioni": 0,
+      "azzeccate": 0,
+      "punteggio": 0,
+      "lower_bound": 0,
+      "autonomia": "bassa"
+    },
+    {
+      "reparto": "@designer",
+      "previsioni": 0,
       "azzeccate": 0,
       "punteggio": 0,
       "lower_bound": 0,
@@ -123,14 +115,17 @@
       "azione": "giro-routine-settimanale",
       "metrica": "ordini_totali",
       "atteso": 1,
-      "reale": null,
+      "reale": 1,
       "entro": "2026-07-17",
       "tolleranza": 0.25,
-      "stato": "scaduta",
-      "scarto_pct": null,
-      "nota": "AR-040/autoprevedi: prima previsione baseline. Al giro della misurazione chiama: calibrazione.mjs esito --id=CAL-20260710042004-AD --reale=<n> --fonte=\"Supabase MCP\"",
+      "stato": "azzeccata",
+      "scarto_pct": 0,
+      "fonte": "Supabase MCP",
+      "sensore_stato": "ok",
+      "banale": false,
+      "nota": "AR-040/autoprevedi: prima previsione baseline. DEBITO DI MISURA saldato nel giro 26/7 06:23: ordini_totali letto via mcp__supabase-marketplace__execute_sql = 1 (unico ordine, CANCELED, 2026-06-24) — invariato dal 10/7, previsione azzeccata (nessuna crescita nel periodo, correttamente previsto stallo).",
       "creato": "2026-07-10 06:20",
-      "chiuso_il": "2026-07-18 06:20"
+      "chiuso_il": "2026-07-26 06:23"
     },
     {
       "id": "CAL-20260713182209-vendit",
@@ -850,7 +845,7 @@
       "chiuso_il": "2026-07-25 06:29"
     }
   ],
-  "_nota": "37 chiuse · 0 aperte · 3 banali (escluse dall'autonomia) — registro gestito da calibrazione.mjs.",
+  "_nota": "38 chiuse · 0 aperte · 4 scadute senza reale (debito di misura, sceso da 5 nel giro 26/7 06:23) · 3 banali (escluse dall'autonomia) — registro gestito da calibrazione.mjs.",
   "promozioni_proposte": {},
   "registro_legacy": [
     {

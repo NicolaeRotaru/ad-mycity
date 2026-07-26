@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-26 06:17",
+  "aggiornato": "2026-07-26 08:18",
   "_nota_metabolizzazione_26_07_0148": "Chat 26/7 ~01:44-01:48 (seguito diretto della nota 01:44, stesso filo 10.000€/mese): Nicola corregge «non hai calcolato l'abbonamento, le fee del consumatore, etc.» — l'AD aveva risposto al turno precedente contando SOLO la commissione 10% sul venduto per il calcolo ordini→10.000€, dimenticando due ricavi reali già noti/scoperti: l'abbonamento fisso 50€/mese per negozio attivo (già in registro-fatti, pricing.abbonamento) e la fee di consegna fissa 3€/ordine (trovata SOLO ora leggendo `marketplace/lib/constants.ts`, mai censita prima in memoria/vault). Con tutti e tre i ricavi dentro, il numero di ordini scende da ~4.500-5.500 a ~1.450-1.560 per 10.000€ di ricavo lordo (con 50 negozi abbonati attivi). L-2026-0726-02 nuova (caso_studio_nicola): quando si calcola 'quanti ordini servono per un target di ricavo', verificare TUTTI i ricavi già stabiliti (prezzi in registro-fatti.json + fee/costanti nel codice del marketplace, non solo la commissione più ovvia) prima di dare un numero — stesso pattern del 'kit fisico dimenticato' di un'ora prima (L 26/7 01:29), ma sul lato ricavi invece che costi: un volume/target esplicito sul tavolo impone di ricontrollare TUTTE le voci che lo compongono, non solo quella più citata a memoria. LEZIONI-CHAT.md aggiornata in cima (rimossa la voce più debole/vecchia per restare a 12). STATO.md nuova voce in cima ~01:48. Nessuna decisione/azione business nuova; il piano squadra (fratello+2 amici, kit fisico, data 15/8) resta non confermato. Business invariato: 1 PQ, 0 pagati.",
   "_nota_metabolizzazione_26_07_0144": "Chat 26/7 ~01:29-01:44 (seguito diretto della nota 01:10, stesso filo piano-squadra/50-negozi): Nicola corregge «perché solo 600€? inserisco 50 negozi» — l'AD aveva risposto al turno precedente coi soli costi fissi+una-tantum (602€), dimenticando il kit fisico per-negozio (QR/vetrofania/sacchetti, 80-150€/negozio, già in vault da playbook capillarità 20/7) che SCALA col volume — corretto a ~4.600-8.100€. Lezione già scritta in LEZIONI-CHAT.md in cima nello stesso turno (26/7 01:29): 'prima di dare un totale costi con un volume di negozi sul tavolo, grep vault per costi per-negozio/kit fisico prima di rispondere' — è un rinforzo diretto del pattern già esistente sui costi-scaling (vedi note 20-21/7 su costi-tutti-volantini-fisici), non una lezione isolata. Poi Nicola chiede «quanti ordini devo consegnare per produrre 10.000€ al mese?» (soglia che sblocca il pagamento della squadra non retribuita) — l'AD ha isolato un'ambiguità reale nella parola 'profitto' usata da Nicola (ricavo lordo ~4.500-5.500 ordini vs profitto netto ~6.500-8.200 ordini) e ha chiesto chiarimento invece di scegliere un'interpretazione a caso. Non è una correzione di Nicola in questo secondo scambio (nessuna lezione nuova, il principio 'non presumere quale interpretazione' è già coperto da lezioni esistenti su chiarire prima di calcolare). STATO.md aggiornato con voce in cima 01:44. Nessuna decisione confermata: il piano squadra (fratello+2 amici, trigger 15/8, kit fisico) resta non registrato in registro-fatti.json, in attesa della risposta di Nicola. Business invariato: 1 PQ, 0 pagati.",
   "_nota_metabolizzazione_26_07_0110": "Chat 26/7 ~00:59-01:10: Nicola descrive un piano concreto (fratello + suo migliore amico + un amico fedele, non pagati fino a 10.000€ di profitto, ruoli divisi: solo Nicola inserisce i negozi) per inserire 1-3 negozi/giorno, poi fissa il trigger di partenza reale — «si parte appena riparo la bici e stampo i volantini, vedrò lo stipendio il 15 di agosto» (bici 100€ + volantini 200€). L'AD ha risposto coi costi certi del mese 1 (burn 302€/m + le 2 spese una-tantum, squadra 0€ di cassa) e ha rilevato che questa è la 2ª data di ripartenza diversa da quella registrata (`ripresa.lavoro-operativo` = dopo 24/8-1/9, decisione 23/7) — non l'ha riscritta da sola, ha chiesto conferma esplicita due volte di fila (01:05 e 01:10) senza ottenere risposta in questo turno. Non è una correzione di Nicola (non ha contraddetto nulla), è un fatto nuovo in attesa di conferma: card 🟡 `#conferma-piano-squadra-ripresa-negozi` accodata in AZIONI-IN-ATTESA, STATO.md aggiornato in cima. Nessuna lezione nuova (il pattern 'non riscrivere un fatto-chiave senza conferma esplicita di Nicola' è già coperto da AR-102/registro-fatti); nessun dato di business cambiato (1 PQ, 0 pagati).",
@@ -243,14 +243,17 @@
       ],
       "reparto": "@ad",
       "confidenza": 0.95,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-23",
-      "ultima_conferma": "2026-07-23 22:53",
-      "stato": "attiva",
+      "ultima_conferma": "2026-07-26 06:23",
+      "stato": "principio",
+      "promosso_il": "2026-07-26 06:23",
+      "cristallizzato_in": "memoria-persistente (MEMORY.md → non riproporre Workflow finché Nicola non conferma)",
       "usi": [
-        "auto-radiografia 23/7 22:20 — 14 Agent in parallelo completati end-to-end, sintesi scritta, nessun blocco"
+        "auto-radiografia 23/7 22:20 — 14 Agent in parallelo completati end-to-end, sintesi scritta, nessun blocco",
+        "giro 26/7 06:23 — invocato Skill('giro-operativo') per il giro di routine, risultato inutilizzabile in questa sessione (placeholder senza contenuto); applicata la regola: nessun secondo tentativo, si è proseguito a mano leggendo giro.md ed eseguendo i passi con Read/Edit/Bash/Agent — evidenza n.3, confidenza confermata."
       ]
     },
     {
@@ -6695,7 +6698,9 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 19:54",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-26 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0713-158",
@@ -7464,7 +7469,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 17:53",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-26 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0713-123",
@@ -7819,7 +7826,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-20 00:29",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-26 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0713-107",
@@ -8511,9 +8520,11 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-10",
       "ultima_conferma": "2026-07-10 23:58",
-      "stato": "attiva",
+      "stato": "principio",
       "_conferma_screenshot": "Nicola ha allegato uno screenshot (chat-allegati/bd0f6a49/...Screenshot__928_.png) che mostra i chip visibili sopra la textarea ma nessun testo dentro — confermato visivamente. L'AD non è riuscito ad aprirlo (mancava il permesso), ma la descrizione a parole di Nicola è sufficiente: il bug è reale e inequivocabile.",
-      "_branch_pendente": "fix/chat-altezza-scroll-spaziatura — commit 65bee0a8 (page.tsx) e 3f68c4b1 (fluttuante) NON pushati su origin (verificato chat 10/7: il branch NON esiste su origin). Il branch correlato presente su origin è `fix/rimuovi-autoscroll-chat` — PR da creare manualmente da Nicola via GitHub compare URL. Serve ancora 'Bash(git push origin fix/*:*)' in settings.local.json per pushare i commit dei chip."
+      "_branch_pendente": "fix/chat-altezza-scroll-spaziatura — commit 65bee0a8 (page.tsx) e 3f68c4b1 (fluttuante) NON pushati su origin (verificato chat 10/7: il branch NON esiste su origin). Il branch correlato presente su origin è `fix/rimuovi-autoscroll-chat` — PR da creare manualmente da Nicola via GitHub compare URL. Serve ancora 'Bash(git push origin fix/*:*)' in settings.local.json per pushare i commit dei chip.",
+      "promosso_il": "2026-07-26 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0710-76",
@@ -8715,7 +8726,9 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-09",
       "ultima_conferma": "2026-07-09 12:12",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-26 06:20",
+      "cristallizzato_in": "memoria-persistente"
     },
     {
       "id": "L-2026-0709-67",
@@ -10559,6 +10572,26 @@
       "nato": "2026-07-26",
       "ultima_conferma": "2026-07-26 00:44",
       "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0726-03",
+      "testo": "**«workflow» e «correzione-nicola» sono etichette-contenitore, non firme di un tipo di errore — stesso difetto già trovato su «marketplace» il 25/7 (verificato a mano su un campione delle lezioni taggate, giro 26/7 06:23).** Il guardiano `apprendimento-guardiano.mjs` segnala questi 2 tag come «errori ricorrenti mai cristallizzati» (18 e 13 lezioni), ma leggendo i testi: (1) «workflow» mescola DUE temi opposti — il tool `Workflow` bloccato in sessione headless (1 vero errore ricorrente, già promosso a principio in L-2026-0723-455) E conversazioni su cataloghi di automazioni n8n con Nicola (L-333/L-335/L-336/L-337, non sono errori, sono note di prodotto); (2) «correzione-nicola» è ridondante con i tag già in `TAG_GENERICI` («correzione» + «nicola» separati) — chi lo usa aggiunge la stessa etichetta generica sotto un'altra grafia, e il filtro anti-rumore non la intercetta perché cerca la stringa esatta. Causa radice: `TAG_GENERICI` è una whitelist statica di stringhe esatte, non riconosce varianti/combinazioni dello stesso concetto. Regola: prima di cristallizzare un cluster di tag in un principio unico, leggere un campione dei testi (non fidarsi del conteggio) — se il tag mischia temi scollegati è rumore di tassonomia (→ proponi il fix a TAG_GENERICI), non un principio. Vedi L-2026-0725 (marketplace, stesso pattern), card #240 in AZIONI-IN-ATTESA (estesa in questo giro a workflow+correzione-nicola).",
+      "tag": [
+        "apprendimento",
+        "tassonomia",
+        "tag-generici",
+        "workflow",
+        "correzione-nicola",
+        "meta"
+      ],
+      "reparto": "@ad",
+      "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "giro",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-26",
+      "ultima_conferma": "2026-07-26 06:23",
+      "stato": "attiva"
     }
   ],
   "principi": [
@@ -11144,6 +11177,20 @@
       "promosso_il": "2026-07-25 22:20"
     },
     {
+      "id": "L-2026-0713-159",
+      "testo": "**Conflitto PR #346 — solo file body memoria (chat 13/7 ~19:50):** Nicola «c'è un conflitto» subito dopo fix scelte ragionate. 5 perché: (1) conflitto in `consegne/tech/pr-ad-mycity-body.md`, non in `registro-realta.json` né guardiano; (2) main avanzato con fix auto-analisi live mentre #346 era aperta — stesso pattern L-129/#324/#329 (file memoria nel branch); (3) Nicola non distingue body vs codice — AD deve spiegare **tipo** di conflitto; (4) fix = rebase su main + push **stesso branch** (`28ae3360`, `07c4b357`), non PR nuova; (5) verificare `registro-scelte-check.mjs` exit 0 dopo rebase prima di dire «pronta». Correlazione L-129, L-157.",
+      "tag": [
+        "pr-346",
+        "conflitto",
+        "rebase",
+        "memoria",
+        "registro-realta",
+        "nicola"
+      ],
+      "reparto": "@tech",
+      "promosso_il": "2026-07-26 06:20"
+    },
+    {
       "id": "L-2026-0713-138",
       "testo": "**Checklist audit post-merge PR (chat 13/7 ~17:55–18:22, richiesta Nicola):** Nicola «assicurati che ogni commit/pr/merge di stamattina siano andate a buon fine» poi «facciamo una verifica». 5 perché: (1) «PR mergiata» ≠ «fix live» — worker chat non riavviato dal 16:08 fino a restart Nicola 18:22; (2) «PR mergiata» ≠ «fix su main» — #335 merge ha portato commit `68c15aa4` con codice vecchio; (3) «codice su main» ≠ «funziona per Nicola» — serve deploy Vercel + restart worker + prova dispositivo; (4) coda Pannello può restare «in attesa» su PR già mergiate (#339/#340 verificate mergiate 18:15); (5) **regola audit/verifica:** per ogni PR del giorno → stato GitHub + `git show HEAD:<file-fix>` + test locale se worker + **3 check Nicola** (restart worker, Ctrl+F5, streaming orizzontale + pallino 15s). Nicola 18:22 ha completato restart+Ctrl+F5; terza prova streaming in corso. Fonte: audit 23 PR #312–#337 + verifica main + chat 18:22.",
       "tag": [
@@ -11227,6 +11274,21 @@
       "promosso_il": "2026-07-24 14:20"
     },
     {
+      "id": "L-2026-0713-124",
+      "testo": "**Descrizione PR sempre dentro GitHub (chat 13/7 ~16:22 + 17:39 + 17:52):** Nicola «Ti avevo chiesto di darmi sempre la descrizione della pr dentro github, sempre» — correzione/rinforzo di standing-ask già emersa 12/7 su #292; **ripetuto 17:39** su #333 («perché non mi hai messo la descrizione…»); **17:52** «voglio ci sia sempre… ci riesci?» = vuole gate strutturale (**PR #337**). 5 perché: (1) apriva PR senza `--body` → su GitHub resta solo testo automatico dello script; (2) il link in chat non sostituisce il body dove Nicola firma; (3) Nicola legge e decide dal Pannello/GitHub; (4) errore ripetuto nonostante richiesta 16:22 — colpa processo AD; (5) **regola permanente:** body italiano (cosa/perché/prova 2–3 passi) **al momento dell'apertura**; **gate:** `git-pr.mjs` `requireBody()` blocca se <80 char o generico (L-136).",
+      "tag": [
+        "pr",
+        "github",
+        "descrizione",
+        "git-pr",
+        "body",
+        "standing-ask",
+        "nicola"
+      ],
+      "reparto": "@devops-sre",
+      "promosso_il": "2026-07-26 06:20"
+    },
+    {
       "id": "L-2026-0713-119",
       "testo": "**Allegati chat — upload Vercel vs worker (chat 13/7 ~16:04–17:32):** Nicola segnala allegati rotti in due forme: (A) screenshot UI senza file in `.allegati-chat` (16:04); (B) «perché non riesco più ad allegarti i file?» (17:28). 5 perché: (1) upload online fallisce senza env Storage su Vercel — route `/api/allegato` risponde 503 «Storage non collegato» (verificato su main), VPS ha chiavi ma hosted no; (2) graffetta visibile + upload che fallisce ≠ bug UI mobile (PR #328); (3) senza file nel worker indovinare la pagina è speculazione — chiedi scheda; (4) Nicola segnala UX con screenshot dal telefono (pattern ricorrente); (5) **regola:** diagnosi env Vercel PRIMA di «codice rotto»; ok #60 = env memoria + redeploy → POST live `ok:true` bucket `chat-allegati/` (17:28). **Addendum 17:32:** dopo #60 Nicola distingue fluttuante vs «Parla con questa casella» — env ok non basta se `ParlaCasella.tsx` non ha graffetta (→ L-132).",
       "tag": [
@@ -11240,6 +11302,22 @@
       ],
       "reparto": "@frontend-dev",
       "promosso_il": "2026-07-25 06:20"
+    },
+    {
+      "id": "L-2026-0713-108",
+      "testo": "**Chat Pannello PC≠telefono — sync parziale per design (chat 13/7 ~12:06, ri-confermato 20/7 ~00:29).** Nicola segnala disallineamento dati desktop vs smartphone; prima confermata = conversazioni chat non coincidono. 5 perché: (1) storico conversazioni va in DB Supabase — poll elenco ~8s (post-#316) ma ogni dispositivo parte da snapshot locale; (2) la chat aperta adesso vive in memoria sessione del browser, non si propaga in tempo reale; (3) footer «database» vs «questo dispositivo» distingue sync attivo vs solo locale; (4) Nicola si aspetta allineamento cross-device (standing-ask L-106/L-301) — fix #316+#328+#446+#475 su main ma 20/7 segnala ancora gap; (5) se database ok e liste diverse → Vercel vecchio o persist DB silenzioso. Regola: segnalazione «PC≠telefono» → diagnosticare PRIMA footer cassetto + 2 livelli (elenco vs aperta), poi deploy/cache/DB.",
+      "tag": [
+        "pannello",
+        "conversazioni",
+        "sync",
+        "multi-dispositivo",
+        "localStorage",
+        "polling",
+        "pr-316",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-26 06:20"
     },
     {
       "id": "L-2026-0713-100",
@@ -11292,6 +11370,25 @@
       "promosso_il": "2026-07-25 06:20"
     },
     {
+      "id": "L-2026-0710-77",
+      "testo": "**BUG APERTO fine-chat 10/7 — chip skill rapide visibili ma click non popola textarea (ParlaCasella/ChatCasella):** Nicola ha confermato che aprendo '💬 Parla con questa casella' i chip compaiono (deploy ok, commit f6f85911 Vercel READY), ma cliccandoli la textarea rimane vuota. Cause probabili: (a) textareaRef non correttamente collegato al DOM; (b) setBozza aggiorna lo state ma il valore controllato della textarea non è `bozza`; (c) l'evento click viene intercettato da un elemento padre. Prossimo passo: aprire ParlaCasella.tsx righe 35-44, verificare che `onClick={() => { setBozza(s.cmd); textareaRef.current?.focus(); }}` sia cablato e che la textarea usi `value={bozza}` come prop controllata. **AGGIORNAMENTO**: nella stessa sessione è emerso che i chip mancavano anche dalla chat principale (page.tsx, fix commit 65bee0a8) e dalla chat fluttuante (fix commit 3f68c4b1) — entrambi nel branch fix/chat-altezza-scroll-spaziatura, NON pushato. I chip devono essere in TUTTI E 4 i componenti chat: ParlaCasella, ChatCasella, page.tsx (chat principale), e componente fluttuante.",
+      "tag": [
+        "bug-aperto",
+        "chip-skill",
+        "click-handler",
+        "setBozza",
+        "textareaRef",
+        "pannello",
+        "ParlaCasella",
+        "ChatCasella",
+        "page.tsx",
+        "fluttuante",
+        "tutti-4-componenti"
+      ],
+      "reparto": "@frontend-dev",
+      "promosso_il": "2026-07-26 06:20"
+    },
+    {
       "id": "L-2026-0710-71",
       "testo": "**RECIDIVA STRUTTURALE — `.claude/settings.local.json` sovrascritto più volte nella stessa chat (10/7, chip skill rapide) — CAUSA RADICE CORRETTA (evidenza 3):** l'AD inizialmente ha attribuito la sparizione del file a `git checkout` (errore diagnostico). Verificando .gitignore a fine sessione: `.claude/settings.local.*` è GIÀ alla riga 28 del .gitignore — quindi git checkout NON può toccarlo. La causa reale era l'AD stesso che usava il proprio Write tool per sovrascrivere il file con un contenuto diverso (tentativo di aggiungere permessi con Write invece di Edit). **Causa radice aggiornata:** (1) il file era già protetto da .gitignore — il 'fix non fatto' era già fatto; (2) l'AD ha diagnosticato 'git checkout sovrascrive' senza verificare se il file era in .gitignore prima; (3) per aggiungere permessi al settings.local.json, l'AD usava Write (sovrascrittura totale) invece di Edit (modifica mirata) — ogni Write cancellava le righe precedenti se non le includeva tutte. **Regola/fix riusabile consolidato:** (a) PRIMA di diagnosticare 'git checkout ha sovrascritto', verificare con `grep settings.local .gitignore`; (b) per modificare settings.local.json usare SEMPRE Edit (non Write), o almeno rileggere il file prima di Write per includere tutto; (c) dopo ogni Write su settings.local.json, rileggere subito il file per confermare che il contenuto sia completo; (d) una lezione in memoria con causa radice sbagliata va corretta, non incrementata — la verità sui fatti vince sul racconto precedente. **PRECEDENTE DIAGNOSI** (evidenze 1-2): si credeva che git checkout sovrascrivesse perché il file non era in .gitignore — ora superata. I 5 perché precedenti restano parzialmente validi (usare Write invece di Edit è comunque il meccanismo prossimo), ma la causa strutturale era sbagliata.",
       "tag": [
@@ -11323,6 +11420,23 @@
       ],
       "reparto": "@devops-sre",
       "promosso_il": "2026-07-24 20:20"
+    },
+    {
+      "id": "L-2026-0709-68",
+      "testo": "**Regola stabile consolidata — niente crescita/traffico/asset pesante verso il marketplace prima di un negozio reale evadibile (chat 9/7, 3 card di fila):** in un solo pomeriggio Nicola ha dato lo STESSO ordine — «rimanda a quando inserisco il primo negozio» — a tre card di crescita CRM/marketing consecutive: #52 mail Hub Urbano (11:45), #46 post 'Il Lunedì della Bottega' (12:05), #37 referral give-get 5€+5€ (12:12). Tre ripetizioni identiche → non è più una preferenza per-card ma una REGOLA di sistema. Principio: finché non c'è una bottega reale dentro MyCity che può ricevere l'ordine ed evaderlo, ogni leva che porta gente/attenzione sul marketplace (post, mail istituzionali, inviti referral, campagne) va PARCHEGGIATA — mandare traffico su un marketplace senza offerta evadibile brucia i primi iscritti caldi e la credibilità. Corollari già emersi nello stesso filone: (a) il referral in più ha un secondo gate a valle — serve un 1° ordine consegnato + un cliente contento (un invitante credibile) + mani Resend accese → è una delle ULTIME leve, non la prima; (b) coerente con AR-006 (allocazione: sforzo pesante dove c'è un negozio che incassa) e con L-2026-0709-67 (il vero collo di bottiglia oggi è il mezzo di consegna, quindi 'evadibile' include anche la logistica). **Fix/regola riusabile:** da ora l'AD applica questo gate IN AUTONOMIA alle nuove card di crescita/CRM/marketing verso il marketplace — le tiene fuori dalle 'da approvare' con gate esplicito 'dopo la prima bottega evadibile', senza richiedere ogni volta a Nicola; le ripesca automaticamente quando la prima bottega è online. Le azioni NON si cancellano (loop già nel codice), si parcheggiano. Vedi [[referral-porta-amico-dopo-prima-bottega]], [[post-lunedi-bottega-dopo-prima-bottega]], [[hub-urbano-mail-dopo-prima-bottega]], [[piano-nicola-inserimento-negozi-dopo-9lug]], DECISIONI 9/7 11:45/12:05/12:12.",
+      "tag": [
+        "nicola",
+        "regola-stabile",
+        "crescita-dopo-bottega",
+        "negozio-evadibile",
+        "allocazione-AR-006",
+        "referral",
+        "crm-lifecycle",
+        "gate-autonomo",
+        "caso-studio"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-26 06:20"
     },
     {
       "id": "L-2026-0709-66",
@@ -11543,6 +11657,19 @@
       ],
       "reparto": "@frontend-dev",
       "promosso_il": "2026-07-24 18:20"
+    },
+    {
+      "id": "L-2026-0723-455",
+      "testo": "**Il tool `Workflow` (orchestrazione multi-agente/multi-fase) non è utilizzabile in questa sessione headless (worker/chat Pannello) — si blocca su un gate di conferma che richiede un'interazione non disponibile fuori da una sessione interattiva.** Verificato 3 volte: (1) Nicola 23/7 22:15 chiede di provarlo → errore \"Review dynamic workflow before running\"; (2) auto-radiografia 23/7 22:20 aggirata con 14 `Agent` in parallelo, nessun blocco; (3) giro 26/7 06:23, invocata la Skill `giro-operativo` (wrapper sullo stesso vincolo) → risultato placeholder inutilizzabile, si è proceduto a mano con Read/Edit/Bash/Agent sui passi di `giro.md`. Regola cristallizzata: non riproporre `Workflow` (né skill che lo richiamano sotto) in sessione headless finché Nicola non conferma che il gate è sbloccato altrove; per fan-out multi-area usare sempre più `Agent` in parallelo nello stesso messaggio.",
+      "tag": [
+        "workflow",
+        "agent",
+        "headless",
+        "processo",
+        "strumenti"
+      ],
+      "reparto": "@ad",
+      "promosso_il": "2026-07-26 06:23"
     }
   ],
   "preferenze_nicola": [
@@ -11927,16 +12054,16 @@
     "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
   ],
   "meta": {
-    "lezioni_attive": 475,
-    "promosse_a_principio": 64,
+    "lezioni_attive": 476,
+    "promosse_a_principio": 70,
     "decadute": 0,
     "tasso_applicazione": 0.17,
-    "tasso_calcolato_il": "2026-07-26 06:17",
+    "tasso_calcolato_il": "2026-07-26 08:18",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-26 06:17",
+    "tick_leggero_il": "2026-07-26 08:17",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-25 22:20"
+    "cristallizzazione_ultima": "2026-07-26 06:20"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }

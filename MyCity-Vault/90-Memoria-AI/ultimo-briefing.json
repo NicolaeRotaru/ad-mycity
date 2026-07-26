@@ -1,41 +1,41 @@
 {
-  "data": "2026-07-25 06:45",
-  "situazione": "Giro pieno per heartbeat (19h dall'ultimo giro pieno, non richiesta di Nicola). Business INVARIATO da 31 giorni esatti: 1 negozio (Pane Quotidiano), 5 prodotti, 4 buyer, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni. Misurati i 2 esperimenti in scadenza oggi: entrambi mancata — EXP-001 (0 ordini consegnati vs atteso 1) ed EXP-007 (check-in PQ, superato dalla pausa negozi concordata con Nicola). Trovato e corretto un difetto reale nel Pannello (salute macchina con nomi-campo fuori contratto, letta sempre vuota). Proposte 2 azioni concrete invece di rilogare le lezioni: sblocco allowlist per script diagnostici, pulizia di un tag rumoroso nell'apprendimento. Mossa n.1: ordine test PQ. Mossa n.2: PI26 entro il 30/7 (5 giorni residui).",
+  "data": "2026-07-26 06:23",
+  "situazione": "Giro pieno per heartbeat (19h dall'ultimo giro pieno). Business ANCORA invariato: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati — verificato ora via query dirette al database. Chiuso un debito di misura aperto in calibrazione (previsione di 16 giorni fa confermata azzeccata via dati live). Rigenerata la checklist personale di Nicola, ferma da 3 giorni. Trovato che due etichette dell'apprendimento (workflow, correzione-nicola) sono rumore di tassonomia come già successo con 'marketplace' — estesa la stessa proposta di fix invece di aprirne una nuova. Mossa n.1: rispondere alle 3 domande PI26 (scade tra 4 giorni). Mossa n.2: confermare o negare la nuova data del piano-squadra (metà agosto) proposta ieri notte.",
   "opportunita": [
     {
-      "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "Unico sblocco diretto del North Star (0 ordini pagati da 31 giorni) — interamente sotto il nostro controllo, nessuna terza parte da convincere",
+      "titolo": "Rispondi alle 3 domande sul bando PI26",
+      "motivo": "10.000€ di fondo perduto, sportello a esaurimento aperto fino al 30/7 ore 16:00 (4 giorni residui) — un valutatore indipendente ha bocciato la bozza attuale, mancano solo le tue risposte",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Invia la domanda PI26",
-      "motivo": "Sportello aperto fino al 30/7 ore 16:00 (5 giorni residui) — fino a 10.000€ fondo perduto digitalizzazione, testi già pronti",
+      "titolo": "Fai un ordine di test su Pane Quotidiano",
+      "motivo": "Unico sblocco diretto del North Star (0 ordini pagati da 32 giorni) — sblocca anche referral e stampa del kit fisico",
       "impatto": "alto",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Sblocca gli script di controllo che si bloccano da soli",
-      "motivo": "4 script di sola lettura del cervello si sono bloccati ripetutamente oggi per un problema di permessi — un'estensione dell'allowlist li rende affidabili nei prossimi giri",
+      "titolo": "Conferma se il piano con fratello e amici sostituisce la pausa negozi",
+      "motivo": "Hai indicato ieri notte una data di ripartenza (metà agosto) diversa da quella già registrata (24/8-1/9) — senza il tuo ok non riscrivo il fatto ufficiale",
       "livello": "giallo"
     },
     {
-      "titolo": "Pulisci il tag 'marketplace' dal contatore errori-ripetuti",
-      "motivo": "Il tag più ricorrente nell'apprendimento non è un vero tipo di errore, solo un'etichetta troppo larga — tenerlo nasconde i pattern reali",
+      "titolo": "Pulisci le etichette generiche dal contatore errori-ripetuti",
+      "motivo": "Anche 'workflow' e 'correzione-nicola' sono etichette troppo larghe come 'marketplace' — la stessa riga di codice le sistema tutte insieme",
       "livello": "giallo"
     },
     {
-      "titolo": "Decidi se rilanciare la radiografia completa di te stessa",
-      "motivo": "Ferma da 54 giri consecutivi nonostante la sonda la segnali necessaria — 11 problemi noti sulla macchina mai riguardati",
-      "livello": "giallo"
+      "titolo": "Mergia le PR in coda per il Cantiere del Pannello e il fix doppioni chat",
+      "motivo": "4 PR pronte (#551, #552, #553, #556), nessun rischio per il sito — solo il tuo click di approvazione",
+      "livello": "rosso"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo 31 giorni esatti, riconfermato con query diretta",
-    "Radiografia completa mai rilanciata da 54 giri (sonda: serve_radiografia_completa=true)",
-    "PI26 scade tra 5 giorni senza conferma di invio",
+    "North Star 0 — stallo ~32 giorni, riconfermato con query diretta",
+    "PI26 scade tra 4 giorni senza conferma di invio",
+    "Runway non calcolabile da 248 giri (manca BURN_MENSILE_EUR nel .env VPS)",
     "3 carrelli abbandonati reali su PQ mai recuperati (invariati da giugno)"
   ]
 }

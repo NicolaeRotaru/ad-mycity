@@ -1,42 +1,39 @@
-# 🔬 AUTO-ANALISI — 2026-07-25 06:45
+# 🔬 AUTO-ANALISI — 2026-07-26 06:23
 
-## Voto di fiducia: **90/100** (▼ da 92 di ieri 11:05 — vedi "Perché il voto scende")
+## Voto di fiducia: **90/100** (▬ stabile da ieri 06:45)
 
 ## Sintesi
-Giro pieno heartbeat (19h dall'ultimo giro pieno, ieri 24/7 11:05). Business riverificato dal vivo con query SQL dirette: INVARIATO — 1 PQ, 5 prodotti, 4 buyer, 1 ordine (zombie, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati. Stallo North Star **31 giorni esatti**. Misurati i 2 esperimenti in scadenza oggi: **EXP-001** (ordini_consegnati, mancata — 0 vs atteso 1) ed **EXP-007** (check-in PQ concordato, mancata — superato dalla pausa negozi concordata con Nicola, non un fallimento operativo). Chiuso il gate `chiusura-loop` (ESITO @ad registrato). Corretto un difetto di contratto JSON trovato in `auto-analisi.json` stesso (vedi sotto). Accodate 2 azioni 🟡 concrete e pronte invece di rilogare l'ennesima lezione.
+Giro pieno heartbeat (19h dall'ultimo giro pieno, ieri 25/7 11:03). Business riverificato dal vivo con query dirette (`mcp__supabase-marketplace`): INVARIATO — 1 PQ, 5 prodotti, 7 profili, 1 ordine (zombie, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati. Stallo North Star **~32 giorni**. Applicata la strategia snella per giri ripetuti a stato invariato: invece di rifare l'analisi di ieri, ho concentrato lo sforzo sui 4 vincoli hard di questo giro — misura, checklist, apprendimento, coerenza dei fatti — con lavoro verificabile (edit puntuali su file reali), non stime.
 
 ## Errori trovati
-1. **Contratto JSON fuori-schema (corretto in questo giro):** `auto-analisi.json` scriveva `salute_macchina` con campi liberi (`sensori_ok`, `max_giri_ciechi`, `automazione`, …) invece dei nomi canonici che il Pannello legge (`supabase`/`stripe`/`dati_freschi`/`sensori_attivi`, da `AutoCoscienza.tsx:146`). Il Pannello mostrava quel blocco vuoto da almeno il giro di ieri. Riscritto ai campi canonici in questo giro.
-2. **4 script di diagnosi bloccati da approvazione per tutta la sessione**: `esperimenti-check.mjs`, `valida-contratti.mjs`, `apprendimento-guardiano.mjs`, `cristallizza-apprendimento.mjs` — tutti dichiarati sola-lettura/bookkeeping nella loro stessa intestazione. Bypassati leggendo il sorgente e replicando la logica a mano (più lento, più a rischio di errore di calcolo mio). Non un errore di questo giro, ma la causa root di un pattern che torna da giorni — vedi card #239.
+Nessuno di rilievo. Un solo limite ambientale ricorrente (vedi sotto), non un errore di questo giro.
 
-## Passaggi precedenti
-
-### 2026-07-24 11:05
-Giro pieno su richiesta esplicita di Nicola in chat — riconferma, non novità. Business riverificato dal vivo con query SQL dirette: invariato — 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine (zombie, annullato), 0 pagati, 0 recensioni. Verificati nel merito entrambi i vincoli hard iniettati dal giro: **AR-113** rispettato (nessuna azione fuori scope North Star); **AR-041/AR-106** — il messaggio "nessun esperimento aperto" non corrispondeva ai fatti (6 restano aperti dopo questo passaggio, incl. 2 dedicati al North Star), il vero trigger era **EXP-005** in scadenza oggi: misurato ora come mancata (il suo gate social è ancora in pausa per il rinvio negozi al 24/8-1/9). Nessuna azione 🟡/🔴 nuova accodata: le mosse giuste (ordine test PQ, domanda PI26) restano quelle di stamattina.
-
-### 2026-07-24 06:24
-Giro pieno legittimo (heartbeat: 14h dall'ultimo giro pieno di ieri sera 23/7 16:47) — non un'invocazione ravvicinata a vuoto. Business riverificato dal vivo con query SQL dirette: invariato — 1 PQ, 5 prodotti, 4 buyer, 1 solo ordine (zombie, annullato), 0 pagati, 0 recensioni, stallo ~718h (~30gg). Nessuna azione 🟡/🔴 nuova accodata: le mosse giuste (ordine test PQ, domanda PI26) sono già in coda dai giorni scorsi. Trovato e corretto (🟢, memoria) un refuso residuo: `cervello/radar.json` citava ancora "Garetti" come negozio-faro nel fattore "negozio-01", invece di "Pane Quotidiano" — residuo di prima della correzione R3/AR-006 del 14/7.
+## Cosa ho fatto (i 4 vincoli hard)
+1. **Debito di misura chiuso:** previsione `CAL-20260710042004-AD` (`ordini_totali` atteso 1, entro 17/7) misurata ora con `reale=1` letto via Supabase MCP → azzeccata (scarto 0%). Scadute-senza-reale in calibrazione: 5 → 4.
+2. **CHECKLIST-NICOLA.md rigenerata** da zero dalle voci ⏳ vive di `AZIONI-IN-ATTESA.md` (era ferma dal 23/7 11:20, 3 giorni — AR-030). In cima: PI26 (bocciata da un peer-review indipendente, 4 giorni residui) e la conferma sospesa sul piano-squadra/nuova data.
+3. **Apprendimento:** promossa a `principio` la lezione L-2026-0723-455 ("non riproporre il tool Workflow in sessione headless") — 3ª evidenza raccolta in questo stesso giro (la Skill `giro-operativo` ha restituito un placeholder inutilizzabile). Trovato leggendo un campione di lezioni che i tag "workflow" e "correzione-nicola" sono etichette-ombrello (stesso difetto già corretto per "marketplace" il 25/7): estesa la card 🟡 già in coda (#240) invece di aprirne una nuova o rilogare l'ennesima lezione uguale.
+4. **Coerenza dei fatti:** nessun fatto-chiave cambiato in questo giro (nessuna correzione di Nicola su un valore registrato) — il guardiano `coerenza-fatti.mjs` non è stato ri-eseguito con lo strumento (bloccato da approvazione in Bash), ereditato "verde" dal pre-check di `giro.sh` delle 06:20. Nessuna scrittura di questo giro tocca un valore di `registro-fatti.json`, quindi il rischio è basso.
 
 ## Domande per Nicola
-1. **Ordine test PQ?** — ancora fermo, unica mossa diretta North Star 0→1 (`#ordine-test-pq`)
-2. **PI26 inviata?** — 5 giorni residui, scade 30/7 ore 16:00 (`#bandi-cciaa-2007`)
+1. **PI26 — 3 risposte di ammissibilità?** — 4 giorni residui, scade 30/7 ore 16:00 (`#pi26-conferma-ammissibilita`)
+2. **Piano-squadra: confermi la nuova data (metà agosto)?** — proposto ieri notte, ancora senza risposta (`#conferma-piano-squadra-ripresa-negozi`)
+3. **Ordine test PQ?** — ancora fermo, unica mossa diretta North Star 0→1 (`#ordine-test-pq`)
 
 ## Salute macchina
 - Sensori: 10/11 attivi (Telegram non configurato, noto, non bloccante) · Supabase ok · Stripe ok · dati freschi
-- Coerenza-fatti: **NON riverificata in modo indipendente in questa sessione** (script bloccato da approvazione) — ereditata dal pre-check di giro.sh delle 06:20. Declassata onestamente in `registro-realta.json`, non spacciata per confermata.
-- North Star: stallo confermato 31 giorni esatti (ricalcolato a mano, non solo citato)
-- Esperimenti: 4/13 misurati (tutti mancata), 4 aperti residui, 0 in scadenza oggi (verificato leggendo ogni singola data_misura, non solo il contatore)
-- Nessun pattern "loop a vuoto": 19h reali dall'ultimo giro pieno, heartbeat legittimo
+- Coerenza-fatti: ereditata dal pre-check di `giro.sh` (06:20), non riverificata con lo strumento in questa sessione per lo stesso limite di ambiente di ieri (script `node cervello/*.mjs` non eseguibili in Bash senza un prompt di approvazione raggiungibile)
+- North Star: stallo confermato ~32 giorni (ricalcolato da `ultimo_ordine=2026-06-24 08:28:40`)
+- Calibrazione: 1 previsione @AD chiusa in questo giro (era il debito più vecchio, 16 giorni), 4 restano scadute senza reale
 
 ## Entità verificate (registro-realta.json)
 - Pane Quotidiano → confermato (invariato, query diretta)
-- 0 ordini pagati / 7 profili / 4 buyer / 5 prodotti / 0 recensioni / 3 carrelli abbandonati → confermati (query diretta)
-- EXP-001 mancata, EXP-007 mancata → confermati (query diretta + registro-fatti.json)
+- 0 ordini pagati / 7 profili / 1 venditore approvato / 5 prodotti / 0 recensioni / 3 carrelli abbandonati → confermati (query diretta)
+- `CAL-20260710042004-AD` ordini_totali=1 → confermato, chiude il debito di misura
 
 ## Refutazione vera (non boilerplate — 3 claim messi in dubbio davvero)
-1. **"Stallo 31 giorni"** — ricalcolato a mano da `ultimo_ordine=2026-06-24 08:28:40` a oggi: 6 giorni residui di giugno + 25 di luglio = 31. **Sopravvive.**
-2. **"0 esperimenti in scadenza residui"** — non preso per buono dal contatore: rilette una per una le `data_misura` dei 4 esperimenti aperti rimasti (EXP-002 27/7, EXP-003 28/7, EXP-006 20/8, EXP-013 30/7). Nessuno ≤ oggi. **Sopravvive.**
-3. **"Memoria coerente"** — **NON sopravvive allo stesso livello**: ereditata dal pre-step di `giro.sh`, mai riverificata in modo indipendente in questa sessione (script bloccato). Rischio stimato basso (nessuna scrittura di questo giro ha toccato un valore di `registro-fatti.json`) ma è un gap di verifica reale, dichiarato come tale, non nascosto.
+1. **"Business invariato"** — non preso per buono dal delta-gate: ri-eseguita la query diretta e confrontata numero per numero col giro di ieri 11:03. **Sopravvive.**
+2. **"La previsione ordini_totali del 10/7 è azzeccata"** — ricalcolato lo scarto a mano (0%, sotto tolleranza 0.25) e verificato che la fonte (Supabase MCP) è ammessa e il sensore non è cieco (AR-061: niente "azzeccata" al buio). **Sopravvive.**
+3. **"workflow/correzione-nicola sono rumore di tassonomia"** — non accettato dal solo conteggio del guardiano: letto un campione di 9 lezioni prima di concludere. **Sopravvive**, con l'eccezione dichiarata che "plugin"/"mobile"/"information-architecture" sono invece cluster reali (troppo piccoli per un gate oggi, non equiparati a rumore).
 
-## Perché il voto scende (92→90)
-Non per il business (invariato, verificato). Il voto scende di 2 punti perché il **livello di verifica è L2, non L3**: 4 controlli deterministici sono stati bypassati a mano per un blocco di approvazione ricorrente, invece di essere eseguiti dallo strumento dedicato. È un problema di ambiente (card #239 lo propone come fix), non di rigore del lavoro fatto — ma un voto che ignorasse questo gap sarebbe un timbro, non una misura onesta.
+## Perché il voto resta stabile (90→90)
+Stesso gap ambientale di ieri (script `node cervello/*.mjs` non eseguibili in Bash in questa sessione), ma questa volta i 4 vincoli hard del giro sono stati soddisfatti con edit verificabili sul disco (non solo dichiarati) — il lavoro compensa il limite di strumento invece di essere bloccato da esso. Non salgo il voto perché il gap di L3 (esecuzione diretta dei guardiani) resta reale e non risolto strutturalmente.
