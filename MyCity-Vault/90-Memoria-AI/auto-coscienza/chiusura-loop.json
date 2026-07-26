@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-26 14:20",
+  "aggiornato": "2026-07-26 16:20",
   "soglia_giorni": 7,
   "totale": 120,
   "mancanti": 0,
   "vuoti": 73,
-  "fermi": 89,
-  "vivi": 31,
+  "fermi": 90,
+  "vivi": 30,
   "reparti_fermi": [
     "accessibility",
     "account-security",
@@ -14,6 +14,7 @@
     "ai-copywriter",
     "ai-designer",
     "ai-video",
+    "analista",
     "analytics-engineering",
     "authentication-prodotti",
     "avvocato-civile",
@@ -177,7 +178,7 @@
       "ultimo_esito": "2026-07-19 14:33",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "analytics-engineering",
@@ -795,7 +796,7 @@
       "mancante": false,
       "righe_esito": 6,
       "ultimo_esito": "2026-07-20 04:05",
-      "giorni_fa": 6,
+      "giorni_fa": 7,
       "vuoto": false,
       "fermo": false
     },
@@ -895,7 +896,7 @@
       "mancante": false,
       "righe_esito": 6,
       "ultimo_esito": "2026-07-14 02:47",
-      "giorni_fa": 12,
+      "giorni_fa": 13,
       "vuoto": false,
       "fermo": true
     },
@@ -915,7 +916,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-20 03:26",
-      "giorni_fa": 6,
+      "giorni_fa": 7,
       "vuoto": false,
       "fermo": false
     },
@@ -925,7 +926,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-20 03:17",
-      "giorni_fa": 6,
+      "giorni_fa": 7,
       "vuoto": false,
       "fermo": false
     },
@@ -1265,7 +1266,7 @@
       "mancante": false,
       "righe_esito": 48,
       "ultimo_esito": "2026-07-25 03:12",
-      "giorni_fa": 1,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
