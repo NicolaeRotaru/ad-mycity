@@ -899,3 +899,26 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - Ok a mergiare countdown scadenze + fix guardiani
 
 **Dettagli tecnici** — nessuna riquery SQL: delta-gate conferma stato invariato dal 25/7 11:03 (4 giri saltati consecutivi, 8/8 sensori ok). 1 negozio (Pane Quotidiano), 5 prodotti, 4 buyer, 1 ordine (annullato), 0 pagati — stallo 32 giorni esatti. Card `#conferma-piano-squadra-ripresa-negozi` in coda dalle 01:10, nessun fatto in `registro-fatti.json` riscritto finché Nicola non conferma. Coda AZIONI-IN-ATTESA: 50 aperte.
+
+## Report della sera · 2026-07-26 18:00
+
+**Com'è andata oggi**
+- Giornata di manutenzione: i negozi restano in pausa fino al 24/8-1/9, nessuna spinta commerciale — solo lavoro tecnico e di controllo.
+- La bozza del bando PI26 (10.000€) è stata bocciata da un controllo interno: mancano 3 risposte tue prima di poterla inviare.
+- Ripulito un pezzo della memoria della macchina (contava male gli errori ripetuti) e preparata una stima (ipotetica) di quanto potrebbe incassare il primo mese.
+
+**I numeri**
+- 1 negozio (Pane Quotidiano), 5 prodotti, 4 clienti, 1 ordine (annullato), 0 pagati — tutto invariato da ieri, stallo 32 giorni.
+
+**Da approvare**
+- Rispondi alle 3 domande sul bando PI26 entro il 30/7 alle 16:00 (P.IVA, spese documentabili, firma digitale) — altrimenti rischiamo di perdere i 10.000€.
+- Confermami se il piano squadra di stanotte (tuo fratello + 2 amici) sostituisce la pausa negozi fissata al 24 agosto - 1 settembre.
+- Dai l'ok a mergiare i due piccoli fix di macchina già pronti (avviso scadenze in arrivo + controlli sui guardiani).
+
+**Lezione di oggi**
+- Un'etichetta che raggruppa problemi diversi sotto lo stesso nome nasconde il pattern vero: va letta per intero, non contata a occhio.
+
+**Domani**
+- La prima cosa utile è avere la tua conferma sul piano squadra, così so quando ripartire con l'inserimento negozi.
+
+**Dettagli tecnici** — riconfermato via SQL diretta 18:00 (0 numeri inventati): `profiles` (1 seller approvato, 0 payout, 4 buyer), `products`=5, `orders`=1 (CANCELED, ultimo 24/6 08:28). Coda AZIONI-IN-ATTESA: 51 aperte · 98 chiuse in archivio. Consegne di oggi: `consegne/finanza/proiezione-ricavi-primo-mese-2026-07-26.md`, `consegne/supervisione/2026-07-26-supervisione.md`. Peer review PI26: verdetto "DA SISTEMARE" in `auto-coscienza/auto-miglioramento.json` (PR-007).

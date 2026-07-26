@@ -1113,14 +1113,14 @@ fonte: AD digitale (chat)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ riconfermati SQL diretta 25/7 18:00 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
-| Numero | Oggi (25/7 18:00) | Δ vs 25/7 06:00 | "Riuscito" | Note |
+## I 7 numeri (✅ riconfermati SQL diretta 26/7 18:00 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
+| Numero | Oggi (26/7 18:00) | Δ vs 25/7 18:00 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `seller` confermato SQL |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `seller` confermato SQL diretta 18:00 |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ Stripe collegato, payout-test su ordine vero |
 | Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato SQL diretta 18:00 |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 24/6 CANCELED — ultimo ordine tuttora il 24/6 08:28 |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **31 giorni** · ordine test in pausa fino al 24/8-1/9 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **32 giorni** · ordine test in pausa fino al 24/8-1/9 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | confermato SQL diretta 18:00 |
@@ -1162,6 +1162,7 @@ fonte: AD digitale (chat)
 | Loop business | 🔴 in corso | #16 **ANNULLATO** — il 1° ordine reale va creato ex-novo; parte operativa 13/7, aggancio VEN 17/7 |
 
 ## Ultime mosse dell'AD
+0. **🌙 26/7 18:00 — Report della sera: business riconfermato invariato via SQL diretta, giornata di manutenzione senza spinta commerciale (negozi in pausa).** Riquery diretta (`profiles`/`products`/`orders`): 1 negozio approvato (Pane Quotidiano), 0 payout attivi, 5 prodotti, 1 ordine (CANCELED, ultimo 24/6 08:28), 0 pagati/consegnati, 4 buyer — identico a ieri sera, 0 numeri inventati. Stallo North Star **32 giorni**. Fatto oggi: un valutatore indipendente ha bocciato la bozza PI26 come "non pronta" (mancano 3 risposte di Nicola su P.IVA/spese/firma digitale, scade 30/7 16:00); pulizia del contatore errori-ripetuti (tag-ombrello tolti, principio scritto sul cluster "mobile" reale); proiezione ricavi lordi primo mese (3 scenari ipotesi, nessun dato reale ancora); supervisione negozi/prodotti (0 autofill, 2 campi che servono materia prima da Nicola: logo+città). Resta sospesa la conferma sul piano-squadra (fratello+2 amici, chiesta 2 volte stanotte, ancora senza risposta). Coda: 51 azioni aperte, in cima PI26 (🔴, 4gg residui) + conferma piano-squadra (🟡) + 2 fix piccoli di macchina pronti (🟡). Lezione del giorno: un'etichetta che raggruppa temi diversi nasconde il pattern vero — va letta per intero, non contata a occhio. RITMO.md + SALA-OPERATIVA aggiornati.
 0. **☀️ 26/7 06:00 — Piano del mattino: business invariato (delta-gate), notte con novità vera (piano squadra di Nicola, ancora da confermare).** Nessuna riquery SQL (delta-gate coerente dal 25/7 11:03, 4 giri saltati consecutivi, 8/8 sensori ok): 1 negozio (Pane Quotidiano), 5 prodotti, 4 buyer, 1 ordine (annullato), 0 pagati — stallo North Star **32 giorni esatti**. Novità reale: chat notturna (26/7 00:48→01:44) dove Nicola ha descritto un piano concreto per accelerare l'inserimento negozi (fratello + 2 amici non pagati, si parte a metà agosto) — possibile data diversa da quella registrata (`ripresa.lavoro-operativo`=24/8-1/9). Nessun fatto riscritto: l'AD ha chiesto conferma 2 volte, ancora senza risposta — card `#conferma-piano-squadra-ripresa-negozi` già in coda. 3 priorità: PI26 (4gg residui), conferma piano squadra, merge dei 2 fix macchina pronti. Piano scritto in SALA-OPERATIVA + RITMO.md.
 0. **☀️ 25/7 06:00 — Piano del mattino: business confermato invariato via SQL diretta, 3 priorità invariate.** Riquery diretta (`orders`/`profiles`/`products`): 1 ordine (annullato, 24/6 08:28), 7 clienti, 5 prodotti — identico al delta-gate, 0 numeri inventati. Stallo North Star **31 giorni esatti** (era 30 ieri). Nessun cambiamento reale da giustificare nuove card: priorità confermate invariate. Piano scritto in SALA-OPERATIVA + RITMO.md.
 0. **🔁 23/7 ~18:10 — Nicola generalizza: la regola anti-doppione deve valere su TUTTE le analisi, non solo cassa-cieca/sensori-ciechi.** Dopo la diagnosi delle 18:00, Nicola ha ribadito lo stesso screenshot 9 volte e poi chiarito: «queste ripetizioni deve essere applicata su tutte le analisi». L'AD aveva già la lista completa dai numeri verificati nel DB: **cassa-cieca 76x** e **sensori-ciechi 39x** (causa confermata: etichetta = numero di giro) sono le due sicuramente rotte; **negozi-fermi 25x è normale** (si ripete ogni 24h finché il negozio resta fermo); **salute-bassa 7x** e **volano-fermo 7x** e **fonti-web-morte 6x** — ancora DA VERIFICARE se hanno la stessa causa o no. Il fix sul tasto "Riprova" (check-prima-di-creare) copre **automaticamente tutte** le sentinelle una volta per tutte, perché il controllo sta nel punto dove i lavori vengono ricreati, non sentinella per sentinella. **Ancora in attesa del sì di Nicola per procedere** (nessuna riga di codice toccata). → Prossimo passo: verificare salute-bassa/volano-fermo/fonti-web-morte, poi aprire branch+PR su tutto insieme.
@@ -1222,6 +1223,17 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (🌙 aggiornato 26/7 18:00 — report della sera)
+Business INVARIATO dal 24/6, riconfermato con SQL diretta alle 18:00 (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 4 buyer, 1 ordine (CANCELED), 0 pagati — **stallo 32 giorni**. Negozi in pausa fino al 24/8-1/9: giornata di manutenzione (nessuna spinta commerciale). Il valutatore indipendente ha bocciato la bozza PI26 come "non pronta all'invio" — servono 3 risposte da Nicola prima del 30/7 16:00. La proposta di Nicola di stanotte (piano squadra per accelerare i negozi da metà agosto) resta senza conferma: nessun fatto registrato è stato toccato.
+
+1. [ ] 🔴 **Rispondi alle 3 domande PI26** (P.IVA/entità giuridica sì-no · spese reali documentabili sì-no e quanto · firma digitale attiva sì-no) — scade **30/7 ore 16:00 (4 giorni residui)**, fino a €10.000 fondo perduto. Priorità economica più alta.
+2. [ ] 🟡 **Conferma se il piano squadra di stanotte sostituisce la pausa negozi del 24/8-1/9** — chiesto due volte (26/7 ~01:05 e ~01:10), ancora senza risposta. Un sì o un no sblocca (o chiude) la card `#conferma-piano-squadra-ripresa-negozi`.
+3. [ ] 🟡 **Dai l'ok ai 2 fix di macchina pronti in coda** — countdown automatico scadenze (AR-147, branch pronto) e i due controlli sui guardiani (`#auto-riscrittura-git-pr-esito`).
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 32gg, atteso — negozi in pausa) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente · n8n cieco · REST/MCP/Stripe/Sito/Pannello ✅ (verificati SQL diretta 18:00) · push GitHub VPS+Vercel ✅.
+
+---
 
 ## Prossime priorità (☀️ aggiornato 26/7 06:00 — piano del mattino)
 Business INVARIATO dal 24/6, confermato via delta-gate (nessun cambiamento dal 25/7 11:03, 4 giri saltati consecutivi): 1 negozio (Pane Quotidiano), 5 prodotti, 4 buyer, 1 ordine (CANCELED), 0 pagati — **stallo 32 giorni**. Novità vera della notte, non ancora una decisione: Nicola ha proposto un piano squadra (fratello + 2 amici non pagati) per accelerare l'inserimento negozi, con una possibile data diversa dalla pausa fissata al 24/8-1/9 — in attesa della sua conferma esplicita prima di toccare qualsiasi fatto registrato.
