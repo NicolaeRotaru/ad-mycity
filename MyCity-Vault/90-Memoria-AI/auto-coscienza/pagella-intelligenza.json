@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
-  "aggiornato": "2026-07-26 10:20",
+  "aggiornato": "2026-07-26 11:00",
   "pronta": false,
   "voci_superate": 1,
   "voci_totali": 5,
@@ -24,8 +24,8 @@
       "fonte": "cervello/tasso-regole.mjs",
       "come_si_alza": "prendere una correzione di Nicola e chiuderla alla radice (principio + gate automatico): scrivere altre lezioni non aiuta, finiscono nel denominatore",
       "tasso_citazioni": 0.17,
-      "valore": 0.15,
-      "etichetta": "15% (42/279 correzioni)",
+      "valore": 0.16,
+      "etichetta": "16% (44/279 correzioni)",
       "ok": false,
       "cieco": false,
       "ricadute": {
@@ -40,7 +40,7 @@
         "con_gate": 0,
         "quota": 0
       },
-      "precedente": 0.14,
+      "precedente": 0.15,
       "movimento": "migliorata"
     },
     {
@@ -315,6 +315,18 @@
       "pronta": false,
       "valori": {
         "lezioni": 0.15,
+        "calibrazione": 0,
+        "freni": 0,
+        "quaderni": 0.25833333333333336,
+        "salute": 43
+      }
+    },
+    {
+      "data": "2026-07-26 11:00",
+      "voci_superate": 1,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.16,
         "calibrazione": 0,
         "freni": 0,
         "quaderni": 0.25833333333333336,

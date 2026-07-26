@@ -1,7 +1,7 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
   "_review_settimanale_24_07_1600": "REVIEW SETTIMANALE: nessuna previsione nuova nel registro dal 20/7 20:23 (4 giorni) — coerente con la decisione di Nicola del 23/7 di mettere in pausa i playbook di reparto verso negozi/marketing fino al 24/8-1/9 (meno mosse misurabili da prevedere). Ricalcolo confermato sui dati esistenti (35 chiuse, 0 aperte): nessun reparto supera 'autonomia bassa' — @customer-success e @designer hanno il punteggio più alto (1.0 su 1 previsione ciascuno, ma lower_bound 0.38 = ancora troppo poche evidenze per fidarsi); @finanza, @crm-lifecycle, @vendite, @ad restano a 0 (previsioni sistematicamente sbagliate, soprattutto sulle stime numeriche dei playbook — scarti spesso >90%). Nessuna promozione di autonomia questa settimana: il segnale è insufficiente per tutti, non solo per chi sbaglia.",
-  "aggiornato": "2026-07-26 10:20",
+  "aggiornato": "2026-07-26 11:06",
   "per_reparto": [
     {
       "reparto": "@ad",
@@ -133,14 +133,15 @@
       "azione": "Debrief visita 6 ristoranti tattici con esiti reali",
       "metrica": "prospect_con_esito",
       "atteso": 4,
-      "reale": null,
+      "reale": 0,
       "entro": "2026-07-14",
       "tolleranza": 0.25,
-      "stato": "scaduta",
-      "scarto_pct": null,
-      "nota": "",
+      "stato": "mancata",
+      "scarto_pct": 100,
+      "fonte": "registro-fatti.json (onboarding.6-ristoranti-tattici)",
+      "nota": "DEBITO DI MISURA saldato nel giro 26/7: non più misurabile come previsto — Nicola ha escluso i 6 ristoranti tattici il 16/7 («non lavoro con i ristoranti», registro-fatti onboarding.6-ristoranti-tattici=ESCLUSI). Nessun debrief con esito reale è mai avvenuto perché i prospect stessi sono stati ritirati prima di essere visitati di nuovo. Chiusa mancata (0 su 4 attesi), non più aperta.",
       "creato": "2026-07-13 20:22",
-      "chiuso_il": "2026-07-15 20:20"
+      "chiuso_il": "2026-07-26 11:06"
     },
     {
       "id": "CAL-20260714004756-conten",
@@ -148,14 +149,15 @@
       "azione": "Post kefir estate su canali locali",
       "metrica": "click_lista_attesa",
       "atteso": 5,
-      "reale": null,
+      "reale": 0,
       "entro": "2026-07-17",
       "tolleranza": 0.25,
-      "stato": "scaduta",
-      "scarto_pct": null,
-      "nota": "",
+      "stato": "mancata",
+      "scarto_pct": 100,
+      "fonte": "PostHog (nessun evento click_lista_attesa registrato) + registro-fatti (northstar.consegnati=0)",
+      "nota": "DEBITO DI MISURA saldato nel giro 26/7: nessun tracking dedicato su 'click_lista_attesa' è mai stato cablato per quel post (PostHog non ha un evento con questo nome), e il business resta a 0 consegnati/0 pagati da prima del 14/7 a oggi — nessun segnale di conversione da quel canale è arrivato. Chiusa mancata (0 su 5 attesi) invece di lasciarla scaduta senza spiegazione.",
       "creato": "2026-07-14 02:47",
-      "chiuso_il": "2026-07-18 06:20"
+      "chiuso_il": "2026-07-26 11:06"
     },
     {
       "id": "CAL-20260714014054-finanz",
@@ -550,14 +552,15 @@
       "azione": "Ordine test Nicola su Pane Quotidiano",
       "metrica": "ordini_pagati",
       "atteso": 1,
-      "reale": null,
+      "reale": 0,
       "entro": "2026-07-20",
       "tolleranza": 0.25,
-      "stato": "scaduta",
-      "scarto_pct": null,
-      "nota": "",
+      "stato": "mancata",
+      "scarto_pct": 100,
+      "fonte": "registro-fatti.json (northstar.consegnati=0, ordine16.stato=annullato) — REST ordini=1 invariato dal 24/6",
+      "nota": "DEBITO DI MISURA saldato nel giro 26/7: il test-ordine manuale su Pane Quotidiano che Nicola doveva fare non è mai stato eseguito entro la scadenza (né dopo) — north-star consegnati resta 0, l'unico ordine nel DB è ancora quello annullato del 24/6. Chiusa mancata (0 su 1 atteso), non più aperta.",
       "creato": "2026-07-19 13:07",
-      "chiuso_il": "2026-07-21 06:20"
+      "chiuso_il": "2026-07-26 11:06"
     },
     {
       "id": "CAL-20260719122106-operat",
@@ -565,14 +568,15 @@
       "azione": "Ordine test Nicola su Pane Quotidiano",
       "metrica": "ordini_pagati",
       "atteso": 1,
-      "reale": null,
+      "reale": 0,
       "entro": "2026-07-20",
       "tolleranza": 0.25,
-      "stato": "scaduta",
-      "scarto_pct": null,
-      "nota": "",
+      "stato": "mancata",
+      "scarto_pct": 100,
+      "fonte": "registro-fatti.json (northstar.consegnati=0, ordine16.stato=annullato) — REST ordini=1 invariato dal 24/6",
+      "nota": "DEBITO DI MISURA saldato nel giro 26/7: duplicato dello stesso test-ordine (creato 74 minuti dopo il precedente nella stessa sessione) — stesso esito, mai eseguito. Chiusa mancata (0 su 1 atteso), non più aperta.",
       "creato": "2026-07-19 14:21",
-      "chiuso_il": "2026-07-21 06:20"
+      "chiuso_il": "2026-07-26 11:06"
     },
     {
       "id": "CAL-20260720001144-builde",
@@ -845,7 +849,7 @@
       "chiuso_il": "2026-07-25 06:29"
     }
   ],
-  "_nota": "38 chiuse · 0 aperte · 3 banali (escluse dall'autonomia) — registro gestito da calibrazione.mjs.",
+  "_nota": "38 chiuse · 0 aperte · 3 banali (escluse dall'autonomia) — registro gestito da calibrazione.mjs. Giro 26/7 11:06: saldato il DEBITO DI MISURA (gate calibrazione.mjs debito, voce 2 della pagella) su 4 previsioni 'scaduta' lasciate senza nota — 2 non più misurabili (ristoranti tattici esclusi da Nicola 16/7; click_lista_attesa mai tracciato), 2 misurabili da registro-fatti (test-ordine PQ mai eseguito, north-star=0) — tutte chiuse 'mancata' con fonte e nota esplicita, nessuna scadenza silenziosa residua.",
   "promozioni_proposte": {},
   "registro_legacy": [
     {

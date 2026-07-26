@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-26 06:23",
-  "situazione": "Giro pieno per heartbeat (19h dall'ultimo giro pieno). Business ANCORA invariato: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati — verificato ora via query dirette al database. Chiuso un debito di misura aperto in calibrazione (previsione di 16 giorni fa confermata azzeccata via dati live). Rigenerata la checklist personale di Nicola, ferma da 3 giorni. Trovato che due etichette dell'apprendimento (workflow, correzione-nicola) sono rumore di tassonomia come già successo con 'marketplace' — estesa la stessa proposta di fix invece di aprirne una nuova. Mossa n.1: rispondere alle 3 domande PI26 (scade tra 4 giorni). Mossa n.2: confermare o negare la nuova data del piano-squadra (metà agosto) proposta ieri notte.",
+  "data": "2026-07-26 11:06",
+  "situazione": "Giro ripetuto, delta-gate invariato dalle 06:23 (nessun cambiamento reale) — business ANCORA fermo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati. Chiusi i 4 debiti di misura rimasti in calibrazione (previsioni scadute mai spiegate, ora tutte con fonte e nota) e promosse 3 lezioni mature a principio permanente. Rivisitato come promesso il cluster 'mobile' dell'apprendimento: è un pattern vero (layout chat responsive), scritta la regola; 'correzione-nicola' resta un'etichetta-ombrello come 'marketplace'. Mossa n.1: rispondere alle 3 domande PI26 (scade tra 4 giorni). Mossa n.2: confermare o negare la nuova data del piano-squadra (metà agosto) proposta ieri notte.",
   "opportunita": [
     {
       "titolo": "Rispondi alle 3 domande sul bando PI26",
