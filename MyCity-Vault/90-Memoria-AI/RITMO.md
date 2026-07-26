@@ -883,3 +883,19 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - La prima cosa utile resta PI26: bastano le tue 3 risposte, poi la mando io.
 
 **Dettagli tecnici** — PR mergiate oggi: #533 (fix sentinella negozio_fermo), #534 (pagella-intelligenza.mjs), #535 (guardiano delle prove), #536 (AR-109/AR-110), #537 (AR-142 round 3), #538-#542 (round 3-4, freni 4→2), #544-#548 (AR-114/AR-123/AR-156, freni →0), #550-#554 (5 fix Pannello Cantiere: cartelle chiuse di default, data di chiusura, ordinamento). Pagella (`auto-coscienza/pagella-intelligenza.json`, 14:20): freni 8→0 (migliorata), lezioni 18%/70% (ferma), calibrazione 0/14 reparti (ferma), quaderni 26%/60% (ferma), salute 43/100 (ferma) — `pronta: false`. 7 numeri riconfermati via query SQL diretta su `profiles`/`products`/`orders` (18:00). Coda AZIONI-IN-ATTESA: 50 aperte.
+
+## Piano del mattino · 2026-07-26 06:00
+
+**In una riga:** la priorità resta PI26 (4 giorni residui) — e stanotte hai proposto un piano per accelerare i negozi, mi serve solo la tua conferma.
+
+**Le 3 cose di oggi**
+1. Chiudi PI26 — bastano le tue 3 risposte, poi la mando io. Scade il 30/7 alle 16:00.
+2. Confermami se il piano squadra di stanotte (tuo fratello + 2 amici, si parte a metà agosto) sostituisce la pausa negozi che avevamo fissato al 24 agosto - 1 settembre — te l'ho chiesto due volte stanotte e non ho ancora una risposta.
+3. Dai l'ok a mergiare i due fix di macchina già pronti: l'avviso automatico sulle scadenze in arrivo e due controlli sui guardiani della macchina.
+
+**Serve da te**
+- Rispondi alle 3 domande PI26 entro il 30/7 alle 16:00
+- Un sì o un no sul piano squadra e sulla nuova data di ripartenza
+- Ok a mergiare countdown scadenze + fix guardiani
+
+**Dettagli tecnici** — nessuna riquery SQL: delta-gate conferma stato invariato dal 25/7 11:03 (4 giri saltati consecutivi, 8/8 sensori ok). 1 negozio (Pane Quotidiano), 5 prodotti, 4 buyer, 1 ordine (annullato), 0 pagati — stallo 32 giorni esatti. Card `#conferma-piano-squadra-ripresa-negozi` in coda dalle 01:10, nessun fatto in `registro-fatti.json` riscritto finché Nicola non conferma. Coda AZIONI-IN-ATTESA: 50 aperte.
