@@ -1,11 +1,11 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
-  "aggiornato": "2026-07-26 12:20",
+  "aggiornato": "2026-07-26 14:20",
   "pronta": false,
   "voci_superate": 1,
   "voci_totali": 5,
   "voci_cieche": 0,
-  "migliorate": 1,
+  "migliorate": 0,
   "peggiorate": 0,
   "soglie": {
     "lezioni_tasso_min": 0.7,
@@ -40,8 +40,8 @@
         "con_gate": 0,
         "quota": 0
       },
-      "precedente": 0.16,
-      "movimento": "migliorata"
+      "precedente": 0.17,
+      "movimento": "ferma"
     },
     {
       "id": "calibrazione",
@@ -52,7 +52,7 @@
       "come_si_alza": "obbligo di scrivere «mi aspetto X» prima di ogni mossa, poi confronto col reale",
       "debito": null,
       "valore": 0,
-      "etichetta": "0 reparti su 13 (1 previsioni misurate) · AD escluso",
+      "etichetta": "0 reparti su 13 (5 previsioni misurate) · AD escluso",
       "ok": false,
       "cieco": false,
       "precedente": 0,
@@ -331,6 +331,18 @@
     },
     {
       "data": "2026-07-26 12:20",
+      "voci_superate": 1,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.17,
+        "calibrazione": 0,
+        "freni": 0,
+        "quaderni": 0.25833333333333336,
+        "salute": 43
+      }
+    },
+    {
+      "data": "2026-07-26 14:20",
       "voci_superate": 1,
       "pronta": false,
       "valori": {
