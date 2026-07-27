@@ -661,7 +661,7 @@
     "bloccanti": 12
   },
   "sonda": {
-    "data": "2026-07-27 06:20",
+    "data": "2026-07-27 08:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.18,
     "prova_chiusura": true,
@@ -670,16 +670,16 @@
     "difetti_chiusi_recenti": 30,
     "calibrazione_piena": true,
     "previsioni_aperte_recenti": 0,
-    "esperimenti_aperti": 4,
+    "esperimenti_aperti": 3,
     "prova_business": true,
     "prova_architettura": true,
     "esperimenti_misurati": true,
-    "giro_a_cadenza": false,
+    "giro_a_cadenza": true,
     "sentinelle_scattano": false,
-    "ore_da_ultima_completa": 80,
-    "ore_da_ultimo_briefing": 19,
+    "ore_da_ultima_completa": 82,
+    "ore_da_ultimo_briefing": 2,
     "max_giri_ciechi_sensori": 0,
-    "giri_tasso_basso": 71,
+    "giri_tasso_basso": 72,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
@@ -689,14 +689,14 @@
     "bloccanti_umani": 10,
     "salute_firma": "AR-126,AR-129,AR-154",
     "verdetto": "serve-completa",
-    "nota": "loop chiude (con prova) · briefing STALE (19h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 10 in attesa merge · 10 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    "nota": "loop chiude (con prova) · briefing 2h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 10 in attesa merge · 10 bloccanti umani · tasso basso 3+ giri → radiografia completa"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 71,
-    "aggiornato": "2026-07-27 06:20"
+    "giri_tasso_basso": 72,
+    "aggiornato": "2026-07-27 08:20"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-27 06:20",
+    "aggiornato": "2026-07-27 08:20",
     "findings_aperti": 50,
     "findings_in_corso": 0,
     "findings_chiusi": 11,
