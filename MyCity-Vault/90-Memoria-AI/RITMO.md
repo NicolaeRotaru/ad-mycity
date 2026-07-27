@@ -938,3 +938,26 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - Un giro su GitHub per approvare le 8 correzioni in coda (te le riassumo io, basta scorrerle una a una)
 
 **Dettagli tecnici** — riverificato ora via query SQL diretta (MCP): `orders`=1 (CANCELED 24/6), `products`=5, `profiles`=7, `reviews`=0, `abandoned_carts`=3 — invariato, stallo North Star 33 giorni esatti. PR ferme su GitHub: #520, #527, #532, #533, #551, #552, #553, #556 (cards #233/#235/#237/#238/#243/#244/#245/#246 in AZIONI-IN-ATTESA.md).
+
+## Report della sera · 2026-07-27 18:00
+
+**Com'è andata oggi**
+- Radiografia completa di stamattina (173 difetti trovati, 33 gravi) — ma 60 secondi dopo il merge la macchina si è chiusa da sola 91 di quei difetti senza che fosse cambiata una riga di codice: me ne sono accorta lo stesso giorno e li ho riaperti tutti, però il buco che l'ha permesso resta da chiudere.
+- Nel frattempo ho chiuso per davvero, con prove vere: la memoria torna a scriversi da sola sul Pannello (era ferma dal 25/7 sera) e il giro ora dice la verità quando qualcosa si rompe invece di dichiararsi "tutto ok".
+- Ho messo una prima serratura al Pannello, ma non basta: chi ha solo il link entra ancora senza fare login, l'ho verificato stamattina con te stesso in incognito.
+
+**I numeri**
+- 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 0 ordini pagati — invariato, stallo 33 giorni.
+
+**Da approvare**
+- Rispondi alle 3 domande sul bando PI26 entro il 30/7 ore 16:00 (10.000€, 3 giorni residui)
+- Dammi 30 secondi su Vercel per chiudere davvero il Pannello (Deployment Protection → Vercel Authentication) — oggi chi ha solo il link entra senza accedere
+- Dammi un sì per salvare subito una copia della memoria: da domani un bug rischia di iniziare a cancellare le lezioni di giugno
+
+**Lezione di oggi**
+- Una prova che dimostra che un difetto è risolto deve controllare che il fix esista, non solo che il bug ci sia ancora — oggi 91 prove scritte male hanno fatto sembrare risolti dei problemi che erano ancora lì, e per un quarto d'ora il Pannello te lo ha mostrato sbagliato.
+
+**Domani**
+- La prima cosa utile è il click di 30 secondi su Vercel per chiudere il Pannello, poi le 3 risposte per PI26.
+
+**Dettagli tecnici** — riconfermato SQL diretta 18:00: `orders`=1 (CANCELED 24/6), `products`=5, `profiles`=7, `reviews`=0, `abandoned_carts`=3. PR mergiate oggi: #558 (radiografia 24 dimensioni), #559 (riapre 91 difetti chiusi falsamente), #560 (Lotto D, AR-270/300/301/320), #561 (Lotto C, AR-226/227/205/271 — serratura Pannello parziale), #563+#564 (Lotto B 1/2, AR-265/258 + correzione prove), #565 (Lotto B 2/2, AR-235/246). Difetti chiusi con prova reale oggi: AR-270, AR-300, AR-301 (12:57). Ancora aperti: AR-226 (Pannello senza login — serve Vercel Authentication), AR-330 (auto-chiusura falsa — serve guardia machine-checkable), AR-227/AR-320/decadimento-memoria/triage-cantiere (in coda, card `#radiografia-*` in AZIONI-IN-ATTESA). Coda: 55 aperte (housekeeping 12:20: 56 aperte/98 chiuse in archivio). Consegne: `consegne/audit/2026-07-27-auto-radiografia.md`, `consegne/supervisione/2026-07-27-supervisione.md`.
