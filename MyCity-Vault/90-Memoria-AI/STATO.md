@@ -1342,3 +1342,4 @@ Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 1 ordine (CANCELED), 0 p
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
+
