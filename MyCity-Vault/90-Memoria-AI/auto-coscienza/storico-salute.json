@@ -1192,6 +1192,24 @@
       "difetti_chiusi": 4,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-270, AR-300, AR-301, AR-320 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 31 dall'ultima misura vera."
+    },
+    {
+      "data": "2026-07-27",
+      "voto_salute": 31,
+      "voto_riportato": true,
+      "difetti_aperti": 196,
+      "difetti_chiusi": 1,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-112 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 31 dall'ultima misura vera."
+    },
+    {
+      "data": "2026-07-27",
+      "voto_salute": 31,
+      "voto_riportato": true,
+      "difetti_aperti": 193,
+      "difetti_chiusi": 3,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-205, AR-227, AR-271 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 31 dall'ultima misura vera."
     }
   ]
 }

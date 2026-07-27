@@ -52,12 +52,32 @@ test("approvata(): token macchina e checkbox", () => {
   assert.equal(approvata("- serve ancora da approvare 🟡"), false, "'approvare' infinito NON approva");
 });
 
-test("trovaAzione(): match per id umano #38 e null se assente", () => {
+// AR-271 — questo test asseriva la falla, non la sicurezza.
+// Fino al 27/7 trovaAzione() aveva un terzo tentativo: cercare il numero come "parola intera" dentro
+// il TITOLO del blocco. Il titolo però contiene anche gli orari, quindi l'id «40» agganciava un blocco
+// solo perché si chiamava «… 23:40» — e una firma data per un'azione ne autorizzava un'altra, scelta
+// da una coincidenza tipografica. Ora si accettano SOLO id stabili e codici-casella.
+test("trovaAzione(): un numero nel titolo NON è un identificatore (AR-271)", () => {
   const md = CODA;
-  assert.ok(trovaAzione(md, "#38"), "#38 trovato per token letterale");
-  assert.ok(trovaAzione(md, "38"), "38 senza cancelletto trovato");
+  assert.equal(trovaAzione(md, "#38"), null, "il token nel titolo non aggancia più il blocco");
+  assert.equal(trovaAzione(md, "38"), null, "nemmeno senza cancelletto");
   assert.equal(trovaAzione(md, "#Z99-inesistente"), null, "id assente → null (fail-closed)");
   assert.equal(trovaAzione(md, ""), null, "id vuoto → null");
+});
+
+test("trovaAzione(): l'orario nel titolo non può fingersi un id (il caso che ha rotto)", () => {
+  const coda = `
+## 2026-06-26 23:40 · @crm · 📧 Manda la mail di riepilogo — APPROVATA
+- **Stato:** IN ATTESA DI ESECUZIONE.
+
+## 2026-07-27 09:00 · @tech · 🔧 Tutt'altra azione, non firmata
+- **Stato:** IN ATTESA DI FIRMA NICOLA.
+`;
+  assert.equal(
+    trovaAzione(coda, "40"),
+    null,
+    "l'id 40 NON deve agganciare il blocco delle 23:40: era il modo in cui una firma altrui autorizzava un invio",
+  );
 });
 
 test("trovaAzione(): match per codice calcolato #Axx", () => {
