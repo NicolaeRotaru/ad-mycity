@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-27 11:00** — Automatico: **51 aperte · 98 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-27 12:20** — Automatico: **56 aperte · 98 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -28,6 +28,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 <!-- radiografia-serratura-pannello -->
 
+---
+
 ### 🟡 #radiografia-serratura-pannello — Metti la serratura al Pannello: oggi chi ha l'indirizzo può darmi ordini · ⏳ accodata 2026-07-27 09:40
 **Cosa cambia:** il Pannello ha 33 punti che modificano lo stato, in 30 file diversi, e uno solo controlla chi sta chiamando. Non esiste un filtro d'ingresso. Chi conosce l'indirizzo può spegnere la PAUSA, accendere l'autopilota e infilare istruzioni nel prompt dell'agente che gira sul server. C'è anche una porta che scrive la tua firma su un'azione senza che tu tocchi niente: il valore che scrive è esattamente quello che il consenso accetta come «firmato da Nicola» per l'invio reale. Oggi il danno possibile è limitato perché le mani verso il mondo sono scollegate — ma il piano è collegarle, e allora questa diventa la falla numero uno.
 **Se va bene:** l'AD prepara un unico filtro d'ingresso che copre tutti e 33 i punti in un colpo solo, più la rimozione della porta orfana che firma. Anteprima prima del merge, nessun deploy senza il tuo ok.
@@ -41,6 +43,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 <!-- radiografia-congela-memoria -->
 
+---
+
 ### 🟡 #radiografia-congela-memoria — Salva la memoria prima di domani: da domani le lezioni di giugno iniziano a cancellarsi · ⏳ accodata 2026-07-27 09:40
 **Cosa cambia:** il decadimento della memoria conta le esecuzioni, non i giorni. Dal 28/7 le lezioni più vecchie di 28 giorni muoiono in circa quattro giri — cioè poche ore, non settimane. Tutto quello che l'azienda ha imparato a giugno può sparire in una mattinata senza che nessuno lo decida. Non è un rischio teorico: è una data, ed è domani.
 **Se va bene:** l'AD fa due cose nello stesso lavoro — congela subito una copia della memoria di oggi (così qualunque cosa succeda niente è perso) e cambia il decadimento perché conti i giorni veri invece delle esecuzioni.
@@ -52,6 +56,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 <!-- radiografia-giro-legge-i-suoi-controlli -->
+
+---
 
 ### 🟡 #radiografia-giro-legge-i-suoi-controlli — Fai in modo che il giro legga i propri controlli invece di ignorarli · ⏳ accodata 2026-07-27 09:40
 **Cosa cambia:** oggi il giro si dichiara «completato» anche quando i controlli sono tutti rossi. I quindici vincoli che dovrebbero fermarlo finiscono soltanto dentro il testo del prompt — cioè sono consigli che dà a sé stesso, non cancelli. Su venti vincoli, quindici sono decorativi. Conseguenza pratica: il Pannello ti mostra verde e il worker segna «fatto» anche quando qualcosa è andato storto, e nessun numero di salute della macchina è affidabile finché resta così. È il difetto che viene prima di tutti gli altri.
@@ -65,6 +71,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 <!-- radiografia-triage-cantiere -->
 
+---
+
 ### 🟡 #radiografia-triage-cantiere — Decidi cosa fare dei 193 difetti aperti: così com'è non è una lista di lavoro · ⏳ accodata 2026-07-27 09:40
 **Cosa cambia:** la radiografia ha trovato 170 difetti veri, tutti verificati e tutti con la prova per chiudersi da soli quando il fix entra. Sommati ai 23 già aperti fanno 193. Sono onesti, ma 193 voci non sono una coda di lavoro: sono un magazzino, e sul telefono diventano illeggibili. Il report mette in cima i più gravi per impatto sulla crescita — quella è la coda vera. Serve decidere cosa fare del resto.
 **Se va bene:** scegli tu fra tre strade — (a) tenerli tutti aperti e lavorare solo dalla cima; (b) marcare come «accettati» quelli minori, così spariscono dalla vista ma restano tracciati; (c) tenerne aperti solo un numero fisso alla volta e pescare dal magazzino quando se ne chiude uno. La mia raccomandazione è la (c): tiene la coda leggibile senza buttare niente.
@@ -76,6 +84,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 <!-- conferma-piano-squadra-ripresa-negozi -->
+
+---
 
 ### 🟡 #conferma-piano-squadra-ripresa-negozi — Conferma se il piano squadra (fratello + 2 amici non pagati) e la nuova data di ripartenza (metà agosto) sostituiscono la pausa negozi decisa il 23/7 (24/8-1/9) · ⏳ accodata 2026-07-26 01:10
 **Cosa cambia:** Nicola ha descritto un piano concreto per accelerare l'inserimento negozi (1-3/giorno) con l'aiuto del fratello + il suo migliore amico + un amico fedele (loro: consegna prodotti, inserimento prodotti, volantini — solo Nicola inserisce i negozi), tutti non pagati finché l'azienda non arriva a 10.000€ di profitto. Ha detto che si parte "appena riparo la bici e stampo i volantini", finanziati dallo stipendio del 15 agosto (bici 100€ + volantini 200€) — una data PRIMA di quella già registrata in `registro-fatti.json` (`ripresa.lavoro-operativo` = dopo il 24/8-1/9, decisione Nicola del 23/7).
@@ -1330,7 +1340,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-27 11:00)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-27 12:20)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-27-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1819,6 +1829,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-27 11:00 · 98 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-27 12:20 · 98 card totali
 
 ### ✅ #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ✅ FATTO 2026-07-20 18:30 · {approvato: Nicola 20/7 18:28}
 

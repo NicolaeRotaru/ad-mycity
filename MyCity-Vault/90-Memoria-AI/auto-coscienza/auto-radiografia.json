@@ -27,7 +27,11 @@
             "pattern": "#ordine-test-pq.*⏸ in pausa",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-157"
         },
         {
           "id_proposto": "NS-02",
@@ -45,7 +49,11 @@
             "pattern": "NORTH STAR IN STALLO",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-158"
         },
         {
           "id_proposto": "NS-03",
@@ -63,7 +71,11 @@
             "pattern": "riprendono da sole al 24/8-1/9",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-159"
         },
         {
           "id_proposto": "NS-04",
@@ -81,7 +93,11 @@
             "pattern": "Aggiunti 18/7 per chiudere il guardiano AR-007/008",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-160"
         },
         {
           "id_proposto": "NS-05",
@@ -99,7 +115,11 @@
             "pattern": "Lug 2026 \\| 1 \\| 80 \\| 2\\.500€",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-161"
         }
       ]
     },
@@ -124,7 +144,8 @@
             "pattern": "RITMO_BUDGET_SEC",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il monitoraggio quotidiano puo' restare appeso per sempre, e comunque dichiara di essere andato bene",
@@ -141,7 +162,8 @@
             "pattern": "TimeoutStartSec",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Se il piano del mattino smette di uscire, nessun guardiano della macchina se ne accorge: si controlla che la sveglia sia carica, mai che qualcuno si sia alzato",
@@ -158,7 +180,8 @@
             "pattern": "mycity-ritmo-",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il guardiano nato apposta per scoprire i controlli spenti in silenzio ha, lui per primo, l'allarme staccato",
@@ -175,7 +198,8 @@
             "pattern": "FRESCHEZZA_VINCOLO",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il giro si accorge di avere saltato l'auto-analisi e l'apprendimento, lo scrive nel registro tecnico del server e chiude dicendo che e' andato tutto bene",
@@ -192,7 +216,8 @@
             "pattern": "GIRO_STEPS_VINCOLO",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Due cadenze partono con l'orologio del server invece che con quello di Piacenza, e il commento accanto promette il contrario",
@@ -209,7 +234,8 @@
             "pattern": "OnCalendar=.*Europe/Rome",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -234,7 +260,11 @@
             "pattern": "stato: azzeccata ? \"azzeccata\" : \"mancata\"",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-168"
         },
         {
           "titolo": "Trentaquattro previsioni sbagliate e nessuna dice perché",
@@ -251,7 +281,11 @@
             "pattern": "\"causa\":",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-169"
         },
         {
           "titolo": "Il messaggio d'errore insegna come aggirare il freno: basta dire che ha confermato Nicola",
@@ -268,7 +302,11 @@
             "pattern": "Usa --fonte=\"conferma di Nicola\" se c'è verifica umana",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-170"
         },
         {
           "titolo": "Il freno che blocca le misure al buio non scatta mai per PostHog: cerca un nome che non esiste",
@@ -285,7 +323,11 @@
             "pattern": "posthog_api",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-171"
         },
         {
           "titolo": "L'unico centro dell'AD è aver previsto che un numero fermo restasse fermo",
@@ -302,7 +344,11 @@
             "pattern": "atteso: 1,",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-172"
         },
         {
           "titolo": "Una previsione scaduta diventa azzeccata misurandola nove giorni dopo",
@@ -319,7 +365,11 @@
             "pattern": "fuori finestra",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-173"
         },
         {
           "titolo": "Il novanta su cento in prima pagina se lo dà da sola, contando gli errori che si dichiara",
@@ -336,7 +386,11 @@
             "pattern": "const vuota = refutVuota && !erroriSostanziali",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-174"
         },
         {
           "titolo": "Alla domanda «come sto?» la Cabina risponde con due numeri diversi: quarantatré e zero",
@@ -353,7 +407,11 @@
             "pattern": "voto_pieno",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-175"
         },
         {
           "titolo": "Il conto delle previsioni mai misurate è scritto ma non è innestato nel giro",
@@ -370,7 +428,8 @@
             "pattern": "debito --gate",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -395,7 +454,8 @@
             "pattern": "esperimentiAperti\\.length > 0",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il tasso delle lezioni e la sonda del volano sono gli unici allarmi del giro che vengono buttati via mentre stanno suonando",
@@ -412,7 +472,8 @@
             "pattern": "VOLANO_VINCOLO|_tasso_rc|_sonda_rc",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Metà della patch scritta perché le previsioni mai misurate non fossero più condonate non è mai entrata nel giro",
@@ -429,7 +490,11 @@
             "pattern": "calibrazione\\.mjs\" debito",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-179"
         },
         {
           "titolo": "La sonda conta come prova che il loop si chiude proprio le righe che la calibrazione dichiara «previsioni non sono mai state»",
@@ -446,7 +511,8 @@
             "pattern": "nonEUnaPrevisione",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Una previsione sbagliata si archivia senza dire perché: nel registro non c'è una sola causa, e il guardiano non la chiede",
@@ -463,7 +529,8 @@
             "pattern": "chiusa senza causa|!e\\.causa",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "La memoria non invecchia a giorni ma a giri: dal 28 luglio le lezioni cominceranno a morire a blocchi nel giro di poche ore",
@@ -480,7 +547,8 @@
             "pattern": "decaduto_step_il|ultimo_decadimento",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Nel cruscotto della macchina la spia dei sensori è al contrario: verde quando sono ciechi, rossa quando stanno bene",
@@ -497,7 +565,8 @@
             "pattern": "ok: !r\\.sonda\\.sentinelle_scattano",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il vincolo che dovrebbe sbloccare l'apprendimento chiede di promuovere lezioni mature che non esistono più",
@@ -514,7 +583,8 @@
             "pattern": "promuovi a .{1,2}principio.{1,2} 2-3 lezioni mature",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -539,7 +609,8 @@
             "pattern": "estraiMandato|slice\\(0, ?idx\\)|keyword del mandato",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il manuale dell'AD e le schede dei senior si contraddicono su chi comanda cosa, e nessuno confronta i due elenchi",
@@ -556,7 +627,8 @@
             "pattern": "deferral_drift|driftDeferral|confrontaDeferral|deferral_divergenti",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il motore che ogni giorno produce le mosse da firmare chiama sei senior scritti a mano: gli altri centoquattordici non entrano mai in turno",
@@ -573,7 +645,8 @@
             "pattern": "rotazione|MOTORI_DA_OKR|motoriDaOkr|readdirSync",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Nessuno dei centoventi senior risponde del fatto che le email arrivino davvero nella posta e non nello spam",
@@ -590,7 +663,11 @@
             "pattern": "deliverab|DKIM|SPF|DMARC|reputazione del dominio",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-188"
         }
       ]
     },
@@ -615,7 +692,8 @@
             "pattern": "checkout|carrello",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il rischio numero uno — restare senza soldi — è sconosciuto da 256 giri perché aspettiamo un numero scritto a mano",
@@ -632,7 +710,8 @@
             "pattern": "burn_stimato|costo-ai",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Le cose da firmare invecchiano in coda e nessuno le risollecita: la firma che non arriva non fa rumore",
@@ -649,7 +728,8 @@
             "pattern": "stantia|risollecit|ore_attesa",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "I difetti del sito sono fermi a 87 aperti e zero chiusi da tre settimane, e nessuno rifà il controllo",
@@ -666,7 +746,8 @@
             "pattern": "radiografia del sito|radiografia marketplace",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Pubblichiamo con cinque canali e non leggiamo nessun risultato: i contenuti escono e spariscono",
@@ -683,7 +764,11 @@
             "pattern": "fonte",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-193"
         },
         {
           "titolo": "Settantatré senior su centoventi non hanno mai consegnato nulla e nessuna soglia se ne accorge",
@@ -700,7 +785,8 @@
             "pattern": "utilizzo_reale|utilizzo-senior",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "La radiografia di sé si racconta ancora quarantadue senior quando sono centoventi",
@@ -717,7 +803,8 @@
             "pattern": "42 agenti",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -742,7 +829,8 @@
             "pattern": "token_per_gate",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Chat, riassunti, lavori e radiografie non lasciano nessuna traccia nel registro dei costi",
@@ -759,7 +847,8 @@
             "pattern": "costo-ai\\.mjs",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Anche riassumere una chat gira sul modello più caro, e la macchina lo sa",
@@ -776,7 +865,8 @@
             "pattern": "AI_MODELLO",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "La memoria che il giro riapre ogni volta è diventata un diario da 437 KB, e cresce ogni giorno",
@@ -793,7 +883,8 @@
             "pattern": "STATO\\.md",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "L'elenco dei 120 senior è incollato due volte in ogni singola chiamata al motore",
@@ -810,7 +901,8 @@
             "pattern": "duplicazione_roster",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Quando il ritmo fallisce rilancia tre volte a vuoto: la lezione del non-ritentare-ciecamente è arrivata solo al giro",
@@ -827,7 +919,8 @@
             "pattern": "_rp_azione",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Nessuno misura quanto rende un giro: si stima quanto costa, il valore non si conta",
@@ -844,7 +937,8 @@
             "pattern": "macchina-ai",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "La stima del consumo è un pavimento fisso: due cadenze diversissime registrano lo stesso identico numero",
@@ -861,7 +955,8 @@
             "pattern": "input_tokens",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il giro saltato risulta costare un secondo, ma prima ha già fatto girare cinquanta guardiani",
@@ -878,7 +973,8 @@
             "pattern": "GIRO_START_TOT",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -903,7 +999,8 @@
             "pattern": "firmaPannello[\\s\\S]{0,400}approvata\\(|SOLO la firma del Pannello|marcatore nel file NON vale",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "La macchina può scrivere un programma nuovo e farlo partire: i freni stanno dentro gli script, il permesso è su tutta la cartella",
@@ -920,7 +1017,8 @@
             "pattern": "jolly|wildcard|cartella scrivibile|no-esecuzione-jolly",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il pulsante che manda un'azione all'automazione non passa da nessun controllo",
@@ -937,7 +1035,11 @@
             "pattern": "consensoInvio|pausaAttiva|destinatarioAmmesso|RIMOSSA",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-24 00:12",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-139"
         },
         {
           "titolo": "Lo stop al budget è un foglietto in coda, non un freno — e il suo verdetto viene buttato via",
@@ -954,7 +1056,8 @@
             "pattern": "BUDGET_VINCOLO|sentinella-budget[\\s\\S]{0,200}rc=|STOP budget[\\s\\S]{0,120}vincolo",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Quando l'autopilota pubblica davvero non resta niente nel registro delle decisioni",
@@ -971,7 +1074,8 @@
             "pattern": "tracciaDecisione|DECISIONI\\.md",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il controllo di onestà sorveglia una porta sola: dall'altra il testo esce senza passare da lì",
@@ -988,7 +1092,8 @@
             "pattern": "onesta|esaminaOnesta|onesta-check",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -1013,7 +1118,8 @@
             "pattern": "file_scansionati === 0|non_verificato|copertura",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "La Cabina scrive «nessuna domanda» mentre l'auto-analisi ne ha tre, una rossa in scadenza",
@@ -1030,7 +1136,8 @@
             "pattern": "domande_bloccanti|errori_giro",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il controllo che doveva impedire i campi sbagliati guarda tre file su venticinque",
@@ -1047,7 +1154,8 @@
             "pattern": "domande_per_nicola",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Due schede della stessa pagina danno due scadenze diverse per lo stesso bando",
@@ -1064,7 +1172,11 @@
             "pattern": "7 giorni residui",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-214"
         },
         {
           "titolo": "Le «Mosse di Nicola» sono ferme al 23 luglio e nessun guardiano se ne accorge",
@@ -1081,7 +1193,8 @@
             "pattern": "freschezza-intenzioni|freschezza-memoria",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Cercando nel Pannello si trova la copia vecchia dei quaderni, quella viva non c'è",
@@ -1098,7 +1211,8 @@
             "pattern": "\\S",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "I playbook dicono ai senior di mettere le azioni in un file che nessuno legge più",
@@ -1115,7 +1229,8 @@
             "pattern": "AZIONI-PRONTE",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -1138,7 +1253,11 @@
             "pattern": "Escape",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-218"
         },
         {
           "titolo": "Le azioni da firmare si aprono tutte insieme: 51 schede spalancate una sotto l'altra",
@@ -1153,7 +1272,11 @@
             "pattern": "{daFirmare.map((a) => cardAzione(a))}",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-219"
         },
         {
           "titolo": "Su iPhone ogni volta che tocchi per scrivere la pagina si ingrandisce da sola",
@@ -1168,7 +1291,11 @@
             "pattern": "input-soft w-full min-h-[78px] max-h-28 resize-y text-[13px]",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-220"
         },
         {
           "titolo": "Sotto le cose da fare c'è un muro di 72 difetti già chiusi che non si può richiudere",
@@ -1183,7 +1310,11 @@
             "pattern": "<div className=\"t-micro mb-1.5\">Chiusi</div>",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-221"
         },
         {
           "titolo": "Il gesto indietro non chiude il menù laterale: cambia l'area di nascosto",
@@ -1197,7 +1328,11 @@
             "tipo": "umano",
             "come": "Da telefono (o DevTools in modalità mobile, larghezza < 1024px): tocca l'hamburger in alto a sinistra, poi fai il gesto indietro. Corretto = il menù si chiude e l'area sotto resta quella di prima. Oggi = il menù resta aperto e l'area sotto è cambiata."
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-218"
         },
         {
           "titolo": "Mezze parole da toccare: link e freccine alti 18 pixel, più piccoli del polpastrello",
@@ -1212,7 +1347,11 @@
             "pattern": "className=\"t-eti hover:text-brand inline-flex items-center gap-1 transition\"",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-223"
         },
         {
           "titolo": "Liste dentro riquadri che scorrono da soli: il dito muove la lista, non la pagina",
@@ -1227,7 +1366,11 @@
             "pattern": "max-h-[620px] overflow-y-auto",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-224"
         },
         {
           "titolo": "La tabella dei numeri non ci sta nello schermo: la colonna «30 giorni» resta fuori",
@@ -1242,7 +1385,11 @@
             "pattern": "min-w-[420px]",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-225"
         }
       ]
     },
@@ -1265,7 +1412,8 @@
             "pattern": "PANNELLO_TOKEN|authorization|cookies\\(\\)",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Esiste una porta che scrive la firma di Nicola su un'azione senza che Nicola tocchi nulla",
@@ -1280,7 +1428,11 @@
             "pattern": "registraFirma\\(n, \"nicola\"\\)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-227"
         },
         {
           "titolo": "Il pulsante della pausa accetta qualunque chiave: dalla stessa porta si scrive la firma",
@@ -1295,7 +1447,11 @@
             "pattern": "AMMESSE|whitelist|chiavi ammesse",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-228"
         },
         {
           "titolo": "Approvi, rifiuti e riapprovi la stessa azione: parte due volte davvero",
@@ -1310,7 +1466,11 @@
             "pattern": "statoPre !== \"rifiutata\"",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-229"
         },
         {
           "titolo": "Quando rifiuti un'azione il Pannello dice «fatto» anche se non ha salvato niente",
@@ -1325,7 +1485,11 @@
             "pattern": "return NextResponse.json\\(\\{ ok: true, stato, esito: \"\", salvataggio: salv \\}\\)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-230"
         },
         {
           "titolo": "La decisione sull'ordine da 19,05 euro risulta presa anche se il lavoro non è mai partito, e non si può più rifare",
@@ -1340,7 +1504,11 @@
             "pattern": "await creaLavoro\\(",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-231"
         },
         {
           "titolo": "L'autopilota esegue da solo tutto ciò che la macchina ha scritto di suo pugno come verde",
@@ -1355,7 +1523,11 @@
             "pattern": "b.livello === \"verde\"",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-232"
         },
         {
           "titolo": "La home dice «Niente da firmare» anche quando non è riuscita a leggere la coda",
@@ -1370,7 +1542,11 @@
             "pattern": "readVaultFileEsito",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-230"
         },
         {
           "titolo": "È rimasta viva una porta che spara un'azione all'automazione senza lasciare traccia",
@@ -1385,7 +1561,11 @@
             "pattern": "export async function POST",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-234"
         }
       ]
     },
@@ -1408,7 +1588,11 @@
             "pattern": "if (!prima || prima === \"fatto\" || l.stato !== \"fatto\") continue;",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-235"
         },
         {
           "titolo": "Dieci caselle non si ricaricano mai da sole, nemmeno tornandoci sopra",
@@ -1423,7 +1607,11 @@
             "pattern": "setInterval",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-236"
         },
         {
           "titolo": "Il Pannello scrive «aggiornato adesso» anche su dati di tre giorni fa",
@@ -1438,7 +1626,11 @@
             "pattern": "setDatiAggiornatiAt(Date.now());",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-237"
         },
         {
           "titolo": "Rispondi a una domanda dell'AD e trenta secondi dopo te la richiede",
@@ -1453,7 +1645,11 @@
             "pattern": "await setImpostazione(`risposta:${qid}`",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-238"
         },
         {
           "titolo": "Le spunte della tua checklist possono restare finte fino al ricarico",
@@ -1468,7 +1664,11 @@
             "pattern": "await fetch(\"/api/memoria/todo\", { method: \"POST\"",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-239"
         }
       ]
     },
@@ -1491,7 +1691,11 @@
             "pattern": "const apriWorkerPopup = useCallback\\(\\(full = false\\) => \\{",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-240"
         },
         {
           "titolo": "L'indietro riapre l'area giusta ma sulla scheda sbagliata",
@@ -1506,7 +1710,11 @@
             "pattern": "pushState\\(\\{ \\.\\.\\.\\(window\\.history\\.state \\|\\| \\{\\}\\), vista \\}",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-241"
         },
         {
           "titolo": "Nell'Archivio l'indietro non chiude il documento, ti sbatte in un'altra area",
@@ -1521,7 +1729,11 @@
             "pattern": "const \\[cartella, setCartella\\] = useState<string \\| null>\\(null\\)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-242"
         },
         {
           "titolo": "Nessun pannello che si apre sopra si chiude col dito indietro",
@@ -1536,7 +1748,11 @@
             "pattern": "const \\[convDrawerAperto, setConvDrawerAperto\\] = useState\\(false\\)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-243"
         },
         {
           "titolo": "Il link del messaggio Telegram non può portarti sulle azioni da firmare",
@@ -1551,7 +1767,11 @@
             "pattern": "window\\.location\\.pathname \\+ window\\.location\\.search",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-244"
         },
         {
           "titolo": "Ritocchi la scheda su cui sei già e l'indietro fa un colpo a vuoto",
@@ -1566,7 +1786,11 @@
             "pattern": "vaiSub\\(\"azioni\", t\\.id\\);",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-241"
         }
       ]
     },
@@ -1589,7 +1813,11 @@
             "pattern": "JSON.stringify(x.messaggi) !== JSON.stringify(y.messaggi)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-246"
         },
         {
           "titolo": "La pagina di cosa ha imparato la macchina si riscarica intera ogni trenta secondi e brucia i dati del telefono",
@@ -1604,7 +1832,11 @@
             "pattern": "apprendimento, miglioramento, calibrazione, registro })",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-247"
         },
         {
           "titolo": "L'elenco delle chat viene ridisegnato tutto anche quando è chiuso e non si vede",
@@ -1619,7 +1851,11 @@
             "pattern": "convDrawerAperto ? \"translate-x-0\" : \"-translate-x-full\"",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-248"
         },
         {
           "titolo": "Cercare dentro le conversazioni fa scattare la scrittura lettera per lettera",
@@ -1634,7 +1870,11 @@
             "pattern": "c.messaggi.some((m) => m.content.toLowerCase().includes(q))",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-249"
         },
         {
           "titolo": "La pagina della radiografia si riscarica l'intero cantiere dei difetti ogni mezzo minuto",
@@ -1649,7 +1889,11 @@
             "pattern": "live, radiografia, cantiere, storico, watchlist, lettera })",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-250"
         }
       ]
     },
@@ -1672,7 +1916,8 @@
             "pattern": "reset",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Se il giro scrive le domande per Nicola come una frase invece che come elenco, la Cabina diventa bianca",
@@ -1687,7 +1932,8 @@
             "pattern": "a!\\.domande_per_nicola!\\.map",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Una riga vuota nella lista dei difetti fa diventare bianca la pagina del Cervello",
@@ -1702,7 +1948,8 @@
             "pattern": "\\(cantiere\\?\\.difetti \\|\\| \\[\\]\\)",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "L'archivio delle lezioni ha superato il tetto di lettura: online la scheda Apprendimento resta vuota per sempre",
@@ -1717,7 +1964,8 @@
             "pattern": "MAX = 1_000_000",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Lo storico della salute è letto in due modi diversi: il grafico dell'andamento può restare vuoto mentre i dati ci sono",
@@ -1732,7 +1980,8 @@
             "pattern": "Array\\.isArray\\(storico",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Se il cantiere arriva malformato, dalla home spariscono in silenzio i tre collegamenti alla salute",
@@ -1747,7 +1996,8 @@
             "pattern": "Array\\.isArray\\(rad\\?\\.cantiere\\?\\.difetti\\)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "La scheda dell'auto-analisi si riporta sotto gli occhi da sola ogni trenta secondi",
@@ -1762,7 +2012,8 @@
             "pattern": "\\}, \\[d\\]\\);",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -1785,7 +2036,11 @@
             "pattern": "messaggioLavoroInCorso",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-258"
         },
         {
           "titolo": "Un solo invio può far partire due volte lo stesso lavoro quando il database è lento",
@@ -1800,7 +2055,11 @@
             "pattern": "for (let tentativo = 0; tentativo < LAVORO_TENTATIVI; tentativo++)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-259"
         },
         {
           "titolo": "Due messaggi ravvicinati in chat diventano due lavori invece di sostituirsi",
@@ -1815,7 +2074,11 @@
             "pattern": "aggiungiPendingChat({ id: d.lavoro.id, tipo: prep.tipo, targetConvId })",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-260"
         },
         {
           "titolo": "Dalla finestra video e da quella dello schermo condiviso si può inviare due volte di fila",
@@ -1830,7 +2093,11 @@
             "pattern": "if (!t || !chatOnInvia) return;",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-261"
         },
         {
           "titolo": "L'interruttore delle Stelle Polari torna indietro da solo senza dire perché",
@@ -1845,7 +2112,11 @@
             "pattern": "body: JSON.stringify({ id: s.id, attiva: !s.attiva })",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-262"
         },
         {
           "titolo": "Aprendo il quaderno di un senior con la rete che salta si vede un riquadro vuoto",
@@ -1860,7 +2131,11 @@
             "pattern": "const r = await fetch(`/api/memoria/quaderni?senior=",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-263"
         },
         {
           "titolo": "Uscendo dalla modalità demo la pagina si ricarica anche se il cambio non è riuscito",
@@ -1875,7 +2150,11 @@
             "pattern": "window.location.reload();",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-264"
         }
       ]
     },
@@ -1898,7 +2177,11 @@
             "pattern": "const savedConv = await persistConversazione(idPersist, msgsOptimistic);",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-265"
         },
         {
           "titolo": "Aprire il riquadro «Parla con questa casella» ti cancella da sotto la chat che avevi aperto",
@@ -1913,7 +2196,11 @@
             "pattern": "ascoltaChatUnificata(\"assistente\", (det) => {\n      setConvId(det.convId);",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-25 12:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-123"
         },
         {
           "titolo": "Mentre l'AD scrive, la risposta che sta comparendo si cancella da sola ogni otto secondi",
@@ -1928,7 +2215,11 @@
             "pattern": "return list.filter((m) => !m.pending && !m.prompt);",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-267"
         },
         {
           "titolo": "La chat di un riquadro risalva una versione vecchia e cancella i messaggi arrivati nel frattempo",
@@ -1943,7 +2234,11 @@
             "pattern": "const completa: ParlaMsg[] = [...conMio, { role: \"assistant\", content: esito.testo, created_at: new Date().toISOString() }];\n        setMsgs(completa);",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-268"
         },
         {
           "titolo": "La chat dentro l'Archivio resta ferma alla foto di quando l'hai aperta",
@@ -1958,7 +2253,11 @@
             "pattern": "useState<MsgChat[]>(() => messaggiDaGruppo(lavori).filter((m) => !m.pending));",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-269"
         }
       ]
     },
@@ -1983,7 +2282,11 @@
             "pattern": "RESEND_API_KEY: \"«chiave finta di test» (valore redatto)\"",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-16 17:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-118"
         },
         {
           "titolo": "La firma di un'azione può finire agganciata a un'azione diversa, perché il codice la cerca per un numero che combacia anche con l'orario nel titolo",
@@ -2000,7 +2303,11 @@
             "pattern": "tok\\.test\\(b\\.heading\\)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-271"
         },
         {
           "titolo": "Portare codice in produzione con un merge non passa dal cancello di consenso e ha un'opzione che salta il freno",
@@ -2017,7 +2324,11 @@
             "pattern": "const canMerge = \\(LIVE \\|\\| force\\) && !dryRun",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-272"
         },
         {
           "titolo": "Il guardiano dei permessi non guarda gli strumenti collegati, e fra quelli concessi senza chiedere c'è l'esecuzione di comandi liberi sul database",
@@ -2034,7 +2345,11 @@
             "pattern": "mcp__Supabase__execute_sql",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-273"
         },
         {
           "titolo": "All'avvio di ogni sessione la macchina si rilegge come regole obbligatorie un testo che ha scritto lei stessa, senza dire che è materiale da valutare",
@@ -2051,7 +2366,11 @@
             "pattern": "contesto-lezioni\\.mjs --hook",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-274"
         },
         {
           "titolo": "Lo scanner dei segreti non riconosce proprio le chiavi che fanno funzionare il cervello",
@@ -2068,7 +2387,11 @@
             "pattern": "sk-ant",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-275"
         },
         {
           "titolo": "Se il push protetto viene rifiutato, lo strumento delle richieste di modifica riprova con un push forzato senza protezione",
@@ -2085,7 +2408,11 @@
             "pattern": "\\[\"push\", \"--force\", url, ref\\]",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-276"
         },
         {
           "titolo": "Lo strumento che apre le richieste di modifica lavora nella stessa cartella di giro e worker senza prendere il lucchetto che prendono tutti gli altri",
@@ -2102,7 +2429,11 @@
             "pattern": "mycity-sync\\.lock",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-277"
         },
         {
           "titolo": "Il token di GitHub viaggia dentro la riga di comando, dove qualsiasi processo della macchina può leggerlo",
@@ -2119,7 +2450,11 @@
             "pattern": "url=\"https://x-access-token:\\$\\{GIT_PUSH_TOKEN\\}@github\\.com",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-278"
         }
       ]
     },
@@ -2144,7 +2479,11 @@
             "pattern": "MARKETPLACE_SUPABASE_URL|rest/v1",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-279"
         },
         {
           "titolo": "Un mese senza un solo ordine e gli occhi che guardano il database ogni cinque minuti non fiatano",
@@ -2161,7 +2500,11 @@
             "pattern": "giorni_senza_ordini|ordine_fermo_da",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-280"
         },
         {
           "titolo": "La protezione contro la falsa cecità è stata montata su un guardiano solo: i tre fratelli scrivono ancora alla cieca",
@@ -2178,7 +2521,11 @@
             "pattern": "scriviStato|ambienteConfigurato|non_verificabile",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-281"
         },
         {
           "titolo": "Il sensore della cassa chiama cassa solo i soldi fermi su Stripe: il giorno che Nicola darà il numero delle spese, griderà al rosso",
@@ -2195,7 +2542,11 @@
             "pattern": "CASSA_BANCA_EUR|cassa_banca|liquidita_banca|payout_dovuti",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-282"
         },
         {
           "titolo": "Quattro fonti su diciotto le diamo per vive senza controllarle mai, e una è quella dei bandi",
@@ -2212,7 +2563,11 @@
             "pattern": "if \\(skipCheck\\) return \\{ viva: true",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-283"
         },
         {
           "titolo": "Il sensore degli ordini dice «leggo» anche quando legge zero righe",
@@ -2229,7 +2584,11 @@
             "pattern": "orders leggibili via REST",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-284"
         },
         {
           "titolo": "La sentinella della cassa suona da duecentocinquantasei giri e nessuno la può spegnere",
@@ -2246,7 +2605,11 @@
             "pattern": "\"giri_sconosciuto\": *[1-9][0-9]{2,}",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-285"
         },
         {
           "titolo": "Nessuna misura dei sensori dice da quale computer è stata scritta",
@@ -2263,7 +2626,11 @@
             "pattern": "\"ambiente\"|\"scritto_da\"",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-286"
         }
       ]
     },
@@ -2294,7 +2661,11 @@
             "pattern": "if \\(!existsSync\\(quaderno\\)\\) difetti\\.push\\(\"quaderno_assente\"\\)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-287"
         },
         {
           "titolo": "La scorecard che tutti e centoventi i prompt promettono non usa mai i sei assi della rubrica",
@@ -2317,7 +2688,11 @@
             "pattern": "const scoreTxt = scorecard \\?",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-02 23:20",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-009"
         },
         {
           "titolo": "Nove kit del cluster banche e legale hanno la stessa identica galleria copiata, e il guardiano li promuove lo stesso",
@@ -2340,7 +2715,11 @@
             "pattern": "Ho applicato il kit su un caso reale MyCity",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-289"
         },
         {
           "titolo": "Il gusto di Nicola è agganciato da cinque senior su centoventi e contiene un solo verdetto, di un mese fa",
@@ -2363,7 +2742,11 @@
             "pattern": "TASTE-FILE",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-290"
         },
         {
           "titolo": "Il giro butta via il verdetto del guardiano dello stampo mentre trasforma in vincolo quello del guardiano accanto",
@@ -2386,7 +2769,11 @@
             "pattern": "stampo-check\\.mjs\" 2>&1 \\| tail -6 \\|\\| true",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-291"
         }
       ]
     },
@@ -2411,7 +2798,8 @@
             "pattern": "MAX_RIACCODI_ORFANO",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Niente impedisce a due giri o a due cadenze di girare insieme: il lucchetto protegge solo il pezzo che parla con GitHub",
@@ -2428,7 +2816,8 @@
             "pattern": "MYCITY_RUN_LOCK",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Una relazione che parla di «quota di mercato» convince la macchina di aver sbattuto contro il limite del motore AI",
@@ -2445,7 +2834,8 @@
             "pattern": "\\|quota\\|",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il freno che distanzia i ritentativi si spegne da solo se una singola domanda al database va storta",
@@ -2462,7 +2852,8 @@
             "pattern": "_rtry=\"\"",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Due processi che aggiornano lo stesso registro di memoria: l'ultimo che salva cancella il lavoro dell'altro",
@@ -2479,7 +2870,8 @@
             "pattern": "renameSync",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il giro e le cadenze pubblicano su main senza guardare su che ramo si trovano",
@@ -2496,7 +2888,8 @@
             "pattern": "HEAD è su",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Chi apre le richieste di modifica lavora sulla stessa cartella degli altri senza mai prendere il lucchetto",
@@ -2513,7 +2906,11 @@
             "pattern": "mycity-sync\\.lock",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-277"
         },
         {
           "titolo": "Il lucchetto può restare in mano a una connessione appesa, e tutti gli altri aspettano dieci minuti per niente",
@@ -2530,7 +2927,8 @@
             "pattern": "GIT_NET_TIMEOUT",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -2555,7 +2953,11 @@
             "pattern": "exit 3|GUARDIANI_ROSSI|GATE_FALLITI",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-300"
         },
         {
           "titolo": "Un giro fallito viene registrato come se fosse riuscito, e spegne i giri successivi",
@@ -2572,7 +2974,11 @@
             "pattern": "delta-gate\\.mjs\" --segna-pieno",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-301"
         },
         {
           "titolo": "Quando il giro decide di risparmiare, i quindici allarmi appena raccolti non li legge nessuno",
@@ -2589,7 +2995,11 @@
             "pattern": "Parte AI SALTATA dal delta-gate",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-302"
         },
         {
           "titolo": "Il freno sui costi si spegne da solo, in silenzio, se manca un programma o se il contatore va in errore",
@@ -2606,7 +3016,11 @@
             "pattern": "command -v jq >/dev/null 2>&1 && \\[ -n \"\\$_budget_json\" \\]",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-303"
         },
         {
           "titolo": "Il giro ragiona o non ragiona a seconda di che lavoro c'era prima in coda",
@@ -2623,7 +3037,11 @@
             "pattern": "AI_THINKING",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-304"
         },
         {
           "titolo": "Il monitoraggio del mondo esterno non ha né un timeout né un esito",
@@ -2640,7 +3058,11 @@
             "pattern": "TimeoutStartSec",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-305"
         },
         {
           "titolo": "Il worker per Windows è rimasto indietro di tutta la sicurezza costruita dopo",
@@ -2657,7 +3079,11 @@
             "pattern": "id=eq\\.\\$\\(\\$lav\\.id\\)&stato=eq\\.in_attesa",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-306"
         },
         {
           "titolo": "Quasi tutti i guardiani parlano solo alla coda del log, e la riga d'errore vera resta fuori",
@@ -2674,7 +3100,11 @@
             "pattern": "2>&1 \\| tail -",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-307"
         },
         {
           "titolo": "Il secondo allarme della calibrazione cancella il primo",
@@ -2691,7 +3121,11 @@
             "pattern": "CAL_VINCOLO=\"⛔ CALIBRAZIONE NON CONFORME",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-308"
         },
         {
           "titolo": "Il verificatore avversariale è l'unico guardiano che non lascia una riga nel log",
@@ -2708,7 +3142,11 @@
             "pattern": "printf '%s\\\\n' \"\\$_verif_out\"",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:15",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-309"
         }
       ]
     },
@@ -2733,7 +3171,8 @@
             "pattern": "MEM_DIRS",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Se il push fallisce, l'aggiornamento del server cancella il lavoro invece di fermarsi",
@@ -2750,7 +3189,8 @@
             "pattern": "commit pendenti non pubblicati",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il server dice «allineato» anche quando non ha scaricato niente, e non ci riprova più",
@@ -2767,7 +3207,8 @@
             "pattern": "exit 4",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il monitoraggio si dichiara riuscito anche quando la memoria non è arrivata su GitHub",
@@ -2784,7 +3225,8 @@
             "pattern": "MONITORA_PUSH_OK",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il cancello che ferma la memoria bugiarda protegge solo il giro: la porta più usata resta aperta",
@@ -2801,7 +3243,8 @@
             "pattern": "gate-pubblicazione",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Un ramo di lavoro abbandonato può prendere il posto di main e finire pubblicato",
@@ -2818,7 +3261,8 @@
             "pattern": "GUARDIA RAMO",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Se resta una modifica al codice non finita, il server smette di aggiornarsi e continua a dire che va tutto bene",
@@ -2835,7 +3279,8 @@
             "pattern": "rimandi_consecutivi",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il lucchetto si prende solo alla fine: mentre l'AD scrive, un altro processo committa e resetta sotto",
@@ -2852,7 +3297,8 @@
             "pattern": "mycity-scrittura-in-corso",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Quando il push prudente viene rifiutato, si riprova a forza bruta e si cancella il lavoro dell'altra sessione",
@@ -2869,7 +3315,8 @@
             "pattern": "\"--force\"",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -2894,7 +3341,8 @@
             "pattern": "stallo[^~]",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Quando il giro decide di saltare il motore, tutti i cancelli si sciolgono e la memoria viene pubblicata lo stesso",
@@ -2911,7 +3359,8 @@
             "pattern": "VINCOLI_ATTIVI",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Quattordici cancelli su quindici sono cartelli: parlano al motore e nessuno controlla se ha obbedito",
@@ -2928,7 +3377,8 @@
             "pattern": "RIVERIFICA VINCOLI",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Un guardiano che si rompe consegna la propria traccia d'errore come se fosse la regola da rispettare",
@@ -2945,7 +3395,8 @@
             "pattern": "GUARDIANO CIECO",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il vincolo sugli esperimenti ordina di aprirne uno nuovo anche quando il problema è che nessuno ha misurato quelli scaduti",
@@ -2962,7 +3413,8 @@
             "pattern": "ESP_VINCOLO=\"⛔ NESSUN ESPERIMENTO APERTO",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Le soglie dei cancelli si spengono da un file di ambiente e il registro del giro non lo scrive da nessuna parte",
@@ -2979,7 +3431,8 @@
             "pattern": "SOGLIE IN VIGORE",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Il cancello che pretende gli esiti guarda solo chi si è firmato in Sala oggi",
@@ -2994,7 +3447,8 @@
           "verifica": {
             "tipo": "umano"
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Metà del guardiano dell'allocazione è spenta per scelta e nessuno ha una sveglia per riaccenderla",
@@ -3009,7 +3463,8 @@
           "verifica": {
             "tipo": "umano"
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     }
@@ -3465,13 +3920,13 @@
     "bloccanti": 33
   },
   "sonda": {
-    "data": "2026-07-27 11:00",
+    "data": "2026-07-27 12:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.18,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
-    "difetti_chiusi": 72,
-    "difetti_chiusi_recenti": 30,
+    "difetti_chiusi": 163,
+    "difetti_chiusi_recenti": 121,
     "calibrazione_piena": true,
     "previsioni_aperte_recenti": 0,
     "esperimenti_aperti": 3,
@@ -3480,19 +3935,36 @@
     "esperimenti_misurati": true,
     "giro_a_cadenza": true,
     "sentinelle_scattano": false,
-    "ore_da_ultima_completa": 85,
-    "ore_da_ultimo_briefing": 5,
+    "ore_da_ultima_completa": 3,
+    "ore_da_ultimo_briefing": 1,
     "max_giri_ciechi_sensori": 0,
-    "giri_tasso_basso": 74,
-    "serve_radiografia_completa": true,
+    "giri_tasso_basso": 1,
+    "serve_radiografia_completa": false,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
     "voto_pieno": 0,
-    "pending_merge": 10,
-    "aperti_davvero": 3,
-    "bloccanti_umani": 10,
-    "salute_firma": "AR-126,AR-129,AR-154",
-    "verdetto": "serve-completa",
-    "nota": "loop chiude (con prova) · briefing 5h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 10 in attesa merge · 10 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    "pending_merge": 72,
+    "aperti_davvero": 19,
+    "bloccanti_umani": 14,
+    "salute_firma": "AR-126,AR-129,AR-154,AR-176,AR-177,AR-184,AR-195,AR-212,AR-216,AR-217,AR-252,AR-253,AR-254,AR-257,AR-294,AR-295,AR-318,AR-319,AR-323",
+    "verdetto": "attenzione",
+    "nota": "loop chiude (con prova) · briefing 1h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 19 aperti-davvero · 72 in attesa merge · 14 bloccanti umani"
+  },
+  "sonda_meta": {
+    "giri_tasso_basso": 1,
+    "aggiornato": "2026-07-27 12:20"
+  },
+  "sync_scan": {
+    "aggiornato": "2026-07-27 12:20",
+    "findings_aperti": 75,
+    "findings_in_corso": 0,
+    "findings_chiusi": 95,
+    "findings_tot": 170,
+    "cantiere_aperti": 105,
+    "cantiere_in_corso": 0,
+    "cantiere_chiusi": 163,
+    "match_aggiornati": 170,
+    "chiusi_verifica": 0,
+    "data_scan": "2026-07-27 09:40"
   }
 }
