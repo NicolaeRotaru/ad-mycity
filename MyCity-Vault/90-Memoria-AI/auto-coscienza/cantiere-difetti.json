@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 20:30",
+  "aggiornato": "2026-07-27 21:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -4593,15 +4593,15 @@
       "causa_radice": "① Perché si rilancia? Perché la sentinella lo rimette in attesa. ② Perché lo rimette in attesa? Perché lo vede «in lavorazione da troppo» e crede che il worker sia morto. ③ Perché non si ferma dopo il primo recupero? Perché la scrittura non porta con sé nessun contatore né marcatore. ④ Perché non ce l'ha? Perché quando il problema si era già presentato (commento alle righe 35-38: «con 10 min la sentinella agguantava job ANCORA in esecuzione, uccidendoli e ri-eseguendoli in loop») è stata alzata la SOGLIA da 10 a 60 minuti invece di mettere un TETTO. ⑤ Causa di sistema: si è curato il sintomo con una soglia temporale — che rende il loop più raro ma non impossibile — invece di rendere il recupero idempotente. Una soglia non è un limite: rallenta la ripetizione, non la conta.",
       "fix_proposto": "🟡 Rendere il recupero contato e limitato, in un solo punto di verità. Nella sentinella: leggere il campo `tentativi` del lavoro, rimetterlo in attesa solo se è sotto un tetto esplicito (costante `MAX_RIACCODI_ORFANO`, 2 è sufficiente) e scrivere `tentativi: tentativi + 1` nella stessa PATCH; oltre il tetto chiudere in errore con la nota «recuperato troppe volte, guardalo tu». Stessa costante usata dal worker in recupera_lavori_orfani, così il conteggio non si sdoppia fra i due componenti. Il contatore vive nel database (sopravvive ai riavvii), il marcatore nel testo del risultato no: è quello l'errore da non ripetere. Consegna a @devops-sre + @backend-dev con test in cervello/test/.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/scritture-e-riaccodi.test.mjs"
       },
       "nota": "Dove: cervello/sentinella-lavori.mjs:214-216 · Impatto: Ogni rilancio accende il motore AI premium per 45 minuti e appende un nuovo blocco «Piano del mattino» in fondo a RITMO.md (ritmo.sh:151-155 chiede esplicitamente di appendere): 7 blocchi identici lo stesso giorno, memoria gonfia, e soprattutto quota del motore bruciata a vuoto. Quando la quota finisce, si ferma tutto: chat, giro, cadenze. Un difetto di concorrenza che spegne il cervello dell'azienda.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 21:05",
+      "chiuso_come": "node cervello/test/scritture-e-riaccodi.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-293",
@@ -4675,15 +4675,15 @@
       "causa_radice": "① Perché si perdono dei run? Perché due processi riscrivono lo stesso file. ② Perché si sovrascrivono? Perché ognuno riscrive TUTTO il file partendo da una copia letta prima. ③ Perché rileggono e riscrivono tutto? Perché il registro è un unico oggetto JSON, comodo da leggere ma indivisibile da scrivere. ④ Perché nessuno protegge la scrittura? Perché ogni script è stato pensato come se fosse solo al mondo — è l'assunto implicito di tutti e 105 i punti di scrittura. ⑤ Causa di sistema: la memoria della macchina è un insieme di file riscritti per intero da processi paralleli, senza né lucchetto né scrittura atomica. Finché resta così, ogni nuovo guardiano che scrive aumenta la probabilità di perdere un aggiornamento o di rompere un file.",
       "fix_proposto": "🟡 Due mosse, in ordine di ritorno. (a) Subito e ovunque: una funzione condivisa `scriviJsonAtomico(path, dati)` che scrive su un file temporaneo nella stessa cartella e poi fa `renameSync` sopra l'originale — il rename è atomico, quindi un kill a metà lascia il file vecchio intatto invece di uno troncato. Sostituirla ai punti di scrittura dei JSON del vault (partendo da costo-ai.mjs, tick-auto-coscienza-leggero.mjs, sentinella-dati.mjs). Costo: mezza giornata, rischio quasi nullo, e chiude il caso «memoria bloccata da un file rotto». (b) Per i registri che si accumulano (consumi, chiusure): passare da «riscrivo tutto» ad «aggiungo una riga» su file in append, dove due processi non si pestano per costruzione. Consegna a @backend-dev + @devops-sre.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/scritture-e-riaccodi.test.mjs"
       },
       "nota": "Dove: cervello/costo-ai.mjs:80,132 · cervello/tick-auto-coscienza-leggero.mjs:79-82 · Impatto: Doppio danno. Il primo è silenzioso: il conteggio dei consumi perde dei run, quindi il freno di spesa giornaliero frena in ritardo o non frena — proprio mentre i rilanci a raffica stanno bruciando quota. Il secondo è rumoroso: una scrittura non atomica interrotta a metà (e su questo server i processi VENGONO uccisi per memoria esaurita — è documentato nei servizi systemd, OOMPolicy=kill) lascia un JSON troncato, e il cancello di sanità del vault blocca allora la pubblicazione dell'INTERA memoria (giro.sh esce con codice 2). Un file rotto da mezzo secondo di sfortuna ferma la memoria dell'azienda finché non interviene una persona.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 21:05",
+      "chiuso_come": "node cervello/test/scritture-e-riaccodi.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-297",
@@ -4921,15 +4921,15 @@
       "causa_radice": "① Perché il primo messaggio sparisce? Perché la seconda assegnazione sovrascrive. ② Perché sovrascrive? Perché due gate diversi (AR-042 e AR-061) sono stati fatti condividere la stessa variabile. ③ Perché la condividono? Perché appartengono allo stesso «argomento» (calibrazione) e sembrava naturale un solo blocco nel prompt. ④ Perché nessuno se n'è accorto? Perché non c'è mai stata una verifica che il prompt finale contenga tutti i vincoli attivi. ⑤ Causa di SISTEMA: i vincoli sono stringhe libere accumulate a mano, quindicivariabili separate senza un registro comune; il pattern corretto (concatenazione, come fa VERIFICA_VINCOLO alle righe 423-424) esiste già nel file ma non è la regola.",
       "fix_proposto": "🟡 Sostituire l'assegnazione della riga 315 con una concatenazione (`CAL_VINCOLO=\"$CAL_VINCOLO\\n⛔ CALIBRAZIONE NON CONFORME…\"`), come già fa VERIFICA_VINCOLO. Meglio ancora, nel fix del difetto n.1: sostituire le quindici variabili con un array unico `VINCOLI+=(\"…\")` che si stampa tutto e si conta da solo — così un vincolo non può più essere cancellato da un altro e il contatore dei gate rossi viene gratis. Branch ops/, PR firmata.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/giro-esito.test.mjs"
       },
       "nota": "Dove: cervello/giro.sh:301 e cervello/giro.sh:315 · Impatto: Il motore prova a riparare il sintomo sbagliato: gli si dice «la calibrazione non è conforme» quando il problema a monte è che il registro è vuoto. Costa un giro di lavoro inutile e la diagnosi torna identica al giro dopo. Danno limitato a un solo sotto-sistema, ma è la firma di un difetto di forma che può ripetersi altrove. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 21:05",
+      "chiuso_come": "node cervello/test/giro-esito.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-309",
@@ -4940,15 +4940,15 @@
       "causa_radice": "① Perché non c'è la stampa? Perché il printf è stato dimenticato copiando lo schema dagli altri gate. ② Perché la dimenticanza non è emersa? Perché il giro esce 0 comunque e nessuno confronta «guardiani lanciati» con «guardiani che hanno lasciato una riga». ③ Perché nessuno confronta? Perché il meta-guardiano che dovrebbe farlo (freschezza-segnali.mjs, riga 380-381) gira anche lui con `|| true` e informativo. ④ Perché anche lui informativo? Stessa logica del difetto n.1: promuovere un gate a cancello sembra rischioso e si rimanda. ⑤ Causa di SISTEMA: la stessa del n.1 e del n.8 — l'orchestrazione non ha un modo per accorgersi di un passo che non ha prodotto nulla, quindi ogni omissione è indistinguibile da un successo silenzioso.",
       "fix_proposto": "🟡 (1) Aggiungere la riga mancante `printf '%s\\n' \"$_verif_out\" | tail -4` subito dopo la cattura, come tutti gli altri. (2) Separare stderr da stdout (`2>/dev/null` sulla cattura del vincolo, stderr a log) così un crash non può travestirsi da istruzione nel prompt. (3) Nel fix del difetto n.1, contare anche i guardiani che non hanno prodotto output come «esito ignoto», non come verdi. Branch ops/, PR firmata.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/giro-esito.test.mjs"
       },
       "nota": "Dove: cervello/giro.sh:412-417 · Impatto: Il guardiano che deve controllare se l'auto-analisi è una verifica vera o un timbro è, lui stesso, l'unico non osservabile del giro: se muore, muore in silenzio e nessuno se ne accorge. Nel caso di crash il motore riceve nel prompt un blocco «Vincolo auto-verifica (HARD)» che contiene un errore JavaScript — rumore presentato come regola. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 21:05",
+      "chiuso_come": "node cervello/test/giro-esito.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-310",
@@ -5205,15 +5205,15 @@
       "causa_radice": "① Perché la diagnosi è sbagliata? Perché rc≠0 significa due cose diverse. ② Perché significa due cose? Perché nessuno ha riservato un codice di uscita al «non ho potuto misurare». ③ Perché non l'ha riservato? Perché ogni guardiano è stato scritto separatamente, con la sua convenzione (c'è già chi usa 2 e chi 3, senza che sia una regola). ④ Perché nessuna regola? Perché manca un contratto scritto per i guardiani del giro: cosa deve valere 0, cosa 1, cosa vuol dire cieco. ⑤ Perché manca il contratto? Perché i guardiani sono nati come risposte a singoli incidenti, mai come una famiglia con uno standard comune.",
       "fix_proposto": "🟡 Scrivere il contratto dei guardiani e applicarlo: 0 = passato, 1 = bocciato (violazione di dominio), 2 = cieco/impossibile misurare. In giro.sh, rc=2 genera un vincolo diverso e onesto («guardiano cieco: ripara lo strumento, non fidarti del verde») e non viene mai raccontato con il testo di dominio. I quattro guardiani che escono 0 su input mancante passano a 2. Nessun vincolo deve più essere costruito incollando l'output grezzo del processo.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/giro-esito.test.mjs"
       },
       "nota": "Dove: cervello/giro.sh:327, :335, :415 (testo grezzo) e :192, :241, :248, :267, :352, :363, :387, :394 (rc≠0 indistinto); cervello/coerenza-fatti.mjs:172 contro :263; cervello/allocazione-check.mjs:284-288 · Impatto: Il motore riceve ordini basati su una diagnosi sbagliata e va a cercare un problema che non esiste, mentre quello vero (uno strumento rotto o un file sparito) resta invisibile perché è stato travestito da violazione di dominio. E nei quattro guardiani fail-open un input mancante si legge come «tutto a posto»: il caso peggiore, perché è indistinguibile dal successo.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 21:05",
+      "chiuso_come": "node cervello/test/giro-esito.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-323",
@@ -5398,8 +5398,8 @@
     }
   ],
   "meta": {
-    "aperti": 172,
+    "aperti": 167,
     "in_corso": 0,
-    "chiusi": 98
+    "chiusi": 103
   }
 }
