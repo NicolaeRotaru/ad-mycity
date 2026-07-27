@@ -1202,6 +1202,20 @@
       "bloccanti_umani": 10,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (11h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 10 in attesa merge · 10 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-27",
+      "voto_salute": 0,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-157,AR-168,AR-177",
+      "difetti_aperti": 193,
+      "difetti_chiusi": 72,
+      "pending_merge": 0,
+      "aperti_davvero": 193,
+      "bloccanti_umani": 3,
+      "tipo": "completa",
+      "nota": "Radiografia completa a 24 dimensioni (+4 worker, +8 Pannello mai coperte prima): 170 difetti verificati, 33 bloccanti. Il voto tocca il fondo scala (0) come il 23/7: con 170 difetti la penalità è 1976, quindi il numero NON distingue più «grave» da «catastrofico» né mostra i miglioramenti — va normalizzato."
     }
   ]
 }

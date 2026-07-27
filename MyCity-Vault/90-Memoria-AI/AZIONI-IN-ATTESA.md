@@ -14,6 +14,67 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+<!-- radiografia-sblocca-pubblicazione -->
+
+### 🟡 #radiografia-sblocca-pubblicazione — Sblocca la memoria: da due giorni il giro non riesce più a pubblicare · ⏳ accodata 2026-07-27 09:40
+**Cosa cambia:** dal 25/7 alle 20:15 il giro si ferma prima di pubblicare, perché il controllo sui segreti trova una chiave dentro un file di test — ma è una chiave finta, scritta apposta per verificare che l'invio email non parta senza firma. Il controllo riconosce il prefisso e blocca tutto. Da allora quello che arriva nel Pannello passa solo dalle scorciatoie che quel controllo lo saltano: i commit «recupero: scritture pendenti da un giro interrotto» ogni due ore sono la traccia. Finché resta così, ogni giro lavora e non pubblica.
+**Se va bene:** l'AD esclude la cartella dei test dal controllo (una riga), rilancia il controllo per vedere che passa, e da lì il giro torna a pubblicare da solo.
+**Nota tecnica:** difetto AR-270. Il controllo è `cervello/scan-segreti.mjs`, la catena che blocca è `cervello/giro.sh:713` → `:785`. L'alternativa è cambiare la stringa dentro `cervello/test/autopilot-colore.test.mjs`, ma escludere i test è più robusto: il prossimo test con una chiave finta rifarebbe lo stesso danno.
+- **Colore:** 🟡 (tocca il codice del cervello, in branch, reversibile)
+- **Reparto:** devops-sre
+- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-270}`
+
+---
+
+<!-- radiografia-serratura-pannello -->
+
+### 🟡 #radiografia-serratura-pannello — Metti la serratura al Pannello: oggi chi ha l'indirizzo può darmi ordini · ⏳ accodata 2026-07-27 09:40
+**Cosa cambia:** il Pannello ha 33 punti che modificano lo stato, in 30 file diversi, e uno solo controlla chi sta chiamando. Non esiste un filtro d'ingresso. Chi conosce l'indirizzo può spegnere la PAUSA, accendere l'autopilota e infilare istruzioni nel prompt dell'agente che gira sul server. C'è anche una porta che scrive la tua firma su un'azione senza che tu tocchi niente: il valore che scrive è esattamente quello che il consenso accetta come «firmato da Nicola» per l'invio reale. Oggi il danno possibile è limitato perché le mani verso il mondo sono scollegate — ma il piano è collegarle, e allora questa diventa la falla numero uno.
+**Se va bene:** l'AD prepara un unico filtro d'ingresso che copre tutti e 33 i punti in un colpo solo, più la rimozione della porta orfana che firma. Anteprima prima del merge, nessun deploy senza il tuo ok.
+**Serve da te (30 secondi):** apri l'indirizzo del Pannello in una finestra in incognito, senza login. Se si apre, questa è urgente davvero. Se ti chiede di accedere, Vercel ti sta già proteggendo e la declasso. Non sono riuscito a verificarlo da solo: il proxy mi blocca la chiamata diretta e lo strumento Vercel si autentica per conto tuo, quindi la sua risposta non prova niente.
+**Nota tecnica:** difetti AR-226, AR-227, AR-205, AR-271. Un solo `middleware.ts` chiude i 33 handler; la porta orfana è `POST /api/approva`, zero chiamanti nel Pannello.
+- **Colore:** 🟡 (codice del Pannello, in branch, con anteprima)
+- **Reparto:** security + backend-dev
+- **Origine:** `{origine:auto-radiografia-2026-07-27, difetti:AR-226+AR-227+AR-205+AR-271}`
+
+---
+
+<!-- radiografia-congela-memoria -->
+
+### 🟡 #radiografia-congela-memoria — Salva la memoria prima di domani: da domani le lezioni di giugno iniziano a cancellarsi · ⏳ accodata 2026-07-27 09:40
+**Cosa cambia:** il decadimento della memoria conta le esecuzioni, non i giorni. Dal 28/7 le lezioni più vecchie di 28 giorni muoiono in circa quattro giri — cioè poche ore, non settimane. Tutto quello che l'azienda ha imparato a giugno può sparire in una mattinata senza che nessuno lo decida. Non è un rischio teorico: è una data, ed è domani.
+**Se va bene:** l'AD fa due cose nello stesso lavoro — congela subito una copia della memoria di oggi (così qualunque cosa succeda niente è perso) e cambia il decadimento perché conti i giorni veri invece delle esecuzioni.
+**Nota tecnica:** `cervello/cristallizza-apprendimento.mjs:45`, `DECAY_DAYS=28` applicato per esecuzione. Collegato: `apprendimento.json` ha superato 1 MB e il Pannello in produzione mostra già 0 lezioni su 476 in silenzio — quando il decadimento sgonfierà il file la scheda tornerà a funzionare da sola, facendo sembrare risolto un problema risolto buttando via la memoria.
+- **Colore:** 🟡 (tocca il cervello e la memoria, reversibile con la copia congelata)
+- **Reparto:** bi-lead + data-engineer
+- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:decadimento-per-esecuzione}`
+
+---
+
+<!-- radiografia-giro-legge-i-suoi-controlli -->
+
+### 🟡 #radiografia-giro-legge-i-suoi-controlli — Fai in modo che il giro legga i propri controlli invece di ignorarli · ⏳ accodata 2026-07-27 09:40
+**Cosa cambia:** oggi il giro si dichiara «completato» anche quando i controlli sono tutti rossi. I quindici vincoli che dovrebbero fermarlo finiscono soltanto dentro il testo del prompt — cioè sono consigli che dà a sé stesso, non cancelli. Su venti vincoli, quindici sono decorativi. Conseguenza pratica: il Pannello ti mostra verde e il worker segna «fatto» anche quando qualcosa è andato storto, e nessun numero di salute della macchina è affidabile finché resta così. È il difetto che viene prima di tutti gli altri.
+**Se va bene:** l'AD promuove a esito reale i tre o quattro controlli che contano davvero (quelli su cui decidi tu), copiando lo schema del controllo sulla coerenza della memoria, che già funziona ed è l'unico coi denti. Gli altri restano avvisi, ma dichiarati come tali invece di sembrare cancelli.
+**Nota tecnica:** difetti AR-300, AR-301, AR-320. L'esito è calcolato in `cervello/giro.sh:894-914`; il modello da copiare è `MEMORIA_INCOERENTE`. Da decidere insieme quali vincoli promuovere: promuoverli tutti bloccherebbe quasi ogni giro.
+- **Colore:** 🟡 (cambia quando un giro si considera riuscito — impatto su tutto il resto)
+- **Reparto:** devops-sre + internal-audit
+- **Origine:** `{origine:auto-radiografia-2026-07-27, difetti:AR-300+AR-301+AR-320}`
+
+---
+
+<!-- radiografia-triage-cantiere -->
+
+### 🟡 #radiografia-triage-cantiere — Decidi cosa fare dei 193 difetti aperti: così com'è non è una lista di lavoro · ⏳ accodata 2026-07-27 09:40
+**Cosa cambia:** la radiografia ha trovato 170 difetti veri, tutti verificati e tutti con la prova per chiudersi da soli quando il fix entra. Sommati ai 23 già aperti fanno 193. Sono onesti, ma 193 voci non sono una coda di lavoro: sono un magazzino, e sul telefono diventano illeggibili. Il report mette in cima i più gravi per impatto sulla crescita — quella è la coda vera. Serve decidere cosa fare del resto.
+**Se va bene:** scegli tu fra tre strade — (a) tenerli tutti aperti e lavorare solo dalla cima; (b) marcare come «accettati» quelli minori, così spariscono dalla vista ma restano tracciati; (c) tenerne aperti solo un numero fisso alla volta e pescare dal magazzino quando se ne chiude uno. La mia raccomandazione è la (c): tiene la coda leggibile senza buttare niente.
+**Nota tecnica:** il cantiere passa da 147 KB a ~400 KB. È sotto il limite di 1 MB, ma è la stessa strada su cui `apprendimento.json` è già caduto — e quando cade, il Pannello non lo dice: mostra zero e sembra a posto.
+- **Colore:** 🟡 (cambia come si organizza il lavoro della macchina)
+- **Reparto:** AD
+- **Origine:** `{origine:auto-radiografia-2026-07-27, difetti:AR-157..AR-326}`
+
+---
+
 <!-- conferma-piano-squadra-ripresa-negozi -->
 
 ### 🟡 #conferma-piano-squadra-ripresa-negozi — Conferma se il piano squadra (fratello + 2 amici non pagati) e la nuova data di ripartenza (metà agosto) sostituiscono la pausa negozi decisa il 23/7 (24/8-1/9) · ⏳ accodata 2026-07-26 01:10
