@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-26 11:06
+aggiornato: 2026-07-27 06:20
 fonte: AD digitale (chat)
 ---
 
@@ -1162,6 +1162,7 @@ fonte: AD digitale (chat)
 | Loop business | 🔴 in corso | #16 **ANNULLATO** — il 1° ordine reale va creato ex-novo; parte operativa 13/7, aggancio VEN 17/7 |
 
 ## Ultime mosse dell'AD
+0. **☀️ 27/7 06:20 — Piano del mattino: business confermato invariato via query SQL diretta, nuova priorità esplicita — la coda di PR ferme (8, la più vecchia da 4 giorni).** Riquery diretta (`orders`/`products`/`profiles`/`reviews`/`abandoned_carts`): 1 ordine (CANCELED 24/6), 5 prodotti, 7 profili, 0 recensioni, 3 carrelli — identico ai giorni scorsi, 0 numeri inventati. Stallo North Star **33 giorni esatti**. Verificato su GitHub (`git log --merges`): `main` è fermo al merge #525 (24/7), le PR #527→#556 (8 in coda: cards #235/#237/#238/#243/#244/#245/#246 + #233) sono ancora aperte — la più vecchia (#520/card #233) da 4 giorni pieni, incluso il fix ai doppioni di chat segnalato 6 volte (#556). 3 priorità: PI26 (3gg residui, invariata), conferma piano squadra (invariata, chiesta 2 volte senza risposta), sbloccare la coda PR (nuova, prima volta segnalata come priorità propria invece di restare sommersa nella lista lunga). Piano scritto in SALA-OPERATIVA + RITMO.md.
 0. **🌙 26/7 18:00 — Report della sera: business riconfermato invariato via SQL diretta, giornata di manutenzione senza spinta commerciale (negozi in pausa).** Riquery diretta (`profiles`/`products`/`orders`): 1 negozio approvato (Pane Quotidiano), 0 payout attivi, 5 prodotti, 1 ordine (CANCELED, ultimo 24/6 08:28), 0 pagati/consegnati, 4 buyer — identico a ieri sera, 0 numeri inventati. Stallo North Star **32 giorni**. Fatto oggi: un valutatore indipendente ha bocciato la bozza PI26 come "non pronta" (mancano 3 risposte di Nicola su P.IVA/spese/firma digitale, scade 30/7 16:00); pulizia del contatore errori-ripetuti (tag-ombrello tolti, principio scritto sul cluster "mobile" reale); proiezione ricavi lordi primo mese (3 scenari ipotesi, nessun dato reale ancora); supervisione negozi/prodotti (0 autofill, 2 campi che servono materia prima da Nicola: logo+città). Resta sospesa la conferma sul piano-squadra (fratello+2 amici, chiesta 2 volte stanotte, ancora senza risposta). Coda: 51 azioni aperte, in cima PI26 (🔴, 4gg residui) + conferma piano-squadra (🟡) + 2 fix piccoli di macchina pronti (🟡). Lezione del giorno: un'etichetta che raggruppa temi diversi nasconde il pattern vero — va letta per intero, non contata a occhio. RITMO.md + SALA-OPERATIVA aggiornati.
 0. **☀️ 26/7 06:00 — Piano del mattino: business invariato (delta-gate), notte con novità vera (piano squadra di Nicola, ancora da confermare).** Nessuna riquery SQL (delta-gate coerente dal 25/7 11:03, 4 giri saltati consecutivi, 8/8 sensori ok): 1 negozio (Pane Quotidiano), 5 prodotti, 4 buyer, 1 ordine (annullato), 0 pagati — stallo North Star **32 giorni esatti**. Novità reale: chat notturna (26/7 00:48→01:44) dove Nicola ha descritto un piano concreto per accelerare l'inserimento negozi (fratello + 2 amici non pagati, si parte a metà agosto) — possibile data diversa da quella registrata (`ripresa.lavoro-operativo`=24/8-1/9). Nessun fatto riscritto: l'AD ha chiesto conferma 2 volte, ancora senza risposta — card `#conferma-piano-squadra-ripresa-negozi` già in coda. 3 priorità: PI26 (4gg residui), conferma piano squadra, merge dei 2 fix macchina pronti. Piano scritto in SALA-OPERATIVA + RITMO.md.
 0. **☀️ 25/7 06:00 — Piano del mattino: business confermato invariato via SQL diretta, 3 priorità invariate.** Riquery diretta (`orders`/`profiles`/`products`): 1 ordine (annullato, 24/6 08:28), 7 clienti, 5 prodotti — identico al delta-gate, 0 numeri inventati. Stallo North Star **31 giorni esatti** (era 30 ieri). Nessun cambiamento reale da giustificare nuove card: priorità confermate invariate. Piano scritto in SALA-OPERATIVA + RITMO.md.
@@ -1223,6 +1224,17 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (☀️ aggiornato 27/7 06:20 — piano del mattino)
+Business INVARIATO dal 24/6, riconfermato ora con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati, 0 recensioni, 3 carrelli abbandonati — **stallo 33 giorni**. Negozi in pausa fino al 24/8-1/9 (o prima, se Nicola conferma il piano squadra proposto due notti fa — ancora senza risposta). Novità di oggi: la coda di correzioni al Pannello ferme da approvare è arrivata a 8 (la più vecchia da 4 giorni) — abbastanza da meritare una priorità propria invece di restare sommersa nella lista.
+
+1. [ ] 🔴 **Rispondi alle 3 domande PI26** (P.IVA/entità giuridica sì-no · spese reali documentabili sì-no e quanto · firma digitale attiva sì-no) — scade **30/7 ore 16:00 (3 giorni residui)**, fino a €10.000 fondo perduto. Priorità economica più alta.
+2. [ ] 🟡 **Conferma se il piano squadra di due notti fa sostituisce la pausa negozi del 24/8-1/9** — chiesto due volte (26/7 ~01:05 e ~01:10), ancora senza risposta.
+3. [ ] 🟡 **Sblocca le 8 PR del Pannello ferme in coda** (la più vecchia da 4 giorni) — tra queste il fix ai doppioni "Nuova chat" (segnalato 6 volte, #556) e 4 miglioramenti al Cantiere difetti. Cards #233/#235/#237/#238/#243/#244/#245/#246 in [[AZIONI-IN-ATTESA]].
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 33gg, atteso — negozi in pausa) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente · n8n cieco · REST/MCP/Stripe/Sito/Pannello ✅ (8/8 sensori ok, verificati SQL diretta ora) · push GitHub VPS+Vercel ✅.
+
+---
 
 ## Prossime priorità (🌙 aggiornato 26/7 18:00 — report della sera)
 Business INVARIATO dal 24/6, riconfermato con SQL diretta alle 18:00 (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 4 buyer, 1 ordine (CANCELED), 0 pagati — **stallo 32 giorni**. Negozi in pausa fino al 24/8-1/9: giornata di manutenzione (nessuna spinta commerciale). Il valutatore indipendente ha bocciato la bozza PI26 come "non pronta all'invio" — servono 3 risposte da Nicola prima del 30/7 16:00. La proposta di Nicola di stanotte (piano squadra per accelerare i negozi da metà agosto) resta senza conferma: nessun fatto registrato è stato toccato.

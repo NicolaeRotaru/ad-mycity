@@ -922,3 +922,19 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - La prima cosa utile è avere la tua conferma sul piano squadra, così so quando ripartire con l'inserimento negozi.
 
 **Dettagli tecnici** — riconfermato via SQL diretta 18:00 (0 numeri inventati): `profiles` (1 seller approvato, 0 payout, 4 buyer), `products`=5, `orders`=1 (CANCELED, ultimo 24/6 08:28). Coda AZIONI-IN-ATTESA: 51 aperte · 98 chiuse in archivio. Consegne di oggi: `consegne/finanza/proiezione-ricavi-primo-mese-2026-07-26.md`, `consegne/supervisione/2026-07-26-supervisione.md`. Peer review PI26: verdetto "DA SISTEMARE" in `auto-coscienza/auto-miglioramento.json` (PR-007).
+
+## Piano del mattino · 2026-07-27 06:20
+
+**In una riga:** PI26 scade tra 3 giorni — resta la priorità dei soldi, il resto di oggi è manutenzione e una fila di correzioni da approvare.
+
+**Le 3 cose di oggi**
+1. Chiudi PI26 — bastano le tue 3 risposte, poi la mando io. Scade il 30/7 alle 16:00.
+2. Dimmi se il piano squadra di due notti fa (fratello + 2 amici, si parte a metà agosto) sostituisce la pausa negozi fissata al 24 agosto - 1 settembre — te l'ho chiesto due volte e aspetto ancora.
+3. Sblocca la fila di correzioni al Pannello ferme da approvare: sono 8, la più vecchia da 4 giorni — dentro c'è anche il fix ai doppioni della chat che mi segnali da settimane.
+
+**Serve da te**
+- Rispondi alle 3 domande PI26 entro il 30/7 ore 16:00
+- Un sì o un no sul piano squadra e sulla nuova data di ripartenza
+- Un giro su GitHub per approvare le 8 correzioni in coda (te le riassumo io, basta scorrerle una a una)
+
+**Dettagli tecnici** — riverificato ora via query SQL diretta (MCP): `orders`=1 (CANCELED 24/6), `products`=5, `profiles`=7, `reviews`=0, `abandoned_carts`=3 — invariato, stallo North Star 33 giorni esatti. PR ferme su GitHub: #520, #527, #532, #533, #551, #552, #553, #556 (cards #233/#235/#237/#238/#243/#244/#245/#246 in AZIONI-IN-ATTESA.md).
