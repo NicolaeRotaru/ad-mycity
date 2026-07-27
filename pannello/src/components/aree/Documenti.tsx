@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { useStrato } from "@/lib/useStrato";
 import { FileText, Search, ArrowLeft, FolderOpen, ChevronDown, Clock, Loader2, RefreshCw } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -62,6 +63,12 @@ export default function Documenti({ embedded = false }: { embedded?: boolean }) 
   const [cartella, setCartella] = useState<string | null>(null);
   const [sel, setSel] = useState<Doc | null>(null);
   const [contenuto, setContenuto] = useState<string>("");
+  // AR-242 — i due gradini dell'Archivio (cartella aperta, documento aperto) sono strati sopra la
+  // lista: scendere non timbrava nessuna voce di cronologia, quindi il gesto indietro non risaliva
+  // il gradino — pescava la voce di prima e ti sbatteva in un'altra AREA col documento ancora aperto.
+  // Registrati in quest'ordine, l'indietro li risale uno per volta: documento → cartella → lista.
+  useStrato("archivio-cartella", cartella != null, () => { setSel(null); setCartella(null); });
+  useStrato("archivio-documento", sel != null, () => setSel(null));
   const [caricaDoc, setCaricaDoc] = useState(false);
   const [errDoc, setErrDoc] = useState<string | null>(null);
   const lettoreRef = useRef<HTMLDivElement>(null);

@@ -128,6 +128,7 @@ import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messa
 import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta";
 import { ripristinaSub } from "@/lib/nav";
 import { deveChiudereOverlay, eTastoChiudi, overlayInCima, type StatoOverlay } from "@/lib/overlay-chiusura";
+import { useStrato } from "@/lib/useStrato";
 import { emitSync, emitSyncDaLavoriFiniti, usePanelSync } from "@/lib/panel-sync";
 import { ascoltaChatUnificata, pubblicaChatUnificata } from "@/lib/chat-unificata";
 import {
@@ -814,8 +815,19 @@ export default function Dashboard() {
   // testata su desktop, drawer sotto la testata su telefono) e non copre mai la barra in alto.
   // Su desktop parte aperta, su telefono chiusa.
   const [navAperta, setNavAperta] = useState(true);
+  // AR-222 — sotto lg il menù è un drawer SOPRA la pagina (il velo è `lg:hidden`), da lì il gesto
+  // indietro e Esc devono chiuderlo; da lg in su è una colonna sticky che non copre niente, e
+  // chiuderla col tasto indietro sarebbe una sorpresa. Va ricalcolato al ridimensionamento: la
+  // finestra cambia, e un valore letto una volta sola al mount mentirebbe da lì in poi.
+  const [sottoLg, setSottoLg] = useState(false);
   useEffect(() => {
-    if (typeof window !== "undefined") setNavAperta(window.innerWidth >= 1024);
+    if (typeof window === "undefined") return;
+    setNavAperta(window.innerWidth >= 1024);
+    const mq = window.matchMedia("(max-width: 1023.98px)");
+    const applica = () => setSottoLg(mq.matches);
+    applica();
+    mq.addEventListener("change", applica);
+    return () => mq.removeEventListener("change", applica);
   }, []);
   // Altezza VERA della testata → CSS var --altezza-testata: menù, linguetta e velo del
   // drawer partono esattamente sotto la barra. Misurata (non stimata) perché la testata
@@ -1044,6 +1056,14 @@ export default function Dashboard() {
   // ⚡ Finestra "Skill & comandi" dentro la chat (condivisa: chat intera e fluttuante non sono mai visibili insieme).
   // Worker popup: elenco conv in cassetto sopra la chat (icona ☰ in testata, mobile e desktop).
   const [workerConvAperto, setWorkerConvAperto] = useState(false);
+  // AR-222/243 — i tre strati che si aprono sopra la Cabina entrano nel contratto di navigazione:
+  // si chiudono col gesto indietro e con Esc come ogni cosa che occupa lo schermo. Prima erano tre
+  // booleani e nient'altro, quindi per il browser aprirli non era successo — e l'indietro cambiava
+  // l'AREA sotto lasciandoli aperti sopra. Il menù conta solo sotto lg: su desktop è sticky, non
+  // sta sopra niente, e chiuderlo col tasto indietro sarebbe una sorpresa.
+  useStrato("menu", navAperta && sottoLg, () => setNavAperta(false));
+  useStrato("conversazioni", convDrawerAperto, () => setConvDrawerAperto(false));
+  useStrato("worker-conversazioni", workerConvAperto, () => setWorkerConvAperto(false));
   // Cassetto Assistente chiuso dopo scelta chat → scroll al fondo post-animazione.
   useEffect(() => {
     if (convDrawerAperto || workerConvAperto) return;
