@@ -244,6 +244,15 @@ sync_vault() {
   scrub_utf8="$(printf '%s' "$titolo_breve" | iconv -f UTF-8 -t UTF-8 -c 2>/dev/null || true)"
   [ -n "$scrub_utf8" ] && titolo_breve="$scrub_utf8"
   [ -z "$titolo_breve" ] && titolo_breve="lavoro ${id:-?}"
+  # AR-314 — il cancello prima del commit. Il worker è la porta PIÙ USATA verso main (pubblica a ogni
+  # lavoro, ~ogni 12 minuti) e finora era anche quella senza nessuno dei quattro controlli di verità:
+  # la guardia ramo ce l'aveva già (è nata qui), il resto no. Additivo: il push resta com'è.
+  . "$SCRIPT_DIR/gate-pubblicazione.sh"
+  if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO"; then
+    echo "[$(ts)] Worker: memoria NON pubblicata, il cancello ha detto no — il lavoro resta locale e riparte al prossimo sync." >&2
+    exec 9>&-
+    return 1
+  fi
   git "${GIT_ID[@]}" commit -q -m "worker: ${titolo_breve} (${id:-?} · $(ts))" 2>/dev/null || true
   # 🚦 PAUSA POST-MERGE (24/7, Nicola: "vercel non fa il deploy delle PR"): un push del worker
   # arrivato pochi secondi/minuti dopo un merge cancella su Vercel il deploy vero (in corso) —

@@ -4971,9 +4971,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/vps/aggiorna-cervello.sh",
-        "pattern": "MEM_DIRS",
-        "presente": true
+        "comando": "node cervello/test/gate-pubblicazione.test.mjs"
       },
       "nota": "Dove: cervello/vps/aggiorna-cervello.sh:85 (git add -A senza perimetro) → :99 e :180 (git push HEAD:main) · Impatto: Codice non revisionato finisce su main senza PR e senza firma, cioè in produzione: se tocca pannello/** parte anche il deploy Vercel (.github/workflows/deploy-pannello.yml, push su main + paths pannello/**), se tocca cervello/ si propaga a tutti i VPS al giro dopo. È la stessa classe di AR-044 («il giro pubblicava il proprio codice»), chiusa su giro.sh e rientrata dalla porta di servizio. Il .gitignore para i casi noti (.env*, _tmp_*, *.save) ma non un file nuovo qualsiasi lasciato lì da una sessione.",
       "chiuso_il": "",
@@ -5055,9 +5053,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/worker.sh",
-        "pattern": "gate-pubblicazione",
-        "presente": true
+        "comando": "node cervello/test/gate-pubblicazione.test.mjs"
       },
       "nota": "Dove: cervello/worker.sh:226-288 (sync_vault: add, commit, push su main senza nessun controllo) e cervello/vps/aggiorna-cervello.sh:162-187 (chiude difetti e pubblica senza controlli) — contro cervello/giro.sh:713 (scan-segreti), :731 (onestà), :754 (coerenza-fatti), :762 (sanità vault), :785 (blocco del push) · Impatto: Il Pannello può mostrare a Nicola memoria incoerente (una copia vecchia di un fatto già cambiato), un JSON del vault rotto o un file a zero byte, o pubblicare un segreto — proprio i casi che il cancello del giro è stato costruito per fermare — passando dalla porta usata dieci volte al giorno. Decisioni prese su dati falsi, senza il minimo avviso.",
       "chiuso_il": "",
@@ -5076,9 +5072,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/vps/aggiorna-cervello.sh",
-        "pattern": "GUARDIA RAMO",
-        "presente": true
+        "comando": "node cervello/test/gate-pubblicazione.test.mjs"
       },
       "nota": "Dove: cervello/vps/aggiorna-cervello.sh:131-133 (checkout forzato con ripiego senza punto di partenza) → :172-187 (push HEAD:main senza controllo del ramo) · Impatto: Codice sperimentale di una sessione interrotta pubblicato su main e, se tocca il Pannello, deployato — esattamente lo scenario che la guardia del worker è stata scritta per impedire. Serve un fetch fallito al momento sbagliato: una rete che sfarfalla, cioè la cosa più comune che ci sia su un VPS.",
       "chiuso_il": "",

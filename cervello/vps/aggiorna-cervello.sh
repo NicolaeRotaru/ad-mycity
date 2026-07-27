@@ -11,6 +11,11 @@ ts() { date '+%Y-%m-%d %H:%M'; }
 REPO="${REPO:-/opt/mycity/ad-mycity}"
 APP_USER="${APP_USER:-mycity}"
 ENV_FILE="$REPO/cervello/vps/.env"
+# AR-310 — il perimetro della memoria, lo stesso degli altri quattro pubblicatori. Prima qui c'era un
+# `git add -A` secco: mandava su main tutto quello che trovava, CODICE compreso. Il codice sul server si
+# allinea DA main, non si pubblica MAI verso main — se un file di codice è sporco va lasciato lì e
+# segnalato, non committato.
+MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
 
 if [ "$(id -un)" = "root" ]; then
   echo "[$(ts)] ▶ Fix permessi repo → $APP_USER, poi allineamento senza root."
@@ -82,8 +87,15 @@ exec 9>"$LOCK"
 flock -w 120 9
 
 if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-  git add -A 2>/dev/null || true
-  git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti ($(ts))" 2>/dev/null || true
+  git add -A "${MEM_DIRS[@]}" 2>/dev/null || true   # AR-310: solo memoria, mai codice
+  # AR-314 — anche il recupero delle scritture pendenti passa dal cancello: è un commit su main come
+  # gli altri, e finora era l'unico che non guardava niente prima di farlo.
+  if ! ( . "$REPO/cervello/gate-pubblicazione.sh"; gate_pubblicazione "$REPO/cervello" "$REPO" "$branch" ); then
+    echo "[$(ts)] ⛔ Scritture pendenti NON committate: il cancello ha detto no (restano sul server)." >&2
+    git reset HEAD -- . 2>/dev/null || true
+  else
+    git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti ($(ts))" 2>/dev/null || true
+  fi
 fi
 
 # Commit locali già fatti ma non pushati: pubblicali PRIMA del checkout -f (altrimenti si perdono).

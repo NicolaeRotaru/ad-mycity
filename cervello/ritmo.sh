@@ -250,8 +250,15 @@ if flock -w 600 9; then
     echo "[$(ts)] Nessuna modifica al vault da inviare."
   else
     RITMO_HAD_CHANGES=1
-    git "${GIT_ID[@]}" commit -q -m "ritmo AD ($RITMO_TIPO): aggiorna memoria ($(ts))" || true
-    if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
+    # AR-314 — il cancello che ferma la memoria bugiarda vale anche qui, non solo nel giro. Misurato
+    # il 27/7: scan-segreti girava in 1 pubblicatore su 5, e `ritmo.sh` era quasi riga per riga il
+    # blocco di `giro.sh` meno il cancello. Additivo: non tocca il push, aggiunge il controllo prima.
+    . "$SCRIPT_DIR/gate-pubblicazione.sh"
+    if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO"; then
+      RITMO_PUSH_OK=0
+      echo "[$(ts)] Memoria NON pubblicata: il cancello ha detto no (vedi sopra) — nessun commit." >&2
+    elif [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
+      git "${GIT_ID[@]}" commit -q -m "ritmo AD ($RITMO_TIPO): aggiorna memoria ($(ts))" || true
       url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
       ok=0
       for attempt in 1 2 3; do

@@ -144,8 +144,13 @@ fi
   if git diff --cached --quiet 2>/dev/null; then
     echo "[$(ts)] Nessuna novità dalle fonti da inviare."
   else
-    git "${GIT_ID[@]}" commit -q -m "monitoraggio web AD: aggiorna Intelligence ($(ts))" || true
-    if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
+    # AR-314 — anche il monitoraggio passa dal cancello: pubblica sulla stessa main del giro, e finora
+    # lo faceva senza nessuno dei quattro controlli di verità. Additivo: il push resta com'è.
+    . "$SCRIPT_DIR/gate-pubblicazione.sh"
+    if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO"; then
+      echo "[$(ts)] Intelligence NON pubblicata: il cancello ha detto no (vedi sopra) — nessun commit." >&2
+    elif [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
+      git "${GIT_ID[@]}" commit -q -m "monitoraggio web AD: aggiorna Intelligence ($(ts))" || true
       url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
       ok=0
       for attempt in 1 2 3; do
