@@ -160,6 +160,7 @@ COSTO_VINCOLO=""         # AR-196: il freno sui costi non sa quanto abbiamo spes
 FRESCHEZZA_VINCOLO=""    # AR-165: guardiani del preambolo che non hanno battuto (verde vecchio ≠ verde)
 VOLANO_VINCOLO=""        # AR-165: verdetto della sonda-volano, prima buttato in una pipe
 FRATELLI_VINCOLO=""      # 28/7: una malattia nota si è allargata in un punto nuovo (spazzata-fratelli)
+TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
   # AR-038: il canale MCP è trasporto di sessione, NON testabile da script. Passiamo lo stato del
@@ -187,8 +188,16 @@ if command -v node >/dev/null 2>&1; then
     SENSORI_VINCOLO="⛔ FONTE-DI-VERITÀ DATI CIECA: supabase_rest (ordini/clienti via REST) NON è 'ok', anche se altri sensori (uptime/stripe/posthog) reggono. I numeri ordini/clienti/incassi sono ciechi: NON scriverli come fatti nuovi. Usa la baseline di STATO con la sua data di verifica e metti i dati mancanti nella sezione Gap."
     echo "[$(ts)] ⚠️  SUPABASE_REST CIECO (datiOrdiniCiechi=true, ma altri sensori vivi): vincolo HARD 'niente numeri nuovi' comunque attivo." >&2
   fi
+  # AR-178: era l'altra metà del difetto, e c'era cascato pure il fix. Il lotto 10 ha promosso a
+  # cancello sonda-volano ma NON tasso-lezioni, e la prova del difetto era un OR
+  # (`VOLANO_VINCOLO|_tasso_rc|_sonda_rc`): ha fatto centro sulla metà riparata e ha chiuso il difetto
+  # con l'altra metà ancora rotta. Trovato rileggendo la chiusura 30 secondi dopo averla applicata —
+  # tasso-lezioni usciva 1, cioè stava suonando, e il suo allarme finiva comunque nel cestino.
   echo "[$(ts)] Tasso applicazione lezioni (AR-051, prima della sonda)..."
-  node "$SCRIPT_DIR/tasso-lezioni.mjs" --json 2>&1 | tail -4 || true
+  if ! guardiano tasso-lezioni.mjs --json; then
+    TASSO_VINCOLO="$(vincolo_da_rc "tasso-lezioni" "$GUARDIANO_RC" "⛔ LEZIONI NON APPLICATE (tasso-lezioni.mjs rc=$GUARDIANO_RC, AR-178/AR-051): la macchina accumula lezioni e non le usa — imparare senza applicare è collezionare. In QUESTO giro marca le lezioni che hai davvero usato: node cervello/tasso-lezioni.mjs applica <id> \"<riferimento>\". Se non ne hai usata nessuna, dillo nel briefing invece di lasciarlo implicito.")"
+    echo "[$(ts)] ⚠️  AR-178: tasso-lezioni rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
   echo "[$(ts)] Sonda volano (4 invarianti)..."
   # AR-165: stesso trattamento della freschezza — l'esito della sonda finiva in una pipe e poi in un
   # `|| true`. Il verdetto «volano rotto» non ha mai raggiunto il motore.
@@ -596,7 +605,7 @@ fi
 # scioglievano in silenzio — il giro pubblicava lo stesso e usciva 0. Qui li raccogliamo in un elenco
 # che esiste FUORI dal prompt, così può governare sia il salto del motore sia l'esito del giro.
 VINCOLI_ATTIVI=()
-for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI; do
+for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI TASSO; do
   eval "_vval=\"\${${_vnome}_VINCOLO:-}\""
   [ -n "$_vval" ] && VINCOLI_ATTIVI+=("$_vnome")
 done
@@ -739,6 +748,12 @@ if [ -n "${FRATELLI_VINCOLO:-}" ]; then
 
 ## Vincolo spazzata dei fratelli (HARD — una malattia nota si è allargata)
 $FRATELLI_VINCOLO"
+fi
+if [ -n "${TASSO_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo lezioni applicate (HARD — AR-178: imparare senza applicare è collezionare)
+$TASSO_VINCOLO"
 fi
 PROMPT="$PROMPT
 

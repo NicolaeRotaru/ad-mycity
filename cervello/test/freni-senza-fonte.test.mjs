@@ -296,14 +296,19 @@ prova("il caso che ha rotto: la funzione guardiano() restituisce l'rc VERO", () 
   assert.equal(run("guardiano spazzata-fratelli.mjs"), 0, "…e uno che passa deve passare");
 });
 
-prova("i due guardiani muti sono cablati come cancelli, non come righe di log", () => {
+prova("i TRE guardiani muti sono cablati come cancelli, non come righe di log", () => {
+  // Erano due nel lotto 10, e tasso-lezioni è sfuggito: la prova di AR-178 era un OR
+  // (`VOLANO_VINCOLO|_tasso_rc|_sonda_rc`), quindi ha fatto centro sulla metà riparata e ha chiuso il
+  // difetto con l'altra metà ancora rotta — mentre tasso-lezioni usciva 1, cioè stava suonando.
+  // Una prova con un OR dentro chiude un difetto quando UNO qualsiasi dei suoi pezzi è a posto.
   const src = leggi("cervello/giro.sh");
-  for (const g of ["freschezza-segnali", "sonda-volano"]) {
+  for (const g of ["freschezza-segnali", "sonda-volano", "tasso-lezioni"]) {
     assert.match(src, new RegExp(`guardiano ${g}\\.mjs`), `${g} deve passare da guardiano()`);
     assert.doesNotMatch(src, new RegExp(`node "\\$SCRIPT_DIR/${g}\\.mjs"[^|\\n]*\\|[^|\\n]*tail`), `${g} è ancora in una pipe`);
   }
   assert.match(src, /FRESCHEZZA_VINCOLO=/);
   assert.match(src, /VOLANO_VINCOLO=/);
+  assert.match(src, /TASSO_VINCOLO=/);
 });
 
 prova("ogni vincolo nuovo è nell'elenco unico E arriva al motore (AR-320)", () => {
@@ -312,7 +317,7 @@ prova("ogni vincolo nuovo è nell'elenco unico E arriva al motore (AR-320)", () 
   const src = leggi("cervello/giro.sh");
   const elenco = src.match(/for _vnome in ([A-Z_ ]+); do/);
   assert.ok(elenco, "manca l'elenco unico dei vincoli");
-  for (const v of ["COSTO", "FRESCHEZZA", "VOLANO", "FRATELLI"]) {
+  for (const v of ["COSTO", "FRESCHEZZA", "VOLANO", "FRATELLI", "TASSO"]) {
     assert.ok(elenco[1].includes(v), `${v} non è nell'elenco unico dei vincoli`);
     assert.match(src, new RegExp(`\\$\\{?${v}_VINCOLO`), `${v}_VINCOLO non arriva mai al prompt`);
   }
