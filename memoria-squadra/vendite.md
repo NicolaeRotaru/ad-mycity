@@ -8,6 +8,7 @@ reparto: vendite
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-27 11:09 · Playbook Scout negozi (worker, 27/7 11:xx) — 3ª richiesta identica dopo 6/7 e 20/7 · già in AZIONI-PRONTE A18, invariato: Peretti/Garetti/Amendolara, pitch+leva PI26 pronti, zero contatti · atteso verificare se serve rigenerare la lista/pitch → reale nessuna variazione da produrre: cluster ancora 1 solo negozio confermato (PQ), business in pausa commerciale fino al 24/8-1/9 (decisione Nicola 23/7) — riproporlo ora sarebbe un loop a vuoto · #loop-a-vuoto #pausa-commerciale
 - 2026-07-20 23:59 · chat casella capillarità in bacheca · atteso: pin playbook kit fisico in BACHECA.md con gate ordine test → reale: blocco in cima Bacheca verdetto ARMATO non stampare · kit PQ pronto · 0 DELIVERED · L-437 · #capillarita #bacheca
 - 2026-07-20 23:28 · PR #501 ✅ mergiata — casella pricing live · atteso: 10%+50€ in casella · reale: #501 su main post-merge Nicola; #504 conflitto risolto separatamente · L-413 addendum · #pricing #pr-501
 - 2026-07-20 19:06 · chat casella «Pochi negozi» — registro ok, pitch casella hardcoded · atteso: casella mostra 10%+50€/mese come registro → reale: registro già ok (L-391), bug codice sentinelle; PR #501 collega registro; merge 🔴 pendente · lezione L-413 · #pricing #sentinelle #registro-fatti
