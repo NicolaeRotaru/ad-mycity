@@ -2199,17 +2199,15 @@
       "causa_radice": "① Perché il rosso non produce nulla? Perché il rc è dietro una pipe con `|| true`. ② Perché questi due e non gli altri? Perché sono stati cablati come «sonde informative» prima che esistesse il pattern del vincolo hard, e nessuno li ha promossi dopo. ③ Perché nessuno li ha promossi? Perché il difetto che li riguardava (AR-051) è stato chiuso quando il NUMERO è diventato onesto, non quando la CONSEGUENZA è diventata reale. ④ Perché il cantiere accetta quella chiusura? Perché la prova di chiusura di un difetto è un pattern nel codice (`verifica.presente`), che sa vedere se un pezzo esiste ma non se è collegato a qualcosa. ⑤ Causa di sistema: la macchina considera «fatto» un guardiano che gira, non un guardiano che qualcuno è obbligato ad ascoltare — manca un controllo che, per ogni script con exit-code semantico, verifichi che qualcuno nel giro lo consumi.",
       "fix_proposto": "🟡 (a) Catturare rc di tasso-lezioni e sonda-volano come per gli altri guardiani e passare un VOLANO_VINCOLO al motore con un rimedio ESEGUIBILE (marca in questo giro con `node cervello/tasso-lezioni.mjs applica <id> \"<ref>\"` le lezioni che hai davvero usato; se `serve_radiografia_completa` è vero da più di N giri, accoda la radiografia completa invece di segnalarla). (b) Aggiungere al giro un controllo elenco-vs-consumo: ogni script del cervello che documenta un exit-code semantico deve comparire in giro.sh nella forma `_rc=$?`, altrimenti rosso.",
       "colore": "🟡",
-      "stato": "chiuso",
+      "stato": "aperto",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "VOLANO_VINCOLO|_tasso_rc|_sonda_rc",
-        "presente": true
+        "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
-      "nota": "Dove: cervello/giro.sh:180-182 · Impatto: La metrica del volano è sotto soglia da 69 giri e nessun giro è mai stato obbligato a farci qualcosa. L'unica reazione in due mesi è una card scritta a mano dall'AD (#241 in AZIONI-IN-ATTESA, 25/7) che chiede a Nicola di decidere se rilanciare la radiografia — cioè la macchina ha delegato all'umano un'escalation che aveva già progettato per sé.",
-      "chiuso_il": "2026-07-28 01:33",
-      "chiuso_come": "cervello/giro.sh contiene /VOLANO_VINCOLO|_tasso_rc|_sonda_rc/ → trovato"
+      "nota": "Dove: cervello/giro.sh:180-182 · Impatto: La metrica del volano è sotto soglia da 69 giri e nessun giro è mai stato obbligato a farci qualcosa. L'unica reazione in due mesi è una card scritta a mano dall'AD (#241 in AZIONI-IN-ATTESA, 25/7) che chiede a Nicola di decidere se rilanciare la radiografia — cioè la macchina ha delegato all'umano un'escalation che aveva già progettato per sé. · RIAPERTO 2026-07-28 01:40: chiuso in automatico dal lotto 10 con META del fix. Chiedeva DUE guardiani (tasso-lezioni + sonda-volano); il lotto 10 ha cablato solo sonda-volano, e la prova era un OR (VOLANO_VINCOLO|_tasso_rc|_sonda_rc) — ha fatto centro sulla meta riparata. Trovato rileggendo la chiusura 30 secondi dopo averla applicata: tasso-lezioni usciva 1, cioe stava suonando, e il suo allarme finiva comunque nel cestino. Una prova con un OR dentro chiude un difetto quando UNO qualsiasi dei suoi pezzi e a posto: questa e ora comportamentale.",
+      "chiuso_il": "",
+      "chiuso_come": ""
     },
     {
       "id": "AR-179",
