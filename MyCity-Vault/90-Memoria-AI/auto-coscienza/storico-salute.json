@@ -3,6 +3,14 @@
   "serie": [
     {
       "data": "2026-07-19",
+      "voto_salute": 0,
+      "difetti_aperti": 22,
+      "difetti_chiusi": 1,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-135 (verificati nel codice)."
+    },
+    {
+      "data": "2026-07-19",
       "voto_salute": 56,
       "voto_provvisorio": 20,
       "voto_pieno": 0,
@@ -1175,6 +1183,15 @@
       "bloccanti_umani": 14,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 1h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 19 aperti-davvero · 72 in attesa merge · 14 bloccanti umani"
+    },
+    {
+      "data": "2026-07-27",
+      "voto_salute": 31,
+      "voto_riportato": true,
+      "difetti_aperti": 193,
+      "difetti_chiusi": 4,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-270, AR-300, AR-301, AR-320 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 31 dall'ultima misura vera."
     },
     {
       "data": "2026-07-27",

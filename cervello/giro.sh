@@ -520,6 +520,20 @@ if [ -n "$_MEMORIA_BLOCK" ]; then
 
 $_MEMORIA_BLOCK"
 fi
+# AR-320: ELENCO UNICO DEI VINCOLI ATTIVI. Prima i 18 *_VINCOLO vivevano SOLO dentro $PROMPT: se il
+# motore veniva saltato (delta-gate o tetto-token) il testo non veniva mai consumato e i cancelli si
+# scioglievano in silenzio — il giro pubblicava lo stesso e usciva 0. Qui li raccogliamo in un elenco
+# che esiste FUORI dal prompt, così può governare sia il salto del motore sia l'esito del giro.
+VINCOLI_ATTIVI=()
+for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA; do
+  eval "_vval=\"\${${_vnome}_VINCOLO:-}\""
+  [ -n "$_vval" ] && VINCOLI_ATTIVI+=("$_vnome")
+done
+GATE_ROSSI="${#VINCOLI_ATTIVI[@]}"
+if [ "$GATE_ROSSI" -gt 0 ]; then
+  echo "[$(ts)] ⛔ $GATE_ROSSI vincoli ATTIVI in questo giro: ${VINCOLI_ATTIVI[*]}" >&2
+fi
+
 if [ -n "$SENSORI_VINCOLO" ]; then
   PROMPT="$PROMPT
 
@@ -633,8 +647,21 @@ Al termine restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1)."
 # GIRO_START serve anche fuori dal blocco AI (costo-ai a fine giro): lo fissiamo PRIMA del gate.
 GIRO_START="$(date +%s)"
 ai_rc=0
+# AR-320 (a): un vincolo attivo È per definizione «qualcosa è cambiato» → il delta-gate non può
+# dichiarare che non c'è niente da fare. Se il motore era stato spento per assenza di delta, lo
+# riaccendiamo: i cancelli vanno consegnati a qualcuno che li possa leggere.
+if [ "${RUN_AI:-1}" != 1 ] && [ "${GATE_ROSSI:-0}" -gt 0 ] && [ "${GIRO_SALTO_MOTIVO:-delta}" != "budget" ]; then
+  echo "[$(ts)] ⛔ AR-320: $GATE_ROSSI vincoli attivi (${VINCOLI_ATTIVI[*]}) — il motore NON può essere saltato dal delta-gate." >&2
+  RUN_AI=1
+fi
+VINCOLI_NON_CONSEGNATI=0
 if [ "${RUN_AI:-1}" != 1 ]; then
   echo "[$(ts)] Parte AI SALTATA dal delta-gate (AR-019): nessun motore premium acceso in questo giro."
+  # AR-320 (b): saltato per budget con vincoli ancora attivi → non evaporano in silenzio.
+  if [ "${GATE_ROSSI:-0}" -gt 0 ]; then
+    VINCOLI_NON_CONSEGNATI=1
+    echo "[$(ts)] ⛔ AR-320: motore saltato ma $GATE_ROSSI vincoli restano ATTIVI e NON consegnati: ${VINCOLI_ATTIVI[*]}" >&2
+  fi
 else
 echo "[$(ts)] Avvio giro di perlustrazione AD (motore: $(ai_engine), prompt=file)..."
 ai_build_cmd
@@ -683,7 +710,15 @@ if [ "$ai_rc" -ne 0 ]; then
   printf '%s\n' "$_ai_out" | tail -25 >&2
   echo "[$(ts)]   Se test-agent.sh passa ma il giro no: journalctl -u mycity-worker -n 50" >&2
 fi
-echo "[$(ts)] Giro completato."
+# AR-300: messaggio onesto. Prima qui c'era «Giro completato.» stampato SEMPRE, anche con il motore
+# fallito e tutti i cancelli rossi — ed è la riga che il worker e il Pannello leggevano come successo.
+if [ "$ai_rc" -eq 0 ] && [ "${GATE_ROSSI:-0}" -eq 0 ]; then
+  echo "[$(ts)] Giro completato."
+elif [ "$ai_rc" -eq 0 ]; then
+  echo "[$(ts)] Giro finito CON ${GATE_ROSSI} VINCOLI ANCORA ATTIVI (${VINCOLI_ATTIVI[*]}): non è un giro pulito." >&2
+else
+  echo "[$(ts)] Giro finito MALE: motore rc=$ai_rc${GATE_ROSSI:+, vincoli attivi: $GATE_ROSSI}." >&2
+fi
 
 # AR-083 / AR-043: stima token condivisa (motore-ai.sh). Resta STIMA → --stima.
 if [ -z "${GIRO_TOKEN:-}" ]; then
@@ -707,7 +742,16 @@ if [ "$ai_rc" -eq 0 ]; then
 fi
 # AR-019: un giro PIENO è appena girato → promuovi la firma corrente a riferimento, così i prossimi
 # giri si confrontano con QUESTO stato e saltano finché ordini/clienti/incassi/sentinelle non cambiano.
-command -v node >/dev/null 2>&1 && node "$SCRIPT_DIR/delta-gate.mjs" --segna-pieno >/dev/null 2>&1 || true
+# AR-301: la promozione a «giro pieno» è una DICHIARAZIONE («qui è tutto aggiornato, i prossimi giri
+# possono saltare il motore fino a 12h»). Prima girava sempre, anche con ai_rc≠0 o con i passi 11-12
+# saltati: un giro fallito spegneva i successivi. Ora la si guadagna.
+# shellcheck source=cervello/giro-esito.sh
+. "$SCRIPT_DIR/giro-esito.sh"
+if [ "$(giro_e_pieno "$ai_rc" "${GIRO_STEPS_OK:-1}" "${GATE_ROSSI:-0}")" = 1 ]; then
+  command -v node >/dev/null 2>&1 && node "$SCRIPT_DIR/delta-gate.mjs" --segna-pieno >/dev/null 2>&1 || true
+else
+  echo "[$(ts)] AR-301: NON promuovo la firma a «giro pieno» (ai_rc=$ai_rc, passi_ok=${GIRO_STEPS_OK:-1}, vincoli_attivi=${GATE_ROSSI:-0}) — i prossimi giri devono rifare il lavoro, non saltarlo." >&2
+fi
 fi   # fine blocco RUN_AI (delta-gate AR-019)
 
 # TL;DR per la chat (se il digest è stato scritto nel vault).
@@ -914,24 +958,54 @@ if [ -n "${HEARTBEAT_PING_URL:-}" ]; then
   fi
 fi
 
+# AR-300: l'ESITO DEL GIRO diventa un fatto scritto, non una riga di log. Il Pannello e il worker
+# devono poter distinguere «giro pulito» da «giro finito con i cancelli rossi» senza leggere stderr.
+if command -v node >/dev/null 2>&1; then
+  GATE_ROSSI="${GATE_ROSSI:-0}" \
+  VINCOLI_ELENCO="${VINCOLI_ATTIVI[*]:-}" \
+  AI_RC="$ai_rc" \
+  PUSH_OK="${GIRO_PUSH_OK:-1}" \
+  STEPS_OK="${GIRO_STEPS_OK:-1}" \
+  NON_CONSEGNATI="${VINCOLI_NON_CONSEGNATI:-0}" \
+  node -e '
+    const fs=require("fs");
+    const g=+process.env.GATE_ROSSI||0, ai=+process.env.AI_RC||0;
+    const push=process.env.PUSH_OK==="1", steps=process.env.STEPS_OK==="1";
+    const esito = (ai!==0) ? "motore-fallito" : (g>0 ? "vincoli-attivi" : (!push ? "non-pubblicato" : (!steps ? "passi-saltati" : "pulito")));
+    fs.writeFileSync("MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-giro.json", JSON.stringify({
+      _cosa_e:"Esito REALE dell ultimo giro (AR-300). Prima il giro stampava «Giro completato.» anche a controlli tutti rossi: questo file dice la verita, e il Pannello la puo leggere.",
+      data:new Date(Date.now()+2*3600*1000).toISOString().slice(0,16).replace("T"," "),
+      esito, pulito: esito==="pulito",
+      gate_rossi:g, vincoli_attivi:(process.env.VINCOLI_ELENCO||"").split(" ").filter(Boolean),
+      ai_rc:ai, push_ok:push, passi_11_12_ok:steps,
+      vincoli_non_consegnati:process.env.NON_CONSEGNATI==="1"
+    },null,2)+"\n");
+  ' 2>/dev/null || true
+fi
+
 # Exit code per worker.sh:
 #   0 = ok (o memoria salvata nonostante AI parziale)
 #   1 = AI fallita e nessuna memoria nuova pubblicata
 #   2 = memoria scritta ma push fallito, OPPURE gate memoria (AR-104) ha bloccato la pubblicazione
+#   3 = giro concluso ma con VINCOLI ANCORA ATTIVI (AR-300/AR-320): la memoria è pubblicata, ma il
+#       giro NON è pulito e non va contato come successo.
 # AR-104: se il gate coerenza/sanità ha bloccato il push, NON deve essere un successo silenzioso —
 # anche se GIRO_HAD_CHANGES=0 (non siamo arrivati al commit). exit 2 = "memoria NON pubblicata".
-if [ "${MEMORIA_INCOERENTE:-0}" = 1 ]; then
-  echo "[$(ts)] ⛔ GATE MEMORIA (AR-104): pubblicazione bloccata — exit 2 (non è un successo)." >&2
-  exit 2
-fi
-if [ "$GIRO_HAD_CHANGES" = 1 ] && [ "$GIRO_PUSH_OK" != 1 ]; then
-  exit 2
-fi
-if [ "$ai_rc" -ne 0 ]; then
-  if [ "$GIRO_HAD_CHANGES" = 1 ] && [ "$GIRO_PUSH_OK" = 1 ]; then
-    echo "[$(ts)] WARN: motore AI instabile ma memoria pubblicata su GitHub." >&2
-    exit 0
-  fi
-  exit 1
-fi
-exit 0
+# AR-300/AR-301/AR-320: la decisione vive in cervello/giro-esito.sh — funzione pura, quindi provata
+# da cervello/test/giro-esito.test.mjs con casi finti. Prima era logica sparsa qui in fondo che
+# nessuno aveva mai potuto eseguire senza far girare un giro intero: per questo per mesi ha detto
+# «tutto bene» anche con i cancelli rossi.
+# shellcheck source=cervello/giro-esito.sh
+. "$SCRIPT_DIR/giro-esito.sh"
+_giro_rc="$(esito_giro_rc "${MEMORIA_INCOERENTE:-0}" "$GIRO_HAD_CHANGES" "$GIRO_PUSH_OK" "$ai_rc" "${GATE_ROSSI:-0}" "${VINCOLI_NON_CONSEGNATI:-0}")"
+case "$_giro_rc" in
+  2) echo "[$(ts)] ⛔ MEMORIA NON PUBBLICATA (gate AR-104 o push fallito) — exit 2 (non è un successo)." >&2 ;;
+  1) echo "[$(ts)] ⛔ Motore AI fallito e nessuna memoria nuova pubblicata — exit 1." >&2 ;;
+  3) if [ "${VINCOLI_NON_CONSEGNATI:-0}" = 1 ]; then
+       echo "[$(ts)] ⛔ VINCOLI NON CONSEGNATI: il motore è stato saltato mentre dei cancelli erano attivi — exit 3." >&2
+     else
+       echo "[$(ts)] ⛔ GIRO NON PULITO: ${GATE_ROSSI:-0} vincoli ancora attivi (${VINCOLI_ATTIVI[*]:-}) — exit 3. La memoria è pubblicata, ma questo giro non va contato come riuscito." >&2
+     fi ;;
+  0) [ "$ai_rc" -ne 0 ] && echo "[$(ts)] WARN: motore AI instabile ma memoria pubblicata su GitHub." >&2 ;;
+esac
+exit "$_giro_rc"
