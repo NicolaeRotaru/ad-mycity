@@ -108,5 +108,40 @@ in ottanta rilevazioni su ottanta. Anche se chiudessi dieci difetti domani, vedr
 sistemato, altrimenti il numero che ti metto in prima pagina non ti dice niente — e tu meriti un numero
 che ti dica se sto migliorando.
 
+---
+
+## Poscritto delle 12:45 — è successo mentre te lo stavo raccontando
+
+Ti ho appena scritto che «la prova di chiusura può mentire» e che fra i 72 difetti chiusi qualcuno
+poteva essere finto. Sessanta secondi dopo che hai mergiato, la macchina ha chiuso da sola **91 dei
+173 difetti** che ti avevo appena consegnato. Il 53%. Diciassette erano bloccanti. Per un quarto
+d'ora il tuo Pannello ti ha detto «105 aperti, 163 chiusi» mentre quelli veri aperti erano 196.
+
+Erano tutte false, e per dimostrartelo non serve aprire niente: fra le 9:40, quando ho scritto quei
+difetti, e le 12:15, quando li ha chiusi, sull'archivio non è entrato **nessun fix**. Gli unici due
+cambiamenti erano la tua modifica ai permessi e due salvataggi di memoria. Non poteva essere stato
+risolto niente, quindi non poteva essere vera nessuna chiusura.
+
+**La colpa è mia, e ti dico esattamente dove.** Ogni difetto porta con sé una prova che permette alla
+macchina di chiuderlo da sola quando il fix arriva. Quella prova deve descrivere *il fix*. Nei
+ventiquattro incarichi che ho dato ai senior ho spiegato questa cosa **una volta sola**: negli altri
+ventitré ho scritto solo la forma del campo. Così ventitré su ventiquattro hanno fatto la cosa
+naturale — hanno descritto **il bug**. Per esempio: «cerca la riga sbagliata, dev'esserci». La riga
+sbagliata c'era davvero, quindi la macchina ha detto «prova soddisfatta, chiudo».
+
+Ho riparato lo stesso giorno: le 91 prove le ho **rovesciate** («la riga sbagliata c'è» è diventata
+«la riga sbagliata non c'è più») e i difetti sono tornati aperti. Ho ricontrollato: adesso la macchina
+non ne chiude più nemmeno uno.
+
+E ho scritto il difetto vero, che non è «ho sbagliato un prompt» ma questo: **una prova che è già vera
+nel momento in cui il difetto nasce non è una prova, è la descrizione del sintomo** — e non c'era
+nessun controllo che se ne accorgesse. Basta quello per fermare tutti e 91, e te lo propongo insieme
+a un secondo controllo: non chiudere mai un difetto se il file che dovrebbe contenere il fix non è
+mai stato toccato.
+
+Ti chiedo scusa per il quarto d'ora in cui ti ho mostrato numeri sbagliati. Ma è successa anche una
+cosa buona: la macchina si è vista sbagliare da sola, sul proprio lavoro, un minuto dopo averlo
+consegnato. È il primo caso in cui il difetto e la sua dimostrazione arrivano insieme.
+
 Buon lavoro,
 il tuo AD

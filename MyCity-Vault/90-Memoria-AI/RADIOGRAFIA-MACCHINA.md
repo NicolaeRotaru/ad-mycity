@@ -175,6 +175,26 @@ codice*, non un *comportamento*: la stringa è comparsa, il difetto è stato chi
 ancora un contatore a zero. Fra i 72 difetti che risultano chiusi, un numero ignoto può essere nella stessa
 condizione. È il meccanismo su cui si regge tutto il cantiere.
 
+> ⚠️ **Aggiornamento delle 12:45 — è successo di nuovo, su questa stessa radiografia, e in grande.**
+> Sessanta secondi dopo il merge, il commit automatico `riconcilia` ha chiuso **91 dei 173 difetti**
+> appena consegnati (53%, di cui **17 bloccanti**). Il cantiere ha detto `aperti: 105 · chiusi: 163`
+> mentre i difetti veri aperti erano 196, e il Pannello lo mostrava così.
+>
+> **Erano tutte false, e si dimostra senza aprire un file:** fra le 09:40 (nascita) e le 12:15 (chiusura)
+> su `main` non è atterrato nessun fix — i soli commit sul codice erano `Update settings.json` e due
+> recuperi di memoria. Nessun difetto poteva essere risolto.
+>
+> La causa è che le 91 `verifica` descrivevano **la presenza del bug**, non quella del fix — es. AR-227
+> cercava `registraFirma(n, "nicola")` con `presente: true`, cioè *la riga bacata c'è*; AR-218 cercava
+> `Escape` con `presente: false`, cioè *il tasto Esc manca*. Erano già vere nell'istante in cui il difetto
+> nasceva. Contributo mio: nei 24 prompt dei senior la clausola «un pattern che esisterà SOLO col fix
+> installato» compare in **uno solo**.
+>
+> Riparato lo stesso giorno: le 91 prove sono state **invertite** (prova-del-bug → prova-del-fix) e i
+> difetti riaperti; `auto-fix.mjs verifica` ora non ne propone più nessuno. Il difetto di sistema è
+> **AR-330**, con la guardia che lo chiude alla radice: *una `verifica` già soddisfatta alla nascita non
+> è una prova, è una descrizione del sintomo* — e nessun cancello lo controllava.
+
 ---
 
 ## ✅ Cosa si chiude (con prova)
