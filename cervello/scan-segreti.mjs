@@ -27,6 +27,12 @@ const REGOLE = REGOLE_SEGRETI;
 // Estensioni binarie/di rumore da saltare.
 const SKIP_EXT = /\.(png|jpe?g|gif|webp|ico|pdf|zip|gz|tar|mp4|mov|woff2?|ttf|otf|lock)$/i;
 
+// cervello/test/ contiene fixture SINTETICHE che imitano di proposito la forma di un segreto
+// (es. github_pat_11XXXX… in segreti-pattern.test.mjs) per testare lo scanner stesso — non sono mai
+// segreti reali. Senza questa esclusione ogni giro trova "un segreto" qui e blocca la pubblicazione
+// (card #radiografia-sblocca-pubblicazione, bloccato dal 25/7 20:15).
+const ESCLUSI = /^cervello\/test\//;
+
 /** Redige un segreto: mostra solo i primi 7 e gli ultimi 3 caratteri. */
 function reda(s) {
   return campioneRedatto(s);
@@ -40,14 +46,14 @@ function fileDaScansionare() {
         cwd: AD_ROOT,
         encoding: "utf8",
       });
-      return out.split("\n").map((s) => s.trim()).filter(Boolean);
+      return out.split("\n").map((s) => s.trim()).filter(Boolean).filter((f) => !ESCLUSI.test(f));
     }
     // tracciati + non-tracciati-non-ignorati (esclude ciò che .gitignore protegge, es. i .env reali)
     const out = execFileSync("git", ["ls-files", "--cached", "--others", "--exclude-standard"], {
       cwd: AD_ROOT,
       encoding: "utf8",
     });
-    return out.split("\n").map((s) => s.trim()).filter(Boolean);
+    return out.split("\n").map((s) => s.trim()).filter(Boolean).filter((f) => !ESCLUSI.test(f));
   } catch (e) {
     throw new Error(`git non disponibile: ${e.message || e}`);
   }
