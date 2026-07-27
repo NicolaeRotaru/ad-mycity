@@ -48,6 +48,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
+import { giorniDa } from "./fonte-numero.mjs"; // AR-280: i giorni si contano da un timestamp, in un posto solo
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
 const LIVE = process.argv.includes("--live") || process.env.SENTINELLA_DATI_LIVE === "1";
@@ -442,6 +443,32 @@ function valutaRegole(s, state) {
         titolo: `Ordini 24h ${s.ordini_24h} vs media 7g ${mediaGiorno.toFixed(1)}/gg (−${pct}%)`,
         firma: `${s.ordini_24h}/${mediaGiorno.toFixed(1)}`,
         prompt: `Sentinella azioni 💼 — CALO ORDINI: ultime 24h ${s.ordini_24h} ordini vs media ${mediaGiorno.toFixed(1)}/giorno negli ultimi 7g (−${pct}%). Indaga la causa sui dati reali (categorie/negozi/ore, meteo/eventi, funnel) e scrivi un mini-briefing con la mossa n.1. Se serve un'azione 🔴, preparala e accodala in AZIONI-IN-ATTESA — non eseguirla.`,
+      });
+    }
+  }
+
+  // A2-bis — AR-280: NESSUN ORDINE DA N GIORNI. `s.ultimo_ordine` veniva letto alla riga 174 e non
+  // usato da nessuna regola: gli occhi guardavano il database ogni cinque minuti e non fiatavano da un
+  // mese. La causa è che A2 qui sopra è una VARIAZIONE PERCENTUALE su una media — un modello copiato da
+  // un marketplace con volume, dove il rischio è il calo. Qui il rischio è l'ASSENZA: con zero ordini
+  // `mediaGiorno` è 0, la guardia `>= CALO_MIN_BASE` non passa, e il fatto più grave del business non
+  // produce nessun segnale. Una media di zero non cala mai.
+  //
+  // La soglia sale a scalini (7 → 14 → 30 → 60 → 90 giorni) e la firma È lo scalino: così l'allarme
+  // suona UNA volta per traguardo invece di riaccodarsi a ogni giro (la lezione di AR-114, già pagata
+  // in questo stesso file con 39 diagnosi ripetute in 5 giorni). Un allarme che si ripete identico
+  // all'infinito è indistinguibile dal silenzio.
+  if (s.ultimo_ordine) {
+    const giorniSenzaOrdini = giorniDa(s.ultimo_ordine, Date.now());
+    const SCALINI = [90, 60, 30, 14, 7];
+    const scalino = giorniSenzaOrdini == null ? null : SCALINI.find((g) => giorniSenzaOrdini >= g) ?? null;
+    if (scalino != null) {
+      eventi.push({
+        ambito: "azioni", chiave: "nessun_ordine", colore: "🔴", reparto: "vendite",
+        dedupPersistente: true,
+        titolo: `Nessun ordine da ${giorniSenzaOrdini} giorni`,
+        firma: `scalino-${scalino}`,
+        prompt: `Sentinella azioni 💼 — MARKETPLACE FERMO: l'ultimo ordine risale a ${giorniSenzaOrdini} giorni fa (${s.ultimo_ordine}), traguardo dei ${scalino} giorni superato. È il fatto più grave del business e finora nessuna regola lo guardava: A2 misura il CALO su una media, e una media di zero non cala mai. Porta a Nicola la mossa n.1 per il 1° ordine pagato (oggi: ordine di test su Pane Quotidiano, ~5€) e accodala in AZIONI-IN-ATTESA — non eseguire acquisti da solo.`,
       });
     }
   }

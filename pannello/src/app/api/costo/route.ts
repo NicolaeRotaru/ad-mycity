@@ -52,9 +52,13 @@ export async function GET() {
     perTipo[k].durata_sec += Number(v?.durata_sec || 0);
   }
 
-  const tokenOggi = Number(oggi.token_totali || 0);
-  const sogliaSuperata = soglia > 0 && tokenOggi > soglia;
-  const sogliaPct = soglia > 0 ? Math.round((tokenOggi / soglia) * 100) : null;
+  // AR-196: il Pannello mostrava `token_totali`, cioè 0 per sei giorni di fila mentre la macchina
+  // bruciava centinaia di migliaia di token stimati. Il numero vero è quello su cui frena il giro.
+  // Se il campo manca, `null`: la casella dirà «non misurato», non un rassicurante zero.
+  const tokenGate = typeof oggi.token_per_gate === "number" ? oggi.token_per_gate : null;
+  const tokenOggi = tokenGate;
+  const sogliaSuperata = soglia > 0 && tokenOggi != null && tokenOggi > soglia;
+  const sogliaPct = soglia > 0 && tokenOggi != null ? Math.round((tokenOggi / soglia) * 100) : null;
 
   return NextResponse.json({
     collegato: true,

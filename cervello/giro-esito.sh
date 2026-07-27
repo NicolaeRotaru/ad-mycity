@@ -100,3 +100,19 @@ aggiungi_vincolo() {
   [ -z "$esistente" ] && { printf '%s' "$nuovo"; return; }
   printf '%s\n%s' "$esistente" "$nuovo"
 }
+
+# guardiano <script.mjs> [args...]
+# AR-165 — Esegue un guardiano SENZA perderne l'esito, e lo lascia in GUARDIANO_RC/GUARDIANO_OUT.
+#
+# Il difetto: due guardiani veri erano cablati come `node x.mjs 2>&1 | tail -4 || true`. In una pipe
+# il codice d'uscita che conta è quello dell'ULTIMO comando (`tail`, sempre 0), e il `|| true` lo
+# seppellisce una seconda volta. Il guardiano nato apposta per scoprire i controlli spenti in silenzio
+# aveva, lui per primo, l'allarme staccato — e per settimane nessuno se n'è accorto perché nel giro il
+# modello «riga informativa» e il modello «cancello» si somigliano a vista: la differenza sta in due
+# caratteri. Qui la differenza diventa il NOME della funzione che chiami.
+guardiano() {
+  local _script="$1"; shift
+  GUARDIANO_OUT="$(node "${SCRIPT_DIR:-.}/$_script" "$@" 2>&1)"; GUARDIANO_RC=$?
+  printf '%s\n' "$GUARDIANO_OUT" | tail -6
+  return "$GUARDIANO_RC"
+}

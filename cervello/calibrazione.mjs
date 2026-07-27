@@ -80,18 +80,47 @@ function statoSensori() {
   return { sensori, ciechi, tot, quotaCiechiAlta: tot > 0 && ciechi / tot >= 2 / 3 };
 }
 
-// AR-061: mappa la fonte di un esito al sensore automatico corrispondente e ne legge lo stato.
+// AR-061 / AR-171 — da quale strumento è stata misurata questa previsione, e quello strumento vedeva?
+//
+// Il difetto trovato il 28/7 era più largo di come era stato scritto. Sì, la mappa cercava la chiave
+// `posthog` mentre nel file dei sensori si chiama `posthog_api` (scritta a memoria invece che leggendo
+// le chiavi vere). Ma il guasto grosso è che la ricerca era un `mappa[fonte]` ESATTO su un campo di
+// testo libero: una fonte come «PostHog (nessun evento click_lista_attesa registrato) + registro-fatti»
+// non corrispondeva a niente, cadeva nel ramo «fonte umana» e CONTAVA nel punteggio.
+// Misurato sul registro reale: 41 voci chiuse su 42 stavano a `n/d` = conta — di cui 36 provenienti da
+// «chiusura-loop ESITO», cioè dal quaderno che la macchina scrive da sé.
+//
+// Il default era rovesciato: si escludeva solo ciò che si sapeva riconoscere come cieco. Ora si include
+// solo ciò che si riconosce come visto — tutto il resto è `sconosciuto` e non fa guadagnare autonomia.
+// Leggere la propria memoria non è misurare la realtà: è lo stesso giudizio circolare di AR-279.
+
+/** Fonti umane dichiarate: non vengono da un sensore, e va benissimo — un documento firmato è una misura. */
+const FONTI_UMANE = [/documento firmato/i, /conferma di nicola/i, /firma di nicola/i, /intervista/i, /sopralluogo/i];
+
+/** I sensori automatici con le chiavi VERE di sensori-cecita.json (verificate sul file, non a memoria). */
+const SENSORI_PER_FONTE = [
+  { re: /supabase\s*mcp|mcp\s*supabase/i, chiavi: ["mcp_supabase", "supabase_rest"] },
+  { re: /stripe\s*mcp|mcp\s*stripe/i, chiavi: ["mcp_stripe", "stripe_api"] },
+  { re: /posthog/i, chiavi: ["posthog_api"] },
+  { re: /stripe/i, chiavi: ["stripe_api"] },
+  { re: /resend/i, chiavi: ["resend_api"] },
+  { re: /\bn8n\b/i, chiavi: ["n8n_health"] },
+  { re: /telegram/i, chiavi: ["telegram_bot"] },
+  { re: /supabase|\bREST\b/i, chiavi: ["supabase_rest"] },
+];
+
 function sensoreStatoPerFonte(fonte) {
+  const f = String(fonte ?? "").trim();
+  if (!f) return "sconosciuto";
   const { sensori } = statoSensori();
-  const mappa = {
-    "Supabase MCP": ["mcp_supabase", "supabase_rest"],
-    "Stripe MCP": ["stripe_api"],
-    PostHog: ["posthog"],
-  };
-  const chiavi = mappa[fonte];
-  if (!chiavi) return "n/d"; // fonti umane (documento firmato, conferma di Nicola): non da sensore automatico
-  if (chiavi.some((k) => sensori[k]?.stato === "ok")) return "ok";
-  if (chiavi.some((k) => sensori[k])) return "cieco";
+  const voce = SENSORI_PER_FONTE.find((s) => s.re.test(f));
+  if (voce) {
+    if (voce.chiavi.some((k) => sensori[k]?.stato === "ok")) return "ok";
+    if (voce.chiavi.some((k) => sensori[k])) return "cieco";
+    // Il sensore è nominato ma nel file non esiste: è il caso AR-171. Non è «non applicabile».
+    return "sconosciuto";
+  }
+  if (FONTI_UMANE.some((re) => re.test(f))) return "n/d";
   return "sconosciuto";
 }
 
@@ -230,8 +259,11 @@ function ricalcolaReparti(data) {
       continue;
     }
     if (e.stato === "azzeccata" || e.stato === "mancata") {
-      // AR-061: un esito misurato con sensore-fonte cieco NON conta nel punteggio (autonomia non si guadagna al buio).
-      if (e.sensore_stato === "cieco") {
+      // AR-061 / AR-171: l'autonomia si guadagna SOLO su esiti misurati da uno strumento che vedeva
+      // (`ok`) o da una fonte umana dichiarata (`n/d` — un documento firmato è una misura vera).
+      // Cieco e sconosciuto non contano: prima l'esclusione era al contrario — si scartava solo ciò che
+      // si sapeva riconoscere come cieco, quindi qualunque fonte non riconosciuta faceva punteggio.
+      if (e.sensore_stato !== "ok" && e.sensore_stato !== "n/d") {
         perRep.set(rep, cur);
         continue;
       }
