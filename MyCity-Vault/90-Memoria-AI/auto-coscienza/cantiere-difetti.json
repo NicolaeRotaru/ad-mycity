@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 22:32",
+  "aggiornato": "2026-07-27 23:33",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -2892,7 +2892,7 @@
       "causa_radice": "① Perché il gate passa? Perché scansiona 0 file. ② Perché 0 file? Perché non ci sono cacce aperte e senza cacce il loop non parte. ③ Perché le cacce sono l'unico innesco? Perché il guardiano è nato per risolvere un caso preciso (propagare un valore CAMBIATO), non per misurare la coerenza dello stato corrente. ④ Perché quel caso è diventato «il» controllo di coerenza? Perché è l'unico eseguibile: il report che scrive è l'unica evidenza disponibile, quindi il Pannello ci ha attaccato sopra il badge generale «memoria coerente». ⑤ CAUSA DI SISTEMA: manca la distinzione tra «nessuna violazione trovata» e «nessuna verifica eseguita». Un guardiano che non riporta la propria copertura viene letto come una garanzia, e un verde senza copertura è peggio di un rosso: spegne il sospetto invece di accenderlo.",
       "fix_proposto": "🟡 Tre modifiche al processo, non al singolo numero. (a) `coerenza-fatti.mjs`: quando `cacce_aperte === 0`, il report esce con `esito: \"non_verificato\"` e `copertura: 0`, non `ok` — il verde si può dare solo dopo aver letto dei file. (b) Aggiungere un secondo controllo, quello che manca: per ogni fatto con un valore citabile, verificare che i file vivi che lo nominano riportino il valore CORRENTE (non solo che sia sparito quello vecchio); così il gate lavora anche a regime, non solo nella finestra di un cambio. (c) Estendere le radici di scansione oltre `MyCity-Vault/consegne/creativi/memoria-squadra`: oggi `cervello/` e `.claude/agents/` (120 mansionari che citano fatti di business) non vengono guardati da nessuno. Il badge nel Pannello deve mostrare la copertura accanto all'esito («coerente · 412 file letti» oppure «non verificato in questo giro»).",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -2901,8 +2901,8 @@
         "presente": true
       },
       "nota": "Dove: cervello/coerenza-fatti.mjs:186 (`if (cacce.length)`) → MyCity-Vault/90-Memoria-AI/auto-coscienza/coerenza-fatti.json:6 · Impatto: Lo stato di riposo del sistema — nessun fatto cambiato di recente — è indistinguibile da «tutto verificato». Nicola legge nella Cabina una garanzia di coerenza che nessuno ha guadagnato, proprio sul meccanismo che CLAUDE.md dichiara fonte unica della verità (AR-102: «il guardiano gira a ogni giro e FALLISCE se una copia vecchia resta in un file vivo»). Ogni divergenza nata senza un `registra` — e sono la maggioranza: numeri derivati, conteggi di giorni, prosa riscritta a mano — passa sotto il verde. Le altre incoerenze trovate in questa radiografia (PI26 4 vs 7 giorni, stallo 29 vs 32 giorni) sono tutte invisibili a questo gate, che nel frattempo dichiara ok.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 23:33",
+      "chiuso_come": "cervello/coerenza-fatti.mjs contiene /file_scansionati === 0|non_verificato|copertura/ → trovato"
     },
     {
       "id": "AR-212",
@@ -2934,15 +2934,15 @@
       "causa_radice": "① Perché il gate non ferma il difetto? Perché non conosce quei campi. ② Perché non li conosce? Perché la tabella è stata scritta per chiudere un incidente specifico (i tile salute spenti), non derivata da ciò che il Pannello legge. ③ Perché non è stata estesa? Perché estenderla richiede di sapere quali campi il Pannello disegna, informazione che vive sparsa nei componenti .tsx. ④ Perché resta sparsa? Perché il contratto è duplicato in tre posti — la prosa in `auto-coscienza.md`, la tabella in `valida-contratti.mjs`, i tipi TypeScript nei componenti — e nessuno dei tre è generato dagli altri. ⑤ CAUSA DI SISTEMA: il contratto non ha una casa sola. È esattamente il difetto che il registro dei fatti ha risolto per i fatti di business e che nessuno ha risolto per la forma dei dati: tre copie che divergono in silenzio, e il gate applica la più povera.",
       "fix_proposto": "🟡 (a) Ricavare la tabella `CONTRATTO` dall'elenco dei campi realmente letti dal Pannello, e dichiarare una regola per OGNI file di `auto-coscienza/` — chi non ha contratto non deve essere «non giudicato», deve fallire il gate finché qualcuno lo dichiara. (b) Aggiungere ai campi obbligatori quelli che disegnano una sezione (`errori`, `domande_per_nicola`, `verifiche` per l'auto-analisi; `verifica` per ogni difetto aperto del cantiere) e la lista degli alias vietati man mano che emergono. (c) Ogni volta che il Pannello aggiunge una sezione che legge un campo di memoria, il contratto va esteso nello stesso lavoro: metterlo come riga della checklist di consegna, così il gate non resta indietro rispetto alla Cabina.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/memoria-che-mente.test.mjs"
       },
       "nota": "Dove: cervello/valida-contratti.mjs:27-38 (tabella CONTRATTO) e :71 (`if (!regola) continue`) · Impatto: Il cancello dà l'impressione di proteggere l'intera memoria-macchina e ne protegge il 12%, sul campo sbagliato. Ogni deriva futura di forma — e ce n'è già una in produzione — arriva fino allo schermo, dove degrada in silenzio. Ogni rattoppo aggiunto a valle rende inoltre più difficile accorgersi del prossimo: il Pannello impara a convivere con file fuori contratto invece di rifiutarli.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 23:33",
+      "chiuso_come": "node cervello/test/memoria-che-mente.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-214",
@@ -5405,8 +5405,8 @@
     }
   ],
   "meta": {
-    "aperti": 162,
+    "aperti": 160,
     "in_corso": 0,
-    "chiusi": 109
+    "chiusi": 111
   }
 }
