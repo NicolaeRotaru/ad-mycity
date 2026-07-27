@@ -3127,8 +3127,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "tipo": "umano",
-        "come": "Da telefono (o DevTools in modalità mobile, larghezza < 1024px): tocca l'hamburger in alto a sinistra, poi fai il gesto indietro. Corretto = il menù si chiude e l'area sotto resta quella di prima. Oggi = il menù resta aperto e l'area sotto è cambiata."
+        "comando": "node cervello/test/strati.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:2608-2623 (menù a scomparsa) · pannello/src/app/page.tsx:805 e 2529 (stato del menù) · pannello/src/app/page.tsx:1962-1981 (gestore indietro)",
       "chiuso_il": "",
@@ -3538,9 +3537,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/components/aree/Documenti.tsx",
-        "pattern": "const \\[cartella, setCartella\\] = useState<string \\| null>\\(null\\)",
-        "presente": false
+        "comando": "node cervello/test/strati.test.mjs"
       },
       "nota": "Dove: pannello/src/components/aree/Documenti.tsx:62-63 (cartella e documento aperto) · 190 e 286 (le frecce indietro disegnate a schermo) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
@@ -3559,9 +3556,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/app/page.tsx",
-        "pattern": "const \\[convDrawerAperto, setConvDrawerAperto\\] = useState\\(false\\)",
-        "presente": false
+        "comando": "node cervello/test/strati.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:828 (cassetto Conversazioni) · 805 (menu del telefono) · 1022 (elenco chat nel Worker) · pannello/src/components/LetteraAdCard.tsx:65 (lettera dell'AD) · pannello/src/components/BottoneFotoChat.tsx:227 (fotocamera e visore foto) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
