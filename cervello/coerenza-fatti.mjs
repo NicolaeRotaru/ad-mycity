@@ -222,7 +222,14 @@ function check({ json = false } = {}) {
 
   const report = {
     data: oraPiacenza(),
-    esito: incoerenze.length ? "incoerenze" : "ok",
+    // AR-211 — un verde si può dare solo dopo aver LETTO qualcosa. Il guardiano scansiona i file
+    // solo quando c'è una «caccia» aperta (un fatto appena cambiato da propagare); a cacce zero
+    // leggeva zero file e scriveva lo stesso `ok`, cioè «memoria coerente» senza aver aperto niente.
+    // È nato per un caso preciso — propagare un valore CAMBIATO — ed è stato letto come se misurasse
+    // la coerenza dello stato corrente. Ora dice quello che ha fatto: `non_verificato`, che nel
+    // Pannello e nei gate non è un rosso ma nemmeno un verde comprato a credito.
+    esito: incoerenze.length ? "incoerenze" : fileScansionati > 0 ? "ok" : "non_verificato",
+    copertura: fileScansionati,
     fatti_totali: registro.fatti.length,
     cacce_aperte: cacce.length,
     file_scansionati: fileScansionati,
@@ -231,7 +238,9 @@ function check({ json = false } = {}) {
     esenzioni_default: ESENZIONI_DEFAULT,
     istruzioni: incoerenze.length
       ? "Riscrivi ogni file elencato col valore nuovo del fatto, poi riesegui `node cervello/coerenza-fatti.mjs` finché passa. Le cacce con 0 copie sono bonificate: chiudile con `chiudi-caccia <id>`."
-      : "Memoria coerente: nessuna copia vecchia nei file vivi.",
+      : fileScansionati > 0
+        ? "Memoria coerente: nessuna copia vecchia nei file vivi."
+        : "NON VERIFICATO: nessuna caccia aperta, quindi non è stato letto alcun file. Non è un verde — è l'assenza di una misura (AR-211).",
   };
   mkdirSync(dirname(REPORT), { recursive: true });
   writeFileSync(REPORT, JSON.stringify(report, null, 2) + "\n", "utf8");
@@ -239,7 +248,7 @@ function check({ json = false } = {}) {
   if (json) {
     console.log(JSON.stringify(report, null, 2));
   } else {
-    console.log(`🧭 Coerenza-fatti — fatti: ${report.fatti_totali} · cacce aperte: ${report.cacce_aperte} · file vivi scansionati: ${fileScansionati}`);
+    console.log(`🧭 Coerenza-fatti — fatti: ${report.fatti_totali} · cacce aperte: ${report.cacce_aperte} · file vivi scansionati: ${fileScansionati}${fileScansionati === 0 ? " → NON VERIFICATO (AR-211: nessun file letto, nessun verde)" : ""}`);
     if (!registro.fatti.length) {
       console.log("   Registro vuoto: nessun fatto-chiave ancora registrato (si popola al prossimo giro / alla prossima decisione).");
     }

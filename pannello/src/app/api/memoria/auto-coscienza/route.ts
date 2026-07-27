@@ -84,8 +84,38 @@ function trendBreve(v: any): string {
   // Un trend legittimo è corto e senza punteggiatura di frase (. : ; —). Tutto il resto = deriva del giro.
   return t.length > 0 && t.length <= 24 && !/[.:;—]/.test(t) ? t : "";
 }
+/**
+ * AR-212 — gli alias che SPENGONO informazione nella Cabina.
+ *
+ * Il giro scriveva `domande_bloccanti` mentre questa route (e il Pannello) leggono
+ * `domande_per_nicola`: risultato, «nessuna domanda» in Cabina mentre nel file ce n'erano TRE, una
+ * sul bando in scadenza fra tre giorni. Nessuno se n'è accorto perché il numero mostrato era
+ * plausibile: zero domande è uno stato normale, non un errore che salta all'occhio.
+ *
+ * Il cancello vero è in `cervello/valida-contratti.mjs`, che ora vieta gli alias e dà al giro un
+ * vincolo hard. Questo è la difesa dal lato di chi LEGGE, e serve per due motivi: fa vedere a Nicola
+ * le domande SUBITO invece che al prossimo giro, e continua a coprire se un domani il modello
+ * inventerà un sinonimo nuovo — cosa che, sotto pressione di contesto, farà.
+ *
+ * Non inventa niente: sposta un campo dove il Pannello lo cerca, e solo se quello canonico è vuoto.
+ */
+const ALIAS_ANALISI: Record<string, string> = {
+  domande_bloccanti: "domande_per_nicola",
+  domande: "domande_per_nicola",
+  errori_giro: "errori",
+  problemi: "errori",
+};
+function riportaAlias(a: any): void {
+  if (!a || typeof a !== "object") return;
+  for (const [alias, canonico] of Object.entries(ALIAS_ANALISI)) {
+    const vuoto = !Array.isArray(a[canonico]) || a[canonico].length === 0;
+    if (vuoto && Array.isArray(a[alias]) && a[alias].length > 0) a[canonico] = a[alias];
+  }
+}
+
 function sanificaAnalisi(a: any): void {
   if (!a || typeof a !== "object") return;
+  riportaAlias(a); // AR-212: prima di tutto, non perdere le domande per un sinonimo
   const voto = primoIntero(a.voto_fiducia);
   if (voto != null) a.voto_fiducia = Math.max(0, Math.min(100, voto));
   if (a.trend_fiducia != null) a.trend_fiducia = trendBreve(a.trend_fiducia);

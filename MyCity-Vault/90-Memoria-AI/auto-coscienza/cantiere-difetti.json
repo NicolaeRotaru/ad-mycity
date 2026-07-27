@@ -2938,9 +2938,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/valida-contratti.mjs",
-        "pattern": "domande_per_nicola",
-        "presente": true
+        "comando": "node cervello/test/memoria-che-mente.test.mjs"
       },
       "nota": "Dove: cervello/valida-contratti.mjs:27-38 (tabella CONTRATTO) e :71 (`if (!regola) continue`) · Impatto: Il cancello dà l'impressione di proteggere l'intera memoria-macchina e ne protegge il 12%, sul campo sbagliato. Ogni deriva futura di forma — e ce n'è già una in produzione — arriva fino allo schermo, dove degrada in silenzio. Ogni rattoppo aggiunto a valle rende inoltre più difficile accorgersi del prossimo: il Pannello impara a convivere con file fuori contratto invece di rifiutarli.",
       "chiuso_il": "",
