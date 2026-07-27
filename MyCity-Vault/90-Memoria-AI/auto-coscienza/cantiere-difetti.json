@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 12:45",
+  "aggiornato": "2026-07-27 12:57",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -4135,17 +4135,15 @@
       "causa_radice": "① Perché la memoria non si pubblica? Perché lo scanner esce con errore. ② Perché esce con errore? Perché un valore finto ha la forma di uno vero. ③ Perché la forma finta non è distinta da quella vera? Perché il riconoscimento è solo sintattico e l'esclusione dei segnaposti, dichiarata a commento, non è mai stata scritta in codice. ④ Perché nessuno se n'è accorto? Perché il gate è fail-closed senza contro-prova: nessun controllo verifica che lo scanner sia VERDE sullo stato pulito del repo, quindi un falso positivo permanente non ha un allarme suo. ⑤ Causa di sistema: un cancello bloccante è stato costruito senza il suo gemello — la prova che il cancello sia aperto quando deve esserlo — e senza deroga tracciata, così il primo falso positivo diventa un blocco a tempo indeterminato.",
       "fix_proposto": "🟡 Tre pezzi, in quest'ordine: (a) togliere la forma-di-chiave dal test (usare un valore che non somigli a una chiave, es. la parola FINTA senza il prefisso del provider); (b) dare allo scanner una lista di deroghe versionata e commentata (file + regola + motivo + data), così una futura eccezione si vede e si discute invece di bloccare; (c) aggiungere al giro una prova positiva: se lo scanner blocca, il messaggio deve dire «MEMORIA NON PUBBLICATA» e la sentinella deve avvisare Nicola — un blocco che dura più di un giro è un incidente, non un normale esito.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/test/autopilot-colore.test.mjs",
-        "pattern": "RESEND_API_KEY: \"«chiave finta di test» (valore redatto)\"",
-        "presente": true
+        "comando": "node cervello/scan-segreti.mjs"
       },
-      "nota": "Dove: cervello/test/autopilot-colore.test.mjs:91 (innesco) · cervello/giro.sh:713 (scan) · cervello/giro.sh:785 (blocco) · Impatto: Il Pannello che Nicola guarda resta fermo su una memoria vecchia mentre la macchina crede di aver lavorato: briefing, stato, decisioni e coda azioni si accumulano solo sul server. È il peggiore dei guasti silenziosi — la macchina non è ferma, è scollegata dagli occhi del proprietario, e il messaggio che stampa parla di «possibile segreto», non di «memoria non pubblicata».",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "nota": "Dove: cervello/test/autopilot-colore.test.mjs:91 (innesco) · cervello/giro.sh:713 (scan) · cervello/giro.sh:785 (blocco) · Impatto: Il Pannello che Nicola guarda resta fermo su una memoria vecchia mentre la macchina crede di aver lavorato: briefing, stato, decisioni e coda azioni si accumulano solo sul server. È il peggiore dei guasti silenziosi — la macchina non è ferma, è scollegata dagli occhi del proprietario, e il messaggio che stampa parla di «possibile segreto», non di «memoria non pubblicata». · PROVA AGGIORNATA 2026-07-27: da pattern-nel-codice a comando. Lo scanner che esce 0 E la definizione stessa di «la pubblicazione non e piu bloccata»; un pattern nel file non lo avrebbe dimostrato.",
+      "chiuso_il": "2026-07-27 12:57",
+      "chiuso_come": "node cervello/scan-segreti.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-271",
@@ -4795,17 +4793,15 @@
       "causa_radice": "① Perché il giro esce 0 con i gate rossi? Perché l'exit code non li legge. ② Perché non li legge? Perché i gate sono stati progettati come «vincolo al motore AI», non come cancelli del processo. ③ Perché come vincolo al motore? Perché la correzione storica (AR-010/AR-081) è stata «non ingoiare più l'exit code con || true» e si è fermata a catturare l'rc e trasformarlo in testo. ④ Perché ci si è fermati lì? Perché fermare il giro sembrava peggio che farlo girare degradato — nessuno ha definito il terzo stato «girato ma non valido». ⑤ Causa di SISTEMA: manca la nozione di esito del giro distinto da esito del processo. Il giro ha due bit (ha girato / ha pubblicato) e zero bit su «i controlli erano verdi». Finché l'onestà del giro dipende dal fatto che un LLM legga e rispetti un paragrafo del prompt, non è un controllo: è una speranza.",
       "fix_proposto": "🟡 Introdurre un esito a tre stati. (1) In giro.sh contare i vincoli non vuoti in una variabile GATE_ROSSI e scriverla, con l'elenco dei guardiani falliti, in MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-giro.json insieme a ai_rc e push_ok. (2) Sostituire la riga 663 con un messaggio onesto: «Giro completato» solo se ai_rc=0 e GATE_ROSSI=0, altrimenti «Giro chiuso DEGRADATO: N controlli rossi (elenco)». (3) Aggiungere exit 3 = «girato ma non valido» quando GATE_ROSSI>0, e mappare rc=3 nel worker (worker.sh:1192-1207) su stato=fatto con nota visibile invece che su un fatto pulito, così il Pannello mostra il giro giallo. (4) Distinguere nel conteggio i gate bloccanti (test del cervello, coerenza-fatti, registro agenti) dai gate informativi, per non far diventare tutto rosso il primo giorno. Resta 🟡: tocca il codice del cervello, va in branch ops/ e in PR firmata da Nicola.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "exit 3|GUARDIANI_ROSSI|GATE_FALLITI",
-        "presente": true
+        "comando": "node cervello/test/giro-esito.test.mjs"
       },
-      "nota": "Dove: cervello/giro.sh:663 e cervello/giro.sh:894-914 · Impatto: È la risposta alla domanda-guida: sì, un giro finisce verde con controlli importanti falliti. Di conseguenza ogni altro numero della macchina (salute, pagella intelligenza, storico giri, costo per giro riuscito) misura una cosa che non è successa. Nicola non ha modo di sapere che quel giro andava buttato: l'unico segnale è una riga di log su stderr che nessuno legge. La macchina impara e decide su una base che si è auto-certificata sana. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "nota": "Dove: cervello/giro.sh:663 e cervello/giro.sh:894-914 · Impatto: È la risposta alla domanda-guida: sì, un giro finisce verde con controlli importanti falliti. Di conseguenza ogni altro numero della macchina (salute, pagella intelligenza, storico giri, costo per giro riuscito) misura una cosa che non è successa. Nicola non ha modo di sapere che quel giro andava buttato: l'unico segnale è una riga di log su stderr che nessuno legge. La macchina impara e decide su una base che si è auto-certificata sana. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA AGGIORNATA 2026-07-27: il test esegue la funzione vera con un giro a cancelli rossi e pretende exit 3. Con la logica vecchia quel caso restituiva 0, quindi il test sarebbe fallito: la prova distingue davvero il prima dal dopo.",
+      "chiuso_il": "2026-07-27 12:57",
+      "chiuso_come": "node cervello/test/giro-esito.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-301",
@@ -4816,17 +4812,15 @@
       "causa_radice": "① Perché un giro fallito segna «pieno»? Perché la chiamata non guarda ai_rc. ② Perché non lo guarda? Perché --segna-pieno è stato pensato come «marca che il ciclo è passato di qui», non «marca che il lavoro è stato fatto». ③ Perché quella confusione? Perché delta-gate.mjs non ha modo di verificare da sé se il giro è riuscito: si fida ciecamente di chi lo chiama. ④ Perché si fida? Perché il segnale di successo del giro non esiste come dato (vedi difetto precedente): esiste solo come exit code del processo, che a quel punto non è ancora stato calcolato. ⑤ Causa di SISTEMA: lo stesso vuoto del difetto n.1 — senza un esito del giro strutturato, ogni componente a valle (delta-gate, costo-ai, Pannello, sentinelle) si inventa il proprio criterio di «è andata bene», e sceglie sempre quello più ottimista.",
       "fix_proposto": "🟡 Condizionare la promozione al successo reale: avvolgere la riga 687 in `if [ \"$ai_rc\" -eq 0 ] && [ \"${GIRO_STEPS_OK:-1}\" = 1 ]`. Un giro fallito o che ha saltato i passi 11-12 NON deve poter dire «qui è tutto aggiornato». In più, in delta-gate.mjs rifiutare --segna-pieno se non gli si passa un esito esplicito (--esito=ok) — così il default è non promuovere. Terza cintura: registrare in delta-gate.json anche `ultimo_pieno.ai_rc`, per poter vedere a posteriori quante promozioni erano bugie. Branch ops/, PR firmata.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "delta-gate\\.mjs\" --segna-pieno",
-        "presente": false
+        "comando": "node cervello/test/giro-esito.test.mjs"
       },
-      "nota": "Dove: cervello/giro.sh:685-687 (e cervello/delta-gate.mjs:184-198) · Impatto: Un fallimento si travestre da successo e diventa un freno. Con lo stato attuale del business (0 ordini pagati) la firma del delta-gate è di fatto immobile: dopo un giro fallito la macchina resta senza motore AI fino al battito di sicurezza DELTA_GATE_MAX_ORE (12 ore). Sono ~6 giri consecutivi a vuoto dopo ogni fallimento, con il Pannello che intanto mostra «giro saltato: niente di nuovo» — una spiegazione tranquillizzante e falsa. Il costo si vede al contrario: il log costo-ai registra i giri saltati come risparmio. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "nota": "Dove: cervello/giro.sh:685-687 (e cervello/delta-gate.mjs:184-198) · Impatto: Un fallimento si travestre da successo e diventa un freno. Con lo stato attuale del business (0 ordini pagati) la firma del delta-gate è di fatto immobile: dopo un giro fallito la macchina resta senza motore AI fino al battito di sicurezza DELTA_GATE_MAX_ORE (12 ore). Sono ~6 giri consecutivi a vuoto dopo ogni fallimento, con il Pannello che intanto mostra «giro saltato: niente di nuovo» — una spiegazione tranquillizzante e falsa. Il costo si vede al contrario: il log costo-ai registra i giri saltati come risparmio. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA AGGIORNATA 2026-07-27: il test interroga giro_e_pieno con motore fallito e con i passi 11-12 saltati e pretende 0. Prima segna-pieno girava sempre.",
+      "chiuso_il": "2026-07-27 12:57",
+      "chiuso_come": "node cervello/test/giro-esito.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-302",
@@ -5215,7 +5209,7 @@
       "causa_radice": "① Perché i vincoli spariscono? Perché vivono solo dentro il prompt. ② Perché solo lì? Perché sono stati pensati come istruzioni all'LLM, non come stato del giro. ③ Perché il salto non li considera? Perché il delta-gate è nato per risparmiare token guardando il business, ed è stato inserito a valle dei guardiani senza rileggere cosa avessero prodotto. ④ Perché nessuno ha collegato le due cose? Perché ogni vincolo è stato aggiunto singolarmente (AR-081, PZ-008, AR-102...) e nessuno ha mai guardato l'insieme come un unico cancello. ⑤ Perché l'insieme non è mai stato guardato? Perché non esiste un punto del codice in cui i quindici vincoli siano una lista: sono quindici variabili sciolte, e una lista che non esiste non si può controllare.",
       "fix_proposto": "🟡 Raccogliere i vincoli in un unico elenco (un array VINCOLI_ATTIVI popolato man mano) e usarlo in due punti: (a) se l'elenco non è vuoto, il delta-gate e il gate-budget NON possono saltare il motore — un vincolo attivo è per definizione «qualcosa è cambiato»; (b) se il motore viene saltato comunque per budget, il giro non esce 0: esce 2 e scrive nel log e in coda l'elenco dei vincoli non consegnati, così non evaporano in silenzio.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -5224,8 +5218,8 @@
         "presente": true
       },
       "nota": "Dove: cervello/giro.sh:456-486 (RUN_AI) contro :152-447 (guardiani) e :613-615, :703-851, :914 · Impatto: Test del cervello rossi, registro agenti incoerente, OKR scaduto, checklist stantia: tutto viene rilevato, trasformato in vincolo e cestinato, mentre il Pannello riceve memoria nuova e l'exit code dice 0. Chi guarda il log vede un giro riuscito. È il modo più efficace per far marcire un difetto: rilevarlo ogni due ore e non consegnarlo mai a nessuno.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 12:57",
+      "chiuso_come": "cervello/giro.sh contiene /VINCOLI_ATTIVI/ → trovato"
     },
     {
       "id": "AR-321",
@@ -5435,8 +5429,8 @@
     }
   ],
   "meta": {
-    "aperti": 197,
+    "aperti": 193,
     "in_corso": 0,
-    "chiusi": 72
+    "chiusi": 76
   }
 }

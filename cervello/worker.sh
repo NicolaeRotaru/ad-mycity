@@ -1199,6 +1199,13 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
       # nell'output sopra (cerca «GATE MEMORIA», «VAULT-SANITÀ», «COERENZA-FATTI» oppure «push … fallito»).
       stato="errore"; out="$out
 [worker] Memoria scritta in locale ma NON pubblicata su main (rc=2). Motivo nell'output sopra: o il gate coerenza/vault-sanità l'ha bloccata (es. un JSON del vault non parsabile → ripara il file), oppure il push è fallito (controlla GIT_PUSH_TOKEN)."
+    elif [ "$rc" -eq 3 ]; then
+      # AR-300/AR-320: il giro è arrivato in fondo e la memoria è pubblicata, ma dei vincoli sono
+      # rimasti ATTIVI (o il motore è stato saltato mentre lo erano). Non è un fallimento del motore
+      # e non è un successo: è un giro non pulito, e va detto con parole sue invece di finire nel
+      # catch-all «motore AI fallito», che manderebbe a cercare la causa nel posto sbagliato.
+      stato="errore"; out="$out
+[worker] Giro NON pulito (rc=3): la memoria è pubblicata, ma dei cancelli sono rimasti rossi. L'elenco dei vincoli attivi è nell'output sopra e in MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-giro.json. Non è il motore ad aver fallito: sono i controlli a non essere stati soddisfatti."
     elif [ "$rc" -ne 0 ]; then
       stato="errore"; out="$out
 [worker] giro.sh uscito con rc=$rc (motore AI o preparazione fallita)."
