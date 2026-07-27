@@ -1,15 +1,15 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
-  "aggiornato": "2026-07-27 18:20",
+  "aggiornato": "2026-07-27 20:20",
   "giorni_sospetto": 3,
-  "difetti_aperti": 187,
+  "difetti_aperti": 175,
   "per_classe": {
-    "umana": 17,
+    "umana": 16,
     "auto-sospetta": 17,
-    "auto-attesa": 139,
-    "auto-ok": 14
+    "auto-attesa": 129,
+    "auto-ok": 13
   },
-  "non_auto_chiudibili": 34,
+  "non_auto_chiudibili": 33,
   "bloccanti_ciechi": [
     "AR-226",
     "AR-247"
@@ -394,15 +394,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-176",
-      "gravita": "minore",
-      "eta_giorni": 0,
-      "titolo": "Il conto delle previsioni mai misurate è scritto ma non è innestato nel giro",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /debito --gate/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-177",
       "gravita": "bloccante",
       "eta_giorni": 0,
@@ -418,15 +409,6 @@
       "titolo": "Il tasso delle lezioni e la sonda del volano sono gli unici allarmi del giro che vengono buttati via mentre st",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /VOLANO_VINCOLO|_tasso_rc|_sonda_rc/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-179",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "Metà della patch scritta perché le previsioni mai misurate non fossero più condonate non è mai entrata nel gir",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /calibrazione\\.mjs\" debito/)",
       "auto_chiudibile": true
     },
     {
@@ -732,7 +714,7 @@
       "eta_giorni": 0,
       "titolo": "Due schede della stessa pagina danno due scadenze diverse per lo stesso bando",
       "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json ~ /7 giorni residui/)",
+      "perche": "prova non ancora soddisfatta (MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json ~ /giorni residui/)",
       "auto_chiudibile": true
     },
     {
@@ -763,24 +745,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-218",
-      "gravita": "bloccante",
-      "eta_giorni": 0,
-      "titolo": "Il Worker a schermo intero non si chiude più: non c'è la X e il gesto indietro non funziona",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/app/page.tsx ~ /Escape/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-219",
-      "gravita": "bloccante",
-      "eta_giorni": 0,
-      "titolo": "Le azioni da firmare si aprono tutte insieme: 51 schede spalancate una sotto l'altra",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/components/aree/Azioni.tsx ~ /{daFirmare.map((a) => cardAzione(a))}/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-220",
       "gravita": "grave",
       "eta_giorni": 0,
@@ -797,15 +761,6 @@
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (pannello/src/components/cervello/RadiografiaDiSe.tsx ~ /<div className=\"t-micro mb-1.5\">Chiusi</div>/)",
       "auto_chiudibile": true
-    },
-    {
-      "id": "AR-222",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "Il gesto indietro non chiude il menù laterale: cambia l'area di nascosto",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
     },
     {
       "id": "AR-223",
@@ -943,39 +898,12 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-240",
-      "gravita": "bloccante",
-      "eta_giorni": 0,
-      "titolo": "Apri il Worker sul telefono e il tasto indietro ti butta fuori dal Pannello",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/app/page.tsx ~ /const apriWorkerPopup = useCallback\\(\\(full = false\\) => \\{/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-241",
       "gravita": "grave",
       "eta_giorni": 0,
       "titolo": "L'indietro riapre l'area giusta ma sulla scheda sbagliata",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (pannello/src/app/page.tsx ~ /pushState\\(\\{ \\.\\.\\.\\(window\\.history\\.state \\|\\| \\{\\}\\), vista \\}/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-242",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "Nell'Archivio l'indietro non chiude il documento, ti sbatte in un'altra area",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/components/aree/Documenti.tsx ~ /const \\[cartella, setCartella\\] = useState<string \\| null>\\(null\\)/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-243",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "Nessun pannello che si apre sopra si chiude col dito indietro",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/app/page.tsx ~ /const \\[convDrawerAperto, setConvDrawerAperto\\] = useState\\(false\\)/)",
       "auto_chiudibile": true
     },
     {
@@ -1031,33 +959,6 @@
       "classe": "auto-sospetta",
       "perche": "regex non valida in verifica: pannello/src/app/api/memoria/auto-radiografia/route.ts ~ /live, radiografia, cantiere, storico, watchlist, lettera })/",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-251",
-      "gravita": "bloccante",
-      "eta_giorni": 0,
-      "titolo": "Se una sola scheda va in errore, sparisce tutta la Cabina e resta lo schermo bianco",
-      "classe": "auto-attesa",
-      "perche": "il fix consiste nel creare pannello/src/app/error.tsx, non ancora presente",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-252",
-      "gravita": "bloccante",
-      "eta_giorni": 0,
-      "titolo": "Se il giro scrive le domande per Nicola come una frase invece che come elenco, la Cabina diventa bianca",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/components/AutoCoscienza.tsx ~ /a!\\.domande_per_nicola!\\.map/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-253",
-      "gravita": "bloccante",
-      "eta_giorni": 0,
-      "titolo": "Una riga vuota nella lista dei difetti fa diventare bianca la pagina del Cervello",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/components/cervello/RadiografiaDiSe.tsx ~ /\\(cantiere\\?\\.difetti \\|\\| \\[\\]\\)/)",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-254",
@@ -1678,15 +1579,6 @@
       "titolo": "Do a Nicola comandi da incollare con dentro percorsi finti, e il comando fallisce in silenzio su un file omoni",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/scrittura-umana.md ~ /segnaposto|TUO_PERCORSO/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-330",
-      "gravita": "bloccante",
-      "eta_giorni": 0,
-      "titolo": "La macchina ha chiuso da sola 91 difetti appena nati, senza che fosse cambiata una riga di codice",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/auto-fix.mjs ~ /nata_gia_soddisfatta|verifica_gia_vera|git log.*--since/)",
       "auto_chiudibile": true
     },
     {
