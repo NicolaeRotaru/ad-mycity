@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 21:51",
+  "aggiornato": "2026-07-27 22:00",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -5401,20 +5401,20 @@
       "causa_radice": "① Perché è passato del codice su main dentro un commit di memoria? Perché il commit è stato fatto con un  a mano in una shell, non dal percorso di pubblicazione degli script. ② Perché quello non è protetto? Perché il gate-pubblicazione (AR-314) è una funzione bash che i cinque pubblicatori CHIAMANO: chi non la chiama non la incontra. ③ Perché nessuno l'ha notato? Perché il perimetro è stato pensato come una proprietà degli script, non del repository — e finché a committare erano solo loro l'assunzione reggeva. ④ Ma le sessioni AD committano a mano di continuo, ed è esattamente il caso in cui il perimetro serve di più: una sessione che sta lavorando su codice E su memoria insieme. ⑤ RADICE: una regola che vale per il repository è stata implementata come una funzione da chiamare invece che come un cancello che il repository impone. Esiste già l'aggancio giusto e inutilizzato per questo: il repo ha core.hooksPath con un hook pre-commit per i segreti (giro.sh:17).",
       "fix_proposto": "🟡 Portare il controllo di perimetro nell'hook pre-commit che GIÀ esiste per i segreti (cervello/hooks/): se il ramo corrente è main e nello stage ci sono sia file di memoria sia file fuori dalle quattro cartelle, il commit si ferma con il messaggio «il codice su main passa dalla PR, non da un commit di memoria». Sui rami di lavoro non blocca nulla — è solo main che ha il perimetro. Riusa perimetro_ok() da gate-pubblicazione.sh: la regola resta una sola.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27 21:15",
       "origine": "trovato lavorando al lotto 6 del cantiere continuo (27/7): volano-regole.mjs finito su main dentro il commit di memoria c1f7896 invece che nella PR",
       "verifica": {
         "comando": "node cervello/test/perimetro-main.test.mjs"
       },
       "nota": "Portata dell-episodio: volano-regole.mjs e inerte su main (zero riferimenti, nessun comportamento cambiato), il cablaggio viaggia nella PR del lotto 6.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 22:00",
+      "chiuso_come": "node cervello/test/perimetro-main.test.mjs → exit 0 (guardiano soddisfatto)"
     }
   ],
   "meta": {
-    "aperti": 166,
+    "aperti": 165,
     "in_corso": 0,
-    "chiusi": 105
+    "chiusi": 106
   }
 }
