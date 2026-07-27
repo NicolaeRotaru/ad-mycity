@@ -88,7 +88,10 @@ function giroFinto(voci, env = {}) {
       AUTOPILOT_CODA: coda,
       AUTOPILOT_LOG_DIR: join(dir, "log"),
       // Chiavi "collegate": senza il fix, questo basterebbe a far partire l'invio davvero.
-      RESEND_API_KEY: "re_finta_per_il_test",
+      // AR-270: il valore NON deve avere la forma di una chiave vera (niente prefisso del provider).
+      // Il codice sotto test guarda solo se la variabile è valorizzata, mai il suo contenuto — ma con
+      // un valore che *sembra* una chiave lo scanner dei segreti bloccava la pubblicazione a ogni giro.
+      RESEND_API_KEY: "CHIAVE-FINTA-DI-TEST-NON-E-UNA-CHIAVE-VERA",
       RESEND_FROM: "MyCity <no-reply@test.invalid>",
       EMAIL_TEST_TO: "nicola@test.invalid",
       TELEGRAM_BOT_TOKEN: "finto",

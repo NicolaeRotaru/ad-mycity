@@ -27,6 +27,25 @@ const REGOLE = REGOLE_SEGRETI;
 // Estensioni binarie/di rumore da saltare.
 const SKIP_EXT = /\.(png|jpe?g|gif|webp|ico|pdf|zip|gz|tar|mp4|mov|woff2?|ttf|otf|lock)$/i;
 
+/**
+ * AR-270 — DEROGHE ESPLICITE. Una sola volta, il 25/7, una chiave FINTA scritta dentro un test
+ * (aveva il prefisso di un provider vero) ha bloccato la pubblicazione della memoria per due giorni:
+ * il giro si fermava prima del push e nessuno se ne accorgeva, perché il blocco era corretto e il
+ * motivo no. Questa lista esiste perché una deroga sia VISIBILE e discutibile — versionata, con
+ * motivo e data — invece di un silenzioso allargamento del pattern che indebolirebbe lo scanner.
+ *
+ * Regole d'uso: si deroga a un (file, regola) SPECIFICO, mai a un intero percorso o a una regola
+ * intera. Una deroga senza motivo e data non vale. Il primo rimedio resta togliere la forma-di-chiave
+ * dal file: la deroga è la rete di sicurezza, non la soluzione.
+ */
+const DEROGHE = [
+  // { file: "percorso/esatto.mjs", regola: "Nome regola", motivo: "…", data: "AAAA-MM-GG" },
+];
+
+function inDeroga(rel, nomeRegola) {
+  return DEROGHE.some((d) => d.file === rel && d.regola === nomeRegola && d.motivo && d.data);
+}
+
 /** Redige un segreto: mostra solo i primi 7 e gli ultimi 3 caratteri. */
 function reda(s) {
   return campioneRedatto(s);
@@ -84,6 +103,7 @@ function main() {
       regola.re.lastIndex = 0;
       const m = testo.match(regola.re);
       if (m && m.length) {
+        if (inDeroga(rel, regola.nome)) continue; // AR-270: deroga esplicita, versionata e motivata
         for (const hit of m) {
           trovati.push({ file: rel, regola: regola.nome, campione: reda(hit) });
         }
