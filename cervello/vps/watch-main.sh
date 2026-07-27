@@ -103,7 +103,13 @@ if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
 fi
 
 url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
+# AR-311/312/316 — le decisioni sull'esito dell'allineamento stanno in una funzione pura, provabile.
+# shellcheck source=cervello/allineamento-esito.sh
+. "$REPO/cervello/allineamento-esito.sh"
 SHA_FILE="$REPO/.git/mycity-watch-main-sha"
+# AR-316: quanti rinvii CONSECUTIVI. Un rinvio è normale (una chat sta lavorando su un ramo); sei di
+# fila — mezz'ora — significa worktree bloccato, e nessuno se ne accorge perché ogni rinvio è verde.
+RINVII_FILE="$REPO/.git/mycity-watch-main-rinvii"
 LOCK="$REPO/.git/mycity-sync.lock"
 
 exec 9>"$LOCK"
@@ -172,18 +178,32 @@ echo "[$(ts)] watch-main: main avanzato ${LAST_SHA:0:7} → ${REMOTE_SHA:0:7} �
 exec 9>&-
 _agg_rc=0
 AGGIORNA_SKIP_RESTART=1 bash "$REPO/cervello/vps/aggiorna-cervello.sh" || _agg_rc=$?
-if [ "$_agg_rc" -eq 3 ]; then
-  # rc=3 = lavoro VIVO su un branch (una chat sta preparando una PR): l'allineamento è solo
-  # RIMANDATO. Non segniamo lo SHA come visto → si riprova al prossimo giro (5 min). Non è un
-  # errore: niente allarme rosso nel Pannello.
-  echo "[$(ts)] watch-main: allineamento rimandato (lavoro in corso su un branch) — riprovo al prossimo giro."
-  segnale "ok" "allineamento rimandato: lavoro vivo su un branch (${REMOTE_SHA:0:7} in attesa)"
-  exit 0
-elif [ "$_agg_rc" -ne 0 ]; then
-  echo "[$(ts)] watch-main: aggiorna-cervello.sh FALLITO." >&2
-  segnale "errore" "allineamento fallito su ${REMOTE_SHA:0:7} — controlla journalctl"
-  exit 1
+# AR-311/312/316 — la regola, una per tutti gli esiti: **se un passo dell'allineamento non è
+# riuscito, lo SHA NON si segna**. Segnarlo significa «ho visto questa versione e l'ha applicata»:
+# dirlo senza averlo fatto è la bugia che rende il server invisibilmente vecchio, perché da quel
+# momento non ci riprova più.
+#   rc=3 lavoro vivo su un ramo · rc=4 fetch fallito (AR-312) · rc=5 commit non pubblicati (AR-311)
+if [ "$_agg_rc" -ne 0 ]; then
+  _rinvii=0; [ -f "$RINVII_FILE" ] && _rinvii="$(cat "$RINVII_FILE" 2>/dev/null || echo 0)"
+  _rinvii=$(( _rinvii + 1 ))
+  echo "$_rinvii" > "$RINVII_FILE"
+  _motivo="$(motivo_allineamento "$_agg_rc")"
+  case "$(watch_azione "$_agg_rc" "$_rinvii")" in
+    allarme)
+      # AR-316: oltre il tetto non è più «una chat che lavora», è un worktree bloccato. Un verde
+      # ripetuto all'infinito è indistinguibile da un sistema fermo: qui diventa rosso.
+      echo "[$(ts)] watch-main: ⛔ $_rinvii rinvii CONSECUTIVI — $_motivo" >&2
+      segnale "errore" "allineamento fermo da $_rinvii giri (~$(( _rinvii * 5 )) min): $_motivo — ${REMOTE_SHA:0:7} mai applicato"
+      exit 1
+      ;;
+    *)
+      echo "[$(ts)] watch-main: allineamento rimandato ($_rinvii/6) — $_motivo"
+      segnale "ok" "allineamento rimandato ($_rinvii/6): $_motivo (${REMOTE_SHA:0:7} in attesa)"
+      exit 0
+      ;;
+  esac
 fi
+rm -f "$RINVII_FILE" 2>/dev/null || true   # AR-316: allineamento riuscito → il contatore riparte da zero
 echo "$REMOTE_SHA" > "$SHA_FILE"
 echo "[$(ts)] watch-main: allineamento completato."
 segnale "ok" "allineato a main ${REMOTE_SHA:0:7}"

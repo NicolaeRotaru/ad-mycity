@@ -16,6 +16,9 @@ ENV_FILE="$REPO/cervello/vps/.env"
 # allinea DA main, non si pubblica MAI verso main — se un file di codice è sporco va lasciato lì e
 # segnalato, non committato.
 MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
+# AR-311/312 — le decisioni sull'esito dell'allineamento stanno in una funzione pura, provabile.
+# shellcheck source=cervello/allineamento-esito.sh
+. "$REPO/cervello/allineamento-esito.sh"
 
 if [ "$(id -un)" = "root" ]; then
   echo "[$(ts)] ▶ Fix permessi repo → $APP_USER, poi allineamento senza root."
@@ -114,7 +117,15 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
       fi
       sleep 3
     done
-    [ "$_ok_pre" = 1 ] || echo "[$(ts)] ✗ Push commit pendenti fallito — controlla GIT_PUSH_TOKEN." >&2
+    # AR-311 — qui prima c'era solo un echo, e l'esecuzione TIRAVA DRITTO fino al `checkout -f`
+    # che quei commit li butta: il lavoro del server spariva per un errore di rete. Un avviso su
+    # stderr non è una difesa. Ora ci si ferma con un codice dedicato: watch-main NON segna lo SHA,
+    # il lavoro resta sul server e si riprova al prossimo giro.
+    if [ "$_ok_pre" != 1 ]; then
+      _rc_all="$(esito_allineamento 0 1 0)"
+      echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — ${_ahead_pre} commit restano qui. Controlla GIT_PUSH_TOKEN/rete." >&2
+      exit "$_rc_all"
+    fi
   fi
 fi
 
@@ -140,14 +151,25 @@ if [ "$_cur_branch" != "$branch" ] && [ "$_cur_branch" != "HEAD" ]; then
   echo "[$(ts)] Branch '$_cur_branch' fermo da ${_tip_age_min} min e senza sporco di codice: lo considero abbandonato, allineo a main."
 fi
 
-git fetch "$url" "$branch" 2>/dev/null \
-  && git checkout -f -B "$branch" FETCH_HEAD 2>/dev/null \
-  || git checkout -f -B "$branch" 2>/dev/null || true
+# AR-312 — il fetch NON si silenzia più con un `|| true`: se fallisce, il ramo verrebbe "allineato"
+# a se stesso (FETCH_HEAD è ancora quello di prima) e il copione uscirebbe 0 — watch-main segnerebbe
+# lo SHA come visto e non ci riproverebbe MAI più. Il server resta indietro dicendo che va bene.
+if ! git fetch "$url" "$branch" 2>/dev/null; then
+  _rc_all="$(esito_allineamento 1 0 0)"
+  echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all")" >&2
+  exit "$_rc_all"
+fi
+git checkout -f -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -f -B "$branch" 2>/dev/null || true
 
 # Fetch di main NON silenziato: se fallisce, FETCH_HEAD resterebbe quello di $branch (riga sopra)
 # e l'"allineamento" diventerebbe un no-op silenzioso (allinea il ramo a se stesso). Fermiamoci.
 if ! git fetch "$url" main; then
-  echo "[$(ts)] ✗ ERRORE: git fetch main fallito — allineamento codice SALTATO (evito no-op silenzioso). Controlla rete/GIT_PUSH_TOKEN." >&2
+  # AR-312 — prima qui si stampava l'errore e si TIRAVA DRITTO fino a `exit 0`: il codice non veniva
+  # allineato ma watch-main segnava lo SHA come visto. «Ho saltato l'allineamento» e «ho allineato»
+  # finivano nello stesso esito. Regola: se un passo non è riuscito, lo SHA non si segna.
+  _rc_all="$(esito_allineamento 1 0 0)"
+  echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — allineamento codice SALTATO." >&2
+  exit "$_rc_all"
 else
   code_paths=()
   while IFS= read -r p; do
