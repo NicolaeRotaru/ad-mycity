@@ -244,3 +244,47 @@ if (isMain && process.argv[2] === "--self-test") {
   for (const c of casi) console.log(JSON.stringify(c), "→", JSON.stringify(decidiRitento(c)));
   process.exit(0);
 }
+
+/**
+ * AR-292 — quante volte la macchina può rimettersi in coda da sola lo stesso lavoro orfano.
+ *
+ * Il difetto: la sentinella vede un lavoro «in_corso da troppo», crede che il worker sia morto e lo
+ * rimette in attesa — con un PATCH che scrive `{stato:"in_attesa"}` e NIENT'ALTRO. Nessun contatore.
+ * Un lavoro pesante che va davvero in timeout (un giro, una radiografia) torna quindi in coda ogni
+ * tre minuti, per sempre: riparte, scade, viene recuperato, riparte. Brucia token e non finisce mai,
+ * e nessuno se ne accorge perché ogni singolo recupero sembra ragionevole.
+ *
+ * Due è sufficiente: se un lavoro non è riuscito nemmeno al terzo tentativo, il problema non è che il
+ * worker è morto — è il lavoro, e va guardato da una persona.
+ *
+ * Il contatore vive nel DATABASE (`tentativi`), non in un marcatore dentro il testo del risultato:
+ * il campo sopravvive ai riavvii, il testo si tronca a 1200 caratteri ed è già pieno d'altro. È
+ * l'errore da non ripetere.
+ */
+export const MAX_RIACCODI_ORFANO = 2;
+
+/**
+ * Cosa fare di un lavoro rimasto orfano. Pura: nessun I/O, così un test la esegue davvero.
+ *
+ * @param sicuro  true se il tipo è ripetibile senza toccare il mondo reale (giro, chat, metabolizza).
+ *                Un'azione reale interrotta a metà NON si riesegue mai da sola: torna a Nicola.
+ * @param tentativi quante volte è già stato recuperato (dal DB).
+ */
+export function decidiOrfano({ sicuro = false, tentativi = 0, max = MAX_RIACCODI_ORFANO } = {}) {
+  const t = Number.isFinite(+tentativi) ? +tentativi : 0;
+  if (!sicuro) {
+    return {
+      azione: "ferma",
+      tentativi: t,
+      motivo: "azione reale interrotta a metà — non la rieseguo da sola: riapprova per rieseguirla",
+    };
+  }
+  if (t >= max) {
+    return {
+      azione: "ferma",
+      tentativi: t,
+      motivo: `recuperato già ${t} volte senza riuscire (tetto ${max}) — non è il worker a essere morto, è questo lavoro: guardalo tu`,
+    };
+  }
+  return { azione: "riaccoda", tentativi: t + 1, motivo: `recupero ${t + 1} di ${max}` };
+}

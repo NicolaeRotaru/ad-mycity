@@ -19,7 +19,7 @@
 // Env:  SUPABASE_URL + SUPABASE_SERVICE_KEY (progetto MEMORIA). Opz: TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID.
 
 import { nowPiacenza, stampSegnale } from "./git-github.mjs";
-import { decidiRitento, MAX_ATTESA_QUOTA_MS, TIPI_PRE_ESECUZIONE } from "./retry-policy.mjs";
+import { decidiOrfano, decidiRitento, MAX_ATTESA_QUOTA_MS, MAX_RIACCODI_ORFANO, TIPI_PRE_ESECUZIONE } from "./retry-policy.mjs";
 
 const URL = process.env.SUPABASE_URL?.trim();
 const KEY = process.env.SUPABASE_SERVICE_KEY?.trim();
@@ -171,7 +171,7 @@ async function main() {
   }
 
   // 3) Orfani: in_corso da troppo tempo
-  const inCorso = await q("lavori?stato=eq.in_corso&select=id,tipo,updated_at,created_at&order=updated_at.asc&limit=50");
+  const inCorso = await q("lavori?stato=eq.in_corso&select=id,tipo,updated_at,created_at,tentativi&order=updated_at.asc&limit=50");
   const sogliaMs = ORFANO_MIN * 60 * 1000;
   // Chat bloccata + worker-chat morto: non aspettare 60 min (Nicola resta senza risposta).
   let chatWorkerEtaMin = null;
@@ -211,21 +211,30 @@ async function main() {
       orfaniReali += 1;
       continue;
     }
-    if (TIPI_ORFANO_SICURO.includes(l.tipo)) {
-      await q(`lavori?id=eq.${l.id}`, { method: "PATCH", body: JSON.stringify({ stato: "in_attesa" }) }).catch(() => {});
-      requeued += 1;
-    } else {
-      // Azione reale interrotta: NON rieseguo da solo → errore con nota, finisce tra i "da riapprovare".
+    // AR-292 — il recupero è CONTATO e ha un tetto. Prima questo PATCH scriveva `{stato:"in_attesa"}`
+    // e nient'altro: un lavoro pesante che va davvero in timeout tornava in coda ogni tre minuti, per
+    // sempre — riparte, scade, viene recuperato, riparte. Ogni singolo recupero sembra ragionevole,
+    // ed è per questo che nessuno se ne accorgeva. Il contatore sta nel DB (sopravvive ai riavvii),
+    // non in un marcatore dentro il testo del risultato che si tronca a 1200 caratteri.
+    const d = decidiOrfano({ sicuro: TIPI_ORFANO_SICURO.includes(l.tipo), tentativi: l.tentativi ?? 0 });
+    if (d.azione === "riaccoda") {
       await q(`lavori?id=eq.${l.id}`, {
         method: "PATCH",
-        body: JSON.stringify({ stato: "errore", risultato: `[sentinella] interrotto (worker riavviato a metà) — riapprova per rieseguire. ${quando}` }),
+        body: JSON.stringify({ stato: "in_attesa", tentativi: d.tentativi }),
+      }).catch(() => {});
+      requeued += 1;
+    } else {
+      // Tetto raggiunto, oppure azione reale interrotta: non si riesegue da sola → torna a Nicola.
+      await q(`lavori?id=eq.${l.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ stato: "errore", tentativi: d.tentativi, risultato: `[sentinella] ${d.motivo}. ${quando}` }),
       }).catch(() => {});
       orfaniReali += 1;
     }
   }
 
   // 4) Battito + ping Telegram sui nuovi
-  const sintesi = `${riarmati} ri-armati (auto-retry) · ${sbloccati} sbloccati (reset quota passato) · ${voci.length} fermi da riapprovare (${nuovi.length} nuovi) · ${requeued} orfani ripresi · ${orfaniReali} reali da riapprovare`;
+  const sintesi = `tetto recuperi ${MAX_RIACCODI_ORFANO} · ${riarmati} ri-armati (auto-retry) · ${sbloccati} sbloccati (reset quota passato) · ${voci.length} fermi da riapprovare (${nuovi.length} nuovi) · ${requeued} orfani ripresi · ${orfaniReali} reali da riapprovare`;
   await stampSegnale("sentinella-lavori", voci.length > 0 ? "warn" : "ok", `${sintesi} · ${quando}`);
 
   const tgTok = process.env.TELEGRAM_BOT_TOKEN?.trim();

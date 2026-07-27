@@ -4597,9 +4597,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/sentinella-lavori.mjs",
-        "pattern": "MAX_RIACCODI_ORFANO",
-        "presente": true
+        "comando": "node cervello/test/scritture-e-riaccodi.test.mjs"
       },
       "nota": "Dove: cervello/sentinella-lavori.mjs:214-216 · Impatto: Ogni rilancio accende il motore AI premium per 45 minuti e appende un nuovo blocco «Piano del mattino» in fondo a RITMO.md (ritmo.sh:151-155 chiede esplicitamente di appendere): 7 blocchi identici lo stesso giorno, memoria gonfia, e soprattutto quota del motore bruciata a vuoto. Quando la quota finisce, si ferma tutto: chat, giro, cadenze. Un difetto di concorrenza che spegne il cervello dell'azienda.",
       "chiuso_il": "",
@@ -4681,9 +4679,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/costo-ai.mjs",
-        "pattern": "renameSync",
-        "presente": true
+        "comando": "node cervello/test/scritture-e-riaccodi.test.mjs"
       },
       "nota": "Dove: cervello/costo-ai.mjs:80,132 · cervello/tick-auto-coscienza-leggero.mjs:79-82 · Impatto: Doppio danno. Il primo è silenzioso: il conteggio dei consumi perde dei run, quindi il freno di spesa giornaliero frena in ritardo o non frena — proprio mentre i rilanci a raffica stanno bruciando quota. Il secondo è rumoroso: una scrittura non atomica interrotta a metà (e su questo server i processi VENGONO uccisi per memoria esaurita — è documentato nei servizi systemd, OOMPolicy=kill) lascia un JSON troncato, e il cancello di sanità del vault blocca allora la pubblicazione dell'INTERA memoria (giro.sh esce con codice 2). Un file rotto da mezzo secondo di sfortuna ferma la memoria dell'azienda finché non interviene una persona.",
       "chiuso_il": "",

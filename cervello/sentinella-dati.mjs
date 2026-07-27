@@ -47,6 +47,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { dirname, join } from "node:path";
+import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
 const LIVE = process.argv.includes("--live") || process.env.SENTINELLA_DATI_LIVE === "1";
@@ -82,9 +83,12 @@ function readJson(path, fallback = {}) {
   if (!existsSync(path)) return fallback;
   try { return JSON.parse(readFileSync(path, "utf8")); } catch { return fallback; }
 }
+// AR-296 — la scrittura passa dal writer atomico condiviso: `writeFileSync` non è atomico, e un
+// processo che muore a metà (kill del servizio, riavvio del VPS) lascia sul disco un JSON troncato che
+// al giro dopo non si parsa più — «memoria bloccata da un file rotto». Questa funzione era
+// copiaincollata in cinque file; ora è una sola, in cervello/scrivi-json.mjs.
 function writeJson(path, data) {
-  mkdirSync(dirname(path), { recursive: true });
-  writeFileSync(path, JSON.stringify(data, null, 2) + "\n", "utf8");
+  scriviJsonAtomico(path, data);
 }
 const isoFa = (ms) => new Date(Date.now() - ms).toISOString();
 const oreMs = (h) => h * 3600 * 1000;
