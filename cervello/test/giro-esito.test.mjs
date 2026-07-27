@@ -6,6 +6,7 @@
 // lo segnava «fatto» e il Pannello lo mostrava verde. Ogni numero di salute della macchina poggiava
 // su quella risposta sbagliata.
 import { execFileSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import assert from "node:assert/strict";
@@ -102,6 +103,78 @@ prova("etichetta: pulito solo quando lo è davvero", () => {
   assert.equal(etichetta({ stepsOk: 0 }), "passi-saltati");
 });
 
+
+// ─────────────────────────────────────────────────────────────────────────────
+// IL CONTRATTO DEI GUARDIANI (AR-322 / AR-308 / AR-309)
+// ─────────────────────────────────────────────────────────────────────────────
+//
+// Il difetto: `rc≠0` significava due cose diverse — «ho misurato e sei bocciato» e «non ho potuto
+// misurare» — perché nessuno aveva riservato un codice al secondo caso. Un guardiano che si ROMPE
+// consegnava la propria traccia d'errore al motore come se fosse la regola da rispettare: il giro
+// ubbidiva a uno stack trace. E all'opposto quattro guardiani escono 0 quando l'input manca: un verde
+// che non è un verde.
+//
+// Più AR-308: due gate diversi condividevano la stessa variabile con un `=` secco, quindi il SECONDO
+// allarme cancellava il primo senza lasciare traccia.
+
+const vincolo = (nome, rc, testo) =>
+  execFileSync("bash", ["-c", `. "${SH}"; vincolo_da_rc ${JSON.stringify(nome)} ${rc} ${JSON.stringify(testo)}`], {
+    encoding: "utf8",
+  }).trim();
+const accumula = (a, b) =>
+  execFileSync("bash", ["-c", `. "${SH}"; aggiungi_vincolo ${JSON.stringify(a)} ${JSON.stringify(b)}`], {
+    encoding: "utf8",
+  });
+
+prova("il caso che ha rotto: un guardiano CIECO non parla col testo di dominio", () => {
+  // rc=2 = «non ho potuto misurare». Raccontarlo con «CALIBRAZIONE NON CONFORME» sarebbe una bugia
+  // sul contenuto: il motore passerebbe il giro a sistemare un problema che nessuno ha misurato.
+  const out = vincolo("calibrazione.mjs valida", 2, "⛔ CALIBRAZIONE NON CONFORME: mancano 3 sensori");
+  assert.match(out, /GUARDIANO CIECO/);
+  assert.ok(!out.includes("mancano 3 sensori"), "il testo di dominio NON deve comparire su un rc=2");
+  assert.match(out, /non trattare questo messaggio come una regola di contenuto/);
+});
+
+prova("un guardiano bocciato parla col suo testo, come prima", () => {
+  assert.equal(vincolo("g", 1, "⛔ COSA VERA"), "⛔ COSA VERA");
+});
+
+prova("un guardiano passato non dice niente", () => {
+  assert.equal(vincolo("g", 0, "⛔ COSA VERA"), "", "un verde non deve produrre vincoli");
+});
+
+prova("anche un rc strano viene trattato come bocciato, non ignorato", () => {
+  // Prudenza: un codice che non conosciamo non è un verde.
+  assert.equal(vincolo("g", 7, "⛔ COSA VERA"), "⛔ COSA VERA");
+});
+
+prova("il caso che ha rotto: il secondo allarme non cancella il primo", () => {
+  // AR-308: `CAL_VINCOLO="…"` alla riga 351 sovrascriveva quello della 337. Se scattavano entrambi,
+  // «calibrazione spenta» spariva e Nicola vedeva un problema solo.
+  const out = accumula("⛔ CALIBRAZIONE SPENTA", "⛔ CALIBRAZIONE NON CONFORME");
+  assert.match(out, /CALIBRAZIONE SPENTA/);
+  assert.match(out, /CALIBRAZIONE NON CONFORME/);
+});
+
+prova("l'accumulo non inventa righe vuote quando uno dei due manca", () => {
+  assert.equal(accumula("", "solo il secondo"), "solo il secondo");
+  assert.equal(accumula("solo il primo", ""), "solo il primo");
+  assert.equal(accumula("", ""), "");
+});
+
+prova("giro.sh usa davvero il contratto nei tre punti che sbagliavano", () => {
+  const src = readFileSync(join(QUI, "..", "giro.sh"), "utf8");
+  // AR-308: nessuna assegnazione secca a CAL_VINCOLO dentro un ramo di allarme
+  assert.doesNotMatch(src, /CAL_VINCOLO="⛔/, "assegnazione secca: il secondo allarme cancella il primo");
+  assert.match(src, /aggiungi_vincolo "\$CAL_VINCOLO"/, "i vincoli di calibrazione devono accumularsi");
+  // AR-322: il rc del guardiano passa dal contratto
+  assert.match(src, /vincolo_da_rc "calibrazione\.mjs valida"/);
+  // AR-309: stderr fuori dal vincolo + riga nel log
+  assert.doesNotMatch(src, /verifica-avversariale\.mjs" --gate 2>&1/, "stderr nel vincolo = uno stack trace travestito da regola");
+  assert.match(src, /printf '%s\\n' "\$_verif_out"/, "il verificatore deve lasciare una riga nel log come tutti gli altri");
+});
+
+// ── esito (deve restare l'ULTIMA cosa del file: i casi aggiunti dopo non verrebbero contati) ──
 const falliti = casi.filter((c) => !c.ok);
 for (const c of casi) console.log(`  ${c.ok ? "✅" : "❌"} ${c.nome}${c.ok ? "" : `\n       ${c.err}`}`);
 console.log(`\n${casi.length - falliti.length}/${casi.length} passati`);

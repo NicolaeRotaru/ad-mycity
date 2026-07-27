@@ -143,6 +143,11 @@ DEBITO_VINCOLO=""     # 25/7: previsioni fatte e mai confrontate col reale (voce
 FATTI_VINCOLO=""      # AR-102: vincolo del gate coerenza-fatti (copie vecchie di un fatto in file vivi)
 CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se > 2 giorni)
 OKR_VINCOLO=""        # AR-115: vincolo freschezza OKR-Squadra (target scaduti o doc stantio)
+# AR-322/308/309 — il contratto dei guardiani (0=passato · 1=bocciato · 2=cieco) e l'accumulo dei
+# vincoli vivono in giro-esito.sh, come funzioni pure che un test può eseguire. Va caricato QUI, prima
+# dei guardiani: finora si caricava a metà file, dopo che i vincoli erano già stati costruiti a mano.
+# shellcheck source=cervello/giro-esito.sh
+. "$SCRIPT_DIR/giro-esito.sh"
 CAL_VINCOLO=""        # AR-042: vincolo calibrazione senza voci strutturate (schema legacy)
 AGENTI_VINCOLO=""     # AR-007/008: guardiano registro agenti (promosso a gate hard da || true)
 ESP_VINCOLO=""        # AR-041/106: guardiano esperimenti (promosso a gate hard da || true)
@@ -334,7 +339,9 @@ if command -v node >/dev/null 2>&1; then
         console.log(arr.filter(v=>v.stato).length);
       " 2>/dev/null || echo 0)"
       if [ "${_cal_strutturate:-0}" = "0" ]; then
-        CAL_VINCOLO="⛔ CALIBRAZIONE SPENTA (AR-042): calibrazione.json ha ancora 0 voci con campo 'stato' dopo autoprevedi. OBBLIGO: chiama 'node cervello/calibrazione.mjs prevedi --reparto=@AD --azione=... --metrica=... --atteso=... --entro=AAAA-MM-GG'. NON scrivere a mano nel JSON."
+        # AR-308: si ACCUMULA, non si sovrascrive. Il vincolo qui sotto (AR-061) usava la stessa
+        # variabile con un `=` secco e cancellava questo allarme senza lasciare traccia.
+        CAL_VINCOLO="$(aggiungi_vincolo "$CAL_VINCOLO" "⛔ CALIBRAZIONE SPENTA (AR-042): calibrazione.json ha ancora 0 voci con campo 'stato' dopo autoprevedi. OBBLIGO: chiama 'node cervello/calibrazione.mjs prevedi --reparto=@AD --azione=... --metrica=... --atteso=... --entro=AAAA-MM-GG'. NON scrivere a mano nel JSON.")"
         echo "[$(ts)] ⚠️  AR-042: calibrazione.json senza voci strutturate dopo autoprevedi → vincolo hard." >&2
       else
         echo "[$(ts)] ✅ calibrazione.json: ${_cal_strutturate} voci strutturate (dopo autoprevedi)."
@@ -348,8 +355,10 @@ if command -v node >/dev/null 2>&1; then
     _valida_out="$(node "$SCRIPT_DIR/calibrazione.mjs" valida 2>&1)"; _valida_rc=$?
     printf '%s\n' "$_valida_out" | tail -2
     if [ "$_valida_rc" -ne 0 ]; then
-      CAL_VINCOLO="⛔ CALIBRAZIONE NON CONFORME (AR-061): $(printf '%s' "$_valida_out" | head -1)"
-      echo "[$(ts)] ⚠️  AR-061: calibrazione non valida → vincolo hard al motore." >&2
+      # AR-322: rc=2 significa «non ho potuto misurare», non «sei bocciato» — e non va raccontato col
+      # testo di dominio, che sarebbe una bugia sul contenuto. AR-308: accumula, non sovrascrive.
+      CAL_VINCOLO="$(aggiungi_vincolo "$CAL_VINCOLO" "$(vincolo_da_rc "calibrazione.mjs valida" "$_valida_rc" "⛔ CALIBRAZIONE NON CONFORME (AR-061): $(printf '%s' "$_valida_out" | head -1)")")"
+      echo "[$(ts)] ⚠️  AR-061: calibrazione rc=$_valida_rc → vincolo al motore." >&2
     fi
   fi
   # PZ-009: sonda taste-file — il log dei verdetti di Nicola è vivo o vuoto? (informa, non blocca)
@@ -446,10 +455,15 @@ $_appr_ric"
   node "$SCRIPT_DIR/cristallizza-apprendimento.mjs" --applica 2>&1 | tail -4 || true
   # ── Lever 2 — Verificatore avversariale: l'ultima auto-analisi era una refutazione VERA o un timbro? ──
   echo "[$(ts)] Verificatore avversariale (Lever 2: auto-verifica vera o timbro?)..."
-  _verif_out="$(node "$SCRIPT_DIR/verifica-avversariale.mjs" --gate 2>&1)"; _verif_rc=$?
-  if [ "$_verif_rc" -ne 0 ] && [ -n "$_verif_out" ]; then
-    VERIFICA_VINCOLO="$_verif_out"
-    echo "[$(ts)] ⚠️  Lever 2: auto-verifica vuota → vincolo hard al motore." >&2
+  # AR-309 — due correzioni. (a) `2>&1` mescolava stderr nel testo del vincolo: una traccia d'errore
+  # del guardiano finiva nel prompt travestita da regola da rispettare (è AR-322 visto da qui). Ora
+  # stderr va al log e solo stdout diventa vincolo. (b) Era l'UNICO guardiano a non lasciare una riga
+  # nel log: chi leggeva non poteva sapere se fosse passato, bocciato o mai partito.
+  _verif_out="$(node "$SCRIPT_DIR/verifica-avversariale.mjs" --gate 2>/dev/null)"; _verif_rc=$?
+  printf '%s\n' "$_verif_out" | tail -4
+  if [ "$_verif_rc" -ne 0 ]; then
+    VERIFICA_VINCOLO="$(vincolo_da_rc "verifica-avversariale.mjs" "$_verif_rc" "$_verif_out")"
+    echo "[$(ts)] ⚠️  Lever 2: verificatore avversariale rc=$_verif_rc → vincolo al motore." >&2
   fi
   # ── Lever 2 — Validatore contratti JSON ora GATE HARD (niente più «|| true» silenzioso, AR-043). ──
   echo "[$(ts)] Validatore contratti JSON auto-coscienza (AR-043 — ora gate)..."

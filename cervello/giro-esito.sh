@@ -60,3 +60,43 @@ esito_giro_etichetta() {
   if [ "$steps_ok" != 1 ]; then echo "passi-saltati"; return; fi
   echo "pulito"
 }
+
+# ─────────────────────────────────────────────────────────────────────────────
+# IL CONTRATTO DEI GUARDIANI (AR-322 / AR-308 / AR-309)
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# Il difetto: `rc≠0` significava due cose diverse — «ho misurato e sei bocciato» e «non ho potuto
+# misurare». Nessuno aveva riservato un codice al secondo caso, perché ogni guardiano è stato scritto
+# separatamente con la sua convenzione. Risultato: un guardiano che si ROMPE consegna la propria
+# traccia d'errore al motore come se fosse la regola da rispettare — il giro ubbidisce a uno stack
+# trace. E all'opposto, quattro guardiani escono 0 quando l'input manca: un verde che non è un verde.
+#
+# Il contratto, uno per tutti:
+#   0 = passato          1 = bocciato (violazione di dominio)      2 = cieco (non ho potuto misurare)
+#
+# Un guardiano cieco NON è verde e NON è bocciato: è uno strumento rotto, e va detto con parole sue —
+# «ripara lo strumento, non fidarti del verde che non c'è» — non col testo di dominio, che sarebbe una
+# bugia sul contenuto.
+
+# vincolo_da_rc <nome-guardiano> <rc> <testo-di-dominio>
+# Stampa il vincolo da dare al motore, o niente se il guardiano è passato.
+vincolo_da_rc() {
+  local nome="${1:-guardiano}" rc="${2:-0}" testo="${3:-}"
+  case "$rc" in
+    0) : ;;  # passato: nessun vincolo
+    2) printf '⚠️ GUARDIANO CIECO (%s rc=2, AR-322): non è riuscito a misurare — NON è un verde. Ripara lo strumento prima di fidarti di questo giro; non trattare questo messaggio come una regola di contenuto.\n' "$nome" ;;
+    *) printf '%s\n' "$testo" ;;
+  esac
+}
+
+# aggiungi_vincolo <esistente> <nuovo>
+# Accumula invece di sovrascrivere (AR-308). Il difetto: due gate diversi condividevano la stessa
+# variabile e la SECONDA assegnazione cancellava la prima — l'allarme «calibrazione spenta» spariva
+# senza lasciare traccia quando scattava anche «calibrazione non conforme». Due allarmi sullo stesso
+# argomento non sono lo stesso allarme.
+aggiungi_vincolo() {
+  local esistente="${1:-}" nuovo="${2:-}"
+  [ -z "$nuovo" ] && { printf '%s' "$esistente"; return; }
+  [ -z "$esistente" ] && { printf '%s' "$nuovo"; return; }
+  printf '%s\n%s' "$esistente" "$nuovo"
+}
