@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 12:45",
+  "aggiornato": "2026-07-27 13:09",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -918,15 +918,16 @@
       "causa_radice": "Il Pannello è nato come dashboard personale a €0 e la sicurezza è stata concentrata sugli interruttori d'ambiente (AZIONI_LIVE) invece che sull'identità del chiamante; ogni nuova route ha ereditato il pattern esistente e nessun guardiano verifica «route POST ⇒ richiede segreto». Causa di sistema: il modello di minaccia dei guardrail considera solo l'AI interna, mai un chiamante esterno.",
       "fix_proposto": "🟡 Aggiungere un middleware.ts che esige un segreto condiviso (cookie di sessione o header con PANEL_SECRET) su tutte le route mutanti (POST/PUT), riusando il pattern fail-closed già scritto per CRON_SECRET in heartbeat; documentare con Nicola se esiste già una protezione Vercel a monte. Guardiano nuovo: uno script che elenca le route POST senza check di autorizzazione e fallisce se ne trova.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 16:55",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-27 13:08",
       "verifica": {
         "file": "pannello/src/middleware.ts",
         "pattern": "PANEL_SECRET|authorization",
         "presente": true
       },
-      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
+      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
+      "chiuso_come": "pannello/src/middleware.ts contiene /PANEL_SECRET|authorization/ → trovato"
     },
     {
       "id": "AR-113",
@@ -2773,17 +2774,15 @@
       "causa_radice": "① Perché il cancello si apre? Perché legge la firma da un file di testo. ② Perché da un file di testo? Perché prima della firma del Pannello quella era l'unica prova disponibile e, quando è arrivata la firma vera, la vecchia strada è stata tenuta «per compatibilità» invece di essere spenta. ③ Perché tenerla è pericoloso? Perché quel file è memoria operativa della macchina, non un registro protetto: chi esegue ci scrive dentro ogni giorno. ④ Perché nessuno se n'è accorto? Perché la verifica del difetto precedente controllava che la strada NUOVA esistesse, non che la VECCHIA fosse chiusa: si chiude sul meccanismo installato, non sull'effetto. ⑤ Causa di sistema: qui la segregazione dei compiti è affidata a una convenzione di scrittura (una parola in un file), non a una separazione di credenziali — chi propone, chi firma e chi esegue usano la stessa penna.",
       "fix_proposto": "🟡 (a) In consenso-azione.mjs invertire l'ordine e degradare il marcatore nel file: la firma valida è SOLO quella registrata dal Pannello al clic di Nicola; il testo nel file resta documentazione, non permesso (togliere le regole b/c/d di approvata(), tenere al massimo il token macchina {approvato:...} scritto dalla route). (b) Aggiungere un guardiano nel giro che confronta i blocchi marcati «APPROVATA» nella coda con le firme registrate e segnala ogni marcatore senza firma corrispondente (marcatore orfano = tentativo di auto-firma o prosa ambigua). (c) Regola di chiusura: un difetto su un cancello si chiude solo dimostrando che la strada vecchia è chiusa, non che la nuova è aperta. Owner: @security con @internal-audit come verifica di ritorno.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/consenso-azione.mjs",
-        "pattern": "firmaPannello[\\s\\S]{0,400}approvata\\(|SOLO la firma del Pannello|marcatore nel file NON vale",
-        "presente": true
+        "comando": "node cervello/test/consenso-firma-pannello.test.mjs"
       },
-      "nota": "Dove: cervello/consenso-azione.mjs:143-150 (approvata) + cervello/consenso-azione.mjs:285-298 (il marcatore nel file vince PRIMA della firma del Pannello) · Impatto: È la risposta alla domanda-guida: sì, esiste. Un lavoro può scrivere nella coda un blocco che contiene la parola APPROVATA e poi lanciare l'invio citando quell'id: il cancello lo trova «firmato» e, con le chiavi attive, l'email/la notifica/la scrittura sul database del sito parte senza che Nicola abbia mai cliccato. Non serve un attacco: basta che un senior copi un blocco di esempio o scriva «PROPOSTA APPROVATA» nel riepilogo di una card — cosa che nel file è già successa. Salta il presidio su cui poggia tutto il resto (soldi, messaggi ai clienti, prezzi in tabella).",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "nota": "Dove: cervello/consenso-azione.mjs:143-150 (approvata) + cervello/consenso-azione.mjs:285-298 (il marcatore nel file vince PRIMA della firma del Pannello) · Impatto: È la risposta alla domanda-guida: sì, esiste. Un lavoro può scrivere nella coda un blocco che contiene la parola APPROVATA e poi lanciare l'invio citando quell'id: il cancello lo trova «firmato» e, con le chiavi attive, l'email/la notifica/la scrittura sul database del sito parte senza che Nicola abbia mai cliccato. Non serve un attacco: basta che un senior copi un blocco di esempio o scriva «PROPOSTA APPROVATA» nel riepilogo di una card — cosa che nel file è già successa. Salta il presidio su cui poggia tutto il resto (soldi, messaggi ai clienti, prezzi in tabella). · PROVA AGGIORNATA 2026-07-27: da pattern-nel-codice a comando. Il test prende una casella REALE della coda gia' marcata «APPROVATA» nel file, non registra nessuna firma dal Pannello, e pretende che il cancello resti chiuso. Con la logica vecchia quel caso passava: il marcatore veniva letto per primo e la firma vera non veniva nemmeno cercata.",
+      "chiuso_il": "2026-07-27 13:09",
+      "chiuso_come": "node cervello/test/consenso-firma-pannello.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-206",
@@ -3219,7 +3218,7 @@
       "verifica": {
         "tipo": "umano"
       },
-      "nota": "Dove: pannello/src/app/api/controllo/route.ts:20 · pannello/src/app/api/azioni-pronte/autopilota/route.ts:13 · pannello/src/app/api/lavori/route.ts:27 e :57 · pannello/src/app/api/approva/route.ts:20 (nessun file middleware.ts esiste in pannello/) · CONFERMATO ATTIVO 2026-07-27 10:05: Nicola ha aperto https://ad-mycity.vercel.app in finestra in incognito SENZA login e la Cabina si e aperta normalmente. Non e piu un rischio strutturale: la falla e raggiungibile da chiunque abbia l indirizzo, ADESSO. Mitigazione immediata senza codice: Vercel Dashboard > progetto ad-mycity > Settings > Deployment Protection > Vercel Authentication = Enabled — chiude tutti e 33 gli handler subito. Il middleware.ts resta necessario dopo, perche la protezione Vercel copre l ingresso ma non la segregazione fra chi propone e chi firma.",
+      "nota": "Dove: pannello/src/app/api/controllo/route.ts:20 · pannello/src/app/api/azioni-pronte/autopilota/route.ts:13 · pannello/src/app/api/lavori/route.ts:27 e :57 · pannello/src/app/api/approva/route.ts:20 (nessun file middleware.ts esiste in pannello/) · CONFERMATO ATTIVO 2026-07-27 10:05: Nicola ha aperto https://ad-mycity.vercel.app in finestra in incognito SENZA login e la Cabina si e aperta normalmente. Non e piu un rischio strutturale: la falla e raggiungibile da chiunque abbia l indirizzo, ADESSO. Mitigazione immediata senza codice: Vercel Dashboard > progetto ad-mycity > Settings > Deployment Protection > Vercel Authentication = Enabled — chiude tutti e 33 gli handler subito. Il middleware.ts resta necessario dopo, perche la protezione Vercel copre l ingresso ma non la segregazione fra chi propone e chi firma. · PARZIALE 2026-07-27: aggiunto pannello/src/middleware.ts + lib/serratura.ts — le rotte che mutano stato ora rifiutano curl senza header, le richieste cross-site (CSRF) e le chiamate macchina senza PANNELLO_TOKEN (fail-closed: token non configurato = nessuna chiamata macchina ammessa). NON chiude ancora la meta' che conta di piu': senza login il server non distingue il browser di Nicola da quello di uno sconosciuto. Resta APERTO finche' Nicola non attiva Vercel Deployment Protection > Vercel Authentication e lo conferma.",
       "chiuso_il": "",
       "chiuso_come": ""
     },
@@ -3232,17 +3231,15 @@
       "causa_radice": "① Perché una richiesta anonima può firmare come Nicola? Perché la route scrive la firma prima e senza verificare chi chiede. ② Perché la scrive comunque? Perché è stata pensata come «il clic di Nicola È la conferma»: l'identità è implicita nel gesto. ③ Perché resta viva se nessuna schermata la usa? Perché quando il flusso è stato spostato su /api/azioni-pronte la vecchia route non è stata rimossa: il codice morto non fa rumore. ④ Perché il codice morto è pericoloso qui? Perché non è morto — è deployato, e la sua unica funzione è produrre la prova di consenso che l'altra metà della macchina considera irrefutabile. ⑤ Radice: la firma è un DATO scrivibile da chi raggiunge un URL, non un fatto legato a un'identità verificata; il contratto AR-110 ha reso la firma verificabile dal cervello ma non ha reso autenticato chi la produce.",
       "fix_proposto": "🟡 Cancellare pannello/src/app/api/approva/route.ts (zero chiamanti interni: la sua funzione è già coperta da /api/azioni-pronte). Se si vuole tenerla per compatibilità: metterla dietro il middleware del difetto precedente E aggiungere prima di registraFirma un claim idempotente su `approva:{numero}` (insert senza merge-duplicates: se la riga esiste, rispondi giaApprovata e non creare nulla). In più, lato cervello, legare la firma a un dato che il Pannello non può fabbricare da solo (es. firma = hash del blocco azione + timestamp, ricalcolato da consenso-azione.mjs sulla coda reale) così una firma orfana non apre nessun cancello.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/app/api/approva/route.ts",
-        "pattern": "registraFirma\\(n, \"nicola\"\\)",
-        "presente": false
+        "comando": "node cervello/test/pannello-serratura.test.mjs"
       },
-      "nota": "Dove: pannello/src/app/api/approva/route.ts:40 (registraFirma(n, \"nicola\")) e :53 (creaLavoro) · pannello/src/lib/firma-azione.ts:44 · cervello/consenso-azione.mjs:172 e :290 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "nota": "Dove: pannello/src/app/api/approva/route.ts:40 (registraFirma(n, \"nicola\")) e :53 (creaLavoro) · pannello/src/lib/firma-azione.ts:44 · cervello/consenso-azione.mjs:172 e :290 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA AGGIORNATA 2026-07-27: la vecchia puntava a un file ora inesistente, e auto-fix tratta «file assente» come non-soddisfatto — sarebbe restato aperto pur essendo risolto. Ora il test verifica che /api/approva non esista PIU' e che l'approvazione legittima da /api/azioni-pronte firmi ancora: prova la rimozione e la non-regressione insieme.",
+      "chiuso_il": "2026-07-27 13:09",
+      "chiuso_come": "node cervello/test/pannello-serratura.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-228",
@@ -4156,17 +4153,15 @@
       "causa_radice": "① Perché il consenso può sbagliare azione? Perché l'identificatore è cercato per somiglianza testuale. ② Perché per somiglianza? Perché convivono tre modi di nominare un'azione (identificatore stabile calcolato, codice-casella del Pannello, numero scritto a mano nella tabella) e il terzo non ha una casa nel formato. ③ Perché convivono? Perché la coda è un documento Markdown scritto a mano/dall'AI, non un elenco con chiavi. ④ Perché è un documento? Perché è nato come promemoria leggibile e poi è diventato l'archivio di consenso di un esecutore automatico. ⑤ Causa di sistema: un dato che governa azioni irreversibili è tenuto in un formato senza chiave primaria, e il codice compensa con una ricerca tollerante — la tolleranza, su un cancello di sicurezza, è esattamente il difetto.",
       "fix_proposto": "🟡 (a) Eliminare il terzo tentativo: si accetta SOLO l'identificatore stabile o il codice-casella, tutto il resto è rifiuto motivato. (b) Valutare la firma sulla singola RIGA/azione, mai sul blocco che la contiene: se il blocco ha più azioni, senza corrispondenza riga-azione il cancello resta chiuso. (c) Un controllo automatico a ogni giro che stampa quante azioni della coda risultano firmate e le elenca: oggi sono otto, e nessuno le ha mai guardate.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/consenso-azione.mjs",
-        "pattern": "tok\\.test\\(b\\.heading\\)",
-        "presente": false
+        "comando": "node cervello/test/consenso-azione.test.mjs"
       },
-      "nota": "Dove: cervello/consenso-azione.mjs:130 (ricerca per token nel titolo) · cervello/consenso-azione.mjs:143-150 (approvazione a blocco intero) · Impatto: Il consenso smette di essere per-azione: una firma data per una cosa autorizza l'esecuzione di un'altra, scelta da una coincidenza di cifre. Con il canale di merge già sbloccato nella lista dei destinatari, questo è il tipo di errore che fa partire nel mondo reale un'azione che Nicola non ha mai firmato — e che nel registro risulterà «firmata». · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "nota": "Dove: cervello/consenso-azione.mjs:130 (ricerca per token nel titolo) · cervello/consenso-azione.mjs:143-150 (approvazione a blocco intero) · Impatto: Il consenso smette di essere per-azione: una firma data per una cosa autorizza l'esecuzione di un'altra, scelta da una coincidenza di cifre. Con il canale di merge già sbloccato nella lista dei destinatari, questo è il tipo di errore che fa partire nel mondo reale un'azione che Nicola non ha mai firmato — e che nel registro risulterà «firmata». · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA AGGIORNATA 2026-07-27: il test costruisce una coda con un blocco intitolato «23:40» e pretende che l'id «40» NON lo agganci. E' il caso misurato sulla coda vera, dove una firma data per un'azione ne autorizzava un'altra per coincidenza tipografica.",
+      "chiuso_il": "2026-07-27 13:09",
+      "chiuso_come": "node cervello/test/consenso-azione.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-272",
@@ -5435,8 +5430,8 @@
     }
   ],
   "meta": {
-    "aperti": 197,
+    "aperti": 193,
     "in_corso": 0,
-    "chiusi": 72
+    "chiusi": 76
   }
 }

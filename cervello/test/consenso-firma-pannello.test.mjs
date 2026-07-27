@@ -150,3 +150,37 @@ test("consensoInvio(): la firma non scavalca l'allowlist dei destinatari", async
   assert.equal(r.live, false, "firmata sì, ma il destinatario resta bloccato");
   assert.match(r.motivo, /allowlist/);
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-205 — CHI ESEGUE NON PUÒ SCRIVERSI IL PERMESSO DI ESEGUIRE.
+//
+// Fino al 27/7 il cancello guardava PRIMA il marcatore dentro AZIONI-IN-ATTESA.md: se c'era, la firma
+// vera del Pannello non veniva nemmeno letta. Ma quel marcatore lo scrive la macchina durante il
+// lavoro normale dei senior — la parola «APPROVATA» in un titolo, una riga «Stato: approvato», una
+// casella «[x] 🟡». Misurato sulla coda reale: 7 blocchi già «APPROVATA» e 14 caselle spuntate.
+// Quindi l'esecutore poteva autorizzare se stesso.
+/** Una casella che nel FILE risulta già marcata come approvata (senza che Nicola abbia cliccato). */
+function casellaMarcataNelFile() {
+  return blocchiCoda(leggiCoda()).find((x) => approvata(x.blocco));
+}
+
+test("il marcatore nel file NON vale più come firma (AR-205)", async (t) => {
+  const blk = casellaMarcataNelFile();
+  if (!blk) return t.skip("nessuna casella marcata in coda in questo momento: niente da provare");
+
+  assert.equal(approvata(blk.blocco), true, "premessa: il file la dà per approvata");
+  memoria.delete(`azione:${blk.id}:firma`); // ma Nicola non ha mai cliccato
+
+  const r = await consensoInvio({ azioneId: blk.id, canale: "telegram", destinatario: "12345" });
+  assert.equal(r.live, false, "con la logica vecchia questo passava: il testo nel file apriva il cancello");
+  assert.match(r.motivo, /NON firmata da Nicola/);
+  assert.match(r.motivo, /NON vale come firma/, "il motivo deve spiegare che il marcatore è documentazione, non permesso");
+});
+
+test("la stessa casella passa SE Nicola firma davvero dal Pannello", async (t) => {
+  const blk = casellaMarcataNelFile();
+  if (!blk) return t.skip("nessuna casella marcata in coda in questo momento");
+  memoria.set(`azione:${blk.id}:firma`, "nicola 2026-07-27 13:30");
+  const r = await consensoInvio({ azioneId: blk.id, canale: "telegram", destinatario: "12345" });
+  assert.equal(r.live, true, "il fix non blocca il percorso legittimo: chiude solo l'autofirma");
+});

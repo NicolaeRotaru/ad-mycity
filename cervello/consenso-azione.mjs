@@ -110,26 +110,28 @@ function escapeRe(s) {
   return String(s || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-// Trova il blocco dell'azione dato un AZIONE_ID. Ordine di match:
+// Trova il blocco dell'azione dato un AZIONE_ID. Si accettano SOLO identificatori stabili:
 //  1) id stabile "S<hash>" identico;
-//  2) codice casella "#A42" (identico a quello del Pannello);
-//  3) fallback: token letterale nel HEADING (es. "#38", "A18", "R2") come parola intera.
+//  2) codice casella "#A42" (identico a quello del Pannello).
 // Ritorna il blocco o null. Fail-closed: nessun match → null → invio bloccato.
+//
+// AR-271 — QUI C'ERA UN TERZO TENTATIVO, ED È STATO TOLTO.
+// Il fallback cercava il numero come "parola intera" dentro il TITOLO del blocco. Sembra innocuo,
+// ma il titolo contiene anche gli orari: provato sulla coda vera, l'id «40» agganciava un blocco del
+// 26 giugno solo perché il titolo conteneva «23:40» — e quel blocco risultava già firmato. Cioè: una
+// firma data per un'azione poteva autorizzarne un'altra, scelta da una coincidenza tipografica.
+// Un identificatore che combacia per caso non è un identificatore. Chi chiama deve passare l'id
+// stabile o il codice-casella (è ciò che il Pannello registra al clic di Nicola); tutto il resto è
+// un rifiuto motivato, non un tentativo di indovinare.
 export function trovaAzione(md, azioneId) {
   const blocchi = blocchiCoda(md);
   const raw = String(azioneId || "").trim();
   if (!raw) return null;
   const nc = normCode(raw);
 
-  // 1) id stabile o codice calcolato
   for (const b of blocchi) {
     if (raw === b.id) return b;
     if (nc === normCode(b.code)) return b;
-  }
-  // 2) fallback: token letterale nell'heading (id umani non-hash)
-  const tok = new RegExp(`(^|[^\\w#])#?${escapeRe(nc)}(?![\\w])`, "i");
-  for (const b of blocchi) {
-    if (tok.test(b.heading)) return b;
   }
   return null;
 }
@@ -282,20 +284,33 @@ export async function consensoInvio({ azioneId, canale, destinatario }) {
   if (!blk) {
     return { live: false, motivo: `AZIONE_ID "${id}" non trovato in AZIONI-IN-ATTESA.md → invio bloccato` };
   }
-  // AR-110: la firma vale se è nel file (marcatore) OPPURE registrata dal Pannello al clic di
-  // Nicola. Due strade per lo stesso consenso, nessuna delle due scrivibile dall'esecutore come
-  // prova di se stesso; se mancano entrambe, si blocca dicendo perché.
-  let dove = `casella ${blk.code} firmata in coda`;
-  if (!approvata(blk.blocco)) {
-    const f = await firmaPannello(blk.id);
-    if (!f.firmata) {
-      return {
-        live: false,
-        motivo: `azione "${id}" presente ma NON firmata da Nicola — né marcata APPROVATA in coda, né dal Pannello (${f.motivo}) → invio bloccato`,
-      };
-    }
-    dove = `casella ${blk.code} ${f.motivo}`;
+  // AR-205 — LA FIRMA È UNA SOLA, E NON LA SCRIVE CHI ESEGUE.
+  //
+  // Prima qui c'erano DUE strade: il marcatore nel file OPPURE la firma del Pannello — e il file
+  // veniva controllato per primo, quindi bastava che ci fosse per non guardare mai la firma vera.
+  // Il problema è che il marcatore nel file lo scrive la macchina stessa: la parola «APPROVATA», una
+  // riga «Stato: approvato», una casella «[x] 🟡» finiscono in AZIONI-IN-ATTESA.md durante il normale
+  // lavoro dei senior. Misurato sulla coda reale: 7 blocchi già «APPROVATA» e 14 caselle spuntate.
+  // Cioè chi esegue poteva scriversi da solo il permesso di eseguire.
+  //
+  // Ora l'autorità è una sola: la firma registrata dal Pannello quando NICOLA clicca (Supabase,
+  // `azione:<id>:firma` = "nicola …"). L'autopilota scrive "auto …" e NON apre il cancello.
+  // Il testo nel file resta documentazione leggibile, non un permesso — `approvata()` continua a
+  // esistere e a riconoscerlo, ma il suo verdetto non autorizza più niente.
+  //
+  // Fail-closed: memoria scollegata, rete giù o chiave assente ⇒ non firmata ⇒ invio bloccato. È più
+  // restrittivo di prima ed è voluto: un'azione che tocca il mondo reale non parte «nel dubbio».
+  const f = await firmaPannello(blk.id);
+  if (!f.firmata) {
+    const nota = approvata(blk.blocco)
+      ? ` (in coda c'è un marcatore di approvazione, ma dal 27/7 il testo nel file NON vale come firma: lo può scrivere la macchina stessa — serve il clic di Nicola sul Pannello)`
+      : "";
+    return {
+      live: false,
+      motivo: `azione "${id}" presente ma NON firmata da Nicola dal Pannello (${f.motivo})${nota} → invio bloccato`,
+    };
   }
+  const dove = `casella ${blk.code} ${f.motivo}`;
 
   // 3) Destinatario in allowlist (DRY-RUN forzato finché non sbloccato).
   const a = destinatarioAmmesso(canale, destinatario);
