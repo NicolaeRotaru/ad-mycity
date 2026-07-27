@@ -44,6 +44,56 @@
       "nota": "loop chiude (con prova) · briefing STALE (8h) · cecità sensori 7 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     },
     {
+      "data": "2026-07-19",
+      "voto_salute": 0,
+      "difetti_aperti": 22,
+      "difetti_chiusi": 1,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-135 (verificati nel codice)."
+    },
+    {
+      "data": "2026-07-19",
+      "voto_salute": 56,
+      "voto_provvisorio": 20,
+      "voto_pieno": 0,
+      "firma": "AR-124,AR-126,AR-129",
+      "difetti_aperti": 22,
+      "difetti_chiusi": 54,
+      "pending_merge": 17,
+      "aperti_davvero": 3,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 1h fa · cecità sensori 7 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-19",
+      "voto_salute": 56,
+      "voto_provvisorio": 20,
+      "voto_pieno": 0,
+      "firma": "AR-124,AR-126,AR-129",
+      "difetti_aperti": 22,
+      "difetti_chiusi": 54,
+      "pending_merge": 17,
+      "aperti_davvero": 3,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 7 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-19",
+      "voto_salute": 56,
+      "voto_provvisorio": 20,
+      "voto_pieno": 0,
+      "firma": "AR-124,AR-126,AR-129",
+      "difetti_aperti": 22,
+      "difetti_chiusi": 54,
+      "pending_merge": 17,
+      "aperti_davvero": 3,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 2h fa · cecità sensori 7 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
       "data": "2026-07-20",
       "voto_salute": 56,
       "voto_provvisorio": 20,
@@ -100,20 +150,6 @@
       "nota": "loop chiude (con prova) · briefing 5h fa · cecità sensori 7 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     },
     {
-      "data": "2026-07-20 11:00",
-      "voto_salute": 56,
-      "voto_provvisorio": 20,
-      "voto_pieno": 0,
-      "firma": "AR-124,AR-126,AR-129",
-      "difetti_aperti": 22,
-      "difetti_chiusi": 54,
-      "pending_merge": 17,
-      "aperti_davvero": 3,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing fresco · PI26 sportello aperto · cecità sensori 7 giri · salute pending-merge 20/100: 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · radiografia completa consigliata (non priorità vs North Star)"
-    },
-    {
       "data": "2026-07-20",
       "voto_salute": 56,
       "voto_provvisorio": 20,
@@ -154,20 +190,6 @@
       "bloccanti_umani": 2,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 3h fa · cecità sensori 7 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-20",
-      "voto_salute": 56,
-      "voto_provvisorio": 20,
-      "voto_pieno": 0,
-      "firma": "AR-124,AR-126,AR-129",
-      "difetti_aperti": 22,
-      "difetti_chiusi": 54,
-      "pending_merge": 17,
-      "aperti_davvero": 3,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing 5h fa · cecità sensori 7 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     },
     {
       "data": "2026-07-20",
@@ -226,6 +248,20 @@
       "difetti_chiusi": 2,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-115, AR-124 (verificati nel codice)."
+    },
+    {
+      "data": "2026-07-20 11:00",
+      "voto_salute": 56,
+      "voto_provvisorio": 20,
+      "voto_pieno": 0,
+      "firma": "AR-124,AR-126,AR-129",
+      "difetti_aperti": 22,
+      "difetti_chiusi": 54,
+      "pending_merge": 17,
+      "aperti_davvero": 3,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing fresco · PI26 sportello aperto · cecità sensori 7 giri · salute pending-merge 20/100: 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · radiografia completa consigliata (non priorità vs North Star)"
     },
     {
       "data": "2026-07-21",
@@ -617,49 +653,7 @@
       "aperti_davvero": 2,
       "bloccanti_umani": 2,
       "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing 0h fa · sensori max cecità 0 · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-23",
-      "voto_salute": 72,
-      "voto_provvisorio": 45,
-      "voto_pieno": 0,
-      "firma": "AR-126,AR-129",
-      "difetti_aperti": 19,
-      "difetti_chiusi": 57,
-      "pending_merge": 15,
-      "aperti_davvero": 2,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing 1h fa · sensori max cecità 0 · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-23",
-      "voto_salute": 72,
-      "voto_provvisorio": 45,
-      "voto_pieno": 0,
-      "firma": "AR-126,AR-129",
-      "difetti_aperti": 19,
-      "difetti_chiusi": 57,
-      "pending_merge": 15,
-      "aperti_davvero": 2,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 3h fa · sensori max cecità 0 · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-23",
-      "voto_salute": 72,
-      "voto_provvisorio": 45,
-      "voto_pieno": 0,
-      "firma": "AR-126,AR-129",
-      "difetti_aperti": 19,
-      "difetti_chiusi": 57,
-      "pending_merge": 15,
-      "aperti_davvero": 2,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing 0h fa · sensori max cecità 0 · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     },
     {
       "data": "2026-07-23",
@@ -810,16 +804,6 @@
       "nota": "loop chiude (con prova) · briefing 3h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 2 aperti-davvero · 14 in attesa merge · 14 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     },
     {
-      "data": "2026-07-24 16:00",
-      "voto_salute": 43,
-      "voto_provvisorio": 43,
-      "voto_pieno": 0,
-      "difetti_aperti": 31,
-      "difetti_chiusi": 62,
-      "tipo": "review",
-      "nota": "REVIEW SETTIMANALE: radiografia completa NON ri-lanciata (fatta 23/7 22:20, <24h fa, stesso ambito — ri-eseguirla ora sarebbe il pattern 'loop a vuoto' che la macchina stessa ha imparato a evitare questa settimana). Delta dalla radiografia del 23/7: 2 dei 3 bloccanti chiusi in 24h (AR-138 autopilota-pausa, AR-139 allowlist-azioni); restano aperti AR-144 (budget-token inerte) e AR-147 (PI26 senza allarme, ora a 6 giorni dalla scadenza). 1 nuovo difetto trovato in questa review (AR-154: rituale ESITO non rispettato sullo sprint Pannello 21-24/7). Il voto sale poco (43 vs 43 di ieri sera) perché il conteggio onesto di 12 dimensioni pesa più dei singoli fix: il trend reale è nei difetti aperti-davvero, stabili a 2-3, non nel voto aggregato."
-    },
-    {
       "data": "2026-07-24",
       "voto_salute": 43,
       "voto_provvisorio": 0,
@@ -874,6 +858,16 @@
       "bloccanti_umani": 14,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (11h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 14 in attesa merge · 14 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-24 16:00",
+      "voto_salute": 43,
+      "voto_provvisorio": 43,
+      "voto_pieno": 0,
+      "difetti_aperti": 31,
+      "difetti_chiusi": 62,
+      "tipo": "review",
+      "nota": "REVIEW SETTIMANALE: radiografia completa NON ri-lanciata (fatta 23/7 22:20, <24h fa, stesso ambito — ri-eseguirla ora sarebbe il pattern 'loop a vuoto' che la macchina stessa ha imparato a evitare questa settimana). Delta dalla radiografia del 23/7: 2 dei 3 bloccanti chiusi in 24h (AR-138 autopilota-pausa, AR-139 allowlist-azioni); restano aperti AR-144 (budget-token inerte) e AR-147 (PI26 senza allarme, ora a 6 giorni dalla scadenza). 1 nuovo difetto trovato in questa review (AR-154: rituale ESITO non rispettato sullo sprint Pannello 21-24/7). Il voto sale poco (43 vs 43 di ieri sera) perché il conteggio onesto di 12 dimensioni pesa più dei singoli fix: il trend reale è nei difetti aperti-davvero, stabili a 2-3, non nel voto aggregato."
     },
     {
       "data": "2026-07-25",
@@ -1109,20 +1103,6 @@
       "aperti_davvero": 3,
       "bloccanti_umani": 10,
       "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing 5h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 10 in attesa merge · 10 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-26",
-      "voto_salute": 43,
-      "voto_provvisorio": 0,
-      "voto_pieno": 0,
-      "firma": "AR-126,AR-129,AR-154",
-      "difetti_aperti": 23,
-      "difetti_chiusi": 72,
-      "pending_merge": 10,
-      "aperti_davvero": 3,
-      "bloccanti_umani": 10,
-      "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (7h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 10 in attesa merge · 10 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     },
     {
@@ -1208,6 +1188,20 @@
       "bloccanti_umani": 10,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 5h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 3 aperti-davvero · 10 in attesa merge · 10 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-27",
+      "voto_salute": 0,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-157,AR-168,AR-177",
+      "difetti_aperti": 193,
+      "difetti_chiusi": 72,
+      "pending_merge": 0,
+      "aperti_davvero": 193,
+      "bloccanti_umani": 3,
+      "tipo": "completa",
+      "nota": "Radiografia completa a 24 dimensioni (+4 worker, +8 Pannello mai coperte prima): 170 difetti verificati, 33 bloccanti. Il voto tocca il fondo scala (0) come il 23/7: con 170 difetti la penalità è 1976, quindi il numero NON distingue più «grave» da «catastrofico» né mostra i miglioramenti — va normalizzato."
     }
   ]
 }
