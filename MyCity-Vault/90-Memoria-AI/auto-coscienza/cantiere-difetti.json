@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 17:50",
+  "aggiornato": "2026-07-27 17:43",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -3878,15 +3878,15 @@
       "causa_radice": "1) Perché la bolla resta? Perché `loading` e il messaggio pending si spengono solo quando `risolviLavoriPendenti` vede il lavoro in stato «fatto» o «errore». 2) Perché non li vede? Perché con il worker spento il lavoro resta «in_attesa» a tempo indeterminato e il ciclo fa `continue`. 3) Perché nessuno interviene dopo un po'? Perché il pendente viene salvato come `{id, tipo, targetConvId}` — senza NESSUN timestamp: il codice non sa neppure quanti minuti sono passati. 4) Perché manca il timestamp? Perché il tempo massimo è stato implementato nel motore condiviso delle altre chat (`attendiEsitoLavoro` in lib/parla.ts, `attendiLavoro` in ChatCasella.tsx, entrambi con `timeoutMs`), mentre la chat principale ha una macchina a stati propria basata sul poller unico, dove quel concetto non è mai stato portato. 5) Radice: il concetto di «attesa scaduta» vive in due implementazioni parallele invece che una sola — quando la chat principale è passata al poller unico (bug #11 citato nei commenti), il tempo massimo è rimasto indietro. Classe di bug: ogni superficie che rifà per conto suo l'attesa di un lavoro nascerà senza scadenza.",
       "fix_proposto": "🟡 In `pannello/src/app/page.tsx`: (a) aggiungere il campo `at: Date.now()` (e `timeoutMs: prep.timeoutMs`) al record salvato da `aggiungiPendingChat` alla riga 1726 e nel ripristino da localStorage (~riga 2358); (b) dentro `risolviLavoriPendenti` (riga 1226), per ogni pendente ancora «in_attesa»/«in_corso» oltre la sua scadenza, sostituire la bolla pending con `messaggioLavoroInCorso(pend.tipo)` — la funzione è GIÀ importata e usata dalle altre due chat, quindi il messaggio resta identico ovunque — e chiamare `setLoading(false)` lasciando il pendente in memoria (la risposta vera verrà comunque instradata se arriva più tardi, esattamente come fa ParlaCasella). Presidio contro la classe: usare `attendiEsitoLavoro` come unico motore d'attesa anche per la chat principale, invece di una terza implementazione.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/chat-pending.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:1625 (setLoading true) + 1726 (registrazione pendente) + 1226 (risolviLavoriPendenti) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA 2026-07-27 17:45: comportamentale. Il fix e su main (PR #563): le attese hanno una data di nascita e una soglia di 45 min; le voci senza data — le bolle eterne gia in localStorage — sono chiuse con un messaggio che spiega. La prova precedente cercava messaggioLavoroInCorso, una funzione che non e mai esistita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 17:43",
+      "chiuso_come": "node cervello/test/chat-pending.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-259",
@@ -4023,15 +4023,15 @@
       "causa_radice": "① Nella chat aperta, `mandaAlCervello` salva la conversazione con `await persistConversazione(...)` (riga 1657) prima di creare il lavoro. ② Quella `await` è una chiamata di rete: dura da centinaia di ms a secondi (su mobile di più), e in quel buco l'utente può cliccare un'altra conversazione nel cassetto — `continuaConversazione` non è mai disabilitata durante l'attesa (page.tsx:3032, 3197). ③ Quando la promessa si risolve, la riga 1668 esegue `setConvId(savedConv)` INCONDIZIONATAMENTE: non c'è nessun controllo del tipo «sono ancora nella chat da cui ho inviato?», né un AbortController, né un confronto con `convIdRef.current`. ④ Risultato: `convId` torna ad A mentre `messages` (già sostituito da `continuaConversazione`) contiene il thread di B. L'effetto di riga 2221 fonde allora i messaggi di B dentro la conversazione A. ⑤ Quando il poller risolve il lavoro, `instradaMessaggioChat` vede `convIdRef.current === A`, quindi scrive la risposta nel thread a schermo (che è B) e la persiste sotto l'id A — B resta senza risposta per sempre. La radice vera: il componente ha già mirror sincroni (`convIdRef`, riga 1065) messi lì proprio per il cambio-chat, ma nessuno li usa come GUARDIA sul percorso di scrittura dopo `await`.",
       "fix_proposto": "In `pannello/src/app/page.tsx`, dentro `mandaAlCervello`: prima della `await persistConversazione` catturare la chat di partenza (`const convAllInvio = convIdRef.current ?? gruppoId;`). Subito dopo l'await, aggiungere la guardia: `const stessaChat = convIdRef.current === convAllInvio;`. Applicare `setConvId(savedConv)` / `sessionGruppoRef.current = savedConv` (righe 1667-1673) SOLO se `stessaChat` è true; il resto (`gruppoId`, `targetConvId`, rinomina in lista, creazione del lavoro con `aggiungiPendingChat({targetConvId})`) resta invariato, così la risposta viene comunque instradata nella chat giusta dal ramo «chat non attiva» di `instradaMessaggioChat`. Stessa guardia va messa prima del `setConversazioni` di riga 1658 solo per la parte di rinomina id (quella è sicura, tocca la lista non la chat attiva). Test: inviare in A, cambiare su B entro 1s, verificare che la chat resti B e che la risposta compaia in A riaprendola. Resta 🟡: branch + PR, nessun deploy.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/chat-pending.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:1657-1673 (mandaAlCervello) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA 2026-07-27 17:45: comportamentale. Il fix e su main (PR #563): deveSpostareLaVista estratta come funzione pura, se hai cambiato chat la vista NON torna indietro. La prova precedente cercava un pattern che il fix non tocca, quindi non poteva mai dimostrare nulla. Non-vacuita provata: rompendo la guardia il test esce 1.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 17:43",
+      "chiuso_come": "node cervello/test/chat-pending.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-266",
@@ -5437,8 +5437,8 @@
     }
   ],
   "meta": {
-    "aperti": 191,
+    "aperti": 189,
     "in_corso": 0,
-    "chiusi": 79
+    "chiusi": 81
   }
 }
