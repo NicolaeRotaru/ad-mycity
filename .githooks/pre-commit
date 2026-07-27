@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# 🔒 pre-commit — due cancelli su OGNI commit (non solo nel giro):
+# 🔒 pre-commit — tre cancelli su OGNI commit (non solo nel giro):
 #   1) 🩺 SINTASSI shell: nessun .sh/.bash rotto entra nella storia (worker-outage 2026-07-09).
-#   2) 🔑 SEGRETI: nessun token reale entra nella storia (AR-004).
+#   2) 🧱 PERIMETRO DI MAIN: il codice su main ci arriva da una PR, non da un commit a mano (AR-332).
+#   3) 🔑 SEGRETI: nessun token reale entra nella storia (AR-004).
 #
 # Ordine voluto: la sintassi gira PER PRIMA e serve solo `bash` — così vale anche sulle macchine
 # senza node, dove lo scan-segreti si limita ad avvisare. Un cancello che si spegne se manca uno
@@ -47,7 +48,46 @@ if command -v bash >/dev/null 2>&1; then
 fi
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 2) 🔑 GATE SEGRETI (AR-004) — nessun token reale nella storia. Senza node o senza lo scanner non
+# 2) 🧱 PERIMETRO DI MAIN (AR-332) — su `main` si committa MEMORIA, non codice.
+#
+# Il 27/7, lavorando al lotto 6, un modulo nuovo è finito su main dentro un commit di memoria invece
+# che nella sua PR: è bastato un `git add -A` a mano. Il gate di pubblicazione costruito nel lotto 3
+# (AR-314) non l'ha visto perché è una FUNZIONE che i cinque script chiamano — e chi non la chiama non
+# la incontra. Una regola che vale per il REPOSITORY era implementata come una funzione da invocare.
+#
+# Qui diventa un cancello che il repository impone, a chiunque committi: worker, giro, sessioni AD,
+# persone. Sui rami di lavoro non blocca niente — è solo main ad avere il perimetro, perché è il ramo
+# che il Pannello legge e da cui parte il deploy del Pannello.
+#
+# La regola è la STESSA di gate-pubblicazione.sh: si importa, non si ricopia. Due copie di un
+# perimetro non sono un perimetro — è esattamente il difetto che questo cancello esiste per impedire.
+#
+# ⚠️ STA QUI, PRIMA del gate segreti, e non in fondo: quello esce 0 quando node o lo scanner mancano
+# (scelta giusta, per non rompere i commit su una macchina spoglia), quindi tutto ciò che gli sta
+# DOPO non verrebbe mai raggiunto. Ci ero cascato scrivendolo, e l'ha trovato il test provandolo in
+# un repo senza scanner. È il principio già scritto in cima a questo file: un cancello che si spegne
+# se manca uno strumento non è un cancello. Questo serve solo bash e git.
+_ramo="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '')"
+if [ "$_ramo" = "main" ] && [ -f "$ROOT/cervello/gate-pubblicazione.sh" ]; then
+  # shellcheck source=cervello/gate-pubblicazione.sh
+  . "$ROOT/cervello/gate-pubblicazione.sh"
+  _staged="$(git diff --cached --name-only 2>/dev/null || true)"
+  if [ -n "$_staged" ] && ! perimetro_ok "$_staged"; then
+    _fuori="$(printf '%s\n' "$_staged" | grep -vE '^(MyCity-Vault|consegne|creativi|memoria-squadra)/' | grep -v '^$')"
+    echo "" >&2
+    echo "⛔ COMMIT BLOCCATO — su main il CODICE passa da una PR, non da un commit a mano (AR-332):" >&2
+    printf '%s\n' "$_fuori" | head -8 | sed 's/^/  → /' >&2
+    echo "" >&2
+    echo "Spostali su un ramo di lavoro e aprine una PR:" >&2
+    echo "  git reset HEAD -- <file>   ·   git checkout -b fix/<nome>   ·   git add <file> && git commit" >&2
+    echo "" >&2
+    echo "Bypass consapevole (sconsigliato, solo per un'emergenza vera): git commit --no-verify." >&2
+    exit 1
+  fi
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 3) 🔑 GATE SEGRETI (AR-004) — nessun token reale nella storia. Senza node o senza lo scanner non
 #    blocchiamo il lavoro: avvisiamo e lasciamo passare (il giro fa da seconda rete). Meglio non
 #    rompere i commit su una macchina senza node.
 if ! command -v node >/dev/null 2>&1; then
