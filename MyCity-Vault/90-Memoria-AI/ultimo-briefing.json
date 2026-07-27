@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-27 18:20",
-  "situazione": "Giro pieno richiesto in chat (riconferma dopo il Report della sera) — business ANCORA fermo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati, riverificato ORA con query diretta al DB, identico al Report della sera delle 18:00 e a ogni giro di oggi. Delta-gate conferma nessun cambiamento (3° giro-sonda consecutivo 'nulla di nuovo'). Applicata la strategia snella: nessuna ri-analisi profonda, coda AZIONI-IN-ATTESA a 57 righe 'in attesa' senza novità di contenuto. Mossa n.1: rispondere alle 3 domande PI26 (scade tra ~2,5 giorni). Mossa n.2: attivare Vercel Authentication sul Pannello.",
+  "data": "2026-07-27 20:20",
+  "situazione": "Giro ripetuto richiesto in chat — business ANCORA fermo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati, identico a ogni giro di oggi. Delta-gate conferma nessun cambiamento (5° giro-sonda consecutivo 'nulla di nuovo', 9h dall'ultimo giro pieno). Applicata la strategia snella: nessuna ri-analisi profonda, coda AZIONI-IN-ATTESA a 57 righe 'in attesa' senza novità di contenuto. Mossa n.1: rispondere alle 3 domande PI26 (scade tra ~2,3 giorni). Mossa n.2: attivare Vercel Authentication sul Pannello.",
   "opportunita": [
     {
       "titolo": "Rispondi alle 3 domande sul bando PI26",
