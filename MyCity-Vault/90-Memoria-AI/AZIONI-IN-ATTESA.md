@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-27 12:20** — Automatico: **56 aperte · 98 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-27 14:20** — Automatico: **57 aperte · 98 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -27,6 +27,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 <!-- radiografia-sblocca-pubblicazione -->
+
+---
 
 ### 🟡 #radiografia-sblocca-pubblicazione — Sblocca la memoria: da due giorni il giro non riesce più a pubblicare · ⏳ accodata 2026-07-27 09:40
 **Cosa cambia:** dal 25/7 alle 20:15 il giro si ferma prima di pubblicare, perché il controllo sui segreti trova una chiave dentro un file di test — ma è una chiave finta, scritta apposta per verificare che l'invio email non parta senza firma. Il controllo riconosce il prefisso e blocca tutto. Da allora quello che arriva nel Pannello passa solo dalle scorciatoie che quel controllo lo saltano: i commit «recupero: scritture pendenti da un giro interrotto» ogni due ore sono la traccia. Finché resta così, ogni giro lavora e non pubblica.
@@ -1352,7 +1354,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-27 12:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-27 14:20)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-27-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1847,6 +1849,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-27 12:20 · 98 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-27 14:20 · 98 card totali
 
 ### ✅ #elimina-negozi-demo — Tieni solo Pane Quotidiano, elimina i 16 negozi demo · ✅ FATTO 2026-07-20 18:30 · {approvato: Nicola 20/7 18:28}
 
