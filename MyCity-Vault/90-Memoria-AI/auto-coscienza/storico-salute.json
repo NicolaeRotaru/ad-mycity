@@ -13,20 +13,6 @@
       "aperti_davvero": 3,
       "bloccanti_umani": 2,
       "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (16h) · cecità sensori 7 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-20",
-      "voto_salute": 56,
-      "voto_provvisorio": 20,
-      "voto_pieno": 0,
-      "firma": "AR-124,AR-126,AR-129",
-      "difetti_aperti": 22,
-      "difetti_chiusi": 54,
-      "pending_merge": 17,
-      "aperti_davvero": 3,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 2h fa · cecità sensori 7 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 17 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     },
     {
@@ -1178,6 +1164,20 @@
       "difetti_chiusi": 2,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-235, AR-246 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 31 dall'ultima misura vera."
+    },
+    {
+      "data": "2026-07-27",
+      "voto_salute": 31,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-126,AR-129,AR-154,AR-157,AR-158,AR-159,AR-160,AR-161,AR-168,AR-170,AR-172,AR-174,AR-176,AR-177,AR-179,AR-184,AR-188,AR-193,AR-195,AR-212,AR-216,AR-217,AR-219,AR-220,AR-221,AR-223,AR-224,AR-225,AR-229,AR-230,AR-231,AR-232,AR-234,AR-237,AR-238,AR-239,AR-240,AR-241,AR-242,AR-243,AR-244,AR-245,AR-247,AR-248,AR-249,AR-250,AR-252,AR-253,AR-254,AR-257,AR-259,AR-260,AR-261,AR-262,AR-263,AR-264,AR-266,AR-267,AR-268,AR-269,AR-272,AR-273,AR-274,AR-276,AR-278,AR-283,AR-284,AR-285,AR-287,AR-288,AR-289,AR-291,AR-294,AR-295,AR-302,AR-303,AR-307,AR-308,AR-318,AR-319,AR-323",
+      "difetti_aperti": 187,
+      "difetti_chiusi": 83,
+      "pending_merge": 90,
+      "aperti_davvero": 81,
+      "bloccanti_umani": 16,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (7h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 81 aperti-davvero · 90 in attesa merge · 16 bloccanti umani"
     }
   ]
 }

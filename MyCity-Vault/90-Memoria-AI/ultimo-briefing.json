@@ -1,10 +1,10 @@
 {
-  "data": "2026-07-27 11:01",
-  "situazione": "Giro pieno richiesto in chat (riconferma) — business ANCORA fermo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati, riverificato ORA con query diretta al DB, identico al giro delle 06:20/06:37 di stamattina — delta-gate conferma nessun cambiamento (2 giri-sonda intermedi già 'nulla di nuovo'). Applicata la strategia snella: nessuna ri-analisi profonda, coda AZIONI-IN-ATTESA a 85 righe 'in attesa' senza novità. Mossa n.1: rispondere alle 3 domande PI26 (scade tra 3 giorni). Mossa n.2: confermare o negare la nuova data del piano-squadra (metà agosto).",
+  "data": "2026-07-27 18:20",
+  "situazione": "Giro pieno richiesto in chat (riconferma dopo il Report della sera) — business ANCORA fermo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati, riverificato ORA con query diretta al DB, identico al Report della sera delle 18:00 e a ogni giro di oggi. Delta-gate conferma nessun cambiamento (3° giro-sonda consecutivo 'nulla di nuovo'). Applicata la strategia snella: nessuna ri-analisi profonda, coda AZIONI-IN-ATTESA a 57 righe 'in attesa' senza novità di contenuto. Mossa n.1: rispondere alle 3 domande PI26 (scade tra ~2,5 giorni). Mossa n.2: attivare Vercel Authentication sul Pannello.",
   "opportunita": [
     {
       "titolo": "Rispondi alle 3 domande sul bando PI26",
-      "motivo": "10.000€ di fondo perduto, sportello a esaurimento aperto fino al 30/7 ore 16:00 (3 giorni residui) — mancano solo le tue risposte",
+      "motivo": "10.000€ di fondo perduto, sportello a esaurimento aperto fino al 30/7 ore 16:00 (~2,5 giorni residui) — mancano solo le tue risposte",
       "impatto": "alto",
       "sforzo": "basso"
     },
@@ -17,24 +17,24 @@
   ],
   "azioni": [
     {
+      "titolo": "Attiva Vercel Authentication per chiudere davvero il Pannello",
+      "motivo": "Oggi il Pannello resta apribile da chiunque abbia solo il link — confermato da te stesso in incognito alle 10:05 di oggi; bastano 30 secondi su Vercel",
+      "livello": "giallo"
+    },
+    {
       "titolo": "Conferma se il piano con fratello e amici sostituisce la pausa negozi",
       "motivo": "Hai indicato una data di ripartenza (metà agosto) diversa da quella già registrata (24/8-1/9) — senza il tuo ok non riscrivo il fatto ufficiale",
       "livello": "giallo"
     },
     {
-      "titolo": "Pulisci le etichette generiche dal contatore errori-ripetuti",
-      "motivo": "'workflow' e 'correzione-nicola' sono etichette troppo larghe come 'marketplace' — la stessa riga di codice le sistema tutte insieme",
+      "titolo": "Dai un sì per congelare una copia di sicurezza della memoria",
+      "motivo": "Da domani un bug noto (decadimento) inizierebbe a cancellare le lezioni di giugno se non la mettiamo al sicuro prima",
       "livello": "giallo"
-    },
-    {
-      "titolo": "Mergia le PR in coda per il Cantiere del Pannello e il fix doppioni chat",
-      "motivo": "4 PR pronte (#551, #552, #553, #556), nessun rischio per il sito — solo il tuo click di approvazione",
-      "livello": "rosso"
     }
   ],
   "sentinelle_scattate": [
     "North Star 0 — stallo ~33 giorni, riconfermato con query diretta",
-    "PI26 scade tra 3 giorni senza conferma di invio",
+    "PI26 scade tra ~2,5 giorni senza conferma di invio",
     "Runway non calcolabile (manca BURN_MENSILE_EUR nel .env VPS)",
     "3 carrelli abbandonati reali su PQ mai recuperati (invariati da giugno)"
   ]
