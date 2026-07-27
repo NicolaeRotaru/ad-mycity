@@ -12,6 +12,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { loopChiude as loopChiudeRegola, loopVivo, previsioneValida, provaBusiness as calcolaProvaBusiness } from "./volano-regole.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
@@ -85,9 +86,12 @@ function main() {
     (d) => d && d.stato === "chiuso" && oreFa(d.chiuso_il) <= oreFinestra
   ).length; // AR-052
   // AR-063: solo previsioni con esito reale (azzeccata/mancata), non la mera esistenza di righe.
-  const previsioniChiuse = Array.isArray(calibr.registro)
-    ? calibr.registro.filter((e) => e && (e.stato === "azzeccata" || e.stato === "mancata"))
-    : [];
+  // AR-180 — il filtro è quello CONDIVISO, non uno rifatto a mano: la sonda contava come prova
+  // proprio le righe che calibrazione.mjs dichiara «previsioni non sono mai state» (36 su 42, nate
+  // pescando il primo numero di una frase di diario), più quelle banali, quelle misurate da un
+  // sensore cieco e quelle nate già chiuse. Chi legge un registro per ricavarne una prova deve usare
+  // il filtro del modulo che quel registro lo possiede.
+  const previsioniChiuse = Array.isArray(calibr.registro) ? calibr.registro.filter(previsioneValida) : [];
   const previsioniChiuseRecenti = previsioniChiuse.filter((e) => oreFa(e.chiuso_il) <= oreFinestra); // AR-052
   const calibrazionePiena = previsioniChiuseRecenti.length > 0;
   const previsioniAperteRecenti = Array.isArray(calibr.registro)
@@ -101,14 +105,19 @@ function main() {
   const esperimentiAperti = Array.isArray(autoMig.esperimenti)
     ? autoMig.esperimenti.filter((e) => e && e.stato === "aperto")
     : [];
-  const provaBusiness =
-    calibrazionePiena ||
-    esperimentiMisurati ||
-    previsioniAperteRecenti.length > 0 ||
-    esperimentiAperti.length > 0;
+  // AR-177 — la prova di business è SOLO roba chiusa e misurata. Prima qui dentro c'erano anche le
+  // previsioni APERTE e gli esperimenti APERTI: siccome un cancello hard del giro obbliga a tenerne
+  // sempre almeno uno aperto, `loop_chiude` era vero PER COSTRUZIONE — non poteva dire di no nemmeno
+  // in teoria. Aprire una previsione non è chiuderla: è il contrario.
+  const provaBusiness = calcolaProvaBusiness({ calibrazionePiena, esperimentiMisurati });
   const provaArchitettura = difettiChiusiRecenti > 0;
   const provaChiusura = provaBusiness || provaArchitettura;
-  const loopChiude = tasso > 0 && provaChiusura;
+  const loopChiude = loopChiudeRegola({ tasso, provaBusiness, provaArchitettura });
+  // Le aperte non si buttano: diventano un segnale SEPARATO. «Non chiude» con dieci previsioni
+  // aperte è vero ma incompleto, e un segnale incompleto viene ignorato. Solo, questa è la prova che
+  // la macchina ci sta provando — non che sta imparando.
+  const intenzioniAperte = previsioniAperteRecenti.length + esperimentiAperti.length;
+  const loopVivoOra = loopVivo({ intenzioniAperte, provaBusiness, provaArchitettura });
 
   const oreBrief = oreFa(brief.data);
   const oreRad = oreFa(rad.data);
@@ -164,6 +173,8 @@ function main() {
     difetti_chiusi: difettiChiusi,
     difetti_chiusi_recenti: difettiChiusiRecenti, // AR-052
     calibrazione_piena: calibrazionePiena,
+    loop_vivo: loopVivoOra,          // AR-177: c'è attività (informativo)
+    intenzioni_aperte: intenzioniAperte, // AR-177: le aperte, fuori dalla prova
     previsioni_aperte_recenti: previsioniAperteRecenti.length,
     esperimenti_aperti: esperimentiAperti.length,
     prova_business: provaBusiness,

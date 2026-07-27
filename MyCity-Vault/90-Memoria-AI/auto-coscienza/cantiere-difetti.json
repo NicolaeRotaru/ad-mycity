@@ -2188,9 +2188,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/sonda-volano.mjs",
-        "pattern": "esperimentiAperti\\.length > 0",
-        "presente": false
+        "comando": "node cervello/test/volano-regole.test.mjs"
       },
       "nota": "Dove: cervello/sonda-volano.mjs:104-111 · Impatto: L'unico booleano che dice a Nicola e al Pannello «la macchina impara davvero» è incapace di essere falso. Sul cruscotto si legge «Loop chiude ✅» accanto a «Lezioni applicate 18%» in rosso, e per 69 giri di fila nessuno ha potuto vedere il volano fermo perché il flag lo negava. Ogni scelta di priorità che si appoggia su quel flag parte da un dato che si auto-assolve.",
       "chiuso_il": "",
@@ -2251,9 +2249,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/sonda-volano.mjs",
-        "pattern": "nonEUnaPrevisione",
-        "presente": true
+        "comando": "node cervello/test/volano-regole.test.mjs"
       },
       "nota": "Dove: cervello/sonda-volano.mjs:88-92 · Impatto: La calibrazione — l'anello che dovrebbe dimostrare che la macchina impara dall'errore — risulta «piena» al Pannello grazie a righe che il modulo proprietario del dato ha già dichiarato prive di valore. Le previsioni vere che contano davvero nel punteggio sono 5 in tutto, e i reparti misurati sono 4 su 120.",
       "chiuso_il": "",
@@ -5393,6 +5389,26 @@
         "tipo": "umano"
       },
       "nota": "Dove: il processo dei lotti di riparazione (PR #560, #561, #563) · Impatto: 4 risoluzioni manuali in un pomeriggio, ognuna col rischio di perdere le chiusure dell'altro lato · Storia della correzione: la prima formulazione del fix era incompleta e ha prodotto subito il suo controesempio — togliendo i file di memoria dalla PR #563 ho tolto anche le prove nuove, quindi il codice è atterrato su main ma i due difetti sono rimasti aperti. La prova appartiene al codice; solo la chiusura appartiene al dopo-merge.",
+      "chiuso_il": "",
+      "chiuso_come": ""
+    },
+    {
+      "id": "AR-332",
+      "titolo": "Il cancello di pubblicazione protegge i cinque script, non chi committa a mano",
+      "dimensione": "worker-pubblicazione",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① Perché è passato del codice su main dentro un commit di memoria? Perché il commit è stato fatto con un  a mano in una shell, non dal percorso di pubblicazione degli script. ② Perché quello non è protetto? Perché il gate-pubblicazione (AR-314) è una funzione bash che i cinque pubblicatori CHIAMANO: chi non la chiama non la incontra. ③ Perché nessuno l'ha notato? Perché il perimetro è stato pensato come una proprietà degli script, non del repository — e finché a committare erano solo loro l'assunzione reggeva. ④ Ma le sessioni AD committano a mano di continuo, ed è esattamente il caso in cui il perimetro serve di più: una sessione che sta lavorando su codice E su memoria insieme. ⑤ RADICE: una regola che vale per il repository è stata implementata come una funzione da chiamare invece che come un cancello che il repository impone. Esiste già l'aggancio giusto e inutilizzato per questo: il repo ha core.hooksPath con un hook pre-commit per i segreti (giro.sh:17).",
+      "fix_proposto": "🟡 Portare il controllo di perimetro nell'hook pre-commit che GIÀ esiste per i segreti (cervello/hooks/): se il ramo corrente è main e nello stage ci sono sia file di memoria sia file fuori dalle quattro cartelle, il commit si ferma con il messaggio «il codice su main passa dalla PR, non da un commit di memoria». Sui rami di lavoro non blocca nulla — è solo main che ha il perimetro. Riusa perimetro_ok() da gate-pubblicazione.sh: la regola resta una sola.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-27 21:15",
+      "origine": "trovato lavorando al lotto 6 del cantiere continuo (27/7): volano-regole.mjs finito su main dentro il commit di memoria c1f7896 invece che nella PR",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Su main, mettere nello stage un file di codice insieme a uno di memoria e provare a committare: deve fermarsi. Su un ramo fix/*, lo stesso commit deve passare."
+      },
+      "nota": "Portata dell-episodio: volano-regole.mjs e inerte su main (zero riferimenti, nessun comportamento cambiato), il cablaggio viaggia nella PR del lotto 6.",
       "chiuso_il": "",
       "chiuso_come": ""
     }
