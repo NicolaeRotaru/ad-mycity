@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-27 06:20",
-  "situazione": "Giro pieno (heartbeat, 19h dall'ultimo giro pieno di ieri 26/7 11:11) — business ANCORA fermo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati, riverificato ora con query diretta al DB. Misurato l'unico esperimento in scadenza oggi (WhatsApp ai 3 negozi-faro): mancata, perché il gate non è mai stato eseguito (pausa negozi fino al 24/8-1/9). Corretto un bug reale nell'apprendimento: la lezione 'mobile' aveva un principio scritto solo a parole ieri, ora è cristallizzata per davvero nello stato che il guardiano controlla. Mossa n.1: rispondere alle 3 domande PI26 (scade tra 3 giorni). Mossa n.2: confermare o negare la nuova data del piano-squadra (metà agosto).",
+  "data": "2026-07-27 11:01",
+  "situazione": "Giro pieno richiesto in chat (riconferma) — business ANCORA fermo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati, riverificato ORA con query diretta al DB, identico al giro delle 06:20/06:37 di stamattina — delta-gate conferma nessun cambiamento (2 giri-sonda intermedi già 'nulla di nuovo'). Applicata la strategia snella: nessuna ri-analisi profonda, coda AZIONI-IN-ATTESA a 85 righe 'in attesa' senza novità. Mossa n.1: rispondere alle 3 domande PI26 (scade tra 3 giorni). Mossa n.2: confermare o negare la nuova data del piano-squadra (metà agosto).",
   "opportunita": [
     {
       "titolo": "Rispondi alle 3 domande sul bando PI26",
