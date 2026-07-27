@@ -136,7 +136,7 @@ import {
   type ParlaMsg,
 } from "@/lib/parla";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
-import { bollaUtenteDaTesto, mergeThreadMsgs, PLACEHOLDER_ALLEGATI } from "@/lib/chat-thread-merge";
+import { bollaUtenteDaTesto, mergeThreadMsgs, messaggiUguali, PLACEHOLDER_ALLEGATI } from "@/lib/chat-thread-merge";
 import {
   type PendingChat as PendingChatBase,
   pendingScaduto,
@@ -361,7 +361,8 @@ function integraConversazioneAttiva(list: Conversazione[], id: string | null, ms
     return [{ id, titolo: titoloConversazioneDa(reali), messaggi: reali, created_at: now, updated_at: now }, ...list];
   }
   const merged = mergeThreadMsgs(list[idx].messaggi, reali);
-  if (JSON.stringify(merged) === JSON.stringify(list[idx].messaggi)) return list;
+  // AR-246: confronto senza costruire stringhe da megabyte a ogni giro di poll (8s).
+  if (messaggiUguali(merged, list[idx].messaggi)) return list;
   const copia = [...list];
   copia[idx] = { ...copia[idx], messaggi: merged, updated_at: new Date().toISOString() };
   return copia;
@@ -2091,6 +2092,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     if (!meta) return;
     setConvLette((prev) => {
       const merged = mergeLette(prev, meta.letta);
+      // Qui NON si applica AR-246: è una mappa di conversazioni lette, non un thread di messaggi —
+      // ed è piccola, quindi il confronto per stringa non pesa. Il caso caro è l'archivio dei thread.
       if (JSON.stringify(merged) === JSON.stringify(prev)) return prev;
       try { localStorage.setItem("mycity_conv_lette", JSON.stringify(merged)); } catch {}
       return merged;

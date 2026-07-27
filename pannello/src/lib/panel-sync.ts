@@ -5,13 +5,20 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { istante } from "@/lib/format";
+import {
+  type SyncScope as SyncScopeBase,
+  type LavoroSync,
+  scopesDaLavoro,
+  scopesDaRinfrescare,
+  deveRinfrescareAlRitorno,
+  RITORNO_MIN_MS,
+} from "@/lib/panel-sync-regole";
 
-export type SyncScope =
-  | "azioni" // AZIONI-IN-ATTESA + decisioni Supabase
-  | "radiografia" // auto-radiografia, cantiere-difetti, auto-coscienza
-  | "memoria" // STATO, briefing, intenzioni, todo, avvisi
-  | "lavori" // coda lavori worker
-  | "all";
+// Riesportate: le caselle continuano a importarle da qui, il file puro e' un dettaglio interno.
+export { scopesDaLavoro, scopesDaRinfrescare, deveRinfrescareAlRitorno, RITORNO_MIN_MS };
+export type { LavoroSync };
+
+export type SyncScope = SyncScopeBase;
 
 export const EVENTO_SYNC = "mycity:sync";
 
@@ -51,39 +58,53 @@ export function usePanelSync(scopes: SyncScope[], onRefresh: () => void) {
   }, [key]);
 }
 
-/** Polling + rete sync: una sola riga per caselle che già hanno `carica` + setInterval. */
+/**
+ * Polling + rete sync + ripasso al ritorno sulla scheda.
+ *
+ * AR-235 (seconda metà): mancava proprio il ripasso al ritorno. `focus`/`visibilitychange` erano
+ * agganciati solo alla chat e all'area Azioni, quindi dieci caselle — Bacheca, Documenti, Arsenale,
+ * Intelligence, Autopilota, Lettera AD, Numeri, Stato macchina, Volano, Esplora GitHub — restavano
+ * ferme a com'erano quando avevi lasciato la pagina. Agganciandolo QUI lo ereditano tutte quelle che
+ * già usano questo hook, invece di rattoppare dieci componenti uno per uno (e dimenticarne il
+ * prossimo che verrà aggiunto).
+ */
 export function usePanelRefresh(scopes: SyncScope[], carica: () => void, pollMs?: number) {
   usePanelSync(scopes, carica);
+  const ultimoRef = useRef<number | null>(null);
+
+  const caricaEsegna = useCallback(() => {
+    ultimoRef.current = Date.now();
+    carica();
+  }, [carica]);
+
   useEffect(() => {
     if (!pollMs || pollMs <= 0) return;
-    const id = setInterval(carica, pollMs);
+    const id = setInterval(caricaEsegna, pollMs);
     return () => clearInterval(id);
-  }, [pollMs, carica]);
-}
+  }, [pollMs, caricaEsegna]);
 
-type LavoroSync = { id: string; stato: string; tipo?: string };
-
-/** Quali scope aggiornare quando un lavoro del worker passa a «fatto». */
-export function scopesDaLavoro(tipo: string): SyncScope[] {
-  const t = (tipo || "").toLowerCase();
-  if (/esegui-azione|rifiuta-azione/.test(t)) return ["azioni", "radiografia", "memoria"];
-  if (/giro|briefing|radiografia|auto-coscienza/.test(t)) return ["memoria", "azioni", "radiografia"];
-  if (/supervisione|marketplace|negozi/.test(t)) return ["memoria", "azioni"];
-  return ["memoria"];
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const alRitorno = () => {
+      if (document.visibilityState === "hidden") return;
+      if (!deveRinfrescareAlRitorno(ultimoRef.current, Date.now())) return;
+      caricaEsegna();
+    };
+    document.addEventListener("visibilitychange", alRitorno);
+    window.addEventListener("focus", alRitorno);
+    return () => {
+      document.removeEventListener("visibilitychange", alRitorno);
+      window.removeEventListener("focus", alRitorno);
+    };
+  }, [caricaEsegna]);
 }
 
 /** Dopo un lavoro finito: propaga il refresh a tutte le caselle collegate. */
 export function emitSyncDaLavoriFiniti(prev: LavoroSync[], next: LavoroSync[]) {
   if (typeof window === "undefined") return;
-  const was = new Map(prev.map((l) => [l.id, l.stato]));
-  const scopes = new Set<SyncScope>();
-  for (const l of next) {
-    const prima = was.get(l.id);
-    if (!prima || prima === "fatto" || l.stato !== "fatto") continue;
-    for (const s of scopesDaLavoro(l.tipo || "")) scopes.add(s);
-  }
-  if (scopes.size === 0) return;
-  if (scopes.size >= 3) {
+  const scopes = scopesDaRinfrescare(prev, next);
+  if (scopes.length === 0) return;
+  if (scopes.length >= 3) {
     emitSync("all", "lavoro:finito");
     return;
   }
