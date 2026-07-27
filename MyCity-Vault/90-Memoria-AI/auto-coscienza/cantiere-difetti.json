@@ -4978,9 +4978,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/vps/aggiorna-cervello.sh",
-        "pattern": "commit pendenti non pubblicati",
-        "presente": true
+        "comando": "node cervello/test/allineamento-esito.test.mjs"
       },
       "nota": "Dove: cervello/vps/aggiorna-cervello.sh:105 (fallimento solo stampato) → :132 (git checkout -f -B main FETCH_HEAD) · Impatto: Il lavoro di un giro/ritmo (briefing, STATO, coda azioni, chiusure del cantiere fatte alla riga 163) può sparire senza che nessuno lo sappia: lo script continua e finisce con «✓ Allineamento completato». È la stessa perdita silenziosa che AR-028 aveva chiuso su ritmo.sh — qui il `checkout -f` distruttivo è ancora vivo, l'unico rimasto in tutta la catena automatica.",
       "chiuso_il": "",
@@ -4999,9 +4997,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/vps/aggiorna-cervello.sh",
-        "pattern": "exit 4",
-        "presente": true
+        "comando": "node cervello/test/allineamento-esito.test.mjs"
       },
       "nota": "Dove: cervello/vps/aggiorna-cervello.sh:137-138 (fetch di main fallito → solo messaggio) e cervello/vps/watch-main.sh:187-189 (segna lo SHA come visto + segnale «ok») · Impatto: Un fix mergiato non arriva mai sul server e la macchina lo dà per arrivato. Peggio: subito dopo, alla riga 163, gira `auto-fix.mjs verifica --applica` sul codice VECCHIO — i difetti risultano ancora aperti (o, nel caso opposto, chiusi guardando il file sbagliato) e il cantiere che Nicola vede sul Pannello racconta uno stato che non esiste. È il punto in cui la catena «difetto chiuso nel codice → Pannello lo vede chiuso» si spezza senza un solo avviso.",
       "chiuso_il": "",
@@ -5079,9 +5075,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/vps/watch-main.sh",
-        "pattern": "rimandi_consecutivi",
-        "presente": true
+        "comando": "node cervello/test/allineamento-esito.test.mjs"
       },
       "nota": "Dove: cervello/vps/aggiorna-cervello.sh:116-127 (rinvio con uscita 3) e cervello/vps/watch-main.sh:175-181 (segnale «ok», SHA non segnato) · Impatto: Ogni fix mergiato su main resta fuori dal server a tempo indeterminato: il codice vecchio continua a girare, `auto-fix.mjs` (riga 163) non parte mai, i difetti risolti restano «aperti» sul Pannello e il cantiere racconta una macchina più malata di quello che è. La diagnosi che il Pannello mostra è «watch-main: ok». È il secondo punto in cui la catena «difetto chiuso → Pannello lo vede chiuso» si interrompe senza avviso — e l'unico con durata potenzialmente infinita.",
       "chiuso_il": "",
