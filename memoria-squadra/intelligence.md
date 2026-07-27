@@ -8,6 +8,7 @@ reparto: intelligence
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-27 11:35 · PLAYBOOK Intelligence 27/7: refresh radar-concorrenti + eventi-picchi (precedente 20/7) · 0 buchi di mercato locali nuovi trovati; consolidamento Uber-DeliveryHero 14,8mld$ (16/7) è dettaglio nuovo; ondata di caldo 7gg 34-40° confermata; PI26 scade tra 3gg · atteso aggiornamento settimanale con eventuali novità concorrenti/meteo → reale nessuna novità locale reale sui concorrenti (solo fusione globale già nota in parte), meteo confermato caldo estremo, PI26 urgenza confermata · #playbook-intelligence
 - 2026-07-20 17:50 · PR #496 merge confermato — Nicola «controlla se mergiata» · atteso: GitHub API merged_at · reale: **#496 ✅ 17:44:45** (`1cd606e0`); codice sveglia su main; card #mergia-pr-496 → FATTO; prossimo **#accendi-intelligence-sveglia** (Telegram+n8n) · #pr-496 #intelligence-sveglia · L-398, L-397, L-390
 - 2026-07-20 16:39 · PR #496 conflitti merge — Nicola screenshot solo allegato · atteso: mergeable senza perdere codice sveglia · reale: conflitti su file memoria auto risolti (main vince), intelligence-agenda+workflow 41 invariati, test 2/2, card #mergia-pr-496 🔴 · #pr-496 #intelligence-sveglia · L-397, L-390
 - 2026-07-20 12:42 · correzione Deliveroo Piacenza · atteso radar «non operativo» → reale: **attivo e forte** (deliveroo.it + Nicola); perlustrazione + radar aggiornati · lezione L-392 · #radar #competitor

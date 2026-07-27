@@ -1,26 +1,24 @@
-# 📅 Eventi & Picchi di Domanda — 2026-07-20
+# 📅 Eventi & Picchi di Domanda — 2026-07-27
 
-> Aggiornato: 20 luglio 2026 20:22 · @intelligence · serata 20/7
+> Aggiornato: 27 luglio 2026 11:35 · @intelligence · PLAYBOOK Intelligence (refresh settimanale, precedente 20/7)
 
 ---
 
-## 🌡️ Meteo Piacenza — prossimi 7 giorni
+## 🌡️ Meteo Piacenza — prossimi 7 giorni: ONDATA DI CALDO STRUTTURALE
 
-| Data | Condizione | T max / T min | Impatto delivery |
-|------|-----------|---------------|-----------------|
-| **Lun 20/7 (OGGI)** | Sereno, afa serale | **32° / 23°** | Recupero post social stasera |
-| **Mar 21/7** | Pioggia debole/temporali | **31° / 22°** | **Picco push indoor** — dopo ordine test PQ |
-| Mer 22/7 | Nuvoloso, più fresco | **29° / 18°** | Normale |
-| Gio 23/7 | Sereno/caldo | **32° / 18°** | Jazz Castell'Arquato serale (fuori città) |
-| Ven 24/7 | Sereno | **30° / 20°** | **Inizio Festa Tortello Vigolzone** (serale provincia) |
-| Sab 25/7 | Soleggiato | **31° / 18°** | Sagra Vigolzone serale |
-| Dom 26/7 | Nuvoloso sparse, pioggia debole poss. | **30° / 21°** | Sagra Vigolzone + piromusicale lun 27 |
+| Data | Condizione | T max / T min | Pioggia | Impatto delivery |
+|------|-----------|---------------|---------|-------------------|
+| **Lun 27/7 (OGGI)** | Sereno e afoso | **33-34° / 20°** | 0% | Normale |
+| Mar 28/7 | Sereno | **33-34° / 22-23°** | 0% | Normale |
+| Mer 29/7 | Sereno, poche nubi | **35-36° / 23-24°** | 0% | Caldo in salita |
+| Gio 30/7 | Sereno | **37-38° / 24-25°** | 0% | **Scadenza PI26 ore 16:00** |
+| Ven 31/7 | Sereno | **39-40° / 24-26°** | 0% | **Picco ondata di caldo** |
+| Sab 1/8 | Soleggiato | **38-39° / 25-26°** | 0% | Weekend caldo estremo |
+| Dom 2/8 | Poche nubi | **36-39° / 25°** | 0% | Lieve calo, resta molto caldo |
 
-Fonte: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) agg. **20/7 11:34** · PM10 ottima (12,1 µg/m³)
+Fonte triangolata (2 indipendenti concordanti, 27/7): [ilmeteo.it](https://www.ilmeteo.it/meteo/piacenza) · [meteoblue.com](https://www.meteoblue.com/en/weather/week/piacenza_italy_3171058). Anticiclone africano, zero pioggia per 7 giorni consecutivi — pattern strutturale, non rumore di un giorno.
 
-**Consiglio operativo:** martedì 21/7 = giornata migliore per post/email «ordina da casa con la pioggia» — **solo dopo ordine test PQ** (`#ordine-test-pq`).
-
-**Catena indiretta (radar):** pioggia → domanda consegna ↑ → serve rider/slot pronti (@operations) — oggi flotta non operativa.
+**Differenza vs settimana scorsa:** nessun trigger-pioggia per il push "ordina da casa"; il driver di domanda dominante è il caldo estremo, non un temporale.
 
 ---
 
@@ -28,31 +26,44 @@ Fonte: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) agg. **20/7 11
 
 | Evento | Date | Rilevanza |
 |--------|------|-----------|
-| 🔴 **PI26 CCIAA — sportello APERTO** | **OGGI 20/7 ore 10:00 → 30/7 ore 16:00** | Max €10k fondo perduto (50% spese digitali) · `#bandi-cciaa-2007` |
-| **Cornicione Corso V.E.** | dal 19/7 (in corso) | Tratto 226–234 transennato — attività fronte strada interdette |
-| Venerdì Piacentini | **FINITI** (17/7 gran finale) | Ripresa 2027 |
-| Summertime in Jazz | **22/7** Rivalta · **23/7** Castell'Arquato | Basso impatto delivery centro |
-| **Festa del Tortello Vigolzone De.Co.** | **24-28 luglio** | Sagra serale provincia (~15 km) — basso impatto cold-start |
-| E...state tra le Stelle | **24/7** ore 21:30 Lazzarello | Evento astronomico, fuori città |
-| Visite guidate over 65 Comune | 23/7 Teatro · 24/7 San Savino | Iscrizioni da oggi 0523-492724 |
+| 🔴 **PI26 CCIAA — sportello APERTO** | dal 20/7 → **scade 30/7 ore 16:00** (3 giorni) | Max €10k fondo perduto (50% spese digitali). A sportello cronologico fino a esaurimento fondi (2 mln € totale Parma+Piacenza+Reggio Emilia) — capienza residua non pubblica, da chiedere a CCIAA. `#pi26-conferma-ammissibilita` già in coda, DA SISTEMARE (P.IVA/entità giuridica + spese documentate) |
+| Rassegna cinema estiva Ex Caserma Cantore | fino 31/8 | Bassa — sera, area specifica |
+| Piacenza Summer Cult | **terminato 17/7** | Nessuna, non riapre a breve |
+| Concerto Sugarpie & Candymen | 29/7 21:30 Travo | Fuori città, nessun impatto |
+| Festival artisti di strada | fine luglio, Vernasca | Fuori città, nessun impatto |
+| Cornicione Corso V.E. 226-234 | dal 19/7, **stato riapertura non confermato** | ⚠️ Nessuna notizia di riapertura trovata in ricerca — verificare sul posto, non do per riaperto |
 
-Fonti: [Visit Piacenza Tortello](https://visitpiacenza.it/events/festa-del-tortello-de-co/) · [IlPiacenza cornicione 19/7](https://www.ilpiacenza.it/attualita/cornicione-pericolante-transennato-l-ultimo-tratto-del-corso.html) · [Il Nuovo Giornale jazz 17/7](https://www.ilnuovogiornale.it/2026/07/17/al-summertime-in-jazz-due-grandi-voci-della-musica-italiana-petra-magoni-mauro-ottolini-e-karima/)
+**Nessun evento di massa in centro storico questa settimana** (a differenza di Vigolzone/Jazz la settimana scorsa) — zero catalizzatori esterni sul traffico pedonale del centro.
+
+Fonti: [emilia.camcom.it — PI26 ufficiale](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bando-innovazione-digitale-2026-pi26) · [unionecommerciantipc.it](https://www.unionecommerciantipc.it/bando-innovazione-digitale-2026/) · [piacenzasera.it cornicione 19/7](https://www.piacenzasera.it/2026/07/cornicione-pericolante-sul-corso-transennato-il-tratto-allincrocio-con-il-facsal/654967/) — tutte consultate 27/7.
 
 ---
 
 ## 🚦 Operativo
 
-- **⚠️ VIABILITÀ (19/7):** chiuso tratto **Corso Vittorio Emanuele civici 226–234** — marciapiede, pista ciclabile e **attività commerciali fronte strada interdette** fino a messa in sicurezza.
-- ZTL centro 8:00–19:00 invariata
-- Bici consegna: non operativa
-- Post domenica PQ: **non pubblicato 19/7** — recupero oggi 20/7
+- ⚠️ Viabilità Corso V.E. 226-234: stato non confermato, verificare prima di citarlo come chiuso o riaperto.
+- ZTL centro 8:00–19:00 invariata.
+- Bici consegna: non operativa (invariato).
 
 ---
 
-## Perlustrazione settimana
+## Opportunità proposte (27/7, coerenti col vincolo "niente spinta commerciale su nuovi negozi prima del 24/8")
 
-Report completo: `consegne/intelligence/2026-07-20-perlustrazione-settimana.md`
+**① PI26 — verifica ammissibilità, 3 giorni rimasti (scade 30/7 16:00)** — 🟡 GIÀ IN CODA
+Già tracciata in `AZIONI-IN-ATTESA.md` (`#pi26-conferma-ammissibilita`, accodata 24/7, stato DA SISTEMARE: manca conferma P.IVA/entità giuridica + spese documentate ≥5.000€ dal 1° maggio). Non riaccodo un duplicato — segnalo solo l'urgenza: mancano 3 giorni, decide Nicola se procedere o lasciar scadere.
+
+**② Bozza contenuto "ondata di caldo" per Pane Quotidiano — solo bozza, NON pubblicare** — 🟢
+7 giorni consecutivi 34→40° sono un pattern riusabile ("pane fresco della mattina prima che arrivi il caldo"). Propongo a @content-social di preparare la bozza ora e parcheggiarla in `consegne/content/`, pronta per quando la pausa negozi finisce (24/8-1/9) — nessuna pubblicazione ora, coerente col vincolo attuale.
+
+**③ Dossier moat: annotare l'acquisizione Uber-Delivery Hero (14,8 mld$)** — 🟢
+Fatto verificato (3 fonti indipendenti, vedi `radar-concorrenti.md`), nessuna azione ora: solo tenerlo pronto per @vendite come argomento "i giganti sono nel pieno di una fusione pluriennale" alla ripresa vendite.
 
 ---
 
-*Senior: @operations (rerouting) · @crm-lifecycle (push 21/7) · @relazioni-istituzionali (PI26) · @vendite (pitch anti-Glovo)*
+## Perlustrazione settimana precedente
+
+Report 20/7: `consegne/intelligence/2026-07-20-perlustrazione-settimana.md`
+
+---
+
+*Senior: @relazioni-istituzionali (PI26, urgenza 3gg) · @content-social (bozza caldo, non pubblicare) · @vendite (dossier moat, per la ripresa)*
