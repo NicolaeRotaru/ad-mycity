@@ -14,6 +14,18 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+<!-- radiografia-prova-non-vera-alla-nascita -->
+
+### 🟡 #radiografia-prova-non-vera-alla-nascita — Impedisci alla macchina di chiudersi i difetti da sola il giorno stesso che li scrive · ⏳ accodata 2026-07-27 12:45
+**Cosa cambia:** oggi, sessanta secondi dopo che hai mergiato la radiografia, la macchina ha chiuso da sola 91 dei 173 difetti appena consegnati — il 53%, di cui 17 bloccanti — e per un quarto d'ora il Pannello ti ha mostrato «105 aperti, 163 chiusi» invece dei 196 veri. Nessuna di quelle chiusure poteva essere vera: fra le 9:40 e le 12:15 non è entrato nessun fix. Il motivo è che ogni difetto porta una prova per chiudersi da solo, e quelle 91 prove descrivevano **il bug** invece del **fix**: erano già vere nell'istante in cui il difetto nasceva. Le ho già rovesciate e i difetti sono tornati aperti, ma il buco che l'ha permesso è ancora lì e ricapiterà alla prossima radiografia.
+**Se va bene:** l'AD mette due controlli. Il primo: un difetto non può nascere con una prova già vera — se lo fa, il guardiano che gira a ogni giro se ne accorge e blocca. Da solo avrebbe fermato tutti e 91. Il secondo: non chiudere un difetto se il file che dovrebbe contenere il fix non è mai stato toccato da quando il difetto è nato. In più la regola sul come si scrive una prova entra nello stampo del prompt, così non dipende più da chi se la ricorda.
+**Nota tecnica:** difetto AR-330. Il punto è `cervello/auto-fix.mjs:122-129` (`verificaFix`), che considera risolto un difetto quando la prova è soddisfatta senza chiedersi se quella prova descriva il fix o il sintomo. È la manifestazione su scala di AR-144: lì era un sospetto su 72 chiusure vecchie, qui è un fatto misurato su 91.
+- **Colore:** 🟡 (tocca il cervello e il modo in cui la macchina si autovaluta)
+- **Reparto:** internal-audit + devops-sre
+- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-330}`
+
+---
+
 <!-- radiografia-sblocca-pubblicazione -->
 
 ### 🟡 #radiografia-sblocca-pubblicazione — Sblocca la memoria: da due giorni il giro non riesce più a pubblicare · ⏳ accodata 2026-07-27 09:40
