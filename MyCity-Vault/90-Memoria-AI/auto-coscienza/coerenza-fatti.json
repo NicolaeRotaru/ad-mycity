@@ -1,6 +1,7 @@
 {
-  "data": "2026-07-27 22:32",
-  "esito": "ok",
+  "data": "2026-07-28 01:27",
+  "esito": "non_verificato",
+  "copertura": 0,
   "fatti_totali": 20,
   "cacce_aperte": 0,
   "file_scansionati": 0,
@@ -15,5 +16,5 @@
     "MyCity-Vault/90-Memoria-AI/registro-fatti.json",
     "memoria-squadra/"
   ],
-  "istruzioni": "Memoria coerente: nessuna copia vecchia nei file vivi."
+  "istruzioni": "NON VERIFICATO: nessuna caccia aperta, quindi non è stato letto alcun file. Non è un verde — è l'assenza di una misura (AR-211)."
 }
