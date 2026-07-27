@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-27 06:20
+aggiornato: 2026-07-27 11:01
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **27/7 11:01 — GIRO PIENO richiesto in chat, riconferma — business ANCORA INVARIATO, riverificato ora con query diretta.** Delta-gate conferma stato invariato dall'ultimo giro pieno delle 06:37 (2 giri-sonda intermedi a 08:20/10:20 già "nulla di nuovo"). Query diretta appena eseguita: `orders`=1 (unico, CANCELED, 24/6), 0 non-annullati/pagati, `profiles`=7, `products`=5, `reviews`=0, `abandoned_carts`=3 — identico a stamattina. **Stallo North Star ~33 giorni.** Applicata la strategia snella per giri pieni ripetuti a stato invariato ([[playbook-giro-pieno-ripetuto-strategia]]): nessuna nuova query pesante oltre la riverifica, nessun ri-check del radar (fatto stamattina, nessuna novità da allora), nessuna riscrittura dei JSON auto-coscienza già freschi (sonda-volano/calibrazione/chiusura-loop/apprendimento già aggiornati alle 11:00 dal pre-step deterministico di `giro.sh`). Coda `AZIONI-IN-ATTESA`: **85 righe "in attesa"** (grep diretto), nessuna nuova accodata in questo passaggio. **Nessuna azione nuova verso il marketplace.** Mossa n.1/n.2 invariate: PI26 (scade 30/7, ~3 giorni residui) e conferma piano-squadra. Briefing: [[Briefing/2026-07-27]].
+
+> 🛰️ **27/7 06:20 — GIRO PIENO (heartbeat, 19h dall'ultimo giro pieno di ieri 26/7 11:11) — business ANCORA INVARIATO, riverificato ora con query diretta.** `orders`=1 (unico, CANCELED, 24/6), 0 non-annullati/pagati, `profiles`=7, `products`=5, `reviews`=0, `abandoned_carts`=3, `merchants_leads`=407 — identico a ieri. **Stallo North Star ~33 giorni.** Misurato l'unico esperimento in scadenza oggi: **EXP-002** (WhatsApp ai 3 negozi-faro → risposta entro 48h) → **mancata**, i messaggi non sono mai stati inviati (gate `#whatsapp-3-anchor-pi26` ancora in pausa fino al 24/8-1/9) — stesso schema di EXP-004/005/007. **Trovato e corretto un bug reale nell'apprendimento:** la lezione "mobile" (layout chat responsive) aveva un principio scritto solo in prosa il 26/7 (`_gate_26_07_1106`), ma nessuna lezione aveva `stato:"principio"` nell'array che il guardiano controlla davvero — per questo il contatore "errori che si ripetono" continuava a segnalarla come non cristallizzata nonostante il lavoro di ieri. Corretto: L-2026-0720-358 ora `stato:"principio"`. Valutato anche "telegram" (nuovo nel contatore, 9 lezioni/15 ripetizioni): stesso verdetto di "plugin"/"information-architecture" del 26/7 — cluster reale ma eterogeneo, non un'etichetta-ombrello, da scomporre alla prossima lezione che lo tocca; card 🟡 `#240` estesa una 4ª volta. **Nessuna azione nuova verso il marketplace.** Mossa n.1/n.2 invariate: PI26 (3 giorni residui) e conferma piano-squadra. Briefing: [[Briefing/2026-07-27]].
 
 > 🔁 **26/7 11:06 — GIRO RIPETUTO (delta-gate invariato dalle 06:23) — solo i vincoli hard di questo giro, business FERMO come stamattina.** Nessuna nuova query: la firma delle 06:23 (1 PQ, 5 prodotti, 7 clienti, 0 pagati) resta valida. **Fatto in questo passaggio:** ① saldati i 4 debiti di misura rimasti in `calibrazione.json` (previsioni "scaduta" senza nota mai spiegate — 2 non più misurabili: ristoranti tattici esclusi da Nicola il 16/7, click mai tracciati; 2 misurate da registro-fatti: test-ordine PQ mai eseguito, north-star=0 — tutte ora "mancata" con fonte); ② promosse a `principio` 3 lezioni mature (L-2026-0723-449 git-pr.mjs file sporchi, L-2026-0723-448 diff-prima-di-accusare, L-2026-0723-446 coerenza parola↔fatto); ③ rivisitato il cluster "mobile" dell'apprendimento come promesso stamattina — confermato pattern reale (layout chat responsive), scritta la checklist "mobile+desktop" per i PR di layout; card 🟡 `#240` estesa una 3ª volta. **Nessuna azione nuova verso il marketplace.** Mossa n.1/n.2 invariate: PI26 (4 giorni residui) e conferma piano-squadra. Briefing: [[Briefing/2026-07-26]].
 
@@ -1113,17 +1117,17 @@ fonte: AD digitale (chat)
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ riconfermati SQL diretta 26/7 18:00 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
-| Numero | Oggi (26/7 18:00) | Δ vs 25/7 18:00 | "Riuscito" | Note |
+## I 7 numeri (✅ riconfermati query diretta 27/7 06:20 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
+| Numero | Oggi (27/7 06:20) | Δ vs 26/7 18:00 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `seller` confermato SQL diretta 18:00 |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `seller` confermato query diretta 06:20 |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ Stripe collegato, payout-test su ordine vero |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato SQL diretta 18:00 |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato query diretta 06:20 |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 24/6 CANCELED — ultimo ordine tuttora il 24/6 08:28 |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **32 giorni** · ordine test in pausa fino al 24/8-1/9 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **33 giorni** · ordine test in pausa fino al 24/8-1/9 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | confermato SQL diretta 18:00 |
+| Nuovi clienti reali | **7 profili** (0 ultimi 7g) | = | crescita | confermato query diretta 06:20 |
 | **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)

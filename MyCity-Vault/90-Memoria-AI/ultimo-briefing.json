@@ -1,16 +1,16 @@
 {
-  "data": "2026-07-26 11:06",
-  "situazione": "Giro ripetuto, delta-gate invariato dalle 06:23 (nessun cambiamento reale) — business ANCORA fermo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati. Chiusi i 4 debiti di misura rimasti in calibrazione (previsioni scadute mai spiegate, ora tutte con fonte e nota) e promosse 3 lezioni mature a principio permanente. Rivisitato come promesso il cluster 'mobile' dell'apprendimento: è un pattern vero (layout chat responsive), scritta la regola; 'correzione-nicola' resta un'etichetta-ombrello come 'marketplace'. Mossa n.1: rispondere alle 3 domande PI26 (scade tra 4 giorni). Mossa n.2: confermare o negare la nuova data del piano-squadra (metà agosto) proposta ieri notte.",
+  "data": "2026-07-27 11:01",
+  "situazione": "Giro pieno richiesto in chat (riconferma) — business ANCORA fermo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati, riverificato ORA con query diretta al DB, identico al giro delle 06:20/06:37 di stamattina — delta-gate conferma nessun cambiamento (2 giri-sonda intermedi già 'nulla di nuovo'). Applicata la strategia snella: nessuna ri-analisi profonda, coda AZIONI-IN-ATTESA a 85 righe 'in attesa' senza novità. Mossa n.1: rispondere alle 3 domande PI26 (scade tra 3 giorni). Mossa n.2: confermare o negare la nuova data del piano-squadra (metà agosto).",
   "opportunita": [
     {
       "titolo": "Rispondi alle 3 domande sul bando PI26",
-      "motivo": "10.000€ di fondo perduto, sportello a esaurimento aperto fino al 30/7 ore 16:00 (4 giorni residui) — un valutatore indipendente ha bocciato la bozza attuale, mancano solo le tue risposte",
+      "motivo": "10.000€ di fondo perduto, sportello a esaurimento aperto fino al 30/7 ore 16:00 (3 giorni residui) — mancano solo le tue risposte",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "Unico sblocco diretto del North Star (0 ordini pagati da 32 giorni) — sblocca anche referral e stampa del kit fisico",
+      "motivo": "Unico sblocco diretto del North Star (0 ordini pagati da 33 giorni) — sblocca anche referral e stampa del kit fisico",
       "impatto": "alto",
       "sforzo": "basso"
     }
@@ -18,12 +18,12 @@
   "azioni": [
     {
       "titolo": "Conferma se il piano con fratello e amici sostituisce la pausa negozi",
-      "motivo": "Hai indicato ieri notte una data di ripartenza (metà agosto) diversa da quella già registrata (24/8-1/9) — senza il tuo ok non riscrivo il fatto ufficiale",
+      "motivo": "Hai indicato una data di ripartenza (metà agosto) diversa da quella già registrata (24/8-1/9) — senza il tuo ok non riscrivo il fatto ufficiale",
       "livello": "giallo"
     },
     {
       "titolo": "Pulisci le etichette generiche dal contatore errori-ripetuti",
-      "motivo": "Anche 'workflow' e 'correzione-nicola' sono etichette troppo larghe come 'marketplace' — la stessa riga di codice le sistema tutte insieme",
+      "motivo": "'workflow' e 'correzione-nicola' sono etichette troppo larghe come 'marketplace' — la stessa riga di codice le sistema tutte insieme",
       "livello": "giallo"
     },
     {
@@ -33,9 +33,9 @@
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo ~32 giorni, riconfermato con query diretta",
-    "PI26 scade tra 4 giorni senza conferma di invio",
-    "Runway non calcolabile da 248 giri (manca BURN_MENSILE_EUR nel .env VPS)",
+    "North Star 0 — stallo ~33 giorni, riconfermato con query diretta",
+    "PI26 scade tra 3 giorni senza conferma di invio",
+    "Runway non calcolabile (manca BURN_MENSILE_EUR nel .env VPS)",
     "3 carrelli abbandonati reali su PQ mai recuperati (invariati da giugno)"
   ]
 }

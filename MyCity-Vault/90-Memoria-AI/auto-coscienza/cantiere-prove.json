@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
-  "aggiornato": "2026-07-26 22:20",
+  "aggiornato": "2026-07-27 11:00",
   "giorni_sospetto": 3,
   "difetti_aperti": 23,
   "per_classe": {
@@ -14,7 +14,7 @@
     {
       "id": "AR-105",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "La macchina è cieca se il marketplace va giù: i sensori di uptime (sito, Pannello, Telegram) sono costruiti ma",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -23,16 +23,16 @@
     {
       "id": "AR-108",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "I sensori uptime di sito e Cabina esistono nel codice ma restano spenti da 163 giri: manca solo una env var e ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/collega-le-mani.md ~ /MARKETPLACE_SITE_URL/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/collega-le-mani.md ~ /MARKETPLACE_SITE_URL/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-112",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Le API mutanti del Pannello sono senza autenticazione: PAUSA spegnibile, autopilota accendibile e azioni esegu",
       "classe": "auto-attesa",
       "perche": "il fix consiste nel creare pannello/src/middleware.ts, non ancora presente",
@@ -41,70 +41,70 @@
     {
       "id": "AR-119",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "La 'firma di Nicola' che sblocca l'invio reale è un marcatore testuale in un file che la macchina stessa scriv",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/consenso-azione.mjs ~ /rest/v1/approvazioni|firma_pannello/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/consenso-azione.mjs ~ /rest/v1/approvazioni|firma_pannello/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-126",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il giro operativo (flotta senior) semina i money-engine con un negozio SCARTATO (Casa Linda) e un ordine MORTO",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (.claude/workflows/giro-operativo.js ~ /Casa Linda|ordine zombie/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (.claude/workflows/giro-operativo.js ~ /Casa Linda|ordine zombie/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-127",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "ritmo.sh e monitora.sh pubblicano su main SENZA il cancello di coerenza/sanità/onestà che protegge giro.sh — l",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/ritmo.sh ~ /vault-sanita\\.mjs|coerenza-fatti\\.mjs/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/ritmo.sh ~ /vault-sanita\\.mjs|coerenza-fatti\\.mjs/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-128",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Nessun sensore né sentinella per le contestazioni carta (dispute/chargeback) da Stripe: soldi con scadenza rig",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/sentinelle.md ~ /dispute|chargeback|contestazione carta/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/sentinelle.md ~ /dispute|chargeback|contestazione carta/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-129",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Soglia KIT tarata al verde: 5200B, cioè 82 byte SOTTO il kit più piccolo — nessun kit può fallire il check 'no",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/stampo-check.mjs ~ /KIT_MIN_BYTES = 5200/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/stampo-check.mjs ~ /KIT_MIN_BYTES = 5200/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-130",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "I nuovi specialisti rimandano ai capi, ma i capi non rimandano indietro: routing ambiguo su temi sensibili",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (.claude/agents/legale-privacy.md ~ /description:[^\\n]*→/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (.claude/agents/legale-privacy.md ~ /description:[^\\n]*→/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-131",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il segnale onesto (lower_bound di Wilson) è calcolato ma nascosto: al Pannello Nicola vede la barra verde del ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (pannello/src/components/AutoCoscienza.tsx ~ /lower_bound/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (pannello/src/components/AutoCoscienza.tsx ~ /lower_bound/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-132",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "La dimensione «copertura-cieca» è solo-LLM: manca una mappa-copertura deterministica (dominio × sensore/sentin",
       "classe": "auto-attesa",
       "perche": "il fix consiste nel creare cervello/mappa-copertura.mjs, non ancora presente",
@@ -113,25 +113,25 @@
     {
       "id": "AR-133",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il Pannello — la superficie con cui Nicola vede tutto e firma i 🔴 — è fuori dalle 12 dimensioni della radiogr",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/giro.sh ~ /verify-marge/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/giro.sh ~ /verify-marge/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-134",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il gate di sintassi pre-commit copre solo .sh: un .mjs core rotto (git-github.mjs) può bloccare il giro senza ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (.githooks/pre-commit ~ /node\\s+--check/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (.githooks/pre-commit ~ /node\\s+--check/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-140",
       "gravita": "grave",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "Il colore 🟢🟡🔴 che decide l'esecuzione automatica è testo libero, non un fatto riverificato lato server",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -140,7 +140,7 @@
     {
       "id": "AR-141",
       "gravita": "grave",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "marketplace.mjs aggiorna scrive per TABELLA intera, non per campo: il prezzo può viaggiare a bordo di un'appro",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -149,7 +149,7 @@
     {
       "id": "AR-143",
       "gravita": "grave",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "Token GitHub persistito in chiaro in marketplace/.git/config — collega-marketplace.mjs non lo ripulisce dopo i",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -158,7 +158,7 @@
     {
       "id": "AR-145",
       "gravita": "grave",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "Piano del mattino/Report della sera si autorilanciano a raffica (7x in ~100 min lo stesso giorno) — nessun loc",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -167,7 +167,7 @@
     {
       "id": "AR-146",
       "gravita": "grave",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "Il giro si è fermato 3 giorni (20-23/7) senza spiegazione trovata — card #218 aperta, mai chiusa",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -176,7 +176,7 @@
     {
       "id": "AR-147",
       "gravita": "grave",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "PI26 (10.000€ a fondo perduto, scade 30/7) non ha nessun countdown/allarme automatico reale — solo promemoria ",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -185,7 +185,7 @@
     {
       "id": "AR-148",
       "gravita": "grave",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "AR-015 (registro rischi) chiuso dichiarando 14/14 rischi con sentinella — in realtà 6/14 hanno il campo vuoto",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -194,7 +194,7 @@
     {
       "id": "AR-149",
       "gravita": "grave",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "Tasso di applicazione delle lezioni al 17% da 42 giri consecutivi, e il flag 'loop_chiude' usa una soglia dive",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -203,7 +203,7 @@
     {
       "id": "AR-150",
       "gravita": "grave",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "EXP-004 marcato 'misurato' nel registro esperimenti, ma la sua stessa nota dice che il gate non è mai scattato",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -212,7 +212,7 @@
     {
       "id": "AR-154",
       "gravita": "grave",
-      "eta_giorni": 2,
+      "eta_giorni": 3,
       "titolo": "Il rituale ESITO (AR-009) non ha coperto lo sprint Pannello 21-24/7: @tech ha 47 righe ferme al 20/7 nonostant",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",

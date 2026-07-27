@@ -139,6 +139,7 @@ ALLOC_VINCOLO=""      # AR-081: vincolo dell'allocazione-check (popolato sotto s
 REGISTRO_SCELTE_VINCOLO=""  # AR-103: dossier vendite scelta_ragionata non sincronizzati nel registro
 LOOP_VINCOLO=""       # PZ-008: vincolo del gate chiusura-loop (FATTO in Sala senza ESITO nel quaderno)
 TEST_VINCOLO=""       # 25/7: test del cervello rossi o ineseguibili (prima non li lanciava nessuno)
+DEBITO_VINCOLO=""     # 25/7: previsioni fatte e mai confrontate col reale (voce 2)
 FATTI_VINCOLO=""      # AR-102: vincolo del gate coerenza-fatti (copie vecchie di un fatto in file vivi)
 CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se > 2 giorni)
 OKR_VINCOLO=""        # AR-115: vincolo freschezza OKR-Squadra (target scaduti o doc stantio)
@@ -273,6 +274,20 @@ if command -v node >/dev/null 2>&1; then
   # mai misurata (la chiusura del ciclo prevedi→misura non resta delegata alla memoria dell'LLM).
   echo "[$(ts)] Calibrazione: sweep previsioni scadute (AR-053)..."
   node "$SCRIPT_DIR/calibrazione.mjs" scadute 2>&1 | tail -4 || true
+
+  # ─── IL DEBITO DI MISURA NON SI CONDONA PIÙ (25/7, voce 2) ────────────────────────
+  # Lo sweep qui sopra marca 'scaduta' e il giro tirava dritto: alle 06:20 «devi ancora misurare»
+  # diventava «pazienza», in silenzio. Cinque previsioni vere sono nate, morte e non hanno
+  # insegnato niente. Prevedere senza mai misurare non è calibrazione, è oroscopo — e la voce 2
+  # della pagella («sa prevedere le conseguenze delle sue mosse») resta cieca finché è così.
+  echo "[$(ts)] Debito di misura (previsioni mai confrontate col reale)..."
+  _deb_out="$(node "$SCRIPT_DIR/calibrazione.mjs" debito --gate 2>&1)"; _deb_rc=$?
+  printf '%s\n' "$_deb_out" | tail -12
+  if [ "$_deb_rc" -ne 0 ]; then
+    DEBITO_VINCOLO="⛔ DEBITO DI MISURA APERTO (calibrazione.mjs debito rc=$_deb_rc): ci sono previsioni fatte e mai confrontate col reale. PRIMA di chiudere questo giro chiudine almeno UNA con 'node cervello/calibrazione.mjs esito --id=<id> --reale=<n> --fonte=<fonte>' — il numero va LETTO da una fonte ammessa, mai stimato. Se una previsione non è più misurabile, chiudila lo stesso dicendo perché nella nota: una rinuncia motivata insegna, una scadenza silenziosa no."
+    echo "[$(ts)] ⚠️  Debito di misura aperto (rc=$_deb_rc) → passo un vincolo hard al motore." >&2
+  fi
+
   # AR-042: guardiano schema calibrazione — verifica che almeno una voce abbia il campo 'stato'
   # (lo schema CLI, non lo schema legacy a mano). Se il registro è tutto voci legacy, il motore di autonomia
   # gira su dati vuoti → passiamo un vincolo hard al motore di usare la CLI.
@@ -538,6 +553,14 @@ if [ -n "${TEST_VINCOLO:-}" ]; then
 
 ## Vincolo test del cervello (HARD — dal guardiano test-cervello prima di te)
 $TEST_VINCOLO"
+fi
+if [ -n "${DEBITO_VINCOLO:-}" ]; then
+  # 25/7: le previsioni scadute senza misura arrivano al motore come debito da saldare, non come
+  # archivio. È la voce 2 della pagella: senza confronto col reale non c'è nessuna calibrazione.
+  PROMPT="$PROMPT
+
+## Vincolo debito di misura (HARD — dal gate calibrazione prima di te)
+$DEBITO_VINCOLO"
 fi
 if [ -n "${FATTI_VINCOLO:-}" ]; then
   # AR-102: il gate coerenza-fatti arriva al motore come regola hard (propaga PRIMA di chiudere il giro).
