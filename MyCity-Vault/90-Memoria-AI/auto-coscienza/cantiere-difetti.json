@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 22:01",
+  "aggiornato": "2026-07-27 22:31",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -4974,15 +4974,15 @@
       "causa_radice": "1) Perché il lavoro sparisce? Perché il checkout forzato gira anche quando il push non è riuscito. 2) Perché gira lo stesso? Perché l'esito del push è una stampa, non una condizione. 3) Perché una stampa? Perché in bash un `echo` di errore sembra già «gestione dell'errore», e senza `set -e` sulla riga nessuno se ne accorge. 4) Perché nessuno se ne accorge? Perché non esiste un test che simuli «push fallito» su questo copione. 5) Causa di sistema: le operazioni distruttive non hanno un pre-requisito esplicito («distruggi SOLO se hai la prova che il lavoro è al sicuro»); la prova è affidata alla lettura umana del log, che sul VPS non legge nessuno.",
       "fix_proposto": "🟡 Rendere il checkout forzato subordinato alla prova: se `_ok_pre` non vale 1, uscire PRIMA della riga 131 con un codice dedicato e il messaggio «commit pendenti non pubblicati — NON allineo (il lavoro resta sul server)», così watch-main non segna lo SHA come visto e riprova al giro dopo. In più: mai `checkout -f` senza aver prima verificato che HEAD sia contenuto nel remoto (`git merge-base --is-ancestor HEAD FETCH_HEAD`).",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/allineamento-esito.test.mjs"
       },
       "nota": "Dove: cervello/vps/aggiorna-cervello.sh:105 (fallimento solo stampato) → :132 (git checkout -f -B main FETCH_HEAD) · Impatto: Il lavoro di un giro/ritmo (briefing, STATO, coda azioni, chiusure del cantiere fatte alla riga 163) può sparire senza che nessuno lo sappia: lo script continua e finisce con «✓ Allineamento completato». È la stessa perdita silenziosa che AR-028 aveva chiuso su ritmo.sh — qui il `checkout -f` distruttivo è ancora vivo, l'unico rimasto in tutta la catena automatica.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 22:31",
+      "chiuso_come": "node cervello/test/allineamento-esito.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-312",
@@ -4993,15 +4993,15 @@
       "causa_radice": "1) Perché il Pannello mostra «allineato» a un server rimasto indietro? Perché lo script esce 0 dopo aver fallito. 2) Perché esce 0? Perché il fallimento di un passo intermedio non cambia il codice di uscita. 3) Perché non lo cambia? Perché lo script è stato pensato come «best effort»: fai il possibile e non fermare il worker. 4) Perché va bene per il worker ma non per la verità? Perché il valore di uscita è usato da watch-main come PROVA per marcare lo SHA come visto: un «best effort» viene letto come «fatto». 5) Causa di sistema: chi produce l'esito e chi lo interpreta hanno due contratti diversi, e nessuno dei due è scritto — l'unico segnale che arriva al Pannello è ottimista per costruzione.",
       "fix_proposto": "🟡 Fare uscire aggiorna-cervello.sh con un codice dedicato (es. `exit 4`) quando il fetch di main fallisce, e in watch-main.sh trattarlo come rc=3 (allineamento rimandato): NON scrivere lo SHA nel file, segnale «warn» invece di «ok», riprova al giro dopo. Regola generale da mettere in cima al file: «se un passo dell'allineamento non è riuscito, lo SHA non si segna».",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/allineamento-esito.test.mjs"
       },
       "nota": "Dove: cervello/vps/aggiorna-cervello.sh:137-138 (fetch di main fallito → solo messaggio) e cervello/vps/watch-main.sh:187-189 (segna lo SHA come visto + segnale «ok») · Impatto: Un fix mergiato non arriva mai sul server e la macchina lo dà per arrivato. Peggio: subito dopo, alla riga 163, gira `auto-fix.mjs verifica --applica` sul codice VECCHIO — i difetti risultano ancora aperti (o, nel caso opposto, chiusi guardando il file sbagliato) e il cantiere che Nicola vede sul Pannello racconta uno stato che non esiste. È il punto in cui la catena «difetto chiuso nel codice → Pannello lo vede chiuso» si spezza senza un solo avviso.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 22:31",
+      "chiuso_come": "node cervello/test/allineamento-esito.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-313",
@@ -5071,15 +5071,15 @@
       "causa_radice": "1) Perché il server può restare indietro per giorni? Perché il rinvio non scade mai. 2) Perché non scade? Perché la via d'uscita anti-stallo copre solo il ramo vecchio, non il worktree sporco. 3) Perché quella metà non è coperta? Perché «sporco» è stato letto come «qualcuno ci sta lavorando ORA», mentre di norma è il residuo di una sessione morta. 4) Perché non emerge? Perché il rinvio è marcato benigno e viaggia come «ok», quindi non alza nessuna sentinella. 5) Causa di sistema: uno stato di attesa senza scadenza e senza contatore diventa indistinguibile dal buon funzionamento; manca la regola «se rimando la stessa cosa N volte, non è più un rinvio, è un guasto».",
       "fix_proposto": "🟡 Contare i rinvii consecutivi in watch-main.sh (un contatore in .git/, azzerato al primo allineamento riuscito): oltre 6 rinvii di fila (~30 minuti) il segnale diventa «errore», parte l'avviso Telegram con il nome del ramo e dei file sporchi, e il difetto viene accodato come azione 🟡 («worktree del server sporco da X ore: chiudi o butta il lavoro sul ramo Y»). In aggiorna-cervello.sh, applicare al caso sporco lo stesso tetto temporale del ramo vecchio.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/allineamento-esito.test.mjs"
       },
       "nota": "Dove: cervello/vps/aggiorna-cervello.sh:116-127 (rinvio con uscita 3) e cervello/vps/watch-main.sh:175-181 (segnale «ok», SHA non segnato) · Impatto: Ogni fix mergiato su main resta fuori dal server a tempo indeterminato: il codice vecchio continua a girare, `auto-fix.mjs` (riga 163) non parte mai, i difetti risolti restano «aperti» sul Pannello e il cantiere racconta una macchina più malata di quello che è. La diagnosi che il Pannello mostra è «watch-main: ok». È il secondo punto in cui la catena «difetto chiuso → Pannello lo vede chiuso» si interrompe senza avviso — e l'unico con durata potenzialmente infinita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 22:31",
+      "chiuso_come": "node cervello/test/allineamento-esito.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-317",
@@ -5407,8 +5407,8 @@
     }
   ],
   "meta": {
-    "aperti": 165,
+    "aperti": 162,
     "in_corso": 0,
-    "chiusi": 106
+    "chiusi": 109
   }
 }
