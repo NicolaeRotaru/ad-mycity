@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 18:56",
+  "aggiornato": "2026-07-27 18:57",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -3123,15 +3123,15 @@
       "causa_radice": "1) Perché indietro non chiude il menù? Perché il gestore `popstate` (page.tsx:1962-1978) ripristina solo `vista` e `sub`. 2) Perché non sa nulla del menù? Perché `navAperta` è puro stato React locale (page.tsx:805) e l'apertura (page.tsx:2529) non aggiunge nessuna voce di cronologia. 3) Perché allora l'area cambia lo stesso? Perché il gesto consuma comunque la voce di cronologia più recente e `applicaVistaSalvata(v)` (riga 1974) applica la vista precedente sotto il menù ancora aperto. 4) Perché non se n'è accorto nessuno? Perché il menù è `fixed` solo sotto i 1024px (`lg:sticky`, riga 2617): su desktop non è un overlay e il problema non esiste. 5) RADICE: identica al difetto del Worker a schermo intero — il contratto di navigazione copre aree e sotto-schede ma non gli overlay; su telefono un overlay È una schermata, e il gesto indietro è il modo con cui si chiude.",
       "fix_proposto": "🟡 @frontend-dev, stesso intervento del Worker a schermo intero (stesso pezzo di codice, farli insieme). In `pannello/src/app/page.tsx`: quando si apre il menù sotto i 1024px (riga 2529) fare `window.history.pushState({ ...(window.history.state||{}), vista, overlay: \"menu\" }, \"\", window.location.pathname + window.location.search)`; nel gestore `popstate` (riga 1962) mettere in cima la chiusura degli overlay — se `navAperta` è vero e lo stato in arrivo non ha `overlay`, fare `setNavAperta(false)` e uscire con `return` SENZA cambiare vista. Ordine di precedenza: worker a schermo intero → menù → cambio area.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/strati.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:2608-2623 (menù a scomparsa) · pannello/src/app/page.tsx:805 e 2529 (stato del menù) · pannello/src/app/page.tsx:1962-1981 (gestore indietro)",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 18:57",
+      "chiuso_come": "node cervello/test/strati.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-223",
@@ -3533,15 +3533,15 @@
       "causa_radice": "① I tre gradini dell'Archivio vivono in due useState locali, `cartella` e `sel`, e basta. ② Scendere di gradino non timbra nessuna voce di cronologia: nessuna chiamata a vaiSub o pushState in tutto il file. ③ Per il browser, aprire un documento non è successo. ④ Quindi il gesto indietro pesca la voce buona precedente, che è il cambio di area o di scheda avvenuto PRIMA di entrare nell'Archivio. ⑤ Radice: lo stesso difetto strutturale del Worker — il contratto di navigazione arriva alla sotto-scheda e si ferma; i gradini più profondi (drill-down) non sono considerati navigazione. La prova che invece lo SONO è nel file stesso: ci sono due frecce indietro disegnate a mano (righe 190 e 286) perché qualcuno si è accorto che serviva un «torna su» — solo che l'hanno messo sullo schermo invece che nella cronologia.",
       "fix_proposto": "In pannello/src/components/aree/Documenti.tsx: far timbrare a ogni discesa una voce di cronologia riusando vaiSub — apri una cartella → vaiSub('memoria', `archivio/${categoria}`), apri un documento → vaiSub('memoria', `archivio/${file}`) (il percorso `archivio/...` è già il formato che Memoria.tsx sa leggere, vedi parseArchivioSub) — e nel listener EVENTO_SUB già presente (riga 122) ricostruire il gradino: sub senza file → torna all'elenco (setSel(null)), sub senza cartella → torna alle cartelle (setCartella(null)). Le frecce a schermo restano, ma diventano un doppione gentile del gesto del telefono invece che l'unica via. 🟡 da firmare.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/strati.test.mjs"
       },
       "nota": "Dove: pannello/src/components/aree/Documenti.tsx:62-63 (cartella e documento aperto) · 190 e 286 (le frecce indietro disegnate a schermo) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 18:57",
+      "chiuso_come": "node cervello/test/strati.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-243",
@@ -3552,15 +3552,15 @@
       "causa_radice": "① Ognuno di questi strati è un booleano in useState (convDrawerAperto, navAperta, workerConvAperto, `aperta`, `aperto`) e nient'altro. ② Nessuno timbra una voce di cronologia quando si apre. ③ Il gestore popstate centrale non li conosce e non li chiude. ④ Non esiste nemmeno una via di fuga da tastiera: la parola «Escape» non compare in tutto il Pannello (zero occorrenze in src/). ⑤ Radice: manca un PATTERN unico e riusabile per «strato sopra» — ogni schermata si è inventata il suo booleano, quindi il difetto si ripete uguale ogni volta che qualcuno ne aggiunge una. Finché non esiste il pattern, ogni pannello nuovo nascerà rotto allo stesso modo.",
       "fix_proposto": "Creare un unico hook in pannello/src/lib/, es. useStratoNavigabile(aperto, chiudi, nome): all'apertura fa pushState({ ...(window.history.state||{}), overlay: nome }), al popstate che perde quell'overlay chiama chiudi(), e aggancia Escape sulla stessa funzione. Poi sostituirlo ai cinque booleani (page.tsx:805/828/1022, LetteraAdCard.tsx, BottoneFotoChat.tsx) — è lo stesso pezzo che serve al Worker, quindi va scritto una volta sola e riusato. Da fare DOPO il fix del Worker, riusandone il meccanismo. 🟡 da firmare.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/strati.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:828 (cassetto Conversazioni) · 805 (menu del telefono) · 1022 (elenco chat nel Worker) · pannello/src/components/LetteraAdCard.tsx:65 (lettera dell'AD) · pannello/src/components/BottoneFotoChat.tsx:227 (fotocamera e visore foto) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 18:57",
+      "chiuso_come": "node cervello/test/strati.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-244",
@@ -5414,8 +5414,8 @@
     }
   ],
   "meta": {
-    "aperti": 178,
+    "aperti": 175,
     "in_corso": 0,
-    "chiusi": 92
+    "chiusi": 95
   }
 }
