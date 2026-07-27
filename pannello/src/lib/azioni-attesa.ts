@@ -5,6 +5,8 @@
 // Questo parser li copre ENTRAMBI, così "Da firmare" (Plancia) e "Da fare" (corsia Azioni) leggono
 // l'unica fonte reale e nessuna azione resta invisibile.
 
+import { comeTesto } from "@/lib/format";
+
 export type AzioneAttesa = {
   numero: string;
   data: string;
@@ -99,10 +101,12 @@ function soloRiferimentoFile(s: string): boolean {
 }
 
 /** Anteprima leggibile sotto il titolo: se il corpo è gergo tecnico, mostra «Cosa cambia». */
-export function anteprimaAzione(opts: { perche: string; cambia?: string; seguito?: string }): string | null {
-  const p = (opts.perche || "").replace(/^>\s*/, "").trim();
+// `unknown` come nella radiografia: questi campi li scrive un agente, non un form. Un elenco al
+// posto di una frase faceva esplodere `.replace`/`.trim` e spegneva la sezione (27/07/2026).
+export function anteprimaAzione(opts: { perche?: unknown; cambia?: unknown; seguito?: unknown }): string | null {
+  const p = comeTesto(opts.perche).replace(/^>\s*/, "").trim();
   if (!p || soloRiferimentoFile(p)) return null;
-  const cambia = (opts.cambia || "").trim();
+  const cambia = comeTesto(opts.cambia).trim();
   if (GERGO_ANTEPRIMA_RE.test(p)) return cambia || null;
   // Prima frase utile, senza path/backtick residui.
   const pulito = p

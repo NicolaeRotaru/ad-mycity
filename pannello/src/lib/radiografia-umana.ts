@@ -2,7 +2,7 @@
 // Titolo e corpo = come glielo diresti a voce; path, sigle e originali = sotto «Dettagli tecnici».
 
 import { pulisciTitolo } from "@/lib/azioni-attesa";
-import { testoPulito } from "@/lib/format";
+import { comeTesto, testoPulito } from "@/lib/format";
 import { nomeReparto } from "@/lib/spiega-azione";
 
 const DIMENSIONI: Record<string, string> = {
@@ -114,7 +114,7 @@ function applicaSostituzioni(s: string): string {
 }
 
 /** Traduzione completa senza tagli: tutto il testo, in italiano semplice. */
-export function traduciTestoCompleto(s: string): string {
+export function traduciTestoCompleto(s: unknown): string {
   let t = testoPulito(s);
   if (!t) return "";
   const pathSegnaposto: string[] = [];
@@ -145,8 +145,8 @@ export function traduciTestoCompleto(s: string): string {
 export type QuadroTesto = { visibile: string; tecnici: string };
 
 /** Testo umano completo + appendice con originali/path/codici (niente omesso). */
-export function quadroTesto(testo: string): QuadroTesto {
-  const raw = (testo || "").trim();
+export function quadroTesto(testo: unknown): QuadroTesto {
+  const raw = comeTesto(testo).trim();
   if (!raw) return { visibile: "", tecnici: "" };
   const visibile = traduciTestoCompleto(raw);
   const parti: string[] = [];
@@ -158,7 +158,7 @@ export function quadroTesto(testo: string): QuadroTesto {
   return { visibile: visibile || raw, tecnici: parti.filter(Boolean).join("\n\n") };
 }
 
-function frasePrincipale(s: string, max = 320): string {
+function frasePrincipale(s: unknown, max = 320): string {
   const pulito = applicaSostituzioni(traduciSlugNelTesto(testoPulito(s)));
   const senzaPath = pulito
     .replace(/\b[\w./@-]+\.(?:mjs|tsx?|jsx?|ts|sql|md|json|env)(?::\d+(?:-\d+)?)?\b/gi, "")
@@ -177,21 +177,22 @@ function frasePrincipale(s: string, max = 320): string {
   return out;
 }
 
-export function dimensioneLeggibile(key: string): string {
-  const k = (key || "").trim();
+export function dimensioneLeggibile(key: unknown): string {
+  const k = comeTesto(key).trim();
   if (!k) return "";
   return DIMENSIONI[k] || k.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-export function impattoCrescitaLeggibile(v: string): string {
-  const x = (v || "").toLowerCase();
+export function impattoCrescitaLeggibile(v: unknown): string {
+  const testo = comeTesto(v);
+  const x = testo.toLowerCase();
   if (x === "alto") return "pesa molto sulla crescita";
   if (x === "medio") return "pesa sulla crescita";
   if (x === "basso") return "impatto limitato";
-  return v;
+  return testo;
 }
 
-export function titoloFinding(titolo: string): string {
+export function titoloFinding(titolo: unknown): string {
   const raw = testoPulito(titolo);
   if (!raw) return "";
   let t = traduciSlugNelTesto(raw);
@@ -218,63 +219,75 @@ export type FindingUmano = {
   tecnici: string;
 };
 
-function bloccoTecnico(parti: (string | undefined)[]): string {
+function bloccoTecnico(parti: unknown[]): string {
   return parti
-    .map((p) => testoPulito(p || ""))
+    .map((p) => testoPulito(p))
     .filter(Boolean)
     .join("\n\n");
 }
 
 export function humanizzaFinding(f: {
-  titolo?: string;
-  descrizione?: string;
-  impatto?: string;
-  causa_radice?: string;
-  fix?: string;
-  fix_proposto?: string;
-  dove?: string;
+  titolo?: unknown;
+  descrizione?: unknown;
+  impatto?: unknown;
+  causa_radice?: unknown;
+  fix?: unknown;
+  fix_proposto?: unknown;
+  dove?: unknown;
 }): FindingUmano {
-  const titolo = titoloFinding(f.titolo || "Problema da sistemare");
-  const impatto = f.impatto ? frasePrincipale(f.impatto) : "";
-  const desc = f.descrizione ? frasePrincipale(f.descrizione) : "";
+  // Ogni campo passa da comeTesto: arriva dai JSON scritti dagli agenti, quindi
+  // la sua forma non è garantita (un elenco al posto di una frase manda in
+  // errore l'intera sezione — successo il 27/07/2026 con `causa_radice`).
+  const descrizione = comeTesto(f.descrizione);
+  const impattoRaw = comeTesto(f.impatto);
+  const causaRadice = comeTesto(f.causa_radice);
+  const dove = comeTesto(f.dove);
+  const fixRaw = comeTesto(f.fix) || comeTesto(f.fix_proposto);
+
+  const titolo = titoloFinding(comeTesto(f.titolo) || "Problema da sistemare");
+  const impatto = impattoRaw ? frasePrincipale(impattoRaw) : "";
+  const desc = descrizione ? frasePrincipale(descrizione) : "";
   const cosaSuccede = impatto || desc || titolo;
-  const perche = f.causa_radice ? frasePrincipale(f.causa_radice, 260) : undefined;
-  const fixRaw = f.fix || f.fix_proposto;
+  const perche = causaRadice ? frasePrincipale(causaRadice, 260) : undefined;
   const cosaFare = fixRaw ? frasePrincipale(fixRaw, 260) : undefined;
   const tecnici = bloccoTecnico([
-    f.descrizione ? `Descrizione audit:\n${f.descrizione}` : undefined,
-    f.impatto && f.impatto !== f.descrizione ? `Impatto:\n${f.impatto}` : undefined,
-    f.causa_radice ? `Causa radice:\n${f.causa_radice}` : undefined,
+    descrizione ? `Descrizione audit:\n${descrizione}` : undefined,
+    impattoRaw && impattoRaw !== descrizione ? `Impatto:\n${impattoRaw}` : undefined,
+    causaRadice ? `Causa radice:\n${causaRadice}` : undefined,
     fixRaw ? `Fix proposto:\n${fixRaw}` : undefined,
-    f.dove ? `Dove nel codice:\n${f.dove}` : undefined,
+    dove ? `Dove nel codice:\n${dove}` : undefined,
   ]);
   return { titolo, cosaSuccede, perche, cosaFare, tecnici };
 }
 
-export function humanizzaErrore(e: { titolo?: string; dettaglio?: string; riguarda?: string }): FindingUmano {
-  const titolo = titoloFinding(e.titolo || "Errore");
-  const cosaSuccede = e.dettaglio ? traduciTestoCompleto(e.dettaglio) : titolo;
+export function humanizzaErrore(e: { titolo?: unknown; dettaglio?: unknown; riguarda?: unknown }): FindingUmano {
+  const titoloRaw = comeTesto(e.titolo);
+  const dettaglio = comeTesto(e.dettaglio);
+  const riguarda = comeTesto(e.riguarda);
+  const titolo = titoloFinding(titoloRaw || "Errore");
+  const cosaSuccede = dettaglio ? traduciTestoCompleto(dettaglio) : titolo;
   const tecnici = bloccoTecnico([
-    e.titolo && e.titolo !== titolo ? `Titolo originale:\n${e.titolo}` : undefined,
-    e.dettaglio && e.dettaglio !== cosaSuccede ? `Dettaglio originale:\n${e.dettaglio}` : undefined,
-    e.riguarda ? `Riguarda: ${e.riguarda}` : undefined,
+    titoloRaw && titoloRaw !== titolo ? `Titolo originale:\n${titoloRaw}` : undefined,
+    dettaglio && dettaglio !== cosaSuccede ? `Dettaglio originale:\n${dettaglio}` : undefined,
+    riguarda ? `Riguarda: ${riguarda}` : undefined,
   ]);
   return { titolo, cosaSuccede, tecnici };
 }
 
 export function humanizzaDifetto(d: {
-  titolo?: string;
-  causa_radice?: string;
-  fix_proposto?: string;
-  nota_fix?: string;
+  titolo?: unknown;
+  causa_radice?: unknown;
+  fix_proposto?: unknown;
+  nota_fix?: unknown;
 }): FindingUmano {
   const base = humanizzaFinding({
     titolo: d.titolo,
     causa_radice: d.causa_radice,
     fix: d.fix_proposto,
   });
-  if (d.nota_fix) {
-    base.tecnici = bloccoTecnico([base.tecnici, `Già fatto nel codice:\n${d.nota_fix}`]);
+  const notaFix = comeTesto(d.nota_fix);
+  if (notaFix) {
+    base.tecnici = bloccoTecnico([base.tecnici, `Già fatto nel codice:\n${notaFix}`]);
   }
   return base;
 }

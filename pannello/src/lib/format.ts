@@ -3,11 +3,29 @@
 
 export type Tipo = "n" | "euro" | "durata" | "stelle" | "perc";
 
+// Porta a testo QUALUNQUE valore arrivi dai JSON della memoria.
+// I file di memoria li scrivono gli agenti, non un form: un campo dichiarato
+// "stringa" può arrivare come elenco. È successo davvero il 27/07/2026 alle
+// 12:14 (radiografia #558): `causa_radice` scritta come lista di «5 perché» in
+// 5 difetti → `(s || "").replace` esplode → la Cabina non si carica più.
+// La conversione sta QUI, a monte di ogni manipolazione di testo, perché il
+// Pannello non può pretendere che il dato sia della forma giusta: deve reggere.
+export function comeTesto(v: unknown): string {
+  if (v == null) return "";
+  if (typeof v === "string") return v;
+  // Elenco (i «5 perché», una lista di prove): una voce per riga, niente "a,b,c".
+  if (Array.isArray(v)) return v.map(comeTesto).filter(Boolean).join("\n");
+  // Oggetto: meglio niente che "[object Object]" a schermo. Il contenuto
+  // integrale resta comunque visibile sotto «Dettagli tecnici».
+  if (typeof v === "object") return "";
+  return String(v);
+}
+
 // Ripulisce un testo per mostrarlo "a vista": toglie il grassetto markdown
 // (**…**, *…*, `…`) e l'eventuale emoji di livello iniziale (🟢🟡🔴) — il colore
 // viene già comunicato dal pallino/bordo, quindi nel testo è ridondante.
-export function testoPulito(s: string): string {
-  return (s || "")
+export function testoPulito(s: unknown): string {
+  return comeTesto(s)
     // Carattere di sostituzione U+FFFD («�»): mojibake da emoji corrotte a monte
     // (es. «🟢�», «✅�» in memoria). Non deve MAI arrivare a schermo → via ovunque.
     .replace(/�/g, "")
