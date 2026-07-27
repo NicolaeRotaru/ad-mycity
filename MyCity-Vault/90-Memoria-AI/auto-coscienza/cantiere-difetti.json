@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 21:07",
+  "aggiornato": "2026-07-27 21:51",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -2184,15 +2184,15 @@
       "causa_radice": "① Perché loop_chiude è sempre vero? Perché prova_business include gli esperimenti aperti. ② Perché sono sempre almeno uno? Perché un cancello hard del giro obbliga ad aprirne uno se scendono a zero. ③ Perché nessuno se n'è accorto? Perché i due pezzi sono stati scritti come rimedi a due difetti diversi (AR-041/AR-106 «volano cieco senza esperimenti» e AR-052/AR-063 «recency della prova»), ognuno corretto in isolamento. ④ Perché isolamento? Perché ogni fix nasce dalla sua card nel cantiere e la verifica avversariale prova il singolo pezzo, mai l'interazione fra un cancello che PRODUCE uno stato e un indicatore che LEGGE quello stato come prova. ⑤ Causa di sistema: manca la regola «un indicatore non può usare come prova un fatto che un altro cancello della stessa macchina è obbligato a produrre» — cioè la macchina non distingue i propri output dai fatti del mondo quando misura se stessa.",
       "fix_proposto": "🟡 (a) In sonda-volano: `prova_business` = solo esiti CHIUSI e misurati nella finestra (calibrazionePiena || esperimentiMisurati); le righe aperte escono dalla prova e restano un campo separato `intenzioni_aperte`, informativo. (b) Separare i nomi: `loop_vivo` (c'è attività) ≠ `loop_chiude` (almeno un atteso→reale chiuso nella finestra E tasso ≥ soglia dichiarata). (c) Regola di processo per chi scrive guardiani, da aggiungere alla checklist di auto-radiografia: se un input di un indicatore è garantito da un vincolo hard del giro, quell'input non è una prova — va dichiarato come tale nel commento del guardiano.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/volano-regole.test.mjs"
       },
       "nota": "Dove: cervello/sonda-volano.mjs:104-111 · Impatto: L'unico booleano che dice a Nicola e al Pannello «la macchina impara davvero» è incapace di essere falso. Sul cruscotto si legge «Loop chiude ✅» accanto a «Lezioni applicate 18%» in rosso, e per 69 giri di fila nessuno ha potuto vedere il volano fermo perché il flag lo negava. Ogni scelta di priorità che si appoggia su quel flag parte da un dato che si auto-assolve.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 21:51",
+      "chiuso_come": "node cervello/test/volano-regole.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-178",
@@ -2245,15 +2245,15 @@
       "causa_radice": "① Perché la sonda conta righe non-previsioni? Perché rifà il filtro a mano invece di riusare quello del modulo. ② Perché lo rifà a mano? Perché legge il JSON grezzo dal disco, non l'API di calibrazione.mjs. ③ Perché legge il grezzo? Perché la sonda è nata come lettore leggero e deterministico di file di stato, prima che calibrazione.mjs esportasse i suoi filtri. ④ Perché nessuno ha riallineato i due quando `nonEUnaPrevisione` è stato introdotto (commit 4893f5b, 26/7)? Perché la correzione ha toccato il punteggio per reparto e la pagella, non gli altri consumatori del registro. ⑤ Causa di sistema: i file di auto-coscienza sono letti da più script che ne reinterpretano ognuno le regole; manca il principio «chi possiede il dato esporta anche i filtri, chi lo legge li importa» — la stessa fonte unica di verità che l'AD applica ai fatti di business (AR-102) non è applicata ai propri dati interni.",
       "fix_proposto": "🟡 sonda-volano importa `nonEUnaPrevisione` da calibrazione.mjs e scarta anche `banale === true` e `sensore_stato === 'cieco'` prima di calcolare `calibrazione_piena`; in più scarta le righe con `creato === chiuso_il` (nate già chiuse). Regola generale da mettere nella spec dei guardiani: chi legge un registro per ricavarne una prova deve riusare i filtri del modulo che possiede il registro, mai riscriverli.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/volano-regole.test.mjs"
       },
       "nota": "Dove: cervello/sonda-volano.mjs:88-92 · Impatto: La calibrazione — l'anello che dovrebbe dimostrare che la macchina impara dall'errore — risulta «piena» al Pannello grazie a righe che il modulo proprietario del dato ha già dichiarato prive di valore. Le previsioni vere che contano davvero nel punteggio sono 5 in tutto, e i reparti misurati sono 4 su 120.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 21:51",
+      "chiuso_come": "node cervello/test/volano-regole.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-181",
@@ -5414,8 +5414,8 @@
     }
   ],
   "meta": {
-    "aperti": 167,
+    "aperti": 166,
     "in_corso": 0,
-    "chiusi": 103
+    "chiusi": 105
   }
 }
