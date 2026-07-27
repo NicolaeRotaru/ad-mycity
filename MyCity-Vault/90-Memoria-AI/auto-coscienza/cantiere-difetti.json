@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 17:58",
+  "aggiornato": "2026-07-27 18:23",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -3043,15 +3043,15 @@
       "causa_radice": "1) Perché non c'è la X a schermo intero? Perché la barra alta è dentro `{!workerFull && (…)}` (page.tsx:3111): in modalità piena non viene proprio renderizzata. 2) Perché non funziona il tocco fuori? Perché il velo cliccabile (page.tsx:3091) ha lo stesso identico rettangolo del pannello (`inset-x-0 bottom-0 top-[var(--altezza-testata)]`) ma z-40 contro z-50: è coperto al 100%. 3) Perché non funziona Esc? Perché in tutto `pannello/src` non esiste un solo handler per il tasto Escape. 4) Perché non funziona il gesto indietro? Perché `apriWorkerPopup` (page.tsx:1011) muove solo stato React (`workerFull`/`chatFluttuante`) senza aggiungere una voce di cronologia, e il gestore `popstate` (page.tsx:1962-1978) ripristina solo `vista` e `sub` — non tocca mai gli overlay. 5) RADICE: nel Pannello «quale pannello è aperto» non è modellato come stato di navigazione. Le aree hanno un contratto di cronologia curato (pushState/popstate, con commenti su tre bug già risolti); gli overlay a schermo intero, nati dopo, sono rimasti fuori da quel contratto — e nessuno ha riprovato il percorso dal telefono, dove il gesto indietro È il tasto «chiudi» universale.",
       "fix_proposto": "🟡 @frontend-dev, tre modifiche nello stesso file `pannello/src/app/page.tsx`: (a) riga 3111 — rendere la barra alta anche in `workerFull` (togliere la condizione `!workerFull`), oppure aggiungere in modalità piena un bottone «Chiudi» ≥44px in alto a destra che chiami lo stesso handler della riga 3139 (`segnaLettaChatAttiva(); setChatFluttuante(false); setWorkerFull(false);`); (b) riga 1011 in `apriWorkerPopup` — aggiungere `window.history.pushState({ ...(window.history.state||{}), vista, overlay: \"worker\" }, \"\", window.location.pathname + window.location.search)`, e nel gestore `popstate` (riga 1962) leggere `st.overlay`: se manca, fare `setWorkerFull(false); setChatFluttuante(false);` PRIMA di applicare la vista; (c) aggiungere un `useEffect` con listener `keydown` che su `Escape` chiude l'overlay in cima (worker → menù). Da fare in un unico intervento con il difetto del menù laterale: è lo stesso pezzo di codice.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/pannello-cabina-viva.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:3111 (barra con la X) · pannello/src/app/page.tsx:3091 (velo) · pannello/src/app/page.tsx:1011 (apertura) · pannello/src/app/page.tsx:1962-1981 (gestore indietro) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 18:23",
+      "chiuso_come": "node cervello/test/pannello-cabina-viva.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-219",
@@ -3062,15 +3062,15 @@
       "causa_radice": "1) Perché si scorre così tanto? Perché `daFirmare.map((a) => cardAzione(a))` (Azioni.tsx:952) stampa ogni azione con la scheda intera già espansa. 2) Perché la scheda è intera? Perché `cardAzione` (righe 504-659) non ha nessuno stato di apertura: l'unico `toggle`/`aperte` che esiste (riga 606) copre solo l'anteprima del testo da inviare, non la scheda. 3) Perché non c'è un tetto? Perché non limita né il client né il server: `tutteLeAzioni()` (lib/azioni-pronte.ts:76-97) restituisce tutte le voci `inAttesa` senza `slice`, `/api/azioni-pronte` le rilancia tutte, e `daFirmare = azioni.filter((a) => !a.stato)` (Azioni.tsx:476) le passa tutte alla vista. 4) Perché è passato inosservato? Perché su desktop 51 schede larghe sono ~15 schermate scorse con la rotella; in colonna singola sul telefono diventano ~40. 5) RADICE: la scheda è stata disegnata quando la coda aveva poche voci e non è mai stata ri-tarata sul telefono man mano che la coda cresceva — mentre il pattern giusto esiste già in casa e non è stato riusato: `Modulo.tsx:113-125` mostra 8 righe + «mostra altri N», `RadiografiaDiSe.tsx:385-398` usa `<details>` chiuso di default.",
       "fix_proposto": "🟡 @frontend-dev (revisione del taglio del riassunto: @ux-designer). In `pannello/src/components/aree/Azioni.tsx` trasformare `cardAzione` (504-659) in un `<details>` chiuso di default, copiando la struttura già usata in `components/cervello/RadiografiaDiSe.tsx:385-398`: nel `<summary>` (alto ≥44px, con `list-none` e freccia `group-open:rotate-90`) restano codice azione + titolo + badge livello/reparto + i due bottoni Approva/Rifiuta, così si può firmare senza aprire; tutto il resto (quadro completo, «In parole semplici», qualità, «Da dove nasce», ParlaCasella) va nel corpo che si apre al tocco. Mettere `open` solo sulla prima scheda. In più, per non montare 51 nodi insieme: mostrare le prime 10 + bottone «mostra altre N» col pattern di `components/Modulo.tsx:113-125`. Applicare la stessa cosa alla riga 977 («In coda»), che riusa la stessa `cardAzione`.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/pannello-cabina-viva.test.mjs"
       },
       "nota": "Dove: pannello/src/components/aree/Azioni.tsx:952 (elenco) · pannello/src/components/aree/Azioni.tsx:504-659 (la scheda) · pannello/src/components/aree/Azioni.tsx:977 (stessa cosa in «In coda») · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 18:23",
+      "chiuso_come": "node cervello/test/pannello-cabina-viva.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-220",
@@ -3494,15 +3494,15 @@
       "causa_radice": "① La chat a schermo intero si apre con apriWorkerPopup, che fa solo setWorkerFull(true)/setChatFluttuante(true) — due useState, niente altro. ② Non timbra nessuna voce di cronologia: nel Pannello l'unico pushState è quello del cambio AREA (page.tsx:1952), e il Worker non cambia mai `vista`. ③ Quindi per il browser aprire il Worker non è successo niente: la cronologia resta ferma sull'ultima area visitata. ④ Il gestore popstate (1961-1981) legge solo `vista` e `sub` e non mette MAI setWorkerFull(false): l'indietro cambia l'area sotto e lascia la chat sopra. ⑤ Radice: lo stato «sono dentro il Worker» è uno stato di NAVIGAZIONE (è una voce del menu, occupa tutto lo schermo, l'utente si aspetta di tornare indietro da lì) ma è stato modellato come uno stato di componente. Il contratto di navigazione del Pannello copre aree e sotto-schede e si è fermato lì: gli strati sovrapposti non ne fanno parte. Aggravante: il velo che chiude al clic-fuori (3091, z-40) è interamente coperto dal contenitore della chat (3095, z-50, stesso riquadro inset-x-0) — a schermo intero il clic-fuori non funziona, quindi il gesto indietro sarebbe davvero l'unica uscita naturale.",
       "fix_proposto": "In pannello/src/app/page.tsx: (a) far timbrare ad apriWorkerPopup una voce di cronologia — history.pushState({ ...(window.history.state||{}), vista: vistaCorrente, overlay: 'worker' }, '', location.pathname + location.search) — fondendo lo state come già si fa per le aree, per non cancellare gli internals di Next; (b) nel gestore popstate (1961), PRIMA di toccare `vista`, leggere lo strato: se la voce che stai lasciando aveva overlay:'worker' e quella nuova no → setWorkerFull(false)+setChatFluttuante(false) e fermarsi lì (l'indietro chiude la chat e basta, l'area sotto non si muove); (c) quando si chiude la chat dal menu o dal velo, allineare la cronologia con history.back() invece di un semplice setState, così i due versi restano simmetrici; (d) aggiungere comunque una X visibile nella testata della chat a schermo intero (il ramo !workerFull a 3111 la mostra solo nella versione a finestra) e chiudere anche con Escape. 🟡 da firmare — tocca il cuore della navigazione, va provato sul telefono prima del deploy.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/pannello-cabina-viva.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:1011-1014 (apriWorkerPopup) · 2667-2674 (voce di menu Worker) · 3088-3111 (la chat a schermo intero) · 1961-1981 (il gestore dell'indietro) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 18:23",
+      "chiuso_come": "node cervello/test/pannello-cabina-viva.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-241",
@@ -3721,15 +3721,15 @@
       "causa_radice": "① Perché lo schermo diventa bianco? Perché un errore lanciato durante il render risale fino alla radice e React smonta l'intero albero. ② Perché risale fino alla radice? Perché non esiste NESSUNA rete di sicurezza: `find` su tutto pannello/src non trova né `error.tsx`, né `global-error.tsx`, né una classe con `componentDidCatch`/`getDerivedStateFromError`. ③ Perché nessuno l'ha messa? Perché il Pannello è nato come pagina unica e l'App Router non obbliga a definire un error.tsx: senza, Next mette la sua pagina d'errore muta. ④ Perché la pagina unica peggiora tutto? Perché `page.tsx` è un solo componente client da 3.510 righe che monta ogni area (`vista === 'cervello' && <RadiografiaMacchinaArea />`, riga 2716): non esistono confini di isolamento tra un'area e l'altra, quindi il raggio d'esplosione di qualunque crash è il 100% della Cabina. ⑤ Perché non è mai emerso? Perché finora i JSON di memoria sono sempre arrivati ben formati — la Cabina non è mai stata messa alla prova da un giro sbagliato, e nessuno ha testato il caso «dato storto».",
       "fix_proposto": "🟡 Due file nuovi, nessuna riga esistente toccata. (a) `pannello/src/app/error.tsx`: componente client con `({ error, reset })` che mostra un messaggio umano («Una parte della Cabina non è riuscita a caricarsi — i dati della memoria sono probabilmente malformati») + bottone «Riprova» che chiama `reset()` + il messaggio tecnico dentro un `<details>`. (b) `pannello/src/app/global-error.tsx` come rete di ultima istanza per gli errori del layout. Passo successivo consigliato (separato): avvolgere le aree pesanti (RadiografiaMacchinaArea, AutoCoscienzaArea, Plancia) in un piccolo `<Confine>` con `getDerivedStateFromError`, così una card rotta degrada in un riquadro d'errore e il resto della Cabina resta in piedi.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/pannello-cabina-viva.test.mjs"
       },
       "nota": "Dove: pannello/src/app/layout.tsx:21 (nessun error.tsx accanto) + pannello/src/app/page.tsx:1",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 18:23",
+      "chiuso_come": "node cervello/test/pannello-cabina-viva.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-252",
@@ -3740,15 +3740,15 @@
       "causa_radice": "① Perché si schianta? Perché su una stringa non esiste `.map`: `a!.domande_per_nicola!.map(...)` lancia un TypeError in pieno render. ② Perché ci arriva una stringa? Perché il controllo che apre il blocco non verifica il TIPO ma solo la lunghezza — `a?.domande_per_nicola?.length || 0` — e `.length` è vero anche per le stringhe: il guardiano lascia passare esattamente ciò da cui doveva difendere. ③ Perché non è stato usato `Array.isArray`? Perché è stato usato, ma solo sul campo accanto: 1 riga sopra, `errori` è protetto con `Array.isArray(erroriLive) ? erroriLive : []` (righe 320 e 572) mentre `domande_per_nicola` alla riga 321 no. Il fix è stato applicato a un campo solo. ④ Perché a un campo solo? Perché ogni campo è protetto a mano, dove qualcuno ha visto rompersi qualcosa, invece che una volta sola alla fonte: non esiste un lettore tipizzato condiviso dei JSON di memoria, quindi la difesa dipende dalla memoria di chi tocca quella riga. ⑤ Perché non esiste il lettore condiviso? Perché la deriva del giro è stata affrontata con toppe locali (`sanificaAnalisi`, `sanificaRadiografia`, `normalizza` nelle route) invece che con un normalizzatore unico — e infatti nessuna di quelle toppe tocca `domande_per_nicola`.",
       "fix_proposto": "🟡 Difesa alla FONTE, dove esistono già i sanificatori, così vale per ogni consumatore presente e futuro. In `pannello/src/app/api/memoria/auto-coscienza/route.ts` dentro `sanificaAnalisi()` e in `pannello/src/app/api/memoria/auto-radiografia/route.ts` dentro `sanificaRadiografia()`, aggiungere una normalizzazione a lista: se il campo è una stringa non vuota diventa `[{domanda: <la stringa>}]`, se non è un array diventa `[]`. Stesso trattamento per `errori`, `punti_ciechi`, `dimensioni`, `pre_mortem`, `benchmark_vs_migliori`, `proposte_nuovi_pezzi`, `lezioni`, `principi`, `preferenze_nicola`. Poi, nei due componenti, sostituire i controlli `?.length` con `Array.isArray(...)` e togliere gli operatori `!` che oggi mentono a TypeScript. La verifica punta al componente perché è lì che sopravvive l'asserzione pericolosa.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/pannello-cabina-viva.test.mjs"
       },
       "nota": "Dove: pannello/src/components/AutoCoscienza.tsx:321,619 e pannello/src/components/cervello/RadiografiaDiSe.tsx:338,341",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 18:23",
+      "chiuso_come": "node cervello/test/pannello-cabina-viva.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-253",
@@ -3759,15 +3759,15 @@
       "causa_radice": "① Perché si schianta? Perché `(cantiere?.difetti || []).filter((x) => x.stato !== 'chiuso')` legge `.stato` su un elemento `null` → TypeError in pieno render (e `.sort` alla riga 118 fa lo stesso su `b.chiuso_il`). ② Perché non è protetto? Perché `|| []` difende solo dal valore assente, non dal tipo sbagliato né dagli elementi vuoti dentro l'elenco. ③ Perché il server invece regge? Perché la route usa entrambe le difese giuste: `Array.isArray(cantiere?.difetti) ? ... : []` e poi `d?.stato` con l'optional chaining (auto-radiografia/route.ts:61-64) — la copia lato server è stata indurita, quella lato browser no. ④ Perché una sola copia è stata indurita? Perché lo stesso file `cantiere-difetti.json` viene letto in QUATTRO punti diversi con quattro implementazioni scritte a mano: due lato server indurite (auto-radiografia/route.ts:61 e salute-onesta/route.ts:55), due lato client nude (RadiografiaDiSe.tsx:113 e MacchinaHomeCard.tsx:53). Chi ha corretto il server non sapeva delle altre copie. ⑤ Perché ci sono quattro copie? Perché manca un lettore unico e tipizzato dei JSON di memoria: ogni nuovo consumatore riscrive il parsing da zero, quindi ogni fix nasce già parziale e il bug «torna» a ogni nuova schermata.",
       "fix_proposto": "🟡 Fix minimo subito + fix della causa. Subito, in `RadiografiaDiSe.tsx`: sostituire le tre letture con una base sicura calcolata una volta — `const difetti = Array.isArray(cantiere?.difetti) ? cantiere.difetti.filter(Boolean) : [];` — e usare `difetti` alle righe 113/116, con `x?.stato` e `String(b?.chiuso_il || '')` nel sort. Causa-radice (stesso branch, subito dopo): creare `pannello/src/lib/memoria-json.ts` con `listaSicura<T>(v: unknown): T[]` (torna `[]` se non è un array, scarta gli elementi falsy) e farlo usare da TUTTI E QUATTRO i punti di lettura, così la prossima schermata che legge il cantiere nasce già protetta.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/pannello-cabina-viva.test.mjs"
       },
       "nota": "Dove: pannello/src/components/cervello/RadiografiaDiSe.tsx:113,116,118",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 18:23",
+      "chiuso_come": "node cervello/test/pannello-cabina-viva.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-254",
@@ -5421,8 +5421,8 @@
     }
   ],
   "meta": {
-    "aperti": 187,
+    "aperti": 181,
     "in_corso": 0,
-    "chiusi": 83
+    "chiusi": 89
   }
 }
