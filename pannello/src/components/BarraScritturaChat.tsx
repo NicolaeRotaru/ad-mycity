@@ -202,6 +202,7 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
           chatOnInvia={onInvia}
           chatOnDetta={onDetta}
           chatAscoltando={ascoltando}
+          chatInvioBloccatoRef={invioBloccatoRef}
         />
         <BottoneFotoChat
           schermo
@@ -218,6 +219,7 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
           chatOnInvia={onInvia}
           chatOnDetta={onDetta}
           chatAscoltando={ascoltando}
+          chatInvioBloccatoRef={invioBloccatoRef}
         />
         <button
           onClick={onDetta}
