@@ -410,18 +410,21 @@
     {
       "id": "EXP-002",
       "titolo": "WhatsApp anchor → risposta entro 48h",
-      "stato": "aperto",
+      "stato": "misurato",
       "ambito": "acquisizione-negozi",
       "ipotesi": "Mandando 3 WhatsApp personalizzati a Garetti, Peretti e Amendolara, almeno 1 risponde e fissa un appuntamento entro 48h dall'invio.",
       "metrica": "risposte_whatsapp_anchor",
       "baseline": 0,
       "atteso": 1,
+      "reale": 0,
+      "delta": -1,
       "data_misura": "2026-07-27",
+      "data_misurato": "2026-07-27 06:20",
       "aperto_il": "2026-07-18 23:58",
       "azioni_gate": [
         "#whatsapp-3-anchor-pi26"
       ],
-      "nota": "Dipende dall'invio WhatsApp (🟡, mano manuale di Nicola). Misura: risposta ricevuta sì/no entro 48h."
+      "nota": "MANCATA (stesso pattern di EXP-004/005/007): il gate `#whatsapp-3-anchor-pi26` risulta ancora ⏸ in pausa in AZIONI-IN-ATTESA (rinvio negozi 24/8-1/9) — i 3 WhatsApp non sono mai stati inviati, quindi nessuna risposta era possibile. Non un fallimento dell'ipotesi: superato dalla pausa negozi concordata con Nicola. Non riaprire un EXP-002-bis prima della ripresa (`ripresa.lavoro-operativo`)."
     },
     {
       "id": "EXP-003",
@@ -608,13 +611,14 @@
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-07-27 06:18",
+    "aggiornato": "2026-07-27 08:18",
     "totale": 13,
-    "aperti": 4,
-    "in_scadenza": 1,
-    "misurati": 4,
+    "aperti": 3,
+    "in_scadenza": 0,
+    "misurati": 5,
     "chiusi": 0
   },
+  "_giro_27_07_0620": "GIRO 27/7 06:20 (heartbeat, 19h dall'ultimo giro pieno 26/7 11:11) — business RIVERIFICATO invariato con query SQL diretta: 1 ordine (CANCELED 24/6), 0 non-annullati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli abbandonati, 407 lead negozi — identico al giro precedente. Misurato l'unico esperimento in scadenza oggi: EXP-002 (risposte WhatsApp anchor) → MANCATA, stesso pattern di EXP-004/005/007 (gate #whatsapp-3-anchor-pi26 mai eseguito, ancora in pausa negozi). 5/13 esperimenti ora misurati (tutti mancata), 3 aperti restano (EXP-003 email welcome 28/7, EXP-006 esito PI26 20/8, EXP-013 ordine pagato 30/7), 0 in scadenza residui.",
   "peer_review": [
     {
       "id": "PR-001",
@@ -894,9 +898,9 @@
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
   "_review_settimanale_24_07": "REVIEW SETTIMANALE 24/7 16:00 — benchmark @AD aggiornato (43, radiografia completa 23/7). 2 nuove peer_review (PR-006 tech/frontend-dev sullo sprint Pannello, PR-007 valutatore indipendente sulla bozza PI26 → DA SISTEMARE). Torneo tra senior ancora rinviato (stesso motivo del 3/7: nessun esito di business reale da confrontare, negozi in pausa fino al 24/8-1/9). Verifica loop-chiuso esperimenti: 2 misurati su 13 aperti (EXP-004 e EXP-005, entrambi mancata) — il volano-business osserva ma continua a non chiudere sui numeri.",
   "_giro_25_07_0631": "GIRO 25/7 06:31 — misurati i 2 esperimenti in scadenza oggi: EXP-001 (ordini_consegnati, MANCATA, reale 0 vs atteso 1 — North Star ferma) ed EXP-007 (check-in PQ concordato, MANCATA, superato dalla pausa concordata coi negozi fino al 24/8-1/9, non un fallimento operativo). 4/13 esperimenti ora misurati, tutti e 4 mancata — nessun esito positivo del volano-business finché la pausa negozi resta attiva. 0 esperimenti in scadenza residui oggi.",
-  "aggiornato": "2026-07-27 06:18",
+  "aggiornato": "2026-07-27 08:18",
   "proposte_sync": {
-    "aggiornato": "2026-07-26 22:20",
+    "aggiornato": "2026-07-27 06:20",
     "totale": 13,
     "aggiornate": 0
   }

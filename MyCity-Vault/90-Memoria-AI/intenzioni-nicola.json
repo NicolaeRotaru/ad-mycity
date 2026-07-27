@@ -1,33 +1,33 @@
 {
-  "data": "2026-07-23 11:35",
-  "sintesi": "Business invariato dal 20/7 (1 PQ, 0 pagati, stallo ~29gg). Priorità assoluta resta l'ordine test PQ per North Star 0→1. PI26 ancora inviabile ma restano solo 7 giorni (scade 30/7 ore 16). Post social da recuperare (3 pronti). Nessuna nuova mossa dichiarata da Nicola dal 21/7 ~00:57 — queste restano le intenzioni note, non ancora eseguite.",
+  "data": "2026-07-27 06:20",
+  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati, stallo ~33gg). Le mosse verso il marketplace (ordine test PQ, post social, WhatsApp anchor) restano in pausa concordata fino al 24/8-1/9 — non sono priorità di oggi. L'unica eccezione attiva è PI26 (10.000€ a fondo perduto, sportello a esaurimento): mancano 3 giorni e servono 3 risposte di Nicola prima dell'invio finale. Resta aperta anche la conferma sulla nuova data di ripartenza (metà agosto, proposta il 26/7 notte) vs la pausa già registrata (24/8-1/9). Telegram sul VPS resta configurabile quando c'è tempo, non bloccante.",
   "prossime_mosse": [
     {
-      "titolo": "Fai un ordine di prova su Pane Quotidiano",
-      "quando": "Appena possibile — ferma da 3 giorni",
-      "come": "mycity-marketplace.com → prodotto PQ → checkout → COD o carta",
+      "titolo": "Rispondi alle 3 domande sul bando PI26",
+      "quando": "Entro il 30/7 ore 16:00 (3 giorni residui, sportello a esaurimento)",
+      "come": "P.IVA/entità giuridica sì/no · spese reali documentabili sì/no e quanto · firma digitale attiva sì/no — poi restart.infocamere.it con SPID",
       "priorita": "alta",
-      "ad_prepara": "Flusso live verificato REST — card #ordine-test-pq",
-      "senior": "@operations",
-      "colore": "🟡"
-    },
-    {
-      "titolo": "Invia la domanda PI26",
-      "quando": "Entro il 30/7 ore 16:00 (7 giorni residui, sportello aperto)",
-      "come": "restart.infocamere.it con SPID — bozza in consegne/relazioni-istituzionali/",
-      "priorita": "alta",
-      "ad_prepara": "Checklist bando + fatture tech da maggio 2026",
+      "ad_prepara": "Bozza pronta in consegne/relazioni-istituzionali/, aggiornata appena arrivano le risposte",
       "senior": "@relazioni-istituzionali",
       "colore": "🔴"
     },
     {
-      "titolo": "Pubblica il post social su PQ",
-      "quando": "Appena possibile — 3 varianti pronte da giorni",
-      "come": "Recupero #post-domenica, #post-lunedi-turno o #post-meteo-pioggia — testi in consegne/content/",
-      "priorita": "media",
-      "ad_prepara": "Contenuti pronti + UTM",
-      "senior": "@content-social",
-      "colore": "🔴"
+      "titolo": "Conferma la data del piano squadra",
+      "quando": "Appena possibile — proposto la notte del 26/7, ancora senza risposta",
+      "come": "Dire se metà agosto sostituisce la pausa 24/8-1/9 già registrata, o se il piano squadra parte comunque dopo",
+      "priorita": "alta",
+      "ad_prepara": "registro-fatti.json pronto per l'aggiornamento non appena arriva la conferma",
+      "senior": "@AD",
+      "colore": "🟡"
+    },
+    {
+      "titolo": "Ordine di prova su Pane Quotidiano",
+      "quando": "In pausa concordata fino al 24/8-1/9 — non è una mossa di oggi",
+      "come": "mycity-marketplace.com → prodotto PQ → checkout → COD o carta",
+      "priorita": "bassa",
+      "ad_prepara": "Flusso già verificato via REST, pronto a ripartire senza altro lavoro tecnico",
+      "senior": "@operations",
+      "colore": "🟡"
     },
     {
       "titolo": "Configura Telegram sul VPS",
@@ -43,46 +43,40 @@
     {
       "nome": "Pane Quotidiano",
       "perche": "Unico negozio REALE (Via Calzolai 25). Già online, 5 prodotti.",
-      "stato": "attivo — North Star 0, stallo ~698h"
+      "stato": "attivo — North Star 0, stallo ~33gg, in pausa operativa concordata fino al 24/8-1/9"
     },
     {
       "nome": "Antica Salumeria Garetti",
-      "perche": "Anchor DOP + WhatsApp PI26 pronto. Onda 2.",
-      "stato": "scelta_ragionata — dopo ordine test"
+      "perche": "Anchor DOP + WhatsApp PI26 pronto (invio in pausa).",
+      "stato": "scelta_ragionata — dopo la ripresa"
     },
     {
       "nome": "Frolla Couture",
       "perche": "Score più alto prospect panetteria.",
-      "stato": "scelta_ragionata — visita da programmare"
+      "stato": "scelta_ragionata — visita da programmare dopo la ripresa"
     }
   ],
   "rischi": [
-    "Stallo PQ >29 giorni — bottega può perdere motivazione",
-    "4 buyer dormienti — nessuna welcome email inviata",
-    "3 post social mai pubblicati — esperimento collegato scaduto senza poter essere misurato",
-    "PI26 scade tra 7 giorni — domanda ancora non risulta inviata",
-    "3 giorni senza un giro pieno completato — visibilità Pannello indietro"
+    "PI26 scade tra 3 giorni — domanda ancora non risulta inviata, sportello a esaurimento",
+    "Piano-squadra: 2 date diverse in giro (metà agosto vs 24/8-1/9) finché Nicola non conferma quale vale",
+    "3 carrelli abbandonati reali su PQ mai recuperati (invariati da giugno)",
+    "Runway non calcolabile da molti giri (manca BURN_MENSILE_EUR nel .env VPS)"
   ],
   "serve_da_nicola": [
     {
-      "ambito": "north star",
-      "cosa_manca": "Ordine test su PQ eseguito",
-      "domanda_per_nicola": "Fai l'ordine test su Pane Quotidiano? È ancora la mossa n.1, ferma da 3 giorni."
-    },
-    {
       "ambito": "PI26",
-      "cosa_manca": "Conferma invio domanda",
-      "domanda_per_nicola": "Hai già inviato PI26? Restano 7 giorni (scade 30/7 ore 16)."
+      "cosa_manca": "3 risposte di ammissibilità",
+      "domanda_per_nicola": "P.IVA/entità giuridica sì/no? Spese reali documentabili sì/no e quanto? Firma digitale attiva sì/no? Restano 3 giorni (scade 30/7 ore 16)."
     },
     {
-      "ambito": "post social",
-      "cosa_manca": "Pubblicazione recupero",
-      "domanda_per_nicola": "Quale dei 3 post pubblichi (domenica-settimana, lunedì-turno, meteo-pioggia)?"
+      "ambito": "piano-squadra",
+      "cosa_manca": "Conferma quale data vale",
+      "domanda_per_nicola": "Il piano con fratello+amici di metà agosto sostituisce la pausa fino al 24/8-1/9, o parte comunque dopo quella data?"
     },
     {
       "ambito": "macchina",
-      "cosa_manca": "Diagnosi giri interrotti",
-      "domanda_per_nicola": "Ok a far controllare a devops-sre (sola lettura log) perché i giri si sono interrotti per 3 giorni?"
+      "cosa_manca": "Merge delle PR in coda",
+      "domanda_per_nicola": "Ok a mergiare le PR ferme del Cantiere Pannello e del fix doppioni chat (#551/#552/#553/#556)? Nessun rischio per il sito, solo il tuo click."
     }
   ]
 }
