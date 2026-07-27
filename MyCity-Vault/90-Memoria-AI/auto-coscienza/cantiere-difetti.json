@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 18:26",
+  "aggiornato": "2026-07-27 18:54",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -2163,7 +2163,7 @@
       "causa_radice": "① Perché il gate non gira? Perché l'innesto nel giro non è stato applicato. ② Perché non è stato applicato? Perché richiede di lanciare a mano uno script sul VPS dopo il merge. ③ Perché richiede un passo a mano? Perché il file del giro è troppo grande per passare dall'API di GitHub. ④ Perché nessuno se n'è accorto? Perché non esiste un controllo che verifichi che le modifiche previste dagli script di innesto siano effettivamente presenti. ⑤ Causa di sistema: la macchina ha lavori che si considerano «fatti» quando il codice è scritto, non quando è in funzione; per i pezzi che passano da un passo manuale non c'è nessuna sonda che chieda «è davvero acceso?».",
       "fix_proposto": "🟡 (firma Nicola) Aggiungere al giro un controllo di applicazione degli innesti: gli script di patch girano in modalità sola-verifica a ogni giro e segnalano quali modifiche previste NON sono presenti nei file. In parallelo, applicare l'innesto del debito così che il condono non giri più senza il conto accanto.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -2172,8 +2172,8 @@
         "presente": true
       },
       "nota": "Dove: cervello/giro.sh:274-275 (lo sweep che condona, con l'errore ignorato) · cervello/calibrazione.mjs:613-645 (il conto del debito, con il gate) · cervello/round6-applica.mjs:104-125 (l'innesto mai applicato) · Impatto: Basso finché il registro resta chiuso; strutturale appena si riprende a prevedere. È il meccanismo che ha già prodotto la storia raccontata nel codice stesso: previsioni vere nate, condonate alle 06:20 e mai diventate una lezione. · PROVA RADDRIZZATA 2026-07-27 18:40 dal guardiano prove-oneste (AR-330): era gia soddisfatta alla nascita, quindi il difetto si sarebbe chiuso da solo senza che nessuno riparasse niente.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 18:54",
+      "chiuso_come": "cervello/giro.sh contiene /debito --gate/ → trovato"
     },
     {
       "id": "AR-177",
@@ -2226,7 +2226,7 @@
       "causa_radice": "① Perché il debito non è cablato? Perché la patch a giro.sh viaggia come script da lanciare a mano. ② Perché a mano? Perché giro.sh è troppo grande per passare intero dall'API di GitHub (lo spiega round6-applica.mjs:5-11). ③ Perché nessuno si accorge che non è stato lanciato? Perché i test (round6-applica.test.mjs) provano che la patch SI APPLICHEREBBE, non che sia applicata. ④ Perché il test si ferma lì? Perché è stato scritto per proteggere dalla trascrizione sbagliata, non per verificare lo stato del bersaglio. ⑤ Causa di sistema: la macchina non ha un controllo di «patch dichiarata ma non installata» — un piano di modifica al proprio ciclo può restare per sempre in stato di intenzione e sembrare lavoro finito, perché il commit c'è.",
       "fix_proposto": "🟡 (a) Eseguire `node cervello/round6-applica.mjs --applica` e verificare con `bash -n cervello/giro.sh && node cervello/test-cervello.mjs`. (b) Aggiungere al giro un guardiano che, per ogni voce del PIANO esportato da round6-applica.mjs, controlli che il marcatore `gia` sia presente nel file bersaglio e fallisca altrimenti: così una patch scritta e non applicata diventa un rosso nel giro, non un file dimenticato nella cartella.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -2235,8 +2235,8 @@
         "presente": true
       },
       "nota": "Dove: cervello/round6-applica.mjs:167-188 (modifiche ④⑤⑥) vs cervello/giro.sh:275 · Impatto: La voce del volano che misura «sa prevedere le conseguenze delle sue mosse» resta senza freno: una previsione può nascere, superare la scadenza ed essere archiviata dallo sweep senza che nessuno la confronti col reale. È esattamente il difetto che la patch descriveva e che è rimasto in vigore. Ed è lo stesso schema di AR-154 (rituale dichiarato, non eseguito) su un altro anello. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA RADDRIZZATA 2026-07-27 18:40 dal guardiano prove-oneste (AR-330): era gia soddisfatta alla nascita, quindi il difetto si sarebbe chiuso da solo senza che nessuno riparasse niente.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 18:54",
+      "chiuso_come": "cervello/giro.sh contiene /calibrazione\\.mjs\" debito/ → trovato"
     },
     {
       "id": "AR-180",
@@ -5388,15 +5388,15 @@
       "causa_radice": "27/7 12:14 merge della radiografia; 12:15 (60 secondi dopo) il commit automatico riconcilia ha chiuso 91 dei 173 difetti appena consegnati — 53%, di cui 17 bloccanti. Prova che sono false senza aprire un file: fra le 09:40 (nascita dei difetti) e le 12:15 (chiusura) su main non e atterrato nessun fix; i soli commit che toccano cervello/, pannello/ o .claude/ sono Update settings.json e due recuperi di memoria. Nessun difetto poteva essere risolto. Il meccanismo: auto-fix.mjs:122-129 considera risolto un difetto quando la sua verifica e soddisfatta, ma NON controlla che la verifica descriva il FIX invece del BUG. Le 91 verifiche descrivevano il bug (es. AR-227 pattern registraFirma(n, \"nicola\") presente:true = la riga bacata c e; AR-218 pattern Escape presente:false = il tasto Esc manca), quindi erano gia soddisfatte nell istante in cui il difetto nasceva. Causa contributiva: nei 24 prompt dei senior la clausola «scegli un pattern che esistera SOLO col fix installato» compare in UNO solo — gli altri 23 hanno descritto il bug, che e la cosa naturale da fare. Causa di sistema: manca l invariante che rende la prova una prova. Una verifica gia vera alla nascita non e una prova di risoluzione, e una descrizione del sintomo — e nessun cancello lo controllava.",
       "fix_proposto": "Due guardie, entrambe machine-checkable. (1) ALLA NASCITA: un difetto non puo essere creato con una verifica gia soddisfatta; il guardiano che gira a ogni giro rilegge tutto il cantiere e fallisce se ne trova una fra i difetti aperti. Da sola avrebbe fermato tutti e 91. (2) ALLA CHIUSURA: auto-fix.mjs non chiude un difetto se fra la sua data di nascita e adesso il file citato dalla verifica non e mai cambiato (git log -- <file> --since <nato>). Una chiusura senza una modifica al file provato non e una chiusura. In piu, per il processo: la clausola sul pattern va nello stampo del prompt di radiografia, non lasciata alla memoria di chi scrive.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 — osservato dall AD sul proprio output, 60 secondi dopo il merge",
       "verifica": {
         "comando": "node cervello/test/prove-oneste.test.mjs"
       },
       "nota": "Dove: cervello/auto-fix.mjs:122-129 (verificaFix) · Impatto: il cantiere su main ha detto per 15 minuti aperti:105 chiusi:163 mentre i difetti veri aperti erano 196. Il Pannello lo mostrava cosi a Nicola. E la manifestazione su scala di AR-144 (la prova di chiusura puo mentire): li era un sospetto su 72 chiusure vecchie, qui e un fatto misurato su 91. Riparato lo stesso giorno invertendo le 91 verifiche (prova-del-bug -> prova-del-fix) e riaprendo i difetti.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 18:54",
+      "chiuso_come": "node cervello/test/prove-oneste.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-331",
@@ -5419,8 +5419,8 @@
     }
   ],
   "meta": {
-    "aperti": 181,
+    "aperti": 178,
     "in_corso": 0,
-    "chiusi": 89
+    "chiusi": 92
   }
 }
