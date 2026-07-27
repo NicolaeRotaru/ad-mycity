@@ -4925,9 +4925,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "CAL_VINCOLO=\"⛔ CALIBRAZIONE NON CONFORME",
-        "presente": false
+        "comando": "node cervello/test/giro-esito.test.mjs"
       },
       "nota": "Dove: cervello/giro.sh:301 e cervello/giro.sh:315 · Impatto: Il motore prova a riparare il sintomo sbagliato: gli si dice «la calibrazione non è conforme» quando il problema a monte è che il registro è vuoto. Costa un giro di lavoro inutile e la diagnosi torna identica al giro dopo. Danno limitato a un solo sotto-sistema, ma è la firma di un difetto di forma che può ripetersi altrove. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
@@ -4946,9 +4944,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "printf '%s\\\\n' \"\\$_verif_out\"",
-        "presente": true
+        "comando": "node cervello/test/giro-esito.test.mjs"
       },
       "nota": "Dove: cervello/giro.sh:412-417 · Impatto: Il guardiano che deve controllare se l'auto-analisi è una verifica vera o un timbro è, lui stesso, l'unico non osservabile del giro: se muore, muore in silenzio e nessuno se ne accorge. Nel caso di crash il motore riceve nel prompt un blocco «Vincolo auto-verifica (HARD)» che contiene un errore JavaScript — rumore presentato come regola. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
@@ -5213,9 +5209,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "GUARDIANO CIECO",
-        "presente": true
+        "comando": "node cervello/test/giro-esito.test.mjs"
       },
       "nota": "Dove: cervello/giro.sh:327, :335, :415 (testo grezzo) e :192, :241, :248, :267, :352, :363, :387, :394 (rc≠0 indistinto); cervello/coerenza-fatti.mjs:172 contro :263; cervello/allocazione-check.mjs:284-288 · Impatto: Il motore riceve ordini basati su una diagnosi sbagliata e va a cercare un problema che non esiste, mentre quello vero (uno strumento rotto o un file sparito) resta invisibile perché è stato travestito da violazione di dominio. E nei quattro guardiani fail-open un input mancante si legge come «tutto a posto»: il caso peggiore, perché è indistinguibile dal successo.",
       "chiuso_il": "",
