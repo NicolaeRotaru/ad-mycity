@@ -25,6 +25,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { chiusuraAmmessa, istanteNascita, patternTrovato } from "./prove-regole.mjs";
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const CANTIERE = join(VAULT, "cantiere-difetti.json");
@@ -99,6 +100,30 @@ export function eseguiProvaComando(comando, run = spawnSync) {
   };
 }
 
+/**
+ * Il file citato dalla prova è cambiato fra la nascita del difetto e adesso? (AR-330, guardia ②)
+ * `null` = git non ha saputo rispondere (storia troncata, clone superficiale) → chi decide lascerà
+ * passare dicendolo, invece di bloccare per sempre ogni chiusura su un repo senza storia.
+ */
+function fileCambiatoDa(file, nato) {
+  // ⚠️ L'istante DEVE essere completo. Con una data secca («2026-07-27») l'approxidate di git riempie
+  // l'ora mancante con quella CORRENTE: `--since=2026-07-27` lanciato alle 18:40 significa «dalle
+  // 18:40 di oggi», non «da mezzanotte». Effetto: ogni file modificato oggi risultava «mai cambiato»
+  // e la guardia bloccava chiusure legittime. Stesso inciampo di prove-oneste, e la seconda copia
+  // l'ho scritta io dopo aver corretto la prima — motivo per cui la normalizzazione ora è UNA
+  // funzione condivisa (istanteNascita) e non due date passate a mano.
+  const istante = istanteNascita(nato);
+  if (!file || !istante) return null;
+  const r = spawnSync("git", ["log", "--oneline", `--since=${istante}`, "--", file], {
+    cwd: AD_ROOT,
+    encoding: "utf8",
+    timeout: 20000,
+    maxBuffer: 64 * 1024 * 1024,
+  });
+  if (r.error || r.status !== 0) return null;
+  return String(r.stdout || "").trim().length > 0;
+}
+
 // Verifica oggettiva: il fix è presente nel codice?
 function verificaFix(dif) {
   const v = dif.verifica;
@@ -112,20 +137,10 @@ function verificaFix(dif) {
   } catch (e) {
     return { esito: "aperto", dettaglio: `illeggibile: ${e.message}` };
   }
-  // La prova vale se il pattern matcha come REGEX **oppure** se è contenuto LETTERALMENTE.
-  // Round 4 (AR-151): AR-037 era chiuso ma risultava regredito, e il fix invece c'era eccome
-  // (worker.sh:1133). Il pattern era `id=eq.$id&stato=eq.in_attesa`, scritto come testo — ma
-  // compilato come regex quel `$` in mezzo asserisce fine-stringa e non può MAI matchare.
-  // Terza variante dello stesso male: dopo le prove che puntano al file sbagliato (round 2) e
-  // quelle che descrivono un fix immaginato (round 3), ecco quelle impossibili per sintassi.
-  // L'intento di `verifica.pattern` è «nel file ci dev'essere questo»: il match letterale lo onora.
-  let re = null;
-  try {
-    re = new RegExp(v.pattern);
-  } catch {
-    re = null; // regex non compilabile → resta il confronto letterale, non si butta via la prova
-  }
-  const trovato = (re ? re.test(txt) : false) || txt.includes(v.pattern);
+  // Il confronto (regex OPPURE letterale, per il caso AR-151) vive in prove-regole.mjs: da AR-330 lo
+  // usano in due — questo, per chiudere, e prove-oneste, per controllare com'era la prova alla
+  // nascita. Due copie divergerebbero, e una prova valutata con due metri diversi non è un metro.
+  const trovato = patternTrovato(v.pattern, txt);
   const vuolePresente = v.presente !== false; // default: presente=true
   const risolto = vuolePresente ? trovato : !trovato;
   return {
@@ -196,12 +211,27 @@ async function cmdVerifica(cantiere) {
   const aperti = (cantiere.difetti || []).filter((d) => d.stato !== "chiuso");
   console.log(`\n🔧 AUTO-FIX — verifica cantiere (${aperti.length} non chiusi) — ${nowPiacenza()}\n`);
   const daChiudere = [];
+  const rifiutate = [];
   for (const d of aperti) {
     const r = verificaFix(d);
-    const icona = r.esito === "risolto" ? "✅ risolto" : r.esito === "manuale" ? "🖐️  manuale" : "⏳ aperto";
+    // ② LA GUARDIA DELLA CHIUSURA (AR-330): una prova soddisfatta non basta. Se fra la nascita del
+    // difetto e adesso il file che la prova cita non è MAI cambiato, non c'è niente che possa averlo
+    // risolto — e quella è la firma esatta delle 91 chiusure false del 27/7, dove fra le 09:40 e le
+    // 12:15 su main non era atterrato un solo fix. Regola in prove-regole.mjs, fatti raccolti qui.
+    const g = r.esito === "risolto"
+      ? chiusuraAmmessa({ verifica: d.verifica, nato: d.nato, fileCambiatoDallaNascita: fileCambiatoDa(d.verifica?.file, d.nato) })
+      : { ammessa: true };
+    const bloccato = r.esito === "risolto" && !g.ammessa;
+    const icona = bloccato ? "🛑 rifiutata" : r.esito === "risolto" ? "✅ risolto" : r.esito === "manuale" ? "🖐️  manuale" : "⏳ aperto";
     console.log(`${icona}  ${d.id} — ${d.titolo}`);
-    console.log(`        ${r.dettaglio}`);
-    if (r.esito === "risolto") daChiudere.push({ d, come: r.dettaglio });
+    console.log(`        ${bloccato ? g.motivo : r.dettaglio}`);
+    if (r.esito === "risolto" && g.ammessa) daChiudere.push({ d, come: r.dettaglio });
+    else if (bloccato) rifiutate.push({ d, motivo: g.motivo });
+  }
+  if (rifiutate.length) {
+    console.log(
+      `\n🛑 ${rifiutate.length} chiusura/e RIFIUTATE dalla guardia AR-330: la prova risulta soddisfatta ma il file citato non è mai cambiato dalla nascita del difetto. Non è una riparazione — è una prova che descrive il bug. Riscrivila (meglio: {"comando":"node cervello/test/<nome>.test.mjs"}).`,
+    );
   }
   if (!applica) {
     if (daChiudere.length) {

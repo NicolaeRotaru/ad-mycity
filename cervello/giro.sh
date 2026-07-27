@@ -150,6 +150,7 @@ NORTH_STAR_VINCOLO="" # AR-113: north-star → vincolo HARD di allocazione (non 
 KEYWORD_VINCOLO=""    # AR-009/027: guardiano owner-keyword (promosso a gate hard da || true)
 APPRENDIMENTO_VINCOLO="" # Lever 1: guardiano apprendimento (archivio malato / errori ricorrenti non cristallizzati)
 VERIFICA_VINCOLO=""      # Lever 2: verificatore avversariale (auto-analisi vuota) + validatore contratti come gate
+PROVE_VINCOLO=""         # AR-330: prove del cantiere già soddisfatte alla nascita (difetti che si chiudono da soli)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
   # AR-038: il canale MCP è trasporto di sessione, NON testabile da script. Passiamo lo stato del
@@ -206,6 +207,26 @@ if command -v node >/dev/null 2>&1; then
   # bloccherebbe ogni giro invece di migliorarlo. Si promuove a cancello quando bloccanti_ciechi = 0.
   echo "[$(ts)] Guardiano prove del cantiere (difetti che nessuno può chiudere)..."
   node "$SCRIPT_DIR/cantiere-prove.mjs" 2>&1 | tail -4 || true
+  # AR-330 — la guardia della NASCITA: nessun difetto può stare in cantiere con una prova che era già
+  # soddisfatta il giorno in cui è nato. Una prova già vera alla nascita descrive il sintomo, non la
+  # cura: il difetto si chiude da solo senza che nessuno ripari niente. È successo il 27/7 alle 12:15
+  # con 91 difetti su 173 — 60 secondi dopo il merge, con zero righe di codice cambiate.
+  #
+  # Questo NASCE HARD, al contrario di cantiere-prove qui sopra. La differenza è che cantiere-prove
+  # misura un debito accumulato (fallirebbe subito e bloccherebbe ogni giro), mentre questo misura una
+  # cosa che oggi è a zero: il cantiere è pulito, e deve restarci. Un cancello che parte già rosso non
+  # protegge niente — viene disattivato entro la settimana. Uno che parte verde si accorge del primo
+  # che sporca, ed è per quello che serve.
+  _prove_out="$(node "$SCRIPT_DIR/prove-oneste.mjs" 2>&1)"; _prove_rc=$?
+  printf '%s\n' "$_prove_out" | head -1
+  printf '%s\n' "$_prove_out" | tail -6
+  if [ "$_prove_rc" -eq 1 ]; then
+    PROVE_VINCOLO="⛔ PROVE DISONESTE IN CANTIERE (prove-oneste.mjs rc=1, AR-330): almeno un difetto aperto ha una prova che era GIÀ soddisfatta alla sua nascita — si chiuderà da solo senza che nessuno abbia riparato niente. Riscrivi quelle prove PRIMA di chiudere il giro: devono citare qualcosa che esisterà SOLO col fix installato, o meglio diventare comportamentali ({\"comando\":\"node cervello/test/<nome>.test.mjs\"}). Elenco: node cervello/prove-oneste.mjs"
+    echo "[$(ts)] ⚠️  AR-330: prove-oneste FALLITO (rc=1) → vincolo hard al motore." >&2
+  elif [ "$_prove_rc" -ne 0 ]; then
+    PROVE_VINCOLO="⚠️ GUARDIANO PROVE CIECO (prove-oneste.mjs rc=$_prove_rc, AR-322): non ha potuto misurare l'onestà delle prove del cantiere. Ripara lo strumento — non fidarti del verde che non c'è."
+    echo "[$(ts)] ⚠️  AR-330: prove-oneste CIECO (rc=$_prove_rc) → vincolo di cecità." >&2
+  fi
   echo "[$(ts)] Pagella dell'intelligenza (quanto manca a 'pronta')..."
   node "$SCRIPT_DIR/pagella-intelligenza.mjs" 2>&1 | tail -8 || true
 
@@ -525,7 +546,7 @@ fi
 # scioglievano in silenzio — il giro pubblicava lo stesso e usciva 0. Qui li raccogliamo in un elenco
 # che esiste FUORI dal prompt, così può governare sia il salto del motore sia l'esito del giro.
 VINCOLI_ATTIVI=()
-for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA; do
+for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE; do
   eval "_vval=\"\${${_vnome}_VINCOLO:-}\""
   [ -n "$_vval" ] && VINCOLI_ATTIVI+=("$_vnome")
 done
@@ -638,6 +659,12 @@ if [ -n "${VERIFICA_VINCOLO:-}" ]; then
 
 ## Vincolo auto-verifica (HARD — Lever 2: refutazione vera + contratti JSON in regola)
 $VERIFICA_VINCOLO"
+fi
+if [ -n "${PROVE_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo prove oneste (HARD — AR-330: un difetto non può nascere già chiuso)
+$PROVE_VINCOLO"
 fi
 PROMPT="$PROMPT
 

@@ -2169,9 +2169,9 @@
       "verifica": {
         "file": "cervello/giro.sh",
         "pattern": "debito --gate",
-        "presente": false
+        "presente": true
       },
-      "nota": "Dove: cervello/giro.sh:274-275 (lo sweep che condona, con l'errore ignorato) · cervello/calibrazione.mjs:613-645 (il conto del debito, con il gate) · cervello/round6-applica.mjs:104-125 (l'innesto mai applicato) · Impatto: Basso finché il registro resta chiuso; strutturale appena si riprende a prevedere. È il meccanismo che ha già prodotto la storia raccontata nel codice stesso: previsioni vere nate, condonate alle 06:20 e mai diventate una lezione.",
+      "nota": "Dove: cervello/giro.sh:274-275 (lo sweep che condona, con l'errore ignorato) · cervello/calibrazione.mjs:613-645 (il conto del debito, con il gate) · cervello/round6-applica.mjs:104-125 (l'innesto mai applicato) · Impatto: Basso finché il registro resta chiuso; strutturale appena si riprende a prevedere. È il meccanismo che ha già prodotto la storia raccontata nel codice stesso: previsioni vere nate, condonate alle 06:20 e mai diventate una lezione. · PROVA RADDRIZZATA 2026-07-27 18:40 dal guardiano prove-oneste (AR-330): era gia soddisfatta alla nascita, quindi il difetto si sarebbe chiuso da solo senza che nessuno riparasse niente.",
       "chiuso_il": "",
       "chiuso_come": ""
     },
@@ -2232,9 +2232,9 @@
       "verifica": {
         "file": "cervello/giro.sh",
         "pattern": "calibrazione\\.mjs\" debito",
-        "presente": false
+        "presente": true
       },
-      "nota": "Dove: cervello/round6-applica.mjs:167-188 (modifiche ④⑤⑥) vs cervello/giro.sh:275 · Impatto: La voce del volano che misura «sa prevedere le conseguenze delle sue mosse» resta senza freno: una previsione può nascere, superare la scadenza ed essere archiviata dallo sweep senza che nessuno la confronti col reale. È esattamente il difetto che la patch descriveva e che è rimasto in vigore. Ed è lo stesso schema di AR-154 (rituale dichiarato, non eseguito) su un altro anello. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
+      "nota": "Dove: cervello/round6-applica.mjs:167-188 (modifiche ④⑤⑥) vs cervello/giro.sh:275 · Impatto: La voce del volano che misura «sa prevedere le conseguenze delle sue mosse» resta senza freno: una previsione può nascere, superare la scadenza ed essere archiviata dallo sweep senza che nessuno la confronti col reale. È esattamente il difetto che la patch descriveva e che è rimasto in vigore. Ed è lo stesso schema di AR-154 (rituale dichiarato, non eseguito) su un altro anello. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA RADDRIZZATA 2026-07-27 18:40 dal guardiano prove-oneste (AR-330): era gia soddisfatta alla nascita, quindi il difetto si sarebbe chiuso da solo senza che nessuno riparasse niente.",
       "chiuso_il": "",
       "chiuso_come": ""
     },
@@ -2964,10 +2964,10 @@
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "file": "MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json",
-        "pattern": "7 giorni residui",
-        "presente": true
+        "pattern": "giorni residui",
+        "presente": false
       },
-      "nota": "Dove: MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json:2 vs MyCity-Vault/90-Memoria-AI/CHECKLIST-NICOLA.md:18 · Impatto: Il decisore legge due countdown diversi sulla stessa pratica da 10.000€ e non ha modo di sapere quale sia vivo — e quello sbagliato è dalla parte comoda (sette giorni invece di quattro), cioè rassicura mentre la finestra si chiude. Sul fronte squadra è peggio: ogni senior che apre gli OKR oggi parte da «29 giorni» di stallo e calibra l'urgenza su un numero vecchio di tre giorni. È la definizione del fallimento che il glossario dei KPI dice di voler evitare: reparti che discutono di quale numero sia quello vero invece che di cosa fare. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
+      "nota": "Dove: MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json:2 vs MyCity-Vault/90-Memoria-AI/CHECKLIST-NICOLA.md:18 · Impatto: Il decisore legge due countdown diversi sulla stessa pratica da 10.000€ e non ha modo di sapere quale sia vivo — e quello sbagliato è dalla parte comoda (sette giorni invece di quattro), cioè rassicura mentre la finestra si chiude. Sul fronte squadra è peggio: ogni senior che apre gli OKR oggi parte da «29 giorni» di stallo e calibra l'urgenza su un numero vecchio di tre giorni. È la definizione del fallimento che il glossario dei KPI dice di voler evitare: reparti che discutono di quale numero sia quello vero invece che di cosa fare. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA RADDRIZZATA 2026-07-27 18:40 dal guardiano prove-oneste (AR-330): era gia soddisfatta alla nascita, quindi il difetto si sarebbe chiuso da solo senza che nessuno riparasse niente.",
       "chiuso_il": "",
       "chiuso_come": ""
     },
@@ -5392,9 +5392,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 — osservato dall AD sul proprio output, 60 secondi dopo il merge",
       "verifica": {
-        "file": "cervello/auto-fix.mjs",
-        "pattern": "nata_gia_soddisfatta|verifica_gia_vera|git log.*--since",
-        "presente": true
+        "comando": "node cervello/test/prove-oneste.test.mjs"
       },
       "nota": "Dove: cervello/auto-fix.mjs:122-129 (verificaFix) · Impatto: il cantiere su main ha detto per 15 minuti aperti:105 chiusi:163 mentre i difetti veri aperti erano 196. Il Pannello lo mostrava cosi a Nicola. E la manifestazione su scala di AR-144 (la prova di chiusura puo mentire): li era un sospetto su 72 chiusure vecchie, qui e un fatto misurato su 91. Riparato lo stesso giorno invertendo le 91 verifiche (prova-del-bug -> prova-del-fix) e riaprendo i difetti.",
       "chiuso_il": "",
