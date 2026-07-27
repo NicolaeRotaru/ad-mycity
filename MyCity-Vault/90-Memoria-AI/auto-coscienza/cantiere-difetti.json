@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 17:45",
+  "aggiornato": "2026-07-27 17:50",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -5415,10 +5415,29 @@
       "nota": "Dove: cervello/auto-fix.mjs:122-129 (verificaFix) · Impatto: il cantiere su main ha detto per 15 minuti aperti:105 chiusi:163 mentre i difetti veri aperti erano 196. Il Pannello lo mostrava cosi a Nicola. E la manifestazione su scala di AR-144 (la prova di chiusura puo mentire): li era un sospetto su 72 chiusure vecchie, qui e un fatto misurato su 91. Riparato lo stesso giorno invertendo le 91 verifiche (prova-del-bug -> prova-del-fix) e riaprendo i difetti.",
       "chiuso_il": "",
       "chiuso_come": ""
+    },
+    {
+      "id": "AR-331",
+      "titolo": "Ogni riparazione litiga con la successiva, perché tutte scrivono nello stesso registro",
+      "dimensione": "worker-pubblicazione",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "27/7: quattro PR di riparazione hanno prodotto quattro conflitti di merge identici, sempre sugli stessi file di memoria. Non è sfortuna, è meccanica: ogni PR che ripara un difetto ne registra anche la chiusura nel cantiere, e il worker riscrive lo stesso file su main ogni ~12 minuti col commit «riconcilia» — quindi qualunque PR che tocchi il cantiere confligge nel giro di pochi minuti, e con due PR aperte insieme il conflitto è garantito. Ogni risoluzione va poi fatta nel merito (mai «tieni il mio»), verificando difetto per difetto che le chiusure dell'altro lato non si perdano: la risoluzione ingenua avrebbe cancellato 4 chiusure del lotto D alla prima occasione. Causa di sistema: si sono mischiate due cose con tempi diversi — il CODICE che ripara (va in PR, aspetta la firma, potrebbe non essere mai mergiato) e il REGISTRO che dice cosa è chiuso (è un fatto, vero solo quando il fix è davvero su main).",
+      "fix_proposto": "🟡 Attenzione: la separazione NON è «PR = solo codice, cantiere dopo il merge» — quella è la formulazione sbagliata, e l'ho scoperto applicandola. È più fine, e va in due pezzi. (a) La PROVA (campo `verifica`) va INSIEME al codice, perché cita il test che il codice introduce: se resta indietro, il fix atterra su main e nessuno sa più come dimostrarlo — è esattamente quello che è successo con AR-265 e AR-258, PR #563 mergiata e difetti rimasti aperti con prove che puntavano a pattern inesistenti. (b) La CHIUSURA (`stato`, `chiuso_il`) va DOPO il merge, e non la scrive nessuno a mano: la applica `auto-fix` da solo al primo `riconcilia`, perché a quel punto la prova comportamentale passa davvero. Risultato: la PR di codice tocca il cantiere solo per una riga di `verifica` — il conflitto resta possibile ma diventa piccolo e rigenerabile in mezzo minuto, invece di una risoluzione nel merito su centinaia di difetti. Da mettere nella pipeline MODIFICA-MARKETPLACE e nelle istruzioni dei lotti di riparazione.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-27",
+      "origine": "auto-radiografia 2026-07-27 — osservato dall'AD dopo quattro conflitti identici nello stesso pomeriggio",
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nota": "Dove: il processo dei lotti di riparazione (PR #560, #561, #563) · Impatto: 4 risoluzioni manuali in un pomeriggio, ognuna col rischio di perdere le chiusure dell'altro lato · Storia della correzione: la prima formulazione del fix era incompleta e ha prodotto subito il suo controesempio — togliendo i file di memoria dalla PR #563 ho tolto anche le prove nuove, quindi il codice è atterrato su main ma i due difetti sono rimasti aperti. La prova appartiene al codice; solo la chiusura appartiene al dopo-merge.",
+      "chiuso_il": "",
+      "chiuso_come": ""
     }
   ],
   "meta": {
-    "aperti": 190,
+    "aperti": 191,
     "in_corso": 0,
     "chiusi": 79
   }
