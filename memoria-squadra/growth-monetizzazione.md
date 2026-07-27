@@ -8,6 +8,7 @@ reparto: growth-monetizzazione
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-27 11:13 · Playbook Fedeltà di rete (3ª invocazione, dopo 6/7 e 20/7) · Nessun nuovo asset prodotto: verificato gate invariato · atteso Se il gate (≥5 negozi reali, ordini reali, Stripe write, % cashback firmata, parere fiscale) fosse sbloccato, avrei prodotto lancio → reale Gate ANCORA chiuso — 1 negozio reale (PQ), 0 ordini pagati, Stripe write non collegato: stesso stato del 20/7. Nessun lavoro nuovo, solo verifica · #loop-a-vuoto #fedelta-rete
 - 2026-07-20 23:54 · casella fedeltà rete in Bacheca (Nicola «metti in bacheca») · atteso pin home con verdetto ARMATO → reale BACHECA.md aggiornato, gate ≥5 negozi · #fedelta #bacheca
 - 2026-07-20 11:20 · playbook fedeltà rete refresh 20/7 · meccanica+finanza+copy · atteso punti+gift card lanciati → reale ARMATO gate≥5 negozi · #fedelta #playbook
 - 2026-07-18 11:06 · leve ricavo 18/7: ordine test PQ + email 23 clienti + soglia spedizione gratis · ✅ 3 leve identificate e accodate · atteso trovare le 3 leve a più alto ROI per sbloccare la North Star 0→1 → reale leve accodate in AZIONI-IN-ATTESA: ordine test 🟡, email welcome 🔴 (gate PQ pronto), soglia spedizione 🟡 · #growth-18lug
