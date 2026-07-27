@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
+import { sanificaListe } from "@/lib/memoria-json";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -26,6 +27,16 @@ async function leggiJson(rel: string): Promise<any | null> {
 // ALLA FONTE: voto salute → intero 0-100, trend → token breve (freccia/parola), mai una frase.
 function sanificaRadiografia(r: any): void {
   if (!r || typeof r !== "object") return;
+  // AR-252 — le liste prima dei numeri: il ricalcolo del voto qui sotto legge `r.dimensioni`, e un
+  // elemento vuoto lì dentro basta a portare via la pagina del Cervello. Normalizzate qui, alla fonte,
+  // valgono per tutti i consumatori invece che a mano in ogni componente che le disegna.
+  sanificaListe(r, {
+    dimensioni: "nome",
+    domande_per_nicola: "domanda",
+    proposte_nuovi_pezzi: "cosa",
+    pre_mortem: "scenario",
+    benchmark_vs_migliori: "chi",
+  });
   const m = String(r.voto_salute_architettura ?? "").match(/-?\d+/);
   if (m) {
     const n = Math.round(Number(m[0]));

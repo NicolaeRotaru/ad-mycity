@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
+import { listaSicura } from "@/lib/memoria-json";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -52,7 +53,9 @@ export async function GET() {
   }
 
   // (2) BURN-DOWN CANTIERE — identico a salute-onesta.mjs (ancorato all'ultima data del cantiere)
-  const difetti: any[] = cj && Array.isArray(cj.difetti) ? cj.difetti : [];
+  // AR-253 — `Array.isArray` difende dal tipo sbagliato ma non dai buchi DENTRO la lista: un `null`
+  // fra i difetti e `d.nato` due righe più sotto esplode. Stesso lettore delle altre tre letture.
+  const difetti: any[] = listaSicura<any>(cj?.difetti);
   const apertiAllaData = (tMs: number) =>
     difetti.filter((d) => {
       const nato = giorno(d.nato);

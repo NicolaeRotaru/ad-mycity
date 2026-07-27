@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
+import { sanificaListe } from "@/lib/memoria-json";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -47,6 +48,9 @@ function eUnConcetto(e: any): boolean {
   return /\b\d?\s*numeri\b/.test(nome) || nome.startsWith("i 7 numeri");
 }
 function normalizza(d: { apprendimento: any; registro: any }) {
+  // AR-252 — prima di tutto: i campi-lista dell'apprendimento devono ESSERE liste. Se il giro ci
+  // scrive una frase o ci lascia dentro un buco, il `.map` del componente porta via l'intera Cabina.
+  sanificaListe(d.apprendimento, { lezioni: "testo", principi: "", preferenze_nicola: "" });
   // Lezioni: il giro a volte usa `lezione`/`come_applicare` invece di `testo`.
   const lez = d.apprendimento?.lezioni;
   if (Array.isArray(lez)) {
@@ -85,6 +89,12 @@ function sanificaAnalisi(a: any): void {
   const voto = primoIntero(a.voto_fiducia);
   if (voto != null) a.voto_fiducia = Math.max(0, Math.min(100, voto));
   if (a.trend_fiducia != null) a.trend_fiducia = trendBreve(a.trend_fiducia);
+  // AR-252 — anche i campi-LISTA vanno riportati al contratto qui, alla fonte. Il giro a volte scrive
+  // `domande_per_nicola` come una frase sola: sulle stringhe `.length` è vero ma `.map` non esiste,
+  // quindi il guardiano `?.length` del Pannello lasciava passare proprio ciò da cui doveva difendere
+  // e la Cabina diventava bianca. Difeso qui vale per OGNI consumatore, presente e futuro — invece
+  // che a mano, un campo alla volta, dove qualcuno ha visto rompersi qualcosa.
+  sanificaListe(a, { domande_per_nicola: "domanda", errori: "titolo", punti_ciechi: "", miglioramenti_prossimo_giro: "" });
 }
 
 // 🩺 Un'auto-analisi è «affidabile» solo se ha davvero contenuto: un voto numerico in [0,100] E una

@@ -14,6 +14,7 @@ import { isCanaleGithub } from "@/lib/github-pr-merge";
 import { emitSync, fetchBriefingVivo, usePanelSync } from "@/lib/panel-sync";
 import ParlaCasella from "@/components/ParlaCasella";
 import { contestoAvviso, descrizioneAvviso } from "@/lib/descrizione-avviso";
+import { azioniVisibili, cardAperta, idDaAncora, quanteNascoste, serveSrotolare } from "@/lib/coda-azioni";
 import {
   etichettaScelta,
   isPropostaSceltaAB,
@@ -113,10 +114,19 @@ export default function Azioni() {
   const tabRef = useRef<Tab>(tab);
   tabRef.current = tab;
   const [azioni, setAzioni] = useState<Azione[]>([]);
+  // Stesso motivo del tabRef: il gestore di «vai all'azione X» è registrato una volta sola al mount
+  // e deve poter guardare la coda di ADESSO per sapere se quell'azione sta oltre le prime 10.
+  const azioniRef = useRef<Azione[]>(azioni);
+  azioniRef.current = azioni;
   const [salvataggio, setSalvataggio] = useState(false);
   const [collegato, setCollegato] = useState(true);
   const [loading, setLoading] = useState(true);
   const [aperte, setAperte] = useState<Set<string>>(new Set());
+  // AR-219 — la memoria di cosa Nicola ha aperto o chiuso (id → aperta?) e se ha chiesto di vedere
+  // tutta la coda. Un id assente = non ha ancora deciso lui: vale la regola (solo la prima aperta).
+  const [scelteCard, setScelteCard] = useState<Record<string, boolean>>({});
+  const [mostraTuttaCoda, setMostraTuttaCoda] = useState(false);
+  const [mostraTutteFerme, setMostraTutteFerme] = useState(false);
   const [schede, setSchede] = useState<Record<string, SchedaDoc>>({});
   const [registro, setRegistro] = useState<Registro | null>(null);
   const [proposteGiro, setProposteGiro] = useState<Proposta[]>([]);
@@ -263,7 +273,16 @@ export default function Azioni() {
     };
     const onVai = (e: Event) => {
       const det = (e as CustomEvent<DettaglioVai>).detail;
-      if (det?.vista !== "azioni" || !det.sub) return;
+      if (det?.vista !== "azioni") return;
+      // AR-219 — chi arriva da «Vai all'azione collegata» deve trovare la scheda APERTA e montata.
+      // Con le schede chiuse di default si atterrerebbe su una riga muta; e se l'azione sta oltre le
+      // prime 10 non sarebbe nemmeno nel DOM, quindi lo scroll di page.tsx non troverebbe nulla.
+      const idAz = idDaAncora(det.anchor);
+      if (idAz) {
+        setScelteCard((s) => ({ ...s, [idAz]: true }));
+        setMostraTuttaCoda((v) => v || serveSrotolare(idAz, azioniRef.current.filter((a) => !a.stato), false));
+      }
+      if (!det.sub) return;
       if (valide.includes(det.sub as Tab)) setTab(det.sub as Tab);
     };
     window.addEventListener(EVENTO_SUB, onSub);
@@ -501,14 +520,31 @@ export default function Azioni() {
 
   // Card di una singola azione — estratta così la usano SIA «Da approvare» (azioni da firmare)
   // SIA «In coda» (azioni ferme già decise), senza duplicare ~120 righe di markup.
-  const cardAzione = (a: Azione) => {
+  //
+  // AR-219 — è un `<details>` CHIUSO di default (tranne la prima): con 51 azioni in coda le schede
+  // tutte spalancate erano ~40 schermate sul telefono. Nel `<summary>` restano codice, titolo, badge
+  // e i due bottoni Approva/Rifiuta: si firma senza aprire nulla. Tutto il resto si apre al tocco.
+  const cardAzione = (a: Azione, indice = 0) => {
     const decisa = a.stato !== "";
     const open = aperte.has(a.id);
     const b = badgeStato(a.stato);
     const path = estraiPath(a.testo) || estraiPath(a.perche);
     const sch = schede[a.id];
+    // I bottoni vivono dentro il <summary>: senza questo, ogni clic su Approva aprirebbe/chiuderebbe
+    // anche la scheda (il toggle è l'azione predefinita del clic sul summary, e il clic risale).
+    const senzaAprire = (fn: () => void) => (e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); fn(); };
     return (
-      <div id={`azione-${a.id}`} key={a.id} className={`card border ${BORDO[a.livello]} p-4 scroll-mt-24 ${decisa ? "opacity-80" : ""}`}>
+      <details
+        id={`azione-${a.id}`}
+        key={a.id}
+        open={cardAperta(a.id, indice, scelteCard)}
+        onToggle={(e) => {
+          const ap = (e.currentTarget as HTMLDetailsElement).open;
+          setScelteCard((s) => (s[a.id] === ap ? s : { ...s, [a.id]: ap }));
+        }}
+        className={`card border ${BORDO[a.livello]} p-4 scroll-mt-24 group ${decisa ? "opacity-80" : ""}`}
+      >
+        <summary className="list-none cursor-pointer select-none min-h-[44px]">
         <div className="flex items-start gap-2.5">
           <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO[a.livello]}`} />
           <div className="min-w-0 flex-1">
@@ -518,6 +554,7 @@ export default function Azioni() {
                 parlano della stessa card. testoPulito: via gli ** del markdown e
                 l'emoji di livello iniziale. */}
             <div className="t-sez leading-snug">
+              <span className="text-black/35 group-open:rotate-90 transition-transform inline-block mr-1.5">▸</span>
               <span
                 className="font-mono text-[12px] font-bold tracking-wide text-brand select-all mr-1"
                 title="Codice fisso di questa casella — citalo in chat per indicarla"
@@ -534,9 +571,25 @@ export default function Azioni() {
               {a.qualita?.voto === "rivedere" && <span className="badge bg-amber-50 text-amber-700" title={a.qualita.problemi.join(" · ")}>⚠️ qualità: da rivedere</span>}
               {a.qualita?.voto === "ok" && !decisa && <span className="badge bg-green-50 text-green-700">✅ qualità ok</span>}
             </div>
+            {/* I due bottoni stanno QUI, nella parte sempre visibile: si firma senza aprire la scheda. */}
+            <div className="flex flex-wrap items-center gap-2 mt-2.5">
+              {!decisa ? (
+                <>
+                  <button onClick={senzaAprire(() => decidi(a.id, "approva"))} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
+                    {decidendo.has(a.id) ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} {etichettaApprova(a.canale)}
+                  </button>
+                  <button onClick={senzaAprire(() => decidi(a.id, "rifiuta"))} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
+                    <XCircle size={15} /> Rifiuta
+                  </button>
+                </>
+              ) : (
+                <button onClick={senzaAprire(() => decidi(a.id, "annulla"))} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 t-eti hover:text-brand transition disabled:opacity-50"><RotateCcw size={13} /> annulla</button>
+              )}
+            </div>
           </div>
           {b && <span className={`badge shrink-0 ${b.cls}`}>{b.txt}</span>}
         </div>
+        </summary>
 
         {/* Quadro completo in italiano semplice — tutti i dettagli operativi, niente tagliato. */}
         {(() => {
@@ -639,22 +692,10 @@ export default function Azioni() {
           </div>
         )}
 
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          {!decisa ? (
-            <>
-              <button onClick={() => decidi(a.id, "approva")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
-                {decidendo.has(a.id) ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} {etichettaApprova(a.canale)}
-              </button>
-              <button onClick={() => decidi(a.id, "rifiuta")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
-                <XCircle size={15} /> Rifiuta
-              </button>
-            </>
-          ) : (
-            <button onClick={() => decidi(a.id, "annulla")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 t-eti hover:text-brand transition disabled:opacity-50"><RotateCcw size={13} /> annulla</button>
-          )}
-        </div>
+        {/* I bottoni Approva/Rifiuta non stanno più qui in fondo ma nel <summary>, sempre visibili:
+            con la scheda chiusa si firma lo stesso, che è il motivo per cui si apre il Pannello. */}
         <ParlaCasella titolo={`Azione: ${pulisciTitolo(testoPulito(a.titolo))}`} contesto={[a.perche, a.reparto && `Reparto: ${a.reparto}`, a.canale && `Canale: ${a.canale}`].filter(Boolean).join(" · ")} />
-      </div>
+      </details>
     );
   };
 
@@ -948,9 +989,16 @@ export default function Azioni() {
                 </div>
               )}
 
+              {/* AR-219 — non si montano 51 sottoalberi insieme: le prime 10, poi «mostra le altre N»
+                  (stesso pattern di Modulo.tsx, che qui non era mai stato riusato). */}
               <div className="space-y-2.5">
-                {daFirmare.map((a) => cardAzione(a))}
+                {azioniVisibili(daFirmare, mostraTuttaCoda).map((a, i) => cardAzione(a, i))}
               </div>
+              {quanteNascoste(daFirmare.length, mostraTuttaCoda) > 0 && (
+                <button onClick={() => setMostraTuttaCoda(true)} className="t-eti hover:text-brand transition pt-0.5">
+                  mostra le altre {quanteNascoste(daFirmare.length, mostraTuttaCoda)} da firmare
+                </button>
+              )}
 
               {!salvataggio && <p className="t-eti">⚠️ Le decisioni non si salvano ancora: collega la memoria (tabella «impostazioni») e resteranno anche dopo il refresh e su ogni dispositivo.</p>}
             </>
@@ -974,8 +1022,13 @@ export default function Azioni() {
             <>
               <div className="t-micro flex items-center gap-1.5"><Clock size={13} className="text-amber-600" /> {ferme.length} {ferme.length === 1 ? "azione ferma" : "azioni ferme"} in attesa del canale</div>
               <div className="space-y-2.5">
-                {ferme.map((a) => cardAzione(a))}
+                {azioniVisibili(ferme, mostraTutteFerme).map((a, i) => cardAzione(a, i))}
               </div>
+              {quanteNascoste(ferme.length, mostraTutteFerme) > 0 && (
+                <button onClick={() => setMostraTutteFerme(true)} className="t-eti hover:text-brand transition pt-0.5">
+                  mostra le altre {quanteNascoste(ferme.length, mostraTutteFerme)} ferme
+                </button>
+              )}
             </>
           )}
         </>

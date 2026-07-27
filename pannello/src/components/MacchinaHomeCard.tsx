@@ -5,6 +5,7 @@ import { Activity, ChevronDown, HeartPulse } from "lucide-react";
 import { istante } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
 import { usePanelSync } from "@/lib/panel-sync";
+import { listaSicura } from "@/lib/memoria-json";
 
 type Cuore = {
   collegato: boolean;
@@ -50,7 +51,9 @@ export default function MacchinaHomeCard() {
       fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
       fetch("/api/memoria/radiografia-marketplace", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
     ]).then(([rad, ac, sito]) => {
-      const difetti = rad?.collegato ? (rad.cantiere?.difetti || []).filter((x: any) => x.stato !== "chiuso").length : 0;
+      // AR-253 — quarta copia della stessa lettura, l'unica rimasta nuda: qui il crash sarebbe sulla
+      // HOME, cioè la prima cosa che Nicola vede. Stessa difesa delle altre tre, dalla stessa fonte.
+      const difetti = rad?.collegato ? listaSicura<any>(rad.cantiere?.difetti).filter((x) => x.stato !== "chiuso").length : 0;
       const votoRad = Number(rad?.live?.voto ?? rad?.radiografia?.voto_salute_architettura);
       const fiducia = Number(ac?.analisi?.voto_fiducia);
       const blocc = sito?.meta?.bloccanti ?? 0;
