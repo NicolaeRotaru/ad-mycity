@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "quando": "2026-07-27 11:00",
-  "fonti_dovute": 18,
+  "quando": "2026-07-27 18:20",
+  "fonti_dovute": 13,
   "fonti_totali": 18,
   "agenda": [
     {
@@ -149,54 +149,6 @@
       "motivo": "giornaliera"
     },
     {
-      "id": "cna-piacenza",
-      "nome": "CNA Piacenza / CompraPiacenza",
-      "peso": 4,
-      "cadenza": "settimanale",
-      "scrive_in": "radar-concorrenti",
-      "senior": [
-        "relazioni-istituzionali",
-        "intelligence"
-      ],
-      "cosa_cercare": "CompraPiacenza novità, artigiani, bandi, posizionamento (postura complementare)",
-      "url": "https://piacenza.cna.it/",
-      "url_websearch": null,
-      "skip_check": false,
-      "motivo": "settimanale_stale_7g"
-    },
-    {
-      "id": "glovo-piacenza",
-      "nome": "Glovo — Piacenza",
-      "peso": 4,
-      "cadenza": "settimanale",
-      "scrive_in": "radar-concorrenti",
-      "senior": [
-        "intelligence",
-        "growth-monetizzazione"
-      ],
-      "cosa_cercare": "nuovi negozi, categorie, promo, fee, zone coperte (contro-argomento '30% Glovo')",
-      "url": "https://glovoapp.com/it/it/piacenza/",
-      "url_websearch": null,
-      "skip_check": false,
-      "motivo": "settimanale_stale_7g"
-    },
-    {
-      "id": "conad-consegna",
-      "nome": "Conad — Spesa online Piacenza",
-      "peso": 4,
-      "cadenza": "settimanale",
-      "scrive_in": "radar-concorrenti",
-      "senior": [
-        "intelligence",
-        "analista"
-      ],
-      "cosa_cercare": "zone consegna, slot, soglie spedizione gratis (il vero concorrente di abitudine)",
-      "url": "https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza",
-      "url_websearch": null,
-      "skip_check": false,
-      "motivo": "settimanale_stale_7g"
-    },
-    {
       "id": "meteo-piacenza",
       "nome": "Meteo Piacenza (ARPAE/3B)",
       "peso": 4,
@@ -245,38 +197,6 @@
       "motivo": "settimanale_stale_7g"
     },
     {
-      "id": "cortilia",
-      "nome": "Cortilia / q-commerce filiera corta",
-      "peso": 3,
-      "cadenza": "settimanale",
-      "scrive_in": "radar-concorrenti",
-      "senior": [
-        "intelligence",
-        "growth-monetizzazione"
-      ],
-      "cosa_cercare": "modello, prezzi, espansione zone, cosa imitare o evitare",
-      "url": "https://www.cortilia.it/",
-      "url_websearch": null,
-      "skip_check": false,
-      "motivo": "settimanale_stale_7g"
-    },
-    {
-      "id": "sagre-provincia",
-      "nome": "Sagre & mercatini Piacenza e provincia",
-      "peso": 3,
-      "cadenza": "settimanale",
-      "scrive_in": "eventi-picchi",
-      "senior": [
-        "intelligence",
-        "content-social"
-      ],
-      "cosa_cercare": "sagre DOP, mercatini, fiere → domanda stagionale e picchi delivery",
-      "url": "https://www.quatarobpavia.it/eventi-mercatini-sagre-piacenza-provincia/",
-      "url_websearch": null,
-      "skip_check": false,
-      "motivo": "settimanale_stale_7g"
-    },
-    {
       "id": "reputazione-mycity",
       "nome": "Reputazione MyCity & negozi (ricerca aperta)",
       "peso": 3,
@@ -294,18 +214,6 @@
     }
   ],
   "stale": [
-    {
-      "file": "radar-concorrenti",
-      "path": "radar-concorrenti.md",
-      "ultimo": "2026-07-20",
-      "giorni": 7
-    },
-    {
-      "file": "eventi-picchi",
-      "path": "eventi-picchi.md",
-      "ultimo": "2026-07-20",
-      "giorni": 7
-    },
     {
       "file": "buchi-mercato",
       "path": "buchi-mercato.md",
