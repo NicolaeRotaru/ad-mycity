@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getImpostazioni, setImpostazione, logAzione } from "@/lib/store";
 import { eseguiAzione } from "@/lib/mani";
-import { tutteLeAzioni, statoDa } from "@/lib/azioni-pronte";
+import { tutteLeAzioni, tutteLeAzioniConEsito, statoDa } from "@/lib/azioni-pronte";
 import { verificaQualita } from "@/lib/qualita";
 import { chiudiAzioniMergeCompletate, estraiMergePr, isCanaleGithub, prGiaMergiata } from "@/lib/github-pr-merge";
 import { registraFirma, revocaFirma } from "@/lib/firma-azione";
@@ -22,7 +22,8 @@ export const revalidate = 0;
 // invio firmato degradava a DRY-RUN.
 
 export async function GET() {
-  const blocchi = await tutteLeAzioni();
+  // AR-233: serve sapere se la coda è stata LETTA, non solo quante card contiene.
+  const { azioni: blocchi, codaLeggibile, motivoCoda } = await tutteLeAzioniConEsito();
   const { tabella, valori } = await getImpostazioni();
   const conStato = await chiudiAzioniMergeCompletate(
     blocchi,
@@ -50,7 +51,11 @@ export async function GET() {
     qualita: verificaQualita(b),
   }));
   return NextResponse.json({
-    collegato: blocchi.length > 0,
+    // AR-233: «collegato» si deduceva dal CONTEGGIO — quindi una coda vuota e una coda mai letta
+    // erano indistinguibili, e la home stampava «Niente da firmare. 👍» in entrambi i casi.
+    collegato: codaLeggibile,
+    coda_leggibile: codaLeggibile,
+    motivo_coda: motivoCoda,
     salvataggio: tabella,
     autopilota: valori["autopilota"] === "on",
     azioni,

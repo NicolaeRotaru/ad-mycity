@@ -40,6 +40,38 @@ const AGGIORNA = process.argv.includes("--aggiorna");
 
 const SALTA = new Set(["node_modules", ".git", ".next", "dist", "build", "creativi", "coverage"]);
 
+// I test CITANO i pattern che vietano — è il loro mestiere. Contarli come istanze della malattia fa
+// crescere il numero proprio quando qualcuno scrive la prova che la impedisce: il contrario di quello
+// che serve.
+const SALTA_SEMPRE = ["cervello/test/", "cervello/malattie.json", "cervello/spazzata-fratelli.mjs"];
+
+/**
+ * Toglie i commenti prima di contare. Un pattern citato in un commento («era `catch(() => {})`») NON è
+ * un'istanza della malattia: è la spiegazione di come l'abbiamo curata. Contarlo significa punire chi
+ * documenta, e far crescere il numero mentre la malattia cala.
+ *
+ * Trovato il 28/7 misurando il lotto 11: la malattia risultava salita da 80 a 84 mentre in realtà ne
+ * avevo appena tolte due — i «quattro in più» erano i miei commenti e le asserzioni del test. È lo
+ * stesso errore che questo cantiere ha già pagato nel lotto 3: scambiare una MENZIONE per una CHIAMATA.
+ */
+function senzaCommenti(testo, file = "") {
+  // Il taglio di fine riga vale SOLO per JS/TS. In shell `//` non è un commento: è l'operatore
+  // «altrimenti» di jq — proprio quello di `.oggi.token_per_gate // "assente"`. Applicandolo anche lì
+  // il conteggio di `buco-letto-come-zero` è crollato a 0: un metro che conta in MENO è brutto quanto
+  // uno che conta in più, e questo avrebbe dichiarato curata una malattia ancora viva.
+  const js = /\.(m?js|ts|tsx|jsx)$/.test(file);
+  return testo
+    .split("\n")
+    .map((r) => {
+      const t = r.trimStart();
+      if (t.startsWith("//") || t.startsWith("*") || t.startsWith("/*") || t.startsWith("#")) return "";
+      if (!js) return r;
+      const i = r.indexOf(" // ");
+      return i >= 0 ? r.slice(0, i) : r;
+    })
+    .join("\n");
+}
+
 function filesSotto(dir, estensioni) {
   const out = [];
   let voci;
@@ -68,10 +100,11 @@ function cerca(malattia) {
     const elenco = statSync(radice).isDirectory() ? filesSotto(radice, est) : [radice];
     for (const f of elenco) {
       const rel = relative(REPO, f);
+      if (SALTA_SEMPRE.some((x) => rel.startsWith(x) || rel === x)) continue;
       if ((malattia.escludi_file || []).some((x) => rel.includes(x))) continue;
       let testo;
       try {
-        testo = readFileSync(f, "utf8");
+        testo = senzaCommenti(readFileSync(f, "utf8"), rel);
       } catch {
         continue;
       }
