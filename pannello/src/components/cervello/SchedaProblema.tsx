@@ -2,20 +2,23 @@
 
 import type { ReactNode } from "react";
 import { humanizzaFinding, impattoCrescitaLeggibile, type FindingUmano } from "@/lib/radiografia-umana";
+import { comeTesto } from "@/lib/format";
 import ParlaCasella from "@/components/ParlaCasella";
 
 type Props = {
   gravitaCls: string;
   gravitaDot: string;
   gravitaLabel: string;
-  titolo?: string;
-  descrizione?: string;
-  impatto?: string;
-  causa_radice?: string;
-  fix?: string;
-  fix_proposto?: string;
-  dove?: string;
-  impatto_crescita?: string;
+  // `unknown` e non `string`: arrivano dai JSON scritti dagli agenti, dove un
+  // campo "frase" può essere un elenco. La conversione la fa comeTesto().
+  titolo?: unknown;
+  descrizione?: unknown;
+  impatto?: unknown;
+  causa_radice?: unknown;
+  fix?: unknown;
+  fix_proposto?: unknown;
+  dove?: unknown;
+  impatto_crescita?: unknown;
   genera?: string;
   extra?: ReactNode;
   parlaTitolo?: string;
@@ -51,7 +54,7 @@ export default function SchedaProblema({
       <div className="flex items-center gap-2 flex-wrap">
         <span className={`w-1.5 h-1.5 rounded-full ${gravitaDot}`} />
         <span className="text-[10px] font-bold text-black/50">{gravitaLabel}</span>
-        {impatto_crescita && (
+        {!!comeTesto(impatto_crescita) && (
           <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/55">{impattoCrescitaLeggibile(impatto_crescita)}</span>
         )}
         {genera && genera !== "solo-report" && (

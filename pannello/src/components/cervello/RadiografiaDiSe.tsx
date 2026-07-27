@@ -5,7 +5,7 @@ import {
   Cpu, Activity, ShieldAlert, Wrench, Hammer, Swords, Sparkles, HelpCircle,
   TrendingUp, CheckCircle2, Eye, ArrowRight,
 } from "lucide-react";
-import { dataVault } from "@/lib/format";
+import { comeTesto, dataVault } from "@/lib/format";
 import { vaiArea, EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
 import ParlaCasella from "@/components/ParlaCasella";
 import SchedaProblema from "@/components/cervello/SchedaProblema";
@@ -18,9 +18,13 @@ import { dimensioneLeggibile, humanizzaDifetto } from "@/lib/radiografia-umana";
 // e la RADIOGRAFIA DI SÉ (la macchina analizza la propria architettura da cima a fondo).
 // Legge /api/memoria/auto-radiografia. Spec: cervello/auto-radiografia.md.
 
-type Finding = { titolo?: string; dove?: string; severita?: string; descrizione?: string; impatto?: string; causa_radice?: string; fix?: string; impatto_crescita?: string; genera?: string };
+// I campi di testo sono `unknown` e non `string` di proposito: questi JSON li
+// scrive un agente, non un form. Dichiararli `string` è una promessa che il dato
+// non mantiene — il 27/07/2026 `causa_radice` è arrivata come elenco e ha spento
+// l'intera sezione. Il tipo dice la verità; a testo li porta comeTesto().
+type Finding = { titolo?: unknown; dove?: unknown; severita?: string; descrizione?: unknown; impatto?: unknown; causa_radice?: unknown; fix?: unknown; impatto_crescita?: unknown; genera?: string };
 type Dimensione = { key?: string; voto?: number; stato?: string; sintesi?: string; findings?: Finding[] };
-type Difetto = { id?: string; titolo?: string; dimensione?: string; gravita?: string; impatto_crescita?: string; causa_radice?: string; fix_proposto?: string; stato?: string; nato?: string; chiuso_il?: string; nota_fix?: string; nota?: string; verifica?: { tipo?: string; file?: string; pattern?: string }; chiuso_come?: string };
+type Difetto = { id?: string; titolo?: unknown; dimensione?: string; gravita?: string; impatto_crescita?: unknown; causa_radice?: unknown; fix_proposto?: unknown; stato?: string; nato?: string; chiuso_il?: string; nota_fix?: unknown; nota?: unknown; verifica?: { tipo?: string; file?: string; pattern?: string }; chiuso_come?: string };
 type PreMortem = { disastro?: string; probabilita?: string; come?: string; difesa_proposta?: string };
 type Bench = { ambito?: string; come_fanno_i_migliori?: string; esempi?: { chi?: string; cosa?: string; link?: string }[]; nostro_divario?: string; obiettivo?: string; primo_passo?: string };
 type Radiografia = {
@@ -175,8 +179,8 @@ export default function RadiografiaDiSe() {
               {semaforoCart} {daFare > 0 ? `${daFare} da fare ora` : "Nessun difetto aperto nel cantiere"}
               {votoSOk ? ` · salute ${votoS}/100` : ""}
             </p>
-            {primoAperto?.titolo && (
-              <p className="t-eti mt-1 line-clamp-2">Prossimo: {primoAperto.titolo}</p>
+            {!!comeTesto(primoAperto?.titolo) && (
+              <p className="t-eti mt-1 line-clamp-2">Prossimo: {comeTesto(primoAperto.titolo)}</p>
             )}
             <div className="flex flex-wrap gap-2 mt-2">
               {azioneOrigine && (
@@ -275,13 +279,13 @@ export default function RadiografiaDiSe() {
                         dove={f.dove}
                         impatto_crescita={f.impatto_crescita}
                         genera={f.genera}
-                        parlaTitolo={`Problema: ${(f.titolo || "").slice(0, 60)}`}
+                        parlaTitolo={`Problema: ${comeTesto(f.titolo).slice(0, 60)}`}
                         parlaContesto={[
                           dim.key && `Area: ${dimensioneLeggibile(dim.key)}`,
-                          f.descrizione,
-                          f.causa_radice && `Causa radice: ${f.causa_radice}`,
-                          f.fix && `Fix proposto: ${f.fix}`,
-                          f.dove && `Dove: ${f.dove}`,
+                          comeTesto(f.descrizione),
+                          f.causa_radice && `Causa radice: ${comeTesto(f.causa_radice)}`,
+                          f.fix && `Fix proposto: ${comeTesto(f.fix)}`,
+                          f.dove && `Dove: ${comeTesto(f.dove)}`,
                         ].filter(Boolean).join(" · ")}
                       />
                     );
@@ -387,7 +391,7 @@ export default function RadiografiaDiSe() {
                       <span className="group-open:rotate-90 transition-transform inline-block text-black/40 shrink-0">▸</span>
                       <span className={`w-1.5 h-1.5 rounded-full ${g.dot}`} />
                       <span className="text-[10px] font-bold text-black/50">{g.label}</span>
-                      {x.impatto_crescita && <span className={`text-[10px] px-1.5 rounded ${IMPATTO[x.impatto_crescita] || ""}`}>crescita {x.impatto_crescita}</span>}
+                      {!!comeTesto(x.impatto_crescita) && <span className={`text-[10px] px-1.5 rounded ${IMPATTO[comeTesto(x.impatto_crescita)] || ""}`}>crescita {comeTesto(x.impatto_crescita)}</span>}
                       {x.stato === "in-corso" && (
                         <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 ring-1 ring-blue-200" title="Il lavoro tecnico è fatto; resta un'azione umana per chiudere">
                           <Wrench size={10} /> fix fatto — attende Nicola
@@ -406,7 +410,7 @@ export default function RadiografiaDiSe() {
                       {umano.cosaFare && (
                         <div className="text-[12px] text-black/65 mt-0.5"><b>Cosa fare:</b> {umano.cosaFare}</div>
                       )}
-                      {x.nota_fix && <div className="text-[12px] mt-1 rounded-lg bg-blue-50/70 ring-1 ring-blue-100 px-2 py-1 text-blue-900/80"><b>Già fatto nel codice:</b> {x.nota_fix}</div>}
+                      {!!comeTesto(x.nota_fix) && <div className="text-[12px] mt-1 rounded-lg bg-blue-50/70 ring-1 ring-blue-100 px-2 py-1 text-blue-900/80"><b>Già fatto nel codice:</b> {comeTesto(x.nota_fix)}</div>}
                       {x.verifica?.tipo === "umano" && x.stato === "in-corso" && <div className="text-[11px] text-black/45 mt-0.5">Chiusura riservata a Nicola (azione umana: revoca chiave, giudizio, firma).</div>}
                       {umano.tecnici && (
                         <details className="mt-2 group/tecnici">
@@ -432,7 +436,7 @@ export default function RadiografiaDiSe() {
                   {chiusi.map((x, i) => (
                     <div key={i} className="text-[12px] text-black/50 flex gap-1.5">
                       <CheckCircle2 size={13} className="text-green-600 shrink-0" />
-                      <span className="line-through">{x.titolo}</span>
+                      <span className="line-through">{comeTesto(x.titolo)}</span>
                       {x.chiuso_il && <span className="shrink-0 text-black/35">· {dataVault(x.chiuso_il)}</span>}
                     </div>
                   ))}
