@@ -66,7 +66,6 @@
       "mcp__claude_ai_Vercel__get_project"
     ],
     "deny": [
-      "Bash(git push:*)",
       "Bash(gh:*)",
       "Bash(*api.github.com*)",
       "Read(./cervello/vps/.env)",
