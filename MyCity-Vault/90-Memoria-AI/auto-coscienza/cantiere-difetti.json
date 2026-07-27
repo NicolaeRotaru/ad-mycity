@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 19:25",
+  "aggiornato": "2026-07-27 20:26",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -4967,15 +4967,15 @@
       "causa_radice": "1) Perché il codice va su main senza firma? Perché aggiorna-cervello fa `git add -A` nudo. 2) Perché nudo? Perché quando è stato scritto serviva «salvare tutto prima del checkout -f», e nessuno ha ristretto il perimetro dopo. 3) Perché non è stato ristretto? Perché la correzione AR-044 è stata applicata file per file (giro, ritmo, monitora, worker) invece che in un punto solo. 4) Perché file per file? Perché ogni copione ha la sua copia della logica git: non esiste una funzione unica «pubblica la memoria». 5) Causa di sistema: la pubblicazione è codice duplicato in cinque script; una regola di sicurezza vale solo dove qualcuno si è ricordato di incollarla, e il quinto script non è nemmeno nella lista mentale (sta in cervello/vps/, non in cervello/).",
       "fix_proposto": "🟡 Portare aggiorna-cervello.sh nello stesso perimetro degli altri: definire MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra) e sostituire `git add -A` (riga 85) con `git add -A \"${MEM_DIRS[@]}\"`, più il guardiano-integrità di giro.sh:795-801 (se resta del codice nello stage, toglilo e stampa cosa era). Il codice sul server si allinea DA main (righe 140-155), non si pubblica MAI verso main: se un file di codice è sporco, va lasciato lì e segnalato, non committato.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/gate-pubblicazione.test.mjs"
       },
       "nota": "Dove: cervello/vps/aggiorna-cervello.sh:85 (git add -A senza perimetro) → :99 e :180 (git push HEAD:main) · Impatto: Codice non revisionato finisce su main senza PR e senza firma, cioè in produzione: se tocca pannello/** parte anche il deploy Vercel (.github/workflows/deploy-pannello.yml, push su main + paths pannello/**), se tocca cervello/ si propaga a tutti i VPS al giro dopo. È la stessa classe di AR-044 («il giro pubblicava il proprio codice»), chiusa su giro.sh e rientrata dalla porta di servizio. Il .gitignore para i casi noti (.env*, _tmp_*, *.save) ma non un file nuovo qualsiasi lasciato lì da una sessione.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 20:26",
+      "chiuso_come": "node cervello/test/gate-pubblicazione.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-311",
@@ -5049,15 +5049,15 @@
       "causa_radice": "1) Perché la memoria non verificata arriva sul Pannello? Perché tre pubblicatori su quattro non hanno il cancello. 2) Perché non ce l'hanno? Perché il cancello è scritto IN LINEA dentro giro.sh (80 righe), non è una funzione richiamabile. 3) Perché in linea? Perché è nato come rattoppo urgente a un incidente, non come pezzo di architettura. 4) Perché è rimasto così? Perché ogni nuova protezione viene applicata dove è scoppiato il problema, e chi la scrive non ha l'elenco di chi altro pubblica. 5) Causa di sistema: non esiste un unico punto di uscita verso main; ci sono cinque `git push HEAD:main` sparsi (giro, ritmo, monitora, worker, aggiorna-cervello) e nessun modo di imporre un invariante a tutti e cinque insieme.",
       "fix_proposto": "🟡 Estrarre il cancello di giro.sh:709-782 in un unico `cervello/gate-pubblicazione.sh` (scan-segreti + onesta-check + coerenza-fatti + vault-sanita, fail-closed, con l'avviso Telegram già presente) e farlo chiamare PRIMA del commit da tutti e cinque i pubblicatori: giro.sh, ritmo.sh, monitora.sh, worker.sh (dentro sync_vault, prima del commit alla riga 247) e vps/aggiorna-cervello.sh. Aggiungere al gate una guardia strutturale: un test che elenca le occorrenze di `git push` verso main nel repo e fallisce se una di esse non è preceduta dalla chiamata al gate — così il prossimo pubblicatore nuovo non può nascere scoperto.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/gate-pubblicazione.test.mjs"
       },
       "nota": "Dove: cervello/worker.sh:226-288 (sync_vault: add, commit, push su main senza nessun controllo) e cervello/vps/aggiorna-cervello.sh:162-187 (chiude difetti e pubblica senza controlli) — contro cervello/giro.sh:713 (scan-segreti), :731 (onestà), :754 (coerenza-fatti), :762 (sanità vault), :785 (blocco del push) · Impatto: Il Pannello può mostrare a Nicola memoria incoerente (una copia vecchia di un fatto già cambiato), un JSON del vault rotto o un file a zero byte, o pubblicare un segreto — proprio i casi che il cancello del giro è stato costruito per fermare — passando dalla porta usata dieci volte al giorno. Decisioni prese su dati falsi, senza il minimo avviso.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 20:26",
+      "chiuso_come": "node cervello/test/gate-pubblicazione.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-315",
@@ -5068,15 +5068,15 @@
       "causa_radice": "1) Perché il ramo sbagliato può finire su main? Perché il push non controlla su che ramo sta. 2) Perché non controlla? Perché si dà per scontato che il checkout forzato appena sopra abbia messo HEAD su main dal remoto. 3) Perché non è garantito? Perché il ripiego dopo `||` fa la stessa cosa con un significato diverso (senza punto di partenza sposta il ramo sotto i piedi) e nessuno ha riletto quella riga con occhi da git. 4) Perché nessuno l'ha riletta? Perché la protezione equivalente è stata scritta in worker.sh dopo un incidente e non è stata cercata negli altri script. 5) Causa di sistema: le lezioni imparate restano nel file dove è scoppiato il problema; non c'è una regola condivisa «prima di pubblicare verifica il ramo» applicata a tutti i punti di push.",
       "fix_proposto": "🟡 Portare la GUARDIA RAMO del worker (worker.sh:216-224) dentro aggiorna-cervello.sh subito prima delle righe 172-187: se HEAD non è esattamente su main, non pubblicare e uscire come «rimandato». E togliere il ripiego pericoloso: se il fetch di main fallisce, non fare nessun checkout forzato — uscire e riprovare al giro dopo (si lega al difetto del fetch fallito qui sopra).",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/gate-pubblicazione.test.mjs"
       },
       "nota": "Dove: cervello/vps/aggiorna-cervello.sh:131-133 (checkout forzato con ripiego senza punto di partenza) → :172-187 (push HEAD:main senza controllo del ramo) · Impatto: Codice sperimentale di una sessione interrotta pubblicato su main e, se tocca il Pannello, deployato — esattamente lo scenario che la guardia del worker è stata scritta per impedire. Serve un fetch fallito al momento sbagliato: una rete che sfarfalla, cioè la cosa più comune che ci sia su un VPS.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 20:26",
+      "chiuso_come": "node cervello/test/gate-pubblicazione.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-316",
@@ -5408,8 +5408,8 @@
     }
   ],
   "meta": {
-    "aperti": 175,
+    "aperti": 172,
     "in_corso": 0,
-    "chiusi": 95
+    "chiusi": 98
   }
 }
