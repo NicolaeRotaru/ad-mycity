@@ -137,6 +137,13 @@ import {
 } from "@/lib/parla";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
 import { bollaUtenteDaTesto, mergeThreadMsgs, PLACEHOLDER_ALLEGATI } from "@/lib/chat-thread-merge";
+import {
+  type PendingChat as PendingChatBase,
+  pendingScaduto,
+  separaPending,
+  messaggioAttesaScaduta,
+  deveSpostareLaVista,
+} from "@/lib/chat-pending";
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
 // (non più l'indice), così durante il polling/il passaggio "pending → risposta" le bolle
@@ -371,7 +378,8 @@ function conversazioniUguali(a: Conversazione[], b: Conversazione[]): boolean {
   return true;
 }
 // Lavoro chat in attesa di risposta, con la conversazione di destinazione.
-type PendingChat = { id: string; tipo: string; targetConvId: string };
+// AR-258: il tipo (e la regola di scadenza) vivono in @/lib/chat-pending, così sono provabili da un test.
+type PendingChat = PendingChatBase;
 type DiarioVoce = {
   id: number | string;
   at: string;
@@ -1089,7 +1097,9 @@ export default function Dashboard() {
     setPendingCount(pendingLavoroChatRef.current.size);
   }
   function aggiungiPendingChat(pend: PendingChat) {
-    pendingLavoroChatRef.current.set(pend.id, pend);
+    // AR-258: l'ora di nascita si timbra QUI, al confine unico da cui ogni attesa entra — non nei
+    // due chiamanti, che domani potrebbero diventare tre e dimenticarsene.
+    pendingLavoroChatRef.current.set(pend.id, { ...pend, creatoIl: pend.creatoIl ?? Date.now() });
     persistPendings();
   }
   function rimuoviPendingChat(lavoroId: string) {
@@ -1098,7 +1108,10 @@ export default function Dashboard() {
   function pendingPerConv(convTarget: string | null): boolean {
     if (!convTarget) return false;
     for (const p of pendingLavoroChatRef.current.values()) {
-      if (p.targetConvId === convTarget && !lavoroRisoltoChatRef.current.has(p.id)) return true;
+      if (p.targetConvId !== convTarget) continue;
+      if (lavoroRisoltoChatRef.current.has(p.id)) continue;
+      if (pendingScaduto(p, Date.now())) continue; // AR-258: scaduta = non è più «in corso»
+      return true;
     }
     return false;
   }
@@ -1665,7 +1678,16 @@ export default function Dashboard() {
         });
       }
       if (savedConv) {
-        setConvId(savedConv);
+        // AR-265 — NON riportare Nicola indietro se nel frattempo ha cambiato chat.
+        // La `persistConversazione` qui sopra è un await: durante quell'attesa l'utente può passare a
+        // un'altra conversazione. Prima `setConvId(savedConv)` veniva eseguito comunque, quindi la
+        // vista tornava alla chat di partenza mentre a schermo c'erano i messaggi dell'altra: la
+        // risposta finiva scritta e SALVATA sotto la conversazione sbagliata, e in quella che stavi
+        // guardando non compariva mai.
+        // Il mirror sincrono convIdRef esiste dalla riga 1065 ed era stato introdotto per questo stesso
+        // problema sull'instradamento (vedi il commento lì) — ma qui non veniva usato: il fix era stato
+        // applicato a una copia sola. `gruppoId` è la chat da cui è partito questo invio.
+        if (deveSpostareLaVista(convIdRef.current, gruppoId)) setConvId(savedConv);
         gruppoId = savedConv;
         sessionGruppoRef.current = savedConv;
         targetConvId = savedConv;
@@ -2352,11 +2374,26 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         if (pendRaw) {
           const parsed = JSON.parse(pendRaw);
           // Nuovo formato: array di pendenti. Retro-compatibile col vecchio oggetto singolo.
-          const lista = (Array.isArray(parsed) ? parsed : [parsed]) as { id: string; tipo: string; targetConvId?: string }[];
-          for (const pend of lista) {
-            if (pend?.id && pend.targetConvId) {
-              pendingLavoroChatRef.current.set(pend.id, { id: pend.id, tipo: pend.tipo, targetConvId: pend.targetConvId });
-            }
+          const lista = (Array.isArray(parsed) ? parsed : [parsed]) as {
+            id: string;
+            tipo: string;
+            targetConvId?: string;
+            creatoIl?: number;
+          }[];
+          // AR-258: le attese salvate vanno divise fra vive e scadute PRIMA di rimetterle in circolo.
+          // Le voci senza `creatoIl` vengono dalla versione precedente al fix: sono proprio le bolle
+          // eterne rimaste in localStorage, quelle che facevano girare «sto elaborando» all'infinito
+          // anche dopo un riavvio del browser. Ripristinarle com'erano avrebbe riacceso il difetto.
+          const valide = lista
+            .filter((p) => p?.id && p.targetConvId)
+            .map((p) => ({ id: p.id, tipo: p.tipo, targetConvId: p.targetConvId as string, creatoIl: p.creatoIl }));
+          const { vive, scadute } = separaPending(valide, Date.now());
+          for (const pend of vive) pendingLavoroChatRef.current.set(pend.id, pend);
+          if (scadute.length) {
+            // Non si cancellano in silenzio: la chat che le aspettava riceve una riga che dice cos'è
+            // successo. Una bolla sparita senza spiegazione è un altro modo di mentire.
+            for (const pend of scadute) aggiornaMessaggiConversazione(pend.targetConvId, messaggioAttesaScaduta());
+            persistPendings();
           }
           setPendingCount(pendingLavoroChatRef.current.size);
         }
