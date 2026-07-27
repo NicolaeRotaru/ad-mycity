@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 23:33",
+  "aggiornato": "2026-07-28 01:33",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -1932,15 +1932,15 @@
       "causa_radice": "1) Perche' l'allarme non suona? Perche' l'esito e' inviato in una pipe e poi annullato. 2) Perche' e' rimasto cosi'? Perche' il guardiano e' stato aggiunto al giro con il modello 'riga informativa' (echo + node + tail) invece del modello 'cancello' (cattura rc -> vincolo). 3) Perche' e' stato scelto il modello sbagliato? Perche' nel giro i due modelli si assomigliano a vista e la differenza sta in un dettaglio di due caratteri: chi aggiunge una riga copia quella sopra. 4) Perche' e' possibile copiare quella sbagliata? Perche' non c'e' una funzione unica 'guardiano <nome> <script> [--gate]' che imponga la scelta esplicita. 5) Causa di sittema: giro.sh e' cresciuto a 914 righe come sequenza di 55 invocazioni copia-incollate, senza un contratto che obblighi ogni guardiano a dichiarare se e' un cancello o un'informazione — cosi' il default di fatto e' 'informazione', cioe' silenzio.",
       "fix_proposto": "🟡 (a) Promuovere subito i due a cancello nel giro con il pattern gia' usato 21 volte: catturare l'rc e trasformarlo in un vincolo hard al motore (FRESCHEZZA_VINCOLO per freschezza-segnali, che nomina il guardiano muto; il verdetto 'rotto' della sonda-volano come vincolo). (b) Strutturale: introdurre in giro.sh una funzione 'guardiano nome script [--gate|--info]' che rende obbligatoria la scelta e rifiuta le righe ambigue, e convertirci le 55 invocazioni; cosi' un guardiano nuovo non puo' piu' nascere muto per distrazione. (c) Riallineare la lista ATTESI di freschezza-segnali ai guardiani che oggi sono davvero cancelli.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
       "nota": "Dove: cervello/giro.sh:380-381 (freschezza-segnali con l'esito buttato in una pipe) · cervello/freschezza-segnali.mjs:1-6 (dichiara 'Exit: 1 = almeno uno mancante/stantio') · cervello/giro.sh:181-182 (sonda-volano, stesso trattamento) · cervello/sonda-volano.mjs:272 (esce 1 quando il verdetto e' rotto) · Impatto: Se uno degli otto guardiani sorvegliati (sensori, coerenza-fatti, allocazione, north-star, delta-gate, auto-fix, chiusura-loop, allinea-scan-cantiere) smette di girare, la macchina ha gia' costruito il pezzo che se ne accorge — e poi ne getta via la risposta. Il risultato e' peggiore che non avere il guardiano: il giro stampa 4 righe rassicuranti nel log di sistema e chiude con successo, dando l'impressione che la catena di controlli sia intatta mentre un anello e' caduto. Stesso discorso per il volano: la sonda puo' dire 'rotto' e il giro prosegue e chiude a 0. · 28/7 lotto 10: i due guardiani nominati (freschezza-segnali, sonda-volano) sono cablati come cancelli e la radice e riparata — una funzione guardiano() che rende esplicita la scelta gate/info, invece di due caratteri che si somigliano a vista. MA la stessa forma vive in altri 36 punti di giro.sh: molti sono rapporti informativi legittimi, la differenza va decisa uno per uno. Il numero non e piu invisibile: e il tetto della malattia esito-in-una-pipe in cervello/malattie.json, e spazzata-fratelli.mjs fallisce se cresce.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 01:33",
+      "chiuso_come": "node cervello/test/freni-senza-fonte.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-166",
@@ -2056,15 +2056,15 @@
       "causa_radice": "① Perché il freno non scatta? Perché il nome del sensore nel codice non è quello nel file. ② Perché i due nomi divergono? Perché la mappa è stata scritta a memoria invece che leggendo le chiavi reali del file. ③ Perché nessuno se n'è accorto? Perché il caso «chiave non trovata» torna `sconosciuto` invece di fallire. ④ Perché `sconosciuto` è trattato come innocuo? Perché il codice tratta come sospetto solo ciò che sa di non sapere, e come sicuro tutto il resto. ⑤ Causa di sistema: i controlli di questa macchina falliscono in apertura invece che in chiusura — quando non capiscono una situazione lasciano passare. È lo stesso schema del fallback silenzioso: il default sicuro è «conta», non «non contare».",
       "fix_proposto": "🟡 (firma Nicola) Allineare la mappa alle chiavi vere del file dei sensori e fare in modo che una fonte non riconosciuta valga `sconosciuto` = NON conta nel punteggio (default in chiusura), non `n/d` = conta. La fonte deve essere validata contro l'elenco ammesso in modo esatto, non contenere-la-parola: `valida` fallisce se la fonte di una voce chiusa non è una delle stringhe ammesse.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
       "nota": "Dove: cervello/calibrazione.mjs:84-89 (mappa: PostHog → \"posthog\") · MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json (la chiave si chiama \"posthog_api\") · Impatto: Il controllo che dovrebbe impedire di guadagnare autonomia al buio è morto su uno dei tre canali dati e aggirabile su tutti e tre annotando la stringa della fonte. È il difetto peggiore della categoria: non spegne la misura, la fa passare per buona. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 01:33",
+      "chiuso_come": "node cervello/test/freni-senza-fonte.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-172",
@@ -2199,7 +2199,7 @@
       "causa_radice": "① Perché il rosso non produce nulla? Perché il rc è dietro una pipe con `|| true`. ② Perché questi due e non gli altri? Perché sono stati cablati come «sonde informative» prima che esistesse il pattern del vincolo hard, e nessuno li ha promossi dopo. ③ Perché nessuno li ha promossi? Perché il difetto che li riguardava (AR-051) è stato chiuso quando il NUMERO è diventato onesto, non quando la CONSEGUENZA è diventata reale. ④ Perché il cantiere accetta quella chiusura? Perché la prova di chiusura di un difetto è un pattern nel codice (`verifica.presente`), che sa vedere se un pezzo esiste ma non se è collegato a qualcosa. ⑤ Causa di sistema: la macchina considera «fatto» un guardiano che gira, non un guardiano che qualcuno è obbligato ad ascoltare — manca un controllo che, per ogni script con exit-code semantico, verifichi che qualcuno nel giro lo consumi.",
       "fix_proposto": "🟡 (a) Catturare rc di tasso-lezioni e sonda-volano come per gli altri guardiani e passare un VOLANO_VINCOLO al motore con un rimedio ESEGUIBILE (marca in questo giro con `node cervello/tasso-lezioni.mjs applica <id> \"<ref>\"` le lezioni che hai davvero usato; se `serve_radiografia_completa` è vero da più di N giri, accoda la radiografia completa invece di segnalarla). (b) Aggiungere al giro un controllo elenco-vs-consumo: ogni script del cervello che documenta un exit-code semantico deve comparire in giro.sh nella forma `_rc=$?`, altrimenti rosso.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -2208,8 +2208,8 @@
         "presente": true
       },
       "nota": "Dove: cervello/giro.sh:180-182 · Impatto: La metrica del volano è sotto soglia da 69 giri e nessun giro è mai stato obbligato a farci qualcosa. L'unica reazione in due mesi è una card scritta a mano dall'AD (#241 in AZIONI-IN-ATTESA, 25/7) che chiede a Nicola di decidere se rilanciare la radiografia — cioè la macchina ha delegato all'umano un'escalation che aveva già progettato per sé.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 01:33",
+      "chiuso_come": "cervello/giro.sh contiene /VOLANO_VINCOLO|_tasso_rc|_sonda_rc/ → trovato"
     },
     {
       "id": "AR-179",
@@ -2575,15 +2575,15 @@
       "causa_radice": "① Perché il freno non scatta? Perché confronta la soglia con un contatore fermo a 0. ② Perché è a 0? Perché ogni registrazione passa con --stima e le stime sono escluse da token_totali (AR-043, onestà della misura). ③ Perché il fix di AR-144 non ha risolto? Perché è atterrato nel PRODUTTORE (costo-ai.mjs, che calcola il massimo dei due contatori solo per stamparlo) e non nel CONSUMATORE (giro.sh, che legge il campo grezzo): il valore corretto non attraversa mai il file JSON che fa da contratto fra i due. ④ Perché nessuno se n'è accorto? Perché la prova di chiusura era un grep di pattern in un file, e il pattern c'era. ⑤ Causa di sistema: le prove di chiusura dei difetti verificano la PRESENZA di codice, non il COMPORTAMENTO end-to-end — un freno può essere sintatticamente presente e funzionalmente morto, e il registro dei difetti lo dichiara chiuso.",
       "fix_proposto": "🟡 (a) costo-ai.mjs scrive nel JSON il campo `oggi.token_per_gate = max(reali, stimati)` e giro.sh:479 legge QUELLO (un solo campo, contratto esplicito fra produttore e consumatore); allineare letargo.mjs, metabolismo.mjs e /api/costo allo stesso campo così il Pannello smette di mostrare 0. (b) La prova di chiusura diventa comportamentale, non testuale: un test in cervello/test/ che con un costo-ai.json fittizio oltre soglia verifica RUN_AI=0 in giro.sh — e finché quel test non esiste, il difetto non si può chiudere. (c) Regola generale per il cantiere: un difetto su un FRENO si chiude solo con una prova che lo fa scattare.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
       "nota": "Dove: cervello/giro.sh:479 (legge .oggi.token_totali) · cervello/costo-ai.mjs:112 e :125 (le stime NON alzano token_totali; tokenPerGate resta variabile interna e non viene scritto nel file) · dati: MyCity-Vault/90-Memoria-AI/auto-coscienza/costo-ai.json · Impatto: L'unico freno automatico sulla voce di costo più grande dell'azienda è disarmato. Fonte del costo: registro-fatti.json, fatto finanza.burn-mensile = burn fisso ~302 €/mese di cui Claude Max 200 €/mese (66% del burn, confermato da Nicola il 20/7). Con 0 ordini consegnati, il freno è l'unica difesa contro un loop di rilanci: un episodio del genere è già accaduto (worker-outage 2026-07-09, loop di ricarica infinito documentato in worker.sh:76-82). Oggi un loop si scoprirebbe solo a quota-sessione bruciata, cioè a macchina già ferma. Ordine di grandezza del margine oggi ignorato: 245.000 token stimati/giorno = 12% della soglia di 2.000.000 — la soglia non è mai stata avvicinata da un numero VERO, perché il numero vero non esiste.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 01:33",
+      "chiuso_come": "node cervello/test/freni-senza-fonte.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-197",
@@ -4278,15 +4278,15 @@
       "causa_radice": "① Il gate legge la prosa invece del DB. ② Perché north-star-check è nato come lettore di STATO.md, quando STATO era l'unica fonte scritta. ③ Perché quando sono arrivati i sensori REST (verifica-sensori, delta-gate, sentinella-dati) nessuno ha ricablato i consumatori già esistenti sulla nuova fonte-di-verità. ④ Perché non esiste un modulo unico «leggi i numeri della North Star» che tutti i guardiani debbano usare: ogni script si sceglie la sua fonte. ⑤ Causa di sistema: la macchina non ha una regola di lineage — nessun guardiano è obbligato a dichiarare da dove viene il numero su cui giudica, quindi il percorso DB → prosa scritta dall'AI → regex → verdetto è passato senza che nessun controllo lo vedesse. È un giudizio circolare: la macchina si valuta su un numero che ha scritto lei.",
       "fix_proposto": "🟡 ① north-star-check legge la fonte-di-verità: conteggio ordini pagati e timestamp dell'ultimo ordine via REST marketplace (le stesse due query che delta-gate.mjs fa già); i giorni di stallo si calcolano da quel timestamp, mai da una frase. ② STATO.md resta solo come fallback DICHIARATO quando il REST è cieco, e in quel caso l'output porta il campo fonte=«baseline STATO, sensori ciechi» e il gate resta chiuso (fail-safe: al buio non si apre il freno). ③ Cancellare stalloDaStato() e la regex sulla prosa. ④ Regola di processo: ogni guardiano che produce un verdetto dichiara nel suo JSON il campo `fonte_numero` (rest|file|prosa); un controllo del giro fallisce se un gate hard si regge su `prosa`. ⑤ Se REST e STATO divergono di più di 1 giorno, il giro riceve un vincolo di riconciliazione invece che un verdetto.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
       "nota": "Dove: cervello/north-star-check.mjs:23-35 (numeroDaRiga + stalloDaStato), :45-70 (unica fonte = STATO.md); consumato come freno in cervello/giro.sh:385-389 · Impatto: Il freno del business dipende da come è scritta una frase. Danno già avvenuto e documentato in STATO.md (nota del 25/7, riportata in cervello/programma-intelligenza-memoria.mjs:34): «north-star-check --gate esce 0 con 31 giorni di stallo (legge «4h» da una frase): nei 7 giorni con 107 merge Pannello e 0 ordini ha sempre dato via libera». Sette giorni con il freno disarmato mentre la macchina lavorava su sé stessa e il marketplace era fermo. Oggi il gate scatta solo perché la frase più in alto nel file è «~718h»: è fortuna di impaginazione, non una misura. In più, se i sensori sono ciechi e l'AD non aggiorna STATO.md, il guardiano continua a emettere un verdetto «fresco» su un numero vecchio, senza dirlo. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 01:33",
+      "chiuso_come": "node cervello/test/freni-senza-fonte.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-280",
@@ -4297,15 +4297,15 @@
       "causa_radice": "① Nessun allarme su «giorni dall'ultimo ordine». ② Perché le regole business sono scritte come variazioni percentuali su una media. ③ Perché sono state disegnate copiando il modello di un marketplace con volume, dove il rischio è il calo, non l'assenza. ④ Perché nessuno ha riesaminato le soglie quando è diventato evidente che N=1: la soglia minima di base (3) è stata messa per evitare falsi positivi sui numeri piccoli, e ha finito per spegnere del tutto la sorveglianza proprio nel regime in cui l'azienda vive oggi. ⑤ Causa di sistema: le soglie delle sentinelle non hanno un proprietario né una revisione periodica contro lo stadio reale dell'azienda — nascono con un numero e restano lì, e nessun controllo verifica che ogni regola sia almeno POTENZIALMENTE attivabile con i dati correnti (una regola strutturalmente inattiva è indistinguibile da una regola che sta dicendo «tutto bene»).",
       "fix_proposto": "🟡 ① Aggiungere alla sentinella dati la regola «giorni dall'ultimo ordine > N» (N da OKR, proposta 7) usando `s.ultimo_ordine` che è già in memoria: costo zero, nessuna query nuova. ② Aggiungere al report della sentinella un elenco delle regole STRUTTURALMENTE INATTIVE nel giro corrente (condizione impossibile con i dati letti), così una regola muta non si confonde con un verde. ③ Regola di processo: ogni soglia numerica delle sentinelle porta in commento la data dell'ultima revisione e lo stadio d'azienda per cui è tarata; la revisione settimanale le ricontrolla contro i numeri reali.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
       "nota": "Dove: cervello/sentinella-dati.mjs:434 (soglia della regola calo_ordini) e :172 (ultimo_ordine letto e mai usato) · Impatto: Il fatto più grave del business — nessun ordine dal 24 giugno — non genera nessun evento dagli occhi a costo zero. L'unico presidio rimasto è il guardiano che legge la prosa (vedi il difetto del freno della North Star): cioè il fatto più importante dell'azienda è sorvegliato solo dal canale meno affidabile. Simmetricamente, il giorno in cui gli ordini ripartiranno e poi si fermeranno di nuovo, la regola resterà muta finché la media non supera 3 ordini al giorno: a questo stadio di vita dell'azienda l'intera famiglia di sentinelle business è tarata per un volume che non esiste. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 01:33",
+      "chiuso_come": "node cervello/test/freni-senza-fonte.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-281",
@@ -4800,7 +4800,7 @@
       "causa_radice": "① Perché il freno si spegne in silenzio? Perché non c'è un else che lo dichiari. ② Perché non c'è? Perché il gate è scritto come «se riesco a leggere il numero, controllo», invece di «se non riesco a leggere il numero, decido cosa fare». ③ Perché quello stile? Perché il gate-budget è stato aggiunto come ottimizzazione di costo, non come controllo di sicurezza, e le ottimizzazioni si scrivono best-effort. ④ Perché nessuno l'ha rivisto? Perché non esiste un test che simuli «jq assente» o «costo-ai rotto» — la modalità degradata non è mai stata provata. ⑤ Causa di SISTEMA: manca una regola unica scritta su cosa fa ogni gate quando NON riesce a misurare. Alcuni gate del giro sono fail-closed, altri fail-open, e la differenza non è una decisione dichiarata ma un residuo di come è nato ciascuno.",
       "fix_proposto": "🟡 (1) Aggiungere il ramo mancante: se jq manca o _budget_json è vuoto/non parsabile, stampare un WARN esplicito e degradare in modo prudente (RUN_AI=0 oppure, se si preferisce non fermare la macchina, marcare il giro come «budget non verificato» nell'esito). (2) Togliere la dipendenza da jq usando node, che è già un requisito duro del giro, per estrarre i due numeri. (3) Scrivere la regola in una riga di commento condivisa e applicarla a tutti i gate: «un controllo che non riesce a misurare vale come controllo fallito». (4) Aggiungere un test bats che lancia il gate con costo-ai finto-rotto. Branch ops/, PR firmata.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -4809,8 +4809,8 @@
         "presente": false
       },
       "nota": "Dove: cervello/giro.sh:476-486 · Impatto: Il tetto di spesa giornaliero è verificabile solo quando tutto funziona, cioè quando serve meno. Una dipendenza mancante o un costo-ai.json corrotto disattiva il tetto senza che nessuno lo sappia, e i ~9-12 giri al giorno continuano a bruciare token oltre la soglia. Nicola scopre lo sforamento dalla quota esaurita, non dal Pannello: e la quota esaurita è anche ciò che fa fallire i giri successivi (difetto n.2). · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 01:33",
+      "chiuso_come": "cervello/giro.sh NON contiene /command -v jq >/dev/null 2>&1 && \\[ -n \"\\$_budget_json\" \\]/ → assente"
     },
     {
       "id": "AR-304",
@@ -5120,15 +5120,15 @@
       "causa_radice": "① Perché il vincolo non scatta? Perché legge 0.4 giorni invece di 31. ② Perché legge 0.4? Perché la regex salta gli a-capo e prende la prima cifra seguita da «h» che trova, anche a due righe di distanza. ③ Perché una regex su prosa? Perché lo stallo non ha una casa deterministica: viene raccontato in STATO.md invece di essere calcolato da ordini pagati + data dell'ultimo pagamento. ④ Perché non è calcolato? Perché il guardiano è nato come lettore della baseline testuale, ed è rimasto tale anche quando i sensori REST e il registro-fatti erano disponibili. ⑤ Perché nessuno se n'è accorto? Perché un gate che passa non produce alcun segnale: il verde non viene mai riletto, e non esiste un test che gli metta davanti uno stallo noto per vedere se lo riconosce.",
       "fix_proposto": "🟡 Tre mosse nello stesso intervento: (a) il guardiano calcola lo stallo da una fonte deterministica — ordini pagati e data dell'ultimo ordine pagato dai sensori REST, o dal registro-fatti — e usa la prosa di STATO.md solo come fallback dichiarato; (b) se l'unità non è riconoscibile o la fonte manca, fallisce CHIUSO (vincolo attivo) invece di dedurre 0; (c) un test in cervello/test/ che dia in pasto al guardiano uno STATO.md con «stallo 31 giorni» e pretenda rc=1 — la regressione che oggi manca. Nel frattempo la regex va ancorata alla singola riga e resa capace di leggere giorni, ore e settimane.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
       "nota": "Dove: cervello/north-star-check.mjs:31 (e :67-70) · Impatto: L'unico vincolo che rimette il giro sui soldi è rimasto spento per tutti i 31 giorni di stallo, cioè esattamente nel periodo per cui è stato scritto. Ogni giro ha potuto legittimamente spendersi sulla macchina mentre il 1° ordine pagato non si muoveva, e il log del giro non mostra nulla di anomalo: il guardiano dice verde. Per Nicola significa un mese di giri che sembravano in regola con la priorità dichiarata senza esserlo. · 28/7 lotto 10: DUPLICATO di AR-279 (stesso freno, stessa causa, stesso file) — chiuso dallo stesso fix, provato eseguendo il guardiano vero.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 01:33",
+      "chiuso_come": "node cervello/test/freni-senza-fonte.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-320",
@@ -5393,8 +5393,8 @@
     }
   ],
   "meta": {
-    "aperti": 160,
+    "aperti": 152,
     "in_corso": 0,
-    "chiusi": 111
+    "chiusi": 119
   }
 }
