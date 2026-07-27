@@ -19,6 +19,7 @@
 // Autonomia: punteggio >= 0.7 alta · >= 0.4 media · altrimenti bassa (min 3 previsioni chiuse).
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { nonEUnaPrevisione } from "./volano-regole.mjs";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
@@ -208,9 +209,11 @@ export function numeroDichiarato(s) {
  * riscrive — ma smettono di contare come previsioni, perché previsioni non sono mai state.
  * Il ponte corretto scrive `esito_loop_numerico`, e quelle contano.
  */
-export function nonEUnaPrevisione(e) {
-  return e?.metrica === "esito_loop";
-}
+// AR-180 — la regola vive in volano-regole.mjs perché ora la usano in due (qui e sonda-volano), e
+// due copie di un metro non sono un metro: è così che la sonda ha finito per contare come prova
+// proprio le righe che questo modulo dichiara «previsioni non sono mai state». Ri-esportata per
+// non rompere chi la importa già da qui.
+export { nonEUnaPrevisione };
 
 // Ricalcola gli aggregati per_reparto dal registro (unica fonte di verità).
 function ricalcolaReparti(data) {
@@ -737,8 +740,16 @@ async function main() {
   );
 }
 
-main().catch(async (e) => {
-  console.error("ERRORE calibrazione:", e.message || e);
-  await stampSegnale("calibrazione", "errore", `crash: ${(e.message || e).toString().slice(0, 180)}`);
-  process.exit(1);
-});
+// Il CLI parte solo se questo file è LANCIATO, non quando qualcuno ne importa una funzione.
+// Trovato costruendo il lotto 6: senza questa guardia, `import("./calibrazione.mjs")` ESEGUE il
+// comando di default e RISCRIVE calibrazione.json — un modulo che muta la memoria solo perché lo
+// importi. Il fix prescritto per AR-180 diceva «sonda-volano importa nonEUnaPrevisione da
+// calibrazione.mjs»: applicato alla lettera avrebbe fatto riscrivere la calibrazione a ogni sonda.
+// Stessa guardia che hanno già auto-fix.mjs e prove-oneste.mjs.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch(async (e) => {
+    console.error("ERRORE calibrazione:", e.message || e);
+    await stampSegnale("calibrazione", "errore", `crash: ${(e.message || e).toString().slice(0, 180)}`);
+    process.exit(1);
+  });
+}
