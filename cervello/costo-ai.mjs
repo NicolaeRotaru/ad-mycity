@@ -14,6 +14,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { tokenPerGate } from "./fonte-numero.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const OUT_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/costo-ai.json");
@@ -84,10 +85,17 @@ function main() {
 
   // Cambio giorno: archivia il vecchio "oggi" e resetta.
   if (stato.oggi.data && stato.oggi.data !== oggiData) {
+    // AR-196 — trovato applicando il fix: l'archivio di fine giornata copiava SOLO `token_totali`,
+    // cioè lo zero, e buttava via `token_stimati` — l'unico numero che esiste davvero. Per questo lo
+    // storico a 60 giorni mostrava «0 token» ogni singolo giorno: non era una macchina che non spende,
+    // era la memoria del costo che si cancellava da sola ogni notte a mezzanotte.
+    const perGateIeri = tokenPerGate(stato.oggi);
     stato.storico_giorni.unshift({
       data: stato.oggi.data,
       runs: stato.oggi.runs,
       token_totali: stato.oggi.token_totali,
+      token_stimati: stato.oggi.token_stimati || 0,
+      token_per_gate: perGateIeri.valore ?? 0,
       durata_sec_totale: stato.oggi.durata_sec_totale,
     });
     if (stato.storico_giorni.length > 60) stato.storico_giorni = stato.storico_giorni.slice(0, 60);
@@ -122,8 +130,16 @@ function main() {
   // se un giorno arriva un conteggio reale, non si diluisce con le stime; finché arrivano
   // solo stime (oggi sempre), sono loro a far scattare l'allarme — meglio un margine di
   // errore che un freno che non frena mai.
-  const tokenPerGate = Math.max(stato.oggi.token_totali, stato.oggi.token_stimati || 0);
-  const superata = tokenPerGate > stato.soglia_giornaliera_token;
+  //
+  // AR-196: quel massimo restava una VARIABILE LOCALE, buona solo per stamparla. Chi frena davvero
+  // (giro.sh) legge il file, e nel file c'era solo `token_totali` — cioè 0 per sei giorni di fila.
+  // Il fix di AR-144 era atterrato nel produttore e non attraversava mai il contratto JSON fra i due.
+  // Ora il numero-su-cui-si-frena è un CAMPO SCRITTO, con la sua provenienza accanto: un consumatore
+  // che non lo trova sa di essere cieco, invece di leggere uno zero e credersi sotto soglia.
+  const perGate = tokenPerGate(stato.oggi);
+  stato.oggi.token_per_gate = perGate.valore ?? 0;
+  stato.oggi.token_fonte = perGate.fonte;
+  const superata = perGate.valore != null && perGate.valore > stato.soglia_giornaliera_token;
   const oraMs = parseQuando(quando) || Date.now();
   const sessione = tokenSessioneRolling(stato.oggi.voci, oraMs);
   stato.sessione_rolling = { ...sessione, aggiornato: quando };
@@ -134,7 +150,7 @@ function main() {
   stampSegnale(
     "costo-ai",
     superata ? "warn" : "ok",
-    `token oggi ${stato.oggi.token_totali} reali + ${stato.oggi.token_stimati || 0} stimati (gate su ${tokenPerGate}) / soglia ${stato.soglia_giornaliera_token} · ${quando}`
+    `token oggi ${stato.oggi.token_totali} reali + ${stato.oggi.token_stimati || 0} stimati (gate su ${stato.oggi.token_per_gate}) / soglia ${stato.soglia_giornaliera_token} · ${quando}`
   ).catch(() => {});
 
   if (JSON_MODE) {
@@ -142,7 +158,7 @@ function main() {
   } else {
     console.log(`\n🪙 COSTO AI — ${oggiData}\n`);
     console.log(`Runs oggi:    ${stato.oggi.runs}`);
-    console.log(`Token oggi:   ${stato.oggi.token_totali} reali + ${stato.oggi.token_stimati || 0} stimati (gate su ${tokenPerGate}) / soglia ${stato.soglia_giornaliera_token}${superata ? "  ⚠️  SOGLIA SUPERATA" : ""}`);
+    console.log(`Token oggi:   ${stato.oggi.token_totali} reali + ${stato.oggi.token_stimati || 0} stimati (gate su ${stato.oggi.token_per_gate}) / soglia ${stato.soglia_giornaliera_token}${superata ? "  ⚠️  SOGLIA SUPERATA" : ""}`);
     console.log(`Durata oggi:  ${stato.oggi.durata_sec_totale}s`);
     console.log(`\nScritto: ${OUT_PATH}`);
   }

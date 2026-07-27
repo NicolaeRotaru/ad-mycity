@@ -1,0 +1,74 @@
+{
+  "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
+  "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
+  "aggiornato": "2026-07-28 01:40",
+  "malattie": [
+    {
+      "id": "esito-in-una-pipe",
+      "nome": "L'esito di un guardiano finisce in una pipe e sparisce",
+      "perche_e_grave": "In una pipe il codice d'uscita che conta è quello dell'ULTIMO comando (`tail`, sempre 0). Il guardiano gira, trova il problema, lo stampa — e chi lo ha chiamato riceve «tutto a posto». Se poi c'è anche un `|| true`, l'esito è sepolto due volte. È il difetto AR-165: il guardiano nato apposta per scoprire i controlli spenti in silenzio aveva, lui per primo, l'allarme staccato. Nel giro il modello «riga informativa» e il modello «cancello» si somigliano a vista: la differenza sono due caratteri, ed è per questo che si sbaglia.",
+      "pattern": "node \"\\$SCRIPT_DIR/[^\"\\n]+\\.mjs\"[^|\\n]*\\|[^|\\n]*tail",
+      "dove": [
+        "cervello"
+      ],
+      "estensioni": [
+        ".sh"
+      ],
+      "baseline": 36,
+      "file_noti": [
+        "cervello/giro.sh"
+      ],
+      "curati": [
+        "freschezza-segnali.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
+        "sonda-volano.mjs — promosso a cancello con la funzione guardiano() (lotto 10)"
+      ],
+      "nota_onesta": "36 istanze restano, tutte in giro.sh. NON sono tutte difetti: molte sono rapporti informativi veri (capacita, bilancio-vivo, macchina-del-tempo) dove non esiste un fallimento che debba vincolare il giro. Ma la differenza va DECISA una per una, non lasciata al caso: finché il triage non è fatto, AR-165 resta aperto con questo numero scritto sopra. La radice — una funzione `guardiano` che rende la scelta esplicita invece che implicita in due caratteri — è installata."
+    },
+    {
+      "id": "buco-letto-come-zero",
+      "nome": "Un campo assente diventa uno zero, e lo zero rassicura",
+      "perche_e_grave": "`jq -r '.campo // 0'` non distingue «ho misurato zero» da «il campo non c'è». Nei freni è fatale: AR-196 confrontava 0 con una soglia di 2.000.000 e non poteva scattare, mentre la macchina bruciava 385.000 token al giorno. La stessa forma in JavaScript è `|| 0` e `?? 0`. Un buco non è uno zero: dove si decide qualcosa, l'assenza deve chiamarsi assenza.",
+      "pattern": "jq -r '[^'\\n]*// 0'",
+      "dove": [
+        "cervello"
+      ],
+      "estensioni": [
+        ".sh"
+      ],
+      "baseline": 1,
+      "file_noti": [
+        "cervello/giro.sh",
+        "cervello/worker.sh"
+      ],
+      "esenti": [
+        {
+          "file": "cervello/giro.sh",
+          "quale": "soglia_giornaliera_token // 0",
+          "perche": "Qui lo zero è il valore giusto per «nessuna soglia configurata», e il codice a valle tratta esplicitamente soglia<=0 come «freno non configurato» (decidiFrenoCosto esce «cieco», non «lascia»). L'assenza è già gestita: non è un buco travestito."
+        },
+        {
+          "file": "cervello/worker.sh",
+          "quale": "riga 1488, .[0].tentativi // 0",
+          "perche": "Trovato da questa stessa spazzata il 28/7, non a occhio. È legittimo: una riga appena creata NON ha tentativi, quindi «assente» vuol dire davvero «zero tentativi fatti». Il caso pericoloso — la colonna che non esiste — è già coperto dalla guardia HAS_RETRY_COLS=1 due righe sopra, e la decisione vera la prende retry-policy.mjs, il cui default è `.azione // \"stop\"`: al buio si ferma, non ritenta. Zero qui è una misura, non un buco."
+        }
+      ]
+    },
+    {
+      "id": "errore-ingoiato",
+      "nome": "Un errore viene ingoiato e la schermata dice che va tutto bene",
+      "perche_e_grave": "`catch(() => {})` fa sparire la differenza fra «non c'è niente» e «non sono riuscito a leggere». Nel Pannello diventa una bugia mostrata a Nicola: la home dice «Niente da firmare» quando la coda non era leggibile (AR-233), i tre collegamenti alla salute spariscono in silenzio se il cantiere arriva malformato (AR-256), un interruttore torna indietro da solo senza dire perché (AR-262). Non tutte le 80 istanze sono difetti — un catch vuoto su un dato accessorio va benissimo. Lo diventa quando il risultato viene MOSTRATO come un fatto.",
+      "pattern": "catch\\(\\(\\) => \\{\\}\\)",
+      "dove": [
+        "pannello/src",
+        "cervello"
+      ],
+      "estensioni": [
+        ".ts",
+        ".tsx",
+        ".mjs"
+      ],
+      "baseline": 80,
+      "nota_onesta": "80 istanze in 32 file, misurate il 28/7. Qui non elenco i file: sarebbe un elenco lungo che non aggiunge verità. Conta il tetto — se domani diventano 81, qualcuno ha aggiunto un silenzio nuovo e questo guardiano lo dice."
+    }
+  ]
+}

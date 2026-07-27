@@ -156,6 +156,10 @@ KEYWORD_VINCOLO=""    # AR-009/027: guardiano owner-keyword (promosso a gate har
 APPRENDIMENTO_VINCOLO="" # Lever 1: guardiano apprendimento (archivio malato / errori ricorrenti non cristallizzati)
 VERIFICA_VINCOLO=""      # Lever 2: verificatore avversariale (auto-analisi vuota) + validatore contratti come gate
 PROVE_VINCOLO=""         # AR-330: prove del cantiere già soddisfatte alla nascita (difetti che si chiudono da soli)
+COSTO_VINCOLO=""         # AR-196: il freno sui costi non sa quanto abbiamo speso (campo assente ≠ zero speso)
+FRESCHEZZA_VINCOLO=""    # AR-165: guardiani del preambolo che non hanno battuto (verde vecchio ≠ verde)
+VOLANO_VINCOLO=""        # AR-165: verdetto della sonda-volano, prima buttato in una pipe
+FRATELLI_VINCOLO=""      # 28/7: una malattia nota si è allargata in un punto nuovo (spazzata-fratelli)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
   # AR-038: il canale MCP è trasporto di sessione, NON testabile da script. Passiamo lo stato del
@@ -186,7 +190,12 @@ if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Tasso applicazione lezioni (AR-051, prima della sonda)..."
   node "$SCRIPT_DIR/tasso-lezioni.mjs" --json 2>&1 | tail -4 || true
   echo "[$(ts)] Sonda volano (4 invarianti)..."
-  node "$SCRIPT_DIR/sonda-volano.mjs" --json 2>&1 | tail -8 || true
+  # AR-165: stesso trattamento della freschezza — l'esito della sonda finiva in una pipe e poi in un
+  # `|| true`. Il verdetto «volano rotto» non ha mai raggiunto il motore.
+  if ! guardiano sonda-volano.mjs --json; then
+    VOLANO_VINCOLO="$(vincolo_da_rc "sonda-volano" "$GUARDIANO_RC" "⛔ VOLANO ROTTO (sonda-volano.mjs rc=$GUARDIANO_RC, AR-165): l'anello impara→correggi non si chiude. Guarda il verdetto: node cervello/sonda-volano.mjs --json")"
+    echo "[$(ts)] ⚠️  AR-165: sonda-volano rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
   echo "[$(ts)] Sensore cassa/runway (AR-016)..."
   node "$SCRIPT_DIR/sensore-cassa.mjs" --json 2>&1 | tail -4 || true
   echo "[$(ts)] Sentinella fonti web (AR-036)..."
@@ -422,8 +431,22 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/sincronizza-proposte.mjs" 2>&1 | tail -3 || true
   echo "[$(ts)] Allinea scan radiografia → cantiere (findings + voto live)..."
   node "$SCRIPT_DIR/allinea-scan-cantiere.mjs" 2>&1 | tail -4 || true
+  # 28/7 (domanda di Nicola: «non solo l'hai risolto, ma l'hai migliorato?»): la spazzata dei fratelli.
+  # Un test dimostra che UN punto guarisce; questo dimostra che la malattia non è viva due porte più in
+  # là. Fallisce se una forma-di-difetto nota si allarga — più istanze del tetto, o un file nuovo che si
+  # ammala. Registro: cervello/malattie.json.
+  echo "[$(ts)] 🧹 Spazzata dei fratelli (la stessa malattia, cercata dappertutto)..."
+  if ! guardiano spazzata-fratelli.mjs; then
+    FRATELLI_VINCOLO="$(vincolo_da_rc "spazzata-fratelli" "$GUARDIANO_RC" "⛔ MALATTIA ALLARGATA (spazzata-fratelli.mjs rc=$GUARDIANO_RC): una forma di difetto già nota è comparsa in un punto nuovo, o è cresciuta oltre il tetto. Non è un difetto nuovo: è uno vecchio che si è spostato. Curalo nello stesso lavoro, oppure dichiaralo esente col PERCHÉ in cervello/malattie.json — un'esenzione senza motivo è il silenzio che stiamo curando. Elenco: node cervello/spazzata-fratelli.mjs")"
+    echo "[$(ts)] ⚠️  spazzata-fratelli rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+  # AR-165: era `node … | tail -4 || true` — l'esito buttato due volte. Il guardiano che deve scoprire
+  # i controlli spenti in silenzio era, lui per primo, muto. Ora è un cancello dichiarato.
   echo "[$(ts)] Meta-guardiano freschezza-segnali (guardiani del preambolo hanno battuto?)..."
-  node "$SCRIPT_DIR/freschezza-segnali.mjs" 2>&1 | tail -4 || true
+  if ! guardiano freschezza-segnali.mjs; then
+    FRESCHEZZA_VINCOLO="$(vincolo_da_rc "freschezza-segnali" "$GUARDIANO_RC" "⛔ SEGNALI STANTII (freschezza-segnali.mjs rc=$GUARDIANO_RC, AR-165): almeno un guardiano del preambolo NON ha battuto in questo giro — il suo verde non esiste, è solo vecchio. Prima di fidarti dei controlli, guarda quale manca: node cervello/freschezza-segnali.mjs")"
+    echo "[$(ts)] ⚠️  AR-165: freschezza-segnali rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
 
   # === CAPACITÀ VIVE + GUARDIANI ORFANI (6/7) — north-star/keyword = vincolo HARD allocazione (AR-113) ===
   echo "[$(ts)] ⭐ North Star (AR-113 — vincolo allocazione se stallo ≥ soglia giorni)..."
@@ -524,15 +547,28 @@ fi
 # GATE-BUDGET non bypassa GIRO_FORCE: il delta-gate sì (throttle), la sicurezza-quota no.
 # BUDGET_FORCE=1 solo emergenza rarissima (Nicola): salta il tetto token.
 if [ "${RUN_AI:-1}" = 1 ] && [ "${DELTA_GATE_FORCE:-0}" != 1 ] && [ "${BUDGET_FORCE:-0}" != 1 ] && command -v node >/dev/null 2>&1; then
-  _budget_json="$(node "$SCRIPT_DIR/costo-ai.mjs" --json 2>/dev/null || true)"
-  if command -v jq >/dev/null 2>&1 && [ -n "$_budget_json" ]; then
-    _tok_oggi="$(printf '%s' "$_budget_json" | jq -r '.oggi.token_totali // 0' 2>/dev/null || echo 0)"
-    _tok_soglia="$(printf '%s' "$_budget_json" | jq -r '.soglia_giornaliera_token // 0' 2>/dev/null || echo 0)"
-    if [ "${_tok_soglia:-0}" -gt 0 ] 2>/dev/null && [ "${_tok_oggi:-0}" -gt "${_tok_soglia:-0}" ] 2>/dev/null; then
+  # AR-196 — tre buchi nello stesso punto, tutti e tre «assenza letta come rassicurazione»:
+  #   ① si leggeva `.oggi.token_totali`, che è 0 per costruzione (ogni registrazione passa con --stima,
+  #      AR-043): il freno confrontava 0 con 2.000.000 e non poteva scattare. Misurato il 27/7: 0 reali
+  #      per sei giorni di fila, 385.000 stimati nel solo 27/7.
+  #   ② il `// 0` di jq trasformava «campo assente» in «zero token spesi» — un buco travestito da misura.
+  #   ③ tutto il blocco era dentro `if command -v jq`: su una macchina senza jq il freno non esisteva,
+  #      senza una riga di log. Ora la decisione è un programma node — lo stesso che gira nei test.
+  # La decisione sta in UN posto solo (freno-costi.mjs → fonte-numero.mjs), così il test la esegue davvero.
+  node "$SCRIPT_DIR/costo-ai.mjs" --json >/dev/null 2>&1 || true   # rinfresca token_per_gate nel file
+  _freno_out="$(node "$SCRIPT_DIR/freno-costi.mjs" 2>/dev/null)"; _freno_rc=$?
+  case "$_freno_rc" in
+    1)
       RUN_AI=0
-      echo "[$(ts)] ⛔ GATE-BUDGET (AR-087): token oggi ${_tok_oggi} > soglia ${_tok_soglia} → motore premium FERMATO (passaggio minimo). I 🔴/controlli restano attivi."
-    fi
-  fi
+      echo "[$(ts)] ⛔ GATE-BUDGET (AR-087): ${_freno_out#*$'\t'} → motore premium FERMATO (passaggio minimo). I 🔴/controlli restano attivi."
+      ;;
+    2)
+      # Freno cieco (AR-322): non ferma la macchina — sarebbe un blocco totale su un campo mancante —
+      # ma non dice nemmeno «sotto soglia». Lo dichiara, e il motore lo riceve come vincolo.
+      COSTO_VINCOLO="⛔ FRENO COSTI CIECO (AR-196): ${_freno_out#*$'\t'}. NON so quanto ha speso oggi la macchina: il tetto token non è verificabile in questo giro. Non trattarlo come «sotto soglia» — tieni il volume basso e segnala a Nicola se si ripete. Diagnosi: node cervello/freno-costi.mjs --json"
+      echo "[$(ts)] ⚠️  GATE-BUDGET CIECO (AR-196): ${_freno_out#*$'\t'} → vincolo hard al motore, motore NON fermato." >&2
+      ;;
+  esac
 fi
 
 PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/agents/).
@@ -560,7 +596,7 @@ fi
 # scioglievano in silenzio — il giro pubblicava lo stesso e usciva 0. Qui li raccogliamo in un elenco
 # che esiste FUORI dal prompt, così può governare sia il salto del motore sia l'esito del giro.
 VINCOLI_ATTIVI=()
-for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE; do
+for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI; do
   eval "_vval=\"\${${_vnome}_VINCOLO:-}\""
   [ -n "$_vval" ] && VINCOLI_ATTIVI+=("$_vnome")
 done
@@ -679,6 +715,30 @@ if [ -n "${PROVE_VINCOLO:-}" ]; then
 
 ## Vincolo prove oneste (HARD — AR-330: un difetto non può nascere già chiuso)
 $PROVE_VINCOLO"
+fi
+if [ -n "${COSTO_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo freno costi (HARD — AR-196: un campo assente non è «zero speso»)
+$COSTO_VINCOLO"
+fi
+if [ -n "${FRESCHEZZA_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo freschezza dei segnali (HARD — AR-165: un guardiano che non ha battuto non è un verde)
+$FRESCHEZZA_VINCOLO"
+fi
+if [ -n "${VOLANO_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo volano (HARD — AR-165: il verdetto della sonda finiva in una pipe)
+$VOLANO_VINCOLO"
+fi
+if [ -n "${FRATELLI_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo spazzata dei fratelli (HARD — una malattia nota si è allargata)
+$FRATELLI_VINCOLO"
 fi
 PROMPT="$PROMPT
 

@@ -1936,11 +1936,9 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "FRESCHEZZA_VINCOLO",
-        "presente": true
+        "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
-      "nota": "Dove: cervello/giro.sh:380-381 (freschezza-segnali con l'esito buttato in una pipe) · cervello/freschezza-segnali.mjs:1-6 (dichiara 'Exit: 1 = almeno uno mancante/stantio') · cervello/giro.sh:181-182 (sonda-volano, stesso trattamento) · cervello/sonda-volano.mjs:272 (esce 1 quando il verdetto e' rotto) · Impatto: Se uno degli otto guardiani sorvegliati (sensori, coerenza-fatti, allocazione, north-star, delta-gate, auto-fix, chiusura-loop, allinea-scan-cantiere) smette di girare, la macchina ha gia' costruito il pezzo che se ne accorge — e poi ne getta via la risposta. Il risultato e' peggiore che non avere il guardiano: il giro stampa 4 righe rassicuranti nel log di sistema e chiude con successo, dando l'impressione che la catena di controlli sia intatta mentre un anello e' caduto. Stesso discorso per il volano: la sonda puo' dire 'rotto' e il giro prosegue e chiude a 0.",
+      "nota": "Dove: cervello/giro.sh:380-381 (freschezza-segnali con l'esito buttato in una pipe) · cervello/freschezza-segnali.mjs:1-6 (dichiara 'Exit: 1 = almeno uno mancante/stantio') · cervello/giro.sh:181-182 (sonda-volano, stesso trattamento) · cervello/sonda-volano.mjs:272 (esce 1 quando il verdetto e' rotto) · Impatto: Se uno degli otto guardiani sorvegliati (sensori, coerenza-fatti, allocazione, north-star, delta-gate, auto-fix, chiusura-loop, allinea-scan-cantiere) smette di girare, la macchina ha gia' costruito il pezzo che se ne accorge — e poi ne getta via la risposta. Il risultato e' peggiore che non avere il guardiano: il giro stampa 4 righe rassicuranti nel log di sistema e chiude con successo, dando l'impressione che la catena di controlli sia intatta mentre un anello e' caduto. Stesso discorso per il volano: la sonda puo' dire 'rotto' e il giro prosegue e chiude a 0. · 28/7 lotto 10: i due guardiani nominati (freschezza-segnali, sonda-volano) sono cablati come cancelli e la radice e riparata — una funzione guardiano() che rende esplicita la scelta gate/info, invece di due caratteri che si somigliano a vista. MA la stessa forma vive in altri 36 punti di giro.sh: molti sono rapporti informativi legittimi, la differenza va decisa uno per uno. Il numero non e piu invisibile: e il tetto della malattia esito-in-una-pipe in cervello/malattie.json, e spazzata-fratelli.mjs fallisce se cresce.",
       "chiuso_il": "",
       "chiuso_come": ""
     },
@@ -2062,9 +2060,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/calibrazione.mjs",
-        "pattern": "posthog_api",
-        "presente": true
+        "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
       "nota": "Dove: cervello/calibrazione.mjs:84-89 (mappa: PostHog → \"posthog\") · MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json (la chiave si chiama \"posthog_api\") · Impatto: Il controllo che dovrebbe impedire di guadagnare autonomia al buio è morto su uno dei tre canali dati e aggirabile su tutti e tre annotando la stringa della fonte. È il difetto peggiore della categoria: non spegne la misura, la fa passare per buona. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
@@ -2583,9 +2579,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "token_per_gate",
-        "presente": true
+        "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
       "nota": "Dove: cervello/giro.sh:479 (legge .oggi.token_totali) · cervello/costo-ai.mjs:112 e :125 (le stime NON alzano token_totali; tokenPerGate resta variabile interna e non viene scritto nel file) · dati: MyCity-Vault/90-Memoria-AI/auto-coscienza/costo-ai.json · Impatto: L'unico freno automatico sulla voce di costo più grande dell'azienda è disarmato. Fonte del costo: registro-fatti.json, fatto finanza.burn-mensile = burn fisso ~302 €/mese di cui Claude Max 200 €/mese (66% del burn, confermato da Nicola il 20/7). Con 0 ordini consegnati, il freno è l'unica difesa contro un loop di rilanci: un episodio del genere è già accaduto (worker-outage 2026-07-09, loop di ricarica infinito documentato in worker.sh:76-82). Oggi un loop si scoprirebbe solo a quota-sessione bruciata, cioè a macchina già ferma. Ordine di grandezza del margine oggi ignorato: 245.000 token stimati/giorno = 12% della soglia di 2.000.000 — la soglia non è mai stata avvicinata da un numero VERO, perché il numero vero non esiste.",
       "chiuso_il": "",
@@ -4288,9 +4282,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/north-star-check.mjs",
-        "pattern": "MARKETPLACE_SUPABASE_URL|rest/v1",
-        "presente": true
+        "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
       "nota": "Dove: cervello/north-star-check.mjs:23-35 (numeroDaRiga + stalloDaStato), :45-70 (unica fonte = STATO.md); consumato come freno in cervello/giro.sh:385-389 · Impatto: Il freno del business dipende da come è scritta una frase. Danno già avvenuto e documentato in STATO.md (nota del 25/7, riportata in cervello/programma-intelligenza-memoria.mjs:34): «north-star-check --gate esce 0 con 31 giorni di stallo (legge «4h» da una frase): nei 7 giorni con 107 merge Pannello e 0 ordini ha sempre dato via libera». Sette giorni con il freno disarmato mentre la macchina lavorava su sé stessa e il marketplace era fermo. Oggi il gate scatta solo perché la frase più in alto nel file è «~718h»: è fortuna di impaginazione, non una misura. In più, se i sensori sono ciechi e l'AD non aggiorna STATO.md, il guardiano continua a emettere un verdetto «fresco» su un numero vecchio, senza dirlo. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
@@ -4309,9 +4301,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/sentinella-dati.mjs",
-        "pattern": "giorni_senza_ordini|ordine_fermo_da",
-        "presente": true
+        "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
       "nota": "Dove: cervello/sentinella-dati.mjs:434 (soglia della regola calo_ordini) e :172 (ultimo_ordine letto e mai usato) · Impatto: Il fatto più grave del business — nessun ordine dal 24 giugno — non genera nessun evento dagli occhi a costo zero. L'unico presidio rimasto è il guardiano che legge la prosa (vedi il difetto del freno della North Star): cioè il fatto più importante dell'azienda è sorvegliato solo dal canale meno affidabile. Simmetricamente, il giorno in cui gli ordini ripartiranno e poi si fermeranno di nuovo, la regola resterà muta finché la media non supera 3 ordini al giorno: a questo stadio di vita dell'azienda l'intera famiglia di sentinelle business è tarata per un volume che non esiste. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
@@ -5134,11 +5124,9 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/north-star-check.mjs",
-        "pattern": "stallo[^~]",
-        "presente": false
+        "comando": "node cervello/test/freni-senza-fonte.test.mjs"
       },
-      "nota": "Dove: cervello/north-star-check.mjs:31 (e :67-70) · Impatto: L'unico vincolo che rimette il giro sui soldi è rimasto spento per tutti i 31 giorni di stallo, cioè esattamente nel periodo per cui è stato scritto. Ogni giro ha potuto legittimamente spendersi sulla macchina mentre il 1° ordine pagato non si muoveva, e il log del giro non mostra nulla di anomalo: il guardiano dice verde. Per Nicola significa un mese di giri che sembravano in regola con la priorità dichiarata senza esserlo.",
+      "nota": "Dove: cervello/north-star-check.mjs:31 (e :67-70) · Impatto: L'unico vincolo che rimette il giro sui soldi è rimasto spento per tutti i 31 giorni di stallo, cioè esattamente nel periodo per cui è stato scritto. Ogni giro ha potuto legittimamente spendersi sulla macchina mentre il 1° ordine pagato non si muoveva, e il log del giro non mostra nulla di anomalo: il guardiano dice verde. Per Nicola significa un mese di giri che sembravano in regola con la priorità dichiarata senza esserlo. · 28/7 lotto 10: DUPLICATO di AR-279 (stesso freno, stessa causa, stesso file) — chiuso dallo stesso fix, provato eseguendo il guardiano vero.",
       "chiuso_il": "",
       "chiuso_come": ""
     },

@@ -42,7 +42,11 @@ function main() {
 
   // --- I 4 assi vitali, dai dati reali ---
   const soglia = costo?.soglia_giornaliera_token || 0;
-  const quotaPct = soglia ? +((costo?.oggi?.token_totali || 0) / soglia * 100).toFixed(3) : null;
+  // AR-196: il numero-su-cui-si-frena è `token_per_gate`, non `token_totali` (che è 0 per costruzione).
+  // Se il campo manca la quota è SCONOSCIUTA, non zero: `null` non fa scattare nessun livello, ma
+  // nemmeno finge un 0% rassicurante.
+  const _tokGate = costo?.oggi?.token_per_gate;
+  const quotaPct = soglia && typeof _tokGate === "number" ? +((_tokGate / soglia) * 100).toFixed(3) : null;
   const runway = cassa?.runway_mesi ?? null; // può essere null (non calcolabile) → non si escala su un ignoto
   const runwaySoglia = cassa?.soglia_allerta_mesi ?? 3;
   const sensoriCiechi = sensori?.meta?.max_giri_ciechi ?? 0;
