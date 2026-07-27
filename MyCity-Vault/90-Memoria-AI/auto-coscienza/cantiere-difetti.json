@@ -5405,8 +5405,7 @@
       "nato": "2026-07-27 21:15",
       "origine": "trovato lavorando al lotto 6 del cantiere continuo (27/7): volano-regole.mjs finito su main dentro il commit di memoria c1f7896 invece che nella PR",
       "verifica": {
-        "tipo": "umano",
-        "come": "Su main, mettere nello stage un file di codice insieme a uno di memoria e provare a committare: deve fermarsi. Su un ramo fix/*, lo stesso commit deve passare."
+        "comando": "node cervello/test/perimetro-main.test.mjs"
       },
       "nota": "Portata dell-episodio: volano-regole.mjs e inerte su main (zero riferimenti, nessun comportamento cambiato), il cablaggio viaggia nella PR del lotto 6.",
       "chiuso_il": "",
