@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-27 18:35",
+  "aggiornato": "2026-07-27 17:58",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -3395,15 +3395,15 @@
       "causa_radice": "1) Perché le liste restano vecchie? Perché nessuno le fa ricaricare. 2) Perché nessuno le fa ricaricare? Perché il segnale di aggiornamento (emitSync) non parte. 3) Perché non parte? Perché `emitSyncDaLavoriFiniti` scarta il lavoro con `if (!prima || ...) continue`: `prima` è lo stato che quel lavoro aveva al giro di controllo precedente, e se il lavoro non c'era ancora nella lista precedente vale `undefined` → salta. 4) Perché il lavoro non c'era nella lista precedente? Perché il controllo gira ogni 8 secondi ma il browser congela i timer nelle schede in secondo piano: tra un controllo e l'altro passano minuti e il lavoro nasce e muore nel mezzo. 5) Perché nessuno rimedia al risveglio? Perché il ritorno sulla scheda (focus/visibilitychange) è agganciato solo alla chat (page.tsx:2210) e all'area Azioni (Azioni.tsx:235): nessuno emette un segnale globale quando Nicola torna sul Pannello.",
       "fix_proposto": "🟡 Due mosse in un solo branch, entrambe in `pannello/src/lib/panel-sync.ts` e `pannello/src/app/page.tsx`. (a) In `emitSyncDaLavoriFiniti` togliere lo scarto sui lavori mai visti: sostituire `if (!prima || prima === \"fatto\" || l.stato !== \"fatto\") continue;` con una guardia che salta solo il primo caricamento (prev.length === 0) e che, per i lavori nuovi già in stato «fatto», confronta `updated_at` con il momento dell'ultimo controllo — se è finito dopo, il segnale deve partire. (b) In `page.tsx`, nell'effetto che carica i lavori (~riga 2447), agganciare `focus` e `visibilitychange` come già fa Azioni.tsx e, al rientro, chiamare `carica()` seguito da `emitSync(\"all\", \"ritorno-scheda\")`: al risveglio ogni casella si ricarica una volta sola. Test: aprire il Pannello, mettere la scheda in secondo piano, far girare un lavoro fino a «fatto», tornare sulla scheda → bacheca, documenti e cantiere devono cambiare senza F5.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/panel-sync.test.mjs"
       },
       "nota": "Dove: pannello/src/lib/panel-sync.ts:82 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA 2026-07-27 18:20: comportamentale, come da AR-331 la prova viaggia col codice. Le regole sono state estratte in pannello/src/lib/panel-sync-regole.ts (panel-sync.ts importa React e alias @/, quindi non era eseguibile in un test). Il primo caso del test — un lavoro mai visto prima e gia finito DEVE rinfrescare — fallisce con la logica vecchia. Non-vacuita provata: rimettendo il !prima il test esce 1.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 17:58",
+      "chiuso_come": "node cervello/test/panel-sync.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-236",
@@ -3624,15 +3624,15 @@
       "causa_radice": "① Perché la chat scatta ogni 8s? Perché il poll `setInterval(ricarica, 8000)` (page.tsx:2208) chiama `caricaConversazioni` (page.tsx:2086), che fa girare una catena di fusione pesante sul thread principale. ② Perché è pesante? Perché la catena serializza in stringa l'intero elenco messaggi di OGNI conversazione più volte per tick: `mergeListaConversazioni` fa 2 `JSON.stringify` per conversazione (page.tsx:290) ed è chiamata DUE volte (page.tsx:2108-2112, una per il server e una per il backup locale), poi `integraConversazioneAttiva` ne fa altri 2 (page.tsx:357), poi `conversazioniUguali` altri 2 (page.tsx:369), più un `JSON.stringify` doppio sul thread aperto (page.tsx:2126) — ~6 passate complete di serializzazione per tick. ③ Perché serializzare per confrontare? Perché il confronto 'è cambiato?' è stato scritto con `JSON.stringify` invece che con un dato di versione (updated_at/conteggio/hash) già presente nella riga. ④ Perché nessuno se n'è accorto? Perché il costo non si vede sul desktop dello sviluppatore: cresce col numero di chat e si sente solo su una CPU da telefono. ⑤ Causa radice: il Pannello usa l'uguaglianza profonda per struttura come rilevatore di cambiamento su un archivio che non ha tetto — `getConversazioni` (lib/store.ts:484) scarica fino a 100 conversazioni CON tutti i messaggi, e nessun passo della catena limita quanti messaggi tocca.",
       "fix_proposto": "🟡 In `pannello/src/app/page.tsx`, sostituire il confronto per serializzazione con un confronto per versione. (a) In `conversazioniUguali` (riga 363-372) togliere la riga 369 `JSON.stringify(x.messaggi) !== JSON.stringify(y.messaggi)` e confrontare invece `x.messaggi.length !== y.messaggi.length` più il `content` dell'ULTIMO messaggio: id + updated_at + titolo + lunghezza + ultima bolla identificano il cambiamento in tutti i casi reali, a costo O(1) per conversazione invece di O(tutto il testo). (b) Stessa sostituzione in `mergeListaConversazioni` riga 290 e in `integraConversazioneAttiva` riga 357: confrontare `merged.length` e l'ultimo elemento invece di serializzare. (c) In `caricaConversazioni` (riga 2086) eseguire la catena di fusione SOLO sulle conversazioni il cui `updated_at` è cambiato rispetto a `conversazioniRef.current`, lasciando le altre per riferimento — così un tick senza novità (il caso normale) costa quasi zero. (d) Portare il poll da 8s a 20s quando `document.visibilityState !== 'visible'` o quando non c'è nessun lavoro in corso: il canale SSE già copre il tempo reale mentre una risposta scorre (riga 2461-2478), quindi questo poll è solo la rete di sicurezza.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/messaggi-uguali.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:2208 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA 2026-07-27 18:20: comportamentale. MISURATO prima di ottimizzare, 6 passate per giro di poll: 100 chat x 40 msg x 800 car = 100 ms, sale a 218 ms su archivio pesante; su telefono vale 4-6 volte tanto. Dopo: 3,5 ms e 9,7 ms (29x e 23x). Il test verifica che il confronto veloce dia le STESSE risposte di quello lento — un ottimizzazione che cambia il risultato non e un ottimizzazione, e un bug nuovo.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-27 17:58",
+      "chiuso_come": "node cervello/test/messaggi-uguali.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-247",
@@ -5433,8 +5433,8 @@
     }
   ],
   "meta": {
-    "aperti": 189,
+    "aperti": 187,
     "in_corso": 0,
-    "chiusi": 81
+    "chiusi": 83
   }
 }
