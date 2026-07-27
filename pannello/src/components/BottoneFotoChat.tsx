@@ -24,6 +24,7 @@ export default function BottoneFotoChat({
   chatOnInvia,
   chatOnDetta,
   chatAscoltando,
+  chatInvioBloccatoRef,
 }: {
   disabled: boolean;
   iconSize: number;
@@ -39,6 +40,9 @@ export default function BottoneFotoChat({
   chatOnInvia?: (testo: string) => void;
   chatOnDetta?: () => void;
   chatAscoltando?: boolean;
+  /** Lock invio condiviso con le altre superfici chat (assistente/fluttuante): un doppio tap qui
+   *  non deve sfuggire alla stessa protezione (24/7: senza, questa mini-chat creava chat doppie). */
+  chatInvioBloccatoRef?: { current: boolean };
 }) {
   const [aperto, setAperto] = useState(false);
   const [errore, setErrore] = useState<string | null>(null);
@@ -198,8 +202,15 @@ export default function BottoneFotoChat({
   }, [onScegli, chiudi, live]);
 
   function inviaMessaggio() {
+    if (chatInvioBloccatoRef?.current) return;
     const t = bozza.trim();
     if (!t || !chatOnInvia) return;
+    if (chatInvioBloccatoRef) {
+      chatInvioBloccatoRef.current = true;
+      setTimeout(() => {
+        chatInvioBloccatoRef.current = false;
+      }, 800);
+    }
     chatOnInvia(t);
     setBozza("");
   }

@@ -1101,6 +1101,14 @@ export default function Dashboard() {
   const lavoriRef = useRef<Lavoro[]>([]);
   const convServerRef = useRef(false);
   const sessionGruppoRef = useRef<string | null>(null);
+  // ANTI-DOPPIONE conversazioni (25/7): quando la chat è NUOVA (nessun id reale ancora), la
+  // creazione della riga su Supabase è una POST. Se due invii partono quasi insieme (doppio tap
+  // su superfici diverse, coda messaggi, mini-chat del video live) PRIMA che la prima POST torni
+  // e scriva il vero id in convId, ognuno vede "nessun id ancora" e fa la SUA POST: due righe
+  // reali con lo stesso primo messaggio (la "chat fantasma" segnalata più volte da Nicola). Questo
+  // ref tiene la Promise della creazione in corso: chi arriva mentre è in volo aspetta la STESSA
+  // creazione invece di aprirne una seconda.
+  const creazioneConvInCorsoRef = useRef<Promise<string | null> | null>(null);
   const PENDING_CHAT_KEY = "mycity_pending_lavoro";
 
   // Mirror SINCRONI (assegnati in render, non in useEffect): un useEffect aggiorna il ref DOPO il commit,
@@ -1719,7 +1727,21 @@ export default function Dashboard() {
       setConversazioni((list) => integraConversazioneAttiva(list, gruppoId, msgsOptimistic));
       const idPersist =
         convId && !convId.startsWith("sess_") && !convId.startsWith("loc_") ? convId : null;
-      const savedConv = await persistConversazione(idPersist, msgsOptimistic);
+      let savedConv: string | null;
+      if (idPersist) {
+        savedConv = await persistConversazione(idPersist, msgsOptimistic);
+      } else if (creazioneConvInCorsoRef.current) {
+        // Un'altra chiamata sta già creando questa stessa chat nuova: aspetto il suo risultato.
+        savedConv = await creazioneConvInCorsoRef.current;
+      } else {
+        const creazione = persistConversazione(null, msgsOptimistic);
+        creazioneConvInCorsoRef.current = creazione;
+        try {
+          savedConv = await creazione;
+        } finally {
+          creazioneConvInCorsoRef.current = null;
+        }
+      }
       if (savedConv && savedConv !== gruppoId) {
         setConversazioni((list) => {
           const idx = list.findIndex((c) => c.id === gruppoId);
