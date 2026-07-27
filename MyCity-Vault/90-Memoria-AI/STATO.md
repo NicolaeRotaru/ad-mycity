@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-27 22:05
+aggiornato: 2026-07-27 22:22
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **27/7 22:22 — GIRO RIPETUTO (richiesto in chat), 2 minuti dopo l'ultimo passaggio delle 22:05 — business ANCORA INVARIATO.** Delta-gate: sonda 22:20 conferma "nulla di nuovo" (5° giro-sonda consecutivo, 11h dall'ultimo giro pieno delle 11:04); firma dati invariata (`ordini`=1 CANCELED, `clienti`=7, tutti gli 8 sensori ok). Coerenza-fatti verificata ora (`node cervello/coerenza-fatti.mjs` → exit 0, 0 copie vecchie). Coda `AZIONI-IN-ATTESA`: **57 aperte** (housekeeping 22:20, invariata da 22:05). Applicata la strategia snella per giri ripetuti a stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): nessuna nuova query, nessun ri-check radar/intelligence (nulla di nuovo da stamattina), nessuna riscrittura dei JSON auto-coscienza (già freschi dal pre-step deterministico del worker VPS alle 22:20, in attesa di commit da `giro.sh`). **Nessuna azione nuova verso il marketplace.** Mossa n.1/n.2 invariate: PI26 (scade 30/7 ore 16:00, ~2,2 giorni residui) e Vercel Authentication sul Pannello. Briefing: [[Briefing/2026-07-27]].
 
 > 🔁 **27/7 20:20 — GIRO RIPETUTO (richiesto in chat) — business ANCORA INVARIATO, delta-gate 5° giro-sonda consecutivo "nulla di nuovo" (9h dall'ultimo giro pieno delle 11:04).** Firma dati riletta dal sensore REST già fresco (verifica-sensori.mjs, 20:20): `orders`=1 (CANCELED, 24/6), `profiles`=7, `products`=5, `reviews`=0, `abandoned_carts`=3 — identico a tutti i passaggi di oggi (06:20/11:01/18:00/18:20). Tutti gli 8 sensori ok (Telegram non configurato). Applicata la strategia snella per giri ripetuti a stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): nessuna nuova query pesante, nessun ri-check radar/intelligence, nessuna riscrittura dei JSON auto-coscienza (già rinfrescati dal pre-step deterministico di `giro.sh`/worker VPS alle 20:20, committati in `d0274115`). Coda `AZIONI-IN-ATTESA` invariata: 57 aperte. **Nessuna azione nuova verso il marketplace.** Mossa n.1/n.2 invariate: PI26 (scade 30/7 ore 16:00, ~2,3 giorni residui) e Vercel Authentication sul Pannello. Briefing: [[Briefing/2026-07-27]].
 

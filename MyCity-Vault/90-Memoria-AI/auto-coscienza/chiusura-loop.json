@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-27 20:20",
+  "aggiornato": "2026-07-27 22:20",
   "soglia_giorni": 7,
   "totale": 120,
   "mancanti": 0,
   "vuoti": 73,
-  "fermi": 96,
-  "vivi": 24,
+  "fermi": 99,
+  "vivi": 21,
   "reparti_fermi": [
     "accessibility",
     "account-security",
@@ -14,7 +14,6 @@
     "ai-copywriter",
     "ai-designer",
     "ai-video",
-    "analista",
     "analytics-engineering",
     "authentication-prodotti",
     "avvocato-civile",
@@ -24,6 +23,7 @@
     "bi-lead",
     "brand-protection",
     "broker-assicurativo",
+    "builder-automazioni",
     "business-plan-bancabile",
     "capacity-planning",
     "category-manager",
@@ -34,9 +34,11 @@
     "consulente-bancario",
     "consulente-lavoro",
     "contabilita",
+    "corporate-strategy",
     "courier-acquisition",
     "credito-impresa",
     "cro",
+    "data-engineer",
     "demand-forecasting",
     "developer-platform",
     "direttore-creativo",
@@ -53,6 +55,7 @@
     "grant-writer",
     "influencer-partnership",
     "infosec-soc",
+    "innovation-lab",
     "internal-audit",
     "investor-relations",
     "kyc-aml",
@@ -180,11 +183,11 @@
       "reparto": "analista",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 18,
-      "ultimo_esito": "2026-07-19 14:33",
-      "giorni_fa": 8,
+      "righe_esito": 19,
+      "ultimo_esito": "2026-07-27 21:51",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "analytics-engineering",
@@ -284,7 +287,7 @@
       "ultimo_esito": "2026-07-20 20:25",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "business-plan-bancabile",
@@ -414,7 +417,7 @@
       "ultimo_esito": "2026-07-20 21:57",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "courier-acquisition",
@@ -474,7 +477,7 @@
       "ultimo_esito": "2026-07-20 20:23",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "demand-forecasting",
@@ -510,9 +513,9 @@
       "reparto": "devops-sre",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 78,
-      "ultimo_esito": "2026-07-23 11:38",
-      "giorni_fa": 4,
+      "righe_esito": 81,
+      "ultimo_esito": "2026-07-27 22:00",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -704,7 +707,7 @@
       "ultimo_esito": "2026-07-20 21:57",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "intelligence",

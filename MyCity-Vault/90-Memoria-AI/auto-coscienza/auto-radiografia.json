@@ -458,7 +458,10 @@
             "presente": false
           },
           "confermato": true,
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 21:51",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-177"
         },
         {
           "titolo": "Il tasso delle lezioni e la sonda del volano sono gli unici allarmi del giro che vengono buttati via mentre stanno suonando",
@@ -515,7 +518,10 @@
             "presente": true
           },
           "confermato": true,
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 21:51",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-180"
         },
         {
           "titolo": "Una previsione sbagliata si archivia senza dire perché: nel registro non c'è una sola causa, e il guardiano non la chiede",
@@ -2814,7 +2820,10 @@
             "presente": true
           },
           "confermato": true,
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 21:05",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-292"
         },
         {
           "titolo": "Niente impedisce a due giri o a due cadenze di girare insieme: il lucchetto protegge solo il pezzo che parla con GitHub",
@@ -2886,7 +2895,10 @@
             "presente": true
           },
           "confermato": true,
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 21:05",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-296"
         },
         {
           "titolo": "Il giro e le cadenze pubblicano su main senza guardare su che ramo si trovano",
@@ -3187,7 +3199,10 @@
             "presente": true
           },
           "confermato": true,
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 20:26",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-310"
         },
         {
           "titolo": "Se il push fallisce, l'aggiornamento del server cancella il lavoro invece di fermarsi",
@@ -3259,7 +3274,10 @@
             "presente": true
           },
           "confermato": true,
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 20:26",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-314"
         },
         {
           "titolo": "Un ramo di lavoro abbandonato può prendere il posto di main e finire pubblicato",
@@ -3277,7 +3295,10 @@
             "presente": true
           },
           "confermato": true,
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 20:26",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-315"
         },
         {
           "titolo": "Se resta una modifica al codice non finita, il server smette di aggiornarsi e continua a dire che va tutto bene",
@@ -3414,7 +3435,10 @@
             "presente": true
           },
           "confermato": true,
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 21:05",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-322"
         },
         {
           "titolo": "Il vincolo sugli esperimenti ordina di aprirne uno nuovo anche quando il problema è che nessuno ha misurato quelli scaduti",
@@ -3938,14 +3962,16 @@
     "bloccanti": 33
   },
   "sonda": {
-    "data": "2026-07-27 20:20",
+    "data": "2026-07-27 22:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.18,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
-    "difetti_chiusi": 95,
-    "difetti_chiusi_recenti": 53,
+    "difetti_chiusi": 106,
+    "difetti_chiusi_recenti": 64,
     "calibrazione_piena": true,
+    "loop_vivo": true,
+    "intenzioni_aperte": 3,
     "previsioni_aperte_recenti": 0,
     "esperimenti_aperti": 3,
     "prova_business": true,
@@ -3953,35 +3979,35 @@
     "esperimenti_misurati": true,
     "giro_a_cadenza": true,
     "sentinelle_scattano": false,
-    "ore_da_ultima_completa": 11,
+    "ore_da_ultima_completa": 13,
     "ore_da_ultimo_briefing": 2,
     "max_giri_ciechi_sensori": 0,
-    "giri_tasso_basso": 3,
+    "giri_tasso_basso": 4,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
     "voto_pieno": 0,
-    "pending_merge": 86,
-    "aperti_davvero": 74,
+    "pending_merge": 78,
+    "aperti_davvero": 72,
     "bloccanti_umani": 15,
-    "salute_firma": "AR-126,AR-129,AR-154,AR-157,AR-158,AR-159,AR-160,AR-161,AR-168,AR-170,AR-172,AR-174,AR-177,AR-184,AR-188,AR-193,AR-195,AR-212,AR-214,AR-216,AR-217,AR-220,AR-221,AR-223,AR-224,AR-225,AR-229,AR-230,AR-231,AR-232,AR-234,AR-237,AR-238,AR-239,AR-241,AR-244,AR-245,AR-247,AR-248,AR-249,AR-250,AR-254,AR-257,AR-259,AR-260,AR-261,AR-262,AR-263,AR-264,AR-266,AR-267,AR-268,AR-269,AR-272,AR-273,AR-274,AR-276,AR-278,AR-283,AR-284,AR-285,AR-287,AR-288,AR-289,AR-291,AR-294,AR-295,AR-302,AR-303,AR-307,AR-308,AR-318,AR-319,AR-323",
+    "salute_firma": "AR-126,AR-129,AR-154,AR-157,AR-158,AR-159,AR-160,AR-161,AR-168,AR-170,AR-172,AR-174,AR-184,AR-188,AR-193,AR-195,AR-212,AR-214,AR-216,AR-217,AR-220,AR-221,AR-223,AR-224,AR-225,AR-229,AR-230,AR-231,AR-232,AR-234,AR-237,AR-238,AR-239,AR-241,AR-244,AR-245,AR-247,AR-248,AR-249,AR-250,AR-254,AR-257,AR-259,AR-260,AR-261,AR-262,AR-263,AR-264,AR-266,AR-267,AR-268,AR-269,AR-272,AR-273,AR-274,AR-276,AR-278,AR-283,AR-284,AR-285,AR-287,AR-288,AR-289,AR-291,AR-294,AR-295,AR-302,AR-303,AR-307,AR-318,AR-319,AR-323",
     "verdetto": "serve-completa",
-    "nota": "loop chiude (con prova) · briefing 2h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 74 aperti-davvero · 86 in attesa merge · 15 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    "nota": "loop chiude (con prova) · briefing 2h fa · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 72 aperti-davvero · 78 in attesa merge · 15 bloccanti umani · tasso basso 3+ giri → radiografia completa"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 3,
-    "aggiornato": "2026-07-27 20:20"
+    "giri_tasso_basso": 4,
+    "aggiornato": "2026-07-27 22:20"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-27 20:20",
-    "findings_aperti": 69,
+    "aggiornato": "2026-07-27 22:20",
+    "findings_aperti": 61,
     "findings_in_corso": 0,
-    "findings_chiusi": 101,
+    "findings_chiusi": 109,
     "findings_tot": 170,
-    "cantiere_aperti": 175,
+    "cantiere_aperti": 165,
     "cantiere_in_corso": 0,
-    "cantiere_chiusi": 95,
-    "match_aggiornati": 4,
+    "cantiere_chiusi": 106,
+    "match_aggiornati": 8,
     "chiusi_verifica": 0,
     "data_scan": "2026-07-27 09:40"
   }

@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
-  "aggiornato": "2026-07-27 20:20",
+  "aggiornato": "2026-07-27 22:20",
   "giorni_sospetto": 3,
-  "difetti_aperti": 175,
+  "difetti_aperti": 165,
   "per_classe": {
     "umana": 16,
     "auto-sospetta": 17,
-    "auto-attesa": 129,
+    "auto-attesa": 119,
     "auto-ok": 13
   },
   "non_auto_chiudibili": 33,
@@ -394,30 +394,12 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-177",
-      "gravita": "bloccante",
-      "eta_giorni": 0,
-      "titolo": "Il segnale «il volano si chiude» non può mai dire di no: un cancello obbliga a tenere sempre un esperimento ap",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/sonda-volano.mjs ~ /esperimentiAperti\\.length > 0/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-178",
       "gravita": "grave",
       "eta_giorni": 0,
       "titolo": "Il tasso delle lezioni e la sonda del volano sono gli unici allarmi del giro che vengono buttati via mentre st",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /VOLANO_VINCOLO|_tasso_rc|_sonda_rc/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-180",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "La sonda conta come prova che il loop si chiude proprio le righe che la calibrazione dichiara «previsioni non ",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/sonda-volano.mjs ~ /nonEUnaPrevisione/)",
       "auto_chiudibile": true
     },
     {
@@ -1267,15 +1249,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-292",
-      "gravita": "bloccante",
-      "eta_giorni": 0,
-      "titolo": "La macchina si rimette in coda da sola lo stesso lavoro pesante e non conta mai quante volte l'ha già fatto",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/sentinella-lavori.mjs ~ /MAX_RIACCODI_ORFANO/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-293",
       "gravita": "grave",
       "eta_giorni": 0,
@@ -1300,15 +1273,6 @@
       "titolo": "Il freno che distanzia i ritentativi si spegne da solo se una singola domanda al database va storta",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/worker.sh ~ /_rtry=\"\"/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-296",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "Due processi che aggiornano lo stesso registro di memoria: l'ultimo che salva cancella il lavoro dell'altro",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/costo-ai.mjs ~ /renameSync/)",
       "auto_chiudibile": true
     },
     {
@@ -1393,33 +1357,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-308",
-      "gravita": "minore",
-      "eta_giorni": 0,
-      "titolo": "Il secondo allarme della calibrazione cancella il primo",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /CAL_VINCOLO=\"⛔ CALIBRAZIONE NON CONFORME/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-309",
-      "gravita": "minore",
-      "eta_giorni": 0,
-      "titolo": "Il verificatore avversariale è l'unico guardiano che non lascia una riga nel log",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /printf '%s\\\\n' \"\\$_verif_out\"/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-310",
-      "gravita": "bloccante",
-      "eta_giorni": 0,
-      "titolo": "Il copione che aggiorna il cervello sul server manda su main tutto quello che trova, codice compreso",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/vps/aggiorna-cervello.sh ~ /MEM_DIRS/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-311",
       "gravita": "bloccante",
       "eta_giorni": 0,
@@ -1444,24 +1381,6 @@
       "titolo": "Il monitoraggio si dichiara riuscito anche quando la memoria non è arrivata su GitHub",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/monitora.sh ~ /MONITORA_PUSH_OK/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-314",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "Il cancello che ferma la memoria bugiarda protegge solo il giro: la porta più usata resta aperta",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/worker.sh ~ /gate-pubblicazione/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-315",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "Un ramo di lavoro abbandonato può prendere il posto di main e finire pubblicato",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/vps/aggiorna-cervello.sh ~ /GUARDIA RAMO/)",
       "auto_chiudibile": true
     },
     {
@@ -1507,15 +1426,6 @@
       "titolo": "Quattordici cancelli su quindici sono cartelli: parlano al motore e nessuno controlla se ha obbedito",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /RIVERIFICA VINCOLI/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-322",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "Un guardiano che si rompe consegna la propria traccia d'errore come se fosse la regola da rispettare",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /GUARDIANO CIECO/)",
       "auto_chiudibile": true
     },
     {

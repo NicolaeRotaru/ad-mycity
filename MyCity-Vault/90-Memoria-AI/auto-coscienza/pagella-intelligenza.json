@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
-  "aggiornato": "2026-07-27 20:20",
+  "aggiornato": "2026-07-27 22:20",
   "pronta": false,
   "voci_superate": 0,
   "voci_totali": 5,
   "voci_cieche": 0,
   "migliorate": 1,
-  "peggiorate": 0,
+  "peggiorate": 1,
   "soglie": {
     "lezioni_tasso_min": 0.7,
     "calibrazione_reparti_min": 5,
@@ -61,8 +61,8 @@
     {
       "id": "freni",
       "titolo": "Freni di sicurezza rotti",
-      "valore": 16,
-      "etichetta": "16 bloccanti aperti",
+      "valore": 13,
+      "etichetta": "13 bloccanti aperti",
       "soglia": "0",
       "ok": false,
       "cieco": false,
@@ -70,7 +70,6 @@
       "dettaglio": [
         "AR-157",
         "AR-168",
-        "AR-177",
         "AR-196",
         "AR-206",
         "AR-211",
@@ -80,28 +79,26 @@
         "AR-247",
         "AR-272",
         "AR-279",
-        "AR-292",
-        "AR-310",
         "AR-311",
         "AR-319"
       ],
       "fonte": "auto-coscienza/cantiere-difetti.json",
       "come_si_alza": "chiudere i bloccanti aperti: i fix sono già scritti, aspettano il merge di Nicola",
-      "precedente": 23,
+      "precedente": 16,
       "movimento": "migliorata"
     },
     {
       "id": "quaderni",
       "titolo": "Quaderni vivi (i senior imparano)",
-      "valore": 0.20833333333333334,
-      "etichetta": "25 su 120 (21%)",
+      "valore": 0.2,
+      "etichetta": "24 su 120 (20%)",
       "soglia": "60% (72 su 120)",
       "ok": false,
       "cieco": false,
       "fonte": "auto-coscienza/chiusura-loop.json",
       "come_si_alza": "gate: non si chiude un lavoro 🟡/🔴 senza la riga ESITO nel quaderno (AR-154)",
       "precedente": 0.20833333333333334,
-      "movimento": "ferma"
+      "movimento": "peggiorata"
     },
     {
       "id": "salute",
@@ -499,6 +496,18 @@
         "calibrazione": 0,
         "freni": 16,
         "quaderni": 0.20833333333333334,
+        "salute": 31
+      }
+    },
+    {
+      "data": "2026-07-27 22:20",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.18,
+        "calibrazione": 0,
+        "freni": 13,
+        "quaderni": 0.2,
         "salute": 31
       }
     }
