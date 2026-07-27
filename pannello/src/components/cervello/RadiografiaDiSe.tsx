@@ -13,6 +13,7 @@ import SaluteOnesta from "@/components/cervello/SaluteOnesta";
 import UtilizzoSenior from "@/components/cervello/UtilizzoSenior";
 import { usePanelSync } from "@/lib/panel-sync";
 import { dimensioneLeggibile, humanizzaDifetto } from "@/lib/radiografia-umana";
+import { listaSicura } from "@/lib/memoria-json";
 
 // 🧠 CERVELLO — l'area dove Nicola vede la macchina pensare su sé stessa: salute, auto-analisi del lavoro,
 // e la RADIOGRAFIA DI SÉ (la macchina analizza la propria architettura da cima a fondo).
@@ -110,12 +111,20 @@ export default function RadiografiaDiSe() {
   const votoSOk = Number.isFinite(votoS);
   const sintesiR = r?.sintesi || (!votoSOk && typeof r?.voto_salute_architettura === "string" ? r!.voto_salute_architettura : "");
   const cantiere = d?.cantiere;
-  const aperti = (cantiere?.difetti || []).filter((x) => x.stato !== "chiuso");
+  // AR-253 — `|| []` difende dal campo assente, non dal tipo sbagliato né dai buchi DENTRO la lista:
+  // un solo `null` fra i difetti e `x.stato` porta via tutta la pagina del Cervello. La stessa lista
+  // era già indurita lato server e nuda lato browser — qui si legge una volta, con la difesa giusta.
+  const difetti = listaSicura<Difetto>(cantiere?.difetti);
+  // AR-252 — stessa difesa per i campi della radiografia che il giro a volte scrive come frase invece
+  // che come elenco: `?.length` è vero anche sulle stringhe, `.map` no.
+  const proposte = listaSicura<{ cosa?: string; perche?: string }>(r?.proposte_nuovi_pezzi);
+  const domande = listaSicura<{ domanda?: string; perche_serve?: string } | string>(r?.domande_per_nicola);
+  const aperti = difetti.filter((x) => x.stato !== "chiuso");
   // Più recenti prima: senza questo i nuovi chiusi finiscono in fondo a una lista di 70+ righe
   // (ordine file = ordine inserimento, quasi sempre vecchio) e sembrano "spariti" a chi scorre dall'alto.
-  const chiusi = (cantiere?.difetti || [])
+  const chiusi = difetti
     .filter((x) => x.stato === "chiuso")
-    .sort((a, b) => String(b.chiuso_il || "").localeCompare(String(a.chiuso_il || "")));
+    .sort((a, b) => String(b?.chiuso_il || "").localeCompare(String(a?.chiuso_il || "")));
   const serie = d?.storico?.serie || [];
   // 📈 Andamento LEGGIBILE: lo storico grezzo ha più radiografie nello stesso giorno →
   // qui si tiene UNA voce per giorno (l'ultima) e si mostrano al massimo le ultime 3 settimane.
@@ -324,21 +333,21 @@ export default function RadiografiaDiSe() {
                 </div>
               )}
 
-              {(r?.proposte_nuovi_pezzi || []).length > 0 && (
+              {proposte.length > 0 && (
                 <div>
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><Sparkles size={13} /> Pezzi nuovi di sé che propongo (🟡)</div>
                   <div className="space-y-1.5">
-                    {r!.proposte_nuovi_pezzi!.map((p, i) => (
+                    {proposte.map((p, i) => (
                       <div key={i} className="text-[12px] text-black/70 flex gap-1.5"><span className="text-brand">+</span><span><b>{p.cosa}</b> — {p.perche}</span></div>
                     ))}
                   </div>
                 </div>
               )}
 
-              {(r?.domande_per_nicola || []).length > 0 && (
+              {domande.length > 0 && (
                 <div>
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><HelpCircle size={13} /> Domande per te</div>
-                  {r!.domande_per_nicola!.map((q, i) => {
+                  {domande.map((q, i) => {
                     const testo = typeof q === "string" ? q : q?.domanda;
                     const perche = typeof q === "string" ? "" : q?.perche_serve;
                     return (

@@ -93,6 +93,7 @@ import {
   Microscope,
   Paperclip,
   Maximize2,
+  Minimize2,
   Pin,
   CircleStop,
   Radio,
@@ -126,6 +127,7 @@ import { caricaAllegatiChat } from "@/lib/allegati-chat";
 import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
 import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta";
 import { ripristinaSub } from "@/lib/nav";
+import { deveChiudereOverlay, eTastoChiudi, overlayInCima, type StatoOverlay } from "@/lib/overlay-chiusura";
 import { emitSync, emitSyncDaLavoriFiniti, usePanelSync } from "@/lib/panel-sync";
 import { ascoltaChatUnificata, pubblicaChatUnificata } from "@/lib/chat-unificata";
 import {
@@ -1017,9 +1019,22 @@ export default function Dashboard() {
   // Riusa l'overlay della chat fluttuante, solo con contenitore fullscreen e barra "assistente" (identica).
   const [workerFull, setWorkerFull] = useState(false);
   const workerAperto = chatFluttuante || workerFull;
-  const apriWorkerPopup = useCallback((full = false) => {
+  // `storia: false` quando l'apertura È GIÀ una navigazione (ripristino da popstate): timbrare
+  // un'altra voce lì dentro impilerebbe cronologia a ogni «indietro» e il tasto non uscirebbe più.
+  const apriWorkerPopup = useCallback((full = false, storia = true) => {
     setWorkerFull(full);
     setChatFluttuante(!full);
+    // AR-218 — timbra una voce di cronologia con `overlay: "worker"`. Senza, il gesto indietro del
+    // telefono — che È il tasto «chiudi» universale — non aveva niente da riportare indietro: muoveva
+    // solo la vista sotto, lasciando il Worker piantato sopra. Fondiamo con lo state esistente perché
+    // Next tiene i suoi internals di routing lì dentro (stessa cautela di vaiSub in lib/nav.ts).
+    if (!storia || typeof window === "undefined") return;
+    try {
+      const st = window.history.state || {};
+      if (st.overlay !== "worker") {
+        window.history.pushState({ ...st, overlay: "worker" }, "", window.location.pathname + window.location.search);
+      }
+    } catch {}
   }, []);
   // 🔊 Live voce (senza API): il worker legge ad alta voce le risposte (sintesi vocale del browser).
   const [voceWorker, setVoceWorker] = useState(false);
@@ -1325,6 +1340,22 @@ export default function Dashboard() {
   function segnaLettaChatAttiva() {
     const id = convIdRef.current;
     if (id) segnaLetta(id);
+  }
+  /**
+   * AR-218 — l'UNICA porta d'uscita dal Worker: X, Esc, velo e gesto indietro chiamano questa.
+   * Prima ogni via d'uscita aveva la sua copia della chiusura e bastava che una fosse rotta (o
+   * assente, come a schermo intero) perché non ci fosse modo di uscire.
+   */
+  function chiudiWorker() {
+    segnaLettaChatAttiva();
+    setWorkerConvAperto(false);
+    setChatFluttuante(false);
+    setWorkerFull(false);
+    // Consuma la voce di cronologia timbrata all'apertura, così un successivo «indietro» torna alla
+    // pagina precedente e non a uno stato in cui il Worker sembra dover riaprirsi.
+    try {
+      if (typeof window !== "undefined" && window.history.state?.overlay === "worker") window.history.back();
+    } catch {}
   }
   /** Una tantum: chat storiche con risposta AD → già viste (niente pallini su tutto). v3 include lavori. */
   function migraConvLetteBaseline(list: Conversazione[], gruppi: Map<string, GruppoLavori>) {
@@ -1942,7 +1973,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }
     // Legacy: auto-coscienza e marketplace erano tab dentro «cervello» — ora voci menu a sé.
     if (v === "cervello-marketplace") setVista("salute-sito");
-    else if (v === "assistente") apriWorkerPopup(true);
+    else if (v === "assistente") apriWorkerPopup(true, false); // ripristino da cronologia: non timbrare un'altra voce (AR-218)
     else setVista(v as Vista);
   };
   useEffect(() => {
@@ -1992,15 +2023,47 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         try { window.history.replaceState({ ...(window.history.state || {}), vista: ultimaVistaStoria.current || "plancia" }, ""); } catch {}
         return;
       }
+      // AR-218 — gli overlay entrano nel contratto di cronologia: se la voce a cui siamo tornati non
+      // porta più il marcatore `overlay: "worker"`, il gesto indietro sta chiudendo il Worker. Va
+      // chiuso PRIMA di applicare la vista, altrimenti resta sopra a coprire la pagina di ritorno.
+      if (deveChiudereOverlay(st)) {
+        setWorkerConvAperto(false);
+        setChatFluttuante(false);
+        setWorkerFull(false);
+      }
       const v = st.vista;
       ultimaVistaStoria.current = v; // evita che l'effetto [vista] ri-aggiunga la voce (niente loop)
       applicaVistaSalvata(v);
       // Ripristina la sotto-scheda: l'assistente qui, le altre aree via EVENTO_SUB.
-      if (v === "assistente") apriWorkerPopup(true);
+      if (v === "assistente") apriWorkerPopup(true, false); // siamo DENTRO popstate: la voce esiste già (AR-218)
       if (st?.sub) ripristinaSub(v, st.sub);
     };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  // ⌨️ AR-218 — Esc chiude ciò che è aperto sopra la Cabina. Prima in tutto `pannello/src` non
+  // esisteva un solo gestore del tasto Escape: da tastiera non c'era proprio modo di uscire dal
+  // Worker a schermo intero. Chiude UNA cosa per volta, la più in cima (regole in lib/overlay-chiusura):
+  // il primo Esc richiude il cassetto conversazioni, il secondo il Worker, il terzo il menù laterale.
+  const statoOverlayRef = useRef<StatoOverlay>({});
+  // `menu` conta come overlay SOLO sotto lg: su desktop la barra laterale è sticky, non è sopra
+  // niente, e chiuderla con Esc sarebbe una sorpresa. Il controllo sta qui perché va fatto al
+  // momento del tasto: la finestra si ridimensiona, il listener è montato una volta sola.
+  statoOverlayRef.current = { workerConv: workerConvAperto, worker: chatFluttuante || workerFull, menu: navAperta };
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!eTastoChiudi(e.key)) return;
+      const s = statoOverlayRef.current;
+      const quale = overlayInCima({ ...s, menu: s.menu && window.innerWidth < 1024 });
+      if (!quale) return;
+      e.preventDefault();
+      if (quale === "workerConv") setWorkerConvAperto(false);
+      else if (quale === "worker") chiudiWorker();
+      else setNavAperta(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   // 🔗 Link bidirezionali fra aree: un componente chiede "portami all'area X (e alla casella Y)".
@@ -3128,7 +3191,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       {(chatFluttuante || workerFull) && (
         <>
         {/* Overlay trasparente: chiude al click fuori (in finestra; in workerFull parte sotto la navbar) */}
-        <div className={`fixed ${workerFull ? "inset-x-0 bottom-0 top-[var(--altezza-testata)]" : "inset-0"} z-40`} onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); setWorkerFull(false); }} aria-hidden />
+        <div className={`fixed ${workerFull ? "inset-x-0 bottom-0 top-[var(--altezza-testata)]" : "inset-0"} z-40`} onClick={chiudiWorker} aria-hidden />
         <div
           className={
             workerFull
@@ -3147,16 +3210,20 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             className={`relative flex flex-col flex-1 min-h-0 overflow-hidden ${workerFull ? "w-full sm:max-w-5xl sm:mx-auto sm:border-l sm:border-r" : ""}`}
             style={workerFull ? { borderColor: "var(--border)" } : undefined}
           >
-          {/* Chat fluttuante: barra alta con menu, ingrandisci e chiudi. Chat grande: niente icone in alto (menu in barra bassa). */}
-          {!workerFull && (
-            <div
-              className="shrink-0 flex items-center justify-end gap-0.5 px-2 py-1.5 border-b"
-              style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}
-            >
+          {/* AR-218 — la barra alta con la X c'è SEMPRE, anche a schermo intero.
+              Prima era dentro `{!workerFull && (…)}`: in modalità piena non veniva proprio
+              renderizzata, e non essendoci né Esc né il gesto indietro né un velo cliccabile
+              scoperto, il Worker restava aperto e basta. A schermo intero il menù ☰ vive nella barra
+              bassa, quindi qui restano solo «riduci a finestra» e «chiudi» — entrambi ≥44px al tocco. */}
+          <div
+            className="shrink-0 flex items-center justify-end gap-0.5 px-2 py-1.5 border-b"
+            style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}
+          >
+            {!workerFull && (
               <button
                 type="button"
                 onClick={() => setWorkerConvAperto((v) => !v)}
-                className={`grid place-items-center w-8 h-8 rounded-lg transition ${
+                className={`grid place-items-center w-11 h-11 sm:w-8 sm:h-8 rounded-lg transition ${
                   workerConvAperto ? "bg-brand/10 text-brand" : "text-black/45 hover:bg-black/[0.06]"
                 }`}
                 aria-label="Apri o chiudi le conversazioni"
@@ -3165,26 +3232,26 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               >
                 <Menu size={15} />
               </button>
-              <button
-                type="button"
-                onClick={() => apriWorkerPopup(true)}
-                className="grid place-items-center w-8 h-8 rounded-lg text-black/45 hover:bg-black/[0.06] transition"
-                aria-label="Schermo intero"
-                title="Apri il Worker a schermo intero"
-              >
-                <Maximize2 size={15} />
-              </button>
-              <button
-                type="button"
-                onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); setWorkerFull(false); }}
-                className="grid place-items-center w-8 h-8 rounded-lg text-black/45 hover:bg-black/[0.06] transition"
-                aria-label="Chiudi la chat"
-                title="Chiudi"
-              >
-                <X size={15} />
-              </button>
-            </div>
-          )}
+            )}
+            <button
+              type="button"
+              onClick={() => apriWorkerPopup(!workerFull)}
+              className="grid place-items-center w-11 h-11 sm:w-8 sm:h-8 rounded-lg text-black/45 hover:bg-black/[0.06] transition"
+              aria-label={workerFull ? "Riduci a finestra" : "Schermo intero"}
+              title={workerFull ? "Riduci a finestra" : "Apri il Worker a schermo intero"}
+            >
+              {workerFull ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
+            </button>
+            <button
+              type="button"
+              onClick={chiudiWorker}
+              className="grid place-items-center w-11 h-11 sm:w-8 sm:h-8 rounded-lg text-black/45 hover:bg-black/[0.06] transition"
+              aria-label="Chiudi la chat"
+              title="Chiudi (Esc)"
+            >
+              <X size={15} />
+            </button>
+          </div>
           {/* Cassetto conversazioni sopra la chat (mobile e desktop) */}
           <div className="relative flex flex-1 min-h-0 overflow-hidden">
           <div

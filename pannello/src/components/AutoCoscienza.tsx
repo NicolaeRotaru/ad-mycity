@@ -26,6 +26,7 @@ import ParlaCasella from "@/components/ParlaCasella";
 import CasellaAnteprima, { anteprimaTesto } from "@/components/CasellaAnteprima";
 import { TestoUmano } from "@/components/TestoUmano";
 import { humanizzaErrore, traduciTestoCompleto } from "@/lib/radiografia-umana";
+import { listaSicura } from "@/lib/memoria-json";
 import {
   autonomiaLeggibile,
   contestoBenchmark,
@@ -318,7 +319,11 @@ export default function AutoCoscienza({
   const cal = d?.calibrazione;
   const erroriLive = live?.gap?.length ? live.gap : a?.errori;
   const nErrori = (Array.isArray(erroriLive) ? erroriLive : []).length;
-  const nDomande = a?.domande_per_nicola?.length || 0;
+  // AR-252 — `?.length` non è una difesa: anche una stringa ha `.length`, e poi `.map` esplode in
+  // pieno render portando via l'intera Cabina. Una lista sicura calcolata una volta, usata sia per
+  // il conteggio che per il disegno: così le due letture non possono più divergere.
+  const domande = listaSicura<Domanda | string>(a?.domande_per_nicola);
+  const nDomande = domande.length;
   const tutteLezioni = ap?.lezioni || [];
   const lezioniRecenti = tutteLezioni.filter((l) => lezioneRecente(l));
   const lezioniVis = mostraArchivioLezioni ? tutteLezioni : lezioniRecenti;
@@ -616,7 +621,7 @@ export default function AutoCoscienza({
                 <div>
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><HelpCircle size={13} /> Domande per te ({nDomande})</div>
                   <div className="space-y-2">
-                    {a!.domande_per_nicola!.map((q, i) => {
+                    {domande.map((q, i) => {
                       const testo = (typeof q === "string" ? q : q?.domanda) || "";
                       const perche = typeof q === "string" ? "" : q?.perche_serve;
                       const seRisp = typeof q === "string" ? "" : q?.se_rispondi;
