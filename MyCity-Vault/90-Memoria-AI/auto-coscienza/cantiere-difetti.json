@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 01:38",
+  "aggiornato": "2026-07-28 02:44",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -3334,15 +3334,15 @@
       "causa_radice": "① Perché la home dice che non c'è nulla da firmare? Perché la lista è vuota. ② Perché è vuota? Perché la lettura è fallita e l'errore è stato ingoiato. ③ Perché è stato ingoiato? Perché il riquadro è stato scritto per non rompersi mai, e un catch vuoto è il modo più veloce per ottenerlo. ④ Perché sotto, la lettura della coda perde la differenza fra «assente» e «non leggibile»? Perché readVaultFile ha una firma che può dire solo testo-o-null, e i chiamanti storici si aspettano quello. ⑤ Radice: in tutta la catena l'assenza di dato e l'assenza di risposta sono lo stesso valore, e su una superficie di firma questo trasforma un guasto in una rassicurazione.",
       "fix_proposto": "🟡 Tre punti nello stesso branch: (a) in azioni-pronte.ts:78 passare a readVaultFileEsito e propagare lo stato nella risposta della route come `codaLeggibile: boolean` + motivo; (b) in azioni-pronte/route.ts calcolare `collegato` da quello stato, non dal conteggio; (c) in Plancia.tsx:120 gestire l'errore della fetch con uno stato `erroreCaricamento` e, quando la coda non è leggibile, sostituire «Niente da firmare 👍» con «Non riesco a leggere la coda — non so se c'è qualcosa da firmare» in giallo. Stesso trattamento nell'area Azioni (riga 927-930).",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/errore-ingoiato.test.mjs"
       },
       "nota": "Dove: pannello/src/components/aree/Plancia.tsx:120 (errore di rete ingoiato) e :177 (messaggio) · pannello/src/lib/azioni-pronte.ts:78 · pannello/src/lib/vault.ts:39-42 (readVaultFile appiattisce a null anche «GitHub giù / token morto») · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 02:44",
+      "chiuso_come": "node cervello/test/errore-ingoiato.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-234",
@@ -3616,15 +3616,15 @@
       "causa_radice": "① Perché scarica 344 KB? Perché la route restituisce gli oggetti interi: `NextResponse.json({ ..., apprendimento, miglioramento, calibrazione, registro })` (route.ts:175), e `apprendimento.json` pesa 1.128.689 byte sul disco. ② Perché ogni 30s? Perché `AutoCoscienza.tsx:284` fa `setInterval(carica, 30_000)` con `cache: \"no-store\"`, e in più `usePanelSync` (riga 288) aggiunge ricariche a ogni evento. ③ Perché tutto il file e non solo il necessario? Perché la route fa da semplice inoltro del file di vault senza selezionare i campi: il tipo lato client `Apprendimento` (AutoCoscienza.tsx:157) dichiara di leggere solo `data, aggiornato, lezioni, principi, preferenze_nicola, meta` — tutto il resto viaggia per niente. ④ Perché il file è così grosso? Perché il giro ci accumula dentro 210 chiavi di servizio (`_nota_metabolizzazione_*`, `_gate_*`, `_consolidamento_*`) che nessuna schermata mostra, e 476 lezioni senza mai potare l'archivio. ⑤ Causa radice: manca il confine tra 'file di memoria della macchina' e 'risposta per il telefono' — la route serve il primo dove serviva il secondo, e cresce senza tetto a ogni giro.",
       "fix_proposto": "🟡 In `pannello/src/app/api/memoria/auto-coscienza/route.ts` alla riga 175, smettere di rimandare gli oggetti interi. (a) Costruire un `apprendimento` snello che porti solo i campi che la UI dichiara di leggere — `{ data, aggiornato, principi, preferenze_nicola, meta }` — più le lezioni TAGLIATE agli ultimi 30 giorni (oggi la UI ne mostra 7 giorni: `lezioneRecente` in AutoCoscienza.tsx:244), scartando ogni chiave che inizia con `_`. Solo questo porta la risposta da 344 KB a poche decine di KB. (b) Aggiungere una route separata `/api/memoria/auto-coscienza/archivio` che serva le lezioni vecchie, chiamata SOLO quando Nicola preme «mostra archivio» (il bottone che oggi accende `mostraArchivioLezioni`, AutoCoscienza.tsx:271) — così il carico grosso lo paga chi lo chiede. (c) In `pannello/src/components/AutoCoscienza.tsx:284` portare il poll da 30s a 120s: è una pagina di lettura, non un cruscotto in tempo reale, e `usePanelSync` già la sveglia quando qualcosa cambia davvero. (d) Far restituire alla route un header `ETag` calcolato sul campo `aggiornato` e rispondere `304` se non è cambiato: un tick senza novità costa zero byte invece di 344 KB.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/errore-ingoiato.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/memoria/auto-coscienza/route.ts:175 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 02:44",
+      "chiuso_come": "node cervello/test/errore-ingoiato.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-248",
@@ -3752,16 +3752,18 @@
       "dimensione": "pannello-robustezza-errori",
       "gravita": "grave",
       "impatto_crescita": "medio",
-      "causa_radice": "① Perché la scheda è vuota? Perché `/api/memoria/auto-coscienza` riceve `null` per l'apprendimento e i blocchi `ap?.lezioni && ...` non renderizzano nulla. ② Perché riceve null? Per due strade che portano allo stesso punto: GitHub non serve il contenuto dei file oltre 1 MiB (1.048.576 byte) e restituisce `content` vuoto → `readNote` risponde «Nota non trovata» → `readVaultFile` lo traduce in `null`; e anche se lo servisse, il tetto `MAX = 1_000_000` caratteri in obsidian.ts taglierebbe il file a metà stringa (1.109.141 caratteri) producendo JSON invalido → `leggiJson` va nel `catch` e torna `null`. ③ Perché il null diventa silenzio? Perché `leggiJson` inghiotte l'errore con un `catch { return null }` che non distingue «file assente» da «file illeggibile perché troppo grande»: l'informazione più utile viene buttata proprio nel punto in cui serve. ④ Perché il tetto è a 1 MB? Perché era stato ALZATO apposta (da 200k) quando la radiografia da ~215k spariva — si è curato il file che faceva male allora, tarando la soglia sul più grande di quel momento, senza chiedersi quale file sarebbe cresciuto dopo. ⑤ Perché nessuno se n'è accorto? Perché non esiste nessun controllo che confronti la dimensione dei JSON di memoria col tetto di lettura: il volano dell'apprendimento accumula per progetto, ma nessuno misura quando l'accumulo supera la capacità di leggerlo.",
-      "fix_proposto": "🟡 Tre mosse, in ordine di urgenza. (1) Rendere il guasto VISIBILE invece che muto: in `obsidian.ts`, quando GitHub risponde 200 con `content` vuoto e `size > 1048576`, restituire `Errore: file troppo grande per la lettura inline (N byte)` e far arrivare quel motivo fino alla card, così la scheda dice «archivio troppo grande» invece di mostrare zero. (2) Alzare il soffitto vero: per i file oltre 1 MiB usare la Blobs API di GitHub (`/git/blobs/{sha}?per_page=...`, che serve fino a 100 MB) o il media type raw, invece di tagliare il testo — e non troncare MAI un file `.json` a metà (un JSON tagliato è peggio di un JSON assente). (3) Causa-radice a monte, da girare a @builder-automazioni: potare `apprendimento.json` come già previsto dalla Carta (le lezioni decadute vanno in un archivio separato per anno), più una sentinella che avvisa quando un JSON di memoria supera l'80% del tetto di lettura.",
+      "causa_radice": "RIDIAGNOSTICATO 2026-07-28 (audit della chiusura, cervello/come-riparo.md §5). La causa scritta prima era imprecisa. Riprodotto: apprendimento.json misura 1.111.673 CARATTERI, il tetto in pannello/src/lib/obsidian.ts:174 e MAX=1.000.000, quindi il testo viene troncato a meta stringa e JSON.parse fallisce -> leggiJson torna null -> scheda vuota. Sopra 1 MiB c e anche un secondo modo di fallire, altrettanto silenzioso: la Contents API di GitHub non serve inline i file oltre 1.048.576 byte, restituisce content vuoto, e il codice lo legge come stato assente — un file troppo grosso che risulta INESISTENTE. Due strade, stessa bugia: la scheda dice che non c e niente.",
+      "fix_proposto": "🟡 Due meta, servono entrambe. (a) CODICE: un .json non si tronca MAI — troncare dati strutturati non li degrada, li distrugge. Serve uno stato dichiarato «troppo-grande» in StatoLettura (oggi: ok|assente|github-giu|auth) che porti la dimensione vera, cosi la Cabina dice «archivio troppo grande per essere letto: N byte» invece di restare vuota; e sopra 1 MiB va usata la Blob API con media type raw invece della Contents API. (b) DATI: il file deve rientrare. Misurato il 28/7 — togliere le 211 chiavi di servizio _* recupera 114.047 byte e porta il file a 1.017.222: NON BASTA, resta sopra il tetto. Servono anche le 476 lezioni potate (famiglia AR-182/AR-199, archivio mai potato). Finche (b) non e fatta la scheda resta vuota anche col fix (a): cambia che si SA perche.",
       "colore": "🟡",
       "stato": "aperto",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "comando": "node cervello/test/errore-ingoiato.test.mjs"
+        "file": "pannello/src/lib/obsidian.ts",
+        "pattern": "troppo-grande",
+        "presente": true
       },
-      "nota": "Dove: pannello/src/lib/obsidian.ts:174 e :297 (tetto) — file MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+      "nota": "Dove: pannello/src/lib/obsidian.ts:174 e :297 (tetto) — file MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json · RIAPERTO 2026-07-28 02:10: il lotto 11 lo aveva chiuso, ma il suo fix (risposta piu snella) gira DOPO la lettura — e la lettura e gia fallita. Il difetto e sopravvissuto perche condivideva la prova comportamentale con altri quattro difetti del lotto: una prova sola per cinque difetti chiude tutti e cinque anche se uno non e riparato. E la stessa debolezza dell OR che ha fatto chiudere AR-178 a meta. Ora ha una prova sua.",
       "chiuso_il": "",
       "chiuso_come": ""
     },
@@ -3795,15 +3797,15 @@
       "causa_radice": "① Perché spariscono? Perché `setLinks([...])` non viene mai chiamato e `links` resta l'array vuoto iniziale, quindi il `.map` alla riga 147 non stampa niente. ② Perché non viene chiamato? Perché la riga 53 `(rad.cantiere?.difetti || []).filter((x) => x.stato !== 'chiuso')` lancia se `difetti` non è un elenco o contiene una riga vuota, e l'eccezione avviene DENTRO il `.then()`. ③ Perché l'eccezione non si vede? Perché a quella `Promise.all(...).then(...)` manca il `.catch()` finale (ce l'hanno le tre fetch interne, non la catena che le unisce): l'errore diventa un rejection non gestito che finisce solo nella console del browser, dove nessuno guarda. ④ Perché la riga non è protetta? Stessa ragione del difetto sul Cervello: è la quarta copia a mano della lettura di `cantiere-difetti.json`, e le due copie indurite sono entrambe lato server. ⑤ Perché il fallimento è silenzioso invece che visibile? Perché lo stato di partenza (`useState<SaluteLink[]>([])`) è indistinguibile dallo stato «non sono riuscito a calcolarlo»: senza uno stato d'errore esplicito, «vuoto» e «rotto» hanno lo stesso aspetto a schermo.",
       "fix_proposto": "🟡 In `MacchinaHomeCard.tsx`: (a) riga 53, usare `Array.isArray(rad?.cantiere?.difetti) ? rad.cantiere.difetti.filter(Boolean) : []` con `x?.stato` (la stessa `listaSicura()` condivisa); (b) chiudere la catena con `.catch(() => setLinks(LINK_BASE))`, dove `LINK_BASE` sono i tre bottoni con etichetta neutra («dato non leggibile») e semaforo giallo — così il collegamento alle tre pagine di salute resta SEMPRE cliccabile anche quando il dato manca. Un errore di lettura non deve mai chiudere la porta d'ingresso.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/errore-ingoiato.test.mjs"
       },
       "nota": "Dove: pannello/src/components/MacchinaHomeCard.tsx:48-77 (riga 53)",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 02:44",
+      "chiuso_come": "node cervello/test/errore-ingoiato.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-257",
@@ -3917,15 +3919,15 @@
       "causa_radice": "1) Perché torna indietro? Perché dopo la POST si chiama sempre `carica()`, che riallinea allo stato vero del server. 2) Perché senza spiegazione? Perché il `.catch(() => {})` sulla POST scarta l'errore e non c'è nessuno stato di errore da mostrare. 3) Perché non si accorge nemmeno degli errori del server? Perché non si controlla `res.ok`: una risposta 500 non fa scattare il catch. 4) Perché manca il blocco durante l'invio? Perché non esiste uno stato «sto salvando» in questo componente. 5) Radice: l'aggiornamento ottimistico è stato scritto contando sul riallineamento successivo come rete di sicurezza, dimenticando che il riallineamento silenzioso è indistinguibile da un malfunzionamento per chi guarda lo schermo.",
       "fix_proposto": "🟡 In `pannello/src/components/StellePolari.tsx`: aggiungere uno stato `salvando: string | null`, uscire subito se è già in corso per la stessa stella, mettere `disabled={salvando === s.id}` sull'interruttore; controllare l'esito (`res.ok` e corpo) e, se negativo, mostrare accanto alla stella un avviso del tipo «Non salvato — riprova» invece di far tornare indietro l'interruttore in silenzio.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/errore-ingoiato.test.mjs"
       },
       "nota": "Dove: pannello/src/components/StellePolari.tsx:62-72 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 02:44",
+      "chiuso_come": "node cervello/test/errore-ingoiato.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-263",
@@ -5381,8 +5383,8 @@
     }
   ],
   "meta": {
-    "aperti": 152,
+    "aperti": 147,
     "in_corso": 0,
-    "chiusi": 119
+    "chiusi": 124
   }
 }
