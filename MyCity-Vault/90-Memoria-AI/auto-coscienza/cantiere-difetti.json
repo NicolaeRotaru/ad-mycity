@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 11:33",
+  "aggiornato": "2026-07-28 12:27",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -2012,15 +2012,15 @@
       "causa_radice": "① Perché mancano le cause? Perché il 90% delle voci non passa dal comando che le chiede. ② Perché esiste una seconda porta d'ingresso? Perché il ponte dai quaderni è stato aggiunto dopo, per far salire il numero di previsioni. ③ Perché la seconda porta non ha ereditato il cancello? Perché il cancello è codice dentro una funzione, non una regola sul dato. ④ Perché il guardiano non se n'è accorto? Perché `valida` controlla i campi che qualcuno ha pensato di controllare, non l'invariante «una mancata ha una causa». ⑤ Causa di sistema: gli obblighi vivono nei punti di ingresso invece che negli invarianti del registro, quindi ogni nuova via di scrittura li azzera in silenzio — e la via nuova viene aggiunta proprio quando si vuole far salire il numero, cioè quando la pressione a saltare i controlli è massima.",
       "fix_proposto": "🟡 (firma Nicola) Spostare l'obbligo dall'ingresso all'invariante: `valida` fallisce se una voce `mancata` non ha `causa` fra le tre ammesse (con esenzione dichiarata e datata per lo storico già scritto, che non si riscrive). Il ponte `da-loop`, finché non sa chiedere la causa, non scrive voci che contano. Aggiungere alla checklist di ogni nuovo canale di scrittura del registro: «quali cancelli di cmdEsito eredita?».",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/mancata-senza-causa.test.mjs"
       },
       "nota": "Dove: cervello/calibrazione.mjs:363-376 (l'obbligo) · :533-553 (chi lo salta) · :666-687 (il guardiano che non lo controlla) · Impatto: Alla domanda «una previsione sbagliata cambia qualcosa nel comportamento successivo?» la risposta misurata è no: viene archiviata, non capita. Il diario del perché — l'unico pezzo che distingue una macchina che si calibra da una che tiene il punteggio — è vuoto al 100%. Senza la causa non si può nemmeno sapere se la macchina sbaglia perché ragiona male (modello), perché legge dati sporchi (dato) o perché il mondo è cambiato (mondo): tre problemi con tre rimedi opposti, trattati come uno solo. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 12:27",
+      "chiuso_come": "node cervello/test/mancata-senza-causa.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-170",
@@ -2031,15 +2031,15 @@
       "causa_radice": "① Perché il freno si aggira? Perché la fonte è un parametro dichiarato da chi misura. ② Perché nessuno verifica la dichiarazione? Perché non esiste un artefatto firmato da Nicola a cui agganciarla. ③ Perché il messaggio suggerisce proprio la scappatoia? Perché è stato scritto pensando a un umano onesto che ha davvero la conferma in mano, non a un agente sotto un vincolo hard che deve chiudere il giro. ④ Perché quel contesto non è stato considerato? Perché chi scrive il freno e chi lo subisce sono la stessa entità. ⑤ Causa di sistema: la separazione fra chi prevede, chi misura e chi valida esiste solo nel nome dei comandi, non nei permessi — non c'è nessun punto della catena in cui un secondo soggetto debba mettere la mano perché un numero diventi «vero».",
       "fix_proposto": "🟡 (firma Nicola) `--fonte=\"conferma di Nicola\"` è ammessa solo se accompagnata da un riferimento verificabile (id della card approvata in AZIONI-IN-ATTESA o riga in DECISIONI con data e ora); `valida` fallisce se una voce chiusa con fonte umana non ha quel riferimento. In parallelo, riscrivere il messaggio d'errore: non deve indicare la fonte alternativa, deve indicare come si riaccende il sensore o come si chiude la previsione come non misurabile.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/fonte-umana-verificabile.test.mjs"
       },
       "nota": "Dove: cervello/calibrazione.mjs:351-357 (il freno e il suggerimento) · :83-95 (la mappa fonte→sensore) · :230-234 (chi conta) · :677-679 (il guardiano) · Impatto: Il freno anti-over-confidence più importante del motore ha una porta accanto, e il sistema stesso indica dove si trova. Nel momento in cui un sensore va cieco — cioè esattamente quando la macchina è meno affidabile — la via più rapida per chiudere la previsione è dichiarare una conferma umana che nessuno verificherà. Il punteggio che poi diventa proposta di autonomia si costruisce su quella dichiarazione. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 12:27",
+      "chiuso_come": "node cervello/test/fonte-umana-verificabile.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-171",
@@ -2069,15 +2069,15 @@
       "causa_radice": "① Perché l'AD ha punteggio pieno? Perché la sua unica previsione valida è indovinare uno stallo. ② Perché una previsione così è stata aperta? Perché `autoprevedi` doveva sbloccare un registro vuoto e ha usato un valore fisso. ③ Perché il valore è fisso? Perché serviva far esistere una voce strutturata, non fare una previsione. ④ Perché il filtro anti-banalità non l'ha fermata? Perché riconosce le parole della banalità, non la struttura: nessun confronto con il valore già noto al momento in cui la previsione si apre. ⑤ Causa di sistema: la macchina ha un vincolo che le chiede DI AVERE previsioni e nessun vincolo che le chieda di RISCHIARE qualcosa; sotto pressione produce la previsione più facile da azzeccare, e i suoi filtri controllano le parole invece dei fatti. È lo stesso pattern del difetto già aperto sul segnale onesto: il numero mostrato è formalmente corretto e sostanzialmente vuoto.",
       "fix_proposto": "🟡 (firma Nicola) Il filtro anti-banalità smette di leggere le parole e legge i dati: quando si apre una previsione si registra anche il valore corrente della metrica (`baseline`), e a chiusura una previsione il cui atteso coincide con la baseline è marcata `banale` e non conta. `autoprevedi` non inventa più un atteso: apre la previsione solo se può leggere una baseline vera e chiede un atteso diverso da quella, altrimenti non apre nulla e lo dice.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/previsione-banale-dai-dati.test.mjs"
       },
       "nota": "Dove: cervello/calibrazione.mjs:562-593 (autoprevedi, atteso scritto nel codice) · :117-126 (il filtro anti-banalità) · MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json (voce CAL-20260710042004-AD) · Impatto: La voce della pagella che dice «sa prevedere le conseguenze delle sue mosse» poggia, per l'unico reparto che quella voce pretende per forza, su una costante hardcoded che ha indovinato uno stallo. Non è un errore di calcolo: è una prova che non prova niente, e alimenta la stessa riga già segnalata come mostrata male al Pannello. Finché il business è fermo, la macchina può accumulare «previsioni azzeccate» a costo zero prevedendo l'immobilità. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 12:27",
+      "chiuso_come": "node cervello/test/previsione-banale-dai-dati.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-173",
@@ -2088,15 +2088,15 @@
       "causa_radice": "① Perché una scaduta è tornata azzeccata? Perché chiudere non controlla lo stato di partenza. ② Perché non lo controlla? Perché `esito` è stato pensato come «scrivi il numero quando lo sai», senza distinguere il quando. ③ Perché il quando non conta? Perché lo scarto si calcola solo su atteso vs reale, mai su data prevista vs data misurata. ④ Perché nessuno ha chiesto la finestra? Perché il vincolo che preme sul giro è «chiudi il debito», e chiudere in ritardo lo soddisfa esattamente come chiudere in tempo. ⑤ Causa di sistema: gli incentivi interni della macchina premiano la chiusura formale del conto, non la qualità della previsione; quando una metrica di processo (quante previsioni ho chiuso) e una di verità (quanto sono calibrata) confliggono, vince quella che il gate sa misurare.",
       "fix_proposto": "🟡 (firma Nicola) `esito` rifiuta di chiudere come azzeccata una voce già `scaduta` o misurata oltre `entro`: la chiude come `fuori finestra`, stato che non conta nel punteggio ma salda il debito e chiede una riga di lezione. Se la misura tardiva è comunque informativa si registra come nota, non come centro. Il conteggio delle chiusure fuori finestra va mostrato accanto al punteggio.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/previsione-fuori-finestra.test.mjs"
       },
       "nota": "Dove: cervello/calibrazione.mjs:321-394 (cmdEsito non guarda né lo stato né la data) · :396-410 (lo sweep che l'aveva marcata scaduta) · voce CAL-20260710042004-AD: entro 2026-07-17, chiusa azzeccata il 2026-07-26 06:23 · Impatto: Il debito di misura si può saldare misurando in ritardo, e il ritardo converte le previsioni scadute (che non contano) in previsioni azzeccate (che contano). Su una metrica cumulativa e ferma, aspettare non è neutro: è la strategia ottimale per azzeccare. La finestra temporale — l'unica cosa che rende una previsione falsificabile — non viene fatta rispettare da nessuna parte. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 12:27",
+      "chiuso_come": "node cervello/test/previsione-fuori-finestra.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-174",
@@ -5363,8 +5363,8 @@
     }
   ],
   "meta": {
-    "aperti": 140,
+    "aperti": 136,
     "in_corso": 0,
-    "chiusi": 131
+    "chiusi": 135
   }
 }
