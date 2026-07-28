@@ -7,7 +7,12 @@ export type Reparto = { nome: string; comandi: Comando[] };
 // ⚡ Skill rapide: le scorciatoie che riempiono l'input della chat con un tocco.
 // UNA casa sola per tutte le chat (Assistente, chat fluttuante, caselle) — prima
 // erano copiate in 3 file e andavano tenute allineate a mano.
-export const SKILL_RAPIDE: { label: string; cmd: string }[] = [
+export const SKILL_RAPIDE: { label: string; cmd: string; primaria?: boolean }[] = [
+  // 🚧 PRIMA DI TUTTE, per scelta di Nicola (29/7): è il lavoro che porta a zero i difetti della
+  // macchina. Apre la skill di progetto `.claude/skills/cantiere/` — lo standard di un lotto di
+  // riparazione (si sceglie per malattia, prova comportamentale per difetto, cancello verde o non
+  // si consegna). Il testo lungo sta in cervello/come-riparo.md.
+  { label: "🚧 Risolvi i difetti", cmd: "risolvi i difetti principali del cantiere", primaria: true },
   // Comandi rapidi (ex chip home chat)
   { label: "✨ Contenuti PRO", cmd: "contenuti pro: " },
   { label: "🔄 Fai un giro", cmd: "fai un giro" },

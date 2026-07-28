@@ -44,9 +44,12 @@ _tmp_*
 # Specchio per Claude Code delle skill approvate (fonte unica: .cursor/skills/ + manifest
 # cervello/worker-plugins.json). Lo rigenera `sync-worker-plugins.mjs --specchia` a ogni avvio
 # di worker/giro/ritmo: file GENERATI, mai committarli (eviterebbe due copie che divergono).
-# Resta versionata solo `verify`, skill nativa Claude scritta a mano.
+# Restano versionate `verify` e `cantiere`, skill native Claude scritte a mano (non generate dallo
+# specchio): sono lo standard del lavoro, non una copia di un manifest. Senza questa eccezione la
+# skill vivrebbe solo dentro la sessione che l'ha scritta — e il container è effimero.
 .claude/skills/*
 !.claude/skills/verify
+!.claude/skills/cantiere
 
 # Backup di lavoro (es. apprendimento.json.bak scritto da cristallizza-apprendimento.mjs prima di
 # riscrivere l'archivio). Servono al rollback immediato locale, ma NON vanno in git: il perimetro-

@@ -89,7 +89,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node cervello/contesto-lezioni.mjs --hook"
+            "command": "bash cervello/installa-hooks.sh >/dev/null 2>&1; node cervello/contesto-lezioni.mjs --hook"
           }
         ]
       }

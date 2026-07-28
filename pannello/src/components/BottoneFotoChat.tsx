@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Camera, Video, X, RefreshCw, Check, Loader2, SwitchCamera, Mic, Send, ScreenShare } from "lucide-react";
+import { puoInviareChat } from "@/lib/atto-unico";
 
 // 📷/📹/🖥️ Telecamera o schermo DENTRO la chat. Tre modalità, stessa base:
 //  - variante FOTO (default): modalino compatto, scatti UNA foto e si chiude.
@@ -202,9 +203,24 @@ export default function BottoneFotoChat({
   }, [onScegli, chiudi, live]);
 
   function inviaMessaggio() {
-    if (chatInvioBloccatoRef?.current) return;
+    // AR-261: la stessa regola del bottone, ma DENTRO la funzione e in una forma eseguibile da un
+    // test. Nel JSX c'era `disabled={!bozza.trim() || chatLoading}`, e il gestore del tasto Invio
+    // chiama questa funzione saltando l'attributo: dalla finestra video e da quella dello schermo
+    // condiviso si poteva partire una seconda volta mentre l'AD stava ancora rispondendo. Il blocco
+    // condiviso dura 800 ms fissi — quasi sempre meno del tempo di risposta — quindi non bastava.
+    // Una guardia scritta nel JSX vale per un modo di premere; questa vale per tutti.
+    if (
+      !puoInviareChat({
+        testo: bozza,
+        chatLoading,
+        bloccato: Boolean(chatInvioBloccatoRef?.current),
+        destinatarioPresente: Boolean(chatOnInvia),
+      })
+    ) {
+      return;
+    }
     const t = bozza.trim();
-    if (!t || !chatOnInvia) return;
+    if (!chatOnInvia) return;
     if (chatInvioBloccatoRef) {
       chatInvioBloccatoRef.current = true;
       setTimeout(() => {

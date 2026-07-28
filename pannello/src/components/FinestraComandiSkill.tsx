@@ -98,7 +98,13 @@ export default function FinestraComandiSkill({
                 key={s.cmd}
                 type="button"
                 onClick={() => onScegli(s.cmd)}
-                className="text-xs font-medium border border-brand/30 bg-brand-50/40 text-ink/70 rounded-full px-2.5 py-1 hover:border-brand/50 hover:bg-brand-50/70 active:scale-95 transition"
+                // La skill `primaria` è in cima E si vede: in mezzo a quattordici chip uguali,
+                // «prima nell'elenco» non basta a farla trovare.
+                className={
+                  s.primaria
+                    ? "text-xs font-semibold border border-brand bg-brand text-white rounded-full px-3 py-1 shadow-card hover:opacity-90 active:scale-95 transition"
+                    : "text-xs font-medium border border-brand/30 bg-brand-50/40 text-ink/70 rounded-full px-2.5 py-1 hover:border-brand/50 hover:bg-brand-50/70 active:scale-95 transition"
+                }
               >
                 {s.label}
               </button>
