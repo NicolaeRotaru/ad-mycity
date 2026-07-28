@@ -1995,9 +1995,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/calibrazione.mjs",
-        "pattern": "stato: azzeccata ? \"azzeccata\" : \"mancata\"",
-        "presente": false
+        "comando": "node cervello/test/previsione-aperta-prima.test.mjs"
       },
       "nota": "Dove: cervello/calibrazione.mjs:533-553 · cervello/chiusura-loop.mjs:96,143-156 · Impatto: L'autonomia si guadagna su previsioni che non erano previsioni. E non resta un numero interno: `promozioni --accoda` (righe 417-465, chiamato a ogni giro da giro.sh:346) trasforma quel punteggio in una card che chiede a Nicola di spostare i lavori di routine di un reparto da 🟡 a 🟢, mostrando come prova «X/Y azzeccate · confidenza Wilson Z». Nicola firmerebbe un allargamento di permessi su un track record fabbricato, senza avere modo di distinguerlo da uno vero. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",

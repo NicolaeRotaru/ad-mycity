@@ -416,6 +416,16 @@ function cmdEsito(data) {
     );
     process.exit(2);
   }
+  if (oltre) {
+    // AR-173, ultima clausola: una misura tardiva «salda il debito e chiede una riga di lezione».
+    // Non è un obbligo tecnico — è la domanda che rende utile un ritardo invece di solo perdonarlo.
+    console.warn(
+      `⚠️  Chiusura FUORI FINESTRA: la scadenza era il ${String(e.entro).slice(0, 10)}. La voce entra a\n` +
+        "   registro e NON fa punteggio. Prima di andare avanti, una riga sola: perché è stata misurata\n" +
+        "   in ritardo — non c'era il dato, non c'era il tempo, o la finestra era irrealistica?\n" +
+        `   node cervello/chiusura-loop.mjs registra ${e.reparto} "previsione ${e.id} misurata in ritardo" "<perché>" "" ""`
+    );
+  }
   let { azzeccata, scarto_pct } = valuta(e.atteso, reale, e.tolleranza || TOLLERANZA_DEFAULT);
   const sensoreStato = sensoreStatoPerFonte(fonte);
   // AR-061: sensore-fonte cieco → non si può chiudere "azzeccata" (over-confidence al buio).
@@ -615,13 +625,26 @@ function cmdDaLoop(data) {
   const fonte = "chiusura-loop ESITO";
   const { azzeccata, scarto_pct } = valuta(atteso, reale, TOLLERANZA_DEFAULT);
   const quando = nowPiacenza();
-  data.registro.push({
+
+  // AR-168 — **una riga ESITO non può diventare una previsione.**
+  //
+  // Qui il commento diceva l'opposto del codice, e vale la pena lasciarlo a verbale: una riparazione
+  // precedente aveva rinominato la metrica in `esito_loop_numerico` APPOSTA perché le righe nuove
+  // contassero («sono previsioni vere e devono contare»). Ma queste righe nascono con
+  // `creato === chiuso_il`, nello stesso istante: chi le scrive conosce già il risultato mentre le
+  // scrive. Non è una previsione, è un verbale. Misurato il 28/7: 37 voci su 42 erano così.
+  //
+  // Il lotto 16 le escludeva già dal punteggio (`nata-chiusa`), ma continuavano a entrare nel
+  // registro che alimenta l'autonomia — sporcandolo e facendo sembrare che ci fosse un campione.
+  // Ora vanno in `osservazioni`: restano, si possono leggere, non fanno punteggio e non fingono.
+  //
+  // Chi vuole una previsione vera la apre PRIMA del lavoro:
+  //   node cervello/chiusura-loop.mjs prevedi <reparto> "<azione>" <metrica> <atteso> <baseline> <entro>
+  data.osservazioni = Array.isArray(data.osservazioni) ? data.osservazioni : [];
+  data.osservazioni.push({
     id,
     reparto,
     azione,
-    // Nome NUOVO, e non è cosmesi: `esito_loop` è il marchio delle 36 righe fabbricate dal ponte
-    // rotto, e `ricalcolaReparti` le esclude dal punteggio per quel nome. Le righe che nascono da
-    // qui in avanti sono passate da `numeroDichiarato()` — sono previsioni vere e devono contare.
     metrica: "esito_loop_numerico",
     atteso,
     reale,
@@ -632,13 +655,15 @@ function cmdDaLoop(data) {
     fonte,
     sensore_stato: sensoreStatoPerFonte(fonte),
     banale: isPrevisioneBanale({ azione, metrica: "esito_loop", atteso, nota: "" }, reale),
-    nota: "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
+    nota: "Osservazione dal ponte chiusura-loop.mjs registra — NON è una previsione: atteso e reale sono stati scritti nello stesso momento",
     creato: quando,
     chiuso_il: quando,
   });
   ricalcolaReparti(data);
   write(data);
-  console.log(`🔗 da-loop [${id}] ${reparto}: atteso ${atteso} → reale ${reale} (${azzeccata ? "azzeccata" : "mancata"})`);
+  console.log(`🔗 da-loop [${id}] ${reparto}: atteso ${atteso} → reale ${reale} (${azzeccata ? "in linea" : "fuori"}) — registrata come OSSERVAZIONE, non fa punteggio.`);
+  console.log("   Per una previsione che conta, aprila PRIMA del lavoro:");
+  console.log(`   node cervello/chiusura-loop.mjs prevedi ${reparto} "${azione}" <metrica> <atteso> <baseline> <entro>`);
 }
 
 // AR-040/AR-041: apre automaticamente UNA previsione baseline @AD se il registro è vuoto.

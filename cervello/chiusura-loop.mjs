@@ -147,6 +147,39 @@ ${riga}
   // Ponte verso calibrazione.mjs (atteso→reale strutturato, non solo markdown).
   if (atteso || reale) {
     const calib = join(AD_ROOT, "cervello/calibrazione.mjs");
+
+    // AR-168 — se per questo reparto esiste una previsione APERTA, questo è il suo secondo momento:
+    // la si chiude col numero vero. È la differenza fra misurare e verbalizzare. Solo quando non ce
+    // n'è nessuna si scende al ponte, che ora scrive un'osservazione e non una previsione.
+    const aperta = previsioneApertaPer(nome);
+    if (aperta) {
+      // AR-062/AR-171 — chi chiude una previsione deve dire DA DOVE viene il numero. «chiusura-loop
+      // ESITO» non è più una fonte ammessa, ed è giusto così: leggere il proprio quaderno non è
+      // misurare la realtà, è la macchina che si dà ragione da sola. Senza la fonte la previsione
+      // resta APERTA — non la chiudo con una misura che non esiste.
+      const fonte = (process.argv.find((a) => a.startsWith("--fonte=")) || "").slice(8);
+      if (!fonte) {
+        console.warn(`⚠️  C'è una previsione aperta per @${nome} [${aperta.id}] e non l'ho chiusa: manca la fonte del numero.`);
+        console.warn("   Il reale dev'essere misurato da qualcosa, non riletto dal quaderno che sto scrivendo.");
+        console.warn(`   node cervello/chiusura-loop.mjs registra … --fonte="Supabase MCP"   (o Stripe MCP · PostHog · documento firmato · conferma di Nicola #card)`);
+        return;
+      }
+      const r = spawnSync(
+        "node",
+        [calib, "esito", `--id=${aperta.id}`, `--reale=${reale}`, `--fonte=${fonte}`],
+        { encoding: "utf8" }
+      );
+      const out = `${r.stdout || ""}${r.stderr || ""}`.trim();
+      if (r.status === 0) {
+        console.log(`🎯 Chiusa la previsione aperta [${aperta.id}] col reale ${reale}: questa CONTA nel punteggio.`);
+        if (out) console.log(`   ${out.split("\n")[0]}`);
+        return;
+      }
+      console.warn(`⚠️  Non ho potuto chiudere [${aperta.id}]: ${out.split("\n")[0]}`);
+      console.warn("   La riga ESITO resta nel quaderno; la previsione resta aperta e va chiusa a mano.");
+      return;
+    }
+
     const args = [
       calib,
       "da-loop",
@@ -156,6 +189,12 @@ ${riga}
       `--reale=${reale || ""}`,
     ];
     const r = spawnSync("node", args, { encoding: "utf8" });
+    // AR-168 — il messaggio del ponte NON si ingoia. Prima si stampava solo in caso di errore, quindi
+    // chi scriveva un ESITO non scopriva mai che quella riga non era diventata una previsione: la
+    // distinzione fra «osservazione» e «previsione che conta» restava un dettaglio interno, e la
+    // lezione — aprila PRIMA del lavoro — non arrivava a nessuno.
+    const detto = `${r.stdout || ""}`.trim();
+    if (detto) console.log(detto.split("\n").map((l) => `   ${l.trim()}`).join("\n"));
     if (r.status !== 0 && r.status !== null) {
       console.warn(`⚠️  calibrazione.mjs da-loop non riuscito (rc=${r.status}): ${(r.stderr || r.stdout || "").trim().slice(0, 200)}`);
     }
@@ -291,9 +330,70 @@ async function gate() {
   process.exit(inadempienti.length ? 1 : 0);
 }
 
+/**
+ * AR-168 — c'è una previsione aperta per questo reparto?
+ *
+ * Legge il registro senza passare da calibrazione.mjs (che scriverebbe): serve solo sapere se il
+ * primo momento è già avvenuto. Se ce ne fosse più d'una prende la più vecchia, che è quella che
+ * rischia di scadere prima.
+ */
+function previsioneApertaPer(nome) {
+  try {
+    const P = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json");
+    const reg = JSON.parse(readFileSync(P, "utf8")).registro || [];
+    const mie = reg
+      .filter((e) => e.stato === "aperta" && String(e.reparto || "").replace(/^@/, "").toLowerCase() === String(nome).toLowerCase())
+      .sort((a, b) => String(a.creato).localeCompare(String(b.creato)));
+    return mie[0] || null;
+  } catch {
+    return null;
+  }
+}
+
+// --- C) PREVEDI: apre una previsione PRIMA del lavoro. È il momento che mancava (AR-168). ---
+//
+// Il rituale ESITO chiude un lavoro, e per definizione lo si scrive quando il lavoro è finito: chi
+// scrive quella riga conosce già il risultato. Finché la previsione nasceva da lì, nasceva vinta o
+// persa in partenza — 37 voci su 42 avevano `creato` e `chiuso_il` nello stesso giorno.
+//
+// Questo comando esiste perché i due momenti siano DUE. Si chiama prima di cominciare, dichiara
+// quanto vale la metrica adesso (`baseline`) e quanto ci si aspetta che valga entro quando. Poi il
+// lavoro. Poi `registra`, che va a chiudere QUELLA previsione con il numero vero.
+//
+//   node cervello/chiusura-loop.mjs prevedi @vendite "pitch a 3 botteghe" prospect_con_esito 2 0 2026-08-04
+function prevedi(args) {
+  const [reparto, azione, metrica, atteso, baseline, entro] = args;
+  if (!reparto || !azione || !metrica || atteso == null || baseline == null) {
+    console.error(
+      'Uso: node cervello/chiusura-loop.mjs prevedi <reparto> "<azione>" <metrica> <atteso> <baseline> [<entro AAAA-MM-GG>]\n' +
+        "  · <baseline> = quanto vale la metrica ADESSO. Serve a distinguere una previsione da una foto\n" +
+        "    del presente: senza, «prevedo 0 ordini» e «prevedo che gli zero restino zero» sono uguali.\n" +
+        "  · <entro>    = la finestra. Misurare dopo non vale come centro (AR-173)."
+    );
+    process.exit(2);
+  }
+  const { nome } = quadernoPath(reparto);
+  const calib = join(AD_ROOT, "cervello/calibrazione.mjs");
+  const cmdArgs = [
+    calib,
+    "prevedi",
+    `--reparto=@${nome}`,
+    `--azione=${azione}`,
+    `--metrica=${metrica}`,
+    `--atteso=${atteso}`,
+    `--baseline=${baseline}`,
+  ];
+  if (entro) cmdArgs.push(`--entro=${entro}`);
+  const r = spawnSync("node", cmdArgs, { encoding: "utf8", stdio: "inherit" });
+  process.exit(r.status ?? 0);
+}
+
 const cmd = process.argv[2];
-if (cmd === "registra") {
-  registra(process.argv.slice(3));
+const posizionali = process.argv.slice(3).filter((a) => !a.startsWith("--"));
+if (cmd === "prevedi") {
+  prevedi(posizionali);
+} else if (cmd === "registra") {
+  registra(posizionali);
 } else if (process.argv.includes("--sonda")) {
   await sonda();
 } else if (process.argv.includes("--gate")) {
@@ -302,7 +402,7 @@ if (cmd === "registra") {
   lista();
 } else {
   console.error(
-    'Uso:\n  node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard>" "<atteso>" "<reale>" ["#tag"]\n  node cervello/chiusura-loop.mjs --sonda [--json]\n  node cervello/chiusura-loop.mjs --gate [--json]\n  node cervello/chiusura-loop.mjs --lista'
+    'Uso:\n  node cervello/chiusura-loop.mjs prevedi <reparto> "<azione>" <metrica> <atteso> <baseline> [<entro>]   ← PRIMA del lavoro\n  node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard>" "<atteso>" "<reale>" ["#tag"]  ← DOPO\n  node cervello/chiusura-loop.mjs --sonda [--json]\n  node cervello/chiusura-loop.mjs --gate [--json]\n  node cervello/chiusura-loop.mjs --lista'
   );
   process.exit(2);
 }
