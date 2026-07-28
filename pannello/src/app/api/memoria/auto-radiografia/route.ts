@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { cantiereSnello } from "@/lib/cantiere-snello";
+import { radiografiaSnella } from "@/lib/radiografia-snella";
 import { readVaultFile } from "@/lib/vault";
 import { sanificaListe } from "@/lib/memoria-json";
 
@@ -130,5 +131,11 @@ export async function GET() {
   // intero è 607.409 byte per 271 difetti, riscaricati ogni 30 secondi sul telefono; con i soli campi
   // che la scheda disegna scende a ~106 KB. L'83% che viaggiava non veniva mostrato da nessuno.
   const cantiereRidotto = cantiereSnello(cantiere);
-  return NextResponse.json({ collegato: true, live, radiografia, cantiere: cantiereRidotto, storico, watchlist, lettera });
+
+  // La metà più grossa, dichiarata scoperta nel lotto 20 e chiusa qui. `auto-radiografia.json` è
+  // 614.805 byte e viaggiava intero: dentro, 109 findings CHIUSI pesano 338.175 byte e il componente
+  // li filtra via prima di disegnarli (RadiografiaDiSe.tsx:278). Andavano e venivano per essere
+  // scartati all'arrivo. Ora dei chiusi resta il conteggio — che serve — e non il contenuto.
+  const radiografiaRidotta = radiografiaSnella(radiografia);
+  return NextResponse.json({ collegato: true, live, radiografia: radiografiaRidotta, cantiere: cantiereRidotto, storico, watchlist, lettera });
 }
