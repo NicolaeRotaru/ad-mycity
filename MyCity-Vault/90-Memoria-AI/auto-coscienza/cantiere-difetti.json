@@ -1219,9 +1219,7 @@
       "nato": "2026-07-16 23:58",
       "chiuso_il": "",
       "verifica": {
-        "file": "cervello/ritmo.sh",
-        "pattern": "vault-sanita\\.mjs|coerenza-fatti\\.mjs",
-        "presente": true
+        "comando": "node cervello/test/porte-di-pubblicazione.test.mjs"
       },
       "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)"
     },

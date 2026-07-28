@@ -164,6 +164,7 @@ USCITE_VINCOLO=""        # AR-272: un'uscita verso il mondo reale non dichiarata
 SCADENZE_VINCOLO=""      # AR-147/214: scadenza entro 72h, o countdown trascritto che non è più vero
 PAUSE_VINCOLO=""         # AR-159/157: una card in pausa che nessun orologio sveglierà, o una data ricopiata
 SENSORI_SPENTI_VINCOLO="" # AR-105/108: un sensore spento senza un perché dichiarato è un buco, non uno stato
+PORTE_VINCOLO=""         # AR-127: un push verso main che non passa dal cancello condiviso
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
@@ -473,6 +474,14 @@ if command -v node >/dev/null 2>&1; then
   # AR-105/AR-108 — i sensori uptime sono rimasti spenti 163 giri perché «non_configurato» sembra uno
   # stato normale e nessuna card lo reclamava. Ora uno spento deve dire PERCHÉ: scelta di Nicola o
   # buco. `--accoda` fa UNA card, mai ripetuta: una domanda che torna a ogni giro si impara a saltare.
+  # AR-127 — il cancello condiviso esiste; il rischio è che una porta nuova non ci passi. Terza volta
+  # che questa forma torna (AR-272 uscite, AR-169 registro, ora i push): quando una regola vive in N
+  # posti, prima o poi N-1 restano indietro. Qui la si conta invece di sperarci.
+  echo "[$(ts)] 🚪 Porte di pubblicazione (chi pusha senza cancello?)..."
+  if ! guardiano porte-check.mjs; then
+    PORTE_VINCOLO="$(vincolo_da_rc "porte-check" "$GUARDIANO_RC" "⛔ PORTA SCOPERTA (porte-check.mjs rc=$GUARDIANO_RC, AR-127): c'è un punto che pubblica su main senza passare da gate_pubblicazione — cioè senza controllo del ramo, del perimetro e dei guardiani di verità. Fallo passare dal cancello condiviso, o dichiara il PERCHÉ nelle ESENZIONI di porte-check.mjs. Elenco: node cervello/porte-check.mjs")"
+    echo "[$(ts)] ⚠️  AR-127: porte-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
   echo "[$(ts)] 🔌 Sensori spenti (per scelta o per inerzia?)..."
   if ! guardiano sensori-spenti-check.mjs --accoda; then
     SENSORI_SPENTI_VINCOLO="$(vincolo_da_rc "sensori-spenti-check" "$GUARDIANO_RC" "⛔ SENSORE SPENTO SENZA MOTIVO (sensori-spenti-check.mjs rc=$GUARDIANO_RC, AR-105/AR-108): c'è uno strumento costruito che non sta guardando niente, e nessuno ha dichiarato se debba restare spento. Non è uno stato: è un buco. Dichiara il motivo in cervello/sensori-motivi.json (decisione | da-chiedere) oppure lascia che la card lo chieda a Nicola. Dettaglio: node cervello/sensori-spenti-check.mjs")"
@@ -818,6 +827,12 @@ if [ -n "${SENSORI_SPENTI_VINCOLO:-}" ]; then
 ## Vincolo sensori spenti (HARD — AR-105/108: spento senza un perché è un buco, non uno stato)
 $SENSORI_SPENTI_VINCOLO"
 fi
+if [ -n "${PORTE_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo porte di pubblicazione (HARD — AR-127: il cancello al confine, non dentro ogni esecutore)
+$PORTE_VINCOLO"
+fi
 if [ -n "${TASSO_VINCOLO:-}" ]; then
   PROMPT="$PROMPT
 
@@ -1057,6 +1072,16 @@ elif flock -w 600 9; then
     GIRO_HAD_CHANGES=1
     git "${GIT_ID[@]}" commit -q -m "giro AD: aggiorna memoria ($(ts))" || true
     if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
+      # AR-127 — il motore principale usava una copia SCRITTA A MANO del cancello: aveva il perimetro
+      # (AR-044) ma non il controllo del ramo, e i guardiani di verità li eseguiva prima, come vincoli
+      # al motore, non come cancello davanti al push. Due implementazioni della stessa regola: quando
+      # una si rafforza, l'altra non lo sa. Ora è la stessa che usano ritmo, monitora e worker.
+      . "$SCRIPT_DIR/gate-pubblicazione.sh"
+      if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO" "$branch"; then
+        echo "[$(ts)] ⛔ Memoria NON pubblicata: il cancello ha detto no. Il commit resta in locale." >&2
+        GIRO_PUSH_BLOCCATO=1
+        GIRO_PUSH_OK=0
+      else
       url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
       ok=0
       for attempt in 1 2 3; do
@@ -1092,6 +1117,7 @@ elif flock -w 600 9; then
         GIRO_PUSH_OK=0
         echo "[$(ts)] ERRORE: push della memoria fallito dopo 3 tentativi." >&2
       fi
+      fi   # AR-127: chiude il ramo «cancello passato»
     else
       echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push (la memoria resta solo sul server)." >&2
       GIRO_PUSH_OK=0
