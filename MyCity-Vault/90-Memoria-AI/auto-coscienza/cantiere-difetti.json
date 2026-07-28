@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 16:43",
+  "aggiornato": "2026-07-28 19:22",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -3294,15 +3294,15 @@
       "causa_radice": "① Perché un'azione può partire senza Nicola? Perché è marcata verde. ② Perché basta la marcatura? Perché l'autopilota si fida del colore come se fosse un fatto verificato. ③ Perché è considerato un fatto? Perché nella Carta il colore è una regola di condotta per i senior, e il codice l'ha adottata come se fosse un tipo di dato validato. ④ Perché non viene riverificato? Perché non esiste una funzione che, dato il contenuto di un'azione, ne calcoli il rischio in modo indipendente da chi l'ha scritta. ⑤ Radice: chi decide il livello di rischio e chi lo esegue sono lo stesso soggetto — manca la separazione dei compiti proprio nel punto dove serve.",
       "fix_proposto": "🟡 In autopilota.ts, aggiungere ai criteri un secondo controllo INDIPENDENTE dal colore dichiarato, calcolato sul contenuto: eseguire da solo un'azione solo se (a) è 🟢, (b) il canale è nella lista dei canali auto-eseguibili, (c) il destinatario è nell'allowlist, e (d) il testo non contiene indicatori di rischio (importi in €, IBAN, numeri di telefono, parole «pubblica», «paga», «annulla ordine») — altrimenti degradare a «coda» con nota «serve la firma». In più: registrare a log ogni degradazione, così si misura quanto spesso il colore auto-dichiarato sbaglia. Il posto giusto per la funzione di rischio è un modulo condiviso col cervello, così le due metà usano lo stesso metro.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/secondo-parere-sul-contenuto.test.mjs"
       },
       "nota": "Dove: pannello/src/lib/autopilota.ts:27 · pannello/src/lib/azioni-attesa.ts:29-35 (livelloDi) e :255 (livello letto dalla colonna Colore del markdown) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · RI-INVERTITA 2026-07-28 16:45 (lotto 25): la prova chiedeva l ASSENZA della stringa `b.livello === \"verde\"` in autopilota.ts. Il lotto 25 quella riga l ha tolta per AR-140, quindi la prova sarebbe diventata verde da sola — ma delle quattro condizioni del fix ne sono soddisfatte tre: (a) verde e (b) canale auto-eseguibile arrivano dal lotto 25, (c) allowlist destinatario c era gia da AR-139, (d) indicatori di rischio nel TESTO (importi, IBAN, telefono, «pubblica», «paga», «annulla ordine») NON esiste, e non esistono ne il log delle degradazioni ne il modulo di rischio condiviso col cervello. Una prova che chiede l assenza di una stringa si soddisfa cambiando la stringa: ora punta al pezzo che manca.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 19:22",
+      "chiuso_come": "node cervello/test/secondo-parere-sul-contenuto.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-233",
@@ -5359,18 +5359,19 @@
       "causa_radice": "Dove: pannello/src/app/api/controllo/route.ts (POST legge {chiave, valore} dal corpo e li passa a setImpostazione senza guardare la chiave) · il commento in cima alla rotta dichiara «Chiavi usate: pausa, tetto_spesa, spesa_attuale», ma il codice non lo impone. — Radice: la rotta è nata per due interruttori e il permesso che porta è «scrivi qualsiasi riga di impostazioni». È la stessa forma di AR-119/AR-140/AR-141: il permesso è più largo della frase che l'ha ottenuto. Il lotto 25 ha chiuso questo confine dal lato del cervello (firma-check.mjs impedisce agli script di scriversi `azione:<id>:firma`); questa era la seconda porta, dal lato del Pannello, e non aveva controllo.",
       "fix_proposto": "🟡 Allowlist delle chiavi scrivibili da /api/controllo (pausa, autopilota, tetto_spesa, spesa_attuale), fail-closed su tutto il resto; più un doppio fondo che vieta comunque le chiavi di firma (`azione:*:firma`, `firma:*`) anche se un giorno finissero nella lista per distrazione. La firma continua ad avere la sua strada dedicata: lib/firma-azione.ts::registraFirma, dal clic «Approva».",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-28 17:35",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-28 19:22",
       "verifica": {
         "comando": "node cervello/test/porta-di-servizio-della-firma.test.mjs"
       },
-      "origine": "lotto 26 (trovato tirando il filo di AR-119, lotto 25)"
+      "origine": "lotto 26 (trovato tirando il filo di AR-119, lotto 25)",
+      "chiuso_come": "node cervello/test/porta-di-servizio-della-firma.test.mjs → exit 0 (guardiano soddisfatto)"
     }
   ],
   "meta": {
-    "aperti": 125,
+    "aperti": 124,
     "in_corso": 0,
-    "chiusi": 146
+    "chiusi": 148
   }
 }
