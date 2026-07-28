@@ -13,20 +13,6 @@
       "aperti_davvero": 2,
       "bloccanti_umani": 2,
       "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (39h) · cecità sensori 7 giri · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-22",
-      "voto_salute": 72,
-      "voto_provvisorio": 45,
-      "voto_pieno": 0,
-      "firma": "AR-126,AR-129",
-      "difetti_aperti": 19,
-      "difetti_chiusi": 57,
-      "pending_merge": 15,
-      "aperti_davvero": 2,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (40h) · cecità sensori 7 giri · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     },
     {
@@ -1085,6 +1071,15 @@
       "difetti_chiusi": 2,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-232, AR-333 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 31 dall'ultima misura vera."
+    },
+    {
+      "data": "2026-07-28",
+      "voto_salute": 31,
+      "voto_riportato": true,
+      "difetti_aperti": 124,
+      "difetti_chiusi": 1,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-199 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 31 dall'ultima misura vera."
     }
   ]
 }

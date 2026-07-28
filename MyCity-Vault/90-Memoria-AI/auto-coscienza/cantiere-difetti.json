@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 19:22",
+  "aggiornato": "2026-07-28 20:15",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -2621,15 +2621,15 @@
       "causa_radice": "① Perché il giro carica 109.000 token di memoria? Perché STATO.md è un unico file da 437 KB. ② Perché è così grande? Perché ogni chat vi appende una nota e nessuno le toglie. ③ Perché nessuno le toglie? Perché la regola «la storia non si riscrive» (append-only di DECISIONI/SALA/Briefing) è stata applicata anche a un file nato come snapshot. ④ Perché la confusione non è stata corretta? Perché nessun guardiano misura il PESO dei file che entrano nel contesto: vault-sanita.mjs controlla che siano leggibili, non che siano sostenibili. ⑤ Causa di sistema: la macchina ha un contratto sul CONTENUTO della memoria e nessuno sul suo COSTO — la dimensione del contesto non è di nessuno.",
       "fix_proposto": "🟡 (a) Rimettere STATO.md nella sua natura: snapshot corrente ≤ 200 righe (7 numeri + ultime 5 note + Gap); il resto migra in MyCity-Vault/90-Memoria-AI/Storico/STATO-AAAA-MM.md, che nessun giro legge ma resta consultabile. Stesso trattamento per AZIONI-IN-ATTESA (housekeeping-azioni.mjs esiste già: alzarne l'aggressività) e SALA-OPERATIVA. (b) Nuovo pezzo: un guardiano `cervello/peso-contesto.mjs` che a ogni giro misura i byte dei file vivi che entrano nel contesto e FALLISCE oltre una soglia dichiarata — così il costo del contesto diventa un numero sorvegliato invece di una curva silenziosa.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/peso-contesto.mjs"
       },
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/STATO.md (437.764 byte, 1.302 righe, ~109.000 token) · AZIONI-IN-ATTESA.md (303.680 byte) · SALA-OPERATIVA.md (257.871 byte) · DECISIONI.md (461.188 byte) · cervello/giro.md:17 (dichiara STATO.md uno «snapshot»), :85 (il giro aggiorna i 7 numeri in STATO.md), :129 (registra le mosse in SALA-OPERATIVA) · Impatto: È la voce di contesto più pesante di ogni giro pieno (2 oggi) e di ogni cadenza, e l'unica che cresce senza che nessuno decida di farla crescere. Con il lavoro operativo in pausa fino a fine agosto, la macchina rilegge ogni giorno 15 giorni di conversazioni per aggiornare 7 numeri che non cambiano (ordini fermi a 1 dal 24/6, vedi delta-gate.json). Un mese così e STATO.md supera i 900 KB: il file non entrerà più in una lettura sola e il giro comincerà a leggerlo a pezzi, cioè a spendere di più per vederne meno. · LOTTO 27 (28/7 sera): gli STRUMENTI ci sono e sono provati (cervello/archivio-memoria.mjs + pota-memoria.mjs + peso-contesto.mjs, prova node cervello/test/il-costo-della-memoria.test.mjs, 15 casi). La prova di CHIUSURA e volutamente il guardiano: resta ROSSA finche la potatura non e stata applicata su main (node cervello/pota-memoria.mjs --applica), perche i tetti sono l OBIETTIVO post-potatura e non il peso di oggi. Misura a secco: 1.068.042 → 280.200 byte (-74%, 769 KB in meno a ogni giro e a ogni apertura della Cabina), con garanzia riga-per-riga che niente si perde.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 20:15",
+      "chiuso_come": "node cervello/peso-contesto.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-200",
@@ -5383,11 +5383,50 @@
         "nota": "Serve una prova che aggiunga un istanza finta, la dichiari in esenti e pretenda il verde. Da scrivere insieme al fix."
       },
       "origine": "lotto 27 (trovato usando spazzata-fratelli come dice la sua documentazione)"
+    },
+    {
+      "id": "AR-335",
+      "titolo": "Il cruscotto di STATO.md non e mai stato rivisto: dopo la potatura pesa 97 KB ma sono ancora 789 righe",
+      "dimensione": "memoria-costo",
+      "gravita": "medio",
+      "impatto_crescita": "medio",
+      "causa_radice": "La potatura del lotto 27 ha tolto il DIARIO (555 note su 567, 382 KB in Storico/) e questo era il grosso del peso: 479.575 → 97.768 byte, -80%. Ma il difetto AR-199 chiedeva anche «snapshot corrente ≤ 200 righe (7 numeri + ultime 5 note + Gap)», e il file resta a 789 righe. Le 777 righe che non sono note sono le SEZIONI del cruscotto, accumulate un pezzo alla volta e mai riviste: la potatura e meccanica e non puo deciderle: quali sezioni servono ancora e un giudizio, non un taglio. — Radice: la memoria ha adesso un tetto sul peso (peso-contesto.mjs) ma nessuno sul NUMERO di sezioni di un cruscotto, e una sezione aggiunta non viene mai tolta da nessuno.",
+      "fix_proposto": "🟡 Passare in rassegna le sezioni di STATO.md una per una con Nicola: quali guarda davvero, quali sono ferme da settimane, quali si possono ricavare da un guardiano invece che essere trascritte a mano. Poi tenere le vive e mandare le altre in Storico/ come le note. Obiettivo dichiarato dal difetto padre: ≤ 200 righe. In piu: alzare `NOTE_TENUTE` a 12 e stato mio (il fix diceva 5) — se il cruscotto si accorcia, quel numero si puo rivedere insieme.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-28 20:20",
+      "chiuso_il": "",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Quali sezioni del cruscotto servono ancora e un giudizio da prendere con Nicola, non una soglia da far scattare a uno script. La misura oggettiva (789 righe, obiettivo ≤200) si legge con: wc -l MyCity-Vault/90-Memoria-AI/STATO.md"
+      },
+      "origine": "lotto 27 (residuo dichiarato di AR-199, misurato dopo la potatura)",
+      "nota": "Misura al 28/7 20:20, dopo la potatura: 789 righe, 97.768 byte. Il diario e uscito (555 note su 567 in Storico/STATO-2026-07.md); restano le sezioni del cruscotto. NB: la prima stesura di questa scheda aveva lo STESSO comando di prova del difetto padre — cioe la debolezza AR-254 che ho documentato io. Corretta subito: una nota che ammette una violazione non la rende lecita."
+    },
+    {
+      "id": "AR-336",
+      "titolo": "Quarantadue difetti condividono dodici prove: una prova sola decide il destino di piu difetti insieme",
+      "dimensione": "cantiere-prove",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Misurato il 28/7 20:25 scandendo il campo `verifica.comando` di tutti i difetti: 12 comandi sono la prova di 42 difetti. Il piu condiviso ne copre 7 (freni-senza-fonte), un altro 6 (pannello-cabina-viva), tre ne coprono 5, 4 e 3. — Perche succede: quando un lotto ripara piu punti con un test solo, e comodo dare quel comando a tutti i difetti che il lotto tocca. Ma cosi la prova non dimostra piu il singolo fix: dimostra il lotto. Se domani uno dei sette regredisce e gli altri sei no, il comando resta verde e il cantiere continua a dichiararli tutti chiusi. E il contrario: una rottura in uno solo li fa risultare tutti aperti. — Radice: la regola «una prova per difetto» (AR-254) e stata scritta come raccomandazione nei lotti recenti e mai verificata sul registro esistente, dove la violazione era gia diffusa.",
+      "fix_proposto": "🟡 (a) Un guardiano che scandisce il cantiere e fallisce quando due difetti NON chiusi condividono lo stesso `verifica.comando` — con il debito attuale dichiarato per nome e con la data, cosi parte verde e blocca il prossimo. (b) Poi separare i gruppi uno alla volta, dal piu numeroso: ogni difetto prende una prova che esegue sul SUO caso. (c) Regola scritta dove si scrivono le prove, non solo nei commenti di un lotto.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-28 20:25",
+      "chiuso_il": "",
+      "verifica": {
+        "file": "cervello/prove-uniche.mjs",
+        "pattern": "verifica",
+        "presente": true
+      },
+      "nota": "Gruppi trovati: scadenze-calcolate.test.mjs=3 · freni-senza-fonte.test.mjs=7 · volano-regole.test.mjs=2 · archivi-senza-tetto.test.mjs=2 · pannello-cabina-viva.test.mjs=6 · strati.test.mjs=3 · errore-ingoiato.test.mjs=4 · chat-pending.test.mjs=2 · scritture-e-riaccodi.test.mjs=2 · giro-esito.test.mjs=5 · gate-pubblicazione.test.mjs=3 · allineamento-esito.test.mjs=3",
+      "origine": "lotto 27 (trovato correggendo una violazione AR-254 che avevo appena commesso io su AR-335)"
     }
   ],
   "meta": {
     "aperti": 124,
     "in_corso": 0,
-    "chiusi": 148
+    "chiusi": 149
   }
 }
