@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 15:55",
+  "aggiornato": "2026-07-28 16:22",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -1252,13 +1252,14 @@
       "causa_radice": "Dove: cervello/stampo-check.mjs:23 (KIT_MIN_BYTES=5200) vs MyCity-Vault/07-Agenti/kit/mediatore-creditizio-KIT.md (5282B, il più piccolo) — 5200 è stata scelta per far passare i file già esistenti, non per misurare una profondità reale: metrica-proxy (byte) calibrata sul risultato desiderato (verde) invece che sullo standard (profondità content-social). La profondità vera (strati 3/4/5/6 sostanziali) è difficile a byte e si è ripiegato su un floor tenuto basso per non far fallire il cluster banche già thin. Il guardiano diventa un timbro.",
       "fix_proposto": "🟡 Sostituire il floor a byte con un check strutturale: presenza sostanziale di STRATO 3/4/5/6 (sezioni A-E + TOOLKIT + GALLERIA con >=2 esempi + CARBURANTE) e/o soglia relativa (percentile vs mediana del parco), così i kit thin emergono come debito invece di passare. Resta 🟡.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 23:58",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-28 16:22",
       "verifica": {
         "comando": "node cervello/test/soglia-che-non-puo-bocciare.test.mjs"
       },
-      "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)"
+      "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)",
+      "chiuso_come": "node cervello/test/soglia-che-non-puo-bocciare.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-130",
@@ -4409,15 +4410,15 @@
       ],
       "fix_proposto": "🟡 Regola di processo: un guardiano che ha raggiunto il 100% sul suo metro deve essere ri-tarato o dichiarato concluso, mai lasciato a contare presenze. Applicata qui: stampo-check smette di contare `existsSync(quaderno)` e legge il quaderno come già fa chiusura-loop.mjs:77-92 — 0 righe ESITO = difetto `quaderno_vuoto`, ultimo ESITO oltre 30 giorni = `quaderno_fermo`. In più ogni guardiano dichiara nel proprio `_cosa_e` la riga «cosa questo check NON prova», così il verde non viene letto per più di quello che vale.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/quaderno-vuoto-non-e-completo.test.mjs"
       },
       "nota": "Dove: cervello/stampo-check.mjs:53-54 · Impatto: La Cabina e la lettera a Nicola leggono «120/120 senior completi» mentre 73 senior su 120 non hanno mai chiuso un loop di apprendimento. Il numero che dovrebbe far scattare il lavoro di rifinitura è proprio quello che lo spegne: finché stampo-check dice 0 difetti, nessun giro alloca sforzo su questa dimensione. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 16:22",
+      "chiuso_come": "node cervello/test/quaderno-vuoto-non-e-completo.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-288",
@@ -4515,15 +4516,15 @@
       ],
       "fix_proposto": "🟡 Regola di processo: un guardiano si innesta nel giro solo con la sua condizione di promozione scritta accanto («diventa vincolo hard quando X»), e un controllo verifica che nessun guardiano resti informativo senza quella riga. Applicata qui: la condizione per stampo-check è «quando il metro legge il contenuto e non la sola presenza» — al momento della promozione la riga 197 passa alla forma già usata per agent-registry-check (uscita catturata, rc letto, vincolo hard al motore). Fino ad allora la riga porta esplicitamente scritto perché è ancora informativa.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/verdetto-che-arriva-al-motore.test.mjs"
       },
       "nota": "Dove: cervello/giro.sh:197 (confronta con :190-194) · Impatto: Anche dopo aver riparato il metro del guardiano (i difetti sopra), la macchina continuerebbe a non reagire: troverebbe i senior a metà, li stamperebbe in 6 righe di log e proseguirebbe identica. Il costo di ogni fix su questa dimensione resta non recuperabile finché il canale di ritorno è tagliato. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 16:22",
+      "chiuso_come": "node cervello/test/verdetto-che-arriva-al-motore.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-292",
@@ -5350,8 +5351,8 @@
     }
   ],
   "meta": {
-    "aperti": 130,
+    "aperti": 127,
     "in_corso": 0,
-    "chiusi": 141
+    "chiusi": 144
   }
 }
