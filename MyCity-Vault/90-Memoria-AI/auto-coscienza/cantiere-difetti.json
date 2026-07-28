@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 10:24",
+  "aggiornato": "2026-07-28 11:33",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -1766,15 +1766,15 @@
       "causa_radice": "1) L'ordine-test è fermo. 2) È fermo perché finito nel blocco «negozi». 3) Ci è finito perché la classificazione ha usato il TEMA della card (parla di un negozio, di Pane Quotidiano) invece della DIPENDENZA reale (serve tempo di campo di Nicola? è un prerequisito della fase tecnica?). 4) La classificazione ha usato il tema perché la coda ha un campo `Reparto` ma nessun campo che distingua «azione di business» da «azione di validazione della macchina». 5) Causa di sistema: il modello mentale con cui la macchina divide il lavoro è binario (business vs macchina), e la validazione end-to-end appartiene a entrambi — cade nel buco fra le due categorie, e in un buco nessuno la reclama.",
       "fix_proposto": "🟡 (a) Introdurre nella coda una terza classe esplicita, `validazione`, esente dalle pause tematiche: sono le azioni che dimostrano che un pezzo di macchina funziona davvero (ordine-test, payout-test, prova di consegna). Regola: una pausa di business non può congelare un'azione di classe `validazione`, perché quella pausa esiste proprio per finire la macchina. (b) Ri-sottoporre `#ordine-test-pq` a Nicola come parte della fase tecnica, non come spinta commerciale — domanda secca, non riscrittura unilaterale: «un ordine da €3-5 fatto da te dal telefono, per provare che i soldi arrivano al fornaio: dentro o fuori dalla pausa?». (c) Se Nicola conferma che è dentro la pausa, allora va scritto nero su bianco nel piano che il 1/9 il primo giorno di business sarà un giorno di collaudo, non di vendita.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/validazione-congelata.test.mjs"
       },
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md:359 (card #ordine-test-pq ⏸) · MyCity-Vault/90-Memoria-AI/DECISIONI.md:991-993 (decisione di rinvio e sua applicazione) · Impatto: Il fine dichiarato della pausa è: «così quando inizierò mi concentrerò solo sul business e non dovrò più preoccuparmi di migliorare o aggiustare questi due». Congelare il collaudo end-to-end garantisce l'esito opposto: il 1/9 Nicola comincia a inserire negozi su una piattaforma il cui percorso pagamento→payout non è mai stato eseguito. Se è rotto (Stripe Connect, split, payout al seller), lo si scopre col primo negoziante vero che aspetta i suoi soldi — bruciando l'unica relazione di fiducia reale che l'azienda ha. Costo del ritardo: ~37 giorni × 302 €/m ≈ 370 € di burn spesi a rifinire codice non validato, con la North Star ferma a 0 da ~32 giorni. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 11:33",
+      "chiuso_come": "node cervello/test/validazione-congelata.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-158",
@@ -1806,15 +1806,15 @@
       "causa_radice": "1) Le card non ripartiranno da sole. 2) Perché la pausa è scritta come testo nel titolo, non come dato. 3) Perché la coda è un file Markdown dove lo stato vive nella frase, e le date scritte in frase non sono confrontabili con l'orologio. 4) Perché quando è stata registrata la pausa nessuno ha chiesto «chi la toglie e come lo sa?» — il rituale registra la decisione, non il suo risveglio. 5) Causa di sistema: la macchina sa registrare fatti (registro-fatti) e sa registrare decisioni (DECISIONI), ma non sa registrare **una decisione con una data di scadenza**: manca il concetto di stato temporaneo, e ogni pausa diventa di fatto permanente fino a intervento umano.",
       "fix_proposto": "🟡 (a) Dare alle card in pausa un campo `riprende_il` legato all'id del fatto che le governa (`ripresa.lavoro-operativo`), invece della data copiata nel titolo — così quando Nicola sposta la data (sta già succedendo: la card #conferma-piano-squadra propone metà agosto) tutte le pause si spostano insieme. (b) Aggiungere al giro un controllo di data che, superata la soglia, riapre le card e alza una card sola: «la pausa è scaduta: 12 azioni tornano vive, e il cancello macchina-vs-business va riacceso». (c) Non chiudere questo punto scrivendo un promemoria: un promemoria a mano è esattamente il meccanismo che qui ha già fallito.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/pausa-senza-risveglio.test.mjs"
       },
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/DECISIONI.md:993 · MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md:83,128,156,188,217,345,359,371,385,415,489 (le card ⏸) · cervello/guardiano-tempo.mjs:38 · Impatto: Il giorno della ripartenza è il giorno più importante dell'anno per questa azienda: è quando il burn accumulato smette di essere puro costo. Quel giorno, come è oggi il sistema, dipende interamente dal fatto che una persona si ricordi di scongelare 12 card e accendere un cancello. Se non se ne ricorda, la macchina resta in modalità «fase tecnica» a bruciare 302 €/m mentre nessuno la contraddice — e il primo segnale di allarme sarà l'assenza di ordini, cioè lo stesso identico segnale che sta già suonando inascoltato da 32 giorni. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 11:33",
+      "chiuso_come": "node cervello/test/pausa-senza-risveglio.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-160",
@@ -5371,8 +5371,8 @@
     }
   ],
   "meta": {
-    "aperti": 142,
+    "aperti": 140,
     "in_corso": 0,
-    "chiusi": 129
+    "chiusi": 131
   }
 }
