@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# 🔒 pre-commit — tre cancelli su OGNI commit (non solo nel giro):
+# 🔒 pre-commit — quattro cancelli su OGNI commit (non solo nel giro):
 #   1) 🩺 SINTASSI shell: nessun .sh/.bash rotto entra nella storia (worker-outage 2026-07-09).
+#   1b) 🩺 SINTASSI JavaScript: nessun .mjs/.cjs/.js rotto entra nella storia (AR-134).
 #   2) 🧱 PERIMETRO DI MAIN: il codice su main ci arriva da una PR, non da un commit a mano (AR-332).
 #   3) 🔑 SEGRETI: nessun token reale entra nella storia (AR-004).
 #
@@ -44,6 +45,53 @@ if command -v bash >/dev/null 2>&1; then
     echo "" >&2
     echo "Correggi la sintassi e ri-committa. Bypass consapevole (sconsigliato): git commit --no-verify." >&2
     exit 1
+  fi
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 1b) 🩺 GATE DI SINTASSI JAVASCRIPT (AR-134) — stessa classe di rischio del gate shell qui sopra,
+#    stessa difesa. Il worker-outage nacque da un .sh rotto, ma il cervello gira soprattutto su .mjs:
+#    un git-github.mjs con un errore di sintassi ferma il giro esattamente come un worker.sh rotto —
+#    e lì il gate non c'era, perché era stato scritto in reazione a UN incidente shell invece che per
+#    la CLASSE «ogni artefatto eseguibile che entra nella storia deve almeno essere parsabile».
+#
+#    `node --check` non esegue nulla: legge e basta. Da stdin però perde il modulo ESM (avvisa e passa),
+#    quindi il contenuto staged va scritto in un file temporaneo con la STESSA estensione — è
+#    l'estensione a decidere se il file è un modulo. Fail-closed solo se node c'è (coerente col
+#    principio in cima: un cancello che si spegne se manca uno strumento non è un cancello, ma su una
+#    macchina senza node non c'è nemmeno il rischio di eseguirlo).
+if command -v node >/dev/null 2>&1; then
+  _js_rotti=""
+  _js_tmpdir="$(mktemp -d 2>/dev/null || echo '')"
+  if [ -n "$_js_tmpdir" ]; then
+    while IFS= read -r f; do
+      case "$f" in
+        *.mjs|*.cjs|*.js) ;;
+        *) continue ;;
+      esac
+      _ext="${f##*.}"
+      _tmp="$_js_tmpdir/check.$_ext"
+      git show ":$f" > "$_tmp" 2>/dev/null || continue
+      if ! node --check "$_tmp" >/dev/null 2>&1; then
+        _js_rotti="$_js_rotti $f"
+      fi
+    done < <(git diff --cached --name-only --diff-filter=ACM)
+    if [ -n "$_js_rotti" ]; then
+      echo "" >&2
+      echo "⛔ COMMIT BLOCCATO — errore di SINTASSI JavaScript (node --check) in:$_js_rotti" >&2
+      for f in $_js_rotti; do
+        _ext="${f##*.}"
+        _tmp="$_js_tmpdir/check.$_ext"
+        git show ":$f" > "$_tmp" 2>/dev/null || true
+        echo "  → $f:" >&2
+        node --check "$_tmp" 2>&1 | head -4 | sed 's/^/     /' >&2 || true
+      done
+      rm -rf "$_js_tmpdir"
+      echo "" >&2
+      echo "Correggi la sintassi e ri-committa. Bypass consapevole (sconsigliato): git commit --no-verify." >&2
+      exit 1
+    fi
+    rm -rf "$_js_tmpdir"
   fi
 fi
 

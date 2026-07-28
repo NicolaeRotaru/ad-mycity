@@ -33,8 +33,11 @@ import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
-const REPO = join(QUI, "..");
-const REGISTRO = join(QUI, "malattie.json");
+// Le due radici sono sovrascrivibili SOLO per poter provare questo strumento su un albero finto
+// (AR-334: la via documentata delle esenzioni non funzionava, e non c'era modo di dimostrarlo senza
+// sporcare il repo vero). In esercizio restano i default.
+const REPO = process.env.SPAZZATA_REPO || join(QUI, "..");
+const REGISTRO = process.env.SPAZZATA_REGISTRO || join(QUI, "malattie.json");
 const JSON_MODE = process.argv.includes("--json");
 const AGGIORNA = process.argv.includes("--aggiorna");
 
@@ -150,24 +153,45 @@ function main() {
     // dichiararla fa scattare l'allarme anche a parità di conteggio, se la malattia MIGRA.
     const noti = Array.isArray(m.file_noti) ? new Set([...m.file_noti, ...(m.esenti || []).map((e) => e.file)]) : null;
     const fileNuovi = noti ? trovati.filter((t) => !noti.has(t.file)) : [];
-    const cresciuta = totale > baseline;
+
+    // AR-334 — LE ESENZIONI DEVONO CONTARE DAVVERO. Il registro promette («_come_si_usa») che
+    // un'istanza lasciata apposta si dichiara in `esenti` col perché scritto. Ma le voci di `esenti`
+    // finivano solo dentro `file_noti`, cioè servivano a non segnalare un FILE nuovo: dal conteggio
+    // non venivano MAI sottratte. Chi seguiva la documentazione alla lettera — dichiarare l'istanza
+    // legittima e ri-lanciare — restava rosso, e l'unica via d'uscita che funzionava era alzare il
+    // tetto: esattamente il gesto che il cricchetto esiste per impedire. Trovato il 28/7 usando lo
+    // strumento come dice la sua stessa documentazione.
+    //
+    // Ora: ogni esenzione vale UNA istanza, e si sottrae dal totale confrontato col tetto. Ma solo
+    // se corrisponde a un'istanza REALE: un'esenzione che non trova più niente è un residuo, e un
+    // residuo nasconde il prossimo caso vero — quindi viene segnalato invece che ignorato.
+    const esenti = Array.isArray(m.esenti) ? m.esenti : [];
+    const perFile = new Map(trovati.map((t) => [t.file, t.istanze]));
+    const esentiValide = esenti.filter((e) => e.file && e.perche && perFile.has(e.file));
+    const esentiOrfane = esenti.filter((e) => !e.file || !e.perche || !perFile.has(e.file));
+    const totaleNetto = Math.max(0, totale - esentiValide.length);
+    const cresciuta = totaleNetto > baseline;
     // Il tetto è un CRICCHETTO: scende e basta. Senza questo controllo il guardiano si zittisce
     // alzando un numero — trovato il 28/7 provando a rompere apposta questo stesso strumento: portare
     // la baseline da 36 a 999 lo lasciava verde. Un tetto più alto del conteggio vero non è prudenza,
     // è margine regalato a sé stessi. Se hai curato qualcosa, il tetto DEVE scendere con te.
-    const tettoGonfiato = baseline > totale;
-    if (fileNuovi.length || cresciuta || tettoGonfiato) nuoviTot += fileNuovi.length || 1;
+    const tettoGonfiato = baseline > totaleNetto;
+    if (fileNuovi.length || cresciuta || tettoGonfiato || esentiOrfane.length) {
+      nuoviTot += fileNuovi.length || esentiOrfane.length || 1;
+    }
     rapporto.push({
       id: m.id,
       nome: m.nome,
-      totale,
+      totale: totaleNetto,          // AR-334: al netto delle esenzioni dichiarate e verificate
+      totale_lordo: totale,
       baseline,
-      andamento: totale - baseline,
+      andamento: totaleNetto - baseline,
       cresciuta,
       tetto_gonfiato: tettoGonfiato,
       file_toccati: trovati.length,
       nuovi: fileNuovi.map((n) => `${n.file} (${n.istanze})`),
-      esenti: (m.esenti || []).length,
+      esenti: esentiValide.length,
+      esenti_orfane: esentiOrfane.map((e) => `${e.file || "?"}: ${e.quale || "senza «quale»"}`),
     });
   }
 
@@ -184,7 +208,12 @@ function main() {
       const segno = r.andamento === 0 ? "=" : r.andamento > 0 ? `+${r.andamento}` : `${r.andamento}`;
       const freccia = r.andamento < 0 ? "📉 curata" : r.andamento > 0 ? "📈 PEGGIORATA" : "invariata";
       console.log(`  ${r.id} — ${r.nome}`);
-      console.log(`     ${r.totale} istanze in ${r.file_toccati} file (partenza ${r.baseline}, ${segno} ${freccia})`);
+      const netto = r.esenti ? ` [${r.totale_lordo} trovate − ${r.esenti} esenti dichiarate]` : "";
+      console.log(`     ${r.totale} istanze in ${r.file_toccati} file (partenza ${r.baseline}, ${segno} ${freccia})${netto}`);
+      if (r.esenti_orfane.length) {
+        console.log(`     ❌ ${r.esenti_orfane.length} ESENZIONE/I che non corrisponde più a niente (residuo che nasconde il prossimo caso vero):`);
+        for (const e of r.esenti_orfane) console.log(`        · ${e}`);
+      }
       if (r.cresciuta) console.log(`     ❌ CRESCIUTA: ${r.totale} istanze contro le ${r.baseline} di partenza.`);
       if (r.tetto_gonfiato)
         console.log(`     ❌ TETTO GONFIATO: dichiara ${r.baseline} ma ne restano ${r.totale}. Abbassalo a ${r.totale}: il tetto scende, non si alza.`);

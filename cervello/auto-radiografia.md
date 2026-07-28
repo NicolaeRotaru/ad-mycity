@@ -1,7 +1,7 @@
 # 🩻 auto-radiografia.md — la macchina analizza SÉ STESSA da cima a fondo
 
 > L'auto-analisi (`auto-analisi.md`) controlla il **prodotto** di un giro. Questa è l'altra metà: la
-> macchina audita la **propria architettura** — i suoi 42 agenti, i prompt, i processi, i sensori, la
+> macchina audita la **propria architettura** — i suoi 120 agenti, i prompt, i processi, i sensori, la
 > memoria, le capacità — per trovare i **propri** difetti e limiti e correggerli **alla radice**. È la
 > «radiografia del cervello», speculare a `.claude/workflows/radiografia.js` (che invece radiografa il
 > marketplace). Contratti dati e volano in `cervello/auto-coscienza.md`.
@@ -23,7 +23,7 @@ profondità di mestiere) **+** un **revisore indipendente avversariale** che pro
 (scarta i falsi positivi, conferma solo i veri, corregge la gravità). In caso di dubbio, **scarta**.
 
 ## 🩺 Le 12 dimensioni (puntate su TE, repo `/home/user/ad-mycity`, sola lettura)
-1. **`coerenza-agenti`** — i 42 agenti in `.claude/agents/`: buchi di copertura (capacità mancanti),
+1. **`coerenza-agenti`** — i 120 agenti in `.claude/agents/`: buchi di copertura (capacità mancanti),
    doppioni/sovrapposizioni di mandato, `description` vaghe che sballano il routing, agenti orfani mai
    richiamati da CLAUDE.md/COMANDI.md, responsabilità in conflitto. **Conta i file reali, non assumere.**
 2. **`vettori-installati`** — i vettori di `VETTORI-MULTINAZIONALE` / `STAMPO-SENIOR-PRO` / `RUBRICA-LIVELLI`

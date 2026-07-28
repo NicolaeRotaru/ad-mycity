@@ -206,12 +206,38 @@ async function main() {
     return !re.test(okr);
   });
 
+  // 8. AR-195 — I CONTEGGI NEI FILE CHE PILOTANO IL LAVORO. Il guardiano leggeva tre file scelti a
+  //    mano (CLAUDE.md, COMANDI.md, AGENTI.md): quelli «che parlano all'AD». Ma un numero sbagliato
+  //    fa più danno dentro un prompt eseguibile che dentro un elenco leggibile — l'auto-radiografia
+  //    diceva ai suoi agenti «i 42 agenti in .claude/agents/» mentre erano 120, cioè partiva già con
+  //    una realtà vecchia in testa. Qui il perimetro si allarga a TUTTO ciò che pilota: se un file
+  //    dichiara un numero di agenti/senior diverso da quello reale, il guardiano fallisce.
+  const FILE_PILOTA = [
+    ".claude/workflows/auto-radiografia.js",
+    ".claude/workflows/giro-operativo.js",
+    ".claude/workflows/audit-pannello.js",
+    "cervello/auto-radiografia.md",
+    "cervello/auto-coscienza.md",
+    "cervello/giro.md",
+  ];
+  const RE_CONTEGGIO = /(\d{2,4})\s+(?:agenti|senior)\b/gi;
+  const conteggiSbagliati = [];
+  for (const rel of FILE_PILOTA) {
+    const testo = leggiTesto(rel);
+    if (!testo) continue;
+    for (const m of testo.matchAll(RE_CONTEGGIO)) {
+      const n = Number(m[1]);
+      if (n !== nReali && n !== nReali + 1) conteggiSbagliati.push({ file: rel, dichiarato: n, reali: nReali });
+    }
+  }
+
   const driftTotale =
     orfani.length +
     assentiDaAgentiMd.length +
     (conteggioIncoerente ? 1 : 0) +
     nCollisioni +
-    senzaKpi.length;
+    senzaKpi.length +
+    conteggiSbagliati.length;
 
   await stampSegnale(
     "agent-registry",
@@ -232,6 +258,7 @@ async function main() {
           collisioni_coppie: collisioniCoppie,
           deferral_mancante: deferralMancante,
           senza_kpi_okr: senzaKpi,
+          conteggi_sbagliati: conteggiSbagliati,
           drift_totale: driftTotale,
         },
         null,
@@ -264,6 +291,12 @@ async function main() {
         console.log(
           `\n🔢 Conteggio incoerente: AGENTI.md dichiara ${nDichiaratoAgentiMd} senior, i file reali sono ${nReali}.`
         );
+      }
+
+      if (conteggiSbagliati.length) {
+        // AR-195: qui fa più male che altrove — sono i file che PILOTANO il lavoro, non gli elenchi.
+        console.log(`\n🔢 ${conteggiSbagliati.length} conteggi vecchi nei file che pilotano il lavoro (reali: ${nReali}):`);
+        for (const c of conteggiSbagliati) console.log(`  • ${c.file}: dichiara ${c.dichiarato}`);
       }
 
       if (collisioniCoppie.length) {

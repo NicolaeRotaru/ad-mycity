@@ -260,17 +260,13 @@ if flock -w 600 9; then
     elif [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       git "${GIT_ID[@]}" commit -q -m "ritmo AD ($RITMO_TIPO): aggiorna memoria ($(ts))" || true
       url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
+      # AR-297/AR-299 — stessa funzione di pubblicazione del giro e del monitoraggio: controllo del
+      # ramo prima del push e timeout di rete (qui mancava del tutto).
       ok=0
-      for attempt in 1 2 3; do
-        git fetch "$url" "$branch" 2>/dev/null && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
-        if git push "$url" "HEAD:${branch}" 2>/dev/null; then
-          echo "[$(ts)] Memoria sincronizzata su GitHub (ramo $branch, tentativo $attempt)."
-          ok=1
-          break
-        fi
-        echo "[$(ts)] Push tentativo $attempt fallito, riprovo..." >&2
-        sleep 3
-      done
+      if attempt="$(pubblica_memoria "$url" "$branch" 3 "${GIT_NET_TIMEOUT:-60}")"; then
+        echo "[$(ts)] Memoria sincronizzata su GitHub (ramo $branch, tentativo $attempt)."
+        ok=1
+      fi
       [ "$ok" = 1 ] || RITMO_PUSH_OK=0
     else
       RITMO_PUSH_OK=0

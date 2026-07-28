@@ -8,6 +8,7 @@ Type=oneshot
 User=mycity
 Group=mycity
 WorkingDirectory=/opt/mycity/ad-mycity
+Environment=TZ=Europe/Rome
 EnvironmentFile=-/opt/mycity/ad-mycity/cervello/vps/.env
 ExecStart=/usr/bin/env node /opt/mycity/ad-mycity/cervello/verifica-automazione.mjs
 Nice=10

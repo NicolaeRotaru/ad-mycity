@@ -17,10 +17,11 @@ import { execFileSync } from "node:child_process";
 import { readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
-import { REGOLE_SEGRETI, campioneRedatto } from "./segreti-pattern.mjs";
+import { REGOLE_SEGRETI, campioneRedatto, provaRegole } from "./segreti-pattern.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const STAGED_ONLY = process.argv.includes("--staged");
+const PROVA = process.argv.includes("--prova");
 
 const REGOLE = REGOLE_SEGRETI;
 
@@ -72,7 +73,35 @@ function fileDaScansionare() {
   }
 }
 
+/**
+ * AR-275 — `--prova`: la difesa si prova, non si dichiara. Passa un campione FINTO di ogni famiglia
+ * di chiave che il cervello usa davvero (elenco in segreti-pattern.mjs) e pretende che la regola
+ * corrispondente scatti. Esce ≠0 se una famiglia non ha regola o se la regola non morde: è così che
+ * ci si accorge di una chiave nuova entrata nell'ambiente senza difesa, invece di scoprirlo dopo.
+ */
+function provaEEsci() {
+  const quando = nowPiacenza();
+  const esito = provaRegole();
+  if (JSON_MODE) {
+    console.log(JSON.stringify({ esito: esito.ok ? "ok" : "buchi", quando, ...esito }, null, 2));
+  } else {
+    console.log(`\n🧪 PROVA REGOLE SEGRETI — ${quando}\n`);
+    if (esito.ok) {
+      console.log(`✅ ${esito.provate}/${esito.provate} famiglie di chiave in uso hanno una regola che scatta.`);
+    } else {
+      console.log(`❌ ${esito.falliti.length} famiglie SCOPERTE su ${esito.provate}:\n`);
+      for (const f of esito.falliti) console.log(`  • ${f.env} → "${f.regola}": ${f.motivo}`);
+      console.log(`\nAggiungi/correggi la regola in cervello/segreti-pattern.mjs.`);
+    }
+  }
+  // Il segnale non si ingoia in silenzio: se non riesco a scriverlo lo dico (malattia «errore-ingoiato»).
+  stampSegnale("scan-segreti", esito.ok ? "ok" : "errore", `prova regole: ${esito.ok ? "tutte scattano" : `${esito.falliti.length} scoperte`} · ${quando}`)
+    .catch((e) => console.error(`⚠️  segnale scan-segreti non scritto: ${e.message || e}`));
+  process.exit(esito.ok ? 0 : 1);
+}
+
 function main() {
+  if (PROVA) return provaEEsci();
   const quando = nowPiacenza();
   let files;
   try {

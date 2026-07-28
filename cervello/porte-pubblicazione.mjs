@@ -27,11 +27,25 @@
 // Nessuna dipendenza: si esegue su testo passato da fuori, così un test può provarlo su uno script
 // finto invece che su com'è il repo adesso.
 
-/** Un push verso il remoto. Non ci interessano i push locali o i `git push --dry-run`. */
-const RE_PUSH = /^\s*(?:if\s+)?(?:timeout\s+"?\$?\{?[\w:-]+\}?"?\s+)?git\s+push\s/;
+/**
+ * Un push verso il remoto. Non ci interessano i push locali o i `git push --dry-run`.
+ * Il prefisso può essere un `timeout 60` oppure un array di comando (`"${T[@]}" git push …`), che è
+ * la forma usata dal loop condiviso: senza riconoscerla, la porta più importante — quella da cui
+ * passano ORA giro, ritmo e monitora — sarebbe invisibile a questo guardiano.
+ */
+const RE_PUSH = /^\s*(?:if\s+)?(?:(?:timeout\s+"?\$?\{?[\w:-]+\}?"?|"\$\{[A-Za-z_]\w*\[@\]\}")\s+)*git\s+push\s/;
 
-/** La chiamata al cancello condiviso, in una delle forme in cui compare. */
-const RE_GATE = /gate_pubblicazione\s+"/;
+/**
+ * La porta INDIRETTA: chi pubblica chiamando il loop condiviso `pubblica_memoria`. Conta come porta
+ * a tutti gli effetti — è da lì che esce la memoria — e va anch'essa preceduta dal cancello.
+ */
+const RE_PORTA_CONDIVISA = /\bpubblica_memoria\s+"/;
+
+/**
+ * Il cancello, in una delle forme in cui compare: la chiamata al gate completo, oppure la guardia
+ * del ramo usata da sola dentro il loop condiviso (è l'ultima difesa prima del push).
+ */
+const RE_GATE = /gate_pubblicazione\s+"|\bramo_ammesso\s+"/;
 
 /** Righe che spengono il controllo: un push dentro un commento non è un push. */
 const commento = (riga) => /^\s*#/.test(riga);
@@ -51,7 +65,7 @@ export function porteDi(testo, nome = "?") {
   righe.forEach((riga, i) => {
     if (commento(riga)) return;
     if (RE_GATE.test(riga)) gateVistoA = i + 1;
-    if (RE_PUSH.test(riga)) {
+    if (RE_PUSH.test(riga) || RE_PORTA_CONDIVISA.test(riga)) {
       porte.push({
         file: nome,
         riga: i + 1,

@@ -17,6 +17,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { scriviStatoSensore } from "./stato-sensori.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const RETRIES = 3;
@@ -29,7 +30,9 @@ function fetchSensore(url, init = {}) {
 }
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
-const CECITA_PATH = join(VAULT, "sensori-cecita.json");
+// Sovrascrivibile SOLO per provare il sensore su un file finto (AR-284: la cecità sospetta va
+// dimostrata facendola accadere, e non si può farla accadere sullo stato vero della macchina).
+const CECITA_PATH = process.env.SENSORI_CECITA_FILE || join(VAULT, "sensori-cecita.json");
 
 /** Classe sensore per max_giri_ciechi_dati (sentinella M2) vs infrastruttura/mani. */
 const SENSOR_CLASSE = {
@@ -68,7 +71,9 @@ async function conRetry(fn, nome) {
   for (let i = 1; i <= RETRIES; i++) {
     try {
       const r = await fn();
-      if (r.ok) return { ok: true, dettaglio: r.dettaglio || "ok", tentativi: i };
+      // AR-284: si porta dietro anche `conteggio` — il campo che permette al giro dopo di distinguere
+      // «zero ordini» da «non vedo gli ordini». Prima il ritorno veniva ricostruito e il numero cadeva.
+      if (r.ok) return { ok: true, dettaglio: r.dettaglio || "ok", tentativi: i, ...(Number.isFinite(r.conteggio) ? { conteggio: r.conteggio } : {}) };
       last = r.dettaglio || "fallito";
     } catch (e) {
       last = e.message || String(e);
@@ -93,7 +98,7 @@ function leggiCecita() {
         "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
       // AR-287 — un verde va letto per quello che vale, non per quello che sembra.
       _cosa_NON_prova:
-        "Non prova che i DATI siano giusti: prova che il canale risponde. Un sensore che legge zero righe perché la chiave non vede la tabella risulta acceso e sano — è il buco che AR-284 descrive. «Vedo» non vuol dire «vedo tutto».",
+        "Non prova che i DATI siano giusti: prova che il canale risponde e che CONTA le righe (AR-284: da 28/7 il sensore ordini conta con Prefer:count=exact e un crollo a zero da un valore non-zero viene chiamato cecità sospetta, non notizia). Restano fuori: la correttezza dei valori e le tabelle che nessuno interroga.",
       aggiornato: nowPiacenza(),
       sensori: {},
       meta: { giri_totali: 0 },
@@ -157,15 +162,40 @@ async function checkSupabaseMarketplace() {
     // reale del VPS con una FALSA cecità. Coerente con Stripe/Resend/Sito (tutti configurato:false).
     return { ok: false, configurato: false, dettaglio: "MARKETPLACE_SUPABASE_URL/KEY assenti nel .env (ambiente non configurato)" };
   }
+  // AR-284 — CONTROLLO DI LEGGIBILITÀ, non di raggiungibilità.
+  // Prima bastava un HTTP 200 per dichiarare la tabella ordini leggibile: ma PostgREST con una chiave
+  // che le policy RLS non autorizzano risponde 200 con una lista VUOTA. Il sensore diceva «vedo», il
+  // giro leggeva zero ordini e scriveva «0 ordini» come se fosse un fatto del mondo — mentre il fatto
+  // era che la chiave era cambiata. Un sensore che non distingue «non c'è niente» da «non vedo niente»
+  // è peggio di un sensore spento, perché lo zero rassicura.
+  //
+  // Ora si conta davvero (Prefer: count=exact) e si confronta col conteggio dell'ultimo giro: un
+  // crollo a zero da un valore non-zero è una CECITÀ SOSPETTA — alza il vincolo «niente numeri nuovi»
+  // invece di far scrivere uno zero.
+  const prima = leggiCecita().sensori?.supabase_rest || {};
+  const ultimoConteggio = Number.isFinite(Number(prima.ultimo_conteggio)) ? Number(prima.ultimo_conteggio) : null;
   return conRetry(async () => {
     const res = await fetchSensore(`${url}/rest/v1/orders?select=id&limit=1`, {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
+      headers: { apikey: key, Authorization: `Bearer ${key}`, Prefer: "count=exact" },
     });
     if (!res.ok) {
       const t = await res.text();
       return { ok: false, dettaglio: `HTTP ${res.status}: ${t.slice(0, 120)}` };
     }
-    return { ok: true, dettaglio: "orders leggibili via REST" };
+    // Content-Range: "0-0/37" → 37. Se l'header manca, non possiamo contare: lo diciamo.
+    const range = res.headers?.get?.("content-range") || "";
+    const m = range.match(/\/(\d+)\s*$/);
+    if (!m) {
+      return { ok: true, dettaglio: `orders raggiungibili, conteggio non disponibile (content-range: ${range || "assente"})` };
+    }
+    const conteggio = Number(m[1]);
+    if (conteggio === 0 && ultimoConteggio !== null && ultimoConteggio > 0) {
+      return {
+        ok: false,
+        dettaglio: `CECITÀ SOSPETTA: orders risponde 200 ma conta 0 righe (l'ultimo giro ne contava ${ultimoConteggio}). Chiave o policy RLS cambiate? NON scrivere zero: verifica MARKETPLACE_SUPABASE_KEY.`,
+      };
+    }
+    return { ok: true, conteggio, dettaglio: `orders CONTATI via REST: ${conteggio} righe visibili con questa chiave` };
   }, "supabase_rest");
 }
 
@@ -352,6 +382,9 @@ async function main() {
     "REST marketplace",
     sb.configurato   // AR-035: se le chiavi mancano, non è cecità → non gonfia i giri_ciechi
   );
+  // AR-284: il conteggio serve al giro DOPO — è il metro con cui si riconosce un crollo a zero come
+  // cecità sospetta invece che come notizia. Si aggiorna solo quando abbiamo davvero contato.
+  if (Number.isFinite(sb.conteggio)) cecita.sensori.supabase_rest.ultimo_conteggio = sb.conteggio;
 
   const st = await checkStripe();
   checks.push({ nome: "stripe_api", ...st, canale: "STRIPE_SECRET_KEY" });
@@ -525,10 +558,12 @@ async function main() {
   const ambienteConfigurato = checks.some((c) => c.configurato !== false);
   const aggiornamentoMcp = mcpSb !== null || mcpStripe !== null;
   const scriviStato = ambienteConfigurato || aggiornamentoMcp;
-  if (scriviStato) {
-    mkdirSync(dirname(CECITA_PATH), { recursive: true });
-    writeFileSync(CECITA_PATH, JSON.stringify(cecita, null, 2) + "\n", "utf8");
-  }
+  // AR-281: la guardia non vive più qui dentro come variabile locale — passa dalla porta condivisa,
+  // la stessa che usano cassa, delta-gate e sentinella-fonti. Una regola di classe, un punto solo.
+  const esitoScrittura = scriviStatoSensore(CECITA_PATH, cecita, {
+    ambienteConfigurato: scriviStato,
+    motivo: "nessuna chiave sensore nell'ambiente e nessun aggiornamento MCP",
+  });
 
   const sintesi = tuttiCiechi
     ? `TUTTI CIECHI · max ${maxCecita} giri consecutivi`
@@ -561,9 +596,7 @@ async function main() {
       console.log(`${c.ok ? "✅" : "❌"} ${c.nome.padEnd(18)} ${c.dettaglio}`);
     }
     console.log(`\n${cecita.istruzioni_giro}`);
-    console.log(scriviStato
-      ? `\nScritto: ${CECITA_PATH}`
-      : `\n⏭️  Ambiente senza chiavi sensore: NON aggiorno ${CECITA_PATH} (preservo lo stato del VPS — AR-035).`);
+    console.log(`\n${esitoScrittura.spiegazione}`);
     if (maxCecitaDati >= 3) {
       console.log(`\n⚠️  Sentinella: fonte dati cieca da ${maxCecitaDati} giri consecutivi.`);
     } else if (maxCecita >= 3) {

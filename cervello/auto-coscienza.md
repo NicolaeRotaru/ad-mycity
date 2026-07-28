@@ -7,7 +7,7 @@
 ```
   ASSE ① — AUTO-ANALISI DEL LAVORO            ASSE ② — AUTO-RADIOGRAFIA DI SÉ
   (ogni giro)                                 (settimanale/su comando + sonda ogni giro)
-  cancello a 3 livelli sul PRODOTTO del giro   audit della PROPRIA architettura: 42 agenti, prompt,
+  cancello a 3 livelli sul PRODOTTO del giro   audit della PROPRIA architettura: 120 agenti, prompt,
   «è giusto? ed è al livello dei MIGLIORI?»    processi, sensori, memoria, capacità — causa-radice,
                                                pre-mortem, cantiere→0, propone pezzi nuovi di sé
                  \                            /
@@ -110,7 +110,7 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
   "domande_per_nicola":[{"domanda":"…","perche_serve":"…","se_rispondi":"…","gravita":"…"}],
   "sonda":{"loop_chiude":true,"tasso_applicazione":0.0,"giro_a_cadenza":true,"sentinelle_scattano":true,"ore_da_ultima_completa":0,
     "salute_stato":"pending-merge","voto_provvisorio":0,"voto_pieno":0,"pending_merge":0,"aperti_davvero":0,"bloccanti_umani":0,"salute_firma":"AR-…,AR-…","verdetto":"ok|serve-completa"},
-  "meta":{"agenti_totali":42,"dimensioni_critiche":0,"bloccanti":0} }
+  "meta":{"agenti_totali":120,"dimensioni_critiche":0,"bloccanti":0} }
 ```
 
 ### `cantiere-difetti.json` (asse ②) · `storico-salute.json` · `watchlist-riferimenti.json`

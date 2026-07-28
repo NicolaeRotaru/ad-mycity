@@ -1,7 +1,7 @@
 {
   "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
   "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
-  "aggiornato": "2026-07-28 01:40",
+  "aggiornato": "2026-07-28 21:40",
   "malattie": [
     {
       "id": "esito-in-una-pipe",
@@ -14,17 +14,16 @@
       "estensioni": [
         ".sh"
       ],
-      "baseline": 34,
-      "file_noti": [
-        "cervello/giro.sh"
-      ],
+      "baseline": 0,
+      "file_noti": [],
       "curati": [
         "freschezza-segnali.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
         "sonda-volano.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
         "tasso-lezioni.mjs — l'altra metà di AR-178, sfuggita al lotto 10 e ripresa dall'audit della chiusura"
       ],
       "nota_onesta": "35 istanze restano, tutte in giro.sh. NON sono tutte difetti: molte sono rapporti informativi veri (capacita, bilancio-vivo, macchina-del-tempo) dove non esiste un fallimento che debba vincolare il giro. Ma la differenza va DECISA una per una, non lasciata al caso: finché il triage non è fatto, AR-165 resta aperto con questo numero scritto sopra. La radice — una funzione `guardiano` che rende la scelta esplicita invece che implicita in due caratteri — è installata.",
-      "esenti": []
+      "esenti": [],
+      "nota_baseline": "0 dal 2026-07-28 (AR-307): giro.sh non usa piu `| tail`, l'esito passa da esito_righe che tiene la prima riga (verdetto/errore) e la coda."
     },
     {
       "id": "buco-letto-come-zero",
@@ -37,23 +36,19 @@
       "estensioni": [
         ".sh"
       ],
-      "baseline": 1,
+      "baseline": 0,
       "file_noti": [
         "cervello/giro.sh",
         "cervello/worker.sh"
       ],
       "esenti": [
         {
-          "file": "cervello/giro.sh",
-          "quale": "soglia_giornaliera_token // 0",
-          "perche": "Qui lo zero è il valore giusto per «nessuna soglia configurata», e il codice a valle tratta esplicitamente soglia<=0 come «freno non configurato» (decidiFrenoCosto esce «cieco», non «lascia»). L'assenza è già gestita: non è un buco travestito."
-        },
-        {
           "file": "cervello/worker.sh",
           "quale": "riga 1488, .[0].tentativi // 0",
           "perche": "Trovato da questa stessa spazzata il 28/7, non a occhio. È legittimo: una riga appena creata NON ha tentativi, quindi «assente» vuol dire davvero «zero tentativi fatti». Il caso pericoloso — la colonna che non esiste — è già coperto dalla guardia HAS_RETRY_COLS=1 due righe sopra, e la decisione vera la prende retry-policy.mjs, il cui default è `.azione // \"stop\"`: al buio si ferma, non ritenta. Zero qui è una misura, non un buco."
         }
-      ]
+      ],
+      "nota_baseline": "0 dal 2026-07-28 (AR-334): l'unica istanza viva (worker.sh) e dichiarata esente col perche; l'esenzione su giro.sh non corrispondeva piu a nessuna istanza ed e stata tolta invece di restare come residuo."
     },
     {
       "id": "errore-ingoiato",
