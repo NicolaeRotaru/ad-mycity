@@ -165,6 +165,7 @@ SCADENZE_VINCOLO=""      # AR-147/214: scadenza entro 72h, o countdown trascritt
 PAUSE_VINCOLO=""         # AR-159/157: una card in pausa che nessun orologio sveglierà, o una data ricopiata
 SENSORI_SPENTI_VINCOLO="" # AR-105/108: un sensore spento senza un perché dichiarato è un buco, non uno stato
 PORTE_VINCOLO=""         # AR-127: un push verso main che non passa dal cancello condiviso
+FIRMA_VINCOLO=""         # AR-119: uno script del cervello che può scriversi la firma di Nicola
 STAMPO_VINCOLO=""        # AR-291: verdetto dello stampo senior, prima buttato in un `|| true` (AR-129/287/289)
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
 if command -v node >/dev/null 2>&1; then
@@ -230,6 +231,15 @@ if command -v node >/dev/null 2>&1; then
   # vuoti, kit sottili in rapporto alla mediana, fotocopie, struttura) e non la sola presenza dei file.
   # Parte verde perché il debito del 28/7 è dichiarato per nome in cervello/stampo-baseline.json:
   # blocca il primo NUOVO che sporca, non il parco esistente.
+  # AR-119 — il confine della firma. La firma di Nicola vive in `impostazioni`, e il cervello quella
+  # tabella la scrive con la stessa chiave con cui la legge: a livello di permessi il confine non
+  # esiste, esiste una convenzione. Questo cancello la rende un controllo. Nasce VERDE (nessuno script
+  # scrive chiavi di firma, misurato il 28/7), quindi blocca il primo che proverà a farlo.
+  echo "[$(ts)] Guardiano del confine della firma (AR-119 — gate hard)..."
+  if ! guardiano firma-check.mjs; then
+    FIRMA_VINCOLO="$(vincolo_da_rc "firma-check" "$GUARDIANO_RC" "⛔ CONFINE DELLA FIRMA VIOLATO (firma-check.mjs rc=$GUARDIANO_RC, AR-119): uno script del cervello scrive — o può scrivere — la chiave con cui Nicola firma le azioni. Chi esegue non può firmare se stesso. Togli quella scrittura, oppure dichiara le chiavi che lo script tocca con CHIAVI_SCRITTE. Dettaglio: node cervello/firma-check.mjs")"
+    echo "[$(ts)] ⚠️  AR-119: firma-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
   echo "[$(ts)] Guardiano stampo senior (vettori-installati / Come pensa l'AD — gate hard)..."
   if ! guardiano stampo-check.mjs; then
     STAMPO_VINCOLO="$(vincolo_da_rc "stampo-check" "$GUARDIANO_RC" "⛔ STAMPO SENIOR PEGGIORATO (stampo-check.mjs rc=$GUARDIANO_RC, AR-129/AR-287/AR-289/AR-291): un agente ha un difetto di stampo che NON era nel debito dichiarato — quaderno mai scritto, kit sottile rispetto alla mediana del parco, kit fotocopia di altri, o strati duplicati. Riparalo in questo giro, oppure dichiaralo con motivo in cervello/stampo-baseline.json — allargare quella lista è una decisione visibile, non un effetto collaterale. Dettaglio: node cervello/stampo-check.mjs")"
@@ -758,6 +768,12 @@ if [ -n "${AGENTI_VINCOLO:-}" ]; then
 
 ## Vincolo registro agenti (HARD — AR-007/008: agente orfano o conteggio errato)
 $AGENTI_VINCOLO"
+fi
+if [ -n "${FIRMA_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo confine della firma (HARD — AR-119: chi esegue non può firmare se stesso)
+$FIRMA_VINCOLO"
 fi
 if [ -n "${STAMPO_VINCOLO:-}" ]; then
   PROMPT="$PROMPT
