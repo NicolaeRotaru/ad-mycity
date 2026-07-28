@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🔌 AR-339 — I CANCELLI CHE NON PARTONO NON SONO CANCELLI.
+// 🔌 AR-343 — I CANCELLI CHE NON PARTONO NON SONO CANCELLI.
 //
 // SCOPERTO IL 29/7, provando il gate nuovo del cantiere: un commit che avrebbe DOVUTO essere
 // bloccato è passato. Il gate era corretto; a non girare erano i git hook. In un clone fresco
@@ -38,7 +38,7 @@ const prova = (nome, fn) => {
   }
 };
 
-prova("AR-339: un clone fresco NON ha i hook attivi — è lo stato di partenza da cui difendersi", () => {
+prova("AR-343: un clone fresco NON ha i hook attivi — è lo stato di partenza da cui difendersi", () => {
   const dir = mkdtempSync(join(tmpdir(), "hook-"));
   execFileSync("git", ["init", "-q", "."], { cwd: dir });
   let valore = "";
@@ -50,7 +50,7 @@ prova("AR-339: un clone fresco NON ha i hook attivi — è lo stato di partenza 
   assert.equal(valore, "", "in un clone nuovo core.hooksPath è vuoto: i .githooks/ non girano");
 });
 
-prova("AR-339: installa-hooks.sh accende il perimetro, ed è idempotente", () => {
+prova("AR-343: installa-hooks.sh accende il perimetro, ed è idempotente", () => {
   const dir = mkdtempSync(join(tmpdir(), "hook-"));
   execFileSync("git", ["init", "-q", "."], { cwd: dir });
   mkdirSync(join(dir, "cervello"), { recursive: true });
@@ -64,7 +64,7 @@ prova("AR-339: installa-hooks.sh accende il perimetro, ed è idempotente", () =>
   }
 });
 
-prova("AR-339: l'installazione parte all'AVVIO DI SESSIONE, non solo dentro il giro", () => {
+prova("AR-343: l'installazione parte all'AVVIO DI SESSIONE, non solo dentro il giro", () => {
   // È il cuore del difetto: `giro.sh` lo faceva già, quindi sul VPS i hook erano attivi e il buco
   // restava invisibile. Ogni sessione che committa senza fare un giro deve accenderli lo stesso.
   const cfg = JSON.parse(readFileSync(join(REPO, ".claude/settings.json"), "utf8"));
@@ -76,7 +76,7 @@ prova("AR-339: l'installazione parte all'AVVIO DI SESSIONE, non solo dentro il g
   );
 });
 
-prova("AR-339: e il pre-commit contiene davvero i cancelli che diciamo di avere", () => {
+prova("AR-343: e il pre-commit contiene davvero i cancelli che diciamo di avere", () => {
   // Non-vacuità del controllo qui sopra: accendere un perimetro vuoto non protegge da niente.
   const hook = readFileSync(join(REPO, ".githooks/pre-commit"), "utf8");
   for (const atteso of ["scan-segreti", "bash -n", "cancello-lotto"]) {

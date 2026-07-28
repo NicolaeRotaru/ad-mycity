@@ -1,6 +1,6 @@
 {
  "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
- "aggiornato": "2026-07-29 01:30",
+ "aggiornato": "2026-07-29 02:00",
  "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
  "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
  "difetti": [
@@ -5452,16 +5452,73 @@
    "causa_radice": "AR-334 (PR #599) ha fatto la cosa giusta: le esenzioni di malattie.json adesso si sottraggono e quelle orfane fanno fallire. Provando quell implementazione su un albero finto — un istanza vera, esenzioni sospette — sono uscite due strade per zittire una malattia senza toccare una riga di codice. (A) `perche: \"boh\"` passava: il registro dice «un esenzione senza motivo e un silenzio» e porte-check pretende gia piu di dieci caratteri per la stessa ragione — la regola c era, il metro no. (B) TRE esenzioni su un file con UNA istanza sottraevano tre, e `Math.max(0, …)` teneva il totale a zero nascondendo il resto: bastava impilare voci per far sparire un file dal conteggio. — Radice: una regola scritta bene con un metro che non la fa rispettare. Si vede solo eseguendo lo strumento su casi che nel repo non esistono ancora — rileggendo il codice non si vede.",
    "fix_proposto": "🟡 (a) Soglia dichiarata per il motivo (MOTIVO_MIN, la stessa di porte-check) e ogni esenzione copre UNA istanza reale del suo file: le eccedenti diventano orfane. (b) Ogni scarto porta il PERCHE — un guardiano che dice solo «no» costringe a indovinare quale regola e scattata. (c) La decisione in una funzione pura (pesaEsenzioni) che una prova esegue su ingressi finti.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-28 23:35",
-   "chiuso_il": "",
+   "chiuso_il": "2026-07-29 00:22",
    "verifica": {
     "comando": "node cervello/test/esenzione-con-un-motivo-vero.test.mjs"
    },
-   "origine": "provando su un albero finto il fix di AR-334 appena mergiato, invece di rileggerlo"
+   "origine": "provando su un albero finto il fix di AR-334 appena mergiato, invece di rileggerlo",
+   "chiuso_come": "node cervello/test/esenzione-con-un-motivo-vero.test.mjs → exit 0 (guardiano soddisfatto)"
   },
   {
    "id": "AR-339",
+   "titolo": "Lo scanner dei segreti dichiara 2040 file controllati, ma 26 non li ha nemmeno aperti",
+   "dimensione": "guardiani-verita",
+   "gravita": "alto",
+   "impatto_crescita": "medio",
+   "causa_radice": "Radice comune: la macchina chiede a git un elenco di percorsi e lo prende alla lettera, ma git per default RISCRIVE i nomi che contengono byte non-ASCII — li mette fra virgolette e trasforma l'accento in ottali (core.quotePath). In un repo con i nomi in italiano non e un caso limite: e il caso normale. Il rimedio esiste da sempre (-z, oppure -c core.quotePath=false) e nessuno dei tre punti che chiedono elenchi a git lo usa. Trovato provando gli strumenti su nomi che nel repo non erano ancora stati messi alla prova, non rileggendoli. — Qui il danno e doppio. (1) scan-segreti.mjs chiede l'elenco a git (ls-files nella passata piena, diff --cached nel pre-commit): i 26 file del vault con l'accento nel percorso tornano citati e in forma ottale, quindi statSync fallisce. (2) Il fallimento e SILENZIOSO: il ciclo fa `catch { continue }`, che e la stessa uscita usata per i binari legittimi, e il file conta lo stesso nel totale stampato. Misurato adesso: elencati 2040, apribili 2014, e il rapporto dice «nessun segreto in 2040 file versionabili». Un guardiano che non distingue «l'ho letto e e pulito» da «non sono riuscito ad aprirlo» non e una difesa, e una rassicurazione. Stessa forma di AR-284 (il sensore che chiamava «letto» un elenco vuoto).",
+   "fix_proposto": "🟡 (a) Una porta sola per chiedere percorsi a git — un modulo condiviso che esegue sempre con -z e separa sui NUL, cosi il nome arriva com'e sul disco — e i tre chiamanti passano di li. (b) In scan-segreti separare i due silenzi: contare i file NON LETTI e non poter chiudere in verde con il conteggio gonfiato — il totale dichiarato deve essere quello davvero aperto, e i saltati vanno detti. (c) Un guardiano che fallisce se qualcuno torna a chiedere elenchi a git fuori dalla porta condivisa: e la regola che tiene chiusa la strada anche al prossimo script.",
+   "colore": "🟡",
+   "stato": "aperto",
+   "nato": "2026-07-29 00:28",
+   "chiuso_il": "",
+   "origine": "provando gli strumenti su nomi di file con l'accento — cioe la meta italiana del vault — invece di rileggerli"
+  },
+  {
+   "id": "AR-340",
+   "titolo": "Il guardiano che misura se lavoriamo sulla macchina o sul business non riconosce 202 file su 2041, e in mappa ha la cartella morta dei quaderni",
+   "dimensione": "calibrazione-onesta",
+   "gravita": "medio",
+   "impatto_crescita": "alto",
+   "causa_radice": "allocazione-check.mjs classifica ogni file toccato in «macchina» o «business» per prefisso, e la quota che ne esce e il numero con cui la macchina risponde alla domanda «stiamo lavorando sulle cose giuste?». Misurato sulla finestra di 14 giorni: 1451 macchina, 388 business e 202 NON classificati. Due cause, tutte e due verificate. (1) 124 dei 202 sono i quaderni: la mappa contiene MyCity-Vault/90-Memoria-AI/memoria-squadra/ — che oggi e una cartella morta con quattro copie vecchie — e NON contiene memoria-squadra/ nella radice, che e dove chiusura-loop, stampo-check, tasso-lezioni e bootstrap-quaderni scrivono davvero. Il guardiano conosce l'indirizzo di casa vecchio. (2) 26 sono i percorsi del vault con l'accento, che arrivano da git riscritti (stessa radice di AR-339) e non corrispondono a nessun prefisso. Il calcolo esclude i non classificati apposta, per non abbassare la quota per finta: quindi il numero non e falso, e CIECO su un decimo del lavoro — e la parte cieca e per due terzi il loop di apprendimento dei 120 senior.",
+   "fix_proposto": "🟡 (a) Mettere in mappa la casa VERA dei quaderni (memoria-squadra/ in radice → macchina) e togliere quella morta, oppure tenerla solo finche le copie vecchie esistono. (b) Far passare la lettura da git dalla porta condivisa di AR-339, cosi i percorsi con l'accento tornano leggibili. (c) La regola che vale oltre il caso: un guardiano non puo lasciare crescere in silenzio la sua zona cieca — se i non classificati superano una soglia dichiarata deve dirlo nel rapporto e uscire diverso da zero, perche una mappa che invecchia e indistinguibile da una mappa giusta finche nessuno la misura.",
+   "colore": "🟡",
+   "stato": "aperto",
+   "nato": "2026-07-29 00:28",
+   "chiuso_il": "",
+   "origine": "registrando l'ESITO di AR-338 nel quaderno di @tech e notando che il file scritto stava in una cartella diversa da quella che il guardiano nomina"
+  },
+  {
+   "id": "AR-341",
+   "titolo": "Lo strumento che apre le richieste di modifica non riconosce un file in conflitto se il nome ha un accento",
+   "dimensione": "worker-pubblicazione",
+   "gravita": "basso",
+   "impatto_crescita": "basso",
+   "causa_radice": "Radice comune: la macchina chiede a git un elenco di percorsi e lo prende alla lettera, ma git per default RISCRIVE i nomi che contengono byte non-ASCII — li mette fra virgolette e trasforma l'accento in ottali (core.quotePath). In un repo con i nomi in italiano non e un caso limite: e il caso normale. Il rimedio esiste da sempre (-z, oppure -c core.quotePath=false) e nessuno dei tre punti che chiedono elenchi a git lo usa. Trovato provando gli strumenti su nomi che nel repo non erano ancora stati messi alla prova, non rileggendoli. — Terzo punto: unmergedPaths in git-pr.mjs chiede l'elenco dei file in conflitto con diff --name-only --diff-filter=U e confronta ogni voce con l'elenco dei percorsi auto-risolvibili. Verificato su un repo di prova con un conflitto vero su un nome accentato: git risponde con il percorso citato e in ottali, che non corrisponde a nulla nell'elenco. OGGI il difetto e latente e il comportamento e prudente — l'auto-risoluzione rinuncia invece di toccare il file sbagliato, e nessuno dei cinque percorsi auto-risolvibili ha un accento. Ma e la stessa porta di AR-339 e AR-340: resta un difetto da chiudere insieme agli altri, non da lasciare aperto perche per adesso non morde.",
+   "fix_proposto": "🟡 Far passare anche unmergedPaths dalla porta condivisa di AR-339. Il valore non e il caso di oggi: e che la porta diventi una sola per tutti e tre i punti, cosi il prossimo script che chiede elenchi a git non ha modo di sbagliare da solo.",
+   "colore": "🟡",
+   "stato": "aperto",
+   "nato": "2026-07-29 00:28",
+   "chiuso_il": "",
+   "origine": "cercando gli altri punti che chiedono elenchi a git dopo aver trovato il primo, invece di fermarsi al sito che avevo sotto mano"
+  },
+  {
+   "id": "AR-342",
+   "titolo": "Quattro quaderni hanno due case, e nella casa vecchia l'ultimo esito e di venti giorni fa",
+   "dimensione": "integrita-memoria",
+   "gravita": "basso",
+   "impatto_crescita": "basso",
+   "causa_radice": "I quaderni dei senior vivono in memoria-squadra/ nella radice: 124 file, ed e li che scrivono chiusura-loop, stampo-check, tasso-lezioni e bootstrap-quaderni. In MyCity-Vault/90-Memoria-AI/memoria-squadra/ ce ne sono altri quattro con lo stesso nome, che nessuno aggiorna piu: account-negozi ha 1279 byte contro 15473 e l'ultimo esito al 7/7 invece che al 27/7 — venti giorni indietro; intelligence e fermo al 20/7; marketing e relazioni-istituzionali non hanno nemmeno una riga di esito. Sono esattamente cio che il registro dei fatti chiama una bugia: una copia vecchia lasciata in giro che chi la apre per prima crede aggiornata. E non e innocua — e la cartella che allocazione-check nomina al posto di quella viva (AR-340). — CORREZIONE dello stesso autore, un'ora dopo averlo scritto: le quattro copie NON erano duplicati. Confrontando i timestamp riga per riga sono usciti CINQUE esiti presenti solo nella copia vecchia e mai arrivati alla casa vera — intelligence 4/7 e 6/7 (radar concorrenti con le fee di Esselunga/Glovo/EasyCoop e le finestre dei Venerdi Piacentini), marketing 7/7 (il tappo del link lista d'attesa), account-negozi 7/7 x2 (il churn in cold-start si misura sul time-to-first-value, non sul calo). Tre su cinque non avevano nemmeno il trattino iniziale, quindi il contatore degli esiti non le vedeva. Il difetto e quindi peggiore di come l'avevo scritto: non una copia vecchia da buttare, ma lezioni vere finite in un ramo morto della memoria.",
+   "fix_proposto": "🟡 (a) PRIMA recuperare, poi archiviare — l'ordine non e un dettaglio: archiviare e basta avrebbe sepolto cinque lezioni, cioe lo stesso errore che il difetto denuncia, commesso al contrario. I cinque esiti orfani vanno nella casa vera con il trattino (cosi il contatore li vede) e un tag che dice da dove arrivano; le quattro copie vanno in Storico/ col mese nel nome. (b) Un metro che impedisca il ritorno: un quaderno ha UNA casa, e il guardiano fallisce se lo stesso nome compare in due cartelle di quaderni. Senza il metro, fra un mese la cartella si ripopola da sola e nessuno se ne accorge finche non conta i byte.",
+   "colore": "🟡",
+   "stato": "aperto",
+   "nato": "2026-07-29 00:28",
+   "chiuso_il": "",
+   "origine": "confrontando byte e data dell'ultimo esito fra le due cartelle omonime, dopo aver visto che chiusura-loop scriveva in quella che non mi aspettavo"
+  },
+  {
+   "id": "AR-343",
    "titolo": "I cancelli del commit sono spenti in ogni sessione cloud: segreti, sintassi e perimetro di main non girano",
    "dimensione": "guardrail-semaforo",
    "gravita": "grave",
@@ -5471,7 +5528,7 @@
    "colore": "🟡",
    "stato": "aperto",
    "nato": "2026-07-29 01:30",
-   "nota": "Trovato provando avversarialmente il gate nuovo del lotto 29: il commit di prova, che DOVEVA essere respinto, e' passato. Il gate era giusto; a non girare erano i hook. Un cancello che non parte non e' un cancello — e per tutta questa sessione i miei commit sono passati senza scan-segreti.",
+   "nota": "Trovato provando avversarialmente il gate nuovo del lotto 29: il commit di prova, che DOVEVA essere respinto, e' passato. Il gate era giusto; a non girare erano i hook. Un cancello che non parte non e' un cancello — e per tutta questa sessione i miei commit sono passati senza scan-segreti. [id spostato da AR-339 a AR-343 il 29/7: main aveva gia' registrato un AR-339 diverso (scanner segreti) mentre questo lotto era aperto — due difetti con lo stesso numero sono un difetto in piu'.]",
    "nota_fix": "LOTTO 29. Installazione agganciata al SessionStart di .claude/settings.json, cosi' parte all'apertura di OGNI sessione e non solo dentro il giro. Il test copre i tre pezzi: un clone fresco parte spento, installa-hooks accende ed e' idempotente, e il SessionStart lo invoca davvero — piu' la non-vacuita' (il perimetro acceso deve contenere i cancelli veri, non essere vuoto).",
    "verifica": {
     "comando": "node cervello/test/cancelli-spenti-nel-clone.test.mjs"
@@ -5479,8 +5536,8 @@
   }
  ],
  "meta": {
-  "aperti": 112,
+  "aperti": 113,
   "in_corso": 0,
-  "chiusi": 163
+  "chiusi": 164
  }
 }
