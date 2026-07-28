@@ -73,6 +73,42 @@ prova("il comando VERO accetta e conserva la baseline, ed avverte se è uguale a
   }
 });
 
+prova("nemmeno la previsione AUTOMATICA inventa più l'atteso", () => {
+  // Il buco che il passo ⑤ ha trovato DOPO il merge: avevo sistemato `prevedi` (il comando a mano) e
+  // lasciato `autoprevedi` — il generatore automatico — che apriva sempre `atteso: 1` su
+  // `ordini_totali` senza sapere quanti ordini ci fossero. Se il numero vero era 1 la previsione
+  // nasceva azzeccata; se era 0, «1» era un desiderio scritto come misura. Sistemare la porta a mano
+  // e lasciare aperta quella automatica è il modo più sicuro di far tornare il difetto da solo.
+  const P = join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json");
+  const F = join(REPO, "MyCity-Vault/90-Memoria-AI/registro-fatti.json");
+  const primaCal = readFileSync(P, "utf8");
+  const primaFatti = readFileSync(F, "utf8");
+  const bin = join(REPO, "cervello/calibrazione.mjs");
+  const vuota = (testo) => { const j = JSON.parse(testo); j.registro = []; return JSON.stringify(j, null, 2) + "\n"; };
+  try {
+    // ① con la baseline leggibile: apre, e la porta dentro la voce.
+    writeFileSync(P, vuota(primaCal));
+    execFileSync("node", [bin, "autoprevedi"], { cwd: REPO, encoding: "utf8" });
+    const voce = JSON.parse(readFileSync(P, "utf8")).registro[0];
+    assert.ok(voce, "con la baseline leggibile deve aprire la previsione");
+    assert.equal(typeof voce.baseline, "number", "la baseline dev'essere nella voce, non solo nel messaggio");
+    assert.notEqual(voce.atteso, voce.baseline, "l'atteso non può coincidere col valore di partenza");
+    assert.equal(banale(voce), false);
+
+    // ② senza il fatto: NON apre nulla, e lo dice. «Meglio nessuna che una inventata.»
+    const fatti = JSON.parse(primaFatti);
+    fatti.fatti = fatti.fatti.filter((x) => x.id !== "northstar.consegnati");
+    writeFileSync(F, JSON.stringify(fatti, null, 2) + "\n");
+    writeFileSync(P, vuota(primaCal));
+    const out = execFileSync("node", [bin, "autoprevedi"], { cwd: REPO, encoding: "utf8" });
+    assert.equal(JSON.parse(readFileSync(P, "utf8")).registro.length, 0, "senza baseline non deve aprire niente");
+    assert.match(out, /nessuna previsione aperta/, "e deve dire PERCHÉ non l'ha aperta");
+  } finally {
+    writeFileSync(P, primaCal);
+    writeFileSync(F, primaFatti);
+  }
+});
+
 prova("il registro vero non ha baseline: è la misura che ha aperto il difetto", () => {
   const j = JSON.parse(readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json"), "utf8"));
   const storiche = j.registro.filter((e) => e.creato && String(e.creato).slice(0, 10) < "2026-07-28");
