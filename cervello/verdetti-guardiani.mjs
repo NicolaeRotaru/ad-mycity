@@ -14,7 +14,11 @@
 // Nessuna dipendenza e nessun I/O: si esegue su testo passato da fuori.
 
 /** Gli script che portano un VERDETTO nel codice d'uscita. Gli altri (sensori, aggiornatori, contatori) no. */
-const RE_GUARDIANO = /node\s+"\$SCRIPT_DIR\/((?:[a-z-]+-check|guardiano-[a-z-]+|sonda-[a-z-]+|cantiere-prove|prove-oneste|verifica-[a-z-]+))\.mjs"/;
+// Riconoscere i guardiani DAL NOME è una regola che perde: `peso-contesto.mjs` (lotto 27) non
+// combaciava con nessuna di queste forme, quindi sarebbe potuto entrare nel giro come riga
+// informativa senza dover dire perché — esattamente il buco che AR-291 chiude. Finché il criterio è
+// il nome, un guardiano nuovo con un nome fuori convenzione va aggiunto QUI insieme al suo innesto.
+const RE_GUARDIANO = /node\s+"\$SCRIPT_DIR\/((?:[a-z-]+-check|guardiano-[a-z-]+|sonda-[a-z-]+|peso-contesto|cantiere-prove|prove-oneste|verifica-[a-z-]+))\.mjs"/;
 
 /** L'esito buttato via: la pipe e poi `|| true`. */
 const RE_SCARTATO = /\|\|\s*true\s*$/;

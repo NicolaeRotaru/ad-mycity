@@ -245,6 +245,17 @@ if command -v node >/dev/null 2>&1; then
     STAMPO_VINCOLO="$(vincolo_da_rc "stampo-check" "$GUARDIANO_RC" "⛔ STAMPO SENIOR PEGGIORATO (stampo-check.mjs rc=$GUARDIANO_RC, AR-129/AR-287/AR-289/AR-291): un agente ha un difetto di stampo che NON era nel debito dichiarato — quaderno mai scritto, kit sottile rispetto alla mediana del parco, kit fotocopia di altri, o strati duplicati. Riparalo in questo giro, oppure dichiaralo con motivo in cervello/stampo-baseline.json — allargare quella lista è una decisione visibile, non un effetto collaterale. Dettaglio: node cervello/stampo-check.mjs")"
     echo "[$(ts)] ⚠️  AR-291: stampo-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
+  # INFORMATIVO — si promuove a cancello quando la potatura è stata applicata su main
+  # (`node cervello/pota-memoria.mjs --applica`) e i tetti riabbassati (`peso-contesto.mjs --aggiorna`).
+  # Oggi esce 1 apposta: i tetti sono l'OBIETTIVO post-potatura, non il peso di oggi, quindi il rosso
+  # è la misura del lavoro che manca. Promuoverlo adesso bloccherebbe ogni giro su un debito noto.
+  echo "[$(ts)] Peso del contesto (AR-199 — quanto rilegge il giro a ogni passata)..."
+  # Uscita CATTURATA anche se per ora è informativa: scriverla come `node … | tail` avrebbe aggiunto
+  # un'istanza alla malattia «esito-in-una-pipe» proprio mentre ne curo un'altra, e il codice d'uscita
+  # sarebbe stato irrecuperabile il giorno della promozione. Così invece basterà usare $_peso_rc.
+  _peso_out="$(node "$SCRIPT_DIR/peso-contesto.mjs" 2>&1)"; _peso_rc=$?
+  printf '%s\n' "$_peso_out" | tail -8
+  [ "$_peso_rc" -ne 0 ] && echo "[$(ts)] ℹ️  AR-199: memoria sopra i tetti-obiettivo (rc=$_peso_rc) — informativo finché la potatura non è passata." >&2
   # INFORMATIVO — si promuove a cancello quando il drift è 0. Oggi esce 1 (una skill non citata nei
   # doc): promuoverlo adesso bloccherebbe ogni giro su un debito di documentazione. AR-291: un
   # guardiano resta informativo solo con la sua condizione di promozione scritta accanto.

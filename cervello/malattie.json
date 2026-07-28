@@ -23,7 +23,8 @@
         "sonda-volano.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
         "tasso-lezioni.mjs — l'altra metà di AR-178, sfuggita al lotto 10 e ripresa dall'audit della chiusura"
       ],
-      "nota_onesta": "35 istanze restano, tutte in giro.sh. NON sono tutte difetti: molte sono rapporti informativi veri (capacita, bilancio-vivo, macchina-del-tempo) dove non esiste un fallimento che debba vincolare il giro. Ma la differenza va DECISA una per una, non lasciata al caso: finché il triage non è fatto, AR-165 resta aperto con questo numero scritto sopra. La radice — una funzione `guardiano` che rende la scelta esplicita invece che implicita in due caratteri — è installata."
+      "nota_onesta": "35 istanze restano, tutte in giro.sh. NON sono tutte difetti: molte sono rapporti informativi veri (capacita, bilancio-vivo, macchina-del-tempo) dove non esiste un fallimento che debba vincolare il giro. Ma la differenza va DECISA una per una, non lasciata al caso: finché il triage non è fatto, AR-165 resta aperto con questo numero scritto sopra. La radice — una funzione `guardiano` che rende la scelta esplicita invece che implicita in due caratteri — è installata.",
+      "esenti": []
     },
     {
       "id": "buco-letto-come-zero",
