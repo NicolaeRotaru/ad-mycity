@@ -237,6 +237,9 @@ async function sonda() {
   const state = {
     _cosa_e:
       "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
+    // AR-287 — un verde va letto per quello che vale, non per quello che sembra.
+    _cosa_NON_prova:
+      "Non prova che un ESITO sia VERO. Conta righe e date: se un reparto scrive «atteso 10 → reale 12» senza aver misurato niente, qui risulta vivo e puntuale. La verità del numero la giudica la calibrazione (che pretende una fonte esterna al quaderno), non questo conteggio.",
     aggiornato: quando,
     soglia_giorni: GIORNI_STALLO,
     totale,
