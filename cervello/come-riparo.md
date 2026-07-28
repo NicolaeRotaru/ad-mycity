@@ -83,6 +83,26 @@ per uno e controlla che il fix chieda esattamente quello che è stato fatto.
 > È il passo che il 28/7 ha scoperto AR-178 falso, trenta secondi dopo la sua chiusura. Nessuno
 > strumento lo fa al posto mio.
 
+**Come si rilegge, in concreto:** metti il `fix_proposto` accanto al diff, clausola per clausola. Le
+clausole sono spesso tre o quattro dentro un paragrafo unico, e quella che salta è quasi sempre
+**l'ultima** — perché arriva quando il lavoro sembra già finito.
+
+> Sempre il 28/7, su AR-172: avevo sistemato `prevedi` (il comando a mano) e non `autoprevedi` (il
+> generatore automatico), che continuava ad aprire `atteso: 1` senza sapere quanti ordini ci fossero.
+> La prova passava — perché la prova la conoscevo io e copriva quello che avevo fatto io. **Riparare
+> la porta a mano e lasciare aperta quella automatica è il modo più sicuro di far tornare il difetto
+> da solo.**
+
+### La domanda da fare a ogni canale nuovo che scrive in un registro
+
+Quando nasce un secondo modo di scrivere nello stesso posto — un ponte, un comando di recupero, un
+importatore — la domanda obbligatoria è: **«quali cancelli del canale principale eredita?»**
+
+Quasi sempre la risposta è «nessuno», perché i cancelli stanno dentro il comando invece che sul dato.
+Su `calibrazione.json` è costato 42 voci con zero cause: `esito` la causa la chiedeva da mesi, ma il
+ponte `da-loop` e una passata di recupero scrivevano diretto. La cura non è aggiungere il cancello
+anche lì — è **spostarlo sul dato**, dove vale per chiunque scriva (AR-169, AR-272).
+
 ## ⑥ Il colore e la firma
 
 Ogni auto-modifica è 🟡: si prepara, si apre la PR, **non si mergia**. Il merge è di Nicola. Per il

@@ -644,6 +644,21 @@ function cmdDaLoop(data) {
 // AR-040/AR-041: apre automaticamente UNA previsione baseline @AD se il registro è vuoto.
 // Legge i dati correnti dai sensori (sensori-cecita.json) per costruire la metrica.
 // Usato in giro.sh PRIMA del motore, così il motore può poi chiamare `esito` al giro dopo.
+/**
+ * AR-172 — quanti ordini ci sono ADESSO, letto dalla casa unica dei fatti.
+ *
+ * Non è una stima e non è un sensore: è il fatto `northstar.consegnati`, che ha una fonte dichiarata
+ * e una data. Se non c'è o non è un numero, torna null — e chi chiama non apre nessuna previsione.
+ * Al buio non si dà la risposta comoda, nemmeno quando la risposta comoda è «parti da zero».
+ */
+function baselineOrdiniDaiFatti() {
+  const reg = readJsonSafe(join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/registro-fatti.json"), {});
+  const f = (reg.fatti || []).find((x) => x.id === "northstar.consegnati");
+  if (!f) return null;
+  const n = Number(String(f.valore ?? "").trim());
+  return Number.isFinite(n) ? n : null;
+}
+
 function cmdAutoprevedi(data) {
   const strutturate = data.registro.filter((e) => e.id && (e.stato === "aperta" || e.stato === "scaduta" || e.stato === "azzeccata" || e.stato === "mancata"));
   if (strutturate.length > 0) {
@@ -651,7 +666,26 @@ function cmdAutoprevedi(data) {
     console.log(`✅ autoprevedi: ${strutturate.length} voci strutturate (${aperte.length} aperte) — nessuna nuova previsione baseline aperta.`);
     return;
   }
-  // Registro vuoto: apri la prima previsione baseline @AD ordini.
+  // AR-172 — la previsione automatica non INVENTA più l'atteso.
+  //
+  // Prima apriva sempre `atteso: 1` su `ordini_totali`, senza sapere quanti ordini ci fossero.
+  // Se il numero vero era già 1, la previsione nasceva azzeccata; se era 0, «1» era un desiderio
+  // scritto come misura. In entrambi i casi il punteggio si nutriva di una cifra decisa a tavolino.
+  //
+  // La clausola del fix è precisa e va rispettata alla lettera: apre **solo** se può leggere una
+  // baseline vera, e l'atteso dev'essere DIVERSO da quella — altrimenti non apre nulla e lo dice.
+  // La baseline si legge dalla casa unica dei fatti (`registro-fatti.json`, AR-102), non da una
+  // stima: se quel fatto non c'è, questo comando tace invece di riempire il registro di rumore.
+  const baseline = baselineOrdiniDaiFatti();
+  if (baseline == null) {
+    console.log(
+      "⏭️  autoprevedi: nessuna previsione aperta — non riesco a leggere quanti ordini ci sono adesso\n" +
+        "   (manca il fatto `northstar.consegnati` in registro-fatti.json). Senza il valore di partenza\n" +
+        "   una previsione non è giudicabile: meglio nessuna che una inventata."
+    );
+    return;
+  }
+  const attesoAuto = baseline + 1; // un passo avanti dal reale, non un numero deciso a tavolino
   const domani = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
   const reparto = "@AD";
   const id = nuovoId(reparto);
@@ -660,7 +694,8 @@ function cmdAutoprevedi(data) {
     reparto,
     azione: "giro-routine-settimanale",
     metrica: "ordini_totali",
-    atteso: 1,
+    atteso: attesoAuto,
+    baseline,
     reale: null,
     entro: domani,
     tolleranza: TOLLERANZA_DEFAULT,
@@ -673,7 +708,7 @@ function cmdAutoprevedi(data) {
   data.registro.push(entry);
   ricalcolaReparti(data);
   write(data);
-  console.log(`✅ AR-040/autoprevedi: prima previsione strutturata aperta [${id}] @AD: ordini_totali atteso 1 entro ${domani}.`);
+  console.log(`✅ autoprevedi: prima previsione aperta [${id}] @AD — ordini_totali: oggi ${baseline}, atteso ${attesoAuto} entro ${domani}.`);
   console.log(`   Al giro dopo: node cervello/calibrazione.mjs esito --id=${id} --reale=<n> --fonte="Supabase MCP"`);
 }
 
