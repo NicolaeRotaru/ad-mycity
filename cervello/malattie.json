@@ -1,76 +1,113 @@
 {
-  "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
-  "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
-  "aggiornato": "2026-07-28 21:40",
-  "malattie": [
+ "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
+ "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
+ "aggiornato": "2026-07-29 00:45",
+ "malattie": [
+  {
+   "id": "esito-in-una-pipe",
+   "nome": "L'esito di un guardiano finisce in una pipe e sparisce",
+   "perche_e_grave": "In una pipe il codice d'uscita che conta è quello dell'ULTIMO comando (`tail`, sempre 0). Il guardiano gira, trova il problema, lo stampa — e chi lo ha chiamato riceve «tutto a posto». Se poi c'è anche un `|| true`, l'esito è sepolto due volte. È il difetto AR-165: il guardiano nato apposta per scoprire i controlli spenti in silenzio aveva, lui per primo, l'allarme staccato. Nel giro il modello «riga informativa» e il modello «cancello» si somigliano a vista: la differenza sono due caratteri, ed è per questo che si sbaglia.",
+   "pattern": "node \"\\$SCRIPT_DIR/[^\"\\n]+\\.mjs\"[^|\\n]*\\|[^|\\n]*tail",
+   "dove": [
+    "cervello"
+   ],
+   "estensioni": [
+    ".sh"
+   ],
+   "baseline": 0,
+   "file_noti": [],
+   "curati": [
+    "freschezza-segnali.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
+    "sonda-volano.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
+    "tasso-lezioni.mjs — l'altra metà di AR-178, sfuggita al lotto 10 e ripresa dall'audit della chiusura"
+   ],
+   "nota_onesta": "35 istanze restano, tutte in giro.sh. NON sono tutte difetti: molte sono rapporti informativi veri (capacita, bilancio-vivo, macchina-del-tempo) dove non esiste un fallimento che debba vincolare il giro. Ma la differenza va DECISA una per una, non lasciata al caso: finché il triage non è fatto, AR-165 resta aperto con questo numero scritto sopra. La radice — una funzione `guardiano` che rende la scelta esplicita invece che implicita in due caratteri — è installata.",
+   "esenti": [],
+   "nota_baseline": "0 dal 2026-07-28 (AR-307): giro.sh non usa piu `| tail`, l'esito passa da esito_righe che tiene la prima riga (verdetto/errore) e la coda."
+  },
+  {
+   "id": "buco-letto-come-zero",
+   "nome": "Un campo assente diventa uno zero, e lo zero rassicura",
+   "perche_e_grave": "`jq -r '.campo // 0'` non distingue «ho misurato zero» da «il campo non c'è». Nei freni è fatale: AR-196 confrontava 0 con una soglia di 2.000.000 e non poteva scattare, mentre la macchina bruciava 385.000 token al giorno. La stessa forma in JavaScript è `|| 0` e `?? 0`. Un buco non è uno zero: dove si decide qualcosa, l'assenza deve chiamarsi assenza.",
+   "pattern": "jq -r '[^'\\n]*// 0'",
+   "dove": [
+    "cervello"
+   ],
+   "estensioni": [
+    ".sh"
+   ],
+   "baseline": 0,
+   "file_noti": [
+    "cervello/giro.sh",
+    "cervello/worker.sh"
+   ],
+   "esenti": [
     {
-      "id": "esito-in-una-pipe",
-      "nome": "L'esito di un guardiano finisce in una pipe e sparisce",
-      "perche_e_grave": "In una pipe il codice d'uscita che conta è quello dell'ULTIMO comando (`tail`, sempre 0). Il guardiano gira, trova il problema, lo stampa — e chi lo ha chiamato riceve «tutto a posto». Se poi c'è anche un `|| true`, l'esito è sepolto due volte. È il difetto AR-165: il guardiano nato apposta per scoprire i controlli spenti in silenzio aveva, lui per primo, l'allarme staccato. Nel giro il modello «riga informativa» e il modello «cancello» si somigliano a vista: la differenza sono due caratteri, ed è per questo che si sbaglia.",
-      "pattern": "node \"\\$SCRIPT_DIR/[^\"\\n]+\\.mjs\"[^|\\n]*\\|[^|\\n]*tail",
-      "dove": [
-        "cervello"
-      ],
-      "estensioni": [
-        ".sh"
-      ],
-      "baseline": 0,
-      "file_noti": [],
-      "curati": [
-        "freschezza-segnali.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
-        "sonda-volano.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
-        "tasso-lezioni.mjs — l'altra metà di AR-178, sfuggita al lotto 10 e ripresa dall'audit della chiusura"
-      ],
-      "nota_onesta": "35 istanze restano, tutte in giro.sh. NON sono tutte difetti: molte sono rapporti informativi veri (capacita, bilancio-vivo, macchina-del-tempo) dove non esiste un fallimento che debba vincolare il giro. Ma la differenza va DECISA una per una, non lasciata al caso: finché il triage non è fatto, AR-165 resta aperto con questo numero scritto sopra. La radice — una funzione `guardiano` che rende la scelta esplicita invece che implicita in due caratteri — è installata.",
-      "esenti": [],
-      "nota_baseline": "0 dal 2026-07-28 (AR-307): giro.sh non usa piu `| tail`, l'esito passa da esito_righe che tiene la prima riga (verdetto/errore) e la coda."
-    },
-    {
-      "id": "buco-letto-come-zero",
-      "nome": "Un campo assente diventa uno zero, e lo zero rassicura",
-      "perche_e_grave": "`jq -r '.campo // 0'` non distingue «ho misurato zero» da «il campo non c'è». Nei freni è fatale: AR-196 confrontava 0 con una soglia di 2.000.000 e non poteva scattare, mentre la macchina bruciava 385.000 token al giorno. La stessa forma in JavaScript è `|| 0` e `?? 0`. Un buco non è uno zero: dove si decide qualcosa, l'assenza deve chiamarsi assenza.",
-      "pattern": "jq -r '[^'\\n]*// 0'",
-      "dove": [
-        "cervello"
-      ],
-      "estensioni": [
-        ".sh"
-      ],
-      "baseline": 0,
-      "file_noti": [
-        "cervello/giro.sh",
-        "cervello/worker.sh"
-      ],
-      "esenti": [
-        {
-          "file": "cervello/worker.sh",
-          "quale": "riga 1488, .[0].tentativi // 0",
-          "perche": "Trovato da questa stessa spazzata il 28/7, non a occhio. È legittimo: una riga appena creata NON ha tentativi, quindi «assente» vuol dire davvero «zero tentativi fatti». Il caso pericoloso — la colonna che non esiste — è già coperto dalla guardia HAS_RETRY_COLS=1 due righe sopra, e la decisione vera la prende retry-policy.mjs, il cui default è `.azione // \"stop\"`: al buio si ferma, non ritenta. Zero qui è una misura, non un buco."
-        }
-      ],
-      "nota_baseline": "0 dal 2026-07-28 (AR-334): l'unica istanza viva (worker.sh) e dichiarata esente col perche; l'esenzione su giro.sh non corrispondeva piu a nessuna istanza ed e stata tolta invece di restare come residuo."
-    },
-    {
-      "id": "errore-ingoiato",
-      "nome": "Un errore viene ingoiato e la schermata dice che va tutto bene",
-      "perche_e_grave": "`catch(() => {})` fa sparire la differenza fra «non c'è niente» e «non sono riuscito a leggere». Nel Pannello diventa una bugia mostrata a Nicola: la home dice «Niente da firmare» quando la coda non era leggibile (AR-233), i tre collegamenti alla salute spariscono in silenzio se il cantiere arriva malformato (AR-256), un interruttore torna indietro da solo senza dire perché (AR-262). Non tutte le 80 istanze sono difetti — un catch vuoto su un dato accessorio va benissimo. Lo diventa quando il risultato viene MOSTRATO come un fatto.",
-      "pattern": "catch\\(\\(\\) => \\{\\}\\)",
-      "dove": [
-        "pannello/src",
-        "cervello"
-      ],
-      "estensioni": [
-        ".ts",
-        ".tsx",
-        ".mjs"
-      ],
-      "baseline": 74,
-      "nota_onesta": "74 istanze in codice vero, misurate il 28/7 (erano 80 prima del lotto 11: curate Plancia, StellePolari e MacchinaHomeCard). Il conteggio esclude i commenti e i file di test: contarli faceva CRESCERE il numero proprio quando qualcuno scriveva la prova che vieta la malattia — il contrario di quello che serve. Verificato incrociando con grep. Qui non elenco i file: conta il tetto, e se domani diventano 75 qualcuno ha aggiunto un silenzio nuovo.",
-      "curati": [
-        "Plancia.tsx — la coda dice se è stata letta (AR-233)",
-        "MacchinaHomeCard.tsx — i tre collegamenti restano con etichetta onesta (AR-256)",
-        "StellePolari.tsx — l'interruttore dice perché non ha salvato (AR-262)"
-      ]
+     "file": "cervello/worker.sh",
+     "quale": "riga 1488, .[0].tentativi // 0",
+     "perche": "Trovato da questa stessa spazzata il 28/7, non a occhio. È legittimo: una riga appena creata NON ha tentativi, quindi «assente» vuol dire davvero «zero tentativi fatti». Il caso pericoloso — la colonna che non esiste — è già coperto dalla guardia HAS_RETRY_COLS=1 due righe sopra, e la decisione vera la prende retry-policy.mjs, il cui default è `.azione // \"stop\"`: al buio si ferma, non ritenta. Zero qui è una misura, non un buco."
     }
-  ]
+   ],
+   "nota_baseline": "0 dal 2026-07-28 (AR-334): l'unica istanza viva (worker.sh) e dichiarata esente col perche; l'esenzione su giro.sh non corrispondeva piu a nessuna istanza ed e stata tolta invece di restare come residuo."
+  },
+  {
+   "id": "errore-ingoiato",
+   "nome": "Un errore viene ingoiato e la schermata dice che va tutto bene",
+   "perche_e_grave": "`catch(() => {})` fa sparire la differenza fra «non c'è niente» e «non sono riuscito a leggere». Nel Pannello diventa una bugia mostrata a Nicola: la home dice «Niente da firmare» quando la coda non era leggibile (AR-233), i tre collegamenti alla salute spariscono in silenzio se il cantiere arriva malformato (AR-256), un interruttore torna indietro da solo senza dire perché (AR-262). Non tutte le 80 istanze sono difetti — un catch vuoto su un dato accessorio va benissimo. Lo diventa quando il risultato viene MOSTRATO come un fatto.",
+   "pattern": "catch\\(\\(\\) => \\{\\}\\)",
+   "dove": [
+    "pannello/src",
+    "cervello"
+   ],
+   "estensioni": [
+    ".ts",
+    ".tsx",
+    ".mjs"
+   ],
+   "baseline": 74,
+   "nota_onesta": "74 istanze in codice vero, misurate il 28/7 (erano 80 prima del lotto 11: curate Plancia, StellePolari e MacchinaHomeCard). Il conteggio esclude i commenti e i file di test: contarli faceva CRESCERE il numero proprio quando qualcuno scriveva la prova che vieta la malattia — il contrario di quello che serve. Verificato incrociando con grep. Qui non elenco i file: conta il tetto, e se domani diventano 75 qualcuno ha aggiunto un silenzio nuovo.",
+   "curati": [
+    "Plancia.tsx — la coda dice se è stata letta (AR-233)",
+    "MacchinaHomeCard.tsx — i tre collegamenti restano con etichetta onesta (AR-256)",
+    "StellePolari.tsx — l'interruttore dice perché non ha salvato (AR-262)"
+   ]
+  },
+  {
+   "id": "esito-di-scrittura-buttato",
+   "nome": "Si dichiara «fatto» ciò che nessuno ha confermato",
+   "perche_e_grave": "`await` sembra una conferma. Non lo è: è solo la fine dell'attesa. La conferma è il valore che torna, e nella Cabina veniva buttato via in 22 punti. Il danno non è tecnico ma di FIDUCIA: la card dice «rifiutata» e al refresh torna da decidere (AR-230); la decisione sull'ordine da 19,05 € risulta presa col cervello mai partito, e il dedup impedisce pure di riprovare (AR-231); rispondi a una domanda dell'AD e trenta secondi dopo te la richiede (AR-238); la spunta resta finta fino al ricarico perché la route serve `{ok:false}` con HTTP 200, quindi nemmeno il `catch` scatta (AR-239); esci dalla demo e un 500 passa per successo, così l'etichetta che dice se stai guardando numeri veri o finti mente proprio quando conta (AR-264). Un Pannello che dichiara un fatto che non esiste è peggio di un Pannello che dice «non lo so».",
+   "pattern": "\\n[ \\t]*await (setImpostazione|creaLavoro|revocaFirma|persistConversazione)\\(",
+   "dove": [
+    "pannello/src"
+   ],
+   "estensioni": [
+    ".ts",
+    ".tsx"
+   ],
+   "baseline": 22,
+   "file_noti": [
+    "pannello/src/app/api/azioni-pronte/autopilota/route.ts",
+    "pannello/src/app/api/azioni-pronte/route.ts",
+    "pannello/src/app/api/heartbeat/route.ts",
+    "pannello/src/app/api/lavori/annulla/route.ts",
+    "pannello/src/app/page.tsx",
+    "pannello/src/lib/ai-budget.ts",
+    "pannello/src/lib/autopilota.ts",
+    "pannello/src/lib/playbook.ts",
+    "pannello/src/lib/scelta-ab-actions.ts",
+    "pannello/src/lib/stelle.ts",
+    "pannello/src/lib/store.ts"
+   ],
+   "curati": [
+    "azioni-pronte/route.ts — il rifiuto raccoglie le tre scritture e risponde 503 se una manca (AR-230, lotto 29)",
+    "decisione-ordine/route.ts — il lavoro si crea PRIMA e il suo id entra nella decisione (AR-231, lotto 29)",
+    "memoria/risposta/route.ts — senza salvataggio non si accoda nemmeno il lavoro (AR-238, lotto 29)",
+    "components/aree/Azioni.tsx — la spunta legge il corpo e torna indietro con l'avviso (AR-239, lotto 29)",
+    "components/DemoBanner.tsx — si ricarica solo a cambio confermato (AR-264, lotto 29)"
+   ],
+   "nota_onesta": "22 istanze restano, misurate il 29/7 DOPO il lotto 29. NON sono tutte difetti: alcune sono fallimenti accettati di proposito (il dedup giornaliero dei playbook, il battito del cuore) dove non esiste una conseguenza da mostrare a Nicola. Ma la differenza va DECISA una per una, non lasciata al caso: finché il triage non è fatto, il numero resta scritto qui. La radice — una funzione `scritturaConfermata`/`esitoScritture` che rende la scelta esplicita invece che implicita in un `await` — è installata in pannello/src/lib/esito-scrittura.ts.",
+   "esenti": [],
+   "nota_baseline": "22 dal 2026-07-29 (lotto 29): linea di partenza misurata dopo la cura dei cinque punti che facevano danno visibile. Scende a ogni triage, non si alza mai."
+  }
+ ]
 }

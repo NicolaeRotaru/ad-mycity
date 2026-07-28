@@ -10,6 +10,15 @@ export type DecisioneOrdineSalvata = {
   at: string;
   ordineId: string;
   titolo?: string;
+  /**
+   * L'id del lavoro accodato al cervello, `null` se l'accodamento è FALLITO (AR-231).
+   *
+   * Serve a distinguere «ho deciso e il cervello è partito» da «ho deciso e basta»: senza questo
+   * campo la decisione sull'ordine da 19,05 € risultava presa anche quando il lavoro non era mai
+   * nato, e il dedup impediva di riprovare. `undefined` = decisione salvata prima di questo campo
+   * (storica): si tratta come «lavoro partito», per non riaprire card già chiuse davvero.
+   */
+  lavoro?: string | null;
 };
 
 export function isPropostaDecisioneOrdineAB(p: { titolo?: string; tipo?: string }): boolean {
