@@ -5379,8 +5379,7 @@
       "nato": "2026-07-28 20:05",
       "chiuso_il": "",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Serve una prova che aggiunga un istanza finta, la dichiari in esenti e pretenda il verde. Da scrivere insieme al fix."
+        "comando": "node cervello/test/esenzione-che-non-conta.test.mjs"
       },
       "origine": "lotto 27 (trovato usando spazzata-fratelli come dice la sua documentazione)"
     },

@@ -115,6 +115,68 @@ function cerca(malattia) {
   return trovati.sort((a, b) => b.istanze - a.istanze);
 }
 
+/**
+ * AR-334 — LE ESENZIONI CONTANO DAVVERO.
+ *
+ * `malattie.json` dice, in `_come_si_usa`: «Se una istanza resta apposta, mettila in `esenti` con il
+ * PERCHÉ scritto». Ma il codice usava quelle voci **solo** per l'elenco dei file noti: non le
+ * sottraeva mai dal conteggio. Chi seguiva la documentazione restava rosso, e l'unica uscita era
+ * alzare il tetto — cioè il gesto che questo guardiano esiste per impedire.
+ *
+ * Trovato il 28/7 usando lo strumento come dice la sua stessa documentazione, e misurando è venuto
+ * fuori di peggio: `buco-letto-come-zero` aveva **2 esenzioni per 1 istanza**, e una delle due
+ * scusava `soglia_giornaliera_token // 0`, che in `giro.sh` non esiste più. Un'esenzione slegata
+ * dalla realtà non è un permesso: è un residuo che nasconde il prossimo caso vero.
+ *
+ * Le due regole, tutte e due necessarie:
+ *   · un'esenzione vale solo se ha un PERCHÉ scritto (come in porte-check: due parole non bastano);
+ *   · un'esenzione vale solo se nel suo file c'è ancora almeno un'istanza — altrimenti è orfana, e
+ *     l'orfana FALLISCE, perché toglierla è il lavoro, non ignorarla.
+ * E si scala al massimo quante istanze quel file ha davvero: due esenzioni su un'istanza sola non
+ * possono portare il conto sotto zero.
+ */
+export function pesaEsenzioni(esenti = [], trovati = []) {
+  const perFile = new Map(trovati.map((t) => [t.file, t.istanze]));
+  const valide = [];
+  const orfane = [];
+  const senzaMotivo = [];
+  const usate = new Map();
+  for (const e of esenti) {
+    const motivo = String(e?.perche || "").trim();
+    if (motivo.length <= 10) { senzaMotivo.push(e); continue; }
+    const disponibili = perFile.get(e?.file) || 0;
+    if (disponibili === 0) { orfane.push(e); continue; }
+    const gia = usate.get(e.file) || 0;
+    if (gia >= disponibili) { orfane.push({ ...e, _motivo: "più esenzioni che istanze in questo file" }); continue; }
+    usate.set(e.file, gia + 1);
+    valide.push(e);
+  }
+  return { valide: valide.length, orfane, senzaMotivo };
+}
+
+/**
+ * Il verdetto di una malattia. `scoperte` è quello che si confronta col tetto: il totale MENO le
+ * esenzioni valide. Un'esenzione orfana o senza motivo non abbassa niente e anzi fa fallire.
+ */
+export function verdettoMalattia({ totale = 0, baseline = 0, trovati = [], esenti = [], fileNoti = null } = {}) {
+  const e = pesaEsenzioni(esenti, trovati);
+  const scoperte = Math.max(0, totale - e.valide);
+  const noti = Array.isArray(fileNoti) ? new Set([...fileNoti, ...esenti.map((x) => x?.file)]) : null;
+  const fileNuovi = noti ? trovati.filter((t) => !noti.has(t.file)) : [];
+  return {
+    scoperte,
+    esenti_valide: e.valide,
+    orfane: e.orfane,
+    senza_motivo: e.senzaMotivo,
+    cresciuta: scoperte > baseline,
+    // Il tetto è un CRICCHETTO: scende e basta. Si confronta con le SCOPERTE, non col totale grezzo,
+    // altrimenti dichiarare un'esenzione legittima renderebbe il tetto «gonfiato» per sempre.
+    tetto_gonfiato: baseline > scoperte,
+    file_nuovi: fileNuovi,
+    guasta: Boolean(fileNuovi.length) || scoperte > baseline || baseline > scoperte || e.orfane.length > 0 || e.senzaMotivo.length > 0,
+  };
+}
+
 function main() {
   if (!existsSync(REGISTRO)) {
     console.error(`⚠️  SPAZZATA CIECA: manca ${relative(REPO, REGISTRO)} — non so quali malattie cercare.`);
@@ -148,26 +210,35 @@ function main() {
     // `file_noti` è facoltativo: su una malattia larga (decine di file) elencarli tutti gonfia il
     // registro senza aggiungere verità. Lì basta il tetto sul totale. Dove la superficie è piccola,
     // dichiararla fa scattare l'allarme anche a parità di conteggio, se la malattia MIGRA.
-    const noti = Array.isArray(m.file_noti) ? new Set([...m.file_noti, ...(m.esenti || []).map((e) => e.file)]) : null;
-    const fileNuovi = noti ? trovati.filter((t) => !noti.has(t.file)) : [];
-    const cresciuta = totale > baseline;
+    // AR-334 — il verdetto sta in una funzione che una prova può ESEGUIRE, e le esenzioni dichiarate
+    // vengono davvero sottratte. Prima erano solo decorazione: la via scritta nella documentazione
+    // non funzionava, e chi la seguiva restava rosso.
+    const v = verdettoMalattia({ totale, baseline, trovati, esenti: m.esenti || [], fileNoti: m.file_noti });
+    const fileNuovi = v.file_nuovi;
+    const cresciuta = v.cresciuta;
     // Il tetto è un CRICCHETTO: scende e basta. Senza questo controllo il guardiano si zittisce
     // alzando un numero — trovato il 28/7 provando a rompere apposta questo stesso strumento: portare
     // la baseline da 36 a 999 lo lasciava verde. Un tetto più alto del conteggio vero non è prudenza,
     // è margine regalato a sé stessi. Se hai curato qualcosa, il tetto DEVE scendere con te.
-    const tettoGonfiato = baseline > totale;
-    if (fileNuovi.length || cresciuta || tettoGonfiato) nuoviTot += fileNuovi.length || 1;
+    const tettoGonfiato = v.tetto_gonfiato;
+    if (v.guasta) nuoviTot += fileNuovi.length || 1;
     rapporto.push({
       id: m.id,
       nome: m.nome,
       totale,
       baseline,
-      andamento: totale - baseline,
+      // L'andamento si misura sulle SCOPERTE: con le esenzioni sottratte, dire «peggiorata» guardando
+      // il totale grezzo farebbe litigare il rapporto col verdetto — e chi legge crede al rapporto.
+      andamento: v.scoperte - baseline,
       cresciuta,
       tetto_gonfiato: tettoGonfiato,
       file_toccati: trovati.length,
       nuovi: fileNuovi.map((n) => `${n.file} (${n.istanze})`),
       esenti: (m.esenti || []).length,
+      esenti_valide: v.esenti_valide,
+      scoperte: v.scoperte,
+      orfane: v.orfane.map((o) => `${o.file}: ${o._motivo || "nessuna istanza in questo file — toglila"}`),
+      senza_motivo: v.senza_motivo.map((o) => o.file),
     });
   }
 
@@ -184,10 +255,16 @@ function main() {
       const segno = r.andamento === 0 ? "=" : r.andamento > 0 ? `+${r.andamento}` : `${r.andamento}`;
       const freccia = r.andamento < 0 ? "📉 curata" : r.andamento > 0 ? "📈 PEGGIORATA" : "invariata";
       console.log(`  ${r.id} — ${r.nome}`);
-      console.log(`     ${r.totale} istanze in ${r.file_toccati} file (partenza ${r.baseline}, ${segno} ${freccia})`);
-      if (r.cresciuta) console.log(`     ❌ CRESCIUTA: ${r.totale} istanze contro le ${r.baseline} di partenza.`);
+      const dettEs = r.esenti_valide ? ` · ${r.esenti_valide} esenti dichiarate → ${r.scoperte} scoperte` : "";
+      console.log(`     ${r.totale} istanze in ${r.file_toccati} file (partenza ${r.baseline}, ${segno} ${freccia})${dettEs}`);
+      if (r.cresciuta) console.log(`     ❌ CRESCIUTA: ${r.scoperte} istanze scoperte contro le ${r.baseline} di partenza.`);
+      for (const o of r.orfane || []) {
+        console.log(`     ❌ ESENZIONE ORFANA: ${o}`);
+        console.log(`        Un'esenzione slegata dalla realtà non è un permesso: è un residuo che nasconde il prossimo caso vero.`);
+      }
+      for (const o of r.senza_motivo || []) console.log(`     ❌ ESENZIONE SENZA MOTIVO: ${o} — due parole non sono un perché.`);
       if (r.tetto_gonfiato)
-        console.log(`     ❌ TETTO GONFIATO: dichiara ${r.baseline} ma ne restano ${r.totale}. Abbassalo a ${r.totale}: il tetto scende, non si alza.`);
+        console.log(`     ❌ TETTO GONFIATO: dichiara ${r.baseline} ma ne restano ${r.scoperte} scoperte. Abbassalo a ${r.scoperte}: il tetto scende, non si alza.`);
       if (r.nuovi.length) {
         console.log(`     ❌ ${r.nuovi.length} FRATELLO/I NUOVO/I, mai curato né dichiarato:`);
         for (const n of r.nuovi.slice(0, 8)) console.log(`        · ${n}`);
@@ -204,4 +281,8 @@ function main() {
   process.exit(nuoviTot === 0 ? 0 : 1);
 }
 
-main();
+// Importare questo file NON deve far partire la scansione: la prova di AR-334 importa le funzioni
+// pure per eseguirle su ingressi finti, e senza questa guardia si ritrovava il rapporto del repo vero
+// stampato in mezzo ai propri casi. Un modulo che agisce al solo essere importato è un effetto
+// collaterale nascosto — la stessa famiglia dei difetti che questi lotti curano.
+if (import.meta.url === `file://${process.argv[1]}`) main();
