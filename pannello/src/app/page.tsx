@@ -131,6 +131,8 @@ import { deveChiudereOverlay, eTastoChiudi, overlayInCima, type StatoOverlay } f
 import { useStrato } from "@/lib/useStrato";
 import { emitSync, emitSyncDaLavoriFiniti, usePanelSync } from "@/lib/panel-sync";
 import { ascoltaChatUnificata, pubblicaChatUnificata } from "@/lib/chat-unificata";
+import { aggiornamentoPertinente, fondiConservandoVivi } from "@/lib/stato-vivo";
+import { chiaveCreazioneChat } from "@/lib/atto-unico";
 import {
   buildRichiestaCasella,
   estraiContestoCasellaDaRichiesta,
@@ -1091,6 +1093,13 @@ export default function Dashboard() {
   // Lavori chat in attesa di risposta — MAPPA (non più slot singolo): se mandi messaggi
   // in più chat di fila, OGNI risposta viene recuperata e instradata al thread giusto.
   const pendingLavoroChatRef = useRef<Map<string, PendingChat>>(new Map());
+  // AR-260 — IL CONFINE DELLA CREAZIONE. `pendingLavoroChatRef` registra un lavoro solo DOPO che la
+  // POST è tornata: durante la creazione (che dura quanto la rete, non gli 800 ms del blocco nella
+  // barra di scrittura) il sistema è cieco su se stesso, e un secondo messaggio ravvicinato non
+  // trova niente da sostituire → nascono due lavori invece di uno che risponde a entrambi.
+  // Qui teniamo la creazione MENTRE è in volo: chiave = conversazione, valore = la promessa dell'id.
+  // Stessa forma già usata in casa per la conversazione (`creazioneConvInCorsoRef`).
+  const creazioneLavoroChatRef = useRef<Map<string, Promise<string | null>>>(new Map());
   const [pendingCount, setPendingCount] = useState(0);
   const lavoroRisoltoChatRef = useRef<Set<string>>(new Set());
   const codaMsgRef = useRef<string[]>([]);
@@ -1701,6 +1710,17 @@ export default function Dashboard() {
     // il worker ferma la generazione vecchia (interrompi-e-ripensa) e il turno nuovo — che
     // nella storia contiene anche il messaggio precedente — risponde a tutto. Le risposte
     // dei turni sostituiti non vanno mai applicate (le marchiamo subito come risolte).
+    // AR-260: prima di guardare i pendenti, aspetta la creazione ancora IN VOLO per questa
+    // conversazione. Senza, il messaggio precedente — partito ma non ancora tornato dalla POST —
+    // era invisibile al ciclo di sostituzione, e restava vivo accanto al nuovo: due lavori, due
+    // risposte, invece di una risposta a tutti e due i messaggi.
+    const inVolo = creazioneLavoroChatRef.current.get(chiaveCreazioneChat(targetConvId));
+    if (inVolo) {
+      const idInVolo = await inVolo.catch(() => null);
+      if (idInVolo && !pendingLavoroChatRef.current.has(idInVolo)) {
+        aggiungiPendingChat({ id: idInVolo, tipo: "chat", targetConvId });
+      }
+    }
     for (const p of [...pendingLavoroChatRef.current.values()]) {
       if (p.tipo !== "chat" || p.targetConvId !== targetConvId) continue;
       lavoroRisoltoChatRef.current.add(p.id);
@@ -1810,12 +1830,31 @@ export default function Dashboard() {
               );
             })();
 
-      const res = await fetch("/api/lavori", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ richiesta, tipo: prep.tipo, gruppo_id: gruppoId }),
-      });
-      const d = await res.json();
+      // AR-260: la creazione si dichiara PRIMA della POST, non dopo. Da qui in poi un secondo
+      // invio sulla stessa conversazione sa che ce n'è uno in volo, ne aspetta l'id e lo sostituisce
+      // invece di affiancarlo. La promessa si risolve SEMPRE (anche con null) nel finally: un posto
+      // preso e mai liberato bloccherebbe la chat per sempre, che è peggio del doppione.
+      const chiaveCreazione = chiaveCreazioneChat(gruppoId);
+      let creata: (id: string | null) => void = () => {};
+      creazioneLavoroChatRef.current.set(
+        chiaveCreazione,
+        new Promise<string | null>((res) => {
+          creata = res;
+        }),
+      );
+      let d: any;
+      try {
+        const res = await fetch("/api/lavori", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ richiesta, tipo: prep.tipo, gruppo_id: gruppoId }),
+        });
+        d = await res.json();
+        creata(d?.ok && d?.lavoro?.id ? String(d.lavoro.id) : null);
+      } finally {
+        creata(null); // no-op se già risolta: una Promise si risolve una volta sola.
+        creazioneLavoroChatRef.current.delete(chiaveCreazione);
+      }
       if (d.ok && d.lavoro) {
         salvaGruppoLavoroLocale(d.lavoro.id, gruppoId);
         setLavori((l) => [d.lavoro, ...l]);
@@ -2252,7 +2291,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             const fc = merged.find((c) => c.id === attiva);
             if (fc) {
               setMessages((m) => {
-                const nm = mergeThread(m, fc.messaggi);
+                // AR-267: il merge lavora SOLO sulla parte a riposo. `mergeThreadMsgs` comincia con
+                // `pulisci()` (scarta pending/prompt) perché è nata per fondere due thread SALVATI:
+                // passandole lo stato vivo, la bolla in streaming spariva a ogni giro di poll (8s) e
+                // «Annulla invio» diventava inerte, perché non trovava più nessun pending.
+                const nm = fondiConservandoVivi(m, fc.messaggi, mergeThread);
                 return JSON.stringify(nm) === JSON.stringify(m) ? m : nm;
               });
             }
@@ -2279,6 +2322,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // 💬 Chat unificata: «Parla con questa casella» ↔ Assistente / fluttuante — stesso thread.
   useEffect(() => {
     return ascoltaChatUnificata("assistente", (det) => {
+      // AR-266: il bus allinea superfici che mostrano LA STESSA chat. Il lato che pubblica era
+      // filtrato, questo no: bastava aprire «Parla con questa casella» — che pubblica appena il suo
+      // storico è caricato — perché l'Assistente adottasse quel thread e buttasse via la chat che
+      // Nicola aveva aperto. L'unica guardia esistente copriva il caso VUOTO (AR-123), non questo.
+      if (!aggiornamentoPertinente(convIdRef.current, det.convId)) return;
       setConvId(det.convId);
       sessionGruppoRef.current = det.convId;
       setMessages((prev) => {

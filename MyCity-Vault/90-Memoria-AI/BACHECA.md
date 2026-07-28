@@ -6,7 +6,7 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
-## 📒 Registro dei fatti — fonte unica della verità · 2026-07-24 17:10
+## 📒 Registro dei fatti — fonte unica della verità · 2026-07-29 01:20
 
 Specchio umano di `registro-fatti.json` (AR-102): qui vivono i fatti-chiave del business già concordati/verificati. Se un fatto cambia nel registro, questa tabella si riscrive nello stesso momento — niente copie vecchie in giro.
 
@@ -16,6 +16,10 @@ Specchio umano di `registro-fatti.json` (AR-102): qui vivono i fatti-chiave del 
 | Cliente core | **Botteghe** (carrello multi-negozio settimanale) — non ristoranti/trattorie | 13/7 22:35 |
 | Commissione MyCity | **10%** sul venduto | 20/7 12:39 |
 | Abbonamento venditore | **50 €/mese** | 20/7 12:39 |
+| Fonti di reddito | **Due:** ① marketplace (10% + 50 €/m + 3 € fee consegna) ② **Worker per i negozi** (99/299/699-999 €/m) — la ② non è ancora costruita | 29/7 01:19 |
+| Worker per i negozi — listino | **Vetrina 99 €/m · Autopilot 299 €/m · Direttore Digitale 699-999 €/m** + setup una tantum | 29/7 00:15 |
+| Worker per i negozi — pilot | **149 €/m bloccato** per 3 founder: I Frutti della Terra, Enoteca La Canteina, Il Pollivendolo (da fondare: non risultano nei dati) | 29/7 00:15 |
+| Worker per i negozi — stato | **Definito, NON costruito** — si crea in sessioni dedicate future; nessuna azione né pitch finché non lo apre Nicola | 29/7 01:19 |
 | Costi infrastruttura | **~302 €/mese** fissi (dettaglio nella sezione "💰 Costi infrastruttura" qui sotto) | 21/7 00:37 |
 | Soglia costi extra (admin/assicurazioni/app store) | Sospesi finché l'utile netto non arriva a **~5.000 €/mese** | 23/7 17:26 |
 | Ripresa lavoro operativo (inserimento negozi) | **Dopo il 24 agosto – 1 settembre 2026** | 23/7 17:36 |
@@ -33,6 +37,25 @@ Specchio umano di `registro-fatti.json` (AR-102): qui vivono i fatti-chiave del 
 | Visita 6 botteghe food | Nicola c'è andato **di persona** il 13/7 | 06/7 23:55 |
 
 Fonte di ogni riga: campo `fonte` in `MyCity-Vault/90-Memoria-AI/registro-fatti.json` — lì c'è anche la storia delle correzioni.
+
+---
+
+## 💼 La seconda fonte di reddito: il Worker dato ai negozi · 2026-07-29 01:20
+
+MyCity avrà **due modi di guadagnare**, non uno. Il marketplace incassa solo se la gente compra; il
+**Worker in abbonamento al negozio** incassa il primo del mese comunque — **Vetrina 99 €/m** (esiste
+online senza toccare nulla: Google Business, recensioni, social autopilot), **Autopilot 299 €/m** (+
+WhatsApp ai clienti, richiami e loyalty, Report del Lunedì), **Direttore Digitale 699-999 €/m** (+
+cruscotto finanziario in sola lettura, watchdog bandi, analisi strategica mensile). Più il setup una
+tantum; i primi 3 pilot a **149 €/m bloccato**.
+
+Per capirci sul peso: **un solo cliente Vetrina copre un terzo del burn fisso (~302 €/m); tre Autopilot
+lo coprono tutto e avanzano** — senza che sia arrivato un solo ordine sul marketplace.
+
+⛔ **Non è ancora costruita e non si tocca:** Nicola la crea in sessioni dedicate più avanti. Nessuna
+azione in coda, nessun pitch, nessun materiale intestato ai 3 pilot (che vanno prima fondati: non
+risultano nei dati). Tutto il dettaglio piano per piano, con cosa manca per venderlo:
+`consegne/strategia/2026-07-29-listino-worker-negozi.md`.
 
 ---
 

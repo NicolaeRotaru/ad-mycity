@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { FlaskConical, Power } from "lucide-react";
+import { scritturaConfermata } from "@/lib/esito-scrittura";
 
 // 🧪 Banner della modalità demo. Quando è ON mostra un avviso ben visibile (dati
 // di esempio, niente di reale inviato) con il bottone per uscire. Quando è OFF
@@ -9,6 +10,7 @@ import { FlaskConical, Power } from "lucide-react";
 export default function DemoBanner() {
   const [demo, setDemo] = useState<boolean | null>(null);
   const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
 
   useEffect(() => {
     fetch("/api/demo", { cache: "no-store" })
@@ -19,15 +21,27 @@ export default function DemoBanner() {
 
   async function cambia(on: boolean) {
     setBusy(true);
+    setErr("");
     try {
-      await fetch("/api/demo", {
+      const res = await fetch("/api/demo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ on }),
       });
+      const corpo = await res.json().catch(() => null);
+      // AR-264: si ricarica SOLO se il cambio è confermato. Prima si andava dritti al reload senza
+      // guardare `res.ok`: `fetch` respinge solo sugli errori di rete, quindi un 500 del server
+      // passava per successo — e l'etichetta che dice a Nicola SE sta guardando numeri veri o finti
+      // restava sbagliata proprio nel momento in cui conta di più.
+      if (!scritturaConfermata(res, corpo)) {
+        setErr(`Non sono riuscito a cambiare modalità — stai ancora vedendo dati ${demo ? "di esempio" : "veri"}.`);
+        setBusy(false);
+        return;
+      }
       // Ricarico: tutte le aree rileggono i dati con/ senza il cookie demo.
       window.location.reload();
     } catch {
+      setErr("Non sono riuscito a cambiare modalità — riprova.");
       setBusy(false);
     }
   }
@@ -53,6 +67,7 @@ export default function DemoBanner() {
         >
           <Power size={14} /> Esci dalla demo
         </button>
+        {err && <div className="w-full text-[12px] font-medium text-red-700">⚠️ {err}</div>}
       </div>
     );
   }
@@ -73,6 +88,7 @@ export default function DemoBanner() {
       >
         <Power size={14} /> Attiva la demo
       </button>
+      {err && <div className="w-full text-[12px] font-medium text-red-700">⚠️ {err}</div>}
     </div>
   );
 }

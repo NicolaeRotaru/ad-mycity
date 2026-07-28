@@ -7,6 +7,7 @@ import {
   type SceltaOrdineAB,
 } from "@/lib/decisione-ordine";
 import { creaLavoro, getImpostazione, memoryConnected, setImpostazione } from "@/lib/store";
+import { STATUS_SCRITTURA_FALLITA } from "@/lib/esito-scrittura";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -43,7 +44,11 @@ export async function POST(req: NextRequest) {
     }
 
     const esistente = parseSalvata(await getImpostazione(IMPOSTAZIONE_CHIAVE));
-    if (esistente) {
+    // AR-231: l'uscita anticipata «già registrata» vale SOLO se anche il lavoro è partito. Prima
+    // usciva qui a ogni tentativo successivo, quindi il caso «decisione salvata ma cervello mai
+    // partito» era irreparabile: la card spariva, il lavoro non c'era, e riprovare non serviva a
+    // niente. Se il marcatore dice che il lavoro non è mai nato, si prosegue e lo si riaccoda.
+    if (esistente && esistente.lavoro !== null) {
       return NextResponse.json({ ok: true, giaRegistrata: true, decisione: esistente });
     }
 
@@ -54,13 +59,16 @@ export async function POST(req: NextRequest) {
       ordineId: ORDINE_ZOMBIE_ID,
       titolo: String(body?.titolo || "").trim() || undefined,
     };
-    const ok = await setImpostazione(IMPOSTAZIONE_CHIAVE, JSON.stringify(decisione));
-    if (!ok) {
-      return NextResponse.json({ ok: false, error: "Salvataggio fallito." }, { status: 500 });
-    }
-
     const etichetta = etichettaSceltaOrdine(decisione.scelta);
-    await creaLavoro(
+    // AR-231 — L'ORDINE DELLE DUE SCRITTURE, E PERCHÉ CONTA.
+    // Prima si salvava la decisione e POI si accodava il lavoro senza guardarne l'esito: se il
+    // secondo passo falliva, restava registrato «Nicola ha deciso» con il cervello mai avviato — e
+    // il dedup all'ingresso bloccava proprio il tentativo che avrebbe rimediato. Ora il lavoro si
+    // crea PRIMA e il suo id entra nella decisione: quello che si salva è un fatto intero, non
+    // metà. Se il lavoro non nasce, si salva comunque la scelta con `lavoro: null` (così non si
+    // perde quello che Nicola ha scelto) ma si risponde 503 — e il ramo «già registrata» qui sopra
+    // sa che quella decisione è da completare, quindi riprovare funziona.
+    const lavoro = await creaLavoro(
       `Nicola ha DECISO sull'ordine zombie €19,05 (Pane Quotidiano) dal Pannello.\n` +
         `Scelta: **${decisione.scelta}** — ${etichetta}\n` +
         `Ordine ID: \`${ORDINE_ZOMBIE_ID}\`\n` +
@@ -72,6 +80,18 @@ export async function POST(req: NextRequest) {
         `4) Al prossimo giro NON rigenerare la proposta A/B (decisione già presa).`,
       "decisione"
     );
+    decisione.lavoro = lavoro?.id ?? null;
+
+    const ok = await setImpostazione(IMPOSTAZIONE_CHIAVE, JSON.stringify(decisione));
+    if (!ok) {
+      return NextResponse.json({ ok: false, error: "Salvataggio fallito." }, { status: 500 });
+    }
+    if (!lavoro) {
+      return NextResponse.json(
+        { ok: false, decisione, error: "Scelta registrata, ma il cervello non è partito — ripremi il pulsante per riaccodarla." },
+        { status: STATUS_SCRITTURA_FALLITA },
+      );
+    }
 
     return NextResponse.json({ ok: true, decisione });
   } catch (e: any) {

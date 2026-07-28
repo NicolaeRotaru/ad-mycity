@@ -143,10 +143,27 @@ export type EsitoSalvataggio = { id: string | null; suServer: boolean };
 // Server se la tabella esiste, altrimenti localStorage (stesso formato della Cabina).
 // Notifica la Cabina (`mycity:conversazioni`) di ricaricare l'elenco. Ritorna id + dove.
 export async function salvaConversazioneCasella(id: string | null, titolo: string, messaggi: ParlaMsg[]): Promise<EsitoSalvataggio> {
-  const reali = messaggi.filter((m) => !m.pending);
+  let reali = messaggi.filter((m) => !m.pending);
   if (reali.length === 0) return { id, suServer: false };
   let nuovoId: string | null = id;
   let suServer = false;
+  // AR-268 — LA DIFESA SUL DATO, NON SUL CHIAMANTE.
+  // Lato server `upsertConversazione` fa una PATCH che SOSTITUISCE l'intera colonna `messaggi`:
+  // non esiste nessuna fusione. Quindi una scrittura in ritardo (la casella che risponde dopo
+  // cinque minuti) poteva accorciare un thread a cui nel frattempo erano stati aggiunti messaggi
+  // da un'altra scheda o dall'Assistente. Sistemare solo il chiamante avrebbe lasciato il buco
+  // aperto per il prossimo che scrive qui: la rilettura+fusione sta QUI, dove vale per tutti.
+  if (id) {
+    try {
+      const elenco = await fetch("/api/conversazioni", { cache: "no-store" }).then((x) => x.json());
+      const suServerOra = (elenco?.conversazioni || []).find((c: { id?: string }) => c?.id === id);
+      const remoti = Array.isArray(suServerOra?.messaggi) ? (suServerOra.messaggi as ParlaMsg[]) : null;
+      if (remoti?.length) reali = fondiMessaggi(remoti, reali);
+    } catch {
+      // Rilettura non riuscita: si salva quello che si ha. Peggio di così era prima — e un thread
+      // scritto vale più di un thread perso perché la rete ha singhiozzato.
+    }
+  }
   try {
     const r = await fetch("/api/conversazioni", { method: "POST", headers: HEADERS, body: JSON.stringify({ id, titolo, messaggi: reali }) }).then((x) => x.json());
     if (r?.ok && r.id) {

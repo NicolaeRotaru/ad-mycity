@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-29 00:22",
+  "aggiornato": "2026-07-29 02:00",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -3239,13 +3239,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/app/api/azioni-pronte/route.ts",
-        "pattern": "statoPre !== \"rifiutata\"",
-        "presente": false
+        "comando": "node cervello/test/atto-che-parte-due-volte.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/azioni-pronte/route.ts:78-88 (il blocco anti-doppione copre solo «annulla») e :108 (il controllo di ri-approvazione considera «rifiutata» come mai partita) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. Il controllo `giaEseguita` era dentro `if (dec === \"annulla\")`: appeso al NOME della decisione invece che allo stato dell'azione. Spostato FUORI, ora vale per rifiuta E annulla (409 su azione gia' avviata), cosi' la strada approva -> rifiuta -> approva non puo' piu' rieseguire le mani. La regola vive in pannello/src/lib/atto-unico.ts::attoGiaAvviato, eseguibile da un test. LIMITE DICHIARATO: se un'azione storica ha gia' \"rifiutata\" scritto DOPO un'esecuzione, quel dato non e' recuperabile — il fix protegge da qui in avanti."
     },
     {
       "id": "AR-230",
@@ -3260,13 +3259,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/app/api/azioni-pronte/route.ts",
-        "pattern": "return NextResponse.json\\(\\{ ok: true, stato, esito: \"\", salvataggio: salv \\}\\)",
-        "presente": false
+        "comando": "node cervello/test/scrittura-non-confermata.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/azioni-pronte/route.ts:93-97 · confronto con lo stesso file :156-161 · client pannello/src/components/aree/Azioni.tsx:305 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. Le tre scritture del rifiuto (stato, nota, revoca firma) erano concatenate con `&&` — che oltre a ignorare la revoca CORTOCIRCUITA: se la prima falliva la seconda non partiva nemmeno. Ora si raccolgono tutte e tre e passano da esitoScritture(): una sola fallita -> 503 con il nome del pezzo mancante. Il client faceva gia' il rollback corretto su ok:false."
     },
     {
       "id": "AR-231",
@@ -3281,13 +3279,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/app/api/decisione-ordine/route.ts",
-        "pattern": "await creaLavoro\\(",
-        "presente": false
+        "comando": "node cervello/test/scrittura-non-confermata.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/decisione-ordine/route.ts:63 (creaLavoro senza controllo dell'esito) e :45-48 (uscita anticipata «già registrata») · stesso schema in pannello/src/lib/scelta-ab-actions.ts:87 e :62-65 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. Invertito l'ordine: il lavoro si crea PRIMA e il suo id entra nella decisione (campo nuovo `lavoro`, null se l'accodamento fallisce). Il dedup all'ingresso ora esce presto solo se `lavoro !== null`, quindi il caso «decisione registrata, cervello mai partito» si puo' riprovare — prima era irreparabile. Le decisioni salvate prima di questo campo (lavoro undefined) restano chiuse: non si riaprono card gia' finite davvero."
     },
     {
       "id": "AR-232",
@@ -3422,13 +3419,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/app/api/memoria/risposta/route.ts",
-        "pattern": "await setImpostazione(`risposta:${qid}`",
-        "presente": false
+        "comando": "node cervello/test/scrittura-non-confermata.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/memoria/risposta/route.ts:48 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. Due punti come da scheda. (a) /api/memoria/risposta ora legge il booleano di setImpostazione: se non salva risponde 503 e NON accoda il lavoro (un lavoro su una risposta che il Pannello continuera' a richiedere e' il doppione garantito); in piu' dichiara `accodata` quando la risposta e' salva ma il cervello non l'ha presa. (b) AutoCoscienza.tsx non sostituisce piu' la mappa: `risposteLocaliRef` + fondiLocaliSuServer(), la voce locale si dimentica quando il server concorda — la stessa difesa che l'area Azioni aveva da mesi."
     },
     {
       "id": "AR-239",
@@ -3443,13 +3439,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/components/aree/Azioni.tsx",
-        "pattern": "await fetch(\"/api/memoria/todo\", { method: \"POST\"",
-        "presente": false
+        "comando": "node cervello/test/scrittura-non-confermata.test.mjs"
       },
       "nota": "Dove: pannello/src/components/aree/Azioni.tsx:429 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. `spunta()` ora legge la risposta e passa da scritturaConfermata(): {ok:false} servito con HTTP 200 (il caso vero di /api/memoria/todo) non e' piu' un successo. Su NO: valore riportato indietro, voce tolta da spuntateLocaliRef (altrimenti continuerebbe a coprire la verita' del server) e avviso «non salvata, riprova» accanto alla riga."
     },
     {
       "id": "AR-240",
@@ -3805,7 +3800,8 @@
       },
       "nota": "Dove: pannello/src/components/AutoCoscienza.tsx:291-295",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. FIX APPLICATO: la dipendenza dell'effetto di scrollIntoView passa da [d] a [] in AutoCoscienza.tsx — carica() gira ogni 30s e setD mette sempre un oggetto NUOVO, quindi l'effetto ripartiva a contenuto identico e la pagina saltava da sola sulla scheda. PROVA DICHIARATA DEBOLE: e' una dipendenza di useEffect, non logica estraibile in una funzione pura; la sua prova onesta e' a runtime (skill verify, Playwright). Il campo verifica NON e' stato promosso a comando apposta: meglio un difetto che resta aperto con il fix dentro, che una chiusura basata su un pattern di forma."
     },
     {
       "id": "AR-258",
@@ -3839,13 +3835,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/lib/store.ts",
-        "pattern": "for (let tentativo = 0; tentativo < LAVORO_TENTATIVI; tentativo++)",
-        "presente": false
+        "comando": "node cervello/test/atto-che-parte-due-volte.test.mjs"
       },
       "nota": "Dove: pannello/src/lib/store.ts:240-243 (ciclo di ritentativi dentro creaLavoroEsito) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. Il ciclo ritentava anche dopo un AbortError, cioe' proprio nel caso in cui la riga puo' essere gia' arrivata a Supabase. Ora l'esito passa da comeRitentareScrittura(): stop | ritenta | verifica. Su «verifica» si cerca prima un lavoro gemello con la stessa richiesta negli ultimi 60s (lavoroGemelloRecente, stessa forma di lavoroSentinellaGiaInCoda/AR-114) e lo si riusa come successo. Se la verifica stessa non riesce NON si ritenta: un doppione silenzioso e' peggio di un errore visto."
     },
     {
       "id": "AR-260",
@@ -3860,13 +3855,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/app/page.tsx",
-        "pattern": "aggiungiPendingChat({ id: d.lavoro.id, tipo: prep.tipo, targetConvId })",
-        "presente": false
+        "comando": "node cervello/test/atto-che-parte-due-volte.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:1589 (mandaAlCervello, nessun blocco) · 1631-1640 (ciclo di annullamento) · 1726 (registrazione tardiva) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. La creazione si dichiara PRIMA della POST (creazioneLavoroChatRef + AttiInVolo con chiave per conversazione), non dopo: un secondo messaggio ravvicinato ora vede quello in volo, ne aspetta l'id e lo sostituisce invece di affiancarlo. Il posto si libera nel finally e scade comunque dopo 60s — un blocco che non si apre piu' sarebbe peggio del doppione che doveva evitare."
     },
     {
       "id": "AR-261",
@@ -3881,13 +3875,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/components/BottoneFotoChat.tsx",
-        "pattern": "if (!t || !chatOnInvia) return;",
-        "presente": false
+        "comando": "node cervello/test/atto-che-parte-due-volte.test.mjs"
       },
       "nota": "Dove: pannello/src/components/BottoneFotoChat.tsx:200-205 (inviaMessaggio) e 347-352 (tasto Invio) · aggancio in pannello/src/components/BarraScritturaChat.tsx:202 e 218 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. SCHEDA CORRETTA DAL CODICE: una guardia c'era gia' (chatInvioBloccatoRef, 800 ms fissi), ma non copriva chatLoading — cioe' proprio l'attesa della risposta, che dura molto piu' di 800 ms. La decisione e' stata estratta in atto-unico.ts::puoInviareChat e ora la funzione la applica per intero: vale per il bottone, per il tasto Invio, per la finestra video e per quella dello schermo condiviso."
     },
     {
       "id": "AR-262",
@@ -3942,13 +3935,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/components/DemoBanner.tsx",
-        "pattern": "window.location.reload();",
-        "presente": false
+        "comando": "node cervello/test/scrittura-non-confermata.test.mjs"
       },
       "nota": "Dove: pannello/src/components/DemoBanner.tsx:20-32 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. `cambia()` ora controlla res.ok E il corpo (scritturaConfermata) e ricarica SOLO se confermato; altrimenti spegne busy e mostra nel banner «Non sono riuscito a cambiare modalita' — stai ancora vedendo dati [di esempio/veri]», cosi' l'etichetta della fonte dei numeri resta sempre vera."
     },
     {
       "id": "AR-265",
@@ -3982,13 +3974,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/app/page.tsx",
-        "pattern": "ascoltaChatUnificata(\"assistente\", (det) => {\n      setConvId(det.convId);",
-        "presente": false
+        "comando": "node cervello/test/stato-vivo-calpestato.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:2150-2170 (ascoltaChatUnificata) + pannello/src/components/ParlaCasella.tsx:92-99 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. Il listener del bus ora accetta solo cio' che riguarda la chat aperta (stato-vivo.ts::aggiornamentoPertinente): id diverso o evento senza id mentre una chat e' aperta -> si ignora. Resta l'allineamento legittimo (stessa conversazione su due superfici) e il caso «non ho niente aperto». Copre il buco che AR-123 aveva chiuso solo per il thread VUOTO."
     },
     {
       "id": "AR-267",
@@ -4003,13 +3994,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/lib/chat-thread-merge.ts",
-        "pattern": "return list.filter((m) => !m.pending && !m.prompt);",
-        "presente": false
+        "comando": "node cervello/test/stato-vivo-calpestato.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:2121-2129 (caricaConversazioni) via pannello/src/lib/chat-thread-merge.ts:74-76 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. Il poller non passa piu' lo stato vivo dentro mergeThreadMsgs (che comincia con pulisci(): filter(!pending && !prompt), giusto per due thread salvati, distruttivo su quello a schermo). Ora fondiConservandoVivi() fonde solo la parte stabile e riappende in coda le bolle vive: la risposta in streaming non sparisce piu' ogni 8s e «Annulla invio» resta attivo perche' trova ancora la sua bolla pending."
     },
     {
       "id": "AR-268",
@@ -4024,13 +4014,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/components/ParlaCasella.tsx",
-        "pattern": "const completa: ParlaMsg[] = [...conMio, { role: \"assistant\", content: esito.testo, created_at: new Date().toISOString() }];\n        setMsgs(completa);",
-        "presente": false
+        "comando": "node cervello/test/stato-vivo-calpestato.test.mjs"
       },
       "nota": "Dove: pannello/src/components/ParlaCasella.tsx:211-245 + pannello/src/lib/parla.ts:145-169 + pannello/src/lib/store.ts:497-503 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. Entrambe le mosse della scheda. (a) ParlaCasella non ricostruisce piu' il thread dallo snapshot congelato all'invio: parte da msgsRef.current (specchio sincrono dello stato) e fonde. (b) La difesa e' anche SUL DATO, in parla.ts::salvaConversazioneCasella, che rilegge la versione corrente e fonde prima della POST — perche' lato server upsertConversazione fa una PATCH che sostituisce l'intera colonna, quindi sistemare solo il chiamante avrebbe lasciato il buco per il prossimo che scrive li'."
     },
     {
       "id": "AR-269",
@@ -4045,13 +4034,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/components/ChatCasella.tsx",
-        "pattern": "useState<MsgChat[]>(() => messaggiDaGruppo(lavori).filter((m) => !m.pending));",
-        "presente": false
+        "comando": "node cervello/test/stato-vivo-calpestato.test.mjs"
       },
       "nota": "Dove: pannello/src/components/ChatCasella.tsx:70 (seed dei messaggi) + 158-166 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "LOTTO 29. Aggiunto l'effetto di risincronizzazione su [lavori] con fondiConservandoVivi + mergeThreadMsgs: la chat dell'Archivio non resta piu' alla foto dell'apertura e non duplica (era il motivo per cui era stata congelata). I transitori restano intatti."
     },
     {
       "id": "AR-270",
@@ -5539,6 +5527,23 @@
       "origine": "confrontando byte e data dell'ultimo esito fra le due cartelle omonime, dopo aver visto che chiusura-loop scriveva in quella che non mi aspettavo",
       "verifica": {
         "comando": "node cervello/test/un-quaderno-una-casa.test.mjs"
+      }
+    },
+    {
+      "id": "AR-343",
+      "titolo": "I cancelli del commit sono spenti in ogni sessione cloud: segreti, sintassi e perimetro di main non girano",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "① Perche' un commit che doveva essere bloccato e' passato? Perche' il pre-commit non e' stato eseguito. ② Perche' non e' stato eseguito? Perche' `core.hooksPath` non era configurato nel clone. ③ Perche' non lo era? Perche' e' configurazione LOCALE di git: non si eredita dal repo, va accesa su ogni copia. ④ Perche' nessuno l'aveva accesa? Perche' l'unica chiamata a `installa-hooks.sh` sta in `giro.sh` — quindi sul VPS i hook risultano attivi e il buco resta invisibile. ⑤ Radice: la difesa era agganciata a un PROCESSO (il giro) invece che al MOMENTO in cui serve (l'apertura di una sessione che puo' committare). Nelle sessioni cloud, dove la macchina lavora da sola e nessuno guarda, erano spenti tutti e quattro i cancelli: segreti (AR-004), sintassi shell (worker-outage 9/7), sintassi JS (AR-134), perimetro di main (AR-332).",
+      "fix_proposto": "🟡 Agganciare `bash cervello/installa-hooks.sh` al SessionStart di .claude/settings.json (gira a ogni avvio di sessione, idempotente, ~0 costo) e tenere la chiamata nel giro come seconda rete. Prova: cervello/test/cancelli-spenti-nel-clone.test.mjs.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-29 01:30",
+      "nota": "Trovato provando avversarialmente il gate nuovo del lotto 29: il commit di prova, che DOVEVA essere respinto, e' passato. Il gate era giusto; a non girare erano i hook. Un cancello che non parte non e' un cancello — e per tutta questa sessione i miei commit sono passati senza scan-segreti. [id spostato da AR-339 a AR-343 il 29/7: main aveva gia' registrato un AR-339 diverso (scanner segreti) mentre questo lotto era aperto — due difetti con lo stesso numero sono un difetto in piu'.]",
+      "nota_fix": "LOTTO 29. Installazione agganciata al SessionStart di .claude/settings.json, cosi' parte all'apertura di OGNI sessione e non solo dentro il giro. Il test copre i tre pezzi: un clone fresco parte spento, installa-hooks accende ed e' idempotente, e il SessionStart lo invoca davvero — piu' la non-vacuita' (il perimetro acceso deve contenere i cancelli veri, non essere vuoto).",
+      "verifica": {
+        "comando": "node cervello/test/cancelli-spenti-nel-clone.test.mjs"
       }
     }
   ],
