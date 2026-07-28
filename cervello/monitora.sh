@@ -48,7 +48,16 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       git add -A "${MEM_DIRS[@]}" 2>/dev/null || true
       git restore --staged pannello/ cervello/ 2>/dev/null || true
       git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da un run interrotto ($(ts))" 2>/dev/null || true
-      git push "$url" "HEAD:${branch}" 2>/dev/null && echo "[$(ts)] Recuperate scritture pendenti di un run precedente." || true
+      # AR-127 — anche il RECUPERO passa dal cancello, e qui più che altrove: questo ramo scatta
+      # quando un run precedente è morto a metà scrittura, cioè esattamente quando la memoria ha più
+      # probabilità di essere incoerente. Prima pubblicava e basta — negli ultimi 60 commit del VPS
+      # «recupero: scritture pendenti» compare 6 volte, tutte senza un controllo davanti.
+      . "$SCRIPT_DIR/gate-pubblicazione.sh"
+      if gate_pubblicazione "$SCRIPT_DIR" "$REPO"; then
+        git push "$url" "HEAD:${branch}" 2>/dev/null && echo "[$(ts)] Recuperate scritture pendenti di un run precedente." || true
+      else
+        echo "[$(ts)] ⛔ Recupero NON pubblicato: il cancello ha detto no. Le scritture restano committate in locale." >&2
+      fi
     fi
     _fetch_ok=0
     for _mf in 1 2 3; do
