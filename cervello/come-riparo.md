@@ -120,3 +120,27 @@ Non serve una frase migliore. Servono tre cose, e due sono già in moto:
 
 Quello che NON serve: dirmi di lavorare meglio. Se una volta ho lavorato meglio, quel «meglio» va
 scritto qui e trasformato in un cancello — altrimenti è un buon giorno, non uno standard.
+
+---
+
+## Appendice — le due debolezze della prova, trovate sul campo il 28/7
+
+Il passo ⑤ ha pescato **due chiusure false in un giorno**, e hanno la stessa forma: *una prova che si
+accontenta di una parte del fix.*
+
+**① La prova con un OR dentro.** AR-178 chiedeva due guardiani; la sua prova era
+`"pattern": "VOLANO_VINCOLO|_tasso_rc|_sonda_rc"`. Ne ho cablato uno, la prova ha fatto centro sulla
+metà riparata, il difetto si è chiuso con l'altra metà ancora rotta e viva.
+
+**② La prova condivisa fra più difetti.** Il lotto 11 ha dato lo stesso
+`{"comando": "node cervello/test/errore-ingoiato.test.mjs"}` a cinque difetti. Il test passava — ma
+AR-254 non era riparato: il suo fix (risposta più snella) gira **dopo** la lettura, e la lettura era
+già fallita. Cinque difetti, una prova: si chiudono tutti e cinque anche se uno non è stato toccato.
+
+> **Regola:** ogni difetto ha bisogno di una prova che diventi rossa **se quel difetto** non è
+> riparato. Un test condiviso va benissimo come *file*; ma dentro deve esserci almeno un caso che
+> parla solo di quel difetto — altrimenti è un OR travestito.
+
+E il corollario che vale per tutti e due: **il conteggio di `auto-fix` non è una verifica.** «Chiusi 5»
+è un numero, non un controllo. Le chiusure si rileggono una per una, confrontando il `fix_proposto`
+con quello che è stato fatto davvero.
