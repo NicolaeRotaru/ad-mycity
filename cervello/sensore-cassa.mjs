@@ -15,6 +15,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { scriviStatoSensore } from "./stato-sensori.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const RETRIES = 3;
@@ -130,16 +131,23 @@ async function main() {
     istruzioni,
   };
 
-  mkdirSync(dirname(OUT_PATH), { recursive: true });
-  writeFileSync(OUT_PATH, JSON.stringify(doc, null, 2) + "\n", "utf8");
+  // AR-281 — la cassa si scrive solo dove la si può MISURARE. Senza STRIPE_SECRET_KEY questo script
+  // produce comunque un documento ("cassa sconosciuta"): scriverlo da una sessione cloud senza chiavi
+  // significa spegnere in git il runway misurato sul VPS e far suonare una sentinella per finta.
+  const esitoScrittura = scriviStatoSensore(OUT_PATH, doc, {
+    ambienteConfigurato: Boolean(process.env.STRIPE_SECRET_KEY),
+    motivo: "STRIPE_SECRET_KEY assente: questo ambiente non può misurare la cassa",
+  });
 
   const sintesi =
     runwayMesi != null ? `runway ${runwayMesi} mesi (${stato})` : `runway sconosciuto da ${giriSconosciuto} giri (${note})`; // AR-039
-  await stampSegnale(
-    "cassa-runway",
-    stato === "critico" ? "errore" : stato === "sconosciuto" ? "warn" : "ok",
-    `${sintesi} · ${quando}`
-  ).catch(() => {});
+  if (esitoScrittura.scritto) {
+    await stampSegnale(
+      "cassa-runway",
+      stato === "critico" ? "errore" : stato === "sconosciuto" ? "warn" : "ok",
+      `${sintesi} · ${quando}`
+    ).catch(() => {});
+  }
 
   if (JSON_MODE) {
     console.log(JSON.stringify(doc, null, 2));
@@ -149,7 +157,7 @@ async function main() {
     console.log(`Burn mensile:      ${burnEur != null ? burnEur + " €" : "— (non impostato)"}`);
     console.log(`Runway:            ${runwayMesi != null ? runwayMesi + " mesi" : "— (sconosciuto)"}  [${stato}]`);
     console.log(`\n${istruzioni}`);
-    console.log(`\nScritto: ${OUT_PATH}`);
+    console.log(`\n${esitoScrittura.spiegazione}`);
   }
 
   process.exit(stato === "critico" ? 1 : 0);

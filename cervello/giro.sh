@@ -31,6 +31,36 @@ node "$SCRIPT_DIR/sync-worker-plugins.mjs" --specchia >/dev/null 2>&1 || true
 
 ts() { date '+%Y-%m-%d %H:%M'; }
 
+# AR-204 — il cronometro del PROCESSO, non quello del motore AI. `GIRO_START` (più sotto) parte dopo
+# i guardiani e misura solo la parte AI: così un giro saltato dal delta-gate risultava costare 1
+# secondo, quando prima aveva già fatto girare una cinquantina di processi node. Un numero che dice
+# «costo zero» su un lavoro che è costato davvero è peggio di nessun numero: ci si decide sopra.
+GIRO_START_TOT="$(date +%s)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# AR-307 — mostra l'ESITO di un guardiano senza perdere la riga che conta.
+# Prima si usava `| tail -N`: i guardiani stampano il verdetto in TESTA e node mette lo stack in
+# MEZZO, così nel log del giro restava la coda decorativa e l'errore vero spariva. Chi leggeva il log
+# vedeva un guardiano «passato» che in realtà era esploso alla prima riga.
+# Questo filtro tiene: la PRIMA riga (il verdetto), fino a 2 righe di errore ovunque siano, e la coda.
+# Uso: <comando> 2>&1 | esito_righe 4
+esito_righe() {
+  local n="${1:-4}"
+  awk -v n="$n" '
+    { L[NR] = $0 }
+    END {
+      if (NR == 0) exit
+      if (NR <= n) { for (i = 1; i <= NR; i++) print L[i]; exit }
+      print L[1]
+      err = 0
+      for (i = 2; i <= NR - n + 1 && err < 2; i++) {
+        if (L[i] ~ /(Error|ERRORE|Errore|Traceback|⛔|❌)/) { print L[i]; err++ }
+      }
+      print "   …"
+      for (i = NR - n + 2; i <= NR; i++) print L[i]
+    }'
+}
+
 # Motore AI installato e utilizzabile?
 ai_check || { echo "[$(ts)] Motore AI non disponibile. Vedi cervello/vps/setup.sh." >&2; exit 1; }
 
@@ -213,11 +243,11 @@ if command -v node >/dev/null 2>&1; then
     echo "[$(ts)] ⚠️  AR-165: sonda-volano rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
   echo "[$(ts)] Sensore cassa/runway (AR-016)..."
-  node "$SCRIPT_DIR/sensore-cassa.mjs" --json 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/sensore-cassa.mjs" --json 2>&1 | esito_righe 4 || true
   echo "[$(ts)] Sentinella fonti web (AR-036)..."
-  node "$SCRIPT_DIR/sentinella-fonti.mjs" 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/sentinella-fonti.mjs" 2>&1 | esito_righe 4 || true
   echo "[$(ts)] Agenda intelligence (fonti dovute oggi)..."
-  node "$SCRIPT_DIR/intelligence-agenda.mjs" 2>&1 | tail -3 || true
+  node "$SCRIPT_DIR/intelligence-agenda.mjs" 2>&1 | esito_righe 3 || true
   echo "[$(ts)] Guardiano registro agenti (AR-007/008 — gate hard)..."
   _agenti_out="$(node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1)"; _agenti_rc=$?
   printf '%s\n' "$_agenti_out" | tail -4
@@ -260,7 +290,7 @@ if command -v node >/dev/null 2>&1; then
   # doc): promuoverlo adesso bloccherebbe ogni giro su un debito di documentazione. AR-291: un
   # guardiano resta informativo solo con la sua condizione di promozione scritta accanto.
   echo "[$(ts)] Guardiano capacità (workflow ↔ comandi)..."
-  node "$SCRIPT_DIR/guardiano-capacita.mjs" 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/guardiano-capacita.mjs" 2>&1 | esito_righe 4 || true
   # Round 2 programma intelligenza (2026-07-25). Due misure, per ora INFORMATIVE (|| true):
   #  · cantiere-prove: quanti difetti nessun guardiano può chiudere (il caso AR-144/AR-117 — fix
   #    mergiato e provato, ma il cantiere lo contava ancora aperto perché la prova puntava altrove).
@@ -268,7 +298,7 @@ if command -v node >/dev/null 2>&1; then
   # NON sono vincoli hard: oggi cantiere-prove fallirebbe subito (bloccanti non verificabili) e
   # bloccherebbe ogni giro invece di migliorarlo. Si promuove a cancello quando bloccanti_ciechi = 0.
   echo "[$(ts)] Guardiano prove del cantiere (difetti che nessuno può chiudere)..."
-  node "$SCRIPT_DIR/cantiere-prove.mjs" 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/cantiere-prove.mjs" 2>&1 | esito_righe 4 || true
   # AR-330 — la guardia della NASCITA: nessun difetto può stare in cantiere con una prova che era già
   # soddisfatta il giorno in cui è nato. Una prova già vera alla nascita descrive il sintomo, non la
   # cura: il difetto si chiude da solo senza che nessuno ripari niente. È successo il 27/7 alle 12:15
@@ -290,7 +320,7 @@ if command -v node >/dev/null 2>&1; then
     echo "[$(ts)] ⚠️  AR-330: prove-oneste CIECO (rc=$_prove_rc) → vincolo di cecità." >&2
   fi
   echo "[$(ts)] Pagella dell'intelligenza (quanto manca a 'pronta')..."
-  node "$SCRIPT_DIR/pagella-intelligenza.mjs" 2>&1 | tail -8 || true
+  node "$SCRIPT_DIR/pagella-intelligenza.mjs" 2>&1 | esito_righe 8 || true
 
   # ─── I TEST GIRANO A OGNI GIRO (25/7) ─────────────────────────────────────────────────
   # Il difetto, trovato controllando il guardiano che avevo appena costruito: i test di
@@ -314,7 +344,7 @@ if command -v node >/dev/null 2>&1; then
   # hard che non ho potuto provare sulla macchina bersaglio è l'errore che ho già fatto. Si promuove
   # a cancello il giorno che lo si vede verde nel log del VPS.
   echo "[$(ts)] Test del Pannello (informativo finché non provato sul VPS)..."
-  node "$SCRIPT_DIR/test-pannello.mjs" 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/test-pannello.mjs" 2>&1 | esito_righe 4 || true
 
   echo "[$(ts)] Guardiano allocazione sforzo (AR-006: pesante solo su entità confermata)..."
   # AR-081: NON scartiamo più l'exit-code con "|| true". Cattura rc del guardiano e trattalo come
@@ -337,11 +367,11 @@ if command -v node >/dev/null 2>&1; then
   # Veglia ogni negozio e ogni prodotto, trova i dati mancanti e ACCODA le proposte 🟡 di riempimento
   # (autofill deducibile) in AZIONI-IN-ATTESA — sola lettura del marketplace, niente scrive sul DB, mai
   # tocca campi sensibili (legale/fiscale/IBAN/KYC/Stripe/consensi). Non è un gate: || true.
-  node "$SCRIPT_DIR/supervisione-negozi.mjs" --accoda 2>&1 | tail -6 || true
+  node "$SCRIPT_DIR/supervisione-negozi.mjs" --accoda 2>&1 | esito_righe 6 || true
   echo "[$(ts)] Housekeeping coda azioni (sposta ✅/❌ in archivio se >20)..."
-  node "$SCRIPT_DIR/housekeeping-azioni.mjs" 2>&1 | tail -2 || true
+  node "$SCRIPT_DIR/housekeeping-azioni.mjs" 2>&1 | esito_righe 2 || true
   echo "[$(ts)] Sonda chiusura-loop quaderni (AR-009)..."
-  node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | esito_righe 4 || true
   # PZ-008 (piano "chiudi i loop"): GATE chiusura-loop — chi ha scritto FATTO in Sala OGGI deve avere
   # l'ESITO nel quaderno. Se manca, il motore riceve un VINCOLO HARD (stesso pattern di allocazione-check):
   # il loop atteso→reale smette di essere decorativo.
@@ -356,7 +386,7 @@ if command -v node >/dev/null 2>&1; then
   # marca 'scaduta' quelle oltre 'entro' senza esito, così non marciscono aperte contando come 'prova'
   # mai misurata (la chiusura del ciclo prevedi→misura non resta delegata alla memoria dell'LLM).
   echo "[$(ts)] Calibrazione: sweep previsioni scadute (AR-053)..."
-  node "$SCRIPT_DIR/calibrazione.mjs" scadute 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/calibrazione.mjs" scadute 2>&1 | esito_righe 4 || true
 
   # ─── IL DEBITO DI MISURA NON SI CONDONA PIÙ (25/7, voce 2) ────────────────────────
   # Lo sweep qui sopra marca 'scaduta' e il giro tirava dritto: alle 06:20 «devi ancora misurare»
@@ -379,7 +409,7 @@ if command -v node >/dev/null 2>&1; then
   if [ -f "$_cal_file" ] && command -v node >/dev/null 2>&1; then
     # AR-040: prima archivia le voci legacy (senza id/stato valido) così il conteggio è pulito.
     echo "[$(ts)] Archivia voci calibrazione legacy (AR-040)..."
-    node "$SCRIPT_DIR/calibrazione.mjs" archivia-legacy 2>&1 | tail -2 || true
+    node "$SCRIPT_DIR/calibrazione.mjs" archivia-legacy 2>&1 | esito_righe 2 || true
     _cal_strutturate="$(node -e "
       const c=JSON.parse(require('fs').readFileSync('$_cal_file','utf8'));
       const arr=c.previsioni||c.registro||[];
@@ -388,7 +418,7 @@ if command -v node >/dev/null 2>&1; then
     if [ "${_cal_strutturate:-0}" = "0" ]; then
       # AR-040/AR-042: registro vuoto → apri automaticamente UNA previsione baseline (non delegare al motore).
       echo "[$(ts)] ⚙️  AR-040: registro vuoto, autoprevedi la prima previsione baseline..."
-      node "$SCRIPT_DIR/calibrazione.mjs" autoprevedi 2>&1 | tail -3 || true
+      node "$SCRIPT_DIR/calibrazione.mjs" autoprevedi 2>&1 | esito_righe 3 || true
       # Rileggi dopo autoprevedi
       _cal_strutturate="$(node -e "
         const c=JSON.parse(require('fs').readFileSync('$_cal_file','utf8'));
@@ -407,7 +437,7 @@ if command -v node >/dev/null 2>&1; then
       echo "[$(ts)] ✅ calibrazione.json: ${_cal_strutturate} voci strutturate."
     fi
     echo "[$(ts)] Ripara sensore_stato mancanti (AR-061)..."
-    node "$SCRIPT_DIR/calibrazione.mjs" ripara 2>&1 | tail -2 || true
+    node "$SCRIPT_DIR/calibrazione.mjs" ripara 2>&1 | esito_righe 2 || true
     echo "[$(ts)] Guardiano calibrazione fonte+sensore (AR-061)..."
     _valida_out="$(node "$SCRIPT_DIR/calibrazione.mjs" valida 2>&1)"; _valida_rc=$?
     printf '%s\n' "$_valida_out" | tail -2
@@ -420,7 +450,7 @@ if command -v node >/dev/null 2>&1; then
   fi
   # PZ-009: sonda taste-file — il log dei verdetti di Nicola è vivo o vuoto? (informa, non blocca)
   echo "[$(ts)] Sonda taste-file (verdetti di Nicola)..."
-  node "$SCRIPT_DIR/taste-file.mjs" --sonda 2>&1 | tail -2 || true
+  node "$SCRIPT_DIR/taste-file.mjs" --sonda 2>&1 | esito_righe 2 || true
   # AR-030: freschezza CHECKLIST-NICOLA.md — se è stantia (>2 giorni), il motore riceve un VINCOLO.
   echo "[$(ts)] Freschezza checklist Nicola (AR-030)..."
   _checklist_out="$(node "$SCRIPT_DIR/freschezza-checklist.mjs" 2>&1)"; _checklist_rc=$?
@@ -440,12 +470,12 @@ if command -v node >/dev/null 2>&1; then
   # PZ-012 (era AR-077, mai cablato): sentinella BUDGET per reparto — se un reparto sfora il suo
   # budget (OKR) accoda lo STOP 🔴; se non c'è spesa collegata lo dice onestamente (sensore non attivo).
   echo "[$(ts)] Sentinella budget per reparto (AR-077)..."
-  node "$SCRIPT_DIR/sentinella-budget.mjs" 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/sentinella-budget.mjs" 2>&1 | esito_righe 4 || true
   # PZ-013: SEMAFORO DINAMICO — i reparti con autonomia 'alta' GUADAGNATA (Wilson ≥0.7 su ≥8 esiti
   # reali) generano una PROPOSTA 🟡 di promozione giallo→verde in AZIONI-IN-ATTESA. Mai auto-applicata:
   # la firma resta a Nicola. È l'autonomia a punti che si espande sulle prove, non a simpatia.
   echo "[$(ts)] Semaforo dinamico: proposte di promozione da calibrazione (PZ-013)..."
-  node "$SCRIPT_DIR/calibrazione.mjs" promozioni --accoda 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/calibrazione.mjs" promozioni --accoda 2>&1 | esito_righe 4 || true
   # PZ-010: sweep esperimenti — chiude a scadenza gli esperimenti aperti di auto-miglioramento.json
   # (AR-054: nessun esperimento resta aperto all'infinito; la misura non è delegata alla memoria dell'LLM).
   echo "[$(ts)] Sweep esperimenti in scadenza (AR-054/AR-041/AR-106 — gate hard)..."
@@ -467,18 +497,18 @@ if command -v node >/dev/null 2>&1; then
     echo "[$(ts)] ⚠️  AR-102: coerenza-fatti FALLITO (rc=$_fatti_rc) → passo un vincolo hard al motore." >&2
   fi
   echo "[$(ts)] Gate coerenza-rischi (registro canonico 05-Soldi-Rischi)..."
-  node "$SCRIPT_DIR/coerenza-rischi.mjs" 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/coerenza-rischi.mjs" 2>&1 | esito_righe 4 || true
   # AR-023: RICONCILIA IL CANTIERE — chiude da solo i difetti il cui fix è GIÀ nel codice (prova
   # verifica:{file,pattern}). Gira SEMPRE (prima del delta-gate) così la chiusura è deterministica e
   # NON dipende dal motore AI: il sync di fine giro la pubblica su main → il Pannello (che legge
   # quel ramo unico) non mostra più "in-corso" un difetto già risolto. Sola lettura del codice + bookkeeping.
   # auto-fix: solo verifica, no --applica — chiusura difetti solo manuale o via PR firmata.
   echo "[$(ts)] Auto-fix: riconcilia cantiere (solo verifica — chiusura manuale o via PR)..."
-  node "$SCRIPT_DIR/auto-fix.mjs" verifica 2>&1 | tail -6 || true
+  node "$SCRIPT_DIR/auto-fix.mjs" verifica 2>&1 | esito_righe 6 || true
   echo "[$(ts)] Sincronizza proposte auto-riscrittura → cantiere..."
-  node "$SCRIPT_DIR/sincronizza-proposte.mjs" 2>&1 | tail -3 || true
+  node "$SCRIPT_DIR/sincronizza-proposte.mjs" 2>&1 | esito_righe 3 || true
   echo "[$(ts)] Allinea scan radiografia → cantiere (findings + voto live)..."
-  node "$SCRIPT_DIR/allinea-scan-cantiere.mjs" 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/allinea-scan-cantiere.mjs" 2>&1 | esito_righe 4 || true
   # 28/7 (domanda di Nicola: «non solo l'hai risolto, ma l'hai migliorato?»): la spazzata dei fratelli.
   # Un test dimostra che UN punto guarisce; questo dimostra che la malattia non è viva due porte più in
   # là. Fallisce se una forma-di-difetto nota si allarga — più istanze del tetto, o un file nuovo che si
@@ -566,7 +596,7 @@ $_appr_ric"
   fi
   # ── Lever 3 — Cristallizzazione: promuovi le mature a principio + decadimento (meccanico, con backup). ──
   echo "[$(ts)] Cristallizzazione apprendimento (Lever 3: lezione→principio)..."
-  node "$SCRIPT_DIR/cristallizza-apprendimento.mjs" --applica 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/cristallizza-apprendimento.mjs" --applica 2>&1 | esito_righe 4 || true
   # ── Lever 2 — Verificatore avversariale: l'ultima auto-analisi era una refutazione VERA o un timbro? ──
   echo "[$(ts)] Verificatore avversariale (Lever 2: auto-verifica vera o timbro?)..."
   # AR-309 — due correzioni. (a) `2>&1` mescolava stderr nel testo del vincolo: una traccia d'errore
@@ -599,24 +629,24 @@ $_appr_ric"
   # oggi esce 1 dicendo «sei tu il vincolo, la macchina ha già fatto la sua parte». Un cancello che
   # ferma la macchina perché un umano non ha ancora firmato punisce la parte sbagliata. AR-291.
   echo "[$(ts)] ⏱️  #38 Guardiano del Tuo Tempo (carico firme)..."
-  node "$SCRIPT_DIR/guardiano-tempo.mjs" 2>&1 | tail -3 || true
+  node "$SCRIPT_DIR/guardiano-tempo.mjs" 2>&1 | esito_righe 3 || true
   echo "[$(ts)] 🪙 #30 Metabolismo (costo AI per organo)..."
-  node "$SCRIPT_DIR/metabolismo.mjs" 2>&1 | tail -3 || true
+  node "$SCRIPT_DIR/metabolismo.mjs" 2>&1 | esito_righe 3 || true
   echo "[$(ts)] 💶 #13 Bilancio Vivo (margine per ordine)..."
-  node "$SCRIPT_DIR/bilancio-vivo.mjs" 2>&1 | tail -3 || true
+  node "$SCRIPT_DIR/bilancio-vivo.mjs" 2>&1 | esito_righe 3 || true
   echo "[$(ts)] 🦠 #12 Sistema Immunitario (red team sicurezza)..."
-  node "$SCRIPT_DIR/sistema-immunitario.mjs" 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/sistema-immunitario.mjs" 2>&1 | esito_righe 4 || true
   echo "[$(ts)] ⚡ #23 Midollo Spinale (riflessi proposti)..."
-  node "$SCRIPT_DIR/midollo-spinale.mjs" 2>&1 | tail -3 || true
+  node "$SCRIPT_DIR/midollo-spinale.mjs" 2>&1 | esito_righe 3 || true
   echo "[$(ts)] 🛌 #37 Letargo (livello di degradazione)..."
-  node "$SCRIPT_DIR/letargo.mjs" 2>&1 | tail -3 || true
+  node "$SCRIPT_DIR/letargo.mjs" 2>&1 | esito_righe 3 || true
   echo "[$(ts)] ⏪ #4 Macchina del Tempo (replay della giornata)..."
-  node "$SCRIPT_DIR/macchina-del-tempo.mjs" 2>&1 | tail -2 || true
+  node "$SCRIPT_DIR/macchina-del-tempo.mjs" 2>&1 | esito_righe 2 || true
   # Il tracker che veglia i cancelli di sblocco delle 46 capacità ancora chiuse:
   echo "[$(ts)] 🔓 Sblocco capacità (cancelli di realtà delle 46 chiuse)..."
-  node "$SCRIPT_DIR/sblocco-capacita.mjs" 2>&1 | tail -5 || true
+  node "$SCRIPT_DIR/sblocco-capacita.mjs" 2>&1 | esito_righe 5 || true
   echo "[$(ts)] 🧬 Cruscotto 53 capacità (7 vive + 46 scaffold)..."
-  node "$SCRIPT_DIR/capacita.mjs" 2>&1 | tail -3 || true
+  node "$SCRIPT_DIR/capacita.mjs" 2>&1 | esito_righe 3 || true
 fi
 
 # AR-019: DELTA-GATE — "niente di nuovo → salta il giro pesante". Confronta lo stato reale
@@ -1026,10 +1056,17 @@ GIRO_HAD_CHANGES=0
 # versionabili, BLOCCHIAMO commit+push del giro: meglio un giro non pubblicato che un token nella storia.
 SEGRETO_TROVATO=0
 if command -v node >/dev/null 2>&1; then
+  # AR-275: prima di FIDARSI dello scanner, si prova che le sue regole mordano davvero sulle chiavi
+  # che il cervello usa (campioni finti, nessun valore reale). Non blocca la pubblicazione — segnala
+  # forte: uno scanner con un buco è peggio di nessuno scanner, perché rassicura.
+  if ! node "$SCRIPT_DIR/scan-segreti.mjs" --prova >/dev/null 2>&1; then
+    echo "[$(ts)] ⚠️  SCAN SEGRETI: una famiglia di chiavi in uso NON è coperta da nessuna regola:" >&2
+    node "$SCRIPT_DIR/scan-segreti.mjs" --prova 2>&1 | esito_righe 8 >&2
+  fi
   if ! node "$SCRIPT_DIR/scan-segreti.mjs" >/dev/null 2>&1; then
     SEGRETO_TROVATO=1
     echo "[$(ts)] ⛔ SCAN SEGRETI: possibile segreto nei file versionabili — sync memoria BLOCCATA." >&2
-    node "$SCRIPT_DIR/scan-segreti.mjs" 2>&1 | tail -12 >&2 || true
+    node "$SCRIPT_DIR/scan-segreti.mjs" 2>&1 | esito_righe 12 >&2 || true
   fi
 fi
 
@@ -1046,7 +1083,7 @@ if command -v node >/dev/null 2>&1; then
   [ -n "$_ultimo_brief" ] && _onesta_files+=("$_ultimo_brief")
   if [ "${#_onesta_files[@]}" -gt 0 ] && ! node "$SCRIPT_DIR/onesta-check.mjs" "${_onesta_files[@]}" >/dev/null 2>&1; then
     echo "[$(ts)] ⚠️  ONESTA-CHECK: violazioni onestà (segnaposto non risolti / numeri senza fonte) in STATO.md o ultimo briefing:" >&2
-    node "$SCRIPT_DIR/onesta-check.mjs" "${_onesta_files[@]}" 2>&1 | tail -12 >&2 || true
+    node "$SCRIPT_DIR/onesta-check.mjs" "${_onesta_files[@]}" 2>&1 | esito_righe 12 >&2 || true
     if [ "${ONESTA_BLOCCA:-0}" = 1 ]; then
       ONESTA_BLOCK=1
       echo "[$(ts)] ⛔ ONESTA_BLOCCA=1: sync memoria BLOCCATA per violazioni onestà (come i segreti)." >&2
@@ -1094,7 +1131,7 @@ fi
 if [ "$MEMORIA_INCOERENTE" = 1 ] && command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/avviso-telegram.mjs" \
     "⚠️ MyCity: memoria incoerente/vault sporco — giro NON pubblicato ($(ts)). Dettaglio: ${_gate_motivi}La memoria resta solo sul server, il Pannello NON mostra dati non verificati." \
-    2>&1 | tail -2 || true
+    2>&1 | esito_righe 2 || true
 fi
 
 exec 9>"$LOCK"
@@ -1132,17 +1169,15 @@ elif flock -w 600 9; then
         GIRO_PUSH_OK=0
       else
       url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
+      # AR-297/AR-299 — un solo loop di pubblicazione per tutti (gate-pubblicazione.sh): controlla il
+      # ramo un'ultima volta prima del push e mette il timeout di rete su fetch e push, che qui non
+      # c'era. Prima erano tre copie identiche della stessa sequenza, e il timeout ce l'aveva solo il
+      # worker: bastava una connessione appesa per tenere il lucchetto della memoria fino al watchdog.
       ok=0
-      for attempt in 1 2 3; do
-        # riallineati al remoto (il worker potrebbe aver pushato) con rebase, poi push fast-forward
-        git fetch "$url" "$branch" 2>/dev/null && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
-        if git push "$url" "HEAD:${branch}" 2>/dev/null; then
-          echo "[$(ts)] Memoria sincronizzata su GitHub (ramo $branch, tentativo $attempt)."
-          ok=1; break
-        fi
-        echo "[$(ts)] Push tentativo $attempt fallito, riprovo..." >&2
-        sleep 3
-      done
+      if attempt="$(pubblica_memoria "$url" "$branch" 3 "${GIT_NET_TIMEOUT:-60}")"; then
+        echo "[$(ts)] Memoria sincronizzata su GitHub (ramo $branch, tentativo $attempt)."
+        ok=1
+      fi
       if [ "$ok" = 1 ]; then
         # Battito per diagnosi Pannello (ultimo push + ora giro per il Cuore).
         if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
@@ -1183,8 +1218,11 @@ exec 9>&-
 # log costo-ai.json rende VISIBILE il risparmio (quanti giri pieni sono stati evitati perché nulla cambiava).
 if command -v node >/dev/null 2>&1 && [ -n "${GIRO_START:-}" ]; then
   _giro_durata=$(( $(date +%s) - GIRO_START ))
+  _giro_durata_tot=$(( $(date +%s) - ${GIRO_START_TOT:-$GIRO_START} ))   # AR-204: durata VERA del processo
   if [ "${RUN_AI:-1}" != 1 ]; then
-    node "$SCRIPT_DIR/costo-ai.mjs" --tipo=giro-saltato --durata-sec="$_giro_durata" --token=0 --modello="delta-gate" >/dev/null 2>&1 || true
+    # AR-204: qui va la durata TOTALE. Il giro saltato non è gratis — sono i guardiani, e sono la voce
+    # di costo che il registro deve poter confrontare col risparmio del motore spento.
+    node "$SCRIPT_DIR/costo-ai.mjs" --tipo=giro-saltato --durata-sec="$_giro_durata_tot" --token=0 --modello="delta-gate" >/dev/null 2>&1 || true
   else
     # AR-043: --stima se GIRO_TOKEN_STIMA=1 (stima durata×throughput, non misura reale dalla CLI).
     _stima_flag="${GIRO_TOKEN_STIMA:+--stima}"
@@ -1203,7 +1241,7 @@ fi
 # Va DOPO il sync: la coda notificata è quella definitiva del giro. Non blocca mai (|| true).
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Notifica approvazioni (Telegram → Nicola)..."
-  node "$SCRIPT_DIR/notifica-approvazioni.mjs" 2>&1 | tail -3 || true
+  node "$SCRIPT_DIR/notifica-approvazioni.mjs" 2>&1 | esito_righe 3 || true
 fi
 
 # PZ-007 (piano "chiudi i loop"): BATTITO ESTERNO. Ping a un watchdog FUORI dalla macchina

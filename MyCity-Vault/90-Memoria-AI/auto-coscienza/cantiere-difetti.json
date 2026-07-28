@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 20:15",
+  "aggiornato": "2026-07-28 21:58",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -1345,15 +1345,17 @@
       "causa_radice": "Dove: .githooks/pre-commit:24-47 (solo bash -n; nessun node --check) · cervello/git-github.mjs (SPOF: ~90 referenti .mjs) · gate hard fail-closed a cervello/giro.sh:597,605,612-616 — I gate si aggiungono per-INCIDENTE invece che per-CLASSE-di-rischio: il gate di sintassi è stato aggiunto in reazione a UN incidente shell, non generalizzato. Manca il principio 'ogni artefatto eseguibile che entra nella storia passa un check di parsabilità nel suo linguaggio'. Il giro esegue gli .mjs solo DOPO il commit, quando il danno è già sul ramo.",
       "fix_proposto": "🟡 da firmare: estendere .githooks/pre-commit con un gate 'node --check' su ogni .mjs staged (come già fa 'bash -n' per gli .sh), fail-closed solo se node è presente (coerente con la nota 'un cancello che si spegne se manca uno strumento non è un cancello'). Opzionale: smoke-import dei moduli core nel giro prima dei gate hard.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 23:58",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-28 21:47",
       "verifica": {
         "file": ".githooks/pre-commit",
         "pattern": "node\\s+--check",
         "presente": true
       },
-      "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)"
+      "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)",
+      "chiuso_come": ".githooks/pre-commit contiene /node\\s+--check/ → trovato",
+      "nota_fix": "Aggiunto il cancello 1b in .githooks/pre-commit: ogni .mjs/.cjs/.js staged passa da `node --check` sul CONTENUTO staged (file temporaneo con la stessa estensione: da stdin node perde il modulo ESM). Provato avversarialmente in un repo finto con core.hooksPath sui nostri hook: .mjs rotto -> commit BLOCCATO col punto esatto dell'errore; .mjs sano -> passa."
     },
     {
       "id": "AR-135",
@@ -1971,7 +1973,7 @@
       "causa_radice": "1) Perche' due timer hanno un fuso diverso dagli altri? Perche' OnCalendar non lo specifica. 2) Perche' non lo specifica? Perche' sono stati scritti prima che si scoprisse il problema del fuso, e la correzione e' stata applicata solo ai file che avevano dato il sintomo visibile (il ritmo, dove l'ora sbagliata si vedeva nel titolo del blocco). 3) Perche' solo a quelli? Perche' non e' stata fatta una passata su tutti i .timer dopo aver imparato la regola. 4) Perche' no? Perche' non esiste un controllo che verifichi la coerenza delle unita' systemd fra loro. 5) Causa di sistema: le lezioni si applicano al file che ha fatto male, non alla classe di file a cui la lezione appartiene — la stessa causa di questa dimensione che ha lasciato monitora senza timeout e ritmo con il budget sbagliato.",
       "fix_proposto": "🟡 Aggiungere 'Europe/Rome' agli OnCalendar di mycity-monitora.timer e mycity-verifica.timer, e 'Environment=TZ=Europe/Rome' a mycity-verifica.service; poi copiare le unita' sul VPS con daemon-reload. Per non ripetere l'errore, aggiungere al checkup giornaliero (verifica-automazione.mjs, che gia' legge la cartella cervello/vps) un controllo di coerenza: ogni OnCalendar deve dichiarare il fuso e ogni .service di cadenza deve avere TZ e TimeoutStartSec — cosi' i tre difetti di questa dimensione che nascono dalla stessa distrazione vengono intercettati da un solo guardiano.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -1980,8 +1982,9 @@
         "presente": true
       },
       "nota": "Dove: cervello/vps/mycity-monitora.timer:7 (OnCalendar senza fuso, commento che dichiara 'ora di Piacenza') · cervello/vps/mycity-verifica.timer:5 (OnCalendar senza fuso) · cervello/vps/mycity-verifica.service (nessun Environment=TZ) · confronto: mycity-giro.timer:9 e i quattro mycity-ritmo-*.timer usano tutti 'Europe/Rome' dentro OnCalendar · Impatto: Basso ma reale e su due punti. Primo, il checkup dell'automazione (la verifica quotidiana di token, rami e timer) arriva quando la giornata e' gia' cominciata invece che prima. Secondo, e piu' fastidioso alla lunga: le ore scritte dal checkup non sono ora di Piacenza, il che contraddice la regola dell'orario di CLAUDE.md ('Nicola deve poter sapere al minuto quando e' apparso ogni dato') e rende ambigui i confronti di eta' fra segnali scritti da unita' diverse.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 21:47",
+      "chiuso_come": "cervello/vps/mycity-monitora.timer contiene /OnCalendar=.*Europe/Rome/ → trovato",
+      "nota_fix": "Europe/Rome negli OnCalendar di mycity-monitora.timer e mycity-verifica.timer + Environment=TZ=Europe/Rome in mycity-verifica.service e mycity-watch-main.service. Perche' non torni: verifica-automazione.mjs ora ha un controllo di CLASSE che legge tutta cervello/vps/ e fallisce se un OnCalendar con orario non dichiara il fuso o se un .service di cadenza non ha TZ. Provato togliendo il fuso a un timer: check rosso col nome dell'unita'. RESTA DA FARE SUL VPS: copiare le unita' e systemctl daemon-reload."
     },
     {
       "id": "AR-168",
@@ -2287,7 +2290,7 @@
       "causa_radice": "① Perché la spia è invertita? Perché il campo si chiama con il nome dell'allarme (`sentinelle_scattano`) e chi ha disegnato il chip l'ha letto come «le sentinelle funzionano». ② Perché non è stato verificato? Perché il valore è false da sempre e una spia rossa costante non attira attenzione. ③ Perché non c'è un test? Perché il Pannello ha test di build e di rotte, non asserzioni sul significato di ciò che mostra. ④ Perché il significato non è verificato? Perché il contratto fra sonda e Pannello è solo il nome del campo, senza una descrizione di quale valore sia quello buono. ⑤ Causa di sistema: i JSON di auto-coscienza non portano la polarità dei propri campi booleani, quindi ogni consumatore la reinventa.",
       "fix_proposto": "🟡 (a) Invertire la spia e rinominarla in «Sensori sani» (`ok: !r.sonda.sentinelle_scattano`). (b) Nella spec dei contratti JSON (cervello/auto-coscienza.md) dichiarare per ogni booleano quale valore è quello sano, e far controllare la coerenza al validatore dei contratti già cablato nel giro.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -2296,8 +2299,9 @@
         "presente": true
       },
       "nota": "Dove: pannello/src/components/cervello/RadiografiaDiSe.tsx:222 · Impatto: Sul cruscotto che Nicola guarda per capire se la macchina è sana, l'unica spia sui sensori mente in entrambe le direzioni: allarme falso quando va tutto bene, via libera proprio quando la macchina sta decidendo al buio. Ed è la stessa famiglia degli altri difetti di questa dimensione: un indicatore che si assolve quando dovrebbe accusarsi.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 21:47",
+      "chiuso_come": "pannello/src/components/cervello/RadiografiaDiSe.tsx contiene /ok: !r\\.sonda\\.sentinelle_scattano/ → trovato",
+      "nota_fix": "Spia invertita e rinominata in pannello/src/components/cervello/RadiografiaDiSe.tsx: `ok: !r.sonda.sentinelle_scattano` (il campo e' il nome dell'ALLARME, non della salute). PROVA A RUNTIME: Pannello avviato in locale, area Radiografia macchina aperta con Playwright — con i dati veri (sentinelle_scattano=false) il chip ora e' «Sensori sani» con classe bg-green-50; la vecchia dicitura «Sentinelle attive» non compare piu. tsc --noEmit pulito."
     },
     {
       "id": "AR-184",
@@ -2539,7 +2543,7 @@
       "causa_radice": "① Perché c'è scritto 42? Perché il numero fu fissato quando gli agenti erano 42. ② Perché non è stato aggiornato con l'espansione a 120? Perché l'espansione ha toccato gli elenchi leggibili, non i prompt eseguibili. ③ Perché nessuno l'ha visto? Perché il guardiano legge tre file scelti a mano. ④ Perché solo tre? Perché sono quelli che «parlano all'AD», mentre i workflow sembravano codice e non testo di governo. ⑤ Causa di sistema: i file che PILOTANO i senior stanno fuori dal perimetro dei guardiani di coerenza — la macchina controlla ciò che racconta, non ciò che esegue.",
       "fix_proposto": "🟡 Allargare il perimetro del guardiano del registro agenti a .claude/workflows/*.js e cervello/*.md: qualunque conteggio di senior scritto in un file che pilota il lavoro deve corrispondere ai file reali, altrimenti il guardiano fallisce e il giro riceve il vincolo di correggerlo. Contestualmente correggere le tre occorrenze a 120.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -2548,8 +2552,9 @@
         "presente": false
       },
       "nota": "Dove: .claude/workflows/auto-radiografia.js:58 · cervello/auto-radiografia.md:4,26 · cervello/agent-registry-check.mjs:168-170 · Impatto: Chi analizza la coerenza della squadra parte da un universo sbagliato di 78 senior in meno: può dichiarare «tutto a posto» avendo guardato un terzo dell'organigramma. È un errore che si autoconferma, perché è proprio lo strumento di controllo a portare il dato vecchio. Stessa famiglia del difetto già aperto sul giro operativo, ma su un altro file e un altro guardiano.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 21:47",
+      "chiuso_come": ".claude/workflows/auto-radiografia.js NON contiene /42 agenti/ → assente",
+      "nota_fix": "Le tre occorrenze portate a 120 (auto-radiografia.js, auto-radiografia.md, auto-coscienza.md, incluso meta.agenti_totali). Perche' non torni: agent-registry-check.mjs ora controlla anche i FILE CHE PILOTANO il lavoro (.claude/workflows/*.js + cervello/*.md), non solo i tre elenchi leggibili: qualunque «N agenti/senior» diverso dai file reali fa fallire il guardiano. Provato rimettendo 42: guardiano rosso con file e numero."
     },
     {
       "id": "AR-196",
@@ -2724,7 +2729,7 @@
       "causa_radice": "① Perché il giro saltato segna 1 secondo? Perché il cronometro parte dopo i guardiani. ② Perché parte lì? Perché doveva misurare il motore AI, non il processo. ③ Perché il gate è dopo la spazzata? Perché i guardiani sono stati aggiunti uno alla volta in cima allo script, e il gate è arrivato dopo. ④ Perché nessuno ha riordinato? Perché finché il numero non serve a decidere, l'ordine sembra indifferente. ⑤ Causa di sistema: la macchina misura l'organo che voleva difendere (il motore premium) invece del processo intero — così tutto ciò che è «gratis per definizione» non viene mai pesato, e nessuno può accorgersi quando smette di esserlo.",
       "fix_proposto": "🟡 Fissare GIRO_START_TOT all'inizio dello script (durata reale del processo) accanto al cronometro del motore, e spostare la valutazione del delta-gate PRIMA della spazzata dei guardiani non necessari al gate stesso: a stato invariato si risparmiano anche ~50 processi node, e il registro dice finalmente quanto è costato davvero il giro che non è stato fatto.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -2733,8 +2738,9 @@
         "presente": true
       },
       "nota": "Dove: cervello/giro.sh:152-447 (circa 50 invocazioni node di guardiani, su 68 totali nello script) · giro.sh:456-468 (il delta-gate è valutato DOPO) · giro.sh:611 (GIRO_START fissato dopo entrambi) · giro.sh:858-860 (durata registrata per il giro-saltato) · Impatto: Effetto in euro trascurabile (è CPU del VPS, 20 €/mese fissi) ma effetto sulla verità dei numeri sì: il registro dei costi dichiara 1 secondo dove il processo ne ha impiegati molti, e il beneficio del delta-gate — la difesa anti-spreco meglio riuscita della macchina — non è quantificabile né difendibile davanti a Nicola. Alcuni dei guardiani che girano prima del gate accodano lavoro (supervisione-negozi --accoda, calibrazione promozioni --accoda): girano anche nei 7 giri che verranno saltati.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 21:47",
+      "chiuso_come": "cervello/giro.sh contiene /GIRO_START_TOT/ → trovato",
+      "nota_fix": "GIRO_START_TOT fissato in cima a giro.sh (durata VERA del processo) e usato per registrare il costo del giro saltato: prima il cronometro partiva dopo i ~50 guardiani e un giro saltato risultava costare 1 secondo."
     },
     {
       "id": "AR-205",
@@ -4155,7 +4161,7 @@
       "causa_radice": "① Perché le chiavi del cervello non sono coperte? Perché non hanno una regola. ② Perché non ce l'hanno? Perché le regole sono state scritte dopo un incidente che riguardava un token GitHub. ③ Perché non sono state estese alle altre? Perché nessuno ha mai confrontato l'elenco delle regole con l'elenco delle chiavi che la macchina usa davvero. ④ Perché quel confronto non esiste? Perché i due elenchi vivono in file diversi e nessuno li lega. ⑤ Causa di sistema: la copertura di un controllo di sicurezza non è misurata — si sa che il controllo esiste, non quanto del perimetro copre.",
       "fix_proposto": "🟡 (a) Aggiungere le regole mancanti per le chiavi effettivamente in uso; (b) legare i due elenchi: un controllo che legge i nomi delle variabili di ambiente attese dal cervello e fallisce se una famiglia di chiavi non ha una regola corrispondente; (c) far girare a ogni giro una prova con campioni finti (mai valori veri) che dimostri che ogni regola scatta davvero — una regola scritta e mai provata non è una difesa.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -4164,8 +4170,9 @@
         "presente": true
       },
       "nota": "Dove: cervello/segreti-pattern.mjs:4-26 · Impatto: Il cancello che dovrebbe impedire a un token di entrare nella storia del repo è cieco sui token della macchina stessa. E poiché lo stesso elenco di regole serve anche a censurare i segreti prima di scriverli in un rapporto o in memoria, una di quelle chiavi finita in un log verrebbe pubblicata in chiaro. Nel frattempo lo stesso scanner blocca tutto per una chiave finta: cieco dove serve, bloccante dove non serve. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 21:47",
+      "chiuso_come": "cervello/segreti-pattern.mjs contiene /sk-ant/ → trovato",
+      "nota_fix": "Aggiunte le 7 regole mancanti per le chiavi che il cervello usa davvero (Anthropic sk-ant-*, Supabase sb_secret_, Stripe test + webhook, PostHog phx_, Telegram bot, Cursor) — la regola «OpenAI» sembrava coprire Anthropic e invece si ferma al primo trattino. Legate le due liste: CHIAVI_CERVELLO mappa env->regola e `node cervello/scan-segreti.mjs --prova` passa un campione FINTO di ogni famiglia pretendendo che la regola scatti (campioni costruiti a runtime, mai letterali: un campione letterale bloccherebbe la pubblicazione, AR-270). Gira a ogni giro. Provato: 13/13 famiglie coperte, e una famiglia senza regola fa fallire la prova."
     },
     {
       "id": "AR-276",
@@ -4176,7 +4183,7 @@
       "causa_radice": "① Perché si perde lavoro pubblicato? Perché il push forzato sovrascrive. ② Perché si arriva al push forzato? Perché è il ripiego automatico del push protetto. ③ Perché esiste il ripiego? Perché il rifiuto della forma protetta è stato letto come un intoppo da superare invece che come un allarme da rispettare. ④ Perché è stato letto così? Perché lo strumento è pensato per non fermarsi mai a metà. ⑤ Causa di sistema: nella macchina la voglia di arrivare in fondo vince sul segnale di stop — manca il principio per cui il rifiuto di una protezione si escala, non si aggira.",
       "fix_proposto": "🟡 (a) Togliere il ripiego: se il push protetto viene rifiutato, fermarsi, spiegare che il ramo remoto è cambiato e chiedere il riallineamento; (b) vietare esplicitamente di indicare il ramo principale come ramo da pubblicare, qualunque sia la base dichiarata; (c) regola generale scritta in memoria: nessun controllo di sicurezza si aggira automaticamente al primo rifiuto.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -4185,8 +4192,9 @@
         "presente": false
       },
       "nota": "Dove: cervello/git-pr.mjs:495 · Impatto: Il caso che la protezione doveva coprire — due processi che pubblicano sullo stesso ramo — è esattamente quello in cui viene disattivata: il lavoro dell'altro processo viene cancellato dalla storia remota. Su questo repo la storia remota è la memoria dell'azienda. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 21:47",
+      "chiuso_come": "cervello/git-pr.mjs NON contiene /\\[\"push\", \"--force\", url, ref\\]/ → assente",
+      "nota_fix": "Tolto il ripiego cieco in cervello/git-pr.mjs: al rifiuto del lease si LEGGE il remoto (ls-remote + merge-base --is-ancestor). Se il remoto e' solo vecchio in locale si ripete il lease ancorato allo SHA appena letto (difesa, non aggiramento); se il remoto ha commit nostri sconosciuti ci si FERMA con le istruzioni di riallineamento. Il push forzato nudo non esiste piu nello strumento: lo digita un umano dopo aver guardato il diff. Aggiunto anche il divieto di indicare il ramo principale come head, qualunque base sia dichiarata."
     },
     {
       "id": "AR-277",
@@ -4277,7 +4285,7 @@
       "causa_radice": "① I fratelli non hanno la guardia. ② Perché il fix è stato applicato al file in cui il sintomo era stato osservato. ③ Perché la guardia è stata scritta come codice locale (una variabile dentro main()) invece che come funzione condivisa. ④ Perché la prova di chiusura di AR-035 era «verifica-sensori.mjs contiene /scriviStato/»: una prova che guarda UN file, quindi passa anche se la classe di difetto è viva altrove. ⑤ Causa di sistema: il cantiere chiude i difetti sull'istanza e non sulla classe — manca il passo «cerca i fratelli» prima di segnare chiuso, e manca un punto unico da cui passano tutte le scritture di stato dei sensori.",
       "fix_proposto": "🟡 ① Estrarre in cervello/git-github.mjs (o un nuovo cervello/stato-sensori.mjs) un'unica funzione `scriviStatoSensore(path, doc, {ambienteConfigurato})` che rifiuta la scrittura quando nessuna chiave del dominio è presente, e farci passare tutti e quattro i guardiani. ② Regola di chiusura del cantiere: un difetto si chiude solo con una prova che copre TUTTI i file della classe (grep negativo sull'insieme), non uno solo. ③ Un controllo del giro che fallisce se uno script che scrive in auto-coscienza/ non importa quella funzione.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -4286,8 +4294,9 @@
         "presente": true
       },
       "nota": "Dove: cervello/sensore-cassa.mjs:133-134 · cervello/delta-gate.mjs:224 · cervello/sentinella-fonti.mjs:116 (scrivono lo stato condiviso senza guardia d'ambiente), contro cervello/verifica-sensori.mjs:519-528 (la guardia `scriviStato`) · Impatto: Quello stato finisce in git e nel Pannello: Nicola leggerebbe «Stripe non collegato» su una macchina dove Stripe funziona, e il delta-gate confronterebbe la firma buona del VPS con una firma di nulla, forzando un giro pieno (token bruciati) al ciclo successivo. È lo stesso danno che AR-035 aveva descritto, sopravvissuto in tre file su quattro. Con più sessioni che girano in parallelo su ambienti diversi — che è la condizione normale oggi — è un rischio permanente, non teorico. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 21:47",
+      "chiuso_come": "cervello/sensore-cassa.mjs contiene /scriviStato|ambienteConfigurato|non_verificabile/ → trovato",
+      "nota_fix": "Nuovo cervello/stato-sensori.mjs con l'unica porta `scriviStatoSensore(path, doc, {ambienteConfigurato, motivo})`: ci passano tutti e quattro (verifica-sensori, sensore-cassa, delta-gate, sentinella-fonti), ognuno con la condizione del proprio dominio (chiave Stripe, chiavi marketplace, almeno una fonte che risponde). `node cervello/stato-sensori.mjs --check` fallisce se uno scrittore noto smette di passare da li. PROVA A RUNTIME da questa sessione senza chiavi: cassa, delta-gate e sensori NON hanno toccato i file (git status pulito) e hanno stampato il motivo. · AUTO-ANALISI: ri-cercando i fratelli ne e' saltato fuori un QUINTO punto non elencato nel difetto — `delta-gate.mjs --segna-pieno`, che promuoveva a «ultimo pieno» una firma calcolata su zero righe (peggiore delle altre: convince il giro successivo che nulla e' cambiato, e il giro pieno che serviva non parte). Guardato anche quello. Un sesto — sentinella-dati.mjs — NON e' stato chiuso qui perche' la guardia secca lo romperebbe: registrato come AR-337 col perche'."
     },
     {
       "id": "AR-282",
@@ -4340,17 +4349,16 @@
       "causa_radice": "① Il controllo verifica la raggiungibilità, non la leggibilità. ② Perché è nato per rispondere a «l'endpoint risponde?», che era il guasto osservato (MCP che cadeva). ③ Perché nessuno ha modellato il caso «risponde ma non vede»: richiede di conoscere il comportamento di PostgREST con RLS, che è dominio del backend, non di chi ha scritto il sensore. ④ Perché il contratto della chiave non è fissato in nessun punto: due modelli di configurazione prescrivono due privilegi diversi per lo stesso nome, e nessun controllo verifica quale sia in uso. ⑤ Causa di sistema: manca il principio della riconciliazione — nessun controllo confronta la stessa grandezza letta da due canali (cervello e Pannello), quindi una divergenza fra loro non è un evento per nessuno.",
       "fix_proposto": "🟡 ① Il controllo diventa un controllo di leggibilità: conteggio esatto (Prefer count=exact, come già fa delta-gate.mjs:73-90) e confronto con l'ultimo conteggio noto; un crollo a zero da un valore non-zero è una CECITÀ SOSPETTA, non un fatto — alza il vincolo «niente numeri nuovi» e chiede conferma, non scrive zero. ② Fissare il contratto della chiave: un solo modello, un solo privilegio dichiarato, e un controllo che rifiuta di partire se la chiave non vede le righe attese. ③ Aggiungere al giro una riconciliazione minima: il conteggio ordini del cervello contro quello del Pannello; se divergono, evento 🟡.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/verifica-sensori.mjs",
-        "pattern": "orders leggibili via REST",
-        "presente": false
+        "comando": "node cervello/test/sensore-ordini-leggibilita.test.mjs"
       },
       "nota": "Dove: cervello/verifica-sensori.mjs:157-166 (checkSupabaseMarketplace guarda solo res.ok) · consumato in giro.sh:174-177 come gate della verità dei numeri · Impatto: Se la chiave venisse sostituita con quella prescritta dal modello del VPS, o se una policy RLS cambiasse, il sensore resterebbe verde, il gate «niente numeri nuovi» non scatterebbe (datiOrdiniCiechi resta false) e i conteggi crollati a zero verrebbero scritti in STATO e mostrati a Nicola come un fatto di business — «0 ordini, 0 clienti» — invece che come una cecità. È il difetto peggiore della mia categoria: non un buco visibile, ma un dato sbagliato che sembra giusto e che avvelena tutto quello che sta a valle. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 21:47",
+      "chiuso_come": "node cervello/test/sensore-ordini-leggibilita.test.mjs → exit 0 (guardiano soddisfatto)",
+      "nota_fix": "Il controllo di raggiungibilita' e' diventato un controllo di LEGGIBILITA': Prefer:count=exact, conteggio letto da Content-Range e confrontato con quello dell'ultimo giro (salvato in sensori-cecita.json). Un crollo a zero da un valore non-zero = CECITA' SOSPETTA, non un fatto: il sensore si dichiara cieco e il giro riceve il vincolo «niente numeri nuovi» invece di scrivere zero. PROVA: cervello/test/sensore-ordini-leggibilita.test.mjs con un finto PostgREST che risponde 200 e lista vuota (3/3)."
     },
     {
       "id": "AR-285",
@@ -4635,17 +4643,16 @@
       "causa_radice": "① Perché può finire codice su main? Perché si spinge HEAD senza sapere cos'è HEAD. ② Perché non lo si controlla? Perché nei tre script il controllo non c'è. ③ Perché c'è solo nel worker? Perché il difetto è stato trovato guardando il worker e corretto lì dov'è stato visto. ④ Perché la correzione non si è propagata? Perché nessuno ha cercato gli altri posti che fanno la stessa operazione (bastava una ricerca di `push HEAD:` per trovarli tutti e quattro). ⑤ Causa di sistema: la stessa operazione delicata è copiata in quattro file invece di stare in una funzione sola, quindi ogni correzione va rifatta a mano quattro volte — e tre volte su quattro non viene rifatta.",
       "fix_proposto": "🟡 Estrarre la pubblicazione della memoria in un'unica funzione condivisa (per esempio cervello/lib-sync-memoria.sh) con dentro tutte le protezioni già maturate: controllo del ramo, perimetro delle sole cartelle di memoria, timeout di rete, riprovi con rebase. giro.sh, ritmo.sh, monitora.sh e worker.sh la richiamano invece di riscriverla. Nell'immediato, e come minimo, copiare il controllo del ramo del worker nei tre script. Consegna a @devops-sre.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "HEAD è su",
-        "presente": true
+        "comando": "node cervello/test/gate-pubblicazione.test.mjs"
       },
-      "nota": "Dove: cervello/giro.sh:813 · cervello/ritmo.sh:259 · cervello/monitora.sh:153 · Impatto: Codice non revisionato pubblicato su main e mandato in produzione saltando la revisione, per pura coincidenza di orari fra due processi. È lo scenario che il controllo nel worker era stato scritto apposta per impedire — lasciato aperto su tre porte su quattro.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "nota": "Dove: cervello/giro.sh:813 · cervello/ritmo.sh:259 · cervello/monitora.sh:153 · Impatto: Codice non revisionato pubblicato su main e mandato in produzione saltando la revisione, per pura coincidenza di orari fra due processi. È lo scenario che il controllo nel worker era stato scritto apposta per impedire — lasciato aperto su tre porte su quattro. · 2026-07-28 21:50 PROVA RISCRITTA: cercava «HEAD e su» dentro giro.sh, ma il fix vero e' l'opposto — giro/ritmo/monitora non hanno piu il loro loop di push, pubblicano da pubblica_memoria() in gate-pubblicazione.sh che controlla il ramo prima di spingere. Una prova che pretende la frase nel file sbagliato boccerebbe il fix giusto. Ora e' comportamentale: il test pubblica davvero su un repo bare locale e pretende il rifiuto dal ramo sbagliato.",
+      "chiuso_il": "2026-07-28 21:47",
+      "chiuso_come": "node cervello/test/gate-pubblicazione.test.mjs → exit 0 (guardiano soddisfatto)",
+      "nota_fix": "giro.sh, ritmo.sh e monitora.sh non hanno piu il loro loop di push: pubblicano da `pubblica_memoria()` in gate-pubblicazione.sh, che ricontrolla il ramo subito prima del push (tra il cancello e il push passano un commit e un rebase) e resta fast-forward — mai forzato. PROVA: il test pubblica davvero su un repo bare locale e pretende il rifiuto dal ramo sbagliato. porte-check.mjs aggiornato per vedere anche la porta indiretta: 6 porte, 6 protette."
     },
     {
       "id": "AR-298",
@@ -4677,7 +4684,7 @@
       "causa_radice": "① Perché il lucchetto resta occupato? Perché una chiamata di rete non torna. ② Perché non torna? Perché non ha timeout. ③ Perché il worker ce l'ha e le cadenze no? Perché il timeout è stato aggiunto quando il problema si è visto sul worker. ④ Perché non si è propagato? Stessa ragione del controllo del ramo: quattro copie della stessa sequenza git, corrette una alla volta. ⑤ Causa di sistema: identica al difetto sul ramo — la duplicazione della sequenza di pubblicazione. Si chiudono insieme con la stessa funzione condivisa.",
       "fix_proposto": "🟡 Da fare nello stesso intervento della funzione condivisa di pubblicazione: ogni fetch e ogni push avvolti in `timeout \"${GIT_NET_TIMEOUT:-60}\"`, come già fa il worker. Se la funzione condivisa arriva, questo difetto si chiude da solo.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -4686,8 +4693,9 @@
         "presente": true
       },
       "nota": "Dove: cervello/giro.sh:90,812-813 · cervello/ritmo.sh:89,258-259 · cervello/monitora.sh:55,152-153 · Impatto: Un socket mezzo-aperto blocca la pubblicazione della memoria di tutti gli altri per fino a dieci minuti a testa, e il giro o la cadenza che aspettava perde il proprio salvataggio (viene recuperato al giro dopo, quindi non si perde niente in modo definitivo). Il danno è contenuto perché systemd uccide comunque le unità oneshot dopo un'ora, ma è tempo di macchina buttato e memoria che arriva in ritardo nel Pannello.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 21:47",
+      "chiuso_come": "cervello/giro.sh contiene /GIT_NET_TIMEOUT/ → trovato",
+      "nota_fix": "Timeout di rete (GIT_NET_TIMEOUT, default 60s come il worker) su OGNI fetch e OGNI push dentro la funzione condivisa: prima ce l'aveva solo il worker e una connessione appesa teneva il lucchetto della memoria fino al watchdog. Chiuso insieme ad AR-297, come previsto dal suo stesso fix."
     },
     {
       "id": "AR-300",
@@ -4841,7 +4849,7 @@
       "causa_radice": "① Perché si perde l'errore? Perché tail tiene la coda e node mette il messaggio in mezzo. ② Perché tail? Per non allagare il log con l'output pieno di 55 guardiani. ③ Perché l'output è così grande? Perché i guardiani stampano per un umano che legge il terminale, non per un log di servizio. ④ Perché non c'è un formato macchina? Perché ogni guardiano è nato da solo, con la sua stampa, e --json c'è solo su alcuni. ⑤ Causa di SISTEMA: manca un contratto di output per i guardiani (una riga di verdetto + dettaglio su richiesta). Senza contratto, il chiamante può solo tagliare a caso.",
       "fix_proposto": "🟡 (1) Rimedio a costo zero e immediato: sostituire `| tail -N` con `| head -2; ...| tail -N` oppure con un piccolo helper `mostra_esito()` in giro.sh che stampa la PRIMA riga (il verdetto o l'Error:) e le ultime N-1. (2) Rimedio strutturale: definire il contratto «prima riga = verdetto in una riga» per tutti i guardiani e farlo verificare dal meta-guardiano freschezza-segnali, che oggi gira anche lui con `|| true` (giro.sh:380-381). Branch ops/, PR firmata.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -4850,8 +4858,9 @@
         "presente": false
       },
       "nota": "Dove: cervello/giro.sh:180-446 (39 occorrenze del pattern `2>&1 | tail -N`) · Impatto: Quando un guardiano informativo si rompe, nel log del giro compare un pezzo di stack senza causa. Chi indaga deve rilanciare il comando a mano per vedere l'errore — e siccome il giro esce comunque 0 (difetto n.1), nessuno rilancia. Il risultato pratico è che un guardiano rotto può restare rotto per settimane continuando a stampare quattro righe di rumore che sembrano output normale. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 21:47",
+      "chiuso_come": "cervello/giro.sh NON contiene /2>&1 \\| tail -/ → assente",
+      "nota_fix": "Nuovo filtro `esito_righe` in giro.sh: stampa la PRIMA riga (il verdetto), fino a 2 righe d'errore ovunque siano, e la coda. Sostituito in tutte e 36 le chiamate ai guardiani. Provato: con un output di 8 righe dove l'errore sta in mezzo, verdetto ed Error sopravvivono entrambi. Effetto collaterale misurato: la malattia «esito-in-una-pipe» passa da 34 istanze a 0 e la sua baseline scende a 0."
     },
     {
       "id": "AR-308",
@@ -5056,7 +5065,7 @@
       "causa_radice": "1) Perché si può cancellare il lavoro altrui? Perché il ripiego forza il push. 2) Perché c'è un ripiego? Perché il lease falliva anche per motivi innocui (riferimenti remoti non aggiornati in locale) e il ripiego «sbloccava» il caso comune. 3) Perché non si è distinto il caso innocuo da quello vero? Perché avrebbe richiesto di leggere il motivo del rifiuto (un `git fetch` e un confronto), mentre riprovare a forza è una riga. 4) Perché è passato? Perché il rischio è invisibile finché c'è una sola sessione. 5) Causa di sistema: quando un freno di sicurezza dà fastidio, la macchina impara ad aggirarlo invece di capirlo — e l'aggiramento resta scritto nel codice come comportamento normale.",
       "fix_proposto": "🟡 Togliere il ripiego cieco: se `--force-with-lease` viene rifiutato, fare fetch del ramo remoto e confrontarlo con quello locale; se il remoto ha commit che non abbiamo, FERMARSI con un messaggio esplicito («il ramo X è avanzato di N commit su GitHub: qualcun altro ci ha lavorato, rifai il rebase») invece di sovrascrivere. Il `--force` resta ammesso solo dietro un flag esplicito passato a mano.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -5065,8 +5074,9 @@
         "presente": false
       },
       "nota": "Dove: cervello/git-pr.mjs:489 (push --force-with-lease) → :494-501 (ripiego su push --force) · Impatto: I commit di un'altra sessione (o di una correzione fatta a mano su GitHub dentro la PR) vengono cancellati dal ramo remoto senza avviso: il lavoro sparisce, la PR cambia contenuto sotto gli occhi di chi la stava rivedendo. Non tocca main, quindi non arriva in produzione, ma è perdita di lavoro vera e silenziosa — nel log resta solo «✓ Push (force post-rebase)».",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 21:47",
+      "chiuso_come": "cervello/git-pr.mjs NON contiene /\"--force\"/ → assente",
+      "nota_fix": "Stesso fix di AR-276: niente push forzato di ripiego. Il caso innocuo (ref remoto vecchio in locale) si distingue leggendo il remoto e si risolve con un lease RI-ANCORATO, che resta una difesa; il caso vero (il remoto e' avanti) si ferma e lo dice."
     },
     {
       "id": "AR-319",
@@ -5375,14 +5385,15 @@
       "causa_radice": "Dove: cervello/malattie.json:3 (_come_si_usa: «Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto») · cervello/spazzata-fratelli.mjs:151 (le voci di `esenti` entrano solo in `file_noti`, cioè servono a non segnalare un FILE nuovo — non vengono MAI sottratte dal conteggio). — Trovato il 28/7 sera usando lo strumento come dice la sua stessa documentazione: aggiunta un istanza legittima e dichiarata in `esenti` col perche, il guardiano restava rosso. L unica via per farlo tornare verde sarebbe alzare la baseline, che lo strumento vieta giustamente («il tetto scende e basta»). Risultato: chi aggiunge una riga legittima resta senza uscite, e la tentazione e alzare il tetto — cioe proprio il gesto che il guardiano esiste per impedire.",
       "fix_proposto": "🟡 Sottrarre le istanze dichiarate in `esenti` dal conteggio confrontato con la baseline (o contarle a parte e confrontare `totale - esenti` con il tetto), cosi la via documentata funziona davvero. In piu: un controllo che ogni voce di `esenti` combaci con un istanza REALMENTE trovata — un esenzione che non corrisponde a niente e un residuo che nasconde il prossimo caso vero.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-28 20:05",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-28 21:47",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Serve una prova che aggiunga un istanza finta, la dichiari in esenti e pretenda il verde. Da scrivere insieme al fix."
+        "comando": "node cervello/test/spazzata-esenti.test.mjs"
       },
-      "origine": "lotto 27 (trovato usando spazzata-fratelli come dice la sua documentazione)"
+      "origine": "lotto 27 (trovato usando spazzata-fratelli come dice la sua documentazione)",
+      "chiuso_come": "node cervello/test/spazzata-esenti.test.mjs → exit 0 (guardiano soddisfatto)",
+      "nota_fix": "Le esenzioni ora si sottraggono davvero dal conteggio confrontato col tetto (solo quelle con file+perche' che corrispondono a un'istanza REALE), e un'esenzione che non trova piu niente viene segnalata come residuo invece di restare a coprire il prossimo caso vero. PROVA: cervello/test/spazzata-esenti.test.mjs (4/4) su un albero finto. Trovato subito un residuo reale (l'esenzione su giro.sh non corrispondeva piu a nulla): tolto."
     },
     {
       "id": "AR-335",
@@ -5422,11 +5433,32 @@
       },
       "nota": "Scheda riscritta dal suo stesso autore poche ore dopo averla scritta, perché la misura ha smentito la premessa. Registrarlo è più utile che correggere in silenzio: la prima stesura nasceva da un conteggio giusto (42 e 12 sono numeri veri) con una deduzione sbagliata — che riguardassero difetti aperti. Gruppi trovati (tutti fra chiusi): freni-senza-fonte=7 · pannello-cabina-viva=6 · giro-esito=5 · errore-ingoiato=4 · scadenze-calcolate=3 · strati=3 · gate-pubblicazione=3 · allineamento-esito=3 · volano-regole=2 · archivi-senza-tetto=2 · chat-pending=2 · scritture-e-riaccodi=2.",
       "origine": "lotto 27 (trovato correggendo una violazione AR-254 che avevo appena commesso io su AR-335)"
+    },
+    {
+      "id": "AR-337",
+      "titolo": "Gli occhi della macchina riscrivono i numeri del business anche quando non hanno potuto leggerli",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "medio",
+      "impatto_crescita": "medio",
+      "causa_radice": "Trovato il 28/7 ri-guardando la classe di AR-281 invece del solo elenco scritto nel difetto (i «quattro guardiani» erano cinque, e il quinto e' questo). cervello/sentinella-dati.mjs:682 scrive `ultimo_stato` — ordini totali, ordini 24h, pagati senza payout, recensioni basse — anche quando MARKETPLACE_SUPABASE_URL/KEY mancano: in quel caso i campi restano null e il file condiviso, che il Pannello legge, perde i valori misurati sul VPS. Perche' non e' stato chiuso con AR-281: la guardia secca (non scrivere) qui NON va bene, perche' lo stesso file tiene anche la memoria anti-doppione degli accodamenti (`accodati_ts`, `tick`, `storia`) e alcuni segnali non-business che restano leggibili senza chiavi. Bloccare tutta la scrittura farebbe ri-accodare le stesse card a ogni tick: si curerebbe una bugia creandone una peggiore. Causa di sistema: il file mescola due generi di stato — cio' che si MISURA da fuori e cio' che si RICORDA di se stessi — e una guardia sola non puo' servirli entrambi.",
+      "fix_proposto": "🟡 Separare i due generi dentro lo stesso file: i campi misurati da fuori si scrivono solo se il dominio era configurato (riusando `scriviStatoSensore`/la sua condizione), altrimenti si CONSERVA il valore precedente marcandolo `non_misurato_in_questo_ambiente`; la memoria di se' (tick, accodati_ts, storia) continua a scriversi sempre. Prova: far girare la sentinella senza chiavi su uno stato finto con ordini_tot=37 e pretendere che 37 sia ancora li dopo, e che un accodamento gia' fatto non venga rifatto.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-28",
+      "origine": "auto-analisi del lotto 28 (cantiere) — cercando i fratelli del difetto che stavo chiudendo",
+      "verifica": {
+        "file": "cervello/sentinella-dati.mjs",
+        "pattern": "non_misurato_in_questo_ambiente",
+        "presente": true
+      },
+      "nota": "Dove: cervello/sentinella-dati.mjs:668-682 · Impatto: il Pannello e la sentinella leggono ordini/payout/recensioni azzerati da una sessione che non poteva vederli — e' la stessa famiglia di AR-035/AR-281, sopravvissuta nel file che ha due mestieri.",
+      "chiuso_il": "",
+      "chiuso_come": ""
     }
   ],
   "meta": {
-    "aperti": 124,
+    "aperti": 112,
     "in_corso": 0,
-    "chiusi": 149
+    "chiusi": 163
   }
 }

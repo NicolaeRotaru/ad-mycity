@@ -413,6 +413,15 @@ async function main() {
     console.error(`ERRORE: head e base sono lo stesso ramo (${base}). Crea un branch feature/fix.`);
     process.exit(1);
   }
+  // AR-276: il ramo principale non si pubblica MAI come head, qualunque base sia dichiarata.
+  // Il controllo sopra guarda solo head==base: con `--base altro --branch main` il ramo che il
+  // Pannello legge sarebbe finito sotto force-with-lease. Il perimetro è del RAMO, non della coppia.
+  if (branch === cfg.defaultBranch) {
+    console.error(
+      `ERRORE: '${cfg.defaultBranch}' è il ramo principale: non può essere l'head di una PR (ci si pubblica solo per merge). Crea un branch di lavoro.`
+    );
+    process.exit(1);
+  }
 
   // Il branch da pubblicare deve ESISTERE in locale. Prima si pushava `HEAD:<branch>`: con
   // --branch X lanciato mentre HEAD era su main, su X finiva il CONTENUTO DI MAIN (10/7 sera:
@@ -491,12 +500,40 @@ async function main() {
       git(pushArgs, cfg.cwd);
       console.log(`✓ Push ${branch} → origin${rebaseInfo.baseRef ? " (force-with-lease post-rebase)" : ""}`);
     } catch (e) {
+      // AR-276/AR-318 — NESSUN RIPIEGO CIECO. Il push forzato senza lease qui dentro non esiste più:
+      // era il ripiego automatico al primo rifiuto del lease, e sovrascriveva il lavoro di un'altra
+      // sessione (o del worker) senza nemmeno guardare cosa c'era sul remoto.
+      //
+      // Un lease rifiutato ha DUE cause, e vanno distinte leggendo il remoto, non indovinando:
+      //   ① il ref remoto è solo vecchio in locale (non abbiamo fatto fetch) e il remoto è un
+      //      ANTENATO di ciò che stiamo pubblicando → nessuno ha lavorato: si ripete il lease
+      //      ancorato allo SHA appena letto, che resta una difesa (se cambia nel frattempo, fallisce).
+      //   ② il remoto ha commit che noi non abbiamo → qualcuno ci ha lavorato: ci si FERMA.
+      // Il `--force` nudo resta una scelta umana, da digitare a mano dopo aver guardato il diff.
       if (rebaseInfo.baseRef) {
-        try {
-          git(["push", "--force", url, ref], cfg.cwd);
-          console.log(`✓ Push ${branch} → origin (force post-rebase)`);
-        } catch (e2) {
-          console.error("ERRORE push:", sanitize(e2, cfg.token));
+        const remoto = gitOrNull(["ls-remote", url, `refs/heads/${branch}`], cfg.cwd);
+        const shaRemoto = remoto ? remoto.split(/\s+/)[0] : null;
+        const shaLocale = gitOrNull(["rev-parse", `refs/heads/${branch}`], cfg.cwd);
+        let remotoAntenato = false;
+        if (shaRemoto && shaLocale) {
+          gitOrNull(["fetch", url, `refs/heads/${branch}`], cfg.cwd);
+          remotoAntenato = gitOrNull(["merge-base", "--is-ancestor", shaRemoto, shaLocale], cfg.cwd) !== null;
+        }
+        if (shaRemoto && remotoAntenato) {
+          try {
+            git(["push", `--force-with-lease=refs/heads/${branch}:${shaRemoto}`, url, ref], cfg.cwd);
+            console.log(`✓ Push ${branch} → origin (lease ri-ancorato a ${shaRemoto.slice(0, 8)}: il remoto era solo vecchio in locale)`);
+          } catch (e2) {
+            console.error("ERRORE push:", sanitize(e2, cfg.token));
+            process.exit(1);
+          }
+        } else {
+          console.error("ERRORE push:", sanitize(e, cfg.token));
+          console.error("");
+          console.error(`⛔ Il ramo '${branch}' su GitHub è AVANTI rispetto al tuo: qualcun altro (altra sessione, worker) ci ha lavorato.`);
+          console.error("   Non sovrascrivo: il suo lavoro andrebbe perso. Riallinea e ripubblica:");
+          console.error(`   git fetch origin ${branch} && git rebase origin/${branch}   → poi rilancia questo comando.`);
+          console.error("   Se davvero vuoi buttare via il remoto, il push forzato lo digiti tu a mano, dopo aver guardato il diff.");
           process.exit(1);
         }
       } else {

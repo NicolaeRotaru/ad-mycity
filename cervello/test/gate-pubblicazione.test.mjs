@@ -17,7 +17,8 @@
 // controlla che nessuno dei cinque sia rimasto fuori.
 
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import assert from "node:assert/strict";
@@ -130,6 +131,74 @@ prova("TUTTI E CINQUE i pubblicatori passano dal cancello, non uno solo", () => 
     if (!haCancello || !haPerimetro) scoperti.push(`${f} (cancello:${haCancello} perimetro:${haPerimetro})`);
   }
   assert.deepEqual(scoperti, [], "questi pubblicatori scrivono su main senza protezione");
+});
+
+// ── il loop di pubblicazione unico (AR-297 / AR-299) ─────────────────────────
+// Qui si PUBBLICA DAVVERO, su un repo bare locale: niente rete, ma git vero, rami veri, push vero.
+// Un test che si limitasse a grepparne il nome non distinguerebbe una funzione che funziona da una
+// che esce sempre 1 — ed è la funzione da cui dipende il fatto che la Cabina si aggiorni.
+function repoDiProva() {
+  const base = mkdtempSync(join(tmpdir(), "pubblica-memoria-"));
+  const bare = join(base, "origin.git");
+  const lavoro = join(base, "lavoro");
+  const sh = (cwd, ...a) => execFileSync("git", a, { cwd, stdio: "pipe", encoding: "utf8" });
+  execFileSync("git", ["init", "--bare", "-b", "main", bare], { stdio: "pipe" });
+  execFileSync("git", ["init", "-b", "main", lavoro], { stdio: "pipe" });
+  sh(lavoro, "config", "user.email", "prova@mycity");
+  sh(lavoro, "config", "user.name", "prova");
+  writeFileSync(join(lavoro, "memoria.md"), "primo\n");
+  sh(lavoro, "add", "-A");
+  sh(lavoro, "commit", "-q", "-m", "primo");
+  sh(lavoro, "push", "-q", bare, "HEAD:main");
+  return { base, bare, lavoro, sh };
+}
+/** Esegue una funzione del gate DENTRO il repo di prova. */
+function nelRepo(cwd, cmd) {
+  try {
+    const out = execFileSync("bash", ["-c", `cd "${cwd}"; . "${SH}"; ${cmd}`], { encoding: "utf8", stdio: "pipe" });
+    return { rc: 0, out: out.trim() };
+  } catch (e) {
+    return { rc: e.status ?? 1, out: String(e.stdout || "").trim() };
+  }
+}
+
+prova("pubblica_memoria pubblica davvero, e dice a che tentativo", () => {
+  const { base, bare, lavoro, sh } = repoDiProva();
+  writeFileSync(join(lavoro, "memoria.md"), "secondo\n");
+  sh(lavoro, "add", "-A");
+  sh(lavoro, "commit", "-q", "-m", "secondo");
+  const r = nelRepo(lavoro, `pubblica_memoria "${bare}" main 3 60`);
+  assert.equal(r.rc, 0, "il push doveva riuscire");
+  assert.equal(r.out, "1", "riuscito al primo tentativo");
+  const suOrigin = execFileSync("git", ["-C", bare, "log", "-1", "--format=%s"], { encoding: "utf8" }).trim();
+  assert.equal(suOrigin, "secondo", "il commit dev'essere arrivato sul remoto");
+  rmSync(base, { recursive: true, force: true });
+});
+
+prova("il caso che ha rotto: dal ramo sbagliato NON pubblica (AR-297)", () => {
+  // giro/ritmo/monitora spingevano `HEAD:main` senza guardare cos'era HEAD: da un ramo di lavoro
+  // finiva su main codice mai revisionato. Ora il controllo è dentro la funzione, per tutti e tre.
+  const { base, bare, lavoro, sh } = repoDiProva();
+  sh(lavoro, "checkout", "-q", "-b", "fix/qualcosa");
+  writeFileSync(join(lavoro, "codice.sh"), "echo mai su main\n");
+  sh(lavoro, "add", "-A");
+  sh(lavoro, "commit", "-q", "-m", "roba di lavoro");
+  const r = nelRepo(lavoro, `pubblica_memoria "${bare}" main 1 60`);
+  assert.equal(r.rc, 1, "doveva rifiutarsi di pubblicare");
+  const suOrigin = execFileSync("git", ["-C", bare, "log", "-1", "--format=%s"], { encoding: "utf8" }).trim();
+  assert.equal(suOrigin, "primo", "sul remoto non dev'essere arrivato niente");
+  rmSync(base, { recursive: true, force: true });
+});
+
+prova("i tre pubblicatori passano dal loop unico, nessuno ha più il suo (AR-297)", () => {
+  const scoperti = [];
+  for (const f of ["cervello/giro.sh", "cervello/ritmo.sh", "cervello/monitora.sh"]) {
+    const src = readFileSync(join(REPO, f), "utf8");
+    if (!/pubblica_memoria\s+"/.test(src)) scoperti.push(`${f}: non chiama pubblica_memoria`);
+    // la copia locale del loop: un push a mano dentro un ciclo di tentativi
+    if (/for attempt in 1 2 3/.test(src)) scoperti.push(`${f}: ha ancora una copia del loop di push`);
+  }
+  assert.deepEqual(scoperti, []);
 });
 
 prova("ogni pubblicatore resta sintatticamente valido", () => {

@@ -17,6 +17,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { scriviStatoSensore } from "./stato-sensori.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 
@@ -113,7 +114,15 @@ async function main() {
     fonti: risultati,
   };
 
-  writeFileSync(OUT, JSON.stringify(out, null, 2));
+  // AR-281 — se NESSUNA fonte ha risposto (status 0 ovunque) non è il web a essere morto: è questa
+  // macchina a non avere rete. Persistere quel verdetto azzera i contatori buoni del VPS e fa suonare
+  // l'allarme «fonti critiche morte» per un guasto che sta tutto dentro l'ambiente che misura.
+  const almenoUnaHaRisposto = risultati.some((r) => r.status > 0 || r.skip_check);
+  const esitoScrittura = scriviStatoSensore(OUT, out, {
+    ambienteConfigurato: almenoUnaHaRisposto,
+    motivo: `nessuna delle ${risultati.length} fonti ha risposto: rete assente in questo ambiente, non fonti morte`,
+  });
+  if (!esitoScrittura.scritto) console.error(esitoScrittura.spiegazione);
 
   if (JSON_MODE) {
     console.log(JSON.stringify(out, null, 2));

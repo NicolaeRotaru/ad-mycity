@@ -114,3 +114,51 @@ gate_pubblicazione() {
   fi
   return 0
 }
+
+# pubblica_memoria <url> <branch> [tentativi] [timeout-rete-secondi]
+# L'UNICO loop fetch→rebase→push della memoria (AR-297 nella sua forma piena, AR-299).
+#
+# Fino a qui la stessa sequenza esisteva in tre copie (giro.sh, ritmo.sh, monitora.sh) più quella del
+# worker: identiche riga per riga, tranne che il worker aveva il timeout di rete e gli altri no. Una
+# connessione appesa in un `git fetch` senza timeout tiene il lucchetto della memoria finché il
+# watchdog non ammazza il processo, e tutti gli altri aspettano dieci minuti per niente.
+#
+# Difese, tutte in un posto solo:
+#   · timeout di rete su OGNI fetch e OGNI push (default GIT_NET_TIMEOUT=60s, come il worker);
+#   · ricontrollo del RAMO subito prima del push — il gate l'ha già guardato, ma tra il gate e il push
+#     passano un commit e un rebase: se qualcosa ci ha spostati, qui ci si ferma (AR-315);
+#   · push fast-forward e basta: mai forzato, mai --force-with-lease. Se il remoto è avanti, il rebase
+#     del giro successivo recupera; sovrascrivere il lavoro del worker no.
+# Stampa su stdout il numero del tentativo riuscito. Ritorna 0 se pubblicato, 1 altrimenti.
+pubblica_memoria() {
+  local url="${1:?serve url}" branch="${2:?serve branch}" tentativi="${3:-3}" gt="${4:-}"
+  [ -n "$gt" ] || gt="$(gate_timeout_rete)"
+  local T=()
+  command -v timeout >/dev/null 2>&1 && T=(timeout "$gt")
+  local _ts; _ts="$(date '+%Y-%m-%d %H:%M')"
+
+  local ramo; ramo="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)"
+  if ! ramo_ammesso "$ramo" "$branch"; then
+    echo "[$_ts] ⛔ PUSH ANNULLATO: HEAD è su «${ramo:-?}», non su «$branch» — non pubblico da qui (AR-297)." >&2
+    return 1
+  fi
+
+  local i
+  for ((i = 1; i <= tentativi; i++)); do
+    # ⚠️ Tutto muto su stdout: l'unica cosa che questa funzione stampa lì è il numero del tentativo,
+    # che il chiamante cattura. Il "Current branch main is up to date" del rebase finiva dentro quel
+    # valore — trovato dal test che pubblica sul serio, non lo avrebbe visto nessun grep.
+    if "${T[@]}" git fetch "$url" "$branch" >/dev/null 2>&1; then
+      git ${GIT_ID[@]+"${GIT_ID[@]}"} rebase FETCH_HEAD >/dev/null 2>&1 || git rebase --abort >/dev/null 2>&1 || true
+    else
+      echo "[$_ts] WARN: fetch non riuscito o oltre ${gt}s (tentativo $i) — provo comunque il push." >&2
+    fi
+    if "${T[@]}" git push "$url" "HEAD:${branch}" >/dev/null 2>&1; then
+      printf '%s\n' "$i"
+      return 0
+    fi
+    echo "[$_ts] Push tentativo $i fallito, riprovo..." >&2
+    sleep 3
+  done
+  return 1
+}

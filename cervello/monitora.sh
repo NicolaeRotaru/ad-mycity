@@ -161,16 +161,13 @@ fi
     elif [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       git "${GIT_ID[@]}" commit -q -m "monitoraggio web AD: aggiorna Intelligence ($(ts))" || true
       url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
+      # AR-297/AR-299 — stessa funzione di pubblicazione di giro e ritmo: ramo controllato prima del
+      # push e timeout di rete su fetch/push.
       ok=0
-      for attempt in 1 2 3; do
-        git fetch "$url" "$branch" 2>/dev/null && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
-        if git push "$url" "HEAD:${branch}" 2>/dev/null; then
-          echo "[$(ts)] Intelligence sincronizzata su GitHub (ramo $branch, tentativo $attempt)."
-          ok=1; break
-        fi
-        echo "[$(ts)] Push tentativo $attempt fallito, riprovo..." >&2
-        sleep 3
-      done
+      if attempt="$(pubblica_memoria "$url" "$branch" 3 "${GIT_NET_TIMEOUT:-60}")"; then
+        echo "[$(ts)] Intelligence sincronizzata su GitHub (ramo $branch, tentativo $attempt)."
+        ok=1
+      fi
       [ "$ok" = 1 ] || echo "[$(ts)] Push fallito dopo 3 tentativi (il prossimo monitoraggio recupera)." >&2
     else
       echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push."

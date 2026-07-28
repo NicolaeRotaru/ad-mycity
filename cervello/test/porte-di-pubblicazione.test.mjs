@@ -111,15 +111,22 @@ prova("cartella vuota = CIECO (2), non verde", () => {
 prova("sul cervello VERO ogni porta passa dal cancello", () => {
   const r = spawnSync("node", [GUARDIANO], { cwd: REPO, encoding: "utf8" });
   assert.equal(r.status, 0, `atteso verde:\n${r.stdout}${r.stderr}`);
-  assert.match(r.stdout, /5 trovate, 5 passano/, "cinque porte, tutte protette");
+  // Il numero di porte cambia col codice (il lotto del 28/7 ne ha unificate tre in una funzione
+  // condivisa): quello che NON deve cambiare è che trovate e protette coincidano — e che ce ne sia
+  // più di una, altrimenti il guardiano si è semplicemente smesso di accorgere delle porte.
+  const m = r.stdout.match(/(\d+) trovate, (\d+) passano/);
+  assert.ok(m, `il guardiano deve dire quante porte ha trovato:\n${r.stdout}`);
+  assert.ok(Number(m[1]) >= 4, `troppe poche porte trovate (${m[1]}): il rilevatore si è accecato`);
+  assert.equal(m[1], m[2], "ogni porta trovata dev'essere protetta");
 });
 
 prova("le due che erano scoperte adesso hanno il cancello davvero", () => {
   // Non basta che il guardiano sia verde: si guarda il codice, perché il guardiano lo ho scritto io.
   const giro = readFileSync(join(REPO, "cervello/giro.sh"), "utf8");
   const iGate = giro.indexOf('gate_pubblicazione "$SCRIPT_DIR" "$REPO" "$branch"');
-  const iPush = giro.indexOf('if git push "$url" "HEAD:${branch}" 2>/dev/null; then');
-  assert.ok(iGate > 0 && iGate < iPush, "in giro.sh il cancello dev'essere PRIMA del push");
+  // Dal 28/7 giro.sh non ha più il suo loop di push: pubblica dalla funzione condivisa (AR-297).
+  const iPush = giro.indexOf('pubblica_memoria "$url" "$branch"');
+  assert.ok(iGate > 0 && iPush > 0 && iGate < iPush, "in giro.sh il cancello dev'essere PRIMA del push");
 
   const mon = readFileSync(join(REPO, "cervello/monitora.sh"), "utf8");
   const blocco = mon.slice(mon.indexOf("recupero: scritture pendenti"), mon.indexOf("recupero: scritture pendenti") + 900);

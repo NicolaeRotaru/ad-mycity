@@ -367,9 +367,19 @@ prova("la spazzata gira davvero e sa dire di no", () => {
   const out = execFileSync("node", [join(REPO, "cervello/spazzata-fratelli.mjs"), "--json"], { cwd: REPO, encoding: "utf8" });
   const j = JSON.parse(out);
   assert.equal(j.ok, true, `la spazzata è rossa: ${JSON.stringify(j.malattie?.filter((m) => m.nuovi?.length))}`);
-  // Il conteggio dev'essere quello vero, non zero per un pattern che non trova mai niente.
+  // Un pattern che non trova mai niente è un guardiano finto — ma «zero istanze» ora può voler dire
+  // due cose opposte: pattern morto, oppure malattia CURATA (28/7, AR-307: le 34 pipe di giro.sh sono
+  // sparite tutte). Non si può più chiedere al repo di restare malato per dimostrare che il metro
+  // funziona: si prova il metro su un campione, che è la domanda vera.
+  for (const m of j.malattie) {
+    const reg = JSON.parse(leggi("cervello/malattie.json")).malattie.find((x) => x.id === m.id);
+    assert.ok(reg?.pattern, `${m.id}: malattia senza pattern`);
+    assert.doesNotThrow(() => new RegExp(reg.pattern), `${m.id}: il pattern non compila — il guardiano è cieco su questa malattia`);
+  }
   const pipe = j.malattie.find((m) => m.id === "esito-in-una-pipe");
-  assert.ok(pipe.totale > 0, "un pattern che non trova mai niente è un guardiano finto");
+  const regPipe = JSON.parse(leggi("cervello/malattie.json")).malattie.find((x) => x.id === "esito-in-una-pipe");
+  assert.match('  node "$SCRIPT_DIR/guardiano.mjs" 2>&1 | tail -4', new RegExp(regPipe.pattern), "il pattern deve ancora riconoscere la malattia se torna");
+  assert.equal(pipe.totale, 0, "curata il 28/7 (AR-307): se torna sopra zero, qualcuno ha rimesso una pipe che ingoia l'esito");
 });
 
 prova("la spazzata è agganciata al giro come cancello", () => {

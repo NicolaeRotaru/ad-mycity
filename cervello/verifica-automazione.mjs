@@ -13,7 +13,7 @@
 // Scrive l'esito complessivo in impostazioni (chiave automazione:verifica) se Supabase è configurato.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import {
   AD_ROOT,
@@ -165,6 +165,37 @@ async function main() {
     // AR-056
     add("timer watch-main", "warn", "systemd assente (non-VPS): verifica sul server");
     add("timer giro (battito 2h)", "warn", "systemd assente (non-VPS): verifica mycity-giro.timer sul server");
+  }
+
+  // 4-bis) AR-167 — IL FUSO DELLE UNITÀ, controllato a occhi aperti e non a memoria.
+  // Due timer partivano con l'orologio del server (UTC su Hetzner) mentre il commento accanto
+  // prometteva l'ora di Piacenza: il piano del mattino usciva un'ora prima o dopo di quando doveva.
+  // La correzione, all'epoca, fu applicata solo ai file in cui il sintomo si vedeva. Qui diventa un
+  // controllo di CLASSE: si legge la cartella, non i tre file che ci ricordiamo. Funziona anche fuori
+  // dal VPS — sono file versionati, non stato di systemd.
+  if (existsSync(VPS_TIMERS_DIR)) {
+    const senzaFuso = [];
+    const serviceSenzaTz = [];
+    for (const f of readdirSync(VPS_TIMERS_DIR).filter((x) => x.startsWith("mycity-") && x.endsWith(".timer")).sort()) {
+      const testo = readFileSync(join(VPS_TIMERS_DIR, f), "utf8");
+      for (const riga of testo.split("\n")) {
+        if (!riga.trim().startsWith("OnCalendar=")) continue;
+        // Un OnCalendar puramente relativo (OnBootSec/monotonico) non ha fuso da dichiarare.
+        if (!/\d{2}:\d{2}/.test(riga)) continue;
+        if (!/(Europe\/Rome|UTC)\s*$/.test(riga.trim())) senzaFuso.push(`${f}: ${riga.trim()}`);
+      }
+      const service = f.replace(/\.timer$/, ".service");
+      const ps = join(VPS_TIMERS_DIR, service);
+      if (existsSync(ps) && !/Environment=TZ=/.test(readFileSync(ps, "utf8"))) serviceSenzaTz.push(service);
+    }
+    const guasti = [...senzaFuso, ...serviceSenzaTz.map((s) => `${s}: manca Environment=TZ=`)];
+    add(
+      "fuso orario delle unità systemd",
+      guasti.length ? "fail" : "ok",
+      guasti.length
+        ? `${guasti.length} unità con l'orologio del server invece di Piacenza — ${guasti.slice(0, 4).join(" · ")}`
+        : "ogni OnCalendar dichiara il fuso e ogni .service ha TZ ✓"
+    );
   }
 
   // 5) Segnali recenti su Supabase (battiti dell'automazione)

@@ -235,7 +235,11 @@ export default function RadiografiaDiSe() {
                 { k: "Loop chiude", ok: !!r.sonda.loop_chiude },
                 { k: `Lezioni applicate ${Math.round((r.sonda.tasso_applicazione || 0) * 100)}%`, ok: (r.sonda.tasso_applicazione || 0) >= 0.3 },
                 { k: "Giro a cadenza", ok: !!r.sonda.giro_a_cadenza },
-                { k: "Sentinelle attive", ok: !!r.sonda.sentinelle_scattano },
+                // AR-183 — la spia era al contrario: `sentinelle_scattano` è il nome dell'ALLARME
+                // (true = sensori ciechi da ≥3 giri, o zero sensori vivi), non della salute. Il chip
+                // lo leggeva come «le sentinelle funzionano» e mostrava verde proprio quando la
+                // macchina era cieca. Nome e verso ora dicono la stessa cosa: verde = sensori sani.
+                { k: "Sensori sani", ok: !r.sonda.sentinelle_scattano },
               ].map((s) => (
                 <span key={s.k} className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ring-1 ${s.ok ? "bg-green-50 text-green-700 ring-green-200" : "bg-red-50 text-red-700 ring-red-200"}`}>
                   <Activity size={11} /> {s.k}
