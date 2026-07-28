@@ -1770,9 +1770,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
-        "pattern": "#ordine-test-pq.*⏸ in pausa",
-        "presente": false
+        "comando": "node cervello/test/validazione-congelata.test.mjs"
       },
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md:359 (card #ordine-test-pq ⏸) · MyCity-Vault/90-Memoria-AI/DECISIONI.md:991-993 (decisione di rinvio e sua applicazione) · Impatto: Il fine dichiarato della pausa è: «così quando inizierò mi concentrerò solo sul business e non dovrò più preoccuparmi di migliorare o aggiustare questi due». Congelare il collaudo end-to-end garantisce l'esito opposto: il 1/9 Nicola comincia a inserire negozi su una piattaforma il cui percorso pagamento→payout non è mai stato eseguito. Se è rotto (Stripe Connect, split, payout al seller), lo si scopre col primo negoziante vero che aspetta i suoi soldi — bruciando l'unica relazione di fiducia reale che l'azienda ha. Costo del ritardo: ~37 giorni × 302 €/m ≈ 370 € di burn spesi a rifinire codice non validato, con la North Star ferma a 0 da ~32 giorni. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
@@ -1812,9 +1810,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
-        "pattern": "riprendono da sole al 24/8-1/9",
-        "presente": false
+        "comando": "node cervello/test/pausa-senza-risveglio.test.mjs"
       },
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/DECISIONI.md:993 · MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md:83,128,156,188,217,345,359,371,385,415,489 (le card ⏸) · cervello/guardiano-tempo.mjs:38 · Impatto: Il giorno della ripartenza è il giorno più importante dell'anno per questa azienda: è quando il burn accumulato smette di essere puro costo. Quel giorno, come è oggi il sistema, dipende interamente dal fatto che una persona si ricordi di scongelare 12 card e accendere un cancello. Se non se ne ricorda, la macchina resta in modalità «fase tecnica» a bruciare 302 €/m mentre nessuno la contraddice — e il primo segnale di allarme sarà l'assenza di ordini, cioè lo stesso identico segnale che sta già suonando inascoltato da 32 giorni. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",

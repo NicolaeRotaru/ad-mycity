@@ -23,6 +23,20 @@ test("leggiTap(): legge i conteggi, e non inventa quando il TAP non c'è", () =>
   assert.deepEqual(leggiTap("boom, nessun TAP"), { passati: null, falliti: null });
 });
 
+test("leggiTap(): fra i DUE conteggi prende quello delle asserzioni, non quello dei file", () => {
+  // Output vero di `node --test` su un test che stampa il proprio TAP: il suo conteggio arriva
+  // ri-emesso come commento («# \# pass 8»), quello di node dice 1 perché conta il FILE.
+  // Leggere il secondo faceva dichiarare alla suite 276 asserzioni quando ne girava molte di più.
+  const reale = ["TAP version 13", "#   ok - primo", "# \\# pass 8", "# \\# fail 0", "# tests 1", "# pass 1", "# fail 0"].join("\n");
+  assert.deepEqual(leggiTap(reale), { passati: 8, falliti: 0 }, "8 asserzioni, non 1 file");
+
+  // E quando il file NON stampa un TAP proprio (test scritti con node:test puro), vale quello di node.
+  assert.deepEqual(leggiTap("# tests 4\n# pass 4\n# fail 0\n"), { passati: 4, falliti: 0 });
+
+  // Un file rotto resta rosso comunque: è la proprietà che non deve regredire.
+  assert.equal(leggiTap("# \\# pass 6\n# \\# fail 2\n# pass 0\n# fail 1\n").falliti, 2);
+});
+
 test("verdetto(): tutto verde = ok", () => {
   const v = verdetto(0, "# pass 12\n# fail 0\n");
   assert.equal(v.esito, "ok");
