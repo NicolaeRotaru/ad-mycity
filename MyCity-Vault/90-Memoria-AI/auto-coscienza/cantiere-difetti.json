@@ -5405,12 +5405,12 @@
     },
     {
       "id": "AR-336",
-      "titolo": "Quarantadue difetti condividono dodici prove: una prova sola decide il destino di piu difetti insieme",
+      "titolo": "Un difetto chiuso non viene mai più riguardato, e settantaquattro hanno una prova che si potrebbe rieseguire",
       "dimensione": "cantiere-prove",
-      "gravita": "grave",
+      "gravita": "minore",
       "impatto_crescita": "medio",
-      "causa_radice": "Misurato il 28/7 20:25 scandendo il campo `verifica.comando` di tutti i difetti: 12 comandi sono la prova di 42 difetti. Il piu condiviso ne copre 7 (freni-senza-fonte), un altro 6 (pannello-cabina-viva), tre ne coprono 5, 4 e 3. — Perche succede: quando un lotto ripara piu punti con un test solo, e comodo dare quel comando a tutti i difetti che il lotto tocca. Ma cosi la prova non dimostra piu il singolo fix: dimostra il lotto. Se domani uno dei sette regredisce e gli altri sei no, il comando resta verde e il cantiere continua a dichiararli tutti chiusi. E il contrario: una rottura in uno solo li fa risultare tutti aperti. — Radice: la regola «una prova per difetto» (AR-254) e stata scritta come raccomandazione nei lotti recenti e mai verificata sul registro esistente, dove la violazione era gia diffusa.",
-      "fix_proposto": "🟡 (a) Un guardiano che scandisce il cantiere e fallisce quando due difetti NON chiusi condividono lo stesso `verifica.comando` — con il debito attuale dichiarato per nome e con la data, cosi parte verde e blocca il prossimo. (b) Poi separare i gruppi uno alla volta, dal piu numeroso: ogni difetto prende una prova che esegue sul SUO caso. (c) Regola scritta dove si scrivono le prove, non solo nei commenti di un lotto.",
+      "causa_radice": "CORRETTO il 28/7 21:00, misurando. La prima stesura — mia, di quaranta minuti prima — diceva «42 difetti condividono 12 prove» e ne deduceva che una regressione in uno solo sarebbe passata inosservata. La misura smentisce la parte allarmante: i gruppi con almeno DUE difetti NON chiusi sono ZERO. Tutta la condivisione è fra difetti già chiusi. Il fatto vero che resta è un altro: auto-fix.mjs:215 filtra `d.stato !== \"chiuso\"`, quindi un difetto chiuso non viene MAI più verificato — e 74 dei 149 chiusi hanno una prova eseguibile. Anche questo però va ridimensionato coi numeri: 70 di quelle 74 prove sono file della suite (cervello/test/*.test.mjs), che test-cervello riesegue tutti a ogni lotto. Fuori dalla suite ne restano QUATTRO (permessi-check, test-pannello, peso-contesto, scan-segreti), e tre di quelle quattro sono guardiani che girano comunque a ogni giro. Il buco reale è quindi stretto: la rete c'è, ma passa dalla suite e non dal cantiere — e il cantiere non lo sa.",
+      "fix_proposto": "🟡 (a) Far rieseguire ad auto-fix anche le prove dei difetti CHIUSI, in una passata separata che NON li riapre da sola ma segnala «chiuso, e la sua prova adesso è rossa»: riaprire in automatico su una prova che potrebbe essere diventata vacua per altri motivi sarebbe peggio del buco. (b) La condivisione delle prove resta igiene, non rischio immediato: si separa il gruppo quando lo si tocca. Prima di lavorarci, RIMISURARE — la fotografia di stasera dice che oggi non c'è nessun gruppo con due difetti aperti.",
       "colore": "🟡",
       "stato": "aperto",
       "nato": "2026-07-28 20:25",
@@ -5420,7 +5420,7 @@
         "pattern": "verifica",
         "presente": true
       },
-      "nota": "Gruppi trovati: scadenze-calcolate.test.mjs=3 · freni-senza-fonte.test.mjs=7 · volano-regole.test.mjs=2 · archivi-senza-tetto.test.mjs=2 · pannello-cabina-viva.test.mjs=6 · strati.test.mjs=3 · errore-ingoiato.test.mjs=4 · chat-pending.test.mjs=2 · scritture-e-riaccodi.test.mjs=2 · giro-esito.test.mjs=5 · gate-pubblicazione.test.mjs=3 · allineamento-esito.test.mjs=3",
+      "nota": "Scheda riscritta dal suo stesso autore poche ore dopo averla scritta, perché la misura ha smentito la premessa. Registrarlo è più utile che correggere in silenzio: la prima stesura nasceva da un conteggio giusto (42 e 12 sono numeri veri) con una deduzione sbagliata — che riguardassero difetti aperti. Gruppi trovati (tutti fra chiusi): freni-senza-fonte=7 · pannello-cabina-viva=6 · giro-esito=5 · errore-ingoiato=4 · scadenze-calcolate=3 · strati=3 · gate-pubblicazione=3 · allineamento-esito=3 · volano-regole=2 · archivi-senza-tetto=2 · chat-pending=2 · scritture-e-riaccodi=2.",
       "origine": "lotto 27 (trovato correggendo una violazione AR-254 che avevo appena commesso io su AR-335)"
     }
   ],
