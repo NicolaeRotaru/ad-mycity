@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-28 06:01",
+  "aggiornato": "2026-07-29 00:15",
   "fatti": [
     {
       "id": "bandi.pi26.scadenza",
@@ -278,6 +278,16 @@
       "esenzioni": []
     },
     {
+      "id": "pilot.worker-negozi",
+      "nome": "Pilot founder del Worker negozi",
+      "valore": "3 pilot founder a 149€/mese bloccato: I Frutti della Terra, Enoteca La Canteina, Il Pollivendolo (entità non ancora nel registro-realta: da fondare prima di produrre asset intestati)",
+      "fonte": "Nicola — chat claude.ai «Worker subscription plans for shops», screenshot 2026-07-29 00:13",
+      "aggiornato": "2026-07-29 00:15",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "pricing.abbonamento",
       "nome": "Abbonamento venditore MyCity",
       "valore": "50€/mese",
@@ -338,6 +348,16 @@
         "consegne/legale/contratto-pane-quotidiano-bozza.md",
         "consegne/account-negozi/2026-07-04-anti-churn-standalone-pane-quotidiano.md"
       ]
+    },
+    {
+      "id": "pricing.worker-negozi",
+      "nome": "Listino Worker per i negozi (3 abbonamenti)",
+      "valore": "Vetrina 99€/mese · Autopilot 299€/mese · Direttore Digitale 699-999€/mese (+ setup una tantum). Prodotto DIVERSO dall'abbonamento venditore marketplace (pricing.abbonamento = 50€/mese)",
+      "fonte": "Nicola — chat claude.ai «Worker subscription plans for shops», screenshot 2026-07-29 00:13",
+      "aggiornato": "2026-07-29 00:15",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
     },
     {
       "id": "ripresa.lavoro-operativo",
