@@ -452,3 +452,131 @@ La famosa commissione del 15–30% vale solo per i beni digitali comprati dentro
 Oggi MyCity è un sito web: per andare sugli store va impacchettato come app (strada a tappe: PWA gratis → TWA su Play → Capacitor/nativa per iOS). Quello è il lavoro vero; le iscrizioni sono spiccioli. Iscrizioni e pagamenti agli store = 🔴 firma di Nicola.
 
 Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-included/) · [esenzioni Apple](https://developer.apple.com/help/account/membership/fee-waivers/) · [Google Play Console](https://support.google.com/googleplay/android-developer/answer/6112435?hl=en) · [fee Google + regola 12 tester](https://www.iconikai.com/blog/google-play-developer-account-fee-2026)
+
+---
+
+## 🛡️ I guardiani della macchina · 2026-07-29 01:49
+
+A ogni giro, prima che l'AI scriva una riga, girano **66 controlli automatici**. **25** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+
+Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
+
+> ⚠️ **5 allarmi si scrivono ma non si contano.** `firma-check`, `pausa-check`, `porte-check`, `sensori-spenti-check`, `stampo-check` mettono il loro «no» davanti all'AI, ma non entrano nel conteggio che decide se il giro è pulito: il giro può chiudersi verde con quei controlli rossi. È un difetto vero, misurato qui sopra e non stimato.
+
+### 🔍 I numeri sono veri?
+
+| Controllo | Cosa guarda | Se dice no |
+| --- | --- | --- |
+| `coerenza-fatti` | Un fatto cambia in un posto solo. Se una copia vecchia resta in giro, la trova e ferma la pubblicazione. | ⛔ ferma il giro · 🚧 blocca la pubblicazione |
+| `coerenza-rischi` | Lo stesso per i rischi: il registro è la casa, gli altri file lo citano invece di ricopiarlo. | ℹ️ scrive e basta |
+| `freschezza-segnali` | Controlla i controllori: se un guardiano è morto a metà giro, il suo verde è vecchio e non vale. | ⛔ ferma il giro |
+| `guardiani-check` | Tiene questa tabella agganciata al codice: se nasce un controllo e nessuno spiega cosa fa, il giro non si chiude. | ⛔ ferma il giro |
+| `onesta-check` | Cerca i numeri orfani: una cifra scritta in memoria senza una fonte accanto non deve uscire. | ⚠️ avvisa, non ferma |
+| `sensore-cassa` | Guarda cassa e autonomia: quanto è entrato davvero, quanto brucia al mese, quanti mesi restano. | ℹ️ scrive e basta |
+| `sensori-spenti-check` | Uno strumento costruito e mai acceso è un buco, non uno stato: pretende un perché scritto. | ⚠️ allarme **non contato** (il giro può chiudersi lo stesso) |
+| `sentinella-fonti` | Prova le fonti web da cui la macchina si informa: una fonte morta smette di portare notizie senza dirlo. | ℹ️ scrive e basta |
+| `valida-contratti` | Verifica che i file di memoria abbiano la forma che il Pannello si aspetta — un campo rinominato spegne una schermata in silenzio. | ⛔ ferma il giro |
+| `verifica-sensori` | Controlla che gli occhi sui dati reali siano aperti: se il marketplace non risponde, il giro non può scrivere numeri nuovi. | ⛔ ferma il giro |
+
+### 🎯 Stiamo andando dove volevamo?
+
+| Controllo | Cosa guarda | Se dice no |
+| --- | --- | --- |
+| `allocazione-check` | Impedisce che lo sforzo pesante vada su un negozio che non ha ancora firmato mentre quello reale resta a zero. | ⛔ ferma il giro |
+| `bilancio-vivo` | Dice quanto rende ogni ordine al centesimo, con le commissioni e i costi reali dentro. | ℹ️ scrive e basta |
+| `capacita` | Il cruscotto di cosa la macchina sa fare davvero oggi, contro cosa è ancora solo un'intelaiatura. | ℹ️ scrive e basta |
+| `freschezza-checklist` | La checklist di Nicola invecchia in due giorni; oltre, il giro deve rifarla prima di proporre altro. | ⛔ ferma il giro |
+| `freschezza-okr` | Gli obiettivi della squadra scadono: se il documento è stantio o i target sono passati, lo dice. | ⛔ ferma il giro |
+| `intelligence-agenda` | Prepara la lista di cosa guardare fuori oggi — concorrenti, eventi, meteo — senza svegliare l'AI. | ℹ️ scrive e basta |
+| `north-star-check` | Tiene l'occhio sul numero che conta — ordini pagati, negozi vivi, margine — e alza la voce se il primo ordine è fermo da giorni. | ⛔ ferma il giro |
+| `registro-scelte-check` | Ogni prospect nominato in un dossier deve stare anche nel registro, o il Pannello mostra una lista incompleta. | ⛔ ferma il giro |
+| `sblocco-capacita` | Veglia i cancelli di realtà: quando arriva il primo ordine o il quinto negozio, avvisa che una capacità nuova è ora costruibile. | ℹ️ scrive e basta |
+| `supervisione-negozi` | Passa in rassegna ogni negozio e ogni prodotto, trova i dati mancanti e prepara il riempimento come proposta da firmare. | ℹ️ scrive e basta |
+
+### 🧠 La macchina impara o accumula?
+
+| Controllo | Cosa guarda | Se dice no |
+| --- | --- | --- |
+| `apprendimento-guardiano` | Misura se le lezioni diventano regole o restano un archivio: accumulare non è imparare. | ⛔ ferma il giro |
+| `calibrazione` | Costringe a dire prima cosa ci si aspetta, e poi a confrontarlo col reale: previsioni mai chiuse sono debito. | ⛔ ferma il giro |
+| `chiusura-loop` | Un reparto che dice FATTO deve lasciare l'esito nel suo quaderno: senza, il lavoro non ha insegnato niente. | ⛔ ferma il giro |
+| `contesto-lezioni` | Rimette in testa alla macchina, all'inizio di ogni sessione, i fatti-chiave e gli errori da non ripetere. | ℹ️ scrive e basta |
+| `cristallizza-apprendimento` | Prende le lezioni mature e le trasforma in principi scritti nei mansionari, dove valgono sempre. | ℹ️ scrive e basta |
+| `macchina-del-tempo` | Ricostruisce la giornata della macchina in ordine: cosa è successo, quando, e perché è stato deciso. | ℹ️ scrive e basta |
+| `sonda-volano` | Controlla che l'anello impara→correggi giri davvero, invece di sembrare che giri. | ⛔ ferma il giro |
+| `tasso-lezioni` | Conta quante lezioni la macchina ha davvero applicato in questo giro, non quante ne ha in magazzino. | ⛔ ferma il giro |
+| `taste-file` | Registra i verdetti di Nicola — cosa gli è piaciuto e cosa no — perché il gusto non si reinventa ogni volta. | ℹ️ scrive e basta |
+
+### 🔧 I difetti si chiudono davvero?
+
+| Controllo | Cosa guarda | Se dice no |
+| --- | --- | --- |
+| `allinea-scan-cantiere` | Riallinea la vecchia foto della radiografia al cantiere di adesso, così la lista non mostra roba già riparata. | ℹ️ scrive e basta |
+| `auto-fix` | Chiude i difetti la cui prova è diventata verde per un fix vero, e lascia gli altri aperti. | ℹ️ scrive e basta |
+| `cantiere-prove` | Smaschera i difetti che nessun controllo automatico potrà mai chiudere: un difetto senza prova resta aperto per sempre. | ℹ️ scrive e basta |
+| `esperimenti-check` | Senza almeno un esperimento aperto non si misura niente: pretende che ce ne sia uno vivo e chiude quelli scaduti. | ⛔ ferma il giro |
+| `pagella-intelligenza` | I cinque voti che dicono se la macchina è pronta per il business o sta solo girando a vuoto. | ℹ️ scrive e basta |
+| `prove-oneste` | Impedisce a un difetto di nascere già chiuso, con una prova scritta apposta per essere verde. | ⛔ ferma il giro |
+| `sincronizza-proposte` | Tiene le proposte di auto-riscrittura agganciate allo stato vero del cantiere. | ℹ️ scrive e basta |
+| `sistema-immunitario` | Fa il red team su sé stessa: verifica che le difese di base siano ancora in piedi. | ℹ️ scrive e basta |
+| `spazzata-fratelli` | Chiede «l'hai risolto o hai curato una copia sola?»: cerca la stessa malattia nei punti accanto. | ⛔ ferma il giro |
+
+### 🛡️ Niente esce che non deve uscire
+
+| Controllo | Cosa guarda | Se dice no |
+| --- | --- | --- |
+| `firma-check` | Nessuno script può scriversi da solo la firma di Nicola: chi esegue non firma sé stesso. | ⚠️ allarme **non contato** (il giro può chiudersi lo stesso) |
+| `peso-contesto` | Sorveglia quanto testo la macchina si porta dietro: un contesto gonfio costa soldi e fa perdere il filo. | ⚠️ avvisa, non ferma |
+| `porte-check` | Trova i punti che pubblicano scavalcando il cancello: una porta scoperta non si vede, pubblica e basta. | ⚠️ allarme **non contato** (il giro può chiudersi lo stesso) |
+| `scan-segreti` | Cerca chiavi e password nei file che stanno per essere pubblicati, e blocca tutto se ne trova una. | 🚧 blocca la pubblicazione |
+| `uscite-check` | Elenca ogni punto in cui la macchina tocca il mondo — email, messaggi, pagamenti — e pretende che ognuno abbia un controllo. | ⛔ ferma il giro |
+| `vault-sanita` | Ultima visita alla memoria prima che finisca online: file troncati, link rotti, roba che non deve uscire. | 🚧 blocca la pubblicazione |
+
+### 👥 I 120 senior sono a posto?
+
+| Controllo | Cosa guarda | Se dice no |
+| --- | --- | --- |
+| `agent-registry-check` | Confronta i senior che esistono davvero con quelli elencati nei documenti: nessun agente orfano, nessun doppione. | ⛔ ferma il giro |
+| `guardiano-capacita` | Verifica che i comandi e le capacità promesse nei documenti esistano davvero come file eseguibili. | ℹ️ scrive e basta |
+| `keyword-owner-check` | Ogni mandato ha un padrone solo: se due senior rivendicano la stessa cosa, il lavoro va a chi capita. | ⛔ ferma il giro |
+| `stampo-check` | Controlla la qualità dei mansionari: kit fotocopia, quaderni mai scritti, senior più sottili della media. | ⚠️ allarme **non contato** (il giro può chiudersi lo stesso) |
+
+### 💶 Quanto costa tenerla accesa
+
+| Controllo | Cosa guarda | Se dice no |
+| --- | --- | --- |
+| `costo-ai` | Segna il consumo di ogni giro — quanto tempo, quanti token — e tiene il totale del giorno. | ⏭️ spegne il motore AI |
+| `freno-costi` | Il freno a mano sulla spesa AI: se non sa quanto è stato speso oggi, non finge che sia zero. | ⛔ ferma il giro · ⏭️ spegne il motore AI |
+| `metabolismo` | Dice dove finiscono i soldi dell'AI: quale tipo di lavoro consuma di più e se conviene ancora. | ℹ️ scrive e basta |
+| `sentinella-budget` | Un reparto che sfora il suo budget viene fermato con una proposta di STOP da firmare. | ℹ️ scrive e basta |
+
+### ⏰ Tempo, code e scadenze
+
+| Controllo | Cosa guarda | Se dice no |
+| --- | --- | --- |
+| `delta-gate` | Se dall'ultimo giro non è cambiato niente, evita di svegliare l'AI per riscrivere le stesse righe. | ⏭️ spegne il motore AI |
+| `guardiano-tempo` | Misura quanto lavoro sta aspettando la firma di Nicola e da quanti giorni: la coda è un costo. | ℹ️ scrive e basta |
+| `housekeeping-azioni` | Sposta in archivio le azioni già fatte o rifiutate, così la coda da firmare resta corta e vera. | ℹ️ scrive e basta |
+| `letargo` | Se quota, cassa o sensori calano, spegne il superfluo in ordine e tiene vivo solo il nucleo. | ℹ️ scrive e basta |
+| `midollo-spinale` | I riflessi rapidi: per ogni allarme delle sentinelle propone la reazione pronta, con il suo limite. | ℹ️ scrive e basta |
+| `pausa-check` | Una card messa in pausa deve avere una sveglia: senza, dorme per sempre e nessuno se ne accorge. | ⚠️ allarme **non contato** (il giro può chiudersi lo stesso) |
+| `scadenzario-check` | Nessuna scadenza esterna arriva a sorpresa, e nessun conto alla rovescia trascritto resta a mentire. | ⛔ ferma il giro |
+
+### 🧪 Il codice regge?
+
+| Controllo | Cosa guarda | Se dice no |
+| --- | --- | --- |
+| `test-cervello` | Lancia tutti i test del cervello a ogni giro: un test che nessuno esegue non è una rete, è un file. | ⛔ ferma il giro |
+| `test-pannello` | Lo stesso per i test del Pannello, la parte che Nicola guarda davvero. | ℹ️ scrive e basta |
+| `verifica-avversariale` | Smaschera l'auto-verifica finta: se il lavoro dice «verificato» senza che nessuno abbia provato a smontarlo, non vale. | ⛔ ferma il giro |
+
+### 📲 Le mani (non giudicano: agiscono)
+
+| Controllo | Cosa guarda | Se dice no |
+| --- | --- | --- |
+| `avviso-telegram` | Il canale per un messaggio urgente su Telegram quando qualcosa non può aspettare il prossimo giro. | — |
+| `notifica-approvazioni` | Manda a Nicola le cose da firmare invece di aspettare che apra il Pannello. | — |
+| `retry-policy` | Decide se un lavoro fallito va ritentato e quando: una sola regola per il worker e per le sentinelle. | — |
+| `sync-worker-plugins` | Tiene aggiornati sul server i pezzi approvati, così il worker gira sempre la versione firmata. | — |
+
+Questa tabella non è scritta a mano: la ricava `cervello/guardiani-check.mjs` leggendo `cervello/giro.sh` a ogni giro. Se ne nasce uno nuovo compare qui da solo, e finché nessuno ha scritto cosa fa il giro resta rosso.

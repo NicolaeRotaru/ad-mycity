@@ -198,6 +198,7 @@ PORTE_VINCOLO=""         # AR-127: un push verso main che non passa dal cancello
 FIRMA_VINCOLO=""         # AR-119: uno script del cervello che può scriversi la firma di Nicola
 STAMPO_VINCOLO=""        # AR-291: verdetto dello stampo senior, prima buttato in un `|| true` (AR-129/287/289)
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
+GUARDIANI_VINCOLO=""     # 29/7: un guardiano che gira senza una riga in bacheca — protezione promessa e non spiegata
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
   # AR-038: il canale MCP è trasporto di sessione, NON testabile da script. Passiamo lo stato del
@@ -561,6 +562,19 @@ if command -v node >/dev/null 2>&1; then
     FRATELLI_VINCOLO="$(vincolo_da_rc "spazzata-fratelli" "$GUARDIANO_RC" "⛔ MALATTIA ALLARGATA (spazzata-fratelli.mjs rc=$GUARDIANO_RC): una forma di difetto già nota è comparsa in un punto nuovo, o è cresciuta oltre il tetto. Non è un difetto nuovo: è uno vecchio che si è spostato. Curalo nello stesso lavoro, oppure dichiaralo esente col PERCHÉ in cervello/malattie.json — un'esenzione senza motivo è il silenzio che stiamo curando. Elenco: node cervello/spazzata-fratelli.mjs")"
     echo "[$(ts)] ⚠️  spazzata-fratelli rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
+  # 29/7 (Nicola: «inseriscili dentro bacheca della home e tienila sempre aggiornata») — l'elenco dei
+  # guardiani in bacheca si RICAVA da questo file a ogni giro, non si scrive a mano. Il cablaggio non
+  # può quindi invecchiare; può invecchiare la frase che spiega cosa fa ognuno, ed è l'unica cosa che
+  # questo cancello pretende. Si promuove a cancello — e non resta informativo — perché scatta solo
+  # quando qualcuno AGGIUNGE o TOGLIE un guardiano: costa una riga scriverla adesso, e se non si
+  # scrive adesso non si scrive più. Con l'elenco incompleto la bacheca NON viene riscritta: meglio
+  # quella di ieri, completa, che una con un buco.
+  echo "[$(ts)] 🛡️  Guardiani in bacheca (l'elenco combacia con chi gira davvero?)..."
+  if ! guardiano guardiani-check.mjs --bacheca; then
+    GUARDIANI_VINCOLO="$(vincolo_da_rc "guardiani-check" "$GUARDIANO_RC" "⛔ ELENCO GUARDIANI SCOLLATO (guardiani-check.mjs rc=$GUARDIANO_RC): c'è un controllo che gira senza una descrizione in bacheca, o una descrizione rimasta di uno che non gira più. Nicola legge quella tabella per sapere chi lo protegge: un buco lì è una protezione promessa e non data. Scrivi la riga in cervello/censimento-guardiani.mjs (DESCRIZIONI) in QUESTO giro. Elenco: node cervello/guardiani-check.mjs")"
+    echo "[$(ts)] ⚠️  guardiani-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+
   # AR-165: era `node … | tail -4 || true` — l'esito buttato due volte. Il guardiano che deve scoprire
   # i controlli spenti in silenzio era, lui per primo, muto. Ora è un cancello dichiarato.
   echo "[$(ts)] Meta-guardiano freschezza-segnali (guardiani del preambolo hanno battuto?)..."
@@ -726,7 +740,7 @@ fi
 # scioglievano in silenzio — il giro pubblicava lo stesso e usciva 0. Qui li raccogliamo in un elenco
 # che esiste FUORI dal prompt, così può governare sia il salto del motore sia l'esito del giro.
 VINCOLI_ATTIVI=()
-for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI TASSO USCITE SCADENZE; do
+for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI TASSO USCITE SCADENZE GUARDIANI; do
   eval "_vval=\"\${${_vnome}_VINCOLO:-}\""
   [ -n "$_vval" ] && VINCOLI_ATTIVI+=("$_vnome")
 done
@@ -917,6 +931,12 @@ if [ -n "${TASSO_VINCOLO:-}" ]; then
 
 ## Vincolo lezioni applicate (HARD — AR-178: imparare senza applicare è collezionare)
 $TASSO_VINCOLO"
+fi
+if [ -n "${GUARDIANI_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo elenco guardiani (HARD — 29/7: la bacheca dice a Nicola chi lo protegge, e deve dire il vero)
+$GUARDIANI_VINCOLO"
 fi
 PROMPT="$PROMPT
 
