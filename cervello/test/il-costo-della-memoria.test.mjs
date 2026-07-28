@@ -137,9 +137,15 @@ prova("sul repo vero il guardiano è ROSSO, ed è la verità", () => {
     assert.ok(j.fuori.length > 0, "se esce 1 deve dire QUALI file, altrimenti non è una misura");
     return; // stato atteso finché la potatura non è passata
   }
-  // Dopo la potatura: verde, e i file vivi devono essere davvero scesi.
+  // Dopo la potatura: verde, e i TRE file potabili devono essere davvero scesi.
+  // Il totale NON è il metro giusto — ci sta dentro DECISIONI.md (mezzo mega), che è append-only ed
+  // esente dalla potatura: sommarlo faceva fallire questa prova su una potatura riuscita. Metro
+  // sbagliato, non fix sbagliato.
   assert.equal(r.status, 0, `né rosso né verde: ${r.status}\n${r.stdout}${r.stderr}`);
-  assert.ok(j.totale < 600000, `potatura applicata ma il totale è ancora ${j.totale}`);
+  const potabili = ["STATO.md", "SALA-OPERATIVA.md", "AZIONI-IN-ATTESA.md"]
+    .map((f) => j.misure[`MyCity-Vault/90-Memoria-AI/${f}`] || 0)
+    .reduce((a, b) => a + b, 0);
+  assert.ok(potabili < 400000, `potatura applicata ma i tre file potabili pesano ancora ${potabili}`);
 });
 
 prova("il guardiano sa dire di no: un file cresciuto oltre il tetto lo fa uscire 1", () => {

@@ -5,9 +5,11 @@
   "_perche_DECISIONI_e_esente_dalla_potatura": "DECISIONI.md e append-only e la storia non si riscrive. Ma pesa mezzo mega e cresce ogni giorno: sta qui perche il costo si VEDA anche dove la cura non e tagliare. Quando sfondera il tetto, la mossa non e potare — e una decisione da prendere con Nicola su dove finisce il verbale corrente.",
   "aggiornato": "2026-07-28",
   "tetti": {
-    "MyCity-Vault/90-Memoria-AI/STATO.md": 120000,
-    "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md": 80000,
-    "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md": 130000,
-    "MyCity-Vault/90-Memoria-AI/DECISIONI.md": 600000
-  }
+    "MyCity-Vault/90-Memoria-AI/STATO.md": 122210,
+    "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md": 74111,
+    "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md": 138535,
+    "MyCity-Vault/90-Memoria-AI/DECISIONI.md": 636194
+  },
+  "_margine": "I tetti sono il peso misurato dopo la potatura del 28/7 PIU 25%. Senza margine il tetto sarebbe stato pari al peso esatto e la prima riga scritta in DECISIONI lo avrebbe sfondato: un guardiano che suona a ogni scrittura legittima viene spento entro la settimana, ed e esattamente il difetto che questi lotti curano. Il margine e il respiro fra una potatura e la successiva — non un permesso a crescere.",
+  "_potatura_del": "2026-07-28 20:15 — STATO 479.575→97.768 · SALA-OPERATIVA 269.129→110.828 · AZIONI-IN-ATTESA 319.338→59.289 (totale 1.068.042→267.885, -75%). Niente cancellato: tutto in 90-Memoria-AI/Storico/."
 }
