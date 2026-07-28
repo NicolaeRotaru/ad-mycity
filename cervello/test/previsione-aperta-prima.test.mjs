@@ -142,6 +142,32 @@ prova("AR-173, ultima clausola: la chiusura tardiva chiede la riga di lezione", 
   writeFileSync(CAL, prima); // byte per byte: l'esito ha riscritto il file
 });
 
+prova("AR-168, ultima clausola: la card della promozione dice COSA sta contando", () => {
+  // Il meccanismo era già a posto — dal lotto 16 una voce nata chiusa non fa punteggio, quindi non può
+  // gonfiare una promozione. Ma la card non lo DICEVA, e la card è quello che Nicola firma:
+  // «8/8 previsioni azzeccate» e «8 previsioni aperte prima di sapere come andava, su 42 righe a
+  // registro» sono due frasi che chiedono due firme diverse.
+  //
+  // Questa clausola era la TERZA di AR-168, ed è saltata come sempre l'ultima — pur avendo scritto la
+  // regola un'ora prima. Per questo si prova, invece di ricordarsela.
+  const src = readFileSync(join(REPO, "cervello/calibrazione.mjs"), "utf8");
+  const i = src.indexOf("Prova (calibrazione)");
+  assert.ok(i > 0, "la riga della prova dev'esserci nella card");
+  const blocco = src.slice(i - 200, i + 900);
+  assert.match(blocco, /dichiarate prima di conoscere l'esito/, "deve dire QUANDO sono state dichiarate");
+  assert.match(blocco, /r\.escluse/, "e quante voci del reparto non contano");
+  assert.match(blocco, /nate già chiuse|fuori finestra/, "dicendo anche perché non contano");
+});
+
+// La proprietà, eseguita: il campo che la card usa dev'essere calcolato davvero.
+prova("il conteggio delle escluse per reparto è un DATO, non una frase nella card", () => {
+  const cal = JSON.parse(readFileSync(CAL, "utf8"));
+  const conEscluse = (cal.per_reparto || []).filter((r) => typeof r.escluse === "number");
+  assert.equal(conEscluse.length, (cal.per_reparto || []).length, "ogni reparto deve portare il proprio conteggio");
+  const sommaEscluse = conEscluse.reduce((n, r) => n + r.escluse, 0);
+  assert.ok(sommaEscluse > 0, "sul registro vero ci sono voci escluse: se fosse 0 la card mentirebbe per omissione");
+});
+
 let falliti = 0;
 for (const c of casi) {
   console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);
