@@ -195,6 +195,7 @@ type Dati = {
   analisi?: Analisi;
   analisi_affidabile?: boolean;
   apprendimento?: Apprendimento;
+  apprendimento_non_leggibile?: string | null; // AR-254: perché la scheda è vuota
   miglioramento?: Miglioramento;
   calibrazione?: Calibrazione;
   registro?: Registro;
@@ -337,9 +338,16 @@ export default function AutoCoscienza({
 
   const titoloSezione =
     tab === "apprendimento" ? "🎓 Apprendimento" : tab === "miglioramento" ? "🚀 Auto-miglioramento" : "🔬 Auto-analisi";
+  // AR-254 — quando l'archivio non si è potuto leggere, il sottotitolo lo DICE. Prima la scheda
+  // restava semplicemente vuota: 1.111.673 caratteri contro un tetto di 1.000.000, il file veniva
+  // troncato a metà stringa, JSON.parse falliva, e nessuno sapeva perché. Una scheda vuota senza
+  // spiegazione è indistinguibile da «non ho ancora imparato niente».
+  const apprNonLeggibile = d?.apprendimento_non_leggibile || "";
   const sottotitoloSezione =
     tab === "apprendimento"
-      ? "Lezioni imparate e calibrazione."
+      ? apprNonLeggibile
+        ? `⚠️ Archivio non leggibile — ${apprNonLeggibile}`
+        : "Lezioni imparate e calibrazione."
       : tab === "miglioramento"
         ? "Confronto coi migliori, esperimenti e peer review."
         : "Si controlla prima di consegnare — errori, domande, entità.";

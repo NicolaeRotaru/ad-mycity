@@ -1,7 +1,15 @@
 // Collega l'assistente alle note Obsidian tramite un vault sincronizzato su un
 // repository GitHub (plugin "Obsidian Git"). Legge e scrive le note .md via API.
 
+import { comeServire } from "./esito-lettura"; // AR-254: la regola sta in UN posto, per entrambe le copie
+
 const API = "https://api.github.com";
+// Tetto di lettura = il limite VERO della Contents API di GitHub, che serve i file inline fino a
+// 1 MiB. Prima era 1.000.000 tondo: un numero scelto a occhio, 48.576 byte SOTTO il vincolo reale —
+// e apprendimento.json ci finiva in mezzo. Un tetto arbitrario più basso del vincolo vero non
+// protegge da niente: aggiunge solo un modo di rompersi che nessuno si aspetta.
+// Oltre questa soglia non c'è niente da troncare: il file proprio non arriva.
+const MAX_LETTURA = 1_048_576;
 const OWNER = process.env.OBSIDIAN_REPO_OWNER;
 const REPO = process.env.OBSIDIAN_REPO;
 const TOKEN = process.env.OBSIDIAN_TOKEN || process.env.GITHUB_TOKEN;
@@ -63,7 +71,11 @@ async function fetchTimeout(url: string, opts: RequestInit = {}): Promise<Respon
 //  assente   → 404 su TUTTI i rami: il file non esiste davvero
 //  auth      → 401/403 (token morto, permessi, rate limit): NON sappiamo se esiste
 //  github-giu→ rete/timeout/5xx: NON sappiamo se esiste
-export type StatoLettura = "ok" | "assente" | "github-giu" | "auth";
+// AR-254: «troppo-grande» è uno stato a sé. Prima un file oltre il tetto finiva in due bugie diverse —
+// troncato a metà (JSON invalido → il chiamante legge `null` = «non c'è niente») oppure, sopra 1 MiB,
+// servito vuoto dalla Contents API e letto come «assente». Un file troppo grosso che risulta
+// inesistente è la stessa malattia di tutto questo cantiere: il buio che si traveste da buona notizia.
+export type StatoLettura = "ok" | "assente" | "github-giu" | "auth" | "troppo-grande";
 export type EsitoContents =
   | { stato: "ok"; dati: any; ramo: string }
   | { stato: "assente" }
@@ -74,7 +86,10 @@ export type EsitoContents =
 // (auth / github-giu) pesa più di "assente", perché su errore non possiamo
 // affermare che il file manchi.
 function peggiore(a: EsitoContents, b: EsitoContents): EsitoContents {
-  const rank: Record<StatoLettura, number> = { ok: 0, assente: 1, "github-giu": 2, auth: 3 };
+  // AR-254: «troppo-grande» pesa più di «assente» — il file c'è, ed è la ragione per cui non lo
+  // leggiamo: dire «non esiste» sarebbe la bugia. Pesa meno di auth/github-giu perché quelli sono
+  // guasti del canale, e su un guasto non si può affermare NIENTE del file.
+  const rank: Record<StatoLettura, number> = { ok: 0, assente: 1, "troppo-grande": 2, "github-giu": 3, auth: 4 };
   return rank[b.stato] > rank[a.stato] ? b : a;
 }
 
@@ -165,14 +180,25 @@ export async function leggiNota(
     return { stato: esito.stato, testo: null, ramo: null, dettaglio: "dettaglio" in esito ? esito.dettaglio : undefined };
   }
   const d: any = esito.dati;
+  // AR-254: la Contents API non serve inline i file oltre 1 MiB — torna `content` vuoto ma con `size`
+  // valorizzato. Leggerlo come «assente» significa dire che un file esiste-e-pesa-1,1-MB non c'è.
+  if (d && !d.content && Number(d.size) > 0) {
+    return {
+      stato: "troppo-grande",
+      testo: null,
+      ramo: esito.ramo,
+      dettaglio: `${Number(d.size).toLocaleString("it")} byte: troppo grande perché GitHub lo serva inline (tetto 1.048.576)`,
+    };
+  }
   if (!d || !d.content) return { stato: "assente", testo: null, ramo: esito.ramo };
   const text = Buffer.from(d.content, "base64").toString("utf-8");
-  // Rete di sicurezza contro file patologici. Il cap era 200000: troppo basso per i JSON grossi
-  // (es. auto-radiografia.json ~215k caratteri) → troncarli a metà stringa produce JSON INVALIDO e
-  // la radiografia "spariva". La Contents API serve inline i file fino a 1 MB, quindi alziamo il cap
-  // ben oltre i file veri restando comunque un tetto contro letture multi-MB.
-  const MAX = 1_000_000;
-  return { stato: "ok", testo: text.length > MAX ? text.slice(0, MAX) + "\n[...troncato]" : text, ramo: esito.ramo };
+  const v = comeServire({ percorso: path, lunghezza: text.length, tetto: MAX_LETTURA });
+  if (v.azione === "troppo-grande") return { stato: "troppo-grande", testo: null, ramo: esito.ramo, dettaglio: v.motivo };
+  return {
+    stato: "ok",
+    testo: v.azione === "tronca" ? text.slice(0, MAX_LETTURA) + "\n[...troncato]" : text,
+    ramo: esito.ramo,
+  };
 }
 
 /** Config vault per diagnosi/UI: il ramo da cui il Pannello legge davvero. */
@@ -285,17 +311,20 @@ export async function readNote(path: string): Promise<string> {
     return `Errore: GitHub non raggiungibile (${got.dettaglio || "rete"}).`;
   }
   const d: any = got.dati;
+  // AR-254 — SECONDA COPIA della stessa logica. Curarne una sola sarebbe esattamente la malattia che
+  // questo cantiere insegue da undici lotti («il fix applicato a una copia sola»): entrambe passano
+  // dalla stessa regola, `comeServire`.
+  if (d && !d.content && Number(d.size) > 0) {
+    return `Errore: ${path} è troppo grande perché GitHub lo serva inline (${Number(d.size).toLocaleString("it")} byte, tetto 1.048.576).`;
+  }
   if (!d || !d.content) return `Nota non trovata: ${path}`;
   const text = Buffer.from(d.content, "base64").toString("utf-8");
-  // Rete di sicurezza contro file patologici. NON tagliare i file del vault (piani/briefing
-  // arrivano a decine di KB): un cap basso (era 12000) buttava la CODA dei file, dove sta il
-  // blocco "Aggiornamento dell'AD" dei Piani e la fine dei briefing. Le route limitano da sole
-  // (codaTesto) quando serve, quindi qui restituiamo praticamente sempre il file INTERO.
-  // Cap alzato a 1 MB (era 200k): i JSON grossi come auto-radiografia.json (~215k) venivano
-  // troncati a metà stringa → JSON invalido → sezione radiografia vuota. La Contents API serve
-  // inline fino a 1 MB, quindi il tetto resta una difesa senza corrompere i file veri.
-  const MAX = 1_000_000;
-  return text.length > MAX ? text.slice(0, MAX) + "\n[...troncato]" : text;
+  // NON tagliare i file del vault (piani/briefing arrivano a decine di KB): un cap basso (era 12000)
+  // buttava la CODA dei file, dove sta il blocco "Aggiornamento dell'AD" dei Piani e la fine dei
+  // briefing. Le route limitano da sole (codaTesto) quando serve.
+  const v = comeServire({ percorso: path, lunghezza: text.length, tetto: MAX_LETTURA });
+  if (v.azione === "troppo-grande") return `Errore: ${path} non è leggibile — ${v.motivo}`;
+  return v.azione === "tronca" ? text.slice(0, MAX_LETTURA) + "\n[...troncato]" : text;
 }
 
 /**

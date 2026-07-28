@@ -160,9 +160,16 @@ prova("ogni file che il Pannello legge ha un contratto — verificato sul repo, 
   const rep = rapportoContratti();
   assert.ok(rep.file_controllati >= 14, `solo ${rep.file_controllati} file hanno un contratto: erano 3, devono coprire i 14 letti dalla Cabina`);
   assert.ok(Array.isArray(rep.non_dichiarati), "i non dichiarati devono essere un DATO, non un silenzio");
+  // Nomi ESATTI, non sottostringhe. La prima versione usava un match largo, e il 28/7 ha bocciato
+  // `apprendimento-potato.json` — un archivio di potatura che la Cabina non legge affatto — solo
+  // perché contiene la parola «apprendimento». Un guardiano che boccia il file sbagliato viene
+  // disattivato quanto uno che non boccia niente.
+  const LETTI = new Set([
+    "auto-analisi.json", "auto-radiografia.json", "cantiere-difetti.json", "storico-salute.json",
+    "apprendimento.json", "registro-realta.json", "sensori-cecita.json",
+  ]);
   for (const f of rep.non_dichiarati) {
-    assert.ok(!/auto-analisi|auto-radiografia|cantiere-difetti|storico-salute|apprendimento|registro-realta|sensori-cecita/.test(f),
-      `${f} è letto dalla Cabina e non ha contratto`);
+    assert.ok(!LETTI.has(f.split("/").pop()), `${f} è letto dalla Cabina e non ha contratto`);
   }
   assert.ok(letti.length > 0);
 });

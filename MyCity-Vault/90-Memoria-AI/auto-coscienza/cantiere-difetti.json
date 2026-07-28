@@ -2283,9 +2283,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/cristallizza-apprendimento.mjs",
-        "pattern": "decaduto_step_il|ultimo_decadimento",
-        "presente": true
+        "comando": "node cervello/test/archivi-senza-tetto.test.mjs"
       },
       "nota": "Dove: cervello/cristallizza-apprendimento.mjs:116-127 · Impatto: La memoria dell'azienda passerà senza gradualità da «471 lezioni vive e 0 decadute» a un'estinzione di massa non voluta, e a morire per prime saranno le lezioni più vecchie, cioè quelle con più evidenze accumulate. Il guardiano dell'apprendimento oggi accusa «il decadimento non gira»: ha ragione sul sintomo per il motivo sbagliato, e domani avrà torto nel modo peggiore.",
       "chiuso_il": "",
@@ -3759,9 +3757,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/lib/obsidian.ts",
-        "pattern": "troppo-grande",
-        "presente": true
+        "comando": "node cervello/test/archivi-senza-tetto.test.mjs"
       },
       "nota": "Dove: pannello/src/lib/obsidian.ts:174 e :297 (tetto) — file MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json · RIAPERTO 2026-07-28 02:10: il lotto 11 lo aveva chiuso, ma il suo fix (risposta piu snella) gira DOPO la lettura — e la lettura e gia fallita. Il difetto e sopravvissuto perche condivideva la prova comportamentale con altri quattro difetti del lotto: una prova sola per cinque difetti chiude tutti e cinque anche se uno non e riparato. E la stessa debolezza dell OR che ha fatto chiudere AR-178 a meta. Ora ha una prova sua.",
       "chiuso_il": "",
