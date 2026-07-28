@@ -118,6 +118,32 @@ const DESTINAZIONE = [
   // Il resto della memoria AI (STATO, DECISIONI, briefing, coda azioni): è il diario del lavoro
   // sull'azienda, non lavoro sulla macchina. Sta DOPO le regole macchina, che sono più specifiche.
   ["MyCity-Vault/90-Memoria-AI/", "business"],
+  // AR-340 — il tetto è un cricchetto: quando la zona cieca cresce si MAPPA, non si alza il tetto.
+  // Il 29/7 alle 01:5x il guardiano ha suonato per un file solo (53 contro 52) e ha fatto il suo
+  // mestiere: invece di spostare il numero, ho guardato i 53 e mappato i gruppi che hanno una
+  // destinazione ovvia. Quelli davvero ambigui restano fuori: `.obsidian/` (configurazione
+  // dell'editor di Nicola), l'indice e il blueprint del vault, le regole creative, e due artefatti
+  // finiti in `consegne/` per sbaglio, più `README.md` (una prova storica lo usa apposta come
+  // esempio di ciò che resta fuori). Metterli da una parte a caso falserebbe la quota, che è
+  // esattamente ciò che questo guardiano esiste per evitare.
+  ["MyCity-Vault/_Archivio/", "business"], // strategia, mercato, metriche archiviate: pensiero sull'azienda
+  ["consegne/_archivio-prospect/", "business"], // gli asset del silo Garetti, archiviati
+  ["consegne/decisioni/", "business"], // fogli firma su lancio e prezzi
+  ["consegne/builder-automazioni/", "macchina"], // inventario VPS e strumenti
+  // I manuali con cui la macchina si istruisce: sono la macchina che si organizza, come 07-Agenti/.
+  ["CLAUDE.md", "macchina"],
+  ["AGENTS.md", "macchina"],
+  ["COMANDI.md", "macchina"],
+  ["INIZIA-QUI.md", "macchina"],
+  // `README.md` NO, di proposito: `allocazione-macchina.test.mjs` lo usa da sempre come l'esempio
+  // canonico di «ciò che non è in lista non viene assegnato d'ufficio». Mapparlo per guadagnare un
+  // punto sul tetto avrebbe spento quella prova — cioè avrei tolto una rete per far scendere un
+  // numero. Il tetto si abbassa mappando ciò che è ovvio, non svuotando i test che danno fastidio.
+  // L'impianto: hook, ignore, configurazione degli strumenti.
+  [".githooks/", "macchina"],
+  [".gitignore", "macchina"],
+  [".gitattributes", "macchina"],
+  [".mcp.json", "macchina"],
 ];
 
 /** Destinazione di un percorso: "macchina" | "business" | null (non classificato). */
@@ -136,17 +162,23 @@ export function destinazioneDi(rel) {
 /**
  * AR-340 — il tetto dichiarato della ZONA CIECA, con la data.
  *
- * Misurato il 2026-07-29 dopo aver messo in mappa la casa vera dei quaderni e aver fatto passare la
- * lettura dalla porta di `percorsi-git.mjs`: i non classificati sono scesi da **202 a 52** (identico
- * a 7, 14 e 30 giorni di finestra). I 52 che restano sono file di radice (CLAUDE.md, .gitignore, .obsidian/…) e
- * sottocartelle di `MyCity-Vault/` e `consegne/` non ancora mappate: debito vero, dichiarato e
- * datato, non un numero tondo scelto a caso.
+ * Misurato il 2026-07-29 in due passate, ed è la prima passata che dimostra che il cancello serve.
+ * Prima: messa in mappa la casa vera dei quaderni e fatta passare la lettura dalla porta di
+ * `percorsi-git.mjs` — da **202 a 52**. Poi un merge di `main` ha portato un file nuovo e il tetto
+ * ha suonato per **uno solo** (53 contro 52). La risposta giusta a quel suono non è spostare il
+ * numero: è guardare i 53 e mappare i gruppi che hanno una destinazione ovvia (l'archivio del vault,
+ * gli asset del silo Garetti, i manuali con cui la macchina si istruisce, l'impianto). **Da 52 a 13.**
  *
- * Il tetto è un cricchetto: scende quando si mappano altri percorsi, non sale. Parte da dove siamo
- * (quindi verde oggi) perché un cancello che nasce rosso su decine di file viene spento entro la
- * settimana — mentre uno che nasce verde becca la prima cosa che sporca.
+ * I 13 che restano sono ambigui sul serio e stanno fuori apposta: `.obsidian/` (configurazione
+ * dell'editor di Nicola), l'indice e il blueprint del vault, le tre regole creative, e due artefatti
+ * finiti in `consegne/` per sbaglio. Metterli da una parte a caso falserebbe la quota — che è
+ * esattamente ciò che questo guardiano esiste per evitare.
+ *
+ * Il tetto è un cricchetto: scende quando si mappa, non sale. E parte da dove siamo (quindi verde
+ * oggi) perché un cancello che nasce rosso su decine di file viene spento entro la settimana —
+ * mentre uno che nasce verde becca la prima cosa che sporca. Qui l'ha beccata dopo un'ora.
  */
-export const TETTO_NON_CLASSIFICATI = 52;
+export const TETTO_NON_CLASSIFICATI = 13;
 export const TETTO_MISURATO_IL = "2026-07-29";
 
 /**

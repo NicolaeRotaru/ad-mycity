@@ -9,7 +9,10 @@
 //     dove chiusura-loop, stampo-check, tasso-lezioni e bootstrap-quaderni scrivono davvero;
 //   · i 26 percorsi del vault con l'accento arrivavano da git riscritti in ottali e non
 //     corrispondevano a nessun prefisso (stessa radice di AR-339).
-// Misurato dopo il fix: da 202 a 52, identico a 7, 14 e 30 giorni di finestra.
+// Misurato dopo il fix: da 202 a 52. Poi un merge di `main` ha portato un file nuovo e il tetto ha
+// suonato per uno solo (53 contro 52) — la prova che il cancello serve, un'ora dopo averlo acceso.
+// La risposta giusta a quel suono non è alzare il numero: è mappare i gruppi con una destinazione
+// ovvia. Da 52 a **12**, e i 12 che restano sono ambigui sul serio.
 //
 // E una terza cosa, che è il vero rimedio: la zona cieca adesso ha un TETTO dichiarato e datato.
 // Senza tetto, una mappa che invecchia è indistinguibile da una mappa giusta — ed è esattamente
@@ -107,7 +110,7 @@ prova("e i quaderni sono finiti nel conto giusto: la macchina, non l'ignoto", ()
   // 120 senior + README + AD: la casa vera ne ha oltre cento, e prima erano TUTTI fra i non classificati.
   assert.ok(j.sforzo.macchina > 1000, `macchina troppo bassa (${j.sforzo.macchina})`);
   assert.ok(
-    j.sforzo.non_classificato < 100,
+    j.sforzo.non_classificato <= TETTO_NON_CLASSIFICATI,
     `non classificati ${j.sforzo.non_classificato}: prima del fix erano 202, se risalgono la mappa è tornata vecchia`,
   );
 });
