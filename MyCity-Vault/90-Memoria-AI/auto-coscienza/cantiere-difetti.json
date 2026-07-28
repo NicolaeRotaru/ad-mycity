@@ -3074,9 +3074,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/components/cervello/RadiografiaDiSe.tsx",
-        "pattern": "<div className=\"t-micro mb-1.5\">Chiusi</div>",
-        "presente": false
+        "comando": "node cervello/test/chiusi-richiudibili.test.mjs"
       },
       "nota": "Dove: pannello/src/components/cervello/RadiografiaDiSe.tsx:429-440 (elenco chiusi) · pannello/src/components/cervello/RadiografiaDiSe.tsx:116-118 (nessun tetto) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
@@ -3663,9 +3661,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/app/api/memoria/auto-radiografia/route.ts",
-        "pattern": "live, radiografia, cantiere, storico, watchlist, lettera })",
-        "presente": false
+        "comando": "node cervello/test/cantiere-snello.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/memoria/auto-radiografia/route.ts:114 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
