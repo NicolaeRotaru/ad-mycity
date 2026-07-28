@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 21:58",
+  "aggiornato": "2026-07-29 00:22",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -5464,18 +5464,19 @@
       "causa_radice": "AR-334 (PR #599) ha fatto la cosa giusta: le esenzioni di malattie.json adesso si sottraggono e quelle orfane fanno fallire. Provando quell implementazione su un albero finto — un istanza vera, esenzioni sospette — sono uscite due strade per zittire una malattia senza toccare una riga di codice. (A) `perche: \"boh\"` passava: il registro dice «un esenzione senza motivo e un silenzio» e porte-check pretende gia piu di dieci caratteri per la stessa ragione — la regola c era, il metro no. (B) TRE esenzioni su un file con UNA istanza sottraevano tre, e `Math.max(0, …)` teneva il totale a zero nascondendo il resto: bastava impilare voci per far sparire un file dal conteggio. — Radice: una regola scritta bene con un metro che non la fa rispettare. Si vede solo eseguendo lo strumento su casi che nel repo non esistono ancora — rileggendo il codice non si vede.",
       "fix_proposto": "🟡 (a) Soglia dichiarata per il motivo (MOTIVO_MIN, la stessa di porte-check) e ogni esenzione copre UNA istanza reale del suo file: le eccedenti diventano orfane. (b) Ogni scarto porta il PERCHE — un guardiano che dice solo «no» costringe a indovinare quale regola e scattata. (c) La decisione in una funzione pura (pesaEsenzioni) che una prova esegue su ingressi finti.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-28 23:35",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-29 00:22",
       "verifica": {
         "comando": "node cervello/test/esenzione-con-un-motivo-vero.test.mjs"
       },
-      "origine": "provando su un albero finto il fix di AR-334 appena mergiato, invece di rileggerlo"
+      "origine": "provando su un albero finto il fix di AR-334 appena mergiato, invece di rileggerlo",
+      "chiuso_come": "node cervello/test/esenzione-con-un-motivo-vero.test.mjs → exit 0 (guardiano soddisfatto)"
     }
   ],
   "meta": {
-    "aperti": 112,
+    "aperti": 113,
     "in_corso": 0,
-    "chiusi": 163
+    "chiusi": 164
   }
 }
