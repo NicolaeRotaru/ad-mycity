@@ -2,6 +2,7 @@ import { readVaultFile, readVaultFileEsito } from "@/lib/vault";
 import { getMetriche } from "@/lib/marketplace-db";
 import { azioniDaSentinelle, PRICING_PITCH_DEFAULT, type PricingPitch } from "@/lib/sentinelle";
 import { parseAzioniAttesa } from "@/lib/azioni-attesa";
+import { livelloEffettivo } from "@/lib/livello-effettivo";
 
 // Logica condivisa della corsia "Azioni pronte": parsing del vault, unione con
 // le sentinelle, stato delle decisioni. Usata dall'endpoint /api/azioni-pronte
@@ -116,5 +117,12 @@ export async function tutteLeAzioniConEsito(): Promise<{ azioni: Blocco[]; codaL
   } catch {
     sentinelle = [];
   }
-  return { azioni: [...sentinelle, ...vault], codaLeggibile, motivoCoda };
+  // AR-140 — un solo punto in cui il colore diventa quello VERO, così il Pannello mostra a Nicola la
+  // stessa cosa che l'autopilota userà per decidere. L'emoji nel markdown la scrive un senior; il
+  // canale è un fatto. Se l'azione raggiunge qualcuno fuori, il livello sale a giallo — e solo sale.
+  const conCanale = [...sentinelle, ...vault].map((b) => ({
+    ...b,
+    livello: livelloEffettivo(b.livello, b.canale),
+  }));
+  return { azioni: conCanale, codaLeggibile, motivoCoda };
 }

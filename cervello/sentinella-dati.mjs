@@ -685,6 +685,11 @@ async function main() {
   const rossi = [...accodati, ...allertati].some((a) => a.colore === "🔴");
   await stampSegnale("sentinella-dati", rossi ? "warn" : "ok",
     `${eventi.length} eventi · ${nAccodati} accodati · ${allertati.length} allerte · ${saltati.length} saltati${s.dati_leggibili ? "" : " · dati ciechi"} · ${quando}`);
+  // AR-119 — il confine della firma: queste sono le chiavi che la sentinella tocca, e nessuna è una
+  // firma. La chiave di servizio potrebbe scriverne altre: il guardiano `cervello/firma-check.mjs`
+  // legge questa dichiarazione e fallisce se qualcuno ci aggiunge `azione:<id>:firma`.
+  const CHIAVI_SCRITTE = ["sentinella-dati:ultimo", "sentinella:", "coda:"];
+  void CHIAVI_SCRITTE;
   await fetch(`${MEM_URL}/rest/v1/impostazioni?on_conflict=chiave`, {
     method: "POST",
     headers: { ...memHeaders(), Prefer: "resolution=merge-duplicates,return=minimal" },

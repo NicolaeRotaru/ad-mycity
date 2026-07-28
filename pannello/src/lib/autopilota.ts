@@ -2,6 +2,7 @@ import { getImpostazione, getImpostazioni, setImpostazione, logAzione } from "@/
 import { eseguiAzione } from "@/lib/mani";
 import { tutteLeAzioni, statoDa } from "@/lib/azioni-pronte";
 import { registraFirma } from "@/lib/firma-azione";
+import { autoEseguibile } from "@/lib/livello-effettivo";
 
 // Autopilota — il "battito" GRATIS della macchina (nessuna API AI, €0).
 // Esegue DA SOLO le azioni SICURE (🟢 verde) non ancora decise.
@@ -24,7 +25,13 @@ export async function eseguiAutopilota(): Promise<{ attivo: boolean; eseguite: n
 
   const blocchi = await tutteLeAzioni();
   const { valori } = await getImpostazioni();
-  const sicure = blocchi.filter((b) => b.livello === "verde" && statoDa(valori[`azione:${b.id}`] || "") === "");
+  // AR-140 — il colore da solo non basta: lo scrive un senior nel markdown, e un 🟢 di troppo su una
+  // card che manda una mail farebbe partire una mail vera senza che nessuno l'abbia letta. Il canale
+  // è un fatto, l'emoji è una dichiarazione: se l'azione raggiunge qualcuno fuori, il livello sale a
+  // giallo e passa dalle mani di Nicola, qualunque cosa dica il testo. Può solo alzare, mai abbassare.
+  const sicure = blocchi.filter(
+    (b) => autoEseguibile(b.livello, b.canale) && statoDa(valori[`azione:${b.id}`] || "") === "",
+  );
 
   let eseguite = 0;
   for (const a of sicure) {

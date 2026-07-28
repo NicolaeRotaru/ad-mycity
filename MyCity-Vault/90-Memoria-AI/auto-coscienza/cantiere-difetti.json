@@ -1060,9 +1060,8 @@
       "nato": "2026-07-16 16:55",
       "chiuso_il": "",
       "verifica": {
-        "file": "cervello/consenso-azione.mjs",
-        "pattern": "rest/v1/approvazioni|firma_pannello",
-        "presente": true
+        "tipo": "umano",
+        "nota": "Metà riparata da AR-205 (la firma è una sola autorità: Supabase `azione:<id>:firma` = «nicola …», scritta dal clic del Pannello, «auto» rifiutato, fail-closed) e il confine è sorvegliato dal lotto 25 (`node cervello/firma-check.mjs`, cancello nel giro). Quello che resta NON si prova da codice: serve che la chiave/ruolo con cui il cervello parla a Supabase NON possa scrivere le chiavi `azione:*:firma` (permessi ristretti o RLS). Si chiude guardando la configurazione di Supabase, non un file del repo."
       },
       "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
     },
@@ -1469,7 +1468,7 @@
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione guardrail-semaforo)",
       "verifica": {
-        "tipo": "umano"
+        "comando": "node cervello/test/verde-che-esce-di-casa.test.mjs"
       }
     },
     {
@@ -1485,7 +1484,7 @@
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione guardrail-semaforo)",
       "verifica": {
-        "tipo": "umano"
+        "comando": "node cervello/test/prezzo-a-bordo-di-un-altra-firma.test.mjs"
       }
     },
     {
