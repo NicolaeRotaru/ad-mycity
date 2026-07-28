@@ -162,6 +162,7 @@ VOLANO_VINCOLO=""        # AR-165: verdetto della sonda-volano, prima buttato in
 FRATELLI_VINCOLO=""      # 28/7: una malattia nota si è allargata in un punto nuovo (spazzata-fratelli)
 USCITE_VINCOLO=""        # AR-272: un'uscita verso il mondo reale non dichiarata, o senza cancello
 SCADENZE_VINCOLO=""      # AR-147/214: scadenza entro 72h, o countdown trascritto che non è più vero
+PAUSE_VINCOLO=""         # AR-159/157: una card in pausa che nessun orologio sveglierà, o una data ricopiata
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
@@ -460,6 +461,18 @@ if command -v node >/dev/null 2>&1; then
   if ! guardiano scadenzario-check.mjs; then
     SCADENZE_VINCOLO="$(vincolo_da_rc "scadenzario-check" "$GUARDIANO_RC" "⛔ SCADENZA IMMINENTE o COUNTDOWN STANTIO (scadenzario-check.mjs rc=$GUARDIANO_RC, AR-147/AR-214): c'è una scadenza esterna entro 72h, oppure un file vivo contiene un countdown scritto a mano che ha smesso di essere vero. Le scadenze imminenti vanno in cima alle mosse del giro; i countdown trascritti vanno tolti — si calcolano, non si ricopiano. Dettaglio: node cervello/scadenzario-check.mjs")"
     echo "[$(ts)] ⚠️  AR-147/214: scadenzario rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+  # AR-159/AR-157 — le pause della coda. «Riprendono da sole» era una frase: il ⏸ lo leggeva un solo
+  # punto della macchina, e serviva a TOGLIERE la card dal conteggio delle firme in attesa. Qui la
+  # pausa viene confrontata con l'orologio, e la data dev'essere citata dal registro — non ricopiata
+  # nel titolo, dove invecchia in silenzio il giorno che Nicola la sposta.
+  # `--risveglia` e non solo il rilevatore: AR-159 (c) vieta di chiudere il punto con un promemoria,
+  # perché il promemoria a mano è il meccanismo che qui ha già fallito. Scrive solo quando una pausa
+  # è davvero finita, tocca solo la coda dell'AD, ed è idempotente (provato).
+  echo "[$(ts)] ⏸ Pause della coda (qualcuno le sveglia davvero?)..."
+  if ! guardiano pausa-check.mjs --risveglia; then
+    PAUSE_VINCOLO="$(vincolo_da_rc "pausa-check" "$GUARDIANO_RC" "⛔ PAUSA SENZA RISVEGLIO o DATA RICOPIATA (pausa-check.mjs rc=$GUARDIANO_RC, AR-159/AR-157): c'è una card in pausa che nessun orologio sveglierà, oppure una card che si tiene dentro il valore di un fatto invece di citarne l'id — e quando Nicola sposta la data, quella copia mente. Se una pausa è scaduta, sveglia le card: node cervello/pausa-check.mjs --risveglia. Dettaglio: node cervello/pausa-check.mjs")"
+    echo "[$(ts)] ⚠️  AR-159/157: pausa-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
   echo "[$(ts)] 🧹 Spazzata dei fratelli (la stessa malattia, cercata dappertutto)..."
   if ! guardiano spazzata-fratelli.mjs; then
@@ -783,6 +796,12 @@ if [ -n "${SCADENZE_VINCOLO:-}" ]; then
 
 ## Vincolo scadenze (HARD — AR-147/214: un countdown si calcola, non si trascrive)
 $SCADENZE_VINCOLO"
+fi
+if [ -n "${PAUSE_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo pause della coda (HARD — AR-159/157: una pausa è uno stato, non una frase)
+$PAUSE_VINCOLO"
 fi
 if [ -n "${TASSO_VINCOLO:-}" ]; then
   PROMPT="$PROMPT
