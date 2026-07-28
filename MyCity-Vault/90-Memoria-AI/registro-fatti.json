@@ -1,8 +1,18 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-25 00:05",
+  "aggiornato": "2026-07-28 06:01",
   "fatti": [
+    {
+      "id": "bandi.pi26.scadenza",
+      "nome": "Bando PI26 — 10.000€ a fondo perduto",
+      "valore": "2026-07-30 16:00 (sportello a esaurimento — dopo l'invio una domanda inammissibile NON si corregge)",
+      "fonte": "Registrato il 28/7 06:10 da cervello/scadenzario.json. Prima viveva solo in prosa dentro CHECKLIST-NICOLA.md, intenzioni-nicola.json e vari Report — cioè in nessun posto: tre file davano tre countdown diversi e tutti sbagliati.",
+      "aggiornato": "2026-07-28 06:01",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
     {
       "id": "bando.commercio-er.scadenza",
       "nome": "Stato bando Commercio ER FESR (40% fondo perduto)",

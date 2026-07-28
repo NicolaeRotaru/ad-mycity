@@ -1,10 +1,10 @@
 {
   "data": "2026-07-27 06:20",
-  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati, stallo ~33gg). Le mosse verso il marketplace (ordine test PQ, post social, WhatsApp anchor) restano in pausa concordata fino al 24/8-1/9 — non sono priorità di oggi. L'unica eccezione attiva è PI26 (10.000€ a fondo perduto, sportello a esaurimento): mancano 3 giorni e servono 3 risposte di Nicola prima dell'invio finale. Resta aperta anche la conferma sulla nuova data di ripartenza (metà agosto, proposta il 26/7 notte) vs la pausa già registrata (24/8-1/9). Telegram sul VPS resta configurabile quando c'è tempo, non bloccante.",
+  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati, stallo ~33gg). Le mosse verso il marketplace (ordine test PQ, post social, WhatsApp anchor) restano in pausa concordata fino al 24/8-1/9 — non sono priorità di oggi. L'unica eccezione attiva è PI26 (10.000€ a fondo perduto, sportello a esaurimento): servono 3 risposte di Nicola prima dell'invio finale. Resta aperta anche la conferma sulla nuova data di ripartenza (metà agosto, proposta il 26/7 notte) vs la pausa già registrata (24/8-1/9). Telegram sul VPS resta configurabile quando c'è tempo, non bloccante.",
   "prossime_mosse": [
     {
       "titolo": "Rispondi alle 3 domande sul bando PI26",
-      "quando": "Entro il 30/7 ore 16:00 (3 giorni residui, sportello a esaurimento)",
+      "quando": "Entro il 30/7 ore 16:00 (sportello a esaurimento — quanto manca lo calcola scadenzario-check, non si trascrive)",
       "come": "P.IVA/entità giuridica sì/no · spese reali documentabili sì/no e quanto · firma digitale attiva sì/no — poi restart.infocamere.it con SPID",
       "priorita": "alta",
       "ad_prepara": "Bozza pronta in consegne/relazioni-istituzionali/, aggiornata appena arrivano le risposte",

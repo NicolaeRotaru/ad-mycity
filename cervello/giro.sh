@@ -160,6 +160,7 @@ COSTO_VINCOLO=""         # AR-196: il freno sui costi non sa quanto abbiamo spes
 FRESCHEZZA_VINCOLO=""    # AR-165: guardiani del preambolo che non hanno battuto (verde vecchio ≠ verde)
 VOLANO_VINCOLO=""        # AR-165: verdetto della sonda-volano, prima buttato in una pipe
 FRATELLI_VINCOLO=""      # 28/7: una malattia nota si è allargata in un punto nuovo (spazzata-fratelli)
+USCITE_VINCOLO=""        # AR-272: un'uscita verso il mondo reale non dichiarata, o senza cancello
 SCADENZE_VINCOLO=""      # AR-147/214: scadenza entro 72h, o countdown trascritto che non è più vero
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
 if command -v node >/dev/null 2>&1; then
@@ -445,6 +446,14 @@ if command -v node >/dev/null 2>&1; then
   # Un test dimostra che UN punto guarisce; questo dimostra che la malattia non è viva due porte più in
   # là. Fallisce se una forma-di-difetto nota si allarga — più istanze del tetto, o un file nuovo che si
   # ammala. Registro: cervello/malattie.json.
+  # AR-272 (c) — l'elenco delle uscite verso il mondo reale. La radice comune dei tre bloccanti sulla
+  # sicurezza è che il cancello sta DENTRO ogni esecutore invece che al confine: così un'uscita nuova
+  # nasce scoperta e nessuno se ne accorge, perché non esisteva un elenco di cosa sia un'uscita.
+  echo "[$(ts)] 🚪 Uscite verso il mondo reale (chi tocca il mondo, e chi lo controlla)..."
+  if ! guardiano uscite-check.mjs; then
+    USCITE_VINCOLO="$(vincolo_da_rc "uscite-check" "$GUARDIANO_RC" "⛔ USCITA SCOPERTA (uscite-check.mjs rc=$GUARDIANO_RC, AR-272): un punto di questa macchina scrive o manda qualcosa FUORI e nessuno l'ha dichiarato — oppure una dichiarata «serve il cancello» non lo importa. Non aggirarlo: dichiara l'uscita in cervello/uscite-reali.json dicendo se serve il cancello e, se non serve, PERCHÉ. Elenco: node cervello/uscite-check.mjs")"
+    echo "[$(ts)] ⚠️  AR-272: uscite-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
   # AR-147/AR-214 — le scadenze esterne come DATI. Un countdown si CALCOLA: trascriverlo lo congela
   # al momento in cui è stato scritto, e da lì invecchia in silenzio sembrando aggiornato.
   echo "[$(ts)] 📅 Scadenze (calcolate, non trascritte)..."
@@ -619,7 +628,7 @@ fi
 # scioglievano in silenzio — il giro pubblicava lo stesso e usciva 0. Qui li raccogliamo in un elenco
 # che esiste FUORI dal prompt, così può governare sia il salto del motore sia l'esito del giro.
 VINCOLI_ATTIVI=()
-for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI TASSO SCADENZE; do
+for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI TASSO USCITE SCADENZE; do
   eval "_vval=\"\${${_vnome}_VINCOLO:-}\""
   [ -n "$_vval" ] && VINCOLI_ATTIVI+=("$_vnome")
 done
@@ -762,6 +771,12 @@ if [ -n "${FRATELLI_VINCOLO:-}" ]; then
 
 ## Vincolo spazzata dei fratelli (HARD — una malattia nota si è allargata)
 $FRATELLI_VINCOLO"
+fi
+if [ -n "${USCITE_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo uscite verso il mondo reale (HARD — AR-272: il cancello sta al confine, non dentro)
+$USCITE_VINCOLO"
 fi
 if [ -n "${SCADENZE_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 02:44",
+  "aggiornato": "2026-07-28 10:16",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -2279,17 +2279,15 @@
       "causa_radice": "① Perché una lezione può morire in mezza giornata? Perché lo sconto è per esecuzione. ② Perché per esecuzione? Perché lo script è stato scritto come passo di un ciclo settimanale e poi cablato in un giro che gira 9 volte al giorno. ③ Perché nessuno ha ricalibrato? Perché il pezzo è stato consegnato quando le lezioni erano tutte più giovani della soglia: il codice non poteva sbagliare e il test non poteva accorgersene. ④ Perché non c'è un test sul comportamento nel tempo? Perché i test del cervello verificano l'esito di UNA esecuzione, mai l'effetto cumulato di N esecuzioni ravvicinate. ⑤ Causa di sistema: la macchina non sa distinguere «una volta per periodo» da «una volta per giro» quando cabla un pezzo nel ciclo; ogni processo periodico agganciato al giro eredita la frequenza del giro senza che nessuno lo dichiari.",
       "fix_proposto": "🟡 (a) Legare lo sconto al tempo, non alle esecuzioni: scrivere `decaduto_step_il` sulla lezione e applicare −0,15 al massimo una volta ogni 7 giorni. (b) Tetto per giro sul numero di lezioni che possono decadere, e una riga in memoria quando una lezione muore (una lezione che sparisce in silenzio è memoria persa senza traccia). (c) Regola di processo: ogni script periodico cablato nel giro deve dichiarare nel proprio commento la propria cadenza vera e proteggersi da esecuzioni ravvicinate.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/cristallizza-apprendimento.mjs",
-        "pattern": "decaduto_step_il|ultimo_decadimento",
-        "presente": true
+        "comando": "node cervello/test/archivi-senza-tetto.test.mjs"
       },
       "nota": "Dove: cervello/cristallizza-apprendimento.mjs:116-127 · Impatto: La memoria dell'azienda passerà senza gradualità da «471 lezioni vive e 0 decadute» a un'estinzione di massa non voluta, e a morire per prime saranno le lezioni più vecchie, cioè quelle con più evidenze accumulate. Il guardiano dell'apprendimento oggi accusa «il decadimento non gira»: ha ragione sul sintomo per il motivo sbagliato, e domani avrà torto nel modo peggiore.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 10:16",
+      "chiuso_come": "node cervello/test/archivi-senza-tetto.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-183",
@@ -2783,11 +2781,11 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/permessi-check.mjs",
-        "pattern": "jolly|wildcard|cartella scrivibile|no-esecuzione-jolly",
-        "presente": true
+        "file": ".claude/settings.json",
+        "pattern": "cervello/\\*\\.mjs",
+        "presente": false
       },
-      "nota": "Dove: .claude/settings.json:23 (permesso «Bash(node cervello/*.mjs:*)») + cervello/motore-ai.sh:274 (scritture auto-accettate) + cervello/worker.sh:26 (tutte le chiavi esportate nell'ambiente) + cervello/permessi-check.mjs:40-88 (le 7 regole d'oro non coprono il caso) · Impatto: Ogni cancello diventa facoltativo: l'invio a un cliente, la scrittura su una tabella del sito, il merge, la pausa — tutto raggiungibile senza passare dagli script che contengono i controlli, quindi senza firma, senza pausa e senza allowlist. Vale sia per i lavori sia per la chat, che è anche la superficie che ingoia testo esterno (vault, allegati, web): un'istruzione ostile in un documento letto diventa eseguibile. Nessuna traccia in DECISIONI.md, perché la traccia la scrive solo lo script che si è aggirato.",
+      "nota": "Dove: .claude/settings.json:23 (permesso «Bash(node cervello/*.mjs:*)») + cervello/motore-ai.sh:274 (scritture auto-accettate) + cervello/worker.sh:26 (tutte le chiavi esportate nell'ambiente) + cervello/permessi-check.mjs:40-88 (le 7 regole d'oro non coprono il caso) · Impatto: Ogni cancello diventa facoltativo: l'invio a un cliente, la scrittura su una tabella del sito, il merge, la pausa — tutto raggiungibile senza passare dagli script che contengono i controlli, quindi senza firma, senza pausa e senza allowlist. Vale sia per i lavori sia per la chat, che è anche la superficie che ingoia testo esterno (vault, allegati, web): un'istruzione ostile in un documento letto diventa eseguibile. Nessuna traccia in DECISIONI.md, perché la traccia la scrive solo lo script che si è aggirato. · 28/7 lotto 13: FATTA la (b) — permessi-check ha ora la regola no-jolly-su-cartella-scrivibile, che becca esattamente Bash(node cervello/*.mjs:*) e Bash(bash cervello/*.sh:*) e NON i permessi su un singolo script (la prima versione li bocciava tutti: un cancello che boccia cio che va bene viene disattivato). RESTA APERTO perche la (a) — sostituire il jolly con l elenco esplicito in .claude/settings.json — e AZIONE DI NICOLA: quel file e negato in Edit/Write alla macchina, apposta. Restano aperte anche la (c) provenienza degli script e la (d) chiavi fuori dall ambiente del worker. La radice condivisa con AR-272 e invece chiusa: esiste l elenco delle uscite verso il mondo reale (cervello/uscite-reali.json) e un guardiano che fallisce il giro se ne compare una non dichiarata. · 28/7 08:40 — PROVA CORRETTA prima che chiudesse a vuoto. Il passo 5 di come-riparo.md l ha intercettato: la prova puntava a no-jolly-su-cartella-scrivibile in permessi-check.mjs, cioe alla meta (b) che ho fatto io, e sarebbe passata lasciando aperta la (a) — togliere Bash(node cervello/*.mjs:*) e Bash(bash cervello/*.sh:*) da .claude/settings.json, che e azione di Nicola perche quel file e negato in Edit/Write alla macchina. Terza chiusura falsa intercettata in un giorno, tutte con la stessa forma: una prova che si accontenta di una parte del fix. Ora la prova guarda il file che deve cambiare.",
       "chiuso_il": "",
       "chiuso_come": ""
     },
@@ -2911,7 +2909,7 @@
       "verifica": {
         "comando": "node cervello/test/scadenze-calcolate.test.mjs"
       },
-      "nota": "Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json:7-8 vs pannello/src/components/AutoCoscienza.tsx:319-321 · Impatto: Il tab «Auto-analisi» mostra badge a zero e nessuna domanda proprio nel giro in cui la macchina ha tre cose da chiedere, una su un bando da 10.000€ a quattro giorni dalla chiusura. Le domande restano visibili altrove (checklist, coda azioni), quindi non tutto è perduto — ma la scheda che Nicola apre per sapere «cosa mi sta chiedendo la macchina» è strutturalmente cieca, e il collegamento domanda→carta d'azione non si forma. Peggio: una card vuota si legge come «niente da segnalare», che è l'opposto della verità.",
+      "nota": "Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json:7-8 vs pannello/src/components/AutoCoscienza.tsx:319-321 · Impatto: Il tab «Auto-analisi» mostra badge a zero e nessuna domanda proprio nel giro in cui la macchina ha tre cose da chiedere, una su un bando da 10.000€ a quattro giorni dalla chiusura. Le domande restano visibili altrove (checklist, coda azioni), quindi non tutto è perduto — ma la scheda che Nicola apre per sapere «cosa mi sta chiedendo la macchina» è strutturalmente cieca, e il collegamento domanda→carta d'azione non si forma. Peggio: una card vuota si legge come «niente da segnalare», che è l'opposto della verità. · RIAPERTO 2026-07-28 08:45 dal passo 5 di come-riparo.md. Si era chiuso sulla VECCHIA prova a pattern, soddisfatta perche stanotte ho corretto i DATI su main — non perche la causa sia stata rimossa. Il codice che impedisce il ritorno (valida-contratti --correggi nel giro per AR-212; scadenzario-check.mjs per AR-214) vive sul ramo del lotto 14, PR #583, non ancora mergiata. Al prossimo giro il file puo tornare come prima. La prova e ora comportamentale e passera solo quando quel codice sara su main.",
       "chiuso_il": "",
       "chiuso_come": ""
     },
@@ -2949,7 +2947,7 @@
       "verifica": {
         "comando": "node cervello/test/scadenze-calcolate.test.mjs"
       },
-      "nota": "Dove: MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json:2 vs MyCity-Vault/90-Memoria-AI/CHECKLIST-NICOLA.md:18 · Impatto: Il decisore legge due countdown diversi sulla stessa pratica da 10.000€ e non ha modo di sapere quale sia vivo — e quello sbagliato è dalla parte comoda (sette giorni invece di quattro), cioè rassicura mentre la finestra si chiude. Sul fronte squadra è peggio: ogni senior che apre gli OKR oggi parte da «29 giorni» di stallo e calibra l'urgenza su un numero vecchio di tre giorni. È la definizione del fallimento che il glossario dei KPI dice di voler evitare: reparti che discutono di quale numero sia quello vero invece che di cosa fare. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA RADDRIZZATA 2026-07-27 18:40 dal guardiano prove-oneste (AR-330): era gia soddisfatta alla nascita, quindi il difetto si sarebbe chiuso da solo senza che nessuno riparasse niente.",
+      "nota": "Dove: MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json:2 vs MyCity-Vault/90-Memoria-AI/CHECKLIST-NICOLA.md:18 · Impatto: Il decisore legge due countdown diversi sulla stessa pratica da 10.000€ e non ha modo di sapere quale sia vivo — e quello sbagliato è dalla parte comoda (sette giorni invece di quattro), cioè rassicura mentre la finestra si chiude. Sul fronte squadra è peggio: ogni senior che apre gli OKR oggi parte da «29 giorni» di stallo e calibra l'urgenza su un numero vecchio di tre giorni. È la definizione del fallimento che il glossario dei KPI dice di voler evitare: reparti che discutono di quale numero sia quello vero invece che di cosa fare. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA RADDRIZZATA 2026-07-27 18:40 dal guardiano prove-oneste (AR-330): era gia soddisfatta alla nascita, quindi il difetto si sarebbe chiuso da solo senza che nessuno riparasse niente. · RIAPERTO 2026-07-28 08:45 dal passo 5 di come-riparo.md. Si era chiuso sulla VECCHIA prova a pattern, soddisfatta perche stanotte ho corretto i DATI su main — non perche la causa sia stata rimossa. Il codice che impedisce il ritorno (valida-contratti --correggi nel giro per AR-212; scadenzario-check.mjs per AR-214) vive sul ramo del lotto 14, PR #583, non ancora mergiata. Al prossimo giro il file puo tornare come prima. La prova e ora comportamentale e passera solo quando quel codice sara su main.",
       "chiuso_il": "",
       "chiuso_come": ""
     },
@@ -3751,17 +3749,15 @@
       "causa_radice": "RIDIAGNOSTICATO 2026-07-28 (audit della chiusura, cervello/come-riparo.md §5). La causa scritta prima era imprecisa. Riprodotto: apprendimento.json misura 1.111.673 CARATTERI, il tetto in pannello/src/lib/obsidian.ts:174 e MAX=1.000.000, quindi il testo viene troncato a meta stringa e JSON.parse fallisce -> leggiJson torna null -> scheda vuota. Sopra 1 MiB c e anche un secondo modo di fallire, altrettanto silenzioso: la Contents API di GitHub non serve inline i file oltre 1.048.576 byte, restituisce content vuoto, e il codice lo legge come stato assente — un file troppo grosso che risulta INESISTENTE. Due strade, stessa bugia: la scheda dice che non c e niente.",
       "fix_proposto": "🟡 Due meta, servono entrambe. (a) CODICE: un .json non si tronca MAI — troncare dati strutturati non li degrada, li distrugge. Serve uno stato dichiarato «troppo-grande» in StatoLettura (oggi: ok|assente|github-giu|auth) che porti la dimensione vera, cosi la Cabina dice «archivio troppo grande per essere letto: N byte» invece di restare vuota; e sopra 1 MiB va usata la Blob API con media type raw invece della Contents API. (b) DATI: il file deve rientrare. Misurato il 28/7 — togliere le 211 chiavi di servizio _* recupera 114.047 byte e porta il file a 1.017.222: NON BASTA, resta sopra il tetto. Servono anche le 476 lezioni potate (famiglia AR-182/AR-199, archivio mai potato). Finche (b) non e fatta la scheda resta vuota anche col fix (a): cambia che si SA perche.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/lib/obsidian.ts",
-        "pattern": "troppo-grande",
-        "presente": true
+        "comando": "node cervello/test/archivi-senza-tetto.test.mjs"
       },
       "nota": "Dove: pannello/src/lib/obsidian.ts:174 e :297 (tetto) — file MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json · RIAPERTO 2026-07-28 02:10: il lotto 11 lo aveva chiuso, ma il suo fix (risposta piu snella) gira DOPO la lettura — e la lettura e gia fallita. Il difetto e sopravvissuto perche condivideva la prova comportamentale con altri quattro difetti del lotto: una prova sola per cinque difetti chiude tutti e cinque anche se uno non e riparato. E la stessa debolezza dell OR che ha fatto chiudere AR-178 a meta. Ora ha una prova sua.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 10:16",
+      "chiuso_come": "node cervello/test/archivi-senza-tetto.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-255",
@@ -4117,17 +4113,15 @@
       "causa_radice": "① Perché il merge non è protetto? Perché non usa il cancello di consenso. ② Perché non lo usa? Perché è nato prima come strumento del worker, quando il freno era la variabile globale. ③ Perché non è stato agganciato dopo? Perché il cancello è stato aggiunto agli esecutori «delle mani» (email, notifiche, scritture DB) e il merge non è stato riconosciuto come una mano. ④ Perché non è stato riconosciuto? Perché il modello mentale è «mano = messaggio a una persona», mentre il merge tocca il mondo reale più di un'email. ⑤ Causa di sistema: non esiste un elenco dichiarato di TUTTE le uscite verso il mondo reale con l'obbligo di passare dal cancello — così ogni nuova uscita è protetta solo se qualcuno se lo ricorda.",
       "fix_proposto": "🟡 (a) Far passare il merge dallo stesso cancello degli altri canali (PAUSA + firma + lista), come già fa l'esecutore delle azioni; (b) togliere l'opzione che scavalca il freno, o legarla a una variabile separata che in produzione non esiste; (c) scrivere l'elenco delle uscite verso il mondo reale e aggiungere un controllo a ogni giro che verifichi che ognuna importi il cancello — un'uscita nuova senza cancello deve far fallire il controllo.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/git-merge.mjs",
-        "pattern": "const canMerge = \\(LIVE \\|\\| force\\) && !dryRun",
-        "presente": false
+        "comando": "node cervello/test/uscite-verso-il-mondo.test.mjs"
       },
       "nota": "Dove: cervello/git-merge.mjs:104 · cervello/git-merge.mjs:33 (opzione documentata) · .claude/settings.json (permesso su tutti gli script del cervello) · Impatto: L'azione più irreversibile che la macchina possa compiere — mandare codice in produzione — è l'unica che non passa dai controlli costruiti apposta per le azioni irreversibili. Il pulsante di PAUSA del Pannello, che Nicola userebbe per fermare tutto, su questa strada non ferma niente. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 10:16",
+      "chiuso_come": "node cervello/test/uscite-verso-il-mondo.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-273",
@@ -5379,8 +5373,8 @@
     }
   ],
   "meta": {
-    "aperti": 147,
+    "aperti": 143,
     "in_corso": 0,
-    "chiusi": 124
+    "chiusi": 128
   }
 }

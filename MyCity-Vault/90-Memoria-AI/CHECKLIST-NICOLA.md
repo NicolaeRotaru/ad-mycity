@@ -15,7 +15,7 @@ aggiornato: 2026-07-27 06:20
 
 ## 🔴 URGENTE — 2 decisioni con l'orologio che corre
 
-- [ ] 🔴 **Rispondi alle 3 domande sul bando PI26 (10.000€, scadenza 30/7 ore 16:00 — mancano 3 giorni)** — un valutatore indipendente ha bocciato la bozza attuale come «da sistemare»: ① abbiamo Partita IVA/entità giuridica registrata? ② abbiamo spese reali documentabili (fatture/preventivi) che coprano la soglia minima richiesta (5.000€ dal 1° maggio — il nostro burn da maggio è solo ~850€, molto sotto)? ③ abbiamo firma digitale attiva? Sportello a esaurimento: se la domanda risulta inammissibile dopo l'invio non si può correggere.
+- [ ] 🔴 **Rispondi alle 3 domande sul bando PI26 (10.000€, scadenza 30/7 ore 16:00 — countdown vivo: node cervello/scadenzario-check.mjs)** — un valutatore indipendente ha bocciato la bozza attuale come «da sistemare»: ① abbiamo Partita IVA/entità giuridica registrata? ② abbiamo spese reali documentabili (fatture/preventivi) che coprano la soglia minima richiesta (5.000€ dal 1° maggio — il nostro burn da maggio è solo ~850€, molto sotto)? ③ abbiamo firma digitale attiva? Sportello a esaurimento: se la domanda risulta inammissibile dopo l'invio non si può correggere.
   → Card: `#pi26-conferma-ammissibilita`
 
 - [ ] 🟡 **Conferma se il piano squadra (fratello + 2 amici non pagati) con nuova data metà agosto sostituisce la pausa negozi decisa il 23/7 (24/8-1/9)** — l'hai descritto in chat 26/7 ~01:10 («si parte appena riparo la bici e stampo i volantini») ma è una data diversa da quella già registrata come ufficiale. Senza il tuo ok non riscrivo il fatto in memoria.
