@@ -19,6 +19,7 @@ import {
   resolveRepoConfig,
   stampSegnale,
 } from "./git-github.mjs";
+import { consensoInvio } from "./consenso-azione.mjs"; // AR-272: il merge è una mano, e passa dal cancello
 
 const LIVE = process.env.AZIONI_LIVE === "1" || process.env.AZIONI_LIVE === "on";
 
@@ -30,10 +31,12 @@ Opzioni:
   --pr NUMERO               Numero PR (obbligatorio)
   --method squash|merge|rebase   Metodo merge (default: squash → titolo "Titolo PR (#N)")
   --dry-run                 Simula senza mergeare
-  --force                   Merge anche se AZIONI_LIVE=0 (solo test/dev)
+  --azione-id ID            Casella firmata da Nicola che autorizza questo merge (AR-272)
   --help                    Aiuto
 
-Sicurezza: senza AZIONI_LIVE=1 stampa [DRY-RUN] e non mergea.`);
+Sicurezza (AR-272): oltre ad AZIONI_LIVE=1 servono PAUSA spenta, la firma di Nicola sulla
+casella in AZIONI-IN-ATTESA e il canale github sbloccato in mani-allowlist.json.
+Senza, stampa [DRY-RUN] e non mergea. L'opzione --force non esiste più.`);
 }
 
 function parseArgs(argv) {
@@ -78,7 +81,17 @@ async function main() {
   }
 
   const dryRun = Boolean(args["dry-run"]);
-  const force = Boolean(args.force);
+  // AR-272 (b) — `--force` è stato TOLTO. Era un'opzione documentata che saltava il freno: un
+  // cancello con accanto l'interruttore per spegnerlo non è un cancello. Se serve provare il flusso
+  // senza mergiare davvero c'è già `--dry-run`, che va nella direzione sicura.
+  if (args.force) {
+    console.error(
+      "ERRORE: --force non esiste più (AR-272). Saltava il freno sull'azione più irreversibile della macchina.\n" +
+        "  Per provare senza mergiare: --dry-run. Per mergiare davvero: la card firmata da Nicola nel Pannello.",
+    );
+    process.exit(1);
+  }
+  const argAzioneId = String(args["azione-id"] || "").trim();
   const method = String(args.method || "squash");
   if (!["merge", "squash", "rebase"].includes(method)) {
     console.error("ERRORE: --method deve essere merge, squash o rebase.");
@@ -101,12 +114,23 @@ async function main() {
     process.exit(1);
   }
 
-  const canMerge = (LIVE || force) && !dryRun;
+  // AR-272 — IL MERGE È UNA MANO, e finora era l'unica che non passava dal cancello.
+  //
+  // Mandare codice in produzione è l'azione più irreversibile che questa macchina possa compiere: sul
+  // Pannello un merge su `main` fa partire il Deploy Hook. Eppure era l'unica uscita che non chiedeva
+  // né la PAUSA né la firma di Nicola — mentre un'email a un cliente le chiede entrambe. La causa non
+  // è una svista: il cancello è stato aggiunto agli «esecutori delle mani» (email, notifiche, DB) e il
+  // merge non è stato riconosciuto come una mano, perché è nato prima, come strumento del worker.
+  // Il canale `github` esisteva GIÀ dentro consenso-azione.mjs, pronto e mai chiamato.
+  const consenso = await consensoInvio({
+    azioneId: process.env.AZIONE_ID || argAzioneId,
+    canale: "github",
+    destinatario: `${cfg.slug}#${prNum}`,
+  });
+  const canMerge = LIVE && consenso.live && !dryRun;
   if (!canMerge) {
-    console.log(
-      `[DRY-RUN] MERGE PR #${prNum} su ${cfg.slug} (metodo: ${method}). ` +
-        `Per merge reale: AZIONI_LIVE=1 oppure --force (solo dev).`
-    );
+    const perche = !LIVE ? "AZIONI_LIVE non attivo" : !consenso.live ? consenso.motivo : "richiesto --dry-run";
+    console.log(`[DRY-RUN] MERGE PR #${prNum} su ${cfg.slug} (metodo: ${method}). Motivo: ${perche}`);
     console.log(
       JSON.stringify({ ok: true, dryRun: true, repo: cfg.slug, pr: prNum, url: pr.html_url }, null, 2)
     );
