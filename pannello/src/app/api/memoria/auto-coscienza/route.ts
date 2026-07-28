@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { apprendimentoSnello } from "@/lib/risposta-snella"; // AR-247/254: la logica sta dove un test la può eseguire
-import { readVaultFile } from "@/lib/vault";
+import { readVaultFile, readVaultFileEsito } from "@/lib/vault"; // AR-254: distinguere «vuoto» da «non letto»
 import { sanificaListe } from "@/lib/memoria-json";
 
 export const runtime = "nodejs";
@@ -22,6 +22,28 @@ async function leggiJson(rel: string): Promise<any | null> {
     return JSON.parse(raw);
   } catch {
     return null;
+  }
+}
+
+/**
+ * AR-254 — come sopra, ma dice PERCHÉ quando non ci riesce.
+ *
+ * `apprendimento.json` ha superato il tetto di lettura (1.111.673 caratteri contro 1.000.000):
+ * finora veniva troncato a metà stringa, `JSON.parse` falliva, e la scheda restava vuota **per
+ * sempre** senza che nessuno sapesse perché. Un `null` non è una spiegazione.
+ */
+async function leggiJsonConMotivo(rel: string): Promise<{ dati: any | null; motivo: string }> {
+  const esito = await readVaultFileEsito(rel);
+  if (esito.stato === "troppo-grande") {
+    return { dati: null, motivo: esito.dettaglio || "archivio troppo grande per essere letto" };
+  }
+  if (esito.stato !== "ok" || esito.testo == null) {
+    return { dati: null, motivo: esito.stato === "assente" ? "" : "non riesco a raggiungere la memoria" };
+  }
+  try {
+    return { dati: JSON.parse(esito.testo), motivo: "" };
+  } catch {
+    return { dati: null, motivo: "l'archivio è arrivato incompleto (JSON non valido)" };
   }
 }
 
@@ -183,14 +205,17 @@ function calcolaLive(analisi: any, sensori: any) {
 }
 
 export async function GET() {
-  const [analisi, apprendimento, miglioramento, calibrazione, registro, sensori] = await Promise.all([
+  const [analisi, appEsito, miglioramento, calibrazione, registro, sensori] = await Promise.all([
     leggiJson(`${BASE}/auto-analisi.json`),
-    leggiJson(`${BASE}/apprendimento.json`),
+    leggiJsonConMotivo(`${BASE}/apprendimento.json`),
     leggiJson(`${BASE}/auto-miglioramento.json`),
     leggiJson(`${BASE}/calibrazione.json`),
     leggiJson(`${BASE}/registro-realta.json`),
     leggiJson(`${BASE}/sensori-cecita.json`),
   ]);
+  // AR-254: l'apprendimento porta con sé il MOTIVO quando non si è potuto leggere.
+  const apprendimento = appEsito.dati;
+  const apprendimentoMotivo = appEsito.motivo;
 
   const collegato = Boolean(analisi || apprendimento || miglioramento);
   if (!collegato) {
@@ -229,6 +254,8 @@ export async function GET() {
     analisi,
     analisi_affidabile,
     apprendimento: apprendimentoSnello(apprendimento),
+    // AR-254: se la scheda è vuota, questa riga dice perché — invece di lasciarla vuota per sempre.
+    apprendimento_non_leggibile: apprendimentoMotivo || null,
     miglioramento,
     calibrazione,
     registro,

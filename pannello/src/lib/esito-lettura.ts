@@ -87,6 +87,39 @@ export function listaSicura<T>(x: unknown): T[] {
 }
 
 /**
+ * AR-254 — **un file strutturato non si tronca MAI.**
+ *
+ * Troncare un `.md` lo degrada: si perde la coda, il resto si legge. Troncare un `.json` lo DISTRUGGE
+ * — `JSON.parse` fallisce, il chiamante riceve `null`, e «non sono riuscito a leggere» diventa
+ * indistinguibile da «non c'è niente». È esattamente il difetto: `apprendimento.json` misura
+ * 1.111.673 caratteri contro un tetto di 1.000.000, viene tagliato a metà stringa, e la scheda
+ * Apprendimento resta vuota **per sempre** senza che nessuno sappia perché.
+ *
+ * Sopra 1 MiB c'è un secondo modo di fallire, altrettanto muto: la Contents API di GitHub non serve
+ * i file inline oltre 1.048.576 byte e restituisce `content` vuoto — che il codice leggeva come
+ * «assente». Un file troppo grosso che risulta inesistente.
+ */
+export function comeServire({
+  percorso = "",
+  lunghezza = 0,
+  tetto = 1_000_000,
+}: { percorso?: string; lunghezza?: number; tetto?: number } = {}): {
+  azione: "intero" | "tronca" | "troppo-grande";
+  motivo: string;
+} {
+  const n = Number(lunghezza) || 0;
+  const t = Math.max(1, Number(tetto) || 1);
+  if (n <= t) return { azione: "intero", motivo: `${n} caratteri, entro il tetto di ${t}` };
+  if (/\.json$/i.test(String(percorso))) {
+    return {
+      azione: "troppo-grande",
+      motivo: `${n} caratteri contro un tetto di ${t}: un file strutturato non si tronca — troncarlo lo rende illeggibile, e il vuoto sembrerebbe un file assente`,
+    };
+  }
+  return { azione: "tronca", motivo: `${n} caratteri contro un tetto di ${t}: è testo, la coda si può perdere` };
+}
+
+/**
  * Il semaforo di una scheda quando il dato non è arrivato. Non «verde» (sarebbe una bugia) e non
  * «rosso» (allarmerebbe su un guasto che non sappiamo esistere): grigio, cioè «non lo so».
  * È il contratto del guardiano cieco (AR-322) portato a video.
