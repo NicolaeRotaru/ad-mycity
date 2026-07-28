@@ -1,4 +1,4 @@
-import { readVaultFile } from "@/lib/vault";
+import { readVaultFile, readVaultFileEsito } from "@/lib/vault";
 import { getMetriche } from "@/lib/marketplace-db";
 import { azioniDaSentinelle, PRICING_PITCH_DEFAULT, type PricingPitch } from "@/lib/sentinelle";
 import { parseAzioniAttesa } from "@/lib/azioni-attesa";
@@ -74,8 +74,30 @@ export function statoDa(raw: string): StatoAzione {
 // Tutte le azioni: quelle scritte dall'AD nel vault + quelle generate dalle
 // sentinelle sui dati reali (in cima, sono "calde").
 export async function tutteLeAzioni(): Promise<Blocco[]> {
+  return (await tutteLeAzioniConEsito()).azioni;
+}
+
+/**
+ * AR-233 — come sopra, ma dice anche SE la coda è stata letta davvero.
+ *
+ * Prima `readVaultFile` restituiva `string | null`, e quel `null` valeva sia «il file non esiste» sia
+ * «GitHub è giù / il token è morto». Diventava `[]`, e la home stampava «Niente da firmare. 👍» —
+ * un pollice in su su una lista che nessuno aveva letto. Nella coda ci sono card 🔴 con scadenza:
+ * è la bugia più cara che questo Pannello possa raccontare.
+ *
+ * Gli stati esistevano già in `readVaultFileEsito` (ok · assente · github-giu · auth): nessuno li
+ * stava propagando.
+ */
+export async function tutteLeAzioniConEsito(): Promise<{ azioni: Blocco[]; codaLeggibile: boolean; motivoCoda: string }> {
   // Fonte unica con la scheda "Da firmare": la coda VERA che il giro aggiorna.
-  const md = await readVaultFile("90-Memoria-AI/AZIONI-IN-ATTESA.md");
+  const esito = await readVaultFileEsito("90-Memoria-AI/AZIONI-IN-ATTESA.md");
+  const md = esito.stato === "ok" ? esito.testo : null;
+  const codaLeggibile = esito.stato === "ok" || esito.stato === "assente";
+  const motivoCoda = codaLeggibile
+    ? ""
+    : esito.stato === "auth"
+      ? "il Pannello non è autorizzato a leggere la memoria (token scaduto o revocato)"
+      : "non riesco a raggiungere la memoria su GitHub";
   const vault = md
     ? parseAzioniAttesa(md)
         .filter((a) => a.inAttesa)
@@ -94,5 +116,5 @@ export async function tutteLeAzioni(): Promise<Blocco[]> {
   } catch {
     sentinelle = [];
   }
-  return [...sentinelle, ...vault];
+  return { azioni: [...sentinelle, ...vault], codaLeggibile, motivoCoda };
 }

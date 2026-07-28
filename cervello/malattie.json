@@ -68,8 +68,13 @@
         ".tsx",
         ".mjs"
       ],
-      "baseline": 80,
-      "nota_onesta": "80 istanze in 32 file, misurate il 28/7. Qui non elenco i file: sarebbe un elenco lungo che non aggiunge verità. Conta il tetto — se domani diventano 81, qualcuno ha aggiunto un silenzio nuovo e questo guardiano lo dice."
+      "baseline": 74,
+      "nota_onesta": "74 istanze in codice vero, misurate il 28/7 (erano 80 prima del lotto 11: curate Plancia, StellePolari e MacchinaHomeCard). Il conteggio esclude i commenti e i file di test: contarli faceva CRESCERE il numero proprio quando qualcuno scriveva la prova che vieta la malattia — il contrario di quello che serve. Verificato incrociando con grep. Qui non elenco i file: conta il tetto, e se domani diventano 75 qualcuno ha aggiunto un silenzio nuovo.",
+      "curati": [
+        "Plancia.tsx — la coda dice se è stata letta (AR-233)",
+        "MacchinaHomeCard.tsx — i tre collegamenti restano con etichetta onesta (AR-256)",
+        "StellePolari.tsx — l'interruttore dice perché non ha salvato (AR-262)"
+      ]
     }
   ]
 }

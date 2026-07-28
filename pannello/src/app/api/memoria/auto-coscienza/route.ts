@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { apprendimentoSnello } from "@/lib/risposta-snella"; // AR-247/254: la logica sta dove un test la può eseguire
 import { readVaultFile } from "@/lib/vault";
 import { sanificaListe } from "@/lib/memoria-json";
 
@@ -212,5 +213,24 @@ export async function GET() {
     .filter(Boolean)
     .sort()
     .pop() || null;
-  return NextResponse.json({ collegato: true, aggiornato, live, analisi, analisi_affidabile, apprendimento, miglioramento, calibrazione, registro });
+  // AR-247 / AR-254 — due difetti, un fix solo: mancava il confine fra «file di memoria della
+  // macchina» e «risposta per il telefono». La route rimandava l'oggetto INTERO, e apprendimento.json
+  // pesa 1.131.270 byte — 344 KB in rete a ogni tick, ogni 30 secondi, anche in 4G. Le stesse cifre
+  // spiegano AR-254: quel file ha superato il tetto di lettura di 1 MiB (1.048.576), quindi in
+  // produzione arriva `null` e la scheda Apprendimento resta vuota PER SEMPRE.
+  //
+  // Il grasso è tutto di servizio: 211 chiavi su 217 iniziano con `_` (note di metabolizzazione, gate,
+  // consolidamenti) e nessuna schermata le mostra. Le lezioni sono 476 e la UI ne mostra quelle di 7
+  // giorni. Qui si manda ciò che la UI dichiara di leggere, e basta.
+  return NextResponse.json({
+    collegato: true,
+    aggiornato,
+    live,
+    analisi,
+    analisi_affidabile,
+    apprendimento: apprendimentoSnello(apprendimento),
+    miglioramento,
+    calibrazione,
+    registro,
+  });
 }
