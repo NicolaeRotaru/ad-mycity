@@ -161,6 +161,7 @@ FRESCHEZZA_VINCOLO=""    # AR-165: guardiani del preambolo che non hanno battuto
 VOLANO_VINCOLO=""        # AR-165: verdetto della sonda-volano, prima buttato in una pipe
 FRATELLI_VINCOLO=""      # 28/7: una malattia nota si è allargata in un punto nuovo (spazzata-fratelli)
 USCITE_VINCOLO=""        # AR-272: un'uscita verso il mondo reale non dichiarata, o senza cancello
+SCADENZE_VINCOLO=""      # AR-147/214: scadenza entro 72h, o countdown trascritto che non è più vero
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
@@ -453,6 +454,13 @@ if command -v node >/dev/null 2>&1; then
     USCITE_VINCOLO="$(vincolo_da_rc "uscite-check" "$GUARDIANO_RC" "⛔ USCITA SCOPERTA (uscite-check.mjs rc=$GUARDIANO_RC, AR-272): un punto di questa macchina scrive o manda qualcosa FUORI e nessuno l'ha dichiarato — oppure una dichiarata «serve il cancello» non lo importa. Non aggirarlo: dichiara l'uscita in cervello/uscite-reali.json dicendo se serve il cancello e, se non serve, PERCHÉ. Elenco: node cervello/uscite-check.mjs")"
     echo "[$(ts)] ⚠️  AR-272: uscite-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
+  # AR-147/AR-214 — le scadenze esterne come DATI. Un countdown si CALCOLA: trascriverlo lo congela
+  # al momento in cui è stato scritto, e da lì invecchia in silenzio sembrando aggiornato.
+  echo "[$(ts)] 📅 Scadenze (calcolate, non trascritte)..."
+  if ! guardiano scadenzario-check.mjs; then
+    SCADENZE_VINCOLO="$(vincolo_da_rc "scadenzario-check" "$GUARDIANO_RC" "⛔ SCADENZA IMMINENTE o COUNTDOWN STANTIO (scadenzario-check.mjs rc=$GUARDIANO_RC, AR-147/AR-214): c'è una scadenza esterna entro 72h, oppure un file vivo contiene un countdown scritto a mano che ha smesso di essere vero. Le scadenze imminenti vanno in cima alle mosse del giro; i countdown trascritti vanno tolti — si calcolano, non si ricopiano. Dettaglio: node cervello/scadenzario-check.mjs")"
+    echo "[$(ts)] ⚠️  AR-147/214: scadenzario rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
   echo "[$(ts)] 🧹 Spazzata dei fratelli (la stessa malattia, cercata dappertutto)..."
   if ! guardiano spazzata-fratelli.mjs; then
     FRATELLI_VINCOLO="$(vincolo_da_rc "spazzata-fratelli" "$GUARDIANO_RC" "⛔ MALATTIA ALLARGATA (spazzata-fratelli.mjs rc=$GUARDIANO_RC): una forma di difetto già nota è comparsa in un punto nuovo, o è cresciuta oltre il tetto. Non è un difetto nuovo: è uno vecchio che si è spostato. Curalo nello stesso lavoro, oppure dichiaralo esente col PERCHÉ in cervello/malattie.json — un'esenzione senza motivo è il silenzio che stiamo curando. Elenco: node cervello/spazzata-fratelli.mjs")"
@@ -507,6 +515,12 @@ $_appr_ric"
     echo "[$(ts)] ⚠️  Lever 2: verificatore avversariale rc=$_verif_rc → vincolo al motore." >&2
   fi
   # ── Lever 2 — Validatore contratti JSON ora GATE HARD (niente più «|| true» silenzioso, AR-043). ──
+  # AR-212 — prima si CORREGGE, poi si giudica. Il cancello dà al motore un vincolo, cioè CHIEDE di
+  # scrivere il nome giusto: ma un vincolo è una richiesta, non una garanzia. Misurato il 28/7, giorni
+  # dopo aver alzato il cancello, auto-analisi.json aveva ancora `domande_bloccanti` con TRE domande
+  # dentro — una sul bando da 10.000€ in scadenza fra due giorni, invisibile in Cabina. Rinominare in
+  # modo deterministico non dipende da chi scrive.
+  node "$SCRIPT_DIR/valida-contratti.mjs" --correggi >/dev/null 2>&1 || true
   echo "[$(ts)] Validatore contratti JSON auto-coscienza (AR-043 — ora gate)..."
   _contr_out="$(node "$SCRIPT_DIR/valida-contratti.mjs" 2>&1)"; _contr_rc=$?
   printf '%s\n' "$_contr_out" | tail -4
@@ -614,7 +628,7 @@ fi
 # scioglievano in silenzio — il giro pubblicava lo stesso e usciva 0. Qui li raccogliamo in un elenco
 # che esiste FUORI dal prompt, così può governare sia il salto del motore sia l'esito del giro.
 VINCOLI_ATTIVI=()
-for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI TASSO USCITE; do
+for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI TASSO USCITE SCADENZE; do
   eval "_vval=\"\${${_vnome}_VINCOLO:-}\""
   [ -n "$_vval" ] && VINCOLI_ATTIVI+=("$_vnome")
 done
@@ -763,6 +777,12 @@ if [ -n "${USCITE_VINCOLO:-}" ]; then
 
 ## Vincolo uscite verso il mondo reale (HARD — AR-272: il cancello sta al confine, non dentro)
 $USCITE_VINCOLO"
+fi
+if [ -n "${SCADENZE_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo scadenze (HARD — AR-147/214: un countdown si calcola, non si trascrive)
+$SCADENZE_VINCOLO"
 fi
 if [ -n "${TASSO_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

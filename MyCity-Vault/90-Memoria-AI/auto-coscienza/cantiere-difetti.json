@@ -1590,7 +1590,7 @@
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensioni copertura-cieca + allineamento-northstar)",
       "verifica": {
-        "tipo": "umano"
+        "comando": "node cervello/test/scadenze-calcolate.test.mjs"
       }
     },
     {
