@@ -18,8 +18,18 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { scriviJsonAtomico } from "./scrivi-json.mjs"; // AR-296: scrittura atomica anche qui
 
 const JSON_MODE = process.argv.includes("--json");
+// AR-212 — `--correggi` rinomina gli alias vietati nel campo canonico, sul posto.
+//
+// Perché serve, oltre al cancello: il cancello dà al motore un VINCOLO, cioè chiede al modello di
+// scrivere il nome giusto. Ma un vincolo è una richiesta, non una garanzia — e infatti misurato il
+// 28/7 alle 05:59, giorni dopo aver alzato il cancello, `auto-analisi.json` aveva ancora
+// `domande_bloccanti` con TRE domande dentro, una sul bando da 10.000€ in scadenza fra due giorni.
+// La difesa di lettura (riportaAlias nel Pannello) le mostra a Nicola, ma il file resta sbagliato e
+// il contratto resta rosso. Qui il rinominare è DETERMINISTICO: non dipende da chi scrive.
+const CORREGGI = process.argv.includes("--correggi");
 const DIR = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 
 // CONTRATTO: per ogni file, i campi obbligatori e i campi VIETATI (alias non canonici).
@@ -74,6 +84,32 @@ const LETTI_DAL_PANNELLO = [
   "storico-salute.json", "watchlist-riferimenti.json",
 ];
 
+/**
+ * AR-212 — rinomina gli alias vietati nel loro campo canonico, sul posto.
+ *
+ * Non inventa e non sovrascrive: se il campo canonico ha già dei dati, l'alias viene lasciato stare e
+ * il contratto resterà rosso — perché a quel punto NON è un rinominare, sono due liste diverse e
+ * deciderlo non tocca a uno script. Il caso normale è che il canonico sia vuoto: allora il contenuto
+ * si sposta e l'alias sparisce.
+ */
+export function correggiAlias(dati, regola) {
+  const fatti = [];
+  for (const [alias, canonico] of Object.entries(regola.vietati || {})) {
+    if (!(alias in dati)) continue;
+    const canonicoVuoto = !Array.isArray(dati[canonico]) || dati[canonico].length === 0;
+    const aliasPieno = Array.isArray(dati[alias]) ? dati[alias].length > 0 : dati[alias] != null;
+    if (canonicoVuoto && aliasPieno) {
+      dati[canonico] = dati[alias];
+      delete dati[alias];
+      fatti.push(`${alias} → ${canonico}`);
+    } else if (!aliasPieno) {
+      delete dati[alias]; // alias vuoto: è solo rumore, si toglie
+      fatti.push(`${alias} (vuoto) rimosso`);
+    }
+  }
+  return fatti;
+}
+
 function valida(nomeFile, dati, regola) {
   const problemi = [];
   for (const req of regola.obbligatori || []) {
@@ -113,6 +149,7 @@ function main() {
 
   const files = readdirSync(DIR).filter((f) => f.endsWith(".json"));
   const violazioni = [];
+  const corretti = [];
   const nonDichiarati = []; // AR-213: contati e mostrati, non più invisibili
   for (const f of files) {
     const regola = CONTRATTO[f];
@@ -135,6 +172,14 @@ function main() {
       violazioni.push({ file: f, problemi: [`JSON non parsabile: ${String(e.message || e)}`] });
       continue;
     }
+    // AR-212: se richiesto, prima si corregge — poi si valida ciò che resta.
+    if (CORREGGI) {
+      const rinominati = correggiAlias(dati, regola);
+      if (rinominati.length) {
+        scriviJsonAtomico(join(DIR, f), dati);
+        corretti.push({ file: f, campi: rinominati });
+      }
+    }
     const problemi = valida(f, dati, regola);
     if (problemi.length) violazioni.push({ file: f, problemi });
   }
@@ -145,6 +190,7 @@ function main() {
     file_controllati: files.filter((f) => CONTRATTO[f]).length,
     file_totali: files.length,                       // AR-213: il denominatore, che prima non c'era
     non_dichiarati: nonDichiarati,                   // AR-213: contati e mostrati, non più invisibili
+    corretti,                                        // AR-212: alias rinominati sul posto da --correggi
     violazioni,
   };
 
@@ -167,4 +213,8 @@ function main() {
   process.exit(out.ok ? 0 : 1);
 }
 
-main();
+// Un modulo non deve FARE cose solo perché lo importi. Senza questa guardia, importare
+// valida-contratti da un test lo eseguiva: stampava il rapporto e — con --correggi fra gli argomenti
+// del processo chiamante — avrebbe riscritto i file del vault. È lo stesso difetto trovato su
+// calibrazione.mjs nel lotto 6: la seconda volta, quindi la regola vale in generale.
+if (import.meta.url === `file://${process.argv[1]}`) main();

@@ -1590,7 +1590,7 @@
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensioni copertura-cieca + allineamento-northstar)",
       "verifica": {
-        "tipo": "umano"
+        "comando": "node cervello/test/scadenze-calcolate.test.mjs"
       }
     },
     {
@@ -2909,9 +2909,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json",
-        "pattern": "domande_bloccanti|errori_giro",
-        "presente": false
+        "comando": "node cervello/test/scadenze-calcolate.test.mjs"
       },
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json:7-8 vs pannello/src/components/AutoCoscienza.tsx:319-321 · Impatto: Il tab «Auto-analisi» mostra badge a zero e nessuna domanda proprio nel giro in cui la macchina ha tre cose da chiedere, una su un bando da 10.000€ a quattro giorni dalla chiusura. Le domande restano visibili altrove (checklist, coda azioni), quindi non tutto è perduto — ma la scheda che Nicola apre per sapere «cosa mi sta chiedendo la macchina» è strutturalmente cieca, e il collegamento domanda→carta d'azione non si forma. Peggio: una card vuota si legge come «niente da segnalare», che è l'opposto della verità.",
       "chiuso_il": "",
@@ -2949,9 +2947,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json",
-        "pattern": "giorni residui",
-        "presente": false
+        "comando": "node cervello/test/scadenze-calcolate.test.mjs"
       },
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json:2 vs MyCity-Vault/90-Memoria-AI/CHECKLIST-NICOLA.md:18 · Impatto: Il decisore legge due countdown diversi sulla stessa pratica da 10.000€ e non ha modo di sapere quale sia vivo — e quello sbagliato è dalla parte comoda (sette giorni invece di quattro), cioè rassicura mentre la finestra si chiude. Sul fronte squadra è peggio: ogni senior che apre gli OKR oggi parte da «29 giorni» di stallo e calibra l'urgenza su un numero vecchio di tre giorni. È la definizione del fallimento che il glossario dei KPI dice di voler evitare: reparti che discutono di quale numero sia quello vero invece che di cosa fare. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · PROVA RADDRIZZATA 2026-07-27 18:40 dal guardiano prove-oneste (AR-330): era gia soddisfatta alla nascita, quindi il difetto si sarebbe chiuso da solo senza che nessuno riparasse niente.",
       "chiuso_il": "",
