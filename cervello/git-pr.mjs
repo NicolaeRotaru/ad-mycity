@@ -21,6 +21,7 @@ import {
   resolveRepoConfig,
   stampSegnale,
 } from "./git-github.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 
 const AZIONI_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
 const TECH_DIR = join(AD_ROOT, "consegne/tech");
@@ -262,9 +263,22 @@ function mergeTreeConflictPaths(cfg, baseRef, branch) {
   return [...new Set(paths)];
 }
 
+/**
+ * I file in conflitto durante un rebase.
+ *
+ * AR-341 — passa dalla porta di `percorsi-git.mjs`. Prima chiedeva l'elenco senza `-z`: un file in
+ * conflitto con l'accento nel nome tornava citato e in ottali, quindi non corrispondeva a nessuno
+ * dei percorsi auto-risolvibili. Il comportamento era prudente (l'auto-risoluzione rinunciava invece
+ * di toccare il file sbagliato) e nessuno dei cinque percorsi auto-risolvibili ha un accento: il
+ * difetto era latente. Chiuso lo stesso, perché è la stessa porta di AR-339 e AR-340 — e una porta
+ * vale solo se ci passano tutti.
+ */
 function unmergedPaths(cfg) {
-  const raw = gitOrNull(["diff", "--name-only", "--diff-filter=U"], cfg.cwd);
-  return raw ? raw.split("\n").map((p) => p.trim()).filter(Boolean) : [];
+  try {
+    return percorsiDaGit(["diff", "--name-only", "--diff-filter=U"], { cwd: cfg.cwd });
+  } catch {
+    return [];
+  }
 }
 
 function isRebaseInProgress(cfg) {

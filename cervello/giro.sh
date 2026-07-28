@@ -196,6 +196,7 @@ PAUSE_VINCOLO=""         # AR-159/157: una card in pausa che nessun orologio sve
 SENSORI_SPENTI_VINCOLO="" # AR-105/108: un sensore spento senza un perché dichiarato è un buco, non uno stato
 PORTE_VINCOLO=""         # AR-127: un push verso main che non passa dal cancello condiviso
 FIRMA_VINCOLO=""         # AR-119: uno script del cervello che può scriversi la firma di Nicola
+PORTA_GIT_VINCOLO=""     # AR-339: uno script che chiede elenchi a git senza -z (nomi con l'accento riscritti)
 STAMPO_VINCOLO=""        # AR-291: verdetto dello stampo senior, prima buttato in un `|| true` (AR-129/287/289)
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
 if command -v node >/dev/null 2>&1; then
@@ -269,6 +270,15 @@ if command -v node >/dev/null 2>&1; then
   if ! guardiano firma-check.mjs; then
     FIRMA_VINCOLO="$(vincolo_da_rc "firma-check" "$GUARDIANO_RC" "⛔ CONFINE DELLA FIRMA VIOLATO (firma-check.mjs rc=$GUARDIANO_RC, AR-119): uno script del cervello scrive — o può scrivere — la chiave con cui Nicola firma le azioni. Chi esegue non può firmare se stesso. Togli quella scrittura, oppure dichiara le chiavi che lo script tocca con CHIAVI_SCRITTE. Dettaglio: node cervello/firma-check.mjs")"
     echo "[$(ts)] ⚠️  AR-119: firma-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+  # AR-339/340/341 — la porta degli elenchi git. Git riscrive i nomi con l'accento (26 file del
+  # vault): chi chiede un elenco a git senza passare dalla porta riceve percorsi che non esistono e
+  # non se ne accorge — lo scanner dei segreti li saltava in silenzio contandoli fra i controllati.
+  # Nasce VERDE (i quattro punti sono stati portati dentro il 29/7): blocca il primo che uscirà.
+  echo "[$(ts)] Guardiano della porta degli elenchi git (AR-339 — gate hard)..."
+  if ! guardiano percorsi-git.mjs --check; then
+    PORTA_GIT_VINCOLO="$(vincolo_da_rc "percorsi-git" "$GUARDIANO_RC" "⛔ PORTA DEGLI ELENCHI GIT SCAVALCATA (percorsi-git.mjs rc=$GUARDIANO_RC, AR-339/340/341): uno script chiede a git un elenco di percorsi senza -z, quindi riceve i nomi con l'accento riscritti in ottali e lavora su file che non esistono — in silenzio. Fallo passare da percorsiDaGit() in cervello/percorsi-git.mjs. Dettaglio: node cervello/percorsi-git.mjs --check")"
+    echo "[$(ts)] ⚠️  AR-339: percorsi-git rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
   echo "[$(ts)] Guardiano stampo senior (vettori-installati / Come pensa l'AD — gate hard)..."
   if ! guardiano stampo-check.mjs; then
@@ -815,6 +825,12 @@ if [ -n "${FIRMA_VINCOLO:-}" ]; then
 
 ## Vincolo confine della firma (HARD — AR-119: chi esegue non può firmare se stesso)
 $FIRMA_VINCOLO"
+fi
+if [ -n "${PORTA_GIT_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo porta degli elenchi git (HARD — AR-339: percorsi con l'accento letti male, in silenzio)
+$PORTA_GIT_VINCOLO"
 fi
 if [ -n "${STAMPO_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

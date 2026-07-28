@@ -25,12 +25,14 @@ import { existsSync, readFileSync, readdirSync, statSync, writeFileSync, mkdirSy
 import { basename, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import {
+  DIFETTO,
   codiceUscita,
   debitoRiparato,
   difettiAgente,
   difettiKit,
   fotocopie,
   nuoviRispettoAlDebito,
+  quaderniInPiuCase,
   sogliaSottile,
   statoQuaderno,
 } from "./stampo-metro.mjs";
@@ -54,6 +56,28 @@ function agenti() {
     .filter((f) => f.endsWith(".md"))
     .map((f) => basename(f, ".md"))
     .sort();
+}
+
+/**
+ * AR-342 — le cartelle dove un quaderno POTREBBE vivere, con i nomi che ci trova.
+ *
+ * La casa vera è `SQUADRA_DIR`; l'altra è quella che il 29/7 conteneva quattro copie ferme da
+ * settimane. Restano entrambe nell'elenco apposta: il guardiano deve continuare a guardare anche
+ * dove le copie NON devono più esserci, altrimenti si accorge del ritorno solo quando qualcuno
+ * ricapita lì per caso.
+ */
+const CASA_ALTERNATIVA = process.env.STAMPO_SQUADRA_DIR_ALT || join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/memoria-squadra");
+const CASE_POSSIBILI = [SQUADRA_DIR, CASA_ALTERNATIVA];
+
+function caseDeiQuaderni() {
+  const per = {};
+  for (const dir of CASE_POSSIBILI) {
+    if (!existsSync(dir)) continue;
+    per[dir] = readdirSync(dir)
+      .filter((f) => f.endsWith(".md") && f !== "README.md")
+      .map((f) => basename(f, ".md"));
+  }
+  return per;
 }
 
 async function main() {
@@ -97,6 +121,14 @@ async function main() {
     quaderni[s.stato === "vivo" ? "vivi" : s.stato === "vuoto" ? "vuoti" : s.stato === "fermo" ? "fermi" : "assenti"]++;
     if (s.difetto) d.push(s.difetto);
     if (d.length) quadro[n] = d;
+  }
+
+  // AR-342 — un quaderno ha UNA casa. Il difetto entra nel quadro come tutti gli altri, quindi passa
+  // dallo stesso debito dichiarato: se un giorno una seconda cartella servisse davvero, si dichiara
+  // in stampo-baseline.json con il motivo, invece di comparire in silenzio.
+  const doppie = quaderniInPiuCase(caseDeiQuaderni());
+  for (const q of doppie) {
+    (quadro[q.nome] ||= []).push(DIFETTO.QUADERNO_DUE_CASE);
   }
 
   const nuovi = baselineLetta ? nuoviRispettoAlDebito(quadro, baseline) : [];

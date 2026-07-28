@@ -5485,7 +5485,10 @@
       "stato": "aperto",
       "nato": "2026-07-29 00:28",
       "chiuso_il": "",
-      "origine": "provando gli strumenti su nomi di file con l'accento — cioe la meta italiana del vault — invece di rileggerli"
+      "origine": "provando gli strumenti su nomi di file con l'accento — cioe la meta italiana del vault — invece di rileggerli",
+      "verifica": {
+        "comando": "node cervello/test/segreto-in-un-nome-con-l-accento.test.mjs"
+      }
     },
     {
       "id": "AR-340",
@@ -5499,7 +5502,10 @@
       "stato": "aperto",
       "nato": "2026-07-29 00:28",
       "chiuso_il": "",
-      "origine": "registrando l'ESITO di AR-338 nel quaderno di @tech e notando che il file scritto stava in una cartella diversa da quella che il guardiano nomina"
+      "origine": "registrando l'ESITO di AR-338 nel quaderno di @tech e notando che il file scritto stava in una cartella diversa da quella che il guardiano nomina",
+      "verifica": {
+        "comando": "node cervello/test/quota-che-non-vede-i-quaderni.test.mjs"
+      }
     },
     {
       "id": "AR-341",
@@ -5513,7 +5519,10 @@
       "stato": "aperto",
       "nato": "2026-07-29 00:28",
       "chiuso_il": "",
-      "origine": "cercando gli altri punti che chiedono elenchi a git dopo aver trovato il primo, invece di fermarsi al sito che avevo sotto mano"
+      "origine": "cercando gli altri punti che chiedono elenchi a git dopo aver trovato il primo, invece di fermarsi al sito che avevo sotto mano",
+      "verifica": {
+        "comando": "node cervello/test/conflitto-con-l-accento.test.mjs"
+      }
     },
     {
       "id": "AR-342",
@@ -5527,7 +5536,10 @@
       "stato": "aperto",
       "nato": "2026-07-29 00:28",
       "chiuso_il": "",
-      "origine": "confrontando byte e data dell'ultimo esito fra le due cartelle omonime, dopo aver visto che chiusura-loop scriveva in quella che non mi aspettavo"
+      "origine": "confrontando byte e data dell'ultimo esito fra le due cartelle omonime, dopo aver visto che chiusura-loop scriveva in quella che non mi aspettavo",
+      "verifica": {
+        "comando": "node cervello/test/un-quaderno-una-casa.test.mjs"
+      }
     }
   ],
   "meta": {

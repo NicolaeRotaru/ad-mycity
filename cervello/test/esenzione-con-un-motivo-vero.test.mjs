@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// AR-337 — due buchi nella regola delle esenzioni, trovati provandola invece di rileggerla.
+// AR-338 — due buchi nella regola delle esenzioni, trovati provandola invece di rileggerla.
 //
 // AR-334 (lotto 28) ha fatto la cosa giusta: le esenzioni dichiarate in `malattie.json` adesso si
 // sottraggono davvero, e quelle che non corrispondono più a niente fanno fallire il guardiano. Ma

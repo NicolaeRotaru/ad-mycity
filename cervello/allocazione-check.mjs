@@ -18,6 +18,7 @@
 
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { spawnSync } from "node:child_process";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
@@ -72,7 +73,12 @@ const DESTINAZIONE = [
   ["consegne/giro/", "macchina"],
   ["MyCity-Vault/90-Memoria-AI/auto-coscienza/", "macchina"],
   ["MyCity-Vault/07-Agenti/", "macchina"], // mansionari e organigramma: la macchina che si organizza
-  ["MyCity-Vault/90-Memoria-AI/memoria-squadra/", "macchina"],
+  // AR-340 — la casa VERA dei quaderni è questa, in radice: è dove scrivono chiusura-loop,
+  // stampo-check, tasso-lezioni e bootstrap-quaderni. La mappa conosceva solo l'indirizzo vecchio
+  // (MyCity-Vault/90-Memoria-AI/memoria-squadra/, oggi archiviato con AR-342) e i 124 quaderni
+  // finivano fra i non classificati: due terzi della zona cieca erano il loop di apprendimento dei
+  // 120 senior, cioè il lavoro della macchina su se stessa per definizione.
+  ["memoria-squadra/", "macchina"],
   ["consegne/ad/", "macchina"], // note di regia dell'AD su se stessa
   [".claude/", "macchina"],
   [".cursor/", "macchina"],
@@ -127,6 +133,35 @@ export function destinazioneDi(rel) {
  * quota_macchina è calcolata sui soli file CLASSIFICATI: un non-classificato non deve
  * far scendere la quota per finta (sarebbe un modo per nascondere il meta-lavoro).
  */
+/**
+ * AR-340 — il tetto dichiarato della ZONA CIECA, con la data.
+ *
+ * Misurato il 2026-07-29 dopo aver messo in mappa la casa vera dei quaderni e aver fatto passare la
+ * lettura dalla porta di `percorsi-git.mjs`: i non classificati sono scesi da **202 a 52** (identico
+ * a 7, 14 e 30 giorni di finestra). I 52 che restano sono file di radice (CLAUDE.md, .gitignore, .obsidian/…) e
+ * sottocartelle di `MyCity-Vault/` e `consegne/` non ancora mappate: debito vero, dichiarato e
+ * datato, non un numero tondo scelto a caso.
+ *
+ * Il tetto è un cricchetto: scende quando si mappano altri percorsi, non sale. Parte da dove siamo
+ * (quindi verde oggi) perché un cancello che nasce rosso su decine di file viene spento entro la
+ * settimana — mentre uno che nasce verde becca la prima cosa che sporca.
+ */
+export const TETTO_NON_CLASSIFICATI = 52;
+export const TETTO_MISURATO_IL = "2026-07-29";
+
+/**
+ * La zona cieca è cresciuta oltre il tetto dichiarato?
+ *
+ * Pura, così una prova la esegue senza toccare git. Il senso: un guardiano non può lasciare crescere
+ * in silenzio la parte di mondo che non riconosce — una mappa che invecchia è indistinguibile da una
+ * mappa giusta finché nessuno la misura, ed è esattamente com'è passato inosservato che i quaderni
+ * avessero cambiato casa.
+ */
+export function zonaCiecaOltreIlTetto(quota, tetto = TETTO_NON_CLASSIFICATI) {
+  const n = Number(quota?.non_classificato || 0);
+  return { oltre: n > tetto, quanti: n, tetto, eccesso: Math.max(0, n - tetto) };
+}
+
 export function quotaSforzo(fileToccati = []) {
   let macchina = 0, business = 0, non_classificato = 0;
   for (const f of fileToccati) {
@@ -145,15 +180,19 @@ export function quotaSforzo(fileToccati = []) {
   };
 }
 
-/** I file toccati da git negli ultimi N giorni. Se git non risponde torna [] (il report lo dice). */
+/**
+ * I file toccati da git negli ultimi N giorni. Se git non risponde torna [] (il report lo dice).
+ *
+ * AR-340 — passa dalla porta di `percorsi-git.mjs`. Prima chiedeva l'elenco senza `-z`, e i 26
+ * percorsi del vault con l'accento arrivavano riscritti in ottali: non corrispondendo a nessun
+ * prefisso della mappa finivano tutti fra i «non classificati», cioè fuori dalla quota.
+ */
 function fileToccatiDaGit(giorni = GIORNI_FINESTRA) {
-  const r = spawnSync("git", ["log", `--since=${giorni} days ago`, "--name-only", "--pretty=format:"], {
-    cwd: AD_ROOT,
-    encoding: "utf8",
-    timeout: 60000,
-  });
-  if (r.status !== 0 || !r.stdout) return [];
-  return [...new Set(r.stdout.split("\n").map((s) => s.trim()).filter(Boolean))];
+  try {
+    return [...new Set(percorsiDaGit(["log", `--since=${giorni} days ago`, "--name-only", "--pretty=format:"], { cwd: AD_ROOT }))];
+  } catch {
+    return [];
+  }
 }
 
 // Parole troppo generiche per essere un alias affidabile di un negozio (evita falsi match).
@@ -324,7 +363,8 @@ async function main() {
   const quotaOltre = quota.quota_macchina != null && quota.quota_macchina > SOGLIA_MACCHINA;
   const violazioneMacchina = GATE_MACCHINA && quotaOltre;
 
-  const violazioni = sovra.length + (siloAttivo ? 1 : 0) + (violazioneMacchina ? 1 : 0);
+  const cieca = zonaCiecaOltreIlTetto(quota);
+  const violazioni = sovra.length + (siloAttivo ? 1 : 0) + (violazioneMacchina ? 1 : 0) + (cieca.oltre ? 1 : 0);
   const esito = violazioni > 0 ? "silo" : "sano";
 
   await stampSegnale(
@@ -336,7 +376,7 @@ async function main() {
   );
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ esito, quando, totaleFile, conteggio, sovra, confermatiAZero, siloAttivo, sforzo: { ...quota, giorni: GIORNI_FINESTRA, soglia: SOGLIA_MACCHINA, gate_acceso: GATE_MACCHINA, oltre_soglia: quotaOltre } }, null, 2));
+    console.log(JSON.stringify({ esito, quando, totaleFile, conteggio, sovra, confermatiAZero, siloAttivo, sforzo: { ...quota, giorni: GIORNI_FINESTRA, soglia: SOGLIA_MACCHINA, gate_acceso: GATE_MACCHINA, oltre_soglia: quotaOltre, tetto_non_classificati: cieca.tetto, tetto_misurato_il: TETTO_MISURATO_IL, zona_cieca_oltre: cieca.oltre } }, null, 2));
     process.exit(violazioni > 0 ? 1 : 0);
   }
 
@@ -354,7 +394,14 @@ async function main() {
   console.log(`\nDove è andato lo sforzo (ultimi ${GIORNI_FINESTRA} giorni, file toccati secondo git):`);
   console.log(`  🔧 macchina (cervello, Pannello, tech, audit…): ${quota.macchina}`);
   console.log(`  🏪 business (negozi, clienti, contenuti, soldi): ${quota.business}`);
-  if (quota.non_classificato) console.log(`  ❔ non classificato: ${quota.non_classificato} (aggiungi il percorso a DESTINAZIONE)`);
+  if (quota.non_classificato) {
+    console.log(`  ❔ non classificato: ${quota.non_classificato} su un tetto di ${cieca.tetto} (misurato il ${TETTO_MISURATO_IL})`);
+    if (cieca.oltre) {
+      console.log(`     ❌ la zona cieca è cresciuta di ${cieca.eccesso}: mappa i percorsi nuovi in DESTINAZIONE o abbassa il tetto con motivo.`);
+    } else {
+      console.log(`     (il tetto è un cricchetto: scende quando mappi altri percorsi, non sale)`);
+    }
+  }
   console.log(`  → quota macchina: ${pc(quota.quota_macchina)} (soglia ${pc(SOGLIA_MACCHINA)})`);
   if (!GATE_MACCHINA) {
     console.log(`     cancello SPENTO: fase tecnica dichiarata da Nicola fino al 24/8-1/9 (registro-fatti → ripresa.lavoro-operativo).`);
