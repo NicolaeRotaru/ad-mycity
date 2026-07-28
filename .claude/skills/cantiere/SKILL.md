@@ -104,6 +104,15 @@ Poi i tre livelli, in quest'ordine:
 2. **La prova di non-vacuità** — rompi il fix apposta, riga per riga, e il test DEVE diventare rosso.
    Se resta verde, la prova non prova niente. *Questo passo ha trovato un difetto nel metro stesso
    quattro volte in due giorni.* Non è opzionale e non si salta perché «si vede che funziona».
+
+   Non si fa più a mano: ogni fix aggiunge la sua mutazione a `cervello/mutanti.json` (il pezzo
+   esatto che rende vero il fix, e come sarebbe senza), e il controllo si rilancia con
+   ```bash
+   node cervello/non-vacuita.mjs              # tutte
+   node cervello/non-vacuita.mjs --lotto 29   # solo quelle di un lotto
+   ```
+   Pesca `cerca` sul **cuore** del fix: se prendi una riga qualsiasi misuri la compilazione, non la
+   difesa. Se la mutazione non trova più il suo pezzo, lo strumento dice «cieco» — non «verde».
 3. **La spazzata dei fratelli** (`node cervello/spazzata-fratelli.mjs`) — la stessa malattia cercata
    dappertutto. Il tetto in `cervello/malattie.json` **scende quando curi e non si alza mai**. Se la
    malattia del tuo lotto non è ancora censita, **aggiungila**: è il pezzo che trasforma «ho
@@ -138,9 +147,17 @@ due errori più costosi del cantiere:
 
 | controllo | cosa impedisce |
 |---|---|
-| `prova-con-or` | una prova `A|B` chiude il difetto con metà fix fatto (AR-178, chiusura falsa) |
+| `prova-con-or` | una prova con un'alternativa dentro chiude il difetto con metà fix fatto (AR-178, chiusura falsa) |
 | `prova-condivisa-cieca` | un test dato a N difetti che non li nomina tutti: ne chiude anche uno mai toccato (lotto 11, AR-254) |
 | `prova-orfana` | un comando che punta a un file inesistente: «fix non fatto» indistinguibile da «puntatore rotto» (AR-117) |
+
+I primi due **partono da soli**: il `pre-commit` lancia `--solo-prove` su ogni commit che tocca
+`cantiere-difetti.json`. Non serve ricordarsene — è il punto.
+
+Sul debito ereditato il cancello non blocca ma **misura**: `cervello/tetti-lotto.json` tiene un tetto
+che scende (`--aggiorna-tetti`) e non si alza mai. Una prova a OR **nuova** invece blocca sempre,
+anche sotto il tetto. Un cancello permanentemente rosso viene aggirato al secondo giro: è peggio di
+non averlo.
 
 Per i fix che si vedono a schermo, il cancello non basta: la prova è **osservazione a runtime** →
 usa la skill `verify` (Pannello con Playwright, script con bats). Un `tsc` verde dimostra che sai
@@ -164,7 +181,7 @@ far girare la CI, non che il fix funziona.
 
 | errore | come si presenta | l'antidoto |
 |---|---|---|
-| prova con un OR | `"pattern": "A|B"` | una prova per difetto, `--solo-prove` la pesca |
+| prova con un OR | un pattern con un'alternativa dentro | una prova per difetto, `--solo-prove` la pesca |
 | prova condivisa cieca | stesso test su 5 difetti | il file deve nominare ogni id |
 | l'ultima clausola saltata | il fix sembra finito | rilettura clausola per clausola (⑤) |
 | porta a mano riparata, automatica no | «ma la prova passa» | cerca TUTTI i chiamanti, non quello che hai visto |
@@ -186,7 +203,15 @@ far girare la CI, non che il fix funziona.
 
 ```
 misura le malattie  →  scegli il gruppo  →  verifica sul codice vero  →  estrai la logica in un
-modulo puro  →  applica nei punti  →  test per difetto  →  ROMPI il fix (non-vacuità)  →
+modulo puro  →  applica nei punti  →  test per difetto  →  ROMPI il fix (non-vacuita.mjs)  →
 spazzata + tetto  →  rileggi le clausole  →  cancello-lotto  →  aggiorna verifica/nota_fix +
 DECISIONI + memoria  →  commit  →  ESITO nel quaderno
 ```
+
+## Se il lotto non entra in una sessione sola
+
+Non è un problema: il lavoro è già a pezzi che stanno in piedi da soli. Committa i fix con la loro
+prova (mai un fix senza), lascia il campo `verifica` aggiornato per quelli finiti, e riparti dalla
+misura delle malattie — che rilegge lo stato dal cantiere, non dalla memoria della sessione. Quello
+che NON si spezza a metà è il singolo difetto: fix + prova + mutazione vanno insieme, o quel difetto
+resta aperto.

@@ -159,4 +159,33 @@ if ! node "$SCAN" --staged >/dev/null 2>&1; then
   exit 1
 fi
 
+# ─────────────────────────────────────────────────────────────────────────────
+# 4) 🚧 GATE DELLE PROVE DEL CANTIERE (lotto 29) — una prova che non può dimostrare niente non entra
+#    nella storia. Scatta SOLO quando il commit tocca `cantiere-difetti.json`, cioè quando qualcuno
+#    sta chiudendo o riparando un difetto: negli altri commit non ha niente da dire e non rallenta.
+#
+#    Perché sta qui e non solo nella skill: una skill è un mansionario, e un mansionario vale finché
+#    qualcuno lo legge. I due errori che questo controllo impedisce — la prova con un OR dentro
+#    (AR-178) e la prova condivisa che non nomina i suoi difetti (AR-254) — sono costati due
+#    chiusure false, tutte e due fatte da chi lo standard lo conosceva. Un cancello che parte da solo
+#    è l'unica forma di regola che non dipende dalla memoria di chi lavora.
+#
+#    Usa `--solo-prove`: istantaneo, nessun processo esterno. Il cancello pieno (typecheck, test)
+#    resta a `node cervello/cancello-lotto.mjs`, che si lancia prima di consegnare.
+if git diff --cached --name-only --diff-filter=ACM | grep -q "auto-coscienza/cantiere-difetti.json"; then
+  GATE="$ROOT/cervello/cancello-lotto.mjs"
+  if [ -f "$GATE" ]; then
+    if ! node "$GATE" --solo-prove >/dev/null 2>&1; then
+      echo "" >&2
+      echo "⛔ COMMIT BLOCCATO — una prova del cantiere non può dimostrare il suo difetto:" >&2
+      echo "" >&2
+      node "$GATE" --solo-prove 2>&1 | sed -n '/── Le prove ──/,$p' | head -20 >&2 || true
+      echo "" >&2
+      echo "→ Ogni difetto vuole una prova che diventi ROSSA se QUEL difetto non è riparato." >&2
+      echo "  Standard completo: .claude/skills/cantiere/ · Bypass (sconsigliato): git commit --no-verify." >&2
+      exit 1
+    fi
+  fi
+fi
+
 exit 0

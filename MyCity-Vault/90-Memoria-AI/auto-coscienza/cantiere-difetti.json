@@ -1,6 +1,6 @@
 {
  "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
- "aggiornato": "2026-07-29 00:55",
+ "aggiornato": "2026-07-29 01:30",
  "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
  "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
  "difetti": [
@@ -5459,6 +5459,23 @@
     "comando": "node cervello/test/esenzione-con-un-motivo-vero.test.mjs"
    },
    "origine": "provando su un albero finto il fix di AR-334 appena mergiato, invece di rileggerlo"
+  },
+  {
+   "id": "AR-339",
+   "titolo": "I cancelli del commit sono spenti in ogni sessione cloud: segreti, sintassi e perimetro di main non girano",
+   "dimensione": "guardrail-semaforo",
+   "gravita": "grave",
+   "impatto_crescita": "alto",
+   "causa_radice": "① Perche' un commit che doveva essere bloccato e' passato? Perche' il pre-commit non e' stato eseguito. ② Perche' non e' stato eseguito? Perche' `core.hooksPath` non era configurato nel clone. ③ Perche' non lo era? Perche' e' configurazione LOCALE di git: non si eredita dal repo, va accesa su ogni copia. ④ Perche' nessuno l'aveva accesa? Perche' l'unica chiamata a `installa-hooks.sh` sta in `giro.sh` — quindi sul VPS i hook risultano attivi e il buco resta invisibile. ⑤ Radice: la difesa era agganciata a un PROCESSO (il giro) invece che al MOMENTO in cui serve (l'apertura di una sessione che puo' committare). Nelle sessioni cloud, dove la macchina lavora da sola e nessuno guarda, erano spenti tutti e quattro i cancelli: segreti (AR-004), sintassi shell (worker-outage 9/7), sintassi JS (AR-134), perimetro di main (AR-332).",
+   "fix_proposto": "🟡 Agganciare `bash cervello/installa-hooks.sh` al SessionStart di .claude/settings.json (gira a ogni avvio di sessione, idempotente, ~0 costo) e tenere la chiamata nel giro come seconda rete. Prova: cervello/test/cancelli-spenti-nel-clone.test.mjs.",
+   "colore": "🟡",
+   "stato": "aperto",
+   "nato": "2026-07-29 01:30",
+   "nota": "Trovato provando avversarialmente il gate nuovo del lotto 29: il commit di prova, che DOVEVA essere respinto, e' passato. Il gate era giusto; a non girare erano i hook. Un cancello che non parte non e' un cancello — e per tutta questa sessione i miei commit sono passati senza scan-segreti.",
+   "nota_fix": "LOTTO 29. Installazione agganciata al SessionStart di .claude/settings.json, cosi' parte all'apertura di OGNI sessione e non solo dentro il giro. Il test copre i tre pezzi: un clone fresco parte spento, installa-hooks accende ed e' idempotente, e il SessionStart lo invoca davvero — piu' la non-vacuita' (il perimetro acceso deve contenere i cancelli veri, non essere vuoto).",
+   "verifica": {
+    "comando": "node cervello/test/cancelli-spenti-nel-clone.test.mjs"
+   }
   }
  ],
  "meta": {
