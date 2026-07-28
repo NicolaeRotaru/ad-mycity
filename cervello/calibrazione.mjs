@@ -524,7 +524,16 @@ function cmdPromozioni(data) {
     const blocco =
       `\n## 🟡 Dai più autonomia a ${r.reparto}: se lo ha dimostrato coi numeri, i suoi lavori di routine partono da soli\n` +
       `- **Data:** ${quando}\n` +
-      `- **Prova (calibrazione):** ${r.azzeccate}/${r.previsioni} previsioni azzeccate · punteggio ${r.punteggio} · confidenza Wilson ${r.lower_bound} (≥0.7 su ≥${MIN_CAMPIONE_ALTA} esiti reali = autonomia GUADAGNATA, non a simpatia).\n` +
+      // AR-168, ultima clausola — la card deve dire «N previsioni DICHIARATE PRIMA dell'esito», non «N righe».
+      //
+      // Il meccanismo era già a posto: dal lotto 16 il punteggio esclude le voci nate chiuse, quindi una
+      // riga scritta a cose fatte non può gonfiare una promozione. Ma la card non lo DICEVA, e la card è
+      // quello che Nicola firma: «8/8 previsioni azzeccate» e «8 previsioni aperte prima di sapere come
+      // andava, su 42 righe a registro» sono due frasi che chiedono due firme diverse.
+      `- **Prova (calibrazione):** ${r.azzeccate}/${r.previsioni} previsioni **dichiarate prima di conoscere l'esito** e poi azzeccate · punteggio ${r.punteggio} · confidenza Wilson ${r.lower_bound} (≥0.7 su ≥${MIN_CAMPIONE_ALTA} esiti reali = autonomia GUADAGNATA, non a simpatia).\n` +
+      (r.escluse
+        ? `- **Non contate:** altre ${r.escluse} voci di ${r.reparto} sono a registro ma non fanno punteggio (nate già chiuse, banali, fuori finestra o misurate da un sensore che non vedeva). Il numero sopra è al netto di quelle.\n`
+        : "") +
       `- **Cosa cambia:** le azioni 🟡 di ROUTINE di ${r.reparto} (bozze, aggiornamenti interni, contenuti non pubblici) passano a 🟢 "fai e annota". I 🔴 (soldi, clienti reali, pubblicazioni) restano 🔴 con la tua firma, sempre.\n` +
       `- **Se va bene:** meno card in coda per te, il reparto lavora più veloce; al primo esito MANCATO l'autonomia riscende da sola (la calibrazione continua a misurare).\n` +
       `- **Come:** rispondi "ok promozione ${r.reparto}" — l'AD aggiorna il mansionario del senior (auto-modifica 🟡). {origine:mossa:promozione-${r.reparto.replace(/^@/, "")}}\n` +
