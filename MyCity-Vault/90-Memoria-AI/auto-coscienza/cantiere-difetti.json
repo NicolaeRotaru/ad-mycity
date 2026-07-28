@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 16:22",
+  "aggiornato": "2026-07-28 16:43",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -1464,12 +1464,14 @@
       "causa_radice": "azioni-pronte.ts prende il livello 1:1 dall'emoji scritta nel markdown della card; autopilota.ts esegue tutto ciò che è 'verde' senza una regola hard indipendente dal canale (es. email/notifica verso l'esterno non può mai essere autopilotato, qualunque emoji sia scritta).",
       "fix_proposto": "🟡 in azioni-pronte.ts/autopilota.ts: se canale ∈ {email,notifica,esterno} → forza livello minimo giallo, qualunque sia l'emoji nel testo.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione guardrail-semaforo)",
       "verifica": {
         "comando": "node cervello/test/verde-che-esce-di-casa.test.mjs"
-      }
+      },
+      "chiuso_il": "2026-07-28 16:43",
+      "chiuso_come": "node cervello/test/verde-che-esce-di-casa.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-141",
@@ -1480,12 +1482,14 @@
       "causa_radice": "il cancello AR-103 verifica 'esiste un AZIONE_ID approvato + la tabella è sbloccata', non che i campi scritti corrispondano al testo della casella approvata — su products convivono campi innocui e il prezzo (🔴 dedicato dalla regola d'oro).",
       "fix_proposto": "🟡 whitelist di campi ammessi per tabella in consenso-azione.mjs; price/commissione esclusi salvo flag esplicito separato.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione guardrail-semaforo)",
       "verifica": {
         "comando": "node cervello/test/prezzo-a-bordo-di-un-altra-firma.test.mjs"
-      }
+      },
+      "chiuso_il": "2026-07-28 16:43",
+      "chiuso_come": "node cervello/test/prezzo-a-bordo-di-un-altra-firma.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-142",
@@ -3294,11 +3298,11 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/lib/autopilota.ts",
-        "pattern": "b.livello === \"verde\"",
-        "presente": false
+        "file": "pannello/src/lib/rischio-contenuto.ts",
+        "pattern": "IBAN",
+        "presente": true
       },
-      "nota": "Dove: pannello/src/lib/autopilota.ts:27 · pannello/src/lib/azioni-attesa.ts:29-35 (livelloDi) e :255 (livello letto dalla colonna Colore del markdown) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
+      "nota": "Dove: pannello/src/lib/autopilota.ts:27 · pannello/src/lib/azioni-attesa.ts:29-35 (livelloDi) e :255 (livello letto dalla colonna Colore del markdown) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · RI-INVERTITA 2026-07-28 16:45 (lotto 25): la prova chiedeva l ASSENZA della stringa `b.livello === \"verde\"` in autopilota.ts. Il lotto 25 quella riga l ha tolta per AR-140, quindi la prova sarebbe diventata verde da sola — ma delle quattro condizioni del fix ne sono soddisfatte tre: (a) verde e (b) canale auto-eseguibile arrivano dal lotto 25, (c) allowlist destinatario c era gia da AR-139, (d) indicatori di rischio nel TESTO (importi, IBAN, telefono, «pubblica», «paga», «annulla ordine») NON esiste, e non esistono ne il log delle degradazioni ne il modulo di rischio condiviso col cervello. Una prova che chiede l assenza di una stringa si soddisfa cambiando la stringa: ora punta al pezzo che manca.",
       "chiuso_il": "",
       "chiuso_come": ""
     },
@@ -5350,8 +5354,8 @@
     }
   ],
   "meta": {
-    "aperti": 127,
+    "aperti": 125,
     "in_corso": 0,
-    "chiusi": 144
+    "chiusi": 146
   }
 }
