@@ -98,7 +98,13 @@ prova("un'esenzione che non corrisponde più a niente è un residuo, e si vede",
     baseline: 1,
     esenti: [{ file: "codice/sparito.mjs", quale: "roba", perche: "motivo scritto" }],
   });
-  assert.deepEqual(r.rep.esenti_orfane, ["codice/sparito.mjs: roba"]);
+  // AR-338: il messaggio adesso porta anche il PERCHÉ dello scarto — un guardiano che dice solo «no»
+  // costringe a indovinare quale delle quattro regole è scattata. L'asserzione resta esatta sulla
+  // parte che identifica l'esenzione, e in più pretende che il motivo ci sia: è più stretta di
+  // prima, non più larga.
+  assert.equal(r.rep.esenti_orfane.length, 1);
+  assert.match(r.rep.esenti_orfane[0], /^codice\/sparito\.mjs: roba/);
+  assert.match(r.rep.esenti_orfane[0], /nessuna istanza in questo file/);
   assert.equal(r.rc, 1, "un residuo deve far fallire il guardiano");
 });
 

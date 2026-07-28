@@ -5454,6 +5454,23 @@
       "nota": "Dove: cervello/sentinella-dati.mjs:668-682 · Impatto: il Pannello e la sentinella leggono ordini/payout/recensioni azzerati da una sessione che non poteva vederli — e' la stessa famiglia di AR-035/AR-281, sopravvissuta nel file che ha due mestieri.",
       "chiuso_il": "",
       "chiuso_come": ""
+    },
+    {
+      "id": "AR-338",
+      "titolo": "Due strade per zittire una malattia senza curarla: un motivo di due lettere, o piu esenzioni che istanze",
+      "dimensione": "guardiani-verita",
+      "gravita": "medio",
+      "impatto_crescita": "medio",
+      "causa_radice": "AR-334 (PR #599) ha fatto la cosa giusta: le esenzioni di malattie.json adesso si sottraggono e quelle orfane fanno fallire. Provando quell implementazione su un albero finto — un istanza vera, esenzioni sospette — sono uscite due strade per zittire una malattia senza toccare una riga di codice. (A) `perche: \"boh\"` passava: il registro dice «un esenzione senza motivo e un silenzio» e porte-check pretende gia piu di dieci caratteri per la stessa ragione — la regola c era, il metro no. (B) TRE esenzioni su un file con UNA istanza sottraevano tre, e `Math.max(0, …)` teneva il totale a zero nascondendo il resto: bastava impilare voci per far sparire un file dal conteggio. — Radice: una regola scritta bene con un metro che non la fa rispettare. Si vede solo eseguendo lo strumento su casi che nel repo non esistono ancora — rileggendo il codice non si vede.",
+      "fix_proposto": "🟡 (a) Soglia dichiarata per il motivo (MOTIVO_MIN, la stessa di porte-check) e ogni esenzione copre UNA istanza reale del suo file: le eccedenti diventano orfane. (b) Ogni scarto porta il PERCHE — un guardiano che dice solo «no» costringe a indovinare quale regola e scattata. (c) La decisione in una funzione pura (pesaEsenzioni) che una prova esegue su ingressi finti.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-28 23:35",
+      "chiuso_il": "",
+      "verifica": {
+        "comando": "node cervello/test/esenzione-con-un-motivo-vero.test.mjs"
+      },
+      "origine": "provando su un albero finto il fix di AR-334 appena mergiato, invece di rileggerlo"
     }
   ],
   "meta": {
