@@ -163,6 +163,7 @@ FRATELLI_VINCOLO=""      # 28/7: una malattia nota si è allargata in un punto n
 USCITE_VINCOLO=""        # AR-272: un'uscita verso il mondo reale non dichiarata, o senza cancello
 SCADENZE_VINCOLO=""      # AR-147/214: scadenza entro 72h, o countdown trascritto che non è più vero
 PAUSE_VINCOLO=""         # AR-159/157: una card in pausa che nessun orologio sveglierà, o una data ricopiata
+SENSORI_SPENTI_VINCOLO="" # AR-105/108: un sensore spento senza un perché dichiarato è un buco, non uno stato
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
@@ -469,6 +470,14 @@ if command -v node >/dev/null 2>&1; then
   # `--risveglia` e non solo il rilevatore: AR-159 (c) vieta di chiudere il punto con un promemoria,
   # perché il promemoria a mano è il meccanismo che qui ha già fallito. Scrive solo quando una pausa
   # è davvero finita, tocca solo la coda dell'AD, ed è idempotente (provato).
+  # AR-105/AR-108 — i sensori uptime sono rimasti spenti 163 giri perché «non_configurato» sembra uno
+  # stato normale e nessuna card lo reclamava. Ora uno spento deve dire PERCHÉ: scelta di Nicola o
+  # buco. `--accoda` fa UNA card, mai ripetuta: una domanda che torna a ogni giro si impara a saltare.
+  echo "[$(ts)] 🔌 Sensori spenti (per scelta o per inerzia?)..."
+  if ! guardiano sensori-spenti-check.mjs --accoda; then
+    SENSORI_SPENTI_VINCOLO="$(vincolo_da_rc "sensori-spenti-check" "$GUARDIANO_RC" "⛔ SENSORE SPENTO SENZA MOTIVO (sensori-spenti-check.mjs rc=$GUARDIANO_RC, AR-105/AR-108): c'è uno strumento costruito che non sta guardando niente, e nessuno ha dichiarato se debba restare spento. Non è uno stato: è un buco. Dichiara il motivo in cervello/sensori-motivi.json (decisione | da-chiedere) oppure lascia che la card lo chieda a Nicola. Dettaglio: node cervello/sensori-spenti-check.mjs")"
+    echo "[$(ts)] ⚠️  AR-105/108: sensori-spenti rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
   echo "[$(ts)] ⏸ Pause della coda (qualcuno le sveglia davvero?)..."
   if ! guardiano pausa-check.mjs --risveglia; then
     PAUSE_VINCOLO="$(vincolo_da_rc "pausa-check" "$GUARDIANO_RC" "⛔ PAUSA SENZA RISVEGLIO o DATA RICOPIATA (pausa-check.mjs rc=$GUARDIANO_RC, AR-159/AR-157): c'è una card in pausa che nessun orologio sveglierà, oppure una card che si tiene dentro il valore di un fatto invece di citarne l'id — e quando Nicola sposta la data, quella copia mente. Se una pausa è scaduta, sveglia le card: node cervello/pausa-check.mjs --risveglia. Dettaglio: node cervello/pausa-check.mjs")"
@@ -802,6 +811,12 @@ if [ -n "${PAUSE_VINCOLO:-}" ]; then
 
 ## Vincolo pause della coda (HARD — AR-159/157: una pausa è uno stato, non una frase)
 $PAUSE_VINCOLO"
+fi
+if [ -n "${SENSORI_SPENTI_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo sensori spenti (HARD — AR-105/108: spento senza un perché è un buco, non uno stato)
+$SENSORI_SPENTI_VINCOLO"
 fi
 if [ -n "${TASSO_VINCOLO:-}" ]; then
   PROMPT="$PROMPT
