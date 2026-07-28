@@ -165,6 +165,7 @@ SCADENZE_VINCOLO=""      # AR-147/214: scadenza entro 72h, o countdown trascritt
 PAUSE_VINCOLO=""         # AR-159/157: una card in pausa che nessun orologio sveglierà, o una data ricopiata
 SENSORI_SPENTI_VINCOLO="" # AR-105/108: un sensore spento senza un perché dichiarato è un buco, non uno stato
 PORTE_VINCOLO=""         # AR-127: un push verso main che non passa dal cancello condiviso
+STAMPO_VINCOLO=""        # AR-291: verdetto dello stampo senior, prima buttato in un `|| true` (AR-129/287/289)
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
@@ -223,8 +224,20 @@ if command -v node >/dev/null 2>&1; then
     AGENTI_VINCOLO="⛔ REGISTRO AGENTI INCONSISTENTE (agent-registry-check.mjs rc=$_agenti_rc, AR-007/008): un agente è orfano o il conteggio dei 120 file .claude/agents/ non torna. Correggi prima di delegare nuovo lavoro."
     echo "[$(ts)] ⚠️  AR-007/008: agent-registry-check FALLITO (rc=$_agenti_rc) → vincolo hard al motore." >&2
   fi
-  echo "[$(ts)] Guardiano stampo senior (vettori-installati / Come pensa l'AD)..."
-  node "$SCRIPT_DIR/stampo-check.mjs" 2>&1 | tail -6 || true
+  # AR-291 — il verdetto di questo guardiano finiva in una pipe e poi in un `|| true`, mentre quello
+  # accanto (agent-registry-check) diventava vincolo hard. Adesso è un cancello, e la condizione di
+  # promozione che AR-291 chiedeva è SODDISFATTA: dal lotto 24 il metro legge il contenuto (quaderni
+  # vuoti, kit sottili in rapporto alla mediana, fotocopie, struttura) e non la sola presenza dei file.
+  # Parte verde perché il debito del 28/7 è dichiarato per nome in cervello/stampo-baseline.json:
+  # blocca il primo NUOVO che sporca, non il parco esistente.
+  echo "[$(ts)] Guardiano stampo senior (vettori-installati / Come pensa l'AD — gate hard)..."
+  if ! guardiano stampo-check.mjs; then
+    STAMPO_VINCOLO="$(vincolo_da_rc "stampo-check" "$GUARDIANO_RC" "⛔ STAMPO SENIOR PEGGIORATO (stampo-check.mjs rc=$GUARDIANO_RC, AR-129/AR-287/AR-289/AR-291): un agente ha un difetto di stampo che NON era nel debito dichiarato — quaderno mai scritto, kit sottile rispetto alla mediana del parco, kit fotocopia di altri, o strati duplicati. Riparalo in questo giro, oppure dichiaralo con motivo in cervello/stampo-baseline.json — allargare quella lista è una decisione visibile, non un effetto collaterale. Dettaglio: node cervello/stampo-check.mjs")"
+    echo "[$(ts)] ⚠️  AR-291: stampo-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+  # INFORMATIVO — si promuove a cancello quando il drift è 0. Oggi esce 1 (una skill non citata nei
+  # doc): promuoverlo adesso bloccherebbe ogni giro su un debito di documentazione. AR-291: un
+  # guardiano resta informativo solo con la sua condizione di promozione scritta accanto.
   echo "[$(ts)] Guardiano capacità (workflow ↔ comandi)..."
   node "$SCRIPT_DIR/guardiano-capacita.mjs" 2>&1 | tail -4 || true
   # Round 2 programma intelligenza (2026-07-25). Due misure, per ora INFORMATIVE (|| true):
@@ -561,6 +574,9 @@ $_appr_ric"
     echo "[$(ts)] ⚠️  Lever 2: contratti JSON fuori-contratto → vincolo hard al motore." >&2
   fi
   # Le 7 capacità costruite (visione 53) — sola lettura sui dati reali della macchina:
+  # INFORMATIVO — NON si promuove, e la ragione è definitiva: misura il carico di firme di NICOLA, e
+  # oggi esce 1 dicendo «sei tu il vincolo, la macchina ha già fatto la sua parte». Un cancello che
+  # ferma la macchina perché un umano non ha ancora firmato punisce la parte sbagliata. AR-291.
   echo "[$(ts)] ⏱️  #38 Guardiano del Tuo Tempo (carico firme)..."
   node "$SCRIPT_DIR/guardiano-tempo.mjs" 2>&1 | tail -3 || true
   echo "[$(ts)] 🪙 #30 Metabolismo (costo AI per organo)..."
@@ -742,6 +758,12 @@ if [ -n "${AGENTI_VINCOLO:-}" ]; then
 
 ## Vincolo registro agenti (HARD — AR-007/008: agente orfano o conteggio errato)
 $AGENTI_VINCOLO"
+fi
+if [ -n "${STAMPO_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo stampo senior (HARD — AR-291: un difetto di stampo NUOVO oltre il debito dichiarato)
+$STAMPO_VINCOLO"
 fi
 if [ -n "${ESP_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

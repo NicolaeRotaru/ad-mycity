@@ -91,6 +91,9 @@ function leggiCecita() {
     return {
       _cosa_e:
         "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
+      // AR-287 — un verde va letto per quello che vale, non per quello che sembra.
+      _cosa_NON_prova:
+        "Non prova che i DATI siano giusti: prova che il canale risponde. Un sensore che legge zero righe perché la chiave non vede la tabella risulta acceso e sano — è il buco che AR-284 descrive. «Vedo» non vuol dire «vedo tutto».",
       aggiornato: nowPiacenza(),
       sensori: {},
       meta: { giri_totali: 0 },
