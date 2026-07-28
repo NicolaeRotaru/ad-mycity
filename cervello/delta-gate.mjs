@@ -196,9 +196,17 @@ async function main() {
     };
     state.giri_saltati_consecutivi = 0;
     state.aggiornato = quando;
-    writeJson(STATE_PATH, state);
-    if (JSON_MODE) console.log(JSON.stringify({ esito: "segnato-pieno", quando }, null, 2));
-    else console.log(`🚦 Delta-gate: giro PIENO registrato (${quando}).`);
+    // AR-281 — anche questa è una scrittura di stato-sensore, e alla cieca è la PEGGIORE delle due:
+    // promuovere a «ultimo pieno» una firma calcolata su zero righe convince il giro successivo che
+    // nulla è cambiato, e il giro pieno che serviva non parte. Trovato ri-guardando il mio stesso fix
+    // (la classe aveva un quinto punto oltre ai quattro dichiarati nel difetto).
+    const esitoSegna = scriviStatoSensore(STATE_PATH, state, {
+      ambienteConfigurato: Boolean(process.env.MARKETPLACE_SUPABASE_URL?.trim() && process.env.MARKETPLACE_SUPABASE_KEY?.trim()),
+      motivo: "MARKETPLACE_SUPABASE_URL/KEY assenti: la firma da promuovere sarebbe calcolata su zero righe",
+      scrittore: writeJson,
+    });
+    if (JSON_MODE) console.log(JSON.stringify({ esito: esitoSegna.scritto ? "segnato-pieno" : "non-segnato", quando, motivo: esitoSegna.spiegazione }, null, 2));
+    else console.log(esitoSegna.scritto ? `🚦 Delta-gate: giro PIENO registrato (${quando}).` : esitoSegna.spiegazione);
     process.exit(0);
   }
 

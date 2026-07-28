@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 21:47",
+  "aggiornato": "2026-07-28 21:58",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -4296,7 +4296,7 @@
       "nota": "Dove: cervello/sensore-cassa.mjs:133-134 · cervello/delta-gate.mjs:224 · cervello/sentinella-fonti.mjs:116 (scrivono lo stato condiviso senza guardia d'ambiente), contro cervello/verifica-sensori.mjs:519-528 (la guardia `scriviStato`) · Impatto: Quello stato finisce in git e nel Pannello: Nicola leggerebbe «Stripe non collegato» su una macchina dove Stripe funziona, e il delta-gate confronterebbe la firma buona del VPS con una firma di nulla, forzando un giro pieno (token bruciati) al ciclo successivo. È lo stesso danno che AR-035 aveva descritto, sopravvissuto in tre file su quattro. Con più sessioni che girano in parallelo su ambienti diversi — che è la condizione normale oggi — è un rischio permanente, non teorico. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "2026-07-28 21:47",
       "chiuso_come": "cervello/sensore-cassa.mjs contiene /scriviStato|ambienteConfigurato|non_verificabile/ → trovato",
-      "nota_fix": "Nuovo cervello/stato-sensori.mjs con l'unica porta `scriviStatoSensore(path, doc, {ambienteConfigurato, motivo})`: ci passano tutti e quattro (verifica-sensori, sensore-cassa, delta-gate, sentinella-fonti), ognuno con la condizione del proprio dominio (chiave Stripe, chiavi marketplace, almeno una fonte che risponde). `node cervello/stato-sensori.mjs --check` fallisce se uno scrittore noto smette di passare da li. PROVA A RUNTIME da questa sessione senza chiavi: cassa, delta-gate e sensori NON hanno toccato i file (git status pulito) e hanno stampato il motivo."
+      "nota_fix": "Nuovo cervello/stato-sensori.mjs con l'unica porta `scriviStatoSensore(path, doc, {ambienteConfigurato, motivo})`: ci passano tutti e quattro (verifica-sensori, sensore-cassa, delta-gate, sentinella-fonti), ognuno con la condizione del proprio dominio (chiave Stripe, chiavi marketplace, almeno una fonte che risponde). `node cervello/stato-sensori.mjs --check` fallisce se uno scrittore noto smette di passare da li. PROVA A RUNTIME da questa sessione senza chiavi: cassa, delta-gate e sensori NON hanno toccato i file (git status pulito) e hanno stampato il motivo. · AUTO-ANALISI: ri-cercando i fratelli ne e' saltato fuori un QUINTO punto non elencato nel difetto — `delta-gate.mjs --segna-pieno`, che promuoveva a «ultimo pieno» una firma calcolata su zero righe (peggiore delle altre: convince il giro successivo che nulla e' cambiato, e il giro pieno che serviva non parte). Guardato anche quello. Un sesto — sentinella-dati.mjs — NON e' stato chiuso qui perche' la guardia secca lo romperebbe: registrato come AR-337 col perche'."
     },
     {
       "id": "AR-282",
@@ -5433,6 +5433,27 @@
       },
       "nota": "Scheda riscritta dal suo stesso autore poche ore dopo averla scritta, perché la misura ha smentito la premessa. Registrarlo è più utile che correggere in silenzio: la prima stesura nasceva da un conteggio giusto (42 e 12 sono numeri veri) con una deduzione sbagliata — che riguardassero difetti aperti. Gruppi trovati (tutti fra chiusi): freni-senza-fonte=7 · pannello-cabina-viva=6 · giro-esito=5 · errore-ingoiato=4 · scadenze-calcolate=3 · strati=3 · gate-pubblicazione=3 · allineamento-esito=3 · volano-regole=2 · archivi-senza-tetto=2 · chat-pending=2 · scritture-e-riaccodi=2.",
       "origine": "lotto 27 (trovato correggendo una violazione AR-254 che avevo appena commesso io su AR-335)"
+    },
+    {
+      "id": "AR-337",
+      "titolo": "Gli occhi della macchina riscrivono i numeri del business anche quando non hanno potuto leggerli",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "medio",
+      "impatto_crescita": "medio",
+      "causa_radice": "Trovato il 28/7 ri-guardando la classe di AR-281 invece del solo elenco scritto nel difetto (i «quattro guardiani» erano cinque, e il quinto e' questo). cervello/sentinella-dati.mjs:682 scrive `ultimo_stato` — ordini totali, ordini 24h, pagati senza payout, recensioni basse — anche quando MARKETPLACE_SUPABASE_URL/KEY mancano: in quel caso i campi restano null e il file condiviso, che il Pannello legge, perde i valori misurati sul VPS. Perche' non e' stato chiuso con AR-281: la guardia secca (non scrivere) qui NON va bene, perche' lo stesso file tiene anche la memoria anti-doppione degli accodamenti (`accodati_ts`, `tick`, `storia`) e alcuni segnali non-business che restano leggibili senza chiavi. Bloccare tutta la scrittura farebbe ri-accodare le stesse card a ogni tick: si curerebbe una bugia creandone una peggiore. Causa di sistema: il file mescola due generi di stato — cio' che si MISURA da fuori e cio' che si RICORDA di se stessi — e una guardia sola non puo' servirli entrambi.",
+      "fix_proposto": "🟡 Separare i due generi dentro lo stesso file: i campi misurati da fuori si scrivono solo se il dominio era configurato (riusando `scriviStatoSensore`/la sua condizione), altrimenti si CONSERVA il valore precedente marcandolo `non_misurato_in_questo_ambiente`; la memoria di se' (tick, accodati_ts, storia) continua a scriversi sempre. Prova: far girare la sentinella senza chiavi su uno stato finto con ordini_tot=37 e pretendere che 37 sia ancora li dopo, e che un accodamento gia' fatto non venga rifatto.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-28",
+      "origine": "auto-analisi del lotto 28 (cantiere) — cercando i fratelli del difetto che stavo chiudendo",
+      "verifica": {
+        "file": "cervello/sentinella-dati.mjs",
+        "pattern": "non_misurato_in_questo_ambiente",
+        "presente": true
+      },
+      "nota": "Dove: cervello/sentinella-dati.mjs:668-682 · Impatto: il Pannello e la sentinella leggono ordini/payout/recensioni azzerati da una sessione che non poteva vederli — e' la stessa famiglia di AR-035/AR-281, sopravvissuta nel file che ha due mestieri.",
+      "chiuso_il": "",
+      "chiuso_come": ""
     }
   ],
   "meta": {
