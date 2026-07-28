@@ -3,6 +3,8 @@
 // Se non e' configurato, funziona in modalita' "senza memoria" (i giri non si
 // salvano, ma l'assistente gira comunque su richiesta).
 
+import { comeRitentareScrittura } from "./atto-unico";
+
 const URL = process.env.SUPABASE_URL;
 const KEY = process.env.SUPABASE_SERVICE_KEY;
 
@@ -258,8 +260,63 @@ export async function creaLavoroEsito(richiesta: string, tipo = "analisi", grupp
         ultimo = { motivo: "rete", dettaglio: e?.message || "errore di rete verso il database di memoria" };
       }
     }
+    // AR-259 — RITENTARE UNA SCRITTURA È SICURO SOLO SE SAI CHE NON È AVVENUTA.
+    // `LAVORO_TIMEOUT_MS` aborta il fetch dopo 4s, ma l'abort è lato client: non annulla la riga
+    // già arrivata a Supabase, la rende solo invisibile a noi. Il ciclo ritentava lo stesso, e un
+    // singolo invio diventava due lavori — cioè due risposte dell'AD alla stessa domanda.
+    // Il livello sotto lo sapeva già (`sbFetch(..., retries=0)`: «le scritture non si ritentano»),
+    // ma questo ciclo esterno reintroduceva esattamente ciò che quello 0 voleva impedire.
+    // Ora, quando l'esito è AMBIGUO, prima di ritentare si guarda se la riga c'è già.
+    const strada = comeRitentareScrittura(ultimo.motivo, ultimo.status);
+    if (strada === "stop") break;
+    if (strada === "verifica") {
+      const g = await lavoroGemelloRecente(payload.richiesta, gruppoId);
+      if (g.lavoro) return { ok: true, lavoro: g.lavoro };
+      // Verifica non riuscita = non so se ho scritto. Ritentare qui sarebbe la scommessa che ha
+      // creato il difetto: mi fermo e lascio decidere a Nicola (il messaggio d'errore glielo dice).
+      if (!g.verificato) break;
+    }
   }
   return { ok: false, ...ultimo };
+}
+
+/**
+ * Il lavoro che stavamo creando esiste già? (AR-259)
+ *
+ * Cerca una riga con la STESSA richiesta creata negli ultimi `FINESTRA_GEMELLO_MS`. È la stessa
+ * forma di difesa che il codice usa già per le sentinelle (`lavoroSentinellaGiaInCoda`, AR-114),
+ * qui portata sul percorso della chat, che ne era scoperto.
+ *
+ * La finestra stretta è deliberata: due domande identiche a distanza di minuti sono due domande
+ * vere, e non vanno fuse. Quella che va riconosciuta è solo la riga scritta dal tentativo di
+ * trenta secondi fa, non un'omonima di ieri.
+ */
+const FINESTRA_GEMELLO_MS = 60_000;
+
+export async function lavoroGemelloRecente(
+  richiesta: string,
+  gruppoId?: string | null,
+): Promise<{ lavoro: Lavoro | null; verificato: boolean }> {
+  if (!memoryConnected()) return { lavoro: null, verificato: false };
+  const da = new Date(Date.now() - FINESTRA_GEMELLO_MS).toISOString();
+  const filtri = [
+    `select=${LAVORI_SELECT_FULL}`,
+    `richiesta=eq.${encodeURIComponent(richiesta)}`,
+    `created_at=gte.${encodeURIComponent(da)}`,
+    "order=created_at.desc",
+    "limit=1",
+  ];
+  if (gruppoId) filtri.push(`gruppo_id=eq.${encodeURIComponent(gruppoId)}`);
+  try {
+    const res = await sbGet(`${URL}/rest/v1/lavori?${filtri.join("&")}`, { headers: headers(), cache: "no-store" });
+    if (!res.ok) return { lavoro: null, verificato: false };
+    const rows = (await res.json()) as Lavoro[];
+    return { lavoro: rows[0] || null, verificato: true };
+  } catch {
+    // `verificato: false` = non ho potuto guardare. Il chiamante NON deve ritentare alla cieca:
+    // un doppione silenzioso è peggio di un errore visto — Nicola può sempre ripremere lui.
+    return { lavoro: null, verificato: false };
+  }
 }
 
 // Crea un lavoro. Lancia MemoriaNonCollegata se mancano le chiavi (config, per i

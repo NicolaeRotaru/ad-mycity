@@ -8,6 +8,7 @@ import { spiegaAzione, nomeReparto } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
 import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
+import { scritturaConfermata } from "@/lib/esito-scrittura";
 import { anteprimaAzione, codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
 import { quadroAzione } from "@/lib/azione-umana";
 import { isCanaleGithub } from "@/lib/github-pr-merge";
@@ -143,6 +144,8 @@ export default function Azioni() {
   const [intenzioni, setIntenzioni] = useState<Intenzioni | null>(null);
   const [todo, setTodo] = useState<TodoItem[]>([]);
   const [todoSalva, setTodoSalva] = useState(false);
+  // AR-239: l'avviso per riga quando una spunta non è stata salvata davvero.
+  const [todoErr, setTodoErr] = useState<Record<string, string>>({});
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [avvisi, setAvvisi] = useState<Avviso[]>([]);
 
@@ -444,10 +447,27 @@ export default function Azioni() {
     setTodo((list) => list.map((t) => (t.id === item.id ? { ...t, fatto: nuovo } : t)));
     // Ricorda la spunta localmente: l'auto-refresh a 60s non la cancella più. (bug #7)
     spuntateLocaliRef.current.set(item.id, nuovo);
+    // AR-239 — LA SPUNTA CHE SEMBRAVA SALVATA. Prima si faceva `await fetch(...)` e il corpo non si
+    // leggeva: la route risponde `{ok:false}` con HTTP **200** quando la memoria non è collegata,
+    // quindi nemmeno il `catch` scattava. E `spuntateLocaliRef` riapplicava il valore locale a ogni
+    // ricarica, così l'errore si auto-nascondeva per tutta la sessione: la spunta spariva solo al
+    // ricarico della pagina, quando ormai non la collegavi più al gesto.
+    // Stessa forma di rollback già usata da `decidi()` qui sotto.
     try {
-      await fetch("/api/memoria/todo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: item.id, fatto: nuovo }) });
+      const res = await fetch("/api/memoria/todo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: item.id, fatto: nuovo }) });
+      const corpo = await res.json().catch(() => null);
+      if (!scritturaConfermata(res, corpo)) throw new Error("non salvata");
+      setTodoErr((m) => {
+        const n = { ...m };
+        delete n[item.id];
+        return n;
+      });
     } catch {
-      /* se fallisce, alla prossima ricarica torna lo stato del server */
+      // Indietro tutto: valore precedente a schermo, voce locale tolta (altrimenti continuerebbe a
+      // coprire la verità del server) e un avviso accanto alla riga.
+      setTodo((list) => list.map((t) => (t.id === item.id ? { ...t, fatto: item.fatto } : t)));
+      spuntateLocaliRef.current.delete(item.id);
+      setTodoErr((m) => ({ ...m, [item.id]: "non salvata, riprova" }));
     }
   }
   const toggle = (id: string) =>
@@ -879,7 +899,10 @@ export default function Azioni() {
                       <span className={`mt-0.5 grid place-items-center w-5 h-5 rounded-md border shrink-0 ${item.fatto ? "bg-brand border-brand text-white" : "border-black/25 bg-white"}`}>
                         {item.fatto && <CheckCircle2 size={13} />}
                       </span>
-                      <span className={`text-[13px] leading-snug ${item.fatto ? "line-through text-black/45" : "text-ink/90"}`}>{testoPulito(item.testo)}</span>
+                      <span className={`text-[13px] leading-snug ${item.fatto ? "line-through text-black/45" : "text-ink/90"}`}>
+                        {testoPulito(item.testo)}
+                        {todoErr[item.id] && <span className="block text-[11.5px] font-medium text-red-700">⚠️ {todoErr[item.id]}</span>}
+                      </span>
                     </button>
                   );
                 })}

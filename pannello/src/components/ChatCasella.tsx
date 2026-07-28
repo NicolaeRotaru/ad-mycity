@@ -15,6 +15,8 @@ import { bloccoMemoriaChat } from "@/lib/memoria-chat";
 import { gestisciInvioChat, hintInvioChat } from "@/lib/chat-input";
 import { emitSync } from "@/lib/panel-sync";
 import { MSG_RISPOSTA_VUOTA } from "@/lib/parla";
+import { mergeThreadMsgs } from "@/lib/chat-thread-merge";
+import { fondiConservandoVivi } from "@/lib/stato-vivo";
 
 const HEADERS = { "Content-Type": "application/json" };
 
@@ -65,9 +67,24 @@ export default function ChatCasella({
   lavori: LavoroBase[];
   onChiudi: () => void;
 }) {
-  // Semina UNA volta: la conversazione ricostruita dal gruppo (domande di Nicola + risposte dell'AD).
-  // Poi la chat vive di stato locale — così un refresh dei lavori dal genitore non duplica i messaggi.
+  // Semina la conversazione ricostruita dal gruppo (domande di Nicola + risposte dell'AD).
   const [msgs, setMsgs] = useState<MsgChat[]>(() => messaggiDaGruppo(lavori).filter((m) => !m.pending));
+  // AR-269 — LA CHAT DELL'ARCHIVIO RESTAVA ALLA FOTO DI QUANDO L'AVEVI APERTA.
+  // Il seed girava solo nell'inizializzatore di `useState` (una volta, al montaggio) e nessun
+  // effetto risincronizzava quando il genitore ricaricava i lavori: una risposta arrivata mentre il
+  // riquadro era aperto non compariva mai. Il commento originale dichiarava il congelamento come
+  // scelta («così un refresh non duplica i messaggi») — cioè la de-duplicazione era stata risolta
+  // spegnendo l'aggiornamento invece che fondendo. Ora si fonde con `mergeThreadMsgs`, la stessa
+  // funzione che il resto del Pannello usa proprio per questo, e i transitori restano intatti.
+  useEffect(() => {
+    setMsgs((cur) =>
+      fondiConservandoVivi(
+        cur,
+        messaggiDaGruppo(lavori).filter((m) => !m.pending),
+        (a, b) => mergeThreadMsgs(a, b),
+      ),
+    );
+  }, [lavori]);
   const [bozza, setBozza] = useState("");
   const [inviando, setInviando] = useState(false);
   const [err, setErr] = useState("");
