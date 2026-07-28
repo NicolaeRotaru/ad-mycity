@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 14:02",
+  "aggiornato": "2026-07-28 15:55",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -1215,13 +1215,14 @@
       "causa_radice": "Dove: cervello/ritmo.sh:247-267 (add/commit/push, 0 gate coerenza/sanità/onestà) · cervello/monitora.sh:143-165 (push su main, 0 gate) · vs cervello/giro.sh:552-628 (gate AR-104/AR-021/AR-075: scan-segreti + onesta-check + coe — Il gate pre-push è stato scritto IN LINEA dentro giro.sh invece di essere estratto in una funzione/script condiviso. Le tre pipeline nascono come copia-incolla della logica git e poi divergono a ogni fix: non esiste un modulo unico 'pubblica-memoria-su-main' che TUTTI gli scrittori del ramo devono usare → ogni nuova protezione va ri-applicata a mano e prima o poi uno scrittore resta scoperto.",
       "fix_proposto": "🟡 Estrarre il cancello pre-push (scan-segreti + onesta-check + coerenza-fatti + vault-sanita, fail-closed) in un'unica funzione/script condiviso e farlo chiamare da giro.sh, ritmo.sh e monitora.sh prima di ogni push su main. Resta 🟡 da firmare.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 23:58",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-28 15:55",
       "verifica": {
         "comando": "node cervello/test/porte-di-pubblicazione.test.mjs"
       },
-      "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)"
+      "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)",
+      "chiuso_come": "node cervello/test/porte-di-pubblicazione.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-128",
@@ -5355,8 +5356,8 @@
     }
   ],
   "meta": {
-    "aperti": 131,
+    "aperti": 130,
     "in_corso": 0,
-    "chiusi": 140
+    "chiusi": 141
   }
 }
