@@ -39,6 +39,24 @@ const FILES = [".claude/settings.json", ".claude/settings.local.json"];
 // `vieta` matcha la voce di allow; `deve_negare` chiede che una voce sia in deny.
 export const REGOLE = [
   {
+    id: "no-jolly-su-cartella-scrivibile",
+    perche:
+      "AR-206: un permesso con il jolly su una cartella che la macchina stessa può SCRIVERE non è un " +
+      "permesso su un elenco di programmi — è un permesso su «qualunque programma io decida di " +
+      "scrivere lì dentro». I freni vivono dentro i singoli script (consenso, pausa, allowlist): con " +
+      "il jolly si arriva al risultato senza passare dallo script che contiene il freno. È lo stesso " +
+      "difetto di AR-272 visto dall'altro lato — là il cancello mancava su un'uscita, qui si può " +
+      "girargli intorno. Il permesso va scritto come elenco esplicito degli script ammessi.",
+    // L'asterisco dev'essere nel PERCORSO, non negli argomenti.
+    //   ❌ Bash(node cervello/*.mjs:*)      → «qualunque file .mjs io scriva lì dentro»
+    //   ✅ Bash(node cervello/auto-fix.mjs:*) → UN programma preciso, argomenti liberi
+    // La prima versione di questa regola non distingueva i due casi e bocciava anche i permessi
+    // sicuri. Un cancello che boccia ciò che va bene viene disattivato entro la settimana — e allora
+    // non protegge più nemmeno dal caso vero. Il `*` va cercato PRIMA dei due punti che separano il
+    // comando dai suoi argomenti.
+    vieta: /^Bash\((?:node|bash|sh|python3?)\s+[^):]*\*[^):]*(?::|\))/,
+  },
+  {
     id: "no-push-diretto",
     perche: "CLAUDE.md: da agente cloud si lavora in branch e si apre PR — mai push diretto su main.",
     deve_negare: /^Bash\(git push/,

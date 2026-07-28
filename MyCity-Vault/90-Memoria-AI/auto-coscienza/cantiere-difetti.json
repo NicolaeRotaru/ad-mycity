@@ -2782,10 +2782,10 @@
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "file": "cervello/permessi-check.mjs",
-        "pattern": "jolly|wildcard|cartella scrivibile|no-esecuzione-jolly",
+        "pattern": "no-jolly-su-cartella-scrivibile",
         "presente": true
       },
-      "nota": "Dove: .claude/settings.json:23 (permesso «Bash(node cervello/*.mjs:*)») + cervello/motore-ai.sh:274 (scritture auto-accettate) + cervello/worker.sh:26 (tutte le chiavi esportate nell'ambiente) + cervello/permessi-check.mjs:40-88 (le 7 regole d'oro non coprono il caso) · Impatto: Ogni cancello diventa facoltativo: l'invio a un cliente, la scrittura su una tabella del sito, il merge, la pausa — tutto raggiungibile senza passare dagli script che contengono i controlli, quindi senza firma, senza pausa e senza allowlist. Vale sia per i lavori sia per la chat, che è anche la superficie che ingoia testo esterno (vault, allegati, web): un'istruzione ostile in un documento letto diventa eseguibile. Nessuna traccia in DECISIONI.md, perché la traccia la scrive solo lo script che si è aggirato.",
+      "nota": "Dove: .claude/settings.json:23 (permesso «Bash(node cervello/*.mjs:*)») + cervello/motore-ai.sh:274 (scritture auto-accettate) + cervello/worker.sh:26 (tutte le chiavi esportate nell'ambiente) + cervello/permessi-check.mjs:40-88 (le 7 regole d'oro non coprono il caso) · Impatto: Ogni cancello diventa facoltativo: l'invio a un cliente, la scrittura su una tabella del sito, il merge, la pausa — tutto raggiungibile senza passare dagli script che contengono i controlli, quindi senza firma, senza pausa e senza allowlist. Vale sia per i lavori sia per la chat, che è anche la superficie che ingoia testo esterno (vault, allegati, web): un'istruzione ostile in un documento letto diventa eseguibile. Nessuna traccia in DECISIONI.md, perché la traccia la scrive solo lo script che si è aggirato. · 28/7 lotto 13: FATTA la (b) — permessi-check ha ora la regola no-jolly-su-cartella-scrivibile, che becca esattamente Bash(node cervello/*.mjs:*) e Bash(bash cervello/*.sh:*) e NON i permessi su un singolo script (la prima versione li bocciava tutti: un cancello che boccia cio che va bene viene disattivato). RESTA APERTO perche la (a) — sostituire il jolly con l elenco esplicito in .claude/settings.json — e AZIONE DI NICOLA: quel file e negato in Edit/Write alla macchina, apposta. Restano aperte anche la (c) provenienza degli script e la (d) chiavi fuori dall ambiente del worker. La radice condivisa con AR-272 e invece chiusa: esiste l elenco delle uscite verso il mondo reale (cervello/uscite-reali.json) e un guardiano che fallisce il giro se ne compare una non dichiarata.",
       "chiuso_il": "",
       "chiuso_come": ""
     },
@@ -4121,9 +4121,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/git-merge.mjs",
-        "pattern": "const canMerge = \\(LIVE \\|\\| force\\) && !dryRun",
-        "presente": false
+        "comando": "node cervello/test/uscite-verso-il-mondo.test.mjs"
       },
       "nota": "Dove: cervello/git-merge.mjs:104 · cervello/git-merge.mjs:33 (opzione documentata) · .claude/settings.json (permesso su tutti gli script del cervello) · Impatto: L'azione più irreversibile che la macchina possa compiere — mandare codice in produzione — è l'unica che non passa dai controlli costruiti apposta per le azioni irreversibili. Il pulsante di PAUSA del Pannello, che Nicola userebbe per fermare tutto, su questa strada non ferma niente. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",

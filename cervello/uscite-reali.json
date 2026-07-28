@@ -1,0 +1,74 @@
+{
+  "_cosa_e": "🚪 LE USCITE VERSO IL MONDO REALE — l'elenco dichiarato di ogni punto in cui questa macchina scrive o manda qualcosa fuori da sé. Lo legge cervello/uscite-check.mjs a ogni giro: se compare un'uscita NUOVA che nessuno ha dichiarato, il giro fallisce. Nasce dal punto (c) di AR-272.",
+  "_perche_esiste": "La radice comune dei tre bloccanti sulla sicurezza (AR-206, AR-226, AR-272) è la stessa: il cancello è stato messo DENTRO ogni singolo esecutore invece che al confine. Così ogni uscita nuova nasce senza cancello e nessuno se ne accorge — perché non esisteva un elenco di cosa sia un'uscita. Il merge, cioè l'azione più irreversibile che la macchina possa compiere (su main fa partire il deploy), è rimasto scoperto per mesi mentre un'email a un cliente passava da PAUSA + firma + allowlist. Non per svista: perché il merge non era stato RICONOSCIUTO come una mano.",
+  "_come_si_usa": "Ogni file che scrive fuori da sé va dichiarato qui. `cancello: \"consenso\"` = deve importare consenso-azione.mjs. `cancello: \"non-serve\"` = ammesso senza, ma il PERCHÉ va scritto e dev'essere un motivo di sostanza (il canale non può raggiungere un cliente, la scrittura è sulla memoria della macchina, l'atto è reversibile). Un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
+  "aggiornato": "2026-07-28 03:05",
+  "uscite": [
+    {
+      "file": "cervello/esegui-azione.mjs",
+      "cosa_fa": "Manda email (Resend), notifiche in-app, messaggi Telegram, chiamate n8n",
+      "cancello": "consenso",
+      "nota": "È l'esecutore per cui il cancello è nato. PAUSA + firma di Nicola + allowlist del destinatario."
+    },
+    {
+      "file": "cervello/marketplace.mjs",
+      "cosa_fa": "Scrive sulle tabelle del marketplace (prodotti, negozi)",
+      "cancello": "consenso",
+      "nota": "Canale `marketplace`, con allowlist per TABELLA: oggi solo `products`. Backup per riga, reversibile."
+    },
+    {
+      "file": "cervello/git-merge.mjs",
+      "cosa_fa": "Mergia una PR — su `main` fa partire il Deploy Hook, quindi PUBBLICA",
+      "cancello": "consenso",
+      "nota": "AR-272: agganciato il 28/7. Era l'unica mano senza cancello, ed è la più irreversibile di tutte. Tolta anche `--force`, che saltava il freno: un cancello con accanto l'interruttore per spegnerlo non è un cancello."
+    },
+    {
+      "file": "cervello/autopilot.mjs",
+      "cosa_fa": "Esegue le azioni approvate in coda",
+      "cancello": "consenso",
+      "nota": "Passa dallo stesso cancello dell'esecutore; la sua firma è «auto …» e NON apre il cancello (AR-205)."
+    },
+    {
+      "file": "cervello/avviso-telegram.mjs",
+      "cosa_fa": "Manda un messaggio Telegram",
+      "cancello": "non-serve",
+      "perche": "Canale-proprietario: la chat di destinazione è TELEGRAM_CHAT_ID dell'ambiente, cioè solo Nicola. Non può raggiungere un cliente — che è il pericolo da cui il cancello protegge. È la stessa eccezione già scritta dentro consenso-azione.mjs::destinatarioAmmesso, non una deroga nuova."
+    },
+    {
+      "file": "cervello/notifica-approvazioni.mjs",
+      "cosa_fa": "Avvisa Nicola su Telegram delle card da firmare",
+      "cancello": "non-serve",
+      "perche": "Stesso canale-proprietario di avviso-telegram. In più è l'avviso che serve PROPRIO a far arrivare le firme: metterlo dietro la firma sarebbe un cane che si morde la coda."
+    },
+    {
+      "file": "cervello/git-pr.mjs",
+      "cosa_fa": "Apre e aggiorna Pull Request su GitHub",
+      "cancello": "non-serve",
+      "perche": "Una PR è una PROPOSTA, non una pubblicazione: è visibile, reversibile (si chiude) e non tocca né la produzione né un cliente. Il passo irreversibile è il merge, che dal 28/7 ha il cancello. Se un giorno una PR potesse auto-mergiarsi, questa riga va rivista."
+    },
+    {
+      "file": "cervello/pulisci-coda.mjs",
+      "cosa_fa": "Aggiorna le righe della coda lavori su Supabase-memoria",
+      "cancello": "non-serve",
+      "perche": "Scrive sulla memoria DELLA MACCHINA, non sul mondo: nessun cliente, nessun soldo, nessun deploy. È lo stesso perimetro di 90-Memoria-AI, che la macchina possiede."
+    },
+    {
+      "file": "cervello/sentinella-lavori.mjs",
+      "cosa_fa": "Ri-accoda o ferma i lavori orfani sulla coda Supabase-memoria",
+      "cancello": "non-serve",
+      "perche": "Come sopra: memoria della macchina. Il rischio vero qui non è il permesso ma il loop, ed è coperto dal tetto sui ri-accodi (AR-292, MAX_RIACCODI_ORFANO=2)."
+    },
+    {
+      "file": "cervello/git-github.mjs",
+      "cosa_fa": "stampSegnale: scrive il battito dei guardiani sulla tabella `impostazioni` di Supabase-memoria",
+      "cancello": "non-serve",
+      "perche": "Trovato da questo stesso guardiano il 28/7, non a occhio: mi era sfuggito al censimento a mano. È telemetria interna — la macchina che annota a sé stessa che un guardiano ha battuto. Nessun cliente, nessun soldo, nessun deploy. Il resto del file è la PLOMBERIA condivisa di GitHub (githubRequest): le uscite vere sono i suoi chiamanti, git-pr e git-merge, dichiarati qui sopra."
+    },
+    {
+      "file": "cervello/sentinella-dati.mjs",
+      "cosa_fa": "Accoda lavori sulla tabella `lavori` di Supabase-memoria e manda l'allarme a Nicola su Telegram",
+      "cancello": "non-serve",
+      "perche": "Anche questa trovata dal guardiano, non dal censimento. Due scritture, entrambe verso l'interno: la coda lavori è la memoria della macchina (stesso perimetro di 90-Memoria-AI) e il Telegram va alla chat dell'ambiente, cioè solo a Nicola. Nessuna delle due può raggiungere un cliente. Il rischio qui non è il permesso ma la ripetizione, coperto dal dedup su firma (AR-114)."
+    }
+  ]
+}
