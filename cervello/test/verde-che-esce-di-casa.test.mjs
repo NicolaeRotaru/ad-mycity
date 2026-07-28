@@ -26,6 +26,7 @@ const REPO = join(QUI, "..", "..");
 const { almeno, autoEseguibile, livelloEffettivo, versoIlMondo } = await import(
   join(REPO, "pannello/src/lib/livello-effettivo.ts")
 );
+const { selezionaAzioni } = await import(join(REPO, "pannello/src/lib/selezione-autopilota.ts"));
 
 const casi = [];
 const prova = (nome, fn) => {
@@ -95,9 +96,18 @@ prova("sulla coda di oggi il cancello non toglie niente a nessuno", () => {
 // ── Gli innesti ─────────────────────────────────────────────────────────────
 
 prova("l'autopilota decide col livello effettivo, non con l'emoji", () => {
+  // Dal lotto 26 la decisione non vive più dentro l'esecutore: sta in `selezionaAzioni`, che una
+  // prova può ESEGUIRE. Qui si verifica che la regola del canale sia ancora quella che decide, e che
+  // nessuno sia tornato a confrontare l'emoji a mano.
   const a = readFileSync(join(REPO, "pannello/src/lib/autopilota.ts"), "utf8");
-  assert.match(a, /autoEseguibile\(b\.livello, b\.canale\)/);
-  assert.doesNotMatch(a, /b\.livello === "verde"/, "il confronto diretto con l'emoji non deve più esistere");
+  const s = readFileSync(join(REPO, "pannello/src/lib/selezione-autopilota.ts"), "utf8");
+  assert.match(s, /autoEseguibile\(a\?\.livello, a\?\.canale\)/, "la selezione deve passare dal livello effettivo");
+  for (const [nome, testo] of [["autopilota.ts", a], ["selezione-autopilota.ts", s]]) {
+    assert.doesNotMatch(testo, /livello === "verde"/, `${nome}: il confronto diretto con l'emoji non deve esistere`);
+  }
+  // e la regola vale davvero, non solo per iscritto: un 🟢 su canale esterno non viene selezionato.
+  const sel = selezionaAzioni([{ id: "x", titolo: "nota", testo: "innocua", canale: "email", livello: "verde" }]);
+  assert.equal(sel.esegui.length, 0, "un verde che esce di casa non si esegue da solo");
 });
 
 prova("e il Pannello MOSTRA lo stesso livello che l'autopilota userà", () => {

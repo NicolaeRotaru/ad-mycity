@@ -3298,9 +3298,7 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/lib/rischio-contenuto.ts",
-        "pattern": "IBAN",
-        "presente": true
+        "comando": "node cervello/test/secondo-parere-sul-contenuto.test.mjs"
       },
       "nota": "Dove: pannello/src/lib/autopilota.ts:27 · pannello/src/lib/azioni-attesa.ts:29-35 (livelloDi) e :255 (livello letto dalla colonna Colore del markdown) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita. · RI-INVERTITA 2026-07-28 16:45 (lotto 25): la prova chiedeva l ASSENZA della stringa `b.livello === \"verde\"` in autopilota.ts. Il lotto 25 quella riga l ha tolta per AR-140, quindi la prova sarebbe diventata verde da sola — ma delle quattro condizioni del fix ne sono soddisfatte tre: (a) verde e (b) canale auto-eseguibile arrivano dal lotto 25, (c) allowlist destinatario c era gia da AR-139, (d) indicatori di rischio nel TESTO (importi, IBAN, telefono, «pubblica», «paga», «annulla ordine») NON esiste, e non esistono ne il log delle degradazioni ne il modulo di rischio condiviso col cervello. Una prova che chiede l assenza di una stringa si soddisfa cambiando la stringa: ora punta al pezzo che manca.",
       "chiuso_il": "",
@@ -5351,6 +5349,23 @@
       "nota": "Portata dell-episodio: volano-regole.mjs e inerte su main (zero riferimenti, nessun comportamento cambiato), il cablaggio viaggia nella PR del lotto 6.",
       "chiuso_il": "2026-07-27 22:00",
       "chiuso_come": "node cervello/test/perimetro-main.test.mjs → exit 0 (guardiano soddisfatto)"
+    },
+    {
+      "id": "AR-333",
+      "titolo": "La rotta di controllo del Pannello scrive QUALUNQUE chiave, firma di Nicola compresa: la porta di servizio che scavalca il confine",
+      "dimensione": "pannello-coerenza-azioni",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Dove: pannello/src/app/api/controllo/route.ts (POST legge {chiave, valore} dal corpo e li passa a setImpostazione senza guardare la chiave) · il commento in cima alla rotta dichiara «Chiavi usate: pausa, tetto_spesa, spesa_attuale», ma il codice non lo impone. — Radice: la rotta è nata per due interruttori e il permesso che porta è «scrivi qualsiasi riga di impostazioni». È la stessa forma di AR-119/AR-140/AR-141: il permesso è più largo della frase che l'ha ottenuto. Il lotto 25 ha chiuso questo confine dal lato del cervello (firma-check.mjs impedisce agli script di scriversi `azione:<id>:firma`); questa era la seconda porta, dal lato del Pannello, e non aveva controllo.",
+      "fix_proposto": "🟡 Allowlist delle chiavi scrivibili da /api/controllo (pausa, autopilota, tetto_spesa, spesa_attuale), fail-closed su tutto il resto; più un doppio fondo che vieta comunque le chiavi di firma (`azione:*:firma`, `firma:*`) anche se un giorno finissero nella lista per distrazione. La firma continua ad avere la sua strada dedicata: lib/firma-azione.ts::registraFirma, dal clic «Approva».",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-28 17:35",
+      "chiuso_il": "",
+      "verifica": {
+        "comando": "node cervello/test/porta-di-servizio-della-firma.test.mjs"
+      },
+      "origine": "lotto 26 (trovato tirando il filo di AR-119, lotto 25)"
     }
   ],
   "meta": {
