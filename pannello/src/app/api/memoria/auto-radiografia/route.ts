@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cantiereSnello } from "@/lib/cantiere-snello";
 import { readVaultFile } from "@/lib/vault";
 import { sanificaListe } from "@/lib/memoria-json";
 
@@ -121,6 +122,13 @@ export async function GET() {
         "La macchina non ha ancora fatto la radiografia di sé. Lancia «radiografia di te stesso» (cervello/auto-radiografia.md) per generare il primo verdetto sulla propria architettura.",
     });
   }
+  // I totali si calcolano sul cantiere INTERO, prima di snellirlo: se li leggesse dalla versione
+  // ridotta, «135 chiusi» diventerebbe «40 chiusi» e la Cabina mentirebbe per troncamento.
   const live = calcolaLive(radiografia, cantiere);
-  return NextResponse.json({ collegato: true, live, radiografia, cantiere, storico, watchlist, lettera });
+
+  // AR-250/AR-221 — si compone la risposta invece di inoltrare il file. Misurato il 28/7: il cantiere
+  // intero è 607.409 byte per 271 difetti, riscaricati ogni 30 secondi sul telefono; con i soli campi
+  // che la scheda disegna scende a ~106 KB. L'83% che viaggiava non veniva mostrato da nessuno.
+  const cantiereRidotto = cantiereSnello(cantiere);
+  return NextResponse.json({ collegato: true, live, radiografia, cantiere: cantiereRidotto, storico, watchlist, lettera });
 }
