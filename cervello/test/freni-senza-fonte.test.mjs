@@ -37,6 +37,7 @@ import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import assert from "node:assert/strict";
+import { ESCLUSA, contaNelPunteggio } from "../previsione-verificabile.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -268,9 +269,20 @@ prova("il caso che ha rotto: la chiave del sensore è quella VERA del file", () 
 prova("una fonte non riconosciuta NON fa più guadagnare autonomia", () => {
   // Era il default rovesciato: si escludeva solo ciò che si sapeva riconoscere come cieco, quindi
   // «chiusura-loop ESITO» — il quaderno che la macchina scrive da sé — faceva punteggio. 36 voci su 42.
-  const src = leggi("cervello/calibrazione.mjs");
-  assert.match(src, /e\.sensore_stato !== "ok" && e\.sensore_stato !== "n\/d"/, "conta solo ciò che ha visto");
-  assert.doesNotMatch(src, /if \(e\.sensore_stato === "cieco"\) \{\n\s*perRep\.set/, "il vecchio default permissivo");
+  //
+  // ⚠️ Questa prova cercava il pattern `e.sensore_stato !== "ok" && ...` DENTRO calibrazione.mjs, e il
+  // 28/7 è diventata rossa quando quella decisione è stata consolidata in `previsione-verificabile.mjs`
+  // — la proprietà reggeva, la prova no. È la debolezza della prova-pattern vista dall'altro lato:
+  // non chiude niente di falso, ma accusa un lavoro sano e spinge a non riordinare il codice.
+  // Ora si ESEGUE la regola invece di cercarla scritta.
+  const sano = { stato: "azzeccata", sensore_stato: "ok", atteso: 1, baseline: 0, entro: "2099-01-01", creato: "2026-07-01", chiuso_il: "2026-07-05" };
+  assert.equal(contaNelPunteggio(sano).conta, true, "una misura vista conta");
+  for (const stato of ["cieco", "sconosciuto", undefined]) {
+    const g = contaNelPunteggio({ ...sano, sensore_stato: stato });
+    assert.equal(g.conta, false, `sensore "${stato}" non deve far guadagnare autonomia`);
+    assert.ok(g.motivi.includes(ESCLUSA.SENSORE_CIECO), `motivo mancante per "${stato}"`);
+  }
+  assert.equal(contaNelPunteggio({ ...sano, sensore_stato: "n/d" }).conta, true, "una fonte umana dichiarata è una misura vera");
 });
 
 prova("la ricerca del sensore non è più un confronto esatto su testo libero", () => {
