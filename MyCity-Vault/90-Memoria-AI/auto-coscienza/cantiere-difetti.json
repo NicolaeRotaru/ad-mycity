@@ -786,7 +786,7 @@
       "nato": "2026-07-16 16:55",
       "chiuso_il": "",
       "verifica": {
-        "tipo": "umano"
+        "comando": "node cervello/test/spento-per-scelta-o-per-inerzia.test.mjs"
       },
       "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
     },
@@ -843,9 +843,7 @@
       "nato": "2026-07-16 16:55",
       "chiuso_il": "",
       "verifica": {
-        "file": "cervello/collega-le-mani.md",
-        "pattern": "MARKETPLACE_SITE_URL",
-        "presente": true
+        "comando": "node cervello/test/una-card-una-volta-sola.test.mjs"
       },
       "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
     },

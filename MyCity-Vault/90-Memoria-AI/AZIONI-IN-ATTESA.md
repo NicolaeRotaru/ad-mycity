@@ -16,6 +16,22 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 <!-- ordine-test-dentro-o-fuori-dalla-pausa -->
 
+
+<!-- sensori-spenti-senza-motivo -->
+
+### 🟡 #sensori-spenti-senza-motivo — Dimmi se questi occhi della macchina li vuoi accesi o no
+
+**Cosa cambia:** ci sono strumenti già costruiti che non stanno guardando niente: `telegram_bot`. Non sono rotti — non sono mai stati accesi, e non risulta che tu abbia deciso di lasciarli spenti: semplicemente nessuno te l'ha chiesto. È già successo: i controlli che dicono se il sito e il Pannello sono in piedi sono rimasti spenti per 163 giri di fila, e nessuna card te l'ha mai detto.
+
+**Se va bene:** mi dici per ognuno «acceso» o «lasciamolo spento». Se dici spento lo scrivo come una tua decisione e non te lo richiedo mai più. Se dici acceso ti dico l'unica riga che serve per farlo partire.
+
+**Nota tecnica:** difetti AR-105 e AR-108. I motivi vivono in `cervello/sensori-motivi.json` e il guardiano `sensori-spenti-check.mjs` resta rosso finché uno spento non dice perché. Questa card non si ripete: se c'è già, non se ne accoda un'altra.
+- **Colore:** 🟡 (accende un controllo in sola lettura, non manda niente a nessuno)
+- **Reparto:** devops-sre
+- **Origine:** `{origine:auto-radiografia, difetti:AR-105+AR-108}`
+
+---
+
 ### 🟡 #ordine-test-dentro-o-fuori-dalla-pausa — Dimmi se l’ordine di prova da Pane Quotidiano resta fermo fino a settembre o lo fai adesso · ⏳ accodata 2026-07-28 08:45
 
 **Cosa cambia:** quando il 23 luglio hai rimandato l’inserimento dei negozi, in pausa sono finite dodici azioni — e fra queste anche l’ordine di prova da Pane Quotidiano. Ma quell’ordine non è una spinta commerciale: è il collaudo. È l’unica cosa in tutta la coda che dimostra che un cliente paga, i soldi arrivano al fornaio e la consegna si chiude. Costa 3-5 euro di pane e lo fai dal telefono in due minuti. La pausa l’hai presa proprio per avere il tempo di finire la macchina: tenerci dentro anche la prova che la macchina funziona è l’unica cosa che stona. Non l’ho sbloccata da solo — decidi tu, ma volevo che la vedessi separata dalle altre undici invece che sepolta in mezzo.
