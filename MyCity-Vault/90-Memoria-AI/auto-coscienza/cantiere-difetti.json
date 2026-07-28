@@ -2625,11 +2625,9 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/peso-contesto.mjs",
-        "pattern": "STATO\\.md",
-        "presente": true
+        "comando": "node cervello/peso-contesto.mjs"
       },
-      "nota": "Dove: MyCity-Vault/90-Memoria-AI/STATO.md (437.764 byte, 1.302 righe, ~109.000 token) · AZIONI-IN-ATTESA.md (303.680 byte) · SALA-OPERATIVA.md (257.871 byte) · DECISIONI.md (461.188 byte) · cervello/giro.md:17 (dichiara STATO.md uno «snapshot»), :85 (il giro aggiorna i 7 numeri in STATO.md), :129 (registra le mosse in SALA-OPERATIVA) · Impatto: È la voce di contesto più pesante di ogni giro pieno (2 oggi) e di ogni cadenza, e l'unica che cresce senza che nessuno decida di farla crescere. Con il lavoro operativo in pausa fino a fine agosto, la macchina rilegge ogni giorno 15 giorni di conversazioni per aggiornare 7 numeri che non cambiano (ordini fermi a 1 dal 24/6, vedi delta-gate.json). Un mese così e STATO.md supera i 900 KB: il file non entrerà più in una lettura sola e il giro comincerà a leggerlo a pezzi, cioè a spendere di più per vederne meno.",
+      "nota": "Dove: MyCity-Vault/90-Memoria-AI/STATO.md (437.764 byte, 1.302 righe, ~109.000 token) · AZIONI-IN-ATTESA.md (303.680 byte) · SALA-OPERATIVA.md (257.871 byte) · DECISIONI.md (461.188 byte) · cervello/giro.md:17 (dichiara STATO.md uno «snapshot»), :85 (il giro aggiorna i 7 numeri in STATO.md), :129 (registra le mosse in SALA-OPERATIVA) · Impatto: È la voce di contesto più pesante di ogni giro pieno (2 oggi) e di ogni cadenza, e l'unica che cresce senza che nessuno decida di farla crescere. Con il lavoro operativo in pausa fino a fine agosto, la macchina rilegge ogni giorno 15 giorni di conversazioni per aggiornare 7 numeri che non cambiano (ordini fermi a 1 dal 24/6, vedi delta-gate.json). Un mese così e STATO.md supera i 900 KB: il file non entrerà più in una lettura sola e il giro comincerà a leggerlo a pezzi, cioè a spendere di più per vederne meno. · LOTTO 27 (28/7 sera): gli STRUMENTI ci sono e sono provati (cervello/archivio-memoria.mjs + pota-memoria.mjs + peso-contesto.mjs, prova node cervello/test/il-costo-della-memoria.test.mjs, 15 casi). La prova di CHIUSURA e volutamente il guardiano: resta ROSSA finche la potatura non e stata applicata su main (node cervello/pota-memoria.mjs --applica), perche i tetti sono l OBIETTIVO post-potatura e non il peso di oggi. Misura a secco: 1.068.042 → 280.200 byte (-74%, 769 KB in meno a ogni giro e a ogni apertura della Cabina), con garanzia riga-per-riga che niente si perde.",
       "chiuso_il": "",
       "chiuso_come": ""
     },
@@ -5367,6 +5365,24 @@
       },
       "origine": "lotto 26 (trovato tirando il filo di AR-119, lotto 25)",
       "chiuso_come": "node cervello/test/porta-di-servizio-della-firma.test.mjs → exit 0 (guardiano soddisfatto)"
+    },
+    {
+      "id": "AR-334",
+      "titolo": "Il registro delle malattie promette un modo per dichiarare un istanza legittima, e il codice non lo implementa",
+      "dimensione": "guardiani-verita",
+      "gravita": "medio",
+      "impatto_crescita": "medio",
+      "causa_radice": "Dove: cervello/malattie.json:3 (_come_si_usa: «Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto») · cervello/spazzata-fratelli.mjs:151 (le voci di `esenti` entrano solo in `file_noti`, cioè servono a non segnalare un FILE nuovo — non vengono MAI sottratte dal conteggio). — Trovato il 28/7 sera usando lo strumento come dice la sua stessa documentazione: aggiunta un istanza legittima e dichiarata in `esenti` col perche, il guardiano restava rosso. L unica via per farlo tornare verde sarebbe alzare la baseline, che lo strumento vieta giustamente («il tetto scende e basta»). Risultato: chi aggiunge una riga legittima resta senza uscite, e la tentazione e alzare il tetto — cioe proprio il gesto che il guardiano esiste per impedire.",
+      "fix_proposto": "🟡 Sottrarre le istanze dichiarate in `esenti` dal conteggio confrontato con la baseline (o contarle a parte e confrontare `totale - esenti` con il tetto), cosi la via documentata funziona davvero. In piu: un controllo che ogni voce di `esenti` combaci con un istanza REALMENTE trovata — un esenzione che non corrisponde a niente e un residuo che nasconde il prossimo caso vero.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-28 20:05",
+      "chiuso_il": "",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Serve una prova che aggiunga un istanza finta, la dichiari in esenti e pretenda il verde. Da scrivere insieme al fix."
+      },
+      "origine": "lotto 27 (trovato usando spazzata-fratelli come dice la sua documentazione)"
     }
   ],
   "meta": {
