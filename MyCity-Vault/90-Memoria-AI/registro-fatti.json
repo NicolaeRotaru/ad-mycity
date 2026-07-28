@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-29 00:15",
+  "aggiornato": "2026-07-29 01:19",
   "fatti": [
     {
       "id": "bandi.pi26.scadenza",
@@ -484,11 +484,31 @@
       "esenzioni": []
     },
     {
+      "id": "strategia.linee-ricavo",
+      "nome": "Le fonti di reddito di MyCity",
+      "valore": "DUE linee: (1) Marketplace = 10% sul venduto + 50 euro/mese abbonamento venditore + 3 euro fee consegna — viva, dipende dagli ordini. (2) Worker per i negozi = 99/299/699-999 euro/mese + setup — ricorrente, incassa anche a zero ordini, NON ancora costruita. Non mescolare i due listini.",
+      "fonte": "Nicola — chat Pannello 2026-07-29 00:30 + codice marketplace (MARKETPLACE_FEE_BPS, fee consegna 3 euro)",
+      "aggiornato": "2026-07-29 01:19",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "vercel.deploy",
       "nome": "Regola deploy Pannello su Vercel",
       "valore": "solo quando pannello/ cambia, via Deploy Hook (Action deploy-pannello)",
       "fonte": "PR #210 mergiata da Nicola 6/7 23:19",
       "aggiornato": "2026-07-07 00:29",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "worker-negozi.stato",
+      "nome": "Stato della linea Worker per i negozi",
+      "valore": "Linea di ricavo #2 DEFINITA ma NON COSTRUITA. Nicola 2026-07-29 00:30: si crea in sessioni dedicate future. Nessuna azione accodata, nessun pitch, nessun asset pesante, nessun contatto su questa linea finche' non e' Nicola ad aprirla. Dettaglio: consegne/strategia/2026-07-29-listino-worker-negozi.md",
+      "fonte": "Nicola — chat Pannello 2026-07-29 00:30",
+      "aggiornato": "2026-07-29 01:19",
       "storia": [],
       "caccia": [],
       "esenzioni": []
