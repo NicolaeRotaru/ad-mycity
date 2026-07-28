@@ -118,6 +118,37 @@ function cerca(malattia) {
   return trovati.sort((a, b) => b.istanze - a.istanze);
 }
 
+/** Quanti caratteri deve avere un motivo per essere un motivo. Stessa soglia di `porte-check`. */
+export const MOTIVO_MIN = 10;
+
+/**
+ * AR-337 — separa le esenzioni che valgono da quelle che non valgono, e dice perché.
+ *
+ * Due condizioni, tutte e due necessarie:
+ *   · un PERCHÉ scritto per esteso — «boh» è un'esenzione senza motivo con un'etichetta sopra;
+ *   · un posto dove valere: il file deve avere ancora almeno un'istanza, e ogni esenzione ne copre
+ *     UNA. La quarta esenzione su un file con tre istanze non copre niente: è un residuo.
+ *
+ * Torna anche il motivo dello scarto, perché un guardiano che dice solo «no» costringe a indovinare.
+ */
+export function pesaEsenzioni(esenti = [], perFile = new Map()) {
+  const valide = [];
+  const orfane = [];
+  const usate = new Map();
+  for (const e of esenti) {
+    const motivo = String(e?.perche || "").trim();
+    if (!e?.file) { orfane.push({ ...e, _scarto: "senza file" }); continue; }
+    if (motivo.length <= MOTIVO_MIN) { orfane.push({ ...e, _scarto: "il motivo è troppo corto per essere un motivo" }); continue; }
+    const istanze = perFile.get(e.file) || 0;
+    if (istanze === 0) { orfane.push({ ...e, _scarto: "nessuna istanza in questo file: l'hai curata, toglila" }); continue; }
+    const gia = usate.get(e.file) || 0;
+    if (gia >= istanze) { orfane.push({ ...e, _scarto: `più esenzioni (${gia + 1}) che istanze (${istanze}) in questo file` }); continue; }
+    usate.set(e.file, gia + 1);
+    valide.push(e);
+  }
+  return { valide, orfane };
+}
+
 function main() {
   if (!existsSync(REGISTRO)) {
     console.error(`⚠️  SPAZZATA CIECA: manca ${relative(REPO, REGISTRO)} — non so quali malattie cercare.`);
@@ -165,10 +196,18 @@ function main() {
     // Ora: ogni esenzione vale UNA istanza, e si sottrae dal totale confrontato col tetto. Ma solo
     // se corrisponde a un'istanza REALE: un'esenzione che non trova più niente è un residuo, e un
     // residuo nasconde il prossimo caso vero — quindi viene segnalato invece che ignorato.
+    //
+    // AR-337 — due buchi in questa stessa regola, trovati provandola su un albero finto poche ore
+    // dopo averla scritta:
+    //   · `perche: "boh"` passava. Il registro dice «un'esenzione senza motivo è un silenzio» e
+    //     `porte-check` pretende già più di dieci caratteri per la stessa ragione: qui la regola
+    //     c'era e il metro no.
+    //   · tre esenzioni su un file con UNA sola istanza sottraevano tre. `Math.max(0, …)` teneva il
+    //     conto a zero e nascondeva il resto: bastava impilare esenzioni per zittire un file intero.
+    // Adesso un'esenzione vale una istanza VERA di quel file, e le eccedenti diventano orfane.
     const esenti = Array.isArray(m.esenti) ? m.esenti : [];
     const perFile = new Map(trovati.map((t) => [t.file, t.istanze]));
-    const esentiValide = esenti.filter((e) => e.file && e.perche && perFile.has(e.file));
-    const esentiOrfane = esenti.filter((e) => !e.file || !e.perche || !perFile.has(e.file));
+    const { valide: esentiValide, orfane: esentiOrfane } = pesaEsenzioni(esenti, perFile);
     const totaleNetto = Math.max(0, totale - esentiValide.length);
     const cresciuta = totaleNetto > baseline;
     // Il tetto è un CRICCHETTO: scende e basta. Senza questo controllo il guardiano si zittisce
@@ -191,7 +230,7 @@ function main() {
       file_toccati: trovati.length,
       nuovi: fileNuovi.map((n) => `${n.file} (${n.istanze})`),
       esenti: esentiValide.length,
-      esenti_orfane: esentiOrfane.map((e) => `${e.file || "?"}: ${e.quale || "senza «quale»"}`),
+      esenti_orfane: esentiOrfane.map((e) => `${e.file || "?"}: ${e.quale || "senza «quale»"} — ${e._scarto || "non corrisponde a niente"}`),
     });
   }
 
@@ -233,4 +272,8 @@ function main() {
   process.exit(nuoviTot === 0 ? 0 : 1);
 }
 
-main();
+// Importare questo file NON deve far partire la scansione: la prova di AR-337 importa `pesaEsenzioni`
+// per eseguirla su ingressi finti, e senza questa guardia si ritrovava il rapporto del repo vero
+// stampato in mezzo ai propri casi. Un modulo che agisce al solo essere importato e un effetto
+// collaterale nascosto — la stessa famiglia dei difetti che questi lotti curano.
+if (import.meta.url === `file://${process.argv[1]}`) main();
