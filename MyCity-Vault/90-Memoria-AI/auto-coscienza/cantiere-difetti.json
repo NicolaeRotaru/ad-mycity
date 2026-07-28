@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-28 12:27",
+  "aggiornato": "2026-07-28 14:02",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -782,13 +782,14 @@
       "causa_radice": "Il pattern 'non_configurato non è cecità' (AR-035, giusto per non gonfiare gli allarmi) ha tolto ogni pressione a chiudere il collegamento: un sensore spento non fa scattare nulla, quindi resta spento per sempre. Manca un processo che distingua 'spento per decisione' (PostHog, documentato nel campo dettaglio) da 'spento per inerzia' (uptime sito/Pannello/Telegram, mai deciso da nessuno) e che ri-escali i secondi.",
       "fix_proposto": "Card unica 🟡 a Nicola con i 3 valori .env da impostare sul VPS (MARKETPLACE_SITE_URL è pubblico: zero rischio); nel registro cecità aggiungere il campo 'motivo_spento: decisione|inerzia' — le voci 'inerzia' entrano nella checklist di Nicola finché non diventano ok o 'decisione'. **Aggiornamento 20/7 18:25:** sito_uptime + pannello_uptime ✅ (env 18/7, verifica-sensori HTTP 200); #riavvia-worker-env FATTO; resta telegram_bot → #accendi-intelligence-sveglia; campo motivo_spento codice ancora pendente.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 16:55",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-28 14:02",
       "verifica": {
         "comando": "node cervello/test/spento-per-scelta-o-per-inerzia.test.mjs"
       },
-      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
+      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
+      "chiuso_come": "node cervello/test/spento-per-scelta-o-per-inerzia.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-106",
@@ -839,13 +840,14 @@
       "causa_radice": "Perché i sensori sono spenti? Manca la env var. Perché manca? Nicola non sa che serve: il gap vive solo in report di diagnosi che nessuno è tenuto ad agire, mai in una card o nella checklist. Perché? Lo stato non_configurato non genera escalation e collega-le-mani.md fotografa le chiavi di quando è nato. Causa di sistema: un sensore nuovo può nascere nel codice senza il suo passo di attivazione per l'umano — il censimento delle mani non si aggiorna quando si aggiungono occhi.",
       "fix_proposto": "🟡 ① Aggiungere a collega-le-mani.md e CHECKLIST-NICOLA le due variabili (MARKETPLACE_SITE_URL, PANNELLO_URL) con istruzione da 2 minuti; ② una sentinella one-shot: sensore non_configurato che richiede SOLO una URL (nessuna decisione di merito) e fermo da >N giri → una card 🟡 una volta sola, mai ripetuta; ③ regola di processo: ogni sensore nuovo in verifica-sensori nasce con la sua riga di attivazione.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 16:55",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-28 14:02",
       "verifica": {
         "comando": "node cervello/test/una-card-una-volta-sola.test.mjs"
       },
-      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
+      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
+      "chiuso_come": "node cervello/test/una-card-una-volta-sola.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-109",
@@ -1989,15 +1991,15 @@
       "causa_radice": "① Perché le previsioni nascono chiuse? Perché il ponte le crea a partire dalla riga ESITO del quaderno. ② Perché la riga ESITO contiene sia l'atteso sia il reale? Perché si scrive a lavoro finito, in un colpo solo. ③ Perché nessuno ha notato che così l'atteso non è verificabile? Perché il gate che obbliga a scrivere l'ESITO (loop chiuso, giro.sh:268) misura la PRESENZA della riga, non il momento in cui l'atteso è stato dichiarato. ④ Perché il motore accetta una voce già chiusa? Perché `da-loop` scrive direttamente nel registro invece di passare da `prevedi` + `esito`, i due comandi separati che esistono apposta. ⑤ Causa di sistema: la macchina misura ciò che è facile contare (esistono righe atteso→reale) invece di ciò che conta (l'atteso è stato dichiarato PRIMA di conoscere il reale). Nessun artefatto porta un timestamp di dichiarazione separato da quello di misura, quindi la differenza tra previsione e postdizione non è rappresentabile nel dato — e ciò che non è rappresentabile non può essere controllato.",
       "fix_proposto": "🟡 (firma Nicola) Separare i due momenti nel ponte: `chiusura-loop.mjs registra` accetta l'atteso e APRE una previsione (stato `aperta`, `entro` esplicito), e il reale si registra in un secondo comando/momento. Finché non è così, `da-loop` non scrive più nel registro che alimenta l'autonomia ma in un elenco a parte (`osservazioni`) escluso da ricalcolaReparti, esattamente come `esito_loop`. In più: `promozioni` non propone una promozione se le voci a punteggio hanno `creato` e `chiuso_il` nello stesso giorno — la card deve poter dire «N previsioni dichiarate prima dell'esito», non «N righe».",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/previsione-aperta-prima.test.mjs"
       },
       "nota": "Dove: cervello/calibrazione.mjs:533-553 · cervello/chiusura-loop.mjs:96,143-156 · Impatto: L'autonomia si guadagna su previsioni che non erano previsioni. E non resta un numero interno: `promozioni --accoda` (righe 417-465, chiamato a ogni giro da giro.sh:346) trasforma quel punteggio in una card che chiede a Nicola di spostare i lavori di routine di un reparto da 🟡 a 🟢, mostrando come prova «X/Y azzeccate · confidenza Wilson Z». Nicola firmerebbe un allargamento di permessi su un track record fabbricato, senza avere modo di distinguerlo da uno vero. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 14:02",
+      "chiuso_come": "node cervello/test/previsione-aperta-prima.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-169",
@@ -3068,15 +3070,15 @@
       "causa_radice": "1) Perché si scorre tanto? Perché `chiusi.map((x, i) => …)` (RadiografiaDiSe.tsx:432) stampa ogni voce chiusa. 2) Perché non c'è un limite? Perché `chiusi` (righe 116-118) fa solo `filter` + `sort`, nessuno `slice` e nessun «mostra altri N». 3) Perché non sono a fisarmonica come gli aperti? Perché gli aperti sono `<details>` (riga 385) mentre i chiusi sono `<div>` piatti sotto un titolino «Chiusi» (riga 431). 4) Perché la differenza? Perché «una riga chiusa è solo una riga»: il costo si vede solo quando diventano 72 — e il commento alla riga 114 mostra che il problema era già stato intuito («una lista di 70+ righe») ma è stato risolto solo riordinandole per data, non richiudendole. 5) RADICE: la lista dei chiusi è archivio travestito da cantiere — vive dentro la scheda operativa invece che in un archivio a parte, quindi cresce senza tetto proprio nel posto dove serve leggere solo le cose da fare.",
       "fix_proposto": "🟡 @frontend-dev. In `pannello/src/components/cervello/RadiografiaDiSe.tsx:429-440` avvolgere l'intero blocco dei chiusi in un `<details>` chiuso di default, con `<summary>` alto ≥44px del tipo «✅ 72 già chiusi» (stesso stile del summary alla riga 386: `list-none`, `[&::-webkit-details-marker]:hidden`, freccia `group-open:rotate-90`). Dentro, mostrare le prime 10 righe + un «mostra tutti» col pattern già in casa di `components/Modulo.tsx:113-125`. Costo: ~10 righe.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/chiusi-richiudibili.test.mjs"
       },
       "nota": "Dove: pannello/src/components/cervello/RadiografiaDiSe.tsx:429-440 (elenco chiusi) · pannello/src/components/cervello/RadiografiaDiSe.tsx:116-118 (nessun tetto) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 14:02",
+      "chiuso_come": "node cervello/test/chiusi-richiudibili.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-222",
@@ -3655,15 +3657,15 @@
       "causa_radice": "① Perché riscarica tutto? Perché la route restituisce gli oggetti interi: `NextResponse.json({ ..., radiografia, cantiere, storico, watchlist, lettera })` (route.ts:114). ② Quanto pesa? `cantiere-difetti.json` è 147.295 byte (43,6 KB compressi) e `storico-salute.json` 48.179 byte. ③ Perché ogni 30s? Perché `RadiografiaDiSe.tsx:45` fissa `POLL_MS = 30_000` e la riga 88 lo usa in `setInterval`. ④ Perché nessuno l'ha ridotto? Perché il file era piccolo quando la route è stata scritta e cresce da solo a ogni giro, senza nessun tetto né potatura. ⑤ Causa radice: la stessa di `/api/memoria/auto-coscienza` — la route inoltra un file di memoria interno invece di comporre una risposta pensata per un telefono, e la risposta cresce senza limite col lavoro della macchina.",
       "fix_proposto": "🟡 In `pannello/src/app/api/memoria/auto-radiografia/route.ts` alla riga 114, comporre la risposta invece di inoltrare i file: (a) mandare del `cantiere` solo i difetti APERTI e solo i campi che la scheda mostra, e i chiusi solo come conteggio (l'elenco completo dei chiusi non è a video); (b) troncare `storico` agli ultimi 30 punti — il grafico non ne mostra di più; (c) aggiungere un `ETag` sul campo `aggiornato` e rispondere `304` quando non è cambiato nulla, così il tick a vuoto costa zero byte; (d) portare `POLL_MS` da 30s a 120s in `pannello/src/components/cervello/RadiografiaDiSe.tsx:45` — `usePanelSync` già sveglia la scheda quando arriva davvero una radiografia nuova. Stesso trattamento per `/api/memoria/radiografia-marketplace` (126 KB, 43,8 KB compressi, stesso poll da 30s in RadiografiaMarketplace.tsx:33).",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/cantiere-snello.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/memoria/auto-radiografia/route.ts:114 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_il": "2026-07-28 14:02",
+      "chiuso_come": "node cervello/test/cantiere-snello.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-251",
@@ -5355,8 +5357,8 @@
     }
   ],
   "meta": {
-    "aperti": 136,
+    "aperti": 131,
     "in_corso": 0,
-    "chiusi": 135
+    "chiusi": 140
   }
 }
