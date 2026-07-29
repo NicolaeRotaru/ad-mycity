@@ -150,6 +150,10 @@ export async function GET(req: NextRequest) {
     gruppi,
     recenti,
     totale: tutti.length,
+    // AR-237 — l'età VERA di questa lista: la data del documento più recente (prefisso AAAA-MM-GG
+    // del nome file). Se l'AD non produce niente da giorni la targhetta lo deve dire, invece di
+    // scrivere «aggiornato adesso» perché la fetch è appena tornata.
+    dato_al: recenti[0]?.data || null,
     fonte: obsidianConnected() ? "github" : "disco",
   });
 }

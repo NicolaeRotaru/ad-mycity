@@ -61,7 +61,7 @@ function parseChecklist(md: string): VoceParsata[] {
 
 export async function GET() {
   const md = await readVaultFile("90-Memoria-AI/CHECKLIST-NICOLA.md");
-  if (md == null) return NextResponse.json({ collegato: false, salvataggio: false, items: [] });
+  if (md == null) return NextResponse.json({ collegato: false, salvataggio: false, items: [], dato_al: null });
 
   const voci = parseChecklist(md);
   // Override delle spunte salvate dal pannello (Supabase). Se la tabella manca,
@@ -71,7 +71,10 @@ export async function GET() {
     const ov = valori[`todo:${v.id}`];
     return { id: v.id, testo: v.testo, livello: v.livello, sezione: v.sezione, fatto: ov != null ? ov === "1" : v.fattoMd };
   });
-  return NextResponse.json({ collegato: true, salvataggio: tabella, items });
+  // AR-237 — `dato_al` fa parte del contratto di ogni lista, ma CHECKLIST-NICOLA.md non porta date
+  // e la spunta vive su Supabase: qui è onestamente `null` («non so di quando sono»). Dedurne una
+  // dall'ora della lettura sarebbe esattamente la bugia che questo campo esiste per togliere.
+  return NextResponse.json({ collegato: true, salvataggio: tabella, items, dato_al: null });
 }
 
 // Salva (upsert) lo stato di una spunta. Body: { id: string, fatto: boolean }.

@@ -8,6 +8,8 @@ import HomeSezione from "@/components/HomeSezione";
 import ParlaCasella from "@/components/ParlaCasella";
 import { dataVault } from "@/lib/format";
 import { usePanelSync } from "@/lib/panel-sync";
+import Aggiornato from "@/components/Aggiornato";
+import { leggiDato, collegatoFalso, fraseVuoto, VERDETTO_INIZIALE, type Verdetto } from "@/lib/verdetto-dato";
 
 // 📌 Bacheca in home: le informazioni da sapere, appuntate dall'AD nel vault
 // (90-Memoria-AI/BACHECA.md, servite da /api/bacheca). Ogni avviso è una riga
@@ -45,12 +47,18 @@ const MD: Components = {
 
 export default function Bacheca() {
   const [avvisi, setAvvisi] = useState<Avviso[]>([]);
+  // AR-401 — prima: `.catch(() => {})` e poi `if (avvisi.length === 0) return null`. Con GitHub giù
+  // la Bacheca SPARIVA dalla home, indistinguibile da «non c'è niente da sapere». Adesso il verdetto
+  // arriva dal confine unico e la scheda resta a schermo per dire che non ha potuto leggere.
+  const [verdetto, setVerdetto] = useState<Verdetto>(VERDETTO_INIZIALE);
+  const [datoAl, setDatoAl] = useState<string | null>(null);
 
   const carica = useCallback(() => {
-    fetch("/api/bacheca", { cache: "no-store" })
-      .then((r) => r.json())
-      .then((d) => setAvvisi(Array.isArray(d?.avvisi) ? d.avvisi : []))
-      .catch(() => {});
+    leggiDato<Avviso[]>("/api/bacheca", { estrai: (c) => c.avvisi, cieco: collegatoFalso }).then((r) => {
+      setAvvisi(Array.isArray(r.dato) ? r.dato : []);
+      setVerdetto(r.verdetto);
+      setDatoAl(r.verdetto.misurato ? r.corpo?.dato_al ?? null : null);
+    });
   }, []);
 
   useEffect(() => {
@@ -58,13 +66,16 @@ export default function Bacheca() {
   }, [carica]);
   usePanelSync(["memoria", "all"], carica);
 
-  if (avvisi.length === 0) return null;
+  // Sparire è consentito solo dopo aver GUARDATO: «ho letto e non c'era niente» è un'informazione,
+  // «non ho potuto leggere» no — e nella seconda la scheda deve restare e dirlo.
+  if (avvisi.length === 0 && verdetto.misurato) return null;
 
   const n = avvisi.length;
-  const riassunto =
-    n === 1
+  const riassunto = verdetto.misurato
+    ? n === 1
       ? "1 avviso appuntato — tocca per aprire"
-      : `${n} avvisi appuntati — tocca per aprire`;
+      : `${n} avvisi appuntati — tocca per aprire`
+    : fraseVuoto(verdetto, { vuoto: "" });
 
   return (
     <HomeSezione
@@ -72,9 +83,21 @@ export default function Bacheca() {
       titolo="Bacheca — da sapere"
       riassunto={riassunto}
       defaultOpen={false}
-      badge={<span className="badge badge-on">{n}</span>}
+      badge={
+        verdetto.misurato ? (
+          <span className="badge badge-on">{n}</span>
+        ) : (
+          <span className="badge badge-off" title={verdetto.motivo}>?</span>
+        )
+      }
     >
       <div className="space-y-1.5">
+        <div className="flex justify-end">
+          <Aggiornato dataDato={datoAl} />
+        </div>
+        {!verdetto.misurato && (
+          <p className="t-eti text-[12px] text-amber-600">{fraseVuoto(verdetto, { vuoto: "" })}</p>
+        )}
         {avvisi.map((a) => (
           <details key={`${a.data}|${a.titolo}`} className="rounded-xl border border-black/[0.07] bg-paper/30 group">
             <summary className="flex items-start gap-2 px-3 py-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden">

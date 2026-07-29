@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
 import { listaSicura } from "@/lib/memoria-json";
+import { serieSicura } from "@/lib/verdetto-dato";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -41,7 +42,10 @@ export async function GET() {
   }
 
   // (1) SERIE ONESTA (voto_pieno) — identica a salute-onesta.mjs
-  const serie: any[] = sj && Array.isArray(sj.serie) ? sj.serie : Array.isArray(sj) ? sj : [];
+  // AR-255: la tolleranza sulle due forme del file (oggetto con `serie`, oppure elenco nudo) era
+  // scritta a mano QUI e in nessun altro lettore. Adesso è una funzione sola, condivisa: due lettori
+  // dello stesso file non possono più contraddirsi.
+  const serie: any[] = serieSicura(sj);
   const conPieno = serie.filter((s) => s && s.voto_pieno != null);
   const ultimoPieno = conPieno.length ? Number(conPieno[conPieno.length - 1].voto_pieno) : null;
   const primoPieno = conPieno.length ? Number(conPieno[0].voto_pieno) : null;

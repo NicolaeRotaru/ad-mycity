@@ -7,6 +7,7 @@ import { chiudiAzioniMergeCompletate, estraiMergePr, isCanaleGithub, prGiaMergia
 import { registraFirma, revocaFirma } from "@/lib/firma-azione";
 import { attoGiaAvviato } from "@/lib/atto-unico";
 import { esitoScritture, STATUS_SCRITTURA_FALLITA } from "@/lib/esito-scrittura";
+import { piuRecente } from "@/lib/verdetto-dato";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -56,6 +57,10 @@ export async function GET() {
     // AR-233: «collegato» si deduceva dal CONTEGGIO — quindi una coda vuota e una coda mai letta
     // erano indistinguibili, e la home stampava «Niente da firmare. 👍» in entrambi i casi.
     collegato: codaLeggibile,
+    // AR-237 — DI QUANDO SONO QUESTI DATI. Senza, la home stampava l'ora del browser («aggiornato
+    // adesso») anche su una coda che non si muove da tre giorni. `preparato` è la data che il senior
+    // ha scritto sulla card in AZIONI-IN-ATTESA.md: è la data del DATO, non quella della lettura.
+    dato_al: codaLeggibile ? piuRecente(azioni.map((a) => a.preparato)) : null,
     coda_leggibile: codaLeggibile,
     motivo_coda: motivoCoda,
     salvataggio: tabella,
