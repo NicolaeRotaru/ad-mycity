@@ -40,6 +40,7 @@ export const DIFETTO = {
   QUADERNO_ASSENTE: "quaderno_assente",
   QUADERNO_VUOTO: "quaderno_vuoto",
   QUADERNO_FERMO: "quaderno_fermo",
+  QUADERNO_DUE_CASE: "quaderno_due_case",
 };
 
 /** Frazione della mediana sotto cui un kit è «sottile». 0.4 → sul parco del 28/7 boccia i 10 del cluster. */
@@ -207,4 +208,36 @@ export function debitoRiparato(quadro = {}, baseline = {}) {
 export function codiceUscita({ cieco = 0, nuovi = 0 } = {}) {
   if (cieco > 0) return 2;
   return nuovi > 0 ? 1 : 0;
+}
+
+/**
+ * AR-342 — un quaderno ha UNA casa.
+ *
+ * Il 29/7 sono saltate fuori quattro copie di quaderni in una seconda cartella
+ * (`MyCity-Vault/90-Memoria-AI/memoria-squadra/`) che nessuno aggiornava più: account-negozi era di
+ * venti giorni indietro e un dodicesimo del peso. E non erano duplicati — dentro c'erano CINQUE
+ * esiti mai arrivati alla casa vera, tre dei quali senza il trattino iniziale, quindi invisibili
+ * anche al contatore degli esiti. Una copia vecchia lasciata in giro non è disordine: è una bugia
+ * che chi la apre per primo crede aggiornata.
+ *
+ * Pura: prende `{cartella: [nomi]}` e dice quali nomi vivono in più di una casa. Serve un metro,
+ * altrimenti fra un mese la seconda cartella si ripopola da sola e nessuno se ne accorge finché non
+ * conta i byte — che è esattamente come è passata inosservata la prima volta.
+ *
+ * @param {Record<string, string[]>} perCartella
+ * @returns {{nome: string, case: string[]}[]} ordinati per nome
+ */
+export function quaderniInPiuCase(perCartella = {}) {
+  const case_ = new Map();
+  for (const [cartella, nomi] of Object.entries(perCartella || {})) {
+    for (const n of nomi || []) {
+      if (!case_.has(n)) case_.set(n, []);
+      const dove = case_.get(n);
+      if (!dove.includes(cartella)) dove.push(cartella);
+    }
+  }
+  return [...case_.entries()]
+    .filter(([, dove]) => dove.length > 1)
+    .map(([nome, dove]) => ({ nome, case: dove.slice().sort() }))
+    .sort((a, b) => a.nome.localeCompare(b.nome));
 }

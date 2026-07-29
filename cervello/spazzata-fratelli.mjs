@@ -122,7 +122,7 @@ function cerca(malattia) {
 export const MOTIVO_MIN = 10;
 
 /**
- * AR-337 — separa le esenzioni che valgono da quelle che non valgono, e dice perché.
+ * AR-338 — separa le esenzioni che valgono da quelle che non valgono, e dice perché.
  *
  * Due condizioni, tutte e due necessarie:
  *   · un PERCHÉ scritto per esteso — «boh» è un'esenzione senza motivo con un'etichetta sopra;
@@ -197,7 +197,7 @@ function main() {
     // se corrisponde a un'istanza REALE: un'esenzione che non trova più niente è un residuo, e un
     // residuo nasconde il prossimo caso vero — quindi viene segnalato invece che ignorato.
     //
-    // AR-337 — due buchi in questa stessa regola, trovati provandola su un albero finto poche ore
+    // AR-338 — due buchi in questa stessa regola, trovati provandola su un albero finto poche ore
     // dopo averla scritta:
     //   · `perche: "boh"` passava. Il registro dice «un'esenzione senza motivo è un silenzio» e
     //     `porte-check` pretende già più di dieci caratteri per la stessa ragione: qui la regola
@@ -272,7 +272,7 @@ function main() {
   process.exit(nuoviTot === 0 ? 0 : 1);
 }
 
-// Importare questo file NON deve far partire la scansione: la prova di AR-337 importa `pesaEsenzioni`
+// Importare questo file NON deve far partire la scansione: la prova di AR-338 importa `pesaEsenzioni`
 // per eseguirla su ingressi finti, e senza questa guardia si ritrovava il rapporto del repo vero
 // stampato in mezzo ai propri casi. Un modulo che agisce al solo essere importato e un effetto
 // collaterale nascosto — la stessa famiglia dei difetti che questi lotti curano.
