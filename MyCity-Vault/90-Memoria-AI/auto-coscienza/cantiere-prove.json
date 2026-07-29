@@ -1,16 +1,16 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-07-29 00:26",
+  "aggiornato": "2026-07-29 03:13",
   "giorni_sospetto": 3,
-  "difetti_aperti": 113,
+  "difetti_aperti": 102,
   "per_classe": {
-    "umana": 14,
-    "auto-sospetta": 10,
-    "auto-attesa": 78,
-    "auto-ok": 11
+    "umana": 17,
+    "auto-sospetta": 6,
+    "auto-attesa": 73,
+    "auto-ok": 6
   },
-  "non_auto_chiudibili": 24,
+  "non_auto_chiudibili": 23,
   "bloccanti_ciechi": [
     "AR-226"
   ],
@@ -452,8 +452,8 @@
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Cercando nel Pannello si trova la copia vecchia dei quaderni, quella viva non c'è",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (MyCity-Vault/90-Memoria-AI/memoria-squadra/account-negozi.md ~ /\\S/)",
+      "classe": "auto-ok",
+      "perche": "prova soddisfatta ora (MyCity-Vault/90-Memoria-AI/memoria-squadra/account-negozi.md ~ /\\S/): auto-fix lo chiuderà",
       "auto_chiudibile": true
     },
     {
@@ -520,33 +520,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-229",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Approvi, rifiuti e riapprovi la stessa azione: parte due volte davvero",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/app/api/azioni-pronte/route.ts ~ /statoPre !== \"rifiutata\"/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-230",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Quando rifiuti un'azione il Pannello dice «fatto» anche se non ha salvato niente",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/app/api/azioni-pronte/route.ts ~ /return NextResponse.json\\(\\{ ok: true, stato, esito: \"\", salvataggio: salv \\}\\)/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-231",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "La decisione sull'ordine da 19,05 euro risulta presa anche se il lavoro non è mai partito, e non si può più ri",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/app/api/decisione-ordine/route.ts ~ /await creaLavoro\\(/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-234",
       "gravita": "minore",
       "eta_giorni": 2,
@@ -572,24 +545,6 @@
       "classe": "auto-ok",
       "perche": "prova soddisfatta ora (pannello/src/app/page.tsx ~ /setDatiAggiornatiAt(Date.now());/): auto-fix lo chiuderà",
       "auto_chiudibile": true
-    },
-    {
-      "id": "AR-238",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Rispondi a una domanda dell'AD e trenta secondi dopo te la richiede",
-      "classe": "auto-sospetta",
-      "perche": "regex non valida in verifica: pannello/src/app/api/memoria/risposta/route.ts ~ /await setImpostazione(`risposta:${qid}`/",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-239",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Le spunte della tua checklist possono restare finte fino al ricarico",
-      "classe": "auto-sospetta",
-      "perche": "regex non valida in verifica: pannello/src/components/aree/Azioni.tsx ~ /await fetch(\"/api/memoria/todo\", { method: \"POST\"/",
-      "auto_chiudibile": false
     },
     {
       "id": "AR-241",
@@ -646,42 +601,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-257",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "La scheda dell'auto-analisi si riporta sotto gli occhi da sola ogni trenta secondi",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/components/AutoCoscienza.tsx ~ /\\}, \\[d\\]\\);/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-259",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Un solo invio può far partire due volte lo stesso lavoro quando il database è lento",
-      "classe": "auto-sospetta",
-      "perche": "regex non valida in verifica: pannello/src/lib/store.ts ~ /for (let tentativo = 0; tentativo < LAVORO_TENTATIVI; tentativo++)/",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-260",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Due messaggi ravvicinati in chat diventano due lavori invece di sostituirsi",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/app/page.tsx ~ /aggiungiPendingChat({ id: d.lavoro.id, tipo: prep.tipo, targetConvId })/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-261",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Dalla finestra video e da quella dello schermo condiviso si può inviare due volte di fila",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/components/BottoneFotoChat.tsx ~ /if (!t || !chatOnInvia) return;/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-263",
       "gravita": "minore",
       "eta_giorni": 2,
@@ -689,51 +608,6 @@
       "classe": "auto-sospetta",
       "perche": "regex non valida in verifica: pannello/src/components/QuaderniSenior.tsx ~ /const r = await fetch(`/api/memoria/quaderni?senior=/",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-264",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Uscendo dalla modalità demo la pagina si ricarica anche se il cambio non è riuscito",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/components/DemoBanner.tsx ~ /window.location.reload();/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-266",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Aprire il riquadro «Parla con questa casella» ti cancella da sotto la chat che avevi aperto",
-      "classe": "auto-sospetta",
-      "perche": "regex non valida in verifica: pannello/src/app/page.tsx ~ /ascoltaChatUnificata(\"assistente\", (det) => {\n      setConvId(det.convId);/",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-267",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Mentre l'AD scrive, la risposta che sta comparendo si cancella da sola ogni otto secondi",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/lib/chat-thread-merge.ts ~ /return list.filter((m) => !m.pending && !m.prompt);/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-268",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "La chat di un riquadro risalva una versione vecchia e cancella i messaggi arrivati nel frattempo",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/components/ParlaCasella.tsx ~ /const completa: ParlaMsg[] = [...conMio, { role: \"assistant\", content: esito.testo, created_at: new Date().toISOString() }];\n        setMsgs(completa);/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-269",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "La chat dentro l'Archivio resta ferma alla foto di quando l'hai aperta",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/components/ChatCasella.tsx ~ /useState<MsgChat[]>(() => messaggiDaGruppo(lavori).filter((m) => !m.pending));/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-273",
@@ -1031,6 +905,33 @@
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/sentinella-dati.mjs ~ /non_misurato_in_questo_ambiente/)",
       "auto_chiudibile": true
+    },
+    {
+      "id": "AR-344",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Il guardiano delle prove legge solo le prove vecchie: ogni prova migrata a comando risulta «nessun guardiano p",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-345",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Mentre misura il trigger, il repo sembra avere la skill cancellata: un commit automatico la cancellerebbe davv",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-346",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Il cancello condiviso è rosso su main per tutti: #604 è entrata con la sua stessa prova rossa e #602 ha aggiun",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     }
   ]
 }

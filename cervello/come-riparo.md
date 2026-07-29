@@ -10,6 +10,12 @@
 
 Questo file è il mansionario di un lotto di riparazione. Vale **sempre**, senza che nessuno lo chieda.
 
+> 🧭 **Dove sta la verità operativa (29/7).** Le regole che decidono — cosa blocca, cosa è
+> obbligatorio, in che ordine — stanno nella skill `.claude/skills/cantiere/SKILL.md`, che si carica
+> da sola quando serve. Qui restano i **casi-studio**: le storie di come ogni regola è stata pagata.
+> Se le due divergono comanda la skill, e la differenza si sistema nella skill, non qui: due copie di
+> uno standard non sono uno standard.
+
 ---
 
 ## La regola che sta sotto a tutto
@@ -114,16 +120,12 @@ dopo il merge (AR-331), così due lotti aperti insieme non litigano sullo stesso
 
 ---
 
-## Il cancello di uscita — tutti verdi, o non si consegna
+## Il cancello di uscita — un comando solo
 
-```
-npx tsc --noEmit                    (in pannello/)          → 0 errori
-node cervello/test-cervello.mjs                             → solo i rossi già noti
-node cervello/prove-oneste.mjs                              → 0
-node cervello/spazzata-fratelli.mjs                         → 0
-node cervello/auto-fix.mjs verifica    ← SOLA LETTURA prima di --applica
-git status --short                                          → pulito prima di ogni push
-```
+Questi cinque comandi da lanciare a mano sono diventati uno: `node cervello/cancello-lotto.mjs`
+(prove + guardiani + typecheck; `--veloce` mentre lavori). Cinque comandi da ricordare erano cinque
+occasioni di dimenticarne uno — la malattia di sempre. Exit `0` si consegna · `1` violazione ·
+`2` cieco (**non** verde). Il dettaglio dei controlli sta nella skill, sezione ⑦.
 
 ---
 

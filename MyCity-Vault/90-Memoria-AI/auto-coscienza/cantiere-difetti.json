@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-29 02:12",
+  "aggiornato": "2026-07-29 03:35",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -5550,6 +5550,45 @@
       },
       "chiuso_il": "2026-07-29 02:12",
       "chiuso_come": "node cervello/test/cancelli-spenti-nel-clone.test.mjs → exit 0 (guardiano soddisfatto)"
+    },
+    {
+      "id": "AR-344",
+      "titolo": "Il guardiano delle prove legge solo le prove vecchie: ogni prova migrata a comando risulta «nessun guardiano potrà mai chiuderlo»",
+      "dimensione": "cantiere-prove",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① Perche il conteggio dei non-auto-chiudibili e salito da 24 a 38 senza che nessuno peggiorasse niente? Perche 13 difetti del lotto 29 sono stati riclassificati «umana». ② Perche riclassificati? Perche la loro verifica e stata migrata da {file,pattern} a {comando} — la forma che lo standard ORA impone. ③ Perche la forma migliore vale meno? Perche classifica() in cervello/cantiere-prove.mjs decide con `if (!v || !v.file || !v.pattern)` → tutto cio che non ha file+pattern cade nel ramo «nessuna prova automatica». ④ Perche non e stato aggiornato quando la forma e cambiata? Perche chi ha introdotto {comando} ha insegnato la forma nuova a chi CHIUDE (auto-fix.mjs, riga 134: eseguiProvaComando) e non a chi CLASSIFICA e riporta. ⑤ Radice: la forma della prova e conoscenza duplicata in due lettori indipendenti; migliorarla in uno la fa leggere come assente all altro. Effetto perverso: piu si ripara secondo lo standard, piu la macchina dichiara di non potersi chiudere da sola.",
+      "fix_proposto": "🟡 Insegnare la forma {comando} a classifica() in cervello/cantiere-prove.mjs — meglio: estrarre l UNICO lettore della forma di una verifica in un modulo puro condiviso da cantiere-prove.mjs e auto-fix.mjs, cosi la conoscenza sta in un posto solo (la cura e spostare il sapere sul dato, non ricopiarlo nel secondo lettore). Prova: un cantiere finto con una verifica {comando} deve classificarsi auto-*, mai «umana»; e il conteggio non_auto_chiudibili deve scendere di 13 sui difetti del lotto 29.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-29 02:21",
+      "nota": "Trovato nel lotto 30 mentre rivedevo perche l artefatto cantiere-prove.json passava da 113 a 118 difetti e da 24 a 38 non-auto-chiudibili. I 5 nuovi sono AR-339..343; i 13 spostati (AR-229,230,231,238,239,259,260,261,264,266,267,268,269) sono TUTTI difetti riparati bene dal lotto 29. Danno limitato al REPORT: auto-fix.mjs capisce {comando} e le chiusure dopo il merge funzionano lo stesso — ma il numero che la macchina mostra a Nicola e falso, e peggiora ogni volta che si lavora bene. NON entra nel lotto 30 (regola ② della skill cantiere: i difetti nuovi si registrano, non allargano il lotto in corso)."
+    },
+    {
+      "id": "AR-345",
+      "titolo": "Mentre misura il trigger, il repo sembra avere la skill cancellata: un commit automatico la cancellerebbe davvero",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① Perche un commit potrebbe cancellare la skill? Perche per misurare il trigger prova-trigger.mjs SPOSTA .claude/skills/cantiere fuori dall albero (altrimenti il modello apre quella vera e ogni frase giusta legge «non scattata»). ② Perche e pericoloso? Perche per ~35 minuti `git status` mostra `D .claude/skills/cantiere/SKILL.md`, indistinguibile da una cancellazione voluta. ③ Chi committerebbe quella cancellazione? Qualunque automatismo che dice «ci sono modifiche non committate, committale»: lo stop-hook di sessione lo chiede a ogni turno, e una sessione che obbedisce alla lettera con `git add -A` la cancella. ④ Perche nessuno se ne accorgerebbe? Perche il commit riuscirebbe: nessun cancello guarda se un commit STA CANCELLANDO una skill. ⑤ Radice: uno stato transitorio pericoloso e affidato al fatto che chi passa di li lo capisca — cioe alla memoria di chi lavora, che e la malattia che questo cantiere cura.",
+      "fix_proposto": "🟡 Due pezzi. (a) prova-trigger.mjs lascia un marcatore visibile mentre misura (es. .git/MISURA-TRIGGER-IN-CORSO con dentro il percorso della copia spostata) e lo toglie nel rimetti(), che gia gira a fine corsa, su eccezione e su Ctrl-C. (b) il pre-commit rifiuta QUALUNQUE commit che cancelli file sotto .claude/skills/ finche il marcatore esiste, dicendo dov e la copia. Prova: un repo finto con marcatore + un commit che cancella una skill deve uscire ≠0, e senza marcatore deve passare. Nota: NON ricreare la cartella per far sparire la D — rimetti() ripristina solo `if (!existsSync(SKILL_DIR))`, quindi una cartella ricreata a mano fa saltare il ripristino e la copia vera viene cancellata col resto della cartella di lavoro.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-29 01:05",
+      "nota": "Trovato dal vivo nel lotto 30: durante il bench del trigger lo stop-hook di sessione ha chiesto tre volte di committare le modifiche pendenti, e le uniche pendenti erano la cancellazione apparente della skill. Ho committato solo percorsi espliciti proprio per non cadere nella trappola — ma la difesa e stata la mia attenzione, non un cancello. NON entra nel lotto 30 (regola ② della skill)."
+    },
+    {
+      "id": "AR-346",
+      "titolo": "Il cancello condiviso è rosso su main per tutti: #604 è entrata con la sua stessa prova rossa e #602 ha aggiunto un guardiano senza descrizione",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① Perche il cancello di uscita e ROSSO su un ramo che non ha toccato niente di quel codice? Perche test-cervello fallisce, e cancello-lotto lo esegue. ② Perche fallisce? Perche guardiani-in-bacheca.test.mjs (arrivato con #604) da 10 passati e 4 falliti gia su origin/main da sola — verificato su un worktree pulito, stessi identici conteggi. ③ Perche 4 asserzioni rosse? Perche #602 ha aggiunto cervello/percorsi-git.mjs senza la sua riga in censimento-guardiani.mjs (DESCRIZIONI): il guardiano gira senza descrizione, e gli allarmi non contati sono diventati 6 mentre il test ne misura 5. ④ Perche e stato mergiato cosi? Perche nessuno esegue il cancello sul ramo PRIMA del merge: il pre-commit gira solo sui commit che toccano cantiere-difetti.json, e nessuna CI gira sulle PR di questo repo (l unico workflow e deploy-pannello.yml, su push a main). ⑤ Radice: la prova che protegge il lavoro NON e agganciata al momento del merge, che e l unico momento in cui conta. Effetto composto: il rosso non e piu attribuibile a chi lo ha causato, e ogni lotto successivo trova un cancello gia rosso — che secondo il registro stesso «viene aggirato al secondo giro, ed e peggio di non averlo».",
+      "fix_proposto": "🟡 Due pezzi, nell ordine. (a) Chiudere il buco di adesso: scrivere la riga DESCRIZIONI di percorsi-git in cervello/censimento-guardiani.mjs e riallineare il conteggio degli allarmi non contati (5 → 6) o agganciare l rc di percorsi-git al conteggio del giro — la scelta fra le due e di chi possiede #602, non di questo lotto. (b) Curare la radice: far girare `node cervello/cancello-lotto.mjs` come check obbligatorio sulle PR (oggi NESSUN workflow gira su pull_request), cosi un ramo con la suite rossa non arriva a main. Prova: un ramo finto con un test rosso non deve poter risultare mergiabile.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-29 03:35",
+      "nota": "Trovato mergendo main dentro il ramo del lotto 30 per risolvere un conflitto. NON e una regressione di questo lotto: verificato su worktree pulito di origin/main (10 pass / 4 fail identici) prima di attribuirlo. Il guardiano senza descrizione e percorsi-git, non prova-trigger.mjs (il mio guardiano nuovo non e chiamato dal giro e non rientra nel censimento). Registrato e NON riparato qui: e il lavoro di chi possiede #602/#604, e allargare il lotto a meta e il modo classico di non finirlo (regola ② della skill cantiere)."
     }
   ],
   "meta": {
