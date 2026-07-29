@@ -1,0 +1,15 @@
+{
+  "_cosa_e": "⚖️ IL COSTO DEL CONTESTO (AR-199) — il tetto di byte per ogni file VIVO della memoria: quelli che il giro ha l ordine di rileggere a ogni passata (cervello/giro.md righe 85, 116, 129) e che la Cabina spedisce al browser. Il guardiano cervello/peso-contesto.mjs fallisce quando uno supera il suo tetto.",
+  "_come_sono_stati_scelti": "Non e il peso di oggi: e l OBIETTIVO dopo la potatura, misurato a secco con `node cervello/pota-memoria.mjs` (STATO 479.575 → 97.768 · AZIONI 319.338 → 59.289 · SALA 269.129 → 110.828), piu un margine perche una nota in piu non faccia suonare l allarme. Finche la potatura non e stata applicata questo guardiano e ROSSO, ed e giusto cosi: sta dicendo la verita.",
+  "_regola": "Il tetto SCENDE, non si alza — come la baseline di malattie.json. Dopo una potatura si rigenera con: node cervello/peso-contesto.mjs --aggiorna. Alzare un tetto e una decisione visibile, mai un effetto collaterale di un altro lavoro.",
+  "_perche_DECISIONI_e_esente_dalla_potatura": "DECISIONI.md e append-only e la storia non si riscrive. Ma pesa mezzo mega e cresce ogni giorno: sta qui perche il costo si VEDA anche dove la cura non e tagliare. Quando sfondera il tetto, la mossa non e potare — e una decisione da prendere con Nicola su dove finisce il verbale corrente.",
+  "aggiornato": "2026-07-28",
+  "tetti": {
+    "MyCity-Vault/90-Memoria-AI/STATO.md": 122210,
+    "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md": 74111,
+    "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md": 138535,
+    "MyCity-Vault/90-Memoria-AI/DECISIONI.md": 636194
+  },
+  "_margine": "I tetti sono il peso misurato dopo la potatura del 28/7 PIU 25%. Senza margine il tetto sarebbe stato pari al peso esatto e la prima riga scritta in DECISIONI lo avrebbe sfondato: un guardiano che suona a ogni scrittura legittima viene spento entro la settimana, ed e esattamente il difetto che questi lotti curano. Il margine e il respiro fra una potatura e la successiva — non un permesso a crescere.",
+  "_potatura_del": "2026-07-28 20:15 — STATO 479.575→97.768 · SALA-OPERATIVA 269.129→110.828 · AZIONI-IN-ATTESA 319.338→59.289 (totale 1.068.042→267.885, -75%). Niente cancellato: tutto in 90-Memoria-AI/Storico/."
+}

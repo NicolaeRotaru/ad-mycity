@@ -44,9 +44,21 @@ _tmp_*
 # Specchio per Claude Code delle skill approvate (fonte unica: .cursor/skills/ + manifest
 # cervello/worker-plugins.json). Lo rigenera `sync-worker-plugins.mjs --specchia` a ogni avvio
 # di worker/giro/ritmo: file GENERATI, mai committarli (eviterebbe due copie che divergono).
-# Resta versionata solo `verify`, skill nativa Claude scritta a mano.
+# Restano versionate le skill native Claude scritte a mano (non generate dallo specchio): sono lo
+# standard del lavoro, non una copia di un manifest. Senza la loro eccezione la skill vivrebbe solo
+# dentro la sessione che l'ha scritta — e il container è effimero.
+#
+# ⚠️ Una skill nativa nuova va aggiunta QUI, o sparisce in silenzio: `git add -A` non la vede, il
+# commit riesce, `git status` resta pulito e sembra tutto a posto. È successo il 29/7 con `salute`,
+# `worker` e `senior`: la PR #608 è stata mergiata senza le tre skill, e su main è arrivato solo il
+# motore. Adesso lo controlla la visita (`cervello/salute.mjs` → controllo `cervello.skill`), così
+# la prossima volta lo scopre una macchina invece di una persona.
 .claude/skills/*
 !.claude/skills/verify
+!.claude/skills/cantiere
+!.claude/skills/salute
+!.claude/skills/worker
+!.claude/skills/senior
 
 # Backup di lavoro (es. apprendimento.json.bak scritto da cristallizza-apprendimento.mjs prima di
 # riscrivere l'archivio). Servono al rollback immediato locale, ma NON vanno in git: il perimetro-

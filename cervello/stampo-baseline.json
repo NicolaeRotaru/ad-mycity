@@ -1,0 +1,263 @@
+{
+  "_cosa_e": "Il debito DICHIARATO dello stampo senior al 28/7/2026: i difetti che il metro nuovo vede oggi e che NON fanno fallire il guardiano. Serve perché un cancello che parte rosso su mezzo parco viene disattivato entro la settimana; uno che parte verde si accorge del primo che sporca.",
+  "_come_si_legge": "debito[nome-agente] = elenco dei difetti già noti per quel nome. Il guardiano FALLISCE quando compare una coppia nome+difetto che non è qui dentro.",
+  "_perche_per_nome": "Per NOME e non per conteggio: a parità di numero, «uno riparato + uno nuovo» è un peggioramento travestito da pareggio. E un'esenzione da un punteggio può solo abbassarlo, mai alzarlo — allargare questa lista è una decisione visibile, non un effetto collaterale.",
+  "_come_si_riduce": "Riparando un kit, o scrivendo il primo ESITO di un quaderno con `node cervello/chiusura-loop.mjs registra <reparto> …`, poi togliendo la riga da qui. `node cervello/stampo-check.mjs` stampa i nomi GUARITI da togliere. Non si riscrive mai da solo.",
+  "dichiarato_il": "2026-07-28 16:05",
+  "dichiarato_da": "lotto 24 — AR-129 / AR-287 / AR-289 / AR-291, mandato cantiere continuo di Nicola",
+  "riepilogo_alla_dichiarazione": {
+    "quaderno_vuoto": 72,
+    "kit_sottile": 10,
+    "kit_fotocopia": 10,
+    "kit_struttura_rotta": 9
+  },
+  "debito": {
+    "accessibility": [
+      "quaderno_vuoto"
+    ],
+    "account-security": [
+      "quaderno_vuoto"
+    ],
+    "analytics-engineering": [
+      "quaderno_vuoto"
+    ],
+    "authentication-prodotti": [
+      "quaderno_vuoto"
+    ],
+    "avvocato-civile": [
+      "kit_sottile",
+      "kit_fotocopia",
+      "kit_struttura_rotta",
+      "quaderno_vuoto"
+    ],
+    "avvocato-ip": [
+      "quaderno_vuoto"
+    ],
+    "avvocato-lavoro": [
+      "quaderno_vuoto"
+    ],
+    "bi-lead": [
+      "quaderno_vuoto"
+    ],
+    "brand-protection": [
+      "quaderno_vuoto"
+    ],
+    "broker-assicurativo": [
+      "quaderno_vuoto"
+    ],
+    "business-plan-bancabile": [
+      "kit_sottile",
+      "kit_fotocopia",
+      "kit_struttura_rotta",
+      "quaderno_vuoto"
+    ],
+    "capacity-planning": [
+      "quaderno_vuoto"
+    ],
+    "category-manager": [
+      "quaderno_vuoto"
+    ],
+    "cfo": [
+      "quaderno_vuoto"
+    ],
+    "city-manager": [
+      "quaderno_vuoto"
+    ],
+    "commercialista": [
+      "quaderno_vuoto"
+    ],
+    "computer-vision": [
+      "quaderno_vuoto"
+    ],
+    "consulente-bancario": [
+      "kit_sottile",
+      "kit_fotocopia",
+      "quaderno_vuoto"
+    ],
+    "consulente-lavoro": [
+      "quaderno_vuoto"
+    ],
+    "courier-acquisition": [
+      "quaderno_vuoto"
+    ],
+    "credito-impresa": [
+      "kit_sottile",
+      "kit_fotocopia",
+      "kit_struttura_rotta",
+      "quaderno_vuoto"
+    ],
+    "demand-forecasting": [
+      "quaderno_vuoto"
+    ],
+    "developer-platform": [
+      "quaderno_vuoto"
+    ],
+    "direttore-creativo": [
+      "quaderno_vuoto"
+    ],
+    "dpo": [
+      "quaderno_vuoto"
+    ],
+    "enterprise-risk": [
+      "quaderno_vuoto"
+    ],
+    "finanza-agevolata": [
+      "kit_sottile",
+      "kit_fotocopia",
+      "kit_struttura_rotta"
+    ],
+    "fiscalista-iva-ecommerce": [
+      "quaderno_vuoto"
+    ],
+    "fondo-garanzia-pmi": [
+      "kit_sottile",
+      "kit_fotocopia",
+      "kit_struttura_rotta",
+      "quaderno_vuoto"
+    ],
+    "food-safety": [
+      "quaderno_vuoto"
+    ],
+    "fp-and-a": [
+      "quaderno_vuoto"
+    ],
+    "fraud-risk": [
+      "quaderno_vuoto"
+    ],
+    "fundraising-equity": [
+      "kit_sottile",
+      "kit_fotocopia",
+      "kit_struttura_rotta",
+      "quaderno_vuoto"
+    ],
+    "grant-writer": [
+      "quaderno_vuoto"
+    ],
+    "infosec-soc": [
+      "quaderno_vuoto"
+    ],
+    "investor-relations": [
+      "kit_sottile",
+      "kit_fotocopia",
+      "kit_struttura_rotta",
+      "quaderno_vuoto"
+    ],
+    "kyc-aml": [
+      "quaderno_vuoto"
+    ],
+    "legale-contrattualista": [
+      "quaderno_vuoto"
+    ],
+    "live-ops": [
+      "quaderno_vuoto"
+    ],
+    "localization": [
+      "quaderno_vuoto"
+    ],
+    "loyalty-membership": [
+      "quaderno_vuoto"
+    ],
+    "marketplace-payments": [
+      "quaderno_vuoto"
+    ],
+    "marketplace-policy": [
+      "quaderno_vuoto"
+    ],
+    "mediatore-creditizio": [
+      "kit_sottile",
+      "kit_fotocopia",
+      "kit_struttura_rotta",
+      "quaderno_vuoto"
+    ],
+    "medico-competente": [
+      "quaderno_vuoto"
+    ],
+    "ml-engineer": [
+      "quaderno_vuoto"
+    ],
+    "mobile-app": [
+      "quaderno_vuoto"
+    ],
+    "new-verticals": [
+      "quaderno_vuoto"
+    ],
+    "notaio": [
+      "quaderno_vuoto"
+    ],
+    "office-manager": [
+      "quaderno_vuoto"
+    ],
+    "personalization": [
+      "quaderno_vuoto"
+    ],
+    "platform-infra": [
+      "quaderno_vuoto"
+    ],
+    "pricing-scientist": [
+      "quaderno_vuoto"
+    ],
+    "private-label": [
+      "quaderno_vuoto"
+    ],
+    "procurement": [
+      "quaderno_vuoto"
+    ],
+    "public-policy": [
+      "quaderno_vuoto"
+    ],
+    "q-commerce-ops": [
+      "quaderno_vuoto"
+    ],
+    "qa-designer": [
+      "quaderno_vuoto"
+    ],
+    "rating-centrale-rischi": [
+      "kit_sottile",
+      "kit_fotocopia",
+      "kit_struttura_rotta",
+      "quaderno_vuoto"
+    ],
+    "registro-imprese": [
+      "quaderno_vuoto"
+    ],
+    "retail-media": [
+      "quaderno_vuoto"
+    ],
+    "reverse-logistics": [
+      "quaderno_vuoto"
+    ],
+    "revisore-conti": [
+      "quaderno_vuoto"
+    ],
+    "revops": [
+      "quaderno_vuoto"
+    ],
+    "rspp": [
+      "quaderno_vuoto"
+    ],
+    "sales-ops": [
+      "quaderno_vuoto"
+    ],
+    "scadenzario": [
+      "quaderno_vuoto"
+    ],
+    "search-reco-scientist": [
+      "quaderno_vuoto"
+    ],
+    "search-relevance": [
+      "quaderno_vuoto"
+    ],
+    "segreteria-ea": [
+      "quaderno_vuoto"
+    ],
+    "seller-financing": [
+      "quaderno_vuoto"
+    ],
+    "seller-standards": [
+      "quaderno_vuoto"
+    ],
+    "sustainability-esg": [
+      "quaderno_vuoto"
+    ]
+  }
+}

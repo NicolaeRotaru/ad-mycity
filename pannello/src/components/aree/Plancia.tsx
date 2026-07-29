@@ -115,9 +115,18 @@ export default function Plancia({
   const [ritmo, setRitmo] = useState<{ pianoMattino: Voce; reportSera: Voce }>({ pianoMattino: null, reportSera: null });
   const [documenti, setDocumenti] = useState<Doc[]>([]);
   const [aggAt, setAggAt] = useState<number | null>(null);
+  const [codaCieca, setCodaCieca] = useState<string>(""); // AR-233: vuoto = ho letto davvero
 
   const carica = useCallback(() => {
-    fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).then((d) => setAzioni(d.azioni || [])).catch(() => {});
+    // AR-233: se questa fetch fallisce non si può stampare «Niente da firmare» — la coda contiene
+    // card 🔴 con scadenza. `codaCieca` distingue «ho letto, non c'è niente» da «non ho potuto leggere».
+    fetch("/api/azioni-pronte", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`server ${r.status}`))))
+      .then((d) => {
+        setAzioni(d.azioni || []);
+        setCodaCieca(d.coda_leggibile === false ? d.motivo_coda || "non riesco a leggere la coda" : "");
+      })
+      .catch((e) => setCodaCieca(e?.message ? `non riesco a leggere la coda (${e.message})` : "non riesco a leggere la coda"));
     fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((d) => setAlerts(d.alert || [])).catch(() => {});
     fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((d) => setTodo(d.items || [])).catch(() => {});
     fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setMosse(d.prossime_mosse || [])).catch(() => {});
@@ -174,7 +183,12 @@ export default function Plancia({
             <span className={`badge ml-auto ${daFirmare.length ? "badge-on" : "badge-off"}`}>{daFirmare.length}</span>
           </div>
           <div className="mt-1.5 space-y-0.5">
-            {daFirmare.length === 0 && <p className="t-eti text-[12px]">Niente da firmare. 👍</p>}
+            {daFirmare.length === 0 &&
+              (codaCieca ? (
+                <p className="t-eti text-[12px] text-amber-600">⚠️ Non lo so: {codaCieca}. Riprova fra poco.</p>
+              ) : (
+                <p className="t-eti text-[12px]">Niente da firmare. 👍</p>
+              ))}
             {daFirmare.slice(0, 2).map((a) => (
               <div key={a.id} className="flex items-start gap-1 t-riga text-[12.5px]">
                 <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(a.livello)}`} />

@@ -17,6 +17,7 @@
 
 import { mkdirSync, writeFileSync, readdirSync, readFileSync, appendFileSync, existsSync } from "node:fs";
 import { consensoInvio } from "./consenso-azione.mjs";
+import { sbloccatiDaFlag, scritturaAmmessa } from "./campi-permessi.mjs";
 
 const MKT_URL = process.env.MARKETPLACE_SUPABASE_URL;
 const KEY = process.env.MARKETPLACE_SUPABASE_WRITE_KEY;
@@ -115,6 +116,10 @@ async function setSettings(campo, jsonStr) {
 async function inserisci(tabella, jsonStr) {
   let val; try { val = JSON.parse(jsonStr || ""); } catch { return console.log("JSON non valido."); }
   if (!/^[a-z_]+$/.test(tabella || "")) return console.log("Tabella non valida. Es: inserisci coupons '<json>'");
+  // AR-141 — il permesso vale per la TABELLA, i campi riservati no. Prima del consenso, perché un
+  // campo 🔴 non deve poter viaggiare a bordo di un'approvazione data per altro.
+  const c = scritturaAmmessa(tabella, val, { sbloccati: sbloccatiDaFlag(process.env) });
+  if (!c.ammessa) return console.log(`⛔ BLOCCATO (AR-141): ${c.motivo}`);
   const g = await scritturaAutorizzata(tabella);
   if (!g.live) return console.log(`[DRY-RUN] inserirei in ${tabella}:\n${JSON.stringify(val, null, 2)}${LIVE && can() ? `\n  (bloccato: ${g.motivo})` : ""}`);
   const r = await fetch(`${MKT_URL}/rest/v1/${tabella}`, { method: "POST", headers: { ...h(), Prefer: "return=minimal" }, body: JSON.stringify(val) });
@@ -124,6 +129,10 @@ async function inserisci(tabella, jsonStr) {
 async function aggiorna(tabella, id, jsonStr) {
   let val; try { val = JSON.parse(jsonStr || ""); } catch { return console.log("JSON non valido."); }
   if (!/^[a-z_]+$/.test(tabella || "") || !id) return console.log("Uso: aggiorna <tabella> <id> '<json>'");
+  // AR-141 — stesso cancello dell'inserimento: qui è ancora più importante, perché `aggiorna` scrive
+  // per tabella intera e su products il prezzo sta accanto alla descrizione.
+  const c = scritturaAmmessa(tabella, val, { sbloccati: sbloccatiDaFlag(process.env) });
+  if (!c.ammessa) return console.log(`⛔ BLOCCATO (AR-141): ${c.motivo}`);
   const g = await scritturaAutorizzata(tabella);
   if (!g.live) return console.log(`[DRY-RUN] aggiornerei ${tabella} id=${id}:\n${JSON.stringify(val, null, 2)}${LIVE && can() ? `\n  (bloccato: ${g.motivo})` : ""}`);
   const cur = await (await fetch(`${MKT_URL}/rest/v1/${tabella}?id=eq.${id}`, { headers: h() })).json();

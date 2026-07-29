@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { readVaultFile } from "@/lib/vault";
+import { apprendimentoSnello } from "@/lib/risposta-snella"; // AR-247/254: la logica sta dove un test la può eseguire
+import { readVaultFile, readVaultFileEsito } from "@/lib/vault"; // AR-254: distinguere «vuoto» da «non letto»
 import { sanificaListe } from "@/lib/memoria-json";
 
 export const runtime = "nodejs";
@@ -21,6 +22,28 @@ async function leggiJson(rel: string): Promise<any | null> {
     return JSON.parse(raw);
   } catch {
     return null;
+  }
+}
+
+/**
+ * AR-254 — come sopra, ma dice PERCHÉ quando non ci riesce.
+ *
+ * `apprendimento.json` ha superato il tetto di lettura (1.111.673 caratteri contro 1.000.000):
+ * finora veniva troncato a metà stringa, `JSON.parse` falliva, e la scheda restava vuota **per
+ * sempre** senza che nessuno sapesse perché. Un `null` non è una spiegazione.
+ */
+async function leggiJsonConMotivo(rel: string): Promise<{ dati: any | null; motivo: string }> {
+  const esito = await readVaultFileEsito(rel);
+  if (esito.stato === "troppo-grande") {
+    return { dati: null, motivo: esito.dettaglio || "archivio troppo grande per essere letto" };
+  }
+  if (esito.stato !== "ok" || esito.testo == null) {
+    return { dati: null, motivo: esito.stato === "assente" ? "" : "non riesco a raggiungere la memoria" };
+  }
+  try {
+    return { dati: JSON.parse(esito.testo), motivo: "" };
+  } catch {
+    return { dati: null, motivo: "l'archivio è arrivato incompleto (JSON non valido)" };
   }
 }
 
@@ -84,8 +107,38 @@ function trendBreve(v: any): string {
   // Un trend legittimo è corto e senza punteggiatura di frase (. : ; —). Tutto il resto = deriva del giro.
   return t.length > 0 && t.length <= 24 && !/[.:;—]/.test(t) ? t : "";
 }
+/**
+ * AR-212 — gli alias che SPENGONO informazione nella Cabina.
+ *
+ * Il giro scriveva `domande_bloccanti` mentre questa route (e il Pannello) leggono
+ * `domande_per_nicola`: risultato, «nessuna domanda» in Cabina mentre nel file ce n'erano TRE, una
+ * sul bando in scadenza fra tre giorni. Nessuno se n'è accorto perché il numero mostrato era
+ * plausibile: zero domande è uno stato normale, non un errore che salta all'occhio.
+ *
+ * Il cancello vero è in `cervello/valida-contratti.mjs`, che ora vieta gli alias e dà al giro un
+ * vincolo hard. Questo è la difesa dal lato di chi LEGGE, e serve per due motivi: fa vedere a Nicola
+ * le domande SUBITO invece che al prossimo giro, e continua a coprire se un domani il modello
+ * inventerà un sinonimo nuovo — cosa che, sotto pressione di contesto, farà.
+ *
+ * Non inventa niente: sposta un campo dove il Pannello lo cerca, e solo se quello canonico è vuoto.
+ */
+const ALIAS_ANALISI: Record<string, string> = {
+  domande_bloccanti: "domande_per_nicola",
+  domande: "domande_per_nicola",
+  errori_giro: "errori",
+  problemi: "errori",
+};
+function riportaAlias(a: any): void {
+  if (!a || typeof a !== "object") return;
+  for (const [alias, canonico] of Object.entries(ALIAS_ANALISI)) {
+    const vuoto = !Array.isArray(a[canonico]) || a[canonico].length === 0;
+    if (vuoto && Array.isArray(a[alias]) && a[alias].length > 0) a[canonico] = a[alias];
+  }
+}
+
 function sanificaAnalisi(a: any): void {
   if (!a || typeof a !== "object") return;
+  riportaAlias(a); // AR-212: prima di tutto, non perdere le domande per un sinonimo
   const voto = primoIntero(a.voto_fiducia);
   if (voto != null) a.voto_fiducia = Math.max(0, Math.min(100, voto));
   if (a.trend_fiducia != null) a.trend_fiducia = trendBreve(a.trend_fiducia);
@@ -152,14 +205,17 @@ function calcolaLive(analisi: any, sensori: any) {
 }
 
 export async function GET() {
-  const [analisi, apprendimento, miglioramento, calibrazione, registro, sensori] = await Promise.all([
+  const [analisi, appEsito, miglioramento, calibrazione, registro, sensori] = await Promise.all([
     leggiJson(`${BASE}/auto-analisi.json`),
-    leggiJson(`${BASE}/apprendimento.json`),
+    leggiJsonConMotivo(`${BASE}/apprendimento.json`),
     leggiJson(`${BASE}/auto-miglioramento.json`),
     leggiJson(`${BASE}/calibrazione.json`),
     leggiJson(`${BASE}/registro-realta.json`),
     leggiJson(`${BASE}/sensori-cecita.json`),
   ]);
+  // AR-254: l'apprendimento porta con sé il MOTIVO quando non si è potuto leggere.
+  const apprendimento = appEsito.dati;
+  const apprendimentoMotivo = appEsito.motivo;
 
   const collegato = Boolean(analisi || apprendimento || miglioramento);
   if (!collegato) {
@@ -182,5 +238,26 @@ export async function GET() {
     .filter(Boolean)
     .sort()
     .pop() || null;
-  return NextResponse.json({ collegato: true, aggiornato, live, analisi, analisi_affidabile, apprendimento, miglioramento, calibrazione, registro });
+  // AR-247 / AR-254 — due difetti, un fix solo: mancava il confine fra «file di memoria della
+  // macchina» e «risposta per il telefono». La route rimandava l'oggetto INTERO, e apprendimento.json
+  // pesa 1.131.270 byte — 344 KB in rete a ogni tick, ogni 30 secondi, anche in 4G. Le stesse cifre
+  // spiegano AR-254: quel file ha superato il tetto di lettura di 1 MiB (1.048.576), quindi in
+  // produzione arriva `null` e la scheda Apprendimento resta vuota PER SEMPRE.
+  //
+  // Il grasso è tutto di servizio: 211 chiavi su 217 iniziano con `_` (note di metabolizzazione, gate,
+  // consolidamenti) e nessuna schermata le mostra. Le lezioni sono 476 e la UI ne mostra quelle di 7
+  // giorni. Qui si manda ciò che la UI dichiara di leggere, e basta.
+  return NextResponse.json({
+    collegato: true,
+    aggiornato,
+    live,
+    analisi,
+    analisi_affidabile,
+    apprendimento: apprendimentoSnello(apprendimento),
+    // AR-254: se la scheda è vuota, questa riga dice perché — invece di lasciarla vuota per sempre.
+    apprendimento_non_leggibile: apprendimentoMotivo || null,
+    miglioramento,
+    calibrazione,
+    registro,
+  });
 }

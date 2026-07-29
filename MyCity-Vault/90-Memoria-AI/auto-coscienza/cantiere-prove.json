@@ -1,38 +1,20 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
-  "aggiornato": "2026-07-29 16:20",
+  "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
+  "aggiornato": "2026-07-29 11:09",
   "giorni_sospetto": 3,
-  "difetti_aperti": 162,
+  "difetti_aperti": 102,
   "per_classe": {
-    "umana": 16,
-    "auto-sospetta": 17,
-    "auto-attesa": 115,
-    "auto-ok": 14
+    "umana": 17,
+    "auto-sospetta": 6,
+    "auto-attesa": 73,
+    "auto-ok": 6
   },
-  "non_auto_chiudibili": 33,
+  "non_auto_chiudibili": 23,
   "bloccanti_ciechi": [
-    "AR-226",
-    "AR-247"
+    "AR-226"
   ],
   "voci": [
-    {
-      "id": "AR-105",
-      "gravita": "grave",
-      "eta_giorni": 13,
-      "titolo": "La macchina è cieca se il marketplace va giù: i sensori di uptime (sito, Pannello, Telegram) sono costruiti ma",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-108",
-      "gravita": "grave",
-      "eta_giorni": 13,
-      "titolo": "I sensori uptime di sito e Cabina esistono nel codice ma restano spenti da 163 giri: manca solo una env var e ",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 13 giorni (cervello/collega-le-mani.md ~ /MARKETPLACE_SITE_URL/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
     {
       "id": "AR-112",
       "gravita": "grave",
@@ -47,8 +29,8 @@
       "gravita": "grave",
       "eta_giorni": 13,
       "titolo": "La 'firma di Nicola' che sblocca l'invio reale è un marcatore testuale in un file che la macchina stessa scriv",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 13 giorni (cervello/consenso-azione.mjs ~ /rest/v1/approvazioni|firma_pannello/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
     },
     {
@@ -61,30 +43,12 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-127",
-      "gravita": "grave",
-      "eta_giorni": 13,
-      "titolo": "ritmo.sh e monitora.sh pubblicano su main SENZA il cancello di coerenza/sanità/onestà che protegge giro.sh — l",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 13 giorni (cervello/ritmo.sh ~ /vault-sanita\\.mjs|coerenza-fatti\\.mjs/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-128",
       "gravita": "grave",
       "eta_giorni": 13,
       "titolo": "Nessun sensore né sentinella per le contestazioni carta (dispute/chargeback) da Stripe: soldi con scadenza rig",
       "classe": "auto-sospetta",
       "perche": "prova mai soddisfatta da 13 giorni (cervello/sentinelle.md ~ /dispute|chargeback|contestazione carta/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-129",
-      "gravita": "grave",
-      "eta_giorni": 13,
-      "titolo": "Soglia KIT tarata al verde: 5200B, cioè 82 byte SOTTO il kit più piccolo — nessun kit può fallire il check 'no",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 13 giorni (cervello/stampo-check.mjs ~ /KIT_MIN_BYTES = 5200/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
@@ -124,33 +88,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-134",
-      "gravita": "grave",
-      "eta_giorni": 13,
-      "titolo": "Il gate di sintassi pre-commit copre solo .sh: un .mjs core rotto (git-github.mjs) può bloccare il giro senza ",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 13 giorni (.githooks/pre-commit ~ /node\\s+--check/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-140",
-      "gravita": "grave",
-      "eta_giorni": 6,
-      "titolo": "Il colore 🟢🟡🔴 che decide l'esecuzione automatica è testo libero, non un fatto riverificato lato server",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-141",
-      "gravita": "grave",
-      "eta_giorni": 6,
-      "titolo": "marketplace.mjs aggiorna scrive per TABELLA intera, non per campo: il prezzo può viaggiare a bordo di un'appro",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-143",
       "gravita": "grave",
       "eta_giorni": 6,
@@ -173,15 +110,6 @@
       "gravita": "grave",
       "eta_giorni": 6,
       "titolo": "Il giro si è fermato 3 giorni (20-23/7) senza spiegazione trovata — card #218 aperta, mai chiusa",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-147",
-      "gravita": "grave",
-      "eta_giorni": 6,
-      "titolo": "PI26 (10.000€ a fondo perduto, scade 30/7) non ha nessun countdown/allarme automatico reale — solo promemoria ",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -223,30 +151,12 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-157",
-      "gravita": "bloccante",
-      "eta_giorni": 2,
-      "titolo": "L'unico ordine che proverebbe che i soldi arrivano davvero al negozio è stato congelato dentro la fase tecnica",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md ~ /#ordine-test-pq.*⏸ in pausa/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-158",
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Ogni giro riceve l'ordine tassativo di produrre solo cose che avvicinano il primo ordine, mentre il padrone ha",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /NORTH STAR IN STALLO/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-159",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il congelamento di dodici azioni di business è stato messo a verbale come «riprendono da sole», ma non esiste ",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (MyCity-Vault/90-Memoria-AI/DECISIONI.md ~ /riprendono da sole al 24/8-1/9/)",
       "auto_chiudibile": true
     },
     {
@@ -295,84 +205,12 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-165",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il guardiano nato apposta per scoprire i controlli spenti in silenzio ha, lui per primo, l'allarme staccato",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /FRESCHEZZA_VINCOLO/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-166",
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Il giro si accorge di avere saltato l'auto-analisi e l'apprendimento, lo scrive nel registro tecnico del serve",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /GIRO_STEPS_VINCOLO/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-167",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Due cadenze partono con l'orologio del server invece che con quello di Piacenza, e il commento accanto promett",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/vps/mycity-monitora.timer ~ /OnCalendar=.*Europe/Rome/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-168",
-      "gravita": "bloccante",
-      "eta_giorni": 2,
-      "titolo": "Le previsioni nascono già chiuse: chi le scrive conosce già il risultato",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (cervello/calibrazione.mjs ~ /stato: azzeccata ? \"azzeccata\" : \"mancata\"/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-169",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Trentaquattro previsioni sbagliate e nessuna dice perché",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json ~ /\"causa\":/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-170",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il messaggio d'errore insegna come aggirare il freno: basta dire che ha confermato Nicola",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/calibrazione.mjs ~ /Usa --fonte=\"conferma di Nicola\" se c'è verifica umana/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-171",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il freno che blocca le misure al buio non scatta mai per PostHog: cerca un nome che non esiste",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/calibrazione.mjs ~ /posthog_api/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-172",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "L'unico centro dell'AD è aver previsto che un numero fermo restasse fermo",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/calibrazione.mjs ~ /atteso: 1,/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-173",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Una previsione scaduta diventa azzeccata misurandola nove giorni dopo",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/calibrazione.mjs ~ /fuori finestra/)",
       "auto_chiudibile": true
     },
     {
@@ -394,39 +232,12 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-178",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il tasso delle lezioni e la sonda del volano sono gli unici allarmi del giro che vengono buttati via mentre st",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /VOLANO_VINCOLO|_tasso_rc|_sonda_rc/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-181",
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Una previsione sbagliata si archivia senza dire perché: nel registro non c'è una sola causa, e il guardiano no",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/calibrazione.mjs ~ /chiusa senza causa|!e\\.causa/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-182",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "La memoria non invecchia a giorni ma a giri: dal 28 luglio le lezioni cominceranno a morire a blocchi nel giro",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/cristallizza-apprendimento.mjs ~ /decaduto_step_il|ultimo_decadimento/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-183",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Nel cruscotto della macchina la spia dei sensori è al contrario: verde quando sono ciechi, rossa quando stanno",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/components/cervello/RadiografiaDiSe.tsx ~ /ok: !r\\.sonda\\.sentinelle_scattano/)",
       "auto_chiudibile": true
     },
     {
@@ -529,24 +340,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-195",
-      "gravita": "medio",
-      "eta_giorni": 2,
-      "titolo": "La radiografia di sé si racconta ancora quarantadue senior quando sono centoventi",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (.claude/workflows/auto-radiografia.js ~ /42 agenti/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-196",
-      "gravita": "bloccante",
-      "eta_giorni": 2,
-      "titolo": "Il freno che deve fermare la macchina quando spende troppo legge un contatore che è sempre zero",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /token_per_gate/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-197",
       "gravita": "grave",
       "eta_giorni": 2,
@@ -562,15 +355,6 @@
       "titolo": "Anche riassumere una chat gira sul modello più caro, e la macchina lo sa",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/motore-ai.sh ~ /AI_MODELLO/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-199",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "La memoria che il giro riapre ogni volta è diventata un diario da 437 KB, e cresce ogni giorno",
-      "classe": "auto-attesa",
-      "perche": "il fix consiste nel creare cervello/peso-contesto.mjs, non ancora presente",
       "auto_chiudibile": true
     },
     {
@@ -610,21 +394,12 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-204",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Il giro saltato risulta costare un secondo, ma prima ha già fatto girare cinquanta guardiani",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /GIRO_START_TOT/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-206",
       "gravita": "bloccante",
       "eta_giorni": 2,
       "titolo": "La macchina può scrivere un programma nuovo e farlo partire: i freni stanno dentro gli script, il permesso è s",
       "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/permessi-check.mjs ~ /jolly|wildcard|cartella scrivibile|no-esecuzione-jolly/)",
+      "perche": "prova non ancora soddisfatta (.claude/settings.json ~ /cervello/\\*\\.mjs/)",
       "auto_chiudibile": true
     },
     {
@@ -664,42 +439,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-211",
-      "gravita": "bloccante",
-      "eta_giorni": 2,
-      "titolo": "Il guardiano della verità unica dice «memoria coerente» senza aver letto nemmeno un file",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/coerenza-fatti.mjs ~ /file_scansionati === 0|non_verificato|copertura/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-212",
-      "gravita": "bloccante",
-      "eta_giorni": 2,
-      "titolo": "La Cabina scrive «nessuna domanda» mentre l'auto-analisi ne ha tre, una rossa in scadenza",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json ~ /domande_bloccanti|errori_giro/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-213",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il controllo che doveva impedire i campi sbagliati guarda tre file su venticinque",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/valida-contratti.mjs ~ /domande_per_nicola/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-214",
-      "gravita": "bloccante",
-      "eta_giorni": 2,
-      "titolo": "Due schede della stessa pagina danno due scadenze diverse per lo stesso bando",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json ~ /giorni residui/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-215",
       "gravita": "grave",
       "eta_giorni": 2,
@@ -713,8 +452,8 @@
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Cercando nel Pannello si trova la copia vecchia dei quaderni, quella viva non c'è",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (MyCity-Vault/90-Memoria-AI/memoria-squadra/account-negozi.md ~ /\\S/)",
+      "classe": "auto-ok",
+      "perche": "prova soddisfatta ora (MyCity-Vault/90-Memoria-AI/memoria-squadra/account-negozi.md ~ /\\S/): auto-fix lo chiuderà",
       "auto_chiudibile": true
     },
     {
@@ -733,15 +472,6 @@
       "titolo": "Su iPhone ogni volta che tocchi per scrivere la pagina si ingrandisce da sola",
       "classe": "auto-ok",
       "perche": "prova soddisfatta ora (pannello/src/components/BarraScritturaChat.tsx ~ /input-soft w-full min-h-[78px] max-h-28 resize-y text-[13px]/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-221",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Sotto le cose da fare c'è un muro di 72 difetti già chiusi che non si può richiudere",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/components/cervello/RadiografiaDiSe.tsx ~ /<div className=\"t-micro mb-1.5\">Chiusi</div>/)",
       "auto_chiudibile": true
     },
     {
@@ -790,51 +520,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-229",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Approvi, rifiuti e riapprovi la stessa azione: parte due volte davvero",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/app/api/azioni-pronte/route.ts ~ /statoPre !== \"rifiutata\"/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-230",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Quando rifiuti un'azione il Pannello dice «fatto» anche se non ha salvato niente",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/app/api/azioni-pronte/route.ts ~ /return NextResponse.json\\(\\{ ok: true, stato, esito: \"\", salvataggio: salv \\}\\)/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-231",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "La decisione sull'ordine da 19,05 euro risulta presa anche se il lavoro non è mai partito, e non si può più ri",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/app/api/decisione-ordine/route.ts ~ /await creaLavoro\\(/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-232",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "L'autopilota esegue da solo tutto ciò che la macchina ha scritto di suo pugno come verde",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/lib/autopilota.ts ~ /b.livello === \"verde\"/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-233",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "La home dice «Niente da firmare» anche quando non è riuscita a leggere la coda",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/lib/azioni-pronte.ts ~ /readVaultFileEsito/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-234",
       "gravita": "minore",
       "eta_giorni": 2,
@@ -860,24 +545,6 @@
       "classe": "auto-ok",
       "perche": "prova soddisfatta ora (pannello/src/app/page.tsx ~ /setDatiAggiornatiAt(Date.now());/): auto-fix lo chiuderà",
       "auto_chiudibile": true
-    },
-    {
-      "id": "AR-238",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Rispondi a una domanda dell'AD e trenta secondi dopo te la richiede",
-      "classe": "auto-sospetta",
-      "perche": "regex non valida in verifica: pannello/src/app/api/memoria/risposta/route.ts ~ /await setImpostazione(`risposta:${qid}`/",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-239",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Le spunte della tua checklist possono restare finte fino al ricarico",
-      "classe": "auto-sospetta",
-      "perche": "regex non valida in verifica: pannello/src/components/aree/Azioni.tsx ~ /await fetch(\"/api/memoria/todo\", { method: \"POST\"/",
-      "auto_chiudibile": false
     },
     {
       "id": "AR-241",
@@ -907,15 +574,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-247",
-      "gravita": "bloccante",
-      "eta_giorni": 2,
-      "titolo": "La pagina di cosa ha imparato la macchina si riscarica intera ogni trenta secondi e brucia i dati del telefono",
-      "classe": "auto-sospetta",
-      "perche": "regex non valida in verifica: pannello/src/app/api/memoria/auto-coscienza/route.ts ~ /apprendimento, miglioramento, calibrazione, registro })/",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-248",
       "gravita": "grave",
       "eta_giorni": 2,
@@ -934,84 +592,12 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-250",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "La pagina della radiografia si riscarica l'intero cantiere dei difetti ogni mezzo minuto",
-      "classe": "auto-sospetta",
-      "perche": "regex non valida in verifica: pannello/src/app/api/memoria/auto-radiografia/route.ts ~ /live, radiografia, cantiere, storico, watchlist, lettera })/",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-254",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "L'archivio delle lezioni ha superato il tetto di lettura: online la scheda Apprendimento resta vuota per sempr",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/lib/obsidian.ts ~ /MAX = 1_000_000/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-255",
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Lo storico della salute è letto in due modi diversi: il grafico dell'andamento può restare vuoto mentre i dati",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (pannello/src/app/api/memoria/auto-radiografia/route.ts ~ /Array\\.isArray\\(storico/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-256",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Se il cantiere arriva malformato, dalla home spariscono in silenzio i tre collegamenti alla salute",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/components/MacchinaHomeCard.tsx ~ /Array\\.isArray\\(rad\\?\\.cantiere\\?\\.difetti\\)/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-257",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "La scheda dell'auto-analisi si riporta sotto gli occhi da sola ogni trenta secondi",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/components/AutoCoscienza.tsx ~ /\\}, \\[d\\]\\);/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-259",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Un solo invio può far partire due volte lo stesso lavoro quando il database è lento",
-      "classe": "auto-sospetta",
-      "perche": "regex non valida in verifica: pannello/src/lib/store.ts ~ /for (let tentativo = 0; tentativo < LAVORO_TENTATIVI; tentativo++)/",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-260",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Due messaggi ravvicinati in chat diventano due lavori invece di sostituirsi",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/app/page.tsx ~ /aggiungiPendingChat({ id: d.lavoro.id, tipo: prep.tipo, targetConvId })/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-261",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Dalla finestra video e da quella dello schermo condiviso si può inviare due volte di fila",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/components/BottoneFotoChat.tsx ~ /if (!t || !chatOnInvia) return;/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-262",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "L'interruttore delle Stelle Polari torna indietro da solo senza dire perché",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/components/StellePolari.tsx ~ /body: JSON.stringify({ id: s.id, attiva: !s.attiva })/): auto-fix lo chiuderà",
       "auto_chiudibile": true
     },
     {
@@ -1022,60 +608,6 @@
       "classe": "auto-sospetta",
       "perche": "regex non valida in verifica: pannello/src/components/QuaderniSenior.tsx ~ /const r = await fetch(`/api/memoria/quaderni?senior=/",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-264",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Uscendo dalla modalità demo la pagina si ricarica anche se il cambio non è riuscito",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/components/DemoBanner.tsx ~ /window.location.reload();/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-266",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Aprire il riquadro «Parla con questa casella» ti cancella da sotto la chat che avevi aperto",
-      "classe": "auto-sospetta",
-      "perche": "regex non valida in verifica: pannello/src/app/page.tsx ~ /ascoltaChatUnificata(\"assistente\", (det) => {\n      setConvId(det.convId);/",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-267",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Mentre l'AD scrive, la risposta che sta comparendo si cancella da sola ogni otto secondi",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/lib/chat-thread-merge.ts ~ /return list.filter((m) => !m.pending && !m.prompt);/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-268",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "La chat di un riquadro risalva una versione vecchia e cancella i messaggi arrivati nel frattempo",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/components/ParlaCasella.tsx ~ /const completa: ParlaMsg[] = [...conMio, { role: \"assistant\", content: esito.testo, created_at: new Date().toISOString() }];\n        setMsgs(completa);/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-269",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "La chat dentro l'Archivio resta ferma alla foto di quando l'hai aperta",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/components/ChatCasella.tsx ~ /useState<MsgChat[]>(() => messaggiDaGruppo(lavori).filter((m) => !m.pending));/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-272",
-      "gravita": "bloccante",
-      "eta_giorni": 2,
-      "titolo": "Portare codice in produzione con un merge non passa dal cancello di consenso e ha un'opzione che salta il fren",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/git-merge.mjs ~ /const canMerge = \\(LIVE \\|\\| force\\) && !dryRun/)",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-273",
@@ -1093,24 +625,6 @@
       "titolo": "All'avvio di ogni sessione la macchina si rilegge come regole obbligatorie un testo che ha scritto lei stessa,",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (.claude/settings.json ~ /contesto-lezioni\\.mjs --hook/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-275",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Lo scanner dei segreti non riconosce proprio le chiavi che fanno funzionare il cervello",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/segreti-pattern.mjs ~ /sk-ant/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-276",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Se il push protetto viene rifiutato, lo strumento delle richieste di modifica riprova con un push forzato senz",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/git-pr.mjs ~ /\\[\"push\", \"--force\", url, ref\\]/)",
       "auto_chiudibile": true
     },
     {
@@ -1132,33 +646,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-279",
-      "gravita": "bloccante",
-      "eta_giorni": 2,
-      "titolo": "Il numero più importante dell'azienda lo leggiamo da un racconto, non dal database",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/north-star-check.mjs ~ /MARKETPLACE_SUPABASE_URL|rest/v1/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-280",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Un mese senza un solo ordine e gli occhi che guardano il database ogni cinque minuti non fiatano",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/sentinella-dati.mjs ~ /giorni_senza_ordini|ordine_fermo_da/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-281",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "La protezione contro la falsa cecità è stata montata su un guardiano solo: i tre fratelli scrivono ancora alla",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/sensore-cassa.mjs ~ /scriviStato|ambienteConfigurato|non_verificabile/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-282",
       "gravita": "grave",
       "eta_giorni": 2,
@@ -1177,15 +664,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-284",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il sensore degli ordini dice «leggo» anche quando legge zero righe",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/verifica-sensori.mjs ~ /orders leggibili via REST/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-285",
       "gravita": "grave",
       "eta_giorni": 2,
@@ -1201,15 +679,6 @@
       "titolo": "Nessuna misura dei sensori dice da quale computer è stata scritta",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json ~ /\"ambiente\"|\"scritto_da\"/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-287",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il guardiano dello stampo dà 120 su 120 anche quando il quaderno del senior è un foglio bianco",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/stampo-check.mjs ~ /if \\(!existsSync\\(quaderno\\)\\) difetti\\.push\\(\"quaderno_assente\"\\)/)",
       "auto_chiudibile": true
     },
     {
@@ -1240,15 +709,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-291",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il giro butta via il verdetto del guardiano dello stampo mentre trasforma in vincolo quello del guardiano acca",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /stampo-check\\.mjs\" 2>&1 \\| tail -6 \\|\\| true/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-293",
       "gravita": "grave",
       "eta_giorni": 2,
@@ -1276,15 +736,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-297",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il giro e le cadenze pubblicano su main senza guardare su che ramo si trovano",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /HEAD è su/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-298",
       "gravita": "grave",
       "eta_giorni": 2,
@@ -1294,30 +745,12 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-299",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Il lucchetto può restare in mano a una connessione appesa, e tutti gli altri aspettano dieci minuti per niente",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /GIT_NET_TIMEOUT/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-302",
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Quando il giro decide di risparmiare, i quindici allarmi appena raccolti non li legge nessuno",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /Parte AI SALTATA dal delta-gate/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-303",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il freno sui costi si spegne da solo, in silenzio, se manca un programma o se il contatore va in errore",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /command -v jq >/dev/null 2>&1 && \\[ -n \"\\$_budget_json\" \\]/)",
       "auto_chiudibile": true
     },
     {
@@ -1348,15 +781,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-307",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Quasi tutti i guardiani parlano solo alla coda del log, e la riga d'errore vera resta fuori",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /2>&1 \\| tail -/)",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-313",
       "gravita": "grave",
       "eta_giorni": 2,
@@ -1372,24 +796,6 @@
       "titolo": "Il lucchetto si prende solo alla fine: mentre l'AD scrive, un altro processo committa e resetta sotto",
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/vps/aggiorna-cervello.sh ~ /mycity-scrittura-in-corso/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-318",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Quando il push prudente viene rifiutato, si riprova a forza bruta e si cancella il lavoro dell'altra sessione",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/git-pr.mjs ~ /\"--force\"/)",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-319",
-      "gravita": "bloccante",
-      "eta_giorni": 2,
-      "titolo": "Il freno sulla stella polare legge un numero che non c'entra e resta spento da un mese",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/north-star-check.mjs ~ /stallo[^~]/)",
       "auto_chiudibile": true
     },
     {
@@ -1469,6 +875,60 @@
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Ogni riparazione litiga con la successiva, perché tutte scrivono nello stesso registro",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-335",
+      "gravita": "medio",
+      "eta_giorni": 1,
+      "titolo": "Il cruscotto di STATO.md non e mai stato rivisto: dopo la potatura pesa 97 KB ma sono ancora 789 righe",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-336",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "titolo": "Un difetto chiuso non viene mai più riguardato, e settantaquattro hanno una prova che si potrebbe rieseguire",
+      "classe": "auto-attesa",
+      "perche": "il fix consiste nel creare cervello/prove-uniche.mjs, non ancora presente",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-337",
+      "gravita": "medio",
+      "eta_giorni": 1,
+      "titolo": "Gli occhi della macchina riscrivono i numeri del business anche quando non hanno potuto leggerli",
+      "classe": "auto-attesa",
+      "perche": "prova non ancora soddisfatta (cervello/sentinella-dati.mjs ~ /non_misurato_in_questo_ambiente/)",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-344",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Il guardiano delle prove legge solo le prove vecchie: ogni prova migrata a comando risulta «nessun guardiano p",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-345",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Mentre misura il trigger, il repo sembra avere la skill cancellata: un commit automatico la cancellerebbe davv",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-346",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Il cancello condiviso è rosso su main per tutti: #604 è entrata con la sua stessa prova rossa e #602 ha aggiun",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false

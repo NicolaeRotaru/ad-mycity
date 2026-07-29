@@ -43,6 +43,8 @@ function valoreStella(id: string, m: Record<string, any> | null): string {
 
 export default function StellePolari() {
   const [stelle, setStelle] = useState<Stella[]>([]);
+  const [salvando, setSalvando] = useState<string | null>(null); // AR-262: quale stella sta salvando
+  const [errore, setErrore] = useState<Record<string, string>>({}); // AR-262: perché non è stata salvata
   const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
   const carica = useCallback(() =>
     fetch("/api/stelle", { cache: "no-store" }).then((r) => r.json()).then((d) => setStelle(d.stelle || [])).catch(() => {}), []);
@@ -59,16 +61,35 @@ export default function StellePolari() {
 
   usePanelSync(["memoria", "all"], refresh);
 
+  // AR-262 — l'interruttore tornava indietro da solo, senza dire perché. Tre cause in fila:
+  //   ① `.catch(() => {})` sulla POST: l'errore spariva;
+  //   ② `res.ok` non veniva mai controllato — una risposta 500 arriva col suo corpo e NON fa scattare
+  //      il catch, quindi anche un rifiuto del server passava per un salvataggio riuscito;
+  //   ③ subito dopo si ricaricava dal server, che riallineava allo stato vero.
+  // Risultato a video: Nicola clicca, la levetta si muove, e mezzo secondo dopo torna indietro. Senza
+  // una parola. Non sapeva se aveva sbagliato lui, se il click non era stato preso, o se era un guasto.
   async function toggle(s: Stella) {
     if (s.principale) return;
+    if (salvando === s.id) return; // niente doppio invio sulla stessa stella
+    setSalvando(s.id);
+    setErrore((e) => ({ ...e, [s.id]: "" }));
     // ottimistico
     setStelle((list) => list.map((x) => (x.id === s.id ? { ...x, attiva: !x.attiva } : x)));
-    await fetch("/api/stelle", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: s.id, attiva: !s.attiva }),
-    }).catch(() => {});
-    carica();
+    try {
+      const res = await fetch("/api/stelle", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: s.id, attiva: !s.attiva }),
+      });
+      if (!res.ok) throw new Error(`il server ha risposto ${res.status}`);
+      carica();
+    } catch (e) {
+      // Il ripristino resta (lo stato vero è del server), ma adesso è SPIEGATO.
+      setErrore((prev) => ({ ...prev, [s.id]: e instanceof Error ? `Non salvato — ${e.message}` : "Non salvato — riprova" }));
+      carica();
+    } finally {
+      setSalvando(null);
+    }
   }
 
   if (stelle.length === 0) return null;
@@ -89,15 +110,20 @@ export default function StellePolari() {
             <div className="text-[13px] font-semibold text-ink">{s.nome}</div>
             <div className="text-[12px] font-medium text-brand mt-0.5 tabular-nums">{valoreStella(s.id, metriche)}</div>
             <div className="t-eti mt-0.5">{s.descrizione}</div>
+            {/* AR-262: se il salvataggio non è riuscito, la levetta torna indietro — ma adesso accanto
+                c'è scritto perché, invece di lasciare Nicola a chiedersi se ha sbagliato lui. */}
+            {errore[s.id] && <div className="t-eti mt-1 text-amber-600">⚠️ {errore[s.id]}</div>}
           </div>
           {s.principale ? (
             <span className="badge badge-on shrink-0">sempre attiva</span>
           ) : (
             <button
               onClick={() => toggle(s)}
-              className={`shrink-0 inline-flex items-center h-6 w-11 rounded-full transition ${s.attiva ? "bg-brand" : "bg-black/15"}`}
+              disabled={salvando === s.id}
+              className={`shrink-0 inline-flex items-center h-6 w-11 rounded-full transition disabled:opacity-50 ${s.attiva ? "bg-brand" : "bg-black/15"}`}
               aria-pressed={s.attiva}
-              title={s.attiva ? "Spegni" : "Accendi"}
+              aria-busy={salvando === s.id}
+              title={salvando === s.id ? "Sto salvando…" : s.attiva ? "Spegni" : "Accendi"}
             >
               <span className={`inline-block h-5 w-5 rounded-full bg-white shadow transition-transform ${s.attiva ? "translate-x-5" : "translate-x-0.5"}`} />
             </button>

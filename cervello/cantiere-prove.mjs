@@ -157,6 +157,9 @@ const nonChiudibili = voci.filter((v) => !v.auto_chiudibile);
 const report = {
   _cosa_e:
     "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
+  // AR-287 — un verde va letto per quello che vale, non per quello che sembra.
+  _cosa_NON_prova:
+    "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
   aggiornato: nowPiacenza(),
   giorni_sospetto: GIORNI_SOSPETTO,
   difetti_aperti: aperti.length,

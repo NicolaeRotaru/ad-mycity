@@ -49,8 +49,11 @@ function main() {
   const conToken = voci.filter((v) => typeof v.token === "number").length;
   const coperturaToken = voci.length ? Math.round((conToken / voci.length) * 100) : 0;
   const topConsumo = perTipo[0] || null;
-  const pctSoglia = soglia ? +((oggi.token_totali / soglia) * 100).toFixed(3) : null;
-  const sopraSoglia = soglia ? oggi.token_totali > soglia : false;
+  // AR-196: si misura sul campo che frena (max reali/stimati), non su `token_totali` — che resta 0
+  // finché ogni registrazione passa con --stima, e faceva leggere «0 token» a chi guarda il Pannello.
+  const tokGate = typeof oggi.token_per_gate === "number" ? oggi.token_per_gate : null;
+  const pctSoglia = soglia && tokGate != null ? +((tokGate / soglia) * 100).toFixed(3) : null;
+  const sopraSoglia = soglia && tokGate != null ? tokGate > soglia : false;
 
   const out = {
     ok: !sopraSoglia,
@@ -60,6 +63,7 @@ function main() {
       data: oggi.data,
       runs: oggi.runs,
       token_totali: oggi.token_totali,
+      token_per_gate: tokGate, // AR-196: il numero su cui si frena (max reali/stimati); null = non misurato
       durata_sec_totale: oggi.durata_sec_totale,
       soglia_token: soglia,
       pct_soglia: pctSoglia,

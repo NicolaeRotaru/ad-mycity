@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Microscope,
   GraduationCap,
@@ -22,6 +22,7 @@ import {
 import { dataVault, dataVaultRecente } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
 import { usePanelSync } from "@/lib/panel-sync";
+import { fondiLocaliSuServer } from "@/lib/stato-vivo";
 import ParlaCasella from "@/components/ParlaCasella";
 import CasellaAnteprima, { anteprimaTesto } from "@/components/CasellaAnteprima";
 import { TestoUmano } from "@/components/TestoUmano";
@@ -195,6 +196,7 @@ type Dati = {
   analisi?: Analisi;
   analisi_affidabile?: boolean;
   apprendimento?: Apprendimento;
+  apprendimento_non_leggibile?: string | null; // AR-254: perché la scheda è vuota
   miglioramento?: Miglioramento;
   calibrazione?: Calibrazione;
   registro?: Registro;
@@ -264,7 +266,17 @@ export default function AutoCoscienza({
   const setTab = fixedTab ? () => {} : setTabInterno;
   // Risposte già date alle domande dell'AD (qid → {risposta, at}).
   const [risposte, setRisposte] = useState<Record<string, Salvata>>({});
-  const onSalvata = (qid: string, risposta: string, at: string) => setRisposte((s) => ({ ...s, [qid]: { risposta, at } }));
+  // AR-238 — MERGE, NON SOSTITUZIONE. Le risposte date IN QUESTA SESSIONE restano qui finché il
+  // server non le riporta uguali. Prima il ripasso a 30s faceva `setRisposte(x.risposte)`, cioè
+  // sostituiva l'intera mappa: se il salvataggio era fallito (e la route rispondeva ok:true lo
+  // stesso) la risposta appena data spariva e la stessa domanda tornava sotto gli occhi.
+  // È la difesa che l'area Azioni ha da mesi (`decisiLocaliRef`, «bug #7») e che qui non era mai
+  // arrivata.
+  const risposteLocaliRef = useRef<Map<string, Salvata>>(new Map());
+  const onSalvata = (qid: string, risposta: string, at: string) => {
+    risposteLocaliRef.current.set(qid, { risposta, at });
+    setRisposte((s) => ({ ...s, [qid]: { risposta, at } }));
+  };
   // 🔗 Azioni da firmare indicizzate per origine: per ogni casella (domanda/entità) sappiamo
   // se esiste un'azione che ne è nata → mostriamo "vai all'azione". (origine → id azione)
   const [azPerOrigine, setAzPerOrigine] = useState<Record<string, string>>({});
@@ -272,7 +284,18 @@ export default function AutoCoscienza({
 
   const carica = useCallback(() => {
     fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
-    fetch("/api/memoria/risposta", { cache: "no-store" }).then((r) => r.json()).then((x) => { if (x?.risposte) setRisposte(x.risposte); }).catch(() => {});
+    fetch("/api/memoria/risposta", { cache: "no-store" }).then((r) => r.json()).then((x) => {
+      if (!x?.risposte) return;
+      // AR-238: si fondono le locali sopra quelle del server; quando il server concorda, la copia
+      // locale ha finito il suo lavoro e si dimentica (altrimenti coprirebbe per sempre un errore).
+      const { fusa, daDimenticare } = fondiLocaliSuServer<Salvata>(
+        x.risposte,
+        risposteLocaliRef.current,
+        (a, b) => a?.risposta === b?.risposta,
+      );
+      for (const qid of daDimenticare) risposteLocaliRef.current.delete(qid);
+      setRisposte(fusa);
+    }).catch(() => {});
     fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).then((x) => {
       const m: Record<string, string> = {};
       for (const a of x?.azioni || []) if (a?.origine && !a.stato) m[String(a.origine)] = String(a.id);
@@ -288,12 +311,18 @@ export default function AutoCoscienza({
 
   usePanelSync(["radiografia", "azioni", "memoria", "all"], carica);
 
-  // Deep-link dal banner della Plancia (#auto-coscienza): porta la card sott'occhio.
+  // Deep-link dal banner della Plancia (#auto-coscienza): porta la card sott'occhio UNA volta.
+  //
+  // AR-257: la dipendenza era `[d]`. `carica()` gira ogni 30 secondi e `setD` mette sempre un
+  // oggetto NUOVO (viene da `r.json()`), quindi per React la dipendenza cambiava anche a contenuto
+  // identico: l'effetto ripartiva e la pagina saltava da sola sulla scheda ogni mezzo minuto, per
+  // chi era arrivato da un link col vecchio hash. «Scorri quando i dati sono pronti» è vero una
+  // volta sola — al montaggio — non a ogni ripasso.
   useEffect(() => {
     if (typeof window !== "undefined" && window.location.hash.replace("#", "") === "auto-coscienza") {
       setTimeout(() => document.getElementById("auto-coscienza")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
     }
-  }, [d]);
+  }, []);
 
   const a = d?.analisi;
   const live = d?.live;
@@ -337,9 +366,16 @@ export default function AutoCoscienza({
 
   const titoloSezione =
     tab === "apprendimento" ? "🎓 Apprendimento" : tab === "miglioramento" ? "🚀 Auto-miglioramento" : "🔬 Auto-analisi";
+  // AR-254 — quando l'archivio non si è potuto leggere, il sottotitolo lo DICE. Prima la scheda
+  // restava semplicemente vuota: 1.111.673 caratteri contro un tetto di 1.000.000, il file veniva
+  // troncato a metà stringa, JSON.parse falliva, e nessuno sapeva perché. Una scheda vuota senza
+  // spiegazione è indistinguibile da «non ho ancora imparato niente».
+  const apprNonLeggibile = d?.apprendimento_non_leggibile || "";
   const sottotitoloSezione =
     tab === "apprendimento"
-      ? "Lezioni imparate e calibrazione."
+      ? apprNonLeggibile
+        ? `⚠️ Archivio non leggibile — ${apprNonLeggibile}`
+        : "Lezioni imparate e calibrazione."
       : tab === "miglioramento"
         ? "Confronto coi migliori, esperimenti e peer review."
         : "Si controlla prima di consegnare — errori, domande, entità.";

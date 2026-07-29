@@ -28,7 +28,7 @@ type Costo = {
   collegato: boolean;
   soglia_giornaliera_token?: number;
   oggi?: {
-    token_totali?: number;
+    token_totali?: number | null; // AR-196: null = non misurato. Non è uno zero, e non va mostrato come tale.
     runs?: number;
     soglia_pct?: number | null;
     soglia_superata?: boolean;
@@ -119,9 +119,11 @@ export default function CuoreMacchina() {
             )}
           </div>
           <div className={`kpi-tile-value ${co?.soglia_superata ? "text-red-600" : ""}`}>
-            {costo?.collegato && co
-              ? `${nFmt(Number(co.token_totali || 0))}${soglia ? ` / ${nFmt(soglia)}` : ""}`
-              : "—"}
+            {costo?.collegato && co && typeof co.token_totali === "number"
+              ? `${nFmt(co.token_totali)}${soglia ? ` / ${nFmt(soglia)}` : ""}`
+              : costo?.collegato && co
+                ? "non misurato"
+                : "—"}
           </div>
           {costo?.collegato && co?.soglia_pct != null && (
             <div className="t-micro mt-0.5">{co.soglia_pct}% della soglia · {co.giri_pieni ?? 0} giri pieni</div>

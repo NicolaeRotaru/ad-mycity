@@ -1,0 +1,13 @@
+{
+  "_cosa_e": "Perché un sensore è spento. Un sensore che non risponde e non ha una riga qui è un BUCO, non uno stato: il guardiano sensori-spenti-check.mjs lo dice a ogni giro (AR-105/AR-108). Tre motivi ammessi: 'decisione' (Nicola ha scelto: stato finale, sano), 'da-chiedere' (glielo stiamo chiedendo, la card è in coda), 'inerzia' (nessuno ha mai deciso — è quello che non deve esistere).",
+  "_regola_per_i_sensori_nuovi": "Ogni sensore nuovo in verifica-sensori.mjs nasce con la sua riga qui. Se nasce senza, il guardiano è rosso al primo giro — che è il punto: i due uptime sono rimasti spenti 163 giri proprio perché nessuno reclamava la loro configurazione.",
+  "aggiornato": "2026-07-28 14:05",
+  "motivi": {
+    "telegram_bot": {
+      "motivo": "da-chiedere",
+      "perche": "Il bot Telegram è costruito e mai acceso. Non risulta che Nicola l'abbia rifiutato: semplicemente non gliel'ha mai chiesto nessuno. Card #sensori-spenti-senza-motivo in coda dal 2026-07-28 — quando risponde, questa riga diventa 'decisione' (e resta tale per sempre) oppure il sensore si accende.",
+      "card": "#sensori-spenti-senza-motivo",
+      "dal": "2026-07-28 14:05"
+    }
+  }
+}

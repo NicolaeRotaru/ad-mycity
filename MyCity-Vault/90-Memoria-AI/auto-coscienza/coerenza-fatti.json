@@ -1,7 +1,8 @@
 {
-  "data": "2026-07-29 16:59",
-  "esito": "ok",
-  "fatti_totali": 21,
+  "data": "2026-07-29 16:19",
+  "esito": "non_verificato",
+  "copertura": 0,
+  "fatti_totali": 25,
   "cacce_aperte": 0,
   "file_scansionati": 0,
   "incoerenze": [],
@@ -13,9 +14,7 @@
     "MyCity-Vault/90-Memoria-AI/Report/",
     "MyCity-Vault/90-Memoria-AI/auto-coscienza/",
     "MyCity-Vault/90-Memoria-AI/registro-fatti.json",
-    "memoria-squadra/",
-    "MyCity-Vault/90-Memoria-AI/RITMO.md",
-    "MyCity-Vault/90-Memoria-AI/STATO.md"
+    "memoria-squadra/"
   ],
-  "istruzioni": "Memoria coerente: nessuna copia vecchia nei file vivi."
+  "istruzioni": "NON VERIFICATO: nessuna caccia aperta, quindi non è stato letto alcun file. Non è un verde — è l'assenza di una misura (AR-211)."
 }

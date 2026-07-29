@@ -20,7 +20,11 @@ const DENY_OK = [
 ];
 
 test("un set pulito non produce violazioni", () => {
-  const allow = ["Bash(git status:*)", "Bash(node cervello/*.mjs:*)", "Write(consegne/**)"];
+  // AR-206 (28/7): «Bash(node cervello/*.mjs:*)» NON è più un permesso pulito e non può stare qui.
+  // Era il jolly su una cartella che la macchina stessa può SCRIVERE: non un permesso su un elenco di
+  // programmi, ma su «qualunque programma io decida di scrivere lì dentro». Al suo posto la forma
+  // sicura: UN programma preciso, argomenti liberi.
+  const allow = ["Bash(git status:*)", "Bash(node cervello/auto-fix.mjs:*)", "Write(consegne/**)"];
   assert.deepEqual(violazioni(allow, DENY_OK), []);
 });
 
@@ -71,7 +75,16 @@ test("ogni regola dichiara la fonte del proprio perché", () => {
 // non un pattern su un file.
 // Il residuo che al 25/7 era ancora aperto qui. È un TETTO, non un valore atteso: la prova chiede che
 // non compaia niente di NUOVO, non che questo resti.
-const RESIDUO_NOTO = ["curl-limitato"];
+// Le violazioni che restano perché la correzione è di NICOLA: `.claude/settings.json` è negato in
+// Edit/Write alla macchina, apposta — è il file che decide cosa la macchina può eseguire, e un
+// guardiano che potesse ripararlo da sé non sarebbe un guardiano.
+//   · curl-limitato        — storico
+//   · no-push-diretto      — manca `"Bash(git push:*)"` nel deny
+//   · no-jolly-…           — AR-206 (28/7): `Bash(node cervello/*.mjs:*)` e `Bash(bash cervello/*.sh:*)`
+// Sono un ELENCO ATTESO, non un obiettivo: quando Nicola le sistema il test resta verde (il filtro è
+// un sottoinsieme, non un'uguaglianza — lezione del 25/7: un test che punisce chi risolve il
+// problema insegna a non risolverlo).
+const RESIDUO_NOTO = ["curl-limitato", "no-push-diretto", "no-jolly-su-cartella-scrivibile"];
 
 test("i permessi reali di questo repo non peggiorano oltre il residuo noto", () => {
   const j = JSON.parse(readFileSync(new URL("../../.claude/settings.json", import.meta.url), "utf8"));

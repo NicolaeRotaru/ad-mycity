@@ -5,6 +5,7 @@ Wants=network-online.target
 
 [Service]
 Type=oneshot
+Environment=TZ=Europe/Rome
 WorkingDirectory=/opt/mycity/ad-mycity
 EnvironmentFile=-/opt/mycity/ad-mycity/cervello/vps/.env
 ExecStart=/bin/bash /opt/mycity/ad-mycity/cervello/vps/watch-main.sh

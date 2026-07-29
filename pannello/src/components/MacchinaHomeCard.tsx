@@ -34,6 +34,15 @@ function dot(stato: "verde" | "giallo" | "rosso") {
 }
 
 /** Card unica home: semaforo + 8 pallini + link alle 3 pagine salute. */
+// AR-256: i tre collegamenti esistono SEMPRE. Cambia solo il dato che ci sta accanto: se non è
+// arrivato, lo si dice — non si toglie la porta perché non si sa cosa c'è dietro. Vive fuori dal
+// componente così `carica` (useCallback con deps vuote) lo cattura una volta sola.
+const LINK_BASE: SaluteLink[] = [
+  { label: "Radiografia macchina", vista: "cervello", stat: "dato non leggibile", semaforo: "giallo" },
+  { label: "Auto-coscienza", vista: "auto-coscienza", stat: "dato non leggibile", semaforo: "giallo" },
+  { label: "Salute sito", vista: "salute-sito", stat: "dato non leggibile", semaforo: "giallo" },
+];
+
 export default function MacchinaHomeCard() {
   const [c, setC] = useState<Cuore | null>(null);
   const [diag, setDiag] = useState<Diagnosi | null>(null);
@@ -51,6 +60,10 @@ export default function MacchinaHomeCard() {
       fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
       fetch("/api/memoria/radiografia-marketplace", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
     ]).then(([rad, ac, sito]) => {
+      // AR-256: qui sotto si legge dentro tre risposte che possono arrivare malformate. Se una riga
+      // lancia, l'eccezione avviene DENTRO il .then() e `setLinks` non viene mai chiamato: dalla home
+      // spariscono in silenzio i tre collegamenti alla salute. Non un errore — proprio il vuoto, come
+      // se non ci fosse niente da vedere. La difesa è in fondo (.catch → LINK_BASE).
       // AR-253 — quarta copia della stessa lettura, l'unica rimasta nuda: qui il crash sarebbe sulla
       // HOME, cioè la prima cosa che Nicola vede. Stessa difesa delle altre tre, dalla stessa fonte.
       const difetti = rad?.collegato ? listaSicura<any>(rad.cantiere?.difetti).filter((x) => x.stato !== "chiuso").length : 0;
@@ -77,6 +90,11 @@ export default function MacchinaHomeCard() {
           semaforo: blocc > 0 ? "rosso" : (sito?.meta?.gravi ?? 0) > 0 ? "giallo" : "verde",
         },
       ]);
+    }).catch(() => {
+      // AR-256: se qualcosa è andato storto leggendo, i tre collegamenti restano — con etichetta
+      // onesta e semaforo grigio. Sparire in silenzio dice a Nicola «non c'è niente da guardare»;
+      // restare con «dato non leggibile» dice la verità, e il collegamento continua a funzionare.
+      setLinks(LINK_BASE);
     });
   }, []);
 

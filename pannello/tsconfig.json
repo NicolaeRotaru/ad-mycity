@@ -6,6 +6,11 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
+    // AR-232 — la decisione dell'autopilota vive in un modulo puro che ANCHE il cervello esegue
+    // (cervello/test/secondo-parere-sul-contenuto.test.mjs lo importa con Node). Node ESM pretende
+    // l'estensione nel percorso; senza questo flag TypeScript la rifiuta. Il modulo e uno solo: e la
+    // richiesta esplicita del fix («le due meta usano lo stesso metro»).
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",

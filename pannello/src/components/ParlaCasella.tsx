@@ -56,6 +56,11 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   const [bozza, setBozza] = useState("");
   const [inviando, setInviando] = useState(false);
   const [msgs, setMsgs] = useState<ParlaMsg[]>([]);
+  // AR-268: specchio sincrono del thread. Fra l'invio e la risposta possono passare minuti, e in
+  // quell'attesa `msgs` cambia: chi salva deve partire da com'è ADESSO, non da com'era alla
+  // partenza. Stesso pattern di `convIdRef` nell'Assistente.
+  const msgsRef = useRef<ParlaMsg[]>(msgs);
+  msgsRef.current = msgs;
   const [convId, setConvId] = useState<string | null>(null);
   const [salvata, setSalvata] = useState(false);
   // Onestà del salvataggio: la spunta verde vale SOLO se è finito nella memoria condivisa.
@@ -234,9 +239,21 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
       // ③ Aspetta la risposta e completa il thread salvato.
       const esito = await attendiEsitoLavoro(lavoro.id, lavoro.tipo, lavoro.timeoutMs);
       if (esito.definitiva) {
-        const completa: ParlaMsg[] = [...conMio, { role: "assistant", content: esito.testo, created_at: new Date().toISOString() }];
-        setMsgs(completa);
-        const idFinale = (await salvaConversazioneCasella(id, chiave, completa)).id;
+        // AR-268 — NON RICOSTRUIRE IL THREAD DA UNO SNAPSHOT VECCHIO.
+        // `conMio` è congelato al momento dell'invio, ma fra l'invio e la risposta possono passare
+        // fino a cinque minuti: in quell'attesa il listener del bus può aver rimpiazzato `msgs` con
+        // una versione più recente. Ripartire da `conMio` cancellava tutto ciò che era arrivato nel
+        // frattempo — e `salvaConversazioneCasella` faceva una PATCH cieca che SOSTITUISCE l'intera
+        // colonna `messaggi`, quindi la perdita finiva anche sul server.
+        // Si riparte dallo stato CORRENTE e si fonde. La stessa difesa esiste da tempo
+        // nell'Assistente («ANTI-RACE al COMMIT»): mancava solo nel percorso gemello della casella.
+        // Lo stato corrente si legge dal ref (aggiornato a ogni render), non dentro l'updater di
+        // `setMsgs`: un updater può essere richiamato più volte da React, e quello che serve qui è
+        // un valore stabile da mandare al salvataggio.
+        const risposta: ParlaMsg = { role: "assistant", content: esito.testo, created_at: new Date().toISOString() };
+        const daSalvare = fondiMessaggi(msgsRef.current.filter((m) => !m.pending), [...conMio, risposta]);
+        setMsgs(daSalvare);
+        const idFinale = (await salvaConversazioneCasella(id, chiave, daSalvare)).id;
         if (idFinale) setConvId(idFinale);
       } else {
         // Tempo scaduto: l'avviso resta solo a schermo (pending, non salvato) — la risposta

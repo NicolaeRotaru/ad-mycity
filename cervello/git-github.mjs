@@ -147,6 +147,12 @@ export function gitAuthUrl(cfg) {
 // valore = "ok|errore · dettaglio · AAAA-MM-GG HH:MM". Il Pannello li mostra e
 // l'AD li controlla a ogni giro (sentinella). Se Supabase non è configurato, no-op.
 
+// AR-119 — il confine della firma. Questa è l'UNICA scrittura del cervello su `impostazioni` che
+// passa da qui, e tocca solo il prefisso dichiarato sotto. La chiave di servizio potrebbe scrivere
+// qualunque riga, `azione:<id>:firma` compresa: il confine non è nei permessi, è qui. Il guardiano
+// `cervello/firma-check.mjs` legge questa riga e fallisce se compare una chiave di firma.
+export const CHIAVI_SCRITTE = ["automazione:"];
+
 export async function stampSegnale(nome, esito, dettaglio = "") {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_KEY;

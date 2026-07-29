@@ -55,7 +55,7 @@ const FINDINGS = {
 const REPO = '/home/user/ad-mycity'
 
 const DIMS = [
-  { key: 'coerenza-agenti', focus: 'coerenza dei 42 agenti in .claude/agents/: CONTA i file reali; buchi di copertura (capacità mancanti), doppioni/sovrapposizioni di mandato, description vaghe che sballano il routing, agenti orfani mai richiamati da CLAUDE.md/COMANDI.md, responsabilità in conflitto' },
+  { key: 'coerenza-agenti', focus: 'coerenza dei 120 agenti in .claude/agents/: CONTA i file reali; buchi di copertura (capacità mancanti), doppioni/sovrapposizioni di mandato, description vaghe che sballano il routing, agenti orfani mai richiamati da CLAUDE.md/COMANDI.md, responsabilità in conflitto' },
   { key: 'vettori-installati', focus: 'i vettori di MyCity-Vault/07-Agenti/ (VETTORI-MULTINAZIONALE, STAMPO-SENIOR-PRO, RUBRICA-LIVELLI) sono DAVVERO nei prompt degli agenti (loop interno, metro/rubrica, trappole, carburante) o solo descritti nei doc? quali senior sono a metà' },
   { key: 'salute-sensori-dati', focus: 'sensori e dati: Supabase/Stripe/PostHog/Resend raggiungibili e usati? cervello/radar-fonti.json con fonti vive o morte/stale? quali sensori ciechi e da quanto? verifica davvero, non fidarti delle dichiarazioni' },
   { key: 'integrita-memoria', focus: 'integrità del vault (MyCity-Vault/90-Memoria-AI e memoria-squadra): ridondanze, contraddizioni, file stale/morti, JSON divergenti dai contratti di cervello/auto-coscienza.md, KPI divergenti vs GLOSSARIO-KPI (una sola verità)' },

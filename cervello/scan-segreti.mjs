@@ -13,14 +13,23 @@
 //
 // Exit: 0 = pulito · 1 = trovato almeno un segreto (BLOCCA) · 2 = errore interno
 
-import { execFileSync } from "node:child_process";
 import { readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
-import { REGOLE_SEGRETI, campioneRedatto } from "./segreti-pattern.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
+import { REGOLE_SEGRETI, campioneRedatto, provaRegole } from "./segreti-pattern.mjs";
+
+// AR-339 — la difesa si prova su un repo FINTO, non solo su questo.
+// Senza questa via una prova non poteva costruire un albero con un nome accentato e un finto
+// segreto dentro, e l'unico modo di provare il fix sarebbe stato scrivere un file con la forma di
+// una chiave vera dentro il repo VERO — cioè il gesto che il 25/7 ha bloccato la pubblicazione
+// della memoria (AR-270). Stessa via che stampo-check apre con STAMPO_AGENTS_DIR, per lo stesso motivo.
+const REPO_FINTO = Boolean(process.env.SCAN_SEGRETI_REPO);
+const REPO = process.env.SCAN_SEGRETI_REPO || AD_ROOT;
 
 const JSON_MODE = process.argv.includes("--json");
 const STAGED_ONLY = process.argv.includes("--staged");
+const PROVA = process.argv.includes("--prova");
 
 const REGOLE = REGOLE_SEGRETI;
 
@@ -51,28 +60,83 @@ function reda(s) {
   return campioneRedatto(s);
 }
 
-/** Elenco dei file da scansionare: quelli che git considera versionabili (tracciati + non-ignorati). */
+/**
+ * Elenco dei file da scansionare: quelli che git considera versionabili (tracciati + non-ignorati).
+ *
+ * AR-339 — passa dalla porta di `percorsi-git.mjs`. Prima chiedeva l'elenco a git senza `-z` e i 26
+ * file del vault con l'accento nel percorso tornavano citati e in ottali: `statSync` falliva e il
+ * ciclo li saltava in silenzio, contandoli però nel totale dichiarato. Lo scanner diceva «nessun
+ * segreto in 2040 file» avendone aperti 2014.
+ */
 function fileDaScansionare() {
   try {
     if (STAGED_ONLY) {
-      const out = execFileSync("git", ["diff", "--cached", "--name-only", "--diff-filter=ACM"], {
-        cwd: AD_ROOT,
-        encoding: "utf8",
-      });
-      return out.split("\n").map((s) => s.trim()).filter(Boolean);
+      return percorsiDaGit(["diff", "--cached", "--name-only", "--diff-filter=ACM"], { cwd: REPO });
     }
     // tracciati + non-tracciati-non-ignorati (esclude ciò che .gitignore protegge, es. i .env reali)
-    const out = execFileSync("git", ["ls-files", "--cached", "--others", "--exclude-standard"], {
-      cwd: AD_ROOT,
-      encoding: "utf8",
-    });
-    return out.split("\n").map((s) => s.trim()).filter(Boolean);
+    return percorsiDaGit(["ls-files", "--cached", "--others", "--exclude-standard"], { cwd: REPO });
   } catch (e) {
     throw new Error(`git non disponibile: ${e.message || e}`);
   }
 }
 
+/**
+ * AR-275 — `--prova`: la difesa si prova, non si dichiara. Passa un campione FINTO di ogni famiglia
+ * di chiave che il cervello usa davvero (elenco in segreti-pattern.mjs) e pretende che la regola
+ * corrispondente scatti. Esce ≠0 se una famiglia non ha regola o se la regola non morde: è così che
+ * ci si accorge di una chiave nuova entrata nell'ambiente senza difesa, invece di scoprirlo dopo.
+ */
+function provaEEsci() {
+  const quando = nowPiacenza();
+  const esito = provaRegole();
+  if (JSON_MODE) {
+    console.log(JSON.stringify({ esito: esito.ok ? "ok" : "buchi", quando, ...esito }, null, 2));
+  } else {
+    console.log(`\n🧪 PROVA REGOLE SEGRETI — ${quando}\n`);
+    if (esito.ok) {
+      console.log(`✅ ${esito.provate}/${esito.provate} famiglie di chiave in uso hanno una regola che scatta.`);
+    } else {
+      console.log(`❌ ${esito.falliti.length} famiglie SCOPERTE su ${esito.provate}:\n`);
+      for (const f of esito.falliti) console.log(`  • ${f.env} → "${f.regola}": ${f.motivo}`);
+      console.log(`\nAggiungi/correggi la regola in cervello/segreti-pattern.mjs.`);
+    }
+  }
+  // Il segnale non si ingoia in silenzio: se non riesco a scriverlo lo dico (malattia «errore-ingoiato»).
+  stampSegnale("scan-segreti", esito.ok ? "ok" : "errore", `prova regole: ${esito.ok ? "tutte scattano" : `${esito.falliti.length} scoperte`} · ${quando}`)
+    .catch((e) => console.error(`⚠️  segnale scan-segreti non scritto: ${e.message || e}`));
+  process.exit(esito.ok ? 0 : 1);
+}
+
+/**
+ * AR-339 — il verdetto in una funzione pura, così una prova lo esegue su casi che nel repo non
+ * esistono (per fortuna) ancora.
+ *
+ * Tre esiti, non due. Il terzo è quello che mancava: **cieco**. Un percorso che git ci ha dato e che
+ * non riusciamo ad aprire non è un file pulito, è un file che non abbiamo guardato — e uno scanner
+ * che li conta fra i controllati mente sulla propria copertura mentre suona il verde. Vince sul
+ * pulito e cede al trovato: se un segreto c'è, quello resta il problema più urgente.
+ *
+ * Il numero dichiarato è sempre quello dei file DAVVERO letti, mai la lunghezza dell'elenco.
+ *
+ * @returns {{esito: "pulito"|"cieco"|"trovato", sintesi: string, codice: 0|1|2}}
+ */
+export function verdetto({ letti = 0, nonRaggiunti = [], trovati = [] } = {}) {
+  if (trovati.length) {
+    const file = new Set(trovati.map((t) => t.file)).size;
+    return { esito: "trovato", codice: 1, sintesi: `${trovati.length} possibili segreti in ${file} file` };
+  }
+  if (nonRaggiunti.length) {
+    return {
+      esito: "cieco",
+      codice: 2,
+      sintesi: `${nonRaggiunti.length} file elencati da git che non sono riuscito ad aprire: su ${letti} letti non posso dire «pulito»`,
+    };
+  }
+  return { esito: "pulito", codice: 0, sintesi: `nessun segreto in ${letti} file versionabili` };
+}
+
 function main() {
+  if (PROVA) return provaEEsci();
   const quando = nowPiacenza();
   let files;
   try {
@@ -83,13 +147,19 @@ function main() {
   }
 
   const trovati = [];
+  // AR-339 — tre silenzi diversi che prima erano lo stesso `continue`. Solo il primo è un difetto
+  // NOSTRO: un percorso che git ci ha dato e che non riusciamo ad aprire significa che abbiamo letto
+  // male l'elenco, non che il file è pulito.
+  const nonRaggiunti = [];
+  let letti = 0;
   for (const rel of files) {
     if (SKIP_EXT.test(rel)) continue;
-    const abs = join(AD_ROOT, rel);
+    const abs = join(REPO, rel);
     let st;
     try {
       st = statSync(abs);
     } catch {
+      nonRaggiunti.push(rel);
       continue;
     }
     if (!st.isFile() || st.size > 2_000_000) continue; // salta file enormi
@@ -97,8 +167,9 @@ function main() {
     try {
       testo = readFileSync(abs, "utf8");
     } catch {
-      continue; // binario/non-utf8
+      continue; // binario/non-utf8: saltarlo è corretto, e non lo contiamo fra i letti
     }
+    letti++;
     for (const regola of REGOLE) {
       regola.re.lastIndex = 0;
       const m = testo.match(regola.re);
@@ -111,19 +182,22 @@ function main() {
     }
   }
 
-  const esito = trovati.length ? "trovato" : "pulito";
-  const sintesi = trovati.length
-    ? `${trovati.length} possibili segreti in ${new Set(trovati.map((t) => t.file)).size} file`
-    : `nessun segreto in ${files.length} file versionabili`;
+  const { esito, sintesi, codice } = verdetto({ letti, nonRaggiunti, trovati });
 
-  stampSegnale("scan-segreti", trovati.length ? "errore" : "ok", `${sintesi} · ${quando}`).catch(() => {});
+  if (!REPO_FINTO) stampSegnale("scan-segreti", codice === 0 ? "ok" : "errore", `${sintesi} · ${quando}`).catch(() => {});
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ esito, quando, sintesi, trovati }, null, 2));
+    console.log(JSON.stringify({ esito, quando, sintesi, trovati, letti, non_raggiunti: nonRaggiunti }, null, 2));
   } else {
     console.log(`\n🔒 SCAN SEGRETI — ${quando}\n`);
-    if (!trovati.length) {
+    if (esito === "pulito") {
       console.log(`✅ ${sintesi}`);
+    } else if (esito === "cieco") {
+      console.log(`❌ ${sintesi}\n`);
+      for (const p of nonRaggiunti.slice(0, 10)) console.log(`  • ${p}`);
+      if (nonRaggiunti.length > 10) console.log(`  … e altri ${nonRaggiunti.length - 10}`);
+      console.log(`\nNon posso dire che sono puliti: non li ho aperti. Chiedi l'elenco dalla porta`);
+      console.log(`di cervello/percorsi-git.mjs, che restituisce i percorsi come stanno sul disco.`);
     } else {
       console.log(`❌ ${sintesi}. BLOCCA il commit finché non sono rimossi:\n`);
       for (const t of trovati) console.log(`  • ${t.file} — ${t.regola}: ${t.campione}`);
@@ -131,7 +205,10 @@ function main() {
     }
   }
 
-  process.exit(trovati.length ? 1 : 0);
+  process.exit(codice);
 }
 
-main();
+// Importare questo file NON deve far partire la scansione: la prova di AR-339 importa `verdetto`
+// per eseguire la decisione su ingressi finti, e senza questa guardia `main()` partirebbe (e
+// chiamerebbe process.exit) dentro il test. Stessa guardia di spazzata-fratelli, per lo stesso motivo.
+if (import.meta.url === `file://${process.argv[1]}`) main();

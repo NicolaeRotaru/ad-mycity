@@ -119,6 +119,9 @@ export default function RadiografiaDiSe() {
   // un solo `null` fra i difetti e `x.stato` porta via tutta la pagina del Cervello. La stessa lista
   // era già indurita lato server e nuda lato browser — qui si legge una volta, con la difesa giusta.
   const difetti = listaSicura<Difetto>(cantiere?.difetti);
+  // Il totale dei chiusi viene dai META, non dalla lista: la lista è una finestra sui più recenti
+  // (il server ne manda 40), e contare le righe ricevute farebbe dire «40 chiusi» quando sono 135.
+  const chiusiTotali = typeof cantiere?.meta?.chiusi === "number" ? cantiere.meta.chiusi : difetti.filter((x) => x.stato === "chiuso").length;
   // AR-252 — stessa difesa per i campi della radiografia che il giro a volte scrive come frase invece
   // che come elenco: `?.length` è vero anche sulle stringhe, `.map` no.
   const proposte = listaSicura<{ cosa?: string; perche?: string }>(r?.proposte_nuovi_pezzi);
@@ -232,7 +235,11 @@ export default function RadiografiaDiSe() {
                 { k: "Loop chiude", ok: !!r.sonda.loop_chiude },
                 { k: `Lezioni applicate ${Math.round((r.sonda.tasso_applicazione || 0) * 100)}%`, ok: (r.sonda.tasso_applicazione || 0) >= 0.3 },
                 { k: "Giro a cadenza", ok: !!r.sonda.giro_a_cadenza },
-                { k: "Sentinelle attive", ok: !!r.sonda.sentinelle_scattano },
+                // AR-183 — la spia era al contrario: `sentinelle_scattano` è il nome dell'ALLARME
+                // (true = sensori ciechi da ≥3 giri, o zero sensori vivi), non della salute. Il chip
+                // lo leggeva come «le sentinelle funzionano» e mostrava verde proprio quando la
+                // macchina era cieca. Nome e verso ora dicono la stessa cosa: verde = sensori sani.
+                { k: "Sensori sani", ok: !r.sonda.sentinelle_scattano },
               ].map((s) => (
                 <span key={s.k} className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ring-1 ${s.ok ? "bg-green-50 text-green-700 ring-green-200" : "bg-red-50 text-red-700 ring-red-200"}`}>
                   <Activity size={11} /> {s.k}
@@ -439,17 +446,34 @@ export default function RadiografiaDiSe() {
                   </details>
                 );
               })}
-              {chiusi.length > 0 && (
-                <div className="pt-1">
-                  <div className="t-micro mb-1.5">Chiusi</div>
-                  {chiusi.map((x, i) => (
-                    <div key={i} className="text-[12px] text-black/50 flex gap-1.5">
-                      <CheckCircle2 size={13} className="text-green-600 shrink-0" />
-                      <span className="line-through">{comeTesto(x.titolo)}</span>
-                      {x.chiuso_il && <span className="shrink-0 text-black/35">· {dataVault(x.chiuso_il)}</span>}
-                    </div>
-                  ))}
-                </div>
+              {/* AR-221 — i chiusi erano un muro di righe piatte, senza modo di richiuderlo: 135 voci
+                  sotto la lista che serve davvero, su un telefono. Ora è un accordion chiuso di
+                  default (preferenza di Nicola sulle liste lunghe, chat 25/7 ~17:13), con il summary
+                  alto abbastanza da centrarlo col pollice. Stesso stile del blocco qui sopra. */}
+              {chiusiTotali > 0 && (
+                <details className="pt-1 group/chiusi">
+                  <summary className="min-h-[44px] flex items-center gap-2 cursor-pointer select-none list-none t-micro hover:text-brand [&::-webkit-details-marker]:hidden">
+                    <span className="group-open/chiusi:rotate-90 transition-transform inline-block text-black/40">▸</span>
+                    <CheckCircle2 size={13} className="text-green-600 shrink-0" />
+                    {chiusiTotali} già chiusi
+                  </summary>
+                  <div className="mt-1.5 space-y-0.5">
+                    {chiusi.map((x, i) => (
+                      <div key={i} className="text-[12px] text-black/50 flex gap-1.5">
+                        <CheckCircle2 size={13} className="text-green-600 shrink-0" />
+                        <span className="line-through">{comeTesto(x.titolo)}</span>
+                        {x.chiuso_il && <span className="shrink-0 text-black/35">· {dataVault(x.chiuso_il)}</span>}
+                      </div>
+                    ))}
+                    {/* Un elenco troncato che non lo dice è la stessa bugia che questo lotto sta togliendo
+                        dalla rete: qui si dichiara quanti se ne vedono e quanti sono davvero. */}
+                    {chiusiTotali > chiusi.length && (
+                      <p className="t-eti pt-1">
+                        Mostrati i {chiusi.length} più recenti su {chiusiTotali}: i più vecchi restano nel cantiere, non a video.
+                      </p>
+                    )}
+                  </div>
+                </details>
               )}
             </div>
           )}

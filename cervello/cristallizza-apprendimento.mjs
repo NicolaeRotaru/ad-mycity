@@ -28,6 +28,7 @@
 // o è rotto, non fa nulla ed esce 0 (non deve mai rompere un giro).
 
 import { readFileSync, writeFileSync, existsSync, rmSync } from "node:fs";
+import { passoDovuto, tettoDecadutePerGiro } from "./tetti-archivio.mjs"; // AR-182: il tempo si misura in tempo
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -43,7 +44,9 @@ const MAX_PROMOZIONI = maxIdx >= 0 && args[maxIdx + 1] ? Math.max(1, Number(args
 const CONF_PRINCIPIO = 0.8;
 const EVIDENZE_PRINCIPIO = 3;
 const DECAY_DAYS = 28; // ~4 settimane senza riconferma → inizia a decadere
-const DECAY_STEP = 0.15; // quanto scende la confidenza a ogni decadimento
+const DECAY_STEP = 0.15; // quanto scende la confidenza a OGNI PASSO (non a ogni esecuzione — AR-182)
+const DECAY_OGNI_GG = 7; // AR-182: un passo al massimo ogni 7 giorni. Il tempo si misura in tempo.
+const DECAY_MAX_PER_GIRO = 5; // AR-182: quante lezioni possono morire in un giro solo
 const CONF_MORTE = 0.3; // sotto = decaduta
 
 function oraRoma() {
@@ -113,17 +116,46 @@ dati.principi = tuttiPrincipi.map((l) => ({
 }));
 
 // --- 3) DECADIMENTO: attive non riconfermate da > DECAY_DAYS ---
+//
+// AR-182 — lo sconto era applicato A OGNI ESECUZIONE. Lo script è nato come passo di un ciclo
+// SETTIMANALE ed è finito dentro un giro che gira 9 volte al giorno: «−0,15 ogni tanto» è diventato
+// «−1,35 al giorno», e nessuno se n'è accorto perché il codice non era cambiato — era cambiata la
+// frequenza sotto i piedi.
+//
+// Misurato il 28/7, il giorno in cui la cosa sarebbe partita: DECAY_DAYS=28 e la lezione più vecchia
+// aveva esattamente 28 giorni. 2 lezioni superavano la soglia quel giorno, 17 entro il giorno dopo,
+// 38 entro tre giorni; con confidenza mediana 0,86 bastavano 4 esecuzioni per scendere sotto 0,3,
+// cioè **10,7 ore**. Un'estinzione di massa a blocchi che nessuno aveva deciso.
+//
+// Ora il passo è legato al TEMPO (al massimo uno ogni DECAY_OGNI_GG giorni) e c'è un tetto per giro:
+// una memoria che si svuota a blocchi non sta invecchiando, sta perdendo pezzi — e va vista mentre
+// succede, non dopo.
 const decadute = [];
+const rimandate = [];
 for (const l of lezioni) {
   if (!l || l.stato !== "attiva") continue;
-  if (giorniDa(l.ultima_conferma || l.nato) > DECAY_DAYS) {
-    l.confidenza = Math.max(0, Number(l.confidenza || 0) - DECAY_STEP);
-    if (l.confidenza < CONF_MORTE) {
-      l.stato = "decaduta";
-      l.decaduta_il = ora;
-      decadute.push({ id: l.id, testo: String(l.testo || "").slice(0, 70) });
-    }
+  const { decade } = passoDovuto({
+    ultimaConferma: l.ultima_conferma || l.nato,
+    ultimoPasso: l.decaduto_step_il,
+    giorniSoglia: DECAY_DAYS,
+    giorniFraPassi: DECAY_OGNI_GG,
+  });
+  if (!decade) continue;
+  const { ammesse } = tettoDecadutePerGiro(decadute.length + 1, DECAY_MAX_PER_GIRO);
+  if (ammesse <= decadute.length) {
+    rimandate.push(l.id); // il tetto per giro è pieno: ci riprova il prossimo giro
+    continue;
   }
+  l.confidenza = Math.max(0, Number(l.confidenza || 0) - DECAY_STEP);
+  l.decaduto_step_il = ora; // ← senza questa riga il passo tornerebbe a essere per esecuzione
+  if (l.confidenza < CONF_MORTE) {
+    l.stato = "decaduta";
+    l.decaduta_il = ora;
+    decadute.push({ id: l.id, testo: String(l.testo || "").slice(0, 70) });
+  }
+}
+if (rimandate.length) {
+  console.log(`   ⏳ ${rimandate.length} lezioni oltre soglia rimandate al prossimo giro (tetto ${DECAY_MAX_PER_GIRO}/giro, AR-182).`);
 }
 
 // --- 4) meta ---

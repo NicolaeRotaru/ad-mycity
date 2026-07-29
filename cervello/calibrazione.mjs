@@ -20,6 +20,7 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { nonEUnaPrevisione } from "./volano-regole.mjs";
+import { CAUSE_AMMESSE, contaNelPunteggio, fineFinestra, invarianteRotta, punteggioOnesto } from "./previsione-verificabile.mjs";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
@@ -80,18 +81,47 @@ function statoSensori() {
   return { sensori, ciechi, tot, quotaCiechiAlta: tot > 0 && ciechi / tot >= 2 / 3 };
 }
 
-// AR-061: mappa la fonte di un esito al sensore automatico corrispondente e ne legge lo stato.
+// AR-061 / AR-171 — da quale strumento è stata misurata questa previsione, e quello strumento vedeva?
+//
+// Il difetto trovato il 28/7 era più largo di come era stato scritto. Sì, la mappa cercava la chiave
+// `posthog` mentre nel file dei sensori si chiama `posthog_api` (scritta a memoria invece che leggendo
+// le chiavi vere). Ma il guasto grosso è che la ricerca era un `mappa[fonte]` ESATTO su un campo di
+// testo libero: una fonte come «PostHog (nessun evento click_lista_attesa registrato) + registro-fatti»
+// non corrispondeva a niente, cadeva nel ramo «fonte umana» e CONTAVA nel punteggio.
+// Misurato sul registro reale: 41 voci chiuse su 42 stavano a `n/d` = conta — di cui 36 provenienti da
+// «chiusura-loop ESITO», cioè dal quaderno che la macchina scrive da sé.
+//
+// Il default era rovesciato: si escludeva solo ciò che si sapeva riconoscere come cieco. Ora si include
+// solo ciò che si riconosce come visto — tutto il resto è `sconosciuto` e non fa guadagnare autonomia.
+// Leggere la propria memoria non è misurare la realtà: è lo stesso giudizio circolare di AR-279.
+
+/** Fonti umane dichiarate: non vengono da un sensore, e va benissimo — un documento firmato è una misura. */
+const FONTI_UMANE = [/documento firmato/i, /conferma di nicola/i, /firma di nicola/i, /intervista/i, /sopralluogo/i];
+
+/** I sensori automatici con le chiavi VERE di sensori-cecita.json (verificate sul file, non a memoria). */
+const SENSORI_PER_FONTE = [
+  { re: /supabase\s*mcp|mcp\s*supabase/i, chiavi: ["mcp_supabase", "supabase_rest"] },
+  { re: /stripe\s*mcp|mcp\s*stripe/i, chiavi: ["mcp_stripe", "stripe_api"] },
+  { re: /posthog/i, chiavi: ["posthog_api"] },
+  { re: /stripe/i, chiavi: ["stripe_api"] },
+  { re: /resend/i, chiavi: ["resend_api"] },
+  { re: /\bn8n\b/i, chiavi: ["n8n_health"] },
+  { re: /telegram/i, chiavi: ["telegram_bot"] },
+  { re: /supabase|\bREST\b/i, chiavi: ["supabase_rest"] },
+];
+
 function sensoreStatoPerFonte(fonte) {
+  const f = String(fonte ?? "").trim();
+  if (!f) return "sconosciuto";
   const { sensori } = statoSensori();
-  const mappa = {
-    "Supabase MCP": ["mcp_supabase", "supabase_rest"],
-    "Stripe MCP": ["stripe_api"],
-    PostHog: ["posthog"],
-  };
-  const chiavi = mappa[fonte];
-  if (!chiavi) return "n/d"; // fonti umane (documento firmato, conferma di Nicola): non da sensore automatico
-  if (chiavi.some((k) => sensori[k]?.stato === "ok")) return "ok";
-  if (chiavi.some((k) => sensori[k])) return "cieco";
+  const voce = SENSORI_PER_FONTE.find((s) => s.re.test(f));
+  if (voce) {
+    if (voce.chiavi.some((k) => sensori[k]?.stato === "ok")) return "ok";
+    if (voce.chiavi.some((k) => sensori[k])) return "cieco";
+    // Il sensore è nominato ma nel file non esiste: è il caso AR-171. Non è «non applicabile».
+    return "sconosciuto";
+  }
+  if (FONTI_UMANE.some((re) => re.test(f))) return "n/d";
   return "sconosciuto";
 }
 
@@ -229,20 +259,22 @@ function ricalcolaReparti(data) {
       perRep.set(rep, cur);
       continue;
     }
-    if (e.stato === "azzeccata" || e.stato === "mancata") {
-      // AR-061: un esito misurato con sensore-fonte cieco NON conta nel punteggio (autonomia non si guadagna al buio).
-      if (e.sensore_stato === "cieco") {
-        perRep.set(rep, cur);
-        continue;
-      }
-      // AR-044: previsioni banali (status-quo) non contano per l'autonomia.
-      if (e.banale === true) {
-        perRep.set(rep, cur);
-        continue;
-      }
-      cur.previsioni += 1;
-      if (e.stato === "azzeccata") cur.azzeccate += 1;
+    // AR-173/AR-172/AR-168 — un'unica decisione, in un posto solo: `contaNelPunteggio`.
+    //
+    // Prima i motivi di esclusione erano sparsi qui dentro come `continue`, e una seconda definizione
+    // della stessa cosa viveva in `volano-regole.previsioneValida` — che conosceva anche «nata già
+    // chiusa» e la finestra, mentre questo blocco no. Due definizioni di «questa voce conta» che non
+    // erano d'accordo: misurato il 28/7, tutte e CINQUE le voci che facevano punteggio erano state
+    // chiuse il 26/7 in una passata di recupero, oltre la loro scadenza — compreso l'unico centro
+    // dell'AD, chiuso NOVE giorni dopo il termine che si era dato.
+    const giudizio = contaNelPunteggio(e, { nonPrevisione: false });
+    if (!giudizio.conta) {
+      cur.escluse = (cur.escluse || 0) + 1;
+      perRep.set(rep, cur);
+      continue;
     }
+    cur.previsioni += 1;
+    if (e.stato === "azzeccata") cur.azzeccate += 1;
     perRep.set(rep, cur);
   }
   data.per_reparto = [...perRep.values()].map((r) => {
@@ -260,7 +292,10 @@ function ricalcolaReparti(data) {
     }
     // AR-061: con >=2/3 sensori ciechi il 'reale' è poco misurabile → cappa l'autonomia a 'media'.
     if (quotaCiechiAlta && autonomia === "alta") autonomia = "media";
-    return { reparto: r.reparto, previsioni: r.previsioni, azzeccate: r.azzeccate, punteggio, lower_bound: lowerBound, autonomia }; // AR-065: lower_bound = confidenza (Wilson 90%)
+    // AR-173: «0 previsioni» e «0 previsioni, 5 escluse» sono due cose diverse. La prima dice «non ha
+    // mai provato», la seconda «ha provato e le prove non erano verificabili»: senza il secondo numero
+    // il reparto sembra inattivo invece che non misurabile.
+    return { reparto: r.reparto, previsioni: r.previsioni, azzeccate: r.azzeccate, escluse: r.escluse || 0, punteggio, lower_bound: lowerBound, autonomia }; // AR-065: lower_bound = confidenza (Wilson 90%)
   });
   data.per_reparto.sort((a, b) => b.punteggio - a.punteggio);
 }
@@ -289,6 +324,23 @@ function cmdPrevedi(data) {
     console.error(`❌ --atteso deve essere un numero (ricevuto: ${attesoRaw}).`);
     process.exit(2);
   }
+  // AR-172 — il valore di partenza, preso QUANDO si apre la previsione. Senza, «prevedo 0 ordini»
+  // e «prevedo che gli 0 ordini restino 0» sono la stessa riga: il filtro anti-banalità leggeva le
+  // PAROLE («invariati», «status quo») e su 42 voci ne ha riconosciute 3.
+  const baselineRaw = arg("baseline");
+  const baseline = baselineRaw == null ? null : Number(baselineRaw);
+  if (baselineRaw != null && Number.isNaN(baseline)) {
+    console.error(`❌ --baseline deve essere un numero (ricevuto: ${baselineRaw}).`);
+    process.exit(2);
+  }
+  if (baseline == null) {
+    console.warn(
+      "⚠️  Nessuna --baseline: senza il valore di partenza questa previsione non è giudicabile come\n" +
+        "   banale, e dal 2026-07-28 «valida» la boccia. Es: --baseline=0 se oggi la metrica vale 0."
+    );
+  } else if (baseline === atteso) {
+    console.warn(`⚠️  atteso (${atteso}) uguale alla baseline (${baseline}): stai prevedendo che il fermo resti fermo. Non conterà nel punteggio.`);
+  }
   const id = arg("id") || nuovoId(reparto);
   if (data.registro.some((e) => e.id === id)) {
     console.error(`❌ id già esistente: ${id}`);
@@ -300,6 +352,7 @@ function cmdPrevedi(data) {
     azione,
     metrica,
     atteso,
+    baseline, // AR-172: il valore di partenza, letto ORA e non ricostruito a posteriori
     reale: null,
     entro,
     tolleranza: Number(arg("tolleranza", TOLLERANZA_DEFAULT)),
@@ -348,13 +401,41 @@ function cmdEsito(data) {
     );
     process.exit(2);
   }
+  // AR-173 — la finestra che ci si è dati vale, anche quando misurare tardi farebbe comodo.
+  // Misurato il 28/7: le CINQUE voci che facevano punteggio erano state chiuse tutte il 26/7 in una
+  // passata di recupero, oltre la loro scadenza — compreso l'unico centro dell'AD, dichiarato
+  // azzeccato NOVE giorni dopo il termine. Una previsione misurata quando fa comodo non è una
+  // previsione: è una cosa che si continua a guardare finché non torna.
+  const limite = fineFinestra(e.entro);
+  const oltre = limite != null && Date.now() > limite;
+  if (oltre && !process.argv.includes("--fuori-finestra")) {
+    console.error(
+      `❌ AR-173: la finestra di ${id} si è chiusa il ${String(e.entro).slice(0, 10)} — oggi è troppo tardi per dichiararne l'esito.\n` +
+        "   Una misura tardiva non è un centro. Se il dato è comunque informativo chiudila con\n" +
+        "   --fuori-finestra: resta a registro, dice perché, e NON conta nel punteggio."
+    );
+    process.exit(2);
+  }
+  if (oltre) {
+    // AR-173, ultima clausola: una misura tardiva «salda il debito e chiede una riga di lezione».
+    // Non è un obbligo tecnico — è la domanda che rende utile un ritardo invece di solo perdonarlo.
+    console.warn(
+      `⚠️  Chiusura FUORI FINESTRA: la scadenza era il ${String(e.entro).slice(0, 10)}. La voce entra a\n` +
+        "   registro e NON fa punteggio. Prima di andare avanti, una riga sola: perché è stata misurata\n" +
+        "   in ritardo — non c'era il dato, non c'era il tempo, o la finestra era irrealistica?\n" +
+        `   node cervello/chiusura-loop.mjs registra ${e.reparto} "previsione ${e.id} misurata in ritardo" "<perché>" "" ""`
+    );
+  }
   let { azzeccata, scarto_pct } = valuta(e.atteso, reale, e.tolleranza || TOLLERANZA_DEFAULT);
   const sensoreStato = sensoreStatoPerFonte(fonte);
   // AR-061: sensore-fonte cieco → non si può chiudere "azzeccata" (over-confidence al buio).
   if (sensoreStato === "cieco" && azzeccata) {
     console.error(
       `❌ AR-061: sensore-fonte cieco per "${fonte}" — non si può confermare al buio.\n` +
-        `   Usa --fonte="conferma di Nicola" se c'è verifica umana, oppure chiudi come mancata (--causa=dato).`
+        "   Prima strada: riaccendi il sensore e rimisura (node cervello/verifica-sensori.mjs).\n" +
+        "   Seconda: chiudila come mancata dichiarando perché (--causa=dato).\n" +
+        "   AR-170 — una verifica umana vale, ma deve dire DOVE: --fonte=\"conferma di Nicola (#card)\"\n" +
+        "   oppure con la riga di DECISIONI e la sua ora. Senza il riferimento non è una misura."
     );
     process.exit(2);
   }
@@ -443,7 +524,16 @@ function cmdPromozioni(data) {
     const blocco =
       `\n## 🟡 Dai più autonomia a ${r.reparto}: se lo ha dimostrato coi numeri, i suoi lavori di routine partono da soli\n` +
       `- **Data:** ${quando}\n` +
-      `- **Prova (calibrazione):** ${r.azzeccate}/${r.previsioni} previsioni azzeccate · punteggio ${r.punteggio} · confidenza Wilson ${r.lower_bound} (≥0.7 su ≥${MIN_CAMPIONE_ALTA} esiti reali = autonomia GUADAGNATA, non a simpatia).\n` +
+      // AR-168, ultima clausola — la card deve dire «N previsioni DICHIARATE PRIMA dell'esito», non «N righe».
+      //
+      // Il meccanismo era già a posto: dal lotto 16 il punteggio esclude le voci nate chiuse, quindi una
+      // riga scritta a cose fatte non può gonfiare una promozione. Ma la card non lo DICEVA, e la card è
+      // quello che Nicola firma: «8/8 previsioni azzeccate» e «8 previsioni aperte prima di sapere come
+      // andava, su 42 righe a registro» sono due frasi che chiedono due firme diverse.
+      `- **Prova (calibrazione):** ${r.azzeccate}/${r.previsioni} previsioni **dichiarate prima di conoscere l'esito** e poi azzeccate · punteggio ${r.punteggio} · confidenza Wilson ${r.lower_bound} (≥0.7 su ≥${MIN_CAMPIONE_ALTA} esiti reali = autonomia GUADAGNATA, non a simpatia).\n` +
+      (r.escluse
+        ? `- **Non contate:** altre ${r.escluse} voci di ${r.reparto} sono a registro ma non fanno punteggio (nate già chiuse, banali, fuori finestra o misurate da un sensore che non vedeva). Il numero sopra è al netto di quelle.\n`
+        : "") +
       `- **Cosa cambia:** le azioni 🟡 di ROUTINE di ${r.reparto} (bozze, aggiornamenti interni, contenuti non pubblici) passano a 🟢 "fai e annota". I 🔴 (soldi, clienti reali, pubblicazioni) restano 🔴 con la tua firma, sempre.\n` +
       `- **Se va bene:** meno card in coda per te, il reparto lavora più veloce; al primo esito MANCATO l'autonomia riscende da sola (la calibrazione continua a misurare).\n` +
       `- **Come:** rispondi "ok promozione ${r.reparto}" — l'AD aggiorna il mansionario del senior (auto-modifica 🟡). {origine:mossa:promozione-${r.reparto.replace(/^@/, "")}}\n` +
@@ -472,8 +562,13 @@ function cmdReport(data) {
   write(data);
   const aperte = data.registro.filter((e) => e.stato === "aperta");
   const scadute = data.registro.filter((e) => e.stato === "scaduta");
+  // AR-173/AR-172 — il denominatore accanto al punteggio. «8 azzeccate» senza dire su quante voci e
+  // quante escluse è lo stesso numero che ha permesso a questi difetti di vivere un mese: misurato il
+  // 28/7, delle 8 azzeccate NESSUNA era senza difetti, e le 5 voci che facevano punteggio erano tutte
+  // chiuse oltre la loro finestra.
+  const onesto = punteggioOnesto(data.registro, { nonPrevisione: nonEUnaPrevisione });
   if (process.argv.includes("--json")) {
-    console.log(JSON.stringify({ per_reparto: data.per_reparto, aperte, scadute }, null, 2));
+    console.log(JSON.stringify({ per_reparto: data.per_reparto, onesto, aperte, scadute }, null, 2));
     return;
   }
   console.log(`\n🎯 CALIBRAZIONE — ${data.aggiornato}\n`);
@@ -485,6 +580,12 @@ function cmdReport(data) {
       console.log(`${r.reparto.padEnd(20)} ${String(`${r.azzeccate}/${r.previsioni}`).padEnd(12)} ${String(r.punteggio).padEnd(10)} ${r.autonomia}`);
     }
   }
+  const motivi = Object.entries(onesto.escluse).map(([m, n]) => `${n} ${m}`).join(" · ");
+  console.log(
+    `\nSu ${onesto.campione} voci a registro ne contano ${onesto.contano}` +
+      (motivi ? ` — escluse: ${motivi}` : "") +
+      "\n(una voce esclusa non è un errore in meno: è una prova che non c'era)"
+  );
   console.log(`\nPrevisioni aperte: ${aperte.length}${scadute.length ? ` · scadute senza esito: ${scadute.length}` : ""}`);
   for (const e of aperte) {
     console.log(`  · [${e.id}] ${e.reparto}: ${e.metrica} atteso ${e.atteso}${e.entro ? ` entro ${e.entro}` : ""} — ${e.azione}`);
@@ -533,13 +634,26 @@ function cmdDaLoop(data) {
   const fonte = "chiusura-loop ESITO";
   const { azzeccata, scarto_pct } = valuta(atteso, reale, TOLLERANZA_DEFAULT);
   const quando = nowPiacenza();
-  data.registro.push({
+
+  // AR-168 — **una riga ESITO non può diventare una previsione.**
+  //
+  // Qui il commento diceva l'opposto del codice, e vale la pena lasciarlo a verbale: una riparazione
+  // precedente aveva rinominato la metrica in `esito_loop_numerico` APPOSTA perché le righe nuove
+  // contassero («sono previsioni vere e devono contare»). Ma queste righe nascono con
+  // `creato === chiuso_il`, nello stesso istante: chi le scrive conosce già il risultato mentre le
+  // scrive. Non è una previsione, è un verbale. Misurato il 28/7: 37 voci su 42 erano così.
+  //
+  // Il lotto 16 le escludeva già dal punteggio (`nata-chiusa`), ma continuavano a entrare nel
+  // registro che alimenta l'autonomia — sporcandolo e facendo sembrare che ci fosse un campione.
+  // Ora vanno in `osservazioni`: restano, si possono leggere, non fanno punteggio e non fingono.
+  //
+  // Chi vuole una previsione vera la apre PRIMA del lavoro:
+  //   node cervello/chiusura-loop.mjs prevedi <reparto> "<azione>" <metrica> <atteso> <baseline> <entro>
+  data.osservazioni = Array.isArray(data.osservazioni) ? data.osservazioni : [];
+  data.osservazioni.push({
     id,
     reparto,
     azione,
-    // Nome NUOVO, e non è cosmesi: `esito_loop` è il marchio delle 36 righe fabbricate dal ponte
-    // rotto, e `ricalcolaReparti` le esclude dal punteggio per quel nome. Le righe che nascono da
-    // qui in avanti sono passate da `numeroDichiarato()` — sono previsioni vere e devono contare.
     metrica: "esito_loop_numerico",
     atteso,
     reale,
@@ -550,18 +664,35 @@ function cmdDaLoop(data) {
     fonte,
     sensore_stato: sensoreStatoPerFonte(fonte),
     banale: isPrevisioneBanale({ azione, metrica: "esito_loop", atteso, nota: "" }, reale),
-    nota: "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
+    nota: "Osservazione dal ponte chiusura-loop.mjs registra — NON è una previsione: atteso e reale sono stati scritti nello stesso momento",
     creato: quando,
     chiuso_il: quando,
   });
   ricalcolaReparti(data);
   write(data);
-  console.log(`🔗 da-loop [${id}] ${reparto}: atteso ${atteso} → reale ${reale} (${azzeccata ? "azzeccata" : "mancata"})`);
+  console.log(`🔗 da-loop [${id}] ${reparto}: atteso ${atteso} → reale ${reale} (${azzeccata ? "in linea" : "fuori"}) — registrata come OSSERVAZIONE, non fa punteggio.`);
+  console.log("   Per una previsione che conta, aprila PRIMA del lavoro:");
+  console.log(`   node cervello/chiusura-loop.mjs prevedi ${reparto} "${azione}" <metrica> <atteso> <baseline> <entro>`);
 }
 
 // AR-040/AR-041: apre automaticamente UNA previsione baseline @AD se il registro è vuoto.
 // Legge i dati correnti dai sensori (sensori-cecita.json) per costruire la metrica.
 // Usato in giro.sh PRIMA del motore, così il motore può poi chiamare `esito` al giro dopo.
+/**
+ * AR-172 — quanti ordini ci sono ADESSO, letto dalla casa unica dei fatti.
+ *
+ * Non è una stima e non è un sensore: è il fatto `northstar.consegnati`, che ha una fonte dichiarata
+ * e una data. Se non c'è o non è un numero, torna null — e chi chiama non apre nessuna previsione.
+ * Al buio non si dà la risposta comoda, nemmeno quando la risposta comoda è «parti da zero».
+ */
+function baselineOrdiniDaiFatti() {
+  const reg = readJsonSafe(join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/registro-fatti.json"), {});
+  const f = (reg.fatti || []).find((x) => x.id === "northstar.consegnati");
+  if (!f) return null;
+  const n = Number(String(f.valore ?? "").trim());
+  return Number.isFinite(n) ? n : null;
+}
+
 function cmdAutoprevedi(data) {
   const strutturate = data.registro.filter((e) => e.id && (e.stato === "aperta" || e.stato === "scaduta" || e.stato === "azzeccata" || e.stato === "mancata"));
   if (strutturate.length > 0) {
@@ -569,7 +700,26 @@ function cmdAutoprevedi(data) {
     console.log(`✅ autoprevedi: ${strutturate.length} voci strutturate (${aperte.length} aperte) — nessuna nuova previsione baseline aperta.`);
     return;
   }
-  // Registro vuoto: apri la prima previsione baseline @AD ordini.
+  // AR-172 — la previsione automatica non INVENTA più l'atteso.
+  //
+  // Prima apriva sempre `atteso: 1` su `ordini_totali`, senza sapere quanti ordini ci fossero.
+  // Se il numero vero era già 1, la previsione nasceva azzeccata; se era 0, «1» era un desiderio
+  // scritto come misura. In entrambi i casi il punteggio si nutriva di una cifra decisa a tavolino.
+  //
+  // La clausola del fix è precisa e va rispettata alla lettera: apre **solo** se può leggere una
+  // baseline vera, e l'atteso dev'essere DIVERSO da quella — altrimenti non apre nulla e lo dice.
+  // La baseline si legge dalla casa unica dei fatti (`registro-fatti.json`, AR-102), non da una
+  // stima: se quel fatto non c'è, questo comando tace invece di riempire il registro di rumore.
+  const baseline = baselineOrdiniDaiFatti();
+  if (baseline == null) {
+    console.log(
+      "⏭️  autoprevedi: nessuna previsione aperta — non riesco a leggere quanti ordini ci sono adesso\n" +
+        "   (manca il fatto `northstar.consegnati` in registro-fatti.json). Senza il valore di partenza\n" +
+        "   una previsione non è giudicabile: meglio nessuna che una inventata."
+    );
+    return;
+  }
+  const attesoAuto = baseline + 1; // un passo avanti dal reale, non un numero deciso a tavolino
   const domani = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
   const reparto = "@AD";
   const id = nuovoId(reparto);
@@ -578,7 +728,8 @@ function cmdAutoprevedi(data) {
     reparto,
     azione: "giro-routine-settimanale",
     metrica: "ordini_totali",
-    atteso: 1,
+    atteso: attesoAuto,
+    baseline,
     reale: null,
     entro: domani,
     tolleranza: TOLLERANZA_DEFAULT,
@@ -591,7 +742,7 @@ function cmdAutoprevedi(data) {
   data.registro.push(entry);
   ricalcolaReparti(data);
   write(data);
-  console.log(`✅ AR-040/autoprevedi: prima previsione strutturata aperta [${id}] @AD: ordini_totali atteso 1 entro ${domani}.`);
+  console.log(`✅ autoprevedi: prima previsione aperta [${id}] @AD — ordini_totali: oggi ${baseline}, atteso ${attesoAuto} entro ${domani}.`);
   console.log(`   Al giro dopo: node cervello/calibrazione.mjs esito --id=${id} --reale=<n> --fonte="Supabase MCP"`);
 }
 
@@ -666,8 +817,16 @@ function cmdRipara(data) {
 }
 
 // AR-061/AR-044: guardiano registro — niente esito chiuso senza fonte+sensore_stato, niente voci legacy attive.
+// AR-169/AR-170 — il taglio da cui l'invariante lega.
+//
+// Lo storico non si riscrive (AR-102): le 42 voci scritte prima di questa data restano com'erano,
+// esenti e dichiarate tali. Il vincolo prende da qui in avanti, così il cancello nasce VERDE e
+// prende la prima voce che sporca — invece di nascere rosso su 34 e venire spento entro la settimana.
+const INVARIANTE_DAL = "2026-07-28";
+
 function cmdValida(data) {
   const problemi = [];
+  const esenti = [];
   for (const e of data.registro) {
     if (!e.id || !STATI_VALIDI.has(e.stato)) {
       problemi.push(`voce legacy attiva (${e.reparto || "?"}): esegui archivia-legacy`);
@@ -681,12 +840,31 @@ function cmdValida(data) {
         problemi.push(`${e.id}: azzeccata con sensore-fonte cieco — ricalibra o usa fonte umana`);
       }
     }
+    // AR-169/AR-170 — l'obbligo passa dalla PORTA all'INVARIANTE.
+    //
+    // `cmdEsito` questi cancelli li ha già: pretende la fonte, il sensore, e da PZ-011 la causa su
+    // ogni mancata. Eppure nel registro non c'è UNA SOLA causa, su 42 voci. Il motivo è che
+    // `cmdEsito` non è l'unica porta: il ponte `da-loop` scrive diretto (30 delle 34 mancate senza
+    // causa vengono da lì) e il 26/7 una passata di recupero ne ha chiuse cinque in blocco. Finché
+    // il controllo vive nella porta, basta una porta nuova per aggirarlo — e una porta nuova si
+    // aggiunge sempre. Stessa forma di AR-272: il cancello al confine, non dentro ogni esecutore.
+    const rotte = invarianteRotta(e, INVARIANTE_DAL);
+    if (rotte.length) problemi.push(`${e.id}: ${rotte.join(", ")}`);
+    else if (invarianteRotta(e).length) esenti.push(e.id);
   }
   if (problemi.length) {
     console.error(`❌ valida calibrazione: ${problemi.join(" · ")}`);
     process.exit(1);
   }
   console.log("✅ valida: registro conforme (fonte+sensore_stato su chiuse, nessuna voce legacy attiva).");
+  // Le esenzioni si DICHIARANO. Un verde che tace su 34 voci esentate è lo stesso silenzio che ha
+  // permesso a questo difetto di vivere un mese.
+  if (esenti.length) {
+    console.log(
+      `   ℹ️  ${esenti.length} voci precedenti al ${INVARIANTE_DAL} sono esenti dall'invariante (causa/fonte verificabile):\n` +
+        "      lo storico non si riscrive, ma non conta nemmeno come conforme. Le nuove sono legate."
+    );
+  }
 }
 
 async function main() {

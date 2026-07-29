@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { creaLavoro, setImpostazione, getImpostazioni, memoryConnected } from "@/lib/store";
+import { STATUS_SCRITTURA_FALLITA } from "@/lib/esito-scrittura";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -45,9 +46,21 @@ export async function POST(req: NextRequest) {
     }
     const at = new Date().toISOString();
     // 1) Salva la risposta (per il Pannello: "già risposto").
-    await setImpostazione(`risposta:${qid}`, JSON.stringify({ risposta: testo, at, domanda: String(domanda ?? "") }));
+    //
+    // AR-238: prima si faceva `await setImpostazione(...)` senza guardare il booleano che torna, e
+    // si rispondeva `ok:true` comunque. Con la memoria staccata il riquadro diventava verde, e
+    // trenta secondi dopo il ripasso rileggeva dal server — che non aveva niente — e la stessa
+    // domanda ricompariva. Se la risposta non è salvata NON si accoda nemmeno il lavoro: un lavoro
+    // accodato su una risposta che il Pannello continuerà a richiedere è il doppione garantito.
+    const salvata = await setImpostazione(`risposta:${qid}`, JSON.stringify({ risposta: testo, at, domanda: String(domanda ?? "") }));
+    if (!salvata) {
+      return NextResponse.json(
+        { ok: false, error: "Risposta non salvata — riprova." },
+        { status: STATUS_SCRITTURA_FALLITA },
+      );
+    }
     // 2) Accoda al cervello come lavoro, così al prossimo giro la applica e chiude la domanda.
-    await creaLavoro(
+    const lavoro = await creaLavoro(
       "Nicola ha RISPOSTO a una domanda della tua auto-analisi.\n" +
         `Domanda: «${String(domanda ?? "(non riportata)")}»\n` +
         `Risposta di Nicola: «${testo}»\n` +
@@ -55,7 +68,10 @@ export async function POST(req: NextRequest) {
         "applica ciò che Nicola ha indicato e NON riproporre questa domanda nelle prossime auto-analisi.",
       "risposta"
     );
-    return NextResponse.json({ ok: true, at });
+    // La risposta è salvata (il Pannello può dire «già risposto» in verità); se però il cervello
+    // non l'ha presa in carico va detto, altrimenti Nicola resta ad aspettare un'azione che nessuno
+    // eseguirà. Non è un errore della risposta: è un avviso sul seguito.
+    return NextResponse.json({ ok: true, at, accodata: Boolean(lavoro), avviso: lavoro ? "" : "Risposta salvata, ma il cervello non l'ha presa in carico — la applicherà al prossimo giro." });
   } catch (e: any) {
     return NextResponse.json({ ok: false, error: e?.message || "Errore" }, { status: 500 });
   }

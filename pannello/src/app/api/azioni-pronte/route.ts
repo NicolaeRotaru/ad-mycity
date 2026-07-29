@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { getImpostazioni, setImpostazione, logAzione } from "@/lib/store";
 import { eseguiAzione } from "@/lib/mani";
-import { tutteLeAzioni, statoDa } from "@/lib/azioni-pronte";
+import { tutteLeAzioni, tutteLeAzioniConEsito, statoDa } from "@/lib/azioni-pronte";
 import { verificaQualita } from "@/lib/qualita";
 import { chiudiAzioniMergeCompletate, estraiMergePr, isCanaleGithub, prGiaMergiata } from "@/lib/github-pr-merge";
 import { registraFirma, revocaFirma } from "@/lib/firma-azione";
+import { attoGiaAvviato } from "@/lib/atto-unico";
+import { esitoScritture, STATUS_SCRITTURA_FALLITA } from "@/lib/esito-scrittura";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,7 +24,8 @@ export const revalidate = 0;
 // invio firmato degradava a DRY-RUN.
 
 export async function GET() {
-  const blocchi = await tutteLeAzioni();
+  // AR-233: serve sapere se la coda è stata LETTA, non solo quante card contiene.
+  const { azioni: blocchi, codaLeggibile, motivoCoda } = await tutteLeAzioniConEsito();
   const { tabella, valori } = await getImpostazioni();
   const conStato = await chiudiAzioniMergeCompletate(
     blocchi,
@@ -50,7 +53,11 @@ export async function GET() {
     qualita: verificaQualita(b),
   }));
   return NextResponse.json({
-    collegato: blocchi.length > 0,
+    // AR-233: «collegato» si deduceva dal CONTEGGIO — quindi una coda vuota e una coda mai letta
+    // erano indistinguibili, e la home stampava «Niente da firmare. 👍» in entrambi i casi.
+    collegato: codaLeggibile,
+    coda_leggibile: codaLeggibile,
+    motivo_coda: motivoCoda,
     salvataggio: tabella,
     autopilota: valori["autopilota"] === "on",
     azioni,
@@ -72,29 +79,48 @@ export async function POST(req: Request) {
   const azione = (await tutteLeAzioni()).find((a) => a.id === id);
 
   if (dec === "rifiuta" || dec === "annulla") {
-    // 🔴 BLOCCANTE (radiografia 3/7): "annulla" NON deve azzerare lo stato di un'azione GIÀ ESEGUITA.
+    // 🔴 BLOCCANTE (radiografia 3/7): una decisione NON deve azzerare lo stato di un'azione GIÀ ESEGUITA.
     // Prima lo faceva incondizionatamente: annulla → ri-approva ri-eseguiva le "mani" (doppio merge/email/payout).
-    // Ora: annulla consentito SOLO se l'azione non è ancora partita ('' o 'rifiutata'); altrimenti 409.
-    if (dec === "annulla") {
-      const { valori: valoriPre } = await getImpostazioni();
-      const statoPre = valoriPre[`azione:${id}`] || "";
-      const giaEseguita = statoPre && statoPre !== "rifiutata"; // fatta / simulata / coda = già avviata
-      if (giaEseguita) {
-        return NextResponse.json(
-          { ok: false, giaEseguita: true, stato: statoDa(statoPre), error: "Azione già eseguita: non è annullabile (eviterebbe un doppio invio reale)." },
-          { status: 409 },
-        );
-      }
+    //
+    // AR-229: il controllo esisteva già ma solo dentro `if (dec === "annulla")`, cioè era appeso al
+    // NOME della decisione invece che allo stato dell'azione — l'unico fatto che conta. Quindi la
+    // strada approva → RIFIUTA → approva restava aperta: il rifiuto riscriveva lo stato in
+    // "rifiutata", che il ramo approva considera riapprovabile, e le mani partivano una seconda
+    // volta davvero. Ora la guardia sta su TUTTE le decisioni che riscrivono lo stato.
+    const { valori: valoriPre } = await getImpostazioni();
+    const statoPre = valoriPre[`azione:${id}`] || "";
+    if (attoGiaAvviato(statoPre)) {
+      return NextResponse.json(
+        { ok: false, giaEseguita: true, stato: statoDa(statoPre), error: "Azione già eseguita: non è più annullabile né rifiutabile (eviterebbe un doppio invio reale)." },
+        { status: 409 },
+      );
     }
     const stato = dec === "rifiuta" ? "rifiutata" : "";
     // AR-110: rifiutare/annullare TOGLIE anche la firma. Senza, un'azione approvata e poi
     // rifiutata resterebbe "firmata da Nicola" e potrebbe ancora autorizzare un invio dalla CLI.
-    await revocaFirma(id);
-    const salv = (await setImpostazione(`azione:${id}`, stato)) && (await setImpostazione(`azione:${id}:nota`, ""));
+    //
+    // AR-230: le tre scritture si raccolgono TUTTE (niente `&&`, che cortocircuita e salterebbe la
+    // seconda) e l'esito si guarda. Prima si rispondeva `ok:true` comunque: con Supabase giù la card
+    // diceva «rifiutata», al refresh tornava da decidere e la firma restava addosso — cioè il
+    // Pannello dichiarava una decisione che non esisteva da nessuna parte.
+    const revocata = await revocaFirma(id);
+    const salvStato = await setImpostazione(`azione:${id}`, stato);
+    const salvNota = await setImpostazione(`azione:${id}:nota`, "");
+    const scritture = esitoScritture([
+      { nome: "stato", ok: salvStato },
+      { nome: "nota", ok: salvNota },
+      { nome: "revoca firma", ok: revocata },
+    ]);
+    if (!scritture.ok) {
+      return NextResponse.json(
+        { ok: false, stato, esito: "", salvataggio: false, error: scritture.errore },
+        { status: STATUS_SCRITTURA_FALLITA },
+      );
+    }
     if (dec === "rifiuta" && azione) {
       await logAzione({ id, titolo: azione.titolo, reparto: azione.reparto, livello: azione.livello, stato: "rifiutata", esito: "", auto: false });
     }
-    return NextResponse.json({ ok: true, stato, esito: "", salvataggio: salv });
+    return NextResponse.json({ ok: true, stato, esito: "", salvataggio: true });
   }
 
   if (dec !== "approva") return NextResponse.json({ ok: false, error: "Decisione non valida." }, { status: 400 });

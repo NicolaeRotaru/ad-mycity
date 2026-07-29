@@ -2,6 +2,7 @@ import { getImpostazione, getImpostazioni, setImpostazione, logAzione } from "@/
 import { eseguiAzione } from "@/lib/mani";
 import { tutteLeAzioni, statoDa } from "@/lib/azioni-pronte";
 import { registraFirma } from "@/lib/firma-azione";
+import { selezionaAzioni } from "@/lib/selezione-autopilota";
 
 // Autopilota — il "battito" GRATIS della macchina (nessuna API AI, €0).
 // Esegue DA SOLO le azioni SICURE (🟢 verde) non ancora decise.
@@ -17,17 +18,37 @@ async function pausaAttiva(): Promise<boolean> {
   return (await getImpostazione("pausa")) === "on";
 }
 
-export async function eseguiAutopilota(): Promise<{ attivo: boolean; eseguite: number; in_pausa?: boolean }> {
+export async function eseguiAutopilota(): Promise<{ attivo: boolean; eseguite: number; degradate?: number; in_pausa?: boolean }> {
   const attivo = (await getImpostazione("autopilota")) === "on";
   if (!attivo) return { attivo: false, eseguite: 0 };
   if (await pausaAttiva()) return { attivo: true, eseguite: 0, in_pausa: true };
 
   const blocchi = await tutteLeAzioni();
   const { valori } = await getImpostazioni();
-  const sicure = blocchi.filter((b) => b.livello === "verde" && statoDa(valori[`azione:${b.id}`] || "") === "");
+  // AR-140 — il colore da solo non basta: lo scrive un senior nel markdown, e un 🟢 di troppo su una
+  // card che manda una mail farebbe partire una mail vera senza che nessuno l'abbia letta. Il canale
+  // è un fatto, l'emoji è una dichiarazione: se l'azione raggiunge qualcuno fuori, il livello sale a
+  // giallo e passa dalle mani di Nicola, qualunque cosa dica il testo. Può solo alzare, mai abbassare.
+  // AR-140 + AR-232 — la decisione NON vive qui dentro. Sta in `selezionaAzioni`, una funzione pura
+  // che una prova può eseguire su azioni finte: colore, canale e contenuto in un posto solo. Tenerla
+  // qui aveva un difetto sottile e già visto tre volte in questi lotti — un cancello dentro
+  // l'esecutore si spegne cambiando due caratteri, e la prova che lo guardava restava verde.
+  const nonDecise = blocchi.filter((b) => statoDa(valori[`azione:${b.id}`] || "") === "");
+  const selezione = selezionaAzioni(nonDecise);
+
+  // Le degradate si scrivono PRIMA di eseguire qualunque cosa: se la pausa arriva a metà, resta
+  // comunque a video il perché non sono partite, invece di sparire in silenzio.
+  for (const d of selezione.degradate) {
+    await setImpostazione(`azione:${d.azione.id}`, "coda");
+    await setImpostazione(`azione:${d.azione.id}:nota`, `🤖 non eseguita da sola — ${d.motivo}`);
+    await logAzione({
+      id: d.azione.id, titolo: d.azione.titolo, reparto: d.azione.reparto, livello: d.azione.livello,
+      stato: "coda", esito: `degradata (AR-232): ${d.indicatori.join(", ")}`, auto: true,
+    });
+  }
 
   let eseguite = 0;
-  for (const a of sicure) {
+  for (const a of selezione.esegui) {
     if (await pausaAttiva()) break; // pausa premuta durante il giro → fermati subito, non a fine ciclo
     const esito = await eseguiAzione({ titolo: a.titolo, canale: a.canale, destinatario: a.destinatario, testo: a.testo });
     // AR-110: qui ha deciso la MACCHINA, non Nicola. La firma si scrive lo stesso — serve la
@@ -40,5 +61,6 @@ export async function eseguiAutopilota(): Promise<{ attivo: boolean; eseguite: n
     await logAzione({ id: a.id, titolo: a.titolo, reparto: a.reparto, livello: a.livello, stato: esito.stato, esito: esito.dettaglio, auto: true });
     eseguite++;
   }
-  return { attivo: true, eseguite };
+  const degradate = selezione.degradate.length;
+  return { attivo: true, eseguite, degradate };
 }

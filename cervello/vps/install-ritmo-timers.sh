@@ -20,6 +20,7 @@ for unit in \
   mycity-sentinella.service mycity-sentinella.timer \
   mycity-sentinella-dati.service mycity-sentinella-dati.timer \
   mycity-verifica.service mycity-verifica.timer \
+  mycity-salute.service mycity-salute.timer \
   mycity-watch-main.service mycity-watch-main.timer
 do
   cp "$ENV_DIR/$unit" "/etc/systemd/system/$unit"

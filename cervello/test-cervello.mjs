@@ -39,11 +39,26 @@ export function trovaTest(elenco = []) {
   return elenco.filter((f) => f.endsWith(".test.mjs")).sort();
 }
 
-/** Legge il TAP di `node --test` e dice quanti sono passati e quanti falliti. */
+/**
+ * Legge il TAP di `node --test` e dice quanti sono passati e quanti falliti.
+ *
+ * ⚠️ Ci sono DUE conteggi nell'output, e per mesi si è letto quello sbagliato. `node --test` chiude
+ * col proprio riassunto — `# pass 1`, dove 1 è **il file**, non le sue asserzioni — mentre i test di
+ * questa casa stampano il proprio TAP a mano, che node ri-emette come commento con il cancelletto
+ * protetto: `# \# pass 8`. La vecchia regex `^# pass (\d+)$` prendeva solo il primo e riportava 1 per
+ * ognuno di questi file.
+ *
+ * Conseguenza misurata il 28/7: la suite dichiarava «276 asserzioni» con 39 file, cioè contava un
+ * punto per file invece delle asserzioni vere. Non era un falso verde (un file rotto restava rosso),
+ * ma era un numero che diceva una cosa diversa da quella che misurava — e quel numero finiva nelle
+ * PR come prova di copertura.
+ */
 export function leggiTap(out = "") {
   const testo = String(out);
-  const pass = testo.match(/^# pass (\d+)$/m);
-  const fail = testo.match(/^# fail (\d+)$/m);
+  const suo = (nome) => testo.match(new RegExp(`^#\\s+\\\\#\\s*${nome} (\\d+)`, "m"));
+  const proprio = (nome) => testo.match(new RegExp(`^# ${nome} (\\d+)$`, "m"));
+  const pass = suo("pass") || proprio("pass");
+  const fail = suo("fail") || proprio("fail");
   return { passati: pass ? Number(pass[1]) : null, falliti: fail ? Number(fail[1]) : null };
 }
 

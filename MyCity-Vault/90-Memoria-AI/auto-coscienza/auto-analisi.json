@@ -1,28 +1,30 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-29 14:21",
+  "data": "2026-07-27 06:20",
   "voto_fiducia": 90,
-  "sintesi": "Giro completo (\"esegui cervello/giro.md per intero\"), richiesto in chat 1h27 dopo il passaggio delle 12:54. Business riverificato dal vivo via Supabase MCP (execute_sql) — INVARIATO: 1 ordine (CANCELED, 24/6, stesso timestamp), 7 profili. `coerenza-fatti.mjs` rieseguito da terminale: exit 0, 21 fatti, 0 cacce aperte. Coda AZIONI-IN-ATTESA: 17 righe in attesa (invariata). Applicata la strategia snella per giri ripetuti a stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): nessuna ri-analisi delle 15 fasi, nessun nuovo 🟡/🔴.",
-  "trend_fiducia": "▬ 90→90 — stabile: stesso gap L2 di ieri (script cervello/*.mjs bloccati da approvazione Bash non sempre raggiungibile in sessione, card #239 già aperta su questo), nessuna regressione, nessun gap nuovo scoperto in questo passaggio.",
-  "errori_giro": [],
-  "domande_bloccanti": [
+  "sintesi": "Giro pieno heartbeat (19h dall'ultimo giro pieno 26/7 11:11). Riverificato dal vivo con query diretta (mcp__supabase-marketplace execute_sql): business INVARIATO — 1 ordine (CANCELED), 0 pagati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli abbandonati, stallo North Star ~33 giorni. Applicata la strategia snella per giri ripetuti a stato invariato: (1) misurato l'unico esperimento in scadenza oggi (EXP-002, mancata, stesso schema di EXP-004/005/007); (2) trovato e corretto un gap reale tra il principio 'mobile' scritto in prosa il 26/7 e lo stato strutturale mai settato — il guardiano continuava a segnalarlo come non cristallizzato; (3) valutato il nuovo cluster 'telegram' con lo stesso metodo di 'plugin'/'information-architecture' (reale, non ombrello, da scomporre); (4) coerenza-fatti verificata leggendo coerenza-fatti.json (esito 'ok'), non ri-eseguita con lo strumento (bloccato da approvazione in Bash).",
+  "trend_fiducia": "▬ 90→90 — stabile: stesso gap L2 di ieri (script diagnostici non eseguibili in Bash in questa sessione), ma oggi ho aggiunto `jq` per validare i JSON modificati (prima solo lettura a mano), un piccolo passo di tooling verificabile in più. Vedi refutazione.",
+  "entita_verificate": [
     {
-      "tipo": "vercel-auth",
-      "domanda": "Il Pannello resta apribile da chiunque abbia il link (AR-226): 30 secondi di Nicola su Vercel Authentication lo chiuderebbero — verificato da @security 29/7 00:16 come unico passo mancante.",
-      "azione": "card 🔴 #radiografia-serratura-pannello",
-      "colore": "🔴"
+      "nome": "Pane Quotidiano",
+      "stato": "confermato",
+      "fonte": "mcp__supabase-marketplace execute_sql 27/7 06:2x (invariato)"
     },
     {
-      "tipo": "controlli-avviso",
-      "domanda": "Nicola deve dire quali dei 4 controlli-avviso proposti stanotte promuovere a blocco vero.",
-      "azione": "risposta pronta in RITMO.md, in attesa della scelta di Nicola",
-      "colore": "🟡"
+      "nome": "0 ordini pagati / 1 ordine zombie CANCELED",
+      "stato": "confermato",
+      "fonte": "execute_sql orders 27/7 06:2x (ultimo ordine 24/6 08:28, invariato)"
+    },
+    {
+      "nome": "7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati / 407 lead",
+      "stato": "confermato",
+      "fonte": "execute_sql 27/7 06:2x"
+    },
+    {
+      "nome": "EXP-002 (WhatsApp anchor) misurato mancata",
+      "stato": "confermato",
+      "fonte": "AZIONI-IN-ATTESA.md riga #whatsapp-3-anchor-pi26 (ancora ⏸ in pausa) — nessun invio avvenuto"
     }
-  ],
-  "entita_verificate": [
-    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "query SQL diretta 2026-07-29 14:21 (Supabase MCP execute_sql)"},
-    {"nome": "0 ordini pagati / 1 ordine zombie CANCELED", "stato": "confermato", "fonte": "query SQL diretta 2026-07-29 14:21 (ultimo ordine 24/6 08:28, invariato)"},
-    {"nome": "bando.pi26.idoneita = non idoneo", "stato": "confermato", "fonte": "registro-fatti.json, decisione di Nicola 2026-07-29 00:10"}
   ],
   "benchmark": "Nessun lavoro creativo/importante in questo giro (business fermo per scelta di Nicola, nessuna pubblicazione/campagna in scope) — auto-miglioramento saltato di proposito, non per omissione.",
   "salute_macchina": {
@@ -31,6 +33,26 @@
     "dati_freschi": true,
     "sensori_attivi": 10
   },
-  "livello_verifica": "L3 (query SQL diretta eseguita ORA in questa sessione via Supabase MCP execute_sql — non riuso di dati vecchi; coerenza-fatti.mjs eseguito dal vivo con successo, exit 0)",
-  "refutazione": "REFUTAZIONE VERA su 1 claim di questo giro: 'lo stato è identico al passaggio delle 12:54' — non assunto per fiducia nel delta-gate: rieseguita una query SQL diretta indipendente (non riuso della cache) che conferma ordini=1 (stesso created_at)/profili=7, cifra per cifra uguale a 87 minuti fa. SOPRAVVIVE."
+  "livello_verifica": "L2 (query diretta al DB marketplace via MCP in questa sessione per i 7 numeri; gli script cervello/*.mjs non eseguibili in Bash — nessun prompt di approvazione raggiungibile in questa sessione headless — sostituiti da edit manuali che replicano la stessa logica, validati con `jq` invece che solo a occhio)",
+  "refutazione": "REFUTAZIONE VERA su 3 claim pesanti di questo giro: (1) 'business invariato' — non preso per buono dal delta-gate: ri-eseguita la query diretta (execute_sql su orders/profiles/products/reviews/abandoned_carts/merchants_leads), confronto numero per numero coi valori del giro di ieri 11:06 — IDENTICI. SOPRAVVIVE. (2) 'EXP-002 è mancata perché il gate non è mai partito' — non assunto dalla sola scadenza: verificata la riga viva `#whatsapp-3-anchor-pi26` in AZIONI-IN-ATTESA.md, ancora marcata '⏸ in pausa (rinvio negozi 24/8-1/9)', nessun'evidenza di invio in SALA-OPERATIVA/DECISIONI. SOPRAVVIVE. (3) 'mobile è ora cristallizzato, telegram no' — non accettato a scatola chiusa: letto il codice di `apprendimento-guardiano.mjs` (funzione `analizza`, riga `cristallizzato: ls.some(l => l.stato === 'principio')`) per capire ESATTAMENTE cosa il guardiano controlla, prima di concludere che la nota prosa del 26/7 non bastava; letti a campione 2 lezioni 'telegram' (L-2026-0720-406, L-2026-0720-374) per confermare che sono temi n8n/VPS distinti, non lo stesso errore ripetuto. SOPRAVVIVE.",
+  "domande_per_nicola": [
+    {
+      "tipo": "PI26",
+      "domanda": "PI26 sportello chiude tra 3 giorni (30/7 16:00). Un valutatore indipendente ha bocciato la bozza attuale: mancano 3 risposte di Nicola su ammissibilità.",
+      "azione": "card 🔴 #pi26-conferma-ammissibilita",
+      "colore": "🔴"
+    },
+    {
+      "tipo": "piano-squadra",
+      "domanda": "Nicola ha proposto una data di ripartenza (metà agosto) diversa da quella registrata (24/8-1/9) — non riscrivo il fatto senza conferma esplicita.",
+      "azione": "card 🟡 #conferma-piano-squadra-ripresa-negozi",
+      "colore": "🟡"
+    },
+    {
+      "tipo": "north_star",
+      "domanda": "North Star 0 da ~33 giorni. Ordine test PQ ancora l'unica mossa diretta verso il 1° ordine pagato.",
+      "azione": "card 🟡 #ordine-test-pq",
+      "colore": "🟡"
+    }
+  ]
 }

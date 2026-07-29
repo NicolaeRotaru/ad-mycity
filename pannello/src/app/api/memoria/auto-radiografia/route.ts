@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { cantiereSnello } from "@/lib/cantiere-snello";
+import { radiografiaSnella } from "@/lib/radiografia-snella";
 import { readVaultFile } from "@/lib/vault";
 import { sanificaListe } from "@/lib/memoria-json";
 
@@ -121,6 +123,19 @@ export async function GET() {
         "La macchina non ha ancora fatto la radiografia di sé. Lancia «radiografia di te stesso» (cervello/auto-radiografia.md) per generare il primo verdetto sulla propria architettura.",
     });
   }
+  // I totali si calcolano sul cantiere INTERO, prima di snellirlo: se li leggesse dalla versione
+  // ridotta, «135 chiusi» diventerebbe «40 chiusi» e la Cabina mentirebbe per troncamento.
   const live = calcolaLive(radiografia, cantiere);
-  return NextResponse.json({ collegato: true, live, radiografia, cantiere, storico, watchlist, lettera });
+
+  // AR-250/AR-221 — si compone la risposta invece di inoltrare il file. Misurato il 28/7: il cantiere
+  // intero è 607.409 byte per 271 difetti, riscaricati ogni 30 secondi sul telefono; con i soli campi
+  // che la scheda disegna scende a ~106 KB. L'83% che viaggiava non veniva mostrato da nessuno.
+  const cantiereRidotto = cantiereSnello(cantiere);
+
+  // La metà più grossa, dichiarata scoperta nel lotto 20 e chiusa qui. `auto-radiografia.json` è
+  // 614.805 byte e viaggiava intero: dentro, 109 findings CHIUSI pesano 338.175 byte e il componente
+  // li filtra via prima di disegnarli (RadiografiaDiSe.tsx:278). Andavano e venivano per essere
+  // scartati all'arrivo. Ora dei chiusi resta il conteggio — che serve — e non il contenuto.
+  const radiografiaRidotta = radiografiaSnella(radiografia);
+  return NextResponse.json({ collegato: true, live, radiografia: radiografiaRidotta, cantiere: cantiereRidotto, storico, watchlist, lettera });
 }

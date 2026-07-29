@@ -36,6 +36,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { scriviStatoSensore } from "./stato-sensori.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const SEGNA_PIENO = process.argv.includes("--segna-pieno");
@@ -195,9 +196,17 @@ async function main() {
     };
     state.giri_saltati_consecutivi = 0;
     state.aggiornato = quando;
-    writeJson(STATE_PATH, state);
-    if (JSON_MODE) console.log(JSON.stringify({ esito: "segnato-pieno", quando }, null, 2));
-    else console.log(`🚦 Delta-gate: giro PIENO registrato (${quando}).`);
+    // AR-281 — anche questa è una scrittura di stato-sensore, e alla cieca è la PEGGIORE delle due:
+    // promuovere a «ultimo pieno» una firma calcolata su zero righe convince il giro successivo che
+    // nulla è cambiato, e il giro pieno che serviva non parte. Trovato ri-guardando il mio stesso fix
+    // (la classe aveva un quinto punto oltre ai quattro dichiarati nel difetto).
+    const esitoSegna = scriviStatoSensore(STATE_PATH, state, {
+      ambienteConfigurato: Boolean(process.env.MARKETPLACE_SUPABASE_URL?.trim() && process.env.MARKETPLACE_SUPABASE_KEY?.trim()),
+      motivo: "MARKETPLACE_SUPABASE_URL/KEY assenti: la firma da promuovere sarebbe calcolata su zero righe",
+      scrittore: writeJson,
+    });
+    if (JSON_MODE) console.log(JSON.stringify({ esito: esitoSegna.scritto ? "segnato-pieno" : "non-segnato", quando, motivo: esitoSegna.spiegazione }, null, 2));
+    else console.log(esitoSegna.scritto ? `🚦 Delta-gate: giro PIENO registrato (${quando}).` : esitoSegna.spiegazione);
     process.exit(0);
   }
 
@@ -225,7 +234,15 @@ async function main() {
   state.storia = (state.storia || []).slice(-49);
   state.storia.push({ quando, esegui_pieno, motivo });
   state.aggiornato = quando;
-  writeJson(STATE_PATH, state);
+  // AR-281 — la firma si salva solo se è la firma di QUALCOSA. Senza le chiavi del marketplace i
+  // conteggi sono tutti nulli: persistere quella firma-di-nulla dalla sessione sbagliata fa sì che al
+  // giro successivo, sul VPS, "tutto risulti cambiato" e parta un giro pieno inutile (token bruciati).
+  const esitoScrittura = scriviStatoSensore(STATE_PATH, state, {
+    ambienteConfigurato: Boolean(process.env.MARKETPLACE_SUPABASE_URL?.trim() && process.env.MARKETPLACE_SUPABASE_KEY?.trim()),
+    motivo: "MARKETPLACE_SUPABASE_URL/KEY assenti: la firma sarebbe calcolata su zero righe",
+    scrittore: writeJson,
+  });
+  if (!esitoScrittura.scritto) console.error(esitoScrittura.spiegazione);
 
   await stampSegnale(
     "delta-gate",
