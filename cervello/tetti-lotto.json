@@ -1,9 +1,9 @@
 {
-  "prova_con_or": 22,
-  "mutazione_mancante": 0,
-  "_cosa_e": "🚧 TETTI DEL CANCELLO DI LOTTO — il debito di prove ereditato dalle radiografie vecchie. Scende quando curi, non si alza mai: aggiungerne una è una violazione, portarne via è il lavoro. Lo legge cervello/cancello-lotto.mjs.",
-  "_come_si_usa": "Dopo aver migrato altre prove a comando o aggiunto mutazioni: node cervello/cancello-lotto.mjs --aggiorna-tetti (scrive il minimo fra il tetto e la misura di adesso).",
-  "aggiornato": "2026-07-29 03:13",
-  "_perche_un_tetto_e_non_zero": "Alla prima accensione (2026-07-29) le prove a OR erano 23, tutte ereditate da radiografie vecchie. Un cancello che fallisce sul debito storico blocca OGNI lotto finché non lo si ripulisce tutto — e un cancello sempre rosso viene aggirato al secondo giro, che è peggio di non averlo. Il tetto separa il debito (misurato, visibile, in calo) dalla regressione (bloccata subito): una prova a OR NUOVA non entra mai, nemmeno sotto il tetto. Stessa cosa per mutazione_mancante.",
-  "_storia": "prova_con_or: 23 alla nascita (29/7) → 22 col lotto 29 (AR-261 migrato a prova comportamentale). mutazione_mancante: 3 alla nascita (29/7, lotto 30) — AR-238 e AR-268 hanno una prova a comando ereditata dal lotto 29 senza la loro voce in mutanti.json, AR-343 (i cancelli spenti nel clone) ha il test ma non la mutazione."
+ "prova_con_or": 21,
+ "mutazione_mancante": 0,
+ "_cosa_e": "🚧 TETTI DEL CANCELLO DI LOTTO — il debito di prove ereditato dalle radiografie vecchie. Scende quando curi, non si alza mai: aggiungerne una è una violazione, portarne via è il lavoro. Lo legge cervello/cancello-lotto.mjs.",
+ "_come_si_usa": "Dopo aver migrato altre prove a comando o aggiunto mutazioni: node cervello/cancello-lotto.mjs --aggiorna-tetti (scrive il minimo fra il tetto e la misura di adesso).",
+ "aggiornato": "2026-07-29 11:38",
+ "_perche_un_tetto_e_non_zero": "Alla prima accensione (2026-07-29) le prove a OR erano 23, tutte ereditate da radiografie vecchie. Un cancello che fallisce sul debito storico blocca OGNI lotto finché non lo si ripulisce tutto — e un cancello sempre rosso viene aggirato al secondo giro, che è peggio di non averlo. Il tetto separa il debito (misurato, visibile, in calo) dalla regressione (bloccata subito): una prova a OR NUOVA non entra mai, nemmeno sotto il tetto. Stessa cosa per mutazione_mancante.",
+ "_storia": "prova_con_or: 23 alla nascita (29/7) → 22 col lotto 29 (AR-261 migrato a prova comportamentale). mutazione_mancante: 3 alla nascita (29/7, lotto 30) — AR-238 e AR-268 hanno una prova a comando ereditata dal lotto 29 senza la loro voce in mutanti.json, AR-343 (i cancelli spenti nel clone) ha il test ma non la mutazione."
 }
