@@ -479,6 +479,132 @@
    "cerca": "  if (dataDiOggi && suo && suo !== String(dataDiOggi).trim()) {",
    "sostituisci": "  if (false) {",
    "test": "cervello/test/fonte-parziale.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-389",
+   "nome": "la cadenza torna a dirsi riuscita anche senza aver misurato l'esito",
+   "file": "cervello/esito-scrittura.mjs",
+   "cerca": "  if (misurato === false || misurato === 0 || misurato === \"0\") {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/annuncio-cadenza.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-397",
+   "nome": "l'esito del lavoro torna a scriversi una volta sola: se fallisce, il lavoro resta in_corso",
+   "file": "cervello/lib-esito-lavoro.sh",
+   "cerca": "  for (( tent = 1; tent <= max; tent++ )); do",
+   "sostituisci": "  for (( tent = 1; tent <= 1; tent++ )); do",
+   "test": "cervello/test/esito-lavoro-ricovero.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-399",
+   "nome": "la pubblicazione rimandata torna a chiudersi come «fatto» e nessuno la riprende",
+   "file": "cervello/esito-scrittura.mjs",
+   "cerca": "  if (rc === 2) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/sync-pendente.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-376",
+   "nome": "il guardiano dei permessi torna a non giudicare i settings veri",
+   "file": "cervello/test/permessi-di-guardia.test.mjs",
+   "cerca": "analizza(settingsVeri())",
+   "sostituisci": "analizza([])",
+   "test": "cervello/test/permessi-di-guardia.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-393",
+   "nome": "il cancello torna a raccomandare la mutazione invece di eseguirla",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "esegui(\"prove non vacue (mutazioni del lotto)\", \"node\", [\"cervello/non-vacuita.mjs\"",
+   "sostituisci": "esegui(\"prove non vacue (mutazioni del lotto)\", \"node\", [\"cervello/prove-oneste.mjs\"",
+   "test": "cervello/test/mutazioni-provate-dal-cancello.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-394",
+   "nome": "un verdetto morto nuovo non fa piu' rosso",
+   "file": "cervello/guardia-viva.mjs",
+   "cerca": "if (valori.some(eMisura)) continue;",
+   "sostituisci": "continue;",
+   "test": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-401",
+   "nome": "la Plancia torna a scrivere «tutto ok» su una lettura fallita",
+   "file": "pannello/src/lib/verdetto-dato.ts",
+   "cerca": "if (!e.ok) return ko(`il server ha risposto ${e.status}`);",
+   "sostituisci": "// mutante: r.ok ignorato, una 500 torna a passare per successo",
+   "test": "cervello/test/plancia-cieca.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-406",
+   "nome": "gli organi tornano verdi per costante, a macchina spenta",
+   "file": "pannello/src/lib/verdetto-dato.ts",
+   "cerca": "if (p.misura == null) return grigio(p.notaNonMisurato || `non misurato: nessun sensore su ${fonte}`);",
+   "sostituisci": "if (p.misura == null) return { stato: \"acceso\", icona: \"✅\", semaforo: \"verde\", nota: p.notaAcceso || \"attivo\", misurato: true, fonte };",
+   "test": "cervello/test/organi-verdi-per-costante.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-237",
+   "nome": "la targhetta torna a timbrare l'ora di lettura come eta' del dato",
+   "file": "pannello/src/lib/verdetto-dato.ts",
+   "cerca": "return { stato: \"ignota\", oreFa: null, prefisso: \"non so di quando sono questi dati\", ambra: true, mostra: true };",
+   "sostituisci": "return { stato: \"fresco\", oreFa: 0, prefisso: \"aggiornato\", ambra: false, mostra: true };",
+   "test": "cervello/test/freschezza-che-mente.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-255",
+   "nome": "lo storico torna a essere letto in due modi e il grafico si svuota",
+   "file": "pannello/src/lib/verdetto-dato.ts",
+   "cerca": "if (Array.isArray(storico)) return storico.filter(Boolean) as T[];",
+   "sostituisci": "// mutante: l'elenco nudo torna a non essere accettato",
+   "test": "cervello/test/storico-due-lettori.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-357",
+   "nome": "la media dei pilastri torna a scartare gli zeri e il voto risale",
+   "file": "cervello/sonda-volano.mjs",
+   "cerca": "return mediaCoperta(valori, { totale: dims.length, unita: \"dimensioni\", nome: \"voto salute (media dei pilastri)\" });",
+   "sostituisci": "return mediaCoperta(valori.filter((v) => v === null || v > 0), { totale: dims.length, unita: \"dimensioni\", nome: \"voto salute (media dei pilastri)\" });",
+   "test": "cervello/test/voto-che-sale-peggiorando.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-358",
+   "nome": "la pagella torna a perdere le righe che non sa classificare",
+   "file": "cervello/previsione-verificabile.mjs",
+   "cerca": "non_previsioni: conteggi.non_previsioni,",
+   "sostituisci": "non_previsioni: 0,",
+   "test": "cervello/test/pagella-che-perde-righe.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-362",
+   "nome": "le lezioni tornano a contarsi in tre modi diversi",
+   "file": "cervello/misura-parziale.mjs",
+   "cerca": "if (Array.isArray(u)) return u.length;",
+   "sostituisci": "if (Array.isArray(u)) return 0;",
+   "test": "cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+  },
+  {
+   "lotto": 35,
+   "difetto": "AR-353",
+   "nome": "il bollino verde torna a stamparsi senza aver misurato niente",
+   "file": "cervello/misura-parziale.mjs",
+   "cerca": "return { esito: \"cieco\", codice: 2, copertura, motivo: `${tot} controllate, ZERO misurate: non ho guardato niente, quindi non posso dire che va bene` };",
+   "sostituisci": "return { esito: \"ok\", codice: 0, copertura, motivo: \"nessuna sospetta\" };",
+   "test": "cervello/test/verde-senza-aver-misurato.test.mjs"
   }
  ]
 }
