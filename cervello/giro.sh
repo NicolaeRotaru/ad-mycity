@@ -357,6 +357,20 @@ if command -v node >/dev/null 2>&1; then
     PROVE_VINCOLO="⚠️ GUARDIANO PROVE CIECO (prove-oneste.mjs rc=$_prove_rc, AR-322): non ha potuto misurare l'onestà delle prove del cantiere. Ripara lo strumento — non fidarti del verde che non c'è."
     echo "[$(ts)] ⚠️  AR-330: prove-oneste CIECO (rc=$_prove_rc) → vincolo di cecità." >&2
   fi
+  # I FRENI DELLE LEZIONI, prima della pagella che li conta. L'ordine non è estetico: la pagella
+  # legge `con_gate` da apprendimento.json e non sa distinguere un freno vero da un campo compilato
+  # bene. Questo lo sa, e nasce HARD come prove-oneste e per lo stesso motivo — oggi vale zero su
+  # zero, quindi non blocca nessuno; si accorge del primo gate finto, che è l'unico momento in cui
+  # serve. Se partisse rosso lo spegnerebbero entro la settimana.
+  _gate_out="$(node "$SCRIPT_DIR/gate-veri.mjs" 2>&1)"; _gate_rc=$?
+  printf '%s\n' "$_gate_out" | tail -4
+  if [ "$_gate_rc" -eq 1 ]; then
+    GATE_VINCOLO="⛔ FRENI FINTI FRA LE LEZIONI (gate-veri.mjs rc=1): almeno una correzione di Nicola dichiara un gate che non può scattare — comando inesistente, oppure mai rotto apposta da una mutazione. Il punteggio 'ha imparato' sale senza che sia stata costruita nessuna difesa. Aggiungi la mutazione in cervello/mutanti.json (campo lezione: L-xxx), o togli il campo gate. Elenco: node cervello/gate-veri.mjs"
+    echo "[$(ts)] ⚠️  gate-veri FALLITO (rc=1) → vincolo hard al motore." >&2
+  elif [ "$_gate_rc" -ne 0 ]; then
+    GATE_VINCOLO="⚠️ GUARDIANO DEI FRENI CIECO (gate-veri.mjs rc=$_gate_rc): non ha potuto misurare se i gate dichiarati sono veri. Ripara lo strumento — non fidarti del verde che non c'è."
+    echo "[$(ts)] ⚠️  gate-veri CIECO (rc=$_gate_rc) → vincolo di cecità." >&2
+  fi
   echo "[$(ts)] Pagella dell'intelligenza (quanto manca a 'pronta')..."
   node "$SCRIPT_DIR/pagella-intelligenza.mjs" 2>&1 | esito_righe 8 || true
 
@@ -980,6 +994,12 @@ if [ -n "${PROVE_VINCOLO:-}" ]; then
 
 ## Vincolo prove oneste (HARD — AR-330: un difetto non può nascere già chiuso)
 $PROVE_VINCOLO"
+fi
+if [ -n "${GATE_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo freni delle lezioni (HARD — una correzione si chiude con un impedimento, non con una frase)
+$GATE_VINCOLO"
 fi
 if [ -n "${COSTO_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

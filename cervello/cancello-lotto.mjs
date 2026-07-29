@@ -478,6 +478,11 @@ function main() {
 
   const passi = [];
   if (!SOLO_PROVE) {
+    // I gate delle lezioni: costa 50 ms e impedisce l'unico modo di barare sulla pagella —
+    // scrivere `gate: "node …"` accanto a una correzione di Nicola senza una mutazione che provi
+    // che quel comando scatta davvero. Sta qui e non solo nel giro perché il momento in cui si è
+    // tentati di gonfiare il numero è la consegna, non il mattino dopo.
+    passi.push(esegui("gate delle lezioni", "node", ["cervello/gate-veri.mjs"]));
     passi.push(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]));
     passi.push(esegui("spazzata dei fratelli", "node", ["cervello/spazzata-fratelli.mjs"]));
     passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));

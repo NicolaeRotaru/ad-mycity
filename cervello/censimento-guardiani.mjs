@@ -111,6 +111,7 @@ export const DESCRIZIONI = {
   // ── I difetti si chiudono davvero? ────────────────────────────────────────
   "cantiere-prove": { famiglia: "cantiere", cosa: "Smaschera i difetti che nessun controllo automatico potrà mai chiudere: un difetto senza prova resta aperto per sempre." },
   "prove-oneste": { famiglia: "cantiere", cosa: "Impedisce a un difetto di nascere già chiuso, con una prova scritta apposta per essere verde." },
+  "gate-veri": { famiglia: "cantiere", cosa: "Impedisce di far salire il punteggio delle lezioni con freni finti: un gate dichiarato vale solo se esiste una mutazione che lo fa scattare davvero." },
   "auto-fix": { famiglia: "cantiere", cosa: "Chiude i difetti la cui prova è diventata verde per un fix vero, e lascia gli altri aperti." },
   "allinea-scan-cantiere": { famiglia: "cantiere", cosa: "Riallinea la vecchia foto della radiografia al cantiere di adesso, così la lista non mostra roba già riparata." },
   "sincronizza-proposte": { famiglia: "cantiere", cosa: "Tiene le proposte di auto-riscrittura agganciate allo stato vero del cantiere." },
