@@ -14,6 +14,7 @@ import UtilizzoSenior from "@/components/cervello/UtilizzoSenior";
 import { usePanelSync } from "@/lib/panel-sync";
 import { dimensioneLeggibile, humanizzaDifetto } from "@/lib/radiografia-umana";
 import { listaSicura } from "@/lib/memoria-json";
+import { serieSicura } from "@/lib/verdetto-dato";
 
 // 🧠 CERVELLO — l'area dove Nicola vede la macchina pensare su sé stessa: salute, auto-analisi del lavoro,
 // e la RADIOGRAFIA DI SÉ (la macchina analizza la propria architettura da cima a fondo).
@@ -132,7 +133,10 @@ export default function RadiografiaDiSe() {
   const chiusi = difetti
     .filter((x) => x.stato === "chiuso")
     .sort((a, b) => String(b?.chiuso_il || "").localeCompare(String(a?.chiuso_il || "")));
-  const serie = d?.storico?.serie || [];
+  // AR-255 — `|| []` non difende dalla FORMA: se `serie` arriva come oggetto, il `for (const s of
+  // serie)` qui sotto lancia in pieno render e porta via la pagina del Cervello. Stessa funzione del
+  // server: un file, un lettore.
+  const serie = serieSicura<{ data?: string; voto_salute?: number; difetti_aperti?: number; difetti_chiusi?: number }>(d?.storico);
   // 📈 Andamento LEGGIBILE: lo storico grezzo ha più radiografie nello stesso giorno →
   // qui si tiene UNA voce per giorno (l'ultima) e si mostrano al massimo le ultime 3 settimane.
   // Prima il grafico era rotto due volte: barre con height in % dentro una colonna senza

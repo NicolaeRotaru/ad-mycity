@@ -183,6 +183,56 @@ cadenza_ai_run() {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
+# ③bis L'ANNUNCIO CHE VA GUADAGNATO — AR-389
+# ─────────────────────────────────────────────────────────────────────────────
+# «Il piano del mattino dice sempre di essere andato bene, anche quando il motore non è mai partito.»
+# In `ritmo.sh` la riga «Ritmo $TIPO completato.» stava FUORI dal blocco del motore: usciva col
+# delta-gate che aveva spento la parte AI, dopo tre tentativi falliti e dopo un ri-accodamento per
+# rate-limit. Il codice d'uscita era giusto, la frase no — e la frase è quello che legge un umano.
+#
+# La cura non è un `if` in più dentro ritmo.sh: sarebbe la quarta copia della stessa catena, e la
+# causa di sistema ⑤ della scheda è proprio quella («ogni cura viene applicata alla copia in cui il
+# sintomo è stato visto»). La frase la decide `annuncioCadenza()` in `cervello/esito-scrittura.mjs`
+# — funzione pura, provata da `cervello/test/annuncio-cadenza.test.mjs`. Qui c'è solo la mano.
+#
+# cadenza_annuncio <titolo> <ai_rc> <motore_acceso> [tentativi] [riaccodata] [vincoli_attivi]
+# Stampa la frase con l'ora sul canale giusto — stdout se il successo è stato guadagnato, stderr in
+# tutti gli altri casi — e ritorna 0/1 di conseguenza (così il chiamante può ancora ramificare).
+cadenza_annuncio() {
+  local titolo="${1:?serve il titolo}" ai_rc="${2:-0}" motore="${3:-1}"
+  local tentativi="${4:-1}" riaccodata="${5:-0}" vincoli="${6:-0}"
+  local frase rc=0
+  frase="$(node "${SCRIPT_DIR:-cervello}/esito-scrittura.mjs" annuncio \
+    --titolo="$titolo" --ai-rc="$ai_rc" --motore="$motore" \
+    --tentativi="$tentativi" --riaccodata="$riaccodata" --vincoli="$vincoli" 2>/dev/null)" || rc=$?
+  # Nessuna risposta = non ho potuto misurare. ⚪ non è mai ✅: la frase lo dice e si esce da stderr.
+  if [ -z "$frase" ]; then
+    frase="$titolo: esito NON misurato (la testa non ha risposto) — non lo chiamo un successo."
+    rc=10
+  fi
+  if [ "$rc" -eq 0 ]; then
+    CADENZA_ANNUNCIO_OK=1
+    echo "[$(ts)] $frase"
+    return 0
+  fi
+  CADENZA_ANNUNCIO_OK=0
+  echo "[$(ts)] ⛔ $frase" >&2
+  return 1
+}
+
+# cadenza_uscita <codice-di-cadenza_esito>
+# L'ultima clausola di AR-389: «non uscire 0 quando la cadenza non è stata prodotta». Il codice
+# d'uscita eredita la verità dell'annuncio — se la frase non è stata guadagnata, 0 non è ammesso.
+# La decide `codiceUscitaCadenza()` in cervello/esito-scrittura.mjs; qui si stampa e basta.
+cadenza_uscita() {
+  local codice="${1:-0}" finale
+  finale="$(node "${SCRIPT_DIR:-cervello}/esito-scrittura.mjs" uscita \
+    --codice="$codice" --annuncio-ok="${CADENZA_ANNUNCIO_OK:-1}" 2>/dev/null)"
+  case "$finale" in ''|*[!0-9]*) finale=2 ;; esac   # non misurato ≠ verde
+  printf '%s\n' "$finale"
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
 # ④ L'ESITO COME FATTO SCRITTO — AR-163 · AR-313 · AR-164 · AR-166 · AR-302
 # ─────────────────────────────────────────────────────────────────────────────
 # cadenza_esito <tipo> <ai_rc> <cambi> <push_ok> <passi_ok> <vincoli_attivi> [elenco-vincoli]

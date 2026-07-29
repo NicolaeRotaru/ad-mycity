@@ -20,6 +20,9 @@
 
 import { nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { decidiOrfano, decidiRitento, MAX_ATTESA_QUOTA_MS, MAX_RIACCODI_ORFANO, TIPI_PRE_ESECUZIONE } from "./retry-policy.mjs";
+import { readdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const URL = process.env.SUPABASE_URL?.trim();
 const KEY = process.env.SUPABASE_SERVICE_KEY?.trim();
@@ -36,6 +39,26 @@ const TIPI_ORFANO_SICURO = [...TIPI_PRE_ESECUZIONE].filter((t) => !TIPI_AZIONE.i
 // giro e ritmo girano fino a ~45 min (WORKER_TIMEOUT_GIRO=2700s). Con 10 min la sentinella (che gira
 // ogni 3 min) agguantava job ANCORA in esecuzione, uccidendoli e ri-eseguendoli in loop. (fix issue 5)
 const ORFANO_MIN = 60; // minuti oltre i quali un in_corso è considerato orfano
+
+// AR-397 — «far distinguere alla sentinella un orfano con esito ASSENTE da uno con esito RICOVERATO».
+// Quando il database rifiuta la PATCH finale, il worker mette l'esito su disco (`.git/mycity-esito-
+// ricovero/<id>.json`) e lo ripubblica al ciclo dopo. Se nel frattempo la sentinella chiude quel
+// lavoro in errore con «riapprova», la regola nata per evitare il doppio invio ne diventa la causa:
+// l'azione ERA riuscita. Qui la sentinella guarda il disco prima di giudicare — se il ricovero non
+// esiste (o siamo su un'altra macchina) il comportamento non cambia di una virgola.
+const RICOVERO_DIR =
+  process.env.ESITO_RICOVERO_DIR?.trim() ||
+  join(dirname(fileURLToPath(import.meta.url)), "..", ".git", "mycity-esito-ricovero");
+function esitiRicoverati() {
+  try {
+    // Nessun filtro sull'estensione: il perimetro non si deduce dagli esempi di oggi (malattia
+    // `perimetro-dedotto-non-misurato`). Conta anche il ricovero a metà scrittura («.json.tmp»):
+    // un lavoro il cui esito sta arrivando NON va chiuso in errore.
+    return new Set(readdirSync(RICOVERO_DIR).map((f) => f.replace(/\.json(\.tmp)?$/, "")));
+  } catch {
+    return new Set(); // cartella assente (altra macchina, nessun ricovero) = nessuno da proteggere
+  }
+}
 const MARKER = "[sentinella:segnalata]";
 
 function headers() {
@@ -189,6 +212,8 @@ async function main() {
   const CHAT_WORKER_MORTO_MIN = 5;
   let requeued = 0;
   let orfaniReali = 0;
+  let ricoveriInAttesa = 0;
+  const ricoverati = esitiRicoverati(); // AR-397 — chi ha già un esito, e sta solo aspettando di uscire
   for (const l of inCorso) {
     const t = new Date(l.updated_at || l.created_at).getTime();
     if (Number.isNaN(t)) continue;
@@ -216,7 +241,16 @@ async function main() {
     // sempre — riparte, scade, viene recuperato, riparte. Ogni singolo recupero sembra ragionevole,
     // ed è per questo che nessuno se ne accorgeva. Il contatore sta nel DB (sopravvive ai riavvii),
     // non in un marcatore dentro il testo del risultato che si tronca a 1200 caratteri.
-    const d = decidiOrfano({ sicuro: TIPI_ORFANO_SICURO.includes(l.tipo), tentativi: l.tentativi ?? 0 });
+    const d = decidiOrfano({
+      sicuro: TIPI_ORFANO_SICURO.includes(l.tipo),
+      tentativi: l.tentativi ?? 0,
+      esitoRicoverato: ricoverati.has(String(l.id)),
+    });
+    if (d.azione === "attendi") {
+      // AR-397: l'esito esiste, è solo rimasto su disco. Non lo chiudo in errore.
+      ricoveriInAttesa += 1;
+      continue;
+    }
     if (d.azione === "riaccoda") {
       await q(`lavori?id=eq.${l.id}`, {
         method: "PATCH",
@@ -234,7 +268,7 @@ async function main() {
   }
 
   // 4) Battito + ping Telegram sui nuovi
-  const sintesi = `tetto recuperi ${MAX_RIACCODI_ORFANO} · ${riarmati} ri-armati (auto-retry) · ${sbloccati} sbloccati (reset quota passato) · ${voci.length} fermi da riapprovare (${nuovi.length} nuovi) · ${requeued} orfani ripresi · ${orfaniReali} reali da riapprovare`;
+  const sintesi = `tetto recuperi ${MAX_RIACCODI_ORFANO} · ${riarmati} ri-armati (auto-retry) · ${sbloccati} sbloccati (reset quota passato) · ${voci.length} fermi da riapprovare (${nuovi.length} nuovi) · ${requeued} orfani ripresi · ${orfaniReali} reali da riapprovare${ricoveriInAttesa ? ` · ${ricoveriInAttesa} con esito ricoverato (AR-397: aspettano la ripubblicazione, NON da riapprovare)` : ""}`;
   await stampSegnale("sentinella-lavori", voci.length > 0 ? "warn" : "ok", `${sintesi} · ${quando}`);
 
   const tgTok = process.env.TELEGRAM_BOT_TOKEN?.trim();

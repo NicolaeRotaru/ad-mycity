@@ -44,6 +44,19 @@ ramo_ammesso() {
   [ -n "$ramo" ] && [ "$ramo" = "$atteso" ]
 }
 
+# C'è un rebase a metà nel worktree? (AR-396 — OSSERVAZIONE, non decisione: la decisione la prende
+# `decidiRebase()` in cervello/esito-scrittura.mjs.) Un albero fermo a metà rebase ha HEAD staccato
+# su un avanzamento PARZIALE: pubblicarlo significa mandare su main meno di quello che c'è.
+#   0 = sì, c'è un rebase in corso · 1 = albero pulito da rebase
+rebase_in_corso() {
+  local d
+  for d in rebase-merge rebase-apply; do
+    d="$(git rev-parse --git-path "$d" 2>/dev/null || true)"
+    [ -n "$d" ] && [ -d "$d" ] && return 0
+  done
+  return 1
+}
+
 # Lo stage contiene SOLO memoria?
 #   0 = sì (perimetro rispettato) · 1 = no, c'è del codice
 # AR-310: `aggiorna-cervello.sh` fa `git add -A` secco e manda su main tutto quello che trova, codice
@@ -149,9 +162,40 @@ pubblica_memoria() {
     # che il chiamante cattura. Il "Current branch main is up to date" del rebase finiva dentro quel
     # valore — trovato dal test che pubblica sul serio, non lo avrebbe visto nessun grep.
     if "${T[@]}" git fetch "$url" "$branch" >/dev/null 2>&1; then
-      git ${GIT_ID[@]+"${GIT_ID[@]}"} rebase FETCH_HEAD >/dev/null 2>&1 || git rebase --abort >/dev/null 2>&1 || true
+      # AR-396 — il rebase aveva TRE esiti possibili e ne veniva letto zero: la catena
+      # `rebase || rebase --abort || true` ingoiava anche il caso in cui l'abort stesso fallisce, e
+      # si arrivava al push con l'albero A METÀ REBASE — HEAD staccato su un avanzamento PARZIALE che
+      # dal remoto risulta fast-forward. Il push riusciva e su main finiva metà lavoro: verde da
+      # tutte le parti. Ora l'esito lo classifica `decidiRebase()` (cervello/esito-scrittura.mjs):
+      # riuscito / abortito pulito / albero sporco. Sul terzo si smette, non si pubblica.
+      local _rb_rc=0 _rb_abort="" _rb_in_corso=0 _rb_dec
+      git ${GIT_ID[@]+"${GIT_ID[@]}"} rebase FETCH_HEAD >/dev/null 2>&1 || _rb_rc=$?
+      if [ "$_rb_rc" -ne 0 ]; then
+        _rb_abort=0
+        git rebase --abort >/dev/null 2>&1 || _rb_abort=$?
+        rebase_in_corso && _rb_in_corso=1
+        _rb_dec="$(node "${SCRIPT_DIR:-cervello}/esito-scrittura.mjs" rebase \
+          --rc="$_rb_rc" --rc-abort="$_rb_abort" --in-corso="$_rb_in_corso" 2>/dev/null)"
+        # Nessuna risposta dalla testa = non ho potuto classificare l'albero. Fail-closed come tutto
+        # il cancello (AR-322): meglio memoria vecchia sul Pannello che metà lavoro su main.
+        if [ -z "$_rb_dec" ] || ! printf '%s' "$_rb_dec" | grep -q '"puoiPushare":true'; then
+          local _rb_coda=""
+          [ "$_rb_in_corso" = 1 ] && _rb_coda=", rebase ancora in corso"
+          echo "[$_ts] ⛔ PUSH ANNULLATO (AR-396): rebase rc=$_rb_rc, abort rc=$_rb_abort$_rb_coda — non pubblico un avanzamento parziale." >&2
+          return 1
+        fi
+      fi
     else
       echo "[$_ts] WARN: fetch non riuscito o oltre ${gt}s (tentativo $i) — provo comunque il push." >&2
+    fi
+    # AR-396 — il ricontrollo del RAMO al CONFINE DELL'ATTO. Il commento di questa funzione lo
+    # dichiarava da sempre («subito prima del push, perché fra il gate e il push passano un commit e
+    # un rebase») ma la chiamata stava FUORI dal ciclo, cioè prima del fetch e del rebase: la prova
+    # che ha chiuso AR-297/AR-315 cercava la presenza del controllo, non la sua posizione.
+    ramo="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)"
+    if ! ramo_ammesso "$ramo" "$branch"; then
+      echo "[$_ts] ⛔ PUSH ANNULLATO: dopo il rebase HEAD è su «${ramo:-?}», non su «$branch» (AR-396)." >&2
+      return 1
     fi
     if "${T[@]}" git push "$url" "HEAD:${branch}" >/dev/null 2>&1; then
       printf '%s\n' "$i"

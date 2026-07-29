@@ -1,0 +1,22 @@
+{
+ "_cosa_e": "🔐 LE VIOLAZIONI DEI PERMESSI CHE SONO ANCORA LÌ, E PERCHÉ. Lo legge cervello/test/permessi-di-guardia.test.mjs, che è ciò che mette di guardia permessi-check.mjs (AR-376): fino al 29/7 quel guardiano usciva 1 con quattro violazioni vere e non lo lanciava nessuno. Regola: una violazione non dichiarata qui fa FALLIRE la prova. Chi è dichiarato deve dire il perché per esteso e, se la palla è di Nicola, nominare la card che gliel'ha chiesto — e quella card deve esistere davvero nella coda, altrimenti la domanda non esiste.",
+ "_perche_non_le_ripariamo_qui": "`.claude/settings.json` è negato in Edit/Write alla macchina apposta (regola `no-auto-permessi` dello stesso guardiano). Scavalcare quel confine per chiudere un difetto SUL confine sarebbe assurdo: la macchina non si allarga i permessi da sola. Quindi le correzioni le fa Nicola, e il compito della macchina è che il no del guardiano si SENTA invece di restare in un file che nessuno esegue.",
+ "tetto_senza_card": 2,
+ "_tetto_perche": "Due violazioni oggi non hanno una card loro in coda (il divieto di push diretto e lo strumento Supabase che scrive). Il tetto è assoluto e scende: una violazione in più senza domanda a Nicola non passa la prova, anche se qualcuno le scrivesse un perché.",
+ "violazioni": {
+  "no-jolly-su-cartella-scrivibile|Bash(node cervello/*.mjs:*)": {
+   "perche": "AR-206 parte (a): il jolly su una cartella che la macchina stessa scrive non è un permesso su un elenco di programmi, è un permesso su qualunque programma decida di scriverci. L'elenco esplicito che lo sostituisce è già pronto in consegne/sicurezza/2026-07-29-permessi-senza-jolly.md; la riga la cambia Nicola.",
+   "card": "permessi-senza-jolly"
+  },
+  "no-jolly-su-cartella-scrivibile|Bash(bash cervello/*.sh:*)": {
+   "perche": "AR-206 parte (a), stessa riga nell'altra forma: `bash cervello/*.sh` concede qualunque script di avvio la macchina si scriva da sola. Sostituzione pronta nello stesso documento, firma di Nicola.",
+   "card": "permessi-senza-jolly"
+  },
+  "no-push-diretto|/^Bash\\(git push/": {
+   "perche": "Manca il divieto esplicito di `git push` fra i deny. Da agente cloud si lavora in branch e si apre PR — mai push diretto — ma dal VPS la macchina pubblica la memoria su main a ogni giro: il divieto va scritto in modo che fermi l'agente e non il worker, e quella riga sta in un file che è di Nicola. Senza card dedicata: entra nel tetto qui sotto."
+  },
+  "strumenti-di-scrittura-non-automatici|mcp__Supabase__execute_sql": {
+   "perche": "AR-273: `execute_sql` modifica lo stato di un sistema esterno ed è concesso senza chiedere. Il marketplace è dichiarato in SOLA LETTURA per la macchina, quindi o si toglie dal foglio dei permessi o si giustifica per iscritto in STRUMENTI_GIUSTIFICATI; entrambe le mosse sono di Nicola. Senza card dedicata: entra nel tetto qui sotto."
+  }
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "_cosa_e": "🧭 PERCHÉ UN GUARDIANO NON È DI GUARDIA. Lo legge cervello/guardia-viva-check.mjs. Regola: essere di guardia si MISURA dal codice (chi lo esegue davvero), non si dichiara — qui dentro si dichiara SOLO la differenza, cioè chi non lo esegue nessuno. Un guardiano costruito e mai messo di guardia senza un perché scritto è un buco, non uno stato: stessa regola dei sensori spenti (AR-105/AR-108) applicata agli strumenti. Difetti AR-376 e AR-393.",
+ "_motivi_ammessi": {
+  "cablato": "lo mette di guardia un test della suite: va nominato in `dove`, e il controllo verifica che quel file lo invochi davvero. Un test che esegue uno strumento per altro (es. per verificare che sia in sola lettura) NON conta.",
+  "libreria": "ha una CLI di diagnosi, ma il suo giudizio vive dentro chi lo importa: il freno sta lì, non nell'eseguibile.",
+  "decisione": "si lancia a mano di proposito, e il perché è scritto per esteso.",
+  "da-cablare": "riconosciuto come BUCO, non come stato. Vive solo sotto `tetto_da_cablare`, che è assoluto e scende: un buco in più non si consegna."
+ },
+ "tetto_da_cablare": 4,
+ "_tetto_perche": "Quattro strumenti trovati costruiti e mai messi di guardia dalla corsia A del lotto 34, oltre ai due che il lotto ha cablato davvero (permessi-check, non-vacuita) e ai tre che sono una scelta scritta (libreria/decisione). Non sono stati riparati qui di proposito: allargare un lotto oltre la sua malattia è il modo in cui i lotti non finiscono. Il tetto esiste perché da qui in avanti il numero possa solo scendere — chi ne cabla uno abbassa questo numero nello stesso lavoro.",
+ "motivi": {
+  "permessi-check.mjs": {
+   "motivo": "cablato",
+   "dove": "cervello/test/permessi-di-guardia.test.mjs",
+   "perche": "AR-376: esce 1 con quattro violazioni vere e nessun processo lo eseguiva. Ora il suo verdetto sul file vero dei permessi è un test della suite, che gira su ogni push in CI e a ogni giro."
+  },
+  "guardia-viva-check.mjs": {
+   "motivo": "cablato",
+   "dove": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs",
+   "perche": "Il guardiano di questa corsia non poteva nascere nella condizione che cura: il suo verdetto sul repo vero è una prova della suite, cioè gira su ogni push (CI), su ogni PR (cancello) e a ogni giro."
+  },
+  "chiusure-audit.mjs": {
+   "motivo": "da-cablare",
+   "perche": "AR-151: riguarda le chiusure già fatte quando lo standard di verifica migliora. Nessun processo lo esegue: un difetto chiuso male resta chiuso male finché qualcuno non lo lancia a mano. Buco vero, fuori dalla malattia di questa corsia."
+  },
+  "lucchetto-git.mjs": {
+   "motivo": "libreria",
+   "perche": "AR-277/AR-298: il lucchetto sul worktree è un cancello che si prende importandolo (git-pr.mjs lo fa). La CLI serve a ispezionare o forzare il rilascio a mano; il freno vive dentro chi lo importa, non nell'eseguibile."
+  },
+  "porte-pannello.mjs": {
+   "motivo": "da-cablare",
+   "perche": "AR-207/AR-112/AR-234: sorveglia le route HTTP del Pannello che cambiano lo stato del mondo. È la superficie gemella di porte-check, che invece è cablato nel giro. Buco vero, fuori dalla malattia di questa corsia."
+  },
+  "pota-apprendimento.mjs": {
+   "motivo": "da-cablare",
+   "perche": "AR-254/AR-199: rimette l'archivio dell'apprendimento sotto il tetto di lettura della Cabina. È un'azione che modifica la memoria, quindi non può girare da sola a ogni giro senza una firma; ma oggi non la chiede nessuno, e questo è il buco."
+  },
+  "prova-trigger.mjs": {
+   "motivo": "decisione",
+   "perche": "Manda frasi vere a `claude -p` per vedere se la skill si accende: costa token del motore AI a ogni esecuzione. Tenerlo fuori dai processi automatici è una scelta di costo, non una dimenticanza — si lancia quando si tocca la description di una skill."
+  },
+  "redattore-segreti.mjs": {
+   "motivo": "libreria",
+   "perche": "Non giudica: REDIGE. Riusa le regex di scan-segreti via segreti-pattern.mjs e serve a ripulire un testo prima di scriverlo. Il cancello sui segreti è scan-segreti, che è cablato nel giro e nel cancello di pubblicazione."
+  },
+  "tasso-regole.mjs": {
+   "motivo": "da-cablare",
+   "perche": "Misura quante correzioni di Nicola sono diventate una regola, e sostituisce la voce 1 della pagella. Nessun processo lo esegue: la pagella continua a leggere il vecchio contatore. Buco vero, fuori dalla malattia di questa corsia."
+  }
+ },
+ "verdetti_morti_dichiarati": {
+  "rc_one": {
+   "perche": "AR-394: in cervello/gate-pubblicazione.sh la variabile dell'onestà è inizializzata a 0, passata a gate_verdetto e mai riempita — quattro guardiani promessi, tre eseguiti. Toglierla, o assegnarla davvero, richiede di modificare gate-pubblicazione.sh, che è fuori dal territorio della corsia A del lotto 34. Resta qui come debito DICHIARATO e misurato — non nascosto — perché un verdetto morto nuovo faccia scattare il rosso mentre questo è in attesa della mano di chi può toccare quel file."
+  }
+ }
+}

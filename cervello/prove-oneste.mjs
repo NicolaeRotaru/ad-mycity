@@ -23,6 +23,7 @@ import { join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 import { istanteNascita, nataGiaSoddisfatta, provaControllabile } from "./prove-regole.mjs";
 import { storiaDelRepo } from "./storia-git.mjs";
+import { verdettoCopertura } from "./misura-parziale.mjs";
 
 const CANTIERE = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json");
 
@@ -91,16 +92,33 @@ function main() {
   const soloElenco = process.argv.includes("--elenco");
   if (soloElenco) {
     for (const s of sospette) console.log(s.d.id);
-    process.exit(sospette.length ? 1 : 0);
+    // AR-353: anche qui un elenco vuoto può voler dire «niente da segnalare» oppure «non ho
+    // guardato». Chi consuma questo output negli script deve poter distinguere i due casi.
+    process.exit(verdettoCopertura({ controllate, misurate: controllate - ciechi.length, violazioni: sospette.length }).codice);
   }
 
+  // AR-353 — il verdetto NON guarda più solo `sospette.length`.
+  //
+  // Il difetto, misurato il 29/7 in questa stessa sessione: 145 prove controllate, ZERO misurate
+  // (clone superficiale: il passato non c'è), e questa riga stampava «✅ nessuna era già soddisfatta
+  // alla nascita» uscendo 0. «Non ho trovato niente» e «non ho potuto guardare» producevano la stessa
+  // frase e lo stesso codice d'uscita — quindi il vincolo di cecità già scritto in giro.sh (che
+  // scatta su rc≥2) non si alzava mai, e il giro riceveva un verde per una misura mai fatta.
+  //
+  // La decisione sta in `verdettoCopertura` (misura-parziale.mjs), fuori di qui e pura: tre esiti,
+  // 0 misurato e pulito · 1 violazione · 2 cieco, secondo il contratto dei guardiani (AR-322).
+  const misurate = controllate - ciechi.length;
+  const verdetto = verdettoCopertura({ controllate, misurate, violazioni: sospette.length });
+
   // Contratto AR-307: prima riga = verdetto in una riga, poi il dettaglio.
-  if (sospette.length) {
+  if (verdetto.esito === "violazione") {
     console.log(
-      `❌ PROVE DISONESTE: ${sospette.length} difetti su ${controllate} controllati hanno una prova già soddisfatta alla nascita — si chiuderebbero da soli senza che nessuno ripari niente (AR-330).`,
+      `❌ PROVE DISONESTE: ${sospette.length} difetti su ${misurate} misurati (di ${controllate} controllati) hanno una prova già soddisfatta alla nascita — si chiuderebbero da soli senza che nessuno ripari niente (AR-330).`,
     );
+  } else if (verdetto.esito === "cieco") {
+    console.log(`⚪ PROVE NON MISURATE: ${verdetto.motivo} — questo NON è un verde (AR-353).`);
   } else {
-    console.log(`✅ Prove oneste: ${controllate} prove controllate, nessuna era già soddisfatta alla nascita.`);
+    console.log(`✅ Prove oneste: ${misurate} prove misurate su ${controllate} controllate, nessuna era già soddisfatta alla nascita.`);
   }
   for (const s of sospette) {
     console.log(`  · ${s.d.id} [${s.d.gravita}] ${String(s.d.titolo).slice(0, 80)}`);
@@ -122,7 +140,10 @@ function main() {
       `\n→ Come si ripara: la prova deve citare qualcosa che esisterà SOLO col fix installato. Meglio ancora, sostituiscila con una prova comportamentale: {"comando":"node cervello/test/<nome>.test.mjs"}.`,
     );
   }
-  process.exit(sospette.length ? 1 : 0);
+  if (verdetto.esito === "cieco") {
+    console.log(`\n→ Copertura ${Math.round(verdetto.copertura * 100)}%: esco 2 (cieco), non 0. Per misurare davvero: git fetch --unshallow.`);
+  }
+  process.exit(verdetto.codice);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();

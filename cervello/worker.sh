@@ -37,6 +37,15 @@ if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
 ts() { date '+%H:%M:%S'; }
 
+# AR-397/AR-399 — le mani che REGISTRANO com'è andata (ritentativi, ricovero dell'esito su disco,
+# marcatore della pubblicazione rimandata). Stanno in un file sorgibile perché worker.sh non lo è:
+# quello che vive qui dentro una prova può solo guardarlo, e infatti questi due difetti sono
+# sopravvissuti a più radiografie. Le DECISIONI stanno in cervello/esito-scrittura.mjs.
+. "$SCRIPT_DIR/lib-esito-lavoro.sh" || {
+  echo "[$(ts)] ERRORE: manca cervello/lib-esito-lavoro.sh — senza, l'esito di un lavoro tornerebbe a scriversi una volta sola (AR-397). Non parto." >&2
+  exit 1
+}
+
 # AR-089: router costo — instrada un compito col router scegliModello (cervello/banco-ai.mjs) invece di
 # usare sempre il motore premium. Stampa "modello|tier|collegato(1/0)". Se node/router falliscono torna
 # vuoto → il chiamante resta sul premium (nessuna rottura). NON esegue AI: DECIDE soltanto.
@@ -971,6 +980,16 @@ recupera_lavori_orfani() {
       echo "[$(ts)] Orfano $id ($tipo, ${eta}min, owner='${owner_lane:-—}'): LASCIO in_corso — vivo altrove o entro la grazia." >&2
       continue
     fi
+    # AR-397 — un orfano con l'esito RICOVERATO non è un orfano con esito ASSENTE: il lavoro è finito
+    # davvero e sappiamo com'è andato, il database semplicemente non aveva accettato la scrittura.
+    # Chiuderlo qui in errore con «riapprova» sarebbe la causa del doppio invio invece della cura:
+    # lo lascia stare, ci pensa `ripubblica_esiti_ricoverati` a scriverci sopra la verità.
+    # (il `command -v` tiene in piedi i test che ESTRAGGONO questa funzione da sola — worker-orfani.bats;
+    #  nel worker vero la libreria c'è sempre: senza, lo script non parte proprio.)
+    if command -v esito_ricoverato_esiste >/dev/null 2>&1 && esito_ricoverato_esiste "$id"; then
+      echo "[$(ts)] Orfano $id ($tipo, ${eta}min): ha un ESITO RICOVERATO su disco → non lo chiudo, lo ripubblico (AR-397)." >&2
+      continue
+    fi
     case " esegui-azione proposta " in
       *" $tipo "*)
         echo "[$(ts)] Orfano $id ($tipo, ${eta}min): AZIONE REALE interrotta → NON la ri-eseguo da sola (rischio doppio invio) → riapprova dal Pannello." >&2
@@ -1093,6 +1112,21 @@ while true; do
   fi
   if printf '%s' "$pausa" | grep -q '"valore":"on"'; then
     sleep "$INTERVALLO"; continue
+  fi
+
+  # 🩹 AR-397/AR-399 — il ripescaggio che prima non esisteva. Due passi rimandati vivevano appesi
+  # all'arrivo del LAVORO SUCCESSIVO: a coda vuota non arrivava mai. Qui il worker se ne occupa da
+  # solo, a coda vuota compresa, con un intervallo suo (non a ogni giro del ciclo, che è 1 secondo).
+  #   · un esito ricoverato su disco → riscritto sul database (l'azione eseguita non torna in coda);
+  #   · una pubblicazione della memoria rimandata → ritentata, e se resta ferma troppo si alza la voce.
+  if [ "$(( _now_epoch - ${_LAST_RICOVERO:-0} ))" -ge "${WORKER_RICOVERO_SEC:-60}" ]; then
+    _LAST_RICOVERO="$_now_epoch"
+    ripubblica_esiti_ricoverati
+    if sync_va_ripresa; then
+      _sync_rc2=0
+      sync_vault || _sync_rc2=$?
+      segna_sync_pendente "$_sync_rc2"
+    fi
   fi
 
   # Prendi il prossimo lavoro in coda. Con l'auto-recovery attivo, SALTA quelli che stanno
@@ -1458,11 +1492,19 @@ $out"
   if [ "$stato" = "fatto" ] && [ "$skip_sync" != 1 ]; then
     sync_rc=0
     sync_vault || sync_rc=$?
-    if [ "$sync_rc" = 1 ] && [ "$tipo" = "esegui-azione" ]; then
-      stato="errore"
-      out="$out
-[worker] Azione eseguita ma push memoria fallito — la riga AZIONI potrebbe non essere visibile nel Pannello."
-    fi
+    # 🩹 AR-399 — sync_vault ha QUATTRO esiti (0 pubblicata · 1 push fallito/cancello rosso ·
+    # 2 rimandata · 3 token assente) e qui se ne leggeva UNO. Con rc=2 e rc=3 il lavoro si chiudeva
+    # «fatto» pur sapendo che la memoria non era mai uscita: sul Pannello un'azione già eseguita
+    # resta «da approvare». Ora l'rc lo traduce `esitoSync()` (cervello/esito-scrittura.mjs) in tre
+    # cose: lo stato del lavoro, la riga che Nicola legge e — la parte che mancava del tutto — il
+    # marcatore di pubblicazione PENDENTE, che il ciclo del worker riprende da solo anche a coda
+    # vuota. Il ramo rc=1 per esegui-azione resta identico: cambiarlo sarebbe il difetto opposto.
+    _sync_dec="$(applica_esito_sync "$sync_rc" "$tipo")"
+    _sync_stato="$(printf '%s' "$_sync_dec" | jq -r '.stato // ""' 2>/dev/null || true)"
+    _sync_nota="$(printf '%s' "$_sync_dec" | jq -r '.nota // ""' 2>/dev/null || true)"
+    [ -n "$_sync_stato" ] && stato="$_sync_stato"
+    [ -n "$_sync_nota" ] && out="$out
+$_sync_nota"
   fi
 
   # 3c) Metabolizzazione: dopo una chat riuscita, accoda un lavoro interno che rilegge la
@@ -1515,17 +1557,25 @@ $out"
   # Nicola aveva già superato. Col filtro &stato=eq.in_corso la scrittura tocca la riga SOLO se è
   # ancora in lavorazione: se è stata sostituita, no-op silenzioso (al messaggio nuovo pensa il suo
   # turno). Vale per tutte le corsie: un lavoro claimato è in_corso finché non lo chiudiamo noi.
+  #
+  # 🩹 AR-397 — LA REGISTRAZIONE È PARTE DELL'EFFETTO. Fin qui questa PATCH era una sola chiamata
+  # senza rete: se falliva, il worker stampava una riga su stderr e passava al lavoro dopo. Il lavoro
+  # restava `in_corso` per sempre e la sentinella, dopo la soglia, lo chiudeva in errore con
+  # «potrebbe essere già partita → riapprova dal Pannello»: la regola nata per evitare il doppio
+  # invio ne diventava la causa, perché l'azione ERA riuscita e non lo sapeva più nessuno.
+  # Ora entrambi i rami passano da `scrivi_esito_lavoro` (cervello/lib-esito-lavoro.sh): ritentativi
+  # con attesa crescente e, se il database resta irraggiungibile, esito RICOVERATO su disco e
+  # ripubblicato dal worker al ciclo successivo. Il freno sta sul DATO — una porta sola per l'esito —
+  # non su uno dei due chiamanti.
   if [ -n "$retry_quando" ]; then
     body="$(jq -n --arg r "$out" --argjson t "${retry_tent:-1}" --arg q "$retry_quando" --arg m "${motivo_retry:-ritento}" \
       '{stato:"in_attesa", tentativi:$t, riprova_dopo:$q, risultato:($r + "\n[auto-retry] tentativo " + ($t|tostring) + " programmato per " + $q + " — " + $m)}')"
-    curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 \
-      && echo "[$(ts)] Lavoro $id: ri-programmato (tentativo $retry_tent alle $retry_quando)." \
-      || echo "[$(ts)] Lavoro $id: non sono riuscito a programmare il ritentativo." >&2
+    scrivi_esito_lavoro "$id" "$body" "ri-programmazione" \
+      && echo "[$(ts)] Lavoro $id: ri-programmato (tentativo $retry_tent alle $retry_quando)."
   else
     body="$(jq -n --arg stato "$stato" --arg risultato "$out" '{stato:$stato, risultato:$risultato}')"
-    curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 \
-      && echo "[$(ts)] Lavoro $id: $stato." \
-      || echo "[$(ts)] Lavoro $id: non sono riuscito a riscrivere il risultato." >&2
+    scrivi_esito_lavoro "$id" "$body" "esito ($stato)" \
+      && echo "[$(ts)] Lavoro $id: $stato."
   fi
 
   # Dopo un giro, giro.sh potrebbe aver allineato worker.sh da main → ricarica al giro dopo.

@@ -13,6 +13,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { loopChiude as loopChiudeRegola, loopVivo, previsioneValida, provaBusiness as calcolaProvaBusiness } from "./volano-regole.mjs";
+import { mediaCoperta, perLoStorico } from "./misura-parziale.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
@@ -34,6 +35,67 @@ function readJson(path, fallback = {}) {
 function writeJson(path, data) {
   mkdirSync(join(path, ".."), { recursive: true });
   writeFileSync(path, JSON.stringify(data, null, 2) + "\n", "utf8");
+}
+
+/**
+ * AR-357 — il voto salute come MEDIA DEI PILASTRI, con la copertura attaccata.
+ *
+ * Il difetto: qui il filtro era `Number.isFinite(v) && v > 0`, nato per scartare i valori MANCANTI.
+ * Ma il voto per dimensione è `Math.max(0, 100 - somma pesi)` e SATURA a 0: uno zero non è un dato
+ * mancante, è un disastro misurato. Buttarlo fuori dalla media significa che **il voto sale quando
+ * le aree peggiorano** — misurato il 29/7 sui dati veri: 8 dimensioni, cinque a 0, media col filtro
+ * 23, media onesta 9. Quattordici punti regalati, e sempre di più man mano che altre affondano.
+ *
+ * Pura ed esportata apposta: è la regola che ha fatto danno, e va potuta eseguire in un test.
+ */
+export function votoPilastri(rad) {
+  const dims = Array.isArray(rad?.dimensioni) ? rad.dimensioni : [];
+  // `null` = non misurata (campo assente/non numerico). Lo ZERO passa: è una misura.
+  // ⚠️ `Number(null)` vale 0 e `Number("")` pure: usare Number() da solo qui rifarebbe il difetto al
+  // contrario — un campo MANCANTE diventerebbe uno zero misurato e abbasserebbe il voto per finta.
+  const valori = dims.map((d) => {
+    const v = d?.voto;
+    if (v === null || v === undefined || v === "" || typeof v === "boolean") return null;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  });
+  return mediaCoperta(valori, { totale: dims.length, unita: "dimensioni", nome: "voto salute (media dei pilastri)" });
+}
+
+/**
+ * Il voto da scrivere nello storico, con la sua copertura — mai un numero nudo.
+ *
+ * Ordine: ① la radiografia completa offre una misura vera (>0) → quella, copertura piena;
+ * ② altrimenti la media ONESTA dei pilastri, con quante dimensioni ci sono entrate;
+ * ③ se non c'è nemmeno una dimensione misurata → NON si inventa un 72: si riporta l'ultimo voto
+ * misurato davvero, marcato `voto_misurato: false`. Un numero stampato senza aver misurato è la
+ * stessa malattia vista da un'altra faccia.
+ */
+export function votoPerLoStorico(rad, serie = []) {
+  const grezzo = Number(rad?.voto_salute_architettura);
+  if (Number.isFinite(grezzo) && grezzo > 0) {
+    return { voto: grezzo, voto_copertura: "radiografia", voto_parziale: false, voto_misurato: true, motivo: "voto della radiografia completa" };
+  }
+  const m = votoPilastri(rad);
+  if (!m.cieco) {
+    const s = perLoStorico(m);
+    return {
+      voto: Math.round(s.valore),
+      voto_copertura: s.copertura,
+      voto_parziale: s.parziale,
+      voto_misurato: true,
+      motivo: m.motivo,
+    };
+  }
+  const ultimoNoto = [...(Array.isArray(serie) ? serie : [])].reverse().find((v) => Number(v?.voto_salute) > 0);
+  const riportato = Number(ultimoNoto?.voto_salute);
+  return {
+    voto: Number.isFinite(riportato) ? riportato : null,
+    voto_copertura: `0/${m.totale}`,
+    voto_parziale: false,
+    voto_misurato: false,
+    motivo: `${m.motivo} → riportato l'ultimo voto misurato davvero, non ri-misurato qui`,
+  };
 }
 
 /** @param {string} dataStr "AAAA-MM-DD HH:MM" */
@@ -207,6 +269,17 @@ function main() {
       .join(" · "),
   };
 
+  // AR-357 — calcolato PRIMA di scrivere, così la copertura finisce anche nel blocco `sonda` che la
+  // Cabina legge: un voto senza la sua copertura, ovunque compaia, è un voto parziale letto come intero.
+  const misuraPilastri = votoPilastri(rad);
+  const misuraVoto = votoPerLoStorico(rad, storico.serie || []);
+  sonda.voto_salute = misuraVoto.voto;
+  sonda.voto_salute_copertura = misuraVoto.voto_copertura;
+  sonda.voto_salute_parziale = misuraVoto.voto_parziale;
+  sonda.voto_salute_misurato = misuraVoto.voto_misurato;
+  sonda.voto_salute_motivo = misuraVoto.motivo;
+  sonda.nota += ` · voto salute ${misuraPilastri.etichetta}`;
+
   rad.sonda = sonda;
   rad.sonda_meta = { giri_tasso_basso: giriTassoBasso, aggiornato: quando };
 
@@ -217,20 +290,21 @@ function main() {
   // Baco 2026-07-07: la completa aveva scritto voto_salute_architettura=0 e ogni sonda ha copiato
   // 0 nello storico per 4 giorni (Andamento a zero). Un voto non valido (<=0/NaN) NON si propaga:
   // si ricalcola dalla media dei pilastri — la stessa scala — e solo in ultima istanza 72.
-  const votoGrezzo = Number(rad.voto_salute_architettura);
-  const votiPilastri = (Array.isArray(rad.dimensioni) ? rad.dimensioni : [])
-    .map((d) => Number(d?.voto))
-    .filter((v) => Number.isFinite(v) && v > 0);
-  const mediaPilastri = votiPilastri.length
-    ? Math.round(votiPilastri.reduce((s, v) => s + v, 0) / votiPilastri.length)
-    : null;
-  const voto = Number.isFinite(votoGrezzo) && votoGrezzo > 0 ? votoGrezzo : mediaPilastri ?? 72;
+  // AR-357: la media NON scarta più gli zeri (uno zero è un disastro misurato) e si porta dietro la
+  // copertura fin dentro lo snapshot — un voto calcolato su 3 dimensioni di 8 non passa più per un
+  // voto sull'intera macchina. Vedi votoPilastri()/votoPerLoStorico() in cima al file.
+  const voto = misuraVoto.voto;
   const difettiAperti = cantiere.meta?.aperti ?? apertiDifetti.length;
   const ultimoSnap = storico.serie?.[storico.serie.length - 1];
   const oggi = quando.slice(0, 10);
   const nuovoSnap = {
     data: oggi,
     voto_salute: voto,
+    // AR-357 — la copertura viaggia SEMPRE accanto al voto: chi legge lo storico deve poter vedere
+    // su quante dimensioni è stata fatta la media, altrimenti «31 su 17 di 24» si legge «31».
+    voto_copertura: misuraVoto.voto_copertura,
+    voto_parziale: misuraVoto.voto_parziale,
+    voto_misurato: misuraVoto.voto_misurato,
     voto_provvisorio: votoProvvisorio,
     voto_pieno: votoPieno,
     firma: saluteFirma,
@@ -273,6 +347,9 @@ function main() {
     console.log(`Giro a cadenza:     ${giroACadenza ? "✅" : "❌"} (briefing ${Math.round(oreBrief)}h fa)`);
     console.log(`Sentinelle:         ${sentinelleScattano ? "⚠️  scattate" : "✅ quiete"}`);
     console.log(`Salute pending-merge:${votoProvvisorio}/100 (floor ${votoPieno}) — ${apertiDavvero.length} aperti-davvero · ${pendingMerge.length} in attesa merge · ${bloccantiUmani.length} bloccanti umani`);
+    // AR-357 — la copertura si STAMPA, non si nasconde nel JSON: `${misuraPilastri}` chiama toString()
+    // della Misura, che include sempre «su N/M dimensioni».
+    console.log(`Voto salute (storico): ${misuraPilastri} → ${voto ?? "non misurato"}${misuraVoto.voto_misurato ? "" : " (riportato, NON ri-misurato)"}`);
     console.log(`Firma stato decidibile: ${saluteFirma || "(vuota → niente di nuovo da decidere)"}`);
     console.log(`Verdetto:           ${verdetto}`);
     if (serveRadiografiaCompleta) {
@@ -283,4 +360,8 @@ function main() {
   process.exit(verdetto === "ok" ? 0 : verdetto === "attenzione" ? 0 : 1);
 }
 
-main();
+// Gira solo se lanciato direttamente. Prima `main()` partiva anche su import: chiunque volesse
+// PROVARE `votoPilastri` faceva scrivere auto-radiografia.json e storico-salute.json come effetto
+// collaterale del test. È la stessa trappola già annotata in volano-regole.mjs per calibrazione.mjs
+// — e una regola che non si può provare senza sporcare la memoria non viene provata.
+if (import.meta.url === `file://${process.argv[1]}`) main();

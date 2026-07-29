@@ -29,6 +29,7 @@
 
 import { readFileSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { passoDovuto, tettoDecadutePerGiro } from "./tetti-archivio.mjs"; // AR-182: il tempo si misura in tempo
+import { lezioniVive } from "./misura-parziale.mjs"; // AR-362: una sola definizione di «lezione viva»
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -159,11 +160,19 @@ if (rimandate.length) {
 }
 
 // --- 4) meta ---
-const nAttive = lezioni.filter((l) => l && l.stato === "attiva").length;
-const nPrincipi = lezioni.filter((l) => l && l.stato === "principio").length;
-const nDecadute = lezioni.filter((l) => l && l.stato === "decaduta").length;
+// AR-362 — `meta.lezioni_attive` lo scrivono DUE script: qui valeva `stato === "attiva"` (381),
+// in tasso-lezioni `stato !== "decaduta"` (476). Stesso campo, due significati, e la Cabina mostrava
+// quello di chi aveva girato per ultimo. Ora la definizione è una sola (`lezioniVive`) e accanto al
+// numero viaggia la partizione completa, così «attive» e «vive» smettono di essere sinonimi a caso.
+const partizione = lezioniVive(dati);
+const nAttive = partizione.vive;
+const nPrincipi = partizione.per_stato.principio;
+const nDecadute = partizione.per_stato.decaduta;
 dati.meta = dati.meta || {};
 dati.meta.lezioni_attive = nAttive;
+dati.meta.lezioni_totali = partizione.totale;
+dati.meta.lezioni_per_stato = partizione.per_stato;
+dati.meta.lezioni_conteggio_quadra = partizione.quadra;
 dati.meta.promosse_a_principio = nPrincipi;
 dati.meta.decadute = nDecadute;
 dati.meta.cristallizzazione_ultima = ora;
@@ -175,7 +184,9 @@ const report = {
   promosse,
   arretrato_restante: Math.max(0, mature.length - promosse.length),
   decadute_ora: decadute.length,
-  totali: { attive: nAttive, principi: nPrincipi, decadute: nDecadute },
+  // AR-362: `vive` INCLUDE i principi (sono lezioni applicabili). Tenerli anche come voce a sé
+  // sommandoli a `attive` li conterebbe due volte: la partizione per stato è l'unica somma che torna.
+  totali: { vive: nAttive, per_stato: partizione.per_stato, totale: partizione.totale, quadra: partizione.quadra },
 };
 
 if (APPLICA) {
@@ -204,6 +215,14 @@ console.log("🧬 CRISTALLIZZAZIONE APPRENDIMENTO" + (APPLICA ? " (APPLICATA)" :
 console.log(`   promosse a principio ORA: ${promosse.length} (arretrato restante: ${report.arretrato_restante})`);
 for (const p of promosse) console.log(`     ⬆︎ [${p.evidenze} ev] ${p.testo}…`);
 console.log(`   decadute ORA: ${decadute.length}`);
-console.log(`   totali → attive: ${nAttive} · principi: ${nPrincipi} · decadute: ${nDecadute}`);
+// AR-362: si stampa la partizione INTERA (somma = totale), non tre numeri scelti a mano che non
+// tornano — «381 attive» accanto a «476 lezioni» era già una misura parziale letta come intera.
+console.log(
+  `   lezioni → ${nAttive} vive su ${partizione.totale} (` +
+    Object.entries(partizione.per_stato)
+      .map(([s, n]) => `${s}: ${n}`)
+      .join(" · ") +
+    `)${partizione.quadra ? "" : " ⚠️ la somma NON torna"}`,
+);
 if (!APPLICA) console.log("   (nulla scritto: anteprima)");
 process.exit(0);

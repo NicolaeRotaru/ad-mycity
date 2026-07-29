@@ -24,6 +24,7 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { lezioniVive } from "./misura-parziale.mjs";
 
 const DRY = process.argv.includes("--dry");
 const JSON_MODE = process.argv.includes("--json");
@@ -204,7 +205,12 @@ function main() {
     process.exit(2);
   }
 
-  const attive = appr.lezioni.filter((l) => l.stato !== "decaduta");
+  // AR-362 — «lezioni vive» si conta in UN posto solo (`lezioniVive`). Qui era `stato !== "decaduta"`
+  // (476), nel guardiano `attiva|principio|senza-stato` (471), in cristallizza `stato === "attiva"`
+  // (381): tre numeri dallo stesso file, e `meta.lezioni_attive` scritto a turno da due di loro con
+  // due significati diversi. Il denominatore del tasso non può dipendere da chi ha girato per ultimo.
+  const partizione = lezioniVive(appr);
+  const attive = partizione.lista;
   const blob = testoRecente(appr);
   const applicate = attive.filter((l) => lezioneApplicata(l, blob));
   const tasso_applicazione = attive.length
@@ -214,8 +220,13 @@ function main() {
   const meta = {
     ...(appr.meta || {}),
     lezioni_attive: attive.length,
+    // AR-362 — la partizione COMPLETA accanto al numero: «471 vive» da solo non dice che ce ne sono
+    // 476 in tutto, 5 in prova e 0 decadute. Chi legge deve poter vedere il denominatore.
+    lezioni_totali: partizione.totale,
+    lezioni_per_stato: partizione.per_stato,
+    lezioni_conteggio_quadra: partizione.quadra,
     promosse_a_principio: Array.isArray(appr.principi) ? appr.principi.length : (appr.meta?.promosse_a_principio ?? 0),
-    decadute: appr.lezioni.filter((l) => l.stato === "decaduta").length,
+    decadute: partizione.per_stato.decaduta,
     tasso_applicazione,
     tasso_calcolato_il: nowPiacenza(),
     tasso_finestra_giorni: GIORNI,

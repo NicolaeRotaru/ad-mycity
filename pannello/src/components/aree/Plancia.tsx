@@ -11,6 +11,15 @@ import Aggiornato from "@/components/Aggiornato";
 import FraseLista from "@/components/FraseLista";
 import { vaiArea } from "@/lib/nav";
 import { usePanelSync } from "@/lib/panel-sync";
+import {
+  leggiDato,
+  collegatoFalso,
+  fraseVuoto,
+  badgeConteggio,
+  piuRecente,
+  VERDETTO_INIZIALE,
+  type Verdetto,
+} from "@/lib/verdetto-dato";
 import { codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
 import MacchinaHomeCard from "@/components/MacchinaHomeCard";
 import LetteraAdCard from "@/components/LetteraAdCard";
@@ -114,26 +123,56 @@ export default function Plancia({
   const [mosse, setMosse] = useState<Mossa[]>([]);
   const [ritmo, setRitmo] = useState<{ pianoMattino: Voce; reportSera: Voce }>({ pianoMattino: null, reportSera: null });
   const [documenti, setDocumenti] = useState<Doc[]>([]);
-  const [aggAt, setAggAt] = useState<number | null>(null);
-  const [codaCieca, setCodaCieca] = useState<string>(""); // AR-233: vuoto = ho letto davvero
+  // AR-401 — un verdetto per fonte. `VERDETTO_INIZIALE` è «cieco: non l'ho ancora letto»: al primo
+  // render la home non parte da «vuoto», perché non ha ancora guardato niente.
+  const [fonti, setFonti] = useState<Record<string, Verdetto>>({});
+  // AR-237 — la data VERA di ogni fonte (`dato_al`), non l'ora in cui ho chiesto.
+  const [dateFonti, setDateFonti] = useState<Record<string, string | null>>({});
 
   const carica = useCallback(() => {
-    // AR-233: se questa fetch fallisce non si può stampare «Niente da firmare» — la coda contiene
-    // card 🔴 con scadenza. `codaCieca` distingue «ho letto, non c'è niente» da «non ho potuto leggere».
-    fetch("/api/azioni-pronte", { cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`server ${r.status}`))))
-      .then((d) => {
-        setAzioni(d.azioni || []);
-        setCodaCieca(d.coda_leggibile === false ? d.motivo_coda || "non riesco a leggere la coda" : "");
-      })
-      .catch((e) => setCodaCieca(e?.message ? `non riesco a leggere la coda (${e.message})` : "non riesco a leggere la coda"));
-    fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((d) => setAlerts(d.alert || [])).catch(() => {});
-    fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((d) => setTodo(d.items || [])).catch(() => {});
-    fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setMosse(d.prossime_mosse || [])).catch(() => {});
-    fetch("/api/ritmo", { cache: "no-store" }).then((r) => r.json()).then((d) => setRitmo({ pianoMattino: d.pianoMattino || null, reportSera: d.reportSera || null })).catch(() => {});
-    fetch("/api/consegne", { cache: "no-store" }).then((r) => r.json()).then((d) => setDocumenti(d.recenti || [])).catch(() => {});
-    setAggAt(Date.now());
+    // AR-401 — le sei letture passano TUTTE dallo stesso confine (`leggiDato` → `verdettoLettura`).
+    // Prima cinque su sei erano `fetch().then(r => r.json()).catch(() => {})`: `r.ok` mai guardato,
+    // una 500 che arriva col suo corpo non fa nemmeno scattare il catch, e a schermo restava
+    // «Nessun allarme. Tutto ok.» su un dato mai letto. Il verdetto adesso lo calcola il modulo:
+    // qui si disegna soltanto.
+    const segna = (k: string, v: Verdetto, quando?: unknown) => {
+      setFonti((p) => ({ ...p, [k]: v }));
+      setDateFonti((p) => ({ ...p, [k]: v.misurato ? (quando != null ? String(quando) : null) : null }));
+    };
+
+    leggiDato<Azione[]>("/api/azioni-pronte", { estrai: (c) => c.azioni, cieco: collegatoFalso }).then((r) => {
+      setAzioni(r.dato || []);
+      segna("azioni", r.verdetto, r.corpo?.dato_al);
+    });
+    leggiDato<Alert[]>("/api/alert", { estrai: (c) => c.alert, cieco: collegatoFalso }).then((r) => {
+      setAlerts(r.dato || []);
+      segna("alert", r.verdetto);
+    });
+    leggiDato<Todo[]>("/api/memoria/todo", { estrai: (c) => c.items, cieco: collegatoFalso }).then((r) => {
+      setTodo(r.dato || []);
+      segna("todo", r.verdetto, r.corpo?.dato_al);
+    });
+    leggiDato<Mossa[]>("/api/memoria/intenzioni", { estrai: (c) => c.prossime_mosse, cieco: collegatoFalso }).then((r) => {
+      setMosse(r.dato || []);
+      segna("mosse", r.verdetto);
+    });
+    leggiDato<{ pianoMattino: Voce; reportSera: Voce }>("/api/ritmo", {
+      estrai: (c) => ({ pianoMattino: c.pianoMattino ?? null, reportSera: c.reportSera ?? null }),
+      eVuoto: (d) => !d.pianoMattino && !d.reportSera,
+      cieco: collegatoFalso,
+    }).then((r) => {
+      setRitmo(r.dato || { pianoMattino: null, reportSera: null });
+      segna("ritmo", r.verdetto, piuRecente([r.dato?.pianoMattino?.data, r.dato?.reportSera?.data]));
+    });
+    leggiDato<Doc[]>("/api/consegne", { estrai: (c) => c.recenti, cieco: collegatoFalso }).then((r) => {
+      setDocumenti(r.dato || []);
+      segna("consegne", r.verdetto, r.corpo?.dato_al);
+    });
   }, []);
+
+  const v = (k: string): Verdetto => fonti[k] || VERDETTO_INIZIALE;
+  // La targhetta parla dell'ETÀ DEL DATO più recente che ho in mano, non dell'ora in cui ho chiesto.
+  const datoAl = piuRecente(Object.values(dateFonti));
 
   useEffect(() => {
     carica();
@@ -142,6 +181,10 @@ export default function Plancia({
   }, [carica]);
 
   usePanelSync(["azioni", "memoria", "all"], carica);
+
+  // AR-233 (conservato) + AR-401: «coda cieca» non è più uno stato a parte cablato a mano sulla
+  // singola fetch — è il verdetto del modulo. Il ramo che stampa il pollice in su resta dietro il bivio.
+  const codaCieca = v("azioni").misurato ? "" : v("azioni").motivo;
 
   // "Da firmare" = azioni ancora da decidere (stato vuoto): STESSO conteggio del badge
   // "Da approvare" dell'area Azioni (che fa filter(!stato)). Un solo numero ovunque.
@@ -159,10 +202,12 @@ export default function Plancia({
   };
 
   const ritmoAggiornatoOggi = ritmoEODoggi(ritmo.pianoMattino?.data) && ritmoEODoggi(ritmo.reportSera?.data);
-  const ritmoRiassunto = [
-    ritmo.pianoMattino ? `Mattino ${etichettaRitmo(ritmo.pianoMattino.data)}` : "Mattino —",
-    ritmo.reportSera ? `Sera ${etichettaRitmo(ritmo.reportSera.data)}` : "Sera —",
-  ].join(" · ");
+  const ritmoRiassunto = v("ritmo").misurato
+    ? [
+        ritmo.pianoMattino ? `Mattino ${etichettaRitmo(ritmo.pianoMattino.data)}` : "Mattino —",
+        ritmo.reportSera ? `Sera ${etichettaRitmo(ritmo.reportSera.data)}` : "Sera —",
+      ].join(" · ")
+    : fraseVuoto(v("ritmo"), { vuoto: "" });
 
   return (
     <div className="space-y-2.5">
@@ -171,7 +216,9 @@ export default function Plancia({
           <h2 className="t-area text-[18px] sm:text-[20px]">🏠 Cosa conta ora</h2>
           <p className="t-eti mt-0.5 hidden sm:block">Decidi in 10 secondi — tocca un blocco per il dettaglio.</p>
         </div>
-        <Aggiornato at={aggAt} className="shrink-0" />
+        {/* AR-237 — la targhetta dice di QUANDO SONO I DATI (dato_al delle fonti), non l'ora in cui
+            il browser ha chiesto: su una fonte ferma da giorni diventa ambra invece di dire «adesso». */}
+        <Aggiornato dataDato={datoAl} className="shrink-0" />
       </div>
 
       {/* 1 · Da fare adesso: firmare + allarmi in evidenza */}
@@ -180,7 +227,7 @@ export default function Plancia({
           <div className="flex items-center gap-1.5">
             <span className="sez-ico w-7 h-7"><PenLine size={15} /></span>
             <span className="t-sez text-[14px]">Da firmare</span>
-            <span className={`badge ml-auto ${daFirmare.length ? "badge-on" : "badge-off"}`}>{daFirmare.length}</span>
+            <span className={`badge ml-auto ${badgeConteggio(v("azioni"), daFirmare.length).acceso ? "badge-on" : "badge-off"}`}>{badgeConteggio(v("azioni"), daFirmare.length).testo}</span>
           </div>
           <div className="mt-1.5 space-y-0.5">
             {daFirmare.length === 0 &&
@@ -204,10 +251,14 @@ export default function Plancia({
           <div className="flex items-center gap-1.5">
             <span className="sez-ico w-7 h-7"><ShieldAlert size={15} /></span>
             <span className="t-sez text-[14px]">Allarmi</span>
-            <span className={`badge ml-auto ${alerts.length ? "badge-on" : "badge-off"}`}>{alerts.length}</span>
+            <span className={`badge ml-auto ${badgeConteggio(v("alert"), alerts.length).acceso ? "badge-on" : "badge-off"}`}>{badgeConteggio(v("alert"), alerts.length).testo}</span>
           </div>
           <div className="mt-1.5 space-y-0.5">
-            {alerts.length === 0 && <p className="t-eti text-[12px]">Nessun allarme. Tutto ok.</p>}
+            {alerts.length === 0 && (
+              <p className={`t-eti text-[12px] ${v("alert").misurato ? "" : "text-amber-600"}`}>
+                {fraseVuoto(v("alert"), { vuoto: "Nessun allarme. Tutto ok." })}
+              </p>
+            )}
             {alerts.slice(0, 2).map((al, i) => (
               <div key={i} className="flex items-start gap-1.5 t-riga text-[12.5px]">
                 <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(al.livello)}`} />
@@ -222,10 +273,14 @@ export default function Plancia({
           <div className="flex items-center gap-1.5">
             <span className="sez-ico w-7 h-7"><Footprints size={15} /></span>
             <span className="t-sez text-[14px]">Mosse</span>
-            <span className={`badge ml-auto ${mosseOrd.length ? "badge-on" : "badge-off"}`}>{mosseOrd.length}</span>
+            <span className={`badge ml-auto ${badgeConteggio(v("mosse"), mosseOrd.length).acceso ? "badge-on" : "badge-off"}`}>{badgeConteggio(v("mosse"), mosseOrd.length).testo}</span>
           </div>
           <div className="mt-1.5 space-y-0.5">
-            {mosseOrd.length === 0 && <p className="t-eti text-[12px]">Nessuna mossa in agenda.</p>}
+            {mosseOrd.length === 0 && (
+              <p className={`t-eti text-[12px] ${v("mosse").misurato ? "" : "text-amber-600"}`}>
+                {fraseVuoto(v("mosse"), { vuoto: "Nessuna mossa in agenda." })}
+              </p>
+            )}
             {mosseOrd.slice(0, 2).map((m, i) => (
               <div key={i} className="flex items-start gap-1.5 t-riga text-[12.5px]">
                 <span className="mt-0.5 shrink-0 text-sm">{m.colore || "•"}</span>
@@ -239,10 +294,14 @@ export default function Plancia({
           <div className="flex items-center gap-1.5">
             <span className="sez-ico w-7 h-7"><ListTodo size={15} /></span>
             <span className="t-sez text-[14px]">Da fare</span>
-            <span className={`badge ml-auto ${daFare.length ? "badge-on" : "badge-off"}`}>{daFare.length}</span>
+            <span className={`badge ml-auto ${badgeConteggio(v("todo"), daFare.length).acceso ? "badge-on" : "badge-off"}`}>{badgeConteggio(v("todo"), daFare.length).testo}</span>
           </div>
           <div className="mt-1.5 space-y-0.5">
-            {daFare.length === 0 && <p className="t-eti text-[12px]">Nessuna cosa in sospeso.</p>}
+            {daFare.length === 0 && (
+              <p className={`t-eti text-[12px] ${v("todo").misurato ? "" : "text-amber-600"}`}>
+                {fraseVuoto(v("todo"), { vuoto: "Nessuna cosa in sospeso." })}
+              </p>
+            )}
             {daFare.slice(0, 2).map((t) => (
               <div key={t.id} className="flex items-start gap-1.5 t-riga text-[12.5px]">
                 <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(t.livello)}`} />
@@ -291,7 +350,7 @@ export default function Plancia({
       </section>
 
       {/* 2 · Ritmo del giorno — chiuso di default; mattino/sera a accordion */}
-      {(ritmo.pianoMattino || ritmo.reportSera) && (
+      {(ritmo.pianoMattino || ritmo.reportSera || !v("ritmo").misurato) && (
         <HomeSezione
           icon={<Clock size={15} />}
           titolo="Ritmo del giorno"
@@ -351,7 +410,7 @@ export default function Plancia({
         titolo="Report & piani dell'AD"
         riassunto={
           documenti.length === 0
-            ? "Radiografie e piani compaiono qui quando l'AD li produce."
+            ? fraseVuoto(v("consegne"), { vuoto: "Radiografie e piani compaiono qui quando l'AD li produce." })
             : `${documenti.length} documenti recenti — tocca per aprire l'elenco`
         }
         defaultOpen={documenti.length === 0}
@@ -365,7 +424,9 @@ export default function Plancia({
           <button onClick={() => vaiArea("memoria", undefined, "archivio")} className="t-eti hover:text-brand transition text-[12px]">tutti i documenti →</button>
         </div>
         {documenti.length === 0 ? (
-          <p className="t-eti">Le radiografie e i piani che l&apos;AD produce compaiono qui.</p>
+          <p className={`t-eti ${v("consegne").misurato ? "" : "text-amber-600"}`}>
+            {fraseVuoto(v("consegne"), { vuoto: "Le radiografie e i piani che l'AD produce compaiono qui." })}
+          </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
             {documenti.slice(0, 4).map((d) => (

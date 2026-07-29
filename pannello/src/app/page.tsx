@@ -114,6 +114,7 @@ import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
 import DirettaContenuti from "@/components/DirettaContenuti";
 import { vaultToIso } from "@/lib/format";
+import { leggiDato, piuRecente } from "@/lib/verdetto-dato";
 import { hintInvioChat } from "@/lib/chat-input";
 import { avviaDettatura } from "@/lib/dettatura-vocale";
 import Aggiornato from "@/components/Aggiornato";
@@ -854,6 +855,10 @@ export default function Dashboard() {
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [datiAggiornatiAt, setDatiAggiornatiAt] = useState<number | null>(null);
+  // AR-237 — l'ETÀ DEL DATO, separata dall'ora in cui il Pannello ha chiesto. `datiAggiornatiAt` è
+  // l'orologio del browser: dice che la Cabina è viva, NON che il dato è fresco. La targhetta in
+  // testa mostra questa, che viene dal dato stesso (l'ultimo briefing servito da /api/stato).
+  const [datiAl, setDatiAl] = useState<string | null>(null);
   const [memoria, setMemoria] = useState(false);
   const [vivo, setVivo] = useState(false);
   const [workerVivo, setWorkerVivo] = useState<boolean | null>(null);
@@ -1978,22 +1983,24 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   }, [loading, pendingCount]);
 
   const caricaStato = useCallback(async () => {
-    try {
-      const res = await fetch("/api/stato", { cache: "no-store" });
-      const data = await res.json();
-      setMemoria(Boolean(data.memoria));
-      setVivo(Boolean(data.vivo));
-      setWorkerVivo(typeof data.workerVivo === "boolean" ? data.workerVivo : null);
-      setAdInPausa(Boolean(data.adInPausa));
-      setGiri((data.giri || []).length);
-      if (data.ultimo) {
-        setBriefing(data.ultimo.data);
-        setUltimoAt(data.ultimo.created_at);
-      }
-      setDatiAggiornatiAt(Date.now());
-    } catch {
-      /* offline */
+    // AR-401/AR-237 — prima: `await res.json()` senza guardare `res.ok`, e poi il timbro «dati ·
+    // adesso» stampato COMUNQUE. Una 500 arriva col suo corpo, quindi non lanciava: la Cabina
+    // dichiarava dati freschi su una lettura mai riuscita. Il verdetto lo dà il modulo condiviso.
+    const r = await leggiDato<any>("/api/stato", { estrai: (b) => b, eVuoto: () => false });
+    if (!r.verdetto.misurato) return; // niente timbro nuovo su una lettura cieca: resta l'ultimo vero
+    const data = r.dato || {};
+    setMemoria(Boolean(data.memoria));
+    setVivo(Boolean(data.vivo));
+    setWorkerVivo(typeof data.workerVivo === "boolean" ? data.workerVivo : null);
+    setAdInPausa(Boolean(data.adInPausa));
+    setGiri((data.giri || []).length);
+    if (data.ultimo) {
+      setBriefing(data.ultimo.data);
+      setUltimoAt(data.ultimo.created_at);
     }
+    // La data VERA del dato mostrato: quando è stato scritto l'ultimo briefing, non quando l'ho letto.
+    setDatiAl((prec) => piuRecente([prec, data.ultimo?.created_at]));
+    setDatiAggiornatiAt(Date.now());
   }, []);
 
   const caricaMetriche = useCallback(() => {
@@ -2739,7 +2746,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
           <div className="ml-auto flex items-center gap-2">
             <ThemeToggle />
-            <Aggiornato at={datiAggiornatiAt} prefisso="dati" className="hidden sm:inline-flex" />
+            <Aggiornato dataDato={datiAl} at={datiAggiornatiAt} className="hidden sm:inline-flex" />
             {/* Mobile: solo il pallino di stato Worker/AD (la pill piena è sm+). (bug #9) */}
             <span
               className={`sm:hidden w-2.5 h-2.5 rounded-full shrink-0 ${
@@ -2890,7 +2897,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* Timbro globale: quando i dati del pannello sono stati aggiornati (visibile ovunque) */}
         {vista !== "assistente" && datiAggiornatiAt && (
           <div className="-mt-1">
-            <Aggiornato at={datiAggiornatiAt} prefisso="dati del pannello aggiornati" />
+            <Aggiornato dataDato={datiAl} at={datiAggiornatiAt} />
           </div>
         )}
 

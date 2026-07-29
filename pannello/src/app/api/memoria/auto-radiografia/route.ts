@@ -3,6 +3,7 @@ import { cantiereSnello } from "@/lib/cantiere-snello";
 import { radiografiaSnella } from "@/lib/radiografia-snella";
 import { readVaultFile } from "@/lib/vault";
 import { sanificaListe } from "@/lib/memoria-json";
+import { serieSicura } from "@/lib/verdetto-dato";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -137,5 +138,10 @@ export async function GET() {
   // li filtra via prima di disegnarli (RadiografiaDiSe.tsx:278). Andavano e venivano per essere
   // scartati all'arrivo. Ora dei chiusi resta il conteggio — che serve — e non il contenuto.
   const radiografiaRidotta = radiografiaSnella(radiografia);
-  return NextResponse.json({ collegato: true, live, radiografia: radiografiaRidotta, cantiere: cantiereRidotto, storico, watchlist, lettera });
+  // AR-255 — lo storico si NORMALIZZA qui, non in chi lo disegna. Lo stesso file era letto da due
+  // strade con due tolleranze diverse: `salute-onesta` accettava anche l'elenco nudo in cima al file
+  // (forma che si è già presentata davvero), questa lo inoltrava tale e quale. Risultato: nella
+  // stessa pagina un riquadro mostrava la storia e l'altro il vuoto — e il vuoto si legge come
+  // «non c'è storia». Ora la forma la decide una funzione sola, al confine dell'atto.
+  return NextResponse.json({ collegato: true, live, radiografia: radiografiaRidotta, cantiere: cantiereRidotto, storico: { serie: serieSicura(storico) }, watchlist, lettera });
 }

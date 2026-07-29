@@ -27,6 +27,7 @@
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { lezioniVive } from "./misura-parziale.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const APPR = join(ROOT, "MyCity-Vault", "90-Memoria-AI", "auto-coscienza", "apprendimento.json");
@@ -77,16 +78,25 @@ function tronca(s, n) {
 
 export function analizza(dati) {
   const tutte = Array.isArray(dati?.lezioni) ? dati.lezioni : [];
-  // «vive» = attive o principio (le decadute/in-prova non contano per la salute operativa)
-  const vive = tutte.filter((l) => l && (l.stato === "attiva" || l.stato === "principio" || !l.stato));
+  // AR-362 — «vive» arriva dalla porta unica, non da un filtro scritto qui. La definizione è la
+  // stessa che usano tasso-lezioni e cristallizza: prima erano tre (476 / 471 / 381) sullo stesso file.
+  const partizione = lezioniVive(dati);
+  const vive = partizione.lista;
   const principi = tutte.filter((l) => l && l.stato === "principio");
   const meta = dati?.meta || {};
 
-  // tasso di applicazione: dal meta se presente, altrimenti stimato dalle lezioni con usi>0
+  // Il tasso di applicazione: dal meta se c'è, altrimenti MISURATO qui.
+  //
+  // AR-362 — la misura indipendente era rotta da un cambio di tipo mai propagato: `Number(l.usi) > 0`
+  // su un `usi` che è un ARRAY di oggetti (`usi.push({quando, ref})`) dà NaN, quindi il confronto era
+  // sempre falso. Misurato il 29/7: il fallback diceva 0 lezioni usate mentre quelle con `usi` non
+  // vuoto erano 6. Il guardiano che deve giudicare l'apprendimento non aveva nessun numero suo — si
+  // limitava a ripetere quello scritto da chi sta giudicando. `usiDiUnaLezione` legge entrambe le forme.
   let tasso = Number(meta.tasso_applicazione);
+  let tassoMisuratoQui = false;
   if (!Number.isFinite(tasso)) {
-    const conUsi = vive.filter((l) => Number(l.usi) > 0).length;
-    tasso = vive.length ? conUsi / vive.length : 0;
+    tasso = partizione.tasso_usi;
+    tassoMisuratoQui = true;
   }
 
   // arretrato di cristallizzazione: lezioni MATURE (conf & evidenze da principio) ma ancora NON principio
@@ -153,7 +163,23 @@ export function analizza(dati) {
     );
   }
 
-  return { tutte, vive, principi, tasso, mature, decadute, clusters, problemi, sano: problemi.length === 0 };
+  return {
+    tutte,
+    vive,
+    principi,
+    tasso,
+    // AR-362: chi legge deve sapere se questo tasso è la misura del guardiano o l'eco di quella
+    // scritta da chi viene giudicato — e su quante lezioni è stata fatta.
+    tasso_misurato_qui: tassoMisuratoQui,
+    tasso_indipendente: partizione.tasso_usi,
+    vive_con_usi: partizione.con_usi,
+    partizione,
+    mature,
+    decadute,
+    clusters,
+    problemi,
+    sano: problemi.length === 0,
+  };
 }
 
 // ---------------------------------------------------------------------------

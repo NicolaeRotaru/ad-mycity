@@ -33,6 +33,9 @@ function parseAvvisi(md: string): Avviso[] {
 
 export async function GET() {
   const md = await readVaultFile("90-Memoria-AI/BACHECA.md");
-  if (md == null) return NextResponse.json({ collegato: false, avvisi: [] });
-  return NextResponse.json({ collegato: true, avvisi: parseAvvisi(md) });
+  if (md == null) return NextResponse.json({ collegato: false, avvisi: [], dato_al: null });
+  const avvisi = parseAvvisi(md);
+  // AR-237 — la data del DATO: gli avvisi sono già ordinati dal più recente, quindi il primo è
+  // l'età della bacheca. È ciò che la targhetta deve mostrare al posto dell'ora del browser.
+  return NextResponse.json({ collegato: true, avvisi, dato_al: avvisi[0]?.data || null });
 }
