@@ -195,6 +195,51 @@ prova (mai un fix senza) e riparti dalla misura delle malattie, che rilegge lo s
 non dalla memoria della sessione. Quello che NON si spezza a metà è il singolo difetto: fix + prova +
 mutazione vanno insieme, o resta aperto.
 
+## Molti difetti insieme: le CORSIE parallele
+
+> Nato il 29/7 da Nicola: *«è essenziale che tu riesca a risolvere il maggior numero di difetti
+> insieme.»* Il lotto 35 ha curato quattro malattie in parallelo. Funziona, e queste sono le regole
+> che l'hanno fatto funzionare — ognuna pagata sul campo quella notte.
+
+**L'unità parallela è la MALATTIA, non il difetto.** N agenti su N difetti si pestano sugli stessi
+file e producono una PR illeggibile. N agenti su N *malattie* con **territori di file disgiunti**
+lavorano senza toccarsi. Tre-cinque corsie è la misura giusta: sopra, si perde più nella ricucitura
+di quanto si guadagni. A ogni corsia si dà il territorio **e il divieto di uscirne**: se il fix
+richiede un file altrui, la corsia si ferma su quel difetto e lo segnala invece di editarlo.
+
+**I registri condivisi NON si danno alle corsie.** `mutanti.json` · `cantiere-difetti.json` ·
+`malattie.json` · `tetti-lotto.json`: quattro corsie che ci scrivono insieme è AR-331 moltiplicato
+per quattro. Ogni corsia consegna un **frammento JSON** in una cartella di lavoro
+(`{difetti:[{id, verifica_comando, nota_fix, mutante:{file,cerca,sostituisci}, non_vacuita}], …}`) e
+l'AD ricuce. Stessa cosa per git: **nessuna corsia committa**. Un commit per corsia, li fa l'AD.
+
+**Una corsia non può misurare il cancello.** È la trappola meno ovvia e la più costosa: una corsia
+che lancia `cancello-lotto.mjs` mentre le altre scrivono legge rossi che non sono suoi, e te li
+riporta come «debito preesistente». **Il cancello si lancia solo ad albero fermo**, dall'AD, quando
+tutte le corsie sono rientrate. Se un rosso ti viene riferito come preesistente, **verificalo**: un
+worktree sul commit di partenza (`git worktree add <dir> HEAD`) dice in trenta secondi se quel test
+era verde prima. Il 29/7 erano verdi tutti e tre.
+
+**Prima di consegnare, `main` si è mosso.** Un lotto lungo finisce contro un ramo che nel frattempo
+ha chiuso altri difetti negli stessi registri. Il conflitto va risolto prendendo **`main` come base**
+e riapplicando sopra solo le proprie colonne — `verifica` e `nota_fix`, **mai lo `stato`**. La
+risoluzione comoda (tenere il proprio lato) **annulla in silenzio le chiusure altrui**: il 29/7
+sarebbero state trenta. Su `mutanti.json`: **unione**, non scelta. E controlla la sovrapposizione fra
+i tuoi difetti e quelli chiusi da `main` — due dei candidati del lotto 35 erano già chiusi lì, e solo
+la regola ② (verifica sul codice vero) ha evitato di ripararli due volte.
+
+**Dopo il merge, le chiusure si rileggono UNA PER UNA.** `auto-fix.mjs verifica --applica` guarda la
+prova presente sulla scheda, non la volontà di chi ha lavorato il difetto: un difetto che hai
+dichiarato **aperto** si richiude da solo se sulla scheda è rimasta la vecchia prova a pattern (il
+codice ora la contiene, quindi il pattern si trova). Il 29/7 il conteggio diceva «✅ Chiusi 20» ed
+era verde: uno dei venti non doveva esserci. **Quindi: a ogni difetto che dichiari aperto, TOGLI la
+`verifica` a pattern** — o si richiuderà da solo, smentendo ciò su cui Nicola ha messo la firma.
+(Causa di sistema: AR-444.)
+
+**Il collo di bottiglia non sono le corsie, sono i merge.** Aggiungere corsie non accorcia il lotto
+oltre un certo punto; quello che lo accorcia è consegnare presto e in pezzi che stanno in piedi da
+soli. Dieci lotti pronti e non mergiati valgono meno di tre mergiati.
+
 ## La porta d'ingresso è misurata
 
 Vale solo se si accende quando serve: le frasi vere di Nicola — e le trappole che NON devono
