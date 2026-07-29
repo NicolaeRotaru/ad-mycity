@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-29 01:19",
+  "aggiornato": "2026-07-29 16:14",
   "fatti": [
     {
       "id": "bandi.pi26.scadenza",
@@ -481,6 +481,16 @@
           "chiusa": "2026-07-13 22:35"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "strategia.leve-ricavo-potenziali",
+      "nome": "Le 46 leve di ricavo (mappa del potenziale)",
+      "valore": "46 leve di ricavo MAPPATE (Bacheca 2026-07-29 16:20) — mappa del POTENZIALE, non linee attive e non prezzi approvati. Le linee di ricavo attive restano DUE (vedi strategia.linee-ricavo). Ripartizione per cancello: 16 incassabili a zero ordini, 11 ferme al 1o ordine, 12 richiedono pubblico, 7 richiedono un permesso/contratto. Nessuna azione, nessun pitch e nessun prezzo pubblicato da questa lista finche' non lo apre Nicola.",
+      "fonte": "Nicola, chat 2026-07-29 ~16:05 — lista delle 46 voci; mappata dall'AD in 90-Memoria-AI/BACHECA.md (card 29/7 16:20)",
+      "aggiornato": "2026-07-29 16:14",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {
