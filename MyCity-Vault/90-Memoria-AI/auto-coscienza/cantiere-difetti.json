@@ -7214,6 +7214,21 @@
         "tipo": "umano",
         "nota": "da convertire in prova comportamentale quando il fix parte: un test che monta un cantiere finto con debito sotto il tetto e pretende exit 0, e uno con una violazione nuova che pretende exit 1"
       }
+    },
+    {
+      "id": "AR-438",
+      "stato": "aperto",
+      "gravita": "medio",
+      "dimensione": "sensori",
+      "nato": "2026-07-29 17:12",
+      "fonte": "lotto 32 (visita del 29/7, copertura 63%)",
+      "titolo": "La visita si dichiara cieca sulla Cabina per un indirizzo che la macchina conosce già",
+      "causa_radice": "① Perché cabina.viva e cabina.cuore sono ⚪? Perché salute.mjs pretende PANNELLO_URL o CABINA_URL dall'ambiente, e senza quelle esce subito (righe 562 e 573). ② Perché non ce l'ha? Perché in una sessione cloud il .env del VPS non esiste. ③ Ma quell'indirizzo NON è un segreto: https://ad-mycity.vercel.app sta scritto in chiaro in DECISIONI.md, nello STATO storico e dentro il cantiere stesso. È un URL pubblico, non una chiave. ④ Causa di sistema: il codice tratta allo stesso modo due cose diverse — i SEGRETI (che giustamente mancano fuori dal VPS) e gli INDIRIZZI PUBBLICI (che si possono sapere ovunque). Così due controlli su sedici si dichiarano ciechi senza esserlo, e la copertura dichiarata dalla visita (63%) è più bassa del vero.",
+      "fix_proposto": "🟡 Dare a salute.mjs un indirizzo di ripiego per la Cabina quando l'ambiente non ce l'ha, con l'env che vince sempre (se un giorno il Pannello cambia casa, si sposta in un punto solo). Il valore va messo dove vivono i fatti-chiave — registro-fatti.json, chiave cabina.url — non copiato dentro lo script: AR-102 vale anche qui. Attenzione a un caso che rovescerebbe il guadagno: se Vercel Authentication è attiva la Cabina risponde 401, e 401 vuol dire VIVA-ma-protetta, non morta — va letto come verde con la nota, altrimenti si guadagnano due ⚪ e si perde un ✅ vero. Prova comportamentale: giudicaCabina su 200 / 401 / 500 / timeout.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "da convertire in {comando: node cervello/test/cabina-indirizzo.test.mjs} quando il fix parte"
+      }
     }
   ],
   "meta": {
