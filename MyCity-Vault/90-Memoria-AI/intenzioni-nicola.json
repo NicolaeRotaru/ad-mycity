@@ -1,24 +1,33 @@
 {
-  "data": "2026-07-27 06:20",
-  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati, stallo ~33gg). Le mosse verso il marketplace (ordine test PQ, post social, WhatsApp anchor) restano in pausa concordata fino al 24/8-1/9 — non sono priorità di oggi. L'unica eccezione attiva è PI26 (10.000€ a fondo perduto, sportello a esaurimento): mancano 3 giorni e servono 3 risposte di Nicola prima dell'invio finale. Resta aperta anche la conferma sulla nuova data di ripartenza (metà agosto, proposta il 26/7 notte) vs la pausa già registrata (24/8-1/9). Telegram sul VPS resta configurabile quando c'è tempo, non bloccante.",
+  "data": "2026-07-29 06:37",
+  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati, stallo ~35gg). Le mosse verso il marketplace (ordine test PQ, post social, referral, mail Hub Urbano) restano in pausa concordata fino al 24/8-1/9 — non sono priorità di oggi. Le due domande sospese da giorni sono state chiuse da Nicola stanotte (00:10): PI26 non idoneo (niente da inviare, sportello superfluo), piano-squadra confermato ma parte DOPO il 24/8-1/9 (non a metà agosto). Le priorità di oggi sono altre: chiudere la porta aperta del Pannello (Vercel Authentication) e decidere quali dei 4 controlli-avviso promuovere a blocco vero.",
   "prossime_mosse": [
     {
-      "titolo": "Rispondi alle 3 domande sul bando PI26",
-      "quando": "Entro il 30/7 ore 16:00 (3 giorni residui, sportello a esaurimento)",
-      "come": "P.IVA/entità giuridica sì/no · spese reali documentabili sì/no e quanto · firma digitale attiva sì/no — poi restart.infocamere.it con SPID",
+      "titolo": "Attiva Vercel Authentication sul Pannello",
+      "quando": "Appena possibile — 30 secondi, nessuna scadenza ma la porta resta aperta finché non lo fai",
+      "come": "Vercel → progetto ad-mycity → Settings → Deployment Protection → Vercel Authentication → Save",
       "priorita": "alta",
-      "ad_prepara": "Bozza pronta in consegne/relazioni-istituzionali/, aggiornata appena arrivano le risposte",
-      "senior": "@relazioni-istituzionali",
+      "ad_prepara": "Codice che blocca gli script già in produzione (PR #561), verificato da @security 29/7 00:16 — manca solo questo interruttore",
+      "senior": "@security",
       "colore": "🔴"
     },
     {
-      "titolo": "Conferma la data del piano squadra",
-      "quando": "Appena possibile — proposto la notte del 26/7, ancora senza risposta",
-      "come": "Dire se metà agosto sostituisce la pausa 24/8-1/9 già registrata, o se il piano squadra parte comunque dopo",
-      "priorita": "alta",
-      "ad_prepara": "registro-fatti.json pronto per l'aggiornamento non appena arriva la conferma",
+      "titolo": "Dimmi quali dei 4 controlli-avviso vuoi promuovere a blocco vero",
+      "quando": "Appena possibile — proposto stanotte 00:20",
+      "come": "Risposta con le 4 opzioni già pronta in RITMO.md · Piano del mattino 29/7",
+      "priorita": "media",
+      "ad_prepara": "Analisi dei 4 controlli già scritta, aspetta solo la scelta",
       "senior": "@AD",
       "colore": "🟡"
+    },
+    {
+      "titolo": "Mergia le 6 PR genuinamente ancora aperte",
+      "quando": "Appena possibile — verificate oggi contro git log, non sono duplicati",
+      "come": "PR #403/#463/#465/#505 (repo ad-mycity) + #217/#218 (repo mycity, controlla su GitHub)",
+      "priorita": "media",
+      "ad_prepara": "Housekeeping di oggi ha già ripulito 66 righe stale della coda (77→11 righe 'in attesa' vere)",
+      "senior": "@devops-sre",
+      "colore": "🔴"
     },
     {
       "titolo": "Ordine di prova su Pane Quotidiano",
@@ -28,26 +37,17 @@
       "ad_prepara": "Flusso già verificato via REST, pronto a ripartire senza altro lavoro tecnico",
       "senior": "@operations",
       "colore": "🟡"
-    },
-    {
-      "titolo": "Configura Telegram sul VPS",
-      "quando": "Quando c'è tempo — non bloccante",
-      "come": "TELEGRAM_BOT_TOKEN + CHAT_ID in .env → n8n workflow Active",
-      "priorita": "bassa",
-      "ad_prepara": "Playbook consegne/intelligence/PLAYBOOK-ACCENSIONE-2026-07-20.md",
-      "senior": "@builder-automazioni",
-      "colore": "🔴"
     }
   ],
   "primi_negozi": [
     {
       "nome": "Pane Quotidiano",
       "perche": "Unico negozio REALE (Via Calzolai 25). Già online, 5 prodotti.",
-      "stato": "attivo — North Star 0, stallo ~33gg, in pausa operativa concordata fino al 24/8-1/9"
+      "stato": "attivo — North Star 0, stallo ~35gg, in pausa operativa concordata fino al 24/8-1/9"
     },
     {
       "nome": "Antica Salumeria Garetti",
-      "perche": "Anchor DOP + WhatsApp PI26 pronto (invio in pausa).",
+      "perche": "Anchor DOP, prospect ragionato (non nel DB).",
       "stato": "scelta_ragionata — dopo la ripresa"
     },
     {
@@ -57,26 +57,26 @@
     }
   ],
   "rischi": [
-    "PI26 scade tra 3 giorni — domanda ancora non risulta inviata, sportello a esaurimento",
-    "Piano-squadra: 2 date diverse in giro (metà agosto vs 24/8-1/9) finché Nicola non conferma quale vale",
+    "Pannello raggiungibile senza login finché non si attiva Vercel Authentication (AR-226)",
     "3 carrelli abbandonati reali su PQ mai recuperati (invariati da giugno)",
-    "Runway non calcolabile da molti giri (manca BURN_MENSILE_EUR nel .env VPS)"
+    "Runway non calcolabile da molti giri (manca BURN_MENSILE_EUR nel .env VPS)",
+    "Decadimento memoria conta esecuzioni non giorni — rischio di perdere lezioni di giugno prima del fix (in preparazione da bi-lead/data-engineer)"
   ],
   "serve_da_nicola": [
     {
-      "ambito": "PI26",
-      "cosa_manca": "3 risposte di ammissibilità",
-      "domanda_per_nicola": "P.IVA/entità giuridica sì/no? Spese reali documentabili sì/no e quanto? Firma digitale attiva sì/no? Restano 3 giorni (scade 30/7 ore 16)."
+      "ambito": "Pannello",
+      "cosa_manca": "Attivare Vercel Authentication",
+      "domanda_per_nicola": "30 secondi su Vercel (Settings → Deployment Protection) per chiudere l'unica porta ancora aperta della Cabina di Regia."
     },
     {
-      "ambito": "piano-squadra",
-      "cosa_manca": "Conferma quale data vale",
-      "domanda_per_nicola": "Il piano con fratello+amici di metà agosto sostituisce la pausa fino al 24/8-1/9, o parte comunque dopo quella data?"
+      "ambito": "controlli-avviso",
+      "cosa_manca": "Scelta su quali dei 4 controlli promuovere a blocco vero",
+      "domanda_per_nicola": "Risposta dettagliata già pronta in RITMO.md, aspetta solo la tua scelta."
     },
     {
       "ambito": "macchina",
       "cosa_manca": "Merge delle PR in coda",
-      "domanda_per_nicola": "Ok a mergiare le PR ferme del Cantiere Pannello e del fix doppioni chat (#551/#552/#553/#556)? Nessun rischio per il sito, solo il tuo click."
+      "domanda_per_nicola": "Ok a mergiare PR #403/#463/#465/#505 (ad-mycity) e verificare #217/#218 (mycity)? Nessun rischio per il sito, solo il tuo click."
     }
   ]
 }

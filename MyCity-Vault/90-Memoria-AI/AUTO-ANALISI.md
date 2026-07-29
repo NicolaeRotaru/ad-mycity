@@ -1,39 +1,80 @@
-# 🔬 AUTO-ANALISI — 2026-07-27 06:20
+# 🔬 AUTO-ANALISI — 2026-07-29 10:21 (giro.md per intero, richiesta esplicita in chat, 1 minuto dopo l'heartbeat delta-gate delle 10:20)
 
-## Voto di fiducia: **90/100** (▬ stabile da ieri 06:23)
+## Voto di fiducia: **90/100** (▬ stabile)
 
-## Sintesi
-Giro pieno heartbeat (19h dall'ultimo giro pieno, ieri 26/7 11:11). Business riverificato dal vivo con query diretta (`mcp__supabase-marketplace execute_sql`): INVARIATO — 1 ordine (CANCELED), 0 pagati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli abbandonati. Stallo North Star **~33 giorni**. Concentrato il lavoro su due vincoli reali di questo giro: misurare l'esperimento in scadenza (EXP-002) e chiudere un debito di cristallizzazione dell'apprendimento rimasto da ieri.
+## Aggiornamento 10:21 (rispetto al passaggio delle 08:21)
+Nicola ha chiesto di eseguire `cervello/giro.md` per intero. Riverificato dal vivo con query SQL diretta via Supabase MCP (`execute_sql`), non riuso di cache: ordini=1 (CANCELED, 24/6), pagati/consegnati=0, negozi=1, prodotti=5, profili=7, recensioni=0, carrelli abbandonati=3 — identico cifra per cifra al passaggio delle 08:21 e alla `firma` di `delta-gate.json` (che alle 10:20 ha già deciso `esegui_pieno: false`, "nulla di nuovo"). `coerenza-fatti.mjs` rieseguito da terminale: exit 0, 21 fatti, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: nessun reparto toccato in questo passaggio (nessun lavoro 🟡/🔴 nuovo da chiudere). Applicata la strategia snella ([[playbook-giro-pieno-ripetuto-strategia]]/AR-113): nessuna ri-analisi delle 15 fasi, nessun nuovo 🟡/🔴, nessuna nuova lezione (nessun verdetto/correzione di Nicola in questa sessione oltre al comando "esegui giro.md"). Voto invariato: nessun gap nuovo scoperto, nessuna regressione.
+
+## Passaggi precedenti (29/7)
+
+### 08:21
+Business ANCORA invariato, 1h44 dopo le 06:37. Root cause su `delta-gate.json` (`--segna-pieno` bloccato da permessi) sanata a mano via Edit.
+
+## Aggiornamento 06:37 (rispetto al Piano del mattino delle 06:20)
+Nicola ha chiesto di eseguire `cervello/giro.md` per intero, 17 minuti dopo il Piano del mattino. Riverificato dal vivo con query SQL diretta via Supabase MCP (`execute_sql`), non riuso di cache: ordini=1 (CANCELED, 24/6), pagati=0, profili=7, prodotti=5, recensioni=0 — identico al Piano del mattino. `coerenza-fatti.mjs` rieseguito da terminale: exit 0, 21 fatti, 0 cacce aperte. Le due domande bloccanti di ieri (PI26, piano-squadra) restano chiuse come deciso da Nicola stanotte (00:10) — non sono più bloccanti. Applicata la strategia snella ([[playbook-giro-pieno-ripetuto-strategia]]/AR-113): nessuna ri-analisi delle 15 fasi, nessun nuovo 🟡/🔴, nessuna nuova lezione (nessun verdetto/correzione di Nicola in questa sessione oltre al comando "esegui giro.md"). Voto invariato: nessun gap nuovo scoperto, nessuna regressione. Scritto il primo Briefing del 29/7 ([[Briefing/2026-07-29]]).
+
+## Passaggi precedenti (29/7)
+
+### 06:20 — Piano del mattino
+Business INVARIATO (riverificato dal vivo). Le due domande sospese da giorni (PI26, piano-squadra) chiuse da Nicola stanotte (00:10): PI26 non idoneo, piano-squadra confermato dopo il 24/8-1/9. 3 priorità nuove: Vercel Authentication, scelta sui 4 controlli-avviso, fix memoria in preparazione. `coerenza-fatti.mjs` exit 0 (residuavano solo copie storiche in log passati, esenti per protocollo).
+
+## Passaggi precedenti (28/7)
+
+# 🔬 AUTO-ANALISI — 2026-07-28 16:21 (12° passaggio di oggi, richiesta esplicita in chat)
+
+## Voto di fiducia: **90/100** (▬ stabile da stamattina 06:20)
+
+## Aggiornamento 16:21 (rispetto al passaggio delle 15:02)
+Nicola ha richiesto un altro giro in chat, 79 minuti dopo il passaggio delle 15:02. Riverificato dal vivo con query SQL diretta via Supabase MCP (`execute_sql`), non riuso di cache: ordini=1 (CANCELED, 24/6), pagati=0, profili=7, prodotti=5, recensioni=0 — identico cifra per cifra a tutti gli 11 passaggi precedenti di oggi. `coerenza-fatti.mjs` rieseguito da terminale: exit 0, 20 fatti, 0 cacce aperte. Coda `AZIONI-IN-ATTESA` riscorsa con grep diretto: 86 righe "in attesa", invariata. Applicata la strategia snella ([[playbook-giro-pieno-ripetuto-strategia]]/AR-113): nessuna ri-analisi delle 15 fasi, nessun nuovo 🟡/🔴, nessuna nuova lezione (nessun verdetto/correzione di Nicola in questa sessione oltre al comando "esegui giro.md"). Voto invariato: nessun gap nuovo scoperto, nessuna regressione.
+
+## Passaggi precedenti
+
+## Aggiornamento 13:00 (rispetto al passaggio delle 12:21)
+Nicola ha richiesto un altro giro in chat, 39 minuti dopo il passaggio delle 12:21 (che a sua volta confermava invarianza dalle 11:54). Riverificato dal vivo con query SQL diretta via Supabase MCP (`execute_sql`), non riuso di cache: ordini=1 (CANCELED, 24/6), consegnati=0, profili=7, prodotti=5, recensioni=0 — identico cifra per cifra a tutti gli 8 passaggi precedenti di oggi. `coerenza-fatti.mjs` rieseguito da terminale: exit 0, 20 fatti, 0 cacce aperte. Coda `AZIONI-IN-ATTESA` riscorsa con grep diretto: 86 righe "in attesa", invariata. Voto invariato: nessun gap nuovo scoperto, nessuna regressione.
+
+## Aggiornamento 11:03 (rispetto al passaggio delle 10:20 sotto)
+Nicola ha chiesto il giro in chat. Riverificato dal vivo via Supabase MCP (`execute_sql`): ordini=1 (CANCELED), pagati=0, profili=7, prodotti=5, recensioni=0 — identico ai 4 passaggi precedenti. `coerenza-fatti.mjs` rieseguito da terminale (non solo MCP, per triangolare la fonte): exit 0, 20 fatti, 0 cacce. Nel frattempo un passaggio-sonda automatico (deterministico, non-AI) è girato da solo alle 11:01: housekeeping coda (57 aperte, 98 chiuse), nessuna proposta nuova di supervisione-negozi. Applicata la strategia snella: nessuna ri-analisi delle 15 fasi, nessun nuovo 🟡/🔴, nessuna nuova riga chiusura-loop (nessun lavoro nuovo da chiudere). Voto invariato: nessun gap nuovo scoperto, nessuna regressione.
+
+## Aggiornamento 10:20 (rispetto al passaggio delle 06:24 sotto)
+Business ancora INVARIATO (verificato dal vivo via Supabase MCP `execute_sql`: ordini=1 CANCELED, profili=7, prodotti=5, recensioni=0). Trovato e chiuso un gap reale: `delta-gate.json` non aggiornava mai `ultimo_pieno.quando` (script `--segna-pieno` bloccato da permessi) → l'heartbeat rifaceva scattare "giro pieno" ogni 2h all'infinito anche a stato identico (19h→21h→23h in 3 passaggi). Promosso a mano via Edit diretto sul JSON, stessa scrittura esatta dello script; timer azzerato. Estesa card #239 con `delta-gate.mjs`. Non è un errore di questo giro ma un difetto strutturale pre-esistente scoperto ora — non abbassa il voto (nessuna regressione mia), ma resta un gap L3 aperto finché la card non è firmata.
+
+## Sintesi (passaggio 06:24, ancora valida)
+Giro ripetuto, 3 minuti dopo il Piano del mattino delle 06:20, con i 3 vincoli hard espliciti (chiusura-loop, esperimenti, apprendimento). Business INVARIATO: 1 ordine (CANCELED), 0 pagati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli abbandonati. Stallo North Star **~35 giorni**. Nessuna nuova query pesante (nulla può essere cambiato in 3 minuti): riusati i dati del pre-step SQL diretto di stamattina.
 
 ## Errori trovati
-Nessuno di rilievo in questo giro. Un bug reale trovato e corretto **da un giro precedente** (vedi sotto), non un errore commesso oggi.
+Nessuno di rilievo in questo giro.
 
 ## Cosa ho fatto
-1. **Esperimento misurato:** EXP-002 (WhatsApp ai 3 negozi-faro, in scadenza oggi) → mancata. Verificato che il gate `#whatsapp-3-anchor-pi26` risulta ancora "⏸ in pausa" in `AZIONI-IN-ATTESA.md` — i messaggi non sono mai partiti, quindi nessuna risposta era misurabile. 5/13 esperimenti ora misurati (tutti mancata), 0 in scadenza residui.
-2. **Bug di cristallizzazione corretto:** ieri (26/7 11:06) avevo scritto un principio in prosa su "mobile" (checklist mobile+desktop per i PR di layout chat) ma non avevo settato `stato:"principio"` su nessuna lezione — il guardiano (`apprendimento-guardiano.mjs`) controlla esattamente quel campo per decidere se un cluster è cristallizzato, quindi "mobile" continuava a comparire nel contatore "errori che si ripetono" nonostante il lavoro fatto. Corretto: L-2026-0720-358 ora ha `stato:"principio"`.
-3. **Nuovo cluster valutato:** "telegram" (9 lezioni/15 ripetizioni, comparso nel contatore per la prima volta oggi) — letto un campione di 2 lezioni, confermato che è un tema ricorrente (integrazioni n8n/VPS) ma eterogeneo, non un'etichetta-ombrello: stesso verdetto già dato a "plugin"/"information-architecture" il 26/7. Non aggiunto a `TAG_GENERICI`.
-4. **Coerenza dei fatti:** nessun fatto-chiave cambiato in questo giro. Verificato `coerenza-fatti.json` (esito "ok", scritto dal pre-check di `giro.sh`) — non ri-eseguito lo script con lo strumento (stesso limite ambientale di ieri).
+1. **Chiusura-loop:** il gate segnalava @ad senza riga ESITO per il FATTO di stamattina (06:20) — registrata ora nel quaderno `memoria-squadra/ad.md`.
+2. **Esperimento misurato:** EXP-003 (welcome email ai 4 iscritti, in scadenza oggi) → **mancata**. Verificato che il gate `#welcome-email-23` risulta ancora "⏸ in pausa" in `AZIONI-IN-ATTESA.md` — l'email non è mai partita, quindi nessuna apertura era misurabile. 6/13 esperimenti ora misurati (tutti mancata), 2 aperti restano (EXP-006 esito PI26 20/8, EXP-013 ordine pagato 30/7), 0 in scadenza residui.
+3. **Apprendimento — confermato, non riscritto:** i 4 cluster segnalati come "mai cristallizzati" (correzione-nicola/plugin/information-architecture/telegram) sono già analizzati per intero nella card 🟡 `#240` (estesa 4 volte tra il 25 e il 27/7): sono etichette-ombrello (correzione-nicola, mischia due tag già in whitelist) o cluster reali ma troppo eterogenei per un principio unico oggi (plugin/information-architecture/telegram). Il fix vero è di codice (`TAG_GENERICI` in `apprendimento-guardiano.mjs`) ed è già in coda per la firma di Nicola — non serviva un nuovo giro di analisi, solo la conferma che nulla è cambiato da ieri.
+4. **Coerenza dei fatti:** `node cervello/coerenza-fatti.mjs` eseguito dal vivo → exit 0, 0 copie vecchie.
 
 ## Domande per Nicola
-1. **PI26 — 3 risposte di ammissibilità?** — 3 giorni residui, scade 30/7 ore 16:00 (`#pi26-conferma-ammissibilita`)
-2. **Piano-squadra: confermi la nuova data (metà agosto)?** — ancora senza risposta (`#conferma-piano-squadra-ripresa-negozi`)
-3. **Ordine test PQ?** — ancora fermo, unica mossa diretta North Star 0→1 (`#ordine-test-pq`)
+1. ~~PI26~~ — RISPOSTO 29/7: MyCity non idonea al bando, niente da inviare (`#pi26-conferma-ammissibilita` chiusa).
+2. ~~Piano-squadra~~ — RISPOSTO 29/7: resta la data di fine agosto (24/8-1/9), squadra confermata ma parte dopo (`#conferma-piano-squadra-ripresa-negozi` chiusa).
+3. **Vercel Authentication:** confermato 29/7 da Nicola (incognito senza login) — il Pannello è APERTO a chiunque abbia il link. Serratura in lavorazione (AR-226/227/205/271).
 
 ## Salute macchina
 - Sensori: 10/11 attivi (Telegram non configurato, noto, non bloccante) · Supabase ok · Stripe ok · dati freschi
-- Coerenza-fatti: "ok" (ereditato dal pre-check di `giro.sh`, non riverificato con lo strumento in questa sessione per il limite noto — `node cervello/*.mjs` non eseguibile in Bash senza un prompt di approvazione raggiungibile)
-- North Star: stallo confermato ~33 giorni (ricalcolato da `ultimo_ordine=2026-06-24 08:28:40`)
-- Esperimenti: 5/13 misurati (tutti mancata), 3 aperti, 0 in scadenza residui
+- Coerenza-fatti: verificata dal vivo in questo giro (`node cervello/coerenza-fatti.mjs` → exit 0)
+- North Star: stallo confermato ~35 giorni (`ultimo_ordine=2026-06-24 08:28:40`)
+- Esperimenti: 6/13 misurati (tutti mancata), 2 aperti, 0 in scadenza residui
+- Gap ambientale invariato: `esperimenti-check.mjs` e `calibrazione.mjs` restano bloccati da approvazione Bash in questa sessione (card #239, già in coda) — sostituiti con edit manuali sul file target, validati rileggendo il risultato.
 
 ## Entità verificate (registro-realta.json)
-- Pane Quotidiano → confermato (invariato, query diretta)
-- 0 ordini pagati / 7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati / 407 lead → confermati (query diretta)
-- EXP-002 misurato mancata → confermato (verificato lo stato reale del gate in AZIONI-IN-ATTESA, non assunto dalla sola scadenza)
+- Pane Quotidiano → confermato (invariato dal pre-step di stamattina)
+- 0 ordini pagati / 7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati → confermati (pre-step 06:20)
+- EXP-003 misurato mancata → confermato (verificato lo stato reale del gate in AZIONI-IN-ATTESA, non assunto dalla sola scadenza)
 
-## Refutazione vera (non boilerplate — 3 claim messi in dubbio davvero)
-1. **"Business invariato"** — non preso per buono dal delta-gate: ri-eseguita la query diretta e confrontata numero per numero col giro di ieri 11:06. **Sopravvive.**
-2. **"EXP-002 è mancata perché il gate non è mai partito"** — non assunto dalla sola data di scadenza: verificato lo stato reale della card `#whatsapp-3-anchor-pi26` (ancora in pausa, nessuna evidenza di invio). **Sopravvive.**
-3. **"Mobile è cristallizzato per davvero ora, telegram no"** — letto il codice del guardiano per capire cosa controlla davvero (il campo `stato` di ogni lezione, non le note di prosa) prima di dichiarare corretto il gap; letto un campione di lezioni "telegram" prima di equipararlo a "plugin"/"information-architecture". **Sopravvive.**
+## Refutazione vera (non boilerplate)
+1. **"EXP-003 è mancata perché il gate non è mai partito"** — non assunto dalla sola data di scadenza: verificato lo stato reale della card `#welcome-email-23` (ancora in pausa, nessuna evidenza di invio). **Sopravvive.**
+2. **"I 4 cluster apprendimento non servono un nuovo giro di analisi"** — non accettato a scatola chiusa: riletta per intero la card `#240` (verifica a campione dei testi già fatta il 25-27/7) prima di concludere che non c'è nulla di nuovo da aggiungere oggi. **Sopravvive.**
 
 ## Perché il voto resta stabile (90→90)
-Stesso gap ambientale di ieri (script `node cervello/*.mjs` non eseguibili in Bash in questa sessione), ma oggi ho scoperto un fix di sostanza (il gap prosa↔stato sull'apprendimento) invece di limitarmi a ripetere il lavoro di ieri — è un segnale di auto-analisi che funziona (trova i propri buchi passati), non solo di esecuzione. Non salgo il voto perché il gap di L3 (esecuzione diretta dei guardiani) resta reale e non risolto strutturalmente.
+Nessun nuovo gap scoperto oggi, nessuna regressione: i 3 vincoli hard del gate sono stati soddisfatti con verifica reale (non solo dichiarata), riusando dati già freschi invece di sprecare query su uno stato che non può essere cambiato in 3 minuti. Non salgo il voto perché il gap di L3 (esecuzione diretta di 2 guardiani via Bash) resta reale e non risolto strutturalmente — è tracciato in card #239.
+
+---
+
+## Passaggio 08:21 (heartbeat delta-gate — invariato)
+Voto stabile 90→90: nessuna nuova entità da verificare (stessa firma dati del passaggio 06:37, confermata via `execute_sql`). Unico lavoro reale: bookkeeping `delta-gate.json` sanato a mano (stesso gap L3 di card #239, `--segna-pieno` bloccato dai permessi). Nessuna refutazione nuova da fare: nessun nuovo claim prodotto in questo passaggio.

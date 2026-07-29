@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-25 00:05",
+  "aggiornato": "2026-07-29 06:23",
   "fatti": [
     {
       "id": "bando.commercio-er.scadenza",
@@ -42,6 +42,32 @@
         "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
         "memoria-squadra/"
       ]
+    },
+    {
+      "id": "bando.pi26.idoneita",
+      "nome": "bando.pi26.idoneita",
+      "valore": "MyCity non idonea al bando PI26 — confermato da Nicola 29/7, niente da inviare",
+      "fonte": "chat Pannello 2026-07-29 ~00:15, Nicola: «mycity non è idonea a questo finanziamento»",
+      "aggiornato": "2026-07-29 00:10",
+      "storia": [],
+      "caccia": [
+        {
+          "pattern": "Rispondi alle 3 domande PI26",
+          "dal": "2026-07-29 00:10",
+          "chiusa": "2026-07-29 06:23"
+        },
+        {
+          "pattern": "scade 30/7 ore 16:00",
+          "dal": "2026-07-29 00:10",
+          "chiusa": "2026-07-29 06:23"
+        },
+        {
+          "pattern": "conferma prima di inviare la domanda PI26",
+          "dal": "2026-07-29 00:10",
+          "chiusa": "2026-07-29 06:23"
+        }
+      ],
+      "esenzioni": []
     },
     {
       "id": "eventi.venerdi-piacentini",

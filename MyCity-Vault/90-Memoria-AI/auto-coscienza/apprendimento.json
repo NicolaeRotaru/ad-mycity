@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-28 04:12",
+  "aggiornato": "2026-07-29 16:42",
   "_gate_26_07_1106": "GATE ERRORI-RICORRENTI (vincolo apprendimento-guardiano, giro 26/7 11:06): promosse 3 lezioni mature a 'principio' (L-2026-0723-449 git-pr.mjs file sporchi, L-2026-0723-448 Vercel diff-prima-di-accusare, L-2026-0723-446 coerenza parola↔fatto — tutte caso_studio_nicola, confidenza ≥0.9, già cristallizzate in memoria-persistente utente). Verificato A MANO (non solo dal contatore) il cluster #1 segnalato dal guardiano ('correzione-nicola', 14 lezioni/18 ripetizioni): come già trovato per 'marketplace' il 25/7, è un'ETICHETTA-OMBRELLO — tag apposto su QUALSIASI lezione nata da una correzione di Nicola, a prescindere dal tema (pricing, git-pr, Vercel, chat, costi...). Non è un singolo errore ricorrente cristallizzabile in UN gate: farne un principio produrrebbe solo un vago 'ascolta Nicola' che non previene nulla di specifico. Stessa diagnosi per 'plugin' (11/17: mescola 3 temi — sync skill community, chip menu ⚡, conflitti PR su comandi-data.ts) e 'information-architecture' (8/9: riorganizzazioni UI eterogenee). Proposta 🟡 concreta accodata in AZIONI-IN-ATTESA (card #allowlist-tag-generici-apprendimento): estendere TAG_GENERICI in cervello/apprendimento-guardiano.mjs con 'correzione-nicola' (quasi-duplicato di 'correzione', già escluso). Cluster REALE trovato invece in 'mobile' (8/9, tutte sullo stesso sotto-sistema: layout responsive della chat nel Pannello — sidebar/menu/drawer che si rompe su un viewport quando si sistema l'altro): scritto un principio nuovo (vedi lezioni 'mobile', L-2026-0720-358 e sorelle) perché qui c'è un vero pattern con una fix di processo concreta — checklist esplicita 'mobile (drawer/toggle) + desktop (collapse)' su ogni PR di layout chat, non solo verifica su un viewport. 'telegram' (9/15) resta parcheggiato per decisione di business (bot non ancora collegato da Nicola) — non è un errore ricorrente, è lavoro non ancora sbloccato: nessun gate da scrivere finché la connessione non parte.",
   "_nota_metabolizzazione_26_07_0148": "Chat 26/7 ~01:44-01:48 (seguito diretto della nota 01:44, stesso filo 10.000€/mese): Nicola corregge «non hai calcolato l'abbonamento, le fee del consumatore, etc.» — l'AD aveva risposto al turno precedente contando SOLO la commissione 10% sul venduto per il calcolo ordini→10.000€, dimenticando due ricavi reali già noti/scoperti: l'abbonamento fisso 50€/mese per negozio attivo (già in registro-fatti, pricing.abbonamento) e la fee di consegna fissa 3€/ordine (trovata SOLO ora leggendo `marketplace/lib/constants.ts`, mai censita prima in memoria/vault). Con tutti e tre i ricavi dentro, il numero di ordini scende da ~4.500-5.500 a ~1.450-1.560 per 10.000€ di ricavo lordo (con 50 negozi abbonati attivi). L-2026-0726-02 nuova (caso_studio_nicola): quando si calcola 'quanti ordini servono per un target di ricavo', verificare TUTTI i ricavi già stabiliti (prezzi in registro-fatti.json + fee/costanti nel codice del marketplace, non solo la commissione più ovvia) prima di dare un numero — stesso pattern del 'kit fisico dimenticato' di un'ora prima (L 26/7 01:29), ma sul lato ricavi invece che costi: un volume/target esplicito sul tavolo impone di ricontrollare TUTTE le voci che lo compongono, non solo quella più citata a memoria. LEZIONI-CHAT.md aggiornata in cima (rimossa la voce più debole/vecchia per restare a 12). STATO.md nuova voce in cima ~01:48. Nessuna decisione/azione business nuova; il piano squadra (fratello+2 amici, kit fisico, data 15/8) resta non confermato. Business invariato: 1 PQ, 0 pagati.",
   "_nota_metabolizzazione_26_07_0144": "Chat 26/7 ~01:29-01:44 (seguito diretto della nota 01:10, stesso filo piano-squadra/50-negozi): Nicola corregge «perché solo 600€? inserisco 50 negozi» — l'AD aveva risposto al turno precedente coi soli costi fissi+una-tantum (602€), dimenticando il kit fisico per-negozio (QR/vetrofania/sacchetti, 80-150€/negozio, già in vault da playbook capillarità 20/7) che SCALA col volume — corretto a ~4.600-8.100€. Lezione già scritta in LEZIONI-CHAT.md in cima nello stesso turno (26/7 01:29): 'prima di dare un totale costi con un volume di negozi sul tavolo, grep vault per costi per-negozio/kit fisico prima di rispondere' — è un rinforzo diretto del pattern già esistente sui costi-scaling (vedi note 20-21/7 su costi-tutti-volantini-fisici), non una lezione isolata. Poi Nicola chiede «quanti ordini devo consegnare per produrre 10.000€ al mese?» (soglia che sblocca il pagamento della squadra non retribuita) — l'AD ha isolato un'ambiguità reale nella parola 'profitto' usata da Nicola (ricavo lordo ~4.500-5.500 ordini vs profitto netto ~6.500-8.200 ordini) e ha chiesto chiarimento invece di scegliere un'interpretazione a caso. Non è una correzione di Nicola in questo secondo scambio (nessuna lezione nuova, il principio 'non presumere quale interpretazione' è già coperto da lezioni esistenti su chiarire prima di calcolare). STATO.md aggiornato con voce in cima 01:44. Nessuna decisione confermata: il piano squadra (fratello+2 amici, trigger 15/8, kit fisico) resta non registrato in registro-fatti.json, in attesa della risposta di Nicola. Business invariato: 1 PQ, 0 pagati.",
@@ -4105,7 +4105,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-19 17:09",
-      "stato": "attiva",
+      "stato": "principio",
+      "promosso_il": "2026-07-28 08:23",
       "usi": []
     },
     {
@@ -4413,7 +4414,8 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-18",
       "ultima_conferma": "2026-07-18",
-      "stato": "attiva",
+      "stato": "principio",
+      "promosso_il": "2026-07-28 08:23",
       "usi": []
     },
     {
@@ -9478,13 +9480,14 @@
         "post-firma"
       ],
       "reparto": "@AD",
-      "confidenza": 0.92,
+      "confidenza": 0.16999999999999996,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 11:29",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 14:56"
     },
     {
       "id": "L-2026-0701-34",
@@ -9500,13 +9503,14 @@
         "verifica"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.93,
+      "confidenza": 0.17999999999999997,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 11:29",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 14:56"
     },
     {
       "id": "L-2026-0701-33",
@@ -9542,13 +9546,14 @@
         "vps"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.92,
+      "confidenza": 0.16999999999999996,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 11:00",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 12:53"
     },
     {
       "id": "L-2026-0701-31",
@@ -9588,13 +9593,14 @@
         "approvazioni"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.93,
+      "confidenza": 0.17999999999999997,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 10:36",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 12:53"
     },
     {
       "id": "L-2026-0701-29",
@@ -9609,13 +9615,14 @@
         "zombie"
       ],
       "reparto": "@AD",
-      "confidenza": 0.93,
+      "confidenza": 0.17999999999999997,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 10:13",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 12:20"
     },
     {
       "id": "L-2026-0701-28",
@@ -9630,12 +9637,13 @@
         "approvazioni"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.87,
+      "confidenza": 0.2699999999999999,
       "evidenze": 1,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 09:43",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:50"
     },
     {
       "id": "L-2026-0701-27",
@@ -9676,13 +9684,14 @@
         "pr"
       ],
       "reparto": "@tech",
-      "confidenza": 0.93,
+      "confidenza": 0.17999999999999997,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 07:41",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:50"
     },
     {
       "id": "L-2026-0701-25",
@@ -9718,12 +9727,13 @@
         "chiarimento"
       ],
       "reparto": "@operations",
-      "confidenza": 0.78,
+      "confidenza": 0.17999999999999997,
       "evidenze": 1,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:00"
     },
     {
       "id": "L-2026-0701-23",
@@ -9760,13 +9770,14 @@
         "worker"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.92,
+      "confidenza": 0.16999999999999996,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:18"
     },
     {
       "id": "L-2026-0701-21",
@@ -9799,12 +9810,13 @@
         "urgenza"
       ],
       "reparto": "@AD",
-      "confidenza": 0.85,
+      "confidenza": 0.24999999999999992,
       "evidenze": 2,
       "fonte": "auto-analisi",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:00"
     },
     {
       "id": "L-2026-0701-19",
@@ -9818,12 +9830,13 @@
         "piano-mattino"
       ],
       "reparto": "@AD",
-      "confidenza": 0.88,
+      "confidenza": 0.2799999999999999,
       "evidenze": 2,
       "fonte": "auto-analisi",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 11:26",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 14:20"
     },
     {
       "id": "L-2026-0701-17",
@@ -9838,12 +9851,13 @@
         "stripe"
       ],
       "reparto": "@tech",
-      "confidenza": 0.88,
+      "confidenza": 0.2799999999999999,
       "evidenze": 1,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:00"
     },
     {
       "id": "L-2026-0701-16",
@@ -9857,12 +9871,13 @@
         "chiusura"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.91,
+      "confidenza": 0.15999999999999995,
       "evidenze": 1,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:18"
     },
     {
       "id": "L-2026-0701-15",
@@ -9895,12 +9910,13 @@
         "giro"
       ],
       "reparto": "@AD",
-      "confidenza": 0.87,
+      "confidenza": 0.2699999999999999,
       "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:00"
     },
     {
       "id": "L-2026-0701-13",
@@ -9914,12 +9930,13 @@
         "intelligence"
       ],
       "reparto": "@AD",
-      "confidenza": 0.89,
+      "confidenza": 0.2899999999999999,
       "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 01:38",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:00"
     },
     {
       "id": "L-2026-0701-12",
@@ -9955,12 +9972,13 @@
         "comunicazione"
       ],
       "reparto": "@AD",
-      "confidenza": 0.86,
+      "confidenza": 0.2599999999999999,
       "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:00"
     },
     {
       "id": "L-2026-0701-10",
@@ -10000,13 +10018,14 @@
         "devops"
       ],
       "reparto": "@AD",
-      "confidenza": 0.94,
+      "confidenza": 0.18999999999999986,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:18"
     },
     {
       "id": "L-2026-0701-08",
@@ -10064,13 +10083,14 @@
         "comunicazione"
       ],
       "reparto": "@AD",
-      "confidenza": 0.86,
+      "confidenza": 0.2599999999999999,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:00"
     },
     {
       "id": "L-2026-0701-05",
@@ -10083,13 +10103,14 @@
         "bandwidth"
       ],
       "reparto": "@onboarding-negozi",
-      "confidenza": 0.88,
+      "confidenza": 0.2799999999999999,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:00"
     },
     {
       "id": "L-2026-0701-04",
@@ -10141,12 +10162,13 @@
         "artefatti"
       ],
       "reparto": "@AD",
-      "confidenza": 0.7,
+      "confidenza": 0.24999999999999992,
       "evidenze": 1,
       "fonte": "auto-analisi",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 10:20"
     },
     {
       "id": "L-2026-0701-01",
@@ -10159,12 +10181,13 @@
         "nicola"
       ],
       "reparto": "@AD",
-      "confidenza": 0.75,
+      "confidenza": 0.29999999999999993,
       "evidenze": 1,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 10:20"
     },
     {
       "id": "L-2026-0630-06",
@@ -10239,12 +10262,13 @@
         "calibrazione"
       ],
       "reparto": "@AD",
-      "confidenza": 0.8,
+      "confidenza": 0.19999999999999998,
       "evidenze": 1,
       "fonte": "auto-analisi",
       "nato": "2026-06-30",
       "ultima_conferma": "2026-06-30",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-28 11:01"
     },
     {
       "id": "L-2026-0630-02",
@@ -10257,12 +10281,13 @@
         "no-rumore"
       ],
       "reparto": "@intelligence",
-      "confidenza": 0.7,
+      "confidenza": 0.24999999999999992,
       "evidenze": 1,
       "fonte": "pattern",
       "nato": "2026-06-30",
       "ultima_conferma": "2026-06-30",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-28 10:20"
     },
     {
       "id": "L-2026-0629-03",
@@ -10364,7 +10389,8 @@
       "fonte": "chat",
       "nato": "2026-06-28",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "principio",
+      "promosso_il": "2026-07-28 08:23"
     },
     {
       "id": "L-2026-0629-01",
@@ -10411,12 +10437,13 @@
         "fesr"
       ],
       "reparto": "@vendite",
-      "confidenza": 0.82,
+      "confidenza": 0.2199999999999999,
       "evidenze": 2,
       "fonte": "radar",
       "nato": "2026-06-29",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "decaduta",
+      "decaduta_il": "2026-07-29 11:00"
     },
     {
       "id": "L-2026-0701-27",
@@ -11090,6 +11117,23 @@
       "promosso_il": "2026-07-25 14:20"
     },
     {
+      "id": "L-2026-0719-280",
+      "testo": "**Correzione Nicola (19/7): «impara da questo errore» — node cervello/git-pr.mjs bloccato NON per l'allowlist, ma per la sintassi shell `2>&1`.** Il redirect `2>&1 |` trasforma un comando singolo (già permesso) in 'multi-operazione', categoria bloccata dalla chat del Pannello. Stesso effetto con path assoluto invece di relativo. Regola operativa: usare SEMPRE path relativo (`node cervello/git-pr.mjs`, non il path assoluto), nessun redirect (`2>&1`, `| head`, `| tail`), nessun `&&` o `;` nello stesso comando. Prima di dire «mi manca il permesso», leggere la sintassi shell esatta usata — il problema è quasi sempre lì, non nell'allowlist.",
+      "tag": [
+        "git-pr",
+        "allowlist",
+        "sintassi-shell",
+        "2>&1",
+        "multi-operazione",
+        "node",
+        "nicola",
+        "correzione",
+        "path-relativo"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-28 08:23"
+    },
+    {
       "id": "L-2026-0719-279",
       "testo": "**Correzione Nicola (19/7): «clienti/utenti iscritti» = solo role=buyer — MAI confondere con profili totali.** EXP-001 diceva '23 iscritti'; Nicola ha corretto: 'a me risultano solo 4'. Il 23 veniva da STATO.md ('23 clienti') che contava TUTTI i profili (4 buyer + 17 seller + 1 admin + 1 rider = 23 account). Confermato DB live 19/7 14:33 via REST `profiles?role=eq.buyer` → 4. 5 perché: (1) memoria usava conteggio profili totali come 'clienti'; (2) seller/admin/rider non sono clienti; (3) Nicola chiede «quanti utenti?» → rispondi con breakdown per ruolo; (4) numeri in esperimenti/STATO vanno verificati live, non copiati; (5) se DB non raggiungibile → 'dato da verificare'. Regola: query live (REST o MCP) prima di ogni numero presentato a Nicola.",
       "tag": [
@@ -11120,6 +11164,20 @@
       ],
       "reparto": "@AD",
       "promosso_il": "2026-07-25 14:20"
+    },
+    {
+      "id": "L-2026-0718-266",
+      "testo": "**Permesso verbale Nicola NON sblocca lettura `cervello/vps/.env` dalla chat (18/7 — violazione ×2).** Nicola ha scritto «ti do il permesso di leggere l'env» e l'AD ha risposto correttamente che il blocco è di sistema. MA l'errore a monte è più grave: l'AD non aveva controllato STATO.md prima, dove MARKETPLACE_SITE_URL era già registrato dal 18/7 04:30 (`https://mycity-marketplace.com`). Violazione della lezione LEZIONI-CHAT linea 9 per la SECONDA VOLTA nella stessa giornata. Radice: l'AD tratta la casella come una domanda fresca invece di cercare prima in memoria. Regola: per OGNI domanda su variabile env / URL / configurazione — prima STATO.md e AZIONI-IN-ATTESA, poi rispondere. Il permesso verbale non è il fix — la memoria lo è.",
+      "tag": [
+        "env",
+        "stato-md",
+        "memoria-prima",
+        "permesso-verbale",
+        "lezione-critica",
+        "violazione-ripetuta"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-28 08:23"
     },
     {
       "id": "L-2026-0718-263",
@@ -11928,6 +11986,16 @@
       "promosso_il": "2026-06-29"
     },
     {
+      "id": "L-2026-0628-03",
+      "testo": "Il segnale più prezioso per imparare è cosa Nicola approva vs ignora: ogni firma/rifiuto è una correzione del modello. Allinea le mosse future a quel gusto.",
+      "tag": [
+        "preference-learning",
+        "nicola"
+      ],
+      "reparto": "@AD",
+      "promosso_il": "2026-07-28 08:23"
+    },
+    {
       "id": "L-2026-0724-527",
       "testo": "**«Parla con questa casella» continua a mancare superficie per superficie invece che ovunque insieme — Bacheca è la 7ª volta (dopo Ritmo PR#355, Diretta contenuti PR#479, Avvisi PR#323/#373, Opportunità PR#374, Lavori/ChatCasella), ogni volta perché Nicola nota la superficie mancante, non perché l'AD l'ha auditata prima.** Il componente esiste già pronto e riusabile (`ParlaCasella`/pattern chat contestuale), ma viene aggiunto una scheda alla volta su richiesta anziché con un giro unico che lo applica a TUTTE le sezioni del Pannello. Regola: la prossima volta che Nicola chiede «aggiungi parla con la casella a X», prima di limitarsi a X fare un giro rapido (grep dei componenti-scheda del Pannello) per vedere quali altre sezioni ne sono ancora prive e proporle nello stesso lavoro — evita 6+ piccole PR consecutive sullo stesso tema a distanza di giorni/settimane.",
       "tag": [
@@ -12338,16 +12406,17 @@
     }
   ],
   "meta": {
-    "lezioni_attive": 476,
-    "promosse_a_principio": 86,
-    "decadute": 0,
-    "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-28 04:12",
+    "lezioni_attive": 452,
+    "promosse_a_principio": 89,
+    "decadute": 24,
+    "tasso_applicazione": 0.19,
+    "tasso_calcolato_il": "2026-07-29 16:42",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-28 04:12",
+    "tick_leggero_il": "2026-07-29 16:42",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-27 22:20"
+    "cristallizzazione_ultima": "2026-07-29 16:20",
+    "cristallizzazione_08_23_nota": "3 lezioni mature promosse a principio (vincolo apprendimento HARD): L-2026-0628-03 (segnale approvazione/correzione Nicola), L-2026-0718-266 (env: memoria-prima, mai permesso verbale), L-2026-0719-280 (git-pr.mjs: path relativo, niente redirect/pipe). Area ricorrente 'correzione-nicola' (18 ripetizioni/14 lezioni): confermato che è un tag-ombrello (già diagnosticato L-2026-0726-03) — il gate reale è il fix di codice già pronto in card #240 (TAG_GENERICI in apprendimento-guardiano.mjs), in coda per la firma di Nicola dal 27/7: non riproposto/duplicato in questo passaggio."
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }

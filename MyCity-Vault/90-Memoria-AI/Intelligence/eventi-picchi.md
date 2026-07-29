@@ -26,7 +26,7 @@ Fonte triangolata (2 indipendenti concordanti, 27/7): [ilmeteo.it](https://www.i
 
 | Evento | Date | Rilevanza |
 |--------|------|-----------|
-| 🔴 **PI26 CCIAA — sportello APERTO** | dal 20/7 → **scade 30/7 ore 16:00** (3 giorni) | Max €10k fondo perduto (50% spese digitali). A sportello cronologico fino a esaurimento fondi (2 mln € totale Parma+Piacenza+Reggio Emilia) — capienza residua non pubblica, da chiedere a CCIAA. `#pi26-conferma-ammissibilita` già in coda, DA SISTEMARE (P.IVA/entità giuridica + spese documentate) |
+| ❌ ~~PI26 CCIAA~~ — CHIUSO 29/7 | non applicabile | MyCity non idonea al bando (confermato da Nicola 29/7) — nessuna domanda da inviare, `#pi26-conferma-ammissibilita` chiusa |
 | Rassegna cinema estiva Ex Caserma Cantore | fino 31/8 | Bassa — sera, area specifica |
 | Piacenza Summer Cult | **terminato 17/7** | Nessuna, non riapre a breve |
 | Concerto Sugarpie & Candymen | 29/7 21:30 Travo | Fuori città, nessun impatto |
