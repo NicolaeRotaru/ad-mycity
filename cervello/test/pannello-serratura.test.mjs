@@ -48,11 +48,51 @@ test("il rifiuto spiega cosa fare, non dice solo di no", () => {
   assert.match(v.dettaglio, /Authorization: Bearer/);
 });
 
-test("le letture non sono toccate: il Pannello continua a mostrare tutto", () => {
+test("le letture VERE non sono toccate: il Pannello continua a mostrare tutto", () => {
   assert.equal(ammessa({ metodo: "GET", percorso: "/api/lavori" }), true);
   assert.equal(ammessa({ metodo: "HEAD", percorso: "/api/stato" }), true);
   assert.equal(ammessa({ metodo: "OPTIONS", percorso: "/api/lavori" }), true);
   assert.equal(ammessa({ metodo: "get", percorso: "/api/lavori" }), true, "il metodo minuscolo vale uguale");
+});
+
+test("AR-409 — una GET che SCRIVE non è una lettura: le serve lo stesso permesso di una POST", () => {
+  // Questo caso, prima del lotto 33, diceva l'opposto: asseriva «GET sempre ammessa» e quindi
+  // CERTIFICAVA il buco come comportamento corretto. Tre rotte usano la GET per innescare lavoro —
+  // report accoda un lavoro, azioni-pronte chiude le card mentre le legge — e passavano libere.
+  // Una prova che protegge il difetto è il modo più efficace di renderlo permanente.
+  assert.equal(ammessa({ metodo: "GET", percorso: "/api/report", header: {} }), false, "?genera= accoda un lavoro vero");
+  assert.equal(ammessa({ metodo: "GET", percorso: "/api/azioni-pronte", header: {} }), false, "chiude le card mentre le legge");
+
+  // …e dal Pannello continuano a funzionare, perché la richiesta è same-origin.
+  assert.equal(ammessa({ metodo: "GET", percorso: "/api/report", header: { "sec-fetch-site": "same-origin" } }), true);
+  assert.equal(ammessa({ metodo: "GET", percorso: "/api/azioni-pronte", header: { "sec-fetch-site": "same-origin" } }), true);
+
+  // Il battito resta ammesso perché è ESENTE con motivo: ha il proprio CRON_SECRET fail-closed.
+  assert.equal(ammessa({ metodo: "GET", percorso: "/api/heartbeat", header: {} }), true);
+});
+
+test("AR-409/AR-226 — l'elenco delle rotte che scrivono non è scritto a mano: è misurato sul codice", async () => {
+  const { scriveInLettura, SCRIVONO_IN_GET } = await import(join(QUI, "..", "..", "pannello/src/lib/rotte-scriventi.ts"));
+
+  // La misura VERA su un file finto: la scrittura passa da una funzione locale, come nel codice
+  // reale (`/api/report` chiama `accoda()`, che chiama `creaLavoro`). Fermarsi al corpo dell'handler
+  // faceva vedere una rotta scrivente su tre.
+  const finto = `
+    import { creaLavoro } from "@/lib/store";
+    async function accoda(t) { return creaLavoro(t, "report"); }
+    export async function GET(req) { const g = q(req); if (g) { await accoda(g); } return ok(); }
+  `;
+  assert.deepEqual(scriveInLettura(finto), ["creaLavoro"], "la scrittura indiretta va vista");
+
+  // Una GET che legge davvero non deve finire nell'elenco: un guardiano che accusa gli innocenti
+  // viene spento entro la settimana, e allora non prende più nemmeno il caso vero.
+  assert.deepEqual(scriveInLettura(`export async function GET() { return leggi(); }`), []);
+
+  // Una scrittura NOMINATA in un commento non è una scrittura.
+  assert.deepEqual(scriveInLettura(`export async function GET() { /* qui NON si fa creaLavoro( */ return x(); }`), []);
+
+  // Ogni voce dichiarata porta il suo perché: un'esenzione senza motivo è il silenzio che curiamo.
+  for (const r of SCRIVONO_IN_GET) assert.ok(r.perche.length > 30, `${r.path} senza un perché di sostanza`);
 });
 
 test("l'interfaccia del Pannello continua a funzionare (same-origin)", () => {

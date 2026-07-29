@@ -43,6 +43,18 @@ const RE_VINCOLO = /^\s*([A-Z_]+)_VINCOLO="(?!"\s*$)/;
 /** La riga che decide quali vincoli vengono CONTATI (`GATE_ROSSI`) — non tutti quelli scritti ci sono. */
 const RE_ELENCO_CONTATI = /^\s*for\s+_vnome\s+in\s+([A-Z_ ]+);\s*do/;
 
+/**
+ * La forma DERIVATA (lotto 33, AR-379/AR-387): il giro non enumera più i vincoli, li chiede alla
+ * shell con `compgen -v | grep _VINCOLO$`. Quando compare questa riga la risposta alla domanda
+ * «quali vincoli sono contati?» è **tutti**, e va detto qui: se questo censimento continuasse a
+ * cercare la vecchia lista non la troverebbe più e direbbe che nessun vincolo conta — la stessa
+ * bugia di prima, rovesciata. Un metro che non segue la cura misura il mondo di ieri.
+ */
+const RE_DERIVA_CONTATI = /compgen\s+-v\s*\|\s*grep\s+[^|\n]*_VINCOLO/;
+
+/** «Tutti»: un insieme che risponde sì a qualunque nome. Vale quando il giro deriva l'elenco. */
+const TUTTI_CONTATI = { has: () => true, size: Infinity, derivato: true };
+
 /** Quante righe sopra un vincolo si cerca il guardiano che l'ha prodotto, quando non è nominato. */
 export const RIGHE_RISALITA = 20;
 
@@ -112,6 +124,7 @@ export const DESCRIZIONI = {
   "porte-check": { famiglia: "sicurezza", cosa: "Trova i punti che pubblicano scavalcando il cancello: una porta scoperta non si vede, pubblica e basta." },
   "uscite-check": { famiglia: "sicurezza", cosa: "Elenca ogni punto in cui la macchina tocca il mondo — email, messaggi, pagamenti — e pretende che ognuno abbia un controllo." },
   "firma-check": { famiglia: "sicurezza", cosa: "Nessuno script può scriversi da solo la firma di Nicola: chi esegue non firma sé stesso." },
+  "rotte-scriventi-check": { famiglia: "sicurezza", cosa: "Trova le pagine del Pannello che cambiano qualcosa mentre fingono di leggere: se una tocca lo stato, deve chiedere il permesso come le altre." },
   "peso-contesto": { famiglia: "sicurezza", cosa: "Sorveglia quanto testo la macchina si porta dietro: un contesto gonfio costa soldi e fa perdere il filo." },
 
   // ── I 120 senior sono a posto? ────────────────────────────────────────────
@@ -210,6 +223,8 @@ export function guardianiDiGiro(testoGiro = "", testoGate = "") {
  */
 function vincoliContati(righe) {
   for (const riga of righe) {
+    if (/^\s*#/.test(riga)) continue; // la forma spiegata in un commento non è la forma eseguita
+    if (RE_DERIVA_CONTATI.test(riga)) return TUTTI_CONTATI;
     const m = riga.match(RE_ELENCO_CONTATI);
     if (m) return new Set(m[1].trim().split(/\s+/));
   }
@@ -323,9 +338,17 @@ export const EFFETTI = {
   nota: "ℹ️ scrive e basta",
 };
 
-/** 0 = l'elenco combacia col codice · 1 = una descrizione manca o è di troppo. */
-export function codiceUscita({ senzaDescrizione = [], fantasmi = [] } = {}) {
-  return senzaDescrizione.length || fantasmi.length ? 1 : 0;
+/**
+ * 0 = l'elenco combacia col codice · 1 = una descrizione manca, è di troppo, o un allarme non conta.
+ *
+ * `nonContati` è entrato qui col lotto 33 (AR-387). Prima veniva MISURATO e scritto in bacheca, ma
+ * restava fuori dal codice d'uscita: il rilevatore vedeva cinque guardiani i cui «no» non fermavano
+ * niente — fra cui quello sulla firma e quello sulle porte di pubblicazione — e usciva 0 lo stesso.
+ * Un difetto raccontato bene non è un difetto chiuso: finché il numero non entra in un'uscita,
+ * nessun cancello lo può usare, e resta una riga che si impara a scorrere.
+ */
+export function codiceUscita({ senzaDescrizione = [], fantasmi = [], nonContati = [] } = {}) {
+  return senzaDescrizione.length || fantasmi.length || nonContati.length ? 1 : 0;
 }
 
 /** Il titolo del blocco in bacheca. Fisso: è la chiave con cui il blocco si ritrova e si sostituisce. */

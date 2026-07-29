@@ -36,6 +36,7 @@
 import { readFileSync, writeFileSync, readdirSync, statSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { nowPiacenza, stampSegnale } from "./git-github.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(QUI, "..");
@@ -164,7 +165,7 @@ function esente(relPath, esenzioniFatto) {
 }
 
 // ---------- CHECK ----------
-function check({ json = false } = {}) {
+async function check({ json = false } = {}) {
   let registro;
   try {
     registro = leggiRegistro();
@@ -269,6 +270,12 @@ function check({ json = false } = {}) {
     }
     console.log(`   report: ${relative(ROOT, REPORT)}`);
   }
+  // AR-373 (lotto 33): il battito. `freschezza-segnali.mjs` aspettava un segnale «coerenza-fatti»
+  // che questo script non ha mai mandato — perché l'elenco degli attesi era scritto a mano e non è
+  // mai stato confrontato con chi il battito lo emette davvero. Risultato: un vincolo acceso a ogni
+  // giro, da sempre, che si legge come sfondo. Un guardiano perennemente rosso costa quanto uno
+  // spento. Adesso l'attesa è vera; e dall'altra parte l'elenco non si scrive più a mano.
+  await stampSegnale("coerenza-fatti", incoerenze.length ? "warn" : "ok", `${incoerenze.length} copie vecchie in file vivi · ${nowPiacenza()}`);
   process.exit(incoerenze.length ? 3 : 0);
 }
 
@@ -423,7 +430,7 @@ function rimuovi(argv) {
 const argv = process.argv.slice(2);
 const cmd = argv[0];
 if (!cmd || cmd === "check" || cmd === "--json" || cmd === "--gate") {
-  check({ json: argv.includes("--json") });
+  await check({ json: argv.includes("--json") });
 } else if (cmd === "registra") {
   registra(argv.slice(1));
 } else if (cmd === "lista") {

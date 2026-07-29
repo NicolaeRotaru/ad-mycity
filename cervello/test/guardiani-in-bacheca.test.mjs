@@ -83,16 +83,28 @@ prova("un vincolo scritto ma non contato non vale «ferma il giro»", () => {
   assert.equal(censimento(contato, { descrizioni: { "tale-check": { famiglia: "test", cosa: "x" } } }).fermano, 1);
 });
 
-prova("nel giro VERO ci sono 5 allarmi che si scrivono e non si contano", () => {
-  // Non è un'ipotesi: `giro.sh` riempie 29 variabili di vincolo e il ciclo che le conta ne elenca 24.
-  // Se qualcuno li ricabla il numero scende e questo test va aggiornato — ed è giusto che se ne
-  // accorga qui, invece che leggendo la bacheca fra un mese.
+prova("AR-387 — nel giro VERO non resta nessun allarme che si scrive e non si conta", () => {
+  // Questo caso, fino al lotto 33, ASSERIVA il difetto: pretendeva esattamente i cinque allarmi non
+  // contati (firma-check, pausa-check, porte-check, sensori-spenti-check, stampo-check) e passava
+  // verde finché il buco restava aperto. È la stessa forma di AR-409 — una prova che certifica il
+  // buco come comportamento corretto — e va rovesciata insieme al fix, altrimenti la rete tiene in
+  // vita proprio ciò che doveva prendere.
+  //
+  // Adesso `giro.sh` deriva l'elenco con `compgen -v | grep _VINCOLO$`: ogni vincolo dichiarato è
+  // contato per costruzione, quindi la risposta giusta è ZERO. Se qualcuno tornasse a enumerare i
+  // nomi a mano, qui si riaccenderebbe.
   const cens = censimento(GIRO, { testoGate: GATE });
-  assert.deepEqual(
-    cens.nonContati.sort(),
-    ["firma-check", "pausa-check", "porte-check", "sensori-spenti-check", "stampo-check"],
-    "sono i cinque misurati il 29/7 — se cambiano, cambia anche il difetto aperto"
-  );
+  assert.deepEqual(cens.nonContati, [], `allarmi che non fermano niente: ${cens.nonContati.join(", ")}`);
+  for (const n of ["firma-check", "porte-check", "stampo-check", "pausa-check", "sensori-spenti-check"]) {
+    assert.equal(trova(cens.elenco, n).vincoloContato, true, `${n}: il suo «no» deve fermare il giro`);
+  }
+});
+
+prova("AR-387 — un allarme non contato ora FA FALLIRE il rilevatore, non solo la bacheca", () => {
+  // L'altra metà del difetto: il censimento MISURAVA i non contati e li scriveva in bacheca, ma li
+  // teneva fuori dal proprio codice d'uscita. Un difetto raccontato bene non è un difetto chiuso.
+  assert.equal(codiceUscita({ nonContati: ["porte-check"] }), 1, "un allarme che non ferma niente deve far fallire");
+  assert.equal(codiceUscita({ nonContati: [] }), 0);
 });
 
 prova("blocca la pubblicazione solo chi arriva davvero al verdetto del cancello", () => {
@@ -215,7 +227,15 @@ prova("in bacheca finiscono tutti i guardiani, raggruppati e con il loro effetto
   const md = bloccoBacheca(cens, "2026-07-29 01:30");
   for (const g of cens.elenco) assert.ok(md.includes(`\`${g.nome}\``), `${g.nome} manca dalla tabella`);
   assert.ok(md.includes(`**${cens.totale} controlli automatici**`), "il totale va detto in cima");
-  assert.match(md, /⚠️ \*\*5 allarmi si scrivono ma non si contano\.\*\*/, "il difetto si mostra, non si nasconde");
+  // Non c'è più nessun allarme non contato (AR-387), quindi l'avviso non deve comparire: mostrarlo
+  // sarebbe raccontare un difetto che non c'è. Ma la riga deve restare PRONTA a ricomparire — è la
+  // ragione per cui il caso qui sotto la esercita su un censimento finto invece di cancellarla.
+  assert.ok(!/allarmi si scrivono ma non si contano/.test(md), "nessun allarme scoperto: l'avviso non va stampato");
+  assert.match(
+    bloccoBacheca({ ...cens, nonContati: ["porte-check"] }, "2026-07-29 01:30"),
+    /⚠️ \*\*1 allarmi si scrivono ma non si contano\.\*\*/,
+    "se il difetto tornasse, la bacheca lo deve dire"
+  );
   assert.ok(!/undefined/.test(md), "nessun buco nel markdown");
   assert.equal(corpoDi(md).startsWith("A ogni giro"), true);
 });

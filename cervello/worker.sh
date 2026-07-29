@@ -5,6 +5,13 @@
 # Lo tiene acceso systemd (cervello/vps/mycity-worker.service, Restart=always).
 set -uo pipefail   # niente -e: il loop deve sopravvivere agli errori dei singoli lavori
 
+# 🖊️ CONFINE DELLA FIRMA — AR-119/AR-380. Questo script scrive su `impostazioni` con la chiave di
+# servizio, la stessa tabella dove vive la firma di Nicola. Finché non esiste una chiave Supabase con
+# permessi ristretti (parte che resta a Nicola), il confine è sorvegliato qui: si dichiara cosa si
+# tocca, e `cervello/firma-check.mjs` fallisce se compare una chiave di firma. Prima del lotto 33 il
+# guardiano leggeva solo i `.mjs`, quindi questa dichiarazione non gliela chiedeva nessuno.
+# CHIAVI_SCRITTE = ["worker:", "memoria-ad:ultimo_push"]
+
 # Fuso di Piacenza: gli orari scritti in memoria devono essere ora-di-parete italiana (non UTC).
 export TZ="${TZ:-Europe/Rome}"
 

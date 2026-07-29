@@ -6,6 +6,12 @@
 # la cadenza reale è nel file .timer (unica fonte di verità). Per un giro a mano usa giro-ora.sh.
 set -uo pipefail   # niente -e: il giro deve arrivare al push anche se un passo intermedio fallisce
 
+# 🖊️ CONFINE DELLA FIRMA — AR-119/AR-380. Il giro scrive due segnali su `impostazioni` dopo il push
+# della memoria. Le chiavi si dichiarano qui perché `cervello/firma-check.mjs` possa verificare che
+# nessuna sia una firma: la chiave di servizio potrebbe scriverla, la disciplina no. Prima del lotto
+# 33 il guardiano leggeva solo i `.mjs`, quindi questa dichiarazione non gliela chiedeva nessuno.
+# CHIAVI_SCRITTE = ["memoria-ad:ultimo_push", "cuore:ultimo_giro"]
+
 # Fuso di Piacenza: gli orari scritti in memoria (data:, SALA, AZIONI, commit) devono essere
 # ora-di-parete italiana. Senza questo, su un VPS in UTC (default Hetzner) finiscono indietro di 1-2h.
 export TZ="${TZ:-Europe/Rome}"
@@ -580,6 +586,11 @@ $_cad_out")"
     PORTE_VINCOLO="$(vincolo_da_rc "porte-check" "$GUARDIANO_RC" "⛔ PORTA SCOPERTA (porte-check.mjs rc=$GUARDIANO_RC, AR-127): c'è un punto che pubblica su main senza passare da gate_pubblicazione — cioè senza controllo del ramo, del perimetro e dei guardiani di verità. Fallo passare dal cancello condiviso, o dichiara il PERCHÉ nelle ESENZIONI di porte-check.mjs. Elenco: node cervello/porte-check.mjs")"
     echo "[$(ts)] ⚠️  AR-127: porte-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
+  echo "[$(ts)] 🔐 Rotte del Pannello che scrivono da una GET (AR-409)..."
+  if ! guardiano rotte-scriventi-check.mjs; then
+    ROTTE_SCRIVENTI_VINCOLO="$(vincolo_da_rc "rotte-scriventi-check" "$GUARDIANO_RC" "⛔ ROTTA CHE SCRIVE FUORI DALLA SERRATURA (rotte-scriventi-check.mjs rc=$GUARDIANO_RC, AR-409/AR-226): una rotta del Pannello cambia lo stato del mondo da una GET, e la serratura la lascia passare come lettura perché classifica per verbo. Sposta la scrittura in una POST, oppure dichiarala in pannello/src/lib/rotte-scriventi.ts (SCRIVONO_IN_GET) col PERCHÉ — e allora le servirà same-origin o token come a una POST. Elenco: node cervello/rotte-scriventi-check.mjs")"
+    echo "[$(ts)] ⚠️  AR-409: rotte-scriventi rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
   echo "[$(ts)] 🔌 Sensori spenti (per scelta o per inerzia?)..."
   if ! guardiano sensori-spenti-check.mjs --accoda; then
     SENSORI_SPENTI_VINCOLO="$(vincolo_da_rc "sensori-spenti-check" "$GUARDIANO_RC" "⛔ SENSORE SPENTO SENZA MOTIVO (sensori-spenti-check.mjs rc=$GUARDIANO_RC, AR-105/AR-108): c'è uno strumento costruito che non sta guardando niente, e nessuno ha dichiarato se debba restare spento. Non è uno stato: è un buco. Dichiara il motivo in cervello/sensori-motivi.json (decisione | da-chiedere) oppure lascia che la card lo chieda a Nicola. Dettaglio: node cervello/sensori-spenti-check.mjs")"
@@ -772,11 +783,33 @@ fi
 # motore veniva saltato (delta-gate o tetto-token) il testo non veniva mai consumato e i cancelli si
 # scioglievano in silenzio — il giro pubblicava lo stesso e usciva 0. Qui li raccogliamo in un elenco
 # che esiste FUORI dal prompt, così può governare sia il salto del motore sia l'esito del giro.
+#
+# LOTTO 33 — AR-379/AR-387: l'elenco si DERIVA, non si enumera.
+#
+# Fino al 29/7 qui c'era una seconda lista scritta a mano, parallela alle variabili vere. Le
+# variabili dichiarate erano 32, i nomi enumerati 27: cinque guardiani potevano diventare rossi e il
+# giro si chiudeva «pulito» lo stesso. Fra i cinque c'erano FIRMA (chi può scriversi la firma di
+# Nicola) e PORTE (chi pubblica su main senza cancello) — cioè due dei controlli più seri che
+# abbiamo. Nessuno l'aveva fatto apposta: riempire una variabile e contarla sono due gesti separati,
+# a quasi cinquecento righe di distanza, e il secondo era affidato alla memoria di chi scriveva.
+#
+# `compgen -v` chiede alla shell quali variabili esistono DAVVERO in questo momento: un vincolo nuovo
+# entra nel conteggio per costruzione, e non c'è più un secondo posto che possa restare indietro.
+# Chi vuole tenerne uno fuori lo dichiara qui sotto col perché — un'esenzione si discute, una
+# dimenticanza no, perché nessuno la vede.
+declare -A VINCOLI_ESCLUSI=()
+# (vuoto, ed è voluto: oggi ogni vincolo dichiarato deve contare. La casella esiste per il giorno in
+#  cui servirà, col motivo scritto per esteso come si fa per le esenzioni delle uscite e delle porte.)
 VINCOLI_ATTIVI=()
-for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI TASSO USCITE SCADENZE GUARDIANI CADENZE PORTA_GIT; do
-  eval "_vval=\"\${${_vnome}_VINCOLO:-}\""
+VINCOLI_NOMI_VISTI=()
+for _vvar in $(compgen -v | grep -E '_VINCOLO$' | sort); do
+  _vnome="${_vvar%_VINCOLO}"
+  VINCOLI_NOMI_VISTI+=("$_vnome")
+  if [ -n "${VINCOLI_ESCLUSI[$_vnome]:-}" ]; then continue; fi
+  eval "_vval=\"\${${_vvar}:-}\""
   [ -n "$_vval" ] && VINCOLI_ATTIVI+=("$_vnome")
 done
+echo "[$(ts)] AR-387: ${#VINCOLI_NOMI_VISTI[@]} vincoli dichiarati e TUTTI contati (derivati, non enumerati)." >&2
 GATE_ROSSI="${#VINCOLI_ATTIVI[@]}"
 if [ "$GATE_ROSSI" -gt 0 ]; then
   echo "[$(ts)] ⛔ $GATE_ROSSI vincoli ATTIVI in questo giro: ${VINCOLI_ATTIVI[*]}" >&2

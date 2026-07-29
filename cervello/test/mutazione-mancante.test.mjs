@@ -139,6 +139,24 @@ prova("--aggiorna-tetti non abbassa un tetto che non ha potuto misurare", () => 
   assert.equal(JSON.parse(readFileSync(join(dir, "cervello/tetti-lotto.json"), "utf8")).mutazione_mancante, 5, "il tetto resta quello di prima");
 });
 
+prova("il file del test si riconosce anche quando il comando porta un caricatore (lotto 33)", async () => {
+  const { fileDelComando } = await import(join(QUI, "..", "cancello-lotto.mjs"));
+  // Il caso che ha rotto: la regola era «il primo token che sembra un file», e con
+  // `--import ./cervello/test/hook-ts.mjs` quel token è il RISOLUTORE, non il test. Il cancello
+  // leggeva il file sbagliato e accusava una prova condivisa di non nominare i suoi difetti mentre
+  // li nominava. Un estrattore che legge il file sbagliato è peggio di uno che non legge niente:
+  // sbaglia con la stessa sicurezza con cui avrebbe avuto ragione.
+  assert.equal(
+    fileDelComando("node --import ./cervello/test/hook-ts.mjs --test cervello/test/pannello-serratura.test.mjs"),
+    "cervello/test/pannello-serratura.test.mjs",
+  );
+  assert.equal(fileDelComando("node cervello/test/x.test.mjs"), "cervello/test/x.test.mjs");
+  assert.equal(fileDelComando("node cervello/test/x.test.mjs --json"), "cervello/test/x.test.mjs");
+  assert.equal(fileDelComando("bats cervello/test/y.bats"), "cervello/test/y.bats");
+  assert.equal(fileDelComando("node --test --test-reporter=tap cervello/test/z.test.mjs"), "cervello/test/z.test.mjs");
+  assert.equal(fileDelComando("echo niente"), null, "senza file deve dire null, non indovinare");
+});
+
 const rotti = casi.filter((c) => !c.ok);
 for (const c of casi) console.log(`${c.ok ? "✅" : "❌"} ${c.nome}${c.ok ? "" : `\n   ${c.err}`}`);
 console.log(rotti.length ? `\n⛔ ${rotti.length}/${casi.length} rotti` : `\n✅ ${casi.length}/${casi.length}`);

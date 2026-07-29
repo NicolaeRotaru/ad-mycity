@@ -326,13 +326,25 @@ prova("i TRE guardiani muti sono cablati come cancelli, non come righe di log", 
 prova("ogni vincolo nuovo è nell'elenco unico E arriva al motore (AR-320)", () => {
   // Dichiarare una variabile e non metterla nell'elenco significa un cancello che si scioglie in
   // silenzio quando il motore viene saltato: è esattamente il difetto che AR-320 ha chiuso.
+  //
+  // AR-379/AR-387 (lotto 33) ha chiuso l'altra metà. AR-320 aveva costruito il meccanismo ma
+  // l'elenco restava scritto a mano: 32 variabili dichiarate, 27 enumerate, cinque allarmi rossi che
+  // non fermavano niente — fra cui quello sulla firma e quello sulle porte di pubblicazione. Adesso
+  // l'elenco si DERIVA (`compgen -v | grep _VINCOLO$`), quindi la domanda giusta non è più «questo
+  // nome è nella lista?» ma «può esistere una lista che resti indietro?». La risposta deve essere no.
   const src = leggi("cervello/giro.sh");
-  const elenco = src.match(/for _vnome in ([A-Z_ ]+); do/);
-  assert.ok(elenco, "manca l'elenco unico dei vincoli");
-  for (const v of ["COSTO", "FRESCHEZZA", "VOLANO", "FRATELLI", "TASSO"]) {
-    assert.ok(elenco[1].includes(v), `${v} non è nell'elenco unico dei vincoli`);
-    assert.match(src, new RegExp(`\\$\\{?${v}_VINCOLO`), `${v}_VINCOLO non arriva mai al prompt`);
-  }
+  assert.match(src, /compgen -v[^\n]*_VINCOLO/, "l'elenco dei vincoli va derivato, non enumerato a mano");
+  assert.ok(
+    !/for _vnome in [A-Z_ ]+; do/.test(src),
+    "è tornata l'enumerazione a mano: prima o poi una variabile nuova resterà fuori dal conteggio",
+  );
+
+  // La verifica di sostanza: OGNI variabile di vincolo dichiarata arriva davvero al prompt del
+  // motore. Questa non si può derivare — è il collegamento fra il cancello e chi lo deve leggere.
+  const dichiarati = [...src.matchAll(/^([A-Z0-9_]+)_VINCOLO=/gm)].map((m) => m[1]);
+  assert.ok(dichiarati.length >= 25, `troppo pochi vincoli trovati (${dichiarati.length}): il metro è rotto`);
+  const orfani = dichiarati.filter((v) => !new RegExp(`\\$\\{?${v}_VINCOLO`).test(src));
+  assert.deepEqual(orfani, [], `vincoli che non arrivano mai al motore: ${orfani.join(", ")}`);
 });
 
 // ── la spazzata dei fratelli (la domanda di Nicola del 28/7) ─────────────────

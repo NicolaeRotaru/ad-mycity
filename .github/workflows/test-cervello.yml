@@ -1,0 +1,69 @@
+# 🧪 I TEST DEL CERVELLO, ESEGUITI DA QUALCUNO CHE NON È IL GIRO — AR-377 (lotto 33).
+#
+# PERCHÉ ESISTE. La suite `cervello/test-cervello.mjs` è buona e gira a ogni giro come vincolo hard.
+# Il problema non era la suite: era il suo UNICO esecutore. Ogni difesa appesa al giro eredita
+# l'uptime del giro — e il giro è il pezzo che si ferma per primo. Il 29/7 il VPS è stato fermo
+# quaranta ore: in quelle quaranta ore un test rosso non ha fermato niente, perché nessuno lo ha
+# eseguito. Non era rotto: non c'era.
+#
+# LA RADICE: la verifica era agganciata a un PROCESSO invece che al MOMENTO in cui il codice cambia.
+# Qui si aggancia al momento.
+#
+# COSA COPRE, e cosa copriva già. `cancello-lotto.yml` gira sulle `pull_request` e dentro il cancello
+# la suite c'è: quella strada era già protetta. La strada scoperta è l'altra, ed è quella che questa
+# macchina usa tutti i giorni — il **push diretto su main** dal VPS (ramo unico, `memoria.ramo`).
+# Un fix di codice che arriva da lì non incontrava nessuna prova, mai. Questo workflow è per quella.
+#
+# COSA NON FA. Non mergia, non pubblica, non tocca il VPS: legge, esegue, e dice sì o no. Perché un
+# rosso qui IMPEDISCA il merge serve la protezione del ramo su GitHub — che è nelle impostazioni del
+# repository, cioè di Nicola: è scritto nella lettera del lotto, non dato per fatto.
+#
+# La regola generale, da tenere: **nessuna difesa può avere come unico esecutore un processo che può
+# stare fermo giorni senza che nessuno se ne accorga.** Il giro resta la seconda rete, non la prima.
+
+name: Test del cervello
+
+on:
+  push:
+    # Solo quando cambia CODICE. La memoria (vault, briefing, quaderni) arriva su main decine di
+    # volte al giorno dal worker: farci girare la suite non proverebbe niente e insegnerebbe a
+    # ignorare le notifiche — un allarme che si impara a scorrere costa quanto uno spento.
+    paths:
+      - "cervello/**"
+      - "pannello/**"
+      - ".claude/**"
+      - ".github/workflows/**"
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: test-cervello-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: suite del cervello + typecheck del Pannello
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Test del cervello
+        run: node cervello/test-cervello.mjs
+
+      # Le dipendenze servono al typecheck: senza, `tsc` non parte e il passo uscirebbe cieco.
+      # Cieco non è verde — è la regola che questa macchina applica a ogni guardiano (AR-322), e
+      # vale anche qui: un passo saltato non va raccontato come un passo superato.
+      - name: Dipendenze del Pannello
+        run: npm --prefix pannello ci
+
+      - name: Typecheck del Pannello
+        run: npx --prefix pannello tsc --noEmit --project pannello/tsconfig.json
