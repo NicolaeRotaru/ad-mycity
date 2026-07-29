@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-07-29 12:10",
+ "aggiornato": "2026-07-29 17:25",
  "mutanti": [
   {
    "lotto": 30,
@@ -236,6 +236,24 @@
    "cerca": "  local T=()\n  command -v timeout >/dev/null 2>&1 && T=(timeout --kill-after=60s \"$to\")",
    "sostituisci": "  local T=()",
    "test": "cervello/test/lib-cadenza.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-430",
+   "nome": "il silenzio della macchina non diventa più un allarme che raggiunge Nicola",
+   "file": "cervello/battito-esterno.mjs",
+   "cerca": "  if (esito?.esito === \"rotto\") {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/battito-esterno.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-371",
+   "nome": "un guardiano che non ha potuto misurare torna a spegnere un allarme vero",
+   "file": "cervello/battito-esterno.mjs",
+   "cerca": "  if (esito?.esito === \"nonvisto\") {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/battito-esterno.test.mjs"
   }
  ]
 }

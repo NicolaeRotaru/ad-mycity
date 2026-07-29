@@ -198,6 +198,41 @@ export function daOraPiacenza(s) {
 }
 
 /**
+ * I file dove i processi automatici lasciano il loro orario, e il campo che lo contiene.
+ *
+ * Sta qui, in un posto solo, perché lo legge anche il guardiano esterno (`battito-esterno.mjs`):
+ * due elenchi copiati a mano divergono al primo file nuovo, e il guardiano finirebbe per misurare
+ * una macchina diversa da quella che misura la visita.
+ */
+export const FONTI_TRACCE = [
+  ["auto-coscienza/sentinella-dati.json", "aggiornato"],
+  ["auto-coscienza/esito-giro.json", "data"],
+  ["auto-coscienza/costo-ai.json", "aggiornato"],
+  ["auto-coscienza/delta-gate.json", "aggiornato"],
+  ["ultimo-briefing.json", "data"],
+];
+
+/**
+ * Raccoglie le tracce dal disco. Il controllo che funziona SEMPRE, in tutte e due le case, anche
+ * senza una chiave: i processi automatici scrivono nel repo, e il repo ce l'ho sotto gli occhi.
+ * Se un timer scatta ma qui non arriva niente, il guasto non è il timer — è quello che ci sta dentro.
+ */
+export function leggiTracce(radice = AD_ROOT) {
+  const tracce = [];
+  for (const [rel, campo] of FONTI_TRACCE) {
+    const p = join(radice, "MyCity-Vault/90-Memoria-AI", rel);
+    if (!existsSync(p)) continue;
+    try {
+      const quando = JSON.parse(readFileSync(p, "utf8"))[campo];
+      if (quando) tracce.push({ file: rel.split("/").pop(), quando });
+    } catch {
+      /* un file illeggibile non è una traccia: semplicemente non conta */
+    }
+  }
+  return tracce;
+}
+
+/**
  * Le tracce dei processi automatici: da quanto la macchina non lascia un segno di essere passata.
  *
  * Serve perché il ponte da solo non basta. Il 29/7 il VPS era fermo da due giorni — dodici tick
@@ -328,28 +363,7 @@ const CONTROLLI = [
     titolo: "La macchina lascia tracce di essere passata",
     impatto: 1,
     async prova() {
-      // Il controllo che funziona SEMPRE, in tutte e due le case, anche senza una chiave: i processi
-      // automatici scrivono nel repo, e il repo ce l'ho sotto gli occhi. Se un timer scatta ma qui
-      // non arriva niente, il guasto non è il timer — è quello che ci sta dentro.
-      const fonti = [
-        ["auto-coscienza/sentinella-dati.json", "aggiornato"],
-        ["auto-coscienza/esito-giro.json", "data"],
-        ["auto-coscienza/costo-ai.json", "aggiornato"],
-        ["auto-coscienza/delta-gate.json", "aggiornato"],
-        ["ultimo-briefing.json", "data"],
-      ];
-      const tracce = [];
-      for (const [rel, campo] of fonti) {
-        const p = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI", rel);
-        if (!existsSync(p)) continue;
-        try {
-          const quando = JSON.parse(readFileSync(p, "utf8"))[campo];
-          if (quando) tracce.push({ file: rel.split("/").pop(), quando });
-        } catch {
-          /* un file illeggibile non è una traccia: semplicemente non conta */
-        }
-      }
-      return giudicaTracce(tracce);
+      return giudicaTracce(leggiTracce());
     },
   },
   {
