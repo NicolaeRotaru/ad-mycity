@@ -1130,6 +1130,14 @@ Formato di ogni riga (**metti SEMPRE data E ora** `AAAA-MM-GG HH:MM`, così si s
   · **Cosa c'è adesso:** la soglia del motivo è dichiarata una volta sola (la stessa del guardiano delle porte, non un numero riscritto a mano), ogni esenzione copre **una** istanza vera del suo file e le eccedenti diventano orfane, e ogni scarto porta il **perché** — un guardiano che dice solo «no» costringe a indovinare quale delle quattro regole è scattata. La decisione sta in una funzione pura che la prova esegue su ingressi finti: 8 asserzioni, e sul repo vero il guardiano resta verde.
   · **La lezione, che vale oltre questo difetto:** quando un lotto chiude un guardiano, il passo successivo non è rileggerlo — è provare a **scavalcarlo** con casi che nel repo non esistono ancora. È lì che si vede se una regola ha un metro o solo una frase. · Nicola (mandato cantiere continuo, 27/7)
 
+- 2026-07-29 03:02 · 🟡 · [prompt-engineer/AD] · **Lotto 30: la porta d'ingresso della skill `cantiere` ora è MISURATA — 0 mancati su 16 frasi vere, 0 falsi su 12 trappole — e la description è più corta di prima (181 → 162 parole).** Ramo `claude/skill-cantiere-repair-max-eimw7r` (da firmare col merge).
+  · **Perché contava:** la skill nata col lotto 29 esiste per togliere di mezzo il «ricordarsi» dello standard, ma tutto il suo valore poggia sulla `description` — e non esisteva **una sola prova** che si accendesse sulle frasi vere di Nicola. Un cancello per i fix, e nessun cancello sulla porta d'ingresso.
+  · **Il banco** (`.claude/skills/cantiere/evals/frasi-di-nicola.json`, versionato): 28 frasi. 16 vere, comprese quelle dettate a voce senza punteggiatura, scritte male dal telefono («risolvi i difeti»), quelle con un codice solo («chiudi AR-006») e quelle espresse come numero («ne abbiamo 118 aperti»); le frasi `fonte: nicola` sono trascritte da DECISIONI/LEZIONI-CHAT, non inventate. 12 **trappole** che NON devono accenderla (il giro, la radiografia, i bug del marketplace, i bug del Pannello, i conflitti git, i KPI): senza trappole il banco misurerebbe solo quanto è invadente la description, e il numero salirebbe rovinando ogni altra sessione.
+  · **La misura, 5 varianti × 28 frasi × 3 giri = 420 sessioni `claude` vere** dentro questo repo (con CLAUDE.md e le capacità rivali installate, altrimenti le trappole sono facili): 181 parole → 1 mancato · 175 → 1 · 179 → 1 · **184 (tutte le ancore insieme) → 2** · **162 (imperativo in APERTURA) → 0 mancati, 0 falsi**.
+  · **Il risultato che conta non è il verde, è il perché:** aggiungere ancore **peggiora**, e il modo di fallire è sempre lo stesso — parte a contare con Bash invece di aprire il mansionario. Contava la **posizione** dell'imperativo, non la quantità di parole. La mia ipotesi di partenza era sbagliata e mi è costata quattro bench: per questo la regola («se non torna, **sposta** invece di aggiungere») è scritta dentro la skill, non solo qui.
+  · **Il cerchio del metodo si chiude (②):** il cancello pretendeva che una prova condivisa NOMINASSE ogni difetto coperto, ma bastava scrivere l'id in un commento; nessuno controllava che il difetto avesse la sua voce in `mutanti.json` — cioè l'unico strumento che rompe il fix apposta. Ora `mutazione-mancante` blocca, e una mutazione che punta a un pezzo sparito vale come assente. **Provato costruendo un commit che DOVEVA essere respinto: respinto, con il difetto nominato.** Le 3 mutazioni nuove rendono rossi i loro test (3/3).
+  · **Due difetti trovati mentre riparavo, registrati e NON tirati dentro il lotto** (regola ② della skill): **AR-344** — `cantiere-prove.mjs` conosce solo le prove vecchie `{file,pattern}`, quindi ogni prova migrata alla forma buona `{comando}` viene contata «non chiudibile da nessun guardiano»: i non-auto-chiudibili sono saliti 24 → 39 **per colpa dei 13 difetti riparati bene dal lotto 29**. `auto-fix.mjs` la forma nuova la capisce, quindi le chiusure reggono — a mentire è solo il numero che il Pannello mostra a Nicola, e peggiora ogni volta che si lavora bene. **AR-345** — mentre misura, lo strumento sposta la skill fuori dall'albero: per ~35 minuti `git status` mostra `D SKILL.md`, e un automatismo che «committa tutto» la cancellerebbe davvero. È successo tre volte in sessione che mi venisse chiesto di committare proprio quello; a salvarla è stata la mia attenzione, non un cancello.
+  · **Un errore mio:** la funzione che ho scritto per l'impronta del banco conteneva **un byte NUL** al posto di uno spazio (git vedeva il file come binario) — è la lezione già in memoria sugli `Edit` con `${...}` consecutivi, ripetuta. Corretta alla radice e verificata. · Nicola (mandato cantiere continuo, 27/7)
 - 2026-07-29 02:12 · 🟡 · [tech+security/AD] · **Mergiata #602: una porta sola per gli elenchi git. Il cantiere scende sotto i cento: 99 aperti · 183 chiusi.**
   · **La radice, in una riga:** git non restituisce i nomi dei file come stanno sul disco — se un percorso ha un accento lo riscrive fra virgolette con l'accento in ottali. In un vault italiano non è un caso limite: sono **26 file**, e tre punti del cervello prendevano quella risposta alla lettera.
   · **Il difetto che pesa (AR-339):** lo scanner dei segreti — il cancello che gira a ogni commit — diceva «nessun segreto in 2040 file» **avendone aperti 2014**. I 26 sparivano con lo stesso `continue` usato per i binari legittimi, ma contavano nel totale dichiarato. Adesso c'è la porta **e** un terzo esito, «cieco»: un guardiano che non è riuscito ad aprire un file non dice verde, e il numero che dichiara è quello dei file davvero letti.
@@ -1146,3 +1154,34 @@ Formato di ogni riga (**metti SEMPRE data E ora** `AAAA-MM-GG HH:MM`, così si s
   · **Perché 262 e non 87:** non è un peggioramento di 3× in tre settimane. Metà del salto è il database vivo (sopra); l'altra metà sono le quattro dimensioni «larghe» — performance (21), frontend-ux (27), accessibilità (29), dati-analytics (24), 101 problemi in quattro aree dove il giro di luglio si era fermato prima. I batch di fix di luglio (PR #213, batch 1→9) hanno chiuso molti dei 35 gravi, ma **i tre difetti più costosi sono rimasti in piedi**: overselling da TTL disallineato, dati clienti leggibili senza login, venditore mai ripagato dopo un chargeback vinto. Il quarto (rifiuto venditore senza rimborso) è chiuso davvero — `refundOrder` ora esiste su tre percorsi — con un residuo grave: `expire-stale-orders` annulla prima di rimborsare.
   · **Accodate 6 azioni** (3 🔴 sul database/pagamenti, 3 🟡): ordini bloccati · quattro porte aperte · cinque punti dove scappano i soldi · privacy e documenti d'identità · anteprime PR con le chiavi di produzione · il comando «radiografia» che non parte più.
   · **Difetto della macchina trovato mentre la usavo:** il comando «radiografia» era morto. Il motore dei workflow ora pretende `export const meta` come prima istruzione, il nostro file ha tre `import` prima. L'ho aggirato con una copia adattata per non perdere il giro, ma se lo lanciava Nicola tornava solo un errore. Stessa forma negli altri quattro workflow: da verificare tutti, e da mettere sotto un controllo che li avvii a ogni giro — un comando non deve poter morire in silenzio fino al giorno in cui serve. · Nicola (comando «fai l'analisi radiografia completa e profonda del marketplace», 29/7 11:00)
+## 2026-07-29 11:45 — 🟡 Lotto 31 del cantiere: le tre cadenze smettono di essere tre copie
+**Cosa:** riparati 11 difetti (AR-145, AR-162, AR-163, AR-164, AR-166, AR-201, AR-293, AR-302,
+AR-305, AR-313, AR-317) con **due moduli condivisi**: `cervello/esito-cadenza.mjs` (la testa, pura
+e provata) e `cervello/lib-cadenza.sh` (le mani: lucchetto, marcatore di scrittura, motore col
+timeout derivato, registro degli esiti). Più il guardiano `cervello/freschezza-cadenze.mjs`.
+
+**Perché insieme:** non sono undici difetti scollegati, è **una malattia sola**. Cinque schede
+diverse, scritte da radiografie diverse in settimane diverse, arrivano alla stessa causa di sistema
+con parole quasi identiche: giro.sh, ritmo.sh e monitora.sh sono tre copie a mano dello stesso
+motore di cadenza, e ogni protezione — timeout, ritentativi, lucchetto, esito — è nata nella copia
+dove il danno era stato visto e non è mai arrivata alle altre due. La macchina l'aveva già
+diagnosticata (la tabella in `gate-pubblicazione.sh`, «il cancello esiste in UN pubblicatore su
+cinque») e aveva curato un asse solo.
+
+**Cosa cambia davvero:** il monitoraggio non può più dichiararsi riuscito con la memoria mai
+arrivata su GitHub; il Piano del mattino non si rilancia sette volte in cento minuti; una cadenza
+che smette di uscire diventa un vincolo che il giro deve leggere, invece di un silenzio; i vincoli
+non evaporano quando il motore viene saltato.
+
+**Onestà:** giro.sh conserva il proprio ciclo — è la copia già corretta, quella da cui le altre due
+hanno imparato. Il debito è dichiarato e **misurato** nel registro delle malattie
+(`cadenza-copiata-a-mano`, tetto 3 che non sale), non taciuto. Non fatta la clausola (c) di AR-166
+(avviso Telegram dopo 3 giri consecutivi con passi saltati): serve un contatore che oggi non esiste.
+
+**Prove:** `node cervello/test/esito-cadenza.test.mjs` (20 casi, fra cui la parità con
+`esito_giro_rc` su 144 combinazioni) e `node cervello/test/lib-cadenza.test.mjs` (13 casi che
+girano davvero: due processi che si contendono il lucchetto, un processo ucciso col motore acceso).
+15 mutazioni su 15 rendono rosso il loro test. Cancello del lotto verde, typecheck del Pannello
+misurato davvero (non cieco).
+
+**Colore:** 🟡 — preparato e committato sul ramo, **il merge è la firma di Nicola**.

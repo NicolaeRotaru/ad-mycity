@@ -89,6 +89,24 @@ echo "[$(ts)] ▶ Allineamento codice da main (vault intatto) come $(id -un)..."
 exec 9>"$LOCK"
 flock -w 120 9
 
+# AR-317 — L'ALTRA METÀ DEL DIFETTO.
+# «Il lucchetto si prende solo alla fine: mentre l'AD scrive, un altro processo committa e resetta
+# sotto.» Questo script è quell'altro processo: prende il lucchetto git (che il giro NON tiene mentre
+# scrive, e non potrebbe — sono 45 minuti) e più sotto fa `git checkout -f -B`, che strappa via il
+# lavoro a metà. Il lucchetto non basta perché i due non competono sulla stessa cosa: uno pubblica,
+# l'altro scrive.
+# Ora c'è il marcatore. Se una cadenza sta scrivendo ADESSO, questo allineamento si rimanda (rc=3)
+# senza toccare il worktree; un marcatore vecchio è un residuo di un run morto e si ignora, se no una
+# cadenza crashata bloccherebbe gli allineamenti per sempre.
+SCRIPT_DIR_CERVELLO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+if [ -r "$SCRIPT_DIR_CERVELLO/lib-cadenza.sh" ]; then
+  REPO="$REPO" . "$SCRIPT_DIR_CERVELLO/lib-cadenza.sh"
+  if cadenza_scrittura_in_corso "${CADENZA_SCRITTURA_MAX_SEC:-3600}"; then
+    echo "[$(ts)] ⏭️  Una cadenza sta SCRIVENDO nel vault (marcatore .git/mycity-scrittura-in-corso) — allineamento rimandato (AR-317)." >&2
+    exit 3
+  fi
+fi
+
 if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then
   git add -A "${MEM_DIRS[@]}" 2>/dev/null || true   # AR-310: solo memoria, mai codice
   # AR-314 — anche il recupero delle scritture pendenti passa dal cancello: è un commit su main come

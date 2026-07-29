@@ -35,6 +35,13 @@ const TIMER_CRITICI = new Set([
   "mycity-verifica.timer",
   "mycity-monitora.timer",
   "mycity-sentinella.timer",
+  // AR-164 (a): i quattro timer del ritmo erano fuori dai critici — un timer del Piano del mattino
+  // spento risultava un semplice «warn». È la metà infrastrutturale del difetto; l'altra metà (il
+  // PRODOTTO della cadenza, non la sveglia) la guarda cervello/freschezza-cadenze.mjs.
+  "mycity-ritmo-mattino.timer",
+  "mycity-ritmo-mezzogiorno.timer",
+  "mycity-ritmo-sera.timer",
+  "mycity-ritmo-settimana.timer",
 ]);
 const BATTITO_OCCHI_MAX_MIN = Number(process.env.VERIFICA_BATTITO_OCCHI_MIN || 10);
 
