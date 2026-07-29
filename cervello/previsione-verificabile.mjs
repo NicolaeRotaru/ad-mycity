@@ -46,8 +46,12 @@
 // stessa forma di AR-272 (il cancello al confine invece che dentro ogni esecutore), applicata al
 // registro invece che alle uscite verso il mondo.
 //
-// Nessuna dipendenza esterna e nessun orologio interno: la finestra si giudica contro le date della
-// voce, così un test può eseguire queste decisioni su una voce finta.
+// Nessun orologio interno: la finestra si giudica contro le date della voce, così un test può
+// eseguire queste decisioni su una voce finta. L'unico import è `ripartisci` da misura-parziale.mjs
+// — anche lui puro e senza dipendenze — perché un conteggio che può perdere righe (AR-358) si cura
+// una volta sola, nella forma, non in ogni punto che conta.
+
+import { ripartisci } from "./misura-parziale.mjs";
 
 /** Perché una voce non entra nel punteggio. Sono motivi, non un booleano: se ne può avere più d'uno. */
 export const ESCLUSA = {
@@ -165,6 +169,48 @@ export function invarianteRotta(voce = {}, dalIso = null) {
   }
   if (!fonteVerificabile(voce)) rotte.push(INVARIANTE.FONTE_NON_VERIFICABILE);
   return rotte;
+}
+
+/**
+ * AR-358 — **il conteggio di un reparto, con la somma che torna per costruzione.**
+ *
+ * Il difetto: `calibrazione.ricalcolaReparti` saltava le righe `esito_loop` con un `continue` messo
+ * A MONTE dei contatori. Misurato il 29/7: registro di 42 righe, 36 `esito_loop`, e `per_reparto`
+ * mostrava per tutti e 13 i reparti `previsioni: 0, escluse: 0…` — 36 righe sparite da ENTRAMBI i
+ * contatori. Nessuno poteva accorgersene, perché niente pretendeva che la somma tornasse.
+ *
+ * La forma della cura conta più della cura: qui il chiamante non conta più niente a mano e non può
+ * più «saltare» una voce. Dice solo IN QUALE classe va, e la somma delle classi È il totale.
+ *
+ * @param {any[]} voci le righe del registro di UN reparto
+ * @param {{nonPrevisione?: (v:any)=>boolean}} opts
+ * @returns {{righe:number, previsioni:number, azzeccate:number, escluse:number,
+ *   non_previsioni:number, quadra:boolean, per_motivo:Record<string,number>}}
+ */
+export function conteggioReparto(voci = [], { nonPrevisione = () => false } = {}) {
+  const perMotivo = {};
+  const { totale, conteggi, quadra } = ripartisci(
+    voci,
+    (v) => {
+      if (nonPrevisione(v)) return "non_previsioni";
+      const g = contaNelPunteggio(v, { nonPrevisione: false });
+      if (g.conta) return v?.stato === "azzeccata" ? "azzeccate" : "previsioni_mancate";
+      const primo = g.motivi[0] || "esclusa";
+      perMotivo[primo] = (perMotivo[primo] || 0) + 1;
+      return "escluse";
+    },
+    ["azzeccate", "previsioni_mancate", "escluse", "non_previsioni"],
+  );
+  return {
+    righe: totale,
+    previsioni: conteggi.azzeccate + conteggi.previsioni_mancate,
+    azzeccate: conteggi.azzeccate,
+    escluse: conteggi.escluse,
+    non_previsioni: conteggi.non_previsioni,
+    per_motivo: perMotivo,
+    // L'identità che mancava: previsioni + escluse + non_previsioni = righe del registro.
+    quadra: quadra && conteggi.azzeccate + conteggi.previsioni_mancate + conteggi.escluse + conteggi.non_previsioni === totale,
+  };
 }
 
 /**

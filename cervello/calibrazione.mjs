@@ -20,7 +20,7 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { nonEUnaPrevisione } from "./volano-regole.mjs";
-import { CAUSE_AMMESSE, contaNelPunteggio, fineFinestra, invarianteRotta, punteggioOnesto } from "./previsione-verificabile.mjs";
+import { CAUSE_AMMESSE, conteggioReparto, fineFinestra, invarianteRotta, punteggioOnesto } from "./previsione-verificabile.mjs";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
@@ -248,36 +248,27 @@ export { nonEUnaPrevisione };
 // Ricalcola gli aggregati per_reparto dal registro (unica fonte di verità).
 function ricalcolaReparti(data) {
   const { quotaCiechiAlta } = statoSensori(); // AR-061
+
+  // AR-358 — le righe di ogni reparto si RAGGRUPPANO qui e si CONTANO una volta sola, con
+  // `conteggioReparto`. Prima questo ciclo contava a mano e aveva un `continue` a monte dei
+  // contatori: le 36 righe `esito_loop` (su 42) sparivano sia da `previsioni` sia da `escluse`, e
+  // la pagella mostrava «0 previsioni» per tutti e 13 i reparti senza che la somma potesse
+  // denunciare la perdita. Ora l'identità previsioni + escluse + non_previsioni = righe è vera per
+  // costruzione, e viaggia fino al report come campo (`righe`, `quadra`).
+  //
+  // AR-173/AR-172/AR-168 — la decisione «questa voce conta» resta una sola, in `contaNelPunteggio`.
   const perRep = new Map();
   for (const e of data.registro) {
     if (!e.reparto) continue;
     // Normalizzato QUI e non solo in scrittura: nel registro ci sono già righe `@AD` e righe `@ad`,
     // e senza questo resterebbero due reparti distinti con le prove spezzate a metà per sempre.
     const rep = normReparto(e.reparto);
-    const cur = perRep.get(rep) || { reparto: rep, previsioni: 0, azzeccate: 0 };
-    if (nonEUnaPrevisione(e)) {
-      perRep.set(rep, cur);
-      continue;
-    }
-    // AR-173/AR-172/AR-168 — un'unica decisione, in un posto solo: `contaNelPunteggio`.
-    //
-    // Prima i motivi di esclusione erano sparsi qui dentro come `continue`, e una seconda definizione
-    // della stessa cosa viveva in `volano-regole.previsioneValida` — che conosceva anche «nata già
-    // chiusa» e la finestra, mentre questo blocco no. Due definizioni di «questa voce conta» che non
-    // erano d'accordo: misurato il 28/7, tutte e CINQUE le voci che facevano punteggio erano state
-    // chiuse il 26/7 in una passata di recupero, oltre la loro scadenza — compreso l'unico centro
-    // dell'AD, chiuso NOVE giorni dopo il termine che si era dato.
-    const giudizio = contaNelPunteggio(e, { nonPrevisione: false });
-    if (!giudizio.conta) {
-      cur.escluse = (cur.escluse || 0) + 1;
-      perRep.set(rep, cur);
-      continue;
-    }
-    cur.previsioni += 1;
-    if (e.stato === "azzeccata") cur.azzeccate += 1;
-    perRep.set(rep, cur);
+    if (!perRep.has(rep)) perRep.set(rep, []);
+    perRep.get(rep).push(e);
   }
-  data.per_reparto = [...perRep.values()].map((r) => {
+  data.per_reparto = [...perRep.entries()].map(([reparto, voci]) => {
+    const c = conteggioReparto(voci, { nonPrevisione: nonEUnaPrevisione });
+    const r = { reparto, previsioni: c.previsioni, azzeccate: c.azzeccate, escluse: c.escluse, non_previsioni: c.non_previsioni, righe: c.righe, quadra: c.quadra };
     const punteggio = r.previsioni > 0 ? Number((r.azzeccate / r.previsioni).toFixed(2)) : 0;
     // AR-065: usa il lower-bound di Wilson (intervallo di confidenza 90%) invece della proporzione grezza:
     // con campione minuscolo il lower_bound è basso → niente autonomia "alta" su 3 esiti fortunati.
@@ -295,7 +286,21 @@ function ricalcolaReparti(data) {
     // AR-173: «0 previsioni» e «0 previsioni, 5 escluse» sono due cose diverse. La prima dice «non ha
     // mai provato», la seconda «ha provato e le prove non erano verificabili»: senza il secondo numero
     // il reparto sembra inattivo invece che non misurabile.
-    return { reparto: r.reparto, previsioni: r.previsioni, azzeccate: r.azzeccate, escluse: r.escluse || 0, punteggio, lower_bound: lowerBound, autonomia }; // AR-065: lower_bound = confidenza (Wilson 90%)
+    // AR-358: `righe` e `non_previsioni` viaggiano fino alla Cabina. «0 previsioni» da solo è una
+    // frase che si legge «il reparto non ha mai provato»; «0 previsioni su 12 righe, di cui 11 non
+    // erano previsioni» dice la verità — e `quadra: false` denuncia subito una riga persa.
+    return {
+      reparto: r.reparto,
+      previsioni: r.previsioni,
+      azzeccate: r.azzeccate,
+      escluse: r.escluse || 0,
+      non_previsioni: r.non_previsioni || 0,
+      righe: r.righe,
+      quadra: r.quadra,
+      punteggio,
+      lower_bound: lowerBound, // AR-065: confidenza (Wilson 90%)
+      autonomia,
+    };
   });
   data.per_reparto.sort((a, b) => b.punteggio - a.punteggio);
 }
