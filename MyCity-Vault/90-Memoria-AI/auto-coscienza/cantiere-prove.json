@@ -1,16 +1,16 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-07-29 20:48",
+  "aggiornato": "2026-07-29 23:24",
   "giorni_sospetto": 3,
-  "difetti_aperti": 196,
+  "difetti_aperti": 199,
   "per_classe": {
-    "umana": 47,
+    "umana": 54,
     "auto-sospetta": 6,
-    "auto-attesa": 134,
+    "auto-attesa": 130,
     "auto-ok": 9
   },
-  "non_auto_chiudibili": 53,
+  "non_auto_chiudibili": 60,
   "bloccanti_ciechi": [
     "AR-226",
     "AR-371",
@@ -1623,9 +1623,9 @@
       "gravita": "grave",
       "eta_giorni": 0,
       "titolo": "Il numero con cui giudichiamo dove va lo sforzo è calcolato su una storia tagliata: dice com'è fatto il magazz",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/allocazione-check.mjs ~ /is-shallow-repository/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-420",
@@ -1668,9 +1668,9 @@
       "gravita": "grave",
       "eta_giorni": 0,
       "titolo": "Il contatore della spesa si azzera a mezzanotte e non dice mai di che giorno è: oggi il freno risponde «lascia",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/freno-costi.mjs ~ /oggi\\.data/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-425",
@@ -1695,9 +1695,9 @@
       "gravita": "grave",
       "eta_giorni": 0,
       "titolo": "Lo scanner dei segreti salta senza dirlo i file oltre i due mega, e il file che cresce ogni giro è già a metà ",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/scan-segreti.mjs ~ /st\\.size > 2_000_000\\) continue/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-428",
@@ -1713,9 +1713,9 @@
       "gravita": "grave",
       "eta_giorni": 0,
       "titolo": "La guardia che impedisce di chiudere un difetto senza aver riparato niente è spenta in ogni sessione cloud, e ",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/auto-fix.mjs ~ /is-shallow-repository/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-430",
@@ -1785,6 +1785,33 @@
       "gravita": "alto",
       "eta_giorni": null,
       "titolo": "Un allarme acceso da settimane e uno acceso da un minuto si leggono uguale, quindi il primo diventa sfondo",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-441",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "titolo": "Lo scanner dei segreti si dichiara cieco sui file grossi invece di leggerli, e i tre JSON che crescono ogni gi",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-442",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "titolo": "Il contatore della spesa si azzera a mezzanotte, quindi il freno non sa niente delle ultime ore a cavallo di d",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-443",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Se la coda delle azioni non si riesce a leggere, il cancello dice «azione non trovata» invece di «non ho potut",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
