@@ -6107,12 +6107,11 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/freschezza-segnali.mjs:54-58 (ramo `if (!ok)` che stampa «skip», lascia un `warn` ed esce 0) · cervello/freschezza-segnali.mjs:12-22 (gli 8 guardiani attesi) · cervello/freschezza-segnali.mjs:30-32 (il ramo che ritorna `ok:false` quando SUPABASE_URL/SERVICE_KEY mancano) · cervello/giro.sh:590-593 (il chiamante, che con `vincolo_da_rc` sa GIÀ gestire rc=2). Sintomo: VERIFICATO, e più grave di come era stato classificato. `freschezza-segnali.mjs` è il meta-guardiano: verifica che gli otto guardiani del preambolo (sensori, allinea-scan-cantiere, chiusura-loop, coerenza-fatti, allocazione, north-star, delta-gate, auto-fix) abbiano lasciato un battito, ed esiste proprio perché giro.sh ingoia gli errori con `|| true`. Ma se Supabase non è configurato o risponde male (righe 30-32 → 54-58) stampa «non verificabile — skip (normale in sessione senza Supabase)», lascia un segnale `warn` ed esce 0. I soli exit del file sono 0, 1, 0, 1 (righe 58, 78, 83, 89): il codice 2 non esiste. Nel giro il suo esito alimenta `FRESCHEZZA_VINCOLO` (giro.sh:591-593) — e quel chiamante usa già `vincolo_da_rc`, che per rc=2 produce il messaggio giusto («guardiano cieco: ripara lo strumento, non fidarti del verde che non c'è»). La macchina per gestirlo c'è ed è cablata: è lo script che non la usa mai. Quindi in ogni ambiente senza chiavi, e in ogni momento in cui Supabase è irraggiungibile, il vincolo non può scattare e la sua assenza è indistinguibile da un verde — lo stesso difetto che questo file è stato scritto per curare, un piano più su.",
       "verifica": {
-        "file": "cervello/freschezza-segnali.mjs",
-        "pattern": "process\\.exit\\(2\\)",
-        "presente": true
+        "comando": "node cervello/test/cieco-dichiarato-verde.test.mjs"
       },
       "chiuso_il": "2026-07-29 20:21",
-      "chiuso_come": "cervello/freschezza-segnali.mjs contiene /process\\.exit\\(2\\)/ → trovato"
+      "chiuso_come": "cervello/freschezza-segnali.mjs contiene /process\\.exit\\(2\\)/ → trovato",
+      "nota_fix": " — 29/7 (lotto 33): questi due si erano chiusi DA SOLI e per sbaglio. La loro prova era il pattern `process.exit(2)` in freschezza-segnali.mjs, e il lotto 33 ha aggiunto a quel file un exit(2) per un caso diverso (elenco degli attesi non derivabile): il pattern ha fatto centro mentre il ramo malato — Supabase illeggibile, uscita 0 — era ancora vivo tre righe sopra. Scoperto rileggendo le chiusure una per una invece di fidarmi del conteggio. Adesso il fix e VERO (rc=2 quando la memoria non risponde, piu il caso della rete che cade, che usciva 1 cioe accusava invece di tacere) e la prova ESEGUE il guardiano invece di cercare una parola."
     },
     {
       "id": "AR-373",
@@ -6146,12 +6145,11 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/freschezza-segnali.mjs:55-58 (ramo `if (!ok)` → process.exit(0)); in tutto il file non esiste nessun process.exit(2). Sintomo: VERIFICATO leggendo il file intero. Se mancano SUPABASE_URL/KEY, se la rete cade o se la REST risponde male, leggiSegnali torna {ok:false} e lo script stampa «skip (normale in sessione senza Supabase)» ed esce 0 — verde. Il contratto dei guardiani è scritto in cervello/giro-esito.sh:74-79 (0 = passato · 1 = bocciato · 2 = cieco) e giro.sh lo invoca proprio con l'helper `guardiano` + vincolo_da_rc, che il caso rc=2 lo sa tradurre («GUARDIANO CIECO»): ma questo script non lo emette mai. Il paradosso è che esiste esattamente per dire «il verde di quel guardiano è vecchio, non vale», e per sé applica la regola opposta. (Nota: il conteggio «14 guardiani su 37» della segnalazione originale non l'ho potuto riprodurre e l'ho tolto; il difetto sul singolo file resta confermato.)",
       "verifica": {
-        "file": "cervello/freschezza-segnali.mjs",
-        "pattern": "process\\.exit\\(2\\)",
-        "presente": true
+        "comando": "node cervello/test/cieco-dichiarato-verde.test.mjs"
       },
       "chiuso_il": "2026-07-29 20:21",
-      "chiuso_come": "cervello/freschezza-segnali.mjs contiene /process\\.exit\\(2\\)/ → trovato"
+      "chiuso_come": "cervello/freschezza-segnali.mjs contiene /process\\.exit\\(2\\)/ → trovato",
+      "nota_fix": " — 29/7 (lotto 33): questi due si erano chiusi DA SOLI e per sbaglio. La loro prova era il pattern `process.exit(2)` in freschezza-segnali.mjs, e il lotto 33 ha aggiunto a quel file un exit(2) per un caso diverso (elenco degli attesi non derivabile): il pattern ha fatto centro mentre il ramo malato — Supabase illeggibile, uscita 0 — era ancora vivo tre righe sopra. Scoperto rileggendo le chiusure una per una invece di fidarmi del conteggio. Adesso il fix e VERO (rc=2 quando la memoria non risponde, piu il caso della rete che cade, che usciva 1 cioe accusava invece di tacere) e la prova ESEGUE il guardiano invece di cercare una parola."
     },
     {
       "id": "AR-375",

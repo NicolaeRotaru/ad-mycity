@@ -443,6 +443,15 @@
       "cerca": "  push:",
       "sostituisci": "  push_disattivato:",
       "test": "cervello/test/perimetro-applicato.test.mjs"
+    },
+    {
+      "lotto": 33,
+      "difetto": "AR-372+AR-374",
+      "nome": "il guardiano dei battiti torna a dichiararsi a posto quando non riesce a guardare",
+      "file": "cervello/freschezza-segnali.mjs",
+      "cerca": "    process.exit(2);",
+      "sostituisci": "    process.exit(0);",
+      "test": "cervello/test/cieco-dichiarato-verde.test.mjs"
     }
   ]
 }

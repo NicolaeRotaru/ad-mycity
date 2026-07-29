@@ -53,13 +53,20 @@ async function leggiSegnali() {
   const key = process.env.SUPABASE_SERVICE_KEY?.trim();
   if (!url || !key) return { ok: false, motivo: "Supabase non configurato", segnali: {} };
 
-  const res = await fetch(
-    `${url}/rest/v1/impostazioni?select=chiave,valore,updated_at&chiave=like.automazione.*`,
-    {
+  // La rete che cade è «non ho potuto misurare», non «ho trovato una violazione»: senza questo
+  // try/catch l'errore risaliva fino al gestore in fondo al file, che esce 1 — e il giro leggeva un
+  // guardiano MUTO come un guardiano che ACCUSA. È la stessa confusione di AR-372/AR-374 vista
+  // dall'altro lato: lì il silenzio diventava un verde, qui diventava un rosso. Entrambe le volte
+  // il giro riceve un'informazione che non è vera.
+  let res;
+  try {
+    res = await fetch(`${url}/rest/v1/impostazioni?select=chiave,valore,updated_at&chiave=like.automazione.*`, {
       headers: { apikey: key, Authorization: `Bearer ${key}` },
       signal: AbortSignal.timeout(8000),
-    }
-  );
+    });
+  } catch (e) {
+    return { ok: false, motivo: `memoria irraggiungibile (${(e.message || e).toString().slice(0, 80)})`, segnali: {} };
+  }
   if (!res.ok) return { ok: false, motivo: `HTTP ${res.status}`, segnali: {} };
   const rows = await res.json();
   const segnali = {};
@@ -74,9 +81,15 @@ async function main() {
   const quando = nowPiacenza();
   const { ok, motivo, segnali } = await leggiSegnali();
   if (!ok) {
-    console.log(`⚠️  freschezza-segnali: ${motivo} — skip (normale in sessione senza Supabase).`);
-    await stampSegnale("freschezza-segnali", "warn", `non verificabile: ${motivo} · ${quando}`);
-    process.exit(0);
+    // AR-372/AR-374 — QUI stava il difetto, e usciva 0: «il controllore dei controllori si dichiara a
+    // posto ogni volta che non riesce a guardare». Se Supabase non risponde, questo guardiano non sa
+    // se i battiti ci siano o no — e «non lo so» non è «va tutto bene». Il contratto AR-322 esiste
+    // apposta: 0 passato · 1 violazione · 2 NON HO POTUTO MISURARE. Il 2 lo gestisce già
+    // `vincolo_da_rc` in giro-esito.sh, che lo racconta al motore come «guardiano cieco, non è un
+    // verde» senza far fallire il giro: l'infrastruttura c'era, mancava solo di usarla.
+    console.log(`⚠️  freschezza-segnali CIECO: ${motivo} — non ho potuto misurare i battiti (rc=2, non è un verde).`);
+    await stampSegnale("freschezza-segnali", "warn", `cieco: ${motivo} · ${quando}`);
+    process.exit(2);
   }
 
   // ⚪ non è mai ✅: se non riesco nemmeno a derivare CHI deve battere, non posso dire che battono
