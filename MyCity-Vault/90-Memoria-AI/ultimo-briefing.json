@@ -1,16 +1,16 @@
 {
-  "data": "2026-07-27 20:20",
-  "situazione": "Giro ripetuto richiesto in chat — business ANCORA fermo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati, 0 recensioni, 3 carrelli abbandonati, identico a ogni giro di oggi. Delta-gate conferma nessun cambiamento (5° giro-sonda consecutivo 'nulla di nuovo', 9h dall'ultimo giro pieno). Applicata la strategia snella: nessuna ri-analisi profonda, coda AZIONI-IN-ATTESA a 57 righe 'in attesa' senza novità di contenuto. Mossa n.1: rispondere alle 3 domande PI26 (scade tra ~2,3 giorni). Mossa n.2: attivare Vercel Authentication sul Pannello.",
+  "data": "2026-07-29 16:21",
+  "situazione": "Giro completo (\"giro.md per intero\"), richiesto in chat 1h24 dopo il passaggio delle 14:57 — business ANCORA fermo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati/consegnati, 0 recensioni, stallo North Star ~35 giorni. Riverificato dal vivo via Supabase MCP: tutti i numeri identici al passaggio delle 14:57. coerenza-fatti.mjs → memoria coerente (21 fatti, 0 cacce aperte). Delta-gate (heartbeat 16:20) aveva già deciso esegui_pieno:false, confermato dal vivo. Nessun nuovo 🟡/🔴 in questo passaggio, applicata la strategia snella (AR-113/delta-gate). Mossa n.1: attivare Vercel Authentication sul Pannello (30 secondi, unico passo mancante).",
   "opportunita": [
     {
-      "titolo": "Rispondi alle 3 domande sul bando PI26",
-      "motivo": "10.000€ di fondo perduto, sportello a esaurimento aperto fino al 30/7 ore 16:00 (~2,5 giorni residui) — mancano solo le tue risposte",
+      "titolo": "Chiudi la porta aperta del Pannello",
+      "motivo": "Oggi chiunque abbia il link entra nella Cabina di Regia senza login e può approvare azioni — il codice che blocca gli script è già in produzione, manca solo l'interruttore Vercel",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "Unico sblocco diretto del North Star (0 ordini pagati da 33 giorni) — sblocca anche referral e stampa del kit fisico",
+      "motivo": "Unico sblocco diretto del North Star (0 ordini pagati da 35 giorni) — sblocca anche i 3 esperimenti gated e la stampa del kit fisico. In pausa concordata fino al 24/8-1/9",
       "impatto": "alto",
       "sforzo": "basso"
     }
@@ -18,23 +18,18 @@
   "azioni": [
     {
       "titolo": "Attiva Vercel Authentication per chiudere davvero il Pannello",
-      "motivo": "Oggi il Pannello resta apribile da chiunque abbia solo il link — confermato da te stesso in incognito alle 10:05 di oggi; bastano 30 secondi su Vercel",
-      "livello": "giallo"
+      "motivo": "30 secondi su Vercel, nessun codice da mergiare — è l'unico passo che manca (verificato da @security stanotte)",
+      "livello": "rosso"
     },
     {
-      "titolo": "Conferma se il piano con fratello e amici sostituisce la pausa negozi",
-      "motivo": "Hai indicato una data di ripartenza (metà agosto) diversa da quella già registrata (24/8-1/9) — senza il tuo ok non riscrivo il fatto ufficiale",
-      "livello": "giallo"
-    },
-    {
-      "titolo": "Dai un sì per congelare una copia di sicurezza della memoria",
-      "motivo": "Da domani un bug noto (decadimento) inizierebbe a cancellare le lezioni di giugno se non la mettiamo al sicuro prima",
+      "titolo": "Dimmi quali dei 4 controlli-avviso vuoi promuovere a blocco vero",
+      "motivo": "Risposta con le 4 opzioni già pronta in [[RITMO]], in attesa della tua scelta",
       "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo ~33 giorni, riconfermato con query diretta",
-    "PI26 scade tra ~2,5 giorni senza conferma di invio",
+    "North Star 0 — stallo ~35 giorni",
+    "Pannello del Comando raggiungibile senza login (manca Vercel Authentication)",
     "Runway non calcolabile (manca BURN_MENSILE_EUR nel .env VPS)",
     "3 carrelli abbandonati reali su PQ mai recuperati (invariati da giugno)"
   ]

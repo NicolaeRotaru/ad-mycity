@@ -513,11 +513,19 @@ const CONTROLLI = [
         .map((d) => d.name);
       if (!cartelle.length) return nonVisto("nessuna skill installata qui");
 
-      // Le skill dello specchio sono copie rigenerabili di .cursor/skills: giusto che git le ignori.
+      // Le skill dello specchio sono copie rigenerabili del manifest: giusto che git le ignori.
       // Quelle scritte a mano no: se git le ignora, esistono solo su questo disco.
-      let manifest = "";
+      //
+      // Il riconoscimento passa dall'ID del manifest, non dal percorso del target. Prima guardavo
+      // se il manifest citava `.cursor/skills/<nome>/`, e la prima visita dal VPS ha subito accusato
+      // `ponytail` di vivere fuori da git: è generata eccome, ma nasce da una rule `.mdc`
+      // (`.cursor/rules/ponytail-code.mdc`) che lo specchio converte in SKILL.md. Un controllo che
+      // grida al lupo su una cosa sana si impara a ignorare, quindi la regola guarda l'identità
+      // (l'id) invece della forma del file.
+      const idsSpecchio = new Set();
       try {
-        manifest = readFileSync(join(AD_ROOT, "cervello/worker-plugins.json"), "utf8");
+        const manifest = JSON.parse(readFileSync(join(AD_ROOT, "cervello/worker-plugins.json"), "utf8"));
+        for (const p of manifest.plugin || []) if (p?.id) idsSpecchio.add(p.id);
       } catch {
         /* senza manifest tratto tutte le skill come native: meglio un falso allarme che un buco */
       }
@@ -536,10 +544,7 @@ const CONTROLLI = [
           return false;
         }
       };
-      const orfane = skillNonVersionate(cartelle, {
-        generata: (nome) => manifest.includes(`.cursor/skills/${nome}/`),
-        versionata,
-      });
+      const orfane = skillNonVersionate(cartelle, { generata: (nome) => idsSpecchio.has(nome), versionata });
       if (orfane.length)
         return rotto(`${orfane.length} skill vivono solo su questo disco e non arriveranno mai al VPS: ${orfane.join(", ")}`, { orfane });
       return ok(`${cartelle.length} skill installate, tutte versionate o rigenerabili`, { quante: cartelle.length });

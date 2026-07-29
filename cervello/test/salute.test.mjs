@@ -195,6 +195,17 @@ prova("una skill dello specchio ignorata da git non è un difetto: è rigenerabi
   uguale(orfane.length, 0, "lo specchio si ricrea da solo");
 });
 
+prova("il falso allarme del 29/7: ponytail è generata anche se non nasce da .cursor/skills", () => {
+  // La prima visita dal VPS ha accusato `ponytail` di vivere fuori da git. È generata eccome, ma
+  // nasce da una rule .mdc che lo specchio converte: riconosciuta per ID, non per percorso.
+  const idsManifest = new Set(["grilling", "ponytail", "diagnosing-bugs"]);
+  const orfane = skillNonVersionate(["ponytail", "salute"], {
+    generata: (n) => idsManifest.has(n),
+    versionata: (n) => n === "salute",
+  });
+  uguale(orfane.length, 0, "nessun allarme su una skill sana");
+});
+
 prova("tutte versionate: nessun allarme", () => {
   uguale(skillNonVersionate(["salute"], { generata: () => false, versionata: () => true }).length, 0, "a posto");
 });

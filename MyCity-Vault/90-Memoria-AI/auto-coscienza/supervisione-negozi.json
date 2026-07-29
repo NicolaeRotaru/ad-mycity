@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🛡️ SUPERVISIONE NEGOZI & PRODOTTI: ultimo esito della veglia dati mancanti. Scritto da cervello/supervisione-negozi.mjs.",
-  "aggiornato": "2026-07-27 22:20",
+  "aggiornato": "2026-07-29 16:20",
   "conteggi": {
     "negozi": 1,
     "negozi_approvati": 1,
@@ -21,224 +21,8 @@
       "n": 1
     }
   ],
-  "report": "consegne/supervisione/2026-07-27-supervisione.md",
+  "report": "consegne/supervisione/2026-07-29-supervisione.md",
   "storia": [
-    {
-      "quando": "2026-07-23 11:18",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 11:32",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 11:57",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 12:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 12:47",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 12:53",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 13:07",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 13:26",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 14:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 16:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 16:35",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 16:42",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 18:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 20:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-23 22:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-24 06:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-24 08:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-24 10:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-24 11:00",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-24 12:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-24 14:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-24 16:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-24 18:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-24 20:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-24 22:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-25 06:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-07-25 08:20",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
     {
       "quando": "2026-07-25 10:20",
       "negozi": 1,
@@ -417,6 +201,222 @@
     },
     {
       "quando": "2026-07-27 22:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 06:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 08:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 10:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 11:01",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 11:21",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 11:54",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 12:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 12:56",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 14:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 15:00",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 16:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 18:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 19:03",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 20:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 22:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-28 23:06",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-29 06:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-29 08:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-29 10:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-29 11:00",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-29 11:18",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-29 11:50",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-29 12:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-29 12:53",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-29 14:20",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-29 14:56",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-07-29 16:20",
       "negozi": 1,
       "negozi_approvati": 1,
       "prodotti": 5,
