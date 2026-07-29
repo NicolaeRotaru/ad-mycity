@@ -155,6 +155,51 @@ Sul debito ereditato il cancello non blocca ma **misura**: i tetti in `cervello/
 scendono (`--aggiorna-tetti`) e non si alzano mai. Ciò che il lotto tocca **adesso** passa dal blocco
 duro, anche sotto il tetto — un cancello sempre rosso viene aggirato al secondo giro.
 
+## ⑦bis Il SECONDO GIRO — il cancello verde non è la fine
+
+> Nato il 30/7 da Nicola, dopo che una rilettura su sua richiesta ha trovato due buchi in un lotto
+> già consegnato col cancello a exit 0: *«devi ricontrollare tantissime volte il lavoro che hai
+> fatto.»*
+
+**Un metro che non misura una strada non la dichiara scoperta: dice verde.** Quella notte il cancello
+era verde mentre la porta a mano (`auto-fix chiudi --id=`) chiudeva difetti che la porta automatica
+rifiutava. Nessun guardiano copriva quella strada, quindi nessuno mentiva — semplicemente lì non
+guardava nessuno. **Il verde è l'inizio del secondo giro, non la fine del lavoro.**
+
+Il secondo giro si fa **ad albero fermo**, sul **diff intero** (`git diff origin/main...HEAD`), non
+sui file che ti ricordi di aver toccato — la memoria del lotto è la cosa meno affidabile che hai. E
+si fa con queste cinque domande, in quest'ordine. Sono le cinque che hanno trovato qualcosa.
+
+1. **Ogni strada che arriva all'atto passa dal freno?** Non quella che hai riparato: *tutte*. Cerca
+   l'atto, non il tuo fix — `grep -n 'stato = "chiuso"'`, e per ogni occorrenza chiediti se il freno
+   c'è. È AR-172, ed è tornato il 30/7 nello stesso lotto che lo citava.
+2. **Ciò che ho AFFERMATO nel commit e nella PR è vero?** Riga per riga, ognuna con un comando. Il
+   30/7 la PR diceva «lettore unico condiviso con auto-fix» e auto-fix aveva ancora la sua copia
+   della decisione: la frase era falsa quando l'ho scritta. Un'affermazione non verificata è un
+   numero senza fonte.
+3. **La guardia che ho scritto FRENA davvero?** **Forzala a fallire** — abbassa il tetto, sporca il
+   dato, togli il campo — e pretendi il rosso. Un tetto mai superato è indistinguibile da un tetto
+   scollegato, ed entrambi stampano verde.
+4. **Il codice che ho aggiunto è USATO?** `grep -c` del simbolo importato: se compare una volta sola
+   è l'import, e il resto è morto. Un modulo importato e mai chiamato somiglia moltissimo a una
+   difesa attiva.
+5. **I difetti nuovi che ho trovato sono REGISTRATI?** Nel cantiere — non in chat, non nel rapporto
+   di una corsia, non nella mia testa. Il 30/7 uno è rimasto fuori per un giorno intero ed è tornato
+   a mordere in un altro modulo. Chiedilo al file, non al ricordo:
+   `node -e "…difetti.filter(d => /parola/.test(d.titolo))"`.
+
+**Quando fermarsi:** quando un giro intero non trova **niente da guardare**. Se un giro trova
+qualcosa, il giro dopo non è facoltativo — chi ha appena sbagliato ha appena dimostrato di poter
+sbagliare ancora. Il 30/7: il secondo giro ha trovato tre cose vere, il terzo ne ha trovate due da
+investigare che si sono rivelate innocue (uno script one-shot mai lanciato, e un modulo che scrive su
+una lista diversa). **«Innocuo» è un esito del giro, non un motivo per non farlo** — e la ragione per
+cui era innocuo va scritta nella nota del difetto, o il giro dopo qualcuno la ri-deriva da capo.
+
+**E la parte scomoda:** questa sezione è una regola *scritta*, cioè la forma più debole che esiste —
+vale solo se qualcuno la legge. Ogni volta che una di queste cinque domande trova qualcosa **due
+volte**, quella domanda ha smesso di essere una domanda e va promossa a guardiano con un tetto: è la
+differenza fra ricordarsi di controllare e non poter più sbagliare.
+
 ## ⑧ Come si consegna
 
 - Ogni auto-modifica è **🟡**: si prepara, si committa, **non si mergia**. Il merge è di Nicola.

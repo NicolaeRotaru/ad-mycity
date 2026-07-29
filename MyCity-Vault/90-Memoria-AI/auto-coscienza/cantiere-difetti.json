@@ -5556,7 +5556,11 @@
    "colore": "🟡",
    "stato": "aperto",
    "nato": "2026-07-29 02:21",
-   "nota": "Trovato nel lotto 30 mentre rivedevo perche l artefatto cantiere-prove.json passava da 113 a 118 difetti e da 24 a 38 non-auto-chiudibili. I 5 nuovi sono AR-339..343; i 13 spostati (AR-229,230,231,238,239,259,260,261,264,266,267,268,269) sono TUTTI difetti riparati bene dal lotto 29. Danno limitato al REPORT: auto-fix.mjs capisce {comando} e le chiusure dopo il merge funzionano lo stesso — ma il numero che la macchina mostra a Nicola e falso, e peggiora ogni volta che si lavora bene. NON entra nel lotto 30 (regola ② della skill cantiere: i difetti nuovi si registrano, non allargano il lotto in corso)."
+   "nota": "Trovato nel lotto 30 mentre rivedevo perche l artefatto cantiere-prove.json passava da 113 a 118 difetti e da 24 a 38 non-auto-chiudibili. I 5 nuovi sono AR-339..343; i 13 spostati (AR-229,230,231,238,239,259,260,261,264,266,267,268,269) sono TUTTI difetti riparati bene dal lotto 29. Danno limitato al REPORT: auto-fix.mjs capisce {comando} e le chiusure dopo il merge funzionano lo stesso — ma il numero che la macchina mostra a Nicola e falso, e peggiora ogni volta che si lavora bene. NON entra nel lotto 30 (regola ② della skill cantiere: i difetti nuovi si registrano, non allargano il lotto in corso).",
+   "verifica": {
+    "comando": "node cervello/test/prova-migliore-contata-come-assente.test.mjs"
+   },
+   "nota_fix": "[lotto 36] classifica() in cantiere-prove.mjs non decide piu la forma da se: la legge da formaProva() in chiusura-dichiarata.mjs, lettore unico condiviso con auto-fix. La cura e che il lettore sia UNO, non che il secondo impari la forma nuova."
   },
   {
    "id": "AR-345",
@@ -6529,7 +6533,9 @@
     "pattern": "rc_one=\\$\\?",
     "presente": true
    },
-   "nota_fix": "Lotto 35, corsia A: TOCCATO MA NON CHIUSO. Curata la ricaduta — verdettiMorti() in cervello/guardia-viva.mjs legge il cancello vero e ogni verdetto morto NUOVO fa rosso. Ma le quattro clausole di riparazione vivono in cervello/gate-pubblicazione.sh, fuori dal territorio della corsia. Nota per chi lo chiudera': onesta-check su STATO.md segnala oggi 2 violazioni, tutte dentro il diario append-only; collegarlo cosi' com'e' bloccherebbe la pubblicazione, quindi l'ambito va ristretto PRIMA."
+   "nota_fix": "Lotto 35, corsia A: TOCCATO MA NON CHIUSO. Curata la ricaduta — verdettiMorti() in cervello/guardia-viva.mjs legge il cancello vero e ogni verdetto morto NUOVO fa rosso. Ma le quattro clausole di riparazione vivono in cervello/gate-pubblicazione.sh, fuori dal territorio della corsia. Nota per chi lo chiudera': onesta-check su STATO.md segnala oggi 2 violazioni, tutte dentro il diario append-only; collegarlo cosi' com'e' bloccherebbe la pubblicazione, quindi l'ambito va ristretto PRIMA.",
+   "chiusura": "bloccata",
+   "chiusura_motivo": "Dichiarato aperto nella PR #621. Il lotto 35 ha chiuso solo la RICADUTA (ogni verdetto morto nuovo fa rosso), non la ferita: tutte e quattro le clausole di riparazione vivono in cervello/gate-pubblicazione.sh, fuori dal territorio della corsia. Nota per chi lo riprendera': onesta-check su STATO.md segnala oggi 2 violazioni, tutte dentro il diario append-only — collegarlo cosi' com'e' bloccherebbe la pubblicazione, quindi l'ambito va ristretto PRIMA."
   },
   {
    "id": "AR-395",
@@ -6564,7 +6570,9 @@
    "nota_fix": "Lotto 35, corsia B: TOCCATO MA NON CHIUSO. Il controllo del ramo e' stato spostato dentro il ciclo, prima dell'invio (cervello/gate-pubblicazione.sh), e il codice e' giusto. Ma la prova NON discrimina: disattivando il controllo spostato il test resta verde 10/10, perche' il controllo pre-ciclo cattura gia' lo scenario. E' lo stesso vizio che questa scheda denuncia — la prova cerca la PRESENZA del controllo, non la sua POSIZIONE. Chiuderlo qui ripeterebbe l'errore che descrive. Serve uno scenario in cui HEAD si stacca DOPO il controllo pre-ciclo: finche' non c'e', resta aperto. [RIAPERTO 2026-07-30, dopo il merge del lotto 35] auto-fix lo aveva chiuso con la prova a PATTERN ereditata dalla radiografia, non con una prova comportamentale. Il codice e' giusto — il controllo del ramo sta dentro il ciclo, prima del push — e quel pattern ne verifica perfino la posizione. Ma resta un pattern: non frena, non legge, non decide. E nella PR #621 questo difetto era dichiarato APERTO: chiuderlo di soppiatto smentirebbe cio' su cui Nicola ha messo la firma. La verifica a pattern e' stata TOLTA perche' non possa richiudersi da sola. Per chiuderlo davvero serve un test che DISTINGUA le due posizioni del controllo: uno scenario in cui HEAD si stacca DOPO il controllo pre-ciclo, cosi' che solo quello spostato possa fermare il push.",
    "chiuso_il": "",
    "chiuso_come": "cervello/gate-pubblicazione.sh contiene /for \\(\\(i = 1[\\s\\S]*?ramo_ammesso[\\s\\S]*?git push/ → trovato",
-   "corroborata": true
+   "corroborata": true,
+   "chiusura": "bloccata",
+   "chiusura_motivo": "Dichiarato aperto nella PR #621 (corpo, commit e nota_fix). Il codice e' giusto — il controllo del ramo sta dentro il ciclo, prima del push — ma nessuna prova sa DISTINGUERE le due posizioni del controllo: serve uno scenario in cui HEAD si stacca DOPO il controllo pre-ciclo, cosi' che solo quello spostato possa fermare il push. Finche' quella prova non esiste, il difetto resta aperto: e' gia' stato richiuso una volta da una prova a pattern, il 29/7."
   },
   {
    "id": "AR-397",
@@ -7366,7 +7374,26 @@
    "nato": "2026-07-30 01:05",
    "chiuso_il": "",
    "origine": "verifica post-merge del lotto 35 (richiesta di Nicola: controlla che non ci siano errori)",
-   "nota": "Trovato NON da una radiografia ma dalla rilettura una-per-una delle 20 chiusure applicate da auto-fix: il conteggio diceva «20 chiusi» e uno dei venti non doveva esserci. E' la prova che la regola «il conteggio non e' una verifica» paga."
+   "nota": "Trovato NON da una radiografia ma dalla rilettura una-per-una delle 20 chiusure applicate da auto-fix: il conteggio diceva «20 chiusi» e uno dei venti non doveva esserci. E' la prova che la regola «il conteggio non e' una verifica» paga.",
+   "verifica": {
+    "comando": "node cervello/test/dichiarato-aperto-si-richiude.test.mjs"
+   },
+   "nota_fix": "[lotto 36] chiusura:\"bloccata\" + chiusura_motivo sulla scheda: auto-fix non chiude mai un difetto dichiarato aperto da un umano, qualunque cosa dica la prova. La clausola (b) del fix proposto e stata CAMBIATA: vietare alla forma a pattern di chiudere congelerebbe 127 difetti su 151, e un cancello sempre rosso viene aggirato. Invece: la chiusura debole si marca e sta sotto un tetto discendente (tetti-lotto.json, prova_debole). [terzo giro, 30/7] Cercate TUTTE le strade che scrivono `stato = \"chiuso\"`, non solo quella riparata: sei occorrenze in tre moduli. Due sono in auto-fix.mjs (verifica --applica e chiudi --id=) e adesso passano entrambe da chiusuraBloccata. Le altre quattro sono state verificate e NON sono porte aperte, ed ecco perche', cosi' nessuno lo ri-deriva da capo: ① cervello/round2-applica.mjs (righe 67, 73) e' uno script one-shot del 25/7, non richiamato da giro.sh ne' dai workflow: strada morta, non porta. ② cervello/allinea-scan-cantiere.mjs (righe 141, 154) scrive sui FINDINGS di auto-radiografia.json, che sono una lista diversa dai difetti del cantiere: legge lo stato del difetto e lo rispecchia sul finding, quindi un difetto dichiarato aperto resta aperto anche li'. Nota per il futuro: quel modulo ha pero' un secondo motore di chiusura tutto suo (verificaFinding) su una lista parallela — se un giorno i findings porteranno dichiarazioni umane, quella strada andra' guardata di nuovo."
+  },
+  {
+   "id": "AR-445",
+   "titolo": "Importare un modulo del cervello ne ESEGUE il programma: chi lo prova si ritrova la memoria riscritta sotto i piedi",
+   "dimensione": "guardiani-e-guardrail",
+   "gravita": "grave",
+   "impatto_crescita": "medio",
+   "causa_radice": "Gli script del cervello sono insieme LIBRERIA (esportano funzioni) e PROGRAMMA (eseguono al caricamento e scrivono in memoria), senza la guardia `import.meta.url === pathToFileURL(process.argv[1]).href` che separa le due cose. Chi importa il modulo per provarne una funzione fa girare il programma intero: sonda-volano.mjs ha riscritto auto-radiografia.json e storico-salute.json (~3100 righe) durante il lotto 35, e cantiere-prove.mjs ha riscritto il proprio referto durante il lotto 36. Causa di sistema: la guardia e' una convenzione che ognuno applica se se la ricorda — 66 moduli su 150 ce l'hanno, 37 scrivono o escono senza — e nessun guardiano la pretende. Effetto secondario e peggiore del primo: siccome importare costa caro, si smette di scrivere test che importano, e la logica resta non provata proprio dove serve.",
+   "fix_proposto": "🟡 (a) Un guardiano che elenca i moduli di cervello/ che scrivono file o chiamano process.exit al caricamento senza la guardia, con un tetto discendente come per le altre malattie — il numero si vede e scende; (b) la guardia aggiunta ai moduli che un test deve poter importare, a partire da quelli che scrivono in MyCity-Vault; (c) la forma censita in cervello/malattie.json cosi' la spazzata dei fratelli la cerchi dappertutto e un modulo nuovo non possa nascere gia' malato. Prova: importare ogni modulo di cervello/ in un processo pulito non deve modificare nessun file sotto MyCity-Vault.",
+   "colore": "🟡",
+   "stato": "aperto",
+   "nato": "2026-07-30 01:55",
+   "chiuso_il": "",
+   "origine": "corsia D del lotto 35 (se lo e' inflitto da sola riparando) + secondo caso nel lotto 36 su cantiere-prove.mjs",
+   "nota": "Due casi in due giorni su moduli diversi: non e' un inciampo, e' una forma. Registrato in ritardo — nel lotto 35 era rimasto solo nel rapporto della corsia e in chat, cioe' da nessuna parte. E' esattamente cio' che il mansionario vieta: «quello che non si fa e' tenerli in testa, li muoiono a fine sessione». Misurato il 30/7: 37 moduli di cervello/ scrivono o escono senza guardia."
   }
  ],
  "meta": {

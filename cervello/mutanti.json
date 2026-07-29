@@ -632,6 +632,24 @@
    "cerca": "return { esito: \"cieco\", codice: 2, copertura, motivo: `${tot} controllate, ZERO misurate: non ho guardato niente, quindi non posso dire che va bene` };",
    "sostituisci": "return { esito: \"ok\", codice: 0, copertura, motivo: \"nessuna sospetta\" };",
    "test": "cervello/test/verde-senza-aver-misurato.test.mjs"
+  },
+  {
+   "lotto": 36,
+   "difetto": "AR-444",
+   "nome": "un difetto dichiarato aperto da un umano torna a richiudersi da solo",
+   "file": "cervello/chiusura-dichiarata.mjs",
+   "cerca": "  if (b.bloccata) {\n    return { chiude: false, debole: false, bloccata: true, motivo: `dichiarato aperto da un umano — ${b.motivo}` };\n  }",
+   "sostituisci": "  if (false) {\n    return { chiude: false, debole: false, bloccata: true, motivo: `dichiarato aperto da un umano — ${b.motivo}` };\n  }",
+   "test": "cervello/test/dichiarato-aperto-si-richiude.test.mjs"
+  },
+  {
+   "lotto": 36,
+   "difetto": "AR-344",
+   "nome": "la prova migliore torna a contarsi come assente",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "  const forma = formaProva(v);\n  if (forma === \"comando\") {",
+   "sostituisci": "  const forma = !v || !v.file || !v.pattern ? \"nessuna\" : \"pattern\";\n  if (forma === \"comando\") {",
+   "test": "cervello/test/prova-migliore-contata-come-assente.test.mjs"
   }
  ]
 }

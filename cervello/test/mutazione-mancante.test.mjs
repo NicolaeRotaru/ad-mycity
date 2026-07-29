@@ -37,6 +37,24 @@ const prova = (nome, fn) => {
  * Un repo finto con: il cancello vero, un modulo da mutare, e una storia git che permette al
  * cancello di capire cosa ha «toccato il lotto» (confronto fra HEAD e il working tree).
  */
+/**
+ * Copia nel repo finto ogni modulo che il programma importa davvero, seguendo la catena.
+ * `stub` sono i moduli che il test riscrive apposta (git-github: la radice punta al repo finto).
+ */
+function copiaDipendenze(dir, entry, gia = new Set(), stub = new Set(["./git-github.mjs"])) {
+  const src = readFileSync(join(REPO, entry), "utf8");
+  for (const m of src.matchAll(/^\s*(?:import|export)\b[^"';]*from\s*["'](\.\/[^"']+)["']/gm)) {
+    const rel = m[1];
+    if (stub.has(rel)) continue;
+    const dentro = `cervello/${rel.slice(2)}`;
+    if (gia.has(dentro)) continue;
+    gia.add(dentro);
+    copyFileSync(join(REPO, dentro), join(dir, dentro));
+    copiaDipendenze(dir, dentro, gia, stub); // le dipendenze delle dipendenze
+  }
+  return gia;
+}
+
 function repoFinto({ verificaPrima, verificaOra, mutanti, tetti, cerca = "if (scaduto) return false;" }) {
   const dir = mkdtempSync(join(tmpdir(), "mut-mancante-"));
   mkdirSync(join(dir, "cervello"), { recursive: true });
@@ -44,16 +62,17 @@ function repoFinto({ verificaPrima, verificaOra, mutanti, tetti, cerca = "if (sc
   mkdirSync(join(dir, dirname(DENTRO_CANTIERE)), { recursive: true });
 
   copyFileSync(join(REPO, "cervello/cancello-lotto.mjs"), join(dir, "cervello/cancello-lotto.mjs"));
-  // AR-419 (lotto 34): da quando il cancello chiede alla porta se la storia di git è intera, la
-  // porta deve esistere anche qui. Il repo finto è un SECONDO ambiente in cui gira lo stesso
-  // programma, e un modulo che manca non dà un errore parlante: il processo muore all'import ed
-  // esce 1, cioè indistinguibile da «il cancello ha detto no». È stato questo test ad accorgersene.
-  copyFileSync(join(REPO, "cervello/storia-git.mjs"), join(dir, "cervello/storia-git.mjs"));
-  // Lotto 33, stessa ragione un lotto prima: la forma ammessa per un comando di prova sta in un
-  // modulo senza dipendenze proprio perché il cancello resti eseguibile in un repo finto di pochi
-  // file. Due lotti sono arrivati a questa riga per la stessa strada — è il segno che il repo finto
-  // è un ambiente vero, e va rifornito come tale.
-  copyFileSync(join(REPO, "cervello/forma-prova.mjs"), join(dir, "cervello/forma-prova.mjs"));
+  // Il repo finto è un SECONDO ambiente in cui gira lo stesso programma, e un modulo che manca non
+  // dà un errore parlante: il processo muore all'import ed esce 1, cioè indistinguibile da «il
+  // cancello ha detto no».
+  //
+  // ⚠️ Qui c'era un ELENCO A MANO dei moduli da copiare, e tre lotti di fila sono arrivati a
+  // ripararlo per la stessa strada: lotto 33 (forma-prova), lotto 34 (storia-git, AR-419), lotto 36
+  // (chiusura-dichiarata). Un elenco scritto a mano è un perimetro DEDOTTO dagli esempi: resta
+  // indietro di un lotto ogni volta che il cancello acquisisce un import, e chi lo ripara vede solo
+  // il punto, non la forma. Adesso le dipendenze si DERIVANO dal codice vero, ricorsivamente: il
+  // prossimo import arriva qui da solo.
+  copiaDipendenze(dir, "cervello/cancello-lotto.mjs");
   // Il cancello prende la radice da git-github.mjs: qui la si punta al repo finto.
   writeFileSync(
     join(dir, "cervello/git-github.mjs"),
