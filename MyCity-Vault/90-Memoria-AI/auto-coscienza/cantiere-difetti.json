@@ -7379,6 +7379,21 @@
     "comando": "node cervello/test/dichiarato-aperto-si-richiude.test.mjs"
    },
    "nota_fix": "[lotto 36] chiusura:\"bloccata\" + chiusura_motivo sulla scheda: auto-fix non chiude mai un difetto dichiarato aperto da un umano, qualunque cosa dica la prova. La clausola (b) del fix proposto e stata CAMBIATA: vietare alla forma a pattern di chiudere congelerebbe 127 difetti su 151, e un cancello sempre rosso viene aggirato. Invece: la chiusura debole si marca e sta sotto un tetto discendente (tetti-lotto.json, prova_debole)."
+  },
+  {
+   "id": "AR-445",
+   "titolo": "Importare un modulo del cervello ne ESEGUE il programma: chi lo prova si ritrova la memoria riscritta sotto i piedi",
+   "dimensione": "guardiani-e-guardrail",
+   "gravita": "grave",
+   "impatto_crescita": "medio",
+   "causa_radice": "Gli script del cervello sono insieme LIBRERIA (esportano funzioni) e PROGRAMMA (eseguono al caricamento e scrivono in memoria), senza la guardia `import.meta.url === pathToFileURL(process.argv[1]).href` che separa le due cose. Chi importa il modulo per provarne una funzione fa girare il programma intero: sonda-volano.mjs ha riscritto auto-radiografia.json e storico-salute.json (~3100 righe) durante il lotto 35, e cantiere-prove.mjs ha riscritto il proprio referto durante il lotto 36. Causa di sistema: la guardia e' una convenzione che ognuno applica se se la ricorda — 66 moduli su 150 ce l'hanno, 37 scrivono o escono senza — e nessun guardiano la pretende. Effetto secondario e peggiore del primo: siccome importare costa caro, si smette di scrivere test che importano, e la logica resta non provata proprio dove serve.",
+   "fix_proposto": "🟡 (a) Un guardiano che elenca i moduli di cervello/ che scrivono file o chiamano process.exit al caricamento senza la guardia, con un tetto discendente come per le altre malattie — il numero si vede e scende; (b) la guardia aggiunta ai moduli che un test deve poter importare, a partire da quelli che scrivono in MyCity-Vault; (c) la forma censita in cervello/malattie.json cosi' la spazzata dei fratelli la cerchi dappertutto e un modulo nuovo non possa nascere gia' malato. Prova: importare ogni modulo di cervello/ in un processo pulito non deve modificare nessun file sotto MyCity-Vault.",
+   "colore": "🟡",
+   "stato": "aperto",
+   "nato": "2026-07-30 01:55",
+   "chiuso_il": "",
+   "origine": "corsia D del lotto 35 (se lo e' inflitto da sola riparando) + secondo caso nel lotto 36 su cantiere-prove.mjs",
+   "nota": "Due casi in due giorni su moduli diversi: non e' un inciampo, e' una forma. Registrato in ritardo — nel lotto 35 era rimasto solo nel rapporto della corsia e in chat, cioe' da nessuna parte. E' esattamente cio' che il mansionario vieta: «quello che non si fa e' tenerli in testa, li muoiono a fine sessione». Misurato il 30/7: 37 moduli di cervello/ scrivono o escono senza guardia."
   }
  ],
  "meta": {
