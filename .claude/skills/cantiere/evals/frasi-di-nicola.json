@@ -1,0 +1,33 @@
+[
+ {"_cosa_e": "🎯 IL BANCO DEL TRIGGER — le frasi vere con cui Nicola apre (o NON apre) un lotto di riparazione. Lo esegue `node cervello/prova-trigger.mjs`: ogni frase va davvero a `claude -p` dentro questo repo e si guarda se la prima mossa è aprire la skill `cantiere`. Le frasi con `should_trigger: false` sono le TRAPPOLE: parlano di 'risolvere' o di 'difetti' ma vogliono un'altra capacità (il giro, la radiografia, il codice del marketplace, il Pannello). Le frasi marcate `fonte: nicola` sono trascritte da DECISIONI.md/LEZIONI-CHAT.md, non inventate.", "should_trigger": null, "query": null},
+
+ {"query": "risolvi i difetti", "should_trigger": true, "fonte": "nicola", "nota": "la frase secca, quella che ha fatto nascere la skill"},
+ {"query": "sistema i difetti principali della macchina", "should_trigger": true, "fonte": "nicola"},
+ {"query": "risolvi tutti i bloccanti della macchina", "should_trigger": true, "fonte": "nicola"},
+ {"query": "chiudi AR-006", "should_trigger": true, "fonte": "nicola", "nota": "solo un codice: nessuna parola del vocabolario del cantiere"},
+ {"query": "AR-257 e AR-260 sono ancora aperti, chiudili tutti e due", "should_trigger": true, "nota": "due codici e un verbo, niente altro"},
+ {"query": "qual e il modo migliore per farti chiudere il maggior numero di difetti senza fermarti a chiedermi ogni volta", "should_trigger": true, "fonte": "nicola"},
+ {"query": "quanti difetti sono rimasti aperti? e come li abbattiamo", "should_trigger": true, "nota": "domanda, non ordine: deve aprire lo stesso il mansionario"},
+ {"query": "fai un lotto", "should_trigger": true},
+ {"query": "prossimo lotto", "should_trigger": true},
+ {"query": "lavora sul cantiere", "should_trigger": true},
+ {"query": "senti, volevo capire se riesci a sistemare quei difetti che sono rimasti aperti nel cantiere, quelli piu gravi, quelli che bloccano, perche mi sembra che siano fermi da un po", "should_trigger": true, "nota": "dettata a voce: lunga, senza punteggiatura, senza accenti"},
+ {"query": "risolvi i difeti aperti dell auto coscienza", "should_trigger": true, "nota": "scritta male dal telefono: 'difeti', niente apostrofi"},
+ {"query": "entra in loop e risolvi 5 problemi gravi del cantiere, uno dopo l altro", "should_trigger": true, "fonte": "nicola", "nota": "riformulazione di «Scegli 5 problemi gravi dentro radiografia ed entra in loop per risolverli»"},
+ {"query": "ne abbiamo 118 aperti, dai una ripulita seria, parti dai bloccanti", "should_trigger": true, "nota": "il numero al posto della parola 'difetti'"},
+ {"query": "sistemami quelle cose rotte della macchina che hai trovato con la radiografia di te stessa", "should_trigger": true, "nota": "il ponte: la radiografia TROVA, il cantiere RIPARA"},
+ {"query": "continua il cantiere da dove eri rimasta, senza rifare da capo la scelta", "should_trigger": true},
+
+ {"query": "risolvi il bug del checkout: se il cliente cambia quantita nel carrello il totale non si aggiorna", "should_trigger": false, "nota": "TRAPPOLA — codice del marketplace, non difetti della macchina"},
+ {"query": "fai un giro", "should_trigger": false, "nota": "TRAPPOLA — il giro operativo quotidiano"},
+ {"query": "fatti la radiografia", "should_trigger": false, "nota": "TRAPPOLA — auto-radiografia: TROVA i difetti, non li ripara"},
+ {"query": "analizzati da cima a fondo e dimmi cosa non va in te", "should_trigger": false, "nota": "TRAPPOLA — auto-radiografia detta a parole"},
+ {"query": "cambia il sito: il banner in home e troppo piccolo, fallo grande il doppio", "should_trigger": false, "nota": "TRAPPOLA — corsia CONFIG del marketplace"},
+ {"query": "Risolvi il bug critico del bollino", "should_trigger": false, "fonte": "nicola", "nota": "TRAPPOLA — bug del Pannello, non un difetto del cantiere"},
+ {"query": "ci sono dei conflitti, risolvili", "should_trigger": false, "fonte": "nicola", "nota": "TRAPPOLA — conflitti git su una PR"},
+ {"query": "risolvi il problema che non riesci a leggere i file che ti allego", "should_trigger": false, "fonte": "nicola", "nota": "TRAPPOLA — problema di sessione, nessun difetto in cantiere"},
+ {"query": "risolvi tutti i problemi della casella come pensa l AD, e' scomoda da leggere", "should_trigger": false, "fonte": "nicola", "nota": "TRAPPOLA — lavoro sul Pannello"},
+ {"query": "analizza tutto il sito e trova tutti i bug che ci sono", "should_trigger": false, "nota": "TRAPPOLA — radiografia del marketplace"},
+ {"query": "nel pannello quando cambio chat perdo lo stato della card che stavo guardando, e' un casino", "should_trigger": false, "nota": "TRAPPOLA — bug del Pannello riportato a caldo: va all'audit del Pannello"},
+ {"query": "come stiamo? fammi il report dei KPI di questa settimana", "should_trigger": false, "nota": "TRAPPOLA — analista sui dati reali"}
+]
