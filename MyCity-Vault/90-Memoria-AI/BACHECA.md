@@ -6,7 +6,7 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
-## 📒 Registro dei fatti — fonte unica della verità · 2026-07-29 01:20
+## 📒 Registro dei fatti — fonte unica della verità · 2026-07-29 16:20
 
 Specchio umano di `registro-fatti.json` (AR-102): qui vivono i fatti-chiave del business già concordati/verificati. Se un fatto cambia nel registro, questa tabella si riscrive nello stesso momento — niente copie vecchie in giro.
 
@@ -17,6 +17,7 @@ Specchio umano di `registro-fatti.json` (AR-102): qui vivono i fatti-chiave del 
 | Commissione MyCity | **10%** sul venduto | 20/7 12:39 |
 | Abbonamento venditore | **50 €/mese** | 20/7 12:39 |
 | Fonti di reddito | **Due:** ① marketplace (10% + 50 €/m + 3 € fee consegna) ② **Worker per i negozi** (99/299/699-999 €/m) — la ② non è ancora costruita | 29/7 01:19 |
+| Le 46 leve di ricavo (lista Nicola 29/7) | **Mappa del potenziale, NON linee attive**: 16 incassabili a zero ordini · 11 ferme al 1° ordine · 12 richiedono pubblico · 7 richiedono un permesso. Nessun prezzo approvato | 29/7 16:20 |
 | Worker per i negozi — listino | **Vetrina 99 €/m · Autopilot 299 €/m · Direttore Digitale 699-999 €/m** + setup una tantum | 29/7 00:15 |
 | Worker per i negozi — pilot | **149 €/m bloccato** per 3 founder: I Frutti della Terra, Enoteca La Canteina, Il Pollivendolo (da fondare: non risultano nei dati) | 29/7 00:15 |
 | Worker per i negozi — stato | **Definito, NON costruito** — si crea in sessioni dedicate future; nessuna azione né pitch finché non lo apre Nicola | 29/7 01:19 |
@@ -37,6 +38,124 @@ Specchio umano di `registro-fatti.json` (AR-102): qui vivono i fatti-chiave del 
 | Visita 6 botteghe food | Nicola c'è andato **di persona** il 13/7 | 06/7 23:55 |
 
 Fonte di ogni riga: campo `fonte` in `MyCity-Vault/90-Memoria-AI/registro-fatti.json` — lì c'è anche la storia delle correzioni.
+
+---
+
+## 💰 Le 46 leve di ricavo — la mappa dei soldi di MyCity al suo apice · 2026-07-29 16:20
+
+Lista di Nicola (chat 29/7 16:0x): *«questa è una parte di tutto ciò che potrà offrire MyCity quando sarà al suo apice»*. Messa in casa perché non finisse fuori — è già successo col listino Worker, nato in una chat claude.ai e assente dal vault per settimane.
+
+> ⚠️ **Cos'è e cosa NON è.** È la mappa del **potenziale**, non un piano e non una coda di lavoro.
+> Le linee di ricavo **attive restano DUE** (`strategia.linee-ricavo`): ① marketplace (10% + 50 €/m + 3 € fee consegna) ② Worker per i negozi (99/299/699-999 €/m, definito e **non costruito**, chiuso da Nicola). **Nessuna azione accodata da questa lista, nessun prezzo pubblicato, niente si muove.**
+
+### Dove siamo davvero mentre leggiamo 46 righe di ricavo
+
+| Fatto | Valore | Fonte |
+| --- | --- | --- |
+| Negozi reali attivi | **1** (Pane Quotidiano) | `negozio.faro` |
+| Ordini vivi | **0** (1 solo ordine a DB, annullato il 24/6) | query live 29/7 16:10 |
+| Persone registrate · prodotti · recensioni | **7 · 5 · 0** | query live 29/7 16:10 |
+| Burn fisso | **~302 €/mese** | `finanza.costi_infrastruttura` |
+| Ripresa lavoro operativo sui negozi | **dopo il 24/8 – 1/9** | `ripresa.lavoro-operativo` |
+
+### La cosa più importante: **46 voci, ma 4 portafogli**
+
+Le leve si contano a 46; **i portafogli che devono aprirsi sono quattro**, e il limite non è quante righe inventi ma quanto ognuno di loro può pagare al mese.
+
+| Chi paga | Voci | Il vincolo vero |
+| --- | ---: | --- |
+| **Il cliente piacentino** | 14 (1-14) | Dentro ci sono **tre abbonamenti diversi** (#5 consegne, #9 box, #14 club): una famiglia ne sottoscrive **uno**, non tre. |
+| **Il negozio** | 11 (15-25) **+ i 50 €/m già decisi** | Accese tutte fanno **~223 €/m alla stessa bottega** (50 + 99 + 30 + 19 + 25). La domanda non è quante leve: è **quanto paga al mese una bottega di Piacenza**. |
+| **L'azienda / l'istituzione** | 7 (26-32) | L'**unico portafoglio con budget vero oggi** — ma cicli lenti, gare, firma 🔴, e serve l'entità giuridica (dubbio già emerso su PI26). |
+| **L'altro builder / l'altra città** | 11 (33-43) | **Non ha bisogno di Piacenza.** È una software house attaccata al marketplace: la parte più facile da vendere subito e quella che può mangiare tutto il tempo che serve al primo ordine. |
+
+Le 3 trasversali (44-46) si appoggiano ai portafogli sopra.
+
+### Quattro cancelli: cosa serve prima di incassare 1 €
+
+| Cancello | Quante | Cosa vuol dire |
+| --- | ---: | --- |
+| 🟩 **Può incassare ora** | **16** | Non dipende da ordini né da rete — dipende solo dal costruirla. **12 di queste 16 sono servizio/software, non marketplace.** |
+| 🟦 **Serve il primo ordine** | **11** | Ferme finché il marketplace non vende: oggi 0 ordini vivi. |
+| 🟪 **Serve un pubblico** | **12** | Si vende visibilità o dato: oggi 4 acquirenti registrati, 0 recensioni, newsletter senza lettori. |
+| 🟥 **Serve un permesso prima dell'euro** | **7** | Wallet, buoni, welfare, appalti, licenza: qui il blocco è una regola o un contratto, non la fatica. |
+
+#### 🟩 Le 16 che possono incassare senza un solo ordine
+
+| # | Leva | Cosa serve prima |
+| --- | --- | --- |
+| 15 | Abbonamenti a livelli (Vetrina/Autopilot/Direttore) | **Già a registro** — definita, non costruita, chiusa da Nicola |
+| 16 | Setup una tantum | Stessa linea del 15 |
+| 19 | Fidelity white-label del negozio | Costruire il modulo (software puro, non serve la rete) |
+| 20 | Campagne WhatsApp à la carte | Mano WhatsApp collegata + **base giuridica sui contatti del negozio** (la lista è sua, non nostra) |
+| 21 | Servizio contenuti (foto/video/schede) | **La macchina lo sa già fare** — Content Factory + i due cancelli creativi |
+| 24 | Formazione in presenza | Il tempo di Nicola, che è la risorsa scarsa |
+| 25 | Kit fisico QR + vetrofania | **Grafica pronta su disco**; costa 80-150 € di stampa, margine minimo |
+| 29 | Bandi e voucher digitalizzazione | Esiste già come leva — **PI26 scade domani 30/7 ore 16:00** con 3 dubbi di ammissibilità aperti in coda |
+| 30 | Partnership associazioni di categoria | È **canale**, non ricavo — già presidiata |
+| 33 | Vetrine self-service per professionisti | Costruire il prodotto |
+| 39 | Moduli SaaS standalone | Costruire il prodotto |
+| 40 | Boilerplate e template a builder globali | **Zero dipendenza da Piacenza** |
+| 41 | Corso registrato | Dipende dal 24 |
+| 42 | Hosting e manutenzione siti | Costruire il servizio |
+| 43 | Widget e integrazioni | Poco ricavo, molto lock-in — giusto così |
+| 44 | Affiliazioni B2B ai negozi | **Con 1 negozio vale 0** — inizia ad avere senso da ~10 |
+
+#### 🟦 Le 11 ferme al primo ordine
+
+| # | Leva | Nota |
+| --- | --- | --- |
+| 1 | Commissioni sugli ordini | Già decisa: **10%** |
+| 2 | Paniere settimanale cluster food | Servono 3-4 botteghe **nello stesso giro** |
+| 3 | Consegna prioritaria 1,50-2,50 € | Serve una consegna che regga le fasce — **la bici non è operativa** |
+| 4 | Supplemento piccoli ordini +1,50 € | Si somma ai 3 € già in codice: vedi «una sola superficie di prezzo» |
+| 5 | Abbonamento consegne 7-9 €/m | Nessuno si abbona a consegne che non usa |
+| 8 | Fee prenotazione servizi | Serve un'offerta di servizi: oggi zero |
+| 9 | Box «Sapori di Piacenza» | Assortimento + logistica ricorrente; è marchio proprio → rischio di pestare i piedi ai negozi |
+| 10 | Gruppi d'acquisto condominiali | Serve densità per via |
+| 11 | Preordini stagionali | **Incassi soldi prima di consegnare**: è un impegno, va coperto |
+| 12 | Liste regalo locali | Dipende dai buoni (#7) |
+| 14 | Club MyCity 5-10 €/m | **In conflitto con #5**: uno solo dei due può vivere |
+
+#### 🟪 Le 12 che chiedono un pubblico che non c'è ancora
+
+**17** analytics premium (oggi 0 ordini = niente da vendere) · **18** visibilità interna (Nicola stesso: 2027) · **22** vetrine temporanee · **23** slot newsletter (serve una newsletter con lettori) · **28** sponsorizzazioni locali · **32** report di mercato (2027, + dati aggregati = GDPR) · **34** biglietteria eventi · **35** annunci premium · **37** job board · **38** directory professionisti · **45** turismo ed esperienze · **46** media locale.
+
+#### 🟥 Le 7 dove il blocco è una regola, non la fatica
+
+| # | Leva | Il vero blocco |
+| --- | --- | --- |
+| 6 | Wallet / Carta Piacenza | Tenere soldi altrui e farci float è **area servizi di pagamento**. E il bonus non è gratis: **incassi 100, devi 105 di merce** |
+| 7 | Buoni regalo | IVA del buono (monouso/multiuso), scadenza, e i non riscattati sono **un debito finché non scadono**, non cassa da spendere |
+| 13 | Arrotondamento civico | **Non è ricavo** (lo dice Nicola) — sono soldi di terzi: servono regole e rendiconto |
+| 26 | Corporate gifting | Dipende dai buoni (#7) + una rete dove spenderli |
+| 27 | Welfare ricorrente | Normativa welfare/fringe benefit + wallet |
+| 31 | Progetti DUC / Comune | Gare e appalti: tempi lunghi, entità giuridica, firma 🔴 |
+| 36 | Licenza ad altre città | **Non si licenzia un modello a 0 ordini** — prima va provato una volta, poi marchio e contratto |
+
+### I conti che riordinano la lista (burn ~302 €/mese)
+
+| Come lo copri | Quanto serve |
+| --- | --- |
+| Worker Autopilot (299 €/m) | **1 cliente** ≈ tutto il burn |
+| Worker Vetrina (99 €/m) | **4 clienti** (3 fanno 297, quasi) |
+| Abbonamento venditore (50 €/m) | **6-7 negozi** che pagano — **senza un solo ordine** |
+| Commissione 10% | **3.020 € di venduto/mese** — con scontrino *ipotetico* 25 € fanno ~121 ordini/mese, **~4 al giorno** (lo scontrino è un'ipotesi: non abbiamo un ordine reale su cui misurarlo) |
+| Fee consegna 3 € | **~101 consegne/mese** |
+
+**Due righe già decise che nella lista non ci sono:** l'**abbonamento venditore 50 €/m** e la **fee consegna 3 €**. La prima è la cosa più vicina a un ricavo ricorrente che il marketplace abbia già oggi.
+
+### Le 5 decisioni che oggi costano poco e dopo costano care
+
+1. **Un solo abbonamento al cliente.** #5, #9 e #14 chiedono soldi alla stessa famiglia: scegli quale è *l'*abbonamento, gli altri diventano livelli dentro quello.
+2. **Una sola superficie di prezzo sul carrello.** Ci sono già 3 € di consegna; la lista ne aggiunge due (#3, #4). Tre balzelli su uno scontrino da 25 € si vedono tutti. Un owner unico del listino.
+3. **Reputazione e identità legate alla persona, non allo strato.** È già scritto nella mappa multistrato del 6/7: è ciò che rende possibili #8, #38 e #36 senza rifare tutto da capo.
+4. **Se un giorno arrivano wallet e buoni (#6, #7, #12, #26, #27): i soldi caricati sono un debito, non un ricavo.** Registro separato dal giorno zero — dopo si sistema solo con un rifacimento.
+5. **Che azienda è MyCity.** Le voci 33-43 (11 su 46) **non hanno bisogno di Piacenza**: sono una software house. Sono le più facili da vendere subito e le più capaci di divorare il tempo che serve al primo ordine. È l'unica scelta della lista che la macchina non può fare al posto di Nicola.
+
+### Rapporto con la mappa che avevamo già
+
+Le 46 voci **non aggiungono strati** alla mappa multistrato del 6/7 (`consegne/strategia/2026-07-06-strategia-citta-online-multistrato.md`): la **riempiono di prezzi**. Le uniche che escono da quella mappa sono la software house (33, 39-42) e la licenza ad altre città (36) — cioè, non a caso, proprio quelle che non hanno bisogno della città.
 
 ---
 
