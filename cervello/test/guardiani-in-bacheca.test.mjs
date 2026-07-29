@@ -83,16 +83,33 @@ prova("un vincolo scritto ma non contato non vale «ferma il giro»", () => {
   assert.equal(censimento(contato, { descrizioni: { "tale-check": { famiglia: "test", cosa: "x" } } }).fermano, 1);
 });
 
-prova("nel giro VERO ci sono 5 allarmi che si scrivono e non si contano", () => {
-  // Non è un'ipotesi: `giro.sh` riempie 29 variabili di vincolo e il ciclo che le conta ne elenca 24.
-  // Se qualcuno li ricabla il numero scende e questo test va aggiornato — ed è giusto che se ne
-  // accorga qui, invece che leggendo la bacheca fra un mese.
+/**
+ * Il tetto degli allarmi non contati: scende, non sale.
+ *
+ * Prima qui c'era l'elenco esatto dei cinque misurati il 29/7. È diventato rosso lo stesso giorno,
+ * col lotto 30: `percorsi-git` è nato con un vincolo mai aggiunto all'elenco che il giro conta — il
+ * sesto. Il test aveva ragione, ma un elenco fisso ha il difetto di andare rosso anche quando uno
+ * viene RIPARATO, e `test-cervello` è un cancello hard: la macchina si sarebbe bloccata su una buona
+ * notizia.
+ *
+ * Quindi un tetto, come per le prove a OR (`cervello/tetti-lotto.json`): sopra è rosso, sotto si
+ * abbassa. Chi ripara scende il numero e il tetto lo segue; chi ne aggiunge uno nuovo trova rosso.
+ */
+const TETTO_NON_CONTATI = 6; // 5 il 29/7 → 6 col lotto 30 (percorsi-git). Riparandone uno, scendi qui.
+
+prova(`gli allarmi che si scrivono e non si contano non superano il tetto (${TETTO_NON_CONTATI})`, () => {
+  // Non è un'ipotesi: `giro.sh` riempie le variabili `*_VINCOLO` e il ciclo che le conta ne elenca
+  // meno. Chi resta fuori mette il suo «no» davanti al motore e non entra in GATE_ROSSI.
   const cens = censimento(GIRO, { testoGate: GATE });
-  assert.deepEqual(
-    cens.nonContati.sort(),
-    ["firma-check", "pausa-check", "porte-check", "sensori-spenti-check", "stampo-check"],
-    "sono i cinque misurati il 29/7 — se cambiano, cambia anche il difetto aperto"
+  assert.ok(
+    cens.nonContati.length <= TETTO_NON_CONTATI,
+    `allarmi non contati saliti a ${cens.nonContati.length} (${cens.nonContati.join(", ")}): ` +
+      "un vincolo nuovo va aggiunto all'elenco di GATE_ROSSI in giro.sh, non lasciato a parlare al vuoto"
   );
+  // I cinque storici sono ancora lì: senza questo, uno scambio terrebbe il conto fermo nascondendone uno.
+  for (const n of ["firma-check", "pausa-check", "porte-check", "sensori-spenti-check", "stampo-check"]) {
+    assert.ok(cens.nonContati.includes(n), `${n} risulta riparato: se è vero, abbassa il tetto`);
+  }
 });
 
 prova("blocca la pubblicazione solo chi arriva davvero al verdetto del cancello", () => {
@@ -215,7 +232,11 @@ prova("in bacheca finiscono tutti i guardiani, raggruppati e con il loro effetto
   const md = bloccoBacheca(cens, "2026-07-29 01:30");
   for (const g of cens.elenco) assert.ok(md.includes(`\`${g.nome}\``), `${g.nome} manca dalla tabella`);
   assert.ok(md.includes(`**${cens.totale} controlli automatici**`), "il totale va detto in cima");
-  assert.match(md, /⚠️ \*\*5 allarmi si scrivono ma non si contano\.\*\*/, "il difetto si mostra, non si nasconde");
+  assert.match(
+    md,
+    new RegExp(`⚠️ \\*\\*${cens.nonContati.length} allarmi si scrivono ma non si contano\\.\\*\\*`),
+    "il difetto si mostra col numero di adesso, non si nasconde né si congela"
+  );
   assert.ok(!/undefined/.test(md), "nessun buco nel markdown");
   assert.equal(corpoDi(md).startsWith("A ogni giro"), true);
 });

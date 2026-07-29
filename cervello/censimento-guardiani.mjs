@@ -110,6 +110,7 @@ export const DESCRIZIONI = {
   "uscite-check": { famiglia: "sicurezza", cosa: "Elenca ogni punto in cui la macchina tocca il mondo — email, messaggi, pagamenti — e pretende che ognuno abbia un controllo." },
   "firma-check": { famiglia: "sicurezza", cosa: "Nessuno script può scriversi da solo la firma di Nicola: chi esegue non firma sé stesso." },
   "peso-contesto": { famiglia: "sicurezza", cosa: "Sorveglia quanto testo la macchina si porta dietro: un contesto gonfio costa soldi e fa perdere il filo." },
+  "percorsi-git": { famiglia: "sicurezza", cosa: "La porta unica per chiedere a git l'elenco dei file: i nomi con l'accento tornano storpiati, e chi li legge li salta in silenzio." },
 
   // ── I 120 senior sono a posto? ────────────────────────────────────────────
   "agent-registry-check": { famiglia: "squadra", cosa: "Confronta i senior che esistono davvero con quelli elencati nei documenti: nessun agente orfano, nessun doppione." },

@@ -478,13 +478,13 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ---
 
-## 🛡️ I guardiani della macchina · 2026-07-29 01:49
+## 🛡️ I guardiani della macchina · 2026-07-29 11:26
 
-A ogni giro, prima che l'AI scriva una riga, girano **66 controlli automatici**. **25** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+A ogni giro, prima che l'AI scriva una riga, girano **67 controlli automatici**. **25** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
 Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
 
-> ⚠️ **5 allarmi si scrivono ma non si contano.** `firma-check`, `pausa-check`, `porte-check`, `sensori-spenti-check`, `stampo-check` mettono il loro «no» davanti all'AI, ma non entrano nel conteggio che decide se il giro è pulito: il giro può chiudersi verde con quei controlli rossi. È un difetto vero, misurato qui sopra e non stimato.
+> ⚠️ **6 allarmi si scrivono ma non si contano.** `firma-check`, `pausa-check`, `percorsi-git`, `porte-check`, `sensori-spenti-check`, `stampo-check` mettono il loro «no» davanti all'AI, ma non entrano nel conteggio che decide se il giro è pulito: il giro può chiudersi verde con quei controlli rossi. È un difetto vero, misurato qui sopra e non stimato.
 
 ### 🔍 I numeri sono veri?
 
@@ -549,6 +549,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | Controllo | Cosa guarda | Se dice no |
 | --- | --- | --- |
 | `firma-check` | Nessuno script può scriversi da solo la firma di Nicola: chi esegue non firma sé stesso. | ⚠️ allarme **non contato** (il giro può chiudersi lo stesso) |
+| `percorsi-git` | La porta unica per chiedere a git l'elenco dei file: i nomi con l'accento tornano storpiati, e chi li legge li salta in silenzio. | ⚠️ allarme **non contato** (il giro può chiudersi lo stesso) |
 | `peso-contesto` | Sorveglia quanto testo la macchina si porta dietro: un contesto gonfio costa soldi e fa perdere il filo. | ⚠️ avvisa, non ferma |
 | `porte-check` | Trova i punti che pubblicano scavalcando il cancello: una porta scoperta non si vede, pubblica e basta. | ⚠️ allarme **non contato** (il giro può chiudersi lo stesso) |
 | `scan-segreti` | Cerca chiavi e password nei file che stanno per essere pubblicati, e blocca tutto se ne trova una. | 🚧 blocca la pubblicazione |
