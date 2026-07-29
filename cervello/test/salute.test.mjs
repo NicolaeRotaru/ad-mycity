@@ -17,6 +17,7 @@ const REPO = join(QUI, "..", "..");
 const {
   daOraPiacenza,
   giudicaTracce,
+  skillNonVersionate,
   giudicaPonte,
   giudicaCoda,
   giudicaBattito,
@@ -175,6 +176,27 @@ prova("un guardiano citato dal giro ma sparito viene trovato", () => {
 prova("lo stesso guardiano citato due volte si conta una volta sola", () => {
   const giro = 'node "$SCRIPT_DIR/a.mjs"\nnode "$SCRIPT_DIR/a.mjs"';
   uguale(guardianiMancanti(giro, () => true).unici.length, 1, "doppione");
+});
+
+// ── Le braccia che esistono solo su un disco ─────────────────────────────────
+
+prova("IL CASO DEL 29/7: una skill scritta a mano che git ignora è un rosso", () => {
+  // Successo davvero: `salute`, `worker` e `senior` sotto una regola di .gitignore pensata per lo
+  // specchio. Commit riuscito, status pulito, PR mergiata — e su main solo il motore.
+  const orfane = skillNonVersionate(["verify", "cantiere", "salute", "worker", "senior"], {
+    generata: () => false,
+    versionata: (n) => n === "verify" || n === "cantiere",
+  });
+  uguale(orfane.join(","), "salute,worker,senior", "le tre skill che non sarebbero arrivate al VPS");
+});
+
+prova("una skill dello specchio ignorata da git non è un difetto: è rigenerabile", () => {
+  const orfane = skillNonVersionate(["ads", "seo"], { generata: () => true, versionata: () => false });
+  uguale(orfane.length, 0, "lo specchio si ricrea da solo");
+});
+
+prova("tutte versionate: nessun allarme", () => {
+  uguale(skillNonVersionate(["salute"], { generata: () => false, versionata: () => true }).length, 0, "a posto");
 });
 
 // ── Regressioni, copertura, verdetto ──────────────────────────────────────────
