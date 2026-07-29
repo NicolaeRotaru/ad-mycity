@@ -90,6 +90,21 @@ test("la forma della prova la legge UN modulo solo, non due lettori indipendenti
     /if \(!v \|\| !v\.file \|\| !v\.pattern\)/,
     "la decisione duplicata a mano è tornata: è la radice del difetto, non un dettaglio",
   );
+  // ...e l'ALTRO lettore, auto-fix, non deve tenersi la sua copia: era la radice del difetto —
+  // «la forma della prova e' conoscenza duplicata in due lettori indipendenti». Ripararne uno solo
+  // significa lasciare la seconda copia libera di divergere al prossimo cambio di forma.
+  const autofix = readFileSync(join(REPO, "cervello/auto-fix.mjs"), "utf8");
+  const codiceAF = autofix
+    .split("\n")
+    .filter((r) => !r.trim().startsWith("//") && !r.trim().startsWith("*"))
+    .join("\n");
+  assert.match(codiceAF, /import \{[^}]*formaProva[^}]*\} from "\.\/chiusura-dichiarata\.mjs"/);
+  assert.doesNotMatch(
+    codiceAF,
+    /if \(!v \|\| !v\.file \|\| !v\.pattern\)/,
+    "auto-fix si e' ripreso la sua copia della decisione: i lettori sono tornati due",
+  );
+
   // e i due lettori devono concordare su ogni forma
   for (const v of [{ comando: "node x.mjs" }, { file: "a", pattern: "b" }, undefined]) {
     assert.equal(typeof formaProva(v), "string");

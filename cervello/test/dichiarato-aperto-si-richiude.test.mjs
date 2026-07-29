@@ -88,6 +88,25 @@ test("auto-fix chiama davvero il verdetto, e PRIMA di mettere in coda la chiusur
   assert.ok(usoCoda > usoVerdetto, "il verdetto va calcolato PRIMA di accodare la chiusura, non dopo");
 });
 
+// LA PORTA A MANO. L'errore gia' pagato (AR-172) e' riparare il comando automatico e lasciare
+// aperto quello manuale. Provato il 30/7: prima del fix, `auto-fix chiudi --id=AR-396` chiudeva un
+// difetto dichiarato aperto senza dire niente. Il freno va al CONFINE DELL'ATTO, cioe' su OGNI
+// strada che arriva a scrivere `stato: "chiuso"`, non solo su quella che si e' guardata per prima.
+test("anche la chiusura A MANO passa dalla dichiarazione, non solo `verifica --applica`", () => {
+  const src = readFileSync(join(REPO, "cervello/auto-fix.mjs"), "utf8");
+  const manuale = src.slice(src.indexOf('const come = arg("come"'));
+  const guardia = manuale.indexOf("chiusuraBloccata(d)");
+  const scrittura = manuale.indexOf('d.stato = "chiuso"');
+  assert.ok(guardia > 0, "la porta a mano non consulta la dichiarazione: e' la porta lasciata aperta");
+  assert.ok(scrittura > guardia, "la guardia deve stare PRIMA della scrittura, non dopo");
+});
+
+test("le due porte usano la STESSA funzione, non due copie che divergeranno", () => {
+  const src = readFileSync(join(REPO, "cervello/auto-fix.mjs"), "utf8");
+  assert.match(src, /import \{[^}]*chiusuraBloccata[^}]*\} from "\.\/chiusura-dichiarata\.mjs"/);
+  assert.match(src, /import \{[^}]*verdettoChiusura[^}]*\} from "\.\/chiusura-dichiarata\.mjs"/);
+});
+
 // La prova sui DATI VERI: le schede dichiarate aperte nel cantiere reale non devono poter chiudere.
 test("sui dati veri: ogni scheda con chiusura bloccata resta aperta anche con la prova soddisfatta", () => {
   const cantiere = JSON.parse(

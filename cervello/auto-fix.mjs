@@ -27,7 +27,7 @@ import { dirname, join } from "node:path";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { chiusuraAmmessa, istanteNascita, patternTrovato } from "./prove-regole.mjs";
-import { contaProveDeboli, verdettoChiusura } from "./chiusura-dichiarata.mjs";
+import { chiusuraBloccata, formaProva, verdettoChiusura } from "./chiusura-dichiarata.mjs";
 import { FORMA_COMANDO_PROVA, MOTIVO_COMANDO_NON_AMMESSO, comandoAmmesso } from "./forma-prova.mjs";
 export { FORMA_COMANDO_PROVA, comandoAmmesso };
 import { cambiatoDallaNascita, storiaDelRepo } from "./storia-git.mjs";
@@ -153,8 +153,13 @@ function fileCambiatoDa(file, nato) {
 // Verifica oggettiva: il fix è presente nel codice?
 function verificaFix(dif) {
   const v = dif.verifica;
-  if (v && v.comando) return eseguiProvaComando(v.comando);
-  if (!v || !v.file || !v.pattern) return { esito: "manuale", dettaglio: "nessuna prova automatica: verifica umana" };
+  // AR-344 — la forma della prova la decide UN lettore solo (formaProva), non una copia per lettore.
+  // Qui c'era `if (!v || !v.file || !v.pattern)`: la stessa riga che in cantiere-prove.mjs faceva
+  // contare come «umana» ogni prova migrata a {comando}. Ripararla di là e lasciarla di qua è
+  // l'errore già pagato (AR-172): la porta a mano riparata e quella automatica lasciata aperta.
+  const forma = formaProva(v);
+  if (forma === "comando") return eseguiProvaComando(v.comando);
+  if (forma !== "pattern") return { esito: "manuale", dettaglio: "nessuna prova automatica: verifica umana" };
   const p = join(AD_ROOT, v.file);
   if (!existsSync(p)) return { esito: "aperto", dettaglio: `file assente: ${v.file}` };
   let txt = "";
@@ -333,9 +338,19 @@ function cmdChiudi(cantiere) {
     console.error(`❌ Difetto non trovato: ${id}`);
     process.exit(2);
   }
+  // AR-444 — anche la porta A MANO passa dalla dichiarazione. Il freno va al CONFINE DELL'ATTO, non
+  // su una sola delle strade che ci arrivano: guardare solo `verifica --applica` avrebbe lasciato
+  // aperta proprio la porta che un umano usa quando ha fretta. Provato il 30/7: prima di questa
+  // riga, `chiudi --id=AR-396` chiudeva un difetto dichiarato aperto senza dire niente.
+  const blocco = chiusuraBloccata(d);
+  if (blocco.bloccata && !has("forza")) {
+    console.error(`🔒 ${id} è dichiarato aperto da un umano e non si chiude: ${blocco.motivo}`);
+    console.error(`   Se la decisione è cambiata, togli \`chiusura: "bloccata"\` dalla scheda (o --forza, che resta scritto).`);
+    process.exit(1);
+  }
   d.stato = "chiuso";
   d.chiuso_il = nowPiacenza();
-  d.chiuso_come = come;
+  d.chiuso_come = blocco.bloccata ? `${come} [FORZATA su una dichiarazione umana: ${blocco.motivo}]` : come;
   ricalcolaMeta(cantiere);
   cantiere.aggiornato = nowPiacenza();
   writeJson(CANTIERE, cantiere);
