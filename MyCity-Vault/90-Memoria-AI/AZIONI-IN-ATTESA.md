@@ -14,6 +14,18 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+<!-- permessi-senza-jolly -->
+
+### 🟡 #permessi-senza-jolly — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50
+**Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly — `node cervello/*.mjs` e `bash cervello/*.sh`. Non vogliono dire «può lanciare questi programmi»: vogliono dire «può lanciare qualunque programma finisca in quella cartella». E quella cartella la macchina la scrive da sé. Tutti i freni veri — la pausa, la tua firma, il controllo di a chi si sta scrivendo — stanno DENTRO i singoli programmi: col jolly ci si arriva senza passare da quello che ha il freno. Non sto dicendo che sia successo: sto dicendo che oggi nessuno lo impedirebbe.
+**Se va bene:** sostituisci le due righe con l'elenco esplicito che ti ho già preparato — 70 programmi, ricavati guardando quali il giro e il worker lanciano davvero, più i 12 script di avvio. È in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`, pronto da incollare. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, il permesso si aggiunge a mano — ed è il punto: aggiungere una riga si vede, il jolly no.
+**Nota tecnica:** difetto AR-206, parte (a). Il lotto 33 ha verificato che la parte (b) — la regola `no-jolly-su-cartella-scrivibile` in `cervello/permessi-check.mjs` — esiste già e funziona: segnala correttamente entrambe le forme. La parte (a) non l'ho fatta io di proposito: `.claude/settings.json` è negato in scrittura alla macchina apposta (regola `no-auto-permessi`), e scavalcare quel confine per chiudere un difetto sul confine sarebbe stato assurdo. Restano fuori anche le parti (c) controllo di provenienza su ogni script e (d) chiavi fuori dall'ambiente del worker: sono infrastruttura e vanno in un lotto loro.
+- **Colore:** 🟡 (restringe i permessi della macchina: non manda niente a nessuno, ma va provato che il giro continui a girare)
+- **Reparto:** security + devops-sre
+- **Origine:** `{origine:lotto-33-perimetri, difetto:AR-206}`
+
+---
+
 <!-- ordine-test-dentro-o-fuori-dalla-pausa -->
 
 
@@ -860,3 +872,132 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
+
+<!-- radiografia-2026-07-29-ordini-bloccati -->
+
+### 🔴 #radiografia-2026-07-29-ordini-bloccati — Ripara il pulsante che venditore e rider usano per far avanzare un ordine · ⏳ accodata 2026-07-29 13:30
+
+**Cosa cambia:** in questo momento, sul sito vero, quando un negoziante accetta un ordine dalla sua pagina o un rider lo prende in carico, il database rifiuta la modifica e restituisce un errore. Non è un sospetto: l'ho verificato io con una query sul database di produzione. A giugno una modifica ha cancellato dagli ordini il campo "numero fattura", ma il controllo di sicurezza che protegge gli ordini continua a cercarlo, e va in errore proprio quando la modifica è **legittima**. Le API del server non sono toccate — muore solo quello che parte dal browser, cioè le due schermate che fanno camminare una consegna. Con un negozio solo e zero ordini pagati oggi non se ne accorge nessuno: al primo ordine vero, il negoziante non riesce ad accettarlo.
+
+**Se va bene:** apro un branch sul repo del sito con una migration che riscrive quel controllo togliendo il campo cancellato, più un test che diventa rosso se il controllo torna a citare una colonna che non esiste. Poi te lo mostro in anteprima e lo mandi in produzione tu.
+
+**Nota tecnica:** `migrations/061_p0_security_rls_state_machine_reviews.sql:129` (funzione `enforce_order_update_rules`, tuttora viva sul DB) cita `NEW.invoice_number`, colonna droppata da `migrations/105_remove_invoicing.sql:27`. Nessuna migration successiva ridefinisce la funzione (063/064/094/096 la citano solo nei commenti). Verifica diretta sul progetto `clmpyfvpvfjgeviworth`: `colonna_esiste=false`, `trigger_la_cita=true`. Punti d'impatto: `app/seller/orders/[id]/page.tsx:205`, `app/rider/orders/[id]/page.tsx:108`. Uscita anticipata per admin/service_role alle righe 96-98 → route server salve.
+- **Colore:** 🔴 (migration sul database di produzione)
+- **Reparto:** backend-dev + security
+- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:rls-database}`
+
+---
+
+<!-- radiografia-2026-07-29-porte-aperte -->
+
+### 🔴 #radiografia-2026-07-29-porte-aperte — Chiudi le quattro porte che lasciano entrare chiunque nei dati dei negozi e dei clienti · ⏳ accodata 2026-07-29 13:30
+
+**Cosa cambia:** quattro falle di sicurezza aperte sul sito vero, tutte confermate. ① Tre elenchi pubblici dei negozi sono scrivibili da un visitatore **senza account**: si possono cambiare telefono, indirizzo e nome di un negozio, o cancellarlo — e cancellarlo si porta dietro conversazioni, portafoglio e punti fedeltà. Ho verificato io sul database che il permesso di scrittura c'è davvero. ② Nome, telefono e indirizzo di casa dei clienti con una consegna in corso si leggono **senza login**: la regola scritta per far vedere ai rider gli ordini disponibili è troppo larga. ③ Chi si registra diventa venditore o rider **già approvato**: il controllo dell'admin è scavalcato. ④ Sempre senza login si possono modificare i dati di consegna degli ordini pronti. Queste sono le cose che, se qualcuno le trova prima di noi, chiudono l'azienda: sono dati personali di clienti veri e una violazione da notificare al Garante.
+
+**Se va bene:** apro un branch con le migration che mettono le tre viste in modalità "rispetta i permessi di chi legge", tolgono i permessi di scrittura ad anonimo, stringono la regola dei rider a chi è davvero un rider e rimettono l'approvazione dell'admin alla nascita dell'account. Ti mostro l'anteprima e le mandi in produzione tu, una per volta.
+
+**Nota tecnica:** ① viste `public_profiles`/`seller_public_profiles`/`seller_storefronts` senza `security_invoker` e con GRANT UPDATE/DELETE ad `anon` (migrations 108/110/112; `seller_storefronts` è drift: non esiste in nessun file del repo). ② policy «Riders can view available and own orders», `migrations/019_rider_visibility.sql:14-21`. ③ `public.handle_new_user`, `migrations/015_competitive_moats.sql:137-156`. ④ policy «Riders can update assigned or claim free orders», `migrations/011_orders_delivery.sql:128-134`. Nota collegata: l'hardening RLS delle migration 020 e 109 non ha mai avuto effetto — è scritto per nomi di policy che sul DB non esistono.
+- **Colore:** 🔴 (migration sul database di produzione, dati personali)
+- **Reparto:** security + backend-dev + dpo
+- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:sicurezza-auth+rls-database+privacy-legale+architettura}`
+
+---
+
+<!-- radiografia-2026-07-29-soldi-che-scappano -->
+
+### 🔴 #radiografia-2026-07-29-soldi-che-scappano — Tappa i cinque punti dove il marketplace perde soldi da solo · ⏳ accodata 2026-07-29 13:30
+
+**Cosa cambia:** cinque difetti che costano soldi veri appena arriva il primo volume. ① **Doppia vendita:** la merce viene "rimessa a scaffale" dopo 2 ore, ma la pagina di pagamento resta valida 24 — chi paga dopo compra roba già venduta. È lo stesso bloccante del 7 luglio, ancora lì. ② **Campagne che si spengono a un terzo:** ogni checkout abbandonato brucia un utilizzo del codice sconto per sempre, e nessuno lo restituisce. Un coupon da 100 usi si esaurisce dopo 100 *tentativi*, non 100 ordini. ③ **Il rider si decide lo stipendio:** il campo del suo compenso non è tra quelli congelati e finisce dritto in un bonifico Stripe. ④ **Il rider non viene mai pagato** sugli ordini con spedizione gratuita, e il programma automatico ci riprova all'infinito. ⑤ **Un reclamo blocca il negozio per sempre:** una volta aperto, lo stato del reclamo non torna mai indietro e il negoziante non viene più pagato. In più: gift card, sponsorizzazioni e abbonamenti pagati possono sparire in silenzio se il database fa i capricci, perché il sistema li segna come riusciti comunque.
+
+**Se va bene:** apro un branch e li affronto in quest'ordine — prima il compenso rider e il reclamo bloccante (bastano poche righe), poi il coupon e la doppia vendita (serve una migration). Ti consegno l'anteprima con la lista di cosa ho toccato e mandi in produzione tu.
+
+**Nota tecnica:** ① `lib/stripe/client.ts` non passa `expires_at`, `migrations/042_multi_seller_checkout.sql:43` vs cron `expire-checkouts`; `app/api/stripe/webhook/route.ts:210` non gestisce EXPIRED/CANCELED. ② `claim_coupon` (migration 108) chiamata prima di `reserve_stock`, nessuna `release_coupon` esiste. ③ `rider_fee_cents` assente dal freeze di `enforce_order_update_rules` → `lib/stripe/payout.ts`. ④ `lib/stripe/payout.ts:161-166` + `app/api/cron/release-payouts/route.ts:113-136`. ⑤ trigger `dispute_block_payout`, `migrations/063_p1_db_hardening.sql:69-84`. Webhook: handler gift card/sponsor/abbonamento fanno `return` invece di `throw`, il dispatcher marca `processed=true`.
+- **Colore:** 🔴 (tocca pagamenti, payout e database di produzione)
+- **Reparto:** backend-dev + marketplace-payments + finanza
+- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:api-backend+pagamenti-stripe+qa-flussi}`
+
+---
+
+<!-- radiografia-2026-07-29-privacy-da-sistemare -->
+
+### 🟡 #radiografia-2026-07-29-privacy-da-sistemare — Metti la partita IVA vera nell'informativa e cancella davvero i documenti d'identità · ⏳ accodata 2026-07-29 13:30
+
+**Cosa cambia:** quattro cose che oggi ci mettono fuori regola. ① Nell'informativa privacy pubblica il titolare del trattamento ha la partita IVA `IT00000000000` — un segnaposto mai sostituito: un'informativa senza titolare identificabile è nulla. ② Quando un utente chiede di cancellare l'account, carta d'identità, selfie e patente restano nello storage **per sempre**. ③ Il registro delle attività scrive telefono, indirizzi e nomi in chiaro, e la cancellazione dell'account glieli copia dentro invece di toglierli. ④ Il rider vede l'**intera** riga del profilo del cliente, codice fiscale e IBAN compresi, non solo quello che gli serve per consegnare. Sono tutte cose che un controllo del Garante trova in mezz'ora, e la ② e la ③ sono l'opposto di quello che promettiamo nella pagina privacy.
+
+**Se va bene:** ① la partita IVA me la dai tu e la scrivo (è l'unica che non posso dedurre); ② e ③ le sistemo in un branch — la cancellazione tocca anche i file caricati e ripulisce il registro invece di riempirlo; ④ il rider passa a vedere solo nome, telefono e indirizzo. Anteprima e poi vai tu in produzione.
+
+**Serve da te:** la partita IVA reale (o la ragione sociale con cui è intestato il sito) per il punto ①.
+
+**Nota tecnica:** ① `app/privacy/page.tsx:48-58` e 176-177. ② `app/api/cron/process-deletions/route.ts:48-65` e 108-140 (nessuna rimozione dai bucket dei documenti). ③ `migrations/073_activity_tracking.sql:88` e 108-118. ④ policy su `profiles`, `migrations/011_orders_delivery.sql:149-158` → serve una vista ristretta.
+- **Colore:** 🟡 (branch e bozze; la partita IVA e il deploy restano tuoi)
+- **Reparto:** dpo + legale-privacy + backend-dev
+- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensione:privacy-legale}`
+
+---
+
+<!-- radiografia-2026-07-29-anteprime-coi-segreti -->
+
+### 🟡 #radiografia-2026-07-29-anteprime-coi-segreti — Togli le chiavi vere di Stripe e del database dalle anteprime delle modifiche · ⏳ accodata 2026-07-29 13:30
+
+**Cosa cambia:** ogni volta che si apre una proposta di modifica al sito, Render tira su un ambiente di anteprima che usa **le chiavi di produzione**: stessa Stripe, stesso database, stesse email. Vuol dire che una modifica ancora da approvare può incassare soldi veri, scrivere sugli ordini veri e mandare email a indirizzi veri. In più il deploy automatico su `main` non ha nessun cancello: un test rosso va in produzione lo stesso.
+
+**Se va bene:** in un branch metto le anteprime su chiavi di test (Stripe test mode e un database separato) e aggiungo il cancello che blocca il deploy se i test sono rossi. È la modifica che rende sicuro tutto il resto del lavoro sui bloccanti: senza, ogni fix che provo tocca la produzione.
+
+**Nota tecnica:** `render.yaml:13-14` (`previews: generation: automatic`) + `:32-73` (envVars `sync:false` → ereditano i valori del servizio di produzione); `autoDeploy` su `main` senza gate CI.
+- **Colore:** 🟡 (configurazione di deploy in branch, non tocca la produzione finché non la mandi tu)
+- **Reparto:** devops-sre + security
+- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensione:deploy-sre}`
+
+---
+
+<!-- radiografia-comando-rotto -->
+
+### 🟡 #radiografia-comando-rotto — Rimetti in funzione il comando «radiografia» prima che ti serva davvero · ⏳ accodata 2026-07-29 13:30
+
+**Cosa cambia:** il comando «radiografia» oggi è rotto in **due punti diversi**, e tutti e due li ho scoperti sbattendoci contro invece che leggendo il codice.
+
+① **Non parte.** Il motore dei workflow è cambiato e adesso pretende che il file cominci con la sua scheda di presentazione, mentre il nostro comincia con tre righe tecniche prima: lo rifiuta senza nemmeno provarci. Me ne sono accorto perché l'ho lanciato io e l'ho aggirato con una copia a mano — se lo lanciavi tu, tornava un errore e basta.
+
+② **Il risultato non arrivava nella Cabina.** Questo l'hai visto tu: dopo che avevo consegnato tutto, la pagina «Salute sito» mostrava ancora il 7 luglio. Il Pannello non legge il report — legge un file riassunto che va generato con un comando a parte (`radiografia-marketplace-digest.mjs`), e quel passaggio **non è scritto da nessuna parte** nella spec del comando: né in `CLAUDE.md` né in `AUDIT-MARKETPLACE.md`. Non l'ho saltato per distrazione: il mansionario non lo nomina. In più il file grezzo che avevo scritto aveva la forma sbagliata (lista nuda invece dell'oggetto completo), quindi anche lanciando il comando giusto sarebbe uscito un riassunto **vuoto** senza dire niente a nessuno. Il ② l'ho già riparato a mano — la Cabina ora mostra il 29/7 — ma il buco che l'ha permesso è ancora lì e ricapita alla prossima radiografia.
+
+**Se va bene:** ① sposto la scheda di presentazione in cima nei file che ne hanno bisogno e calcolo il percorso del codice del sito senza le righe tecniche di prima; ② scrivo il passaggio del riassunto dentro la spec del comando in tutti e due i posti, e faccio sì che il file grezzo lo scriva il comando stesso nella forma giusta, invece di lasciarlo a chi passa. Poi due controlli che girano da soli: uno prova ad avviare i cinque comandi e diventa rosso se uno non parte; l'altro diventa rosso se in `consegne/audit/` esiste una radiografia più recente di quella che la Cabina sta mostrando — così un risultato consegnato non può più restare invisibile.
+
+**Nota tecnica:** ① `.claude/workflows/radiografia.js` — `export const meta` deve essere la prima istruzione, oggi è preceduto da tre `import` e dalla risoluzione di `MARKETPLACE_REPO`. Stessa forma in `auto-radiografia.js`, `audit-design.js`, `audit-pannello.js`, `giro-operativo.js`: da verificare uno per uno. ② `cervello/radiografia-marketplace-digest.mjs` legge `raw.result` e `raw.agentCount` → il raw deve essere l'oggetto completo del workflow, non il solo array dei risultati. Il passaggio va aggiunto alla riga «radiografia» di `CLAUDE.md` e alla sezione «Come funziona» di `MyCity-Vault/07-Agenti/AUDIT-MARKETPLACE.md` (passo 3). Il guardiano della freschezza confronta la data del raw più recente in `consegne/audit/` con `data` in `auto-coscienza/radiografia-marketplace.json`. Entrambi i controlli al cancello del giro.
+- **Colore:** 🟡 (auto-modifica della macchina: la firmi tu)
+- **Reparto:** builder-automazioni + devops-sre
+- **Origine:** `{origine:radiografia-marketplace-2026-07-29, difetto-macchina}`
+
+---
+
+---
+
+### 🔴 #vps-giro-fermo — Fai ripartire il giro sul VPS: è fermo da due giorni · ⏳ accodata 2026-07-29 17:08
+
+**Da lanciare nel terminale del VPS, in quest'ordine:**
+
+```bash
+systemctl status mycity-giro.timer mycity-giro.service --no-pager
+journalctl -u mycity-giro -n 80 --no-pager
+sudo systemctl restart mycity-giro.service    # se risulta appeso
+```
+
+Se i timer risultano **attivi** ma non producono niente, il guasto non è nei servizi: è il motore AI
+(quota consumata o sessione scaduta). In quel caso serve `cervello/vps/collega-claude.sh`, non un
+altro riavvio — ritentare su un problema di credenziali è tempo buttato.
+
+**Cosa cambia:** l'ultimo giro riuscito è del 27/7 alle 22:23; da allora dodici tick di fila non
+hanno prodotto nulla e nessun processo automatico scrive più in memoria da 40 ore. Finché resta così
+la macchina non lavora: niente giri, niente sentinelle, niente briefing, e ogni numero che il
+Pannello mostra invecchia senza dirlo. La diagnosi è già chiusa e non va rifatta — appendimento dei
+guardiani, lotto 8 e `set -e` sono stati esclusi con misura; resta il motore AI, che sta alla riga
+839 di `giro.sh` mentre la pubblicazione è alla 996, ed è esattamente il punto in cui un giro scrive
+i file su disco e non arriva mai al push.
+
+**Se va bene:** entro pochi minuti ricompaiono i commit del VPS e le tracce tornano fresche; la
+visita (`node cervello/salute.mjs`) torna verde su «La macchina lascia tracce di essere passata», e
+il battito esterno appena installato chiude da solo l'eventuale allarme aperto.
+
+- **Colore:** 🔴 (tocca i servizi del VPS in produzione — lo fa Nicola dal terminale)
+- **Reparto:** devops-sre
+- **Nota:** da adesso questo non dipende più dal fatto che qualcuno se ne accorga: la macchina apre
+  una segnalazione su GitHub da sola entro un'ora di silenzio. È il senso del lavoro di oggi.

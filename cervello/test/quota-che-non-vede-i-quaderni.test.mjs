@@ -32,6 +32,7 @@ import {
   TETTO_NON_CLASSIFICATI,
   destinazioneDi,
   quotaSforzo,
+  senzaFantasmi,
   zonaCiecaOltreIlTetto,
 } from "../allocazione-check.mjs";
 import { separaNul } from "../percorsi-git.mjs";
@@ -107,12 +108,72 @@ prova("sul repo vero la zona cieca sta sotto il tetto dichiarato", () => {
 prova("e i quaderni sono finiti nel conto giusto: la macchina, non l'ignoto", () => {
   const r = spawnSync("node", [GUARDIANO, "--json"], { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
   const j = JSON.parse(r.stdout);
-  // 120 senior + README + AD: la casa vera ne ha oltre cento, e prima erano TUTTI fra i non classificati.
-  assert.ok(j.sforzo.macchina > 1000, `macchina troppo bassa (${j.sforzo.macchina})`);
+
+  // 29/7 — CORREZIONE. Qui c'era `macchina > 1000`, ed era un difetto LATENTE da sempre: un conteggio
+  // ASSOLUTO di file toccati in sette giorni. Quel numero non dice niente sulla mappa — dice quanto
+  // è stata intensa la settimana, e soprattutto quanta storia ha il repo sotto i piedi. In un clone
+  // shallow `--since=7 days` non sa datare i commit tronchi e restituisce tutto il raggiungibile
+  // (2109 file, «macchina» oltre mille, verde); con la storia intera la finestra funziona davvero e
+  // ne restano 451, di cui 396 macchina — stesso repo, stesso codice, verdetto opposto.
+  //
+  // Non si è mai visto perché in locale il repo è shallow e nessun controllo girava sulle PR. L'ha
+  // scoperto il cancello di AR-346 al primo giro con `fetch-depth: 0`: è esattamente il lavoro per
+  // cui esiste.
+  //
+  // L'intento dichiarato dal titolo — «i quaderni sono nel conto giusto: la macchina, non l'ignoto»
+  // — si prova meglio così: guardando DOVE finiscono i percorsi, invece di quanti ce n'erano quella
+  // settimana. La classificazione è pura e non dipende né dal calendario né dalla profondità del clone.
+  for (const p of [
+    "memoria-squadra/tech.md",
+    ".claude/agents/analista.md",
+    "MyCity-Vault/07-Agenti/AGENTI.md",
+    "cervello/giro.sh",
+    "CLAUDE.md",
+  ]) {
+    assert.equal(destinazioneDi(p), "macchina", `${p} deve contare come lavoro sulla MACCHINA, non come ignoto`);
+  }
+  // E il lavoro sull'azienda deve restare distinto: se cadesse tutto in «macchina» la quota sarebbe
+  // verde per il motivo sbagliato, che è peggio di un rosso.
+  for (const p of ["MyCity-Vault/01-Strategia/x.md", "consegne/intelligence/y.md", "creativi/z.png"]) {
+    assert.equal(destinazioneDi(p), "business", `${p} deve contare come lavoro sull'AZIENDA`);
+  }
+
   assert.ok(
     j.sforzo.non_classificato <= TETTO_NON_CLASSIFICATI,
     `non classificati ${j.sforzo.non_classificato}: prima del fix erano 202, se risalgono la mappa è tornata vecchia`,
   );
+});
+
+// ── I FANTASMI (29/7) ───────────────────────────────────────────────────────
+// La zona cieca era salita a 17 contro un tetto di 13, e i quattro in più erano appunti temporanei
+// di una sessione — committati per sbaglio e GIÀ CANCELLATI. Su disco non esistevano: comparivano
+// solo perché `git log --name-only` elenca anche ciò che nasce e muore dentro la finestra.
+//
+// Mapparli avrebbe legittimato il committare file di scarto; alzare il tetto è vietato (AR-340).
+// La verità è che non c'era niente da mappare: un percorso che non esiste più non è «un'area di
+// lavoro senza mappa», è rumore — e finché contava, il tetto suonava a seconda di quanti file di
+// scarto qualcuno avesse cancellato quella settimana. Un cancello che suona a caso viene aggirato.
+//
+// La prova gira sul predicato INIETTATO, non sul disco: così riproduce il caso senza dover creare
+// e cancellare file veri, e resta vera anche fra un mese quando quei quattro nomi non li ricorderà
+// più nessuno.
+prova("un percorso sparito non conta come area di lavoro senza mappa", () => {
+  const esiste = (p) => !p.startsWith("tmp_");
+  const toccati = ["cervello/x.mjs", "tmp_agent_files.txt", "tmp_claude_bold.txt", "memoria-squadra/tech.md"];
+
+  assert.deepEqual(senzaFantasmi(toccati, esiste), ["cervello/x.mjs", "memoria-squadra/tech.md"]);
+
+  // E il conto che ne esce non ha più zona cieca, mentre senza il filtro ne avrebbe due.
+  assert.equal(quotaSforzo(senzaFantasmi(toccati, esiste)).non_classificato, 0);
+  assert.equal(quotaSforzo(toccati).non_classificato, 2, "senza il filtro i fantasmi contano: è il difetto");
+});
+
+prova("il filtro non tocca ciò che esiste: nessun file vero sparisce dal conto", () => {
+  // La guardia opposta, e serve: un filtro troppo largo nasconderebbe lavoro VERO dalla quota,
+  // che è esattamente ciò che questo guardiano esiste per impedire.
+  const tutti = ["cervello/a.mjs", "consegne/intelligence/b.md", "boh/misterioso.txt"];
+  assert.deepEqual(senzaFantasmi(tutti, () => true), tutti);
+  assert.equal(quotaSforzo(senzaFantasmi(tutti, () => true)).non_classificato, 1, "l'ignoto VERO deve restare ignoto");
 });
 
 let falliti = 0;

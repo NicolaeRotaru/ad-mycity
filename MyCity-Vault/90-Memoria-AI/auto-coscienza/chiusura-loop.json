@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-27 22:20",
+  "aggiornato": "2026-07-29 16:21",
   "soglia_giorni": 7,
   "totale": 120,
   "mancanti": 0,
   "vuoti": 73,
-  "fermi": 99,
-  "vivi": 21,
+  "fermi": 101,
+  "vivi": 19,
   "reparti_fermi": [
     "accessibility",
     "account-security",
@@ -28,6 +28,7 @@
     "capacity-planning",
     "category-manager",
     "cfo",
+    "chief-of-staff",
     "city-manager",
     "commercialista",
     "computer-vision",
@@ -46,6 +47,7 @@
     "dispute",
     "dpo",
     "enterprise-risk",
+    "finanza-agevolata",
     "fiscalista-iva-ecommerce",
     "fondo-garanzia-pmi",
     "food-safety",
@@ -123,8 +125,8 @@
       "reparto": "account-negozi",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 30,
-      "ultimo_esito": "2026-07-27 11:16",
+      "righe_esito": 32,
+      "ultimo_esito": "2026-07-29 11:03",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -145,7 +147,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 26,
+      "giorni_fa": 28,
       "vuoto": false,
       "fermo": true
     },
@@ -155,7 +157,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 26,
+      "giorni_fa": 28,
       "vuoto": false,
       "fermo": true
     },
@@ -165,7 +167,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 26,
+      "giorni_fa": 28,
       "vuoto": false,
       "fermo": true
     },
@@ -175,7 +177,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 26,
+      "giorni_fa": 28,
       "vuoto": false,
       "fermo": true
     },
@@ -185,7 +187,7 @@
       "mancante": false,
       "righe_esito": 19,
       "ultimo_esito": "2026-07-27 21:51",
-      "giorni_fa": 0,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -245,7 +247,7 @@
       "mancante": false,
       "righe_esito": 4,
       "ultimo_esito": "2026-07-19 17:00",
-      "giorni_fa": 8,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -285,7 +287,7 @@
       "mancante": false,
       "righe_esito": 71,
       "ultimo_esito": "2026-07-20 20:25",
-      "giorni_fa": 7,
+      "giorni_fa": 9,
       "vuoto": false,
       "fermo": true
     },
@@ -335,9 +337,9 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-20 23:28",
-      "giorni_fa": 7,
+      "giorni_fa": 9,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "city-manager",
@@ -395,7 +397,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 26,
+      "giorni_fa": 28,
       "vuoto": false,
       "fermo": true
     },
@@ -403,9 +405,9 @@
       "reparto": "content-social",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 21,
-      "ultimo_esito": "2026-07-27 11:21",
-      "giorni_fa": 0,
+      "righe_esito": 22,
+      "ultimo_esito": "2026-07-28 11:08",
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -415,7 +417,7 @@
       "mancante": false,
       "righe_esito": 4,
       "ultimo_esito": "2026-07-20 21:57",
-      "giorni_fa": 7,
+      "giorni_fa": 9,
       "vuoto": false,
       "fermo": true
     },
@@ -443,8 +445,8 @@
       "reparto": "crm-lifecycle",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 20,
-      "ultimo_esito": "2026-07-27 11:36",
+      "righe_esito": 22,
+      "ultimo_esito": "2026-07-29 11:04",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -455,7 +457,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 26,
+      "giorni_fa": 28,
       "vuoto": false,
       "fermo": true
     },
@@ -463,8 +465,8 @@
       "reparto": "customer-success",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 11,
-      "ultimo_esito": "2026-07-27 11:22",
+      "righe_esito": 13,
+      "ultimo_esito": "2026-07-29 11:05",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -475,7 +477,7 @@
       "mancante": false,
       "righe_esito": 14,
       "ultimo_esito": "2026-07-20 20:23",
-      "giorni_fa": 7,
+      "giorni_fa": 9,
       "vuoto": false,
       "fermo": true
     },
@@ -495,7 +497,7 @@
       "mancante": false,
       "righe_esito": 3,
       "ultimo_esito": "2026-07-27 11:19",
-      "giorni_fa": 0,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -513,9 +515,9 @@
       "reparto": "devops-sre",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 81,
-      "ultimo_esito": "2026-07-27 22:00",
-      "giorni_fa": 0,
+      "righe_esito": 82,
+      "ultimo_esito": "2026-07-27 22:32",
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -535,7 +537,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 26,
+      "giorni_fa": 28,
       "vuoto": false,
       "fermo": true
     },
@@ -545,7 +547,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 26,
+      "giorni_fa": 28,
       "vuoto": false,
       "fermo": true
     },
@@ -575,7 +577,7 @@
       "mancante": false,
       "righe_esito": 24,
       "ultimo_esito": "2026-07-23 12:24",
-      "giorni_fa": 4,
+      "giorni_fa": 6,
       "vuoto": false,
       "fermo": false
     },
@@ -585,9 +587,9 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-21 00:57",
-      "giorni_fa": 7,
+      "giorni_fa": 9,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "fiscalista-iva-ecommerce",
@@ -645,7 +647,7 @@
       "mancante": false,
       "righe_esito": 174,
       "ultimo_esito": "2026-07-27 18:57",
-      "giorni_fa": 0,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -675,7 +677,7 @@
       "mancante": false,
       "righe_esito": 6,
       "ultimo_esito": "2026-07-27 11:13",
-      "giorni_fa": 0,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -685,7 +687,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 26,
+      "giorni_fa": 28,
       "vuoto": false,
       "fermo": true
     },
@@ -705,7 +707,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-20 21:57",
-      "giorni_fa": 7,
+      "giorni_fa": 9,
       "vuoto": false,
       "fermo": true
     },
@@ -715,7 +717,7 @@
       "mancante": false,
       "righe_esito": 19,
       "ultimo_esito": "2026-07-27 11:35",
-      "giorni_fa": 0,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -765,7 +767,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01 01:06",
-      "giorni_fa": 27,
+      "giorni_fa": 29,
       "vuoto": false,
       "fermo": true
     },
@@ -805,7 +807,7 @@
       "mancante": false,
       "righe_esito": 6,
       "ultimo_esito": "2026-07-20 04:05",
-      "giorni_fa": 8,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -905,7 +907,7 @@
       "mancante": false,
       "righe_esito": 6,
       "ultimo_esito": "2026-07-14 02:47",
-      "giorni_fa": 14,
+      "giorni_fa": 16,
       "vuoto": false,
       "fermo": true
     },
@@ -915,7 +917,7 @@
       "mancante": false,
       "righe_esito": 13,
       "ultimo_esito": "2026-07-20 18:32",
-      "giorni_fa": 7,
+      "giorni_fa": 9,
       "vuoto": false,
       "fermo": true
     },
@@ -925,7 +927,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-20 03:26",
-      "giorni_fa": 8,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -935,7 +937,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-20 03:17",
-      "giorni_fa": 8,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -965,7 +967,7 @@
       "mancante": false,
       "righe_esito": 4,
       "ultimo_esito": "2026-07-27 11:25",
-      "giorni_fa": 0,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -1005,7 +1007,7 @@
       "mancante": false,
       "righe_esito": 6,
       "ultimo_esito": "2026-07-13 22:28",
-      "giorni_fa": 14,
+      "giorni_fa": 16,
       "vuoto": false,
       "fermo": true
     },
@@ -1015,7 +1017,7 @@
       "mancante": false,
       "righe_esito": 14,
       "ultimo_esito": "2026-07-25 17:53",
-      "giorni_fa": 2,
+      "giorni_fa": 4,
       "vuoto": false,
       "fermo": false
     },
@@ -1045,7 +1047,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01 01:57",
-      "giorni_fa": 27,
+      "giorni_fa": 29,
       "vuoto": false,
       "fermo": true
     },
@@ -1085,7 +1087,7 @@
       "mancante": false,
       "righe_esito": 5,
       "ultimo_esito": "2026-07-27 11:27",
-      "giorni_fa": 0,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -1135,7 +1137,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 26,
+      "giorni_fa": 28,
       "vuoto": false,
       "fermo": true
     },
@@ -1175,7 +1177,7 @@
       "mancante": false,
       "righe_esito": 4,
       "ultimo_esito": "2026-07-19 18:56",
-      "giorni_fa": 8,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -1203,9 +1205,9 @@
       "reparto": "security",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 9,
-      "ultimo_esito": "2026-07-20 23:35",
-      "giorni_fa": 7,
+      "righe_esito": 10,
+      "ultimo_esito": "2026-07-29 00:16",
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -1245,7 +1247,7 @@
       "mancante": false,
       "righe_esito": 8,
       "ultimo_esito": "2026-07-27 11:06",
-      "giorni_fa": 0,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -1255,7 +1257,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 26,
+      "giorni_fa": 28,
       "vuoto": false,
       "fermo": true
     },
@@ -1275,7 +1277,7 @@
       "mancante": false,
       "righe_esito": 52,
       "ultimo_esito": "2026-07-27 19:08",
-      "giorni_fa": 0,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -1285,7 +1287,7 @@
       "mancante": false,
       "righe_esito": 5,
       "ultimo_esito": "2026-07-27 11:29",
-      "giorni_fa": 0,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -1295,7 +1297,7 @@
       "mancante": false,
       "righe_esito": 10,
       "ultimo_esito": "2026-07-13 23:32",
-      "giorni_fa": 14,
+      "giorni_fa": 16,
       "vuoto": false,
       "fermo": true
     },
@@ -1305,7 +1307,7 @@
       "mancante": false,
       "righe_esito": 24,
       "ultimo_esito": "2026-07-27 11:09",
-      "giorni_fa": 0,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     }

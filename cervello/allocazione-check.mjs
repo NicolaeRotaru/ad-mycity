@@ -19,10 +19,18 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { percorsiDaGit } from "./percorsi-git.mjs";
+import { storiaDelRepo } from "./storia-git.mjs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
+
+/**
+ * Lo stato della storia di git, chiesto una volta sola (AR-419). La quota di sforzo si misura sui
+ * file toccati negli ultimi 7 giorni: se la storia è troncata quella finestra non esiste, e il
+ * numero che ne uscirebbe descriverebbe il magazzino invece della settimana.
+ */
+const STORIA = storiaDelRepo(AD_ROOT);
 
 // Cartelle dove vivono gli ASSET PESANTI intestabili a un'entità (post, grafiche, QR, kit, pagine SEO…).
 // NON includiamo consegne/audit, consegne/decisioni, consegne/finanza ecc.: non sono "sforzo di reparto
@@ -130,6 +138,19 @@ const DESTINAZIONE = [
   ["consegne/_archivio-prospect/", "business"], // gli asset del silo Garetti, archiviati
   ["consegne/decisioni/", "business"], // fogli firma su lancio e prezzi
   ["consegne/builder-automazioni/", "macchina"], // inventario VPS e strumenti
+  // 29/7 — il guardiano ha suonato di nuovo per UN file (14 contro 13) e la regola di AR-340 vale
+  // anche stavolta: si mappa, non si alza il tetto. Il file era
+  // `consegne/salute/2026-07-29-1238-claude.md`, cioè il referto della visita ai cinque organi vivi:
+  // è la macchina che si controlla da sola, esattamente come l'inventario qui sopra — non lavoro
+  // sull'azienda. La cartella intera, così il prossimo referto non fa risuonare il tetto.
+  ["consegne/salute/", "macchina"],
+  // 29/7, lotto 33 — il guardiano ha suonato una terza volta per UN file (14 contro 13), e per la
+  // terza volta la risposta è mappare. Il file è `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`,
+  // cioè l'elenco esplicito dei permessi che sostituisce il jolly di AR-206: è la macchina che
+  // stringe i propri confini, non lavoro sull'azienda — stessa famiglia dell'inventario VPS e del
+  // referto di salute qui sopra. La cartella intera, così il prossimo documento di sicurezza non
+  // fa risuonare il tetto per un file.
+  ["consegne/sicurezza/", "macchina"],
   // I manuali con cui la macchina si istruisce: sono la macchina che si organizza, come 07-Agenti/.
   ["CLAUDE.md", "macchina"],
   ["AGENTS.md", "macchina"],
@@ -190,11 +211,23 @@ export const TETTO_MISURATO_IL = "2026-07-29";
  * avessero cambiato casa.
  */
 export function zonaCiecaOltreIlTetto(quota, tetto = TETTO_NON_CLASSIFICATI) {
+  // AR-419 — su una quota cieca non si accusa: «zero non classificati» e «non ho contato niente»
+  // hanno lo stesso aspetto solo se si guarda il numero invece della sua provenienza.
+  if (quota?.cieca) return { oltre: false, quanti: null, tetto, eccesso: 0, cieca: true };
   const n = Number(quota?.non_classificato || 0);
-  return { oltre: n > tetto, quanti: n, tetto, eccesso: Math.max(0, n - tetto) };
+  return { oltre: n > tetto, quanti: n, tetto, eccesso: Math.max(0, n - tetto), cieca: false };
 }
 
+/**
+ * AR-419 — `null` significa «non ho potuto vedere i file toccati», e non è la stessa cosa di «non
+ * ne è stato toccato nessuno». Un elenco vuoto darebbe quota 0/0 → `quota_macchina: null`, che a
+ * valle si legge identico a una quota sana: la differenza va portata avanti come DATO, non lasciata
+ * indovinare a chi stampa.
+ */
 export function quotaSforzo(fileToccati = []) {
+  if (fileToccati == null) {
+    return { macchina: null, business: null, non_classificato: null, totale: null, quota_macchina: null, cieca: true };
+  }
   let macchina = 0, business = 0, non_classificato = 0;
   for (const f of fileToccati) {
     const d = destinazioneDi(f);
@@ -209,21 +242,78 @@ export function quotaSforzo(fileToccati = []) {
     non_classificato,
     totale: fileToccati.length,
     quota_macchina: classificati ? macchina / classificati : null,
+    cieca: false,
   };
 }
 
 /**
- * I file toccati da git negli ultimi N giorni. Se git non risponde torna [] (il report lo dice).
+ * Il percorso esiste ancora nell'albero di lavoro?
+ *
+ * 29/7 — I FANTASMI. La zona cieca è salita a 17 contro un tetto di 13, e i quattro in più erano
+ * `tmp_agent_files.txt`, `tmp_agent_refs.txt`, `tmp_claude_bold.txt`, `tmp_deferral_targets.txt`:
+ * appunti temporanei di una sessione, committati per sbaglio e già CANCELLATI. Su disco non
+ * esistono — comparivano solo perché `git log --name-only` elenca anche ciò che è nato e morto
+ * dentro la finestra dei sette giorni.
+ *
+ * Mapparli sarebbe stato peggio che sbagliato: avrebbe legittimato il committare file di scarto.
+ * Alzare il tetto è vietato (AR-340: si mappa, non si alza). Ma la verità è che qui non c'era
+ * niente da mappare: un percorso che non esiste più non è «un'area di lavoro senza mappa», è
+ * rumore. E finché contava, il tetto diventava rosso a seconda di quanti file di scarto qualcuno
+ * avesse cancellato quella settimana — cioè un cancello che suona a caso, che è il modo più veloce
+ * perché venga aggirato.
+ *
+ * Il metro dichiarato dal test è «se risalgono, la mappa è tornata vecchia»: un fantasma non dice
+ * nulla sulla mappa, quindi non deve poter far suonare quel campanello.
+ *
+ * Il filtro sta QUI e non dentro `quotaSforzo` apposta: quella è pura e le prove la chiamano con
+ * percorsi finti che su disco non esistono. Mettercelo dentro renderebbe la funzione dipendente dal
+ * disco e farebbe sparire proprio i casi che i test costruiscono.
+ */
+function esisteAncora(percorso) {
+  return existsSync(join(AD_ROOT, percorso));
+}
+
+/**
+ * Toglie i fantasmi da un elenco di percorsi. PURA: il «questo esiste?» arriva da fuori, così una
+ * prova la esegue su percorsi inventati senza toccare il disco — e senza dover creare e cancellare
+ * file veri per riprodurre il caso.
+ *
+ * @param {string[]} percorsi
+ * @param {(p: string) => boolean} esiste
+ */
+export function senzaFantasmi(percorsi = [], esiste = esisteAncora) {
+  return percorsi.filter((p) => esiste(p));
+}
+
+/**
+ * I file toccati da git negli ultimi N giorni, meno quelli che nel frattempo sono spariti.
+ * Se git non risponde torna [] (il report lo dice).
  *
  * AR-340 — passa dalla porta di `percorsi-git.mjs`. Prima chiedeva l'elenco senza `-z`, e i 26
  * percorsi del vault con l'accento arrivavano riscritti in ottali: non corrispondendo a nessun
  * prefisso della mappa finivano tutti fra i «non classificati», cioè fuori dalla quota.
  */
-function fileToccatiDaGit(giorni = GIORNI_FINESTRA) {
+/**
+ * AR-419 — perché prima si chiede se la storia è intera.
+ *
+ * `--since=7 days ago` su un clone superficiale non fallisce: risponde. Ma il commit di innesto non
+ * ha genitori, quindi git elenca TUTTO il suo albero come cambiato dentro la finestra. Misurato il
+ * 29/7 su questo repo: 4521 percorsi in sette giorni, di cui 1999 dal solo innesto. La quota che ne
+ * usciva non diceva «dove è andato lo sforzo questa settimana» ma «com'è fatto il magazzino» — e
+ * siccome è il numero con cui si giudica se stiamo lavorando sulla macchina invece che sul
+ * business, sbagliarlo in quel verso è il modo più elegante di darsi ragione da soli.
+ *
+ * Qui non si filtra l'innesto e si tira avanti: anche togliendolo resterebbe cieco su tutto ciò che
+ * è più vecchio del taglio ma dentro la finestra. Quando la storia non è intera la quota NON SI
+ * PRODUCE. `null` è la risposta onesta, e il chiamante la porta fino all'uscita 2.
+ */
+export function fileToccatiDaGit(giorni = GIORNI_FINESTRA, storia = STORIA) {
+  if (!storia.intera) return null;
   try {
-    return [...new Set(percorsiDaGit(["log", `--since=${giorni} days ago`, "--name-only", "--pretty=format:"], { cwd: AD_ROOT }))];
+    const toccati = [...new Set(percorsiDaGit(["log", `--since=${giorni} days ago`, "--name-only", "--pretty=format:"], { cwd: AD_ROOT }))];
+    return senzaFantasmi(toccati);
   } catch {
-    return [];
+    return null;
   }
 }
 
@@ -392,24 +482,35 @@ async function main() {
   const SOGLIA_MACCHINA = Number(process.env.ALLOCAZIONE_SOGLIA_MACCHINA || 0.7);
   const toccati = fileToccatiDaGit();
   const quota = quotaSforzo(toccati);
-  const quotaOltre = quota.quota_macchina != null && quota.quota_macchina > SOGLIA_MACCHINA;
+  const quotaOltre = !quota.cieca && quota.quota_macchina != null && quota.quota_macchina > SOGLIA_MACCHINA;
   const violazioneMacchina = GATE_MACCHINA && quotaOltre;
 
   const cieca = zonaCiecaOltreIlTetto(quota);
   const violazioni = sovra.length + (siloAttivo ? 1 : 0) + (violazioneMacchina ? 1 : 0) + (cieca.oltre ? 1 : 0);
-  const esito = violazioni > 0 ? "silo" : "sano";
+
+  // AR-419 — la cecità sulla quota non spegne le altre due dimensioni (il silo e i confermati a
+  // zero si misurano sul disco, non sulla storia): quelle restano valide e il loro verdetto vale.
+  // Ma se il cancello macchina è ACCESO, allora la quota è ciò che decide, e un cancello che non
+  // può misurare deve dire 2 — non 0. Tenere il rosso solo dove la misura serve davvero è ciò che
+  // impedisce a questo guardiano di diventare permanentemente cieco in ogni sessione cloud, e
+  // quindi di essere ignorato: un cancello sempre rosso viene aggirato al secondo giro.
+  const cecitaBloccante = quota.cieca && GATE_MACCHINA;
+  const esito = cecitaBloccante ? "cieco" : violazioni > 0 ? "silo" : "sano";
+  const codiceUscita = cecitaBloccante ? 2 : violazioni > 0 ? 1 : 0;
 
   await stampSegnale(
     "allocazione",
-    violazioni > 0 ? "errore" : "ok",
-    violazioni > 0
-      ? `silo: ${sovra.map((s) => `${s.nome} (${s.n} asset, ${s.stato})`).join("; ")} · confermati a 0: ${confermatiAZero.map((c) => c.nome).join(", ") || "nessuno"} · ${quando}`
-      : `allocazione sana su ${totaleFile} asset pesanti · ${quando}`
+    cecitaBloccante ? "errore" : violazioni > 0 ? "errore" : "ok",
+    cecitaBloccante
+      ? `quota sforzo NON misurabile — ${STORIA.motivo} · ${quando}`
+      : violazioni > 0
+        ? `silo: ${sovra.map((s) => `${s.nome} (${s.n} asset, ${s.stato})`).join("; ")} · confermati a 0: ${confermatiAZero.map((c) => c.nome).join(", ") || "nessuno"} · ${quando}`
+        : `allocazione sana su ${totaleFile} asset pesanti${quota.cieca ? " (quota sforzo non misurata: storia git troncata)" : ""} · ${quando}`
   );
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ esito, quando, totaleFile, conteggio, sovra, confermatiAZero, siloAttivo, sforzo: { ...quota, giorni: GIORNI_FINESTRA, soglia: SOGLIA_MACCHINA, gate_acceso: GATE_MACCHINA, oltre_soglia: quotaOltre, tetto_non_classificati: cieca.tetto, tetto_misurato_il: TETTO_MISURATO_IL, zona_cieca_oltre: cieca.oltre } }, null, 2));
-    process.exit(violazioni > 0 ? 1 : 0);
+    console.log(JSON.stringify({ esito, quando, totaleFile, conteggio, sovra, confermatiAZero, siloAttivo, sforzo: { ...quota, giorni: GIORNI_FINESTRA, soglia: SOGLIA_MACCHINA, gate_acceso: GATE_MACCHINA, oltre_soglia: quotaOltre, tetto_non_classificati: cieca.tetto, tetto_misurato_il: TETTO_MISURATO_IL, zona_cieca_oltre: cieca.oltre, storia_intera: STORIA.intera, motivo_cecita: quota.cieca ? STORIA.motivo : null } }, null, 2));
+    process.exit(codiceUscita);
   }
 
   console.log(`\n⚖️  ALLOCAZIONE DELLO SFORZO — ${quando}\n`);
@@ -424,6 +525,17 @@ async function main() {
   // AR-114: la quota macchina-vs-business, che prima non compariva da nessuna parte.
   const pc = (x) => (x == null ? "—" : `${Math.round(x * 100)}%`);
   console.log(`\nDove è andato lo sforzo (ultimi ${GIORNI_FINESTRA} giorni, file toccati secondo git):`);
+  if (quota.cieca) {
+    // AR-419: qui prima comparivano tre numeri. Nascevano da una storia troncata e descrivevano il
+    // magazzino: meglio una riga che dice «non lo so» di tre cifre che sembrano una misura.
+    console.log(`  ⚪ NON MISURATA — ${STORIA.motivo}.`);
+    console.log(`     Per misurarla serve la storia intera: git fetch --unshallow (poi rilancia).`);
+    console.log(
+      GATE_MACCHINA
+        ? `     ❌ il cancello macchina è ACCESO e senza questo numero non può decidere → uscita 2 (cieco).`
+        : `     cancello macchina SPENTO: nessuna decisione dipendeva da questo numero adesso.`
+    );
+  } else {
   console.log(`  🔧 macchina (cervello, Pannello, tech, audit…): ${quota.macchina}`);
   console.log(`  🏪 business (negozi, clienti, contenuti, soldi): ${quota.business}`);
   if (quota.non_classificato) {
@@ -441,6 +553,7 @@ async function main() {
   } else if (quotaOltre) {
     console.log(`     ❌ oltre soglia col cancello ACCESO → violazione.`);
   }
+  }
 
   if (violazioni === 0) {
     console.log(`\n✅ Allocazione sana: nessun pacchetto pesante concentrato su un prospect non confermato.`);
@@ -457,7 +570,7 @@ async function main() {
     console.log(`  Regola (CLAUDE.md, cancello di allocazione AR-006): asset pesanti SOLO su entità confermata nel registro-realtà.`);
   }
 
-  process.exit(violazioni > 0 ? 1 : 0);
+  process.exit(codiceUscita);
 }
 
 // Esegui main() solo se lanciato come script (non quando importato da un test).

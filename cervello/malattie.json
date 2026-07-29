@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
  "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
- "aggiornato": "2026-07-29 00:45",
+ "aggiornato": "2026-07-29",
  "malattie": [
   {
    "id": "esito-in-una-pipe",
@@ -108,6 +108,122 @@
    "nota_onesta": "22 istanze restano, misurate il 29/7 DOPO il lotto 29. NON sono tutte difetti: alcune sono fallimenti accettati di proposito (il dedup giornaliero dei playbook, il battito del cuore) dove non esiste una conseguenza da mostrare a Nicola. Ma la differenza va DECISA una per una, non lasciata al caso: finché il triage non è fatto, il numero resta scritto qui. La radice — una funzione `scritturaConfermata`/`esitoScritture` che rende la scelta esplicita invece che implicita in un `await` — è installata in pannello/src/lib/esito-scrittura.ts.",
    "esenti": [],
    "nota_baseline": "22 dal 2026-07-29 (lotto 29): linea di partenza misurata dopo la cura dei cinque punti che facevano danno visibile. Scende a ogni triage, non si alza mai."
+  },
+  {
+   "id": "cadenza-copiata-a-mano",
+   "nome": "Una cadenza si costruisce da sé le protezioni del motore, invece di ereditarle",
+   "perche_e_grave": "Le cadenze AI (giro, ritmo, monitora) sono tre copie a mano dello stesso motore. Ogni protezione — timeout per tentativo, ritentativi, lucchetto d'esecuzione, marcatore di scrittura, codice d'uscita — è nata nella copia dove il danno era stato visto e non è mai arrivata alle altre due. Il segno riconoscibile è una variabile di timeout PROPRIA dello script (`RITMO_AI_TIMEOUT`, `MONITORA_AI_TIMEOUT`): dice che quello script decide da solo quanto aspettare, quindi deciderà da solo anche quante volte ritentare e come uscire — e il numero sarà scritto a occhio. È la stessa forma già misurata in `gate-pubblicazione.sh` per il cancello di pubblicazione («esiste in UN pubblicatore su cinque»): là è stato unificato un asse solo, e gli altri sono rimasti tre copie. Cinque difetti diversi (AR-162, AR-163, AR-201, AR-305, AR-313) sono arrivati a questa stessa causa di sistema, scritta ogni volta con parole quasi identiche.",
+   "pattern": "[A-Z_]+_AI_TIMEOUT",
+   "dove": [
+    "cervello"
+   ],
+   "estensioni": [
+    ".sh"
+   ],
+   "baseline": 3,
+   "file_noti": [
+    "cervello/giro.sh"
+   ],
+   "curati": [
+    "ritmo.sh — RITMO_AI_TIMEOUT tolto: timeout derivato dal budget e ritentativi che interrogano la retry-policy, via cadenza_ai_run (lotto 31, AR-162/AR-201)",
+    "monitora.sh — non aveva NÉ timeout NÉ ciclo: ora eredita entrambi da cadenza_ai_run invece di ricevere una MONITORA_AI_TIMEOUT scritta a mano (lotto 31, AR-305/AR-163)"
+   ],
+   "esenti": [],
+   "nota_onesta": "3 occorrenze restano — una sola variabile, in giro.sh — ed è vera: giro.sh conserva il proprio ciclo perché è la copia GIÀ CORRETTA — deriva il timeout dal budget (AR-058) e interroga la retry-policy (AR-092), ed è quella da cui le altre due hanno imparato. Convertirla significa rifare la prova dell'intero percorso di ritentativo del giro, che è il processo da cui dipende la memoria pubblicata: è il passo dopo, non un pezzo da infilare in questo lotto. Finché resta, il tetto è 3 e non sale: una SECONDA variabile di timeout per-script vorrebbe dire che è nata una quarta copia.",
+   "nota_baseline": "6 istanze in 2 file al 2026-07-29 (giro.sh 3, ritmo.sh 3) → 3 in 1 file dopo il lotto 31. Il tetto conta le OCCORRENZE, non i file: le 3 di giro.sh sono la dichiarazione e i due usi della sua unica variabile."
+  },
+  {
+   "id": "perimetro-dedotto-non-misurato",
+   "nome": "Il perimetro di un controllo è dedotto dagli esempi, invece che misurato sul codice",
+   "perche_e_grave": "È la malattia del lotto 33: dieci bloccanti, una radice sola. Un guardiano nasce guardando i casi che esistono quel giorno — tutti .mjs, tutti al primo livello, tutti con `method: POST` scritto a mano — e da allora il suo recinto non viene più confrontato con la realtà. Il modo in cui si manifesta è la parte che rende difficile accorgersene: il guardiano NASCE VERDE E RESTA VERDE, perché fuori dal recinto non cerca niente, e un verde non fa domande. Così sono rimaste invisibili per mesi otto mani che pubblicano davvero (AR-381), una porta verso main nella cartella del server (AR-382), le scritture curl sulla tabella dove vive la firma di Nicola (AR-380), e cinque allarmi rossi che il giro non contava (AR-379/AR-387) — fra cui proprio quello sulla firma e quello sulle porte. La cura non è allargare il recinto una volta: è smettere di scriverlo. Il perimetro si deriva dal codice vero (cervello/perimetro.mjs), e chi vuole tenere qualcosa fuori lo dichiara per nome col perché — un'esenzione si discute, un'omissione no, perché nessuno la vede.",
+   "pattern": "readdirSync\\([^)\\n]*\\)[^\\n]*\\.filter\\([^\\n]*endsWith",
+   "dove": [
+    "cervello"
+   ],
+   "estensioni": [
+    ".mjs"
+   ],
+   "baseline": 5,
+   "file_noti": [
+    "cervello/lucchetto-git.mjs",
+    "cervello/valida-contratti.mjs",
+    "cervello/content-factory/reel.mjs",
+    "cervello/keyword-owner-check.mjs",
+    "cervello/verifica-automazione.mjs",
+    "cervello/marketplace.mjs",
+    "cervello/radiografia-marketplace-digest.mjs"
+   ],
+   "curati": [
+    "porte-check.mjs — perimetro ricorsivo via leggiPerimetro, vps/ compreso (AR-382, lotto 33)",
+    "uscite-check.mjs — perimetro ricorsivo, publishers/ compreso (AR-381, lotto 33)",
+    "firma-check.mjs — perimetro ricorsivo su .mjs E .sh: il bene protetto invece del linguaggio (AR-380, lotto 33)",
+    "freschezza-segnali.mjs — attesi derivati dai stampSegnale veri invece che elencati a mano (AR-373, lotto 33)",
+    "giro.sh — vincoli derivati con compgen invece che enumerati in una seconda lista (AR-379/AR-387, lotto 33)",
+    "serratura.ts — rotte che scrivono misurate sul codice invece che dedotte dal verbo (AR-409/AR-226, lotto 33)"
+   ],
+   "nota_onesta": "5 istanze restano, e NON sono tutte difetti: keyword-owner-check legge `.claude/agents/` e verifica-automazione legge la cartella dei timer del VPS — due posti piatti per costruzione, e il registro degli agenti ha già un guardiano suo che ne conta i file. content-factory/reel.mjs legge la propria cartella di output. Le due da guardare davvero sono `lucchetto-git.mjs`, che scandisce gli script del cervello a un livello solo — stesso mestiere dei tre curati qui sopra — e `valida-contratti.mjs`. Il tetto è 5 e scende: non si alza mai.",
+   "esenti": [
+    {
+     "file": "cervello/marketplace.mjs",
+     "quale": "riga 73, readdirSync(BACKUP_DIR).filter(… endsWith('.json'))",
+     "perche": "Non è il perimetro di un CONTROLLO: è una cartella che questo script si è scritto da solo e rilegge. La malattia curata dal lotto 33 è «il recinto entro cui un guardiano cerca i difetti è dedotto invece che misurato»; qui non si cerca nessun difetto e non c'è nessun bene da proteggere che possa stare fuori dal recinto. Allargare la scansione non troverebbe niente di più, e contarla come istanza gonfierebbe il numero — un metro che accusa gli innocenti si impara a ignorare. Qui si elencano i backup per riga che marketplace.mjs stesso crea prima di ogni scrittura, per poterle annullare: la cartella è piatta perché la scrive lui."
+    },
+    {
+     "file": "cervello/radiografia-marketplace-digest.mjs",
+     "quale": "riga 21, readdirSync(AUDIT_DIR).filter(… endsWith('-radiografia-marketplace-raw.json'))",
+     "perche": "Non è il perimetro di un CONTROLLO: è una cartella che questo script si è scritto da solo e rilegge. La malattia curata dal lotto 33 è «il recinto entro cui un guardiano cerca i difetti è dedotto invece che misurato»; qui non si cerca nessun difetto e non c'è nessun bene da proteggere che possa stare fuori dal recinto. Allargare la scansione non troverebbe niente di più, e contarla come istanza gonfierebbe il numero — un metro che accusa gli innocenti si impara a ignorare. Qui si raccolgono i referti grezzi che la radiografia ha appena depositato in consegne/audit: cartella piatta, prodotta dallo stesso processo che la rilegge."
+    }
+   ],
+   "nota_baseline": "5 NETTE dal 2026-07-29 (lotto 33): 7 istanze trovate meno 2 dichiarate esenti col perche. Prima del lotto erano 8 nette — porte-check, uscite-check e firma-check leggevano una cartella sola. Il tetto scende e non si alza mai."
+  },
+  {
+   "id": "fonte-troncata-letta-per-intera",
+   "nome": "Una fonte letta a meta produce un verdetto intero",
+   "perche_e_grave": "Un guardiano legge una parte della sua fonte — la storia di git troncata da un clone superficiale, i file saltati perche troppo grandi, il contatore di un giorno gia finito — e della parte mancante non resta traccia: il verdetto esce calcolato solo su cio che si e riusciti a guardare, e ha la stessa faccia di uno completo. Misurato il 29/7 su questo repo: il commit di innesto di un clone superficiale elenca 1999 file come «appena cambiati», e la guardia AR-330 (che deve rifiutare le chiusure dietro cui nessun file e cambiato) firmava tutto in ogni sessione cloud. Stesso giorno, freno-costi rispondeva «lascia, 0 token» leggendo il contatore del giorno prima. La regola: la porzione NON letta deve arrivare al verdetto, e un verdetto che non si puo emettere si chiama cieco (uscita 2), non verde.",
+   "pattern": "catch\\s*(\\([^)\\n]*\\))?\\s*\\{\\s*return\\s*(\\[\\]|0|\"\"|''|false)\\s*;?\\s*\\}",
+   "dove": [
+    "cervello"
+   ],
+   "estensioni": [
+    ".mjs"
+   ],
+   "baseline": 0,
+   "file_noti": [
+    "cervello/content-factory/reel.mjs"
+   ],
+   "esenti": [
+    {
+     "file": "cervello/content-factory/reel.mjs",
+     "quale": "riga 145, statSync(p).mtimeMs -> 0",
+     "perche": "Serve a ORDINARE dei file per data, non a emettere un verdetto: un file di cui non si legge la data finisce in fondo alla lista, e nessuna decisione dipende da quel numero. La malattia e il verdetto calcolato su una fonte parziale; qui non c'e verdetto."
+    },
+    {
+     "file": "cervello/git-pr.mjs",
+     "quale": "riga 176, readFileSync(AZIONI_PATH) -> false",
+     "perche": "Il booleano E la risposta alla domanda «riesco a leggere questo file?»: non e un verdetto calcolato su un contenuto parziale, e il falso significa esattamente cio che e successo."
+    },
+    {
+     "file": "cervello/git-pr.mjs",
+     "quale": "riga 280, unmergedPaths -> []",
+     "perche": "Fallisce CHIUSO: l'unico chiamante e tryAutoResolveRebaseConflicts, che con un elenco vuoto esce subito con `return false` e NON risolve niente da solo. Un elenco assente porta a fare di meno, non a dichiarare che va tutto bene."
+    },
+    {
+     "file": "cervello/git-github.mjs",
+     "quale": "riga 177, invio -> false",
+     "perche": "E una scrittura di rete che restituisce «e andata a buon fine?»: su eccezione la risposta onesta e proprio `false`, perche l'invio davvero non e confermato. E la cura di «esito-di-scrittura-buttato», non la malattia."
+    },
+    {
+     "file": "cervello/consenso-azione.mjs",
+     "quale": "riga 74, leggiCoda -> \"\"",
+     "perche": "Fallisce CHIUSO: una coda illeggibile porta a `AZIONE_ID non trovato -> invio bloccato`, cioe nessuna azione reale parte. Resta imprecisa la MOTIVAZIONE mostrata (dice «non trovato» dove il vero motivo e «non ho potuto leggere la coda»): registrato come difetto nuovo, non curato qui per non allargare il lotto 34 a meta."
+    },
+    {
+     "file": "cervello/guardiano-capacita.mjs",
+     "quale": "riga 56, statSync(...).isDirectory() -> false in un filter",
+     "perche": "Fallisce CHIUSO: una cartella che non si riesce a interrogare esce dal censimento, quindi il guardiano conta MENO capacita di quante ce ne siano — sottostima, non rassicurazione. Il verso pericoloso e l'opposto."
+    }
+   ],
+   "nota_baseline": "0 dal 2026-07-29 (lotto 34). ATTENZIONE al metro: questa regex prende la SINTASSI (un errore che diventa vuoto/zero), non la malattia. Ogni istanza va giudicata su una domanda sola — «il verdetto che ne esce fallisce APERTO o CHIUSO?». I cinque punti dichiarati esenti falliscono tutti chiusi (fanno di meno, non dicono che va bene). Il metro FINE per la meta git della malattia non e questa regex ma `node cervello/storia-git.mjs --check`, che ragiona per chiamata invece che per testo — nato verde il 29/7 dopo aver portato dentro i quattro punti che la scavalcavano."
   }
  ]
 }

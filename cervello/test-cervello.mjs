@@ -103,10 +103,16 @@ function main() {
   // si saprebbe quali degli altri stanno bene. È la stessa scelta di test-pannello.mjs.
   const righe = [];
   for (const f of file) {
-    const r = spawnSync(process.execPath, ["--test", "--test-reporter=tap", join(dir, f)], {
-      encoding: "utf8",
-      cwd: AD_ROOT,
-    });
+    // `--import hook-ts.mjs` (AR-156): parecchi test di questa cartella importano moduli `.ts` del
+    // Pannello, e quei moduli importano fra loro senza estensione — legittimo per il bundler di
+    // Next, non per Node. Senza il risolutore il test non FALLISCE: non parte proprio, che è la
+    // forma peggiore, perché somiglia a un test che non c'è. Il hook è conservativo: riprova solo
+    // gli import relativi non risolti e, se non li trova, rilancia l'errore originale.
+    const r = spawnSync(
+      process.execPath,
+      ["--import", join(dir, "hook-ts.mjs"), "--test", "--test-reporter=tap", join(dir, f)],
+      { encoding: "utf8", cwd: AD_ROOT },
+    );
     righe.push({ file: `${CARTELLA}/${f}`, ...verdetto(r.status, `${r.stdout || ""}${r.stderr || ""}`) });
   }
   const rotti = righe.filter((x) => x.esito !== "ok");

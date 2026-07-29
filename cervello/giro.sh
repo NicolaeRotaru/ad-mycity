@@ -6,6 +6,12 @@
 # la cadenza reale è nel file .timer (unica fonte di verità). Per un giro a mano usa giro-ora.sh.
 set -uo pipefail   # niente -e: il giro deve arrivare al push anche se un passo intermedio fallisce
 
+# 🖊️ CONFINE DELLA FIRMA — AR-119/AR-380. Il giro scrive due segnali su `impostazioni` dopo il push
+# della memoria. Le chiavi si dichiarano qui perché `cervello/firma-check.mjs` possa verificare che
+# nessuna sia una firma: la chiave di servizio potrebbe scriverla, la disciplina no. Prima del lotto
+# 33 il guardiano leggeva solo i `.mjs`, quindi questa dichiarazione non gliela chiedeva nessuno.
+# CHIAVI_SCRITTE = ["memoria-ad:ultimo_push", "cuore:ultimo_giro"]
+
 # Fuso di Piacenza: gli orari scritti in memoria (data:, SALA, AZIONI, commit) devono essere
 # ora-di-parete italiana. Senza questo, su un VPS in UTC (default Hetzner) finiscono indietro di 1-2h.
 export TZ="${TZ:-Europe/Rome}"
@@ -60,6 +66,16 @@ esito_righe() {
       for (i = NR - n + 2; i <= NR; i++) print L[i]
     }'
 }
+
+# AR-293/AR-317: le mani condivise delle tre cadenze (lucchetto d'esecuzione, marcatore di scrittura,
+# motore col timeout derivato, registro degli esiti). Vedi cervello/lib-cadenza.sh.
+. "$SCRIPT_DIR/lib-cadenza.sh"
+
+# AR-293 — «niente impedisce a due giri di girare insieme: il lucchetto protegge solo il pezzo che
+# parla con GitHub». Quello esistente (fd 9) è nato per il conflitto git, perché il primo danno visto
+# era un push rifiutato; il conflitto sui FILE non lo copriva nessuno. Questo è per l'esecuzione, non
+# bloccante: il secondo giro esce subito invece di accodarsi.
+cadenza_lock giro || exit 0
 
 # Motore AI installato e utilizzabile?
 ai_check || { echo "[$(ts)] Motore AI non disponibile. Vedi cervello/vps/setup.sh." >&2; exit 1; }
@@ -172,6 +188,7 @@ TEST_VINCOLO=""       # 25/7: test del cervello rossi o ineseguibili (prima non 
 DEBITO_VINCOLO=""     # 25/7: previsioni fatte e mai confrontate col reale (voce 2)
 FATTI_VINCOLO=""      # AR-102: vincolo del gate coerenza-fatti (copie vecchie di un fatto in file vivi)
 CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se > 2 giorni)
+CADENZE_VINCOLO=""    # AR-164: una cadenza (giro/ritmo/monitora) ha smesso di uscire
 OKR_VINCOLO=""        # AR-115: vincolo freschezza OKR-Squadra (target scaduti o doc stantio)
 # AR-322/308/309 — il contratto dei guardiani (0=passato · 1=bocciato · 2=cieco) e l'accumulo dei
 # vincoli vivono in giro-esito.sh, come funzioni pure che un test può eseguire. Va caricato QUI, prima
@@ -480,6 +497,18 @@ if command -v node >/dev/null 2>&1; then
     CHECKLIST_VINCOLO="$(printf '%s\n' "$_checklist_out" | head -1)"
     echo "[$(ts)] ⚠️  AR-030: checklist stantia → vincolo hard al motore." >&2
   fi
+  # AR-164: freschezza delle CADENZE — non «la sveglia è carica?» (i timer, già guardati da
+  # verifica-automazione) ma «qualcuno si è alzato?». Un timer attivo che lancia uno script che esce
+  # subito è verde da entrambe le parti e non produce niente: se il Piano del mattino smette di
+  # uscire, prima non se ne accorgeva nessuno.
+  echo "[$(ts)] Freschezza delle cadenze (AR-164 — il prodotto, non il timer)..."
+  _cad_out="$(node "$SCRIPT_DIR/freschezza-cadenze.mjs" 2>&1)"; _cad_rc=$?
+  printf '%s\n' "$_cad_out" | tail -5
+  if [ "$_cad_rc" -ne 0 ]; then
+    CADENZE_VINCOLO="$(vincolo_da_rc "freschezza-cadenze" "$_cad_rc" "⛔ UNA CADENZA HA SMESSO DI USCIRE (freschezza-cadenze.mjs rc=$_cad_rc, AR-164): un timer può essere attivo e non produrre niente. Guarda quale manca e perché PRIMA di fidarti del ritmo di questa settimana: node cervello/freschezza-cadenze.mjs
+$_cad_out")"
+    echo "[$(ts)] ⚠️  AR-164: freschezza-cadenze rc=$_cad_rc → vincolo al motore." >&2
+  fi
   # AR-115: freschezza OKR-Squadra.md — target con data passata o doc stantio ⇒ riscrittura obbligatoria.
   echo "[$(ts)] Freschezza OKR-Squadra (AR-115)..."
   _okr_out="$(node "$SCRIPT_DIR/freschezza-okr.mjs" 2>&1)"; _okr_rc=$?
@@ -566,6 +595,11 @@ if command -v node >/dev/null 2>&1; then
   if ! guardiano porte-check.mjs; then
     PORTE_VINCOLO="$(vincolo_da_rc "porte-check" "$GUARDIANO_RC" "⛔ PORTA SCOPERTA (porte-check.mjs rc=$GUARDIANO_RC, AR-127): c'è un punto che pubblica su main senza passare da gate_pubblicazione — cioè senza controllo del ramo, del perimetro e dei guardiani di verità. Fallo passare dal cancello condiviso, o dichiara il PERCHÉ nelle ESENZIONI di porte-check.mjs. Elenco: node cervello/porte-check.mjs")"
     echo "[$(ts)] ⚠️  AR-127: porte-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+  echo "[$(ts)] 🔐 Rotte del Pannello che scrivono da una GET (AR-409)..."
+  if ! guardiano rotte-scriventi-check.mjs; then
+    ROTTE_SCRIVENTI_VINCOLO="$(vincolo_da_rc "rotte-scriventi-check" "$GUARDIANO_RC" "⛔ ROTTA CHE SCRIVE FUORI DALLA SERRATURA (rotte-scriventi-check.mjs rc=$GUARDIANO_RC, AR-409/AR-226): una rotta del Pannello cambia lo stato del mondo da una GET, e la serratura la lascia passare come lettura perché classifica per verbo. Sposta la scrittura in una POST, oppure dichiarala in pannello/src/lib/rotte-scriventi.ts (SCRIVONO_IN_GET) col PERCHÉ — e allora le servirà same-origin o token come a una POST. Elenco: node cervello/rotte-scriventi-check.mjs")"
+    echo "[$(ts)] ⚠️  AR-409: rotte-scriventi rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
   echo "[$(ts)] 🔌 Sensori spenti (per scelta o per inerzia?)..."
   if ! guardiano sensori-spenti-check.mjs --accoda; then
@@ -759,11 +793,33 @@ fi
 # motore veniva saltato (delta-gate o tetto-token) il testo non veniva mai consumato e i cancelli si
 # scioglievano in silenzio — il giro pubblicava lo stesso e usciva 0. Qui li raccogliamo in un elenco
 # che esiste FUORI dal prompt, così può governare sia il salto del motore sia l'esito del giro.
+#
+# LOTTO 33 — AR-379/AR-387: l'elenco si DERIVA, non si enumera.
+#
+# Fino al 29/7 qui c'era una seconda lista scritta a mano, parallela alle variabili vere. Le
+# variabili dichiarate erano 32, i nomi enumerati 27: cinque guardiani potevano diventare rossi e il
+# giro si chiudeva «pulito» lo stesso. Fra i cinque c'erano FIRMA (chi può scriversi la firma di
+# Nicola) e PORTE (chi pubblica su main senza cancello) — cioè due dei controlli più seri che
+# abbiamo. Nessuno l'aveva fatto apposta: riempire una variabile e contarla sono due gesti separati,
+# a quasi cinquecento righe di distanza, e il secondo era affidato alla memoria di chi scriveva.
+#
+# `compgen -v` chiede alla shell quali variabili esistono DAVVERO in questo momento: un vincolo nuovo
+# entra nel conteggio per costruzione, e non c'è più un secondo posto che possa restare indietro.
+# Chi vuole tenerne uno fuori lo dichiara qui sotto col perché — un'esenzione si discute, una
+# dimenticanza no, perché nessuno la vede.
+declare -A VINCOLI_ESCLUSI=()
+# (vuoto, ed è voluto: oggi ogni vincolo dichiarato deve contare. La casella esiste per il giorno in
+#  cui servirà, col motivo scritto per esteso come si fa per le esenzioni delle uscite e delle porte.)
 VINCOLI_ATTIVI=()
-for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI TASSO USCITE SCADENZE GUARDIANI PORTA_GIT DEFERRAL; do
-  eval "_vval=\"\${${_vnome}_VINCOLO:-}\""
+VINCOLI_NOMI_VISTI=()
+for _vvar in $(compgen -v | grep -E '_VINCOLO$' | sort); do
+  _vnome="${_vvar%_VINCOLO}"
+  VINCOLI_NOMI_VISTI+=("$_vnome")
+  if [ -n "${VINCOLI_ESCLUSI[$_vnome]:-}" ]; then continue; fi
+  eval "_vval=\"\${${_vvar}:-}\""
   [ -n "$_vval" ] && VINCOLI_ATTIVI+=("$_vnome")
 done
+echo "[$(ts)] AR-387: ${#VINCOLI_NOMI_VISTI[@]} vincoli dichiarati e TUTTI contati (derivati, non enumerati)." >&2
 GATE_ROSSI="${#VINCOLI_ATTIVI[@]}"
 if [ "$GATE_ROSSI" -gt 0 ]; then
   echo "[$(ts)] ⛔ $GATE_ROSSI vincoli ATTIVI in questo giro: ${VINCOLI_ATTIVI[*]}" >&2
@@ -824,6 +880,13 @@ if [ -n "${CHECKLIST_VINCOLO:-}" ]; then
 
 ## Vincolo checklist Nicola (HARD — AR-030: stantia oltre 2 giorni)
 $CHECKLIST_VINCOLO"
+fi
+if [ -n "${CADENZE_VINCOLO:-}" ]; then
+  # AR-164: una cadenza ha smesso di uscire — il motore deve dirlo a Nicola, non lasciarlo su stderr.
+  PROMPT="$PROMPT
+
+## Vincolo freschezza cadenze (HARD — AR-164: una cadenza non esce più)
+$CADENZE_VINCOLO"
 fi
 if [ -n "${OKR_VINCOLO:-}" ]; then
   PROMPT="$PROMPT
@@ -981,18 +1044,28 @@ ai_rc=0
 # AR-320 (a): un vincolo attivo È per definizione «qualcosa è cambiato» → il delta-gate non può
 # dichiarare che non c'è niente da fare. Se il motore era stato spento per assenza di delta, lo
 # riaccendiamo: i cancelli vanno consegnati a qualcuno che li possa leggere.
-if [ "${RUN_AI:-1}" != 1 ] && [ "${GATE_ROSSI:-0}" -gt 0 ] && [ "${GIRO_SALTO_MOTIVO:-delta}" != "budget" ]; then
-  echo "[$(ts)] ⛔ AR-320: $GATE_ROSSI vincoli attivi (${VINCOLI_ATTIVI[*]}) — il motore NON può essere saltato dal delta-gate." >&2
-  RUN_AI=1
-fi
+# AR-302 — la regola («si può spegnere il motore mentre dei cancelli sono rossi?») viveva qui, in
+# mezzo a milleduecento righe che nessuno può eseguire senza far girare un giro intero: per questo
+# non è mai stata provata. Ora la decide `motoreSaltabile()` in cervello/esito-cadenza.mjs — funzione
+# pura, interrogabile con casi finti, provata da cervello/test/esito-cadenza.test.mjs.
 VINCOLI_NON_CONSEGNATI=0
 if [ "${RUN_AI:-1}" != 1 ]; then
-  echo "[$(ts)] Parte AI SALTATA dal delta-gate (AR-019): nessun motore premium acceso in questo giro."
-  # AR-320 (b): saltato per budget con vincoli ancora attivi → non evaporano in silenzio.
-  if [ "${GATE_ROSSI:-0}" -gt 0 ]; then
+  _salt="$(node "$SCRIPT_DIR/esito-cadenza.mjs" saltabile --vincoli="${GATE_ROSSI:-0}" --motivo="${GIRO_SALTO_MOTIVO:-delta}" 2>/dev/null || echo '')"
+  if printf '%s' "$_salt" | grep -q '"saltabile":false'; then
+    echo "[$(ts)] ⛔ AR-320/AR-302: $GATE_ROSSI vincoli attivi (${VINCOLI_ATTIVI[*]}) — il motore NON può essere saltato dal delta-gate." >&2
+    RUN_AI=1
+  elif printf '%s' "$_salt" | grep -q '"vincoliNonConsegnati":true'; then
+    # Saltato per budget con vincoli ancora attivi → non evaporano in silenzio: restano nell'esito.
     VINCOLI_NON_CONSEGNATI=1
     echo "[$(ts)] ⛔ AR-320: motore saltato ma $GATE_ROSSI vincoli restano ATTIVI e NON consegnati: ${VINCOLI_ATTIVI[*]}" >&2
+  elif [ -z "$_salt" ]; then
+    # Non ho potuto misurare: non è un verde. Prudenza — se ci sono cancelli rossi il motore si accende.
+    echo "[$(ts)] ⚠️  AR-302: non ho potuto decidere se il motore è saltabile — prudenza." >&2
+    [ "${GATE_ROSSI:-0}" -gt 0 ] && RUN_AI=1
   fi
+fi
+if [ "${RUN_AI:-1}" != 1 ]; then
+  echo "[$(ts)] Parte AI SALTATA dal delta-gate (AR-019): nessun motore premium acceso in questo giro."
 else
 echo "[$(ts)] Avvio giro di perlustrazione AD (motore: $(ai_engine), prompt=file)..."
 ai_build_cmd
@@ -1008,6 +1081,11 @@ GIRO_AI_TIMEOUT="${GIRO_AI_TIMEOUT:-800}"    # per tentativo; 3 tentativi + paus
 AI_TIMEOUT=()
 command -v timeout >/dev/null 2>&1 && AI_TIMEOUT=(timeout --kill-after=60s "$GIRO_AI_TIMEOUT")
 GIRO_START="$(date +%s)"   # inizio effettivo del motore AI (per il costo del giro)
+# AR-317 — «il lucchetto si prende solo alla fine: mentre l'AD scrive, un altro processo committa e
+# resetta sotto». Il lucchetto git copre i comandi git, non i 45 minuti in cui il motore scrive i
+# file; tenerlo per tutto quel tempo bloccherebbe il worker. Il marcatore è la distinzione che
+# mancava fra «sto scrivendo» e «sto pubblicando». La trap lo toglie anche se il giro viene ucciso.
+cadenza_scrittura_inizio giro
 ai_rc=0
 _ai_out=""
 for _attempt in 1 2 3; do
@@ -1061,6 +1139,7 @@ fi
 # AR-014: gate deterministico sui passi 11-12 del giro (auto-analisi + apprendimento). Se il motore
 # AI li ha saltati in silenzio, questi file NON risultano aggiornati in questo giro: lo diciamo forte
 # (non è un exit 0 pulito) invece di far finta di niente. Non blocca il push della memoria già scritta.
+cadenza_scrittura_fine   # AR-317: il motore ha finito di scrivere — l'allineamento può ripartire
 GIRO_STEPS_OK=1
 if [ "$ai_rc" -eq 0 ]; then
   for _rel in auto-coscienza/auto-analisi.json auto-coscienza/apprendimento.json; do
@@ -1348,6 +1427,13 @@ fi
 # shellcheck source=cervello/giro-esito.sh
 . "$SCRIPT_DIR/giro-esito.sh"
 _giro_rc="$(esito_giro_rc "${MEMORIA_INCOERENTE:-0}" "$GIRO_HAD_CHANGES" "$GIRO_PUSH_OK" "$ai_rc" "${GATE_ROSSI:-0}" "${VINCOLI_NON_CONSEGNATI:-0}")"
+# AR-164/AR-166: il giro lascia la sua riga nello STESSO registro delle altre due cadenze, con l'ora.
+# Serve al guardiano freschezza-cadenze.mjs, che risponde alla domanda che nessuno faceva — non «la
+# sveglia è carica?» (il timer systemd) ma «qualcuno si è alzato?». Un passo saltato (GIRO_STEPS_OK=0)
+# finiva solo su stderr, «il registro tecnico del server»: da qui in poi è un fatto che sopravvive.
+cadenza_registra giro "$_giro_rc" \
+  "$(esito_giro_etichetta "$ai_rc" "${GATE_ROSSI:-0}" "${GIRO_PUSH_OK:-1}" "${GIRO_STEPS_OK:-1}")" \
+  "$ai_rc" "${GIRO_PUSH_OK:-1}" "${GIRO_STEPS_OK:-1}" "${GATE_ROSSI:-0}" "${VINCOLI_ATTIVI[*]:-}"
 case "$_giro_rc" in
   2) echo "[$(ts)] ⛔ MEMORIA NON PUBBLICATA (gate AR-104 o push fallito) — exit 2 (non è un successo)." >&2 ;;
   1) echo "[$(ts)] ⛔ Motore AI fallito e nessuna memoria nuova pubblicata — exit 1." >&2 ;;

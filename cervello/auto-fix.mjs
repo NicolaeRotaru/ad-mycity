@@ -27,6 +27,9 @@ import { dirname, join } from "node:path";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { chiusuraAmmessa, istanteNascita, patternTrovato } from "./prove-regole.mjs";
+import { FORMA_COMANDO_PROVA, MOTIVO_COMANDO_NON_AMMESSO, comandoAmmesso } from "./forma-prova.mjs";
+export { FORMA_COMANDO_PROVA, comandoAmmesso };
+import { cambiatoDallaNascita, storiaDelRepo } from "./storia-git.mjs";
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const CANTIERE = join(VAULT, "cantiere-difetti.json");
@@ -89,8 +92,8 @@ function ricalcolaMeta(cantiere) {
  */
 export function eseguiProvaComando(comando, run = spawnSync) {
   const c = String(comando || "").trim();
-  const m = /^node\s+(cervello\/[\w./-]+\.mjs)((?:\s+--[\w-]+)*)$/.exec(c);
-  if (!m) return { esito: "manuale", dettaglio: `comando non ammesso: "${c}" (solo: node cervello/<script>.mjs [--flag])` };
+  const m = FORMA_COMANDO_PROVA.exec(c);
+  if (!m) return { esito: "manuale", dettaglio: `comando non ammesso: "${c}" (${MOTIVO_COMANDO_NON_AMMESSO})` };
   const argomenti = m[2] ? m[2].trim().split(/\s+/) : [];
   const r = run(process.execPath, [join(AD_ROOT, m[1]), ...argomenti], {
     cwd: AD_ROOT,
@@ -105,11 +108,29 @@ export function eseguiProvaComando(comando, run = spawnSync) {
 }
 
 /**
+ * Lo stato della storia di git, chiesto UNA volta per esecuzione (AR-429).
+ *
+ * Non è un dettaglio di prestazioni: la risposta non cambia dentro un giro, e chiederla una volta
+ * sola rende possibile stamparla in fondo al rapporto — una cecità che non si vede è una cecità che
+ * non è stata misurata.
+ */
+const STORIA = storiaDelRepo(AD_ROOT);
+
+/**
  * Il file citato dalla prova è cambiato fra la nascita del difetto e adesso? (AR-330, guardia ②)
- * `null` = git non ha saputo rispondere (storia troncata, clone superficiale) → chi decide lascerà
- * passare dicendolo, invece di bloccare per sempre ogni chiusura su un repo senza storia.
+ * `null` = non si può sapere → chi decide lascerà passare DICENDOLO, invece di bloccare per sempre
+ * ogni chiusura su un repo senza storia.
+ *
+ * ⚠️ AR-429 — perché il controllo sulla storia viene PRIMA di chiedere a git.
+ * In un clone superficiale `git log --since` risponde 0 e stampa qualcosa: la risposta ha la forma
+ * di una vera. Ma il commit di innesto non ha genitori, quindi git considera nuovo tutto il suo
+ * albero — misurati 1999 file il 29/7 su questo repo. Effetto: QUALUNQUE file risultava «cambiato
+ * dalla nascita», la guardia rispondeva sempre «c'è del lavoro dietro questa chiusura», e in ogni
+ * sessione cloud (dove il clone è superficiale per costruzione) era di fatto spenta — senza dirlo.
+ * Un guardiano spento che firma è peggio di un guardiano assente: l'assente non rassicura nessuno.
  */
 function fileCambiatoDa(file, nato) {
+  if (!STORIA.intera) return cambiatoDallaNascita(STORIA, null); // non lo so, e lo dico
   // ⚠️ L'istante DEVE essere completo. Con una data secca («2026-07-27») l'approxidate di git riempie
   // l'ora mancante con quella CORRENTE: `--since=2026-07-27` lanciato alle 18:40 significa «dalle
   // 18:40 di oggi», non «da mezzanotte». Effetto: ogni file modificato oggi risultava «mai cambiato»
@@ -124,8 +145,8 @@ function fileCambiatoDa(file, nato) {
     timeout: 20000,
     maxBuffer: 64 * 1024 * 1024,
   });
-  if (r.error || r.status !== 0) return null;
-  return String(r.stdout || "").trim().length > 0;
+  // Il verdetto lo emette la funzione pura: qui si raccoglie soltanto (regola ③).
+  return cambiatoDallaNascita(STORIA, r.error || r.status !== 0 ? null : r.stdout);
 }
 
 // Verifica oggettiva: il fix è presente nel codice?
@@ -214,6 +235,21 @@ async function cmdVerifica(cantiere) {
   const applica = has("applica");
   const aperti = (cantiere.difetti || []).filter((d) => d.stato !== "chiuso");
   console.log(`\n🔧 AUTO-FIX — verifica cantiere (${aperti.length} non chiusi) — ${nowPiacenza()}\n`);
+  if (!STORIA.intera) {
+    console.log(`⚠️  GUARDIA ② NON CORROBORABILE — ${STORIA.motivo}.`);
+    console.log(`   Le chiusure di questa esecuzione passeranno, ma marcate "corroborata": false.`);
+    console.log(`   Per una verifica piena serve la storia intera: git fetch --unshallow.\n`);
+  }
+  // AR-429, clausola (b) — le chiusure vecchie diventano RIESAMINABILI solo se qualcuno le conta.
+  // Non le riscriviamo (sarebbe riscrivere la storia per 183 righe): l'ASSENZA del campo è già il
+  // segnale — «di questa chiusura non è mai stato registrato se fosse corroborata». Ma un segnale
+  // che nessuno stampa non è riesaminabile: è solo assente. Quindi si stampa.
+  const senzaCorroborazione = (cantiere.difetti || []).filter((d) => d.stato === "chiuso" && d.corroborata === undefined);
+  if (senzaCorroborazione.length) {
+    console.log(
+      `📎 ${senzaCorroborazione.length} chiusure in archivio senza corroborazione registrata (chiuse prima di AR-429): non sono accusate, sono da riesaminare quando servirà.\n`,
+    );
+  }
   const daChiudere = [];
   const rifiutate = [];
   for (const d of aperti) {
@@ -255,6 +291,12 @@ async function cmdVerifica(cantiere) {
     d.stato = "chiuso";
     d.chiuso_il = nowPiacenza();
     d.chiuso_come = come;
+    // AR-429, clausola (b) — la chiusura porta scritto se la guardia ② l'ha davvero corroborata.
+    // Senza questo campo una chiusura firmata al buio è indistinguibile da una controllata, e le
+    // 183 già in archivio resterebbero «buone» per il solo fatto di essere lì. Marcarle è ciò che
+    // le rende RIESAMINABILI: `corroborata: false` è una domanda aperta, non un'accusa.
+    d.corroborata = STORIA.intera;
+    if (!STORIA.intera) d.corroborata_nota = `storia troncata al momento della chiusura — ${STORIA.motivo}`;
   }
   ricalcolaMeta(cantiere);
   cantiere.aggiornato = nowPiacenza();

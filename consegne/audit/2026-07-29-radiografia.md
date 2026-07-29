@@ -1,0 +1,2225 @@
+---
+data: 2026-07-29 13:11
+tipo: radiografia-marketplace (workflow radiografia, 13 dimensioni, verifica avversariale)
+repo: NicolaeRotaru/mycity @ d836bb5 (main, merge PR #219)
+findings: 262 (21 bloccanti -> 17 unici · 137 gravi · 104 minori)
+---
+
+# 🩻 Radiografia del marketplace MyCity — 2026-07-29 13:11
+
+> Analisi in **sola lettura** del codice vero del marketplace (repo `NicolaeRotaru/mycity`, commit
+> `d836bb5`, allineato a `origin/main`) e del database live via Supabase MCP.
+> **13 dimensioni**, un revisore senior per dimensione + un **verificatore avversariale** per dimensione
+> che ha ricontrollato ogni segnalazione nel codice e tenuto **solo i problemi confermati**.
+> 26 agenti, 0 errori, ~2h6' di analisi, 1.310 letture di file/query.
+> **Nessun fix applicato**: ogni correzione al sito è 🟡 (branch) / deploy 🔴 e aspetta la firma di Nicola.
+
+## 📊 Il quadro in numeri
+
+**262 problemi confermati**: **21 bloccanti** 🔴 (che si riducono a **17 difetti unici**:
+alcuni sono stati trovati indipendentemente da 2-3 dimensioni diverse, il che ne conferma la realtà) ·
+**137 gravi** 🟠 · **104 minori** 🟡.
+
+| Dimensione | Problemi | 🔴 bloccanti | 🟠 gravi | 🟡 minori |
+|---|---:|---:|---:|---:|
+| architettura | 16 | 1 | 4 | 11 |
+| sicurezza-auth | 12 | 3 | 3 | 6 |
+| rls-database | 16 | 4 | 9 | 3 |
+| pagamenti-stripe | 20 | 1 | 13 | 6 |
+| privacy-legale | 16 | 5 | 9 | 2 |
+| performance | 21 | 0 | 14 | 7 |
+| frontend-ux | 27 | 0 | 17 | 10 |
+| accessibilita | 29 | 1 | 13 | 15 |
+| qa-flussi | 20 | 2 | 10 | 8 |
+| api-backend | 20 | 3 | 8 | 9 |
+| ai-endpoints | 18 | 0 | 10 | 8 |
+| dati-analytics | 24 | 0 | 14 | 10 |
+| deploy-sre | 23 | 1 | 13 | 9 |
+| **TOTALE** | **262** | **21** | **137** | **104** |
+
+## 🔁 Confronto con la radiografia del 7 luglio
+
+| | 7 luglio 2026 | 29 luglio 2026 |
+|---|---:|---:|
+| Problemi confermati | 87 | **262** |
+| Bloccanti (unici) | 5 (4) | **21 (17)** |
+| Gravi | 35 | **137** |
+| Minori | 47 | **104** |
+
+Il salto **non** significa che il sito sia peggiorato di tre volte in tre settimane. Due cause reali,
+entrambe verificabili:
+
+1. **Questo giro ha guardato dentro il database vivo, non solo il codice.** Il verificatore di
+   `architettura` ha eseguito query reali sul progetto Supabase di produzione (`clmpyfvpvfjgeviworth`)
+   e ha trovato **drift**: viste che esistono in produzione e in nessuna migration del repo
+   (`seller_storefronts`), permessi di scrittura ad `anon` mai revocati, hardening RLS delle migration
+   020/109 che **non ha mai avuto effetto** perché scritto per nomi di policy che nel DB non esistono.
+   Una radiografia che legge solo i file `.sql` non poteva vedere niente di tutto questo.
+2. **Le dimensioni "larghe" hanno scavato più a fondo.** performance (21), frontend-ux (27),
+   accessibilita (29) e dati-analytics (24) da sole fanno 101 dei 262 problemi, quasi tutti nuovi
+   e quasi tutti gravi/minori: sono aree dove il giro di luglio si era fermato prima.
+
+### Che fine hanno fatto i 4 bloccanti del 7 luglio
+
+| Bloccante del 7 luglio | Stato oggi |
+|---|---|
+| TTL `pending_checkout` 2h vs sessione Stripe 24h → overselling | 🔴 **ANCORA APERTO** — ritrovato da `api-backend` (bloccante) e `qa-flussi` (grave) |
+| Policy rider che espone nome/telefono/indirizzo dei clienti a chiunque, anche senza login | 🔴 **ANCORA APERTO** — ritrovato da **3 dimensioni** (`sicurezza-auth`, `rls-database`, `privacy-legale`) |
+| Chargeback vinto dopo il payout: il venditore non viene mai ripagato | 🟠 **ANCORA APERTO**, riclassificato grave da `pagamenti-stripe` |
+| Rifiuto venditore di un ordine carta già pagato senza rimborso | ✅ **non più segnalato** — il percorso di rimborso ora esiste (`refundOrder` in `admin/orders/[id]/cancel`, `admin/disputes/[id]/resolve`, cron `expire-stale-orders`). Resta un residuo grave: `expire-stale-orders` annulla **prima** di rimborsare, e se il refund fallisce l'ordine resta annullato e mai rimborsato |
+
+**Lettura onesta: 3 bloccanti su 4 del giro precedente sono ancora vivi.** I batch di fix di luglio
+(PR #213, batch 1→9) hanno chiuso molti dei 35 gravi, ma i tre difetti più costosi — overselling,
+dati clienti esposti, soldi del venditore dopo un chargeback — sono rimasti in piedi.
+
+---
+
+## 🔬 Verifica diretta dell'AD sul database di produzione
+
+Non mi sono fidato solo degli agenti: ho ricontrollato di persona i due bloccanti più costosi con query
+in sola lettura sul progetto Supabase di produzione (`clmpyfvpvfjgeviworth`), il 2026-07-29 alle 13:2x.
+Entrambi **confermati**.
+
+**① Il trigger che rompe gli ordini — CONFERMATO, ed è rotto ADESSO**
+
+```sql
+SELECT EXISTS (SELECT 1 FROM information_schema.columns
+               WHERE table_schema='public' AND table_name='orders' AND column_name='invoice_number')
+       AS colonna_esiste,
+       position('invoice_number' in pg_get_functiondef(p.oid)) > 0 AS trigger_la_cita
+FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
+WHERE n.nspname='public' AND p.proname='enforce_order_update_rules';
+-- → colonna_esiste = false · trigger_la_cita = true
+```
+
+La colonna `invoice_number` è stata cancellata dalla migration `105_remove_invoicing.sql:27`, ma la
+funzione `enforce_order_update_rules` (migration `061`, mai ridefinita da nessuna migration successiva —
+verificato: 063, 064, 094, 096 la citano solo nei commenti) continua a leggerla. Postgres non se ne
+accorge al `DROP COLUMN`: esplode **a runtime**, quando il trigger scatta.
+
+Portata esatta (la precisazione conta): la funzione ha un'uscita anticipata per admin, `service_role` e
+`mycity.allow_order_write` (righe 96-98), quindi **le route API del server non sono toccate**. A morire
+sono gli aggiornamenti che partono **dal browser** con il ruolo `authenticated` — e sono proprio i due
+che muovono la consegna:
+
+- `app/seller/orders/[id]/page.tsx:205` → il venditore che accetta o avanza un ordine
+- `app/rider/orders/[id]/page.tsx:108` → il rider che prende in carico e avanza la consegna
+
+Peggio: la catena `OR` va in corto circuito, quindi l'errore scatta proprio quando l'aggiornamento
+è **legittimo** (nessun campo protetto toccato → si arriva a valutare `invoice_number`).
+
+**② Le viste scrivibili da chiunque — CONFERMATO**
+
+```sql
+SELECT c.relname, (c.reloptions::text LIKE '%security_invoker%') AS ha_security_invoker,
+       has_table_privilege('anon', c.oid,'UPDATE'), has_table_privilege('anon', c.oid,'DELETE')
+FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
+WHERE n.nspname='public' AND c.relkind='v';
+```
+
+| Vista | `security_invoker` | `anon` può UPDATE | `anon` può DELETE |
+|---|---|---|---|
+| `public_profiles` | ❌ assente | ✅ sì | ✅ sì |
+| `seller_public_profiles` | ❌ assente | ✅ sì | ✅ sì |
+| `seller_storefronts` | ❌ assente | ✅ sì | ✅ sì |
+| `referral_leaderboard` | ✅ on | ⚠️ grant presente | ⚠️ grant presente |
+| `shop_of_month_leaderboard` | ✅ on | ⚠️ grant presente | ⚠️ grant presente |
+
+Le prime tre sono la falla vera: senza `security_invoker` girano con i permessi del proprietario
+(`postgres`, che **bypassa RLS**) e `anon` ha i permessi di scrittura. Le ultime due hanno
+`security_invoker = on`, quindi la RLS dell'invocante si applica lo stesso — i grant di scrittura vanno
+comunque revocati, ma non sono sfruttabili come le prime tre. `seller_storefronts` inoltre **non esiste
+in nessun file del repo**: è drift puro sul database.
+
+---
+
+## 🚨 I difetti bloccanti, in parole semplici
+
+Sono i problemi che vanno chiusi **prima** di spingere sul marketplace. Dove un difetto è stato trovato
+da più dimensioni indipendenti, le fonti sono elencate insieme.
+
+### 🔴 1. Le viste pubbliche dei profili sono SECURITY DEFINER e scrivibili da anon: chiunque può modificare o cancellare public.profiles bypassando la RLS
+
+- **Trovato da:** architettura + rls-database (**2 dimensioni indipendenti**)
+- **Dove:** `migrations/110_public_profile_view.sql:17 · migrations/112_seller_public_profiles.sql:12 · migrations/108_seller_public_profiles_stripe_trust.sql:7 (+ vista `seller_storefronts` presente nel DB e assente dalle migration)`
+- **Cosa succede:** CONFERMATO sul DB live (progetto clmpyfvpvfjgeviworth). Le tre viste `public.public_profiles`, `public.seller_public_profiles`, `public.seller_storefronts` hanno `reloptions = NULL` (nessun `security_invoker`), owner = `postgres` (`rolbypassrls = true`) e `pg_relation_is_updatable = 28` (INSERT+UPDATE+DELETE). `has_table_privilege('anon', …)` è TRUE per INSERT, UPDATE e DELETE su tutte e tre: le migration fanno solo `GRANT SELECT`, ma i grant di default Supabase sullo schema public non sono mai stati revocati. Prova diretta eseguita: `SET LOCAL ROLE anon; EXPLAIN UPDATE public.seller_public_profiles SET store_phone=…` produce il piano `Update on profiles → Seq Scan on profiles` con il SOLO filtro della vista (`is_approved AND store_name IS NOT NULL AND role='seller'`) e NESSUN filtro di policy RLS — permessi concessi, RLS bypassata. Le viste `shop_of_month_leaderboard` e `referral_leaderboard` sono invece a posto (`security_invoker=on`, updatable=0): la lezione della migration 048 non è stata riportata su 108/110/112. `seller_storefronts` non ha alcuna migration nel repo: drift puro.
+- **Impatto:** Un attaccante non autenticato può modificare (telefono, indirizzo, coordinate, nome, descrizione, customization) o cancellare le righe di `profiles` dei negozi. Il cambio di telefono/indirizzo dirotta ordini e contatti; la DELETE propaga a cascata sulle FK ON DELETE CASCADE (conversazioni, messaggi, wallet_ledger, loyalty, referral, follows, sponsored_listings). Perdita totale di fiducia dei negozianti e data breach GDPR notificabile.
+- **Fix consigliato:** 1) `ALTER VIEW public.public_profiles SET (security_invoker = on);` (idem `seller_public_profiles` e `seller_storefronts`) e aggiungere `WITH (security_invoker = on)` nei `CREATE OR REPLACE VIEW` delle migration 108/110/112, così una rigenerazione non riapre il buco. 2) `REVOKE INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER ON <vista> FROM anon, authenticated;` lasciando solo SELECT, su tutte le viste public. 3) Portare `seller_storefronts` in una migration versionata o droppare la vista (non è referenziata da alcun .ts/.tsx). 4) Check in CI che fallisce se una vista in `public` non ha `security_invoker=on` o ha grant di scrittura ad anon.
+
+### 🔴 2. Chiunque si registra diventa venditore/rider GIÀ APPROVATO: l'approvazione admin è scavalcata
+
+- **Trovato da:** sicurezza-auth
+- **Dove:** `migrations/015_competitive_moats.sql:137-156 (ultima definizione di public.handle_new_user, confermata viva sul DB) — vedi anche migrations/011_orders_delivery.sql:20-38, migrations/021_seller_kyc_and_approval.sql:5-9, app/sign-up/page.tsx:71-79`
+- **Cosa succede:** VERIFICATO in due modi. (1) Nel codice: l'ultima riscrittura del trigger (015) fa `INSERT INTO profiles (id, role, is_approved, referral_code) VALUES (..., CASE WHEN role_choice IN ('seller','rider') THEN true ELSE false END, ...)` dove `role_choice := COALESCE(new.raw_user_meta_data->>'role','buyer')`, cioè un valore che il browser sceglie liberamente in `supabase.auth.signUp({ options: { data: { role } } })` (app/sign-up/page.tsx:75). La migration 021 ha introdotto `approval_status DEFAULT 'pending'` e il flusso di approvazione, ma NON ha mai toccato il trigger. (2) Sul DB di produzione: `SELECT prosrc FROM pg_proc WHERE proname='handle_new_user'` restituisce esattamente quel corpo, e un conteggio su `profiles` mostra 1 profilo seller/rider con `is_approved=true` e `approval_status <> 'approved'` — approvato senza che nessun admin l'abbia toccato. Il trigger 107 (`enforce_profile_update_rules`) blocca l'auto-approvazione solo in UPDATE: non serve a nulla, qui l'approvazione nasce già vera in INSERT.
+- **Impatto:** Un estraneo apre un account in 30 secondi e passa il gate del middleware (`allowed.includes(role) && approved`, middleware.ts:267) e di `withSellerAuth` (lib/api/middleware.ts:144): ottiene un negozio pubblico senza KYC né verifica P.IVA, tutti gli endpoint riservati ai seller (inclusi quelli AI che bruciano budget reale) e, come 'rider' auto-approvato, l'area /rider. Il controllo di fiducia su cui poggia il modello «negozi verificati di Piacenza» non esiste.
+- **Fix consigliato:** Riscrivere `handle_new_user` perché inserisca SEMPRE `is_approved = false` e `approval_status = 'pending'` (il ruolo richiesto resta una candidatura; l'approvazione arriva solo da `/api/admin/users/[id]/moderate`). Poi bonificare i profili già auto-approvati: `is_approved=false` per i seller/rider con `approval_status <> 'approved'`, avvisandoli che devono completare il KYC.
+
+### 🔴 3. Nome, telefono e indirizzo di casa dei clienti con una consegna in corso sono leggibili SENZA LOGIN
+
+- **Trovato da:** privacy-legale + rls-database + sicurezza-auth (**3 dimensioni indipendenti**)
+- **Dove:** `migrations/019_rider_visibility.sql:14-21 (policy «Riders can view available and own orders» su public.orders)`
+- **Cosa succede:** VERIFICATO sul DB live con pg_policies: la policy SELECT è `((delivery_status = ANY (ARRAY['ACCEPTED','READY'])) AND (rider_id IS NULL)) OR (rider_id = auth.uid())`, registrata per il ruolo `{public}` — che include `anon`. Nonostante il nome NON contiene alcun controllo di ruolo. Verificato anche il GRANT: `anon` ha SELECT su `public.orders` (information_schema.role_table_grants) e nessuna migration lo revoca. Per un anonimo `auth.uid()` è NULL, ma il primo ramo resta vero. La tabella contiene `delivery_full_name, delivery_phone, delivery_address, delivery_city, delivery_zip, delivery_lat, delivery_lng, total_price, stripe_payment_intent`. Basta `GET /rest/v1/orders?select=*&delivery_status=eq.READY` con la chiave anon, che è pubblica nel bundle JS. Nota di onestà: oggi gli ordini in quello stato sono 0 (marketplace pre-volume), quindi la fuga è strutturale e si apre al primo ordine reale, non è già in corso.
+- **Impatto:** Data breach GDPR di categoria alta appena parte il traffico: chiunque, anche senza account, può scaricare in continuo l'elenco di chi sta ricevendo una consegna adesso, con indirizzo e telefono. Materiale perfetto per furti in abitazione, stalking e truffe telefoniche a nome MyCity, con notifica al Garante entro 72h.
+- **Fix consigliato:** Vincolare la policy al rider approvato e limitarla `TO authenticated`: `USING ( rider_id = (SELECT auth.uid()) OR ( delivery_status IN ('ACCEPTED','READY') AND rider_id IS NULL AND EXISTS (SELECT 1 FROM profiles p WHERE p.id=(SELECT auth.uid()) AND p.role='rider' AND p.is_approved) ) )`. Meglio ancora: dare ai rider una VIEW della bacheca senza PII (zona/CAP + importo) e rivelare indirizzo e telefono solo dopo l'assegnazione.
+
+### 🔴 4. Chiunque, anche senza login, può alterare i dati di consegna degli ordini pronti; e un buyer qualunque può auto-assegnarseli
+
+- **Trovato da:** sicurezza-auth
+- **Dove:** `migrations/011_orders_delivery.sql:128-134 (policy «Riders can update assigned or claim free orders») + migrations/061_p0_security_rls_state_machine_reviews.sql:83-170 (trigger enforce_order_update_rules)`
+- **Cosa succede:** VERIFICATO sul DB live: la policy UPDATE è `((rider_id = (SELECT auth.uid())) OR ((delivery_status='READY') AND (rider_id IS NULL)))`, senza WITH CHECK, senza predicato di ruolo, per il ruolo `{public}`; `anon` ha il GRANT UPDATE su `public.orders`. Il trigger 061 congela i campi soldi e `delivery_full_name/phone/address`, ma NON copre `delivery_city, delivery_zip, delivery_notes, delivery_lat, delivery_lng, delivery_slot`: quelli restano scrivibili da chiunque sugli ordini READY senza rider. Correzione rispetto alla segnalazione originale: un ANONIMO non può prendersi l'ordine (il trigger pretende `NEW.rider_id = uid`, e per anon uid è NULL → eccezione); il claim `READY -> ASSIGNED` è però aperto a QUALSIASI utente autenticato, senza verificare che sia un rider approvato.
+- **Impatto:** Due danni concreti. (1) Sabotaggio senza alcun account: un concorrente sposta le coordinate GPS o cambia CAP/note di ogni ordine pronto — i rider vanno a vuoto, le consegne saltano, i negozi perdono i clienti. (2) Dirottamento con un semplice account buyer: si prende gli ordini in bacheca e li congela in ASSIGNED, sottraendoli ai rider reali e bloccando la logistica.
+- **Fix consigliato:** Aggiungere il predicato di ruolo alla policy (rider approvato) e limitarla `TO authenticated`; nel trigger `enforce_order_update_rules` estendere il freeze a tutti i campi `delivery_*` per chi non è il buyer proprietario o lo staff, e nel ramo del claim `READY -> ASSIGNED` verificare che `uid` sia un profilo `role='rider' AND is_approved`.
+
+### 🔴 5. Il trigger di protezione degli ordini cita una colonna cancellata (invoice_number): ogni aggiornamento ordine dal client va in errore, il flusso di consegna è morto
+
+- **Trovato da:** rls-database
+- **Dove:** `/home/user/mycity/migrations/061_p0_security_rls_state_machine_reviews.sql:129 (enforce_order_update_rules, tuttora viva in produzione) vs /home/user/mycity/migrations/105_remove_invoicing.sql:27 (DROP COLUMN invoice_number)`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. information_schema.columns: `orders.invoice_number` non esiste più (0 occorrenze su 60 colonne). pg_get_functiondef(enforce_order_update_rules): la stringa 'invoice_number' è ancora presente (posizione 2484) dentro l'espressione IF del freeze. PL/pgSQL risolve i campi del record a runtime, non c'è short-circuit che salvi. PROVA ESEGUITA (blocco DO con RAISE EXCEPTION finale = rollback, `SET LOCAL ROLE authenticated` + request.jwt.claims del venditore reale c0b240c0-…): `update public.orders set delivery_notes = delivery_notes` → `42703 | record "new" has no field "invoice_number"`. Il percorso privilegiato (admin, service_role, flag mycity.allow_order_write) esce prima con RETURN NEW: si rompe solo il client.
+- **Impatto:** Tutte le transizioni fatte con il JWT dell'utente falliscono: il venditore non può accettare l'ordine né metterlo PRONTO (app/seller/orders/[id]/page.tsx:205 fa `supabase.from('orders').update(...)`), il rider non può prendere l'ordine (app/rider/page.tsx:169) né passare in consegna (app/rider/orders/[id]/page.tsx:108). Nessun ordine può essere evaso: zero fatturato, e l'utente vede solo un errore tecnico. È anche il motivo per cui i punti sul rider (compenso e claim) oggi non sono sfruttabili: si aprono nell'istante in cui questo viene riparato.
+- **Fix consigliato:** Nuova migrazione che riscrive enforce_order_update_rules senza `OR NEW.invoice_number IS DISTINCT FROM OLD.invoice_number`, applicando CONTESTUALMENTE i congelamenti mancanti (rider_fee_cents, refunded_amount_cents, wallet_applied_cents, delivery_fee_cents) e il controllo di ruolo sul claim. Aggiungere un test end-to-end che esegue davvero un accetta-ordine come venditore e un claim come rider: nessuno dei due percorsi era coperto, altrimenti la 105 sarebbe stata bloccata in CI.
+
+### 🔴 6. Il rider può scrivere da solo il proprio compenso: rider_fee_cents non è tra i campi congelati e finisce dritto in un transfer Stripe
+
+- **Trovato da:** qa-flussi + rls-database (**2 dimensioni indipendenti**)
+- **Dove:** `/home/user/mycity/migrations/111_rider_fee_cents.sql (colonna aggiunta) · /home/user/mycity/migrations/061_p0_security_rls_state_machine_reviews.sql:104-137 (lista freeze che non la contiene) · /home/user/mycity/lib/stripe/payout.ts:163-165`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. Diff automatico fra le 60 colonne reali di orders e i riferimenti `NEW.<colonna>` dentro pg_get_functiondef(enforce_order_update_rules): rider_fee_cents NON compare nel freeze. pg_policies: "Riders can update assigned or claim free orders" ha qual `((rider_id = (SELECT auth.uid())) OR ((delivery_status = 'READY') AND (rider_id IS NULL)))` e with_check NULL, per il ruolo public; i grant sono a livello di tabella (UPDATE su tutte le colonne, nessun grant per colonna). In lib/stripe/payout.ts:163-165 il valore è usato senza tetto: `const feeCents = order.rider_fee_cents != null ? order.rider_fee_cents : Math.round(Number(order.shipping_cost ?? 0) * 100)`, unico controllo `if (feeCents <= 0)`, poi transfer Stripe verso il conto Connect del rider.
+- **Impatto:** Un rider consegna un ordine da 12 €, poi con una singola PATCH imposta rider_fee_cents = 500000 e al giro del cron release-payouts incassa 5.000 € reali sul proprio conto Stripe Connect. Perdita di cassa diretta, non recuperabile senza contenzioso. Oggi è latente solo per il bug su invoice_number: si apre nell'istante in cui quello viene riparato — vanno chiusi nella stessa migrazione.
+- **Fix consigliato:** Aggiungere rider_fee_cents (insieme a refunded_amount_cents, wallet_applied_cents, delivery_fee_cents) alla lista di freeze del trigger. Doppio cinturone in lib/stripe/payout.ts: `const feeCents = Math.min(order.rider_fee_cents ?? fallback, MAX_RIDER_FEE_CENTS)` più un CHECK di colonna `rider_fee_cents BETWEEN 0 AND 5000`. Regola di processo: ogni migrazione che aggiunge una colonna di denaro a orders aggiorna il freeze nello stesso file.
+
+### 🔴 7. Un reclamo interno blocca il payout del venditore per sempre: dispute_status='OPEN' non torna mai a NULL
+
+- **Trovato da:** pagamenti-stripe
+- **Dove:** `/home/user/mycity/migrations/063_p1_db_hardening.sql:69-84 (trigger dispute_block_payout) + /home/user/mycity/app/api/admin/disputes/[id]/resolve/route.ts:83-97 + /home/user/mycity/app/api/cron/release-payouts/route.ts:22,63`
+- **Cosa succede:** VERIFICATO. Il trigger AFTER INSERT su `disputes` scrive `orders.dispute_status='OPEN'`. Il cron accetta solo `dispute_status.is.null,dispute_status.eq.WON` (PAYOUT_DISPUTE_FILTER, riga 22). La route di risoluzione aggiorna SOLO la tabella `disputes` (status/resolution_notes/resolved_by/resolved_at/refund_cents) e non tocca mai `orders.dispute_status`. Un grep su tutto il repo (codice + migrazioni) conferma che gli unici punti che scrivono quella colonna sono il trigger e il webhook chargeback (webhook/route.ts:808, 830, 836): nessuno la riporta a NULL. Aggravante confermata: la colonna è condivisa fra reclami interni e chargeback Stripe, quindi un `charge.dispute.closed` di tipo 'won' può sbloccare un blocco nato da un reclamo interno.
+- **Impatto:** Qualunque buyer può congelare in modo permanente i soldi di un venditore aprendo un reclamo (la policy RLS `disputes_open_insert` glielo consente sul proprio ordine). Anche dopo che l'admin ha dato ragione al venditore ('resolved_seller'), l'ordine resta escluso dal payout per sempre e nessun allarme lo segnala. È il difetto più costoso in termini di fiducia dei negozi.
+- **Fix consigliato:** Nella route di risoluzione, dopo l'update di `disputes`, riportare `orders.dispute_status = NULL` e `disputed_at = NULL` quando l'esito non è a favore del buyer. Il cron già controlla applicativamente le righe `disputes` aperte (release-payouts:79-84): la colonna è una seconda barriera ridondante e non manutenuta. Meglio ancora: separare `internal_dispute_status` da `chargeback_status` e aggiungere un test che dopo 'resolved_seller' l'ordine ridiventa eleggibile.
+
+### 🔴 8. Il rider legge l'INTERA riga profiles del cliente: codice fiscale, IBAN, dati KYC
+
+- **Trovato da:** privacy-legale
+- **Dove:** `/home/user/mycity/migrations/011_orders_delivery.sql:149-158`
+- **Cosa succede:** CONFERMATO in produzione: la policy "Riders can view buyer of assigned orders" su public.profiles esiste ancora, è row-level e senza restrizione di colonne — qual = EXISTS (SELECT 1 FROM orders WHERE orders.user_id = profiles.id AND orders.rider_id = auth.uid()). Il ruolo `authenticated` ha SELECT su public.profiles (verificato; `anon` NO — gli è stato tolto, quindi serve un account, non basta la chiave pubblica). Chi ha un ordine assegnato può quindi fare GET /rest/v1/profiles?select=* e leggere tutta la riga del compratore: le colonne esistono e sono legal_fiscal_code, legal_birth_date, legal_residence_addr/city/zip, billing_iban, billing_card_last4, business_vat_number, kyc_id_doc_front_url, kyc_id_doc_back_url, kyc_selfie_url (verificate in information_schema.columns). È esattamente la classe di bug che le migrazioni 110 e 112 hanno chiuso per i profili pubblici sostituendo la policy permissiva con una VIEW a colonne selezionate; questa policy non è mai stata toccata. Aggravante confermata: combinata con la policy UPDATE del punto precedente, un utente qualunque può auto-assegnarsi un ordine READY e sbloccare questa lettura.
+- **Impatto:** Un fattorino (o chiunque riesca a farsi assegnare un ordine) accede a dati fiscali e bancari del cliente. Violazione del principio di minimizzazione (art. 5.1.c) e di sicurezza (art. 32), con esposizione a frode sui pagamenti e furto d'identità.
+- **Fix consigliato:** DROP della policy e sostituzione con una VIEW `order_buyer_contact` (id, full_name, phone) con security_invoker, o una RPC SECURITY DEFINER che verifica orders.rider_id = auth.uid(). Meglio ancora: smettere del tutto di far leggere profiles al rider — i dati di consegna sono già duplicati sulla riga ordine (delivery_full_name / delivery_phone). Rivedere allo stesso modo ogni policy residua su profiles che non passi da una view a colonne esplicite.
+
+### 🔴 9. Il log di sorveglianza scrive telefono, indirizzi e nomi in chiaro — e la cancellazione account ce li copia dentro
+
+- **Trovato da:** privacy-legale
+- **Dove:** `/home/user/mycity/migrations/073_activity_tracking.sql:88 e 108-118`
+- **Cosa succede:** CONFERMATO nel codice e nei dati. Il trigger generico log_activity_change() su public.profiles scrive in activity_events.metadata->'changed' il diff {old,new} di OGNI colonna cambiata. La lista di redazione è v_redact := ARRAY['password','token','secret','access_token','refresh_token','card','iban','cvv','tax_code','fiscal_code','document_number'] e il confronto è per uguaglianza esatta (IF v_key = ANY(v_redact)). Le colonne reali di profiles si chiamano invece legal_fiscal_code, billing_iban, billing_card_last4, legal_birth_date, legal_residence_addr, business_vat_number, phone, address, store_phone, store_address: NESSUNA fa match, quindi nessuna viene oscurata. Verificato sul DB di produzione: 52 eventi profiles.update, tutti e 52 con metadata popolato, e le chiavi effettivamente loggate in chiaro includono store_phone (18), store_address (17), full_name (17), store_lat/store_lng (17) e stripe_account_id (1). Effetto perverso confermato leggendo il cron: app/api/cron/process-deletions/route.ts:112 anonimizza il profilo con una UPDATE, e quella UPDATE fa scattare il trigger che archivia i VALORI VECCHI dentro activity_events — cancellare l'account produce una copia permanente dei dati che si volevano cancellare. Il pruning di retention (stesso file, righe 70-95) azzera solo ip/user_agent e anon_id/path/referrer/city/country: metadata non viene mai toccato.
+- **Impatto:** Dati di contatto e (appena un venditore compila il KYC) fiscali e bancari archiviati per sempre in chiaro in una tabella di log leggibile da ogni account admin. Viola minimizzazione (art. 5.1.c), limitazione della conservazione (art. 5.1.e) e diritto alla cancellazione (art. 17): dopo una richiesta di oblio i dati restano nel log.
+- **Fix consigliato:** Tre interventi insieme: (1) sostituire il match esatto con un match per pattern — IF v_key ~* '(password|token|secret|iban|card|cvv|fiscal|tax|vat|birth|residence|phone|address|sdi|pec|kyc|selfie|license|document)' THEN redact; (2) per la tabella profiles loggare solo l'elenco dei nomi dei campi cambiati, mai i valori; (3) estendere il pruning di retention ad azzerare `metadata` oltre la finestra dichiarata e bonificare subito lo storico con UPDATE activity_events SET metadata = NULL WHERE target_table='profiles'.
+
+### 🔴 10. La cancellazione account non elimina i documenti d'identità: carta d'identità, selfie e patente restano nello storage per sempre
+
+- **Trovato da:** privacy-legale
+- **Dove:** `/home/user/mycity/app/api/cron/process-deletions/route.ts:48-65 e 108-140`
+- **Cosa succede:** CONFERMATO. KYC_FIELDS azzera anagrafica e dati bancari ma NON contiene le colonne che puntano ai documenti: kyc_id_doc_front_url, kyc_id_doc_back_url, kyc_selfie_url, rider_license_url, rider_insurance_url, rider_haccp_url (tutte esistenti in produzione, verificate in information_schema.columns). Soprattutto: un grep su tutto app/ e lib/ per `storage.from(...).remove` non trova NESSUNA occorrenza — i file fisici (fronte/retro documento, selfie, patente, polizza) restano indefinitamente nel bucket sotto il path {userId}/. Idem per avatar, store_media e foto recensioni. Confermata anche la divergenza della strada admin (app/api/admin/users/[id]/delete/route.ts): stessa KYC_FIELDS incompleta, nessuna rimozione dallo storage e in più nessuna anonimizzazione del testo libero (recensioni, chat, contact) che invece il cron esegue. Nel frattempo la UI promette all'utente che «i dati saranno rimossi in modo irreversibile» (app/profile/settings/page.tsx:548).
+- **Impatto:** Documenti d'identità conservati oltre ogni base giuridica dopo che l'utente ha esercitato il diritto all'oblio. È la categoria di dato che il Garante sanziona più duramente e la più costosa in caso di breach. Aggravante: all'utente è stato detto il contrario, quindi c'è anche informazione ingannevole.
+- **Fix consigliato:** Nel cron aggiungere le sei colonne *_url a KYC_FIELDS e, prima dell'auth delete, elencare e rimuovere i file: const {data:files} = await admin.storage.from('kyc-docs').list(userId); await admin.storage.from('kyc-docs').remove(files.map(f=>`${userId}/${f.name}`)) — ripetendo per avatars/store-media/reviews. Estrarre l'intera pipeline in una funzione unica purgeUserData(userId) chiamata sia dal cron sia dalla rotta admin, così le due strade non divergono mai più. Se una parte va conservata per obbligo AML (10 anni), spostarla in un archivio separato ad accesso ristretto e dichiararlo nell'informativa.
+
+### 🔴 11. Titolare del trattamento fittizio nell'informativa: P.IVA IT00000000000
+
+- **Trovato da:** privacy-legale
+- **Dove:** `/home/user/mycity/app/privacy/page.tsx:48-58 (e 176-177 per l'avviso)`
+- **Cosa succede:** CONFERMATO leggendo la pagina pubblicata: «Il titolare del trattamento è MyCity S.r.l., con sede in Via Roma 1, 29121 Piacenza (PC), P.IVA IT00000000000» — partita IVA palesemente segnaposto — e dichiara un DPO all'indirizzo dpo@mycity.it oltre a privacy@mycity.it come contatto del titolare. Le stesse caselle sono citate come canale per esercitare i diritti (artt. 15-22). Lo stesso file, alle righe 176-177, ammette testualmente: «Avviso legale: questo documento è ispirato al GDPR e alle linee guida del Garante italiano. Va validato da un DPO/avvocato prima dell'uso in produzione». La cookie policy dichiara la stessa versione 2.0 / 24 maggio 2026 (app/cookies/page.tsx:8-9).
+- **Impatto:** L'informativa non identifica il titolare: violazione diretta dell'art. 13 GDPR, rilevabile in un secondo da chiunque — un concorrente, un ispettore, o un negozio che fa due domande sulla privacy prima di firmare. Se la S.r.l. non è ancora costituita, tutto il trattamento è in capo alla persona fisica di Nicola, con responsabilità illimitata.
+- **Fix consigliato:** Prima del go-live: inserire denominazione, sede e P.IVA reali del titolare; attivare davvero le caselle privacy@ e dpo@ (o rimuovere il riferimento al DPO se non è stato nominato — dichiararlo senza averlo è una falsa attestazione); allineare data e versione con la cookie policy; far validare il testo da un legale, come lo stesso avviso in fondo alla pagina richiede.
+
+### 🔴 12. Il dialogo di conferma esegue l'azione distruttiva quando premi Invio su «Annulla»
+
+- **Trovato da:** accessibilita
+- **Dove:** `components/ConfirmDialog.tsx:70-76 (bottoni 145-160)`
+- **Cosa succede:** VERIFICATO. L'handler è su `document` in bubbling: `if (e.key === 'Enter') { e.preventDefault(); closeWith(true); }`. Qualsiasi Invio premuto mentre il dialogo è aperto — anche col focus sul bottone «Annulla» (riga 145, che non ha alcuna gestione propria), anche su un elemento della pagina dietro (non c'è focus trap) — chiama `closeWith(true)`, cioè CONFERMA. Il `preventDefault()` blocca l'attivazione nativa del bottone Annulla, quindi da tastiera non esiste modo di annullare con Invio. Il bottone di conferma ha già `autoFocus` (riga 152): la scorciatoia globale non serve a nulla e fa solo danno.
+- **Impatto:** Un utente che naviga da tastiera o con screen reader e vuole ANNULLARE esegue invece l'azione. `confirmDialog()` è chiamato 21 volte nel repo su operazioni irreversibili: app/admin/users/page.tsx:441/459/477/546/561/577/605, app/admin/events/page.tsx:190, eliminazione liste, rimozione storie/prodotti, annullamento ordine, cancellazione indirizzi. Perdita di dati reali di clienti e negozi.
+- **Fix consigliato:** Togliere del tutto il ramo `if (e.key === 'Enter')` dall'handler su `document` (righe 73). Il bottone di conferma ha `autoFocus`: Invio lo attiva già nativamente e il focus su «Annulla» torna a funzionare. Aggiungere un test e2e: apri il dialogo → Tab su «Annulla» → Invio → la promise deve risolvere `false`. In più aggiungere un focus trap sul contenitore.
+
+### 🔴 13. Il rider non viene MAI pagato sugli ordini con spedizione gratuita, e il cron ci ritenta all'infinito
+
+- **Trovato da:** qa-flussi
+- **Dove:** `/home/user/mycity/lib/stripe/payout.ts:161-166 + /home/user/mycity/app/api/cron/release-payouts/route.ts:113-136 + /home/user/mycity/lib/shipping.ts:26-32`
+- **Cosa succede:** VERIFICATO. `grep -rn rider_fee_cents` su tutto il repo trova solo la migrazione 111 e le 3 righe di lettura in payout.ts: la colonna non è scritta né in app/api/orders/cod/route.ts (insert COD) né in app/api/stripe/webhook/route.ts:266 (insert carta), che valorizzano solo `shipping_cost`. Quindi il ramo `order.rider_fee_cents != null` non si attiva mai e si cade sempre sul fallback `shipping_cost*100`. Ma `shippingForEuro` restituisce 0 appena `subtotal >= FREE_SHIPPING_THRESHOLD` (=30, lib/constants.ts:1) e 0 con coupon FREE_SHIPPING. Risultato: `feeCents <= 0` → return `INVALID_AMOUNT` (payout.ts:166), che sta PRIMA del claim atomico (payout.ts:180): `rider_payout_status` resta NULL e l'ordine ricade nella query dei candidati (`rider_payout_status.is.null`) a ogni giro di cron, per sempre.
+- **Impatto:** Su ogni ordine sopra i €30 — lo scontrino medio che si vuole promuovere — il rider consegna e non riceve nulla. È esattamente il caso che la migrazione 111 dichiarava di risolvere, ma il codice di scrittura non è mai stato aggiunto. In più il cron accumula un backlog permanente di riderFailed che cresce a ogni consegna e sporca log e alert, nascondendo i fallimenti veri.
+- **Fix consigliato:** Scrivere `rider_fee_cents` alla creazione dell'ordine in entrambi i percorsi (COD e webhook Stripe) calcolandolo dalla distanza con `riderFee(haversineKm(...))` in centesimi, indipendentemente da quanto il buyer ha pagato di spedizione: la consegna gratis è un costo di marketing della piattaforma, non un taglio al compenso del rider. In payout.ts, quando feeCents<=0 marcare `rider_payout_status='NOT_APPLICABLE'` invece di lasciare NULL, così il candidato esce dalla coda.
+
+### 🔴 14. Overselling: il pending_checkout scade a 2h ma la sessione Stripe vive 24h e il webhook la accetta comunque
+
+- **Trovato da:** api-backend
+- **Dove:** `app/api/stripe/webhook/route.ts:210-213 · app/api/stripe/checkout/route.ts:377-387 · lib/stripe/client.ts:91 · migrations/042_multi_seller_checkout.sql:43`
+- **Cosa succede:** VERIFICATO. `pending_checkouts.expires_at` ha DEFAULT `now() + interval '2 hours'` (migration 042, riga 43). Il cron `expire-checkouts` mette status='EXPIRED' e chiama `restore_stock` (rimette la merce in vendita). In `createMultiSellerCheckoutSession` (lib/stripe/client.ts) NON compare mai `expires_at`: grep su tutto il file non restituisce nulla, quindi la Checkout Session Stripe resta valida 24h (default). In `handleCheckoutCompleted` l'unico controllo di stato è `if (pending.status === 'COMPLETED') return`: uno stato 'EXPIRED' o 'CANCELED' passa e crea gli ordini normalmente, senza ri-tentare `reserve_stock`.
+- **Impatto:** Sequenza reale: t=0 riserva stock → t=2h il cron restituisce lo stock (altri clienti lo comprano) → t=3h il buyer paga sulla sessione ancora viva → il webhook crea l'ordine su merce che non c'è più. Il cliente paga con carta merce già venduta: rimborso, reversal sul venditore, recensione negativa. Su un negozio con pochi pezzi succede al primo carrello lasciato aperto oltre 2 ore.
+- **Fix consigliato:** (a) Passare `expires_at: Math.floor(Date.now()/1000) + 30*60` a `stripe.checkout.sessions.create` e allineare `pending_checkouts.expires_at` allo stesso TTL. (b) In `handleCheckoutCompleted` gestire esplicitamente `status !== 'PENDING'`: se EXPIRED/CANCELED ri-tentare `reserve_stock` e, in caso di fallimento, rimborsare subito il PaymentIntent + notificare buyer e admin invece di creare l'ordine.
+
+### 🔴 15. Il coupon viene 'claimato' (uses_count++) ma non viene MAI rilasciato se il checkout fallisce o viene abbandonato
+
+- **Trovato da:** api-backend
+- **Dove:** `app/api/stripe/checkout/route.ts:251-255 · app/api/orders/cod/route.ts:222-227 · migrations/108_atomic_coupon_claim.sql`
+- **Cosa succede:** VERIFICATO. `claim_coupon` incrementa `uses_count` PRIMA di riservare lo stock e di creare la sessione Stripe. Dopo il claim ci sono tre uscite di errore che non stornano il claim: `reserve_stock` fallita (checkout 409; cod 409), insert di `pending_checkouts` fallita (fa solo `restore_stock`), creazione sessione Stripe fallita (fa `restore_stock` + pending CANCELED, ma dimentica il coupon). Soprattutto il caso più frequente: il buyer non paga — `handleCheckoutExpired` e il cron `expire-checkouts` ripristinano lo stock e non toccano il coupon. Grep su `migrations/`, `lib/`, `app/` per `uses_count`: esistono solo `increment_coupon_usage` (058) e `claim_coupon` (108), nessuna funzione inversa di decremento.
+- **Impatto:** Ogni carrello abbandonato con codice sconto brucia un uso. Un coupon lancio con `max_uses = 100` risulta 'esaurito' dopo pochi ordini reali: i clienti veri vedono 'Codice non valido', la campagna marketing muore in silenzio e nessuno capisce perché.
+- **Fix consigliato:** Aggiungere `release_coupon(p_code text)` speculare (`SET uses_count = GREATEST(0, uses_count-1)`) e chiamarla in ogni ramo di errore dopo il claim, in `handleCheckoutExpired` e nel cron `expire-checkouts` (leggendo `pending_checkouts.coupon_code`). In alternativa spostare il claim DOPO la creazione dell'ordine, sostituendo l'anti-race con una tabella `coupon_redemptions(coupon_id, order_id)` con unique index.
+
+### 🔴 16. COD multi-venditore: se lo stock finisce sul gruppo N, gli ordini dei gruppi precedenti restano creati e la risposta è un 409
+
+- **Trovato da:** api-backend
+- **Dove:** `app/api/orders/cod/route.ts:289-297`
+- **Cosa succede:** VERIFICATO. Il loop crea un ordine per gruppo. Se `reserve_stock` del gruppo i-esimo fallisce, il codice esegue `return NextResponse.json({error:'Alcuni articoli non sono più disponibili...'}, {status:409})` SENZA chiamare `rollbackCreatedCodOrders()` — funzione che invece è invocata correttamente in tutti gli altri rami d'errore (insert ordine fallito, insert order_items fallito). Gli ordini dei gruppi 0..i-1 restano quindi a DB con stock decrementato, wallet addebitato (`wallet_debit`), notifica in-app al venditore inserita ed email 'Nuovo ordine!' già partite a venditore e buyer, tutte eseguite dentro la stessa iterazione prima del push finale.
+- **Impatto:** Il cliente vede 'Alcuni articoli non sono più disponibili' e riprova: al secondo tentativo il primo negozio riceve un SECONDO ordine identico mentre il primo è già in preparazione. Il buyer ha anche il credito wallet scalato per un ordine che crede fallito. Doppia consegna, doppio contante da riconciliare, cliente che contesta.
+- **Fix consigliato:** Sostituire il `return` con `await rollbackCreatedCodOrders(); return NextResponse.json(...)`. Meglio ancora: spostare tutte le `reserve_stock` di TUTTI i gruppi prima del loop di creazione (come fa già `/api/stripe/checkout` con un unico `stockItems` globale) e mandare email/notifiche solo dopo che l'intero loop è riuscito.
+
+### 🔴 17. Gli ambienti di preview di ogni PR girano sui segreti di PRODUZIONE
+
+- **Trovato da:** deploy-sre
+- **Dove:** `/home/user/mycity/render.yaml:13-14 (previews: generation: automatic) + :32-73 (envVars sync:false)`
+- **Cosa succede:** VERIFICATO. render.yaml ha `previews:\n  generation: automatic` a livello root e tutte le chiavi critiche (SUPABASE_SERVICE_ROLE_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, RESEND_API_KEY, CRON_SECRET, TURNSTILE_SECRET_KEY, ANTHROPIC_API_KEY) sono dichiarate `sync: false` senza alcun `previewValue`. Su Render un preview environment eredita i valori del servizio base quando manca previewValue. In più NEXT_PUBLIC_APP_URL è un valore fisso hardcoded `https://mycity-marketplace.com` (r.64-65), quindi anche i link email e i redirect generati dal preview puntano al sito vero.
+- **Impatto:** Una PR sperimentale gira con la service-role key di produzione (RLS bypassata), può inviare email reali ai clienti veri e chiamare /api/cron con il CRON_SECRET vero (payout, rimborsi, cancellazioni GDPR). Il raggio d'azione di un errore in una PR è l'intero business.
+- **Fix consigliato:** Aggiungere `previewValue` con le chiavi di un progetto Supabase/Stripe di TEST su ogni env critica, oppure `previews: generation: off` finché non esiste uno staging separato. NEXT_PUBLIC_APP_URL va risolto da RENDER_EXTERNAL_URL, non hardcoded.
+
+---
+
+## 📋 Tutti i problemi, per gravità e dimensione
+
+
+## 🔴 Bloccantei (21)
+
+### architettura (1)
+
+#### 🔴 1. Le viste pubbliche dei profili sono SECURITY DEFINER e scrivibili da anon: chiunque può modificare o cancellare public.profiles bypassando la RLS
+
+- **Dove:** `migrations/110_public_profile_view.sql:17 · migrations/112_seller_public_profiles.sql:12 · migrations/108_seller_public_profiles_stripe_trust.sql:7 (+ vista `seller_storefronts` presente nel DB e assente dalle migration)`
+- **Cosa succede:** CONFERMATO sul DB live (progetto clmpyfvpvfjgeviworth). Le tre viste `public.public_profiles`, `public.seller_public_profiles`, `public.seller_storefronts` hanno `reloptions = NULL` (nessun `security_invoker`), owner = `postgres` (`rolbypassrls = true`) e `pg_relation_is_updatable = 28` (INSERT+UPDATE+DELETE). `has_table_privilege('anon', …)` è TRUE per INSERT, UPDATE e DELETE su tutte e tre: le migration fanno solo `GRANT SELECT`, ma i grant di default Supabase sullo schema public non sono mai stati revocati. Prova diretta eseguita: `SET LOCAL ROLE anon; EXPLAIN UPDATE public.seller_public_profiles SET store_phone=…` produce il piano `Update on profiles → Seq Scan on profiles` con il SOLO filtro della vista (`is_approved AND store_name IS NOT NULL AND role='seller'`) e NESSUN filtro di policy RLS — permessi concessi, RLS bypassata. Le viste `shop_of_month_leaderboard` e `referral_leaderboard` sono invece a posto (`security_invoker=on`, updatable=0): la lezione della migration 048 non è stata riportata su 108/110/112. `seller_storefronts` non ha alcuna migration nel repo: drift puro.
+- **Impatto:** Un attaccante non autenticato può modificare (telefono, indirizzo, coordinate, nome, descrizione, customization) o cancellare le righe di `profiles` dei negozi. Il cambio di telefono/indirizzo dirotta ordini e contatti; la DELETE propaga a cascata sulle FK ON DELETE CASCADE (conversazioni, messaggi, wallet_ledger, loyalty, referral, follows, sponsored_listings). Perdita totale di fiducia dei negozianti e data breach GDPR notificabile.
+- **Fix consigliato:** 1) `ALTER VIEW public.public_profiles SET (security_invoker = on);` (idem `seller_public_profiles` e `seller_storefronts`) e aggiungere `WITH (security_invoker = on)` nei `CREATE OR REPLACE VIEW` delle migration 108/110/112, così una rigenerazione non riapre il buco. 2) `REVOKE INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER ON <vista> FROM anon, authenticated;` lasciando solo SELECT, su tutte le viste public. 3) Portare `seller_storefronts` in una migration versionata o droppare la vista (non è referenziata da alcun .ts/.tsx). 4) Check in CI che fallisce se una vista in `public` non ha `security_invoker=on` o ha grant di scrittura ad anon.
+
+
+### sicurezza-auth (3)
+
+#### 🔴 2. Chiunque si registra diventa venditore/rider GIÀ APPROVATO: l'approvazione admin è scavalcata
+
+- **Dove:** `migrations/015_competitive_moats.sql:137-156 (ultima definizione di public.handle_new_user, confermata viva sul DB) — vedi anche migrations/011_orders_delivery.sql:20-38, migrations/021_seller_kyc_and_approval.sql:5-9, app/sign-up/page.tsx:71-79`
+- **Cosa succede:** VERIFICATO in due modi. (1) Nel codice: l'ultima riscrittura del trigger (015) fa `INSERT INTO profiles (id, role, is_approved, referral_code) VALUES (..., CASE WHEN role_choice IN ('seller','rider') THEN true ELSE false END, ...)` dove `role_choice := COALESCE(new.raw_user_meta_data->>'role','buyer')`, cioè un valore che il browser sceglie liberamente in `supabase.auth.signUp({ options: { data: { role } } })` (app/sign-up/page.tsx:75). La migration 021 ha introdotto `approval_status DEFAULT 'pending'` e il flusso di approvazione, ma NON ha mai toccato il trigger. (2) Sul DB di produzione: `SELECT prosrc FROM pg_proc WHERE proname='handle_new_user'` restituisce esattamente quel corpo, e un conteggio su `profiles` mostra 1 profilo seller/rider con `is_approved=true` e `approval_status <> 'approved'` — approvato senza che nessun admin l'abbia toccato. Il trigger 107 (`enforce_profile_update_rules`) blocca l'auto-approvazione solo in UPDATE: non serve a nulla, qui l'approvazione nasce già vera in INSERT.
+- **Impatto:** Un estraneo apre un account in 30 secondi e passa il gate del middleware (`allowed.includes(role) && approved`, middleware.ts:267) e di `withSellerAuth` (lib/api/middleware.ts:144): ottiene un negozio pubblico senza KYC né verifica P.IVA, tutti gli endpoint riservati ai seller (inclusi quelli AI che bruciano budget reale) e, come 'rider' auto-approvato, l'area /rider. Il controllo di fiducia su cui poggia il modello «negozi verificati di Piacenza» non esiste.
+- **Fix consigliato:** Riscrivere `handle_new_user` perché inserisca SEMPRE `is_approved = false` e `approval_status = 'pending'` (il ruolo richiesto resta una candidatura; l'approvazione arriva solo da `/api/admin/users/[id]/moderate`). Poi bonificare i profili già auto-approvati: `is_approved=false` per i seller/rider con `approval_status <> 'approved'`, avvisandoli che devono completare il KYC.
+
+#### 🔴 3. Nome, telefono e indirizzo di casa dei clienti con una consegna in corso sono leggibili SENZA LOGIN
+
+- **Dove:** `migrations/019_rider_visibility.sql:14-21 (policy «Riders can view available and own orders» su public.orders)`
+- **Cosa succede:** VERIFICATO sul DB live con pg_policies: la policy SELECT è `((delivery_status = ANY (ARRAY['ACCEPTED','READY'])) AND (rider_id IS NULL)) OR (rider_id = auth.uid())`, registrata per il ruolo `{public}` — che include `anon`. Nonostante il nome NON contiene alcun controllo di ruolo. Verificato anche il GRANT: `anon` ha SELECT su `public.orders` (information_schema.role_table_grants) e nessuna migration lo revoca. Per un anonimo `auth.uid()` è NULL, ma il primo ramo resta vero. La tabella contiene `delivery_full_name, delivery_phone, delivery_address, delivery_city, delivery_zip, delivery_lat, delivery_lng, total_price, stripe_payment_intent`. Basta `GET /rest/v1/orders?select=*&delivery_status=eq.READY` con la chiave anon, che è pubblica nel bundle JS. Nota di onestà: oggi gli ordini in quello stato sono 0 (marketplace pre-volume), quindi la fuga è strutturale e si apre al primo ordine reale, non è già in corso.
+- **Impatto:** Data breach GDPR di categoria alta appena parte il traffico: chiunque, anche senza account, può scaricare in continuo l'elenco di chi sta ricevendo una consegna adesso, con indirizzo e telefono. Materiale perfetto per furti in abitazione, stalking e truffe telefoniche a nome MyCity, con notifica al Garante entro 72h.
+- **Fix consigliato:** Vincolare la policy al rider approvato e limitarla `TO authenticated`: `USING ( rider_id = (SELECT auth.uid()) OR ( delivery_status IN ('ACCEPTED','READY') AND rider_id IS NULL AND EXISTS (SELECT 1 FROM profiles p WHERE p.id=(SELECT auth.uid()) AND p.role='rider' AND p.is_approved) ) )`. Meglio ancora: dare ai rider una VIEW della bacheca senza PII (zona/CAP + importo) e rivelare indirizzo e telefono solo dopo l'assegnazione.
+
+#### 🔴 4. Chiunque, anche senza login, può alterare i dati di consegna degli ordini pronti; e un buyer qualunque può auto-assegnarseli
+
+- **Dove:** `migrations/011_orders_delivery.sql:128-134 (policy «Riders can update assigned or claim free orders») + migrations/061_p0_security_rls_state_machine_reviews.sql:83-170 (trigger enforce_order_update_rules)`
+- **Cosa succede:** VERIFICATO sul DB live: la policy UPDATE è `((rider_id = (SELECT auth.uid())) OR ((delivery_status='READY') AND (rider_id IS NULL)))`, senza WITH CHECK, senza predicato di ruolo, per il ruolo `{public}`; `anon` ha il GRANT UPDATE su `public.orders`. Il trigger 061 congela i campi soldi e `delivery_full_name/phone/address`, ma NON copre `delivery_city, delivery_zip, delivery_notes, delivery_lat, delivery_lng, delivery_slot`: quelli restano scrivibili da chiunque sugli ordini READY senza rider. Correzione rispetto alla segnalazione originale: un ANONIMO non può prendersi l'ordine (il trigger pretende `NEW.rider_id = uid`, e per anon uid è NULL → eccezione); il claim `READY -> ASSIGNED` è però aperto a QUALSIASI utente autenticato, senza verificare che sia un rider approvato.
+- **Impatto:** Due danni concreti. (1) Sabotaggio senza alcun account: un concorrente sposta le coordinate GPS o cambia CAP/note di ogni ordine pronto — i rider vanno a vuoto, le consegne saltano, i negozi perdono i clienti. (2) Dirottamento con un semplice account buyer: si prende gli ordini in bacheca e li congela in ASSIGNED, sottraendoli ai rider reali e bloccando la logistica.
+- **Fix consigliato:** Aggiungere il predicato di ruolo alla policy (rider approvato) e limitarla `TO authenticated`; nel trigger `enforce_order_update_rules` estendere il freeze a tutti i campi `delivery_*` per chi non è il buyer proprietario o lo staff, e nel ramo del claim `READY -> ASSIGNED` verificare che `uid` sia un profilo `role='rider' AND is_approved`.
+
+
+### rls-database (4)
+
+#### 🔴 5. Le view pubbliche dei negozi girano come proprietario e hanno permessi di SCRITTURA ad anon: chiunque riscrive e cancella profiles bypassando le RLS
+
+- **Dove:** `/home/user/mycity/migrations/110_public_profile_view.sql:17-44 · /home/user/mycity/migrations/112_seller_public_profiles.sql:12-39 · /home/user/mycity/migrations/108_seller_public_profiles_stripe_trust.sql:7-36 · view `seller_storefronts` presente in produzione ma in nessun file di migrazione`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. pg_class: `public_profiles`, `seller_public_profiles` e `seller_storefronts` sono di proprietà di `postgres` (rolbypassrls=true) e hanno reloptions NULL → nessun `security_invoker=on` (le uniche due view che ce l'hanno sono referral_leaderboard e shop_of_month_leaderboard). information_schema.views: tutte e tre risultano is_updatable=YES e is_insertable_into=YES (SELECT da una sola tabella, senza aggregati → auto-aggiornabili). information_schema.role_table_grants: anon e authenticated hanno DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE su tutte e tre — le migrazioni fanno solo `GRANT SELECT` e non revocano mai il grant di default di Supabase. PROVA ESEGUITA (transazione con ROLLBACK, `SET LOCAL ROLE anon`): `update public.seller_storefronts set store_phone = store_phone returning id` → 1 riga scritta; `update public.public_profiles set is_approved = false returning id` → 1 venditore disattivato. Nessun errore di permessi, nessuna RLS applicata.
+- **Impatto:** Un visitatore non autenticato, con la sola chiave anon pubblica presente nel bundle JS, può: (a) spegnere i negozi impostando is_approved=false via `PATCH /rest/v1/public_profiles` — la policy pubblica di products richiede il venditore approvato, quindi il catalogo sparisce dal marketplace; (b) riscrivere nome, indirizzo, telefono, logo, orari e sito di qualunque negozio, dirottando gli ordini su un recapito falso; (c) fare DELETE su profiles, con cascata su ordini, recensioni e messaggi. Fatturato e fiducia distrutti in pochi secondi, senza login.
+- **Fix consigliato:** In un unico intervento: 1) `ALTER VIEW public.public_profiles SET (security_invoker = on);` e idem per seller_public_profiles e seller_storefronts; 2) `REVOKE ALL ON public.public_profiles, public.seller_public_profiles, public.seller_storefronts FROM anon, authenticated;` seguito da `GRANT SELECT ON ... TO anon, authenticated;`; 3) aggiungere a profiles una policy SELECT pubblica mirata (solo venditori approvati) perché con security_invoker la view smette di leggere senza policy — verificare subito dopo che le pagine /stores, /near, /store/[id], la SearchBar e sitemap.ts continuino a caricare; 4) portare seller_storefronts in una migrazione numerata o farne DROP; 5) guardiano in CI che fallisce se una view in `public` non ha security_invoker=on o ha grant diversi da SELECT.
+
+#### 🔴 6. Il trigger di protezione degli ordini cita una colonna cancellata (invoice_number): ogni aggiornamento ordine dal client va in errore, il flusso di consegna è morto
+
+- **Dove:** `/home/user/mycity/migrations/061_p0_security_rls_state_machine_reviews.sql:129 (enforce_order_update_rules, tuttora viva in produzione) vs /home/user/mycity/migrations/105_remove_invoicing.sql:27 (DROP COLUMN invoice_number)`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. information_schema.columns: `orders.invoice_number` non esiste più (0 occorrenze su 60 colonne). pg_get_functiondef(enforce_order_update_rules): la stringa 'invoice_number' è ancora presente (posizione 2484) dentro l'espressione IF del freeze. PL/pgSQL risolve i campi del record a runtime, non c'è short-circuit che salvi. PROVA ESEGUITA (blocco DO con RAISE EXCEPTION finale = rollback, `SET LOCAL ROLE authenticated` + request.jwt.claims del venditore reale c0b240c0-…): `update public.orders set delivery_notes = delivery_notes` → `42703 | record "new" has no field "invoice_number"`. Il percorso privilegiato (admin, service_role, flag mycity.allow_order_write) esce prima con RETURN NEW: si rompe solo il client.
+- **Impatto:** Tutte le transizioni fatte con il JWT dell'utente falliscono: il venditore non può accettare l'ordine né metterlo PRONTO (app/seller/orders/[id]/page.tsx:205 fa `supabase.from('orders').update(...)`), il rider non può prendere l'ordine (app/rider/page.tsx:169) né passare in consegna (app/rider/orders/[id]/page.tsx:108). Nessun ordine può essere evaso: zero fatturato, e l'utente vede solo un errore tecnico. È anche il motivo per cui i punti sul rider (compenso e claim) oggi non sono sfruttabili: si aprono nell'istante in cui questo viene riparato.
+- **Fix consigliato:** Nuova migrazione che riscrive enforce_order_update_rules senza `OR NEW.invoice_number IS DISTINCT FROM OLD.invoice_number`, applicando CONTESTUALMENTE i congelamenti mancanti (rider_fee_cents, refunded_amount_cents, wallet_applied_cents, delivery_fee_cents) e il controllo di ruolo sul claim. Aggiungere un test end-to-end che esegue davvero un accetta-ordine come venditore e un claim come rider: nessuno dei due percorsi era coperto, altrimenti la 105 sarebbe stata bloccata in CI.
+
+#### 🔴 7. Ordini in ACCEPTED/READY leggibili da chiunque, anche senza login: nome, telefono e indirizzo di casa dei clienti esposti
+
+- **Dove:** `/home/user/mycity/migrations/019_rider_visibility.sql:15-21 (policy "Riders can view available and own orders" su public.orders)`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. pg_policies: la policy SELECT ha qual = `(((delivery_status = ANY (ARRAY['ACCEPTED','READY'])) AND (rider_id IS NULL)) OR (rider_id = (SELECT auth.uid())))` e roles = {public}, quindi include anon. Il primo ramo non referenzia mai il chiamante: è vero per tutti, senza alcun controllo che il chiamante sia profiles.role='rider' o approvato. information_schema.role_table_grants conferma SELECT ad anon su public.orders (a livello di tabella, quindi tutte le 60 colonne). Oggi il DB ha 1 solo ordine, in stato CANCELED, quindi il conteggio pratico torna 0: la falla è strutturale e si apre al primo ordine reale.
+- **Impatto:** Chiunque, con la chiave anon pubblica, può chiamare `GET /rest/v1/orders?delivery_status=eq.READY&rider_id=is.null&select=*` e leggere in chiaro delivery_full_name, delivery_phone, delivery_address, delivery_lat/lng, total_price e i riferimenti Stripe di ogni ordine in lavorazione. Violazione GDPR con obbligo di notifica al Garante entro 72 ore, più un regalo alla concorrenza: lista clienti e valore scontrino in tempo reale.
+- **Fix consigliato:** Riscrivere la policy legandola al rider approvato: `USING (rider_id = (select auth.uid()) OR ((delivery_status IN ('ACCEPTED','READY')) AND rider_id IS NULL AND EXISTS (SELECT 1 FROM profiles p WHERE p.id = (select auth.uid()) AND p.role='rider' AND p.is_approved)))`. Inoltre `REVOKE SELECT ON public.orders FROM anon` e servire ai rider la lista disponibili tramite una view/RPC che espone solo zona, importo e distanza: indirizzo e telefono solo dopo l'assegnazione.
+
+#### 🔴 8. Il rider può scrivere da solo il proprio compenso: rider_fee_cents non è tra i campi congelati e finisce dritto in un transfer Stripe
+
+- **Dove:** `/home/user/mycity/migrations/111_rider_fee_cents.sql (colonna aggiunta) · /home/user/mycity/migrations/061_p0_security_rls_state_machine_reviews.sql:104-137 (lista freeze che non la contiene) · /home/user/mycity/lib/stripe/payout.ts:163-165`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. Diff automatico fra le 60 colonne reali di orders e i riferimenti `NEW.<colonna>` dentro pg_get_functiondef(enforce_order_update_rules): rider_fee_cents NON compare nel freeze. pg_policies: "Riders can update assigned or claim free orders" ha qual `((rider_id = (SELECT auth.uid())) OR ((delivery_status = 'READY') AND (rider_id IS NULL)))` e with_check NULL, per il ruolo public; i grant sono a livello di tabella (UPDATE su tutte le colonne, nessun grant per colonna). In lib/stripe/payout.ts:163-165 il valore è usato senza tetto: `const feeCents = order.rider_fee_cents != null ? order.rider_fee_cents : Math.round(Number(order.shipping_cost ?? 0) * 100)`, unico controllo `if (feeCents <= 0)`, poi transfer Stripe verso il conto Connect del rider.
+- **Impatto:** Un rider consegna un ordine da 12 €, poi con una singola PATCH imposta rider_fee_cents = 500000 e al giro del cron release-payouts incassa 5.000 € reali sul proprio conto Stripe Connect. Perdita di cassa diretta, non recuperabile senza contenzioso. Oggi è latente solo per il bug su invoice_number: si apre nell'istante in cui quello viene riparato — vanno chiusi nella stessa migrazione.
+- **Fix consigliato:** Aggiungere rider_fee_cents (insieme a refunded_amount_cents, wallet_applied_cents, delivery_fee_cents) alla lista di freeze del trigger. Doppio cinturone in lib/stripe/payout.ts: `const feeCents = Math.min(order.rider_fee_cents ?? fallback, MAX_RIDER_FEE_CENTS)` più un CHECK di colonna `rider_fee_cents BETWEEN 0 AND 5000`. Regola di processo: ogni migrazione che aggiunge una colonna di denaro a orders aggiorna il freeze nello stesso file.
+
+
+### pagamenti-stripe (1)
+
+#### 🔴 9. Un reclamo interno blocca il payout del venditore per sempre: dispute_status='OPEN' non torna mai a NULL
+
+- **Dove:** `/home/user/mycity/migrations/063_p1_db_hardening.sql:69-84 (trigger dispute_block_payout) + /home/user/mycity/app/api/admin/disputes/[id]/resolve/route.ts:83-97 + /home/user/mycity/app/api/cron/release-payouts/route.ts:22,63`
+- **Cosa succede:** VERIFICATO. Il trigger AFTER INSERT su `disputes` scrive `orders.dispute_status='OPEN'`. Il cron accetta solo `dispute_status.is.null,dispute_status.eq.WON` (PAYOUT_DISPUTE_FILTER, riga 22). La route di risoluzione aggiorna SOLO la tabella `disputes` (status/resolution_notes/resolved_by/resolved_at/refund_cents) e non tocca mai `orders.dispute_status`. Un grep su tutto il repo (codice + migrazioni) conferma che gli unici punti che scrivono quella colonna sono il trigger e il webhook chargeback (webhook/route.ts:808, 830, 836): nessuno la riporta a NULL. Aggravante confermata: la colonna è condivisa fra reclami interni e chargeback Stripe, quindi un `charge.dispute.closed` di tipo 'won' può sbloccare un blocco nato da un reclamo interno.
+- **Impatto:** Qualunque buyer può congelare in modo permanente i soldi di un venditore aprendo un reclamo (la policy RLS `disputes_open_insert` glielo consente sul proprio ordine). Anche dopo che l'admin ha dato ragione al venditore ('resolved_seller'), l'ordine resta escluso dal payout per sempre e nessun allarme lo segnala. È il difetto più costoso in termini di fiducia dei negozi.
+- **Fix consigliato:** Nella route di risoluzione, dopo l'update di `disputes`, riportare `orders.dispute_status = NULL` e `disputed_at = NULL` quando l'esito non è a favore del buyer. Il cron già controlla applicativamente le righe `disputes` aperte (release-payouts:79-84): la colonna è una seconda barriera ridondante e non manutenuta. Meglio ancora: separare `internal_dispute_status` da `chargeback_status` e aggiungere un test che dopo 'resolved_seller' l'ordine ridiventa eleggibile.
+
+
+### privacy-legale (5)
+
+#### 🔴 10. Ordini (nome, telefono, indirizzo di consegna) leggibili da CHIUNQUE, anche senza login
+
+- **Dove:** `/home/user/mycity/migrations/019_rider_visibility.sql:14-20`
+- **Cosa succede:** CONFERMATO su DB di produzione (progetto clmpyfvpvfjgeviworth). La policy "Riders can view available and own orders" su public.orders è registrata con roles={public} e qual = ((delivery_status = ANY (ARRAY['ACCEPTED','READY'])) AND rider_id IS NULL) OR rider_id = auth.uid(): nessun controllo di ruolo. Ho verificato in information_schema.role_table_grants che `anon` possiede SELECT (e anche UPDATE) su public.orders. Poiché il ruolo `public` include `anon`, per tutta la finestra ACCEPTED/READY-senza-rider la riga intera è leggibile via PostgREST con la sola chiave anon pubblica (che sta nel bundle JS): delivery_full_name, delivery_phone, delivery_address, delivery_city, delivery_zip, delivery_notes, delivery_lat/lng, total_price. Oggi l'esposizione è LATENTE, non attiva: la tabella contiene 1 solo ordine e 0 righe nello stato esposto (verificato con count). Confermata anche la gemella UPDATE "Riders can update assigned or claim free orders" (roles={public}, qual = rider_id = auth.uid() OR (delivery_status='READY' AND rider_id IS NULL), nessun WITH CHECK): qualunque utente autenticato — non solo un rider approvato — può auto-assegnarsi un ordine READY.
+- **Impatto:** Appena il primo ordine reale passa da ACCEPTED/READY, nome, telefono e indirizzo di casa del cliente sono leggibili da Internet con una chiave pubblica. È un data breach notificabile al Garante entro 72h (art. 33 GDPR), con rischio concreto di stalking/furto (si sa chi è a casa e cosa sta per ricevere) e perdita immediata della fiducia dei negozi.
+- **Fix consigliato:** Riscrivere la policy legandola al ruolo rider approvato e al solo ruolo authenticated: CREATE POLICY ... ON public.orders FOR SELECT TO authenticated USING (rider_id = (select auth.uid()) OR (delivery_status IN ('ACCEPTED','READY') AND rider_id IS NULL AND EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = (select auth.uid()) AND p.role='rider' AND p.is_approved))). Meglio ancora: non esporre i campi di consegna nella bacheca ordini liberi — servire ai rider una VIEW/RPC con zona, CAP e distanza, e rivelare indirizzo e telefono solo dopo l'assegnazione. Stesso trattamento per la policy UPDATE (aggiungendo WITH CHECK). Infine REVOKE ALL ON public.orders FROM anon.
+
+#### 🔴 11. Il rider legge l'INTERA riga profiles del cliente: codice fiscale, IBAN, dati KYC
+
+- **Dove:** `/home/user/mycity/migrations/011_orders_delivery.sql:149-158`
+- **Cosa succede:** CONFERMATO in produzione: la policy "Riders can view buyer of assigned orders" su public.profiles esiste ancora, è row-level e senza restrizione di colonne — qual = EXISTS (SELECT 1 FROM orders WHERE orders.user_id = profiles.id AND orders.rider_id = auth.uid()). Il ruolo `authenticated` ha SELECT su public.profiles (verificato; `anon` NO — gli è stato tolto, quindi serve un account, non basta la chiave pubblica). Chi ha un ordine assegnato può quindi fare GET /rest/v1/profiles?select=* e leggere tutta la riga del compratore: le colonne esistono e sono legal_fiscal_code, legal_birth_date, legal_residence_addr/city/zip, billing_iban, billing_card_last4, business_vat_number, kyc_id_doc_front_url, kyc_id_doc_back_url, kyc_selfie_url (verificate in information_schema.columns). È esattamente la classe di bug che le migrazioni 110 e 112 hanno chiuso per i profili pubblici sostituendo la policy permissiva con una VIEW a colonne selezionate; questa policy non è mai stata toccata. Aggravante confermata: combinata con la policy UPDATE del punto precedente, un utente qualunque può auto-assegnarsi un ordine READY e sbloccare questa lettura.
+- **Impatto:** Un fattorino (o chiunque riesca a farsi assegnare un ordine) accede a dati fiscali e bancari del cliente. Violazione del principio di minimizzazione (art. 5.1.c) e di sicurezza (art. 32), con esposizione a frode sui pagamenti e furto d'identità.
+- **Fix consigliato:** DROP della policy e sostituzione con una VIEW `order_buyer_contact` (id, full_name, phone) con security_invoker, o una RPC SECURITY DEFINER che verifica orders.rider_id = auth.uid(). Meglio ancora: smettere del tutto di far leggere profiles al rider — i dati di consegna sono già duplicati sulla riga ordine (delivery_full_name / delivery_phone). Rivedere allo stesso modo ogni policy residua su profiles che non passi da una view a colonne esplicite.
+
+#### 🔴 12. Il log di sorveglianza scrive telefono, indirizzi e nomi in chiaro — e la cancellazione account ce li copia dentro
+
+- **Dove:** `/home/user/mycity/migrations/073_activity_tracking.sql:88 e 108-118`
+- **Cosa succede:** CONFERMATO nel codice e nei dati. Il trigger generico log_activity_change() su public.profiles scrive in activity_events.metadata->'changed' il diff {old,new} di OGNI colonna cambiata. La lista di redazione è v_redact := ARRAY['password','token','secret','access_token','refresh_token','card','iban','cvv','tax_code','fiscal_code','document_number'] e il confronto è per uguaglianza esatta (IF v_key = ANY(v_redact)). Le colonne reali di profiles si chiamano invece legal_fiscal_code, billing_iban, billing_card_last4, legal_birth_date, legal_residence_addr, business_vat_number, phone, address, store_phone, store_address: NESSUNA fa match, quindi nessuna viene oscurata. Verificato sul DB di produzione: 52 eventi profiles.update, tutti e 52 con metadata popolato, e le chiavi effettivamente loggate in chiaro includono store_phone (18), store_address (17), full_name (17), store_lat/store_lng (17) e stripe_account_id (1). Effetto perverso confermato leggendo il cron: app/api/cron/process-deletions/route.ts:112 anonimizza il profilo con una UPDATE, e quella UPDATE fa scattare il trigger che archivia i VALORI VECCHI dentro activity_events — cancellare l'account produce una copia permanente dei dati che si volevano cancellare. Il pruning di retention (stesso file, righe 70-95) azzera solo ip/user_agent e anon_id/path/referrer/city/country: metadata non viene mai toccato.
+- **Impatto:** Dati di contatto e (appena un venditore compila il KYC) fiscali e bancari archiviati per sempre in chiaro in una tabella di log leggibile da ogni account admin. Viola minimizzazione (art. 5.1.c), limitazione della conservazione (art. 5.1.e) e diritto alla cancellazione (art. 17): dopo una richiesta di oblio i dati restano nel log.
+- **Fix consigliato:** Tre interventi insieme: (1) sostituire il match esatto con un match per pattern — IF v_key ~* '(password|token|secret|iban|card|cvv|fiscal|tax|vat|birth|residence|phone|address|sdi|pec|kyc|selfie|license|document)' THEN redact; (2) per la tabella profiles loggare solo l'elenco dei nomi dei campi cambiati, mai i valori; (3) estendere il pruning di retention ad azzerare `metadata` oltre la finestra dichiarata e bonificare subito lo storico con UPDATE activity_events SET metadata = NULL WHERE target_table='profiles'.
+
+#### 🔴 13. La cancellazione account non elimina i documenti d'identità: carta d'identità, selfie e patente restano nello storage per sempre
+
+- **Dove:** `/home/user/mycity/app/api/cron/process-deletions/route.ts:48-65 e 108-140`
+- **Cosa succede:** CONFERMATO. KYC_FIELDS azzera anagrafica e dati bancari ma NON contiene le colonne che puntano ai documenti: kyc_id_doc_front_url, kyc_id_doc_back_url, kyc_selfie_url, rider_license_url, rider_insurance_url, rider_haccp_url (tutte esistenti in produzione, verificate in information_schema.columns). Soprattutto: un grep su tutto app/ e lib/ per `storage.from(...).remove` non trova NESSUNA occorrenza — i file fisici (fronte/retro documento, selfie, patente, polizza) restano indefinitamente nel bucket sotto il path {userId}/. Idem per avatar, store_media e foto recensioni. Confermata anche la divergenza della strada admin (app/api/admin/users/[id]/delete/route.ts): stessa KYC_FIELDS incompleta, nessuna rimozione dallo storage e in più nessuna anonimizzazione del testo libero (recensioni, chat, contact) che invece il cron esegue. Nel frattempo la UI promette all'utente che «i dati saranno rimossi in modo irreversibile» (app/profile/settings/page.tsx:548).
+- **Impatto:** Documenti d'identità conservati oltre ogni base giuridica dopo che l'utente ha esercitato il diritto all'oblio. È la categoria di dato che il Garante sanziona più duramente e la più costosa in caso di breach. Aggravante: all'utente è stato detto il contrario, quindi c'è anche informazione ingannevole.
+- **Fix consigliato:** Nel cron aggiungere le sei colonne *_url a KYC_FIELDS e, prima dell'auth delete, elencare e rimuovere i file: const {data:files} = await admin.storage.from('kyc-docs').list(userId); await admin.storage.from('kyc-docs').remove(files.map(f=>`${userId}/${f.name}`)) — ripetendo per avatars/store-media/reviews. Estrarre l'intera pipeline in una funzione unica purgeUserData(userId) chiamata sia dal cron sia dalla rotta admin, così le due strade non divergono mai più. Se una parte va conservata per obbligo AML (10 anni), spostarla in un archivio separato ad accesso ristretto e dichiararlo nell'informativa.
+
+#### 🔴 14. Titolare del trattamento fittizio nell'informativa: P.IVA IT00000000000
+
+- **Dove:** `/home/user/mycity/app/privacy/page.tsx:48-58 (e 176-177 per l'avviso)`
+- **Cosa succede:** CONFERMATO leggendo la pagina pubblicata: «Il titolare del trattamento è MyCity S.r.l., con sede in Via Roma 1, 29121 Piacenza (PC), P.IVA IT00000000000» — partita IVA palesemente segnaposto — e dichiara un DPO all'indirizzo dpo@mycity.it oltre a privacy@mycity.it come contatto del titolare. Le stesse caselle sono citate come canale per esercitare i diritti (artt. 15-22). Lo stesso file, alle righe 176-177, ammette testualmente: «Avviso legale: questo documento è ispirato al GDPR e alle linee guida del Garante italiano. Va validato da un DPO/avvocato prima dell'uso in produzione». La cookie policy dichiara la stessa versione 2.0 / 24 maggio 2026 (app/cookies/page.tsx:8-9).
+- **Impatto:** L'informativa non identifica il titolare: violazione diretta dell'art. 13 GDPR, rilevabile in un secondo da chiunque — un concorrente, un ispettore, o un negozio che fa due domande sulla privacy prima di firmare. Se la S.r.l. non è ancora costituita, tutto il trattamento è in capo alla persona fisica di Nicola, con responsabilità illimitata.
+- **Fix consigliato:** Prima del go-live: inserire denominazione, sede e P.IVA reali del titolare; attivare davvero le caselle privacy@ e dpo@ (o rimuovere il riferimento al DPO se non è stato nominato — dichiararlo senza averlo è una falsa attestazione); allineare data e versione con la cookie policy; far validare il testo da un legale, come lo stesso avviso in fondo alla pagina richiede.
+
+
+### accessibilita (1)
+
+#### 🔴 15. Il dialogo di conferma esegue l'azione distruttiva quando premi Invio su «Annulla»
+
+- **Dove:** `components/ConfirmDialog.tsx:70-76 (bottoni 145-160)`
+- **Cosa succede:** VERIFICATO. L'handler è su `document` in bubbling: `if (e.key === 'Enter') { e.preventDefault(); closeWith(true); }`. Qualsiasi Invio premuto mentre il dialogo è aperto — anche col focus sul bottone «Annulla» (riga 145, che non ha alcuna gestione propria), anche su un elemento della pagina dietro (non c'è focus trap) — chiama `closeWith(true)`, cioè CONFERMA. Il `preventDefault()` blocca l'attivazione nativa del bottone Annulla, quindi da tastiera non esiste modo di annullare con Invio. Il bottone di conferma ha già `autoFocus` (riga 152): la scorciatoia globale non serve a nulla e fa solo danno.
+- **Impatto:** Un utente che naviga da tastiera o con screen reader e vuole ANNULLARE esegue invece l'azione. `confirmDialog()` è chiamato 21 volte nel repo su operazioni irreversibili: app/admin/users/page.tsx:441/459/477/546/561/577/605, app/admin/events/page.tsx:190, eliminazione liste, rimozione storie/prodotti, annullamento ordine, cancellazione indirizzi. Perdita di dati reali di clienti e negozi.
+- **Fix consigliato:** Togliere del tutto il ramo `if (e.key === 'Enter')` dall'handler su `document` (righe 73). Il bottone di conferma ha `autoFocus`: Invio lo attiva già nativamente e il focus su «Annulla» torna a funzionare. Aggiungere un test e2e: apri il dialogo → Tab su «Annulla» → Invio → la promise deve risolvere `false`. In più aggiungere un focus trap sul contenitore.
+
+
+### qa-flussi (2)
+
+#### 🔴 16. Il rider può decidere da solo quanto farsi pagare: rider_fee_cents non è tra i campi congelati dal trigger
+
+- **Dove:** `/home/user/mycity/migrations/061_p0_security_rls_state_machine_reviews.sql:99-138 (freeze di enforce_order_update_rules) + /home/user/mycity/migrations/111_rider_fee_cents.sql + /home/user/mycity/lib/stripe/payout.ts:151-166`
+- **Cosa succede:** VERIFICATO. La policy RLS `Riders can update assigned or claim free orders` (migrations/011_orders_delivery.sql:128-135) è l'unica versione presente in tutte le migrazioni (nessuna riscrittura successiva) e consente al rider l'UPDATE su qualunque ordine con `rider_id = auth.uid()` OPPURE `delivery_status='READY' AND rider_id IS NULL`. Il trigger `enforce_order_update_rules` (061) congela total_price, seller_payout_cents, payout_status, cash_*, stripe_*, delivery_full_name/phone/address ecc., ma la lista è ferma alla 061 e nessuna migrazione successiva la riscrive (063 e 064 la citano solo per revocare l'EXECUTE; 094 e 096 la bypassano via GUC). `rider_fee_cents`, nata con la 111, NON è nel freeze. `releaseRiderPayout` legge esattamente quel campo (payout.ts:163) e lo passa a `stripe.transfers.create({ amount: feeCents })` dal saldo piattaforma. Fuori dal freeze anche: delivery_fee_cents, wallet_applied_cents, refunded_amount_cents, delivery_city, delivery_zip, delivery_notes, delivery_lat, delivery_lng, delivery_slot (tutte colonne realmente scritte alla creazione ordine).
+- **Impatto:** Un rider autenticato può fare `update orders set rider_fee_cents = 500000 where id = <suo ordine>`; portando poi l'ordine a DELIVERED (transizione a lui consentita), il cron release-payouts gli bonifica €5.000 reali dal conto Stripe della piattaforma. È un prelievo di cassa diretto, senza passare da nessuna API applicativa. In più qualunque rider può alterare città/CAP/coordinate/note di consegna di ogni ordine READY non ancora assegnato.
+- **Fix consigliato:** Aggiungere al freeze del trigger tutte le colonne monetarie e di consegna nate dopo la 061: rider_fee_cents, delivery_fee_cents, wallet_applied_cents, refunded_amount_cents, delivery_city, delivery_zip, delivery_notes, delivery_lat, delivery_lng, delivery_slot. Meglio: invertire in whitelist (solo rider_lat, rider_lng, delivery_photo_url modificabili dal client) così ogni colonna futura nasce protetta. Aggiungere un test SQL che tenti la scrittura di rider_fee_cents da un rider e si aspetti 42501.
+
+#### 🔴 17. Il rider non viene MAI pagato sugli ordini con spedizione gratuita, e il cron ci ritenta all'infinito
+
+- **Dove:** `/home/user/mycity/lib/stripe/payout.ts:161-166 + /home/user/mycity/app/api/cron/release-payouts/route.ts:113-136 + /home/user/mycity/lib/shipping.ts:26-32`
+- **Cosa succede:** VERIFICATO. `grep -rn rider_fee_cents` su tutto il repo trova solo la migrazione 111 e le 3 righe di lettura in payout.ts: la colonna non è scritta né in app/api/orders/cod/route.ts (insert COD) né in app/api/stripe/webhook/route.ts:266 (insert carta), che valorizzano solo `shipping_cost`. Quindi il ramo `order.rider_fee_cents != null` non si attiva mai e si cade sempre sul fallback `shipping_cost*100`. Ma `shippingForEuro` restituisce 0 appena `subtotal >= FREE_SHIPPING_THRESHOLD` (=30, lib/constants.ts:1) e 0 con coupon FREE_SHIPPING. Risultato: `feeCents <= 0` → return `INVALID_AMOUNT` (payout.ts:166), che sta PRIMA del claim atomico (payout.ts:180): `rider_payout_status` resta NULL e l'ordine ricade nella query dei candidati (`rider_payout_status.is.null`) a ogni giro di cron, per sempre.
+- **Impatto:** Su ogni ordine sopra i €30 — lo scontrino medio che si vuole promuovere — il rider consegna e non riceve nulla. È esattamente il caso che la migrazione 111 dichiarava di risolvere, ma il codice di scrittura non è mai stato aggiunto. In più il cron accumula un backlog permanente di riderFailed che cresce a ogni consegna e sporca log e alert, nascondendo i fallimenti veri.
+- **Fix consigliato:** Scrivere `rider_fee_cents` alla creazione dell'ordine in entrambi i percorsi (COD e webhook Stripe) calcolandolo dalla distanza con `riderFee(haversineKm(...))` in centesimi, indipendentemente da quanto il buyer ha pagato di spedizione: la consegna gratis è un costo di marketing della piattaforma, non un taglio al compenso del rider. In payout.ts, quando feeCents<=0 marcare `rider_payout_status='NOT_APPLICABLE'` invece di lasciare NULL, così il candidato esce dalla coda.
+
+
+### api-backend (3)
+
+#### 🔴 18. Overselling: il pending_checkout scade a 2h ma la sessione Stripe vive 24h e il webhook la accetta comunque
+
+- **Dove:** `app/api/stripe/webhook/route.ts:210-213 · app/api/stripe/checkout/route.ts:377-387 · lib/stripe/client.ts:91 · migrations/042_multi_seller_checkout.sql:43`
+- **Cosa succede:** VERIFICATO. `pending_checkouts.expires_at` ha DEFAULT `now() + interval '2 hours'` (migration 042, riga 43). Il cron `expire-checkouts` mette status='EXPIRED' e chiama `restore_stock` (rimette la merce in vendita). In `createMultiSellerCheckoutSession` (lib/stripe/client.ts) NON compare mai `expires_at`: grep su tutto il file non restituisce nulla, quindi la Checkout Session Stripe resta valida 24h (default). In `handleCheckoutCompleted` l'unico controllo di stato è `if (pending.status === 'COMPLETED') return`: uno stato 'EXPIRED' o 'CANCELED' passa e crea gli ordini normalmente, senza ri-tentare `reserve_stock`.
+- **Impatto:** Sequenza reale: t=0 riserva stock → t=2h il cron restituisce lo stock (altri clienti lo comprano) → t=3h il buyer paga sulla sessione ancora viva → il webhook crea l'ordine su merce che non c'è più. Il cliente paga con carta merce già venduta: rimborso, reversal sul venditore, recensione negativa. Su un negozio con pochi pezzi succede al primo carrello lasciato aperto oltre 2 ore.
+- **Fix consigliato:** (a) Passare `expires_at: Math.floor(Date.now()/1000) + 30*60` a `stripe.checkout.sessions.create` e allineare `pending_checkouts.expires_at` allo stesso TTL. (b) In `handleCheckoutCompleted` gestire esplicitamente `status !== 'PENDING'`: se EXPIRED/CANCELED ri-tentare `reserve_stock` e, in caso di fallimento, rimborsare subito il PaymentIntent + notificare buyer e admin invece di creare l'ordine.
+
+#### 🔴 19. Il coupon viene 'claimato' (uses_count++) ma non viene MAI rilasciato se il checkout fallisce o viene abbandonato
+
+- **Dove:** `app/api/stripe/checkout/route.ts:251-255 · app/api/orders/cod/route.ts:222-227 · migrations/108_atomic_coupon_claim.sql`
+- **Cosa succede:** VERIFICATO. `claim_coupon` incrementa `uses_count` PRIMA di riservare lo stock e di creare la sessione Stripe. Dopo il claim ci sono tre uscite di errore che non stornano il claim: `reserve_stock` fallita (checkout 409; cod 409), insert di `pending_checkouts` fallita (fa solo `restore_stock`), creazione sessione Stripe fallita (fa `restore_stock` + pending CANCELED, ma dimentica il coupon). Soprattutto il caso più frequente: il buyer non paga — `handleCheckoutExpired` e il cron `expire-checkouts` ripristinano lo stock e non toccano il coupon. Grep su `migrations/`, `lib/`, `app/` per `uses_count`: esistono solo `increment_coupon_usage` (058) e `claim_coupon` (108), nessuna funzione inversa di decremento.
+- **Impatto:** Ogni carrello abbandonato con codice sconto brucia un uso. Un coupon lancio con `max_uses = 100` risulta 'esaurito' dopo pochi ordini reali: i clienti veri vedono 'Codice non valido', la campagna marketing muore in silenzio e nessuno capisce perché.
+- **Fix consigliato:** Aggiungere `release_coupon(p_code text)` speculare (`SET uses_count = GREATEST(0, uses_count-1)`) e chiamarla in ogni ramo di errore dopo il claim, in `handleCheckoutExpired` e nel cron `expire-checkouts` (leggendo `pending_checkouts.coupon_code`). In alternativa spostare il claim DOPO la creazione dell'ordine, sostituendo l'anti-race con una tabella `coupon_redemptions(coupon_id, order_id)` con unique index.
+
+#### 🔴 20. COD multi-venditore: se lo stock finisce sul gruppo N, gli ordini dei gruppi precedenti restano creati e la risposta è un 409
+
+- **Dove:** `app/api/orders/cod/route.ts:289-297`
+- **Cosa succede:** VERIFICATO. Il loop crea un ordine per gruppo. Se `reserve_stock` del gruppo i-esimo fallisce, il codice esegue `return NextResponse.json({error:'Alcuni articoli non sono più disponibili...'}, {status:409})` SENZA chiamare `rollbackCreatedCodOrders()` — funzione che invece è invocata correttamente in tutti gli altri rami d'errore (insert ordine fallito, insert order_items fallito). Gli ordini dei gruppi 0..i-1 restano quindi a DB con stock decrementato, wallet addebitato (`wallet_debit`), notifica in-app al venditore inserita ed email 'Nuovo ordine!' già partite a venditore e buyer, tutte eseguite dentro la stessa iterazione prima del push finale.
+- **Impatto:** Il cliente vede 'Alcuni articoli non sono più disponibili' e riprova: al secondo tentativo il primo negozio riceve un SECONDO ordine identico mentre il primo è già in preparazione. Il buyer ha anche il credito wallet scalato per un ordine che crede fallito. Doppia consegna, doppio contante da riconciliare, cliente che contesta.
+- **Fix consigliato:** Sostituire il `return` con `await rollbackCreatedCodOrders(); return NextResponse.json(...)`. Meglio ancora: spostare tutte le `reserve_stock` di TUTTI i gruppi prima del loop di creazione (come fa già `/api/stripe/checkout` con un unico `stockItems` globale) e mandare email/notifiche solo dopo che l'intero loop è riuscito.
+
+
+### deploy-sre (1)
+
+#### 🔴 21. Gli ambienti di preview di ogni PR girano sui segreti di PRODUZIONE
+
+- **Dove:** `/home/user/mycity/render.yaml:13-14 (previews: generation: automatic) + :32-73 (envVars sync:false)`
+- **Cosa succede:** VERIFICATO. render.yaml ha `previews:\n  generation: automatic` a livello root e tutte le chiavi critiche (SUPABASE_SERVICE_ROLE_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, RESEND_API_KEY, CRON_SECRET, TURNSTILE_SECRET_KEY, ANTHROPIC_API_KEY) sono dichiarate `sync: false` senza alcun `previewValue`. Su Render un preview environment eredita i valori del servizio base quando manca previewValue. In più NEXT_PUBLIC_APP_URL è un valore fisso hardcoded `https://mycity-marketplace.com` (r.64-65), quindi anche i link email e i redirect generati dal preview puntano al sito vero.
+- **Impatto:** Una PR sperimentale gira con la service-role key di produzione (RLS bypassata), può inviare email reali ai clienti veri e chiamare /api/cron con il CRON_SECRET vero (payout, rimborsi, cancellazioni GDPR). Il raggio d'azione di un errore in una PR è l'intero business.
+- **Fix consigliato:** Aggiungere `previewValue` con le chiavi di un progetto Supabase/Stripe di TEST su ogni env critica, oppure `previews: generation: off` finché non esiste uno staging separato. NEXT_PUBLIC_APP_URL va risolto da RENDER_EXTERNAL_URL, non hardcoded.
+
+
+## 🟠 Gravei (137)
+
+### architettura (4)
+
+#### 🟠 1. Ordine COD multi-negozio: nessun rollback degli ordini già creati se la riserva di stock fallisce su un gruppo successivo
+
+- **Dove:** `app/api/orders/cod/route.ts:289-296`
+- **Cosa succede:** CONFERMATO. Nel loop `for (let i = 0; i < body.groups.length; i++)` il file definisce e usa correttamente `rollbackCreatedCodOrders()` sui fallimenti di insert ordine e insert order_items. Il ramo di errore di `reserve_stock` (righe 290-296) fa invece solo `logger.warn(...)` e `return NextResponse.json({error:'Alcuni articoli non sono più disponibili…'}, {status:409})` senza chiamare `rollbackCreatedCodOrders()`. Con due venditori nel carrello e il secondo con un articolo esaurito, l'ordine del primo resta creato con `payout_status='AWAITING_REMITTANCE'`, lo stock del primo gruppo resta decrementato e il `wallet_debit` del gruppo 0 resta addebitato. Il cliente vede un 409 e il carrello non viene svuotato: al retry si creano ordini duplicati.
+- **Impatto:** Ordini fantasma che il venditore prepara e nessuno ritira; credito MyCity del cliente bruciato senza contropartita; stock bloccato; duplicazione al secondo tentativo. Ogni caso richiede correzione manuale in DB e rimborso.
+- **Fix consigliato:** Sostituire il ramo con `await rollbackCreatedCodOrders(); return NextResponse.json({…},{status:409});`. Meglio: spostare la creazione multi-gruppo in una RPC Postgres transazionale (`create_cod_orders(p_payload jsonb)`) così che riserva stock, addebito wallet e insert ordini siano atomici per costruzione invece che affidati a una compensazione manuale già dimenticata una volta.
+
+#### 🟠 2. Il claim del coupon non viene mai rilasciato: ogni checkout abbandonato o fallito brucia un utilizzo per sempre
+
+- **Dove:** `app/api/stripe/checkout/route.ts:251 · app/api/orders/cod/route.ts:223 · migrations/108_atomic_coupon_claim.sql`
+- **Cosa succede:** CONFERMATO. `claim_coupon` (migration 108) incrementa `uses_count` in un UPDATE atomico e viene chiamata PRIMA di `reserve_stock`, PRIMA dell'insert di `pending_checkouts` e PRIMA di creare la sessione Stripe. Nessun percorso di uscita restituisce il claim: in /api/stripe/checkout i return dopo il claim (reserve_stock fallita, pending_checkout insert fallito, catch sulla creazione sessione) fanno solo `restore_stock` e/o `status:'CANCELED'`, mai un decremento del coupon; idem in /api/orders/cod. Il caso più frequente non è nemmeno un errore: l'utente non paga → `handleCheckoutExpired` e il cron `expire-checkouts` ripristinano lo stock ma non toccano il coupon (grep 'coupon' su webhook/route.ts trova solo i riferimenti di scrittura sull'ordine e i commenti «non richiamiamo increment_coupon_usage»). Grep su migrations/ e su tutto il codice: NON esiste alcuna funzione di decremento — `increment_coupon_usage` (058) incrementa soltanto.
+- **Impatto:** Un coupon con `max_uses = 100` si esaurisce dopo ~100 TENTATIVI di checkout, non dopo 100 ordini. Con tassi tipici di abbandono al checkout (50-70%) la campagna si spegne a un terzo degli ordini attesi e i clienti legittimi vedono «Codice esaurito». Perdita diretta di ordini su ogni campagna a utilizzi limitati.
+- **Fix consigliato:** Aggiungere una RPC `release_coupon(p_code text)` (`UPDATE coupons SET uses_count = GREATEST(0, uses_count-1) WHERE code = …`, EXECUTE solo a service_role come le gemelle) e chiamarla in ogni percorso di fallimento delle due route, in `handleCheckoutExpired` e nel cron `expire-checkouts`. Più robusto: registrare il claim in `coupon_claims(code, pending_checkout_id, status)` con TTL e contare come «uso» solo le righe confermate, così la scadenza libera il claim da sola.
+
+#### 🟠 3. Webhook Stripe: contratto di errore incoerente tra gli handler — gift card, sponsorizzazioni e abbonamenti pagati possono sparire senza retry
+
+- **Dove:** `app/api/stripe/webhook/route.ts:139-145 (mark processed) · 428-461 (handleGiftCardPurchase) · 489-528 (handleSponsoredPurchase) · 552-570 (handleSellerSubscription)`
+- **Cosa succede:** CONFERMATO. Il dispatcher scrive `stripe_event_log.processed = true` subito dopo lo switch, con il commento «Marca l'evento come processato SOLO dopo il successo dell'handler». `handleCheckoutCompleted` rispetta il contratto: fa `throw` su pending_checkout mancante e su groups non validi, proprio per far ritentare Stripe. I tre handler gemelli lo violano e fanno `logger.error(...)` seguito da `return`: `handleGiftCardPurchase` su amount non valido e su errore di insert `gift_cards` diverso da 23505; `handleSponsoredPurchase` su metadata incompleti e su errore di insert `sponsored_listings` diverso da 23505; `handleSellerSubscription` su metadata incompleti. Il dispatcher li considera riusciti, marca processed=true e Stripe non ritenta più quell'evento. Solo il 23505 è un no-op legittimo (idempotenza retry).
+- **Impatto:** Il cliente paga una gift card, o un venditore paga una sponsorizzazione o l'abbonamento €50/mese, e la riga non viene mai creata a causa di un errore DB transitorio. Nessun retry automatico, nessun alert: si scopre solo dal reclamo. Soldi incassati senza servizio erogato = rimborso obbligato più danno reputazionale.
+- **Fix consigliato:** Uniformare il contratto: ogni handler deve fare `throw` sugli errori non idempotenti, come `handleCheckoutCompleted`. Estrarre un wrapper `runHandler(name, fn)` che codifichi la regola una volta sola invece di affidarla alla disciplina di chi scrive il prossimo handler, e aggiungere un alert sugli eventi rimasti `processed=false` oltre N minuti.
+
+#### 🟠 4. Tre aliquote di commissione diverse nello stesso prodotto: 10% incassato, 14% nella dashboard admin, 8% nelle Condizioni d'uso
+
+- **Dove:** `lib/constants.ts:24 (MARKETPLACE_FEE_BPS = 1000) · app/admin/page.tsx:18 (TAKE_RATE = 0.14) e :107,:127 · app/terms/page.tsx:206 · app/seller/layout.tsx:56`
+- **Cosa succede:** CONFERMATO alla lettera. `lib/constants.ts:24`: `MARKETPLACE_FEE_BPS = 1000` (10%), usata da `computeOrderSplit` sia nel webhook carta sia in /api/orders/cod: è la commissione realmente trattenuta, calcolata sul solo subtotale prodotti (spedizione e fee di consegna escluse). `app/admin/page.tsx:18`: `const TAKE_RATE = 0.14;` hardcoded, con `const commissions = gmv * TAKE_RATE` (riga 107) e la label «Commissioni (take-rate 14%)» (riga 127) — nessun import della costante, e la base è il GMV, non il subtotale prodotti. `app/terms/page.tsx:206`: «La commissione di servizio trattenuta da MyCity è pari all'8% del…» — aliquota più bassa E base diversa. `app/seller/layout.tsx:56`: «commissione del 10% sulle vendite».
+- **Impatto:** Doppio danno. (1) Business: l'unico cruscotto di ricavo sovrastima le commissioni di ~40% (14% sul GMV contro 10% sul solo subtotale) — ogni proiezione o trattativa basata su quel numero parte da una cifra falsa. (2) Legale: MyCity trattiene il 10% mentre il contratto accettato dal venditore ne promette l'8%; è una differenza contestabile con richiesta di restituzione retroattiva sul venduto.
+- **Fix consigliato:** Rendere `MARKETPLACE_FEE_BPS` l'unica sorgente: in app/admin/page.tsx eliminare `TAKE_RATE` e usare la costante applicata al subtotale prodotti (non al GMV, che include spedizione e fee di consegna). Allineare app/terms/page.tsx alla percentuale e alla base realmente applicate (decisione di Nicola, 🔴) facendo derivare il numero dalla costante invece di scriverlo a mano. Unit test che fallisce se un'aliquota di commissione letterale compare fuori da lib/constants.ts.
+
+
+### sicurezza-auth (3)
+
+#### 🟠 5. Il rate limit si aggira con un header: basta un X-Forwarded-For finto
+
+- **Dove:** `lib/rate-limit.ts:152-159 (getClientIp)`
+- **Cosa succede:** VERIFICATO nel codice: `const xff = req.headers.get('x-forwarded-for'); if (xff) return xff.split(',')[0].trim();` — si prende il PRIMO elemento della catena, cioè quello che il client ha inviato (i proxy come quello di Render conservano il valore in arrivo e APPENDONO l'IP reale in coda). Chi chiama con `X-Forwarded-For: <numero casuale>` ottiene un bucket nuovo a ogni richiesta. La funzione alimenta le chiavi di 8 endpoint pubblici: `signin:${ip}` (10/5min), `signup:${ip}`, `contact:${ip}` (3/10min), `geocode:${ip}`, `track:${ip}`, chat, support. Aggravante verificata: `verifyTurnstileToken` (lib/captcha.ts:18-27) è fail-open — senza `TURNSTILE_SECRET_KEY` ritorna `{ok:true, skipped:true}` limitandosi a loggare, anche in produzione.
+- **Impatto:** Il rate limit diventa ornamentale: spam illimitato sul form contatti (che manda email), abuso del proxy /api/geocode fino al ban dell'IP del server da Nominatim, flood su chat/support/track, registrazioni di massa. Nota onesta: il login vero avviene dal browser direttamente su Supabase (che ha limiti propri), quindi il credential stuffing è più limitato di quanto suggerisca il nome della chiave `signin:`.
+- **Fix consigliato:** Non fidarsi mai dell'estremità sinistra di XFF: prendere l'elemento in posizione `length - 1 - numeroProxyFidati`, oppure l'header scritto dal proxy stesso. Per gli endpoint di credenziali affiancare all'IP una chiave sull'identità (`signin:${email}`), così il limite regge anche a IP rotante. Rendere Turnstile fail-closed in produzione (503 se la chiave manca).
+
+#### 🟠 6. Tutti i codici sconto attivi sono scaricabili da un visitatore anonimo
+
+- **Dove:** `migrations/014_mvp_sprint.sql:148-151 (policy «Anyone can read active coupons» su public.coupons)`
+- **Cosa succede:** VERIFICATO sul DB live: la policy SELECT su `coupons` ha `qual = (active = true)` per il ruolo `{public}`, `anon` ha il GRANT SELECT sulla tabella, e oggi ci sono 2 coupon attivi effettivamente leggibili. La tabella espone `code, type, value, min_subtotal, max_uses, uses_count, first_order_only, expires_at, description`: basta `GET /rest/v1/coupons?active=eq.true` con la chiave anon del bundle. La policy serve presumibilmente solo a validare un codice digitato, ma per farlo espone l'elenco intero.
+- **Impatto:** Perdita di margine diretta: le promozioni riservate (riattivazione, primo ordine, codici dati a un singolo negozio o influencer) diventano pubbliche il giorno stesso e finiscono sugli aggregatori di codici sconto. Si legge anche `uses_count` vs `max_uses`, quindi si sa quali sono ancora spendibili. La validazione server-side in lib/coupons.ts resta corretta: il problema è che lo sconto viene applicato legittimamente a chi non doveva averlo.
+- **Fix consigliato:** Togliere la policy di lettura pubblica su `coupons`: la validazione passa già da `validateCoupon` nei percorsi server (`/api/stripe/checkout`, `/api/orders/cod`) e dalla RPC `claim_coupon`. Se serve un controllo lato client, aggiungere una RPC SECURITY DEFINER `check_coupon(p_code text)` che risponde solo valido/non valido per il codice ESATTO fornito, con rate limit, senza mai permettere l'enumerazione.
+
+#### 🟠 7. Download immagini senza tetto di dimensione: un venditore può saturare la RAM del server
+
+- **Dove:** `lib/products/rehostImages.ts:92-100 (usata da app/api/products/rehost-images/route.ts:56)`
+- **Cosa succede:** VERIFICATO nel codice: `const buffer = Buffer.from(await res.arrayBuffer());` e SOLO DOPO `if (buffer.byteLength > maxBytes)` (8 MiB). Il controllo scatta quando il file è già interamente in memoria; `Content-Length` non viene mai guardato e il body non viene troncato a stream. L'URL è fornito dall'utente (`image_urls: z.array(z.string().url()).max(10)`); il guard SSRF (lib/net/ssrf-guard.ts:152) valida la destinazione ma non la dimensione. Precisazioni rispetto alla segnalazione originale: i download sono SEQUENZIALI (ciclo `for` con await), non 200 in parallelo, e `AbortSignal.timeout(10_000)` interrompe la lettura dopo 10 secondi — quindi l'attacco è limitato a quanto un server ostile riesce a spingere in 10s, che su banda cloud sono comunque centinaia di MB. L'istanza è `plan: starter` (render.yaml:20), cioè 512 MB di RAM, e il rate limit è 20 richieste/minuto per venditore.
+- **Impatto:** Un venditore (e per via del primo finding chiunque può diventarlo in 30 secondi) punta gli URL a un file enorme su un server che controlla e fa esaurire la memoria dell'istanza Render: il marketplace va giù per tutti — niente ordini, niente checkout — e l'attacco si ripete dopo il riavvio. Costo per l'attaccante: zero.
+- **Fix consigliato:** Prima del download controllare `res.headers.get('content-length')` e scartare subito se supera `maxBytes`; poi leggere il body a stream (`res.body.getReader()`) accumulando e interrompendo appena si superano i byte consentiti, così un server che mente sul Content-Length non fa danni.
+
+
+### rls-database (9)
+
+#### 🟠 8. La policy di inserimento recensioni negozio contiene una tautologia: si può recensire qualsiasi negozio
+
+- **Dove:** `/home/user/mycity/migrations/093_reviews_no_self_review.sql:49 (origine identica in /home/user/mycity/migrations/014_mvp_sprint.sql:83)`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. La WITH CHECK scritta nel file è `... AND store_id = store_reviews.store_id AND ...`, ma `orders` non ha una colonna store_id (la colonna reale è seller_id, vedi 001_create_tables.sql:21 e 011_orders_delivery.sql). Postgres risolve quindi `store_id` sul riferimento esterno: l'espressione compilata letta in pg_policies è testualmente `(store_reviews.store_id = store_reviews.store_id)`, sempre vera. Resta in piedi solo `store_id <> auth.uid()` (niente auto-recensione) e il legame con un proprio ordine consegnato qualsiasi.
+- **Impatto:** Qualsiasi cliente con un solo ordine consegnato può pubblicare una recensione a 1 stella su un negozio da cui non ha mai comprato, e un venditore disonesto può far recensire i concorrenti dai propri account. Il badge «recensione verificata» diventa falso: è esattamente la fiducia che il marketplace vende ai negozi.
+- **Fix consigliato:** Correggere in `AND orders.seller_id = store_reviews.store_id`. Aggiungere subito un test negativo (un buyer prova a recensire un negozio diverso da quello del suo ordine e deve ricevere 42501) e bonificare a posteriori: `SELECT sr.* FROM store_reviews sr JOIN orders o ON o.id = sr.order_id WHERE o.seller_id <> sr.store_id`.
+
+#### 🟠 9. L'hardening RLS delle migrazioni 020 e 109 non ha mai avuto effetto: le policy permissive USING(true) sono ancora vive per nomi sbagliati nei DROP
+
+- **Dove:** `/home/user/mycity/migrations/109_fix_020_rls_columns.sql:31-32 e :77-78 · policy reali create in /home/user/mycity/migrations/014_mvp_sprint.sql:69 ("Anyone can read store reviews") e /home/user/mycity/migrations/015_competitive_moats.sql:48-49 ("Anyone reads participants")`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. La 109 nasce per rimediare al rollback della 020 e ripete lo stesso errore: fa `DROP POLICY IF EXISTS "Anyone can view store reviews"` e `"Anyone reads store reviews"`, mentre la policy realmente creata dalla 014 si chiama "Anyone can read store reviews"; e fa DROP di "Anyone can view group participants"/"Anyone reads group participants" mentre quella creata dalla 015 è "Anyone reads participants". `IF EXISTS` rende i DROP silenziosi. pg_policies oggi mostra su store_reviews sia "Store reviews readable for approved stores" sia "Anyone can read store reviews" con qual=true, e su group_participants sia "Group participants readable by self or seller" sia "Anyone reads participants" con qual=true — entrambe per il ruolo public. Le policy permissive si combinano in OR: la larga vince sempre, la restrittiva è decorativa.
+- **Impatto:** Un lavoro di hardening che il team crede applicato e che non lo è: la lista dei partecipanti agli acquisti di gruppo (chi ha comprato cosa, con user_id) resta leggibile da chiunque anche senza login, e le recensioni di negozi sospesi o non approvati restano pubbliche. Il danno peggiore è la falsa sicurezza: gli audit successivi hanno dato per chiusa questa voce.
+- **Fix consigliato:** Nuova migrazione che elimina le policy con i nomi VERI letti da pg_policies ("Anyone can read store reviews", "Anyone reads participants"), non quelli presunti. Poi guardiano in CI che confronta l'elenco di pg_policies con quello atteso e fallisce su ogni policy USING(true) non presente in una allowlist. Regola generale: mai DROP POLICY IF EXISTS alla cieca — prima si legge pg_policies.
+
+#### 🟠 10. Chiunque abbia un account (non solo i rider) può prendersi un ordine altrui e vedere i dati del cliente
+
+- **Dove:** `/home/user/mycity/migrations/061_p0_security_rls_state_machine_reviews.sql:145-150 (ramo claim del trigger) · policy "Riders can update assigned or claim free orders" su public.orders`
+- **Cosa succede:** VERIFICATO. Il ramo del trigger che autorizza il claim controlla solo `OLD.rider_id IS NULL AND NEW.rider_id = uid AND OLD.delivery_status='READY' AND NEW.delivery_status='ASSIGNED'`: non verifica mai che il chiamante sia profiles.role='rider' né che sia approvato. Stessa lacuna nella policy RLS: pg_policies mostra qual = `((rider_id = (SELECT auth.uid())) OR ((delivery_status = 'READY') AND (rider_id IS NULL)))` per il ruolo public, e with_check = NULL — quindi Postgres riusa la USING come WITH CHECK e chi si è auto-assegnato resta scrivibile sull'ordine anche dopo la consegna.
+- **Impatto:** Un cliente qualsiasi — o un venditore concorrente — può sottrarre l'ordine al rider vero: la consegna si blocca, il cliente resta senza merce, e chi ha rubato l'ordine ottiene indirizzo e telefono del compratore (si apre di conseguenza anche la policy su profiles per il buyer dell'ordine assegnato). Denial of service sulle consegne più esposizione PII. Latente finché resta il bug su invoice_number.
+- **Fix consigliato:** Aggiungere al ramo claim del trigger `AND EXISTS (SELECT 1 FROM profiles p WHERE p.id = uid AND p.role='rider' AND p.is_approved)` e replicare lo stesso predicato nella USING della policy di UPDATE. Aggiungere una WITH CHECK esplicita che impedisca di restare scrivibile dopo DELIVERED.
+
+#### 🟠 11. Quattro colonne di denaro degli ordini non sono congelate: venditore e rider possono falsare rimborsi, credito e spese di consegna
+
+- **Dove:** `/home/user/mycity/migrations/061_p0_security_rls_state_machine_reviews.sql:104-137 (lista freeze) · /home/user/mycity/lib/stripe/payout.ts:340-344`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE con un diff automatico fra le 60 colonne reali di orders e i riferimenti `NEW.<colonna>` nel corpo di enforce_order_update_rules. Restano scrivibili dal client: refunded_amount_cents, wallet_applied_cents, delivery_fee_cents (oltre a rider_fee_cents) e i campi di recapito delivery_city, delivery_zip, delivery_lat, delivery_lng, delivery_notes — mentre delivery_address, delivery_phone e delivery_full_name sono giustamente congelati: incoerenza evidente. In lib/stripe/payout.ts refundOrder calcola `const alreadyRefunded = order.refunded_amount_cents ?? 0; const safeAmountCents = Math.max(0, Math.min(opts.amountCents, orderTotalCents - alreadyRefunded)); if (safeAmountCents <= 0) throw new Error('refundOrder: importo rimborso non valido')`.
+- **Impatto:** Un venditore che riceve una richiesta di reso imposta refunded_amount_cents = total_price sull'ordine: da quel momento refundOrder calcola residuo 0 e lancia 'importo rimborso non valido' — il cliente NON può più essere rimborsato e il supporto vede solo un errore tecnico. In direzione opposta, azzerarlo dopo un rimborso parziale sballa la riconciliazione contabile. Alterare delivery_lat/lng manda il rider all'indirizzo sbagliato lasciando corretto l'indirizzo testuale: sabotaggio difficile da diagnosticare.
+- **Fix consigliato:** Aggiungere tutte queste colonne al freeze nella stessa migrazione che ripara invoice_number. Meglio ancora invertire la logica del trigger: invece di elencare i campi VIETATI (lista che invecchia a ogni migrazione), elencare i pochi campi PERMESSI al client (delivery_status, rider_id, rider_lat, rider_lng, rider_position_updated_at, accepted_at, ready_at) e rifiutare tutto il resto, così una colonna nuova nasce protetta per default.
+
+#### 🟠 12. Tutti i codici sconto attivi sono leggibili senza login (coupons e zone_codes)
+
+- **Dove:** `policy "Anyone can read active coupons" su public.coupons (USING active = true) · policy "zone_codes_public_read" su public.zone_codes (USING status = 'active')`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE, LETTURA REALE. Entrambe le policy sono per il ruolo public e anon ha il grant SELECT su entrambe le tabelle. PROVA ESEGUITA (transazione con ROLLBACK, `SET LOCAL ROLE anon`): `select count(*) from public.coupons` → 2 righe leggibili; `select count(*) from public.zone_codes` → 5 righe leggibili. Le colonne esposte sono coupons(code, type, value, min_subtotal, max_uses, uses_count, first_order_only, expires_at, description) e zone_codes(code, zone_name, zip, city, discount_percent, min_order_cents, max_uses_per_user, expires_at).
+- **Impatto:** Ogni promozione riservata (codice dato a un influencer, a un quartiere, a una campagna stampa, ai soli primi ordini) è pubblica nell'istante in cui viene creata: bastano `GET /rest/v1/coupons?active=eq.true` e `GET /rest/v1/zone_codes?status=eq.active` con la chiave anon. Il margine delle campagne salta e il ritorno di un canale diventa immisurabile, perché il codice viene usato da chi non è mai stato raggiunto dalla campagna.
+- **Fix consigliato:** Revocare la lettura pubblica e validare i codici solo lato server: RPC SECURITY DEFINER `validate_coupon(p_code text, p_subtotal int)` che restituisce solo esito e sconto applicabile, con EXECUTE ai soli authenticated e un rate limit sui tentativi (blocca anche il brute-force sui codici). Stessa cosa per zone_codes. Se serve mostrare le promo attive in home, esporre una view senza la colonna code.
+
+#### 🟠 13. Le foto di prova incasso contanti e consegna finiscono in un bucket PUBBLICO, in una cartella non legata all'utente
+
+- **Dove:** `/home/user/mycity/components/rider/CashConfirmDialog.tsx:35-41 · policy storage "Authenticated users can upload product images" · /home/user/mycity/migrations/002_categories_and_extras.sql:132-134 · /home/user/mycity/migrations/070_storage_and_rls_hardening.sql`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. Il rider carica la prova dell'incasso COD e la foto di consegna con `const path = 'cod-proof/' + orderId + '/' + kind + '-' + Date.now() + '.jpg'` su `supabase.storage.from('products')`, poi ne prende l'URL con getPublicUrl. storage.buckets: il bucket `products` ha public=true. pg_policies su storage.objects: l'unica INSERT è "Authenticated users can upload product images" con with_check `((bucket_id = 'products') AND (auth.role() = 'authenticated'))` — nessun vincolo di cartella `(storage.foldername(name))[1] = auth.uid()`, vincolo che invece esiste sulla SELECT "products read own" e sui bucket kyc-docs/reviews. La 070 riconosce esplicitamente che la lettura via URL pubblico non passa dalle RLS, ma fu scritta assumendo che il bucket contenesse solo foto di prodotto. (Nota: il campo cash_signature_url esiste ed è accettato da /api/rider/cash-confirm, ma questo componente carica solo le due foto.)
+- **Impatto:** Foto dei contanti e foto del pacco davanti alla porta di casa sono accessibili a chiunque conosca o indovini l'URL, che è deterministico a partire dall'id ordine — id che cliente e venditore conoscono. Sono dati personali: esposizione GDPR e prove di consegna manipolabili in una contestazione. In più, la INSERT senza vincolo di cartella permette a qualunque utente autenticato di scrivere file ovunque nel bucket products, anche sovrascrivendo il percorso di prova di un altro ordine.
+- **Fix consigliato:** Spostare le prove COD in un bucket privato dedicato (`cod-proof`, public=false) con lettura riservata alle parti dell'ordine e URL firmati a scadenza breve, come già fatto per kyc-docs. Aggiungere il vincolo di cartella alla INSERT del bucket products: `AND (storage.foldername(name))[1] = (auth.uid())::text`. Migrare i file già caricati e invalidare gli URL pubblici salvati in orders.cash_photo_url / cash_signature_url / delivery_photo_url.
+
+#### 🟠 14. I dati economici delle campagne sponsorizzate sono pubblici: budget, speso e id di sessione Stripe dei concorrenti
+
+- **Dove:** `policy "sponsored_listings_public_read" su public.sponsored_listings (USING status = 'active')`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. pg_policies: `sponsored_listings_public_read`, cmd=SELECT, roles={public}, qual=`(status = 'active')`, nessuna restrizione di colonna (i grant sono a livello di tabella e anon ha SELECT). information_schema.columns conferma che la tabella contiene daily_budget_cents, spent_cents, impressions, clicks e stripe_session_id. Esiste già una policy separata `sponsored_listings_owner_read` (auth.uid() = seller_id), segno che l'intento era tenere privati i dati economici. Oggi la tabella ha 0 righe: l'esposizione è strutturale e si attiva alla prima campagna.
+- **Impatto:** Ogni negozio potrà leggere quanto spendono in pubblicità tutti gli altri e con che rendimento: distrugge il potere negoziale del retail media di MyCity e spinge al ribasso i prezzi degli spazi. L'esposizione dello stripe_session_id è inoltre un riferimento di pagamento che non dovrebbe mai uscire.
+- **Fix consigliato:** Sostituire la policy pubblica con una view `sponsored_active_public` che espone solo id, product_id, placement, category_slug (le colonne che servono a mostrare l'annuncio), creata con security_invoker = on e solo GRANT SELECT. Lasciare sponsored_listings_owner_read e la policy admin per i dati economici.
+
+#### 🟠 15. La view seller_storefronts esiste in produzione ma in nessun file del repository (drift) ed espone il referral_code dei negozi
+
+- **Dove:** `produzione: view public.seller_storefronts — zero occorrenze in /home/user/mycity (grep ricorsivo su tutto il repo, migrations incluse)`
+- **Cosa succede:** VERIFICATO. pg_class conferma l'esistenza della view in public, di proprietà postgres, senza security_invoker. pg_get_viewdef mostra che espone, oltre ai campi vetrina, la colonna `referral_code` di ogni venditore approvato. Un grep ricorsivo sull'intero repository non trova nessuna occorrenza della stringa 'seller_storefronts': non è in nessuna migrazione e non è usata da nessuna pagina o libreria (il codice usa ovunque seller_public_profiles). È inoltre la stessa view su cui ho riprodotto la scrittura come anon nel primo punto.
+- **Impatto:** Doppio danno: (a) un ambiente ricostruito dalle migrazioni non ha questa view, quindi un ripristino da disaster recovery parte con uno schema diverso dalla produzione e nessuno sa perché; (b) il referral_code pubblico permette di attribuirsi referral non guadagnati e di innescare reward_referrer_on_delivery (migrations/089) a favore di terzi. Soprattutto, dimostra che il database ha subito modifiche fuori dal processo di migrazione: le migrazioni non sono più la verità.
+- **Fix consigliato:** Poiché nessuna riga di codice la usa, la strada pulita è `DROP VIEW public.seller_storefronts`. Se invece serve a un tool esterno, portarla in una migrazione numerata con security_invoker = on, senza referral_code e con solo GRANT SELECT. In entrambi i casi aggiungere al giro di controllo un confronto automatico fra schema di produzione e schema ricostruito dalle migrazioni, che segnali ogni oggetto orfano.
+
+#### 🟠 16. Cancellazione account: gli ordini perdono il compratore e il nome, telefono e indirizzo del cliente restano nell'ordine
+
+- **Dove:** `vincolo orders_user_id_fkey: FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE SET NULL · profiles_id_fkey: REFERENCES auth.users(id) ON DELETE CASCADE · /home/user/mycity/app/api/cron/process-deletions/route.ts:146`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. pg_constraint conferma orders_user_id_fkey → profiles(id) ON DELETE SET NULL e profiles_id_fkey → auth.users(id) ON DELETE CASCADE. Il cron di cancellazione chiama `admin.auth.admin.deleteUser(userId)` (route.ts:146): la cascata elimina il profilo e azzera orders.user_id. Il cron anonimizza profiles, reviews, store_reviews, rider_reviews, returns, messages e contact_messages, ma NON tocca i campi delivery_full_name, delivery_phone, delivery_address dell'ordine. Confermata anche l'incoerenza dei riferimenti: reviews.user_id → auth.users ON DELETE SET NULL, store_reviews.user_id → auth.users ON DELETE CASCADE — la stessa azione dell'utente cancella una recensione e ne conserva un'altra.
+- **Impatto:** Dopo una richiesta di cancellazione GDPR restano in chiaro, sulla riga ordine, nome completo, telefono e indirizzo di casa del cliente: l'esercizio del diritto all'oblio (art. 17) è quindi solo parziale, ed è proprio il dato più identificante a sopravvivere. In parallelo l'ordine diventa orfano (user_id NULL): resta nei totali di fatturato ma senza intestatario, le policy "Users can view their own orders" non lo agganciano più e la riconciliazione contabile con gli obblighi di conservazione decennale diventa difficile da dimostrare.
+- **Fix consigliato:** Nel cron di cancellazione, prima del deleteUser, sovrascrivere delivery_full_name, delivery_phone e delivery_address degli ordini dell'utente con segnaposto, e mantenere l'aggancio contabile su un profilo tombstone invece di lasciare user_id NULL. Uniformare inoltre tutte le FK utente su profiles (oggi metà puntano ad auth.users) e allineare le azioni ON DELETE fra reviews e store_reviews.
+
+
+### pagamenti-stripe (13)
+
+#### 🟠 17. Il rider non viene mai pagato sugli ordini sopra €30: rider_fee_cents non è popolato da nessuna parte
+
+- **Dove:** `/home/user/mycity/lib/stripe/payout.ts:163-166 · /home/user/mycity/lib/shipping.ts:30 · /home/user/mycity/migrations/111_rider_fee_cents.sql:9 · /home/user/mycity/app/api/cron/release-payouts/route.ts:114-136`
+- **Cosa succede:** VERIFICATO con grep su tutto il repo: `rider_fee_cents` compare SOLO nella migrazione 111 che crea la colonna e nella SELECT/lettura di payout.ts. Né il webhook Stripe (che fa l'insert degli ordini, webhook/route.ts:260-291) né /api/orders/cod la valorizzano. Vale quindi sempre il fallback `shipping_cost*100`, che è 0 quando il subtotale è ≥ FREE_SHIPPING_THRESHOLD (=30, constants.ts:1) o con coupon FREE_SHIPPING (shipping.ts:28-30). Con fee 0 `releaseRiderPayout` esce a riga 166 con INVALID_AMOUNT SENZA scrivere alcuno stato.
+- **Impatto:** Doppio danno. (1) Il rider consegna gratis tutti gli ordini sopra €30 mentre la piattaforma incassa comunque i €3 di PLATFORM_DELIVERY_FEE_CENTS: è il tipo di ingiustizia che fa scappare i rider. (2) `rider_payout_status` resta NULL, quindi l'ordine rientra nei candidati del cron a OGNI esecuzione fallendo ogni volta (`riderFailed++`): rumore infinito che maschera i fallimenti veri.
+- **Fix consigliato:** Popolare `rider_fee_cents` alla creazione dell'ordine (webhook Stripe e route COD) con una tariffa di consegna disaccoppiata dal prezzo pagato dal buyer — es. `riderFee(distanza)` di lib/geo, calcolata sempre e coperta dai €3 di delivery fee. E marcare gli ordini a compenso zero con uno stato non ritentabile (NOT_APPLICABLE) per non farli ricircolare nel cron.
+
+#### 🟠 18. Compenso rider fallito una volta = mai più ritentato (lo stato HELD non è nella query dei candidati)
+
+- **Dove:** `/home/user/mycity/lib/stripe/payout.ts:217 vs /home/user/mycity/app/api/cron/release-payouts/route.ts:120`
+- **Cosa succede:** VERIFICATO. Nel catch del transfer rider lo stato viene riportato a 'HELD' (payout.ts:217). La query dei candidati rider del cron accetta solo `rider_payout_status.is.null,rider_payout_status.eq.PENDING_RIDER_ONBOARDING,rider_payout_status.eq.FAILED` (riga 120): 'HELD' non c'è. Il claim interno di `releaseRiderPayout` invece accetta HELD (payout.ts:184), a conferma che l'intenzione era ritentare. Asimmetria confermata: sul path venditore lo stesso catch scrive 'HELD' (payout.ts:135) e lì la query del cron lo include (riga 60), quindi il retry funziona.
+- **Impatto:** Un singolo errore transitorio di Stripe (timeout, rate limit, saldo momentaneamente insufficiente) congela in eterno il compenso di quella consegna. Il rider non viene pagato e nulla lo segnala: il contatore del cron non lo vede nemmeno più.
+- **Fix consigliato:** Aggiungere `rider_payout_status.eq.HELD` al filtro `.or()` della riga 120, oppure — meglio — allineare i due path esportando da payout.ts un unico elenco di stati ritentabili condiviso fra cron e claim.
+
+#### 🟠 19. payout_status 'PROCESSING' orfano: nessun reaper, e l'update post-transfer non viene verificato
+
+- **Dove:** `/home/user/mycity/lib/stripe/payout.ts:94-137 (update non verificato alle righe 126-129) e 209-212 + /home/user/mycity/app/api/cron/release-payouts/route.ts:60`
+- **Cosa succede:** VERIFICATO. Il claim atomico porta l'ordine a 'PROCESSING'. L'UPDATE finale (payout.ts:126-129) NON controlla il proprio `error`, a differenza del claim che invece lo controlla (righe 100-105). Se il processo muore fra claim e fine (deploy, timeout della funzione, OOM) o se quell'update fallisce, l'ordine resta in 'PROCESSING'. Il cron seleziona solo `['HELD','PENDING_SELLER_ONBOARDING']` (riga 60) e un grep su tutto il repo conferma che 'PROCESSING' compare solo nelle due scritture di payout.ts e nei CHECK delle migrazioni 081/097: nessun job lo ripesca. Identico per `rider_payout_status='PROCESSING'` (payout.ts:182).
+- **Impatto:** Due scenari, entrambi cattivi: (a) il transfer NON è partito e il venditore resta bloccato in silenzio senza alcun allarme; (b) il transfer È partito ma `stripe_transfer_id` non è stato salvato — il claw-back futuro (reso, chargeback) diventa impossibile perché `reverseOrderTransfer` esce subito senza `stripe_transfer_id` (payout.ts:249): soldi non recuperabili.
+- **Fix consigliato:** (1) Controllare l'errore dell'update post-transfer e, se fallisce, loggare a livello error con il `transfer.id` (→ Sentry). (2) Aggiungere al cron un passaggio di recupero sugli ordini in 'PROCESSING' da oltre N minuti: interrogare Stripe con l'Idempotency-Key `payout_seller_<order_id>` (o cercare il transfer per `metadata.order_id`) e riallineare il DB al reale.
+
+#### 🟠 20. Chargeback VINTO: il venditore non viene mai ripagato (payout resta REVERSED e seller_payout_cents azzerato)
+
+- **Dove:** `/home/user/mycity/app/api/stripe/webhook/route.ts:795-803 e 829-831 + /home/user/mycity/lib/stripe/payout.ts:269-278 + /home/user/mycity/app/api/cron/release-payouts/route.ts:60`
+- **Cosa succede:** VERIFICATO. All'apertura del chargeback `handleDisputeCreated` fa il claw-back sugli ordini già 'TRANSFERRED': `reverseOrderTransfer` scrive `payout_status='REVERSED'` e `seller_payout_cents = max(0, maxCents - reverseCents)` = 0 (payout.ts:275-276). Quando la contestazione viene VINTA, `handleDisputeClosed` aggiorna solo `dispute_status='WON'` e notifica «Payout sbloccato» (riga 831). Ma il cron seleziona esclusivamente `payout_status IN ('HELD','PENDING_SELLER_ONBOARDING')` (riga 60) e `releaseOrderPayout` rifiuterebbe comunque con INVALID_AMOUNT perché `seller_payout_cents <= 0` (payout.ts:75-77). Nessun codice riporta lo stato a HELD né ripristina l'importo.
+- **Impatto:** Sugli ordini il cui payout era già partito prima del chargeback, la piattaforma tiene i soldi che Stripe le restituisce alla vittoria, mentre il venditore — che ha già consegnato la merce — non li rivede mai. La notifica agli admin dice il falso («Payout sbloccato»), quindi nemmeno l'admin se ne accorge. (Sugli ordini ancora HELD il flusso funziona: dispute_status='WON' li rende di nuovo eleggibili.)
+- **Fix consigliato:** Nel ramo 'won' di `handleDisputeClosed`: riportare `payout_status='HELD'` per gli ordini che risultano 'REVERSED' e ricalcolare `seller_payout_cents` con `computeOrderSplit` dai campi dell'ordine (total_price, delivery_fee_cents, shipping_cost) invece che dal campo mutato. Prerequisito: smettere di usare `seller_payout_cents` come contatore mutabile.
+
+#### 🟠 21. expire-stale-orders annulla PRIMA di rimborsare: se il refund fallisce l'ordine resta annullato e mai rimborsato
+
+- **Dove:** `/home/user/mycity/app/api/cron/expire-stale-orders/route.ts:37-42, 56-83, 110-116`
+- **Cosa succede:** VERIFICATO. Il cron fa il claim atomico `delivery_status: NEW → CANCELED` (righe 56-67) e SOLO DOPO chiama `refundOrder` (riga 76). Se `refundOrder` lancia (Stripe down, rate limit, 5xx), il catch di riga 110 incrementa `failed` e prosegue. Al giro successivo l'ordine non è più in 'NEW', quindi la query dei candidati (riga 40: `.eq('delivery_status','NEW')`) non lo ripesca mai più. Non esiste alcun job di riconciliazione dei rimborsi mancati.
+- **Impatto:** Ordine con carta effettivamente addebitato, annullato d'ufficio, buyer notificato «Il rimborso è in corso» (riga 105) e nessun rimborso emesso. Soldi trattenuti senza titolo → chargeback quasi certo (con costo dispute ~€15) e danno reputazionale. Serve un fallimento transitorio di Stripe perché scatti, ma quando scatta non c'è alcun percorso di recupero.
+- **Fix consigliato:** Invertire l'ordine (prima `refundOrder`, poi l'annullo a rimborso riuscito) oppure usare uno stato intermedio ('CANCELING') ripescabile dal cron finché `payment_status` non è REFUNDED. In ogni caso aggiungere una query di riconciliazione «CANCELED + card + PAID + refunded_amount_cents=0» che ritenta il rimborso.
+
+#### 🟠 22. Gift card, sponsorizzazioni e abbonamenti: pagamento incassato ma nulla consegnato, in silenzio
+
+- **Dove:** `/home/user/mycity/app/api/stripe/webhook/route.ts:437-440, 459-461, 497-500, 526-528, 566-569 (marcatura processed alle righe 142-145)`
+- **Cosa succede:** VERIFICATO. `handleGiftCardPurchase`, `handleSponsoredPurchase` e `handleSellerSubscription` in caso di errore fanno `logger.error(...); return;` invece di lanciare. Il chiamante interpreta il return come successo e scrive `processed: true` su `stripe_event_log` (righe 142-145): Stripe riceve 200 e non ritenta mai. Il contrasto è netto con `handleCheckoutCompleted`, che lancia apposta (riga 207: «Throw: Stripe ritenterà il webhook»). Casi confermati: amount non valido (437-440), insert `gift_cards` fallito per errore diverso da 23505 (459-461), metadata sponsored incompleti (497-500), insert `sponsored_listings` fallito (526-528), seller_id/subscription_id mancanti (566-569).
+- **Impatto:** Il cliente paga €100 di gift card (o il venditore paga la sponsorizzazione o i €50 di abbonamento) e non riceve nulla; l'evento è marcato come processato, quindi non c'è retry né traccia visibile fuori dai log. Rimborso e recupero sono manuali e solo se qualcuno reclama.
+- **Fix consigliato:** Sostituire i `return` sul ramo d'errore con `throw` (come già fa il flusso ordini), tenendo il `return` solo sul ramo idempotente 23505. In più: se i metadata sono incompleti, rimborsare automaticamente la sessione invece di incassare senza contropartita.
+
+#### 🟠 23. transfer.reversed marca l'ordine REVERSED anche su storno PARZIALE e blocca i claw-back successivi
+
+- **Dove:** `/home/user/mycity/app/api/stripe/webhook/route.ts:856-861 (in conflitto con /home/user/mycity/lib/stripe/payout.ts:269-278)`
+- **Cosa succede:** VERIFICATO. `reverseOrderTransfer` distingue con cura reversal pieno da parziale: imposta `payout_status='REVERSED'` SOLO se `isFull` (payout.ts:276). Ma Stripe emette `transfer.reversed` a ogni creazione di reversal, anche parziale, e `handleTransferReversed` fa un update incondizionato `payout_status='REVERSED'` per `stripe_transfer_id` (riga 858), senza leggere `amount_reversed`/`amount`. L'evento arriva pochi secondi dopo il primo rimborso parziale e sovrascrive la logica corretta.
+- **Impatto:** Dopo un rimborso parziale l'ordine risulta interamente stornato. Al secondo rimborso parziale `reverseOrderTransfer` esce subito (guardia `payout_status !== 'TRANSFERRED'`, payout.ts:249) e restituisce 0: il buyer viene rimborsato ma la quota del venditore NON viene più recuperata. La perdita resta sulla piattaforma e cresce a ogni reso parziale successivo.
+- **Fix consigliato:** In `handleTransferReversed` leggere il transfer da Stripe e confrontare `amount_reversed` con `amount`: impostare 'REVERSED' solo se lo storno è totale, altrimenti lasciare 'TRANSFERRED' salvando solo `stripe_reversal_id`. Stesso trattamento per `rider_payout_status`.
+
+#### 🟠 24. seller_payout_cents è usato come contatore mutabile: recupero incompleto sui resi multipli e rendiconti falsati
+
+- **Dove:** `/home/user/mycity/lib/stripe/payout.ts:270-278 (mutazione) e 422-426 (quota calcolata sul campo mutato) · consumatori: /home/user/mycity/app/seller/earnings/page.tsx:98-103,247 e /home/user/mycity/app/admin/payouts/page.tsx:101,122,137,232`
+- **Cosa succede:** VERIFICATO, con una conseguenza peggiore di quella segnalata. Il campo, scritto una sola volta alla creazione dell'ordine come netto venditore (webhook:281), viene riusato come residuo mutabile (`seller_payout_cents: Math.max(0, maxCents - reverseCents)`). Ma `refundOrder` calcola la quota da stornare come `safeAmountCents * seller_payout_cents / orderTotalCents` (righe 422-424) usando il campo GIÀ decrementato, mentre il denominatore resta il totale pieno. Aritmetica sul codice reale: ordine €100, netto venditore 9000c; primo reso da €50 → storna round(5000*9000/10000)=4500 (residuo 4500); secondo reso da €50 → storna round(5000*4500/10000)=2250. Totale recuperato 6750 su 9000 dovuti. In parallelo le due pagine di rendicontazione leggono lo stesso campo come importo storico del payout (earnings:100-103 per incassato/in-attesa e la colonna di riga 247; admin/payouts:122,137 per i totali per venditore).
+- **Impatto:** (a) Su un ordine rimborsato in due tranche la piattaforma recupera dal venditore solo ~75% di quanto ha restituito al buyer: differenza a carico della piattaforma, silenziosa. (b) Dopo un claw-back l'ordine appare con payout €0,00 pur avendo avuto un transfer reale: il venditore non riesce a ricostruire cosa ha incassato e la riconciliazione con l'estratto conto Stripe diventa impossibile. (c) È anche la causa per cui il chargeback vinto non può ripristinare l'importo originale.
+- **Fix consigliato:** Rendere `seller_payout_cents` immutabile e introdurre `seller_payout_reversed_cents` (cumulato stornato) o una tabella `payout_ledger` append-only (transfer, reversal, importo, causa, id Stripe). Il residuo stornabile diventa `seller_payout_cents - reversed_cents` e la quota proporzionale va calcolata sempre sul netto ORIGINALE.
+
+#### 🟠 25. Nessun claw-back del compenso rider su chargeback perso o rimborso pieno
+
+- **Dove:** `/home/user/mycity/app/api/stripe/webhook/route.ts:687-696 (charge.refunded), 795-803 (dispute.created), 832-845 (dispute lost) + /home/user/mycity/lib/stripe/payout.ts:245-281`
+- **Cosa succede:** VERIFICATO con grep: `rider_transfer_id` compare in tutto il codice solo in due punti — la scrittura in `releaseRiderPayout` (payout.ts:211) e la sincronizzazione `transfer.reversed` (webhook:859). `reverseOrderTransfer` lavora esclusivamente su `stripe_transfer_id` (venditore). Su `charge.refunded` pieno e su `charge.dispute.created` il ciclo scorre gli ordini e storna solo il payout venditore; il ramo 'lost' di `handleDisputeClosed` non storna nulla. Il compenso già versato al rider su quella charge resta intoccato.
+- **Impatto:** Su ogni chargeback perso e su ogni ordine fraudolento la piattaforma perde: totale rimborsato al buyer + fee Stripe di dispute (~€15) + compenso rider non recuperato + i €3 di delivery fee. Recupera solo il netto venditore. Su ordini a basso margine il conto è strutturalmente in perdita e non è visibile in nessun cruscotto.
+- **Fix consigliato:** Aggiungere una `reverseRiderTransfer(order, amountCents)` gemella e richiamarla in `handleChargeRefunded` e `handleDisputeCreated` almeno per le cause fraudolente (`dispute.reason === 'fraudulent'`), con policy esplicita per le altre (consegna avvenuta = rider pagato, costo a carico piattaforma) da mettere a bilancio.
+
+#### 🟠 26. Coupon consumato al checkout e mai rilasciato se il pagamento non si conclude
+
+- **Dove:** `/home/user/mycity/app/api/stripe/checkout/route.ts:250-255 e 395-405 · /home/user/mycity/app/api/cron/expire-checkouts/route.ts (nessun rilascio) · /home/user/mycity/app/api/stripe/webhook/route.ts:867-883`
+- **Cosa succede:** VERIFICATO. `claim_coupon` (migrazione 108) incrementa `uses_count` PRIMA di creare la sessione Stripe. Grep su tutto il repo: non esiste alcuna funzione di rilascio/decremento (nessun `release_coupon`, nessun UPDATE che decrementi `uses_count`). Nessuno dei tre percorsi di annullamento lo restituisce: il catch di creazione sessione (checkout:395-405) ripristina lo stock e marca CANCELED ma ignora il coupon; il cron `expire-checkouts` ripristina solo lo stock; `handleCheckoutExpired` nel webhook idem.
+- **Impatto:** Un coupon con `max_uses` limitato (tipico delle promo di lancio, dove il tetto protegge il budget) si esaurisce con i carrelli abbandonati anziché con le vendite: i clienti veri si vedono rifiutare il codice con «Codice esaurito» e la campagna muore senza aver prodotto ordini. Speculare: un utente può bruciare deliberatamente un coupon pubblico aprendo N checkout.
+- **Fix consigliato:** Aggiungere una RPC `release_coupon(p_code)` (decremento con floor a 0) e chiamarla nei tre punti di annullamento, leggendo il codice da `pending_checkouts.coupon_code`. Meglio ancora: tabella `coupon_claims(coupon_id, pending_checkout_id, state)` così il conteggio degli usi diventa derivabile e riconciliabile.
+
+#### 🟠 27. Gli ordini COD non diventano mai 'PAID', e l'annullo admin di un COD consegnato non restituisce i contanti
+
+- **Dove:** `/home/user/mycity/app/api/orders/cod/route.ts:348 + /home/user/mycity/app/api/rider/cash-confirm/route.ts:89-110 + /home/user/mycity/app/api/admin/orders/[id]/cancel/route.ts:39,44-46,63-75`
+- **Cosa succede:** VERIFICATO. L'ordine COD nasce con `payment_status: 'PENDING'` (cod/route.ts:348). La conferma incasso del rider scrive cash_collected_cents, cash_photo_url, cash_confirmed_at, cash_collected_by ma NON tocca `payment_status`. Grep su tutto il repo (codice + migrazioni): l'unico punto che scrive 'PAID' è webhook/route.ts:273. Di conseguenza `isPaidCard` nell'annullo admin (riga 44-46) è false anche per un COD consegnato e incassato: si entra nel ramo `else`, che marca `payment_status='FAILED'`, chiama `restore_stock_for_order` su merce già consegnata e non emette alcun ristoro dei contanti. L'unico blocco all'annullo è `delivery_status === 'CANCELED'` (riga 39): un ordine DELIVERED è annullabile.
+- **Impatto:** (a) Un annullo amministrativo su un COD già consegnato lascia il cliente senza merce restituita e senza rimborso, con lo stock gonfiato di pezzi mai rientrati. (b) Tutti i COD restano «in attesa di pagamento» per sempre nelle liste ordini di buyer e venditore e in qualunque report che filtri su PAID: i ricavi contanti spariscono dalle metriche.
+- **Fix consigliato:** In /api/rider/cash-confirm, dentro il claim atomico, impostare `payment_status='PAID'` (e paid_at). Nell'annullo admin gestire esplicitamente il caso «COD già incassato»: bloccare l'annullo o instradarlo su `refundOrder`, che per i COD accredita il wallet (payout.ts:356-404), invece del ramo generico.
+
+#### 🟠 28. Lo sconto applicato da Stripe (clampato) diverge dalle quote per gruppo (non clampate)
+
+- **Dove:** `/home/user/mycity/app/api/stripe/checkout/route.ts:286-320, 328 + /home/user/mycity/lib/stripe/client.ts:153-166 + /home/user/mycity/lib/coupons.ts:76-78`
+- **Cosa succede:** VERIFICATO. `totalDiscountCents` è clampato a `grandSubtotal + grandShipping - 1` (righe 287-291) ed è il valore che finisce nel Coupon Stripe `amount_off` (client.ts:157-165). Le quote per gruppo (righe 297-304) riusano invece i valori NON clampati `couponDiscountCents` e `pickupDiscountCents`, con un `Math.max(0, ...)` sul totale di gruppo. `validateCoupon` non pone alcun tetto allo sconto PERCENT (coupons.ts:76-78 accetta anche il 100%), quindi un coupon molto alto sommato al 10% del ritiro in negozio può superare il subtotale: Stripe addebita 1 centesimo mentre i `groupPersisted[].totalCents` valgono 0. Anche fuori dal caso limite, la somma dei `Math.round(discount * portion)` sui gruppi può differire di 1-2 centesimi dallo sconto reale applicato da Stripe, quindi `expectedChargeCents` (salvato come `pending_checkouts.total_cents` e usato dal webhook per creare gli ordini) non coincide esattamente con l'addebito.
+- **Impatto:** Gli ordini a video e in DB riportano un totale diverso da quello addebitato sulla carta (1-2 centesimi nel caso ordinario, l'intero importo nel caso limite). Con `totalCents = 0` il webhook calcola `computeOrderSplit` su zero: commissione 0 e payout venditore 0 su una vendita realmente incassata — il venditore consegna gratis. Salta inoltre l'invariante «somma ordini = importo charge», su cui si basa il controllo di refund pieno nel webhook.
+- **Fix consigliato:** Calcolare le quote per gruppo a partire dal `totalDiscountCents` GIÀ clampato, distribuendo col metodo del resto più grande in modo che `sum(couponPortion+pickupPortion) === totalDiscountCents` al centesimo. Aggiungere un'asserzione difensiva prima di creare la sessione (`expectedChargeCents === sum(lineItems) - totalDiscountCents`) e imporre in `validateCoupon` un tetto allo sconto (es. max 90% del subtotale).
+
+#### 🟠 29. Abbonamento venditore: nessuna guardia contro due sottoscrizioni simultanee, la seconda nasconde la prima
+
+- **Dove:** `/home/user/mycity/app/api/seller/subscription/checkout/route.ts:42-44, 47-78 + /home/user/mycity/app/api/stripe/webhook/route.ts:580-588`
+- **Cosa succede:** VERIFICATO. Il controllo anti-doppione è `if (profile.subscription_status === 'active')` (riga 42), ma quello stato lo scrive solo il webhook DOPO il pagamento (webhook:585). Fra il primo click e l'arrivo del webhook (o con due schede aperte, o dopo un timeout) si creano due Checkout Session `mode=subscription` distinte; il rate limit è 10 richieste/10 min, quindi non protegge. Nessun `idempotencyKey` sulla creazione della sessione. Se il venditore paga entrambe, Stripe crea due subscription attive sullo stesso customer e `handleSellerSubscription` sovrascrive `stripe_subscription_id` con l'ultima (riga 584): la prima diventa invisibile alla piattaforma.
+- **Impatto:** Doppio addebito ricorrente di €50/mese, con un solo abbonamento visibile in dashboard. Il Billing Portal mostrerebbe entrambi, la piattaforma no: reclamo e rimborso manuali, e su un ricorrente il danno si accumula ogni mese.
+- **Fix consigliato:** Prima di creare la sessione interrogare Stripe (`subscriptions.list({customer, status:'all'})`) e rifiutare se esiste già una subscription active/trialing/past_due; in `handleSellerSubscription`, se `profiles.stripe_subscription_id` è già valorizzato e diverso, cancellare la duplicata e rimborsare l'ultima fattura. Aggiungere un idempotencyKey stabile (es. `sub_${user.id}`).
+
+
+### privacy-legale (9)
+
+#### 🟠 30. PostHog (session replay su host USA), Sentry e Google Analytics non dichiarati tra i destinatari
+
+- **Dove:** `/home/user/mycity/lib/analytics/posthog.tsx:24-70 · /home/user/mycity/app/privacy/page.tsx:104-118 · /home/user/mycity/app/cookies/page.tsx:62-74`
+- **Cosa succede:** CONFERMATO con una precisazione rispetto alla segnalazione originale. Il §4 dell'informativa elenca come responsabili: Supabase, Stripe, Resend, Cloudflare, Anthropic, provider KYC, OpenStreetMap. Mancano tre trattamenti realmente presenti nel codice: (a) PostHog, inizializzato su us.i.posthog.com (default hardcoded a lib/analytics/posthog.tsx:25) con session_recording ATTIVO — registrazione dello schermo — e identify(userId) che collega la registrazione all'account; (b) Sentry, con replaysSessionSampleRate 0.05 e replaysOnErrorSampleRate 1.0 (lib/analytics/sentry.tsx:34-35); (c) Google Analytics 4 (components/GoogleAnalytics.tsx). PRECISAZIONE (la segnalazione originale lo taceva): tutti e tre sono correttamente subordinati al consenso analytics — PostHog controlla readConsent().analytics prima di init e fa opt_out a runtime, Sentry azzera i sample rate senza consenso, GA4 non carica lo script. Il difetto reale è quindi di DICHIARAZIONE, non di gating: nessuno dei tre compare nell'elenco dei responsabili né tra i trasferimenti extra-UE dell'informativa, e la tabella cookie non riporta i cookie ph_* di PostHog (elenca solo _ga/_ga_* e mc_vid). Resta inoltre vero che maskAllInputs:true maschera i soli campi di input: il replay registra il testo renderizzato a video, cioè /orders e /profile con indirizzo, telefono e storico acquisti.
+- **Impatto:** Tre destinatari statunitensi non dichiarati, di cui due che registrano lo schermo del cliente. Violazione degli artt. 13.1.e e 44 e ss.; il session replay su pagine con dati d'ordine è un trattamento ad alto rischio. È anche il tipo di scoperta che fa saltare una due-diligence o un bando.
+- **Fix consigliato:** Aggiungere PostHog Inc., Functional Software Inc. (Sentry) e Google Ireland/LLC all'elenco dei responsabili con la base del trasferimento; aggiungere i cookie ph_* e i replay alla tabella della cookie policy; firmare i DPA e configurare la data residency UE di PostHog e Sentry (entrambi la offrono) al posto dell'host US; impostare maskTextSelectors sulle rotte con PII o disabilitare il session recording su /checkout, /orders, /profile, /seller e /admin.
+
+#### 🟠 31. Newsletter senza doppio opt-in né prova del consenso: chiunque può iscrivere l'email di un altro
+
+- **Dove:** `/home/user/mycity/components/NewsletterForm.tsx:30-38 e 92-99 · /home/user/mycity/migrations/070_storage_and_rls_hardening.sql:104-113`
+- **Cosa succede:** CONFERMATO su DB di produzione: newsletter_subscribers ha esattamente le colonne (id, email, user_id, city, active, created_at) — nessuna che registri quando, come, da quale IP e su quale versione dell'informativa è stato prestato il consenso, e nessun token di conferma. La policy attiva è "Anyone can subscribe" FOR INSERT con roles={public} e WITH CHECK che verifica solo lunghezza email, presenza di '@' e anti-spoofing su user_id; `anon` ha il privilegio INSERT sulla tabella (verificato). Il form scrive direttamente in tabella dal browser (supabase.from('newsletter_subscribers').insert(...)). La casella di consenso a NewsletterForm.tsx:92-99 è un <input type="checkbox" required /> non controllato: non è legata a stato React, non è verificata in submit() e non viene persistita da nessuna parte — è bloccata solo dalla validazione HTML del browser, quindi non esiste per chi chiama l'endpoint PostgREST direttamente.
+- **Impatto:** Nessuna capacità di dimostrare il consenso (art. 7.1): ogni futuro invio marketing è illecito e ogni reclamo è perso in partenza. Un burlone o un concorrente può iscrivere in massa indirizzi altrui e trasformare la prima campagna in una segnalazione per spam, bruciando la reputazione del dominio di invio — e quindi anche le email di conferma ordine.
+- **Fix consigliato:** Doppio opt-in obbligatorio: colonne confirm_token, confirmed_at, consent_ip, consent_source, consent_text_version; INSERT solo via API server (revocare INSERT ad anon e authenticated) che invia l'email di conferma; `active` diventa true solo al click sul link. Aggiungere newsletter_subscribers alla pipeline di cancellazione account e all'export art. 20.
+
+#### 🟠 32. Le email marketing partono senza link di disiscrizione
+
+- **Dove:** `/home/user/mycity/lib/email/templates.ts:8 e 40-43 · /home/user/mycity/app/api/cron/abandoned-carts/route.ts:52-63 · /home/user/mycity/app/api/cron/send-emails/route.ts:31-60`
+- **Cosa succede:** CONFERMATO. templates.ts:8 dichiara «Tutti i template includono il link di unsubscribe (obbligatorio GDPR per email marketing)», ma il footer di shell() (righe 40-43) contiene solo «Gestisci preferenze» che punta a /profile/settings — pagina che richiede il login — più i link a privacy e cookie. Nessun link di disiscrizione con token. Il wrapper Resend (lib/email/client.ts:50-57) costruisce il payload con from/to/subject/html/text/reply_to/tags: nessun header List-Unsubscribe. Verificato con grep su tutto app/, lib/ e components/: non esiste alcuna rotta o pagina di unsubscribe (le uniche occorrenze del termine sono le subscription realtime di Supabase e le push). Confermato anche che i template marketing NON usano shell(): abandoned-carts costruisce HTML grezzo inline (righe 52-63) e i template lifecycle first_order_promo / reengagement_14d / winback_60d in send-emails/route.ts:44-58 sono stringhe HTML nude, senza footer, senza privacy, senza opt-out. Chi si è iscritto solo alla newsletter (senza account) non ha materialmente alcun modo di uscire.
+- **Impatto:** Violazione dell'art. 7.3 GDPR (revoca facile quanto il consenso) e dell'art. 130 Codice Privacy. Senza List-Unsubscribe, Gmail e Outlook declassano il dominio: le lamentele diventano "segnala spam" e finiscono per far cadere in spam anche le conferme d'ordine, con danno diretto sulle vendite.
+- **Fix consigliato:** Creare GET /api/unsubscribe?token=… (token HMAC su email+scopo, nessun login richiesto) che imposta active=false / email_marketing=false; aggiungere il link nel footer di shell(); far passare TUTTI i template — inclusi abandoned-carts e i lifecycle — da shell(); aggiungere gli header List-Unsubscribe e List-Unsubscribe-Post nella chiamata a Resend.
+
+#### 🟠 33. I toggle delle notifiche in Impostazioni non hanno alcun effetto reale
+
+- **Dove:** `/home/user/mycity/app/profile/settings/page.tsx:415-441 · /home/user/mycity/app/api/cron/send-push/route.ts:33-56 · /home/user/mycity/migrations/054_notification_preferences.sql:9-12`
+- **Cosa succede:** CONFERMATO con grep esaustivo su app/, lib/, components/ e migrations/: le colonne notif_order_updates, notif_promos, notif_groups, notif_newsletter compaiono SOLO nella pagina di impostazioni (lettura, scrittura e rendering dei quattro switch), in lib/database.types.ts e nella migrazione 054 che le crea. Nessun cron, nessuna rotta, nessun trigger le legge. Verificato il cron delle push (send-push/route.ts:33-47): seleziona da notifications tutte le righe con pushed_at NULL dell'ultima ora e le invia con sendPushToUser senza consultare alcuna preferenza. Il toggle "Newsletter mensile" non tocca newsletter_subscribers, quindi disattivarlo non disiscrive. L'unica preferenza realmente rispettata è email_marketing (send-emails/route.ts:110 e abandoned-carts/route.ts:41-46). Aggravante confermata: la migrazione 054 crea notif_promos e notif_groups con DEFAULT true (righe 10-11) — comunicazioni promozionali in opt-out anziché opt-in — nonostante il commento in testa al file dichiari il contrario.
+- **Impatto:** L'utente crede di aver revocato il consenso e continua a ricevere promozioni: è la fattispecie più facile da provare in un reclamo al Garante (basta uno screenshot del toggle spento accanto alla notifica ricevuta) e la più corrosiva per la fiducia, con danno reputazionale sproporzionato rispetto alla banalità del fix.
+- **Fix consigliato:** Far leggere le preferenze a chi invia: nel cron send-push filtrare per categoria incrociando profiles (aggiungere una colonna `category` su notifications e saltare le promo se notif_promos è false); collegare notif_newsletter a newsletter_subscribers.active con un trigger o nella stessa update della UI; portare notif_promos e notif_groups a DEFAULT false. Finché non è fatto, rimuovere dalla UI i toggle che non funzionano: meglio nessuna promessa che una promessa falsa.
+
+#### 🟠 34. Nessuna prova del consenso: né per i cookie né per l'accettazione di privacy e termini alla registrazione
+
+- **Dove:** `/home/user/mycity/lib/consent.ts:53-73 · /home/user/mycity/app/sign-up/page.tsx:49-52 · /home/user/mycity/app/api/auth/signup/route.ts:44-52`
+- **Cosa succede:** CONFERMATO. writeConsent() salva lo stato solo su localStorage (chiave mc_consent_v1) e su un cookie di prima parte mc_consent con valore compresso a tre cifre; il cookie è scritto senza flag Secure — document.cookie = `${CONSENT_COOKIE}=${value}; path=/; max-age=${maxAge}; SameSite=Lax`. Un grep su app/, lib/ e migrations/ non trova alcuna tabella o rotta consent_log: se l'utente svuota il browser il consenso sparisce senza lasciare traccia. Sulla registrazione: sign-up/page.tsx tiene acceptTos in stato React ma lo usa solo per un toast lato client (riga 51 `if (!acceptTos) { toast.error(...); return; }`), e /api/auth/signup non riceve né salva nulla in merito — nessun terms_accepted_at o privacy_version sul profilo del buyer. Il pattern corretto esiste già ma è applicato ai soli venditori: app/sell/page.tsx:77 scrive privacy_accepted_at (colonna creata in migrations/021).
+- **Impatto:** Impossibile dimostrare il consenso (art. 7.1) e l'avvenuta informativa (art. 13): in un contenzioso o in un'ispezione la nostra parola vale zero. Se domani cambiamo l'informativa, non sapremo nemmeno chi ha accettato quale versione.
+- **Fix consigliato:** Creare consent_log(user_id|anon_id, categoria, valore, versione_informativa, ts, ip, user_agent) alimentata da un POST /api/consent chiamato da writeConsent(); aggiungere il flag Secure al cookie mc_consent; far accettare privacy e termini nella rotta di signup salvando terms_accepted_at, privacy_accepted_at e la versione del documento sul profilo, come già fa la pagina venditori.
+
+#### 🟠 35. Export dei dati incompleto rispetto a quanto promesso all'utente
+
+- **Dove:** `/home/user/mycity/app/api/account/export/route.ts:37-71`
+- **Cosa succede:** CONFERMATO. Le query parallele dell'export coprono: profiles, user_addresses, orders (buyer/seller/rider), reviews, store_reviews, rider_reviews, favorites, referrals (in/out), notifications, conversations, messages, contact_messages. Restano fuori tabelle che esistono davvero in produzione (verificate in information_schema.tables) e contengono dati personali usati per profilare: activity_events (il firehose con IP, user-agent, pagine viste, dispositivo e i diff dei dati), product_views e recently_viewed (cronologia di navigazione), push_subscriptions, newsletter_subscribers, returns, disputes. Confermato inoltre che i messaggi sono presi solo con sender_id = utente (riga 68), quindi i messaggi RICEVUTI nelle conversazioni di cui l'utente è partecipante non vengono esportati. La UI promette «Esporta in JSON tutto quello che abbiamo su di te» (app/profile/settings/page.tsx:486).
+- **Impatto:** Riscontro art. 15 incompleto: se un utente chiede l'accesso e poi scopre che esisteva un log con i suoi IP e tutte le sue pagine viste, il reclamo è servito. Proprio i dati omessi (activity_events, cronologia prodotti) sono i più sensibili perché descrivono comportamenti, non transazioni.
+- **Fix consigliato:** Aggiungere le query mancanti (activity_events filtrata su user_id/actor_id, recently_viewed, product_views, push_subscriptions, newsletter_subscribers, returns, disputes e i messaggi delle conversazioni di cui l'utente è partecipante) oppure ridimensionare la promessa nella UI. Aggiungere un test che confronti l'elenco delle tabelle con colonna user_id in information_schema con quelle coperte dall'export, così il divario non si riapre a ogni nuova feature.
+
+#### 🟠 36. Il cookie identificativo mc_vid viene impostato anche senza consenso analytics
+
+- **Dove:** `/home/user/mycity/app/api/track/route.ts:86-91 e 101-150`
+- **Cosa succede:** CONFERMATO. Il gate di consenso lato server copre solo la categoria 'visitor': `if (category === 'visitor') { const consent = parseConsentCookie(...); if (!consent.analytics) return noContent(); }`. Gli eventi 'auth' (login, logout, signup — mappati in ALLOWED_EVENTS alle righe 29-31) proseguono e arrivano al blocco che genera il cookie mc_vid con VID_MAX_AGE = 60*60*24*365 (un anno), insieme alla scrittura in activity_events di IP, user-agent, browser, OS, città e paese. La cookie policy classifica esplicitamente mc_vid come cookie di analisi soggetto a consenso: «profilazione pseudonima cross-sessione. Base giuridica: consenso (art. 6.1.a GDPR)» (app/cookies/page.tsx:73). Confermato anche che body.metadata (riga 96) è accettato come oggetto arbitrario dal client e passato tale e quale a recordActivity, senza allowlist di chiavi né limite di dimensione. Precisazione: il cookie è impostato httpOnly (riga 148) ma senza flag `secure`.
+- **Impatto:** Cookie di profilazione depositato senza il consenso preventivo richiesto dall'art. 122 del Codice Privacy — la contestazione più frequente e più facile da provare del Garante, perché si vede aprendo gli strumenti sviluppatore. Il campo metadata libero è inoltre una porta aperta per far scrivere PII arbitraria nel nostro log.
+- **Fix consigliato:** Spostare il controllo del consenso prima di qualunque uso di mc_vid: senza consenso analytics non generare e non impostare il cookie (gli eventi auth possono essere registrati per sicurezza con IP e user-agent, ma senza identificatore persistente). Validare metadata con uno schema Zod a chiavi note e troncarlo. Aggiungere il flag secure al cookie.
+
+#### 🟠 37. Nessuna retention effettiva sui log: metadata di activity_events e audit_logs restano per sempre
+
+- **Dove:** `/home/user/mycity/app/api/cron/process-deletions/route.ts:70-95 · /home/user/mycity/app/api/admin/users/[id]/delete/route.ts:107-113`
+- **Cosa succede:** CONFERMATO leggendo il blocco di pruning: tre UPDATE che azzerano ip/user_agent oltre 14 mesi su activity_events, anon_id/path/referrer/city/country oltre 14 mesi, e ip/user_agent oltre 12 mesi su audit_logs. Non tocca `metadata` — il campo che contiene i diff con la PII (vedi il difetto sul trigger di logging) — né `summary`, né user_id/actor_id, e non cancella MAI le righe: la tabella cresce senza limite. Nessun job cancella contact_messages (che conserva nome, email, testo libero e IP), né product_views, né recently_viewed. Confermato inoltre che la rotta di cancellazione admin scrive nell'audit un metadata con `name: targetProfile.store_name ?? targetProfile.full_name` (riga 112) e lo ripete anche nel JSON di risposta (riga 117): registra in modo permanente il nome dell'utente appena cancellato.
+- **Impatto:** Il principio di limitazione della conservazione (art. 5.1.e) è dichiarato nell'informativa (12 e 14 mesi, §3) ma non attuato: quello che scriviamo nella privacy policy non corrisponde a quello che il sistema fa. Una richiesta di cancellazione lascia comunque il nome della persona nell'audit trail.
+- **Fix consigliato:** Estendere il pruning: azzerare `metadata` e `summary` oltre la finestra dichiarata e cancellare fisicamente le righe activity_events di categoria 'visitor' oltre 14 mesi; aggiungere un job di cancellazione per contact_messages (24 mesi), product_views e recently_viewed (12 mesi). In writeAudit sostituire il nome con l'id: l'audit trail deve provare CHI ha fatto COSA, non conservare l'anagrafica della persona cancellata.
+
+#### 🟠 38. Un partecipante alla chat può riscrivere il messaggio dell'altro
+
+- **Dove:** `policy `messages_update_read` su public.messages (verificata in produzione; origine /home/user/mycity/migrations/026_chat_messaging.sql)`
+- **Cosa succede:** CONFERMATO su DB di produzione. La policy messages_update_read è FOR UPDATE con roles={public}, qual = EXISTS (SELECT 1 FROM conversations c WHERE c.id = messages.conversation_id AND (c.buyer_id = auth.uid() OR c.seller_id = auth.uid())) e with_check = NULL: nessun vincolo sulle colonne modificabili né sulla riga risultante. Il ruolo `authenticated` ha il privilegio UPDATE su public.messages (verificato in information_schema.role_table_grants). Il nome della policy suggerisce che serva solo a marcare read_at, ma nulla impedisce a un partecipante di eseguire un PATCH su `body` (o su sender_id/created_at) dei messaggi inviati dalla controparte. Severità alzata da minore a grave: non è solo un rilievo formale, è manomissione del contenuto altrui.
+- **Impatto:** Il venditore può alterare a posteriori quello che il cliente ha scritto (o viceversa): compromette l'esattezza dei dati personali (art. 5.1.d) e distrugge il valore probatorio della chat proprio quando serve — contestazione su un ordine o disputa Stripe.
+- **Fix consigliato:** Restringere la policy: consentire l'UPDATE sulle righe non proprie unicamente a read_at tramite una RPC SECURITY DEFINER dedicata (mark_conversation_read(conversation_id)) e revocare l'UPDATE diretto sulla tabella; in alternativa aggiungere un trigger BEFORE UPDATE che rifiuti qualunque modifica a body/sender_id/created_at quando sender_id <> auth.uid().
+
+
+### performance (14)
+
+#### 🟠 39. N+1 di autenticazione: ogni ProductCard monta il proprio getUser() → una richiesta ad /auth/v1/user per card
+
+- **Dove:** `components/ProductCard.tsx:62 (useProfile()) · components/hooks/useProfile.ts:28-46 (useEffect → supabase.auth.getUser() + onAuthStateChange) · components/ProductGrid.tsx:101 (limit 96) e :397-401 (render senza virtualizzazione)`
+- **Cosa succede:** VERIFICATO. `useProfile()` non è stato condiviso: ogni istanza monta un `useEffect` che chiama `supabase.auth.getUser()` e registra un listener `onAuthStateChange` (useProfile.ts:28-46). `ProductCard` chiama `useProfile()` alla riga 62 e `ProductGrid` renderizza fino a `limit ?? 96` card (ProductGrid.tsx:101) mappate una per una senza virtualizzazione (:397-401). `getUser()` in supabase-js v2 fa sempre una GET a `/auth/v1/user` (non usa la cache come `getSession`), serializzata dal lock interno → richieste in fila. Anche `useFavorites` (hooks/useFavorites.ts:14) e `useMessagesUnread` (:22) fanno la loro `getUser()`. PRECISAZIONE rispetto al report originale: per i visitatori ANONIMI `getUser()` esce senza rete (nessuna sessione), quindi il costo colpisce gli utenti LOGGATI — cioè quelli che acquistano.
+- **Impatto:** Per ogni cliente loggato una pagina di ricerca/categoria apre decine di richieste all'endpoint auth di Supabase prima di diventare interattiva: TTI e INP degradano su mobile, e Supabase Auth riceve carico proporzionale al numero di card mostrate. La navbar aggiunge altre 2 getUser() (useProfile + useMessagesUnread).
+- **Fix consigliato:** Estrarre l'identità in un unico provider (Context o query React Query `['auth','user']` con staleTime alto) che faccia UNA sola getUser() per sessione, e far leggere quella cache a useProfile/useFavorites/useMessagesUnread. In ProductCard, meglio ancora: passare `canPurchase` come prop dal grid. Aggiungere paginazione al posto del limit(96) monolitico.
+
+#### 🟠 40. La dashboard admin scarica INTERE tabelle (orders, profiles, products) e le riaggrega nel browser ogni 30 secondi
+
+- **Dove:** `app/admin/page.tsx:51-54 (select senza filtri né limit) e :96 (refetchInterval: 30_000)`
+- **Cosa succede:** VERIFICATO alla lettera: `Promise.all([profiles.select('role'), orders.select('total_price, delivery_status, created_at'), products.select('status')])` senza `.limit()`, `.gte()` o aggregazione lato DB; GMV, AOV, fulfillment rate e ordini a 7gg sono calcolati in JS su tutto lo storico (righe 58-92); `refetchInterval: 30_000` alla riga 96. SEVERITÀ CORRETTA da bloccante a grave: oggi il volume è minimo e la pagina è solo admin — è un guasto latente che arriva col successo, non un blocco attuale.
+- **Impatto:** A 50.000 ordini sono megabyte scaricati ogni 30 secondi per admin collegato, con scan completi su `orders` e `profiles` a ogni giro. La dashboard diventa inusabile e il DB satura CPU/banda proprio quando il marketplace inizia a funzionare.
+- **Fix consigliato:** Sostituire con una RPC Postgres `admin_dashboard_stats()` (SECURITY DEFINER, admin-only) che ritorni già aggregato (conteggi per ruolo/stato, GMV, ordini 7gg). Portare il refetchInterval a 60-120s. In alternativa `select('id', { count: 'exact', head: true })` per i conteggi e finestre `gte('created_at', …)` per il resto.
+
+#### 🟠 41. Liste admin, venditore e cliente senza paginazione, con polling a 30s e join annidati
+
+- **Dove:** `app/admin/orders/page.tsx:38-52 (+ filtro client-side :74, refetchInterval :52) · app/admin/users/page.tsx:110-113 · app/admin/products/page.tsx:38-45 · app/seller/orders/page.tsx:46-70 (refetchInterval :70) · app/orders/page.tsx:46-58 · app/seller/customers/page.tsx:39-47 · app/seller/earnings/page.tsx:69-76`
+- **Cosa succede:** VERIFICATO su tutti i file citati: `.select(...).order('created_at', …)` senza `.limit()`/`.range()`, spesso con embed annidati (`order_items ( … products ( name, images ) )`, `seller:profiles!orders_seller_id_fkey`). `app/admin/orders` e `app/seller/orders` hanno `refetchInterval: 30_000`. Il filtro per stato in admin/orders è applicato client-side (riga 74: `orders.filter((o) => o.delivery_status === filter)`), così come il filtro per periodo in seller/earnings (:81).
+- **Impatto:** Il payload cresce linearmente col business: un venditore con 3.000 ordini riscarica l'intero storico con le righe ordine ogni 30 secondi. Sono le pagine operative usate ogni giorno: quando rallentano, rallenta la gestione degli ordini.
+- **Fix consigliato:** Introdurre `.range(from, to)` con pagine da 25-50 righe (o infinite scroll), spostare i filtri di stato/periodo lato server (`.eq('delivery_status', filter)`, `.gte('created_at', …)`), caricare le righe ordine solo all'espansione. Sostituire il polling con Realtime su `orders`, già usato altrove nel progetto.
+
+#### 🟠 42. Le pagine che generano ricavo (prodotto, ricerca, categoria, vetrina) sono 100% client-side: nessun contenuto nell'HTML
+
+- **Dove:** `app/product/[id]/page.tsx:1 ('use client') e :84-93 (query prodotto client-side) · app/product/[id]/layout.tsx:16-35 (stessa query in generateMetadata) · app/search/page.tsx:1 · app/category/[slug]/page.tsx:1 · app/store/[id]/page.tsx:1`
+- **Cosa succede:** VERIFICATO. Il metadata è generato server-side in `app/product/[id]/layout.tsx` con la SUA query al DB (revalidate 300), mentre il corpo è un client component che rifà la stessa query dal browser dopo l'hydration (`products.select('*')` con due join, page.tsx:87-89). Catena: HTML vuoto → JS → hydration → getUser → query prodotto → varianti/recensioni/promo/simili/QA/social-proof → solo allora parte l'immagine LCP. Le righe 15-48 importano ~30 componenti client, nessuno via `next/dynamic`.
+- **Impatto:** LCP e INP fuori soglia su mobile: l'immagine principale parte al terzo hop di rete. La stessa query prodotto gira due volte per visita. SEO: Googlebot deve renderizzare JS per vedere prezzo e disponibilità, penalizzando l'indicizzazione dei prodotti — il canale organico su cui campa un marketplace locale.
+- **Fix consigliato:** Convertire il guscio della pagina prodotto in Server Component: fetch server-side del prodotto (riusando il risultato di generateMetadata), HTML con titolo/prezzo/immagine principale/negozio, e client solo per i pezzi interattivi (carrello, preferiti, recensioni) con `next/dynamic`. Stesso approccio per categoria e vetrina negozio.
+
+#### 🟠 43. Middleware: getUser() + SELECT su profiles su OGNI rotta del catalogo, home inclusa
+
+- **Dove:** `middleware.ts:161-167 (needsSellerGate → niente early exit) · :199-200 (`await supabase.auth.getUser()`) · :223-227 (`from('profiles').select('role, is_approved')`) · lib/shopping-access.ts:16-38`
+- **Cosa succede:** VERIFICATO. `isMarketplaceBrowsePath` copre `/`, `/product/*`, `/search`, `/category/*`, `/store/*`, `/cart`, `/checkout`, `/favorites`, `/lists`, `/events`, `/collections`… Per queste rotte `needsSellerGate` è true, quindi l'early-return della riga 167 (`if (!needsAuth && !needsSellerGate) return res;`) NON scatta: per ogni utente autenticato si esegue una chiamata HTTP all'auth server e poi una query `profiles`, due round-trip bloccanti prima del render. Tutto per un gate che riguarda solo il ruolo `seller`. (Per gli ospiti il costo è nullo: getUser esce senza sessione.)
+- **Impatto:** TTFB aumentato di due latenze verso Supabase su ogni navigazione del catalogo per i clienti loggati — i più preziosi. Peggiora LCP e aggiunge una query `profiles` per pageview al carico DB.
+- **Fix consigliato:** Uscire subito se manca il cookie di sessione Supabase. Per gli autenticati evitare la query `profiles`: ruolo in un custom claim del JWT (già nel cookie) o in un cookie firmato scritto al login. In subordine, applicare il gate venditore solo alle rotte d'acquisto (`/cart`, `/checkout`).
+
+#### 🟠 44. ProductGrid: filtri e ordinamenti applicati DOPO il LIMIT 96 → risultati sbagliati e lavoro sprecato
+
+- **Dove:** `components/ProductGrid.tsx:76-101 (select con `description`, ilike, limit 96) e :195-235 (filtri/sort client-side) · components/SearchBar.tsx:58 (unico uso di search_products_smart)`
+- **Cosa succede:** VERIFICATO. La query prende i primi 96 prodotti ordinati per `created_at DESC` (il case `default` copre anche `sort:'relevance'`, righe 83-88), poi in `useMemo` filtra per negozio aperto, rating minimo, promo e disponibilità e riordina per rating o sconto (:195-235). Il campo `description` è nella select (:80) ma `ProductCard` non lo destruttura mai (ProductCard.tsx:44-46) — scaricato per nulla; idem `compare_at_price`, non passato a renderCard. La ricerca testuale usa `ilike('name', '%term%')` (:96-99): l'indice FTS `products_search_tsv_idx` (migrations/027:372) e la RPC `search_products_smart` (migrations/029:59) restano inutilizzati sulla pagina risultati, li usa solo l'autocomplete.
+- **Impatto:** Doppio danno: (a) prestazioni — fino a 96 righe con descrizioni lunghe scaricate per buttarne la maggior parte; (b) correttezza commerciale — «ordina per rating» ordina solo i 96 più recenti, «solo in promo» non trova promo su prodotti più vecchi, il contatore «N prodotti» mostra un numero falso. Il cliente conclude che il marketplace non ha quello che cerca.
+- **Fix consigliato:** Portare filtri e ordinamento nel DB con una RPC `search_products(q, category_ids, min_price, max_price, min_rating, only_promo, only_in_stock, sort, limit, offset)` che usi `search_tsv`, LEFT JOIN su statistiche recensioni e `seller_promotions`, con paginazione `range()`. Togliere `description` dalla select della griglia.
+
+#### 🟠 45. activity_events: trigger di change-data-capture sulle tabelle calde + 8 indici, senza nessuna retention delle righe
+
+- **Dove:** `migrations/073_activity_tracking.sql:45-52 (8 indici) · :108-120 (loop sulle chiavi jsonb per il diff) · :155-172 (trigger AFTER INSERT/UPDATE/DELETE su orders, order_items, products, profiles, reviews, store_reviews, coupons, disputes, marketplace_events, seller_promotions, returns, gift_cards) · app/api/track/route.ts (insert per page_view) · app/api/cron/process-deletions/route.ts:76-88`
+- **Cosa succede:** VERIFICATO. Il trigger `log_activity_change()` itera su tutte le chiavi jsonb della riga per costruire il diff (:109-120) e inserisce in `activity_events`, tabella con 8 indici (:45-52). È attaccato a 12 tabelle incluse `orders`, `order_items`, `products`, `profiles` (:157-172). `/api/track` scrive una riga per ogni page_view. CONTROLLO SPECIFICO sulla retention: `app/api/cron/process-deletions` tocca `activity_events` ma solo per ANNULLARE la PII oltre 14 mesi (ip/user_agent, poi anon_id/path/referrer/city/country) — NON cancella né partiziona le righe. Nessun purge in tutte le migrations.
+- **Impatto:** Amplificazione di scrittura sul percorso critico del checkout: ogni update di stock in `reserve_stock`/`restore_stock` paga il diff jsonb + 1 insert + 8 aggiornamenti di indice dentro la transazione dell'ordine. La tabella cresce senza limite (page_view di tutti i visitatori, bot inclusi): diventa la più grande del DB, gonfia backup e storage e degrada le query admin che la leggono.
+- **Fix consigliato:** 1) Job di retention (il cron esiste già) che cancella `activity_events` oltre 90 giorni, o partizionamento per mese con DROP PARTITION. 2) Ridurre gli indici a quelli davvero usati dalla pagina admin. 3) Escludere dal trigger le colonne ad alta frequenza e basso valore (`products.stock`, `products.external_synced_at`) o limitare il trigger a INSERT/DELETE su `products`.
+
+#### 🟠 46. /near scarica TUTTE le recensioni negozio e le media in JavaScript (mentre /stores usa già la RPC giusta)
+
+- **Dove:** `app/near/page.tsx:41-44 (`.from('store_reviews').select('store_id, rating').in('store_id', storeIds)` senza limit) e :50-60 (media incrementale in JS) · confronto: app/stores/page.tsx:48 (`supabase.rpc('store_review_stats', …)`)`
+- **Cosa succede:** VERIFICATO. La pagina «negozi vicini» scarica ogni riga di `store_reviews` di tutti i negozi approvati solo per calcolare media e conteggio nel browser (:50-60). La pagina `/stores` fa la cosa corretta con la RPC `store_review_stats` che aggrega lato DB (stores/page.tsx:48): due implementazioni divergenti per lo stesso calcolo, con la soluzione già pronta in casa. Confermata anche la media incrementale che accumula errori di virgola mobile.
+- **Impatto:** Con 200 negozi e 50 recensioni ciascuno sono 10.000 righe scaricate a ogni apertura della pagina che dovrebbe essere la più veloce (mobile, in strada, con geolocalizzazione). Crescita lineare col successo del marketplace.
+- **Fix consigliato:** Usare la RPC già esistente `store_review_stats(p_store_ids)` come fa /stores, eliminando del tutto la query su store_reviews.
+
+#### 🟠 47. /stores e /near: conteggi, categorie e liste prodotto derivati da un campione troncato (limit 600 / 400)
+
+- **Dove:** `app/stores/page.tsx:40-47 (`.limit(600)`) e :60-68 (productsByStore/countByStore/categoriesByStore dal campione), :126-127 (sort 'most-products' su countByStore) · app/near/page.tsx:31-38 (`.limit(400)`)`
+- **Cosa succede:** VERIFICATO. Si scaricano i 600 (risp. 400) prodotti più recenti di TUTTI i negozi e da lì si derivano anteprima prodotti, numero di prodotti per negozio, categorie coperte e l'ordinamento «più prodotti» (stores/page.tsx:60-68 e :126). Il troncamento è cieco rispetto alla distribuzione: un negozio che non pubblica da tempo esce dal campione con 0 prodotti e conteggio 0.
+- **Impatto:** Superata la soglia (raggiungibile già con qualche decina di negozi attivi), i negozi meno recenti appaiono vuoti e in fondo alla classifica «più prodotti»: danno commerciale diretto ai venditori penalizzati e numeri mostrati falsi. Nel frattempo si scaricano comunque 600 righe con immagini a ogni visita.
+- **Fix consigliato:** Due query mirate: (a) una RPC che ritorni per ogni negozio `product_count` e le categorie distinte (aggregazione lato DB); (b) un lateral join / RPC che ritorni i 3-4 prodotti più recenti PER negozio invece di un campione globale.
+
+#### 🟠 48. Analytics venditore: scarica ogni riga di product_views degli ultimi 30 giorni e conta nel browser, con `.in()` su tutti gli id prodotto
+
+- **Dove:** `app/seller/analytics/page.tsx:38-41 (tutti i prodotti del venditore, senza limit) · :58-63 (`product_views.select('product_id, viewed_at').in('product_id', productIds).gte('viewed_at', since30)`) · :69-72 (tutte le reviews, senza finestra temporale)`
+- **Cosa succede:** VERIFICATO. Nessuna aggregazione lato DB: views30, views7, viewsToday, top/slow products e fasce orarie di picco sono calcolati con filter/reduce su un array che contiene una riga per visualizzazione (:78 in avanti). `.in('product_id', productIds)` viene costruito con TUTTI gli id prodotto del venditore: PostgREST li serializza nella query string della GET, quindi con qualche centinaio di prodotti l'URL (UUID da 36 caratteri) può superare i limiti del proxy e far fallire la richiesta con 414.
+- **Impatto:** Un negozio con 300 prodotti e 20.000 visualizzazioni/mese scarica ~1 MB di JSON grezzo e blocca il main thread per aggregarlo — la pagina che dovrebbe convincere il venditore che MyCity funziona è quella che si pianta. Il rischio 414 rende la pagina completamente rotta oltre una certa soglia di catalogo.
+- **Fix consigliato:** Una RPC `seller_analytics(p_seller uuid, p_since timestamptz)` che ritorni già aggregati views per giorno/ora, top e slow products, ordini e ricavi. La RPC filtra per `seller_id` lato DB, eliminando anche la lista di UUID nell'URL.
+
+#### 🟠 49. Pagina admin «Attività»: 3.300 righe del firehose (metadata jsonb incluso) scaricate ogni 15-30 secondi e aggregate nel browser
+
+- **Dove:** `app/admin/activity/page.tsx:74-79 (SELECT include `metadata`) · :94-108 (limit 300, refetchInterval 15_000) · :111-123 (limit 3000, refetchInterval 30_000)`
+- **Cosa succede:** VERIFICATO. Due query concorrenti su `activity_events` — la tabella che riceve una riga per ogni page_view e per ogni modifica di orders/products/profiles — con embed sui profili, di cui una da 3.000 righe ogni 30 secondi. La costante `SELECT` (:74-79) include `metadata` (i diff jsonb completi del trigger). Le metriche «online adesso», i conteggi per categoria e la sintesi 24h sono calcolati client-side su quell'array (:125 in avanti).
+- **Impatto:** Un admin con la tab aperta genera ~6.600 righe/minuto di traffico dal DB e tiene in memoria decine di MB. Sul piano Supabase è carico costante 24/7 se qualcuno lascia la scheda aperta.
+- **Fix consigliato:** Sostituire la query di sintesi con una RPC aggregata (conteggi per categoria/ora, visitatori unici ultimi 5 min) che ritorna poche decine di righe; ridurre il feed live a 50 righe con paginazione e alzare l'intervallo a 30-60s. Escludere `metadata` dalla select del feed.
+
+#### 🟠 50. Cron di invio email/push: N+1 sequenziale con I/O di rete in serie, a rischio timeout
+
+- **Dove:** `app/api/cron/send-emails/route.ts:78 (claim batch p_max: 50) e :98-140 (per riga: select profiles + auth.admin.getUserById + sendEmail + update) · app/api/cron/send-push/route.ts:39 (limit 100) e :46-62 · lib/push/send.ts:51-77 (select push_subscriptions per utente + web-push in serie) · app/api/cron/abandoned-carts/route.ts:41-42 (select profiles per candidato)`
+- **Cosa succede:** VERIFICATO. `claim_pending_emails` reclama 50 righe e `processBatch` itera con `for … await`: per ciascuna riga fa select `profiles`, `auth.admin.getUserById`, `sendEmail` (HTTP Resend) e un update — 4 round-trip per email, zero parallelismo. `send-push` prende 100 notifiche e per ciascuna chiama `sendPushToUser`, che fa 1 SELECT su `push_subscriptions` + N invii web-push in serie + 1 UPDATE. `abandoned-carts` interroga `profiles` una volta per candidato invece di un `.in()`.
+- **Impatto:** Con latenze realistiche (~150ms a chiamata) send-emails impiega decine di secondi per 50 email e send-push può superare il minuto: si rischia il timeout della funzione, che tronca il batch lasciando notifiche marcate `claimed_at` ed email non inviate fino al giro successivo. Effetto business: recupero carrelli e notifiche d'ordine in ritardo o mai arrivate.
+- **Fix consigliato:** Pre-caricare i dati con una sola query (`profiles.select(...).in('id', userIds)`, `push_subscriptions.select(...).in('user_id', userIds)`), eseguire gli invii con un pool di concorrenza (5-10 in parallelo su chunk) e chiudere con UPDATE bulk `.in('id', sentIds)` invece di uno per riga.
+
+#### 🟠 51. Geocoding Nominatim non memorizzato in cache e bloccante sul submit del checkout
+
+- **Dove:** `app/checkout/page.tsx:380-397 (fetch bloccante prima della creazione ordine) · app/api/geocode/route.ts:22 (rate-limit 30/min per IP) e :34-44 (nessuna cache, timeout 5s)`
+- **Cosa succede:** VERIFICATO. Alla conferma dell'ordine, se l'indirizzo non ha già lat/lng, il client chiama `/api/geocode` e attende la risposta prima di procedere (checkout/page.tsx:383-396). Il proxy interroga Nominatim con `AbortSignal.timeout(5_000)` e non memorizza nulla: lo stesso indirizzo viene rigeocodificato a ogni ordine. Il rate-limit applicativo consente 30 richieste/minuto per IP, ben oltre la usage policy di Nominatim. Il fallback esiste già ed è morbido (`{lat:null,lng:null}`), il che rende ancora meno giustificato bloccare il checkout.
+- **Impatto:** Fino a 5 secondi di attesa aggiunti nel momento più delicato dell'imbuto — il click su «Conferma ordine» — con rischio concreto di abbandono. Se Nominatim rallenta o banna l'IP del server, ogni checkout paga il timeout pieno.
+- **Fix consigliato:** Cache `geocode_cache(query_hash, lat, lng, created_at)` consultata prima di chiamare Nominatim, oppure `Cache-Control: public, max-age=86400` + cache in memoria per query normalizzata. Soprattutto: rendere il geocoding NON bloccante — creare l'ordine subito e risolvere le coordinate in background, visto che il fallback nullo è già gestito.
+
+#### 🟠 52. Home e categoria-hub: raffica di richieste concorrenti dal browser dopo l'hydration
+
+- **Dove:** `app/page.tsx:76-99 (server component che delega al renderer) · components/home-sections/HomeSectionRenderer.tsx:12-27 (12 blocchi client self-fetch) · app/category/[slug]/page.tsx:275-287 (una ProductGrid per sottocategoria) · components/ProductGrid.tsx:102-108 (waterfall interno: prodotti → poi profili venditore)`
+- **Cosa succede:** VERIFICATO. La home renderizza server-side solo il markup statico e delega a `HomeSectionRenderer`, che monta 12 componenti client con query React Query proprie (ProductGrid, CategoryShowcase, StoreShowcase, LiveActivityFeed, DropOfDay, HeroStoreCard, ShopOfMonthHero, StoriesCarousel, HomeEvents, PromoDeals, TrendingNow, ReorderRail), a cui si sommano i tre hook auth della navbar. La pagina categoria-hub istanzia una ProductGrid per sottocategoria più una finale (:276-287), e ogni ProductGrid è essa stessa un waterfall in due tempi: query `products`, poi `fetchSellerPublicMap` sui venditori (:102-108).
+- **Impatto:** Burst di richieste oltre il limite di connessioni parallele del browser: le ultime sezioni si accodano, l'LCP slitta e la home «si compone a pezzi». Lato server è un moltiplicatore di carico: una pageview vale una ventina di query PostgREST.
+- **Fix consigliato:** Spostare le sezioni above-the-fold (hero, categorie, prima rail prodotti) a fetch server-side nel Server Component, passando i dati come props e usando React Query solo per l'interattività. Montare le sezioni sotto la piega in lazy con IntersectionObserver. Nella ProductGrid, unire prodotti e profilo venditore in un'unica query con embed `profiles!products_seller_id_fkey(...)`, già usato altrove, eliminando il secondo hop.
+
+
+### frontend-ux (17)
+
+#### 🟠 53. Fee di consegna di €3 per negozio invisibile fino al checkout (e smentita da FAQ e /shipping)
+
+- **Dove:** `/home/user/mycity/app/cart/page.tsx:41-45,197-216 · /home/user/mycity/app/checkout/page.tsx:361 · /home/user/mycity/components/checkout/OrderSummary.tsx:62 · /home/user/mycity/lib/constants.ts:14`
+- **Cosa succede:** CONFERMATO. Il carrello calcola `finalTotal = total + shippingCost` (solo subtotale + €4,90 o 0). Il checkout aggiunge `platformDeliveryFee = groups.length * (PLATFORM_DELIVERY_FEE_CENTS/100)` = €3 per ogni negozio, mostrato come voce «Consegna MyCity» solo in OrderSummary. Nessuna pagina prima del checkout la nomina: grep di `PLATFORM_DELIVERY_FEE` trova solo checkout, API e admin. /faq riga 35 dice «La spedizione è GRATUITA per ordini sopra €30 dallo stesso venditore» e /shipping riga 30 «Per ordini ≥ €30 dallo stesso venditore», senza mai citare i €3. Attenuante (per cui non è bloccante): il carrello mostra la nota «stima · potrebbe variare al checkout» sulla riga Spedizione, e la fee è visibile prima del pagamento.
+- **Impatto:** Il totale cresce tra carrello e checkout senza spiegazione: su un ordine da €30 sono +€3 (10%), con 2 negozi +€6. Killer di conversione nel punto più costoso del funnel e testi informativi (FAQ/Spedizioni) di fatto incompleti sul prezzo totale.
+- **Fix consigliato:** Estrarre il calcolo in `lib/shipping.ts` e riusarlo in /cart e /checkout, mostrando in carrello la voce «Consegna MyCity €3 × N negozi»; aggiornare i testi di /faq e /shipping perché dicano cosa è davvero gratis.
+
+#### 🟠 54. La card prodotto mostra il prezzo scontato ma mette nel carrello il prezzo pieno
+
+- **Dove:** `/home/user/mycity/components/ProductCard.tsx:50-58,78 · /home/user/mycity/components/ProductGrid.tsx:364`
+- **Cosa succede:** CONFERMATO. La card calcola `bigPrice = hasDiscount ? discountedPrice : price` e lo mostra col prezzo pieno barrato, ma `handleAdd` chiama `addToCart({ id, name, price, ... })` passando `price` (pieno). `discountPercent` è realmente valorizzato: ProductGrid.tsx:364 passa `discountPercent={discountFor(p)}` (promo attive del negozio), e lo stesso fanno app/promozioni/page.tsx:108 e components/home/PromoDeals.tsx:64. Nota di merito verificata: il server (`app/api/orders/cod/route.ts:198`, `discountedUnitCents`) applica comunque lo sconto, quindi l'utente non viene sovra-addebitato — ma vede in carrello e nel riepilogo checkout un totale più alto di quello che paga.
+- **Impatto:** L'utente vede «€8,00 invece di €10,00», clicca «+», apre il carrello e trova €10,00: percepisce lo sconto come falso e abbandona. Inoltre il totale confermato al checkout non coincide con l'importo finale — contestazioni e ticket su ogni negozio con promozione attiva.
+- **Fix consigliato:** Passare il prezzo effettivamente mostrato: `addToCart({ id, name, price: bigPrice, ... })`, oppure portare nel CartItem `basePrice`/`discountPercent` e far calcolare al carrello lo stesso prezzo della card.
+
+#### 🟠 55. Il pulsante «+» della card è morto sui prodotti con varianti: nessuna azione, nessun feedback
+
+- **Dove:** `/home/user/mycity/components/ProductCard.tsx:69,114-119,185-196 · /home/user/mycity/components/ProductGrid.tsx:365`
+- **Cosa succede:** CONFERMATO. `handleAdd` inizia con `if (hasVariants) return;` senza `preventDefault`, contando sul Link overlay. Ma il Link è `absolute inset-0 z-0` come FRATELLO del bottone (il bottone vive dentro `<div className="relative z-10 …">`), quindi il click non naviga e non mostra nulla. La prop è realmente attiva: ProductGrid.tsx:365 passa `hasVariants={p.has_variants ?? false}`.
+- **Impatto:** Su ogni prodotto con taglie/colori il «+» non fa assolutamente nulla, mentre l'`aria-label` promette «Scegli le opzioni di X». L'utente clicca più volte, pensa che il sito sia rotto e se ne va.
+- **Fix consigliato:** Quando `hasVariants` è true: `e.preventDefault(); e.stopPropagation(); router.push(`/product/${id}`)` (o toast «Scegli taglia/colore») invece del `return` nudo.
+
+#### 🟠 56. «Riordina» svuota il carrello in corso senza chiedere conferma (4 punti d'ingresso, uno in home)
+
+- **Dove:** `/home/user/mycity/app/orders/page.tsx:139 · /home/user/mycity/app/orders/[id]/page.tsx:282 · /home/user/mycity/components/home-sections/ReorderRail.tsx:117,133`
+- **Cosa succede:** CONFERMATO. Tutte e quattro le azioni di riordino iniziano con `clearCart()` e poi reinseriscono le righe dell'ordine passato, senza alcuna conferma. Il progetto ha già un dialog di conferma globale (`confirmDialog()` di components/ConfirmDialog.tsx, usato ad es. in app/admin/users/page.tsx). La rail «Ordina di nuovo» sta nella home.
+- **Impatto:** Un utente con il carrello già pieno che clicca per curiosità «Ordina di nuovo» perde tutto senza avviso e senza undo. Carrello perso = ordine perso.
+- **Fix consigliato:** Se `getCart().length > 0` chiedere `confirmDialog({ title: 'Svuotare il carrello attuale?', danger: true })` prima di `clearCart()`, oppure unire le righe invece di sostituirle.
+
+#### 🟠 57. Riordino a prezzi storici: il carrello mostra il prezzo pagato mesi fa, il server ricalcola quello di oggi
+
+- **Dove:** `/home/user/mycity/app/orders/page.tsx:144 · /home/user/mycity/app/orders/[id]/page.tsx:286 · /home/user/mycity/components/home-sections/ReorderRail.tsx:120`
+- **Cosa succede:** CONFERMATO. Il riordino usa `price: Number(it.unit_price)`, cioè il prezzo unitario congelato nell'ordine originale; nessuna rilettura da `products` e nessun controllo di disponibilità. `/api/orders/cod` invece ricalcola tutto dal DB (righe 160-200, `discountedUnitCents(p.price, …)`).
+- **Impatto:** L'utente conferma un totale e ne paga un altro. Se il prezzo è salito è una brutta sorpresa; se è sceso il totale finale non torna comunque con quello confermato — in entrambi i casi contestazioni.
+- **Fix consigliato:** Al riordino rileggere il prezzo corrente con una `.in('id', ids)` su `products`, avvisare sui prezzi cambiati e scartare i prodotti non più disponibili.
+
+#### 🟠 58. Quantità nel carrello incrementabile senza limite e riga «Disponibile» sempre verde anche per prodotti esauriti
+
+- **Dove:** `/home/user/mycity/app/cart/page.tsx:141,154-159 · /home/user/mycity/lib/cart.ts:80-83`
+- **Cosa succede:** CONFERMATO. Il bottone «+» chiama `updateQuantity(item.id, item.quantity + 1, …)` senza tetto né `disabled`; `updateQuantity` in lib/cart.ts non applica alcun cap di stock. E ogni riga stampa la stringa fissa «Disponibile · Spedizione 24-48h» (riga 141), indipendente dal dato reale. Il controllo di stock esiste solo nel checkout (`stockIssues`).
+- **Impatto:** L'utente porta al checkout quantità impossibili e lì trova il bottone disabilitato, dovendo tornare indietro a correggere. Attrito nel punto più costoso del funnel; la scritta «Disponibile» su un prodotto esaurito è falsa e mina la fiducia.
+- **Fix consigliato:** Caricare stock/stato per gli id del carrello (come già fa il checkout), cappare il «+» con `disabled` + microcopy «Massimo disponibile: N», e derivare la riga di stato dal dato reale.
+
+#### 🟠 59. Flash «Il tuo carrello è vuoto» a ogni apertura di /cart e /checkout
+
+- **Dove:** `/home/user/mycity/app/cart/page.tsx:23-30,47 · /home/user/mycity/app/checkout/page.tsx:49-57,591`
+- **Cosa succede:** CONFERMATO. Entrambe le pagine sono `'use client'` e inizializzano lo stato a `[]` leggendo il localStorage dentro `useEffect`. Gli early-return `if (items.length === 0)` (cart:47) e `if (cart.length === 0)` (checkout:591) girano quindi al primo render, prima che il carrello sia letto: viene dipinto lo stato vuoto («Il tuo carrello è vuoto» + «Torna al negozio») e poi sostituito.
+- **Impatto:** L'utente vede per un istante il carrello vuoto proprio quando sta per pagare. Su device lenti il flash dura abbastanza da far cliccare «Torna al negozio» e perdere l'acquisto.
+- **Fix consigliato:** Aggiungere uno stato `hydrated` (o lazy initializer lato client) e mostrare skeleton/`LoadingState` finché la lettura non è avvenuta; solo dopo valutare lo stato vuoto.
+
+#### 🟠 60. Indirizzi salvati: nessuna tile risulta mai selezionata e il form manuale resta sempre aperto
+
+- **Dove:** `/home/user/mycity/components/checkout/ShippingAddressForm.tsx:63,85,132 · /home/user/mycity/app/checkout/page.tsx:226-245`
+- **Cosa succede:** CONFERMATO. `const [editing, setEditing] = useState(savedAddresses.length === 0)` viene valutato solo al mount, e non c'è alcun effetto di sincronizzazione. La query indirizzi è concatenata (`authUser` via `auth.getUser()` → poi `user_addresses` con `enabled: !!authUser?.id`), quindi al mount del form `savedAddresses` è quasi sempre ancora `[]`: `editing` resta `true` e, siccome `active = !editing && a.id === activeId`, nessuna tile viene mai evidenziata. Il parent intanto precompila il form con l'indirizzo predefinito (checkout:269-279) e la tile «+» mostra «Chiudi».
+- **Impatto:** L'utente di ritorno vede le proprie tile tutte spente, il form manuale aperto e precompilato: non capisce quale indirizzo verrà usato. Confusione nello step 1 del checkout, dove l'abbandono costa di più.
+- **Fix consigliato:** Sincronizzare lo stato (`useEffect(() => { if (savedAddresses.length > 0) setEditing(false); }, [savedAddresses.length])`) o sollevare `editing` nel parent che conosce lo stato della query.
+
+#### 🟠 61. Pagamento con carta: le coordinate di consegna non vengono mai geocodificate
+
+- **Dove:** `/home/user/mycity/app/checkout/page.tsx:380-397 (COD) vs 496-502 (Stripe) · /home/user/mycity/app/api/stripe/checkout/route.ts`
+- **Cosa succede:** CONFERMATO. Il ramo COD, quando `form.lat/lng` sono null (indirizzo digitato a mano), chiama `/api/geocode` e invia le coordinate risolte. `payWithStripe` invia direttamente `lat: form.lat, lng: form.lng`, cioè `null`, e la route `app/api/stripe/checkout/route.ts` non contiene alcuna geocodifica (grep `geocode` in app/api trova solo app/api/geocode/route.ts). Inoltre `shippingFor()` (checkout:333-343) senza coordinate ricade sulla tariffa piatta €4,90 invece di `riderFee(km)`.
+- **Impatto:** Ogni ordine pagato con carta da un indirizzo nuovo nasce senza lat/lng: il rider non ha il punto sulla mappa, il dispatch per distanza non funziona e la fee di consegna è calcolata male. Incoerenza sistematica tra i due metodi di pagamento sullo stesso form.
+- **Fix consigliato:** Estrarre la geocodifica in `resolveDeliveryCoords()` e chiamarla in entrambe le mutation prima di costruire il payload (e prima di calcolare `shippingCents` per Stripe).
+
+#### 🟠 62. Turnstile mai resettato dopo un errore: login e registrazione si bloccano al secondo tentativo
+
+- **Dove:** `/home/user/mycity/components/Turnstile.tsx:28-77 · /home/user/mycity/app/sign-in/page.tsx:38,58-67,168-175`
+- **Cosa succede:** CONFERMATO. Il componente espone solo `onVerify`/`onExpire` e non chiama mai `window.turnstile.reset(widgetId)` (lo dichiara nel tipo globale ma non lo usa: la cleanup fa solo `remove`). In sign-in `onVerify={setCaptchaToken}` e il `catch` dell'errore non azzera `captchaToken`: dopo una password sbagliata il retry rispedisce lo stesso token, che Cloudflare considera monouso; `translateAuthError` degrada la risposta nel generico «Accesso non riuscito. Riprova.».
+- **Impatto:** Con Turnstile attivo, chi sbaglia la password una volta non riesce più ad accedere finché non ricarica la pagina — e il messaggio non glielo dice. Stesso schema in sign-up.
+- **Fix consigliato:** Esporre un `ref` imperativo o una prop `resetSignal` che invochi `window.turnstile.reset(widgetId.current)` e chiamarlo nel `catch` di sign-in/sign-up, azzerando anche `captchaToken`.
+
+#### 🟠 63. Il carrello non viene svuotato al logout: le righe dell'utente A finiscono nel cloud dell'utente B
+
+- **Dove:** `/home/user/mycity/components/CartCrossDeviceSync.tsx:60-71,96-101`
+- **Cosa succede:** CONFERMATO. `onAuthStateChange((_, session) => { userId = session?.user?.id ?? null; if (userId) syncDown(userId); })` non gestisce il caso SIGNED_OUT: il localStorage `cart` resta intatto. Al login successivo con un altro utente sullo stesso browser, `syncDown` trova `cloudItems.length === 0 && localItems.length > 0` e chiama `syncUp`, scrivendo il carrello del primo utente nel record `user_carts` del secondo.
+- **Impatto:** Su device condivisi il nuovo utente trova nel proprio carrello — e su tutti i suoi dispositivi — prodotti che non ha mai scelto. Confusione, ordini sbagliati e travaso di dati di navigazione tra account.
+- **Fix consigliato:** Gestire esplicitamente `SIGNED_OUT` con `clearCart()` + rimozione della chiave `updated_at`, e in `syncDown` non caricare mai un carrello locale creato prima dell'ultimo login.
+
+#### 🟠 64. Il filtro «Spedizione gratis» della ricerca è in realtà un filtro «prezzo minimo €30» e viene scartato in silenzio
+
+- **Dove:** `/home/user/mycity/app/search/page.tsx:478 · /home/user/mycity/app/search/page.tsx:139`
+- **Cosa succede:** CONFERMATO. `minPrice={minPrice > 0 ? minPrice : (freeShipping ? 30 : undefined)}`: la spunta si traduce in un filtro sul prezzo del SINGOLO prodotto ≥ €30, mentre la soglia reale (FREE_SHIPPING_THRESHOLD) è sul subtotale per negozio. Se l'utente ha già impostato un prezzo minimo con lo slider, il vincolo spedizione viene scartato pur restando spuntato e pur generando il chip «Spedizione gratis» (riga 139).
+- **Impatto:** Il filtro nasconde tutto il catalogo sotto i €30 — la maggior parte dei prodotti di un marketplace di prossimità — e mostra risultati che non garantiscono alcuna spedizione gratuita. Ricerca inaffidabile e vendite perse sulla fascia bassa.
+- **Fix consigliato:** Rinominarlo onestamente («Prodotti da €30 in su») o rimuoverlo, e in ogni caso combinare i due vincoli con `minPrice = Math.max(slider, 30)` invece di scartarne uno in silenzio.
+
+#### 🟠 65. Nessuna paginazione: risultati tagliati a 96 e filtri/conteggio calcolati solo su quei 96
+
+- **Dove:** `/home/user/mycity/components/ProductGrid.tsx:101,199-233,236-239`
+- **Cosa succede:** CONFERMATO. La query chiude con `q.limit(limit ?? 96)` e in tutto il file non esiste `.range()`, `useInfiniteQuery` né alcun «carica altri». I filtri «Aperti ora», «Rating minimo», «In promozione», «Disponibili» e gli ordinamenti per rating e sconto sono applicati client-side nel `useMemo` sull'array già troncato, e `onCount(filtered.length)` riporta il conteggio di quel sottoinsieme.
+- **Impatto:** Superati i 96 prodotti il resto del catalogo è irraggiungibile. Peggio, i filtri diventano bugiardi («3 prodotti» quando in DB ce ne sono decine), perché la selezione avviene solo dentro la prima pagina ordinata per data.
+- **Fix consigliato:** Passare a `useInfiniteQuery` con `.range()`, spingere in DB i filtri oggi client-side (stock e promo sono colonne; gli orari possono diventare una vista/RPC) e prendere il conteggio con `count: 'exact', head: true` sulla stessa query filtrata.
+
+#### 🟠 66. Suggerimenti di ricerca e pagina risultati usano due motori diversi: «Vedi tutti i risultati» può dare zero
+
+- **Dove:** `/home/user/mycity/components/SearchBar.tsx:54-58 · /home/user/mycity/components/ProductGrid.tsx:95-98`
+- **Cosa succede:** CONFERMATO. Il dropdown interroga `supabase.rpc('search_products_smart', { q: term, lim: 6 })` (FTS italiano + trigram, matcha morfologicamente). La griglia di /search filtra invece con `q.ilike('name', '%' + safe + '%')` sul solo campo `name`, senza `description`. Un prodotto suggerito dal dropdown può quindi non comparire tra i risultati, e il link finale del dropdown punta proprio a /search.
+- **Impatto:** L'utente vede il prodotto nel menù a tendina, clicca «Vedi tutti i risultati per «…»» e atterra su «Nessun prodotto trovato». Il percorso di ricerca più usato si autosmentisce.
+- **Fix consigliato:** Far usare alla pagina risultati la stessa RPC `search_products_smart` (con `.range()` per la paginazione), tenendo l'ILIKE solo come fallback, e includere `description`.
+
+#### 🟠 67. Richiesta di reso: nessun controllo di idoneità prima del form, foto caricate a vuoto
+
+- **Dove:** `/home/user/mycity/app/orders/[id]/return/page.tsx:36-46,48-63,112,155`
+- **Cosa succede:** CONFERMATO. La pagina seleziona `delivered_at, delivery_status` (riga 40) ma il grep mostra che non compaiono mai altrove nel file: il form è mostrato per qualsiasi ordine, anche non consegnato o oltre i 14 giorni che il testo stesso dichiara (riga 112). `uploadPhoto` scrive subito su Supabase Storage a ogni selezione (righe 48-63), prima della submit; solo `/api/returns/create` rifiuta la richiesta.
+- **Impatto:** L'utente compila il modulo, carica le foto e riceve un errore secco solo alla fine, nel momento più delicato del rapporto. In più ogni tentativo abbandonato lascia file orfani nello storage.
+- **Fix consigliato:** Prima del form verificare `delivery_status === 'DELIVERED'` e i 14 giorni da `delivered_at`, mostrando un EmptyState con la ragione; caricare le foto solo alla submit (o ripulirle) e validare tipo/dimensione prima dell'upload.
+
+#### 🟠 68. Autocomplete della ricerca non navigabile da tastiera e semanticamente rotto (doppio id in pagina)
+
+- **Dove:** `/home/user/mycity/components/SearchBar.tsx:31,158-167,184-260 · /home/user/mycity/components/Navbar.tsx:103,205`
+- **Cosa succede:** CONFERMATO. Il commento del file promette «keyboard nav (arrow up/down + enter sui suggerimenti)» ma l'unico handler è `onKeyDown` per Escape: nessun ArrowUp/ArrowDown, nessun `aria-activedescendant`. L'input ha `role="combobox"` e `aria-controls="search-listbox"`, ma le voci sono `<li>` con dentro `<Link>` e nessun `role="option"`/`aria-selected`. `aria-expanded={open && (debounced.length >= 2 || debounced.length < 2)}` si riduce a `open`. La Navbar monta SearchBar due volte (riga 103 desktop, riga 205 mobile), quindi in pagina esistono due elementi con `id="search-listbox"`.
+- **Impatto:** Chi naviga da tastiera o con screen reader non può usare l'autocomplete: viene annunciata una listbox senza opzioni e l'id duplicato rende ambiguo il riferimento. Il sito ha una pagina /accessibility pubblica: è un'esposizione EAA/WCAG oltre che un'esclusione di utenti reali.
+- **Fix consigliato:** Aggiungere `activeIndex` con handler ArrowUp/ArrowDown/Enter, `role="option"` + `aria-selected` sulle voci, `aria-activedescendant` sull'input e generare l'id del listbox con `useId()`.
+
+#### 🟠 69. ConfirmDialog: Invio conferma sempre, anche le azioni distruttive, e il focus parte già sul pulsante di conferma
+
+- **Dove:** `/home/user/mycity/components/ConfirmDialog.tsx:71-77,152-155`
+- **Cosa succede:** CONFERMATO con una correzione. L'handler globale su `document` fa `if (e.key === 'Enter') { e.preventDefault(); closeWith(true); }` senza guardare `state.danger`. NON è vero che il focus non entra nel dialog: il bottone di CONFERMA ha `autoFocus` (riga 155) — il che aggrava il problema, perché il focus iniziale è sull'azione distruttiva e un Invio per abitudine la esegue. Manca comunque il focus trap e il ritorno del focus al trigger (presenti invece in components/ui/Modal.tsx).
+- **Impatto:** Un Invio premuto per abitudine conferma cancellazioni di ordini, resi ed eliminazioni account. Azione irreversibile innescata per sbaglio.
+- **Fix consigliato:** Rimuovere Enter come conferma (o abilitarlo solo quando `danger !== true`), spostare l'`autoFocus` sul bottone di annulla per le azioni `danger`, restituire il focus al trigger e aggiungere il focus trap come in Modal.
+
+
+### accessibilita (13)
+
+#### 🟠 70. Il ring di focus del design system è a 2,90:1 e sostituisce l'outline nativo su tutta l'app
+
+- **Dove:** `components/ui/Button.tsx:39 · components/ui/Field.tsx:30-31 (+ 23 occorrenze in 17 file)`
+- **Cosa succede:** VERIFICATO, ratio ricalcolati. Il pattern è `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2`. `primary-400` = `#E47A5A` (tailwind.config.ts:41): contro bianco = **2,90:1**, contro `cream-100` (#FBF7F0) = **2,72:1**. WCAG 2.1 SC 1.4.11 richiede ≥3:1. Il fallback `:focus-visible { outline: 2px solid #C0492C }` (app/globals.css:154-157) NON salva: ha specificità (0,1,0) mentre `.focus-visible\:outline-none:focus-visible` ha (0,2,0) e vince. Stessa cosa in Field.tsx dove `CONTROL_BASE` usa `focus:outline-none` e `CONTROL_OK` usa `focus-visible:ring-primary-400`. (Correzione: il conteggio reale è 23 occorrenze su 17 file, non ~40.)
+- **Impatto:** Ogni bottone e ogni campo passato dalle primitive (login, checkout, dashboard venditore, admin) ha un indicatore di focus che gli ipovedenti non distinguono. È la barriera più sistemica del marketplace per chi naviga da tastiera.
+- **Fix consigliato:** Usare `primary-600` (#C0492C = **4,96:1** su bianco, verificato) per il ring: `focus-visible:ring-primary-600` in `BASE` di Button.tsx e in `CONTROL_OK` di Field.tsx. In alternativa smettere di azzerare l'outline e lasciare il `:focus-visible` di globals.css. Aggiungere un test di contrasto sui token del focus in CI.
+
+#### 🟠 71. Nove campi hanno l'outline azzerato senza alcun sostituto visibile
+
+- **Dove:** `components/seller/AttributesFields.tsx:103 · components/seller/ProductForm.tsx:811 · components/seller/QuickAiTools.tsx:164 · components/seller/StoreHoursEditor.tsx:58,66 · components/products/ImportFromUrlBox.tsx:149 · components/seller/CatalogCopilot.tsx:201 · components/seller/BulkPhotoCreate.tsx:275,301 · app/seller/orders/[id]/page.tsx:106`
+- **Cosa succede:** VERIFICATO riga per riga. `AttributesFields.tsx:103` e `ProductForm.tsx:811` usano `border-0 p-1 … focus:outline-none focus:ring-0`: nessun bordo, nessun ring, nessun outline → zero feedback. `QuickAiTools.tsx:164` (`<select>` lingua), `StoreHoursEditor.tsx:58/66` (orari apertura/chiusura) e `ImportFromUrlBox.tsx:149` hanno solo `focus:outline-none` su sfondo `bg-transparent`. `CatalogCopilot.tsx:201`, `BulkPhotoCreate.tsx:275/301` e `app/seller/orders/[id]/page.tsx:106` sostituiscono l'outline con `focus:border-primary-300` = #EE9F86 su bianco = **2,11:1** (ricalcolato), sotto la soglia di 3:1.
+- **Impatto:** Il venditore che compila varianti, tag prodotto, orari del negozio o il motivo di rifiuto ordine non vede dove si trova. Sono i campi del flusso di pubblicazione del catalogo: se il venditore si blocca, il prodotto non va online.
+- **Fix consigliato:** Sostituire `focus:outline-none focus:ring-0` con `focus-visible:ring-2 focus-visible:ring-primary-600` (o rimuovere `outline-none` e lasciare il default globale). Vietare `focus:ring-0`/`focus:outline-none` senza sostituto con un check grep in CI.
+
+#### 🟠 72. Il lightbox delle foto prodotto è `aria-modal` ma non gestisce Esc, focus né scroll
+
+- **Dove:** `app/product/[id]/page.tsx:484-541`
+- **Cosa succede:** VERIFICATO. Il contenitore ha `role="dialog" aria-modal="true" aria-label={`Foto di ${product.name}`}` (righe 498-500) ma: grep di `Escape` sul file = **0 occorrenze**, grep di `activeElement` = 0, nessun focus trap, nessun `document.body.style.overflow`. Il focus non entra nel lightbox all'apertura né torna sul trigger alla chiusura. In più `role="dialog"` sta sul backdrop, che ha anche `onClick={() => setLightbox(false)}`.
+- **Impatto:** Sulla scheda prodotto (la pagina che converte) l'utente da tastiera apre il lightbox e resta bloccato: il focus è dietro l'overlay nero, Tab naviga elementi invisibili, Esc non chiude. Con `aria-modal="true"` VoiceOver limita la lettura al sottoalbero del dialogo mentre il focus è fuori → l'utente non sente nulla.
+- **Fix consigliato:** Riusare `components/ui/Modal.tsx`, che ha già Esc + trap + return-focus + scroll lock (righe 55-98), oppure replicarne la logica: `useEffect` con listener `Escape`, focus iniziale sul bottone «Chiudi» (riga 502), `previousActiveElement.current?.focus()` in cleanup, `document.body.style.overflow='hidden'`. Spostare `role="dialog"` dal backdrop al pannello.
+
+#### 🟠 73. Overlay modali senza Escape, senza focus trap e senza ritorno del focus
+
+- **Dove:** `app/category/[slug]/page.tsx:365 · components/SupportChatModal.tsx:81 · components/admin/AdminSidebar.tsx:247 · components/seller/SellerShell.tsx:118 · components/VerifyCodeDialog.tsx:64 · components/rider/SOSButton.tsx:90 · components/rider/CashConfirmDialog.tsx:94 · components/AddToListButton.tsx:123 · components/LocationPill.tsx:88-120 · app/admin/users/page.tsx:754`
+- **Cosa succede:** VERIFICATO file per file, con due correzioni rispetto alla segnalazione originale: (a) `MobileAccountSheet.tsx:44` e `app/seller/orders/[id]/page.tsx:73` HANNO un handler Escape (mancano solo trap e ritorno del focus) — vanno tolti dall'elenco dei «senza Esc»; (b) VerifyCodeDialog, SOSButton, CashConfirmDialog, AddToListButton, LocationPill e il pannello di app/admin/users/page.tsx:754 non hanno affatto `role="dialog"` — sono overlay modali di fatto ma non dichiarati, il che è un problema in più, non in meno. Confermato per grep su ognuno: `Escape` assente in app/category/[slug]/page.tsx, components/SupportChatModal.tsx, components/admin/AdminSidebar.tsx, components/seller/SellerShell.tsx, components/VerifyCodeDialog.tsx, components/rider/SOSButton.tsx, components/rider/CashConfirmDialog.tsx, components/AddToListButton.tsx, components/LocationPill.tsx; focus trap (`'Tab'`) assente in TUTTI; `activeElement` presente solo in components/ui/Modal.tsx, app/search/page.tsx e components/orders/ContactSheet.tsx. `SupportChatModal.tsx:81` mette inoltre `role="dialog"` sul backdrop invece che sul pannello.
+- **Impatto:** Conferma contanti e SOS del rider, chat di assistenza, filtri categoria su mobile, menu admin, menu venditore: l'utente da tastiera entra, il focus resta dietro l'overlay, non può chiudere con Esc e non torna dove era. Blocca i flussi di consegna e supporto per chi non usa il mouse.
+- **Fix consigliato:** Un solo primitivo. Rifattorizzare tutti su `components/ui/Modal.tsx` oppure estrarre un hook `useDialog({ onClose })` che fa Esc + trap + return focus + scroll lock, e applicarlo a ognuno dei file elencati; aggiungere `role="dialog" aria-modal="true"` sul PANNELLO (non sul backdrop) dove manca.
+
+#### 🟠 74. Campi senza etichetta accessibile su flussi che valgono soldi (coupon in checkout, OTP consegna, newsletter)
+
+- **Dove:** `components/checkout/CouponInput.tsx:48 · components/VerifyCodeDialog.tsx:78 · components/NewsletterForm.tsx:67 · components/ProductQA.tsx:156 · app/stores/page.tsx:161,177 · components/seller/ProductForm.tsx:811 · components/seller/AttributesFields.tsx:103`
+- **Cosa succede:** VERIFICATO a mano sui casi citati: hanno SOLO `placeholder`, nessun `id`+`<label htmlFor>`, nessun `aria-label`, nessuna label wrapping. `CouponInput.tsx:48` → `placeholder="Codice sconto (es. BENVENUTO10)"` e basta. `VerifyCodeDialog.tsx:78` (codice OTP di conferma consegna) → `placeholder="000000"` e basta. `NewsletterForm.tsx:67` → solo `placeholder={t('placeholder')}`. `app/stores/page.tsx:161` (ricerca negozi) e :177 (`<select>` ordinamento) → nessuna etichetta. Il placeholder sparisce appena l'utente digita e non è un'etichetta valida (WCAG 3.3.2 / 4.1.2). Nota: il conteggio «83 controlli» della segnalazione originale NON è stato riverificato — resta confermato solo l'elenco qui sopra, che è comunque un campione di flussi critici. Il progetto ha già la primitiva corretta (`components/ui/Field.tsx`, con `htmlFor`/`aria-describedby`/`aria-invalid`): semplicemente non è usata ovunque.
+- **Impatto:** Uno screen reader annuncia «casella di testo, vuoto» nel checkout e nella conferma di consegna del rider: coupon non applicati, consegne non confermate.
+- **Fix consigliato:** Migrare questi campi su `Input`/`Select`/`Textarea` di `components/ui/Field.tsx` passando `label`. Dove l'etichetta visibile non ci sta (barre di ricerca), aggiungere `aria-label`. Attivare la regola lint `jsx-a11y/label-has-associated-control` in CI per bloccare le regressioni.
+
+#### 🟠 75. Gli errori bloccanti del checkout non sono annunciati e la CTA si disabilita senza spiegare perché
+
+- **Dove:** `app/checkout/page.tsx:737-780, 817, 835`
+- **Cosa succede:** VERIFICATO. Grep di `role="alert"`, `aria-live` e `aria-describedby` su app/checkout/page.tsx = **0 occorrenze**. I quattro blocchi di errore — `orphans` (737), `stockIssues` (756), `variantIssues` (765) e l'errore di caricamento (774) — sono `<div>` normali che compaiono dinamicamente. Il bottone di conferma diventa `disabled={groups.length === 0 || stockIssues.length > 0 || variantIssues.length > 0}` (riga 817 in `OrderSummary` e riga 835 nella barra mobile) senza alcun `aria-describedby` che punti al motivo.
+- **Impatto:** L'utente con screen reader preme «Conferma ordine», non succede nulla, non sente nessun messaggio e trova un bottone disabilitato senza motivo. Abbandono garantito sull'ultimo passo del funnel: ordine perso.
+- **Fix consigliato:** Aggiungere `role="alert"` ai quattro blocchi, dare loro un `id` e collegarlo al bottone con `aria-describedby`. In alternativa mantenere il bottone abilitato, mostrare l'errore al submit e spostare il focus sul riepilogo degli errori.
+
+#### 🟠 76. La barra di ricerca dichiara un combobox che non funziona da tastiera e punta a un id inesistente
+
+- **Dove:** `components/SearchBar.tsx:156-170, 184, 269`
+- **Cosa succede:** VERIFICATO, tutti e quattro i punti. L'input ha `role="combobox"`, `aria-haspopup="listbox"`, `aria-autocomplete="list"`, `aria-controls="search-listbox"` ma: (a) `onKeyDown` gestisce SOLO `Escape` (riga 167) — nessuna freccia su/giù, nessun `aria-activedescendant`; (b) il `role="listbox"` a riga 184 contiene `<li><Link>`, zero elementi `role="option"` → un listbox senza opzioni; (c) quando `debounced.length < 2` viene mostrato il pannello «Ricerche popolari» (riga 269) che NON ha `id="search-listbox"` → `aria-controls` punta a un id assente dal DOM; (d) `aria-expanded={open && (debounced.length >= 2 || debounced.length < 2)}` (riga 159) è una tautologia: la parentesi vale sempre `true`.
+- **Impatto:** La ricerca è il punto di ingresso principale del marketplace. Gli screen reader annunciano una casella combinata con un elenco vuoto e non leggono mai i suggerimenti; nessun conteggio dei risultati viene annunciato.
+- **Fix consigliato:** Implementare il pattern APG: `role="option"` + `id` su ogni voce, `aria-activedescendant` sull'input, ArrowDown/ArrowUp/Home/End/Enter, `aria-expanded` legato al reale rendering del listbox, `aria-controls` che cambia con il pannello mostrato, più un `aria-live="polite"` con «N suggerimenti». In alternativa togliere i ruoli ARIA e lasciare una lista di link semplici, onesta e già navigabile con Tab.
+
+#### 🟠 77. Lo stato «selezionato» di tab e filtri è veicolato solo dal colore, senza aria-pressed/aria-selected
+
+- **Dove:** `components/checkout/DeliverySlotPicker.tsx:97-117 e 166-191 (DayTile) · app/admin/orders/page.tsx:121-131 · app/profile/gift-cards/page.tsx:126-134 · app/admin/disputes/page.tsx · app/admin/support/page.tsx · app/admin/users/page.tsx · app/profile/settings/page.tsx · app/seller/customers/page.tsx · app/seller/earnings/page.tsx · app/rider/earnings/page.tsx`
+- **Cosa succede:** VERIFICATO. Conteggio nel repo: `aria-selected` compare **1 volta**, `role="tab"` **1 volta** (in components/store-sections/SectionRenderer.tsx, che è invece implementato bene). Il caso più critico è `DayTile` in `DeliverySlotPicker.tsx` (definizione righe 166-191): riceve `active` e lo usa SOLO per `border-primary-500 bg-primary-50`, senza `aria-pressed`, sulle tile Adesso/Oggi/Domani del checkout. Stessa cosa per i chip filtro di `app/admin/orders/page.tsx:121-131` (`filter === f ? 'bg-primary-700 text-white' : …`) e per `TabBtn` di `app/profile/gift-cards/page.tsx:126-134`.
+- **Impatto:** Chi usa uno screen reader non sa quale filtro è attivo né quale giorno di consegna ha scelto in checkout: ordina con lo slot sbagliato. Violazione di 1.4.1 (Uso del colore) e 4.1.2.
+- **Fix consigliato:** Aggiungere `aria-pressed={active}` a `DayTile` e ai gruppi di filtri (come già fatto correttamente in app/product/[id]/page.tsx per le varianti), oppure adottare il pattern tablist di `SectionRenderer.tsx` per le vere tab (gift-cards, settings, activity).
+
+#### 🟠 78. Il voto a stelle della recensione non comunica il valore selezionato
+
+- **Dove:** `app/orders/[id]/review/page.tsx:17-31 (stato iniziale righe 36-39)`
+- **Cosa succede:** VERIFICATO. `StarRating` renderizza 5 bottoni con `aria-label={`${n} ${n === 1 ? 'stella' : 'stelle'}`}`. Lo stato selezionato è solo `className={n <= value ? 'text-accent-700' : 'text-ink-300'}` — colore puro: nessun `aria-pressed`, nessun `role="radiogroup"`/`radio`, nessun testo che dica quante stelle sono scelte. Il valore parte da 5 (`useState(5)` per storeRating e riderRating) senza che nulla lo annunci.
+- **Impatto:** Un utente non vedente invia una recensione a 5 stelle senza saperlo, o non capisce se il click è stato registrato. Le recensioni sono il motore di fiducia del marketplace: dati falsati.
+- **Fix consigliato:** Usare `role="radiogroup" aria-label="Valutazione"` con 5 `role="radio" aria-checked`, oppure aggiungere `aria-pressed={n <= value}` più un testo `aria-live` («Valutazione: 4 stelle su 5»). Aggiungere la gestione delle frecce sinistra/destra.
+
+#### 🟠 79. Con browser in inglese il sito serve `<html lang="en">` su contenuto quasi interamente italiano
+
+- **Dove:** `app/layout.tsx:103 · i18n.ts:38-42 · messages/en.json`
+- **Cosa succede:** VERIFICATO e misurato. `resolveLocale()` (i18n.ts:38-42) restituisce `en` sulla sola base di `Accept-Language`, senza nessuna azione dell'utente, e `app/layout.tsx:103` scrive `<html lang={locale}>`. Ma `messages/en.json` contiene **134 chiavi** e solo **29 file su 346** usano `useTranslations`/`getTranslations`: la stragrande maggioranza dei testi (navbar, checkout, schede prodotto, dashboard, e tutti gli `aria-label` come «Chiudi», «Carrello», «Menu account») è italiano hardcoded.
+- **Impatto:** Violazione di WCAG 3.1.1 (Lingua della pagina): uno screen reader con voce inglese pronuncia il testo italiano in modo incomprensibile per qualsiasi visitatore con browser non italiano. Danneggia anche la SEO internazionale.
+- **Fix consigliato:** Finché la copertura i18n non è reale, ignorare `Accept-Language` in `resolveLocale()` e usare solo il cookie `NEXT_LOCALE` scelto esplicitamente dall'utente (patch di una riga in i18n.ts:38-42). In parallelo misurare la copertura delle chiavi e completare `en.json` prima di riabilitare il rilevamento automatico.
+
+#### 🟠 80. ProductCard nasconde agli screen reader i badge «Esaurito» e sconto, e non marca il prezzo barrato
+
+- **Dove:** `components/ProductCard.tsx:122-127 e 184-192`
+- **Cosa succede:** VERIFICATO. Il contenitore dei badge è `<div className="absolute top-2 left-2 z-10 flex flex-col gap-1" aria-hidden>`: «-{badgePct}%», «Nuovo» ed «Esaurito» sono invisibili ad ARIA. Il prezzo pieno usa `<span className="text-[11px] text-ink-400 line-through">` (riga 188) — `line-through` è puramente CSS, senza `<s>`/`<del>` né testo alternativo.
+- **Impatto:** Su ogni griglia del marketplace (home, categoria, ricerca, negozio) un utente non vedente sente due prezzi consecutivi senza sapere quale è quello vecchio, e non sa che il prodotto è esaurito finché non prova ad aggiungerlo. Aspettative sbagliate → carrelli abbandonati e reclami.
+- **Fix consigliato:** Togliere `aria-hidden` dal contenitore dei badge (o replicarne il testo in uno `<span className="sr-only">`). Per il prezzo: `<s>` semantico più `<span className="sr-only">Prezzo precedente</span>` / `<span className="sr-only">Prezzo scontato</span>`.
+
+#### 🟠 81. Lo StoryViewer avanza da solo ogni 5 secondi senza pausa, senza focus e con l'immagine priva di alt
+
+- **Dove:** `components/StoryViewer.tsx:41-65, 81, 126-133`
+- **Cosa succede:** VERIFICATO, con una precisazione: il viewer HA la gestione di Escape e delle frecce (righe 68-76), quindi non è «senza tastiera». Restano confermati: `setTimeout(..., 5000)` (righe 48-51) che avanza da solo e alla fine chiude il viewer, con **zero** comandi di pausa/estensione (WCAG 2.2.1 Regolazione del tempo, 2.2.2 Pausa); il `prefers-reduced-motion` di globals.css non tocca il timer JavaScript; il contenitore a riga 81 non ha `role="dialog"` né `aria-modal` né focus trap né spostamento del focus; l'immagine della storia — che È il contenuto — ha `alt=""` (riga 129), violazione 1.1.1.
+- **Impatto:** Chi ha disabilità cognitive o motorie non riesce a leggere la storia prima che scompaia; chi usa uno screen reader non riceve nulla dall'immagine e viene espulso dal viewer senza preavviso. Sono i contenuti promozionali dei negozi: promozione sprecata.
+- **Fix consigliato:** Aggiungere un bottone pausa/riprendi (e mettere in pausa automaticamente quando il viewer ha il focus), rispettare `window.matchMedia('(prefers-reduced-motion: reduce)')` fermando l'auto-advance, aggiungere `role="dialog" aria-modal="true"` con focus trap, e usare `alt={active.caption ?? `Storia di ${active.seller?.store_name}`}`.
+
+#### 🟠 82. La dichiarazione di accessibilità pubblica afferma cose smentite dal codice (esposizione EAA/AgID)
+
+- **Dove:** `app/accessibility/page.tsx:68-79 (Funzionalità accessibili), 81-97 (Contenuti non accessibili), 99-108 (Metodologia)`
+- **Cosa succede:** VERIFICATO parola per parola. La pagina elenca fra le «Funzionalità accessibili»: «Indicatori di focus visibili su tutti gli elementi interattivi» (smentito da AttributesFields.tsx:103, ProductForm.tsx:811, QuickAiTools.tsx:164, StoreHoursEditor.tsx:58/66), «Form con etichette esplicite e messaggi di errore associati» (smentito dai campi con solo placeholder e dagli errori non annunciati del checkout), «Navigazione completa da tastiera su tutte le pagine principali» (smentito dai dialoghi senza Esc e dal toggle password `tabIndex={-1}`), «Contrasto colore conforme WCAG AA» (il ring di focus è a 2,90:1). La sezione «Metodologia» dichiara «Audit automatico con `axe-core` e `pa11y`»: grep su package.json = **zero** dipendenze axe/pa11y, e in `tests/` (e2e, integration, sql, unit) non esiste alcun test di accessibilità. La lista delle non conformità note cita solo mappe, storie e foto utente.
+- **Impatto:** L'EAA (Dir. UE 2019/882, D.Lgs. 82/2022) è in vigore dal 28/06/2025 e la pagina stessa indica ad AgID come presentare reclamo. Una dichiarazione difforme dai fatti è un rischio sanzionatorio e reputazionale diretto, non solo un problema tecnico.
+- **Fix consigliato:** Allineare subito la sezione «Contenuti non accessibili» ai difetti confermati (finché i fix non sono in produzione), togliere la rivendicazione di axe-core/pa11y finché non esiste il test, e introdurre un vero gate: `@axe-core/playwright` nei test e2e già presenti in `tests/e2e`, che fallisce su violazioni serious/critical delle 6 pagine chiave (home, categoria, prodotto, carrello, checkout, login).
+
+
+### qa-flussi (10)
+
+#### 🟠 83. Pagamento carta accettato dopo la scadenza del pending_checkout: ordini creati senza stock riservato (overselling)
+
+- **Dove:** `/home/user/mycity/migrations/042_multi_seller_checkout.sql:43 + /home/user/mycity/app/api/cron/expire-checkouts/route.ts:27-56 + /home/user/mycity/app/api/stripe/webhook/route.ts:210-214 + /home/user/mycity/lib/stripe/client.ts:168-193`
+- **Cosa succede:** VERIFICATO. `pending_checkouts.expires_at` ha DEFAULT `now() + interval '2 hours'`; il cron expire-checkouts marca EXPIRED e chiama `restore_stock` rimettendo la merce a magazzino. La Stripe Checkout Session creata in lib/stripe/client.ts NON imposta `expires_at` (nessun campo nel `sessions.create`), quindi vive il default Stripe di 24h. Nella finestra 2h→24h il buyer può ancora pagare. In `handleCheckoutCompleted` l'idempotenza è solo `if (pending.status === 'COMPLETED') return` (webhook:211): con status 'EXPIRED' l'handler prosegue, crea gli ordini e non ri-riserva né ri-verifica lo stock (nessuna chiamata a reserve_stock nel webhook).
+- **Impatto:** Il cliente paga davvero, l'ordine nasce, ma la merce può essere già stata rivenduta: il negozio deve annullare e rimborsare (dispute, recensione negativa, fiducia bruciata). Contabilmente lo stock resta gonfiato di quelle unità, perché la riserva è stata restituita dal cron e mai ripresa: il magazzino diverge in modo permanente.
+- **Fix consigliato:** Tre mosse insieme: (1) passare `expires_at` alla sessione Stripe allineato a pending_checkouts (Stripe accetta 30min–24h) così è Stripe stessa a rifiutare il pagamento tardivo; (2) nel webhook, se `pending.status !== 'PENDING'` ritentare `reserve_stock` e, se fallisce, rimborsare subito la charge e avvisare il buyer invece di creare l'ordine; (3) allineare la finestra DB a quella Stripe.
+
+#### 🟠 84. Checkout COD multi-negozio: se lo stock del secondo negozio non c'è più, gli ordini del primo restano creati mentre il cliente vede errore
+
+- **Dove:** `/home/user/mycity/app/api/orders/cod/route.ts:289-297`
+- **Cosa succede:** VERIFICATO. Il ciclo `for (let i = 0; i < body.groups.length; i++)` crea un ordine per gruppo. Se `reserve_stock` fallisce per il gruppo i>0 il codice fa `return NextResponse.json({error: 'Alcuni articoli non sono più disponibili…'}, {status: 409})` SENZA chiamare `rollbackCreatedCodOrders()`, funzione che pure esiste (definita a riga 250) e che viene usata correttamente in tutti gli altri rami di errore (orderErr riga 363, itemsErr riga 403). Gli ordini dei gruppi precedenti restano in DB con stock riservato, notifica in-app e email già inviate al venditore.
+- **Impatto:** Il cliente legge «Alcuni articoli non sono più disponibili», ripete l'ordine e si ritrova ordini doppi da pagare in contanti al rider. Il negoziante prepara merce per un ordine che il cliente crede fallito. È il caso limite tipico del carrello multi-negozio, cioè proprio il modello MyCity.
+- **Fix consigliato:** Sostituire quel return con `await rollbackCreatedCodOrders();` prima della risposta 409, come fanno gli altri rami. Meglio ancora: riservare lo stock di TUTTI i gruppi in un'unica chiamata `reserve_stock` prima di creare qualsiasi ordine, come già fa il percorso carta (app/api/stripe/checkout/route.ts:326-336).
+
+#### 🟠 85. I coupon si consumano anche quando il pagamento non avviene mai: nessun rilascio del claim
+
+- **Dove:** `/home/user/mycity/app/api/stripe/checkout/route.ts:250-255 e 393-405 + /home/user/mycity/app/api/orders/cod/route.ts:221-227 + /home/user/mycity/migrations/108_atomic_coupon_claim.sql`
+- **Cosa succede:** VERIFICATO. `claim_coupon` (108) incrementa `uses_count` atomicamente prima di creare la sessione Stripe. `grep -rn uses_count` su tutto il repo mostra solo incrementi (058 `increment_coupon_usage`, 108 `claim_coupon`) e letture (lib/coupons.ts:57): non esiste nessuna funzione inversa. Il conteggio non viene mai restituito quando la creazione della sessione Stripe fallisce (il catch a checkout/route.ts:396 ripristina lo stock e marca il pending CANCELED, ma non tocca il coupon), quando la sessione scade (handleCheckoutExpired e il cron expire-checkouts ripristinano solo lo stock), quando il buyer abbandona il pagamento, o quando gli ordini COD vengono rollbackati.
+- **Impatto:** Con un tasso di abbandono checkout fisiologico del 60-70%, una campagna «primi 100 clienti» si esaurisce dopo ~35 vendite vere. I clienti leggono «Coupon non disponibile» mentre il budget promo non è stato speso, e il ritorno della campagna appare falsamente pessimo. Su un coupon con max_uses basso è banale bruciarlo aprendo checkout e abbandonandoli.
+- **Fix consigliato:** Aggiungere una `release_coupon(p_code text)` speculare (decremento con floor a 0) e chiamarla in tutti i percorsi di fallimento: catch della creazione sessione, handleCheckoutExpired, cron expire-checkouts, rollback COD, expire-stale-orders. Alternativa più robusta: non incrementare al claim ma tenere `coupon_claims(coupon_id, pending_checkout_id, state)` e contare solo i CONSUMED, con TTL sui PENDING.
+
+#### 🟠 86. Dopo il pagamento con carta il carrello non viene mai svuotato
+
+- **Dove:** `/home/user/mycity/app/checkout/page.tsx:445 e 516-530 + /home/user/mycity/app/orders/page.tsx:67-121`
+- **Cosa succede:** VERIFICATO. `clearCart()` compare in app/checkout/page.tsx una sola volta, alla riga 445, nell'onSuccess del percorso COD. Il percorso carta fa `window.location.assign(url)` verso Stripe e, al rientro su `/orders?stripe=success`, lo `StripeReturnHandler` mostra il toast, invalida le query, traccia il purchase e ripulisce l'URL — ma non chiama clearCart (l'unico clearCart di app/orders/page.tsx, riga 140, è dentro `handleReorder`). Il localStorage `cart` e la riga su `abandoned_carts` (scritta da syncAbandonedCart, lib/cart.ts) restano intatti; nessun trigger DB marca `recovered` (grep su `recovered` trova solo la definizione della colonna e i filtri di lettura).
+- **Impatto:** Due danni reali. (1) Il badge carrello continua a mostrare gli articoli appena comprati: il cliente può riordinare e pagare due volte lo stesso carrello. (2) Quattro ore dopo, il cron abandoned-carts manda «Hai dimenticato qualcosa nel carrello» a chi ha appena pagato — l'email che fa dubitare che l'ordine sia andato a buon fine e genera ticket al supporto.
+- **Fix consigliato:** Nello `StripeReturnHandler`, quando `stripe=success` e la query su `orders` per quel `session_id` trova l'ordine (query già presente per il tracking), chiamare `clearCart()` — che cancella anche la riga abandoned_carts. Farlo dopo la conferma dell'ordine, non a occhi chiusi, perché il webhook può tardare.
+
+#### 🟠 87. I prezzi del riepilogo checkout vengono dal localStorage e non sono mai riallineati al DB: il cliente può vedere un totale e pagarne un altro
+
+- **Dove:** `/home/user/mycity/app/checkout/page.tsx:76-79, 223, 358-368 + /home/user/mycity/app/api/stripe/checkout/route.ts:205 + /home/user/mycity/app/api/orders/cod/route.ts:200`
+- **Cosa succede:** VERIFICATO. `CartItem.price` è congelato nel localStorage al momento dell'aggiunta (lib/cart.ts). La query di validazione del checkout seleziona `id, seller_id, stock, has_variants` — NON `price` — e non consulta gli sconti attivi; anche app/cart/page.tsx usa solo `item.price` dalla cache. Tutti i totali mostrati (groupSubtotal riga 223, grandSubtotal/grandShipping/grandTotal righe 358-363) sono calcolati su quel prezzo cache. Il server invece ricalcola tutto dal DB con `discountedUnitCents(p.price, discountMap.get(p.id))`.
+- **Impatto:** Se il venditore ritocca un prezzo o una promozione scade mentre l'articolo è nel carrello (giorni, per i carrelli persistiti), il cliente vede €24,00 nel riepilogo e Stripe gli addebita €29,00, senza avviso e senza poter rivedere il totale prima di confermare. Oltre al danno reputazionale è un problema di conformità: prezzo comunicato ≠ prezzo addebitato.
+- **Fix consigliato:** Aggiungere `price` alla select di validazione e applicare `discountedUnitCents` con gli sconti attivi lato client, come fa il server; se il prezzo ricalcolato differisce da quello in carrello, aggiornare la riga e mostrare un avviso esplicito («Il prezzo di X è cambiato: ora €Y») bloccando il pulsante finché l'utente non conferma — la stessa protezione già implementata per stockIssues e variantIssues.
+
+#### 🟠 88. La spedizione è calcolata su coordinate di consegna fornite dal client, in contraddizione col commento di sicurezza
+
+- **Dove:** `/home/user/mycity/app/api/stripe/checkout/route.ts:261-272 + /home/user/mycity/app/api/orders/cod/route.ts:229-240 + /home/user/mycity/lib/shipping.ts:15-16`
+- **Cosa succede:** VERIFICATO. Il commento in lib/shipping.ts afferma: «il server passa SEMPRE il subtotale e le coordinate ricalcolati dal DB, mai valori provenienti dal client». È vero solo per storeLat/storeLng (letti da profiles). `deliveryLat`/`deliveryLng` passati a `shippingCentsFor` sono `body.delivery.lat ?? null` / `body.delivery.lng ?? null`, cioè direttamente dal JSON del client, in entrambi gli endpoint, e alimentano `riderFee(haversineKm(...))` (BASE 2.5 + 1.2 €/km, lib/geo.ts:18-23). L'unica validazione è lo Zod range -90/90 più il rifiuto di (0,0).
+- **Impatto:** Un buyer può inviare le coordinate del negozio e pagare la tariffa minima (€2,50) invece dei €12,10 di una consegna a 8 km, o inviare coordinate arbitrarie che mandano il rider fuori strada rispetto all'indirizzo testuale scritto sull'ordine. E poiché il compenso rider oggi coincide con shipping_cost, il taglio lo subisce direttamente il rider.
+- **Fix consigliato:** Geocodificare l'indirizzo server-side (esiste già /api/geocode) da `address + zip + city` e ignorare del tutto le coordinate del client per il calcolo del prezzo; se il geocoding fallisce, applicare la tariffa flat. In parallelo verificare che le coordinate ricadano nell'area di servizio, altrimenti rifiutare l'ordine invece di scaricare il problema sul rider.
+
+#### 🟠 89. Recupero parziale dal venditore sbagliato: refundOrder usa una base che si è già ridotta da sola
+
+- **Dove:** `/home/user/mycity/lib/stripe/payout.ts:420-426 (carta) e 366-370 (COD), in combinazione con 268-278`
+- **Cosa succede:** VERIFICATO. `reverseOrderTransfer` decrementa `seller_payout_cents` in DB dopo ogni storno (`seller_payout_cents: Math.max(0, maxCents - reverseCents)`, riga 275). Ma `refundOrder` calcola la quota venditore come `Math.min(Math.round((safeAmountCents * sellerNet) / orderTotalCents), sellerNet)` dove `sellerNet = order.seller_payout_cents` è già decrementato mentre il denominatore `orderTotalCents = total_price*100` resta il totale pieno. Sui rimborsi parziali successivi la proporzione si applica quindi a una base che si è ristretta. (Non ho invece confermato il rischio di doppio reversal concorrente: l'idempotencyKey `reversal_<order>_<cents>` rende no-op due chiamate parallele che leggono lo stesso residuo.)
+- **Impatto:** Ordine €100, netto venditore €90. Primo rimborso parziale di €50 → si recuperano €45 e seller_payout_cents scende a €45. Secondo rimborso di €50 → si recuperano solo €22,50 invece di €45. La piattaforma rimborsa €100 al cliente ma recupera solo €67,50 dal venditore: perde €22,50 di tasca propria su ogni ordine con reso frazionato.
+- **Fix consigliato:** Calcolare la quota venditore da una base immutabile: conservare il netto originale in una colonna separata (es. seller_payout_original_cents) e usare `residuo = originale − già_stornato` solo come clamp, non come base della proporzione.
+
+#### 🟠 90. Il webhook marca come processati eventi di pagamento i cui handler sono falliti in silenzio (gift card, sponsorizzazioni, abbonamenti)
+
+- **Dove:** `/home/user/mycity/app/api/stripe/webhook/route.ts:437-461 (gift card), 497-528 (sponsored), 560-570 (subscription), rispetto a 141-146`
+- **Cosa succede:** VERIFICATO. Il flusso principale `handleCheckoutCompleted` è corretto: su errore fa `throw`, l'handler esterno risponde 500 e Stripe ritenta, lasciando processed=false. Gli altri tre handler invece fanno `logger.error(...); return;` su ogni errore non-23505 (`stripe-gift-card-insert` riga 459, `stripe-sponsored-insert` riga 526, `seller_subscription metadata incompleti` riga 566; in handleSellerSubscription l'esito dell'update su profiles non è nemmeno controllato). Il `return` risale al try esterno che, non vedendo eccezioni, esegue `update({processed: true})` alla riga 142.
+- **Impatto:** Il cliente ha pagato la gift card, l'insert su `gift_cards` fallisce (DB momentaneamente giù, vincolo, RLS), l'evento viene marcato definitivamente processato e Stripe non riproverà mai più: soldi incassati, buono mai emesso, nessun alert. Identico per una sponsorizzazione pagata e mai attivata e per un abbonamento venditore da €50/mese incassato senza attivare il profilo.
+- **Fix consigliato:** Sostituire i `return` dopo `logger.error` con `throw new Error(...)` in tutti e tre gli handler (e controllare l'errore dell'update su profiles), così l'evento resta processed=false e Stripe ritenta col proprio backoff fino a 3 giorni. Aggiungere un alert admin sugli eventi rimasti processed=false oltre N minuti.
+
+#### 🟠 91. Il checkout con carta non controlla gli orari del negozio: si può ordinare a negozio chiuso
+
+- **Dove:** `/home/user/mycity/app/api/stripe/checkout/route.ts:136 (select seller senza store_hours) vs /home/user/mycity/app/api/orders/cod/route.ts:10 e 139-154`
+- **Cosa succede:** VERIFICATO. Il percorso COD importa `isStoreClosedForOrder` da lib/store-hours, carica `store_hours` nella select dei seller e blocca con 409 e messaggio esplicito («… è chiuso in questo momento») per le consegne a domicilio. Il percorso carta seleziona dai profiles solo `id, store_name, full_name, store_lat, store_lng` e non importa affatto store-hours: nessun controllo di orario.
+- **Impatto:** Un ordine pagato con carta alle 3 di notte entra come NEW; il negozio lo vede la mattina dopo o non lo accetta, e dopo 3 ore il cron expire-stale-orders lo annulla con rimborso. Il cliente ha pagato davvero, ha ricevuto la mail di conferma e poi l'annullamento: peggio del rifiuto immediato che il COD già fa. È anche una regressione asimmetrica: la stessa regola di business vale solo su un metodo di pagamento.
+- **Fix consigliato:** Estrarre il blocco orari in una funzione condivisa e chiamarla in entrambi gli endpoint, con lo stesso 409 e lo stesso messaggio: basta aggiungere `store_hours` alla select dei seller in /api/stripe/checkout e riusare `isStoreClosedForOrder`.
+
+#### 🟠 92. Zero test sui due percorsi che creano gli ordini: /api/orders/cod e checkout.session.completed
+
+- **Dove:** `/home/user/mycity/tests/unit/ (nessun file su orders/cod né su handleCheckoutCompleted), /home/user/mycity/tests/e2e/08-checkout-and-flows.spec.ts`
+- **Cosa succede:** VERIFICATO. Nelle 82 suite unit c'è copertura mirata sul checkout Stripe (api-stripe-checkout.test.ts, anti-manomissione prezzi), su firma e idempotenza webhook, sulle dispute, sui payout COD e sul refund COD. Ma un grep su `orders/cod` e `handleCheckoutCompleted` in tests/ non trova nulla, e `releaseRiderPayout` compare solo come mock in api-cron-release-payouts-cod.test.ts (mai esercitata). Gli e2e (08-checkout-and-flows.spec.ts, 72 righe) si fermano al rendering: carrello vuoto e step indicator.
+- **Impatto:** I due percorsi che trasformano un pagamento in un ordine — il punto in cui nasce ogni euro di GMV — non hanno rete. Non a caso quasi tutti i difetti confermati qui sopra (rollback COD parziale, pending EXPIRED processato, coupon mai rilasciato, importo non verificato, rider_fee mai scritto) vivono esattamente lì: zone in cui una regressione arriva in produzione in silenzio.
+- **Fix consigliato:** Aggiungere `tests/unit/api-orders-cod.test.ts` con i casi limite reali: fallimento reserve_stock sul secondo gruppo (deve rollbackare tutto), negozio chiuso, coupon non disponibile, wallet insufficiente, variante mancante. E `tests/unit/api-stripe-webhook-checkout-completed.test.ts` che copra: pending in stato EXPIRED, insert ordini parziale (deve lanciare, non marcare processed), amount_total ≠ pending.total_cents, re-delivery dello stesso evento. Più una suite su releaseRiderPayout (fee nulla, fee valorizzata).
+
+
+### api-backend (8)
+
+#### 🟠 93. Il webhook Stripe ingoia gli errori di gift card / sponsorizzazione / abbonamento e marca comunque l'evento come processato
+
+- **Dove:** `app/api/stripe/webhook/route.ts:437-461, 496-528, 564-569 (+ 140-145)`
+- **Cosa succede:** VERIFICATO. `handleGiftCardPurchase`, `handleSponsoredPurchase` e `handleSellerSubscription` su errore fanno `logger.error(...)` seguito da `return` (mai `throw`): amount non valido, errore di insert non-23505 su `gift_cards`, metadata sponsored incompleti, errore di insert su `sponsored_listings`, `seller_id`/`subscriptionId` mancanti. In `handleSellerSubscription` nemmeno il risultato dell'`update` su `profiles` viene controllato. Poiché l'handler non lancia, il flusso arriva all'update `processed: true` e risponde 200: Stripe NON riproverà mai più quell'evento. Lo stesso file, per il flusso ordini, fa la cosa giusta (throw su pending mancante, insert ordine fallito, checkout parziale) proprio per ottenere il retry.
+- **Impatto:** Il cliente ha pagato €50 di gift card e il codice non esiste e non arriverà mai; il venditore ha pagato la sponsorizzazione e il prodotto non va mai 'In primo piano'; il venditore ha pagato l'abbonamento e resta senza `subscription_status='active'`. Soldi incassati, servizio non erogato, nessun recupero automatico: si scopre solo con un reclamo.
+- **Fix consigliato:** Trasformare quei `return` in `throw new Error(...)` così l'evento resta `processed=false` e Stripe ritenta (l'idempotenza è già garantita da `code` PK sulle gift card, `stripe_session_id` sulle sponsored e dalla riscrittura degli stessi valori sull'abbonamento). Per i casi realmente non recuperabili (metadata malformati) scrivere una riga in una coda di riconciliazione + notifica admin invece del solo log.
+
+#### 🟠 94. Chiave di idempotenza del reversal costruita sull'importo della singola chiamata: due rimborsi parziali uguali stornano una sola volta
+
+- **Dove:** `lib/stripe/payout.ts:255-281 (chiave riga 265)`
+- **Cosa succede:** VERIFICATO. `reverseOrderTransfer` calcola `maxCents = order.seller_payout_cents` (residuo), `reverseCents = Math.min(amountCents ?? maxCents, maxCents)` e usa `{ idempotencyKey: reversal_${order.id}_${reverseCents} }`. Il commento dice 'per-importo-cumulativo' ma il valore usato è l'importo della singola chiamata. Scenario: ordine con netto venditore €100, due rimborsi parziali da €10 entro 24h (finestra di validità delle idempotency key Stripe). Primo: reverseCents=1000 → chiave `reversal_X_1000` → reversal creato, DB scende a 9000. Secondo: maxCents=9000, reverseCents=1000 → STESSA chiave con parametri identici → Stripe replaya la risposta del primo reversal senza crearne uno nuovo, ma il codice decrementa comunque il DB a 8000 e riscrive lo stesso `reversal.id`.
+- **Impatto:** Perdita monetaria diretta e silenziosa: MyCity rimborsa il buyer due volte ma recupera dal venditore una volta sola. Il DB dice che il claw-back è avvenuto, Stripe dice di no: la riconciliazione non torna e nessun allarme scatta. Colpisce il caso comune dei due resi parziali di uguale importo su un ordine multi-articolo.
+- **Fix consigliato:** Rendere la chiave univoca per operazione: `reversal_${order.id}_${maxCents - reverseCents}` (residuo risultante) oppure includere l'id dell'evento scatenante (`reversal_return_${returnId}` / `reversal_dispute_${disputeId}`), già disponibile nel chiamante via `opts.idempotencyKey`.
+
+#### 🟠 95. Il rider non viene mai pagato quando la spedizione è gratuita: rider_fee_cents non è scritto da nessuna parte
+
+- **Dove:** `lib/stripe/payout.ts:161-166 · lib/shipping.ts:28-33 · migrations/111_rider_fee_cents.sql`
+- **Cosa succede:** VERIFICATO. `releaseRiderPayout` calcola `feeCents = order.rider_fee_cents ?? Math.round(shipping_cost*100)` e se `<= 0` esce con `INVALID_AMOUNT`. Grep di `rider_fee_cents` su tutto il repo: compare SOLO nella migration 111 che crea la colonna e nella select/lettura di payout.ts — nessun INSERT/UPDATE lo valorizza (né il webhook Stripe né `/api/orders/cod`), quindi è sempre NULL e vale sempre il fallback su `shipping_cost`. Ma `shippingForEuro` restituisce 0 quando `subtotal >= FREE_SHIPPING_THRESHOLD` (30€, lib/constants.ts:1) o con coupon FREE_SHIPPING. Quindi ogni consegna su un ordine da almeno €30 produce feeCents=0 → nessun transfer. Il check avviene PRIMA del claim atomico, quindi `rider_payout_status` resta NULL e la query del cron (`.or('rider_payout_status.is.null,...')`) ri-seleziona l'ordine a ogni giro, per sempre.
+- **Impatto:** Il rider consegna gratis proprio gli ordini più grossi — quelli sopra la soglia di spedizione gratuita, cioè il target commerciale della piattaforma. Contenzioso con i rider e, sul piano tecnico, una coda di candidati che cresce all'infinito gonfiando il contatore `riderFailed` senza che nessuno se ne accorga.
+- **Fix consigliato:** Popolare `rider_fee_cents` alla creazione dell'ordine (webhook Stripe e route COD) con `riderFee(distanza)` calcolato server-side, indipendente da quanto paga il buyer per la spedizione: la spedizione gratis è una promozione commerciale, non un taglio del compenso rider. In `releaseRiderPayout`, quando feeCents<=0, marcare `rider_payout_status='SKIPPED'` per non ri-selezionare l'ordine a ogni giro.
+
+#### 🟠 96. getClientIp si fida del PRIMO valore di X-Forwarded-For: tutti i rate limit per IP sono aggirabili con un header
+
+- **Dove:** `lib/rate-limit.ts:153-159`
+- **Cosa succede:** VERIFICATO. `getClientIp` fa `xff.split(',')[0].trim()` (il commento stesso ammette 'Non perfetto contro spoofing'). Dietro un proxy l'IP reale del client viene APPESO in coda a un eventuale X-Forwarded-For già presente nella richiesta: il primo elemento è quindi interamente controllato dal chiamante. Questa funzione alimenta le chiavi di rate limit degli endpoint non autenticati: `signin:${ip}` (10/5min, anti brute-force), `signup:${ip}` (5/h), `contact:${ip}`, `geocode:${ip}` (30/min), `track:${ip}`, `chat:msg:${ip}`, `chat:start:${ip}`, `support:start:${ip}`. Un attaccante che ruota `X-Forwarded-For: 1.2.3.<n>` ottiene un bucket nuovo a ogni richiesta.
+- **Impatto:** Brute-force illimitato delle password, registrazione massiva di account fake, flood del form contatti e della tabella activity_events, abuso del proxy Nominatim (rischio ban dell'IP MyCity da OpenStreetMap), spam in chat. Tutte le protezioni anti-abuso per IP sono decorative.
+- **Fix consigliato:** Prendere l'ULTIMO elemento della catena XFF (quello aggiunto dal proxy fidato), o il penultimo con un numero di hop fidati configurabile: `const parts = xff.split(',').map(s=>s.trim()); return parts[Math.max(0, parts.length - TRUSTED_HOPS)]`. Ignorare `x-real-ip` se non impostato dal proxy. Sugli endpoint di autenticazione affiancare al limite per IP un limite per email (`signin:email:${email}`), non falsificabile.
+
+#### 🟠 97. Il costo di spedizione è calcolato sulle coordinate di consegna fornite dal CLIENT, che può quindi decidere quanto pagare
+
+- **Dove:** `lib/shipping.ts:15-33 · app/api/stripe/checkout/route.ts:261-272 · app/api/orders/cod/route.ts:229-240`
+- **Cosa succede:** VERIFICATO. Il commento di lib/shipping.ts dichiara 'SICUREZZA: il server passa SEMPRE il subtotale e le coordinate ricalcolati dal DB, mai valori provenienti dal client'. In realtà `storeLat/storeLng` vengono dal DB (`profiles.store_lat/lng`) ma `deliveryLat/deliveryLng` sono `body.delivery.lat/lng`, cioè input utente: lo schema Zod li dichiara opzionali e nullable e l'unico refine rifiuta la coppia esatta (0,0). Due abusi banali: (1) inviare coordinate coincidenti con quelle del negozio → `riderFee(0)` = €2,50 anziché €8,50 a 5 km (BASE 2.5 + 1.2/km, lib/geo.ts:18-23); (2) omettere lat/lng → il ramo `if (storeLat && storeLng && deliveryLat && deliveryLng)` non scatta e si applica il flat `SHIPPING_PER_ORDER` = €4,90, conveniente per ogni consegna oltre i 2 km. L'indirizzo testuale non viene mai geocodificato lato server né confrontato con le coordinate.
+- **Impatto:** Perdita diretta sul costo di consegna, la voce a margine più sottile del modello: il rider va comunque a 5 km e il compenso lo copre MyCity. Non serve competenza tecnica, basta modificare il payload. Manca inoltre qualunque verifica che l'indirizzo sia in zona di consegna.
+- **Fix consigliato:** Geocodificare l'indirizzo SERVER-SIDE (il proxy `/api/geocode` esiste già) e usare quelle coordinate per il calcolo, ignorando quelle del client (al massimo usarle come suggerimento, rifiutando se distano oltre X km dal geocode del testo). Rifiutare l'ordine se lat/lng non risolvibili o fuori dal raggio di servizio, invece di applicare un flat più economico.
+
+#### 🟠 98. Payout bloccato per sempre in PROCESSING se l'update DB dopo il transfer Stripe fallisce
+
+- **Dove:** `lib/stripe/payout.ts:126-131 (e gemello 205-209)`
+- **Cosa succede:** VERIFICATO. Dopo `stripe.transfers.create` (riuscito, denaro già partito) il codice fa `await admin.from('orders').update({stripe_transfer_id, payout_status:'TRANSFERRED', payout_at}).eq('id', order.id)` senza destrutturare né controllare `error`. supabase-js NON lancia su errore, restituisce `{error}`: se quell'update fallisce (blip di rete, constraint, RLS) la funzione ritorna comunque `{ok:true, transferId}`. L'ordine resta con `payout_status='PROCESSING'` impostato dal claim atomico e `stripe_transfer_id` NULL. La query del cron `release-payouts` filtra `.in('payout_status', ['HELD','PENDING_SELLER_ONBOARDING'])`: 'PROCESSING' non viene mai ri-selezionato. Identico nel gemello rider.
+- **Impatto:** Il venditore è stato pagato su Stripe ma il DB non lo sa: la contabilità non quadra, il pannello mostra un payout 'in lavorazione' eterno e un eventuale claw-back per reso è impossibile (`reverseOrderTransfer` esce subito perché lo stato non è 'TRANSFERRED' e manca il transfer id). Si scopre solo riconciliando a mano il Dashboard Stripe.
+- **Fix consigliato:** Controllare l'errore dell'update e, se fallisce, loggare a livello error con l'ID del transfer (recuperabile a mano) + notifica admin. Aggiungere una sentinella: gli ordini in 'PROCESSING' da più di N minuti vanno segnalati da `cron/operational-alerts` e riconciliati interrogando Stripe con l'idempotency key `payout_seller_<orderId>`.
+
+#### 🟠 99. Upload KYC: il body viene interamente bufferizzato in memoria prima del controllo di dimensione
+
+- **Dove:** `app/api/kyc/upload-document/route.ts:30-39`
+- **Cosa succede:** VERIFICATO. `const form = await req.formData()` è la PRIMA istruzione dell'handler e legge/parsa l'INTERO corpo multipart in memoria; solo dopo si verificano `kind`, `file instanceof File` e `file.size > MAX_BYTES` (8 MB). Le route handler di Next.js App Router non impongono un limite di dimensione del body. Inoltre la `formData()` non è dentro try/catch: un multipart malformato lancia e produce un 500 non gestito. È l'unico endpoint del progetto che accetta multipart.
+- **Impatto:** Un utente autenticato qualsiasi (rate limit 20/10 min, e bastano pochi colpi) può inviare payload da centinaia di MB e saturare la RAM dell'istanza Render, che è singola: il marketplace intero va giù, checkout compresi.
+- **Fix consigliato:** Controllare `Content-Length` PRIMA di leggere il body e rispondere 413 se supera il limite; leggere lo stream con un contatore che aborta oltre la soglia. Avvolgere `req.formData()` in try/catch → 400. Validare anche l'estensione derivata da `file.name` contro il MIME dichiarato (oggi un file `doc.html` con `type: image/png` viene salvato con estensione .html).
+
+#### 🟠 100. /api/auth/signin e /api/auth/signup usano il client Supabase del BROWSER (singleton di modulo) dentro un route handler server, e restituiscono i token in chiaro
+
+- **Dove:** `app/api/auth/signin/route.ts:2,43,51,58 · app/api/auth/signup/route.ts:2 · lib/supabase/client.ts:1-27`
+- **Cosa succede:** VERIFICATO (con una precisazione). Entrambe le route (runtime 'nodejs') importano `auth` da `@/lib/supabase/client`, un modulo marcato `'use client'` che costruisce un singleton `createBrowserClient` a livello di modulo (`let _supabase: SupabaseClient | null`). In un processo Node quel singleton è UNO SOLO per tutte le richieste concorrenti — un client pensato per lo storage cookie del browser usato come stato condiviso server-side. La signin ritorna `NextResponse.json(data)` cioè l'oggetto completo di `signInWithPassword` (user + session, quindi access_token e refresh_token) in JSON, e per l'utente con email non confermata chiama `auth.signOut()` sul singleton condiviso (in supabase-js v2 lo scope di default è 'global'). Verifica dei consumatori: grep di `api/auth/signin|api/auth/signup` su app/components/lib/scripts non trova nulla — solo `tests/unit/api-auth.test.ts`. Il login reale avviene lato browser (`app/sign-in/page.tsx:67` chiama `auth.signIn` direttamente). NOTA onesta: il comportamento esatto dello storage di `createBrowserClient` in Node non è verificabile qui (node_modules non installati), quindi la contaminazione di sessione fra utenti resta un rischio architetturale non riprodotto; ciò che è certo è il singleton condiviso, il `signOut()` global-scope su di esso e i token restituiti nel body.
+- **Impatto:** Endpoint pubblici, non usati da nulla, che agiscono da oracolo di verifica credenziali restituendo token validi, protetti solo da un rate limit per IP falsificabile (vedi finding su X-Forwarded-For). In più uno stato di autenticazione condiviso fra richieste concorrenti dentro un processo server: superficie di rischio pura, a beneficio zero.
+- **Fix consigliato:** Cancellare entrambe le route (sono dead code). Se servono, riscriverle con `createServerClient` di `@supabase/ssr` istanziato PER RICHIESTA sui cookie della request, mai con un singleton di modulo, e non ritornare mai i token nel body.
+
+
+### ai-endpoints (10)
+
+#### 🟠 101. Il tetto di spesa AI è di fatto disattivato: la variabile di budget non esiste da nessuna parte
+
+- **Dove:** `/home/user/mycity/lib/ai/run.ts:113 (+ /home/user/mycity/render.yaml:34-70, /home/user/mycity/.env.example)`
+- **Cosa succede:** CONFERMATO. `_checkAiBudget` legge `Number(process.env.AI_GLOBAL_DAILY_BUDGET_EUR ?? 0)` e blocca solo `if (limitEur > 0 …)`. Un grep su tutto il repo trova la stringa `AI_GLOBAL_DAILY_BUDGET_EUR` in UN SOLO file: `lib/ai/run.ts`. Non è in `.env.example`, non è tra gli `envVars` di `render.yaml` (dove ci sono ANTHROPIC_API_KEY, UPSTASH_*, STRIPE_*, …), non è validata in `lib/env.ts`. In produzione vale `undefined` → limite 0 → breaker mai attivo. In più il contatore `_aiBudget` è in-memory nel modulo: si azzera a ogni cold start/deploy (con `autoDeploy: true` su Render) e non è condiviso tra istanze.
+- **Impatto:** Il circuit breaker esiste nel codice ma non scatta mai: nessun freno automatico alla spesa Anthropic. Restano solo i rate limit per-endpoint per-utente, che non sono un tetto di costo. Il commento nel codice dichiara una protezione che nella configurazione reale non c'è.
+- **Fix consigliato:** Aggiungere `AI_GLOBAL_DAILY_BUDGET_EUR` a `.env.example` e a `render.yaml` con un valore reale; far fallire chiuso (default prudente > 0 se la variabile manca); spostare il contatore su Upstash (chiave `ai:budget:AAAA-MM-GG`) come già fatto per `rateLimitAsync`, così sopravvive a restart e scale-out.
+
+#### 🟠 102. Le chiamate Batch API non passano dal circuit breaker né dalla telemetria dei costi
+
+- **Dove:** `/home/user/mycity/lib/ai/batch.ts:51-67 (submitBatch); /home/user/mycity/app/api/ai/catalog-batch/start/route.ts:35,73`
+- **Cosa succede:** CONFERMATO. `submitBatch` usa `getAnthropic()` e chiama direttamente `client.messages.batches.create`: non passa da `runMessage`, quindi non esegue `_checkAiBudget`, non chiama `_recordAiCost` e non emette il log `ai_usage`. Ogni job invia una richiesta per prodotto fino a `MAX_PRODUCTS = 200` (`start/route.ts:27` + `.limit(MAX_PRODUCTS)`), e il rate limit consente 5 avvii/ora per venditore (`max: 5, windowMs: 60*60_000`). Nessun controllo di job già in `processing` per lo stesso venditore prima di avviarne un altro.
+- **Impatto:** Fino a ~1.000 chiamate al modello per venditore all'ora invisibili alla telemetria di costo (`ai_usage`) e non fermabili dal budget — proprio sull'operazione più massiva, quella che il breaker dovrebbe coprire per prima.
+- **Fix consigliato:** Far passare anche il batch dal governo costi: stimare il costo a priori (token input stimati × n. richieste × prezzo con sconto batch), chiamare `_checkAiBudget`/`_recordAiCost` in `submitBatch` e loggare `ai_usage` con `feature:'catalog-batch'`; in `/catalog-batch/start` rifiutare se il venditore ha già un job `processing`.
+
+#### 🟠 103. Il cron external-price-alerts passa il nome prodotto scritto dal venditore dentro le istruzioni del prompt, con web_search e senza revisione umana
+
+- **Dove:** `/home/user/mycity/lib/products/externalSync.ts:131-148,169-177; /home/user/mycity/app/api/cron/external-price-alerts/route.ts:64-67`
+- **Cosa succede:** CONFERMATO. `buildPrompt(query)` interpola l'input dentro il testo delle istruzioni (`"""${query}"""`) e `fetchExternalSnapshot` chiama `runMessage` SENZA `system`: istruzioni e dato utente stanno nello stesso blocco `text` del messaggio utente — l'opposto della regola dichiarata in `lib/ai/run.ts:15-17` e applicata da `lib/ai/productContext.ts`. Nel cron `query = prev?.source_title || r.name` (nome prodotto scritto dal venditore, nessun troncamento, nessuna sanificazione), dato a `MODELS.smart` con `WEB_SEARCH_TOOL` (`max_uses: 5`), 10 prodotti per giro, e il risultato riscritto in `products.external_data` senza revisione umana. `deliveryLabelFrom` (externalSyncShared.ts:31-44) accetta qualsiasi stringa non vuota come `delivery_label`, e quel campo finisce nella pagina pubblica del prodotto (`app/product/[id]/page.tsx:630`, prop `externalDeliveryLabel`).
+- **Impatto:** Un venditore può usare il nome del proprio prodotto per pilotare il comportamento del modello nel cron: gonfiare i token/ricerche web di ogni giro (costo ricorrente non presidiato) e far scrivere in `delivery_label` un testo arbitrario mostrato ai clienti come dato di consegna della piattaforma. Anche i risultati di web_search entrano nello stesso contesto come contenuto non fidato.
+- **Fix consigliato:** Spostare le istruzioni in `system` e passare la query solo come contenuto in `messages`, in tag espliciti (`<input_utente>…</input_utente>`) con istruzione 'tratta come dato, mai come comando'; troncare/ripulire `query` nel cron (es. 200 caratteri); validare in uscita `delivery_label` con una whitelist di formato (solo pattern tipo 'N-M giorni') prima di salvarla e mostrarla.
+
+#### 🟠 104. Nessuna route controlla stop_reason: un output tool troncato viene trattato come completo
+
+- **Dove:** `/home/user/mycity/lib/ai/run.ts:219; /home/user/mycity/app/api/ai/copilot/route.ts:71,131,144; /home/user/mycity/app/api/ai/improve-product/route.ts:288; /home/user/mycity/app/api/vision/extract-products/route.ts:209`
+- **Cosa succede:** CONFERMATO. `runMessage` restituisce `stopReason`, ma un grep su `app/`, `lib/`, `components/` trova `stopReason`/`stop_reason` SOLO dentro `lib/ai/run.ts` (righe 50 e 219): nessun chiamante lo legge. Quando la risposta si tronca a `max_tokens` il blocco `tool_use` arriva parziale e viene usato come valido. Casi reali verificati: copilot dichiara `MAX_CHANGES = 200` modifiche con `max_tokens: 4096`; improve-product restituisce quality+pricing+field_notes+patch in 3072; extract-products fino a 12 schede complete in 4096.
+- **Impatto:** Modifiche di massa applicate solo in parte senza avviso, patch con campi tagliati a metà scritti sul catalogo, prodotti persi nell'estrazione multipla. Il venditore non ha modo di accorgersene.
+- **Fix consigliato:** Esporre in `runMessage` un flag `truncated = stopReason === 'max_tokens'`; nelle route rispondere con errore/avviso esplicito quando è vero e non applicare mai un patch proveniente da una risposta troncata (o ripetere con meno prodotti per chiamata).
+
+#### 🟠 105. product-chat e improve-product serializzano il JSON prodotto del client senza alcun cap, a differenza dell'helper condiviso
+
+- **Dove:** `/home/user/mycity/app/api/ai/product-chat/route.ts:193-214,239-243; /home/user/mycity/app/api/ai/improve-product/route.ts:235-273,287-291 (vs /home/user/mycity/lib/ai/productContext.ts:47-55)`
+- **Cosa succede:** CONFERMATO. `buildProductContext` tronca la serializzazione a `MAX_PRODUCT_JSON = 4000` caratteri con commento esplicito '🟠-16: cap per evitare un blow-up di token (costo)'. Le due route non usano l'helper e fanno `JSON.stringify(product, null, 2)` sul body grezzo del client, senza cap; `attributeSchema` e `topCategories` vengono interpolati riga per riga senza limite di numero né di lunghezza. Entrambe girano su `MODELS.smart` (Sonnet) con `WEB_SEARCH_TOOL`. In product-chat si aggiungono 20 turni di storia da 2000 caratteri (`MAX_HISTORY`/`MAX_CONTENT`).
+- **Impatto:** Un venditore può gonfiare ogni chiamata fino al limite di contesto: costo per richiesta ordini di grandezza sopra il previsto, moltiplicato per 25 (product-chat) e 20 (improve-product) chiamate/ora — e senza budget globale attivo nulla lo ferma. Possibili anche 400 opachi per body sovradimensionati.
+- **Fix consigliato:** Usare `buildProductContext` anche in queste due route (o applicare lo stesso cap), limitare `attributeSchema`/`topCategories` per numero di voci e lunghezza, e imporre un tetto alla dimensione del body prima di leggerlo.
+
+#### 🟠 106. La stima dei costi ignora le ricerche web (server tool), proprio sugli endpoint più cari
+
+- **Dove:** `/home/user/mycity/lib/ai/client.ts:57-71 (estimateCostEur); /home/user/mycity/lib/ai/run.ts:184-205`
+- **Cosa succede:** CONFERMATO. `estimateCostEur` somma solo input, output, cache-write e cache-read da `PRICE_PER_MTOK`. In `runMessage` si legge `response.usage` per i soli campi token: `server_tool_use.web_search_requests` non viene né letto né valorizzato, e non esiste alcuna costante di prezzo per la ricerca web. Il tool `web_search_20250305` è attivo (max_uses 3-5) in product-chat, catalog-chat, improve-product, diagnose, barcode-lookup, marketplace-import e nella verifica di vision/extract-product.
+- **Impatto:** Sia il log `ai_usage` sia il contatore del circuit breaker sottostimano sistematicamente la spesa dove è più alta: decisioni di budget su numeri falsi e limite giornaliero (quando verrà configurato) che scatta troppo tardi.
+- **Fix consigliato:** Leggere `response.usage.server_tool_use?.web_search_requests` in `runMessage`, aggiungere una costante di prezzo dedicata e includerla in `estimateCostEur` e nel log, esponendo anche il numero di ricerche nella telemetria.
+
+#### 🟠 107. Il patch AI può cambiare stato, prezzo e stock anche in operazioni che non dovrebbero toccarli, e la UI batch non mostra i campi
+
+- **Dove:** `/home/user/mycity/lib/ai/patchSchema.ts:11,18,42; /home/user/mycity/lib/ai/catalogBatch.ts:57-65; /home/user/mycity/lib/products/aiPatch.ts:86-95,192-195; /home/user/mycity/app/seller/products/ai-batch/page.tsx:453`
+- **Cosa succede:** CONFERMATO. `PRODUCT_PATCH_PROPERTIES` include `status: { enum: ['available','draft','sold'] }`, `price` e `stock`, ed è passato integralmente al tool `improve_one` (catalogBatch.ts:62-65) il cui system parla solo di nome, descrizione, tag, attributi e categoria. `resolveAiPatch` scrive `update.status` senza alcuna condizione di contesto (riga 192). Nella UI di revisione batch ogni riga mostra solo `r.summary ?? 'Modifiche proposte'`: il venditore approva senza vedere quali campi cambiano.
+- **Impatto:** Un'operazione 'migliora il catalogo' può pubblicare in blocco bozze incomplete (draft → available) o modificare prezzi/stock su decine di prodotti, con effetto immediato su vendite e margine, e senza che il venditore possa accorgersene prima di confermare.
+- **Fix consigliato:** Restringere lo schema del tool per operazione (niente `status`/`price`/`stock` in improve/redescribe/translate/seo) e filtrare in `resolveAiPatch` i campi non ammessi per il contesto; nella UI batch elencare campo → valore prima → valore dopo per ogni prodotto.
+
+#### 🟠 108. resolveAiPatch non rispetta l'invariante compare_at_price >= price e il batch ingoia l'errore in silenzio
+
+- **Dove:** `/home/user/mycity/lib/products/aiPatch.ts:92-108; /home/user/mycity/migrations/071_product_creation_enhancements.sql:33-35; /home/user/mycity/app/api/ai/catalog-batch/apply/route.ts:105-110; /home/user/mycity/app/api/ai/catalog-apply/route.ts:81-84`
+- **Cosa succede:** CONFERMATO. Il DB impone `CHECK (compare_at_price IS NULL OR compare_at_price >= price)`. `resolveAiPatch` scrive `price` e `compare_at_price` in modo indipendente, senza confrontarli tra loro né con i valori attuali del prodotto (che non riceve nemmeno: `CurrentProduct` porta solo attributes, category_id, has_variants). Caso concreto: 'alza i prezzi del 10%' su un prodotto scontato → nuovo `price` > `compare_at_price` esistente → violazione del CHECK. In `/catalog-batch/apply` il risultato è `if (!error) applied += 1;` — l'errore viene ignorato senza traccia; in `/catalog-apply` diventa il generico 'Non sono riuscito a salvare. Riprova.'
+- **Impatto:** Nel percorso batch il venditore legge 'applicato a N prodotti' senza sapere quali sono rimasti indietro né perché; nel percorso singolo l'errore si ripete identico a ogni tentativo senza spiegazione.
+- **Fix consigliato:** Validare l'invariante in `resolveAiPatch` usando i valori correnti del prodotto (se il nuovo `price` supera il `compare_at_price` esistente e il patch non lo aggiorna, azzerarlo o scartare la modifica) e restituire al chiamante l'elenco dei prodotti scartati con il motivo, invece di un errore generico o del silenzio.
+
+#### 🟠 109. Le due route vision usano il rate limit in-memory invece di quello distribuito
+
+- **Dove:** `/home/user/mycity/app/api/vision/extract-products/route.ts:5,168; /home/user/mycity/app/api/vision/photo-order/route.ts:3,61`
+- **Cosa succede:** CONFERMATO. Entrambe importano e usano `rateLimit` (sincrono, in-memory) mentre tutte le altre route AI usano `await rateLimitAsync` (Upstash con fallback), inclusa la gemella `vision/extract-product:212`. Il commento in `lib/rate-limit.ts:4-8` e l'avviso in `render.yaml:19-21` dicono esplicitamente che l'in-memory non è condiviso tra istanze. `extract-products` è tra le chiamate più care: fino a 12 immagini su Sonnet con `max_tokens: 4096`.
+- **Impatto:** Con più istanze o dopo un restart/deploy (Render con `autoDeploy: true`) il limite di 6 chiamate/10 min si moltiplica o si azzera, proprio dove un abuso costa di più.
+- **Fix consigliato:** Sostituire `rateLimit` con `await rateLimitAsync` in entrambe le route: stessa firma, gli handler sono già async.
+
+#### 🟠 110. Nessun tetto aggregato (né in euro) per venditore: i limiti sono solo per singolo endpoint
+
+- **Dove:** `/home/user/mycity/app/api/ai/*/route.ts, /home/user/mycity/app/api/vision/*/route.ts, /home/user/mycity/app/api/marketplace/import-fetch/route.ts:30`
+- **Cosa succede:** CONFERMATO enumerando tutte le chiavi: ogni route ne ha una indipendente (`ai-catalog-create:30/h`, `ai-answer-qa:40/h`, `ai-translate:40/h`, `ai-voice:40/h`, `ai-catalog-apply:60/h`, `ai-seo:30/h`, `ai-product-chat:25/h`, `ai-catalog-chat:25/h`, `ai-copilot:25/h`, `ai-improve-product:20/h`, `ai-diagnose:20/h`, `ai-variants:20/h`, `ai-reviews:20/h`, `ai-barcode:20/10min`, `import-fetch:15/5min`, `vision*`, …). Non esiste alcuna chiave aggregata tipo `ai-total:${user.id}` né alcun limite basato sul costo in euro: si contano solo le richieste, che hanno costo molto diverso tra loro.
+- **Impatto:** Sommando le quote, un solo account venditore supera abbondantemente le 300 chiamate/ora — molte su Sonnet con web_search e immagini — restando dentro ogni limite per-endpoint e, con il budget globale spento, senza che nulla intervenga.
+- **Fix consigliato:** Aggiungere un limite aggregato per utente (`ai-total:${user.id}`) e, meglio, un budget in euro per venditore/giorno alimentato dal costo già stimato in `runMessage`, con blocco a soglia e avviso all'admin.
+
+
+### dati-analytics (14)
+
+#### 🟠 111. Le KPI admin/venditore sono aggregate nel browser su SELECT senza limite → tagliate in silenzio dal cap righe PostgREST
+
+- **Dove:** `app/admin/page.tsx:50-74 · app/admin/funnel/page.tsx:42-58 · app/admin/today/page.tsx:47 · app/seller/analytics/page.tsx:58-73 · app/seller/earnings/page.tsx:66-76`
+- **Cosa succede:** VERIFICATO: `supabase.from('profiles').select('role')`, `from('orders').select('total_price, delivery_status, created_at')` e `from('products').select('status')` scaricano l'intera tabella e sommano lato client, senza `.limit()`, senza `.range()` e senza `count:'exact'` (in admin/page.tsx nessuna delle tre query ha un limite). PostgREST/Supabase applica un tetto di righe (max-rows, default 1000) restituendo una risposta troncata ma valida, senza errore. Stesso schema in funnel, analytics venditore e guadagni. Nota: in seller/dashboard i conteggi prodotti usano già `count:'exact', head:true` — lì il difetto riguarda solo la query `order_items`.
+- **Impatto:** Superate le ~1000 righe, GMV, ordini totali, utenti, prodotti e fatturato venditore si congelano su un sottoinsieme arbitrario senza alcun segnale: il cruscotto su cui si decide mostra numeri sempre più bassi del vero mentre il marketplace cresce.
+- **Fix consigliato:** Spostare le aggregazioni sul DB con RPC/viste `security invoker` (es. `admin_marketplace_stats()`, `seller_stats(seller_id)`); per i conteggi semplici `select('id', { count: 'exact', head: true })`. In subordine paginare con `.range()` e confrontare `count` con le righe ricevute, mostrando un avviso se troncato.
+
+#### 🟠 112. Take-rate del 14% hardcoded nel cruscotto admin mentre la commissione reale è il 10% — e applicato a una base sbagliata
+
+- **Dove:** `app/admin/page.tsx:18 (`const TAKE_RATE = 0.14`) e :104 (`const commissions = gmv * TAKE_RATE`), tile riga 122`
+- **Cosa succede:** VERIFICATO: la fonte di verità è `MARKETPLACE_FEE_BPS = 1000` (10%) in lib/constants.ts:24, usata da `computeOrderSplit()` (lib/stripe/client.ts:290-297) che applica la commissione SOLO al subtotale prodotti (`total − delivery_fee − shipping`), mai a spedizione e fee di consegna — e il valore reale è già scritto a DB in `application_fee_cents` sia dal COD (app/api/orders/cod/route.ts) sia dal webhook carta. Il tile 'Commissioni (take-rate 14%)' moltiplica invece 0,14 per il GMV (Σ `orders.total_price` dei consegnati, spedizione e delivery fee incluse). Doppio errore: aliquota duplicata e sbagliata + base imponibile sbagliata.
+- **Impatto:** I ricavi di piattaforma mostrati in Panoramica sono sovrastimati di circa il 40-60% rispetto all'incassato reale. È il numero che guida budget, ads e proiezioni.
+- **Fix consigliato:** Sommare il dato reale `orders.application_fee_cents` sugli ordini del periodo. Se serve una stima, importare `MARKETPLACE_FEE_BPS` da lib/constants e applicarlo al solo subtotale (`total_price − shipping_cost − delivery_fee_cents/100`), mai una costante duplicata a mano.
+
+#### 🟠 113. Il purchase degli ordini con carta parte solo se il buyer torna sulla pagina, e con un importo diverso da quello incassato
+
+- **Dove:** `app/orders/page.tsx:71-114 (StripeReturnHandler) · app/checkout/page.tsx:434-440 e 516-529 · app/api/orders/cod/route.ts:300-333`
+- **Cosa succede:** VERIFICATO: non esiste capture server-side (nessun `posthog-node` in package.json — solo `posthog-js` — e nessuna chiamata di tracking in app/api/stripe/webhook/route.ts). L'evento `order_placed`/`purchase` carta parte SOLO al rientro su `/orders?stripe=success`, con valore e dedup in sessionStorage (`mc_pending_purchase`): chi chiude la scheda o perde il redirect non genera nessun purchase. Il valore inviato è `grandTotal` (checkout:436 e 522) mentre per il COD il server scala il wallet (`wallet_debit`) e scrive `total_price = grossTotal − walletApplied`. Inoltre, se il webhook non ha ancora creato l'ordine, si manda `session_id` come `transaction_id` (orders:100 e 108).
+- **Impatto:** Il fatturato in GA4/PostHog è insieme sotto-riportato (purchase persi) e gonfiato sui singoli ordini COD col credito wallet: impossibile riconciliare i ricavi analytics con DB/Stripe, ROAS e AOV inaffidabili.
+- **Fix consigliato:** Emettere l'evento d'acquisto server-side dalla fonte di verità (webhook Stripe + route COD) con `posthog-node` e/o Measurement Protocol GA4, usando l'UUID dell'ordine come transaction_id e il `total_price` realmente scritto a DB; tenere l'evento client solo come segnale UX o rimuoverlo per evitare doppi conteggi.
+
+#### 🟠 114. Tre definizioni diverse di 'fatturato' per lo stesso venditore su tre pagine
+
+- **Dove:** `app/seller/dashboard/page.tsx:80 · app/seller/analytics/page.tsx:86-88 · app/seller/earnings/page.tsx:95-96 e 158-160`
+- **Cosa succede:** VERIFICATO: Dashboard = Σ `order_items.unit_price × quantity` su TUTTI gli order_items del venditore, senza alcun filtro sullo stato dell'ordine (include CANCELED e non pagati) e senza spedizione. Analisi = Σ `orders.total_price` dei soli DELIVERED, quindi include la spedizione rider e la delivery fee che il venditore NON incassa. Guadagni = 'Fatturato lordo (carta)' Σ `total_price` degli ordini carta non rimborsati (anch'esso comprensivo di spedizione e delivery fee), messo accanto a 'Commissione marketplace' (Σ `application_fee_cents`, calcolata invece sul solo subtotale). Le tre grandezze non sono confrontabili e nessuna coincide con `seller_payout_cents`, l'unico netto vero.
+- **Impatto:** Il negoziante vede tre cifre diverse di 'quanto ho fatturato' e in tutte sovrastima ciò che incasserà davvero: reclami e contestazioni sui payout, cioè sulla fiducia su cui si regge il marketplace.
+- **Fix consigliato:** Definire un glossario unico (GMV lordo · ricavo netto venditore = `seller_payout_cents` · commissione = `application_fee_cents`) con le stesse formule e gli stessi filtri di stato/periodo sulle tre pagine, ed esporre esplicitamente in Guadagni le voci che non spettano al venditore (spedizione, delivery fee).
+
+#### 🟠 115. Coorti di retention costruite su una lista di iscritti già filtrata dal periodo → percentuali di ritorno inventate
+
+- **Dove:** `app/admin/funnel/page.tsx:42-47, 53-58 e 82-114`
+- **Cosa succede:** VERIFICATO: `signupsList` carica solo i profili con `created_at >= now − periodDays` (default 90), ma il ciclo delle coorti itera SEMPRE gli ultimi 4 mesi (`for (let i = 3; i >= 0; i--)`): le coorti fuori finestra risultano vuote (cohortSize 0) e per la coorte del mese in corso `activeIn(1..3)` guarda mesi non ancora avvenuti, restituendo 0% che la tabella colora come se fosse un crollo. Inoltre gli ordini sono filtrati solo con `.neq('delivery_status','CANCELED')`, senza alcun controllo su `payment_status`: ordini non pagati contano come attivazione e come ritorno.
+- **Impatto:** La metrica #1 di un marketplace mostra un crollo inesistente e un'attivazione sovrastimata: rischio concreto di reagire con sconti/campagne a un problema che non c'è.
+- **Fix consigliato:** Caricare gli iscritti sull'intera finestra coperta dalle coorti (almeno 4 mesi) indipendentemente dal selettore periodo, marcare 'n/d' (grigio) le celle dei mesi non ancora conclusi e filtrare gli ordini sui soli pagati (carta pagata o COD consegnato).
+
+#### 🟠 116. 'Visitatori 24h' e 'Online ora' gonfiati dalle righe scritte dai trigger DB, e finestra 24h troncata a 3000 righe
+
+- **Dove:** `app/admin/activity/page.tsx:113-141 · migrations/073_activity_tracking.sql:136-141`
+- **Cosa succede:** VERIFICATO: il trigger `log_activity_change()` inserisce in `activity_events` valorizzando solo category/event_type/action/summary/actor_id/target/metadata — quindi senza `anon_id`, `session_id` né `ip`. Nel calcolo della sintesi `const visitorKey = r.anon_id || r.session_id || r.ip || r.id` quelle righe cadono sul fallback `r.id`, unico per riga: ogni insert/update su orders, order_items, products, profiles… conta come un visitatore unico diverso (e come 'online ora' se recente), perché `uniqueVisitors` non filtra per `category`. In parallelo la query di sintesi ha `.limit(3000)`: superato quel volume in 24h il KPI smette di essere 'ultime 24 ore' e diventa 'ultimi 3000 eventi'. (I bot invece sono esclusi, ma lato client con `recent.filter(r => !r.is_bot)`.)
+- **Impatto:** Il traffico mostrato in Attività è inventato al rialzo — un ordine con 3 item genera più 'visitatori' di una persona vera — e appena il volume cresce i totali si sgonfiano senza spiegazione.
+- **Fix consigliato:** Contare come visitatori solo le righe `category = 'visitor'` con `anon_id`/`session_id` valorizzato, filtrare `is_bot = false` a DB e sostituire il `.limit(3000)` con una RPC di aggregazione (`activity_summary_24h()` con `count(distinct anon_id)`).
+
+#### 🟠 117. Registrazioni e accessi via Google (OAuth) non generano nessun evento di funnel
+
+- **Dove:** `components/ui/AuthShell.tsx:110-116 (`signInWithOAuth`) · app/auth/callback/route.ts (nessun tracking) vs app/sign-up/page.tsx:90 e app/sign-in/page.tsx:78`
+- **Cosa succede:** VERIFICATO: `trackSignupCompleted` e `trackSignedIn` sono chiamati solo nei submit dei form email/password. Il flusso Google passa da `supabase.auth.signInWithOAuth({ redirectTo: '/auth/callback' })` e la route callback si limita a `exchangeCodeForSession` + redirect, senza alcuna emissione di eventi; `useProfile` chiama `identify()` ma nessun evento di funnel.
+- **Impatto:** Il funnel signup → primo ordine è cieco su un'intera sorgente di utenti: activation rate calcolato su una base parziale e confronto tra canali di registrazione impossibile.
+- **Fix consigliato:** Emettere `signup_completed`/`signed_in` al ritorno dal callback OAuth distinguendo primo accesso e accesso ricorrente (confronto `created_at` vs `last_sign_in_at`), oppure centralizzare l'emissione in `useProfile` sull'evento `SIGNED_IN`.
+
+#### 🟠 118. `search_performed` riporta un conteggio risultati che l'utente non vede (pre-filtri e tagliato a 96)
+
+- **Dove:** `components/ProductGrid.tsx:246-252 (`trackSearchPerformed(term, prods.length)`), query righe 100-101, filtri client righe 200-232`
+- **Cosa succede:** VERIFICATO: `prods` sono le righe della query con `q.limit(limit ?? 96)`, prima dei filtri client-side applicati subito dopo (negozi aperti, rating minimo, solo promo, solo disponibili) che producono `filtered`, cioè ciò che l'utente vede davvero — tanto che il conteggio mostrato a schermo usa `onCount(filtered.length)` (riga 240) mentre il tracking usa `prods.length`. Una ricerca che a video mostra 0 risultati viene tracciata con result_count > 0; una ricerca con 300 match viene sempre tracciata come 96.
+- **Impatto:** Il tasso di zero-result — la metrica per capire cosa manca a catalogo e cosa la gente cerca invano — è sistematicamente sottostimato: si perdono le richieste insoddisfatte, cioè le opportunità di acquisire i negozi giusti.
+- **Fix consigliato:** Tracciare `filtered.length` e aggiungere le property `filters_applied` e `truncated: prods.length >= limit`, così l'analisi distingue 'nessun prodotto' da 'nessun prodotto con questi filtri'.
+
+#### 🟠 119. Le viste anonime su product_views sono scrivibili senza limiti con la anon key: trending e analytics venditore manipolabili
+
+- **Dove:** `migrations/060_harden_product_views.sql:14-45 · components/ProductViewTracker.tsx:35-38 · migrations/052_perf_aggregation_rpcs.sql:39-52`
+- **Cosa succede:** VERIFICATO: la policy `pv_insert_own_or_guest` consente l'INSERT con `WITH CHECK (user_id IS NULL OR user_id = auth.uid())` e il trigger `product_views_dedup()` salta il controllo quando `user_id IS NULL` (`IF NEW.user_id IS NOT NULL AND EXISTS(...)`) — limite dichiarato nel commento della migrazione stessa. Chiunque abbia la anon key (pubblica per design) può inserire migliaia di righe con `user_id: null` su un product_id a scelta. Quelle righe alimentano `trending_product_ids_24h` (home 'Trending ora') e le viste/conversione nelle analisi del venditore.
+- **Impatto:** Un venditore o un concorrente può comprare visibilità gratis in home (o affossare un rivale); le analitiche del negoziante e le decisioni di merchandising poggiano su un contatore non affidabile.
+- **Fix consigliato:** Spostare la scrittura delle view su una route server-side (come /api/track) con rate-limit per IP e dedup per (ip/anon_id, prodotto, finestra), oppure aggiungere alla tabella `anon_id`/`ip_hash` con dedup a trigger e cap orario; escludere le righe bot dai calcoli.
+
+#### 🟠 120. La prima pageview dopo l'accettazione dei cookie viene persa su PostHog (e con ordine dubbio su GA4)
+
+- **Dove:** `lib/analytics/posthog.tsx:109-122 · components/GoogleAnalytics.tsx:41-49 e 80-100`
+- **Cosa succede:** VERIFICATO su PostHog: l'handler di `mc:consent-change` chiama solo `void getPosthog()` (init + opt-in) senza emettere alcun `$pageview`, e l'effect che cattura la pageview dipende da `[pathname, searchParams]` — che non cambiano quando l'utente accetta. Con `capture_pageview: false` la pagina di atterraggio viene quindi registrata solo alla navigazione successiva. Su GA4 l'effetto page_view scatta appena `analyticsOn` diventa true e pusha l'evento tramite lo stub `beforeInteractive`, mentre `gtag('config', GA_ID)` è in uno Script `afterInteractive` che viene eseguito dopo: l'evento finisce in coda nel dataLayer prima della configurazione del measurement ID.
+- **Impatto:** La landing page e la sorgente d'ingresso (referrer/UTM) della sessione in cui l'utente accetta — cioè quasi tutte le sessioni nuove — non vengono registrate: attribuzione delle campagne e analisi delle pagine d'ingresso inaffidabili.
+- **Fix consigliato:** Nell'handler di consenso PostHog emettere subito un `$pageview` con l'URL corrente; in GoogleAnalytics far partire il page_view solo dopo l'`onLoad` dello script gtag (o eseguire `gtag('config', ...)` nello stub prima di qualunque evento).
+
+#### 🟠 121. `purchase` GA4 senza `items`: il parametro esiste ma nessun chiamante lo valorizza
+
+- **Dove:** `lib/analytics/events.ts:109-132 (`extra?.items`) · app/checkout/page.tsx:434-440 · app/orders/page.tsx:99-108`
+- **Cosa succede:** VERIFICATO: il commento 'Fix #16: items inclusi nel purchase per abilitare i report prodotto GA4' promette qualcosa che il codice non fa — entrambe le call-site di `trackOrderPlaced` passano solo `{ coupon }`, quindi `extra?.items` è sempre `undefined` e l'array `items` non viene mai popolato.
+- **Impatto:** In GA4 nessun report prodotto è alimentato dagli acquisti: impossibile sapere quali prodotti/negozi generano fatturato e quali categorie convertono; il funnel item-level view_item → add_to_cart → purchase resta rotto.
+- **Fix consigliato:** Passare gli item reali: per il COD dal `cart`/`groups` già disponibili in checkout, per Stripe salvandoli nello stash `mc_pending_purchase` — o, meglio, emettendo il purchase server-side dagli `order_items` scritti a DB.
+
+#### 🟠 122. `begin_checkout` rifirato a ogni mount della pagina checkout e `add_payment_info` quasi mai emesso
+
+- **Dove:** `app/checkout/page.tsx:49-57 (mount) e 681 (`onChange` del selettore pagamento), default a riga 331`
+- **Cosa succede:** VERIFICATO: `trackCheckoutStarted` sta in un `useEffect(..., [])` senza dedup, quindi refresh, back del browser e rientro dopo il login (`router.push('/sign-in?returnTo=/checkout')`) rifanno partire l'evento per la stessa sessione d'acquisto. All'opposto `trackCheckoutStep('payment_method')` è chiamato SOLO nell'`onChange` del selettore, ma il metodo è preselezionato (`useState(stripeAvailable ? 'card' : 'cod')`): chi accetta il default non emette mai lo step, e con esso `add_payment_info`.
+- **Impatto:** Il funnel checkout ha il primo gradino gonfiato e il gradino 'metodo di pagamento' quasi vuoto: l'abbandono del checkout appare molto peggiore del reale e il passo pagamento sembra un collo di bottiglia inesistente.
+- **Fix consigliato:** Deduplicare `checkout_started` per sessione d'acquisto (chiave in sessionStorage legata al contenuto del carrello) ed emettere `checkout_step('payment_method')` anche al primo render col metodo preselezionato, o al submit col metodo effettivamente usato.
+
+#### 🟠 123. Messaggi d'errore grezzi inviati a PostHog e email dell'utente come property di persona
+
+- **Dove:** `lib/analytics/events.ts:181-183 · lib/errors.ts:37-66 e 89-91 · components/hooks/useProfile.ts:35 e 43`
+- **Cosa succede:** VERIFICATO: `friendlyError` chiama `trackErrorShown(code, e.message, page)` in ogni ramo passando il messaggio ORIGINALE dell'errore — proprio nel ramo `duplicate key value` (errors.ts:43), dove il testo Postgres contiene il valore della colonna in conflitto (es. `(email)=(...)`) — mentre la UI lo ripulisce solo per il testo restituito all'utente (`cleaned`, righe 67-85). In parallelo `useProfile` chiama `identify(uid, { email: em })` scrivendo l'email come property di persona su PostHog (host US), benché il session replay sia configurato per mascherare le email (posthog.tsx:60-64) e Sentry sia stato esplicitamente ripulito dalla stessa PII (sentry.tsx:76-84, `void email`).
+- **Impatto:** Dati personali finiscono in chiaro presso un processore extra-UE senza necessità analitica, con una policy incoerente fra i tre strumenti: esposizione GDPR, oltre a rendere `error_shown` inutilizzabile in aggregato (messaggi ad alta cardinalità).
+- **Fix consigliato:** Sanificare il messaggio prima dell'invio (whitelist di codici + testo troncato e ripulito da valori tra parentesi/email/UUID) e togliere l'email da `identify`, tenendo solo l'id utente come già fatto per Sentry.
+
+#### 🟠 124. Il consenso per Sentry è letto una sola volta all'init: la revoca non ferma il session replay
+
+- **Dove:** `lib/analytics/sentry.tsx:24-40 e 88-96`
+- **Cosa succede:** VERIFICATO: `initSentry()` è protetta da `if (initialized || !DSN ...) return` e legge `hasConsent('analytics')` solo in quel momento per fissare `replaysSessionSampleRate`/`replaysOnErrorSampleRate`. Il `SentryProvider` monta l'init in un `useEffect` e non registra alcun listener su `mc:consent-change` (a differenza di posthog.tsx:107-113 e GoogleAnalytics.tsx:35-38): se l'utente revoca, la registrazione dello schermo prosegue fino al reload; se concede dopo, resta disattivata fino al reload.
+- **Impatto:** Registrazione della sessione che continua dopo la revoca del consenso: violazione diretta della scelta dell'utente e comportamento incoerente fra strumenti sulla stessa categoria di consenso.
+- **Fix consigliato:** Ascoltare `mc:consent-change` e avviare/fermare il Replay di conseguenza (`Sentry.getClient()?.getIntegrationByName('Replay')?.stop()/.start()`), o ri-inizializzare coerentemente col nuovo stato.
+
+
+### deploy-sre (13)
+
+#### 🟠 125. In produzione il logger non scrive nulla sui log del server: cecità totale su Render
+
+- **Dove:** `/home/user/mycity/lib/logger.ts:63-86`
+- **Cosa succede:** VERIFICATO. `info` (r.65-67) scrive solo se `NODE_ENV !== 'production'`; `warn` (r.71-73) solo se `typeof window !== 'undefined' || NODE_ENV !== 'production'` → sul server in prod è falso; `error` (r.79-81) idem. L'unico canale residuo lato server è `captureServerError` (r.55-59) che fa `return` immediato se mancano sia NEXT_PUBLIC_SENTRY_DSN sia SENTRY_DSN. In render.yaml NEXT_PUBLIC_SENTRY_DSN è `sync: false` (opzionale, da impostare a mano) e SENTRY_DSN non è nemmeno dichiarata. Nota: la severità è grave e non bloccante perché il codice funziona — è la diagnosticabilità a sparire.
+- **Impatto:** Il log stream di Render è vuoto di log applicativi. Un errore del webhook Stripe, un payout non rilasciato o un'email fallita (`logger.error('[email] invio fallito dopo retry')`) non lasciano traccia da nessuna parte se il DSN non è impostato. Il runbook indica Sentry come unica rete.
+- **Fix consigliato:** Scrivere sempre la riga JSON su stdout/stderr (Render li raccoglie e indicizza) e usare Sentry come canale aggiuntivo, non alternativo: togliere le guardie NODE_ENV da warn/error (al massimo info dietro un LOG_LEVEL).
+
+#### 🟠 126. RESEND_FROM non è in render.yaml: il default è no-reply@example.com
+
+- **Dove:** `/home/user/mycity/lib/env.ts:44 + /home/user/mycity/render.yaml:32-73`
+- **Cosa succede:** VERIFICATO. `resendFrom: () => readEnv('RESEND_FROM') ?? 'MyCity <no-reply@example.com>'` (lib/env.ts:44), usato come `from` in lib/email/client.ts:50. In render.yaml è dichiarata RESEND_API_KEY ma NON RESEND_FROM né RESEND_REPLY_TO (presenti solo in .env.example r.41-42). Se non vengono aggiunte a mano nel dashboard, ogni sendEmail() spedisce da un dominio non verificato su Resend: l'API rifiuta, i due tentativi del retry (r.59-68) falliscono e l'errore finale (r.69) è invisibile per il difetto sul logger.
+- **Impatto:** Zero email transazionali: conferma ordine, nuovo ordine al venditore, rimborso, recupero password. Il cliente paga e non riceve nulla, e il fallimento non viene loggato.
+- **Fix consigliato:** Dichiarare RESEND_FROM e RESEND_REPLY_TO in render.yaml con sync:false e togliere il default fasullo: senza RESEND_FROM sendEmail deve restituire errore esplicito e comparire nell'health check.
+
+#### 🟠 127. NODE_ENV=production nel build fa saltare le devDependencies necessarie a compilare
+
+- **Dove:** `/home/user/mycity/render.yaml:33-34 + :26 · package.json:72,77 · tailwind.config.ts:224 · postcss.config.js`
+- **Cosa succede:** VERIFICATO. render.yaml imposta `NODE_ENV: production` tra le envVars del servizio (r.33-34) e il buildCommand è `npm ci --legacy-peer-deps && ... npm run build` (r.26). npm omette le devDependencies quando NODE_ENV=production e non è specificato --include/--omit, e Render espone le env del servizio anche in fase di build. Ma il build ne ha bisogno: tailwind.config.ts:224 fa `require('tailwind-scrollbar-hide')` (devDependency, package.json:77) e postcss.config.js dichiara `autoprefixer` (devDependency, package.json:72). Il fatto che tailwindcss, typescript e @types/leaflet siano in `dependencies` (r.38,55,57) conferma che il problema è già stato incontrato e tappato a metà.
+- **Impatto:** Build di produzione fragile: a cache Render invalidata o su un nuovo servizio il build fallisce con MODULE_NOT_FOUND su tailwind-scrollbar-hide o autoprefixer. Nessun deploy possibile, incluso un hotfix urgente.
+- **Fix consigliato:** Spostare in `dependencies` tutto ciò che serve a `next build` (autoprefixer, postcss, tailwind-scrollbar-hide) o forzare `npm ci --include=dev --legacy-peer-deps`. Meglio: non impostare NODE_ENV a mano in render.yaml e verificare con un build da cache vuota.
+
+#### 🟠 128. Il dead-man's switch dei cron mente: l'heartbeat viene scritto prima di eseguire il lavoro
+
+- **Dove:** `/home/user/mycity/lib/api/middleware.ts:226-227`
+- **Cosa succede:** VERIFICATO. In `withCronAuth`: `void recordCronHeartbeat(req); // dead-man's switch` (r.226) è chiamato PRIMA di `return handler(req)` (r.227). L'heartbeat viene aggiornato anche se l'handler fallisce o esce in corto circuito. Casi reali confermati: release-payouts risponde 503 `{ok:false, error:'Stripe non configurato'}` (app/api/cron/release-payouts/route.ts:50-52) e send-push risponde 200 `{ok:true, skipped:'VAPID non configurato'}` (app/api/cron/send-push/route.ts:22-24). In entrambi i casi cron_heartbeats resta fresco e `staleCrons()` (lib/cron-health.ts:38-51) non segnala nulla.
+- **Impatto:** Il sistema di allarme che dovrebbe accorgersi 'alle 3 di notte' che i soldi non si muovono dice verde mentre i payout ai venditori sono fermi da giorni. È il monitoraggio che rassicura mentre il business si ferma.
+- **Fix consigliato:** Registrare l'heartbeat DOPO l'handler e solo su esito riuscito, salvando anche ultimo esito ed errore in cron_heartbeats; aggiungere in operational-alerts un alert 'cron gira ma fallisce da N giri'.
+
+#### 🟠 129. La pagina pubblica /status dice 'operativo' anche con pagamenti ed email non configurati
+
+- **Dove:** `/home/user/mycity/lib/health/checks.ts:154-158 (computeOverall) e :109-111, :127-129, :145-152`
+- **Cosa succede:** VERIFICATO. `computeOverall` restituisce 'outage' solo se qualche servizio è outage, 'degraded' se degraded, altrimenti 'operational' — col commento esplicito "i servizi 'unknown' (non configurati) non fanno scattare l'allarme". Ma `unknown` è esattamente lo stato ritornato da checkPayments quando Stripe non è configurato (r.109-111), da checkEmail quando manca RESEND_API_KEY (r.127-129), da checkAuth quando mancano url/anon key (r.93-96) e da checkPush senza chiavi VAPID (r.145-152). In produzione 'non configurato' non è neutro: è un'interruzione di servizio.
+- **Impatto:** Se una env critica non viene reimpostata dopo un cambio di servizio Render, il marketplace non incassa e non manda email mentre la pagina di stato pubblica dichiara che è tutto a posto. Danno di fiducia oltre che operativo.
+- **Fix consigliato:** In produzione mappare `unknown` su `outage` per i servizi essenziali (pagamenti, email, database, auth); tenere `unknown` neutro solo per le funzioni opzionali (push) e solo fuori produzione.
+
+#### 🟠 130. Gli alert operativi vengono spediti a un indirizzo di fallback che nessuno legge
+
+- **Dove:** `/home/user/mycity/app/api/cron/operational-alerts/route.ts:240`
+- **Cosa succede:** VERIFICATO. `const adminEmail = process.env.SUPPORT_EMAIL ?? 'admin@mycity.it';`. SUPPORT_EMAIL compare solo in .env.example:103 e NON in render.yaml. Stesso fallback nel form contatti (app/api/contact/route.ts:70, 'support@mycity.it'). Se in produzione la variabile non viene impostata a mano, tutti gli avvisi (ordini bloccati, mismatch di cassa COD, cron fermi, backlog email) vanno a una casella che con ogni probabilità non esiste, e sendEmail fallisce senza log utile.
+- **Impatto:** Il canale di allarme umano è scollegato: le anomalie che costano soldi vengono rilevate correttamente dal codice e poi buttate via.
+- **Fix consigliato:** Dichiarare SUPPORT_EMAIL in render.yaml (sync:false), inserirla tra le env obbligatorie di /api/health e far fallire in modo rumoroso l'invio dell'alert se il destinatario non è configurato (la notifica in-app agli admin esiste già più sotto nello stesso file).
+
+#### 🟠 131. Le chiavi VAPID non sono in render.yaml e il cron delle push risponde 'ok' quando mancano
+
+- **Dove:** `/home/user/mycity/app/api/cron/send-push/route.ts:21-24 + /home/user/mycity/render.yaml:32-73`
+- **Cosa succede:** VERIFICATO. NEXT_PUBLIC_VAPID_PUBLIC_KEY e VAPID_PRIVATE_KEY sono in .env.example (r.84-85) ma assenti da render.yaml, che pure documenta il cron send-push ogni 5 minuti (r.85) e docs/crons.json lo schedula `*/5 * * * *`. Il route, se `isPushConfigured()` è falso, restituisce HTTP 200 con `{ok:true, skipped:'VAPID non configurato', sent:0}`: lo scheduler esterno vede successo e l'heartbeat viene comunque scritto (vedi difetto precedente).
+- **Impatto:** Le notifiche push non arrivano mai: il venditore non sa che ha un ordine nuovo. Gli ordini restano in NEW e vengono annullati e rimborsati dal cron expire-stale-orders dopo 3 ore. Perdita di fatturato con causa invisibile.
+- **Fix consigliato:** Aggiungere le due variabili in render.yaml (sync:false) e far restituire 503 al cron quando le chiavi mancano in produzione, così scheduler e dead-man's switch se ne accorgono.
+
+#### 🟠 132. Health check di Render legato al database e senza timeout sulla query
+
+- **Dove:** `/home/user/mycity/render.yaml:31 + /home/user/mycity/app/api/health/route.ts:28-35, :46-48`
+- **Cosa succede:** VERIFICATO. `healthCheckPath: /api/health` e l'endpoint esegue una query reale (`admin.from('categories').select('id').limit(1)`, r.32) restituendo 503 se fallisce. Due problemi confermati nel codice: (a) l'health check di Render governa anche la salute dell'istanza in esercizio, quindi un'indisponibilità temporanea di Supabase — dipendenza esterna su cui l'app non può fare nulla — provoca il riavvio, trasformando un degrado in un'interruzione completa; (b) la query non ha né timeout né AbortSignal, quindi se Supabase accetta la connessione ma non risponde la richiesta resta appesa.
+- **Impatto:** Amplificazione del guasto: secondi di lentezza del database possono diventare minuti di sito giù per riavvio. Inoltre blocca i deploy legittimi durante una manutenzione Supabase.
+- **Fix consigliato:** Separare liveness (endpoint leggero, solo processo vivo → healthCheckPath di Render) da readiness/monitoraggio esterno (/api/health con i check profondi per UptimeRobot). Aggiungere AbortSignal.timeout(2000) alla query.
+
+#### 🟠 133. L'health check non verifica le env che fanno davvero girare i soldi
+
+- **Dove:** `/home/user/mycity/app/api/health/route.ts:37-44`
+- **Cosa succede:** VERIFICATO. `requiredEnv` contiene esattamente ['NEXT_PUBLIC_SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','NEXT_PUBLIC_APP_URL']. Mancano STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, RESEND_API_KEY, CRON_SECRET, NEXT_PUBLIC_SUPABASE_ANON_KEY. Il commento in render.yaml (r.28-30) promette un check che 'verifica DAVVERO il DB + env critiche': la promessa non è mantenuta.
+- **Impatto:** Un deploy senza STRIPE_WEBHOOK_SECRET passa l'health check, Render lo promuove e ruota via la versione precedente. Da quel momento ogni webhook Stripe risponde 503 (app/api/stripe/webhook/route.ts:41-43): i clienti pagano e nessun ordine viene creato. Idem per CRON_SECRET mancante, che manda in 503 ogni cron (lib/api/middleware.ts:219-220), payout e rimborsi inclusi.
+- **Fix consigliato:** Estendere requiredEnv a tutte le variabili senza cui una funzione di business si ferma, così il 503 impedisce a Render di promuovere la nuova versione.
+
+#### 🟠 134. autoDeploy su main senza alcun cancello di CI: un test rosso va comunque in produzione
+
+- **Dove:** `/home/user/mycity/render.yaml:24-25 + /home/user/mycity/.github/workflows/ci.yml`
+- **Cosa succede:** VERIFICATO. `branch: main` + `autoDeploy: true`. L'unico workflow è ci.yml, con quattro job (lint-and-typecheck/build, unit-tests, integration-tests, e2e-tests) e nessun collegamento al deploy: Render parte in parallelo al push e non attende l'esito. Solo un fallimento del build fermerebbe Render, perché ricompila per conto suo. Peggio: i job integration ed e2e si auto-skippano con un semplice `::warning::` se mancano i secret. Il runbook (docs/runbook.md:118-131) formalizza 'commit su main → Render auto-deploy parte in ~2 min' e non contiene la parola rollback da nessuna parte (grep verificato).
+- **Impatto:** Regressioni su pagamenti, RLS o checkout arrivano ai clienti veri prima che qualcuno guardi la CI, e la procedura di rollback non è documentata.
+- **Fix consigliato:** Disattivare autoDeploy e usare un deploy hook chiamato dalla GitHub Action solo con tutti i job verdi (o attivare 'Wait for CI checks' su Render). Documentare il rollback nel runbook con il percorso esatto.
+
+#### 🟠 135. Nessun controllo di drift delle migrazioni in CI e nessuna applicazione automatica in deploy
+
+- **Dove:** `/home/user/mycity/.github/workflows/ci.yml + /home/user/mycity/render.yaml:26 + /home/user/mycity/scripts/check-migration-drift.mjs`
+- **Cosa succede:** VERIFICATO. Lo script scripts/check-migration-drift.mjs esiste e lo script npm `db:check-drift` è dichiarato (package.json:21), ma nessuno step di ci.yml lo esegue (grep su .github/workflows: unico file ci.yml, nessuna occorrenza) e render.yaml non ha alcun `preDeployCommand`. Le migrazioni in migrations/ vanno applicate a mano dal SQL Editor. Codice e schema vengono quindi deployati separatamente, senza verifica di coerenza.
+- **Impatto:** Un deploy che si aspetta una colonna non ancora creata rompe checkout, payout o admin in produzione, con errori 500 che (per il difetto sul logger) non compaiono da nessuna parte. È lo scenario di outage più probabile del progetto.
+- **Fix consigliato:** Aggiungere un job CI (con SUPABASE_DB_URL da secret) che esegue db:check-drift e fallisce sul drift, e/o un preDeployCommand su Render che applica le migrazioni prima di ruotare la nuova versione.
+
+#### 🟠 136. I test d'integrazione in CI usano i nomi dei secret di produzione, con la service-role key
+
+- **Dove:** `/home/user/mycity/.github/workflows/ci.yml:87-109 e :132-160`
+- **Cosa succede:** VERIFICATO. I job leggono `secrets.NEXT_PUBLIC_SUPABASE_URL`, `secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY`, `secrets.SUPABASE_SERVICE_ROLE_KEY` — nomi identici a quelli delle variabili di produzione. Il commento dice 'progetto Supabase DI TEST' ma nessun assert lo verifica. Il trigger include `push: branches: [main, 'claude/**']`, quindi anche i branch generati da agenti.
+- **Impatto:** Se qualcuno inserisce in Actions le credenziali del progetto vero (l'errore più naturale, essendo gli stessi nomi), i test RLS e gli smoke Playwright girano contro la produzione con la chiave che bypassa RLS: dati di test sul DB vivo e service-role key esposta nel runner a ogni push.
+- **Fix consigliato:** Rinominare i secret di CI (TEST_SUPABASE_URL, TEST_SUPABASE_ANON_KEY, TEST_SUPABASE_SERVICE_ROLE_KEY) e aggiungere un assert che rifiuti di partire se l'host coincide con il progetto di produzione.
+
+#### 🟠 137. I backup del database non sono schedulati e scrivono su un filesystem effimero
+
+- **Dove:** `/home/user/mycity/scripts/backup-db.sh:25-27`
+- **Cosa succede:** VERIFICATO. Lo script esiste ed è ben scritto, ma un grep su yml/yaml/json/mjs/ts dell'intero repo non trova nessun riferimento a backup-db: nessun blocco cron in render.yaml, nessun job in .github/workflows (esiste solo ci.yml), nessuna voce in docs/crons.json (che elenca i 9 cron reali e non lo cita). Il default `BACKUP_DIR=./backups` (r.26) scrive nella directory dell'app: su Render il disco è effimero, quindi anche un lancio manuale evaporerebbe. Nessun upload verso storage esterno nello script.
+- **Impatto:** Nessun backup reale. Su Supabase free tier non c'è point-in-time recovery: una migrazione sbagliata o una DELETE senza WHERE cancellano l'azienda. Il runbook promette un ripristino in ~30 minuti oggi non eseguibile.
+- **Fix consigliato:** Schedulare il backup come job esterno (stesso scheduler dei cron o GitHub Action schedulata) con upload cifrato off-site (S3/R2), e provare davvero un restore drill.
+
+
+## 🟡 Minori (104)
+
+### architettura (11)
+
+#### 🟡 1. Il webhook registra come «pagato» un totale precalcolato che non confronta mai con l'importo reale addebitato da Stripe
+
+- **Dove:** `app/api/stripe/webhook/route.ts:246-266 · app/api/stripe/checkout/route.ts:287-320`
+- **Cosa succede:** CONFERMATO in parte, con magnitudo minore del dichiarato. (a) Riconciliazione assente: grep su app/ e lib/ per `amount_total` e `amount_received` restituisce ZERO occorrenze. `handleCheckoutCompleted` legge `pending_checkouts.total_cents` nella select ma non lo confronta con nulla, scrive `total_price: g.totalCents / 100` e calcola `computeOrderSplit({ totalCents: g.totalCents, … })` sul valore precalcolato: ciò che il DB registra come incassato non è mai verificato contro ciò che Stripe ha davvero incassato. (b) Doppio punto di calcolo dello sconto: `totalDiscountCents = Math.min(coupon+pickup, grandSubtotal+grandShipping-1)` (checkout/route.ts:287) è clampato e la base ignora la fee di consegna, mentre `groupPersisted[i].totalCents` sottrae le quote coupon+pickup NON clampate con un `Math.max(0, …)` per gruppo. Quando il clamp scatta — scenario realistico: coupon FIXED pari al subtotale (validateCoupon lo cappa al subtotale) più sconto ritiro 10% con spedizione e fee a 0 — Stripe addebita un importo diverso dalla somma dei totalCents persistiti. Nei casi verificati la divergenza è di pochi centesimi, non di importi materiali: da qui la severità ridotta a minore.
+- **Impatto:** La contabilità (e la riconciliazione incassi-payout) parte da un dato mai verificato: qualunque scostamento tra addebito reale e importo registrato resta invisibile finché non emerge come saldo Connect anomalo. Oggi l'entità nota è di centesimi, ma è una divergenza silenziosa su un percorso che tocca il denaro.
+- **Fix consigliato:** Nel webhook confrontare `session.amount_total` con `pending_checkouts.total_cents`: se differiscono, non creare gli ordini col valore precalcolato ma ripartire l'importo reale pro-quota, e alzare un alert admin. Correggere il clamp in /api/stripe/checkout applicandolo PRIMA della ripartizione per gruppo (un solo punto di calcolo dello sconto) e includendo la fee di consegna nella base. Cappare anche i coupon PERCENT a 100 in `validateCoupon` (lib/coupons.ts:79: `Math.round(subtotal * value/100 …)` non ha alcun limite superiore).
+
+#### 🟡 2. Il checkout client duplica la logica di spedizione e sconto ritiro invece di usare lib/shipping.ts, che si autodichiara «fonte unica»
+
+- **Dove:** `app/checkout/page.tsx:43,45,330,333-343 vs lib/shipping.ts:1-38 e lib/constants.ts:6,8`
+- **Cosa succede:** CONFERMATO. `lib/shipping.ts` dichiara in testa: «FONTE UNICA condivisa tra client (checkout UI) e server (/api/stripe/checkout, /api/orders/cod) così che l'importo mostrato all'utente coincida sempre con quello addebitato». Le due route server usano davvero `shippingCentsFor`; il client no: app/checkout/page.tsx ridichiara `const SHIPPING_PER_ORDER = 4.9` (riga 43, duplicando lib/constants.ts:6), `SHIPPING_COST_FOR` (riga 45), `const PICKUP_DISCOUNT_PERCENT = 10` dentro il componente (riga 330, duplicando lib/constants.ts:8) e riscrive a mano la cascata pickup→soglia→riderFee→flat in `shippingFor` (righe 333-343). Verificato che le due implementazioni oggi producono lo stesso risultato (stesse costanti, stesso ordine di regole; il coupon FREE_SHIPPING è gestito dal client a livello di `grandShipping`): è un rischio latente, non un bug attivo — da qui la severità ridotta a minore.
+- **Impatto:** Qualunque modifica futura a una sola delle due implementazioni (nuova soglia, nuova fascia distanza, sconto ritiro diverso) fa divergere il totale mostrato dal totale addebitato — la classe di bug più tossica per la fiducia in un marketplace. Raddoppia inoltre il costo di ogni modifica al pricing di consegna.
+- **Fix consigliato:** In app/checkout/page.tsx cancellare `SHIPPING_PER_ORDER`, `SHIPPING_COST_FOR`, `PICKUP_DISCOUNT_PERCENT` locali e `shippingFor`, e chiamare `shippingForEuro({subtotal, storeLat, storeLng, deliveryLat: form.lat, deliveryLng: form.lng, pickupInStore, freeShipping: appliedCoupon?.freeShipping})` importando `PICKUP_DISCOUNT_PERCENT` da `@/lib/constants`. Regola ESLint `no-restricted-syntax` che vieti di ridefinire quelle costanti fuori da lib/constants.
+
+#### 🟡 3. Due strade di scrittura parallele e disallineate: route API blindate contro ~33 pagine client che scrivono nel DB dal browser
+
+- **Dove:** `lib/api/middleware.ts vs app/seller/products/page.tsx:85,98,121 · app/admin/coupons/page.tsx · app/admin/events/page.tsx · app/admin/users/page.tsx · app/profile/settings/page.tsx (33 file 'use client' con insert/update/delete)`
+- **Cosa succede:** CONFERMATO nei fatti, con conteggio corretto: 40 pagine client usano `supabase.from(...)`, di cui 33 con `.insert(`/`.update(`/`.delete(`. Il progetto ha un layer API server-side curato (`withAuthRateLimit`, zod, ricalcolo prezzi dal DB, `ApiErrors`), ma in parallelo ~33 pagine scrivono direttamente col client anon appoggiandosi alla sola RLS: nessun rate limit, nessuna validazione zod, nessun audit log. La disciplina è incoerente anche dentro la stessa strada: `app/seller/products/[id]/edit/page.tsx:92` fa `.delete().eq('id', id).eq('seller_id', user.id)` mentre `app/seller/products/page.tsx:85` fa `.delete().eq('id', id)` senza filtro sul proprietario (verificato sul DB live: la policy «Sellers can delete their own products» copre il caso, quindi è incoerenza di difesa a strati, non un buco sfruttabile — severità ridotta a minore). Conseguenza già verificata del modello: `lib/notifications.ts` scrive su `notifications` dal browser, ma sul DB live la tabella ha SOLO policy SELECT (×2) e UPDATE, NESSUNA policy di INSERT → tutte le chiamate falliscono in silenzio (l'errore è deliberatamente ingoiato), tanto che la migration 086 ha reintrodotto la funzionalità come trigger DB.
+- **Impatto:** Ogni nuova tabella o colonna richiede di ricordarsi la policy giusta, altrimenti la feature non funziona in silenzio (come le notifiche) o è troppo permissiva. La superficie di sicurezza è distribuita tra TypeScript e policy SQL senza un confine dichiarato, e i due percorsi si comportano diversamente sotto carico e sotto attacco.
+- **Fix consigliato:** Dichiarare e documentare la regola: tutto ciò che tocca denaro, stato ordine, profili o contenuti pubblici passa da una route API; il client anon resta in sola lettura più le scritture puramente personali. Migrare per prime le scritture admin e seller su `orders`, `products`, `coupons`, `marketplace_events`. Nel frattempo allineare `app/seller/products/page.tsx:85,98,121` aggiungendo `.eq('seller_id', user.id)` come nel gemello. Rimuovere `lib/notifications.ts` e i suoi call-site, ormai coperti dal trigger 086.
+
+#### 🟡 4. lib/database.types.ts: tipi generati che nessun client Supabase usa, prodotti da un parser che perde colonne
+
+- **Dove:** `lib/database.types.ts · scripts/gen-db-types.mjs · lib/supabase/server.ts · lib/supabase/client.ts · lib/api/middleware.ts · app/api/cron/send-emails/route.ts:92`
+- **Cosa succede:** CONFERMATO. Il file esiste con 67 tabelle ma non è importato da alcun modulo applicativo: grep su app/, lib/, components/ trova solo `tests/unit/database-types.test.ts` e lo script generatore. Grep per `createClient<`, `createBrowserClient<`, `createServerClient<` su app/ e lib/: ZERO occorrenze — nessun client è parametrizzato con `<Database>`, quindi ogni `.from('orders').select(...)` restituisce `any` (da qui i cast `as unknown as` e i `Record<string, any>` sparsi). Il file è anche incompleto: `public_handle`, `public_bio` (aggiunte in un unico ALTER dalla 033) e `rider_fee_cents` (migration 111, usata in lib/stripe/payout.ts) NON compaiono nei tipi — grep restituisce 0. Il DB live ha 71 tabelle base contro le 67 nei tipi. Il commento in app/api/cron/send-emails/route.ts:92 dice «Database type (mai generato)», contraddicendo l'esistenza del file.
+- **Impatto:** `npm run typecheck` non può accorgersi di una colonna rinominata o rimossa: il drift schema→codice si manifesta solo a runtime, in produzione, su tabelle critiche (orders, profiles). Si paga il costo di mantenere generatore e tipi senza incassarne il beneficio, con la falsa sicurezza di «abbiamo i tipi del DB».
+- **Fix consigliato:** Decidere e chiudere: (a) tipizzare i client — `createClient<Database>(…)` in lib/supabase/{server,client}.ts e in lib/api/middleware.ts — poi eliminare progressivamente i cast; oppure (b) cancellare lib/database.types.ts, scripts/gen-db-types.mjs e il suo test. Se (a): sostituire il generatore artigianale con `supabase gen types typescript --project-id …` (sorgente = DB reale, non le migration), farlo girare in CI e far fallire la build se il file rigenerato differisce dal committato. Correggere comunque il commento errato in send-emails/route.ts:92.
+
+#### 🟡 5. Due migration con lo stesso numero 108 e nessun controllo che lo rilevi
+
+- **Dove:** `migrations/108_atomic_coupon_claim.sql e migrations/108_seller_public_profiles_stripe_trust.sql · scripts/check-migration-drift.mjs:30`
+- **Cosa succede:** CONFERMATO. Entrambi i file esistono con prefisso 108 e contenuti non correlati (funzione `claim_coupon` da un lato, ridefinizione della vista `seller_public_profiles` dall'altro): l'ordine di applicazione dipende dall'ordinamento del filesystem, non da una decisione. Aggravante verificata: `seller_public_profiles` è ridefinita sia dalla 108 sia dalla 112, con colonne diverse (la 108 aggiunge `stripe_charges_enabled`/`stripe_payouts_enabled`, la 112 no) — chi legge le migration non sa quale definizione sia viva senza interrogare il DB. `scripts/check-migration-drift.mjs:30` usa `NAME_RE = /^(\d{3}[a-z]?)_([a-z0-9_]+)\.sql$/` e non verifica l'unicità del prefisso: il duplicato passa silenzioso. Inoltre la vista `seller_storefronts` esiste sul DB live ma nessuna migration del repo la crea.
+- **Impatto:** Su un ambiente nuovo (preview deploy, ricostruzione del DB) l'ordine di applicazione può differire dalla produzione e produrre uno schema diverso, con bug non riproducibili — nel caso concreto, la vetrina con o senza i flag Stripe. La storia delle migration smette di essere la fonte di verità dello schema.
+- **Fix consigliato:** Rinominare uno dei due file (es. `113_…`, coordinandosi con la tabella di tracking già applicata). Aggiungere a check-migration-drift.mjs un controllo che fallisce su prefissi duplicati e su oggetti presenti nel DB ma assenti dalle migration (a partire da `seller_storefronts`). Consolidare in una sola migration la definizione finale di `seller_public_profiles`.
+
+#### 🟡 6. Dead code: il cancello Trust & Safety, il modulo notifiche e tre componenti non sono agganciati a nulla
+
+- **Dove:** `lib/ai/moderation.ts:63 · lib/notifications.ts + app/seller/orders/[id]/page.tsx:15, app/rider/orders/[id]/page.tsx:17, app/rider/page.tsx:16 · components/StoreCard.tsx · components/CategoriesDropdown.tsx · components/home/StoryOfDay.tsx · viste public_profiles e seller_storefronts`
+- **Cosa succede:** CONFERMATO punto per punto. `lib/ai/moderation.ts` esporta `assertSafeText` e `UnsafeContentError`: grep su tutto il repo trova occorrenze SOLO dentro il file stesso — mai importate da alcuna route AI, di creazione prodotto o di recensione. `lib/notifications.ts` è importato da 3 file (seller/orders/[id], rider/orders/[id], rider/page) ma non funziona: sul DB live `notifications` ha solo policy SELECT e UPDATE, nessuna INSERT → l'insert fallisce e l'errore è ingoiato di proposito («best-effort»); la migration 086 ha sostituito la funzionalità con un trigger. `components/StoreCard.tsx`, `components/CategoriesDropdown.tsx`, `components/home/StoryOfDay.tsx` esistono ma nessun file li importa (i match su «StoreCard» sono tutti `HeroStoreCard`). Le viste `public_profiles` e `seller_storefronts` non sono interrogate da alcun .ts/.tsx (solo `seller_public_profiles` lo è, in 6 file).
+- **Impatto:** Il gate di moderazione è il punto serio: schede prodotto e contenuti generati o inseriti arrivano online senza alcun filtro sulle categorie vietate (armi, droga, contraffazione, adulto, PII, odio) nonostante il modulo esista — rischio legale e di piattaforma. Il resto è manutenzione: chi legge il codice crede che le notifiche client funzionino, e le viste morte allargano la superficie PostgREST, proprio quella del difetto bloccante.
+- **Fix consigliato:** Cablare `assertSafeText` nelle route di creazione/modifica prodotto, nella chat e nelle recensioni — oppure rimuovere il modulo e dichiarare esplicitamente che la moderazione non esiste (🟡, decisione di Nicola). Cancellare `lib/notifications.ts` e i 3 call-site. Cancellare i tre componenti morti. Droppare le due viste inutilizzate dopo il fix del bloccante.
+
+#### 🟡 7. Il rate limiter in memoria cresce senza limite e degrada a scansione lineare per ogni nuova chiave
+
+- **Dove:** `lib/rate-limit.ts:22-33, 49-58 · render.yaml:20,70-72`
+- **Cosa succede:** CONFERMATO. `gcIfNeeded()` è invocata solo quando si crea un bucket nuovo (riga 57) e cancella esclusivamente le chiavi ferme da oltre un'ora (`now - ultimo > 60*60_000`); il `break` scatta solo se `buckets.size <= MAX_KEYS`. Se le 50.000 chiavi sono tutte recenti — cioè esattamente sotto attacco o durante un picco — non elimina nulla, scandisce l'intera Map e la Map continua a crescere oltre `MAX_KEYS`. Ogni chiave nuova costa quindi una scansione completa: O(n) per richiesta, O(n²) sull'ondata. `render.yaml:20` prevede `plan: starter` a istanza singola con `UPSTASH_REDIS_REST_URL/TOKEN` opzionali (righe 70-72), quindi in produzione il percorso attivo è proprio l'in-memory.
+- **Impatto:** Sotto un burst da IP diversi — lo scenario che il rate limiter dovrebbe contenere — il processo Node accumula memoria e rallenta fino all'OOM sul piano starter. Il meccanismo di protezione diventa il vettore di indisponibilità.
+- **Fix consigliato:** Sostituire la scansione con una struttura a scadenza (heap per timestamp o Map con eviction LRU e cap rigido): al superamento di `MAX_KEYS` evictare la chiave più vecchia in O(1). In alternativa configurare `UPSTASH_REDIS_REST_URL/TOKEN` su Render e degradare l'in-memory a solo fallback, come già previsto dal commento in render.yaml.
+
+#### 🟡 8. Un modulo condiviso server/client importa staticamente il singleton Supabase marcato 'use client'
+
+- **Dove:** `lib/coupons.ts:1 e :39 · lib/supabase/client.ts:1,21 · app/api/stripe/checkout/route.ts:243 · app/api/orders/cod/route.ts:216`
+- **Cosa succede:** CONFERMATO. `lib/coupons.ts:1` fa `import { supabase } from './supabase/client'` e lo usa come valore di default del parametro `client` in `validateCoupon` (riga 39: `client: CouponDbClient = supabase`). `lib/supabase/client.ts` inizia con `'use client'` ed esporta un Proxy che al primo accesso legge `NEXT_PUBLIC_*` e costruisce il browser client (lanciando se le env mancano). `lib/coupons.ts` è importato da due route handler server, quindi il modulo client entra nel grafo del bundle server; oggi non esplode solo perché entrambe le route passano un client esplicito (`supa`) e il default non viene mai valutato — garanzia che dipende dalla disciplina del chiamante, non dai tipi. Il tipo `CouponDbClient = { from: (table: string) => any }` usa `any`, quindi il compilatore non protegge da un client sbagliato.
+- **Impatto:** Un futuro chiamante server che omette il quarto argomento otterrebbe un errore a runtime in produzione sul percorso di validazione coupon del checkout, non a compile time. Accoppiamento fragile in un punto che tocca il denaro.
+- **Fix consigliato:** Rendere il parametro `client` obbligatorio in `validateCoupon` (rimuovendo l'import di './supabase/client') e far passare esplicitamente `supabase` ai chiamanti browser (app/checkout/page.tsx:347). Tipizzare `CouponDbClient` con `SupabaseClient` invece di `any`.
+
+#### 🟡 9. Test e2e in contraddizione con il codice: verifica la presenza di un LocaleSwitcher che il Footer ha deliberatamente rimosso
+
+- **Dove:** `tests/e2e/10-security-and-i18n.spec.ts:93-101 · components/Footer.tsx:249-256`
+- **Cosa succede:** CONFERMATO. Il Footer contiene il commento esplicito: «LocaleSwitcher NON esposto finché la migrazione i18n non è completa. Solo ~10% dei componenti usa useTranslations; mostrarlo darebbe una UI mista IT/EN» — e non renderizza il componente. Il test e2e «LocaleSwitcher è presente in Footer» asserisce invece `await expect(switcher).toBeVisible()` su `footer.locator('button[aria-label*="English"], button[aria-label*="italiano"]')`: è un rosso permanente. Il conteggio reale verificato è 29 file in app/+components/ che usano `useTranslations`, quindi l'infrastruttura next-intl (i18n.ts, messages/it+en, /api/locale, NextIntlClientProvider) è pagata a build time e a bundle senza essere raggiungibile dall'utente. Altri test dello stesso file asseriscono la risoluzione a `en` via Accept-Language, cioè una UI mista.
+- **Impatto:** Una suite e2e che fallisce sempre smette di essere un segnale: il team impara a ignorare i rossi e i veri bug di regressione passano. In più il sottosistema i18n è un mezzo lavoro che aumenta bundle e complessità senza dare valore.
+- **Fix consigliato:** Marcare i test i18n come `test.skip` con riferimento al TODO del Footer (o cancellarli), e riattivarli insieme al ripristino di `<LocaleSwitcher />`. Decidere se completare la migrazione delle stringhe o rimuovere next-intl: tenerlo a metà è l'opzione più costosa delle tre.
+
+#### 🟡 10. Nessun recupero per i payout bloccati in stato PROCESSING
+
+- **Dove:** `lib/stripe/payout.ts:92-108 e :179-193 · app/api/cron/release-payouts/route.ts:60 · app/api/cron/operational-alerts/route.ts:130-145`
+- **Cosa succede:** CONFERMATO. `releaseOrderPayout` fa un claim atomico portando `payout_status` da HELD/PENDING_SELLER_ONBOARDING a `PROCESSING`, poi entra nel try che crea il transfer Stripe. Se il processo muore fra il claim e il completamento (finestra reale su Render, che riavvia a ogni deploy), l'ordine resta a `PROCESSING` per sempre: il cron seleziona solo `.in('payout_status', ['HELD','PENDING_SELLER_ONBOARDING'])` (release-payouts/route.ts:60) e un claim successivo restituisce `BAD_STATE` («Payout già in lavorazione o completato, no-op»). Stessa struttura per `rider_payout_status`. L'unico presidio è l'alert `PAYOUT_STUCK` in operational-alerts (righe 130-145), che segnala ma non ripara; nessuna migration prevede un reaper.
+- **Impatto:** Il venditore (o il rider) non viene mai pagato per quell'ordine e nessun processo automatico se ne accorge: serve un intervento manuale in DB. Su un marketplace la puntualità del payout è la metrica che tiene i negozi sulla piattaforma.
+- **Fix consigliato:** Aggiungere al cron release-payouts un passaggio che riporta a `HELD` gli ordini fermi in `PROCESSING` da più di N minuti (es. 15): l'operazione è sicura perché `stripe.transfers.create` usa già una idempotencyKey per ordine, quindi un retry non genera un secondo bonifico. Aggiungere una colonna `payout_claimed_at` per misurare l'attesa invece di dedurla da `delivered_at`.
+
+#### 🟡 11. Dati legali segnaposto pubblicati in ogni pagina del sito
+
+- **Dove:** `components/Footer.tsx:235-247`
+- **Cosa succede:** CONFERMATO. Il footer, renderizzato su tutte le pagine, contiene stringhe hardcoded palesemente fittizie: «Sede legale: Via Roma 1, 29121 Piacenza (PC), Italia · P.IVA / C.F. IT00000000000 · REA PC-000000» e «Capitale sociale € 10.000 i.v. · PEC: mycity@pec.it». Non derivano da configurazione (site_settings/branding esistono nel progetto e sono usati da lib/site-branding.ts) ma sono scritte direttamente nel componente.
+- **Impatto:** Un negoziante o un cliente che verifica la partita IVA prima di firmare o di pagare trova zeri: la fiducia crolla nel punto esatto in cui serve. È anche una violazione degli obblighi informativi per l'e-commerce (art. 12 D.lgs. 70/2003).
+- **Fix consigliato:** Spostare i dati identificativi in `site_settings` e renderizzarli dalla configurazione, così che si aggiornino senza deploy. Finché i dati reali non ci sono, non mostrare la riga anziché mostrare zeri. Aggiungere un check di go-live che fallisce se il footer contiene `00000`.
+
+
+### sicurezza-auth (6)
+
+#### 🟡 12. /api/health espone senza autenticazione gli errori del database e i segreti mancanti
+
+- **Dove:** `app/api/health/route.ts:32,44`
+- **Cosa succede:** VERIFICATO: l'endpoint è pubblico per scelta (`healthCheckPath: /api/health` in render.yaml) e restituisce `checks.db = { ok, latencyMs, error: error?.message }` (riga 32) e `checks.env = { ok, error: missingEnv.join(',') }` (riga 44), dove `requiredEnv` include `SUPABASE_SERVICE_ROLE_KEY`. Il commento in testa al file cita l'indicazione del security engineer «Non esporre version, build hash, env. Solo status + timestamp» — che il codice poi non rispetta.
+- **Impatto:** In caso di guasto un attaccante legge i messaggi grezzi di Postgres/PostgREST (nomi di tabella, stato delle migration) e soprattutto scopre QUALI segreti non sono configurati: sapere che manca `SUPABASE_SERVICE_ROLE_KEY` o `STRIPE_WEBHOOK_SECRET` gli dice esattamente dove la piattaforma è cieca. Ricognizione gratuita, servita in tempo reale.
+- **Fix consigliato:** Verso l'esterno restituire solo `{ status, timestamp }` con lo status HTTP giusto (200/503). Tenere il dettaglio dei check dietro un segreto (stesso schema di `withCronAuth`) o mandarlo solo ai log/Sentry.
+
+#### 🟡 13. La vista public_profiles pubblica nome e cognome di venditori mai approvati o rifiutati
+
+- **Dove:** `migrations/110_public_profile_view.sql:17-42 (WHERE alla riga 38)`
+- **Cosa succede:** VERIFICATO sul DB live con `pg_views`: la definizione attiva è `SELECT id, full_name, public_avatar_url AS avatar_url, public_profile_enabled, public_handle, public_bio, store_name, ... , role FROM profiles WHERE ((public_profile_enabled = true) OR (role = 'seller'))`. La vista ha SELECT concesso ad `anon` e `authenticated`, non ha `security_invoker` (reloptions NULL → SECURITY DEFINER di default), quindi scavalca la RLS di `profiles` — dove `anon` non ha nemmeno il GRANT SELECT. Il ramo `role='seller'` non filtra su `is_approved` né su `public_profile_enabled`. Verificato inoltre che `public.get_referral_leaderboard()` è eseguibile da `anon` (`has_function_privilege('anon', ..., 'execute') = true`) e restituisce i `full_name` di chi ha invitato amici.
+- **Impatto:** Il consenso al profilo pubblico (`public_profile_enabled`, impostato dall'utente col PublicProfileToggle) viene ignorato per un'intera categoria di utenti: chi si è registrato come venditore ed è stato rifiutato o sospeso resta comunque indicizzabile con nome e cognome. È un trattamento di dati personali senza la base giuridica che l'interfaccia dichiara.
+- **Fix consigliato:** Restringere la WHERE a `public_profile_enabled = true OR (role='seller' AND is_approved = true)` e, per i venditori, esporre `store_name` invece di `full_name` (il nome del negozio è pubblico per natura, quello del titolare no). Aggiungere `WITH (security_invoker = on)` come già fatto in migrations/048 per le leaderboard, e revocare l'EXECUTE ad `anon` su `get_referral_leaderboard`.
+
+#### 🟡 14. Tabelle sociali leggibili da tutti con dentro l'user_id: si ricostruisce chi fa cosa
+
+- **Dove:** `policy live su public.event_rsvps, public.shop_of_month_votes, public.group_participants`
+- **Cosa succede:** VERIFICATO sul DB live: `event_rsvps_public_count_read` ha `qual = true` su una tabella con colonne `(user_id, event_id, created_at)`; `shop_of_month_votes_public_read` ha `qual = true` su `(id, voter_id, seller_id, month, created_at)`; «Anyone reads participants» ha `qual = true` su `(id, group_order_id, user_id, quantity, joined_at)`. Tutte per il ruolo `{public}`, con `anon` che ha il GRANT SELECT su tutte e tre. I nomi delle policy dicono che servono a mostrare un CONTEGGIO, ma espongono le righe intere con l'identificativo della persona; incrociando gli `user_id` con la vista `public_profiles` del finding precedente si arriva a nome e cognome.
+- **Impatto:** Un anonimo può costruire il profilo comportamentale dei clienti: a quali eventi partecipano, quale negozio hanno votato (voto che l'interfaccia lascia intendere anonimo), a quali ordini di gruppo si sono uniti e con che quantità. Profilazione di terzi non prevista dall'informativa, e per il voto «negozio del mese» apre a pressioni sui votanti.
+- **Fix consigliato:** Sostituire la lettura pubblica delle righe con RPC SECURITY DEFINER che restituiscono solo l'aggregato (`event_rsvp_count(p_event)`, `shop_votes_count(p_seller, p_month)`, `group_participants_count(p_group)`), sullo stesso modello di `store_follower_count`. La riga completa resta leggibile solo al proprietario (`user_id = auth.uid()`) e allo staff.
+
+#### 🟡 15. /api/auth/signin e /api/auth/signup usano il client Supabase del BROWSER lato server (e sono codice morto pubblicamente esposto)
+
+- **Dove:** `app/api/auth/signin/route.ts:2,43,51 e app/api/auth/signup/route.ts:2,46 — client in lib/supabase/client.ts:1-30`
+- **Cosa succede:** VERIFICATO: entrambe le route importano `auth` da `@/lib/supabase/client`, un modulo `'use client'` che espone un SINGLETON di modulo (`let _supabase: SupabaseClient | null`, riusato da `getClient()`). In un Route Handler quel singleton è per-processo, non per-richiesta, e sopravvive tra utenti diversi; la route di signin ci chiama sopra `auth.signIn(...)` (riga 43) e, nel ramo email non confermata, `auth.signOut()` (riga 51), che in supabase-js v2 ha scope 'global' e revoca tutti i refresh token della sessione tenuta in memoria in quel momento. VERIFICATO anche che le due route sono codice morto: `grep` su tutto il repo trova riferimenti solo in `tests/unit/api-auth.test.ts`; le pagine reali chiamano `auth.signIn`/`supabase.auth.signUp` dal browser (app/sign-in/page.tsx:67, app/sign-up/page.tsx:71). Severità abbassata da grave a minore proprio per questo: nessuna sessione di utenti reali transita da lì, quindi il cross-request leak oggi non ha vittime.
+- **Impatto:** Due endpoint non autenticati esposti in produzione per codice che nessuno usa, con un client condiviso che accumula stato auth per processo. Se domani qualcuno li collega alla UI (o li riusa per una app mobile), la sessione dell'utente A resta nel singleton mentre arriva la richiesta di B: una signIn/signOut di B può revocare globalmente i token di A, buttando fuori clienti a caso e in modo non riproducibile.
+- **Fix consigliato:** La cosa più pulita: eliminare `app/api/auth/signin` e `app/api/auth/signup` (e i relativi test), visto che l'app fa già login/registrazione dal browser. Se si vogliono tenere, sostituire l'import con un client creato PER RICHIESTA (`createClient(url, anonKey, { auth: { persistSession: false, autoRefreshToken: false } })` dentro l'handler) e non chiamare mai `signOut()` su un client condiviso. In ogni caso vietare con una regola di lint l'import di `lib/supabase/client.ts` fuori dal browser.
+
+#### 🟡 16. Il segreto degli endpoint interni ripiega sulla chiave service_role di Supabase
+
+- **Dove:** `lib/api/middleware.ts:241 — confrontare render.yaml (envVars) e .env.example:97-99`
+- **Cosa succede:** VERIFICATO: `withInternalAuth` fa `const expected = process.env.INTERNAL_API_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;` e confronta con l'header `x-internal-secret`. `INTERNAL_API_SECRET` non compare tra gli `envVars` di render.yaml (che elenca invece SUPABASE_SERVICE_ROLE_KEY, STRIPE_SECRET_KEY, CRON_SECRET) ed è vuoto in .env.example, quindi in produzione il ramo attivo è il fallback: la chiave master del database diventa il segreto atteso da `/api/stripe/payout`, l'endpoint che sblocca i bonifici. Severità abbassata da grave a minore per onestà: `grep` su tutto il repo mostra che NESSUN caller invia oggi quell'header (unici riferimenti: il commento in app/api/stripe/payout/route.ts:17 e il middleware stesso), quindi la chiave non viaggia ancora da nessuna parte — è un rischio latente di blast-radius, non una falla sfruttabile adesso.
+- **Impatto:** Appena qualcuno collega davvero il payout (n8n, cron esterno, edge function) dovrà incollare la SUPABASE_SERVICE_ROLE_KEY in un header HTTP applicativo: da lì basta un log, una traccia Sentry o una request salvata per regalare lettura e scrittura totale sul database bypassando ogni RLS — IBAN, documenti KYC, ordini, wallet. Inoltre il segreto non è ruotabile in modo indipendente: cambiarlo obbliga a ruotare la chiave del DB ovunque.
+- **Fix consigliato:** Generare un `INTERNAL_API_SECRET` dedicato (32+ byte casuali), aggiungerlo a render.yaml con `sync: false`, configurarlo su Render e nei caller, e poi RIMUOVERE il fallback: se la variabile manca l'endpoint deve rispondere 503, esattamente come già fa `withCronAuth` con `CRON_SECRET` (lib/api/middleware.ts:217).
+
+#### 🟡 17. Un blocco JSON-LD nel layout radice non applica l'escaping di </script> come fanno tutti gli altri
+
+- **Dove:** `app/layout.tsx:119`
+- **Cosa succede:** VERIFICATO: la riga è `dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}`, mentre gli altri cinque punti che generano JSON-LD applicano tutti `.replace(/</g,'\\u003c').replace(/>/g,'\\u003e')` — app/product/[id]/page.tsx:393, app/store/[id]/page.tsx:98, app/category/[slug]/page.tsx:257 e :298, components/ui/Breadcrumb.tsx:63. VERIFICATO anche che `orgSchema` (app/layout.tsx:76-86) è un oggetto letterale statico: nessun valore arriva dal database, quindi oggi non è sfruttabile. Il problema è che l'unico punto senza protezione è quello nel layout radice, cioè quello che verrà naturalmente esteso col branding dinamico di `site_settings` (già editabile da /api/admin/branding).
+- **Impatto:** Nessun impatto attuale. Diventa una XSS memorizzata su OGNI pagina del sito nel momento in cui in `orgSchema` entra un valore proveniente dal DB (nome del marketplace, descrizione, URL del logo): una stringa contenente `</script><script>` chiuderebbe il tag e farebbe eseguire codice arbitrario. La CSP con nonce mitiga, ma il tag iniettato è inline nel documento.
+- **Fix consigliato:** Allineare la riga 119 alle altre cinque con lo stesso `.replace(/</g,'\\u003c').replace(/>/g,'\\u003e')`. Meglio ancora: estrarre un helper condiviso `jsonLd(obj)` in `lib/` e usarlo in tutti e sei i punti, così la protezione non può più essere dimenticata.
+
+
+### rls-database (3)
+
+#### 🟡 18. Varianti di prodotto leggibili da chiunque, anche di prodotti nascosti o di venditori non approvati
+
+- **Dove:** `policy "product_variants_select" su public.product_variants (USING true) — creata in /home/user/mycity/migrations/080_product_variants.sql`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. pg_policies: product_variants_select, cmd=SELECT, roles={public}, qual=`true`, mentre la tabella products è correttamente filtrata ("Products visible to public if seller approved", status='available' + venditore approvato). anon ha il grant SELECT sulla tabella. Le varianti portano prezzo, SKU e stock e sono collegabili al prodotto via product_id. Oggi la tabella ha 0 righe: difetto strutturale, si attiva al primo prodotto con varianti.
+- **Impatto:** Prezzi, codici e giacenze di prodotti in bozza, sospesi o di venditori non ancora approvati diventano visibili prima della pubblicazione: un concorrente può anticipare i listini e leggere il magazzino reale.
+- **Fix consigliato:** Allineare la policy al padre: `USING (EXISTS (SELECT 1 FROM products p WHERE p.id = product_variants.product_id AND p.status='available' AND EXISTS (SELECT 1 FROM profiles pr WHERE pr.id = p.seller_id AND pr.is_approved)) OR EXISTS (SELECT 1 FROM products p WHERE p.id = product_variants.product_id AND p.seller_id = (select auth.uid())))`.
+
+#### 🟡 19. Impressioni e clic degli annunci sponsorizzati sono incrementabili da chiunque, senza login né limite
+
+- **Dove:** `funzioni public.track_sponsored_click(uuid) e public.track_sponsored_impression(uuid) — /home/user/mycity/migrations/088_sponsored_paid_and_tracking.sql:42`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. pg_get_functiondef: entrambe sono `UPDATE public.sponsored_listings SET clicks = clicks + 1 WHERE id = p_id AND status = 'active'`, LANGUAGE sql, SECURITY DEFINER. I grant di EXECUTE risultano {postgres, anon, authenticated, service_role}: sono quindi chiamabili da anon via `/rest/v1/rpc/track_sponsored_click`. Nessuna deduplicazione per sessione o IP, nessun rate limit applicativo, nessun log del chiamante. L'id della campagna è ottenibile pubblicamente grazie alla policy sponsored_listings_public_read. Severità corretta da grave a minore: ho verificato che spent_cents non è alimentato dai clic, quindi oggi non c'è movimento di denaro — il danno è sull'integrità delle metriche.
+- **Impatto:** Un concorrente o un bot può gonfiare clic e impressioni di una campagna con un ciclo di richieste: il venditore vede metriche false, decide il budget su numeri inventati e perde fiducia nel prodotto pubblicitario. Se la fatturazione passerà al costo-per-clic, diventa direttamente una frode monetaria.
+- **Fix consigliato:** Spostare il tracciamento su una route server (/api/ads/track) protetta dal rate limiter già presente in lib/api/middleware.ts, con deduplicazione per (listing, sessione, finestra temporale) e sorgente dell'evento registrata. Poi `REVOKE EXECUTE ... FROM anon, authenticated` sulle due funzioni, lasciando solo service_role.
+
+#### 🟡 20. Regressione di performance sulle policy: auth.uid() non incapsulato su wallet_ledger, follows e review_helpful
+
+- **Dove:** `policy wallet_ledger_owner_read, follows_select_own/insert_own/delete_own, review_helpful_select_own/insert_own/delete_own — contravvengono a /home/user/mycity/migrations/050_rls_initplan_optimization.sql e /home/user/mycity/migrations/051_collapse_double_wrapped_rls.sql`
+- **Cosa succede:** VERIFICATO IN PRODUZIONE. pg_policies mostra le sette policy nella forma non incapsulata `(auth.uid() = user_id)`, mentre nella stessa istanza convivono le forme corrette `(user_id = (SELECT auth.uid()))` introdotte dalle migrazioni 050/051 (visibili per esempio su group_participants, orders e zone_codes). Le policy regredite sono quelle create dopo: 087 (wallet), 100 (follows), 101 (review_helpful). Non è un rischio di sicurezza.
+- **Impatto:** Su tabelle destinate a crescere molto — il ledger del wallet cresce a ogni ordine e a ogni rimborso — la funzione viene rivalutata riga per riga invece che una sola volta come InitPlan: il costo cresce in modo lineare e la pagina del credito rallenta progressivamente. È debito che si paga con la crescita.
+- **Fix consigliato:** Nuova migrazione che riscrive le sette policy nella forma `(SELECT auth.uid())`. Aggiungere un guardiano al giro che fallisce se in pg_policies compare `auth.uid()` non preceduto da SELECT, così la regola non si perde di nuovo alla prossima migrazione.
+
+
+### pagamenti-stripe (6)
+
+#### 🟡 21. Idempotenza webhook non atomica: due consegne concorrenti dello stesso evento vengono processate entrambe
+
+- **Dove:** `/home/user/mycity/app/api/stripe/webhook/route.ts:61-76 e 142-145`
+- **Cosa succede:** VERIFICATO. Il pattern è: insert su `stripe_event_log`; se 23505 rileggi `processed` e, se è false, prosegui a riprocessare (riga 72). Fra la rilettura e la marcatura finale (righe 142-145) non c'è alcun lock né claim. Se Stripe consegna due volte lo stesso evento in parallelo (timeout del primo tentativo, o endpoint iscritto due volte), entrambe le esecuzioni leggono processed=false ed eseguono l'handler in contemporanea. Le protezioni a valle reggono per gli ordini (unique (stripe_session_id, seller_id)) e per i transfer (idempotency key `payout_seller_<id>`), ma NON per gli effetti collaterali.
+- **Impatto:** Email e notifiche duplicate al buyer e al venditore su eventi monetari (due «ordine confermato», due «rimborso emesso»), notifiche admin doppie. Erode la fiducia proprio nel momento più delicato; nessuna perdita di denaro diretta.
+- **Fix consigliato:** Rendere il claim atomico: `UPDATE stripe_event_log SET claimed_at = now() WHERE event_id = $1 AND processed = false AND (claimed_at IS NULL OR claimed_at < now() - interval '5 min') RETURNING event_id`, e procedere solo se la riga è stata effettivamente claimata. È lo stesso pattern del claim payout già usato in payout.ts:94-108.
+
+#### 🟡 22. stripe_charge_id è best-effort: se il retrieve fallisce i transfer partono senza source_transaction e nessuno lo ripara
+
+- **Dove:** `/home/user/mycity/app/api/stripe/webhook/route.ts:232-241, 278 + /home/user/mycity/lib/stripe/payout.ts:117 e 202`
+- **Cosa succede:** VERIFICATO. Il charge id si ricava con `paymentIntents.retrieve(..., {expand:['latest_charge']})` in un try/catch che su errore fa solo `logger.warn` (riga 239) lasciando `stripeChargeId = null`; l'ordine viene comunque creato (riga 278). Sia `releaseOrderPayout` sia `releaseRiderPayout` costruiscono il transfer con lo spread condizionale `...(order.stripe_charge_id ? {source_transaction} : {})`: senza charge il transfer attinge al saldo disponibile della piattaforma. Grep confermato: nessun job di backfill ripopola il campo.
+- **Impatto:** I transfer senza `source_transaction` falliscono quando il saldo disponibile della piattaforma è basso (i fondi della charge sono ancora pending) → retry e venditori pagati in ritardo. Si perde inoltre il legame charge↔transfer, che rende ricostruibile la riconciliazione SCT e serve a `findOrdersForDispute` come secondo canale di lookup (webhook:764-767).
+- **Fix consigliato:** Rendere il retrieve bloccante (throw → Stripe ritenta il webhook, come già si fa per il pending_checkout mancante alla riga 207), oppure aggiungere al cron un backfill: per gli ordini con `stripe_payment_intent` valorizzato e `stripe_charge_id` NULL, risolvere la charge da Stripe prima di tentare il payout.
+
+#### 🟡 23. La route manuale di payout non controlla chargeback né resi aperti
+
+- **Dove:** `/home/user/mycity/app/api/stripe/payout/route.ts:31 + /home/user/mycity/lib/stripe/payout.ts:60-90`
+- **Cosa succede:** VERIFICATO. Tutti i controlli anti-chargeback e anti-reso vivono nel cron (PAYOUT_DISPUTE_FILTER a release-payouts:22 e le query su `returns`/`disputes` alle righe 79-84), NON dentro `releaseOrderPayout`. La route `/api/stripe/payout` (autenticata con `x-internal-secret`) chiama la funzione direttamente su un `orderId` arbitrario: le sue uniche guardie sono DELIVERED, stato payout e importo > 0.
+- **Impatto:** Un trigger manuale o un'automazione server-to-server può versare il netto a un venditore su un ordine con chargeback aperto o reso in corso, esattamente il caso in cui i fondi vanno trattenuti: si paga due volte, al venditore e poi alla banca del cliente. La logica di sicurezza sui soldi vive nel chiamante invece che nella funzione che li muove.
+- **Fix consigliato:** Spostare i controlli dentro `releaseOrderPayout`: selezionare anche `dispute_status` e rifiutare se è 'OPEN' o 'LOST', più verifica dell'assenza di righe aperte in `returns`/`disputes` per quell'ordine. Il cron diventa un semplice orchestratore e non esiste più un percorso che aggiri le guardie.
+
+#### 🟡 24. Nessuna verifica di session.payment_status prima di creare ordini e gift card come pagati
+
+- **Dove:** `/home/user/mycity/app/api/stripe/webhook/route.ts:80-92, 273, 428-451 + /home/user/mycity/lib/stripe/client.ts:86-89, 170`
+- **Cosa succede:** VERIFICATO. `handleCheckoutCompleted` crea gli ordini con `payment_status: 'PAID'` (riga 273) e `handleGiftCardPurchase` emette il codice (riga 442-451) senza mai controllare `session.payment_status === 'paid'`. Oggi il rischio è contenuto perché tutte le sessioni usano `payment_method_types: ['card']` (client.ts:170), che è sincrono. Ma il commento in client.ts:86-89 pianifica esplicitamente l'aggiunta di SEPA/Klarna/PayPal: con un metodo differito `checkout.session.completed` arriva con `payment_status='unpaid'` e il pagamento può fallire ore dopo.
+- **Impatto:** Difetto latente, non attivo oggi. Nel momento in cui si abilita un metodo di pagamento differito, ogni sessione completata genererà ordini «PAGATI», stock decrementato, venditore notificato e — a consegna avvenuta — payout SCT su denaro mai incassato. È una mina già armata, che esplode con una modifica apparentemente innocua di una riga di configurazione.
+- **Fix consigliato:** Aggiungere subito la guardia `if (session.payment_status !== 'paid') return;` in tutti gli handler di checkout.session.completed, e gestire `checkout.session.async_payment_succeeded` / `async_payment_failed` come eventi di attivazione/annullamento.
+
+#### 🟡 25. Onboarding Connect: account creato su Stripe ma non persistito se accountLinks.create fallisce
+
+- **Dove:** `/home/user/mycity/lib/stripe/client.ts:206-233 + /home/user/mycity/app/api/stripe/connect/onboarding/route.ts:35-53`
+- **Cosa succede:** VERIFICATO. `createConnectOnboardingLink` crea prima l'account (client.ts:211-224) e poi l'account link (226-231); l'`accountId` viene restituito e salvato su `profiles` solo dopo il ritorno della funzione (onboarding/route.ts:47-52). Se `accountLinks.create` lancia, l'errore risale al catch della route che risponde 500 e l'account Connect appena creato resta orfano su Stripe. Al tentativo successivo `existingAccount` è ancora null e ne viene creato un altro.
+- **Impatto:** Proliferazione di account Connect Express fantasma sotto la piattaforma; il venditore che riprova ricomincia il KYC da zero e i documenti già caricati restano associati a un account abbandonato. Attrito nell'attivazione del primo negozio pagabile, che è il collo di bottiglia del business.
+- **Fix consigliato:** Persistere `stripe_account_id` sul profilo SUBITO dopo `accounts.create`, prima di generare l'account link (o restituire l'accountId anche in caso di errore sul link, per salvarlo nel catch della route).
+
+#### 🟡 26. Coupon Stripe usa-e-getta creati anche per sessioni mai pagate e mai cancellati
+
+- **Dove:** `/home/user/mycity/lib/stripe/client.ts:153-166 + /home/user/mycity/app/api/stripe/checkout/route.ts:395-405`
+- **Cosa succede:** VERIFICATO. Per ogni checkout scontato viene creato un oggetto Coupon Stripe con `max_redemptions: 1` PRIMA della sessione (client.ts:157-165). Se la creazione della sessione fallisce (catch in checkout/route.ts:395) o il buyer abbandona, il coupon resta sull'account Stripe senza essere mai riscattato: nessun percorso lo cancella (né il catch, né `handleCheckoutExpired`, né il cron expire-checkouts).
+- **Impatto:** Accumulo indefinito di oggetti Coupon sul dashboard Stripe: la lista promozioni diventa illeggibile e ogni verifica manuale delle promo attive (o un futuro audit contabile) parte da rumore. Nessuna perdita monetaria diretta.
+- **Fix consigliato:** Usare i discount inline con `coupon_data` dove supportato, oppure cancellare il coupon (`stripe.coupons.del`) nel catch di creazione sessione, in `handleCheckoutExpired` e nel cron expire-checkouts, risalendo dal `metadata.pending_checkout_id` già presente sul coupon (client.ts:163).
+
+
+### privacy-legale (2)
+
+#### 🟡 27. La vetrina pubblica espone il nome e cognome di ogni venditore a prescindere dal suo consenso
+
+- **Dove:** `/home/user/mycity/migrations/110_public_profile_view.sql:19-45`
+- **Cosa succede:** CONFERMATO interrogando la definizione della view in produzione: public.public_profiles seleziona full_name (oltre a public_handle, public_bio, store_*) FROM profiles WHERE public_profile_enabled = true OR role = 'seller', ed è concessa in SELECT ad anon e authenticated (migrazione 110, riga 43). Per chiunque abbia role='seller' il nome anagrafico della persona fisica diventa pubblico anche col toggle "profilo pubblico" spento, e anche se il venditore non è ancora approvato: is_approved non compare nel filtro, a differenza della view gemella seller_public_profiles della migrazione 112. Confermato anche che reloptions della view è NULL, quindi security_invoker non è impostato: la view gira coi diritti del proprietario e scavalca la RLS della tabella base (è il rilievo del linter Supabase).
+- **Impatto:** Il nome del negoziante (spesso una ditta individuale, quindi dato personale a tutti gli effetti) è pubblicato senza che lui l'abbia scelto, e anche mentre la sua candidatura è ancora in valutazione. Piccolo per volume, ma è il primo attrito che incontra un venditore attento alla propria privacy.
+- **Fix consigliato:** Togliere full_name dalla view pubblica (store_name è già l'identità commerciale) o subordinarlo a public_profile_enabled = true, e aggiungere il filtro is_approved = true sul ramo seller. Valutare WITH (security_invoker = true) come suggerito dal linter.
+
+#### 🟡 28. Cronologia di navigazione (product_views, recently_viewed) tracciata senza gate di consenso
+
+- **Dove:** `/home/user/mycity/components/ProductViewTracker.tsx:24-48`
+- **Cosa succede:** CONFERMATO leggendo il componente per intero: nessuna chiamata a hasConsent/readConsent. Scrive sessionStorage.setItem(`mc_viewed_${productId}`, '1') sul dispositivo e poi inserisce sempre una riga in product_views (anche per il visitatore non loggato, user_id null) più un upsert in recently_viewed per gli autenticati, costruendo un profilo di navigazione persistente lato server. Il gemello lato client trackProductViewed (PostHog/GA4) è invece correttamente gated. Confermato che né le chiavi sessionStorage mc_viewed_* né mc_addr_hint (components/LocationPill.tsx) né il carrello in localStorage compaiono nella tabella della cookie policy, che pure dichiara di coprire localStorage e sessionStorage.
+- **Impatto:** Archiviazione sul terminale e profilazione comportamentale senza il consenso richiesto dall'art. 122 Codice Privacy, con un'incoerenza interna che rende difendibile solo metà del sistema. È il classico rilievo che emerge da un audit cookie automatico fatto da un terzo.
+- **Fix consigliato:** Applicare lo stesso gate degli altri tracker: niente sessionStorage e niente insert in product_views senza consenso analytics (per l'utente loggato, recently_viewed può reggersi sull'interesse legittimo della funzione "Ultimi visti", ma va allora dichiarato come tale nell'informativa e reso disattivabile). Completare la tabella della cookie policy con tutte le chiavi di localStorage/sessionStorage realmente usate.
+
+
+### performance (7)
+
+#### 🟡 29. next/image usato con `unoptimized`: srcset e AVIF disattivati su tutto il catalogo
+
+- **Dove:** `components/ProductCard.tsx:138 · altri 23 file (app/product/[id]/page.tsx, components/home/*.tsx, components/SimilarProducts.tsx, components/cart/CartUpsell.tsx, …) · next.config.js:53-55 (formats avif/webp + minimumCacheTTL inerti) · lib/image-url.ts:60-84`
+- **Cosa succede:** VERIFICATO con una precisazione importante che ridimensiona il report originale. `unoptimized` è presente in 24 file, quindi Next non genera varianti responsive e le `formats: ['image/avif','image/webp']` + `minimumCacheTTL` di next.config.js (:53-55) non hanno effetto. MA la mitigazione `sizedImage()` (lib/image-url.ts) copre proprio gli host reali del catalogo — `images.pexels.com` e `*.supabase.co` — e per Supabase usa la Image Transformation API con `width`, `quality=75`, `resize=cover`, che serve già formati moderni in base all'Accept del browser. Il difetto residuo reale è: (a) larghezza FISSA (400px per le card) quindi nessun `srcset` → sgranatura su display retina e sovradimensionamento su schermi piccoli; (b) per gli host non riconosciuti (placehold.co e qualsiasi URL esterno reinserito a mano) l'immagine parte a piena risoluzione. SEVERITÀ CORRETTA da grave a minore: l'impatto «2-4× byte» del report non regge sugli host effettivamente usati.
+- **Impatto:** Immagini non adattate alla densità di pixel reale del dispositivo su una griglia di decine di foto: qualità peggiore su retina, byte sprecati su mobile piccolo, e nessuna protezione per gli URL fuori dai due host riconosciuti.
+- **Fix consigliato:** Sostituire `unoptimized` con un `loader` custom di next/image che inoltri il `width` calcolato da Next alla trasformazione Supabase: si ottiene un vero srcset mantenendo il CDN Supabase. In alternativa rimuovere `unoptimized` e lasciare l'optimizer di Next (i remotePatterns sono già configurati).
+
+#### 🟡 30. Indice mancante su products per l'ordinamento di default (status='available' ORDER BY created_at DESC) e per l'ordinamento per prezzo
+
+- **Dove:** `migrations/036_curated_lists_and_indices.sql:70-71 · migrations/020_security_hardening_and_indexes.sql:148 · query in components/ProductGrid.tsx:76-101 · app/sitemap.ts:69-76`
+- **Cosa succede:** VERIFICATO l'inventario completo degli indici su `products`: `(status) WHERE status='available'` e `(category_id, status) WHERE status='available'` (036:70-71), `(seller_id, status, created_at DESC)` (020:148), `seller_id` (049:35), più i GIN su `search_tsv`, `name` trigram e `tags`. Non esiste un indice che copra la query più eseguita del sito — `WHERE status='available' ORDER BY created_at DESC LIMIT 96` senza filtro venditore — né alcun indice su `price`. SEVERITÀ CORRETTA da grave a minore: è un difetto puramente latente, a volumi attuali Postgres non lo sente.
+- **Impatto:** Con 20-50k prodotti ogni caricamento di home/ricerca/categoria diventa un sort in memoria su migliaia di righe. Poiché queste query partono dal browser di ogni visitatore, la latenza si moltiplica per il traffico.
+- **Fix consigliato:** In una nuova migration: `CREATE INDEX CONCURRENTLY products_available_created_idx ON public.products (created_at DESC) WHERE status='available';`, `CREATE INDEX CONCURRENTLY products_available_price_idx ON public.products (price) WHERE status='available';`, `CREATE INDEX CONCURRENTLY products_cat_available_created_idx ON public.products (category_id, created_at DESC) WHERE status='available';`
+
+#### 🟡 31. Badge messaggi: scarica tutte le conversazioni dell'utente ogni 60 secondi per mostrare un numero
+
+- **Dove:** `components/hooks/useMessagesUnread.ts:29-50 (`conversations.select('buyer_id, seller_id, buyer_unread_count, seller_unread_count').or(...)` senza limit, refetchInterval 60_000) e :57-77 (Realtime già attivo)`
+- **Cosa succede:** VERIFICATO. Il conteggio dei non letti è calcolato sommando in JS i contatori di TUTTE le righe `conversations` dell'utente, ri-scaricate ogni minuto su ogni pagina. Il filtro `.or('buyer_id.eq…,seller_id.eq…')` non sfrutta bene i due indici separati. Nello stesso hook c'è già una subscription Realtime su `conversations` che invalida il dato (:64-71), quindi il polling a 60s è ridondante.
+- **Impatto:** Per un venditore con centinaia di conversazioni sono centinaia di righe scaricate ogni 60 secondi, su ogni pagina, solo per un pallino rosso. Batteria e dati mobili sprecati, carico DB costante.
+- **Fix consigliato:** Creare una RPC `unread_messages_count()` che ritorni un singolo intero, oppure un contatore denormalizzato su `profiles` aggiornato dal trigger che già mantiene `*_unread_count`. Rimuovere il refetchInterval: il Realtime già presente basta.
+
+#### 🟡 32. fetchActiveDiscounts: una RPC per prodotto del carrello ad ogni checkout
+
+- **Dove:** `lib/promotions.ts:17-24 (`unique.map(async id => client.rpc('product_active_discount', { p_product: id }))`) · chiamata da app/api/stripe/checkout/route.ts e app/api/orders/cod/route.ts · migrations/056_active_promo_products.sql:11 (funzione batch già esistente)`
+- **Cosa succede:** VERIFICATO. Per calcolare il prezzo scontato si esegue una RPC `product_active_discount` separata per ogni prodotto distinto del carrello (Promise.all, quindi in parallelo ma con N connessioni). Esiste già `active_promo_products` (migrations/056:11) che risolve lo stesso calcolo per molti prodotti in una sola query.
+- **Impatto:** Con un carrello da 15 articoli sono 15 chiamate PostgREST aggiuntive dentro la creazione dell'ordine, che consumano connessioni del pool proprio nel momento di picco (checkout).
+- **Fix consigliato:** Aggiungere una variante `product_active_discounts(p_products uuid[])` che ritorni `(product_id, discount_percent)` in una sola chiamata, e riscrivere `fetchActiveDiscounts` per usarla.
+
+#### 🟡 33. Sitemap: filtro `.in('seller_id', …)` con fino a 2.000 UUID nell'URL della GET
+
+- **Dove:** `app/sitemap.ts:55-76 (`seller_public_profiles.select('id, created_at').limit(2000)` poi `.in('seller_id', approvedSellerIds)` sui prodotti) e :80 (fallback silenzioso `products.data ?? []`)`
+- **Cosa succede:** VERIFICATO. La lista di id venditore viene serializzata nella query string della richiesta PostgREST. A ~37 caratteri per UUID, 2.000 venditori producono un URL da decine di KB, oltre i limiti tipici di header/URI dei proxy (8-16 KB), che rispondono 414/400. L'errore non è gestito: `(products.data ?? [])` alla riga 80 restituisce semplicemente un array vuoto.
+- **Impatto:** Oltre alcune centinaia di vetrine approvate la sitemap smette silenziosamente di elencare i prodotti e Google perde l'intero catalogo. Danno SEO invisibile finché non se ne accorge nessuno.
+- **Fix consigliato:** Sostituire con una singola query che filtri i venditori approvati lato DB (join/vista o RPC `sitemap_products(limit)`), evitando di trasportare gli id nell'URL. Aggiungere il controllo dell'errore invece del fallback silenzioso.
+
+#### 🟡 34. Countdown con setInterval a 1 secondo che forza un re-render continuo
+
+- **Dove:** `components/ui/DeliveryCutoff.tsx:16-20 (`setInterval(() => setNow(Date.now()), 1000)`) · components/home/DropOfDay.tsx:33-37 (stesso pattern) · montati in HomeSectionRenderer e app/product/[id]/page.tsx`
+- **Cosa succede:** VERIFICATO. Entrambi i componenti aggiornano lo stato ogni secondo per il conto alla rovescia, senza alcun controllo di visibilità della scheda o del viewport. `DeliveryCutoff` è montato sulla home e sulla pagina prodotto, quindi c'è quasi sempre almeno un timer attivo che provoca un render React al secondo anche a scheda in background.
+- **Impatto:** Consumo costante di CPU e batteria su mobile e rumore nel profilo INP: ogni tick compete con le interazioni dell'utente. Su dispositivi entry-level la pagina prodotto risulta meno reattiva.
+- **Fix consigliato:** Mettere in pausa il timer quando `document.visibilityState !== 'visible'` e quando il componente è fuori dal viewport (IntersectionObserver); aggiornare solo il nodo testuale del countdown (ref + textContent) invece di re-renderizzare il componente.
+
+#### 🟡 35. Over-fetch con select('*') su tabelle larghe, incluse le pagine ad alto traffico
+
+- **Dove:** `app/product/[id]/page.tsx:87-89 (`products.select('*')` + 2 join) · app/seller/profile/page.tsx:28 · app/profile/page.tsx:37 · app/checkout/page.tsx:240 · app/sell/page.tsx:20 · components/seller/site/SiteEditor.tsx:51 · lib/loyalty.ts:52 · lib/coupons.ts:47 (40 occorrenze totali)`
+- **Cosa succede:** VERIFICATO: 40 occorrenze di `select('*')` in app/, lib/ e components/. Su `products` restituisce anche colonne pesanti e inutili al render (attributi jsonb, campi di import esterno, testi SEO, timestamp di sync); su `profiles` restituisce l'intero profilo, inclusi campi anagrafici e legali (`legal_fiscal_code`, `business_vat_number`, dati KYC), anche quando ne servono due. In SiteEditor.tsx:43 la scelta è almeno documentata con un commento.
+- **Impatto:** Payload più grande del necessario sulla pagina prodotto (la più visitata dopo la home) e superficie dati inutilmente ampia esposta al client. Rende il codice fragile a ogni nuova colonna aggiunta al DB.
+- **Fix consigliato:** Elencare esplicitamente le colonne necessarie in ciascuna query, a partire da app/product/[id]/page.tsx e dalle pagine profilo/checkout. Dove il select('*') serve per resilienza alle migrazioni, documentare l'elenco minimo e usare un fallback esplicito.
+
+
+### frontend-ux (10)
+
+#### 🟡 36. Carrello e checkout usano due modelli diversi di soglia «spedizione gratis»
+
+- **Dove:** `/home/user/mycity/app/cart/page.tsx:43-45,197-216 · /home/user/mycity/app/checkout/page.tsx:44,333-343`
+- **Cosa succede:** CONFERMATO nella sostanza, ridimensionato nella forma. Il carrello applica `FREE_SHIPPING_THRESHOLD` al totale GLOBALE (`total >= 30`), il checkout lo applica per singolo negozio (`shippingFor(g)` su `groupSubtotal(g)`) e, con le coordinate note, usa `riderFee(km)`. Non è vero che l'asterisco è del tutto orfano: nel caso multi-negozio la pagina mostra «Spedizione stimata» e la nota «stima · potrebbe variare al checkout» (righe 200-208). Resta però che il simbolo «*» non ha una legenda e che il modello di calcolo diverge tra le due pagine.
+- **Impatto:** Con €20 dal negozio A e €15 dal negozio B il carrello scrive «Gratis*» e al checkout arrivano due spedizioni: il totale cambia in modo non spiegato dal semplice avviso di stima.
+- **Fix consigliato:** Usare la stessa funzione di calcolo per-negozio in entrambe le pagine, oppure sostituire l'asterisco con la nota esplicita «la spedizione è gratis per ogni negozio che supera €30».
+
+#### 🟡 37. Preferiti: errori del database ingoiati e nessun aggiornamento ottimistico
+
+- **Dove:** `/home/user/mycity/components/hooks/useFavorites.ts:25-37`
+- **Cosa succede:** CONFERMATO. `await supabase.from('favorites').insert(...)` e `.delete(...)` non controllano il campo `error` restituito (supabase-js non lancia): la mutation risulta sempre riuscita e `onSuccess` invalida comunque. `trackFavoriteAdded(productId)` è chiamato subito dopo l'insert, anche se fallito. Non c'è `onMutate` ottimistico: il cuore cambia solo dopo il refetch.
+- **Impatto:** Se l'insert fallisce (RLS, duplicato, rete) il cuore si accende e poi torna spento senza messaggio: sembra un bug. In condizioni normali resta un ritardo percepibile tra clic e cambio di stato, e l'analytics conta preferiti mai salvati.
+- **Fix consigliato:** `if (error) throw error` su entrambe le operazioni, spostare `trackFavoriteAdded` dopo l'esito positivo, aggiungere `onMutate`/`onError` con rollback.
+
+#### 🟡 38. La Navbar esegue tutte le sue query anche dove poi restituisce null (/seller, /admin, /rider)
+
+- **Dove:** `/home/user/mycity/components/Navbar.tsx:40-48,64`
+- **Cosa succede:** CONFERMATO. `useProfile`, `useShoppingMode`, `useCartCount`, `useNotificationsCount`, `useMessagesUnread`, `useFavorites`, `useBranding` sono invocati alle righe 40-48, prima dell'early-return di riga 64 che restituisce `null` su /sign-in, /sign-up, /admin, /seller e /rider.
+- **Impatto:** Ogni pagina del pannello venditore, rider e admin paga query e sottoscrizioni (notifiche, messaggi non letti, preferiti) per una barra che non verrà mai disegnata: latenza e carico Supabase inutili sulle aree usate tutto il giorno dai negozianti.
+- **Fix consigliato:** Spostare la logica in un `<NavbarInner />` montato solo quando la rotta è pubblica, così gli hook non girano sulle aree pro.
+
+#### 🟡 39. La tab «Assistenza» della bottom bar non esiste: SupportChatModal è irraggiungibile
+
+- **Dove:** `/home/user/mycity/components/MobileTabBar.tsx:17,40,166,181,229`
+- **Cosa succede:** CONFERMATO per la parte principale, con una correzione. Il tipo `Tab` prevede `isSupport`, il componente gestisce `supportOpen`, ha i due rami di render (righe 166 e 181) e monta `<SupportChatModal open={supportOpen} … role="buyer">` (riga 229), ma nessuno degli array `tabs` definisce mai una voce con `isSupport: true`. NON è invece confermata la seconda parte del rilievo: il bottone flottante «Tu» (righe 202-215) è renderizzato per `isSeller || isAdmin` e l'early-return di riga 48-57 esclude /seller e /rider ma NON /admin, quindi il bottone compare davvero (per admin e per i seller in shopping mode sulle pagine pubbliche).
+- **Impatto:** Feature morta: da mobile il buyer non ha accesso alla chat di assistenza dalla tab bar, mentre codice e commenti la danno per esistente. Codice zombie che confonde chi manutiene.
+- **Fix consigliato:** O aggiungere davvero la tab Assistenza all'array del buyer, o rimuovere `isSupport`, `supportOpen` e il modale irraggiungibile.
+
+#### 🟡 40. Il service worker mette in cache l'HTML di pagine autenticate e non gestisce le risposte redirette
+
+- **Dove:** `/home/user/mycity/public/sw.js:73-88,95-100`
+- **Cosa succede:** CONFERMATO. `networkFirstHtml` salva in `HTML_CACHE` ogni navigazione con `res.ok && req.url.startsWith(self.location.origin)` — incluse /orders, /profile, /messages — senza esclusioni per rotte private né svuotamento al logout. Inoltre `cache.put(req, res.clone())` non è né atteso né in try/catch: su una risposta con `redirected === true` (il middleware redirige verso /sign-in) la Cache API rifiuta con TypeError e genera una promise rejection non gestita.
+- **Impatto:** Su device condiviso o offline l'HTML di pagine dell'utente precedente può essere riservito; ogni redirect di autenticazione produce un errore non catturato nel SW.
+- **Fix consigliato:** Escludere dal caching HTML i path privati (/orders, /profile, /seller, /admin, /rider, /messages), saltare `res.redirected`, avvolgere `cache.put` in try/catch e cancellare `HTML_CACHE` al logout via `postMessage`.
+
+#### 🟡 41. Riga di stato del prodotto derivata da `product.profiles` senza il guard array usato poche righe dopo
+
+- **Dove:** `/home/user/mycity/app/product/[id]/page.tsx:238,305,811`
+- **Cosa succede:** CONFERMATO. Alla riga 238 il gate «negozio non operativo» legge `product.profiles?.is_approved` direttamente; alla riga 305 lo stesso oggetto viene normalizzato con `const sellerProfile = Array.isArray(product.profiles) ? product.profiles[0] : product.profiles`; alla riga 811 si torna alla forma non normalizzata (`product.profiles?.store_name`).
+- **Impatto:** Se PostgREST restituisce l'embed come array (cambio di FK, alias, join reso to-many), `is_approved` diventa `undefined` e OGNI scheda prodotto mostra «Prodotto non disponibile». Fragilità silenziosa su una pagina critica, con un fallback che nasconde tutto il catalogo.
+- **Fix consigliato:** Normalizzare una volta sola in cima e usare sempre quella variabile, anche nel gate di approvazione e nel «Venduto e consegnato da».
+
+#### 🟡 42. Immagine con src="" quando il prodotto ha una stringa immagine vuota
+
+- **Dove:** `/home/user/mycity/app/cart/page.tsx:122 · /home/user/mycity/lib/image-url.ts:58-59`
+- **Cosa succede:** CONFERMATO. `sizedImage(item.image ?? 'https://placehold.co/200x200/…', 'thumb')`: `??` intercetta solo `null`/`undefined`, non la stringa vuota. Con `item.image === ''` la funzione riceve `''` e `sizedImage` fa `if (!src) return ''`, quindi `<Image src="">`.
+- **Impatto:** next/image con `src` vuoto solleva un errore in sviluppo e lascia un riquadro rotto nella riga del carrello in produzione. Basta un prodotto salvato con `images: ['']`.
+- **Fix consigliato:** Usare `||` invece di `??` qui e ovunque si costruisca l'URL immagine, e far restituire a `sizedImage` il placeholder invece della stringa vuota.
+
+#### 🟡 43. Conteggio articoli incoerente tra carrello e checkout
+
+- **Dove:** `/home/user/mycity/app/checkout/page.tsx:787 · /home/user/mycity/app/cart/page.tsx:42,194`
+- **Cosa succede:** CONFERMATO. Il carrello mostra `{count} articoli` con `count = cartCount(items)` (somma delle quantità); il riepilogo del checkout mostra `{cart.length} articoli` (numero di righe). Tre pezzi dello stesso prodotto: «3 articoli» in carrello, «1 articolo» al checkout.
+- **Impatto:** Passando dal carrello al checkout il numero di articoli cala senza motivo apparente, proprio mentre l'utente verifica l'ordine.
+- **Fix consigliato:** Usare `cartCount(cart)` anche nel riepilogo del checkout.
+
+#### 🟡 44. Errore di geolocalizzazione mostrato all'utente in inglese e in gergo tecnico
+
+- **Dove:** `/home/user/mycity/app/near/page.tsx:76`
+- **Cosa succede:** CONFERMATO. `(err) => setPermError('Impossibile ottenere la posizione: ' + err.message)` concatena il messaggio nativo del browser, non localizzato (es. «User denied Geolocation», «Timeout expired»); `err.code` non viene mai usato.
+- **Impatto:** Su una pagina pensata per l'utente locale compare un messaggio in inglese che non spiega cosa fare: l'utente non capisce che deve concedere il permesso dalle impostazioni del browser.
+- **Fix consigliato:** Mappare `err.code` (PERMISSION_DENIED / POSITION_UNAVAILABLE / TIMEOUT) su messaggi italiani con l'azione da compiere e offrire il fallback «inserisci il tuo indirizzo».
+
+#### 🟡 45. Spazio morto in fondo alle pagine dove la bottom tab bar è nascosta
+
+- **Dove:** `/home/user/mycity/app/globals.css:196-199 · /home/user/mycity/components/MobileTabBar.tsx:48-57`
+- **Cosa succede:** CONFERMATO. La regola globale `@media (max-width: 767px) { body { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0)); } }` è incondizionata, mentre MobileTabBar restituisce `null` su /sign-in, /sign-up, /reset-password, /auth/*, /checkout, /seller, /rider e dentro i thread chat.
+- **Impatto:** Su tutte quelle pagine — checkout compreso — resta una banda vuota di 72px in fondo su mobile, che al checkout convive con la barra di conferma sticky sprecando spazio nel punto di conversione.
+- **Fix consigliato:** Sostituire la regola globale con una classe applicata dal layout solo quando la tab bar è montata (o una variabile CSS impostata dal componente stesso).
+
+
+### accessibilita (15)
+
+#### 🟡 46. Modal.tsx: disattivando `closeOnEsc` si spegne anche il focus trap, e `titleId` può duplicarsi
+
+- **Dove:** `components/ui/Modal.tsx:72-98 e 101`
+- **Cosa succede:** VERIFICATO, con ridimensionamento della gravità. L'effetto parte con `if (!open || !closeOnEsc) return;` (riga 74) ma lo stesso handler contiene sia la chiusura con Escape sia il ciclo del Tab (righe 79-92): chi passa `closeOnEsc={false}` (prop pubblica, riga 29, default `true` alla 48) ottiene un modale SENZA confinamento del focus. **Nessun call site nel repo passa oggi `closeOnEsc={false}`**: è una trappola latente, non un difetto attivo — per questo la severità scende da «grave» a «minore». Resta invece attivo il problema di `titleId` (riga 101): `modal-title-${title.toLowerCase().replace(/\s+/g,'-').slice(0,20)}` — due modali con titoli simili nei primi 20 caratteri generano lo stesso `id` e rompono `aria-labelledby`.
+- **Impatto:** La prima volta che qualcuno userà `closeOnEsc={false}` (tipico per i dialoghi «devi decidere») il modale diventerà inaccessibile da tastiera senza che nessuno se ne accorga. Gli id duplicati rompono già oggi il nome accessibile quando due modali coesistono.
+- **Fix consigliato:** Separare in due `useEffect`: uno per Escape (condizionato a `closeOnEsc`), uno per il Tab-trap (condizionato solo a `open`). Sostituire `titleId` con `useId()` di React.
+
+#### 🟡 47. `<main>` annidato: quattro pagine/shell aprono un secondo landmark main dentro quello del layout
+
+- **Dove:** `app/layout.tsx:126 + app/category/[slug]/page.tsx:404 · app/search/page.tsx:408 · components/seller/SellerShell.tsx:401 · components/rider/RiderShell.tsx:59`
+- **Cosa succede:** VERIFICATO per grep: il root layout avvolge tutto in `<main id="main-content" className="min-h-screen">` (app/layout.tsx:126); le pagine categoria (404) e ricerca (408) aprono `<main className="md:col-span-3">` al loro interno, e SellerShell (401) e RiderShell (59) fanno lo stesso dentro l'albero del layout. HTML e ARIA ammettono un solo `main` per documento e ne vietano l'annidamento. Severità corretta da «grave» a «minore»: nessun contenuto diventa irraggiungibile, l'effetto è disorientamento nella navigazione per landmark.
+- **Impatto:** La navigazione per landmark degli screen reader elenca due «principale» sulle pagine più usate (categoria, ricerca, tutta l'area venditore e rider). Lo skip-link `#main-content` porta al contenitore esterno, non al contenuto reale della pagina.
+- **Fix consigliato:** Trasformare i `main` interni in `<div>` o `<section aria-label="Risultati">`, lasciando l'unico `main` nel layout.
+
+#### 🟡 48. Il ticker promozionale nasconde ad ARIA un contenitore che contiene un link focalizzabile
+
+- **Dove:** `components/PromoTicker.tsx:45-68 (uso alle righe 74-75) · app/globals.css:243-250`
+- **Cosa succede:** VERIFICATO. La `Track` è renderizzata due volte per il loop del marquee (righe 74-75) e la seconda copia riceve `aria-hidden={ariaHidden || undefined}` (riga 47). Quando `showPromo` è vero, dentro la copia nascosta c'è `<Link href="/promozioni">` (righe 60-67), perfettamente focalizzabile: è la violazione `aria-hidden-focus` (WCAG 4.1.2). Confermato anche che la pausa del marquee esiste solo su `:hover`/`:focus-within`/`:active` (globals.css:246-250), quindi non copre touch e screen reader (WCAG 2.2.2). Severità corretta da «grave» a «minore»: il link è un duplicato — la prima copia, annunciata correttamente, resta raggiungibile — e gli annunci non sono contenuto essenziale.
+- **Impatto:** La barra è in cima a ogni pagina pubblica: l'utente da tastiera incontra un tab-stop silenzioso su un elemento in movimento, e chi non usa mouse non può fermare il testo che scorre per leggerlo.
+- **Fix consigliato:** Passare `inert` (o `tabIndex={-1}` su ogni elemento focalizzabile) alla copia duplicata, oppure renderizzare la seconda track senza il blocco `showPromo`. Aggiungere un controllo esplicito di pausa del marquee, non solo su hover.
+
+#### 🟡 49. Il toggle «mostra password» è escluso dalla navigazione da tastiera
+
+- **Dove:** `components/ui/Field.tsx:132-152 (tabIndex a riga 144)`
+- **Cosa succede:** VERIFICATO. `PasswordInput` renderizza il bottone occhio con `type="button"`, `aria-label`, `aria-pressed` … e `tabIndex={-1}` (riga 144). La funzionalità è quindi disponibile solo col mouse: WCAG 2.1.1 (Tastiera) richiede che ogni funzione sia azionabile da tastiera. Usato in app/sign-in/page.tsx:149, app/sign-up/page.tsx:164 e app/reset-password/page.tsx:238/248. Severità corretta da «grave» a «minore»: il campo password resta pienamente compilabile, si perde solo la verifica visiva del testo digitato.
+- **Impatto:** Chi non usa il mouse non può rileggere la password digitata → più errori di login e più reset su registrazione e recupero password.
+- **Fix consigliato:** Rimuovere `tabIndex={-1}` alla riga 144. Il bottone è già `type="button"` con `aria-label`/`aria-pressed`, quindi non invia il form ed è già annunciato correttamente.
+
+#### 🟡 50. Il banner cookie è un `role="dialog"` in fondo al DOM che non riceve mai il focus
+
+- **Dove:** `components/CookieBanner.tsx:44-64 (montato in app/layout.tsx:139)`
+- **Cosa succede:** VERIFICATO. Ha `role="dialog"`, `aria-labelledby="cookie-banner-title"`, `aria-describedby="cookie-banner-desc"` (righe 59-62) ma nessun `aria-modal`, nessuno spostamento del focus al montaggio, nessun trap. È renderizzato in fondo al `<body>` (app/layout.tsx:139, dopo `main`, `Footer`, `MobileTabBar`). Escape esegue `rejectAll(); setShow(false)` (righe 45-52) senza che l'utente lo sappia. Severità corretta da «grave» a «minore»: senza `aria-modal` non c'è un obbligo formale di trap, il banner è raggiungibile con Tab e la scorciatoia Escape rifiuta (esito conservativo, non pericoloso lato GDPR).
+- **Impatto:** Un utente da tastiera o screen reader deve attraversare l'intera pagina prima di scoprire il banner consenso, e nel frattempo interagisce con contenuti su cui non ha ancora espresso una scelta.
+- **Fix consigliato:** Spostare il focus sul titolo del banner (`tabIndex={-1}` + `.focus()`) al montaggio, valutare `aria-modal="true"` con focus trap e renderizzarlo prima del contenuto nel DOM. Annunciare nel testo che Esc equivale a rifiutare.
+
+#### 🟡 51. Il menu account promette `aria-haspopup="menu"` ma apre un contenitore senza ruoli di menu, senza Escape e senza ritorno del focus
+
+- **Dove:** `components/Navbar.tsx:269-276 (chiusura), 283-289 (trigger), 312+ (popup)`
+- **Cosa succede:** VERIFICATO. Il trigger dichiara `aria-label="Menu account"`, `aria-haspopup="menu"` e `aria-expanded={open}` (righe 286-288); il popup è un semplice `<div>` con dei `<Link>`, senza `role="menu"`/`role="menuitem"`. La chiusura avviene solo su `mousedown` esterno (righe 269-276): nessun listener `Escape`, nessun ritorno del focus sul trigger. Inoltre `aria-label="Menu account"` sostituisce il testo visibile «Ciao» / «{displayName}» (righe 304-309): violazione di WCAG 2.5.3 (Etichetta nel nome). Severità corretta da «grave» a «minore»: le voci del menu restano raggiungibili e attivabili con Tab/Invio, quindi nessun compito è impedito.
+- **Impatto:** Presente su tutte le pagine per gli utenti loggati. Chi usa la tastiera non può chiudere il menu con Esc, chi usa il comando vocale non può dire il nome visibile per attivarlo, e lo screen reader annuncia un menu che non trova.
+- **Fix consigliato:** Togliere `aria-haspopup="menu"` (basta `aria-haspopup="true"` per una lista di link) oppure aggiungere `role="menu"`/`role="menuitem"` con navigazione a frecce. Aggiungere un handler `Escape` che chiude e riporta il focus sul trigger. Cambiare l'`aria-label` perché contenga il testo visibile (es. `aria-label={`Menu account di ${displayName}`}`).
+
+#### 🟡 52. Il layer di accessibilità condiviso `_a11y.css` non è mai caricato dall'app Next
+
+- **Dove:** `design-system/ui_kits/_a11y.css (referenziato solo da design-system/ui_kits/{buyer,seller,admin,rider}/index.html)`
+- **Cosa succede:** VERIFICATO con grep su tutto il repo: gli unici riferimenti a `_a11y` sono i quattro `index.html` dei prototipi statici (buyer:133, seller:97, admin:83, rider:20). Né `app/globals.css` (che inizia con le sole direttive `@tailwind`) né `app/layout.tsx` lo importano. Il file dichiara nel proprio commento «Linked LAST … so it is authoritative» e contiene focus visibile forzato con `!important`, area di tocco minima 44×44, supporto `forced-colors` e `.sr-only`. Severità corretta da «grave» a «minore»: non è di per sé una violazione, è la causa a monte di altri difetti già elencati separatamente.
+- **Impatto:** Le protezioni che il team crede attive in produzione (target 44px, alto contrasto Windows, focus non sopprimibile) esistono solo nei mockup: si ripara un file che nessun utente carica.
+- **Fix consigliato:** O importare le regole pertinenti in `app/globals.css` (adattando i selettori a Tailwind), o cancellare il file dai kit e riportare esplicitamente in `globals.css` le tre regole che servono davvero: focus non sopprimibile, min-target 24/44px, blocco `forced-colors`.
+
+#### 🟡 53. I bordi degli input (cream-300 su bianco) hanno 1,32:1 di contrasto
+
+- **Dove:** `tailwind.config.ts:83 (`cream.300: '#EEDFBA'`) · components/ui/Field.tsx:31 (`CONTROL_OK = 'border-cream-300 …'`)`
+- **Cosa succede:** VERIFICATO e ricalcolato: `cream-300` = `#EEDFBA`; su bianco dà **1,32:1**, su `cream-50` (#FEFCF8) **1,29:1**. `CONTROL_BASE` in Field.tsx:30 imposta `bg-white` e `CONTROL_OK` (riga 31) imposta `border-cream-300`, quindi il bordo è l'unica cosa che identifica il campo. WCAG 1.4.11 (Contrasto non testuale) richiede ≥3:1 per il contorno dei componenti dell'interfaccia.
+- **Impatto:** Gli utenti ipovedenti non distinguono dove inizia e finisce un campo in login, checkout e nei form venditore: aumentano gli errori di compilazione e gli abbandoni.
+- **Fix consigliato:** Nessuno dei token cream arriva a 3:1 (cream-500 #D9B36F = 1,98:1 verificato). Serve un token dedicato: `ink-400` (#78716C) dà **4,80:1** su bianco. Definire `--border-input` ≥3:1 e usarlo in `Field.tsx:31`.
+
+#### 🟡 54. Il carrello non annuncia la quantità aggiornata e i pulsanti non dicono a quale prodotto si riferiscono
+
+- **Dove:** `app/cart/page.tsx:145-167`
+- **Cosa succede:** VERIFICATO. I bottoni hanno `aria-label="Diminuisci quantità"` (riga 150) e `aria-label="Aumenta quantità"` (riga 157), identici per ogni riga del carrello, e il valore è in `<span className="w-8 text-center font-semibold">{item.quantity}</span>` (riga 154) — nessun `aria-live`, nessuna associazione con i bottoni. Anche «Rimuovi» (righe 161-167) non nomina il prodotto.
+- **Impatto:** Con più articoli nel carrello uno screen reader legge sempre le stesse tre etichette e non conferma mai il nuovo valore dopo il click: l'utente non sa quante unità sta comprando né cosa sta eliminando. Ordini sbagliati e resi.
+- **Fix consigliato:** Includere il nome nell'etichetta (`aria-label={`Aumenta la quantità di ${item.name}`}`, `aria-label={`Rimuovi ${item.name} dal carrello`}`) e mettere la quantità in un `<span role="status" aria-live="polite">`.
+
+#### 🟡 55. I badge di notifiche/messaggi/carrello nella navbar sono muti per gli screen reader
+
+- **Dove:** `components/Navbar.tsx:183-196 (IconButton) e 180-187 (carrello mobile)`
+- **Cosa succede:** VERIFICATO. `IconButton` mette `aria-label={label}` sul `<Link>` che contiene anche lo `<span>` con il conteggio (righe 190-194). Un `aria-label` sull'elemento sostituisce completamente il contenuto testuale dei discendenti: il numero non viene mai annunciato. Stesso schema per il carrello mobile (`aria-label="Carrello"`, riga 180, col badge alla riga 183).
+- **Impatto:** L'utente non vedente non sa di avere notifiche non lette, messaggi dal negozio o articoli nel carrello: perde ordini in corso e conversazioni con i venditori.
+- **Fix consigliato:** Costruire l'etichetta dinamicamente: `aria-label={badge ? `${label}, ${badge} non letti` : label}` e mettere `aria-hidden` sullo `<span>` del badge.
+
+#### 🟡 56. Ordine dei titoli non gerarchico sulla scheda prodotto
+
+- **Dove:** `app/product/[id]/page.tsx:556 (h1), 693 e 708 (h3), 831 (h2)`
+- **Cosa succede:** VERIFICATO per grep dei tag heading: `<h1>` col nome del prodotto (riga 556) → `<h3>` «Descrizione» (693) → `<h3>` caratteristiche (708) → `<h2>` recensioni (831) → `<h3>` «Lascia la tua recensione» (873). Il salto h1→h3 e il ritorno a h2 rompono la struttura del documento (WCAG 1.3.1, regola axe `heading-order`).
+- **Impatto:** La navigazione per intestazioni — il modo principale in cui uno screen reader scansiona una pagina lunga come la scheda prodotto — restituisce un sommario incoerente.
+- **Fix consigliato:** Portare le righe 693 e 708 a `<h2>` mantenendo le stesse classi tipografiche (`text-sm uppercase`), così l'aspetto non cambia e la gerarchia diventa h1 → h2 → h2 → h2 → h3.
+
+#### 🟡 57. Landmark di navigazione multipli senza etichetta distintiva
+
+- **Dove:** `components/Navbar.tsx:106 · components/admin/AdminSidebar.tsx:107 · components/seller/SellerShell.tsx:256 · app/profile/settings/page.tsx:290`
+- **Cosa succede:** VERIFICATO per grep: quattro `<nav>` senza `aria-label`, mentre altri nella stessa app ce l'hanno (components/MobileTabBar.tsx:156, components/ui/Breadcrumb.tsx:38 «Breadcrumb»). In app/profile/settings/page.tsx:290 il `<nav>` contiene per giunta dei bottoni-tab, non dei link.
+- **Impatto:** L'elenco dei landmark dello screen reader mostra più voci «navigazione» indistinguibili: l'utente deve entrare in ognuna per capire quale è quella giusta.
+- **Fix consigliato:** Aggiungere `aria-label` a ciascuno («Account e azioni», «Menu amministrazione», «Menu venditore»). In `settings` sostituire `<nav>` con un `role="tablist"` corretto, dato che contiene bottoni e non link.
+
+#### 🟡 58. Comandi di riordino con area di tocco di ~18-20 px
+
+- **Dove:** `components/admin/home/HomeSectionsEditor.tsx:104,107 · components/seller/site/PageSectionsEditor.tsx:169,172 · components/seller/site/MenuEditor.tsx:55,56 · components/seller/site/PageListEditor.tsx:59,62`
+- **Cosa succede:** VERIFICATO riga per riga: bottoni «Sposta su/giù» con `className="p-0.5 …"` (padding 2px) attorno a icone `size={14}` (MenuEditor), `size={15}` (PageSectionsEditor) e `size={16}` (HomeSectionsEditor, PageListEditor) → aree effettive di 18-20 px. WCAG 2.2 SC 2.5.8 (AA) richiede almeno 24×24 CSS px. Il rimedio previsto (pseudo-elemento 44px in `design-system/ui_kits/_a11y.css`) non è caricato dall'app.
+- **Impatto:** Il venditore che riorganizza le sezioni della propria vetrina da telefono sbaglia bersaglio: sposta la sezione sbagliata o non riesce a premere. Attrito nella configurazione del negozio, cioè nel time-to-first-sale.
+- **Fix consigliato:** Portare il padding a `p-2` o aggiungere `min-h-[24px] min-w-[24px] inline-flex items-center justify-center`, compensando con `-m-1` se il layout si allarga.
+
+#### 🟡 59. Lo skip link punta a un `<main>` non focalizzabile
+
+- **Dove:** `app/layout.tsx:108-113 (link) e 126 (target)`
+- **Cosa succede:** VERIFICATO. Il link «Vai al contenuto principale» (righe 108-113) punta a `#main-content`, ma `<main id="main-content" className="min-h-screen">` (riga 126) non ha `tabIndex={-1}`. Diversi browser (Safari in particolare) spostano il solo scroll senza spostare il focus: il Tab successivo riparte dalla navbar. Il problema si somma al `<main>` annidato, che rende il target il contenitore esterno anziché il contenuto della pagina.
+- **Impatto:** Lo skip link — citato come funzionalità accessibile nella dichiarazione pubblica (app/accessibility/page.tsx:73) — non svolge il suo lavoro proprio per gli utenti da tastiera che dovrebbe servire.
+- **Fix consigliato:** Aggiungere `tabIndex={-1}` (con `focus:outline-none` per non mostrare un ring sull'intera pagina) al `<main id="main-content">`.
+
+#### 🟡 60. Nessuna intestazione di riga/colonna esplicita nelle tabelle dati di admin e venditore
+
+- **Dove:** `app/admin/payouts/page.tsx:204-213 · app/seller/earnings/page.tsx · più app/admin/{users,orders,funnel,events,today,products,sponsored,coupons} e app/seller/{customers,products}`
+- **Cosa succede:** VERIFICATO per grep: su **16 file** che contengono `<table>`, le occorrenze di `scope=` e di `<caption` nell'intero albero `app/` + `components/` sono **0**. In app/admin/payouts/page.tsx:205-212 le `<th>` stanno correttamente nel `<thead>`, quindi molti screen reader inferiscono la colonna, ma senza `scope="col"` il comportamento non è garantito e nessuna tabella ha un nome accessibile.
+- **Impatto:** Un venditore non vedente che legge il prospetto guadagni sente una sequenza di valori senza sapere se «12,40» è il netto o lo stato. Non blocca, ma rende poco usabili le viste economiche.
+- **Fix consigliato:** Aggiungere `scope="col"` a ogni `<th>` del `thead` e un `<caption className="sr-only">` descrittivo (es. «Ordini con pagamento a carta e stato del payout»).
+
+
+### qa-flussi (8)
+
+#### 🟡 61. Il webhook crea gli ordini senza verificare né lo stato del pagamento né la corrispondenza dell'importo
+
+- **Dove:** `/home/user/mycity/app/api/stripe/webhook/route.ts:188-296 + /home/user/mycity/app/api/stripe/checkout/route.ts:288-320`
+- **Cosa succede:** VERIFICATO parzialmente. `handleCheckoutCompleted` non controlla `session.payment_status === 'paid'` né confronta `session.amount_total` con `pending.total_cents` (grep su `amount_total` e `payment_status ===` nel webhook: un solo hit, e riguarda gli ordini in handleChargeRefunded). Il totale scritto sugli ordini è `g.totalCents` dal pending_checkout. Due valori possono divergere: `expectedChargeCents` somma sconti pro-rata arrotondati per gruppo, mentre Stripe applica il coupon unico `totalDiscountCents` che subisce un clamp a `subtotale+spedizione-1c` NON replicato nel calcolo per gruppo. RIDIMENSIONO la severità: la sessione è creata con `payment_method_types: ['card']` (lib/stripe/client.ts:169), quindi oggi lo scenario 'unpaid' non è raggiungibile e la divergenza reale è di pochi centesimi (salvo sconti prossimi al 100%, dove il clamp asimmetrico morde davvero).
+- **Impatto:** La riconciliazione Stripe↔DB non torna al centesimo: payout e commissioni si calcolano su una base leggermente sbagliata e un rimborso «totale» non copre l'intero incasso. Su coupon vicini al 100% combinati con lo sconto ritiro la differenza può diventare rilevante. E il giorno in cui si abiliterà un metodo asincrono (SEPA, Klarna, bonifico) gli ordini verrebbero creati senza soldi incassati.
+- **Fix consigliato:** All'inizio di handleCheckoutCompleted: `if (session.payment_status !== 'paid') return;` (l'evento async_payment_succeeded coprirà il resto). Subito dopo, confrontare `session.amount_total` con `pending.total_cents`: se divergono usare l'importo Stripe come verità per total_price e loggare un warning per la riconciliazione. E far coincidere per costruzione i due calcoli, applicando lo stesso clamp anche ai totali per gruppo.
+
+#### 🟡 62. Conferma incasso contanti accettata anche prima del ritiro della merce, contro quanto dichiara la funzione stessa
+
+- **Dove:** `/home/user/mycity/app/api/rider/cash-confirm/route.ts:36-38 (commento) e 50-65 (controlli)`
+- **Cosa succede:** VERIFICATO. Il commento del file dichiara: «RLS-safe: il rider puo' aggiornare solo i propri ordini con delivery_status PICKED_UP/OUT_FOR_DELIVERY/DELIVERED (controllo server-side)». La colonna `delivery_status` è nella select (riga 52) ma non viene mai confrontata con nulla: si controllano solo rider_id, payment_method='cod' e cash_confirmed_at. RIDIMENSIONO la severità: lo stato NEW non è raggiungibile (il rider_id si può valorizzare solo nella transizione READY→ASSIGNED per il trigger 061), e la riconciliazione giornaliera conta solo gli ordini DELIVERED, quindi il danno è sulla qualità della prova, non sulla cassa.
+- **Impatto:** Un rider può congelare l'incasso — importo, foto dei contanti, firma del cliente — su un ordine ancora ASSIGNED, prima di aver ritirato o consegnato la merce. Poiché `cash_confirmed_at` è scrivibile una volta sola (guardia atomica a riga 103), la prova resta fissata su uno stato falso e non è più correggibile: la pista di audit anti-frode sul contante, che è tutto il senso di questo endpoint, perde valore.
+- **Fix consigliato:** Aggiungere il controllo mancante: `if (!['PICKED_UP','OUT_FOR_DELIVERY','DELIVERED'].includes(order.delivery_status)) return ApiErrors.conflict('Conferma l\'incasso solo dopo il ritiro della merce')`, e riportarlo anche nella condizione dell'UPDATE atomico così la guardia sta nel DB e non solo nel fast-path.
+
+#### 🟡 63. Un ordine COD pagato interamente con credito MyCity non è più rimborsabile
+
+- **Dove:** `/home/user/mycity/lib/stripe/payout.ts:339-344 + /home/user/mycity/app/api/orders/cod/route.ts:314 e 328`
+- **Cosa succede:** VERIFICATO. Nel COD `totalCents = Math.max(0, grossTotalCents - walletAppliedCents)` e viene scritto `total_price: totalCents / 100`: se il credito copre tutto, total_price è 0. `refundOrder` calcola `orderTotalCents = Math.round(Number(order.total_price) * 100)` = 0, quindi `safeAmountCents = Math.max(0, Math.min(opts.amountCents, 0 - 0))` = 0 e lancia `refundOrder: importo rimborso non valido`.
+- **Impatto:** Il venditore che approva un reso con rimborso su quell'ordine riceve un 502 «Rimborso fallito» da /api/returns/[id]/decide e non ha modo di completare la pratica dall'interfaccia; il cliente non riottiene il suo credito. Stesso effetto sull'annullo admin. Vale per ogni ordine in cui gift card/credito coprono il totale.
+- **Fix consigliato:** Usare come base rimborsabile il lordo effettivamente dovuto, cioè `total_price*100 + wallet_applied_cents` (il campo è già persistito), e accreditare a wallet la quota corrispondente. Coerentemente `seller_payout_cents` è già calcolato sul lordo, quindi la proporzione del claw-back tornerebbe corretta.
+
+#### 🟡 64. L'annullo admin di un ordine COD già consegnato rimette la merce a magazzino e non rimborsa nulla
+
+- **Dove:** `/home/user/mycity/app/api/admin/orders/[id]/cancel/route.ts:39 e 62-86`
+- **Cosa succede:** VERIFICATO. L'unica guardia sullo stato è `if (order.delivery_status === 'CANCELED') return conflict`. Un ordine COD in DELIVERED, con contante già incassato dal rider, non è `isPaidCard` e finisce nel ramo `else`: viene marcato CANCELED, chiama `restore_stock_for_order` e storna solo l'eventuale `wallet_applied_cents`. Nessun accredito del contante incassato — che `refundOrder` gestirebbe correttamente via `wallet_credit` (ramo COD, payout.ts:352-380).
+- **Impatto:** Lo stock viene incrementato per merce fisicamente uscita dal negozio: l'inventario diverge e il prodotto torna acquistabile senza esistere. Il cliente che ha pagato in contanti resta senza rimborso e senza traccia. In più l'ordine esce dal perimetro della riconciliazione COD (che filtra su delivery_status='DELIVERED'), quindi il contante dovuto dal rider sparisce dai conti.
+- **Fix consigliato:** Rifiutare l'annullo su ordini DELIVERED indirizzando al flusso resi; oppure, se lo si vuole permettere, instradare il COD consegnato su `refundOrder` (accredito wallet + claw-back del payout) e non ripristinare lo stock quando `delivered_at` è valorizzato.
+
+#### 🟡 65. Chargeback perso: lo stock viene ripristinato per merce consegnata, senza guardia contro il doppio ripristino
+
+- **Dove:** `/home/user/mycity/app/api/stripe/webhook/route.ts:832-845 vs 722-726`
+- **Cosa succede:** VERIFICATO. Nel ramo `dispute.status === 'lost'` si esegue `restore_stock_for_order` per ogni ordine, incondizionatamente, senza verificare che la merce non sia stata consegnata. A differenza di `handleChargeRefunded` (riga 724: `if (o.payment_status === 'REFUNDED') continue`), qui non c'è alcuna guardia anti-doppio-restore, e la RPC `restore_stock_for_order` (migrations/080:137-153) è un puro incremento, non idempotente. Il payout_status non viene toccato (resta HELD): è escluso dal cron solo grazie al `delivery_status='CANCELED'` scritto poche righe sopra — una dipendenza implicita e fragile.
+- **Impatto:** Su un chargeback perso di un ordine consegnato, il magazzino si gonfia di unità che non esistono: il prodotto torna vendibile e il negozio riceve ordini che non può evadere. Se in futuro si toccasse il filtro su delivery_status nel cron, gli ordini LOST tornerebbero eleggibili al payout: si pagherebbe il venditore su una contestazione persa.
+- **Fix consigliato:** Ripristinare lo stock solo se `delivered_at IS NULL` e aggiungere la stessa guardia anti-doppio-restore di handleChargeRefunded. Impostare esplicitamente `payout_status='REFUNDED'` (o 'REVERSED' se già trasferito) nel ramo lost, invece di affidarsi al filtro su delivery_status.
+
+#### 🟡 66. Due migrazioni con lo stesso numero 108: ordine di applicazione ambiguo (e la suite di integrità è rossa)
+
+- **Dove:** `/home/user/mycity/migrations/108_atomic_coupon_claim.sql e /home/user/mycity/migrations/108_seller_public_profiles_stripe_trust.sql`
+- **Cosa succede:** VERIFICATO. Esistono due file con prefisso 108. L'ordine di esecuzione dipende dall'ordinamento alfabetico del nome dopo il numero, non da una sequenza dichiarata, e un runner che tiene traccia della schema version per numero può saltare del tutto il secondo file. CORREGGO il fix proposto nel report originale: tests/unit/migrations-integrity.test.ts GIÀ contiene l'asserzione «nessun prefisso numerico duplicato» (righe 38-52, con tanto di commento sul precedente doppio 052) e entrambi i nomi soddisfano NAME_RE — quindi quella suite oggi fallisce, e il difetto è già segnalato da una guardia che qualcuno sta ignorando.
+- **Impatto:** Rischio concreto che su un ambiente nuovo (staging, disaster recovery, seconda città) una delle due migrazioni non venga applicata: se salta 108_atomic_coupon_claim la funzione `claim_coupon` non esiste e OGNI checkout con coupon fallisce con «Coupon non disponibile». Il difetto è silenzioso finché qualcuno non prova un codice. In più una suite CI permanentemente rossa abitua il team a ignorare il segnale.
+- **Fix consigliato:** Rinumerare uno dei due file (es. 108b_, come già previsto dalla convenzione NNN[a-z] del test) e rimettere verde tests/unit/migrations-integrity.test.ts, che è la guardia già esistente per questo esatto caso.
+
+#### 🟡 67. Il percorso carta non geocodifica l'indirizzo: ordini senza coordinate di consegna e tariffa sempre flat
+
+- **Dove:** `/home/user/mycity/app/checkout/page.tsx:380-397 (COD) vs 493-502 (carta)`
+- **Cosa succede:** VERIFICATO. Nel percorso COD, se `form.lat/lng` sono nulli il client chiama `/api/geocode` e invia le coordinate ottenute (`deliveryLat`/`deliveryLng`, righe 381-397, poi inviate a riga 417). Il percorso carta invia direttamente `lat: form.lat, lng: form.lng` (riga 500). `form.lat/lng` sono valorizzati solo dal caricamento di un indirizzo salvato (righe 275 e 300): per un indirizzo digitato al momento restano null.
+- **Impatto:** Per il cliente nuovo che paga con carta — il primo ordine, quello che conta di più — l'ordine nasce con delivery_lat/lng NULL: il rider non ha il pin sulla mappa e deve arrangiarsi con l'indirizzo testuale. E la spedizione ricade sulla flat di €4,90 anche per una consegna a 300 metri, quindi il cliente vicino paga più del dovuto e quello lontano meno del costo reale.
+- **Fix consigliato:** Estrarre la logica di geocoding in una funzione condivisa e chiamarla in entrambe le mutation prima di comporre il payload; meglio ancora spostarla server-side negli endpoint di checkout, il che risolve contemporaneamente il problema delle coordinate manipolabili dal client.
+
+#### 🟡 68. Costanti di spedizione duplicate nella pagina di checkout invece di essere importate
+
+- **Dove:** `/home/user/mycity/app/checkout/page.tsx:43-45, 330, 333-343 vs /home/user/mycity/lib/constants.ts:6-8 e /home/user/mycity/lib/shipping.ts:18-32`
+- **Cosa succede:** VERIFICATO. La pagina ridefinisce localmente `const SHIPPING_PER_ORDER = 4.9` (riga 43) e `const PICKUP_DISCOUNT_PERCENT = 10` (riga 330, dentro il componente), e riscrive a mano la formula in `shippingFor` (righe 333-343) invece di usare `shippingForEuro` da lib/shipping.ts — il modulo dichiarato «FONTE UNICA condivisa tra client e server». Oggi i valori coincidono con lib/constants.ts, quindi non c'è divergenza attiva.
+- **Impatto:** È una trappola a orologeria sul totale mostrato al cliente: chi domani ritocca la tariffa o la soglia in lib/constants.ts aggiorna il server ma non questa pagina, e il riepilogo del checkout inizia a mostrare un totale diverso da quello addebitato — un difetto che si manifesta solo in produzione, sui soldi.
+- **Fix consigliato:** Importare `SHIPPING_PER_ORDER` e `PICKUP_DISCOUNT_PERCENT` da lib/constants e sostituire `shippingFor` con una chiamata a `shippingForEuro`, che accetta già esattamente gli stessi parametri usati qui.
+
+
+### api-backend (9)
+
+#### 🟡 69. Il webhook Stripe esegue tutto il lavoro pesante (retrieve, N insert, N×2 email senza timeout) prima di rispondere 200
+
+- **Dove:** `app/api/stripe/webhook/route.ts:234-241, 371-404 · lib/email/client.ts:59-71`
+- **Cosa succede:** VERIFICATO. `handleCheckoutCompleted` fa, in sequenza e tutto atteso prima della risposta: una `paymentIntents.retrieve` verso Stripe, l'insert di N ordini + N gruppi di order_items, poi per OGNI ordine una `sendEmail` al buyer, una `auth.admin.getUserById` e una `sendEmail` al venditore, più un insert di notifica (fino a 10 gruppi per lo schema del checkout). `sendEmail` non ha timeout sulla chiamata Resend e fa 2 tentativi con 300 ms di backoff. Stripe considera fallito un webhook che non risponde entro ~10 s. Nessun `export const maxDuration` sulla route. Correzione di severità: le protezioni di idempotenza reggono (pending COMPLETED, unique index su stripe_session_id+seller_id), quindi non c'è duplicazione di ordini né di email — l'impatto è inferiore a quanto segnalato.
+- **Impatto:** Sotto carrello multi-venditore o rallentamento di Resend, Stripe marca la consegna come fallita e ritenta, generando rumore negli alert e ritardo nella conferma d'ordine. Se il processo viene terminato dopo che il pending è già COMPLETED ma prima della fine del loop email, il retry rientra dal ramo idempotente e le email residue (fra cui la notifica 'nuovo ordine' al venditore) non partono mai.
+- **Fix consigliato:** Rispondere 200 a Stripe subito dopo la creazione degli ordini e spostare email/notifiche in coda asincrona: esistono già la tabella `email_queue` e il cron `send-emails`. Aggiungere un timeout esplicito alla chiamata Resend e un `export const maxDuration` coerente sulla route.
+
+#### 🟡 70. Il garbage collector del rate limiter in memoria non ha un tetto duro: se i bucket sono tutti recenti la Map cresce oltre MAX_KEYS
+
+- **Dove:** `lib/rate-limit.ts:25-34`
+- **Cosa succede:** VERIFICATO. `gcIfNeeded()` viene invocato solo alla creazione di un bucket nuovo, esce subito se `buckets.size <= MAX_KEYS` e cancella una chiave soltanto se è vuota o se l'ultimo accesso è più vecchio di un'ora. Il `break` esce appena la dimensione rientra sotto la soglia, ma se NESSUNA chiave è scaduta il ciclo scorre l'intera Map senza cancellare nulla e la dimensione continua a crescere oltre i 50.000 elementi previsti. Con `getClientIp` falsificabile, generare centinaia di migliaia di chiavi distinte in pochi minuti è banale. Senza Upstash configurato, `rateLimitAsync` ricade proprio su questa implementazione. Correzione di severità: portare il processo all'OOM richiede un flood sostenuto di milioni di richieste (ogni bucket pesa poche decine di byte), quindi è un difetto reale ma di impatto minore rispetto a quanto segnalato.
+- **Impatto:** Crescita non limitata della memoria del processo Node sotto flood, su un'istanza Render singola. Anche senza attacco, ogni bucket conserva un array `times` di timestamp che cresce con il traffico legittimo entro la finestra.
+- **Fix consigliato:** Nel GC, se dopo il passaggio di pulizia la dimensione supera ancora MAX_KEYS, eliminare le chiavi meno recenti (LRU) fino a rientrare sotto la soglia — un tetto duro, non condizionale. In produzione configurare Upstash, che il codice già supporta.
+
+#### 🟡 71. Riconciliazione contanti del rider ancorata a date UTC anziché al fuso di Piacenza
+
+- **Dove:** `app/api/rider/cash-confirm/route.ts:81, 134-152`
+- **Cosa succede:** VERIFICATO. `const today = now.toISOString().slice(0,10)` e la finestra in `upsertReconciliation` (`${isoDate}T00:00:00Z` / `${isoDate}T23:59:59Z`, con `.gte`/`.lte` su `delivered_at`) lavorano in UTC. In Italia (UTC+1/+2) le consegne serali fra le 22:00/23:00 e mezzanotte locali finiscono nel giorno UTC successivo. La riga `cod_reconciliations` viene quindi costruita su un insieme di ordini diverso da quello che l'admin considera 'la giornata del rider'. Il limite superiore a `23:59:59` esclude inoltre i timestamp con frazione di secondo nell'ultimo secondo.
+- **Impatto:** Ammanchi e sovrapprezzi fantasma nella quadratura contanti: `status='MISMATCH'` su giornate in realtà corrette, e la conferma della rimessa da parte dell'admin (per data) sblocca i payout COD del giorno sbagliato.
+- **Fix consigliato:** Calcolare il giorno di riferimento nel fuso Europe/Rome (es. `Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Rome'})`) e usare come finestra `[inizio_giorno_locale, inizio_giorno_locale+1d)` con confronto `gte`/`lt` invece di `lte` a 23:59:59.
+
+#### 🟡 72. /api/health espone, senza autenticazione, i nomi delle env var mancanti e i messaggi d'errore grezzi del DB
+
+- **Dove:** `app/api/health/route.ts:32, 44`
+- **Cosa succede:** VERIFICATO. Il commento in testa al file dichiara 'Security: non esporre version, build hash, env. Solo status + timestamp', ma il body restituisce `checks.db.error = error.message` (messaggio Postgres/PostgREST integrale, che può contenere nomi di tabella e dettagli di policy) e `checks.env.error = missingEnv.join(',')`, cioè l'elenco esatto fra `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_APP_URL` non configurate. L'endpoint è dichiaratamente pubblico ('NON protetto da auth').
+- **Impatto:** Ricognizione gratuita per un attaccante: sapere che manca `SUPABASE_SERVICE_ROLE_KEY` indica dove il sistema è più debole, e i messaggi PostgREST rivelano struttura interna del database.
+- **Fix consigliato:** Restituire solo booleani e latenza al pubblico (`{status, timestamp, checks:{db:{ok,latencyMs}, env:{ok}}}`); esporre i dettagli solo se la richiesta porta un header segreto (stesso pattern di `withCronAuth`).
+
+#### 🟡 73. Chiave di idempotenza inutile sull'acquisto gift card (contiene Date.now())
+
+- **Dove:** `app/api/gift-cards/checkout/route.ts:81`
+- **Cosa succede:** VERIFICATO. `{ idempotencyKey: giftcard_${user.id}_${amountCents}_${body.recipientEmail}_${Date.now()} }`: includendo il timestamp corrente, ogni chiamata produce una chiave diversa e l'idempotenza non ha alcun effetto — è puro rumore che comunica una garanzia inesistente.
+- **Impatto:** Un doppio click o un retry di rete crea due Checkout Session distinte; se il cliente paga entrambe riceve (e paga) due gift card. Il danno è contenuto perché il webhook deriva il codice dalla session id (HMAC), ma sono due addebiti reali.
+- **Fix consigliato:** Usare una chiave stabile per il tentativo logico: derivata da un `requestId` UUID generato dal client e inviato nel body, oppure `giftcard_${user.id}_${amountCents}_${recipientEmail}` con finestra temporale arrotondata (es. al minuto).
+
+#### 🟡 74. external-refresh: GET pubblico su service role e stato 'pending' che può restare bloccato per sempre
+
+- **Dove:** `app/api/products/[id]/external-refresh/route.ts:34-41, 69-101`
+- **Cosa succede:** VERIFICATO. La GET non ha autenticazione né rate limit per IP (l'unico gate è `ext-refresh:${id}`, per product id, e serve solo a debounciare il refresh, non la lettura) e legge la riga prodotto tramite `loadRow`, che usa `getAdminSupabase()` (service role, bypass RLS): restituisce quindi `external_data` anche per prodotti in stato draft o non disponibili di qualunque venditore. Inoltre lo stato viene messo a 'pending' e il refresh parte in fire-and-forget (`void doRefresh(...)`): se il processo viene riavviato o la promise muore fuori dal suo try, nessuno riporta lo stato a 'idle' e il check `if (!stale || pending) return cache` impedisce per sempre ogni futuro aggiornamento di quel prodotto.
+- **Impatto:** Lettura di dati esterni (prezzo/disponibilità di origine) su prodotti non pubblicati da parte di chiunque conosca un UUID, e schede prodotto che smettono silenziosamente di aggiornarsi senza alcun segnale.
+- **Fix consigliato:** Filtrare la GET su `status='available'` e usare il client utente (RLS) invece del service role; aggiungere un rate limit per IP. Per lo stato: scrivere anche `external_sync_started_at` e considerare 'pending' scaduto dopo N minuti, così un refresh interrotto non blocca per sempre.
+
+#### 🟡 75. Forma della risposta incoerente: i percorsi di pagamento bypassano l'envelope ApiErrors/apiSuccess
+
+- **Dove:** `app/api/stripe/checkout/route.ts:184,191,332,387 · app/api/orders/cod/route.ts:293,466 · app/api/locale/route.ts:19,24 · app/api/geocode/route.ts:23,31`
+- **Cosa succede:** VERIFICATO. lib/api/responses.ts definisce un contratto esplicito (`{ok:true,data}` / `{ok:false,error:{code,message}}`) usato quasi ovunque, ma proprio nei percorsi più critici si torna al formato legacy: i 409 di stock insufficiente in checkout carta e COD ritornano `{error:'...'}` nudo, i successi ritornano `{id,url}` e `{orderIds}` senza envelope, `/api/locale` usa `{error:'Invalid JSON'}` e `/api/geocode` `{lat:null,lng:null,error:'rate_limited'}`.
+- **Impatto:** Il frontend deve gestire due formati; un consumatore che si affida al discriminante `ok` non trova il campo sui 409 di stock e sui successi del checkout. Errori mostrati male all'utente proprio nel momento più delicato (pagamento).
+- **Fix consigliato:** Uniformare: `ApiErrors.conflict(...)` per i 409 di stock e `apiSuccess({id,url})` / `apiSuccess({orderIds})` per i successi, aggiornando i consumatori a leggere `res.data`.
+
+#### 🟡 76. La commissione del 10% è calcolata sul totale GIÀ scontato: il costo dei coupon MyCity ricade sul venditore
+
+- **Dove:** `app/api/stripe/webhook/route.ts:253-258 · app/api/orders/cod/route.ts:317-321 · lib/stripe/client.ts:287-297`
+- **Cosa succede:** VERIFICATO. `computeOrderSplit` calcola `subtotalCents = totalCents - deliveryFeeCents - shippingCents` e da lì la fee del 10% e il netto venditore. Nel webhook riceve `g.totalCents`, che in `/api/stripe/checkout` è costruito come `subtotal + shipping + deliveryFee - couponPortionCents - pickupPortionCents`: la base imponibile risulta quindi il subtotale SCONTATO. Il venditore incassa il 90% dello scontato, la piattaforma il 10% dello scontato. Uno sconto promozionale deciso da MyCity è di fatto finanziato per il 90% dal negozio, mentre il commento della funzione parla solo di 'netto pulito pari al 90% di ciò che vende'. Identico nel ramo COD.
+- **Impatto:** Il venditore vede arrivare meno di quanto si aspetta ogni volta che MyCity lancia un coupon: è il tipo di sorpresa che rompe la fiducia del negoziante. Va deciso consapevolmente, non ereditato da un passaggio di parametro.
+- **Fix consigliato:** Decidere e documentare la policy. Se lo sconto è a carico della piattaforma, passare a `computeOrderSplit` il subtotale LORDO (`g.subtotalCents`) e detrarre lo sconto dalla quota MyCity; se è a carico del venditore (coupon di negozio) mantenere l'attuale e renderlo esplicito nel pannello venditore.
+
+#### 🟡 77. Gli endpoint vision usano ancora il rate limiter sincrono in memoria invece di quello con fallback Redis
+
+- **Dove:** `app/api/vision/photo-order/route.ts:3,61 · app/api/vision/extract-products/route.ts`
+- **Cosa succede:** VERIFICATO, con una correzione: non è un solo endpoint ma due. Tutte le route `app/api/ai/*` (catalog-create, answer-qa, description, barcode-lookup, improve-product, translate, catalog-apply, product-chat, variants, catalog-create-bulk) usano `rateLimitAsync` — che sfrutta Upstash quando configurato e sopravvive a riavvio e scale-out. `app/api/vision/photo-order` e `app/api/vision/extract-products` importano e chiamano la versione sincrona `rateLimit`. La chiave è per utente (`vision-order:${user.id}`), non per IP.
+- **Impatto:** Il limite di 15 chiamate vision / 10 min si azzera a ogni riavvio del container e non è condiviso fra istanze: un venditore può moltiplicare la spesa in token Anthropic (le chiamate vision con 8 immagini sono fra le più costose del sistema).
+- **Fix consigliato:** Sostituire con `const rl = await rateLimitAsync({...})` in entrambe le route vision, allineandole agli altri endpoint AI.
+
+
+### ai-endpoints (8)
+
+#### 🟡 78. Il gate policy_ok è solo lato client e il modulo di moderazione condiviso è codice morto
+
+- **Dove:** `/home/user/mycity/app/api/ai/catalog-create-bulk/route.ts:27-36; /home/user/mycity/app/api/ai/catalog-create/route.ts:30-40; /home/user/mycity/app/api/vision/extract-products/route.ts:282; /home/user/mycity/components/seller/BulkPhotoCreate.tsx:123; /home/user/mycity/lib/ai/moderation.ts`
+- **Cosa succede:** CONFERMATO nei fatti: `/api/vision/extract-products` restituisce i prodotti vietati marcati `policy_ok:false` invece di scartarli, e l'unico filtro è nel componente client (`products.filter((p) => p.policy_ok && …)`). I `DraftSchema` di `catalog-create` e `catalog-create-bulk` non includono `policy_ok` e non lo verificano. `lib/ai/moderation.ts` (`assertSafeText`, `classifyProductPolicy`) non è importato da nessuna route: il commento in testa dice 'Da cablare nelle route in PR successive'. NB — severità ridimensionata: la creazione prodotti standard (`app/seller/products/new/page.tsx:180`) è un `supabase.from('products').insert(...)` fatto dal client sotto RLS, senza alcun controllo di policy: il venditore può già creare qualsiasi prodotto senza passare da queste route, quindi non si tratta di un'escalation di privilegi ma di un controllo incoerente. La variante singola `vision/extract-product:358` invece blocca davvero con 400.
+- **Impatto:** Il gate T&S appare presente ma non è applicato dove si scrive: due porte con regole diverse (singolo bloccato, massivo no) e un modulo di moderazione mai eseguito, cioè una protezione dichiarata e non attiva.
+- **Fix consigliato:** Rendere `policy_ok` obbligatorio e verificato server-side in `catalog-create`/`catalog-create-bulk` (o richiamare `classifyProductPolicy` su nome+descrizione prima dell'insert), scartare i prodotti non conformi già in `/api/vision/extract-products`, e cablare `lib/ai/moderation.ts` o rimuoverlo.
+
+#### 🟡 79. /api/ai/catalog-apply accetta un patch arbitrario del client senza limiti di lunghezza sui testi
+
+- **Dove:** `/home/user/mycity/app/api/ai/catalog-apply/route.ts:39-42; /home/user/mycity/lib/products/aiPatch.ts:88-134`
+- **Cosa succede:** CONFERMATO parzialmente. L'endpoint accetta `body.patch` con il solo controllo `typeof body.patch === 'object'` (nessuna prova che venga dall'AI) e lo passa a `resolveAiPatch`, che valida il dominio (unità, condizione, stato, attributi di categoria) ma non impone limiti: `name`/`description` accettano stringhe di qualsiasi lunghezza, `tags` fino a 15 voci senza limite per tag. CORREZIONE alle affermazioni sui numeri: `price` è `numeric(10,2)` e `stock` è `integer CHECK (stock >= 0)` (migrations/001, 002), quindi valori tipo 1e12 o con più di 2 decimali non vengono salvati — generano un errore DB (che però ricade nel generico 'Non sono riuscito a salvare'). Severità ridimensionata anche perché il percorso normale di creazione/modifica prodotto scrive già su Supabase dal client, quindi il venditore ha comunque scrittura diretta sui propri prodotti.
+- **Impatto:** Nomi e descrizioni senza tetto di lunghezza scritti sul catalogo pubblico (liste e pagine che si rompono), regole diverse rispetto allo schema zod del form prodotto sullo stesso dato, ed errori DB restituiti come messaggio generico.
+- **Fix consigliato:** Validare il patch con uno schema zod condiviso con `lib/products/schema.ts` (max length su name/description/tag, prezzo entro il range di `numeric(10,2)` e arrotondato a 2 decimali, stock 0..N) prima di `resolveAiPatch`, e applicare gli stessi limiti dentro `resolveAiPatch` così valgono anche per il percorso batch.
+
+#### 🟡 80. Le foto dei prodotti creati dall'AI possono puntare a qualsiasi host esterno
+
+- **Dove:** `/home/user/mycity/app/api/ai/catalog-create/route.ts:43,60; /home/user/mycity/app/api/ai/catalog-create-bulk/route.ts:43,75; /home/user/mycity/lib/products/draftFromVision.ts:118; /home/user/mycity/lib/ai/productContext.ts:22-27; /home/user/mycity/next.config.js:31-50`
+- **Cosa succede:** CONFERMATO. Le route accettano `imageUrls: z.array(z.string().url())` e filtrano solo il protocollo (`/^https?:\/\//i`), poi `buildDraftProductInsert` li salva in `products.images` (`imageUrls.slice(0, 8)`). Nessun vincolo sull'host, mentre `next.config.js` autorizza in `images.remotePatterns` solo `*.supabase.co`, `placehold.co`, `api.iconify.design`, `images.pexels.com`. Stesso filtro solo-protocollo in `sanitizeImageUrls` per gli URL passati a Anthropic. Severità ridimensionata: anche il form prodotto standard inserisce `images` via insert diretto dal client, quindi il vincolo mancante non è specifico delle route AI.
+- **Impatto:** Immagini prodotto rotte sul marketplace (next/image risponde 400 per host non elencati) e, dove non si passa da next/image, hotlinking verso terzi: contenuto modificabile dopo l'approvazione e IP del cliente esposto al server esterno. Consente inoltre di far scaricare a Anthropic URL scelti dal venditore.
+- **Fix consigliato:** Accettare come immagini di prodotto solo URL dello storage Supabase del progetto (host confrontato con `NEXT_PUBLIC_SUPABASE_URL` + prefisso `/storage/v1/object/public/`) e applicare la stessa allowlist in `sanitizeImageUrls`.
+
+#### 🟡 81. copilot: la history del client viene accodata al messaggio di contesto senza normalizzare i ruoli
+
+- **Dove:** `/home/user/mycity/app/api/ai/copilot/route.ts:117-125 (vs product-chat:184-191, catalog-chat)`
+- **Cosa succede:** CONFERMATO. La route accetta `body.history`, la filtra per ruolo/contenuto e costruisce `messages = [{role:'user', contextText}, ...history]` senza le due normalizzazioni presenti nelle altre chat (scartare i turni iniziali non-user e verificare che l'ultimo turno sia dell'utente). Se la history comincia con un turno `user` si ottengono due messaggi `user` consecutivi, che la Messages API rifiuta (ruoli non alternati). Verificato che `components/seller/CatalogCopilot.tsx` non invia `history` (nessuna occorrenza): il difetto è latente ma raggiungibile da una chiamata diretta.
+- **Impatto:** Errore 400 da Anthropic mappato nel generico 'Errore nel servizio AI. Riprova.': funzione apparentemente rotta senza diagnosi, e nessun beneficio dal parametro che la route dichiara di supportare.
+- **Fix consigliato:** Applicare alla history la stessa normalizzazione delle altre chat, oppure rimuovere il parametro non usato.
+
+#### 🟡 82. lib/ai/client.ts si dichiara server-only ma non lo impone
+
+- **Dove:** `/home/user/mycity/lib/ai/client.ts:1-15, /home/user/mycity/lib/ai/run.ts:1, /home/user/mycity/lib/ai/batch.ts:1, /home/user/mycity/lib/ai/moderation.ts:1`
+- **Cosa succede:** CONFERMATO. I quattro moduli non importano il pacchetto `server-only`, a differenza di `lib/products/externalSync.ts:1` che lo fa. `client.ts` costruisce il client Anthropic e legge `ANTHROPIC_API_KEY` documentando 'Mai importare questo modulo lato client', ma nulla lo impedisce in build. Oggi nessun componente client lo importa.
+- **Impatto:** Un'importazione futura da un componente client non fallirebbe in build: il modulo finirebbe nel bundle e la chiamata si romperebbe lato browser, con superficie di errore vicina alla chiave.
+- **Fix consigliato:** Aggiungere `import 'server-only';` in cima a `lib/ai/client.ts`, `lib/ai/run.ts`, `lib/ai/batch.ts` e `lib/ai/moderation.ts`.
+
+#### 🟡 83. catalog-batch/status: una GET che chiama Anthropic e scrive sul DB senza transizione atomica
+
+- **Dove:** `/home/user/mycity/app/api/ai/catalog-batch/status/route.ts:29-83`
+- **Cosa succede:** CONFERMATO. L'handler è `export const GET` e, oltre a leggere, fa `pollBatch`, poi `streamBatchResults` (scarica e parsa tutti i risultati) e aggiorna `catalog_ai_jobs` con `status:'ready'` e `results`. L'update non è condizionato allo stato precedente (`.eq('id')` + `.eq('seller_id')` soltanto): due richieste concorrenti che trovano entrambe `status === 'processing'` scaricano e parsano i risultati due volte. Esiste un rate limit di 60/min sul polling, che limita ma non elimina la corsa.
+- **Impatto:** Lavoro e traffico duplicati verso Anthropic, scritture concorrenti sulla stessa riga e semantica HTTP scorretta (una GET con effetti collaterali può essere ripetuta da proxy/browser).
+- **Fix consigliato:** Spostare il recupero risultati su una POST (o su un cron dedicato) e rendere atomica la transizione con un update condizionale (`.eq('status','processing')`) che vince una sola volta prima di scaricare i risultati.
+
+#### 🟡 84. vision/extract-product: le istruzioni viaggiano nel messaggio utente invece che nel system
+
+- **Dove:** `/home/user/mycity/app/api/vision/extract-product/route.ts:266-278; stesso schema in /home/user/mycity/lib/products/externalSync.ts:169-177`
+- **Cosa succede:** CONFERMATO. La chiamata `runMessage` non passa alcun `system`: il lungo `PROMPT_TEXT` (istruzioni + riferimento attributi per categoria) è un blocco `text` nello stesso messaggio utente che contiene le immagini. È l'opposto della regola applicata in `buildProductContext` e documentata in `lib/ai/run.ts:15-17`.
+- **Impatto:** Il prefisso stabile non beneficia del prompt caching di `buildSystem`, quindi ogni estrazione paga per intero un prompt lungo su una delle funzioni più usate; e il confine tra istruzioni e contenuto non fidato (testo presente nelle foto) si assottiglia.
+- **Fix consigliato:** Passare `PROMPT_TEXT` come `system` lasciando nel messaggio utente solo le immagini più una riga di innesco; stessa cosa per il prompt di verifica e per `fetchExternalSnapshot`.
+
+#### 🟡 85. L'esaurimento del budget AI viene comunicato come errore generico su tre route
+
+- **Dove:** `/home/user/mycity/app/api/vision/extract-product/route.ts:285-295; /home/user/mycity/app/api/vision/extract-products/route.ts:219-226; /home/user/mycity/app/api/marketplace/import-fetch/route.ts:63-70`
+- **Cosa succede:** CONFERMATO. Il breaker lancia `AiCallError(feature, 503)` e `mapAiError` lo traduce in 'Budget AI giornaliero esaurito. Riprova domani.' (`lib/ai/run.ts:149`). Queste tre route non usano `mapAiError`: gestiscono a mano solo `AiConfigError`, 401 e 429, e fanno cadere tutto il resto — 503 compreso — su `badGateway('Errore nel servizio AI. Riprova.')`.
+- **Impatto:** Quando il tetto di spesa verrà configurato, il venditore leggerà 'errore, riprova' e continuerà a ritentare generando altro traffico, invece di capire che il servizio è sospeso fino al giorno dopo; anche il supporto non distingue il caso.
+- **Fix consigliato:** Usare `mapAiError(err, feature)` anche in queste tre route, eliminando la gestione manuale degli status duplicata.
+
+
+### dati-analytics (10)
+
+#### 🟡 86. Serie ricavi, 'visite di oggi' e 'ore di punta' del venditore mescolano fuso UTC e fuso locale
+
+- **Dove:** `app/seller/analytics/page.tsx:81-82, 116-128 e 133`
+- **Cosa succede:** VERIFICATO: `todayStr = new Date().toISOString().slice(0,10)` è la data UTC confrontata con `viewed_at` UTC, mentre l'etichetta a video dice 'oggi' in ora italiana: fra mezzanotte e le 02:00 (CEST) 'visite oggi' mostra le visite del giorno precedente. Nel grafico i bucket usano chiavi UTC (`d.toISOString().slice(0,10)`, riga 120) ma etichette locali (`DAY_LABELS[d.getDay()]`) e vengono riempiti con `o.created_at.slice(0,10)` (UTC): gli ordini fra le 00:00 e le 02:00 locali finiscono nel giorno precedente e nella barra sbagliata. Le 'ore di punta' (riga 133) usano invece `new Date(o.created_at).getHours()`, cioè l'ora locale: due fusi diversi nella stessa pagina.
+- **Impatto:** Il venditore legge fatturato e picchi in un giorno sfalsato rispetto alle etichette, e riceve consigli sugli orari incoerenti col grafico. Effetto limitato alle ore notturne, ma la pagina non è internamente coerente.
+- **Fix consigliato:** Fissare un fuso unico (Europe/Rome) e derivare le chiavi giorno con `toLocaleDateString('sv-SE', { timeZone: 'Europe/Rome' })` (o aggregare a DB con `AT TIME ZONE 'Europe/Rome'`), usando la stessa conversione per bucket, etichette, 'oggi' e ore di punta.
+
+#### 🟡 87. `signup_completed` emesso prima della conferma email, mentre l'accesso è bloccato finché l'email non è confermata
+
+- **Dove:** `app/sign-up/page.tsx:90 · middleware.ts:218-222`
+- **Cosa succede:** VERIFICATO: `trackSignupCompleted(data.user.id, role)` parte subito dopo `auth.signUp()`, prima che l'utente clicchi il link di verifica (la pagina reindirizza poi a `/auth/verify-email`); il middleware però blocca l'uso della piattaforma con `if (!user.email_confirmed_at) → /auth/verify-email`. Gli account mai confermati risultano quindi 'signup completato'.
+- **Impatto:** Il denominatore dell'activation rate è gonfiato da account fantasma: la conversione signup→primo ordine appare più bassa del reale.
+- **Fix consigliato:** Rinominare l'evento in `signup_started` ed emettere `signup_completed` alla conferma email (route `/auth/callback`), oppure aggiungere la property `email_confirmed: false` e usarla come filtro standard nei funnel.
+
+#### 🟡 88. Le viste prodotto sono deduplicate per sessione anche verso PostHog/GA4 → view_item sottostimato e conversione gonfiata
+
+- **Dove:** `components/ProductViewTracker.tsx:25-29`
+- **Cosa succede:** VERIFICATO: la guardia `if (sessionStorage.getItem('mc_viewed_<id>')) return;` precede sia l'insert su `product_views` sia `trackProductViewed()` (riga 29), quindi PostHog `product_viewed` e GA4 `view_item` scattano una sola volta per prodotto per sessione. Nel resto del funnel `add_to_cart` (lib/cart.ts) e `checkout_started` non hanno dedup equivalente.
+- **Impatto:** Il rapporto view→cart è calcolato con numeratore e denominatore contati con regole diverse: il conversion rate di prodotto appare più alto del reale e non è confrontabile con i benchmark GA4, dove view_item conta ogni visualizzazione.
+- **Fix consigliato:** Applicare la dedup solo alla scrittura su `product_views` e chiamare `trackProductViewed` a ogni visualizzazione, eventualmente con la property `repeat_view: true`.
+
+#### 🟡 89. Il conversion rate del venditore mescola basi diverse: ordini di qualsiasi stato su viste prodotto
+
+- **Dove:** `app/seller/analytics/page.tsx:84-91, 180-188 e 212`
+- **Cosa succede:** VERIFICATO: `orders30 = orders.length` conta tutti gli ordini del negozio negli ultimi 30 giorni, CANCELED e non pagati compresi, mentre nella stessa schermata `revenue30` conta solo i DELIVERED; `views30` sono viste di prodotto (non visite alla vetrina). Il rapporto `orders30 / views30` viene poi confrontato con soglie assolute ('Sopra/Nella/Sotto la media') e genera un consiglio prescrittivo ('Conversione sotto la media → crea una promo').
+- **Impatto:** Il negoziante riceve diagnosi e consiglio commerciale da un rapporto fra grandezze non omogenee e incoerente col fatturato mostrato accanto: può scontare i prezzi per un problema che il dato non dimostra.
+- **Fix consigliato:** Usare lo stesso perimetro a numeratore e denominatore (ordini pagati/consegnati vs viste dello stesso periodo), o calcolare la conversione per prodotto, dichiarando la definizione nella UI.
+
+#### 🟡 90. Due definizioni di GMV in due pagine admin diverse
+
+- **Dove:** `app/admin/page.tsx:69-71 e 122 vs app/admin/today/page.tsx:63-67 e 152`
+- **Cosa succede:** VERIFICATO: Panoramica calcola GMV come Σ `total_price` dei soli ordini DELIVERED su tutto lo storico (tile etichettato 'GMV (ordini consegnati)'), mentre Oggi calcola `gmvToday` come Σ `total_price` di tutti gli ordini non CANCELED creati oggi — quindi include NEW/ACCEPTED che potrebbero non concludersi — sotto l'etichetta generica 'GMV oggi', senza dichiarare la definizione.
+- **Impatto:** Le due pagine non quadrano fra loro né col portafoglio Stripe e, quando divergono, non si sa quale credere: ogni riconciliazione costa tempo e fiducia.
+- **Fix consigliato:** Definire GMV una volta sola (consigliato: ordini pagati/consegnati, spedizione esclusa) in un modulo condiviso o in una RPC, usarla in entrambe le pagine e scrivere la definizione nel sottotitolo del tile.
+
+#### 🟡 91. Il consenso scade nel cookie (180 giorni) ma non in localStorage: client e server smettono di essere d'accordo
+
+- **Dove:** `lib/consent.ts:30 e 41-52 (`ts` mai riletto) · app/api/track/route.ts:86-90`
+- **Cosa succede:** VERIFICATO: `writeConsent` salva lo stato in localStorage e un cookie `mc_consent` con `max-age = 180 giorni`; `readConsent()` legge solo localStorage e controlla la `version`, mai il campo `ts`. Il gate server-side di /api/track legge invece il cookie e scarta gli eventi `visitor` se manca il consenso. Passati 6 mesi, PostHog/GA4 continuano a tracciare mentre gli eventi visitor vengono silenziosamente scartati.
+- **Impatto:** Divergenza progressiva e invisibile fra le due sorgenti (Attività admin vs PostHog) e tracciamento client che sopravvive alla scadenza del consenso raccolto.
+- **Fix consigliato:** Far scadere anche lo stato in localStorage confrontando `ts` con `CONSENT_MAX_AGE_DAYS` (ritornando `null` → banner ri-mostrato) e riallineare i due gate su un'unica funzione.
+
+#### 🟡 92. Eventi dichiarati nel catalogo ma mai emessi (recensioni, referral, condivisione carrello, signup nel beacon)
+
+- **Dove:** `lib/analytics/events.ts:152-159 · app/api/track/route.ts:26-39 vs components/ActivityTracker.tsx:89-119`
+- **Cosa succede:** VERIFICATO con grep su tutto il repo: `trackReviewSubmitted`, `trackReferralSent` e `trackShareCart` non hanno alcun chiamante (compaiono solo nella definizione). Nella allowlist del beacon figurano `session_start` e `signup` con il relativo summary, ma ActivityTracker invia solo `page_view` (con `metadata.new_session` al primo), `login` e `logout`: quei due tipi non partono mai.
+- **Impatto:** Leve di crescita chiave — recensioni, referral, carrello condiviso — non sono misurabili; chi legge il catalogo eventi crede di avere dati che non esistono.
+- **Fix consigliato:** Collegare i tre eventi ai rispettivi punti (submit recensione, invio referral, condivisione carrello) o rimuoverli dal catalogo; nel beacon inviare `signup` alla registrazione o eliminare le voci morte dalla allowlist.
+
+#### 🟡 93. 'Trending ora': la RPC limita a 8 prima dei filtri di disponibilità, la vetrina può restare mezza vuota
+
+- **Dove:** `components/home/TrendingNow.tsx:35-86 · migrations/052_perf_aggregation_rpcs.sql:39-52`
+- **Cosa succede:** VERIFICATO: `trending_product_ids_24h` fa `group by product_id order by count(*) desc limit p_limit` su `product_views`, senza sapere nulla di `products.status` né di `profiles.is_approved`; il client chiede `p_limit: 8` e poi scarta i prodotti non `available` (`.eq('status','available')`) e quelli di venditori non approvati (`.filter(p => p.profiles?.is_approved)`). Il fallback 'ultimi prodotti' scatta solo se la RPC torna ZERO righe (`if (rows.length === 0)`).
+- **Impatto:** Se i più visti nelle 24h sono esauriti o di un negozio sospeso, la sezione di punta della home mostra 2-3 card o nessuna proprio nei momenti di traffico alto, con perdita di click e conversione.
+- **Fix consigliato:** Portare i filtri dentro la RPC (join su products/profiles con `status='available'` e `is_approved`) chiedendo un p_limit più alto e tagliando a 8 dopo il filtro, e attivare il fallback anche quando i risultati validi sono meno di 8.
+
+#### 🟡 94. Il carrello non emette alcun evento e i valori inviati usano unità incoerenti (euro vs centesimi)
+
+- **Dove:** `app/cart/page.tsx (nessun import di analytics) · lib/cart.ts:80-89 (`updateQuantity`) · lib/analytics/events.ts:47-56 vs 69-82 e 89-92`
+- **Cosa succede:** VERIFICATO: app/cart/page.tsx non importa nulla da lib/analytics e nel catalogo non esiste alcun `cart_viewed`/`view_cart`, quindi il salto add_to_cart → begin_checkout non è misurabile. `updateQuantity` (aumento quantità dal carrello) non emette alcun evento, mentre `removeFromCart` chiama `trackRemoveFromCart` che manda a GA4 solo `{ items: [{ item_id }] }`, senza `value`, `currency` né `quantity`. Infine `trackProductViewed` riceve `price` in EURO (app/product/[id]/page.tsx:1048 passa il prezzo in euro) mentre `add_to_cart`/`checkout_started`/`order_placed` usano `price_cents`/`total_cents`.
+- **Impatto:** Buco nel funnel proprio dove si perde più fatturato; property monetarie con lo stesso significato e unità diverse portano a sommare euro e centesimi; i report e-commerce GA4 sulle rimozioni restano vuoti.
+- **Fix consigliato:** Aggiungere `cart_viewed` sulla pagina carrello, uniformare tutte le property monetarie ai centesimi aggiornando il catalogo, tracciare gli incrementi di quantità come `add_to_cart` e passare `value`, `currency` e `quantity` anche su `remove_from_cart`.
+
+#### 🟡 95. Segmento duplicato nel funnel admin: 'Acquisto singolo' e 'A rischio churn' mostrano sempre lo stesso numero
+
+- **Dove:** `app/admin/funnel/page.tsx:134-143`
+- **Cosa succede:** VERIFICATO: `const oneTime = Math.max(0, data.firstOrderEver - data.multipleOrders)` viene usato per entrambe le voci dell'array `segments` (`['Acquisto singolo', oneTime, 'accent']` e `['A rischio churn', oneTime, 'secondary']`); non esiste alcun criterio di recency o inattività che distingua i due segmenti.
+- **Impatto:** La riga dei segmenti sembra dare due informazioni ma ne dà una sola contata due volte: la somma dei segmenti non torna col totale iscritti e il segnale di churn sovrastima il problema.
+- **Fix consigliato:** Calcolare 'A rischio churn' con un criterio reale (es. ultimo ordine oltre 60 giorni fa e nessun ordine successivo) oppure rimuovere il segmento duplicato.
+
+
+### deploy-sre (9)
+
+#### 🟡 96. Il crash del layout root può non arrivare a Sentry: captureError non inizializza il client
+
+- **Dove:** `/home/user/mycity/app/global-error.tsx:19-21 + /home/user/mycity/lib/analytics/sentry.tsx:66-74, :87-95`
+- **Cosa succede:** VERIFICATO con una precisazione. `Sentry.init` lato browser gira solo dentro `initSentry()`, chiamata esclusivamente dallo useEffect di `SentryProvider` (r.88-89); non esiste un sentry.client.config.ts (nel repo ci sono solo sentry.server.config.ts e sentry.edge.config.ts, caricati da instrumentation.ts per i runtime server/edge). `captureError()` (r.66-74) importa l'SDK e chiama captureException senza mai chiamare initSentry(). Precisazione che abbassa la severità: se il crash avviene dopo che SentryProvider ha già montato, il client È inizializzato e la cattura funziona; il buco resta per i crash in fase di render iniziale del layout root, cioè proprio quelli peggiori.
+- **Impatto:** Gli errori che portano l'utente alla schermata 'Qualcosa è andato storto' prima che il provider monti non vengono mai segnalati: l'incidente si scopre solo se un cliente scrive.
+- **Fix consigliato:** Chiamare `await initSentry()` all'inizio di captureError() (è idempotente grazie al flag `initialized`), oppure passare a instrumentation-client.ts di Next 15, che parte prima di qualunque componente.
+
+#### 🟡 97. Sentry non riceve le source map: gli stack trace in produzione sono illeggibili
+
+- **Dove:** `/home/user/mycity/next.config.js:86-108 + /home/user/mycity/render.yaml:32-73`
+- **Cosa succede:** VERIFICATO. withSentryConfig è invocato con `org: process.env.SENTRY_ORG` e `project: process.env.SENTRY_PROJECT` (r.93-94); l'upload delle source map richiede anche SENTRY_AUTH_TOKEN (.env.example r.68-70). Nessuna delle tre è dichiarata in render.yaml, quindi al build su Render l'upload viene saltato, e il tutto è dentro un try/catch muto (r.90 e r.105).
+- **Impatto:** Anche quando Sentry funziona, ogni errore client arriva con stack trace minificato su chunk hashati: tempo di diagnosi moltiplicato.
+- **Fix consigliato:** Aggiungere SENTRY_ORG, SENTRY_PROJECT e SENTRY_AUTH_TOKEN in render.yaml (sync:false) e sostituire il catch muto con un warning esplicito quando il DSN c'è ma il token no.
+
+#### 🟡 98. INTERNAL_API_SECRET assente in render.yaml: gli endpoint server-to-server ripiegano sulla service-role key
+
+- **Dove:** `/home/user/mycity/lib/api/middleware.ts:241 + /home/user/mycity/render.yaml:32-73`
+- **Cosa succede:** VERIFICATO. In `withInternalAuth`: `const expected = process.env.INTERNAL_API_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;` (r.241), con commento che dichiara il fallback come retro-compatibilità temporanea. La variabile dedicata non è dichiarata in render.yaml, quindi in produzione vale il fallback: la chiave che bypassa RLS viaggia come header `x-internal-secret`.
+- **Impatto:** La rotazione del segreto interno diventa impossibile senza ruotare la service-role key (da cambiare ovunque, con downtime). Il raggio d'azione di una fuga dell'header è l'intero database.
+- **Fix consigliato:** Dichiarare INTERNAL_API_SECRET in render.yaml, generarlo (openssl rand -hex 32) e rimuovere il fallback quando NODE_ENV=production.
+
+#### 🟡 99. PostHog puntato sulla regione USA mentre il servizio è a Francoforte per motivi GDPR
+
+- **Dove:** `/home/user/mycity/render.yaml:60-61 vs :23 e /home/user/mycity/.env.example:75`
+- **Cosa succede:** VERIFICATO. render.yaml sceglie `region: frankfurt` con la motivazione esplicita 'EU per GDPR + latenza Italia' (r.23) e poi imposta `NEXT_PUBLIC_POSTHOG_HOST: https://us.i.posthog.com` (r.60-61). .env.example r.75 indica invece `https://eu.posthog.com`. Contraddizione dentro la stessa configurazione di deploy, e divergenza tra i due file.
+- **Impatto:** Gli eventi comportamentali (che possono contenere identificatori riconducibili a persona) escono dallo SEE in contrasto con l'impostazione dichiarata, e la latenza di ingestion peggiora.
+- **Fix consigliato:** Portare NEXT_PUBLIC_POSTHOG_HOST a https://eu.i.posthog.com (allineandolo a .env.example) e verificare che il progetto PostHog sia effettivamente nella cloud UE, aggiornando docs/dpa-vendors.md.
+
+#### 🟡 100. Il rate limit è in memoria: si azzera a ogni deploy e non regge lo scale-out
+
+- **Dove:** `/home/user/mycity/render.yaml:68-73 + /home/user/mycity/lib/rate-limit.ts:22, :96-100`
+- **Cosa succede:** VERIFICATO. UPSTASH_REDIS_REST_URL/TOKEN sono dichiarate in render.yaml ma il commento le marca 'Opzionale su singola istanza (fallback in-memory)'. In lib/rate-limit.ts i bucket sono una `Map` in-process (r.22) e `upstashIncr` restituisce null se le variabili mancano (r.100), con fallback automatico. Con autoDeploy attivo i riavvii sono frequenti e ogni riavvio azzera i contatori: il commento in render.yaml avverte solo del caso scale-out, ma il reset a ogni deploy c'è già oggi.
+- **Impatto:** Le protezioni anti-abuso su signin/signup/checkout si resettano a ogni push su main: finestra sfruttabile per brute force o abuso di coupon.
+- **Fix consigliato:** Configurare Upstash già ora (free tier sufficiente) e far emettere un alert se in produzione le variabili Upstash mancano.
+
+#### 🟡 101. Il cron external-price-alerts non è coperto dal dead-man's switch
+
+- **Dove:** `/home/user/mycity/lib/cron-health.ts:21-29`
+- **Cosa succede:** VERIFICATO. `CRON_MAX_STALENESS_MIN` elenca 7 cron (release-payouts, send-emails, send-push, expire-checkouts, expire-stale-orders, abandoned-carts, process-deletions). Manca operational-alerts (giustificato: non può auto-vigilarsi) ma manca anche external-price-alerts, schedulato ogni ora sia in render.yaml (r.90) sia in docs/crons.json. Non essendo in tabella, `staleCrons()` non lo valuta mai.
+- **Impatto:** I prodotti importati restano con prezzi e disponibilità non aggiornati senza che nessuno se ne accorga: si vendono articoli a prezzi sbagliati o non più disponibili, con rimborsi e reclami a valle.
+- **Fix consigliato:** Aggiungere `'external-price-alerts': 180` alla mappa e, meglio, generare la lista dei cron monitorati da docs/crons.json così che aggiungere un cron implichi monitorarlo.
+
+#### 🟡 102. L'health check pubblico espone i messaggi d'errore del database e i nomi delle env mancanti
+
+- **Dove:** `/home/user/mycity/app/api/health/route.ts:32, :43-44, :50-59 + /home/user/mycity/middleware.ts:278-281`
+- **Cosa succede:** VERIFICATO. La risposta include `checks.db.error = error.message` (messaggio grezzo di PostgREST/Postgres, r.32) e `checks.env.error = missingEnv.join(',')`, cioè l'elenco delle variabili non configurate (r.44). L'endpoint è dichiaratamente non autenticato (commento r.21) e il matcher del middleware esclude `api/` (middleware.ts:280), quindi non passa da alcun rate limit e la route non ne applica uno proprio.
+- **Impatto:** Ricognizione gratuita per un attaccante: dettagli Postgres e mappa esatta di quali integrazioni non sono configurate, cioè dove il sistema è più debole. In più ogni chiamata anonima fa una query al database, senza limiti.
+- **Fix consigliato:** Restituire ai chiamanti anonimi solo `{status, timestamp}` ed esporre il dettaglio dei check solo con un header segreto (CRON_SECRET o un HEALTH_TOKEN). Aggiungere un rate limit per IP.
+
+#### 🟡 103. I timer dei controlli di /status non vengono mai cancellati e le richieste esterne non vengono interrotte
+
+- **Dove:** `/home/user/mycity/lib/health/checks.ts:45-50`
+- **Cosa succede:** VERIFICATO. `withTimeout` costruisce `Promise.race([p, new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))])` senza alcun clearTimeout, e la promise perdente continua a girare: le fetch verso Stripe (`getStripe().balance.retrieve()`) e Resend (`fetch('https://api.resend.com/domains')`) non ricevono alcun AbortSignal, quindi restano aperte anche dopo che il check è stato dichiarato fallito.
+- **Impatto:** Su un'istanza starter, sotto traffico su /status con un provider lento, si accumulano timer e connessioni pendenti: consumo di memoria e socket che degrada l'intero processo, non solo la pagina di stato.
+- **Fix consigliato:** Usare AbortController/AbortSignal.timeout() sulle fetch e fare clearTimeout nel finally di withTimeout.
+
+#### 🟡 104. Il dominio è scritto a mano nelle email di recupero carrello invece di venire dalle env
+
+- **Dove:** `/home/user/mycity/app/api/cron/abandoned-carts/route.ts:57-59`
+- **Cosa succede:** VERIFICATO. L'HTML dell'email contiene `href="https://mycity-marketplace.com/cart"` e il testo `Vai su mycity-marketplace.com/cart`, entrambi letterali, mentre gli altri cron usano `env.appUrl()`. Lo stesso valore è duplicato in render.yaml:65 come NEXT_PUBLIC_APP_URL.
+- **Impatto:** Al primo cambio di dominio (o su un ambiente di preview) le email di recupero carrello portano gli utenti sul dominio sbagliato: campagna bruciata e link rotti inviati a clienti reali.
+- **Fix consigliato:** Sostituire con env.appUrl() come negli altri cron e aggiungere un lint che vieti URL assoluti hardcoded nei template email.
+

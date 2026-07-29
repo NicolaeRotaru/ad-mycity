@@ -25,9 +25,10 @@
 //
 // Exit (contratto AR-322): 0 = tutte dichiarate e col cancello giusto · 1 = uscita scoperta · 2 = cieco
 
-import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { dirname, join, relative } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { leggiPerimetro } from "./perimetro.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..");
@@ -40,6 +41,17 @@ const FORME_USCITA = [
   { re: /method:\s*"(POST|PUT|PATCH|DELETE)"/, cosa: "scrittura HTTP" },
   { re: /api\.telegram\.org\/bot[^/]*\/sendMessage/, cosa: "invio Telegram" },
   { re: /resend\.[a-z]+\.send|sendMail/i, cosa: "invio email" },
+  // Lotto 33 (AR-381). Le tre forme sopra erano scritte guardando le uscite note nel 2026-07: tutte
+  // costruivano il fetch a mano, nello stesso file, con `method: "POST"` letterale. Quando i
+  // publisher hanno estratto quella riga in una funzione condivisa (`postJSON` di
+  // publishers/_comune.mjs) le loro uscite sono diventate invisibili — non perché nascoste, ma
+  // perché la forma cercata era la SCRITTURA A MANO invece del FATTO di uscire. Da qui in poi si
+  // cerca il bene da proteggere: chi manda qualcosa fuori, comunque scriva la riga.
+  { re: /\bpostJSON\s*\(/, cosa: "POST via helper condiviso" },
+  { re: /graph\.facebook\.com/, cosa: "pubblicazione Facebook/Instagram" },
+  { re: /api\.resend\.com/, cosa: "invio email (Resend HTTP)" },
+  { re: /mybusiness[a-z]*\.googleapis\.com/, cosa: "pubblicazione Google Business Profile" },
+  { re: /api\.anthropic\.com|api\.openai\.com/, cosa: "motore AI a pagamento" },
 ];
 
 // I test CITANO queste forme per vietarle: contarli come uscite farebbe crescere il numero proprio
@@ -60,23 +72,17 @@ function senzaCommenti(testo) {
 }
 
 function scansiona() {
+  // AR-381: il perimetro si MISURA. Prima era `readdirSync(QUI)` — un livello solo — quindi
+  // `publishers/` (Facebook, Instagram, email, Google Business Profile) non esisteva come luogo dove
+  // può esserci un'uscita: otto mani che pubblicano davvero non erano mai state contate come mani.
+  // Il guardiano usciva verde, e un verde non fa domande.
+  const letti = leggiPerimetro(QUI, { estensioni: [".mjs"], escludi: ["test", "stato"] });
+  if (letti == null) return null;
   const trovate = [];
-  let voci;
-  try {
-    voci = readdirSync(QUI, { withFileTypes: true });
-  } catch {
-    return null;
-  }
-  for (const v of voci) {
-    if (!v.isFile() || !v.name.endsWith(".mjs")) continue;
-    const rel = `cervello/${v.name}`;
+  for (const { file, testo: grezzo } of letti) {
+    const rel = `cervello/${file}`;
     if (SALTA.some((s) => rel.startsWith(s) || rel === s)) continue;
-    let testo;
-    try {
-      testo = senzaCommenti(readFileSync(join(QUI, v.name), "utf8"));
-    } catch {
-      continue;
-    }
+    const testo = senzaCommenti(grezzo);
     const forme = FORME_USCITA.filter((f) => f.re.test(testo)).map((f) => f.cosa);
     if (forme.length) trovate.push({ file: rel, forme, haCancello: /consenso-azione\.mjs/.test(testo) });
   }

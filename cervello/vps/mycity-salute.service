@@ -1,0 +1,23 @@
+[Unit]
+Description=MyCity AD — visita della macchina (worker, cervello, Cabina, senior, sensori)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=mycity
+Group=mycity
+WorkingDirectory=/opt/mycity/ad-mycity
+Environment=TZ=Europe/Rome
+EnvironmentFile=-/opt/mycity/ad-mycity/cervello/vps/.env
+# --vps: qui i servizi e i timer si vedono davvero. Il referto che scrive è anche il PONTE verso le
+# sessioni Claude, che dal cloud non possono guardare questa macchina: se smette di aggiornarsi,
+# da laggiù quello diventa il segnale che il VPS non si sta più controllando.
+ExecStart=/usr/bin/env node /opt/mycity/ad-mycity/cervello/salute.mjs --vps
+# Exit 1 = c'è un rosso · 2 = ha visto troppo poco. Entrambi sono esiti legittimi di una visita, non
+# crash del servizio: systemd non deve marcarli come fallimento e riprovare a raffica.
+SuccessExitStatus=0 1 2
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

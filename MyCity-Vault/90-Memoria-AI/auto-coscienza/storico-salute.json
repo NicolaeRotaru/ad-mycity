@@ -2,62 +2,6 @@
   "_cosa_e": "📈 STORICO SALUTE — la serie storica del voto di salute dell'architettura, per vedere se la macchina sta MIGLIORANDO nel tempo (il volano che gira). Lo aggiorna la radiografia completa e la sonda di ogni giro. Schema in cervello/auto-coscienza.md.",
   "serie": [
     {
-      "data": "2026-07-22",
-      "voto_salute": 72,
-      "voto_provvisorio": 45,
-      "voto_pieno": 0,
-      "firma": "AR-126,AR-129",
-      "difetti_aperti": 19,
-      "difetti_chiusi": 57,
-      "pending_merge": 15,
-      "aperti_davvero": 2,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (46h) · cecità sensori 7 giri · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-22",
-      "voto_salute": 72,
-      "voto_provvisorio": 45,
-      "voto_pieno": 0,
-      "firma": "AR-126,AR-129",
-      "difetti_aperti": 19,
-      "difetti_chiusi": 57,
-      "pending_merge": 15,
-      "aperti_davvero": 2,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (48h) · cecità sensori 7 giri · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-22",
-      "voto_salute": 72,
-      "voto_provvisorio": 45,
-      "voto_pieno": 0,
-      "firma": "AR-126,AR-129",
-      "difetti_aperti": 19,
-      "difetti_chiusi": 57,
-      "pending_merge": 15,
-      "aperti_davvero": 2,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (50h) · cecità sensori 7 giri · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-23",
-      "voto_salute": 72,
-      "voto_provvisorio": 45,
-      "voto_pieno": 0,
-      "firma": "AR-126,AR-129",
-      "difetti_aperti": 19,
-      "difetti_chiusi": 57,
-      "pending_merge": 15,
-      "aperti_davvero": 2,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (58h) · cecità sensori 7 giri · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
       "data": "2026-07-23",
       "voto_salute": 72,
       "voto_provvisorio": 45,
@@ -1065,6 +1009,48 @@
       "difetti_chiusi": 19,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-229, AR-230, AR-231, AR-238, AR-239, AR-257, AR-259, AR-260, AR-261, AR-264, AR-266, AR-267, AR-268, AR-269, AR-339, AR-340, AR-341, AR-342, AR-343 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 31 dall'ultima misura vera."
+    },
+    {
+      "data": "2026-07-29",
+      "voto_salute": 31,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-126,AR-154,AR-158,AR-160,AR-161,AR-174,AR-184,AR-188,AR-193,AR-206,AR-216,AR-217,AR-220,AR-223,AR-224,AR-225,AR-234,AR-237,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-273,AR-274,AR-278,AR-283,AR-285,AR-288,AR-289,AR-294,AR-295,AR-302,AR-323",
+      "difetti_aperti": 99,
+      "difetti_chiusi": 183,
+      "pending_merge": 51,
+      "aperti_davvero": 35,
+      "bloccanti_umani": 13,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (39h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 35 aperti-davvero · 51 in attesa merge · 13 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-29",
+      "voto_salute": 0,
+      "voto_riportato": false,
+      "difetti_aperti": 188,
+      "difetti_chiusi": 183,
+      "bloccanti_aperti": 16,
+      "tipo": "completa",
+      "nota": "Radiografia completa (8 aree, 18 agenti, verifica avversariale): 89 difetti nuovi confermati (14 bloccanti). Voto MISURATO, non riportato. Tema comune: i controlli certificano l'esistenza e non il funzionamento, e vivono dentro il sistema che sorvegliano."
+    },
+    {
+      "data": "2026-07-29",
+      "voto_salute": 31,
+      "voto_riportato": true,
+      "difetti_aperti": 168,
+      "difetti_chiusi": 28,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-112, AR-145, AR-162, AR-163, AR-164, AR-166, AR-201, AR-207, AR-228, AR-273, AR-277, AR-293, AR-298, AR-302, AR-305, AR-313, AR-317, AR-371, AR-372, AR-373, AR-374, AR-377, AR-379, AR-380, AR-381, AR-382, AR-387, AR-430 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 31 dall'ultima misura vera."
+    },
+    {
+      "data": "2026-07-29",
+      "voto_salute": 31,
+      "voto_riportato": true,
+      "difetti_aperti": 166,
+      "difetti_chiusi": 2,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-226, AR-409 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 31 dall'ultima misura vera."
     }
   ]
 }

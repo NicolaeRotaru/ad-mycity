@@ -31,9 +31,10 @@
 //
 // Exit: 0 = i due elenchi concordano · 1 = divergono · 2 = non ho potuto misurare (cieco)
 
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
+import { elencaFile } from "./perimetro.mjs";
 
 /**
  * I nomi a cui una riga rimanda. Pura.
@@ -133,8 +134,16 @@ function main() {
   }
   const roster = rosterDaClaudeMd(readFileSync(claudeMd, "utf8"));
   const schede = new Map();
-  for (const f of readdirSync(agentsDir).filter((x) => x.endsWith(".md"))) {
-    schede.set(basename(f, ".md"), rimandiDi(descrizioneDi(readFileSync(join(agentsDir, f), "utf8"))));
+  // Il perimetro si DERIVA, non si scrive (lotto 33): elencaFile scende ricorsivamente, così un
+  // mansionario in una sottocartella non resta fuori dal confronto in silenzio. Torna `null` — non
+  // `[]` — se la cartella non si legge: «non ho potuto guardare» non è «non c'è niente».
+  const mansionari = elencaFile(agentsDir, { estensioni: [".md"] });
+  if (mansionari === null) {
+    console.error(`⛔ DEFERRAL-AGENTI CIECO: non riesco a leggere ${agentsDir}`);
+    process.exit(2);
+  }
+  for (const rel of mansionari) {
+    schede.set(basename(rel, ".md"), rimandiDi(descrizioneDi(readFileSync(join(agentsDir, rel), "utf8"))));
   }
   if (!roster.size || !schede.size) {
     console.error("⛔ DEFERRAL-AGENTI CIECO: roster o mansionari vuoti");

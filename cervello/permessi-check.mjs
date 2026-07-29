@@ -30,6 +30,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { strumentiSospetti } from "./permessi-strumenti.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const FILES = [".claude/settings.json", ".claude/settings.local.json"];
@@ -105,6 +106,28 @@ export const REGOLE = [
   },
 ];
 
+// ─────────────────────────────────────────────────────────────────────────────
+// STRUMENTI COLLEGATI (MCP) GIUSTIFICATI — AR-273.
+// ─────────────────────────────────────────────────────────────────────────────
+// Uno strumento che SCRIVE su un sistema esterno non sta fra i permessi automatici, a meno che ci
+// sia scritto perché. Il perché è obbligatorio: il cantiere ha già pagato che «un'esenzione senza
+// motivo è un silenzio», e il silenzio è precisamente ciò che ha lasciato passare `execute_sql`.
+//
+// Chi aggiunge una voce qui dichiara cosa può rompere. Chi non la dichiara, la vede in rosso a ogni
+// giro finché non decide — che è l'unico modo perché la decisione avvenga.
+export const STRUMENTI_GIUSTIFICATI = {
+  "mcp__github__create_pull_request":
+    "aprire una PR è 🟡 per CLAUDE.md (si prepara, non si mergia): scrive su un ramo, mai su main, e il merge resta di Nicola.",
+  "mcp__github__update_pull_request":
+    "aggiorna titolo/corpo di una PR già aperta dalla macchina: non tocca il codice né il merge.",
+  "mcp__github__add_issue_comment":
+    "commentare una PR è il canale con cui la macchina riferisce a Nicola; non modifica codice né stato del repo.",
+  "mcp__github__subscribe_pr_activity":
+    "iscrive la sessione agli eventi di una PR: cambia solo cosa la macchina ASCOLTA, non cosa il repo contiene.",
+  "mcp__github__unsubscribe_pr_activity":
+    "disiscrive la sessione dagli eventi di una PR: stesso perimetro dell'iscrizione, in senso inverso.",
+};
+
 function leggiSettings() {
   const out = [];
   for (const rel of FILES) {
@@ -162,7 +185,7 @@ export function neutralizzato(voce, deny = []) {
  *   · violazioni = la macchina PUÒ fare più di quanto dovrebbe (allow scoperto, o divieto assente);
  *   · inerti     = permesso largo scritto ma già murato da un divieto: da ripulire, non pericoloso.
  */
-export function analizza(files = [], regole = REGOLE) {
+export function analizza(files = [], regole = REGOLE, giustificati = STRUMENTI_GIUSTIFICATI) {
   const denyUnione = files.flatMap((f) => f.deny || []).map(String);
   const violaz = [], inerti = [];
   for (const f of files) {
@@ -180,12 +203,35 @@ export function analizza(files = [], regole = REGOLE) {
     if (denyUnione.some((d) => r.deve_negare.test(d))) continue;
     violaz.push({ regola: r.id, tipo: "deny-mancante", voce: String(r.deve_negare), perche: r.perche, file: "(tutti)" });
   }
+
+  // AR-273 — gli STRUMENTI COLLEGATI. Non passano dalle regex qui sopra apposta: quelle sono un
+  // elenco scritto a mano che cresce solo dopo un incidente, ed è la causa radice del difetto. Qui
+  // la voce si classifica da sé (permessi-strumenti.mjs) e ciò che non si sa classificare è una
+  // violazione — così uno strumento di forma nuova non entra in silenzio.
+  for (const f of files) {
+    for (const s of strumentiSospetti(f.allow || [], giustificati)) {
+      if (neutralizzato(s.voce, denyUnione)) {
+        inerti.push({ regola: "strumenti-di-scrittura-non-automatici", voce: s.voce, perche: s.motivo, file: f.file, tipo: "allow-inerte" });
+        continue;
+      }
+      violaz.push({
+        regola: "strumenti-di-scrittura-non-automatici",
+        tipo: s.tipo === "sconosciuto" ? "strumento-non-classificato" : "strumento-di-scrittura",
+        voce: s.voce,
+        perche:
+          `AR-273: ${s.motivo}. Uno strumento che scrive su un sistema esterno non sta fra i permessi ` +
+          `concessi senza chiedere. Se serve davvero, va giustificato per iscritto in ` +
+          `STRUMENTI_GIUSTIFICATI (permessi-check.mjs) — o tolto da .claude/settings.json, che è di Nicola.`,
+        file: f.file,
+      });
+    }
+  }
   return { violazioni: violaz, inerti };
 }
 
 /** Scorciatoia su un solo file — la usano i test per provare una regola alla volta. */
-export function violazioni(allow = [], deny = [], regole = REGOLE) {
-  return analizza([{ file: ".claude/settings.json", allow, deny }], regole).violazioni;
+export function violazioni(allow = [], deny = [], regole = REGOLE, giustificati = STRUMENTI_GIUSTIFICATI) {
+  return analizza([{ file: ".claude/settings.json", allow, deny }], regole, giustificati).violazioni;
 }
 
 function main() {
@@ -214,7 +260,13 @@ function main() {
   if (tutte.length) {
     console.log(`\n❌ ${tutte.length} violazione/i — la macchina può fare più di quanto dovrebbe:\n`);
     for (const v of tutte) {
-      const cosa = v.tipo === "allow-troppo-largo" ? `permesso troppo largo: ${v.voce}` : `manca il divieto: ${v.voce}`;
+      const ETICHETTA = {
+        "allow-troppo-largo": "permesso troppo largo",
+        "deny-mancante": "manca il divieto",
+        "strumento-di-scrittura": "strumento che SCRIVE, concesso senza chiedere e senza un perché",
+        "strumento-non-classificato": "strumento di forma nuova, mai dichiarato",
+      };
+      const cosa = `${ETICHETTA[v.tipo] || v.tipo}: ${v.voce}`;
       console.log(`  • [${v.regola}] ${cosa}   (${v.file})`);
       console.log(`      perché: ${v.perche}`);
     }

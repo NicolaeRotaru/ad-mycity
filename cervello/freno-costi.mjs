@@ -47,7 +47,10 @@ if (dati == null) {
 }
 
 const soglia = Number(dati.soglia_giornaliera_token || 0);
-const misura = tokenPerGate(dati.oggi);
+// AR-424 — la data di oggi a Piacenza, passata alla funzione pura invece di essere letta da dentro:
+// così il confronto «di che giorno è questo contatore?» è provabile senza spostare l'orologio.
+const OGGI_PIACENZA = new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" });
+const misura = tokenPerGate(dati.oggi, OGGI_PIACENZA);
 const verdetto = decidiFrenoCosto({ valore: misura.valore, fonte: misura.fonte, soglia });
 
 const out = {
@@ -58,6 +61,10 @@ const out = {
   stimati: misura.stimati,
   soglia,
   file: FILE,
+  // AR-424: il giorno del contatore va SEMPRE in chiaro accanto al verdetto. È il dato che mancava:
+  // finché non compariva, «lascia, 0 token» e «lascia, 0 token di ieri» erano la stessa riga.
+  giorno_contatore: misura.giorno ?? null,
+  oggi: OGGI_PIACENZA,
 };
 
 if (JSON_MODE) console.log(JSON.stringify(out, null, 2));

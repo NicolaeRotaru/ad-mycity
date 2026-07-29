@@ -1,0 +1,28 @@
+[
+ {"_cosa_e": "🎯 IL BANCO DEL TRIGGER — le frasi vere con cui Nicola chiede (o NON chiede) una visita della macchina. Lo esegue `node cervello/prova-trigger.mjs`: ogni frase va davvero a `claude -p` dentro questo repo e si guarda se la prima mossa è aprire la skill `salute`. Le frasi con `should_trigger: false` sono le TRAPPOLE: parlano di controllare, di guasti o di 'non funziona' ma vogliono un'altra capacità (il giro, la riparazione del cantiere, il sito, il Pannello). Una porta d'ingresso che non si misura è una porta che si crede aperta.", "should_trigger": null, "query": null},
+
+ {"query": "controlla se sta funzionando tutto", "should_trigger": true, "fonte": "nicola", "nota": "la frase che ha fatto nascere la skill"},
+ {"query": "e tutto a posto?", "should_trigger": true, "nota": "la domanda secca, senza nessuna parola tecnica"},
+ {"query": "la macchina sta bene?", "should_trigger": true},
+ {"query": "fammi un controllo generale", "should_trigger": true},
+ {"query": "checkup", "should_trigger": true, "nota": "una parola sola"},
+ {"query": "il worker sta girando?", "should_trigger": true, "nota": "un organo solo: la visita parte e poi apre la radiografia del worker"},
+ {"query": "il pannello e i senior funzionano come devono?", "should_trigger": true},
+ {"query": "senti volevo sapere se e tutto ok con il worker il pannello e gli agenti perche non vorrei che si fosse fermato qualcosa senza che ce ne accorgiamo", "should_trigger": true, "nota": "dettata a voce: lunga, senza punteggiatura, senza accenti"},
+ {"query": "verifica che non si sia rotto niente dopo il rilascio di ieri", "should_trigger": true, "nota": "visita prima/dopo un rilascio"},
+ {"query": "e da stamattina che non vedo aggiornamenti, controlla che non sia morto qualcosa", "should_trigger": true, "nota": "parte dal sintomo, non dal comando"},
+ {"query": "fai il check di salute della macchina", "should_trigger": true},
+ {"query": "controlla se gli agenti rispondono ancora", "should_trigger": true},
+ {"query": "sei sicura che stia funzionando tutto davvero? non fidarti", "should_trigger": true, "nota": "chiede la visita in modo profondo (--completo)"},
+ {"query": "guarda se il vps sta ancora lavorando", "should_trigger": true},
+
+ {"query": "fai un giro", "should_trigger": false, "nota": "TRAPPOLA — il giro operativo quotidiano, non la visita tecnica"},
+ {"query": "risolvi i difetti", "should_trigger": false, "nota": "TRAPPOLA — cantiere: quella RIPARA, questa CONTROLLA"},
+ {"query": "fatti la radiografia", "should_trigger": false, "nota": "TRAPPOLA — auto-radiografia dell'architettura, non la visita"},
+ {"query": "analizza tutto il sito e trova tutti i bug", "should_trigger": false, "nota": "TRAPPOLA — radiografia del marketplace"},
+ {"query": "il checkout non funziona quando cambio la quantita", "should_trigger": false, "nota": "TRAPPOLA — bug del marketplace, non salute della macchina"},
+ {"query": "come stiamo? quanti ordini abbiamo fatto", "should_trigger": false, "nota": "TRAPPOLA — KPI di business, non organi della macchina"},
+ {"query": "controlla i pagamenti su stripe", "should_trigger": false, "nota": "TRAPPOLA — finanza/analista sui dati veri"},
+ {"query": "controlla i dati mancanti dei negozi", "should_trigger": false, "nota": "TRAPPOLA — supervisione negozi del marketplace"},
+ {"query": "cosa devo decidere?", "should_trigger": false, "nota": "TRAPPOLA — la coda delle azioni in attesa"}
+]

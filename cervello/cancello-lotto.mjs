@@ -25,6 +25,8 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
+import { storiaDelRepo } from "./storia-git.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VELOCE = process.argv.includes("--veloce");
@@ -134,11 +136,32 @@ export function proveCondiviseCieche(difetti, leggi) {
   return problemi;
 }
 
-/** Estrae il path del file da un comando tipo `node cervello/test/x.test.mjs --flag`. */
+/**
+ * Estrae il path del file da un comando tipo `node cervello/test/x.test.mjs --flag`.
+ *
+ * ⚠️ La regola «il primo token che sembra un file» era a sua volta un perimetro DEDOTTO dalla forma
+ * dei comandi esistenti (lotto 33). Appena un comando ha portato un caricatore —
+ * `node --import ./cervello/test/hook-ts.mjs --test cervello/test/pannello-serratura.test.mjs` —
+ * l'estrattore ha restituito il RISOLUTORE invece del test, e il cancello ha accusato una prova
+ * condivisa di non nominare i suoi difetti mentre li nominava benissimo. Il modo di sbagliare è
+ * quello brutto: legge il file sbagliato e ne trae una conclusione con la stessa sicurezza.
+ *
+ * Adesso si saltano le opzioni E il valore di quelle che ne prendono uno: resta il file da eseguire.
+ */
+const FLAG_CON_VALORE = new Set(["--import", "--require", "-r", "--loader", "--experimental-loader", "--env-file"]);
+
 export function fileDelComando(comando) {
   const pezzi = String(comando || "").trim().split(/\s+/);
-  const cand = pezzi.find((p) => /\.(mjs|mts|ts|js|sh|bats)$/.test(p));
-  return cand || null;
+  for (let i = 0; i < pezzi.length; i++) {
+    const p = pezzi[i];
+    if (FLAG_CON_VALORE.has(p)) {
+      i++; // il prossimo token è il suo valore, non il programma da eseguire
+      continue;
+    }
+    if (p.startsWith("-")) continue; // `--test`, `--test-reporter=tap`, …
+    if (/\.(mjs|mts|ts|js|sh|bats)$/.test(p)) return p;
+  }
+  return null;
 }
 
 /** Gli id nominati da una voce di `mutanti.json`: il campo `difetto` può accorparne più d'uno («AR-239+AR-264»). */
@@ -205,7 +228,23 @@ export function proveOrfane(difetti, esiste) {
       fuori.push({ id: d.id, comando: c, motivo: "il comando non nomina nessun file: non si può nemmeno controllare" });
       continue;
     }
-    if (!esiste(f)) fuori.push({ id: d.id, comando: c, motivo: `il file ${f} non esiste` });
+    if (!esiste(f)) {
+      fuori.push({ id: d.id, comando: c, motivo: `il file ${f} non esiste` });
+      continue;
+    }
+    // Lotto 33: il file c'è, ma `auto-fix` — che è chi chiude davvero i difetti dopo il merge — sa
+    // eseguire solo `node cervello/<script>.mjs [--flag]`, e quella restrizione è una difesa (un
+    // difetto non deve poter far girare codice arbitrario per dichiararsi risolto). Una prova che
+    // il cancello accetta e il motore non sa eseguire è peggio di una prova mancante: il lotto si
+    // consegna, il merge passa, e il difetto resta aperto marcato «manuale» — cioè in attesa di un
+    // umano che non sa di essere atteso. È successo qui, ad AR-409 e AR-226.
+    if (!comandoAmmesso(c)) {
+      fuori.push({
+        id: d.id,
+        comando: c,
+        motivo: `auto-fix non potrà eseguirlo (${MOTIVO_COMANDO_NON_AMMESSO}): il difetto resterebbe aperto in silenzio dopo il merge`,
+      });
+    }
   }
   return fuori;
 }
@@ -228,9 +267,16 @@ export function proveOrfane(difetti, esiste) {
  * che è assoluto: una prova a OR in più alza il totale e blocca comunque.
  */
 function basePerConfronto() {
-  const mb = spawnSync("git", ["merge-base", "HEAD", "origin/main"], { cwd: AD_ROOT, encoding: "utf8" });
-  if (mb.status === 0 && mb.stdout.trim()) return { spec: mb.stdout.trim(), nota: "antenato comune con origin/main" };
-  return { spec: "HEAD", nota: "repo shallow: confronto con l'ultimo commit locale (i pezzi già committati non risultano toccati)" };
+  // AR-419 — prima si SAPEVA di essere shallow solo per deduzione: se `merge-base` non rispondeva,
+  // si scriveva «repo shallow» come spiegazione più probabile. Quasi sempre giusta, ma è comunque
+  // un motivo indovinato — e un guardiano che indovina il perché della propria cecità non sta
+  // misurando, sta raccontando. Ora la storia si chiede alla porta e il motivo è quello vero.
+  const storia = storiaDelRepo(AD_ROOT);
+  if (storia.intera) {
+    const mb = spawnSync("git", ["merge-base", "HEAD", "origin/main"], { cwd: AD_ROOT, encoding: "utf8" });
+    if (mb.status === 0 && mb.stdout.trim()) return { spec: mb.stdout.trim(), nota: "antenato comune con origin/main" };
+  }
+  return { spec: "HEAD", nota: `${storia.motivo} → confronto con l'ultimo commit locale (i pezzi già committati non risultano toccati)` };
 }
 
 function gitShow(spec) {

@@ -131,8 +131,11 @@ prova("il guardiano è agganciato al giro come cancello", () => {
   const src = leggi("cervello/giro.sh");
   assert.match(src, /guardiano uscite-check\.mjs/, "deve girare a ogni giro");
   assert.match(src, /USCITE_VINCOLO=/, "e il suo esito dev'essere un vincolo");
-  const elenco = src.match(/for _vnome in ([A-Z_ ]+); do/);
-  assert.ok(elenco && elenco[1].includes("USCITE"), "USCITE deve stare nell'elenco unico dei vincoli (AR-320)");
+  // AR-379/AR-387 (lotto 33): l'elenco dei vincoli non si enumera più a mano, si deriva dalle
+  // variabili che esistono davvero. Cercare qui il nome dentro una lista significherebbe rimettere
+  // in piedi proprio la lista che poteva restare indietro. La domanda giusta è se la variabile
+  // esiste ed è derivabile — e allora è contata per costruzione.
+  assert.match(src, /compgen -v[^\n]*_VINCOLO/, "i vincoli vanno derivati: una lista a mano prima o poi resta indietro");
 });
 
 // ── AR-206 (b): niente jolly su una cartella scrivibile ──────────────────────
