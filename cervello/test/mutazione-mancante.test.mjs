@@ -44,6 +44,9 @@ function repoFinto({ verificaPrima, verificaOra, mutanti, tetti, cerca = "if (sc
   mkdirSync(join(dir, dirname(DENTRO_CANTIERE)), { recursive: true });
 
   copyFileSync(join(REPO, "cervello/cancello-lotto.mjs"), join(dir, "cervello/cancello-lotto.mjs"));
+  // La forma ammessa per un comando di prova sta in un modulo suo, senza dipendenze, apposta perché
+  // il cancello resti eseguibile dentro un repo finto di pochi file (lotto 33).
+  copyFileSync(join(REPO, "cervello/forma-prova.mjs"), join(dir, "cervello/forma-prova.mjs"));
   // Il cancello prende la radice da git-github.mjs: qui la si punta al repo finto.
   writeFileSync(
     join(dir, "cervello/git-github.mjs"),
@@ -155,6 +158,33 @@ prova("il file del test si riconosce anche quando il comando porta un caricatore
   assert.equal(fileDelComando("bats cervello/test/y.bats"), "cervello/test/y.bats");
   assert.equal(fileDelComando("node --test --test-reporter=tap cervello/test/z.test.mjs"), "cervello/test/z.test.mjs");
   assert.equal(fileDelComando("echo niente"), null, "senza file deve dire null, non indovinare");
+});
+
+prova("una prova che auto-fix non sa eseguire non passa il cancello (lotto 33)", async () => {
+  const { proveOrfane } = await import(join(QUI, "..", "cancello-lotto.mjs"));
+  const { comandoAmmesso } = await import(join(QUI, "..", "forma-prova.mjs"));
+
+  // Il caso che ha rotto, e che è costato due difetti: AR-409 e AR-226 sono stati consegnati con
+  // `node --import ./cervello/test/hook-ts.mjs --test …`. Il cancello l'ha accettato — il file
+  // esisteva — ma `auto-fix`, che chiude i difetti DOPO il merge, esegue solo
+  // `node cervello/<script>.mjs [--flag]`, e quella restrizione è una difesa voluta. Risultato: il
+  // lotto consegnato, il merge passato, e i due difetti rimasti aperti marcati «manuale», cioè in
+  // attesa di un umano che non sapeva di essere atteso. Due guardiani, due idee di cosa sia un
+  // comando valido: la stessa malattia del lotto, dentro il lotto.
+  const esisteSempre = () => true;
+  const conFlag = [{ id: "AR-999", verifica: { comando: "node --import ./cervello/test/hook-ts.mjs --test cervello/test/x.test.mjs" } }];
+  const trovate = proveOrfane(conFlag, esisteSempre);
+  assert.equal(trovate.length, 1, "il cancello deve fermare una prova che il motore non potrà eseguire");
+  assert.match(trovate[0].motivo, /auto-fix non potrà eseguirlo/);
+
+  // …e la forma buona passa, altrimenti il cancello bloccherebbe il lavoro sano.
+  assert.deepEqual(proveOrfane([{ id: "AR-998", verifica: { comando: "node cervello/test/x.test.mjs" } }], esisteSempre), []);
+
+  // La regola sta in UN posto solo: se qualcuno la cambia in auto-fix, il cancello la segue.
+  assert.equal(comandoAmmesso("node cervello/test/x.test.mjs"), true);
+  assert.equal(comandoAmmesso("node cervello/test/x.test.mjs --json"), true);
+  assert.equal(comandoAmmesso("node --import ./y.mjs cervello/test/x.test.mjs"), false);
+  assert.equal(comandoAmmesso("bash cervello/test/x.bats"), false, "solo node: non si esegue una shell per chiudere un difetto");
 });
 
 const rotti = casi.filter((c) => !c.ok);

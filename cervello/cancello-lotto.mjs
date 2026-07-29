@@ -25,6 +25,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VELOCE = process.argv.includes("--veloce");
@@ -226,7 +227,23 @@ export function proveOrfane(difetti, esiste) {
       fuori.push({ id: d.id, comando: c, motivo: "il comando non nomina nessun file: non si può nemmeno controllare" });
       continue;
     }
-    if (!esiste(f)) fuori.push({ id: d.id, comando: c, motivo: `il file ${f} non esiste` });
+    if (!esiste(f)) {
+      fuori.push({ id: d.id, comando: c, motivo: `il file ${f} non esiste` });
+      continue;
+    }
+    // Lotto 33: il file c'è, ma `auto-fix` — che è chi chiude davvero i difetti dopo il merge — sa
+    // eseguire solo `node cervello/<script>.mjs [--flag]`, e quella restrizione è una difesa (un
+    // difetto non deve poter far girare codice arbitrario per dichiararsi risolto). Una prova che
+    // il cancello accetta e il motore non sa eseguire è peggio di una prova mancante: il lotto si
+    // consegna, il merge passa, e il difetto resta aperto marcato «manuale» — cioè in attesa di un
+    // umano che non sa di essere atteso. È successo qui, ad AR-409 e AR-226.
+    if (!comandoAmmesso(c)) {
+      fuori.push({
+        id: d.id,
+        comando: c,
+        motivo: `auto-fix non potrà eseguirlo (${MOTIVO_COMANDO_NON_AMMESSO}): il difetto resterebbe aperto in silenzio dopo il merge`,
+      });
+    }
   }
   return fuori;
 }
