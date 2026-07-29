@@ -269,12 +269,18 @@ if [ "$ai_rc" -ne 0 ]; then
   # rete per quando il processo non arriva fino a questa riga.
   _ritmo_recupero_armato=0
   accoda_recupero_cadenza || true
+  RITMO_RIACCODATA=1
 else
   _ritmo_recupero_armato=0   # riuscito: niente da recuperare, la trap non deve accodare nulla
 fi
 trap - EXIT INT TERM
 fi   # AR-086: fine blocco RUN_AI (delta-gate del ritmo)
-echo "[$(ts)] Ritmo $RITMO_TIPO completato."
+# AR-389 — la frase di successo esce SOLO dal ramo che se l'è guadagnata. Prima questa riga era un
+# `echo "Ritmo $RITMO_TIPO completato."` incondizionato: stampava «completato» col motore mai acceso
+# (delta-gate), dopo tre tentativi falliti e dopo un ri-accodamento per rate-limit. La decide
+# `annuncioCadenza()` in cervello/esito-scrittura.mjs, la stessa testa per tutte e tre le cadenze —
+# così la quarta copia della catena di `if` non può nascere.
+cadenza_annuncio "Ritmo $RITMO_TIPO" "$ai_rc" "${RUN_AI:-1}" "${CADENZA_AI_TENTATIVI:-1}" "${RITMO_RIACCODATA:-0}" 0 || true
 
 # AR-043: stima token condivisa (come giro.sh) — prima mancava → ritmo contava 0 al budget.
 if [ -z "${RITMO_TOKEN:-}" ] && [ -n "${RITMO_START:-}" ] && [ "${RUN_AI:-1}" = 1 ]; then
@@ -331,4 +337,10 @@ fi
 # (cervello/esito-cadenza.mjs) e lascia una riga con l'ora in esito-cadenze.json. Le tre catene di
 # `if` scritte a mano — una per script, tutte leggermente diverse — erano il motivo per cui una
 # cadenza poteva smettere di uscire senza che nessun guardiano se ne accorgesse.
-exit "$(cadenza_esito "ritmo-$RITMO_TIPO" "$ai_rc" "$RITMO_HAD_CHANGES" "$RITMO_PUSH_OK" 1 0)"
+# AR-389 (ultima clausola) — «non uscire 0 quando la cadenza non è stata prodotta». Il caso peggiore
+# verificato dalla scheda: parte AI spenta dal delta-gate + nessuna modifica al vault → prima usciva
+# 0, cioè successo pieno per un piano del mattino che non esiste. Ora l'annuncio decide due cose: il
+# passo prodotto o no (che finisce nella traccia come «passi-saltati») e il codice d'uscita, che non
+# può essere 0 se la frase di successo non è stata guadagnata.
+_ritmo_rc="$(cadenza_esito "ritmo-$RITMO_TIPO" "$ai_rc" "$RITMO_HAD_CHANGES" "$RITMO_PUSH_OK" "${CADENZA_ANNUNCIO_OK:-1}" 0)"
+exit "$(cadenza_uscita "$_ritmo_rc")"

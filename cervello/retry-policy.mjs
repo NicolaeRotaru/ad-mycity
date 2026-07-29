@@ -269,9 +269,21 @@ export const MAX_RIACCODI_ORFANO = 2;
  * @param sicuro  true se il tipo è ripetibile senza toccare il mondo reale (giro, chat, metabolizza).
  *                Un'azione reale interrotta a metà NON si riesegue mai da sola: torna a Nicola.
  * @param tentativi quante volte è già stato recuperato (dal DB).
+ * @param esitoRicoverato true se l'esito di questo lavoro è su disco, in attesa di ripubblicazione
+ *                (AR-397). È la differenza fra «orfano con esito ASSENTE» e «orfano con esito
+ *                RICOVERATO»: nel secondo caso il lavoro è finito davvero e sappiamo com'è andato —
+ *                chiuderlo in errore con «riapprova» sarebbe la causa del doppio invio, non la cura.
  */
-export function decidiOrfano({ sicuro = false, tentativi = 0, max = MAX_RIACCODI_ORFANO } = {}) {
+export function decidiOrfano({ sicuro = false, tentativi = 0, max = MAX_RIACCODI_ORFANO, esitoRicoverato = false } = {}) {
   const t = Number.isFinite(+tentativi) ? +tentativi : 0;
+  if (esitoRicoverato === true || esitoRicoverato === 1 || esitoRicoverato === "1") {
+    return {
+      azione: "attendi",
+      tentativi: t,
+      motivo:
+        "l'esito di questo lavoro è RICOVERATO su disco (il database non lo aveva accettato): lo ripubblica il worker — non lo chiudo in errore, sarebbe l'invito a rieseguire un'azione già partita",
+    };
+  }
   if (!sicuro) {
     return {
       azione: "ferma",
