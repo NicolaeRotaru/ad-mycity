@@ -13,20 +13,6 @@
       "aperti_davvero": 2,
       "bloccanti_umani": 2,
       "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (46h) · cecità sensori 7 giri · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-22",
-      "voto_salute": 72,
-      "voto_provvisorio": 45,
-      "voto_pieno": 0,
-      "firma": "AR-126,AR-129",
-      "difetti_aperti": 19,
-      "difetti_chiusi": 57,
-      "pending_merge": 15,
-      "aperti_davvero": 2,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (48h) · cecità sensori 7 giri · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     },
     {
@@ -1065,6 +1051,20 @@
       "difetti_chiusi": 19,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-229, AR-230, AR-231, AR-238, AR-239, AR-257, AR-259, AR-260, AR-261, AR-264, AR-266, AR-267, AR-268, AR-269, AR-339, AR-340, AR-341, AR-342, AR-343 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 31 dall'ultima misura vera."
+    },
+    {
+      "data": "2026-07-29",
+      "voto_salute": 31,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-126,AR-154,AR-158,AR-160,AR-161,AR-174,AR-184,AR-188,AR-193,AR-206,AR-216,AR-217,AR-220,AR-223,AR-224,AR-225,AR-234,AR-237,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-273,AR-274,AR-278,AR-283,AR-285,AR-288,AR-289,AR-294,AR-295,AR-302,AR-323",
+      "difetti_aperti": 99,
+      "difetti_chiusi": 183,
+      "pending_merge": 51,
+      "aperti_davvero": 35,
+      "bloccanti_umani": 13,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (39h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 35 aperti-davvero · 51 in attesa merge · 13 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     }
   ]
 }
