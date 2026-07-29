@@ -14,9 +14,23 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { register } from "node:module";
 import { readFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+
+// Il risolutore .ts si registra QUI DENTRO, non con `--import` sulla riga di comando (AR-156).
+//
+// Perché conta, ed è una lezione che il lotto 33 ha pagato: `auto-fix.mjs` — quello che chiude i
+// difetti dopo il merge — esegue solo comandi della forma `node cervello/<script>.mjs [--flag]`, e
+// la restrizione è una DIFESA voluta: «un difetto non deve poter far girare qualcosa di arbitrario
+// per dichiararsi risolto». Un comando con `--import <percorso>` caricherebbe codice scelto dal
+// difetto stesso. Avevo scritto la prova di AR-409/AR-226 in quella forma: il cancello del lotto la
+// accettava, auto-fix no, e i due difetti restavano aperti senza che nessuno dicesse perché.
+//
+// La cura giusta non era allargare l'allowlist — era togliere il bisogno del flag. `register` va
+// prima del primo `await import` dinamico, e da lì in poi vale per tutta la catena.
+register("./risolvi-ts.mjs", import.meta.url);
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const RADICE = join(QUI, "..", "..");

@@ -1,0 +1,98 @@
+{
+  "_cosa_e": "Il debito DICHIARATO dei rimandi divergenti fra il roster di CLAUDE.md e il campo description dei mansionari. Serve perché il guardiano nasca VERDE: un cancello che parte rosso su tredici agenti viene spento entro la settimana, mentre uno che parte verde becca il quattordicesimo il giorno che arriva.",
+  "_come_si_usa": "Ogni voce è un agente il cui disallineamento esisteva già il giorno della misura. La lista può solo ACCORCIARSI: quando allinei un agente, toglilo da qui (il guardiano te lo dice da solo). Aggiungere una voce è una decisione visibile, da motivare — non un effetto collaterale.",
+  "dichiarato_il": "2026-07-29",
+  "misurato_con": "node cervello/deferral-agenti.mjs --conta",
+  "totale": 13,
+  "agenti": {
+    "ai-designer": {
+      "solo_roster": [
+        "content-social"
+      ],
+      "solo_scheda": []
+    },
+    "business-plan-bancabile": {
+      "solo_roster": [],
+      "solo_scheda": [
+        "finanza"
+      ]
+    },
+    "cfo": {
+      "solo_roster": [],
+      "solo_scheda": [
+        "fundraising-equity"
+      ]
+    },
+    "cro": {
+      "solo_roster": [
+        "frontend-dev",
+        "ux-designer"
+      ],
+      "solo_scheda": []
+    },
+    "direttore-creativo": {
+      "solo_roster": [
+        "ai-designer",
+        "ai-video",
+        "qa-designer"
+      ],
+      "solo_scheda": []
+    },
+    "finanza": {
+      "solo_roster": [],
+      "solo_scheda": [
+        "pricing-scientist",
+        "seller-financing"
+      ]
+    },
+    "marketing": {
+      "solo_roster": [
+        "ads-performance",
+        "crm-lifecycle",
+        "growth-monetizzazione"
+      ],
+      "solo_scheda": []
+    },
+    "operations": {
+      "solo_roster": [
+        "dispatch",
+        "rider-fleet"
+      ],
+      "solo_scheda": []
+    },
+    "prompt-engineer": {
+      "solo_roster": [
+        "people-talent"
+      ],
+      "solo_scheda": []
+    },
+    "qa-designer": {
+      "solo_roster": [
+        "direttore-creativo"
+      ],
+      "solo_scheda": []
+    },
+    "trust-safety": {
+      "solo_roster": [
+        "dispute"
+      ],
+      "solo_scheda": [
+        "fraud-risk"
+      ]
+    },
+    "ux-designer": {
+      "solo_roster": [
+        "cro",
+        "frontend-dev"
+      ],
+      "solo_scheda": []
+    },
+    "vendite": {
+      "solo_roster": [
+        "account-negozi",
+        "onboarding-negozi"
+      ],
+      "solo_scheda": []
+    }
+  }
+}
