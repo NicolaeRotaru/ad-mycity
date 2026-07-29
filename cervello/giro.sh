@@ -629,6 +629,20 @@ $_cad_out")"
     echo "[$(ts)] ⚠️  guardiani-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
 
+  # 29/7 (Nicola: «aggiungi la descrizione delle 9 parti dentro la bacheca … vorrei che questa
+  # sezione venga aggiornata ogni volta che c'è una cosa nuova dentro la macchina») — gemello del
+  # cancello qui sopra, per la mappa invece che per i guardiani. I NUMERI si ricontano dal repo a
+  # ogni giro e non possono invecchiare; quello che può invecchiare è la frase che spiega un pezzo
+  # NUOVO, ed è l'unica cosa che questo cancello pretende. Scatta solo quando qualcuno AGGIUNGE o
+  # TOGLIE un pezzo misurabile (skill, sensore, mano, servizio del VPS, area del Pannello): costa una
+  # riga scriverla adesso, e se non si scrive adesso non si scrive più. Con l'elenco incompleto la
+  # bacheca NON viene riscritta: meglio la mappa di ieri, completa, che una con un buco.
+  echo "[$(ts)] 🗺️  Mappa della macchina in bacheca (i pezzi nuovi sono spiegati?)..."
+  if ! guardiano mappa-macchina.mjs --bacheca; then
+    MAPPA_VINCOLO="$(vincolo_da_rc "mappa-macchina" "$GUARDIANO_RC" "⛔ MAPPA DELLA MACCHINA SCOLLATA (mappa-macchina.mjs rc=$GUARDIANO_RC): è comparso un pezzo nuovo della macchina senza una riga che dica cosa fa, oppure è rimasta la riga di un pezzo che non c'è più. Nicola legge quella sezione della bacheca per capire di cosa è fatta la macchina: un buco lì è una macchina che cresce di nascosto. Scrivi la riga in cervello/censimento-macchina.mjs (DESCRIZIONI) in QUESTO giro. Elenco: node cervello/mappa-macchina.mjs")"
+    echo "[$(ts)] ⚠️  mappa-macchina rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+
   # AR-165: era `node … | tail -4 || true` — l'esito buttato due volte. Il guardiano che deve scoprire
   # i controlli spenti in silenzio era, lui per primo, muto. Ora è un cancello dichiarato.
   echo "[$(ts)] Meta-guardiano freschezza-segnali (guardiani del preambolo hanno battuto?)..."
@@ -1032,6 +1046,12 @@ if [ -n "${GUARDIANI_VINCOLO:-}" ]; then
 
 ## Vincolo elenco guardiani (HARD — 29/7: la bacheca dice a Nicola chi lo protegge, e deve dire il vero)
 $GUARDIANI_VINCOLO"
+fi
+if [ -n "${MAPPA_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo mappa della macchina (HARD — 29/7: la bacheca spiega di cosa è fatta la macchina, e deve restare vera)
+$MAPPA_VINCOLO"
 fi
 PROMPT="$PROMPT
 

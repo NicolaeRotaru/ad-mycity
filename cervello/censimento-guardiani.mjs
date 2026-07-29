@@ -80,6 +80,7 @@ export const DESCRIZIONI = {
   "sensori-spenti-check": { famiglia: "numeri-veri", cosa: "Uno strumento costruito e mai acceso è un buco, non uno stato: pretende un perché scritto." },
   "freschezza-segnali": { famiglia: "numeri-veri", cosa: "Controlla i controllori: se un guardiano è morto a metà giro, il suo verde è vecchio e non vale." },
   "guardiani-check": { famiglia: "numeri-veri", cosa: "Tiene questa tabella agganciata al codice: se nasce un controllo e nessuno spiega cosa fa, il giro non si chiude." },
+  "mappa-macchina": { famiglia: "numeri-veri", cosa: "Tiene aggiornata la mappa «Com'è fatta la macchina»: i numeri li riconta a ogni giro, e se nasce un pezzo nuovo (skill, sensore, mano, servizio, area) senza una riga che dica cosa fa, il giro non si chiude." },
   "percorsi-git": { famiglia: "numeri-veri", cosa: "Un nome di file con l'accento va chiesto a git nel modo giusto, o la macchina lavora su file che non esistono senza accorgersene." },
   "esito-cadenza": { famiglia: "numeri-veri", cosa: "La testa unica delle tre cadenze: decide se il motore si può spegnere e se il lavoro è andato bene, con le stesse regole per tutte e tre." },
 
@@ -441,5 +442,11 @@ export function sostituisciBlocco(bacheca = "", blocco = "", titolo = TITOLO_BAC
  * cambiano i guardiani, non quando passa il tempo.
  */
 export function corpoDi(blocco = "") {
-  return String(blocco).split("\n").slice(1).join("\n").trim();
+  // Il `---` finale NON è corpo: appartiene all'avviso che viene dopo (lo dice già
+  // `sostituisciBlocco`, che si guarda bene dall'inghiottirlo). Tenerlo dentro il confronto
+  // significherebbe che un blocco cambia identità a seconda di CHI gli sta sotto: finché è l'ultimo
+  // della bacheca il confronto funziona, ma il giorno in cui qualcuno ne appende un altro sotto, il
+  // corpo «cambia» a ogni giro senza che sia cambiata una parola — e la riscrittura porta con sé una
+  // data nuova, che in una bacheca ordinata per data vuol dire vivere in cima per sempre.
+  return String(blocco).split("\n").slice(1).join("\n").replace(/\n*-{3,}\s*$/, "").trim();
 }
