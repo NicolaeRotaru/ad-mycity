@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-07-29 12:38",
+  "aggiornato": "2026-07-29 16:16",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -13,15 +13,15 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-07-29 12:38",
-      "iso": "2026-07-29T10:38:05.305Z",
+      "quando": "2026-07-29 16:16",
+      "iso": "2026-07-29T14:16:59.194Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 8,
-      "rotti": 1,
+      "rotti": 2,
       "guasti": 0,
       "nonvisti": 6,
-      "copertura": 0.6,
+      "copertura": 0.63,
       "controlli": [
         {
           "id": "worker.ponte",
@@ -39,7 +39,7 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "nessun processo automatico lascia tracce da 35 ore (l'ultima è costo-ai.json, 2026-07-28 01:13)",
+          "detto": "nessun processo automatico lascia tracce da 39 ore (l'ultima è costo-ai.json, 2026-07-28 01:13)",
           "prova": null,
           "regressione": false
         },
@@ -99,7 +99,17 @@
           "titolo": "I guardiani del giro esistono tutti",
           "impatto": 3,
           "esito": "ok",
-          "detto": "54 guardiani del giro presenti",
+          "detto": "56 guardiani del giro presenti",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "cervello.skill",
+          "organo": "cervello",
+          "titolo": "Le braccia della macchina sono versionate",
+          "impatto": 2,
+          "esito": "rotto",
+          "detto": "3 skill vivono solo su questo disco e non arriveranno mai al VPS: salute, senior, worker",
           "prova": null,
           "regressione": false
         },
@@ -231,6 +241,28 @@
       "guasti": 0,
       "nonvisti": 6,
       "copertura": 0.6
+    },
+    {
+      "quando": "2026-07-29 16:16",
+      "iso": "2026-07-29T14:16:58.000Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 8,
+      "rotti": 2,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.63
+    },
+    {
+      "quando": "2026-07-29 16:16",
+      "iso": "2026-07-29T14:16:59.194Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 8,
+      "rotti": 2,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.63
     }
   ]
 }

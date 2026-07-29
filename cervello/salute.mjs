@@ -269,6 +269,22 @@ export function guardianiMancanti(testoGiro, esiste) {
   return { unici, assenti: unici.filter((f) => !esiste(f)) };
 }
 
+/**
+ * Le braccia che esistono solo qui: skill native (scritte a mano) che git non sta versionando.
+ *
+ * Il 29/7 questa visita è stata scritta insieme alle skill `salute`, `worker` e `senior` — e le tre
+ * skill sono finite sotto una regola di `.gitignore` pensata per lo specchio generato. `git add -A`
+ * non le ha viste, il commit è riuscito, `git status` è rimasto pulito, la PR è stata mergiata: su
+ * main è arrivato il motore senza le braccia. Nessun errore da nessuna parte — solo un file assente.
+ *
+ * Una skill che vive in una sola sessione non esiste: il container è effimero e il VPS non la vedrà
+ * mai. Perciò è un rosso, e sta qui e non in un test perché la domanda «le mie braccia ci sono
+ * ancora?» va rifatta a ogni visita, non una volta sola quando qualcuno lancia i test.
+ */
+export function skillNonVersionate(cartelle, { generata, versionata }) {
+  return cartelle.filter((nome) => !generata(nome) && !versionata(nome));
+}
+
 /** Peggiorato da ieri: era verde, oggi è rosso. Il segnale più forte, perché isola il cambiamento. */
 export function marcaRegressioni(controlliPrecedenti, risultati) {
   const primaOk = new Set((controlliPrecedenti || []).filter((c) => c.esito === "ok").map((c) => c.id));
@@ -480,6 +496,44 @@ const CONTROLLI = [
       const { unici, assenti } = guardianiMancanti(readFileSync(giro, "utf8"), (f) => existsSync(join(AD_ROOT, "cervello", f)));
       if (assenti.length) return rotto(`${assenti.length} guardiani del giro non esistono più: ${assenti.join(", ")}`, { assenti });
       return ok(`${unici.length} guardiani del giro presenti`, { quanti: unici.length });
+    },
+  },
+
+  {
+    id: "cervello.skill",
+    organo: "cervello",
+    titolo: "Le braccia della macchina sono versionate",
+    impatto: 2,
+    async prova() {
+      const dir = join(AD_ROOT, ".claude/skills");
+      if (!existsSync(dir)) return nonVisto("nessuna cartella .claude/skills in questo ambiente");
+      const cartelle = readdirSync(dir, { withFileTypes: true })
+        .filter((d) => d.isDirectory())
+        .map((d) => d.name);
+      if (!cartelle.length) return nonVisto("nessuna skill installata qui");
+
+      // Le skill dello specchio sono copie rigenerabili di .cursor/skills: giusto che git le ignori.
+      // Quelle scritte a mano no: se git le ignora, esistono solo su questo disco.
+      let manifest = "";
+      try {
+        manifest = readFileSync(join(AD_ROOT, "cervello/worker-plugins.json"), "utf8");
+      } catch {
+        /* senza manifest tratto tutte le skill come native: meglio un falso allarme che un buco */
+      }
+      const versionata = (nome) => {
+        const r = spawnSync("git", ["ls-files", "--error-unmatch", `.claude/skills/${nome}`], {
+          cwd: AD_ROOT,
+          encoding: "utf8",
+        });
+        return r.status === 0 && Boolean(r.stdout?.trim());
+      };
+      const orfane = skillNonVersionate(cartelle, {
+        generata: (nome) => manifest.includes(`.cursor/skills/${nome}/`),
+        versionata,
+      });
+      if (orfane.length)
+        return rotto(`${orfane.length} skill vivono solo su questo disco e non arriveranno mai al VPS: ${orfane.join(", ")}`, { orfane });
+      return ok(`${cartelle.length} skill installate, tutte versionate o rigenerabili`, { quante: cartelle.length });
     },
   },
 
