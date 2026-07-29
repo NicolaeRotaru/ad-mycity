@@ -84,7 +84,19 @@ test("ogni regola dichiara la fonte del proprio perché", () => {
 // Sono un ELENCO ATTESO, non un obiettivo: quando Nicola le sistema il test resta verde (il filtro è
 // un sottoinsieme, non un'uguaglianza — lezione del 25/7: un test che punisce chi risolve il
 // problema insegna a non risolverlo).
-const RESIDUO_NOTO = ["curl-limitato", "no-push-diretto", "no-jolly-su-cartella-scrivibile"];
+//   · strumenti-di-scrittura-… — AR-273 (29/7): `mcp__Supabase__execute_sql`, cioè SQL arbitrario sul
+//     database, concesso senza chiedere. È una violazione VERA e NUOVA — non perché sia comparsa
+//     adesso, ma perché fino a oggi nessuno la guardava: il guardiano non esaminava affatto le voci
+//     `mcp__`. Sta qui per la stessa ragione delle altre tre, non per farla tacere: la riga vive in
+//     `.claude/settings.json`, che è negato in Edit/Write alla macchina, apposta. Il guardiano
+//     continua a stamparla in rosso a ogni giro (`permessi-check` esce 1) finché Nicola non decide
+//     se toglierla o giustificarla per iscritto in STRUMENTI_GIUSTIFICATI.
+const RESIDUO_NOTO = [
+  "curl-limitato",
+  "no-push-diretto",
+  "no-jolly-su-cartella-scrivibile",
+  "strumenti-di-scrittura-non-automatici",
+];
 
 test("i permessi reali di questo repo non peggiorano oltre il residuo noto", () => {
   const j = JSON.parse(readFileSync(new URL("../../.claude/settings.json", import.meta.url), "utf8"));

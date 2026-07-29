@@ -254,6 +254,96 @@
    "cerca": "  if (esito?.esito === \"nonvisto\") {",
    "sostituisci": "  if (false) {",
    "test": "cervello/test/battito-esterno.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-273",
+   "nome": "il fail-closed sulla forma sconosciuta si spegne e uno strumento nuovo entra in silenzio",
+   "file": "cervello/permessi-strumenti.mjs",
+   "cerca": "    tipo: \"sconosciuto\",",
+   "sostituisci": "    tipo: \"lettura\",",
+   "test": "cervello/test/permessi-strumenti.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-273b",
+   "nome": "l esecuzione di SQL libero smette di contare come scrittura",
+   "file": "cervello/permessi-strumenti.mjs",
+   "cerca": "  \"execute\", \"create\", \"update\", \"delete\", \"deploy\", \"apply\", \"merge\", \"write\", \"push\", \"publish\",",
+   "sostituisci": "  \"create\", \"update\", \"delete\", \"deploy\", \"apply\", \"merge\", \"write\", \"push\", \"publish\",",
+   "test": "cervello/test/permessi-strumenti.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-277",
+   "nome": "lo strumento in Node smette di prendere il lucchetto e torna fuori dal protocollo",
+   "file": "cervello/lucchetto-git.mjs",
+   "cerca": "  if (env[MARCATORE] === \"1\") return null;",
+   "sostituisci": "  if (true) return null;",
+   "test": "cervello/test/lucchetto-git.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-298",
+   "nome": "il guardiano smette di distinguere chi passa dalla porta da chi la scavalca",
+   "file": "cervello/lucchetto-git.mjs",
+   "cerca": "    if (passaDalLucchetto(s.testo)) continue;",
+   "sostituisci": "    if (true) continue;",
+   "test": "cervello/test/lucchetto-git.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-207",
+   "nome": "il censimento smette di vedere le porte fuori dal confine",
+   "file": "cervello/porte-pannello.mjs",
+   "cerca": "    if (!coperto(r.percorso, schemi)) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/porte-pannello.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-112",
+   "nome": "un esenzione senza il perche scritto torna a valere come esenzione",
+   "file": "cervello/porte-pannello.mjs",
+   "cerca": "    if (esenzione && !String(esenzione.perche || \"\").trim()) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/porte-pannello.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-228",
+   "nome": "la lista chiusa torna aperta: qualunque chiave passa dalla rotta generica",
+   "file": "pannello/src/lib/chiavi-scrivibili.ts",
+   "cerca": "  if (!(CHIAVI_CONTROLLO as readonly string[]).includes(c)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/porta-di-servizio-della-firma.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-346c",
+   "nome": "lo sfoltimento del digest smette di buttare i chiusi e la soglia condizionata non se ne accorge",
+   "file": "pannello/src/lib/radiografia-snella.ts",
+   "cerca": "      const aperti = tutti.filter((f) => !eChiusoFinding(f));",
+   "sostituisci": "      const aperti = tutti;",
+   "test": "cervello/test/radiografia-snella.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-346d",
+   "nome": "i fantasmi tornano a contare come zona cieca e il tetto suona a caso",
+   "file": "cervello/allocazione-check.mjs",
+   "cerca": "  return percorsi.filter((p) => esiste(p));",
+   "sostituisci": "  return percorsi;",
+   "test": "cervello/test/quota-che-non-vede-i-quaderni.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-346e",
+   "nome": "la mappa perde i quaderni e il loro lavoro torna a essere ignoto",
+   "file": "cervello/allocazione-check.mjs",
+   "cerca": "[\"memoria-squadra/\", \"macchina\"]",
+   "sostituisci": "[\"memoria-squadra/NIENTE\", \"macchina\"]",
+   "test": "cervello/test/quota-che-non-vede-i-quaderni.test.mjs"
   }
  ]
 }

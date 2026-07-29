@@ -1,16 +1,16 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-07-29 11:09",
+  "aggiornato": "2026-07-29 16:20",
   "giorni_sospetto": 3,
   "difetti_aperti": 102,
   "per_classe": {
-    "umana": 17,
+    "umana": 27,
     "auto-sospetta": 6,
-    "auto-attesa": 73,
+    "auto-attesa": 63,
     "auto-ok": 6
   },
-  "non_auto_chiudibili": 23,
+  "non_auto_chiudibili": 33,
   "bloccanti_ciechi": [
     "AR-226"
   ],
@@ -182,36 +182,36 @@
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "I tre tentativi del piano del mattino e del report della sera sono finti: il primo da solo consuma tutto il te",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/ritmo.sh ~ /RITMO_BUDGET_SEC/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-163",
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Il monitoraggio quotidiano puo' restare appeso per sempre, e comunque dichiara di essere andato bene",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/vps/mycity-monitora.service ~ /TimeoutStartSec/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-164",
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Se il piano del mattino smette di uscire, nessun guardiano della macchina se ne accorge: si controlla che la s",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/verifica-automazione.mjs ~ /mycity-ritmo-/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-166",
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Il giro si accorge di avere saltato l'auto-analisi e l'apprendimento, lo scrive nel registro tecnico del serve",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /GIRO_STEPS_VINCOLO/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-174",
@@ -371,9 +371,9 @@
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Quando il ritmo fallisce rilancia tre volte a vuoto: la lezione del non-ritentare-ciecamente è arrivata solo a",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/ritmo.sh ~ /_rp_azione/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-202",
@@ -713,9 +713,9 @@
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Niente impedisce a due giri o a due cadenze di girare insieme: il lucchetto protegge solo il pezzo che parla c",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /MYCITY_RUN_LOCK/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-294",
@@ -749,9 +749,9 @@
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Quando il giro decide di risparmiare, i quindici allarmi appena raccolti non li legge nessuno",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /Parte AI SALTATA dal delta-gate/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-304",
@@ -767,9 +767,9 @@
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Il monitoraggio del mondo esterno non ha né un timeout né un esito",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/vps/mycity-monitora.service ~ /TimeoutStartSec/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-306",
@@ -785,18 +785,18 @@
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Il monitoraggio si dichiara riuscito anche quando la memoria non è arrivata su GitHub",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/monitora.sh ~ /MONITORA_PUSH_OK/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-317",
       "gravita": "grave",
       "eta_giorni": 2,
       "titolo": "Il lucchetto si prende solo alla fine: mentre l'AD scrive, un altro processo committa e resetta sotto",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/vps/aggiorna-cervello.sh ~ /mycity-scrittura-in-corso/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-321",

@@ -85,13 +85,64 @@ prova("una radiografia malformata non fa saltare la schermata", () => {
 
 // ── Il guadagno vero, sul file di oggi ──────────────────────────────────────
 
-prova("sul file VERO la risposta dimagrisce di almeno il 45%", () => {
+prova("sul file VERO la risposta dimagrisce di almeno il 45% — quando c'è qualcosa da sfoltire", () => {
   const vero = JSON.parse(readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json"), "utf8"));
   const prima = peso(vero);
   const dopo = peso(radiografiaSnella(vero));
   const risparmio = 1 - dopo / prima;
-  assert.ok(risparmio >= 0.45, `atteso ≥45%, ottenuto ${Math.round(risparmio * 100)}% (${prima} → ${dopo})`);
-  console.log(`      # ${prima.toLocaleString()} → ${dopo.toLocaleString()} byte (−${Math.round(risparmio * 100)}%)`);
+
+  // 29/7 — CORREZIONE. Qui c'era un pavimento fisso al 45% misurato sul file di ieri, quando 109
+  // findings su 170 erano CHIUSI. Il 29/7 è atterrata una radiografia fresca: 89 findings e ZERO
+  // chiusi. Lo sfoltimento butta via i chiusi — senza chiusi non c'è niente da buttare, e il
+  // risparmio è sceso al 4%. Il codice non è cambiato di una riga: era il DATO a essere cambiato.
+  //
+  // Il test misurava i dati e li spacciava per il codice, quindi sarebbe tornato rosso a ogni
+  // radiografia nuova — cioè proprio quando la macchina fa il suo lavoro. È la stessa lezione già
+  // pagata in permessi-check.test.mjs: «un test che punisce chi risolve il problema è peggio di
+  // nessun test, perché insegna a non risolverlo». E teneva rossa la suite CONDIVISA per tutti,
+  // che è il modo in cui un cancello diventa qualcosa da aggirare (AR-346).
+  //
+  // La soglia resta identica dov'è misurabile. Quello che cambia è che adesso il test sa dire
+  // «non c'era niente da sfoltire» invece di dire «il digest è rotto»: sono due cose diverse, e
+  // confonderle è il difetto. Un ⚪ non è un ✅ — per questo lo stampa invece di tacere.
+  const tutti = (vero.dimensioni || []).flatMap((d) => (d && d.findings) || []);
+  const chiusi = tutti.filter((f) => eChiusoFinding(f)).length;
+
+  if (chiusi === 0) {
+    console.log(
+      `      # ⚪ non misurabile oggi: ${tutti.length} findings, nessuno chiuso — niente da sfoltire ` +
+        `(${prima.toLocaleString()} → ${dopo.toLocaleString()} byte, −${Math.round(risparmio * 100)}%). ` +
+        `La soglia del 45% torna a valere alla prima radiografia con findings chiusi.`,
+    );
+    return;
+  }
+  assert.ok(
+    risparmio >= 0.45,
+    `atteso ≥45%, ottenuto ${Math.round(risparmio * 100)}% (${prima} → ${dopo}) con ${chiusi}/${tutti.length} findings chiusi da sfoltire`,
+  );
+  console.log(`      # ${prima.toLocaleString()} → ${dopo.toLocaleString()} byte (−${Math.round(risparmio * 100)}%, ${chiusi}/${tutti.length} chiusi)`);
+});
+
+// E la guardia che il caso qui sopra non deve spegnere: su un file CHE HA chiusi, la soglia vale
+// eccome. Senza questa, «condizionata» diventerebbe «disattivata» al primo che legge di fretta.
+prova("con findings chiusi la soglia del 45% vale ancora, e SUONA se lo sfoltimento smette", () => {
+  // Il fixture usa SOLO campi che sopravvivono allo sfoltimento (CAMPI_FINDING). È il punto: così
+  // il taglio dei campi non risparmia un byte, e l'unico risparmio possibile viene dal buttare i
+  // findings CHIUSI — che è la cosa che questa prova deve sorvegliare.
+  //
+  // Scritto la prima volta con campi grassi fuori elenco (`dettaglio`, `prova`) la prova restava
+  // VERDE anche spegnendo il filtro dei chiusi: il risparmio arrivava tutto dal taglio dei campi e
+  // mascherava il difetto. L'ha trovato la mutazione, non la lettura — ed è esattamente perché il
+  // cantiere pretende di rompere il fix apposta invece di fidarsi del verde.
+  const grasso = (stato) => ({
+    stato,
+    titolo: "x".repeat(200),
+    descrizione: "y".repeat(2000),
+    causa_radice: "z".repeat(2000),
+  });
+  const finto = { dimensioni: [{ nome: "d", findings: [...Array(9)].map(() => grasso("chiuso")).concat(grasso("aperto")) }] };
+  const risparmio = 1 - peso(radiografiaSnella(finto)) / peso(finto);
+  assert.ok(risparmio >= 0.45, `su dati con 9/10 chiusi lo sfoltimento deve tagliare ≥45%, ha tagliato ${Math.round(risparmio * 100)}%`);
 });
 
 prova("nessun finding APERTO si perde: sono quello che Nicola legge", () => {

@@ -103,6 +103,36 @@ prova("ogni handler che muta sta dentro il perimetro del middleware", () => {
   assert.match(mw, /matcher:\s*\["\/api\/:path\*"\]/, "se il perimetro cambia, questa prova va rivista insieme");
 });
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-228 — LA STESSA PORTA, VISTA DALL'ALTRO CAPO.
+// ─────────────────────────────────────────────────────────────────────────────
+// «Il pulsante della pausa accetta qualunque chiave: dalla stessa porta si scrive la firma.» È il
+// gemello di AR-333, trovato da una radiografia diversa e mai riconosciuto come lo stesso difetto.
+//
+// Il fix c'era già (`scrivibileDaControllo`), ma la prova di AR-228 nel cantiere cercava
+// `AMMESSE|whitelist|chiavi ammesse` dentro `controllo/route.ts` — parole che il fix non ha mai
+// usato, perché la lista chiusa è finita in un modulo suo. Risultato: una prova ORFANA, cioè «non
+// fatto» indistinguibile da «puntatore rotto», su un difetto in realtà riparato da giorni.
+//
+// Qui AR-228 prende il nome che gli spetta dentro la prova che lo copre davvero. Senza questo, il
+// cancello (`prova-condivisa-cieca`) chiuderebbe un difetto che il test non nomina — e avrebbe
+// ragione a rifiutarsi.
+prova("AR-228 — la lista è CHIUSA: ciò che non è dichiarato non passa, nemmeno se sembra innocuo", () => {
+  // Il punto di una lista chiusa è che si ragiona per ciò che è ammesso, non per ciò che è vietato:
+  // una lista di divieti dimentica sempre il caso che non è ancora stato inventato.
+  for (const inventata of ["azione:42:firma", "firma:qualcosa", "chiave_mai_vista", "", "  "]) {
+    assert.equal(
+      scrivibileDaControllo(inventata).ok,
+      false,
+      `«${inventata}» non è fra le chiavi dichiarate e non deve passare`,
+    );
+  }
+  // E la porta deve restare aperta per ciò che serve davvero, o Nicola perde il pulsante PAUSA.
+  for (const vera of ["pausa", "autopilota", "tetto_spesa", "spesa_attuale"]) {
+    assert.equal(scrivibileDaControllo(vera).ok, true, `${vera} deve restare scrivibile`);
+  }
+});
+
 let falliti = 0;
 for (const c of casi) {
   console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);

@@ -130,6 +130,12 @@ const DESTINAZIONE = [
   ["consegne/_archivio-prospect/", "business"], // gli asset del silo Garetti, archiviati
   ["consegne/decisioni/", "business"], // fogli firma su lancio e prezzi
   ["consegne/builder-automazioni/", "macchina"], // inventario VPS e strumenti
+  // 29/7 — il guardiano ha suonato di nuovo per UN file (14 contro 13) e la regola di AR-340 vale
+  // anche stavolta: si mappa, non si alza il tetto. Il file era
+  // `consegne/salute/2026-07-29-1238-claude.md`, cioè il referto della visita ai cinque organi vivi:
+  // è la macchina che si controlla da sola, esattamente come l'inventario qui sopra — non lavoro
+  // sull'azienda. La cartella intera, così il prossimo referto non fa risuonare il tetto.
+  ["consegne/salute/", "macchina"],
   // I manuali con cui la macchina si istruisce: sono la macchina che si organizza, come 07-Agenti/.
   ["CLAUDE.md", "macchina"],
   ["AGENTS.md", "macchina"],
@@ -213,7 +219,47 @@ export function quotaSforzo(fileToccati = []) {
 }
 
 /**
- * I file toccati da git negli ultimi N giorni. Se git non risponde torna [] (il report lo dice).
+ * Il percorso esiste ancora nell'albero di lavoro?
+ *
+ * 29/7 — I FANTASMI. La zona cieca è salita a 17 contro un tetto di 13, e i quattro in più erano
+ * `tmp_agent_files.txt`, `tmp_agent_refs.txt`, `tmp_claude_bold.txt`, `tmp_deferral_targets.txt`:
+ * appunti temporanei di una sessione, committati per sbaglio e già CANCELLATI. Su disco non
+ * esistono — comparivano solo perché `git log --name-only` elenca anche ciò che è nato e morto
+ * dentro la finestra dei sette giorni.
+ *
+ * Mapparli sarebbe stato peggio che sbagliato: avrebbe legittimato il committare file di scarto.
+ * Alzare il tetto è vietato (AR-340: si mappa, non si alza). Ma la verità è che qui non c'era
+ * niente da mappare: un percorso che non esiste più non è «un'area di lavoro senza mappa», è
+ * rumore. E finché contava, il tetto diventava rosso a seconda di quanti file di scarto qualcuno
+ * avesse cancellato quella settimana — cioè un cancello che suona a caso, che è il modo più veloce
+ * perché venga aggirato.
+ *
+ * Il metro dichiarato dal test è «se risalgono, la mappa è tornata vecchia»: un fantasma non dice
+ * nulla sulla mappa, quindi non deve poter far suonare quel campanello.
+ *
+ * Il filtro sta QUI e non dentro `quotaSforzo` apposta: quella è pura e le prove la chiamano con
+ * percorsi finti che su disco non esistono. Mettercelo dentro renderebbe la funzione dipendente dal
+ * disco e farebbe sparire proprio i casi che i test costruiscono.
+ */
+function esisteAncora(percorso) {
+  return existsSync(join(AD_ROOT, percorso));
+}
+
+/**
+ * Toglie i fantasmi da un elenco di percorsi. PURA: il «questo esiste?» arriva da fuori, così una
+ * prova la esegue su percorsi inventati senza toccare il disco — e senza dover creare e cancellare
+ * file veri per riprodurre il caso.
+ *
+ * @param {string[]} percorsi
+ * @param {(p: string) => boolean} esiste
+ */
+export function senzaFantasmi(percorsi = [], esiste = esisteAncora) {
+  return percorsi.filter((p) => esiste(p));
+}
+
+/**
+ * I file toccati da git negli ultimi N giorni, meno quelli che nel frattempo sono spariti.
+ * Se git non risponde torna [] (il report lo dice).
  *
  * AR-340 — passa dalla porta di `percorsi-git.mjs`. Prima chiedeva l'elenco senza `-z`, e i 26
  * percorsi del vault con l'accento arrivavano riscritti in ottali: non corrispondendo a nessun
@@ -221,7 +267,8 @@ export function quotaSforzo(fileToccati = []) {
  */
 function fileToccatiDaGit(giorni = GIORNI_FINESTRA) {
   try {
-    return [...new Set(percorsiDaGit(["log", `--since=${giorni} days ago`, "--name-only", "--pretty=format:"], { cwd: AD_ROOT }))];
+    const toccati = [...new Set(percorsiDaGit(["log", `--since=${giorni} days ago`, "--name-only", "--pretty=format:"], { cwd: AD_ROOT }))];
+    return senzaFantasmi(toccati);
   } catch {
     return [];
   }
