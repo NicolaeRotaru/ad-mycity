@@ -1,0 +1,106 @@
+# 🫀 Il battito esterno — l'unico controllo che NON gira sulla macchina che deve controllare.
+#
+# PERCHÉ ESISTE (AR-430 / AR-371, misurato il 29/7): il VPS è stato fermo quaranta ore — dodici tick
+# mancati di fila — e nessun allarme è partito. Non perché fosse rotto: perché ogni sensore di
+# vitalità gira dentro `giro.sh` o da un timer del VPS, cioè dentro la cosa che si era fermata. Il
+# blackout l'ha scoperto Nicola, non la macchina.
+#
+# Questo workflow vive su GitHub, che non sa nemmeno che il VPS esista. Non gli serve nessun secret:
+# legge le tracce che i processi automatici lasciano nel repo e apre una issue se tacciono da troppo.
+# `GITHUB_TOKEN` è fornito da Actions — nessun setup, nessuna chiave da collegare.
+#
+# NON aggiungere qui la logica di decisione: sta in `cervello/battito-esterno.mjs` (`decidiAzione`),
+# perché una regola scritta dentro un YAML non la può eseguire nessun test — si potrebbe solo
+# cercare una parola nel file, ed è il tipo di prova che ha lasciato vivere questi difetti per mesi.
+# La prova comportamentale è `node cervello/test/battito-esterno.test.mjs`.
+
+name: Battito esterno — la macchina è viva?
+
+on:
+  schedule:
+    - cron: "17 * * * *" # ogni ora al minuto 17: fuori dai minuti tondi, dove si accalcano tutti
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: battito-esterno
+  cancel-in-progress: false
+
+jobs:
+  battito:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Cerca l'allarme già aperto
+        id: aperta
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Una sola issue per problema, che si aggiorna: girando ogni ora, quaranta ore di blackout
+          # farebbero quaranta issue, e un allarme che si impara a ignorare è peggio di nessun allarme.
+          numero=$(gh issue list --state open --label "macchina-ferma" --limit 1 --json number --jq '.[0].number // empty')
+          echo "numero=$numero" >> "$GITHUB_OUTPUT"
+          echo "Allarme già aperto: ${numero:-nessuno}"
+
+      - name: Guarda se la macchina lascia tracce
+        id: controllo
+        env:
+          ISSUE_APERTA: ${{ steps.aperta.outputs.numero }}
+        run: |
+          node cervello/battito-esterno.mjs --json > /tmp/battito.json
+          cat /tmp/battito.json
+          {
+            echo "azione=$(jq -r '.decisione.azione' /tmp/battito.json)"
+            echo "numero=$(jq -r '.decisione.numero // empty' /tmp/battito.json)"
+            echo "titolo=$(jq -r '.decisione.titolo // empty' /tmp/battito.json)"
+          } >> "$GITHUB_OUTPUT"
+          jq -r '.decisione.corpo // empty' /tmp/battito.json > /tmp/corpo.md
+          jq -r '"→ \(.decisione.azione): \(.decisione.perche)"' /tmp/battito.json >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Apri l'allarme
+        if: steps.controllo.outputs.azione == 'apri'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create "macchina-ferma" --color B60205 --description "La macchina non lascia più tracce" --force
+          url=$(gh issue create --title "${{ steps.controllo.outputs.titolo }}" --body-file /tmp/corpo.md --label "macchina-ferma")
+          # Si guarda cosa TORNA, non il fatto che il comando sia partito: dichiarare consegnato ciò
+          # che nessuno ha ricevuto è il difetto che ha reso muto l'allarme di Telegram (AR-365).
+          if [ -z "$url" ]; then
+            echo "::error::La issue non è stata creata: l'allarme non è arrivato a nessuno."
+            exit 1
+          fi
+          echo "Allarme aperto: $url"
+
+      - name: Aggiorna l'allarme aperto
+        if: steps.controllo.outputs.azione == 'commenta'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          url=$(gh issue comment "${{ steps.controllo.outputs.numero }}" --body-file /tmp/corpo.md)
+          if [ -z "$url" ]; then
+            echo "::error::Il commento non è stato scritto: l'aggiornamento non è arrivato a nessuno."
+            exit 1
+          fi
+          echo "Allarme aggiornato: $url"
+
+      - name: Chiudi l'allarme — la macchina è tornata
+        if: steps.controllo.outputs.azione == 'chiudi'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue close "${{ steps.controllo.outputs.numero }}" --comment "$(cat /tmp/corpo.md)"
+          stato=$(gh issue view "${{ steps.controllo.outputs.numero }}" --json state --jq .state)
+          if [ "$stato" != "CLOSED" ]; then
+            echo "::error::L'allarme risulta ancora $stato: non posso dire di averlo spento."
+            exit 1
+          fi
+          echo "Allarme chiuso."

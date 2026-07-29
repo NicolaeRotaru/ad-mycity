@@ -6083,10 +6083,9 @@
    "nato": "2026-07-29 13:05",
    "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: .github/workflows/ (contiene il solo deploy-pannello.yml) · cervello/giro.sh:664 e :666 (midollo-spinale e letargo, unici punti di invocazione in tutto il repo, entrambi `| esito_righe N || true`) · cervello/midollo-spinale.mjs:31 (riflesso «Worker morto: allerta a Nicola che il battito è fermo da >15 min») · cervello/giro.sh:1287 (ping HEARTBEAT_PING_URL, condizionato a una variabile che risulta solo in vps/.env.example:67). Sintomo: VERIFICATO. Il riflesso «Worker morto — allerta a Nicola che il battito è fermo da >15 min» esiste a midollo-spinale.mjs:31. Ma `midollo-spinale.mjs` è invocato in UN SOLO punto di tutto il repo: giro.sh:664, dentro il giro (grep confermato: le altre occorrenze sono capacita.mjs:21 e censimento-guardiani.mjs:132, che lo censiscono, non lo eseguono). Stessa cosa per `letargo.mjs` (giro.sh:666). Entrambi sono in pipe con `| esito_righe 3 || true`, quindi anche il loro codice di uscita è perso. Cioè: il riflesso che deve accorgersi che la macchina è ferma può scattare solo quando la macchina funziona abbastanza da fare un giro — e legge `sentinella-dati.json`, fermo al 27/7 22:23. Fuori dal VPS non gira niente: `ls .github/workflows/` restituisce il solo `deploy-pannello.yml`, quindi esiste già una superficie di esecuzione sempre accesa, indipendente dal VPS e dalla quota AI, e non è usata per guardare la macchina. C'è un ping a un watchdog esterno (giro.sh:1287) ma è condizionato a `HEARTBEAT_PING_URL`, che compare solo in `cervello/vps/.env.example:67`; grep di HEARTBEAT su verifica-sensori.mjs: zero risultati — nessun sensore reclama la sua assenza, quindi l'ultimo anello può mancare senza che niente lo dica.",
    "verifica": {
-    "file": ".github/workflows/battito-macchina.yml",
-    "pattern": "worker:ultimo",
-    "presente": true
-   }
+    "comando": "node cervello/test/battito-esterno.test.mjs"
+   },
+   "nota_fix": "Lotto 32 (29/7). Guardiano esterno costruito: .github/workflows/battito-esterno.yml (GitHub Actions, cron orario) + cervello/battito-esterno.mjs, la cui decidiAzione è una funzione pura provata da 10 casi. DIVERGENZE dalla scheda, con motivo: (a) niente chiavi Supabase — legge le tracce che i processi automatici lasciano nel repo (FONTI_TRACCE, estratte in salute.mjs perché siano un elenco solo), così il guardiano non resta muto in attesa che qualcuno colleghi un segreto, che è il modo in cui è morto l'allarme Telegram; (b) ogni ora invece che ogni 30 min: la soglia è 8h (tracceFermeOre di salute.mjs) e mezz'ora non aggiunge niente; (c) niente notifica Telegram — il canale è la issue GitHub, che si può verificare guardando cosa torna. ULTIMA CLAUSOLA FATTA: sensore watchdog_esterno in verifica-sensori.mjs, provato in negativo (tolto il workflow diventa rosso), così spegnere il guardiano non è più silenzioso."
   },
   {
    "id": "AR-372",
@@ -7145,10 +7144,9 @@
    "nato": "2026-07-29 13:05",
    "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/verifica-automazione.mjs:165-167 (ramo non-VPS: solo 'warn') · .github/workflows/ contiene un solo file, deploy-pannello.yml. Sintomo: VERIFICATO. L'unico controllo che i battiti girino davvero è `verifica-automazione.mjs`, che interroga i timer di systemd — e systemd sta sul VPS. Fuori dal VPS (righe 165-167) il controllo si riduce a due avvisi: «systemd assente (non-VPS): verifica sul server», che sono `warn` e non alzano il codice d'uscita. In `.github/workflows/` c'è un solo file, `deploy-pannello.yml`: nessun controllo esterno programmato. Effetto reale osservabile nel repo: l'ultimo briefing è `MyCity-Vault/90-Memoria-AI/Briefing/2026-07-27.md` e gli ultimi commit si chiamano «memoria: VPS fermo, undicesimo tick mancato» e «dodicesimo tick mancato» — cioè il fermo è stato notato da una sessione lanciata a mano, non da un allarme della macchina. AR-164 (aperto) copre la metà INTERNA del problema (i timer delle cadenze non sono fra i critici); la metà esterna — nessun osservatore fuori dal VPS — non è in cantiere.",
    "verifica": {
-    "file": ".github/workflows/battito-esterno.yml",
-    "pattern": "schedule",
-    "presente": true
-   }
+    "comando": "node cervello/test/battito-esterno.test.mjs"
+   },
+   "nota_fix": "Lotto 32 (29/7). METÀ ESTERNA FATTA (vedi AR-371): il battito esterno esiste, gira ogni ora su GitHub Actions, apre/aggiorna/chiude UNA issue. DIVERGENZA motivata sulla soglia: la scheda diceva 2-3 ore, uso 8h — il timer del giro è OnCalendar 06..22/2:20, quindi di notte c'è un buco di 8 ore PER COSTRUZIONE e una soglia a 3h suonerebbe ogni notte (falso allarme documentato in STATO 28/7 00:30). E guardo le tracce dentro i file, non la data dell'ultimo commit di main: i commit delle sessioni cloud farebbero sembrare vivo il VPS anche da morto. RESTA APERTO: la sua stessa scheda dice che la metà interna (AR-164, i quattro timer del ritmo) va chiusa INSIEME, non al posto. Non dichiararlo chiuso finché AR-164 non è chiuso."
   },
   {
    "id": "AR-431",
@@ -7202,6 +7200,36 @@
     "file": "cervello/onesta-check.mjs",
     "pattern": "RE_RIFERIMENTO_CODICE",
     "presente": true
+   }
+  },
+  {
+   "id": "AR-437",
+   "stato": "aperto",
+   "gravita": "grave",
+   "dimensione": "processi",
+   "nato": "2026-07-29 17:02",
+   "fonte": "lotto 32 (riparazione AR-371/AR-430)",
+   "titolo": "Il cancello che decide se un lotto si può consegnare è rosso per costruzione: due guardiani su quattro non hanno un tetto e falliscono sul debito storico",
+   "causa_radice": "① Perché il cancello è rosso anche su un lotto sano? Perché prove-oneste (80 difetti ereditati) e test-cervello (3 test rossi da prima) escono 1 sul debito storico. ② Perché escono 1 sul debito? Perché il meccanismo dei tetti di tetti-lotto.json copre solo prova_con_or e mutazione_mancante: gli altri due guardiani il cancello li chiama e ne propaga l'exit secco. ③ Perché solo quei due hanno il tetto? Perché i tetti sono nati col lotto 29 per il debito delle PROVE, e gli altri due guardiani sono stati agganciati dopo senza passare dalla stessa porta. ④ Causa di sistema: il tetto è stato pensato come proprietà di una misura, non come regola del cancello — quindi ogni guardiano nuovo nasce senza. VERIFICATO: cancello-lotto.mjs --veloce esce 1 su HEAD pulito, senza nessun lavoro in corso, con gli stessi due rossi.",
+   "fix_proposto": "🟡 Portare prove-oneste e test-cervello sotto la stessa regola dei tetti già scritta per prova_con_or: tetto in tetti-lotto.json (80 e 3 alla nascita), blocco DURO solo su ciò che il lotto tocca adesso (i difetti in --lotto e i test che il diff aggiunge o modifica), misura visibile e in calo sul resto. Il file tetti-lotto.json dichiara già il principio nel campo _perche_un_tetto_e_non_zero: qui manca solo l'applicazione. Senza questo ogni lotto sano si consegna scavalcando un rosso, e il cancello smette di voler dire qualcosa.",
+   "verifica": {
+    "tipo": "umano",
+    "nota": "da convertire in prova comportamentale quando il fix parte: un test che monta un cantiere finto con debito sotto il tetto e pretende exit 0, e uno con una violazione nuova che pretende exit 1"
+   }
+  },
+  {
+   "id": "AR-438",
+   "stato": "aperto",
+   "gravita": "medio",
+   "dimensione": "sensori",
+   "nato": "2026-07-29 17:12",
+   "fonte": "lotto 32 (visita del 29/7, copertura 63%)",
+   "titolo": "La visita si dichiara cieca sulla Cabina per un indirizzo che la macchina conosce già",
+   "causa_radice": "① Perché cabina.viva e cabina.cuore sono ⚪? Perché salute.mjs pretende PANNELLO_URL o CABINA_URL dall'ambiente, e senza quelle esce subito. ② Perché non ce l'ha? Perché in una sessione cloud il .env del VPS non esiste. ③ Ma quell'indirizzo NON è un segreto: https://ad-mycity.vercel.app sta scritto in chiaro in DECISIONI.md, nello STATO storico e dentro il cantiere stesso. È un URL pubblico, non una chiave. ④ Causa di sistema: il codice tratta allo stesso modo due cose diverse — i SEGRETI (che giustamente mancano fuori dal VPS) e gli INDIRIZZI PUBBLICI (che si possono sapere ovunque). Così due controlli su sedici si dichiarano ciechi senza esserlo, e la copertura dichiarata dalla visita (63%) è più bassa del vero.",
+   "fix_proposto": "🟡 Dare a salute.mjs un indirizzo di ripiego per la Cabina quando l'ambiente non ce l'ha, con l'env che vince sempre (se un giorno il Pannello cambia casa, si sposta in un punto solo). Il valore va messo dove vivono i fatti-chiave — registro-fatti.json, chiave cabina.url — non copiato dentro lo script: AR-102 vale anche qui. Attenzione a un caso che rovescerebbe il guadagno: se Vercel Authentication è attiva la Cabina risponde 401, e 401 vuol dire VIVA-ma-protetta, non morta — va letto come verde con la nota, altrimenti si guadagnano due ⚪ e si perde un ✅ vero. Prova comportamentale: giudicaCabina su 200 / 401 / 500 / timeout.",
+   "verifica": {
+    "tipo": "umano",
+    "nota": "da convertire in {comando: node cervello/test/cabina-indirizzo.test.mjs} quando il fix parte"
    }
   }
  ],

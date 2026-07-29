@@ -32,8 +32,8 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync } fr
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
-import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
+import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
 
 const ARGS = process.argv.slice(2);
 const JSON_MODE = ARGS.includes("--json");
@@ -199,6 +199,41 @@ export function daOraPiacenza(s) {
 }
 
 /**
+ * I file dove i processi automatici lasciano il loro orario, e il campo che lo contiene.
+ *
+ * Sta qui, in un posto solo, perché lo legge anche il guardiano esterno (`battito-esterno.mjs`):
+ * due elenchi copiati a mano divergono al primo file nuovo, e il guardiano finirebbe per misurare
+ * una macchina diversa da quella che misura la visita.
+ */
+export const FONTI_TRACCE = [
+  ["auto-coscienza/sentinella-dati.json", "aggiornato"],
+  ["auto-coscienza/esito-giro.json", "data"],
+  ["auto-coscienza/costo-ai.json", "aggiornato"],
+  ["auto-coscienza/delta-gate.json", "aggiornato"],
+  ["ultimo-briefing.json", "data"],
+];
+
+/**
+ * Raccoglie le tracce dal disco. Il controllo che funziona SEMPRE, in tutte e due le case, anche
+ * senza una chiave: i processi automatici scrivono nel repo, e il repo ce l'ho sotto gli occhi.
+ * Se un timer scatta ma qui non arriva niente, il guasto non è il timer — è quello che ci sta dentro.
+ */
+export function leggiTracce(radice = AD_ROOT) {
+  const tracce = [];
+  for (const [rel, campo] of FONTI_TRACCE) {
+    const p = join(radice, "MyCity-Vault/90-Memoria-AI", rel);
+    if (!existsSync(p)) continue;
+    try {
+      const quando = JSON.parse(readFileSync(p, "utf8"))[campo];
+      if (quando) tracce.push({ file: rel.split("/").pop(), quando });
+    } catch {
+      /* un file illeggibile non è una traccia: semplicemente non conta */
+    }
+  }
+  return tracce;
+}
+
+/**
  * Le tracce dei processi automatici: da quanto la macchina non lascia un segno di essere passata.
  *
  * Serve perché il ponte da solo non basta. Il 29/7 il VPS era fermo da due giorni — dodici tick
@@ -329,28 +364,7 @@ const CONTROLLI = [
     titolo: "La macchina lascia tracce di essere passata",
     impatto: 1,
     async prova() {
-      // Il controllo che funziona SEMPRE, in tutte e due le case, anche senza una chiave: i processi
-      // automatici scrivono nel repo, e il repo ce l'ho sotto gli occhi. Se un timer scatta ma qui
-      // non arriva niente, il guasto non è il timer — è quello che ci sta dentro.
-      const fonti = [
-        ["auto-coscienza/sentinella-dati.json", "aggiornato"],
-        ["auto-coscienza/esito-giro.json", "data"],
-        ["auto-coscienza/costo-ai.json", "aggiornato"],
-        ["auto-coscienza/delta-gate.json", "aggiornato"],
-        ["ultimo-briefing.json", "data"],
-      ];
-      const tracce = [];
-      for (const [rel, campo] of fonti) {
-        const p = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI", rel);
-        if (!existsSync(p)) continue;
-        try {
-          const quando = JSON.parse(readFileSync(p, "utf8"))[campo];
-          if (quando) tracce.push({ file: rel.split("/").pop(), quando });
-        } catch {
-          /* un file illeggibile non è una traccia: semplicemente non conta */
-        }
-      }
-      return giudicaTracce(tracce);
+      return giudicaTracce(leggiTracce());
     },
   },
   {
@@ -529,21 +543,22 @@ const CONTROLLI = [
       } catch {
         /* senza manifest tratto tutte le skill come native: meglio un falso allarme che un buco */
       }
-      // AR-339/340/341 — gli elenchi di percorsi si chiedono a git dalla porta, non a mano: senza
-      // `-z` git riscrive i nomi con l'accento fra virgolette e in ottali, e in un vault italiano
-      // non è un caso limite (26 file). Qui il nome della skill è ASCII, quindi oggi non fa danno —
-      // ma il guardiano `percorsi-git` non giudica il singolo caso, giudica la porta, ed è giusto
-      // così: la regola vale sulla superficie. Questa chiamata è arrivata con le skill (#611) e
-      // teneva rossa la suite condivisa per tutti.
-      const versionata = (nome) => {
-        try {
-          return percorsiDaGit(["ls-files", "--error-unmatch", `.claude/skills/${nome}`], { cwd: AD_ROOT }).length > 0;
-        } catch {
-          // `--error-unmatch` esce ≠0 quando il percorso NON è tracciato: non è un guasto, è la
-          // risposta «no». Il codice di prima la leggeva da `r.status`; qui la legge dall'eccezione.
-          return false;
-        }
-      };
+      // L'elenco dei file versionati si chiede a git UNA volta sola e dalla porta di
+      // `percorsi-git.mjs` (AR-339): `ls-files` senza `-z` riscrive fra virgolette i nomi con un
+      // byte non-ASCII, e in un vault italiano sono decine di file. Qui i nomi delle skill sono
+      // ASCII, ma la regola è di classe — e la prima versione di questo controllo la violava,
+      // chiamando git a mano una volta per cartella.
+      let tracciate;
+      try {
+        tracciate = new Set(
+          percorsiDaGit(["ls-files", "--", ".claude/skills"], { cwd: AD_ROOT })
+            .map((p) => p.match(/^\.claude\/skills\/([^/]+)\//)?.[1])
+            .filter(Boolean),
+        );
+      } catch {
+        return nonVisto("git non risponde da qui: non posso dire quali skill siano versionate");
+      }
+      const versionata = (nome) => tracciate.has(nome);
       const orfane = skillNonVersionate(cartelle, { generata: (nome) => idsSpecchio.has(nome), versionata });
       if (orfane.length)
         return rotto(`${orfane.length} skill vivono solo su questo disco e non arriveranno mai al VPS: ${orfane.join(", ")}`, { orfane });

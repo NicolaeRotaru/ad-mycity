@@ -333,6 +333,31 @@ async function checkTelegram() {
   return { ...r, configurato: true };
 }
 
+/**
+ * Il guardiano che vive FUORI dalla macchina è ancora al suo posto? (AR-371)
+ *
+ * Serve perché finora quell'anello non esisteva come sensore, e quindi non poteva nemmeno risultare
+ * «spento»: si poteva cancellare il workflow senza che niente lo reclamasse. Un guardiano che si può
+ * spegnere in silenzio è come non averlo — e questo in particolare è l'unico che parla quando è il
+ * VPS a tacere, quindi il suo silenzio non lo noterebbe nessun altro.
+ *
+ * Non fa rete: guarda il file. È l'unico modo onesto di misurarlo da entrambe le case.
+ */
+async function checkWatchdogEsterno() {
+  const p = join(AD_ROOT, ".github/workflows/battito-esterno.yml");
+  if (!existsSync(p)) {
+    return { ok: false, configurato: true, dettaglio: "battito-esterno.yml assente — nessun guardiano gira fuori dal VPS: se la macchina si ferma non lo dice nessuno" };
+  }
+  const yml = readFileSync(p, "utf8");
+  if (!/^\s*schedule:/m.test(yml) || !/cron:/.test(yml)) {
+    return { ok: false, configurato: true, dettaglio: "battito-esterno.yml esiste ma non ha uno schedule: non parte da solo, quindi non sorveglia niente" };
+  }
+  if (!/node cervello\/battito-esterno\.mjs/.test(yml)) {
+    return { ok: false, configurato: true, dettaglio: "battito-esterno.yml non chiama più il controllo: il guardiano gira a vuoto" };
+  }
+  return { ok: true, configurato: true, dettaglio: "guardiano esterno presente e schedulato (GitHub Actions, indipendente dal VPS)" };
+}
+
 async function checkN8n() {
   const url = process.env.N8N_WEBHOOK_URL?.trim() || process.env.N8N_HEALTH_URL?.trim();
   if (!url) {
@@ -462,6 +487,17 @@ async function main() {
     tg.dettaglio,
     "Telegram getMe",
     tg.configurato
+  );
+
+  const wd = await checkWatchdogEsterno();
+  checks.push({ nome: "watchdog_esterno", ...wd, canale: "GitHub Actions" });
+  cecita.sensori.watchdog_esterno = aggiornaSensore(
+    cecita.sensori,
+    "watchdog_esterno",
+    wd.ok,
+    wd.dettaglio,
+    "battito-esterno.yml",
+    wd.configurato
   );
 
   const n8n = await checkN8n();

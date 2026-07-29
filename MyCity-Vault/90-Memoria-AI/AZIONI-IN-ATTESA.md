@@ -956,3 +956,36 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 - **Origine:** `{origine:radiografia-marketplace-2026-07-29, difetto-macchina}`
 
 ---
+
+---
+
+### 🔴 #vps-giro-fermo — Fai ripartire il giro sul VPS: è fermo da due giorni · ⏳ accodata 2026-07-29 17:08
+
+**Da lanciare nel terminale del VPS, in quest'ordine:**
+
+```bash
+systemctl status mycity-giro.timer mycity-giro.service --no-pager
+journalctl -u mycity-giro -n 80 --no-pager
+sudo systemctl restart mycity-giro.service    # se risulta appeso
+```
+
+Se i timer risultano **attivi** ma non producono niente, il guasto non è nei servizi: è il motore AI
+(quota consumata o sessione scaduta). In quel caso serve `cervello/vps/collega-claude.sh`, non un
+altro riavvio — ritentare su un problema di credenziali è tempo buttato.
+
+**Cosa cambia:** l'ultimo giro riuscito è del 27/7 alle 22:23; da allora dodici tick di fila non
+hanno prodotto nulla e nessun processo automatico scrive più in memoria da 40 ore. Finché resta così
+la macchina non lavora: niente giri, niente sentinelle, niente briefing, e ogni numero che il
+Pannello mostra invecchia senza dirlo. La diagnosi è già chiusa e non va rifatta — appendimento dei
+guardiani, lotto 8 e `set -e` sono stati esclusi con misura; resta il motore AI, che sta alla riga
+839 di `giro.sh` mentre la pubblicazione è alla 996, ed è esattamente il punto in cui un giro scrive
+i file su disco e non arriva mai al push.
+
+**Se va bene:** entro pochi minuti ricompaiono i commit del VPS e le tracce tornano fresche; la
+visita (`node cervello/salute.mjs`) torna verde su «La macchina lascia tracce di essere passata», e
+il battito esterno appena installato chiude da solo l'eventuale allarme aperto.
+
+- **Colore:** 🔴 (tocca i servizi del VPS in produzione — lo fa Nicola dal terminale)
+- **Reparto:** devops-sre
+- **Nota:** da adesso questo non dipende più dal fatto che qualcuno se ne accorga: la macchina apre
+  una segnalazione su GitHub da sola entro un'ora di silenzio. È il senso del lavoro di oggi.

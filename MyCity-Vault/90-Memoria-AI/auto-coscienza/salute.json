@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-07-29 16:17",
+  "aggiornato": "2026-07-29 17:05",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -13,8 +13,8 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-07-29 16:17",
-      "iso": "2026-07-29T14:17:32.711Z",
+      "quando": "2026-07-29 17:05",
+      "iso": "2026-07-29T15:05:20.509Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 9,
@@ -39,7 +39,7 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "nessun processo automatico lascia tracce da 39 ore (l'ultima è costo-ai.json, 2026-07-28 01:13)",
+          "detto": "nessun processo automatico lascia tracce da 40 ore (l'ultima è costo-ai.json, 2026-07-28 01:13)",
           "prova": null,
           "regressione": false
         },
@@ -267,6 +267,28 @@
     {
       "quando": "2026-07-29 16:17",
       "iso": "2026-07-29T14:17:32.711Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 9,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.63
+    },
+    {
+      "quando": "2026-07-29 16:43",
+      "iso": "2026-07-29T14:43:48.769Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 9,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.63
+    },
+    {
+      "quando": "2026-07-29 17:05",
+      "iso": "2026-07-29T15:05:20.509Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 9,
