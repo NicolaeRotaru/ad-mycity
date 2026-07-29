@@ -272,6 +272,33 @@
       "cerca": "    if (passaDalLucchetto(s.testo)) continue;",
       "sostituisci": "    if (true) continue;",
       "test": "cervello/test/lucchetto-git.test.mjs"
+    },
+    {
+      "lotto": 32,
+      "difetto": "AR-207",
+      "nome": "il censimento smette di vedere le porte fuori dal confine",
+      "file": "cervello/porte-pannello.mjs",
+      "cerca": "    if (!coperto(r.percorso, schemi)) {",
+      "sostituisci": "    if (false) {",
+      "test": "cervello/test/porte-pannello.test.mjs"
+    },
+    {
+      "lotto": 32,
+      "difetto": "AR-112",
+      "nome": "un esenzione senza il perche scritto torna a valere come esenzione",
+      "file": "cervello/porte-pannello.mjs",
+      "cerca": "    if (esenzione && !String(esenzione.perche || \"\").trim()) {",
+      "sostituisci": "    if (false) {",
+      "test": "cervello/test/porte-pannello.test.mjs"
+    },
+    {
+      "lotto": 32,
+      "difetto": "AR-228",
+      "nome": "la lista chiusa torna aperta: qualunque chiave passa dalla rotta generica",
+      "file": "pannello/src/lib/chiavi-scrivibili.ts",
+      "cerca": "  if (!(CHIAVI_CONTROLLO as readonly string[]).includes(c)) {",
+      "sostituisci": "  if (false) {",
+      "test": "cervello/test/porta-di-servizio-della-firma.test.mjs"
     }
   ]
 }

@@ -1,0 +1,64 @@
+# 🚧 IL CANCELLO SULLE PULL REQUEST — AR-346.
+#
+# PERCHÉ ESISTE. Il cancello di uscita del lotto (`cervello/cancello-lotto.mjs`) esisteva già ed era
+# buono; non era agganciato al momento che conta. In questo repo NESSUN workflow girava su
+# `pull_request` — l'unico era `deploy-pannello.yml`, su push a main — e il `pre-commit` locale gira
+# solo sui commit che toccano `cantiere-difetti.json`. Per di più i hook sono configurazione locale:
+# una sessione nuova può avere `core.hooksPath` non impostato e non se ne accorge nessuno (AR-343).
+#
+# L'effetto composto misurato il 29/7: la PR #604 è entrata su main con la propria prova rossa, e la
+# #602 ha aggiunto un guardiano senza la sua riga di descrizione. Da quel momento il cancello era
+# rosso su main PER TUTTI, e il rosso non era più attribuibile a chi l'aveva causato. Il registro del
+# cantiere lo dice da sé: «un cancello sempre rosso viene aggirato al secondo giro, ed è peggio di
+# non averlo».
+#
+# La radice non è nessuna delle due PR: è che la prova che protegge il lavoro non era agganciata al
+# merge. Questo file la aggancia. Da qui in avanti un ramo con la suite rossa non arriva a main.
+#
+# COSA NON FA. Non mergia e non pubblica niente: legge, esegue le prove e dice sì o no. Il merge
+# resta di Nicola (🟡 → la firma è sul merge), esattamente come prima.
+#
+# Nota per chi lo leggerà quando fallirà: `cancello-lotto.mjs` distingue tre esiti, e la differenza
+# è il punto di tutto — 0 = si consegna · 1 = violazione vera · 2 = NON HO POTUTO MISURARE. Il 2 non
+# è un verde: significa che una parte del controllo era cieca (dipendenze mancanti, file assente).
+# Qui il 2 blocca come il racconto 1, apposta: un cancello che lascia passare ciò che non ha saputo
+# misurare è la bugia che questo lotto cura.
+
+name: Cancello del lotto
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Una PR aggiornata due volte di fila non deve tenere occupata la coda con la corsa vecchia.
+concurrency:
+  group: cancello-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  cancello:
+    name: prove, guardiani e typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Il cancello confronta il ramo con main per sapere quali difetti il lotto TOCCA: con un
+          # clone superficiale quel confronto degrada e lo dice («repo shallow»). Qui la storia serve.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Il typecheck del Pannello è parte del cancello: senza le dipendenze uscirebbe 2 (cieco), e
+      # cieco non è verde. Installarle qui è ciò che rende il verde un verde vero.
+      - name: Dipendenze del Pannello
+        run: npm --prefix pannello ci
+
+      - name: Cancello di uscita
+        run: node cervello/cancello-lotto.mjs

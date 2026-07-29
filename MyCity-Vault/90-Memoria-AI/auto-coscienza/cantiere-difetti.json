@@ -922,10 +922,11 @@
       "nato": "2026-07-16 16:55",
       "chiuso_il": "",
       "verifica": {
-        "tipo": "umano"
+        "comando": "node cervello/test/porte-pannello.test.mjs"
       },
       "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
-      "nota": "2026-07-27 17:25: e lo STESSO difetto di AR-226, trovato da una radiografia precedente. La sua prova cercava la parola authorization dentro pannello/src/middleware.ts: col middleware del lotto C quel pattern c e, quindi il difetto stava per chiudersi DA SOLO su un fix parziale — il middleware blocca curl e CSRF ma NON chiude «chiunque abbia l indirizzo apre il Pannello e clicca», che e autenticazione e vive su Vercel. Prova portata a {tipo:umano} come AR-226: i due si chiudono insieme quando Nicola attiva Vercel Authentication e lo conferma."
+      "nota": "2026-07-27 17:25: e lo STESSO difetto di AR-226, trovato da una radiografia precedente. La sua prova cercava la parola authorization dentro pannello/src/middleware.ts: col middleware del lotto C quel pattern c e, quindi il difetto stava per chiudersi DA SOLO su un fix parziale — il middleware blocca curl e CSRF ma NON chiude «chiunque abbia l indirizzo apre il Pannello e clicca», che e autenticazione e vive su Vercel. Prova portata a {tipo:umano} come AR-226: i due si chiudono insieme quando Nicola attiva Vercel Authentication e lo conferma.",
+      "nota_fix": "Lotto 32. Il middleware chiesto dal fix esiste gia (AR-226, matcher /api/:path*) e la decisione vive in src/lib/serratura.ts, provata a parte. Quello che mancava era il GUARDIANO che il fix chiede in coda: uno script che elenchi le route che mutano e fallisca se ne trova una scoperta. E cervello/porte-pannello.mjs. Controlla la COPERTURA, non la serratura: sono due difetti diversi e vogliono due prove diverse, perche una serratura perfetta su una porta che nessuno ha censito non protegge niente. Copre anche le esenzioni: una senza il perche scritto conta come porta scoperta. Resta 🖐️ per la parte che non si prova da codice — la Deployment Protection di Vercel, che e una configurazione, non un file."
     },
     {
       "id": "AR-113",
@@ -2791,13 +2792,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/lib/azioni.ts",
-        "pattern": "consensoInvio|pausaAttiva|destinatarioAmmesso|RIMOSSA",
-        "presente": true
+        "comando": "node cervello/test/porte-pannello.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/esegui/route.ts:10-18 + pannello/src/lib/azioni.ts:18-42 (nessuna pausa, nessuna firma, nessuna allowlist) — a confronto con cervello/esegui-azione.mjs:105-113 e cervello/mani-allowlist.json (\"n8n\": false) · Impatto: Il giorno in cui l'hub viene collegato e gli invii accesi — cioè esattamente quando si comincia a scrivere ai clienti veri — esiste una porta che manda messaggi senza firma, senza pausa e senza traccia. Oggi è inerte perché l'indirizzo dell'hub non è configurato: è un rischio a scoppio ritardato, del tipo che nessuno ricontrolla al momento dell'accensione.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "Lotto 32. La prova precedente puntava a pannello/src/lib/azioni.ts, file ora CANCELLATO: sarebbe diventata orfana. Fatto il punto (a) del fix — la rotta e il modulo dietro sono spariti (verificato prima: la UI la dice binario morto in Azioni.tsx:349 e azioni.ts non aveva altri utilizzatori) — e soprattutto il punto (b), che e la cura vera: cervello/porte-pannello.mjs censisce TUTTE le route del Pannello, elenca quelle che mutano lo stato (29 su 76) e FALLISCE su chi sta fuori dal confine del middleware. La regola vale sulla superficie, non sulla singola porta: la prossima rotta che scrive nasce dentro il censimento invece che fuori."
     },
     {
       "id": "AR-208",
@@ -3214,13 +3214,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "pannello/src/app/api/controllo/route.ts",
-        "pattern": "AMMESSE|whitelist|chiavi ammesse",
-        "presente": true
+        "comando": "node cervello/test/porta-di-servizio-della-firma.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/controllo/route.ts:22-24 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "Lotto 32. Il fix c era GIA (scrivibileDaControllo, lista chiusa in pannello/src/lib/chiavi-scrivibili.ts): era la PROVA a essere orfana — cercava AMMESSE|whitelist|chiavi ammesse dentro controllo/route.ts, parole che il fix non ha mai usato perche la lista e finita in un modulo suo. Cosi un difetto riparato da giorni risultava aperto, e non ne distinguevi il non fatto dal puntatore rotto. AR-228 e il gemello di AR-333 (stessa porta, radiografie diverse, mai riconosciuti come lo stesso difetto): ora prende il suo nome dentro la prova che lo copre, altrimenti il cancello prova-condivisa-cieca chiuderebbe un difetto che il test non nomina — e avrebbe ragione."
     },
     {
       "id": "AR-229",
@@ -3339,7 +3338,8 @@
       },
       "nota": "Dove: pannello/src/app/api/esegui/route.ts:10-17 · pannello/src/lib/azioni.ts:18-42 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "Lotto 32. Rotta /api/esegui e modulo pannello/src/lib/azioni.ts cancellati. Verificato prima di toccare: unico utilizzatore era quella rotta, e la UI l aveva gia abbandonata (Azioni.tsx:349 la chiama binario morto). La via viva delle azioni e un altro modulo, lib/mani.ts. Typecheck del Pannello pulito dopo la cancellazione. La causa radice — manca una regola di igiene che imponga di togliere l endpoint vecchio quando si attiva il nuovo — e curata dal censimento di porte-pannello.mjs, che rende ogni porta che muta un elemento di un elenco invece che un file che nessuno guarda."
     },
     {
       "id": "AR-235",
@@ -5577,7 +5577,12 @@
       "colore": "🟡",
       "stato": "aperto",
       "nato": "2026-07-29 03:35",
-      "nota": "Trovato mergendo main dentro il ramo del lotto 30 per risolvere un conflitto. NON e una regressione di questo lotto: verificato su worktree pulito di origin/main (10 pass / 4 fail identici) prima di attribuirlo. Il guardiano senza descrizione e percorsi-git, non prova-trigger.mjs (il mio guardiano nuovo non e chiamato dal giro e non rientra nel censimento). Registrato e NON riparato qui: e il lavoro di chi possiede #602/#604, e allargare il lotto a meta e il modo classico di non finirlo (regola ② della skill cantiere)."
+      "nota": "Trovato mergendo main dentro il ramo del lotto 30 per risolvere un conflitto. NON e una regressione di questo lotto: verificato su worktree pulito di origin/main (10 pass / 4 fail identici) prima di attribuirlo. Il guardiano senza descrizione e percorsi-git, non prova-trigger.mjs (il mio guardiano nuovo non e chiamato dal giro e non rientra nel censimento). Registrato e NON riparato qui: e il lavoro di chi possiede #602/#604, e allargare il lotto a meta e il modo classico di non finirlo (regola ② della skill cantiere).",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "NON si chiude da questo lotto, apposta. La parte (a) — il rosso ereditato su main — e fatta e provata: la suite condivisa e tornata verde (79 file, 722 asserzioni) e quota-che-non-vede-i-quaderni non e piu rosso per tutti. La parte (b) — .github/workflows/cancello-lotto.yml che fa girare il cancello su ogni pull_request — NON e provabile da questo ramo per costruzione: GitHub esegue un workflow pull_request solo quando il file e su main. Si chiude guardando la prima PR aperta DOPO il merge: deve comparire il check «Cancello del lotto» e un ramo con la suite rossa non deve risultare mergiabile. Chiuderlo adesso con una prova che cerca il file nel repo sarebbe la prova-per-pattern che questo lotto sta curando."
+      },
+      "nota_fix": "Lotto 32, in due pezzi come chiedeva il fix. (a) Il buco di adesso: il cancello era rosso su main per tutti. Verificato su un worktree pulito da HEAD che il rosso NON era di questo lotto — era zona cieca 14 contro tetto 13. Applicata la regola di AR-340 (si mappa, non si alza il tetto): il file nuovo era consegne/salute/2026-07-29-1238-claude.md, il referto della visita, cioe la macchina che si controlla da sola → mappata la cartella a macchina. Suite di nuovo verde: 79 file, 722 asserzioni. (b) La radice: .github/workflows/cancello-lotto.yml fa girare node cervello/cancello-lotto.mjs su ogni pull_request verso main — prima NESSUN workflow girava sulle PR (l unico era deploy-pannello, su push a main) e il pre-commit e configurazione locale che una sessione nuova puo non avere (AR-343). Il workflow tratta l uscita 2 (cieco) come blocco quanto la 1, e installa le dipendenze del Pannello perche il typecheck non esca cieco. NOTA: la parte (b) non si puo provare da questo ramo — un workflow su pull_request lo esegue GitHub solo dopo il merge del file. Resta da verificare alla prima PR successiva."
     }
   ],
   "meta": {
