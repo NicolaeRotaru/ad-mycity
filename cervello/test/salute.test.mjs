@@ -15,6 +15,8 @@ import { fileURLToPath } from "node:url";
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
 const {
+  daOraPiacenza,
+  giudicaTracce,
   giudicaPonte,
   giudicaCoda,
   giudicaBattito,
@@ -62,6 +64,37 @@ prova("il VPS che non ha mai pubblicato è ⚪, non rosso", () => {
 
 prova("un orario illeggibile non diventa mai un verde", () => {
   uguale(giudicaPonte({ iso: "ieri sera" }, ORA).esito, "nonvisto", "orario rotto");
+});
+
+// ── Le tracce: il controllo che funziona anche senza una chiave ───────────────
+
+prova("un orario della macchina si legge come ora di Piacenza, non come ora del processo", () => {
+  // Da una sessione cloud il processo gira in UTC: letta ingenuamente, questa stringa varrebbe due
+  // ore prima, e una macchina ferma da 8 ore sembrerebbe ferma da 6.
+  uguale(daOraPiacenza("2026-07-29 12:00"), Date.parse("2026-07-29T12:00:00+02:00"), "estate (ora legale)");
+  uguale(daOraPiacenza("2026-01-15 12:00"), Date.parse("2026-01-15T12:00:00+01:00"), "inverno (ora solare)");
+  uguale(Number.isNaN(daOraPiacenza("ieri sera")), true, "testo che non è un orario");
+  uguale(Number.isNaN(daOraPiacenza(null)), true, "niente");
+});
+
+prova("IL CASO VERO del 29/7: nessuna traccia da due giorni è ROSSO, anche senza chiavi", () => {
+  const tracce = [
+    { file: "sentinella-dati.json", quando: "2026-07-27 22:23" },
+    { file: "costo-ai.json", quando: "2026-07-28 01:13" },
+  ];
+  const e = giudicaTracce(tracce, Date.parse("2026-07-29T11:00:00+02:00"));
+  uguale(e.esito, "rotto", "macchina muta da due giorni");
+  uguale(e.dati.file, "costo-ai.json", "cita la traccia più fresca, non la prima della lista");
+});
+
+prova("la traccia fresca di un'ora fa è verde", () => {
+  const tracce = [{ file: "esito-giro.json", quando: "2026-07-29 10:00" }];
+  uguale(giudicaTracce(tracce, Date.parse("2026-07-29T11:00:00+02:00")).esito, "ok", "macchina viva");
+});
+
+prova("nessuna traccia leggibile è ⚪, non un verde e non un'accusa", () => {
+  uguale(giudicaTracce([], Date.now()).esito, "nonvisto", "niente da leggere");
+  uguale(giudicaTracce([{ file: "x.json", quando: "boh" }], Date.now()).esito, "nonvisto", "orari illeggibili");
 });
 
 // ── La coda del worker ────────────────────────────────────────────────────────

@@ -60,6 +60,7 @@ const SOGLIE = {
   coperturaMinima: 0.5, // sotto metà dei controlli non do un verdetto: dico che sono cieca
   storicoMax: 60, // le ultime 60 visite per casa: serve la tendenza, non l'archivio
   refertiTenuti: 30, // i referti scritti su disco: gli ultimi 30, il resto è carta
+  tracceFermeOre: 8, // i processi automatici girano più volte al giorno: 8h di silenzio è un guasto
 };
 
 // Impatto sulla crescita — l'ordine con cui si legge il referto (stessa scala del cantiere).
@@ -170,6 +171,52 @@ export function giudicaPonte(precedenteVps, adesso = Date.now(), soglie = SOGLIE
   return ok(`il VPS si è visitato ${Math.round(ore)} ore fa`, { ore, rossiLassu: precedenteVps.rotti ?? null });
 }
 
+/**
+ * Un orario scritto come lo scrive la macchina ("2026-07-29 11:42", fuso di Piacenza) → millisecondi.
+ * Non basta `Date.parse`: da una sessione cloud il processo gira in UTC e quella stessa stringa
+ * varrebbe due ore prima. Qui si provano gli offset di Roma e si tiene quello che, riformattato in
+ * fuso Roma, ridà esattamente la stringa di partenza — così vale sia d'estate che d'inverno.
+ */
+export function daOraPiacenza(s) {
+  if (typeof s !== "string") return NaN;
+  const [giorno, ora] = s.trim().split(" ");
+  if (!giorno || !ora) return NaN;
+  const formato = new Intl.DateTimeFormat("sv-SE", {
+    timeZone: "Europe/Rome",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+  for (const offset of ["+02:00", "+01:00"]) {
+    const ms = Date.parse(`${giorno}T${ora}:00${offset}`);
+    if (!Number.isNaN(ms) && formato.format(new Date(ms)) === `${giorno} ${ora}`) return ms;
+  }
+  return NaN;
+}
+
+/**
+ * Le tracce dei processi automatici: da quanto la macchina non lascia un segno di essere passata.
+ *
+ * Serve perché il ponte da solo non basta. Il 29/7 il VPS era fermo da due giorni — dodici tick
+ * mancati di fila — e da una sessione cloud la visita non se ne accorgeva: senza chiavi non vedeva
+ * la coda, e il referto del VPS non era ancora nato. Questo controllo invece funziona **sempre**,
+ * perché legge file che stanno nel repo. Si guarda il campo scritto DENTRO il file, mai la data del
+ * filesystem: in un clone fresco tutti i file sono di oggi, e sembrerebbe tutto vivo.
+ */
+export function giudicaTracce(tracce, adesso = Date.now(), soglie = SOGLIE) {
+  const lette = tracce.map((t) => ({ ...t, ms: daOraPiacenza(t.quando) })).filter((t) => !Number.isNaN(t.ms));
+  if (!lette.length) return nonVisto("nessun file di memoria con un orario leggibile: non posso dire se la macchina gira");
+  const piuFresca = lette.sort((a, b) => b.ms - a.ms)[0];
+  const ore = (adesso - piuFresca.ms) / 3_600_000;
+  const dati = { file: piuFresca.file, ore: Math.round(ore), quando: piuFresca.quando };
+  if (ore > soglie.tracceFermeOre)
+    return rotto(`nessun processo automatico lascia tracce da ${Math.round(ore)} ore (l'ultima è ${piuFresca.file}, ${piuFresca.quando})`, dati);
+  return ok(`ultima traccia ${Math.round(ore)} ore fa (${piuFresca.file})`, dati);
+}
+
 /** La coda: non quanti lavori ci sono, ma da quanto sono lì. */
 export function giudicaCoda(righe, adesso = Date.now(), soglie = SOGLIE) {
   const eta = (x) => (adesso - Date.parse(x.aggiornato_il || x.creato_il)) / 60_000;
@@ -257,6 +304,36 @@ const CONTROLLI = [
     soloSu: "claude",
     async prova({ precedenteVps }) {
       return giudicaPonte(precedenteVps);
+    },
+  },
+  {
+    id: "worker.tracce",
+    organo: "worker",
+    titolo: "La macchina lascia tracce di essere passata",
+    impatto: 1,
+    async prova() {
+      // Il controllo che funziona SEMPRE, in tutte e due le case, anche senza una chiave: i processi
+      // automatici scrivono nel repo, e il repo ce l'ho sotto gli occhi. Se un timer scatta ma qui
+      // non arriva niente, il guasto non è il timer — è quello che ci sta dentro.
+      const fonti = [
+        ["auto-coscienza/sentinella-dati.json", "aggiornato"],
+        ["auto-coscienza/esito-giro.json", "data"],
+        ["auto-coscienza/costo-ai.json", "aggiornato"],
+        ["auto-coscienza/delta-gate.json", "aggiornato"],
+        ["ultimo-briefing.json", "data"],
+      ];
+      const tracce = [];
+      for (const [rel, campo] of fonti) {
+        const p = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI", rel);
+        if (!existsSync(p)) continue;
+        try {
+          const quando = JSON.parse(readFileSync(p, "utf8"))[campo];
+          if (quando) tracce.push({ file: rel.split("/").pop(), quando });
+        } catch {
+          /* un file illeggibile non è una traccia: semplicemente non conta */
+        }
+      }
+      return giudicaTracce(tracce);
     },
   },
   {

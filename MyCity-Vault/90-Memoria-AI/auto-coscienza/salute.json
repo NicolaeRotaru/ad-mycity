@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-07-29 11:42",
+  "aggiornato": "2026-07-29 12:38",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -8,19 +8,20 @@
     "cabinaLentaMs": 5000,
     "coperturaMinima": 0.5,
     "storicoMax": 60,
-    "refertiTenuti": 30
+    "refertiTenuti": 30,
+    "tracceFermeOre": 8
   },
   "ultime": {
     "claude": {
-      "quando": "2026-07-29 11:42",
-      "iso": "2026-07-29T09:42:17.018Z",
+      "quando": "2026-07-29 12:38",
+      "iso": "2026-07-29T10:38:05.305Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 8,
-      "rotti": 0,
+      "rotti": 1,
       "guasti": 0,
       "nonvisti": 6,
-      "copertura": 0.57,
+      "copertura": 0.6,
       "controlli": [
         {
           "id": "worker.ponte",
@@ -29,6 +30,16 @@
           "impatto": 1,
           "esito": "nonvisto",
           "detto": "il VPS non ha mai pubblicato un referto: il ponte non è ancora attivo",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "worker.tracce",
+          "organo": "worker",
+          "titolo": "La macchina lascia tracce di essere passata",
+          "impatto": 1,
+          "esito": "rotto",
+          "detto": "nessun processo automatico lascia tracce da 35 ore (l'ultima è costo-ai.json, 2026-07-28 01:13)",
           "prova": null,
           "regressione": false
         },
@@ -209,6 +220,17 @@
       "guasti": 0,
       "nonvisti": 6,
       "copertura": 0.57
+    },
+    {
+      "quando": "2026-07-29 12:38",
+      "iso": "2026-07-29T10:38:05.305Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 8,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.6
     }
   ]
 }
