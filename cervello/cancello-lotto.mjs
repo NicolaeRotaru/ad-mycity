@@ -418,6 +418,29 @@ function main() {
     passi.push(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]));
     passi.push(esegui("spazzata dei fratelli", "node", ["cervello/spazzata-fratelli.mjs"]));
     passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));
+
+    // AR-393 — LA PROVA CHE LE PROVE PROVINO, ESEGUITA INVECE CHE NOMINATA.
+    //
+    // Fino al 29/7 `non-vacuita.mjs` compariva in tutto il repo solo dentro il messaggio poche
+    // righe più su («rompi il fix in mutanti.json e pretendi il rosso») e dentro una skill: era un
+    // cartello rivolto a chi legge, non un freno. Il cancello lanciava una decina di controlli e
+    // non lanciava quello nato apposta dopo aver scoperto che una prova può essere verde perché
+    // cieca — cioè l'unico che misura se gli altri servono a qualcosa.
+    //
+    // Gira SOLO sulle mutazioni dei difetti che questo lotto tocca: rompere quelle di trenta lotti
+    // a ogni consegna costerebbe minuti, e un controllo che si impara a saltare è già spento.
+    // Se il lotto non tocca difetti con una mutazione, il passo non si finge fatto: resta fuori, e
+    // il buco lo copre già la regola `mutazione-mancante` qui sopra.
+    const mieMutazioni = mutanti && toccati ? mutanti.filter((m) => idDellaMutazione(m).some((id) => toccati.includes(id))) : [];
+    if (mieMutazioni.length) {
+      passi.push(
+        esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/non-vacuita.mjs", "--difetti", toccati.join(",")], {
+          timeout: 900_000,
+        }),
+      );
+    } else if (toccati && toccati.length) {
+      avvisi.push("nessuna mutazione per i difetti di questo lotto: la prova che le prove provino non ha misurato niente");
+    }
     if (!VELOCE) {
       passi.push(
         esegui("typecheck del Pannello", "npx", ["tsc", "--noEmit"], {

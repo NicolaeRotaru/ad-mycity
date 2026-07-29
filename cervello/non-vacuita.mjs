@@ -15,9 +15,14 @@
 // con modifiche non salvate che ti dispiacerebbe perdere se la macchina si spegne a metà.
 //
 // Uso:
-//   node cervello/non-vacuita.mjs              # tutte le mutazioni
-//   node cervello/non-vacuita.mjs --lotto 29   # solo quelle di un lotto
+//   node cervello/non-vacuita.mjs                       # tutte le mutazioni
+//   node cervello/non-vacuita.mjs --lotto 29            # solo quelle di un lotto
+//   node cervello/non-vacuita.mjs --difetti AR-1,AR-2   # solo quelle dei difetti indicati
 //   node cervello/non-vacuita.mjs --json
+//
+// `--difetti` esiste per AR-393: il cancello del lotto lo esegue sui difetti che il lotto TOCCA, e
+// solo su quelli. Rompere tutte le mutazioni di trenta lotti a ogni consegna costerebbe minuti e
+// insegnerebbe ad aggirare il cancello — un controllo che si impara a saltare è già spento.
 //
 // Uscita (contratto guardiani, AR-322):
 //   0 = ogni mutazione rende rosso il suo test: le prove non sono vacue
@@ -26,14 +31,34 @@
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
-import { join } from "node:path";
+import { isAbsolute, join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const iLotto = process.argv.indexOf("--lotto");
 const LOTTO = iLotto !== -1 ? String(process.argv[iLotto + 1] || "") : null;
+const iDif = process.argv.indexOf("--difetti");
+const DIFETTI = iDif !== -1 ? String(process.argv[iDif + 1] || "").split(/[,\s]+/).filter(Boolean) : null;
 
-const MUTANTI = join(AD_ROOT, "cervello/mutanti.json");
+/** Gli id di difetto nominati da una mutazione: il campo `difetto` può accorparne più d'uno. */
+export function difettiDellaMutazione(m) {
+  return String(m?.difetto || "").match(/AR-\d+/g) || [];
+}
+
+/** Le mutazioni che riguardano almeno uno dei difetti chiesti. Pura: il test la interroga da sola. */
+export function filtraPerDifetti(elenco = [], ids = null) {
+  if (!ids || !ids.length) return elenco;
+  const cercati = new Set(ids.map(String));
+  return elenco.filter((m) => difettiDellaMutazione(m).some((d) => cercati.has(d)));
+}
+
+// Puntabile altrove per il test (stessa forma di sensori-spenti-check): senza, l'unico modo di
+// provare questo strumento sarebbe rompere un fix vero del repo — e una prova che guarda com'è il
+// mondo adesso resta verde anche a strumento rimosso.
+const MUTANTI = process.env.MUTANTI_FILE || join(AD_ROOT, "cervello/mutanti.json");
+
+/** Il file da rompere. Assoluto se la mutazione lo dà assoluto (è così che il test usa una fixture). */
+const viaDi = (f) => (isAbsolute(String(f)) ? String(f) : join(AD_ROOT, String(f)));
 
 /** Applica la mutazione al testo. Torna null se il pattern non c'è (puntatore rotto o fix cambiato). */
 export function muta(testo, cerca, sostituisci) {
@@ -54,14 +79,16 @@ function main() {
     process.exit(2);
   }
   if (LOTTO) elenco = elenco.filter((m) => String(m.lotto) === LOTTO);
+  elenco = filtraPerDifetti(elenco, DIFETTI);
   if (!elenco.length) {
-    console.error(`non-vacuita: nessuna mutazione${LOTTO ? ` per il lotto ${LOTTO}` : ""} → non posso misurare`);
+    const quale = LOTTO ? ` per il lotto ${LOTTO}` : DIFETTI ? ` per ${DIFETTI.join(", ")}` : "";
+    console.error(`non-vacuita: nessuna mutazione${quale} → non posso misurare`);
     process.exit(2);
   }
 
   const esiti = [];
   for (const m of elenco) {
-    const file = join(AD_ROOT, m.file);
+    const file = viaDi(m.file);
     if (!existsSync(file)) {
       esiti.push({ ...m, verdetto: "cieco", perche: `file assente: ${m.file}` });
       continue;
