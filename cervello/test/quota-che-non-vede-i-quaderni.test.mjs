@@ -108,8 +108,36 @@ prova("sul repo vero la zona cieca sta sotto il tetto dichiarato", () => {
 prova("e i quaderni sono finiti nel conto giusto: la macchina, non l'ignoto", () => {
   const r = spawnSync("node", [GUARDIANO, "--json"], { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
   const j = JSON.parse(r.stdout);
-  // 120 senior + README + AD: la casa vera ne ha oltre cento, e prima erano TUTTI fra i non classificati.
-  assert.ok(j.sforzo.macchina > 1000, `macchina troppo bassa (${j.sforzo.macchina})`);
+
+  // 29/7 — CORREZIONE. Qui c'era `macchina > 1000`, ed era un difetto LATENTE da sempre: un conteggio
+  // ASSOLUTO di file toccati in sette giorni. Quel numero non dice niente sulla mappa — dice quanto
+  // è stata intensa la settimana, e soprattutto quanta storia ha il repo sotto i piedi. In un clone
+  // shallow `--since=7 days` non sa datare i commit tronchi e restituisce tutto il raggiungibile
+  // (2109 file, «macchina» oltre mille, verde); con la storia intera la finestra funziona davvero e
+  // ne restano 451, di cui 396 macchina — stesso repo, stesso codice, verdetto opposto.
+  //
+  // Non si è mai visto perché in locale il repo è shallow e nessun controllo girava sulle PR. L'ha
+  // scoperto il cancello di AR-346 al primo giro con `fetch-depth: 0`: è esattamente il lavoro per
+  // cui esiste.
+  //
+  // L'intento dichiarato dal titolo — «i quaderni sono nel conto giusto: la macchina, non l'ignoto»
+  // — si prova meglio così: guardando DOVE finiscono i percorsi, invece di quanti ce n'erano quella
+  // settimana. La classificazione è pura e non dipende né dal calendario né dalla profondità del clone.
+  for (const p of [
+    "memoria-squadra/tech.md",
+    ".claude/agents/analista.md",
+    "MyCity-Vault/07-Agenti/AGENTI.md",
+    "cervello/giro.sh",
+    "CLAUDE.md",
+  ]) {
+    assert.equal(destinazioneDi(p), "macchina", `${p} deve contare come lavoro sulla MACCHINA, non come ignoto`);
+  }
+  // E il lavoro sull'azienda deve restare distinto: se cadesse tutto in «macchina» la quota sarebbe
+  // verde per il motivo sbagliato, che è peggio di un rosso.
+  for (const p of ["MyCity-Vault/01-Strategia/x.md", "consegne/intelligence/y.md", "creativi/z.png"]) {
+    assert.equal(destinazioneDi(p), "business", `${p} deve contare come lavoro sull'AZIENDA`);
+  }
+
   assert.ok(
     j.sforzo.non_classificato <= TETTO_NON_CLASSIFICATI,
     `non classificati ${j.sforzo.non_classificato}: prima del fix erano 202, se risalgono la mappa è tornata vecchia`,

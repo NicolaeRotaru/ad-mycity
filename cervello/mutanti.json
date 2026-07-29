@@ -335,6 +335,15 @@
    "cerca": "  return percorsi.filter((p) => esiste(p));",
    "sostituisci": "  return percorsi;",
    "test": "cervello/test/quota-che-non-vede-i-quaderni.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-346e",
+   "nome": "la mappa perde i quaderni e il loro lavoro torna a essere ignoto",
+   "file": "cervello/allocazione-check.mjs",
+   "cerca": "[\"memoria-squadra/\", \"macchina\"]",
+   "sostituisci": "[\"memoria-squadra/NIENTE\", \"macchina\"]",
+   "test": "cervello/test/quota-che-non-vede-i-quaderni.test.mjs"
   }
  ]
 }
