@@ -51,7 +51,11 @@ Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi ese
    «è reale?»; (c) nessun fondamento → blocca e chiedi (il vero «inventato»). Mai delegare a Nicola ciò che
    puoi dedurre. E **nessun numero senza fonte**.
 6. **Impara:** estrai le lezioni riusabili (`cervello/apprendimento.md`, 8 fonti — incl. le **correzioni di
-   Nicola come casi-studio prioritari**) e scrivile in memoria.
+   Nicola come casi-studio prioritari**) e scrivile in memoria. ⚠️ **Una correzione di Nicola si chiude con
+   un FRENO, non con una frase**: aggancia la lezione a un guardiano che può fallire (`gate:`) + la
+   mutazione che prova che scatta (`mutanti.json`, campo `lezione`), e verifica con
+   `node cervello/gate-veri.mjs`. Se il freno non è scrivibile, dillo: è debito dichiarato, non lavoro
+   finito. *(Il conto di non averlo fatto: 269 correzioni, 0 gate, 83% su temi già visti.)*
 7. **Migliora:** sul lavoro importante, confrontati coi migliori (**due livelli: concorrenti locali + il
    meglio del mondo per ogni mestiere**, mai sazia) e fai collaborare i senior (`cervello/auto-miglioramento.md`).
 8. **Radiografati (asse ②):** periodicamente analizza **te stessa da cima a fondo** — agenti, prompt,

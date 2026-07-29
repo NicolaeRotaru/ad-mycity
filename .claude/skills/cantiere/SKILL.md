@@ -137,7 +137,20 @@ node cervello/cancello-lotto.mjs          # tutto: prove + guardiani + typecheck
 node cervello/cancello-lotto.mjs --veloce # senza typecheck, mentre lavori
 ```
 
-Exit `0` = si consegna · `1` = violazione · `2` = non ho potuto misurare (cieco, **non** verde).
+Exit `0` = si consegna · `1` = violazione, non si consegna · `2` = **passa ma con dei buchi**: tutto
+ciò che ha potuto misurare è verde, e le parti ⚪ vanno scritte nella PR. Fino al 30/7 il `2` era
+raccontato come una violazione, e in sessione cloud arrivava sempre — il clone è superficiale, quindi
+`prove-oneste` è cieco per costruzione, e il cancello non poteva diventare verde nemmeno col lavoro
+perfetto. Un cancello che non può essere verde si impara a saltare. Adesso i tre esiti sono tre, e
+l'uscita resta `2` verso la CI (dove blocca come prima). I due ⚪ che vedrai da una sessione nuova:
+`prove-oneste` (clone superficiale) e `typecheck` (`npm ci --prefix pannello` non ancora fatto) —
+non sono tuoi, dichiarali e vai avanti.
+
+Il ciclo costa **~32 s** (era 65): i 103 test del cervello girano a corsie. Se un test tocca la
+memoria vera gira in fila da solo, riconosciuto dal contenuto e non da un elenco — e quello è un
+difetto aperto, AR-444: la cura è iniettargli il percorso. Per un giro stretto mentre lavori:
+`node cervello/test-cervello.mjs --solo <pezzo-del-nome>`.
+
 Dentro, oltre ai guardiani già esistenti, i quattro controlli nati dagli errori più costosi:
 
 | controllo | cosa impedisce |
@@ -146,6 +159,7 @@ Dentro, oltre ai guardiani già esistenti, i quattro controlli nati dagli errori
 | `prova-condivisa-cieca` | un test dato a N difetti che non li nomina tutti: ne chiude uno mai toccato (AR-254) |
 | `prova-orfana` | un comando che punta a un file inesistente: «non fatto» indistinguibile da «puntatore rotto» |
 | `mutazione-mancante` | un difetto riparato la cui prova non è mai stata rotta apposta — o la cui mutazione punta a un pezzo che non esiste più |
+| `gate delle lezioni` | una correzione di Nicola che dichiara un freno (`gate:`) senza una mutazione che lo faccia scattare: il punteggio «ha imparato» salirebbe senza nessuna difesa costruita |
 
 **Partono da soli**: il `pre-commit` lancia `--solo-prove` su ogni commit che tocca
 `cantiere-difetti.json` — è il punto. (Ma i hook sono configurazione locale: in una sessione nuova
