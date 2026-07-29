@@ -121,7 +121,11 @@ function main() {
     console.log("🧨 LA PROVA CHE LE PROVE PROVINO\n");
     for (const e of esiti) {
       const segno = e.verdetto === "ok" ? "✅" : e.verdetto === "vacua" ? "❌" : "⚠️ ";
-      console.log(`  ${segno} ${e.difetto} — ${e.nome}`);
+      // Dal 30/7 una mutazione può appartenere a un DIFETTO (rompi il fix, il test deve diventare
+      // rosso) oppure a una LEZIONE (rimetti l'errore, il gate deve scattare). Senza questa riga la
+      // seconda specie si stampava «undefined —», che è il modo più veloce per far sembrare rotto
+      // un pezzo che funziona.
+      console.log(`  ${segno} ${e.difetto || e.lezione || "(senza padrone)"} — ${e.nome}`);
       if (e.perche) console.log(`     ${e.perche}`);
     }
     console.log("");
