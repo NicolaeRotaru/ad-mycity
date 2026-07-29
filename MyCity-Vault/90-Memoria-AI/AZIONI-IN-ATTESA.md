@@ -959,7 +959,22 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
-### 🔴 #vps-giro-fermo — Fai ripartire il giro sul VPS: è fermo da due giorni · ⏳ accodata 2026-07-29 17:08
+### ✅ #vps-giro-fermo — RISOLTA: il VPS ha ripreso a scrivere · accodata 2026-07-29 17:08 · chiusa 2026-07-29 17:35
+
+> **Non serve più fare niente.** Alle 15:07 il VPS è tornato in vita da solo o per mano tua — non lo
+> so, e non lo scrivo come se lo sapessi: quello che ho **misurato** è che ha ripreso a committare
+> («allineo la memoria del VPS con main — il VPS era fermo dal 27/7») e che le tracce sono di nuovo
+> fresche: `sentinella-dati.json` alle 17:11, `delta-gate.json` alle 16:20, `esito-giro.json` alle
+> 16:22. La visita è tornata verde sul controllo che era rosso. **Se sei stato tu, ignora il resto
+> della card; se è ripartito da solo, vale la pena capire perché — un guasto che si risolve da sé
+> torna.** I comandi qui sotto restano per la prossima volta.
+>
+> Da adesso non dipende più dal fatto che qualcuno se ne accorga: il guardiano esterno è in
+> produzione (mergiato con la #615) e apre una segnalazione da solo dopo 8 ore di silenzio. Provato
+> davvero alle 17:32 — è girato su GitHub Actions in 9 secondi, ha visto la macchina viva e **non**
+> ha aperto niente.
+
+**Comandi, se ricapita:**
 
 **Da lanciare nel terminale del VPS, in quest'ordine:**
 

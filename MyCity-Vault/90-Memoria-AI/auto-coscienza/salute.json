@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-07-29 17:05",
+  "aggiornato": "2026-07-29 17:31",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -13,12 +13,12 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-07-29 17:05",
-      "iso": "2026-07-29T15:05:20.509Z",
+      "quando": "2026-07-29 17:31",
+      "iso": "2026-07-29T15:31:25.879Z",
       "casa": "claude",
       "modo": "rapido",
-      "ok": 9,
-      "rotti": 1,
+      "ok": 10,
+      "rotti": 0,
       "guasti": 0,
       "nonvisti": 6,
       "copertura": 0.63,
@@ -38,8 +38,8 @@
           "organo": "worker",
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
-          "esito": "rotto",
-          "detto": "nessun processo automatico lascia tracce da 40 ore (l'ultima è costo-ai.json, 2026-07-28 01:13)",
+          "esito": "ok",
+          "detto": "ultima traccia 0 ore fa (sentinella-dati.json)",
           "prova": null,
           "regressione": false
         },
@@ -159,7 +159,7 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "21 senior con almeno un esito registrato",
+          "detto": "19 senior con almeno un esito registrato",
           "prova": null,
           "regressione": false
         },
@@ -293,6 +293,17 @@
       "modo": "rapido",
       "ok": 9,
       "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.63
+    },
+    {
+      "quando": "2026-07-29 17:31",
+      "iso": "2026-07-29T15:31:25.879Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 10,
+      "rotti": 0,
       "guasti": 0,
       "nonvisti": 6,
       "copertura": 0.63

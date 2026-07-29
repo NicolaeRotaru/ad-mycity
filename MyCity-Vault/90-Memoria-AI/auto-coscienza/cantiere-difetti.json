@@ -1,6 +1,6 @@
 {
  "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
- "aggiornato": "2026-07-29 14:40",
+ "aggiornato": "2026-07-29 17:36",
  "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
  "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
  "difetti": [
@@ -1557,13 +1557,15 @@
    "causa_radice": "ritmo.sh non ha nessun controllo 'ho già completato questa cadenza oggi?' prima di eseguire: si fida di chi lo invoca (timer, coda lavori, chat). Possibile causa risolta dalla PR #517 (finestra worker/chat separata, mergiata 23/7 sera) — da confermare con un giorno pulito dopo il merge.",
    "fix_proposto": "🟡 guard in testa a ritmo.sh: se esiste già un blocco di oggi con età < N ore per lo stesso tipo, esci con log invece di rieseguire. Verificare 24-48h dopo PR #517 se il sintomo è sparito da solo.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-23 22:20",
    "origine": "auto-radiografia 2026-07-23 (dimensioni cadenza-esecuzione + efficienza-costo)",
    "verifica": {
     "comando": "node cervello/test/esito-cadenza.test.mjs"
    },
-   "nota_fix": "Lotto 31. La scheda proponeva un guard «ho già completato questa cadenza oggi?»; il codice ha mostrato che servivano DUE guardie, non una. Il lucchetto d'esecuzione (cadenza_lock, AR-293) impedisce a due cadenze di girare INSIEME, ma i sette rilanci in cento minuti erano IN FILA — un lucchetto non li avrebbe fermati. Quindi: (1) cadenza_lock per tipo in testa a ritmo.sh; (2) giaFattaDiRecente() in cervello/esito-cadenza.mjs, che rifiuta un mattino/mezzogiorno/sera completato con successo da meno di 10h (settimana: 120h). Solo un esito RIUSCITO blocca: una cadenza fallita alle 6:00 deve poter riprovare alle 7:00, altrimenti la cura diventa un blocco. Bypass per RITMO_FORCE e RITMO_FROM_WORKER (il recupero dal worker deve passare sempre). Il giro ha gapMin 0 apposta: gira ogni due ore, è il suo mestiere."
+   "nota_fix": "Lotto 31. La scheda proponeva un guard «ho già completato questa cadenza oggi?»; il codice ha mostrato che servivano DUE guardie, non una. Il lucchetto d'esecuzione (cadenza_lock, AR-293) impedisce a due cadenze di girare INSIEME, ma i sette rilanci in cento minuti erano IN FILA — un lucchetto non li avrebbe fermati. Quindi: (1) cadenza_lock per tipo in testa a ritmo.sh; (2) giaFattaDiRecente() in cervello/esito-cadenza.mjs, che rifiuta un mattino/mezzogiorno/sera completato con successo da meno di 10h (settimana: 120h). Solo un esito RIUSCITO blocca: una cadenza fallita alle 6:00 deve poter riprovare alle 7:00, altrimenti la cura diventa un blocco. Bypass per RITMO_FORCE e RITMO_FROM_WORKER (il recupero dal worker deve passare sempre). Il giro ha gapMin 0 apposta: gira ogni due ore, è il suo mestiere.",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/esito-cadenza.test.mjs → exit 0 (guardiano soddisfatto)"
   },
   {
    "id": "AR-146",
@@ -1871,15 +1873,15 @@
    "causa_radice": "1) Perche' i retry del ritmo non girano? Perche' l'invocatore uccide il processo prima. 2) Perche' lo uccide? Perche' il timeout per-tentativo (2700s) e' uguale al budget totale esterno. 3) Perche' e' uguale? Perche' il default e' stato scritto a occhio invece di derivarlo dal budget, come impone la nota AR-058. 4) Perche' non e' stato derivato? Perche' AR-058 e' stato risolto DENTRO giro.sh, in linea, senza estrarre la regola in un pezzo condiviso. 5) Causa di sistema: giro.sh e ritmo.sh sono due copie divergenti dello stesso motore di cadenza — non esiste un unico 'esegui-cadenza-con-budget' che entrambe chiamino, quindi ogni lezione imparata va ri-applicata a mano su due file e prima o poi uno resta indietro. E' esattamente la stessa causa di sistema gia' registrata in AR-127 per il cancello pre-push.",
    "fix_proposto": "🟡 Estrarre in cervello/motore-ai.sh una funzione unica 'ai_esegui_con_budget' che prende il budget esterno (RITMO_BUDGET_SEC / GIRO_BUDGET_SEC, default 2700) e ne DERIVA il timeout per tentativo con la formula di AR-058 ((budget - 2x30s) / 3, cap prudente 800s), invece di lasciare due default scritti a mano. Farla chiamare da giro.sh, ritmo.sh e monitora.sh. Nel frattempo, fix minimo in una riga: in ritmo.sh introdurre RITMO_BUDGET_SEC e derivare RITMO_AI_TIMEOUT da li'. In piu': spostare accoda_recupero_cadenza in una trap EXIT/TERM, cosi' il recupero scatta anche quando il processo viene ucciso da fuori.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
     "comando": "node cervello/test/esito-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/ritmo.sh:212 (RITMO_AI_TIMEOUT default 2700s) · cervello/ritmo.sh:215-227 (ciclo 3 tentativi) · cervello/ritmo.sh:228-233 (recupero cadenza) · cervello/worker.sh:1215 (WORKER_TIMEOUT_GIRO 2700s) · cervello/vps/mycity-ritmo-mattino.service:16 (TimeoutStartSec=3600) · Impatto: Ogni volta che il motore AI e' lento o appeso (rate-limit, sessione che non risponde), il Piano del mattino o il Report della sera NON escono e non escono nemmeno in ritardo: niente riprova, niente ri-accodamento, niente errore che qualcuno legga. Il 23/7 la giornata e' stata coperta da 7 rilanci a mano; nelle giornate normali (24-26/7) la cadenza regge solo perche' il motore risponde in fretta. La macchina non ha margine: basta un giorno lento e Nicola perde in silenzio il documento che legge ogni mattina.",
-   "chiuso_il": "",
-   "chiuso_come": "",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/esito-cadenza.test.mjs → exit 0 (guardiano soddisfatto)",
    "nota_fix": "Lotto 31. Tutte e tre le clausole. (a) La funzione unica è cadenza_ai_run in cervello/lib-cadenza.sh e non in motore-ai.sh come proponeva la scheda: motore-ai.sh COSTRUISCE il comando ed è sourced anche dal worker, che non è una cadenza — mettere lì il ciclo delle cadenze avrebbe allargato la superficie. Il timeout lo deriva timeoutPerTentativo() dal budget, con l'invariante tentativi×timeout + pause ≤ budget verificata dal test su sei budget diversi (prima: 2700s per tentativo su 2700s di budget, cioè i tentativi 2 e 3 non partivano mai). (b) RITMO_BUDGET_SEC introdotto. (c) La clausola che sfuggiva: accoda_recupero_cadenza spostata in una trap armata PRIMA del motore — «chi lo uccide da fuori porta via anche il recupero» era vero proprio nei casi per cui il recupero esiste."
   },
   {
@@ -1891,15 +1893,15 @@
    "causa_radice": "1) Perche' il monitoraggio puo' appendersi? Perche' non ha timeout ne' nello script ne' nell'unita' systemd. 2) Perche' non li ha? Perche' AR-005 e' stato applicato a giro.sh e ai quattro ritmo, e monitora e' stato dimenticato. 3) Perche' e' stato dimenticato? Perche' non esiste una lista delle 'cadenze AI' su cui verificare che una protezione sia stata applicata a tutte: si patcha il file che ha dato il sintomo. 4) Perche' non esiste quella lista? Perche' le cadenze sono tre script copia-incolla e non tre istanze di un motore unico. 5) Causa di sistema: monitora.sh e' la terza cadenza 'di serie B' — ogni irrobustimento (timeout AR-005, recupero AR-024, contratto sui codici d'uscita, cancelli pre-push AR-127) e' stato applicato a giro.sh e ritmo.sh e mai riportato su di lei.",
    "fix_proposto": "🟡 Tre righe, tutte a rischio zero: (1) aggiungere TimeoutStartSec=3600 e TimeoutStopSec=120 a cervello/vps/mycity-monitora.service, identici a mycity-giro.service; (2) avvolgere la chiamata AI di monitora.sh in 'timeout --kill-after=60s' come giro.sh:628; (3) dare a monitora.sh un contratto sui codici d'uscita come giro.sh (0 = ok, 1 = AI fallita, 2 = memoria non pubblicata) invece dell'attuale 0 fisso, cosi' systemd registri davvero il fallimento. Aggiungere poi alla checklist di ogni futura protezione di cadenza: 'applicata a tutte e tre (giro, ritmo, monitora)?'.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
     "comando": "node cervello/test/lib-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/monitora.sh:121-123 (chiamata AI senza timeout ne' riprove) · cervello/monitora.sh:165 (ultima riga: '|| true' -> uscita sempre 0) · cervello/vps/mycity-monitora.service (Type=oneshot SENZA TimeoutStartSec, unico fra le cadenze AI) · Impatto: La cadenza di intelligence (concorrenti, bandi, eventi, fonti web) puo' morire e restare morta a tempo indeterminato senza che nessun segnale cambi colore: il guardiano giornaliero guarda il timer, non il servizio, e lo script mente sul proprio esito. E' il caso peggiore per una cadenza: non un allarme rosso, ma un verde falso. In piu', un oneshot appeso tiene occupato il lock git condiviso e puo' far saltare il sync della memoria degli altri processi.",
-   "chiuso_il": "",
-   "chiuso_come": "",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/lib-cadenza.test.mjs → exit 0 (guardiano soddisfatto)",
    "nota_fix": "Lotto 31. Tutte e tre le clausole. (1) TimeoutStartSec=3600 e TimeoutStopSec=120 aggiunti a cervello/vps/mycity-monitora.service (Type=oneshot senza timeout non scade MAI). (2) Il motore passa da cadenza_ai_run, che ha timeout e ciclo. (3) Il contratto sui codici d'uscita: monitora.sh non aveva NESSUN exit, quindi usciva 0 sempre; ora `exit \"$(cadenza_esito monitora …)\"`, con la stessa testa del giro. Il blocco di pubblicazione era una SUBSHELL chiusa da `|| true`: le variabili non ne uscivano e l'esito era sepolto due volte — ora è un blocco normale con flock su fd 9, come ritmo.sh."
   },
   {
@@ -1911,15 +1913,15 @@
    "causa_radice": "1) Perche' una cadenza saltata non fa rumore? Perche' nessun guardiano guarda l'output della cadenza. 2) Perche' nessuno lo guarda? Perche' i guardiani di freschezza sono nati uno per volta, su singoli documenti che avevano gia' dato un problema (checklist stantia, OKR scaduti), non su una regola generale. 3) Perche' non su una regola generale? Perche' non esiste il concetto di 'artefatto con scadenza' con un elenco unico (file + eta' massima + cosa fare se scade). 4) Perche' non esiste? Perche' il controllo dell'automazione e' stato pensato come controllo dell'INFRASTRUTTURA (token, rami, timer, servizi) e non del PRODOTTO delle cadenze. 5) Causa di sistema: si sorveglia lo strumento invece del risultato — la stessa confusione per cui una riunione si considera fatta perche' e' a calendario, non perche' ha prodotto una decisione.",
    "fix_proposto": "🟡 Due mosse. (a) Aggiungere i quattro mycity-ritmo-*.timer a TIMER_CRITICI in verifica-automazione.mjs, cosi' un timer del ritmo spento diventa un 'fail' con uscita 1. (b) Creare cervello/freschezza-ritmo.mjs sul modello esatto di freschezza-checklist.mjs: legge l'ultimo blocco di ogni cadenza in RITMO.md, e se il Piano del mattino manca da oltre ~30 ore o il Report della sera da oltre ~30 ore (Review settimanale: oltre 8 giorni) restituisce rc!=0; agganciarlo in giro.sh con l'rc catturato e trasformato in vincolo hard, come gia' si fa per checklist e OKR. Costo: un file piccolo e una riga nel giro.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
     "comando": "node cervello/test/esito-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/verifica-automazione.mjs:30-38 (TIMER_CRITICI senza nessun mycity-ritmo-*) · cervello/verifica-automazione.mjs:153-162 (timer non critico -> 'warn') · cervello/verifica-automazione.mjs:262 (esce 1 solo sui 'fail') · nessun file in cervello/ legge MyCity-Vault/90-Memoria-AI/RITMO.md · Impatto: Una cadenza puo' sparire per giorni restando invisibile alla macchina: nessun vincolo al giro successivo, nessun avviso Telegram, nessuna riga in coda, nessun codice d'uscita diverso da zero. E' il difetto che rende inaffidabili tutti gli altri controlli di questa dimensione: la macchina non sa dire 'la mia ultima cadenza umana e' di N giorni fa', quindi non puo' nemmeno accorgersi di stare peggiorando.",
-   "chiuso_il": "",
-   "chiuso_come": "",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/esito-cadenza.test.mjs → exit 0 (guardiano soddisfatto)",
    "nota_fix": "Lotto 31. Entrambe le clausole. (a) I quattro mycity-ritmo-*.timer aggiunti a TIMER_CRITICI in verifica-automazione.mjs (un timer del mattino spento era solo un «warn»). (b) Non freschezza-ritmo.mjs come diceva la scheda, ma cervello/freschezza-cadenze.mjs: il difetto non è del ritmo, è di tutte e tre le cadenze — legge esito-cadenze.json, che ognuna scrive con l'ora, e restituisce rc≠0 se una non si alza da oltre la sua finestra (30h le giornaliere, 26h il giro, 8 giorni la settimanale). Agganciato in giro.sh con l'rc catturato e trasformato in CADENZE_VINCOLO, contato in GATE_ROSSI e consegnato al motore, come checklist e OKR."
   },
   {
@@ -1950,15 +1952,15 @@
    "causa_radice": "1) Perche' il passo saltato non arriva a nessuno? Perche' l'unica uscita e' stderr. 2) Perche' solo stderr? Perche' il gate e' stato aggiunto con la preoccupazione esplicita di 'non bloccare il push della memoria gia' scritta' (commento riga 673-674) e si e' scelto di non fare nulla d'altro. 3) Perche' 'non bloccare' e' diventato 'non segnalare'? Perche' nella macchina esistono solo due modi di reagire — bloccare o stampare — e manca il terzo: registrare un difetto di qualita' che sopravvive al giro. 4) Perche' manca? Perche' non c'e' un canale per 'il giro e' riuscito ma di serie B': l'esito e' binario. 5) Causa di sistema: la macchina misura se le cadenze SONO AVVENUTE, non se sono avvenute BENE — non esiste un punteggio di completezza del giro che si degradi e che qualcuno guardi.",
    "fix_proposto": "🟡 Trasformare GIRO_STEPS_OK=0 in una traccia che sopravvive: (a) scrivere l'evento in auto-coscienza (un contatore 'giri_incompleti' con data e passo mancante) cosi' il Pannello e la pagella dell'intelligenza lo vedano; (b) al giro SUCCESSIVO passarlo come vincolo hard al motore ('il giro precedente ha saltato i passi 11-12: falli per primi'), riusando il pattern dei vincoli gia' presente 15 volte in giro.sh; (c) se si ripete per 3 giri consecutivi, avviso Telegram con avviso-telegram.mjs, che e' gia' collegato. Il push della memoria resta non bloccato, come oggi.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
     "comando": "node cervello/test/esito-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/giro.sh:672-684 (rilevamento passi 11-12 non aggiornati, GIRO_STEPS_OK=0) · cervello/giro.sh:868-872 (unica conseguenza: un echo su stderr) · cervello/giro.sh:900-914 (i codici d'uscita non considerano GIRO_STEPS_OK) · Impatto: L'auto-analisi e l'apprendimento sono i due passi che rendono il giro un ciclo che impara invece di una routine che scrive. Se il motore AI, sotto pressione di tempo o di token, li salta per giorni, la macchina continua a dichiarare giri riusciti mentre il volano e' fermo — e la prova che se n'era accorta e' finita in un log rotante. E' il difetto piu' insidioso di questa dimensione perche' degrada la QUALITA' della cadenza lasciando intatti tutti i suoi segnali di buona salute.",
-   "chiuso_il": "",
-   "chiuso_come": "",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/esito-cadenza.test.mjs → exit 0 (guardiano soddisfatto)",
    "nota_fix": "Lotto 31. Clausole (a) e (b). (a) Il passo saltato non finisce più solo su stderr: esitoCadenza() gli dà il nome «passi-saltati» e cadenza_registra lo scrive in esito-cadenze.json con passi_ok=false. (b) Al giro SUCCESSIVO diventa un vincolo hard: freschezza-cadenze.mjs esce 1 se l'ultimo esito ha passi_ok=false, e giro.sh lo passa al motore come CADENZE_VINCOLO («rifalli PRIMA di altro»). NON fatta la clausola (c) — l'avviso Telegram dopo 3 giri consecutivi: richiede un contatore di consecutività che oggi non esiste, ed è il pezzo che il difetto può aspettare. Dichiarata qui, non taciuta."
   },
   {
@@ -2663,15 +2665,15 @@
    "causa_radice": "① Perché il ritmo rilancia a vuoto? Perché il suo ciclo non chiede alla policy. ② Perché non chiede? Perché la logica di ritentativo è stata scritta dentro giro.sh e copiata in ritmo.sh PRIMA che AR-092 la migliorasse. ③ Perché il miglioramento non è arrivato alla copia? Perché non c'è un punto unico: sono due cicli gemelli in due file. ④ Perché nessuno se n'è accorto? Perché il costo dei rilanci non è misurato e l'unico sintomo visibile è «la cadenza è ripartita», che sembra un pregio. ⑤ Causa di sistema: le politiche condivise (ritentativo, timeout, misura, modello) vivono duplicate per-script invece che in motore-ai.sh — ogni lezione imparata va riapplicata a mano in N posti, e in pratica ne raggiunge uno.",
    "fix_proposto": "🟡 Una sola funzione `ai_run_con_policy` in motore-ai.sh (tentativo → interroga retry-policy → decide) usata da giro.sh, ritmo.sh e monitora.sh; RITMO_AI_TIMEOUT ancorato al budget esterno con la stessa aritmetica dichiarata in giro.sh:624 (3×T + pause ≤ WORKER_TIMEOUT_GIRO). Così il fix di AR-145 non va rifatto per ogni cadenza.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
     "comando": "node cervello/test/esito-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/ritmo.sh:215-227 (3 tentativi fissi + sleep 30, nessuna consultazione della policy) · confronto: cervello/giro.sh:638-655 (AR-092: chiede a retry-policy.mjs e si ferma se dice «stop») · cervello/ritmo.sh:212 (RITMO_AI_TIMEOUT eredita GIRO_AI_TIMEOUT, che nel processo ritmo non esiste → 2.700s per tentativo) · cervello/worker.sh:1215 (timeout esterno del ritmo: 2.700s) · Impatto: Fino a tre run premium a contesto pieno su un errore che la policy avrebbe classificato «stop», più il lavoro ri-accodato che riparte da capo: è esattamente la forma del difetto già aperto AR-145 («Piano del mattino / Report della sera si autorilanciano a raffica, 7× in ~100 minuti lo stesso giorno»). E nessuno di questi rilanci compare nel registro dei costi, perché passano dal worker (vedi il difetto sulla misura assente): un giorno di rilanci a vuoto è indistinguibile da un giorno tranquillo.",
-   "chiuso_il": "",
-   "chiuso_come": "",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/esito-cadenza.test.mjs → exit 0 (guardiano soddisfatto)",
    "nota_fix": "Lotto 31. Il ciclo del ritmo ritentava tre volte con `sleep 30` fisso senza chiedere niente, mentre retry-policy.mjs è la fonte unica di «si ritenta?» dal giorno di AR-092: la lezione era arrivata al giro e non alla copia accanto. Ora cadenza_ai_run interroga la policy dopo ogni fallimento, e il default è prudente — risposta assente, illeggibile o `{}` valgono NO (la mutazione ha scoperto che la prima versione di questo default non era coperta dal test: il caso è stato aggiunto). La funzione sta in lib-cadenza.sh, non in motore-ai.sh: vedi la nota di AR-162."
   },
   {
@@ -4545,15 +4547,15 @@
    "causa_radice": "① Perché due giri possono sovrapporsi? Perché nessuno controlla se ce n'è già uno acceso. ② Perché nessuno controlla? Perché la protezione è stata pensata per il conflitto git (due processi che spingono su main), non per il conflitto sui FILE. ③ Perché solo per git? Perché il primo danno visto è stato un push rifiutato, ed è quello che si è curato. ④ Perché il worker scavalca systemd? Perché serviva catturare l'output del giro nel risultato del lavoro, e `systemctl start` non lo restituisce. ⑤ Causa di sistema: la mutua esclusione è stata messa dove faceva male (git) invece che dove sta la risorsa condivisa vera (l'albero di lavoro e i file del vault), e il canale che la scavalca — la coda — è stato aggiunto dopo, senza rivedere il confine.",
    "fix_proposto": "🟡 Un lucchetto di esecuzione per cadenza, preso in testa allo script e tenuto per tutto il run: in giro.sh e ritmo.sh, `exec 8>\"$REPO/.git/MYCITY_RUN_LOCK-<tipo>\"; flock -n 8 || { log «ne sta già girando uno, esco»; exit 0; }` — non bloccante, così il secondo esce subito con un messaggio invece di accodarsi. Il lucchetto è per tipo (giro, mattino, mezzogiorno, sera, settimana), non globale, così una cadenza non blocca il giro. flock su descrittore si rilascia da solo quando il processo muore, quindi un kill o un crash non lascia lucchetti orfani (questa parte del disegno attuale è corretta e va mantenuta). Consegna a @devops-sre.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
     "comando": "node cervello/test/lib-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/giro.sh:70,784 · cervello/ritmo.sh:68,246 · cervello/worker.sh:1189,1218 · Impatto: Due AD che scrivono lo stesso briefing, lo stesso STATO, la stessa coda di azioni: l'ultimo che salva cancella il lavoro dell'altro. E un file di memoria scritto a metà può finire committato e pubblicato come se fosse completo — cioè finire nel Pannello davanti a Nicola. In più il costo raddoppia: due motori premium accesi per lo stesso lavoro.",
-   "chiuso_il": "",
-   "chiuso_come": "",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/lib-cadenza.test.mjs → exit 0 (guardiano soddisfatto)",
    "nota_fix": "Lotto 31. Il lucchetto di esecuzione per tipo, come da scheda: `exec 8>\"$REPO/.git/MYCITY_RUN_LOCK-<tipo>\"; flock -n 8`, non bloccante, in giro.sh, ritmo.sh e monitora.sh (la scheda ne citava due; il codice ha mostrato che monitora ne era scoperto quanto gli altri). Per tipo e non globale, così una cadenza non blocca il giro. Il rilascio automatico alla morte del processo — la parte del disegno esistente che la scheda dice di mantenere — è verificato da un test che uccide davvero il processo col lucchetto in mano."
   },
   {
@@ -4727,15 +4729,15 @@
    "causa_radice": "① Perché i vincoli si perdono? Perché sono variabili di un processo che sta per uscire. ② Perché non sono persistiti? Perché sono nati come «testo da incollare nel prompt», non come stato della macchina. ③ Perché il delta-gate li ignora? Perché la sua firma è costruita sul mondo esterno (ordini/clienti/sentinelle), non sulla salute interna. ④ Perché quella scelta? Perché il delta-gate risolveva un problema di costo, non di correttezza, e nessuno ha rivisto il suo contratto quando i gate interni si sono moltiplicati da 3 a 15. ⑤ Causa di SISTEMA: il gate di risparmio e i gate di verità sono due sistemi che non si parlano; il primo ha diritto di veto sul secondo senza sapere cosa sta vetando.",
    "fix_proposto": "🟡 Due mosse. (1) Spostare i gate interni PRIMA della decisione RUN_AI e far entrare «almeno un vincolo hard attivo» tra le condizioni di bypass del delta-gate, accanto a GIRO_FORCE: se la macchina ha un problema interno, il motore si accende comunque anche a dati fermi (è esattamente il lavoro che vale la pena pagare). (2) Persistere sempre i vincoli attivi in auto-coscienza/esito-giro.json (stesso file del difetto n.1) prima di qualsiasi uscita, così il giro saltato lascia traccia e il Pannello può mostrare «giro saltato MA 3 controlli rossi». Branch ops/, PR firmata.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
     "comando": "node cervello/test/esito-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/giro.sh:449-486, 488-608, 613-614 · Impatto: La condizione più urgente (test rossi, registro agenti rotto, memoria che mente) viene rilevata e poi dimenticata proprio nei giri a basso costo, che sono la maggioranza. Il difetto interno resta invisibile fino a quando non cambia un dato di business — cioè, con 0 ordini, fino al battito delle 12 ore. Sommato al difetto n.2, un giro fallito può spegnere il motore per mezza giornata mentre i guardiani continuano a gridare in un log che nessuno legge. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-   "chiuso_il": "",
-   "chiuso_come": "",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/esito-cadenza.test.mjs → exit 0 (guardiano soddisfatto)",
    "nota_fix": "Lotto 31. ATTENZIONE, la scheda non concorda col codice e comanda il codice: entrambe le clausole erano GIÀ applicate in giro.sh da AR-320 (bypass del delta-gate coi vincoli attivi) e AR-300 (vincoli persistiti in esito-giro.json). Non erano però mai state VERIFICATE, perché la prova era un pattern di testo («Parte AI SALTATA dal delta-gate» assente) che non può distinguere una regola giusta da una sbagliata — e la riga esiste ancora, legittimamente. Il contributo di questo lotto: la regola è stata estratta in motoreSaltabile() dentro cervello/esito-cadenza.mjs, funzione pura interrogabile con casi finti, e la prova è ora comportamentale. In più la persistenza vale ora per TUTTE e tre le cadenze (esito-cadenze.json), non solo per il giro."
   },
   {
@@ -4789,15 +4791,15 @@
    "causa_radice": "① Perché monitora non ha timeout? Perché il fix AR-005 è stato applicato a giro.sh e ritmo.sh e non propagato al terzo gemello. ② Perché non propagato? Perché non esiste un elenco dei processi che lanciano il motore AI: la correzione ha seguito i file toccati, non la classe di problema. ③ Perché non esiste l'elenco? Perché i tre script condividono motore-ai.sh per COSTRUIRE il comando ma non per ESEGUIRLO — ognuno ha il suo giro di retry, il suo timeout, il suo trattamento dell'errore, copiati a mano. ④ Perché copiati a mano? Perché la funzione condivisa (ai_run_con_fallback_ollama) è nata per la chat e nessuno ha riportato dentro giro/ritmo/monitora. ⑤ Causa di SISTEMA: manca un unico «esegui il motore» condiviso con timeout, retry e rc onesti. Finché ogni script si riscrive la propria invocazione, ogni fix va applicato N volte e uno resta sempre indietro.",
    "fix_proposto": "🟡 (1) Cintura immediata: aggiungere TimeoutStartSec=3600 e TimeoutStopSec=120 a mycity-monitora.service (stesso valore del giro) — è una riga, reversibile, e da sola elimina il blocco permanente. (2) In monitora.sh avvolgere il motore in `timeout --kill-after=60s \"${MONITORA_AI_TIMEOUT:-1800}\"`, catturare l'rc, e sostituire «Monitoraggio completato.» con un messaggio che distingue riuscito/fallito; uscire 1 quando l'AI fallisce, così il timer lo segnala. (3) Fix di sistema: estrarre in motore-ai.sh una `ai_esegui_con_retry` unica (timeout + 3 tentativi + retry-policy) e farla usare a giro, ritmo e monitora, cancellando le tre copie. Branch ops/, PR firmata.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
     "comando": "node cervello/test/lib-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/monitora.sh:121-124 e cervello/vps/mycity-monitora.service · Impatto: Due danni. (1) Silenzio: se il motore muore, il timer riporta successo, il log dice «completato» e l'intelligence del giorno non è stata raccolta — la macchina crede di guardare il mondo e non lo guarda. (2) Blocco: un motore appeso (socket mezzo-aperto, quota) tiene il servizio oneshot in stato attivo per sempre; il timer successivo non parte perché un oneshot non si sovrappone, e il monitoraggio muore in silenzio per giorni. È lo stesso difetto AR-005 già chiuso su giro e ritmo, rimasto aperto qui. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-   "chiuso_il": "",
-   "chiuso_come": "",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/lib-cadenza.test.mjs → exit 0 (guardiano soddisfatto)",
    "nota_fix": "Lotto 31. Tutte e tre le clausole. (1) TimeoutStartSec/TimeoutStopSec su mycity-monitora.service. (2) Il motore avvolto nel timeout, l'rc catturato, e «Monitoraggio completato.» sostituito da un messaggio che distingue riuscito da fallito, con uscita ≠0 quando l'AI fallisce. (3) Il fix di sistema chiesto dalla scheda — una funzione unica di esecuzione al posto delle tre copie — è cadenza_ai_run in lib-cadenza.sh: la usano ritmo e monitora, cancellando due copie. La terza (giro.sh) resta e NON è una dimenticanza: è la copia già corretta, quella da cui le altre hanno imparato, e convertirla vuol dire rifare la prova dell'intero percorso di ritentativo del giro. È dichiarata nel registro delle malattie (cadenza-copiata-a-mano, tetto 3) col perché scritto, così il debito è misurato invece che taciuto."
   },
   {
@@ -4947,15 +4949,15 @@
    "causa_radice": "1) Perché un monitoraggio fallito sembra riuscito? Perché esce 0. 2) Perché esce 0? Perché il blocco di pubblicazione termina con `|| true`. 3) Perché `|| true`? Per non far morire lo script sul lock occupato (caso benigno), e la stessa scorciatoia ha coperto anche il caso grave. 4) Perché nessuno lo ha notato? Perché monitora.sh non lascia nessun segnale sul Pannello: non c'è niente da guardare. 5) Causa di sistema: «non pubblicato» non è modellato come esito osservabile — ogni copione decide da sé se e come dirlo, e chi non lo dice risulta sano.",
    "fix_proposto": "🟡 Allineare monitora.sh al ritmo: variabile MONITORA_PUSH_OK, uscita 2 se c'erano modifiche e il push è fallito, e una riga `automazione:monitora` (ok/errore + ora) su Supabase come fanno git-pr/git-merge via stampSegnale. In parallelo, dare a verifica-automazione.mjs l'elenco dei segnali ATTESI (giro, ritmo, monitora, watch-main, worker) e la soglia di freschezza: un segnale che manca o è vecchio va segnalato come i segnali in errore.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
     "comando": "node cervello/test/lib-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/monitora.sh:160 (push fallito → solo messaggio) e :165 (ultimo comando `) 9>\"$LOCK\" || true` → uscita 0) · Impatto: Le note di Intelligence restano sul server e il Pannello mostra quelle vecchie senza dirlo; se poi passa aggiorna-cervello con il suo `checkout -f` (difetto qui sopra), quel lavoro sparisce del tutto. Nessun allarme, nessun segnale rosso, nessuna riga nel Pannello: silenzio totale.",
-   "chiuso_il": "",
-   "chiuso_come": "",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/lib-cadenza.test.mjs → exit 0 (guardiano soddisfatto)",
    "nota_fix": "Lotto 31. Entrambe le clausole. MONITORA_PUSH_OK introdotta (prima impossibile: il blocco era una subshell), uscita 2 quando c'erano modifiche e il push è fallito, e la riga `automazione:<cadenza>` su Supabase via stampSegnale — messa in cadenza_registra e non nel solo monitora.sh, così la lasciano tutte e tre: se è proprio il push a fallire, il file su disco non arriva a Nicola e quella riga è l'unico canale che resta. Per l'elenco dei segnali ATTESI con soglia di freschezza la scheda proponeva verifica-automazione.mjs; il lavoro lo fa cervello/freschezza-cadenze.mjs sull'elenco CADENZE, che è la stessa cosa dal lato del prodotto invece che dell'infrastruttura (vedi AR-164)."
   },
   {
@@ -5024,15 +5026,15 @@
    "causa_radice": "1) Perché due processi si pestano? Perché il lucchetto copre solo i comandi git, non il periodo in cui i file vengono scritti. 2) Perché solo i comandi git? Perché è nato per evitare due `git push` in contemporanea, non per proteggere il lavoro in corso. 3) Perché non è stato esteso? Perché tenerlo per 45 minuti bloccherebbe il worker: manca la distinzione fra «sto scrivendo» e «sto pubblicando». 4) Perché manca? Perché la mutua esclusione è un lucchetto solo, senza ruoli (chi scrive / chi allinea). 5) Causa di sistema: la macchina ha più processi che scrivono sullo stesso worktree e un solo semaforo pensato per un caso diverso; nessuno ha mai scritto qual è l'invariante da proteggere («mentre un motore scrive nel vault, nessuno tocca il worktree»).",
    "fix_proposto": "🟡 Introdurre un segnale di scrittura in corso: giro.sh, ritmo.sh e monitora.sh creano .git/mycity-scrittura-in-corso (con PID e ora) prima di accendere il motore e lo tolgono subito dopo — anche in caso di errore, con trap. aggiorna-cervello.sh, appena preso il lucchetto, lo controlla: se il marcatore è presente e recente (meno del timeout del motore), esce come «rimandato» (rc=3) senza toccare il worktree; se è vecchio è residuo e va ignorato. Costa poche righe e chiude sia il commit di roba a metà sia il reset del lavoro in corso.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
     "comando": "node cervello/test/lib-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/giro.sh:76 e :784-788 (lucchetto preso all'inizio e alla fine, libero durante la scrittura) · cervello/ritmo.sh:77 e :246-247 · cervello/vps/aggiorna-cervello.sh:81-82 (prende lo stesso lucchetto e scrive/resetta il worktree) · Impatto: Doppio danno nello stesso istante: pezzi di memoria a metà pubblicati sul Pannello (proprio ciò che il controllo di sanità del giro esiste per impedire) e pezzi di memoria appena scritti cancellati. Non lascia traccia in nessun log: il giro prosegue e alla fine committa il resto come se nulla fosse.",
-   "chiuso_il": "",
-   "chiuso_come": "",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/lib-cadenza.test.mjs → exit 0 (guardiano soddisfatto)",
    "nota_fix": "Lotto 31. Il marcatore .git/mycity-scrittura-in-corso (PID, tipo, ora) alzato da giro/ritmo/monitora prima del motore e tolto da una trap; aggiorna-cervello.sh, preso il lucchetto, lo controlla ed esce 3 («rimandato») senza toccare il worktree; un marcatore più vecchio del timeout del motore è residuo e si ignora. Due cose che la scheda non prevedeva, trovate dal test che uccide davvero il processo: (1) bash NON esegue le trap mentre un comando è in PRIMO PIANO — col motore in foreground per 45 minuti il SIGTERM del watchdog lasciava il marcatore sul disco, quindi cadenza_ai_run manda il motore in background e lo aspetta con `wait`; (2) la trap deve FERMARE il motore prima di togliere il marcatore, altrimenti si dichiara «ho finito di scrivere» mentre la CLI continua a scrivere nel vault — una bugia peggiore del difetto di partenza."
   },
   {
@@ -6077,13 +6079,15 @@
    "causa_radice": "① perché in 36 ore nessun controllo ha suonato? perché nessun controllo ha girato · ② perché nessuno ha girato? perché girano tutti dentro giro.sh o dai timer del VPS · ③ perché tutti lì? perché il giro è il posto comodo dove aggiungere un controllo, ed è così che si sono accumulati · ④ perché nessuno ha spostato fuori quelli che servono proprio quando il giro non c'è? perché serve un'infrastruttura esterna, e la strada scelta (HEARTBEAT_PING_URL) dipendeva da un account mai attivato e nessun sensore ha continuato a chiederlo · ⑤ CAUSA DI SISTEMA: il sorvegliante e il sorvegliato sono lo stesso processo. Un sistema così non può, per costruzione, rilevare il proprio spegnimento — e ogni allarme aggiunto DENTRO il giro peggiora l'illusione di copertura senza toccare il punto cieco.",
    "fix_proposto": "🔴/🟡 Un guardiano FUORI dalla macchina: workflow GitHub Actions schedulato (ogni 30 min, es. `.github/workflows/battito-macchina.yml`) che, con le sole chiavi Supabase di sola lettura, controlla l'età di `worker:ultimo` / `worker:ultimo:lavoro-riuscito`, l'età di `ultimo-briefing.json` su main e l'esito in `esito-giro.json`; oltre soglia apre o aggiorna una issue e notifica. Gira su un'infrastruttura che non è il VPS e non consuma quota AI. In più un sensore `watchdog_esterno` in verifica-sensori.mjs, così se questo anello viene spento il guardiano dei sensori spenti lo reclama (oggi non può: non esistendo come sensore, non è nemmeno «spento»). 🔴 perché tocca chiavi e una superficie nuova: si porta a Nicola pronto.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-29 13:05",
    "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: .github/workflows/ (contiene il solo deploy-pannello.yml) · cervello/giro.sh:664 e :666 (midollo-spinale e letargo, unici punti di invocazione in tutto il repo, entrambi `| esito_righe N || true`) · cervello/midollo-spinale.mjs:31 (riflesso «Worker morto: allerta a Nicola che il battito è fermo da >15 min») · cervello/giro.sh:1287 (ping HEARTBEAT_PING_URL, condizionato a una variabile che risulta solo in vps/.env.example:67). Sintomo: VERIFICATO. Il riflesso «Worker morto — allerta a Nicola che il battito è fermo da >15 min» esiste a midollo-spinale.mjs:31. Ma `midollo-spinale.mjs` è invocato in UN SOLO punto di tutto il repo: giro.sh:664, dentro il giro (grep confermato: le altre occorrenze sono capacita.mjs:21 e censimento-guardiani.mjs:132, che lo censiscono, non lo eseguono). Stessa cosa per `letargo.mjs` (giro.sh:666). Entrambi sono in pipe con `| esito_righe 3 || true`, quindi anche il loro codice di uscita è perso. Cioè: il riflesso che deve accorgersi che la macchina è ferma può scattare solo quando la macchina funziona abbastanza da fare un giro — e legge `sentinella-dati.json`, fermo al 27/7 22:23. Fuori dal VPS non gira niente: `ls .github/workflows/` restituisce il solo `deploy-pannello.yml`, quindi esiste già una superficie di esecuzione sempre accesa, indipendente dal VPS e dalla quota AI, e non è usata per guardare la macchina. C'è un ping a un watchdog esterno (giro.sh:1287) ma è condizionato a `HEARTBEAT_PING_URL`, che compare solo in `cervello/vps/.env.example:67`; grep di HEARTBEAT su verifica-sensori.mjs: zero risultati — nessun sensore reclama la sua assenza, quindi l'ultimo anello può mancare senza che niente lo dica.",
    "verifica": {
     "comando": "node cervello/test/battito-esterno.test.mjs"
    },
-   "nota_fix": "Lotto 32 (29/7). Guardiano esterno costruito: .github/workflows/battito-esterno.yml (GitHub Actions, cron orario) + cervello/battito-esterno.mjs, la cui decidiAzione è una funzione pura provata da 10 casi. DIVERGENZE dalla scheda, con motivo: (a) niente chiavi Supabase — legge le tracce che i processi automatici lasciano nel repo (FONTI_TRACCE, estratte in salute.mjs perché siano un elenco solo), così il guardiano non resta muto in attesa che qualcuno colleghi un segreto, che è il modo in cui è morto l'allarme Telegram; (b) ogni ora invece che ogni 30 min: la soglia è 8h (tracceFermeOre di salute.mjs) e mezz'ora non aggiunge niente; (c) niente notifica Telegram — il canale è la issue GitHub, che si può verificare guardando cosa torna. ULTIMA CLAUSOLA FATTA: sensore watchdog_esterno in verifica-sensori.mjs, provato in negativo (tolto il workflow diventa rosso), così spegnere il guardiano non è più silenzioso."
+   "nota_fix": "Lotto 32 (29/7). Guardiano esterno costruito: .github/workflows/battito-esterno.yml (GitHub Actions, cron orario) + cervello/battito-esterno.mjs, la cui decidiAzione è una funzione pura provata da 10 casi. DIVERGENZE dalla scheda, con motivo: (a) niente chiavi Supabase — legge le tracce che i processi automatici lasciano nel repo (FONTI_TRACCE, estratte in salute.mjs perché siano un elenco solo), così il guardiano non resta muto in attesa che qualcuno colleghi un segreto, che è il modo in cui è morto l'allarme Telegram; (b) ogni ora invece che ogni 30 min: la soglia è 8h (tracceFermeOre di salute.mjs) e mezz'ora non aggiunge niente; (c) niente notifica Telegram — il canale è la issue GitHub, che si può verificare guardando cosa torna. ULTIMA CLAUSOLA FATTA: sensore watchdog_esterno in verifica-sensori.mjs, provato in negativo (tolto il workflow diventa rosso), così spegnere il guardiano non è più silenzioso.",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/battito-esterno.test.mjs → exit 0 (guardiano soddisfatto)"
   },
   {
    "id": "AR-372",
@@ -7138,13 +7142,15 @@
    "causa_radice": "① Nessuno si è accorto del fermo in automatico. ② Perché il controllo di vitalità non ha girato. ③ Perché gira sul VPS fermo. ④ Perché tutti i sensori sono stati costruiti dentro il ciclo del giro, che è l'unica cosa che si sa lanciare. ⑤ Causa di sistema: non esiste il concetto di osservatore ESTERNO — la macchina si controlla solo dall'interno, quindi ogni suo guasto totale è per definizione invisibile a sé stessa. È un punto singolo di rottura sull'intera auto-coscienza.",
    "fix_proposto": "🟡 Nuovo pezzo, un uomo-morto fuori dal VPS: una GitHub Action programmata (`.github/workflows/battito-esterno.yml`, ogni ora) che guarda su `main` la data dell'ultimo commit di memoria e, se supera 2-3 ore, apre una issue e manda il messaggio Telegram a Nicola. Non dipende dal VPS, non dipende dal motore AI, non consuma quota AI. La metà interna (i quattro timer delle cadenze fra i critici) resta di AR-164: le due vanno chiuse insieme, non una al posto dell'altra.",
    "colore": "🟡",
-   "stato": "aperto",
+   "stato": "chiuso",
    "nato": "2026-07-29 13:05",
    "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/verifica-automazione.mjs:165-167 (ramo non-VPS: solo 'warn') · .github/workflows/ contiene un solo file, deploy-pannello.yml. Sintomo: VERIFICATO. L'unico controllo che i battiti girino davvero è `verifica-automazione.mjs`, che interroga i timer di systemd — e systemd sta sul VPS. Fuori dal VPS (righe 165-167) il controllo si riduce a due avvisi: «systemd assente (non-VPS): verifica sul server», che sono `warn` e non alzano il codice d'uscita. In `.github/workflows/` c'è un solo file, `deploy-pannello.yml`: nessun controllo esterno programmato. Effetto reale osservabile nel repo: l'ultimo briefing è `MyCity-Vault/90-Memoria-AI/Briefing/2026-07-27.md` e gli ultimi commit si chiamano «memoria: VPS fermo, undicesimo tick mancato» e «dodicesimo tick mancato» — cioè il fermo è stato notato da una sessione lanciata a mano, non da un allarme della macchina. AR-164 (aperto) copre la metà INTERNA del problema (i timer delle cadenze non sono fra i critici); la metà esterna — nessun osservatore fuori dal VPS — non è in cantiere.",
    "verifica": {
-    "comando": "node cervello/test/battito-esterno.test.mjs"
+    "comando": "node cervello/test/uomo-morto-due-meta.test.mjs"
    },
-   "nota_fix": "Lotto 32 (29/7). METÀ ESTERNA FATTA (vedi AR-371): il battito esterno esiste, gira ogni ora su GitHub Actions, apre/aggiorna/chiude UNA issue. DIVERGENZA motivata sulla soglia: la scheda diceva 2-3 ore, uso 8h — il timer del giro è OnCalendar 06..22/2:20, quindi di notte c'è un buco di 8 ore PER COSTRUZIONE e una soglia a 3h suonerebbe ogni notte (falso allarme documentato in STATO 28/7 00:30). E guardo le tracce dentro i file, non la data dell'ultimo commit di main: i commit delle sessioni cloud farebbero sembrare vivo il VPS anche da morto. RESTA APERTO: la sua stessa scheda dice che la metà interna (AR-164, i quattro timer del ritmo) va chiusa INSIEME, non al posto. Non dichiararlo chiuso finché AR-164 non è chiuso."
+   "nota_fix": "Lotto 32 (29/7). METÀ ESTERNA FATTA (vedi AR-371): il battito esterno esiste, gira ogni ora su GitHub Actions, apre/aggiorna/chiude UNA issue. DIVERGENZA motivata sulla soglia: la scheda diceva 2-3 ore, uso 8h — il timer del giro è OnCalendar 06..22/2:20, quindi di notte c'è un buco di 8 ore PER COSTRUZIONE e una soglia a 3h suonerebbe ogni notte (falso allarme documentato in STATO 28/7 00:30). E guardo le tracce dentro i file, non la data dell'ultimo commit di main: i commit delle sessioni cloud farebbero sembrare vivo il VPS anche da morto. CLAUSOLA DELLE DUE METÀ, verificata dopo il merge: la metà interna (AR-164) risulta già riparata dal lotto 31 — i quattro mycity-ritmo-*.timer sono in TIMER_CRITICI e cervello/freschezza-cadenze.mjs guarda il PRODOTTO della cadenza e non solo la sveglia; la sua prova passa 20/20. Quindi le due metà si chiudono davvero insieme, come la scheda pretendeva. CORRETTO UN MIO ERRORE: avevo dato ad AR-430 la stessa identica prova di AR-371, che della metà interna non guarda niente — è la malattia prova-condivisa-cieca già pagata con AR-254, e avrebbe chiuso AR-430 a vuoto. Ora ha la sua: cervello/test/uomo-morto-due-meta.test.mjs, che torna rossa se sparisce una qualsiasi delle due metà.",
+   "chiuso_il": "2026-07-29 17:36",
+   "chiuso_come": "node cervello/test/uomo-morto-due-meta.test.mjs → exit 0 (guardiano soddisfatto)"
   },
   {
    "id": "AR-431",
@@ -7229,15 +7235,25 @@
     "tipo": "umano",
     "nota": "da convertire in {comando: node cervello/test/cabina-indirizzo.test.mjs} quando il fix parte"
    }
+  },
+  {
+   "id": "AR-439",
+   "stato": "aperto",
+   "gravita": "grave",
+   "dimensione": "processi",
+   "nato": "2026-07-29 17:45",
+   "fonte": "lotto 32 — visto due volte nella stessa giornata, una per mano mia e una del guardiano",
+   "titolo": "Il writer condiviso impone la sua indentazione a ogni registro: una parola cambiata nel cantiere produce quattordicimila righe di diff",
+   "causa_radice": "① Perché il diff del cantiere è illeggibile? Perché il file viene riscritto per intero a ogni salvataggio. ② Perché per intero? Perché scrivi-json.mjs:46 faceva JSON.stringify(dati, null, 2) fisso, mentre il cantiere e i mutanti stanno a UNO spazio. ③ Perché fisso a 2? Perché il commento accanto dice «è ciò che rende il diff leggibile» — l'intenzione era giusta e l'effetto esattamente opposto per ogni file tenuto a un'altra forma. ④ Perché nessuno se n'era accorto? Perché il danno non si vede lanciando lo script: si vede solo nel diff, cioè in un posto dove nessun guardiano guardava. ⑤ Causa di sistema: la forma del file è stata trattata come una proprietà di CHI SCRIVE invece che del file, quindi ogni chiamante nuovo eredita la forma di qualcun altro. MISURATO il 29/7: auto-fix.mjs verifica --applica ha prodotto 14.482 righe di diff per tredici chiusure; lo stesso giorno era già successo a mano.",
+   "fix_proposto": "🟡 FATTO nel lotto 32: scriviJsonAtomico misura l'indentazione dal file che sta per riscrivere (indentDi) e la conserva; un file nuovo nasce a 2 come prima; un file illeggibile non blocca la scrittura. Il freno sta al CONFINE dell'atto — dentro il writer — e non nei chiamanti, che sono decine e il prossimo nascerebbe di nuovo senza. Effetto misurato subito: il diff del cantiere è passato da 14.482 righe a 90, quello dello storico da 2.139 a 39.",
+   "verifica": {
+    "comando": "node cervello/test/indentazione-che-non-cambia.test.mjs"
+   }
   }
  ],
  "meta": {
-  "aperti": 192,
+  "aperti": 181,
   "in_corso": 0,
-  "chiusi": 183,
-  "aggiornato": "2026-07-29 14:40",
-  "totale": 375,
-  "bloccanti_aperti": 16,
-  "ultima_radiografia": "2026-07-29 13:05"
+  "chiusi": 196
  }
 }

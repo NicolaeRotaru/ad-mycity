@@ -23,7 +23,7 @@
 //
 // Nessun import oltre a node:fs. Le funzioni di decisione sono pure, così un test le esegue.
 
-import { existsSync, mkdirSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join, basename } from "node:path";
 
 /**
@@ -39,11 +39,28 @@ export function nomeTemporaneo(percorso, pid = process.pid) {
 }
 
 /**
- * Il testo da scrivere: JSON indentato a 2 con l'a-capo finale, come già fanno tutte le copie di
- * `writeJson` in giro per `cervello/`. Pura apposta: è ciò che rende il diff leggibile e va provato.
+ * Quanto è indentato un JSON che esiste già. Si misura, non si indovina.
+ *
+ * Serve perché non tutti i registri della memoria hanno la stessa forma: il cantiere dei difetti e
+ * i mutanti stanno a UNO spazio, quasi tutto il resto a due. Un default non è una scelta neutra —
+ * è la forma di qualcun altro imposta a tutti.
  */
-export function testoJson(dati) {
-  return JSON.stringify(dati, null, 2) + "\n";
+export function indentDi(testo, seNonSiCapisce = 2) {
+  const m = String(testo || "").match(/^[{[]\r?\n( +)/);
+  return m ? m[1].length : seNonSiCapisce;
+}
+
+/**
+ * Il testo da scrivere: JSON con l'a-capo finale, all'indentazione chiesta.
+ *
+ * Prima era fissa a 2, «per rendere il diff leggibile» — e faceva l'esatto contrario. Il cantiere
+ * dei difetti sta a UNO spazio: ogni volta che un guardiano applicava una chiusura, il writer lo
+ * riscriveva tutto a due e il diff diventava **14.482 righe per una parola cambiata**. Un diff così
+ * non lo rilegge nessuno, quindi si mergia per fiducia — e la fiducia non è una prova. Misurato il
+ * 29/7 su `auto-fix.mjs verifica --applica`.
+ */
+export function testoJson(dati, indent = 2) {
+  return JSON.stringify(dati, null, indent) + "\n";
 }
 
 /**
@@ -55,8 +72,18 @@ export function testoJson(dati) {
 export function scriviJsonAtomico(percorso, dati) {
   mkdirSync(dirname(percorso), { recursive: true });
   const tmp = nomeTemporaneo(percorso);
+  // La forma del file la decide il file, non chi ci scrive dentro: un registro tenuto a uno spazio
+  // resta a uno spazio anche quando lo aggiorna un guardiano. Un file nuovo nasce a due.
+  let indent = 2;
+  if (existsSync(percorso)) {
+    try {
+      indent = indentDi(readFileSync(percorso, "utf8"));
+    } catch {
+      /* illeggibile: tengo il default invece di fermare una scrittura che deve andare a buon fine */
+    }
+  }
   try {
-    writeFileSync(tmp, testoJson(dati), "utf8");
+    writeFileSync(tmp, testoJson(dati, indent), "utf8");
     renameSync(tmp, percorso); // atomico: il kernel non mostra mai uno stato intermedio
   } catch (e) {
     try {
