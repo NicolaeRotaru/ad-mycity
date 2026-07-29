@@ -1,16 +1,16 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-07-29 02:35",
+  "aggiornato": "2026-07-29 03:13",
   "giorni_sospetto": 3,
-  "difetti_aperti": 119,
+  "difetti_aperti": 102,
   "per_classe": {
-    "umana": 33,
+    "umana": 17,
     "auto-sospetta": 6,
     "auto-attesa": 73,
-    "auto-ok": 7
+    "auto-ok": 6
   },
-  "non_auto_chiudibili": 39,
+  "non_auto_chiudibili": 23,
   "bloccanti_ciechi": [
     "AR-226"
   ],
@@ -520,33 +520,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-229",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Approvi, rifiuti e riapprovi la stessa azione: parte due volte davvero",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-230",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Quando rifiuti un'azione il Pannello dice «fatto» anche se non ha salvato niente",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-231",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "La decisione sull'ordine da 19,05 euro risulta presa anche se il lavoro non è mai partito, e non si può più ri",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-234",
       "gravita": "minore",
       "eta_giorni": 2,
@@ -572,24 +545,6 @@
       "classe": "auto-ok",
       "perche": "prova soddisfatta ora (pannello/src/app/page.tsx ~ /setDatiAggiornatiAt(Date.now());/): auto-fix lo chiuderà",
       "auto_chiudibile": true
-    },
-    {
-      "id": "AR-238",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Rispondi a una domanda dell'AD e trenta secondi dopo te la richiede",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-239",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Le spunte della tua checklist possono restare finte fino al ricarico",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
     },
     {
       "id": "AR-241",
@@ -646,93 +601,12 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-257",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "La scheda dell'auto-analisi si riporta sotto gli occhi da sola ogni trenta secondi",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (pannello/src/components/AutoCoscienza.tsx ~ /\\}, \\[d\\]\\);/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-259",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Un solo invio può far partire due volte lo stesso lavoro quando il database è lento",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-260",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Due messaggi ravvicinati in chat diventano due lavori invece di sostituirsi",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-261",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Dalla finestra video e da quella dello schermo condiviso si può inviare due volte di fila",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-263",
       "gravita": "minore",
       "eta_giorni": 2,
       "titolo": "Aprendo il quaderno di un senior con la rete che salta si vede un riquadro vuoto",
       "classe": "auto-sospetta",
       "perche": "regex non valida in verifica: pannello/src/components/QuaderniSenior.tsx ~ /const r = await fetch(`/api/memoria/quaderni?senior=/",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-264",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Uscendo dalla modalità demo la pagina si ricarica anche se il cambio non è riuscito",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-266",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Aprire il riquadro «Parla con questa casella» ti cancella da sotto la chat che avevi aperto",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-267",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Mentre l'AD scrive, la risposta che sta comparendo si cancella da sola ogni otto secondi",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-268",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "La chat di un riquadro risalva una versione vecchia e cancella i messaggi arrivati nel frattempo",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-269",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "La chat dentro l'Archivio resta ferma alla foto di quando l'hai aperta",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
     },
     {
@@ -1033,55 +907,28 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-339",
-      "gravita": "alto",
-      "eta_giorni": 0,
-      "titolo": "Lo scanner dei segreti dichiara 2040 file controllati, ma 26 non li ha nemmeno aperti",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-340",
-      "gravita": "medio",
-      "eta_giorni": 0,
-      "titolo": "Il guardiano che misura se lavoriamo sulla macchina o sul business non riconosce 202 file su 2041, e in mappa ",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-341",
-      "gravita": "basso",
-      "eta_giorni": 0,
-      "titolo": "Lo strumento che apre le richieste di modifica non riconosce un file in conflitto se il nome ha un accento",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-342",
-      "gravita": "basso",
-      "eta_giorni": 0,
-      "titolo": "Quattro quaderni hanno due case, e nella casa vecchia l'ultimo esito e di venti giorni fa",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-343",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "I cancelli del commit sono spenti in ogni sessione cloud: segreti, sintassi e perimetro di main non girano",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-344",
       "gravita": "grave",
       "eta_giorni": 0,
       "titolo": "Il guardiano delle prove legge solo le prove vecchie: ogni prova migrata a comando risulta «nessun guardiano p",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-345",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Mentre misura il trigger, il repo sembra avere la skill cancellata: un commit automatico la cancellerebbe davv",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-346",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Il cancello condiviso è rosso su main per tutti: #604 è entrata con la sua stessa prova rossa e #602 ha aggiun",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false

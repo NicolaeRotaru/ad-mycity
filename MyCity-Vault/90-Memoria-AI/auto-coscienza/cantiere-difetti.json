@@ -1,6 +1,6 @@
 {
  "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
- "aggiornato": "2026-07-29 03:20",
+ "aggiornato": "2026-07-29 03:35",
  "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
  "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
  "difetti": [
@@ -5577,6 +5577,19 @@
    "stato": "aperto",
    "nato": "2026-07-29 01:05",
    "nota": "Trovato dal vivo nel lotto 30: durante il bench del trigger lo stop-hook di sessione ha chiesto tre volte di committare le modifiche pendenti, e le uniche pendenti erano la cancellazione apparente della skill. Ho committato solo percorsi espliciti proprio per non cadere nella trappola — ma la difesa e stata la mia attenzione, non un cancello. NON entra nel lotto 30 (regola ② della skill)."
+  },
+  {
+   "id": "AR-346",
+   "titolo": "Il cancello condiviso è rosso su main per tutti: #604 è entrata con la sua stessa prova rossa e #602 ha aggiunto un guardiano senza descrizione",
+   "dimensione": "guardrail-semaforo",
+   "gravita": "grave",
+   "impatto_crescita": "medio",
+   "causa_radice": "① Perche il cancello di uscita e ROSSO su un ramo che non ha toccato niente di quel codice? Perche test-cervello fallisce, e cancello-lotto lo esegue. ② Perche fallisce? Perche guardiani-in-bacheca.test.mjs (arrivato con #604) da 10 passati e 4 falliti gia su origin/main da sola — verificato su un worktree pulito, stessi identici conteggi. ③ Perche 4 asserzioni rosse? Perche #602 ha aggiunto cervello/percorsi-git.mjs senza la sua riga in censimento-guardiani.mjs (DESCRIZIONI): il guardiano gira senza descrizione, e gli allarmi non contati sono diventati 6 mentre il test ne misura 5. ④ Perche e stato mergiato cosi? Perche nessuno esegue il cancello sul ramo PRIMA del merge: il pre-commit gira solo sui commit che toccano cantiere-difetti.json, e nessuna CI gira sulle PR di questo repo (l unico workflow e deploy-pannello.yml, su push a main). ⑤ Radice: la prova che protegge il lavoro NON e agganciata al momento del merge, che e l unico momento in cui conta. Effetto composto: il rosso non e piu attribuibile a chi lo ha causato, e ogni lotto successivo trova un cancello gia rosso — che secondo il registro stesso «viene aggirato al secondo giro, ed e peggio di non averlo».",
+   "fix_proposto": "🟡 Due pezzi, nell ordine. (a) Chiudere il buco di adesso: scrivere la riga DESCRIZIONI di percorsi-git in cervello/censimento-guardiani.mjs e riallineare il conteggio degli allarmi non contati (5 → 6) o agganciare l rc di percorsi-git al conteggio del giro — la scelta fra le due e di chi possiede #602, non di questo lotto. (b) Curare la radice: far girare `node cervello/cancello-lotto.mjs` come check obbligatorio sulle PR (oggi NESSUN workflow gira su pull_request), cosi un ramo con la suite rossa non arriva a main. Prova: un ramo finto con un test rosso non deve poter risultare mergiabile.",
+   "colore": "🟡",
+   "stato": "aperto",
+   "nato": "2026-07-29 03:35",
+   "nota": "Trovato mergendo main dentro il ramo del lotto 30 per risolvere un conflitto. NON e una regressione di questo lotto: verificato su worktree pulito di origin/main (10 pass / 4 fail identici) prima di attribuirlo. Il guardiano senza descrizione e percorsi-git, non prova-trigger.mjs (il mio guardiano nuovo non e chiamato dal giro e non rientra nel censimento). Registrato e NON riparato qui: e il lavoro di chi possiede #602/#604, e allargare il lotto a meta e il modo classico di non finirlo (regola ② della skill cantiere)."
   }
  ],
  "meta": {
