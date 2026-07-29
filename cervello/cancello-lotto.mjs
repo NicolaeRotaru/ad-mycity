@@ -27,6 +27,7 @@ import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
 import { storiaDelRepo } from "./storia-git.mjs";
+import { contaProveDeboli } from "./chiusura-dichiarata.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VELOCE = process.argv.includes("--veloce");
@@ -400,6 +401,24 @@ function main() {
     avvisi.push(`prove a OR scese da ${tettoOr} a ${conOr.length}: abbassa il tetto con --aggiorna-tetti`);
   } else if (conOr.length) {
     avvisi.push(`${conOr.length} prove a OR ereditate (sotto il tetto): ${conOr.slice(0, 8).join(", ")}${conOr.length > 8 ? "…" : ""}`);
+  }
+
+  // `prova-debole`: le schede APERTE che portano ancora una prova a pattern (AR-444, clausola c).
+  // Non le vietiamo — 127 su 151 il 30/7, vietarle congelerebbe l'84% del cantiere e un cancello
+  // sempre rosso viene aggirato al secondo giro. Le CONTIAMO, sotto un tetto che scende e non
+  // risale: così il debito è un numero che si vede, invece di una forma che si propaga in silenzio.
+  const deboli = contaProveDeboli(difetti);
+  const tettoDeboli = tetti.prova_debole ?? deboli.deboli;
+  if (deboli.deboli > tettoDeboli) {
+    violazioniProve.push({
+      regola: "prova-debole-oltre-il-tetto",
+      ids: deboli.ids.slice(0, 10),
+      motivo: `${deboli.deboli} schede aperte con prova a pattern contro un tetto di ${tettoDeboli}: la forma debole si è allargata`,
+    });
+  } else if (deboli.deboli < tettoDeboli) {
+    avvisi.push(`prove deboli scese da ${tettoDeboli} a ${deboli.deboli}: abbassa il tetto con --aggiorna-tetti`);
+  } else {
+    avvisi.push(`${deboli.deboli} schede aperte su ${deboli.aperti} portano ancora una prova a pattern (sotto il tetto)`);
   }
   // `mutazione-mancante`: stesso trattamento. Il debito ereditato ha un tetto che scende; un difetto
   // che il lotto tocca ADESSO senza la sua mutazione non si consegna, punto — anche sotto il tetto.

@@ -27,6 +27,7 @@ import { dirname, join } from "node:path";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { chiusuraAmmessa, istanteNascita, patternTrovato } from "./prove-regole.mjs";
+import { contaProveDeboli, verdettoChiusura } from "./chiusura-dichiarata.mjs";
 import { FORMA_COMANDO_PROVA, MOTIVO_COMANDO_NON_AMMESSO, comandoAmmesso } from "./forma-prova.mjs";
 export { FORMA_COMANDO_PROVA, comandoAmmesso };
 import { cambiatoDallaNascita, storiaDelRepo } from "./storia-git.mjs";
@@ -252,6 +253,7 @@ async function cmdVerifica(cantiere) {
   }
   const daChiudere = [];
   const rifiutate = [];
+  const dichiaratiAperti = [];
   for (const d of aperti) {
     const r = verificaFix(d);
     // ② LA GUARDIA DELLA CHIUSURA (AR-330): una prova soddisfatta non basta. Se fra la nascita del
@@ -261,12 +263,26 @@ async function cmdVerifica(cantiere) {
     const g = r.esito === "risolto"
       ? chiusuraAmmessa({ verifica: d.verifica, nato: d.nato, fileCambiatoDallaNascita: fileCambiatoDa(d.verifica?.file, d.nato) })
       : { ammessa: true };
+    // ③ LA DICHIARAZIONE UMANA BATTE LA PROVA (AR-444). Sta PRIMA di tutto il resto: se qualcuno ha
+    // guardato questo difetto e ha deciso che resta aperto, nessuna prova soddisfatta lo chiude. Il
+    // caso che ha rotto: AR-396, dichiarato aperto in tre punti della PR #621 e richiuso lo stesso
+    // dalla prova a pattern rimasta sulla scheda. Verdetto in chiusura-dichiarata.mjs, dove un test
+    // lo può ESEGUIRE.
+    const vc = verdettoChiusura(d, r.esito);
     const bloccato = r.esito === "risolto" && !g.ammessa;
-    const icona = bloccato ? "🛑 rifiutata" : r.esito === "risolto" ? "✅ risolto" : r.esito === "manuale" ? "🖐️  manuale" : "⏳ aperto";
+    const icona = vc.bloccata
+      ? "🔒 dichiarato aperto"
+      : bloccato ? "🛑 rifiutata" : r.esito === "risolto" ? (vc.debole ? "✅ risolto (prova debole)" : "✅ risolto") : r.esito === "manuale" ? "🖐️  manuale" : "⏳ aperto";
     console.log(`${icona}  ${d.id} — ${d.titolo}`);
-    console.log(`        ${bloccato ? g.motivo : r.dettaglio}`);
-    if (r.esito === "risolto" && g.ammessa) daChiudere.push({ d, come: r.dettaglio });
+    console.log(`        ${vc.bloccata ? vc.motivo : bloccato ? g.motivo : r.dettaglio}`);
+    if (vc.bloccata) dichiaratiAperti.push({ d, motivo: vc.motivo });
+    else if (r.esito === "risolto" && g.ammessa) daChiudere.push({ d, come: r.dettaglio, debole: vc.debole });
     else if (bloccato) rifiutate.push({ d, motivo: g.motivo });
+  }
+  if (dichiaratiAperti.length) {
+    console.log(
+      `\n🔒 ${dichiaratiAperti.length} difetto/i NON chiusi perché dichiarati aperti da un umano: la prova risulta soddisfatta ma qualcuno ha guardato e deciso. Si sbloccano solo togliendo \`chiusura: "bloccata"\` dalla scheda — cioè con un'altra decisione umana.`,
+    );
   }
   if (rifiutate.length) {
     console.log(
