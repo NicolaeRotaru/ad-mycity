@@ -1,0 +1,214 @@
+{
+  "aggiornato": "2026-07-29 11:42",
+  "soglie": {
+    "refertoVpsScadutoOre": 26,
+    "memoriaFermaOre": 12,
+    "lavoroInAttesaMin": 20,
+    "lavoroInCorsoMin": 45,
+    "cabinaLentaMs": 5000,
+    "coperturaMinima": 0.5,
+    "storicoMax": 60,
+    "refertiTenuti": 30
+  },
+  "ultime": {
+    "claude": {
+      "quando": "2026-07-29 11:42",
+      "iso": "2026-07-29T09:42:17.018Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 8,
+      "rotti": 0,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.57,
+      "controlli": [
+        {
+          "id": "worker.ponte",
+          "organo": "worker",
+          "titolo": "Il VPS si sta ancora visitando",
+          "impatto": 1,
+          "esito": "nonvisto",
+          "detto": "il VPS non ha mai pubblicato un referto: il ponte non è ancora attivo",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "worker.coda",
+          "organo": "worker",
+          "titolo": "La coda dei lavori scorre",
+          "impatto": 1,
+          "esito": "nonvisto",
+          "detto": "manca SUPABASE_URL / SUPABASE_SERVICE_KEY in questo ambiente",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "worker.battito",
+          "organo": "worker",
+          "titolo": "La macchina ha scritto di recente",
+          "impatto": 1,
+          "esito": "nonvisto",
+          "detto": "manca SUPABASE_URL / SUPABASE_SERVICE_KEY in questo ambiente",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "cervello.fatti",
+          "organo": "cervello",
+          "titolo": "I fatti-chiave sono coerenti ovunque",
+          "impatto": 2,
+          "esito": "ok",
+          "detto": "nessuna copia vecchia di un fatto in giro per i file vivi",
+          "prova": "node cervello/coerenza-fatti.mjs",
+          "regressione": false
+        },
+        {
+          "id": "cervello.segreti",
+          "organo": "cervello",
+          "titolo": "Nessun segreto nel repo",
+          "impatto": 1,
+          "esito": "ok",
+          "detto": "nessuna chiave o segreto committato",
+          "prova": "node cervello/scan-segreti.mjs",
+          "regressione": false
+        },
+        {
+          "id": "cervello.vault",
+          "organo": "cervello",
+          "titolo": "La memoria è sana",
+          "impatto": 2,
+          "esito": "ok",
+          "detto": "il vault è leggibile e coerente",
+          "prova": "node cervello/vault-sanita.mjs MyCity-Vault",
+          "regressione": false
+        },
+        {
+          "id": "cervello.guardiani",
+          "organo": "cervello",
+          "titolo": "I guardiani del giro esistono tutti",
+          "impatto": 3,
+          "esito": "ok",
+          "detto": "54 guardiani del giro presenti",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "cabina.viva",
+          "organo": "cabina",
+          "titolo": "La Cabina risponde",
+          "impatto": 1,
+          "esito": "nonvisto",
+          "detto": "manca PANNELLO_URL / CABINA_URL in questo ambiente",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "cabina.cuore",
+          "organo": "cabina",
+          "titolo": "La Cabina è collegata alla memoria",
+          "impatto": 2,
+          "esito": "nonvisto",
+          "detto": "manca PANNELLO_URL / CABINA_URL in questo ambiente",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "senior.registro",
+          "organo": "senior",
+          "titolo": "Il registro dei 120 senior torna",
+          "impatto": 3,
+          "esito": "ok",
+          "detto": "nessun agente orfano, il conteggio torna",
+          "prova": "node cervello/agent-registry-check.mjs",
+          "regressione": false
+        },
+        {
+          "id": "senior.owner",
+          "organo": "senior",
+          "titolo": "Un owner solo per ogni mandato",
+          "impatto": 3,
+          "esito": "ok",
+          "detto": "nessun mandato conteso tra due senior",
+          "prova": "node cervello/keyword-owner-check.mjs",
+          "regressione": false
+        },
+        {
+          "id": "senior.loop",
+          "organo": "senior",
+          "titolo": "I senior chiudono il loop",
+          "impatto": 3,
+          "esito": "ok",
+          "detto": "21 senior con almeno un esito registrato",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "sensori.vista",
+          "organo": "sensori",
+          "titolo": "La macchina vede i dati veri",
+          "impatto": 1,
+          "esito": "nonvisto",
+          "detto": "nessuna chiave dei sensori in questo ambiente: da qui la macchina non può vedere il marketplace",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "sensori.spenti",
+          "organo": "sensori",
+          "titolo": "Ogni sensore spento ha il suo perché",
+          "impatto": 4,
+          "esito": "ok",
+          "detto": "ogni sensore spento dice perché è spento",
+          "prova": "node cervello/sensori-spenti-check.mjs",
+          "regressione": false
+        }
+      ]
+    }
+  },
+  "storico": [
+    {
+      "quando": "2026-07-29 11:24",
+      "iso": "2026-07-29T09:24:54.765Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 8,
+      "rotti": 0,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.57
+    },
+    {
+      "quando": "2026-07-29 11:34",
+      "iso": "2026-07-29T09:34:38.070Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 8,
+      "rotti": 0,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.57
+    },
+    {
+      "quando": "2026-07-29 11:36",
+      "iso": "2026-07-29T09:36:50.815Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 8,
+      "rotti": 0,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.57
+    },
+    {
+      "quando": "2026-07-29 11:42",
+      "iso": "2026-07-29T09:42:17.018Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 8,
+      "rotti": 0,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.57
+    }
+  ]
+}
