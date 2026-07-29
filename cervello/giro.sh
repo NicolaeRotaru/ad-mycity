@@ -197,6 +197,7 @@ SENSORI_SPENTI_VINCOLO="" # AR-105/108: un sensore spento senza un perché dichi
 PORTE_VINCOLO=""         # AR-127: un push verso main che non passa dal cancello condiviso
 FIRMA_VINCOLO=""         # AR-119: uno script del cervello che può scriversi la firma di Nicola
 PORTA_GIT_VINCOLO=""     # AR-339: uno script che chiede elenchi a git senza -z (nomi con l'accento riscritti)
+DEFERRAL_VINCOLO=""      # AR-186: il roster di CLAUDE.md e le schede dei senior si rimandano cose diverse
 STAMPO_VINCOLO=""        # AR-291: verdetto dello stampo senior, prima buttato in un `|| true` (AR-129/287/289)
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
 GUARDIANI_VINCOLO=""     # 29/7: un guardiano che gira senza una riga in bacheca — protezione promessa e non spiegata
@@ -280,6 +281,15 @@ if command -v node >/dev/null 2>&1; then
   if ! guardiano percorsi-git.mjs --check; then
     PORTA_GIT_VINCOLO="$(vincolo_da_rc "percorsi-git" "$GUARDIANO_RC" "⛔ PORTA DEGLI ELENCHI GIT SCAVALCATA (percorsi-git.mjs rc=$GUARDIANO_RC, AR-339/340/341): uno script chiede a git un elenco di percorsi senza -z, quindi riceve i nomi con l'accento riscritti in ottali e lavora su file che non esistono — in silenzio. Fallo passare da percorsiDaGit() in cervello/percorsi-git.mjs. Dettaglio: node cervello/percorsi-git.mjs --check")"
     echo "[$(ts)] ⚠️  AR-339: percorsi-git rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+  # AR-186 — i due elenchi che governano i 120: la riga-roster di CLAUDE.md (la legge Nicola) e il
+  # campo description del mansionario (lo legge il router). Un rimando presente in uno solo dei due
+  # manda il lavoro a un senior che non lo rivendica. Nasce VERDE sui tredici dichiarati il 29/7 in
+  # cervello/deferral-baseline.json: blocca il quattordicesimo.
+  echo "[$(ts)] Guardiano dei rimandi fra senior (AR-186 — gate hard)..."
+  if ! guardiano deferral-agenti.mjs; then
+    DEFERRAL_VINCOLO="$(vincolo_da_rc "deferral-agenti" "$GUARDIANO_RC" "⛔ RIMANDI FRA SENIOR DIVERGENTI (deferral-agenti.mjs rc=$GUARDIANO_RC, AR-186): un agente rimanda a qualcuno in CLAUDE.md ma non nella sua scheda (o viceversa), e non era nel debito dichiarato. Il router legge la scheda, Nicola legge CLAUDE.md: il lavoro va dove dice il primo. Allinea i due, oppure dichiaralo con motivo in cervello/deferral-baseline.json. Dettaglio: node cervello/deferral-agenti.mjs")"
+    echo "[$(ts)] ⚠️  AR-186: deferral-agenti rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
   echo "[$(ts)] Guardiano stampo senior (vettori-installati / Come pensa l'AD — gate hard)..."
   if ! guardiano stampo-check.mjs; then
@@ -750,7 +760,7 @@ fi
 # scioglievano in silenzio — il giro pubblicava lo stesso e usciva 0. Qui li raccogliamo in un elenco
 # che esiste FUORI dal prompt, così può governare sia il salto del motore sia l'esito del giro.
 VINCOLI_ATTIVI=()
-for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI TASSO USCITE SCADENZE GUARDIANI; do
+for _vnome in SENSORI ALLOC REGISTRO_SCELTE LOOP TEST DEBITO FATTI CHECKLIST OKR CAL AGENTI ESP NORTH_STAR KEYWORD APPRENDIMENTO VERIFICA PROVE COSTO FRESCHEZZA VOLANO FRATELLI TASSO USCITE SCADENZE GUARDIANI PORTA_GIT DEFERRAL; do
   eval "_vval=\"\${${_vnome}_VINCOLO:-}\""
   [ -n "$_vval" ] && VINCOLI_ATTIVI+=("$_vnome")
 done
@@ -839,6 +849,12 @@ if [ -n "${FIRMA_VINCOLO:-}" ]; then
 
 ## Vincolo confine della firma (HARD — AR-119: chi esegue non può firmare se stesso)
 $FIRMA_VINCOLO"
+fi
+if [ -n "${DEFERRAL_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo rimandi fra senior (HARD — AR-186: i due elenchi che governano i 120 divergono)
+$DEFERRAL_VINCOLO"
 fi
 if [ -n "${PORTA_GIT_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

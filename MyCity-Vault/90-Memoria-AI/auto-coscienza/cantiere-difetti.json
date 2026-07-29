@@ -2358,13 +2358,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/agent-registry-check.mjs",
-        "pattern": "deferral_drift|driftDeferral|confrontaDeferral|deferral_divergenti",
-        "presente": true
+        "comando": "node cervello/test/due-elenchi-un-solo-metro.test.mjs"
       },
       "nota": "Dove: CLAUDE.md:148 vs .claude/agents/trust-safety.md:3 (e CLAUDE.md:144 vs .claude/agents/finanza.md:3) · Impatto: Chi instrada da CLAUDE.md e chi instrada dalle description arrivano a due senior diversi sulla stessa domanda: «la commissione è giusta?» finisce a finanza dal manuale e a pricing-scientist dalla scheda. Non è ambiguità teorica: sono i due mandati che decidono prezzo e frode, cioè margine e soldi persi.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "Misurato il 2026-07-29: il numero della scheda («14 agenti») NON era ricalcolabile — nel repo non c'era niente che lo producesse. Il primo metro che ho scritto ne trovava 2, e sbagliava due volte (cercava `→ **nome**` invece di `(→ motivo = **nome**)`, e contava come rimando la prosa `lo **script** → **ai-video** monta`). Corretto: 13, e il tredicesimo (`qa`) usciva solo ammettendo i nomi di due lettere. Il fix non è «allinea due liste»: è che adesso il metro sta nel repo (`node cervello/deferral-agenti.mjs --conta`), il verdetto è per NOME contro un debito dichiarato e datato, e il guardiano gira a ogni giro come gate hard. I 13 restano dichiarati in cervello/deferral-baseline.json: la lista può solo accorciarsi."
     },
     {
       "id": "AR-187",
