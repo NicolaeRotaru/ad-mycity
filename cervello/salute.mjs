@@ -33,6 +33,7 @@ import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 
 const ARGS = process.argv.slice(2);
 const JSON_MODE = ARGS.includes("--json");
@@ -520,12 +521,20 @@ const CONTROLLI = [
       } catch {
         /* senza manifest tratto tutte le skill come native: meglio un falso allarme che un buco */
       }
+      // AR-339/340/341 — gli elenchi di percorsi si chiedono a git dalla porta, non a mano: senza
+      // `-z` git riscrive i nomi con l'accento fra virgolette e in ottali, e in un vault italiano
+      // non è un caso limite (26 file). Qui il nome della skill è ASCII, quindi oggi non fa danno —
+      // ma il guardiano `percorsi-git` non giudica il singolo caso, giudica la porta, ed è giusto
+      // così: la regola vale sulla superficie. Questa chiamata è arrivata con le skill (#611) e
+      // teneva rossa la suite condivisa per tutti.
       const versionata = (nome) => {
-        const r = spawnSync("git", ["ls-files", "--error-unmatch", `.claude/skills/${nome}`], {
-          cwd: AD_ROOT,
-          encoding: "utf8",
-        });
-        return r.status === 0 && Boolean(r.stdout?.trim());
+        try {
+          return percorsiDaGit(["ls-files", "--error-unmatch", `.claude/skills/${nome}`], { cwd: AD_ROOT }).length > 0;
+        } catch {
+          // `--error-unmatch` esce ≠0 quando il percorso NON è tracciato: non è un guasto, è la
+          // risposta «no». Il codice di prima la leggeva da `r.status`; qui la legge dall'eccezione.
+          return false;
+        }
       };
       const orfane = skillNonVersionate(cartelle, {
         generata: (nome) => manifest.includes(`.cursor/skills/${nome}/`),
