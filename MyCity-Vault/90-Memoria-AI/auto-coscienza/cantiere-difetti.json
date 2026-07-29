@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-29 02:00",
+  "aggiornato": "2026-07-29 02:12",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -3235,15 +3235,15 @@
       "causa_radice": "① Perché parte due volte? Perché la ri-approvazione non vede lo stato precedente come «già partita». ② Perché non lo vede? Perché \"rifiutata\" è esplicitamente esclusa dal controllo. ③ Perché è esclusa? Perché rifiutare doveva riportare l'azione a decidibile — è vero per un'azione MAI eseguita, falso per una già eseguita. ④ Perché il caso «già eseguita» non è stato considerato anche per rifiuta? Perché il difetto era stato trovato sul percorso annulla e il fix è stato applicato dove era stato osservato, non alla classe intera. ⑤ Radice: la protezione contro la doppia esecuzione è appesa al NOME della decisione invece che allo stato dell'azione — l'unico fatto che conta.",
       "fix_proposto": "🟡 In azioni-pronte/route.ts spostare il controllo `giaEseguita` FUORI da `if (dec === \"annulla\")` e applicarlo a ogni decisione che cambia lo stato di un'azione già avviata (rifiuta e annulla), rispondendo 409. In alternativa, o in aggiunta, introdurre uno stato terminale non riaperbile (`eseguita`) distinto da `rifiutata`, e alla riga 108 controllare l'assenza di quello stato invece di elencare le eccezioni. Test: approva → rifiuta → approva deve dare 409 e nessuna seconda chiamata alle mani.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/atto-che-parte-due-volte.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/azioni-pronte/route.ts:78-88 (il blocco anti-doppione copre solo «annulla») e :108 (il controllo di ri-approvazione considera «rifiutata» come mai partita) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/atto-che-parte-due-volte.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. Il controllo `giaEseguita` era dentro `if (dec === \"annulla\")`: appeso al NOME della decisione invece che allo stato dell'azione. Spostato FUORI, ora vale per rifiuta E annulla (409 su azione gia' avviata), cosi' la strada approva -> rifiuta -> approva non puo' piu' rieseguire le mani. La regola vive in pannello/src/lib/atto-unico.ts::attoGiaAvviato, eseguibile da un test. LIMITE DICHIARATO: se un'azione storica ha gia' \"rifiutata\" scritto DOPO un'esecuzione, quel dato non e' recuperabile — il fix protegge da qui in avanti."
     },
     {
@@ -3255,15 +3255,15 @@
       "causa_radice": "① Perché la card mostra «rifiutata» senza salvataggio? Perché la route risponde sempre ok:true. ② Perché sempre? Perché nel rifiuto non c'è un invio da annullare, quindi è sembrato un caso senza conseguenze. ③ Perché sembrava senza conseguenze? Perché si è guardato all'effetto immediato (nessuna email parte) e non all'effetto sullo stato (l'azione torna eseguibile, e la firma resta). ④ Perché il fix del ramo approva non è stato esteso al rifiuto? Perché era nato per prevenire il doppio invio, e il rifiuto non invia. ⑤ Radice: il rifiuto è trattato come un non-evento invece che come una decisione da persistere con la stessa serietà dell'approvazione.",
       "fix_proposto": "🟡 In azioni-pronte/route.ts riga 93-97: raccogliere anche l'esito di `revocaFirma(id)` e, se `salv` o la revoca falliscono, rispondere `{ ok: false, error: \"Rifiuto non salvato — riprova\" }` con 503, esattamente come fa il ramo approva. Il client fa già il rollback corretto su ok:false (Azioni.tsx:312-316), quindi non serve toccare la UI. Test: con Supabase irraggiungibile, POST {decisione:\"rifiuta\"} deve dare 503 e la card deve tornare «da decidere».",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/scrittura-non-confermata.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/azioni-pronte/route.ts:93-97 · confronto con lo stesso file :156-161 · client pannello/src/components/aree/Azioni.tsx:305 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/scrittura-non-confermata.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. Le tre scritture del rifiuto (stato, nota, revoca firma) erano concatenate con `&&` — che oltre a ignorare la revoca CORTOCIRCUITA: se la prima falliva la seconda non partiva nemmeno. Ora si raccolgono tutte e tre e passano da esitoScritture(): una sola fallita -> 503 con il nome del pezzo mancante. Il client faceva gia' il rollback corretto su ok:false."
     },
     {
@@ -3275,15 +3275,15 @@
       "causa_radice": "① Perché la decisione risulta presa senza esecuzione? Perché l'esito di creaLavoro non viene controllato. ② Perché non viene controllato? Perché la parte considerata importante era registrare la scelta (per non riproporre la card), e l'accodamento è stato trattato come un effetto collaterale. ③ Perché l'ordine delle due scritture non è stato messo in discussione? Perché non c'è transazione fra la tabella impostazioni e la tabella lavori: nessuno strumento obbliga a pensare al fallimento a metà. ④ Perché il fallimento a metà è irreversibile? Perché il dedup guarda solo la decisione salvata (il primo passo), non se il secondo è andato a buon fine. ⑤ Radice: si persiste il fatto «ho deciso» e si presume il fatto «ho eseguito», mentre solo il primo viene verificato — e il dedup blocca proprio il tentativo che potrebbe rimediare.",
       "fix_proposto": "🟡 In decisione-ordine/route.ts e scelta-ab-actions.ts: catturare l'esito (`const lav = await creaLavoro(...)`) e, se è null, o annullare la decisione appena salvata (`setImpostazione(chiave, \"\")`) oppure salvarla con un marcatore `lavoro:null` e rispondere ok:false 503 «decisione registrata ma il cervello non è partito — riprova». Poi rendere il dedup consapevole: l'uscita anticipata «già registrata» deve riaccodare il lavoro se il record esiste ma non ha mai avuto un lavoro associato. Test: con la tabella lavori irraggiungibile, POST deve dare 503 e un secondo POST deve poter riprovare.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/scrittura-non-confermata.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/decisione-ordine/route.ts:63 (creaLavoro senza controllo dell'esito) e :45-48 (uscita anticipata «già registrata») · stesso schema in pannello/src/lib/scelta-ab-actions.ts:87 e :62-65 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/scrittura-non-confermata.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. Invertito l'ordine: il lavoro si crea PRIMA e il suo id entra nella decisione (campo nuovo `lavoro`, null se l'accodamento fallisce). Il dedup all'ingresso ora esce presto solo se `lavoro !== null`, quindi il caso «decisione registrata, cervello mai partito» si puo' riprovare — prima era irreparabile. Le decisioni salvate prima di questo campo (lavoro undefined) restano chiuse: non si riaprono card gia' finite davvero."
     },
     {
@@ -3415,15 +3415,15 @@
       "causa_radice": "1) Perché la risposta sparisce? Perché il ripasso la sovrascrive con quella del server. 2) Perché il server non ce l'ha? Perché la scrittura è fallita. 3) Perché il fallimento non si vede? Perché la route fa `await setImpostazione(...)` senza guardare il booleano che torna, e risponde `{ok:true}` comunque. 4) Perché la pagina non se ne accorge? Perché `AutoCoscienza.tsx:274` fa `setRisposte(x.risposte)` sostituendo l'intera mappa, senza tenere le risposte date in questa sessione. 5) Perché qui e non altrove? Perché la stessa identica trappola era già stata risolta nell'area Azioni (`decisiLocaliRef`, «bug #7: merge, non overwrite») ma la correzione non è stata portata su questa casella: manca una regola comune per «conferma di scrittura + fusione, non sostituzione».",
       "fix_proposto": "🟡 Due punti. (a) In `app/api/memoria/risposta/route.ts:48` catturare l'esito: `const salvata = await setImpostazione(...)` e, se `false`, rispondere `{ok:false, error:\"Risposta non salvata — riprova\"}` con status 503 e NON accodare il lavoro al cervello (evita il doppione). (b) In `components/AutoCoscienza.tsx:274` non sostituire più la mappa: fondere come fa Azioni.tsx — tenere un `risposteLocaliRef` con quanto inviato in questa sessione e riapplicarlo sopra la risposta del server, cancellando la voce locale solo quando il server conferma la stessa risposta. Test: staccare Supabase, rispondere a una domanda → deve comparire un errore rosso, non il riquadro verde; ricollegare, rispondere → il verde deve restare anche dopo 60 secondi.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/scrittura-non-confermata.test.mjs"
       },
       "nota": "Dove: pannello/src/app/api/memoria/risposta/route.ts:48 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/scrittura-non-confermata.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. Due punti come da scheda. (a) /api/memoria/risposta ora legge il booleano di setImpostazione: se non salva risponde 503 e NON accoda il lavoro (un lavoro su una risposta che il Pannello continuera' a richiedere e' il doppione garantito); in piu' dichiara `accodata` quando la risposta e' salva ma il cervello non l'ha presa. (b) AutoCoscienza.tsx non sostituisce piu' la mappa: `risposteLocaliRef` + fondiLocaliSuServer(), la voce locale si dimentica quando il server concorda — la stessa difesa che l'area Azioni aveva da mesi."
     },
     {
@@ -3435,15 +3435,15 @@
       "causa_radice": "1) Perché la spunta sparisce al ricarico? Perché non era stata salvata. 2) Perché sembrava salvata? Perché la spunta ottimistica non viene mai annullata. 3) Perché non viene annullata? Perché `spunta()` fa `await fetch(...)` e ignora il corpo della risposta; il `catch` prende solo la rete caduta, non un `{ok:false}` servito con HTTP 200 da `app/api/memoria/todo/route.ts:88`. 4) Perché nessuno se ne accorge? Perché `spuntateLocaliRef` riapplica il valore locale a ogni ricarica finché il server non concorda — quindi l'errore si auto-nasconde per tutta la sessione. 5) Perché è stato scritto così? Perché il caso «memoria staccata» era già coperto da un avviso a monte e si è dato per scontato che fosse l'unico modo di fallire.",
       "fix_proposto": "🟡 In `components/aree/Azioni.tsx:427-433` leggere la risposta: `const r = await fetch(...).then(x => x.json())` e, se `!r?.ok`, tornare indietro — rimettere `fatto` al valore precedente, togliere la voce da `spuntateLocaliRef` e mostrare accanto alla riga un breve «non salvata, riprova». Stessa forma già usata da `decidi()` nello stesso file (righe 312-320), quindi zero codice nuovo da inventare. Test: rispondere finto `{ok:false}` dalla route → la spunta deve tornare indietro con l'avviso.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/scrittura-non-confermata.test.mjs"
       },
       "nota": "Dove: pannello/src/components/aree/Azioni.tsx:429 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/scrittura-non-confermata.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. `spunta()` ora legge la risposta e passa da scritturaConfermata(): {ok:false} servito con HTTP 200 (il caso vero di /api/memoria/todo) non e' piu' un successo. Su NO: valore riportato indietro, voce tolta da spuntateLocaliRef (altrimenti continuerebbe a coprire la verita' del server) e avviso «non salvata, riprova» accanto alla riga."
     },
     {
@@ -3790,7 +3790,7 @@
       "causa_radice": "① Perché salta? Perché l'effetto che fa `scrollIntoView` è agganciato al dato (`}, [d];`, riga 295) invece che al montaggio del componente. ② Perché il dato cambia così spesso? Perché `carica()` gira ogni 30 secondi e `setD` mette sempre un oggetto NUOVO (viene da `r.json()`): per React la dipendenza è cambiata anche quando il contenuto è identico, quindi l'effetto riparte. ③ Perché la dipendenza è il dato? Perché l'intento era «scorri quando i dati sono pronti», e legare l'effetto a `d` sembrava il modo per aspettarli — ma quella condizione è vera una volta sola, non ogni 30 secondi. ④ Perché l'ancora è ancora lì? Perché il contratto di navigazione ha abolito gli hash nell'URL (lib/nav.ts:27) e nessuno li produce più, ma questo listener non è stato rimosso con loro: è codice orfano di un contratto superato. ⑤ Perché nessuno l'ha notato? Perché si manifesta solo con quell'ancora nell'URL, cioè su un link vecchio: invisibile a chi naviga dal menù, fastidioso proprio per chi si era salvato la scorciatoia.",
       "fix_proposto": "🟡 In `AutoCoscienza.tsx`, cambiare la dipendenza dell'effetto da `[d]` a `[]` (scorri una volta sola al montaggio, con il `setTimeout` che già c'è per aspettare il primo render). Se si vuole chiudere anche il codice orfano — coerentemente con il contratto di navigazione — togliere del tutto l'effetto e far arrivare alla scheda tramite `vaiArea('auto-coscienza', undefined, 'analisi')`, che è la strada supportata oggi.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -3799,8 +3799,8 @@
         "presente": false
       },
       "nota": "Dove: pannello/src/components/AutoCoscienza.tsx:291-295",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "pannello/src/components/AutoCoscienza.tsx NON contiene /\\}, \\[d\\]\\);/ → assente",
       "nota_fix": "LOTTO 29. FIX APPLICATO: la dipendenza dell'effetto di scrollIntoView passa da [d] a [] in AutoCoscienza.tsx — carica() gira ogni 30s e setD mette sempre un oggetto NUOVO, quindi l'effetto ripartiva a contenuto identico e la pagina saltava da sola sulla scheda. PROVA DICHIARATA DEBOLE: e' una dipendenza di useEffect, non logica estraibile in una funzione pura; la sua prova onesta e' a runtime (skill verify, Playwright). Il campo verifica NON e' stato promosso a comando apposta: meglio un difetto che resta aperto con il fix dentro, che una chiusura basata su un pattern di forma."
     },
     {
@@ -3831,15 +3831,15 @@
       "causa_radice": "1) Perché nascono due lavori? Perché `creaLavoroEsito` ripete la POST di inserimento fino a `LAVORO_TENTATIVI` (2) volte. 2) Perché il secondo tentativo duplica invece di riconoscere il primo? Perché l'inserimento non porta nessuna chiave di idempotenza (nessun id generato dal client, nessun vincolo di unicità) e prima di ritentare non si controlla se la riga esiste già. 3) Perché il timeout scatta anche quando la scrittura è riuscita? Perché `LAVORO_TIMEOUT_MS` (4000ms) aborta la richiesta lato client: l'abort non annulla la scrittura già arrivata a Supabase, la rende solo invisibile. 4) Perché il ritentativo esiste? Per coprire gli intoppi passeggeri del pooler — legittimo, ma è sicuro SOLO su operazioni idempotenti. 5) Radice: il livello interno lo sapeva — `sbFetch` viene chiamato con `retries=0` proprio per non ritentare una scrittura, e il commento accanto dice «GET idempotenti: timeout + 2 ritentativi» — ma il ciclo esterno reintroduce esattamente il ritentativo che quello 0 voleva evitare. La cautela c'è a un livello e viene annullata al livello sopra. Nota: il codice sa già difendersi da questa classe altrove (`lavoroSentinellaGiaInCoda`, anti-doppione AR-114), ma quella difesa non copre la chat.",
       "fix_proposto": "🟡 In `pannello/src/lib/store.ts`, funzione `creaLavoroEsito`: generare lato server un `idempotency_key` stabile (es. hash di richiesta+tipo+gruppo_id+minuto) e includerlo nel payload; prima di ogni ritentativo diverso dal primo, fare una GET `lavori?idempotency_key=eq.<chiave>&limit=1` e, se la riga esiste, restituirla come successo invece di reinserire. In alternativa, se non si vuole toccare lo schema: prima di ritentare dopo un AbortError, cercare un lavoro con stessa `richiesta` e stato `in_attesa` creato negli ultimi 30 secondi (stessa logica già usata da `lavoroSentinellaGiaInCoda`) e riusarlo. Il ritentativo va mantenuto solo per gli errori in cui è certo che la scrittura NON sia avvenuta.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/atto-che-parte-due-volte.test.mjs"
       },
       "nota": "Dove: pannello/src/lib/store.ts:240-243 (ciclo di ritentativi dentro creaLavoroEsito) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/atto-che-parte-due-volte.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. Il ciclo ritentava anche dopo un AbortError, cioe' proprio nel caso in cui la riga puo' essere gia' arrivata a Supabase. Ora l'esito passa da comeRitentareScrittura(): stop | ritenta | verifica. Su «verifica» si cerca prima un lavoro gemello con la stessa richiesta negli ultimi 60s (lavoroGemelloRecente, stessa forma di lavoroSentinellaGiaInCoda/AR-114) e lo si riusa come successo. Se la verifica stessa non riesce NON si ritenta: un doppione silenzioso e' peggio di un errore visto."
     },
     {
@@ -3851,15 +3851,15 @@
       "causa_radice": "1) Perché il secondo invio non annulla il primo? Perché il ciclo di annullamento legge `pendingLavoroChatRef`. 2) Perché il primo non è lì dentro? Perché `aggiungiPendingChat` viene chiamato solo alla riga 1726, cioè DOPO che la POST di creazione è tornata. 3) Perché non basta il blocco anti-doppio-tap? Perché quel blocco (`invioBloccatoRef`) sta nella barra di scrittura e dura 800 ms fissi: la finestra di volo del primo invio è quasi sempre più lunga. 4) Perché il blocco sta nella barra e non nel creatore? Perché è nato come toppa al sintomo «doppio tap sul bottone» (lo dice il commento), non alla causa. 5) Radice — ed è esattamente la lezione già pagata: la protezione è stata messa sui PUNTI DI INGRESSO invece che al CONFINE DELLA CREAZIONE (`mandaAlCervello` → POST /api/lavori), che non ha nessun blocco di sua iniziativa; e lo stato che serve per decidere «esiste già un lavoro in volo» viene registrato solo a creazione conclusa, quindi durante la creazione stessa il sistema è cieco su se stesso.",
       "fix_proposto": "🟡 In `pannello/src/app/page.tsx`, dentro `mandaAlCervello`: registrare il lavoro come «in creazione» PRIMA della POST (es. `pendingLavoroChatRef.current.set('creazione:'+targetConvId, {...})` o un `creazioneInVoloRef` per conversazione), e nel ciclo di sostituzione (righe 1631-1640) considerare anche i lavori in creazione: se ne trovi uno per la stessa conversazione, aspettare che esponga il suo id e poi annullarlo, invece di ignorarlo. Ripulire il segnaposto nel `finally`. Effetto: il blocco vive al confine della creazione e vale per TUTTI i chiamanti, non solo per chi passa dalla barra di scrittura.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/atto-che-parte-due-volte.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:1589 (mandaAlCervello, nessun blocco) · 1631-1640 (ciclo di annullamento) · 1726 (registrazione tardiva) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/atto-che-parte-due-volte.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. La creazione si dichiara PRIMA della POST (creazioneLavoroChatRef + AttiInVolo con chiave per conversazione), non dopo: un secondo messaggio ravvicinato ora vede quello in volo, ne aspetta l'id e lo sostituisce invece di affiancarlo. Il posto si libera nel finally e scade comunque dopo 60s — un blocco che non si apre piu' sarebbe peggio del doppione che doveva evitare."
     },
     {
@@ -3871,15 +3871,15 @@
       "causa_radice": "1) Perché il doppio invio passa? Perché `inviaMessaggio()` controlla solo che il testo non sia vuoto e che il callback esista: nessun controllo su `chatLoading`. 2) Perché il bottone sembra protetto? Perché la protezione è scritta nel JSX (`disabled={!bozza.trim() || chatLoading}`) invece che nella funzione: il gestore del tasto Invio chiama la stessa funzione bypassando l'attributo. 3) Perché non lo copre il blocco della barra? Perché la barra passa a questa finestra `chatOnInvia={onInvia}`, cioè il creatore GREZZO (`(t) => mandaAlCervello(t)`), non la sua `invia()` protetta. 4) Perché è stato agganciato così? Perché la finestra video è stata aggiunta dopo, riusando la scorciatoia più diretta al creatore. 5) Radice: stessa classe del bug precedente — la guardia è in un punto di ingresso (la barra), e un chiamante successivo del creatore è nato senza. Finché il blocco non sta sul creatore, ogni nuova superficie che invia messaggi ripeterà l'errore.",
       "fix_proposto": "🟡 Due mosse, entrambe piccole: (a) in `pannello/src/components/BottoneFotoChat.tsx`, in cima a `inviaMessaggio()` aggiungere `if (chatLoading) return;` — così il tasto Invio segue la stessa regola del bottone; (b) in `pannello/src/components/BarraScritturaChat.tsx` (righe 202 e 218), passare alle due finestre live un callback che rispetti il blocco condiviso invece di `onInvia` grezzo (es. una `inviaTesto(t)` che riusa `invioBloccatoRef` e poi chiama `onInvia(t)`). La correzione definitiva resta comunque quella del bug precedente: il blocco al confine della creazione.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/atto-che-parte-due-volte.test.mjs"
       },
       "nota": "Dove: pannello/src/components/BottoneFotoChat.tsx:200-205 (inviaMessaggio) e 347-352 (tasto Invio) · aggancio in pannello/src/components/BarraScritturaChat.tsx:202 e 218 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/atto-che-parte-due-volte.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. SCHEDA CORRETTA DAL CODICE: una guardia c'era gia' (chatInvioBloccatoRef, 800 ms fissi), ma non copriva chatLoading — cioe' proprio l'attesa della risposta, che dura molto piu' di 800 ms. La decisione e' stata estratta in atto-unico.ts::puoInviareChat e ora la funzione la applica per intero: vale per il bottone, per il tasto Invio, per la finestra video e per quella dello schermo condiviso."
     },
     {
@@ -3931,15 +3931,15 @@
       "causa_radice": "1) Perché non si accorge del fallimento? Perché si fa `await fetch(...)` e si va dritti a `window.location.reload()` senza guardare `res.ok` né il corpo della risposta. 2) Perché il catch non aiuta? Perché `fetch` respinge solo sugli errori di rete: un 500 del server passa come successo. 3) Perché si ricarica sempre? Perché la ricarica è il modo scelto per far rileggere i dati a tutte le aree, ed è stata trattata come passo obbligato invece che come conseguenza di un esito positivo. 4) Perché non c'è un messaggio? Perché non esiste uno stato d'errore nel componente. 5) Radice: si è dato per scontato l'esito di una scrittura che cambia COSA Nicola sta guardando — il caso in cui la fonte dei numeri conta di più.",
       "fix_proposto": "🟡 In `pannello/src/components/DemoBanner.tsx`, funzione `cambia`: controllare l'esito (`res.ok` e `ok:true` nel corpo) e ricaricare SOLO se positivo; altrimenti spegnere `busy` e mostrare nel banner «Non sono riuscito a cambiare modalità — stai ancora vedendo dati [demo/veri]», così l'etichetta della fonte dei numeri resta sempre vera.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/scrittura-non-confermata.test.mjs"
       },
       "nota": "Dove: pannello/src/components/DemoBanner.tsx:20-32 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/scrittura-non-confermata.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. `cambia()` ora controlla res.ok E il corpo (scritturaConfermata) e ricarica SOLO se confermato; altrimenti spegne busy e mostra nel banner «Non sono riuscito a cambiare modalita' — stai ancora vedendo dati [di esempio/veri]», cosi' l'etichetta della fonte dei numeri resta sempre vera."
     },
     {
@@ -3970,15 +3970,15 @@
       "causa_radice": "① Il bus `chat-unificata` serve a tenere allineate le superfici che mostrano LA STESSA chat. ② Ma il lato che PUBBLICA nell'Assistente è filtrato (page.tsx:2190, `if (!titolo.startsWith(\"💬 \")) return;` — pubblica solo i thread-casella), mentre il lato che ASCOLTA (page.tsx:2151-2153) non ha nessun filtro: accetta qualsiasi payload con `origine === \"casella\"` e fa `setConvId(det.convId)` + sostituzione integrale di `messages`. ③ `ParlaCasella` pubblica a ogni cambio di `msgs`/`convId`/`inviando` finché è aperta (ParlaCasella.tsx:92-99), quindi appena l'effetto di caricamento riempie il thread salvato (righe 128-170) parte un evento. ④ L'unica guardia esistente è `nienteDaDire()` in chat-unificata.ts:44-46, che blocca solo il caso VUOTO — è il fix parziale di AR-123, documentato nel file: hanno chiuso il caso della casella mai usata e lasciato aperto quello della casella con storico. ⑤ Radice: il protocollo dell'evento non porta l'informazione «questo thread è quello che l'Assistente sta mostrando», quindi ogni superficie nuova che lo usa rifà lo stesso errore. Nota accessoria: il commento di riga 2168 dice «non copiare il sto pensando della casella», ma la riga 2159 copia `pending: m.pending` — commento e codice non concordano.",
       "fix_proposto": "In `pannello/src/app/page.tsx`, nel listener `ascoltaChatUnificata(\"assistente\", ...)` (riga 2151): accettare l'aggiornamento SOLO se riguarda la chat già attiva, cioè aggiungere in testa all'handler `if (det.convId && convIdRef.current && det.convId !== convIdRef.current) return;` e, per il caso senza id, `if (!det.convId && convIdRef.current) return;`. L'allineamento resta per lo scenario legittimo (stessa conversazione aperta su due superfici), mentre una casella con un thread diverso non può più scalzare la chat aperta. In alternativa più pulita: far portare all'evento un campo `adotta: boolean` e pubblicare `adotta:true` solo su azione esplicita dell'utente. Sistemare anche l'incoerenza `pending` di riga 2159 (non copiarlo, come dice il commento). Resta 🟡.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/stato-vivo-calpestato.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:2150-2170 (ascoltaChatUnificata) + pannello/src/components/ParlaCasella.tsx:92-99 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/stato-vivo-calpestato.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. Il listener del bus ora accetta solo cio' che riguarda la chat aperta (stato-vivo.ts::aggiornamentoPertinente): id diverso o evento senza id mentre una chat e' aperta -> si ignora. Resta l'allineamento legittimo (stessa conversazione su due superfici) e il caso «non ho niente aperto». Copre il buco che AR-123 aveva chiuso solo per il thread VUOTO."
     },
     {
@@ -3990,15 +3990,15 @@
       "causa_radice": "① Il poller delle conversazioni gira ogni 8s (page.tsx:2208) e, per la chat attiva, riallinea lo schermo con `setMessages((m) => mergeThread(m, fc.messaggi))` (page.tsx:2124-2127). ② `mergeThread` è `mergeThreadMsgs`, che come primissima cosa passa ENTRAMBI i thread in `pulisci()` — `chat-thread-merge.ts:74-76`: `list.filter((m) => !m.pending && !m.prompt)`. ③ `pulisci` è nato per il MERGE di due thread salvati (dove pending/prompt sono rumore da scartare), ma qui uno dei due argomenti è lo stato VIVO della chat a schermo, dove la bolla `pending` è l'unico contenitore della risposta in streaming (`aggiornaPendingParziale`, page.tsx:1195-1222) e `prompt:true` è la scheda del prompt generato (`dammiPrompt`, riga 1781). ④ Quindi il risultato del merge non contiene mai la bolla in corso: `nm` differisce da `m`, la guardia `JSON.stringify` non lo ferma, e `setMessages(nm)` la elimina. ⑤ Effetto a catena: `annullaInvioInCorso` cerca `messages.findIndex(x => x.pending)` e trova -1 (riga 1800-1801), quindi esce subito — il bottone diventa inerte proprio quando serve. Radice: una funzione pensata per dati a riposo viene usata su stato transitorio, senza distinguere i due casi.",
       "fix_proposto": "In `pannello/src/app/page.tsx`, riga 2124: non passare lo stato vivo dentro `mergeThread` senza reinnestare il transitorio. Sostituire con: estrarre prima le bolle vive (`const vive = m.filter((x) => x.pending || x.prompt);`), fondere solo la parte stabile (`const nm = mergeThread(m.filter((x) => !x.pending && !x.prompt), fc.messaggi);`) e riappendere `vive` in coda prima del confronto/`setMessages`. In alternativa (più strutturale) aggiungere a `mergeThreadMsgs` in `pannello/src/lib/chat-thread-merge.ts` un parametro `conservaTransitori` che ripristina in coda i messaggi `pending`/`prompt` del primo argomento. Test: inviare un messaggio lungo e verificare che la bolla in streaming non sparisca mai per 30s, che «Annulla invio» resti attivo e che una scheda «Prompt pronto» sopravviva a due giri di poll. Resta 🟡.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/stato-vivo-calpestato.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:2121-2129 (caricaConversazioni) via pannello/src/lib/chat-thread-merge.ts:74-76 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/stato-vivo-calpestato.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. Il poller non passa piu' lo stato vivo dentro mergeThreadMsgs (che comincia con pulisci(): filter(!pending && !prompt), giusto per due thread salvati, distruttivo su quello a schermo). Ora fondiConservandoVivi() fonde solo la parte stabile e riappende in coda le bolle vive: la risposta in streaming non sparisce piu' ogni 8s e «Annulla invio» resta attivo perche' trova ancora la sua bolla pending."
     },
     {
@@ -4010,15 +4010,15 @@
       "causa_radice": "① In `ParlaCasella.invia()` la variabile `conMio` è congelata al momento dell'invio (riga 211). ② Poi si aspetta `attendiEsitoLavoro` fino a 5 minuti (riga 235). ③ Durante l'attesa `msgs` PUÒ cambiare: il listener `ascoltaChatUnificata(\"casella\", ...)` alle righe 101-107 fa `setMsgs(det.messaggi)` ogni volta che l'Assistente pubblica lo stesso titolo. ④ A risposta arrivata si esegue `setMsgs(completa)` con `completa = [...conMio, risposta]` (riga 237) — lo snapshot vecchio — e subito `salvaConversazioneCasella(id, chiave, completa)` (riga 239). ⑤ `salvaConversazioneCasella` (parla.ts:145-169) NON fonde con la versione corrente: manda l'array così com'è, e lato server `upsertConversazione` fa una PATCH cieca che SOSTITUISCE l'intera colonna `messaggi` (store.ts:498-503, `body: {titolo, messaggi, updated_at}`). Non esiste merge server-side. Radice: la stessa difesa esiste già ed è documentata nell'Assistente (`persistConversazione`, page.tsx:1347-1355 e 1380-1384, «ANTI-RACE al COMMIT»), ma non è mai stata portata nel percorso gemello della casella: l'asimmetria fra i due salvatori è il bug.",
       "fix_proposto": "Due mosse. (a) In `pannello/src/components/ParlaCasella.tsx`: non ricostruire il thread dallo snapshot. Sostituire `setMsgs(completa)` con un aggiornamento funzionale che parte dallo stato corrente — `setMsgs((cur) => fondiMessaggi(cur, [...conMio, {role:'assistant', content: esito.testo, created_at: new Date().toISOString()}]))` (`fondiMessaggi` è già importato da `@/lib/parla`) — e passare a `salvaConversazioneCasella` il risultato di quella fusione, non `completa`. (b) In `pannello/src/lib/parla.ts`, dentro `salvaConversazioneCasella`: prima della POST rileggere la riga corrente (GET `/api/conversazioni`, la cache condivisa esiste già) e fondere con `fondiMessaggi(serverMsgs, reali)`, così una scrittura in ritardo non può più accorciare il thread. Test: aprire la stessa casella su due schede, inviare da una, aggiungere un messaggio dall'altra, verificare che a risposta arrivata nessuno dei due messaggi manchi né a schermo né dopo un refresh. Resta 🟡.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/stato-vivo-calpestato.test.mjs"
       },
       "nota": "Dove: pannello/src/components/ParlaCasella.tsx:211-245 + pannello/src/lib/parla.ts:145-169 + pannello/src/lib/store.ts:497-503 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/stato-vivo-calpestato.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. Entrambe le mosse della scheda. (a) ParlaCasella non ricostruisce piu' il thread dallo snapshot congelato all'invio: parte da msgsRef.current (specchio sincrono dello stato) e fonde. (b) La difesa e' anche SUL DATO, in parla.ts::salvaConversazioneCasella, che rilegge la versione corrente e fonde prima della POST — perche' lato server upsertConversazione fa una PATCH che sostituisce l'intera colonna, quindi sistemare solo il chiamante avrebbe lasciato il buco per il prossimo che scrive li'."
     },
     {
@@ -4030,15 +4030,15 @@
       "causa_radice": "① `msgs` è seminato UNA sola volta nell'inizializzatore di `useState` (riga 70: `useState<MsgChat[]>(() => messaggiDaGruppo(lavori)...)`) — l'inizializzatore gira solo al montaggio. ② Non esiste nessun `useEffect` che risincronizzi `msgs` quando cambia la prop `lavori`, che invece il genitore aggiorna a ogni poll. ③ Il commento a riga 68-69 lo dichiara come scelta («poi la chat vive di stato locale — così un refresh dei lavori dal genitore non duplica i messaggi»): la de-duplicazione è stata risolta congelando lo stato invece di fondere. ④ Il polling di `attendiLavoro` (righe 24-53) non ha AbortController: alla chiusura del riquadro (`onChiudi`) il componente si smonta e il `setMsgs` finale cade nel vuoto, oltre a lasciare il ciclo di fetch a girare fino al timeout. ⑤ Attenuante che tiene la severità bassa: la risposta è comunque persistita nel record del lavoro, quindi riaprendo il riquadro il seed la ripesca — è una vista stantia, non una perdita di dati.",
       "fix_proposto": "In `pannello/src/components/ChatCasella.tsx`: aggiungere un `useEffect` con dipendenza `[lavori]` che risincronizza senza duplicare — `setMsgs((cur) => mergeThreadMsgs(cur, messaggiDaGruppo(lavori).filter((m) => !m.pending)))` usando `mergeThreadMsgs` da `@/lib/chat-thread-merge` (è la stessa funzione che il resto del Pannello usa per questo scopo, quindi il rischio duplicati che aveva motivato il congelamento è già coperto). In più, passare un `AbortController` a `attendiLavoro` e chiuderlo nel cleanup, così il polling si ferma alla chiusura del riquadro. Resta 🟡.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/stato-vivo-calpestato.test.mjs"
       },
       "nota": "Dove: pannello/src/components/ChatCasella.tsx:70 (seed dei messaggi) + 158-166 · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/stato-vivo-calpestato.test.mjs → exit 0 (guardiano soddisfatto)",
       "nota_fix": "LOTTO 29. Aggiunto l'effetto di risincronizzazione su [lavori] con fondiConservandoVivi + mergeThreadMsgs: la chat dell'Archivio non resta piu' alla foto dell'apertura e non duplica (era il motivo per cui era stata congelata). I transitori restano intatti."
     },
     {
@@ -5470,13 +5470,14 @@
       "causa_radice": "Radice comune: la macchina chiede a git un elenco di percorsi e lo prende alla lettera, ma git per default RISCRIVE i nomi che contengono byte non-ASCII — li mette fra virgolette e trasforma l'accento in ottali (core.quotePath). In un repo con i nomi in italiano non e un caso limite: e il caso normale. Il rimedio esiste da sempre (-z, oppure -c core.quotePath=false) e nessuno dei tre punti che chiedono elenchi a git lo usa. Trovato provando gli strumenti su nomi che nel repo non erano ancora stati messi alla prova, non rileggendoli. — Qui il danno e doppio. (1) scan-segreti.mjs chiede l'elenco a git (ls-files nella passata piena, diff --cached nel pre-commit): i 26 file del vault con l'accento nel percorso tornano citati e in forma ottale, quindi statSync fallisce. (2) Il fallimento e SILENZIOSO: il ciclo fa `catch { continue }`, che e la stessa uscita usata per i binari legittimi, e il file conta lo stesso nel totale stampato. Misurato adesso: elencati 2040, apribili 2014, e il rapporto dice «nessun segreto in 2040 file versionabili». Un guardiano che non distingue «l'ho letto e e pulito» da «non sono riuscito ad aprirlo» non e una difesa, e una rassicurazione. Stessa forma di AR-284 (il sensore che chiamava «letto» un elenco vuoto).",
       "fix_proposto": "🟡 (a) Una porta sola per chiedere percorsi a git — un modulo condiviso che esegue sempre con -z e separa sui NUL, cosi il nome arriva com'e sul disco — e i tre chiamanti passano di li. (b) In scan-segreti separare i due silenzi: contare i file NON LETTI e non poter chiudere in verde con il conteggio gonfiato — il totale dichiarato deve essere quello davvero aperto, e i saltati vanno detti. (c) Un guardiano che fallisce se qualcuno torna a chiedere elenchi a git fuori dalla porta condivisa: e la regola che tiene chiusa la strada anche al prossimo script.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-29 00:28",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-29 02:12",
       "origine": "provando gli strumenti su nomi di file con l'accento — cioe la meta italiana del vault — invece di rileggerli",
       "verifica": {
         "comando": "node cervello/test/segreto-in-un-nome-con-l-accento.test.mjs"
-      }
+      },
+      "chiuso_come": "node cervello/test/segreto-in-un-nome-con-l-accento.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-340",
@@ -5487,13 +5488,14 @@
       "causa_radice": "allocazione-check.mjs classifica ogni file toccato in «macchina» o «business» per prefisso, e la quota che ne esce e il numero con cui la macchina risponde alla domanda «stiamo lavorando sulle cose giuste?». Misurato sulla finestra di 14 giorni: 1451 macchina, 388 business e 202 NON classificati. Due cause, tutte e due verificate. (1) 124 dei 202 sono i quaderni: la mappa contiene MyCity-Vault/90-Memoria-AI/memoria-squadra/ — che oggi e una cartella morta con quattro copie vecchie — e NON contiene memoria-squadra/ nella radice, che e dove chiusura-loop, stampo-check, tasso-lezioni e bootstrap-quaderni scrivono davvero. Il guardiano conosce l'indirizzo di casa vecchio. (2) 26 sono i percorsi del vault con l'accento, che arrivano da git riscritti (stessa radice di AR-339) e non corrispondono a nessun prefisso. Il calcolo esclude i non classificati apposta, per non abbassare la quota per finta: quindi il numero non e falso, e CIECO su un decimo del lavoro — e la parte cieca e per due terzi il loop di apprendimento dei 120 senior.",
       "fix_proposto": "🟡 (a) Mettere in mappa la casa VERA dei quaderni (memoria-squadra/ in radice → macchina) e togliere quella morta, oppure tenerla solo finche le copie vecchie esistono. (b) Far passare la lettura da git dalla porta condivisa di AR-339, cosi i percorsi con l'accento tornano leggibili. (c) La regola che vale oltre il caso: un guardiano non puo lasciare crescere in silenzio la sua zona cieca — se i non classificati superano una soglia dichiarata deve dirlo nel rapporto e uscire diverso da zero, perche una mappa che invecchia e indistinguibile da una mappa giusta finche nessuno la misura.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-29 00:28",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-29 02:12",
       "origine": "registrando l'ESITO di AR-338 nel quaderno di @tech e notando che il file scritto stava in una cartella diversa da quella che il guardiano nomina",
       "verifica": {
         "comando": "node cervello/test/quota-che-non-vede-i-quaderni.test.mjs"
-      }
+      },
+      "chiuso_come": "node cervello/test/quota-che-non-vede-i-quaderni.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-341",
@@ -5504,13 +5506,14 @@
       "causa_radice": "Radice comune: la macchina chiede a git un elenco di percorsi e lo prende alla lettera, ma git per default RISCRIVE i nomi che contengono byte non-ASCII — li mette fra virgolette e trasforma l'accento in ottali (core.quotePath). In un repo con i nomi in italiano non e un caso limite: e il caso normale. Il rimedio esiste da sempre (-z, oppure -c core.quotePath=false) e nessuno dei tre punti che chiedono elenchi a git lo usa. Trovato provando gli strumenti su nomi che nel repo non erano ancora stati messi alla prova, non rileggendoli. — Terzo punto: unmergedPaths in git-pr.mjs chiede l'elenco dei file in conflitto con diff --name-only --diff-filter=U e confronta ogni voce con l'elenco dei percorsi auto-risolvibili. Verificato su un repo di prova con un conflitto vero su un nome accentato: git risponde con il percorso citato e in ottali, che non corrisponde a nulla nell'elenco. OGGI il difetto e latente e il comportamento e prudente — l'auto-risoluzione rinuncia invece di toccare il file sbagliato, e nessuno dei cinque percorsi auto-risolvibili ha un accento. Ma e la stessa porta di AR-339 e AR-340: resta un difetto da chiudere insieme agli altri, non da lasciare aperto perche per adesso non morde.",
       "fix_proposto": "🟡 Far passare anche unmergedPaths dalla porta condivisa di AR-339. Il valore non e il caso di oggi: e che la porta diventi una sola per tutti e tre i punti, cosi il prossimo script che chiede elenchi a git non ha modo di sbagliare da solo.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-29 00:28",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-29 02:12",
       "origine": "cercando gli altri punti che chiedono elenchi a git dopo aver trovato il primo, invece di fermarsi al sito che avevo sotto mano",
       "verifica": {
         "comando": "node cervello/test/conflitto-con-l-accento.test.mjs"
-      }
+      },
+      "chiuso_come": "node cervello/test/conflitto-con-l-accento.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-342",
@@ -5521,13 +5524,14 @@
       "causa_radice": "I quaderni dei senior vivono in memoria-squadra/ nella radice: 124 file, ed e li che scrivono chiusura-loop, stampo-check, tasso-lezioni e bootstrap-quaderni. In MyCity-Vault/90-Memoria-AI/memoria-squadra/ ce ne sono altri quattro con lo stesso nome, che nessuno aggiorna piu: account-negozi ha 1279 byte contro 15473 e l'ultimo esito al 7/7 invece che al 27/7 — venti giorni indietro; intelligence e fermo al 20/7; marketing e relazioni-istituzionali non hanno nemmeno una riga di esito. Sono esattamente cio che il registro dei fatti chiama una bugia: una copia vecchia lasciata in giro che chi la apre per prima crede aggiornata. E non e innocua — e la cartella che allocazione-check nomina al posto di quella viva (AR-340). — CORREZIONE dello stesso autore, un'ora dopo averlo scritto: le quattro copie NON erano duplicati. Confrontando i timestamp riga per riga sono usciti CINQUE esiti presenti solo nella copia vecchia e mai arrivati alla casa vera — intelligence 4/7 e 6/7 (radar concorrenti con le fee di Esselunga/Glovo/EasyCoop e le finestre dei Venerdi Piacentini), marketing 7/7 (il tappo del link lista d'attesa), account-negozi 7/7 x2 (il churn in cold-start si misura sul time-to-first-value, non sul calo). Tre su cinque non avevano nemmeno il trattino iniziale, quindi il contatore degli esiti non le vedeva. Il difetto e quindi peggiore di come l'avevo scritto: non una copia vecchia da buttare, ma lezioni vere finite in un ramo morto della memoria.",
       "fix_proposto": "🟡 (a) PRIMA recuperare, poi archiviare — l'ordine non e un dettaglio: archiviare e basta avrebbe sepolto cinque lezioni, cioe lo stesso errore che il difetto denuncia, commesso al contrario. I cinque esiti orfani vanno nella casa vera con il trattino (cosi il contatore li vede) e un tag che dice da dove arrivano; le quattro copie vanno in Storico/ col mese nel nome. (b) Un metro che impedisca il ritorno: un quaderno ha UNA casa, e il guardiano fallisce se lo stesso nome compare in due cartelle di quaderni. Senza il metro, fra un mese la cartella si ripopola da sola e nessuno se ne accorge finche non conta i byte.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-29 00:28",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-29 02:12",
       "origine": "confrontando byte e data dell'ultimo esito fra le due cartelle omonime, dopo aver visto che chiusura-loop scriveva in quella che non mi aspettavo",
       "verifica": {
         "comando": "node cervello/test/un-quaderno-una-casa.test.mjs"
-      }
+      },
+      "chiuso_come": "node cervello/test/un-quaderno-una-casa.test.mjs → exit 0 (guardiano soddisfatto)"
     },
     {
       "id": "AR-343",
@@ -5538,18 +5542,20 @@
       "causa_radice": "① Perche' un commit che doveva essere bloccato e' passato? Perche' il pre-commit non e' stato eseguito. ② Perche' non e' stato eseguito? Perche' `core.hooksPath` non era configurato nel clone. ③ Perche' non lo era? Perche' e' configurazione LOCALE di git: non si eredita dal repo, va accesa su ogni copia. ④ Perche' nessuno l'aveva accesa? Perche' l'unica chiamata a `installa-hooks.sh` sta in `giro.sh` — quindi sul VPS i hook risultano attivi e il buco resta invisibile. ⑤ Radice: la difesa era agganciata a un PROCESSO (il giro) invece che al MOMENTO in cui serve (l'apertura di una sessione che puo' committare). Nelle sessioni cloud, dove la macchina lavora da sola e nessuno guarda, erano spenti tutti e quattro i cancelli: segreti (AR-004), sintassi shell (worker-outage 9/7), sintassi JS (AR-134), perimetro di main (AR-332).",
       "fix_proposto": "🟡 Agganciare `bash cervello/installa-hooks.sh` al SessionStart di .claude/settings.json (gira a ogni avvio di sessione, idempotente, ~0 costo) e tenere la chiamata nel giro come seconda rete. Prova: cervello/test/cancelli-spenti-nel-clone.test.mjs.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-29 01:30",
       "nota": "Trovato provando avversarialmente il gate nuovo del lotto 29: il commit di prova, che DOVEVA essere respinto, e' passato. Il gate era giusto; a non girare erano i hook. Un cancello che non parte non e' un cancello — e per tutta questa sessione i miei commit sono passati senza scan-segreti. [id spostato da AR-339 a AR-343 il 29/7: main aveva gia' registrato un AR-339 diverso (scanner segreti) mentre questo lotto era aperto — due difetti con lo stesso numero sono un difetto in piu'.]",
       "nota_fix": "LOTTO 29. Installazione agganciata al SessionStart di .claude/settings.json, cosi' parte all'apertura di OGNI sessione e non solo dentro il giro. Il test copre i tre pezzi: un clone fresco parte spento, installa-hooks accende ed e' idempotente, e il SessionStart lo invoca davvero — piu' la non-vacuita' (il perimetro acceso deve contenere i cancelli veri, non essere vuoto).",
       "verifica": {
         "comando": "node cervello/test/cancelli-spenti-nel-clone.test.mjs"
-      }
+      },
+      "chiuso_il": "2026-07-29 02:12",
+      "chiuso_come": "node cervello/test/cancelli-spenti-nel-clone.test.mjs → exit 0 (guardiano soddisfatto)"
     }
   ],
   "meta": {
-    "aperti": 113,
+    "aperti": 99,
     "in_corso": 0,
-    "chiusi": 164
+    "chiusi": 183
   }
 }
