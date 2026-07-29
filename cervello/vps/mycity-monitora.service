@@ -14,4 +14,10 @@ Environment=HOME=/home/mycity
 Environment=PATH=/home/mycity/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # Fuso di Piacenza: gli orari scritti in memoria devono essere ora-di-parete italiana (non UTC).
 Environment=TZ=Europe/Rome
+# AR-163/AR-305 — la cintura che mancava: senza questi due, un monitoraggio appeso resta appeso PER
+# SEMPRE (Type=oneshot senza timeout non scade mai) e il timer di domani non parte nemmeno. Sono gli
+# stessi valori di mycity-giro.service: la protezione era stata applicata al giro e ai quattro ritmo,
+# e monitora — il terzo gemello — era stato dimenticato.
+TimeoutStartSec=3600
+TimeoutStopSec=120
 ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/monitora.sh

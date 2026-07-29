@@ -1561,8 +1561,9 @@
    "nato": "2026-07-23 22:20",
    "origine": "auto-radiografia 2026-07-23 (dimensioni cadenza-esecuzione + efficienza-costo)",
    "verifica": {
-    "tipo": "umano"
-   }
+    "comando": "node cervello/test/esito-cadenza.test.mjs"
+   },
+   "nota_fix": "Lotto 31. La scheda proponeva un guard «ho già completato questa cadenza oggi?»; il codice ha mostrato che servivano DUE guardie, non una. Il lucchetto d'esecuzione (cadenza_lock, AR-293) impedisce a due cadenze di girare INSIEME, ma i sette rilanci in cento minuti erano IN FILA — un lucchetto non li avrebbe fermati. Quindi: (1) cadenza_lock per tipo in testa a ritmo.sh; (2) giaFattaDiRecente() in cervello/esito-cadenza.mjs, che rifiuta un mattino/mezzogiorno/sera completato con successo da meno di 10h (settimana: 120h). Solo un esito RIUSCITO blocca: una cadenza fallita alle 6:00 deve poter riprovare alle 7:00, altrimenti la cura diventa un blocco. Bypass per RITMO_FORCE e RITMO_FROM_WORKER (il recupero dal worker deve passare sempre). Il giro ha gapMin 0 apposta: gira ogni due ore, è il suo mestiere."
   },
   {
    "id": "AR-146",
@@ -1874,13 +1875,12 @@
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
-    "file": "cervello/ritmo.sh",
-    "pattern": "RITMO_BUDGET_SEC",
-    "presente": true
+    "comando": "node cervello/test/esito-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/ritmo.sh:212 (RITMO_AI_TIMEOUT default 2700s) · cervello/ritmo.sh:215-227 (ciclo 3 tentativi) · cervello/ritmo.sh:228-233 (recupero cadenza) · cervello/worker.sh:1215 (WORKER_TIMEOUT_GIRO 2700s) · cervello/vps/mycity-ritmo-mattino.service:16 (TimeoutStartSec=3600) · Impatto: Ogni volta che il motore AI e' lento o appeso (rate-limit, sessione che non risponde), il Piano del mattino o il Report della sera NON escono e non escono nemmeno in ritardo: niente riprova, niente ri-accodamento, niente errore che qualcuno legga. Il 23/7 la giornata e' stata coperta da 7 rilanci a mano; nelle giornate normali (24-26/7) la cadenza regge solo perche' il motore risponde in fretta. La macchina non ha margine: basta un giorno lento e Nicola perde in silenzio il documento che legge ogni mattina.",
    "chiuso_il": "",
-   "chiuso_come": ""
+   "chiuso_come": "",
+   "nota_fix": "Lotto 31. Tutte e tre le clausole. (a) La funzione unica è cadenza_ai_run in cervello/lib-cadenza.sh e non in motore-ai.sh come proponeva la scheda: motore-ai.sh COSTRUISCE il comando ed è sourced anche dal worker, che non è una cadenza — mettere lì il ciclo delle cadenze avrebbe allargato la superficie. Il timeout lo deriva timeoutPerTentativo() dal budget, con l'invariante tentativi×timeout + pause ≤ budget verificata dal test su sei budget diversi (prima: 2700s per tentativo su 2700s di budget, cioè i tentativi 2 e 3 non partivano mai). (b) RITMO_BUDGET_SEC introdotto. (c) La clausola che sfuggiva: accoda_recupero_cadenza spostata in una trap armata PRIMA del motore — «chi lo uccide da fuori porta via anche il recupero» era vero proprio nei casi per cui il recupero esiste."
   },
   {
    "id": "AR-163",
@@ -1895,13 +1895,12 @@
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
-    "file": "cervello/vps/mycity-monitora.service",
-    "pattern": "TimeoutStartSec",
-    "presente": true
+    "comando": "node cervello/test/lib-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/monitora.sh:121-123 (chiamata AI senza timeout ne' riprove) · cervello/monitora.sh:165 (ultima riga: '|| true' -> uscita sempre 0) · cervello/vps/mycity-monitora.service (Type=oneshot SENZA TimeoutStartSec, unico fra le cadenze AI) · Impatto: La cadenza di intelligence (concorrenti, bandi, eventi, fonti web) puo' morire e restare morta a tempo indeterminato senza che nessun segnale cambi colore: il guardiano giornaliero guarda il timer, non il servizio, e lo script mente sul proprio esito. E' il caso peggiore per una cadenza: non un allarme rosso, ma un verde falso. In piu', un oneshot appeso tiene occupato il lock git condiviso e puo' far saltare il sync della memoria degli altri processi.",
    "chiuso_il": "",
-   "chiuso_come": ""
+   "chiuso_come": "",
+   "nota_fix": "Lotto 31. Tutte e tre le clausole. (1) TimeoutStartSec=3600 e TimeoutStopSec=120 aggiunti a cervello/vps/mycity-monitora.service (Type=oneshot senza timeout non scade MAI). (2) Il motore passa da cadenza_ai_run, che ha timeout e ciclo. (3) Il contratto sui codici d'uscita: monitora.sh non aveva NESSUN exit, quindi usciva 0 sempre; ora `exit \"$(cadenza_esito monitora …)\"`, con la stessa testa del giro. Il blocco di pubblicazione era una SUBSHELL chiusa da `|| true`: le variabili non ne uscivano e l'esito era sepolto due volte — ora è un blocco normale con flock su fd 9, come ritmo.sh."
   },
   {
    "id": "AR-164",
@@ -1916,13 +1915,12 @@
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
-    "file": "cervello/verifica-automazione.mjs",
-    "pattern": "mycity-ritmo-",
-    "presente": true
+    "comando": "node cervello/test/esito-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/verifica-automazione.mjs:30-38 (TIMER_CRITICI senza nessun mycity-ritmo-*) · cervello/verifica-automazione.mjs:153-162 (timer non critico -> 'warn') · cervello/verifica-automazione.mjs:262 (esce 1 solo sui 'fail') · nessun file in cervello/ legge MyCity-Vault/90-Memoria-AI/RITMO.md · Impatto: Una cadenza puo' sparire per giorni restando invisibile alla macchina: nessun vincolo al giro successivo, nessun avviso Telegram, nessuna riga in coda, nessun codice d'uscita diverso da zero. E' il difetto che rende inaffidabili tutti gli altri controlli di questa dimensione: la macchina non sa dire 'la mia ultima cadenza umana e' di N giorni fa', quindi non puo' nemmeno accorgersi di stare peggiorando.",
    "chiuso_il": "",
-   "chiuso_come": ""
+   "chiuso_come": "",
+   "nota_fix": "Lotto 31. Entrambe le clausole. (a) I quattro mycity-ritmo-*.timer aggiunti a TIMER_CRITICI in verifica-automazione.mjs (un timer del mattino spento era solo un «warn»). (b) Non freschezza-ritmo.mjs come diceva la scheda, ma cervello/freschezza-cadenze.mjs: il difetto non è del ritmo, è di tutte e tre le cadenze — legge esito-cadenze.json, che ognuna scrive con l'ora, e restituisce rc≠0 se una non si alza da oltre la sua finestra (30h le giornaliere, 26h il giro, 8 giorni la settimanale). Agganciato in giro.sh con l'rc catturato e trasformato in CADENZE_VINCOLO, contato in GATE_ROSSI e consegnato al motore, come checklist e OKR."
   },
   {
    "id": "AR-165",
@@ -1956,13 +1954,12 @@
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
-    "file": "cervello/giro.sh",
-    "pattern": "GIRO_STEPS_VINCOLO",
-    "presente": true
+    "comando": "node cervello/test/esito-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/giro.sh:672-684 (rilevamento passi 11-12 non aggiornati, GIRO_STEPS_OK=0) · cervello/giro.sh:868-872 (unica conseguenza: un echo su stderr) · cervello/giro.sh:900-914 (i codici d'uscita non considerano GIRO_STEPS_OK) · Impatto: L'auto-analisi e l'apprendimento sono i due passi che rendono il giro un ciclo che impara invece di una routine che scrive. Se il motore AI, sotto pressione di tempo o di token, li salta per giorni, la macchina continua a dichiarare giri riusciti mentre il volano e' fermo — e la prova che se n'era accorta e' finita in un log rotante. E' il difetto piu' insidioso di questa dimensione perche' degrada la QUALITA' della cadenza lasciando intatti tutti i suoi segnali di buona salute.",
    "chiuso_il": "",
-   "chiuso_come": ""
+   "chiuso_come": "",
+   "nota_fix": "Lotto 31. Clausole (a) e (b). (a) Il passo saltato non finisce più solo su stderr: esitoCadenza() gli dà il nome «passi-saltati» e cadenza_registra lo scrive in esito-cadenze.json con passi_ok=false. (b) Al giro SUCCESSIVO diventa un vincolo hard: freschezza-cadenze.mjs esce 1 se l'ultimo esito ha passi_ok=false, e giro.sh lo passa al motore come CADENZE_VINCOLO («rifalli PRIMA di altro»). NON fatta la clausola (c) — l'avviso Telegram dopo 3 giri consecutivi: richiede un contatore di consecutività che oggi non esiste, ed è il pezzo che il difetto può aspettare. Dichiarata qui, non taciuta."
   },
   {
    "id": "AR-167",
@@ -2670,13 +2667,12 @@
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
-    "file": "cervello/ritmo.sh",
-    "pattern": "_rp_azione",
-    "presente": true
+    "comando": "node cervello/test/esito-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/ritmo.sh:215-227 (3 tentativi fissi + sleep 30, nessuna consultazione della policy) · confronto: cervello/giro.sh:638-655 (AR-092: chiede a retry-policy.mjs e si ferma se dice «stop») · cervello/ritmo.sh:212 (RITMO_AI_TIMEOUT eredita GIRO_AI_TIMEOUT, che nel processo ritmo non esiste → 2.700s per tentativo) · cervello/worker.sh:1215 (timeout esterno del ritmo: 2.700s) · Impatto: Fino a tre run premium a contesto pieno su un errore che la policy avrebbe classificato «stop», più il lavoro ri-accodato che riparte da capo: è esattamente la forma del difetto già aperto AR-145 («Piano del mattino / Report della sera si autorilanciano a raffica, 7× in ~100 minuti lo stesso giorno»). E nessuno di questi rilanci compare nel registro dei costi, perché passano dal worker (vedi il difetto sulla misura assente): un giorno di rilanci a vuoto è indistinguibile da un giorno tranquillo.",
    "chiuso_il": "",
-   "chiuso_come": ""
+   "chiuso_come": "",
+   "nota_fix": "Lotto 31. Il ciclo del ritmo ritentava tre volte con `sleep 30` fisso senza chiedere niente, mentre retry-policy.mjs è la fonte unica di «si ritenta?» dal giorno di AR-092: la lezione era arrivata al giro e non alla copia accanto. Ora cadenza_ai_run interroga la policy dopo ogni fallimento, e il default è prudente — risposta assente, illeggibile o `{}` valgono NO (la mutazione ha scoperto che la prima versione di questo default non era coperta dal test: il caso è stato aggiunto). La funzione sta in lib-cadenza.sh, non in motore-ai.sh: vedi la nota di AR-162."
   },
   {
    "id": "AR-202",
@@ -4553,13 +4549,12 @@
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
-    "file": "cervello/giro.sh",
-    "pattern": "MYCITY_RUN_LOCK",
-    "presente": true
+    "comando": "node cervello/test/lib-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/giro.sh:70,784 · cervello/ritmo.sh:68,246 · cervello/worker.sh:1189,1218 · Impatto: Due AD che scrivono lo stesso briefing, lo stesso STATO, la stessa coda di azioni: l'ultimo che salva cancella il lavoro dell'altro. E un file di memoria scritto a metà può finire committato e pubblicato come se fosse completo — cioè finire nel Pannello davanti a Nicola. In più il costo raddoppia: due motori premium accesi per lo stesso lavoro.",
    "chiuso_il": "",
-   "chiuso_come": ""
+   "chiuso_come": "",
+   "nota_fix": "Lotto 31. Il lucchetto di esecuzione per tipo, come da scheda: `exec 8>\"$REPO/.git/MYCITY_RUN_LOCK-<tipo>\"; flock -n 8`, non bloccante, in giro.sh, ritmo.sh e monitora.sh (la scheda ne citava due; il codice ha mostrato che monitora ne era scoperto quanto gli altri). Per tipo e non globale, così una cadenza non blocca il giro. Il rilascio automatico alla morte del processo — la parte del disegno esistente che la scheda dice di mantenere — è verificato da un test che uccide davvero il processo col lucchetto in mano."
   },
   {
    "id": "AR-294",
@@ -4736,13 +4731,12 @@
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
-    "file": "cervello/giro.sh",
-    "pattern": "Parte AI SALTATA dal delta-gate",
-    "presente": false
+    "comando": "node cervello/test/esito-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/giro.sh:449-486, 488-608, 613-614 · Impatto: La condizione più urgente (test rossi, registro agenti rotto, memoria che mente) viene rilevata e poi dimenticata proprio nei giri a basso costo, che sono la maggioranza. Il difetto interno resta invisibile fino a quando non cambia un dato di business — cioè, con 0 ordini, fino al battito delle 12 ore. Sommato al difetto n.2, un giro fallito può spegnere il motore per mezza giornata mentre i guardiani continuano a gridare in un log che nessuno legge. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
    "chiuso_il": "",
-   "chiuso_come": ""
+   "chiuso_come": "",
+   "nota_fix": "Lotto 31. ATTENZIONE, la scheda non concorda col codice e comanda il codice: entrambe le clausole erano GIÀ applicate in giro.sh da AR-320 (bypass del delta-gate coi vincoli attivi) e AR-300 (vincoli persistiti in esito-giro.json). Non erano però mai state VERIFICATE, perché la prova era un pattern di testo («Parte AI SALTATA dal delta-gate» assente) che non può distinguere una regola giusta da una sbagliata — e la riga esiste ancora, legittimamente. Il contributo di questo lotto: la regola è stata estratta in motoreSaltabile() dentro cervello/esito-cadenza.mjs, funzione pura interrogabile con casi finti, e la prova è ora comportamentale. In più la persistenza vale ora per TUTTE e tre le cadenze (esito-cadenze.json), non solo per il giro."
   },
   {
    "id": "AR-303",
@@ -4799,13 +4793,12 @@
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
-    "file": "cervello/vps/mycity-monitora.service",
-    "pattern": "TimeoutStartSec",
-    "presente": true
+    "comando": "node cervello/test/lib-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/monitora.sh:121-124 e cervello/vps/mycity-monitora.service · Impatto: Due danni. (1) Silenzio: se il motore muore, il timer riporta successo, il log dice «completato» e l'intelligence del giorno non è stata raccolta — la macchina crede di guardare il mondo e non lo guarda. (2) Blocco: un motore appeso (socket mezzo-aperto, quota) tiene il servizio oneshot in stato attivo per sempre; il timer successivo non parte perché un oneshot non si sovrappone, e il monitoraggio muore in silenzio per giorni. È lo stesso difetto AR-005 già chiuso su giro e ritmo, rimasto aperto qui. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
    "chiuso_il": "",
-   "chiuso_come": ""
+   "chiuso_come": "",
+   "nota_fix": "Lotto 31. Tutte e tre le clausole. (1) TimeoutStartSec/TimeoutStopSec su mycity-monitora.service. (2) Il motore avvolto nel timeout, l'rc catturato, e «Monitoraggio completato.» sostituito da un messaggio che distingue riuscito da fallito, con uscita ≠0 quando l'AI fallisce. (3) Il fix di sistema chiesto dalla scheda — una funzione unica di esecuzione al posto delle tre copie — è cadenza_ai_run in lib-cadenza.sh: la usano ritmo e monitora, cancellando due copie. La terza (giro.sh) resta e NON è una dimenticanza: è la copia già corretta, quella da cui le altre hanno imparato, e convertirla vuol dire rifare la prova dell'intero percorso di ritentativo del giro. È dichiarata nel registro delle malattie (cadenza-copiata-a-mano, tetto 3) col perché scritto, così il debito è misurato invece che taciuto."
   },
   {
    "id": "AR-306",
@@ -4958,13 +4951,12 @@
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
-    "file": "cervello/monitora.sh",
-    "pattern": "MONITORA_PUSH_OK",
-    "presente": true
+    "comando": "node cervello/test/lib-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/monitora.sh:160 (push fallito → solo messaggio) e :165 (ultimo comando `) 9>\"$LOCK\" || true` → uscita 0) · Impatto: Le note di Intelligence restano sul server e il Pannello mostra quelle vecchie senza dirlo; se poi passa aggiorna-cervello con il suo `checkout -f` (difetto qui sopra), quel lavoro sparisce del tutto. Nessun allarme, nessun segnale rosso, nessuna riga nel Pannello: silenzio totale.",
    "chiuso_il": "",
-   "chiuso_come": ""
+   "chiuso_come": "",
+   "nota_fix": "Lotto 31. Entrambe le clausole. MONITORA_PUSH_OK introdotta (prima impossibile: il blocco era una subshell), uscita 2 quando c'erano modifiche e il push è fallito, e la riga `automazione:<cadenza>` su Supabase via stampSegnale — messa in cadenza_registra e non nel solo monitora.sh, così la lasciano tutte e tre: se è proprio il push a fallire, il file su disco non arriva a Nicola e quella riga è l'unico canale che resta. Per l'elenco dei segnali ATTESI con soglia di freschezza la scheda proponeva verifica-automazione.mjs; il lavoro lo fa cervello/freschezza-cadenze.mjs sull'elenco CADENZE, che è la stessa cosa dal lato del prodotto invece che dell'infrastruttura (vedi AR-164)."
   },
   {
    "id": "AR-314",
@@ -5036,13 +5028,12 @@
    "nato": "2026-07-27",
    "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
    "verifica": {
-    "file": "cervello/vps/aggiorna-cervello.sh",
-    "pattern": "mycity-scrittura-in-corso",
-    "presente": true
+    "comando": "node cervello/test/lib-cadenza.test.mjs"
    },
    "nota": "Dove: cervello/giro.sh:76 e :784-788 (lucchetto preso all'inizio e alla fine, libero durante la scrittura) · cervello/ritmo.sh:77 e :246-247 · cervello/vps/aggiorna-cervello.sh:81-82 (prende lo stesso lucchetto e scrive/resetta il worktree) · Impatto: Doppio danno nello stesso istante: pezzi di memoria a metà pubblicati sul Pannello (proprio ciò che il controllo di sanità del giro esiste per impedire) e pezzi di memoria appena scritti cancellati. Non lascia traccia in nessun log: il giro prosegue e alla fine committa il resto come se nulla fosse.",
    "chiuso_il": "",
-   "chiuso_come": ""
+   "chiuso_come": "",
+   "nota_fix": "Lotto 31. Il marcatore .git/mycity-scrittura-in-corso (PID, tipo, ora) alzato da giro/ritmo/monitora prima del motore e tolto da una trap; aggiorna-cervello.sh, preso il lucchetto, lo controlla ed esce 3 («rimandato») senza toccare il worktree; un marcatore più vecchio del timeout del motore è residuo e si ignora. Due cose che la scheda non prevedeva, trovate dal test che uccide davvero il processo: (1) bash NON esegue le trap mentre un comando è in PRIMO PIANO — col motore in foreground per 45 minuti il SIGTERM del watchdog lasciava il marcatore sul disco, quindi cadenza_ai_run manda il motore in background e lo aspetta con `wait`; (2) la trap deve FERMARE il motore prima di togliere il marcatore, altrimenti si dichiara «ho finito di scrivere» mentre la CLI continua a scrivere nel vault — una bugia peggiore del difetto di partenza."
   },
   {
    "id": "AR-318",
