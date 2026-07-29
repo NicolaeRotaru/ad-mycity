@@ -1,0 +1,13 @@
+{
+ "_cosa_e": "🎯 L'ultima misura del trigger. La rifà `node cervello/prova-trigger.mjs`. Se l'impronta non è quella della description di adesso, quel verde parla di un altro testo.",
+ "quando": "2026-07-29 01:00",
+ "modello": "claude-opus-5",
+ "giri": 3,
+ "impronta_description": "eb216b592c71",
+ "impronta_banco": "549604bd9385",
+ "frasi_vere": 16,
+ "trappole": 12,
+ "mancati": [],
+ "falsi": [],
+ "mai_misurate": []
+}

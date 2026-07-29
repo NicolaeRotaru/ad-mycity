@@ -4,6 +4,29 @@
  "aggiornato": "2026-07-29 01:20",
  "mutanti": [
   {
+   "lotto": 30, "difetto": "cancello-lotto · mutazione-mancante (blocco duro)",
+   "nome": "il difetto toccato senza mutazione non viene più fermato",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  const mutNelLotto = toccati ? senzaMutazione.filter((x) => toccati.includes(x.id)) : [];",
+   "sostituisci": "  const mutNelLotto = [];",
+   "test": "cervello/test/mutazione-mancante.test.mjs"
+  },
+  {
+   "lotto": 30, "difetto": "cancello-lotto · mutazione-mancante (tetto)",
+   "nome": "il debito di prove mai rotte apposta può allargarsi senza che nessuno lo veda",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  if (senzaMutazione.length > tettoMut) {", "sostituisci": "  if (false) {",
+   "test": "cervello/test/mutazione-mancante.test.mjs"
+  },
+  {
+   "lotto": 30, "difetto": "cancello-lotto · mutazione-mancante (mutazione fantasma)",
+   "nome": "una mutazione che punta a un pezzo sparito torna a valere come difesa",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "      const testo = leggi(m.file);\n      return testo !== null && testo.includes(m.cerca);",
+   "sostituisci": "      return true;",
+   "test": "cervello/test/mutazione-mancante.test.mjs"
+  },
+  {
    "lotto": 29, "difetto": "AR-229", "nome": "la guardia torna appesa al nome della decisione",
    "file": "pannello/src/lib/atto-unico.ts",
    "cerca": "return s !== \"\" && s !== \"rifiutata\";", "sostituisci": "return false;",
