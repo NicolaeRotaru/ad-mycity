@@ -284,6 +284,32 @@ function gitShow(spec) {
   return r.status === 0 ? r.stdout : null;
 }
 
+/**
+ * L'ambiente del Pannello è pronto per un typecheck che voglia dire qualcosa?
+ *
+ * Pura: riceve la domanda «questo file esiste?» e non tocca il disco da sé, così la prova può
+ * simulare una sessione appena aperta senza svuotare `node_modules` per davvero.
+ */
+export function ambientePannello(esiste) {
+  if (!esiste("node_modules")) {
+    return {
+      pronto: false,
+      caso: "assente",
+      motivo: "pannello/node_modules assente: `tsc` sbaglierebbe su ogni import, e non è il tuo lavoro",
+      comando: "npm ci --prefix pannello",
+    };
+  }
+  if (!esiste("node_modules/@types/node")) {
+    return {
+      pronto: false,
+      caso: "incompleto",
+      motivo: "pannello/node_modules c'è ma senza @types/node: `process` e i moduli Node risulterebbero sconosciuti",
+      comando: "npm ci --prefix pannello",
+    };
+  }
+  return { pronto: true };
+}
+
 function esegui(nome, cmd, args, opts = {}) {
   const r = spawnSync(cmd, args, {
     cwd: opts.cwd || AD_ROOT,
@@ -293,14 +319,34 @@ function esegui(nome, cmd, args, opts = {}) {
   });
   const uscita = `${r.stdout || ""}${r.stderr || ""}`;
   const righe = uscita.trim().split("\n").filter(Boolean);
+  // TRE ESITI, NON DUE — e prima erano due nei fatti anche se la documentazione ne raccontava tre.
+  //
+  // `2` è il codice con cui un guardiano di questa casa dice «non ho potuto misurare»: clone
+  // superficiale, dipendenza assente, file che non c'è. Fino al 30/7 finiva in `fallito` come una
+  // violazione, e la conseguenza si vedeva a occhio: in una sessione cloud il clone è SEMPRE
+  // superficiale, quindi `prove-oneste` usciva sempre 2 e il cancello non poteva diventare verde
+  // nemmeno con il lavoro perfetto. Un cancello che non può essere verde smette di essere letto —
+  // ed è scritto nella skill stessa: «un cancello sempre rosso viene aggirato al secondo giro».
+  //
+  // Il segnale NON si perde: i ciechi restano contati e l'uscita finale del comando è 2, che per la
+  // CI e per ogni script è diverso da 0 e blocca esattamente come prima (il workflow lo dichiara).
+  // Cambia per chi legge: «questa parte non l'ho misurata» non si maschera più da «il tuo fix è
+  // rotto», che è l'informazione per cui si aprono le indagini sbagliate.
+  //
+  // Un processo ucciso (timeout, segnale: `status === null`) NON è un cieco dichiarato: è un
+  // guardiano che non ha finito, e resta rosso — altrimenti il controllo più lento diventerebbe
+  // quello che si può saltare senza dirlo.
+  const ucciso = r.status === null;
+  const codice = ucciso ? 124 : r.status;
   return {
     nome,
     comando: `${cmd} ${args.join(" ")}`.trim(),
-    codice: r.status === null ? 2 : r.status,
+    codice,
     // La prima riga di solito è il verdetto, l'ultima l'errore: si tengono entrambe le code.
     testa: righe.slice(0, 3),
-    coda: righe.slice(-6),
-    fallito: r.status !== 0,
+    coda: ucciso ? [...righe.slice(-5), `⏱️ non ha finito in tempo (${opts.timeout || 300_000} ms): rosso, non cieco`] : righe.slice(-6),
+    fallito: codice !== 0 && codice !== 2,
+    cieco: codice === 2,
   };
 }
 
@@ -459,12 +505,32 @@ function main() {
       avvisi.push("nessuna mutazione per i difetti di questo lotto: la prova che le prove provino non ha misurato niente");
     }
     if (!VELOCE) {
-      passi.push(
-        esegui("typecheck del Pannello", "npx", ["tsc", "--noEmit"], {
-          cwd: join(AD_ROOT, "pannello"),
-          timeout: 600_000,
-        }),
-      );
+      // AMBIENTE NON PRONTO ≠ CODICE ROTTO. In una sessione nuova `pannello/node_modules` non c'è
+      // (il clone non li porta), e `tsc` esce 1 con «Cannot find name 'process'» e «Cannot find
+      // module 'tailwindcss'»: errori che non parlano del lavoro di nessuno. Misurato il 30/7 su
+      // main pulito — 65 secondi per un rosso che non era un rosso. Costa due volte: la prima
+      // sessione ci perde tempo a indagare, e da lì in poi si impara a saltarlo, che è il modo in
+      // cui un cancello muore. Ora quel caso è ⚪ «non ho potuto misurare» (exit 2) con il comando
+      // per rimediare, e il verde dichiara di non coprire il Pannello.
+      const ambiente = ambientePannello((f) => existsSync(join(AD_ROOT, "pannello", f)));
+      if (ambiente.pronto) {
+        passi.push(
+          esegui("typecheck del Pannello", "npx", ["tsc", "--noEmit"], {
+            cwd: join(AD_ROOT, "pannello"),
+            timeout: 600_000,
+          }),
+        );
+      } else {
+        passi.push({
+          nome: "typecheck del Pannello",
+          comando: "npx tsc --noEmit",
+          codice: 2,
+          testa: [ambiente.motivo],
+          coda: [`rimedio: ${ambiente.comando}`],
+          fallito: false, // non blocca la consegna: non ha misurato, non ha bocciato
+          cieco: true, // …ma si vede come ⚪ e va dichiarato nella PR: il verde non copre il Pannello
+        });
+      }
     }
   }
 
@@ -493,12 +559,20 @@ function main() {
     if (passi.length) {
       console.log("  ── I guardiani ──");
       for (const p of passi) {
-        console.log(`  ${p.fallito ? "❌" : "✅"} ${p.nome} (exit ${p.codice})`);
-        if (p.fallito) for (const r of p.coda) console.log(`     ${r}`);
+        console.log(`  ${p.fallito ? "❌" : p.cieco ? "⚪" : "✅"} ${p.nome} (exit ${p.codice})`);
+        // Anche il cieco mostra il perché: senza, «non ho misurato» è indistinguibile da «passa».
+        if (p.fallito || p.cieco) for (const r of p.coda) console.log(`     ${r}`);
       }
       console.log("");
     }
-    console.log(ok ? "✅ SI PUÒ CONSEGNARE." : "⛔ NON SI CONSEGNA: sistema i punti qui sopra e rilancia.");
+    const quantiCiechi = ciechi.length + ciechiProve.length;
+    console.log(
+      !ok
+        ? "⛔ NON SI CONSEGNA: sistema i punti qui sopra e rilancia."
+        : quantiCiechi
+          ? "🟡 SI PUÒ CONSEGNARE, DICHIARANDO I BUCHI: tutto ciò che ho potuto misurare passa, ma le parti ⚪ qui sotto vanno scritte nella PR."
+          : "✅ SI PUÒ CONSEGNARE.",
+    );
     if (ciechi.length + ciechiProve.length) {
       console.log(`⚠️  ${ciechi.length + ciechiProve.length} controllo/i non ha potuto misurare: il verde non copre quella parte.`);
     }

@@ -1,6 +1,6 @@
 {
  "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
- "aggiornato": "2026-07-29 23:44",
+ "aggiornato": "2026-07-30 01:20",
  "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
  "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
  "difetti": [
@@ -7300,6 +7300,22 @@
    "titolo": "Se la coda delle azioni non si riesce a leggere, il cancello dice «azione non trovata» invece di «non ho potuto leggere la coda»",
    "causa_radice": "Trovato dalla spazzata dei fratelli del lotto 34. `consenso-azione.leggiCoda()` trasforma un errore di lettura in stringa vuota; il cancello poi conclude «AZIONE_ID non trovato in AZIONI-IN-ATTESA.md → invio bloccato». La DIREZIONE e giusta (fallisce chiuso, nessuna azione reale parte) ed e per questo che non e nel lotto 34, ma la MOTIVAZIONE mostrata e falsa: manda chi indaga a cercare una card che magari c'e, invece che a guardare perche il file non si legge. Un cancello che sbaglia il motivo insegna a diffidare del motivo.",
    "fix_proposto": "🟢 Far distinguere a `leggiCoda()` «coda vuota» da «coda illeggibile» (torna null nel secondo caso) e al cancello scrivere il motivo vero, restando bloccato in entrambi i casi.",
+   "verifica": {
+    "tipo": "umano"
+   }
+  },
+  {
+   "id": "AR-444",
+   "titolo": "Tredici test scrivono nella memoria VERA della macchina, e uno tocca il registro dei fatti",
+   "dimensione": "guardiani-e-guardrail",
+   "gravita": "grave",
+   "impatto_crescita": "medio",
+   "causa_radice": "I test di cervello/test/ che provano calibrazione, cadenza, scadenze e pausa non ricevono il percorso su cui lavorare: lo calcolano da soli come join(REPO, \"MyCity-Vault/90-Memoria-AI/...\"). Salvano il contenuto vero, lo riscrivono per la prova e lo rimettono a posto alla fine. Finche girano uno alla volta e nessuno crasha, funziona. Ma il ripristino sta nel test stesso: se il processo muore a meta (crash, timeout, ctrl-c, due test insieme) la memoria vera resta con dentro i dati della prova — e uno di questi tocca registro-fatti.json, che e la fonte unica della verita. Scoperto il 30/7 facendo girare la suite a corsie: due test diventavano rossi a caso perche si sovrascrivevano il file a vicenda.",
+   "fix_proposto": "Il percorso va INIETTATO, non calcolato: gli script (calibrazione.mjs, chiusura-loop.mjs, cadenza, scadenze) leggono la loro casa da una variabile d ambiente o da un argomento, e il test la punta su una cartella temporanea. Cosi il dato vivo non e mai il banco di prova, il ripristino non serve piu, e i tredici tornano in corsia libera (la suite scende da 31 a ~18 s). Nel frattempo test-cervello.mjs li riconosce dal contenuto e li fa girare in fila: mitigazione, non cura.",
+   "colore": "🟡",
+   "stato": "aperto",
+   "nato": "2026-07-30 01:20",
+   "origine": "trovato riparando il ciclo di verifica (lotto efficienza 30/7): la corsia parallela ha reso visibile una condivisione di stato che in serie non si vedeva",
    "verifica": {
     "tipo": "umano"
    }
