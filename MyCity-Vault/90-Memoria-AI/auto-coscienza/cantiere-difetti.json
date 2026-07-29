@@ -1,6 +1,6 @@
 {
  "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
- "aggiornato": "2026-07-29 02:21",
+ "aggiornato": "2026-07-29 01:05",
  "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
  "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
  "difetti": [
@@ -5546,6 +5546,19 @@
    "stato": "aperto",
    "nato": "2026-07-29 02:21",
    "nota": "Trovato nel lotto 30 mentre rivedevo perche l artefatto cantiere-prove.json passava da 113 a 118 difetti e da 24 a 38 non-auto-chiudibili. I 5 nuovi sono AR-339..343; i 13 spostati (AR-229,230,231,238,239,259,260,261,264,266,267,268,269) sono TUTTI difetti riparati bene dal lotto 29. Danno limitato al REPORT: auto-fix.mjs capisce {comando} e le chiusure dopo il merge funzionano lo stesso — ma il numero che la macchina mostra a Nicola e falso, e peggiora ogni volta che si lavora bene. NON entra nel lotto 30 (regola ② della skill cantiere: i difetti nuovi si registrano, non allargano il lotto in corso)."
+  },
+  {
+   "id": "AR-345",
+   "titolo": "Mentre misura il trigger, il repo sembra avere la skill cancellata: un commit automatico la cancellerebbe davvero",
+   "dimensione": "guardrail-semaforo",
+   "gravita": "grave",
+   "impatto_crescita": "medio",
+   "causa_radice": "① Perche un commit potrebbe cancellare la skill? Perche per misurare il trigger prova-trigger.mjs SPOSTA .claude/skills/cantiere fuori dall albero (altrimenti il modello apre quella vera e ogni frase giusta legge «non scattata»). ② Perche e pericoloso? Perche per ~35 minuti `git status` mostra `D .claude/skills/cantiere/SKILL.md`, indistinguibile da una cancellazione voluta. ③ Chi committerebbe quella cancellazione? Qualunque automatismo che dice «ci sono modifiche non committate, committale»: lo stop-hook di sessione lo chiede a ogni turno, e una sessione che obbedisce alla lettera con `git add -A` la cancella. ④ Perche nessuno se ne accorgerebbe? Perche il commit riuscirebbe: nessun cancello guarda se un commit STA CANCELLANDO una skill. ⑤ Radice: uno stato transitorio pericoloso e affidato al fatto che chi passa di li lo capisca — cioe alla memoria di chi lavora, che e la malattia che questo cantiere cura.",
+   "fix_proposto": "🟡 Due pezzi. (a) prova-trigger.mjs lascia un marcatore visibile mentre misura (es. .git/MISURA-TRIGGER-IN-CORSO con dentro il percorso della copia spostata) e lo toglie nel rimetti(), che gia gira a fine corsa, su eccezione e su Ctrl-C. (b) il pre-commit rifiuta QUALUNQUE commit che cancelli file sotto .claude/skills/ finche il marcatore esiste, dicendo dov e la copia. Prova: un repo finto con marcatore + un commit che cancella una skill deve uscire ≠0, e senza marcatore deve passare. Nota: NON ricreare la cartella per far sparire la D — rimetti() ripristina solo `if (!existsSync(SKILL_DIR))`, quindi una cartella ricreata a mano fa saltare il ripristino e la copia vera viene cancellata col resto della cartella di lavoro.",
+   "colore": "🟡",
+   "stato": "aperto",
+   "nato": "2026-07-29 01:05",
+   "nota": "Trovato dal vivo nel lotto 30: durante il bench del trigger lo stop-hook di sessione ha chiesto tre volte di committare le modifiche pendenti, e le uniche pendenti erano la cancellazione apparente della skill. Ho committato solo percorsi espliciti proprio per non cadere nella trappola — ma la difesa e stata la mia attenzione, non un cancello. NON entra nel lotto 30 (regola ② della skill)."
   }
  ],
  "meta": {
