@@ -1,0 +1,12 @@
+[Unit]
+Description=MyCity AD — visita della macchina, mattina e sera
+
+[Timer]
+# Due volte al giorno: la mattina prima che Nicola guardi la Cabina, la sera dopo il lavoro. Con una
+# sola visita al giorno la finestra cieca sarebbe di 24 ore — troppo per un worker che si ferma.
+OnCalendar=*-*-* 06:45:00 Europe/Rome
+OnCalendar=*-*-* 20:45:00 Europe/Rome
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
  "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
- "aggiornato": "2026-07-29 00:45",
+ "aggiornato": "2026-07-29 12:00",
  "malattie": [
   {
    "id": "esito-in-una-pipe",
@@ -108,6 +108,29 @@
    "nota_onesta": "22 istanze restano, misurate il 29/7 DOPO il lotto 29. NON sono tutte difetti: alcune sono fallimenti accettati di proposito (il dedup giornaliero dei playbook, il battito del cuore) dove non esiste una conseguenza da mostrare a Nicola. Ma la differenza va DECISA una per una, non lasciata al caso: finché il triage non è fatto, il numero resta scritto qui. La radice — una funzione `scritturaConfermata`/`esitoScritture` che rende la scelta esplicita invece che implicita in un `await` — è installata in pannello/src/lib/esito-scrittura.ts.",
    "esenti": [],
    "nota_baseline": "22 dal 2026-07-29 (lotto 29): linea di partenza misurata dopo la cura dei cinque punti che facevano danno visibile. Scende a ogni triage, non si alza mai."
+  },
+  {
+   "id": "cadenza-copiata-a-mano",
+   "nome": "Una cadenza si costruisce da sé le protezioni del motore, invece di ereditarle",
+   "perche_e_grave": "Le cadenze AI (giro, ritmo, monitora) sono tre copie a mano dello stesso motore. Ogni protezione — timeout per tentativo, ritentativi, lucchetto d'esecuzione, marcatore di scrittura, codice d'uscita — è nata nella copia dove il danno era stato visto e non è mai arrivata alle altre due. Il segno riconoscibile è una variabile di timeout PROPRIA dello script (`RITMO_AI_TIMEOUT`, `MONITORA_AI_TIMEOUT`): dice che quello script decide da solo quanto aspettare, quindi deciderà da solo anche quante volte ritentare e come uscire — e il numero sarà scritto a occhio. È la stessa forma già misurata in `gate-pubblicazione.sh` per il cancello di pubblicazione («esiste in UN pubblicatore su cinque»): là è stato unificato un asse solo, e gli altri sono rimasti tre copie. Cinque difetti diversi (AR-162, AR-163, AR-201, AR-305, AR-313) sono arrivati a questa stessa causa di sistema, scritta ogni volta con parole quasi identiche.",
+   "pattern": "[A-Z_]+_AI_TIMEOUT",
+   "dove": [
+    "cervello"
+   ],
+   "estensioni": [
+    ".sh"
+   ],
+   "baseline": 3,
+   "file_noti": [
+    "cervello/giro.sh"
+   ],
+   "curati": [
+    "ritmo.sh — RITMO_AI_TIMEOUT tolto: timeout derivato dal budget e ritentativi che interrogano la retry-policy, via cadenza_ai_run (lotto 31, AR-162/AR-201)",
+    "monitora.sh — non aveva NÉ timeout NÉ ciclo: ora eredita entrambi da cadenza_ai_run invece di ricevere una MONITORA_AI_TIMEOUT scritta a mano (lotto 31, AR-305/AR-163)"
+   ],
+   "esenti": [],
+   "nota_onesta": "3 occorrenze restano — una sola variabile, in giro.sh — ed è vera: giro.sh conserva il proprio ciclo perché è la copia GIÀ CORRETTA — deriva il timeout dal budget (AR-058) e interroga la retry-policy (AR-092), ed è quella da cui le altre due hanno imparato. Convertirla significa rifare la prova dell'intero percorso di ritentativo del giro, che è il processo da cui dipende la memoria pubblicata: è il passo dopo, non un pezzo da infilare in questo lotto. Finché resta, il tetto è 3 e non sale: una SECONDA variabile di timeout per-script vorrebbe dire che è nata una quarta copia.",
+   "nota_baseline": "6 istanze in 2 file al 2026-07-29 (giro.sh 3, ritmo.sh 3) → 3 in 1 file dopo il lotto 31. Il tetto conta le OCCORRENZE, non i file: le 3 di giro.sh sono la dichiarazione e i due usi della sua unica variabile."
   }
  ]
 }

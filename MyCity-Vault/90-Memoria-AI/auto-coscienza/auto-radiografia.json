@@ -12,7 +12,7 @@
    "sintesi": "I 120 mansionari esistono e sono completi sul disco, ma i due workflow che mettono al lavoro i senior non li aprono mai: il prompt è scritto a mano nel file. Il metro che li certifica conta quattro titoli che il template garantisce, quindi 120 su 120 passano.",
    "findings": [
     {
-     "id": "AR-344",
+     "id": "AR-434",
      "titolo": "I due workflow che mettono al lavoro i senior non aprono mai il loro mansionario: il prompt e scritto a mano dentro il file",
      "dove": ".claude/workflows/giro-operativo.js:41-60 (MOTORI + agent(`Sei il senior @${m.key}... Focus: ${m.focus}`)) · .claude/workflows/auto-radiografia.js:57-88 (agent(`Sei il senior piu esperto del MyCity OS per la dimensione \"${d.focus}\"`)). CORREZIONE alla segnalazione: la stringa \".claude/agents\" compare UNA volta in .claude/workflows/ (auto-radiografia.js:58) ma dentro il testo di un focus, non in una lettura: nessun readFileSync, nessun subagent_type, nessun agentType in tutta la cartella (verificato con grep: 0 occorrenze di agentType/subagent_type/prompt-senior).",
      "severita": "grave",
@@ -30,7 +30,7 @@
      "confermato": true
     },
     {
-     "id": "AR-345",
+     "id": "AR-435",
      "titolo": "Tre workflow dicono ai senior di leggere la memoria a un indirizzo che sul VPS non esiste",
      "dove": ".claude/workflows/giro-operativo.js:38 · .claude/workflows/auto-radiografia.js:55 · .claude/workflows/audit-pannello.js:36 — tutti e tre `const REPO = '/home/user/ad-mycity'` — contro le 12 unit systemd in cervello/vps/*.service che dichiarano `WorkingDirectory=/opt/mycity/ad-mycity` (mycity-giro, mycity-ritmo-*, mycity-worker, ...). Le due superfici gia risolte: radiografia.js:41-48 e audit-design.js:41-48 con `resolveMarketplaceRepo()`.",
      "severita": "grave",
@@ -48,7 +48,7 @@
      "confermato": true
     },
     {
-     "id": "AR-346",
+     "id": "AR-436",
      "titolo": "Il metro dei mansionari conta quattro titoli che il template garantisce: 120 su 120 passano e nessuno puo essere bocciato",
      "dove": "cervello/stampo-metro.mjs:169-177 (`difettiAgente`: solo 4 regex — SCHEDA MESTIERE, RUBRICA-LIVELLI, scorecard, RITUALE DI FINE) contro MyCity-Vault/07-Agenti/STAMPO-SENIOR-PRO.md (stampo a piu ingredienti) · cervello/stampo-check.mjs:145-160 (il verdetto)",
      "severita": "grave",
@@ -1923,7 +1923,7 @@
    "cosa": "I due workflow che mettono al lavoro i senior non aprono mai il loro mansionario: il prompt e scritto a mano dentro il file",
    "perche": "Verificato riga per riga. giro-operativo.js costruisce il prompt in linea: `Sei il senior @vendite del MyCity OS... Focus: negozi: portare LIVE un negozio...` — 20 parole di focus al posto della scheda. auto-radiografia.js fa lo stesso con revisori generici (`Sei il senior piu esperto per la dimensione X`). Quindi la SCHEDA MESTIERE, il loop interno, la galleria GOLD/spazzatura, le trappole, il carburante e l'aggancio a RUBRICA-LIVELLI — presenti in tutti e 120 i file .claude/agents/ (misurato: 120/120 per ognuno dei sei marcatori) piu 121 kit — NON entrano mai nel prompt che gira davvero. Il declassamento di severita da bloccante a grave e voluto: nulla si rompe, la qualita si abbassa. Distinto da AR-187 (aperto), che riguarda QUALI senior vengono chiamati (sei scritti a mano) e non COME viene composto il loro prompt: fix e prova diversi. Nota di onesta: STATO.md:632 e RADIOGRAFIA-MACCHINA.md:12 parlano di «24 senior, ognuno col proprio agentType» riferendosi a una sessione in chat del 27/7, non a questo workflow — la contraddizione e col file, non necessariamente con quel racconto.",
    "colore": "🟡",
-   "id": "AR-344"
+   "id": "AR-434"
   },
   {
    "cosa": "Sette mansionari mandano i senior a leggere una cartella del vault che non esiste, e lo scadenzario apre una seconda casa alle scadenze",
@@ -2044,7 +2044,7 @@
   "gravi": 61,
   "minori": 14,
   "totale_findings": 89,
-  "nuovi_id": "AR-344…AR-432",
+  "nuovi_id": "AR-434…AR-432",
   "costo": {
    "agenti": 18,
    "token": 3470405,

@@ -33,6 +33,7 @@ const AGGIORNA_TETTI = process.argv.includes("--aggiorna-tetti");
 
 const CANTIERE = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json");
 const TETTI = join(AD_ROOT, "cervello/tetti-lotto.json");
+const MUTANTI = join(AD_ROOT, "cervello/mutanti.json");
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Debito ereditato vs regressione del lotto — la differenza che rende usabile il cancello
@@ -49,7 +50,7 @@ const TETTI = join(AD_ROOT, "cervello/tetti-lotto.json");
 //     entra, nemmeno se il totale resta sotto il tetto.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const TETTI_DEFAULT = { prova_con_or: 0 };
+const TETTI_DEFAULT = { prova_con_or: 0, mutazione_mancante: 0 };
 
 function leggiTetti() {
   if (!existsSync(TETTI)) return { ...TETTI_DEFAULT, _mancante: true };
@@ -138,6 +139,59 @@ export function fileDelComando(comando) {
   const pezzi = String(comando || "").trim().split(/\s+/);
   const cand = pezzi.find((p) => /\.(mjs|mts|ts|js|sh|bats)$/.test(p));
   return cand || null;
+}
+
+/** Gli id nominati da una voce di `mutanti.json`: il campo `difetto` può accorparne più d'uno («AR-239+AR-264»). */
+export function idDellaMutazione(m) {
+  return String(m?.difetto || "").match(/AR-\d+/g) || [];
+}
+
+/**
+ * Difetti con una prova che ESEGUE ma senza una mutazione che quella prova la rompa.
+ *
+ * Perché è la porta più importante rimasta aperta: il cancello pretende già che una prova condivisa
+ * NOMINI ogni difetto che copre — ma per soddisfarlo basta scrivere l'id in un commento. La difesa
+ * vera è `non-vacuita.mjs`, che rompe il fix apposta e pretende il rosso; e nessuno controllava che
+ * ogni difetto toccato dal lotto avesse la sua voce in `mutanti.json`. Cioè: il lotto che predica di
+ * chiudere le porte ne lasciava aperta una sua. Da qui in poi la chiude questo.
+ *
+ * Due modi di essere scoperti, stessa gravità:
+ *   · nessuna voce che nomini il difetto → la sua prova non è mai stata rotta apposta;
+ *   · una voce che lo nomina ma il cui `cerca` non sta più nel file → una mutazione fantasma:
+ *     nomina il difetto e non lo può rompere. È lo stesso inganno di un id scritto in un commento,
+ *     spostato di un file.
+ *
+ * Le prove a `pattern` restano fuori: quelle le governa `prova-con-or` e il suo tetto. Qui si
+ * guardano solo i difetti che hanno già una prova comportamentale — gli unici che una mutazione
+ * possa rendere rossi.
+ */
+export function mutazioniMancanti(difetti, mutanti, leggi) {
+  const perId = new Map();
+  for (const m of mutanti) {
+    for (const id of idDellaMutazione(m)) {
+      if (!perId.has(id)) perId.set(id, []);
+      perId.get(id).push(m);
+    }
+  }
+  const fuori = [];
+  for (const d of difetti) {
+    const c = d?.verifica?.comando;
+    if (typeof c !== "string" || !c.trim()) continue;
+    const mie = perId.get(d.id) || [];
+    if (!mie.length) {
+      fuori.push({ id: d.id, motivo: "nessuna voce in mutanti.json: quella prova non è mai stata rotta apposta, quindi non sappiamo se dimostri qualcosa" });
+      continue;
+    }
+    const vive = mie.filter((m) => {
+      if (typeof m.cerca !== "string" || !m.cerca) return false;
+      const testo = leggi(m.file);
+      return testo !== null && testo.includes(m.cerca);
+    });
+    if (!vive.length) {
+      fuori.push({ id: d.id, motivo: `la mutazione punta a un pezzo che non esiste più in ${mie[0].file}: nomina il difetto ma non lo può rompere` });
+    }
+  }
+  return fuori;
 }
 
 /** Difetti la cui prova punta a un file che non esiste: un puntatore rotto legge come «fix non fatto». */
@@ -230,10 +284,22 @@ function main() {
   };
   const esiste = (f) => existsSync(join(AD_ROOT, f));
 
-  // ① Le tre regole sulle prove (istantanee, nessun processo).
+  // ① Le regole sulle prove (istantanee, nessun processo).
   const conOr = aperti.filter(provaConOr).map((d) => d.id);
   const condivise = proveCondiviseCieche(aperti, leggi);
   const orfane = proveOrfane(aperti, esiste);
+
+  // `mutanti.json` illeggibile non è «nessuna mutazione mancante»: è non aver misurato.
+  const ciechiProve = [];
+  let mutanti = null;
+  try {
+    const m = JSON.parse(readFileSync(MUTANTI, "utf8")).mutanti;
+    if (Array.isArray(m)) mutanti = m;
+    else ciechiProve.push("mutanti.json non contiene un elenco `mutanti`: il controllo mutazione-mancante non ha misurato");
+  } catch (e) {
+    ciechiProve.push(`mutanti.json non leggibile (${e.message}): il controllo mutazione-mancante non ha misurato`);
+  }
+  const senzaMutazione = mutanti ? mutazioniMancanti(aperti, mutanti, leggi) : [];
 
   // Chi ha toccato il lotto: confronto con il cantiere del ramo pubblicato.
   const base = basePerConfronto();
@@ -248,13 +314,20 @@ function main() {
   const tetti = leggiTetti();
 
   if (AGGIORNA_TETTI) {
-    const nuovo = { prova_con_or: Math.min(conOr.length, tetti.prova_con_or ?? conOr.length) };
+    if (ciechiProve.length) {
+      console.error(`cancello-lotto: ${ciechiProve[0]} → non abbasso un tetto che non ho misurato`);
+      process.exit(2);
+    }
+    const nuovo = {
+      prova_con_or: Math.min(conOr.length, tetti.prova_con_or ?? conOr.length),
+      mutazione_mancante: Math.min(senzaMutazione.length, tetti.mutazione_mancante ?? senzaMutazione.length),
+    };
     // Si FONDE con quello che c'è già: la prima versione riscriveva il file da zero e cancellava
     // le note (fra cui il perché il tetto non è zero). Un guardiano che perde le sue spiegazioni
     // lascia dietro un numero senza motivo — la cosa che questo cantiere cura.
     const { _mancante, _illeggibile, ...vecchio } = tetti;
     writeFileSync(TETTI, `${JSON.stringify({ ...vecchio, aggiornato: nowPiacenza(), ...nuovo }, null, 1)}\n`);
-    console.log(`🚧 tetti aggiornati: prova_con_or = ${nuovo.prova_con_or}`);
+    console.log(`🚧 tetti aggiornati: prova_con_or = ${nuovo.prova_con_or} · mutazione_mancante = ${nuovo.mutazione_mancante}`);
     process.exit(0);
   }
 
@@ -282,6 +355,29 @@ function main() {
   } else if (conOr.length) {
     avvisi.push(`${conOr.length} prove a OR ereditate (sotto il tetto): ${conOr.slice(0, 8).join(", ")}${conOr.length > 8 ? "…" : ""}`);
   }
+  // `mutazione-mancante`: stesso trattamento. Il debito ereditato ha un tetto che scende; un difetto
+  // che il lotto tocca ADESSO senza la sua mutazione non si consegna, punto — anche sotto il tetto.
+  const tettoMut = tetti.mutazione_mancante ?? 0;
+  const mutNelLotto = toccati ? senzaMutazione.filter((x) => toccati.includes(x.id)) : [];
+  for (const x of mutNelLotto) {
+    violazioniProve.push({
+      regola: "mutazione-mancante",
+      ids: [x.id],
+      motivo: `${x.motivo} — rompi il fix in mutanti.json e pretendi il rosso (node cervello/non-vacuita.mjs)`,
+    });
+  }
+  if (senzaMutazione.length > tettoMut) {
+    violazioniProve.push({
+      regola: "mutazione-mancante-oltre-il-tetto",
+      ids: senzaMutazione.map((x) => x.id),
+      motivo: `${senzaMutazione.length} prove mai rotte apposta contro un tetto di ${tettoMut}: il debito si è allargato`,
+    });
+  } else if (senzaMutazione.length < tettoMut) {
+    avvisi.push(`prove senza mutazione scese da ${tettoMut} a ${senzaMutazione.length}: abbassa il tetto con --aggiorna-tetti`);
+  } else if (senzaMutazione.length) {
+    avvisi.push(`${senzaMutazione.length} prove ereditate mai rotte apposta (sotto il tetto): ${senzaMutazione.map((x) => x.id).join(", ")}`);
+  }
+
   if (toccati === null) avvisi.push("non ho potuto confrontare col ramo pubblicato: il controllo «prova nuova» non ha misurato");
   else if (base.spec === "HEAD") avvisi.push(base.nota);
 
@@ -308,7 +404,7 @@ function main() {
   const ok = violazioniProve.length === 0 && passiRotti.length === 0;
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ ok, violazioniProve, avvisi, toccati, passi, aperti: aperti.length }, null, 2));
+    console.log(JSON.stringify({ ok, violazioniProve, avvisi, ciechiProve, toccati, passi, aperti: aperti.length }, null, 2));
   } else {
     console.log("🚧 CANCELLO DI USCITA DEL LOTTO\n");
     console.log(`  Difetti aperti nel cantiere: ${aperti.length}\n`);
@@ -322,7 +418,7 @@ function main() {
         console.log(`     ${v.motivo || v.spiega}`);
       }
     }
-    for (const a of avvisi) console.log(`  ⚠️  ${a}`);
+    for (const a of [...avvisi, ...ciechiProve]) console.log(`  ⚠️  ${a}`);
     if (toccati?.length) console.log(`  · difetti toccati da questo lotto: ${toccati.join(", ")}`);
     console.log("");
     if (passi.length) {
@@ -334,11 +430,13 @@ function main() {
       console.log("");
     }
     console.log(ok ? "✅ SI PUÒ CONSEGNARE." : "⛔ NON SI CONSEGNA: sistema i punti qui sopra e rilancia.");
-    if (ciechi.length) console.log(`⚠️  ${ciechi.length} guardiano/i non ha potuto misurare: il verde non copre quella parte.`);
+    if (ciechi.length + ciechiProve.length) {
+      console.log(`⚠️  ${ciechi.length + ciechiProve.length} controllo/i non ha potuto misurare: il verde non copre quella parte.`);
+    }
   }
 
   if (!ok) process.exit(1);
-  if (ciechi.length) process.exit(2);
+  if (ciechi.length || ciechiProve.length) process.exit(2);
   process.exit(0);
 }
 

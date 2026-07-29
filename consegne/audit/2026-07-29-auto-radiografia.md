@@ -14,7 +14,7 @@ doveva coprirla tutta, ognuna seguita da un **verificatore avversariale** con l'
 difetti e di **scartare tutto ciò che era già aperto nel cantiere** — così quello che resta è nuovo, non
 un doppione. Nel dubbio si scarta: 89 sopravvissuti.
 
-Archivio: `auto-coscienza/auto-radiografia.json` · nuovi difetti `AR-344`→`AR-432` in `cantiere-difetti.json`.
+Archivio: `auto-coscienza/auto-radiografia.json` · nuovi difetti `AR-434`→`AR-432` in `cantiere-difetti.json`.
 
 ---
 
@@ -166,14 +166,14 @@ Nessun `readFileSync`, nessun `agentType`, **zero occorrenze in tutta la cartell
 
 Vuol dire che sulla strada automatica — il giro operativo quotidiano — **2,5 MB di mansionari sono capitale
 immobilizzato**: le mosse che arrivano nella tua coda da firmare le propone un modello generico con una
-riga di contesto. E spiega perché il metro può dire 120 su 120 mentre l'output non cambia. (AR-344)
+riga di contesto. E spiega perché il metro può dire 120 su 120 mentre l'output non cambia. (AR-434)
 
 Il metro, del resto, conta **quattro titoli che il template garantisce**: 120 su 120 passano, nessuno può
-essere bocciato. (AR-346)
+essere bocciato. (AR-436)
 
 E tre workflow dicono ai senior di leggere la memoria a `/home/user/ad-mycity` — che **sul VPS non
 esiste**: lì la cartella è `/opt/mycity/ad-mycity`. Il senior riceve l'ordine di leggere un posto vuoto.
-(AR-345)
+(AR-435)
 
 > **Una nota di onestà.** La radiografia del 27/7 — la riga in cima al file che ho appena sostituito —
 > diceva «24 senior, ognuno col proprio `agentType`». Quella frase descriveva una sessione in chat, non il
