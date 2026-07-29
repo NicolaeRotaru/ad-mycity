@@ -10,10 +10,11 @@
 // 🟢 Sola lettura. Uso: node cervello/porte-check.mjs [--json]
 // Exit (AR-322): 0 = ogni porta passa dal cancello · 1 = porta scoperta · 2 = cieco
 
-import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { existsSync } from "node:fs";
+import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { codiceUscita, porteDi, porteScoperte } from "./porte-pubblicazione.mjs";
+import { leggiPerimetro } from "./perimetro.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const JSON_MODE = process.argv.includes("--json");
@@ -29,12 +30,16 @@ function main() {
     console.error(`⚠️  GUARDIANO CIECO: manca ${CARTELLA}.`);
     process.exit(2);
   }
-  const file = readdirSync(CARTELLA).filter((f) => f.endsWith(".sh")).sort();
-  if (!file.length) {
+  // AR-382: il perimetro si MISURA, non si assume. Prima si leggeva `readdirSync(CARTELLA)` — un
+  // livello solo, e solo `.sh` — quindi `vps/` restava fuori: tre punti che pubblicano su main e uno
+  // che fa partire il deploy in produzione non erano nemmeno «porte». Il guardiano nato per curare
+  // «la regola vive in N posti e N-1 restano indietro» aveva lo stesso confine cieco dentro di sé.
+  const letti = leggiPerimetro(CARTELLA, { estensioni: [".sh", ".mjs"], escludi: ["test", "stato", "content-factory"] });
+  if (letti == null || !letti.length) {
     console.error("⚠️  GUARDIANO CIECO: nessuno script da controllare.");
     process.exit(2);
   }
-  const porte = file.flatMap((f) => porteDi(readFileSync(join(CARTELLA, f), "utf8"), f));
+  const porte = letti.flatMap(({ file, testo }) => porteDi(testo, file));
   const scoperte = porteScoperte(porte, ESENZIONI);
   const rc = codiceUscita({ scoperte: scoperte.length });
 

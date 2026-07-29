@@ -42,13 +42,35 @@ const RE_PUSH = /^\s*(?:if\s+)?(?:(?:timeout\s+"?\$?\{?[\w:-]+\}?"?|"\$\{[A-Za-z
 const RE_PORTA_CONDIVISA = /\bpubblica_memoria\s+"/;
 
 /**
+ * La stessa porta scritta in JavaScript (lotto 33, AR-382).
+ *
+ * Finché il perimetro era «solo .sh di primo livello», bastava riconoscere la sintassi della shell.
+ * Adesso che il guardiano scende anche nelle sottocartelle e legge i .mjs, fermarsi alla shell
+ * sarebbe peggio del buco di prima: trasformerebbe una zona non guardata in un VERDE. È la forma
+ * esatta di AR-380 — «il perimetro dedotto dagli esempi disponibili invece che dal bene da
+ * proteggere» — e non va ripetuta dentro la cura di sé stessa.
+ *
+ * Copre le tre strade con cui Node lancia git: `execSync("git push …")`, `execFileSync("git",
+ * ["push", …])` e `spawn*` nelle stesse due forme.
+ */
+const RE_PUSH_JS = [
+  /\b(?:exec|execSync|execFile|execFileSync|spawn|spawnSync)\s*\(\s*["'`][^"'`]*\bgit\s+push\b/,
+  /\b(?:execFile|execFileSync|spawn|spawnSync)\s*\(\s*["'`]git["'`]\s*,\s*\[\s*["'`]push["'`]/,
+];
+
+/**
  * Il cancello, in una delle forme in cui compare: la chiamata al gate completo, oppure la guardia
  * del ramo usata da sola dentro il loop condiviso (è l'ultima difesa prima del push).
  */
 const RE_GATE = /gate_pubblicazione\s+"|\bramo_ammesso\s+"/;
 
-/** Righe che spengono il controllo: un push dentro un commento non è un push. */
-const commento = (riga) => /^\s*#/.test(riga);
+/**
+ * Righe che spengono il controllo: un push dentro un commento non è un push.
+ * Da quando il perimetro comprende i .mjs servono anche le forme JavaScript (`//`, `*`, `/*`):
+ * senza, il guardiano accusava la propria riga di documentazione. È la stessa lezione già scritta
+ * in firma-riservata.mjs — un metro che accusa chi documenta la regola insegna a non documentarla.
+ */
+const commento = (riga) => /^\s*(?:#|\/\/|\*|\/\*)/.test(riga);
 
 /**
  * Trova ogni push verso il remoto in uno script e dice se, PRIMA di quel punto, il cancello è stato
@@ -65,7 +87,7 @@ export function porteDi(testo, nome = "?") {
   righe.forEach((riga, i) => {
     if (commento(riga)) return;
     if (RE_GATE.test(riga)) gateVistoA = i + 1;
-    if (RE_PUSH.test(riga) || RE_PORTA_CONDIVISA.test(riga)) {
+    if (RE_PUSH.test(riga) || RE_PORTA_CONDIVISA.test(riga) || RE_PUSH_JS.some((re) => re.test(riga))) {
       porte.push({
         file: nome,
         riga: i + 1,

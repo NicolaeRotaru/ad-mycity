@@ -134,11 +134,32 @@ export function proveCondiviseCieche(difetti, leggi) {
   return problemi;
 }
 
-/** Estrae il path del file da un comando tipo `node cervello/test/x.test.mjs --flag`. */
+/**
+ * Estrae il path del file da un comando tipo `node cervello/test/x.test.mjs --flag`.
+ *
+ * ⚠️ La regola «il primo token che sembra un file» era a sua volta un perimetro DEDOTTO dalla forma
+ * dei comandi esistenti (lotto 33). Appena un comando ha portato un caricatore —
+ * `node --import ./cervello/test/hook-ts.mjs --test cervello/test/pannello-serratura.test.mjs` —
+ * l'estrattore ha restituito il RISOLUTORE invece del test, e il cancello ha accusato una prova
+ * condivisa di non nominare i suoi difetti mentre li nominava benissimo. Il modo di sbagliare è
+ * quello brutto: legge il file sbagliato e ne trae una conclusione con la stessa sicurezza.
+ *
+ * Adesso si saltano le opzioni E il valore di quelle che ne prendono uno: resta il file da eseguire.
+ */
+const FLAG_CON_VALORE = new Set(["--import", "--require", "-r", "--loader", "--experimental-loader", "--env-file"]);
+
 export function fileDelComando(comando) {
   const pezzi = String(comando || "").trim().split(/\s+/);
-  const cand = pezzi.find((p) => /\.(mjs|mts|ts|js|sh|bats)$/.test(p));
-  return cand || null;
+  for (let i = 0; i < pezzi.length; i++) {
+    const p = pezzi[i];
+    if (FLAG_CON_VALORE.has(p)) {
+      i++; // il prossimo token è il suo valore, non il programma da eseguire
+      continue;
+    }
+    if (p.startsWith("-")) continue; // `--test`, `--test-reporter=tap`, …
+    if (/\.(mjs|mts|ts|js|sh|bats)$/.test(p)) return p;
+  }
+  return null;
 }
 
 /** Gli id nominati da una voce di `mutanti.json`: il campo `difetto` può accorparne più d'uno («AR-239+AR-264»). */

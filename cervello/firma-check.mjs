@@ -10,10 +10,11 @@
 // Uso: node cervello/firma-check.mjs [--json]
 // Exit (AR-322): 0 = confine rispettato · 1 = una violazione · 2 = non ho potuto leggere.
 
-import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { existsSync } from "node:fs";
+import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { codiceUscita, difettiFirma } from "./firma-riservata.mjs";
+import { leggiPerimetro } from "./perimetro.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const DIR = process.env.FIRMA_DIR || QUI;
@@ -38,22 +39,20 @@ function main() {
     console.error(`⛔ FIRMA-CHECK CIECO: cartella non leggibile (${DIR})`);
     process.exit(2);
   }
-  const file = readdirSync(DIR).filter((f) => f.endsWith(".mjs")).sort();
-  if (!file.length) {
+  // AR-380: il perimetro segue il BENE da proteggere, non il linguaggio. Chiunque carichi
+  // cervello/vps/.env ha in mano la chiave con cui si scrive `impostazioni` — quindi gli script di
+  // shell entrano, e si scende nelle sottocartelle (vps/, publishers/) dove vivono i pubblicatori.
+  const letti = leggiPerimetro(DIR, { estensioni: [".mjs", ".sh"], escludi: ["test", "stato", "content-factory"] });
+  if (letti == null || !letti.length) {
     console.error(`⛔ FIRMA-CHECK CIECO: nessuno script da leggere in ${DIR} — niente da controllare non è «tutto a posto».`);
     process.exit(2);
   }
+  const file = letti.map((l) => l.file);
 
   const violazioni = [];
   const dichiarati = [];
-  for (const f of file) {
+  for (const { file: f, testo } of letti) {
     if (f === "firma-riservata.mjs" || f === "firma-check.mjs") continue; // il guardiano e il suo metro
-    let testo;
-    try {
-      testo = readFileSync(join(DIR, f), "utf8");
-    } catch {
-      continue;
-    }
     for (const d of difettiFirma(testo, f)) {
       const motivo = ESENZIONI[f];
       // L'esenzione copre «scrive e non lo dichiara», MAI «scrive una firma»: quello è il difetto.

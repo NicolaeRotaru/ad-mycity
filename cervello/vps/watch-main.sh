@@ -6,6 +6,11 @@
 #   sudo bash .../watch-main.sh --force    # allinea anche al primo avvio
 set -euo pipefail
 
+# 🖊️ CONFINE DELLA FIRMA — AR-119/AR-380. Anche questo script del server scrive su `impostazioni`
+# con la chiave di servizio: dichiara cosa tocca, così il guardiano della firma può misurarlo. Prima
+# del lotto 33 il suo perimetro era «solo .mjs di primo livello» e `vps/` non lo vedeva nessuno.
+# CHIAVI_SCRITTE = ["automazione:watch-main", "worker:riavvia"]
+
 export TZ="${TZ:-Europe/Rome}"
 ts() { date '+%Y-%m-%d %H:%M'; }
 

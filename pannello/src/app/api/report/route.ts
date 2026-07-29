@@ -30,6 +30,20 @@ async function accoda(tipoRaw: string) {
 export async function GET(req: NextRequest) {
   const genera = new URL(req.url).searchParams.get("genera");
   if (genera) {
+    // AR-409 — questa GET non legge: ACCODA un lavoro vero. Restava aperta a chiunque perché la
+    // serratura classificava per verbo, e «GET» significava sola lettura. Il cron di Vercel sa fare
+    // solo GET, quindi la rotta non può diventare una POST: le si dà allora un cancello proprio,
+    // uguale a quello del battito. Fail-CLOSED in due sensi — se CRON_SECRET non è configurato la
+    // rotta rifiuta invece di eseguire (un cancello che si spegne togliendo una variabile non è un
+    // cancello), e se il token non combacia rifiuta lo stesso. La UI del Pannello non passa di qui:
+    // usa la POST, che la serratura protegge già con same-origin.
+    const secret = process.env.CRON_SECRET;
+    if (!secret) {
+      return NextResponse.json({ error: "Generazione non configurata: manca CRON_SECRET" }, { status: 503 });
+    }
+    if (req.headers.get("authorization") !== `Bearer ${secret}`) {
+      return NextResponse.json({ error: "Non autorizzato" }, { status: 401 });
+    }
     const l = await accoda(genera);
     return NextResponse.json({ ok: Boolean(l) });
   }

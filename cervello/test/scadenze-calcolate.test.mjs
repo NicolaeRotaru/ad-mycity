@@ -185,8 +185,10 @@ prova("il guardiano è agganciato al giro come cancello", () => {
   const src = leggi("cervello/giro.sh");
   assert.match(src, /guardiano scadenzario-check\.mjs/);
   assert.match(src, /SCADENZE_VINCOLO=/);
-  const elenco = src.match(/for _vnome in ([A-Z_ ]+); do/);
-  assert.ok(elenco && elenco[1].includes("SCADENZE"), "SCADENZE deve stare nell'elenco unico dei vincoli (AR-320)");
+  // AR-379/AR-387 (lotto 33): i vincoli si derivano dalle variabili vere (`compgen -v`), non da una
+  // seconda lista scritta a mano — quella lista è proprio ciò che aveva lasciato fuori dal conteggio
+  // cinque allarmi rossi, fra cui la firma e le porte di pubblicazione.
+  assert.match(src, /compgen -v[^\n]*_VINCOLO/, "i vincoli vanno derivati: una lista a mano prima o poi resta indietro");
 });
 
 // ── AR-212: correggere è meglio che chiedere ─────────────────────────────────

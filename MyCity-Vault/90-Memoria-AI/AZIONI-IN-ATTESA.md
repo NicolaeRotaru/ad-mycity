@@ -14,6 +14,18 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+<!-- permessi-senza-jolly -->
+
+### 🟡 #permessi-senza-jolly — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50
+**Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly — `node cervello/*.mjs` e `bash cervello/*.sh`. Non vogliono dire «può lanciare questi programmi»: vogliono dire «può lanciare qualunque programma finisca in quella cartella». E quella cartella la macchina la scrive da sé. Tutti i freni veri — la pausa, la tua firma, il controllo di a chi si sta scrivendo — stanno DENTRO i singoli programmi: col jolly ci si arriva senza passare da quello che ha il freno. Non sto dicendo che sia successo: sto dicendo che oggi nessuno lo impedirebbe.
+**Se va bene:** sostituisci le due righe con l'elenco esplicito che ti ho già preparato — 70 programmi, ricavati guardando quali il giro e il worker lanciano davvero, più i 12 script di avvio. È in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`, pronto da incollare. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, il permesso si aggiunge a mano — ed è il punto: aggiungere una riga si vede, il jolly no.
+**Nota tecnica:** difetto AR-206, parte (a). Il lotto 33 ha verificato che la parte (b) — la regola `no-jolly-su-cartella-scrivibile` in `cervello/permessi-check.mjs` — esiste già e funziona: segnala correttamente entrambe le forme. La parte (a) non l'ho fatta io di proposito: `.claude/settings.json` è negato in scrittura alla macchina apposta (regola `no-auto-permessi`), e scavalcare quel confine per chiudere un difetto sul confine sarebbe stato assurdo. Restano fuori anche le parti (c) controllo di provenienza su ogni script e (d) chiavi fuori dall'ambiente del worker: sono infrastruttura e vanno in un lotto loro.
+- **Colore:** 🟡 (restringe i permessi della macchina: non manda niente a nessuno, ma va provato che il giro continui a girare)
+- **Reparto:** security + devops-sre
+- **Origine:** `{origine:lotto-33-perimetri, difetto:AR-206}`
+
+---
+
 <!-- ordine-test-dentro-o-fuori-dalla-pausa -->
 
 

@@ -136,6 +136,13 @@ const DESTINAZIONE = [
   // è la macchina che si controlla da sola, esattamente come l'inventario qui sopra — non lavoro
   // sull'azienda. La cartella intera, così il prossimo referto non fa risuonare il tetto.
   ["consegne/salute/", "macchina"],
+  // 29/7, lotto 33 — il guardiano ha suonato una terza volta per UN file (14 contro 13), e per la
+  // terza volta la risposta è mappare. Il file è `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`,
+  // cioè l'elenco esplicito dei permessi che sostituisce il jolly di AR-206: è la macchina che
+  // stringe i propri confini, non lavoro sull'azienda — stessa famiglia dell'inventario VPS e del
+  // referto di salute qui sopra. La cartella intera, così il prossimo documento di sicurezza non
+  // fa risuonare il tetto per un file.
+  ["consegne/sicurezza/", "macchina"],
   // I manuali con cui la macchina si istruisce: sono la macchina che si organizza, come 07-Agenti/.
   ["CLAUDE.md", "macchina"],
   ["AGENTS.md", "macchina"],
