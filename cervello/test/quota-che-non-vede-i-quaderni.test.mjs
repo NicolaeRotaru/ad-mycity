@@ -32,6 +32,7 @@ import {
   TETTO_NON_CLASSIFICATI,
   destinazioneDi,
   quotaSforzo,
+  senzaFantasmi,
   zonaCiecaOltreIlTetto,
 } from "../allocazione-check.mjs";
 import { separaNul } from "../percorsi-git.mjs";
@@ -113,6 +114,38 @@ prova("e i quaderni sono finiti nel conto giusto: la macchina, non l'ignoto", ()
     j.sforzo.non_classificato <= TETTO_NON_CLASSIFICATI,
     `non classificati ${j.sforzo.non_classificato}: prima del fix erano 202, se risalgono la mappa è tornata vecchia`,
   );
+});
+
+// ── I FANTASMI (29/7) ───────────────────────────────────────────────────────
+// La zona cieca era salita a 17 contro un tetto di 13, e i quattro in più erano appunti temporanei
+// di una sessione — committati per sbaglio e GIÀ CANCELLATI. Su disco non esistevano: comparivano
+// solo perché `git log --name-only` elenca anche ciò che nasce e muore dentro la finestra.
+//
+// Mapparli avrebbe legittimato il committare file di scarto; alzare il tetto è vietato (AR-340).
+// La verità è che non c'era niente da mappare: un percorso che non esiste più non è «un'area di
+// lavoro senza mappa», è rumore — e finché contava, il tetto suonava a seconda di quanti file di
+// scarto qualcuno avesse cancellato quella settimana. Un cancello che suona a caso viene aggirato.
+//
+// La prova gira sul predicato INIETTATO, non sul disco: così riproduce il caso senza dover creare
+// e cancellare file veri, e resta vera anche fra un mese quando quei quattro nomi non li ricorderà
+// più nessuno.
+prova("un percorso sparito non conta come area di lavoro senza mappa", () => {
+  const esiste = (p) => !p.startsWith("tmp_");
+  const toccati = ["cervello/x.mjs", "tmp_agent_files.txt", "tmp_claude_bold.txt", "memoria-squadra/tech.md"];
+
+  assert.deepEqual(senzaFantasmi(toccati, esiste), ["cervello/x.mjs", "memoria-squadra/tech.md"]);
+
+  // E il conto che ne esce non ha più zona cieca, mentre senza il filtro ne avrebbe due.
+  assert.equal(quotaSforzo(senzaFantasmi(toccati, esiste)).non_classificato, 0);
+  assert.equal(quotaSforzo(toccati).non_classificato, 2, "senza il filtro i fantasmi contano: è il difetto");
+});
+
+prova("il filtro non tocca ciò che esiste: nessun file vero sparisce dal conto", () => {
+  // La guardia opposta, e serve: un filtro troppo largo nasconderebbe lavoro VERO dalla quota,
+  // che è esattamente ciò che questo guardiano esiste per impedire.
+  const tutti = ["cervello/a.mjs", "consegne/intelligence/b.md", "boh/misterioso.txt"];
+  assert.deepEqual(senzaFantasmi(tutti, () => true), tutti);
+  assert.equal(quotaSforzo(senzaFantasmi(tutti, () => true)).non_classificato, 1, "l'ignoto VERO deve restare ignoto");
 });
 
 let falliti = 0;

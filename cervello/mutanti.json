@@ -308,6 +308,15 @@
    "cerca": "      const aperti = tutti.filter((f) => !eChiusoFinding(f));",
    "sostituisci": "      const aperti = tutti;",
    "test": "cervello/test/radiografia-snella.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-346d",
+   "nome": "i fantasmi tornano a contare come zona cieca e il tetto suona a caso",
+   "file": "cervello/allocazione-check.mjs",
+   "cerca": "  return percorsi.filter((p) => esiste(p));",
+   "sostituisci": "  return percorsi;",
+   "test": "cervello/test/quota-che-non-vede-i-quaderni.test.mjs"
   }
  ]
 }
