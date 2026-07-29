@@ -1,0 +1,72 @@
+{
+  "quando": "2026-07-30 00:15",
+  "aree": [
+    "assistente",
+    "auto-coscienza",
+    "azioni",
+    "cervello",
+    "contenuti",
+    "esplora",
+    "lavori",
+    "memoria",
+    "mondo",
+    "numeri",
+    "operazioni",
+    "persone",
+    "plancia",
+    "report",
+    "salute-sito",
+    "storico"
+  ],
+  "sensori": [
+    "mcp_supabase",
+    "n8n_health",
+    "pannello_uptime",
+    "posthog_api",
+    "resend_api",
+    "sito_uptime",
+    "stripe_api",
+    "supabase_memoria",
+    "supabase_rest",
+    "telegram_bot",
+    "watchdog_esterno"
+  ],
+  "mani": [
+    "email",
+    "facebook",
+    "gbp",
+    "instagram",
+    "telegram"
+  ],
+  "servizi": [
+    "mycity-giro",
+    "mycity-monitora",
+    "mycity-ritmo-mattino",
+    "mycity-ritmo-mezzogiorno",
+    "mycity-ritmo-sera",
+    "mycity-ritmo-settimana",
+    "mycity-salute",
+    "mycity-sentinella",
+    "mycity-sentinella-dati",
+    "mycity-verifica",
+    "mycity-watch-main",
+    "mycity-worker",
+    "mycity-worker-chat"
+  ],
+  "skill": [
+    "cantiere",
+    "salute",
+    "senior",
+    "verify",
+    "worker"
+  ],
+  "workflow": [
+    "audit-design",
+    "audit-pannello",
+    "auto-radiografia",
+    "giro-operativo",
+    "radiografia"
+  ],
+  "agenti": 120,
+  "parti": 9
+}
