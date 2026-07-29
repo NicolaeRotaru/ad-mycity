@@ -27,6 +27,8 @@ import { dirname, join } from "node:path";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { chiusuraAmmessa, istanteNascita, patternTrovato } from "./prove-regole.mjs";
+import { FORMA_COMANDO_PROVA, MOTIVO_COMANDO_NON_AMMESSO, comandoAmmesso } from "./forma-prova.mjs";
+export { FORMA_COMANDO_PROVA, comandoAmmesso };
 import { cambiatoDallaNascita, storiaDelRepo } from "./storia-git.mjs";
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
@@ -90,8 +92,8 @@ function ricalcolaMeta(cantiere) {
  */
 export function eseguiProvaComando(comando, run = spawnSync) {
   const c = String(comando || "").trim();
-  const m = /^node\s+(cervello\/[\w./-]+\.mjs)((?:\s+--[\w-]+)*)$/.exec(c);
-  if (!m) return { esito: "manuale", dettaglio: `comando non ammesso: "${c}" (solo: node cervello/<script>.mjs [--flag])` };
+  const m = FORMA_COMANDO_PROVA.exec(c);
+  if (!m) return { esito: "manuale", dettaglio: `comando non ammesso: "${c}" (${MOTIVO_COMANDO_NON_AMMESSO})` };
   const argomenti = m[2] ? m[2].trim().split(/\s+/) : [];
   const r = run(process.execPath, [join(AD_ROOT, m[1]), ...argomenti], {
     cwd: AD_ROOT,
