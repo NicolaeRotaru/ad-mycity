@@ -12,6 +12,7 @@
 import { execFileSync } from "node:child_process";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { prendiLucchettoOEsci } from "./lucchetto-git.mjs";
 import {
   AD_ROOT,
   findOpenPrForBranch,
@@ -402,6 +403,17 @@ async function main() {
     usage();
     return;
   }
+
+  // AR-277 · AR-298 — IL LUCCHETTO SUL WORKTREE.
+  // Da qui in giù si fa checkout, rebase, commit e push sulla stessa copia di lavoro che usano il
+  // giro, il ritmo, il monitoraggio e il worker. Quei quattro prendono `flock` su
+  // `.git/mycity-sync.lock`; questo strumento no, perché il lucchetto era una convenzione degli
+  // script in shell e chi scrive in Node nasceva fuori dal protocollo. Il rilancio sotto flock lo
+  // porta dentro, con lo stesso file e la stessa primitiva — due meccanismi diversi sullo stesso
+  // lucchetto non si escluderebbero a vicenda.
+  //
+  // Sta DOPO --help apposta: chiedere l'uso non deve mettersi in coda dietro un giro da 45 minuti.
+  prendiLucchettoOEsci({ repoDir: AD_ROOT });
 
   const repoKey = String(args.repo || "");
   if (repoKey !== "ad-mycity" && repoKey !== "mycity") {

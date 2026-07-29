@@ -130,6 +130,12 @@ const DESTINAZIONE = [
   ["consegne/_archivio-prospect/", "business"], // gli asset del silo Garetti, archiviati
   ["consegne/decisioni/", "business"], // fogli firma su lancio e prezzi
   ["consegne/builder-automazioni/", "macchina"], // inventario VPS e strumenti
+  // 29/7 — il guardiano ha suonato di nuovo per UN file (14 contro 13) e la regola di AR-340 vale
+  // anche stavolta: si mappa, non si alza il tetto. Il file era
+  // `consegne/salute/2026-07-29-1238-claude.md`, cioè il referto della visita ai cinque organi vivi:
+  // è la macchina che si controlla da sola, esattamente come l'inventario qui sopra — non lavoro
+  // sull'azienda. La cartella intera, così il prossimo referto non fa risuonare il tetto.
+  ["consegne/salute/", "macchina"],
   // I manuali con cui la macchina si istruisce: sono la macchina che si organizza, come 07-Agenti/.
   ["CLAUDE.md", "macchina"],
   ["AGENTS.md", "macchina"],
