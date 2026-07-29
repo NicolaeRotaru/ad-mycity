@@ -32,6 +32,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync } fr
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
 
 const ARGS = process.argv.slice(2);
@@ -542,13 +543,22 @@ const CONTROLLI = [
       } catch {
         /* senza manifest tratto tutte le skill come native: meglio un falso allarme che un buco */
       }
-      const versionata = (nome) => {
-        const r = spawnSync("git", ["ls-files", "--error-unmatch", `.claude/skills/${nome}`], {
-          cwd: AD_ROOT,
-          encoding: "utf8",
-        });
-        return r.status === 0 && Boolean(r.stdout?.trim());
-      };
+      // L'elenco dei file versionati si chiede a git UNA volta sola e dalla porta di
+      // `percorsi-git.mjs` (AR-339): `ls-files` senza `-z` riscrive fra virgolette i nomi con un
+      // byte non-ASCII, e in un vault italiano sono decine di file. Qui i nomi delle skill sono
+      // ASCII, ma la regola è di classe — e la prima versione di questo controllo la violava,
+      // chiamando git a mano una volta per cartella.
+      let tracciate;
+      try {
+        tracciate = new Set(
+          percorsiDaGit(["ls-files", "--", ".claude/skills"], { cwd: AD_ROOT })
+            .map((p) => p.match(/^\.claude\/skills\/([^/]+)\//)?.[1])
+            .filter(Boolean),
+        );
+      } catch {
+        return nonVisto("git non risponde da qui: non posso dire quali skill siano versionate");
+      }
+      const versionata = (nome) => tracciate.has(nome);
       const orfane = skillNonVersionate(cartelle, { generata: (nome) => idsSpecchio.has(nome), versionata });
       if (orfane.length)
         return rotto(`${orfane.length} skill vivono solo su questo disco e non arriveranno mai al VPS: ${orfane.join(", ")}`, { orfane });
