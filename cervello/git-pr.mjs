@@ -9,7 +9,7 @@
 // Env: GIT_PUSH_TOKEN, GIT_REPO (ad-mycity) · MARKETPLACE_GIT_TOKEN, MARKETPLACE_REPO (mycity)
 //      GIT_AUTHOR_EMAIL, GIT_AUTHOR_NAME (commit)
 
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { prendiLucchettoOEsci } from "./lucchetto-git.mjs";
@@ -474,6 +474,29 @@ async function main() {
 
   if (hasChanges && !dryRun && sulBranch) {
     const msg = String(args.message || args.title || `chore: ${branch}`);
+    // IL FRENO DELLA FAMIGLIA PIÙ COSTOSA (21 correzioni di Nicola). `pathsToStageFromPorcelain`
+    // qui sotto esclude una lista CHIUSA di quattro percorsi; i file che la macchina riscrive da
+    // sola sono decine, e il conflitto del 23/7 è arrivato da uno che non poteva essere in quella
+    // lista. `ramo-pulito.mjs` non tiene un elenco: chiede alla storia di origin/main chi scrive
+    // cosa. Ferma PRIMA del commit, perché dopo il file è già dentro la PR.
+    // `--anche-il-diario` è la via d'uscita dichiarata: serve quando quei file li stai cambiando
+    // apposta. È un'intenzione scritta, non un silenzio.
+    if (!process.argv.includes("--anche-il-diario")) {
+      const controllo = spawnSync("node", [join(AD_ROOT, "cervello/ramo-pulito.mjs")], {
+        cwd: cfg.cwd,
+        encoding: "utf8",
+        timeout: 120_000,
+      });
+      if (controllo.status === 1) {
+        console.error(controllo.stdout || "");
+        console.error("⛔ Non apro la PR: il commit si porterebbe dietro il diario della macchina.");
+        console.error("   Committa quei file su main da soli, o rilancia con --anche-il-diario se è voluto.");
+        process.exit(1);
+      }
+      if (controllo.status === 2) {
+        console.warn(`⚠️  ramo-pulito non ha potuto misurare (${(controllo.stderr || "").trim()}): proseguo, ma il verde non copre questa parte.`);
+      }
+    }
     const toStage = pathsToStageFromPorcelain(dirty || "");
     if (toStage.length === 0) {
       console.warn(

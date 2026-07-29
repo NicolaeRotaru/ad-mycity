@@ -47,6 +47,23 @@ test("gate dichiarato senza nessuna mutazione: nessuno l'ha mai visto scattare",
   assert.equal(v.violazioni[0].regola, "gate-mai-rotto");
 });
 
+test("più correzioni sullo stesso freno: basta che QUEL freno sia stato visto scattare", () => {
+  // Il caso vero: 21 correzioni di Nicola sulla stessa famiglia puntano a un unico guardiano.
+  // Pretendere 21 mutazioni identiche sarebbe copiatura travestita da rigore, e insegnerebbe che
+  // per passare il controllo basta duplicare una voce.
+  const molte = ["L-a", "L-b", "L-c"].map((id) => LEZIONE(id, "node cervello/freno-vero.mjs"));
+  const v = analizzaGate(molte, [MUTA("L-a", "cervello/freno-vero.mjs", "if (soglia > MAX) process.exit(1);")], esiste, leggi);
+  assert.equal(v.violazioni.length, 0, `tutte e tre difese dallo stesso freno provato: ${JSON.stringify(v.violazioni)}`);
+  assert.equal(v.veri.length, 3);
+});
+
+test("ma un freno di cui non si è mai rotto NIENTE non passa, per quante lezioni lo citino", () => {
+  const molte = ["L-x", "L-y"].map((id) => LEZIONE(id, "node cervello/altro-freno.mjs"));
+  const v = analizzaGate(molte, [MUTA("L-a", "cervello/freno-vero.mjs", "if (soglia > MAX) process.exit(1);")], esiste, leggi);
+  assert.equal(v.veri.length, 0, "la mutazione di un ALTRO freno non difende questo");
+  assert.deepEqual(v.violazioni.map((x) => x.regola), ["gate-mai-rotto", "gate-mai-rotto"]);
+});
+
 test("gate che punta a un file inesistente: puntatore rotto, non difesa", () => {
   const v = analizzaGate(
     [LEZIONE("L-3", "node cervello/freno-che-non-ce.mjs")],

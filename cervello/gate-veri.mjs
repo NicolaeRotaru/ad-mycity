@@ -73,12 +73,19 @@ export function analizzaGate(lezioni = [], mutanti = [], esiste = () => false, l
       });
       continue;
     }
-    const sue = mutanti.filter((m) => m?.lezione === l.id);
+    // LA MUTAZIONE È DEL FRENO, NON DELLA FRASE. La prima versione cercava `m.lezione === l.id`, e
+    // il guardiano ha bocciato il suo stesso autore: ventuno correzioni sulla stessa famiglia
+    // puntano tutte a `ramo-pulito.mjs`, e pretendere ventuno mutazioni identiche sullo stesso file
+    // sarebbe stato lavoro di copiatura spacciato per rigore — anzi peggio, avrebbe insegnato che
+    // per far passare il controllo basta duplicare una voce. La domanda giusta è una sola: QUESTO
+    // comando, qualcuno l'ha mai visto diventare rosso? Perciò vale ogni mutazione che rompe il
+    // file del gate; il campo `lezione` resta per sapere da quale correzione è nato.
+    const sue = mutanti.filter((m) => m?.lezione === l.id || m?.file === file);
     if (!sue.length) {
       violazioni.push({
         regola: "gate-mai-rotto",
         lezione: l.id,
-        motivo: `nessuna mutazione con lezione: "${l.id}" in mutanti.json — nessuno ha mai rimesso l'errore per vedere se ${file} scatta`,
+        motivo: `nessuna mutazione rompe ${file} in mutanti.json — nessuno ha mai rimesso l'errore per vedere se quel freno scatta`,
       });
       continue;
     }
