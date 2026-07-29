@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-29 21:15",
+  "aggiornato": "2026-07-29 23:44",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -2359,13 +2359,12 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/agent-registry-check.mjs",
-        "pattern": "deferral_drift|driftDeferral|confrontaDeferral|deferral_divergenti",
-        "presente": true
+        "comando": "node cervello/test/due-elenchi-un-solo-metro.test.mjs"
       },
       "nota": "Dove: CLAUDE.md:148 vs .claude/agents/trust-safety.md:3 (e CLAUDE.md:144 vs .claude/agents/finanza.md:3) · Impatto: Chi instrada da CLAUDE.md e chi instrada dalle description arrivano a due senior diversi sulla stessa domanda: «la commissione è giusta?» finisce a finanza dal manuale e a pricing-scientist dalla scheda. Non è ambiguità teorica: sono i due mandati che decidono prezzo e frode, cioè margine e soldi persi.",
       "chiuso_il": "",
-      "chiuso_come": ""
+      "chiuso_come": "",
+      "nota_fix": "Misurato il 2026-07-29: il numero della scheda («14 agenti») NON era ricalcolabile — nel repo non c'era niente che lo producesse. Il primo metro che ho scritto ne trovava 2, e sbagliava due volte (cercava `→ **nome**` invece di `(→ motivo = **nome**)`, e contava come rimando la prosa `lo **script** → **ai-video** monta`). Corretto: 13, e il tredicesimo (`qa`) usciva solo ammettendo i nomi di due lettere. Il fix non è «allinea due liste»: è che adesso il metro sta nel repo (`node cervello/deferral-agenti.mjs --conta`), il verdetto è per NOME contro un debito dichiarato e datato, e il guardiano gira a ogni giro come gate hard. I 13 restano dichiarati in cervello/deferral-baseline.json: la lista può solo accorciarsi. Rientro su main (29/7 23:xx): il guardiano nuovo del lotto 33 (spazzata dei fratelli, malattia «perimetro-dedotto-non-misurato») ha pescato questo stesso file come istanza nuova — leggeva .claude/agents/ con un readdirSync piatto, cioè si scriveva il recinto invece di derivarlo. Curato con elencaFile() di cervello/perimetro.mjs: scende ricorsivo e torna null se non riesce a leggere, quindi un mansionario in una sottocartella non resta fuori dal confronto in silenzio. La misura non cambia (120 roster / 120 mansionari, 13 disallineamenti); cambia che adesso non può cambiare di nascosto."
     },
     {
       "id": "AR-187",
