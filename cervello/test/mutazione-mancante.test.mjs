@@ -44,6 +44,11 @@ function repoFinto({ verificaPrima, verificaOra, mutanti, tetti, cerca = "if (sc
   mkdirSync(join(dir, dirname(DENTRO_CANTIERE)), { recursive: true });
 
   copyFileSync(join(REPO, "cervello/cancello-lotto.mjs"), join(dir, "cervello/cancello-lotto.mjs"));
+  // AR-419 (lotto 34): da quando il cancello chiede alla porta se la storia di git è intera, la
+  // porta deve esistere anche qui. Il repo finto è un SECONDO ambiente in cui gira lo stesso
+  // programma, e un modulo che manca non dà un errore parlante: il processo muore all'import ed
+  // esce 1, cioè indistinguibile da «il cancello ha detto no». È stato questo test ad accorgersene.
+  copyFileSync(join(REPO, "cervello/storia-git.mjs"), join(dir, "cervello/storia-git.mjs"));
   // Il cancello prende la radice da git-github.mjs: qui la si punta al repo finto.
   writeFileSync(
     join(dir, "cervello/git-github.mjs"),

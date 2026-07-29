@@ -33,10 +33,11 @@ export const FONTI = {
   BASELINE: "baseline", // un file di memoria scritto dall'AD (la tabella di STATO.md)
   PROSA: "prosa", // estratto con una regex da un testo discorsivo ← mai per un gate
   ASSENTE: "assente", // il numero non c'è ← mai per un gate
+  SCADUTA: "scaduta", // misura vera, ma di un giorno che è finito ← mai per un gate (AR-424)
 };
 
-/** Le due provenienze che un gate hard non può usare per emettere un verdetto. */
-export const FONTI_VIETATE_PER_GATE = [FONTI.PROSA, FONTI.ASSENTE];
+/** Le provenienze che un gate hard non può usare per emettere un verdetto. */
+export const FONTI_VIETATE_PER_GATE = [FONTI.PROSA, FONTI.ASSENTE, FONTI.SCADUTA];
 
 /**
  * AR-279 ④ — ogni guardiano che produce un verdetto dichiara da dove viene il numero, e un gate hard
@@ -49,6 +50,8 @@ export function gateAmmesso(fonte) {
     return { ammesso: false, motivo: "numero estratto da una frase: il verdetto dipenderebbe da come è scritto un testo, non dai fatti" };
   if (f === FONTI.ASSENTE)
     return { ammesso: false, motivo: "numero assente: un buco non è uno zero" };
+  if (f === FONTI.SCADUTA)
+    return { ammesso: false, motivo: "misura di un giorno già finito: un contatore fermo a ieri non dice niente su oggi" };
   return { ammesso: true, motivo: `fonte «${f}» ammessa` };
 }
 
@@ -67,15 +70,40 @@ export function leggiContatore(oggetto, campo) {
  * Finché nessuna chiamata passa un conteggio reale (oggi: nessuna), sono le stime a dover far scattare
  * l'allarme — meglio un margine di errore dichiarato che un freno che non frena mai.
  */
-export function tokenPerGate(oggi) {
+export function tokenPerGate(oggi, dataDiOggi = null) {
   const reali = leggiContatore(oggi, "token_totali");
   const stimati = leggiContatore(oggi, "token_stimati");
   if (reali.fonte === FONTI.ASSENTE && stimati.fonte === FONTI.ASSENTE) {
     return { valore: null, fonte: FONTI.ASSENTE, reali: null, stimati: null };
   }
+
+  // AR-424 (c) — DI CHE GIORNO È QUESTO NUMERO?
+  // Il contatore si azzera a mezzanotte, ma il blocco `oggi` resta quello dell'ultimo giro fatto:
+  // finché nessuno gira, `oggi` è ieri. Misurato il 29/7: `oggi.data` valeva 2026-07-28 con
+  // `token_totali: 0`, e il freno rispondeva «lascia, 0 token sotto la soglia di 2.000.000» — cioè
+  // dava via libera alla spesa sulla base di un giorno già finito. Uno zero vecchio non è un
+  // consumo basso, è nessuna informazione sul consumo di adesso.
+  // Il confronto si fa solo se chi chiama dichiara la data di oggi: la funzione resta pura e i test
+  // possono metterla in entrambe le condizioni senza dipendere dall'orologio.
+  const suo = String(oggi?.data ?? "").trim();
+  if (dataDiOggi && suo && suo !== String(dataDiOggi).trim()) {
+    return { valore: null, fonte: FONTI.SCADUTA, reali: null, stimati: null, giorno: suo, atteso: String(dataDiOggi) };
+  }
+
   const r = reali.valore ?? 0;
   const s = stimati.valore ?? 0;
-  return { valore: Math.max(r, s), fonte: FONTI.MISURA, reali: r, stimati: s };
+
+  // AR-424 (d) — un giorno con ZERO run non è una misura, è un foglio bianco.
+  // `runs: 0` significa che la macchina non ha ancora girato oggi: i due contatori valgono 0 perché
+  // nessuno ha consumato niente ANCORA, non perché il consumo sia basso. Farne un «lascia» è dare
+  // il permesso di spendere basandosi sul fatto che non si è ancora speso — che è la stessa forma
+  // di ragionamento del buco letto come zero.
+  const runs = leggiContatore(oggi, "runs");
+  if (runs.fonte === FONTI.MISURA && runs.valore === 0 && r === 0 && s === 0) {
+    return { valore: null, fonte: FONTI.ASSENTE, reali: 0, stimati: 0, giorno: suo, motivo_vuoto: "nessun run registrato oggi" };
+  }
+
+  return { valore: Math.max(r, s), fonte: FONTI.MISURA, reali: r, stimati: s, giorno: suo };
 }
 
 /**
