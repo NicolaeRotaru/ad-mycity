@@ -2,7 +2,7 @@
 data: 2026-07-29 13:05
 tipo: auto-radiografia COMPLETA (su comando di Nicola — "radiografia completa e profonda del worker/pannello/AD/senior/guardiani")
 aree: 8 dense (AD e senior · memoria e volano · sensori e cadenza · guardiani e guardrail · worker · Pannello ×2 · strategia-costo-rischio)
-difetti: 90 registrati — 89 dalla radiografia + 1 nato dal lavoro, 14 bloccanti (fonte: auto-coscienza/auto-radiografia.json)
+difetti: 89 nuovi confermati, 14 bloccanti (fonte: auto-coscienza/auto-radiografia.json)
 voto_salute_architettura: 0 (fonte: auto-coscienza/storico-salute.json)
 costo: 18 agenti, 3,47M token, 108 minuti (fonte: esito del workflow)
 ---
@@ -14,9 +14,7 @@ doveva coprirla tutta, ognuna seguita da un **verificatore avversariale** con l'
 difetti e di **scartare tutto ciò che era già aperto nel cantiere** — così quello che resta è nuovo, non
 un doppione. Nel dubbio si scarta: 89 sopravvissuti.
 
-Archivio: `auto-coscienza/auto-radiografia.json` · nuovi difetti `AR-347`→`AR-436` in `cantiere-difetti.json`
-(i numeri `AR-344`, `AR-345` e `AR-346` erano già stati presi su `main` dalle PR #608 e #609 mentre questa
-radiografia girava: i tre miei sono diventati `AR-434`, `AR-435` e `AR-436`).
+Archivio: `auto-coscienza/auto-radiografia.json` · nuovi difetti `AR-434`→`AR-432` in `cantiere-difetti.json`.
 
 ---
 
