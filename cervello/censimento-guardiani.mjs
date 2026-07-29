@@ -68,12 +68,15 @@ export const DESCRIZIONI = {
   "sensori-spenti-check": { famiglia: "numeri-veri", cosa: "Uno strumento costruito e mai acceso è un buco, non uno stato: pretende un perché scritto." },
   "freschezza-segnali": { famiglia: "numeri-veri", cosa: "Controlla i controllori: se un guardiano è morto a metà giro, il suo verde è vecchio e non vale." },
   "guardiani-check": { famiglia: "numeri-veri", cosa: "Tiene questa tabella agganciata al codice: se nasce un controllo e nessuno spiega cosa fa, il giro non si chiude." },
+  "percorsi-git": { famiglia: "numeri-veri", cosa: "Un nome di file con l'accento va chiesto a git nel modo giusto, o la macchina lavora su file che non esistono senza accorgersene." },
+  "esito-cadenza": { famiglia: "numeri-veri", cosa: "La testa unica delle tre cadenze: decide se il motore si può spegnere e se il lavoro è andato bene, con le stesse regole per tutte e tre." },
 
   // ── Stiamo andando dove volevamo? ─────────────────────────────────────────
   "north-star-check": { famiglia: "rotta", cosa: "Tiene l'occhio sul numero che conta — ordini pagati, negozi vivi, margine — e alza la voce se il primo ordine è fermo da giorni." },
   "allocazione-check": { famiglia: "rotta", cosa: "Impedisce che lo sforzo pesante vada su un negozio che non ha ancora firmato mentre quello reale resta a zero." },
   "freschezza-okr": { famiglia: "rotta", cosa: "Gli obiettivi della squadra scadono: se il documento è stantio o i target sono passati, lo dice." },
   "freschezza-checklist": { famiglia: "rotta", cosa: "La checklist di Nicola invecchia in due giorni; oltre, il giro deve rifarla prima di proporre altro." },
+  "freschezza-cadenze": { famiglia: "rotta", cosa: "Controlla che il piano del mattino, il report della sera e il monitoraggio ESCANO davvero: una sveglia che suona su una stanza vuota sembrava un successo." },
   "registro-scelte-check": { famiglia: "rotta", cosa: "Ogni prospect nominato in un dossier deve stare anche nel registro, o il Pannello mostra una lista incompleta." },
   "supervisione-negozi": { famiglia: "rotta", cosa: "Passa in rassegna ogni negozio e ogni prodotto, trova i dati mancanti e prepara il riempimento come proposta da firmare." },
   "intelligence-agenda": { famiglia: "rotta", cosa: "Prepara la lista di cosa guardare fuori oggi — concorrenti, eventi, meteo — senza svegliare l'AI." },

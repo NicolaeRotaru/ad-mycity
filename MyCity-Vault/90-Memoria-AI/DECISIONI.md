@@ -1147,3 +1147,35 @@ Formato di ogni riga (**metti SEMPRE data E ora** `AAAA-MM-GG HH:MM`, così si s
   · **Il metodo che ha prodotto tutti e quattro:** non ho riletto codice, ho **usato** gli strumenti su nomi di file che nel repo esistono da sempre ma che nessuno aveva mai messo alla prova. È la stessa strada di AR-338 la notte prima. Rileggere un guardiano appena scritto non ne trova i buchi; provare a scavalcarlo sì.
   · **Passo ⑤ su diciannove chiusure, non quattro.** `auto-fix` ne dava per risolti 19: i miei quattro più **quindici della sessione gemella** (lotto 29 e il cancello dei commit nel cloud). Verificati tutti prima di applicare — compresi i tre gruppi che condividono un file di prova: la regola nuova della sessione gemella ammette il file condiviso purché dentro ci sia un caso per ciascun difetto, e su tutti e tre è vero (ogni id ha la sua sezione con asserzioni proprie). Controllato a mano anche AR-257, che ha una prova a pattern e non comportamentale: il fix c'è davvero (l'effetto monta una volta sola), la prova resta debole. E AR-343 sul suo punto più duro: in questo clone `core.hooksPath` adesso è `.githooks`, quindi il cancello del commit è acceso sul serio.
   · **Prove:** 71 file, **688 asserzioni**, tutte verdi; dieci guardiani a 0; `cancello-lotto --veloce` → si può consegnare. Quattro prove nuove, un comando per difetto, ognuna provata non-vacua su **due rotture indipendenti** — logica e innesto. Nessun file sotto `pannello/`: il merge non ha pubblicato niente. · Nicola (mandato cantiere continuo, 27/7)
+
+## 2026-07-29 11:45 — 🟡 Lotto 31 del cantiere: le tre cadenze smettono di essere tre copie
+**Cosa:** riparati 11 difetti (AR-145, AR-162, AR-163, AR-164, AR-166, AR-201, AR-293, AR-302,
+AR-305, AR-313, AR-317) con **due moduli condivisi**: `cervello/esito-cadenza.mjs` (la testa, pura
+e provata) e `cervello/lib-cadenza.sh` (le mani: lucchetto, marcatore di scrittura, motore col
+timeout derivato, registro degli esiti). Più il guardiano `cervello/freschezza-cadenze.mjs`.
+
+**Perché insieme:** non sono undici difetti scollegati, è **una malattia sola**. Cinque schede
+diverse, scritte da radiografie diverse in settimane diverse, arrivano alla stessa causa di sistema
+con parole quasi identiche: giro.sh, ritmo.sh e monitora.sh sono tre copie a mano dello stesso
+motore di cadenza, e ogni protezione — timeout, ritentativi, lucchetto, esito — è nata nella copia
+dove il danno era stato visto e non è mai arrivata alle altre due. La macchina l'aveva già
+diagnosticata (la tabella in `gate-pubblicazione.sh`, «il cancello esiste in UN pubblicatore su
+cinque») e aveva curato un asse solo.
+
+**Cosa cambia davvero:** il monitoraggio non può più dichiararsi riuscito con la memoria mai
+arrivata su GitHub; il Piano del mattino non si rilancia sette volte in cento minuti; una cadenza
+che smette di uscire diventa un vincolo che il giro deve leggere, invece di un silenzio; i vincoli
+non evaporano quando il motore viene saltato.
+
+**Onestà:** giro.sh conserva il proprio ciclo — è la copia già corretta, quella da cui le altre due
+hanno imparato. Il debito è dichiarato e **misurato** nel registro delle malattie
+(`cadenza-copiata-a-mano`, tetto 3 che non sale), non taciuto. Non fatta la clausola (c) di AR-166
+(avviso Telegram dopo 3 giri consecutivi con passi saltati): serve un contatore che oggi non esiste.
+
+**Prove:** `node cervello/test/esito-cadenza.test.mjs` (20 casi, fra cui la parità con
+`esito_giro_rc` su 144 combinazioni) e `node cervello/test/lib-cadenza.test.mjs` (13 casi che
+girano davvero: due processi che si contendono il lucchetto, un processo ucciso col motore acceso).
+15 mutazioni su 15 rendono rosso il loro test. Cancello del lotto verde, typecheck del Pannello
+misurato davvero (non cieco).
+
+**Colore:** 🟡 — preparato e committato sul ramo, **il merge è la firma di Nicola**.

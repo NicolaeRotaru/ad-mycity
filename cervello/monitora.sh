@@ -19,6 +19,14 @@ if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
 ts() { date '+%Y-%m-%d %H:%M'; }
 
+# AR-163/AR-293/AR-305/AR-313: le mani condivise delle tre cadenze. Fino a qui monitora.sh era la
+# copia rimasta più indietro — nessun timeout, nessun ciclo di ritentativi, nessun lucchetto e
+# nessun codice d'uscita: usciva 0 qualunque cosa fosse successa.
+. "$SCRIPT_DIR/lib-cadenza.sh"
+
+# AR-293/AR-145: un solo monitoraggio per volta. Se ne sta già girando uno, esco subito.
+cadenza_lock monitora || exit 0
+
 ai_check || { echo "[$(ts)] Motore AI non disponibile. Vedi cervello/vps/setup.sh." >&2; exit 1; }
 
 # Kill-switch: se il Pannello ha messo l'AD in PAUSA, non monitorare.
@@ -127,10 +135,18 @@ Al termine restituisci un riepilogo breve (5-8 righe)."
 echo "[$(ts)] Avvio monitoraggio web AD (motore: $(ai_engine))..."
 MONITORA_START="$(date +%s)"   # AR-020: inizio del motore AI, per il costo del monitoraggio
 ai_build_cmd
-"${AI_CMD[@]}" "$PROMPT" || {
-  echo "[$(ts)] Il motore AI ha restituito un errore (monitoraggio non completato)." >&2
-}
-echo "[$(ts)] Monitoraggio completato."
+# AR-317: da qui il motore scrive nel vault. Il marcatore dice agli altri processi «sto scrivendo»,
+# così l'allineamento non committa roba a metà né resetta il lavoro in corso. La trap lo toglie
+# anche se il processo viene ucciso.
+cadenza_scrittura_inizio monitora
+# AR-305/AR-163/AR-162/AR-201: timeout derivato dal budget + ritentativi che INTERROGANO la
+# retry-policy. Prima era una riga sola senza timeout, senza ciclo e con l'rc buttato via.
+cadenza_ai_run monitora "$PROMPT" "${MONITORA_BUDGET_SEC:-2700}" 3 30
+ai_rc="${CADENZA_AI_RC:-0}"
+cadenza_scrittura_fine
+if [ "$ai_rc" -ne 0 ]; then
+  echo "[$(ts)] Il motore AI ha restituito un errore dopo ${CADENZA_AI_TENTATIVI:-1} tentativi (rc=$ai_rc)." >&2
+fi
 
 # AR-043: stima token condivisa — monitora prima registrava token=null.
 if [ -z "${MONITORA_TOKEN:-}" ] && [ -n "${MONITORA_START:-}" ]; then
@@ -147,16 +163,25 @@ if command -v node >/dev/null 2>&1 && [ -n "${MONITORA_START:-}" ]; then
 fi
 
 # --- Sync della memoria sul ramo unico 'main': commit + push (rebase, NON force) ---
-(
-  flock -w 600 9 || exit 0   # Fix A: timeout sul lock (se salta, il prossimo monitoraggio recupera il WIP)
+# AR-313: il blocco era una SUBSHELL che finiva in `) 9>"$LOCK" || true`. Due conseguenze, entrambe
+# gravi: (a) le variabili scritte dentro non uscivano, quindi non c'era modo di sapere com'era
+# andata; (b) il `|| true` seppelliva l'esito e lo script chiudeva sempre 0 — «il monitoraggio si
+# dichiara riuscito anche quando la memoria non è arrivata su GitHub». Ora è un blocco normale con
+# il lucchetto su fd 9, come già fa ritmo.sh, e l'esito sopravvive.
+MONITORA_PUSH_OK=1
+MONITORA_HAD_CHANGES=0
+exec 9>"$LOCK"
+if flock -w 600 9; then
   git add -A "${MEM_DIRS[@]}" 2>/dev/null || true
   if git diff --cached --quiet 2>/dev/null; then
     echo "[$(ts)] Nessuna novità dalle fonti da inviare."
   else
+    MONITORA_HAD_CHANGES=1
     # AR-314 — anche il monitoraggio passa dal cancello: pubblica sulla stessa main del giro, e finora
     # lo faceva senza nessuno dei quattro controlli di verità. Additivo: il push resta com'è.
     . "$SCRIPT_DIR/gate-pubblicazione.sh"
     if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO"; then
+      MONITORA_PUSH_OK=0
       echo "[$(ts)] Intelligence NON pubblicata: il cancello ha detto no (vedi sopra) — nessun commit." >&2
     elif [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       git "${GIT_ID[@]}" commit -q -m "monitoraggio web AD: aggiorna Intelligence ($(ts))" || true
@@ -168,9 +193,22 @@ fi
         echo "[$(ts)] Intelligence sincronizzata su GitHub (ramo $branch, tentativo $attempt)."
         ok=1
       fi
-      [ "$ok" = 1 ] || echo "[$(ts)] Push fallito dopo 3 tentativi (il prossimo monitoraggio recupera)." >&2
+      if [ "$ok" != 1 ]; then
+        MONITORA_PUSH_OK=0
+        echo "[$(ts)] Push fallito dopo 3 tentativi (il prossimo monitoraggio recupera)." >&2
+      fi
     else
-      echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push."
+      MONITORA_PUSH_OK=0
+      echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push." >&2
     fi
   fi
-) 9>"$LOCK" || true
+else
+  MONITORA_PUSH_OK=0
+  echo "[$(ts)] WARN: lock git occupato — sync della Intelligence saltata." >&2
+fi
+exec 9>&-
+
+# AR-163/AR-313: l'esito diventa un fatto scritto e un codice d'uscita, con la STESSA testa del giro
+# e del ritmo (cervello/esito-cadenza.mjs). Prima qui non c'era nessun `exit`: lo script finiva e
+# systemd registrava 0 — motore fallito, push fallito e monitoraggio riuscito erano la stessa cosa.
+exit "$(cadenza_esito monitora "$ai_rc" "$MONITORA_HAD_CHANGES" "$MONITORA_PUSH_OK" 1 0)"

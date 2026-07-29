@@ -44,6 +44,29 @@ node "$SCRIPT_DIR/sync-worker-plugins.mjs" --specchia >/dev/null 2>&1 || true
 
 ts() { date '+%Y-%m-%d %H:%M'; }
 
+# AR-145/AR-162/AR-201/AR-293/AR-317: le mani condivise delle tre cadenze.
+. "$SCRIPT_DIR/lib-cadenza.sh"
+
+# AR-145 — «Piano del mattino/Report della sera si autorilanciano a raffica (7x in ~100 min)»:
+# ritmo.sh si fidava di chi lo invoca (timer, coda lavori, chat) e non chiedeva mai «ne sta già
+# girando uno?». Il lucchetto è PER TIPO: il mattino non blocca la sera, ma non può partire due
+# volte. Non bloccante — accodarsi vorrebbe dire eseguire il Piano del mattino a mezzogiorno.
+cadenza_lock "ritmo-$RITMO_TIPO" || exit 0
+
+# AR-145 — la SECONDA domanda, quella che il lucchetto non risponde.
+# Il lucchetto impedisce a due cadenze di girare INSIEME; non impedisce alla stessa di rigirare
+# mezz'ora dopo che la prima è finita — e i sette rilanci in cento minuti erano in fila, non
+# sovrapposti. Qui si chiede «l'ho già completata da poco?», che è la domanda della scheda.
+# Bypass: il lancio forzato a mano e il RECUPERO dal worker devono passare sempre, altrimenti la
+# cura diventa un blocco (una cadenza fallita non potrebbe più essere recuperata).
+if [ "${RITMO_FORCE:-0}" != 1 ] && [ "${RITMO_FROM_WORKER:-0}" != 1 ]; then
+  _gia="$(node "$SCRIPT_DIR/esito-cadenza.mjs" gia-fatta --tipo="ritmo-$RITMO_TIPO" 2>/dev/null)"; _gia_rc=$?
+  if [ "$_gia_rc" = 10 ]; then
+    echo "[$(ts)] ⏭️  «$RITMO_TITOLO» $(printf '%s' "$_gia" | sed -n 's/.*"motivo":"\([^"]*\)".*/\1/p') — non la rifaccio (AR-145)."
+    exit 0
+  fi
+fi
+
 ai_check || { echo "[$(ts)] Motore AI non disponibile. Vedi cervello/vps/setup.sh e test-agent.sh." >&2; exit 1; }
 
 if [ -f "$REPO/.git/config" ] && ! test -w "$REPO/.git/config" 2>/dev/null; then
@@ -208,29 +231,48 @@ if [ "${RUN_AI:-1}" != 1 ]; then
 else
 echo "[$(ts)] Avvio ritmo AD ($RITMO_TIPO, motore: $(ai_engine))..."
 ai_build_cmd
-# AR-005: timeout dentro ritmo.sh (come giro.sh) — un motore appeso non deve bloccare la cadenza.
-RITMO_AI_TIMEOUT="${RITMO_AI_TIMEOUT:-${GIRO_AI_TIMEOUT:-2700}}"
-AI_TIMEOUT=()
-command -v timeout >/dev/null 2>&1 && AI_TIMEOUT=(timeout --kill-after=60s "$RITMO_AI_TIMEOUT")
-for _attempt in 1 2 3; do
-  ai_rc=0
-  _ai_out="$("${AI_TIMEOUT[@]}" "${AI_CMD[@]}" "$PROMPT" 2>&1)" || ai_rc=$?
-  printf '%s\n' "$_ai_out"
-  [ "$ai_rc" -eq 0 ] && break
-  if [ "$ai_rc" = 124 ] || [ "$ai_rc" = 137 ]; then
-    echo "[$(ts)] Motore AI tentativo $_attempt ANDATO IN TIMEOUT (${RITMO_AI_TIMEOUT}s) — ucciso, riprovo tra 30s..." >&2
-  else
-    echo "[$(ts)] Motore AI tentativo $_attempt fallito (rc=$ai_rc) — riprovo tra 30s..." >&2
+
+# AR-162 — IL RECUPERO PRIMA DEL MOTORE, NON DOPO.
+# La clausola che si dimentica sempre, perché arriva quando il lavoro sembra finito: fino a qui
+# `accoda_recupero_cadenza` stava DOPO il ciclo, quindi «chi lo uccide da fuori porta via anche il
+# recupero». Con il timeout per tentativo pari all'intero budget (il difetto principale) il processo
+# veniva ucciso da fuori quasi sempre — cioè il recupero non partiva proprio nei casi per cui esiste.
+# Ora è armato in una trap PRIMA di accendere il motore: scatta anche su TERM/INT.
+# Nota: la trap è UNA sola per tutto lo script — `cadenza_scrittura_inizio` mette la sua sullo stesso
+# segnale, quindi qui si compongono a mano invece di sovrascriversi a vicenda.
+_ritmo_recupero_armato=1
+_ritmo_su_uscita() {
+  cadenza_interrotta   # ferma il motore, POI toglie il marcatore (mai il contrario)
+  if [ "${_ritmo_recupero_armato:-0}" = 1 ]; then
+    _ritmo_recupero_armato=0
+    accoda_recupero_cadenza || true
   fi
-  printf '%s\n' "$_ai_out" | tail -15 >&2
-  [ "$_attempt" -lt 3 ] && sleep 30
-done
+}
+trap '_ritmo_su_uscita' INT TERM
+
+# AR-317: da qui il motore scrive nel vault — il marcatore lo dice agli altri processi.
+cadenza_scrittura_inizio "ritmo-$RITMO_TIPO"
+trap '_ritmo_su_uscita' EXIT INT TERM
+
+# AR-162/AR-201/AR-305: timeout DERIVATO dal budget esterno (invariante: 3×timeout + pause ≤ budget,
+# provata da cervello/test/esito-cadenza.test.mjs) e ritentativi che INTERROGANO la retry-policy
+# invece di rilanciare tre volte a vuoto con un `sleep 30` scritto a mano.
+cadenza_ai_run "ritmo-$RITMO_TIPO" "$PROMPT" "${RITMO_BUDGET_SEC:-${WORKER_TIMEOUT_GIRO:-2700}}" 3 30
+ai_rc="${CADENZA_AI_RC:-0}"
+_ai_out="${CADENZA_AI_OUT:-}"
+cadenza_scrittura_fine
+
 if [ "$ai_rc" -ne 0 ]; then
-  echo "[$(ts)] Il motore AI ha restituito un errore dopo 3 tentativi (rc=$ai_rc)." >&2
+  echo "[$(ts)] Il motore AI ha restituito un errore dopo ${CADENZA_AI_TENTATIVI:-1} tentativi (rc=$ai_rc)." >&2
   printf '%s\n' "$_ai_out" | tail -25 >&2
-  # AR-024: prova a recuperare la cadenza saltata per rate-limit (ri-accoda con riprova_dopo = reset).
+  # AR-024: recupero della cadenza persa per rate-limit. Qui è la strada normale; la trap sopra è la
+  # rete per quando il processo non arriva fino a questa riga.
+  _ritmo_recupero_armato=0
   accoda_recupero_cadenza || true
+else
+  _ritmo_recupero_armato=0   # riuscito: niente da recuperare, la trap non deve accodare nulla
 fi
+trap - EXIT INT TERM
 fi   # AR-086: fine blocco RUN_AI (delta-gate del ritmo)
 echo "[$(ts)] Ritmo $RITMO_TIPO completato."
 
@@ -285,14 +327,8 @@ if command -v node >/dev/null 2>&1 && [ -n "${RITMO_START:-}" ]; then
   node "$SCRIPT_DIR/costo-ai.mjs" --tipo="ritmo-$RITMO_TIPO" --durata-sec="$_ritmo_durata" ${RITMO_TOKEN:+--token="$RITMO_TOKEN"} --modello="$(ai_engine)" ${_stima_flag:-} >/dev/null 2>&1 || true
 fi
 
-if [ "$RITMO_HAD_CHANGES" = 1 ] && [ "$RITMO_PUSH_OK" != 1 ]; then
-  exit 2
-fi
-if [ "$ai_rc" -ne 0 ]; then
-  if [ "$RITMO_HAD_CHANGES" = 1 ] && [ "$RITMO_PUSH_OK" = 1 ]; then
-    echo "[$(ts)] WARN: motore AI instabile ma memoria pubblicata." >&2
-    exit 0
-  fi
-  exit 1
-fi
-exit 0
+# AR-163/AR-164: l'esito lo decide la STESSA testa del giro e del monitoraggio
+# (cervello/esito-cadenza.mjs) e lascia una riga con l'ora in esito-cadenze.json. Le tre catene di
+# `if` scritte a mano — una per script, tutte leggermente diverse — erano il motivo per cui una
+# cadenza poteva smettere di uscire senza che nessun guardiano se ne accorgesse.
+exit "$(cadenza_esito "ritmo-$RITMO_TIPO" "$ai_rc" "$RITMO_HAD_CHANGES" "$RITMO_PUSH_OK" 1 0)"
