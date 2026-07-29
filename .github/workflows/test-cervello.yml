@@ -51,6 +51,17 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          # LA STORIA SERVE, e il motivo è già scritto in cancello-lotto.yml: alcuni controlli del
+          # cervello chiedono a git cosa è cambiato negli ultimi giorni (la quota di sforzo
+          # macchina-vs-business, per dirne uno). Con il clone superficiale che actions/checkout fa
+          # per default, `git log --since` non sa datare i commit tronchi e restituisce tutto il
+          # raggiungibile: la misura esce sbagliata e il test rosso.
+          #
+          # Alla prima corsa questo workflow è fallito esattamente così — avevo copiato la forma del
+          # workflow accanto senza portarmi dietro la riga che ne spiegava il perché. È la malattia
+          # del lotto 33 vista da vicino: una condizione dedotta dall'esempio invece che capita.
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
