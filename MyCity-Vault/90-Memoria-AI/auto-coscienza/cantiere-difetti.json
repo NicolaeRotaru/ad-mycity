@@ -1,6 +1,6 @@
 {
  "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
- "aggiornato": "2026-07-29 02:00",
+ "aggiornato": "2026-07-29 02:21",
  "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
  "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
  "difetti": [
@@ -5533,6 +5533,19 @@
    "verifica": {
     "comando": "node cervello/test/cancelli-spenti-nel-clone.test.mjs"
    }
+  },
+  {
+   "id": "AR-344",
+   "titolo": "Il guardiano delle prove legge solo le prove vecchie: ogni prova migrata a comando risulta «nessun guardiano potrà mai chiuderlo»",
+   "dimensione": "cantiere-prove",
+   "gravita": "grave",
+   "impatto_crescita": "medio",
+   "causa_radice": "① Perche il conteggio dei non-auto-chiudibili e salito da 24 a 38 senza che nessuno peggiorasse niente? Perche 13 difetti del lotto 29 sono stati riclassificati «umana». ② Perche riclassificati? Perche la loro verifica e stata migrata da {file,pattern} a {comando} — la forma che lo standard ORA impone. ③ Perche la forma migliore vale meno? Perche classifica() in cervello/cantiere-prove.mjs decide con `if (!v || !v.file || !v.pattern)` → tutto cio che non ha file+pattern cade nel ramo «nessuna prova automatica». ④ Perche non e stato aggiornato quando la forma e cambiata? Perche chi ha introdotto {comando} ha insegnato la forma nuova a chi CHIUDE (auto-fix.mjs, riga 134: eseguiProvaComando) e non a chi CLASSIFICA e riporta. ⑤ Radice: la forma della prova e conoscenza duplicata in due lettori indipendenti; migliorarla in uno la fa leggere come assente all altro. Effetto perverso: piu si ripara secondo lo standard, piu la macchina dichiara di non potersi chiudere da sola.",
+   "fix_proposto": "🟡 Insegnare la forma {comando} a classifica() in cervello/cantiere-prove.mjs — meglio: estrarre l UNICO lettore della forma di una verifica in un modulo puro condiviso da cantiere-prove.mjs e auto-fix.mjs, cosi la conoscenza sta in un posto solo (la cura e spostare il sapere sul dato, non ricopiarlo nel secondo lettore). Prova: un cantiere finto con una verifica {comando} deve classificarsi auto-*, mai «umana»; e il conteggio non_auto_chiudibili deve scendere di 13 sui difetti del lotto 29.",
+   "colore": "🟡",
+   "stato": "aperto",
+   "nato": "2026-07-29 02:21",
+   "nota": "Trovato nel lotto 30 mentre rivedevo perche l artefatto cantiere-prove.json passava da 113 a 118 difetti e da 24 a 38 non-auto-chiudibili. I 5 nuovi sono AR-339..343; i 13 spostati (AR-229,230,231,238,239,259,260,261,264,266,267,268,269) sono TUTTI difetti riparati bene dal lotto 29. Danno limitato al REPORT: auto-fix.mjs capisce {comando} e le chiusure dopo il merge funzionano lo stesso — ma il numero che la macchina mostra a Nicola e falso, e peggiora ogni volta che si lavora bene. NON entra nel lotto 30 (regola ② della skill cantiere: i difetti nuovi si registrano, non allargano il lotto in corso)."
   }
  ],
  "meta": {
