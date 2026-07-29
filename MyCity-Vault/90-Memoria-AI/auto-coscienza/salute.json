@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-07-29 16:43",
+  "aggiornato": "2026-07-29 17:05",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -13,8 +13,8 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-07-29 16:43",
-      "iso": "2026-07-29T14:43:48.769Z",
+      "quando": "2026-07-29 17:05",
+      "iso": "2026-07-29T15:05:20.509Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 9,
@@ -278,6 +278,17 @@
     {
       "quando": "2026-07-29 16:43",
       "iso": "2026-07-29T14:43:48.769Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 9,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.63
+    },
+    {
+      "quando": "2026-07-29 17:05",
+      "iso": "2026-07-29T15:05:20.509Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 9,
