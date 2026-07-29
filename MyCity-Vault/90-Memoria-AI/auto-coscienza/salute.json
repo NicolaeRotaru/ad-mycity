@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-07-29 16:16",
+  "aggiornato": "2026-07-29 16:17",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -13,12 +13,12 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-07-29 16:16",
-      "iso": "2026-07-29T14:16:59.194Z",
+      "quando": "2026-07-29 16:17",
+      "iso": "2026-07-29T14:17:32.711Z",
       "casa": "claude",
       "modo": "rapido",
-      "ok": 8,
-      "rotti": 2,
+      "ok": 9,
+      "rotti": 1,
       "guasti": 0,
       "nonvisti": 6,
       "copertura": 0.63,
@@ -108,8 +108,8 @@
           "organo": "cervello",
           "titolo": "Le braccia della macchina sono versionate",
           "impatto": 2,
-          "esito": "rotto",
-          "detto": "3 skill vivono solo su questo disco e non arriveranno mai al VPS: salute, senior, worker",
+          "esito": "ok",
+          "detto": "5 skill installate, tutte versionate o rigenerabili",
           "prova": null,
           "regressione": false
         },
@@ -260,6 +260,17 @@
       "modo": "rapido",
       "ok": 8,
       "rotti": 2,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.63
+    },
+    {
+      "quando": "2026-07-29 16:17",
+      "iso": "2026-07-29T14:17:32.711Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 9,
+      "rotti": 1,
       "guasti": 0,
       "nonvisti": 6,
       "copertura": 0.63
