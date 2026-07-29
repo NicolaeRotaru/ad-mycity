@@ -22,6 +22,7 @@ import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 import { istanteNascita, nataGiaSoddisfatta, provaControllabile } from "./prove-regole.mjs";
+import { storiaDelRepo } from "./storia-git.mjs";
 
 const CANTIERE = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json");
 
@@ -36,8 +37,17 @@ function git(args) {
  * `--before` su una data secca prende l'ultimo commit PRIMA di quel momento: è la fotografia che
  * l'autore della radiografia aveva davanti quando ha scritto la prova. Se il file a quel commit non
  * esisteva ancora, torna null → il guardiano dirà «cieco» su quel difetto, non «sospetto».
+ *
+ * AR-419 — la cecità c'era già ma era MUTA. Con una storia troncata `rev-list --before` di una data
+ * anteriore al taglio non trova niente, questa funzione tornava null e il guardiano stampava
+ * «impossibile ricostruire il file alla data di nascita»: vero, ma chi legge capisce «file nato
+ * dopo», non «in questa sessione non posso ricostruire NIENTE». Sono due frasi che portano a due
+ * decisioni diverse, e la seconda è quella giusta. Ora la storia si chiede prima e il motivo si
+ * dice, che è tutta la differenza fra essere ciechi e saperlo.
  */
-export function testoAllaNascita(file, nato, run = git) {
+export function testoAllaNascita(file, nato, run = git, storia = null) {
+  const s = storia || storiaDelRepo(AD_ROOT);
+  if (!s.intera) return null;
   const istante = istanteNascita(nato);
   if (!file || !istante) return null;
   // L'istante DEVE essere completo: con una data secca l'approxidate di git riempie l'ora con quella
@@ -60,6 +70,10 @@ function main() {
     process.exit(2);
   }
 
+  // Una volta sola per esecuzione: la risposta non cambia dentro un giro, e chiederla per ognuno
+  // dei ~200 difetti significherebbe lanciare git 200 volte per sapere la stessa cosa.
+  const storia = storiaDelRepo(AD_ROOT);
+
   const aperti = (cantiere.difetti || []).filter((d) => d && d.stato !== "chiuso");
   const sospette = [];
   const ciechi = [];
@@ -68,7 +82,7 @@ function main() {
   for (const d of aperti) {
     if (!provaControllabile(d.verifica)) continue;
     controllate++;
-    const testo = testoAllaNascita(d.verifica.file, d.nato);
+    const testo = testoAllaNascita(d.verifica.file, d.nato, git, storia);
     const r = nataGiaSoddisfatta(d.verifica, testo);
     if (r.esito === "sospetta") sospette.push({ d, motivo: r.motivo });
     else if (r.esito === "cieco") ciechi.push({ d, motivo: r.motivo });
@@ -91,6 +105,12 @@ function main() {
   for (const s of sospette) {
     console.log(`  · ${s.d.id} [${s.d.gravita}] ${String(s.d.titolo).slice(0, 80)}`);
     console.log(`      ${s.motivo}`);
+  }
+  if (!storia.intera) {
+    // AR-419: dirlo UNA volta, in cima all'elenco dei ciechi, invece di lasciare che ogni riga
+    // suggerisca «file nato dopo». Il motivo cambia cosa deve fare chi legge.
+    console.log(`\n⚪ NESSUNA prova è ricostruibile in questa sessione — ${storia.motivo}.`);
+    console.log(`   Non è che i file siano nati dopo: è che il passato non c'è. Per misurare: git fetch --unshallow.`);
   }
   if (ciechi.length) {
     console.log(`\n👁️  ${ciechi.length} non misurabili (file nato dopo, o storia non ricostruibile): non contano come verdi né come rossi.`);

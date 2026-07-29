@@ -65,6 +65,14 @@ const prova = (nome, fn) => {
 const leggi = (f) => readFileSync(join(REPO, f), "utf8");
 
 /** Esegue freno-costi.mjs su un file finto e torna {rc, out}. */
+// AR-424 (lotto 34) — la data del contatore ora CONTA.
+// Da quando il freno rifiuta di decidere su un giorno già finito, una fixture con una data fissa nel
+// passato non misura più la soglia: misura la scadenza. Le prove che vogliono ancora esercitare la
+// soglia devono quindi datare il contatore a OGGI — restando deterministiche, perché la data la
+// calcolano invece di scriverla a mano. La prova che il giorno vecchio venga rifiutato c'è, ed è
+// sotto: senza, questa modifica avrebbe silenziosamente spento due controlli.
+const OGGI = new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" });
+
 function freno(costoJson) {
   const d = mkdtempSync(join(tmpdir(), "mycity-freno-"));
   const f = join(d, "costo-ai.json");
@@ -85,7 +93,7 @@ prova("il caso che ha rotto: 385.000 stimati e 0 reali FANNO scattare il freno",
   // È lo stato reale del 27/7, con la soglia abbassata per non dover fingere un milione di token.
   const { rc, out } = freno({
     soglia_giornaliera_token: 100_000,
-    oggi: { data: "2026-07-27", token_totali: 0, token_stimati: 385_000 },
+    oggi: { data: OGGI, runs: 11, token_totali: 0, token_stimati: 385_000 },
   });
   assert.equal(rc, 1, `il freno doveva frenare: ${out}`);
   assert.match(out, /frena/);
@@ -94,10 +102,22 @@ prova("il caso che ha rotto: 385.000 stimati e 0 reali FANNO scattare il freno",
 prova("sotto soglia lascia lavorare: un freno che frena sempre viene staccato", () => {
   const { rc, out } = freno({
     soglia_giornaliera_token: 2_000_000,
-    oggi: { data: "2026-07-27", token_totali: 0, token_stimati: 385_000 },
+    oggi: { data: OGGI, runs: 11, token_totali: 0, token_stimati: 385_000 },
   });
   assert.equal(rc, 0, out);
   assert.match(out, /lascia/);
+});
+
+prova("AR-424: un contatore di IERI non decide più niente, in nessuno dei due versi", () => {
+  // La contropartita della modifica qui sopra: se le due prove precedenti sono passate a OGGI, deve
+  // esistere la prova che con una data vecchia il freno si RIFIUTA — altrimenti aver cambiato la
+  // fixture equivarrebbe ad aver spento il controllo invece di averlo aggiornato.
+  const { rc, out } = freno({
+    soglia_giornaliera_token: 100_000,
+    oggi: { data: "2026-07-27", runs: 11, token_totali: 0, token_stimati: 385_000 },
+  });
+  assert.equal(rc, 2, `un giorno finito è CIECO (rc=2), né frena né lascia: ${out}`);
+  assert.match(out, /cieco/);
 });
 
 prova("il caso che ha rotto: campo ASSENTE non è «zero token spesi»", () => {

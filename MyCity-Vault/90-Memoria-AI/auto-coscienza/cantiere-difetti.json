@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-29 20:22",
+  "aggiornato": "2026-07-29 21:15",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -6962,10 +6962,9 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/allocazione-check.mjs:222 (fileToccatiDaGit) → usata a :393. Sintomo: VERIFICATO ESEGUENDO IL GUARDIANO OGGI. `fileToccatiDaGit` chiede a git i file toccati negli ultimi 7 giorni. In questa sessione `git rev-parse --is-shallow-repository` risponde `true`: il clone è superficiale e `git log --since='7 days ago' --name-only` restituisce 2066 percorsi su 2062 file tracciati — cioè tutto il repository. Contati per commit: 1979 di quei 2066 percorsi vengono da UN SOLO commit, `05fff46` (Lotto 12), che sulla storia troncata risulta aver «creato» l'intero vault. Il guardiano lanciato adesso stampa infatti «macchina 1599 · business 454»: non è il lavoro della settimana, è la composizione della cartella. Il fratello `cervello/cancello-lotto.mjs:167-179` la guardia sul clone superficiale ce l'ha già e la dichiara; questo no.",
       "verifica": {
-        "file": "cervello/allocazione-check.mjs",
-        "pattern": "is-shallow-repository",
-        "presente": true
-      }
+        "comando": "node cervello/test/storia-troncata.test.mjs"
+      },
+      "nota_fix": "LOTTO 34 (2026-07-29). Misurato: `git log --since='7 days ago' --name-only` dava 4521 percorsi, di cui 1999 dal solo commito di innesto — la quota descriveva il magazzino, non la settimana. Fix: `fileToccatiDaGit` chiede prima la storia alla porta `storia-git.mjs` e con storia troncata torna null; `quotaSforzo(null)` produce una quota `cieca` (mai zeri, che si leggerebbero come «non abbiamo lavorato») e la stampa dice ⚪ NON MISURATA col motivo vero. DIFFERENZA DALLA SCHEDA, dichiarata: la scheda chiedeva uscita 2 sempre; il codice esce 2 solo se ALLOCAZIONE_GATE_MACCHINA=1, cioe quando e davvero quel numero a decidere. Motivo: il gate e spento per decisione di Nicola fino al 24/8-1/9, e un guardiano permanentemente rosso in ogni sessione cloud verrebbe ignorato — le altre due dimensioni (silo, confermati a 0) si misurano sul disco e restano valide. Clausola (b) fatta: il guardiano `node cervello/storia-git.mjs --check` e la spazzata."
     },
     {
       "id": "AR-420",
@@ -7052,10 +7051,9 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/costo-ai.mjs:102 (azzeramento) e :33 (tokenSessioneRolling) · cervello/freno-costi.mjs:52-54 (decide su dati.oggi senza controllarne la data) · cervello/fonte-numero.mjs:70-79 (tokenPerGate). Sintomo: VERIFICATO ESEGUENDO IL FRENO ADESSO. `node cervello/freno-costi.mjs --json` risponde `{azione:\"lascia\", valore:0, fonte:\"misura\"}` mentre `costo-ai.json` ha `oggi.data = 2026-07-28` e `runs = 0` — cioè un giorno finito ieri. Quattro difetti nello stesso circuito: ① a riga 102 di costo-ai.mjs il cambio giorno fa `stato.oggi = { …, voci: [] }`, e `tokenSessioneRolling` (riga 33) legge SOLO `oggi.voci`: la finestra rolling di 6 ore alle 00:30 contiene mezz'ora, quindi il muro vero si azzera ogni notte. ② `sessione_rolling` viene scritto e non è consumato da nessun freno: freno-costi decide solo sul totale giornaliero. ③ freno-costi non confronta mai `oggi.data` con la data odierna. ④ `tokenPerGate` (fonte-numero.mjs:70-79) etichetta quello zero come fonte `misura`, l'unica provenienza che `gateAmmesso` considera buona per un gate. Il file di costo dichiara da sé, nel proprio `_cosa_e`, che «il vero muro è la quota-sessione rolling (~5h)».",
       "verifica": {
-        "file": "cervello/freno-costi.mjs",
-        "pattern": "oggi\\.data",
-        "presente": true
-      }
+        "comando": "node cervello/test/fonte-parziale.test.mjs"
+      },
+      "nota_fix": "LOTTO 34 (2026-07-29). Caso reale eseguito: costo-ai.json aveva `oggi.data = 2026-07-28` con 0 token e il freno rispondeva «lascia» (uscita 0); ora risponde «cieco» (uscita 2) e stampa `giorno_contatore` accanto al verdetto. Clausola (c) FATTA con la nuova fonte `FONTI.SCADUTA`, vietata ai gate come `assente` e `prosa` — la cura sta nel canale che esisteva gia, non in un caso speciale sul chiamante. Clausola (d) FATTA: `runs: 0` con contatori a zero e un foglio bianco, non un consumo basso. Clausole (a) storico continuo e (b) doppia soglia rolling: NON fatte, registrate come difetto nuovo AR-442 — sono una malattia diversa (la finestra sbagliata, non la cecita)."
     },
     {
       "id": "AR-425",
@@ -7106,10 +7104,9 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/scan-segreti.mjs:165 (`if (!st.isFile() || st.size > 2_000_000) continue;`) vs verdetto() a :123-136. Sintomo: VERIFICATO RIGA PER RIGA. A riga 165 un file più grande di 2 MB viene saltato con un `continue` muto: non entra fra i `letti`, non entra fra i `nonRaggiunti`, non compare in nessun campo dell'uscita. Poi `verdetto()` (righe 123-136) dichiara «nessun segreto in N file versionabili» su un insieme da cui quel file è sparito. Misurato oggi: `apprendimento.json` pesa 1.016.072 byte (il 51% della soglia) e cresce a ogni giro; dietro `cantiere-difetti.json` 693.610 e `auto-radiografia.json` 659.456. Sono proprio i file auto-generati che incollano uscite di comandi e messaggi d'errore: la famiglia in cui un token GitHub vero è già finito una volta (AR-124, il rapporto di auto-radiografia che bloccò la pubblicazione). AR-339 (chiuso) ha curato il salto per percorso illeggibile creando l'esito «cieco» e ha lasciato in piedi questo.",
       "verifica": {
-        "file": "cervello/scan-segreti.mjs",
-        "pattern": "st\\.size > 2_000_000\\) continue",
-        "presente": false
-      }
+        "comando": "node cervello/test/fonte-parziale.test.mjs"
+      },
+      "nota_fix": "LOTTO 34 (2026-07-29). Clausola (a) FATTA: il salto per dimensione non e piu un `continue` muto — passa da `classificaPerDimensione` (pura) e finisce in `nonRaggiunti`, quindi il verdetto diventa «cieco» (uscita 2) coi nomi e la dimensione, mai «pulito». Clausole (b) scansione a blocchi e (c) far scendere i tre JSON sotto un tetto: NON fatte, registrate come difetto nuovo AR-441 per non allargare il lotto a meta. Il comportamento del titolo e riparato e provato; il tetto resta una soglia dichiarata invece che un'esenzione silenziosa."
     },
     {
       "id": "AR-428",
@@ -7142,10 +7139,9 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/auto-fix.mjs:112-129 (fileCambiatoDa, la chiamata a git è a :121) → usata a :226 · contratto in cervello/prove-regole.mjs:129-144. Sintomo: VERIFICATO ESEGUENDO GIT. La seconda guardia contro le chiusure false (nata da AR-330, «91 difetti chiusi senza che fosse cambiata una riga») chiede: fra la nascita del difetto e adesso, il file citato dalla prova è mai cambiato? La risposta arriva da `git log --oneline --since=<nascita> -- <file>` (riga 121). Il contratto in `prove-regole.mjs:129-140` prevede tre risposte e dice espressamente che su una storia troncata («i cloni dei cloud agent lo sono») la risposta è `null` → «chiusura ammessa ma non corroborata». In pratica non succede: su questo clone superficiale il comando esce 0 e stampa il commit-innesto per QUALSIASI file. Provato su README.md, mai toccato dopo l'innesto: risponde `05fff46` → `fileCambiatoDa` restituisce `true` → `chiusuraAmmessa` (riga 143) certifica «c'è del lavoro dietro questa chiusura». Falso, e falso in positivo.",
       "verifica": {
-        "file": "cervello/auto-fix.mjs",
-        "pattern": "is-shallow-repository",
-        "presente": true
-      }
+        "comando": "node cervello/test/storia-troncata.test.mjs"
+      },
+      "nota_fix": "LOTTO 34 (2026-07-29). Causa confermata sul codice vero e MISURATA: in questo clone il commit di innesto 84bd226 elenca 1999 file come cambiati, quindi `git log --since` rispondeva «si» per QUALUNQUE file e la guardia AR-330 firmava sempre. Fix: nuova porta condivisa `cervello/storia-git.mjs` (gemella di percorsi-git per l'asse del TEMPO); la decisione e la funzione pura `cambiatoDallaNascita(storia, rispostaGit)`, che con storia troncata torna null anche quando git ha risposto con righe vere. Clausola (a) fatta. Clausola (b) fatta: ogni chiusura nuova porta `corroborata` + `corroborata_nota`, e le 183 gia in archivio (senza il campo) vengono CONTATE e stampate a ogni verifica — riesaminabili senza riscrivere 183 righe di storia. Prova comportamentale + mutante registrato."
     },
     {
       "id": "AR-430",
@@ -7277,10 +7273,52 @@
       },
       "nota_fix": "Registrato il 2026-07-29 18:45 durante il lotto 33, NON incluso nel lotto (regola ②: un difetto nuovo trovato riparando si registra subito ma non allarga il lotto in corso). Isolata il 29/7 dal lotto 33, riparando AR-373 (il meta-guardiano che suonava a vuoto da sempre).",
       "trovato": "2026-07-29 18:45"
+    },
+    {
+      "id": "AR-441",
+      "stato": "aperto",
+      "gravita": "medio",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-29 21:15",
+      "titolo": "Lo scanner dei segreti si dichiara cieco sui file grossi invece di leggerli, e i tre JSON che crescono ogni giro vanno verso quel muro",
+      "causa_radice": "Trovato riparando AR-427 (lotto 34). Ora un file oltre i 2 MB non viene piu spacciato per pulito — finisce fra i non raggiunti e il verdetto e «cieco». Ma cieco NON e letto: il giorno in cui cantiere-difetti.json (694 kB) o auto-radiografia.json (659 kB) superano il tetto, lo scanner smettera di guardare proprio il file piu grosso e il guardiano suonera a ogni giro finche qualcuno non lo zittisce. Un cancello che suona sempre viene aggirato al secondo giro: la cecita dichiarata e un miglioramento onesto, non la cura.",
+      "fix_proposto": "🟡 (a) Scansione a blocchi (lettura in streaming) per i file oltre il tetto, cosi la dimensione smette di essere sia un'esenzione sia una cecita; (b) far scendere i tre JSON generati sotto un tetto dichiarato, insieme al guardiano del peso del contesto (AR-425).",
+      "verifica": {
+        "tipo": "umano"
+      }
+    },
+    {
+      "id": "AR-442",
+      "stato": "aperto",
+      "gravita": "medio",
+      "dimensione": "strategia-costo-rischio",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-29 21:15",
+      "titolo": "Il contatore della spesa si azzera a mezzanotte, quindi il freno non sa niente delle ultime ore a cavallo di due giorni",
+      "causa_radice": "Trovato riparando AR-424 (lotto 34). Il freno ora si dichiara cieco su un contatore di ieri invece di dire «lascia» — la bugia e chiusa. Resta il disegno: la spesa si conta per GIORNO SOLARE, non su una finestra scorrevole. Alle 00:10 il contatore riparte da zero anche se nelle sei ore precedenti la macchina ha bruciato tutto il tetto, e il freno lascia passare. E una malattia diversa da quella del lotto 34 (li era la cecita, qui e la finestra sbagliata): tenuta fuori apposta per non allargare il lotto a meta.",
+      "fix_proposto": "🟡 (a) Tenere le voci in uno storico continuo, non azzerato a mezzanotte, e calcolare la finestra rolling su quello; (b) far decidere `decidiFrenoCosto` sul massimo fra tetto giornaliero e tetto-sessione, con due soglie distinte.",
+      "verifica": {
+        "tipo": "umano"
+      }
+    },
+    {
+      "id": "AR-443",
+      "stato": "aperto",
+      "gravita": "minore",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "basso",
+      "nato": "2026-07-29 21:15",
+      "titolo": "Se la coda delle azioni non si riesce a leggere, il cancello dice «azione non trovata» invece di «non ho potuto leggere la coda»",
+      "causa_radice": "Trovato dalla spazzata dei fratelli del lotto 34. `consenso-azione.leggiCoda()` trasforma un errore di lettura in stringa vuota; il cancello poi conclude «AZIONE_ID non trovato in AZIONI-IN-ATTESA.md → invio bloccato». La DIREZIONE e giusta (fallisce chiuso, nessuna azione reale parte) ed e per questo che non e nel lotto 34, ma la MOTIVAZIONE mostrata e falsa: manda chi indaga a cercare una card che magari c'e, invece che a guardare perche il file non si legge. Un cancello che sbaglia il motivo insegna a diffidare del motivo.",
+      "fix_proposto": "🟢 Far distinguere a `leggiCoda()` «coda vuota» da «coda illeggibile» (torna null nel secondo caso) e al cancello scrivere il motivo vero, restando bloccato in entrambi i casi.",
+      "verifica": {
+        "tipo": "umano"
+      }
     }
   ],
   "meta": {
-    "aperti": 166,
+    "aperti": 169,
     "in_corso": 0,
     "chiusi": 213
   }

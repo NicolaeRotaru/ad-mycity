@@ -26,6 +26,7 @@ import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
+import { storiaDelRepo } from "./storia-git.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VELOCE = process.argv.includes("--veloce");
@@ -266,9 +267,16 @@ export function proveOrfane(difetti, esiste) {
  * che è assoluto: una prova a OR in più alza il totale e blocca comunque.
  */
 function basePerConfronto() {
-  const mb = spawnSync("git", ["merge-base", "HEAD", "origin/main"], { cwd: AD_ROOT, encoding: "utf8" });
-  if (mb.status === 0 && mb.stdout.trim()) return { spec: mb.stdout.trim(), nota: "antenato comune con origin/main" };
-  return { spec: "HEAD", nota: "repo shallow: confronto con l'ultimo commit locale (i pezzi già committati non risultano toccati)" };
+  // AR-419 — prima si SAPEVA di essere shallow solo per deduzione: se `merge-base` non rispondeva,
+  // si scriveva «repo shallow» come spiegazione più probabile. Quasi sempre giusta, ma è comunque
+  // un motivo indovinato — e un guardiano che indovina il perché della propria cecità non sta
+  // misurando, sta raccontando. Ora la storia si chiede alla porta e il motivo è quello vero.
+  const storia = storiaDelRepo(AD_ROOT);
+  if (storia.intera) {
+    const mb = spawnSync("git", ["merge-base", "HEAD", "origin/main"], { cwd: AD_ROOT, encoding: "utf8" });
+    if (mb.status === 0 && mb.stdout.trim()) return { spec: mb.stdout.trim(), nota: "antenato comune con origin/main" };
+  }
+  return { spec: "HEAD", nota: `${storia.motivo} → confronto con l'ultimo commit locale (i pezzi già committati non risultano toccati)` };
 }
 
 function gitShow(spec) {

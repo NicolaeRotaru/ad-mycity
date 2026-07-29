@@ -1,19 +1,27 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-07-29 18:00",
+  "aggiornato": "2026-07-29 20:48",
   "giorni_sospetto": 3,
-  "difetti_aperti": 194,
+  "difetti_aperti": 196,
   "per_classe": {
-    "umana": 37,
+    "umana": 47,
     "auto-sospetta": 6,
-    "auto-attesa": 144,
-    "auto-ok": 7
+    "auto-attesa": 134,
+    "auto-ok": 9
   },
-  "non_auto_chiudibili": 43,
+  "non_auto_chiudibili": 53,
   "bloccanti_ciechi": [
     "AR-226",
     "AR-371",
+    "AR-373",
+    "AR-377",
+    "AR-379",
+    "AR-380",
+    "AR-381",
+    "AR-382",
+    "AR-387",
+    "AR-409",
     "AR-430"
   ],
   "voci": [
@@ -1192,8 +1200,8 @@
       "gravita": "grave",
       "eta_giorni": 0,
       "titolo": "Il controllore dei controllori si dichiara a posto ogni volta che non riesce a guardare",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/freschezza-segnali.mjs ~ /process\\.exit\\(2\\)/)",
+      "classe": "auto-ok",
+      "perche": "prova soddisfatta ora (cervello/freschezza-segnali.mjs ~ /process\\.exit\\(2\\)/): auto-fix lo chiuderà",
       "auto_chiudibile": true
     },
     {
@@ -1201,17 +1209,17 @@
       "gravita": "bloccante",
       "eta_giorni": 0,
       "titolo": "Il controllore dei controllori aspetta un battito che nessuno gli manda: suona da sempre e nessuno lo sa",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/coerenza-fatti.mjs ~ /stampSegnale\\(\\s*[\"'`]coerenza-fatti[\"'`]/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-374",
       "gravita": "grave",
       "eta_giorni": 0,
       "titolo": "Chi controlla i controllori si dichiara a posto proprio quando non riesce a guardare",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/freschezza-segnali.mjs ~ /process\\.exit\\(2\\)/)",
+      "classe": "auto-ok",
+      "perche": "prova soddisfatta ora (cervello/freschezza-segnali.mjs ~ /process\\.exit\\(2\\)/): auto-fix lo chiuderà",
       "auto_chiudibile": true
     },
     {
@@ -1237,9 +1245,9 @@
       "gravita": "bloccante",
       "eta_giorni": 0,
       "titolo": "I test del cervello li lancia solo il giro: con il worker fermo, un test rosso non ferma più niente",
-      "classe": "auto-attesa",
-      "perche": "il fix consiste nel creare .github/workflows/test-cervello.yml, non ancora presente",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-378",
@@ -1255,36 +1263,36 @@
       "gravita": "bloccante",
       "eta_giorni": 0,
       "titolo": "Sei allarmi si scrivono e nessuno li conta: fra questi c'è quello sulla firma e quello sulle porte di pubblica",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /compgen -v/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-380",
       "gravita": "bloccante",
       "eta_giorni": 0,
       "titolo": "Il guardiano della firma legge solo metà della macchina: worker e giro scrivono in quella tabella senza che li",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/firma-riservata.mjs ~ /curl/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-381",
       "gravita": "bloccante",
       "eta_giorni": 0,
       "titolo": "Le otto mani che pubblicano davvero non sono mai state contate come mani",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/uscite-reali.json ~ /cervello/publishers/_comune\\.mjs/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-382",
       "gravita": "bloccante",
       "eta_giorni": 0,
       "titolo": "Il guardiano delle porte non entra nella cartella del server, dove tre punti pubblicano su main e uno fa parti",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/porte-check.mjs ~ /recursive:\\s*true/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-383",
@@ -1327,9 +1335,9 @@
       "gravita": "bloccante",
       "eta_giorni": 0,
       "titolo": "Sei controlli possono dire no e il giro si chiude lo stesso come pulito",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /compgen -v[^\\n]*_VINCOLO/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-388",
@@ -1525,9 +1533,9 @@
       "gravita": "bloccante",
       "eta_giorni": 0,
       "titolo": "La serratura lascia passare tutto ciò che arriva col verbo «leggi», e tre porte che scrivono si aprono proprio",
-      "classe": "auto-attesa",
-      "perche": "prova non ancora soddisfatta (pannello/src/lib/serratura.ts ~ /if \\(SOLA_LETTURA\\.has\\(r\\.metodo\\.toUpperCase\\(\\)\\)\\) return \\{ ammessa: true \\};/)",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-410",
@@ -1759,6 +1767,24 @@
       "gravita": "medio",
       "eta_giorni": 0,
       "titolo": "La visita si dichiara cieca sulla Cabina per un indirizzo che la macchina conosce già",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-439",
+      "gravita": "alto",
+      "eta_giorni": null,
+      "titolo": "Il battito che i guardiani mandano non ha un tempo massimo: se la memoria risponde lenta, il giro si ferma lì",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-440",
+      "gravita": "alto",
+      "eta_giorni": null,
+      "titolo": "Un allarme acceso da settimane e uno acceso da un minuto si leggono uguale, quindi il primo diventa sfondo",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false

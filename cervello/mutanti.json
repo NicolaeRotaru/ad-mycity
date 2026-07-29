@@ -445,6 +445,42 @@
       "test": "cervello/test/perimetro-applicato.test.mjs"
     },
     {
+      "lotto": 34,
+      "difetto": "AR-429",
+      "nome": "la guardia delle chiusure torna a fidarsi di una storia troncata",
+      "file": "cervello/storia-git.mjs",
+      "cerca": "  if (!storia?.intera) return null;",
+      "sostituisci": "  if (false && !storia?.intera) return null;",
+      "test": "cervello/test/storia-troncata.test.mjs"
+    },
+    {
+      "lotto": 34,
+      "difetto": "AR-419",
+      "nome": "la quota di sforzo torna a chiedere a git una finestra che non c'e",
+      "file": "cervello/allocazione-check.mjs",
+      "cerca": "  if (!storia.intera) return null;",
+      "sostituisci": "  if (false) return null;",
+      "test": "cervello/test/storia-troncata.test.mjs"
+    },
+    {
+      "lotto": 34,
+      "difetto": "AR-427",
+      "nome": "il file oltre il tetto torna a sparire in un continue muto",
+      "file": "cervello/scan-segreti.mjs",
+      "cerca": "  if (Number.isFinite(size) && size > soglia) {",
+      "sostituisci": "  if (false && Number.isFinite(size) && size > soglia) {",
+      "test": "cervello/test/fonte-parziale.test.mjs"
+    },
+    {
+      "lotto": 34,
+      "difetto": "AR-424",
+      "nome": "il freno torna a non guardare di che giorno e il contatore",
+      "file": "cervello/fonte-numero.mjs",
+      "cerca": "  if (dataDiOggi && suo && suo !== String(dataDiOggi).trim()) {",
+      "sostituisci": "  if (false) {",
+      "test": "cervello/test/fonte-parziale.test.mjs"
+    },
+    {
       "lotto": 33,
       "difetto": "AR-372+AR-374",
       "nome": "il guardiano dei battiti torna a dichiararsi a posto quando non riesce a guardare",

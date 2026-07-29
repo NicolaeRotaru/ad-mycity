@@ -37,6 +37,12 @@ const REGOLE = REGOLE_SEGRETI;
 const SKIP_EXT = /\.(png|jpe?g|gif|webp|ico|pdf|zip|gz|tar|mp4|mov|woff2?|ttf|otf|lock)$/i;
 
 /**
+ * Oltre questo il file non viene letto (AR-427). Resta una soglia, ma smette di essere
+ * un'esenzione: ciò che non si legge finisce fra i non raggiunti e il verdetto diventa «cieco».
+ */
+const SOGLIA_TROPPO_GRANDE = 2_000_000;
+
+/**
  * AR-270 — DEROGHE ESPLICITE. Una sola volta, il 25/7, una chiave FINTA scritta dentro un test
  * (aveva il prefisso di un provider vero) ha bloccato la pubblicazione della memoria per due giorni:
  * il giro si fermava prima del push e nessuno se ne accorgeva, perché il blocco era corretto e il
@@ -120,6 +126,31 @@ function provaEEsci() {
  *
  * @returns {{esito: "pulito"|"cieco"|"trovato", sintesi: string, codice: 0|1|2}}
  */
+/**
+ * AR-427 — cosa farsene di un file, decidendolo su due numeri invece che dentro il ciclo.
+ *
+ * Il difetto era una riga: `if (!st.isFile() || st.size > 2_000_000) continue;`. Due casi diversi
+ * incollati in un `continue` solo, e uno dei due è un difetto NOSTRO — un file che non abbiamo
+ * aperto non è un file pulito, ma lo scanner continuava a dire «nessun segreto in N file». Non è
+ * un caso limite in attesa: i JSON che la macchina genera crescono a ogni giro (cantiere-difetti e
+ * auto-radiografia sono già oltre il mezzo mega), e il giorno in cui il primo supera il tetto la
+ * difesa si spegne proprio sul file più grosso — cioè quello in cui c'è dentro più roba.
+ *
+ * PURA (regola ③): prende `{isFile, size}`, non uno `statSync`. Così la prova la esegue su un file
+ * da 3 MB che non esiste, invece di doverne creare uno per scoprire cosa succede.
+ */
+export function classificaPerDimensione(st, soglia = SOGLIA_TROPPO_GRANDE) {
+  if (!st) return { azione: "ignora" };
+  // Accetta sia un vero `statSync` (isFile è una funzione) sia l'oggetto semplice che usano le prove.
+  const eUnFile = typeof st.isFile === "function" ? st.isFile() : Boolean(st.isFile);
+  if (!eUnFile) return { azione: "ignora" };
+  const size = Number(st.size);
+  if (Number.isFinite(size) && size > soglia) {
+    return { azione: "non-letto", motivo: `${Math.round(size / 1000)} kB: oltre il tetto di lettura` };
+  }
+  return { azione: "leggi" };
+}
+
 export function verdetto({ letti = 0, nonRaggiunti = [], trovati = [] } = {}) {
   if (trovati.length) {
     const file = new Set(trovati.map((t) => t.file)).size;
@@ -129,7 +160,10 @@ export function verdetto({ letti = 0, nonRaggiunti = [], trovati = [] } = {}) {
     return {
       esito: "cieco",
       codice: 2,
-      sintesi: `${nonRaggiunti.length} file elencati da git che non sono riuscito ad aprire: su ${letti} letti non posso dire «pulito»`,
+      // AR-427: «non sono riuscito ad aprire» era vero finché l'unica causa era il percorso
+      // illeggibile. Ora ci arriva anche il file saltato perché troppo grande — che non è un
+      // fallimento ma una scelta nostra, e proprio per questo va detta.
+      sintesi: `${nonRaggiunti.length} file elencati da git che NON ho letto (illeggibili o oltre il tetto di ${SOGLIA_TROPPO_GRANDE / 1_000_000} MB): su ${letti} letti non posso dire «pulito»`,
     };
   }
   return { esito: "pulito", codice: 0, sintesi: `nessun segreto in ${letti} file versionabili` };
@@ -162,7 +196,12 @@ function main() {
       nonRaggiunti.push(rel);
       continue;
     }
-    if (!st.isFile() || st.size > 2_000_000) continue; // salta file enormi
+    const c = classificaPerDimensione(st);
+    if (c.azione === "ignora") continue; // una cartella non è un file saltato: niente da leggere
+    if (c.azione === "non-letto") {
+      nonRaggiunti.push(`${rel} (${c.motivo})`);
+      continue;
+    }
     let testo;
     try {
       testo = readFileSync(abs, "utf8");
