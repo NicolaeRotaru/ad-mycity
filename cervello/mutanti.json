@@ -299,6 +299,15 @@
    "cerca": "  if (!(CHIAVI_CONTROLLO as readonly string[]).includes(c)) {",
    "sostituisci": "  if (false) {",
    "test": "cervello/test/porta-di-servizio-della-firma.test.mjs"
+  },
+  {
+   "lotto": 32,
+   "difetto": "AR-346c",
+   "nome": "lo sfoltimento del digest smette di buttare i chiusi e la soglia condizionata non se ne accorge",
+   "file": "pannello/src/lib/radiografia-snella.ts",
+   "cerca": "      const aperti = tutti.filter((f) => !eChiusoFinding(f));",
+   "sostituisci": "      const aperti = tutti;",
+   "test": "cervello/test/radiografia-snella.test.mjs"
   }
  ]
 }
