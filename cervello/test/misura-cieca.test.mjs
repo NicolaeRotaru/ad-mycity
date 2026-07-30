@@ -1,0 +1,83 @@
+// Le cinque trappole di misura pagate il 30/7, provate sui comandi VERI che le hanno generate.
+//
+// Ogni caso qui sotto è un comando che ho davvero lanciato quel giorno, con la conclusione sbagliata
+// che ne ho tratto. Non sono esempi didattici: sono le prove del reato. E per ognuno c'è la
+// controprova — la forma corretta NON deve essere segnalata, altrimenti l'avvisatore diventa rumore
+// e si impara a scorrerlo, che è il modo in cui muore un guardiano.
+
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { misuraCieca, TRAPPOLE } from "../misura-cieca.mjs";
+
+const ids = (c) => misuraCieca(c).map((t) => t.id);
+
+test("① $? dopo una pipe: è l'uscita di head, non del comando", () => {
+  // Il vero: `node cervello/sorvegliante.mjs --staged | head -60` poi EXIT=$? → sempre 0.
+  assert.ok(ids('node cervello/sorvegliante.mjs --staged | head -60\necho "EXIT=$?"').includes("uscita-dopo-la-pipe"));
+  assert.ok(ids('git commit -m "x" 2>&1 | tail -14; echo "esito: $?"').includes("uscita-dopo-la-pipe"));
+});
+
+test("… e la forma corretta non viene segnalata", () => {
+  assert.deepEqual(ids('out=$(node cervello/sorvegliante.mjs --staged); code=$?; echo "$out"; echo "EXIT=$code"'), []);
+});
+
+test("② errore in /dev/null e poi una conclusione dal fallimento", () => {
+  // Il vero: mi ha fatto concludere «zero hook configurati» mentre ce n'era uno.
+  assert.ok(ids('node -e "const s=require(\'.claude/settings.json\')" 2>/dev/null || echo "(assente)"').includes("errore-in-nulla-poi-fallback"));
+});
+
+test("… ma tenere stderr, o usare /dev/null senza trarne conclusioni, va bene", () => {
+  assert.deepEqual(ids('node -e "require(\'./.claude/settings.json\')" || echo "davvero assente"'), []);
+  assert.deepEqual(ids("git fetch origin main 2>/dev/null"), [], "silenziare senza concludere non è la trappola");
+});
+
+test("③ git diff dopo aver messo in stage: mostra vuoto e sembra «non è cambiato niente»", () => {
+  // Il vero: `git checkout <ref> -- .claude/settings.json` poi `git diff --stat` → vuoto,
+  // e ho concluso che main avesse già il file. Non l'aveva.
+  assert.ok(ids("git checkout origin/ramo -- .claude/settings.json\ngit diff --stat").includes("diff-che-non-guarda-lo-stage"));
+  assert.ok(ids("git add -A; git diff --stat").includes("diff-che-non-guarda-lo-stage"));
+});
+
+test("… e le forme che vedono lo stage non vengono segnalate", () => {
+  assert.deepEqual(ids("git add -A; git diff --cached --stat"), []);
+  assert.deepEqual(ids("git add -A; git status --short"), []);
+  assert.deepEqual(ids("git add -A; git diff HEAD --stat"), []);
+});
+
+test("④ un cd seguito da `;`: se fallisce, il silenzio del comando dopo sembra un verde", () => {
+  // Il vero: `cd <scratchpad>; node cervello/test-cervello.mjs | grep ❌` → niente, e ho letto
+  // «nessun test rosso» mentre il comando non era proprio partito.
+  assert.ok(ids("cd /tmp/scratchpad; node cervello/test-cervello.mjs").includes("cd-che-puo-fallire"));
+});
+
+test("… con && il fallimento si propaga, quindi non è la trappola", () => {
+  assert.deepEqual(ids("cd /tmp/scratchpad && node cervello/test-cervello.mjs"), []);
+});
+
+test("⑤ una prova che passerebbe anche sulla versione sbagliata", () => {
+  // Il vero: ho verificato «il JSON è valido» per dimostrare che il file contenesse l'hook.
+  // Passa identico sulla versione senza hook: un verde vuoto.
+  assert.ok(ids(`node -e "JSON.parse(require('fs').readFileSync('.claude/settings.json','utf8'));console.log('✅ valido')"`).includes("prova-che-non-puo-dire-no"));
+});
+
+test("… ma se cerca davvero il contenuto, la prova può dire di no e va bene", () => {
+  assert.deepEqual(
+    ids(`node -e "const s=JSON.parse(require('fs').readFileSync('.claude/settings.json','utf8')); console.log(Object.keys(s.hooks).includes('PostToolUse')?'✅':'❌')"`),
+    [],
+  );
+  assert.deepEqual(ids('grep -c "PostToolUse" .claude/settings.json'), []);
+});
+
+test("un comando innocuo non viene segnalato: il rumore spegne i guardiani", () => {
+  for (const c of ["git status --short", "node --test cervello/test/x.test.mjs", "ls -la cervello/", ""]) {
+    assert.deepEqual(ids(c), [], `«${c}» non deve produrre avvisi`);
+  }
+});
+
+test("ogni trappola porta con sé cosa fare invece: un avviso senza rimedio è solo un rimprovero", () => {
+  for (const t of TRAPPOLE) {
+    assert.ok(t.invece && t.invece.length > 15, `${t.id} deve dire cosa fare al posto suo`);
+    assert.ok(t.cosa && t.cosa.length > 15, `${t.id} deve spiegare il danno, non solo nominarlo`);
+  }
+  assert.equal(TRAPPOLE.length, 5, "le cinque forme misurate sul campo, non una teoria della shell");
+});

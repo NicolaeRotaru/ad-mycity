@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-30 15:20",
+  "aggiornato": "2026-07-30 16:45",
   "lezioni": [
     {
       "id": "L-2026-0730-01",
@@ -10624,6 +10624,33 @@
       "gate": "node cervello/test/nascita-difetti.test.mjs",
       "gate_attivo": true,
       "gate_nota": "Freno suo: 10 prove comportamentali su cantieri finti + 4 mutazioni (tutte rendono rosso il loro test), agganciato a cancello-lotto.mjs come passo «nascita dei difetti». Il tetto per NOME in cervello/nascita-baseline.json: un ID nuovo senza nascita fallisce anche se il conteggio non sale."
+    },
+    {
+      "id": "L-2026-0730-533",
+      "testo": "**Una misura che non puo dire di no non e una misura (30/7, cinque volte in un giorno).** Mentre costruivo il freno contro i difetti che mi infliggo da solo, ho sbagliato cinque volte il modo di MISURARE: `require` senza `./` con l'errore in /dev/null e un `||` che concludeva «assente» (mi ha fatto dire «zero hook configurati» mentre ce n'era uno); `$?` letto due volte dopo una pipe, una su un commit che era stato BLOCCATO; un `cd` fallito il cui silenzio ho letto come «nessun test rosso»; `git diff` dopo un `git checkout -- ` che mette in STAGE, con il vuoto letto come «non e cambiato niente». **La regola:** prima di trarre una conclusione da un comando, chiediti se quel comando POTEVA dire di no. Se il canale nasconde il verdetto — una pipe che mangia l'uscita, uno stderr in /dev/null, una vista che non guarda dove hai scritto, un controllo che passerebbe identico sulla versione sbagliata — la risposta non e stata misurata, e tutto quello che ci costruisci sopra e aria. **E il nome vero della cosa:** e `errore-ingoiato`, la malattia che questo cantiere censisce nel codice, commessa nel modo in cui misuro. Fa piu danno li: in produzione rompe una schermata, in una misura rompe il ragionamento — e non c'e niente di rosso.",
+      "tag": [
+        "misura",
+        "errore-ingoiato",
+        "auto-revisione",
+        "shell"
+      ],
+      "reparto": "AD",
+      "confidenza": 0.95,
+      "evidenze": [
+        "«zero hook configurati» concluso da un require senza ./ con errore in /dev/null: falso, e ci ho progettato sopra",
+        "EXIT=0 letto due volte dopo `| head` e `| tail`, una su un commit bloccato dal pre-commit",
+        "`cd` nella scratchpad + node su un file inesistente li: output vuoto letto come «nessun test rosso»",
+        "`git checkout <ref> -- file` mette in stage: `git diff --stat` vuoto letto come «main ha gia il file»",
+        "«JSON valido» usato per dimostrare che il file contenesse l'hook: passa identico sulla versione senza"
+      ],
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-30 16:45",
+      "ultima_conferma": "2026-07-30 16:45",
+      "stato": "attiva",
+      "gate": "node cervello/test/misura-cieca.test.mjs",
+      "gate_attivo": true,
+      "gate_nota": "Freno suo: cervello/misura-cieca.mjs riconosce le cinque forme sui comandi VERI che le hanno generate (12 prove, 3 mutazioni non vacue). Il CABLAGGIO come hook su Bash serve una riga di Nicola in .claude/settings.json: AR-463, debito dichiarato. Finche non e cablato il riconoscitore esiste e si puo lanciare a mano, ma non guarda da solo."
     }
   ],
   "principi": [
