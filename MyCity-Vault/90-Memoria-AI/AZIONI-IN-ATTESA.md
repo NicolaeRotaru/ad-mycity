@@ -32,6 +32,25 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+<!-- apri-pr-data-piani-per-casella -->
+
+### 🟡 #apri-pr-data-piani-per-casella — Apri PR per la data su ogni casella dei Piani · ⏳ accodata 2026-07-30 15:52
+
+**Contesto:** Nicola ha chiesto (30/7, guardando la scheda Piani) di vedere la data di ultimo aggiornamento su OGNI casella (Business Model Canvas, Piano Editoriale, ecc.), non solo la data globale in cima alla sezione. Il fix è scritto e committato nel branch `fix/data-piani-per-casella` (commit `7e846d78f`): dato che questi file non hanno frontmatter `data:`, la data viene presa dall'ultimo commit git che ha toccato il singolo file (GitHub commits API in produzione, `git log` in locale) — mai un numero inventato. `npx tsc --noEmit` pulito. `node cervello/git-pr.mjs` è risultato bloccato in questa sessione (nessun box di approvazione può comparire in modalità headless).
+
+**Cosa fare:** Nella prossima chat scrivere «apri pr per fix/data-piani-per-casella» oppure eseguire:
+```
+node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
+```
+
+**Cosa cambia:** in Memoria → Piani, ogni casella mostra "aggiornato GG/MM · HH:MM" accanto al titolo.
+**Se va bene:** Nicola vede a colpo d'occhio quale piano è fermo da tempo e quale è stato toccato di recente, senza aprire ogni casella.
+
+- **Colore:** 🟡 (modifica al Pannello → PR → mergia Nicola)
+- **Reparto:** frontend-dev
+
+---
+
 <!-- ordine-test-dentro-o-fuori-dalla-pausa -->
 
 
