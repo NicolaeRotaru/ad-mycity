@@ -10,7 +10,29 @@
       "passi_ok": true,
       "vincoli_attivi": 0,
       "vincoli": []
+    },
+    "giro": {
+      "quando": "2026-07-30 06:40",
+      "esito": "vincoli-attivi",
+      "codice": 2,
+      "ai_rc": 0,
+      "push_ok": false,
+      "passi_ok": false,
+      "vincoli_attivi": 11,
+      "vincoli": [
+        "APPRENDIMENTO",
+        "CHECKLIST",
+        "ESP",
+        "GATE",
+        "LOOP",
+        "MAPPA",
+        "NORTH_STAR",
+        "SCADENZE",
+        "TASSO",
+        "TEST",
+        "VOLANO"
+      ]
     }
   },
-  "aggiornato": "2026-07-30 06:11"
+  "aggiornato": "2026-07-30 06:40"
 }
