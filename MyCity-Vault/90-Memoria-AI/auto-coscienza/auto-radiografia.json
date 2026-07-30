@@ -2237,7 +2237,7 @@
     }
   },
   "sonda": {
-    "data": "2026-07-30 14:20",
+    "data": "2026-07-30 15:27",
     "loop_chiude": true,
     "tasso_applicazione": 0.18,
     "prova_chiusura": true,
@@ -2254,10 +2254,10 @@
     "esperimenti_misurati": true,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 25,
-    "ore_da_ultimo_briefing": 2,
-    "max_giri_ciechi_sensori": 6,
-    "giri_tasso_basso": 15,
+    "ore_da_ultima_completa": 26,
+    "ore_da_ultimo_briefing": 1,
+    "max_giri_ciechi_sensori": 7,
+    "giri_tasso_basso": 16,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
@@ -2267,7 +2267,7 @@
     "bloccanti_umani": 20,
     "salute_firma": "AR-126,AR-154,AR-158,AR-160,AR-161,AR-174,AR-184,AR-188,AR-193,AR-206,AR-216,AR-217,AR-220,AR-223,AR-224,AR-225,AR-234,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-274,AR-278,AR-283,AR-285,AR-288,AR-289,AR-294,AR-295,AR-323,AR-345,AR-347,AR-349,AR-396,AR-404,AR-410,AR-411,AR-414,AR-420,AR-423,AR-425,AR-428,AR-435,AR-445,AR-447,AR-448,AR-449,AR-450",
     "verdetto": "serve-completa",
-    "nota": "loop chiude (con prova) · briefing 2h fa · cecità sensori 6 giri · salute pending-merge 0/100 (floor 0): 50 aperti-davvero · 85 in attesa merge · 20 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 8.63 (su 8/8 dimensioni)",
+    "nota": "loop chiude (con prova) · briefing 1h fa · cecità sensori 7 giri · salute pending-merge 0/100 (floor 0): 50 aperti-davvero · 85 in attesa merge · 20 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 8.63 (su 8/8 dimensioni)",
     "voto_salute": 9,
     "voto_salute_copertura": "8/8",
     "voto_salute_parziale": false,
@@ -2275,8 +2275,8 @@
     "voto_salute_motivo": "voto salute (media dei pilastri): calcolata su tutte e 8 le dimensioni"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 15,
-    "aggiornato": "2026-07-30 14:20"
+    "giri_tasso_basso": 16,
+    "aggiornato": "2026-07-30 15:27"
   },
   "sync_scan": {
     "aggiornato": "2026-07-30 14:21",
