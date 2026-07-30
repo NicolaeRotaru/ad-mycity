@@ -408,6 +408,23 @@ function rebaseBranchOntoBase(cfg, base, branch) {
 }
 
 /**
+ * Il remoto è solo la nostra stessa pubblicazione precedente (sicuro da sovrascrivere col lease), o
+ * porta lavoro che non abbiamo (ci si ferma)?
+ *
+ * AR-451 — perché servono PIÙ candidati, non solo l'HEAD locale di adesso. Un ramo già pubblicato
+ * come `shaRemoto` e poi ribasato di nuovo non ha più `shaRemoto` tra i suoi antenati: il rebase
+ * riscrive l'hash di ogni commit che sposta, a contenuto invariato. Guardare solo l'HEAD locale
+ * dopo il rebase di questa corsa scambia «l'ho pubblicato io stessa la volta scorsa» per «qualcun
+ * altro ci ha lavorato». `candidati` porta anche l'HEAD di PRIMA del rebase (quello con cui questo
+ * ramo esisteva un attimo fa): se il remoto è antenato di quello, è la nostra storia, non altrui.
+ *
+ * Pura sulla decisione: la lettura del remoto resta a chi chiama, qui c'è solo il confronto.
+ */
+export function remotoEDavveroVecchio(cfg, shaRemoto, candidati) {
+  return candidati.some((sha) => sha && gitOrNull(["merge-base", "--is-ancestor", shaRemoto, sha], cfg.cwd) !== null);
+}
+
+/**
  * Il rebase vero, su un riferimento già risolto.
  *
  * AR-449 · AR-445 — PERCHÉ È SEPARATO DA `rebaseBranchOntoBase`: quella chiama `fetchBase`, che vuole rete e
@@ -456,6 +473,13 @@ export function rebasaSuRiferimento(cfg, baseRef, branch, base = baseRef) {
   }
 
   if (prev !== branch) git(["checkout", branch], cfg.cwd);
+  // AR-451 — l'hash del ramo PRIMA di riscriverlo. Il rebase cambia l'identità di OGNI commit che
+  // sposta (anche a contenuto invariato: l'hash include il genitore), quindi un ramo già pubblicato
+  // e poi ribasato non ha più, nella sua storia nuova, l'hash con cui l'avevamo pubblicato — il lease
+  // di default lo legge come "qualcun altro ci ha lavorato" anche quando l'unica cosa successa è
+  // che NOI l'abbiamo ribasato di nuovo. Portare con sé questo hash è l'unico modo di riconoscere
+  // dopo «quel commit remoto era già nostro» senza doverlo indovinare dal contenuto.
+  const preRebaseSha = gitOrNull(["rev-parse", branch], cfg.cwd);
   try {
     try {
       git(["rebase", baseRef], cfg.cwd, SENZA_EDITOR);
@@ -541,7 +565,7 @@ export function rebasaSuRiferimento(cfg, baseRef, branch, base = baseRef) {
       throw new Error(`conflitti residui dopo rebase: ${conflicts.join(", ")}`);
     }
     console.log(`✓ Rebase ${branch} su ${base} (${ahead} commit oltre la base)`);
-    return { baseRef, ahead };
+    return { baseRef, ahead, preRebaseSha };
   } finally {
     // L'ordine conta: prima si torna dov'eravamo (con l'albero pulito il checkout non può fallire),
     // poi si rimette lo sporco. Così la copia di lavoro resta come l'abbiamo trovata.
@@ -768,6 +792,15 @@ async function main() {
       //      ancorato allo SHA appena letto, che resta una difesa (se cambia nel frattempo, fallisce).
       //   ② il remoto ha commit che noi non abbiamo → qualcuno ci ha lavorato: ci si FERMA.
       // Il `--force` nudo resta una scelta umana, da digitare a mano dopo aver guardato il diff.
+      //
+      // AR-451 — «antenato di COSA» era la domanda sbagliata quando il ramo era già stato ribasato.
+      // Il rebase fatto qui sopra riscrive l'hash di ogni commit che sposta: un ramo pubblicato ieri
+      // come X e poi ribasato oggi non ha più X tra i suoi antenati, anche se il contenuto è lo
+      // stesso. Il vecchio controllo guardava solo `shaLocale` (il ramo DOPO il rebase di questa
+      // corsa) e quindi scambiava «l'ho pubblicato io stessa la corsa precedente» per «qualcun altro
+      // ci ha lavorato». La prova giusta guarda anche `preRebaseSha` — il ramo COM'ERA un attimo
+      // prima che questa corsa lo ribasasse: se il remoto è antenato di quello, è la nostra stessa
+      // pubblicazione precedente, non il lavoro di qualcun altro.
       if (rebaseInfo.baseRef) {
         const remoto = gitOrNull(["ls-remote", url, `refs/heads/${branch}`], cfg.cwd);
         const shaRemoto = remoto ? remoto.split(/\s+/)[0] : null;
@@ -775,7 +808,7 @@ async function main() {
         let remotoAntenato = false;
         if (shaRemoto && shaLocale) {
           gitOrNull(["fetch", url, `refs/heads/${branch}`], cfg.cwd);
-          remotoAntenato = gitOrNull(["merge-base", "--is-ancestor", shaRemoto, shaLocale], cfg.cwd) !== null;
+          remotoAntenato = remotoEDavveroVecchio(cfg, shaRemoto, [shaLocale, rebaseInfo.preRebaseSha]);
         }
         if (shaRemoto && remotoAntenato) {
           try {
