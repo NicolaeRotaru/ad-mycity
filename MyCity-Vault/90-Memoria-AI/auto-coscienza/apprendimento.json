@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-30 03:09",
+  "aggiornato": "2026-07-30 03:30",
   "lezioni": [
     {
       "id": "L-2026-0726-02",
@@ -10460,6 +10460,29 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-30",
       "ultima_conferma": "2026-07-30 03:09",
+      "stato": "attiva",
+      "gate": "node cervello/test/rebase-che-non-parte.test.mjs"
+    },
+    {
+      "id": "L-2026-0730-529",
+      "testo": "**Una prova verde in locale e rossa in CI, e il log che non sa dire quale asserzione (30/7, PR #629).** La prova comportamentale del rebase passava 13/13 qui e 10/11 sul runner di GitHub. Escluse una per una le ipotesi misurandole, non immaginandole: config git globale azzerata (`GIT_CONFIG_GLOBAL=/dev/null`) → sempre verde; invocazione identica a quella del runner (`node --import hook-ts.mjs --test`) → sempre verde; restava una sola differenza reale, **git 2.43 qui contro 2.54 in CI**, e in questo container git non si può aggiornare. Due difetti veri dietro quel rosso: ① la prova chiedeva a git un DETTAGLIO INTERNO («hai lasciato la cartella .git/rebase-merge?») per decidere se ci fosse un conflitto — un dettaglio che cambia fra versioni; la domanda giusta è una sola e non cambia mai: **ci sono file in conflitto da risolvere?** ② il ripiego dopo un `rebase --continue` fallito era `--skip`, cioè **buttare via il commit del ramo** senza guardarci dentro: giusto in un caso solo (dopo la risoluzione quel commit non porta più niente), e quel caso ora si RICONOSCE (indice vuoto) invece di indovinarlo. Aggiunto anche `GIT_EDITOR=true`: un rebase dentro uno script non ha un editor e non deve volerne uno. Terzo difetto, quello che ha reso tutto più lento: **`test-cervello.mjs` buttava l'uscita del figlio** e riportava solo «1 asserzioni fallite». Un rosso che non dice cosa è rosso costringe a cambiare il test alla cieca e ripubblicare. Regole: ① un test non deve dipendere da dettagli interni dello strumento, ma dall'invariante che vogliamo garantire; ② «funziona sulla mia macchina» non è un verde: le versioni degli strumenti sono parte dell'ambiente, e vanno escluse per misura; ③ un guardiano deve riportare COSA è rosso, non solo quanto.",
+      "tag": [
+        "test",
+        "ci",
+        "git",
+        "versioni",
+        "diagnosi",
+        "git-pr.mjs",
+        "test-cervello",
+        "flaky"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.95,
+      "evidenze": 2,
+      "fonte": "sessione",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-30",
+      "ultima_conferma": "2026-07-30 03:30",
       "stato": "attiva",
       "gate": "node cervello/test/rebase-che-non-parte.test.mjs"
     }

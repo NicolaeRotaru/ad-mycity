@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-30 03:09",
+  "aggiornato": "2026-07-30 03:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -7465,6 +7465,24 @@
         "comando": "node cervello/test/rebase-che-non-parte.test.mjs"
       },
       "nota_fix": "Fix (a)-(f) applicati in questa sessione. Prova comportamentale in cervello/test/rebase-che-non-parte.test.mjs (11 casi, guida git vero su repo temporanei), e 3 mutazioni in mutanti.json che rimettono l errore e devono renderla rossa."
+    },
+    {
+      "id": "AR-450",
+      "titolo": "Un rosso di CI indiagnosticabile: il runner butta l uscita del test e dice solo quante asserzioni sono cadute",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "test-cervello.mjs esegue ogni file in un processo suo e ne legge il TAP per contare passati/falliti, poi SCARTA l uscita. Sul rosso stampa «N asserzioni fallite» e nient altro. In locale non si nota, perche il test lo si rilancia a mano e si legge tutto; in CI e l unica finestra che c e, e non mostra ne il nome del caso caduto ne il messaggio dell asserzione. Il 30/7 la prova di AR-449 e passata 13/13 in locale e 10/11 in CI, e dal log era impossibile sapere quale: l unica strada restava cambiare il test alla cieca e ripubblicare. Difetto gemello nella prova stessa: chiedeva a git se avesse lasciato la cartella .git/rebase-merge per decidere se ci fosse un conflitto — un dettaglio interno che cambia fra versioni (git 2.43 in locale, 2.54 sul runner) — invece dell invariante che vogliamo garantire (ci sono file in conflitto da risolvere?). Terzo, nella stessa funzione: il ripiego dopo un rebase --continue fallito era --skip, cioe buttare via il commit del ramo, senza distinguere il caso legittimo (commit rimasto vuoto dopo la risoluzione) da tutti gli altri.",
+      "fix_proposto": "🟡 (a) righeRosse() in test-cervello.mjs: sul rosso si stampano le righe «not ok - nome → messaggio» del figlio, cosi un rosso in CI si diagnostica leggendo, non ripubblicando. (b) La decisione conflitto/non-conflitto passa dai file in conflitto (unmergedPaths), non dalla cartella di stato di git. (c) --skip solo quando l indice e vuoto rispetto a HEAD, con il motivo scritto nel log; in ogni altro caso si abortisce e si riporta il motivo di git. (d) GIT_EDITOR/GIT_SEQUENCE_EDITOR/GIT_TERMINAL_PROMPT impostati: un comando dentro uno script non deve mai volere un editor ne una risposta.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-30 03:30",
+      "origine": "CI rossa sulla PR #629: due check falliti, una sola causa — la prova nuova del rebase. Trovato mentre cercavo QUALE asserzione fosse, e non si poteva sapere",
+      "nota": "Le ipotesi sono state escluse per misura, non per intuito: config git globale azzerata (verde), invocazione identica a quella del runner (verde), versione di git non aggiornabile in questo container. Quando resta una sola differenza e non la si puo provare, si smette di indovinare e si toglie la dipendenza da quella differenza.",
+      "verifica": {
+        "comando": "node cervello/test/test-cervello.test.mjs"
+      },
+      "nota_fix": "Fix (a)-(d) applicati. Prove: 4 casi nuovi in cervello/test/test-cervello.test.mjs per righeRosse, 2 in cervello/test/rebase-che-non-parte.test.mjs (rebase rimasto a metà · commit che resta vuoto). 2 mutazioni in mutanti.json. ⚪ DEBITO DICHIARATO: il ramo del catch su rebase --continue non ha prova comportamentale — con git 2.43 (questo container) --continue non fallisce mai la, provato sia con indice vuoto sia con un pre-commit che esce 1. La mutazione che lo avrebbe provato e stata RIMOSSA invece di essere tenuta finta: lasciava il test verde col fix rotto. Per coprirlo serve git >= 2.54 in locale o un doppio iniettabile al posto di git()."
     }
   ],
   "meta": {
