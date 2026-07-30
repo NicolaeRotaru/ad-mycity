@@ -203,7 +203,13 @@ prova("fatto ambiguo → CIECO (2), non verde e non rosso", () => {
 prova("nella coda vera ogni card in pausa ha un momento in cui finisce", () => {
   const testo = readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md"), "utf8");
   const inPausa = leggiCard(testo).filter((c) => c.inPausa);
-  assert.ok(inPausa.length >= 11, `attese almeno 11 card in pausa, trovate ${inPausa.length}`);
+  // Qui c'era `>= 11`: il numero di card in pausa il giorno in cui la prova è stata scritta.
+  // Quel numero scende ogni volta che la macchina LAVORA — una card in pausa che riprende è un
+  // successo — quindi la soglia diventava rossa per il motivo sbagliato (il 30/7: 10 invece di 11,
+  // suite rossa su main). L'invariante che questa prova difende è nel ciclo qui sotto: OGNI card in
+  // pausa dice da quale fatto dipende e di che classe è. La soglia serve solo a garantire che il
+  // ciclo non giri a vuoto — e per questo basta che ce ne sia almeno una.
+  assert.ok(inPausa.length >= 1, "nessuna card in pausa nella coda: il ciclo qui sotto non proverebbe nulla");
   for (const c of inPausa) {
     assert.ok(c.pausa?.fatto, `#${c.id} (riga ${c.riga}) è in pausa e non dice da quale fatto dipende`);
     assert.ok(["business", "validazione"].includes(c.pausa.classe), `#${c.id} non dichiara la classe`);
