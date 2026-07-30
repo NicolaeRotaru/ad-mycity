@@ -788,6 +788,15 @@
    "cerca": "    for (const m of esenteDaMalattie(file) ? [] : malattie) {",
    "sostituisci": "    if (esenteDaMalattie(file)) continue;\n    for (const m of malattie) {",
    "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-451",
+   "lezione": "L-2026-0730-530",
+   "nome": "il SHA di prima del rebase non viene piu registrato: il confronto perde l unico appiglio che lo salva",
+   "file": "cervello/git-pr.mjs",
+   "cerca": "  const preRebaseSha = gitOrNull([\"rev-parse\", branch], cfg.cwd);",
+   "sostituisci": "  const preRebaseSha = null;",
+   "test": "cervello/test/lease-dopo-rebase-ripetuto.test.mjs"
   }
  ]
 }
