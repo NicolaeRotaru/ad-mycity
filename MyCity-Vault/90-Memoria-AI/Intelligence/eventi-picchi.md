@@ -11,7 +11,7 @@
 | **Lun 27/7 (OGGI)** | Sereno e afoso | **33-34° / 20°** | 0% | Normale |
 | Mar 28/7 | Sereno | **33-34° / 22-23°** | 0% | Normale |
 | Mer 29/7 | Sereno, poche nubi | **35-36° / 23-24°** | 0% | Caldo in salita |
-| Gio 30/7 | Sereno | **37-38° / 24-25°** | 0% | **Scadenza PI26 ore 16:00** |
+| Gio 30/7 | Sereno | **37-38° / 24-25°** | 0% | Normale (PI26 chiuso per MyCity dal 29/7, non idonea) |
 | Ven 31/7 | Sereno | **39-40° / 24-26°** | 0% | **Picco ondata di caldo** |
 | Sab 1/8 | Soleggiato | **38-39° / 25-26°** | 0% | Weekend caldo estremo |
 | Dom 2/8 | Poche nubi | **36-39° / 25°** | 0% | Lieve calo, resta molto caldo |

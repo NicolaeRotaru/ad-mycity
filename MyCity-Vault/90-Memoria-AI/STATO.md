@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 04:21
+aggiornato: 2026-07-30 06:10
 fonte: AD digitale (chat)
 ---
+
+> ☀️ **30/7 06:10 — PIANO DEL MATTINO: 5 card zombie ripulite dalla coda, poi le 3 priorità del giorno.** Le due domande che tenevano ferma la coda da giorni — PI26 e piano-squadra — Nicola le aveva già chiuse la notte del 29/7 (00:10-00:15), ma 4 card sul bando e 1 sul piano-squadra erano rimaste scritte come ancora aperte in [[AZIONI-IN-ATTESA]]: chiuse stamattina, con anche il fatto in `registro-fatti.json` corretto (AR-102) perché diceva ancora "PI26 scade oggi ore 16:00". Business invariato: 1 PQ, 5 prodotti, 1 ordine annullato, 0 pagati — stallo 36 giorni. Le 3 priorità di oggi (dettaglio in "Prossime priorità" sotto): mergiare la PR #633 di stanotte, i 30 secondi su Vercel per chiudere il Pannello, e una parola su dentro/fuori per l'ordine di prova PQ — l'unica cosa che manca per rompere lo stallo. Fonte: Supabase MCP `execute_sql` (ordini=1, profili=7, prodotti=5) + DECISIONI.md 2026-07-29 00:15.
 
 > 🖥️ **30/7 04:21 — CHAT: il menu Memoria appiattito in 3 mosse, +2 voci tirate fuori da Numeri e Mercato — 4 PR in fila, una bloccata dal solito bug del rebase.** Nicola ha chiesto passo dopo passo di togliere i doppi-click nel Pannello: prima Stato/OKR/Piani fuori da "Stato & numeri" (**PR #630, mergiata**), poi Memoria viva/Archivio spacchettati in 10 schede dirette (**PR #631, mergiata**), poi Ultimo briefing/Sala Operativa fuori dal tab "Memoria" (**PR #632**), poi due voci nuove nel menu — "Analisi & report" tirata fuori da "Numeri" e "Intelligence & opportunità" tirata fuori da "Mercato" — nello stesso branch. La #632 si è rotta sullo stesso bug già noto (rebase che scambia una normale divergenza per "conflitti residui", vedi L-10463/AR-449): ricreato branch pulito con tutto il contenuto dentro, **PR #633** aperta e mergeable, la #632 è superata (da chiudere senza merge). Ogni passo confermato da Nicola prima di scrivere codice ("hai capito giusto" / "confermo"). Typecheck+build puliti su ogni commit. Business invariato: 1 PQ, 0 pagati. Serve la firma di Nicola: mergiare #633 (contiene tutto il lavoro di stanotte).
 
@@ -699,6 +701,17 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (☀️ aggiornato 30/7 06:10 — piano del mattino)
+Business INVARIATO dal 24/6, riconfermato ora con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati, 0 recensioni, 3 carrelli abbandonati — **stallo 36 giorni**. Le due domande che tenevano ferma la coda da giorni (PI26, piano-squadra) erano state chiuse da Nicola già il 29/7 notte, ma 5 card erano rimaste aperte per errore: ripulite stamattina (dettaglio in [[SALA-OPERATIVA]] 06:10). Oggi la priorità torna a essere lo stallo del North Star: manca solo una parola di Nicola per sbloccare l'ordine di prova.
+
+1. [ ] 🟡 **Mergia la PR di stanotte sul Pannello** (#633 — menu Memoria più semplice, 4 passi confermati uno per uno con te; supera la #632 rotta dal bug noto del rebase).
+2. [ ] 🔴 **Trenta secondi su Vercel per chiudere davvero il Pannello** (Settings → Deployment Protection → Vercel Authentication = Enabled) — il buco l'hai verificato di persona in incognito il 29/7, nessun codice in attesa.
+3. [ ] 🟡 **Una parola: l'ordine di prova da Pane Quotidiano resta in pausa fino a settembre o lo fai ora?** È l'unica cosa che manca per rompere lo stallo di 36 giorni del North Star.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 36gg, atteso — negozi in pausa) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente (card `#sensori-spenti-senza-motivo` in attesa di un sì/no tuo) · n8n cieco · REST/MCP/Stripe/Sito/Pannello ✅ · cantiere: 16 bloccanti su main, 2 aspettano solo te (permessi `.claude/settings.json` AR-206, Vercel Authentication AR-226).
+
+---
 
 ## Prossime priorità (🌙 aggiornato 27/7 18:00 — report della sera)
 Business INVARIATO dal 24/6, riconfermato con SQL diretta alle 18:00 (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati — **stallo 33 giorni**. Giornata tecnica pesante (radiografia + 7 PR di fix reali), zero movimento commerciale come da pausa concordata. Due urgenze nuove emerse oggi si aggiungono a PI26: il Pannello resta apribile da chiunque abbia il link (verificato oggi, non più solo teorico) e la memoria rischia di iniziare a perdere le lezioni di giugno da domani.

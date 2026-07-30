@@ -91,7 +91,7 @@ Le 3 trasversali (44-46) si appoggiano ai portafogli sopra.
 | 21 | Servizio contenuti (foto/video/schede) | **La macchina lo sa già fare** — Content Factory + i due cancelli creativi |
 | 24 | Formazione in presenza | Il tempo di Nicola, che è la risorsa scarsa |
 | 25 | Kit fisico QR + vetrofania | **Grafica pronta su disco**; costa 80-150 € di stampa, margine minimo |
-| 29 | Bandi e voucher digitalizzazione | Esiste già come leva — **PI26 scade domani 30/7 ore 16:00** con 3 dubbi di ammissibilità aperti in coda |
+| 29 | Bandi e voucher digitalizzazione | PI26 chiuso per MyCity — non idonea, confermato da Nicola (29/7). Da riprovare al prossimo bando compatibile |
 | 30 | Partnership associazioni di categoria | È **canale**, non ricavo — già presidiata |
 | 33 | Vetrine self-service per professionisti | Costruire il prodotto |
 | 39 | Moduli SaaS standalone | Costruire il prodotto |

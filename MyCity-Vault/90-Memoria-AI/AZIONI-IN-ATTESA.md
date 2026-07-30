@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-27 22:20** — Automatico: **57 aperte · 98 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-30 06:05** — Manuale (piano del mattino): **45 aperte**. Chiuse 5 card zombie: 4 sul bando PI26 (Nicola l'aveva già dichiarato chiuso il 29/7 ~00:10, ma il testo non era mai stato tolto da qui) + 1 sul piano-squadra (già confermato il 29/7 ~00:15). Fatto anche in `registro-fatti.json` (AR-102): `bando.pi26.idoneita` nuovo, `bandi.pi26.scadenza` aggiornato.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -146,13 +146,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #conferma-piano-squadra-ripresa-negozi — Conferma se il piano squadra (fratello + 2 amici non pagati) e la nuova data di ripartenza (metà agosto) sostituiscono la pausa negozi decisa il 23/7 (24/8-1/9) · ⏳ accodata 2026-07-26 01:10
-**Cosa cambia:** Nicola ha descritto un piano concreto per accelerare l'inserimento negozi (1-3/giorno) con l'aiuto del fratello + il suo migliore amico + un amico fedele (loro: consegna prodotti, inserimento prodotti, volantini — solo Nicola inserisce i negozi), tutti non pagati finché l'azienda non arriva a 10.000€ di profitto. Ha detto che si parte "appena riparo la bici e stampo i volantini", finanziati dallo stipendio del 15 agosto (bici 100€ + volantini 200€) — una data PRIMA di quella già registrata in `registro-fatti.json` (`ripresa.lavoro-operativo` = dopo il 24/8-1/9, decisione Nicola del 23/7).
-**Se va bene:** l'AD registra il piano squadra come decisione ufficiale in DECISIONI.md, aggiorna `ripresa.lavoro-operativo` con `coerenza-fatti.mjs` e riscrive la data vecchia ovunque compaia nel vault (STATO, coda pause, calendario).
-**Nota:** in attesa — l'AD ha chiesto conferma esplicita a Nicola due volte (26/7 ~01:05 e ~01:10), non ancora arrivata; nessun fatto riscritto finché non conferma.
-- **Colore:** 🟡 (cambia una data/decisione ufficiale + registra un piano operativo nuovo)
-- **Reparto:** AD
-- **Origine:** `{origine:chat-2026-07-26, tema:ripresa-negozi-squadra}`
+❌ #conferma-piano-squadra-ripresa-negozi — ~~Conferma se il piano squadra sostituisce la pausa negozi~~ → RIMOSSA 2026-07-30 06:05 · Nicola ha già risposto: resta il 24 agosto-1 settembre, il piano squadra non la anticipa (chat 29/7 ~00:15, DECISIONI.md). `ripresa.lavoro-operativo` era già corretto, nessuna riscrittura necessaria.
 
 ---
 
@@ -160,13 +154,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🔴 #pi26-conferma-ammissibilita — Conferma 3 cose prima di inviare la domanda PI26 (10.000€, scade 30/7 ore 16:00) · ⏳ accodata 2026-07-24 16:00 (review settimanale)
-**Cosa cambia:** un valutatore indipendente ha esaminato la bozza (`consegne/relazioni-istituzionali/2026-07-18-bandi-cciaa-pi26-be26.md`) con l'occhio scettico della nostra regola di qualità e ha dato verdetto **DA SISTEMARE**: (1) la spesa minima richiesta dal bando (5.000€ dal 1° maggio) non è mai stata confrontata col nostro burn reale — da maggio a oggi fa ~850€, molto sotto soglia; (2) non risulta da nessuna parte se MyCity ha già una Partita IVA o un'entità giuridica registrata (requisito base di ammissibilità); (3) mancano documenti di spesa reali (fatture/preventivi) che sommino la soglia richiesta.
-**Se va bene:** rispondi con le 3 risposte (P.IVA sì/no, spese reali documentabili sì/no e quanto, firma digitale attiva sì/no) — l'AD aggiorna la bozza e la prepara per l'invio finale entro il 29/7, un giorno di margine sulla scadenza.
-**Nota tecnica:** verdetto completo in `MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json` (peer_review PR-007). Sportello a esaurimento: se la domanda risulta inammissibile dopo l'invio non si può correggere.
-- **Colore:** 🔴 (decisione economica, 10.000€, richiede dati reali solo tuoi)
-- **Reparto:** relazioni-istituzionali
-- **Origine:** `{origine:review-settimanale-2026-07-24, valutatore:indipendente}`
+❌ #pi26-conferma-ammissibilita — ~~Conferma 3 cose prima di inviare la domanda PI26~~ → RIMOSSA 2026-07-30 06:05 · Nicola ha già risposto: MyCity non è idonea al bando (chat 29/7 ~00:10, DECISIONI.md 2026-07-29 00:15). Nessuna domanda da inviare. La card era rimasta in coda per errore: DECISIONI diceva "chiusa" ma il testo non era mai stato tolto da qui.
 
 ---
 
@@ -321,34 +309,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🔴 #invio-comunicato-stampa-pi26-2007 — Invia il comunicato stampa su PI26 e le botteghe del centro a Libertà (poi alle testate online) · ⏳ accodata 2026-07-20 11:29 · ⏸ in pausa (rinvio negozi — cita Pane Quotidiano, aspetta)
-
-- **⏸ Pausa:** rinvio negozi — cita Pane Quotidiano, aspetta · classe **business** · riprende con `ripresa.lavoro-operativo`
-
-**Contenuto completo:** `consegne/pr/2026-07-20-playbook-stampa-settimana.md` · anteprima [[AZIONI-PRONTE]] **A37**
-
-**Angolo:** bando **PI26** Camera di Commercio a sportello **oggi 20/7** (chiusura 30/7) + MyCity chiede fondi per digitalizzare le botteghe del centro, partendo dal **Pane Quotidiano** (dal 1976). Storia **onesta** (avvio, 1 bottega online, 0 ordini completati — non si nasconde se chiesto).
-
-**Sequenza consigliata:**
-1. **Prima:** completa domanda PI26 (`#bandi-cciaa-2007`) — così il comunicato dice "presenta domanda" al passato.
-2. **Martedì/mercoledì mattina (8–10):** email **esclusiva Libertà** (pitch D1 nel playbook) + proposta servizio **Telelibertà**.
-3. **+48h o dopo uscita Libertà:** PiacenzaSera → Piacenza24 → IlPiacenza (pitch D2).
-
-**Oggetto email Libertà (copia-incolla):**
-> Esclusiva Libertà: bando PI26 aperto oggi — un piacentino digitalizza le botteghe del centro (parte dal Pane Quotidiano)
-
-**Prerequisiti prima di inviare:**
-- [ ] Domanda PI26 inviata
-- [ ] Ok scritto titolare Pane Quotidiano per nome/citazione (altrimenti togli citazione dal comunicato)
-- [ ] Numero + email stampa inseriti nel comunicato
-- [ ] Nome direttore Libertà ri-verificato
-
-**Cosa cambia:** MyCity entra nell'earned media locale con storia verificabile (bando + bottega reale) — reach potenziale 25–40k via Libertà senza budget ads.
-**Se va bene:** articolo su Libertà/Telelibertà → online ripubblicano → @content-social amplifica → commercianti chiedono info bando e botteghe.
-
-- **Colore:** 🔴 (email a giornalisti = voce pubblica — firma Nicola)
-- **Canale:** email redazione Libertà → poi PiacenzaSera / Piacenza24 / IlPiacenza
-- **Reparto:** pr-stampa
+❌ #invio-comunicato-stampa-pi26-2007 — ~~Invia il comunicato stampa su PI26~~ → RIMOSSA 2026-07-30 06:05 · L'angolo del comunicato era il bando PI26; MyCity non è idonea (Nicola, chat 29/7 ~00:10, DECISIONI.md 2026-07-29 00:15). Il comunicato sulle botteghe del centro va bene, ma va riscritto senza l'angolo PI26 prima di riproporlo — non è un semplice "riprendi da qui".
 
 ---
 
@@ -512,19 +473,7 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #whatsapp-3-anchor-pi26 — Manda 3 WhatsApp a Garetti, Peretti e Amendolara · ⏳ accodata 2026-07-18 06:30 · ⏸ in pausa (rinvio negozi)
-
-- **⏸ Pausa:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
-
-**Contesto:** Le 3 botteghe più calde. Il bando PI26 (50% fondo perduto max €10k su spese tech) apre DOMANI 20/7 ore 10:00 → leva urgenza reale senza bisogno della bici.
-
-**Testi pronti in `consegne/vendite/2026-07-18-whatsapp-anchor-pi26.md`**
-
-**Cosa cambia:** primo contatto caldo con le 3 botteghe top. Se 1 risponde positivamente → onboarding la settimana prossima.
-
-**Se va bene:** almeno 1 risposta positiva → fissa un appuntamento per la settimana 21-25/7.
-
-**Canale:** WhatsApp manuale da Nicola
+❌ #whatsapp-3-anchor-pi26 — ~~Manda 3 WhatsApp a Garetti, Peretti e Amendolara~~ → RIMOSSA 2026-07-30 06:05 · La leva del testo era il bando PI26 (urgenza "apre domani"); MyCity non è idonea (Nicola, chat 29/7 ~00:10, DECISIONI.md 2026-07-29 00:15) e il bando è comunque chiuso a sportello dal 30/7. Il contatto con le 3 botteghe resta un'idea valida, ma serve un testo nuovo senza la leva PI26 — è comunque in pausa rinvio negozi fino a `ripresa.lavoro-operativo`.
 
 ---
 
@@ -660,27 +609,7 @@ _(302 = Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2 — fonte uni
 
 ---
 
-### 🔴 #bandi-cciaa-2007 — Manda la domanda PI26 sul portale CCIAA (apre 20/7 ore 10:00, scadenza 30/7, a sportello) · ⏳ accodata 2026-07-17 20:30 · aggiornata 2026-07-18 05:00
-
-**Bando corretto: PI26 (Innovazione Digitale)** — non BT26 (quello è per negozi fisici). Portale: restart.infocamere.it. **Apre 20/7 ore 10:00** a sportello — chi prima arriva meglio alloggia. Scadenza 30/7.
-
-**Condizioni:** 50% a fondo perduto, max €10.000 (cioè max €20.000 di spese ammissibili).
-**Spese ammissibili:** hosting Supabase/Vercel/Render, consulenze, software — tutto quello già speso da maggio 2026.
-
-**Cosa serve a Nicola prima delle 10:00 del 20/7:**
-1. Registrazione su restart.infocamere.it (se non già fatto)
-2. Lista fatture ammissibili da maggio 2026 (hosting, consulenze, software)
-3. Firma digitale attiva
-
-**Bozza descrizione progetto pronta** in `consegne/relazioni-istituzionali/` — l'AD l'ha preparata.
-
-**BE26 (energia):** da ignorare per MyCity, vale solo se ci sono spese energetiche (fotovoltaico, LED).
-
-**Cosa cambia:** rimborso 50% su spese tech già sostenute — fino a €10.000 di cassa in arrivo.
-**Se va bene:** prima iniezione di finanza agevolata — abbassa il burn effettivo.
-
-- **Colore:** 🔴 (invio domanda — firma Nicola sul portale CCIAA)
-- **Reparto:** relazioni-istituzionali + finanza-agevolata
+❌ #bandi-cciaa-2007 — ~~Manda la domanda PI26 sul portale CCIAA~~ → RIMOSSA 2026-07-30 06:05 · Nicola ha risposto alle 3 domande di ammissibilità: MyCity non è idonea (chat 29/7 ~00:10, DECISIONI.md 2026-07-29 00:15). Nessuna domanda da inviare, sportello CCIAA non più rilevante per MyCity.
 
 ---
 

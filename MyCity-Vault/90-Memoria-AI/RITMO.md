@@ -1017,3 +1017,19 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - Dimmi quali dei 4 controlli promuovere a blocco vero (card in coda)
 
 **Dettagli tecnici** — business confermato via Supabase MCP `execute_sql`: ordini=1 (CANCELED 24/6), consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3 — stallo North Star 35gg. PI26 chiuso (Nicola 29/7 00:10, non idoneo). Piano-squadra confermato, parte dopo 24/8-1/9. Vercel Auth verificato da @security 00:16: `middleware.ts`/`serratura.ts` già in produzione (PR #561), nessun codice in attesa. `apprendimento.json` = 1.134.546 byte, ~566 lezioni ancora presenti (grep `"id"`), decadimento per-esecuzione ancora attivo (`cristallizza-apprendimento.mjs:45`). Coerenza-fatti: 0 copie vecchie in file vivi correnti (residuano solo in log storici datati, esenti come DECISIONI/Briefing).
+
+## Piano del mattino · 2026-07-30 06:10
+
+**In una riga:** Il negozio è pronto da 36 giorni ad aspettare — oggi ti chiedo una parola sola per farlo partire, più due cose veloci per chiudere la sicurezza del Pannello.
+
+**Le 3 cose di oggi**
+1. Dimmi una parola: l'ordine di prova dal fornaio resta fermo fino a settembre o lo fai ora? È l'unica cosa che manca per il primo incasso vero.
+2. Dai il via libera alla modifica di stanotte al menu della Cabina — fatta un passo alla volta con la tua conferma.
+3. Trenta secondi su Vercel per chiudere davvero l'accesso alla Cabina — l'avevi verificato tu stesso che chiunque ha il link entra senza fare login.
+
+**Serve da te**
+- Una parola: "dentro" o "fuori" per l'ordine di prova
+- Un giro su GitHub per approvare la modifica al menu (te la riassumo io se serve)
+- Vercel → Settings → Deployment Protection → Vercel Authentication → Enabled
+
+**Dettagli tecnici** — riverificato via Supabase MCP: ordini=1 (CANCELED 24/6), profili=7, prodotti=5, stallo 36gg. PR pendente: #633 (supera #632, stesso bug di rebase già noto). Ripulite 5 card zombie in AZIONI-IN-ATTESA (il bando PI26 lo avevi già chiuso tu il 29/7, la memoria vecchia diceva ancora "scade oggi") — coerenza-fatti aggiornata, coda 45 aperte. Cantiere: 16 bloccanti su main, 2 aspettano solo te (permessi jolly + Vercel Auth).
