@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-30 22:24",
-  "situazione": "Giro ripetuto (24°+ passaggio di oggi), business ANCORA fermo da 36 giorni: identico ai passaggi precedenti (1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). 14 commit nuovi su `origin/main` (#645 AR-465 + collaudo interno), nessuna firma richiesta. Locale diverge da origin/main in entrambe le direzioni (524 commit worker VPS non pushati, 14 indietro) — osservato, non toccato. Worker VPS concorrente ancora attivo, non toccato. Mossa n.1 resta una sola: 30 secondi su Vercel Authentication.",
+  "data": "2026-07-30 23:41",
+  "situazione": "Giro ripetuto (25°+ passaggio di oggi), business ANCORA fermo da 36 giorni: identico ai passaggi precedenti (1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). Zero commit nuovi su `origin/main` in oltre un'ora (cima ferma a `4ab3fff2d`, #645). Locale diverge da origin/main in entrambe le direzioni (598 commit worker VPS non pushati, 14 indietro) — osservato, non toccato. Worker VPS concorrente ancora attivo, non toccato. Mossa n.1 resta una sola: 30 secondi su Vercel Authentication.",
   "opportunita": [
     {
       "titolo": "Costruisci un controllo che confronti le domande in coda con le tue risposte già date",
