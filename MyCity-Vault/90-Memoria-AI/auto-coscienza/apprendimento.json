@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-30 10:54",
+  "aggiornato": "2026-07-30 11:14",
   "lezioni": [
     {
       "id": "L-2026-0730-01",
@@ -10546,7 +10546,7 @@
     },
     {
       "id": "L-2026-0730-530",
-      "testo": "**AR-451 risolto alla radice, non più workaround (30/7 04:44, Nicola: «risolvi il bug di rebase che ti fa aprire una nuova pr ogni volta»).** `git-pr.mjs` rifiutava di ripubblicare un branch già aperto in PR con \"il ramo è AVANTI, qualcun altro ci ha lavorato\" — capitato 3 volte nella stessa notte (#630→#631, #632→#633, #633→#634), rimediato ogni volta ricreando un branch pulito. Causa vera: il rebase riscrive l'hash di OGNI commit che sposta (l'hash include il genitore), quindi un commit già pubblicato come X non è più antenato di sé stesso dopo un secondo rebase — il controllo di sicurezza del lease vedeva \"estraneo\" quello che era solo la propria pubblicazione precedente. Fix: `rebasaSuRiferimento` ora porta con sé l'HEAD di PRIMA del rebase (`preRebaseSha`), e `remotoEDavveroVecchio` lo usa come secondo candidato nel controllo di sicurezza — provato con repo veri in `cervello/test/lease-dopo-rebase-ripetuto.test.mjs` (4/4 verdi, incluso il caso di un commit DAVVERO estraneo che deve restare rifiutato). PR #635. Regola: non serve più \"ricrea un branch pulito\" come rimedio a questo sintomo — se il bug tornasse su un branch nuovo è una regressione da riaprire, non la normalità.",
+      "testo": "**AR-451 risolto alla radice, non più workaround (30/7 04:44, Nicola: «risolvi il bug di rebase che ti fa aprire una nuova pr ogni volta»).** `git-pr.mjs` rifiutava di ripubblicare un branch già aperto in PR con \"il ramo è AVANTI, qualcun altro ci ha lavorato\" — capitato 3 volte nella stessa notte (#630→#631, #632→#633, #633→#634), rimediato ogni volta ricreando un branch pulito. Causa vera: il rebase riscrive l'hash di OGNI commit che sposta (l'hash include il genitore), quindi un commit già pubblicato come X non è più antenato di sé stesso dopo un secondo rebase — il controllo di sicurezza del lease vedeva \"estraneo\" quello che era solo la propria pubblicazione precedente. Fix: `rebasaSuRiferimento` ora porta con sé l'HEAD di PRIMA del rebase (`preRebaseSha`), e `remotoEDavveroVecchio` lo usa come secondo candidato nel controllo di sicurezza — provato con repo veri in `cervello/test/lease-dopo-rebase-ripetuto.test.mjs` (4/4 verdi, incluso il caso di un commit DAVVERO estraneo che deve restare rifiutato). PR #635. Regola: non serve più \"ricrea un branch pulito\" come rimedio a questo sintomo — se il bug tornasse su un branch nuovo è una regressione da riaprire, non la normalità.\n\n⚠️ **FRENO NON ANCORA ATTIVO (trovato 30/7 11:09, gate-veri): il fix e il test vivono SOLO sul branch `fix/lease-rebase-ripetuto-v2` (commit 11b3cbbe4/93a008470), non su `main` — `git merge-base --is-ancestor` conferma che NON è antenato di HEAD e `cervello/test/lease-dopo-rebase-ripetuto.test.mjs` non esiste nell'albero di lavoro corrente.** Il testo sopra descrive il fix come già risolto (dal lavoro del giro delle 04:44), ma finché la PR #635 non è mergiata su `main` il gate dichiarato non può scattare — è un freno finto, non un freno vero. Accodata azione 🟡 per il merge (vedi AZIONI-IN-ATTESA). Il campo `gate` resta scritto perché il test ESISTE ed È VERDE sul branch: non è una lezione inventata, è lavoro non ancora pubblicato.",
       "tag": [
         "git",
         "pr",
@@ -10562,9 +10562,11 @@
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-30",
-      "ultima_conferma": "2026-07-30 04:55",
+      "ultima_conferma": "2026-07-30 11:09",
       "stato": "attiva",
-      "gate": "node cervello/test/lease-dopo-rebase-ripetuto.test.mjs"
+      "gate": "node cervello/test/lease-dopo-rebase-ripetuto.test.mjs",
+      "gate_attivo": false,
+      "gate_nota": "fix su branch fix/lease-rebase-ripetuto-v2 (PR #635), non ancora su main — merge in coda"
     }
   ],
   "principi": [
@@ -12288,12 +12290,12 @@
     "promosse_a_principio": 87,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-30 10:54",
+    "tasso_calcolato_il": "2026-07-30 11:14",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-30 10:54",
+    "tick_leggero_il": "2026-07-30 11:14",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-30 10:21",
+    "cristallizzazione_ultima": "2026-07-30 11:02",
     "lezioni_totali": 480,
     "lezioni_per_stato": {
       "attiva": 384,

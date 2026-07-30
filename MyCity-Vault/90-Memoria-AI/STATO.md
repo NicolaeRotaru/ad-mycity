@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 10:25
+aggiornato: 2026-07-30 11:09
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **30/7 11:09 — GIRO RIPETUTO (richiesto in chat, 6° passaggio della giornata) — business ANCORA INVARIATO, riparati 3 gate reali.** Business ereditato dai passaggi 06:30/06:37/08:25/10:25 (tutti identici cifra per cifra: `ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3`), nessuna 5ª query pesante ([[playbook-giro-pieno-ripetuto-strategia]], AR-113). Il gate `freschezza-cadenze` segnalava che il passaggio delle 10:27 era uscito senza riscrivere `auto-analisi.json` — riparato, e in più trovati/riparati: un contratto JSON violato (`salute_macchina` con un campo fuori dai 4 canonici), un freno finto (la lezione L-2026-0730-530 dichiarava attivo un gate il cui fix — PR #635 — non è mai stato mergiato su main, verificato con `git merge-base`), e un gap di chiusura-loop (@intelligence senza ESITO per il lavoro delle 08:52). `node cervello/*.mjs`/`python3`/`gh` restano bloccati in Bash in questa sessione. Nessuna azione nuova verso il marketplace: le priorità restano quelle di tutta la giornata (dentro/fuori ordine test PQ, merge PR #633/#635, Vercel Authentication, ok su `#permessi-senza-jolly`). Briefing: [[Briefing/2026-07-30]].
 
 > 🔁 **30/7 10:25 — GIRO RIPETUTO (richiesto in chat) — business ANCORA INVARIATO, riconfermato dal vivo.** Supabase MCP diretto (10:2x): `ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3` — identico cifra per cifra ai passaggi 06:30/08:25. Delta-gate: firma invariata dall'ultimo giro pieno (29/7 08:21). Applicata la strategia snella per giro ripetuto a stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): nessuna nuova query pesante, nessuna riscrittura dei JSON auto-coscienza (già freschi dal pre-step deterministico di `giro.sh` alle 10:21). `node cervello/*.mjs` resta bloccato in Bash in questa sessione (stesso limite dei passaggi precedenti — non riprovato oltre 2 tentativi). Nessuna azione nuova verso il marketplace: le 4 priorità restano quelle delle 06:30/08:25 (dentro/fuori ordine test PQ, merge PR #633, Vercel Authentication, ok su `#permessi-senza-jolly`). Briefing: [[Briefing/2026-07-30]].
 

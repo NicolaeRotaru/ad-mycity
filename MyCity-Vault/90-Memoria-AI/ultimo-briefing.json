@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-30 10:25",
-  "situazione": "Giro ripetuto (richiesto in chat), business ANCORA fermo da 36 giorni: riverificato ora dal vivo via Supabase MCP — 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 solo ordine (zombie 24/6, annullato), 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati — cifra per cifra identico ai passaggi 06:30 e 08:25 di oggi. Nessuna sentinella nuova, nessuna entità nuova. Applicata la strategia snella per giro ripetuto a stato invariato (AR-113): niente nuove query pesanti, JSON auto-coscienza già freschi dal pre-step di giro.sh. `node cervello/*.mjs` resta bloccato in Bash in questa sessione (stesso limite noto). Mossa n.1 invariata: una parola di Nicola (dentro/fuori) sull'ordine di prova PQ.",
+  "data": "2026-07-30 11:09",
+  "situazione": "Giro ripetuto (richiesto in chat, 6° passaggio di oggi), business ANCORA fermo da 36 giorni: riconfermato per la 4ª volta oggi, ereditato dai passaggi 06:30/06:37/08:25/10:25 (cifra per cifra identici — 1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). Questo passaggio ha riparato il gate `freschezza-cadenze` (auto-analisi.json rimasto fermo) e trovato/riparato altri 2 gate reali della macchina: un contratto JSON violato e una lezione con un freno finto (dichiarava attivo un gate il cui fix — PR #635 — non è mai stato mergiato su main). `node cervello/*.mjs`/`python3`/`gh` restano bloccati in Bash in questa sessione. Mossa n.1 invariata: una parola di Nicola (dentro/fuori) sull'ordine di prova PQ.",
   "opportunita": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
@@ -24,6 +24,11 @@
     {
       "titolo": "Mergia la PR #633 del menu Memoria del Pannello",
       "motivo": "4 passi già confermati ieri notte, sostituisce la #632 rotta dal solito bug del rebase",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Mergia la PR #635 che chiude per davvero il bug di rebase",
+      "motivo": "Il fix (4/4 test verdi sul branch) risolve alla radice il problema che ha già costretto a ricreare 3 branch la notte del 30/7 — oggi non è ancora su main",
       "livello": "rosso"
     },
     {

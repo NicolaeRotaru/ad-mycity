@@ -13,20 +13,6 @@
       "aperti_davvero": 2,
       "bloccanti_umani": 2,
       "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing 1h fa · sensori max cecità 0 · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
-    },
-    {
-      "data": "2026-07-23",
-      "voto_salute": 72,
-      "voto_provvisorio": 45,
-      "voto_pieno": 0,
-      "firma": "AR-126,AR-129",
-      "difetti_aperti": 19,
-      "difetti_chiusi": 57,
-      "pending_merge": 15,
-      "aperti_davvero": 2,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 3h fa · sensori max cecità 0 · salute pending-merge 45/100 (floor 0): 2 aperti-davvero · 15 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     },
     {
@@ -1050,6 +1036,23 @@
       "bloccanti_umani": 20,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 4h fa · sensori max cecità 1 · salute pending-merge 0/100 (floor 0): 50 aperti-davvero · 85 in attesa merge · 20 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 8.63 (su 8/8 dimensioni)"
+    },
+    {
+      "data": "2026-07-30",
+      "voto_salute": 9,
+      "voto_copertura": "8/8",
+      "voto_parziale": false,
+      "voto_misurato": true,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-126,AR-154,AR-158,AR-160,AR-161,AR-174,AR-184,AR-188,AR-193,AR-206,AR-216,AR-217,AR-220,AR-223,AR-224,AR-225,AR-234,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-274,AR-278,AR-283,AR-285,AR-288,AR-289,AR-294,AR-295,AR-323,AR-345,AR-347,AR-349,AR-396,AR-404,AR-410,AR-411,AR-414,AR-420,AR-423,AR-425,AR-428,AR-435,AR-445,AR-447,AR-448,AR-449,AR-450",
+      "difetti_aperti": 150,
+      "difetti_chiusi": 234,
+      "pending_merge": 85,
+      "aperti_davvero": 50,
+      "bloccanti_umani": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 1h fa · sensori max cecità 2 · salute pending-merge 0/100 (floor 0): 50 aperti-davvero · 85 in attesa merge · 20 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 8.63 (su 8/8 dimensioni)"
     }
   ]
 }

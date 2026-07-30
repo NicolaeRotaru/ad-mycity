@@ -1,52 +1,57 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-30 08:25",
-  "voto_fiducia": 88,
-  "sintesi": "Giro richiesto in chat (interattivo, non timer). Il giro delle 06:39 (worker VPS, commit 6c92bd55b) aveva scritto tutto TRANNE questo file: `auto-analisi.json` era rimasto fermo al 27/7, e il guardiano `freschezza-cadenze.mjs` l'ha segnalato come HARD blocker in cima a questa sessione ('rifalli PRIMA di altro') — riparato per primo. Riverificato dal vivo (mcp__supabase-marketplace execute_sql, non ereditato dal delta-gate): business INVARIATO — 1 ordine (CANCELED, 24/6 08:28), 0 pagati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli abbandonati, stallo North Star 36 giorni — identico a STATO.md 06:29 e alla firma di delta-gate.json. Trovato e riparato un gap reale non coperto dalle sessioni precedenti: `MyCity-Vault/05-Soldi-Rischi/scadenzario.json` citava ancora PI26 'stato: aperta, scadenza 2026-07-30 16:00' (OGGI), mentre `registro-fatti.json` lo dichiara chiuso/non idoneo dal 29/7 00:10 — un countdown scritto a mano rimasto vivo mentre AZIONI-IN-ATTESA/CHECKLIST-NICOLA erano già stati corretti alle 06:05/06:30 (esattamente il pattern AR-147/AR-214: un file vivo dimenticato dalla cascata AR-102). Corretto `stato: chiusa_non_idonea` con fonte. Nessuna entità nuova, nessun declassamento nel registro-realtà.",
-  "trend_fiducia": "▼ 90→88 — non per un errore commesso ora, ma perché registro un debito reale che tocca a me: `node cervello/*.mjs` (test-cervello, delta-gate, coerenza-fatti, calibrazione, chiusura-loop, taste-file, tasso-lezioni, sonda-volano, gate-veri, scadenzario-check, mappa-macchina, apprendimento-guardiano, verifica-automazione/sensori) NON eseguibili in Bash in questa sessione — ogni tentativo (`node --version` passa, `node -e`/`node cervello/test-cervello.mjs`/`node cervello/test-cervello.mjs` con sandbox disabilitato falliscono con 'richiede approvazione', nessun prompt raggiungibile in sessione headless) torna bloccato. Fermato dopo 4 tentativi (oltre la soglia dei 2 della lezione salvata) e sostituito con verifica diretta via MCP + edit manuali dove la logica era riproducibile a mano (auto-analisi, scadenzario). Non riproducibili a mano senza rischio: gate-veri (serve leggere ogni gate + mutanti.json e giudicare se il mutante rompe davvero), tasso-lezioni/CLI (serve lo storico interno dello script), sonda-volano (4 invarianti calcolati dal codice) — questi restano DEBITO dichiarato, non lavoro finito.",
+  "data": "2026-07-30 11:09",
+  "voto_fiducia": 89,
+  "sintesi": "Giro richiesto in chat (interattivo, non timer) — 6° passaggio della giornata (06:10/06:37/08:25/10:25/10:27/11:00 recupero, ora 11:09). `freschezza-cadenze.mjs` ha segnalato che il passaggio delle 10:27 era uscito SENZA riscrivere `auto-analisi.json` (rimasto fermo alla firma delle 08:25) — riparato per primo, come richiesto ('rifalli PRIMA di altro'). Business RICONFERMATO invariato per la 4ª volta oggi (fonte: i passaggi 06:30/06:37/08:25/10:25 di questa stessa giornata, tutti con query dirette Supabase MCP identiche cifra per cifra — non ho ripetuto una 5ª query pesante sullo stesso stato, applicando AR-113/playbook-giro-pieno-ripetuto): 1 negozio reale (Pane Quotidiano), 5 prodotti, 1 ordine (CANCELED 24/6), 0 pagati, 0 consegnati, 7 profili, 0 recensioni, 3 carrelli abbandonati, North Star fermo a 36 giorni. Trovati e riparati DUE gap concreti non coperti dai passaggi precedenti: (1) contratto JSON violato — `salute_macchina` di questo stesso file aveva un campo non canonico (`node_cli_in_sessione`, fuori dai 4 ammessi: supabase/stripe/dati_freschi/sensori_attivi) che avrebbe fatto fallire `valida-contratti.mjs`; (2) freno finto (gate-veri) — la lezione L-2026-0730-530 dichiara il gate `node cervello/test/lease-dopo-rebase-ripetuto.test.mjs` come attivo, ma verificato con `git merge-base --is-ancestor` che il fix (PR #635, branch `fix/lease-rebase-ripetuto-v2`, commit 11b3cbbe4) NON è su `main`: il file di test non esiste nell'albero di lavoro, quindi il gate non può scattare davvero. Corretta la lezione (aggiunta nota + `gate_attivo:false`) e accodata l'azione di merge. Terzo: chiusura-loop — @intelligence aveva un FATTO in SALA-OPERATIVA (08:52) senza ESITO nel quaderno; registrato ora in `memoria-squadra/intelligence.md`.",
+  "trend_fiducia": "▲ 88→89 — sale perché il gap concreto che aveva fatto scendere il voto alle 08:25 (auto-analisi.json stantio) è chiuso, e in più questo passaggio ha trovato e riparato 2 gate reali (contratto + freno finto) invece di limitarsi a ri-timbrare lo stato invariato. Non sale oltre 89 per lo stesso debito strutturale di tutti i passaggi di oggi: `node cervello/*.mjs` NON eseguibile in Bash in questa sessione (verificato di nuovo: `node cervello/freschezza-cadenze.mjs` e `python3 -c \"...\"` bloccati da 'richiede approvazione', `gh pr view` negato) — gate-veri, tasso-lezioni, sonda-volano, mappa-macchina, scadenzario-check NON sono stati rieseguiti dallo script canonico in questa sessione: dove ho potuto ho verificato a mano con `git`/`grep`/lettura diretta dei JSON già scritti dal pre-step deterministico di `giro.sh` (che quelli sì girano, sul VPS, fuori da questa sessione).",
   "entita_verificate": [
     {
       "nome": "Pane Quotidiano",
       "stato": "confermato",
-      "fonte": "mcp__supabase-marketplace execute_sql 2026-07-30 08:2x (invariato)"
+      "fonte": "mcp__supabase-marketplace execute_sql — riconfermato nei passaggi 06:30/06:37/08:25/10:25 di oggi, non ri-query in questo passaggio (stato non può cambiare in 44 minuti senza un trigger)"
     },
     {
-      "nome": "0 ordini pagati / 1 ordine zombie CANCELED",
+      "nome": "0 ordini pagati / 1 ordine zombie CANCELED / 7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati",
       "stato": "confermato",
-      "fonte": "execute_sql orders 2026-07-30 08:2x (ultimo ordine 24/6 08:28:40, invariato dal 24/6 — 36 giorni)"
+      "fonte": "execute_sql 2026-07-30 10:2x (ultima query diretta della giornata), identico a 06:30/06:37/08:25"
     },
     {
-      "nome": "7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati",
+      "nome": "PR #635 / branch fix/lease-rebase-ripetuto-v2 NON mergiata su main",
       "stato": "confermato",
-      "fonte": "execute_sql 2026-07-30 08:2x"
+      "fonte": "git merge-base --is-ancestor 11b3cbbe4 HEAD → NOT ancestor (verificato in questa sessione, 2026-07-30 11:0x); git branch --all --contains 11b3cbbe4 → solo fix/lease-rebase-ripetuto-v2 + il suo remote"
     },
     {
-      "nome": "Bando PI26 — non idoneo, sportello non più rilevante",
+      "nome": "auto-analisi.json salute_macchina.node_cli_in_sessione — campo fuori contratto",
       "stato": "confermato",
-      "fonte": "registro-fatti.json (bando.pi26.idoneita) + DECISIONI.md 2026-07-29 00:15 — propagato ora a scadenzario.json"
+      "fonte": "lettura diretta di cervello/valida-contratti.mjs (CONTRATTO['auto-analisi.json'].salute_macchina.canonici = supabase/stripe/dati_freschi/sensori_attivi), confrontato col file scritto alle 08:25 che aveva un 5° campo"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/importante in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9, nessuna pubblicazione/campagna in scope) — auto-miglioramento saltato di proposito, non per omissione.",
+  "benchmark": "Nessun lavoro creativo/importante in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9, nessuna pubblicazione/campagna in scope) — auto-miglioramento saltato di proposito, non per omissione. Il lavoro di questo passaggio è manutenzione dei cancelli della macchina stessa (freschezza-cadenze, contratto, gate-veri, chiusura-loop), ammesso sotto il vincolo North Star perché si tratta di HARD gate imposti da giro.sh (non di nuovi asset/feature), non di lavoro discrezionale sulla macchina.",
   "salute_macchina": {
-    "supabase": "ok (MCP execute_sql risposto in questa sessione)",
+    "supabase": "ok (MCP execute_sql risposto nei passaggi precedenti di oggi, ultimo alle 10:2x)",
     "stripe": "non verificato in questa sessione (nessuna query fatta, nessun segnale di rottura)",
     "dati_freschi": true,
-    "sensori_attivi": 10,
-    "node_cli_in_sessione": "bloccato (richiede approvazione non raggiungibile, 4/4 tentativi falliti)"
+    "sensori_attivi": 10
   },
-  "livello_verifica": "L2 (query diretta al DB marketplace via MCP eseguita IN QUESTA sessione per i 7 numeri; script cervello/*.mjs non eseguibili — sostituiti da edit manuali mirati sui 2 file dove il gap era concreto e verificabile a occhio, non su tutta la superficie dei guardiani)",
-  "refutazione": "REFUTAZIONE VERA su 2 claim pesanti di questo giro: (1) 'business invariato' — non ereditato dal delta-gate né dalla nota STATO.md delle 06:29: ri-eseguita la query diretta execute_sql su orders/profiles/products/reviews/abandoned_carts in questa sessione, confronto numero per numero con la firma di delta-gate.json (ordini=1, ultimo_ordine 2026-06-24T08:28:40, clienti=7) — IDENTICI. SOPRAVVIVE. (2) 'PI26 in scadenzario.json era un gap reale, non un falso allarme che avrei dovuto lasciare stare' — verificato che il campo `scadenza` diceva letteralmente '2026-07-30 16:00' (oggi, entro la finestra_allarme_giorni:7 di scadenzario-check.mjs) e `stato:\"aperta\"`, cioè lo script AVREBBE prodotto una card 🔴 falsa oggi pomeriggio se non l'avessi corretto — non un'ipotesi, il calcolo giorni-residui del guardiano l'avrebbe presa alla lettera. SOPRAVVIVE.",
+  "livello_verifica": "L2 (numeri di business ereditati dalla query diretta già eseguita 4 volte oggi in questa stessa sessione, non re-interrogati per non sprecare — coerente con AR-113; le 2 scoperte nuove di questo passaggio — contratto JSON e gate-veri — SONO verificate direttamente: lettura del validatore + git merge-base reale, non un'ipotesi)",
+  "refutazione": "REFUTAZIONE VERA su 2 claim di questo passaggio: (1) 'auto-analisi.json aveva un campo fuori contratto' — non presunto: riletto `cervello/valida-contratti.mjs` riga per riga, la lista canonica di `salute_macchina` è ESATTAMENTE 4 campi (supabase/stripe/dati_freschi/sensori_attivi), e il file scritto alle 08:25 ne aveva 5 (`node_cli_in_sessione` in più) — SOPRAVVIVE, campo rimosso in questo file. (2) 'la lezione L-2026-0730-530 dichiara un gate che non può scattare' — non presunto: `git log --all -- cervello/test/lease-dopo-rebase-ripetuto.test.mjs` mostra il file SOLO in 2 commit (11b3cbbe4, 93a008470) che vivono sul branch `fix/lease-rebase-ripetuto-v2`; `git merge-base --is-ancestor 11b3cbbe4 HEAD` risponde 'NOT ancestor'; il file non esiste nell'albero di lavoro corrente (`ls` fallisce) — SOPRAVVIVE, non è un test 'quasi mergiato', è un test che oggi il gate non può eseguire.",
   "domande_per_nicola": [
     {
       "tipo": "north_star",
-      "domanda": "North Star 0 da 36 giorni. Ordine test PQ resta l'unica mossa diretta verso il 1° ordine pagato — nessuna azione nuova proposta in questo giro perché il piano-squadra prevede la ripresa dopo il 24/8-1/9 (tua decisione, registrata).",
-      "azione": "card 🟡 già in coda (#ordine-test-pq / equivalente)",
+      "domanda": "North Star 0 da 36 giorni, riconfermato per la 4ª volta oggi. Ordine test PQ resta l'unica mossa diretta verso il 1° ordine pagato — nessuna azione nuova proposta in questo giro perché il piano-squadra prevede la ripresa dopo il 24/8-1/9 (tua decisione, registrata).",
+      "azione": "card 🟡 già in coda (#ordine-test-dentro-o-fuori-dalla-pausa)",
+      "colore": "🟡"
+    },
+    {
+      "tipo": "codice",
+      "domanda": "PR #635 (fix del bug di rebase AR-451, `fix/lease-rebase-ripetuto-v2`) risulta ancora NON mergiata su main: la lezione che la descrive come 'risolta alla radice' aveva un gate dichiarato ma non attivo. Se il lavoro è davvero pronto (4/4 test verdi, come descritto nella lezione), vale la pena mergiarla per chiudere sul serio il bug di rebase che ha già causato 3 branch-ricreati la notte del 30/7.",
+      "azione": "accodata in AZIONI-IN-ATTESA (merge PR #635)",
       "colore": "🟡"
     },
     {
       "tipo": "debito_tecnico",
-      "domanda": "Questa sessione interattiva non ha permesso di eseguire nessuno script `node cervello/*.mjs` (4 tentativi bloccati da 'richiede approvazione'): i guardiani deterministici (gate-veri, scadenzario-check, tasso-lezioni, sonda-volano, mappa-macchina) non sono stati rieseguiti da qui — si sono affidati allo stato scritto dal worker VPS prima di questa sessione. Se càpita spesso, vale la pena capire perché `node` non è nell'allowlist di questo canale.",
-      "azione": "nessuna card aperta — solo segnalazione, non bloccante (il worker VPS ha i permessi e gira comunque ogni ~2h)",
+      "domanda": "Sesto passaggio consecutivo oggi (06:10→11:09) in cui `node cervello/*.mjs`, `python3 -c`, e `gh` non sono eseguibili in Bash in questa sessione (richiedono approvazione mai raggiungibile in headless): i guardiani deterministici (gate-veri, tasso-lezioni, sonda-volano, mappa-macchina, scadenzario-check) restano verificabili solo a mano (grep/git/lettura diretta), con copertura parziale. Non è un buco nuovo — è la card `#permessi-senza-jolly` già in coda.",
+      "azione": "nessuna card nuova — solo segnalazione, non bloccante (il worker VPS ha i permessi e gira comunque ogni ~2h)",
       "colore": "🟢"
     }
   ]
