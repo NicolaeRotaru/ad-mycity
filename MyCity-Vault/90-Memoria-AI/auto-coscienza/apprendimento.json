@@ -10592,6 +10592,26 @@
       "gate": "node cervello/domanda-gia-risposta-check.mjs",
       "gate_attivo": false,
       "gate_nota": "script non ancora scritto/testato: node cervello/*.mjs non eseguibile in Bash in questa sessione (2 tentativi bloccati su delta-gate.mjs) — debito dichiarato, non gate finto; ripreso nei Gap del briefing 2026-07-30 (passaggio 11:32), da costruire alla prossima sessione con accesso shell"
+    },
+    {
+      "id": "L-2026-0730-532",
+      "testo": "**Davanti a \"perché la PR non si apre\", non fermarsi alla prima spiegazione plausibile (\"credenziali/permessi\") senza averla verificata — la causa vera può essere un'altra, trovata solo confrontando il diff reale (Nicola 30/7 ~16:00, «come mai non riesci ad aprire la pr se l'hai aperta fin'ora?», sulla card #apri-pr-data-piani-per-casella).** Primo tentativo dell'AD: fallito perché lanciato da dentro `pannello/` con `node ../cervello/git-pr.mjs`, che non combacia col permesso registrato `node cervello/git-pr.mjs` — da radice del repo parte. Ma la causa VERA, trovata dopo con `git diff origin/main...<branch> --stat`, è un'altra: `origin/main` era fermo da 840 minuti (~14h) mentre `main` locale aveva accumulato 152 commit mai pubblicati — qualsiasi branch nuovo, anche pulitissimo, si porta dietro quei 152 commit nel confronto (37 file nel diff invece di 4) e il cancello anti-rumore di `git-pr.mjs` rifiuta la PR. Non è un problema del fix specifico: è la STESSA causa radice già in coda come [[radiografia-sblocca-pubblicazione]]/[[token-github-unificato]] (gate di pubblicazione bloccato). Regola: davanti a \"la PR non si apre\"/\"il push non parte\", il primo controllo è `git rev-list --count origin/main..HEAD` (main locale quanto avanti?) e il diff della PR (`--stat`, quanti file attesi vs reali) — se il numero è alto e i file sono JSON auto-generati del worker, è il gate di pubblicazione generale, non un problema del fix specifico: collegalo al gate esistente invece di riprometterlo come nuovo.",
+      "tag": [
+        "git-pr",
+        "origin-main-stale",
+        "token-github-unificato",
+        "radiografia-sblocca-pubblicazione",
+        "verifica-prima-di-affermare",
+        "auto-correzione"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-30",
+      "ultima_conferma": "2026-07-30 16:00",
+      "stato": "attiva"
     }
   ],
   "principi": [
