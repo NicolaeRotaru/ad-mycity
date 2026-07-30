@@ -1,3 +1,26 @@
+# 🔬 AUTO-ANALISI — 2026-07-30 11:09 (giro.md per intero, richiesta esplicita in chat, 6° passaggio della giornata)
+
+## Voto di fiducia: **89/100** (▲ da 88 — gap principale chiuso, 2 nuovi gate reali trovati e riparati)
+
+## Aggiornamento 11:09 (rispetto al passaggio delle 10:25/10:27)
+`freschezza-cadenze.mjs` ha segnalato che il passaggio delle 10:27 era uscito SENZA riscrivere `auto-coscienza/auto-analisi.json` (rimasto fermo alla firma delle 08:25) — riparato per primo, come richiesto ("rifalli PRIMA di altro"). Business RICONFERMATO invariato per la 4ª volta oggi (06:30/06:37/08:25/10:25, tutti identici cifra per cifra): non ho ripetuto una 5ª query pesante sullo stesso stato ([[playbook-giro-pieno-ripetuto-strategia]]/AR-113). Due gap concreti trovati e riparati, non ereditati da nessun passaggio precedente:
+1. **Contratto JSON violato (`valida-contratti.mjs`):** questo stesso file aveva `salute_macchina.node_cli_in_sessione`, un campo fuori dai 4 canonici (`supabase`/`stripe`/`dati_freschi`/`sensori_attivi`) — verificato leggendo `cervello/valida-contratti.mjs` riga per riga, non presunto. Rimosso, l'informazione sul debito CLI è ora in `trend_fiducia` (prosa), non in un campo che il Pannello legge come struttura.
+2. **Freno finto (gate-veri):** la lezione `L-2026-0730-530` dichiara attivo il gate `node cervello/test/lease-dopo-rebase-ripetuto.test.mjs` (fix del bug di rebase AR-451, PR #635) — verificato con `git merge-base --is-ancestor 11b3cbbe4 HEAD` → **NOT ancestor**: il fix vive solo sul branch `fix/lease-rebase-ripetuto-v2`, mai mergiato su `main`, il file di test non esiste nell'albero di lavoro corrente. Corretta la lezione (nota + `gate_attivo:false`) e accodata l'azione di merge in [[AZIONI-IN-ATTESA]].
+3. **Chiusura-loop:** `@intelligence` aveva un FATTO in SALA-OPERATIVA (08:52, monitoraggio web) senza riga ESITO nel quaderno — registrata ora in `memoria-squadra/intelligence.md`.
+
+**Debito ancora dichiarato, non nascosto:** `node cervello/*.mjs`, `python3 -c`, `gh` restano non eseguibili in Bash in questa sessione (richiedono approvazione mai raggiungibile in headless) — verificato di nuovo in questo passaggio, non solo ereditato dai precedenti. Dove non ho potuto verificare a mano con `git`/`grep`/lettura diretta (tasso-lezioni CLI, sonda-volano, mappa-macchina, scadenzario-check nella loro forma completa), ho controllato i JSON già scritti dal pre-step deterministico di `giro.sh` (che gira fuori da questa sessione, sul VPS, con i permessi).
+
+## Passaggi precedenti (30/7)
+
+# 🔬 AUTO-ANALISI — 2026-07-30 08:25 (giro.md per intero, richiesta esplicita in chat)
+
+## Voto di fiducia: **88/100** (▼ da 90, gap dichiarato — non regressione)
+
+## Aggiornamento 08:25
+Nicola ha chiesto di eseguire `cervello/giro.md` per intero. Prima cosa trovata: il giro delle 06:39 (worker VPS) aveva scritto tutto TRANNE `auto-coscienza/auto-analisi.json`, rimasto fermo al 27/7 — il guardiano `freschezza-cadenze.mjs` l'ha segnalato come blocco HARD in cima a questa sessione ("rifalli PRIMA di altro"). Riparato per primo. Riverificato dal vivo con query SQL diretta via Supabase MCP (`execute_sql`): ordini=1 (CANCELED, 24/6 08:28), pagati=0, profili=7, prodotti=5, recensioni=0, carrelli abbandonati=3 — identico alla firma di `delta-gate.json` e alla nota STATO.md delle 06:29. Stallo North Star: **36 giorni**. Trovato un secondo gap reale, non ereditato da nessuna nota precedente: `MyCity-Vault/05-Soldi-Rischi/scadenzario.json` citava ancora PI26 `stato:"aperta"`, `scadenza:"2026-07-30 16:00"` (**oggi**) — mentre AZIONI-IN-ATTESA e CHECKLIST-NICOLA erano già stati corretti alle 06:05/06:30 (Nicola l'ha dichiarato non idoneo il 29/7 00:10). Questo file specifico è la fonte dati di `scadenzario-check.mjs`: sarebbe scattata una card 🔴 falsa oggi pomeriggio. Corretto a `chiusa_non_idonea` con fonte. **Debito dichiarato, non nascosto:** in questa sessione `node cervello/*.mjs` non è eseguibile in Bash (4/4 tentativi bloccati da "richiede approvazione", nessun prompt raggiungibile — sessione headless senza canale di conferma) — fermato dopo la soglia dei 2 tentativi della lezione salvata. I guardiani che richiedono davvero lo script (gate-veri, tasso-lezioni CLI, sonda-volano, apprendimento-guardiano) NON sono stati rieseguiti da qui: ereditati dallo stato scritto dal worker VPS (che ha i permessi) prima di questa sessione. Voto -2 per questo gap dichiarato, non per un errore commesso.
+
+## Passaggi precedenti (29/7)
+
 # 🔬 AUTO-ANALISI — 2026-07-29 10:21 (giro.md per intero, richiesta esplicita in chat, 1 minuto dopo l'heartbeat delta-gate delle 10:20)
 
 ## Voto di fiducia: **90/100** (▬ stabile)

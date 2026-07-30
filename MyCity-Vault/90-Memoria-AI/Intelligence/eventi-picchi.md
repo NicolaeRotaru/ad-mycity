@@ -1,24 +1,29 @@
-# 📅 Eventi & Picchi di Domanda — 2026-07-27
+# 📅 Eventi & Picchi di Domanda — 2026-07-30
 
-> Aggiornato: 27 luglio 2026 11:35 · @intelligence · PLAYBOOK Intelligence (refresh settimanale, precedente 20/7)
+> Aggiornato: 30 luglio 2026 08:45 · @intelligence · monitoraggio giornaliero (precedente 27/7 11:35)
 
 ---
 
-## 🌡️ Meteo Piacenza — prossimi 7 giorni: ONDATA DI CALDO STRUTTURALE
+## 🌡️ Meteo Piacenza — AGGIORNAMENTO: la 4ª ondata di caldo è PIÙ LUNGA e più intensa del previsto
 
-| Data | Condizione | T max / T min | Pioggia | Impatto delivery |
-|------|-----------|---------------|---------|-------------------|
-| **Lun 27/7 (OGGI)** | Sereno e afoso | **33-34° / 20°** | 0% | Normale |
-| Mar 28/7 | Sereno | **33-34° / 22-23°** | 0% | Normale |
-| Mer 29/7 | Sereno, poche nubi | **35-36° / 23-24°** | 0% | Caldo in salita |
-| Gio 30/7 | Sereno | **37-38° / 24-25°** | 0% | **Scadenza PI26 ore 16:00** |
-| Ven 31/7 | Sereno | **39-40° / 24-26°** | 0% | **Picco ondata di caldo** |
-| Sab 1/8 | Soleggiato | **38-39° / 25-26°** | 0% | Weekend caldo estremo |
-| Dom 2/8 | Poche nubi | **36-39° / 25°** | 0% | Lieve calo, resta molto caldo |
+Rispetto al 27/7 la previsione è peggiorata: non più un picco isolato venerdì, ma **10 giorni di caldo intenso** con sollievo posticipato a inizio agosto.
 
-Fonte triangolata (2 indipendenti concordanti, 27/7): [ilmeteo.it](https://www.ilmeteo.it/meteo/piacenza) · [meteoblue.com](https://www.meteoblue.com/en/weather/week/piacenza_italy_3171058). Anticiclone africano, zero pioggia per 7 giorni consecutivi — pattern strutturale, non rumore di un giorno.
+| Data | Condizione | T max | Note |
+|------|-----------|-------|------|
+| **Gio 30/7 (OGGI)** | Sereno, afoso | 34-38° | fonti in disaccordo di poco, vedi sotto |
+| Ven 31/7 | Sereno | 36-41° | possibile picco locale (vedi nota fonti) |
+| Sab 1/8 | Sereno, molto caldo | 38° | **picco ondata secondo PiacenzaSera** |
+| Dom 2/8 | Sereno | 37° | punte 40-41° su Pianura Padana centrale (Piacenza/Ferrara) nel weekend |
+| Lun 3/8 | Sereno | 36-37° | ancora caldo intenso |
+| ~7-8/8 | Primo sollievo atteso | — | fine della 4ª ondata |
 
-**Differenza vs settimana scorsa:** nessun trigger-pioggia per il push "ordina da casa"; il driver di domanda dominante è il caldo estremo, non un temporale.
+**Fonti triangolate (2 indipendenti, consultate 29-30/7):**
+- [PiacenzaSera — "Dieci giorni di caldo intenso, la quarta ondata è la più lunga"](https://www.piacenzasera.it/2026/07/dieci-giorni-di-caldo-intenso-la-quarta-ondata-e-la-piu-lunga/656310/) (pubblicato 29/7 12:00): 4ª ondata dell'estate, la più lunga, picco 30/7→3/8, sollievo solo verso il 7-8/8.
+- [IlPiacenza — "Terza ondata di calore in arrivo, la più intensa: massime fino a 41 gradi"](https://www.ilpiacenza.it/meteo/terza-ondata-di-calore-in-arrivo-la-piu-intensa-massime-fino-a-41-gradi-su-piacenza.html) (titolo, contenuto non raggiungibile oggi — 403) + [ilmeteo.it/pisatoday](https://www.pisatoday.it/meteo/previsioni-fine-luglio-2026-caldo-africano.html): 41° indicato come punta per il 31/7.
+
+**Nota onestà:** le due fonti divergono leggermente sul giorno esatto del picco (PiacenzaSera indica 1/8 a 38° locale con punte regionali 40-41°; IlPiacenza/iLMeteo indicano 41° già il 31/7) — la fascia è comunque **la stessa**: caldo estremo strutturale 30/7→3/8, non un giorno isolato. Confidenza 85% sulla durata (10gg, 2 fonti concordanti), 60% sul giorno esatto del picco assoluto.
+
+**Impatto:** rinforza — non sostituisce — l'opportunità già segnalata il 27/7 (bozza "pane fresco della mattina prima del caldo" per Pane Quotidiano, in `consegne/content/`, NON pubblicare per il vincolo pausa 24/8-1/9). Nessuna nuova azione da accodare: la card è già pronta e resta parcheggiata, la finestra di caldo semplicemente si allunga.
 
 ---
 
@@ -26,37 +31,33 @@ Fonte triangolata (2 indipendenti concordanti, 27/7): [ilmeteo.it](https://www.i
 
 | Evento | Date | Rilevanza |
 |--------|------|-----------|
-| ❌ ~~PI26 CCIAA~~ — CHIUSO 29/7 | non applicabile | MyCity non idonea al bando (confermato da Nicola 29/7) — nessuna domanda da inviare, `#pi26-conferma-ammissibilita` chiusa |
+| ❌ ~~PI26 CCIAA~~ — CHIUSO 29/7 | non applicabile | MyCity non idonea, confermato da Nicola; card rimosse dalla coda 30/7 06:05 (vedi DECISIONI.md) |
 | Rassegna cinema estiva Ex Caserma Cantore | fino 31/8 | Bassa — sera, area specifica |
-| Piacenza Summer Cult | **terminato 17/7** | Nessuna, non riapre a breve |
-| Concerto Sugarpie & Candymen | 29/7 21:30 Travo | Fuori città, nessun impatto |
-| Festival artisti di strada | fine luglio, Vernasca | Fuori città, nessun impatto |
-| Cornicione Corso V.E. 226-234 | dal 19/7, **stato riapertura non confermato** | ⚠️ Nessuna notizia di riapertura trovata in ricerca — verificare sul posto, non do per riaperto |
+| Mostra "Acqua a km zero" | fino 2/8 | Bassa |
+| Cornicione Corso V.E. 226-234 | dal 19/7, **stato riapertura ancora non confermato** | ⚠️ Nessuna notizia nuova trovata oggi — invariato dal 27/7, verificare sul posto prima di citarlo come riaperto |
 
-**Nessun evento di massa in centro storico questa settimana** (a differenza di Vigolzone/Jazz la settimana scorsa) — zero catalizzatori esterni sul traffico pedonale del centro.
+**Nessun evento di massa nuovo in centro storico questa settimana.** Nessuna chiusura/apertura di bottega rilevante trovata oggi su Libertà/IlPiacenza/PiacenzaSera (solo economia industriale: chiusura BMS Caorso e Coop Castelvetro, fuori scope retail-centro — vedi `buchi-mercato.md`, non aggiornato oggi perché non porta nulla di nuovo sul tema specifico).
 
-Fonti: [emilia.camcom.it — PI26 ufficiale](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bando-innovazione-digitale-2026-pi26) · [unionecommerciantipc.it](https://www.unionecommerciantipc.it/bando-innovazione-digitale-2026/) · [piacenzasera.it cornicione 19/7](https://www.piacenzasera.it/2026/07/cornicione-pericolante-sul-corso-transennato-il-tratto-allincrocio-con-il-facsal/654967/) — tutte consultate 27/7.
+Fonti: [piacenzasera.it](https://www.piacenzasera.it/) · [ilpiacenza.it/economia](https://www.ilpiacenza.it/economia/) · [liberta.it/attualita](https://www.liberta.it/attualita) — tutte consultate 30/7 08:30-08:45.
 
 ---
 
 ## 🚦 Operativo
 
-- ⚠️ Viabilità Corso V.E. 226-234: stato non confermato, verificare prima di citarlo come chiuso o riaperto.
+- ⚠️ Viabilità Corso V.E. 226-234: stato non confermato, invariato dal 19-27/7.
 - ZTL centro 8:00–19:00 invariata.
 - Bici consegna: non operativa (invariato).
+- Caldo estremo prosegue fino a inizio agosto: se in futuro si riattiva la logistica bici, va tenuto conto per gli orari di consegna.
 
 ---
 
-## Opportunità proposte (27/7, coerenti col vincolo "niente spinta commerciale su nuovi negozi prima del 24/8")
+## Opportunità (30/7, coerenti col vincolo "niente spinta commerciale su nuovi negozi prima del 24/8")
 
-**① PI26 — verifica ammissibilità, 3 giorni rimasti (scade 30/7 16:00)** — 🟡 GIÀ IN CODA
-Già tracciata in `AZIONI-IN-ATTESA.md` (`#pi26-conferma-ammissibilita`, accodata 24/7, stato DA SISTEMARE: manca conferma P.IVA/entità giuridica + spese documentate ≥5.000€ dal 1° maggio). Non riaccodo un duplicato — segnalo solo l'urgenza: mancano 3 giorni, decide Nicola se procedere o lasciar scadere.
+**① Bozza "ondata di caldo" per Pane Quotidiano — invariata, ancora NON pubblicare** — 🟢
+Nessuna nuova azione: la bozza preparata il 27/7 resta valida e anzi più pertinente (l'ondata è più lunga del previsto). Resta parcheggiata in `consegne/content/` per la ripresa 24/8-1/9.
 
-**② Bozza contenuto "ondata di caldo" per Pane Quotidiano — solo bozza, NON pubblicare** — 🟢
-7 giorni consecutivi 34→40° sono un pattern riusabile ("pane fresco della mattina prima che arrivi il caldo"). Propongo a @content-social di preparare la bozza ora e parcheggiarla in `consegne/content/`, pronta per quando la pausa negozi finisce (24/8-1/9) — nessuna pubblicazione ora, coerente col vincolo attuale.
-
-**③ Dossier moat: annotare l'acquisizione Uber-Delivery Hero (14,8 mld$)** — 🟢
-Fatto verificato (3 fonti indipendenti, vedi `radar-concorrenti.md`), nessuna azione ora: solo tenerlo pronto per @vendite come argomento "i giganti sono nel pieno di una fusione pluriennale" alla ripresa vendite.
+**② Bandi CCIAA (PI26/BT26/BE26): finestra chiusa oggi 30/7 ore 16:00** — 🟢 nota, nessuna azione
+PI26 già chiuso e non idoneo per MyCity (confermato Nicola 29/7). BT26/BE26 erano argomento di pitch per i negozi del batch, ma nessun negozio è in pipeline attiva per il vincolo pausa — nessuna domanda persa, coerente con la decisione presa. Vedi `leve-uscita.md` per il dettaglio aggiornato.
 
 ---
 
@@ -66,4 +67,4 @@ Report 20/7: `consegne/intelligence/2026-07-20-perlustrazione-settimana.md`
 
 ---
 
-*Senior: @relazioni-istituzionali (PI26, urgenza 3gg) · @content-social (bozza caldo, non pubblicare) · @vendite (dossier moat, per la ripresa)*
+*Senior: @content-social (bozza caldo, resta parcheggiata) · nessun'altra azione da questo giro*

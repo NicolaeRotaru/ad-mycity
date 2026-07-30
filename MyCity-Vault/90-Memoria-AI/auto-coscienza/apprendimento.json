@@ -1,7 +1,27 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-30 01:50",
+  "aggiornato": "2026-07-30 11:14",
   "lezioni": [
+    {
+      "id": "L-2026-0730-01",
+      "testo": "**Quando il rebase pre-PR di `git-pr.mjs` continua a fallire con 'conflitti residui' sui file di memoria ANCHE dopo aver allineato `main` a `origin/main`, la causa può essere un commit di pulizia lasciato sul branch stesso (non su main) che confonde il confronto — riprovare la stessa PR sullo stesso branch non risolve, va ricreato un branch pulito col solo commit vero (Nicola 30/7 02:41 «come faccio a risolverlo?» poi «riprova ad aprire la pr», sullo sblocco della PR Memoria/Stato-OKR-Piani).** Il branch `fix/memoria-scompone-stato-numeri` aveva un commit di pulizia (rimozione di un file estraneo trascinato dentro per errore) che restava nella storia anche dopo il fix; ogni retry di `git-pr.mjs` — con `main` già aggiornato, working tree pulita, nessun rebase a metà — falliva comunque con lo stesso errore su `AZIONI-IN-ATTESA.md`/`BACHECA.md`/`DECISIONI.md` e i JSON di auto-coscienza. Risolto ricreando un branch nuovo (`fix/memoria-stato-okr-piani-v2`) direttamente sopra `main` aggiornato, con un solo commit pulito contenente lo stesso identico cambiamento: la PR (#630) si è aperta al primo colpo. Conferma diretta causa→effetto: stesso fix, stesso `main`, unica variabile cambiata è il branch. Regola: davanti a un rebase pre-PR che fallisce ripetutamente sugli STESSI file di memoria nonostante `main` sia allineato, non insistere sul branch esistente — ricrearlo pulito è più veloce che rincorrere il rebase. Collegata ad AR-449 ('Rebase che non parte non è un conflitto', PR #629): qui la causa specifica è la traccia di un commit di pulizia precedente, non l'assenza di modifiche reali.",
+      "tag": [
+        "git-pr",
+        "rebase",
+        "branch-pulito",
+        "processo",
+        "tech"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.85,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-30",
+      "ultima_conferma": "2026-07-30 03:59",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0726-02",
       "testo": "**Quando si calcola 'quanti ordini servono per un target di ricavo' (qui 10.000€/mese), bisogna ricontrollare TUTTI i ricavi già stabiliti — prezzi in registro-fatti.json E fee/costanti nel codice del marketplace — non fermarsi alla voce più ovvia/citata a memoria (commissione), pena dimenticare ricavi reali (Nicola 26/7 ~01:48, «non hai calcolato l'abbonamento, le fee del consumatore, etc.», dopo che l'AD aveva risposto contando solo la commissione 10%).** Mancavano due ricavi veri: l'abbonamento fisso 50€/mese per negozio attivo (già noto, in registro-fatti.json) e la fee di consegna fissa 3€/ordine (MAI censita in memoria/vault, trovata solo leggendo `marketplace/lib/constants.ts` dopo la correzione). Con tutti e tre dentro, il numero di ordini per 10.000€ di ricavo lordo scende da ~4.500-5.500 a ~1.450-1.560 (con 50 negozi abbonati attivi) — quasi un terzo. È il gemello lato-ricavi del pattern già noto lato-costi (kit fisico per-negozio dimenticato, stessa sera ~01:29): un volume/target esplicito sul tavolo impone un grep/lettura completa di TUTTE le voci che lo compongono (vault + codice), non solo quella più familiare. Regola: prima di dare un numero di ordini/ricavo con un target €, controllare sia registro-fatti.json (pricing.*) sia il codice reale (constants/fee) per ricavi che scalano per-ordine o per-negozio.",
@@ -9012,13 +9032,14 @@
         "automazione"
       ],
       "reparto": "@AD",
-      "confidenza": 0.8,
+      "confidenza": 0.65,
       "evidenze": 2,
       "fonte": "auto-radiografia",
       "caso_studio_nicola": false,
       "nato": "2026-07-02",
       "ultima_conferma": "2026-07-02",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0702-02",
@@ -9088,13 +9109,14 @@
         "esecuzione"
       ],
       "reparto": "@AD",
-      "confidenza": 0.84,
+      "confidenza": 0.69,
       "evidenze": 1,
       "fonte": "giro",
       "caso_studio_nicola": false,
       "nato": "2026-07-02",
       "ultima_conferma": "2026-07-02 10:19",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 10:21"
     },
     {
       "id": "L-2026-0702-44",
@@ -9107,13 +9129,14 @@
         "nicola"
       ],
       "reparto": "@AD",
-      "confidenza": 0.86,
+      "confidenza": 0.71,
       "evidenze": 2,
       "fonte": "giro",
       "caso_studio_nicola": false,
       "nato": "2026-07-02",
       "ultima_conferma": "2026-07-02 08:36",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 10:21"
     },
     {
       "id": "L-2026-0702-43",
@@ -9128,13 +9151,14 @@
         "github"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.89,
+      "confidenza": 0.74,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-02",
       "ultima_conferma": "2026-07-02 08:17",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 08:21"
     },
     {
       "id": "L-2026-0702-41",
@@ -9150,13 +9174,14 @@
         "carrelli"
       ],
       "reparto": "@tech",
-      "confidenza": 0.91,
+      "confidenza": 0.76,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-02",
       "ultima_conferma": "2026-07-02 07:35",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 08:21"
     },
     {
       "id": "L-2026-0702-42",
@@ -9169,13 +9194,14 @@
         "nicola"
       ],
       "reparto": "@crm-lifecycle",
-      "confidenza": 0.87,
+      "confidenza": 0.72,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-02",
       "ultima_conferma": "2026-07-02 07:35",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 08:21"
     },
     {
       "id": "L-2026-0701-40",
@@ -9188,13 +9214,14 @@
         "ordine-zombie"
       ],
       "reparto": "@operations",
-      "confidenza": 0.82,
+      "confidenza": 0.6699999999999999,
       "evidenze": 1,
       "fonte": "giro",
       "caso_studio_nicola": false,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 20:18",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-39",
@@ -9208,13 +9235,14 @@
         "devops"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.88,
+      "confidenza": 0.73,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 20:05",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-38",
@@ -9229,13 +9257,14 @@
         "consenso"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.93,
+      "confidenza": 0.78,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 20:05",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-37",
@@ -9249,13 +9278,14 @@
         "loop"
       ],
       "reparto": "@AD",
-      "confidenza": 0.86,
+      "confidenza": 0.71,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 17:06",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-36",
@@ -9292,13 +9322,14 @@
         "post-firma"
       ],
       "reparto": "@AD",
-      "confidenza": 0.92,
+      "confidenza": 0.77,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 11:29",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-34",
@@ -9314,13 +9345,14 @@
         "verifica"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.93,
+      "confidenza": 0.78,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 11:29",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-33",
@@ -9356,13 +9388,14 @@
         "vps"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.92,
+      "confidenza": 0.77,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 11:00",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-31",
@@ -9402,13 +9435,14 @@
         "approvazioni"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.93,
+      "confidenza": 0.78,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 10:36",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-29",
@@ -9423,13 +9457,14 @@
         "zombie"
       ],
       "reparto": "@AD",
-      "confidenza": 0.93,
+      "confidenza": 0.78,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 10:13",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-28",
@@ -9444,12 +9479,13 @@
         "approvazioni"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.87,
+      "confidenza": 0.72,
       "evidenze": 1,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 09:43",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-27",
@@ -9490,13 +9526,14 @@
         "pr"
       ],
       "reparto": "@tech",
-      "confidenza": 0.93,
+      "confidenza": 0.78,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 07:41",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-25",
@@ -9532,12 +9569,13 @@
         "chiarimento"
       ],
       "reparto": "@operations",
-      "confidenza": 0.78,
+      "confidenza": 0.63,
       "evidenze": 1,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-23",
@@ -9574,13 +9612,14 @@
         "worker"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.92,
+      "confidenza": 0.77,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-21",
@@ -9595,12 +9634,13 @@
         "devops"
       ],
       "reparto": "@AD",
-      "confidenza": 0.86,
+      "confidenza": 0.71,
       "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 17:06",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-20",
@@ -9613,12 +9653,13 @@
         "urgenza"
       ],
       "reparto": "@AD",
-      "confidenza": 0.85,
+      "confidenza": 0.7,
       "evidenze": 2,
       "fonte": "auto-analisi",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-19",
@@ -9632,12 +9673,13 @@
         "piano-mattino"
       ],
       "reparto": "@AD",
-      "confidenza": 0.88,
+      "confidenza": 0.73,
       "evidenze": 2,
       "fonte": "auto-analisi",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 11:26",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-17",
@@ -9652,12 +9694,13 @@
         "stripe"
       ],
       "reparto": "@tech",
-      "confidenza": 0.88,
+      "confidenza": 0.73,
       "evidenze": 1,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-16",
@@ -9671,12 +9714,13 @@
         "chiusura"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.91,
+      "confidenza": 0.76,
       "evidenze": 1,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-15",
@@ -9709,12 +9753,13 @@
         "giro"
       ],
       "reparto": "@AD",
-      "confidenza": 0.87,
+      "confidenza": 0.72,
       "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-13",
@@ -9728,12 +9773,13 @@
         "intelligence"
       ],
       "reparto": "@AD",
-      "confidenza": 0.89,
+      "confidenza": 0.74,
       "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01 01:38",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-12",
@@ -9769,12 +9815,13 @@
         "comunicazione"
       ],
       "reparto": "@AD",
-      "confidenza": 0.86,
+      "confidenza": 0.71,
       "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-10",
@@ -9814,13 +9861,14 @@
         "devops"
       ],
       "reparto": "@AD",
-      "confidenza": 0.94,
+      "confidenza": 0.7899999999999999,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-08",
@@ -9878,13 +9926,14 @@
         "comunicazione"
       ],
       "reparto": "@AD",
-      "confidenza": 0.86,
+      "confidenza": 0.71,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-05",
@@ -9897,13 +9946,14 @@
         "bandwidth"
       ],
       "reparto": "@onboarding-negozi",
-      "confidenza": 0.88,
+      "confidenza": 0.73,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-04",
@@ -9955,12 +10005,13 @@
         "artefatti"
       ],
       "reparto": "@AD",
-      "confidenza": 0.7,
+      "confidenza": 0.5499999999999999,
       "evidenze": 1,
       "fonte": "auto-analisi",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-01",
@@ -9973,12 +10024,13 @@
         "nicola"
       ],
       "reparto": "@AD",
-      "confidenza": 0.75,
+      "confidenza": 0.6,
       "evidenze": 1,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0630-06",
@@ -10053,12 +10105,13 @@
         "calibrazione"
       ],
       "reparto": "@AD",
-      "confidenza": 0.8,
+      "confidenza": 0.65,
       "evidenze": 1,
       "fonte": "auto-analisi",
       "nato": "2026-06-30",
       "ultima_conferma": "2026-06-30",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0630-02",
@@ -10071,12 +10124,13 @@
         "no-rumore"
       ],
       "reparto": "@intelligence",
-      "confidenza": 0.7,
+      "confidenza": 0.5499999999999999,
       "evidenze": 1,
       "fonte": "pattern",
       "nato": "2026-06-30",
       "ultima_conferma": "2026-06-30",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0629-03",
@@ -10173,12 +10227,13 @@
         "nicola"
       ],
       "reparto": "@AD",
-      "confidenza": 0.78,
+      "confidenza": 0.63,
       "evidenze": 3,
       "fonte": "chat",
       "nato": "2026-06-28",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0629-01",
@@ -10225,12 +10280,13 @@
         "fesr"
       ],
       "reparto": "@vendite",
-      "confidenza": 0.82,
+      "confidenza": 0.6699999999999999,
       "evidenze": 2,
       "fonte": "radar",
       "nato": "2026-06-29",
       "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 06:21"
     },
     {
       "id": "L-2026-0701-27",
@@ -10437,6 +10493,80 @@
       "nato": "2026-07-26",
       "ultima_conferma": "2026-07-26 06:23",
       "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0730-528",
+      "testo": "**Il cancello di pubblicazione ha fermato OGNI PR dando la colpa a un conflitto che non esisteva (30/7, screenshot di Nicola dal Pannello).** `git-pr.mjs` rispondeva «Conflitti residui dopo rebase: AZIONI-IN-ATTESA.md, BACHECA.md, DECISIONI.md, cantiere-prove.json, coerenza-fatti.json, salute.json, stampo-check.json, storico-salute.json» — due bugie in una riga: nessun rebase era avvenuto, e quelli non erano conflitti residui. Catena provata su repo veri in /tmp, non dedotta: (1) sul VPS il worker tiene sporchi i suoi file e il commit chore di git-pr li ESCLUDE apposta, quindi restano non committati; (2) `git rebase` con l'albero sporco **si rifiuta di partire** («cannot rebase: You have unstaged changes») e NON lascia un rebase in corso; (3) il ripiego trattava quel rifiuto come un conflitto, non trovava rebase in corso, **uscìva dal giro in silenzio** e proseguiva come se fosse andato bene; (4) `merge-tree` confrontava allora il ramo con main dal vecchio antenato comune — cioè la normale divergenza che il rebase avrebbe risolto — e la chiamava «conflitti residui». Trovato anche un secondo difetto nella stessa funzione: il commento diceva «teniamo la base» e il codice faceva `git checkout --theirs`, che in rebase è **la versione del ramo** (provato: `--ours` è la base). Per settimane l'auto-risoluzione ha tenuto il lato che prometteva di scartare, rimettendo nella PR il referto vecchio del ramo. Regole: ① un comando che esce male e non lascia lavoro a metà **non è un conflitto** — si riporta il motivo di chi ha rifiutato, mai si tira avanti in silenzio; ② un errore non nomina una causa che non ha misurato (prima di credere a `merge-tree`, si controlla che il ramo sia davvero finito sopra la base); ③ quale lato è `--ours` e quale `--theirs` non si ricorda a memoria, si prova; ④ un modulo che non si può importare senza eseguirlo (AR-445) è un modulo che nessuno prova: ed è per questo che questo rebase è arrivato al 30/7 senza una sola prova comportamentale.",
+      "tag": [
+        "git",
+        "pr",
+        "conflitti",
+        "git-pr.mjs",
+        "rebase",
+        "worker",
+        "vps",
+        "pubblicazione",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.99,
+      "evidenze": 3,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-30",
+      "ultima_conferma": "2026-07-30 03:09",
+      "stato": "principio",
+      "gate": "node cervello/test/rebase-che-non-parte.test.mjs",
+      "promosso_il": "2026-07-30 06:21",
+      "cristallizzato_in": "memoria-persistente"
+    },
+    {
+      "id": "L-2026-0730-529",
+      "testo": "**Una prova verde in locale e rossa in CI, e il log che non sa dire quale asserzione (30/7, PR #629).** La prova comportamentale del rebase passava 13/13 qui e 10/11 sul runner di GitHub. Escluse una per una le ipotesi misurandole, non immaginandole: config git globale azzerata (`GIT_CONFIG_GLOBAL=/dev/null`) → sempre verde; invocazione identica a quella del runner (`node --import hook-ts.mjs --test`) → sempre verde; restava una sola differenza reale, **git 2.43 qui contro 2.54 in CI**, e in questo container git non si può aggiornare. Due difetti veri dietro quel rosso: ① la prova chiedeva a git un DETTAGLIO INTERNO («hai lasciato la cartella .git/rebase-merge?») per decidere se ci fosse un conflitto — un dettaglio che cambia fra versioni; la domanda giusta è una sola e non cambia mai: **ci sono file in conflitto da risolvere?** ② il ripiego dopo un `rebase --continue` fallito era `--skip`, cioè **buttare via il commit del ramo** senza guardarci dentro: giusto in un caso solo (dopo la risoluzione quel commit non porta più niente), e quel caso ora si RICONOSCE (indice vuoto) invece di indovinarlo. Aggiunto anche `GIT_EDITOR=true`: un rebase dentro uno script non ha un editor e non deve volerne uno. Terzo difetto, quello che ha reso tutto più lento: **`test-cervello.mjs` buttava l'uscita del figlio** e riportava solo «1 asserzioni fallite». Un rosso che non dice cosa è rosso costringe a cambiare il test alla cieca e ripubblicare. Regole: ① un test non deve dipendere da dettagli interni dello strumento, ma dall'invariante che vogliamo garantire; ② «funziona sulla mia macchina» non è un verde: le versioni degli strumenti sono parte dell'ambiente, e vanno escluse per misura; ③ un guardiano deve riportare COSA è rosso, non solo quanto.",
+      "tag": [
+        "test",
+        "ci",
+        "git",
+        "versioni",
+        "diagnosi",
+        "git-pr.mjs",
+        "test-cervello",
+        "flaky"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.95,
+      "evidenze": 2,
+      "fonte": "sessione",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-30",
+      "ultima_conferma": "2026-07-30 03:30",
+      "stato": "attiva",
+      "gate": "node cervello/test/rebase-che-non-parte.test.mjs"
+    },
+    {
+      "id": "L-2026-0730-530",
+      "testo": "**AR-451 risolto alla radice, non più workaround (30/7 04:44, Nicola: «risolvi il bug di rebase che ti fa aprire una nuova pr ogni volta»).** `git-pr.mjs` rifiutava di ripubblicare un branch già aperto in PR con \"il ramo è AVANTI, qualcun altro ci ha lavorato\" — capitato 3 volte nella stessa notte (#630→#631, #632→#633, #633→#634), rimediato ogni volta ricreando un branch pulito. Causa vera: il rebase riscrive l'hash di OGNI commit che sposta (l'hash include il genitore), quindi un commit già pubblicato come X non è più antenato di sé stesso dopo un secondo rebase — il controllo di sicurezza del lease vedeva \"estraneo\" quello che era solo la propria pubblicazione precedente. Fix: `rebasaSuRiferimento` ora porta con sé l'HEAD di PRIMA del rebase (`preRebaseSha`), e `remotoEDavveroVecchio` lo usa come secondo candidato nel controllo di sicurezza — provato con repo veri in `cervello/test/lease-dopo-rebase-ripetuto.test.mjs` (4/4 verdi, incluso il caso di un commit DAVVERO estraneo che deve restare rifiutato). PR #635. Regola: non serve più \"ricrea un branch pulito\" come rimedio a questo sintomo — se il bug tornasse su un branch nuovo è una regressione da riaprire, non la normalità.\n\n⚠️ **FRENO NON ANCORA ATTIVO (trovato 30/7 11:09, gate-veri): il fix e il test vivono SOLO sul branch `fix/lease-rebase-ripetuto-v2` (commit 11b3cbbe4/93a008470), non su `main` — `git merge-base --is-ancestor` conferma che NON è antenato di HEAD e `cervello/test/lease-dopo-rebase-ripetuto.test.mjs` non esiste nell'albero di lavoro corrente.** Il testo sopra descrive il fix come già risolto (dal lavoro del giro delle 04:44), ma finché la PR #635 non è mergiata su `main` il gate dichiarato non può scattare — è un freno finto, non un freno vero. Accodata azione 🟡 per il merge (vedi AZIONI-IN-ATTESA). Il campo `gate` resta scritto perché il test ESISTE ed È VERDE sul branch: non è una lezione inventata, è lavoro non ancora pubblicato.",
+      "tag": [
+        "git",
+        "pr",
+        "git-pr.mjs",
+        "rebase",
+        "lease",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.97,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-30",
+      "ultima_conferma": "2026-07-30 11:09",
+      "stato": "attiva",
+      "gate": "node cervello/test/lease-dopo-rebase-ripetuto.test.mjs",
+      "gate_attivo": false,
+      "gate_nota": "fix su branch fix/lease-rebase-ripetuto-v2 (PR #635), non ancora su main — merge in coda"
     }
   ],
   "principi": [
@@ -11754,6 +11884,24 @@
       ],
       "reparto": "@frontend-dev",
       "promosso_il": "2026-07-24 18:20"
+    },
+    {
+      "id": "L-2026-0730-528",
+      "testo": "**Il cancello di pubblicazione ha fermato OGNI PR dando la colpa a un conflitto che non esisteva (30/7, screenshot di Nicola dal Pannello).** `git-pr.mjs` rispondeva «Conflitti residui dopo rebase: AZIONI-IN-ATTESA.md, BACHECA.md, DECISIONI.md, cantiere-prove.json, coerenza-fatti.json, salute.json, stampo-check.json, storico-salute.json» — due bugie in una riga: nessun rebase era avvenuto, e quelli non erano conflitti residui. Catena provata su repo veri in /tmp, non dedotta: (1) sul VPS il worker tiene sporchi i suoi file e il commit chore di git-pr li ESCLUDE apposta, quindi restano non committati; (2) `git rebase` con l'albero sporco **si rifiuta di partire** («cannot rebase: You have unstaged changes») e NON lascia un rebase in corso; (3) il ripiego trattava quel rifiuto come un conflitto, non trovava rebase in corso, **uscìva dal giro in silenzio** e proseguiva come se fosse andato bene; (4) `merge-tree` confrontava allora il ramo con main dal vecchio antenato comune — cioè la normale divergenza che il rebase avrebbe risolto — e la chiamava «conflitti residui». Trovato anche un secondo difetto nella stessa funzione: il commento diceva «teniamo la base» e il codice faceva `git checkout --theirs`, che in rebase è **la versione del ramo** (provato: `--ours` è la base). Per settimane l'auto-risoluzione ha tenuto il lato che prometteva di scartare, rimettendo nella PR il referto vecchio del ramo. Regole: ① un comando che esce male e non lascia lavoro a metà **non è un conflitto** — si riporta il motivo di chi ha rifiutato, mai si tira avanti in silenzio; ② un errore non nomina una causa che non ha misurato (prima di credere a `merge-tree`, si controlla che il ramo sia davvero finito sopra la base); ③ quale lato è `--ours` e quale `--theirs` non si ricorda a memoria, si prova; ④ un modulo che non si può importare senza eseguirlo (AR-445) è un modulo che nessuno prova: ed è per questo che questo rebase è arrivato al 30/7 senza una sola prova comportamentale.",
+      "tag": [
+        "git",
+        "pr",
+        "conflitti",
+        "git-pr.mjs",
+        "rebase",
+        "worker",
+        "vps",
+        "pubblicazione",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "promosso_il": "2026-07-30 06:21"
     }
   ],
   "preferenze_nicola": [
@@ -12138,15 +12286,24 @@
     "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
   ],
   "meta": {
-    "lezioni_attive": 476,
-    "promosse_a_principio": 86,
+    "lezioni_attive": 475,
+    "promosse_a_principio": 87,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-29 17:08",
+    "tasso_calcolato_il": "2026-07-30 11:14",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-29 17:08",
+    "tick_leggero_il": "2026-07-30 11:14",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-27 22:20"
+    "cristallizzazione_ultima": "2026-07-30 11:02",
+    "lezioni_totali": 480,
+    "lezioni_per_stato": {
+      "attiva": 384,
+      "principio": 87,
+      "in-prova": 5,
+      "decaduta": 0,
+      "senza-stato": 4
+    },
+    "lezioni_conteggio_quadra": true
   }
 }

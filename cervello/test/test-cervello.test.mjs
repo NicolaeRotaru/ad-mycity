@@ -7,7 +7,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { trovaTest, leggiTap, verdetto } from "../test-cervello.mjs";
+import { trovaTest, leggiTap, verdetto, righeRosse } from "../test-cervello.mjs";
 
 test("trovaTest(): prende i .test.mjs e ignora tutto il resto", () => {
   const dentro = trovaTest(["b.test.mjs", "a.test.mjs", "aiuto.mjs", "note.md", "x.test.mts"]);
@@ -68,4 +68,38 @@ test("verdetto(): exit 0 senza TAP non passa per buono", () => {
   // Se un giorno il reporter cambia e smette di stampare i conteggi, il guardiano deve accorgersene
   // invece di dichiarare «tutto a posto» su un output che non ha letto.
   assert.notEqual(verdetto(0, "").esito, "ok");
+});
+
+// ⬇️ AR-450 — il rosso che non diceva cosa era rosso.
+test("righeRosse(): dice QUALE caso è caduto, col suo perché", () => {
+  // La forma vera: i test di questa casa stampano il proprio TAP, e `node --test` lo ri-emette
+  // come commento col cancelletto davanti.
+  const out = [
+    "# ok - un caso che passa",
+    "# not ok - il referto si risolve tenendo la base",
+    "#       Expected values to be strictly equal: 'RAMO' !== 'MAIN'",
+    "# \\# pass 10",
+    "# \\# fail 1",
+  ].join("\n");
+  const rosse = righeRosse(out);
+  assert.equal(rosse.length, 1, "una sola rossa, non anche quella verde");
+  assert.match(rosse[0], /il referto si risolve tenendo la base/, "il NOME del caso, non il file");
+  assert.match(rosse[0], /RAMO' !== 'MAIN'/, "e il messaggio dell'asserzione, che è il perché");
+});
+
+test("righeRosse(): il riassunto per-file di node non è un'asserzione", () => {
+  // `not ok 1 - percorso/del/file.mjs` è la riga che node stampa PER FILE: ripeterla direbbe solo
+  // il nome del file, che si sa già, e nasconderebbe che il dettaglio vero non c'era.
+  assert.deepEqual(righeRosse("not ok 1 - cervello/test/x.test.mjs\n"), []);
+});
+
+test("righeRosse(): un file verde non ha righe rosse, e non se ne inventano", () => {
+  assert.deepEqual(righeRosse("# ok - tutto bene\n# \\# pass 3\n# \\# fail 0\n"), []);
+  assert.deepEqual(righeRosse(""), []);
+});
+
+test("verdetto(): un rosso porta con sé le righe rosse, non solo il conteggio", () => {
+  const v = verdetto(1, "# not ok - caso caduto\n#       dettaglio\n# pass 1\n# fail 1\n");
+  assert.equal(v.esito, "rosso");
+  assert.deepEqual(v.rosse, ["caso caduto → dettaglio"], "senza questo, in CI il rosso è indiagnosticabile");
 });

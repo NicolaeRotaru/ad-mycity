@@ -2409,19 +2409,42 @@
     }
   ],
   "sonda": {
+    "data": "2026-07-30 11:00",
     "loop_chiude": true,
     "tasso_applicazione": 0.18,
-    "giro_a_cadenza": false,
-    "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 0,
-    "salute_stato": "misurata",
+    "prova_chiusura": true,
+    "finestra_recency_gg": 14,
+    "difetti_chiusi": 234,
+    "difetti_chiusi_recenti": 191,
+    "calibrazione_piena": true,
+    "loop_vivo": true,
+    "intenzioni_aperte": 1,
+    "previsioni_aperte_recenti": 0,
+    "esperimenti_aperti": 1,
+    "prova_business": true,
+    "prova_architettura": true,
+    "esperimenti_misurati": true,
+    "giro_a_cadenza": true,
+    "sentinelle_scattano": false,
+    "ore_da_ultima_completa": 22,
+    "ore_da_ultimo_briefing": 1,
+    "max_giri_ciechi_sensori": 2,
+    "giri_tasso_basso": 11,
+    "serve_radiografia_completa": true,
+    "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
     "voto_pieno": 0,
-    "pending_merge": 0,
-    "aperti_davvero": 153,
+    "pending_merge": 85,
+    "aperti_davvero": 50,
     "bloccanti_umani": 20,
-    "salute_firma": "AR-206,AR-365,AR-366,AR-388,AR-412",
-    "verdetto": "ok"
+    "salute_firma": "AR-126,AR-154,AR-158,AR-160,AR-161,AR-174,AR-184,AR-188,AR-193,AR-206,AR-216,AR-217,AR-220,AR-223,AR-224,AR-225,AR-234,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-274,AR-278,AR-283,AR-285,AR-288,AR-289,AR-294,AR-295,AR-323,AR-345,AR-347,AR-349,AR-396,AR-404,AR-410,AR-411,AR-414,AR-420,AR-423,AR-425,AR-428,AR-435,AR-445,AR-447,AR-448,AR-449,AR-450",
+    "verdetto": "serve-completa",
+    "nota": "loop chiude (con prova) · briefing 1h fa · sensori max cecità 2 · salute pending-merge 0/100 (floor 0): 50 aperti-davvero · 85 in attesa merge · 20 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 8.63 (su 8/8 dimensioni)",
+    "voto_salute": 9,
+    "voto_salute_copertura": "8/8",
+    "voto_salute_parziale": false,
+    "voto_salute_misurato": true,
+    "voto_salute_motivo": "voto salute (media dei pilastri): calcolata su tutte e 8 le dimensioni"
   },
   "pronta": {
     "comportamenti": [
@@ -2465,6 +2488,7 @@
     "benchmark_non_eseguito": "Il confronto coi migliori non è stato eseguito in questa corsa (l'ondata ufficiale è fallita per un guasto passeggero e il recupero ha dato priorità alle 12 dimensioni). Non è un verde: è una misura mancante.",
     "blocca_pronta": 21,
     "debito": 110,
-    "cantiere": "I 131 difetti di questa radiografia NON sono stati versati nel cantiere. Il cancello del lotto (cervello/cancello-lotto.mjs) ha bloccato il commit: il cantiere e esattamente al suo tetto di prove deboli (127 su 127) e quel tetto per disegno scende e non sale mai. Ha ragione, ed e la stessa tesi di questo referto: un cantiere che si riempie a ogni sguardo non arriva mai a zero. Percio i difetti vivono qui e nel referto, e entrano nel cantiere UN LOTTO ALLA VOLTA, quando il lavoro parte e con una prova forte (comportamentale, senza OR). La radiografia e l'inbox; il cantiere e la lista di lavoro."
+    "cantiere": "I 131 difetti di questa radiografia NON sono stati versati nel cantiere. Il cancello del lotto (cervello/cancello-lotto.mjs) ha bloccato il commit: il cantiere e esattamente al suo tetto di prove deboli (127 su 127) e quel tetto per disegno scende e non sale mai. Ha ragione, ed e la stessa tesi di questo referto: un cantiere che si riempie a ogni sguardo non arriva mai a zero. Percio i difetti vivono qui e nel referto, e entrano nel cantiere UN LOTTO ALLA VOLTA, quando il lavoro parte e con una prova forte (comportamentale, senza OR). La radiografia e l'inbox; il cantiere e la lista di lavoro.",
+    "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   }
 }
