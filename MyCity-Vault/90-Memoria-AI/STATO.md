@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 12:00
+aggiornato: 2026-07-30 12:16
 fonte: AD digitale (chat)
 ---
+
+> 🔧 **30/7 12:16 — GIRO RIPETUTO: chiuso un gap di freschezza durato 4 passaggi, OKR-Squadra rinfrescato, business ancora fermo.** `freschezza-cadenze.mjs` segnalava che `auto-analisi.json` era rimasto fermo alla firma delle 11:09 per 4 passaggi di fila (11:40/12:00/12:03/12:10) — riscritto ora. Trovato e riparato anche `OKR-Squadra.md`, fermo al 23/7 (oltre la soglia AR-115 di 7gg) e col testo "stallo ~29 giorni" ormai sbagliato — aggiornato a 36 giorni. `scadenzario.json` verificato: l'unica scadenza (bando PI26, oggi 16:00) è già chiusa, nessuna azione. Business RICONFERMATO invariato (fonte: `delta-gate.json`, rinfrescato dal pre-step alle 12:00 — nessuna nuova query pesante, AR-113): 1 negozio reale, 5 prodotti, 1 ordine annullato, 0 pagati, stallo 36 giorni. Nessuna azione nuova verso il marketplace. Restano le stesse 2 firme di sempre: merge PR #635 e Vercel Authentication. Briefing: [[Briefing/2026-07-30]].
 
 > 🕛 **30/7 12:00 — PUNTO DI MEZZOGIORNO: business ancora fermo (36gg), un merge chiuso da solo con una verifica diretta.** Riconfermato dal vivo via Supabase (`ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3`) — identico a ogni passaggio di oggi. La card `#633` (merge Pannello) diceva "controlla tu su GitHub se è superata": l'ho verificato da sola con `git` (non serve GitHub) — il suo contenuto è già dentro `main` tramite la `#634`, già mergiata. Chiusa la riga in coda, non serve più un tuo controllo. Restano davvero solo due firme tue: mergiare la **#635** e i **30 secondi su Vercel** (Deployment Protection). Nessuna urgenza nuova, nessuna correzione di rotta. Briefing: [[Briefing/2026-07-30]].
 

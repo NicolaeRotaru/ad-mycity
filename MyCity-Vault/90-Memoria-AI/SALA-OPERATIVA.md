@@ -690,3 +690,7 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-30 12:00 · @AD · FATTO · Verificato `git fetch origin main`: nessun nuovo merge dalla mattina. PR #635 e Vercel Authentication restano aperte, nessuna novità da GitHub o da Vercel in queste 6 ore.
 - 2026-07-30 12:00 · @AD · FATTO · Coda AZIONI-IN-ATTESA: 41 card 🟡/🔴 aperte (era 45 stamattina, -4: 1 domanda-fantasma chiusa alle 11:32 + pulizia zombie + #633 chiusa ora). Nessun 🟢 rapido nuovo da eseguire oggi (i verdi di stamattina erano già fatti: pulizia zombie, gate riparati).
 - 2026-07-30 12:00 · @AD · SERVE · Nessuna urgenza nuova. Restano solo 2 firme tue: Vercel Authentication (🔴, 30 sec) e merge PR #635 (🔴). Nessuna azione verso il marketplace: North Star fermo per scelta tua fino al 24/8-1/9.
+- 2026-07-30 12:16 · @AD · FATTO · Riparato gap freschezza-cadenze: `auto-analisi.json` era fermo alla firma delle 11:09 per 4 passaggi di fila (11:40/12:00/12:03/12:10) — riscritto ora.
+- 2026-07-30 12:16 · @AD · FATTO · `OKR-Squadra.md` era fermo al 23/7 (>7gg, AR-115): aggiornato frontmatter e testo di stallo (29→36 giorni), contenuto delle righe già coerente con fase 0→1/faro PQ.
+- 2026-07-30 12:16 · @AD · FATTO · Verificato `scadenzario.json`: unica scadenza (bando PI26, oggi 16:00) già chiusa `chiusa_non_idonea` — nessuna azione, nessun countdown vivo.
+- 2026-07-30 12:16 · @AD · SERVE · Business ancora invariato (36 giorni di stallo). Restano solo le 2 firme di sempre: merge PR #635 e Vercel Authentication. Nessuna azione nuova verso il marketplace.

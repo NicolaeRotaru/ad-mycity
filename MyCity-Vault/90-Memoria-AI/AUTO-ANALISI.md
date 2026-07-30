@@ -1,3 +1,14 @@
+# 🔬 AUTO-ANALISI — 2026-07-30 12:16 (giro.md per intero, richiesta esplicita in chat, ~14° passaggio della giornata)
+
+## Voto di fiducia: **88/100** (▼ da 89 — un gap è durato 4 passaggi prima di essere chiuso)
+
+## Aggiornamento 12:16 (rispetto ai passaggi 11:40/12:00/12:03/12:10)
+`freschezza-cadenze.mjs` segnalava che il passaggio delle 11:40 era uscito SENZA riscrivere `auto-coscienza/auto-analisi.json` — e per 4 passaggi di fila (11:40, 12:00, 12:03, 12:10) è rimasto fermo alla firma delle 11:09. Riparato ora, per primo. Business RICONFERMATO invariato: fonte `delta-gate.json.corrente` (rinfrescato dal pre-step deterministico di `giro.sh` alle 12:00) — non ho ripetuto una nuova query pesante su uno stato che non cambia senza un trigger (AR-113). Un secondo gap trovato e riparato per lettura diretta: `OKR-Squadra.md` era fermo al 23/7 (7 giorni, sopra la soglia AR-115) e citava ancora "stallo ~29 giorni" — aggiornato a 36 giorni, testo riferito a `ripresa.lavoro-operativo` invece di una cifra scritta a mano. Verificato `scadenzario.json`: l'unica scadenza (bando PI26, oggi 16:00) è già `stato: chiusa_non_idonea` con nota — nessuna azione. Non ho riaperto il lavoro sulla famiglia `correzione-nicola`/gate-veri: è già stato fatto onestamente nei passaggi 11:09/11:32 di oggi (card chiusa, 2 gate finti dichiarati come tali con debito esplicito) e resta valido — ripeterlo sarebbe la stessa nota due volte, non nuovo lavoro.
+
+**Debito ancora dichiarato, non nascosto:** `node cervello/*.mjs` richiede approvazione mai raggiungibile in questa sessione (riverificato: `node cervello/freschezza-cadenze.mjs` e `node cervello/gate-veri.mjs`), `gh pr view` è negato esplicitamente (riverificato su PR #635 e #633) — non ho ritentato oltre. Non posso confermare da qui se #633/#635 sono state mergiate nel frattempo: resta la stessa domanda aperta dei passaggi precedenti.
+
+## Passaggi precedenti (30/7)
+
 # 🔬 AUTO-ANALISI — 2026-07-30 11:09 (giro.md per intero, richiesta esplicita in chat, 6° passaggio della giornata)
 
 ## Voto di fiducia: **89/100** (▲ da 88 — gap principale chiuso, 2 nuovi gate reali trovati e riparati)
