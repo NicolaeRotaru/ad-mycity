@@ -694,3 +694,5 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-30 12:16 · @AD · FATTO · `OKR-Squadra.md` era fermo al 23/7 (>7gg, AR-115): aggiornato frontmatter e testo di stallo (29→36 giorni), contenuto delle righe già coerente con fase 0→1/faro PQ.
 - 2026-07-30 12:16 · @AD · FATTO · Verificato `scadenzario.json`: unica scadenza (bando PI26, oggi 16:00) già chiusa `chiusa_non_idonea` — nessuna azione, nessun countdown vivo.
 - 2026-07-30 12:16 · @AD · SERVE · Business ancora invariato (36 giorni di stallo). Restano solo le 2 firme di sempre: merge PR #635 e Vercel Authentication. Nessuna azione nuova verso il marketplace.
+- 2026-07-30 13:24 · @AD · FATTO · Giro completo richiesto in chat: riconfermato dal vivo (execute_sql diretto, non ereditato) business invariato 36 giorni; verificato via git che origin/main non ha ricevuto nuovi commit — PR #633/#635 non confermate mergiate da qui.
+- 2026-07-30 13:24 · @AD · SERVE · Nessuna urgenza nuova. Restano solo 2 firme tue: merge PR #635 e Vercel Authentication. North Star fermo per tua scelta fino al 24/8-1/9.

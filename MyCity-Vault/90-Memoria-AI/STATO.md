@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 12:16
+aggiornato: 2026-07-30 13:24
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **30/7 13:24 — GIRO COMPLETO richiesto in chat (~16° passaggio di oggi): business RICONFERMATO invariato con query dal vivo, nessuna azione nuova.** Verificato via `execute_sql` diretto (non ereditato): `ordini=1, pagati=0, consegnati=0, negozi=1, prodotti=5, profili=7, recensioni=0, carrelli abbandonati=3, ultimo_ordine=2026-06-24` — identico cifra per cifra a tutti i passaggi di oggi, stallo **36 giorni**. Verificato anche via `git log HEAD..origin/main` (vuoto): nessun commit nuovo su GitHub dall'ultimo fetch — le PR #633/#635 restano, da qui, non confermate mergiate (non c'entra il North Star: sono le 2 firme tecniche di sempre). Applicata la strategia snella per giro ripetuto ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): niente nuove query pesanti su radar/intelligence/auto-miglioramento (già fatti oggi, cadenza rispettata), rifatto solo il cancello di serietà (`auto-analisi.json`, fermo da 68 minuti). Nessuna nuova entità, nessuna sentinella business scattata, nessuna lezione nuova (la famiglia `correzione-nicola` resta quella già registrata stamattina). **La mossa n.1 resta la stessa di tutta la giornata: le 2 firme tecniche — merge PR #635 e 30 secondi su Vercel Authentication.** Briefing: [[Briefing/2026-07-30]].
 
 > 🔧 **30/7 12:16 — GIRO RIPETUTO: chiuso un gap di freschezza durato 4 passaggi, OKR-Squadra rinfrescato, business ancora fermo.** `freschezza-cadenze.mjs` segnalava che `auto-analisi.json` era rimasto fermo alla firma delle 11:09 per 4 passaggi di fila (11:40/12:00/12:03/12:10) — riscritto ora. Trovato e riparato anche `OKR-Squadra.md`, fermo al 23/7 (oltre la soglia AR-115 di 7gg) e col testo "stallo ~29 giorni" ormai sbagliato — aggiornato a 36 giorni. `scadenzario.json` verificato: l'unica scadenza (bando PI26, oggi 16:00) è già chiusa, nessuna azione. Business RICONFERMATO invariato (fonte: `delta-gate.json`, rinfrescato dal pre-step alle 12:00 — nessuna nuova query pesante, AR-113): 1 negozio reale, 5 prodotti, 1 ordine annullato, 0 pagati, stallo 36 giorni. Nessuna azione nuova verso il marketplace. Restano le stesse 2 firme di sempre: merge PR #635 e Vercel Authentication. Briefing: [[Briefing/2026-07-30]].
 

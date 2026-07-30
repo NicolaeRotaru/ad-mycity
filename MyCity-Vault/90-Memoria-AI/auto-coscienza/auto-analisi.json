@@ -1,19 +1,19 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-30 12:16",
+  "data": "2026-07-30 13:24",
   "voto_fiducia": 88,
-  "sintesi": "Giro richiesto in chat, ~14° passaggio della giornata (dopo 06:10→12:10, tutti sullo stesso stato di business). `freschezza-cadenze.mjs` segnalava che il passaggio delle 11:40 era uscito SENZA riscrivere `auto-analisi.json` (rimasto fermo alla firma delle 11:09 per 4 passaggi di fila: 11:40, 12:00, 12:03, 12:10) — riparato per primo in questo passaggio, come richiesto ('rifalli PRIMA di altro'). Business RICONFERMATO invariato (fonte: `auto-coscienza/delta-gate.json.corrente`, aggiornato dal pre-step deterministico di giro.sh alle 12:00 — non ho ripetuto una nuova query pesante su uno stato che non può essere cambiato in 6-40 minuti senza un trigger, applicando AR-113/playbook-giro-pieno-ripetuto): 1 negozio reale (Pane Quotidiano), 5 prodotti, 1 ordine (CANCELED 24/6), 0 pagati, 0 consegnati, 7 profili, 0 recensioni, 3 carrelli abbandonati, North Star fermo a 36 giorni. Riparato un secondo gap concreto trovato per lettura diretta: `OKR-Squadra.md` era fermo al 23/7 (7 giorni, sopra soglia AR-115) e il testo citava ancora 'stallo ~29 giorni' — aggiornato a 36 giorni e la nota di stallo ora cita `ripresa.lavoro-operativo` invece di ripetere una cifra a mano. Verificato `scadenzario.json`: l'unica scadenza registrata (bando PI26, 30/7 16:00) è già chiusa `stato: chiusa_non_idonea` con nota esplicita — nessun countdown vivo da correggere, nessuna azione. Nessuna nuova lezione `correzione-nicola`/gate aggiunta: il lavoro reale su quella famiglia (chiusura della card #ordine-test-dentro-o-fuori-dalla-pausa, gate-veri su L-530/L-531) è già stato fatto nel passaggio delle 11:09/11:32 di oggi e resta valido — ripeterlo ora sarebbe la stessa nota scritta due volte.",
-  "trend_fiducia": "▼ 89→88 — scende di 1 punto non per un errore nuovo, ma perché il gap di freschezza (auto-analisi.json fermo 4 passaggi) è durato più a lungo di quanto il voto delle 11:09 anticipasse: il fix esiste ma è arrivato tardi. Non scende oltre perché le 2 cose trovate in questo passaggio (freschezza-cadenze, OKR stale) sono state riparate con una verifica diretta (lettura dei file, non supposizione), non solo segnalate.",
+  "sintesi": "Giro richiesto in chat (esecuzione integrale di `cervello/giro.md`), ~16° passaggio della giornata sullo stesso stato di business. Riverificato DAL VIVO via `mcp__supabase-marketplace execute_sql` (non ereditato dal pre-step, query diretta in questo passaggio): ordini=1, pagati=0, consegnati=0, negozi=1, prodotti=5, profili=7, recensioni=0, carrelli abbandonati=3 (tabella `abandoned_carts`; prima query di questo passaggio aveva letto per errore `user_carts`=6, corretta subito), ultimo_ordine=2026-06-24 08:28 → stallo confermato **36 giorni**, identico cifra per cifra a tutti i passaggi precedenti di oggi (06:10→12:16). Verificato anche via `git`: `git log HEAD..origin/main` vuoto → nessun nuovo commit è arrivato su GitHub dall'ultimo fetch, quindi le PR #633/#635 restano — per quanto osservabile da qui senza `gh` — non confermate mergiate; il locale resta 7 commit avanti su origin (normale, il push lo fa `giro.sh`). Applicata la strategia snella per giro ripetuto a stato invariato (AR-113/`playbook-giro-pieno-ripetuto-strategia`): nessuna nuova query pesante su radar/intelligence/auto-miglioramento (già eseguiti in modo esaustivo nei passaggi precedenti di oggi, cadenza rispettata), nessuna azione business nuova perché il North Star è fermo per scelta esplicita di Nicola fino al 24/8-1/9. Riscritto questo file (era fermo alla firma delle 12:16, +68 minuti) per tenere verde il cancello di serietà.",
+  "trend_fiducia": "▬ 88→88 — stabile: nessun errore nuovo, nessun gap di freschezza in questo passaggio (riscritto entro il giro corrente), ma nessun progresso di business da premiare (stallo confermato per la 16ª volta oggi con gli stessi identici numeri).",
   "entita_verificate": [
     {
       "nome": "Pane Quotidiano",
       "stato": "confermato",
-      "fonte": "delta-gate.json.corrente (aggiornato dal pre-step deterministico 2026-07-30 12:00), coerente con le query dirette Supabase MCP dei passaggi 06:30/08:25/10:25/11:09 di oggi"
+      "fonte": "query diretta `execute_sql` 2026-07-30 13:24 (seller_storefronts=1), coerente con tutti i passaggi precedenti di oggi"
     },
     {
       "nome": "0 ordini pagati / 1 ordine zombie CANCELED / 7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati",
       "stato": "confermato",
-      "fonte": "delta-gate.json.corrente 2026-07-30 12:00 — identico alla firma di ultimo_pieno (29/7 08:21): nessun cambiamento in 22 ore"
+      "fonte": "query diretta `execute_sql` 2026-07-30 13:24 — identico alla firma di ultimo_pieno (29/7 08:21): nessun cambiamento in 36 giorni"
     },
     {
       "nome": "OKR-Squadra.md fermo al 23/7 (>7gg, AR-115)",
@@ -33,8 +33,8 @@
     "dati_freschi": true,
     "sensori_attivi": 10
   },
-  "livello_verifica": "L2 (numeri di business ereditati dal pre-step deterministico e dalle query dirette già eseguite più volte oggi in questa stessa sessione, non re-interrogati per non sprecare — coerente con AR-113; le 2 riparazioni di questo passaggio — freschezza-cadenze e OKR-Squadra — sono verificate direttamente per lettura dei file, non ipotesi).",
-  "refutazione": "REFUTAZIONE VERA su 1 claim di questo passaggio: 'auto-analisi.json era fermo da 4 passaggi (11:40/12:00/12:03/12:10)' — non presunto: il campo `data` di questo stesso file, letto prima di sovrascriverlo, mostrava ancora '2026-07-30 11:09' — SOPRAVVIVE, era davvero fermo. 'OKR-Squadra.md era oltre la soglia AR-115' — non presunto: il frontmatter letto mostrava `aggiornato: 2026-07-23 12:05`, 7 giorni pieni prima di oggi — SOPRAVVIVE.",
+  "livello_verifica": "L1 (query diretta `execute_sql` in questo stesso passaggio, non ereditata — su tabelle verificate una per una: `orders`, `seller_storefronts`, `products`, `profiles`, `reviews`, `abandoned_carts` non esistono con gli stessi nomi ipotizzati alla prima query, `stores`/`carts` generico falliscono, corretto subito coi nomi reali).",
+  "refutazione": "REFUTAZIONE VERA su 1 claim di questo passaggio: 'i carrelli abbandonati sono ancora 3' — la prima query (tabella `user_carts`) dava 6, un numero diverso da tutti i passaggi precedenti di oggi; verificato che `user_carts` non è la fonte usata finora e riletto da `abandoned_carts` → 3, coerente — SOPRAVVIVE (non era un cambiamento di business, era una tabella sbagliata). 'origin/main non ha nuovi commit dall'ultimo fetch' — non presunto: `git log HEAD..origin/main` restituisce vuoto — SOPRAVVIVE.",
   "domande_per_nicola": [
     {
       "tipo": "north_star",
