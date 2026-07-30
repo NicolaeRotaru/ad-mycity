@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 11:32
+aggiornato: 2026-07-30 12:00
 fonte: AD digitale (chat)
 ---
+
+> 🕛 **30/7 12:00 — PUNTO DI MEZZOGIORNO: business ancora fermo (36gg), un merge chiuso da solo con una verifica diretta.** Riconfermato dal vivo via Supabase (`ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3`) — identico a ogni passaggio di oggi. La card `#633` (merge Pannello) diceva "controlla tu su GitHub se è superata": l'ho verificato da sola con `git` (non serve GitHub) — il suo contenuto è già dentro `main` tramite la `#634`, già mergiata. Chiusa la riga in coda, non serve più un tuo controllo. Restano davvero solo due firme tue: mergiare la **#635** e i **30 secondi su Vercel** (Deployment Protection). Nessuna urgenza nuova, nessuna correzione di rotta. Briefing: [[Briefing/2026-07-30]].
 
 > 🐛 **30/7 11:32 — GIRO RIPETUTO (7° passaggio della giornata) — chiusa una domanda-fantasma già risposta da Nicola il 28/7, business ANCORA INVARIATO.** Ereditato identico dai 6 passaggi precedenti (`ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3`). Trovato: la card `#ordine-test-dentro-o-fuori-dalla-pausa` chiedeva a Nicola dentro/fuori sull'ordine di prova PQ, ma Nicola aveva già risposto il **28/7 ~15:56** («Si l'ho rimandato a settembre», [[DECISIONI]]) — la card non era mai stata chiusa e per tutta la mattinata (06:10→11:09) è stata riproposta come "mossa n.1", nonostante una lezione quasi identica fosse già scritta la notte prima (29/7 23:56, [[feedback-domanda-gia-decisa-ricontrollare]]). Chiusa ora in [[AZIONI-IN-ATTESA]] (conferma spostata nella riga `⏸ Pausa` di `#ordine-test-pq`, formato che `pausa-check.mjs` riconosce), registrata la lezione `L-2026-0730-531` (famiglia `correzione-nicola`: 18 ripetizioni mai diventate un controllo automatico — proposto un guardiano nuovo, non costruito: `node cervello/*.mjs` bloccato in Bash in questa sessione). **La mossa n.1 cambia:** non serve più una parola su PQ (già decisa), restano le 3 firme tecniche di sempre — merge PR #633 e #635, Vercel Authentication. Briefing: [[Briefing/2026-07-30]].
 
@@ -711,6 +713,16 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (🕛 aggiornato 30/7 12:00 — punto di mezzogiorno)
+Business INVARIATO, riconfermato ora con query diretta: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati — **stallo 36 giorni**. La domanda sull'ordine di prova PQ (mossa n.3 di stamattina) era già stata risposta da Nicola il 28/7 e chiusa alle 11:32. Restano solo le due firme tecniche di sempre.
+
+1. [ ] 🔴 **Trenta secondi su Vercel per chiudere davvero il Pannello** (Settings → Deployment Protection → Vercel Authentication = Enabled) — verificato di persona in incognito, nessun codice in attesa.
+2. [ ] 🔴 **Mergia la PR #635** (fix del bug di rebase che ha già colpito 3 volte) — la #633 non serve più mergiarla: verificato via `git` che il suo contenuto è già dentro `main` tramite la #634.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 36gg, atteso — negozi in pausa) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente · n8n cieco · REST/MCP/Stripe/Sito/Pannello ✅ · cantiere: bloccanti su main, 2 aspettano solo te (permessi `.claude/settings.json` AR-206, Vercel Authentication AR-226).
+
+---
 
 ## Prossime priorità (☀️ aggiornato 30/7 06:10 — piano del mattino)
 Business INVARIATO dal 24/6, riconfermato ora con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati, 0 recensioni, 3 carrelli abbandonati — **stallo 36 giorni**. Le due domande che tenevano ferma la coda da giorni (PI26, piano-squadra) erano state chiuse da Nicola già il 29/7 notte, ma 5 card erano rimaste aperte per errore: ripulite stamattina (dettaglio in [[SALA-OPERATIVA]] 06:10). Oggi la priorità torna a essere lo stallo del North Star: manca solo una parola di Nicola per sbloccare l'ordine di prova.

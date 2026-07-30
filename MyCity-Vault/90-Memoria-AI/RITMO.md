@@ -1033,3 +1033,20 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - Vercel → Settings → Deployment Protection → Vercel Authentication → Enabled
 
 **Dettagli tecnici** — riverificato via Supabase MCP: ordini=1 (CANCELED 24/6), profili=7, prodotti=5, stallo 36gg. PR pendente: #633 (supera #632, stesso bug di rebase già noto). Ripulite 5 card zombie in AZIONI-IN-ATTESA (il bando PI26 lo avevi già chiuso tu il 29/7, la memoria vecchia diceva ancora "scade oggi") — coerenza-fatti aggiornata, coda 45 aperte. Cantiere: 16 bloccanti su main, 2 aspettano solo te (permessi jolly + Vercel Auth).
+
+## Punto di mezzogiorno · 2026-07-30 12:00
+
+**Le 3 priorità di stamattina, a che punto sono:**
+1. Mergiare la PR sul Pannello → 🔄 **cambiata**: quella di stamattina (#633) non serve più, il suo contenuto è già dentro dal merge di un'altra PR (#634). Ne resta una vera da mergiare: la #635.
+2. Vercel Authentication (30 secondi) → ❌ **ferma**, nessuna novità.
+3. Parola su dentro/fuori per l'ordine di prova PQ → ✅ **chiusa**: era già stata data due giorni fa, la card era rimasta aperta per errore ed è stata sistemata questa mattina.
+
+**Il negozio:** stesso quadro di stamattina — 1 negozio, 1 ordine annullato, 0 pagati. Nessun cambiamento nella giornata.
+
+**Correzioni fatte:** una card in coda ti chiedeva di controllare su GitHub se una PR fosse superata — l'ho verificato da sola senza bisogno del tuo controllo, e ho tolto la richiesta.
+
+**Serve da te entro sera**
+- Vercel → Settings → Deployment Protection → Vercel Authentication → Enabled
+- Un giro su GitHub per mergiare la PR #635 (fix di un bug tecnico ricorrente)
+
+**Dettagli tecnici** — riconfermato via Supabase MCP `execute_sql`: ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3, stallo North Star 36 giorni. `git fetch origin main`: nessun nuovo merge dalla mattina. #633 confermata superata via `git merge-base --is-ancestor` (9012675a9 non antenato di main, 82dd0525a sì — stesso contenuto già in main tramite #634). Coda AZIONI-IN-ATTESA: 41 card aperte (era 45 stamattina).
