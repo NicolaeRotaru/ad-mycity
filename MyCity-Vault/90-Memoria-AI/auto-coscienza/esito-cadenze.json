@@ -12,15 +12,16 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-07-30 10:27",
+      "quando": "2026-07-30 11:15",
       "esito": "vincoli-attivi",
       "codice": 2,
       "ai_rc": 0,
       "push_ok": false,
-      "passi_ok": false,
-      "vincoli_attivi": 10,
+      "passi_ok": true,
+      "vincoli_attivi": 11,
       "vincoli": [
         "APPRENDIMENTO",
+        "CADENZE",
         "GATE",
         "LOOP",
         "MAPPA",
@@ -43,5 +44,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-07-30 10:27"
+  "aggiornato": "2026-07-30 11:15"
 }
