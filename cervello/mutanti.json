@@ -734,6 +734,15 @@
    "cerca": "    if (!/^not ok\\s+-\\s+/.test(t)) continue;",
    "sostituisci": "    if (true) continue;",
    "test": "cervello/test/test-cervello.test.mjs"
+  },
+  {
+   "difetto": "AR-451",
+   "lezione": "L-2026-0730-530",
+   "nome": "il lease perde l'HEAD di PRIMA del rebase e riscambia la propria pubblicazione per lavoro altrui",
+   "file": "cervello/git-pr.mjs",
+   "cerca": "    return { baseRef, ahead, preRebaseSha };",
+   "sostituisci": "    return { baseRef, ahead };",
+   "test": "cervello/test/lease-dopo-rebase-ripetuto.test.mjs"
   }
  ]
 }

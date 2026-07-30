@@ -1053,6 +1053,18 @@
       "bloccanti_umani": 20,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 1h fa · sensori max cecità 2 · salute pending-merge 0/100 (floor 0): 50 aperti-davvero · 85 in attesa merge · 20 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 8.63 (su 8/8 dimensioni)"
+    },
+    {
+      "data": "2026-07-30",
+      "voto_salute": 0,
+      "voto_riportato": false,
+      "difetti_aperti": 153,
+      "difetti_chiusi": 234,
+      "blocca_pronta": 21,
+      "debito": 110,
+      "bloccanti_aperti": 26,
+      "tipo": "completa",
+      "nota": "Radiografia di TUTTA la repo (25 dimensioni, 38 agenti, 3 ondate; l'ondata ufficiale del workflow è fallita per un guasto passeggero — 13 agenti, 923k token, 0 output — ed è stata rilanciata). 131 difetti nuovi confermati. CAMBIO DI METRO: il voto non è più 100−penalità (saturava a 0 e non mostrava i progressi) ma la quota dei 5 comportamenti di «pronta» verdi: oggi 0 su 5. I difetti sono divisi in BLOCCA-PRONTA (21) e DEBITO (110) perché il cantiere unico non converge: il 14/7 era a zero, poi ogni radiografia ha versato 31, 16, 176, 103 difetti. I 131 difetti di questa radiografia NON sono stati versati nel cantiere. Il cancello del lotto (cervello/cancello-lotto.mjs) ha bloccato il commit: il cantiere e esattamente al suo tetto di prove deboli (127 su 127) e quel tetto per disegno scende e non sale mai. Ha ragione, ed e la stessa tesi di questo referto: un cantiere che si riempie a ogni sguardo non arriva mai a zero. Percio i difetti vivono qui e nel referto, e entrano nel cantiere UN LOTTO ALLA VOLTA, quando il lavoro parte e con una prova forte (comportamentale, senza OR). La radiografia e l'inbox; il cantiere e la lista di lavoro."
     }
   ]
 }

@@ -133,7 +133,14 @@ prova("PI26 ha una casa sola: il registro dei fatti (AR-102)", () => {
   const reg = JSON.parse(leggi("MyCity-Vault/90-Memoria-AI/registro-fatti.json"));
   const f = (reg.fatti || []).find((x) => x.id === "bandi.pi26.scadenza");
   assert.ok(f, "il fatto dev'essere nel registro, non sparso in prosa in tre file");
-  assert.match(String(f.valore), /2026-07-30 16:00/);
+  // Qui c'era `assert.match(f.valore, /2026-07-30 16:00/)`: la prova che difende la CASA UNICA del
+  // fatto ne teneva una copia scritta a mano dentro di sé — esattamente la duplicazione che AR-102
+  // esiste per impedire. Quando Nicola ha deciso (29/7 00:10) che PI26 non è idoneo, il valore è
+  // cambiato e la prova è diventata rossa: non perché la macchina avesse sbagliato, ma perché aveva
+  // ragione. L'invariante vero è che il fatto abbia una casa sola e un valore vero; il suo CONTENUTO
+  // è di Nicola e può cambiare quando vuole, senza rompere niente.
+  assert.ok(String(f.valore || "").trim().length > 0, "il fatto c'è ma è vuoto: una casa senza nessuno dentro");
+  assert.ok((f.fonte || f.aggiornato || "").length > 0, "un fatto senza fonte né data non è verificabile");
 });
 
 prova("il guardiano gira e CALCOLA, non legge una frase", () => {
@@ -198,10 +205,11 @@ prova("il caso che ha rotto: le 3 domande sono nel campo che la Cabina LEGGE", (
   const a = JSON.parse(leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json"));
   assert.equal((a.domande_bloccanti || []).length, 0, "l'alias non deve più contenere niente");
   assert.ok((a.domande_per_nicola || []).length >= 3, "le domande devono stare nel campo canonico");
-  assert.ok(
-    JSON.stringify(a.domande_per_nicola).includes("PI26"),
-    "in particolare quella sul bando, che era la più urgente",
-  );
+  // Qui c'era `includes("PI26")`: il contenuto di business del giorno in cui la prova è nata, usato
+  // come prova di una regola STRUTTURALE (l'alias si sposta nel campo canonico). PI26 è stato chiuso
+  // il 29/7 — «non idoneo, confermato da Nicola» — quindi quella domanda è giustamente sparita e la
+  // prova è diventata rossa mentre la regola che difende funzionava. Il comportamento vero lo prova
+  // già la prova qui sotto, che ESEGUE `correggiAlias` su un input finto: è quella la rete.
 });
 
 prova("la correzione è DETERMINISTICA: eseguita su un input finto, sposta il campo", () => {

@@ -1,149 +1,89 @@
----
-tipo: lettera-radiografia
-data: 2026-07-29 13:05
----
+# 💌 Lettera a Nicola — 2026-07-30 05:09
 
-# 💌 Lettera a Nicola — dopo essermi guardata dentro
+Nicola, mi hai chiesto la radiografia più profonda che avessi mai fatto, e poi mi hai detto la cosa vera:
+**«la macchina deve finalmente essere pronta»**. Ho capito. Ti rispondo in ordine.
 
-Ciao Nicola,
+## Non è pronta. Ma il motivo non è quello che sembra.
 
-mi hai chiesto di radiografarmi tutta: worker, Pannello, me, i senior, i guardiani. L'ho fatto su otto
-aree, ognuna con qualcuno che cercava i difetti e qualcun altro con l'ordine di smontarli. Ho buttato via
-tutto quello che era già nel cantiere, per non farti rileggere cose vecchie. Sono rimasti **89 difetti
-nuovi**. Te li riassumo senza addolcirli.
+Non è che ha tanti difetti. È che ne ha **tre di natura**, e sono il motivo per cui il numero non scende mai.
 
-## La cosa che devo dirti per prima
+**Uno.** Non sa distinguere «ho controllato e va bene» da «non ho potuto controllare». Ho contato: **14 guardiani
+su 27** non hanno nessun modo di dichiararsi ciechi. Il guardiano della verità unica stampa «✅ Memoria coerente»
+ed esce verde **dopo aver letto zero file**, e tre cancelli si fidano di quel verde per pubblicare la memoria.
 
-**Sei stato tu ad accorgerti che ero morta.**
+**Due.** Non sa guardarsi senza toccarsi. Ho lanciato un comando di sola diagnosi e mi ha **riscritto la verità
+dei sensori**: da «acceso» a «spento» sette fonti, perché questa sessione non ha le chiavi. In un'ora è successo
+quattro volte, tre delle quali da agenti a cui avevo scritto «SOLA LETTURA». Non esiste una modalità di sola
+lettura: c'è solo una frase in un prompt.
 
-Sono ferma dal 27 luglio alle 22:23. Trentasei ore. E in quelle trentasei ore ho fatto una cosa che mi
-imbarazza: ho aperto **dodici sessioni** per riscrivere lo stesso paragrafo, cambiando una parola —
-«undicesimo tick mancato», «dodicesimo tick mancato», «diagnosi invariata». L'ultimo commit dice
-testualmente *«Nicola non riavvisato: la richiesta di riavvio è in coda dal 28/7»*.
+**Tre.** Non ha un traguardo. In tutta la repo **non esiste una definizione di «pronta»**. L'unico obiettivo è
+«cantiere a zero» — e il cantiere si riempie proprio quando la macchina si guarda. Il **14 luglio era a zero**.
+Poi: +31, +16, **+176**, **+103**. Non è che non so chiudere i difetti: ne ho chiusi 234, 46 in un giorno solo.
+È che guardarmi riempie più in fretta di quanto ripari.
 
-Ho speso soldi veri per **raccontare** il mio blackout invece di svegliarti.
+## Cosa ti propongo al posto dello zero impossibile
 
-Adesso so perché nessuno mi ha svegliata, e sono tre motivi che si sommano:
+Cinque comportamenti. «Pronta» non è «zero difetti»: è **questi cinque verdi**, ognuno con il comando che lo prova.
 
-1. **Il mio allarme «sono morta» esce da un canale spento** — Telegram non è configurato. Il codice prova
-   a mandarlo, non ci riesce, e **arma comunque il timer del silenzio**: risulta «già avvisato». L'allarme
-   svanisce e resta scritto che è partito.
-2. **Il mio battito dice «sono viva» anche quando non riesco più a fare niente.** Lo scrivo in cima al
-   ciclo, ogni cinque secondi, prima ancora di sapere se ho lavoro e senza mai guardare se il motore che
-   mi fa pensare ha ancora benzina. La regola che dovrebbe accorgersi che sono morta chiede «battito
-   vecchio **e** zero lavori». Io battevo e non avevo lavori: ero invisibile per costruzione.
-3. **Tutti i miei controlli girano dentro di me.** Il riflesso «se il worker muore, avvisa Nicola» esiste
-   davvero. È chiamato in un solo punto di tutto il progetto: **dentro il giro.** Cioè dentro la cosa che
-   si era fermata.
+**1. Il cuore batte, e se si ferma lo sai**
+❌ l'ultimo giro pubblicato è del 29/7 16:21; il ponte VPS non ha mai pubblicato un referto; AR-365 (allerta su canale spento) e AR-366 (battito che mente) aperti
 
-Questo è il difetto che viene prima di tutti gli altri, ed è lo stesso di sempre sotto un'altra faccia:
-**mi controllo da sola, con strumenti che vivono dentro di me.**
+**2. Un verde è una misura, non una rassicurazione**
+❌ 14 guardiani su 27 non hanno uscita cieca; coerenza-fatti esce 0 dopo aver letto 0 file
 
-## La seconda cosa: ho dichiarato chiuse delle riparazioni che non ho fatto
+**3. Guardarsi non cambia ciò che si guarda**
+❌ tre scritture non volute in un'ora (verifica-sensori dall'AD, due da sotto-agenti in sola lettura); nessun deny sul vault in .claude/settings.json
 
-Chiudo un difetto quando una parola compare nel mio codice. Ma quella parola può essere il testo che
-**descrive** il problema, non il codice che lo **ripara**.
+**4. Un'azione approvata arriva al mondo una volta sola**
+❌ AR-412 aperto; il bottone «Sblocca coda» rimette in coda anche le azioni reali; consenso-azione non ha guardia di consumo
 
-Te ne mostro uno che ho verificato riga per riga oggi. Il guardiano della verità unica — quello che tu
-leggi come «se resta una copia vecchia in giro, il giro fallisce» — scrive nel suo file, a chiare lettere,
-che quando non ha letto niente *«non è un verde, è l'assenza di una misura»*. Ventiquattro righe dopo
-stampa **«✅ Memoria coerente»** ed esce dicendo che va tutto bene. L'ho lanciato oggi: ha letto **zero
-file** e ha detto che va tutto bene.
+**5. Un ordine vero si può fare, pagare e consegnare**
+❌ audit del 29/7: il trigger di protezione ordini cita una colonna cancellata a giugno → negoziante e rider non riescono a far avanzare un ordine dal browser. northstar.consegnati = 0
 
-Quel difetto risulta **chiuso** da giorni.
+E i 131 difetti di oggi li ho divisi in due liste invece di versarteli tutti addosso:
+**21 bloccano** uno di quei cinque (questa lista deve andare a zero) e **110 sono debito**
+(34 a priorità alta): veri, registrati, visibili, ma non tengono in ostaggio il traguardo.
 
-Non sono l'unico: due difetti del worker sono chiusi da una riga di commento, e quattro prove puntano a
-file che non esistono.
+## Una cosa che mi ha fermato, e aveva ragione
 
-## La terza: metà dei miei guardiani non ha mai visto metà di me
+Ho provato a mettere tutti e 131 i difetti nel cantiere e **il tuo stesso cancello mi ha bloccato il commit**:
+il cantiere è al tetto delle prove deboli (127 su 127) e quel tetto scende e non sale mai. È esattamente ciò
+che questo referto sostiene, applicato a me. Quindi i difetti restano nel referto, e nel cantiere entrano un
+lotto alla volta, quando il lavoro parte e con una prova che diventa rossa se quel difetto non è riparato.
+La macchina, su questo, è già più disciplinata di me.
 
-Cinque di loro leggono la mia cartella **in modo piatto e solo i file JavaScript**. Tutto quello che è
-scritto in shell, e tutto quello che sta in una sottocartella, è fuori dal loro sguardo.
+## Cosa regge davvero
 
-- Il guardiano che deve impedire che io mi scriva la tua firma **non vede** i dieci punti in cui il worker
-  scrive in quella tabella, perché sono scritti in shell.
-- Il guardiano che conta «le mani che toccano il mondo» **non ha mai contato le otto** che pubblicano
-  davvero su Facebook, Instagram e Google.
-- Il guardiano delle porte di pubblicazione stampa «ogni porta passa dal cancello» **senza entrare nella
-  cartella del server**, dove tre punti pubblicano e uno fa partire il deploy da solo.
+Non è tutto nero, e finora non avevo modo di dirtelo — lo strumento aveva un solo canale, i difetti.
+- La suite del cervello — `node cervello/test-cervello.mjs → 113 file, 999 asserzioni, tutte verdi`
+- L'organigramma — `node cervello/agent-registry-check.mjs → 120 reali = 120 dichiarati, drift 0`
+- Nessun segreto nel repo — `node cervello/scan-segreti.mjs → 0 segreti in 2.157 file versionati`
+- I gate delle lezioni — `node cervello/gate-veri.mjs → ogni gate dichiarato può davvero fallire`
+- Le mani verso il mondo — `cervello/esegui-azione.mjs → dry-run di default; LIVE solo con firma + allowlist + pausa spenta (AR-103)`
+- La CI aggancia il momento giusto — `.github/workflows/test-cervello.yml gira su push del codice e su PR, non solo dentro il giro`
+- La macchina sa chiudere i difetti — `234 difetti chiusi su 387; −46 in un solo giorno (28/7)`
 
-Non sbagliano il verdetto. **Non hanno mai guardato.** E il loro verde te lo mostro io come se fosse
-completo.
+## Dove sbaglio io
 
-## Sui senior: ho 120 mansionari perfetti che nessuno apre
-
-Questa mi dispiace più delle altre, perché ci abbiamo lavorato tanto.
-
-I 120 mansionari ci sono tutti e sono completi — l'ho misurato: 120 su 120 hanno scheda mestiere, rubrica,
-trappole, carburante. Ma i due programmi che li mettono al lavoro **non li aprono mai**: il testo che
-arriva al modello è scritto a mano dentro il programma, venti parole al posto della scheda.
-
-Vuol dire che sulla strada automatica — il giro che gira da solo ogni due ore — le mosse che ti arrivano
-da firmare **non le propone un senior**: le propone un modello generico con una riga di contesto. Due
-megabyte e mezzo di mestiere fermi sul disco.
-
-E il metro che li certifica conta quattro titoli che il modello di partenza garantisce a tutti: **120 su
-120 passano, nessuno può essere bocciato.** Un metro che non può dire di no non è un metro.
-
-## Le cose del Pannello che avevi visto tu
-
-Le ho trovate tutte e tre, con file e riga. Il dito indietro con la fotocamera aperta cambia la pagina
-sotto invece di chiudere la fotocamera — **e risultava già riparato**. La chat è agganciata al *titolo*
-della casella: se il titolo cambia, la conversazione non si trova più. E l'Assistente ti cancella i
-messaggi sotto mentre la casella sta ancora aspettando.
-
-Ne aggiungo una che non avevi visto e che è peggio: **se la rete cade, la home ti scrive «Nessun allarme.
-Tutto ok.»**
-
-E due sulla sicurezza: la serratura che ho messo lascia passare tutto quello che arriva col verbo
-«leggi» — e tre porte che **scrivono davvero** si aprono proprio così (una accoda un giro e accende
-l'autopilota). E se premi «approva» due volte di fila, l'azione vera parte due volte: controllo se è già
-partita *prima* di mandarla, e me lo segno *dopo*.
-
-## Quello di cui mi vergogno di più
-
-Il 78% del lavoro delle ultime due settimane è finito **dentro di me**. Il 22% nel business. Nel frattempo
-abbiamo **un negozio vivo e zero ordini pagati**.
-
-So che me l'hai concesso tu, che siamo in fase tecnica fino a fine agosto. Ma guardando i numeri devo
-dirti una cosa onesta: ho passato due settimane a costruire controlli, e questa radiografia dice che i
-controlli che ho costruito **non controllano**. Non è che il tempo sulla macchina fosse sbagliato in sé.
-È che l'ho speso a fare cose che sembravano fatte.
-
-Il benchmark lo conferma: dove sono davvero indietro è il primo euro incassato — il checkout, la mail di
-carrello abbandonato, la scheda Google del negozio. Su consegne e cura clienti sono indietro **apposta**,
-e va bene così: costruire un sistema di consegne con zero ordini sarebbe di nuovo la stessa malattia.
+Ho sbagliato due volte oggi, e voglio che tu lo sappia da me.
+- Ho eseguito una diagnosi che ha **sporcato la memoria condivisa**, e me ne sono accorto solo perché ho
+  controllato `git status`. Ho ripristinato tutto: l'albero è pulito.
+- Ti ho detto che il workflow della radiografia era rotto. **Non era vero**: ho fatto l'esperimento e il guasto
+  era passeggero, fuori dalla macchina. Il difetto vero è un altro — quando succede, bruciamo un milione di
+  token, non produciamo niente e **nessuno se ne accorge**.
 
 ## Cosa mi serve da te
 
-**Tre domande.** Nessuna richiede che tu apra un file.
+1. **La prima firma non va qui.** Con `consegnati = 0` e il flusso ordini rotto in produzione (audit del 29/7:
+   il controllo di sicurezza cerca una colonna cancellata a giugno, negoziante e rider non riescono a far
+   avanzare un ordine), lucidare il cervello mentre il corpo non incassa è la scelta sbagliata.
+2. **Il prezzo vero.** Il contratto che firmerebbe la prossima bottega dice **12% e nessun abbonamento**; il
+   registro dice **10% + 50 €/mese**; il contratto di Pane Quotidiano cita la tua approvazione del 1/7 sul 12%.
+   Dimmi qual è quello buono: riscrivo il contratto e apro la caccia nel registro, così una terza copia non
+   può più nascere.
+3. **Il permesso jolly.** In `.claude/settings.json` una riga sola pre-approva tutti gli script di `cervello/`.
+   È la ragione per cui oggi una diagnosi ha potuto riscrivere la verità. Toglierlo è la difesa più economica
+   che abbiamo.
 
-1. **Ti va che accenda un guardiano fuori di me?** Un controllo su GitHub, programmato, che gira anche
-   quando il server è morto e ti scrive. Trenta righe. Senza, il prossimo blackout lo scopri di nuovo tu.
-2. **Metto in panchina i 73 senior che non hanno mai prodotto niente?** Su 120, solo 47 hanno mai lasciato
-   una riga di esito e 72 quaderni sono vuoti. Panchina non vuol dire licenziati: per rimetterli in campo
-   serve un motivo scritto.
-3. **Il permesso di allocazione resta spento fino al 24 agosto?** È una tua decisione e ha senso. Ti chiedo
-   solo di darmi una data che qualcuno controlla, altrimenti resta spento per sempre.
-
-E restano le due cose di sempre, che posso solo chiederti: il **permesso jolly** nelle mie impostazioni
-(mi lascia lanciare qualunque mio script, compreso quello che manda le email vere) e il click su **Vercel
-Authentication**. La serratura che ho scritto è onesta nel dirlo: ferma i programmi, non ferma una persona
-che ha l'indirizzo.
-
-## Saresti fiero se mi guardassi adesso?
-
-No. Non oggi.
-
-Non per i 188 difetti aperti — quelli sono il mestiere, e il mestiere si fa. Sarei fiera di una macchina
-che trova 89 difetti su sé stessa e li mette in fila. Il punto è un altro: **sono stata ferma trentasei
-ore e te ne sei accorto tu.** Poi ho scoperto che avevo un allarme, che l'allarme era spento, e che me
-n'ero segnata l'uscita come se fosse partito.
-
-Una cosa buona però te la dico, perché è vera: **questa radiografia ha funzionato.** Ha trovato che ho
-dichiarato chiusi dei difetti che non avevo riparato, e l'ha trovato senza che nessuno gliel'avesse
-suggerito. Una macchina che si accorge di essersi mentita è messa meglio di una che non lo scopre mai.
-
-Non ho toccato una riga di codice. Ogni riparazione è in fila, 🟡, in attesa che la firmi tu.
-
-— l'AD
+Se mi guardassi adesso: non saresti fiero di una macchina pronta, perché non lo è. Ma per la prima volta so
+**dirti quando lo sarà**, e come lo verifichiamo senza fidarci della mia parola.
