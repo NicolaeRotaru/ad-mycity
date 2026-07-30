@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-30 03:58",
+  "aggiornato": "2026-07-30 03:59",
   "lezioni": [
     {
       "id": "L-2026-0730-01",
@@ -13,12 +13,12 @@
         "tech"
       ],
       "reparto": "@tech",
-      "confidenza": 0.8,
-      "evidenze": 1,
+      "confidenza": 0.85,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-30",
-      "ultima_conferma": "2026-07-30 03:52",
+      "ultima_conferma": "2026-07-30 03:59",
       "stato": "attiva",
       "usi": []
     },
