@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ListChecks, RefreshCw, Loader2 } from "lucide-react";
+import { ListChecks, RefreshCw, Loader2, Radio } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
@@ -29,7 +29,7 @@ const Markdown: Components = {
   li: ({ children }) => <li className="text-ink/85">{children}</li>,
 };
 
-export default function MemoriaViva() {
+function useAttivita() {
   const [loading, setLoading] = useState(true);
   const [collegato, setCollegato] = useState(false);
   const [attivita, setAttivita] = useState<Attivita | null>(null);
@@ -58,29 +58,42 @@ export default function MemoriaViva() {
 
   usePanelSync(["memoria", "azioni", "radiografia", "all"], () => carica(true));
 
+  return { loading, collegato, attivita, aggAt, ramoVault, carica };
+}
+
+function Intestazione({ titolo, icon, ramoVault, collegato, aggAt, loading, onRefresh }: {
+  titolo: string; icon: React.ReactNode; ramoVault: string | null; collegato: boolean; aggAt: number | null; loading: boolean; onRefresh: () => void;
+}) {
+  return (
+    <div className="flex items-center gap-2.5 mb-4">
+      <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
+        {icon}
+      </span>
+      <span className="text-[15px] font-semibold tracking-tight">{titolo}</span>
+      {ramoVault && collegato && (
+        <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-brand-50 text-brand border border-brand/15">
+          ramo {ramoVault}
+        </span>
+      )}
+      <Aggiornato at={aggAt} className="ml-auto" />
+      <button
+        onClick={onRefresh}
+        disabled={loading}
+        className="inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
+      >
+        {loading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
+        Aggiorna
+      </button>
+    </div>
+  );
+}
+
+export function SezioneBriefing() {
+  const { loading, collegato, attivita, aggAt, ramoVault, carica } = useAttivita();
+
   return (
     <section className="card p-4">
-      <div className="flex items-center gap-2.5 mb-4">
-        <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
-          <ListChecks size={16} />
-        </span>
-        <span className="text-[15px] font-semibold tracking-tight">Memoria viva</span>
-        {ramoVault && collegato && (
-          <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-brand-50 text-brand border border-brand/15">
-            ramo {ramoVault}
-          </span>
-        )}
-        <Aggiornato at={aggAt} className="ml-auto" />
-        <button
-          onClick={() => carica()}
-          disabled={loading}
-          className="inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
-        >
-          {loading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-          Aggiorna
-        </button>
-      </div>
-
+      <Intestazione titolo="Ultimo briefing" icon={<ListChecks size={16} />} ramoVault={ramoVault} collegato={collegato} aggAt={aggAt} loading={loading} onRefresh={() => carica()} />
       {loading && !attivita ? (
         <div className="text-center text-black/45 py-8 text-sm flex items-center justify-center gap-2">
           <Loader2 size={16} className="animate-spin" /> Carico…
@@ -88,32 +101,47 @@ export default function MemoriaViva() {
       ) : !collegato ? (
         <div className="text-center text-black/50 py-8 text-sm max-w-lg mx-auto">
           <p className="mb-2 font-medium text-ink/80">Vault non raggiungibile.</p>
-          <p className="text-xs text-black/45">Briefing e sala operativa compaiono appena il giro salva su GitHub.</p>
+          <p className="text-xs text-black/45">Il briefing compare appena il giro salva su GitHub.</p>
+        </div>
+      ) : attivita?.briefing ? (
+        <div>
+          <p className="t-eti mb-2">{dataVault(attivita.briefing.data || attivita.briefing.nome)}</p>
+          <div className="max-h-[28rem] overflow-y-auto pr-1 rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
+            <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{attivita.briefing.testo}</ReactMarkdown>
+          </div>
+          <ParlaCasella titolo="Ultimo briefing" contesto={(attivita.briefing.testo || "").slice(0, 800)} />
         </div>
       ) : (
-        <div className="space-y-4">
-          {attivita?.briefing && (
-            <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
-              <summary className="text-[13px] font-semibold cursor-pointer">📋 Ultimo briefing · {dataVault(attivita.briefing.data || attivita.briefing.nome)}</summary>
-              <div className="mt-2 max-h-80 overflow-y-auto pr-1">
-                <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{attivita.briefing.testo}</ReactMarkdown>
-              </div>
-              <ParlaCasella titolo="Ultimo briefing" contesto={(attivita.briefing.testo || "").slice(0, 800)} />
-            </details>
-          )}
-          {attivita?.salaOperativa && (
-            <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
-              <summary className="text-[13px] font-semibold cursor-pointer">🛰️ Sala Operativa</summary>
-              <div className="mt-2 max-h-80 overflow-y-auto pr-1">
-                <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{attivita.salaOperativa}</ReactMarkdown>
-              </div>
-              <ParlaCasella titolo="Sala Operativa" contesto={(attivita.salaOperativa || "").slice(0, 800)} />
-            </details>
-          )}
-          {!attivita?.briefing && !attivita?.salaOperativa && (
-            <p className="text-sm text-black/45 py-4 text-center">Nessun briefing o sala operativa ancora.</p>
-          )}
+        <p className="text-sm text-black/45 py-4 text-center">Nessun briefing ancora.</p>
+      )}
+    </section>
+  );
+}
+
+export function SezioneSalaOperativa() {
+  const { loading, collegato, attivita, aggAt, ramoVault, carica } = useAttivita();
+
+  return (
+    <section className="card p-4">
+      <Intestazione titolo="Sala Operativa" icon={<Radio size={16} />} ramoVault={ramoVault} collegato={collegato} aggAt={aggAt} loading={loading} onRefresh={() => carica()} />
+      {loading && !attivita ? (
+        <div className="text-center text-black/45 py-8 text-sm flex items-center justify-center gap-2">
+          <Loader2 size={16} className="animate-spin" /> Carico…
         </div>
+      ) : !collegato ? (
+        <div className="text-center text-black/50 py-8 text-sm max-w-lg mx-auto">
+          <p className="mb-2 font-medium text-ink/80">Vault non raggiungibile.</p>
+          <p className="text-xs text-black/45">La sala operativa compare appena il giro salva su GitHub.</p>
+        </div>
+      ) : attivita?.salaOperativa ? (
+        <div>
+          <div className="max-h-[28rem] overflow-y-auto pr-1 rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
+            <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{attivita.salaOperativa}</ReactMarkdown>
+          </div>
+          <ParlaCasella titolo="Sala Operativa" contesto={(attivita.salaOperativa || "").slice(0, 800)} />
+        </div>
+      ) : (
+        <p className="text-sm text-black/45 py-4 text-center">Nessuna sala operativa ancora.</p>
       )}
     </section>
   );

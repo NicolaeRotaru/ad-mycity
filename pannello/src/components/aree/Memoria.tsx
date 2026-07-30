@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BookOpen, FolderTree, Gauge, ListChecks, Map as MapIcon, ScrollText, ShieldCheck, Target, TrendingUp } from "lucide-react";
+import { BookOpen, FolderTree, Gauge, ListChecks, Map as MapIcon, Radio, ScrollText, ShieldCheck, Target, TrendingUp } from "lucide-react";
 import FattiChiave from "@/components/FattiChiave";
-import MemoriaViva from "@/components/MemoriaViva";
+import { SezioneBriefing, SezioneSalaOperativa } from "@/components/MemoriaViva";
 import ScoperteProposte from "@/components/ScoperteProposte";
 import Documenti from "@/components/aree/Documenti";
 import EsploraGitHub from "@/components/aree/EsploraGitHub";
@@ -12,10 +12,12 @@ import QuaderniSenior from "@/components/QuaderniSenior";
 import { SezioneStato, SezioneOkr, SezionePiani } from "@/components/StatoNumeriVault";
 import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
-type Tab = "fatti" | "memoria" | "scoperte" | "decisioni" | "quaderni-senior" | "stato" | "okr" | "piani" | "consegne" | "github";
+type Tab = "fatti" | "briefing" | "sala-operativa" | "scoperte" | "decisioni" | "quaderni-senior" | "stato" | "okr" | "piani" | "consegne" | "github";
 
 function parseTab(sub?: string): Tab {
   if (sub === "fatti" || sub === "viva-fatti" || sub === "fatti-chiave") return "fatti";
+  if (sub === "briefing" || sub === "memoria" || sub === "viva-memoria" || sub === "memoria-viva" || sub === "viva") return "briefing";
+  if (sub === "sala-operativa") return "sala-operativa";
   if (sub === "scoperte" || sub === "viva-scoperte") return "scoperte";
   if (sub === "storico-decisioni" || sub === "storico" || sub === "decisioni") return "decisioni";
   if (sub === "storico-quaderni-senior" || sub === "quaderni-senior") return "quaderni-senior";
@@ -24,7 +26,7 @@ function parseTab(sub?: string): Tab {
   if (sub === "piani") return "piani";
   if (sub === "github" || sub === "esplora" || sub === "archivio/github") return "github";
   if (sub === "archivio" || sub?.startsWith("archivio/")) return "consegne";
-  return "memoria";
+  return "fatti";
 }
 
 function subId(t: Tab): string {
@@ -34,11 +36,11 @@ function subId(t: Tab): string {
   if (t === "quaderni-senior") return "storico-quaderni-senior";
   if (t === "github") return "archivio/github";
   if (t === "consegne") return "archivio";
-  return t; // memoria, stato, okr, piani
+  return t; // briefing, sala-operativa, stato, okr, piani
 }
 
 export default function Memoria() {
-  const [tab, setTab] = useState<Tab>("memoria");
+  const [tab, setTab] = useState<Tab>("fatti");
 
   useEffect(() => {
     const applica = (det: { vista?: string; sub?: string } | undefined) => {
@@ -59,7 +61,8 @@ export default function Memoria() {
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: "fatti", label: "Fatti-chiave", icon: <ShieldCheck size={14} /> },
-    { id: "memoria", label: "Memoria", icon: <ListChecks size={14} /> },
+    { id: "briefing", label: "Ultimo briefing", icon: <ListChecks size={14} /> },
+    { id: "sala-operativa", label: "Sala Operativa", icon: <Radio size={14} /> },
     { id: "scoperte", label: "Scoperte", icon: <TrendingUp size={14} /> },
     { id: "decisioni", label: "Decisioni", icon: <ScrollText size={14} /> },
     { id: "quaderni-senior", label: "Quaderni senior", icon: <BookOpen size={14} /> },
@@ -97,7 +100,8 @@ export default function Memoria() {
       </div>
 
       {tab === "fatti" && <FattiChiave />}
-      {tab === "memoria" && <MemoriaViva />}
+      {tab === "briefing" && <SezioneBriefing />}
+      {tab === "sala-operativa" && <SezioneSalaOperativa />}
       {tab === "scoperte" && <ScoperteProposte />}
       {tab === "decisioni" && <GovernoAD variant="decisioni" />}
       {tab === "quaderni-senior" && <QuaderniSenior />}
