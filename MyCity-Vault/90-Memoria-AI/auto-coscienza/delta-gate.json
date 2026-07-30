@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚦 DELTA-GATE (AR-019): firma dello stato reale per saltare i giri pesanti quando NULLA è cambiato dall'ultimo giro pieno. Scritto da cervello/delta-gate.mjs.",
-  "aggiornato": "2026-07-30 08:21",
+  "aggiornato": "2026-07-30 10:21",
   "ultimo_pieno": {
     "firma": {
       "ordini": 1,
@@ -20,20 +20,15 @@
     "ultimo_ordine": "2026-06-24T08:28:40.166644+00:00",
     "clienti": 7,
     "sensori": {
-      "stati": "mcp_stripe:ok,mcp_supabase:ok,n8n_health:ok,pannello_uptime:ok,posthog_api:ok,resend_api:ok,sito_uptime:ok,stripe_api:ok,supabase_memoria:ok,supabase_rest:ok,telegram_bot:non_configurato,watchdog_esterno:ok",
+      "stati": "mcp_stripe:ok,mcp_supabase:ok,n8n_health:ok,pannello_uptime:ok,posthog_api:ok,resend_api:ok,sito_uptime:cieco,stripe_api:ok,supabase_memoria:ok,supabase_rest:ok,telegram_bot:non_configurato,watchdog_esterno:ok",
       "almeno_un_dato": true
     },
     "dati_leggibili": true
   },
   "giri_saltati_consecutivi": 0,
   "_nota_segna_pieno_manuale": "2026-07-29 08:21: `node cervello/delta-gate.mjs --segna-pieno` di nuovo bloccato da permessi non allowlistati (stesso problema card #239/AR-113, ricorrente) — non ritentato un 3° colpo alla cieca (lezione L-agenti-background). Promozione di ultimo_pieno fatta a mano via Edit, stessa identica scrittura che avrebbe fatto lo script. Firma verificata dal vivo via execute_sql (ordini=1, pagati=0, consegnati=0, negozi=1, prodotti=5, profili=7, recensioni=0, carrelli=3) — identica dal 24/6, stallo 35 giorni.",
-  "giri_valutati": 226,
+  "giri_valutati": 227,
   "storia": [
-    {
-      "quando": "2026-07-24 14:20",
-      "esegui_pieno": false,
-      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
-    },
     {
       "quando": "2026-07-24 16:20",
       "esegui_pieno": false,
@@ -278,12 +273,17 @@
       "quando": "2026-07-30 08:21",
       "esegui_pieno": true,
       "motivo": "cambiato: stato sensori/sentinelle"
+    },
+    {
+      "quando": "2026-07-30 10:21",
+      "esegui_pieno": true,
+      "motivo": "cambiato: stato sensori/sentinelle"
     }
   ],
   "ultima_decisione": {
-    "quando": "2026-07-30 08:21",
+    "quando": "2026-07-30 10:21",
     "esegui_pieno": true,
     "motivo": "cambiato: stato sensori/sentinelle",
-    "ore_da_pieno": 24
+    "ore_da_pieno": 26
   }
 }

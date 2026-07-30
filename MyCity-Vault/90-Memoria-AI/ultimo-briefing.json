@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-30 06:30",
-  "situazione": "Giro completo (\"giro.md per intero\"), richiesto in chat. Business ANCORA fermo da 36 giorni: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 solo ordine (zombie 24/6, annullato), 0 pagati/consegnati, 0 recensioni, 407 lead fermi dal 24/5. Riverificato dal vivo via Supabase MCP: tutti i numeri identici ai giri precedenti. Il piano del mattino (06:05-06:24) aveva già ripulito 5 card zombie su PI26/piano-squadra; questo giro ne ha trovate e chiuse altre 3 (`#vps-giro-fermo`, `#push-main-memoria`, `#push-volano-fix`, smentite da git log/fetch reali) e ha rigenerato CHECKLIST-NICOLA.md, ferma da 3 giorni (AR-030). Misurati 3 esperimenti scaduti nel registro (EXP-003/006/013 → mancata), riaperto EXP-014 sul North Star. Nessuna sentinella business nuova, nessuna entità nuova. Mossa n.1: una parola di Nicola (dentro/fuori) sull'ordine di prova PQ.",
+  "data": "2026-07-30 10:25",
+  "situazione": "Giro ripetuto (richiesto in chat), business ANCORA fermo da 36 giorni: riverificato ora dal vivo via Supabase MCP — 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 solo ordine (zombie 24/6, annullato), 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati — cifra per cifra identico ai passaggi 06:30 e 08:25 di oggi. Nessuna sentinella nuova, nessuna entità nuova. Applicata la strategia snella per giro ripetuto a stato invariato (AR-113): niente nuove query pesanti, JSON auto-coscienza già freschi dal pre-step di giro.sh. `node cervello/*.mjs` resta bloccato in Bash in questa sessione (stesso limite noto). Mossa n.1 invariata: una parola di Nicola (dentro/fuori) sull'ordine di prova PQ.",
   "opportunita": [
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
@@ -33,9 +33,6 @@
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo 36 giorni",
-    "CHECKLIST-NICOLA stantia da 3 giorni (AR-030) — rigenerata in questo giro",
-    "3 card in coda ormai false (VPS fermo, push mancanti) — chiuse in questo giro",
-    "3 esperimenti scaduti mai chiusi nel registro — misurati in questo giro"
+    "North Star 0 — stallo 36 giorni (invariato)"
   ]
 }

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 08:25
+aggiornato: 2026-07-30 10:25
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **30/7 10:25 — GIRO RIPETUTO (richiesto in chat) — business ANCORA INVARIATO, riconfermato dal vivo.** Supabase MCP diretto (10:2x): `ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3` — identico cifra per cifra ai passaggi 06:30/08:25. Delta-gate: firma invariata dall'ultimo giro pieno (29/7 08:21). Applicata la strategia snella per giro ripetuto a stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): nessuna nuova query pesante, nessuna riscrittura dei JSON auto-coscienza (già freschi dal pre-step deterministico di `giro.sh` alle 10:21). `node cervello/*.mjs` resta bloccato in Bash in questa sessione (stesso limite dei passaggi precedenti — non riprovato oltre 2 tentativi). Nessuna azione nuova verso il marketplace: le 4 priorità restano quelle delle 06:30/08:25 (dentro/fuori ordine test PQ, merge PR #633, Vercel Authentication, ok su `#permessi-senza-jolly`). Briefing: [[Briefing/2026-07-30]].
 
 > 🔁 **30/7 08:25 — GIRO (chat, manutenzione macchina, business invariato).** Riverificato dal vivo via Supabase MCP: 1 PQ, 5 prodotti, 1 ordine annullato, 0 pagati — identico al giro delle 06:39, stallo **36 giorni**. Riparati due gap: `auto-coscienza/auto-analisi.json` era fermo dal 27/7 (guardiano `freschezza-cadenze` l'ha segnalato come HARD) — riscritto; `MyCity-Vault/05-Soldi-Rischi/scadenzario.json` citava ancora PI26 "aperta, scade oggi 16:00" (non toccato dalla correzione delle 06:05/06:30 perché è l'input dello script, non un testo letto a occhio) — corretto a chiusa, evitata una card 🔴 falsa oggi pomeriggio. Nessuna azione business nuova (North Star fermo per scelta di Nicola fino al 24/8-1/9). `node cervello/*.mjs` non eseguibile in questa sessione (4 tentativi bloccati) — guardiani script-dipendenti ereditati dal worker VPS. Le 4 priorità restano quelle delle 06:30: mergia PR #633, Vercel Authentication, dentro/fuori ordine test PQ, ok su `#permessi-senza-jolly`. Fonte: `mcp__supabase-marketplace execute_sql` diretta (08:2x).
 

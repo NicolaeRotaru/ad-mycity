@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-30 10:14",
+  "aggiornato": "2026-07-30 10:24",
   "lezioni": [
     {
       "id": "L-2026-0730-01",
@@ -9109,13 +9109,14 @@
         "esecuzione"
       ],
       "reparto": "@AD",
-      "confidenza": 0.84,
+      "confidenza": 0.69,
       "evidenze": 1,
       "fonte": "giro",
       "caso_studio_nicola": false,
       "nato": "2026-07-02",
       "ultima_conferma": "2026-07-02 10:19",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 10:21"
     },
     {
       "id": "L-2026-0702-44",
@@ -9128,13 +9129,14 @@
         "nicola"
       ],
       "reparto": "@AD",
-      "confidenza": 0.86,
+      "confidenza": 0.71,
       "evidenze": 2,
       "fonte": "giro",
       "caso_studio_nicola": false,
       "nato": "2026-07-02",
       "ultima_conferma": "2026-07-02 08:36",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 10:21"
     },
     {
       "id": "L-2026-0702-43",
@@ -12286,12 +12288,12 @@
     "promosse_a_principio": 87,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-30 10:14",
+    "tasso_calcolato_il": "2026-07-30 10:24",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-30 10:14",
+    "tick_leggero_il": "2026-07-30 10:24",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-30 08:21",
+    "cristallizzazione_ultima": "2026-07-30 10:21",
     "lezioni_totali": 480,
     "lezioni_per_stato": {
       "attiva": 384,
