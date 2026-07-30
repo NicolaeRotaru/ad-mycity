@@ -1,7 +1,27 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-30 03:44",
+  "aggiornato": "2026-07-30 03:52",
   "lezioni": [
+    {
+      "id": "L-2026-0730-01",
+      "testo": "**Quando il rebase pre-PR di `git-pr.mjs` continua a fallire con 'conflitti residui' sui file di memoria ANCHE dopo aver allineato `main` a `origin/main`, la causa può essere un commit di pulizia lasciato sul branch stesso (non su main) che confonde il confronto — riprovare la stessa PR sullo stesso branch non risolve, va ricreato un branch pulito col solo commit vero (Nicola 30/7 02:41 «come faccio a risolverlo?» poi «riprova ad aprire la pr», sullo sblocco della PR Memoria/Stato-OKR-Piani).** Il branch `fix/memoria-scompone-stato-numeri` aveva un commit di pulizia (rimozione di un file estraneo trascinato dentro per errore) che restava nella storia anche dopo il fix; ogni retry di `git-pr.mjs` — con `main` già aggiornato, working tree pulita, nessun rebase a metà — falliva comunque con lo stesso errore su `AZIONI-IN-ATTESA.md`/`BACHECA.md`/`DECISIONI.md` e i JSON di auto-coscienza. Risolto ricreando un branch nuovo (`fix/memoria-stato-okr-piani-v2`) direttamente sopra `main` aggiornato, con un solo commit pulito contenente lo stesso identico cambiamento: la PR (#630) si è aperta al primo colpo. Conferma diretta causa→effetto: stesso fix, stesso `main`, unica variabile cambiata è il branch. Regola: davanti a un rebase pre-PR che fallisce ripetutamente sugli STESSI file di memoria nonostante `main` sia allineato, non insistere sul branch esistente — ricrearlo pulito è più veloce che rincorrere il rebase. Collegata ad AR-449 ('Rebase che non parte non è un conflitto', PR #629): qui la causa specifica è la traccia di un commit di pulizia precedente, non l'assenza di modifiche reali.",
+      "tag": [
+        "git-pr",
+        "rebase",
+        "branch-pulito",
+        "processo",
+        "tech"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.8,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-30",
+      "ultima_conferma": "2026-07-30 03:52",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0726-02",
       "testo": "**Quando si calcola 'quanti ordini servono per un target di ricavo' (qui 10.000€/mese), bisogna ricontrollare TUTTI i ricavi già stabiliti — prezzi in registro-fatti.json E fee/costanti nel codice del marketplace — non fermarsi alla voce più ovvia/citata a memoria (commissione), pena dimenticare ricavi reali (Nicola 26/7 ~01:48, «non hai calcolato l'abbonamento, le fee del consumatore, etc.», dopo che l'AD aveva risposto contando solo la commissione 10%).** Mancavano due ricavi veri: l'abbonamento fisso 50€/mese per negozio attivo (già noto, in registro-fatti.json) e la fee di consegna fissa 3€/ordine (MAI censita in memoria/vault, trovata solo leggendo `marketplace/lib/constants.ts` dopo la correzione). Con tutti e tre dentro, il numero di ordini per 10.000€ di ricavo lordo scende da ~4.500-5.500 a ~1.450-1.560 (con 50 negozi abbonati attivi) — quasi un terzo. È il gemello lato-ricavi del pattern già noto lato-costi (kit fisico per-negozio dimenticato, stessa sera ~01:29): un volume/target esplicito sul tavolo impone un grep/lettura completa di TUTTE le voci che lo compongono (vault + codice), non solo quella più familiare. Regola: prima di dare un numero di ordini/ricavo con un target €, controllare sia registro-fatti.json (pricing.*) sia il codice reale (constants/fee) per ricavi che scalano per-ordine o per-negozio.",
