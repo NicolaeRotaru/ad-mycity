@@ -24,15 +24,25 @@
 // Uso:
 //   node cervello/test-cervello.mjs           -> report
 //   node cervello/test-cervello.mjs --json    -> JSON
+//   node cervello/test-cervello.mjs --seriale -> uno alla volta (per isolare un test che disturba)
+//   node cervello/test-cervello.mjs --solo x  -> solo i file il cui nome contiene «x»
 // Exit: 0 = tutti girano e passano · 1 = almeno uno rotto o ineseguibile
 
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
+import { cpus } from "node:os";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
+const SERIALE = process.argv.includes("--seriale");
+const SOLO = (() => {
+  const i = process.argv.indexOf("--solo");
+  return i >= 0 ? process.argv[i + 1] : null;
+})();
 const CARTELLA = "cervello/test";
+// Ogni file gira già nel suo processo: le corsie sono quanti processi tenere accesi insieme.
+const CORSIE = SERIALE ? 1 : Math.max(2, Math.min(8, cpus().length));
 
 /** Trova i test del cervello. Pura sulla lettura della cartella: il test la prova con una finta. */
 export function trovaTest(elenco = []) {
@@ -86,47 +96,129 @@ export function verdetto(status, out) {
   return { esito: "rosso", motivo: `${falliti ?? "?"} asserzioni fallite`, passati, falliti };
 }
 
-function main() {
+/**
+ * Lancia UN file di test nel suo processo e ne restituisce il verdetto.
+ *
+ * `--import hook-ts.mjs` (AR-156): parecchi test di questa cartella importano moduli `.ts` del
+ * Pannello, e quei moduli importano fra loro senza estensione — legittimo per il bundler di Next,
+ * non per Node. Senza il risolutore il test non FALLISCE: non parte proprio, che è la forma
+ * peggiore, perché somiglia a un test che non c'è. Il hook è conservativo: riprova solo gli import
+ * relativi non risolti e, se non li trova, rilancia l'errore originale.
+ */
+function eseguiTest(dir, f) {
+  return new Promise((risolvi) => {
+    const p = spawn(process.execPath, ["--import", join(dir, "hook-ts.mjs"), "--test", "--test-reporter=tap", join(dir, f)], {
+      cwd: AD_ROOT,
+    });
+    let uscita = "";
+    p.stdout.on("data", (d) => (uscita += d));
+    p.stderr.on("data", (d) => (uscita += d));
+    // Un processo che non parte proprio (`error`) non è «zero asserzioni fallite»: è ineseguibile,
+    // e `verdetto` lo classifica così solo se gli arriva un'uscita non nulla e nessun TAP.
+    p.on("error", (e) => risolvi({ file: `${CARTELLA}/${f}`, ...verdetto(1, `${uscita}\n${e.message}`) }));
+    p.on("close", (code) => risolvi({ file: `${CARTELLA}/${f}`, ...verdetto(code, uscita) }));
+  });
+}
+
+/**
+ * Dice se un test SCRIVE sul dato vivo della macchina (memoria del vault o JSON del cervello).
+ *
+ * Non è un elenco di nomi: un elenco si dimentica al primo test nuovo, ed è la malattia che questo
+ * cantiere cura. È una domanda fatta al FILE — scrive, e il bersaglio è un percorso vivo? — così un
+ * test scritto domani finisce nella corsia giusta senza che nessuno se lo ricordi.
+ *
+ * Perché serve: `previsione-aperta-prima` e `previsione-banale-dai-dati` salvano
+ * `auto-coscienza/calibrazione.json` (uno anche `registro-fatti.json`), lo riscrivono per la prova e
+ * poi lo rimettono com'era. In serie funziona; insieme si sovrascrivono a vicenda e diventano rossi
+ * a caso. Il rosso intermittente è la forma peggiore di verde: si impara a rilanciare.
+ *
+ * ⚠️ Questa funzione fa girare quei test in fila, NON li guarisce: finché un test lavora sul file
+ * vero, un crasho a metà lascia la memoria vera con dentro i dati della prova. Registrato come
+ * difetto a parte (i test vogliono il percorso iniettato, non quello di casa).
+ */
+export function scriveSulDatoVivo(sorgente = "") {
+  if (!/\bwriteFileSync\s*\(|\bwriteFile\s*\(|\brmSync\s*\(/.test(sorgente)) return false;
+  return /MyCity-Vault\/90-Memoria-AI|auto-coscienza\/[\w-]+\.json|registro-fatti\.json/.test(sorgente);
+}
+
+/** Esegue `lavoro` su tutti gli elementi tenendo al massimo `corsie` processi accesi. */
+export async function aCorsie(elementi, corsie, lavoro) {
+  const esiti = new Array(elementi.length);
+  let prossimo = 0;
+  const corsia = async () => {
+    while (prossimo < elementi.length) {
+      const i = prossimo++;
+      esiti[i] = await lavoro(elementi[i]);
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(corsie, elementi.length) }, corsia));
+  return esiti;
+}
+
+async function main() {
   const quando = nowPiacenza();
   const dir = join(AD_ROOT, CARTELLA);
   if (!existsSync(dir)) {
     console.error(`❌ cartella non trovata: ${CARTELLA}`);
     process.exit(1);
   }
-  const file = trovaTest(readdirSync(dir));
+  let file = trovaTest(readdirSync(dir));
+  if (SOLO) file = file.filter((f) => f.includes(SOLO));
   if (!file.length) {
-    console.error(`❌ nessun test .test.mjs in ${CARTELLA}: il cervello non ha rete.`);
+    console.error(
+      SOLO
+        ? `❌ nessun test .test.mjs contiene «${SOLO}»: il filtro non ha misurato niente.`
+        : `❌ nessun test .test.mjs in ${CARTELLA}: il cervello non ha rete.`,
+    );
     process.exit(1);
   }
 
-  // Uno alla volta: se girassero insieme, il primo che non PARTE porterebbe giù l'intero run e non
-  // si saprebbe quali degli altri stanno bene. È la stessa scelta di test-pannello.mjs.
-  const righe = [];
-  for (const f of file) {
-    // `--import hook-ts.mjs` (AR-156): parecchi test di questa cartella importano moduli `.ts` del
-    // Pannello, e quei moduli importano fra loro senza estensione — legittimo per il bundler di
-    // Next, non per Node. Senza il risolutore il test non FALLISCE: non parte proprio, che è la
-    // forma peggiore, perché somiglia a un test che non c'è. Il hook è conservativo: riprova solo
-    // gli import relativi non risolti e, se non li trova, rilancia l'errore originale.
-    const r = spawnSync(
-      process.execPath,
-      ["--import", join(dir, "hook-ts.mjs"), "--test", "--test-reporter=tap", join(dir, f)],
-      { encoding: "utf8", cwd: AD_ROOT },
-    );
-    righe.push({ file: `${CARTELLA}/${f}`, ...verdetto(r.status, `${r.stdout || ""}${r.stderr || ""}`) });
-  }
+  // A CORSIE, non uno alla volta. Ogni file gira già nel suo processo separato: farne partire N
+  // insieme non li mescola — un file che non parte resta un file che non parte, e gli altri
+  // continuano a dare il loro verdetto. Il vecchio commento diceva il contrario («il primo che non
+  // parte porterebbe giù l'intero run»), ma quello vale per `node --test` su una lista sola, non
+  // per processi separati. Il conto: 103 file in serie = 62 s, ed è il costo che si paga a OGNI
+  // giro del cancello, cioè decine di volte per lotto. `--seriale` resta per isolare un test che
+  // dà fastidio agli altri (se ne comparisse uno che scrive nei file di un altro, si vedrebbe come
+  // rosso intermittente: quella è la sua diagnosi, non un motivo per tenere tutto lento).
+  //
+  // Chi scrive sul dato vivo va in fila da solo, DOPO gli altri: non perché sia lento, perché non è
+  // isolato. La riga sotto è la differenza fra «veloce» e «veloce e vero».
+  // Un test che non riesco a LEGGERE non è «un test che non scrive»: è un test di cui non so
+  // niente, e il default silenzioso lo manderebbe in corsia libera — cioè la scelta rischiosa presa
+  // dal ramo dell'errore. Va in fila per prudenza, e l'impossibilità di leggerlo si dice.
+  const illeggibili = [];
+  const vaInFila = (f) => {
+    try {
+      return scriveSulDatoVivo(readFileSync(join(dir, f), "utf8"));
+    } catch (e) {
+      illeggibili.push(`${f}: non ho potuto leggerlo (${e.message}) → in fila per prudenza`);
+      return true;
+    }
+  };
+  const inFila = file.filter(vaInFila);
+  const liberi = file.filter((f) => !inFila.includes(f));
+  const righe = [
+    ...(await aCorsie(liberi, CORSIE, (f) => eseguiTest(dir, f))),
+    ...(await aCorsie(inFila, 1, (f) => eseguiTest(dir, f))),
+  ].sort((a, b) => a.file.localeCompare(b.file));
   const rotti = righe.filter((x) => x.esito !== "ok");
   const totale = righe.reduce((n, x) => n + (x.passati || 0), 0);
 
   if (JSON_MODE) {
     console.log(
-      JSON.stringify({ esito: rotti.length ? "rotti" : "ok", quando, asserzioni: totale, test: righe }, null, 2),
+      JSON.stringify(
+        { esito: rotti.length ? "rotti" : "ok", quando, asserzioni: totale, corsie: CORSIE, in_fila: inFila, illeggibili, test: righe },
+        null,
+        2,
+      ),
     );
     process.exitCode = rotti.length ? 1 : 0;
     return;
   }
 
-  console.log(`\n🧪 TEST DEL CERVELLO — ${quando}\n`);
+  console.log(`\n🧪 TEST DEL CERVELLO — ${quando}  (${CORSIE} corsie · ${inFila.length} in fila perché scrivono sul dato vivo)\n`);
+  for (const m of illeggibili) console.log(`  ⚠️  ${m}`);
   for (const x of righe) {
     const icona = x.esito === "ok" ? "✅" : x.esito === "ineseguibile" ? "🚫" : "❌";
     console.log(`  ${icona} ${x.file}${x.passati != null ? `  (${x.passati} passati)` : ""}`);

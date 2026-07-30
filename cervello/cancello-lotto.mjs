@@ -88,6 +88,31 @@ export function difettiToccati(cantiereOra, cantierePrima) {
  * è chiuso con l'altra metà ancora rotta e viva. È stata una chiusura falsa, scoperta per caso
  * trenta secondi dopo. Da qui in poi la scopre questo.
  */
+/**
+ * Due difetti DIVERSI con lo stesso id.
+ *
+ * Non è teoria: è successo il 30/7. Due sessioni aperte insieme hanno registrato un difetto nuovo
+ * ciascuna prendendo «il prossimo numero libero» dalla copia del cantiere che avevano in mano —
+ * `AR-444` per entrambe, uno «un difetto dichiarato aperto si richiude da solo» (chiuso), l'altro
+ * «tredici test scrivono nella memoria vera» (aperto). Git non lo vede: sono righe diverse dello
+ * stesso array, l'unione riesce senza conflitto.
+ *
+ * Il danno arriva dopo, ed è silenzioso: `auto-fix` cerca «il difetto AR-444» e ne trova due,
+ * `prove-condivise` conta un id che compare due volte, una chiusura ne chiude uno a caso. Tutto il
+ * cantiere è indicizzato per id — un id doppio non è un fastidio, è la rottura dell'indice.
+ */
+export function idDoppi(difetti = []) {
+  const conta = new Map();
+  for (const d of difetti) {
+    if (!d?.id) continue;
+    if (!conta.has(d.id)) conta.set(d.id, []);
+    conta.get(d.id).push(d.titolo || "(senza titolo)");
+  }
+  return [...conta.entries()]
+    .filter(([, titoli]) => titoli.length > 1)
+    .map(([id, titoli]) => ({ id, quanti: titoli.length, titoli }));
+}
+
 export function provaConOr(difetto) {
   const p = difetto?.verifica?.pattern;
   if (typeof p !== "string") return false;
@@ -285,6 +310,32 @@ function gitShow(spec) {
   return r.status === 0 ? r.stdout : null;
 }
 
+/**
+ * L'ambiente del Pannello è pronto per un typecheck che voglia dire qualcosa?
+ *
+ * Pura: riceve la domanda «questo file esiste?» e non tocca il disco da sé, così la prova può
+ * simulare una sessione appena aperta senza svuotare `node_modules` per davvero.
+ */
+export function ambientePannello(esiste) {
+  if (!esiste("node_modules")) {
+    return {
+      pronto: false,
+      caso: "assente",
+      motivo: "pannello/node_modules assente: `tsc` sbaglierebbe su ogni import, e non è il tuo lavoro",
+      comando: "npm ci --prefix pannello",
+    };
+  }
+  if (!esiste("node_modules/@types/node")) {
+    return {
+      pronto: false,
+      caso: "incompleto",
+      motivo: "pannello/node_modules c'è ma senza @types/node: `process` e i moduli Node risulterebbero sconosciuti",
+      comando: "npm ci --prefix pannello",
+    };
+  }
+  return { pronto: true };
+}
+
 function esegui(nome, cmd, args, opts = {}) {
   const r = spawnSync(cmd, args, {
     cwd: opts.cwd || AD_ROOT,
@@ -294,14 +345,34 @@ function esegui(nome, cmd, args, opts = {}) {
   });
   const uscita = `${r.stdout || ""}${r.stderr || ""}`;
   const righe = uscita.trim().split("\n").filter(Boolean);
+  // TRE ESITI, NON DUE — e prima erano due nei fatti anche se la documentazione ne raccontava tre.
+  //
+  // `2` è il codice con cui un guardiano di questa casa dice «non ho potuto misurare»: clone
+  // superficiale, dipendenza assente, file che non c'è. Fino al 30/7 finiva in `fallito` come una
+  // violazione, e la conseguenza si vedeva a occhio: in una sessione cloud il clone è SEMPRE
+  // superficiale, quindi `prove-oneste` usciva sempre 2 e il cancello non poteva diventare verde
+  // nemmeno con il lavoro perfetto. Un cancello che non può essere verde smette di essere letto —
+  // ed è scritto nella skill stessa: «un cancello sempre rosso viene aggirato al secondo giro».
+  //
+  // Il segnale NON si perde: i ciechi restano contati e l'uscita finale del comando è 2, che per la
+  // CI e per ogni script è diverso da 0 e blocca esattamente come prima (il workflow lo dichiara).
+  // Cambia per chi legge: «questa parte non l'ho misurata» non si maschera più da «il tuo fix è
+  // rotto», che è l'informazione per cui si aprono le indagini sbagliate.
+  //
+  // Un processo ucciso (timeout, segnale: `status === null`) NON è un cieco dichiarato: è un
+  // guardiano che non ha finito, e resta rosso — altrimenti il controllo più lento diventerebbe
+  // quello che si può saltare senza dirlo.
+  const ucciso = r.status === null;
+  const codice = ucciso ? 124 : r.status;
   return {
     nome,
     comando: `${cmd} ${args.join(" ")}`.trim(),
-    codice: r.status === null ? 2 : r.status,
+    codice,
     // La prima riga di solito è il verdetto, l'ultima l'errore: si tengono entrambe le code.
     testa: righe.slice(0, 3),
-    coda: righe.slice(-6),
-    fallito: r.status !== 0,
+    coda: ucciso ? [...righe.slice(-5), `⏱️ non ha finito in tempo (${opts.timeout || 300_000} ms): rosso, non cieco`] : righe.slice(-6),
+    fallito: codice !== 0 && codice !== 2,
+    cieco: codice === 2,
   };
 }
 
@@ -332,6 +403,10 @@ function main() {
   const esiste = (f) => existsSync(join(AD_ROOT, f));
 
   // ① Le regole sulle prove (istantanee, nessun processo).
+  // L'id doppio viene per primo: se l'indice del cantiere è rotto, ogni controllo che segue sta
+  // contando su una chiave che non identifica più niente. E non ha tetto — non è debito ereditato,
+  // è una collisione fra due sessioni, e o c'è o non c'è.
+  const doppi = idDoppi(difetti);
   const conOr = aperti.filter(provaConOr).map((d) => d.id);
   const condivise = proveCondiviseCieche(aperti, leggi);
   const orfane = proveOrfane(aperti, esiste);
@@ -380,6 +455,14 @@ function main() {
 
   const violazioniProve = [];
   const avvisi = [];
+
+  for (const d of doppi) {
+    violazioniProve.push({
+      regola: "id-doppio",
+      ids: [d.id],
+      motivo: `${d.quanti} difetti diversi con l'id ${d.id} — «${d.titoli.map((t) => t.slice(0, 45)).join("» / «")}». Il cantiere è indicizzato per id: rinumera quello arrivato dopo prima di consegnare.`,
+    });
+  }
 
   // `prova-con-or`: il debito storico ha un tetto, le prove del LOTTO no.
   const tettoOr = tetti.prova_con_or ?? 0;
@@ -451,6 +534,13 @@ function main() {
 
   const passi = [];
   if (!SOLO_PROVE) {
+    // I gate delle lezioni: costa 50 ms e impedisce l'unico modo di barare sulla pagella —
+    // scrivere `gate: "node …"` accanto a una correzione di Nicola senza una mutazione che provi
+    // che quel comando scatta davvero. Sta qui e non solo nel giro perché il momento in cui si è
+    // tentati di gonfiare il numero è la consegna, non il mattino dopo.
+    passi.push(esegui("gate delle lezioni", "node", ["cervello/gate-veri.mjs"]));
+    // La forma dei JSON: costa un secondo e impedisce la PR da dodicimila righe per cambiarne una.
+    passi.push(esegui("forma dei JSON toccati", "node", ["cervello/forma-json.mjs"]));
     passi.push(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]));
     passi.push(esegui("spazzata dei fratelli", "node", ["cervello/spazzata-fratelli.mjs"]));
     passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));
@@ -478,12 +568,32 @@ function main() {
       avvisi.push("nessuna mutazione per i difetti di questo lotto: la prova che le prove provino non ha misurato niente");
     }
     if (!VELOCE) {
-      passi.push(
-        esegui("typecheck del Pannello", "npx", ["tsc", "--noEmit"], {
-          cwd: join(AD_ROOT, "pannello"),
-          timeout: 600_000,
-        }),
-      );
+      // AMBIENTE NON PRONTO ≠ CODICE ROTTO. In una sessione nuova `pannello/node_modules` non c'è
+      // (il clone non li porta), e `tsc` esce 1 con «Cannot find name 'process'» e «Cannot find
+      // module 'tailwindcss'»: errori che non parlano del lavoro di nessuno. Misurato il 30/7 su
+      // main pulito — 65 secondi per un rosso che non era un rosso. Costa due volte: la prima
+      // sessione ci perde tempo a indagare, e da lì in poi si impara a saltarlo, che è il modo in
+      // cui un cancello muore. Ora quel caso è ⚪ «non ho potuto misurare» (exit 2) con il comando
+      // per rimediare, e il verde dichiara di non coprire il Pannello.
+      const ambiente = ambientePannello((f) => existsSync(join(AD_ROOT, "pannello", f)));
+      if (ambiente.pronto) {
+        passi.push(
+          esegui("typecheck del Pannello", "npx", ["tsc", "--noEmit"], {
+            cwd: join(AD_ROOT, "pannello"),
+            timeout: 600_000,
+          }),
+        );
+      } else {
+        passi.push({
+          nome: "typecheck del Pannello",
+          comando: "npx tsc --noEmit",
+          codice: 2,
+          testa: [ambiente.motivo],
+          coda: [`rimedio: ${ambiente.comando}`],
+          fallito: false, // non blocca la consegna: non ha misurato, non ha bocciato
+          cieco: true, // …ma si vede come ⚪ e va dichiarato nella PR: il verde non copre il Pannello
+        });
+      }
     }
   }
 
@@ -512,12 +622,20 @@ function main() {
     if (passi.length) {
       console.log("  ── I guardiani ──");
       for (const p of passi) {
-        console.log(`  ${p.fallito ? "❌" : "✅"} ${p.nome} (exit ${p.codice})`);
-        if (p.fallito) for (const r of p.coda) console.log(`     ${r}`);
+        console.log(`  ${p.fallito ? "❌" : p.cieco ? "⚪" : "✅"} ${p.nome} (exit ${p.codice})`);
+        // Anche il cieco mostra il perché: senza, «non ho misurato» è indistinguibile da «passa».
+        if (p.fallito || p.cieco) for (const r of p.coda) console.log(`     ${r}`);
       }
       console.log("");
     }
-    console.log(ok ? "✅ SI PUÒ CONSEGNARE." : "⛔ NON SI CONSEGNA: sistema i punti qui sopra e rilancia.");
+    const quantiCiechi = ciechi.length + ciechiProve.length;
+    console.log(
+      !ok
+        ? "⛔ NON SI CONSEGNA: sistema i punti qui sopra e rilancia."
+        : quantiCiechi
+          ? "🟡 SI PUÒ CONSEGNARE, DICHIARANDO I BUCHI: tutto ciò che ho potuto misurare passa, ma le parti ⚪ qui sotto vanno scritte nella PR."
+          : "✅ SI PUÒ CONSEGNARE.",
+    );
     if (ciechi.length + ciechiProve.length) {
       console.log(`⚠️  ${ciechi.length + ciechiProve.length} controllo/i non ha potuto misurare: il verde non copre quella parte.`);
     }

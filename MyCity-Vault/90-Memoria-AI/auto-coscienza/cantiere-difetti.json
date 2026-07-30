@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-30 01:57",
+  "aggiornato": "2026-07-30 02:40",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -7399,6 +7399,54 @@
       "chiuso_il": "",
       "origine": "corsia D del lotto 35 (se lo e' inflitto da sola riparando) + secondo caso nel lotto 36 su cantiere-prove.mjs",
       "nota": "Due casi in due giorni su moduli diversi: non e' un inciampo, e' una forma. Registrato in ritardo — nel lotto 35 era rimasto solo nel rapporto della corsia e in chat, cioe' da nessuna parte. E' esattamente cio' che il mansionario vieta: «quello che non si fa e' tenerli in testa, li muoiono a fine sessione». Misurato il 30/7: 37 moduli di cervello/ scrivono o escono senza guardia."
+    },
+    {
+      "id": "AR-446",
+      "titolo": "Tredici test scrivono nella memoria VERA della macchina, e uno tocca il registro dei fatti",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "I test di cervello/test/ che provano calibrazione, cadenza, scadenze e pausa non ricevono il percorso su cui lavorare: lo calcolano da soli come join(REPO, \"MyCity-Vault/90-Memoria-AI/...\"). Salvano il contenuto vero, lo riscrivono per la prova e lo rimettono a posto alla fine. Finche girano uno alla volta e nessuno crasha, funziona. Ma il ripristino sta nel test stesso: se il processo muore a meta (crash, timeout, ctrl-c, due test insieme) la memoria vera resta con dentro i dati della prova — e uno di questi tocca registro-fatti.json, che e la fonte unica della verita. Scoperto il 30/7 facendo girare la suite a corsie: due test diventavano rossi a caso perche si sovrascrivevano il file a vicenda.",
+      "fix_proposto": "Il percorso va INIETTATO, non calcolato: gli script (calibrazione.mjs, chiusura-loop.mjs, cadenza, scadenze) leggono la loro casa da una variabile d ambiente o da un argomento, e il test la punta su una cartella temporanea. Cosi il dato vivo non e mai il banco di prova, il ripristino non serve piu, e i tredici tornano in corsia libera (la suite scende da 31 a ~18 s). Nel frattempo test-cervello.mjs li riconosce dal contenuto e li fa girare in fila: mitigazione, non cura.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-30 01:20",
+      "origine": "trovato riparando il ciclo di verifica (lotto efficienza 30/7): la corsia parallela ha reso visibile una condivisione di stato che in serie non si vedeva — registrato come AR-444 in una sessione parallela e rinumerato al merge: su main AR-444 era già stato preso dal lotto 36 (due difetti diversi, stesso numero).",
+      "verifica": {
+        "tipo": "umano"
+      }
+    },
+    {
+      "id": "AR-447",
+      "titolo": "Due sessioni aperte insieme prendono lo stesso numero, e il cantiere si ritrova due difetti con un id solo",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Chi registra un difetto nuovo prende «il prossimo numero libero» leggendolo dalla copia del cantiere che ha in mano, che e ferma al momento in cui la sessione e partita. Due sessioni in parallelo leggono lo stesso massimo e scelgono lo stesso numero. Git non se ne accorge: sono righe diverse dello stesso array, l unione riesce senza conflitto e il file resta JSON valido. Il danno e silenzioso e arriva dopo, perche tutto il cantiere e indicizzato per id: auto-fix cerca un id e ne trova due, una prova condivisa conta un id che compare due volte, una chiusura ne chiude uno a caso. Successo il 30/7 con AR-444 (due difetti diversi: uno chiuso del lotto 36, uno aperto sui test che scrivono nella memoria vera) e scoperto solo perche Nicola ha chiesto di controllare i merge prima di mergiare.",
+      "fix_proposto": "Controllo id-doppio nel cancello di uscita, senza tetto (una collisione o c e o non c e, non e debito ereditato): idDoppi() in cancello-lotto.mjs, violazione bloccante che nomina i titoli dei due difetti cosi si sa quale rinumerare. Piu la regola scritta nella skill: prima di prendere un id nuovo, leggilo da origin/main aggiornato, non dalla copia in mano.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-30 02:15",
+      "origine": "trovato controllando gli ultimi 10 merge prima di consegnare, su richiesta di Nicola",
+      "verifica": {
+        "comando": "node cervello/test/due-difetti-uno-solo-numero.test.mjs"
+      }
+    },
+    {
+      "id": "AR-448",
+      "titolo": "Un file JSON riscritto tutto per cambiarne una riga: il diff diventa illeggibile e il conflitto totale",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Chi modifica un JSON di memoria lo rilegge con JSON.parse e lo riscrive con JSON.stringify scegliendo l indentazione a caso invece di conservare quella che il file aveva. Il contenuto resta giusto, ma cambia OGNI riga: il 30/7 apprendimento.json ha fatto +12147/-12124 per aggiungere un campo a 21 lezioni, cantiere-difetti.json +7438/-7406 per aggiungere un difetto. Costo doppio: una PR cosi non la rilegge nessuno e si mergia per fiducia, e ogni altra sessione che tocchi quel file va in conflitto totale invece che su una riga. Sono proprio i file che il worker riscrive di continuo.",
+      "fix_proposto": "Guardiano forma-json.mjs nel cancello del lotto: per ogni JSON toccato dal ramo e gia presente su main, confronta l indentazione. Non impone uno stile, impone di non cambiarlo.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-30 02:40",
+      "origine": "trovato rileggendo il lavoro della sessione su richiesta di Nicola: l errore era mio, commesso mentre chiudevo la famiglia di errori che genera conflitti",
+      "verifica": {
+        "comando": "node cervello/test/json-riscritto-tutto.test.mjs"
+      }
     }
   ],
   "meta": {

@@ -50,7 +50,20 @@ const REPORT = process.env.COERENZA_FATTI_REPORT
   : join(ROOT, "MyCity-Vault", "90-Memoria-AI", "auto-coscienza", "coerenza-fatti.json");
 
 // Dove si cercano le copie vecchie: i posti dove vive la memoria VIVA e gli artefatti.
-const RADICI_SCANSIONE = ["MyCity-Vault", "consegne", "creativi", "memoria-squadra"];
+//
+// `pannello/src` aggiunto il 30/7, ed è il buco che questo guardiano aveva addosso da quando
+// esiste. Il 20/7 Nicola ha corretto la macchina due volte sullo stesso punto (L-2026-0720-391 e
+// L-2026-0720-413): la casella del pitch diceva «12%, zero fissi» mentre il registro diceva 10% +
+// 50 €/mese — «non hai aggiornato la memoria centrale o le caselle non sono collegate». La memoria
+// era giusta; era la SUPERFICIE a mentire. E questo guardiano, che esiste per garantire che nessuna
+// copia vecchia sopravviva, guardava soltanto la memoria: sul codice del Pannello — cioè sull'unica
+// cosa che Nicola vede davvero — rispondeva verde per costruzione.
+//
+// `cervello` resta FUORI apposta, e non per pigrizia: gli script di questa casa raccontano nei
+// commenti quando e perché un valore è cambiato («al 25/7 vale 0 su 277»). È storia, la storia non
+// si riscrive, ed è già esente per regola. Includerla darebbe falsi positivi su ogni fatto corretto,
+// e un guardiano che grida sempre è un guardiano spento.
+const RADICI_SCANSIONE = ["MyCity-Vault", "consegne", "creativi", "memoria-squadra", "pannello/src"];
 const FILE_EXTRA = ["cervello/calendario-editoriale.json"]; // file vivi fuori dalle radici
 
 // Esenzioni di DEFAULT: log storici/append-only (la storia non si riscrive) + file della
@@ -66,7 +79,9 @@ const ESENZIONI_DEFAULT = [
 ];
 
 const DIR_SALTATE = new Set([".git", "node_modules", ".obsidian", ".next", "marketplace"]);
-const ESTENSIONI = new Set([".md", ".json", ".txt", ".csv", ".html", ".yml", ".yaml"]);
+// `.tsx`/`.ts` servono per `pannello/src`: senza, aggiungere la radice non cambierebbe niente —
+// il guardiano camminerebbe dentro le cartelle del Pannello per poi scartare ogni file che trova.
+const ESTENSIONI = new Set([".md", ".json", ".txt", ".csv", ".html", ".yml", ".yaml", ".ts", ".tsx"]);
 const MAX_FILE_BYTES = 1_500_000;
 
 function oraPiacenza() {

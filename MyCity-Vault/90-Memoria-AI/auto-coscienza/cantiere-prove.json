@@ -1,17 +1,16 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-07-30 01:32",
+  "aggiornato": "2026-07-30 02:08",
   "giorni_sospetto": 3,
   "difetti_aperti": 151,
   "per_classe": {
-    "umana": 22,
+    "umana": 24,
     "auto-sospetta": 6,
     "auto-attesa": 115,
-    "auto-ok": 6,
-    "auto-comando": 2
+    "auto-ok": 6
   },
-  "non_auto_chiudibili": 28,
+  "non_auto_chiudibili": 30,
   "bloccanti_ciechi": [],
   "voci": [
     {
@@ -717,15 +716,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-344",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il guardiano delle prove legge solo le prove vecchie: ogni prova migrata a comando risulta «nessun guardiano p",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/prova-migliore-contata-come-assente.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-345",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -1365,13 +1355,22 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-444",
+      "id": "AR-445",
       "gravita": "grave",
       "eta_giorni": 0,
-      "titolo": "Un difetto che un umano ha dichiarato aperto si richiude da solo, se sulla scheda e' rimasta una vecchia prova",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/dichiarato-aperto-si-richiude.test.mjs",
-      "auto_chiudibile": true
+      "titolo": "Importare un modulo del cervello ne ESEGUE il programma: chi lo prova si ritrova la memoria riscritta sotto i ",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-446",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Tredici test scrivono nella memoria VERA della macchina, e uno tocca il registro dei fatti",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     }
   ]
 }

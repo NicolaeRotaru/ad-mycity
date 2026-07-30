@@ -137,7 +137,22 @@ node cervello/cancello-lotto.mjs          # tutto: prove + guardiani + typecheck
 node cervello/cancello-lotto.mjs --veloce # senza typecheck, mentre lavori
 ```
 
-Exit `0` = si consegna · `1` = violazione · `2` = non ho potuto misurare (cieco, **non** verde).
+Exit `0` = si consegna · `1` = violazione, non si consegna · `2` = **passa ma con dei buchi**: tutto
+ciò che ha potuto misurare è verde, e le parti ⚪ vanno scritte nella PR. Fino al 30/7 il `2` era
+raccontato come una violazione, e in sessione cloud arrivava sempre — il clone è superficiale, quindi
+`prove-oneste` è cieco per costruzione, e il cancello non poteva diventare verde nemmeno col lavoro
+perfetto. Un cancello che non può essere verde si impara a saltare. Adesso i tre esiti sono tre, e
+l'uscita resta `2` verso la CI (dove blocca come prima). I due ⚪ che vedrai da una sessione nuova:
+`prove-oneste` (clone superficiale) e `typecheck` (`npm ci --prefix pannello` non ancora fatto) —
+non sono tuoi, dichiarali e vai avanti.
+
+Il ciclo costa **~32 s** (era 65): i 103 test del cervello girano in parallelo, quattro processi
+insieme (da non confondere con le *corsie* di più in basso, che sono agenti su malattie diverse:
+qui si parla solo di processi di test). Se un test tocca la
+memoria vera gira in fila da solo, riconosciuto dal contenuto e non da un elenco — e quello è un
+difetto aperto, AR-444: la cura è iniettargli il percorso. Per un giro stretto mentre lavori:
+`node cervello/test-cervello.mjs --solo <pezzo-del-nome>`.
+
 Dentro, oltre ai guardiani già esistenti, i quattro controlli nati dagli errori più costosi:
 
 | controllo | cosa impedisce |
@@ -146,6 +161,7 @@ Dentro, oltre ai guardiani già esistenti, i quattro controlli nati dagli errori
 | `prova-condivisa-cieca` | un test dato a N difetti che non li nomina tutti: ne chiude uno mai toccato (AR-254) |
 | `prova-orfana` | un comando che punta a un file inesistente: «non fatto» indistinguibile da «puntatore rotto» |
 | `mutazione-mancante` | un difetto riparato la cui prova non è mai stata rotta apposta — o la cui mutazione punta a un pezzo che non esiste più |
+| `gate delle lezioni` | una correzione di Nicola che dichiara un freno (`gate:`) senza una mutazione che lo faccia scattare: il punteggio «ha imparato» salirebbe senza nessuna difesa costruita |
 
 **Partono da soli**: il `pre-commit` lancia `--solo-prove` su ogni commit che tocca
 `cantiere-difetti.json` — è il punto. (Ma i hook sono configurazione locale: in una sessione nuova
@@ -251,6 +267,14 @@ file e producono una PR illeggibile. N agenti su N *malattie* con **territori di
 lavorano senza toccarsi. Tre-cinque corsie è la misura giusta: sopra, si perde più nella ricucitura
 di quanto si guadagni. A ogni corsia si dà il territorio **e il divieto di uscirne**: se il fix
 richiede un file altrui, la corsia si ferma su quel difetto e lo segnala invece di editarlo.
+
+**E vale fra SESSIONI, non solo fra corsie.** Il 30/7, due sessioni aperte insieme hanno registrato
+un difetto nuovo ciascuna prendendo lo stesso numero libero: due `AR-444` diversi, uno chiuso e uno
+aperto. Git non se ne accorge — sono righe diverse dello stesso array, l'unione riesce — e il
+cantiere si sarebbe ritrovato con un id doppio, cioè con `auto-fix` e le prove condivise che non
+sanno più di quale difetto parlano. **Prima di prendere un id nuovo, leggilo da `origin/main`
+aggiornato, non dalla copia che hai in mano**; il cancello adesso lo controlla (`id-doppio`), ma il
+controllo scatta alla consegna e a quel punto il numero l'hai già scritto in venti posti.
 
 **I registri condivisi NON si danno alle corsie.** `mutanti.json` · `cantiere-difetti.json` ·
 `malattie.json` · `tetti-lotto.json`: quattro corsie che ci scrivono insieme è AR-331 moltiplicato

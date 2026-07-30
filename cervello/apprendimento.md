@@ -46,6 +46,32 @@ questi): il testo della lezione va in **`testo`** (NON `lezione`/`come_applicare
 - **tag** e **reparto**: per ritrovarla e instradarla al senior giusto. Scrivila ANCHE nel quaderno
   `memoria-squadra/<reparto>.md` (riga ESITO), così il senior la legge all'inizio del prossimo lavoro.
 
+## 🚦 Una correzione di Nicola si chiude con un FRENO, non con una frase (regola, dal 30/7)
+
+Il numero che conta non è quante lezioni hai scritto: è **quante volte quell'errore non può più
+succedere**. La pagella lo misura da settimane e per settimane ha detto la stessa cosa — *269
+correzioni di Nicola, 0 legate a un controllo che può fallire* — mentre l'83% cadeva su un tema già
+visto. Un principio iniettato nel prompt è un promemoria; un gate è un impedimento.
+
+Perciò, quando Nicola corregge:
+
+1. **Cerca il freno che esiste già.** In `cervello/` ce ne sono venticinque. Spesso non ne serve uno
+   nuovo: serve accorgersi che quello giusto non copre il punto dove l'errore avviene. *(Il 30/7:
+   `coerenza-fatti.mjs` esisteva per impedire che una copia vecchia sopravvivesse, e non guardava
+   `pannello/src` — cioè l'unica superficie che Nicola vede.)*
+2. **Aggancia la lezione al comando**: campo `gate: "node cervello/<guardiano>.mjs"` sulla lezione in
+   `apprendimento.json`.
+3. **Prova che scatti**: una voce in `cervello/mutanti.json` con `lezione: "L-xxx"`, che **rimette
+   l'errore** e pretende il rosso dal gate. (Sui difetti si rompe il fix e deve diventare rosso il
+   test; qui si rimette l'errore e deve diventare rosso il freno. Stessa domanda: *e se tornasse?*)
+4. **Verifica**: `node cervello/gate-veri.mjs` — gira da solo nel giro e al cancello del lotto, e
+   fallisce se un gate è dichiarato ma non può scattare. Serve a impedire l'unica scorciatoia
+   disponibile: scrivere il campo `gate` senza costruire la difesa.
+
+Se il freno **non si può scrivere** (la condizione richiede giudizio, non un confronto che una
+macchina può fare), allora dillo: la lezione resta senza gate ed è **debito dichiarato**, non un
+lavoro finito. Quello che non si fa è scrivere la lezione e chiamarla difesa.
+
 ## ♻️ Anti-ridondanza
 Prima di aggiungere una lezione, **cerca se esiste già**: se sì, non duplicarla — incrementa evidenze e
 confidenza, aggiorna `ultima_conferma`. Se la contraddice, abbassa la confidenza della vecchia e annota il

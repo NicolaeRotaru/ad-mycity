@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-29 17:08",
+  "aggiornato": "2026-07-30 01:50",
   "lezioni": [
     {
       "id": "L-2026-0726-02",
@@ -178,7 +178,8 @@
       "stato": "principio",
       "promosso_il": "2026-07-26 11:06",
       "cristallizzato_in": "memoria-persistente (feedback-git-pr-file-sporchi.md)",
-      "usi": []
+      "usi": [],
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0723-448",
@@ -847,7 +848,8 @@
       "stato": "principio",
       "usi": [],
       "promosso_il": "2026-07-25 10:20",
-      "cristallizzato_in": "memoria-persistente"
+      "cristallizzato_in": "memoria-persistente",
+      "gate": "node cervello/coerenza-fatti.mjs"
     },
     {
       "id": "L-2026-0720-407",
@@ -1371,7 +1373,8 @@
       "nato": "2026-07-20",
       "ultima_conferma": "2026-07-20 19:06",
       "stato": "attiva",
-      "usi": []
+      "usi": [],
+      "gate": "node cervello/coerenza-fatti.mjs"
     },
     {
       "id": "L-2026-0720-390",
@@ -2672,7 +2675,8 @@
       "nato": "2026-07-19",
       "ultima_conferma": "2026-07-19 23:23",
       "stato": "attiva",
-      "usi": []
+      "usi": [],
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0719-333",
@@ -4056,7 +4060,8 @@
       "nato": "2026-07-18",
       "ultima_conferma": "2026-07-18",
       "stato": "attiva",
-      "usi": []
+      "usi": [],
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0718-272",
@@ -5249,7 +5254,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-14",
       "ultima_conferma": "2026-07-14 03:09",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0714-219",
@@ -5361,7 +5367,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-14",
       "ultima_conferma": "2026-07-14 02:55",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0714-214",
@@ -6016,7 +6023,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 22:04",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-180",
@@ -6127,7 +6135,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 21:43",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-175",
@@ -6170,7 +6179,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 21:42",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-173",
@@ -6277,7 +6287,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 21:43",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-168",
@@ -6345,7 +6356,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 21:14",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-165",
@@ -6367,7 +6379,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 20:13",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-164",
@@ -6388,7 +6401,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 20:11",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-163",
@@ -6410,7 +6424,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 20:10",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-162",
@@ -6432,7 +6447,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 20:10",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-161",
@@ -6453,7 +6469,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 19:52",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-160",
@@ -7313,7 +7330,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 16:20",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-121",
@@ -7448,7 +7466,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 14:30",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-115",
@@ -7470,7 +7489,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 12:42",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-114",
@@ -7492,7 +7512,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 12:42",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-113",
@@ -7581,7 +7602,8 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
       "ultima_conferma": "2026-07-13 12:39",
-      "stato": "attiva"
+      "stato": "attiva",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0713-109",
@@ -7837,7 +7859,8 @@
       "ultima_conferma": "2026-07-14 02:49",
       "stato": "principio",
       "promosso_il": "2026-07-24 20:20",
-      "cristallizzato_in": "memoria-persistente"
+      "cristallizzato_in": "memoria-persistente",
+      "gate": "node cervello/ramo-pulito.mjs"
     },
     {
       "id": "L-2026-0712-98",

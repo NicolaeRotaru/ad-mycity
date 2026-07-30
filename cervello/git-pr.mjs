@@ -9,7 +9,7 @@
 // Env: GIT_PUSH_TOKEN, GIT_REPO (ad-mycity) · MARKETPLACE_GIT_TOKEN, MARKETPLACE_REPO (mycity)
 //      GIT_AUTHOR_EMAIL, GIT_AUTHOR_NAME (commit)
 
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { prendiLucchettoOEsci } from "./lucchetto-git.mjs";
@@ -23,23 +23,21 @@ import {
   stampSegnale,
 } from "./git-github.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
+import { RISCRITTI_DAL_WORKER, CORPO_PR_CONDIVISO } from "./file-della-macchina.mjs";
 
 const AZIONI_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
 const TECH_DIR = join(AD_ROOT, "consegne/tech");
 const GENERIC_BODY_RE = /^PR aperta dall'AD MyCity/i;
 const MIN_BODY_LEN = 80;
 
-/** Modificati dal worker a ogni giro — non vanno MAI nel commit chore di una PR pannello (conflitti ricorrenti). */
-const WORKER_AUTO_PATHS = new Set([
-  "cervello/routing.json",
-  "MyCity-Vault/90-Memoria-AI/auto-coscienza/sentinella-dati.json",
-  "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
-  "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
-]);
+/** Modificati dal worker a ogni giro — non vanno MAI nel commit chore di una PR pannello (conflitti
+ * ricorrenti). L'elenco sta in `file-della-macchina.mjs`: dal 30/7 lo legge anche `ramo-pulito.mjs`,
+ * e due copie della stessa lista sarebbero divergute al primo aggiornamento. */
+const WORKER_AUTO_PATHS = new Set(RISCRITTI_DAL_WORKER);
 
 /** Descrizione PR condivisa: SOLO come output di scrittura (writeConsegna), MAI come input/fallback di lettura.
  * Il file viene corrotto dal rebase (--theirs lo riporta alla versione di main = PR precedente). */
-const SHARED_PR_BODY = "consegne/tech/pr-ad-mycity-body.md";
+const SHARED_PR_BODY = CORPO_PR_CONDIVISO;
 
 /** In rebase, questi file si risolvono da soli (teniamo la base; il body vero va su GitHub via API). */
 const AUTO_RESOLVE_REBASE_PATHS = new Set([
@@ -471,6 +469,33 @@ async function main() {
 
   const dirty = gitOrNull(["status", "--porcelain"], cfg.cwd);
   const hasChanges = Boolean(dirty?.trim());
+
+  // IL FRENO DELLA FAMIGLIA PIÙ COSTOSA (21 correzioni di Nicola), e sta QUI — fuori da ogni
+  // condizione sul working tree — per un motivo pagato in questa stessa sessione: la prima versione
+  // era dentro `if (hasChanges …)`, cioè girava solo col lavoro non ancora committato. Ma il caso
+  // normale è l'opposto: committo, poi apro la PR. Con l'albero pulito il freno non partiva, e un
+  // ramo che si era già portato dietro il diario in un commit precedente passava liscio. È AR-172
+  // in persona: riparare la porta a mano e lasciare aperta quella automatica.
+  //
+  // Cosa guarda: il lavoro sporco (che il commit chore qui sotto porterebbe dentro) E i file già
+  // committati sul ramo. Blocca un caso solo — codice e diario insieme. `--anche-il-diario` è la
+  // via d'uscita dichiarata, per quando quei file li stai cambiando apposta.
+  if (!dryRun && sulBranch && !process.argv.includes("--anche-il-diario")) {
+    const controllo = spawnSync("node", [join(AD_ROOT, "cervello/ramo-pulito.mjs")], {
+      cwd: cfg.cwd,
+      encoding: "utf8",
+      timeout: 120_000,
+    });
+    if (controllo.status === 1) {
+      console.error(controllo.stdout || "");
+      console.error("⛔ Non apro la PR: il ramo si porta dietro il diario della macchina.");
+      console.error("   Committa quei file su main da soli, o rilancia con --anche-il-diario se è voluto.");
+      process.exit(1);
+    }
+    if (controllo.status === 2) {
+      console.warn(`⚠️  ramo-pulito non ha potuto misurare (${(controllo.stderr || "").trim()}): proseguo, ma il verde non copre questa parte.`);
+    }
+  }
 
   if (hasChanges && !dryRun && sulBranch) {
     const msg = String(args.message || args.title || `chore: ${branch}`);
