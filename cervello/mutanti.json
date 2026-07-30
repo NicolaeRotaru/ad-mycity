@@ -797,6 +797,42 @@
    "cerca": "  const preRebaseSha = gitOrNull([\"rev-parse\", branch], cfg.cwd);",
    "sostituisci": "  const preRebaseSha = null;",
    "test": "cervello/test/lease-dopo-rebase-ripetuto.test.mjs"
+  },
+  {
+   "difetto": "AR-459",
+   "lezione": "L-2026-0730-532",
+   "nome": "la baseline copre anche le nascite inventate: basta scrivere una parola qualsiasi per uscire dal conteggio",
+   "file": "cervello/nascita-difetti.mjs",
+   "cerca": "    if (!NASCITE.includes(n)) {",
+   "sostituisci": "    if (!NASCITE.includes(n) && !esenti.has(d.id)) {",
+   "test": "cervello/test/nascita-difetti.test.mjs"
+  },
+  {
+   "difetto": "AR-459",
+   "lezione": "L-2026-0730-532",
+   "nome": "una regressione senza autore passa: si dichiara di essersi inflitti un difetto senza dire da cosa",
+   "file": "cervello/nascita-difetti.mjs",
+   "cerca": "      if (!d.nato_da || !String(d.nato_da).trim()) {",
+   "sostituisci": "      if (false) {",
+   "test": "cervello/test/nascita-difetti.test.mjs"
+  },
+  {
+   "difetto": "AR-459",
+   "lezione": "L-2026-0730-532",
+   "nome": "le riparazioni lasciate a meta smettono di essere contate: resta solo la meta favorevole del numero",
+   "file": "cervello/nascita-difetti.mjs",
+   "cerca": "        chiusureIncomplete.push({ id: d.id, da: String(d.nato_da), titolo: d.titolo || \"\" });",
+   "sostituisci": "        void 0;",
+   "test": "cervello/test/nascita-difetti.test.mjs"
+  },
+  {
+   "difetto": "AR-459",
+   "lezione": "L-2026-0730-532",
+   "nome": "il tetto smette di esentare: il guardiano parte rosso su 161 schede e viene spento entro la settimana",
+   "file": "cervello/nascita-difetti.mjs",
+   "cerca": "      if (!esenti.has(d.id)) {",
+   "sostituisci": "      if (true) {",
+   "test": "cervello/test/nascita-difetti.test.mjs"
   }
  ]
 }
