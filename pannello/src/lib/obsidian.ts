@@ -1,15 +1,22 @@
 // Collega l'assistente alle note Obsidian tramite un vault sincronizzato su un
 // repository GitHub (plugin "Obsidian Git"). Legge e scrive le note .md via API.
 
-import { comeServire } from "./esito-lettura"; // AR-254: la regola sta in UN posto, per entrambe le copie
+import { comeLeggere, comeServire } from "./esito-lettura"; // AR-254/AR-449: la regola sta in UN posto, per entrambe le copie
 
 const API = "https://api.github.com";
-// Tetto di lettura = il limite VERO della Contents API di GitHub, che serve i file inline fino a
-// 1 MiB. Prima era 1.000.000 tondo: un numero scelto a occhio, 48.576 byte SOTTO il vincolo reale —
-// e apprendimento.json ci finiva in mezzo. Un tetto arbitrario più basso del vincolo vero non
-// protegge da niente: aggiunge solo un modo di rompersi che nessuno si aspetta.
-// Oltre questa soglia non c'è niente da troncare: il file proprio non arriva.
-const MAX_LETTURA = 1_048_576;
+// Tetto di lettura: quanto testo questa funzione accetta di tenere in memoria e servire.
+// Prima era 1.000.000 tondo: un numero scelto a occhio, 48.576 byte SOTTO il vincolo reale — e
+// apprendimento.json ci finiva in mezzo. Un tetto arbitrario più basso del vincolo vero non protegge
+// da niente: aggiunge solo un modo di rompersi che nessuno si aspetta.
+//
+// AR-449 — poi è diventato 1 MiB esatto, cioè il tetto INLINE di GitHub, e per un po' è stato giusto:
+// oltre quello il file non arrivava e non c'era niente da troncare. Da quando esiste la seconda strada
+// (`testoDaBlob`, Blobs API fino a 100 MB) quel vincolo non c'è più, e tenere il tetto lì avrebbe
+// rifiutato in casa nostra proprio i file che eravamo appena riusciti a scaricare —
+// `cantiere-difetti.json` a 1.081.370 byte sarebbe tornato «troppo grande» dopo essere arrivato.
+// Adesso il tetto protegge da ciò che protegge davvero (memoria e payload della funzione), non da un
+// limite che abbiamo imparato ad aggirare. 8 MiB: dieci volte il file più grosso che leggiamo oggi.
+const MAX_LETTURA = 8 * 1_048_576;
 const OWNER = process.env.OBSIDIAN_REPO_OWNER;
 const REPO = process.env.OBSIDIAN_REPO;
 const TOKEN = process.env.OBSIDIAN_TOKEN || process.env.GITHUB_TOKEN;
@@ -170,6 +177,68 @@ export async function testVaultGithub(): Promise<{ ok: boolean; ramoEsiste: bool
  * che l'ha servita, senza appoggiarsi a stato globale. Usata da /api/stato per sapere da quale
  * ramo arriva il dato (ripiego = deriva del giro) e da chi vuole distinguere assente/giù.
  */
+/**
+ * LA SECONDA STRADA (AR-449). La Contents API non serve inline i file oltre 1 MiB: torna `content`
+ * vuoto con `size` valorizzato. La Blobs API invece li serve fino a 100 MB, con lo stesso token e
+ * lo stesso `sha` che la Contents API ci ha appena dato.
+ *
+ * Perché serve, con la data: il 2026-07-30 alle 02:03 `cantiere-difetti.json` ha passato il MiB
+ * (1.049.775 byte) e da quel momento la Cabina ha mostrato «Nessun difetto aperto 👍» con 162
+ * difetti aperti — per dodici ore. Il caso era già RICONOSCIUTO nel codice (AR-254) ma non aveva
+ * una via d'uscita: sapere di non sapere, senza poterci fare niente, resta un buco.
+ *
+ * Torna `null` se la seconda strada non porta niente: il chiamante allora dichiara «troppo-grande»,
+ * che è un'informazione, non un silenzio.
+ */
+async function testoDaBlob(sha: string): Promise<string | null> {
+  if (!sha) return null;
+  try {
+    const r = await fetchTimeout(`${API}/repos/${OWNER}/${REPO}/git/blobs/${sha}`, {
+      headers: { ...h(), Accept: "application/vnd.github.raw" },
+      cache: "no-store",
+    });
+    if (!r.ok) return null;
+    const t = await r.text();
+    return t.length ? t : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Da payload della Contents API al TESTO, con la seconda strada inclusa. Esiste per non avere due
+ * copie della stessa regola: `leggiNota` e `readNote` erano già una la fotocopia dell'altra, e il
+ * commento di AR-254 avvisava che curarne una sola è la malattia di questo cantiere. Qui la regola
+ * è una, e la attraversano entrambe.
+ */
+export async function testoDaContents(
+  d: any,
+  percorso: string
+): Promise<{ ok: true; testo: string; via: "inline" | "blob" } | { ok: false; stato: "assente" | "troppo-grande"; dettaglio?: string }> {
+  if (!d) return { ok: false, stato: "assente" };
+  // La decisione è pura e vive in esito-lettura.ts (provabile senza rete); qui resta solo l'I/O.
+  const scelta = comeLeggere({ content: d.content, size: d.size, sha: d.sha });
+  if (scelta.via === "assente") return { ok: false, stato: "assente" };
+  if (scelta.via === "troppo-grande") return { ok: false, stato: "troppo-grande", dettaglio: scelta.motivo };
+  let text: string | null = null;
+  const via: "inline" | "blob" = scelta.via;
+  if (scelta.via === "inline") {
+    text = Buffer.from(d.content, "base64").toString("utf-8");
+  } else {
+    text = await testoDaBlob(scelta.sha);
+    if (text == null) {
+      return {
+        ok: false,
+        stato: "troppo-grande",
+        dettaglio: `${Number(d.size).toLocaleString("it")} byte: oltre il tetto inline di GitHub (1.048.576) e nemmeno la Blobs API l'ha servito`,
+      };
+    }
+  }
+  const v = comeServire({ percorso, lunghezza: text.length, tetto: MAX_LETTURA });
+  if (v.azione === "troppo-grande") return { ok: false, stato: "troppo-grande", dettaglio: v.motivo };
+  return { ok: true, testo: v.azione === "tronca" ? text.slice(0, MAX_LETTURA) + "\n[...troncato]" : text, via };
+}
+
 export async function leggiNota(
   path: string
 ): Promise<{ stato: StatoLettura; testo: string | null; ramo: string | null; dettaglio?: string }> {
@@ -179,26 +248,9 @@ export async function leggiNota(
   if (esito.stato !== "ok") {
     return { stato: esito.stato, testo: null, ramo: null, dettaglio: "dettaglio" in esito ? esito.dettaglio : undefined };
   }
-  const d: any = esito.dati;
-  // AR-254: la Contents API non serve inline i file oltre 1 MiB — torna `content` vuoto ma con `size`
-  // valorizzato. Leggerlo come «assente» significa dire che un file esiste-e-pesa-1,1-MB non c'è.
-  if (d && !d.content && Number(d.size) > 0) {
-    return {
-      stato: "troppo-grande",
-      testo: null,
-      ramo: esito.ramo,
-      dettaglio: `${Number(d.size).toLocaleString("it")} byte: troppo grande perché GitHub lo serva inline (tetto 1.048.576)`,
-    };
-  }
-  if (!d || !d.content) return { stato: "assente", testo: null, ramo: esito.ramo };
-  const text = Buffer.from(d.content, "base64").toString("utf-8");
-  const v = comeServire({ percorso: path, lunghezza: text.length, tetto: MAX_LETTURA });
-  if (v.azione === "troppo-grande") return { stato: "troppo-grande", testo: null, ramo: esito.ramo, dettaglio: v.motivo };
-  return {
-    stato: "ok",
-    testo: v.azione === "tronca" ? text.slice(0, MAX_LETTURA) + "\n[...troncato]" : text,
-    ramo: esito.ramo,
-  };
+  const r = await testoDaContents(esito.dati, path);
+  if (!r.ok) return { stato: r.stato, testo: null, ramo: esito.ramo, dettaglio: r.dettaglio };
+  return { stato: "ok", testo: r.testo, ramo: esito.ramo };
 }
 
 /** Config vault per diagnosi/UI: il ramo da cui il Pannello legge davvero. */
@@ -310,21 +362,16 @@ export async function readNote(path: string): Promise<string> {
     if (got.stato === "auth") return `Errore: GitHub ha rifiutato l'accesso (${got.dettaglio || "token/permessi"}).`;
     return `Errore: GitHub non raggiungibile (${got.dettaglio || "rete"}).`;
   }
-  const d: any = got.dati;
-  // AR-254 — SECONDA COPIA della stessa logica. Curarne una sola sarebbe esattamente la malattia che
-  // questo cantiere insegue da undici lotti («il fix applicato a una copia sola»): entrambe passano
-  // dalla stessa regola, `comeServire`.
-  if (d && !d.content && Number(d.size) > 0) {
-    return `Errore: ${path} è troppo grande perché GitHub lo serva inline (${Number(d.size).toLocaleString("it")} byte, tetto 1.048.576).`;
+  // AR-254/AR-449 — le due copie di questa logica adesso attraversano la STESSA funzione,
+  // `testoDaContents`: stessa regola su cosa servire, stessa seconda strada quando il file supera
+  // il tetto inline. Curarne una sola sarebbe la malattia che questo cantiere insegue da undici
+  // lotti («il fix applicato a una copia sola»).
+  const r = await testoDaContents(got.dati, path);
+  if (!r.ok) {
+    if (r.stato === "assente") return `Nota non trovata: ${path}`;
+    return `Errore: ${path} non è leggibile — ${r.dettaglio || "troppo grande"}`;
   }
-  if (!d || !d.content) return `Nota non trovata: ${path}`;
-  const text = Buffer.from(d.content, "base64").toString("utf-8");
-  // NON tagliare i file del vault (piani/briefing arrivano a decine di KB): un cap basso (era 12000)
-  // buttava la CODA dei file, dove sta il blocco "Aggiornamento dell'AD" dei Piani e la fine dei
-  // briefing. Le route limitano da sole (codaTesto) quando serve.
-  const v = comeServire({ percorso: path, lunghezza: text.length, tetto: MAX_LETTURA });
-  if (v.azione === "troppo-grande") return `Errore: ${path} non è leggibile — ${v.motivo}`;
-  return v.azione === "tronca" ? text.slice(0, MAX_LETTURA) + "\n[...troncato]" : text;
+  return r.testo;
 }
 
 /**

@@ -99,6 +99,41 @@ export function listaSicura<T>(x: unknown): T[] {
  * i file inline oltre 1.048.576 byte e restituisce `content` vuoto — che il codice leggeva come
  * «assente». Un file troppo grosso che risulta inesistente.
  */
+/**
+ * AR-449 — COSA FARE con un payload della Contents API di GitHub, prima di toccare la rete.
+ *
+ * GitHub serve i file inline solo fino a 1 MiB: oltre, torna `content` vuoto ma `size` e `sha`
+ * valorizzati. Il 2026-07-30 alle 02:03 `cantiere-difetti.json` ha passato quella soglia e per
+ * dodici ore la Cabina ha scritto «Nessun difetto aperto 👍» con 162 difetti aperti: il payload
+ * senza contenuto veniva letto come «file assente», e «assente» a valle diventa lista vuota.
+ *
+ * Qui sta la DECISIONE (pura, quindi provabile senza rete); l'I/O sta in obsidian.ts.
+ *   inline        → il contenuto c'è, decodificalo
+ *   blob          → il contenuto non c'è ma il file sì: chiedilo alla Blobs API con questo sha
+ *   assente       → il file non c'è davvero (size 0 e niente contenuto)
+ *   troppo-grande → il file c'è, è grande, e non abbiamo modo di prenderlo (manca lo sha)
+ */
+export function comeLeggere({
+  content = "",
+  size = 0,
+  sha = "",
+}: { content?: string; size?: number; sha?: string } = {}):
+  | { via: "inline" }
+  | { via: "blob"; sha: string }
+  | { via: "assente" }
+  | { via: "troppo-grande"; motivo: string } {
+  if (content) return { via: "inline" };
+  const n = Number(size) || 0;
+  if (n <= 0) return { via: "assente" };
+  if (!sha) {
+    return {
+      via: "troppo-grande",
+      motivo: `${n.toLocaleString("it")} byte: oltre il tetto inline di GitHub (1.048.576) e senza sha non c'è seconda strada`,
+    };
+  }
+  return { via: "blob", sha: String(sha) };
+}
+
 export function comeServire({
   percorso = "",
   lunghezza = 0,

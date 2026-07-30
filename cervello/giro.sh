@@ -562,6 +562,12 @@ $_cad_out")"
   fi
   echo "[$(ts)] Gate coerenza-rischi (registro canonico 05-Soldi-Rischi)..."
   node "$SCRIPT_DIR/coerenza-rischi.mjs" 2>&1 | esito_righe 4 || true
+  # AR-449: il peso dei file che la Cabina rilegge ogni 30 secondi. Il 30/7 alle 02:03
+  # cantiere-difetti.json ha passato il tetto inline di GitHub e per dodici ore il Pannello ha
+  # mostrato «Nessun difetto aperto 👍» con 162 aperti. La seconda strada adesso c'è; questo
+  # guardiano serve a vedere la crescita MENTRE è ancora innocua, non quando è già un muro.
+  echo "[$(ts)] Peso dei file della Cabina (AR-449)..."
+  node "$SCRIPT_DIR/peso-file-cabina.mjs" 2>&1 | esito_righe 6 || true
   # AR-023: RICONCILIA IL CANTIERE — chiude da solo i difetti il cui fix è GIÀ nel codice (prova
   # verifica:{file,pattern}). Gira SEMPRE (prima del delta-gate) così la chiusura è deterministica e
   # NON dipende dal motore AI: il sync di fine giro la pubblica su main → il Pannello (che legge

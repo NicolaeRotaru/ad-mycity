@@ -76,6 +76,7 @@ export const DESCRIZIONI = {
   "onesta-check": { famiglia: "numeri-veri", cosa: "Cerca i numeri orfani: una cifra scritta in memoria senza una fonte accanto non deve uscire." },
   "coerenza-fatti": { famiglia: "numeri-veri", cosa: "Un fatto cambia in un posto solo. Se una copia vecchia resta in giro, la trova e ferma la pubblicazione." },
   "coerenza-rischi": { famiglia: "numeri-veri", cosa: "Lo stesso per i rischi: il registro è la casa, gli altri file lo citano invece di ricopiarlo." },
+  "peso-file-cabina": { famiglia: "numeri-veri", cosa: "Pesa i file che la Cabina rilegge di continuo: quando uno cresce troppo GitHub smette di servirlo e la schermata si svuota fingendo che vada tutto bene." },
   "valida-contratti": { famiglia: "numeri-veri", cosa: "Verifica che i file di memoria abbiano la forma che il Pannello si aspetta — un campo rinominato spegne una schermata in silenzio." },
   "sensori-spenti-check": { famiglia: "numeri-veri", cosa: "Uno strumento costruito e mai acceso è un buco, non uno stato: pretende un perché scritto." },
   "freschezza-segnali": { famiglia: "numeri-veri", cosa: "Controlla i controllori: se un guardiano è morto a metà giro, il suo verde è vecchio e non vale." },

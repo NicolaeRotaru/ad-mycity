@@ -137,12 +137,33 @@ prova("entro il tetto si serve intero, qualunque sia il tipo", () => {
 
 prova("il cablaggio: ENTRAMBE le copie del troncamento passano dalla stessa regola", () => {
   // Il difetto che questo cantiere insegue da dodici lotti è «il fix applicato a una copia sola».
-  // In obsidian.ts la logica di troncamento esiste due volte: leggiNota e readNote.
+  // In obsidian.ts la logica di lettura esiste due volte: leggiNota e readNote.
+  //
+  // AGGIORNATO con AR-449. Prima si contavano DUE chiamate a `comeServire`, una per copia: era il
+  // modo di dire «nessuna delle due si è persa per strada». Ora le due copie non ripetono più
+  // niente — attraversano `testoDaContents`, che chiama la regola una volta sola per tutti. La
+  // condizione «due chiamate» diventava rossa proprio quando la duplicazione spariva davvero, cioè
+  // premiava la malattia e puniva la cura. Qui si misura l'invariante vero: nessuna delle due
+  // strade legge per conto proprio.
   const src = leggi("pannello/src/lib/obsidian.ts");
-  const usi = (src.match(/comeServire\(\{/g) || []).length;
-  assert.ok(usi >= 2, `le copie del troncamento devono essere ${2}, trovate ${usi} che usano la regola`);
+  const viaComune = (src.match(/testoDaContents\(/g) || []).length;
+  assert.ok(viaComune >= 3, `definizione + due chiamate: attese >= 3 occorrenze di testoDaContents, trovate ${viaComune}`);
+  // Nessuno dei DUE lettori decodifica per conto proprio: se lo facesse, tornerebbe ad avere una
+  // strada tutta sua — ed è così che una delle due copie resta indietro. (Altrove nel file la
+  // decodifica esiste per usi diversi — allegati, scritture — e non riguarda questa regola.)
+  for (const nome of ["leggiNota", "readNote"]) {
+    const i = src.indexOf(`export async function ${nome}(`);
+    assert.ok(i > 0, `${nome} deve esistere`);
+    const corpo = src.slice(i, src.indexOf("\n}\n", i));
+    assert.doesNotMatch(corpo, /Buffer\.from\(/, `${nome} non deve decodificare da sé: passa da testoDaContents`);
+    assert.match(corpo, /testoDaContents\(/, `${nome} deve attraversare la via comune`);
+  }
   assert.doesNotMatch(src, /const MAX = 1_000_000;/, "il tetto locale ricopiato");
-  assert.match(src, /MAX_LETTURA = 1_048_576/, "il tetto dev'essere il limite VERO di GitHub");
+  // Il tetto non è più il limite di GitHub: da quando esiste la seconda strada (Blobs API) quel
+  // limite non ci ferma, e tenere il tetto lì avrebbe rifiutato in casa i file appena scaricati.
+  // Resta però un vincolo: dev'essere ALMENO il limite inline, mai sotto.
+  const tetto = Function(`"use strict";return (${src.match(/const MAX_LETTURA = ([^;]+);/)[1]})`)();
+  assert.ok(tetto >= 1_048_576, `il tetto (${tetto}) non può stare SOTTO il limite inline di GitHub`);
 });
 
 prova("«troppo-grande» è uno stato dichiarato, e pesa più di «assente»", () => {
@@ -151,7 +172,16 @@ prova("«troppo-grande» è uno stato dichiarato, e pesa più di «assente»", (
   assert.match(src, /"troppo-grande": 2/, "un file che c'è ed è troppo grosso non è «assente»");
   // Sopra 1 MiB la Contents API torna content vuoto MA con size: leggerlo come «assente» sarebbe
   // dire che un file da 1,1 MB non esiste.
-  assert.match(src, /!d\.content && Number\(d\.size\) > 0/, "content vuoto + size valorizzato = troppo grande");
+  //
+  // AGGIORNATO con AR-449: la condizione non si cerca più come STRINGA nel sorgente — si ESEGUE la
+  // decisione. Il 30/7 quella riga c'era, riconosceva il caso, e il Pannello ha mostrato lo stesso
+  // «Nessun difetto aperto 👍» per dodici ore: riconoscere non basta se non porta da nessuna parte.
+  // Adesso la prova chiede il comportamento: davanti a content vuoto + size, si prende la seconda
+  // strada; e se manca pure quella, si DICHIARA troppo-grande. Mai «assente».
+  const scelta = E.comeLeggere({ content: "", size: 1_081_370, sha: "abc" });
+  assert.equal(scelta.via, "blob", "content vuoto + size valorizzato: il file c'è, va preso dall'altra strada");
+  const senzaVia = E.comeLeggere({ content: "", size: 1_081_370, sha: "" });
+  assert.equal(senzaVia.via, "troppo-grande", "e se non c'è seconda strada lo si dichiara, non lo si spaccia per assente");
 });
 
 prova("la Cabina DICE perché la scheda è vuota, invece di restare vuota", () => {
