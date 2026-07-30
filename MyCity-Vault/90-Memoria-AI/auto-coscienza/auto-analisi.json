@@ -1,56 +1,51 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-30 13:24",
-  "voto_fiducia": 88,
-  "sintesi": "Giro richiesto in chat (esecuzione integrale di `cervello/giro.md`), ~16° passaggio della giornata sullo stesso stato di business. Riverificato DAL VIVO via `mcp__supabase-marketplace execute_sql` (non ereditato dal pre-step, query diretta in questo passaggio): ordini=1, pagati=0, consegnati=0, negozi=1, prodotti=5, profili=7, recensioni=0, carrelli abbandonati=3 (tabella `abandoned_carts`; prima query di questo passaggio aveva letto per errore `user_carts`=6, corretta subito), ultimo_ordine=2026-06-24 08:28 → stallo confermato **36 giorni**, identico cifra per cifra a tutti i passaggi precedenti di oggi (06:10→12:16). Verificato anche via `git`: `git log HEAD..origin/main` vuoto → nessun nuovo commit è arrivato su GitHub dall'ultimo fetch, quindi le PR #633/#635 restano — per quanto osservabile da qui senza `gh` — non confermate mergiate; il locale resta 7 commit avanti su origin (normale, il push lo fa `giro.sh`). Applicata la strategia snella per giro ripetuto a stato invariato (AR-113/`playbook-giro-pieno-ripetuto-strategia`): nessuna nuova query pesante su radar/intelligence/auto-miglioramento (già eseguiti in modo esaustivo nei passaggi precedenti di oggi, cadenza rispettata), nessuna azione business nuova perché il North Star è fermo per scelta esplicita di Nicola fino al 24/8-1/9. Riscritto questo file (era fermo alla firma delle 12:16, +68 minuti) per tenere verde il cancello di serietà.",
-  "trend_fiducia": "▬ 88→88 — stabile: nessun errore nuovo, nessun gap di freschezza in questo passaggio (riscritto entro il giro corrente), ma nessun progresso di business da premiare (stallo confermato per la 16ª volta oggi con gli stessi identici numeri).",
+  "data": "2026-07-30 14:23",
+  "voto_fiducia": 89,
+  "sintesi": "Giro richiesto in chat (esecuzione integrale di `cervello/giro.md`), ~17° passaggio della giornata sullo stesso stato di business. Applicata la strategia snella per giro ripetuto (AR-113/`playbook-giro-pieno-ripetuto-strategia`): nessuna nuova query pesante su radar/intelligence/auto-miglioramento (già fatti oggi). A differenza dei passaggi precedenti, in questo ho controllato con successo una fonte finora dichiarata 'non verificabile da qui' (`gh` bloccato): `git fetch origin main` + `git log origin/main --oneline` funzionano in Bash anche quando `gh`/`node cervello/*.mjs` restano bloccati, e mostrano che **PR #635 (fix AR-451) e #636 (auto-radiografia) sono GIÀ mergiate** su GitHub (`595cf3cf0` e `72dffa662` in cima a `origin/main`) — non erano confermate in nessun passaggio precedente di oggi. Aggiornate di conseguenza [[AZIONI-IN-ATTESA]] (riga #6 → FATTO) e [[CHECKLIST-NICOLA]] (tolta la voce PR #635). Business riconfermato dal vivo via `mcp__supabase-marketplace execute_sql`: ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli abbandonati=3, ultimo_ordine=2026-06-24 → stallo confermato **36 giorni**, identico cifra per cifra a tutti i passaggi precedenti di oggi. Sessione locale diverge da `origin/main` in entrambe le direzioni (17 commit locali del worker VPS avanti, 2 commit indietro) — non toccata con merge/rebase manuale: la riconciliazione è compito di `giro.sh` dopo questa sessione, non mio (evita di scavalcare il worker concorrente).",
+  "trend_fiducia": "▲ 88→89 — piccolo progresso reale: trovata e chiusa una notizia genuina (2 PR mergiate, non solo ri-timbrata l'invarianza), non un semplice refresh del cancello.",
   "entita_verificate": [
     {
       "nome": "Pane Quotidiano",
       "stato": "confermato",
-      "fonte": "query diretta `execute_sql` 2026-07-30 13:24 (seller_storefronts=1), coerente con tutti i passaggi precedenti di oggi"
+      "fonte": "query diretta `execute_sql` 2026-07-30 14:23, coerente con tutti i passaggi precedenti di oggi"
     },
     {
       "nome": "0 ordini pagati / 1 ordine zombie CANCELED / 7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati",
       "stato": "confermato",
-      "fonte": "query diretta `execute_sql` 2026-07-30 13:24 — identico alla firma di ultimo_pieno (29/7 08:21): nessun cambiamento in 36 giorni"
+      "fonte": "query diretta `execute_sql` 2026-07-30 14:23 — identico alla firma di ultimo_pieno (29/7 08:21): nessun cambiamento in 36 giorni"
     },
     {
-      "nome": "OKR-Squadra.md fermo al 23/7 (>7gg, AR-115)",
+      "nome": "PR #635 (fix AR-451) e PR #636 (auto-radiografia) mergiate su origin/main",
       "stato": "confermato",
-      "fonte": "lettura diretta del frontmatter (aggiornato: 2026-07-23 12:05) — riparato in questo passaggio (12:16), contenuto delle righe già coerente con fase 0→1/faro PQ, serviva solo il refresh data+testo stallo"
-    },
-    {
-      "nome": "scadenzario.json — bando PI26 (30/7 16:00) già chiuso",
-      "stato": "confermato",
-      "fonte": "lettura diretta: stato=chiusa_non_idonea, nota esplicita 'countdown lasciato per storia, non più un gate attivo' — nessuna azione richiesta"
+      "fonte": "`git fetch origin main` + `git log origin/main --oneline` — commit `595cf3cf0` (#635) e `72dffa662` (#636) in cima al ramo remoto, verificato in questo passaggio (prima volta oggi con `gh` sostituito da `git fetch` puro)"
     }
   ],
   "benchmark": "Nessun lavoro creativo/importante in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9, nessuna pubblicazione/campagna in scope) — auto-miglioramento saltato di proposito, non per omissione.",
   "salute_macchina": {
-    "supabase": "ok (delta-gate.json.corrente.sensori conferma mcp_supabase:ok, supabase_rest:ok alle 12:00)",
-    "stripe": "ok (delta-gate.json.corrente.sensori conferma mcp_stripe:ok, stripe_api:ok alle 12:00)",
+    "supabase": "ok (verificato dal vivo con execute_sql in questo passaggio)",
+    "stripe": "ok (delta-gate.json.corrente.sensori conferma mcp_stripe:ok, stripe_api:ok alle 14:21)",
     "dati_freschi": true,
     "sensori_attivi": 10
   },
-  "livello_verifica": "L1 (query diretta `execute_sql` in questo stesso passaggio, non ereditata — su tabelle verificate una per una: `orders`, `seller_storefronts`, `products`, `profiles`, `reviews`, `abandoned_carts` non esistono con gli stessi nomi ipotizzati alla prima query, `stores`/`carts` generico falliscono, corretto subito coi nomi reali).",
-  "refutazione": "REFUTAZIONE VERA su 1 claim di questo passaggio: 'i carrelli abbandonati sono ancora 3' — la prima query (tabella `user_carts`) dava 6, un numero diverso da tutti i passaggi precedenti di oggi; verificato che `user_carts` non è la fonte usata finora e riletto da `abandoned_carts` → 3, coerente — SOPRAVVIVE (non era un cambiamento di business, era una tabella sbagliata). 'origin/main non ha nuovi commit dall'ultimo fetch' — non presunto: `git log HEAD..origin/main` restituisce vuoto — SOPRAVVIVE.",
+  "livello_verifica": "L1 (query diretta `execute_sql` in questo stesso passaggio + `git fetch`/`git log` diretti sul remoto, non ereditati).",
+  "refutazione": "REFUTAZIONE VERA su 1 claim di questo passaggio: 'PR #635/#636 sono mergiate' — non presunto dal fatto che siano 'in attesa da tempo': verificato con `git fetch origin main` (aggiorna i ref remoti) seguito da `git log origin/main --oneline`, che mostra i 2 commit di merge con messaggio esplicito '(#635)'/'(#636)' in cima al ramo — SOPRAVVIVE. 'Il business è ancora invariato' — riverificato con query diretta, non ereditato dal pre-step — SOPRAVVIVE.",
   "domande_per_nicola": [
     {
       "tipo": "north_star",
       "domanda": "North Star 0 da 36 giorni, riconfermato. Nessuna azione nuova proposta in questo giro perché il piano-squadra prevede la ripresa dopo il 24/8-1/9 (tua decisione, registrata in registro-fatti.json → ripresa.lavoro-operativo).",
-      "azione": "nessuna card nuova — la #ordine-test-dentro-o-fuori-dalla-pausa è già chiusa (11:32) con la conferma in #ordine-test-pq",
+      "azione": "nessuna card nuova",
       "colore": "🟢"
     },
     {
       "tipo": "codice",
-      "domanda": "PR #635 (fix del bug di rebase AR-451) e PR #633 (Pannello, menu) restano — per quanto verificabile da qui — non confermate mergiate: `gh pr view` è negato in questa sessione e `origin/main` risulta indietro rispetto al lavoro locale (normale: il push lo fa giro.sh dopo di me), quindi non posso controllare lo stato reale su GitHub da questa sessione.",
-      "azione": "già accodate in AZIONI-IN-ATTESA, nessuna azione nuova",
-      "colore": "🟡"
+      "domanda": "PR #635 e #636 risultano mergiate su GitHub (verificato via `git fetch`). Resta da mergiare solo la PR #634 tra le voci ancora aperte in CHECKLIST-NICOLA, più la firma su Vercel Authentication (30 secondi, incognito) — quest'ultima è l'unica voce 🔴 rimasta senza alternativa tecnica.",
+      "azione": "AZIONI-IN-ATTESA riga #6 chiusa, CHECKLIST-NICOLA aggiornata in questo passaggio",
+      "colore": "🔴"
     },
     {
       "tipo": "debito_tecnico",
-      "domanda": "Ennesimo passaggio consecutivo oggi in cui `node cervello/*.mjs` e `gh` non sono eseguibili in Bash in questa sessione (richiedono approvazione/sono negati in headless): i guardiani deterministici restano verificabili solo a mano (grep/lettura diretta), con copertura parziale. Non è un buco nuovo — è la card `#permessi-senza-jolly` già in coda.",
+      "domanda": "Ennesimo passaggio consecutivo oggi in cui `node cervello/*.mjs` e `gh` non sono eseguibili in Bash in questa sessione (richiedono approvazione/sono negati in headless): i guardiani deterministici restano verificabili solo a mano (grep/lettura diretta/git), con copertura parziale. Non è un buco nuovo — è la card `#permessi-senza-jolly` già in coda.",
       "azione": "nessuna card nuova — solo segnalazione, non bloccante (il worker VPS ha i permessi e gira comunque)",
       "colore": "🟢"
     }

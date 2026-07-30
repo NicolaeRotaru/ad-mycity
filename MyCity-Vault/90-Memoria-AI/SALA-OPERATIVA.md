@@ -696,3 +696,5 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-30 12:16 · @AD · SERVE · Business ancora invariato (36 giorni di stallo). Restano solo le 2 firme di sempre: merge PR #635 e Vercel Authentication. Nessuna azione nuova verso il marketplace.
 - 2026-07-30 13:24 · @AD · FATTO · Giro completo richiesto in chat: riconfermato dal vivo (execute_sql diretto, non ereditato) business invariato 36 giorni; verificato via git che origin/main non ha ricevuto nuovi commit — PR #633/#635 non confermate mergiate da qui.
 - 2026-07-30 13:24 · @AD · SERVE · Nessuna urgenza nuova. Restano solo 2 firme tue: merge PR #635 e Vercel Authentication. North Star fermo per tua scelta fino al 24/8-1/9.
+- 2026-07-30 14:23 · @AD · FATTO · `git fetch origin main` conferma PR #635 (AR-451) e #636 (auto-radiografia) già mergiate su GitHub — chiusa riga #6 in AZIONI-IN-ATTESA e voce PR #635 in CHECKLIST-NICOLA. Business riconfermato invariato dal vivo (Supabase), 36° giorno di stallo.
+- 2026-07-30 14:23 · @AD · SERVE · Resta solo 1 firma tua: 30 secondi su Vercel Authentication (incognito). PR #634 ancora da mergiare tra le minori.

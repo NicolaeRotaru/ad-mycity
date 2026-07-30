@@ -2,7 +2,7 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-07-30 11:32
+aggiornato: 2026-07-30 14:23
 ---
 
 # ✅ Cose che devo fare io (Nicola)
@@ -29,7 +29,7 @@ aggiornato: 2026-07-30 11:32
 - [ ] 🔴 Mergia **PR #633** — il menu Memoria del Pannello (4 passi che hai già confermato ieri notte), sostituisce la #632 rotta dal solito bug del rebase
 - [ ] 🔴 Chiudi **PR #632** *senza* mergiarla — è superata dalla #633, il suo contenuto è già tutto dentro
 - [ ] 🔴 Mergia **PR #634**
-- [ ] 🔴 Mergia **PR #635**
+- [x] ~~Mergia PR #635~~ → GIÀ FATTA, confermata 2026-07-30 14:23 via `git fetch` (commit `595cf3cf0` in cima a `origin/main`, insieme alla #636 anche lei già dentro)
 - [ ] 🟡 Chiudi **PR #422** su GitHub (vecchia, con conflitti — non serve più)
   → Righe #4–#6 nella tabella + card `#chiudi-pr-422` in [[AZIONI-IN-ATTESA]].
 

@@ -5,13 +5,13 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-30 13:21** — Automatico: **58 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-30 14:21** — Automatico: **58 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-30 13:21** — Automatico: **58 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-30 14:21** — Automatico: **58 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-30 13:21** — Automatico: **58 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-30 14:21** — Automatico: **58 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-30 13:21** — Automatico: **58 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-30 14:21** — Automatico: **58 aperte · 1 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -888,11 +888,11 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 | 3 | 2026-07-30 04:05 | @tech | Merge PR #632 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/632 | github | SUPERATA 2026-07-30 04:21 — non mergiare: il branch si è rotto sul solito bug del rebase (AR-449/L-10463), tutto il suo contenuto (+ il lavoro nuovo di stanotte) è confluito pulito nella PR #633. Chiudi questa senza merge. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Ignora questa riga: mergia solo la #633 sotto. |
 | 4 | 2026-07-30 04:21 | @tech | Merge PR #633 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/633 | github | SUPERATA — CONFERMATA 2026-07-30 12:00 (`git merge-base --is-ancestor 9012675a9 origin/main` → NO, `82dd0525a` → SÌ): il contenuto di #633 è già dentro main via #634, mergiata. Nessun bisogno di controllare su GitHub, verificato via `git`. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Nessuna azione: puoi chiudere #633 su GitHub senza merge quando ti capita, non è urgente. |
 | 5 | 2026-07-30 04:42 | @tech | Merge PR #634 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/634 | github | FATTO 2026-07-30 (verificato: commit 82dd0525a è antenato di HEAD su main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Già online: nessuna azione, riga tenuta solo per storico. |
-| 6 | 2026-07-30 11:09 | @tech | Merge PR #635 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/635 — verificato ora (`git merge-base --is-ancestor`) che il fix del bug di rebase AR-451 vive SOLO sul branch `fix/lease-rebase-ripetuto-v2`, mai mergiato: la lezione L-2026-0730-530 dichiarava un gate attivo che in realtà non può scattare (freno finto, trovato dal cancello gate-veri). Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; il test `lease-dopo-rebase-ripetuto.test.mjs` diventa reale su main e il gate della lezione torna vero. |
+| 6 | 2026-07-30 11:09 | @tech | Merge PR #635 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/635 | github | FATTO 2026-07-30 14:23 — confermato con `git fetch origin main` + `git log origin/main`: commit `595cf3cf0` («…AR-451… (#635)») è in cima a `origin/main`, seguito da `72dffa662` («Auto-radiografia profonda: tre difetti… (#636)», mergiata anche questa, non era in coda). Il gate della lezione L-2026-0730-530 torna vero: il test `lease-dopo-rebase-ripetuto.test.mjs` non è più solo su un branch isolato. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Già fatto: nessuna azione, riga tenuta per storico. Il ramo di lavoro locale di questa sessione non ha ancora questi 2 commit (diverge anche in avanti per via del worker VPS concorrente) — si allineano al prossimo push/rebase di `giro.sh`, non serve un intervento manuale. |
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-30 13:21)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-30 14:21)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-30-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -911,6 +911,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-30 13:21 · 1 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-30 14:21 · 1 card totali
 
 ### ✅ #ordine-test-dentro-o-fuori-dalla-pausa — RISPOSTA (28/7 15:56): resta dentro, fino a settembre
 

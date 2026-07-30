@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 13:24
+aggiornato: 2026-07-30 14:23
 fonte: AD digitale (chat)
 ---
+
+> ✅ **30/7 14:23 — GIRO RIPETUTO: trovata la prova che PR #635 (fix AR-451) e #636 sono mergiate su GitHub, business ancora fermo.** `git fetch origin main` mostra `595cf3cf0` (#635) e `72dffa662` (#636) in cima a `origin/main` — non erano confermate nei passaggi precedenti di oggi (limite `gh` bloccato in sessione). Aggiornate [[AZIONI-IN-ATTESA]] (riga #6 → FATTO) e [[CHECKLIST-NICOLA]] (tolta la voce PR #635; resta solo #634 da mergiare tra le PR minori). Business riconfermato dal vivo via Supabase: `ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3` — identico a ogni passaggio di oggi, stallo **36 giorni**. Sessione locale diverge da `origin/main` in entrambe le direzioni (17 commit locali del worker VPS avanti, 2 commit indietro) — non toccato con merge/rebase manuale, è compito di `giro.sh` dopo questa sessione. La mossa n.1 resta l'unica firma 🔴 rimasta: 30 secondi su Vercel Authentication (incognito). Briefing: [[Briefing/2026-07-30]].
 
 > 🔁 **30/7 13:24 — GIRO COMPLETO richiesto in chat (~16° passaggio di oggi): business RICONFERMATO invariato con query dal vivo, nessuna azione nuova.** Verificato via `execute_sql` diretto (non ereditato): `ordini=1, pagati=0, consegnati=0, negozi=1, prodotti=5, profili=7, recensioni=0, carrelli abbandonati=3, ultimo_ordine=2026-06-24` — identico cifra per cifra a tutti i passaggi di oggi, stallo **36 giorni**. Verificato anche via `git log HEAD..origin/main` (vuoto): nessun commit nuovo su GitHub dall'ultimo fetch — le PR #633/#635 restano, da qui, non confermate mergiate (non c'entra il North Star: sono le 2 firme tecniche di sempre). Applicata la strategia snella per giro ripetuto ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): niente nuove query pesanti su radar/intelligence/auto-miglioramento (già fatti oggi, cadenza rispettata), rifatto solo il cancello di serietà (`auto-analisi.json`, fermo da 68 minuti). Nessuna nuova entità, nessuna sentinella business scattata, nessuna lezione nuova (la famiglia `correzione-nicola` resta quella già registrata stamattina). **La mossa n.1 resta la stessa di tutta la giornata: le 2 firme tecniche — merge PR #635 e 30 secondi su Vercel Authentication.** Briefing: [[Briefing/2026-07-30]].
 
