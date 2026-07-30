@@ -1,12 +1,25 @@
 # 📤 Leve in uscita — cosa MyCity può spingere ADESSO
 
+> **2026-07-30 08:50** · @intelligence — AGGIORNAMENTO: finestra CCIAA (PI26/BT26/BE26) **chiusa oggi 30/7 ore 16:00**, PI26 già confermato NON idoneo per MyCity (Nicola, 29/7 ~00:10). Nessuna domanda inviata, coerente con la decisione presa e con la pausa negozi. Vedi sotto — la sezione "OGGI 20/7" resta come storico, non più azionabile.
 > **2026-07-20 08:30** · @intelligence (monitora.md · PI26 apertura sportello OGGI · Unione Commercianti · comune.piacenza.it)
 > **2026-07-18 10:00** · WebSearch commercio Piacenza luglio 2026
 > Le azioni reali si firmano in [[AZIONI-IN-ATTESA]].
 
 ---
 
-## 🔴 OGGI 20/7 — PI26 Innovazione Digitale (sportello APERTO ore 10:00)
+## ❌ CHIUSO 30/7 16:00 — Bandi CCIAA Emilia 2026 (PI26 / BT26 / BE26)
+
+Le tre finestre aperte il 20/7 (Innovazione Digitale PI26, Piccole Imprese Territorio BT26, Efficienza Energetica BE26) chiudono tutte **oggi 30/7 alle 16:00** (sportello Restart Infocamere). Triangolato su [Unione Commercianti PC](https://www.unionecommerciantipc.it/category/bandi/) e [emilia.camcom.it](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese) (consultati 30/7).
+
+- **PI26** (per MyCity stessa, come canale e-commerce/hosting): **non idoneo**, Nicola l'ha confermato il 29/7 dopo 5 giorni senza risposta sui 3 requisiti di ammissibilità (P.IVA/entità giuridica, spese ≥5.000€ documentate, fatture). Nessuna domanda inviata — corretto, non è una perdita.
+- **BT26** (argomento di pitch per i negozi — "iscriviti a MyCity e rientra nelle spese di digitalizzazione ammissibili"): nessun negozio in pipeline attiva per il vincolo pausa (24/8-1/9), quindi nessuna domanda persa. L'argomento resta valido per la ripresa, ma la finestra 2026 specifica è chiusa — alla ripresa vendite servirà un bando NUOVO (o l'edizione 2027), non questo.
+- **BE26**: mai stato rilevante per MyCity direttamente (leva laterale per negozi food/freschi), stesso discorso.
+
+**Nessuna azione da accodare**: le card collegate (`#pi26-conferma-ammissibilita`, `#bandi-cciaa-2007`, `#invio-comunicato-stampa-pi26-2007`, `#whatsapp-3-anchor-pi26`) sono già state rimosse dalla coda il 30/7 alle 06:05 (vedi DECISIONI.md).
+
+---
+
+## 🔴 STORICO 20/7 — PI26 Innovazione Digitale (sportello APERTO ore 10:00) — non più azionabile, vedi sopra
 
 | Dettaglio | Valore |
 |-----------|--------|
@@ -74,9 +87,9 @@
 
 ## 🔥 Fascia 1 — SPINGI ORA (non violano il gate)
 
-**1. Argomento bandi CCIAA nel pitch negozi** 🟢
-- Dai 20/7: «aprendosi ORA con MyCity come canale digitale, il bando BT26 ti copre fino a €7.000 delle spese di digitalizzazione». Prepara il brief per i prossimi onboarding con questo argomento incluso.
-- **Senior**: `vendite` + `onboarding-negozi` (aggiorna kit onboarding con la sezione bando). 🟢 preparazione.
+**1. Argomento bandi CCIAA nel pitch negozi** ⚠️ AGGIORNATO 30/7 — edizione BT26 2026 CHIUSA oggi alle 16:00
+- L'argomento «il bando BT26 ti copre fino a €7.000» non è più utilizzabile per la finestra 2026 (chiusa 30/7). Non riproporlo così com'è alla ripresa vendite (24/8-1/9): serve prima verificare se esiste un'edizione successiva o un bando equivalente ancora aperto — altrimenti l'argomento va tolto dal kit onboarding.
+- **Senior**: `vendite` + `onboarding-negozi` — da rivedere prima della ripresa, non da usare ora.
 
 **2. Calcolatore "€ che restano in città"** 🟢
 - Costruito da `finanza` + `analista`: per ogni € di ordine, quota bottega locale vs quota Glovo che esce a Barcellona. Si riempie al primo ordine e diventa headline per bando + PR + istituzioni.
