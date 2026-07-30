@@ -539,6 +539,8 @@ function main() {
     // che quel comando scatta davvero. Sta qui e non solo nel giro perché il momento in cui si è
     // tentati di gonfiare il numero è la consegna, non il mattino dopo.
     passi.push(esegui("gate delle lezioni", "node", ["cervello/gate-veri.mjs"]));
+    // La forma dei JSON: costa un secondo e impedisce la PR da dodicimila righe per cambiarne una.
+    passi.push(esegui("forma dei JSON toccati", "node", ["cervello/forma-json.mjs"]));
     passi.push(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]));
     passi.push(esegui("spazzata dei fratelli", "node", ["cervello/spazzata-fratelli.mjs"]));
     passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));

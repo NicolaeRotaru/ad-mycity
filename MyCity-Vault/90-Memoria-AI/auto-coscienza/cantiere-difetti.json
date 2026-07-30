@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-30 02:15",
+  "aggiornato": "2026-07-30 02:40",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -7430,6 +7430,22 @@
       "origine": "trovato controllando gli ultimi 10 merge prima di consegnare, su richiesta di Nicola",
       "verifica": {
         "comando": "node cervello/test/due-difetti-uno-solo-numero.test.mjs"
+      }
+    },
+    {
+      "id": "AR-448",
+      "titolo": "Un file JSON riscritto tutto per cambiarne una riga: il diff diventa illeggibile e il conflitto totale",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Chi modifica un JSON di memoria lo rilegge con JSON.parse e lo riscrive con JSON.stringify scegliendo l indentazione a caso invece di conservare quella che il file aveva. Il contenuto resta giusto, ma cambia OGNI riga: il 30/7 apprendimento.json ha fatto +12147/-12124 per aggiungere un campo a 21 lezioni, cantiere-difetti.json +7438/-7406 per aggiungere un difetto. Costo doppio: una PR cosi non la rilegge nessuno e si mergia per fiducia, e ogni altra sessione che tocchi quel file va in conflitto totale invece che su una riga. Sono proprio i file che il worker riscrive di continuo.",
+      "fix_proposto": "Guardiano forma-json.mjs nel cancello del lotto: per ogni JSON toccato dal ramo e gia presente su main, confronta l indentazione. Non impone uno stile, impone di non cambiarlo.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-30 02:40",
+      "origine": "trovato rileggendo il lavoro della sessione su richiesta di Nicola: l errore era mio, commesso mentre chiudevo la famiglia di errori che genera conflitti",
+      "verifica": {
+        "comando": "node cervello/test/json-riscritto-tutto.test.mjs"
       }
     }
   ],
