@@ -12,7 +12,7 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-07-30 13:27",
+      "quando": "2026-07-30 14:27",
       "esito": "vincoli-attivi",
       "codice": 2,
       "ai_rc": 0,
@@ -51,5 +51,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-07-30 13:27"
+  "aggiornato": "2026-07-30 14:27"
 }
