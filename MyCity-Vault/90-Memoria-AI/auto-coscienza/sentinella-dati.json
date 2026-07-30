@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-30 06:19",
+  "aggiornato": "2026-07-30 06:20",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "84",
@@ -11,10 +11,10 @@
       "ambito": "macchina"
     },
     "salute_bassa": {
-      "ultima_firma": "AR-126,AR-154,AR-158,AR-160,AR-161,AR-174,AR-184,AR-188,AR-193,AR-206,AR-216,AR-217,AR-220,AR-223,AR-224,AR-225,AR-234,AR-237,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-273,AR-274,AR-278,AR-283,AR-285,AR-288,AR-289,AR-294,AR-295,AR-302,AR-323",
-      "ultimo_accodato": "2026-07-29 17:08",
-      "ultimo_accodato_iso": "2026-07-29T15:08:05.097Z",
-      "ultimo_job": "e29343fb-d252-4344-bdb0-b0a81aa495b4",
+      "ultima_firma": "AR-126,AR-154,AR-158,AR-160,AR-161,AR-174,AR-184,AR-188,AR-193,AR-206,AR-216,AR-217,AR-220,AR-223,AR-224,AR-225,AR-234,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-274,AR-278,AR-283,AR-285,AR-288,AR-289,AR-294,AR-295,AR-323,AR-345,AR-347,AR-349,AR-396,AR-404,AR-410,AR-411,AR-414,AR-420,AR-423,AR-425,AR-428,AR-435,AR-445,AR-447,AR-448,AR-449,AR-450",
+      "ultimo_accodato": "2026-07-30 06:20",
+      "ultimo_accodato_iso": "2026-07-30T04:20:06.326Z",
+      "ultimo_job": "0cf0c98a-c4fd-423d-a38b-aebf2bf400f3",
       "colore": "🟡",
       "ambito": "macchina"
     },
@@ -52,11 +52,10 @@
     }
   },
   "accodati_giorno": {
-    "giorno": "2026-07-29",
-    "n": 2
+    "giorno": "2026-07-30",
+    "n": 1
   },
   "accodati_ts": [
-    "2026-07-18T14:02:33.942Z",
     "2026-07-18T22:00:56.722Z",
     "2026-07-18T22:00:56.722Z",
     "2026-07-19T04:01:40.543Z",
@@ -105,17 +104,12 @@
     "2026-07-27T18:20:50.213Z",
     "2026-07-27T20:20:34.589Z",
     "2026-07-29T15:08:05.097Z",
-    "2026-07-29T15:08:05.097Z"
+    "2026-07-29T15:08:05.097Z",
+    "2026-07-30T04:20:06.326Z"
   ],
   "ultima_recensione_vista": "2026-07-18T11:28:59.844Z",
-  "tick": 14695,
+  "tick": 14696,
   "storia": [
-    {
-      "quando": "2026-07-30 04:13",
-      "eventi": 3,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-30 04:20",
       "eventi": 3,
@@ -709,10 +703,16 @@
       "eventi": 3,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-30 06:20",
+      "eventi": 3,
+      "accodati": 1,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-30 06:19",
+    "quando": "2026-07-30 06:20",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -722,7 +722,7 @@
     "carrelli": null,
     "worker_eta_min": 0,
     "sensori_max_ciechi": 0,
-    "salute_voto": 31,
+    "salute_voto": 9,
     "radiografia_gg": 1,
     "volano_tasso": 0.18
   }

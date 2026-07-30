@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
   "_cosa_NON_prova": "Non prova che la macchina sappia fare il mestiere: misura cinque proprietà della macchina stessa (difetti chiusi, prove, sensori, loop), tutte interne. Nessuno di questi cinque numeri sale perché è arrivato un ordine o è entrato un negozio — la pagella può dirsi pronta con il business fermo, e il 28/7 è esattamente così.",
-  "aggiornato": "2026-07-30 01:45",
+  "aggiornato": "2026-07-30 06:20",
   "pronta": false,
   "voci_superate": 0,
   "voci_totali": 5,
   "voci_cieche": 1,
-  "migliorate": 1,
-  "peggiorate": 1,
+  "migliorate": 0,
+  "peggiorate": 3,
   "soglie": {
     "lezioni_tasso_min": 0.7,
     "calibrazione_reparti_min": 5,
@@ -25,23 +25,23 @@
       "fonte": "cervello/tasso-regole.mjs",
       "come_si_alza": "prendere una correzione di Nicola e chiuderla alla radice (principio + gate automatico): scrivere altre lezioni non aiuta, finiscono nel denominatore",
       "tasso_citazioni": 0.18,
-      "valore": 0.18,
-      "etichetta": "18% (49/279 correzioni)",
+      "valore": 0.17,
+      "etichetta": "17% (49/281 correzioni)",
       "ok": false,
       "cieco": false,
       "ricadute": {
-        "correzioni": 279,
-        "su_tema_cronico": 236,
+        "correzioni": 281,
+        "su_tema_cronico": 238,
         "quota": 0.85,
         "temi_cronici": 159,
-        "temi_totali": 760
+        "temi_totali": 761
       },
       "gate": {
-        "correzioni": 279,
-        "con_gate": 23,
-        "quota": 0.08
+        "correzioni": 281,
+        "con_gate": 24,
+        "quota": 0.09
       },
-      "precedente": 0.19,
+      "precedente": 0.18,
       "movimento": "peggiorata"
     },
     {
@@ -61,8 +61,8 @@
     {
       "id": "freni",
       "titolo": "Freni di sicurezza rotti",
-      "valore": 5,
-      "etichetta": "5 bloccanti aperti",
+      "valore": 6,
+      "etichetta": "6 bloccanti aperti",
       "soglia": "0",
       "ok": false,
       "cieco": false,
@@ -72,12 +72,13 @@
         "AR-365",
         "AR-366",
         "AR-388",
-        "AR-412"
+        "AR-412",
+        "AR-449"
       ],
       "fonte": "auto-coscienza/cantiere-difetti.json",
       "come_si_alza": "chiudere i bloccanti aperti: i fix sono già scritti, aspettano il merge di Nicola",
-      "precedente": 12,
-      "movimento": "migliorata"
+      "precedente": 5,
+      "movimento": "peggiorata"
     },
     {
       "id": "quaderni",
@@ -95,15 +96,15 @@
     {
       "id": "salute",
       "titolo": "Voto salute che si dà da sola",
-      "valore": 31,
-      "etichetta": "31/100 (misurato 2026-07-29)",
+      "valore": 9,
+      "etichetta": "9/100 (misurato 2026-07-30)",
       "soglia": "≥80/100",
       "ok": false,
       "cieco": false,
       "fonte": "auto-coscienza/storico-salute.json",
       "come_si_alza": "sale da solo quando salgono le altre 4 voci — non si tocca a mano",
       "precedente": 31,
-      "movimento": "ferma"
+      "movimento": "peggiorata"
     }
   ],
   "serie": [
@@ -837,6 +838,18 @@
         "freni": 5,
         "quaderni": 0.15833333333333333,
         "salute": 31
+      }
+    },
+    {
+      "data": "2026-07-30 06:20",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.17,
+        "calibrazione": null,
+        "freni": 6,
+        "quaderni": 0.15833333333333333,
+        "salute": 9
       }
     }
   ]
