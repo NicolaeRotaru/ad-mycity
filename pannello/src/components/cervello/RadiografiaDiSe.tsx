@@ -39,11 +39,13 @@ type Radiografia = {
 };
 type Cantiere = { difetti?: Difetto[]; meta?: { aperti?: number; in_corso?: number; chiusi?: number } };
 type Storico = { serie?: { data?: string; voto_salute?: number; difetti_aperti?: number; difetti_chiusi?: number }[] };
-type Dati = { collegato: boolean; messaggio?: string; live?: Live; radiografia?: Radiografia; cantiere?: Cantiere; storico?: Storico; watchlist?: any; lettera?: string };
+type NonLetto = { file?: string; motivo?: string };
+type Dati = { collegato: boolean; messaggio?: string; letto?: boolean; non_letti?: NonLetto[]; live?: Live; radiografia?: Radiografia; cantiere?: Cantiere; storico?: Storico; watchlist?: any; lettera?: string };
 type Live = {
   voto?: number | null; fonte_voto?: string; data_sonda?: string | null; data_scan?: string | null;
-  cantiere_aggiornato?: string | null; aperti?: number; in_corso?: number; chiusi?: number;
-  da_fare?: number; findings_aperti?: number | null; findings_in_corso?: number | null;
+  cantiere_aggiornato?: string | null; aperti?: number | null; in_corso?: number | null; chiusi?: number | null;
+  cantiere_letto?: boolean;
+  da_fare?: number | null; findings_aperti?: number | null; findings_in_corso?: number | null;
   sync_aggiornato?: string | null;
   scan_ore_fa?: number | null; sonda_ore_fa?: number | null; scan_stale?: boolean;
 };
@@ -149,7 +151,11 @@ export default function RadiografiaDiSe() {
   const serieGiorni = [...perGiorno.values()].sort((a, b) => String(a.data).localeCompare(String(b.data))).slice(-21);
   const BARRA_MAX_PX = 96; // il grafico è alto h-28 (112px): 96px di barra + etichetta data
 
-  const daFare = live?.da_fare ?? aperti.length;
+  // AR-449 — «non letto» non è «zero». Se l'API dichiara che il cantiere non è arrivato, i conteggi
+  // restano `null` e ogni casella che li mostra passa al grigio invece di disegnare uno zero verde.
+  const cantiereLetto = live?.cantiere_letto;
+  const nonLettoCantiere = (d?.non_letti || []).find((x) => x?.file === "cantiere-difetti.json");
+  const daFare = cantiereLetto === false ? null : (live?.da_fare ?? aperti.length);
   const findingsAperti = live?.findings_aperti;
 
   const TABS: { id: Tab; label: string; icon: React.ReactNode; badge?: number }[] = [
@@ -160,7 +166,9 @@ export default function RadiografiaDiSe() {
 
   const primoAperto = aperti[0];
   const azioneOrigine = primoAperto ? azPerOrigine[String(primoAperto.id || primoAperto.titolo || "")] : undefined;
-  const semaforoCart = daFare > 0 ? "🟡" : votoSOk && votoS >= 80 ? "🟢" : "🟡";
+  // AR-449 — cantiere non letto = semaforo GRIGIO. Non verde (sarebbe la bugia) e non rosso
+  // (allarmerebbe su un guasto che non sappiamo esistere): «non lo so» ha un suo colore.
+  const semaforoCart = daFare == null ? "⚪" : daFare > 0 ? "🟡" : votoSOk && votoS >= 80 ? "🟢" : "🟡";
 
   return (
     <section id="auto-radiografia" className="card p-4 border-brand/20 scroll-mt-24">
@@ -178,7 +186,7 @@ export default function RadiografiaDiSe() {
           <div className="text-right shrink-0 max-w-[42%]">
             <div className={`text-[26px] font-bold leading-none tabular-nums ${votoColore(votoS)}`}>{votoS}<span className="text-[13px] text-black/30">/100</span></div>
             <div className="t-eti truncate">
-              {daFare > 0 ? `${daFare} da fare · ` : "ok · "}
+              {daFare == null ? "cantiere non letto · " : daFare > 0 ? `${daFare} da fare · ` : "ok · "}
               salute {trendBreve(r?.trend)}{live?.fonte_voto === "sonda" ? " · live" : ""}
             </div>
           </div>
@@ -192,7 +200,12 @@ export default function RadiografiaDiSe() {
           {/* Cartolina: semaforo + un passo + data referto */}
           <div className="rounded-xl border border-brand/25 bg-brand-50/40 px-3 py-2.5 mb-3">
             <p className="t-corpo text-[13px] font-semibold">
-              {semaforoCart} {daFare > 0 ? `${daFare} da fare ora` : "Nessun difetto aperto nel cantiere"}
+              {semaforoCart}{" "}
+              {daFare == null
+                ? "Non ho potuto leggere il cantiere"
+                : daFare > 0
+                  ? `${daFare} da fare ora`
+                  : "Nessun difetto aperto nel cantiere"}
               {votoSOk ? ` · salute ${votoS}/100` : ""}
             </p>
             {!!comeTesto(primoAperto?.titolo) && (
@@ -217,7 +230,7 @@ export default function RadiografiaDiSe() {
           {sintesiR && <p className="t-corpo break-words mb-3">{sintesiR}</p>}
 
           {/* La lista «Radiografia» è la foto dell'audit; il cantiere è il backlog vivo che si aggiorna coi fix. */}
-          {live && (live.scan_stale || (findingsAperti != null && daFare < findingsAperti)) && (
+          {live && (live.scan_stale || (findingsAperti != null && daFare != null && daFare < findingsAperti)) && (
             <div className="rounded-xl border border-amber-200 bg-amber-50/60 px-3 py-2 mb-3 text-[12px] text-amber-900/90">
               <b>Archivio audit</b>
               {live.data_scan ? ` del ${dataVault(live.data_scan)}` : ""}
@@ -396,11 +409,27 @@ export default function RadiografiaDiSe() {
           {/* === CANTIERE === */}
           {tab === "cantiere" && (
             <div className="space-y-3">
-              <div className="flex gap-2">
-                <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-amber-50 text-amber-700 ring-1 ring-amber-200"><Wrench size={12} /> {aperti.length} aperti</span>
-                <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-green-50 text-green-700 ring-1 ring-green-200"><CheckCircle2 size={12} /> {chiusi.length} chiusi</span>
-              </div>
-              {aperti.length === 0 && <p className="t-eti">Nessun difetto aperto. 👍</p>}
+              {/* AR-449 — quando il cantiere non è stato LETTO non si disegnano zeri: uno zero è un
+                  fatto («non ci sono difetti»), un buco di lettura è un'altra cosa. Il 30/7, con
+                  cantiere-difetti.json oltre il MiB di GitHub, questa scheda ha mostrato «0 aperti ·
+                  0 chiusi · Nessun difetto aperto 👍» mentre gli aperti erano 162. */}
+              {cantiereLetto === false ? (
+                <div className="rounded-xl bg-slate-50 ring-1 ring-slate-200 p-3">
+                  <p className="text-[13px] font-medium text-slate-700">⚪ Non ho potuto leggere il cantiere.</p>
+                  <p className="t-eti mt-1">
+                    {nonLettoCantiere?.motivo || "la lettura del file non è riuscita"}. I difetti possono esserci tutti:
+                    quello che manca è la lettura, non il dato. Questa scheda resta grigia finché non torna a leggerlo.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="flex gap-2">
+                    <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-amber-50 text-amber-700 ring-1 ring-amber-200"><Wrench size={12} /> {aperti.length} aperti</span>
+                    <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-green-50 text-green-700 ring-1 ring-green-200"><CheckCircle2 size={12} /> {chiusi.length} chiusi</span>
+                  </div>
+                  {aperti.length === 0 && <p className="t-eti">Nessun difetto aperto. 👍</p>}
+                </>
+              )}
               {aperti.map((x, i) => {
                 const g = GRAV[x.gravita || "minore"] || GRAV.minore;
                 const azId = x.id ? azPerOrigine[`difetto:${x.id}`] : undefined;

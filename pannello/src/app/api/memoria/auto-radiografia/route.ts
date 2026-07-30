@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cantiereSnello } from "@/lib/cantiere-snello";
 import { radiografiaSnella } from "@/lib/radiografia-snella";
-import { readVaultFile } from "@/lib/vault";
+import { readVaultFile, readVaultFileEsito } from "@/lib/vault";
 import { sanificaListe } from "@/lib/memoria-json";
 import { serieSicura } from "@/lib/verdetto-dato";
 
@@ -15,14 +15,34 @@ export const revalidate = 0;
 
 const BASE = "90-Memoria-AI/auto-coscienza";
 
-async function leggiJson(rel: string): Promise<any | null> {
-  const raw = await readVaultFile(rel);
-  if (raw == null) return null;
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return null;
+/**
+ * AR-449 — LETTURA CON ESITO. Prima questa funzione tornava `null` sia per «il file non c'è» sia
+ * per «non sono riuscito a leggerlo», e chi la chiamava trattava il null come lista vuota. Il
+ * 2026-07-30, quando `cantiere-difetti.json` ha passato il MiB, la catena ha prodotto la bugia
+ * peggiore che questa macchina possa dire: «Nessun difetto aperto 👍» con 162 difetti aperti, per
+ * dodici ore. Adesso l'esito viaggia col dato: chi legge sa se sta guardando un vuoto o un buco.
+ */
+type Letto = { dati: any | null; letto: boolean; motivo?: string };
+
+async function leggiJson(rel: string): Promise<Letto> {
+  const esito = await readVaultFileEsito(rel);
+  if (esito.stato === "assente") return { dati: null, letto: true }; // il file davvero non c'è: è un'informazione
+  if (esito.stato !== "ok" || esito.testo == null) {
+    return { dati: null, letto: false, motivo: dettaglioEsito(esito) };
   }
+  try {
+    return { dati: JSON.parse(esito.testo), letto: true };
+  } catch (e: any) {
+    // JSON rotto NON è un file vuoto: è un file che c'è e che non sappiamo leggere.
+    return { dati: null, letto: false, motivo: `JSON non valido (${String(e?.message || e).slice(0, 120)})` };
+  }
+}
+
+function dettaglioEsito(e: { stato: string; dettaglio?: string }): string {
+  if (e.stato === "troppo-grande") return `file troppo grande per essere servito${e.dettaglio ? ` — ${e.dettaglio}` : ""}`;
+  if (e.stato === "auth") return "GitHub ha rifiutato l'accesso (token o permessi)";
+  if (e.stato === "github-giu") return "GitHub non raggiungibile";
+  return e.dettaglio || e.stato;
 }
 
 // 🧹 Come per l'auto-analisi: il giro a volte scrive un voto sporco o un'intera frase in `trend`.
@@ -70,12 +90,16 @@ function oreDaDataPiacenza(dataStr: unknown): number | null {
 }
 
 /** Numeri LIVE dal cantiere + sonda: la lista «Radiografia» è una foto dell'audit, il cantiere è il backlog vivo. */
-function calcolaLive(radiografia: any, cantiere: any) {
+function calcolaLive(radiografia: any, cantiere: any, cantiereLetto = true) {
   const sonda = radiografia?.sonda || {};
   const difetti = Array.isArray(cantiere?.difetti) ? cantiere.difetti : [];
-  const aperti = difetti.filter((d: any) => d?.stato === "aperto").length;
-  const in_corso = difetti.filter((d: any) => d?.stato === "in-corso").length;
-  const chiusi = difetti.filter((d: any) => d?.stato === "chiuso").length;
+  // AR-449 — se il cantiere NON è stato letto, i conteggi sono `null`, non 0. Zero è un fatto
+  // («non ci sono difetti aperti»); null è l'assenza di un fatto («non lo so»). Confonderli è
+  // esattamente ciò che ha fatto dire alla Cabina «Nessun difetto aperto 👍» con 162 aperti.
+  const conta = (stato: string) => (cantiereLetto ? difetti.filter((d: any) => d?.stato === stato).length : null);
+  const aperti = conta("aperto");
+  const in_corso = conta("in-corso");
+  const chiusi = conta("chiuso");
   const oreScan = oreDaDataPiacenza(radiografia?.data);
   const oreSonda = oreDaDataPiacenza(sonda.data);
   const votoSonda = typeof sonda.voto_provvisorio === "number" ? sonda.voto_provvisorio : null;
@@ -92,7 +116,8 @@ function calcolaLive(radiografia: any, cantiere: any) {
     aperti,
     in_corso,
     chiusi,
-    da_fare: aperti + in_corso,
+    da_fare: aperti == null || in_corso == null ? null : aperti + in_corso,
+    cantiere_letto: cantiereLetto,
     findings_aperti: typeof radiografia?.sync_scan?.findings_aperti === "number"
       ? radiografia.sync_scan.findings_aperti
       : null,
@@ -107,26 +132,53 @@ function calcolaLive(radiografia: any, cantiere: any) {
 }
 
 export async function GET() {
-  const [radiografia, cantiere, storico, watchlist, lettera] = await Promise.all([
+  const [radiografiaL, cantiereL, storicoL, watchlistL, lettera] = await Promise.all([
     leggiJson(`${BASE}/auto-radiografia.json`),
     leggiJson(`${BASE}/cantiere-difetti.json`),
     leggiJson(`${BASE}/storico-salute.json`),
     leggiJson(`${BASE}/watchlist-riferimenti.json`),
     readVaultFile(`${BASE}/LETTERA-A-NICOLA.md`),
   ]);
+  const radiografia = radiografiaL.dati;
+  const cantiere = cantiereL.dati;
+  const storico = storicoL.dati;
+  const watchlist = watchlistL.dati;
 
   sanificaRadiografia(radiografia); // voto→intero 0-100, trend→token breve (niente frasi che sfondano il banner)
   const collegato = Boolean(radiografia || cantiere);
   if (!collegato) {
+    // AR-449 — due silenzi diversi, due messaggi diversi. «Non l'ho ancora fatta» è un fatto;
+    // «non sono riuscito a leggerla» è un guasto, e spacciarlo per il primo manda Nicola a rilanciare
+    // una radiografia che esiste già mentre il problema è altrove.
+    const buchi = [radiografiaL, cantiereL].filter((x) => !x.letto);
+    if (buchi.length) {
+      return NextResponse.json({
+        collegato: false,
+        letto: false,
+        messaggio: `Non sono riuscito a leggere la radiografia: ${buchi.map((b) => b.motivo).join(" · ")}. Il dato può esserci: quello che manca è la lettura.`,
+      });
+    }
     return NextResponse.json({
       collegato: false,
+      letto: true,
       messaggio:
         "La macchina non ha ancora fatto la radiografia di sé. Lancia «radiografia di te stesso» (cervello/auto-radiografia.md) per generare il primo verdetto sulla propria architettura.",
     });
   }
   // I totali si calcolano sul cantiere INTERO, prima di snellirlo: se li leggesse dalla versione
   // ridotta, «135 chiusi» diventerebbe «40 chiusi» e la Cabina mentirebbe per troncamento.
-  const live = calcolaLive(radiografia, cantiere);
+  const live = calcolaLive(radiografia, cantiere, cantiereL.letto);
+
+  // AR-449 — i buchi di lettura viaggiano col dato, così la scheda può dire «non l'ho letto» invece
+  // di disegnare uno zero. Un file che manca DAVVERO non finisce qui: quello è un fatto, non un buco.
+  const nonLetti = [
+    { file: "auto-radiografia.json", ...radiografiaL },
+    { file: "cantiere-difetti.json", ...cantiereL },
+    { file: "storico-salute.json", ...storicoL },
+    { file: "watchlist-riferimenti.json", ...watchlistL },
+  ]
+    .filter((x) => !x.letto)
+    .map((x) => ({ file: x.file, motivo: x.motivo || "lettura fallita" }));
 
   // AR-250/AR-221 — si compone la risposta invece di inoltrare il file. Misurato il 28/7: il cantiere
   // intero è 607.409 byte per 271 difetti, riscaricati ogni 30 secondi sul telefono; con i soli campi
@@ -143,5 +195,5 @@ export async function GET() {
   // (forma che si è già presentata davvero), questa lo inoltrava tale e quale. Risultato: nella
   // stessa pagina un riquadro mostrava la storia e l'altro il vuoto — e il vuoto si legge come
   // «non c'è storia». Ora la forma la decide una funzione sola, al confine dell'atto.
-  return NextResponse.json({ collegato: true, live, radiografia: radiografiaRidotta, cantiere: cantiereRidotto, storico: { serie: serieSicura(storico) }, watchlist, lettera });
+  return NextResponse.json({ collegato: true, live, non_letti: nonLetti, radiografia: radiografiaRidotta, cantiere: cantiereRidotto, storico: { serie: serieSicura(storico) }, watchlist, lettera });
 }
