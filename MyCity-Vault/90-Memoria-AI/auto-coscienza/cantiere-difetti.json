@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-30 02:40",
+  "aggiornato": "2026-07-30 03:09",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -7447,6 +7447,24 @@
       "verifica": {
         "comando": "node cervello/test/json-riscritto-tutto.test.mjs"
       }
+    },
+    {
+      "id": "AR-449",
+      "titolo": "Il cancello di pubblicazione blocca OGNI PR dal VPS e da la colpa a un conflitto che non esiste: un rebase che non parte viene attraversato in silenzio",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "bloccante",
+      "impatto_crescita": "alto",
+      "causa_radice": "Sul VPS il worker tiene sporchi i file che riscrive a ogni giro, e il commit chore di git-pr.mjs li esclude apposta (sono la famiglia delle 21 correzioni sui conflitti di PR): restano non committati. Con l albero sporco git rebase si RIFIUTA DI PARTIRE e non lascia nessun rebase in corso. Il ripiego di rebaseBranchOntoBase trattava quel rifiuto come un conflitto: entrava nel giro di auto-risoluzione, vedeva che nessun rebase era in corso, USCIVA DAL GIRO SENZA DIRE NIENTE e proseguiva come se il rebase fosse riuscito. A valle, mergeTreeConflictPaths confrontava il ramo con main dal vecchio antenato comune — cioe misurava la normale divergenza che il rebase avrebbe risolto — e la dichiarava «conflitti residui dopo rebase». Effetto: nessuna PR pubblicabile dal VPS, con un messaggio che accusa file di memoria innocenti e non nomina mai la causa vera. Secondo difetto nella stessa funzione: l auto-risoluzione usava `checkout --theirs` mentre il suo commento dichiarava «teniamo la base»; provato su repo finto che in rebase --theirs e la versione del RAMO e --ours quella della base, quindi per settimane ha tenuto il lato opposto a quello dichiarato, rimettendo nella PR il referto vecchio del ramo. Terza causa di sistema: git-pr.mjs eseguiva main() al solo import (AR-445), quindi nessuna delle sue funzioni era provabile — il rebase e arrivato al 30/7 senza una sola prova comportamentale.",
+      "fix_proposto": "🟡 (a) Lo sporco DICHIARATO della macchina si mette da parte prima del rebase e si rimette identico dopo, byte per byte, cosi git puo partire; su tutto il resto si FERMA nominando i file, senza toccarli. (b) Un rebase che non e nemmeno partito e un errore col motivo di git, mai un conflitto: il ramo di silenzio e chiuso. (c) Prima di credere a merge-tree si verifica che il ramo sia davvero discendente della base — e la garanzia strutturale che rende impossibile ripetere la bugia. (d) checkout --ours (la base) al posto di --theirs, con il log di cosa viene scartato: un auto-risoluzione muta e comoda e sbagliata. (e) Guardia E_CLI sull ingresso (AR-445) perche il modulo si possa importare e provare. (f) I referti che un guardiano rigenera stanno in un elenco dichiarato a parte in file-della-macchina.mjs — NON fra i semi del diario, perche sono file contesi e un freno che grida a ogni lotto viene aggirato.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-30 03:09",
+      "origine": "screenshot di Nicola dal Pannello: il worker dichiarava il codice pronto ma la PR bloccata da «un problema di git gia noto». Il problema noto era questo, e non era un conflitto",
+      "nota": "Il difetto non era leggibile nel codice: ogni singola riga aveva senso. Stava in cosa fa git con l albero sporco e in quale lato e --theirs durante un rebase. Entrambe le risposte sono state prese chiedendo a git su repo veri in /tmp, non ragionando sul sorgente: e la differenza fra una diagnosi e un indovinello.",
+      "verifica": {
+        "comando": "node cervello/test/rebase-che-non-parte.test.mjs"
+      },
+      "nota_fix": "Fix (a)-(f) applicati in questa sessione. Prova comportamentale in cervello/test/rebase-che-non-parte.test.mjs (11 casi, guida git vero su repo temporanei), e 3 mutazioni in mutanti.json che rimettono l errore e devono renderla rossa."
     }
   ],
   "meta": {

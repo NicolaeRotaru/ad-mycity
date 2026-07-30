@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-30 01:50",
+  "aggiornato": "2026-07-30 03:09",
   "lezioni": [
     {
       "id": "L-2026-0726-02",
@@ -10437,6 +10437,31 @@
       "nato": "2026-07-26",
       "ultima_conferma": "2026-07-26 06:23",
       "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0730-528",
+      "testo": "**Il cancello di pubblicazione ha fermato OGNI PR dando la colpa a un conflitto che non esisteva (30/7, screenshot di Nicola dal Pannello).** `git-pr.mjs` rispondeva «Conflitti residui dopo rebase: AZIONI-IN-ATTESA.md, BACHECA.md, DECISIONI.md, cantiere-prove.json, coerenza-fatti.json, salute.json, stampo-check.json, storico-salute.json» — due bugie in una riga: nessun rebase era avvenuto, e quelli non erano conflitti residui. Catena provata su repo veri in /tmp, non dedotta: (1) sul VPS il worker tiene sporchi i suoi file e il commit chore di git-pr li ESCLUDE apposta, quindi restano non committati; (2) `git rebase` con l'albero sporco **si rifiuta di partire** («cannot rebase: You have unstaged changes») e NON lascia un rebase in corso; (3) il ripiego trattava quel rifiuto come un conflitto, non trovava rebase in corso, **uscìva dal giro in silenzio** e proseguiva come se fosse andato bene; (4) `merge-tree` confrontava allora il ramo con main dal vecchio antenato comune — cioè la normale divergenza che il rebase avrebbe risolto — e la chiamava «conflitti residui». Trovato anche un secondo difetto nella stessa funzione: il commento diceva «teniamo la base» e il codice faceva `git checkout --theirs`, che in rebase è **la versione del ramo** (provato: `--ours` è la base). Per settimane l'auto-risoluzione ha tenuto il lato che prometteva di scartare, rimettendo nella PR il referto vecchio del ramo. Regole: ① un comando che esce male e non lascia lavoro a metà **non è un conflitto** — si riporta il motivo di chi ha rifiutato, mai si tira avanti in silenzio; ② un errore non nomina una causa che non ha misurato (prima di credere a `merge-tree`, si controlla che il ramo sia davvero finito sopra la base); ③ quale lato è `--ours` e quale `--theirs` non si ricorda a memoria, si prova; ④ un modulo che non si può importare senza eseguirlo (AR-445) è un modulo che nessuno prova: ed è per questo che questo rebase è arrivato al 30/7 senza una sola prova comportamentale.",
+      "tag": [
+        "git",
+        "pr",
+        "conflitti",
+        "git-pr.mjs",
+        "rebase",
+        "worker",
+        "vps",
+        "pubblicazione",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.99,
+      "evidenze": 3,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-30",
+      "ultima_conferma": "2026-07-30 03:09",
+      "stato": "attiva",
+      "gate": "node cervello/test/rebase-che-non-parte.test.mjs"
     }
   ],
   "principi": [
