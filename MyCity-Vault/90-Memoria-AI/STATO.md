@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 14:23
+aggiornato: 2026-07-30 15:29
 fonte: AD digitale (chat)
 ---
+
+> ✅ **30/7 15:29 — GIRO RIPETUTO: altre 2 PR mergiate (#637/#638), 3 righe di CHECKLIST-NICOLA stale corrette (#632/#633/#634 già dentro main), business ancora fermo.** `git fetch origin main` mostra, oltre a quanto già confermato alle 14:23, altre 2 PR mergiate: `f28272765` (#637, "sorvegliante del delta") e `7b39781bd` (#638, chiusura loop @tech) — lavoro interno di governo, nessuna firma richiesta. `git merge-base --is-ancestor 82dd0525a origin/main` conferma anche che **PR #634 era già dentro `main`**, ma [[CHECKLIST-NICOLA]] la elencava ancora come "da fare" insieme a #632/#633 (già superate/chiuse secondo [[AZIONI-IN-ATTESA]]) — corrette tutte e 3. Business riconfermato dal vivo via Supabase: `ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3` — identico a ogni passaggio di oggi, stallo **36 giorni**. Osservato (non un difetto nuovo, solo annotato): il worker VPS ha scritto 14 commit "recupero: scritture pendenti" uno al minuto tra le 15:14 e le 15:27 — coerente con la card `#radiografia-sblocca-pubblicazione` (AR-270) già in coda, ma a frequenza più alta di quanto lì documentato. La mossa n.1 resta l'unica firma 🔴 rimasta: 30 secondi su Vercel Authentication (incognito). Briefing: [[Briefing/2026-07-30]].
 
 > ✅ **30/7 14:23 — GIRO RIPETUTO: trovata la prova che PR #635 (fix AR-451) e #636 sono mergiate su GitHub, business ancora fermo.** `git fetch origin main` mostra `595cf3cf0` (#635) e `72dffa662` (#636) in cima a `origin/main` — non erano confermate nei passaggi precedenti di oggi (limite `gh` bloccato in sessione). Aggiornate [[AZIONI-IN-ATTESA]] (riga #6 → FATTO) e [[CHECKLIST-NICOLA]] (tolta la voce PR #635; resta solo #634 da mergiare tra le PR minori). Business riconfermato dal vivo via Supabase: `ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3` — identico a ogni passaggio di oggi, stallo **36 giorni**. Sessione locale diverge da `origin/main` in entrambe le direzioni (17 commit locali del worker VPS avanti, 2 commit indietro) — non toccato con merge/rebase manuale, è compito di `giro.sh` dopo questa sessione. La mossa n.1 resta l'unica firma 🔴 rimasta: 30 secondi su Vercel Authentication (incognito). Briefing: [[Briefing/2026-07-30]].
 

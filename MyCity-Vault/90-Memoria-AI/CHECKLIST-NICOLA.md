@@ -26,10 +26,11 @@ aggiornato: 2026-07-30 14:23
 
 ## 🟡 MERGE PR in attesa (solo click "Approva" — nessun rischio per il sito)
 
-- [ ] 🔴 Mergia **PR #633** — il menu Memoria del Pannello (4 passi che hai già confermato ieri notte), sostituisce la #632 rotta dal solito bug del rebase
-- [ ] 🔴 Chiudi **PR #632** *senza* mergiarla — è superata dalla #633, il suo contenuto è già tutto dentro
-- [ ] 🔴 Mergia **PR #634**
+- [x] ~~Mergia PR #633~~ → GIÀ DENTRO main tramite la #634 (confermato 2026-07-30 12:00 con `git merge-base`); puoi chiuderla su GitHub senza merge quando ti capita, non urgente
+- [x] ~~Chiudi PR #632~~ → superata dalla #633/#634, solo da chiudere su GitHub senza merge, non urgente
+- [x] ~~Mergia PR #634~~ → GIÀ FATTA, confermato 2026-07-30 15:29 via `git merge-base --is-ancestor 82dd0525a origin/main` → sì
 - [x] ~~Mergia PR #635~~ → GIÀ FATTA, confermata 2026-07-30 14:23 via `git fetch` (commit `595cf3cf0` in cima a `origin/main`, insieme alla #636 anche lei già dentro)
+- [x] ~~PR #637/#638~~ → trovate già mergiate in questo passaggio (15:29, `git fetch`): lavoro interno di governo (sorvegliante del delta + chiusura loop @tech), nessuna azione tua richiesta
 - [ ] 🟡 Chiudi **PR #422** su GitHub (vecchia, con conflitti — non serve più)
   → Righe #4–#6 nella tabella + card `#chiudi-pr-422` in [[AZIONI-IN-ATTESA]].
 

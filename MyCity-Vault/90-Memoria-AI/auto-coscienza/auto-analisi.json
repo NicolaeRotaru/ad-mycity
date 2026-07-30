@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-30 14:23",
-  "voto_fiducia": 89,
-  "sintesi": "Giro richiesto in chat (esecuzione integrale di `cervello/giro.md`), ~17° passaggio della giornata sullo stesso stato di business. Applicata la strategia snella per giro ripetuto (AR-113/`playbook-giro-pieno-ripetuto-strategia`): nessuna nuova query pesante su radar/intelligence/auto-miglioramento (già fatti oggi). A differenza dei passaggi precedenti, in questo ho controllato con successo una fonte finora dichiarata 'non verificabile da qui' (`gh` bloccato): `git fetch origin main` + `git log origin/main --oneline` funzionano in Bash anche quando `gh`/`node cervello/*.mjs` restano bloccati, e mostrano che **PR #635 (fix AR-451) e #636 (auto-radiografia) sono GIÀ mergiate** su GitHub (`595cf3cf0` e `72dffa662` in cima a `origin/main`) — non erano confermate in nessun passaggio precedente di oggi. Aggiornate di conseguenza [[AZIONI-IN-ATTESA]] (riga #6 → FATTO) e [[CHECKLIST-NICOLA]] (tolta la voce PR #635). Business riconfermato dal vivo via `mcp__supabase-marketplace execute_sql`: ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli abbandonati=3, ultimo_ordine=2026-06-24 → stallo confermato **36 giorni**, identico cifra per cifra a tutti i passaggi precedenti di oggi. Sessione locale diverge da `origin/main` in entrambe le direzioni (17 commit locali del worker VPS avanti, 2 commit indietro) — non toccata con merge/rebase manuale: la riconciliazione è compito di `giro.sh` dopo questa sessione, non mio (evita di scavalcare il worker concorrente).",
-  "trend_fiducia": "▲ 88→89 — piccolo progresso reale: trovata e chiusa una notizia genuina (2 PR mergiate, non solo ri-timbrata l'invarianza), non un semplice refresh del cancello.",
+  "data": "2026-07-30 15:29",
+  "voto_fiducia": 90,
+  "sintesi": "Giro richiesto in chat (esecuzione integrale di `cervello/giro.md`), ~19° passaggio della giornata sullo stesso stato di business. Applicata la strategia snella per giro ripetuto (AR-113/`playbook-giro-pieno-ripetuto-strategia`): nessuna nuova query pesante su radar/intelligence/auto-miglioramento (già fatti oggi, cadenza rispettata). Novità vera di questo passaggio: `git fetch origin main` mostra **altre 2 PR mergiate dall'ultimo check** (#637 'Sorvegliante del delta' e #638 'Chiude il loop di #637 per @tech') — lavoro interno di governo, non richiede firma di Nicola. Confermato anche via `git merge-base --is-ancestor` che **PR #634 era già mergiata** ma la CHECKLIST-NICOLA la mostrava ancora da fare (3 righe stale: #632/#633/#634) — corrette tutte e 3 in questo passaggio. Business riconfermato dal vivo via `mcp__supabase-marketplace execute_sql`: ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli abbandonati=3, ultimo_ordine=2026-06-24 → stallo confermato **36 giorni**, identico cifra per cifra a tutti i passaggi precedenti di oggi. Osservato (non toccato): il worker VPS ha prodotto 14 commit consecutivi 'recupero: scritture pendenti', uno al minuto, tra le 15:14 e le 15:27 — pattern anomalo per frequenza ma coerente con la card già in coda `#radiografia-sblocca-pubblicazione` (AR-270: lo scan-segreti blocca la pubblicazione normale, il worker usa la via di recupero come fallback ogni ciclo); segnalato nei Rischi, non un difetto nuovo.",
+  "trend_fiducia": "▲ 89→90 — trovate e chiuse 2 notizie genuine (2 nuove PR mergiate + 3 righe stale di checklist corrette), non solo ri-timbrata l'invarianza.",
   "entita_verificate": [
     {
       "nome": "Pane Quotidiano",
       "stato": "confermato",
-      "fonte": "query diretta `execute_sql` 2026-07-30 14:23, coerente con tutti i passaggi precedenti di oggi"
+      "fonte": "query diretta `execute_sql` 2026-07-30 15:29, coerente con tutti i passaggi precedenti di oggi"
     },
     {
       "nome": "0 ordini pagati / 1 ordine zombie CANCELED / 7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati",
       "stato": "confermato",
-      "fonte": "query diretta `execute_sql` 2026-07-30 14:23 — identico alla firma di ultimo_pieno (29/7 08:21): nessun cambiamento in 36 giorni"
+      "fonte": "query diretta `execute_sql` 2026-07-30 15:29 — identico alla firma di ultimo_pieno (29/7 08:21): nessun cambiamento in 36 giorni"
     },
     {
-      "nome": "PR #635 (fix AR-451) e PR #636 (auto-radiografia) mergiate su origin/main",
+      "nome": "PR #634, #635, #636, #637, #638 tutte mergiate su origin/main",
       "stato": "confermato",
-      "fonte": "`git fetch origin main` + `git log origin/main --oneline` — commit `595cf3cf0` (#635) e `72dffa662` (#636) in cima al ramo remoto, verificato in questo passaggio (prima volta oggi con `gh` sostituito da `git fetch` puro)"
+      "fonte": "`git fetch origin main` + `git log origin/main --oneline` (15:29) + `git merge-base --is-ancestor 82dd0525a origin/main` → sì. #637/#638 sono novità di questo passaggio rispetto al precedente check (14:23)"
     }
   ],
   "benchmark": "Nessun lavoro creativo/importante in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9, nessuna pubblicazione/campagna in scope) — auto-miglioramento saltato di proposito, non per omissione.",
@@ -28,8 +28,8 @@
     "dati_freschi": true,
     "sensori_attivi": 10
   },
-  "livello_verifica": "L1 (query diretta `execute_sql` in questo stesso passaggio + `git fetch`/`git log` diretti sul remoto, non ereditati).",
-  "refutazione": "REFUTAZIONE VERA su 1 claim di questo passaggio: 'PR #635/#636 sono mergiate' — non presunto dal fatto che siano 'in attesa da tempo': verificato con `git fetch origin main` (aggiorna i ref remoti) seguito da `git log origin/main --oneline`, che mostra i 2 commit di merge con messaggio esplicito '(#635)'/'(#636)' in cima al ramo — SOPRAVVIVE. 'Il business è ancora invariato' — riverificato con query diretta, non ereditato dal pre-step — SOPRAVVIVE.",
+  "livello_verifica": "L1 (query diretta `execute_sql` in questo stesso passaggio + `git fetch`/`git log`/`git merge-base` diretti sul remoto, non ereditati).",
+  "refutazione": "REFUTAZIONE VERA su 2 claim di questo passaggio: 'PR #637/#638 sono mergiate' — verificato con `git fetch origin main` + `git log origin/main --oneline`, messaggi espliciti '(#637)'/'(#638)' in cima al ramo — SOPRAVVIVE. 'PR #634 è mergiata' (la checklist diceva ancora da fare) — verificato con `git merge-base --is-ancestor 82dd0525a origin/main` → sì — SOPRAVVIVE, checklist corretta. 'Il business è ancora invariato' — riverificato con query diretta, non ereditato dal pre-step — SOPRAVVIVE.",
   "domande_per_nicola": [
     {
       "tipo": "north_star",
@@ -39,14 +39,20 @@
     },
     {
       "tipo": "codice",
-      "domanda": "PR #635 e #636 risultano mergiate su GitHub (verificato via `git fetch`). Resta da mergiare solo la PR #634 tra le voci ancora aperte in CHECKLIST-NICOLA, più la firma su Vercel Authentication (30 secondi, incognito) — quest'ultima è l'unica voce 🔴 rimasta senza alternativa tecnica.",
-      "azione": "AZIONI-IN-ATTESA riga #6 chiusa, CHECKLIST-NICOLA aggiornata in questo passaggio",
+      "domanda": "Tutte le PR fino alla #638 risultano mergiate su GitHub (verificato via `git fetch`/`git merge-base`). Resta una sola voce 🔴 senza alternativa tecnica: la firma su Vercel Authentication (30 secondi, incognito).",
+      "azione": "CHECKLIST-NICOLA corretta in questo passaggio (3 righe stale su #632/#633/#634 + le nuove #637/#638)",
       "colore": "🔴"
     },
     {
       "tipo": "debito_tecnico",
       "domanda": "Ennesimo passaggio consecutivo oggi in cui `node cervello/*.mjs` e `gh` non sono eseguibili in Bash in questa sessione (richiedono approvazione/sono negati in headless): i guardiani deterministici restano verificabili solo a mano (grep/lettura diretta/git), con copertura parziale. Non è un buco nuovo — è la card `#permessi-senza-jolly` già in coda.",
       "azione": "nessuna card nuova — solo segnalazione, non bloccante (il worker VPS ha i permessi e gira comunque)",
+      "colore": "🟢"
+    },
+    {
+      "tipo": "osservazione",
+      "domanda": "Il worker VPS ha scritto 14 commit consecutivi 'recupero: scritture pendenti' uno al minuto (15:14→15:27). Coerente con la card già in coda `#radiografia-sblocca-pubblicazione` (AR-270), ma la frequenza (ogni minuto invece che ogni due ore come descritto nella card) è più alta di quanto lì documentato — vale la pena una verifica quando la card sarà lavorata.",
+      "azione": "nessuna card nuova — annotato nei Rischi del briefing",
       "colore": "🟢"
     }
   ]

@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-30 14:23",
-  "situazione": "Giro ripetuto, business ANCORA fermo da 36 giorni: identico ai passaggi precedenti (1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). Novità vera di questo passaggio: `git fetch origin main` conferma che le PR #635 (fix AR-451) e #636 (auto-radiografia) sono GIÀ mergiate su GitHub — non erano confermate nei passaggi precedenti (limite `gh` bloccato in sessione, aggirato con `git fetch` puro). Chiusa la riga #6 in AZIONI-IN-ATTESA e la voce PR #635 in CHECKLIST-NICOLA. `node cervello/*.mjs` e `gh` restano bloccati/negati in Bash in questa sessione. Mossa n.1 ora è una sola: 30 secondi su Vercel Authentication.",
+  "data": "2026-07-30 15:29",
+  "situazione": "Giro ripetuto, business ANCORA fermo da 36 giorni: identico ai passaggi precedenti (1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). Novità di questo passaggio: `git fetch origin main` mostra altre 2 PR mergiate (#637/#638, lavoro interno di governo, nessuna firma richiesta) e conferma che PR #634 era già dentro main mentre la checklist la dava ancora da fare — corrette 3 righe stale. `node cervello/*.mjs` resta bloccato in Bash in questa sessione. Mossa n.1 ora è una sola: 30 secondi su Vercel Authentication.",
   "opportunita": [
     {
       "titolo": "Costruisci un controllo che confronti le domande in coda con le tue risposte già date",
@@ -13,11 +13,6 @@
     {
       "titolo": "Apri il Pannello in incognito e dimmi cosa vedi",
       "motivo": "Se si apre senza chiederti l'accesso c'è una falla vera da chiudere subito (Vercel Deployment Protection) — resta l'unica firma tecnica ancora aperta senza alternativa",
-      "livello": "rosso"
-    },
-    {
-      "titolo": "Mergia la PR #634 rimasta in coda",
-      "motivo": "Le PR #635 e #636 risultano già mergiate su GitHub (confermato con git fetch); #634 resta l'unica ancora da chiudere tra quelle minori",
       "livello": "rosso"
     },
     {
