@@ -48,9 +48,26 @@
 // segue le chiamate indirette, i nomi costruiti a runtime, né i riferimenti nei .md. Un raggio vuoto
 // significa «non ne ho trovati», mai «non ce ne sono».
 //
+// IL CANALE (AR-465, 30/7 — la riparazione più importante di questo file). Per un giorno intero
+// questa guardia ha girato a ogni mia modifica e ha parlato a NESSUNO. La riga in settings.json c'era,
+// il codice era giusto, le prove verdi — e il verdetto finiva in un log di debug che non leggo. Un
+// hook `PostToolUse` che esce con 0 e stampa testo semplice non arriva al modello: la documentazione
+// lo dice a lettere, e io ho chiuso AR-455 senza andarla a leggere. Il risultato è la malattia che
+// questa stessa macchina sa nominare — una misura che non può dire di no — costruita il mattino e
+// consegnata il pomeriggio. Il canale che arriva davvero è UNO: stdout deve essere JSON con
+// `hookSpecificOutput.additionalContext`, e allora il verdetto compare accanto al risultato dello
+// strumento. Da qui la forma `--hook`: JSON o niente.
+//
+// E il silenzio? Se taccio quando è pulito (giusto: un avvisatore che parla sempre viene spento entro
+// la settimana, L-2026-0730-533), «zitto perché non c'è niente» e «zitto perché sono morto» tornano
+// indistinguibili — di nuovo la stessa malattia, un giro più in là. Per questo la forma hook lascia un
+// BATTITO: un file ignorato da git (`_tmp_*`, così verificare non sporca l'albero — AR-464) con l'ora
+// dell'ultimo scatto. `--battito` lo legge e risponde alla sola domanda che conta: hai girato o no?
+//
 // Uso:
 //   node cervello/sorvegliante.mjs              # diff del working tree + staged vs HEAD
-//   node cervello/sorvegliante.mjs --hook       # forma corta per l'hook: SEMPRE exit 0 (avvisa, non blocca)
+//   node cervello/sorvegliante.mjs --hook       # per l'hook: JSON che arriva al modello, SEMPRE exit 0
+//   node cervello/sorvegliante.mjs --battito    # «il canale è vivo?» — quando ha girato l'ultima volta
 //   node cervello/sorvegliante.mjs --staged     # solo lo staged (è la forma che usa il pre-commit)
 //   node cervello/sorvegliante.mjs --json
 //
@@ -59,9 +76,10 @@
 //   1 = almeno una voce grave: l'ho introdotta io, adesso
 //   2 = non ho potuto misurare (git assente, registri illeggibili) — «cieco» NON è verde
 //
-// 🟢 Sola lettura: non scrive niente, non tocca git, non modifica file.
+// 🟢 Sola lettura sul repo: non tocca git, non modifica file versionati. L'UNICA scrittura è il
+//    battito in `--hook`, fuori da git (vedi sopra): senza, il canale non è verificabile.
 
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { dirname, join, relative, basename } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -291,6 +309,63 @@ export function gravi(voci = []) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// IL CANALE — pure anche queste, e per lo stesso motivo del cuore: il modo in cui il verdetto ESCE è
+// stato il difetto, non il verdetto. Una prova deve poter eseguire la busta e provare a romperla,
+// altrimenti controlla che il codice «sembri giusto» — che è esattamente com'è passato inosservato.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Il battito vive fuori da git: verificare non deve costare un diff (AR-464). */
+export const BATTITO = "cervello/_tmp_sorvegliante-battito.json";
+
+/**
+ * La busta che ARRIVA al modello. Un hook PostToolUse che stampa testo semplice finisce nel log di
+ * debug; solo `hookSpecificOutput.additionalContext` viene messo accanto al risultato dello strumento.
+ * Torna la stringa da stampare, o `null` quando non c'è niente da dire (tacere è la scelta giusta:
+ * un avvisatore che parla a ogni modifica viene spento entro la settimana — il battito copre il resto).
+ */
+export function bustaPerIlModello(voci = [], nToccati = 0) {
+  const rossi = gravi(voci);
+  const righe = [];
+  for (const v of rossi.slice(0, 4)) {
+    righe.push(`❌ ${v.classe} · ${v.file}${v.riga ? ":" + v.riga : ""} → ${v.cosa}\n   ↳ ${v.domanda}`);
+  }
+  for (const v of voci.filter((v) => v.gravita === "media").slice(0, 2)) {
+    righe.push(`⚠️  ${v.classe} · ${v.file}${v.riga ? ":" + v.riga : ""} → ${v.cosa}`);
+  }
+  const raggi = voci.filter((v) => v.classe === "raggio");
+  if (raggi.length) {
+    righe.push(`🔭 raggio: ${raggi.map((r) => `${r.file} → ${(r.cosa.match(/^(\d+)/) || [, "?"])[1]} dipendenti`).join(" · ")}`);
+  }
+  if (rossi.length > 4) righe.push(`   …e altre ${rossi.length - 4} voci gravi: node cervello/sorvegliante.mjs`);
+  if (!righe.length) return null;
+  const testo = [`👁️ SORVEGLIANTE — ${nToccati} file toccati da questa modifica`, ...righe].join("\n");
+  return JSON.stringify({
+    hookSpecificOutput: { hookEventName: "PostToolUse", additionalContext: testo },
+  });
+}
+
+/**
+ * «Il canale è vivo?» — l'unica domanda a cui il silenzio non sa rispondere da solo.
+ * Mai girato = 2, perché cieco non è verde: vale per la guardia esattamente come per il resto.
+ */
+export function verdettoBattito(battito, adesso = 0) {
+  const t = battito && battito.quando ? Date.parse(battito.quando) : NaN;
+  if (!Number.isFinite(t)) {
+    return {
+      vivo: false,
+      uscita: 2,
+      testo: "⚪ il sorvegliante non ha mai scattato da hook qui: non so se il canale è vivo, e non saperlo non è un verde.",
+    };
+  }
+  const min = Math.max(0, Math.round((adesso - t) / 60000));
+  return {
+    vivo: true,
+    uscita: 0,
+    testo: `✅ ultimo scatto ${min} min fa (${battito.quando}) — ${battito.file_toccati ?? "?"} file guardati, ${battito.voci ?? "?"} voci, ${battito.gravi ?? "?"} gravi.`,
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // LO STRATO I/O — git, registri, filesystem. Sottile per scelta: tutto ciò che DECIDE sta sopra.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -385,6 +460,20 @@ function main() {
   const soloStaged = argv.includes("--staged");
   const json = argv.includes("--json");
 
+  // «Hai girato o no?» — prima di tutto il resto, perché è la domanda che si fa quando si sospetta
+  // che la guardia sia morta, e in quel momento il diff non c'entra niente.
+  if (argv.includes("--battito")) {
+    let letto = null;
+    try {
+      letto = JSON.parse(readFileSync(join(REPO, BATTITO), "utf8"));
+    } catch {
+      letto = null;
+    }
+    const v = verdettoBattito(letto, Date.now());
+    console.log(v.testo);
+    process.exit(v.uscita);
+  }
+
   let diff;
   try {
     // `-U0`: solo le righe cambiate, niente contesto — il contesto NON è mio, e contarlo
@@ -439,18 +528,21 @@ function main() {
   // ── Forma corta: entra nel mio contesto a OGNI modifica, quindi deve stare in poche righe o
   //    diventa rumore che imparo a scorrere. Solo i rossi, i gialli in una riga, il raggio contato.
   if (hook) {
-    if (!toccati.length) process.exit(0);
-    const righe = [];
-    for (const v of rossi.slice(0, 4)) righe.push(`❌ ${v.classe} · ${v.file}${v.riga ? ":" + v.riga : ""} → ${v.cosa}\n   ↳ ${v.domanda}`);
-    const gialli = esito.voci.filter((v) => v.gravita === "media");
-    for (const v of gialli.slice(0, 2)) righe.push(`⚠️  ${v.classe} · ${v.file}${v.riga ? ":" + v.riga : ""} → ${v.cosa}`);
-    const raggi = esito.voci.filter((v) => v.classe === "raggio");
-    if (raggi.length) righe.push(`🔭 raggio: ${raggi.map((r) => `${r.file} → ${(r.cosa.match(/^(\d+)/) || [, "?"])[1]} dipendenti`).join(" · ")}`);
-    if (righe.length) {
-      console.log(`👁️ SORVEGLIANTE (${toccati.length} file toccati)`);
-      console.log(righe.join("\n"));
-      if (rossi.length > 4) console.log(`   …e altre ${rossi.length - 4} voci gravi: node cervello/sorvegliante.mjs`);
+    // Il battito PRIMA della busta, e sempre — anche a mani vuote. È la prova che ho girato, e serve
+    // soprattutto quando non ho niente da dire: è lì che il silenzio si confonde con la morte.
+    try {
+      writeFileSync(
+        join(REPO, BATTITO),
+        JSON.stringify({ quando: new Date().toISOString(), file_toccati: toccati.length, voci: esito.voci.length, gravi: rossi.length }),
+      );
+    } catch {
+      // Un battito che non si scrive non deve fermare la modifica in corso: resta il verdetto, che è
+      // la parte che conta. `--battito` dirà «mai scattato», ed è la risposta onesta.
     }
+    // stdout in forma hook è SOLO la busta JSON: qualsiasi altra riga la rende illeggibile a chi la
+    // deve interpretare, e il verdetto tornerebbe a sparire nel log — cioè il difetto di partenza.
+    const busta = bustaPerIlModello(esito.voci, toccati.length);
+    if (busta) console.log(busta);
     // Avvisa, non blocca: un freno che ferma un Edit a metà lavoro viene spento in un giorno, e un
     // controllo spento è peggio di nessun controllo (insegna che il verde non vuol dire niente).
     // Il freno che BLOCCA sta al commit, dove fermarsi non costa il lavoro in corso.
