@@ -93,6 +93,18 @@
           }
         ]
       }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/sorvegliante.mjs --hook",
+            "timeout": 15
+          }
+        ]
+      }
     ]
   }
 }
