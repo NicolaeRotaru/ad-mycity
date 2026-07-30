@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BookOpen, FolderOpen, FolderTree, Gauge, ListChecks, ScrollText, ShieldCheck, TrendingUp } from "lucide-react";
+import { BookOpen, FolderOpen, FolderTree, Gauge, ListChecks, Map as MapIcon, ScrollText, ShieldCheck, Target, TrendingUp } from "lucide-react";
 import FattiChiave from "@/components/FattiChiave";
 import MemoriaViva from "@/components/MemoriaViva";
 import ScoperteProposte from "@/components/ScoperteProposte";
@@ -9,11 +9,11 @@ import Documenti from "@/components/aree/Documenti";
 import EsploraGitHub from "@/components/aree/EsploraGitHub";
 import GovernoAD from "@/components/GovernoAD";
 import QuaderniSenior from "@/components/QuaderniSenior";
-import StatoNumeriVault from "@/components/StatoNumeriVault";
+import { SezioneStato, SezioneOkr, SezionePiani } from "@/components/StatoNumeriVault";
 import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
 type Tab = "memoria-viva" | "archivio";
-type VivaTab = "fatti" | "memoria" | "scoperte" | "decisioni" | "quaderni-senior" | "stato-numeri";
+type VivaTab = "fatti" | "memoria" | "scoperte" | "decisioni" | "quaderni-senior" | "stato" | "okr" | "piani";
 type ArchivioTab = "consegne" | "github";
 
 function parseVivaSub(sub?: string): VivaTab {
@@ -21,7 +21,9 @@ function parseVivaSub(sub?: string): VivaTab {
   if (sub === "scoperte" || sub === "viva-scoperte") return "scoperte";
   if (sub === "storico-decisioni" || sub === "storico" || sub === "decisioni") return "decisioni";
   if (sub === "storico-quaderni-senior" || sub === "quaderni-senior") return "quaderni-senior";
-  if (sub === "storico-stato-numeri" || sub === "stato-numeri") return "stato-numeri";
+  if (sub === "storico-stato-numeri" || sub === "stato-numeri" || sub === "stato") return "stato";
+  if (sub === "okr") return "okr";
+  if (sub === "piani") return "piani";
   return "memoria";
 }
 
@@ -34,7 +36,7 @@ function parseMemoriaSub(sub?: string): Tab {
   if (!sub || sub === "memoria-viva" || sub === "viva" || sub === "viva-memoria" || sub === "memoria" || sub === "scoperte" || sub === "viva-scoperte") return "memoria-viva";
   if (sub === "archivio" || sub.startsWith("archivio/") || sub === "github" || sub === "esplora") return "archivio";
   // Storico fuso in memoria-viva
-  if (sub === "storico" || sub.startsWith("storico-") || sub === "quaderni-senior" || sub === "decisioni" || sub === "stato-numeri") return "memoria-viva";
+  if (sub === "storico" || sub.startsWith("storico-") || sub === "quaderni-senior" || sub === "decisioni" || sub === "stato-numeri" || sub === "stato" || sub === "okr" || sub === "piani") return "memoria-viva";
   return "memoria-viva";
 }
 
@@ -43,7 +45,9 @@ function vivaSubId(v: VivaTab): string {
   if (v === "scoperte") return "viva-scoperte";
   if (v === "decisioni") return "storico-decisioni";
   if (v === "quaderni-senior") return "storico-quaderni-senior";
-  if (v === "stato-numeri") return "storico-stato-numeri";
+  if (v === "stato") return "stato";
+  if (v === "okr") return "okr";
+  if (v === "piani") return "piani";
   return "memoria-viva";
 }
 
@@ -92,7 +96,9 @@ export default function Memoria() {
     { id: "scoperte", label: "Scoperte", icon: <TrendingUp size={14} /> },
     { id: "decisioni", label: "Decisioni", icon: <ScrollText size={14} /> },
     { id: "quaderni-senior", label: "Quaderni senior", icon: <BookOpen size={14} /> },
-    { id: "stato-numeri", label: "Stato & numeri", icon: <Gauge size={14} /> },
+    { id: "stato", label: "Stato", icon: <Gauge size={14} /> },
+    { id: "okr", label: "OKR", icon: <Target size={14} /> },
+    { id: "piani", label: "Piani", icon: <MapIcon size={14} /> },
   ];
 
   return (
@@ -146,7 +152,9 @@ export default function Memoria() {
           {vivaTab === "scoperte" && <ScoperteProposte />}
           {vivaTab === "decisioni" && <GovernoAD variant="decisioni" />}
           {vivaTab === "quaderni-senior" && <QuaderniSenior />}
-          {vivaTab === "stato-numeri" && <StatoNumeriVault />}
+          {vivaTab === "stato" && <SezioneStato />}
+          {vivaTab === "okr" && <SezioneOkr />}
+          {vivaTab === "piani" && <SezionePiani />}
         </div>
       )}
 
