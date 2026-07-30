@@ -1002,3 +1002,4 @@ il battito esterno appena installato chiude da solo l'eventuale allarme aperto.
 - **Nota:** da adesso questo non dipende più dal fatto che qualcuno se ne accorga: la macchina apre
   una segnalazione su GitHub da sola entro un'ora di silenzio. È il senso del lavoro di oggi.
 | 1 | 2026-07-30 03:44 | @tech | Merge PR #630 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/630 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 2 | 2026-07-30 03:59 | @tech | Merge PR #631 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/631 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
