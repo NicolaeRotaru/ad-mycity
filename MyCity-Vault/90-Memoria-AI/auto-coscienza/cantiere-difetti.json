@@ -7926,11 +7926,41 @@
       "titolo": "Lanciare un guardiano per VERIFICARE sporca l'albero: verificare costa un diff, e l'incentivo diventa non verificare",
       "causa_radice": "① `coerenza-fatti.mjs` e `stampo-check.mjs` riscrivono il proprio file di stato a OGNI esecuzione, anche quando il contenuto sostanziale non e cambiato: l'unica riga diversa e `data`/`aggiornato`. ② Chi li lancia per controllare il proprio lavoro — cioe esattamente il comportamento che questo cantiere sta cercando di rendere abituale — si ritrova due file modificati che non sono lavoro suo. Il 30/7 e successo sei volte in una sessione, e DUE volte quei file sono entrati in un commit e sono stati tolti con un amend. ③ Perche conta piu di quanto sembri: l'incentivo che crea e «non lanciare il guardiano se non devi», cioe il contrario di quello che serve. Un controllo che costa un diff si smette di fare, e un controllo che si smette di fare e spento. ④ E la stessa forma di un difetto gia visto: un'operazione dichiarata di sola lettura che invece scrive (AR-445, importare un modulo ne esegue il programma). Qui non e un import: e il guardiano stesso.",
       "fix_proposto": "🟡 Un flag `--sola-lettura` (o la variabile che gia usano gli altri) che fa calcolare e stampare il verdetto SENZA riscrivere il file di stato, usato da chi verifica: cancello-lotto, le sessioni, le prove. Il worker continua a scrivere, perche li il timestamp e il dato. In alternativa peggiore ma piu semplice: scrivere solo se il contenuto sostanziale cambia (allora pero `data` smette di voler dire «ultima esecuzione» e serve un secondo campo). Prova: lanciare il guardiano due volte di fila con --sola-lettura deve lasciare `git status` vuoto."
+    },
+    {
+      "id": "AR-465",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-07-30 17:40",
+      "nato_come": "regressione",
+      "nato_da": "AR-455",
+      "origine": "collaudo chiesto da Nicola 2026-07-30 ~17:20 («controlla se adesso sei capace di guardare in tempo reale quello che stai facendo») — provato con un esca nel repo e la documentazione degli hook, non dedotto",
+      "titolo": "Il freno in tempo reale parlava a nessuno: per un giorno l hook e girato a ogni modifica e il verdetto finiva in un log di debug",
+      "causa_radice": "① Perche il verdetto non mi arrivava? Perche un hook PostToolUse che esce con 0 e stampa TESTO SEMPLICE viene scritto nel log di debug e basta: la documentazione lo dice a lettere, e l unico canale che raggiunge il modello e stdout in JSON con hookSpecificOutput.additionalContext. ② Perche non l ho visto? Perche ho chiuso AR-455 sulla LETTERA («manca la riga in settings.json» → la riga c e) invece che sull EFFETTO («il verdetto mi arriva?»), e la scheda e stata chiusa con prova: null. ③ Perche la lettera e bastata? Perche il silenzio dell hook e indistinguibile dal suo funzionare: e la malattia della misura cieca — la stessa che quella mattina avevo reso un attrezzo (misura-cieca.mjs) e che il pomeriggio ho consegnato.",
+      "fix_proposto": "FATTO 🟡 cervello/sorvegliante.mjs — la forma --hook ora stampa SOLO la busta JSON (hookSpecificOutput.additionalContext), e lascia un battito fuori da git (_tmp_, cosi verificare non sporca l albero, AR-464) con l ora dell ultimo scatto; --battito risponde a «hai girato o no?» ed esce 2 se non ha mai scattato, perche cieco non e verde. Provato END-TO-END nella stessa sessione: le modifiche successive hanno fatto comparire il verdetto accanto al risultato dello strumento. 8 prove nuove + 3 mutazioni (99/99 rosse)."
+    },
+    {
+      "id": "AR-466",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-07-30 21:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-465",
+      "origine": "trovato collaudando il canale riparato di AR-465: l esca funzionava solo dopo un git add, e ho guardato cosa implicava invece di annotarlo",
+      "titolo": "La guardia in tempo reale non vedeva i file NUOVI: un file scritto da zero e invisibile finche non entra in staging",
+      "causa_radice": "① Perche non li vedeva? Perche il perimetro era `git diff HEAD`, e git non conosce un file non tracciato: zero righe aggiunte, zero controlli. ② Perche e grave? Perche il file scritto da zero e proprio il posto dove una malattia nuova entra piu facilmente — nessuna riga vecchia intorno a fare da freno — ed era l unico punto cieco al 100%, non parziale. ③ Perche non l avevo visto costruendo AR-455/AR-465? Perche le prove usano diff finti (giusto: sopravvivono ai lotti) e l unico collaudo dal vivo l avevo fatto su un file gia tracciato.",
+      "fix_proposto": "FATTO 🟡 cervello/sorvegliante.mjs — fuori da --staged la guardia aggiunge i file di `git ls-files --others --exclude-standard`, contandone il contenuto intero come righe scritte adesso (e vero: le ho scritte tutte io). Binari esclusi (byte nullo), tetto 512 KB per non far leggere un export finito li per sbaglio a ogni modifica. --staged resta invariato: li il perimetro E lo staging, allargarlo farebbe bocciare il pre-commit per righe che non sta committando. 3 prove nuove + 2 mutazioni."
     }
   ],
   "meta": {
     "aperti": 163,
     "in_corso": 0,
-    "chiusi": 239
+    "chiusi": 241
   }
 }

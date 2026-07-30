@@ -11,7 +11,16 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { sorveglia, gravi, leggiDiff, VICINANZA_NOTA, LETTERALI_MIN } from "../sorvegliante.mjs";
+import {
+  sorveglia,
+  gravi,
+  leggiDiff,
+  bustaPerIlModello,
+  righeDiFileNuovo,
+  verdettoBattito,
+  VICINANZA_NOTA,
+  LETTERALI_MIN,
+} from "../sorvegliante.mjs";
 
 const MALATTIE = [
   {
@@ -317,4 +326,84 @@ test("leggiDiff(): i numeri di riga sono quelli del file nuovo, su più hunk", (
 test("leggiDiff(): un file cancellato non produce righe aggiunte", () => {
   const diff = ["diff --git a/f.mjs b/f.mjs", "--- a/f.mjs", "+++ /dev/null", "@@ -1 +0,0 @@", "-via"].join("\n");
   assert.equal(leggiDiff(diff).size, 0);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// IL CANALE (AR-465). Per un giorno la guardia ha girato a ogni modifica parlando a nessuno: stampava
+// testo semplice, e un hook PostToolUse che esce con 0 e stampa testo finisce nel log di debug. Il
+// codice «sembrava giusto» — è per questo che qui si ESEGUE la busta invece di guardarne la forma.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const ROSSA = { classe: "gate-orfano", gravita: "grave", file: "a.md", riga: 3, cosa: "gate senza file", domanda: "quale comando fallisce?" };
+
+test("la busta è JSON: se torna testo semplice il verdetto sparisce nel log e nessuno se ne accorge", () => {
+  const busta = bustaPerIlModello([ROSSA], 1);
+  assert.doesNotThrow(() => JSON.parse(busta), "l'uscita hook DEVE essere JSON parsabile, o non arriva al modello");
+});
+
+test("la busta si dichiara PostToolUse: la busta giusta col nome sbagliato viene buttata via lo stesso", () => {
+  const b = JSON.parse(bustaPerIlModello([ROSSA], 1));
+  assert.equal(b.hookSpecificOutput.hookEventName, "PostToolUse");
+});
+
+test("la busta porta DENTRO il verdetto, non solo l'involucro", () => {
+  const b = JSON.parse(bustaPerIlModello([ROSSA], 1));
+  const ctx = b.hookSpecificOutput.additionalContext;
+  assert.match(ctx, /gate-orfano/);
+  assert.match(ctx, /a\.md:3/);
+  assert.match(ctx, /quale comando fallisce\?/);
+  assert.ok(ctx.trim().length > 0, "un additionalContext vuoto è un canale aperto che non porta niente");
+});
+
+test("quando è pulito la busta è nulla: un avvisatore che parla a ogni modifica viene spento entro la settimana", () => {
+  assert.equal(bustaPerIlModello([], 3), null);
+  assert.equal(bustaPerIlModello([{ classe: "x", gravita: "informativa", file: "f", cosa: "c" }], 1), null);
+});
+
+test("oltre quattro voci gravi la busta dice quante ne restano invece di troncare in silenzio", () => {
+  const sei = Array.from({ length: 6 }, (_, i) => ({ ...ROSSA, file: `f${i}.md` }));
+  const ctx = JSON.parse(bustaPerIlModello(sei, 6)).hookSpecificOutput.additionalContext;
+  assert.match(ctx, /e altre 2 voci gravi/);
+});
+
+test("un file appena creato conta per intero: è la riga che scrivo adesso, e il diff non la conosce", () => {
+  const righe = righeDiFileNuovo('uno\n\n  \nlezione: "gate": "controlla tutto"\n');
+  assert.deepEqual(righe, [
+    { n: 1, testo: "uno" },
+    { n: 4, testo: 'lezione: "gate": "controlla tutto"' },
+  ]);
+});
+
+test("un file binario non ha righe che ho scritto: leggerlo come testo è solo rumore", () => {
+  assert.equal(righeDiFileNuovo("PK\0\0qualcosa"), null);
+});
+
+test("il file nuovo arriva davvero al cuore: un freno finto dentro un file mai committato viene visto", () => {
+  const esito = sorveglia({
+    toccati: [{ file: "consegne/nuovo.md", aggiunte: righeDiFileNuovo('lezione: "gate": "controlla tutto"\n'), contenuto: "x" }],
+    malattie: MALATTIE,
+    mutanti: [],
+    importatori: new Map(),
+    esiste: () => false,
+  });
+  assert.equal(gravi(esito.voci).length, 1);
+  assert.equal(gravi(esito.voci)[0].classe, "gate-orfano");
+});
+
+test("battito mai scattato = uscita 2: «non so se il canale è vivo» non è un verde", () => {
+  const v = verdettoBattito(null, Date.now());
+  assert.equal(v.vivo, false);
+  assert.equal(v.uscita, 2);
+});
+
+test("battito con data illeggibile vale quanto nessun battito (un file corrotto non è una prova di vita)", () => {
+  assert.equal(verdettoBattito({ quando: "ieri pomeriggio" }, Date.now()).uscita, 2);
+});
+
+test("battito vero: dice quando ha scattato e con che esito", () => {
+  const adesso = Date.parse("2026-07-30T18:00:00Z");
+  const v = verdettoBattito({ quando: "2026-07-30T17:30:00Z", file_toccati: 2, voci: 1, gravi: 0 }, adesso);
+  assert.equal(v.vivo, true);
+  assert.equal(v.uscita, 0);
+  assert.match(v.testo, /30 min fa/);
 });
