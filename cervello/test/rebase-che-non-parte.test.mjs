@@ -77,7 +77,7 @@ function leggi(cwd, percorso) {
  * @param opt.ramoTocca  percorsi che il ramo modifica (oltre al codice)
  * @param opt.mainTocca  percorsi che `main` modifica dopo
  */
-function repoFinto({ ramoTocca = [], mainTocca = [] } = {}) {
+function repoFinto({ ramoTocca = [], mainTocca = [], senzaCodice = false } = {}) {
   const cwd = mkdtempSync(join(tmpdir(), "ad-rebase-"));
   temporanee.push(cwd);
   git(["init", "-q", "-b", "main"], cwd);
@@ -89,7 +89,7 @@ function repoFinto({ ramoTocca = [], mainTocca = [] } = {}) {
   git(["commit", "-qm", "base"], cwd);
 
   git(["checkout", "-q", "-b", "fix/lavoro"], cwd);
-  scrivi(cwd, CODICE, "export const x = 2\n");
+  if (!senzaCodice) scrivi(cwd, CODICE, "export const x = 2\n");
   for (const p of ramoTocca) scrivi(cwd, p, "RAMO\n");
   git(["add", "-A"], cwd);
   git(["commit", "-qm", "fix: il lavoro vero"], cwd);
@@ -161,12 +161,44 @@ prova("se git rifiuta per un suo motivo, si riporta IL SUO motivo — non si tir
   assert.throws(
     () => zitto(() => rebasaSuRiferimento(cfg, "ramo-che-non-esiste-affatto", ramo, "main")),
     (e) => {
-      assert.match(e.message, /non è nemmeno partito/, "il silenzio è il difetto: qui si parla");
-      assert.doesNotMatch(e.message, /conflitti residui/, "e non si dà la colpa a un conflitto inventato");
+      // Si asserisce l'INVARIANTE, non la frase: «niente da risolvere» vale sia quando git non è
+      // partito sia quando si è fermato lasciando stato, e quale dei due sia dipende dalla versione
+      // di git. Legare la prova al dettaglio interno è ciò che l'ha resa verde qui e rossa in CI.
+      assert.match(e.message, /niente da risolvere/, "il silenzio è il difetto: qui si parla");
+      assert.doesNotMatch(e.message, /conflitt/i, "e non si dà la colpa a un conflitto che non c'è");
       return true;
     }
   );
   assert.ok(main, "la base finta esiste solo per costruire il repo");
+});
+
+prova("un rebase rimasto a metà da un giro morto non diventa «un conflitto sconosciuto»", () => {
+  // Caso vero sul VPS: un giro ucciso a metà lascia la cartella di stato. Prima si entrava nel giro
+  // di auto-risoluzione, non si trovava niente in conflitto, e usciva «si è fermato su file che non
+  // decido io: (sconosciuto)» — un messaggio che manda a cercare un conflitto inesistente.
+  const { cfg, cwd, main, ramo } = repoFinto({ mainTocca: [REFERTO] });
+  mkdirSync(join(cwd, ".git", "rebase-merge"), { recursive: true });
+  assert.throws(
+    () => zitto(() => rebasaSuRiferimento(cfg, main, ramo, "main")),
+    (e) => {
+      assert.match(e.message, /niente da risolvere/, "niente in conflitto = non è un conflitto");
+      assert.doesNotMatch(e.message, /sconosciuto/, "«sconosciuto» era la resa: il motivo lo dà git");
+      return true;
+    }
+  );
+});
+
+prova("un commit di solo referto non fa fallire il rebase: finisce dentro la base", () => {
+  // Un commit di solo referto: tenuta la versione della base, non resta niente di suo, e il rebase
+  // deve chiudersi dicendo «questo ramo è già dentro» — non esplodere.
+  //
+  // ⚪ Onestà su COSA prova: con git 2.43 è git stesso a completare, quindi qui non si tocca la
+  // cintura di `git-pr.mjs` che riconosce l'indice vuoto (verificato: `--continue` esce 0 sia con
+  // l'indice vuoto sia con un `pre-commit` che esce 1). Questo caso pin l'ESITO, che è ciò che conta
+  // per chi pubblica; la cintura resta dichiarata non provata nel codice.
+  const { cfg, main, ramo } = repoFinto({ ramoTocca: [REFERTO], mainTocca: [REFERTO], senzaCodice: true });
+  const esito = zitto(() => rebasaSuRiferimento(cfg, main, ramo, "main"));
+  assert.equal(esito.ahead, "0", "il ramo non ha più niente oltre la base: si dirà «già dentro»");
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

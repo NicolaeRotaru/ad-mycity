@@ -330,6 +330,15 @@ function tryAutoResolveRebaseConflicts(cfg) {
   return true;
 }
 
+/**
+ * Un rebase dentro uno script non ha un editor, e non deve volerne uno (AR-450). Senza questo, un
+ * `rebase --continue` che chiede di confermare il messaggio si apre in `vi`, con lo stdin chiuso:
+ * fallisce, e prima il ripiego era `--skip`, cioè buttare via il commit del ramo per un editor
+ * mancante. `GIT_TERMINAL_PROMPT=0` chiude l'altra porta della stessa famiglia: mai restare appesi
+ * a una domanda che nessuno leggerà.
+ */
+const SENZA_EDITOR = { GIT_EDITOR: "true", GIT_SEQUENCE_EDITOR: "true", GIT_TERMINAL_PROMPT: "0" };
+
 /** Il motivo che git ha dato, senza il token e senza il muro di hint. */
 function motivoGit(err, token) {
   const righe = sanitize(err, token)
@@ -449,18 +458,31 @@ export function rebasaSuRiferimento(cfg, baseRef, branch, base = baseRef) {
   if (prev !== branch) git(["checkout", branch], cfg.cwd);
   try {
     try {
-      git(["rebase", baseRef], cfg.cwd);
+      git(["rebase", baseRef], cfg.cwd, SENZA_EDITOR);
     } catch (errRebase) {
       // ② UN REBASE CHE NON PARTE NON È UN CONFLITTO, e non si attraversa in silenzio.
-      if (!isRebaseInProgress(cfg)) {
-        throw new Error(`il rebase non è nemmeno partito (niente conflitti da risolvere): ${motivoGit(errRebase, cfg.token)}`);
+      //
+      // AR-450 — LA DOMANDA GIUSTA. La prima versione chiedeva «git ha lasciato una cartella di
+      // rebase?». È la domanda sbagliata, e il 30/7 l'ha dimostrato un rosso che si vedeva solo in
+      // CI: la cartella di stato è un dettaglio interno che cambia fra versioni di git (2.43 qui,
+      // 2.54 sul runner), mentre la cosa che decide se c'è un conflitto è UNA SOLA — ci sono file
+      // in conflitto da risolvere, sì o no? Se non ce ne sono, qualunque cosa dica la cartella,
+      // questo non è un conflitto: è un comando che ha rifiutato, e si riporta il suo motivo.
+      const daRisolvere = unmergedPaths(cfg);
+      if (!daRisolvere.length) {
+        const partito = isRebaseInProgress(cfg);
+        if (partito) gitOrNull(["rebase", "--abort"], cfg.cwd);
+        throw new Error(
+          `${partito ? "il rebase si è fermato e non c'è niente da risolvere" : "il rebase non è nemmeno partito (niente da risolvere)"}: ` +
+            motivoGit(errRebase, cfg.token)
+        );
       }
       /* conflitto vero: prova auto-risoluzione fino a 8 step (commit multipli) */
       for (let step = 0; step < 8; step++) {
         if (!isRebaseInProgress(cfg)) break;
         if (!tryAutoResolveRebaseConflicts(cfg)) {
           const pending = unmergedPaths(cfg);
-          git(["rebase", "--abort"], cfg.cwd);
+          git(["rebase", "--abort"], cfg.cwd, SENZA_EDITOR);
           throw new Error(
             `il rebase si è fermato su file che non decido io: ${pending.join(", ") || "(sconosciuto)"}. ` +
               `Portano contenuto vero (azioni in coda, decisioni): scegliere un lato da solo vorrebbe dire ` +
@@ -469,20 +491,38 @@ export function rebasaSuRiferimento(cfg, baseRef, branch, base = baseRef) {
           );
         }
         try {
-          git(["rebase", "--continue"], cfg.cwd);
-        } catch {
-          if (isRebaseInProgress(cfg)) {
-            try {
-              git(["rebase", "--skip"], cfg.cwd);
-            } catch (skipErr) {
-              git(["rebase", "--abort"], cfg.cwd);
-              throw skipErr;
-            }
+          git(["rebase", "--continue"], cfg.cwd, SENZA_EDITOR);
+        } catch (errContinua) {
+          // NESSUN RIPIEGO CIECO (AR-276/AR-318, e qui la lezione si ripeteva). Il ripiego era
+          // `--skip` a ogni fallimento: butta via il commit del ramo — cioè il lavoro — senza
+          // guardare cosa ci fosse dentro e senza dirlo. Con una risoluzione automatica davanti,
+          // `--skip` è giusto in UN caso solo: dopo aver tenuto la versione della base, quel commit
+          // non ha più niente da portare. Quel caso lo si RICONOSCE, non si indovina — l'indice è
+          // vuoto rispetto a HEAD — e negli altri si ferma tutto e si dice perché.
+          //
+          // ⚪ DEBITO DICHIARATO, non lavoro finito. Questo blocco è una cintura: con git 2.43
+          // (quello di questo container) `rebase --continue` non fallisce MAI qui — provato su repo
+          // finti sia con l'indice vuoto sia con un `pre-commit` che esce 1: git completa da solo e
+          // il `catch` non viene toccato. Quindi le due strade qui dentro NON hanno una prova
+          // comportamentale, e non ne ho aggiunta una finta: per coprirle serve una versione di git
+          // che si fermi qui (il runner di CI ha la 2.54) o un doppio iniettabile al posto di `git()`.
+          if (!isRebaseInProgress(cfg)) {
+            throw new Error(`il rebase si è interrotto dopo la risoluzione automatica: ${motivoGit(errContinua, cfg.token)}`);
           }
+          const nienteDaPortare = gitOrNull(["diff", "--cached", "--quiet"], cfg.cwd) !== null;
+          if (!nienteDaPortare) {
+            git(["rebase", "--abort"], cfg.cwd, SENZA_EDITOR);
+            throw new Error(
+              `il rebase non è andato avanti e quel commit ha ancora contenuto suo: ${motivoGit(errContinua, cfg.token)}. ` +
+                `Non uso --skip: butterebbe via il lavoro del ramo.`
+            );
+          }
+          console.log("   ⏭️  Dopo la risoluzione quel commit non portava più niente di suo: lo salto (era tutto referto della macchina).");
+          git(["rebase", "--skip"], cfg.cwd, SENZA_EDITOR);
         }
       }
       if (isRebaseInProgress(cfg)) {
-        git(["rebase", "--abort"], cfg.cwd);
+        git(["rebase", "--abort"], cfg.cwd, SENZA_EDITOR);
         throw new Error("rebase non completato dopo auto-risoluzione conflitti.");
       }
     }

@@ -73,6 +73,37 @@ export function leggiTap(out = "") {
 }
 
 /**
+ * Le asserzioni rosse dentro l'uscita di un file — QUALE caso è caduto, non quanti.
+ *
+ * AR-450 — perché esiste. Il 30/7 un test è passato 11 su 11 in locale ed è caduto 10 su 11 in CI
+ * (git 2.43 qui, 2.54 sul runner). Dal log di GitHub era impossibile sapere quale asserzione fosse:
+ * il riassunto diceva «1 asserzioni fallite» e l'uscita del figlio — che quella riga la contiene —
+ * veniva buttata. Per diagnosticarlo restava una sola strada: cambiare il test alla cieca e
+ * ripubblicare, che è il modo di lavorare che questa casa chiama tirare a indovinare.
+ *
+ * Un rosso che non dice cosa è rosso non è una difesa: è un vicolo cieco con una spunta rossa.
+ *
+ * Pura: la prova la esegue su uscite finte, comprese quelle che nessun test ha ancora prodotto.
+ */
+export function righeRosse(out = "", max = 8) {
+  const righe = String(out).split("\n").map((r) => r.replace(/^#\s?/, "").trimEnd());
+  const rosse = [];
+  for (let i = 0; i < righe.length; i++) {
+    const t = righe[i];
+    // `not ok - nome` è la forma dei test di questa casa. `not ok 1 - percorso` è il riassunto che
+    // node stampa PER FILE: ripeterlo qui direbbe solo il nome del file, che si sa già.
+    if (!/^not ok\s+-\s+/.test(t)) continue;
+    let riga = t.replace(/^not ok\s+-\s+/, "");
+    // Il messaggio dell'asserzione sta nella riga dopo, rientrata: è la parte che spiega il perché.
+    const dopo = (righe[i + 1] || "").trim();
+    if (dopo && !/^(not )?ok\b/.test(dopo) && !/^\d+\.\.\d+$/.test(dopo)) riga += ` → ${dopo}`;
+    rosse.push(riga);
+    if (rosse.length >= max) break;
+  }
+  return rosse;
+}
+
+/**
  * Verdetto da un esito di spawn. Distingue ROTTO (asserzioni rosse: il codice ha un difetto) da
  * INESEGUIBILE (il file non parte affatto): sono due guasti diversi e chiedono due mosse diverse.
  */
@@ -93,7 +124,7 @@ export function verdetto(status, out) {
   if (passati === null) {
     return { esito: "ineseguibile", motivo: "il file non è nemmeno partito", passati, falliti };
   }
-  return { esito: "rosso", motivo: `${falliti ?? "?"} asserzioni fallite`, passati, falliti };
+  return { esito: "rosso", motivo: `${falliti ?? "?"} asserzioni fallite`, passati, falliti, rosse: righeRosse(testo) };
 }
 
 /**
@@ -223,6 +254,9 @@ async function main() {
     const icona = x.esito === "ok" ? "✅" : x.esito === "ineseguibile" ? "🚫" : "❌";
     console.log(`  ${icona} ${x.file}${x.passati != null ? `  (${x.passati} passati)` : ""}`);
     if (x.motivo) console.log(`      ${x.motivo}`);
+    // QUALE asserzione, non solo quante (AR-450): è la riga che rende un rosso in CI diagnosticabile
+    // senza ripubblicare a tentativi.
+    for (const r of x.rosse || []) console.log(`      ✗ ${r}`);
   }
   if (!rotti.length) {
     console.log(`\n✅ ${righe.length} file, ${totale} asserzioni: girano tutti e passano tutti.`);
