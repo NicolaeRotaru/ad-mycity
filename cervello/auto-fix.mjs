@@ -27,6 +27,7 @@ import { dirname, join } from "node:path";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { chiusuraAmmessa, istanteNascita, patternTrovato } from "./prove-regole.mjs";
+import { chiusuraBloccata, formaProva, verdettoChiusura } from "./chiusura-dichiarata.mjs";
 import { FORMA_COMANDO_PROVA, MOTIVO_COMANDO_NON_AMMESSO, comandoAmmesso } from "./forma-prova.mjs";
 export { FORMA_COMANDO_PROVA, comandoAmmesso };
 import { cambiatoDallaNascita, storiaDelRepo } from "./storia-git.mjs";
@@ -152,8 +153,13 @@ function fileCambiatoDa(file, nato) {
 // Verifica oggettiva: il fix è presente nel codice?
 function verificaFix(dif) {
   const v = dif.verifica;
-  if (v && v.comando) return eseguiProvaComando(v.comando);
-  if (!v || !v.file || !v.pattern) return { esito: "manuale", dettaglio: "nessuna prova automatica: verifica umana" };
+  // AR-344 — la forma della prova la decide UN lettore solo (formaProva), non una copia per lettore.
+  // Qui c'era `if (!v || !v.file || !v.pattern)`: la stessa riga che in cantiere-prove.mjs faceva
+  // contare come «umana» ogni prova migrata a {comando}. Ripararla di là e lasciarla di qua è
+  // l'errore già pagato (AR-172): la porta a mano riparata e quella automatica lasciata aperta.
+  const forma = formaProva(v);
+  if (forma === "comando") return eseguiProvaComando(v.comando);
+  if (forma !== "pattern") return { esito: "manuale", dettaglio: "nessuna prova automatica: verifica umana" };
   const p = join(AD_ROOT, v.file);
   if (!existsSync(p)) return { esito: "aperto", dettaglio: `file assente: ${v.file}` };
   let txt = "";
@@ -252,6 +258,7 @@ async function cmdVerifica(cantiere) {
   }
   const daChiudere = [];
   const rifiutate = [];
+  const dichiaratiAperti = [];
   for (const d of aperti) {
     const r = verificaFix(d);
     // ② LA GUARDIA DELLA CHIUSURA (AR-330): una prova soddisfatta non basta. Se fra la nascita del
@@ -261,12 +268,26 @@ async function cmdVerifica(cantiere) {
     const g = r.esito === "risolto"
       ? chiusuraAmmessa({ verifica: d.verifica, nato: d.nato, fileCambiatoDallaNascita: fileCambiatoDa(d.verifica?.file, d.nato) })
       : { ammessa: true };
+    // ③ LA DICHIARAZIONE UMANA BATTE LA PROVA (AR-444). Sta PRIMA di tutto il resto: se qualcuno ha
+    // guardato questo difetto e ha deciso che resta aperto, nessuna prova soddisfatta lo chiude. Il
+    // caso che ha rotto: AR-396, dichiarato aperto in tre punti della PR #621 e richiuso lo stesso
+    // dalla prova a pattern rimasta sulla scheda. Verdetto in chiusura-dichiarata.mjs, dove un test
+    // lo può ESEGUIRE.
+    const vc = verdettoChiusura(d, r.esito);
     const bloccato = r.esito === "risolto" && !g.ammessa;
-    const icona = bloccato ? "🛑 rifiutata" : r.esito === "risolto" ? "✅ risolto" : r.esito === "manuale" ? "🖐️  manuale" : "⏳ aperto";
+    const icona = vc.bloccata
+      ? "🔒 dichiarato aperto"
+      : bloccato ? "🛑 rifiutata" : r.esito === "risolto" ? (vc.debole ? "✅ risolto (prova debole)" : "✅ risolto") : r.esito === "manuale" ? "🖐️  manuale" : "⏳ aperto";
     console.log(`${icona}  ${d.id} — ${d.titolo}`);
-    console.log(`        ${bloccato ? g.motivo : r.dettaglio}`);
-    if (r.esito === "risolto" && g.ammessa) daChiudere.push({ d, come: r.dettaglio });
+    console.log(`        ${vc.bloccata ? vc.motivo : bloccato ? g.motivo : r.dettaglio}`);
+    if (vc.bloccata) dichiaratiAperti.push({ d, motivo: vc.motivo });
+    else if (r.esito === "risolto" && g.ammessa) daChiudere.push({ d, come: r.dettaglio, debole: vc.debole });
     else if (bloccato) rifiutate.push({ d, motivo: g.motivo });
+  }
+  if (dichiaratiAperti.length) {
+    console.log(
+      `\n🔒 ${dichiaratiAperti.length} difetto/i NON chiusi perché dichiarati aperti da un umano: la prova risulta soddisfatta ma qualcuno ha guardato e deciso. Si sbloccano solo togliendo \`chiusura: "bloccata"\` dalla scheda — cioè con un'altra decisione umana.`,
+    );
   }
   if (rifiutate.length) {
     console.log(
@@ -317,9 +338,19 @@ function cmdChiudi(cantiere) {
     console.error(`❌ Difetto non trovato: ${id}`);
     process.exit(2);
   }
+  // AR-444 — anche la porta A MANO passa dalla dichiarazione. Il freno va al CONFINE DELL'ATTO, non
+  // su una sola delle strade che ci arrivano: guardare solo `verifica --applica` avrebbe lasciato
+  // aperta proprio la porta che un umano usa quando ha fretta. Provato il 30/7: prima di questa
+  // riga, `chiudi --id=AR-396` chiudeva un difetto dichiarato aperto senza dire niente.
+  const blocco = chiusuraBloccata(d);
+  if (blocco.bloccata && !has("forza")) {
+    console.error(`🔒 ${id} è dichiarato aperto da un umano e non si chiude: ${blocco.motivo}`);
+    console.error(`   Se la decisione è cambiata, togli \`chiusura: "bloccata"\` dalla scheda (o --forza, che resta scritto).`);
+    process.exit(1);
+  }
   d.stato = "chiuso";
   d.chiuso_il = nowPiacenza();
-  d.chiuso_come = come;
+  d.chiuso_come = blocco.bloccata ? `${come} [FORZATA su una dichiarazione umana: ${blocco.motivo}]` : come;
   ricalcolaMeta(cantiere);
   cantiere.aggiornato = nowPiacenza();
   writeJson(CANTIERE, cantiere);

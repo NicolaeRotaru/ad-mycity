@@ -1,16 +1,16 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-07-30 01:13",
+  "aggiornato": "2026-07-30 02:08",
   "giorni_sospetto": 3,
-  "difetti_aperti": 170,
+  "difetti_aperti": 151,
   "per_classe": {
-    "umana": 41,
+    "umana": 24,
     "auto-sospetta": 6,
     "auto-attesa": 115,
-    "auto-ok": 8
+    "auto-ok": 6
   },
-  "non_auto_chiudibili": 47,
+  "non_auto_chiudibili": 30,
   "bloccanti_ciechi": [],
   "voci": [
     {
@@ -201,15 +201,6 @@
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/keyword-owner-check.mjs ~ /estraiMandato|slice\\(0, ?idx\\)|keyword del mandato/)",
       "auto_chiudibile": true
-    },
-    {
-      "id": "AR-186",
-      "gravita": "grave",
-      "eta_giorni": 3,
-      "titolo": "Il manuale dell'AD e le schede dei senior si contraddicono su chi comanda cosa, e nessuno confronta i due elen",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
     },
     {
       "id": "AR-187",
@@ -446,15 +437,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-237",
-      "gravita": "grave",
-      "eta_giorni": 3,
-      "titolo": "Il Pannello scrive «aggiornato adesso» anche su dati di tre giorni fa",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-241",
       "gravita": "grave",
       "eta_giorni": 3,
@@ -498,15 +480,6 @@
       "classe": "auto-ok",
       "perche": "prova soddisfatta ora (pannello/src/app/page.tsx ~ /c.messaggi.some((m) => m.content.toLowerCase().includes(q))/): auto-fix lo chiuderà",
       "auto_chiudibile": true
-    },
-    {
-      "id": "AR-255",
-      "gravita": "grave",
-      "eta_giorni": 3,
-      "titolo": "Lo storico della salute è letto in due modi diversi: il grafico dell'andamento può restare vuoto mentre i dati",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
     },
     {
       "id": "AR-263",
@@ -743,15 +716,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-344",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il guardiano delle prove legge solo le prove vecchie: ogni prova migrata a comando risulta «nessun guardiano p",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-345",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -851,15 +815,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-353",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il guardiano delle prove stampa il bollino verde dopo non aver misurato niente",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-354",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -887,24 +842,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-357",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il voto di salute sale quando le aree peggiorano, perché le peggiori vengono buttate fuori dalla media",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-358",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "La pagella dei reparti dice zero previsioni per tutti e tredici mentre a registro ce ne sono quarantadue",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-359",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -930,15 +867,6 @@
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/tasso-lezioni.mjs ~ /scriviJsonAtomico/)",
       "auto_chiudibile": true
-    },
-    {
-      "id": "AR-362",
-      "gravita": "minore",
-      "eta_giorni": 1,
-      "titolo": "Le lezioni si contano in tre modi diversi in tre guardiani, e chi giudica la salute non ha una misura sua",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
     },
     {
       "id": "AR-363",
@@ -1022,15 +950,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-376",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il guardiano dei permessi trova tre buchi veri e non lo lancia nessuno",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-378",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -1085,15 +1004,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-389",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il piano del mattino dice sempre di essere andato bene, anche quando il motore non è mai partito",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-390",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -1121,15 +1031,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-393",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Lo strumento che verifica se le prove provano qualcosa non lo lancia nessuno",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-394",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -1152,15 +1053,6 @@
       "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Il controllo del ramo prima di pubblicare sta prima del riallineamento, non prima dell'invio",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (cervello/gate-pubblicazione.sh ~ /for \\(\\(i = 1[\\s\\S]*?ramo_ammesso[\\s\\S]*?git push/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-397",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il risultato di un lavoro si scrive una volta sola: se quella volta va storta, un'azione già partita torna in ",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -1175,15 +1067,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-399",
-      "gravita": "minore",
-      "eta_giorni": 1,
-      "titolo": "Quando il worker rimanda la pubblicazione della memoria, a riprenderla non c'è nessuno",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-400",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -1191,15 +1074,6 @@
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (pannello/src/app/page.tsx ~ /scritturaConfermata\\(/)",
       "auto_chiudibile": true
-    },
-    {
-      "id": "AR-401",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Se la rete cade, la home scrive «Nessun allarme. Tutto ok.»",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
     },
     {
       "id": "AR-402",
@@ -1236,15 +1110,6 @@
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (pannello/src/components/ParlaCasella.tsx ~ /idCasella/)",
       "auto_chiudibile": true
-    },
-    {
-      "id": "AR-406",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Quattro degli otto organi della macchina sono verdi per costante, anche a macchina spenta",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
     },
     {
       "id": "AR-407",
@@ -1346,15 +1211,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-419",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il numero con cui giudichiamo dove va lo sforzo è calcolato su una storia tagliata: dice com'è fatto il magazz",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-420",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -1391,15 +1247,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-424",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il contatore della spesa si azzera a mezzanotte e non dice mai di che giorno è: oggi il freno risponde «lascia",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-425",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -1409,24 +1256,6 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-426",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "La prova che chiude un difetto può far girare un programma fuori dalla cartella del cervello, mentre il commen",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (cervello/auto-fix.mjs ~ /cervello\\\\/\\[\\\\w\\./-\\]\\+/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-427",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Lo scanner dei segreti salta senza dirlo i file oltre i due mega, e il file che cresce ogni giro è già a metà ",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-428",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -1434,15 +1263,6 @@
       "classe": "auto-attesa",
       "perche": "prova non ancora soddisfatta (cervello/giro.sh ~ /apikey: \\$SUPABASE_SERVICE_KEY/)",
       "auto_chiudibile": true
-    },
-    {
-      "id": "AR-429",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "La guardia che impedisce di chiudere un difetto senza aver riparato niente è spenta in ogni sessione cloud, e ",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
     },
     {
       "id": "AR-431",
@@ -1535,7 +1355,16 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-444",
+      "id": "AR-445",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Importare un modulo del cervello ne ESEGUE il programma: chi lo prova si ritrova la memoria riscritta sotto i ",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-446",
       "gravita": "grave",
       "eta_giorni": 0,
       "titolo": "Tredici test scrivono nella memoria VERA della macchina, e uno tocca il registro dei fatti",

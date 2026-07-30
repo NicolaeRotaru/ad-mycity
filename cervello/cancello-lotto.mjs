@@ -27,6 +27,7 @@ import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
 import { storiaDelRepo } from "./storia-git.mjs";
+import { contaProveDeboli } from "./chiusura-dichiarata.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VELOCE = process.argv.includes("--veloce");
@@ -87,6 +88,31 @@ export function difettiToccati(cantiereOra, cantierePrima) {
  * è chiuso con l'altra metà ancora rotta e viva. È stata una chiusura falsa, scoperta per caso
  * trenta secondi dopo. Da qui in poi la scopre questo.
  */
+/**
+ * Due difetti DIVERSI con lo stesso id.
+ *
+ * Non è teoria: è successo il 30/7. Due sessioni aperte insieme hanno registrato un difetto nuovo
+ * ciascuna prendendo «il prossimo numero libero» dalla copia del cantiere che avevano in mano —
+ * `AR-444` per entrambe, uno «un difetto dichiarato aperto si richiude da solo» (chiuso), l'altro
+ * «tredici test scrivono nella memoria vera» (aperto). Git non lo vede: sono righe diverse dello
+ * stesso array, l'unione riesce senza conflitto.
+ *
+ * Il danno arriva dopo, ed è silenzioso: `auto-fix` cerca «il difetto AR-444» e ne trova due,
+ * `prove-condivise` conta un id che compare due volte, una chiusura ne chiude uno a caso. Tutto il
+ * cantiere è indicizzato per id — un id doppio non è un fastidio, è la rottura dell'indice.
+ */
+export function idDoppi(difetti = []) {
+  const conta = new Map();
+  for (const d of difetti) {
+    if (!d?.id) continue;
+    if (!conta.has(d.id)) conta.set(d.id, []);
+    conta.get(d.id).push(d.titolo || "(senza titolo)");
+  }
+  return [...conta.entries()]
+    .filter(([, titoli]) => titoli.length > 1)
+    .map(([id, titoli]) => ({ id, quanti: titoli.length, titoli }));
+}
+
 export function provaConOr(difetto) {
   const p = difetto?.verifica?.pattern;
   if (typeof p !== "string") return false;
@@ -377,6 +403,10 @@ function main() {
   const esiste = (f) => existsSync(join(AD_ROOT, f));
 
   // ① Le regole sulle prove (istantanee, nessun processo).
+  // L'id doppio viene per primo: se l'indice del cantiere è rotto, ogni controllo che segue sta
+  // contando su una chiave che non identifica più niente. E non ha tetto — non è debito ereditato,
+  // è una collisione fra due sessioni, e o c'è o non c'è.
+  const doppi = idDoppi(difetti);
   const conOr = aperti.filter(provaConOr).map((d) => d.id);
   const condivise = proveCondiviseCieche(aperti, leggi);
   const orfane = proveOrfane(aperti, esiste);
@@ -426,6 +456,14 @@ function main() {
   const violazioniProve = [];
   const avvisi = [];
 
+  for (const d of doppi) {
+    violazioniProve.push({
+      regola: "id-doppio",
+      ids: [d.id],
+      motivo: `${d.quanti} difetti diversi con l'id ${d.id} — «${d.titoli.map((t) => t.slice(0, 45)).join("» / «")}». Il cantiere è indicizzato per id: rinumera quello arrivato dopo prima di consegnare.`,
+    });
+  }
+
   // `prova-con-or`: il debito storico ha un tetto, le prove del LOTTO no.
   const tettoOr = tetti.prova_con_or ?? 0;
   const orNelLotto = toccati ? conOr.filter((id) => toccati.includes(id)) : [];
@@ -446,6 +484,24 @@ function main() {
     avvisi.push(`prove a OR scese da ${tettoOr} a ${conOr.length}: abbassa il tetto con --aggiorna-tetti`);
   } else if (conOr.length) {
     avvisi.push(`${conOr.length} prove a OR ereditate (sotto il tetto): ${conOr.slice(0, 8).join(", ")}${conOr.length > 8 ? "…" : ""}`);
+  }
+
+  // `prova-debole`: le schede APERTE che portano ancora una prova a pattern (AR-444, clausola c).
+  // Non le vietiamo — 127 su 151 il 30/7, vietarle congelerebbe l'84% del cantiere e un cancello
+  // sempre rosso viene aggirato al secondo giro. Le CONTIAMO, sotto un tetto che scende e non
+  // risale: così il debito è un numero che si vede, invece di una forma che si propaga in silenzio.
+  const deboli = contaProveDeboli(difetti);
+  const tettoDeboli = tetti.prova_debole ?? deboli.deboli;
+  if (deboli.deboli > tettoDeboli) {
+    violazioniProve.push({
+      regola: "prova-debole-oltre-il-tetto",
+      ids: deboli.ids.slice(0, 10),
+      motivo: `${deboli.deboli} schede aperte con prova a pattern contro un tetto di ${tettoDeboli}: la forma debole si è allargata`,
+    });
+  } else if (deboli.deboli < tettoDeboli) {
+    avvisi.push(`prove deboli scese da ${tettoDeboli} a ${deboli.deboli}: abbassa il tetto con --aggiorna-tetti`);
+  } else {
+    avvisi.push(`${deboli.deboli} schede aperte su ${deboli.aperti} portano ancora una prova a pattern (sotto il tetto)`);
   }
   // `mutazione-mancante`: stesso trattamento. Il debito ereditato ha un tetto che scende; un difetto
   // che il lotto tocca ADESSO senza la sua mutazione non si consegna, punto — anche sotto il tetto.

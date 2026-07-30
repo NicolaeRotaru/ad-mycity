@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-07-30 01:50",
+ "aggiornato": "2026-07-30 02:15",
  "mutanti": [
   {
    "lotto": 30,
@@ -634,6 +634,24 @@
    "test": "cervello/test/verde-senza-aver-misurato.test.mjs"
   },
   {
+   "lotto": 36,
+   "difetto": "AR-444",
+   "nome": "un difetto dichiarato aperto da un umano torna a richiudersi da solo",
+   "file": "cervello/chiusura-dichiarata.mjs",
+   "cerca": "  if (b.bloccata) {\n    return { chiude: false, debole: false, bloccata: true, motivo: `dichiarato aperto da un umano — ${b.motivo}` };\n  }",
+   "sostituisci": "  if (false) {\n    return { chiude: false, debole: false, bloccata: true, motivo: `dichiarato aperto da un umano — ${b.motivo}` };\n  }",
+   "test": "cervello/test/dichiarato-aperto-si-richiude.test.mjs"
+  },
+  {
+   "lotto": 36,
+   "difetto": "AR-344",
+   "nome": "la prova migliore torna a contarsi come assente",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "  const forma = formaProva(v);\n  if (forma === \"comando\") {",
+   "sostituisci": "  const forma = !v || !v.file || !v.pattern ? \"nessuna\" : \"pattern\";\n  if (forma === \"comando\") {",
+   "test": "cervello/test/prova-migliore-contata-come-assente.test.mjs"
+  },
+  {
    "lezione": "L-2026-0720-413",
    "nome": "il guardiano della fonte unica torna cieco sul codice del Pannello",
    "file": "cervello/coerenza-fatti.mjs",
@@ -664,6 +682,14 @@
    "cerca": "const misto = delDiario.length > 0 && codice.length > 0;",
    "sostituisci": "const misto = delDiario.length > 0;",
    "test": "cervello/test/ramo-che-porta-il-diario.test.mjs"
+  },
+  {
+   "difetto": "AR-447",
+   "nome": "il cancello smette di vedere due difetti con lo stesso numero",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": ".filter(([, titoli]) => titoli.length > 1)",
+   "sostituisci": ".filter(() => false)",
+   "test": "cervello/test/due-difetti-uno-solo-numero.test.mjs"
   }
  ]
 }

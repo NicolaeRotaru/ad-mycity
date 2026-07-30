@@ -35,8 +35,18 @@
 // Env: CANTIERE_PROVE_GIORNI (default 3) = da quanti giorni una prova non soddisfatta diventa sospetta.
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { pathToFileURL } from "node:url";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { formaProva } from "./chiusura-dichiarata.mjs";
+import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
+import { fileDelComando } from "./cancello-lotto.mjs";
+
+// ⚠️ Un modulo che ESEGUE il suo CLI al solo essere importato non e' testabile: chi lo importa per
+// provarne una funzione si ritrova il guardiano intero girato e un file di memoria riscritto sotto i
+// piedi. Successo due volte in due giorni — sonda-volano.mjs (lotto 35) e questo — quindi non e' un
+// inciampo, e' una forma. Da qui in giu' gli effetti stanno dietro questa guardia.
+const E_CLI = import.meta.url === pathToFileURL(process.argv[1] || "").href;
 
 const DRY = process.argv.includes("--dry");
 const JSON_MODE = process.argv.includes("--json");
@@ -94,12 +104,42 @@ function provaCombacia(v) {
   return { combacia: trovato === vuolePresente, fileAssente: false };
 }
 
-function classifica(d) {
+export function classifica(d) {
   const v = d.verifica;
   const eta = giorniDa(d.nato);
   const base = { id: d.id, gravita: d.gravita, eta_giorni: eta, titolo: (d.titolo || "").slice(0, 110) };
 
-  if (!v || !v.file || !v.pattern) {
+  // AR-344 — la forma di una prova la legge UN solo modulo (chiusura-dichiarata.mjs), non due lettori
+  // indipendenti. Prima qui c'era `if (!v || !v.file || !v.pattern)`: tutto ciò che non fosse
+  // file+pattern cadeva in «umana». Quando lo standard è passato a {comando}, chi CHIUDE ha imparato
+  // la forma nuova e chi CLASSIFICA no — così ogni prova migrata alla forma MIGLIORE si contava come
+  // «nessun guardiano potrà mai chiuderlo». Effetto perverso: più si riparava secondo lo standard,
+  // più la macchina dichiarava di non potersi chiudere da sola. La cura non è insegnare la forma
+  // anche al secondo lettore: è che il lettore sia uno solo.
+  const forma = formaProva(v);
+  if (forma === "comando") {
+    if (!comandoAmmesso(v.comando)) {
+      return {
+        ...base,
+        classe: "auto-sospetta",
+        perche: `comando di prova non ammesso: ${v.comando} — ${MOTIVO_COMANDO_NON_AMMESSO}`,
+        auto_chiudibile: false,
+      };
+    }
+    // Un comando che punta a un file inesistente non è una prova: è «non fatto» travestito da
+    // «puntatore rotto», e i due si distinguono solo guardando.
+    const file = fileDelComando(v.comando);
+    if (file && !existsSync(join(AD_ROOT, file))) {
+      return {
+        ...base,
+        classe: "auto-sospetta",
+        perche: `la prova punta a un file che non esiste: ${file}`,
+        auto_chiudibile: false,
+      };
+    }
+    return { ...base, classe: "auto-comando", perche: `prova eseguibile: ${v.comando}`, auto_chiudibile: true };
+  }
+  if (forma !== "pattern") {
     return {
       ...base,
       classe: "umana",
@@ -169,7 +209,7 @@ const report = {
   voci,
 };
 
-if (!DRY) writeFileSync(OUT_PATH, `${JSON.stringify(report, null, 2)}\n`, "utf8");
+if (!DRY && E_CLI) writeFileSync(OUT_PATH, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 
 if (JSON_MODE) {
   console.log(JSON.stringify(report, null, 2));
@@ -196,11 +236,13 @@ if (JSON_MODE) {
   if (!DRY) console.log(`   report: ${OUT_PATH.replace(`${AD_ROOT}/`, "")}\n`);
 }
 
-await stampSegnale(
+if (E_CLI) await stampSegnale(
   "cantiere-prove",
   bloccantiCiechi.length ? "attenzione" : "ok",
   `${nonChiudibili.length}/${aperti.length} non auto-chiudibili · ${bloccantiCiechi.length} bloccanti ciechi`,
 ).catch(() => {});
 
-if (GATE && bloccantiCiechi.length) process.exit(1);
-process.exit(0);
+if (E_CLI) {
+  if (GATE && bloccantiCiechi.length) process.exit(1);
+  process.exit(0);
+}

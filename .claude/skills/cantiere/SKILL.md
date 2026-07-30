@@ -146,7 +146,9 @@ l'uscita resta `2` verso la CI (dove blocca come prima). I due ⚪ che vedrai da
 `prove-oneste` (clone superficiale) e `typecheck` (`npm ci --prefix pannello` non ancora fatto) —
 non sono tuoi, dichiarali e vai avanti.
 
-Il ciclo costa **~32 s** (era 65): i 103 test del cervello girano a corsie. Se un test tocca la
+Il ciclo costa **~32 s** (era 65): i 103 test del cervello girano in parallelo, quattro processi
+insieme (da non confondere con le *corsie* di più in basso, che sono agenti su malattie diverse:
+qui si parla solo di processi di test). Se un test tocca la
 memoria vera gira in fila da solo, riconosciuto dal contenuto e non da un elenco — e quello è un
 difetto aperto, AR-444: la cura è iniettargli il percorso. Per un giro stretto mentre lavori:
 `node cervello/test-cervello.mjs --solo <pezzo-del-nome>`.
@@ -168,6 +170,51 @@ verifica `git config core.hooksPath` — AR-343.)
 Sul debito ereditato il cancello non blocca ma **misura**: i tetti in `cervello/tetti-lotto.json`
 scendono (`--aggiorna-tetti`) e non si alzano mai. Ciò che il lotto tocca **adesso** passa dal blocco
 duro, anche sotto il tetto — un cancello sempre rosso viene aggirato al secondo giro.
+
+## ⑦bis Il SECONDO GIRO — il cancello verde non è la fine
+
+> Nato il 30/7 da Nicola, dopo che una rilettura su sua richiesta ha trovato due buchi in un lotto
+> già consegnato col cancello a exit 0: *«devi ricontrollare tantissime volte il lavoro che hai
+> fatto.»*
+
+**Un metro che non misura una strada non la dichiara scoperta: dice verde.** Quella notte il cancello
+era verde mentre la porta a mano (`auto-fix chiudi --id=`) chiudeva difetti che la porta automatica
+rifiutava. Nessun guardiano copriva quella strada, quindi nessuno mentiva — semplicemente lì non
+guardava nessuno. **Il verde è l'inizio del secondo giro, non la fine del lavoro.**
+
+Il secondo giro si fa **ad albero fermo**, sul **diff intero** (`git diff origin/main...HEAD`), non
+sui file che ti ricordi di aver toccato — la memoria del lotto è la cosa meno affidabile che hai. E
+si fa con queste cinque domande, in quest'ordine. Sono le cinque che hanno trovato qualcosa.
+
+1. **Ogni strada che arriva all'atto passa dal freno?** Non quella che hai riparato: *tutte*. Cerca
+   l'atto, non il tuo fix — `grep -n 'stato = "chiuso"'`, e per ogni occorrenza chiediti se il freno
+   c'è. È AR-172, ed è tornato il 30/7 nello stesso lotto che lo citava.
+2. **Ciò che ho AFFERMATO nel commit e nella PR è vero?** Riga per riga, ognuna con un comando. Il
+   30/7 la PR diceva «lettore unico condiviso con auto-fix» e auto-fix aveva ancora la sua copia
+   della decisione: la frase era falsa quando l'ho scritta. Un'affermazione non verificata è un
+   numero senza fonte.
+3. **La guardia che ho scritto FRENA davvero?** **Forzala a fallire** — abbassa il tetto, sporca il
+   dato, togli il campo — e pretendi il rosso. Un tetto mai superato è indistinguibile da un tetto
+   scollegato, ed entrambi stampano verde.
+4. **Il codice che ho aggiunto è USATO?** `grep -c` del simbolo importato: se compare una volta sola
+   è l'import, e il resto è morto. Un modulo importato e mai chiamato somiglia moltissimo a una
+   difesa attiva.
+5. **I difetti nuovi che ho trovato sono REGISTRATI?** Nel cantiere — non in chat, non nel rapporto
+   di una corsia, non nella mia testa. Il 30/7 uno è rimasto fuori per un giorno intero ed è tornato
+   a mordere in un altro modulo. Chiedilo al file, non al ricordo:
+   `node -e "…difetti.filter(d => /parola/.test(d.titolo))"`.
+
+**Quando fermarsi:** quando un giro intero non trova **niente da guardare**. Se un giro trova
+qualcosa, il giro dopo non è facoltativo — chi ha appena sbagliato ha appena dimostrato di poter
+sbagliare ancora. Il 30/7: il secondo giro ha trovato tre cose vere, il terzo ne ha trovate due da
+investigare che si sono rivelate innocue (uno script one-shot mai lanciato, e un modulo che scrive su
+una lista diversa). **«Innocuo» è un esito del giro, non un motivo per non farlo** — e la ragione per
+cui era innocuo va scritta nella nota del difetto, o il giro dopo qualcuno la ri-deriva da capo.
+
+**E la parte scomoda:** questa sezione è una regola *scritta*, cioè la forma più debole che esiste —
+vale solo se qualcuno la legge. Ogni volta che una di queste cinque domande trova qualcosa **due
+volte**, quella domanda ha smesso di essere una domanda e va promossa a guardiano con un tetto: è la
+differenza fra ricordarsi di controllare e non poter più sbagliare.
 
 ## ⑧ Come si consegna
 
@@ -208,6 +255,59 @@ Non è un problema: il lavoro è già a pezzi che stanno in piedi da soli. Commi
 prova (mai un fix senza) e riparti dalla misura delle malattie, che rilegge lo stato dal cantiere e
 non dalla memoria della sessione. Quello che NON si spezza a metà è il singolo difetto: fix + prova +
 mutazione vanno insieme, o resta aperto.
+
+## Molti difetti insieme: le CORSIE parallele
+
+> Nato il 29/7 da Nicola: *«è essenziale che tu riesca a risolvere il maggior numero di difetti
+> insieme.»* Il lotto 35 ha curato quattro malattie in parallelo. Funziona, e queste sono le regole
+> che l'hanno fatto funzionare — ognuna pagata sul campo quella notte.
+
+**L'unità parallela è la MALATTIA, non il difetto.** N agenti su N difetti si pestano sugli stessi
+file e producono una PR illeggibile. N agenti su N *malattie* con **territori di file disgiunti**
+lavorano senza toccarsi. Tre-cinque corsie è la misura giusta: sopra, si perde più nella ricucitura
+di quanto si guadagni. A ogni corsia si dà il territorio **e il divieto di uscirne**: se il fix
+richiede un file altrui, la corsia si ferma su quel difetto e lo segnala invece di editarlo.
+
+**E vale fra SESSIONI, non solo fra corsie.** Il 30/7, due sessioni aperte insieme hanno registrato
+un difetto nuovo ciascuna prendendo lo stesso numero libero: due `AR-444` diversi, uno chiuso e uno
+aperto. Git non se ne accorge — sono righe diverse dello stesso array, l'unione riesce — e il
+cantiere si sarebbe ritrovato con un id doppio, cioè con `auto-fix` e le prove condivise che non
+sanno più di quale difetto parlano. **Prima di prendere un id nuovo, leggilo da `origin/main`
+aggiornato, non dalla copia che hai in mano**; il cancello adesso lo controlla (`id-doppio`), ma il
+controllo scatta alla consegna e a quel punto il numero l'hai già scritto in venti posti.
+
+**I registri condivisi NON si danno alle corsie.** `mutanti.json` · `cantiere-difetti.json` ·
+`malattie.json` · `tetti-lotto.json`: quattro corsie che ci scrivono insieme è AR-331 moltiplicato
+per quattro. Ogni corsia consegna un **frammento JSON** in una cartella di lavoro
+(`{difetti:[{id, verifica_comando, nota_fix, mutante:{file,cerca,sostituisci}, non_vacuita}], …}`) e
+l'AD ricuce. Stessa cosa per git: **nessuna corsia committa**. Un commit per corsia, li fa l'AD.
+
+**Una corsia non può misurare il cancello.** È la trappola meno ovvia e la più costosa: una corsia
+che lancia `cancello-lotto.mjs` mentre le altre scrivono legge rossi che non sono suoi, e te li
+riporta come «debito preesistente». **Il cancello si lancia solo ad albero fermo**, dall'AD, quando
+tutte le corsie sono rientrate. Se un rosso ti viene riferito come preesistente, **verificalo**: un
+worktree sul commit di partenza (`git worktree add <dir> HEAD`) dice in trenta secondi se quel test
+era verde prima. Il 29/7 erano verdi tutti e tre.
+
+**Prima di consegnare, `main` si è mosso.** Un lotto lungo finisce contro un ramo che nel frattempo
+ha chiuso altri difetti negli stessi registri. Il conflitto va risolto prendendo **`main` come base**
+e riapplicando sopra solo le proprie colonne — `verifica` e `nota_fix`, **mai lo `stato`**. La
+risoluzione comoda (tenere il proprio lato) **annulla in silenzio le chiusure altrui**: il 29/7
+sarebbero state trenta. Su `mutanti.json`: **unione**, non scelta. E controlla la sovrapposizione fra
+i tuoi difetti e quelli chiusi da `main` — due dei candidati del lotto 35 erano già chiusi lì, e solo
+la regola ② (verifica sul codice vero) ha evitato di ripararli due volte.
+
+**Dopo il merge, le chiusure si rileggono UNA PER UNA.** `auto-fix.mjs verifica --applica` guarda la
+prova presente sulla scheda, non la volontà di chi ha lavorato il difetto: un difetto che hai
+dichiarato **aperto** si richiude da solo se sulla scheda è rimasta la vecchia prova a pattern (il
+codice ora la contiene, quindi il pattern si trova). Il 29/7 il conteggio diceva «✅ Chiusi 20» ed
+era verde: uno dei venti non doveva esserci. **Quindi: a ogni difetto che dichiari aperto, TOGLI la
+`verifica` a pattern** — o si richiuderà da solo, smentendo ciò su cui Nicola ha messo la firma.
+(Causa di sistema: AR-444.)
+
+**Il collo di bottiglia non sono le corsie, sono i merge.** Aggiungere corsie non accorcia il lotto
+oltre un certo punto; quello che lo accorcia è consegnare presto e in pezzi che stanno in piedi da
+soli. Dieci lotti pronti e non mergiati valgono meno di tre mergiati.
 
 ## La porta d'ingresso è misurata
 
