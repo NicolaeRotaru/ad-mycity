@@ -548,6 +548,11 @@ function main() {
     // comandi da ricordare erano cinque occasioni di dimenticarne uno. Guarda solo le righe aggiunte,
     // quindi non porta debito storico dentro il cancello — nessun tetto da dichiarare.
     passi.push(esegui("sorvegliante del delta", "node", ["cervello/sorvegliante.mjs"]));
+    // AR-459 — un difetto nuovo deve dire COME è nato, altrimenti «l'ho creato io» e «l'ho appena
+    // scoperto» restano indistinguibili e la domanda di Nicola («i fix stanno creando più problemi
+    // di quanti ne chiudono?») non ha una risposta numerica. Sta nel cancello e non in un comando a
+    // parte perché il momento in cui si compila è la consegna del lotto, non il mattino dopo.
+    passi.push(esegui("nascita dei difetti", "node", ["cervello/nascita-difetti.mjs"]));
     passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));
 
     // AR-393 — LA PROVA CHE LE PROVE PROVINO, ESEGUITA INVECE CHE NOMINATA.

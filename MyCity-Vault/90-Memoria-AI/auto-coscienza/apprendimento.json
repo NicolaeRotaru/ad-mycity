@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-30 13:40",
+  "aggiornato": "2026-07-30 15:20",
   "lezioni": [
     {
       "id": "L-2026-0730-01",
@@ -10596,6 +10596,34 @@
       "gate": "node cervello/test/sorvegliante.test.mjs",
       "gate_attivo": true,
       "gate_nota": "Freno suo, non riciclato: 20 prove comportamentali + 5 mutazioni in mutanti.json (tutte rendono rosso il loro test) + il pre-commit provato a runtime (un commit con una malattia nuova e stato bloccato davvero). Agganciato a cancello-lotto.mjs e a .githooks/pre-commit. Il pezzo in TEMPO REALE (hook PostToolUse) e debito dichiarato: AR-455, serve una riga in .claude/settings.json che la macchina non puo scriversi da se."
+    },
+    {
+      "id": "L-2026-0730-532",
+      "testo": "**Una lamentela che non diventa un numero resta un'impressione, e il misuratore resta Nicola (30/7, chiudendo AR-459).** «Risolvendo i difetti ne crei di piu grossi» ha una risposta contabile — quanti difetti nascono da un mio fix — e quel numero non esisteva: il cantiere aveva `origine`, prosa libera che dice DOVE e stato trovato, preziosa da leggere e impossibile da contare. **La regola:** ogni difetto nuovo dichiara `nato_come` (scoperta · regressione · nuovo-lavoro) e, se regressione, `nato_da` — chi l'ha causata. E `nato_da` vale anche sulle scoperte: un difetto trovato *verificando un fix precedente* non e una regressione (il guasto c'era gia) ma e l'altra meta del costo di riparare, ed e il modo in cui il conto dei chiusi mente. Due numeri, due cure: la regressione si previene con un freno sul delta, la riparazione lasciata a meta con un metro scritto PRIMA del fix. **E la regola sotto la regola, che ho quasi violato costruendo il metro stesso:** una percentuale calcolata sulla sola meta che si e riusciti a classificare non e una misura, e una buona notizia falsa. Qui le 224 schede riempite in automatico venivano dalle radiografie — strumenti che per mestiere trovano e non rompono — mentre le 161 rimaste sono nate DENTRO i lotti di riparazione, cioe dove una regressione si nasconde. Il primo 1% e un pavimento con un bias noto, e il guardiano lo dichiara da solo finche il debito supera il 20%. Un metro che tace il proprio bias e «un buco travestito da buona notizia»: la malattia censita, commessa dal metro. **Terza cosa, sul nome dei campi:** nello stesso lavoro avevo introdotto `fonte` dove la macchina usa `origine` — due case per una conoscenza sola, la malattia che AR-102 cura sui fatti. Prima di aggiungere un campo, grep di come si chiama quello che fa gia quel mestiere.",
+      "tag": [
+        "misura",
+        "correzione-nicola",
+        "cantiere",
+        "regressione",
+        "onesta-del-metro"
+      ],
+      "reparto": "AD",
+      "confidenza": 0.95,
+      "evidenze": [
+        "prima misura: 239 nascite dichiarate, 2 regressioni (AR-338 da AR-334, AR-445 dal lotto 35), 3 scoperte trovate verificando un fix precedente, 161 ancora da dichiarare",
+        "AR-445, prosa dell'origine: «se lo e' inflitto da sola riparando»",
+        "AR-338: «provando su un albero finto il fix di AR-334 appena mergiato, invece di rileggerlo»",
+        "12 difetti scritti da me il 30/7 usavano `fonte` invece di `origine`: unificati",
+        "AR-462 registrato per il bias residuo invece di lasciarlo implicito nel numero"
+      ],
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-30 15:20",
+      "ultima_conferma": "2026-07-30 15:20",
+      "stato": "attiva",
+      "gate": "node cervello/test/nascita-difetti.test.mjs",
+      "gate_attivo": true,
+      "gate_nota": "Freno suo: 10 prove comportamentali su cantieri finti + 4 mutazioni (tutte rendono rosso il loro test), agganciato a cancello-lotto.mjs come passo «nascita dei difetti». Il tetto per NOME in cervello/nascita-baseline.json: un ID nuovo senza nascita fallisce anche se il conteggio non sale."
     }
   ],
   "principi": [
