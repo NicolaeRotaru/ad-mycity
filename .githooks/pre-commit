@@ -188,4 +188,39 @@ if git diff --cached --name-only --diff-filter=ACM | grep -q "auto-coscienza/can
   fi
 fi
 
+# ─────────────────────────────────────────────────────────────────────────────
+# 5) 👁️ SORVEGLIANTE DEL DELTA (30/7) — quello che sto AGGIUNGENDO non deve introdurre un difetto.
+#
+#    Nato da Nicola: «ogni volta che ti chiedo di ricontrollare il lavoro trovi problemi che tu stesso
+#    hai creato risolvendo i difetti». I quattro cancelli qui sopra guardano tre classi (sintassi,
+#    perimetro di main, segreti) più le prove del cantiere: nessuno guarda se le righe nuove
+#    reintroducono una malattia già censita, accecano la mutazione che proteggeva un fix vecchio, o
+#    dichiarano un freno che non esiste.
+#
+#    Guarda SOLO le righe aggiunte, quindi parte verde per costruzione e non porta debito storico:
+#    l'unica cosa che può farlo diventare rosso è una regressione introdotta adesso. È la taratura di
+#    stampo-metro.mjs — un cancello che parte rosso su mezzo repo viene disattivato entro la settimana.
+#
+#    Fail-closed solo se node c'è, come lo scan-segreti: un cancello che si spegne quando manca uno
+#    strumento non è un cancello, ma non posso pretendere node su ogni macchina che committa.
+if command -v node >/dev/null 2>&1 && [ -f "$ROOT/cervello/sorvegliante.mjs" ]; then
+  _sv="$(node "$ROOT/cervello/sorvegliante.mjs" --staged 2>&1)"
+  _sv_code=$?
+  # exit 1 = una voce grave nel delta → blocca. exit 2 = cieco (registri illeggibili) → si DICHIARA e
+  # si passa: bloccare su una misura che non c'è stata insegnerebbe ad aggirare il cancello per un
+  # motivo che non è un difetto. exit 0 = nulla di grave.
+  if [ "$_sv_code" = "1" ]; then
+    echo "" >&2
+    echo "⛔ COMMIT BLOCCATO — le righe che stai aggiungendo introducono un difetto noto:" >&2
+    echo "" >&2
+    printf '%s\n' "$_sv" | grep -A3 "^❌" | head -24 >&2
+    echo "" >&2
+    echo "→ Non è debito ereditato: è il delta di questo commit. Curalo, o dichiaralo esente col PERCHÉ" >&2
+    echo "  (cervello/malattie.json · cervello/mutanti.json). Bypass consapevole: git commit --no-verify." >&2
+    exit 1
+  elif [ "$_sv_code" = "2" ]; then
+    echo "⚪ sorvegliante: non ho potuto misurare il delta (cieco, non verde)." >&2
+  fi
+fi
+
 exit 0

@@ -57,7 +57,10 @@ const SALTA_SEMPRE = ["cervello/test/", "cervello/malattie.json", "cervello/spaz
  * avevo appena tolte due — i «quattro in più» erano i miei commenti e le asserzioni del test. È lo
  * stesso errore che questo cantiere ha già pagato nel lotto 3: scambiare una MENZIONE per una CHIAMATA.
  */
-function senzaCommenti(testo, file = "") {
+// Esportata (30/7) perché `cervello/sorvegliante.mjs` deve applicare la STESSA regola sulle righe di
+// un diff: due copie della conoscenza «cos'è un commento» divergerebbero, e la prima divergenza
+// sarebbe un guardiano che conta le spiegazioni come malattie mentre l'altro no.
+export function senzaCommenti(testo, file = "") {
   // Il taglio di fine riga vale SOLO per JS/TS. In shell `//` non è un commento: è l'operatore
   // «altrimenti» di jq — proprio quello di `.oggi.token_per_gate // "assente"`. Applicandolo anche lì
   // il conteggio di `buco-letto-come-zero` è crollato a 0: un metro che conta in MENO è brutto quanto

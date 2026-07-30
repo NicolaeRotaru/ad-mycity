@@ -543,6 +543,11 @@ function main() {
     passi.push(esegui("forma dei JSON toccati", "node", ["cervello/forma-json.mjs"]));
     passi.push(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]));
     passi.push(esegui("spazzata dei fratelli", "node", ["cervello/spazzata-fratelli.mjs"]));
+    // La guardia sul DELTA di questo lotto (30/7, Nicola: «trovi problemi che tu stesso hai creato»).
+    // Sta qui e non in un comando a parte per la stessa ragione per cui questo cancello esiste: cinque
+    // comandi da ricordare erano cinque occasioni di dimenticarne uno. Guarda solo le righe aggiunte,
+    // quindi non porta debito storico dentro il cancello — nessun tetto da dichiarare.
+    passi.push(esegui("sorvegliante del delta", "node", ["cervello/sorvegliante.mjs"]));
     passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));
 
     // AR-393 — LA PROVA CHE LE PROVE PROVINO, ESEGUITA INVECE CHE NOMINATA.
