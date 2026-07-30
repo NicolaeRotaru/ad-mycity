@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-30 16:45",
+  "aggiornato": "2026-07-30 17:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -7912,10 +7912,24 @@
       "verifica": {
         "comando": "node cervello/test/misura-cieca.test.mjs"
       }
+    },
+    {
+      "id": "AR-464",
+      "stato": "aperto",
+      "gravita": "minore",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-30 17:10",
+      "nato_come": "scoperta",
+      "origine": "sei volte in una sessione: ogni verifica lanciata per controllare il proprio lavoro lasciava due file sporchi, e due volte sono finiti dentro un commit",
+      "titolo": "Lanciare un guardiano per VERIFICARE sporca l'albero: verificare costa un diff, e l'incentivo diventa non verificare",
+      "causa_radice": "① `coerenza-fatti.mjs` e `stampo-check.mjs` riscrivono il proprio file di stato a OGNI esecuzione, anche quando il contenuto sostanziale non e cambiato: l'unica riga diversa e `data`/`aggiornato`. ② Chi li lancia per controllare il proprio lavoro — cioe esattamente il comportamento che questo cantiere sta cercando di rendere abituale — si ritrova due file modificati che non sono lavoro suo. Il 30/7 e successo sei volte in una sessione, e DUE volte quei file sono entrati in un commit e sono stati tolti con un amend. ③ Perche conta piu di quanto sembri: l'incentivo che crea e «non lanciare il guardiano se non devi», cioe il contrario di quello che serve. Un controllo che costa un diff si smette di fare, e un controllo che si smette di fare e spento. ④ E la stessa forma di un difetto gia visto: un'operazione dichiarata di sola lettura che invece scrive (AR-445, importare un modulo ne esegue il programma). Qui non e un import: e il guardiano stesso.",
+      "fix_proposto": "🟡 Un flag `--sola-lettura` (o la variabile che gia usano gli altri) che fa calcolare e stampare il verdetto SENZA riscrivere il file di stato, usato da chi verifica: cancello-lotto, le sessioni, le prove. Il worker continua a scrivere, perche li il timestamp e il dato. In alternativa peggiore ma piu semplice: scrivere solo se il contenuto sostanziale cambia (allora pero `data` smette di voler dire «ultima esecuzione» e serve un secondo campo). Prova: lanciare il guardiano due volte di fila con --sola-lettura deve lasciare `git status` vuoto."
     }
   ],
   "meta": {
-    "aperti": 162,
+    "aperti": 163,
     "in_corso": 0,
     "chiusi": 239
   }
