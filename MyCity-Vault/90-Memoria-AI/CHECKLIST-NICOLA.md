@@ -2,71 +2,67 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-07-27 06:20
+aggiornato: 2026-07-30 06:30
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata dal giro 26/7 06:23, ricontrollata 27/7 06:20 (2 numeri corretti: countdown PI26, stallo North Star). Business ancora
-> **invariato**: 1 ordine totale (annullato, 24/6), 0 pagati, verificato ora via query diretta.
+> Rigenerata dopo 3 giorni ferma (era al 27/7 06:20 — violava la regola dei 2 giorni, AR-030) e ripulita
+> di tre voci non più vere: il bando **PI26 non è più urgente** (tu l'hai già dichiarato non idoneo il
+> 29/7 ~00:10 — nessuna domanda da inviare, non serve più rispondere a nulla su questo) e il giro sul VPS
+> **non è più fermo** (ha ripreso da solo stamattina). Business ancora **invariato**: 1 ordine totale
+> (annullato, 24/6), 0 pagati, stallo **36 giorni**.
 
 ---
 
-## 🔴 URGENTE — 2 decisioni con l'orologio che corre
+## 🔴 URGENTE — le due cose che sbloccano tutto il resto
 
-- [ ] 🔴 **Rispondi alle 3 domande sul bando PI26 (10.000€, scadenza 30/7 ore 16:00 — countdown vivo: node cervello/scadenzario-check.mjs)** — un valutatore indipendente ha bocciato la bozza attuale come «da sistemare»: ① abbiamo Partita IVA/entità giuridica registrata? ② abbiamo spese reali documentabili (fatture/preventivi) che coprano la soglia minima richiesta (5.000€ dal 1° maggio — il nostro burn da maggio è solo ~850€, molto sotto)? ③ abbiamo firma digitale attiva? Sportello a esaurimento: se la domanda risulta inammissibile dopo l'invio non si può correggere.
-  → Card: `#pi26-conferma-ammissibilita`
+- [ ] 🟡 **Una parola sola: l'ordine di prova da Pane Quotidiano resta "dentro" la pausa fino a settembre, o lo fai "fuori" adesso?** È l'unica cosa che manca per rompere lo stallo di 36 giorni sul primo ordine pagato — costa 3-5€ di pane, due minuti dal telefono. Ferma in coda da 2 giorni.
+  → Card: `#ordine-test-dentro-o-fuori-dalla-pausa`
 
-- [ ] 🟡 **Conferma se il piano squadra (fratello + 2 amici non pagati) con nuova data metà agosto sostituisce la pausa negozi decisa il 23/7 (24/8-1/9)** — l'hai descritto in chat 26/7 ~01:10 («si parte appena riparo la bici e stampo i volantini») ma è una data diversa da quella già registrata come ufficiale. Senza il tuo ok non riscrivo il fatto in memoria.
-  → Card: `#conferma-piano-squadra-ripresa-negozi`
+- [ ] 🔴 **Apri il Pannello in una finestra in incognito, senza login, e dimmi cosa vedi (30 secondi).** Se si apre senza chiederti nulla, c'è una falla di sicurezza vera (chiunque conosca l'indirizzo potrebbe dare ordini alla macchina) e va chiusa subito. Se ti chiede l'accesso, Vercel ti sta già proteggendo e non c'è nulla da fare.
+  → Card: `#radiografia-serratura-pannello`
 
 ---
 
 ## 🟡 MERGE PR in attesa (solo click "Approva" — nessun rischio per il sito)
 
-- [ ] 🔴 Mergia PR #556 — causa vera dei doppioni "Nuova chat" (race di creazione, chiude alla radice un bug segnalato 6 volte)
-- [ ] 🔴 Mergia PR #553
-- [ ] 🔴 Mergia PR #552
-- [ ] 🔴 Mergia PR #551
-  → Righe #243–#246 in [[AZIONI-IN-ATTESA]]. Se qualcuna risulta già mergiata quando la apri, è normale: fai comunque un giro di verifica, la coda non si auto-pulisce sui merge fatti da GitHub direttamente.
+- [ ] 🔴 Mergia **PR #633** — il menu Memoria del Pannello (4 passi che hai già confermato ieri notte), sostituisce la #632 rotta dal solito bug del rebase
+- [ ] 🔴 Chiudi **PR #632** *senza* mergiarla — è superata dalla #633, il suo contenuto è già tutto dentro
+- [ ] 🔴 Mergia **PR #634**
+- [ ] 🔴 Mergia **PR #635**
+- [ ] 🟡 Chiudi **PR #422** su GitHub (vecchia, con conflitti — non serve più)
+  → Righe #4–#6 nella tabella + card `#chiudi-pr-422` in [[AZIONI-IN-ATTESA]].
 
-> ⚠️ Ci sono anche ~11 righe di merge PR più vecchie (13–20/7, #126–#212) rimaste "in attesa" nella coda: quasi certamente già mergiate nella realtà (il codice è andato molto avanti da allora) ma mai segnate FATTO. Non serve che tu le riguardi una per una: è un lavoro di pulizia interno (housekeeping) che metto in coda per il prossimo giro tech, non una tua decisione.
+---
+
+## 🟡 DECISIONI RAPIDE (una parola basta)
+
+- [ ] 🟡 **Il permesso "jolly" nei permessi della macchina va tolto?** Oggi la macchina può eseguire *qualunque* programma finisca nella sua cartella `cervello/` — perché quella cartella se la scrive da sola. Ho già preparato l'elenco esplicito dei 70 programmi veri che sostituisce il jolly (`consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`), pronto da incollare in `.claude/settings.json` (file che io non posso toccare da sola, apposta). Dimmi «fatto» quando l'hai incollato.
+  → Card: `#permessi-senza-jolly`
+
+- [ ] 🟡 **Telegram lo vuoi acceso o lasciamolo spento?** Nessuno te l'ha mai chiesto esplicitamente: oggi è spento e basta. Se dici «acceso» ti do l'unica riga che serve; se dici «spento» lo scrivo come tua decisione e non te lo richiedo più.
+  → Card: `#sensori-spenti-senza-motivo`
 
 ---
 
 ## 🟡 ENV & INFRA (sblocchi macchina, 5 minuti ciascuno)
 
-- [ ] 🟡 **Aggiungi `BURN_MENSILE_EUR=302` in `cervello/vps/.env`** → restart worker. Sblocca il calcolo del runway (fermo a "sconosciuto" da 248 giri — cassa Stripe letta, manca solo questo numero).
+- [ ] 🟡 **Aggiungi `BURN_MENSILE_EUR=302` in `cervello/vps/.env`** → restart worker. Sblocca il calcolo del runway (fermo a "sconosciuto" da settimane — cassa Stripe letta, manca solo questo numero).
   → Card: `#burn-mensile-env`
 
-- [ ] 🟡 **Accendi Telegram sul VPS** — `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` in `cervello/vps/.env` → restart worker → workflow n8n n.31 e n.41 in Active.
+- [ ] 🔴 **Ruota i 2 token GitHub trovati in chiaro nel config git del VPS.** GitHub → Settings → Developer settings → Personal access tokens → revoca quelli vecchi, crea uno nuovo se serve, aggiorna il remote.
+  → Card: `#ruota-pat-github`
+
+---
+
+## 🟡 Da valutare quando hai un minuto (non bloccanti)
+
+- [ ] 🔴 **Accendi la sveglia intelligence** (bandi ore 7 + Telegram) — utile per bandi *futuri*, non più per PI26 (chiuso).
   → Card: `#accendi-intelligence-sveglia`
 
----
+- [ ] 🟡 **Triage cantiere difetti** — scegli fra tenerli tutti aperti, marcare i minori come "accettati", o tenerne un numero fisso alla volta (la mia raccomandazione: quest'ultima).
+  → Card: `#radiografia-triage-cantiere`
 
-## 🟡 MATERIALI MANCANTI (procura — la macchina non li inventa)
-
-- [ ] 🟡 **Logo e città Pane Quotidiano** — supervisione negozi segnala il gap (report `consegne/supervisione/2026-07-26-supervisione.md`): serve foto/logo reale e la città per completare la scheda negozio.
-
-- [ ] 🟡 **Tazzina espresso PQ** — scegli candidato + prezzo vendita (Excelsa ~€31 set 6 vs Ginori ~€55).
-  → Card: `#inserisci-tazzina-pq`
-
----
-
-## ⏸️ IN PAUSA (rinvio negozi 24/8-1/9 — non richiedono azione ora)
-
-**Ordine di prova su Pane Quotidiano** (`#ordine-test-pq`, unico sblocco diretto del North Star 0→1, ~10 min quando riparte) · post social PQ (domenica/lunedì/pioggia) · comunicato stampa PI26 · referral "porta un amico" · mail Hub Urbano
-Comune+Unione Commercianti: tutti pronti in coda ma volutamente fermi finché non riparte l'inserimento negozi
-(o finché non confermi la nuova data di metà agosto, vedi urgente sopra). Nessuna azione richiesta ora.
-
----
-
-> ✅ Fatto nel giro 27/7 06:20: misurato l'esperimento EXP-002 (WhatsApp anchor, mancata — gate mai partito) ·
-> corretto un bug di cristallizzazione nell'apprendimento (principio "mobile" ora anche a livello di codice,
-> non solo scritto a parole) · ricontrollati i countdown PI26/North Star (erano rimasti a "4 giorni"/"32 giorni").
-> ✅ Fatto nel giro 26/7 06:23: chiuso 1 debito di misura in calibrazione (previsione ordini_totali 10/7,
-> confermata azzeccata via Supabase MCP live) · esteso il fix "pulisci tag generici" (card #240) a
-> workflow/correzione-nicola · promossa a principio la regola "non riproporre Workflow in sessione headless".
-> ✅ Fatto 20/7: demo eliminati (1 PQ · 5 prodotti) · PostHog verde VPS+Pannello · coerenza-fatti pricing bonificata.
-> ✅ Fatto 23/7 (giro 11:20): OKR-Squadra target scaduto riscritto in gate · checklist rigenerata (AR-030).
+> ⚠️ **Restano altre ~30 righe tecniche in coda** (fix di codice interno, PR da aprire lato AD, cure alla memoria) che non richiedono una TUA decisione — sono lavoro che porto avanti io o i senior. Elenco completo, sempre aggiornato: [[AZIONI-IN-ATTESA]].

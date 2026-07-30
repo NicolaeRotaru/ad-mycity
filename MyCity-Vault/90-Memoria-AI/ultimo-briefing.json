@@ -1,36 +1,41 @@
 {
-  "data": "2026-07-29 16:21",
-  "situazione": "Giro completo (\"giro.md per intero\"), richiesto in chat 1h24 dopo il passaggio delle 14:57 — business ANCORA fermo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 clienti, 1 solo ordine (zombie 24/6, annullato), 0 pagati/consegnati, 0 recensioni, stallo North Star ~35 giorni. Riverificato dal vivo via Supabase MCP: tutti i numeri identici al passaggio delle 14:57. coerenza-fatti.mjs → memoria coerente (21 fatti, 0 cacce aperte). Delta-gate (heartbeat 16:20) aveva già deciso esegui_pieno:false, confermato dal vivo. Nessun nuovo 🟡/🔴 in questo passaggio, applicata la strategia snella (AR-113/delta-gate). Mossa n.1: attivare Vercel Authentication sul Pannello (30 secondi, unico passo mancante).",
+  "data": "2026-07-30 06:30",
+  "situazione": "Giro completo (\"giro.md per intero\"), richiesto in chat. Business ANCORA fermo da 36 giorni: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 solo ordine (zombie 24/6, annullato), 0 pagati/consegnati, 0 recensioni, 407 lead fermi dal 24/5. Riverificato dal vivo via Supabase MCP: tutti i numeri identici ai giri precedenti. Il piano del mattino (06:05-06:24) aveva già ripulito 5 card zombie su PI26/piano-squadra; questo giro ne ha trovate e chiuse altre 3 (`#vps-giro-fermo`, `#push-main-memoria`, `#push-volano-fix`, smentite da git log/fetch reali) e ha rigenerato CHECKLIST-NICOLA.md, ferma da 3 giorni (AR-030). Misurati 3 esperimenti scaduti nel registro (EXP-003/006/013 → mancata), riaperto EXP-014 sul North Star. Nessuna sentinella business nuova, nessuna entità nuova. Mossa n.1: una parola di Nicola (dentro/fuori) sull'ordine di prova PQ.",
   "opportunita": [
     {
-      "titolo": "Chiudi la porta aperta del Pannello",
-      "motivo": "Oggi chiunque abbia il link entra nella Cabina di Regia senza login e può approvare azioni — il codice che blocca gli script è già in produzione, manca solo l'interruttore Vercel",
+      "titolo": "Fai un ordine di test su Pane Quotidiano",
+      "motivo": "Unico sblocco diretto del North Star (0 ordini pagati da 36 giorni) — sblocca anche EXP-014 e i playbook già pronti (recupero carrelli, win-back)",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "Unico sblocco diretto del North Star (0 ordini pagati da 35 giorni) — sblocca anche i 3 esperimenti gated e la stampa del kit fisico. In pausa concordata fino al 24/8-1/9",
+      "titolo": "Verifica se il Pannello ha davvero un buco di sicurezza",
+      "motivo": "30 secondi in incognito bastano a dire se serve un fix urgente o se Vercel sta già proteggendo tutto",
       "impatto": "alto",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Attiva Vercel Authentication per chiudere davvero il Pannello",
-      "motivo": "30 secondi su Vercel, nessun codice da mergiare — è l'unico passo che manca (verificato da @security stanotte)",
+      "titolo": "Dimmi dentro o fuori per l'ordine di prova da Pane Quotidiano",
+      "motivo": "È l'unica cosa che manca per rompere lo stallo del primo ordine pagato, ferma in coda da 2 giorni",
+      "livello": "giallo"
+    },
+    {
+      "titolo": "Mergia la PR #633 del menu Memoria del Pannello",
+      "motivo": "4 passi già confermati ieri notte, sostituisce la #632 rotta dal solito bug del rebase",
       "livello": "rosso"
     },
     {
-      "titolo": "Dimmi quali dei 4 controlli-avviso vuoi promuovere a blocco vero",
-      "motivo": "Risposta con le 4 opzioni già pronta in [[RITMO]], in attesa della tua scelta",
-      "livello": "giallo"
+      "titolo": "Apri il Pannello in incognito e dimmi cosa vedi",
+      "motivo": "Se si apre senza chiederti l'accesso c'è una falla vera da chiudere subito",
+      "livello": "rosso"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo ~35 giorni",
-    "Pannello del Comando raggiungibile senza login (manca Vercel Authentication)",
-    "Runway non calcolabile (manca BURN_MENSILE_EUR nel .env VPS)",
-    "3 carrelli abbandonati reali su PQ mai recuperati (invariati da giugno)"
+    "North Star 0 — stallo 36 giorni",
+    "CHECKLIST-NICOLA stantia da 3 giorni (AR-030) — rigenerata in questo giro",
+    "3 card in coda ormai false (VPS fermo, push mancanti) — chiuse in questo giro",
+    "3 esperimenti scaduti mai chiusi nel registro — misurati in questo giro"
   ]
 }

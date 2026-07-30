@@ -27,7 +27,8 @@
             "pattern": "prompt-senior|subagent_type|agentType",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-435",
@@ -45,7 +46,8 @@
             "pattern": "/home/user/ad-mycity",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-436",
@@ -63,7 +65,8 @@
             "pattern": "LOOP_INTERNO|GALLERIA_POVERA|TRAPPOLE_ASSENTI|MODELLI_MENTALI",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-347",
@@ -81,7 +84,11 @@
             "pattern": "(FILE_PILOTA|filePilota)[\\s\\S]{0,800}(COMANDI\\.md|readdirSync|sentinelle\\.md)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-28 21:47",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-195"
         },
         {
           "id": "AR-348",
@@ -99,7 +106,8 @@
             "pattern": "repartoValido|non e nel roster|non è nel roster|reparto sconosciuto|rosterReparti\\(\\)\\.includes",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-349",
@@ -117,7 +125,8 @@
             "pattern": "02-Aree",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-350",
@@ -135,7 +144,8 @@
             "pattern": "STRATO 3",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-351",
@@ -153,7 +163,8 @@
             "pattern": "rivedere_entro|debito_scaduto|baseline_scaduta",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-352",
@@ -171,7 +182,11 @@
             "pattern": "\\*\\*\"fai un giro\"\\*\\*[\\s\\S]{0,300}REST",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-02",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-012"
         }
       ]
     },
@@ -197,7 +212,11 @@
             "pattern": "ciechi\\.length === controllate",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-353"
         },
         {
           "id": "AR-354",
@@ -215,7 +234,8 @@
             "pattern": "prova_impossibile|provaComportamentaleObbligatoria",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-355",
@@ -233,7 +253,8 @@
             "pattern": "soloInCommento|rigaDiCommento|scartaCommenti|patternInCodice",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-356",
@@ -251,7 +272,8 @@
             "pattern": "GATE && [^;]*fileAssente",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-357",
@@ -269,7 +291,11 @@
             "pattern": "Number\\.isFinite\\(v\\) && v > 0",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-357"
         },
         {
           "id": "AR-358",
@@ -287,7 +313,11 @@
             "pattern": "non_previsioni",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-358"
         },
         {
           "id": "AR-359",
@@ -305,7 +335,8 @@
             "pattern": "cantiere-pezzi",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-360",
@@ -323,7 +354,8 @@
             "pattern": "GENERA_AMMESSI|f\\.genera",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-361",
@@ -341,7 +373,8 @@
             "pattern": "scriviJsonAtomico",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-362",
@@ -359,7 +392,11 @@
             "pattern": "Number\\(l\\.usi\\) > 0",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-362"
         }
       ]
     },
@@ -385,7 +422,8 @@
             "pattern": "SENSORI_STANTII_MIN",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-364",
@@ -403,7 +441,8 @@
             "pattern": "MCP_DECADENZA_GIRI",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-365",
@@ -421,7 +460,8 @@
             "pattern": "consegnaAllerta\\(",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-366",
@@ -439,7 +479,8 @@
             "pattern": "worker:ultimo:lavoro-riuscito",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-367",
@@ -457,7 +498,8 @@
             "pattern": "esito-giro\\.json",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-368",
@@ -475,7 +517,8 @@
             "pattern": "bucketScaduto",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-369",
@@ -493,7 +536,8 @@
             "pattern": "sessione_rolling",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-370",
@@ -511,7 +555,8 @@
             "pattern": "controlli_non_eseguiti",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-371",
@@ -529,7 +574,11 @@
             "pattern": "worker:ultimo",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-29 20:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-371"
         },
         {
           "id": "AR-372",
@@ -547,7 +596,11 @@
             "pattern": "process\\.exit\\(2\\)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-29 20:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-372"
         }
       ]
     },
@@ -573,7 +626,11 @@
             "pattern": "stampSegnale\\(\\s*[\"'`]coerenza-fatti[\"'`]",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-29 20:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-372"
         },
         {
           "id": "AR-374",
@@ -591,7 +648,11 @@
             "pattern": "process\\.exit\\(2\\)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-29 20:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-372"
         },
         {
           "id": "AR-375",
@@ -609,7 +670,8 @@
             "pattern": "esito_righe",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-376",
@@ -627,7 +689,11 @@
             "pattern": "permessi-check\\.mjs",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-376"
         },
         {
           "id": "AR-377",
@@ -645,7 +711,11 @@
             "pattern": "node cervello/test-cervello\\.mjs",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-29 20:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-377"
         },
         {
           "id": "AR-378",
@@ -663,7 +733,8 @@
             "pattern": "TABELLA INCOMPLETA",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-379",
@@ -681,7 +752,11 @@
             "pattern": "compgen -v",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-29 20:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-379"
         },
         {
           "id": "AR-380",
@@ -699,7 +774,11 @@
             "pattern": "curl",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-29 20:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-380"
         },
         {
           "id": "AR-381",
@@ -717,7 +796,11 @@
             "pattern": "cervello/publishers/_comune\\.mjs",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-29 20:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-381"
         },
         {
           "id": "AR-382",
@@ -735,7 +818,11 @@
             "pattern": "isDirectory\\(\\)|recursive:\\s*true",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-29 20:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-382"
         },
         {
           "id": "AR-383",
@@ -753,7 +840,8 @@
             "pattern": "cieco",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-384",
@@ -771,7 +859,8 @@
             "pattern": "=\\s*await revocaFirma",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-385",
@@ -789,7 +878,8 @@
             "pattern": "=\\s*await setImpostazione",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-386",
@@ -807,7 +897,8 @@
             "pattern": "if \\(effettivo !== \"🟢\"\\)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -833,7 +924,11 @@
             "pattern": "compgen -v[^\\n]*_VINCOLO",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-29 20:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-387"
         },
         {
           "id": "AR-388",
@@ -851,7 +946,8 @@
             "pattern": "restano sul server[\\s\\S]{0,600}?(git stash push|exit \"\\$)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-389",
@@ -869,7 +965,11 @@
             "pattern": "ai_rc[\\s\\S]{0,120}Ritmo \\$RITMO_TIPO completato",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-389"
         },
         {
           "id": "AR-390",
@@ -887,7 +987,8 @@
             "pattern": "_pausa_rc",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-391",
@@ -905,7 +1006,8 @@
             "pattern": "freno-costi\\.mjs",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-392",
@@ -923,7 +1025,8 @@
             "pattern": "LETARGO_VINCOLO",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-393",
@@ -941,7 +1044,11 @@
             "pattern": "non-vacuita\\.mjs",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-393"
         },
         {
           "id": "AR-394",
@@ -959,7 +1066,8 @@
             "pattern": "rc_one=\\$\\?",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-395",
@@ -977,7 +1085,8 @@
             "pattern": "gate_pubblicazione [\\s\\S]{0,600}?commit -q -m \"giro AD",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-396",
@@ -995,7 +1104,8 @@
             "pattern": "for \\(\\(i = 1[\\s\\S]*?ramo_ammesso[\\s\\S]*?git push",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-397",
@@ -1013,7 +1123,11 @@
             "pattern": "esito-ricovero",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-397"
         },
         {
           "id": "AR-398",
@@ -1031,7 +1145,8 @@
             "pattern": "salvaCalendario\\(",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-399",
@@ -1049,7 +1164,11 @@
             "pattern": "SYNC_PENDENTE",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-399"
         }
       ]
     },
@@ -1075,7 +1194,11 @@
             "pattern": "scritturaConfermata\\(",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 22:31",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-312"
         },
         {
           "id": "AR-401",
@@ -1093,7 +1216,11 @@
             "pattern": "daRisposta\\(|semaforoDaLettura\\(",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-401"
         },
         {
           "id": "AR-402",
@@ -1111,7 +1238,11 @@
             "pattern": "useStrato\\(",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 18:57",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-243"
         },
         {
           "id": "AR-403",
@@ -1129,7 +1260,8 @@
             "pattern": "window\\.history\\.back\\(",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-404",
@@ -1147,7 +1279,8 @@
             "pattern": "setMsgs\\(det\\.messaggi as ParlaMsg\\[\\]\\)",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-405",
@@ -1165,7 +1298,8 @@
             "pattern": "idCasella",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-406",
@@ -1183,7 +1317,11 @@
             "pattern": "ok: true",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-406"
         },
         {
           "id": "AR-407",
@@ -1201,7 +1339,8 @@
             "pattern": "esito-lettura",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-408",
@@ -1219,7 +1358,8 @@
             "pattern": "serviceWorker\\.controller",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -1245,7 +1385,11 @@
             "pattern": "if \\(SOLA_LETTURA\\.has\\(r\\.metodo\\.toUpperCase\\(\\)\\)\\) return \\{ ammessa: true \\};",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-29 20:22",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-409"
         },
         {
           "id": "AR-410",
@@ -1263,7 +1407,8 @@
             "pattern": "if \\(secret && auth !== ",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-411",
@@ -1281,7 +1426,8 @@
             "pattern": "numero: idSezione\\(data, reparto, titolo\\)",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-412",
@@ -1299,7 +1445,8 @@
             "pattern": "in-corso",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-413",
@@ -1317,7 +1464,8 @@
             "pattern": "memoryConnected",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-414",
@@ -1335,7 +1483,8 @@
             "pattern": "\\+02:00",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-415",
@@ -1353,7 +1502,8 @@
             "pattern": "troppo-grande",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-416",
@@ -1371,7 +1521,8 @@
             "pattern": "pota-apprendimento",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-417",
@@ -1389,7 +1540,8 @@
             "pattern": "viewportFit",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-418",
@@ -1407,7 +1559,8 @@
             "pattern": "app/api/azioni-pronte/route",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     },
@@ -1433,7 +1586,11 @@
             "pattern": "is-shallow-repository",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-419"
         },
         {
           "id": "AR-420",
@@ -1451,7 +1608,8 @@
             "pattern": "k !== \"margine\"",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-421",
@@ -1469,7 +1627,8 @@
             "pattern": "GIORNI_FINESTRA_ASSET",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-422",
@@ -1487,7 +1646,8 @@
             "pattern": "freno-costi",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-423",
@@ -1505,7 +1665,8 @@
             "pattern": "DELTA_GATE_FORCE:-0\\}\" != 1 \\] && \\[ \"\\$\\{BUDGET_FORCE",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-424",
@@ -1523,7 +1684,11 @@
             "pattern": "oggi\\.data",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-424"
         },
         {
           "id": "AR-425",
@@ -1541,7 +1706,8 @@
             "pattern": "Object\\.keys\\(tetti\\.tetti",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-426",
@@ -1559,7 +1725,11 @@
             "pattern": "cervello\\\\/\\[\\\\w\\./-\\]\\+",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-426"
         },
         {
           "id": "AR-427",
@@ -1577,7 +1747,11 @@
             "pattern": "st\\.size > 2_000_000\\) continue",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-427"
         },
         {
           "id": "AR-428",
@@ -1595,7 +1769,8 @@
             "pattern": "apikey: \\$SUPABASE_SERVICE_KEY",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-429",
@@ -1613,7 +1788,11 @@
             "pattern": "is-shallow-repository",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-429"
         },
         {
           "id": "AR-430",
@@ -1631,7 +1810,11 @@
             "pattern": "schedule",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-29 20:21",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-430"
         },
         {
           "id": "AR-431",
@@ -1649,7 +1832,8 @@
             "pattern": "ultima_revisione",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "id": "AR-432",
@@ -1667,7 +1851,8 @@
             "pattern": "scadenza",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         }
       ]
     }
@@ -2092,5 +2277,18 @@
   "sonda_meta": {
     "giri_tasso_basso": 8,
     "aggiornato": "2026-07-30 06:20"
+  },
+  "sync_scan": {
+    "aggiornato": "2026-07-30 06:21",
+    "findings_aperti": 57,
+    "findings_in_corso": 0,
+    "findings_chiusi": 32,
+    "findings_tot": 89,
+    "cantiere_aperti": 155,
+    "cantiere_in_corso": 0,
+    "cantiere_chiusi": 234,
+    "match_aggiornati": 89,
+    "chiusi_verifica": 0,
+    "data_scan": "2026-07-29 13:05"
   }
 }

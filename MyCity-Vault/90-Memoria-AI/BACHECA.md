@@ -597,9 +597,9 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ---
 
-## 🛡️ I guardiani della macchina · 2026-07-30 00:15
+## 🛡️ I guardiani della macchina · 2026-07-30 06:21
 
-A ogni giro, prima che l'AI scriva una riga, girano **71 controlli automatici**. **34** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+A ogni giro, prima che l'AI scriva una riga, girano **73 controlli automatici**. **36** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
 Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
 
@@ -614,7 +614,6 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | `guardiani-check` | Tiene questa tabella agganciata al codice: se nasce un controllo e nessuno spiega cosa fa, il giro non si chiude. | ⛔ ferma il giro |
 | `mappa-macchina` | Tiene aggiornata la mappa «Com'è fatta la macchina»: i numeri li riconta a ogni giro, e se nasce un pezzo nuovo (skill, sensore, mano, servizio, area) senza una riga che dica cosa fa, il giro non si chiude. | ⛔ ferma il giro |
 | `onesta-check` | Cerca i numeri orfani: una cifra scritta in memoria senza una fonte accanto non deve uscire. | ⚠️ avvisa, non ferma |
-| `percorsi-git` | Un nome di file con l'accento va chiesto a git nel modo giusto, o la macchina lavora su file che non esistono senza accorgersene. | ⛔ ferma il giro |
 | `sensore-cassa` | Guarda cassa e autonomia: quanto è entrato davvero, quanto brucia al mese, quanti mesi restano. | ℹ️ scrive e basta |
 | `sensori-spenti-check` | Uno strumento costruito e mai acceso è un buco, non uno stato: pretende un perché scritto. | ⛔ ferma il giro |
 | `sentinella-fonti` | Prova le fonti web da cui la macchina si informa: una fonte morta smette di portare notizie senza dirlo. | ℹ️ scrive e basta |
@@ -659,6 +658,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | `auto-fix` | Chiude i difetti la cui prova è diventata verde per un fix vero, e lascia gli altri aperti. | ℹ️ scrive e basta |
 | `cantiere-prove` | Smaschera i difetti che nessun controllo automatico potrà mai chiudere: un difetto senza prova resta aperto per sempre. | ℹ️ scrive e basta |
 | `esperimenti-check` | Senza almeno un esperimento aperto non si misura niente: pretende che ce ne sia uno vivo e chiude quelli scaduti. | ⛔ ferma il giro |
+| `gate-veri` | Impedisce di far salire il punteggio delle lezioni con freni finti: un gate dichiarato vale solo se esiste una mutazione che lo fa scattare davvero. | ⛔ ferma il giro |
 | `pagella-intelligenza` | I cinque voti che dicono se la macchina è pronta per il business o sta solo girando a vuoto. | ℹ️ scrive e basta |
 | `prove-oneste` | Impedisce a un difetto di nascere già chiuso, con una prova scritta apposta per essere verde. | ⛔ ferma il giro |
 | `sincronizza-proposte` | Tiene le proposte di auto-riscrittura agganciate allo stato vero del cantiere. | ℹ️ scrive e basta |
@@ -670,6 +670,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | Controllo | Cosa guarda | Se dice no |
 | --- | --- | --- |
 | `firma-check` | Nessuno script può scriversi da solo la firma di Nicola: chi esegue non firma sé stesso. | ⛔ ferma il giro |
+| `percorsi-git` | I nomi dei file con l'accento tornano storpiati se li si chiede nel modo sbagliato: controlla che nessuno strumento lavori su file che non esistono, credendo di averli letti. | ⛔ ferma il giro |
 | `peso-contesto` | Sorveglia quanto testo la macchina si porta dietro: un contesto gonfio costa soldi e fa perdere il filo. | ⚠️ avvisa, non ferma |
 | `porte-check` | Trova i punti che pubblicano scavalcando il cancello: una porta scoperta non si vede, pubblica e basta. | ⛔ ferma il giro |
 | `rotte-scriventi-check` | Trova le pagine del Pannello che cambiano qualcosa mentre fingono di leggere: se una tocca lo stato, deve chiedere il permesso come le altre. | ⛔ ferma il giro |
@@ -682,6 +683,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | Controllo | Cosa guarda | Se dice no |
 | --- | --- | --- |
 | `agent-registry-check` | Confronta i senior che esistono davvero con quelli elencati nei documenti: nessun agente orfano, nessun doppione. | ⛔ ferma il giro |
+| `deferral-agenti` | L'organigramma è scritto in due posti: la mappa che leggi tu e la scheda che legge chi smista il lavoro. Se un rimando esiste in uno solo dei due, il lavoro finisce da un senior che non lo rivendica. | ⛔ ferma il giro |
 | `guardiano-capacita` | Verifica che i comandi e le capacità promesse nei documenti esistano davvero come file eseguibili. | ℹ️ scrive e basta |
 | `keyword-owner-check` | Ogni mandato ha un padrone solo: se due senior rivendicano la stessa cosa, il lavoro va a chi capita. | ⛔ ferma il giro |
 | `stampo-check` | Controlla la qualità dei mansionari: kit fotocopia, quaderni mai scritti, senior più sottili della media. | ⛔ ferma il giro |

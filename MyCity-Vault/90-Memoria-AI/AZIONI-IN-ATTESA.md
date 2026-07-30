@@ -5,6 +5,8 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
+> 🧹 **Housekeeping 2026-07-30 06:30** — Giro completo: **42 aperte**. Chiuse 3 card zombie in più, tutte smentite da verifica diretta (`git log`/`git fetch`), stesso errore-tipo delle 5 PI26/piano-squadra ripulite alle 06:05 (il testo restava vecchio dopo che il fatto era già cambiato): **`#vps-giro-fermo`** (diceva "fermo da 40 ore" — il worker ha committato con continuità 04:43→06:26 stamattina), **`#push-main-memoria`** e **`#push-volano-fix`** (dicevano "main non pubblicato/71 commit indietro" — verificato ora: `origin/main` e `HEAD` coincidono esattamente, e la PR #454 del fix tasso-lezioni è già mergiata).
+>
 > 🧹 **Housekeeping 2026-07-30 06:05** — Manuale (piano del mattino): **45 aperte**. Chiuse 5 card zombie: 4 sul bando PI26 (Nicola l'aveva già dichiarato chiuso il 29/7 ~00:10, ma il testo non era mai stato tolto da qui) + 1 sul piano-squadra (già confermato il 29/7 ~00:15). Fatto anche in `registro-fatti.json` (AR-102): `bando.pi26.idoneita` nuovo, `bandi.pi26.scadenza` aggiornato.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
@@ -613,32 +615,11 @@ _(302 = Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2 — fonte uni
 
 ---
 
-### 🟡 #push-volano-fix — Pusha memoria (volano) e apri PR per il fix tasso-lezioni · ⏳ accodata 2026-07-17 07:05
-
-**Cosa cambia:** il commit `6955feee` (5 lezioni marcate con usi reali) è locale su VPS ma non ancora su GitHub; il branch `feature/volano-tasso-lezioni-blob` ha il fix che rimuove le _nota_giro_ dal blob di string-match del tasso.
-
-**Se va bene:** il Pannello mostrerà il tasso calcolato su segnale reale (usi), non su mention gonfiata. La sentinella volano_fermo non sparerà più falsi allarmi.
-
-**Azioni (sono 2 push separati + 1 PR):**
-1. `git push origin main` — pubblica le lezioni con usi
-2. `git push origin feature/volano-tasso-lezioni-blob` — pubblica il fix tasso-lezioni
-3. Apri PR: base=main, branch=feature/volano-tasso-lezioni-blob, titolo "fix(volano): rimuovi _nota_giro_ dal blob del tasso-lezioni"
-
-*Colore: 🟡 — tocca memoria+codice cervello; merge lo firma Nicola*
+❌ #push-volano-fix — ~~Pusha memoria (volano) e apri PR per il fix tasso-lezioni~~ → RISOLTA, chiusa 2026-07-30 06:30. Verificato: PR #454 (`fix/volano-tasso-lezioni`) risulta già mergiata nella storia di `main` (`44161bf99`); il commit del fix (`e282435f8`) è su `main`. Nulla da pushare.
 
 ---
 
-### 🟡 #push-main-memoria — Pusha main su GitHub (memoria non pubblicata) · ⏳ accodata 2026-07-17 06:45 · aggiornata 2026-07-23 11:41
-
-**Cosa fare:** dal VPS esegui: `git push origin main`
-
-`git push` è nella deny list del Bash tool (sicurezza), ma funziona da terminale VPS direttamente. Main locale è **avanti di 71 commit** rispetto a origin/main (ultimo locale: `12bf6098` · 23/7 11:41 «aggiorna stato macchina» — l'ultimo dei 71 è un commit di questo giro; ultimo su origin: `ed90d719` · 22/7 08:20). Nessuna divergenza: è un fast-forward pulito, non serve rebase. Il ritardo si accumula da oltre un giorno (un giro/ritmo ogni ~2h che non pubblica).
-
-**Cosa cambia:** il Pannello hosted vede la memoria aggiornata (incluso il voto 88 del giro 18/7 con campo sintesi ora presente).
-**Se va bene:** nessun passo successivo necessario.
-
-- **Colore:** 🟡
-- **Reparto:** AD / devops-sre
+❌ #push-main-memoria — ~~Pusha main su GitHub (memoria non pubblicata)~~ → RISOLTA, chiusa 2026-07-30 06:30. Verificato ora (`git fetch` + confronto): `origin/main` e `HEAD` locale coincidono esattamente (`0d777ae6d`). Il ritardo di 71 commit descritto il 17-23/7 è stato assorbito da tempo; il push funziona regolarmente (ultimo commit VPS: 06:20:46 di stamattina).
 
 ---
 
@@ -900,39 +881,20 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
-### 🔴 #vps-giro-fermo — Fai ripartire il giro sul VPS: è fermo da due giorni · ⏳ accodata 2026-07-29 17:08
-
-**Da lanciare nel terminale del VPS, in quest'ordine:**
-
-```bash
-systemctl status mycity-giro.timer mycity-giro.service --no-pager
-journalctl -u mycity-giro -n 80 --no-pager
-sudo systemctl restart mycity-giro.service    # se risulta appeso
-```
-
-Se i timer risultano **attivi** ma non producono niente, il guasto non è nei servizi: è il motore AI
-(quota consumata o sessione scaduta). In quel caso serve `cervello/vps/collega-claude.sh`, non un
-altro riavvio — ritentare su un problema di credenziali è tempo buttato.
-
-**Cosa cambia:** l'ultimo giro riuscito è del 27/7 alle 22:23; da allora dodici tick di fila non
-hanno prodotto nulla e nessun processo automatico scrive più in memoria da 40 ore. Finché resta così
-la macchina non lavora: niente giri, niente sentinelle, niente briefing, e ogni numero che il
-Pannello mostra invecchia senza dirlo. La diagnosi è già chiusa e non va rifatta — appendimento dei
-guardiani, lotto 8 e `set -e` sono stati esclusi con misura; resta il motore AI, che sta alla riga
-839 di `giro.sh` mentre la pubblicazione è alla 996, ed è esattamente il punto in cui un giro scrive
-i file su disco e non arriva mai al push.
-
-**Se va bene:** entro pochi minuti ricompaiono i commit del VPS e le tracce tornano fresche; la
-visita (`node cervello/salute.mjs`) torna verde su «La macchina lascia tracce di essere passata», e
-il battito esterno appena installato chiude da solo l'eventuale allarme aperto.
-
-- **Colore:** 🔴 (tocca i servizi del VPS in produzione — lo fa Nicola dal terminale)
-- **Reparto:** devops-sre
-- **Nota:** da adesso questo non dipende più dal fatto che qualcuno se ne accorga: la macchina apre
-  una segnalazione su GitHub da sola entro un'ora di silenzio. È il senso del lavoro di oggi.
+❌ #vps-giro-fermo — ~~Fai ripartire il giro sul VPS: è fermo da due giorni~~ → RISOLTA DA SOLA, chiusa 2026-07-30 06:30. `git log` mostra commit del worker/giro con continuità dalle 04:43 alle 06:26 di stamattina (`ritmo AD (mattino)` 06:11, `Sentinella macchina` 06:20, più i "recupero: scritture pendenti" tipici di un giro che pubblica). Non serve nessun comando manuale sul VPS: il sintomo che la card descriveva non c'è più.
 | 1 | 2026-07-30 03:44 | @tech | Merge PR #630 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/630 | github | FATTO 2026-07-30 03:59 (mergiata da Nicola, confermato: Stato/OKR/Piani già dentro main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 2 | 2026-07-30 03:59 | @tech | Merge PR #631 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/631 | github | FATTO 2026-07-30 04:06 (mergiata da Nicola, confermato: commit 80d4fc819 in main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 3 | 2026-07-30 04:05 | @tech | Merge PR #632 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/632 | github | SUPERATA 2026-07-30 04:21 — non mergiare: il branch si è rotto sul solito bug del rebase (AR-449/L-10463), tutto il suo contenuto (+ il lavoro nuovo di stanotte) è confluito pulito nella PR #633. Chiudi questa senza merge. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Ignora questa riga: mergia solo la #633 sotto. |
-| 4 | 2026-07-30 04:21 | @tech | Merge PR #633 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/633 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 5 | 2026-07-30 04:42 | @tech | Merge PR #634 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/634 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 4 | 2026-07-30 04:21 | @tech | Merge PR #633 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/633 | github | PROBABILE SUPERATA 2026-07-30 06:37 — verificato via `git`: il commit del contenuto #633 (9012675a9) NON è antenato di `main`, lo stesso contenuto è invece dentro #634 (82dd0525a, quello sì antenato di main). Sembra lo stesso bug di rebase di #632→#633 (AR-451, ora corretto). Non confermato con `gh` (comando negato in questa sessione): controlla tu su GitHub prima di chiudere del tutto. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Se confermi che è superata: chiudila senza merge su GitHub. |
+| 5 | 2026-07-30 04:42 | @tech | Merge PR #634 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/634 | github | FATTO 2026-07-30 (verificato: commit 82dd0525a è antenato di HEAD su main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Già online: nessuna azione, riga tenuta solo per storico. |
 | 6 | 2026-07-30 04:55 | @tech | Merge PR #635 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/635 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+
+
+<!-- SUPERVISIONE-NEGOZI:INIZIO -->
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-30 06:21)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-30-supervisione.md]].
+
+> ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
+> è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
+> la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
+<!-- SUPERVISIONE-NEGOZI:FINE -->

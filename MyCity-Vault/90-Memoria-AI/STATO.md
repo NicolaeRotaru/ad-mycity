@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 06:10
+aggiornato: 2026-07-30 06:30
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **30/7 06:30 — GIRO COMPLETO (richiesto in chat): il piano del mattino di 20 minuti fa non aveva finito — completati i pezzi mancanti, tre zombie in più trovati e chiusi.** Il giro delle 06:05-06:24 (worker VPS) aveva già fatto la pulizia PI26/piano-squadra e rinfrescato i sensori, ma si era fermato prima di tre cose: **CHECKLIST-NICOLA.md era ferma al 27/7** (3 giorni, sopra la soglia AR-030 di 2) e conteneva ancora "PI26 urgente scade oggi" — falso, riscritta ora; **3 esperimenti erano scaduti nel registro ma mai chiusi** (EXP-003 welcome email, EXP-006 esito PI26, EXP-013 ordine test PQ) — misurati tutti "mancata" (nessuno aveva davvero fallito: i gate non erano mai partiti) e riaperto EXP-014 per non lasciare il North Star senza un esperimento attivo; **3 card in coda erano zombie** (`#vps-giro-fermo`, `#push-main-memoria`, `#push-volano-fix`) — tutte smentite da `git log`/`git fetch` reali (il worker VPS non è mai stato fermo stamattina, `origin/main` e `HEAD` coincidono). Business INVARIATO: 1 PQ, 5 prodotti, 1 ordine annullato, 0 pagati, stallo **36 giorni**. Nessuna nuova entità, nessuna sentinella business scattata (PQ resta attesa concordata, non churn). Le 3 priorità restano quelle delle 06:10: mergia PR #633, 30 secondi su Vercel Authentication, e la parola su dentro/fuori per l'ordine di prova PQ. Fonte: `mcp__supabase-marketplace execute_sql` diretta (06:29) + `git log`/`git fetch origin main` (06:29) + `sensori-cecita.json`/`delta-gate.json` del pre-step 06:20-06:21.
 
 > ☀️ **30/7 06:10 — PIANO DEL MATTINO: 5 card zombie ripulite dalla coda, poi le 3 priorità del giorno.** Le due domande che tenevano ferma la coda da giorni — PI26 e piano-squadra — Nicola le aveva già chiuse la notte del 29/7 (00:10-00:15), ma 4 card sul bando e 1 sul piano-squadra erano rimaste scritte come ancora aperte in [[AZIONI-IN-ATTESA]]: chiuse stamattina, con anche il fatto in `registro-fatti.json` corretto (AR-102) perché diceva ancora "PI26 scade oggi ore 16:00". Business invariato: 1 PQ, 5 prodotti, 1 ordine annullato, 0 pagati — stallo 36 giorni. Le 3 priorità di oggi (dettaglio in "Prossime priorità" sotto): mergiare la PR #633 di stanotte, i 30 secondi su Vercel per chiudere il Pannello, e una parola su dentro/fuori per l'ordine di prova PQ — l'unica cosa che manca per rompere lo stallo. Fonte: Supabase MCP `execute_sql` (ordini=1, profili=7, prodotti=5) + DECISIONI.md 2026-07-29 00:15.
 
@@ -587,18 +589,18 @@ fonte: AD digitale (chat)
 >
 >
 
-## I 7 numeri (✅ riconfermati query diretta 27/7 18:00 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
-| Numero | Oggi (27/7 18:00) | Δ vs 27/7 06:20 | "Riuscito" | Note |
+## I 7 numeri (✅ riconfermati query diretta 30/7 06:30 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
+| Numero | Oggi (30/7 06:30) | Δ vs 27/7 18:00 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `seller` confermato query diretta 18:00 |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `seller` confermato `mcp__supabase-marketplace execute_sql` 06:30 |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ Stripe collegato, payout-test su ordine vero |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato query diretta 18:00 |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato query diretta 06:30 |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 24/6 CANCELED — ultimo ordine tuttora il 24/6 08:28 |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **33 giorni** · ordine test in pausa fino al 24/8-1/9 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **36 giorni** · EXP-013 chiuso mancata, rinnovato in EXP-014 (scade 6/8) · ordine test in coda per la parola di Nicola (dentro/fuori) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero |
-| Nuovi clienti reali | **7 profili** (0 ultimi 7g) | = | crescita | confermato query diretta 18:00 |
-| **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon |
+| Nuovi clienti reali | **7 profili** (0 ultimi 7g) | = | crescita | confermato query diretta 06:30 |
+| **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | confermato query diretta 06:30 (`max(created_at)`) |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)
 | Sensore | Config | Stato | Sblocco |
