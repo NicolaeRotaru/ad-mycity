@@ -5,6 +5,8 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
+> 🧹 **Housekeeping 2026-07-30 08:25** — Giro (manutenzione macchina): **42 aperte, invariate**. Nessuna card nuova/chiusa qui — il lavoro di questo passaggio ha riparato `auto-coscienza/auto-analisi.json` (fermo dal 27/7) e `MyCity-Vault/05-Soldi-Rischi/scadenzario.json` (PI26 ancora "aperta" lì, non toccato dalla pulizia delle 06:05/06:30 perché è l'input di uno script, non un testo in coda). Dettaglio in [[Briefing/2026-07-30]] (passaggio 08:25).
+>
 > 🧹 **Housekeeping 2026-07-30 06:30** — Giro completo: **42 aperte**. Chiuse 3 card zombie in più, tutte smentite da verifica diretta (`git log`/`git fetch`), stesso errore-tipo delle 5 PI26/piano-squadra ripulite alle 06:05 (il testo restava vecchio dopo che il fatto era già cambiato): **`#vps-giro-fermo`** (diceva "fermo da 40 ore" — il worker ha committato con continuità 04:43→06:26 stamattina), **`#push-main-memoria`** e **`#push-volano-fix`** (dicevano "main non pubblicato/71 commit indietro" — verificato ora: `origin/main` e `HEAD` coincidono esattamente, e la PR #454 del fix tasso-lezioni è già mergiata).
 >
 > 🧹 **Housekeeping 2026-07-30 06:05** — Manuale (piano del mattino): **45 aperte**. Chiuse 5 card zombie: 4 sul bando PI26 (Nicola l'aveva già dichiarato chiuso il 29/7 ~00:10, ma il testo non era mai stato tolto da qui) + 1 sul piano-squadra (già confermato il 29/7 ~00:15). Fatto anche in `registro-fatti.json` (AR-102): `bando.pi26.idoneita` nuovo, `bandi.pi26.scadenza` aggiornato.
@@ -891,7 +893,7 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-30 06:21)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-30 08:21)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-30-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo

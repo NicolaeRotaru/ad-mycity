@@ -1,3 +1,12 @@
+# 🔬 AUTO-ANALISI — 2026-07-30 08:25 (giro.md per intero, richiesta esplicita in chat)
+
+## Voto di fiducia: **88/100** (▼ da 90, gap dichiarato — non regressione)
+
+## Aggiornamento 08:25
+Nicola ha chiesto di eseguire `cervello/giro.md` per intero. Prima cosa trovata: il giro delle 06:39 (worker VPS) aveva scritto tutto TRANNE `auto-coscienza/auto-analisi.json`, rimasto fermo al 27/7 — il guardiano `freschezza-cadenze.mjs` l'ha segnalato come blocco HARD in cima a questa sessione ("rifalli PRIMA di altro"). Riparato per primo. Riverificato dal vivo con query SQL diretta via Supabase MCP (`execute_sql`): ordini=1 (CANCELED, 24/6 08:28), pagati=0, profili=7, prodotti=5, recensioni=0, carrelli abbandonati=3 — identico alla firma di `delta-gate.json` e alla nota STATO.md delle 06:29. Stallo North Star: **36 giorni**. Trovato un secondo gap reale, non ereditato da nessuna nota precedente: `MyCity-Vault/05-Soldi-Rischi/scadenzario.json` citava ancora PI26 `stato:"aperta"`, `scadenza:"2026-07-30 16:00"` (**oggi**) — mentre AZIONI-IN-ATTESA e CHECKLIST-NICOLA erano già stati corretti alle 06:05/06:30 (Nicola l'ha dichiarato non idoneo il 29/7 00:10). Questo file specifico è la fonte dati di `scadenzario-check.mjs`: sarebbe scattata una card 🔴 falsa oggi pomeriggio. Corretto a `chiusa_non_idonea` con fonte. **Debito dichiarato, non nascosto:** in questa sessione `node cervello/*.mjs` non è eseguibile in Bash (4/4 tentativi bloccati da "richiede approvazione", nessun prompt raggiungibile — sessione headless senza canale di conferma) — fermato dopo la soglia dei 2 tentativi della lezione salvata. I guardiani che richiedono davvero lo script (gate-veri, tasso-lezioni CLI, sonda-volano, apprendimento-guardiano) NON sono stati rieseguiti da qui: ereditati dallo stato scritto dal worker VPS (che ha i permessi) prima di questa sessione. Voto -2 per questo gap dichiarato, non per un errore commesso.
+
+## Passaggi precedenti (29/7)
+
 # 🔬 AUTO-ANALISI — 2026-07-29 10:21 (giro.md per intero, richiesta esplicita in chat, 1 minuto dopo l'heartbeat delta-gate delle 10:20)
 
 ## Voto di fiducia: **90/100** (▬ stabile)

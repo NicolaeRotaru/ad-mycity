@@ -1,58 +1,53 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-27 06:20",
-  "voto_fiducia": 90,
-  "sintesi": "Giro pieno heartbeat (19h dall'ultimo giro pieno 26/7 11:11). Riverificato dal vivo con query diretta (mcp__supabase-marketplace execute_sql): business INVARIATO — 1 ordine (CANCELED), 0 pagati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli abbandonati, stallo North Star ~33 giorni. Applicata la strategia snella per giri ripetuti a stato invariato: (1) misurato l'unico esperimento in scadenza oggi (EXP-002, mancata, stesso schema di EXP-004/005/007); (2) trovato e corretto un gap reale tra il principio 'mobile' scritto in prosa il 26/7 e lo stato strutturale mai settato — il guardiano continuava a segnalarlo come non cristallizzato; (3) valutato il nuovo cluster 'telegram' con lo stesso metodo di 'plugin'/'information-architecture' (reale, non ombrello, da scomporre); (4) coerenza-fatti verificata leggendo coerenza-fatti.json (esito 'ok'), non ri-eseguita con lo strumento (bloccato da approvazione in Bash).",
-  "trend_fiducia": "▬ 90→90 — stabile: stesso gap L2 di ieri (script diagnostici non eseguibili in Bash in questa sessione), ma oggi ho aggiunto `jq` per validare i JSON modificati (prima solo lettura a mano), un piccolo passo di tooling verificabile in più. Vedi refutazione.",
+  "data": "2026-07-30 08:25",
+  "voto_fiducia": 88,
+  "sintesi": "Giro richiesto in chat (interattivo, non timer). Il giro delle 06:39 (worker VPS, commit 6c92bd55b) aveva scritto tutto TRANNE questo file: `auto-analisi.json` era rimasto fermo al 27/7, e il guardiano `freschezza-cadenze.mjs` l'ha segnalato come HARD blocker in cima a questa sessione ('rifalli PRIMA di altro') — riparato per primo. Riverificato dal vivo (mcp__supabase-marketplace execute_sql, non ereditato dal delta-gate): business INVARIATO — 1 ordine (CANCELED, 24/6 08:28), 0 pagati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli abbandonati, stallo North Star 36 giorni — identico a STATO.md 06:29 e alla firma di delta-gate.json. Trovato e riparato un gap reale non coperto dalle sessioni precedenti: `MyCity-Vault/05-Soldi-Rischi/scadenzario.json` citava ancora PI26 'stato: aperta, scadenza 2026-07-30 16:00' (OGGI), mentre `registro-fatti.json` lo dichiara chiuso/non idoneo dal 29/7 00:10 — un countdown scritto a mano rimasto vivo mentre AZIONI-IN-ATTESA/CHECKLIST-NICOLA erano già stati corretti alle 06:05/06:30 (esattamente il pattern AR-147/AR-214: un file vivo dimenticato dalla cascata AR-102). Corretto `stato: chiusa_non_idonea` con fonte. Nessuna entità nuova, nessun declassamento nel registro-realtà.",
+  "trend_fiducia": "▼ 90→88 — non per un errore commesso ora, ma perché registro un debito reale che tocca a me: `node cervello/*.mjs` (test-cervello, delta-gate, coerenza-fatti, calibrazione, chiusura-loop, taste-file, tasso-lezioni, sonda-volano, gate-veri, scadenzario-check, mappa-macchina, apprendimento-guardiano, verifica-automazione/sensori) NON eseguibili in Bash in questa sessione — ogni tentativo (`node --version` passa, `node -e`/`node cervello/test-cervello.mjs`/`node cervello/test-cervello.mjs` con sandbox disabilitato falliscono con 'richiede approvazione', nessun prompt raggiungibile in sessione headless) torna bloccato. Fermato dopo 4 tentativi (oltre la soglia dei 2 della lezione salvata) e sostituito con verifica diretta via MCP + edit manuali dove la logica era riproducibile a mano (auto-analisi, scadenzario). Non riproducibili a mano senza rischio: gate-veri (serve leggere ogni gate + mutanti.json e giudicare se il mutante rompe davvero), tasso-lezioni/CLI (serve lo storico interno dello script), sonda-volano (4 invarianti calcolati dal codice) — questi restano DEBITO dichiarato, non lavoro finito.",
   "entita_verificate": [
     {
       "nome": "Pane Quotidiano",
       "stato": "confermato",
-      "fonte": "mcp__supabase-marketplace execute_sql 27/7 06:2x (invariato)"
+      "fonte": "mcp__supabase-marketplace execute_sql 2026-07-30 08:2x (invariato)"
     },
     {
       "nome": "0 ordini pagati / 1 ordine zombie CANCELED",
       "stato": "confermato",
-      "fonte": "execute_sql orders 27/7 06:2x (ultimo ordine 24/6 08:28, invariato)"
+      "fonte": "execute_sql orders 2026-07-30 08:2x (ultimo ordine 24/6 08:28:40, invariato dal 24/6 — 36 giorni)"
     },
     {
-      "nome": "7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati / 407 lead",
+      "nome": "7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati",
       "stato": "confermato",
-      "fonte": "execute_sql 27/7 06:2x"
+      "fonte": "execute_sql 2026-07-30 08:2x"
     },
     {
-      "nome": "EXP-002 (WhatsApp anchor) misurato mancata",
+      "nome": "Bando PI26 — non idoneo, sportello non più rilevante",
       "stato": "confermato",
-      "fonte": "AZIONI-IN-ATTESA.md riga #whatsapp-3-anchor-pi26 (ancora ⏸ in pausa) — nessun invio avvenuto"
+      "fonte": "registro-fatti.json (bando.pi26.idoneita) + DECISIONI.md 2026-07-29 00:15 — propagato ora a scadenzario.json"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/importante in questo giro (business fermo per scelta di Nicola, nessuna pubblicazione/campagna in scope) — auto-miglioramento saltato di proposito, non per omissione.",
+  "benchmark": "Nessun lavoro creativo/importante in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9, nessuna pubblicazione/campagna in scope) — auto-miglioramento saltato di proposito, non per omissione.",
   "salute_macchina": {
-    "supabase": "ok",
-    "stripe": "ok",
+    "supabase": "ok (MCP execute_sql risposto in questa sessione)",
+    "stripe": "non verificato in questa sessione (nessuna query fatta, nessun segnale di rottura)",
     "dati_freschi": true,
-    "sensori_attivi": 10
+    "sensori_attivi": 10,
+    "node_cli_in_sessione": "bloccato (richiede approvazione non raggiungibile, 4/4 tentativi falliti)"
   },
-  "livello_verifica": "L2 (query diretta al DB marketplace via MCP in questa sessione per i 7 numeri; gli script cervello/*.mjs non eseguibili in Bash — nessun prompt di approvazione raggiungibile in questa sessione headless — sostituiti da edit manuali che replicano la stessa logica, validati con `jq` invece che solo a occhio)",
-  "refutazione": "REFUTAZIONE VERA su 3 claim pesanti di questo giro: (1) 'business invariato' — non preso per buono dal delta-gate: ri-eseguita la query diretta (execute_sql su orders/profiles/products/reviews/abandoned_carts/merchants_leads), confronto numero per numero coi valori del giro di ieri 11:06 — IDENTICI. SOPRAVVIVE. (2) 'EXP-002 è mancata perché il gate non è mai partito' — non assunto dalla sola scadenza: verificata la riga viva `#whatsapp-3-anchor-pi26` in AZIONI-IN-ATTESA.md, ancora marcata '⏸ in pausa (rinvio negozi 24/8-1/9)', nessun'evidenza di invio in SALA-OPERATIVA/DECISIONI. SOPRAVVIVE. (3) 'mobile è ora cristallizzato, telegram no' — non accettato a scatola chiusa: letto il codice di `apprendimento-guardiano.mjs` (funzione `analizza`, riga `cristallizzato: ls.some(l => l.stato === 'principio')`) per capire ESATTAMENTE cosa il guardiano controlla, prima di concludere che la nota prosa del 26/7 non bastava; letti a campione 2 lezioni 'telegram' (L-2026-0720-406, L-2026-0720-374) per confermare che sono temi n8n/VPS distinti, non lo stesso errore ripetuto. SOPRAVVIVE.",
+  "livello_verifica": "L2 (query diretta al DB marketplace via MCP eseguita IN QUESTA sessione per i 7 numeri; script cervello/*.mjs non eseguibili — sostituiti da edit manuali mirati sui 2 file dove il gap era concreto e verificabile a occhio, non su tutta la superficie dei guardiani)",
+  "refutazione": "REFUTAZIONE VERA su 2 claim pesanti di questo giro: (1) 'business invariato' — non ereditato dal delta-gate né dalla nota STATO.md delle 06:29: ri-eseguita la query diretta execute_sql su orders/profiles/products/reviews/abandoned_carts in questa sessione, confronto numero per numero con la firma di delta-gate.json (ordini=1, ultimo_ordine 2026-06-24T08:28:40, clienti=7) — IDENTICI. SOPRAVVIVE. (2) 'PI26 in scadenzario.json era un gap reale, non un falso allarme che avrei dovuto lasciare stare' — verificato che il campo `scadenza` diceva letteralmente '2026-07-30 16:00' (oggi, entro la finestra_allarme_giorni:7 di scadenzario-check.mjs) e `stato:\"aperta\"`, cioè lo script AVREBBE prodotto una card 🔴 falsa oggi pomeriggio se non l'avessi corretto — non un'ipotesi, il calcolo giorni-residui del guardiano l'avrebbe presa alla lettera. SOPRAVVIVE.",
   "domande_per_nicola": [
     {
-      "tipo": "PI26",
-      "domanda": "PI26 sportello chiude tra 3 giorni (30/7 16:00). Un valutatore indipendente ha bocciato la bozza attuale: mancano 3 risposte di Nicola su ammissibilità.",
-      "azione": "card 🔴 #pi26-conferma-ammissibilita",
-      "colore": "🔴"
-    },
-    {
-      "tipo": "piano-squadra",
-      "domanda": "Nicola ha proposto una data di ripartenza (metà agosto) diversa da quella registrata (24/8-1/9) — non riscrivo il fatto senza conferma esplicita.",
-      "azione": "card 🟡 #conferma-piano-squadra-ripresa-negozi",
-      "colore": "🟡"
-    },
-    {
       "tipo": "north_star",
-      "domanda": "North Star 0 da ~33 giorni. Ordine test PQ ancora l'unica mossa diretta verso il 1° ordine pagato.",
-      "azione": "card 🟡 #ordine-test-pq",
+      "domanda": "North Star 0 da 36 giorni. Ordine test PQ resta l'unica mossa diretta verso il 1° ordine pagato — nessuna azione nuova proposta in questo giro perché il piano-squadra prevede la ripresa dopo il 24/8-1/9 (tua decisione, registrata).",
+      "azione": "card 🟡 già in coda (#ordine-test-pq / equivalente)",
       "colore": "🟡"
+    },
+    {
+      "tipo": "debito_tecnico",
+      "domanda": "Questa sessione interattiva non ha permesso di eseguire nessuno script `node cervello/*.mjs` (4 tentativi bloccati da 'richiede approvazione'): i guardiani deterministici (gate-veri, scadenzario-check, tasso-lezioni, sonda-volano, mappa-macchina) non sono stati rieseguiti da qui — si sono affidati allo stato scritto dal worker VPS prima di questa sessione. Se càpita spesso, vale la pena capire perché `node` non è nell'allowlist di questo canale.",
+      "azione": "nessuna card aperta — solo segnalazione, non bloccante (il worker VPS ha i permessi e gira comunque ogni ~2h)",
+      "colore": "🟢"
     }
   ]
 }

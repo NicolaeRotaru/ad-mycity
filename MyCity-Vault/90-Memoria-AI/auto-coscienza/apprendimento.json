@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-30 08:14",
+  "aggiornato": "2026-07-30 08:24",
   "lezioni": [
     {
       "id": "L-2026-0730-01",
@@ -9149,13 +9149,14 @@
         "github"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.89,
+      "confidenza": 0.74,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-02",
       "ultima_conferma": "2026-07-02 08:17",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 08:21"
     },
     {
       "id": "L-2026-0702-41",
@@ -9171,13 +9172,14 @@
         "carrelli"
       ],
       "reparto": "@tech",
-      "confidenza": 0.91,
+      "confidenza": 0.76,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-02",
       "ultima_conferma": "2026-07-02 07:35",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 08:21"
     },
     {
       "id": "L-2026-0702-42",
@@ -9190,13 +9192,14 @@
         "nicola"
       ],
       "reparto": "@crm-lifecycle",
-      "confidenza": 0.87,
+      "confidenza": 0.72,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-02",
       "ultima_conferma": "2026-07-02 07:35",
-      "stato": "attiva"
+      "stato": "attiva",
+      "decaduto_step_il": "2026-07-30 08:21"
     },
     {
       "id": "L-2026-0701-40",
@@ -12283,12 +12286,12 @@
     "promosse_a_principio": 87,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-30 08:14",
+    "tasso_calcolato_il": "2026-07-30 08:24",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-30 08:14",
+    "tick_leggero_il": "2026-07-30 08:24",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-30 06:21",
+    "cristallizzazione_ultima": "2026-07-30 08:21",
     "lezioni_totali": 480,
     "lezioni_per_stato": {
       "attiva": 384,
