@@ -84,6 +84,7 @@ import { execFileSync } from "node:child_process";
 import { dirname, join, relative, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import { senzaCommenti } from "./spazzata-fratelli.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -348,6 +349,19 @@ export function bustaPerIlModello(voci = [], nToccati = 0) {
  * «Il canale è vivo?» — l'unica domanda a cui il silenzio non sa rispondere da solo.
  * Mai girato = 2, perché cieco non è verde: vale per la guardia esattamente come per il resto.
  */
+/**
+ * Un file APPENA CREATO non compare in `git diff HEAD`: git non lo conosce ancora. Per un giorno la
+ * guardia ha quindi avuto un buco esattamente dove una malattia nuova entra più facilmente — il file
+ * scritto da zero. Qui il file intero vale come «righe che sto aggiungendo adesso», perché è vero:
+ * l'ho scritto tutto io, in questo momento. (Scoperto collaudando AR-465: l'esca funzionava solo dopo
+ * un `git add`, e il perché mi è sembrato un dettaglio finché non ho guardato cosa implicava.)
+ */
+export function righeDiFileNuovo(contenuto = "") {
+  // Un file binario non ha «righe che ho scritto»: leggerlo come testo produce solo rumore.
+  if (contenuto.includes("\0")) return null;
+  return contenuto.split("\n").map((testo, i) => ({ n: i + 1, testo })).filter((r) => r.testo.trim() !== "");
+}
+
 export function verdettoBattito(battito, adesso = 0) {
   const t = battito && battito.quando ? Date.parse(battito.quando) : NaN;
   if (!Number.isFinite(t)) {
@@ -490,6 +504,35 @@ function main() {
   }
 
   const perFile = leggiDiff(diff);
+
+  // I file NUOVI, che il diff non conosce. `--staged` no: lì il perimetro è per definizione ciò che è
+  // stato messo in staging, e allargarlo direbbe al pre-commit di bocciare per righe che non sta
+  // committando. Il tetto sui byte non è pigrizia: un dump o un export finito nella cartella per
+  // sbaglio farebbe leggere megabyte a ogni Edit, e una guardia lenta viene spenta come una rumorosa.
+  if (!soloStaged) {
+    // Dalla PORTA, non da git a mano (AR-339): con un nome accentato — 26 file solo in questo vault —
+    // git restituisce il percorso citato con gli ottali, `readFileSync` fallisce e il file finirebbe
+    // saltato in silenzio. Cioè: la guardia direbbe di aver guardato un file che non ha aperto. L'ha
+    // trovato il guardiano che quella regola la fa rispettare, prima che uscisse.
+    let nuovi = [];
+    try {
+      nuovi = percorsiDaGit(["ls-files", "--others", "--exclude-standard"], { cwd: REPO });
+    } catch {
+      nuovi = [];
+    }
+    for (const f of nuovi) {
+      if (perFile.has(f)) continue;
+      const abs = join(REPO, f);
+      try {
+        if (statSync(abs).size > 512 * 1024) continue;
+        const righe = righeDiFileNuovo(readFileSync(abs, "utf8"));
+        if (righe && righe.length) perFile.set(f, righe);
+      } catch {
+        // Illeggibile o sparito tra il `ls-files` e la lettura: non è una colpa, è un file che non c'è.
+      }
+    }
+  }
+
   const malattie = leggiRegistro("malattie.json", "malattie");
   const mutanti = leggiRegistro("mutanti.json", "mutanti");
 

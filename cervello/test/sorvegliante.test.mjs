@@ -16,6 +16,7 @@ import {
   gravi,
   leggiDiff,
   bustaPerIlModello,
+  righeDiFileNuovo,
   verdettoBattito,
   VICINANZA_NOTA,
   LETTERALI_MIN,
@@ -363,6 +364,30 @@ test("oltre quattro voci gravi la busta dice quante ne restano invece di troncar
   const sei = Array.from({ length: 6 }, (_, i) => ({ ...ROSSA, file: `f${i}.md` }));
   const ctx = JSON.parse(bustaPerIlModello(sei, 6)).hookSpecificOutput.additionalContext;
   assert.match(ctx, /e altre 2 voci gravi/);
+});
+
+test("un file appena creato conta per intero: è la riga che scrivo adesso, e il diff non la conosce", () => {
+  const righe = righeDiFileNuovo('uno\n\n  \nlezione: "gate": "controlla tutto"\n');
+  assert.deepEqual(righe, [
+    { n: 1, testo: "uno" },
+    { n: 4, testo: 'lezione: "gate": "controlla tutto"' },
+  ]);
+});
+
+test("un file binario non ha righe che ho scritto: leggerlo come testo è solo rumore", () => {
+  assert.equal(righeDiFileNuovo("PK\0\0qualcosa"), null);
+});
+
+test("il file nuovo arriva davvero al cuore: un freno finto dentro un file mai committato viene visto", () => {
+  const esito = sorveglia({
+    toccati: [{ file: "consegne/nuovo.md", aggiunte: righeDiFileNuovo('lezione: "gate": "controlla tutto"\n'), contenuto: "x" }],
+    malattie: MALATTIE,
+    mutanti: [],
+    importatori: new Map(),
+    esiste: () => false,
+  });
+  assert.equal(gravi(esito.voci).length, 1);
+  assert.equal(gravi(esito.voci)[0].classe, "gate-orfano");
 });
 
 test("battito mai scattato = uscita 2: «non so se il canale è vivo» non è un verde", () => {
