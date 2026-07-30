@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-30 03:30",
+  "aggiornato": "2026-07-30 14:25",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -7483,11 +7483,157 @@
         "comando": "node cervello/test/test-cervello.test.mjs"
       },
       "nota_fix": "Fix (a)-(d) applicati. Prove: 4 casi nuovi in cervello/test/test-cervello.test.mjs per righeRosse, 2 in cervello/test/rebase-che-non-parte.test.mjs (rebase rimasto a metà · commit che resta vuoto). 2 mutazioni in mutanti.json. ⚪ DEBITO DICHIARATO: il ramo del catch su rebase --continue non ha prova comportamentale — con git 2.43 (questo container) --continue non fallisce mai la, provato sia con indice vuoto sia con un pre-commit che esce 1. La mutazione che lo avrebbe provato e stata RIMOSSA invece di essere tenuta finta: lasciava il test verde col fix rotto. Per coprirlo serve git >= 2.54 in locale o un doppio iniettabile al posto di git()."
+    },
+    {
+      "id": "AR-452",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "processi",
+      "impatto_crescita": "alto",
+      "nato": "2026-07-30 13:40",
+      "chiuso_il": "2026-07-30 13:40",
+      "fonte": "correzione di Nicola 2026-07-30 ~13:00 («trovi problemi che tu stesso hai creato risolvendo i difetti, e cose che non avevi guardato») — caso-studio prioritario, piu i difetti trovati mentre costruivo il freno",
+      "titolo": "Le righe che aggiungo non le guarda nessuno: la revisione esiste solo a fine corsa, quando sono di parte",
+      "causa_radice": "① Perche le regressioni le trova Nicola e non io? Perche la revisione gira in tre momenti, tutti tardi: al commit (.githooks/pre-commit: sintassi, perimetro di main, segreti), a fine lotto (cancello-lotto.mjs) e a fine giro (auto-analisi.md, che guarda il CONTENUTO — entita e numeri — non il codice). Mentre scrivo una modifica: nessuno. ② Perche a fine corsa non basta? Perche come-riparo.md ⑥ lo dice da solo: «la clausola che salta e quasi sempre l ultima, perche arriva quando il lavoro sembra gia finito» — cioe nel momento in cui un controllo di fine corsa e meno capace di trovarla, perche a quel punto sono di parte (costo affondato + bias di conferma). ③ Perche non e mai stato costruito? Perche lo standard esisteva come PROSA (come-riparo.md, skill cantiere) e non come freno: 281 correzioni di Nicola in apprendimento.json, 24 con un campo gate, 0 con gate_attivo, e 21 dei 26 gate puntano tutti allo stesso script — il conteggio dei freni saliva senza che la difesa esistesse.",
+      "fix_proposto": "🟡 cervello/sorvegliante.mjs — cinque misure meccaniche sul DELTA (solo le righe aggiunte, cosi parte verde per costruzione e non porta debito storico): ① malattia censita in una riga nuova, ② mutazione accecata, ③ gate orfano, ④ perimetro letterale (AR-347), ⑤ raggio (chi altro poggia su cio che ho toccato). Agganciato al cancello che esiste (cancello-lotto.mjs) e non a un sesto comando da ricordare, e al pre-commit come freno che BLOCCA.",
+      "verifica": {
+        "comando": "node cervello/test/sorvegliante.test.mjs"
+      },
+      "nota_fix": "Chiuso da questo lavoro: 20 prove comportamentali su diff finti + 5 mutazioni in mutanti.json (tutte rendono rosso il loro test, verificate con non-vacuita.mjs) + prova a runtime del pre-commit (un commit con `catch(() => {})` nuovo e stato BLOCCATO davvero, non solo in teoria). Resta APERTO il pezzo in tempo reale: vedi AR-455."
+    },
+    {
+      "id": "AR-453",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "cantiere-prove",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-30 13:40",
+      "chiuso_il": "2026-07-30 13:40",
+      "fonte": "correzione di Nicola 2026-07-30 ~13:00 («trovi problemi che tu stesso hai creato risolvendo i difetti, e cose che non avevi guardato») — caso-studio prioritario, piu i difetti trovati mentre costruivo il freno",
+      "titolo": "Una modifica puo accecare in silenzio la prova che proteggeva un fix vecchio: il fix resta, la difesa no, e il test continua a passare",
+      "causa_radice": "① Come sparisce una difesa senza che nessuno lo veda? mutanti.json protegge 87 fix cercando un pezzo esatto di codice (`cerca`); se una modifica successiva sposta o rimuove quel pezzo, la mutazione non ha piu niente da rompere e il test resta verde per vacuita. ② Perche nessuno se ne accorge? Perche non-vacuita.mjs gira sui difetti che il LOTTO tocca (--difetti), scelta giusta per il costo, e nessuno controlla le mutazioni che il diff SFIORA senza nominarle. ③ Perche e grave? Perche il segnale e invertito: il test verde e proprio la prova che la difesa e caduta.",
+      "fix_proposto": "🟡 Controllo ② del sorvegliante: per ogni file toccato, se una mutazione punta a quel file e il suo `cerca` non c e piu nel contenuto dopo la modifica → grave, col nome del difetto che ha perso la prova e la domanda giusta (l ho spostato → aggiorna `cerca`; l ho rimosso → hai appena disfatto quel fix).",
+      "verifica": {
+        "comando": "node cervello/test/sorvegliante.test.mjs"
+      },
+      "nota_fix": "Chiuso. Senza il contenuto del file il controllo dichiara «cieco», non verde (prova dedicata)."
+    },
+    {
+      "id": "AR-454",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-30 13:40",
+      "chiuso_il": "2026-07-30 13:40",
+      "fonte": "trovato dalla guardia su SE STESSA: girata sul commit che la costruiva ha detto «0 file toccati» su tre file appena scritti",
+      "titolo": "L esenzione anti-autoaccusa di un guardiano, presa per UNA classe di controllo, ne spegne tutte le altre sullo stesso file",
+      "causa_radice": "① Perche la guardia era cieca sul lavoro che la costruiva? Perche l elenco dei file esenti (quelli che NOMINANO le malattie per mestiere: registro, guardia, prove, mutazioni) era applicato al file INTERO con un `continue`, non al solo controllo che lo richiede. ② Perche e la stessa forma di AR-338? Perche un esenzione allargata oltre il suo motivo zittisce una malattia senza curarla — e qui la zittiva proprio sui file dei guardiani, cioe quelli che rompono di piu quando cambiano: nessun raggio, nessuna prova accecata, nessun gate orfano. ③ Perche non l ha vista chi l ha scritta? Perche l esenzione sembrava una cautela e non una perdita di copertura: e il tipo di errore che solo l esecuzione trova, mai la rilettura.",
+      "fix_proposto": "🟡 Esenzione per CLASSE di controllo: SALTA_MALATTIE vale solo per ① (i pattern), FIXTURE (cervello/test/) solo per i controlli che leggono DICHIARAZIONI (①③④). Il raggio e la prova accecata restano accesi dappertutto, perche misurano effetti e non intenzioni.",
+      "verifica": {
+        "comando": "node cervello/test/sorvegliante.test.mjs"
+      },
+      "nota_fix": "Chiuso. Due prove col caso e la controprova (le stesse righe dentro una prova non sono una dichiarazione; in un guardiano vero restano rosse)."
+    },
+    {
+      "id": "AR-455",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "processi",
+      "impatto_crescita": "alto",
+      "nato": "2026-07-30 13:40",
+      "fonte": "correzione di Nicola 2026-07-30 ~13:00 («trovi problemi che tu stesso hai creato risolvendo i difetti, e cose che non avevi guardato») — caso-studio prioritario, piu i difetti trovati mentre costruivo il freno",
+      "titolo": "Il freno in tempo reale esiste ma non e attaccato: serve una riga in .claude/settings.json che la macchina non puo scrivere da se",
+      "causa_radice": "① Perche il sorvegliante non gira MENTRE lavoro, che e quello che Nicola ha chiesto? Perche l unico organo che parte senza la mia volonta e un hook PostToolUse su Edit|Write, e si dichiara in .claude/settings.json. ② Perche non l ho aggiunto? Perche quel file e in `deny` per Edit e Write (righe 80-83): la macchina non puo modificare la propria configurazione — ed e giusto, e la stessa difesa di AR-227/AR-228 (nessuna porta che scrive la firma di Nicola senza Nicola). Aggirarla da uno script sarebbe esattamente il difetto che quelle righe impediscono. ③ Quindi il pezzo in tempo reale e debito DICHIARATO, non lavoro finito: oggi il delta e guardato al commit e a fine lotto, non a ogni modifica.",
+      "fix_proposto": "🟡 SERVE NICOLA — una voce hooks.PostToolUse in .claude/settings.json: matcher \"Edit|Write|MultiEdit\", comando `node cervello/sorvegliante.mjs --hook`. Gia pronto: forma corta (max ~8 righe), sola lettura, exit sempre 0 (avvisa, non blocca mai un Edit a meta lavoro). In alternativa: togliere .claude/settings.json dal deny per una sessione e lasciarmelo scrivere."
+    },
+    {
+      "id": "AR-456",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "pannello-coerenza-azioni",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-30 13:40",
+      "fonte": "misurato mentre cercavo il numero dei difetti aperti per questa analisi",
+      "titolo": "Il Pannello mostra 150 difetti aperti, ne sono 155: il contatore riassuntivo del cantiere e piu vecchio dei difetti che conta",
+      "causa_radice": "① Perche due numeri? Perche `meta.aperti` in cantiere-difetti.json e un totale SCRITTO, aggiornato da chi passa, mentre i difetti sono la lista; le due cose divergono al primo che aggiunge una scheda senza toccare meta. ② Perche nessuno lo vede? Perche nessun guardiano confronta il riassunto con la lista che riassume — e il Pannello legge il riassunto. Stessa famiglia di AR-175 (due numeri diversi alla stessa domanda).",
+      "fix_proposto": "🟡 Togliere il totale scritto e derivarlo dalla lista al momento della lettura (una casa sola), oppure un guardiano che fallisce quando meta.aperti != conteggio reale. La prima e meglio: un numero derivato non puo invecchiare."
+    },
+    {
+      "id": "AR-457",
+      "stato": "aperto",
+      "gravita": "minore",
+      "colore": "🟡",
+      "dimensione": "processi",
+      "impatto_crescita": "basso",
+      "nato": "2026-07-30 13:40",
+      "fonte": "misurato lanciando test-cervello.mjs per rispondere alla domanda del raggio",
+      "titolo": "Una prova che legge i dati vivi cambia colore mentre il codice sta fermo: resta un punto, radiografia-snella:88, che duplica una prova che gia esiste su dati finti",
+      "causa_radice": "① Come e nato: il 30/7 la suite era rossa su 3 test su 116 (pausa-senza-risveglio, scadenze-calcolate, radiografia-snella), e il conteggio si muoveva da solo — 4 alla prima misura, 3 dieci minuti dopo, senza che nessuno toccasse un test. Non erano test rotti: asserivano sui DATI del giorno in cui erano stati scritti («almeno 11 card in pausa», «la data e 2026-07-30 16:00», «dimagrisce del 45%»). ② Due su tre sono stati curati ALLA RADICE dalla PR #636 (30/7 14:15), nel modo giusto: la soglia sui dati sostituita dall invariante strutturale che la prova difendeva davvero — «>= 11 card in pausa» → «>= 1, perche il ciclo sotto non giri a vuoto»; «la data e 2026-07-30 16:00» → «il fatto ha una casa sola, un valore non vuoto e una fonte». Il contenuto e di Nicola e puo cambiare quando vuole senza rompere niente. ③ Resta UN punto: radiografia-snella.test.mjs:88-121 legge il vero auto-radiografia.json e pretende un risparmio >= 45%. Oggi e verde solo perche #636 ha rigenerato quel file con piu findings chiusi: tornera rossa al primo giro in cui la proporzione cambia. E la beffa e che la riga 128 dello STESSO file prova la stessa soglia su dati finti («su dati con 9/10 chiusi») — la rete giusta c e gia, quella sui dati vivi e una copia che puo solo fare falsi rossi. ④ Perche lasciarlo aperto e non chiuderlo: la malattia («una prova che cambia colore mentre il codice sta fermo») e curata in due punti su tre, non in tutti e tre. Chiudere qui sarebbe la chiusura falsa che questo cantiere ha gia pagato piu volte.",
+      "fix_proposto": "🟡 Togliere l asserzione sui dati vivi a radiografia-snella.test.mjs:120 (`risparmio >= 0.45` sul file vero) e lasciare al suo posto la sola misura DICHIARATA: stampa il risparmio di oggi come numero, senza pavimento. La soglia resta dove ha senso, alla riga 128, su un ingresso finto e controllato. Poi la regola generale, che e il vero valore di questo difetto: una prova che legge un file del vault puo asserire sulla sua FORMA (esiste, non e vuoto, ha una fonte, la funzione lo digerisce), mai su una sua QUANTITA del giorno. Se la quantita conta, il posto e una sentinella con il suo esito, non la suite dei test — perche un rosso nella suite significa «il codice e rotto» e insegnare il contrario spegne la suite.",
+      "nota": "Storia: nato da una mia affermazione sbagliata («i rossi sono saliti da 3 a 4»), corretta dalla seconda misura nello stesso lavoro. Poi ristretto da 3 punti a 1 dopo che la PR #636 ne ha curati due alla radice. Il merito dei due e della #636, non di questo lotto."
+    },
+    {
+      "id": "AR-458",
+      "stato": "aperto",
+      "gravita": "minore",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "basso",
+      "nato": "2026-07-30 13:40",
+      "fonte": "gate-veri.mjs lanciato all inizio di questa analisi: 1 gate orfano, che orfano non era",
+      "titolo": "gate-veri butta via la differenza fra «freno mai costruito» e «freno che aspetta un merge»: grida al lupo su ogni lezione in attesa",
+      "causa_radice": "① Perche il guardiano dice «gate orfano» su L-2026-0730-530? Perche il test esiste, ma nella PR #635 non ancora mergiata: su questo ramo il file non c e. ② Perche e un problema? Perche il campo gate_nota lo spiega («PR #635, non ancora su main») e il guardiano non lo legge: un falso rosso a ogni lezione con un freno in attesa. ③ Perche conta? Perche un guardiano che grida al lupo si impara a ignorare, e quel giorno ignorera anche un gate davvero orfano. Il sorvegliante ha gia la terza strada («gate-in-attesa», giallo, col numero di PR obbligatorio perche un attesa senza riferimento e un esenzione travestita): qui va portata la stessa distinzione.",
+      "fix_proposto": "🟡 Terzo stato in gate-veri.mjs: se il file non esiste MA gate_nota nomina una PR → giallo «in attesa», contato come debito e non come difesa, con scadenza (dopo N giorni torna rosso: un attesa senza fine e un esenzione). Riusare la logica del sorvegliante invece di scriverne una seconda copia."
+    },
+    {
+      "id": "AR-459",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "processi",
+      "impatto_crescita": "alto",
+      "nato": "2026-07-30 13:40",
+      "fonte": "correzione di Nicola 2026-07-30 ~13:00 («trovi problemi che tu stesso hai creato risolvendo i difetti, e cose che non avevi guardato») — caso-studio prioritario, piu i difetti trovati mentre costruivo il freno",
+      "titolo": "97 difetti su 103 non dicono da dove vengono: «l ho creato io» e «l ho appena scoperto» sono indistinguibili, quindi il problema di Nicola non si puo misurare",
+      "causa_radice": "① Perche non so quanti difetti ho creato io? Perche il campo `fonte` e libero e spesso assente: dei 103 difetti nati il 29/7, 97 hanno fonte vuota. ② Perche e il difetto piu importante di tutta questa lista? Perche la lamentela di Nicola («risolvendo i difetti ne crei di piu grossi») e un NUMERO — difetti nati da un mio fix — e quel numero non esiste. Cio che non si misura non si puo far scendere, e ogni discussione su «sto migliorando?» resta un impressione contro un altra. ③ Le ondate lo mostrano senza spiegarlo: 39 chiusi il 27/7 e 176 nati, 52 chiusi il 28/7, 50 chiusi il 29/7 e 103 nati. La maggior parte dei 176 viene da una radiografia (scoperta, non regressione) — ma 10 difetti hanno la causa radice che punta a un fix precedente, e quei 10 nessuno li conta come classe.",
+      "fix_proposto": "🟡 Campo obbligatorio `origine` su ogni difetto nuovo: `scoperta` (c era prima, l ho appena visto) · `regressione` (l ha introdotta un mio fix, con `da_lotto`/`da_difetto`) · `nuovo-lavoro` (nato da codice appena scritto). Guardiano che fallisce se un difetto nasce senza origine; il conto delle `regressione` per lotto va in Cabina accanto ai chiusi — e sale sul podio quando supera un tetto che scende. Senza questo, il freno di AR-452 non ha un metro che dica se sta funzionando."
+    },
+    {
+      "id": "AR-460",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-30 13:55",
+      "fonte": "la CI ha bocciato una regressione di formato che in locale il guardiano non aveva potuto misurare",
+      "titolo": "In ogni sessione cloud il guardiano del formato JSON e cieco: la regressione passa in locale e la trova solo la CI",
+      "causa_radice": "① Come e passata una riscrittura completa di due JSON? Perche forma-json.mjs confronta con origin/main e in una sessione cloud il clone e superficiale: `fatal: origin/main...HEAD: no merge base` → exit 2, cieco. ② Perche e grave? Perche il guardiano c era, la regola c era, e il difetto e uscito comunque: l ho scritto io stesso con JSON.stringify(dati, null, 1) su file che stavano a 2 spazi, 1519 righe cambiate per aggiungerne 47. ③ Perche il ⚪ non basta? Perche «non ho potuto misurare» in una sessione su tre diventa, di fatto, «non misurato mai»: la CI lo prende dopo, quando la PR e gia aperta e il diff illeggibile e gia pubblico. E la stessa famiglia di AR-343 (i cancelli spenti nel clone), risolta per i cancelli del commit e non per questo. ④ La prova che la cura funziona: `git fetch --unshallow` in questa sessione ha reso il guardiano verde e ha confermato il fix in dieci secondi.",
+      "fix_proposto": "🟡 (a) `git fetch --unshallow` (o `--deepen`) all avvio di sessione, dentro cervello/installa-hooks.sh che gia gira al SessionStart: costa una volta e accende forma-json, prove-oneste e ramo-pulito, tutti e tre oggi ciechi nel cloud. (b) In alternativa/aggiunta: forma-json confronta con il commit precedente del file (HEAD~1) quando origin/main non e raggiungibile, cosi misura sempre qualcosa. (c) I ⚪ del cancello vanno contati in una riga sola con la loro copertura: «3 controlli su 9 non hanno misurato» e un numero che deve scendere, non una decorazione."
+    },
+    {
+      "id": "AR-461",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "cantiere-prove",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-30 13:55",
+      "fonte": "trovato scrivendo la mutazione mancante di L-2026-0730-530: rompendo il punto di chiamata il test resta verde",
+      "titolo": "Il test di AR-451 prova la funzione ma non il punto che la chiama: si puo scollegare il fix e il test resta verde",
+      "causa_radice": "① Il test importa `remotoEDavveroVecchio` e `rebasaSuRiferimento` e li esercita bene, ma il fix vero e il CABLAGGIO: git-pr.mjs:811 passa `[shaLocale, rebaseInfo.preRebaseSha]`. Togliendo `rebaseInfo.preRebaseSha` da quella riga il test resta VERDE (misurato con non-vacuita.mjs). ② Perche succede? Perche la logica e stata estratta in una funzione pura — cosa giusta — ma la prova si e fermata alla funzione e nessuno ha provato che il punto malato la chiami col secondo candidato. E la forma di ⑤ nella skill cantiere: «il runtime serve solo a mostrare che il punto malato lo chiama davvero», passo saltato. ③ Perche conta: il bug di AR-451 e costato 4 PR ricreate in una notte, e oggi puo tornare senza che nessun rosso lo dica.",
+      "fix_proposto": "🟡 Un caso nel test che esercita il punto di chiamata e non solo la funzione: costruire il cfg finto e verificare che dopo un doppio rebase il ramo si ripubblichi (cioe che `remotoAntenato` risulti vero), non solo che la funzione risponda bene sui candidati passati a mano. Poi rimettere la mutazione su git-pr.mjs:811 (era: `[shaLocale, rebaseInfo.preRebaseSha]` → `[shaLocale]`), che oggi resta verde ed e la prova che il buco c e."
     }
   ],
   "meta": {
-    "aperti": 150,
+    "aperti": 162,
     "in_corso": 0,
-    "chiusi": 234
+    "chiusi": 237
   }
 }

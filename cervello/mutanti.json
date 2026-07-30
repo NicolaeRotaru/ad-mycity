@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-07-30 03:30",
+ "aggiornato": "2026-07-30",
  "mutanti": [
   {
    "lotto": 30,
@@ -742,6 +742,60 @@
    "file": "cervello/git-pr.mjs",
    "cerca": "    return { baseRef, ahead, preRebaseSha };",
    "sostituisci": "    return { baseRef, ahead };",
+   "test": "cervello/test/lease-dopo-rebase-ripetuto.test.mjs"
+  },
+  {
+   "difetto": "AR-452",
+   "lezione": "L-2026-0730-531",
+   "nome": "la guardia conta come mie anche le righe che ho RIMOSSO",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    if (l.startsWith(\"+\") && !l.startsWith(\"+++\")) {",
+   "sostituisci": "    if ((l.startsWith(\"+\") || l.startsWith(\"-\")) && !l.startsWith(\"+++\") && !l.startsWith(\"---\")) {",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-452",
+   "lezione": "L-2026-0730-531",
+   "nome": "la guardia conta i commenti che spiegano una malattia come istanze della malattia",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "        const pulita = senzaCommenti(r.testo, file);",
+   "sostituisci": "        const pulita = r.testo;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-453",
+   "lezione": "L-2026-0730-531",
+   "nome": "la guardia non si accorge piu che una mutazione ha perso il suo appiglio",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "          if (!t.contenuto.includes(mu.cerca)) {",
+   "sostituisci": "          if (false) {",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-454",
+   "lezione": "L-2026-0730-531",
+   "nome": "la guardia legge le fixture dei propri test come dichiarazioni vere",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    for (const r of eFixture(file) ? [] : aggiunte) {",
+   "sostituisci": "    for (const r of aggiunte) {",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-454",
+   "lezione": "L-2026-0730-531",
+   "nome": "l esenzione dei pattern torna a spegnere tutti e cinque i controlli sul file",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    for (const m of esenteDaMalattie(file) ? [] : malattie) {",
+   "sostituisci": "    if (esenteDaMalattie(file)) continue;\n    for (const m of malattie) {",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-451",
+   "lezione": "L-2026-0730-530",
+   "nome": "il SHA di prima del rebase non viene piu registrato: il confronto perde l unico appiglio che lo salva",
+   "file": "cervello/git-pr.mjs",
+   "cerca": "  const preRebaseSha = gitOrNull([\"rev-parse\", branch], cfg.cwd);",
+   "sostituisci": "  const preRebaseSha = null;",
    "test": "cervello/test/lease-dopo-rebase-ripetuto.test.mjs"
   }
  ]

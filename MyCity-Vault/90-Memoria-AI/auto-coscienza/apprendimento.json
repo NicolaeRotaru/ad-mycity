@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-30 11:14",
+  "aggiornato": "2026-07-30 13:40",
   "lezioni": [
     {
       "id": "L-2026-0730-01",
@@ -10567,6 +10567,35 @@
       "gate": "node cervello/test/lease-dopo-rebase-ripetuto.test.mjs",
       "gate_attivo": false,
       "gate_nota": "fix su branch fix/lease-rebase-ripetuto-v2 (PR #635), non ancora su main — merge in coda"
+    },
+    {
+      "id": "L-2026-0730-531",
+      "testo": "**La revisione che arriva alla fine non e una revisione: e un'assoluzione (30/7, Nicola: «ogni volta che ti chiedo di ricontrollare il lavoro trovi problemi che tu stesso hai creato risolvendo i difetti, e trovi anche cose che non avevi guardato»).** Misurato: la revisione girava in tre momenti, tutti tardi — al commit (sintassi, perimetro di main, segreti), a fine lotto (cancello-lotto), a fine giro (auto-analisi, che guarda entita e numeri, non il codice). Mentre scrivo una modifica: nessuno. E come-riparo.md ⑥ lo diceva gia: «la clausola che salta e quasi sempre l'ultima, perche arriva quando il lavoro sembra gia finito» — cioe nel momento in cui sono meno capace di trovarla. Il conto di averlo lasciato in prosa: 281 correzioni di Nicola registrate, 24 con un campo `gate`, 0 con `gate_attivo`, e 21 dei 26 gate puntano tutti allo stesso script. **La regola:** ogni volta che aggiungo righe, prima di consegnare guardo il DELTA — le righe nuove reintroducono una malattia censita? accecano una mutazione che proteggeva un fix vecchio? dichiarano un freno che non esiste? aggiungono un elenco di file scritto a mano (perimetro dedotto invece che misurato)? e chi ALTRO poggia su cio che ho toccato? E la regola sotto la regola, che questa sessione ha pagato tre volte in un'ora: **una misura letta attraverso una pipe non e una misura** — `require` su percorso relativo senza `./` con l'errore mandato in /dev/null mi ha fatto concludere «zero hook configurati» quando ce n'era uno, e `$?` dopo un `| head` mi ha dato l'uscita di head due volte. E `errore-ingoiato`, la malattia che censisco nel codice, commessa nel modo in cui misuro.",
+      "tag": [
+        "auto-revisione",
+        "correzione-nicola",
+        "guardiani",
+        "regressione",
+        "misura-rotta"
+      ],
+      "reparto": "AD",
+      "confidenza": 0.95,
+      "evidenze": [
+        "cantiere: 10 difetti con causa radice che punta a un fix precedente (AR-196, AR-201, AR-338, AR-344, AR-347, AR-352, AR-389, AR-415, AR-437, AR-156)",
+        "AR-347 alla lettera: «FILE_PILOTA e un elenco letterale, e chi lo ha scritto ha elencato i file dove aveva appena visto il difetto»",
+        "AR-172: «la prova la conoscevo io e copriva quello che avevo fatto io»",
+        "ondate 27-29/7: 39/52/50 difetti chiusi, 176 e 103 nati",
+        "apprendimento.json: 480 lezioni, 26 con gate, 0 gate_attivo, 4 gate distinti su 26",
+        "la guardia nuova, girata sul commit che la costruiva, ha detto «0 file toccati» su tre file appena scritti (AR-454)"
+      ],
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-30 13:40",
+      "ultima_conferma": "2026-07-30 13:40",
+      "stato": "attiva",
+      "gate": "node cervello/test/sorvegliante.test.mjs",
+      "gate_attivo": true,
+      "gate_nota": "Freno suo, non riciclato: 20 prove comportamentali + 5 mutazioni in mutanti.json (tutte rendono rosso il loro test) + il pre-commit provato a runtime (un commit con una malattia nuova e stato bloccato davvero). Agganciato a cancello-lotto.mjs e a .githooks/pre-commit. Il pezzo in TEMPO REALE (hook PostToolUse) e debito dichiarato: AR-455, serve una riga in .claude/settings.json che la macchina non puo scriversi da se."
     }
   ],
   "principi": [
