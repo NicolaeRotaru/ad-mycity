@@ -1001,3 +1001,90 @@ il battito esterno appena installato chiude da solo l'eventuale allarme aperto.
 - **Reparto:** devops-sre
 - **Nota:** da adesso questo non dipende più dal fatto che qualcuno se ne accorga: la macchina apre
   una segnalazione su GitHub da sola entro un'ora di silenzio. È il senso del lavoro di oggi.
+
+---
+
+## Fai ripartire gli ordini del marketplace: sono fermi tutti — 2026-07-30 01:20
+
+Applica al database di produzione la migrazione `114_fix_order_trigger_invoice_number.sql`
+(branch `claude/amazing-lovelace-nqa9o1` del repo mycity), poi apri la dashboard di un
+venditore e premi «Accetta» su un ordine in stato NEW.
+
+**Cosa cambia:** oggi il guardiano degli ordini controlla un campo (`invoice_number`) che una
+migrazione di giugno ha cancellato dal database. Ogni volta che un venditore prova ad accettare
+un ordine, o un rider a prenderlo in carico e a consegnarlo, il database risponde con un errore.
+Admin e servizi interni non lo vedono, perché escono dal controllo prima. L'ho verificato sul
+database vero: la colonna non c'è, la funzione la cita ancora, il trigger è attivo. È il motivo
+per cui in produzione ci sono 1 ordine e **zero ordini pagati**: nessun ordine ha mai potuto
+avanzare. La migrazione ricrea la funzione identica, con la sola riga rotta rimossa.
+
+**Se va bene:** l'ordine passa ad ACCEPTED e la catena venditore → pronto → rider → ritiro →
+consegna torna percorribile. Controlla anche che una transizione vietata (NEW → DELIVERED) resti
+rifiutata: se passa, il guardiano è stato indebolito e la migrazione va rivista.
+
+- **Colore:** 🔴 (modifica allo schema del database di produzione)
+- **Reparto:** backend-dev
+
+---
+
+## Chiudi il buco che permette a un utente di regalarsi credito MyCity — 2026-07-30 01:20
+
+Applica `115_freeze_wallet_and_order_money_fields.sql`, poi lancia la query di riconciliazione
+che trovi in fondo al file stesso.
+
+**Cosa cambia:** il saldo del credito cliente sta su una colonna che l'utente può riscrivere da
+solo: il permesso di modifica del proprio profilo è per riga, non per colonna, e il guardiano che
+congela i campi sensibili non include il credito — è stato aggiunto dopo che quel guardiano era
+già scritto. Con una sola chiamata al proprio profilo si creano migliaia di euro di credito
+spendibili al contrassegno. E siccome la quota del venditore è calcolata sul totale pieno,
+finiremmo per pagare il negozio di tasca nostra per merce mai incassata. Verificato sul database
+vero. La stessa migrazione congela anche due campi-denaro dell'ordine rimasti scoperti.
+
+**Se va bene:** il credito si muove solo attraverso le procedure interne. La query di
+riconciliazione dice se qualcuno ha già sfruttato il buco: zero righe = tutto pulito, righe
+presenti = va indagato prima di aprire ai clienti.
+
+- **Colore:** 🔴 (modifica allo schema del database di produzione, tocca i soldi)
+- **Reparto:** security
+
+---
+
+## Impedisci a un estraneo di bloccare i pagamenti dei negozi — 2026-07-30 01:20
+
+Applica `116_returns_insert_requires_order_ownership.sql`.
+
+**Cosa cambia:** oggi per aprire un reso basta dichiarare di essere il compratore: nessuno
+controlla che l'ordine sia davvero tuo. Un reso finto su un ordine di qualcun altro mette quel
+negozio fra quelli «con un reso aperto», e il pagamento automatico lo salta. Ripetibile su ogni
+ordine consegnato: i negozi non vengono pagati e nessuno capisce perché. Verificato sul database
+vero. La correzione pretende che l'ordine sia tuo, di quel venditore e già consegnato, e aggiunge
+il vincolo che impedisce due resi aperti sullo stesso ordine.
+
+**Se va bene:** un reso su un ordine altrui viene rifiutato dal database, mentre il percorso
+normale (chiedere il reso su un proprio ordine consegnato) continua a funzionare. Se si rompe
+anche quello, la regola è troppo stretta e va allargata.
+
+- **Colore:** 🔴 (modifica allo schema del database di produzione)
+- **Reparto:** security
+
+---
+
+## Rimetti in linea il sito: la produzione è ferma dal 19 luglio — 2026-07-30 01:20
+
+Fai entrare in `main` i fix del branch `claude/amazing-lovelace-nqa9o1` e verifica che Render
+completi il deploy. Poi, sempre su GitHub, attiva la protezione del ramo `main` pretendendo che
+`Build` e `Unit tests` siano verdi prima di ogni merge.
+
+**Cosa cambia:** un commento di codice mai chiuso, entrato in `main` il 20 luglio, impediva la
+compilazione. Render, non riuscendo a costruire, ha continuato a servire la versione del 19
+luglio: due merge non sono mai arrivati ai clienti e i cruscotti non lo dicevano. L'ho corretto e
+i quattro controlli sono tornati verdi (compilazione, stile, build di 169 pagine, 718 test su
+718). La protezione del ramo è la parte che conta di più: quella PR è stata unita con i propri
+controlli **rossi**, e su `main` un quarto delle esecuzioni recenti è rosso. Senza quel freno, lo
+stesso guasto tornerà.
+
+**Se va bene:** il sito serve di nuovo il codice aggiornato, e da quel momento nessuno può più
+unire in `main` qualcosa che non compila — non perché se ne ricorda, ma perché non è permesso.
+
+- **Colore:** 🔴 (deploy in produzione + cambio delle regole del repo)
+- **Reparto:** devops-sre
