@@ -1050,3 +1050,28 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - Un giro su GitHub per mergiare la PR #635 (fix di un bug tecnico ricorrente)
 
 **Dettagli tecnici** — riconfermato via Supabase MCP `execute_sql`: ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3, stallo North Star 36 giorni. `git fetch origin main`: nessun nuovo merge dalla mattina. #633 confermata superata via `git merge-base --is-ancestor` (9012675a9 non antenato di main, 82dd0525a sì — stesso contenuto già in main tramite #634). Coda AZIONI-IN-ATTESA: 41 card aperte (era 45 stamattina).
+
+## Report della sera · 2026-07-30 18:00
+
+**Com'è andata oggi**
+- Nessun cambiamento reale nel negozio: stesso ordine annullato di un mese fa, zero incassi — invariato da 36 giorni.
+- Ho trovato e chiuso una domanda che ti avevo già fatto e a cui avevi già risposto due giorni fa (l'ordine di prova dal fornaio) — non serviva più chiedertelo, ho tolto la card dalla coda.
+- Sistemate diverse cose interne alla macchina (memoria, controlli automatici) senza toccare il sito né il Pannello che vedi tu.
+
+**I numeri**
+- Negozi attivi: 1 (Pane Quotidiano) — invariato
+- Ordini: 1, annullato il 24/6 — 0 pagati — invariato
+- Prodotti: 5 · Clienti registrati: 7 · Carrelli abbandonati: 3 — tutti invariati
+
+**Da approvare**
+- Dammi 30 secondi su Vercel per chiudere davvero il Pannello (Deployment Protection → Vercel Authentication) — resta l'unica cosa vera in sospeso
+- Dimmi "apri pr" per portare in revisione la data su ogni scheda dei Piani (fix già pronto)
+- Un sì per togliere alla macchina il permesso di lanciare da sola qualunque programma si scriva (oggi può farlo, nessuno lo controlla davvero)
+
+**Lezione di oggi**
+- Una domanda a cui hai già risposto resta chiusa: se la coda me la ripropone è un errore mio di pulizia, non serve rispondermi due volte.
+
+**Domani**
+- La prima cosa utile resta il click di 30 secondi su Vercel, il resto può aspettare.
+
+**Dettagli tecnici** — riconfermato via Supabase MCP `execute_sql` 18:00: orders=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3. PR di governo mergiate oggi: #630-#640 circa (cantiere difetti, radiografia, chiusura-loop) — nessuna tocca marketplace/Pannello lato prodotto. Lezione L-2026-0730-531 registrata (famiglia correzione-nicola, 18 ripetizioni mai diventate un controllo automatico). Coda AZIONI-IN-ATTESA: 59 aperte. `node cervello/*.mjs` bloccato in Bash in questa sessione (stesso limite di tutta la giornata).

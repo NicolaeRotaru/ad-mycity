@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 16:23
+aggiornato: 2026-07-30 18:00
 fonte: AD digitale (chat)
 ---
+
+> 🌙 **30/7 18:00 — REPORT DELLA SERA: giornata di manutenzione interna (governo della macchina), business fermo a 36 giorni esatti, resta una sola firma vera.** Riconfermato dal vivo via Supabase (`execute_sql` 18:00): `ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3` — identico cifra per cifra a ogni passaggio di oggi (20+ giri), stallo **36 giorni**. Oggi: chiusa una domanda-fantasma rimasta aperta per errore (l'ordine di prova PQ, già deciso da Nicola il 28/7), registrata la lezione `L-2026-0730-531` (famiglia `correzione-nicola`, 18 ripetizioni mai diventate un controllo automatico); mergiate ~11 PR di governo interno (cantiere difetti, auto-radiografia, chiusura loop) — nessuna tocca il marketplace o il Pannello lato prodotto. **La mossa n.1 resta l'unica firma 🔴 rimasta: 30 secondi su Vercel Authentication.** Coda [[AZIONI-IN-ATTESA]]: 59 aperte. Briefing: [[Briefing/2026-07-30]].
 
 > 🔁 **30/7 16:23 — GIRO RIPETUTO (20°+ passaggio di oggi): altre 2 PR di governo mergiate (#639/#640), business riconfermato dal vivo, ANCORA invariato.** `git fetch origin main` mostra, oltre a quanto già confermato alle 15:29, altre 2 PR mergiate: `f8c36f44a` (#639, "il cantiere torna visibile") e `53280b4b5` (#640, AR-459 "l'ho creato io / l'ho appena scoperto diventano due cose contabili") — lavoro interno di governo della macchina (cantiere difetti, auto-radiografia), nessuna firma richiesta a Nicola. Business riverificato dal vivo via `mcp__supabase-marketplace execute_sql`: `ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3, ultimo_ordine=2026-06-24` — identico cifra per cifra a **tutti** i passaggi di oggi, stallo **36 giorni**. Applicata la strategia snella per giro ripetuto ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): niente radar/intelligence/auto-miglioramento (già fatti oggi), `auto-analisi.json` rinfrescato. `apprendimento.json`/`chiusura-loop.json` risultano già aggiornati dal worker VPS (16:20/16:21) — nessuna nuova lezione da aggiungere in questo passaggio (nessun verdetto/correzione nuova di Nicola). `node cervello/*.mjs` resta bloccato in Bash in questa sessione (stesso limite di tutti i passaggi di oggi). **La mossa n.1 resta l'unica firma 🔴 rimasta: 30 secondi su Vercel Authentication.** Briefing: [[Briefing/2026-07-30]].
 
@@ -723,6 +725,17 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (🌙 aggiornato 30/7 18:00 — report della sera)
+Business INVARIATO dal 24/6, riconfermato con SQL diretta alle 18:00: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati — **stallo 36 giorni**. Giornata di sola manutenzione interna (governo della macchina), zero movimento commerciale come da pausa concordata fino al 24/8-1/9. Chiusa oggi la domanda-fantasma sull'ordine di prova PQ (già risposta da Nicola il 28/7) — non resta più nessuna decisione business in sospeso, solo le firme tecniche.
+
+1. [ ] 🔴 **Trenta secondi su Vercel per chiudere davvero il Pannello** (Settings → Deployment Protection → Vercel Authentication = Enabled) — verificato di persona in incognito, resta l'unico bloccante reale.
+2. [ ] 🟡 **Apri la PR con la data su ogni casella dei Piani** — fix pronto e committato (branch `fix/data-piani-per-casella`), basta dire "apri pr" nella prossima chat.
+3. [ ] 🟡 **Togli alla macchina il permesso jolly sui suoi programmi** (`.claude/settings.json`) — elenco esplicito dei 70 programmi già pronto in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 36gg, atteso — negozi in pausa) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente · n8n cieco · REST/MCP/Stripe/Sito/Pannello ✅ · cantiere: 2 bloccanti aspettano solo te (permessi `.claude/settings.json` AR-206, Vercel Authentication AR-226).
+
+---
 
 ## Prossime priorità (🕛 aggiornato 30/7 12:00 — punto di mezzogiorno)
 Business INVARIATO, riconfermato ora con query diretta: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati — **stallo 36 giorni**. La domanda sull'ordine di prova PQ (mossa n.3 di stamattina) era già stata risposta da Nicola il 28/7 e chiusa alle 11:32. Restano solo le due firme tecniche di sempre.
