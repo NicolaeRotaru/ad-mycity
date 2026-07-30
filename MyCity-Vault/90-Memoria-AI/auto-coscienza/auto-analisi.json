@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-30 16:23",
+  "data": "2026-07-30 18:22",
   "voto_fiducia": 90,
-  "sintesi": "Giro richiesto in chat (esecuzione integrale di `cervello/giro.md`), 20°+ passaggio della giornata sullo stesso stato di business. Applicata la strategia snella per giro ripetuto (AR-113/`playbook-giro-pieno-ripetuto-strategia`): nessuna nuova query pesante su radar/intelligence/auto-miglioramento (già fatti oggi, cadenza rispettata). Novità vera di questo passaggio: `git fetch origin main` mostra **altre 2 PR mergiate dall'ultimo check** (#639 'il cantiere torna visibile' e #640 AR-459) — lavoro interno di governo, non richiede firma di Nicola. Business riconfermato dal vivo via `mcp__supabase-marketplace execute_sql`: ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli abbandonati=3, ultimo_ordine=2026-06-24 → stallo confermato **36 giorni**, identico cifra per cifra a tutti i passaggi precedenti di oggi. `apprendimento.json`/`chiusura-loop.json` risultano già aggiornati dal worker VPS (16:20/16:21): il gap di freschezza segnalato per il passaggio delle 15:34 è già sanato da un ciclo successivo del worker.",
-  "trend_fiducia": "→ 90→90 — solo riconferma di invarianza + 2 PR di governo osservate (nessuna azione derivata), niente di nuovo che cambi il voto.",
+  "sintesi": "Giro richiesto in chat (esecuzione integrale di `cervello/giro.md`), 20°+ passaggio della giornata sullo stesso stato di business, il primo dopo il Report della Sera (18:00). Applicata la strategia snella per giro ripetuto (AR-113/`playbook-giro-pieno-ripetuto-strategia`): nessuna nuova query pesante su radar/intelligence/auto-miglioramento (già fatti oggi, cadenza rispettata). Novità vera di questo passaggio: `git fetch origin main` mostra **altre 3 PR mergiate dall'ultimo check** (#641 hook PostToolUse AR-455, #642 'misura-cieca' sui cinque modi di leggere un verde falso, #643 AR-464 'verificare non deve costare un diff') — lavoro interno di governo, non richiede firma di Nicola. Business riconfermato dal vivo via `mcp__supabase-marketplace execute_sql` (query diretta su `orders`/`products`/`profiles`/`reviews`/`abandoned_carts`, non ereditata): ordini=1, pagati=0, consegnati=0, negozi=1, prodotti=5, profili=7, recensioni=0, carrelli abbandonati=3, ultimo_ordine=2026-06-24 → stallo confermato **36 giorni**, identico cifra per cifra a tutti i passaggi precedenti di oggi. Git status locale mostra 17 file 'M' (auto-coscienza/*.json, routing.json, ecc.): sono scritture del worker VPS concorrente (pattern 'recupero: scritture pendenti', un commit/minuto già annotato nei passaggi 14:23/15:29) — non toccati da questa sessione, per non scavalcare scritture in corso ([[worker-concorrente-durante-sessione-interattiva]]).",
+  "trend_fiducia": "→ 90→90 — solo riconferma di invarianza + 3 PR di governo osservate (nessuna azione derivata), niente di nuovo che cambi il voto.",
   "entita_verificate": [
     {
       "nome": "Pane Quotidiano",
       "stato": "confermato",
-      "fonte": "query diretta `execute_sql` 2026-07-30 16:23, coerente con tutti i passaggi precedenti di oggi"
+      "fonte": "query diretta `execute_sql` 2026-07-30 18:22, coerente con tutti i passaggi precedenti di oggi"
     },
     {
       "nome": "0 ordini pagati / 1 ordine zombie CANCELED / 7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati",
       "stato": "confermato",
-      "fonte": "query diretta `execute_sql` 2026-07-30 16:23 — identico alla firma di ultimo_pieno (29/7 08:21): nessun cambiamento in 36 giorni"
+      "fonte": "query diretta `execute_sql` 2026-07-30 18:22 (tabelle orders/products/profiles/reviews/abandoned_carts) — identico alla firma di ultimo_pieno (29/7 08:21): nessun cambiamento in 36 giorni"
     },
     {
-      "nome": "PR #634-#640 tutte mergiate su origin/main",
+      "nome": "PR #634-#643 tutte mergiate su origin/main",
       "stato": "confermato",
-      "fonte": "`git fetch origin main` + `git log origin/main --oneline` (16:23). #639/#640 sono novità di questo passaggio rispetto al precedente check (15:29)"
+      "fonte": "`git fetch origin main` + `git log origin/main --oneline` (18:22). #641/#642/#643 sono novità di questo passaggio rispetto al precedente check (16:23)"
     }
   ],
   "benchmark": "Nessun lavoro creativo/importante in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9, nessuna pubblicazione/campagna in scope) — auto-miglioramento saltato di proposito, non per omissione.",
@@ -29,7 +29,7 @@
     "sensori_attivi": 10
   },
   "livello_verifica": "L1 (query diretta `execute_sql` in questo stesso passaggio + `git fetch`/`git log` diretti sul remoto, non ereditati).",
-  "refutazione": "REFUTAZIONE VERA su 2 claim di questo passaggio: 'PR #639/#640 sono mergiate' — verificato con `git fetch origin main` + `git log origin/main --oneline`, messaggi espliciti '(#639)'/'(#640)' in cima al ramo — SOPRAVVIVE. 'Il business è ancora invariato' — riverificato con query diretta, non ereditato dal pre-step — SOPRAVVIVE.",
+  "refutazione": "REFUTAZIONE VERA su 2 claim di questo passaggio: 'PR #641/#642/#643 sono mergiate' — verificato con `git fetch origin main` + `git log origin/main --oneline`, messaggi espliciti '(#641)'/'(#642)'/'(#643)' in cima al ramo — SOPRAVVIVE. 'Il business è ancora invariato' — riverificato con query diretta, non ereditato dal pre-step — SOPRAVVIVE.",
   "domande_per_nicola": [
     {
       "tipo": "north_star",
@@ -39,8 +39,8 @@
     },
     {
       "tipo": "codice",
-      "domanda": "Tutte le PR fino alla #640 risultano mergiate su GitHub (verificato via `git fetch`). Resta una sola voce 🔴 senza alternativa tecnica: la firma su Vercel Authentication (30 secondi, incognito).",
-      "azione": "nessuna card nuova — #639/#640 sono lavoro di governo interno, non richiedono checklist",
+      "domanda": "Tutte le PR fino alla #643 risultano mergiate su GitHub (verificato via `git fetch`). Resta una sola voce 🔴 senza alternativa tecnica: la firma su Vercel Authentication (30 secondi, incognito).",
+      "azione": "nessuna card nuova — #641/#642/#643 sono lavoro di governo interno, non richiedono checklist",
       "colore": "🔴"
     },
     {

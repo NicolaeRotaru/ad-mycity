@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 18:00
+aggiornato: 2026-07-30 18:22
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **30/7 18:22 — GIRO RIPETUTO (21°+ passaggio di oggi, il primo dopo il Report della Sera): altre 3 PR di governo mergiate (#641/#642/#643), business riconfermato dal vivo, ANCORA invariato.** `git fetch origin main` mostra 3 nuove PR rispetto alle 16:23: #641 (hook PostToolUse AR-455), #642 (misura-cieca sui falsi verdi verdi), #643 (AR-464, "verificare non deve costare un diff") — lavoro interno di governo della macchina, nessuna firma richiesta a Nicola. Business riverificato dal vivo via `mcp__supabase-marketplace execute_sql`: `ordini=1, pagati=0, consegnati=0, negozi=1, prodotti=5, profili=7, recensioni=0, carrelli=3, ultimo_ordine=2026-06-24` — identico cifra per cifra a ogni passaggio di oggi, stallo **36 giorni**. Applicata la strategia snella per giro ripetuto ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): niente radar/intelligence/auto-miglioramento (già fatti oggi), `auto-analisi.json` rinfrescato. Osservato (non un difetto nuovo): il worker VPS continua a scrivere commit "recupero: scritture pendenti" uno al minuto (18:07→18:21) — 17 file `M` in area di lavoro, non toccati da questa sessione per non scavalcare il worker concorrente. **La mossa n.1 resta l'unica firma 🔴 rimasta: 30 secondi su Vercel Authentication.** Briefing: [[Briefing/2026-07-30]].
 
 > 🌙 **30/7 18:00 — REPORT DELLA SERA: giornata di manutenzione interna (governo della macchina), business fermo a 36 giorni esatti, resta una sola firma vera.** Riconfermato dal vivo via Supabase (`execute_sql` 18:00): `ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3` — identico cifra per cifra a ogni passaggio di oggi (20+ giri), stallo **36 giorni**. Oggi: chiusa una domanda-fantasma rimasta aperta per errore (l'ordine di prova PQ, già deciso da Nicola il 28/7), registrata la lezione `L-2026-0730-531` (famiglia `correzione-nicola`, 18 ripetizioni mai diventate un controllo automatico); mergiate ~11 PR di governo interno (cantiere difetti, auto-radiografia, chiusura loop) — nessuna tocca il marketplace o il Pannello lato prodotto. **La mossa n.1 resta l'unica firma 🔴 rimasta: 30 secondi su Vercel Authentication.** Coda [[AZIONI-IN-ATTESA]]: 59 aperte. Briefing: [[Briefing/2026-07-30]].
 
