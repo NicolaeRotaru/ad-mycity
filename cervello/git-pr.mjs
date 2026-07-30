@@ -12,6 +12,7 @@
 import { execFileSync, spawnSync } from "node:child_process";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { pathToFileURL } from "node:url";
 import { prendiLucchettoOEsci } from "./lucchetto-git.mjs";
 import {
   AD_ROOT,
@@ -23,7 +24,11 @@ import {
   stampSegnale,
 } from "./git-github.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
-import { RISCRITTI_DAL_WORKER, CORPO_PR_CONDIVISO } from "./file-della-macchina.mjs";
+import {
+  RISCRITTI_DAL_WORKER,
+  CORPO_PR_CONDIVISO,
+  REFERTI_RIGENERATI,
+} from "./file-della-macchina.mjs";
 
 const AZIONI_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
 const TECH_DIR = join(AD_ROOT, "consegne/tech");
@@ -36,17 +41,37 @@ const MIN_BODY_LEN = 80;
 const WORKER_AUTO_PATHS = new Set(RISCRITTI_DAL_WORKER);
 
 /** Descrizione PR condivisa: SOLO come output di scrittura (writeConsegna), MAI come input/fallback di lettura.
- * Il file viene corrotto dal rebase (--theirs lo riporta alla versione di main = PR precedente). */
+ * Il file viene corrotto dal rebase: l'auto-risoluzione tiene la versione della base, che per un file
+ * condiviso fra tutte le PR è la descrizione della PR PRECEDENTE (L-2026-0718-273). Il corpo vero va
+ * su GitHub via API, non da qui. */
 const SHARED_PR_BODY = CORPO_PR_CONDIVISO;
 
-/** In rebase, questi file si risolvono da soli (teniamo la base; il body vero va su GitHub via API). */
+/**
+ * In rebase, questi file si risolvono da soli tenendo **la versione della base** (il corpo PR vero
+ * va su GitHub via API; i referti li rigenera il loro guardiano).
+ *
+ * AR-449 — QUALE LATO, e perché la riga qui sotto è cambiata. Questo commento ha sempre detto
+ * «teniamo la base», e il codice faceva `git checkout --theirs`. Provato su un repo finto: durante un
+ * rebase `--theirs` è **la versione del RAMO**, `--ours` è quella della base. Cioè per settimane
+ * l'auto-risoluzione ha tenuto esattamente il lato che questo commento promette di scartare: la
+ * copia vecchia che il ramo si portava dietro tornava dentro la PR, e al merge riscriveva il referto
+ * più nuovo di `main`. È la famiglia delle ventuno correzioni, entrata dalla porta di servizio.
+ */
 const AUTO_RESOLVE_REBASE_PATHS = new Set([
   SHARED_PR_BODY,
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/sentinella-dati.json",
   "cervello/routing.json",
+  ...REFERTI_RIGENERATI,
 ]);
+
+/**
+ * I file che la macchina può avere sporchi mentre si apre una PR, e che il rebase non deve
+ * scavalcare: sono gli stessi che il commit chore tiene fuori apposta. Vengono messi da parte prima
+ * del rebase e rimessi identici dopo (vedi `parcheggiaSporco`).
+ */
+const PARCHEGGIABILI = new Set([...RISCRITTI_DAL_WORKER, SHARED_PR_BODY]);
 
 function pathFromPorcelainLine(line) {
   let path = line.substring(2).replace(/^\s+/, "").trim();
@@ -284,66 +309,248 @@ function isRebaseInProgress(cfg) {
   return existsSync(join(cfg.cwd, ".git", "rebase-merge")) || existsSync(join(cfg.cwd, ".git", "rebase-apply"));
 }
 
-/** Risolve conflitti noti durante rebase (--theirs = base). @returns {boolean} true se risolto */
+/**
+ * Risolve i conflitti dei file che la macchina rigenera tenendo la versione della BASE
+ * (`--ours`, provato: in rebase `--ours` è la base e `--theirs` è il ramo).
+ *
+ * E LO DICE, riga per riga. Un'auto-risoluzione muta è comoda e sbagliata: il giorno che scarta una
+ * copia che serviva, nessuno lo sa. Qui la scelta si legge nel log del comando che l'ha fatta.
+ *
+ * @returns {boolean} true se ha risolto tutto
+ */
 function tryAutoResolveRebaseConflicts(cfg) {
   const pending = unmergedPaths(cfg);
   if (!pending.length) return false;
   if (!pending.every((p) => AUTO_RESOLVE_REBASE_PATHS.has(p))) return false;
   for (const p of pending) {
-    git(["checkout", "--theirs", "--", p], cfg.cwd);
+    git(["checkout", "--ours", "--", p], cfg.cwd);
     git(["add", "--", p], cfg.cwd);
+    console.log(`   ↩︎ ${p}: tengo la versione della base — la copia del ramo è il referto di quando il ramo è nato, lo rigenera il suo guardiano.`);
   }
   return true;
 }
 
 /**
- * Rebase del branch feature su base aggiornata; auto-risolve il body PR condiviso.
+ * Un rebase dentro uno script non ha un editor, e non deve volerne uno (AR-450). Senza questo, un
+ * `rebase --continue` che chiede di confermare il messaggio si apre in `vi`, con lo stdin chiuso:
+ * fallisce, e prima il ripiego era `--skip`, cioè buttare via il commit del ramo per un editor
+ * mancante. `GIT_TERMINAL_PROMPT=0` chiude l'altra porta della stessa famiglia: mai restare appesi
+ * a una domanda che nessuno leggerà.
+ */
+const SENZA_EDITOR = { GIT_EDITOR: "true", GIT_SEQUENCE_EDITOR: "true", GIT_TERMINAL_PROMPT: "0" };
+
+/** Il motivo che git ha dato, senza il token e senza il muro di hint. */
+function motivoGit(err, token) {
+  const righe = sanitize(err, token)
+    .split("\n")
+    .map((r) => r.trim())
+    .filter((r) => r && !r.startsWith("hint:"));
+  return righe.slice(0, 2).join(" · ") || "(git non ha detto perché)";
+}
+
+/**
+ * Le righe di `git status --porcelain` che FERMANO un rebase, divise in due: quelle che possiamo
+ * mettere da parte da soli e quelle su cui decide chi lavora.
+ *
+ * Un file mai tracciato (`??`) non ferma niente: git lo lascia dov'è. Ciò che ferma è il tracciato
+ * modificato — nell'indice o nell'albero, git rifiuta in entrambi i casi.
+ *
+ * Pura: la prova la esegue su ingressi finti, compresi quelli che nel repo non esistono.
+ */
+export function sporcoCheFermaIlRebase(porcelain, parcheggiabili = PARCHEGGIABILI) {
+  /** @type {string[]} */ const parcheggia = [];
+  /** @type {string[]} */ const altri = [];
+  for (const line of String(porcelain || "").split("\n").filter(Boolean)) {
+    const stato = line.slice(0, 2);
+    if (stato === "??" || stato === "!!") continue;
+    const path = pathFromPorcelainLine(line);
+    (parcheggiabili.has(path) ? parcheggia : altri).push(path);
+  }
+  return { parcheggia, altri };
+}
+
+/**
+ * Mette da parte il contenuto sporco dei file dichiarati (byte per byte) e riporta il tracciato a
+ * HEAD, così il rebase può partire. Restituisce la funzione che li rimette come stavano.
+ *
+ * Perché a mano e non con `git stash`: lo stash va rimesso con un `pop` che, dopo un rebase che ha
+ * toccato gli stessi file, conflitta — e ci ritroveremmo a risolvere un conflitto nato dal rimedio.
+ * Questi file appartengono a `main` e il worker li riscrive al giro dopo: rimetterli identici è
+ * l'unica cosa che si può promettere, ed è quella che serve.
+ */
+function parcheggiaSporco(cfg, percorsi) {
+  const parcheggio = [];
+  for (const p of percorsi) {
+    // Solo ciò che esiste in HEAD: per un file che in HEAD non c'è, `checkout HEAD --` non ha niente
+    // da ripristinare, e inventarsi un ripiego qui vorrebbe dire indovinare. Resta sporco, e se
+    // ferma il rebase lo dirà il messaggio di git — che è la verità, non una supposizione.
+    if (gitOrNull(["cat-file", "-e", `HEAD:${p}`], cfg.cwd) === null) continue;
+    const abs = join(cfg.cwd, p);
+    parcheggio.push({ p, abs, contenuto: existsSync(abs) ? readFileSync(abs) : null });
+    git(["checkout", "HEAD", "--", p], cfg.cwd);
+  }
+  return () => {
+    for (const { abs, contenuto } of parcheggio) {
+      if (contenuto === null) continue;
+      mkdirSync(dirname(abs), { recursive: true });
+      writeFileSync(abs, contenuto);
+    }
+    return parcheggio.map((x) => x.p);
+  };
+}
+
+/**
+ * Rebase del branch feature su base aggiornata; auto-risolve i referti della macchina.
  * @param {import('./git-github.mjs').RepoConfig} cfg @param {string} base @param {string} branch
  */
 function rebaseBranchOntoBase(cfg, base, branch) {
+  return rebasaSuRiferimento(cfg, fetchBase(cfg, base), branch, base);
+}
+
+/**
+ * Il rebase vero, su un riferimento già risolto.
+ *
+ * AR-449 · AR-445 — PERCHÉ È SEPARATO DA `rebaseBranchOntoBase`: quella chiama `fetchBase`, che vuole rete e
+ * token, e un pezzo che si può provare solo con la rete accesa è un pezzo che nessuno prova. Questa
+ * funzione si guida su due repo finti in una cartella temporanea, che è l'unico modo di vedere
+ * davvero cosa fa git invece di ragionarci sopra.
+ *
+ * IL DIFETTO CHE CHIUDE, e come si presentava. Il 30/7 questo cancello ha fermato OGNI PR con
+ * «Conflitti residui dopo rebase: AZIONI-IN-ATTESA.md, BACHECA.md, DECISIONI.md, salute.json…».
+ * Due bugie in una riga: nessun rebase era avvenuto, e quelli non erano conflitti residui.
+ *
+ *   ① Sul VPS il worker tiene sporchi i suoi file (`routing.json`, i JSON di auto-coscienza), e il
+ *      commit chore qui sopra li ESCLUDE apposta. Restano sporchi, e `git rebase` si rifiuta di
+ *      partire: «cannot rebase: You have unstaged changes». Non è un conflitto, è un albero sporco.
+ *   ② Il ripiego trattava quel rifiuto come un conflitto: entrava nel giro di auto-risoluzione,
+ *      trovava che nessun rebase era in corso, **uscìva dal giro senza dire niente** e proseguiva
+ *      come se il rebase fosse andato a buon fine.
+ *   ③ A quel punto il controllo di cortesia con `merge-tree` confrontava il ramo con `main` dal
+ *      vecchio antenato comune — cioè misurava la normale divergenza che il rebase avrebbe
+ *      risolto — e la chiamava «conflitti residui».
+ *
+ * Il risultato era un cancello chiuso a chiave che dava la colpa a un conflitto inesistente: nessuna
+ * PR pubblicabile dal VPS, e il vero motivo (un file sporco) mai nominato. Perciò adesso: lo sporco
+ * dichiarato si mette da parte (①), un rebase che non parte è un errore col motivo di git (②), e
+ * prima di credere a `merge-tree` si controlla che il ramo sia davvero finito sopra la base (③).
+ */
+export function rebasaSuRiferimento(cfg, baseRef, branch, base = baseRef) {
   const prev = gitOrNull(["rev-parse", "--abbrev-ref", "HEAD"], cfg.cwd) || "main";
-  const baseRef = fetchBase(cfg, base);
+
+  // ① LO SPORCO PRIMA DI TUTTO — anche prima del checkout del ramo, che con l'albero sporco può
+  // fallire da solo. I file dichiarati vanno da parte; su tutto il resto decide chi lavora.
+  const { parcheggia, altri } = sporcoCheFermaIlRebase(gitOrNull(["status", "--porcelain"], cfg.cwd));
+  if (altri.length) {
+    throw new Error(
+      `il rebase non può partire con l'albero sporco: ${altri.join(", ")}. ` +
+        `Committa quei file (o mettili da parte) e rilancia — non li tocco io.`
+    );
+  }
+  let rimetti = null;
+  if (parcheggia.length) {
+    rimetti = parcheggiaSporco(cfg, parcheggia);
+    console.log(
+      `⏸️  Messi da parte ${parcheggia.length} file che la macchina stava riscrivendo (${parcheggia.join(", ")}): ` +
+        `con l'albero sporco git rifiuta di iniziare il rebase. Li rimetto identici appena finito.`
+    );
+  }
+
   if (prev !== branch) git(["checkout", branch], cfg.cwd);
   try {
     try {
-      git(["rebase", baseRef], cfg.cwd);
-    } catch {
-      /* conflitto: prova auto-risoluzione fino a 8 step (commit multipli) */
+      git(["rebase", baseRef], cfg.cwd, SENZA_EDITOR);
+    } catch (errRebase) {
+      // ② UN REBASE CHE NON PARTE NON È UN CONFLITTO, e non si attraversa in silenzio.
+      //
+      // AR-450 — LA DOMANDA GIUSTA. La prima versione chiedeva «git ha lasciato una cartella di
+      // rebase?». È la domanda sbagliata, e il 30/7 l'ha dimostrato un rosso che si vedeva solo in
+      // CI: la cartella di stato è un dettaglio interno che cambia fra versioni di git (2.43 qui,
+      // 2.54 sul runner), mentre la cosa che decide se c'è un conflitto è UNA SOLA — ci sono file
+      // in conflitto da risolvere, sì o no? Se non ce ne sono, qualunque cosa dica la cartella,
+      // questo non è un conflitto: è un comando che ha rifiutato, e si riporta il suo motivo.
+      const daRisolvere = unmergedPaths(cfg);
+      if (!daRisolvere.length) {
+        const partito = isRebaseInProgress(cfg);
+        if (partito) gitOrNull(["rebase", "--abort"], cfg.cwd);
+        throw new Error(
+          `${partito ? "il rebase si è fermato e non c'è niente da risolvere" : "il rebase non è nemmeno partito (niente da risolvere)"}: ` +
+            motivoGit(errRebase, cfg.token)
+        );
+      }
+      /* conflitto vero: prova auto-risoluzione fino a 8 step (commit multipli) */
       for (let step = 0; step < 8; step++) {
         if (!isRebaseInProgress(cfg)) break;
         if (!tryAutoResolveRebaseConflicts(cfg)) {
-          const pending = unmergedPaths(cfg).join(", ") || "(sconosciuto)";
-          git(["rebase", "--abort"], cfg.cwd);
-          throw new Error(`Rebase bloccato su file non auto-risolvibili: ${pending}`);
+          const pending = unmergedPaths(cfg);
+          git(["rebase", "--abort"], cfg.cwd, SENZA_EDITOR);
+          throw new Error(
+            `il rebase si è fermato su file che non decido io: ${pending.join(", ") || "(sconosciuto)"}. ` +
+              `Portano contenuto vero (azioni in coda, decisioni): scegliere un lato da solo vorrebbe dire ` +
+              `cancellare in silenzio il lavoro dell'altro. Committali su '${base}' da soli, oppure togli ` +
+              `quei tocchi dal ramo, poi rilancia.`
+          );
         }
         try {
-          git(["rebase", "--continue"], cfg.cwd);
-        } catch {
-          if (isRebaseInProgress(cfg)) {
-            try {
-              git(["rebase", "--skip"], cfg.cwd);
-            } catch (skipErr) {
-              git(["rebase", "--abort"], cfg.cwd);
-              throw skipErr;
-            }
+          git(["rebase", "--continue"], cfg.cwd, SENZA_EDITOR);
+        } catch (errContinua) {
+          // NESSUN RIPIEGO CIECO (AR-276/AR-318, e qui la lezione si ripeteva). Il ripiego era
+          // `--skip` a ogni fallimento: butta via il commit del ramo — cioè il lavoro — senza
+          // guardare cosa ci fosse dentro e senza dirlo. Con una risoluzione automatica davanti,
+          // `--skip` è giusto in UN caso solo: dopo aver tenuto la versione della base, quel commit
+          // non ha più niente da portare. Quel caso lo si RICONOSCE, non si indovina — l'indice è
+          // vuoto rispetto a HEAD — e negli altri si ferma tutto e si dice perché.
+          //
+          // ⚪ DEBITO DICHIARATO, non lavoro finito. Questo blocco è una cintura: con git 2.43
+          // (quello di questo container) `rebase --continue` non fallisce MAI qui — provato su repo
+          // finti sia con l'indice vuoto sia con un `pre-commit` che esce 1: git completa da solo e
+          // il `catch` non viene toccato. Quindi le due strade qui dentro NON hanno una prova
+          // comportamentale, e non ne ho aggiunta una finta: per coprirle serve una versione di git
+          // che si fermi qui (il runner di CI ha la 2.54) o un doppio iniettabile al posto di `git()`.
+          if (!isRebaseInProgress(cfg)) {
+            throw new Error(`il rebase si è interrotto dopo la risoluzione automatica: ${motivoGit(errContinua, cfg.token)}`);
           }
+          const nienteDaPortare = gitOrNull(["diff", "--cached", "--quiet"], cfg.cwd) !== null;
+          if (!nienteDaPortare) {
+            git(["rebase", "--abort"], cfg.cwd, SENZA_EDITOR);
+            throw new Error(
+              `il rebase non è andato avanti e quel commit ha ancora contenuto suo: ${motivoGit(errContinua, cfg.token)}. ` +
+                `Non uso --skip: butterebbe via il lavoro del ramo.`
+            );
+          }
+          console.log("   ⏭️  Dopo la risoluzione quel commit non portava più niente di suo: lo salto (era tutto referto della macchina).");
+          git(["rebase", "--skip"], cfg.cwd, SENZA_EDITOR);
         }
       }
       if (isRebaseInProgress(cfg)) {
-        git(["rebase", "--abort"], cfg.cwd);
-        throw new Error("Rebase non completato dopo auto-risoluzione conflitti.");
+        git(["rebase", "--abort"], cfg.cwd, SENZA_EDITOR);
+        throw new Error("rebase non completato dopo auto-risoluzione conflitti.");
       }
+    }
+
+    // ③ LA GARANZIA STRUTTURALE, prima di fidarsi di qualunque misura sopra. `merge-tree` confronta
+    // dall'antenato comune: se il ramo non è finito sopra la base, la sua risposta parla di un'altra
+    // domanda. Questo controllo è ciò che rende impossibile ripetere la bugia di stasera.
+    if (gitOrNull(["merge-base", "--is-ancestor", baseRef, `refs/heads/${branch}`], cfg.cwd) === null) {
+      throw new Error(
+        `'${branch}' non è finito sopra la base dopo il rebase: non pubblico un ramo che non so dove sta.`
+      );
     }
     const ahead = countCommitsAhead(cfg, baseRef, branch);
     const conflicts = mergeTreeConflictPaths(cfg, baseRef, branch);
     if (conflicts.length) {
-      throw new Error(`Conflitti residui dopo rebase: ${conflicts.join(", ")}`);
+      throw new Error(`conflitti residui dopo rebase: ${conflicts.join(", ")}`);
     }
     console.log(`✓ Rebase ${branch} su ${base} (${ahead} commit oltre la base)`);
     return { baseRef, ahead };
   } finally {
+    // L'ordine conta: prima si torna dov'eravamo (con l'albero pulito il checkout non può fallire),
+    // poi si rimette lo sporco. Così la copia di lavoro resta come l'abbiamo trovata.
     if (prev !== branch && gitOrNull(["rev-parse", "--abbrev-ref", "HEAD"], cfg.cwd) === branch) {
       git(["checkout", prev], cfg.cwd);
+    }
+    if (rimetti) {
+      const rimessi = rimetti();
+      if (rimessi.length) console.log(`▶️  Rimessi come stavano ${rimessi.length} file della macchina.`);
     }
   }
 }
@@ -692,8 +899,16 @@ async function main() {
   );
 }
 
-main().catch(async (e) => {
-  console.error("ERRORE:", e.message || e);
-  await stampSegnale("pr", "errore", `${(e.message || e).toString().slice(0, 200)} · ${nowPiacenza()}`);
-  process.exit(1);
-});
+// LA GUARDIA DELL'INGRESSO (AR-445). Senza, un `import` di questo file per provarne una funzione farebbe
+// partire una PR vera: prenderebbe il lucchetto del worktree, farebbe checkout e push, e chiuderebbe
+// il processo del test con `process.exit`. Un pezzo che non si può importare è un pezzo che nessuno
+// prova — ed è per questo che il rebase è arrivato al 30/7 senza una sola prova comportamentale.
+const E_CLI = import.meta.url === pathToFileURL(process.argv[1] || "").href;
+
+if (E_CLI) {
+  main().catch(async (e) => {
+    console.error("ERRORE:", e.message || e);
+    await stampSegnale("pr", "errore", `${(e.message || e).toString().slice(0, 200)} · ${nowPiacenza()}`);
+    process.exit(1);
+  });
+}
