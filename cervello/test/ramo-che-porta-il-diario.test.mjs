@@ -19,6 +19,7 @@ import assert from "node:assert/strict";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -65,6 +66,32 @@ test("e non scambia per automatico il lavoro di una persona", () => {
   ]) {
     assert.equal(eAutomatico(m), false, `«${m}» è lavoro, non diario`);
   }
+});
+
+test("i SEMI dichiarati ci sono sempre, anche se la storia non li mostra", () => {
+  // Il buco trovato rileggendo il lavoro il 30/7: la sola deduzione non copriva `apprendimento.json`
+  // né il corpo PR condiviso — cioè i file delle lezioni da cui questo freno è nato — perché quel
+  // giorno li avevo toccati anche io a mano, e la regola «solo automatici» li escludeva.
+  const d = fileDiario([{ messaggio: "Lotto 40: un lavoro qualsiasi", file: ["cervello/x.mjs"] }]);
+  for (const atteso of [
+    "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+    "cervello/routing.json",
+    "consegne/tech/pr-ad-mycity-body.md",
+  ]) {
+    assert.ok(d.has(atteso), `${atteso} è dichiarato in file-della-macchina.mjs: dev'esserci sempre`);
+  }
+});
+
+test("i semi vengono da UNA casa sola, quella che legge anche git-pr", async () => {
+  const { SEMI_DIARIO, RISCRITTI_DAL_WORKER } = await import(join(REPO, "cervello/file-della-macchina.mjs"));
+  const gitPr = readFileSync(join(REPO, "cervello/git-pr.mjs"), "utf8");
+  assert.match(gitPr, /from "\.\/file-della-macchina\.mjs"/, "git-pr deve leggere di lì, non tenere una sua copia");
+  assert.doesNotMatch(
+    gitPr,
+    /const WORKER_AUTO_PATHS = new Set\(\[\s*"cervello\/routing\.json"/,
+    "se git-pr riavesse la sua lista, le due copie divergerebbero al primo aggiornamento",
+  );
+  assert.ok(SEMI_DIARIO.length > RISCRITTI_DAL_WORKER.length, "i semi includono anche il corpo PR condiviso");
 });
 
 test("diario = scritto SOLO da commit automatici", () => {

@@ -43,6 +43,7 @@ import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 // a git per conto proprio è la cosa che quei quattro difetti hanno chiuso — e il guardiano
 // `segreto-in-un-nome-con-l-accento` ha bocciato la prima versione di questo file, che lo faceva.
 import { percorsiDaGit } from "./percorsi-git.mjs";
+import { SEMI_DIARIO } from "./file-della-macchina.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const GIORNI = (() => {
@@ -75,7 +76,12 @@ export function eAutomatico(messaggio) {
  * apposta in questi giorni NON è diario — è un file di lavoro conteso, e bloccarlo darebbe un
  * guardiano che grida sempre. Quelli si risolvono col rebase, non con un freno all'apertura.
  */
-export function fileDiario(commits = []) {
+export function fileDiario(commits = [], semi = SEMI_DIARIO) {
+  // I SEMI vengono prima della deduzione, e servono davvero. Il 30/7, rileggendo il lavoro appena
+  // fatto, è saltato fuori che la sola deduzione NON copriva `apprendimento.json`, `routing.json` e
+  // il corpo PR condiviso — cioè i file delle lezioni da cui questo freno è nato. Il motivo è la
+  // regola stessa: quel giorno li avevo toccati anche io a mano, quindi non erano «solo automatici».
+  // Un elenco chiuso invecchia, una deduzione da sola ha buchi: insieme reggono.
   const auto = new Map(); // percorso → { auto: n, mano: n }
   for (const c of commits) {
     const chi = eAutomatico(c.messaggio) ? "auto" : "mano";
@@ -85,7 +91,7 @@ export function fileDiario(commits = []) {
       auto.set(f, v);
     }
   }
-  const diario = new Set();
+  const diario = new Set(semi);
   for (const [f, v] of auto) if (v.auto > 0 && v.mano === 0) diario.add(f);
   return diario;
 }
