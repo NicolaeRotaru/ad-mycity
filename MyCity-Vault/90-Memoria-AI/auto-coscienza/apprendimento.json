@@ -10505,6 +10505,28 @@
       "ultima_conferma": "2026-07-30 03:30",
       "stato": "attiva",
       "gate": "node cervello/test/rebase-che-non-parte.test.mjs"
+    },
+    {
+      "id": "L-2026-0730-530",
+      "testo": "**AR-451 risolto alla radice, non più workaround (30/7 04:44, Nicola: «risolvi il bug di rebase che ti fa aprire una nuova pr ogni volta»).** `git-pr.mjs` rifiutava di ripubblicare un branch già aperto in PR con \"il ramo è AVANTI, qualcun altro ci ha lavorato\" — capitato 3 volte nella stessa notte (#630→#631, #632→#633, #633→#634), rimediato ogni volta ricreando un branch pulito. Causa vera: il rebase riscrive l'hash di OGNI commit che sposta (l'hash include il genitore), quindi un commit già pubblicato come X non è più antenato di sé stesso dopo un secondo rebase — il controllo di sicurezza del lease vedeva \"estraneo\" quello che era solo la propria pubblicazione precedente. Fix: `rebasaSuRiferimento` ora porta con sé l'HEAD di PRIMA del rebase (`preRebaseSha`), e `remotoEDavveroVecchio` lo usa come secondo candidato nel controllo di sicurezza — provato con repo veri in `cervello/test/lease-dopo-rebase-ripetuto.test.mjs` (4/4 verdi, incluso il caso di un commit DAVVERO estraneo che deve restare rifiutato). PR #635. Regola: non serve più \"ricrea un branch pulito\" come rimedio a questo sintomo — se il bug tornasse su un branch nuovo è una regressione da riaprire, non la normalità.",
+      "tag": [
+        "git",
+        "pr",
+        "git-pr.mjs",
+        "rebase",
+        "lease",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.97,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-30",
+      "ultima_conferma": "2026-07-30 04:55",
+      "stato": "attiva",
+      "gate": "node cervello/test/lease-dopo-rebase-ripetuto.test.mjs"
     }
   ],
   "principi": [
