@@ -97,6 +97,8 @@ import {
   Pin,
   CircleStop,
   Radio,
+  LineChart,
+  Telescope,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -109,6 +111,7 @@ import Lavori from "@/components/aree/Lavori";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
 import NumeriArea from "@/components/aree/NumeriArea";
+import NumeriReport from "@/components/NumeriReport";
 import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
@@ -802,10 +805,12 @@ type Vista =
   | "salute-sito"
   | "auto-coscienza"
   | "numeri"
+  | "analisi-report"
   | "memoria"
   | "persone"
   | "operazioni"
   | "mondo"
+  | "intelligence"
   | "assistente"
   | "contenuti"
   | "esplora"
@@ -2836,9 +2841,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   gruppo: "Approfondisci",
                   voci: [
                     { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
+                    { id: "analisi-report", label: "Analisi & report", icon: <LineChart size={15} /> },
                     { id: "persone", label: "Negozi & clienti", icon: <Users size={15} /> },
                     { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
                     { id: "mondo", label: "Mercato", icon: <Globe size={15} /> },
+                    { id: "intelligence", label: "Intelligence & opportunità", icon: <Telescope size={15} /> },
                   ],
                 },
                 {
@@ -2982,6 +2989,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           />
         )}
 
+        {/* ===================== ANALISI & REPORT ===================== */}
+        {vista === "analisi-report" && <NumeriReport />}
+
         {/* ===================== PERSONE ===================== */}
         {vista === "persone" && (
           <AreaModuli area="persone" titolo="🤝 Persone" sottotitolo="Chi compra, chi vende, chi consegna e chi lavora con noi." metriche={metriche} aggAt={datiAggiornatiAt} />
@@ -3000,12 +3010,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <p className="t-eti mt-0.5">Tutto ciò che ci impatta da fuori: mercato, reputazione, sicurezza, futuro.</p>
           </div>
 
-          {/* Intelligence & opportunità: alert · concorrenti · eventi · buchi */}
-          <Intelligence />
-
           <AreaModuli area="mondo" metriche={metriche} aggAt={datiAggiornatiAt} />
         </div>
         )}
+
+        {/* ===================== INTELLIGENCE & OPPORTUNITÀ ===================== */}
+        {vista === "intelligence" && <Intelligence />}
 
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
         {vista === "assistente" && (

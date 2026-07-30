@@ -13,10 +13,12 @@ export type VistaNav =
   | "salute-sito"
   | "auto-coscienza"
   | "numeri"
+  | "analisi-report"
   | "memoria"
   | "persone"
   | "operazioni"
   | "mondo"
+  | "intelligence"
   | "assistente"
   | "contenuti"
   | "esplora" // legacy → memoria/archivio/github
