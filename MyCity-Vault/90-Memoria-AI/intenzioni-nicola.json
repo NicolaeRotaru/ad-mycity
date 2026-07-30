@@ -1,15 +1,15 @@
 {
-  "data": "2026-07-30 06:10",
-  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati, stallo 36gg). PI26 chiuso (Nicola 29/7, non idoneo) e piano-squadra confermato (parte dopo il 24/8-1/9): le due domande che tenevano ferma la coda da giorni sono risolte. Priorità di oggi: una parola di Nicola su dentro/fuori per l'ordine di prova PQ (unica cosa che manca per rompere lo stallo), merge PR #633 (menu Pannello), Vercel Authentication (30 sec). Telegram sul VPS resta configurabile quando c'è tempo, non bloccante. Il Worker in abbonamento ai negozi (seconda fonte di reddito, registrata 29/7 01:20) resta NON in agenda: Nicola la costruisce in sessioni dedicate più avanti, nessuna mossa oggi. Dettaglio in consegne/strategia/2026-07-29-listino-worker-negozi.md.",
+  "data": "2026-07-30 11:32",
+  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati, stallo 36gg). PI26 chiuso (Nicola 29/7, non idoneo) e piano-squadra confermato (parte dopo il 24/8-1/9). Chiusa oggi anche la domanda sull'ordine di prova PQ: Nicola aveva già risposto il 28/7 ~15:56 (\"rimandato a settembre\") — resta in pausa fino a settembre, nessuna eccezione, non serve più chiedere. Priorità vere di oggi: merge PR #633 (menu Pannello) e #635 (fix bug rebase), Vercel Authentication (30 sec). Telegram sul VPS resta configurabile quando c'è tempo, non bloccante. Il Worker in abbonamento ai negozi (seconda fonte di reddito, registrata 29/7 01:20) resta NON in agenda: Nicola la costruisce in sessioni dedicate più avanti, nessuna mossa oggi. Dettaglio in consegne/strategia/2026-07-29-listino-worker-negozi.md.",
   "prossime_mosse": [
     {
       "titolo": "Ordine di prova su Pane Quotidiano",
-      "quando": "Card #ordine-test-dentro-o-fuori-dalla-pausa in attesa di un dentro/fuori da Nicola (accodata 28/7) — è l'unica cosa che manca per rompere lo stallo del North Star",
-      "come": "mycity-marketplace.com → prodotto PQ → checkout → COD o carta",
-      "priorita": "alta",
-      "ad_prepara": "Flusso già verificato via REST, pronto a ripartire senza altro lavoro tecnico",
+      "quando": "Resta in pausa fino a settembre insieme al resto dei negozi — decisione già presa da Nicola il 28/7 ~15:56, nessuna azione prevista prima",
+      "come": "mycity-marketplace.com → prodotto PQ → checkout → COD o carta (quando riprende)",
+      "priorita": "bassa",
+      "ad_prepara": "Flusso già verificato via REST, pronto a ripartire senza altro lavoro tecnico quando arriva il via",
       "senior": "@operations",
-      "colore": "🟡"
+      "colore": "🟢"
     },
     {
       "titolo": "Configura Telegram sul VPS",

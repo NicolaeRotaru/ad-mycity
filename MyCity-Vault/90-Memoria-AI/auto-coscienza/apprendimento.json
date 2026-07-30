@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-30 11:24",
+  "aggiornato": "2026-07-30 11:36",
   "lezioni": [
     {
       "id": "L-2026-0730-01",
@@ -10567,6 +10567,30 @@
       "gate": "node cervello/test/lease-dopo-rebase-ripetuto.test.mjs",
       "gate_attivo": false,
       "gate_nota": "fix su branch fix/lease-rebase-ripetuto-v2 (PR #635), non ancora su main — merge in coda"
+    },
+    {
+      "id": "L-2026-0730-531",
+      "testo": "**Una domanda già risposta da Nicola è stata riproposta come «mossa n.1» in almeno 5 passaggi dello stesso giorno (30/7, 06:10→11:09), nonostante la lezione gemella fosse già stata scritta la notte prima.** Nicola aveva risposto in modo esplicito e definitivo il 28/7 ~15:56 («Si l'ho rimandato a settembre», [[DECISIONI]]) alla domanda se l'ordine di prova su Pane Quotidiano dovesse restare in pausa: la card `#ordine-test-dentro-o-fuori-dalla-pausa` andava chiusa quel giorno stesso. Invece è rimasta aperta in `AZIONI-IN-ATTESA.md` e la lezione `feedback-domanda-gia-decisa-ricontrollare` (creata 29/7 23:56, dopo un primo episodio identico) l'ha segnalata come principio da applicare — ma nessun passaggio del giorno dopo (06:10, 06:30, 06:37, 08:25, 10:25, 11:09) ha effettivamente chiuso la card o smesso di riproporla in `ultimo-briefing.json`/STATO come «serve una parola da Nicola». **La radice è la stessa di tutta la famiglia `correzione-nicola` (18 ripetizioni in 14 lezioni, mai un gate):** la lezione esisteva in `apprendimento.json` ma nessun controllo automatico la applicava — la sua efficacia dipendeva dal fatto che chi scriveva il briefing la rileggesse a memoria, e per 6 passaggi di fila non è successo. Chiusa ora (30/7 11:32): card archiviata con nota di risposta, la conferma spostata nella riga `⏸ Pausa` della card sorella `#ordine-test-pq` (regex già letta da `pausa-check.mjs`: `/congelamento confermato da Nicola/i`), così il guardiano resta verde senza bisogno che la domanda resti aperta. **Regola:** una lezione `correzione-nicola` non è \"applicata\" perché esiste nel registro — serve un controllo che confronti ogni card-domanda aperta in `AZIONI-IN-ATTESA.md` contro `DECISIONI.md` e segnali quelle il cui esatto quesito ha già una risposta successiva alla sua apertura. Proposto (non scritto: `node cervello/*.mjs` non eseguibile in Bash in questa sessione, da costruire/testare alla prossima sessione con accesso shell): `cervello/domanda-gia-risposta-check.mjs`, che per ogni card con `?`/`Serve da te` nel titolo cerca in DECISIONI.md una riga datata dopo l'apertura della card che nomini lo stesso `#id` o lo stesso fatto, ed esce rosso se la trova senza che la card sia stata chiusa.",
+      "tag": [
+        "correzione-nicola",
+        "azioni-in-attesa",
+        "domanda-gia-decisa",
+        "loop-a-vuoto",
+        "ordine-test-pq",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@chief-of-staff",
+      "confidenza": 0.95,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-30",
+      "ultima_conferma": "2026-07-30 11:32",
+      "stato": "attiva",
+      "gate": "node cervello/domanda-gia-risposta-check.mjs",
+      "gate_attivo": false,
+      "gate_nota": "script non ancora scritto/testato: node cervello/*.mjs non eseguibile in Bash in questa sessione (2 tentativi bloccati su delta-gate.mjs) — debito dichiarato, non gate finto; ripreso nei Gap del briefing 2026-07-30 (passaggio 11:32), da costruire alla prossima sessione con accesso shell"
     }
   ],
   "principi": [
@@ -12290,12 +12314,12 @@
     "promosse_a_principio": 87,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-30 11:24",
+    "tasso_calcolato_il": "2026-07-30 11:34",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-30 11:24",
+    "tick_leggero_il": "2026-07-30 11:34",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-30 11:02",
+    "cristallizzazione_ultima": "2026-07-30 11:31",
     "lezioni_totali": 480,
     "lezioni_per_stato": {
       "attiva": 384,

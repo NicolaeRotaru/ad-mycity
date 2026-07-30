@@ -2,7 +2,7 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-07-30 06:30
+aggiornato: 2026-07-30 11:32
 ---
 
 # ✅ Cose che devo fare io (Nicola)
@@ -11,15 +11,13 @@ aggiornato: 2026-07-30 06:30
 > Rigenerata dopo 3 giorni ferma (era al 27/7 06:20 — violava la regola dei 2 giorni, AR-030) e ripulita
 > di tre voci non più vere: il bando **PI26 non è più urgente** (tu l'hai già dichiarato non idoneo il
 > 29/7 ~00:10 — nessuna domanda da inviare, non serve più rispondere a nulla su questo) e il giro sul VPS
-> **non è più fermo** (ha ripreso da solo stamattina). Business ancora **invariato**: 1 ordine totale
-> (annullato, 24/6), 0 pagati, stallo **36 giorni**.
+> **non è più fermo** (ha ripreso da solo stamattina). Tolta anche la domanda sull'ordine di prova PQ:
+> l'avevi già risposta il 28/7 ~15:56 ("rimandato a settembre") — era rimasta scritta qui per errore.
+> Business ancora **invariato**: 1 ordine totale (annullato, 24/6), 0 pagati, stallo **36 giorni**.
 
 ---
 
-## 🔴 URGENTE — le due cose che sbloccano tutto il resto
-
-- [ ] 🟡 **Una parola sola: l'ordine di prova da Pane Quotidiano resta "dentro" la pausa fino a settembre, o lo fai "fuori" adesso?** È l'unica cosa che manca per rompere lo stallo di 36 giorni sul primo ordine pagato — costa 3-5€ di pane, due minuti dal telefono. Ferma in coda da 2 giorni.
-  → Card: `#ordine-test-dentro-o-fuori-dalla-pausa`
+## 🔴 URGENTE — la cosa che resta
 
 - [ ] 🔴 **Apri il Pannello in una finestra in incognito, senza login, e dimmi cosa vedi (30 secondi).** Se si apre senza chiederti nulla, c'è una falla di sicurezza vera (chiunque conosca l'indirizzo potrebbe dare ordini alla macchina) e va chiusa subito. Se ti chiede l'accesso, Vercel ti sta già proteggendo e non c'è nulla da fare.
   → Card: `#radiografia-serratura-pannello`

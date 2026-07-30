@@ -5,6 +5,8 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
+> 🧹 **Housekeeping 2026-07-30 11:32** — Giro (7° passaggio della giornata, business ancora invariato). Chiusa **1 card zombie reale**: `#ordine-test-dentro-o-fuori-dalla-pausa` chiedeva a Nicola dentro/fuori sull'ordine di prova PQ, ma Nicola aveva già risposto «dentro, fino a settembre» il 28/7 15:56 ([[DECISIONI]]) — la domanda era stata ri-accodata per errore e riproposta come "mossa n.1" in almeno 5 passaggi di oggi (06:10→11:09) senza controllare `DECISIONI.md` prima (vedi [[feedback-domanda-gia-decisa-ricontrollare]]). Il testo di conferma è spostato nella riga `⏸ Pausa` di `#ordine-test-pq`, così `pausa-check.mjs` resta verde. **41 aperte.** Dettaglio in [[Briefing/2026-07-30]] (passaggio 11:32).
+>
 > 🧹 **Housekeeping 2026-07-30 08:25** — Giro (manutenzione macchina): **42 aperte, invariate**. Nessuna card nuova/chiusa qui — il lavoro di questo passaggio ha riparato `auto-coscienza/auto-analisi.json` (fermo dal 27/7) e `MyCity-Vault/05-Soldi-Rischi/scadenzario.json` (PI26 ancora "aperta" lì, non toccato dalla pulizia delle 06:05/06:30 perché è l'input di uno script, non un testo in coda). Dettaglio in [[Briefing/2026-07-30]] (passaggio 08:25).
 >
 > 🧹 **Housekeeping 2026-07-30 06:30** — Giro completo: **42 aperte**. Chiuse 3 card zombie in più, tutte smentite da verifica diretta (`git log`/`git fetch`), stesso errore-tipo delle 5 PI26/piano-squadra ripulite alle 06:05 (il testo restava vecchio dopo che il fatto era già cambiato): **`#vps-giro-fermo`** (diceva "fermo da 40 ore" — il worker ha committato con continuità 04:43→06:26 stamattina), **`#push-main-memoria`** e **`#push-volano-fix`** (dicevano "main non pubblicato/71 commit indietro" — verificato ora: `origin/main` e `HEAD` coincidono esattamente, e la PR #454 del fix tasso-lezioni è già mergiata).
@@ -48,18 +50,11 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #ordine-test-dentro-o-fuori-dalla-pausa — Dimmi se l’ordine di prova da Pane Quotidiano resta fermo fino a settembre o lo fai adesso · ⏳ accodata 2026-07-28 08:45
+### ✅ #ordine-test-dentro-o-fuori-dalla-pausa — RISPOSTA (28/7 15:56): resta dentro, fino a settembre
 
-**Cosa cambia:** quando il 23 luglio hai rimandato l’inserimento dei negozi, in pausa sono finite dodici azioni — e fra queste anche l’ordine di prova da Pane Quotidiano. Ma quell’ordine non è una spinta commerciale: è il collaudo. È l’unica cosa in tutta la coda che dimostra che un cliente paga, i soldi arrivano al fornaio e la consegna si chiude. Costa 3-5 euro di pane e lo fai dal telefono in due minuti. La pausa l’hai presa proprio per avere il tempo di finire la macchina: tenerci dentro anche la prova che la macchina funziona è l’unica cosa che stona. Non l’ho sbloccata da solo — decidi tu, ma volevo che la vedessi separata dalle altre undici invece che sepolta in mezzo.
+**Nicola ha già risposto** (chat 28/7 ~15:56, «Si l'ho rimandato a settembre», [[DECISIONI]] 2026-07-28 15:56): l'ordine di prova su Pane Quotidiano resta in pausa insieme al resto dei negozi, nessuna eccezione. Card chiusa qui il 30/7 dopo che era stata **ri-accodata per errore 2 giorni dopo la risposta** e riproposta come "mossa n.1" in almeno 5 passaggi del 30/7 (06:10→11:09) senza che nessuno controllasse `DECISIONI.md` prima — vedi la lezione [[feedback-domanda-gia-decisa-ricontrollare]]. Il conferma-testo è ora nella riga `⏸ Pausa` di `#ordine-test-pq` qui sopra, così `pausa-check.mjs` resta verde senza bisogno che questa domanda resti aperta.
 
-**Se va bene:** se dici «dentro», la lascio ferma e scrivo nel piano che il primo giorno di business sarà un giorno di collaudo, non di vendita — così nessuno se lo dimentica a settembre. Se dici «fuori», la rimetto viva da sola e resta lì che aspetta il tuo ordine, senza altre code.
-
-**Serve da te:** una parola sola, dentro o fuori.
-
-**Nota tecnica:** difetto AR-157. La coda adesso ha un campo `classe` per distinguere un’azione di business da una di validazione, e il guardiano `pausa-check.mjs` resta rosso finché questa domanda non è in coda: `{congelamento-da-confermare: ordine-test-pq}`. Il business è fermo dal 24 giugno (STATO, query diretta 27/7 18:00): 1 negozio, 0 ordini pagati.
-- **Colore:** 🟡 (rimette in lista un’azione che avevi messo in pausa, non manda niente a nessuno)
-- **Reparto:** chief-of-staff + analista
-- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-157}`
+**Nota tecnica:** difetto AR-157 (chiuso). Origine: `{origine:auto-radiografia-2026-07-27, difetto:AR-157}`.
 
 ---
 
@@ -465,7 +460,7 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ### 🟡 #ordine-test-pq — Fai un ordine su Pane Quotidiano per testare la macchina · ⏳ accodata 2026-07-18 06:30 · ⏸ in pausa (rinvio negozi, PQ compreso)
 
-- **⏸ Pausa:** rinvio negozi, PQ compreso · classe **validazione** · riprende con `ripresa.lavoro-operativo`
+- **⏸ Pausa:** rinvio negozi, PQ compreso · classe **validazione** · riprende con `ripresa.lavoro-operativo` · congelamento confermato da Nicola (chat 28/7 ~15:56: «Si l'ho rimandato a settembre», [[DECISIONI]] 2026-07-28 15:56)
 
 **Contesto:** North Star è 0 da 24 giorni. Un ordine di test fatto da Nicola (anche piccolo: es. pane €3-5) verifica end-to-end il flusso checkout→pagamento→consegna e conta come primo ordine reale. Costo = il prezzo del prodotto.
 
@@ -893,7 +888,7 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-30 11:02)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-30 11:31)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-30-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo

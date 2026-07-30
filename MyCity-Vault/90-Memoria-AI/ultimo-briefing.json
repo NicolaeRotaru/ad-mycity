@@ -1,26 +1,21 @@
 {
-  "data": "2026-07-30 11:09",
-  "situazione": "Giro ripetuto (richiesto in chat, 6° passaggio di oggi), business ANCORA fermo da 36 giorni: riconfermato per la 4ª volta oggi, ereditato dai passaggi 06:30/06:37/08:25/10:25 (cifra per cifra identici — 1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). Questo passaggio ha riparato il gate `freschezza-cadenze` (auto-analisi.json rimasto fermo) e trovato/riparato altri 2 gate reali della macchina: un contratto JSON violato e una lezione con un freno finto (dichiarava attivo un gate il cui fix — PR #635 — non è mai stato mergiato su main). `node cervello/*.mjs`/`python3`/`gh` restano bloccati in Bash in questa sessione. Mossa n.1 invariata: una parola di Nicola (dentro/fuori) sull'ordine di prova PQ.",
+  "data": "2026-07-30 11:32",
+  "situazione": "Giro ripetuto (7° passaggio di oggi), business ANCORA fermo da 36 giorni: identico cifra per cifra ai 6 passaggi precedenti (1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). Trovata e chiusa una domanda-fantasma: la card sull'ordine di prova PQ ti chiedeva dentro/fuori ma tu avevi già risposto il 28/7 alle 15:56 (\"rimandato a settembre\") — riproposta per errore in almeno 5 passaggi di oggi. Chiusa ora, non serve rispondere di nuovo. `node cervello/*.mjs`/`python3`/`gh` restano bloccati in Bash in questa sessione. Mossa n.1 aggiornata: tolta la domanda su PQ (già decisa), restano le firme tecniche.",
   "opportunita": [
-    {
-      "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "Unico sblocco diretto del North Star (0 ordini pagati da 36 giorni) — sblocca anche EXP-014 e i playbook già pronti (recupero carrelli, win-back)",
-      "impatto": "alto",
-      "sforzo": "basso"
-    },
     {
       "titolo": "Verifica se il Pannello ha davvero un buco di sicurezza",
       "motivo": "30 secondi in incognito bastano a dire se serve un fix urgente o se Vercel sta già proteggendo tutto",
       "impatto": "alto",
       "sforzo": "basso"
+    },
+    {
+      "titolo": "Costruisci un controllo che confronti le domande in coda con le tue risposte già date",
+      "motivo": "La stessa famiglia di errore (domanda già risposta) è la più ripetuta di tutte in memoria (18 volte) e non è mai diventata un controllo automatico",
+      "impatto": "medio",
+      "sforzo": "basso"
     }
   ],
   "azioni": [
-    {
-      "titolo": "Dimmi dentro o fuori per l'ordine di prova da Pane Quotidiano",
-      "motivo": "È l'unica cosa che manca per rompere lo stallo del primo ordine pagato, ferma in coda da 2 giorni",
-      "livello": "giallo"
-    },
     {
       "titolo": "Mergia la PR #633 del menu Memoria del Pannello",
       "motivo": "4 passi già confermati ieri notte, sostituisce la #632 rotta dal solito bug del rebase",
@@ -35,6 +30,11 @@
       "titolo": "Apri il Pannello in incognito e dimmi cosa vedi",
       "motivo": "Se si apre senza chiederti l'accesso c'è una falla vera da chiudere subito",
       "livello": "rosso"
+    },
+    {
+      "titolo": "Ok sull'elenco esplicito dei permessi (togli il jolly)",
+      "motivo": "Risolverebbe alla radice anche il blocco di node cervello/*.mjs in Bash che limita questa sessione da tutta la giornata",
+      "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
