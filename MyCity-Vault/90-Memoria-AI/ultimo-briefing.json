@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-30 15:29",
-  "situazione": "Giro ripetuto, business ANCORA fermo da 36 giorni: identico ai passaggi precedenti (1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). Novità di questo passaggio: `git fetch origin main` mostra altre 2 PR mergiate (#637/#638, lavoro interno di governo, nessuna firma richiesta) e conferma che PR #634 era già dentro main mentre la checklist la dava ancora da fare — corrette 3 righe stale. `node cervello/*.mjs` resta bloccato in Bash in questa sessione. Mossa n.1 ora è una sola: 30 secondi su Vercel Authentication.",
+  "data": "2026-07-30 16:23",
+  "situazione": "Giro ripetuto (20°+ passaggio di oggi), business ANCORA fermo da 36 giorni: identico ai passaggi precedenti (1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). Novità di questo passaggio: `git fetch origin main` mostra altre 2 PR di governo mergiate (#639/#640, lavoro interno sul cantiere-difetti, nessuna firma richiesta). `node cervello/*.mjs` resta bloccato in Bash in questa sessione. Mossa n.1 resta una sola: 30 secondi su Vercel Authentication.",
   "opportunita": [
     {
       "titolo": "Costruisci un controllo che confronti le domande in coda con le tue risposte già date",
