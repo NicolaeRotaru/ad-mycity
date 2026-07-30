@@ -833,6 +833,33 @@
    "cerca": "      if (!esenti.has(d.id)) {",
    "sostituisci": "      if (true) {",
    "test": "cervello/test/nascita-difetti.test.mjs"
+  },
+  {
+   "difetto": "AR-463",
+   "lezione": "L-2026-0730-533",
+   "nome": "smette di riconoscere $? letto dopo una pipe: l uscita del filtro torna a passare per quella del comando",
+   "file": "cervello/misura-cieca.mjs",
+   "cerca": "    prova: (c) => /\\|\\s*(head|tail|grep|sed|awk|cut|sort|uniq|wc|jq)\\b[^\\n;]*[\\n;][^\\n]*\\$\\?/.test(c),",
+   "sostituisci": "    prova: () => false,",
+   "test": "cervello/test/misura-cieca.test.mjs"
+  },
+  {
+   "difetto": "AR-463",
+   "lezione": "L-2026-0730-533",
+   "nome": "smette di riconoscere l errore buttato in /dev/null seguito da una conclusione",
+   "file": "cervello/misura-cieca.mjs",
+   "cerca": "    prova: (c) => /2>\\s*\\/dev\\/null[^\\n;]*\\|\\|/.test(c),",
+   "sostituisci": "    prova: () => false,",
+   "test": "cervello/test/misura-cieca.test.mjs"
+  },
+  {
+   "difetto": "AR-463",
+   "lezione": "L-2026-0730-533",
+   "nome": "l avvisatore segnala tutto: il rumore lo fa spegnere entro la settimana",
+   "file": "cervello/misura-cieca.mjs",
+   "cerca": "  return TRAPPOLE.filter((t) => t.prova(c)).map(({ id, cosa, invece }) => ({ id, cosa, invece }));",
+   "sostituisci": "  return TRAPPOLE.map(({ id, cosa, invece }) => ({ id, cosa, invece }));",
+   "test": "cervello/test/misura-cieca.test.mjs"
   }
  ]
 }

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-30 15:20",
+  "aggiornato": "2026-07-30 16:45",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -7776,7 +7776,7 @@
     },
     {
       "id": "AR-455",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "grave",
       "colore": "🟡",
       "dimensione": "processi",
@@ -7786,7 +7786,9 @@
       "causa_radice": "① Perche il sorvegliante non gira MENTRE lavoro, che e quello che Nicola ha chiesto? Perche l unico organo che parte senza la mia volonta e un hook PostToolUse su Edit|Write, e si dichiara in .claude/settings.json. ② Perche non l ho aggiunto? Perche quel file e in `deny` per Edit e Write (righe 80-83): la macchina non puo modificare la propria configurazione — ed e giusto, e la stessa difesa di AR-227/AR-228 (nessuna porta che scrive la firma di Nicola senza Nicola). Aggirarla da uno script sarebbe esattamente il difetto che quelle righe impediscono. ③ Quindi il pezzo in tempo reale e debito DICHIARATO, non lavoro finito: oggi il delta e guardato al commit e a fine lotto, non a ogni modifica.",
       "fix_proposto": "🟡 SERVE NICOLA — una voce hooks.PostToolUse in .claude/settings.json: matcher \"Edit|Write|MultiEdit\", comando `node cervello/sorvegliante.mjs --hook`. Gia pronto: forma corta (max ~8 righe), sola lettura, exit sempre 0 (avvisa, non blocca mai un Edit a meta lavoro). In alternativa: togliere .claude/settings.json dal deny per una sessione e lasciarmelo scrivere.",
       "origine": "correzione di Nicola 2026-07-30 ~13:00 («trovi problemi che tu stesso hai creato risolvendo i difetti, e cose che non avevi guardato») — caso-studio prioritario, piu i difetti trovati mentre costruivo il freno",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-07-30 16:45",
+      "nota_fix": "CHIUSO 2026-07-30 (PR #641). La riga in .claude/settings.json l'ha scritta NICOLA — la macchina non puo toccare la propria configurazione, ed e giusto: e la stessa difesa di AR-227/228. La prima stesura si fermava un carattere prima (mancava la } finale, JSON non parsabile); segnalato a lui con la correzione esatta invece di aggirare il deny da uno script. Verificato su main con controlli che POSSONO fallire (grep -c, non «JSON valido»): PostToolUse presente, matcher Edit|Write|MultiEdit, comando `node cervello/sorvegliante.mjs --hook`, timeout 15s, SessionStart intatto, 63 allow + 15 deny invariati, deny su settings.json ancora attivo. NOTA: gli hook si caricano all'avvio della sessione, quindi la prova che scatti davvero arriva alla PROSSIMA sessione, non in quella che l'ha mergiato. Il comando in se e provato (exit 0, 0,5s)."
     },
     {
       "id": "AR-456",
@@ -7893,11 +7895,28 @@
       "titolo": "Le 161 schede senza nascita dichiarata sono proprio quelle nate dentro i lotti di riparazione: il tasso di regressione parte da un pavimento, non dal vero",
       "causa_radice": "① Il riempimento automatico ha potuto classificare solo cio che dichiarava di venire da una radiografia o da un audit (224 schede) — strumenti che guardano il codice fermo e quindi non possono introdurre difetti: `scoperta` per definizione. ② Le 161 rimaste non hanno quella firma perche sono nate DENTRO il lavoro: lotti, riparazioni, verifiche post-merge. E' esattamente la popolazione dove una regressione si nasconde. ③ Quindi il primo numero (1% di regressioni) e un pavimento con un bias noto e dichiarato, non una stima. Lasciarlo senza dirlo lo renderebbe una buona notizia falsa; il guardiano lo dichiara da solo, ma la cura vera e riempire le 161. ④ Non e un lavoro da fare a mano tutto insieme: 161 schede lette una per una sono un lotto suo, e riempirle a caso per far scendere il tetto sarebbe peggio del vuoto — un campo compilato male non si vede piu.",
       "fix_proposto": "🟡 Riempirle a scaglioni, per lotto di nascita: partire dai difetti nati nei lotti 25-36 (dove la prosa dell `origine` spesso dice gia se il guasto e stato trovato o creato), leggere la prosa e classificare, poi `node cervello/nascita-difetti.mjs --aggiorna-baseline` per abbassare il tetto. Ogni scaglione fa scendere il tetto e rende il tasso piu vero. Fermarsi quando la prosa non basta: `nato_come` vuoto e onesto, un `nato_come` indovinato e una bugia contabile."
+    },
+    {
+      "id": "AR-463",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "processi",
+      "impatto_crescita": "alto",
+      "nato": "2026-07-30 16:45",
+      "nato_come": "nuovo-lavoro",
+      "origine": "cinque errori di MISURA commessi da me il 30/7 mentre costruivo il freno contro i difetti che mi infliggo da solo",
+      "titolo": "Il canale che porta il verdetto lo nasconde: cinque volte in un giorno ho letto un verde da un comando che stava fallendo",
+      "causa_radice": "① I cinque casi, tutti veri e tutti dello stesso giorno: (a) `require` su percorso relativo senza `./` con l'errore in /dev/null e un `||` che stampava «assente» → ho concluso «zero hook configurati» mentre ce n'era uno, e ho progettato mezz'ora sopra un fatto falso; (b) e (c) `$?` letto dopo `| head` e `| tail` → leggevo l'uscita del filtro, una volta su un commit che era stato BLOCCATO; (d) un `cd` fallito seguito da `;` → il comando dopo non e partito, il silenzio l'ho letto come «nessun test rosso»; (e) `git checkout <ref> -- file` mette in STAGE e `git diff` guarda il non-staged → vuoto letto come «non e cambiato niente». ② Una malattia sola: il canale che porta il verdetto lo nasconde. E `errore-ingoiato` — quella che il cantiere censisce nel CODICE — commessa nel modo in cui si MISURA. ③ Perche fa piu danno li: un errore ingoiato in produzione rompe una schermata; un errore ingoiato in una misura rompe il ragionamento che ci si costruisce sopra, e tutto il lavoro che segue e sbagliato senza che niente sia rosso. ④ Perche nessun guardiano lo prende: i comandi ad-hoc di una sessione non finiscono in nessun file, quindi spazzata-fratelli e il pre-commit non li vedono. L'unico punto dove passano tutti e l'hook su Bash.",
+      "fix_proposto": "🟡 SERVE NICOLA (una riga, come per AR-455). Il riconoscitore e gia scritto e provato: `cervello/misura-cieca.mjs` (funzione pura + 12 prove sui comandi VERI che mi hanno ingannato + 3 mutazioni). Manca solo il cablaggio: in .claude/settings.json, dentro `hooks`, aggiungere un secondo blocco PostToolUse con `\"matcher\": \"Bash\"` e comando `node cervello/misura-cieca.mjs --hook`. Avvisa e basta, exit sempre 0: bloccare un comando di lettura sarebbe sproporzionato, e un freno sproporzionato viene spento. Finche non e cablato il riconoscitore c'e ma non guarda niente: debito dichiarato, non lavoro finito.",
+      "verifica": {
+        "comando": "node cervello/test/misura-cieca.test.mjs"
+      }
     }
   ],
   "meta": {
     "aperti": 162,
     "in_corso": 0,
-    "chiusi": 238
+    "chiusi": 239
   }
 }
