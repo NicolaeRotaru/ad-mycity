@@ -237,9 +237,32 @@ Il difetto n.1 è stato mergiato con CI rossa e ci è rimasto 10 giorni: **il pr
 
 ---
 
-## 8. Onestà sui limiti, e i falsi positivi che ho scartato
+## 8. Le prove a runtime (il sito acceso e guidato in un browser)
 
-**Non ho potuto vedere da qui** (e non lo chiamo verde): il **browser** (troncamenti, salti di layout, safe-area su iPhone vanno *visti*; i contrasti invece sono calcolati con la formula WCAG sui token reali, non a occhio) · **Stripe** (quali eventi webhook sono davvero iscritti cambia la severità di alcuni punti; authorization rate e tempi di payout richiedono una chiave in sola lettura) · **i log di Render** e il **bill Supabase** per voce, che è il numero che dovrebbe governare la priorità delle voci di performance.
+La prima stesura di questo referto dichiarava «il browser non l'ho potuto vedere» come limite. Non era un limite: era una cosa da fare. L'ho fatta — build di produzione, server acceso, Chromium headless, credenziali **segnaposto** (mai il database vero, zero rischio di scrivere su dati reali).
+
+**Tutte le 44 rotte pubbliche interrogate una per una:** nessun crash. 200 su ogni pagina pubblica, 307 sulle aree riservate (`/profile`, `/admin`, `/seller`, `/rider` — il guardiano funziona), 404 corretto sulle pagine inesistenti, `robots.txt` e `sitemap.xml` serviti. `/api/health` risponde **503** col database irraggiungibile: si comporta come deve.
+
+**Difetti provati, non più dedotti:**
+
+| Cosa | Misura reale nel browser | Atteso |
+|---|---|---|
+| **Pulsante disabilitato** (`ui/Button`, `opacity: 0.5`) | contrasto **1,62:1** | ≥ 4,5:1 — il testo «Disabilitato» è di fatto invisibile. *È peggio della stima a codice (~2,3:1).* |
+| **Titolo dei modali** (`ui/Modal`) | **30px**, font serif Fraunces, classi `font-bold text-ink-900 truncate` — **nessuna classe di dimensione** | Su un modale `sm` (332px utili) e metriche vere del font: «Condividi la lista della spesa» = 363px e «Scansiona il codice a barre» = 341px → **troncano entrambi** |
+| **Errore di hydration su `/cart` a 375px** | `React error #418` | Il disallineamento server/client che il revisore frontend aveva dedotto dal codice: **confermato dal browser** |
+| **`global-error.tsx:47`** | dice «se il problema continua, **scrivici**» e non offre **nessun** link, email o ritorno alla home | Vicolo cieco visto con i miei occhi |
+| **6 vulnerabilità nelle dipendenze di produzione (5 alte)** | Next.js (SSRF nei rewrites · DoS sull'ottimizzazione immagini via SVG · **esposizione non autenticata degli endpoint delle Server Function**), postcss (path traversal), sharp (CVE libvips) | Fix disponibile con `npm audit fix` |
+| **196 rotte dinamiche, 2 statiche, 0 prerenderizzate** | dalla tabella del build | Conferma che le direttive `revalidate` in 5 layout sono **codice morto** e che non esiste cache CDN dell'HTML |
+
+**Tre sospetti frequenti che il browser ha smentito**, e che quindi non vanno messi nella lista di lavoro: **zero overflow orizzontale** su tutte le pagine provate, mobile e desktop · **zero immagini senza `alt`** · **esattamente un `<h1>` per pagina**.
+
+E una correzione a me stesso: guardando la prima schermata avevo pensato che una singola query fallita portasse giù l'intera pagina. **È falso.** Quella era `global-error.tsx`, che scatta solo se cade il layout radice — provocata dalle mie credenziali finte. La copertura reale è **buona**: 9 error boundary, di cui 7 per area (checkout, venditore, rider, prodotto, negozio, ordini, admin). Sopra la media.
+
+---
+
+## 9. Onestà sui limiti, e i falsi positivi che ho scartato
+
+**Cosa resta fuori portata da qui** (e non lo chiamo verde): le pagine **guidate dai dati** — scheda prodotto, negozio, checkout — non le ho potute rendere, perché il database segnaposto non restituisce righe: per vederle serve un **ambiente di prova con dati veri**, ed è la cosa che chiedo come prossimo passo · **Stripe** (quali eventi webhook siano davvero iscritti cambia la severità di alcuni punti; authorization rate e tempi di payout richiedono una chiave in sola lettura — il connettore Stripe di questa sessione **non è autorizzato**, va abilitato dalle impostazioni dei connettori su claude.ai) · **i log di Render** e il **bill Supabase** per voce, che è il numero che dovrebbe governare la priorità delle voci di performance.
 
 **Falsi positivi corretti** — un audit che non scarta nulla non è stato fatto:
 - Un revisore ha segnalato come bloccante che l'intera riga `profiles` (IBAN, KYC) fosse leggibile da chiunque. **L'ho verificato sul database: è falso.** La policy permissiva è stata rimossa. La conseguenza reale è l'opposto — le pagine sono rotte, non i dati esposti.
