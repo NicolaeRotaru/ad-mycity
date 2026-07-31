@@ -1,7 +1,28 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-31 06:20",
+  "aggiornato": "2026-07-31 06:29",
   "lezioni": [
+    {
+      "id": "L-2026-0731-01",
+      "testo": "**In sessione headless, l'allowlist statica di `.claude/settings.json` (`Bash(node cervello/*.mjs:*)`) NON basta a prevedere se uno script parte: 2 su 8 script sono passati (`verifica-sensori.mjs`, `coerenza-fatti.mjs`), 6 negati con 'richiede approvazione' (`freschezza-cadenze.mjs`, `north-star-check.mjs --gate`, `apprendimento-guardiano.mjs`, `scadenzario-check.mjs`, `sonda-volano.mjs`, `verifica-automazione.mjs`) pur essendo tutti coperti dallo stesso jolly e nessuno di essi nel `deny`.** Verificato leggendo `.claude/settings.json` riga per riga prima di concludere che non fosse un problema di allowlist (lezione [[feedback-verifica-prima-di-affermare]] applicata: non ho assunto 'permessi mancanti', ho controllato il file). Sospetto non confermato: le ultime PR mergiate (#641/#643/#645, 30/7) parlano di un 'freno in tempo reale' PostToolUse (AR-455/464/465) che potrebbe giudicare il singolo comando oltre al pattern statico — non verificabile da questa sessione (nessun accesso ai log dell'hook). Regola: quando un `node cervello/*.mjs` viene negato nonostante l'allowlist lo copra, non concludere 'permessi mancanti' e non riprovare alla cieca (limite dei 2 tentativi già in memoria) — annotare quali script passano e quali no (il pattern stesso è informazione), proporre una card diagnostica per chi ha accesso ai log, e continuare il lavoro con lettura diretta dei file che il guardiano avrebbe scritto.",
+      "tag": [
+        "permessi",
+        "sessione-headless",
+        "guardiani",
+        "diagnosi",
+        "processo",
+        "ad"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.6,
+      "evidenze": 1,
+      "fonte": "sessione",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-31",
+      "ultima_conferma": "2026-07-31 06:29",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0730-01",
       "testo": "**Quando il rebase pre-PR di `git-pr.mjs` continua a fallire con 'conflitti residui' sui file di memoria ANCHE dopo aver allineato `main` a `origin/main`, la causa può essere un commit di pulizia lasciato sul branch stesso (non su main) che confonde il confronto — riprovare la stessa PR sullo stesso branch non risolve, va ricreato un branch pulito col solo commit vero (Nicola 30/7 02:41 «come faccio a risolverlo?» poi «riprova ad aprire la pr», sullo sblocco della PR Memoria/Stato-OKR-Piani).** Il branch `fix/memoria-scompone-stato-numeri` aveva un commit di pulizia (rimozione di un file estraneo trascinato dentro per errore) che restava nella storia anche dopo il fix; ogni retry di `git-pr.mjs` — con `main` già aggiornato, working tree pulita, nessun rebase a metà — falliva comunque con lo stesso errore su `AZIONI-IN-ATTESA.md`/`BACHECA.md`/`DECISIONI.md` e i JSON di auto-coscienza. Risolto ricreando un branch nuovo (`fix/memoria-stato-okr-piani-v2`) direttamente sopra `main` aggiornato, con un solo commit pulito contenente lo stesso identico cambiamento: la PR (#630) si è aperta al primo colpo. Conferma diretta causa→effetto: stesso fix, stesso `main`, unica variabile cambiata è il branch. Regola: davanti a un rebase pre-PR che fallisce ripetutamente sugli STESSI file di memoria nonostante `main` sia allineato, non insistere sul branch esistente — ricrearlo pulito è più veloce che rincorrere il rebase. Collegata ad AR-449 ('Rebase che non parte non è un conflitto', PR #629): qui la causa specifica è la traccia di un commit di pulizia precedente, non l'assenza di modifiche reali.",
@@ -12336,12 +12357,12 @@
     "promosse_a_principio": 87,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-31 06:20",
+    "tasso_calcolato_il": "2026-07-31 06:25",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-31 06:15",
+    "tick_leggero_il": "2026-07-31 06:25",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-30 23:40",
+    "cristallizzazione_ultima": "2026-07-31 06:21",
     "lezioni_totali": 482,
     "lezioni_per_stato": {
       "attiva": 386,

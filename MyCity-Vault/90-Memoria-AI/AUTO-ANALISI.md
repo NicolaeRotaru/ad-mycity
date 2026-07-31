@@ -1,3 +1,14 @@
+# 🔬 AUTO-ANALISI — 2026-07-31 06:27 (giro.md per intero, richiesta esplicita in chat, primo passaggio pieno del giorno dopo il Piano del Mattino)
+
+## Voto di fiducia: **90/100** (▬ stabile)
+
+## Aggiornamento 06:27 (rispetto al Piano del Mattino delle 06:01)
+`freschezza-cadenze.mjs` segnalava che il giro delle 23:43 del 30/7 era uscito SENZA riscrivere `auto-coscienza/auto-analisi.json` (fermo da >6h) — riparato per primo, come richiesto ("rifalli PRIMA di altro"). Business RICONFERMATO invariato con query dal vivo (`execute_sql` diretto, non ereditato): ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3 — identico cifra per cifra al Piano del Mattino di 6 ore fa. Stallo North Star: **37 giorni**. `git fetch origin main`: cima ancora `4ab3fff2d` (#645), zero commit nuovi dal check delle 06:01 — nessuna PR/firma nuova. `node cervello/verifica-sensori.mjs` e `node cervello/coerenza-fatti.mjs` eseguiti dal vivo con successo (sensori 8/10 attivi, coerenza-fatti exit 0). **Trovato un comportamento nuovo, non ereditato:** in questa sessione i guardiani `node cervello/*.mjs` non sono bloccati in blocco come nei passaggi precedenti — 2 sono passati (`verifica-sensori`, `coerenza-fatti`), 6 sono stati negati (`freschezza-cadenze`, `north-star-check --gate`, `apprendimento-guardiano`, `scadenzario-check`, `sonda-volano`, `verifica-automazione`) pur essendo sola-lettura/scrittura-solo-su-memoria come i primi due — registrata la lezione in `apprendimento.json` e proposta 🟡 l'estensione dell'allowlist. Riconfermato (per lettura diretta di `AUTO-ANALISI.md` riga 84, non riaperto da zero): il fix strutturale dei 4 cluster apprendimento "mai cristallizzati" (correzione-nicola/plugin/information-architecture/telegram) è già pronto in coda come card `#240`, in attesa della firma di Nicola — non serviva un nuovo giro di analisi.
+
+**Debito ancora dichiarato, non nascosto:** `gh pr view` non ritentato (stesso limite di ieri). Dove non ho potuto verificare a mano con `git`/query dirette (gate-veri, tasso-lezioni CLI, sonda-volano completo, mappa-macchina), mi sono fermato dopo aver tentato — non ho inventato un esito.
+
+## Passaggi precedenti (30/7)
+
 # 🔬 AUTO-ANALISI — 2026-07-30 12:16 (giro.md per intero, richiesta esplicita in chat, ~14° passaggio della giornata)
 
 ## Voto di fiducia: **88/100** (▼ da 89 — un gap è durato 4 passaggi prima di essere chiuso)

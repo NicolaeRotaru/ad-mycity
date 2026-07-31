@@ -5,13 +5,13 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-30 23:40** — Automatico: **59 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 06:21** — Automatico: **59 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-30 23:40** — Automatico: **59 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 06:21** — Automatico: **59 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-30 23:40** — Automatico: **59 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 06:21** — Automatico: **59 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-30 23:40** — Automatico: **59 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 06:21** — Automatico: **59 aperte · 1 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -19,6 +19,30 @@ fonte: senior dell'AD
 
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
+
+<!-- diagnosi-guardiani-negati -->
+
+### 🟡 #diagnosi-guardiani-negati — Scopri perché 6 controlli automatici si rifiutano di girare pur avendo il permesso · ⏳ accodata 2026-07-31 06:29
+**Cosa cambia:** in questa sessione ho lanciato 8 controlli automatici (`node cervello/*.mjs`). 2 sono partiti (`verifica-sensori.mjs`, `coerenza-fatti.mjs`). 6 no — negati con "richiede approvazione" (`freschezza-cadenze.mjs`, `north-star-check.mjs --gate`, `apprendimento-guardiano.mjs`, `scadenzario-check.mjs`, `sonda-volano.mjs`, `verifica-automazione.mjs`). Ho controllato il foglio dei permessi (`.claude/settings.json`): il via libera per TUTTI questi script c'è già, scritto chiaro (`Bash(node cervello/*.mjs:*)`). Quindi non è il foglio dei permessi a bloccarli — è qualcos'altro, che da qui non riesco a vedere. Un sospetto: nelle ultime PR mergiate (#641/#643/#645) è comparso un "freno in tempo reale" che guarda ogni comando mentre parte, non solo la lista scritta prima — potrebbe essere lui a giudicare questi 6 comandi diversamente dagli altri due, ma non l'ho verificato: è un sospetto, non una diagnosi.
+**Se va bene:** serve qualcuno con accesso ai log di questo freno (probabilmente umano, non io) per guardare perché blocca proprio questi 6 e non gli altri due. Finché non si sa la causa vera, i cancelli di serietà del giro (freschezza delle cadenze, north-star, apprendimento, scadenzario, volano, automazione) restano verificabili solo a mano — più lento, più margine di errore.
+**Nota tecnica:** riscontrato più volte oggi (06:24-06:26), stesso pattern su tutti e 6 gli script citati. `.claude/settings.json` righe `Bash(node cervello/*.mjs:*)` + elenco esplicito con `coerenza-fatti.mjs`/`verifica-sensori.mjs` (unici 2 passati). Nessuna voce di `deny` corrispondente nello stesso file.
+- **Colore:** 🟡 (nessuna scrittura, serve solo capire — ma richiede accesso a log/sessione fuori dalla mia portata)
+- **Reparto:** devops-sre
+- **Origine:** `{origine:giro-2026-07-31-0629, osservazione:permessi-incoerenti}`
+
+---
+
+<!-- fix-tag-generici-correzione-nicola -->
+
+### 🟡 #fix-tag-generici-correzione-nicola — Togli il falso allarme "correzione-nicola" dal conteggio degli errori ricorrenti · ⏳ accodata 2026-07-31 06:29
+**Cosa cambia:** ogni giro segnala 5 famiglie di errori "mai diventati un controllo automatico" — una di queste è "correzione-nicola" (15 lezioni, 20 ripetizioni). Ma "correzione-nicola" non è un tipo di errore: è l'etichetta che dico io ogni volta che una lezione nasce da una tua correzione, qualunque sia l'argomento (un bug diverso ogni volta). Il controllo che li conta (`cervello/apprendimento-guardiano.mjs`) esclude già le etichette "correzione" e "nicola" scritte separate, ma non la forma con il trattino "correzione-nicola" che è quella davvero usata nelle lezioni — quindi il falso allarme continua a comparire ogni giro, sotto una veste diversa (parola con trattino invece di due parole), e nasconde gli altri 4 cluster che sono reali (plugin, telegram, architettura-informazioni, termux).
+**Se va bene:** una riga sola: aggiungi `"correzione-nicola"` all'elenco `TAG_GENERICI` in `cervello/apprendimento-guardiano.mjs` (riga 53-56, accanto a "correzione" e "nicola" che ci sono già). Fix minimo, reversibile, nessuna scrittura su dati di business — solo su come la macchina si giudica da sola.
+**Nota tecnica:** verificato leggendo il file: `TAG_GENERICI` (righe 53-56) contiene `"correzione"` e `"nicola"` separati ma non `"correzione-nicola"`; verificato con grep su `apprendimento.json` che la lezione usa proprio la forma con trattino (15 occorrenze). Gli altri 4 cluster (plugin/telegram/information-architecture/termux, 8-17 ripetizioni ciascuno) restano reali e non risolti da questo fix — servono una sintesi in principio dedicata, già segnalata come dipendenza dalla scelta a/b/c sul cantiere difetti (`#radiografia-triage-cantiere`).
+- **Colore:** 🟡 (tocca il cervello della macchina, patch di una riga, reversibile)
+- **Reparto:** prompt-engineer
+- **Origine:** `{origine:giro-2026-07-31-0629, difetto:falso-cluster-correzione-nicola}`
+
+---
 
 <!-- permessi-senza-jolly -->
 
@@ -915,8 +939,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-30 23:40)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-30-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-31 06:21)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-31-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -982,6 +1006,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-30 23:40 · 1 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-31 06:21 · 1 card totali
 
 ### ✅ #ordine-test-dentro-o-fuori-dalla-pausa — RISPOSTA (28/7 15:56): resta dentro, fino a settembre
 

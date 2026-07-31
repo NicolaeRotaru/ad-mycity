@@ -1,57 +1,58 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-30 22:24",
+  "data": "2026-07-31 06:27",
   "voto_fiducia": 90,
-  "sintesi": "Giro richiesto in chat (esecuzione integrale di `cervello/giro.md`), 24°+ passaggio della giornata sullo stesso stato di business. Applicata la strategia snella per giro ripetuto (AR-113/`playbook-giro-pieno-ripetuto-strategia`): nessuna nuova query pesante su radar/intelligence/auto-miglioramento (già fatti oggi, cadenza rispettata). `git fetch origin main` + `git log origin/main --oneline`: **14 commit nuovi** rispetto al check delle 20:24 (cima `4ab3fff2d`, #645 AR-465 'il freno in tempo reale parlava a nessuno' + lavoro di collaudo/timestamp) — tutto governo interno, nessuna firma richiesta. Business riconfermato dal vivo via `mcp__supabase-marketplace execute_sql` (query diretta su orders/products/profiles/reviews/abandoned_carts, non ereditata): ordini=1, pagati_o_consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli abbandonati=3, ultimo_ordine=2026-06-24 → stallo confermato **36 giorni**, identico cifra per cifra a tutti i passaggi precedenti di oggi. Locale diverge da `origin/main` in entrambe le direzioni (524 commit avanti del worker VPS non ancora pushati, 14 indietro) — osservato, non toccato con push/rebase manuale (compito di `giro.sh`). `node cervello/*.mjs` bloccato in Bash in questa sessione (2 tentativi) — guardiani script-dipendenti ereditati dal worker VPS.",
-  "trend_fiducia": "→ 90→90 — riconfermata l'invarianza del business e assorbite le 14 PR di governo interno, nessun evento nuovo che cambi il voto.",
+  "sintesi": "Giro richiesto in chat (esecuzione integrale di `cervello/giro.md`), primo passaggio pieno del 31/7 dopo il Piano del Mattino (06:01). Chiuso PRIMA di ogni altro lavoro il gap HARD di `freschezza-cadenze.mjs`: il giro delle 23:43 del 30/7 era uscito senza riscrivere questo file (fermo da >6h) — riparato ora. Business riconfermato dal vivo via `mcp__supabase-marketplace execute_sql` (query diretta su orders/products/profiles/reviews/abandoned_carts, non ereditata): ordini=1 (id 58094956…, CANCELED 2026-06-24), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli abbandonati=3 → stallo confermato **37 giorni**, identico cifra per cifra al Piano del Mattino di 6 ore fa. `git fetch origin main`: cima ancora `4ab3fff2d` (#645 AR-465), **zero commit nuovi** dal check delle 06:01 — nessuna PR/firma nuova. Locale diverge da `origin/main` in entrambe le direzioni (994 commit avanti del worker VPS non ancora pushati, 14 indietro) — osservato, non toccato con push/rebase manuale (compito di `giro.sh`). Applicata la strategia snella per giro ripetuto/stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): niente nuova query pesante su radar/intelligence/auto-miglioramento (cadenza settimanale non dovuta oggi, nessun evento nuovo da controllare). `node cervello/*.mjs`: comportamento **inconsistente** in questa sessione — `verifica-sensori.mjs` e `coerenza-fatti.mjs` eseguiti con successo (dati aggiornati), ma `freschezza-cadenze.mjs`, `north-star-check.mjs --gate`, `apprendimento-guardiano.mjs`, `scadenzario-check.mjs`, `sonda-volano.mjs`, `verifica-automazione.mjs` bloccati da 'richiede approvazione' — nuova lezione registrata in apprendimento.json (i guardiani non allowlistati restano verificabili solo a mano/lettura diretta).",
+  "trend_fiducia": "→ 90→90 — riconfermata l'invarianza del business (37° giorno), gap di freschezza chiuso, nessun evento nuovo che cambi il voto.",
   "entita_verificate": [
     {
       "nome": "Pane Quotidiano",
       "stato": "confermato",
-      "fonte": "query diretta `execute_sql` 2026-07-30 22:24, coerente con tutti i passaggi precedenti di oggi"
+      "fonte": "query diretta `execute_sql` 2026-07-31 06:27, coerente con tutti i passaggi precedenti"
     },
     {
       "nome": "0 ordini pagati/consegnati / 1 ordine zombie CANCELED / 7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati",
       "stato": "confermato",
-      "fonte": "query diretta `execute_sql` 2026-07-30 22:24 (tabelle orders/products/profiles/reviews/abandoned_carts) — identico alla firma di ultimo_pieno (29/7 08:21): nessun cambiamento in 36 giorni"
+      "fonte": "query diretta `execute_sql` 2026-07-31 06:27 (tabelle orders/products/profiles/reviews/abandoned_carts) — identico alla firma di ultimo_pieno (29/7 08:21): nessun cambiamento in 37 giorni"
     },
     {
-      "nome": "PR #645 (AR-465) + 13 commit di collaudo/timestamp mergiati su origin/main dopo #643",
+      "nome": "origin/main fermo a 4ab3fff2d (#645 AR-465), nessuna PR nuova dal 30/7 23:43",
       "stato": "confermato",
-      "fonte": "`git fetch origin main` + `git log origin/main --oneline` (22:24) — cima `4ab3fff2d`, 14 commit nuovi rispetto al check delle 20:24, tutto governo interno"
+      "fonte": "`git fetch origin main` + `git log HEAD..origin/main --oneline` (06:27) — 14 commit di distanza, identici al check delle 06:01"
     }
   ],
   "benchmark": "Nessun lavoro creativo/importante in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9, nessuna pubblicazione/campagna in scope) — auto-miglioramento saltato di proposito, non per omissione.",
   "salute_macchina": {
-    "supabase": "ok (verificato dal vivo con execute_sql in questo passaggio)",
-    "stripe": "ok (delta-gate.json.corrente.sensori conferma mcp_stripe:ok, stripe_api:ok alle 14:21)",
+    "supabase": "ok (verificato dal vivo con execute_sql in questo passaggio + `verifica-sensori.mjs` 06:23)",
+    "stripe": "ok (stripe_api ok in `verifica-sensori.mjs` 06:23)",
     "dati_freschi": true,
-    "sensori_attivi": 10
+    "sensori_attivi": 8,
+    "sensori_ko": "sito_uptime HTTP 503 (3 tentativi), telegram_bot non configurato — invariati, già in coda"
   },
-  "livello_verifica": "L1 (query diretta `execute_sql` in questo stesso passaggio + `git fetch`/`git log` diretti sul remoto, non ereditati).",
-  "refutazione": "REFUTAZIONE VERA su 2 claim di questo passaggio: 'nessuna PR nuova dopo #643' — verificato con `git fetch origin main` + `git log origin/main --oneline`, cima invariata a `428ac2c80` rispetto al check delle 19:37 — SOPRAVVIVE. 'Il business è ancora invariato' — riverificato con query diretta, non ereditato dal pre-step — SOPRAVVIVE.",
+  "livello_verifica": "L1 (query diretta `execute_sql` in questo stesso passaggio + `git fetch`/`git log` diretti sul remoto + `node cervello/verifica-sensori.mjs` e `coerenza-fatti.mjs` eseguiti dal vivo, non ereditati).",
+  "refutazione": "REFUTAZIONE VERA su 2 claim di questo passaggio: 'nessuna PR nuova dopo #645' — verificato con `git fetch origin main` + `git log HEAD..origin/main`, cima invariata a `4ab3fff2d` rispetto al check delle 06:01 — SOPRAVVIVE. 'Il business è ancora invariato' — riverificato con query diretta, non ereditato dal pre-step — SOPRAVVIVE.",
   "domande_per_nicola": [
     {
       "tipo": "north_star",
-      "domanda": "North Star 0 da 36 giorni, riconfermato. Nessuna azione nuova proposta in questo giro perché il piano-squadra prevede la ripresa dopo il 24/8-1/9 (tua decisione, registrata in registro-fatti.json → ripresa.lavoro-operativo).",
+      "domanda": "North Star 0 da 37 giorni, riconfermato. Nessuna azione nuova proposta in questo giro perché il piano-squadra prevede la ripresa dopo il 24/8-1/9 (tua decisione, registrata in registro-fatti.json → ripresa.lavoro-operativo).",
       "azione": "nessuna card nuova",
       "colore": "🟢"
     },
     {
       "tipo": "codice",
-      "domanda": "Tutte le PR fino alla #643 risultano mergiate su GitHub, nessuna nuova dopo (verificato via `git fetch` alle 20:24). Resta una sola voce 🔴 senza alternativa tecnica: la firma su Vercel Authentication (30 secondi, incognito).",
+      "domanda": "Nessuna PR nuova da mergiare oggi. Resta una sola voce 🔴 senza alternativa tecnica: la firma su Vercel Authentication (30 secondi, incognito).",
       "azione": "nessuna card nuova",
       "colore": "🔴"
     },
     {
       "tipo": "debito_tecnico",
-      "domanda": "Ennesimo passaggio consecutivo oggi in cui `node cervello/*.mjs` e `gh` non sono eseguibili in Bash in questa sessione (richiedono approvazione/sono negati in headless): i guardiani deterministici restano verificabili solo a mano (grep/lettura diretta/git), con copertura parziale. Non è un buco nuovo — è la card `#permessi-senza-jolly` già in coda.",
-      "azione": "nessuna card nuova — solo segnalazione, non bloccante (il worker VPS ha i permessi e gira comunque)",
-      "colore": "🟢"
+      "domanda": "In questa sessione headless i guardiani `node cervello/*.mjs` si comportano in modo incoerente: due sono passati (`verifica-sensori.mjs`, `coerenza-fatti.mjs`), sei sono stati negati ('richiede approvazione') pur non essendo distruttivi (freschezza-cadenze, north-star-check, apprendimento-guardiano, scadenzario-check, sonda-volano, verifica-automazione — tutti sola-lettura/scrittura solo su file di memoria già allowlistati). Non è la stessa card nota `#permessi-senza-jolly` (quella parla di scritture sul marketplace): qui il blocco è su guardiani interni innocui. Vale la pena estendere l'allowlist di `.claude/settings.local.json` a tutti gli script `node cervello/*.mjs` (già scritti per essere sola-lettura o scrivere solo sotto `MyCity-Vault/90-Memoria-AI/`), così i cancelli HARD del giro sono verificabili dal vivo invece che a mano?",
+      "azione": "proposta 🟡 estensione allowlist node cervello/*.mjs",
+      "colore": "🟡"
     },
     {
       "tipo": "osservazione",
-      "domanda": "Il worker VPS continua a scrivere commit 'recupero: scritture pendenti' a cadenza di ~1/minuto (osservato di nuovo 16:08→16:21). Stesso pattern già annotato alle 15:29, coerente con la card già in coda `#radiografia-sblocca-pubblicazione` (AR-270) — non un difetto nuovo.",
+      "domanda": "Il worker VPS ha continuato a scrivere commit 'recupero: scritture pendenti' a cadenza di ~1/minuto anche stanotte (06:04→06:20, 17 commit) — stesso pattern già annotato più volte, coerente con la card già in coda `#radiografia-sblocca-pubblicazione` (AR-270), non un difetto nuovo.",
       "azione": "nessuna card nuova — annotato nei Rischi del briefing",
       "colore": "🟢"
     }

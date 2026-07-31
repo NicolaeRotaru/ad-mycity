@@ -1,11 +1,17 @@
 {
-  "data": "2026-07-30 23:41",
-  "situazione": "Giro ripetuto (25°+ passaggio di oggi), business ANCORA fermo da 36 giorni: identico ai passaggi precedenti (1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). Zero commit nuovi su `origin/main` in oltre un'ora (cima ferma a `4ab3fff2d`, #645). Locale diverge da origin/main in entrambe le direzioni (598 commit worker VPS non pushati, 14 indietro) — osservato, non toccato. Worker VPS concorrente ancora attivo, non toccato. Mossa n.1 resta una sola: 30 secondi su Vercel Authentication.",
+  "data": "2026-07-31 06:29",
+  "situazione": "Giro completo richiesto in chat, business ANCORA fermo da 37 giorni: identico al Piano del Mattino di 28 minuti fa (1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). Zero commit nuovi su `origin/main` dal check delle 06:01 (cima ferma a `4ab3fff2d`, #645). Chiuso il gap HARD del gate di freschezza (auto-analisi fermo da >6h). Novità: i guardiani node cervello/*.mjs si comportano in modo incoerente in questa sessione (2 passano, 6 negati). Mossa n.1 resta una sola: 30 secondi su Vercel Authentication.",
   "opportunita": [
     {
-      "titolo": "Costruisci un controllo che confronti le domande in coda con le tue risposte già date",
-      "motivo": "La stessa famiglia di errore (domanda già risposta) è la più ripetuta di tutte in memoria (18 volte) e non è mai diventata un controllo automatico",
+      "titolo": "Estendi il permesso ai controlli automatici della macchina, non solo a due",
+      "motivo": "Oggi solo 2 controlli su 8 riescono a girare da soli in questa sessione — gli altri 6 restano verificabili solo a mano, con più margine di errore umano",
       "impatto": "medio",
+      "sforzo": "basso"
+    },
+    {
+      "titolo": "Correggi l'etichetta che fa sembrare un cluster di errori quello che in realtà è solo 'corretto da Nicola'",
+      "motivo": "L'etichetta 'correzione-nicola' è usata su 15 lezioni diverse ma non descrive un tipo di errore — è rumore che nasconde i 4 cluster veri (plugin, telegram, architettura-informazioni, termux) sotto la stessa voce",
+      "impatto": "basso",
       "sforzo": "basso"
     }
   ],
@@ -17,11 +23,11 @@
     },
     {
       "titolo": "Ok sull'elenco esplicito dei permessi (togli il jolly)",
-      "motivo": "Risolverebbe alla radice anche il blocco di node cervello/*.mjs in Bash che limita questa sessione da tutta la giornata",
+      "motivo": "Risolverebbe alla radice anche il blocco di node cervello/*.mjs in Bash che limita questa sessione",
       "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo 36 giorni (invariato)"
+    "North Star 0 — stallo 37 giorni (invariato)"
   ]
 }
