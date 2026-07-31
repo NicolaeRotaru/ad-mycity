@@ -51,7 +51,7 @@
       "vincoli": []
     },
     "ritmo-sera": {
-      "quando": "2026-07-30 18:02",
+      "quando": "2026-07-31 18:02",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -61,5 +61,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-07-31 14:48"
+  "aggiornato": "2026-07-31 18:02"
 }
