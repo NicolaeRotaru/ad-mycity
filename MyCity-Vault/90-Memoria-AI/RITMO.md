@@ -1091,3 +1091,25 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - Una lettera — a, b o c — su come gestire i difetti aperti (dettaglio nella card in coda)
 
 **Dettagli tecnici** — riconfermato via Supabase `execute_sql` diretta (06:01): ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3 — stallo North Star 37 giorni. `origin/main` in cima a `4ab3fff2d` (#645), nessun commit di prodotto nella notte (solo collaudo interno AR-455/AR-464/AR-465). Coda AZIONI-IN-ATTESA: 59 aperte, invariata da ieri sera.
+
+## Punto di mezzogiorno · 2026-07-31 12:05
+
+**Le 3 priorità di stamattina, a che punto sono:**
+1. Vercel Authentication (30 secondi) → ❌ **ferma**, invariata.
+2. Sì/no sul permesso jolly della macchina → ❌ **ferma**, invariata.
+3. Lettera a/b/c sui difetti del cantiere → ❌ **ferma**, invariata.
+
+**Corretta la rotta:** stamattina alle 08:35 è saltata fuori un'urgenza vera — il sito è giù (schermata di errore) da **27 ore e mezza**, non solo da stanotte. È diventata la priorità n.1, davanti a tutto il resto. Ho mandato un tecnico a cercare la causa (senza toccare nulla): probabile un pezzo lasciato a metà nel trasloco da un fornitore di hosting all'altro. Il report è pronto, mancano solo i tuoi 5 minuti di controllo. Alle 11:20 sono emerse anche due carte nuove 🔴: la macchina ha, nelle sue impostazioni, il permesso di pubblicare codice direttamente senza passare da una tua approvazione e il permesso di scrivere sul database del sito (dovrebbe solo leggerlo) — nessuna delle due cose è mai successa davvero, ma il permesso c'è scritto e va tolto o giustificato con la tua firma.
+
+**Il negozio:** stesso quadro di stamattina — 1 negozio, 1 ordine annullato, 0 pagati. Nessun cambiamento nella giornata.
+
+**Cosa ho fatto io stamattina:** solo manutenzione interna (nessuna azione verso negozi o clienti, la pausa concordata resta in vigore fino al 24/8-1/9) — riparati due controlli automatici che si erano fermati senza dirlo.
+
+**Serve da te entro sera**
+- 5 minuti su Render/Vercel/DNS per far ripartire il sito (priorità vera di oggi)
+- Vercel → Settings → Deployment Protection → Vercel Authentication → Enabled
+- Un sì o un no sul permesso jolly della macchina
+- Un sì o un no sui due permessi di scrittura diretta trovati stamattina (push su main e scrittura sul database)
+- Una lettera — a, b o c — su come gestire i difetti aperti nel cantiere
+
+**Dettagli tecnici** — riconfermato dal vivo alle 12:0x: `WebFetch` su mycity-marketplace.com → ancora HTTP 503 (22+ controlli ciechi dal 30/7 08:20); `mcp__supabase-marketplace execute_sql` diretto → ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3 — identico a ogni passaggio di oggi, stallo 37 giorni. `git fetch origin main`: cima ancora `4ab3fff2d` (#645), zero commit nuovi. AZIONI-IN-ATTESA: 48 aperte (era 59 stamattina — 11 chiuse durante i passaggi di giro, nessuna nuova oltre le 2 di permessi delle 11:20). Cantiere difetti: 155 aperti / 234 chiusi. Report sito: `consegne/devops/2026-07-31-sito-503.md`. Card nuove: `#permessi-git-push-diretto-agente`, `#permessi-execute-sql-doppio-db` (guardiano `permessi-di-guardia.test.mjs`, accodate 11:20).
