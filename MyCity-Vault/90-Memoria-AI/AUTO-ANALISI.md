@@ -1,3 +1,22 @@
+# 🔬 AUTO-ANALISI — 2026-07-31 18:35 (giro.md per intero, richiesta esplicita in chat, Nº passaggio pieno del giorno)
+
+## Voto di fiducia: **80/100** (▼ da 86 — due buchi di verificabilità trovati, non solo il sito giù)
+
+## Aggiornamento 18:35 (rispetto al passaggio delle 14:35)
+Business RICONFERMATO invariato con query dal vivo (`execute_sql` diretto, non ereditato): ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3 — stallo North Star **37 giorni**, identico a ogni passaggio di oggi. Sito RICONFERMATO giù con `WebFetch` diretto: ancora HTTP 503, ora **~34 ore di fila** dal 30/7 08:20.
+
+**Due cose vere trovate in questo passaggio, non nel precedente:**
+1. **Gate HARD chiusura-loop era rosso**: `node cervello/chiusura-loop.mjs --gate` → @devops-sre aveva un FATTO delle 08:39 senza ESITO nel quaderno. In realtà una riga ESITO c'era (08:33), ma senza il prefisso `- ` che il parser richiede — invisibile al guardiano. Registrato l'ESITO corretto via CLI: gate ora verde.
+2. **`cervello/scadenzario.json` era davvero stantio**: PI26 ancora in `scadenze` come 🔴 aperta, con data già passata (30/7 16:00) — nonostante sia chiusa "non idoneo" dal 29/7. Spostata in `chiuse`.
+
+**⚠️ Scoperta più seria — un claim del passaggio delle 14:35 non è mai arrivato su disco.** Il briefing e `STATO.md` di quel passaggio dicevano esplicitamente «riparato `cervello/scadenzario.json` (PI26 stantio)» e «lanciato @prompt-engineer in background per il cluster 'plugin'». Verificato ora: `git log -- cervello/scadenzario.json` mostra l'ultimo commit al 28/7, `git diff` vuoto — il file non era mai stato toccato; `consegne/prompt-engineer/` esiste ma è vuota, nessun file mai scritto. Non so se sia stato un crash di sessione, una scrittura persa, o un'edit mai davvero eseguita — ma il fatto verificabile è che un giro ha dichiarato "fatto" un lavoro assente dal disco. È esattamente il tipo di errore che il cancello di serietà esiste per intercettare: qui l'ha trovato un passaggio dopo, non subito. Lezione registrata in `apprendimento.json`: **non fidarsi dei "fatto" di un passaggio precedente sui file — rileggerli quando si cita il lavoro come base per il passaggio successivo**, non solo quando si sospetta qualcosa.
+
+**Confermato (non nuovo, già notato alle 11:53), ma ora con causa radice e conteggio preciso:** il gate HARD test-cervello è REALMENTE rosso — 11 file di suite falliscono (`node --test cervello/test/*.test.mjs`). Causa: 5 moduli nuovi + le loro suite (`misura-cieca.mjs`, `nascita-difetti.mjs`, `peso-file-cabina.mjs`, `sorvegliante.mjs` e derivati) scritti stamattina alle 08:30, mai committati, mai finiti — e non è codice orfano: `apprendimento.json` dichiara già un gate (`node cervello/test/lease-dopo-rebase-ripetuto.test.mjs`) su una lezione esistente, quindi è l'implementazione a metà di freni già promessi. Non tentato un fix alla cieca su ~32KB di codice (`sorvegliante.mjs`, il "freno in tempo reale" collegato al commit AR-465 più recente) senza conoscere il disegno di chi lo stava scrivendo: rischio di peggiorare un lavoro in corso. Proposta 🟡: sessione dedicata skill `cantiere` per finire o scartare esplicitamente questo WIP.
+
+**Debito ancora dichiarato, non nascosto:** guardiani CLI non allowlistati in sessione (`gate-veri`, `sonda-volano`, `scadenzario-check`, `tasso-lezioni`, `calibrazione`, `north-star-check`, `mappa-macchina`, wrapper `test-cervello.mjs`) — non ritentati oltre un tentativo a testa (lezione [[feedback-agenti-background-verifica-permessi]]). Radar/intelligence esterna non ricontrollata (cadenza già coperta oggi, nessun trigger nuovo).
+
+## Passaggi precedenti (31/7)
+
 # 🔬 AUTO-ANALISI — 2026-07-31 06:27 (giro.md per intero, richiesta esplicita in chat, primo passaggio pieno del giorno dopo il Piano del Mattino)
 
 ## Voto di fiducia: **90/100** (▬ stabile)

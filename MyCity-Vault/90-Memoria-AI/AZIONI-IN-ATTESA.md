@@ -5,13 +5,13 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-31 14:21** — Automatico: **66 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 18:21** — Automatico: **66 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-31 14:21** — Automatico: **66 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 18:21** — Automatico: **66 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-31 14:21** — Automatico: **66 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 18:21** — Automatico: **66 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-31 14:21** — Automatico: **66 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 18:21** — Automatico: **66 aperte · 1 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -1014,7 +1014,7 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-31 14:21)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-31 18:21)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-31-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1123,6 +1123,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-31 14:21 · 1 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-31 18:21 · 1 card totali
 
 ### ✅ #ordine-test-dentro-o-fuori-dalla-pausa — RISPOSTA (28/7 15:56): resta dentro, fino a settembre
 

@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-31 18:20",
+  "aggiornato": "2026-07-31 18:37",
   "lezioni": [
     {
       "id": "L-2026-0731-01",
@@ -10634,6 +10634,27 @@
       "nato": "2026-07-30",
       "ultima_conferma": "2026-07-30 16:00",
       "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0731-02",
+      "testo": "**Un 'fatto' dichiarato in un briefing/STATO.md non è garanzia che la scrittura sia arrivata su disco — verificarlo con git prima di usarlo come base del passaggio successivo (auto-scoperta, giro 31/7 18:35).** Il passaggio delle 14:35 aveva scritto in prosa (briefing + STATO.md) di aver «riparato `cervello/scadenzario.json` (PI26 stantio)» e «lanciato @prompt-engineer in background» per il cluster 'plugin'. Verificato al passaggio delle 18:35: `git log -- cervello/scadenzario.json` mostrava l'ultimo commit al 28/7 (nessuna modifica dopo) e `git diff` vuoto — il file era ancora quello vecchio, PI26 ancora aperta/scaduta; `consegne/prompt-engineer/` esisteva ma vuota, nessun file mai scritto. Non è chiaro SE la causa sia una scrittura persa (crash di sessione), un worker concorrente che ha sovrascritto, o un'azione mai davvero eseguita nonostante il testo — ma il fatto verificabile è che un giro ha scritto 'fatto' senza che il disco lo confermasse, ed è sopravvissuto un passaggio intero (12:37→14:35→qui) prima che qualcuno lo controllasse. Regola: quando un passaggio cita un lavoro di un passaggio precedente come già chiuso (specialmente 'ho riparato X' o 'ho lanciato l'agente Y'), prima di ripartire da lì per un nuovo lavoro fare UNA verifica veloce sul file/artefatto reale (git log/diff, ls della cartella di consegna) — non solo quando si sospetta qualcosa, ma come riflesso quando si eredita un 'fatto' altrui. Costo: secondi. Beneficio: intercetta un buco di verificabilità nel processo stesso, non solo nei dati di business. Vedi [[feedback-verifica-prima-di-affermare]] (applicato qui a un claim della macchina su se stessa, non solo a un claim su Nicola/mercato).",
+      "tag": [
+        "verifica-prima-di-affermare",
+        "claim-non-verificato",
+        "cancello-di-serieta",
+        "auto-analisi",
+        "scadenzario",
+        "prompt-engineer",
+        "worker-concorrente"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-31",
+      "ultima_conferma": "2026-07-31 18:35",
+      "stato": "attiva"
     }
   ],
   "principi": [
@@ -11969,21 +11990,6 @@
       ],
       "reparto": "@devops-sre",
       "promosso_il": "2026-07-30 06:21"
-    },
-    {
-      "id": "L-2026-0731-529",
-      "testo": "**`cervello/scadenzario.json` continua a rimanere indietro rispetto a `registro-fatti.json` — è la 3ª volta misurata (28/7, 30/7 08:25, 31/7 14:35) che PI26 viene chiuso/corretto in `registro-fatti.json` ma resta segnato 'attivo 🔴' nello scadenzario, finché qualcuno non lo nota leggendo il file per un altro motivo.** AR-102 dice di propagare a cascata i file vivi quando un fatto cambia — ma finora la propagazione è stata fatta a mano, riga per riga, ogni volta che il gap viene notato per caso (mai perché un guardiano lo ha segnalato): `coerenza-fatti.mjs` scansiona 0 file vivi in questa sessione ('NON VERIFICATO: nessun file letto'), quindi non copre questo file. Il fix minimo (non eseguito qui: tocca `cervello/`, resta 🟡 firma Nicola) sarebbe far leggere `scadenzario.json` a `coerenza-fatti.mjs` come uno dei 'file vivi' scansionati, così un secondo scostamento futuro tra le due fonti diventerebbe un rosso automatico invece che una scoperta fortuita. Fino ad allora: ogni volta che si tocca una scadenza in `registro-fatti.json`, aprire ANCHE `cervello/scadenzario.json` nello stesso passaggio, non fidarsi che sia già stato fatto le volte precedenti.",
-      "tag": [
-        "scadenzario",
-        "registro-fatti",
-        "ar-102",
-        "coerenza-fatti",
-        "pi26",
-        "gate-mancante",
-        "pattern-ricorrente"
-      ],
-      "reparto": "@tech",
-      "promosso_il": "2026-07-31 14:35"
     }
   ],
   "preferenze_nicola": [
@@ -12368,19 +12374,19 @@
     "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
   ],
   "meta": {
-    "lezioni_attive": 478,
-    "promosse_a_principio": 88,
+    "lezioni_attive": 479,
+    "promosse_a_principio": 87,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-31 18:20",
+    "tasso_calcolato_il": "2026-07-31 18:37",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-31 18:17",
+    "tick_leggero_il": "2026-07-31 18:37",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-    "cristallizzazione_ultima": "2026-07-31 14:21",
-    "lezioni_totali": 483,
+    "cristallizzazione_ultima": "2026-07-31 18:21",
+    "lezioni_totali": 484,
     "lezioni_per_stato": {
-      "attiva": 387,
+      "attiva": 388,
       "principio": 87,
       "in-prova": 5,
       "decaduta": 0,
