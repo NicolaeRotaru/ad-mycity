@@ -553,6 +553,10 @@ function main() {
     // di quanti ne chiudono?») non ha una risposta numerica. Sta nel cancello e non in un comando a
     // parte perché il momento in cui si compila è la consegna del lotto, non il mattino dopo.
     passi.push(esegui("nascita dei difetti", "node", ["cervello/nascita-difetti.mjs"]));
+    // AR-474 — le tre domande dello Stop valgono anche qui: un difetto chiuso senza prova, un
+    // allarme scritto e non accodato, una lezione senza freno. Nel turno arrivano prima (hook Stop),
+    // ma il cancello del lotto e il posto che gira in CI su OGNI PR: qui il freno esiste comunque.
+    passi.push(esegui("verdetti senza lettore", "node", ["cervello/cancello-stop.mjs"]));
     passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));
 
     // AR-393 — LA PROVA CHE LE PROVE PROVINO, ESEGUITA INVECE CHE NOMINATA.
