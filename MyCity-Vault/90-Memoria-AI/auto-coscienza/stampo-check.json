@@ -1,25 +1,79 @@
 {
   "_cosa_e": "Guardiano stampo senior: legge il CONTENUTO di mansionario, kit e quaderno di ogni agente e lo confronta col debito dichiarato in cervello/stampo-baseline.json.",
   "_cosa_NON_prova": "Non prova che un kit sia BUONO né che un ESITO sia vero: misura spessore relativo, fotocopie, struttura e presenza di righe ESITO datate. Un kit lungo e originale può essere sbagliato, e una riga ESITO può contenere un numero inventato — quella parte la giudicano il direttore-creativo e la calibrazione, non questo controllo.",
-  "aggiornato": "2026-07-31 20:56",
+  "aggiornato": "2026-08-01 01:11",
   "totale_agenti": 120,
   "soglia_sottile_byte": 7025,
   "quaderni": {
-    "vivi": 48,
+    "vivi": 35,
     "vuoti": 72,
-    "fermi": 0,
+    "fermi": 13,
     "assenti": 0
   },
-  "con_difetti": 73,
-  "senza_difetti": 47,
+  "con_difetti": 86,
+  "senza_difetti": 34,
   "per_tipo": {
     "quaderno_vuoto": 72,
+    "quaderno_fermo": 13,
     "kit_sottile": 10,
     "kit_fotocopia": 10,
     "kit_struttura_rotta": 9
   },
   "debito_dichiarato_il": "2026-07-28 16:05",
-  "nuovi_rispetto_al_debito": [],
+  "nuovi_rispetto_al_debito": [
+    {
+      "nome": "ads-performance",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "ai-copywriter",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "ai-designer",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "ai-video",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "contabilita",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "cro",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "dispatch",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "dispute",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "influencer-partnership",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "legale-privacy",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "qa",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "rider-fleet",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "supporto",
+      "difetto": "quaderno_fermo"
+    }
+  ],
   "debito_riparato_da_togliere": [],
   "baseline_letta": true
 }
