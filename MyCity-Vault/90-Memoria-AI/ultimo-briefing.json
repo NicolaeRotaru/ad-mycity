@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-31 11:31",
-  "situazione": "Il sito e' ANCORA giu': mycity-marketplace.com risponde HTTP 503 da circa 27 ore, riverificato in diretta (20 controlli ciechi di fila dal 30/7 08:20). Nessun aggiornamento nuovo da @devops-sre: il report con i 3 controlli di 2 minuti su Render/Vercel/DNS e' gia' pronto e aspetta i 5 minuti di Nicola. Per il resto business invariato: 37 giorni di stallo (1 negozio, 1 ordine annullato, 0 pagati), atteso per la pausa negozi concordata fino al 24/8-1/9. In questo passaggio riparato un gap tecnico: l'auto-analisi del giro era rimasta ferma nel contenuto nonostante il file fosse stato toccato.",
+  "data": "2026-07-31 11:53",
+  "situazione": "Il sito e' ANCORA giu': mycity-marketplace.com risponde HTTP 503 da circa 27h30, riverificato in diretta (21 controlli ciechi di fila dal 30/7 08:20). Per il resto business invariato: 37 giorni di stallo (1 negozio, 1 ordine annullato, 0 pagati), atteso per la pausa negozi concordata fino al 24/8-1/9. Novita' di questo passaggio: trovato il verdetto reale dei guardiani interni (10 gate su 10 rossi: test, north-star, apprendimento e altri) - non e' un peggioramento, sono condizioni gia' note, ma prima erano 'non verificabili' e ora sono documentate.",
   "opportunita": [
     {
       "titolo": "Chiudi il buco di giro.sh che pubblica senza passare dal cancello di verita'",
