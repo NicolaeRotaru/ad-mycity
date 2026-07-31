@@ -28,3 +28,5 @@ Nessun campo deducibile da riempire in automatico in questo giro. 🎉
 
 Dati legali, fiscali (P.IVA, codice fiscale), IBAN/carta, documenti KYC, account Stripe, consensi
 e stato di approvazione: sono sensibili e restano **sempre e solo** in mano tua. La macchina non li propone mai.
+data: 2026-07-30 23:40
+# 🛡️ Supervisione negozi & prodotti — 2026-07-30 23:40
