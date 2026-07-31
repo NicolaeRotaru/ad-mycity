@@ -8,6 +8,7 @@ reparto: customer-success
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-31 11:38 · PLAYBOOK Recensioni ri-accodato (n-esima volta) · 0 consegne DELIVERED in DB, solo 1 ordine CANCELED zombie (24/6) — verificato via query live · atteso messaggio post-consegna grazie+recensione pronto per invio → reale 0 destinatari possibili, blocco strutturale a monte (nessun ordine consegnato) · #loop-a-vuoto #recensioni
 - 2026-07-30 11:19 · PLAYBOOK Recensioni: individua consegne senza recensione (30/7 11:19, ennesima invocazione) · 0 consegne DELIVERED trovate, nessuna azione da accodare (confermato da STATO.md 11:09 e registro-fatti northstar.consegnati=0) · atteso eventuali nuove recensioni da richiedere → reale 0 — blocco strutturale a monte invariato, stesso esito di 12+ giri precedenti (1/7→28/7) · #loop-a-vuoto #playbook-recensioni
 - 2026-07-29 11:05 · playbook recensioni post-consegna, invocazione 29/7 11:xx · verifica SQL: 0 DELIVERED, 1 CANCELED (zombie 24/6) · atteso consegne reali da cui generare messaggi grazie+recensione → reale 0 destinatari, blocco strutturale invariato (nessuna consegna reale ancora) · #loop-a-vuoto #recensioni
 - 2026-07-28 11:08 · Playbook recensioni (28/7 11:08) · gate DELIVERED=0, reviews=0, invariato · atteso trovare consegne completate senza recensione → reale 0 ordini DELIVERED (1 solo ordine totale, CANCELED 24/6) — nessuna consegna da recensire, 10a invocazione identica · #playbook-recensioni-loop-a-vuoto
