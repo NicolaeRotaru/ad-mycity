@@ -32,7 +32,7 @@
       ]
     },
     "monitora": {
-      "quando": "2026-07-30 08:36",
+      "quando": "2026-07-31 08:36",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -62,5 +62,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-07-31 08:33"
+  "aggiornato": "2026-07-31 08:36"
 }
