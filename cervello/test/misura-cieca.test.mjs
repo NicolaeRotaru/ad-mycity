@@ -7,7 +7,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { misuraCieca, TRAPPOLE } from "../misura-cieca.mjs";
+import { misuraCieca, bustaPerIlModello, TRAPPOLE } from "../misura-cieca.mjs";
 
 const ids = (c) => misuraCieca(c).map((t) => t.id);
 
@@ -80,4 +80,27 @@ test("ogni trappola porta con sé cosa fare invece: un avviso senza rimedio è s
     assert.ok(t.cosa && t.cosa.length > 15, `${t.id} deve spiegare il danno, non solo nominarlo`);
   }
   assert.equal(TRAPPOLE.length, 5, "le cinque forme misurate sul campo, non una teoria della shell");
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// IL CANALE (AR-463). Il riconoscitore era pronto e provato dal 30/7, e sarebbe stato attaccato a un
+// hook dove stampava TESTO SEMPLICE: per un PostToolUse che esce 0 vuol dire finire nel log di debug.
+// Cioè: una guardia contro le misure cieche, consegnata come misura cieca. Terza volta in due giorni.
+// ─────────────────────────────────────────────────────────────────────────────
+
+test("la busta è JSON: in testo semplice il verdetto sparisce nel log e la guardia parla a nessuno", () => {
+  const busta = bustaPerIlModello(misuraCieca('node x.mjs | head -3; echo "EXIT=$?"'));
+  assert.doesNotThrow(() => JSON.parse(busta), "l'uscita hook DEVE essere JSON, o non arriva al modello");
+});
+
+test("la busta si dichiara PostToolUse e porta dentro il verdetto, non solo l'involucro", () => {
+  const b = JSON.parse(bustaPerIlModello(misuraCieca('git add -A; git diff --stat')));
+  assert.equal(b.hookSpecificOutput.hookEventName, "PostToolUse");
+  assert.match(b.hookSpecificOutput.additionalContext, /MISURA CIECA/);
+  assert.ok(b.hookSpecificOutput.additionalContext.includes("→"), "deve dire anche cosa fare al posto suo");
+});
+
+test("comando pulito = nessuna busta: un avvisatore che parla sempre viene spento entro la settimana", () => {
+  assert.equal(bustaPerIlModello(misuraCieca("node cervello/test-cervello.mjs")), null);
+  assert.equal(bustaPerIlModello([]), null);
 });

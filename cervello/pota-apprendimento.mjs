@@ -39,18 +39,32 @@ const TETTO = Number(process.env.APPRENDIMENTO_TETTO || 1_048_576);
 const JSON_MODE = process.argv.includes("--json");
 const APPLICA = process.argv.includes("--applica");
 
-/** Cosa si può togliere, e cosa non si tocca MAI. */
-export function pianoPotatura(dati, tetto = TETTO) {
+/**
+ * L'indentazione VERA del file servito (AR-471).
+ *
+ * Il potatore misurava sempre `JSON.stringify(…, null, 2)`, ma `apprendimento.json` è scritto a UNO
+ * spazio: su un file da un mega la differenza è ~40 KB, cioè il 4% del tetto. Il 31/7 il file reale
+ * pesava 1.008.675 byte — quarantamila sotto il limite — e il potatore diceva «non entra, mancano 129
+ * byte», dando un verdetto su un file che non esiste. Una misura che non guarda la cosa misurata è la
+ * stessa malattia del canale muto, vista dall'altro lato: lì il verdetto non arrivava, qui arriva ma
+ * riguarda qualcos'altro.
+ */
+export function indentazioneDi(testo = "") {
+  const m = /^\{\r?\n([ \t]+)"/.exec(String(testo));
+  return m ? m[1].length : 2;
+}
+
+export function pianoPotatura(dati, tetto = TETTO, indent = 2) {
   const j = dati && typeof dati === "object" ? dati : {};
   const lezioni = Array.isArray(j.lezioni) ? j.lezioni.filter(Boolean) : [];
   const chiaviServizio = Object.keys(j).filter((k) => k.startsWith("_") && k !== "_cosa_e");
   // Le decadute hanno già smesso di contare: restano nel file solo perché nessuno le toglie.
   const decadute = lezioni.filter((l) => l.stato === "decaduta");
   const vive = lezioni.filter((l) => l.stato !== "decaduta");
-  const prima = Buffer.byteLength(JSON.stringify(j, null, 2));
+  const prima = Buffer.byteLength(JSON.stringify(j, null, indent));
   const dopoObj = { ...j, lezioni: vive };
   for (const k of chiaviServizio) delete dopoObj[k];
-  const dopo = Buffer.byteLength(JSON.stringify(dopoObj, null, 2));
+  const dopo = Buffer.byteLength(JSON.stringify(dopoObj, null, indent));
   return {
     prima,
     dopo,
@@ -72,15 +86,17 @@ function main() {
     console.error("⚠️  POTATORE CIECO: apprendimento.json non trovato.");
     process.exit(2);
   }
-  let j;
+  let j, grezzo;
   try {
-    j = JSON.parse(readFileSync(FILE, "utf8"));
+    grezzo = readFileSync(FILE, "utf8");
+    j = JSON.parse(grezzo);
   } catch (e) {
     console.error(`⚠️  POTATORE CIECO: apprendimento.json non è JSON valido (${e.message}).`);
     process.exit(2);
   }
 
-  const p = pianoPotatura(j);
+  // Misuro con l'indentazione VERA del file, non con una a caso (AR-471).
+  const p = pianoPotatura(j, TETTO, indentazioneDi(grezzo));
   const fmt = (n) => n.toLocaleString("it");
 
   if (JSON_MODE) {

@@ -7908,7 +7908,7 @@
       "origine": "cinque errori di MISURA commessi da me il 30/7 mentre costruivo il freno contro i difetti che mi infliggo da solo",
       "titolo": "Il canale che porta il verdetto lo nasconde: cinque volte in un giorno ho letto un verde da un comando che stava fallendo",
       "causa_radice": "① I cinque casi, tutti veri e tutti dello stesso giorno: (a) `require` su percorso relativo senza `./` con l'errore in /dev/null e un `||` che stampava «assente» → ho concluso «zero hook configurati» mentre ce n'era uno, e ho progettato mezz'ora sopra un fatto falso; (b) e (c) `$?` letto dopo `| head` e `| tail` → leggevo l'uscita del filtro, una volta su un commit che era stato BLOCCATO; (d) un `cd` fallito seguito da `;` → il comando dopo non e partito, il silenzio l'ho letto come «nessun test rosso»; (e) `git checkout <ref> -- file` mette in STAGE e `git diff` guarda il non-staged → vuoto letto come «non e cambiato niente». ② Una malattia sola: il canale che porta il verdetto lo nasconde. E `errore-ingoiato` — quella che il cantiere censisce nel CODICE — commessa nel modo in cui si MISURA. ③ Perche fa piu danno li: un errore ingoiato in produzione rompe una schermata; un errore ingoiato in una misura rompe il ragionamento che ci si costruisce sopra, e tutto il lavoro che segue e sbagliato senza che niente sia rosso. ④ Perche nessun guardiano lo prende: i comandi ad-hoc di una sessione non finiscono in nessun file, quindi spazzata-fratelli e il pre-commit non li vedono. L'unico punto dove passano tutti e l'hook su Bash.",
-      "fix_proposto": "🟡 SERVE NICOLA (una riga, come per AR-455). Il riconoscitore e gia scritto e provato: `cervello/misura-cieca.mjs` (funzione pura + 12 prove sui comandi VERI che mi hanno ingannato + 3 mutazioni). Manca solo il cablaggio: in .claude/settings.json, dentro `hooks`, aggiungere un secondo blocco PostToolUse con `\"matcher\": \"Bash\"` e comando `node cervello/misura-cieca.mjs --hook`. Avvisa e basta, exit sempre 0: bloccare un comando di lettura sarebbe sproporzionato, e un freno sproporzionato viene spento. Finche non e cablato il riconoscitore c'e ma non guarda niente: debito dichiarato, non lavoro finito.",
+      "fix_proposto": "PRONTO 🟡 — il riconoscitore c era gia (misura-cieca.mjs, 12 prove) ma la sua modalita --hook stampava TESTO SEMPLICE: attaccarla cosi avrebbe prodotto una guardia muta, lo stesso difetto di AR-465. Riparato il 31/7: `bustaPerIlModello` emette la busta JSON che arriva davvero al modello (+3 prove, +2 mutazioni). RESTA A NICOLA la riga in .claude/settings.json (il file e in deny per la macchina): un secondo blocco PostToolUse con matcher \"Bash\" e comando `node cervello/misura-cieca.mjs --hook`.",
       "verifica": {
         "comando": "node cervello/test/misura-cieca.test.mjs"
       }
@@ -8016,11 +8016,26 @@
       "causa_radice": "① watch-main contava i rinvii consecutivi e li stampava («1716 rinvii CONSECUTIVI»): il dato ESISTEVA, con tanto di contatore. ② Ma finiva solo nel log di sistema, che nessuno legge. ③ salute.mjs ha gia una sezione `vps` — il ponte per vedere il server da una sessione cloud — e non guarda ne i rinvii, ne la divergenza, ne l ultima pubblicazione riuscita. ④ Risultato: la macchina sapeva di essere ferma e non aveva un modo per dirlo. E la stessa forma del freno muto di AR-465, un piano piu in alto: il verdetto c e, il canale no.",
       "fix_proposto": "FATTO 🟡 nuovo organo `worker.pubblicazione` nella visita (`salute.mjs`, solo su vps) + funzione pura `giudicaPubblicazione`: legge i rinvii consecutivi di watch-main e i commit non pubblicati, ROSSO sopra soglia (10 rinvii / 50 commit), ⚪ se non ha potuto leggerli. Adesso «la macchina sta bene?» risponde anche su questo. 4 prove + 2 mutazioni.",
       "chiuso_il": "2026-07-31 21:15"
+    },
+    {
+      "id": "AR-471",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-31 22:40",
+      "nato_come": "scoperta",
+      "nato_da": "AR-470",
+      "origine": "trovato mentre il cancello bocciava il lotto dei fix dello stallo: il potatore diceva «non entra per 129 byte» su un file che ne aveva 40.000 di margine",
+      "titolo": "Il potatore dell archivio misurava un file che non esiste: calcolava l indentazione a 2 spazi su un file scritto a 1",
+      "causa_radice": "① `pianoPotatura` calcolava `JSON.stringify(dati, null, 2)` fisso, ma `apprendimento.json` e scritto — e SERVITO — a uno spazio. ② Su un file da un mega la differenza e ~40 KB, il 4% del tetto di GitHub: abbastanza da ribaltare il verdetto. ③ Il 31/7 il file reale pesava 1.008.675 byte (40.000 sotto il limite) e il potatore usciva 1 dicendo «mancano 129 byte», facendo diventare rosso il cancello su una misura sbagliata. ④ Nessuno se ne era accorto perche finche il file era piccolo i due numeri stavano entrambi sotto il tetto: il difetto e diventato visibile solo al superamento della soglia SBAGLIATA.",
+      "fix_proposto": "FATTO 🟡 `indentazioneDi(testo)` legge l indentazione vera dal file e `pianoPotatura` la usa. Adesso misura la cosa servita, non una sua riscrittura ipotetica. 2 prove + 1 mutazione."
     }
   ],
   "meta": {
     "aperti": 163,
     "in_corso": 0,
-    "chiusi": 245
+    "chiusi": 246
   }
 }
