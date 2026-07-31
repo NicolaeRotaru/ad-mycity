@@ -2,18 +2,22 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-07-30 14:23
+aggiornato: 2026-07-31 08:35
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata dopo 3 giorni ferma (era al 27/7 06:20 — violava la regola dei 2 giorni, AR-030) e ripulita
-> di tre voci non più vere: il bando **PI26 non è più urgente** (tu l'hai già dichiarato non idoneo il
-> 29/7 ~00:10 — nessuna domanda da inviare, non serve più rispondere a nulla su questo) e il giro sul VPS
-> **non è più fermo** (ha ripreso da solo stamattina). Tolta anche la domanda sull'ordine di prova PQ:
-> l'avevi già risposta il 28/7 ~15:56 ("rimandato a settembre") — era rimasta scritta qui per errore.
-> Business ancora **invariato**: 1 ordine totale (annullato, 24/6), 0 pagati, stallo **36 giorni**.
+> **31/7 08:35 — aggiunta in cima una cosa nuova e più urgente di tutte le altre: il sito è giù da 24 ore.**
+> Business ancora **invariato**: 1 ordine totale (annullato, 24/6), 0 pagati, stallo **37 giorni** — atteso,
+> pausa concordata fino al 24/8-1/9.
+
+---
+
+## 🔴 URGENTISSIMO — il sito è giù da 24 ore
+
+- [ ] 🔴 **`mycity-marketplace.com` risponde HTTP 503 da almeno 24 ore** (verificato in diretta stamattina). Il database è sano — è quasi certamente la migrazione Render→Vercel che avevi approvato il 20/7, partita a metà. Servono 3 controlli da 5 minuti: 1) dashboard Render — il servizio è sospeso/eliminato? 2) dashboard Vercel — c'è un progetto per il marketplace, è "Ready" o "Error"? 3) DNS del dominio — punta a Render o a Vercel? Rispondimi con cosa vedi e preparo il fix esatto.
+  → Card: `#sito-503-render-vercel` · Report completo: [[consegne/devops/2026-07-31-sito-503]]
 
 ---
 

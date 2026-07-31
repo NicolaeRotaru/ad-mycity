@@ -20,6 +20,19 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+<!-- sito-503-render-vercel -->
+
+### 🔴 #sito-503-render-vercel — Il sito è giù da 24 ore, serve un controllo di 2 minuti su Render/Vercel · ⏳ accodata 2026-07-31 08:30
+**Cosa cambia:** `mycity-marketplace.com` risponde HTTP 503 su ogni pagina — verificato ora con una chiamata reale dall'esterno, non solo dal sensore. È giù da almeno 24 ore (l'ultima volta che ha risposto bene è stato ieri 30/7 alle 08:20). Il database è sano (verificato nello stesso minuto), quindi non è un problema di dati: è quasi certamente la migrazione Render→Vercel che avevi approvato il 20/7 ("Render in dismissione") partita a metà — Render spento prima che il sito fosse pronto e raggiungibile su Vercel.
+**Se va bene:** apri le 3 verifiche di 2 minuti indicate nel report (dashboard Render, dashboard Vercel, DNS del dominio) e rispondimi con cosa vedi — io preparo il fix esatto (branch pronto, nessun deploy senza il tuo ok) in base a quale dei due scenari è quello vero. Il sito torna raggiungibile appena una delle due piattaforme è confermata verde e il DNS punta lì.
+**Serve da te (5 minuti):** 1) Render dashboard → il servizio `mycity-marketplace` è sospeso/eliminato o mostra un deploy fallito? 2) Vercel dashboard → esiste un progetto per il marketplace (non il Pannello), è "Ready" o "Error"? 3) DNS del dominio → punta ancora a Render o è già su Vercel? Dettagli e fix pronto: [[consegne/devops/2026-07-31-sito-503]].
+**Nota tecnica:** sensore `sito_uptime` in `auto-coscienza/sensori-cecita.json`: 16 giri ciechi da 2026-07-30 08:20, "HTTP 503 su https://mycity-marketplace.com". `supabase_rest` (DB marketplace) `ok` nello stesso minuto — esclude causa dati. `marketplace/render.yaml` ancora presente e configurato per Render; nessun `vercel.json` trovato per il marketplace. Decisione di riferimento: `DECISIONI.md` 2026-07-20 23:47 (Render in dismissione).
+- **Colore:** 🔴 (produzione, dominio, deploy — nessuna azione eseguita, solo diagnosi e piano pronti)
+- **Reparto:** devops-sre
+- **Origine:** `{origine:giro-perlustrazione-2026-07-31-0830, verificato:fetch-esterno-reale}`
+
+---
+
 <!-- diagnosi-guardiani-negati -->
 
 ### 🟡 #diagnosi-guardiani-negati — Scopri perché 6 controlli automatici si rifiutano di girare pur avendo il permesso · ⏳ accodata 2026-07-31 06:29
@@ -29,6 +42,30 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 - **Colore:** 🟡 (nessuna scrittura, serve solo capire — ma richiede accesso a log/sessione fuori dalla mia portata)
 - **Reparto:** devops-sre
 - **Origine:** `{origine:giro-2026-07-31-0629, osservazione:permessi-incoerenti}`
+
+---
+
+<!-- giro-sh-gate-pubblicazione-mancante -->
+
+### 🟡 #giro-sh-gate-pubblicazione-mancante — Fai passare anche giro.sh dal cancello di verità prima di pubblicare · ⏳ accodata 2026-07-31 08:35
+**Cosa cambia:** `cervello/giro.sh` — lo script che fa girare ogni giro, incluso questo — quando trova scritture non committate all'avvio, le committa e le pubblica SENZA passare dal controllo di verità (`gate_pubblicazione`, quello che controlla ramo/perimetro/segreti/coerenza-fatti prima di ogni push). `cervello/ritmo.sh` e `cervello/monitora.sh` lo chiamano già da giorni; `giro.sh` no. È il buco più delicato perché scatta proprio quando la memoria è stata scritta a metà da un run interrotto — cioè nel momento in cui il controllo servirebbe di più. Effetto visibile oggi: 484 commit "recupero: scritture pendenti" dalla mezzanotte (uno al minuto), rumore in cronologia git.
+**Se va bene:** @tech aggiunge in `giro.sh` (righe ~126-130) la stessa chiamata a `gate_pubblicazione` già presente in `monitora.sh` (righe ~55-68), prima del push del commit di recupero. Nessun cambiamento di comportamento per l'uso normale (il gate passa quasi sempre) — chiude solo il caso limite del run interrotto.
+**Nota tecnica:** il buco è già descritto nei commenti di `cervello/porte-pubblicazione.mjs` (righe 9-25, scritti il 28/7: "le due porte scoperte" — `giro.sh` e il recupero di `monitora.sh`; quello di `monitora.sh` è già stato chiuso, quello di `giro.sh` no). Verificato rileggendo `giro.sh` riga per riga in questo passaggio: la chiamata manca davvero.
+- **Colore:** 🟡 (patch di poche righe in uno script del cervello, nessun impatto sul marketplace/Pannello)
+- **Reparto:** @tech
+- **Origine:** `{origine:giro-perlustrazione-2026-07-31-0835, letto-nel-codice:cervello/giro.sh+porte-pubblicazione.mjs}`
+
+---
+
+<!-- alert-uptime-precoce -->
+
+### 🟡 #alert-uptime-precoce — Fai suonare un allarme dopo 2 controlli ciechi sul sito, non dopo 16 · ⏳ accodata 2026-07-31 08:35
+**Cosa cambia:** il sensore `sito_uptime` ha funzionato bene — ha visto il sito giù dal primo controllo (30/7 08:20) e ha continuato a segnarlo cieco per 16 controlli di fila. Ma quel segnale vive solo dentro un file JSON che il giro legge quando gira: nessuno l'ha tradotto in un avviso a te finché non ho fatto un controllo manuale stamattina, 24 ore dopo. Proposta di @devops-sre nel report sul 503 (`consegne/devops/2026-07-31-sito-503.md`): un allarime dopo 2 controlli ciechi consecutivi (~30 minuti) invece di aspettarne 16 (~24 ore).
+**Se va bene:** @builder-automazioni collega il contatore `giri_ciechi` di `sito_uptime` (già scritto da `verifica-sensori.mjs`) a un avviso visibile — la stessa scheda "📣 Avvisi" già usata per gli avvisi macchina — quando supera 2.
+**Nota tecnica:** non è un fix urgente quanto il 503 stesso, ma senza di questo lo stesso tipo di incidente si ripete invisibile fino al prossimo giro completo.
+- **Colore:** 🟡 (nuovo collegamento, nessuna scrittura su dati sensibili)
+- **Reparto:** @builder-automazioni
+- **Origine:** `{origine:giro-perlustrazione-2026-07-31-0835, proposto-da:devops-sre-nel-report-503}`
 
 ---
 

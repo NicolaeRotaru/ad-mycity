@@ -1,33 +1,28 @@
 {
-  "data": "2026-07-31 06:29",
-  "situazione": "Giro completo richiesto in chat, business ANCORA fermo da 37 giorni: identico al Piano del Mattino di 28 minuti fa (1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). Zero commit nuovi su `origin/main` dal check delle 06:01 (cima ferma a `4ab3fff2d`, #645). Chiuso il gap HARD del gate di freschezza (auto-analisi fermo da >6h). Novità: i guardiani node cervello/*.mjs si comportano in modo incoerente in questa sessione (2 passano, 6 negati). Mossa n.1 resta una sola: 30 secondi su Vercel Authentication.",
+  "data": "2026-07-31 08:35",
+  "situazione": "Il sito e' DAVVERO giu': mycity-marketplace.com risponde HTTP 503 da almeno 24 ore, confermato in diretta (non solo dal sensore, che lo segnala cieco da 16 controlli di fila dal 30/7 08:20). E' la mossa n.1 di oggi. Mandato @devops-sre a trovare la causa (probabile transizione Render->Vercel a meta') e preparare il fix. Per il resto business invariato: 37 giorni di stallo, atteso per la pausa negozi concordata fino al 24/8-1/9. Trovato anche un buco tecnico minore: giro.sh pubblica i suoi commit di recupero senza passare dal cancello di verita', 484 commit di rumore oggi.",
   "opportunita": [
     {
-      "titolo": "Estendi il permesso ai controlli automatici della macchina, non solo a due",
-      "motivo": "Oggi solo 2 controlli su 8 riescono a girare da soli in questa sessione — gli altri 6 restano verificabili solo a mano, con più margine di errore umano",
+      "titolo": "Chiudi il buco di giro.sh che pubblica senza passare dal cancello di verita'",
+      "motivo": "ritmo.sh e monitora.sh gia' chiamano il cancello prima di pubblicare, giro.sh no: e' la porta piu' rischiosa perche' scatta quando la memoria e' scritta a meta'",
       "impatto": "medio",
-      "sforzo": "basso"
-    },
-    {
-      "titolo": "Correggi l'etichetta che fa sembrare un cluster di errori quello che in realtà è solo 'corretto da Nicola'",
-      "motivo": "L'etichetta 'correzione-nicola' è usata su 15 lezioni diverse ma non descrive un tipo di errore — è rumore che nasconde i 4 cluster veri (plugin, telegram, architettura-informazioni, termux) sotto la stessa voce",
-      "impatto": "basso",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Apri il Pannello in incognito e dimmi cosa vedi",
-      "motivo": "Se si apre senza chiederti l'accesso c'è una falla vera da chiudere subito (Vercel Deployment Protection) — resta l'unica firma tecnica ancora aperta senza alternativa",
+      "titolo": "Controlla perche' il sito e' giu' e riportalo online",
+      "motivo": "HTTP 503 confermato in diretta da 24+ ore su mycity-marketplace.com - anche a negozi in pausa, un sito rotto e' un rischio di credibilita' e va sistemato",
       "livello": "rosso"
     },
     {
-      "titolo": "Ok sull'elenco esplicito dei permessi (togli il jolly)",
-      "motivo": "Risolverebbe alla radice anche il blocco di node cervello/*.mjs in Bash che limita questa sessione",
-      "livello": "giallo"
+      "titolo": "Apri il Pannello in incognito e dimmi cosa vedi",
+      "motivo": "Se si apre senza chiederti l'accesso c'e' una falla vera da chiudere subito (Vercel Deployment Protection) - firma tecnica di sempre, invariata",
+      "livello": "rosso"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo 37 giorni (invariato)"
+    "sito_uptime: cieco/503 da 16 controlli di fila (dal 30/7 08:20)",
+    "North Star 0 - stallo 37 giorni (invariato, atteso)"
   ]
 }
