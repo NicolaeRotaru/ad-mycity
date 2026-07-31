@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-07-30 17:45",
+ "aggiornato": "2026-07-31 21:15",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -10677,6 +10677,33 @@
    "gate": "node cervello/test/sorvegliante.test.mjs",
    "gate_attivo": true,
    "gate_nota": "3 mutazioni in mutanti.json su AR-465: busta che torna testo semplice, nome evento sbagliato, canale mai scattato che vale verde."
+  },
+  {
+   "id": "L-2026-0731-535",
+   "testo": "**Un retry che non converge non e un retry: e un guasto che si moltiplica (31/7, stallo del VPS scoperto da Nicola).** Il 30/7 a mezzogiorno una cadenza interrotta ha lasciato l albero sporco. Da li, ogni minuto: il timer parte, trova lo sporco, FA UN COMMIT, prova a pubblicare, fallisce. Quel commit allontanava il ramo da origin/main, rendeva il rebase dopo piu difficile e garantiva il fallimento successivo. 1519 commit in 31 ore per non pubblicare niente. **Tre errori dentro uno solo:** (a) il meccanismo di recupero PEGGIORAVA lo stato che doveva riparare; (b) l errore del rebase finiva in `2>/dev/null` e il messaggio accusava il token, che era sano — 31 ore di diagnosi mandate dalla parte sbagliata da un reindirizzamento; (c) il contatore diceva «1716 rinvii CONSECUTIVI» e finiva in journalctl, che non legge nessuno. **Le regole:** ① prima si pubblica, poi si committa — un recupero con arretrato non pubblicato e vietato; ② mai `2>/dev/null` su un comando di cui poi si interpreta l esito, e il messaggio deve NOMINARE la causa, mai indovinarla; ③ un numero che dice che la macchina e ferma deve arrivare alla visita, non al log.",
+   "tag": [
+    "guardiani",
+    "misura",
+    "auto-revisione",
+    "vps",
+    "correzione-nicola"
+   ],
+   "reparto": "AD",
+   "confidenza": 0.95,
+   "evidenze": [
+    "cervello/allineamento-esito.sh (deve_committare_recupero, serve_mettere_da_parte, motivo_push_fallito)",
+    "cervello/salute.mjs (organo worker.pubblicazione + giudicaPubblicazione)",
+    "AR-467/468/469/470 nel cantiere",
+    "ramo salvataggio-vps-2026-07-31 su GitHub: 1523 commit dello stallo, conservati"
+   ],
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-07-31 21:15",
+   "ultima_conferma": "2026-07-31 21:15",
+   "stato": "attiva",
+   "gate": "node cervello/test/allineamento-esito.test.mjs",
+   "gate_attivo": true,
+   "gate_nota": "5 mutazioni su AR-467/468/469/470 in mutanti.json; le due di AR-470 puntano a cervello/test/salute.test.mjs."
   }
  ],
  "principi": [
