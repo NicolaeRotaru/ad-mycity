@@ -7956,10 +7956,66 @@
       "titolo": "La guardia in tempo reale non vedeva i file NUOVI: un file scritto da zero e invisibile finche non entra in staging",
       "causa_radice": "① Perche non li vedeva? Perche il perimetro era `git diff HEAD`, e git non conosce un file non tracciato: zero righe aggiunte, zero controlli. ② Perche e grave? Perche il file scritto da zero e proprio il posto dove una malattia nuova entra piu facilmente — nessuna riga vecchia intorno a fare da freno — ed era l unico punto cieco al 100%, non parziale. ③ Perche non l avevo visto costruendo AR-455/AR-465? Perche le prove usano diff finti (giusto: sopravvivono ai lotti) e l unico collaudo dal vivo l avevo fatto su un file gia tracciato.",
       "fix_proposto": "FATTO 🟡 cervello/sorvegliante.mjs — fuori da --staged la guardia aggiunge i file di `git ls-files --others --exclude-standard`, contandone il contenuto intero come righe scritte adesso (e vero: le ho scritte tutte io). Binari esclusi (byte nullo), tetto 512 KB per non far leggere un export finito li per sbaglio a ogni modifica. --staged resta invariato: li il perimetro E lo staging, allargarlo farebbe bocciare il pre-commit per righe che non sta committando. 3 prove nuove + 2 mutazioni."
+    },
+    {
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "nato": "2026-07-31 20:45",
+      "nato_come": "scoperta",
+      "stato": "aperto",
+      "id": "AR-467",
+      "gravita": "bloccante",
+      "impatto_crescita": "alto",
+      "origine": "stallo del VPS trovato il 31/7 mentre Nicola provava il sorvegliante sul server: il file non c era, e sotto c erano 31 ore di macchina ferma",
+      "titolo": "Il recupero automatico scavava la buca: ogni tentativo fallito creava un commit, 1519 commit in 31 ore, e il ciclo non poteva guarire da solo",
+      "causa_radice": "① Il 30/7 alle 12:00 una cadenza si e interrotta lasciando l albero sporco (commit «recupero: scritture pendenti da un ritmo interrotto»). ② Da li watch-main parte ogni minuto, trova lo sporco, FA UN COMMIT, prova a pubblicare, fallisce. ③ Quel commit aumenta la divergenza da origin/main, che rende il rebase successivo piu difficile: il meccanismo di recupero PEGGIORA lo stato che deve riparare. ④ 1716 rinvii consecutivi, 1519 commit tutti chiamati «recupero: scritture pendenti», zero pubblicazioni. Un ciclo che si autoalimenta non e un retry: e un guasto che si moltiplica.",
+      "fix_proposto": "🟡 DA FARE — un retry che non converge deve fermarsi e ALZARE LA VOCE, non ripetersi: dopo N tentativi falliti consecutivi (es. 10) il ciclo si sospende, scrive un rosso dove Nicola lo vede, e smette di creare commit. E il commit di recupero non va fatto se il push precedente e fallito: prima si pubblica, poi si committa."
+    },
+    {
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "nato": "2026-07-31 20:45",
+      "nato_come": "scoperta",
+      "stato": "aperto",
+      "id": "AR-468",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "origine": "stessa diagnosi del 31/7: il messaggio mandava a controllare il token, e il token era sano",
+      "titolo": "Il rebase ingoia il proprio errore e lo script accusa il token: la causa vera («unstaged changes») non compare mai",
+      "causa_radice": "① In aggiorna-cervello.sh (righe 131 e 231): `git rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true` — l errore del rebase e buttato via, e l esecuzione tira dritto fino al push. ② Il push fallisce e il messaggio stampato e «Controlla GIT_PUSH_TOKEN/rete», che punta a una causa che non c entra. ③ Lanciando lo stesso rebase A MANO, l errore vero e apparso subito: «cannot rebase: You have unstaged changes». Trentuno ore di diagnosi sbagliata per un `2>/dev/null`. E la malattia della misura cieca (AR-463) applicata in produzione.",
+      "fix_proposto": "🟡 DA FARE — catturare l uscita del rebase e stamparla nel messaggio di errore, e far nominare al messaggio la causa vera invece di indovinarne una. Nessun `2>/dev/null` su un comando di cui poi si interpreta l esito."
+    },
+    {
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "nato": "2026-07-31 20:45",
+      "nato_come": "scoperta",
+      "stato": "aperto",
+      "id": "AR-469",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "origine": "trovato leggendo MEM_DIRS mentre si cercava perche l albero restasse sporco per sempre",
+      "titolo": "I file dati che la macchina si riscrive vivono dentro cervello/, che non entra MAI in staging: l albero resta sporco per costruzione",
+      "causa_radice": "① aggiorna-cervello.sh mette in staging solo MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra) — mai `cervello/`, per una regola giusta (AR-310: solo memoria, mai codice). ② Ma cervello/fonti-salute.json, cervello/intelligence-agenda.json e cervello/scadenzario.json sono DATI che la macchina riscrive girando, e stanno li dentro. ③ Quindi restano non-staged per sempre, e ogni rebase si rifiuta di partire. La trappola resta armata anche dopo lo sblocco del 31/7: alla prossima divergenza ricomincia identica.",
+      "fix_proposto": "🟡 DA FARE — decidere dove vivono i dati a runtime: o si spostano fuori da cervello/ (in una cartella di stato ignorata da git, come il battito del sorvegliante), o si aggiungono a un elenco di file-dati che l allineamento sa mettere da parte. La regola «mai codice in staging» resta: e il posto dei dati a essere sbagliato."
+    },
+    {
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "nato": "2026-07-31 20:45",
+      "nato_come": "scoperta",
+      "stato": "aperto",
+      "id": "AR-470",
+      "gravita": "bloccante",
+      "impatto_crescita": "alto",
+      "origine": "31 ore di stallo scoperte solo perche Nicola ha provato a mano un comando sul server",
+      "titolo": "Trentuno ore di macchina ferma non sono mai arrivate alla Cabina: 1716 rinvii consecutivi sono rimasti dentro journalctl",
+      "causa_radice": "① watch-main contava i rinvii consecutivi e li stampava («1716 rinvii CONSECUTIVI»): il dato ESISTEVA, con tanto di contatore. ② Ma finiva solo nel log di sistema, che nessuno legge. ③ salute.mjs ha gia una sezione `vps` — il ponte per vedere il server da una sessione cloud — e non guarda ne i rinvii, ne la divergenza, ne l ultima pubblicazione riuscita. ④ Risultato: la macchina sapeva di essere ferma e non aveva un modo per dirlo. E la stessa forma del freno muto di AR-465, un piano piu in alto: il verdetto c e, il canale no.",
+      "fix_proposto": "🟡 DA FARE — portare tre numeri nella visita e in Cabina: rinvii consecutivi di watch-main, commit locali non pubblicati, ora dell ultima pubblicazione riuscita. Sopra soglia e ROSSO, non una riga di log. Vale la regola del battito: un canale silenzioso deve poter dire «sono vivo» e «sono fermo da tot»."
     }
   ],
   "meta": {
-    "aperti": 163,
+    "aperti": 167,
     "in_corso": 0,
     "chiusi": 241
   }
