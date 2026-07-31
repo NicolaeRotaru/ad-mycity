@@ -5,13 +5,13 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-31 08:21** — Automatico: **61 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 10:21** — Automatico: **64 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-31 08:21** — Automatico: **61 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 10:21** — Automatico: **64 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-31 08:21** — Automatico: **61 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 10:21** — Automatico: **64 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-31 08:21** — Automatico: **61 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 10:21** — Automatico: **64 aperte · 1 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -35,6 +35,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 <!-- diagnosi-guardiani-negati -->
 
+---
+
 ### 🟡 #diagnosi-guardiani-negati — Scopri perché 6 controlli automatici si rifiutano di girare pur avendo il permesso · ⏳ accodata 2026-07-31 06:29
 **Cosa cambia:** in questa sessione ho lanciato 8 controlli automatici (`node cervello/*.mjs`). 2 sono partiti (`verifica-sensori.mjs`, `coerenza-fatti.mjs`). 6 no — negati con "richiede approvazione" (`freschezza-cadenze.mjs`, `north-star-check.mjs --gate`, `apprendimento-guardiano.mjs`, `scadenzario-check.mjs`, `sonda-volano.mjs`, `verifica-automazione.mjs`). Ho controllato il foglio dei permessi (`.claude/settings.json`): il via libera per TUTTI questi script c'è già, scritto chiaro (`Bash(node cervello/*.mjs:*)`). Quindi non è il foglio dei permessi a bloccarli — è qualcos'altro, che da qui non riesco a vedere. Un sospetto: nelle ultime PR mergiate (#641/#643/#645) è comparso un "freno in tempo reale" che guarda ogni comando mentre parte, non solo la lista scritta prima — potrebbe essere lui a giudicare questi 6 comandi diversamente dagli altri due, ma non l'ho verificato: è un sospetto, non una diagnosi.
 **Se va bene:** serve qualcuno con accesso ai log di questo freno (probabilmente umano, non io) per guardare perché blocca proprio questi 6 e non gli altri due. Finché non si sa la causa vera, i cancelli di serietà del giro (freschezza delle cadenze, north-star, apprendimento, scadenzario, volano, automazione) restano verificabili solo a mano — più lento, più margine di errore.
@@ -47,6 +49,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 <!-- giro-sh-gate-pubblicazione-mancante -->
 
+---
+
 ### 🟡 #giro-sh-gate-pubblicazione-mancante — Fai passare anche giro.sh dal cancello di verità prima di pubblicare · ⏳ accodata 2026-07-31 08:35
 **Cosa cambia:** `cervello/giro.sh` — lo script che fa girare ogni giro, incluso questo — quando trova scritture non committate all'avvio, le committa e le pubblica SENZA passare dal controllo di verità (`gate_pubblicazione`, quello che controlla ramo/perimetro/segreti/coerenza-fatti prima di ogni push). `cervello/ritmo.sh` e `cervello/monitora.sh` lo chiamano già da giorni; `giro.sh` no. È il buco più delicato perché scatta proprio quando la memoria è stata scritta a metà da un run interrotto — cioè nel momento in cui il controllo servirebbe di più. Effetto visibile oggi: 484 commit "recupero: scritture pendenti" dalla mezzanotte (uno al minuto), rumore in cronologia git.
 **Se va bene:** @tech aggiunge in `giro.sh` (righe ~126-130) la stessa chiamata a `gate_pubblicazione` già presente in `monitora.sh` (righe ~55-68), prima del push del commit di recupero. Nessun cambiamento di comportamento per l'uso normale (il gate passa quasi sempre) — chiude solo il caso limite del run interrotto.
@@ -58,6 +62,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 <!-- alert-uptime-precoce -->
+
+---
 
 ### 🟡 #alert-uptime-precoce — Fai suonare un allarme dopo 2 controlli ciechi sul sito, non dopo 16 · ⏳ accodata 2026-07-31 08:35
 **Cosa cambia:** il sensore `sito_uptime` ha funzionato bene — ha visto il sito giù dal primo controllo (30/7 08:20) e ha continuato a segnarlo cieco per 16 controlli di fila. Ma quel segnale vive solo dentro un file JSON che il giro legge quando gira: nessuno l'ha tradotto in un avviso a te finché non ho fatto un controllo manuale stamattina, 24 ore dopo. Proposta di @devops-sre nel report sul 503 (`consegne/devops/2026-07-31-sito-503.md`): un allarime dopo 2 controlli ciechi consecutivi (~30 minuti) invece di aspettarne 16 (~24 ore).
@@ -980,7 +986,7 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-31 08:21)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-31 10:21)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-31-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1059,6 +1065,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-31 08:21 · 1 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-31 10:21 · 1 card totali
 
 ### ✅ #ordine-test-dentro-o-fuori-dalla-pausa — RISPOSTA (28/7 15:56): resta dentro, fino a settembre
 
