@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-31 14:20",
+  "aggiornato": "2026-07-31 14:45",
   "lezioni": [
     {
       "id": "L-2026-0731-01",
@@ -11969,6 +11969,21 @@
       ],
       "reparto": "@devops-sre",
       "promosso_il": "2026-07-30 06:21"
+    },
+    {
+      "id": "L-2026-0731-529",
+      "testo": "**`cervello/scadenzario.json` continua a rimanere indietro rispetto a `registro-fatti.json` — è la 3ª volta misurata (28/7, 30/7 08:25, 31/7 14:35) che PI26 viene chiuso/corretto in `registro-fatti.json` ma resta segnato 'attivo 🔴' nello scadenzario, finché qualcuno non lo nota leggendo il file per un altro motivo.** AR-102 dice di propagare a cascata i file vivi quando un fatto cambia — ma finora la propagazione è stata fatta a mano, riga per riga, ogni volta che il gap viene notato per caso (mai perché un guardiano lo ha segnalato): `coerenza-fatti.mjs` scansiona 0 file vivi in questa sessione ('NON VERIFICATO: nessun file letto'), quindi non copre questo file. Il fix minimo (non eseguito qui: tocca `cervello/`, resta 🟡 firma Nicola) sarebbe far leggere `scadenzario.json` a `coerenza-fatti.mjs` come uno dei 'file vivi' scansionati, così un secondo scostamento futuro tra le due fonti diventerebbe un rosso automatico invece che una scoperta fortuita. Fino ad allora: ogni volta che si tocca una scadenza in `registro-fatti.json`, aprire ANCHE `cervello/scadenzario.json` nello stesso passaggio, non fidarsi che sia già stato fatto le volte precedenti.",
+      "tag": [
+        "scadenzario",
+        "registro-fatti",
+        "ar-102",
+        "coerenza-fatti",
+        "pi26",
+        "gate-mancante",
+        "pattern-ricorrente"
+      ],
+      "reparto": "@tech",
+      "promosso_il": "2026-07-31 14:35"
     }
   ],
   "preferenze_nicola": [
@@ -12354,12 +12369,12 @@
   ],
   "meta": {
     "lezioni_attive": 478,
-    "promosse_a_principio": 87,
+    "promosse_a_principio": 88,
     "decadute": 0,
     "tasso_applicazione": 0.18,
-    "tasso_calcolato_il": "2026-07-31 14:20",
+    "tasso_calcolato_il": "2026-07-31 14:45",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-31 14:15",
+    "tick_leggero_il": "2026-07-31 14:45",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
     "cristallizzazione_ultima": "2026-07-31 14:21",

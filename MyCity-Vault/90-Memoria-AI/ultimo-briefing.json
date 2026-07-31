@@ -1,10 +1,10 @@
 {
-  "data": "2026-07-31 11:53",
-  "situazione": "Il sito e' ANCORA giu': mycity-marketplace.com risponde HTTP 503 da circa 27h30, riverificato in diretta (21 controlli ciechi di fila dal 30/7 08:20). Per il resto business invariato: 37 giorni di stallo (1 negozio, 1 ordine annullato, 0 pagati), atteso per la pausa negozi concordata fino al 24/8-1/9. Novita' di questo passaggio: trovato il verdetto reale dei guardiani interni (10 gate su 10 rossi: test, north-star, apprendimento e altri) - non e' un peggioramento, sono condizioni gia' note, ma prima erano 'non verificabili' e ora sono documentate.",
+  "data": "2026-07-31 14:35",
+  "situazione": "Il sito e' ANCORA giu': mycity-marketplace.com risponde HTTP 503, riverificato in diretta ora, ~30 ore di fila dal 30/7 08:20. Business invariato: 37 giorni di stallo (1 negozio, 1 ordine annullato, 0 pagati), atteso per la pausa negozi concordata fino al 24/8-1/9. Novita' di questo passaggio: trovato e riparato un test rosso vero della macchina (auto-analisi.json aveva meno domande aperte di quante ne servissero al contratto) e uno scadenzario stantio (PI26 ancora segnato attivo, gia' chiuso da Nicola il 29/7) - nessuna sorpresa di business, solo debito tecnico interno sistemato.",
   "opportunita": [
     {
-      "titolo": "Chiudi il buco di giro.sh che pubblica senza passare dal cancello di verita'",
-      "motivo": "ritmo.sh e monitora.sh gia' chiamano il cancello prima di pubblicare, giro.sh no: e' la porta piu' rischiosa perche' scatta quando la memoria e' scritta a meta'",
+      "titolo": "Trasforma in un freno automatico l'errore che si ripete di piu' sui plugin/integrazioni",
+      "motivo": "e' il cluster di lezioni reali piu' ripetuto (17 volte, 8 da correzioni dirette tue) mai diventato un controllo automatico - proposta pronta da @prompt-engineer",
       "impatto": "medio",
       "sforzo": "basso"
     }
@@ -12,17 +12,17 @@
   "azioni": [
     {
       "titolo": "Controlla perche' il sito e' giu' e riportalo online",
-      "motivo": "HTTP 503 confermato in diretta da 27+ ore su mycity-marketplace.com - anche a negozi in pausa, un sito rotto e' un rischio di credibilita' e va sistemato",
+      "motivo": "HTTP 503 confermato in diretta da ~30 ore su mycity-marketplace.com - anche a negozi in pausa, un sito rotto e' un rischio di credibilita' che cresce col tempo",
       "livello": "rosso"
     },
     {
-      "titolo": "Apri il Pannello in incognito e dimmi cosa vedi",
-      "motivo": "Se si apre senza chiederti l'accesso c'e' una falla vera da chiudere subito (Vercel Deployment Protection) - firma tecnica di sempre, invariata",
+      "titolo": "Decidi se l'agente in chat puo' fare push diretto su main o scrivere via SQL sui due database",
+      "motivo": "due permessi tecnici che oggi la macchina ha ma che vanno oltre le regole scritte (mai push diretto, marketplace sola lettura) - nessuna scrittura sbagliata avvenuta, ma serve la tua firma",
       "livello": "rosso"
     }
   ],
   "sentinelle_scattate": [
-    "sito_uptime: cieco/503 da 20 controlli di fila (dal 30/7 08:20)",
+    "sito_uptime: cieco/503, ~30 ore di fila (dal 30/7 08:20)",
     "North Star 0 - stallo 37 giorni (invariato, atteso)"
   ]
 }
