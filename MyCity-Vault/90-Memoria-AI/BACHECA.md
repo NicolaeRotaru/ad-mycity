@@ -6,6 +6,135 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
+## 🧭 Glossario della macchina — guardiano, cancello, sentinella e tutto il resto · 2026-07-31 21:33
+
+**Perché esiste questo avviso.** Le parole strane della macchina sono quasi tutte **nomi di difese**.
+Una macchina che lavora da sola ha due modi di fare danno: **agire senza permesso** (spendere, scrivere
+a un cliente, pubblicare) e **raccontare una bugia** (un numero inventato, un negozio che non esiste, un
+«fatto» che non è stato fatto). Tutto il vocabolario qui sotto serve a rendere difficili quelle due cose.
+Davanti a ogni termine la domanda giusta non è «cosa fa?», ma **«da quale bugia o da quale sorpresa mi
+sta proteggendo?»**.
+
+### Le quattro parole che si confondono
+
+| | 👁️ Sensore | 🛰️ Sentinella | 🛡️ Guardiano | 🚦 Cancello |
+|---|---|---|---|---|
+| **Cos'è** | Un occhio | Una sveglia | Un ispettore | Un esame all'uscita |
+| **Cosa guarda** | Il mondo reale | I **dati del business** | Il **lavoro della macchina** | Il lavoro che sta per uscire |
+| **Quando** | Sempre, in lettura | Ogni minuto | A ogni giro | Prima di consegnare o pubblicare |
+| **Se trova qualcosa** | Niente, riporta | Sveglia l'AD e accoda un lavoro | Segnala, e 36 di loro **fermano il giro** | **Blocca**: il lavoro non esce |
+| **Quanti oggi** | 11 (fonte: `mappa-macchina.json`) | 10 attive | 157 script, 74 a ogni giro (fonte: `guardiani-check.mjs`) | 3 livelli |
+
+**👁️ Sensore — gli occhi.** Legge la realtà: database del marketplace, Stripe, PostHog, se il sito
+risponde. Sola lettura. Il concetto che conta è il suo contrario: un sensore **cieco** (chiave scaduta,
+servizio giù). Quando è cieco la macchina lo deve *dichiarare*, e non può scrivere numeri nuovi.
+**Cieco e onesto vale più di sicuro e inventato.**
+
+**🛰️ Sentinella — la sveglia sul business.** Gira ogni minuto e costa zero (è codice, non AI). Guarda
+soglie: ordine pagato senza payout da 24h 🔴 · ordini giù del 30% 🟢 · recensione da 2 stelle 🟡 ·
+negozio live fermo da 14 giorni 🟡 · carrello abbandonato da 4 ore 🟡. Quando scatta, sveglia l'AD e le
+accoda un lavoro. Il pezzo furbo: **guardare non costa, pensare costa** — l'AI si accende solo
+sull'evento vero. Tre freni: niente stesso allarme per 6 ore, tetto giornaliero, rispetto della pausa.
+**Una sentinella non può mai far partire un'azione reale**: accoda solo analisi e proposte.
+
+**🛡️ Guardiano — l'ispettore del lavoro.** Il salto: la sentinella guarda *il business*, il guardiano
+guarda **la macchina stessa**. È ciò che garantisce che quello che leggi nel Pannello sia vero. Esempi
+con le loro parole: `coerenza-fatti` («un fatto cambia in un posto solo: se una copia vecchia resta in
+giro, ferma il giro») · `onesta-check` (i **numeri orfani**: una cifra senza fonte non deve uscire) ·
+`firma-check` («nessuno script può scriversi da solo la firma di Nicola») · `chiusura-loop` (chi dice
+FATTO deve lasciare l'esito scritto) · `spazzata-fratelli` («l'hai risolto o hai curato una copia
+sola?») · `prove-oneste` (nessun difetto può nascere già chiuso). Di 74 che girano a ogni giro,
+**36 possono bloccarlo**. Si vedono tutti con `node cervello/guardiani-check.mjs`.
+
+**🚦 Cancello — l'esame prima di uscire.** Non un controllo automatico: un **momento** in cui il lavoro
+si ferma e deve meritarsi l'uscita. Regola d'ingaggio: *«dai per scontato che almeno un errore ci sia, e
+trovalo»*. **L1** checklist meccanica (entità reali? numeri con fonte? colore giusto?) · **L2** sul
+rischioso parte un secondo agente col solo compito di **demolirlo**, e se trova un buco **vince lui** ·
+**L3** sulle decisioni gravi più revisori con lenti diverse (realtà, numeri, soldi, legale, «tra un mese
+è andata male: perché?») e si vota.
+
+### Le altre parole, per famiglie
+
+**🎨 Come tocca il mondo** — **colori 🟢🟡🔴**: la regola madre (🟢 reversibile → da sola · 🟡 medio → lo
+fa e avvisa · 🔴 soldi/legale/irreversibile → **si ferma e aspetta la firma**; nel dubbio si sale) ·
+**mano**: un canale con cui *cambia* il mondo (email, Telegram, Instagram, Facebook, Google Business —
+5 in tutto); senza mani l'azione resta pronta in coda, non si perde · **coda / azioni in attesa**: le
+cose da firmare, ognuna con «cosa cambia» e «se va bene» · **firma**: l'unica cosa che trasforma una
+proposta in un fatto.
+
+**⏱️ Il ritmo** — **giro**: il ciclo base (dati → sentinelle → briefing → memoria) · **cadenze**:
+mattino 6:00, mezzogiorno, sera 18:00, review del venerdì · **worker/VPS**: le braccia, l'unico pezzo
+che esegue davvero; se dorme, il resto è teoria · **Pannello/Cabina**: la faccia, non decide niente —
+se sparisse la macchina continuerebbe a lavorare, si perderebbe solo la possibilità di vederla.
+
+**🔬 Come si controlla** — **radar**: il gemello esterno della sentinella (50 fattori: concorrenti,
+eventi, bandi, meteo; sentinella = dentro, radar = fuori) · **prova**: il test che dimostra che un fix
+funziona · **mutante/mutazione**: il concetto più raffinato — un test verde dimostra che il codice
+*gira*, non che la prova *serva*, quindi si **rompe il fix apposta** e si pretende il rosso; se resta
+verde, quella prova non dimostrava niente.
+
+**🧠 Come impara** — **lezione**: una cosa imparata, spesso da una correzione di Nicola (vale doppio) ·
+**gate su una lezione**: la ferita auto-diagnosticata, scritta nel codice — *«269 volte Nicola ha
+corretto la macchina, e la difesa costruita è sempre stata una frase in un file; l'83% delle correzioni
+cade su un tema già visto»*; da lì la regola, **una correzione non si chiude con una frase, si chiude
+con un freno che può fallire** · **volano**: lavora → si controlla → impara → si migliora ·
+**cantiere e difetti (AR-001, AR-002, …)**: i difetti che ha trovato in sé stessa · **malattia**: non il singolo
+bug ma il *tipo* («un campo assente diventa uno zero, e lo zero rassicura»; «un errore viene ingoiato e
+la schermata dice che va tutto bene»); si ripara per malattia, non per conteggio · **quaderno /
+chiusura del loop**: dopo ogni lavoro serio si scrive cosa ci si aspettava e cosa è successo davvero.
+
+**📚 La verità e la memoria** — **registro dei fatti**: una casa sola per ogni fatto-chiave, gli altri
+file lo *citano*; una copia vecchia lasciata in giro è una bugia che il Pannello mostra ·
+**registro della realtà**: ogni negozio o persona ha uno stato — **confermato** (è nei dati),
+**scelta ragionata** (non è nei dati ma è una proposta motivata con prove: legittima), **da verificare**
+(nessun fondamento: il vero «inventato», e blocca) · **North Star**: il numero che conta (ordini pagati,
+negozi vivi, margine); se resta fermo mentre si accumula lavoro, un guardiano alza la voce ·
+**numero orfano**: una cifra senza fonte, vietata.
+
+### Come si incastra
+
+```
+   Sensori leggono il reale  →  Sentinelle vegliano le soglie (gratis, ogni minuto)
+                                          ↓ soglia superata
+                          il Worker sveglia l'AD e le accoda il lavoro
+                                          ↓
+                        l'AD lavora, delegando ai 120 senior
+                                          ↓
+        🚦 CANCELLO: il lavoro prova a demolirsi da solo (3 livelli)
+                                          ↓
+        🛡️ 74 GUARDIANI ispezionano il giro — 36 possono fermarlo
+                                          ↓
+     🟢 esce da solo   |   🟡 esce e avvisa   |   🔴 si ferma in coda → la FIRMA di Nicola
+                                          ↓
+                    quello che è andato storto diventa lezione
+                    → e la lezione deve diventare un freno, non una frase
+```
+
+### Se dimentichi tutto il resto, tre cose
+1. **Sentinella guarda il business, guardiano guarda la macchina, cancello ferma il lavoro all'uscita, sensore è solo un occhio.** Le prime tre sono difese, l'ultima è un senso.
+2. **Il colore comanda su tutto.** Nessun automatismo può far partire un 🔴 al posto tuo.
+3. **La macchina è progettata per non poterti mentire più che per essere veloce.** Metà del codice non produce valore: impedisce di raccontarti balle. È voluto.
+
+> 📖 **Il resto** — il giro spiegato passo per passo (15 passi) e i 7 livelli di comprensione stanno in
+> `MyCity-Vault/90-Memoria-AI/GLOSSARIO.md`, che è la versione completa di questo avviso.
+>
+> 🔗 **Le tre schede si leggono in quest'ordine** — questa (*cosa vogliono dire le parole*) → «🛡️ I
+> guardiani della macchina» (*l'elenco dei singoli controlli, uno per uno*) → «🗺️ Com'è fatta la
+> macchina» (*i 9 pezzi e quanto sono grandi*). La prima serve a capire le altre due.
+>
+> 📊 **Fotografia del 2026-07-31 21:33** — tutti letti dai comandi, non a memoria:
+> **74 guardiani a ogni giro, 36 bloccanti**, su 157 script (fonte: `guardiani-check.mjs`) ·
+> **120 senior, 11 sensori, 5 mani, 13 servizi** sul VPS (fonte: `mappa-macchina.json`) ·
+> **27 fatti-chiave** e **North Star a 0** ordini consegnati (fonte: `registro-fatti.json`) ·
+> **408 difetti** su sé stessa, 167 aperti (fonte: `cantiere-difetti.json`) ·
+> **485 lezioni**, 31 con un freno vero (fonte: `apprendimento.json`).
+>
+> ⚠️ **Scrivendo questo avviso sono saltati fuori due numeri stantii**, ed è il modo migliore per
+> capire perché la macchina è fatta così: la scheda «I guardiani della macchina» diceva **73**
+> controlli quando ne giravano già **74**, e la mappa diceva **26** fatti-chiave quando nel registro
+> erano già **27**. Non erano bugie: erano fotografie vecchie di un giorno lasciate in un file vivo.
+> Corretti entrambi il 2026-07-31 21:33. **È esattamente il mestiere del guardiano `coerenza-fatti`.**
+
 ## 📒 Registro dei fatti — fonte unica della verità · 2026-07-29 16:20
 
 Specchio umano di `registro-fatti.json` (AR-102): qui vivono i fatti-chiave del business già concordati/verificati. Se un fatto cambia nel registro, questa tabella si riscrive nello stesso momento — niente copie vecchie in giro.
@@ -599,7 +728,7 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ## 🛡️ I guardiani della macchina · 2026-07-30 06:21
 
-A ogni giro, prima che l'AI scriva una riga, girano **73 controlli automatici**. **36** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+A ogni giro, prima che l'AI scriva una riga, girano **74 controlli automatici**. **36** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
 Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
 
