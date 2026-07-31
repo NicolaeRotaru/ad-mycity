@@ -1113,3 +1113,28 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - Una lettera — a, b o c — su come gestire i difetti aperti nel cantiere
 
 **Dettagli tecnici** — riconfermato dal vivo alle 12:0x: `WebFetch` su mycity-marketplace.com → ancora HTTP 503 (22+ controlli ciechi dal 30/7 08:20); `mcp__supabase-marketplace execute_sql` diretto → ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3 — identico a ogni passaggio di oggi, stallo 37 giorni. `git fetch origin main`: cima ancora `4ab3fff2d` (#645), zero commit nuovi. AZIONI-IN-ATTESA: 48 aperte (era 59 stamattina — 11 chiuse durante i passaggi di giro, nessuna nuova oltre le 2 di permessi delle 11:20). Cantiere difetti: 155 aperti / 234 chiusi. Report sito: `consegne/devops/2026-07-31-sito-503.md`. Card nuove: `#permessi-git-push-diretto-agente`, `#permessi-execute-sql-doppio-db` (guardiano `permessi-di-guardia.test.mjs`, accodate 11:20).
+
+## Report della sera · 2026-07-31 18:00
+
+**Com'è andata oggi**
+- Il sito è rimasto giù tutto il giorno (era già caduto ieri mattina): trovata la causa vera, ora aspetta solo 5 minuti tuoi di verifica.
+- Sono spuntati due permessi di sicurezza che non dovrebbero esserci — l'agente in chat può oggi pubblicare codice direttamente e scrivere sul database senza passare da te. Mai usati, ma vanno tolti o firmati.
+- Riparati due controlli interni: un test che segnava un allarme vero, e uno scadenzario che teneva viva una scadenza già chiusa da giorni.
+
+**I numeri**
+- Negozio: 1 (Pane Quotidiano) — invariato. Ordini pagati: 0 — stallo 37 giorni.
+- Sito: giù da circa 34 ore (dalle 08:20 di ieri).
+- Coda da firmare: 66 aperte (era 59 ieri sera).
+
+**Da approvare**
+- Cinque minuti su Render/Vercel/DNS per far ripartire il sito — priorità vera di oggi
+- Trenta secondi su Vercel per chiudere l'accesso alla Cabina (Vercel Authentication)
+- Un sì o un no sui due permessi trovati oggi: pubblicare codice da solo e scrivere sul database senza limiti
+
+**Lezione di oggi**
+- Un permesso scritto con un asterisco in mezzo al nome non fa quello che sembra: se vuoi dare via libera a tanti comandi vanno elencati uno per uno, non con una scorciatoia.
+
+**Domani**
+- La prima cosa utile resta il sito: appena riparte, il resto si sblocca da solo.
+
+**Dettagli tecnici** — riconfermato alle 18:00: `WebFetch` su `mycity-marketplace.com` → HTTP 503 (invariato dal 30/7 08:20); `mcp__supabase-marketplace execute_sql` diretto → ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3. `git fetch origin main`: cima ancora `4ab3fff2d` (#645), zero commit di prodotto nella giornata (solo governo/collaudo interno: PR #635-#645). Riparato oggi: `scadenze-calcolate.test.mjs` (561/561 verde), `cervello/scadenzario.json` (PI26 spostata in chiuse, AR-102). Diagnosi permessi: `Bash(node cervello/*.mjs:*)` in `.claude/settings.json` non fa match come jolly — solo gli script elencati per esteso sono davvero sbloccati (card `#diagnosi-guardiani-negati`). Nuove card 🔴: `#permessi-git-push-diretto-agente`, `#permessi-execute-sql-doppio-db` (guardiano `permessi-di-guardia.test.mjs`, AR-376). Report sito: `consegne/devops/2026-07-31-sito-503.md`. Coda AZIONI-IN-ATTESA: 66 aperte / 1 chiusa in archivio (housekeeping 14:21).

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-31 14:35
+aggiornato: 2026-07-31 18:00
 fonte: AD digitale (chat)
 ---
+
+> 🌙 **31/7 18:00 — REPORT DELLA SERA: giornata dominata dal sito giù (503 da ~34h), business fermo a 37 giorni esatti, 2 firme nuove di sicurezza si aggiungono alla coda.** Riconfermato dal vivo in chiusura: `WebFetch` su `https://mycity-marketplace.com` → **ancora HTTP 503** (giù ininterrottamente dal 30/7 08:20, ~34 ore); `mcp__supabase-marketplace execute_sql` diretto → `ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3` — identico cifra per cifra a ogni passaggio di oggi, stallo North Star **37 giorni**. `git fetch origin main`: cima ancora `4ab3fff2d` (#645), zero commit di prodotto nella giornata (solo governo/collaudo interno). Oggi: trovata e diagnosticata la causa vera del sito giù (report pronto, mancano solo i 5 minuti di Nicola su Render/Vercel/DNS); riparato un test rosso vero (`scadenze-calcolate.test.mjs`, ora 561/561 verde) e uno scadenzario stantio (PI26 ancora segnata attiva); emerse alle 11:20 due card 🔴 nuove sui permessi dell'agente in chat (push diretto su main/branch, scrittura SQL senza restrizioni) — nessuna scrittura reale avvenuta, ma il permesso c'è e va tolto o firmato. Coda AZIONI-IN-ATTESA: 66 aperte (era 59 ieri sera). Briefing: [[Briefing/2026-07-31]].
 
 > 🔧 **31/7 14:35 — GIRO RIPETUTO: trovato e riparato un test rosso vero (non un falso allarme) + uno scadenzario stantio, business e sito ANCORA invariati.** Il vincolo HARD "test del cervello" segnalava un rischio generico; verificato con `node --test cervello/test/*.test.mjs` (esplicitamente allowlistato, gli altri wrapper `.mjs` restano negati): **1 test rosso reale** su 561 — `scadenze-calcolate.test.mjs` pretendeva ≥3 domande in `auto-coscienza/auto-analisi.json → domande_per_nicola`, ne aveva solo 2 (il file era rimasto fermo alle 11:31, prima ancora del passaggio incompleto delle 12:39 che `freschezza-cadenze.mjs` segnalava "uscito saltando l'auto-analisi"). Riscritto con le 4 domande realmente aperte oggi (sito giù, 2 decisioni sui permessi agente, guardiani negati) — suite ora **561/561 verde**. Trovato in parallelo un secondo file stantio: `cervello/scadenzario.json` teneva ancora PI26 come scadenza 🔴 attiva (28/7), nonostante Nicola l'abbia chiusa "non idoneo" il 29/7 00:10 e la data (30/7 16:00) sia comunque già passata — spostata in `chiuse` (AR-102, propagazione nello stesso giro). Riverificato dal vivo: `WebFetch` su `https://mycity-marketplace.com` → **ancora HTTP 503** (~30h di fila dal 30/7 08:20); `mcp__supabase-marketplace execute_sql` diretto → `ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0` — identico a ogni passaggio di oggi, stallo **37 giorni**. `coerenza-fatti.mjs`/`allocazione-check.mjs`/`agent-registry-check.mjs` (i 3 guardiani esplicitamente allowlistati) tutti verdi. Lanciato @prompt-engineer in background per cristallizzare in un gate proposto (non eseguito: auto-modifica resta 🟡 firma Nicola) il cluster di errore ricorrente reale "plugin" (17 ripetizioni) — il cluster "correzione-nicola" resta un falso allarme già diagnosticato (card `#fix-tag-generici-correzione-nicola`, invariata). **La mossa n.1 resta la stessa: i 5 minuti di Nicola su Render/Vercel/DNS per il sito (età in crescita, ~30h), poi le 2 firme sui permessi agente.** Briefing: [[Briefing/2026-07-31]].
 
@@ -639,17 +641,17 @@ fonte: AD digitale (chat)
 >
 >
 
-## I 7 numeri (✅ riconfermati query diretta 30/7 06:30 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
-| Numero | Oggi (30/7 06:30) | Δ vs 27/7 18:00 | "Riuscito" | Note |
+## I 7 numeri (✅ riconfermati query diretta 31/7 18:00 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
+| Numero | Oggi (31/7 18:00) | Δ vs 30/7 18:00 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `seller` confermato `mcp__supabase-marketplace execute_sql` 06:30 |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `seller` confermato `mcp__supabase-marketplace execute_sql` 18:00 |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ Stripe collegato, payout-test su ordine vero |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato query diretta 06:30 |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato query diretta 18:00 |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 24/6 CANCELED — ultimo ordine tuttora il 24/6 08:28 |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **36 giorni** · EXP-013 chiuso mancata, rinnovato in EXP-014 (scade 6/8) · ordine test in coda per la parola di Nicola (dentro/fuori) |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **37 giorni** · EXP-013 chiuso mancata, rinnovato in EXP-014 (scade 6/8) · ordine test in pausa fino a settembre (Nicola 28/7) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero |
-| Nuovi clienti reali | **7 profili** (0 ultimi 7g) | = | crescita | confermato query diretta 06:30 |
+| Nuovi clienti reali | **7 profili** (0 ultimi 7g) | = | crescita | confermato query diretta 18:00 |
 | **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | confermato query diretta 06:30 (`max(created_at)`) |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)
@@ -753,6 +755,19 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (🌙 aggiornato 31/7 18:00 — report della sera)
+Business INVARIATO dal 24/6, riconfermato dal vivo alle 18:00: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati — **stallo 37 giorni**. La priorità vera di oggi resta il sito giù (503, ~34h), non il business (fermo per scelta di Nicola fino al 24/8-1/9).
+
+1. [ ] 🔴 **5 minuti su Render/Vercel/DNS per far ripartire il sito** — giù da ~34 ore, causa già diagnosticata, report pronto in `consegne/devops/2026-07-31-sito-503.md`.
+2. [ ] 🔴 **Trenta secondi su Vercel per chiudere davvero il Pannello** (Settings → Deployment Protection → Vercel Authentication = Enabled) — chiesto da 5 giorni.
+3. [ ] 🔴 **Un sì o un no sui due permessi trovati oggi** — l'agente in chat può oggi pushare codice direttamente e scrivere sul database senza restrizioni; nessuno dei due è mai stato usato, ma vanno tolti o firmati.
+4. [ ] 🟡 **Togli alla macchina il permesso jolly sui suoi programmi** (`.claude/settings.json`) — elenco pronto in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`.
+5. [ ] 🟡 **Decidi come gestire i quasi 200 difetti del cantiere** — a/b/c, dettaglio in `#radiografia-triage-cantiere`.
+
+**Sentinelle attive:** sito 🔴 giù (503, ~34h) · loop business 🔴 (0 ordini reali, stallo 37gg, atteso — negozi in pausa) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente · n8n cieco · Supabase/Pannello ✅.
+
+---
 
 ## Prossime priorità (☀️ aggiornato 31/7 06:01 — piano del mattino)
 Business INVARIATO dal 24/6, riconfermato dal vivo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati — **stallo 37 giorni**. Nessuna decisione business in sospeso (tutto rinviato al 24/8-1/9 per scelta di Nicola): oggi contano solo le firme di sicurezza e di governo della macchina.
