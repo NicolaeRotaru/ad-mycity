@@ -12,7 +12,7 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-07-31 06:34",
+      "quando": "2026-07-31 08:33",
       "esito": "vincoli-attivi",
       "codice": 2,
       "ai_rc": 0,
@@ -21,13 +21,13 @@
       "vincoli_attivi": 9,
       "vincoli": [
         "APPRENDIMENTO",
-        "CADENZE",
         "GATE",
         "MAPPA",
         "NORTH_STAR",
         "SCADENZE",
         "TASSO",
         "TEST",
+        "VERIFICA",
         "VOLANO"
       ]
     },
@@ -62,5 +62,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-07-31 06:34"
+  "aggiornato": "2026-07-31 08:33"
 }
