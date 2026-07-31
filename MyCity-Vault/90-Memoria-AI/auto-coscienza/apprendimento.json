@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-07-31 21:15",
+ "aggiornato": "2026-07-31 22:10",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -10704,6 +10704,48 @@
    "gate": "node cervello/test/allineamento-esito.test.mjs",
    "gate_attivo": true,
    "gate_nota": "5 mutazioni su AR-467/468/469/470 in mutanti.json; le due di AR-470 puntano a cervello/test/salute.test.mjs."
+  },
+  {
+   "id": "L-2026-0731-01",
+   "testo": "**In sessione headless, l'allowlist statica di `.claude/settings.json` (`Bash(node cervello/*.mjs:*)`) NON basta a prevedere se uno script parte: 2 su 8 script sono passati (`verifica-sensori.mjs`, `coerenza-fatti.mjs`), 6 negati con 'richiede approvazione' (`freschezza-cadenze.mjs`, `north-star-check.mjs --gate`, `apprendimento-guardiano.mjs`, `scadenzario-check.mjs`, `sonda-volano.mjs`, `verifica-automazione.mjs`) pur essendo tutti coperti dallo stesso jolly e nessuno di essi nel `deny`.** Verificato leggendo `.claude/settings.json` riga per riga prima di concludere che non fosse un problema di allowlist (lezione [[feedback-verifica-prima-di-affermare]] applicata: non ho assunto 'permessi mancanti', ho controllato il file). Sospetto non confermato: le ultime PR mergiate (#641/#643/#645, 30/7) parlano di un 'freno in tempo reale' PostToolUse (AR-455/464/465) che potrebbe giudicare il singolo comando oltre al pattern statico — non verificabile da questa sessione (nessun accesso ai log dell'hook). Regola: quando un `node cervello/*.mjs` viene negato nonostante l'allowlist lo copra, non concludere 'permessi mancanti' e non riprovare alla cieca (limite dei 2 tentativi già in memoria) — annotare quali script passano e quali no (il pattern stesso è informazione), proporre una card diagnostica per chi ha accesso ai log, e continuare il lavoro con lettura diretta dei file che il guardiano avrebbe scritto.",
+   "tag": [
+    "permessi",
+    "sessione-headless",
+    "guardiani",
+    "diagnosi",
+    "processo",
+    "ad"
+   ],
+   "reparto": "@devops-sre",
+   "confidenza": 0.6,
+   "evidenze": 1,
+   "fonte": "sessione",
+   "caso_studio_nicola": false,
+   "nato": "2026-07-31",
+   "ultima_conferma": "2026-07-31 06:29",
+   "stato": "attiva",
+   "usi": []
+  },
+  {
+   "id": "L-2026-0731-02",
+   "testo": "**Un 'fatto' dichiarato in un briefing/STATO.md non è garanzia che la scrittura sia arrivata su disco — verificarlo con git prima di usarlo come base del passaggio successivo (auto-scoperta, giro 31/7 18:35).** Il passaggio delle 14:35 aveva scritto in prosa (briefing + STATO.md) di aver «riparato `cervello/scadenzario.json` (PI26 stantio)» e «lanciato @prompt-engineer in background» per il cluster 'plugin'. Verificato al passaggio delle 18:35: `git log -- cervello/scadenzario.json` mostrava l'ultimo commit al 28/7 (nessuna modifica dopo) e `git diff` vuoto — il file era ancora quello vecchio, PI26 ancora aperta/scaduta; `consegne/prompt-engineer/` esisteva ma vuota, nessun file mai scritto. Non è chiaro SE la causa sia una scrittura persa (crash di sessione), un worker concorrente che ha sovrascritto, o un'azione mai davvero eseguita nonostante il testo — ma il fatto verificabile è che un giro ha scritto 'fatto' senza che il disco lo confermasse, ed è sopravvissuto un passaggio intero (12:37→14:35→qui) prima che qualcuno lo controllasse. Regola: quando un passaggio cita un lavoro di un passaggio precedente come già chiuso (specialmente 'ho riparato X' o 'ho lanciato l'agente Y'), prima di ripartire da lì per un nuovo lavoro fare UNA verifica veloce sul file/artefatto reale (git log/diff, ls della cartella di consegna) — non solo quando si sospetta qualcosa, ma come riflesso quando si eredita un 'fatto' altrui. Costo: secondi. Beneficio: intercetta un buco di verificabilità nel processo stesso, non solo nei dati di business. Vedi [[feedback-verifica-prima-di-affermare]] (applicato qui a un claim della macchina su se stessa, non solo a un claim su Nicola/mercato).",
+   "tag": [
+    "verifica-prima-di-affermare",
+    "claim-non-verificato",
+    "cancello-di-serieta",
+    "auto-analisi",
+    "scadenzario",
+    "prompt-engineer",
+    "worker-concorrente"
+   ],
+   "reparto": "@AD",
+   "confidenza": 0.9,
+   "evidenze": 1,
+   "fonte": "auto-analisi",
+   "caso_studio_nicola": false,
+   "nato": "2026-07-31",
+   "ultima_conferma": "2026-07-31 18:35",
+   "stato": "attiva"
   }
  ],
  "principi": [
