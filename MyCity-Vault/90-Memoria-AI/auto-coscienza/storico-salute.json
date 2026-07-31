@@ -2,16 +2,6 @@
   "_cosa_e": "📈 STORICO SALUTE — la serie storica del voto di salute dell'architettura, per vedere se la macchina sta MIGLIORANDO nel tempo (il volano che gira). Lo aggiorna la radiografia completa e la sonda di ogni giro. Schema in cervello/auto-coscienza.md.",
   "serie": [
     {
-      "data": "2026-07-24 16:00",
-      "voto_salute": 43,
-      "voto_provvisorio": 43,
-      "voto_pieno": 0,
-      "difetti_aperti": 31,
-      "difetti_chiusi": 62,
-      "tipo": "review",
-      "nota": "REVIEW SETTIMANALE: radiografia completa NON ri-lanciata (fatta 23/7 22:20, <24h fa, stesso ambito — ri-eseguirla ora sarebbe il pattern 'loop a vuoto' che la macchina stessa ha imparato a evitare questa settimana). Delta dalla radiografia del 23/7: 2 dei 3 bloccanti chiusi in 24h (AR-138 autopilota-pausa, AR-139 allowlist-azioni); restano aperti AR-144 (budget-token inerte) e AR-147 (PI26 senza allarme, ora a 6 giorni dalla scadenza). 1 nuovo difetto trovato in questa review (AR-154: rituale ESITO non rispettato sullo sprint Pannello 21-24/7). Il voto sale poco (43 vs 43 di ieri sera) perché il conteggio onesto di 12 dimensioni pesa più dei singoli fix: il trend reale è nei difetti aperti-davvero, stabili a 2-3, non nel voto aggregato."
-    },
-    {
       "data": "2026-07-25",
       "voto_salute": 43,
       "voto_riportato": true,
@@ -1107,6 +1097,23 @@
       "bloccanti_umani": 20,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 21 giri · salute pending-merge 0/100 (floor 0): 50 aperti-davvero · 85 in attesa merge · 20 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 8.63 (su 8/8 dimensioni)"
+    },
+    {
+      "data": "2026-07-31",
+      "voto_salute": 9,
+      "voto_copertura": "8/8",
+      "voto_parziale": false,
+      "voto_misurato": true,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-126,AR-154,AR-158,AR-160,AR-161,AR-174,AR-184,AR-188,AR-193,AR-206,AR-216,AR-217,AR-220,AR-223,AR-224,AR-225,AR-234,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-274,AR-278,AR-283,AR-285,AR-288,AR-289,AR-294,AR-295,AR-323,AR-345,AR-347,AR-349,AR-396,AR-404,AR-410,AR-411,AR-414,AR-420,AR-423,AR-425,AR-428,AR-435,AR-445,AR-447,AR-448,AR-449,AR-450",
+      "difetti_aperti": 150,
+      "difetti_chiusi": 234,
+      "pending_merge": 85,
+      "aperti_davvero": 50,
+      "bloccanti_umani": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 22 giri · salute pending-merge 0/100 (floor 0): 50 aperti-davvero · 85 in attesa merge · 20 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 8.63 (su 8/8 dimensioni)"
     }
   ]
 }
