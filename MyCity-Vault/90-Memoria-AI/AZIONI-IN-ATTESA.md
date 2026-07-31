@@ -5,13 +5,13 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-31 06:21** — Automatico: **59 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 08:21** — Automatico: **61 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-31 06:21** — Automatico: **59 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 08:21** — Automatico: **61 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-31 06:21** — Automatico: **59 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 08:21** — Automatico: **61 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-31 06:21** — Automatico: **59 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 08:21** — Automatico: **61 aperte · 1 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -34,6 +34,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 <!-- fix-tag-generici-correzione-nicola -->
 
+---
+
 ### 🟡 #fix-tag-generici-correzione-nicola — Togli il falso allarme "correzione-nicola" dal conteggio degli errori ricorrenti · ⏳ accodata 2026-07-31 06:29
 **Cosa cambia:** ogni giro segnala 5 famiglie di errori "mai diventati un controllo automatico" — una di queste è "correzione-nicola" (15 lezioni, 20 ripetizioni). Ma "correzione-nicola" non è un tipo di errore: è l'etichetta che dico io ogni volta che una lezione nasce da una tua correzione, qualunque sia l'argomento (un bug diverso ogni volta). Il controllo che li conta (`cervello/apprendimento-guardiano.mjs`) esclude già le etichette "correzione" e "nicola" scritte separate, ma non la forma con il trattino "correzione-nicola" che è quella davvero usata nelle lezioni — quindi il falso allarme continua a comparire ogni giro, sotto una veste diversa (parola con trattino invece di due parole), e nasconde gli altri 4 cluster che sono reali (plugin, telegram, architettura-informazioni, termux).
 **Se va bene:** una riga sola: aggiungi `"correzione-nicola"` all'elenco `TAG_GENERICI` in `cervello/apprendimento-guardiano.mjs` (riga 53-56, accanto a "correzione" e "nicola" che ci sono già). Fix minimo, reversibile, nessuna scrittura su dati di business — solo su come la macchina si giudica da sola.
@@ -45,6 +47,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 <!-- permessi-senza-jolly -->
+
+---
 
 ### 🟡 #permessi-senza-jolly — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50
 **Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly — `node cervello/*.mjs` e `bash cervello/*.sh`. Non vogliono dire «può lanciare questi programmi»: vogliono dire «può lanciare qualunque programma finisca in quella cartella». E quella cartella la macchina la scrive da sé. Tutti i freni veri — la pausa, la tua firma, il controllo di a chi si sta scrivendo — stanno DENTRO i singoli programmi: col jolly ci si arriva senza passare da quello che ha il freno. Non sto dicendo che sia successo: sto dicendo che oggi nessuno lo impedirebbe.
@@ -939,7 +943,7 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-31 06:21)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-31 08:21)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-31-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1012,6 +1016,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-31 06:21 · 1 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-31 08:21 · 1 card totali
 
 ### ✅ #ordine-test-dentro-o-fuori-dalla-pausa — RISPOSTA (28/7 15:56): resta dentro, fino a settembre
 
