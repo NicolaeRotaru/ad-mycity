@@ -108,14 +108,23 @@ if [ -r "$SCRIPT_DIR_CERVELLO/lib-cadenza.sh" ]; then
 fi
 
 if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-  git add -A "${MEM_DIRS[@]}" 2>/dev/null || true   # AR-310: solo memoria, mai codice
-  # AR-314 — anche il recupero delle scritture pendenti passa dal cancello: è un commit su main come
-  # gli altri, e finora era l'unico che non guardava niente prima di farlo.
-  if ! ( . "$REPO/cervello/gate-pubblicazione.sh"; gate_pubblicazione "$REPO/cervello" "$REPO" "$branch" ); then
-    echo "[$(ts)] ⛔ Scritture pendenti NON committate: il cancello ha detto no (restano sul server)." >&2
-    git reset HEAD -- . 2>/dev/null || true
+  # AR-467 — PRIMA di committare, guarda se c'è già un arretrato non pubblicato. Se c'è, un altro
+  # commit non salva niente: allontana il ramo, rende il rebase più difficile e prepara il fallimento
+  # del giro dopo. È il ciclo che il 30/7 ha prodotto 1519 commit in 31 ore senza pubblicarne uno.
+  git fetch "$url" "$branch" 2>/dev/null || true
+  _arretrato="$(git rev-list --count "FETCH_HEAD..HEAD" 2>/dev/null || echo 0)"
+  if [ "$(deve_committare_recupero "${_arretrato:-0}")" = no ]; then
+    echo "[$(ts)] ⏸️  Scritture pendenti NON committate: ci sono già ${_arretrato} commit non pubblicati (AR-467). Prima si pubblica, poi si committa." >&2
   else
-    git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti ($(ts))" 2>/dev/null || true
+    git add -A "${MEM_DIRS[@]}" 2>/dev/null || true   # AR-310: solo memoria, mai codice
+    # AR-314 — anche il recupero delle scritture pendenti passa dal cancello: è un commit su main come
+    # gli altri, e finora era l'unico che non guardava niente prima di farlo.
+    if ! ( . "$REPO/cervello/gate-pubblicazione.sh"; gate_pubblicazione "$REPO/cervello" "$REPO" "$branch" ); then
+      echo "[$(ts)] ⛔ Scritture pendenti NON committate: il cancello ha detto no (restano sul server)." >&2
+      git reset HEAD -- . 2>/dev/null || true
+    else
+      git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti ($(ts))" 2>/dev/null || true
+    fi
   fi
 fi
 
@@ -126,9 +135,27 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
   if [ "${_ahead_pre:-0}" -gt 0 ] 2>/dev/null; then
     echo "[$(ts)] ▶ Push di ${_ahead_pre} commit pendenti su origin/${branch} (prima dell'allineamento)..."
     _ok_pre=0
+    _perche_rebase=""
     for _a in 1 2 3; do
-      git fetch "$url" "$branch" 2>/dev/null \
-        && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
+      # AR-469 — il rebase NON parte se restano modifiche tracciate non messe in staging, e sul server
+      # ce ne sono sempre: i file dati che la macchina si riscrive vivono in `cervello/`, che non entra
+      # mai in staging. Si mettono da parte (mai si buttano: la stash resta, e `git stash list` la
+      # mostra). Niente elenco di file — la domanda è generale, così un quarto file dati domani non
+      # rimette la trappola.
+      if [ "$(serve_mettere_da_parte "$(git status --porcelain 2>/dev/null)")" = si ]; then
+        if git "${GIT_ID[@]}" stash push -m "aggiorna-cervello: da parte prima del rebase ($(ts))" >/dev/null 2>&1; then
+          echo "[$(ts)] 📦 Modifiche locali messe da parte per far partire il rebase (git stash list per rivederle)."
+        fi
+      fi
+      # AR-468 — l'uscita del rebase si TIENE. Prima finiva in /dev/null e il messaggio d'errore
+      # accusava il token: 31 ore mandate a cercare dove non c'era niente.
+      if git fetch "$url" "$branch" 2>/dev/null; then
+        if ! _perche_rebase="$(git "${GIT_ID[@]}" rebase FETCH_HEAD 2>&1)"; then
+          git rebase --abort 2>/dev/null || true
+        else
+          _perche_rebase=""
+        fi
+      fi
       if git push "$url" "HEAD:${branch}" 2>&1; then
         echo "[$(ts)] ✓ Commit pendenti pubblicati su GitHub."
         _ok_pre=1; break
@@ -141,7 +168,8 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
     # il lavoro resta sul server e si riprova al prossimo giro.
     if [ "$_ok_pre" != 1 ]; then
       _rc_all="$(esito_allineamento 0 1 0)"
-      echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — ${_ahead_pre} commit restano qui. Controlla GIT_PUSH_TOKEN/rete." >&2
+      echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — ${_ahead_pre} commit restano qui." >&2
+      echo "[$(ts)]    Causa: $(motivo_push_fallito "$_perche_rebase")" >&2
       exit "$_rc_all"
     fi
   fi

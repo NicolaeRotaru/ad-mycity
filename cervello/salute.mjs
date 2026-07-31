@@ -62,6 +62,8 @@ const SOGLIE = {
   storicoMax: 60, // le ultime 60 visite per casa: serve la tendenza, non l'archivio
   refertiTenuti: 30, // i referti scritti su disco: gli ultimi 30, il resto è carta
   tracceFermeOre: 8, // i processi automatici girano più volte al giorno: 8h di silenzio è un guasto
+  rinviiRossi: 10, // watch-main gira ogni minuto: 10 rinvii di fila non è traffico, è un inceppo
+  commitNonPubblicati: 50, // un giro normale ne lascia pochi; 50 vuol dire che il push non passa più
 };
 
 // Impatto sulla crescita — l'ordine con cui si legge il referto (stessa scala del cantiere).
@@ -277,6 +279,35 @@ export function giudicaBattito(righe, adesso = Date.now(), soglie = SOGLIE) {
   return ok(`ultima scrittura ${Math.round(ore)} ore fa (${ultima.chiave})`, dati);
 }
 
+/**
+ * AR-470 — «il server riesce a pubblicare quello che scrive?»
+ *
+ * Il 30/7 a mezzogiorno l'allineamento del VPS si è inceppato e ci è rimasto 31 ore: 1716 rinvii
+ * consecutivi, 1519 commit scritti e mai pubblicati. Il contatore dei rinvii ESISTEVA — watch-main lo
+ * stampava a ogni giro, con tanto di «1716 CONSECUTIVI» — e l'allarme veniva perfino scritto in una
+ * riga di Supabase. Solo che quella riga non la legge nessuno, e il log di sistema nemmeno. Lo stallo
+ * è finito perché Nicola ha provato un comando a mano su un telefono.
+ *
+ * È la stessa forma del freno muto di AR-465, un piano più in alto: il verdetto c'era, mancava il
+ * canale. Qui il canale è la visita — l'unico posto che si guarda quando ci si chiede «sta bene?».
+ *
+ * Due numeri, e il peggiore vince: da quanti giri l'allineamento rimanda, e quanti commit il server
+ * si porta dietro senza averli mandati su GitHub.
+ */
+export function giudicaPubblicazione({ rinvii, ahead, cieco } = {}, soglie = SOGLIE) {
+  if (cieco) return nonVisto(cieco);
+  const n = Number(rinvii) || 0;
+  const a = Number(ahead) || 0;
+  const dati = { rinvii: n, commitNonPubblicati: a };
+  // I rinvii prima: dicono che il meccanismo è INCEPPATO, mentre l'arretrato dice solo che è indietro.
+  if (n >= soglie.rinviiRossi)
+    return rotto(`l'allineamento rimanda da ${n} giri di fila: il server scrive e non pubblica più`, dati);
+  if (a >= soglie.commitNonPubblicati)
+    return rotto(`${a} commit scritti dal server non sono su GitHub`, dati);
+  if (a > 0) return ok(`${a} commit in attesa di pubblicazione, sotto la soglia di ${soglie.commitNonPubblicati}`, dati);
+  return ok("tutto quello che il server scrive arriva su GitHub", dati);
+}
+
 /** La Cabina vista da fuori: risponde, risponde male, o risponde troppo tardi. */
 export function giudicaCabina(r, soglie = SOGLIE) {
   if (!r.ok) return rotto(`la Cabina non risponde: ${r.errore}`);
@@ -417,6 +448,33 @@ const CONTROLLI = [
       if (morti.length) return rotto(`non attivo: ${morti.map((s) => s.u).join(", ")}`, { stato });
       if (instabili.length) return rotto(`riparte in continuazione: ${instabili.map((s) => `${s.u} (${s.riavvii} riavvii)`).join(", ")}`, { stato });
       return ok(`${stato.length} servizi attivi e stabili`, { stato });
+    },
+  },
+  {
+    id: "worker.pubblicazione",
+    organo: "worker",
+    titolo: "Quello che il server scrive arriva su GitHub",
+    impatto: 2,
+    soloSu: "vps",
+    async prova() {
+      // Il contatore lo tiene watch-main: il file c'è SOLO mentre l'allineamento sta rimandando, e
+      // sparisce al primo giro riuscito. Assente = nessun rinvio in corso, che è la notizia buona.
+      let rinvii = 0;
+      const contatore = join(AD_ROOT, ".git", "mycity-watch-main-rinvii");
+      try {
+        if (existsSync(contatore)) rinvii = Number(readFileSync(contatore, "utf8").trim()) || 0;
+      } catch {
+        return giudicaPubblicazione({ cieco: "non ho potuto leggere il contatore dei rinvii di watch-main" });
+      }
+      // L'arretrato si misura contro FETCH_HEAD, che watch-main aggiorna ogni minuto: `origin/main`
+      // sul server non lo muove nessuno, e usarlo darebbe un numero sempre rassicurante.
+      const conta = (rif) => {
+        const r = spawnSync("git", ["rev-list", "--count", `${rif}..HEAD`], { cwd: AD_ROOT, encoding: "utf8" });
+        return r.status === 0 ? Number(r.stdout.trim()) : null;
+      };
+      const ahead = conta("FETCH_HEAD") ?? conta("origin/main");
+      if (ahead === null) return giudicaPubblicazione({ cieco: "git non mi ha detto quanti commit ci sono da pubblicare" });
+      return giudicaPubblicazione({ rinvii, ahead });
     },
   },
   {

@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-07-30 21:20",
+ "aggiornato": "2026-07-31 21:10",
  "mutanti": [
   {
    "lotto": 30,
@@ -905,6 +905,51 @@
    "cerca": "  if (contenuto.includes(\"\\0\")) return null;",
    "sostituisci": "  if (false) return null;",
    "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-467",
+   "lezione": "L-2026-0731-535",
+   "nome": "il recupero torna a committare anche con un arretrato non pubblicato: il ciclo ricomincia a scavare",
+   "file": "cervello/allineamento-esito.sh",
+   "cerca": "  [ \"$ahead\" -gt 0 ] 2>/dev/null && { echo no; return; }",
+   "sostituisci": "  false && { echo no; return; }",
+   "test": "cervello/test/allineamento-esito.test.mjs"
+  },
+  {
+   "difetto": "AR-469",
+   "lezione": "L-2026-0731-535",
+   "nome": "la guardia non riconosce piu una modifica tracciata: il rebase torna a non partire mai",
+   "file": "cervello/allineamento-esito.sh",
+   "cerca": "  printf '%s\\n' \"${1:-}\" | grep -qE '^(.[MDARCU]|[MDARCU].)' && { echo si; return; }",
+   "sostituisci": "  printf '%s\\n' \"${1:-}\" | grep -qE '^ZZZ' && { echo si; return; }",
+   "test": "cervello/test/allineamento-esito.test.mjs"
+  },
+  {
+   "difetto": "AR-468",
+   "lezione": "L-2026-0731-535",
+   "nome": "il messaggio smette di riconoscere l albero sporco e torna ad accusare il token",
+   "file": "cervello/allineamento-esito.sh",
+   "cerca": "    *\"unstaged changes\"*|*\"You have unstaged\"*)",
+   "sostituisci": "    *\"una-causa-che-non-capita-mai\"*)",
+   "test": "cervello/test/allineamento-esito.test.mjs"
+  },
+  {
+   "difetto": "AR-470",
+   "lezione": "L-2026-0731-535",
+   "nome": "1716 rinvii consecutivi tornano a non essere un rosso: lo stallo resta invisibile",
+   "file": "cervello/salute.mjs",
+   "cerca": "  if (n >= soglie.rinviiRossi)",
+   "sostituisci": "  if (false)",
+   "test": "cervello/test/salute.test.mjs"
+  },
+  {
+   "difetto": "AR-470",
+   "lezione": "L-2026-0731-535",
+   "nome": "non aver potuto leggere i numeri torna a valere verde",
+   "file": "cervello/salute.mjs",
+   "cerca": "  if (cieco) return nonVisto(cieco);",
+   "sostituisci": "  if (false) return nonVisto(cieco);",
+   "test": "cervello/test/salute.test.mjs"
   }
  ]
 }
