@@ -8,6 +8,7 @@ reparto: content-social
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-31 11:37 · Playbook Contenuto del giorno, 10a invocazione (31/7) · 0/10 — collo di bottiglia resta la firma di Nicola, non la produzione · atteso 1 post pubblicato → reale 0 pubblicati, 6 post pronti fermi dal 14/7 al 23/7 · #loop-a-vuoto #contenuto-giorno
 - 2026-07-30 11:19 · Playbook Contenuto del giorno riproposto 30/7 11:18 · loop-a-vuoto: 5 post gia pronti in coda (post-carosello-bio-2307, post-domenica-settimana-1907, post-lunedi-turno-mattina-2007, post-siamo-in-23, post-meteo-pioggia-20lug) tutti in pausa rinvio-negozi fino al 24/8-1/9 · atteso un nuovo post pronto da firmare → reale nessuna produzione: backlog gia pieno, il collo di bottiglia resta la firma di Nicola non la produzione · #playbook-contenuto-giorno-loop-backlog
 - 2026-07-28 11:08 · Playbook Contenuto del giorno rilanciato (comando ripetuto) · 5 post 🔴 già pronti mai pubblicati (kefir 14/7, siamo-in-23 18/7, domenica 19/7, lunedì 20/7, carosello 23/7) · atteso backlog si svuota con la firma di Nicola → reale backlog invariato, nessun nuovo post prodotto · #loop-a-vuoto #contenuto-giorno
 - 2026-07-27 11:21 · Playbook Contenuto-del-giorno richiamato in chat 27/7 11:2x · gate invariato: 5 post pronti già in coda (#post-carosello-bio-2307 più fresco, 23/7), tutti in pausa per rinvio negozi 24/8-1/9 · atteso nuovo post pronto da firmare → reale nessun nuovo post generato, confermato loop-a-vuoto, non riaccodato duplicato · #loop-a-vuoto #contenuto-giorno
