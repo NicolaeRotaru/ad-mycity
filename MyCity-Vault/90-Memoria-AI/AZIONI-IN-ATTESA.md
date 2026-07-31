@@ -5,13 +5,13 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-31 10:21** — Automatico: **64 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 11:02** — Automatico: **64 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-31 10:21** — Automatico: **64 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 11:02** — Automatico: **64 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-31 10:21** — Automatico: **64 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 11:02** — Automatico: **64 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-31 10:21** — Automatico: **64 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-31 11:02** — Automatico: **64 aperte · 1 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -44,6 +44,34 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 - **Colore:** 🟡 (nessuna scrittura, serve solo capire — ma richiede accesso a log/sessione fuori dalla mia portata)
 - **Reparto:** devops-sre
 - **Origine:** `{origine:giro-2026-07-31-0629, osservazione:permessi-incoerenti}`
+
+---
+
+<!-- permessi-git-push-diretto-agente -->
+
+---
+
+### 🔴 #permessi-git-push-diretto-agente — Decidi se l'agente in chat può pushare direttamente su main/feature/fix, o se va tolto · ⏳ accodata 2026-07-31 11:20
+**Cosa cambia:** rileggendo `.claude/settings.local.json` (test `permessi-di-guardia.test.mjs`, guardiano AR-376) ho trovato 3 righe che concedono all'agente interattivo (questa chat, non gli script del VPS) il push diretto: `Bash(git push origin main:*)`, `Bash(git push origin feature/*:*)`, `Bash(git push origin fix/*:*)`. La regola scritta in CLAUDE.md e già confermata da te più volte in memoria (`codice-solo-pr-mai-merge`, `feedback-no-merge-main-senza-nicola` — "MAI fare merge su main senza approvazione") dice che l'agente prepara branch+PR e il merge/push resta tuo. Questi 3 permessi vanno nella direzione opposta: mi lasciano pushare senza passare da una PR.
+**Se va bene:** mi dici se togliere le 3 righe (io non posso: `.claude/settings*.json` è negato in scrittura apposta, regola `no-auto-permessi`) oppure se c'è un caso d'uso preciso in cui vuoi che l'agente pushi da solo (es. solo memoria, mai codice) — in tal caso lo scrivo come eccezione dichiarata invece che come buco.
+**Nota tecnica:** difetto rilevato da `cervello/test/permessi-di-guardia.test.mjs` (rc=1 su questo giro, ora dichiarato in `cervello/permessi-debito.json` con questa card). Regola sorgente: `no-push-diretto` in `cervello/permessi-check.mjs`.
+- **Colore:** 🔴 (permessi di sessione — nessuna scrittura possibile senza la tua firma sul file)
+- **Reparto:** devops-sre + security
+- **Origine:** `{origine:giro-2026-07-31-1120, difetto:permessi-di-guardia-test}`
+
+---
+
+<!-- permessi-execute-sql-doppio-db -->
+
+---
+
+### 🔴 #permessi-execute-sql-doppio-db — Decidi se l'agente può scrivere via SQL su marketplace/memoria, o se va tolto/giustificato · ⏳ accodata 2026-07-31 11:20
+**Cosa cambia:** stesso guardiano (`permessi-di-guardia.test.mjs`) trova che `.claude/settings.local.json` concede senza restrizioni `mcp__supabase-memoria__execute_sql` e `mcp__supabase-marketplace__execute_sql` — lo strumento che scrive/modifica righe via SQL, non solo leggerle. CLAUDE.md dichiara il marketplace SOLA LETTURA per la macchina ("Mai scritture sul DB"): questo permesso lo contraddice. È la stessa violazione già nota da tempo sotto il nome vecchio dello strumento (`mcp__Supabase__execute_sql`, ancora presente in `settings.json`), ricomparsa due volte con i nomi nuovi dopo che i due Supabase sono stati separati.
+**Se va bene:** mi dici se togliere le due righe (o la vecchia, o tutte e tre) oppure se vuoi che restino con una giustificazione scritta in `STRUMENTI_GIUSTIFICATI` (`cervello/permessi-check.mjs`) — es. "solo per query di lettura mascherate da execute_sql, mai INSERT/UPDATE/DELETE" — nel qual caso preparo io la voce, ma la riga di permesso resta tua da editare.
+**Nota tecnica:** regola sorgente `strumenti-di-scrittura-non-automatici` (AR-273) in `cervello/permessi-check.mjs`; violazioni dichiarate in `cervello/permessi-debito.json`.
+- **Colore:** 🔴 (permessi di sessione — nessuna scrittura possibile senza la tua firma sul file)
+- **Reparto:** devops-sre + security
+- **Origine:** `{origine:giro-2026-07-31-1120, difetto:permessi-di-guardia-test}`
 
 ---
 
@@ -986,7 +1014,7 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-31 10:21)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-31 11:02)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-31-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1071,6 +1099,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-31 10:21 · 1 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-31 11:02 · 1 card totali
 
 ### ✅ #ordine-test-dentro-o-fuori-dalla-pausa — RISPOSTA (28/7 15:56): resta dentro, fino a settembre
 

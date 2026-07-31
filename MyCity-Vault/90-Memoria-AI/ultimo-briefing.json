@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-31 10:26",
-  "situazione": "Il sito e' DAVVERO giu': mycity-marketplace.com risponde HTTP 503 da almeno 24 ore, confermato in diretta (non solo dal sensore, che lo segnala cieco da 16 controlli di fila dal 30/7 08:20). E' la mossa n.1 di oggi. Mandato @devops-sre a trovare la causa (probabile transizione Render->Vercel a meta') e preparare il fix. Per il resto business invariato: 37 giorni di stallo, atteso per la pausa negozi concordata fino al 24/8-1/9. Trovato anche un buco tecnico minore: giro.sh pubblica i suoi commit di recupero senza passare dal cancello di verita', 484 commit di rumore oggi.",
+  "data": "2026-07-31 11:31",
+  "situazione": "Il sito e' ANCORA giu': mycity-marketplace.com risponde HTTP 503 da circa 27 ore, riverificato in diretta (20 controlli ciechi di fila dal 30/7 08:20). Nessun aggiornamento nuovo da @devops-sre: il report con i 3 controlli di 2 minuti su Render/Vercel/DNS e' gia' pronto e aspetta i 5 minuti di Nicola. Per il resto business invariato: 37 giorni di stallo (1 negozio, 1 ordine annullato, 0 pagati), atteso per la pausa negozi concordata fino al 24/8-1/9. In questo passaggio riparato un gap tecnico: l'auto-analisi del giro era rimasta ferma nel contenuto nonostante il file fosse stato toccato.",
   "opportunita": [
     {
       "titolo": "Chiudi il buco di giro.sh che pubblica senza passare dal cancello di verita'",
@@ -12,7 +12,7 @@
   "azioni": [
     {
       "titolo": "Controlla perche' il sito e' giu' e riportalo online",
-      "motivo": "HTTP 503 confermato in diretta da 24+ ore su mycity-marketplace.com - anche a negozi in pausa, un sito rotto e' un rischio di credibilita' e va sistemato",
+      "motivo": "HTTP 503 confermato in diretta da 27+ ore su mycity-marketplace.com - anche a negozi in pausa, un sito rotto e' un rischio di credibilita' e va sistemato",
       "livello": "rosso"
     },
     {
@@ -22,7 +22,7 @@
     }
   ],
   "sentinelle_scattate": [
-    "sito_uptime: cieco/503 da 16 controlli di fila (dal 30/7 08:20)",
+    "sito_uptime: cieco/503 da 20 controlli di fila (dal 30/7 08:20)",
     "North Star 0 - stallo 37 giorni (invariato, atteso)"
   ]
 }

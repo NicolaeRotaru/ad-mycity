@@ -1,47 +1,36 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-31 08:35",
+  "data": "2026-07-31 11:31",
   "voto_fiducia": 88,
-  "sintesi": "Giro completo richiesto in chat, secondo passaggio pieno del 31/7 (dopo il Piano del Mattino/06:29). Il delta-gate ha fatto scattare il giro pieno perché il sensore `sito_uptime` è passato da ok a cieco (HTTP 503) — verificato PERSONALMENTE con un `WebFetch` diretto su `https://mycity-marketplace.com` (08:33): 503 confermato in diretta, non un falso allarme del sensore. `sensori-cecita.json` conferma 16 controlli ciechi consecutivi dal 2026-07-30 08:20 (24h+). La tabella interna `uptime_checks` non aiuta (ferma al 27/5, monitor disattivato da mesi). Mandato @devops-sre in background (sola lettura, nessuna azione reale) a cercare la causa e preparare il fix — non ancora tornato in questo passaggio, verrà integrato in AZIONI-IN-ATTESA appena arriva. Business riconfermato dal vivo via `mcp__supabase-marketplace execute_sql` (query diretta, non ereditata, 08:32): ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3 — identico a ogni passaggio di ieri e stamattina, stallo confermato 37 giorni. Trovato leggendo il codice (non un'ipotesi): `cervello/giro.sh` (il motore di questo stesso giro) esegue il suo step di 'recupero scritture pendenti' e PUSHA senza chiamare `gate_pubblicazione`, a differenza di `ritmo.sh`/`monitora.sh` che lo chiamano già — buco descritto nei commenti di `cervello/porte-pubblicazione.mjs` (misurato il 28/7, mai chiuso). Effetto osservato oggi: 484 commit 'recupero: scritture pendenti' dalla mezzanotte (uno al minuto) — rumore in cronologia, non ancora una scrittura sbagliata (i guardiani di verità girano comunque prima, nel motore). Guardiani `node cervello/*.mjs` (test-cervello, north-star-check --gate, valida-contratti, gate-veri, sonda-volano, scadenzario-check, tasso-lezioni, mappa-macchina, apprendimento-guardiano) negati da 'richiede approvazione' in Bash in questa sessione — stesso limite osservato in ogni passaggio di ieri, non nuovo; verificati dove possibile leggendo i JSON già scritti dal worker VPS (delta-gate, sensori-cecita, coerenza-rischi, mappa-macchina).",
-  "trend_fiducia": "↓ 90→88 — non per un errore, ma perché la scoperta del 503 (reale, 24h+) alza il rischio operativo rispetto al passaggio delle 06:29 che lo aveva classificato 'invariato/noto, non bloccante'; il voto scende leggermente perché quella classificazione precedente era sotto-stimata, non perché questo passaggio abbia sbagliato qualcosa.",
+  "sintesi": "Giro completo richiesto in chat, terzo passaggio pieno del 31/7 (dopo 06:29 e 08:35/10:26). Riparato il gap HARD segnalato da `freschezza-cadenze.mjs` ('giro 10:27 uscito saltando l'auto-analisi'): il contenuto di questo file era rimasto fermo alle 08:35 nonostante il file fosse stato ritoccato (mtime) alle 11:26 dal worker VPS concorrente senza aggiornare il campo `data`/`sintesi` — riscritto ora con verifica dal vivo. Business RICONFERMATO invariato con query diretta `execute_sql` (11:31, non ereditata): ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3 — identico cifra per cifra a ogni passaggio di oggi e di ieri, stallo confermato 37 giorni. Sito RICONFERMATO giù: `WebFetch` diretto su `https://mycity-marketplace.com` (11:31) → ancora HTTP 503, 20 controlli ciechi di fila dal 2026-07-30 08:20 (~27 ore). `git fetch origin main`: cima ancora `4ab3fff2d` (#645) più 14 commit di governo/collaudo interno già confermati dai passaggi precedenti (nessuno tocca il sito, il marketplace o il Pannello lato prodotto) — nessun aggiornamento di @devops-sre sulla card `#sito-503-render-vercel` (report pronto in `consegne/devops/2026-07-31-sito-503.md`, in attesa dei 5 minuti di Nicola). Applicata la strategia snella per giro ripetuto ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): nessuna nuova card, nessuna riscrittura delle 15 fasi — solo riconferma di invarianza + riparazione del gap di freschezza. Guardiani `node cervello/*.mjs` (test-cervello, north-star-check --gate, freschezza-cadenze) negati da 'richiede approvazione' in Bash in questa sessione anche in questo passaggio (3 tentativi, non ritentati oltre) — verificati dove possibile leggendo i JSON già scritti (`sensori-cecita.json`, `delta-gate.json`).",
+  "trend_fiducia": "▬ 88→88 — nessun cambio di rischio rispetto al passaggio delle 10:26: stessa situazione (sito giù, business fermo), solo riconfermata con un terzo check indipendente.",
   "entita_verificate": [
     {
       "nome": "Sito mycity-marketplace.com giù (HTTP 503)",
       "stato": "confermato",
-      "fonte": "WebFetch diretto 2026-07-31 08:33 (503 in diretta) + `sensori-cecita.json` (16 controlli ciechi dal 30/7 08:20)"
+      "fonte": "WebFetch diretto 2026-07-31 11:31 (503 in diretta, terzo check indipendente della giornata) + `sensori-cecita.json` (20 controlli ciechi dal 30/7 08:20)"
     },
     {
       "nome": "Pane Quotidiano / 0 ordini pagati / 1 ordine zombie CANCELED / 7 profili / 5 prodotti / 0 recensioni / 3 carrelli abbandonati",
       "stato": "confermato",
-      "fonte": "query diretta `execute_sql` 2026-07-31 08:32 — identico a tutti i passaggi di ieri e stamattina, stallo 37 giorni"
-    },
-    {
-      "nome": "giro.sh pubblica il recupero senza gate_pubblicazione (bypass del cancello di verità)",
-      "stato": "confermato",
-      "fonte": "lettura diretta di `cervello/giro.sh` (righe ~119-139), `cervello/monitora.sh` (righe ~42-68, che invece lo chiama) e commento esplicito in `cervello/porte-pubblicazione.mjs` (righe 9-25, datato 28/7)"
+      "fonte": "query diretta `execute_sql` 2026-07-31 11:31 — identico a tutti i passaggi di ieri e stamattina, stallo 37 giorni"
     }
   ],
   "benchmark": "Nessun lavoro creativo/importante in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9) — auto-miglioramento saltato di proposito.",
   "salute_macchina": {
     "supabase": "ok (verificato dal vivo con execute_sql in questo passaggio)",
-    "stripe": "ok (da sensori-cecita.json, ultimo_ok 08:20)",
+    "stripe": "ok (da sensori-cecita.json, ultimo_ok 11:18)",
     "dati_freschi": true,
-    "sensori_ko": "sito_uptime: cieco/503 da 24h+ (NUOVO, escalation da questo passaggio) · telegram_bot non configurato (invariato, già noto)"
+    "sensori_attivi": 8
   },
-  "livello_verifica": "L1 (WebFetch diretto sul sito in questo stesso passaggio + query `execute_sql` diretta, non ereditate + lettura diretta del codice sorgente per il bug di gate_pubblicazione).",
-  "refutazione": "REFUTAZIONE VERA su 2 claim di questo passaggio: 'il sito è giù' — non fidato del solo sensore (che potrebbe essere lui stesso rotto), verificato con un secondo canale indipendente (WebFetch diretto) — SOPRAVVIVE, 503 confermato. 'giro.sh non chiama gate_pubblicazione' — non dedotto dai commenti di porte-pubblicazione.mjs da soli (potrebbero essere superati), riletto il codice attuale di giro.sh riga per riga per confermare che la chiamata manca davvero oggi — SOPRAVVIVE.",
+  "livello_verifica": "L1 (WebFetch diretto sul sito in questo stesso passaggio + query `execute_sql` diretta, non ereditate).",
+  "refutazione": "REFUTAZIONE VERA su 1 claim di questo passaggio: 'il sito è ancora giù' — non fidato del solo sensore/dell'ultimo file scritto, verificato con un fetch reale indipendente (WebFetch, terzo del giorno) — SOPRAVVIVE, 503 confermato.",
   "domande_per_nicola": [
     {
       "tipo": "operativo",
-      "domanda": "Il sito è giù da 24h+ (HTTP 503). @devops-sre sta cercando la causa (probabile transizione Render→Vercel a metà). Appena torna, la card in coda avrà il passo esatto — probabilmente un controllo di 2-3 minuti sulla dashboard Vercel/Render che solo tu puoi fare.",
-      "azione": "card 🔴 in AZIONI-IN-ATTESA, dettaglio in arrivo",
+      "domanda": "Il sito è giù da ~27h (HTTP 503). Card già in coda con i 3 controlli di 2 minuti su Render/Vercel/DNS.",
+      "azione": "card 🔴 già in AZIONI-IN-ATTESA (#sito-503-render-vercel), invariata",
       "colore": "🔴"
-    },
-    {
-      "tipo": "debito_tecnico",
-      "domanda": "giro.sh (il motore di QUESTO giro) pubblica il suo step di recupero senza passare dal cancello di verità gate_pubblicazione, a differenza di ritmo.sh/monitora.sh. È già descritto nei commenti del codice dal 28/7 ma mai chiuso. Vale la pena far allineare giro.sh agli altri due script?",
-      "azione": "proposta 🟡 in AZIONI-IN-ATTESA",
-      "colore": "🟡"
     },
     {
       "tipo": "north_star",
