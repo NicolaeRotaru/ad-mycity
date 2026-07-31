@@ -222,6 +222,34 @@ prova("le lezioni VIVE non si potano mai, nemmeno per far entrare il file", () =
   assert.ok(p.nuovo._cosa_e, "…e infatti resta");
 });
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-471 — il potatore misurava un file che non esiste.
+//
+// Calcolava sempre `JSON.stringify(…, null, 2)`, ma apprendimento.json e' scritto a UNO spazio: su un
+// file da un mega sono ~40 KB, il 4% del tetto. Il 31/7 il file reale pesava 1.008.675 byte — 40.000
+// sotto il limite — e il potatore diceva «non entra, mancano 129 byte», facendo diventare rosso un
+// guardiano su una misura sbagliata. Un verdetto giusto su un oggetto sbagliato resta un verdetto
+// sbagliato: e' la stessa malattia del canale muto, vista dall'altro lato.
+// ─────────────────────────────────────────────────────────────────────────────
+
+prova("AR-471: l'indentazione si legge dal file, non si suppone", () => {
+  assert.equal(P.indentazioneDi('{\n "a": 1\n}'), 1, "un file a uno spazio");
+  assert.equal(P.indentazioneDi('{\n  "a": 1\n}'), 2, "un file a due spazi");
+  assert.equal(P.indentazioneDi('{"a":1}'), 2, "compatto o illeggibile: torno al default dichiarato");
+  assert.equal(P.indentazioneDi(""), 2, "niente da leggere: default, non un errore");
+});
+
+prova("AR-471: lo stesso archivio entra a uno spazio e non entra a due — la misura decide il verdetto", () => {
+  const dati = { lezioni: Array.from({ length: 400 }, (_, i) => ({ id: `L-${i}`, testo: "x".repeat(120) })) };
+  const a1 = P.pianoPotatura(dati, 999_999, 1);
+  const a2 = P.pianoPotatura(dati, 999_999, 2);
+  assert.ok(a2.dopo > a1.dopo, "due spazi pesano piu' di uno: e' esattamente la differenza che ha ingannato");
+  // Il tetto scelto in mezzo ai due: qui la scelta dell'indentazione ribalta il verdetto.
+  const tetto = Math.floor((a1.dopo + a2.dopo) / 2);
+  assert.equal(P.pianoPotatura(dati, tetto, 1).entra, true, "col metro giusto entra");
+  assert.equal(P.pianoPotatura(dati, tetto, 2).entra, false, "col metro sbagliato no");
+});
+
 prova("il potatore dice di NO quando non basta, invece di potare il vivo", () => {
   const grosso = { lezioni: Array.from({ length: 50 }, (_, i) => ({ id: `x${i}`, stato: "attiva", testo: "z".repeat(1000) })) };
   const p = P.pianoPotatura(grosso, 1000);

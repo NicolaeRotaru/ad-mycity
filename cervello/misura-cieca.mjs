@@ -83,6 +83,23 @@ export const TRAPPOLE = [
 ];
 
 /** @returns {Array<{id:string,cosa:string,invece:string}>} le trappole trovate nel comando. */
+/**
+ * La busta che ARRIVA al modello (AR-463, stessa forma di AR-465 nel sorvegliante).
+ *
+ * Pura: una prova la esegue e prova a romperla, invece di guardare se il codice «sembra giusto» —
+ * che è esattamente il modo in cui questo difetto è passato inosservato la prima volta.
+ * Torna `null` quando non c'è niente da dire: tacere è la scelta giusta, un avvisatore che parla a
+ * ogni comando viene spento entro la settimana.
+ */
+export function bustaPerIlModello(trovate = []) {
+  if (!trovate.length) return null;
+  const righe = trovate.map((t) => `   · ${t.cosa}\n     → ${t.invece}`);
+  const testo = ["🔍 MISURA CIECA — il comando che hai appena lanciato può darti un verdetto che non ha misurato:", ...righe].join("\n");
+  return JSON.stringify({
+    hookSpecificOutput: { hookEventName: "PostToolUse", additionalContext: testo },
+  });
+}
+
 export function misuraCieca(comando = "") {
   const c = String(comando);
   if (!c.trim()) return [];
@@ -113,14 +130,24 @@ async function main() {
   const trovate = misuraCieca(comando);
   if (!trovate.length) process.exit(0);
 
+  if (argv.includes("--hook")) {
+    // AR-463 — il canale, e non è un dettaglio di formattazione. Fino al 31/7 questa modalità
+    // stampava testo semplice e usciva 0: per un hook `PostToolUse` vuol dire finire nel log di
+    // debug, cioè parlare a nessuno. È lo stesso difetto che il sorvegliante ha avuto per un giorno
+    // intero (AR-465), scoperto solo provandolo dal vivo. L'unica forma che arriva al modello è
+    // stdout in JSON con `hookSpecificOutput.additionalContext` — quindi qui: JSON o niente.
+    console.log(bustaPerIlModello(trovate));
+    process.exit(0);
+  }
+
   console.log("🔍 MISURA CIECA — questo comando può darti un verdetto che non ha misurato:");
   for (const t of trovate) {
     console.log(`   · ${t.cosa}`);
     console.log(`     → ${t.invece}`);
   }
   // Avvisa e basta: bloccare un comando di lettura sarebbe sproporzionato, e un freno sproporzionato
-  // viene spento. In modalità hook l'uscita resta 0 per non interrompere il lavoro.
-  process.exit(argv.includes("--hook") ? 0 : 1);
+  // viene spento.
+  process.exit(1);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();
