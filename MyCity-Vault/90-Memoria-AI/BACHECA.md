@@ -729,7 +729,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 
 Questa tabella non è scritta a mano: la ricava `cervello/guardiani-check.mjs` leggendo `cervello/giro.sh` a ogni giro. Se ne nasce uno nuovo compare qui da solo, e finché nessuno ha scritto cosa fa il giro resta rosso.
 
-## 🗺️ Com'è fatta la macchina · 2026-07-30 00:15
+## 🗺️ Com'è fatta la macchina · 2026-07-31 14:21
 
 La macchina che manda avanti MyCity, spiegata a chi non l'ha costruita. **Nove parti**: tre fanno il lavoro (la faccia, le braccia, la testa), tre lo controllano (la squadra, i guardiani, la memoria), tre lo collegano al mondo (le mani, i flussi, le estensioni).
 
@@ -737,24 +737,24 @@ Questa sezione non è scritta a mano: i numeri li conta `cervello/mappa-macchina
 
 | # | Parte | In una frase | Quanto è grande |
 | --- | --- | --- | --- |
-| 1 | 🖥️ **Il Pannello — la faccia** | Quello che vedi e dove firmi. | 217 file · 30.484 righe · 13 aree · 75 rotte |
-| 2 | 🦾 **Il worker e il VPS — le braccia** | L'unico pezzo che esegue davvero, 24 ore su 24. | 1535 righe · 13 servizi · 11 timer |
-| 3 | 🧠 **L'AD — la testa** | Chi decide, delega e scrive in memoria. | mansionario di 419 righe · giro di 1468 righe · 18 manuali |
+| 1 | 🖥️ **Il Pannello — la faccia** | Quello che vedi e dove firmi. | 217 file · 31.094 righe · 15 aree · 75 rotte |
+| 2 | 🦾 **Il worker e il VPS — le braccia** | L'unico pezzo che esegue davvero, 24 ore su 24. | 1585 righe · 13 servizi · 11 timer |
+| 3 | 🧠 **L'AD — la testa** | Chi decide, delega e scrive in memoria. | mansionario di 423 righe · giro di 1494 righe · 18 manuali |
 | 4 | 👥 **I senior — la squadra** | Gli specialisti a cui l'AD passa il lavoro invece di farlo tutto lei. | 120 senior · 124 quaderni di memoria |
-| 5 | 🛡️ **Guardiani e sensori — il sistema immunitario** | Quello che impedisce alla macchina di raccontarti una bugia. | 157 script · 11 sensori · 88 test + 26 prove bash |
-| 6 | 📚 **La memoria — quello che ricorda** | Dove vive tutto ciò che la macchina sa e ha deciso. | 9 cartelle · 26 fatti-chiave · 29 file di auto-coscienza |
+| 5 | 🛡️ **Guardiani e sensori — il sistema immunitario** | Quello che impedisce alla macchina di raccontarti una bugia. | 171 script · 11 sensori · 121 test + 26 prove bash |
+| 6 | 📚 **La memoria — quello che ricorda** | Dove vive tutto ciò che la macchina sa e ha deciso. | 9 cartelle · 27 fatti-chiave · 30 file di auto-coscienza |
 | 7 | ✋ **Mani e sensi — come tocca il mondo** | Come legge la realtà e come, quando glielo permetti, la cambia. | 5 mani · 13 modelli grafici |
 | 8 | 🔄 **I flussi — come le parti si parlano** | I cicli veri: qui non ci sono file nuovi, c'è il «come funziona». | 5 cicli |
-| 9 | 🧩 **Le estensioni — i moduli che si aggiungono** | Le capacità che si accendono quando servono, senza gonfiare il resto. | 5 skill · 5 workflow · 46 capacità |
+| 9 | 🧩 **Le estensioni — i moduli che si aggiungono** | Le capacità che si accendono quando servono, senza gonfiare il resto. | 72 skill · 5 workflow · 46 capacità |
 
 ### 1. 🖥️ Il Pannello — la faccia
 
 Un'app web che **non decide niente**: mostra quello che la macchina ha scritto e raccoglie le tue risposte. È fatta così apposta — se il Pannello sparisse, la macchina continuerebbe a lavorare; quello che perderesti è la possibilità di vederla e di firmarle le decisioni.
 
-- **1.1 Le aree (13)** — Le stanze in cui è divisa la Cabina — più 3 vecchie scorciatoie che oggi rimandano altrove. L'elenco qui sotto è letto dal codice, non scritto a mano.
-- **1.2 Le caselle (64 componenti)** — I riquadri dentro le aree: bacheca, cuore della macchina, chat, autopilota, quaderni, volano.
+- **1.1 Le aree (15)** — Le stanze in cui è divisa la Cabina — più 3 vecchie scorciatoie che oggi rimandano altrove. L'elenco qui sotto è letto dal codice, non scritto a mano.
+- **1.2 Le caselle (63 componenti)** — I riquadri dentro le aree: bacheca, cuore della macchina, chat, autopilota, quaderni, volano.
 - **1.3 Le rotte interne (75)** — Ogni casella ha la sua fonte: memoria, metriche, lavori, marketplace, controllo. Nessuna scrive sul sito dei negozi.
-- **1.4 La logica (79 moduli)** — Dove vivono le regole vere: firma di un'azione, chat unificata, autopilota, controllo di onestà, economia.
+- **1.4 La logica (80 moduli)** — Dove vivono le regole vere: firma di un'azione, chat unificata, autopilota, controllo di onestà, economia.
 - **1.5 Il contratto di navigazione** — La regola che fa funzionare il tasto INDIETRO sul telefono: ogni area, scheda e pannello sovrapposto è una tappa di cronologia, non un interruttore nascosto.
 - **1.6 Deploy e installazione** — Va online solo quando cambia `pannello/`, via Deploy Hook. È installabile sul telefono come un'app (PWA).
 - **1.7 Il database della Cabina (5 file SQL)** — Supabase **separato** da quello del marketplace: coda dei lavori, chat, diario, impostazioni, briefing. I dati dei negozi non si toccano da qui.
@@ -770,17 +770,19 @@ Un'app web che **non decide niente**: mostra quello che la macchina ha scritto e
 | `salute-sito` | Lo stato del marketplace vero: cosa non funziona sul sito dei negozi, per gravità. |
 | `auto-coscienza` | La macchina che si guarda allo specchio: difetti trovati su sé stessa, cantiere delle riparazioni, storico della salute. |
 | `numeri` | I KPI reali: ordini, incassi, negozi, clienti, payout, funnel — solo dati misurati, mai stime travestite. |
+| `analisi-report` | Trend, funnel e unit economics: gli stessi numeri di Numeri letti in profondità, più i report scritti dall'AD. |
 | `memoria` | Quello che la macchina ricorda: stato, decisioni, fatti chiave, quaderni dei reparti, archivio. |
 | `persone` | Chi c'è attorno al marketplace: negozi, clienti, rider, la squadra dei senior, i contatti esterni. |
 | `operazioni` | Come gira la macchina operativa: ordini, consegne, catalogo, magazzino, ritmi. |
 | `mondo` | Il fuori: concorrenti, eventi in città, bandi, stampa, trend — quello che non dipende da noi. |
+| `intelligence` | Alert, concorrenti, eventi, buchi di mercato, leve in uscita e reputazione: le 7 schede di analisi che prima stavano dentro Mercato. |
 | `assistente` | La chat con l'AD: da qui gli parli, gli chiedi un lavoro, gli fai una domanda. |
 | `contenuti` | I contenuti prodotti e in attesa di pubblicazione: post, grafiche, reel, con il loro colore di rischio. |
 | `esplora` *(scorciatoia)* | Vecchia area di esplorazione file — resta come scorciatoia: oggi porta a Memoria/Archivio/GitHub. |
 | `report` *(scorciatoia)* | Vecchia area dei report — resta come scorciatoia: oggi i report vivono in Memoria/Archivio. |
 | `storico` *(scorciatoia)* | Vecchia area dello storico — resta come scorciatoia: oggi lo storico vive dentro Memoria. |
 
-> 📁 Dove: `pannello/` — ospitato su Vercel · 📏 Quanto: 217 file · 30.484 righe · 13 aree · 75 rotte
+> 📁 Dove: `pannello/` — ospitato su Vercel · 📏 Quanto: 217 file · 31.094 righe · 15 aree · 75 rotte
 
 ### 2. 🦾 Il worker e il VPS — le braccia
 
@@ -811,7 +813,7 @@ Quando premi «Approva» sul Pannello, il Pannello **non fa** la cosa: scrive un
 | `mycity-worker-chat` | sempre acceso | Il worker della chat: corsia separata, così una tua domanda non finisce in fila dietro un giro lungo. |
 | `mycity-worker` | sempre acceso | Il worker principale: sempre acceso, prende i lavori dalla coda e li fa eseguire all'AD. È quello che si muove quando premi «Approva». |
 
-> 📁 Dove: `cervello/worker.sh` + `cervello/vps/` — su un server sempre acceso · 📏 Quanto: 1535 righe · 13 servizi · 11 timer
+> 📁 Dove: `cervello/worker.sh` + `cervello/vps/` — su un server sempre acceso · 📏 Quanto: 1585 righe · 13 servizi · 11 timer
 
 ### 3. 🧠 L'AD — la testa
 
@@ -824,7 +826,7 @@ L'AD non è un programma: è un **mansionario** che l'intelligenza artificiale r
 - **3.5 L'auto-coscienza** — Quattro manuali: verificare il proprio lavoro, analizzare sé stessa, confrontarsi coi migliori, estrarre le lezioni.
 - **3.6 I cancelli di qualità** — Nessun numero senza fonte · nessuna entità inventata · il titolo di un'azione deve suonare come lo diresti a voce, senza sigle.
 
-> 📁 Dove: `CLAUDE.md` + i documenti in `cervello/` · 📏 Quanto: mansionario di 419 righe · giro di 1468 righe · 18 manuali
+> 📁 Dove: `CLAUDE.md` + i documenti in `cervello/` · 📏 Quanto: mansionario di 423 righe · giro di 1494 righe · 18 manuali
 
 ### 4. 👥 I senior — la squadra
 
@@ -849,7 +851,7 @@ Sono controlli automatici che girano **prima** che il lavoro si chiuda. Non dann
 - **5.2 I sensori (11)** — Gli occhi sul mondo. Un occhio cieco blocca i numeri nuovi: l'elenco è qui sotto.
 - **5.3 La visita di salute** — Tre risposte possibili per ogni controllo: ✅ provato, ❌ rotto, ⚪ non l'ho potuto vedere da qui. Il ⚪ non è mai un verde.
 - **5.4 Il cantiere dei difetti** — I difetti trovati sulla macchina stessa, con la loro causa radice e una prova che diventa rossa se il difetto torna.
-- **5.5 I test e la CI (88 + 26 + 4)** — I test girano a ogni giro, non solo quando qualcuno se li ricorda: un test che nessuno esegue è un file, non una rete.
+- **5.5 I test e la CI (121 + 26 + 4)** — I test girano a ogni giro, non solo quando qualcuno se li ricorda: un test che nessuno esegue è un file, non una rete.
 
 **I sensori, uno per uno:**
 
@@ -867,7 +869,7 @@ Sono controlli automatici che girano **prima** che il lavoro si chiuda. Non dann
 | `n8n_health` | Lo stato del motore delle automazioni: è lo strumento con cui i senior collegherebbero le mani ai servizi esterni. |
 | `mcp_supabase` | Il secondo canale verso i dati (comodità di sessione): utile quando c'è, mai la fonte di verità — quella resta il REST. |
 
-> 📁 Dove: `cervello/*.mjs` — girano prima che l'AI scriva una riga · 📏 Quanto: 157 script · 11 sensori · 88 test + 26 prove bash
+> 📁 Dove: `cervello/*.mjs` — girano prima che l'AI scriva una riga · 📏 Quanto: 171 script · 11 sensori · 121 test + 26 prove bash
 
 ### 6. 📚 La memoria — quello che ricorda
 
@@ -875,12 +877,12 @@ Le cartelle numerate sono **tue**: lì la macchina propone, non riscrive. La car
 
 - **6.1 Le tue cartelle** — Strategia, mercato, clienti, prodotto, soldi e rischi, piani, agenti. Sono tue: lì la macchina chiede prima di toccare.
 - **6.2 La memoria dell'AD** — Stato, decisioni (registro che non si riscrive mai), azioni in attesa, bacheca, sala operativa, lezioni, briefing archiviati.
-- **6.3 Il registro dei fatti (26)** — La fonte unica: prezzi, date concordate, negozio faro, obiettivi. Quello che leggi nella prima sezione di questa bacheca.
-- **6.4 L'auto-coscienza (29 file)** — Difetti, calibrazione, apprendimento, chi è reale e chi è una scelta ragionata, salute, costi, pagella.
+- **6.3 Il registro dei fatti (27)** — La fonte unica: prezzi, date concordate, negozio faro, obiettivi. Quello che leggi nella prima sezione di questa bacheca.
+- **6.4 L'auto-coscienza (30 file)** — Difetti, calibrazione, apprendimento, chi è reale e chi è una scelta ragionata, salute, costi, pagella.
 - **6.5 La memoria viva** — Chat, diario e briefing anche a database, così il Pannello te li mostra da qualunque dispositivo.
 - **6.6 Le consegne** — Dove i senior depositano il lavoro finito, una cartella per reparto. Le grafiche stanno in `creativi/`.
 
-> 📁 Dove: `MyCity-Vault/` — più il database della Cabina · 📏 Quanto: 9 cartelle · 26 fatti-chiave · 29 file di auto-coscienza
+> 📁 Dove: `MyCity-Vault/` — più il database della Cabina · 📏 Quanto: 9 cartelle · 27 fatti-chiave · 30 file di auto-coscienza
 
 ### 7. ✋ Mani e sensi — come tocca il mondo
 
@@ -920,7 +922,7 @@ Le prime sette parti sono i pezzi; questa è il movimento. Se dovessi capire una
 
 Tre cose diverse che spesso vengono confuse. Una **skill** è un mansionario che si apre da solo quando serve (chiedi «la macchina sta bene?» e si apre quello della visita). Un **workflow** è una squadra di analisti che parte in parallelo su un problema grosso e verifica ogni scoperta prima di riportarla. Una **capacità** è un'idea di frontiera già scritta come modulo, in attesa del momento in cui avrà senso accenderla.
 
-- **9.1 Le skill (5)** — Si aprono al momento giusto senza che tu debba chiamarle per nome. L'elenco è qui sotto.
+- **9.1 Le skill (72)** — Si aprono al momento giusto senza che tu debba chiamarle per nome. L'elenco è qui sotto.
 - **9.2 I workflow (5)** — Analisi profonde a molte dimensioni, dove ogni problema trovato viene messo alla prova prima di finire nel report.
 - **9.3 Le capacità (46)** — Il magazzino del futuro: il gemello digitale del negoziante, il concierge della spesa, il catalogo che si scrive da solo, il sismografo della città.
 
@@ -928,11 +930,78 @@ Tre cose diverse che spesso vengono confuse. Una **skill** è un mansionario che
 
 | Skill | Cosa fa |
 | --- | --- |
+| `ab-testing` | Pianifica esperimenti A/B: ipotesi, varianti, significatività statistica, backlog di sperimentazione. |
+| `ad-creative` | Genera e itera in massa varianti di copy pubblicitario (headline, hook) per le ads a pagamento. |
+| `ads` | Strategia e gestione delle campagne a pagamento: targeting, budget, ROAS/CPA su Google/Meta/LinkedIn. |
+| `ai-seo` | Ottimizza i contenuti per essere citati dai motori di ricerca AI (ChatGPT, Perplexity, AI Overview). |
+| `analytics` | Imposta e verifica il tracciamento — eventi, conversioni, UTM — per misurare se una mossa funziona. |
+| `aso` | Ottimizza la scheda su App Store/Google Play: parole chiave, conversione, confronto coi concorrenti. |
 | `cantiere` | La riparazione dei difetti che le radiografie hanno trovato: si sceglie per malattia, non per conteggio. |
+| `churn-prevention` | Flussi di cancellazione, offerte di recupero e dunning per ridurre l'abbandono degli abbonati. |
+| `co-marketing` | Trova partner per campagne congiunte e co-branding con altri marchi/negozi. |
+| `code-simplifier` | Ripulisce codice appena scritto per chiarezza e manutenibilità, senza cambiarne il comportamento. |
+| `codebase-design` | Vocabolario per progettare moduli 'profondi': interfacce pulite, testabili, orientabili da un'AI. |
+| `codebase-search` | Esplora repository remoti per domande cross-repo su architettura e uso di API esterne (Tabnine). |
+| `cold-email` | Scrive email di cold outreach B2B e sequenze di follow-up pensate per ottenere risposte. |
+| `community-marketing` | Costruisce e fa leva su una community online (Discord/Slack/forum) per crescita e passaparola. |
+| `competitor-profiling` | Profila i concorrenti a partire dai loro URL in una scheda strutturata pronta per decidere. |
+| `competitors` | Crea pagine di confronto/alternative SEO contro i concorrenti. |
+| `content-strategy` | Decide COSA scrivere: pilastri di contenuto, cluster di argomenti, calendario editoriale. |
+| `copy-editing` | Rilegge e migliora testi di marketing già scritti: chiarezza, tono, contenuti da aggiornare. |
+| `copywriting` | Scrive o riscrive testi di marketing per pagine — home, landing, prezzi, prodotto. |
+| `cro` | Ottimizza il tasso di conversione di una pagina: funnel, A/B test, frizioni nel checkout. |
+| `customer-research` | Conduce e sintetizza ricerca sui clienti: interviste, recensioni, forum, buyer persona. |
+| `diagnosing-bugs` | Guida un ciclo di diagnosi per bug difficili o regressioni prima di proporre un fix. |
+| `differential-review` | Revisione di sicurezza differenziale su PR/commit/diff, con raggio d'impatto e copertura test. |
+| `directory-submissions` | Pianifica l'invio del prodotto a directory (Product Hunt, G2…) per backlink e scoperta. |
+| `docx` | Crea, legge e modifica documenti Word (.docx/.dotx): report, lettere, modelli con formattazione. |
+| `emails` | Progetta sequenze email automatiche: onboarding, nurture, win-back, cicli di vita del cliente. |
+| `firecrawl` | Cerca e scarica contenuti dal web (ricerca, scraping, pagine interattive) per ricerca e dati esterni. |
+| `free-tools` | Valuta e progetta strumenti gratuiti (calcolatori, generatori) come leva di lead generation/SEO. |
+| `grilling` | Mette sotto torchio un piano o una decisione con domande scomode, per stress-testarla prima di eseguirla. |
+| `handoff` | Comprime la conversazione corrente in un documento di passaggio per un'altra sessione/agente. |
+| `image` | Genera e ottimizza immagini di marketing: hero, grafiche social, mockup prodotto. |
+| `launch` | Pianifica il lancio di un prodotto/feature: checklist, Product Hunt, go-to-market. |
+| `lead-magnets` | Progetta contenuti scaricabili (ebook, checklist, template) per raccogliere email. |
+| `marketing-council` | Simula un board di grandi marketer per un secondo parere su una domanda di marketing. |
+| `marketing-ideas` | Genera idee e ispirazione di marketing quando non si sa da dove iniziare. |
+| `marketing-loops` | Imposta flussi di marketing ricorrenti che un agente esegue da solo su una cadenza. |
+| `marketing-plan` | Costruisce un piano di marketing completo (AARRR) su misura di stadio, budget e team. |
+| `marketing-psychology` | Applica principi di psicologia e bias cognitivi alle decisioni di marketing. |
+| `offers` | Progetta l'offerta sotto il copy: bonus, garanzie, urgenza, framing del valore. |
+| `onboarding` | Migliora l'attivazione post-iscrizione: primi passi, tempo al valore, riduzione dell'abbandono. |
+| `paywalls` | Progetta paywall e upgrade in-app per convertire utenti gratuiti in paganti. |
+| `pdf` | Crea, legge e modifica documenti PDF. |
+| `ponytail` | Regola di scala: sui task che toccano codice, usa il minimo sforzo indispensabile. |
+| `popups` | Progetta popup/modali per catturare email o comunicare un'offerta senza infastidire. |
+| `pricing` | Definisce prezzi e piani tariffari: livelli, ancoraggio, packaging dell'offerta. |
+| `product-marketing` | Posizionamento, messaggistica e ICP: la base prima di scrivere copy o fare un piano. |
+| `programmatic-seo` | Genera pagine SEO su larga scala da template e dati strutturati. |
+| `prospecting` | Trova e qualifica nuovi prospect da contattare. |
+| `public-relations` | Comunicati stampa, contatti con i giornalisti, gestione delle uscite editoriali. |
+| `react-best-practices` | Buone pratiche React per il codice del Pannello: pattern, performance, leggibilità. |
+| `referrals` | Progetta programmi di referral 'porta un amico' con incentivi per chi invita e chi arriva. |
+| `revops` | Allinea marketing→vendite→success: funnel end-to-end, KPI condivisi, forecast di pipeline. |
+| `sales-enablement` | Materiali di supporto alle vendite: battlecard, schede prodotto per i commerciali. |
 | `salute` | La visita: controlla i cinque organi vivi e distingue ✅ provato, ❌ rotto e ⚪ non l'ho potuto vedere da qui. |
+| `schema` | Implementa dati strutturati (schema.org) per far leggere meglio le pagine ai motori di ricerca. |
 | `senior` | La squadra dei 120 a fondo: chi è vivo, chi dorme, chi si sovrappone, chi non consegna nel formato giusto. |
+| `seo-audit` | Audit tecnico e on-page SEO di un sito. |
+| `signup` | Ottimizza il flusso di registrazione/iscrizione. |
+| `site-architecture` | Progetta l'architettura delle pagine e dei link interni di un sito per SEO e usabilità. |
+| `sms` | Progetta campagne e automazioni via SMS. |
+| `social` | Calendario e contenuti social: post, caption, script dei reel. |
+| `supabase` | Riferimento per lavorare con Supabase — schema, RLS, funzioni — dentro questo repo. |
+| `supabase-postgres-best-practices` | Buone pratiche Postgres su Supabase: indici, RLS, query, migrazioni sicure. |
+| `superpowers` | Raccolta di capacità aggiuntive attivabili on-demand dentro Claude Code. |
+| `systematic-debugging` | Metodo sistematico da seguire davanti a un bug o un test rotto, prima di proporre un fix. |
+| `tdd` | Guida allo sviluppo guidato dai test (scrivi il test prima del codice). |
 | `verify` | La prova sul campo: guida il Pannello vero con un browser e i test del worker, per dimostrare che un fix funziona. |
+| `video` | Produzione video: script, montaggio, voiceover, formati verticali per i social. |
+| `web-design-guidelines` | Linee guida di design web: leggibilità, gerarchia visiva, coerenza dell'interfaccia. |
+| `webapp-testing` | Guida il test end-to-end di un'applicazione web reale (non solo unit test). |
 | `worker` | Il worker e il VPS a fondo: code, servizi, lock, orfani, riavvii — quando qualcosa è fermo e serve la causa vera. |
+| `xlsx` | Crea, legge e modifica fogli di calcolo Excel (.xlsx). |
 
 **I workflow:**
 
@@ -944,7 +1013,7 @@ Tre cose diverse che spesso vengono confuse. Una **skill** è un mansionario che
 | `giro-operativo` | Il giro fatto da una flotta di senior in parallelo: ognuno propone le mosse a maggior ritorno, poi l'AD ordina. |
 | `radiografia` | Audit profondo del marketplace: 13 dimensioni in sola lettura, ogni problema verificato prima di essere riportato. |
 
-> 📁 Dove: `.claude/skills/`, `.claude/workflows/`, `cervello/capacita/` · 📏 Quanto: 5 skill · 5 workflow · 46 capacità
+> 📁 Dove: `.claude/skills/`, `.claude/workflows/`, `cervello/capacita/` · 📏 Quanto: 72 skill · 5 workflow · 46 capacità
 
 ### Come approfondire
 
