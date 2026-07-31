@@ -41,7 +41,7 @@
       "vincoli": []
     },
     "ritmo-mezzogiorno": {
-      "quando": "2026-07-30 12:03",
+      "quando": "2026-07-31 12:03",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -61,5 +61,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-07-31 11:55"
+  "aggiornato": "2026-07-31 12:03"
 }
