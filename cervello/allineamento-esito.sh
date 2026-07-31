@@ -51,6 +51,66 @@ watch_azione() {
   echo rimanda
 }
 
+# ─────────────────────────────────────────────────────────────────────────────
+# AR-467 · AR-468 · AR-469 — le tre decisioni dello stallo del 31/7, rese pure perché una prova le
+# possa ESEGUIRE. Il guasto vero non è stato nessuna di queste tre da sola: è stato il fatto che
+# nessuna esisteva, e il copione tirava dritto indovinando.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# deve_committare_recupero <commit_non_pubblicati> → si | no
+#
+# AR-467 — un altro commit di recupero, quando ce ne sono già di non pubblicati, non aiuta: PEGGIORA.
+# Ogni commit in più allontana il ramo da origin/main, rende il rebase successivo più difficile e
+# garantisce il fallimento del giro dopo. Dal 30/7 12:00 al 31/7 20:40 questo ciclo ha prodotto 1519
+# commit — uno al minuto, tutti chiamati «recupero: scritture pendenti» — senza pubblicarne nemmeno
+# uno. Un retry che peggiora lo stato che deve riparare non è un retry: è un guasto che si moltiplica.
+# La regola: prima si pubblica, poi si committa.
+deve_committare_recupero() {
+  local ahead="${1:-0}"
+  [ "$ahead" -gt 0 ] 2>/dev/null && { echo no; return; }
+  echo si
+}
+
+# serve_mettere_da_parte <uscita di git status --porcelain> → si | no
+#
+# AR-469 — `git rebase` si rifiuta di partire se ci sono modifiche TRACCIATE non messe in staging. Sul
+# server ci sono sempre: `cervello/fonti-salute.json`, `intelligence-agenda.json`, `scadenzario.json`
+# sono DATI che la macchina si riscrive girando, ma vivono in `cervello/`, che l'allineamento non mette
+# mai in staging (regola giusta: solo memoria, mai codice — AR-310). Restavano sporchi per costruzione,
+# e il rebase non partiva MAI.
+#
+# Niente elenco di file: sarebbe il perimetro letterale di AR-347, e domani un quarto file dati
+# rimetterebbe la trappola. La domanda giusta è generale — «c'è qualcosa di tracciato da mettere da
+# parte?» — e la risposta si legge dal porcelain. I file NON tracciati non contano: non bloccano il
+# rebase, e metterli da parte rischierebbe di portarsi via lavoro di qualcun altro.
+serve_mettere_da_parte() {
+  printf '%s\n' "${1:-}" | grep -qE '^(.[MDARCU]|[MDARCU].)' && { echo si; return; }
+  echo no
+}
+
+# motivo_push_fallito <uscita del rebase> → la causa VERA, in italiano
+#
+# AR-468 — il copione faceva `git rebase … 2>/dev/null || git rebase --abort` e poi, quando il push
+# veniva rifiutato, stampava «Controlla GIT_PUSH_TOKEN/rete». Il token era sano e la rete anche: la
+# causa era «cannot rebase: You have unstaged changes», buttata in /dev/null. Trentuno ore di diagnosi
+# mandata dalla parte sbagliata da un reindirizzamento. Un messaggio che INDOVINA la causa è peggio di
+# nessun messaggio: manda a cercare dove non c'è niente.
+motivo_push_fallito() {
+  local uscita="${1:-}"
+  case "$uscita" in
+    *"unstaged changes"*|*"You have unstaged"*)
+      echo "l'albero di lavoro ha modifiche non messe in staging: il rebase non parte nemmeno" ;;
+    *CONFLICT*|*"could not apply"*)
+      echo "il rebase ha trovato conflitti: vanno risolti a mano" ;;
+    *"unborn branch"*|*"does not point to a valid"*)
+      echo "il riferimento del rebase non è valido: il fetch non ha portato niente" ;;
+    "")
+      echo "il rebase è andato a buon fine ma GitHub ha rifiutato il push (token, rete o ramo protetto)" ;;
+    *)
+      echo "il rebase è fallito: $(printf '%s' "$uscita" | grep -m1 -i 'error\|fatal' || printf '%s' "$uscita" | head -1)" ;;
+  esac
+}
+
 # motivo_allineamento <rc> — la frase da mettere nel log e nel segnale, in italiano.
 motivo_allineamento() {
   case "${1:-0}" in

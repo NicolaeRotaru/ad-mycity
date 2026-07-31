@@ -124,6 +124,45 @@ prova("watch-main non segna lo SHA quando l'allineamento non è riuscito", () =>
   assert.ok(iBlocco > 0 && iSha > iBlocco, "lo SHA si scrive dopo il controllo, non prima");
 });
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-467 · AR-468 · AR-469 — lo stallo del 31/7. Il server ha scritto 1519 commit in 31 ore senza
+// pubblicarne uno solo, e nessuna di queste tre decisioni esisteva: il copione tirava dritto.
+// ─────────────────────────────────────────────────────────────────────────────
+
+prova("AR-467: con un arretrato non pubblicato NON si fa un altro commit di recupero", () => {
+  // È il cuore del ciclo che si autopeggiora: ogni commit in più allontana il ramo, rende il rebase
+  // successivo più difficile e prepara il fallimento del giro dopo. 1519 volte di fila.
+  assert.equal(sh('deve_committare_recupero 1'), "no");
+  assert.equal(sh('deve_committare_recupero 1519'), "no");
+});
+
+prova("AR-467: senza arretrato il recupero si fa — il freno non deve spegnere il lavoro normale", () => {
+  assert.equal(sh('deve_committare_recupero 0'), "si");
+  assert.equal(sh('deve_committare_recupero'), "si", "senza argomento vale zero, non «blocca tutto»");
+});
+
+prova("AR-469: una modifica TRACCIATA va messa da parte, altrimenti il rebase non parte", () => {
+  assert.equal(sh(`serve_mettere_da_parte ' M cervello/fonti-salute.json'`), "si");
+  assert.equal(sh(`serve_mettere_da_parte 'M  file.json'`), "si", "anche già in staging blocca il rebase");
+});
+
+prova("AR-469: i file NON tracciati non si toccano — non bloccano il rebase e potrebbero non essere miei", () => {
+  assert.equal(sh(`serve_mettere_da_parte '?? .scratch-agent-list.txt'`), "no");
+  assert.equal(sh(`serve_mettere_da_parte ''`), "no", "albero pulito: niente da mettere da parte");
+});
+
+prova("AR-468: il messaggio nomina la causa VERA quando il rebase non parte", () => {
+  const detto = sh(`motivo_push_fallito 'error: cannot rebase: You have unstaged changes.'`);
+  assert.match(detto, /non messe in staging/, "deve dire cosa è successo davvero");
+  assert.doesNotMatch(detto, /TOKEN|rete/i, "e NON deve mandare a caccia del token: era sano");
+});
+
+prova("AR-468: conflitti e push rifiutato sono due cause diverse, e si dicono diverse", () => {
+  assert.match(sh(`motivo_push_fallito 'CONFLICT (content): Merge conflict in x.json'`), /conflitti/);
+  // Rebase riuscito (uscita vuota) ma push rifiutato: qui sì che ha senso guardare token/rete.
+  assert.match(sh(`motivo_push_fallito ''`), /token|rete/i);
+});
+
 prova("ogni script toccato resta sintatticamente valido", () => {
   // Sono i copioni che portano il codice nuovo sul server: se si rompono, il VPS smette di
   // aggiornarsi e nessuno se ne accorge subito.

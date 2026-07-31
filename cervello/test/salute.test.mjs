@@ -21,6 +21,7 @@ const {
   giudicaPonte,
   giudicaCoda,
   giudicaBattito,
+  giudicaPubblicazione,
   giudicaCabina,
   giudicaCuore,
   guardianiMancanti,
@@ -142,6 +143,32 @@ prova("la macchina che non scrive da 20 ore è rossa", () => {
 prova("nessuna traccia con orario = ⚪, non verde", () => {
   uguale(giudicaBattito([{ chiave: "x" }], ORA).esito, "nonvisto", "senza orario");
   uguale(giudicaBattito([], ORA).esito, "nonvisto", "nessuna riga");
+});
+
+// ── La pubblicazione del server (AR-470) ──────────────────────────────────────
+//
+// Il 30/7 l'allineamento del VPS si è inceppato e ci è rimasto 31 ore: 1716 rinvii, 1519 commit mai
+// pubblicati. Il numero ESISTEVA e finiva in journalctl. Lo stallo è finito perché Nicola ha provato
+// un comando a mano su un telefono. Questi casi sono quello stato: devono essere rossi.
+
+prova("lo stallo vero del 31/7 è rosso, non un dettaglio", () => {
+  const r = giudicaPubblicazione({ rinvii: 1716, ahead: 1519 });
+  uguale(r.esito, "rotto", "31 ore ferme");
+  if (!/rimanda da 1716 giri/.test(r.detto)) throw new Error(`il verdetto deve dire da quanto: ${r.detto}`);
+});
+
+prova("un arretrato grosso è rosso anche senza rinvii: il push non passa più", () => {
+  uguale(giudicaPubblicazione({ rinvii: 0, ahead: 200 }).esito, "rotto", "200 commit a terra");
+});
+
+prova("qualche rinvio e pochi commit non è un allarme — un guardiano che grida si spegne", () => {
+  uguale(giudicaPubblicazione({ rinvii: 3, ahead: 5 }).esito, "ok", "traffico normale");
+  uguale(giudicaPubblicazione({ rinvii: 0, ahead: 0 }).esito, "ok", "tutto pubblicato");
+});
+
+prova("se non ho potuto leggere i numeri è ⚪, mai verde", () => {
+  uguale(giudicaPubblicazione({ cieco: "git non risponde" }).esito, "nonvisto", "cieco non è verde");
+  uguale(giudicaPubblicazione({}).esito, "ok", "senza dati ma senza cecità: zero e zero");
 });
 
 // ── La Cabina ─────────────────────────────────────────────────────────────────
