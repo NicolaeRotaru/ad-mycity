@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 23:41
+aggiornato: 2026-07-31 06:01
 fonte: AD digitale (chat)
 ---
+
+> ☀️ **31/7 06:01 — PIANO DEL MATTINO: business invariato al 37° giorno, oggi restano solo le due firme di sicurezza già note.** Riverificato dal vivo via `mcp__supabase-marketplace execute_sql`: `ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3` — identico a ieri sera, stallo **37 giorni**. `git fetch origin main` conferma `4ab3fff2d` (#645) in cima, nessun commit di prodotto nella notte: solo collaudo interno (hook AR-455, misura-cieca AR-464, freno AR-465). Le 3 priorità di oggi (dettaglio in "Prossime priorità" sotto): Vercel Authentication (30 secondi, resta l'unica firma 🔴), il sì sui permessi jolly della macchina (🟡, pronto da firmare), e una parola sulla gestione dei quasi 200 difetti del cantiere (a/b/c). Fonte: Supabase MCP `execute_sql` (06:01) + `git fetch origin main` (06:01) + AZIONI-IN-ATTESA (59 aperte, invariata).
 
 > 🔁 **30/7 23:41 — GIRO RIPETUTO (25°+ passaggio di oggi): zero commit nuovi su `origin/main` in oltre un'ora, business ANCORA invariato.** `git fetch origin main` mostra ancora `4ab3fff2d` in cima (#645, AR-465), identica al check delle 22:24 — nessuna PR nuova. Business riverificato dal vivo via `mcp__supabase-marketplace execute_sql`: `ordini=1, pagati_o_consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3, ultimo_ordine=2026-06-24` — identico cifra per cifra a tutti i passaggi di oggi, stallo **36 giorni**. Locale diverge da `origin/main` in entrambe le direzioni (598 commit avanti del worker VPS non ancora pushati, 14 indietro) — non toccato, resta compito di `giro.sh`. `node cervello/*.mjs` resta bloccato in Bash in questa sessione — guardiani script-dipendenti verificabili solo per lettura diretta dei JSON già scritti dal worker VPS. `auto-coscienza/auto-analisi.json` era già fresco (22:24, <1h) — non riscritto senza un verdetto nuovo di Nicola. **La mossa n.1 resta l'unica firma 🔴 rimasta: 30 secondi su Vercel Authentication (incognito) — card `#radiografia-serratura-pannello`.** Briefing: [[Briefing/2026-07-30]].
 
@@ -735,6 +737,17 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (☀️ aggiornato 31/7 06:01 — piano del mattino)
+Business INVARIATO dal 24/6, riconfermato dal vivo: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati — **stallo 37 giorni**. Nessuna decisione business in sospeso (tutto rinviato al 24/8-1/9 per scelta di Nicola): oggi contano solo le firme di sicurezza e di governo della macchina.
+
+1. [ ] 🔴 **Trenta secondi su Vercel per chiudere davvero il Pannello** (Settings → Deployment Protection → Vercel Authentication = Enabled) — verificato di persona in incognito, resta l'unico bloccante reale, chiesto da 4 giorni.
+2. [ ] 🟡 **Togli alla macchina il permesso jolly sui suoi programmi** (`.claude/settings.json`) — elenco esplicito dei 70 programmi già pronto in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`, basta il tuo sì.
+3. [ ] 🟡 **Decidi come gestire i quasi 200 difetti del cantiere** — tenerli tutti aperti, marcare come accettati i minori, o lavorarne un numero fisso alla volta (dettaglio in `#radiografia-triage-cantiere`).
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 37gg, atteso — negozi in pausa) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente · n8n cieco · REST/MCP/Stripe/Sito/Pannello ✅ · cantiere: 2 bloccanti aspettano solo te (permessi `.claude/settings.json` AR-206, Vercel Authentication AR-226).
+
+---
 
 ## Prossime priorità (🌙 aggiornato 30/7 18:00 — report della sera)
 Business INVARIATO dal 24/6, riconfermato con SQL diretta alle 18:00: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati — **stallo 36 giorni**. Giornata di sola manutenzione interna (governo della macchina), zero movimento commerciale come da pausa concordata fino al 24/8-1/9. Chiusa oggi la domanda-fantasma sull'ordine di prova PQ (già risposta da Nicola il 28/7) — non resta più nessuna decisione business in sospeso, solo le firme tecniche.

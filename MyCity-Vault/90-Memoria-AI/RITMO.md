@@ -1075,3 +1075,19 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - La prima cosa utile resta il click di 30 secondi su Vercel, il resto può aspettare.
 
 **Dettagli tecnici** — riconfermato via Supabase MCP `execute_sql` 18:00: orders=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3. PR di governo mergiate oggi: #630-#640 circa (cantiere difetti, radiografia, chiusura-loop) — nessuna tocca marketplace/Pannello lato prodotto. Lezione L-2026-0730-531 registrata (famiglia correzione-nicola, 18 ripetizioni mai diventate un controllo automatico). Coda AZIONI-IN-ATTESA: 59 aperte. `node cervello/*.mjs` bloccato in Bash in questa sessione (stesso limite di tutta la giornata).
+
+## Piano del mattino · 2026-07-31 06:01
+
+**In una riga:** il negozio resta fermo com'era ieri — oggi le uniche mosse vere sono due firme di sicurezza che aspettano solo te.
+
+**Le 3 cose di oggi**
+1. Trenta secondi su Vercel per chiudere davvero l'accesso alla Cabina — te lo chiedo da giorni, resta l'unica cosa aperta che conta davvero.
+2. Un sì per togliere alla macchina il permesso di lanciare da sola qualunque programma si scriva — l'elenco pronto è già scritto, basta la tua parola.
+3. Dimmi come vuoi gestire i quasi 200 difetti trovati nell'ultima radiografia interna: tenerli tutti aperti, segnare i minori come accettati, o lavorarne un numero fisso alla volta.
+
+**Serve da te**
+- Vercel → Settings → Deployment Protection → Vercel Authentication → Enabled
+- Un sì o un no sul permesso jolly della macchina (`.claude/settings.json`)
+- Una lettera — a, b o c — su come gestire i difetti aperti (dettaglio nella card in coda)
+
+**Dettagli tecnici** — riconfermato via Supabase `execute_sql` diretta (06:01): ordini=1 (CANCELED 24/6), pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3 — stallo North Star 37 giorni. `origin/main` in cima a `4ab3fff2d` (#645), nessun commit di prodotto nella notte (solo collaudo interno AR-455/AR-464/AR-465). Coda AZIONI-IN-ATTESA: 59 aperte, invariata da ieri sera.
