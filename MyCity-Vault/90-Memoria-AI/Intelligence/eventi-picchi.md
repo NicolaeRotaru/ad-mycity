@@ -1,29 +1,28 @@
-# 📅 Eventi & Picchi di Domanda — 2026-07-30
+# 📅 Eventi & Picchi di Domanda — 2026-07-31
 
-> Aggiornato: 30 luglio 2026 08:45 · @intelligence · monitoraggio giornaliero (precedente 27/7 11:35)
+> Aggiornato: 31 luglio 2026 08:40 · @intelligence · monitoraggio giornaliero (precedente 30/7 08:45)
 
 ---
 
-## 🌡️ Meteo Piacenza — AGGIORNAMENTO: la 4ª ondata di caldo è PIÙ LUNGA e più intensa del previsto
+## 🌡️ Meteo Piacenza — AGGIORNAMENTO: apice raggiunto oggi, rottura confermata 8-10/8 (non più solo "verso" inizio agosto)
 
-Rispetto al 27/7 la previsione è peggiorata: non più un picco isolato venerdì, ma **10 giorni di caldo intenso** con sollievo posticipato a inizio agosto.
+Rispetto al 30/7 la finestra si affina: oggi è il giorno di **apice** (non solo un giorno nella fascia), e per la prima volta una fonte dà una **data precisa di rottura** (fronte freddo + temporali), non più un generico "inizio agosto".
 
 | Data | Condizione | T max | Note |
 |------|-----------|-------|------|
-| **Gio 30/7 (OGGI)** | Sereno, afoso | 34-38° | fonti in disaccordo di poco, vedi sotto |
-| Ven 31/7 | Sereno | 36-41° | possibile picco locale (vedi nota fonti) |
-| Sab 1/8 | Sereno, molto caldo | 38° | **picco ondata secondo PiacenzaSera** |
-| Dom 2/8 | Sereno | 37° | punte 40-41° su Pianura Padana centrale (Piacenza/Ferrara) nel weekend |
-| Lun 3/8 | Sereno | 36-37° | ancora caldo intenso |
-| ~7-8/8 | Primo sollievo atteso | — | fine della 4ª ondata |
+| **Ven 31/7 (OGGI)** | Sereno, afoso, **apice della 4ª ondata** | 39° (fonte Piacenza-specifica) — punte 41° non confermate (IlPiacenza) | notti tropicali, minime <25° |
+| Sab 1/8 – Lun 3/8 | Sereno, molto caldo | 36-38° | fase intensa prosegue |
+| Mar-Mer 4-5/8 | Caldo ancora presente, lieve calo | ~35-37° | ultima fase intensa |
+| **8-10/8** | **Rottura ondata**: fronte freddo + temporali | — | primo vero sollievo (dettaglio nuovo di oggi) |
 
-**Fonti triangolate (2 indipendenti, consultate 29-30/7):**
-- [PiacenzaSera — "Dieci giorni di caldo intenso, la quarta ondata è la più lunga"](https://www.piacenzasera.it/2026/07/dieci-giorni-di-caldo-intenso-la-quarta-ondata-e-la-piu-lunga/656310/) (pubblicato 29/7 12:00): 4ª ondata dell'estate, la più lunga, picco 30/7→3/8, sollievo solo verso il 7-8/8.
-- [IlPiacenza — "Terza ondata di calore in arrivo, la più intensa: massime fino a 41 gradi"](https://www.ilpiacenza.it/meteo/terza-ondata-di-calore-in-arrivo-la-piu-intensa-massime-fino-a-41-gradi-su-piacenza.html) (titolo, contenuto non raggiungibile oggi — 403) + [ilmeteo.it/pisatoday](https://www.pisatoday.it/meteo/previsioni-fine-luglio-2026-caldo-africano.html): 41° indicato come punta per il 31/7.
+**Fonti triangolate (4 indipendenti in totale, le 2 di oggi consultate 31/7):**
+- 🆕 [Piacenza24 — "Quarta ondata di calore dell'estate 2026, Nikos Chiodetto: 'A Piacenza si potrebbe toccare una massima di 39 gradi. Nessuna tregua almeno fino al 6 agosto'"](https://www.piacenza24.eu/quarta-ondata-di-calore-dellestate-2026/) (pubblicato 31/7): prima fonte con **citazione diretta di un meteorologo (3B Meteo) su Piacenza nominata**, non stima regionale generica — 39° max, apice oggi 31/7, nessuna tregua fino al 5-6/8.
+- 🆕 [Newsroom24 — "Meteo, quarta ondata di caldo, c'è la data della fine! Fronte freddo e temporali dall'8-10 agosto"](https://newsroom24.it/notizia/2026/07/30/meteo-quarta-ondata-di-caldo-ce-la-data-della-fine-fronte-freddo-e-temporali-dall8-10-agosto) (pubblicato 30/7): prima fonte con data di rottura precisa.
+- (già note dal 30/7) [PiacenzaSera 29/7](https://www.piacenzasera.it/2026/07/dieci-giorni-di-caldo-intenso-la-quarta-ondata-e-la-piu-lunga/656310/) e [IlPiacenza/pisatoday](https://www.pisatoday.it/meteo/previsioni-fine-luglio-2026-caldo-africano.html).
 
-**Nota onestà:** le due fonti divergono leggermente sul giorno esatto del picco (PiacenzaSera indica 1/8 a 38° locale con punte regionali 40-41°; IlPiacenza/iLMeteo indicano 41° già il 31/7) — la fascia è comunque **la stessa**: caldo estremo strutturale 30/7→3/8, non un giorno isolato. Confidenza 85% sulla durata (10gg, 2 fonti concordanti), 60% sul giorno esatto del picco assoluto.
+**Nota onestà:** le fonti restano divise sulla T massima esatta (39° Piacenza24/Chiodetto vs 41° IlPiacenza non confermato oggi), ma **convergono tutte** sulla fascia 30/7→5-6/8 di caldo intenso seguita da rottura 8-10/8. Confidenza sale a **90%** sulla fascia/durata (4 fonti, 2 indipendenti oggi), resta **65%** sul valore esatto del picco (39 vs 41°).
 
-**Impatto:** rinforza — non sostituisce — l'opportunità già segnalata il 27/7 (bozza "pane fresco della mattina prima del caldo" per Pane Quotidiano, in `consegne/content/`, NON pubblicare per il vincolo pausa 24/8-1/9). Nessuna nuova azione da accodare: la card è già pronta e resta parcheggiata, la finestra di caldo semplicemente si allunga.
+**Impatto:** rinforza — non sostituisce — l'opportunità già segnalata il 27/7 (bozza "pane fresco della mattina prima del caldo" per Pane Quotidiano, in `consegne/content/`, NON pubblicare per il vincolo pausa 24/8-1/9). Nessuna nuova azione da accodare: la card resta parcheggiata, ora con una data di fine più precisa (8-10/8) da usare quando si riprende.
 
 ---
 

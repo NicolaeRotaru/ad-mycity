@@ -1,6 +1,32 @@
-# 🕳️ Buchi di Mercato — 2026-07-20
+# 🕳️ Buchi di Mercato — 2026-07-31
 
-> Aggiornato: 20 luglio 2026 20:22 · fonte: supervisione REST + monitora.md
+> Aggiornato: 31 luglio 2026 08:45 · @intelligence (monitoraggio giornaliero) · precedente 20/7 20:22 — sezione "Stato attuale catalogo" invariata (nessuna supervisione REST nuova oggi, fonte solo web)
+
+---
+
+## 🆕 Dati freschi (31/7): il calo imprese ha ora un numero preciso, e il retail è tra i peggiori
+
+**Imprese attive a Piacenza: -3,3% (840 imprese in meno) rispetto al 30/6/2025** — dato Camera di Commercio dell'Emilia, peggio della media nazionale (-0,9%) e regionale (-1,0%). **Commercio al dettaglio: -3,8%** (4.734 imprese attive), tra i settori più colpiti insieme a edilizia (-10,7%) e manifattura (-3,6%).
+
+> «Affrontiamo da tre anni un calo progressivo delle imprese a Piacenza. I giovani imprenditori mancano di incentivi e stabilità politica» — Filippo Cella, vicepresidente Camera di Commercio dell'Emilia.
+
+Questo dato **aggiorna con un numero più fresco e più granulare** (YoY 30/6/2025→30/6/2026, specifico per il retail) il -22,1% dell'Osservatorio Confcommercio (2012-2025) già citato sotto: stessa direzione, conferma che il calo prosegue anche nell'ultimo anno, non solo nel decennio.
+
+- Fonte 1: [PiacenzaSera — "Camera di Commercio dell'Emilia: a Piacenza si conferma in calo il numero delle imprese"](https://www.piacenzasera.it/2026/07/camera-di-commercio-dellemilia-a-piacenza-si-conferma-in-calo-il-numero-delle-imprese/656476/) (29-30/7)
+- Fonte 2 (indipendente, stesso dato): [IlPiacenza — "Piacenza, imprese in calo del 3,3%: peggio della media nazionale e regionale"](https://www.ilpiacenza.it/economia/piacenza-imprese-calo-primo-semestre-2026.html) (30/7)
+
+**Lettura**: non cambia la strategia (pausa negozi fino 24/8-1/9), ma rinforza ulteriormente l'argomento di pitch "sopravvivenza digitale" con un numero più recente e specifico per il retail — utile per `vendite`/`pr-stampa` alla ripresa.
+
+---
+
+## 🆕 Segnale politico-narrativo (30-31/7): Confesercenti lancia "Il Battito della Città"
+
+Confesercenti Piacenza ha avviato una **raccolta firme per una proposta di legge popolare** ("Il Battito della Città") che chiede misure di sostegno per il commercio di prossimità, riconoscendo le botteghe di quartiere come presidio "sociale, economico e di sicurezza". Obiettivo dichiarato: 50.000 firme per portare la proposta in Parlamento. Tappa di raccolta firme oggi 31/7 a Rivergaro (9:00-12:00); campagna itinerante in più comuni della provincia.
+
+- Fonte 1: [PiacenzaSera — "Tappa a Rivergaro per la raccolta firme di Confesercenti a sostegno del commercio locale"](https://www.piacenzasera.it/2026/07/tappa-a-rivergaro-per-la-raccolta-firme-di-confesercenti-a-sostegno-del-commercio-locale/656515/) (30/7)
+- Fonte 2 (indipendente): [IlPiacenza — "'Il Battito della Città': Confesercenti raccoglie firme a Rivergaro"](https://www.ilpiacenza.it/economia/confesercenti-piacenza-raccolta-firme-rivergaro-battito-citta.html) (30/7)
+
+**Lettura (ipotesi, confidenza 60%)**: è lo stesso terreno narrativo di "desertificazione del centro storico" già segnalato sotto, ma stavolta con un veicolo politico/istituzionale attivo (raccolta firme, associazione di categoria). Potenziale aggancio futuro per `relazioni-istituzionali`/`pr-stampa` ("MyCity è già la risposta digitale a quello che la proposta chiede sul piano normativo") — **non un'azione oggi**: nessun contatto va aperto prima della fine della pausa negozi (24/8-1/9). Da tenere in caldo, non da dimenticare.
 
 ---
 
