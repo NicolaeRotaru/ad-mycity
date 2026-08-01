@@ -29,7 +29,8 @@
 //      questa; qui arriva un giro prima del cancello del lotto.
 //   ④ lavoro consegnato senza esito (AR-154) — ho committato codice e non ho lasciato una riga in
 //      nessun quaderno. Il rituale esiste dal giorno di AR-009 e dipende da un passo manuale: nello
-//      sprint del 21-24/7 il quaderno di @tech è restato fermo per 47 righe mentre le PR si mergiavano.
+//      sprint del Pannello il quaderno di @tech salta da 20/7 a 25/7 — quattro giorni consecutivi
+//      (21, 22, 23, 24) con ZERO righe, mentre le PR si mergiavano a sette al giorno.
 //
 // COSA NON CONTROLLA, e va detto: non sa se ciò che ho scritto in chat sia vero, non legge il
 // contenuto dei documenti, non giudica se un fix è giusto. Quattro misure sullo stato del lavoro, non
@@ -96,11 +97,12 @@ export function allarmiSenzaCoda(fileNuovi = [], codaToccata = false) {
  * ④ Lavoro di codice CONSEGNATO senza una riga di esito (AR-154).
  *
  * Il rituale «una riga ESITO dopo ogni lavoro 🟡/🔴» esiste dal giorno di AR-009, e dipende da un
- * passo manuale a fine lavoro. Il conto che ha presentato è scritto nella scheda: durante lo sprint
- * del Pannello del 21-24/7 — sette PR al giorno, bug segnalati a raffica — il quaderno di @tech è
- * rimasto fermo al 20/7 per 47 righe, mentre decine di PR venivano mergiate. Non per pigrizia: sotto
- * pressione si chiude il bug dopo, non si registra quello prima. Un rituale che dipende dalla
- * disciplina fallisce esattamente quando serve di più.
+ * passo manuale a fine lavoro. Il conto che ha presentato è misurato sul quaderno di @tech: durante
+ * lo sprint del Pannello le date saltano da 20/7 a 25/7 — quattro giorni consecutivi (21, 22, 23, 24)
+ * con ZERO righe, mentre le PR si mergiavano a sette al giorno. Non per pigrizia: sotto pressione si
+ * chiude il bug dopo, non si registra quello prima — saltare la registrazione non rompe niente, e
+ * quindi è sempre la prima cosa che salta. Un rituale che dipende dalla disciplina fallisce
+ * esattamente quando servirebbe di più.
  *
  * Guarda i COMMIT del ramo, non l'albero di lavoro: a metà lavoro le modifiche non sono committate e
  * l'esito non è ancora dovuto — chiedere lì produrrebbe rumore a ogni turno, e il rumore spegne i
