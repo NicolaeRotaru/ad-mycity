@@ -107,6 +107,12 @@
       { "type": "command", "command": "node cervello/misura-cieca.mjs --hook", "timeout": 10 }
     ]
   }
-]
-  }
+],
+"stop": [
+  {
+    "hooks": [
+      { "type": "command", "command": "node cervello/cancello-stop.mjs --hook", "timeout": 20 }
+      ]
+    }
+  ]
 }
