@@ -6,134 +6,167 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
-## 🧭 Glossario della macchina — guardiano, cancello, sentinella e tutto il resto · 2026-07-31 21:33
+## 🧭 Glossario della macchina — tutte le parole, per famiglie · 2026-08-01 10:54
 
-**Perché esiste questo avviso.** Le parole strane della macchina sono quasi tutte **nomi di difese**.
-Una macchina che lavora da sola ha due modi di fare danno: **agire senza permesso** (spendere, scrivere
-a un cliente, pubblicare) e **raccontare una bugia** (un numero inventato, un negozio che non esiste, un
-«fatto» che non è stato fatto). Tutto il vocabolario qui sotto serve a rendere difficili quelle due cose.
-Davanti a ogni termine la domanda giusta non è «cosa fa?», ma **«da quale bugia o da quale sorpresa mi
-sta proteggendo?»**.
+**Perché esiste questo avviso.** Quasi nessuna parola strana della macchina descrive *come si fa* una
+cosa: descrivono **come si dimostra di averla fatta**. Una macchina che lavora da sola ha due modi di
+fare danno — **agire senza permesso** (spendere, scrivere a un cliente, pubblicare) e **raccontare una
+bugia** (un numero inventato, un negozio che non esiste, un «fatto» che non è stato fatto). Tutto il
+vocabolario qui sotto serve a rendere difficili quelle due cose. Davanti a ogni termine la domanda
+giusta non è «cosa fa?», ma **«da quale bugia o da quale sorpresa mi sta proteggendo?»**.
 
-### Le quattro parole che si confondono
+> 🆕 **Versione 2.** La prima (31/7) copriva solo le parole delle *difese*. Mancavano tutte quelle del
+> **come si ripara** — pavimento, tetto, potatore, freno, aggancio, regressione, lotto, spazzata, sonda,
+> watch-main — ed erano proprio quelle che Nicola ha chiesto due volte di fila. Adesso ci sono tutte.
 
-| | 👁️ Sensore | 🛰️ Sentinella | 🛡️ Guardiano | 🚦 Cancello |
-|---|---|---|---|---|
-| **Cos'è** | Un occhio | Una sveglia | Un ispettore | Un esame all'uscita |
-| **Cosa guarda** | Il mondo reale | I **dati del business** | Il **lavoro della macchina** | Il lavoro che sta per uscire |
-| **Quando** | Sempre, in lettura | Ogni minuto | A ogni giro | Prima di consegnare o pubblicare |
-| **Se trova qualcosa** | Niente, riporta | Sveglia l'AD e accoda un lavoro | Segnala, e 36 di loro **fermano il giro** | **Blocca**: il lavoro non esce |
-| **Quanti oggi** | 11 (fonte: `mappa-macchina.json`) | 10 attive | 157 script, 74 a ogni giro (fonte: `guardiani-check.mjs`) | 3 livelli |
+### ① Le difese: chi guarda cosa
 
-**👁️ Sensore — gli occhi.** Legge la realtà: database del marketplace, Stripe, PostHog, se il sito
-risponde. Sola lettura. Il concetto che conta è il suo contrario: un sensore **cieco** (chiave scaduta,
-servizio giù). Quando è cieco la macchina lo deve *dichiarare*, e non può scrivere numeri nuovi.
-**Cieco e onesto vale più di sicuro e inventato.**
+| | 👁️ Sensore | 🛰️ Sentinella | 📡 Radar | 🛡️ Guardiano | 🚦 Cancello |
+|---|---|---|---|---|---|
+| **Cos'è** | Un occhio | Una sveglia | Un orecchio sul mondo | Un ispettore | Un esame all'uscita |
+| **Cosa guarda** | Il reale | I **dati del business** | Il mondo **fuori** | La **macchina stessa** | Il singolo lavoro |
+| **Se trova** | Riporta e basta | Sveglia l'AD | Accoda un'occasione | Segnala, e 36 fermano il giro | **Blocca**: non esce |
+| **Quanti** | 11 | 10 attive | ~50 fattori | 74 a ogni giro | 3 livelli |
 
-**🛰️ Sentinella — la sveglia sul business.** Gira ogni minuto e costa zero (è codice, non AI). Guarda
-soglie: ordine pagato senza payout da 24h 🔴 · ordini giù del 30% 🟢 · recensione da 2 stelle 🟡 ·
-negozio live fermo da 14 giorni 🟡 · carrello abbandonato da 4 ore 🟡. Quando scatta, sveglia l'AD e le
-accoda un lavoro. Il pezzo furbo: **guardare non costa, pensare costa** — l'AI si accende solo
-sull'evento vero. Tre freni: niente stesso allarme per 6 ore, tetto giornaliero, rispetto della pausa.
-**Una sentinella non può mai far partire un'azione reale**: accoda solo analisi e proposte.
+- **Sensore** — sola lettura, sempre. Il concetto importante è il suo contrario: **cieco** (chiave
+  scaduta, servizio giù). Quando è cieco lo deve *dichiarare*, e non può scrivere numeri nuovi.
+  **Cieco e onesto vale più di sicuro e inventato.** E *spento ≠ non configurato*: mai collegato è una
+  scelta, si è rotto è un guasto — confonderli nasconde il guasto dietro la scelta.
+- **Sentinella** — costa zero (è codice, non AI): ordine pagato senza payout da 24h → 🔴 · ordini giù
+  del 30% → 🟢 · recensione ≤2 stelle → 🟡. **Guardare non costa, pensare costa.** Non può mai far
+  partire un'azione reale: accoda solo proposte.
+- **Radar** — il gemello esterno: cosa ci influenza (IN) e su cosa possiamo agire noi (OUT).
+- **Guardiano** — la sentinella guarda il *business*, il guardiano guarda la *macchina*. In famiglie:
+  numeri-veri · rotta · apprendimento · cantiere · sicurezza · squadra · soldi-macchina · tempo · test · mani.
+- **Cancello** — non un controllo, un **momento**. *«Dai per scontato che almeno un errore ci sia, e
+  trovalo»*: **L1** checklist · **L2** un agente col solo compito di demolirlo (se trova un buco, vince
+  lui) · **L3** più revisori con lenti diverse, e si vota.
+- **Guardia viva** — *«un verdetto che non arriva a nessuna decisione non è una protezione»*.
+- **Sorvegliante** — la revisione che gira **mentre** si lavora, non alla fine.
 
-**🛡️ Guardiano — l'ispettore del lavoro.** Il salto: la sentinella guarda *il business*, il guardiano
-guarda **la macchina stessa**. È ciò che garantisce che quello che leggi nel Pannello sia vero. Esempi
-con le loro parole: `coerenza-fatti` («un fatto cambia in un posto solo: se una copia vecchia resta in
-giro, ferma il giro») · `onesta-check` (i **numeri orfani**: una cifra senza fonte non deve uscire) ·
-`firma-check` («nessuno script può scriversi da solo la firma di Nicola») · `chiusura-loop` (chi dice
-FATTO deve lasciare l'esito scritto) · `spazzata-fratelli` («l'hai risolto o hai curato una copia
-sola?») · `prove-oneste` (nessun difetto può nascere già chiuso). Di 74 che girano a ogni giro,
-**36 possono bloccarlo**. Si vedono tutti con `node cervello/guardiani-check.mjs`.
+### ② I limiti: pavimento, tetto, freno
+- **Pavimento** — il minimo garantito. Trappola: un pavimento *fisso* smette di misurare. Caso vero: la
+  soglia dei kit era 5.200 byte, **82 byte sotto il file più piccolo** — nessuno poteva essere bocciato.
+- **Tetto** — due sensi opposti: ① il debito tollerato, che **scende quando curi e non risale mai**;
+  ② il soffitto di qualità raggiungibile col carburante che c'è (*«alza il tetto, non abbassare lo standard»*).
+- **Soglia** — se non può mai essere superata non è una soglia: *un tetto mai superato è indistinguibile
+  da un tetto che non c'è*.
+- **Freno** — un impedimento che **scatta da solo**, l'opposto di un promemoria. Il conto di non averlo
+  capito: **269 correzioni di Nicola, 0 freni costruiti, 83% su temi già visti**. Il freno va sull'**atto**,
+  non sul punto d'ingresso: sennò il bug torna da un'altra strada.
 
-**🚦 Cancello — l'esame prima di uscire.** Non un controllo automatico: un **momento** in cui il lavoro
-si ferma e deve meritarsi l'uscita. Regola d'ingaggio: *«dai per scontato che almeno un errore ci sia, e
-trovalo»*. **L1** checklist meccanica (entità reali? numeri con fonte? colore giusto?) · **L2** sul
-rischioso parte un secondo agente col solo compito di **demolirlo**, e se trova un buco **vince lui** ·
-**L3** sulle decisioni gravi più revisori con lenti diverse (realtà, numeri, soldi, legale, «tra un mese
-è andata male: perché?») e si vota.
+### ③ Il cantiere: le parole della riparazione
+**Cantiere** = i difetti trovati su sé stessa · **AR-001, AR-002…** = un difetto col suo codice · **lotto** = i
+difetti curati insieme perché **condividono la malattia** · **malattia** = la *forma* di bug che si
+ripete · **fratelli** = le altre istanze, altrove · **spazzata** = la caccia ai fratelli · **causa
+radice** = si arriva alla quinta domanda, non alla prima · **regressione** = rottura nuova (blocca
+subito, e deve dire da cosa) · **debito ereditato** = le magagne vecchie (si misurano, non bloccano).
 
-### Le altre parole, per famiglie
+- **Prova** — tre qualità: **comportamentale** (esegue: buona) · **a pattern** (certifica che una cosa
+  *esiste*, non che *funziona*: debole) · **con OR** (passa quasi sempre: non dice niente).
+- **Mutazione** — il concetto più raffinato della casa: si **rompe il fix apposta** e si pretende il
+  rosso. Se il test resta verde, quella prova non provava niente.
+- **Spazzata** — *«l'hai risolto, o hai curato una copia sola?»* Precedenti veri: lotto 3, cinque script
+  pubblicavano e **uno solo** aveva il cancello; lotto 10, il freno costi aveva **tre** buchi, non uno.
+  **Un difetto è chiuso quando la malattia smette di potersi ripresentare**, non quando quel punto guarisce.
 
-**🎨 Come tocca il mondo** — **colori 🟢🟡🔴**: la regola madre (🟢 reversibile → da sola · 🟡 medio → lo
-fa e avvisa · 🔴 soldi/legale/irreversibile → **si ferma e aspetta la firma**; nel dubbio si sale) ·
-**mano**: un canale con cui *cambia* il mondo (email, Telegram, Instagram, Facebook, Google Business —
-5 in tutto); senza mani l'azione resta pronta in coda, non si perde · **coda / azioni in attesa**: le
-cose da firmare, ognuna con «cosa cambia» e «se va bene» · **firma**: l'unica cosa che trasforma una
-proposta in un fatto.
+**Le 7 malattie censite, col loro nome vero:** ① l'esito di un guardiano finisce in una pipe e sparisce ·
+② un campo assente diventa uno zero, e lo zero rassicura · ③ un errore viene ingoiato e la schermata dice
+che va tutto bene · ④ si dichiara «fatto» ciò che nessuno ha confermato · ⑤ una cadenza si costruisce da
+sé le protezioni invece di ereditarle · ⑥ il perimetro di un controllo è dedotto dagli esempi invece che
+misurato sul codice · ⑦ una fonte letta a metà produce un verdetto intero.
 
-**⏱️ Il ritmo** — **giro**: il ciclo base (dati → sentinelle → briefing → memoria) · **cadenze**:
-mattino 6:00, mezzogiorno, sera 18:00, review del venerdì · **worker/VPS**: le braccia, l'unico pezzo
-che esegue davvero; se dorme, il resto è teoria · **Pannello/Cabina**: la faccia, non decide niente —
-se sparisse la macchina continuerebbe a lavorare, si perderebbe solo la possibilità di vederla.
+### ④ La verità e la misura
+- **Cieco (e l'uscita 2)** — ogni guardiano ha tre esiti: **0** passa · **1** violazione vera · **2**
+  *non ho potuto misurare*. **Il 2 non è un verde.** Nella visita di salute: ✅ · ❌ · **⚪ non l'ho
+  potuto vedere da qui** — e ⚪ non è mai un verde.
+- **Misura cieca** — *«una misura che non può dire di no non è una misura»*.
+- **Misura parziale** — un voto costruito su un pezzo e mostrato come intero: **il numero migliora
+  proprio quando la realtà peggiora**, perché i pezzi peggiori sono quelli che il filtro butta fuori.
+- **Perimetro** — il recinto entro cui un controllo guarda, *disegnato a mano una volta e mai più
+  confrontato con la realtà*.
+- **Numero orfano** — una cifra senza fonte. Vietata. · **Verifica avversariale** — «verificato» senza
+  che nessuno abbia provato a smontarlo non vale. · **Pre-mortem** — *«tra un mese è andata male:
+  perché?»*, chiesto prima.
+- **Carburante** — ciò che manca per lavorare al massimo (foto vere, un dato, una chiave, una decisione):
+  *non abbassare lo standard, alza la richiesta*. · **Debito dichiarato** ≠ lavoro finito.
 
-**🔬 Come si controlla** — **radar**: il gemello esterno della sentinella (50 fattori: concorrenti,
-eventi, bandi, meteo; sentinella = dentro, radar = fuori) · **prova**: il test che dimostra che un fix
-funziona · **mutante/mutazione**: il concetto più raffinato — un test verde dimostra che il codice
-*gira*, non che la prova *serva*, quindi si **rompe il fix apposta** e si pretende il rosso; se resta
-verde, quella prova non dimostrava niente.
+### ⑤ L'apprendimento: dove finisce una correzione di Nicola
+**Lezione → gate → mutazione → volano.** La catena serve a una cosa: che una correzione non muoia in una frase.
 
-**🧠 Come impara** — **lezione**: una cosa imparata, spesso da una correzione di Nicola (vale doppio) ·
-**gate su una lezione**: la ferita auto-diagnosticata, scritta nel codice — *«269 volte Nicola ha
-corretto la macchina, e la difesa costruita è sempre stata una frase in un file; l'83% delle correzioni
-cade su un tema già visto»*; da lì la regola, **una correzione non si chiude con una frase, si chiude
-con un freno che può fallire** · **volano**: lavora → si controlla → impara → si migliora ·
-**cantiere e difetti (AR-001, AR-002, …)**: i difetti che ha trovato in sé stessa · **malattia**: non il singolo
-bug ma il *tipo* («un campo assente diventa uno zero, e lo zero rassicura»; «un errore viene ingoiato e
-la schermata dice che va tutto bene»); si ripara per malattia, non per conteggio · **quaderno /
-chiusura del loop**: dopo ogni lavoro serio si scrive cosa ci si aspettava e cosa è successo davvero.
+- **Gate** — il guardiano agganciato alla lezione. **Vero** solo se ① il file esiste ② esiste una
+  mutazione che lo fa scattare ③ la mutazione trova ancora il suo pezzo. Senza la ②, scrivere `gate:`
+  fa +1 nella pagella **senza nessuna difesa costruita**.
+- **Aggancio** — collegare la difesa al **momento che conta**: il cancello del lotto esisteva ed era
+  buono, ma *non era agganciato al merge* — e due PR sono entrate con la prova rossa.
+- **Volano** — lavora → si controlla → impara → migliora. Era costruito in modo da **non poter mai dire di no**.
+- **Quaderno / chiusura del loop** — dopo ogni lavoro serio si scrive cosa ci si aspettava e cosa è
+  successo. **Atteso → reale**: chi ci prende guadagna autonomia, chi sbaglia la perde.
+- **Previsione verificabile** — *«una previsione che nessuno può smentire è una frase scritta dopo»*.
+- **Potatura** — togliere dai file vivi ciò che è morto (va in `Storico/`). *Si pota solo ciò che è già
+  morto: una lezione attiva non si tocca mai.*
+- **Sonda** — il controllo leggero a ogni giro; se un segnale resta basso 3 giri di fila **chiama la
+  radiografia**. *La sonda informa, il gate pretende.* · **Radiografia** — la visita profonda (del sito,
+  o di sé stessa). · **Gusto** — il registro dei verdetti di Nicola. · **Pagella** — i 5 numeri che
+  dicono se è pronta per il business.
 
-**📚 La verità e la memoria** — **registro dei fatti**: una casa sola per ogni fatto-chiave, gli altri
-file lo *citano*; una copia vecchia lasciata in giro è una bugia che il Pannello mostra ·
-**registro della realtà**: ogni negozio o persona ha uno stato — **confermato** (è nei dati),
-**scelta ragionata** (non è nei dati ma è una proposta motivata con prove: legittima), **da verificare**
-(nessun fondamento: il vero «inventato», e blocca) · **North Star**: il numero che conta (ordini pagati,
-negozi vivi, margine); se resta fermo mentre si accumula lavoro, un guardiano alza la voce ·
-**numero orfano**: una cifra senza fonte, vietata.
+### ⑥ Il corpo: worker, ritmo, economia
+**Worker** = le braccia sul VPS, l'unico pezzo che fa succedere le cose · **coda** = `in attesa` → `in
+corso` → `fatto`/`errore` · **orfano** = un lavoro il cui padrone è morto · **watch-main** = tiene il VPS
+allineato a `main`, sennò il worker gira col cervello di ieri · **battito esterno** = chi controlla che
+sia viva **da fuori** (nato da 40 ore di VPS fermo e nessun allarme, perché il controllore abitava
+dentro) · **lucchetto** = la protezione sulla cartella condivisa · **porta** = un punto che pubblica ·
+**uscita** = un punto che tocca il mondo · **mano** = il canale con cui *cambia* il mondo (5: email,
+Telegram, Instagram, Facebook, Google Business) · **pausa** = l'interruttore dal Pannello · **ramo
+pulito** = *il ramo porta solo il suo lavoro* (**21 correzioni di Nicola** su questa cosa sola).
 
-### Come si incastra
+**L'economia:** **delta-gate** (niente di nuovo → l'AI non si accende) · **letargo** (spegne il superfluo
+in ordine inverso d'importanza e tiene il nucleo vitale: ordini, consegne, firma, sicurezza) ·
+**metabolismo** (quanto consuma, per trasformare la quota da vincolo a leva) · **banco AI** (l'AI più
+economica capace) · **freno costi** (*se non sa quanto ha speso oggi, non finge che sia zero*).
 
-```
-   Sensori leggono il reale  →  Sentinelle vegliano le soglie (gratis, ogni minuto)
-                                          ↓ soglia superata
-                          il Worker sveglia l'AD e le accoda il lavoro
-                                          ↓
-                        l'AD lavora, delegando ai 120 senior
-                                          ↓
-        🚦 CANCELLO: il lavoro prova a demolirsi da solo (3 livelli)
-                                          ↓
-        🛡️ 74 GUARDIANI ispezionano il giro — 36 possono fermarlo
-                                          ↓
-     🟢 esce da solo   |   🟡 esce e avvisa   |   🔴 si ferma in coda → la FIRMA di Nicola
-                                          ↓
-                    quello che è andato storto diventa lezione
-                    → e la lezione deve diventare un freno, non una frase
-```
+### ⑦ Il lavoro dei senior
+**Doer mode** = si consegna il lavoro fatto, non l'analisi di cosa fare · **consegna** = il file finito ·
+**card** = una riga della coda coi due campi che leggi tu (**cosa cambia** / **se va bene**) · **firma** =
+il tuo sì, l'unica cosa che trasforma una proposta in un fatto · **scrittura umana** = il titolo si capisce
+a voce, senza sigle (*se poteva scriverlo un terminale, riscrivilo*) · **faro** = il negozio su cui va lo
+sforzo pesante · **registro della realtà** = confermata / scelta ragionata / da verificare (quest'ultima è
+il vero «inventato», e blocca) · **allocazione** = niente lavoro pesante su chi non ha firmato · **caccia** =
+il valore vecchio di un fatto, inseguito in tutti i file vivi · **owner unico** = un mandato, un padrone ·
+**capacità** = le 53 funzioni di lungo periodo, 46 ancora chiuse dietro un cancello di realtà.
 
-### Se dimentichi tutto il resto, tre cose
-1. **Sentinella guarda il business, guardiano guarda la macchina, cancello ferma il lavoro all'uscita, sensore è solo un occhio.** Le prime tre sono difese, l'ultima è un senso.
+### ⑧ La Cabina: le parole sullo schermo
+**Bacheca** (queste schede) · **Cuore** (il battito: consumo, giri, worker) · **Bussola / Stelle Polari**
+(dove andiamo e il numero che conta) · **Governo AD** (decisioni e colori) · **Arsenale** (capacità e
+strumenti) · **Lettera a Nicola** (il racconto in italiano) · **Memoria viva** (chat e briefing da
+qualunque dispositivo) · **Quaderni senior** · **Scoperte e proposte** · **Grafo d'influenza** (cosa muove
+cosa) · **Diagnostica worker**.
+
+### Se dimentichi tutto il resto, quattro cose
+1. **Sensore = un occhio · sentinella = il business · guardiano = la macchina · cancello = l'uscita.** Le ultime tre sono difese, la prima è un senso.
 2. **Il colore comanda su tutto.** Nessun automatismo può far partire un 🔴 al posto tuo.
-3. **La macchina è progettata per non poterti mentire più che per essere veloce.** Metà del codice non produce valore: impedisce di raccontarti balle. È voluto.
+3. **Cieco e onesto vale più di sicuro e inventato.** Ogni ⚪ e ogni «2» esistono per questo.
+4. **Una tua correzione si chiude con un freno, non con una frase.** Tutto il resto del vocabolario serve a rendere quel freno dimostrabile.
 
-> 📖 **Il resto** — il giro spiegato passo per passo (15 passi) e i 7 livelli di comprensione stanno in
-> `MyCity-Vault/90-Memoria-AI/GLOSSARIO.md`, che è la versione completa di questo avviso.
+> 📖 **Il resto** — il giro spiegato passo per passo (15 passi), i 7 livelli di comprensione e ogni voce
+> per esteso stanno in `MyCity-Vault/90-Memoria-AI/GLOSSARIO.md`, la versione completa di questo avviso.
 >
 > 🔗 **Le tre schede si leggono in quest'ordine** — questa (*cosa vogliono dire le parole*) → «🛡️ I
 > guardiani della macchina» (*l'elenco dei singoli controlli, uno per uno*) → «🗺️ Com'è fatta la
 > macchina» (*i 9 pezzi e quanto sono grandi*). La prima serve a capire le altre due.
 >
-> 📊 **Fotografia del 2026-07-31 21:33** — tutti letti dai comandi, non a memoria:
-> **74 guardiani a ogni giro, 36 bloccanti**, su 157 script (fonte: `guardiani-check.mjs`) ·
-> **120 senior, 11 sensori, 5 mani, 13 servizi** sul VPS (fonte: `mappa-macchina.json`) ·
-> **27 fatti-chiave** e **North Star a 0** ordini consegnati (fonte: `registro-fatti.json`) ·
-> **408 difetti** su sé stessa, 167 aperti (fonte: `cantiere-difetti.json`) ·
-> **485 lezioni**, 31 con un freno vero (fonte: `apprendimento.json`).
+> 📊 **Fotografia del 2026-08-01 10:54** — tutti riletti dai comandi adesso, non copiati dal 31/7:
+> **74 guardiani a ogni giro, 36 bloccanti**, su **158** script (fonte: `guardiani-check.mjs`) ·
+> **120 senior, 11 sensori, 5 mani, 13 servizi, 5 skill, 5 workflow** (fonte: `mappa-macchina.json`) ·
+> **28 fatti-chiave** e **North Star a 0** ordini consegnati (fonte: `registro-fatti.json`) ·
+> **409 difetti** su sé stessa, **162 aperti** (fonte: `cantiere-difetti.json`) ·
+> **487 lezioni**, **31 con un freno vero** (fonte: `apprendimento.json`) ·
+> **7 malattie** censite · **53 capacità**, 46 ancora chiuse.
 >
-> ⚠️ **Scrivendo questo avviso sono saltati fuori due numeri stantii**, ed è il modo migliore per
-> capire perché la macchina è fatta così: la scheda «I guardiani della macchina» diceva **73**
-> controlli quando ne giravano già **74**, e la mappa diceva **26** fatti-chiave quando nel registro
-> erano già **27**. Non erano bugie: erano fotografie vecchie di un giorno lasciate in un file vivo.
-> Corretti entrambi il 2026-07-31 21:33. **È esattamente il mestiere del guardiano `coerenza-fatti`.**
+> ⚠️ **Tre numeri della fotografia del 31/7 erano già invecchiati in un giorno** — 157 → **158** script,
+> 408 → **409** difetti, 27 → **28** fatti-chiave. Non erano bugie: erano fotografie vecchie lasciate in
+> un file vivo. **È esattamente il mestiere del guardiano `coerenza-fatti`**, ed è la ragione per cui
+> questi numeri vanno riletti dai comandi e mai copiati a memoria.
 
 ## 📒 Registro dei fatti — fonte unica della verità · 2026-07-29 16:20
 
