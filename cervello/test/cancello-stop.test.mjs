@@ -11,7 +11,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { chiusiSenzaProva, allarmiSenzaCoda, lezioniSenzaGate, verdetto, ALLARMI } from "../cancello-stop.mjs";
+import { chiusiSenzaProva, allarmiSenzaCoda, lezioniSenzaGate, consegnaSenzaEsito, verdetto, ALLARMI } from "../cancello-stop.mjs";
 
 // ── ① difetto chiuso senza prova ──────────────────────────────────────────────
 
@@ -114,4 +114,34 @@ test("tre problemi diversi si dicono tutti e tre, non solo il primo", () => {
   assert.match(testo, /AR-9/);
   assert.match(testo, /consegne\/y\.md/);
   assert.match(testo, /L-3/);
+});
+
+// ── ④ lavoro consegnato senza esito (AR-154) ──────────────────────────────────
+//
+// Il rituale ESITO dipende da un passo manuale, e fallisce quando serve di piu': nello sprint del
+// 21-24/7 il quaderno di @tech e' rimasto fermo al 20/7 per 47 righe mentre decine di PR venivano
+// mergiate. Non e' pigrizia: sotto pressione si chiude il bug dopo, non si registra quello prima.
+
+test("IL CASO AR-154: codice committato e nessun quaderno toccato viene fermato", () => {
+  const r = consegnaSenzaEsito(["cervello/git-pr.mjs", "pannello/src/lib/nav.ts"]);
+  assert.notEqual(r, null, "consegnare codice senza dire com'e' andata e' il difetto");
+  assert.equal(r.quanti, 2);
+});
+
+test("se una riga di quaderno c'e', passa: il freno chiede l'esito, non un modulo", () => {
+  assert.equal(consegnaSenzaEsito(["cervello/git-pr.mjs", "memoria-squadra/tech.md"]), null);
+});
+
+test("un lavoro di sola memoria non deve un esito di reparto", () => {
+  // Aggiornare STATO o una scheda non e' un lavoro di reparto: chiedere l'esito qui sarebbe rumore.
+  assert.equal(consegnaSenzaEsito(["MyCity-Vault/90-Memoria-AI/STATO.md", "consegne/x.md"]), null);
+  assert.equal(consegnaSenzaEsito([]), null, "niente committato, niente da chiedere");
+});
+
+test("il verdetto dice QUALE comando lancio e perche' serve", () => {
+  const v = verdetto({ senzaEsito: { quanti: 2, esempio: ["cervello/x.mjs", "cervello/y.mjs"] } });
+  assert.equal(v.blocca, true);
+  const t = v.righe.join("\n");
+  assert.match(t, /chiusura-loop\.mjs registra/, "deve dare il comando, non solo il rimprovero");
+  assert.match(t, /atteso.*reale|calibrazione/i, "e dire perche' quella riga vale qualcosa");
 });

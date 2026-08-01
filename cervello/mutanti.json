@@ -1013,6 +1013,15 @@
    "cerca": "  if (codaToccata) return [];",
    "sostituisci": "  if (false) return [];",
    "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-154",
+   "lezione": "L-2026-0731-535",
+   "nome": "il cancello smette di vedere il codice consegnato: si torna a mergiare PR senza mai dire com e andata",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  const codice = fileCommittati.filter((f) => !CARTELLE_MEMORIA.some((m) => f.startsWith(m)));\n  if (!codice.length) return null;",
+   "sostituisci": "  const codice = [];\n  if (!codice.length) return null;",
+   "test": "cervello/test/cancello-stop.test.mjs"
   }
  ]
 }
