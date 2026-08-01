@@ -193,6 +193,86 @@ export function nuoviRispettoAlDebito(quadro = {}, baseline = {}) {
   return nuovi;
 }
 
+/**
+ * I difetti che possono PEGGIORARE DA SOLI, perché a muoversi è il metro e non l'agente.
+ *
+ *   · `quaderno_fermo` — matura col CALENDARIO: a 30 giorni dall'ultimo esito un quaderno intatto
+ *     cambia stato da solo, senza che nessuno abbia toccato niente.
+ *   · `kit_sottile`   — matura con la MEDIANA DEL PARCO: la soglia è il 40% della mediana, quindi un
+ *     kit può diventare «sottile» perché GLI ALTRI sono migliorati.
+ *
+ * Ogni altro difetto, se è nuovo, ha un autore.
+ */
+export const MATURANO_DA_SOLE = new Set([DIFETTO.QUADERNO_FERMO, DIFETTO.KIT_SOTTILE]);
+
+/**
+ * REGRESSIONE o DEBITO INVECCHIATO — la distinzione che questo metro non aveva, e il conto che ha
+ * presentato.
+ *
+ * IL DANNO, misurato. Il debito è dichiarato per NOME e per TIPO: registra QUALI difetti aveva un
+ * agente, non DA QUANTO. Il 2026-08-01 tredici quaderni — @ads-performance, @ai-copywriter,
+ * @ai-designer, @ai-video, @contabilita, @cro, @dispatch, @dispute, @influencer-partnership,
+ * @legale-privacy, @qa, @rider-fleet, @supporto — avevano tutti l'ultimo esito al 2026-07-01 e hanno
+ * passato insieme i 30 giorni. Nessuno li ha toccati: il 28/7 (dichiarazione del debito) erano a 27
+ * giorni, il 31/7 a 30, il 1/8 a 31. Da quel momento `stampo-check` esce 1, il test
+ * `un-quaderno-una-casa` fallisce e **i due workflow della CI sono rossi su main per chiunque** —
+ * anche per una PR che tocca due file markdown del vault e nessun quaderno.
+ *
+ * È la stessa forma che `cancello-lotto` cura da sé: «il tetto separa il debito (misurato, visibile,
+ * in calo) dalla regressione (bloccata subito)». Qui quella separazione non c'era, e il registro di
+ * questa casa dice già come va a finire: **un cancello sempre rosso viene aggirato al secondo giro,
+ * ed è peggio di non averlo.**
+ *
+ * LA REGOLA: un difetto nuovo è una **regressione** solo se il pezzo PROPRIO dell'agente è
+ * peggiorato — righe di esito sparite, kit rimpicciolito. Se il suo dato è intatto e a muoversi è
+ * stato il metro attorno, è **debito invecchiato**: si conta, si dichiara, si vede — e non blocca
+ * il lavoro di chi non c'entra.
+ *
+ * COSA NON FA, e va detto: non è un permesso. Gli invecchiati restano nel rapporto con nome e
+ * ragione, e la pressione perché rientrino sta dove c'è qualcuno che può agire — la voce «quaderni»
+ * della pagella e `chiusura-loop --gate` — non addosso a chi apre la prossima PR.
+ *
+ * Quando non si può misurare (l'agente non ha il suo valore nella baseline) l'esito è
+ * **regressione**, non invecchiamento: cieco non è verde, e il verso sicuro dell'incertezza è
+ * quello che blocca.
+ */
+export function classificaNuovi(nuovi = [], { ultimoOggi = {}, kitBytesOggi = {}, baseline = {} } = {}) {
+  const ultimoAllora = baseline.ultimo_esito || {};
+  const bytesAllora = baseline.kit_bytes || {};
+  const regressioni = [];
+  const invecchiati = [];
+  for (const n of nuovi) {
+    const v = maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora });
+    (v.invecchiato ? invecchiati : regressioni).push({ ...n, perche: v.perche });
+  }
+  return { regressioni, invecchiati };
+}
+
+/** Il cuore della distinzione: il pezzo PROPRIO dell'agente è peggiorato, sì o no? */
+function maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora }) {
+  if (!MATURANO_DA_SOLE.has(n.difetto)) {
+    return { invecchiato: false, perche: "questo difetto non matura da solo: se è nuovo, qualcuno l'ha introdotto" };
+  }
+  if (n.difetto === DIFETTO.QUADERNO_FERMO) {
+    const oggi = ultimoOggi[n.nome];
+    const allora = ultimoAllora[n.nome];
+    if (!oggi || !allora) {
+      return { invecchiato: false, perche: "non so da quando era fermo: senza l'ultimo esito nella baseline non distinguo, e cieco non è verde" };
+    }
+    return oggi >= allora
+      ? { invecchiato: true, perche: `nessun esito è sparito (ultimo ${oggi}, era ${allora}): a muoversi è stato il calendario` }
+      : { invecchiato: false, perche: `l'ultimo esito è tornato indietro (${allora} → ${oggi}): sono sparite delle righe` };
+  }
+  const oggi = kitBytesOggi[n.nome];
+  const allora = bytesAllora[n.nome];
+  if (!Number.isFinite(oggi) || !Number.isFinite(allora)) {
+    return { invecchiato: false, perche: "non so quanto pesava: senza i byte nella baseline non distinguo, e cieco non è verde" };
+  }
+  return oggi >= allora
+    ? { invecchiato: true, perche: `il kit non si è ristretto (${oggi}B, erano ${allora}B): si è alzata la mediana del parco` }
+    : { invecchiato: false, perche: `il kit si è ristretto (${allora}B → ${oggi}B)` };
+}
+
 /** I nomi del debito dichiarato che NON sono più in difetto: si possono togliere dalla lista. */
 export function debitoRiparato(quadro = {}, baseline = {}) {
   const noto = baseline.debito || {};
