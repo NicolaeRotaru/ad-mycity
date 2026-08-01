@@ -1022,6 +1022,22 @@
    "cerca": "  const codice = fileCommittati.filter((f) => !CARTELLE_MEMORIA.some((m) => f.startsWith(m)));\n  if (!codice.length) return null;",
    "sostituisci": "  const codice = [];\n  if (!codice.length) return null;",
    "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-475",
+   "nome": "il guardiano degli hook accetta la grafia sbagliata: «stop» minuscolo torna a passare, e il freno resta staccato in silenzio",
+   "file": "cervello/hooks-check.mjs",
+   "cerca": "    .filter((k) => !EVENTI.includes(k))",
+   "sostituisci": "    .filter((k) => !EVENTI.some((e) => e.toLowerCase() === k.toLowerCase()))",
+   "test": "cervello/test/hooks-check.test.mjs"
+  },
+  {
+   "difetto": "AR-475",
+   "nome": "il guardiano smette di vedere i freni staccati: un hook costruito e mai agganciato torna a passare (AR-455)",
+   "file": "cervello/hooks-check.mjs",
+   "cerca": "  return scriptDisponibili.filter((s) => !testo.includes(s));",
+   "sostituisci": "  return [];",
+   "test": "cervello/test/hooks-check.test.mjs"
   }
  ]
 }

@@ -8291,11 +8291,29 @@
       "verifica": {
         "comando": "node cervello/test/cancello-stop.test.mjs"
       }
+    },
+    {
+      "id": "AR-475",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-01 22:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Nicola 1/8: ha incollato a mano il blocco Stop in .claude/settings.json (il file e in deny per la macchina, quindi quel passo e per forza suo). Il blocco aveva DUE difetti e nessuno dei due ha fatto rumore: ① mancava la graffa finale — JSON non valido, quindi NESSUN hook caricato, permessi e deny sui .env compresi ② la chiave era «stop» minuscola, e i nomi degli eventi sono case-sensitive: una chiave che non combacia viene scartata in silenzio. Trovati solo perche Nicola ha chiesto «controlla se ho fatto giusto».",
+      "titolo": "Nessuno sorveglia il file dove vivono i freni: settings.json puo staccarli tutti senza che niente lo dica",
+      "causa_radice": "① Dieci guardiani nel cancello del lotto e zero su .claude/settings.json — cioe la macchina non ha modo di accorgersi di essere disarmata. ② Perche proprio li? Perche quel file e l unico pezzo del sistema che la macchina non puo toccare (deny), e cio che non si tocca non si controlla: il freno sul freno non era mai stato pensato. ③ Il modo di fallire e il peggiore: un JSON rotto non da errore in chat, un evento sconosciuto non da errore per niente, e un hook che lancia un file inesistente fallisce dentro un log di debug. Tre forme diverse dello stesso silenzio. ④ Non e un caso isolato: e la stessa forma di AR-455, dove il sorvegliante era costruito, provato e lasciato staccato per un giorno intero, con la scheda chiusa perche «la riga in settings.json c e» — chiuso sulla lettera, non sull effetto.",
+      "fix_proposto": "FATTO 🟡 `cervello/hooks-check.mjs`, agganciato al cancello del lotto (quindi in CI su ogni PR). Quattro domande: ① il file c e ed e JSON valido — se no si dice per primo e da solo, e il messaggio nomina il deny sui .env perche cade anche quello ② ogni chiave sotto `hooks` e un evento vero, con il suggerimento della grafia giusta quando sbaglia solo la maiuscola ③ ogni comando `node cervello/*.mjs` punta a un file che esiste ④ ogni script del cervello che sa leggere `--hook` dagli argomenti e attaccato a qualche evento — la regola e generale apposta (niente elenco di nomi da tenere aggiornato a mano: sarebbe il perimetro letterale di AR-347). Provato sui tre file VERI presi dalla storia di git: il blocco rotto di Nicola (exit 1), la versione con la chiave minuscola (exit 1), e la configurazione di ieri sera in cui cancello-stop.mjs esisteva e non era agganciato (exit 1). 13 prove + 2 mutazioni.",
+      "verifica": {
+        "comando": "node cervello/test/hooks-check.test.mjs"
+      }
     }
   ],
   "meta": {
     "aperti": 164,
     "in_corso": 0,
-    "chiusi": 248
+    "chiusi": 249
   }
 }
