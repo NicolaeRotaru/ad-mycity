@@ -26,6 +26,7 @@ import { basename, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import {
   DIFETTO,
+  classificaNuovi,
   codiceUscita,
   debitoRiparato,
   difettiAgente,
@@ -114,11 +115,15 @@ async function main() {
 
   const quadro = {};
   const quaderni = { vivi: 0, vuoti: 0, fermi: 0, assenti: 0 };
+  // L'ultimo esito di ognuno serve DOPO, per sapere se un quaderno fermo è fermo da sempre o se
+  // qualcuno gli ha appena tolto delle righe: sono due cose diverse e finora erano lo stesso numero.
+  const ultimoOggi = {};
   for (const n of roster) {
     const d = [...difettiAgente(readFileSync(join(AGENTS_DIR, `${n}.md`), "utf8"))];
     d.push(...difettiKit({ testo: kitTesto[n] ?? null, bytes: kitBytes[n], soglia, blocchiCopiati: copiati[n] || 0 }));
     const s = statoQuaderno(leggi(join(SQUADRA_DIR, `${n}.md`)), { adessoIso: oggiIso });
     quaderni[s.stato === "vivo" ? "vivi" : s.stato === "vuoto" ? "vuoti" : s.stato === "fermo" ? "fermi" : "assenti"]++;
+    if (s.ultimo) ultimoOggi[n] = s.ultimo;
     if (s.difetto) d.push(s.difetto);
     if (d.length) quadro[n] = d;
   }
@@ -132,6 +137,10 @@ async function main() {
   }
 
   const nuovi = baselineLetta ? nuoviRispettoAlDebito(quadro, baseline) : [];
+  // AR-472 — un difetto che è maturato da solo (il calendario, la mediana del parco) non è una
+  // regressione di chi passa di lì: si conta e si dichiara, ma non blocca. Il perché sta in
+  // `classificaNuovi`, dentro stampo-metro.mjs, dove un test lo può eseguire.
+  const { regressioni, invecchiati } = classificaNuovi(nuovi, { ultimoOggi, kitBytesOggi: kitBytes, baseline });
   const guariti = baselineLetta ? debitoRiparato(quadro, baseline) : [];
   const perTipo = {};
   for (const d of Object.values(quadro)) for (const x of d) perTipo[x] = (perTipo[x] || 0) + 1;
@@ -148,16 +157,20 @@ async function main() {
     con_difetti: Object.keys(quadro).length,
     senza_difetti: roster.length - Object.keys(quadro).length,
     per_tipo: perTipo,
+    _come_si_leggono_i_nuovi:
+      "AR-472 — `nuovi_rispetto_al_debito` è la somma: tutto ciò che non era nel debito dichiarato. Non è il verdetto. Il verdetto sono le `regressioni` (qualcuno ha peggiorato il suo pezzo: righe di esito sparite, kit rimpicciolito → il guardiano esce 1) separate dagli `invecchiati` (il pezzo è intatto, si è mosso il metro attorno: i 30 giorni del calendario, la mediana del parco → si contano e non bloccano). Chi conta la lista intera per decidere legge 12 difetti nuovi dove non c'è nessun autore.",
     debito_dichiarato_il: baseline.dichiarato_il || null,
     nuovi_rispetto_al_debito: nuovi,
+    regressioni,
+    invecchiati,
     debito_riparato_da_togliere: guariti,
     baseline_letta: baselineLetta,
   };
 
-  const rc = codiceUscita({ cieco: baselineLetta ? 0 : 1, nuovi: nuovi.length });
-  const sintesi = nuovi.length
-    ? `${nuovi.length} difetti NUOVI oltre il debito dichiarato`
-    : `nessun difetto nuovo · debito noto: ${Object.keys(quadro).length}/${roster.length} agenti`;
+  const rc = codiceUscita({ cieco: baselineLetta ? 0 : 1, nuovi: regressioni.length });
+  const sintesi = regressioni.length
+    ? `${regressioni.length} regressioni oltre il debito dichiarato`
+    : `nessuna regressione · ${invecchiati.length} invecchiati · debito noto: ${Object.keys(quadro).length}/${roster.length} agenti`;
 
   if (!PARCO_FINTO) {
     mkdirSync(join(STATE_PATH, ".."), { recursive: true });
@@ -171,11 +184,18 @@ async function main() {
     console.log(`\n🏗️ STAMPO-CHECK — ${quando}`);
     if (!baselineLetta) {
       console.log(`   ⛔ CIECO: non ho potuto leggere il debito dichiarato (${BASELINE_PATH}) — non è un verde.`);
-    } else if (nuovi.length) {
-      console.log(`   ⛔ ${nuovi.length} difetti NUOVI rispetto al debito dichiarato il ${baseline.dichiarato_il}:`);
-      for (const n of nuovi.slice(0, 20)) console.log(`   • @${n.nome.padEnd(24)} ${n.difetto}`);
+    } else if (regressioni.length) {
+      console.log(`   ⛔ ${regressioni.length} REGRESSIONI rispetto al debito dichiarato il ${baseline.dichiarato_il}:`);
+      for (const n of regressioni.slice(0, 20)) console.log(`   • @${n.nome.padEnd(24)} ${n.difetto} — ${n.perche}`);
     } else {
-      console.log(`   ✅ Niente di nuovo. Debito dichiarato il ${baseline.dichiarato_il}, invariato.`);
+      console.log(`   ✅ Nessuna regressione. Debito dichiarato il ${baseline.dichiarato_il}.`);
+    }
+    // Gli invecchiati non bloccano, ma non si nascondono: un debito che si allarga in silenzio è
+    // indistinguibile da un debito che non c'è.
+    if (invecchiati.length) {
+      console.log(`\n   ⏳ ${invecchiati.length} peggiorati DA SOLI (si è mosso il metro, non l'agente) — contano, non bloccano:`);
+      for (const n of invecchiati.slice(0, 20)) console.log(`   • @${n.nome.padEnd(24)} ${n.difetto} — ${n.perche}`);
+      console.log(`   → Rientrano solo se quei reparti chiudono il loop: node cervello/chiusura-loop.mjs --sonda`);
     }
     console.log(
       `\n   Parco: ${roster.length} agenti · soglia spessore kit ${soglia}B (40% della mediana) · ` +

@@ -8209,6 +8209,39 @@
       "titolo": "Il potatore dell archivio misurava un file che non esiste: calcolava l indentazione a 2 spazi su un file scritto a 1",
       "causa_radice": "① `pianoPotatura` calcolava `JSON.stringify(dati, null, 2)` fisso, ma `apprendimento.json` e scritto — e SERVITO — a uno spazio. ② Su un file da un mega la differenza e ~40 KB, il 4% del tetto di GitHub: abbastanza da ribaltare il verdetto. ③ Il 31/7 il file reale pesava 1.008.675 byte (40.000 sotto il limite) e il potatore usciva 1 dicendo «mancano 129 byte», facendo diventare rosso il cancello su una misura sbagliata. ④ Nessuno se ne era accorto perche finche il file era piccolo i due numeri stavano entrambi sotto il tetto: il difetto e diventato visibile solo al superamento della soglia SBAGLIATA.",
       "fix_proposto": "FATTO 🟡 `indentazioneDi(testo)` legge l indentazione vera dal file e `pianoPotatura` la usa. Adesso misura la cosa servita, non una sua riscrittura ipotetica. 2 prove + 1 mutazione."
+    },
+    {
+      "id": "AR-472",
+      "stato": "aperto",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-01 12:55",
+      "nato_come": "scoperta",
+      "origine": "trovato perche i due workflow della CI erano rossi sulla PR #651 (il glossario, due file markdown). Diagnosi: il rosso era su main e valeva per chiunque. Nota a margine: il commit af5a74c su main si intitola «il referto che registra il salto a 13 quaderni fermi (AR-473)», ma AR-473 non esiste nel cantiere — massimo id 471. Il difetto era stato visto e mai registrato: e la malattia n.4 del registro, «si dichiara fatto cio che nessuno ha confermato».",
+      "titolo": "Il metro dello stampo conta il tempo che passa come una regressione di chi passa di li, e blocca la CI per tutti",
+      "causa_radice": "Il debito in cervello/stampo-baseline.json e dichiarato per NOME e per TIPO: registra QUALI difetti aveva un agente, non DA QUANTO. Due difetti pero maturano DA SOLI, perche la soglia si muove senza che nessuno tocchi niente: `quaderno_fermo` col calendario (30 giorni da GIORNI_FERMO) e `kit_sottile` con la mediana del parco (40%, quindi un kit diventa sottile se gli ALTRI migliorano). Misurato: 13 quaderni con ultimo esito 2026-07-01 erano a 27 giorni il 28/7 quando il debito fu dichiarato, a 30 il 31/7, a 31 il 1/8 — e sono diventati «nuovi» tutti insieme senza autore. Da li: stampo-check exit 1 → il test un-quaderno-una-casa fallisce → «Test del cervello» e «Cancello del lotto» rossi su OGNI pull request, anche su una che tocca due file markdown del vault. E un rosso non attribuibile a chi l'ha causato e esattamente cio che cancello-lotto.yml e nato per impedire.",
+      "fix_proposto": "① La baseline ricorda anche il valore proprio di ogni agente: `ultimo_esito` (la data) e `kit_bytes` (il peso), misurati sul parco vero. ② `classificaNuovi` in cervello/stampo-metro.mjs (funzione pura) divide i difetti nuovi in REGRESSIONI — il pezzo proprio dell'agente e peggiorato: esiti spariti, kit rimpicciolito → blocca — e DEBITO INVECCHIATO — il suo dato e intatto, si e mosso il metro attorno → si conta, si stampa con nome e ragione, non blocca. ③ Quando il valore manca dalla baseline l'esito e «regressione»: cieco non e verde, e il verso sicuro dell'incertezza e quello che blocca. ④ Gli invecchiati restano nel rapporto e nel JSON: non e un condono, e la pressione perche rientrino resta dove c'e qualcuno che puo agire (la voce «quaderni» della pagella, chiusura-loop --gate), non addosso a chi apre la prossima PR.",
+      "nota_fix": "Curato il 2026-08-01 nel lotto 36. Provato forzando una regressione vera sul repo vero: tolte le righe ESITO a @dispatch → stampo-check esce 1 e nomina il colpevole; rimesse → esce 0. NON e stata aggiunta una voce in malattie.json, ed e una scelta dichiarata: la firma di questa malattia — un verdetto che conta «nuovi» rispetto a una baseline per sola categoria — esiste in UN punto solo (`codiceUscita({nuovi})` e usato da stampo-check e basta; spazzata-fratelli e cancello-lotto la distinzione ce l'hanno gia). Un pattern regex avrebbe trovato o quell'unico file, o le 15 occorrenze di «giorni trascorsi» quasi tutte innocue — e un guardiano che grida al lupo si impara a ignorare. Il freno e stato messo dove puo fallire davvero: la prova ② ter itera TUTTE le chiavi di DIFETTO, quindi un tipo aggiunto domani o e dichiarato in MATURANO_DA_SOLE con la sua ragione, o cade nel verso che blocca.",
+      "verifica": {
+        "comando": "node cervello/test/il-tempo-non-e-una-regressione.test.mjs"
+      }
+    },
+    {
+      "id": "AR-473",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "verifica-che-non-verifica",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-01 13:05",
+      "nato_come": "scoperta",
+      "origine": "trovato dal secondo giro del lotto 36, addosso al lotto stesso: avevo appena riscritto cantiere-difetti.json con l indentazione sbagliata (+8235/-8217 righe per aggiungere UNA scheda) e il cancello, lanciato pochi minuti prima, aveva detto «✅ forma dei JSON toccati (exit 0)».",
+      "titolo": "Il cancello dichiara verde la forma dei JSON quando il lavoro non e ancora committato, cioe proprio quando lo si lancia",
+      "causa_radice": "`forma-json.mjs` confronta i JSON che il RAMO tocca, e prende i percorsi dal diff committato verso origin/main. Il lavoro in corso nel working tree non lo vede: lanciato a meta lavoro stampa «nessun JSON toccato da questo ramo» ed esce 0. Il cancello del lotto riporta quello 0 come «✅ forma dei JSON toccati», che e un verde su una misura che non e stata fatta — la stessa famiglia di AR-322 (cieco non e verde) applicata al passo che dovrebbe proteggere dai diff illeggibili. Il rischio non e teorico: la riformattazione che ho appena evitato valeva 16.452 righe, cioe una PR che nessuno rilegge e un conflitto totale per qualunque altra sessione tocchi quel file.",
+      "fix_proposto": "Far misurare a `forma-json.mjs` anche il working tree (git diff senza revisione + git status per i non tracciati), oppure — se si vuole tenere il perimetro al ramo — farlo USCIRE 2 quando non ha trovato niente da confrontare mentre ci sono JSON modificati sul disco, cosi il cancello lo stampa come ⚪ e non come ✅. Da decidere quale dei due: il primo lo rende utile durante il lavoro, il secondo si limita a smettere di mentire. Prova comportamentale attesa: JSON riformattato solo nel working tree → il cancello NON deve dire verde su quel passo.",
+      "nota_fix": "NON curato in questo lotto, di proposito: malattia diversa da AR-472 e allargare il lotto a meta e il modo classico di non finirlo. Nessuna `verifica` sulla scheda apposta — un comando vuoto lo eseguirebbe auto-fix e potrebbe uscire 0, richiudendo da solo un difetto mai riparato."
     }
   ],
   "meta": {

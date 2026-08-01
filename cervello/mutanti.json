@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-07-31 22:45",
+ "aggiornato": "2026-08-01 12:50",
  "mutanti": [
   {
    "lotto": 30,
@@ -977,6 +977,15 @@
    "cerca": "  const m = /^\\{\\r?\\n([ \\t]+)\"/.exec(String(testo));\n  return m ? m[1].length : 2;",
    "sostituisci": "  return 2;",
    "test": "cervello/test/archivi-senza-tetto.test.mjs"
+  },
+  {
+   "lotto": 36,
+   "difetto": "AR-472",
+   "nome": "il metro torna a non distinguere: ogni difetto maturato da solo passa per invecchiato, anche quando qualcuno ha tolto le righe",
+   "file": "cervello/stampo-metro.mjs",
+   "cerca": "    return oggi >= allora\n      ? { invecchiato: true, perche: `nessun esito è sparito (ultimo ${oggi}, era ${allora}): a muoversi è stato il calendario` }\n      : { invecchiato: false, perche: `l'ultimo esito è tornato indietro (${allora} → ${oggi}): sono sparite delle righe` };",
+   "sostituisci": "    return { invecchiato: true, perche: \"tutto invecchiato\" };",
+   "test": "cervello/test/il-tempo-non-e-una-regressione.test.mjs"
   }
  ]
 }
