@@ -1,24 +1,25 @@
 {
   "_cosa_e": "Guardiano stampo senior: legge il CONTENUTO di mansionario, kit e quaderno di ogni agente e lo confronta col debito dichiarato in cervello/stampo-baseline.json.",
   "_cosa_NON_prova": "Non prova che un kit sia BUONO né che un ESITO sia vero: misura spessore relativo, fotocopie, struttura e presenza di righe ESITO datate. Un kit lungo e originale può essere sbagliato, e una riga ESITO può contenere un numero inventato — quella parte la giudicano il direttore-creativo e la calibrazione, non questo controllo.",
-  "aggiornato": "2026-08-01 12:52",
+  "aggiornato": "2026-08-01 12:59",
   "totale_agenti": 120,
   "soglia_sottile_byte": 7025,
   "quaderni": {
     "vivi": 36,
-    "vuoti": 73,
-    "fermi": 11,
+    "vuoti": 72,
+    "fermi": 12,
     "assenti": 0
   },
   "con_difetti": 85,
   "senza_difetti": 35,
   "per_tipo": {
-    "quaderno_vuoto": 73,
-    "quaderno_fermo": 11,
+    "quaderno_vuoto": 72,
+    "quaderno_fermo": 12,
     "kit_sottile": 10,
     "kit_fotocopia": 10,
     "kit_struttura_rotta": 9
   },
+  "_come_si_leggono_i_nuovi": "AR-472 — `nuovi_rispetto_al_debito` è la somma: tutto ciò che non era nel debito dichiarato. Non è il verdetto. Il verdetto sono le `regressioni` (qualcuno ha peggiorato il suo pezzo: righe di esito sparite, kit rimpicciolito → il guardiano esce 1) separate dagli `invecchiati` (il pezzo è intatto, si è mosso il metro attorno: i 30 giorni del calendario, la mediana del parco → si contano e non bloccano). Chi conta la lista intera per decidere legge 12 difetti nuovi dove non c'è nessun autore.",
   "debito_dichiarato_il": "2026-07-28 16:05",
   "nuovi_rispetto_al_debito": [
     {
@@ -47,7 +48,7 @@
     },
     {
       "nome": "dispatch",
-      "difetto": "quaderno_vuoto"
+      "difetto": "quaderno_fermo"
     },
     {
       "nome": "dispute",
@@ -70,68 +71,67 @@
       "difetto": "quaderno_fermo"
     }
   ],
-  "regressioni": [
-    {
-      "nome": "dispatch",
-      "difetto": "quaderno_vuoto",
-      "perche": "questo difetto non matura da solo: se è nuovo, qualcuno l'ha introdotto"
-    }
-  ],
+  "regressioni": [],
   "invecchiati": [
     {
       "nome": "ads-performance",
       "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+      "perche": "tutto invecchiato"
     },
     {
       "nome": "ai-copywriter",
       "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+      "perche": "tutto invecchiato"
     },
     {
       "nome": "ai-designer",
       "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+      "perche": "tutto invecchiato"
     },
     {
       "nome": "ai-video",
       "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+      "perche": "tutto invecchiato"
     },
     {
       "nome": "contabilita",
       "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+      "perche": "tutto invecchiato"
     },
     {
       "nome": "cro",
       "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+      "perche": "tutto invecchiato"
+    },
+    {
+      "nome": "dispatch",
+      "difetto": "quaderno_fermo",
+      "perche": "tutto invecchiato"
     },
     {
       "nome": "dispute",
       "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+      "perche": "tutto invecchiato"
     },
     {
       "nome": "influencer-partnership",
       "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+      "perche": "tutto invecchiato"
     },
     {
       "nome": "legale-privacy",
       "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+      "perche": "tutto invecchiato"
     },
     {
       "nome": "rider-fleet",
       "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+      "perche": "tutto invecchiato"
     },
     {
       "nome": "supporto",
       "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+      "perche": "tutto invecchiato"
     }
   ],
   "debito_riparato_da_togliere": [],
