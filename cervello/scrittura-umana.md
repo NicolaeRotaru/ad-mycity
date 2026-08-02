@@ -14,7 +14,47 @@ Il **titolo** di ogni card è la prima — e spesso l'unica — cosa che legge. 
 - i `titolo` in `ultimo-briefing.json` (**azioni** e **opportunità**) → card "Cosa ho scoperto e propongo";
 - i `titolo` in `intenzioni-nicola.json` (**prossime_mosse**) → card "Mosse di Nicola";
 - il **titolo** di ogni proposta/azione che accodo nella coda DB (worker);
-- le righe della **Sala Operativa** e i titoli in **DECISIONI**.
+- le righe della **Sala Operativa** e i titoli in **DECISIONI**;
+- **↳ e da AR-478 anche: la chat con Nicola, il titolo e il corpo di ogni PR, i messaggi di commit.**
+
+> ⚠️ **AR-478 — il buco che è costato due ore.** Fino al 2/8/2026 questa regola valeva solo per le card
+> del Pannello. La chat e le PR — cioè i **due posti dove Nicola legge davvero** — erano fuori, e infatti
+> lì il gergo era al massimo. Il conto, detto da lui: *«ho perso 2 ore solo per capire due botta e
+> risposta nelle ultime 5 PR»*. La prova che il problema è strutturale e non estetico: per leggere la
+> macchina è servito scrivere un **glossario in 11 parti**. Un vocabolario privato che ha bisogno di un
+> dizionario non è una lingua — è una tassa che Nicola paga a ogni riga.
+
+---
+
+## I tre blocchi (obbligatori su ogni testo lungo: PR, consegne, risposte in chat)
+
+Un testo lungo comincia **sempre** rispondendo a queste tre domande, in quest'ordine, prima di
+qualunque dettaglio. Sono le uniche tre cose che Nicola deve sapere per decidere:
+
+```
+## In parole semplici      ← cosa ho fatto, 2-3 righe, zero codici, come se glielo dicessi a voce
+## Cosa cambia per te      ← la conseguenza concreta per lui e per l'azienda (max 3 punti)
+## Cosa devi fare          ← una cosa sola, oppure «niente, è già a posto»
+
+---
+## Dettagli tecnici        ← DA QUI IN GIÙ scrivo per chi esegue: codici, comandi, sigle, numeri.
+                             Nicola può fermarsi sopra questa riga e avere capito tutto.
+```
+
+La riga **«Dettagli tecnici»** è il confine: sopra si scrive per Nicola, sotto per chi esegue (me,
+un senior, la CI). Il gergo non è vietato — è **relegato sotto la riga**. Non perdo precisione: la
+sposto dove serve.
+
+**Le tre regole dure sopra la riga:**
+1. **Zero codici** — niente `AR-478`, `#654`, `cervello/…​.mjs`, `exit 2`, comandi `git`.
+2. **Zero parole mie** — niente cancello/freno/guardiano/sonda/tetto/lotto/mutazione/spazzata.
+   Ognuna ha la sua traduzione: `node cervello/parole-difficili.mjs --dizionario`.
+3. **Frasi corte** — un'idea per frase. Se una frase supera le 30 parole, spezzala.
+
+**Il controllo, prima di consegnare** (misura il testo, non lo giudica):
+```bash
+node cervello/parole-difficili.mjs bozza.md     # 0 = si legge · 1 = serve tradurre · 2 = niente da misurare
+```
 
 > Non vale invece per il **Contenuto** (il file `consegne/…`, i path, i comandi, gli ID Stripe): quello è per
 > **chi esegue** e lì i dettagli tecnici ci devono stare, precisi. La regola è: **titolo per l'occhio umano,
@@ -46,6 +86,17 @@ Il **titolo** di ogni card è la prima — e spesso l'unica — cosa che legge. 
 | `Fix BLOCCANTE guardrail: autopilot pubblica 🟡 in LIVE — gate autopilot.mjs:120 blocca solo rosso, renderlo fail-closed` | **L'autopilot non deve più pubblicare nulla sul brand senza la tua firma (oggi esce tutto ciò che non è «rosso»)** |
 
 I codici delle celle di sinistra non spariscono: **scendono nel Contenuto**, dove chi esegue li trova precisi.
+
+### Prima → Dopo, sui titoli delle PR (esempi veri, quelli che Nicola non è riuscito a leggere)
+
+| Come l'ho scritto (2/8/2026) | Come si scrive |
+|---|---|
+| `AR-474 + AR-477: il contatore dell'abitudine, i limiti del freno sull'esito, e i due canali` | **Adesso non posso più consegnarti lavoro senza dirti com'è andato — e tu lo vedi nel Pannello** |
+| `AR-475: il file dove vivono i freni adesso ha il suo guardiano` | **Un errore di battitura nelle impostazioni spegneva tutte le protezioni in silenzio: ora se ne accorge subito** |
+| `Il cancello dello Stop: il freno sull'abitudine, non sulle sue istanze (AR-472)` | **Quando dico «fatto» ora c'è un controllo che verifica se è vero davvero** |
+| `Il canale di misura-cieca, e il potatore che misurava un file inesistente` | **Due controlli davano il via libera guardando un file che non esiste: erano verdi a vuoto** |
+
+Il metro: **il titolo dice cosa è cambiato per l'azienda, non come l'ho costruito.**
 
 ---
 

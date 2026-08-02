@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-30 17:10",
+  "aggiornato": "2026-08-02 19:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8291,11 +8291,28 @@
       "verifica": {
         "comando": "node cervello/test/cancello-stop.test.mjs"
       }
+    },
+    {
+      "id": "AR-478",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-02 19:05",
+      "nato_come": "correzione-di-nicola",
+      "origine": "Nicola 2/8: «perdo tantissimo tempo a capire i termini e il modo in cui spieghi… ho perso 2 ore solo per capire due botta e risposta nelle ultime 5 PR».",
+      "titolo": "Scrivo a Nicola in una lingua che ha bisogno di un glossario: la regola di scrittura umana non copriva la chat né le PR",
+      "causa_radice": "① La regola esisteva (cervello/scrittura-umana.md) ma il suo perimetro era dichiarato e limitato ai TITOLI delle card del Pannello. ② Chat e corpi delle PR — i due posti dove Nicola legge davvero — erano esplicitamente fuori («non vale per il Contenuto»), e lì il gergo è al massimo: nel solo titolo+4 righe della PR 654 ci sono 16 punti da tradurre. ③ Perché non me ne accorgo mentre scrivo: le metafore (cancello, freno, potatore, spazzata) sono comode PER ME, comprimono un concetto che io ho già in testa — il costo di decomprimerle lo paga chi legge, e chi legge non sono io. ④ La prova che è strutturale e non estetico: per rendere leggibile la macchina è servito scrivere un GLOSSARIO in 11 parti (PR 651). Un vocabolario privato che richiede un dizionario non è una lingua, è una tassa. ⑤ Il costo misurato: 2 ore di Nicola su 2 scambi.",
+      "fix_proposto": "FATTO 🟡 ① perimetro della regola esteso a chat + titoli/corpi PR + messaggi di commit; ② formato obbligatorio dei tre blocchi (In parole semplici · Cosa cambia per te · Cosa devi fare) prima della riga «Dettagli tecnici», sotto la quale il gergo resta legittimo; ③ misuratore cervello/parole-difficili.mjs con dizionario di 40 traduzioni: boccia codici (AR-…, #…, path, exit …, git …) e parole della macchina sopra la riga, e pretende i tre blocchi sui testi lunghi; ④ tabella prima→dopo sui titoli veri delle 5 PR che Nicola non ha capito. 12 prove, tutte su testo preso dalle PR vere.",
+      "verifica": {
+        "comando": "node cervello/test/parole-difficili.test.mjs"
+      }
     }
   ],
   "meta": {
     "aperti": 164,
     "in_corso": 0,
-    "chiusi": 248
+    "chiusi": 249
   }
 }

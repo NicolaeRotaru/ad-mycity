@@ -295,7 +295,14 @@ Quando metti un senior al lavoro, pretendi il **risultato fatto**, non un'analis
 - **🟡/🔴 toccano il mondo reale** → il senior li prepara **completi e pronti a partire** (testo esatto,
   destinatario, importo, canale), salva il contenuto in `consegne/` e **accoda l'azione** in
   `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md`. Al via di Nicola, l'azione parte.
-  - **✍️ Scrivi il TITOLO come lo diresti a voce** (regola completa: `cervello/scrittura-umana.md`). Il titolo
+  - **✍️ Scrivi il TITOLO come lo diresti a voce** (regola completa: `cervello/scrittura-umana.md` — vale
+    anche per **la chat con Nicola, i titoli e i corpi delle PR, i messaggi di commit**: AR-478). Ogni testo
+    lungo apre con i **tre blocchi** — *In parole semplici* · *Cosa cambia per te* · *Cosa devi fare* — e solo
+    dopo la riga **Dettagli tecnici** arrivano codici, comandi e sigle. Sopra quella riga: zero codici
+    (`AR-…`, `#…`, path, `exit …`) e zero parole della macchina (cancello, freno, guardiano, tetto, lotto,
+    sonda, mutazione, spazzata) — ognuna ha la sua traduzione in `node cervello/parole-difficili.mjs
+    --dizionario`. Prima di consegnare, misura la bozza: `node cervello/parole-difficili.mjs bozza.md`.
+    Il titolo
     dell'azione è il testo grosso della card: attacca con un verbo e una cosa vera («Chiama il fornaio per
     confermare l'ordine»), **tieni fuori dal titolo** sigle (`AR-004`, `#16.2`), ID (`phc_…`, ID Stripe), path
     e numeri-comando (`SQL 107`) — quelli scendono nel Contenuto, per chi esegue. Il metro è la lettera a Nicola:
