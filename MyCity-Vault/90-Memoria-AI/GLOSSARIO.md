@@ -427,6 +427,44 @@ Se passa, la memoria finisce su `main` e il Pannello la mostra.
 
 ---
 
+## Parte 10-bis — Le parole vere del mestiere (queste valgono anche fuori da qui)
+
+Le parti da 1 a 10 spiegano le parole **della macchina**: sono nomi che ho dato io alle sue parti, e
+funzionano solo dentro MyCity. Questa parte è diversa: sono le parole che usano **tutti gli
+sviluppatori del mondo**. Impararle serve a te per parlare con chiunque metta le mani sul sito, non
+solo con me.
+
+Misurate il 2/8/2026: erano **19 parole** che usavo nei testi e che non stavano da nessuna parte in
+questo glossario. Nicola non poteva studiarle perché non erano scritte.
+
+| Parola | Cosa vuol dire | Esempio vero, successo qui |
+|---|---|---|
+| **commit** | Un salvataggio del lavoro, con scritto cosa hai cambiato e perché | Ogni volta che finisco un pezzo faccio un commit: resta la traccia di chi ha cambiato cosa |
+| **branch** (ramo) | Una copia separata dove provo le modifiche senza toccare il sito vero | Le modifiche al marketplace le faccio sempre in un ramo: se sbaglio, il sito online non se ne accorge |
+| **merge** (fusione) | Unire il ramo di prova al sito vero: da quel momento la modifica è reale | Il 2/8 la modifica sul controllo di fine lavoro è stata unita, e da lì vale per tutti |
+| **PR** (pull request) | La richiesta di unire un ramo, con la spiegazione di cosa cambia. È quello che leggi e approvi | Le 5 PR che ti hanno fatto perdere 2 ore erano queste |
+| **deploy** | Mettere online la nuova versione del sito | Il marketplace passa da Render a Vercel: quello è un deploy su un altro fornitore |
+| **rollback** | Tornare alla versione di prima quando qualcosa si rompe | Se un deploy rompe il checkout, il rollback riporta il sito com'era in pochi minuti |
+| **CI** | Il controllo automatico che gira a ogni PR prima che si possa unire | «La CI è rossa» vuol dire: un controllo ha detto no, la modifica non passa |
+| **endpoint** | Un indirizzo a cui il sito chiede una cosa precisa | L'indirizzo che restituisce gli ordini di un negozio è un endpoint |
+| **API** | Il modo in cui due programmi si parlano fra loro | Leggo i dati dei negozi dalle API di Supabase, in sola lettura |
+| **webhook** | Un avviso che un servizio esterno manda **da solo** quando succede qualcosa | Quando un cliente paga, Stripe manda un webhook e l'ordine risulta pagato |
+| **payout** | Il giro di soldi da MyCity al negozio, dopo che il cliente ha pagato | Ordine pagato ma payout non partito da 24 ore → allarme |
+| **onboarding** | Portare dentro qualcuno di nuovo e farlo partire davvero | L'onboarding di un negozio: vetrina, catalogo, pagamenti, primo incasso di prova |
+| **churn** | Chi se ne va: negozi o clienti che smettono di usare MyCity | Un negozio fermo da 14 giorni è un rischio di churn |
+| **pipeline** | Una catena di passaggi che si eseguono in fila, ognuno dopo l'altro | Contenuti pro: brief → varianti → critica → produzione → controllo → consegna |
+| **baseline** | Il punto di partenza da cui misuri se una cosa è migliorata o peggiorata | Prima di cambiare come scrivo: 263 punti difficili su 60 testi. Quella è la baseline |
+| **runtime** | Mentre il programma gira davvero, non mentre lo leggi | Un difetto trovato a runtime è un difetto visto succedere, non immaginato |
+| **hook** | Un comando che parte da solo quando succede una cosa precisa | Quando dico «ho finito», parte da solo il controllo che verifica se è vero |
+| **fail-closed** | Nel dubbio blocca, invece di lasciar passare | Se non riesco a misurare se il lavoro è a posto, non do il via libera |
+| **typecheck** | Un controllo che legge il codice e trova gli errori senza eseguirlo | Passa prima di ogni consegna del Pannello |
+
+> ⚠️ **Tre parole mie che invece muoiono, non studiarle:** *potatore*, *cricchetto*, *verdetto muto*.
+> Me le sono inventate io e non le usa nessun altro al mondo. Al loro posto: «la pulizia automatica»,
+> «il limite che scende e non risale», «lavoro consegnato senza dire com'è andato».
+
+---
+
 ## Parte 11 — I livelli di comprensione
 
 | Livello | Cosa spiega | La domanda a cui risponde |

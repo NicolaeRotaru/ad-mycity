@@ -1,0 +1,67 @@
+{
+  "_cosa_e": "Quanto è difficile leggere quello che scrivo a Nicola. Meno è, meglio è.",
+  "misurato": "2026-08-02 19:45",
+  "testi": 60,
+  "parole": 52008,
+  "problemi": 810,
+  "per_testo": 13.5,
+  "per_tipo": {
+    "incisi": 488,
+    "frase-lunga": 203,
+    "manca-una-risposta": 90,
+    "manca-esempio": 29
+  },
+  "parole_fuori_glossario": {},
+  "peggiori": [
+    {
+      "file": "consegne/vendite/2026-07-06-shortlist-onboarding-post-9-7.md",
+      "voto": 16.6,
+      "problemi": 15
+    },
+    {
+      "file": "consegne/vendite/2026-06-30-primi-10-lead-food-centro.md",
+      "voto": 10.2,
+      "problemi": 11
+    },
+    {
+      "file": "consegne/tech/pr-intelligence-upgrade-body.md",
+      "voto": 9.7,
+      "problemi": 5
+    },
+    {
+      "file": "consegne/tech/pr-diretta-contenuti-stabile-body.md",
+      "voto": 8.7,
+      "problemi": 5
+    },
+    {
+      "file": "consegne/vendite/2026-07-18-whatsapp-anchor-pi26.md",
+      "voto": 7.5,
+      "problemi": 7
+    },
+    {
+      "file": "consegne/trust-safety/2026-07-06-gate-codice-badge-verificato.md",
+      "voto": 7.2,
+      "problemi": 17
+    },
+    {
+      "file": "consegne/vendite/2026-07-20-playbook-scout-negozi-categorie-mancanti.md",
+      "voto": 7.1,
+      "problemi": 20
+    },
+    {
+      "file": "consegne/vendite/2026-07-06-lista-27-botteghe-food-da-chiamare.md",
+      "voto": 6.9,
+      "problemi": 25
+    },
+    {
+      "file": "consegne/vendite/2026-07-06-scout-negozi-categorie-mancanti.md",
+      "voto": 6.7,
+      "problemi": 28
+    },
+    {
+      "file": "consegne/vendite/2026-07-20-playbook-capillarita.md",
+      "voto": 6.6,
+      "problemi": 16
+    }
+  ]
+}

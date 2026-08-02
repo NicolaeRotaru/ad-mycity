@@ -18,42 +18,72 @@ Il **titolo** di ogni card è la prima — e spesso l'unica — cosa che legge. 
 - **↳ e da AR-478 anche: la chat con Nicola, il titolo e il corpo di ogni PR, i messaggi di commit.**
 
 > ⚠️ **AR-478 — il buco che è costato due ore.** Fino al 2/8/2026 questa regola valeva solo per le card
-> del Pannello. La chat e le PR — cioè i **due posti dove Nicola legge davvero** — erano fuori, e infatti
-> lì il gergo era al massimo. Il conto, detto da lui: *«ho perso 2 ore solo per capire due botta e
-> risposta nelle ultime 5 PR»*. La prova che il problema è strutturale e non estetico: per leggere la
-> macchina è servito scrivere un **glossario in 11 parti**. Un vocabolario privato che ha bisogno di un
-> dizionario non è una lingua — è una tassa che Nicola paga a ogni riga.
+> del Pannello. La chat e le PR — cioè i **due posti dove Nicola legge davvero** — erano fuori. Il conto,
+> detto da lui: *«ho perso 2 ore solo per capire due botta e risposta nelle ultime 5 PR»*.
+
+> 🔁 **La diagnosi sbagliata, e la correzione di Nicola.** La prima stesura di questa regola diceva:
+> *il problema sono le parole tecniche, quindi vietale*. Nicola: **«molte parole che usi sono parole
+> tecniche e le voglio imparare … mi va bene che le usi. Però il modo in cui mi spieghi mi viene
+> difficile da capire.»** Aveva ragione, e la misura lo conferma: sui 60 testi che legge, le parole mie
+> fuori dal glossario sono **11 problemi su 263** (il 4%). Il restante 96% è **forma della spiegazione**.
+> Vietare il vocabolario avrebbe tolto a Nicola proprio la cosa che sta studiando, e lasciato intatto
+> il difetto vero.
 
 ---
 
-## I tre blocchi (obbligatori su ogni testo lungo: PR, consegne, risposte in chat)
+## Regola 1 — le parole tecniche si usano, ma devono essere studiabili
 
-Un testo lungo comincia **sempre** rispondendo a queste tre domande, in quest'ordine, prima di
-qualunque dettaglio. Sono le uniche tre cose che Nicola deve sapere per decidere:
+Nicola vuole capire la macchina al 100% e sta studiando il vocabolario. Quindi **le parole si usano**.
+Il confine è un altro:
+
+- la parola sta nel **`GLOSSARIO.md`** → usala. Lui la può studiare, e ogni volta che la incontra la
+  fissa meglio.
+- la parola **non** sta nel glossario (`potatore`, `spazzata`, `cricchetto`, `verdetto muto`) → **o la
+  spieghi nella riga stessa in cui la usi, o non la usi.** Sono metafore che invento più in fretta di
+  quanto lui possa impararle: sono debito, non lingua.
+- la parola è **del mestiere vero** (`commit`, `branch`, `deploy`, `webhook`, `rollback`) → usala e
+  spiegala la prima volta di **ogni testo**, non la prima volta nella vita. Vale anche fuori da qui:
+  impararla gli serve davvero.
+
+```bash
+node cervello/si-capisce.mjs --parole     # quali parole uso e non sono nel glossario
+```
+
+## Regola 2 — la forma della spiegazione (il difetto vero, il 96%)
+
+Le sei mosse, con il nome che Nicola può rimandarmi in faccia quando ne salto una:
+
+1. **Il passo indietro** — prima *di cosa* parlo e *a cosa serve*, poi il merito. Mai attaccare dal
+   dettaglio: gli manca sempre il primo gradino.
+2. **L'esempio** — ogni concetto nuovo ha un caso concreto con giorni, nomi e numeri veri. *«Lunedì
+   scrivo la riga. Martedì lavoro ancora e non scrivo niente. Il controllo vede quella di lunedì e mi
+   lascia passare.»* Due righe, e risparmiano venti minuti.
+3. **Il ripasso** — la cosa importante detta due volte, la seconda con parole diverse. Comprimere è
+   elegante per me e costoso per lui: se si perde una parola, ha perso tutto.
+4. **Una frase, un'idea** — niente incisi dentro incisi. Sopra le 30 parole si spezza.
+5. **Zero sottintesi** — niente «come dicevo», «la terza volta oggi», «lo stesso di stamattina».
+   Sono cose che ho visto solo io.
+6. **Il metro sui numeri** — «253 su 277, cioè quasi tutte», non «253».
+
+## Regola 3 — le tre risposte in cima a ogni testo lungo
 
 ```
-## In parole semplici      ← cosa ho fatto, 2-3 righe, zero codici, come se glielo dicessi a voce
+## In parole semplici      ← cosa ho fatto, 2-3 righe, come se glielo dicessi a voce
 ## Cosa cambia per te      ← la conseguenza concreta per lui e per l'azienda (max 3 punti)
 ## Cosa devi fare          ← una cosa sola, oppure «niente, è già a posto»
 
 ---
-## Dettagli tecnici        ← DA QUI IN GIÙ scrivo per chi esegue: codici, comandi, sigle, numeri.
+## Dettagli tecnici        ← da qui in giù scrivo per chi esegue: comandi, sigle, numeri esatti.
                              Nicola può fermarsi sopra questa riga e avere capito tutto.
 ```
 
-La riga **«Dettagli tecnici»** è il confine: sopra si scrive per Nicola, sotto per chi esegue (me,
-un senior, la CI). Il gergo non è vietato — è **relegato sotto la riga**. Non perdo precisione: la
-sposto dove serve.
+Sopra la riga i codici (`AR-478`, `#654`, i percorsi dei file) non ci vanno: non aggiungono senso,
+tolgono tempo. Sono **targhe** per ritrovare una cosa, e vanno in fondo tra parentesi.
 
-**Le tre regole dure sopra la riga:**
-1. **Zero codici** — niente `AR-478`, `#654`, `cervello/…​.mjs`, `exit 2`, comandi `git`.
-2. **Zero parole mie** — niente cancello/freno/guardiano/sonda/tetto/lotto/mutazione/spazzata.
-   Ognuna ha la sua traduzione: `node cervello/parole-difficili.mjs --dizionario`.
-3. **Frasi corte** — un'idea per frase. Se una frase supera le 30 parole, spezzala.
-
-**Il controllo, prima di consegnare** (misura il testo, non lo giudica):
+**Il controllo, prima di consegnare** (misura, non giudica):
 ```bash
-node cervello/parole-difficili.mjs bozza.md     # 0 = si legge · 1 = serve tradurre · 2 = niente da misurare
+node cervello/si-capisce.mjs bozza.md      # 0 = si capisce · 1 = va riscritto · 2 = non ho potuto misurare
+node cervello/si-capisce.mjs --scansione   # classifica per difficoltà tutto ciò che Nicola legge
 ```
 
 > Non vale invece per il **Contenuto** (il file `consegne/…`, i path, i comandi, gli ID Stripe): quello è per
