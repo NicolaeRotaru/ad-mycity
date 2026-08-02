@@ -1043,8 +1043,8 @@
    "difetto": "AR-154",
    "nome": "il freno torna ad accontentarsi del file toccato: una virgola in un quaderno vale come esito",
    "file": "cervello/cancello-stop.mjs",
-   "cerca": "  if (esitiScritti(righeAggiunteNeiQuaderni).length) return null;",
-   "sostituisci": "  if (fileCommittati.some((f) => f.startsWith(\"memoria-squadra/\"))) return null;",
+   "cerca": "  if (!esitiScritti(righeAggiunteNeiQuaderni).length) {",
+   "sostituisci": "  if (!fileCommittati.some((f) => f.startsWith(\"memoria-squadra/\"))) {",
    "test": "cervello/test/cancello-stop.test.mjs"
   },
   {
@@ -1110,6 +1110,14 @@
    "cerca": "  if (v.esito === \"ok\") return \"verde\";",
    "sostituisci": "  if (v.esito === \"ok\" || v.esito === \"nonvisto\") return \"verde\";",
    "test": "node --import ./cervello/test/hook-ts.mjs --test cervello/test/salute-per-organo.test.mjs"
+  },
+  {
+   "difetto": "AR-477",
+   "nome": "la prima riga di esito torna a comprare il lasciapassare per tutto il ramo: il lavoro committato dopo passa muto",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  if (codiceDopoEsito > 0) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/cancello-stop.test.mjs"
   }
  ]
 }

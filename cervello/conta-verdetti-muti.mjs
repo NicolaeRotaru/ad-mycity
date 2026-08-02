@@ -52,7 +52,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
-import { CARTELLE_MEMORIA, RIGA_ESITO } from "./cancello-stop.mjs";
+import { CARTELLE_MEMORIA, CERCA_ESITO_IN_GIT } from "./cancello-stop.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -171,16 +171,11 @@ const git = (args) => execFileSync("git", args, { cwd: REPO, encoding: "utf8", m
 
 const SEP = "@@COMMIT@@";
 
-/**
- * Lo stesso criterio di `RIGA_ESITO`, scritto nel dialetto che capisce `git log -G`.
- *
- * Due scritture della stessa regola sono due regole che prima o poi divergono — e allora il freno e
- * il contatore misurerebbero cose diverse col medesimo nome. Non potendo passare a git una RegExp di
- * JavaScript (`\d`, `\b`, `\s` non esistono nelle espressioni regolari di base), qui c'è la versione
- * ridotta, e una prova pretende che le due combacino sulla riga canonica e rifiutino la stessa riga
- * mutilata. È il modo meno peggio: la divergenza diventa un test rosso invece di un silenzio.
- */
-export const CERCA_ESITO_IN_GIT = "atteso .*→ .*reale";
+// `CERCA_ESITO_IN_GIT` vive in `cancello-stop.mjs` accanto a `RIGA_ESITO` e da lì si importa: sono
+// due scritture della STESSA regola (git non capisce `\d`, `\b`, `\s`), e tenerle in due file
+// diverse sarebbe la divergenza che una prova qui sotto difende. Riesportata perché le prove del
+// contatore la usano: un solo posto dove cambia, un solo posto dove sbagliare.
+export { CERCA_ESITO_IN_GIT };
 
 /** La storia di `main` sulla finestra, un elemento per commit, coi file che ha toccato. */
 export function leggiStoria(testo = "") {

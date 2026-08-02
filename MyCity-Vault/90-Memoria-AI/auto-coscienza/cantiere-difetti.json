@@ -8327,11 +8327,29 @@
       "verifica": {
         "comando": "node --import ./cervello/test/hook-ts.mjs --test cervello/test/salute-per-organo.test.mjs"
       }
+    },
+    {
+      "id": "AR-477",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-02 18:40",
+      "nato_come": "regressione",
+      "nato_da": "AR-154",
+      "origine": "Nicola 2/8: «rifai l analisi piu e piu volte». Trovato alla prima rilettura comportamentale, provando il cancello dal vivo invece di rileggerne il codice: su un ramo che aveva GIA una riga di esito ho committato un file di codice nuovo e il cancello ha risposto «niente da lasciare indietro» (exit 0).",
+      "titolo": "La prima riga di esito comprava il lasciapassare per tutto il ramo: il lavoro committato dopo passava muto",
+      "causa_radice": "① Il controllo ④ chiedeva «esiste una riga di esito fra le righe aggiunte dal ramo?». Una volta trovata, ogni commit successivo passava senza domande. ② Perche non l ho visto scrivendolo: la prova era su stati finti (una lista di file, una lista di righe) e in quel modello non esiste il TEMPO — l ordine fra i commit non era rappresentato, quindi nessun caso poteva descrivere «l esito e arrivato prima del lavoro». Le prove pure difendono la regola, non la sua unita di misura. ③ Quanto pesa: cresce col ramo. Questo ne aveva otto di commit, e la riga di esito era al quinto: tre commit di lavoro passavano muti. ④ E il difetto e figlio del fix di AR-154, non un caso nuovo: chiudendo «non hai scritto niente» ho aperto «hai scritto una volta sola».",
+      "fix_proposto": "FATTO 🟡 La domanda non e piu «c e una riga?» ma «ho continuato a lavorare DOPO averla scritta?». `codiceDopoUltimoEsito()` chiede a git quanti commit toccano codice dopo l ultimo commit che ha aggiunto una riga di esito (pathspec di esclusione derivato da CARTELLE_MEMORIA, criterio -G condiviso con RIGA_ESITO e accentrato in un solo punto). Zero commit dopo = verde, e chi scrive l esito alla fine non viene punito. `null` = non ho potuto misurare = non accuso. I due casi hanno messaggi diversi (AR-154 «non hai scritto niente» / AR-477 «hai scritto per il lavoro di prima») perche si rimediano in modi diversi. Provato dal vivo rifacendo lo stesso esperimento che aveva scoperto il buco: prima exit 0, adesso exit 1 fuori dall hook ed exit 2 dentro (blocca il turno). 4 prove nuove + 1 mutazione.",
+      "verifica": {
+        "comando": "node cervello/test/cancello-stop.test.mjs"
+      }
     }
   ],
   "meta": {
     "aperti": 163,
     "in_corso": 0,
-    "chiusi": 251
+    "chiusi": 252
   }
 }

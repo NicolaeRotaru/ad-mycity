@@ -153,12 +153,26 @@ export function esitiScritti(righeAggiunte = []) {
  * Quello resta un giudizio di Nicola, che la riga la legge in Cabina → Memoria → Quaderni senior. Il
  * freno garantisce che una riga con la calibrazione dentro esista e arrivi dove lui guarda.
  */
-export function consegnaSenzaEsito(fileCommittati = [], righeAggiunteNeiQuaderni = []) {
+export function consegnaSenzaEsito(fileCommittati = [], righeAggiunteNeiQuaderni = [], codiceDopoEsito = null) {
   const codice = fileCommittati.filter((f) => !CARTELLE_MEMORIA.some((m) => f.startsWith(m)));
   if (!codice.length) return null;
-  if (esitiScritti(righeAggiunteNeiQuaderni).length) return null;
   const quaderni = fileCommittati.filter((f) => f.startsWith("memoria-squadra/") && f.endsWith(".md"));
-  return { quanti: codice.length, esempio: codice.slice(0, 3), quadernoToccato: quaderni.length > 0 };
+  if (!esitiScritti(righeAggiunteNeiQuaderni).length) {
+    return { quanti: codice.length, esempio: codice.slice(0, 3), quadernoToccato: quaderni.length > 0, dopo: 0 };
+  }
+  // IL BUCO CHE LA RILETTURA HA TROVATO (2/8, AR-477). Fin qui il controllo si fermava a «esiste una
+  // riga di esito sul ramo». Provato dal vivo: su un ramo che ne aveva già una, ho committato un file
+  // di codice nuovo e il cancello ha detto «niente da lasciare indietro». Cioè: **la prima riga di
+  // esito comprava il lasciapassare per tutto il resto del ramo**, e più il ramo è lungo — questo ne
+  // ha otto di commit — più lavoro passa senza essere raccontato.
+  //
+  // La domanda giusta non è «c'è una riga?» ma «ho continuato a lavorare DOPO averla scritta?».
+  // Sull'unità di consegna (il ramo verso main) resta silenzioso chi scrive l'esito alla fine, che è
+  // il comportamento corretto; parla solo con chi ha committato codice dopo l'ultimo racconto.
+  if (codiceDopoEsito > 0) {
+    return { quanti: codice.length, esempio: codice.slice(0, 3), quadernoToccato: true, dopo: codiceDopoEsito };
+  }
+  return null;
 }
 
 /** ③ Le lezioni nuove che non nominano un freno: una lezione senza gate è una frase. */
@@ -193,11 +207,14 @@ export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito =
   }
   if (senzaEsito) {
     righe.push(
-      `❌ ho committato ${senzaEsito.quanti} file di lavoro e non ho lasciato una riga di esito in nessun quaderno (AR-154)` +
+      (senzaEsito.dopo > 0
+        ? `❌ ho committato codice DOPO l'ultima riga di esito: ${senzaEsito.dopo} commit di lavoro che nessuna riga racconta (AR-477)` +
+          `\n   → una riga c'è, ma parla del lavoro di prima: la prima riga non compra il lasciapassare per tutto il ramo.`
+        : `❌ ho committato ${senzaEsito.quanti} file di lavoro e non ho lasciato una riga di esito in nessun quaderno (AR-154)` +
+          (senzaEsito.quadernoToccato
+            ? `\n   → un quaderno l'ho toccato, ma non c'è nessuna riga nuova con «atteso … → reale …»: quella è la parte che vale.`
+            : "")) +
         `\n   → ${senzaEsito.esempio.join(", ")}${senzaEsito.quanti > senzaEsito.esempio.length ? ", …" : ""}` +
-        (senzaEsito.quadernoToccato
-          ? `\n   → un quaderno l'ho toccato, ma non c'è nessuna riga nuova con «atteso … → reale …»: quella è la parte che vale.`
-          : "") +
         `\n   → node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard>" "<atteso>" "<reale>" "#tag"` +
         `\n   → atteso→reale è la calibrazione: senza, il lavoro è fatto e nessuno impara niente da com'è andato.`,
     );
@@ -304,6 +321,26 @@ function fileCommittatiSulRamo(base) {
 }
 
 /**
+ * Quanti commit di CODICE stanno dopo l'ultimo commit che ha aggiunto una riga di esito (AR-477).
+ *
+ * `null` = non ho potuto misurare, e allora non accuso nessuno. Il criterio per git è lo stesso di
+ * `RIGA_ESITO` scritto nel dialetto delle espressioni regolari di base (`\d`, `\b`, `\s` lì non
+ * esistono): la coerenza fra le due scritture è difesa da una prova, non dalla buona volontà.
+ */
+export const CERCA_ESITO_IN_GIT = "atteso .*→ .*reale";
+
+function codiceDopoUltimoEsito(base) {
+  const esclusioni = CARTELLE_MEMORIA.map((c) => `:(exclude)${c.replace(/\/$/, "")}`);
+  try {
+    const ultimoEsito = git(["log", "-1", "--format=%H", "-G", CERCA_ESITO_IN_GIT, `${base}..HEAD`, "--", "memoria-squadra"]).trim();
+    if (!ultimoEsito) return null; // nessun esito sul ramo: lo gestisce il caso base, non questo
+    return Number(git(["rev-list", "--count", `${ultimoEsito}..HEAD`, "--", ".", ...esclusioni]).trim());
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Le righe AGGIUNTE dal ramo nei file che stanno sotto una certa cartella.
  *
  * Il contenuto di un diff, non i suoi percorsi: qui la porta di AR-339 non serve (quella difende dai
@@ -371,7 +408,7 @@ async function main() {
   }
 
   const v = verdetto({
-    senzaEsito: committati && righeQuaderni ? consegnaSenzaEsito(committati, righeQuaderni.flatMap((f) => f.righe)) : null,
+    senzaEsito: committati && righeQuaderni ? consegnaSenzaEsito(committati, righeQuaderni.flatMap((f) => f.righe), base ? codiceDopoUltimoEsito(base) : null) : null,
     chiusi: chiusiSenzaProva(cantierePrima, cantiereDopo),
     allarmi: allarmiSenzaCoda(file, codaToccata, consegneModificate || []),
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),

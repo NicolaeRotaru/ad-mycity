@@ -156,6 +156,36 @@ test("IL LIMITE ②: solo le righe AGGIUNTE contano, quindi un quaderno toccato 
   assert.notEqual(consegnaSenzaEsito(["cervello/x.mjs", "memoria-squadra/tech.md"], ["- 2026-07-02 · vecchia nota riformattata"]), null);
 });
 
+// ── AR-477: il buco che la rilettura ha trovato ───────────────────────────────
+//
+// Provato dal vivo il 2/8 su un ramo che aveva GIA' una riga di esito: ho committato un file di
+// codice nuovo e il cancello ha risposto «niente da lasciare indietro». La prima riga comprava il
+// lasciapassare per tutto il resto del ramo — e piu' il ramo e' lungo, piu' lavoro passa muto.
+
+test("IL CASO AR-477: codice committato DOPO l'ultima riga di esito viene fermato", () => {
+  const r = consegnaSenzaEsito(["cervello/x.mjs"], [RIGA_VERA], 1);
+  assert.notEqual(r, null, "la riga c'e', ma parla del lavoro di prima");
+  assert.equal(r.dopo, 1);
+  assert.match(verdetto({ senzaEsito: r }).righe.join("\n"), /DOPO l'ultima riga di esito/);
+});
+
+test("se l'esito e' l'ultima cosa che ho scritto, passa: il freno non punisce chi fa bene", () => {
+  assert.equal(consegnaSenzaEsito(["cervello/x.mjs"], [RIGA_VERA], 0), null);
+});
+
+test("non aver potuto contare NON accusa: cieco non e' colpevole", () => {
+  // `null` = non ho potuto misurare. Bloccare li' vorrebbe dire accusare per un dato che non ho.
+  assert.equal(consegnaSenzaEsito(["cervello/x.mjs"], [RIGA_VERA], null), null);
+});
+
+test("i due casi si distinguono nel messaggio: si rimediano in modi diversi", () => {
+  const mai = verdetto({ senzaEsito: consegnaSenzaEsito(["cervello/x.mjs"], [], 0) }).righe.join("\n");
+  const dopo = verdetto({ senzaEsito: consegnaSenzaEsito(["cervello/x.mjs"], [RIGA_VERA], 2) }).righe.join("\n");
+  assert.match(mai, /AR-154/);
+  assert.match(dopo, /AR-477/);
+  assert.ok(!/AR-477/.test(mai), "chi non ha scritto niente non va mandato a cercare il difetto sbagliato");
+});
+
 test("un lavoro di sola memoria non deve un esito di reparto", () => {
   // Aggiornare STATO o una scheda non e' un lavoro di reparto: chiedere l'esito qui sarebbe rumore.
   assert.equal(consegnaSenzaEsito(["MyCity-Vault/90-Memoria-AI/STATO.md", "consegne/x.md"], []), null);
