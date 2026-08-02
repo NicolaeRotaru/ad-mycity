@@ -19,7 +19,7 @@
 // che potesse dire di no. AR-455 è il caso di scuola: chiuso perché «la riga in settings.json c'è»,
 // mentre il freno che quella riga attaccava parlava a nessuno. Chiuso sulla lettera, non sull'effetto.
 //
-// COSA CONTROLLA — quattro cose meccaniche, nessun giudizio:
+// COSA CONTROLLA — sei cose meccaniche, nessun giudizio:
 //   ① difetto chiuso senza prova eseguibile — `verifica.comando`. Un difetto che si chiude senza un
 //      comando che possa fallire non è chiuso: è archiviato.
 //   ② allarme scritto e non accodato — un file nuovo che contiene 🔴/CRITICO/bloccante mentre la coda
@@ -31,9 +31,18 @@
 //      nessun quaderno. Il rituale esiste dal giorno di AR-009 e dipende da un passo manuale: nello
 //      sprint del 21-24/7 il quaderno di @tech è restato fermo per 47 righe mentre le PR si mergiavano.
 //
-// COSA NON CONTROLLA, e va detto: non sa se ciò che ho scritto in chat sia vero, non legge il
-// contenuto dei documenti, non giudica se un fix è giusto. Quattro misure sullo stato del lavoro, non
-// sulla sua qualità. Dove passa un «forse», qui si tace.
+//   ⑤ testo consegnato a Nicola che non si capisce (AR-478) — un file .md nelle cartelle dove lui
+//      legge che esce PEGGIORE di come è entrato. Delta verso la base, non totale: sul totale ogni
+//      ritocco a un file lungo sarebbe un blocco, e un cancello che non può diventare verde si impara
+//      ad aggirarlo.
+//   ⑥ messaggio in chat che non si capisce (AR-481) — solo i messaggi lunghi. AR-478 aveva dichiarato
+//      questo buco come non colmabile («la chat non è un file»). Era falso: l'hook `Stop` riceve
+//      `transcript_path`, cioè il file dove Claude Code scrive la conversazione. La chat È un file.
+//
+// COSA NON CONTROLLA, e va detto: non sa se ciò che ho scritto sia VERO, non giudica se un fix è
+// giusto, e soprattutto **non sa se Nicola ha capito** — conta segnali di forma, non comprensione.
+// Un testo può passare tutte e sei le misure e restare oscuro. Sei misure sullo stato del lavoro e
+// sulla forma di ciò che consegno, non sulla loro qualità. Dove passa un «forse», qui si tace.
 //
 // Uso:
 //   node cervello/cancello-stop.mjs           # verdetto leggibile (nessun blocco)
@@ -44,7 +53,7 @@
 // 🟢 Sola lettura: non scrive, non tocca git, non modifica file.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { closeSync, existsSync, openSync, readFileSync, readSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { percorsiDaGit } from "./percorsi-git.mjs";
@@ -170,6 +179,27 @@ export function testiIlleggibili(testi = [], noteAGlossario = null) {
   return fuori;
 }
 
+/**
+ * ⑥ IL MESSAGGIO CHE STO PER MANDARE A NICOLA IN CHAT (AR-481).
+ *
+ * Era il buco dichiarato di AR-478: «la chat non è misurabile, non è un file, nessun controllo può
+ * girarci sopra». Era falso, e l'ho scoperto guardando cosa riceve l'hook `Stop`: insieme a
+ * `stop_hook_active` arriva anche `transcript_path`, cioè il percorso del file dove Claude Code
+ * scrive tutta la conversazione, i miei messaggi compresi.
+ *
+ * Quindi la chat È un file — solo, non era il file che stavo guardando. Ed è il posto dove Nicola
+ * legge di più: le due ore che ha perso non erano sulle consegne, erano su cinque PR e sulla chat.
+ *
+ * SOLO I MESSAGGI LUNGHI. Un «fatto, il sito è tornato online» non deve avere tre blocchi e un
+ * esempio: chiederglielo sarebbe rumore a ogni turno, e il rumore spegne i freni.
+ */
+export function messaggioIlleggibile(testo, noteAGlossario = null) {
+  if (!testo || !testo.trim()) return null; // niente da misurare: non accuso nessuno
+  const m = misura(testo, { noteAGlossario });
+  if (!m.testoLungo || !m.problemi.length) return null;
+  return { quanti: m.problemi.length, minuti: m.minuti, primi: m.problemi.slice(0, 4) };
+}
+
 /** ③ Le lezioni nuove che non nominano un freno: una lezione senza gate è una frase. */
 export function lezioniSenzaGate(prima = [], dopo = []) {
   const gia = new Set(prima.map((l) => l.id));
@@ -189,6 +219,7 @@ export function verdetto({
   lezioni = [],
   senzaEsito = null,
   illeggibili = [],
+  messaggio = null,
   giaBloccato = false,
 } = {}) {
   const righe = [];
@@ -222,6 +253,15 @@ export function verdetto({
         t.primi.map((p) => `\n   → riga ${p.riga}: ${p.dico}`).join("") +
         `\n   → node cervello/si-capisce.mjs ${t.file}` +
         `\n   → la sostanza NON si toglie: i termini tecnici e i ragionamenti restano, si spiegano dove servono.`,
+    );
+  }
+  if (messaggio) {
+    righe.push(
+      `❌ il messaggio che sto per mandarti in chat ha ${messaggio.quanti} punti che ti costringono a rileggere` +
+        ` (~${messaggio.minuti} min di lettura — AR-481)` +
+        messaggio.primi.map((p) => `\n   → ${p.dico}`).join("") +
+        `\n   → riscrivilo PRIMA di chiudere il turno: la chat è il posto dove Nicola legge di più.` +
+        `\n   → la sostanza resta tutta: si riscrive la forma, non si toglie il contenuto.`,
     );
   }
   if (!righe.length) return { blocca: false, righe: [] };
@@ -366,6 +406,53 @@ function testiToccati() {
   return testi;
 }
 
+/**
+ * L'ultimo messaggio che ho scritto in chat, preso dalla trascrizione della sessione.
+ *
+ * Legge solo la CODA del file: una sessione lunga arriva a decine di MB, e l'hook ha 20 secondi.
+ * La prima riga letta è quasi sempre spezzata a metà, quindi si scarta.
+ */
+export function ultimoTestoAssistente(righeJsonl = []) {
+  for (let i = righeJsonl.length - 1; i >= 0; i--) {
+    let ev;
+    try {
+      ev = JSON.parse(righeJsonl[i]);
+    } catch {
+      continue; // riga spezzata o non-JSON: non è un verdetto, si salta
+    }
+    if (ev?.type !== "assistant") continue;
+    const pezzi = ev?.message?.content;
+    if (!Array.isArray(pezzi)) continue;
+    const testo = pezzi
+      .filter((p) => p?.type === "text" && String(p.text || "").trim())
+      .map((p) => p.text)
+      .join("\n");
+    if (testo.trim()) return testo;
+  }
+  return null; // nessun messaggio mio nella coda letta: cieco, non accuso nessuno
+}
+
+const CODA_TRASCRIZIONE = 2 * 1024 * 1024;
+
+function leggiTrascrizione(percorso) {
+  if (!percorso || !existsSync(percorso)) return null;
+  try {
+    const dim = statSync(percorso).size;
+    const da = Math.max(0, dim - CODA_TRASCRIZIONE);
+    const fd = openSync(percorso, "r");
+    try {
+      const buf = Buffer.alloc(Math.min(dim, CODA_TRASCRIZIONE));
+      readSync(fd, buf, 0, buf.length, da);
+      const righe = buf.toString("utf8").split("\n").filter(Boolean);
+      return da > 0 ? righe.slice(1) : righe; // la prima riga è tagliata a metà
+    } finally {
+      closeSync(fd);
+    }
+  } catch {
+    return null; // trascrizione illeggibile: taccio invece di accusare
+  }
+}
+
 async function leggiStdin() {
   const pezzi = [];
   for await (const p of process.stdin) pezzi.push(p);
@@ -377,10 +464,12 @@ async function main() {
   const hook = argv.includes("--hook");
 
   let giaBloccato = false;
+  let trascrizione = null;
   if (hook) {
     try {
       const ev = JSON.parse(await leggiStdin());
       giaBloccato = Boolean(ev?.stop_hook_active);
+      trascrizione = ev?.transcript_path || null;
     } catch {
       // Nessun payload leggibile: proseguo come primo giro. Non è un motivo per tacere.
     }
@@ -399,6 +488,10 @@ async function main() {
     allarmi: allarmiSenzaCoda(file, codaToccata),
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),
     illeggibili: testiIlleggibili(testiToccati(), parolePeggioNoteAGlossario(REPO)),
+    messaggio: messaggioIlleggibile(
+      ultimoTestoAssistente(leggiTrascrizione(trascrizione) || []),
+      parolePeggioNoteAGlossario(REPO),
+    ),
     giaBloccato,
   });
 

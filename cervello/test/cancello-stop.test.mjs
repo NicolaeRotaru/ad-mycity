@@ -17,6 +17,8 @@ import {
   lezioniSenzaGate,
   consegnaSenzaEsito,
   testiIlleggibili,
+  messaggioIlleggibile,
+  ultimoTestoAssistente,
   verdetto,
   ALLARMI,
 } from "../cancello-stop.mjs";
@@ -213,4 +215,58 @@ test("il verdetto dice il comando per vedere tutto e vieta di togliere la sostan
   const t = v.righe.join("\n");
   assert.match(t, /si-capisce\.mjs consegne\/x\.md/, "deve dare il comando per vederli tutti");
   assert.match(t, /sostanza NON si toglie/, "AR-478: i termini tecnici restano, si spiegano");
+});
+
+// ── ⑥ AR-481: il messaggio in chat, che si diceva non misurabile ────────────────────────────────
+//
+// AR-478 dichiarava un buco: «la chat non e' un file, nessun controllo puo' girarci sopra».
+// Era falso. L'hook Stop riceve `transcript_path`, cioe' il file dove Claude Code scrive tutta la
+// conversazione. La chat E' un file: non era il file che stavo guardando.
+
+const rigaAssistente = (testo) =>
+  JSON.stringify({ type: "assistant", message: { content: [{ type: "text", text: testo }] } });
+const rigaStrumento = JSON.stringify({
+  type: "assistant",
+  message: { content: [{ type: "tool_use", name: "Bash", input: {} }] },
+});
+
+test("prende l'ultimo messaggio che ho scritto, non il primo", () => {
+  const righe = [rigaAssistente("il primo"), rigaAssistente("l'ultimo")];
+  assert.equal(ultimoTestoAssistente(righe), "l'ultimo");
+});
+
+test("salta le chiamate agli strumenti: quelle non le legge Nicola", () => {
+  const righe = [rigaAssistente("il mio messaggio"), rigaStrumento, rigaStrumento];
+  assert.equal(ultimoTestoAssistente(righe), "il mio messaggio");
+});
+
+test("una riga spezzata a meta' non fa cadere la misura", () => {
+  // Si legge solo la CODA del file, quindi la prima riga e' quasi sempre tagliata.
+  const righe = ['{"type":"assist', rigaAssistente("questo si legge")];
+  assert.equal(ultimoTestoAssistente(righe), "questo si legge");
+});
+
+test("nessun messaggio nella coda letta: cieco, non accusa nessuno", () => {
+  assert.equal(ultimoTestoAssistente([rigaStrumento]), null);
+  assert.equal(ultimoTestoAssistente([]), null);
+});
+
+test("un messaggio breve in chat non deve avere tre blocchi e un esempio", () => {
+  // Chiederlo su «fatto, il sito e' tornato online» sarebbe rumore a ogni turno.
+  assert.equal(messaggioIlleggibile("Fatto, il sito e' di nuovo online.", NOTE), null);
+});
+
+test("IL CASO AR-481: un messaggio lungo e scritto male viene fermato prima di partire", () => {
+  const m = messaggioIlleggibile(lungoDifficile, NOTE);
+  assert.notEqual(m, null, "la chat e' il posto dove Nicola legge di piu'");
+  assert.ok(m.quanti > 0);
+  assert.ok(m.minuti >= 1, "deve dire anche quanto tempo gli costa");
+});
+
+test("il verdetto sul messaggio dice di riscriverlo SENZA togliere la sostanza", () => {
+  const v = verdetto({ messaggio: { quanti: 5, minuti: 3, primi: [{ dico: "manca l esempio" }] } });
+  assert.equal(v.blocca, true);
+  const t = v.righe.join("\n");
+  assert.match(t, /PRIMA di chiudere il turno/, "il punto e' fermarlo prima che parta");
+  assert.match(t, /non si toglie il contenuto/, "AR-480: la sostanza resta");
 });
