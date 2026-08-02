@@ -8,7 +8,22 @@
 
 ---
 
-## Dove vale (tutto ciò che finisce sotto gli occhi di Nicola)
+## Dove vale: OVUNQUE, e su qualunque argomento
+
+> 🌍 **Il perimetro non è un elenco di file, e non è «i testi della macchina» (AR-480).** Nicola, 2/8:
+> *«non solo della macchina, ma a tutto quello che fai e farai, di qualsiasi altra cosa … mi fa perdere
+> ore di tempo con cui potevo andare avanti a fare i lavori».*
+>
+> **La regola:** se un testo finirà sotto i suoi occhi, questa regola vale. Non importa l'argomento —
+> soldi, vendite, contratti, contenuti, consegne, un messaggio in chat. Non importa chi lo scrive —
+> l'AD o uno qualunque dei 120 senior. **Il costo che stiamo pagando è il suo tempo**, e il suo tempo
+> non cambia colore a seconda del reparto che gli sta scrivendo.
+>
+> Il conto che ha fatto nascere questa riga: **0 mansionari su 120** citavano questa regola. Viveva in
+> `CLAUDE.md`, cioè nel mansionario dell'AD, e si fermava lì — ma quando l'AD delega a `@finanza` o a
+> `@vendite`, è quel senior a scrivere il testo che Nicola legge. Adesso è in tutti e 120, e la prova
+> `cervello/test/regola-scrittura-nei-senior.test.mjs` diventa rossa se sparisce da uno solo.
+
 Il **titolo** di ogni card è la prima — e spesso l'unica — cosa che legge. Vale per:
 - la colonna **"Azione (pronta)"** in `AZIONI-IN-ATTESA.md` → è il titolo grosso della card "Da approvare";
 - i `titolo` in `ultimo-briefing.json` (**azioni** e **opportunità**) → card "Cosa ho scoperto e propongo";

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-02 22:30",
+  "aggiornato": "2026-08-02 23:40",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8326,11 +8326,29 @@
       "verifica": {
         "tipo": "umano"
       }
+    },
+    {
+      "id": "AR-480",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-02 23:40",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[nato da una CORREZIONE DI NICOLA] «voglio le stesse cose pero spiegate bene … non solo della macchina ma a tutto quello che fai e farai, di qualsiasi altra cosa … mi fa perdere ore di tempo con cui potevo andare avanti a fare i lavori».",
+      "titolo": "La regola di scrittura viveva solo nel mansionario dell'AD: 0 senior su 120 la conoscevano, e sono loro a scrivere quando delego",
+      "causa_radice": "① AR-478 aveva messo la regola in CLAUDE.md e in cervello/scrittura-umana.md. Misurato il 2/8: 0 file su 120 in .claude/agents/ citavano nessuno dei due. ② Conseguenza diretta: ogni volta che l'AD delega — @finanza per i margini, @vendite per un pitch, @legale-privacy per un contratto — quel senior scrive un testo che finisce sotto gli occhi di Nicola SENZA nessuna regola di forma. La delega e la strada normale, non l'eccezione: il mansionario dell'AD dice «delega invece di fare tutto tu». ③ Il perimetro era sbagliato anche nell'intenzione: la regola parlava dei testi della macchina (radiografie, cantiere, PR), mentre il costo che Nicola paga e il suo TEMPO, e il suo tempo non cambia a seconda del reparto che gli scrive. Una consegna di vendite scritta male costa quanto una PR scritta male. ④ Perche non l'avevo visto: ho misurato i testi gia' prodotti (689 file) e non CHI li produce. La misura guardava l'uscita, non le sorgenti.",
+      "fix_proposto": "FATTO 🟡 ① blocco «Come scrivi a Nicola» inserito in tutti e 120 i mansionari, agganciato alla riga «Formato riga ESITO» presente in 120 su 120 (l'ancora alternativa ne copriva 111, e i 9 esclusi sarebbero stati il perimetro letterale che questa casa vieta); ② il blocco porta le 7 regole di forma, i 3 blocchi di apertura, il comando di misura e il rimando alla regola completa; ③ dichiara esplicitamente che i termini tecnici NON si tolgono e che vale per ogni argomento, non solo la macchina; ④ perimetro allargato anche in scrittura-umana.md e CLAUDE.md; ⑤ prova nuova: 9 controlli su tutti e 120 i file, rossa se la regola sparisce da uno solo. Verificato che stampo-check non peggiora: kit_fotocopia resta 10 come su main, drift del registro agenti 0.",
+      "verifica": {
+        "comando": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
+      }
     }
   ],
   "meta": {
     "aperti": 165,
     "in_corso": 0,
-    "chiusi": 249
+    "chiusi": 250
   }
 }

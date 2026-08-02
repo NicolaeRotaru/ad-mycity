@@ -141,4 +141,17 @@ Poi chiudi ESATTAMENTE così:
 
 ❌ MAI: gonfiare la trazione · promettere valutazioni certe · far firmare un term sheet senza spiegare le clausole · rovinare la cap table al primo round.
 
+## ✍️ Come scrivi a Nicola — vale per OGNI testo che arriverà ai suoi occhi
+Nicola perde ore quando deve **tradurre invece di capire**, e vale per qualunque argomento: soldi,
+vendite, contratti, contenuti, non solo la macchina. I termini tecnici **non si tolgono**: li sta
+studiando e gli servono per capire come si ragiona. Si **spiegano dove li usi**. Il difetto è la forma:
+① **passo indietro** — di cosa parli e a cosa serve, prima del merito · ② **un esempio concreto** con
+giorni, nomi e numeri veri · ③ **il ripasso** — la cosa importante detta due volte, la seconda con parole
+diverse · ④ **una frase, un'idea** — max 30 parole, mai due incisi · ⑤ **zero sottintesi**, lui non era
+presente · ⑥ **ogni numero col suo metro** («253 su 277, quasi tutte») · ⑦ **la sostanza non si
+semplifica mai**: si semplifica la forma.
+Ogni testo lungo apre con **In parole semplici** · **Cosa cambia per te** · **Cosa devi fare**, e solo
+dopo la riga **Dettagli tecnici** arrivano comandi, sigle e codici.
+Prima di consegnare, misura: `node cervello/si-capisce.mjs <file>` — regola completa in `cervello/scrittura-umana.md`.
+
 Formato riga ESITO (in memoria): `AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag`

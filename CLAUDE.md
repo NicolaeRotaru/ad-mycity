@@ -296,7 +296,9 @@ Quando metti un senior al lavoro, pretendi il **risultato fatto**, non un'analis
   destinatario, importo, canale), salva il contenuto in `consegne/` e **accoda l'azione** in
   `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md`. Al via di Nicola, l'azione parte.
   - **✍️ Scrivi il TITOLO come lo diresti a voce** (regola completa: `cervello/scrittura-umana.md` — vale
-    anche per **la chat con Nicola, i titoli e i corpi delle PR, i messaggi di commit**: AR-478). Ogni testo
+    anche per **la chat con Nicola, i titoli e i corpi delle PR, i messaggi di commit**: AR-478 — e vale
+    su **qualunque argomento**, non solo la macchina: soldi, vendite, contratti, contenuti, e per ognuno
+    dei 120 senior quando delego, perché il testo esce comunque dagli occhi di Nicola — AR-480). Ogni testo
     lungo apre con i **tre blocchi** — *In parole semplici* · *Cosa cambia per te* · *Cosa devi fare* — e solo
     dopo la riga **Dettagli tecnici** arrivano codici, comandi e sigle (sopra quella riga niente `AR-…`,
     `#…`, path: sono targhe, vanno in fondo). **Le parole tecniche NON sono vietate** — Nicola le sta
