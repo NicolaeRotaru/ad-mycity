@@ -19,7 +19,7 @@
 // che potesse dire di no. AR-455 è il caso di scuola: chiuso perché «la riga in settings.json c'è»,
 // mentre il freno che quella riga attaccava parlava a nessuno. Chiuso sulla lettera, non sull'effetto.
 //
-// COSA CONTROLLA — tre cose meccaniche, nessun giudizio:
+// COSA CONTROLLA — quattro cose meccaniche, nessun giudizio:
 //   ① difetto chiuso senza prova eseguibile — `verifica.comando`. Un difetto che si chiude senza un
 //      comando che possa fallire non è chiuso: è archiviato.
 //   ② allarme scritto e non accodato — un file nuovo che contiene 🔴/CRITICO/bloccante mentre la coda
@@ -27,9 +27,12 @@
 //      nell'atto.
 //   ③ lezione nuova senza freno — una lezione che non nomina un `gate`. La regola di casa è già
 //      questa; qui arriva un giro prima del cancello del lotto.
+//   ④ lavoro consegnato senza esito (AR-154) — ho committato codice e non ho lasciato una riga in
+//      nessun quaderno. Il rituale esiste dal giorno di AR-009 e dipende da un passo manuale: nello
+//      sprint del 21-24/7 il quaderno di @tech è restato fermo per 47 righe mentre le PR si mergiavano.
 //
 // COSA NON CONTROLLA, e va detto: non sa se ciò che ho scritto in chat sia vero, non legge il
-// contenuto dei documenti, non giudica se un fix è giusto. Tre misure sullo stato del lavoro, non
+// contenuto dei documenti, non giudica se un fix è giusto. Quattro misure sullo stato del lavoro, non
 // sulla sua qualità. Dove passa un «forse», qui si tace.
 //
 // Uso:
@@ -44,6 +47,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -88,6 +92,34 @@ export function allarmiSenzaCoda(fileNuovi = [], codaToccata = false) {
   return fileNuovi.filter((f) => ALLARMI.some((r) => r.test(f.contenuto || ""))).map((f) => f.file);
 }
 
+/**
+ * ④ Lavoro di codice CONSEGNATO senza una riga di esito (AR-154).
+ *
+ * Il rituale «una riga ESITO dopo ogni lavoro 🟡/🔴» esiste dal giorno di AR-009, e dipende da un
+ * passo manuale a fine lavoro. Il conto che ha presentato è scritto nella scheda: durante lo sprint
+ * del Pannello del 21-24/7 — sette PR al giorno, bug segnalati a raffica — il quaderno di @tech è
+ * rimasto fermo al 20/7 per 47 righe, mentre decine di PR venivano mergiate. Non per pigrizia: sotto
+ * pressione si chiude il bug dopo, non si registra quello prima. Un rituale che dipende dalla
+ * disciplina fallisce esattamente quando serve di più.
+ *
+ * Guarda i COMMIT del ramo, non l'albero di lavoro: a metà lavoro le modifiche non sono committate e
+ * l'esito non è ancora dovuto — chiedere lì produrrebbe rumore a ogni turno, e il rumore spegne i
+ * freni. Quando invece il lavoro è committato, è consegnato: quello è il momento in cui l'esito è
+ * dovuto, ed è lo stesso punto che la scheda AR-154 indica («nel flusso di git-pr»).
+ *
+ * `memoria` sono le quattro cartelle che questo repo chiama memoria da sempre (le stesse di MEM_DIRS
+ * in vps/aggiorna-cervello.sh): tutto il resto è lavoro che qualcuno dovrà rileggere.
+ */
+export const CARTELLE_MEMORIA = ["MyCity-Vault/", "consegne/", "creativi/", "memoria-squadra/"];
+
+export function consegnaSenzaEsito(fileCommittati = []) {
+  const codice = fileCommittati.filter((f) => !CARTELLE_MEMORIA.some((m) => f.startsWith(m)));
+  if (!codice.length) return null;
+  const quaderni = fileCommittati.filter((f) => f.startsWith("memoria-squadra/") && f.endsWith(".md"));
+  if (quaderni.length) return null;
+  return { quanti: codice.length, esempio: codice.slice(0, 3) };
+}
+
 /** ③ Le lezioni nuove che non nominano un freno: una lezione senza gate è una frase. */
 export function lezioniSenzaGate(prima = [], dopo = []) {
   const gia = new Set(prima.map((l) => l.id));
@@ -101,7 +133,7 @@ export function lezioniSenzaGate(prima = [], dopo = []) {
  * ripartendo per colpa di un blocco precedente. Bloccare di nuovo lì significherebbe un turno che non
  * finisce mai — e un freno che incastra viene spento entro il giorno, che è il peggiore degli esiti.
  */
-export function verdetto({ chiusi = [], allarmi = [], lezioni = [], giaBloccato = false } = {}) {
+export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito = null, giaBloccato = false } = {}) {
   const righe = [];
   for (const d of chiusi) {
     righe.push(
@@ -117,6 +149,14 @@ export function verdetto({ chiusi = [], allarmi = [], lezioni = [], giaBloccato 
   }
   for (const id of lezioni) {
     righe.push(`❌ la lezione ${id} non nomina nessun freno\n   → una lezione senza gate è una frase: quale comando fallisce se viene violata?`);
+  }
+  if (senzaEsito) {
+    righe.push(
+      `❌ ho committato ${senzaEsito.quanti} file di lavoro e non ho lasciato una riga di esito in nessun quaderno (AR-154)` +
+        `\n   → ${senzaEsito.esempio.join(", ")}${senzaEsito.quanti > senzaEsito.esempio.length ? ", …" : ""}` +
+        `\n   → node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard>" "<atteso>" "<reale>" "#tag"` +
+        `\n   → atteso→reale è la calibrazione: senza, il lavoro è fatto e nessuno impara niente da com'è andato.`,
+    );
   }
   if (!righe.length) return { blocca: false, righe: [] };
   if (giaBloccato) {
@@ -188,6 +228,21 @@ function fileDelLavoro() {
   return { file, codaToccata };
 }
 
+/** I file che questo ramo ha COMMITTATO rispetto alla base: il lavoro consegnato, non quello in corso. */
+function fileCommittatiSulRamo() {
+  // Dalla PORTA, non da git a mano (AR-339): con un nome accentato git restituisce il percorso citato
+  // in ottali, e un quaderno con l'accento smetterebbe di contare come esito scritto. Preso dal
+  // guardiano che quella regola la fa rispettare — la seconda volta oggi, sullo stesso errore.
+  for (const base of ["origin/main", "main"]) {
+    try {
+      return percorsiDaGit(["diff", `${base}...HEAD`, "--name-only"], { cwd: REPO });
+    } catch {
+      // provo la base successiva: un riferimento assente non e' un verdetto.
+    }
+  }
+  return null; // cieco: non accuso nessuno di non aver scritto l'esito
+}
+
 async function leggiStdin() {
   const pezzi = [];
   for await (const p of process.stdin) pezzi.push(p);
@@ -214,7 +269,9 @@ async function main() {
   const lezDopo = daDisco(APPRENDIMENTO)?.lezioni || [];
   const { file, codaToccata } = fileDelLavoro();
 
+  const committati = fileCommittatiSulRamo();
   const v = verdetto({
+    senzaEsito: committati ? consegnaSenzaEsito(committati) : null,
     chiusi: chiusiSenzaProva(cantierePrima, cantiereDopo),
     allarmi: allarmiSenzaCoda(file, codaToccata),
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),

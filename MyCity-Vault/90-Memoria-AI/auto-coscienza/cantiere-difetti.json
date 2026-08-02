@@ -1811,13 +1811,17 @@
       "gravita": "grave",
       "impatto_crescita": "medio",
       "causa_radice": "Il rituale 'una riga ESITO dopo ogni lavoro 🟡/🔴' (cervello/chiusura-loop.mjs) dipende da un passo manuale a fine lavoro; durante i giorni ad altissimo ritmo (7+ PR/giorno, bug segnalati a raffica da Nicola) l'AD ha dato priorità a chiudere il bug successivo piuttosto che registrare l'esito del precedente — la forcing-function esiste ma non ha un gate deterministico che blocchi la chiusura di un lavoro senza la riga ESITO, a differenza di altri gate (es. auto-analisi/apprendimento in AR-014).",
-      "fix_proposto": "🟡 Nel flusso di git-pr.mjs (o in un hook post-merge): se il branch tocca codice di reparto, ricordare/forzare la riga ESITO prima di considerare il lavoro chiuso — stesso pattern del gate deterministico già usato per auto-analisi.json/apprendimento.json (AR-014), esteso a chiusura-loop.",
+      "fix_proposto": "FATTO 🟡 quarta domanda del cancello dello Stop (`consegnaSenzaEsito`): se il ramo ha COMMITTATO file fuori dalle quattro cartelle di memoria e nessun quaderno e stato toccato, il cancello si ferma e da il comando pronto. Guarda i commit e non l albero di lavoro: a meta lavoro l esito non e ancora dovuto, e chiederlo li sarebbe rumore che spegne il freno. Gira sia allo Stop (istante del «fatto») sia dentro il cancello del lotto, che la CI esegue su ogni PR — cioe esattamente il punto che questa scheda indicava («nel flusso di git-pr»). 4 prove + 1 mutazione.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-24 16:00",
       "origine": "review-settimanale 2026-07-24 (peer_review PR-006)",
       "nota": "Trovato confrontando chiusura-loop.json (ultimo_esito @tech = 2026-07-20 23:38) con git log (107 merge 17-24/7, la maggioranza dopo il 20/7). Non blocca nulla di reale oggi (nessuna azione 🔴 eseguita senza controllo), ma svuota la calibrazione futura: senza ESITO, il volano previsto-vs-reale su @tech resta cieco proprio nella settimana di maggiore attività.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-01 12:20",
+      "verifica": {
+        "comando": "node cervello/test/cancello-stop.test.mjs"
+      }
     },
     {
       "id": "AR-155",
@@ -8290,8 +8294,8 @@
     }
   ],
   "meta": {
-    "aperti": 165,
+    "aperti": 164,
     "in_corso": 0,
-    "chiusi": 247
+    "chiusi": 248
   }
 }
