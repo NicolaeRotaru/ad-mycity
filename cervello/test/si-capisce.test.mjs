@@ -131,6 +131,33 @@ prova("le parole che spezzano le frasi non spezzano le sigle", () => {
   assert.equal(frasi("Il sig. Rossi ha ordinato il pane. Poi è uscito subito dal negozio.").length, 2);
 });
 
+prova("una riga di tabella non e' una frase da 34 parole", () => {
+  // Il primo giro dal vivo sul GLOSSARIO: 7 accuse su 9 erano righe di tabella lette come una frase
+  // sola. Chi legge una tabella non legge le celle di fila.
+  const t = "| **commit** | Un salvataggio del lavoro, con scritto cosa hai cambiato e perche | Ogni volta che finisco un pezzo faccio un commit e resta la traccia di chi ha cambiato cosa |";
+  assert.ok(!tipi(t, { noteAGlossario: glossario }).includes("frase-lunga"), "tre celle corte, non una frase lunga");
+});
+
+prova("dentro una cella lunga davvero, la frase lunga si vede ancora", () => {
+  const cella = Array.from({ length: 34 }, (_, i) => `parola${i}`).join(" ");
+  assert.ok(tipi(`| titolo | ${cella} |`).includes("frase-lunga"), "la correzione non deve accecare la misura");
+});
+
+prova("un testo che nasconde tutta la sostanza sotto la riga viene avvisato", () => {
+  // La settima regola (Nicola, 2/8): «non tralasciare mai i termini tecnici, mi aiutano a capire
+  // come ragiona e agisce la macchina». La riga dei dettagli non deve diventare la discarica.
+  const t = [
+    "Ho sistemato una cosa che non andava.",
+    "Adesso funziona meglio di prima.",
+    "## Dettagli tecnici",
+    "Il cancello legge il commit, il guardiano misura il branch,",
+    "il freno blocca il deploy e la sentinella avvisa.",
+    "Tutto provato con 12 prove nuove.",
+  ].join("\n");
+  const a = misura(t, { noteAGlossario: glossario }).avvisi.map((x) => x.dico).join(" ");
+  assert.match(a, /sostanza tecnica/, "deve dire che ho nascosto tutto in fondo");
+});
+
 prova("l'elenco delle parole della macchina contiene sia le mie sia quelle vere del mestiere", () => {
   for (const p of ["potatore", "spazzata", "cricchetto"]) assert.ok(PAROLE_MACCHINA.includes(p), p);
   for (const p of ["commit", "branch", "deploy", "webhook"]) assert.ok(PAROLE_MACCHINA.includes(p), p);

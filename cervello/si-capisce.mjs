@@ -115,11 +115,20 @@ function senzaCodice(righe) {
 /** Le abbreviazioni che finiscono col punto ma non finiscono la frase. */
 const ABBREVIAZIONI = /\b(sig|sig\.ra|dott|dr|prof|es|n|pag|art|ecc|etc|vs|ca)\.\s/gi;
 
-/** Spezza in frasi vere, senza rompere sulle abbreviazioni e sui numeri con la virgola. */
+/**
+ * Spezza in frasi vere, senza rompere sulle abbreviazioni e sui numeri con la virgola.
+ *
+ * LE TABELLE SI SPEZZANO PER CELLA. Il primo giro dal vivo ha accusato la riga di tabella
+ * `| commit | Un salvataggio del lavoro | Ogni volta che finisco... |` di essere una frase da 34
+ * parole. Non lo e: sono tre celle corte, e chi legge una tabella non le legge di fila. Erano 7
+ * accuse su 9, cioe quasi tutte false — e un misuratore che accusa a torto viene spento entro il
+ * giorno, che e il modo peggiore di perderlo.
+ */
 export function frasi(testo) {
   return testo
     .replace(ABBREVIAZIONI, (m) => m.replace(".", "\u0000"))
     .replace(/\b([A-Z])\.\s/g, "$1 ")
+    .replace(/^[ \t]*\|(.+)\|[ \t]*$/gm, (_, riga) => riga.split("|").join(".\n"))
     .split(/(?<=[.!?:])\s+|\n{2,}/)
     .map((f) => f.replace(/\u0000/g, ".").replace(/[#*>|`_-]/g, " ").trim())
     .filter((f) => f.split(/\s+/).filter(Boolean).length >= 4);
@@ -203,7 +212,41 @@ export function misura(testo, { noteAGlossario = null } = {}) {
     }
   });
 
-  // ③ Le tre risposte e l'esempio: solo sui testi lunghi, dove servono davvero.
+  // ③ LA SOSTANZA NON SI SEMPLIFICA — la settima regola, chiesta da Nicola il 2/8:
+  //    «non tralasciare mai i termini tecnici, mi aiutano a capire come ragiona e agisce la macchina;
+  //     e non solo i termini, anche i ragionamenti e le azioni».
+  //
+  // Il rischio l'ho creato io con la riga «Dettagli tecnici»: diventa la discarica dove finisce
+  // proprio ciò che lui vuole studiare, e sopra resta una versione annacquata. Qui si misura il
+  // difetto opposto a tutti gli altri: non «troppo difficile», ma «troppo vuoto».
+  //
+  // Restano AVVISI e non bocciature, per un motivo dichiarato: una lettera a un negoziante non parla
+  // di strumenti e non deve. Un rosso lì sarebbe un falso positivo, e un cancello che accusa a torto
+  // viene spento entro il giorno.
+  const sottoLaRiga = String(testo).split("\n").length - righeNicola.length;
+  const paroleTecnicheSopra = PAROLE_MACCHINA.filter((p) =>
+    new RegExp(`(?<![\\w-])${p.replace(/-/g, "[- ]")}[aeio]?(?![\\w-])`, "i").test(corpo),
+  ).length;
+  if (sottoLaRiga > 3 && paroleTecnicheSopra === 0) {
+    avvisi.push({
+      riga: righeNicola.length,
+      dico: "tutta la sostanza tecnica è finita sotto la riga: i termini e i ragionamenti servono a Nicola per capire come ragiona la macchina, spiegali dove servono",
+    });
+  }
+  if (testoLungo && paroleTecnicheSopra === 0 && !/\d/.test(corpo)) {
+    avvisi.push({ riga: 1, dico: "spiegazione senza sostanza: nessuno strumento, nessun numero, nessun fatto verificabile" });
+  }
+
+  // ④ Le tre risposte, l'esempio e il passo indietro: solo sui testi lunghi, dove servono davvero.
+  if (testoLungo) {
+    // Il PASSO INDIETRO è una misura debole e va detto: cerco i segni che sto dicendo *di cosa* parlo
+    // e *a cosa serve* prima del merito. Un testo può passare questa e non fare il passo indietro
+    // davvero — è un pungolo, non una prova. L'unico giudice vero resta Nicola.
+    const apertura = righeNicola.slice(0, 12).join(" ");
+    if (!/(serve a|a cosa serve|vuol dire|si occupa|parlo di|prima di cosa|cioè)/i.test(apertura)) {
+      avvisi.push({ riga: 1, dico: "manca il passo indietro: nelle prime righe non dico di cosa parlo e a cosa serve" });
+    }
+  }
   if (testoLungo) {
     for (const blocco of BLOCCHI) {
       if (!new RegExp(blocco.replace(/\s+/g, "\\s+"), "i").test(corpo)) {
@@ -252,7 +295,11 @@ function fileDelCorpus(radice) {
     else if (st.isDirectory()) for (const f of readdirSync(p)) aggiungi(join(p, f));
   };
   for (const c of CORPUS) aggiungi(join(radice, c));
-  return out.sort((a, b) => statSync(b).mtimeMs - statSync(a).mtimeMs).slice(0, 60);
+  // NIENTE TAGLIO AI PIU' RECENTI. Il primo giro ne prendeva 60 e i tre file che Nicola apre ogni
+  // giorno — STATO, BACHECA, AZIONI-IN-ATTESA — erano fuori dalla misura, perche' l'ultima modifica
+  // era del 30/7 e nel frattempo erano nate 60 consegne. Il numero in cima diceva "52.008 parole"
+  // saltando le 43.000 che pesano di piu'. Una misura che esclude i casi grossi non e' una misura.
+  return out.sort((a, b) => statSync(b).mtimeMs - statSync(a).mtimeMs);
 }
 
 function scansione(radice) {
@@ -286,7 +333,9 @@ function scansione(radice) {
   const perTipo = {};
   for (const r of righe) for (const p of r.problemi) perTipo[p.tipo] = (perTipo[p.tipo] || 0) + 1;
 
+  const minutiTotali = Math.round(parole / 180);
   console.log(`\n   totale: ${tot} problemi su ${parole} parole (${(tot / righe.length).toFixed(1)} per testo)`);
+  console.log(`   quanto ci mette Nicola a leggerli tutti: ~${minutiTotali} minuti (${(minutiTotali / 60).toFixed(1)} ore)`);
   console.log("\n   per tipo:");
   for (const [t, n] of Object.entries(perTipo).sort((a, b) => b[1] - a[1])) {
     console.log(`     ${String(n).padStart(4)}  ${t}`);
@@ -310,10 +359,16 @@ function scansione(radice) {
         testi: righe.length,
         parole,
         problemi: tot,
+        minuti_di_lettura: Math.round(parole / 180),
         per_testo: Number((tot / righe.length).toFixed(1)),
         per_tipo: perTipo,
         parole_fuori_glossario: Object.fromEntries(mie),
         peggiori: righe.slice(0, 10).map((r) => ({ file: r.file, voto: r.voto, problemi: r.problemi.length })),
+        // I piu' LUNGHI, non i piu' difficili: un testo da un'ora non si aggiusta spezzando le frasi.
+        piu_lunghi: [...righe]
+          .sort((a, b) => b.minuti - a.minuti)
+          .slice(0, 5)
+          .map((r) => ({ file: r.file, minuti: r.minuti, parole: r.parole })),
       },
       null,
       2,

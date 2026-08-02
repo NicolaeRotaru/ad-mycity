@@ -427,12 +427,13 @@ Se passa, la memoria finisce su `main` e il Pannello la mostra.
 
 ---
 
-## Parte 10-bis — Le parole vere del mestiere (queste valgono anche fuori da qui)
+## Parte 10-bis — Le parole vere del mestiere, quelle che valgono anche fuori da qui
 
-Le parti da 1 a 10 spiegano le parole **della macchina**: sono nomi che ho dato io alle sue parti, e
-funzionano solo dentro MyCity. Questa parte è diversa: sono le parole che usano **tutti gli
-sviluppatori del mondo**. Impararle serve a te per parlare con chiunque metta le mani sul sito, non
-solo con me.
+Le parti da 1 a 10 spiegano le parole **della macchina**. Sono nomi che ho dato io alle sue parti.
+Funzionano solo dentro MyCity.
+
+Questa parte è diversa. Sono le parole che usano **tutti gli sviluppatori del mondo**. Impararle
+serve a te per parlare con chiunque metta le mani sul sito, non solo con me.
 
 Misurate il 2/8/2026: erano **19 parole** che usavo nei testi e che non stavano da nessuna parte in
 questo glossario. Nicola non poteva studiarle perché non erano scritte.

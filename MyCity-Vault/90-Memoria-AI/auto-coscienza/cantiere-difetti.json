@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-02 19:05",
+  "aggiornato": "2026-08-02 22:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8308,10 +8308,28 @@
       "verifica": {
         "comando": "node cervello/test/si-capisce.test.mjs"
       }
+    },
+    {
+      "id": "AR-479",
+      "stato": "aperto",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-02 22:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "Trovato misurando i testi vivi per rispondere a «riscrivi i vecchi testi». Nessuno aveva mai misurato QUANTO SONO LUNGHI i file che Nicola apre ogni giorno.",
+      "titolo": "I tre file che Nicola apre ogni giorno sono 43.000 parole: quattro ore di lettura per sapere cosa deve approvare",
+      "causa_radice": "① Misura del 2/8: STATO.md 17.722 parole (~98 minuti), BACHECA.md 14.891 (~83 minuti), AZIONI-IN-ATTESA.md 10.683 (~59 minuti). Totale ~43.300 parole, circa 4 ore. ② Sono file ad accumulo: ogni giro aggiunge un blocco in cima e non toglie niente. STATO ha 821 righe, e ogni voce e un paragrafo unico da 300 parole con dentro venti fatti. ③ Il difetto NON e la forma della singola frase: anche riscrivendo ogni frase, restano quattro ore. La forma la misura AR-478; la lunghezza non la misurava nessuno. ④ Perche non se ne accorge nessuno: chi scrive aggiunge sempre un blocco piccolo, e il costo lo paga solo chi legge dall'inizio. ⑤ Conseguenza sul business: la coda delle firme e il posto dove Nicola decide, e leggerla per intero costa un'ora. Quindi non si legge per intero, quindi le decisioni scivolano.",
+      "fix_proposto": "ASPETTA UNA DECISIONE DI NICOLA, non una riparazione: le tre strade cambiano cosa la Cabina legge, quindi non le sceglie la macchina. La misura che le mette a confronto esiste gia: node cervello/si-capisce.mjs --scansione (campo minuti_di_lettura in auto-coscienza/si-capisce.json). DA DECIDERE con Nicola, tre strade non esclusive. a) POTATURA: le voci chiuse o piu vecchie di N giorni scendono in un archivio e i file vivi restano corti. Rischio: il Pannello legge quei file, quindi va verificato prima cosa si rompe. b) SPACCHETTAMENTO: STATO tiene solo l'ultimo giro piu una riga per giorno, la storia va in un file a parte. c) TETTO DICHIARATO: un limite di parole per file vivo, che scende e non risale, come gia si fa per i difetti. Nessuna e reversibile a cuor leggero: tocca i file che la Cabina legge, quindi 🟡 con firma di Nicola.",
+      "verifica": {
+        "tipo": "umano"
+      }
     }
   ],
   "meta": {
-    "aperti": 164,
+    "aperti": 165,
     "in_corso": 0,
     "chiusi": 249
   }

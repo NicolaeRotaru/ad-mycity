@@ -48,6 +48,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { percorsiDaGit } from "./percorsi-git.mjs";
+import { misura, parolePeggioNoteAGlossario } from "./si-capisce.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -120,6 +121,55 @@ export function consegnaSenzaEsito(fileCommittati = []) {
   return { quanti: codice.length, esempio: codice.slice(0, 3) };
 }
 
+/**
+ * ⑤ I testi che Nicola leggerà e che non si capiscono (AR-478).
+ *
+ * Nicola, 2/8: «ho perso 2 ore solo per capire due botta e risposta nelle ultime 5 PR» e poi
+ * «attacca il misuratore così viene chiamato in automatico, così non lo salti mai quando c'è
+ * pressione». Prima di questo, `si-capisce.mjs` esisteva e non lo chiamava NESSUNO: era una buona
+ * intenzione, cioè esattamente il tipo di rituale che salta per primo sotto pressione (AR-154).
+ *
+ * Sta qui e non in un guardiano nuovo per un motivo pratico: questo file gira già in due canali —
+ * l'evento `Stop` (l'istante in cui dico «fatto») e il cancello del lotto, che la CI esegue su ogni
+ * PR. Un aggancio solo, due porte.
+ *
+ * PERIMETRO: le cartelle dove Nicola legge, esclusa la storia. Briefing, DECISIONI e Sala Operativa
+ * sono il registro di cosa è successo: riscriverli sarebbe cambiare il passato, non spiegarsi meglio.
+ */
+export const CARTELLE_DI_NICOLA = ["MyCity-Vault/90-Memoria-AI/", "consegne/"];
+export const STORIA_ESENTE = /(Briefing\/|DECISIONI\.md|SALA-OPERATIVA\.md|archivio|quaderni\/)/;
+
+export function testiIlleggibili(testi = [], noteAGlossario = null) {
+  const fuori = [];
+  for (const t of testi) {
+    if (!CARTELLE_DI_NICOLA.some((c) => t.file.startsWith(c))) continue;
+    if (STORIA_ESENTE.test(t.file)) continue;
+    const m = misura(t.contenuto, { noteAGlossario });
+
+    // SI MISURA IL PEGGIORAMENTO, NON IL TOTALE.
+    //
+    // Il primo giro dal vivo ha bocciato il GLOSSARIO per 48 punti: un file di 500 righe scritto
+    // mesi fa, che avevo sfiorato per aggiungerci una parte. Con la regola sul totale, ogni ritocco
+    // a un testo lungo diventa un blocco — e un cancello che non può diventare verde viene aggirato
+    // al secondo giro. È scritto nella casa, ed è successo davvero al typecheck del Pannello.
+    //
+    // Il debito vecchio resta debito (misurato, e si riscrive a mano, un testo per volta). Quello che
+    // qui NON deve passare è il debito NUOVO: un file che esce peggiore di come è entrato.
+    // Un file nuovo entra da zero, quindi ogni suo problema è nuovo: lì la soglia è 0, come deve.
+    const prima = t.contenutoPrima == null ? 0 : misura(t.contenutoPrima, { noteAGlossario }).problemi.length;
+    if (m.problemi.length <= prima) continue;
+
+    fuori.push({
+      file: t.file,
+      quanti: m.problemi.length,
+      prima,
+      nuovi: m.problemi.length - prima,
+      primi: m.problemi.slice(0, 3),
+    });
+  }
+  return fuori;
+}
+
 /** ③ Le lezioni nuove che non nominano un freno: una lezione senza gate è una frase. */
 export function lezioniSenzaGate(prima = [], dopo = []) {
   const gia = new Set(prima.map((l) => l.id));
@@ -133,7 +183,14 @@ export function lezioniSenzaGate(prima = [], dopo = []) {
  * ripartendo per colpa di un blocco precedente. Bloccare di nuovo lì significherebbe un turno che non
  * finisce mai — e un freno che incastra viene spento entro il giorno, che è il peggiore degli esiti.
  */
-export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito = null, giaBloccato = false } = {}) {
+export function verdetto({
+  chiusi = [],
+  allarmi = [],
+  lezioni = [],
+  senzaEsito = null,
+  illeggibili = [],
+  giaBloccato = false,
+} = {}) {
   const righe = [];
   for (const d of chiusi) {
     righe.push(
@@ -156,6 +213,15 @@ export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito =
         `\n   → ${senzaEsito.esempio.join(", ")}${senzaEsito.quanti > senzaEsito.esempio.length ? ", …" : ""}` +
         `\n   → node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard>" "<atteso>" "<reale>" "#tag"` +
         `\n   → atteso→reale è la calibrazione: senza, il lavoro è fatto e nessuno impara niente da com'è andato.`,
+    );
+  }
+  for (const t of illeggibili) {
+    righe.push(
+      `❌ ${t.file} lo leggerà Nicola e questo lavoro gli ha aggiunto ${t.nuovi} punti difficili` +
+        ` (era ${t.prima}, adesso ${t.quanti} — AR-478)` +
+        t.primi.map((p) => `\n   → riga ${p.riga}: ${p.dico}`).join("") +
+        `\n   → node cervello/si-capisce.mjs ${t.file}` +
+        `\n   → la sostanza NON si toglie: i termini tecnici e i ragionamenti restano, si spiegano dove servono.`,
     );
   }
   if (!righe.length) return { blocca: false, righe: [] };
@@ -243,6 +309,63 @@ function fileCommittatiSulRamo() {
   return null; // cieco: non accuso nessuno di non aver scritto l'esito
 }
 
+/** Il testo com'era prima di questo ramo. `null` = non c'era, quindi è tutto nuovo. */
+function testoDiBase(percorso) {
+  for (const base of ["origin/main", "main"]) {
+    try {
+      return git(["show", `${base}:${percorso}`]);
+    } catch {
+      // il file non c'era su quella base, oppure la base non esiste: provo la prossima
+    }
+  }
+  return null;
+}
+
+/**
+ * I testi che questo lavoro sta consegnando a Nicola: modificati nell'albero di lavoro OPPURE già
+ * committati sul ramo. Servono entrambi — il primo prende il testo che sto scrivendo adesso, il
+ * secondo quello che ho scritto tre commit fa e che uscirà lo stesso con la PR.
+ *
+ * Non usa `fileDelLavoro()` perché quello guarda solo i file NUOVI: un testo peggiorato riscrivendolo
+ * è il caso più probabile, ed era proprio quello che sfuggiva.
+ */
+function testiToccati() {
+  const percorsi = new Set();
+  try {
+    for (const r of git(["status", "--porcelain"]).split("\n").filter(Boolean)) {
+      const p = r.slice(3).trim().split(" -> ").pop();
+      if (p.endsWith(".md")) percorsi.add(p);
+    }
+  } catch {
+    // niente git: resta l'elenco vuoto, e un elenco vuoto non accusa nessuno
+  }
+  for (const base of ["origin/main", "main"]) {
+    try {
+      for (const p of percorsiDaGit(["diff", `${base}...HEAD`, "--name-only"], { cwd: REPO })) {
+        if (p.endsWith(".md")) percorsi.add(p);
+      }
+      break;
+    } catch {
+      // provo la base successiva
+    }
+  }
+  const testi = [];
+  for (const p of percorsi) {
+    try {
+      const abs = join(REPO, p);
+      if (!existsSync(abs)) continue;
+      testi.push({
+        file: p,
+        contenuto: readFileSync(abs, "utf8").slice(0, 200_000),
+        contenutoPrima: testoDiBase(p),
+      });
+    } catch {
+      // illeggibile: taccio invece di accusare
+    }
+  }
+  return testi;
+}
+
 async function leggiStdin() {
   const pezzi = [];
   for await (const p of process.stdin) pezzi.push(p);
@@ -275,6 +398,7 @@ async function main() {
     chiusi: chiusiSenzaProva(cantierePrima, cantiereDopo),
     allarmi: allarmiSenzaCoda(file, codaToccata),
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),
+    illeggibili: testiIlleggibili(testiToccati(), parolePeggioNoteAGlossario(REPO)),
     giaBloccato,
   });
 

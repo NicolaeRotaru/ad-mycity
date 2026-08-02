@@ -11,7 +11,15 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { chiusiSenzaProva, allarmiSenzaCoda, lezioniSenzaGate, consegnaSenzaEsito, verdetto, ALLARMI } from "../cancello-stop.mjs";
+import {
+  chiusiSenzaProva,
+  allarmiSenzaCoda,
+  lezioniSenzaGate,
+  consegnaSenzaEsito,
+  testiIlleggibili,
+  verdetto,
+  ALLARMI,
+} from "../cancello-stop.mjs";
 
 // ── ① difetto chiuso senza prova ──────────────────────────────────────────────
 
@@ -144,4 +152,65 @@ test("il verdetto dice QUALE comando lancio e perche' serve", () => {
   const t = v.righe.join("\n");
   assert.match(t, /chiusura-loop\.mjs registra/, "deve dare il comando, non solo il rimprovero");
   assert.match(t, /atteso.*reale|calibrazione/i, "e dire perche' quella riga vale qualcosa");
+});
+
+// ── ⑤ AR-478: il testo che Nicola leggera' e non si capisce ─────────────────────────────────────
+//
+// Nicola, 2/8: «attacca il misuratore cosi' viene chiamato in automatico, cosi' non lo salti mai
+// quando c'e' pressione». Prima di questo, si-capisce.mjs non lo chiamava nessuno.
+
+const NOTE = new Set(["cancello", "guardiano", "freno"]);
+const lungoDifficile = [
+  "# Titolo",
+  ...Array.from({ length: 20 }, (_, i) => `Riga ${i} di spiegazione che non dice niente di concreto.`),
+].join("\n");
+
+test("un testo NUOVO per Nicola che non si capisce viene fermato", () => {
+  const r = testiIlleggibili([{ file: "consegne/tech/nota.md", contenuto: lungoDifficile, contenutoPrima: null }], NOTE);
+  assert.equal(r.length, 1, "un file nuovo entra da zero: ogni suo problema e' nuovo");
+  assert.ok(r[0].quanti > 0);
+});
+
+test("SI MISURA IL PEGGIORAMENTO, non il totale: un file vecchio gia' difficile passa se non peggiora", () => {
+  // Il caso vero che ha generato la regola: il GLOSSARIO, 500 righe scritte a luglio, sfiorato per
+  // aggiungerci una parte. Sul totale sarebbe stato un blocco a ogni ritocco, e un cancello che non
+  // puo' diventare verde viene aggirato al secondo giro.
+  const r = testiIlleggibili(
+    [{ file: "consegne/tech/nota.md", contenuto: lungoDifficile, contenutoPrima: lungoDifficile }],
+    NOTE,
+  );
+  assert.deepEqual(r, [], "stesso testo, stessi problemi: non e' debito nuovo");
+});
+
+test("…ma se lo stesso file peggiora, si ferma e dice DI QUANTO", () => {
+  const peggiorato = lungoDifficile + "\nCome dicevo, la cosa era gia' evidente a tutti.";
+  const r = testiIlleggibili(
+    [{ file: "consegne/tech/nota.md", contenuto: peggiorato, contenutoPrima: lungoDifficile }],
+    NOTE,
+  );
+  assert.equal(r.length, 1);
+  assert.ok(r[0].nuovi >= 1, "deve dire quanti punti ho aggiunto io");
+  assert.ok(r[0].prima > 0, "e da quanti partiva");
+});
+
+test("la storia non si riscrive: briefing, decisioni e sala operativa sono esenti", () => {
+  const testi = [
+    { file: "MyCity-Vault/90-Memoria-AI/Briefing/2026-07-01.md", contenuto: lungoDifficile, contenutoPrima: null },
+    { file: "MyCity-Vault/90-Memoria-AI/DECISIONI.md", contenuto: lungoDifficile, contenutoPrima: null },
+    { file: "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md", contenuto: lungoDifficile, contenutoPrima: null },
+  ];
+  assert.deepEqual(testiIlleggibili(testi, NOTE), [], "riscrivere il passato non e' spiegarsi meglio");
+});
+
+test("il codice non viene misurato come prosa: solo dove legge Nicola", () => {
+  const testi = [{ file: "cervello/README.md", contenuto: lungoDifficile, contenutoPrima: null }];
+  assert.deepEqual(testiIlleggibili(testi, NOTE), []);
+});
+
+test("il verdetto dice il comando per vedere tutto e vieta di togliere la sostanza", () => {
+  const v = verdetto({ illeggibili: [{ file: "consegne/x.md", quanti: 9, prima: 2, nuovi: 7, primi: [{ riga: 3, dico: "spezzala" }] }] });
+  assert.equal(v.blocca, true);
+  const t = v.righe.join("\n");
+  assert.match(t, /si-capisce\.mjs consegne\/x\.md/, "deve dare il comando per vederli tutti");
+  assert.match(t, /sostanza NON si toglie/, "AR-478: i termini tecnici restano, si spiegano");
 });

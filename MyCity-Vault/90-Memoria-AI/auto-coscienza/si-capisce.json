@@ -1,67 +1,101 @@
 {
   "_cosa_e": "Quanto è difficile leggere quello che scrivo a Nicola. Meno è, meglio è.",
-  "misurato": "2026-08-02 19:45",
-  "testi": 60,
-  "parole": 52008,
-  "problemi": 810,
-  "per_testo": 13.5,
+  "misurato": "2026-08-02 20:55",
+  "testi": 689,
+  "parole": 1056401,
+  "problemi": 23281,
+  "minuti_di_lettura": 5869,
+  "per_testo": 33.8,
   "per_tipo": {
-    "incisi": 488,
-    "frase-lunga": 203,
-    "manca-una-risposta": 90,
-    "manca-esempio": 29
+    "incisi": 15000,
+    "manca-una-risposta": 1245,
+    "manca-esempio": 410,
+    "frase-lunga": 6595,
+    "sottinteso": 24,
+    "parola-mia": 7
   },
-  "parole_fuori_glossario": {},
+  "parole_fuori_glossario": {
+    "guardrail": 4,
+    "referto": 1,
+    "denominatore": 2
+  },
   "peggiori": [
     {
-      "file": "consegne/vendite/2026-07-06-shortlist-onboarding-post-9-7.md",
-      "voto": 16.6,
-      "problemi": 15
+      "file": "consegne/operations/2026-07-01-escalation-post-168h-v8.md",
+      "voto": 17.8,
+      "problemi": 10
     },
     {
-      "file": "consegne/vendite/2026-06-30-primi-10-lead-food-centro.md",
-      "voto": 10.2,
+      "file": "consegne/vendite/2026-07-06-shortlist-onboarding-post-9-7.md",
+      "voto": 16,
+      "problemi": 12
+    },
+    {
+      "file": "consegne/operations/2026-07-01-escalation-post-168h-v10.md",
+      "voto": 16,
       "problemi": 11
     },
     {
-      "file": "consegne/tech/pr-intelligence-upgrade-body.md",
-      "voto": 9.7,
+      "file": "consegne/operations/2026-07-01-escalation-post-168h-v11.md",
+      "voto": 15.8,
+      "problemi": 11
+    },
+    {
+      "file": "consegne/audit/2026-07-03-auto-radiografia.md",
+      "voto": 15.7,
+      "problemi": 18
+    },
+    {
+      "file": "consegne/operations/2026-07-02-escalation-v12-stallo-190h.md",
+      "voto": 14.4,
+      "problemi": 8
+    },
+    {
+      "file": "consegne/operations/2026-07-01-escalation-post-168h-v9.md",
+      "voto": 14.3,
+      "problemi": 10
+    },
+    {
+      "file": "consegne/ad/2026-07-01-nota-escalation-168h-v4.md",
+      "voto": 13.2,
+      "problemi": 10
+    },
+    {
+      "file": "consegne/finanza/2026-07-17-diagnosi-cassa-runway.md",
+      "voto": 13.1,
       "problemi": 5
     },
     {
-      "file": "consegne/tech/pr-diretta-contenuti-stabile-body.md",
-      "voto": 8.7,
-      "problemi": 5
+      "file": "consegne/operations/2026-07-20-checklist-mattina-north-star.md",
+      "voto": 12.8,
+      "problemi": 10
+    }
+  ],
+  "piu_lunghi": [
+    {
+      "file": "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
+      "minuti": 451,
+      "parole": 81209
     },
     {
-      "file": "consegne/vendite/2026-07-18-whatsapp-anchor-pi26.md",
-      "voto": 7.5,
-      "problemi": 7
+      "file": "consegne/audit/2026-07-29-radiografia.md",
+      "minuti": 315,
+      "parole": 56622
     },
     {
-      "file": "consegne/trust-safety/2026-07-06-gate-codice-badge-verificato.md",
-      "voto": 7.2,
-      "problemi": 17
+      "file": "MyCity-Vault/90-Memoria-AI/Storico/STATO-2026-07.md",
+      "minuti": 304,
+      "parole": 54730
     },
     {
-      "file": "consegne/vendite/2026-07-20-playbook-scout-negozi-categorie-mancanti.md",
-      "voto": 7.1,
-      "problemi": 20
+      "file": "consegne/audit/2026-07-16-auto-radiografia.md",
+      "minuti": 263,
+      "parole": 47370
     },
     {
-      "file": "consegne/vendite/2026-07-06-lista-27-botteghe-food-da-chiamare.md",
-      "voto": 6.9,
-      "problemi": 25
-    },
-    {
-      "file": "consegne/vendite/2026-07-06-scout-negozi-categorie-mancanti.md",
-      "voto": 6.7,
-      "problemi": 28
-    },
-    {
-      "file": "consegne/vendite/2026-07-20-playbook-capillarita.md",
-      "voto": 6.6,
-      "problemi": 16
+      "file": "consegne/audit/2026-07-30-auto-radiografia.md",
+      "minuti": 252,
+      "parole": 45408
     }
   ]
 }
