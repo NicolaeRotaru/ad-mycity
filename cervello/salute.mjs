@@ -573,6 +573,44 @@ const CONTROLLI = [
   },
 
   {
+    // AR-474 — l'abitudine: «quando finisco, scrivo il verdetto dove è comodo per me, non dove lo
+    // legge Nicola». I due cancelli la fermano in avanti; questo dice se sta davvero scomparendo.
+    //
+    // Sta nella VISITA e non in un comando a parte perché la visita è la cosa che Nicola chiede
+    // («controlla se funziona tutto»): il numero finisce nel referto che legge, non in un file che
+    // dovrebbe andare a cercare. Verificato dove atterra invece di darlo per scontato: `salute.json`
+    // + `consegne/salute/AAAA-MM-GG-*.md`. Il campo `ultime` NON è renderizzato da nessuna schermata
+    // della Cabina — l'ho controllato nel Pannello, non dedotto — e quel buco è AR-476, dichiarato
+    // aperto invece che raccontato come coperto.
+    id: "cervello.esiti",
+    organo: "cervello",
+    titolo: "Il lavoro consegnato dice com'è andato",
+    impatto: 2,
+    async prova() {
+      const r = eseguiNode("conta-verdetti-muti.mjs", ["--json"], 120_000);
+      if (!r.partito) return guasto(r.motivo);
+      if (r.code === 2) return nonVisto(`non ho potuto contare: ${String(r.out).trim().slice(0, 140)}`);
+      // `out` mescola stdout e stderr: il JSON è il primo oggetto che comincia. Se non c'è, è ⚪ —
+      // un contatore che non risponde non è «zero consegne mute», è un contatore che non ha risposto.
+      let d = null;
+      const i = String(r.out).indexOf("{");
+      if (i >= 0) {
+        try {
+          d = JSON.parse(String(r.out).slice(i));
+        } catch {
+          /* resta null → ⚪ qui sotto */
+        }
+      }
+      if (!d || typeof d.consegne !== "number") return nonVisto("il contatore dei verdetti muti non ha risposto in modo leggibile");
+      const cab = d.cabina
+        ? ` · Cabina ${d.cabina.giorni_indietro} giorni indietro (STATO al ${d.cabina.stato_aggiornato})`
+        : " · Cabina: data di STATO.md illeggibile";
+      const testo = `${d.mute} consegne su ${d.consegne} degli ultimi ${d.finestra_giorni} giorni senza una riga di esito (${d.tasso}%)${cab}`;
+      return r.code === 0 ? ok(testo, d) : rotto(`${testo} — il debito si è allargato rispetto al tetto`, d);
+    },
+  },
+
+  {
     id: "cervello.skill",
     organo: "cervello",
     titolo: "Le braccia della macchina sono versionate",

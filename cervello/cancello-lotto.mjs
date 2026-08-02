@@ -563,6 +563,11 @@ function main() {
     // in un comando a parte perché la configurazione si tocca proprio quando si consegna un freno
     // nuovo — cioè nel momento esatto in cui si può staccare tutto senza accorgersene.
     passi.push(esegui("gli hook attaccati", "node", ["cervello/hooks-check.mjs"]));
+    // AR-474 — il contatore dell'abitudine. I due cancelli fermano il caso nuovo; questo dice se il
+    // comportamento sta scomparendo o se sto solo trovando il modo di aggirarli. Ha un tetto che
+    // scende e non risale: qui diventa rosso solo se il debito si ALLARGA, cioè se una consegna muta
+    // in più è entrata mentre il freno era acceso.
+    passi.push(esegui("consegne senza esito (contatore)", "node", ["cervello/conta-verdetti-muti.mjs", "--json"]));
     passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));
 
     // AR-393 — LA PROVA CHE LE PROVE PROVINO, ESEGUITA INVECE CHE NOMINATA.

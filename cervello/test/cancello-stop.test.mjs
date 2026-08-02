@@ -11,7 +11,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { chiusiSenzaProva, allarmiSenzaCoda, lezioniSenzaGate, consegnaSenzaEsito, verdetto, ALLARMI } from "../cancello-stop.mjs";
+import { chiusiSenzaProva, allarmiSenzaCoda, lezioniSenzaGate, consegnaSenzaEsito, esitiScritti, verdetto, ALLARMI } from "../cancello-stop.mjs";
 
 // ── ① difetto chiuso senza prova ──────────────────────────────────────────────
 
@@ -122,20 +122,90 @@ test("tre problemi diversi si dicono tutti e tre, non solo il primo", () => {
 // 21-24/7 il quaderno di @tech e' rimasto fermo al 20/7 per 47 righe mentre decine di PR venivano
 // mergiate. Non e' pigrizia: sotto pressione si chiude il bug dopo, non si registra quello prima.
 
-test("IL CASO AR-154: codice committato e nessun quaderno toccato viene fermato", () => {
-  const r = consegnaSenzaEsito(["cervello/git-pr.mjs", "pannello/src/lib/nav.ts"]);
+const RIGA_VERA =
+  "- 2026-08-01 23:26 · Guardiano degli hook · 13 prove · atteso un refuso di maiuscola → reale il JSON invalido scaricava tutti gli hook · #guardiani";
+
+test("IL CASO AR-154: codice committato e nessuna riga di esito viene fermato", () => {
+  const r = consegnaSenzaEsito(["cervello/git-pr.mjs", "pannello/src/lib/nav.ts"], []);
   assert.notEqual(r, null, "consegnare codice senza dire com'e' andata e' il difetto");
   assert.equal(r.quanti, 2);
+  assert.equal(r.quadernoToccato, false);
 });
 
-test("se una riga di quaderno c'e', passa: il freno chiede l'esito, non un modulo", () => {
-  assert.equal(consegnaSenzaEsito(["cervello/git-pr.mjs", "memoria-squadra/tech.md"]), null);
+test("se una riga di esito VERA c'e', passa: il freno chiede l'esito, non un modulo", () => {
+  assert.equal(consegnaSenzaEsito(["cervello/git-pr.mjs", "memoria-squadra/tech.md"], [RIGA_VERA]), null);
+});
+
+test("IL LIMITE ①: toccare il quaderno senza scrivere la calibrazione non basta piu'", () => {
+  // La prima stesura si accontentava che il file comparisse fra i committati: bastava una virgola.
+  // Un freno che si puo' soddisfare senza fare la cosa che difende insegna a soddisfarlo.
+  const r = consegnaSenzaEsito(["cervello/x.mjs", "memoria-squadra/tech.md"], ["  ", "## Esiti", "- una nota qualsiasi"]);
+  assert.notEqual(r, null, "il file c'e' ma la riga no");
+  assert.equal(r.quadernoToccato, true, "chi legge deve sapere che il quaderno l'ho toccato: cambia cosa deve fare");
+});
+
+test("IL LIMITE ①b: una riga senza «atteso → reale» e' una ricevuta, non un esito", () => {
+  const senzaCalibrazione = "- 2026-08-01 23:26 · Guardiano degli hook · 13 prove · #guardiani";
+  assert.notEqual(consegnaSenzaEsito(["cervello/x.mjs"], [senzaCalibrazione]), null);
+  assert.equal(esitiScritti([senzaCalibrazione]).length, 0);
+  assert.equal(esitiScritti([RIGA_VERA]).length, 1);
+});
+
+test("IL LIMITE ②: solo le righe AGGIUNTE contano, quindi un quaderno toccato per altro non vale", () => {
+  // Una potatura o un riordino modificano il file senza aggiungere un esito: prima passavano.
+  assert.notEqual(consegnaSenzaEsito(["cervello/x.mjs", "memoria-squadra/tech.md"], ["- 2026-07-02 · vecchia nota riformattata"]), null);
 });
 
 test("un lavoro di sola memoria non deve un esito di reparto", () => {
   // Aggiornare STATO o una scheda non e' un lavoro di reparto: chiedere l'esito qui sarebbe rumore.
-  assert.equal(consegnaSenzaEsito(["MyCity-Vault/90-Memoria-AI/STATO.md", "consegne/x.md"]), null);
-  assert.equal(consegnaSenzaEsito([]), null, "niente committato, niente da chiedere");
+  assert.equal(consegnaSenzaEsito(["MyCity-Vault/90-Memoria-AI/STATO.md", "consegne/x.md"], []), null);
+  assert.equal(consegnaSenzaEsito([], []), null, "niente committato, niente da chiedere");
+});
+
+test("il verdetto distingue «non hai scritto niente» da «hai toccato il quaderno senza la calibrazione»", () => {
+  const senza = verdetto({ senzaEsito: { quanti: 1, esempio: ["cervello/x.mjs"], quadernoToccato: false } }).righe.join("\n");
+  const toccato = verdetto({ senzaEsito: { quanti: 1, esempio: ["cervello/x.mjs"], quadernoToccato: true } }).righe.join("\n");
+  assert.ok(!/quaderno l'ho toccato/.test(senza));
+  assert.match(toccato, /quaderno l'ho toccato/, "sono due errori diversi e si rimediano in due modi diversi");
+});
+
+// ── ⑤ il canale della coda: l'allarme aggiunto a una consegna che esisteva gia' ─
+
+test("IL CANALE ①: un allarme AGGIUNTO a una consegna esistente adesso viene visto", () => {
+  // Prima contavano solo i file NUOVI: un 🔴 appeso in fondo a un rapporto gia' consegnato passava.
+  // Ed e' il caso piu' probabile dei due — le consegne si aggiornano piu' spesso di quanto nascano.
+  const modificate = [{ file: "consegne/devops/stato-sito.md", righe: ["## 2 agosto", "🔴 il sito e' giu' da 36 ore"] }];
+  assert.deepEqual(allarmiSenzaCoda([], false, modificate), ["consegne/devops/stato-sito.md"]);
+});
+
+test("una consegna aggiornata senza allarmi non dice niente", () => {
+  const modificate = [{ file: "consegne/marketing/piano.md", righe: ["aggiunta una riga tranquilla"] }];
+  assert.deepEqual(allarmiSenzaCoda([], false, modificate), []);
+});
+
+test("se la coda e' stata toccata tace su entrambe le sorgenti", () => {
+  const modificate = [{ file: "consegne/x.md", righe: ["🔴 grave"] }];
+  assert.deepEqual(allarmiSenzaCoda([{ file: "n.md", contenuto: "🔴" }], true, modificate), []);
+});
+
+test("lo stesso file trovato da entrambe le sorgenti si dice una volta sola", () => {
+  const r = allarmiSenzaCoda([{ file: "consegne/x.md", contenuto: "🔴 grave" }], false, [{ file: "consegne/x.md", righe: ["🔴 grave"] }]);
+  assert.deepEqual(r, ["consegne/x.md"]);
+});
+
+// ── ⑥ cieco non e' verde ──────────────────────────────────────────────────────
+
+test("IL LIMITE ③: quando non ho potuto misurare lo DICO, invece di tacere", () => {
+  const v = verdetto({ ciechi: ["non ho trovato un ramo con cui confrontarmi"] });
+  assert.equal(v.blocca, false, "non accuso nessuno: non ho misurato");
+  assert.equal(v.cieco, true);
+  assert.match(v.righe[0], /^⚪/, "un silenzio e' indistinguibile da un «va tutto bene»");
+});
+
+test("il cieco si dice ANCHE quando c'e' gia' un problema: sono due informazioni diverse", () => {
+  const v = verdetto({ chiusi: [{ id: "AR-9", titolo: "x" }], ciechi: ["base assente"] });
+  assert.equal(v.blocca, true);
+  assert.ok(v.righe.some((r) => r.startsWith("⚪")));
 });
 
 test("il verdetto dice QUALE comando lancio e perche' serve", () => {
