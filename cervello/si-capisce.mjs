@@ -171,11 +171,16 @@ export function misura(testo, { noteAGlossario = null } = {}) {
   // ② La forma della spiegazione — il difetto vero.
   for (const f of frasi(corpo)) {
     const n = f.split(/\s+/).filter(Boolean).length;
+    // IL NUMERO DI RIGA NON BASTA, e spesso è pure sbagliato: una frase che va a capo non si trova
+    // in nessuna riga singola, e il locatore ripiega sulla riga 1. Scoperto usandolo: il cancello mi
+    // ha detto «spezzala» quattro volte senza dirmi QUALE frase, ed è la specie di verdetto che non
+    // si può eseguire. Da qui in poi il verdetto porta la frase, e la riga resta un di più.
     const riga = righeNicola.findIndex((r) => r.includes(f.slice(0, 25))) + 1 || 1;
+    const inizio = f.slice(0, 60).trim() + (f.length > 60 ? "…" : "");
     if (n > PAROLE_FRASE_ROSSA) {
-      problemi.push({ riga, tipo: "frase-lunga", trovato: `${n} parole`, dico: "spezzala: una frase, un'idea" });
+      problemi.push({ riga, tipo: "frase-lunga", trovato: `${n} parole`, frase: inizio, dico: "spezzala: una frase, un'idea" });
     } else if (n > PAROLE_FRASE_AVVISO) {
-      avvisi.push({ riga, dico: `frase da ${n} parole: sta al limite` });
+      avvisi.push({ riga, dico: `frase da ${n} parole: sta al limite`, frase: inizio });
     }
     // Due incisi in una frase sola è il difetto che si vede di più nei testi che Nicola non ha capito:
     // un'idea si apre, ne entra un'altra, e la prima si chiude tre righe dopo. È un problema, non un vezzo.
@@ -185,6 +190,7 @@ export function misura(testo, { noteAGlossario = null } = {}) {
         riga,
         tipo: "incisi",
         trovato: `${incisi} incisi in una frase`,
+        frase: inizio,
         dico: "chi legge deve tenere in sospeso l'idea di partenza: spezza in frasi separate",
       });
     }
@@ -435,7 +441,10 @@ function main() {
     const g = problemi.filter((p) => p.tipo === tipo);
     if (!g.length) continue;
     console.log(etichette[tipo]);
-    for (const p of g) console.log(`   riga ${String(p.riga).padStart(3)}  «${p.trovato}» → ${p.dico}`);
+    for (const p of g) {
+      console.log(`   «${p.trovato}» → ${p.dico}`);
+      if (p.frase) console.log(`      ${p.frase}`);
+    }
     console.log("");
   }
   for (const a of avvisi.slice(0, 10)) console.log(`⚠️  riga ${a.riga}: ${a.dico}`);

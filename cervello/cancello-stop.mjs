@@ -250,7 +250,7 @@ export function verdetto({
     righe.push(
       `❌ ${t.file} lo leggerà Nicola e questo lavoro gli ha aggiunto ${t.nuovi} punti difficili` +
         ` (era ${t.prima}, adesso ${t.quanti} — AR-478)` +
-        t.primi.map((p) => `\n   → riga ${p.riga}: ${p.dico}`).join("") +
+        t.primi.map((p) => `\n   → ${p.dico}${p.frase ? `\n     «${p.frase}»` : ` (riga ${p.riga})`}`).join("") +
         `\n   → node cervello/si-capisce.mjs ${t.file}` +
         `\n   → la sostanza NON si toglie: i termini tecnici e i ragionamenti restano, si spiegano dove servono.`,
     );
@@ -259,7 +259,7 @@ export function verdetto({
     righe.push(
       `❌ il messaggio che sto per mandarti in chat ha ${messaggio.quanti} punti che ti costringono a rileggere` +
         ` (~${messaggio.minuti} min di lettura — AR-481)` +
-        messaggio.primi.map((p) => `\n   → ${p.dico}`).join("") +
+        messaggio.primi.map((p) => `\n   → ${p.dico}${p.frase ? `\n     «${p.frase}»` : ""}`).join("") +
         `\n   → riscrivilo PRIMA di chiudere il turno: la chat è il posto dove Nicola legge di più.` +
         `\n   → la sostanza resta tutta: si riscrive la forma, non si toglie il contenuto.`,
     );

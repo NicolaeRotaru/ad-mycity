@@ -158,6 +158,22 @@ prova("un testo che nasconde tutta la sostanza sotto la riga viene avvisato", ()
   assert.match(a, /sostanza tecnica/, "deve dire che ho nascosto tutto in fondo");
 });
 
+prova("il verdetto dice QUALE frase, non solo che c'e' una frase lunga", () => {
+  // Scoperto usandolo: il cancello mi ha detto «spezzala» quattro volte senza dire quale frase, e il
+  // numero di riga era sbagliato perche' una frase che va a capo non sta in nessuna riga singola.
+  // Un verdetto che non si puo' eseguire e' un verdetto che si impara a ignorare.
+  const t = "Questa " + Array.from({ length: 33 }, (_, i) => `parola${i}`).join(" ") + ".";
+  const p = misura(t).problemi.find((x) => x.tipo === "frase-lunga");
+  assert.ok(p, "la frase lunga deve essere trovata");
+  assert.ok(p.frase && p.frase.startsWith("Questa"), `deve citare la frase, trovato: ${p.frase}`);
+});
+
+prova("anche gli incisi citano la frase colpevole", () => {
+  const t = "Il controllo (che gira da solo) ha bloccato il turno — e aveva ragione a farlo.";
+  const p = misura(t).problemi.find((x) => x.tipo === "incisi");
+  assert.ok(p?.frase?.startsWith("Il controllo"), `deve citare la frase, trovato: ${p?.frase}`);
+});
+
 prova("l'elenco delle parole della macchina contiene sia le mie sia quelle vere del mestiere", () => {
   for (const p of ["potatore", "spazzata", "cricchetto"]) assert.ok(PAROLE_MACCHINA.includes(p), p);
   for (const p of ["commit", "branch", "deploy", "webhook"]) assert.ok(PAROLE_MACCHINA.includes(p), p);
