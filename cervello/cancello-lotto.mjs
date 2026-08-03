@@ -594,6 +594,16 @@ function main() {
     // Senza `--json`: in JSON il verdetto è una chiave in mezzo al documento, e chi legge il log ne
     // vede solo le graffe finali. In italiano la riga col ❌ dice il numero, il tetto e la data.
     passi.push(esegui("consegne senza esito (contatore)", "node", ["cervello/conta-verdetti-muti.mjs"]));
+    // AR-514 — il contatore del blocco che sparisce NON sta qui, e la ragione è la regola di casa.
+    //
+    // L'avevo messo. Un giro di CI dopo, rosso: su un runner GitHub le trascrizioni non esistono, il
+    // contatore esce 2 (cieco) come deve, e questo workflow tratta il 2 come un blocco — apposta,
+    // perché «un cancello che lascia passare ciò che non ha saputo misurare» è la bugia che tutto il
+    // lotto 32 curava. Le due regole insieme davano un cancello ROSSO PER SEMPRE, e un cancello che
+    // non può diventare verde viene aggirato al secondo giro: sarebbe morto tutto il resto con lui.
+    //
+    // Non è un cieco da dichiarare: è una misura fuori posto. Vive dove la sua fonte esiste — la
+    // VISITA (`salute.mjs`, organo `cervello.scrittura`) e la sessione dove sto scrivendo.
     passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));
 
     // AR-393 — LA PROVA CHE LE PROVE PROVINO, ESEGUITA INVECE CHE NOMINATA.

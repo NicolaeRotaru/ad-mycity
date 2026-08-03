@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 23:20",
+  "aggiornato": "2026-08-04 00:45",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -10430,6 +10430,98 @@
         "nota": "13 prove nuove; 2 mutazioni verificate rosse. Provato dal vivo: togliendo AR-119 dal cantiere il guardiano esce 1 e lo nomina; duplicando un id esce 1 e dice quale."
       },
       "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-513",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 21:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-512",
+      "origine": "Stessa domanda di Nicola: «un misuratore, un cancello, o cosa?». La risposta onesta e' che il cancello da solo non sa dire se sto migliorando.",
+      "titolo": "Nessuno misurava se l'abitudine sta sparendo: il freno ferma il messaggio di adesso, non dice se sto solo imparando a passarlo",
+      "causa_radice": "① Il cancello dello Stop blocca IL MESSAGGIO. Un guardiano che ferma il caso singolo non distingue «sto migliorando» da «ho imparato ad aggirarlo»: e' esattamente la differenza che AR-474 aveva gia' scoperto sugli esiti, e che qui mancava sulla scrittura. ② Senza serie storica, la domanda di Nicola («come fai a non dimenticartene MAI?») non ha una risposta misurabile: si puo' solo promettere.",
+      "fix_proposto": "FATTO 🟡 `cervello/conta-blocco-mancante.mjs`: legge le trascrizioni degli ultimi 7 giorni, conta per ogni blocco quante volte e' mancato SUI SOLI messaggi che lo pretendevano, e tiene un tetto sulla QUOTA (non sul conto secco, che crescerebbe col numero di messaggi) che scende e non risale. Agganciato alla VISITA (salute.mjs, organo cervello.scrittura) e NON al cancello del lotto: vedi AR-514, in CI le trascrizioni non esistono. Prima misura: «Cosa cambia per te» mancante nel 45% dei 22 messaggi che lo pretendevano. Il recinto .jsonl e' misurato e non dedotto: i file scartati si contano e finiscono nel referto (malattia perimetro-dedotto-non-misurato). 4 prove nuove.",
+      "verifica": {
+        "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs"
+      }
+    },
+    {
+      "id": "AR-514",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 23:55",
+      "nato_come": "regressione",
+      "nato_da": "AR-513",
+      "origine": "Trovato dalla CI un giro dopo averlo scritto: PR #661 rossa al primo controllo, sul guardiano che avevo appena aggiunto io.",
+      "titolo": "Avevo messo nel cancello un controllo che in CI non puo' MAI essere verde: cancello rosso per sempre",
+      "causa_radice": "① Il contatore del blocco mancante legge le trascrizioni della chat. Su un runner GitHub non esistono, quindi esce 2 (cieco) — che e' la risposta giusta. ② Il workflow del cancello tratta il 2 come un blocco, ed e' scritto nel file stesso il perche': «un cancello che lascia passare cio' che non ha saputo misurare e' la bugia che questo lotto cura». Le due regole sono giuste ognuna per conto suo: messe insieme davano un cancello ROSSO PER SEMPRE. ③ La regola che ho violato e' scritta due volte in questa casa e la conoscevo: «un cancello sempre rosso viene aggirato al secondo giro, ed e' peggio di non averlo». Sarebbero morti con lui gli altri 13 guardiani. ④ La radice non e' il contatore ne' il workflow: e' che ho agganciato una misura a un posto dove la sua FONTE non c'e'. Non era un cieco da dichiarare, era una misura fuori posto.",
+      "fix_proposto": "FATTO 🟡 Il contatore esce dal cancello del lotto ed entra nella visita (salute.mjs, organo cervello.scrittura): li' il ⚪ e' la risposta giusta — «da questo ambiente non l'ho potuto vedere» — e non blocca niente. Verificato dove atterra invece di darlo per scontato: il referto salute.json porta la riga «Cosa cambia per te mancato nel 43% dei 23 messaggi». 2 prove nuove: una che l'aggancio alla visita esiste (senza, il contatore sarebbe uno script che non chiama nessuno), una che il cancello del lotto NON lo esegue.",
+      "verifica": {
+        "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs"
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e' «una misura agganciata a un posto dove la sua FONTE non esiste»: qui il contatore legge le trascrizioni della chat ed era cablato nel cancello che gira su un runner di CI, dove quelle trascrizioni non ci sono. Non e' scrivibile come pattern di testo perche' non sta in una riga: sta nel rapporto fra COSA legge uno strumento e DOVE viene eseguito, e quel rapporto lo si conosce solo sapendo cosa esiste in ogni ambiente. Un pattern che cercasse «conta-*.mjs dentro cancello-lotto.mjs» accuserebbe anche conta-verdetti-muti.mjs, che li' ci sta giustissimo perche' la sua fonte (la storia di git) su un runner c'e'. Al posto del pattern c'e' un freno puntuale: la prova «il contatore NON e' nel cancello del lotto» in cervello/test/numeri-prima-delle-risposte.test.mjs, piu' la prova gemella che l'aggancio alla visita esiste — cosi' se qualcuno lo rimette nel cancello, o lo stacca da tutto, il rosso arriva."
+    },
+    {
+      "id": "AR-515",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 00:25",
+      "nato_come": "scoperta",
+      "nato_da": "AR-514",
+      "origine": "Trovato spostando un contatore dal cancello del lotto alla visita: il guardiano della guardia ha dichiarato orfano uno strumento che era cablato.",
+      "titolo": "Il rilevatore dei guardiani cablati non riconosceva le chiamate della visita: accusava chi il cablaggio ce l'aveva",
+      "causa_radice": "① `guardia-viva.mjs` riconosce le invocazioni con cinque forme di regex, nate guardando i modi in cui il repo chiamava i guardiani QUEL giorno: shell, array di spawnSync, run: di GitHub Actions, ExecStart di systemd. Manca `eseguiNode(\"x.mjs\", …)`, che e' il modo in cui `salute.mjs` chiama TUTTI i suoi organi. ② Perche' non si vedeva: ogni strumento eseguito dalla visita era anche eseguito da qualcun altro, quindi il rilevatore restava verde per caso. Il primo strumento messo di guardia SOLO dalla visita e' risultato «costruito e mai messo di guardia». ③ E' `perimetro-dedotto-non-misurato` dentro il guardiano che cura gli orfani: il recinto nasce dagli esempi del giorno e non viene piu' confrontato con la realta'. ④ La direzione dell'errore e' la peggiore: accusa chi il lavoro l'ha fatto, e un metro che sbaglia cosi' si spegne da solo — «si impara a scorrere l'elenco perche' tanto sbaglia», sta scritto nel file stesso.",
+      "fix_proposto": "FATTO 🟡 Sesta forma nel rilevatore: `eseguiNode(\"x.mjs\"`. Verificato sul repo vero — 58 guardiani su 67 eseguiti, il debito dichiarato resta 4, nessun orfano. 2 prove: una che la forma viene riconosciuta, una che una menzione in prosa NON conta come chiamata (senza, avrei curato un'accusa falsa creandone un'altra).",
+      "verifica": {
+        "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs"
+      }
+    },
+    {
+      "id": "AR-516",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 00:25",
+      "nato_come": "scoperta",
+      "nato_da": "AR-514",
+      "origine": "Trovato dal vivo nello stesso spostamento: il sorvegliante ha gridato «freno spento» 22 volte di fila mentre guardava la riparazione.",
+      "titolo": "Il sorvegliante chiedeva «l'ho spostato altrove?» e cercava la risposta solo dentro lo stesso file",
+      "causa_radice": "① Il controllo ⑥b dichiara nel suo commento la taratura giusta — «se il nome ricompare fra le righe aggiunte, ho spostato o rinominato: si tace» — ma la cercava in `testoAggiunto`, che sono le righe aggiunte DI QUEL FILE. Uno spostamento finisce per definizione in un altro file: la risposta era cercata ovunque tranne dove poteva stare. ② Secondo pezzo: il confronto era per percorso intero, e chi lancia un guardiano dal cancello scrive «cervello/x.mjs» mentre chi lo lancia dalla visita scrive «x.mjs». Anche cercando ovunque, i due non avrebbero combaciato. ③ Il costo e' il rumore, e il rumore spegne i freni: 22 allarmi gravi in un turno su una riparazione corretta insegnano a scorrere il sorvegliante. Il file stesso lo dice: «se ⑥ parlasse a ogni riga tolta diventerebbe rumore, e il rumore spegne i freni».",
+      "fix_proposto": "FATTO 🟡 ⑥b guarda le righe aggiunte di TUTTO il delta (senza commenti, per non farsi zittire da una menzione) e confronta anche per solo nome del file. 2 prove: lo spostamento fra due file tace, la cancellazione senza sostituto resta rossa — cosi' il fix non ha spento il controllo insieme al rumore.",
+      "verifica": {
+        "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs"
+      }
+    },
+    {
+      "id": "AR-517",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "processi-e-cadenze",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 21:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-481",
+      "origine": "[DOMANDA DI NICOLA] «come fai fare in modo che non ti dimentichi mai di quel blocco? cosa ti serve, un misuratore, un cancello, o cosa?» — e poi «fai». ⚠️ Nato come AR-512, rinumerato AR-517 alla fusione: un'altra sessione aveva preso lo stesso numero per un difetto diverso (il lato sottrazione del cantiere, gia' su main). Seconda collisione della giornata, stessa causa: due sessioni prendono «il prossimo numero libero» dalla copia che hanno in mano.",
+      "titolo": "Il blocco «Cosa cambia per te» spariva dove Nicola numera le domande: 6 risposte numerate su 8 senza i blocchi",
+      "causa_radice": "① Non e' distrazione, e' la STRUTTURA. Misurato sulla sessione del 3/8: le quattro risposte mancavano in 11 messaggi lunghi su 20, ma fra le risposte a domande numerate mancavano in 6 su 8. Quando Nicola scrive «1) … 2) … 3)», la risposta parte da «1)» perche' e' li' che cade l'occhio, e i blocchi non trovano piu' un posto dove stare. ② Il freno esisteva gia' ma non poteva vederlo, per due motivi: pretendeva i quattro blocchi solo sui testi LUNGHI (una risposta a due domande sta in sei righe) e non guardava l'ORDINE (un blocco scritto in fondo, dopo i numeri, contava come presente). ③ Perche' un promemoria non basta: la seconda volta lo salti lo stesso. Quello che cura una struttura sbagliata e' un'altra struttura, non un ricordo.",
+      "fix_proposto": "FATTO 🟡 Due cambi nel misuratore. ① `indiceDellaPrimaRispostaNumerata()` riconosce una risposta a domande numerate (riga che ATTACCA col numero, il primo e' 1, ce n'e' almeno un secondo) e da li' i quattro blocchi diventano obbligatori anche se il messaggio e' corto. ② Tipo nuovo `risposte-prima-dei-blocchi`: un blocco presente ma scritto DOPO il primo numero e' un errore d'ordine, non una presenza. Riassunto ed esempio restano legati alla lunghezza, per non trasformare una risposta corta in un modulo da riempire. Regola 3-bis in scrittura-umana.md con l'ordine fisso. 6 prove nuove.",
+      "verifica": {
+        "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs"
+      }
     }
   ],
   "meta": {
