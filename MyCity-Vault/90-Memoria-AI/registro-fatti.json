@@ -1,8 +1,29 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-31 22:21",
+  "aggiornato": "2026-08-03 22:22",
   "fatti": [
+    {
+      "id": "architettura.tre-macchine",
+      "nome": "Architettura bersaglio: le tre macchine (Centro, Piazza, Bottega)",
+      "valore": "Architettura bersaglio a tre macchine — CENTRO (azienda) → PIAZZA (marketplace, una per citta, unica con le chiavi in scrittura) → BOTTEGA (la linea di ricavo #2 'Worker per i negozi': UNA macchina multi-negozio, mai una per negozio; listino gia definito, vedi pricing.worker-negozi). Stato: visione registrata, nessuna fase avviata, nessun codice scritto. Fase 1 (porta unica di scrittura verso il marketplace) raccomandata subito; Fase 3 solo quando Nicola apre la linea (worker-negozi.stato). Dettaglio: MyCity-Vault/90-Memoria-AI/ARCHITETTURA-TRE-MACCHINE.md",
+      "fonte": "Nicola (chat 2026-08-03) — visione dichiarata; documento ARCHITETTURA-TRE-MACCHINE.md 2026-08-03 22:20; allineato a pricing.worker-negozi e worker-negozi.stato",
+      "aggiornato": "2026-08-03 22:21",
+      "storia": [
+        {
+          "valore": "Architettura bersaglio a tre macchine — CENTRO (azienda) → PIAZZA (marketplace, una per citta) → BOTTEGA (servizio ai negozianti: UNA macchina multi-negozio, mai una per negozio). Stato: proposta approvata come visione, nessuna fase avviata. Fase 1 (porta unica di scrittura verso il marketplace) raccomandata subito; Fasi 2-4 dopo Vercel e i primi incassi. Dettaglio: MyCity-Vault/90-Memoria-AI/ARCHITETTURA-TRE-MACCHINE.md",
+          "fino_a": "2026-08-03 22:21"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Architettura bersaglio a tre macchine — CENTRO (azienda) → PIAZZA (marketplace, una per citta) → BOTTEGA (servizio ai negozianti: UNA macchina multi-negozio, mai una per negozio). Stato: proposta approvata come visione, nessuna fase avviata. Fase 1 (porta unica di scrittura verso il marketplace) raccomandata subito; Fasi 2-4 dopo Vercel e i primi incassi. Dettaglio: MyCity-Vault/90-Memoria-AI/ARCHITETTURA-TRE-MACCHINE.md",
+          "dal": "2026-08-03 22:21",
+          "chiusa": "2026-08-03 22:22"
+        }
+      ],
+      "esenzioni": []
+    },
     {
       "id": "bandi.pi26.scadenza",
       "nome": "Bando PI26 — 10.000€ a fondo perduto",

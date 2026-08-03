@@ -6,6 +6,60 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
+## 🏗️ Le tre macchine — come sarà MyCity quando è finita · 2026-08-03 22:20
+
+**Come sarà.** Oggi c'è **una macchina che fa tutto**. Domani ce ne saranno **tre, ognuna con un
+mestiere solo**: una dirige l'azienda, una manda avanti il marketplace, una lavora dentro i negozi
+dei commercianti — e quest'ultima **è una sola per tutti i negozi**, non una per ciascuno.
+
+```
+                    NICOLA — una Cabina, una coda di firme
+                                   ▲ referti · firme 🔴
+              ①  CENTRO OPERATIVO  (strategia · soldi · squadra · memoria)
+                   ├── mandato ▼ referto ▲ ──►  ②  PIAZZA   ──► il marketplace (una per città)
+                   └── mandato ▼ referto ▲ ──►  ③  BOTTEGA  ──► 🥖🥩💐🧀 … × 41 negozi
+```
+
+| | Nome | Mestiere | Se sbaglia, il danno è | Chi firma i suoi 🔴 |
+|---|---|---|---|---|
+| ① | **CENTRO** | dirigere l'azienda | una decisione | Nicola |
+| ② | **PIAZZA** | mandare avanti il marketplace | il sito, non l'azienda | Nicola, via CENTRO |
+| ③ | **BOTTEGA** | lavorare dentro i negozi | un negozio, non gli altri 40 | **il negoziante** |
+
+**La domanda di Nicola — come fa UNA macchina a servire TUTTI i negozi.** Non si duplica mai la
+macchina per personalizzarla: si compila una **scheda**. *Quello che è uguale per tutti è codice e
+si scrive una volta sola; quello che è diverso per ognuno è un dato, e sta in una riga col nome del
+negozio.* Sei meccanismi lo reggono: **`negozio_id` ovunque** · il **muro dentro il database**, che
+*rifiuta* di dare a un negozio le righe di un altro (lo stesso già usato dal marketplace) · **una
+coda sola a corsie**, servita a turno, così chi accoda 200 lavori non blocca gli altri · **contesto
+isolato**: un lavoro carica solo la memoria del suo negozio · **segreti in cassaforte**, mai nel
+testo · **guasto confinato**: un negozio in loop spegne la sua corsia, non le altre. Il negoziante
+numero 41 non fa nascere una macchina: fa nascere **una riga**. E una miglioria scritta una volta
+ce l'hanno tutti la mattina dopo.
+
+**Il piano, in quattro fasi che valgono anche da sole.** ① *Una porta sola verso il marketplace*
+(nessuna macchina nuova, giorni di lavoro, si può fare **adesso**) · ② *staccare la PIAZZA*, dopo
+Vercel e i primi incassi · ③ *BOTTEGA pilota con UN negozio ma già multi-negozio* — il muro dei dati
+si mette dal primo giorno, aggiungerlo dopo è il lavoro più caro che esista · ④ *canone e seconda
+città*. **Il collaudo finale sono sette prove**, tra cui: un secondo negozio finto non riesce a
+leggere il primo; Nicola vede **una** coda di firme, non tre; l'interruttore del CENTRO ferma la
+PIAZZA davvero.
+
+**La BOTTEGA non è un'idea nuova: è la linea di ricavo #2 che avevi già definito il 29/7** — piani
+**99 / 299 / 699-999 €/mese** più il pilot founder a **149 bloccato** (`pricing.worker-negozi`,
+`pilot.worker-negozi`). Questo documento **non ridiscute il listino**: aggiunge com'è fatta la
+macchina che lo eroga. Resta valida la tua regola: linea **definita ma non costruita**, nessuna
+mossa commerciale finché non sei tu ad aprirla (`worker-negozi.stato`). L'unica cosa che nessuno sa
+ancora è **quanto costa in AI servire un negozio per un mese** — cioè il margine di quel listino: è
+la prima cosa che il pilota (Fase 3) deve produrre.
+
+**Onestà sul quando.** Questa è la forma giusta a 40 negozi e 2 città. Oggi c'è **un negozio reale**
+e il **sito è fermo dal 30/7**: costruirla tutta adesso sarebbe lavoro pesante su un'ipotesi.
+Raccomandazione dell'AD: **Fase 1 sì**, il resto quando i numeri lo giustificano.
+
+📄 Il disegno intero, col piano e le sette prove: [[ARCHITETTURA-TRE-MACCHINE]] · il listino:
+`consegne/strategia/2026-07-29-listino-worker-negozi.md` · fatto: `architettura.tre-macchine`
+
 ## 🧭 Glossario della macchina — tutte le parole, per famiglie · 2026-08-01 10:54
 
 **Perché esiste questo avviso.** Quasi nessuna parola strana della macchina descrive *come si fa* una

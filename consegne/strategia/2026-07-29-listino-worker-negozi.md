@@ -158,8 +158,20 @@ Nicola: negozi veri già contattati, o nomi nati in quella chat?
 6. **Costo marginale per negozio non misurato** — le uniche voci note sono Gemini ~0,10 € a negozio
    (`cervello/azioni.md`) e WhatsApp per-messaggio (importo da definire). Da calcolare prima di promettere margini.
 
+## 🏗️ Com'è fatta la macchina che eroga questo listino *(aggiunto 2026-08-03 22:20)*
+Questo file dice **cosa si vende e a quanto**. Il **come è costruito** vive da oggi in
+`MyCity-Vault/90-Memoria-AI/ARCHITETTURA-TRE-MACCHINE.md`: il Worker per i negozi è la macchina
+**③ BOTTEGA** dell'architettura a tre macchine dichiarata da Nicola il 3/8 — **una sola macchina per
+tutti i negozi**, mai una per negozio (`negozio_id` ovunque, muro dei dati nel database, coda a
+corsie, contesto isolato, segreti in cassaforte, guasto confinato). Due conseguenze per questo
+listino: ① il costo di servire il negozio numero 41 è **una riga in più, non una macchina in più**;
+② il punto 6 della lista qui sopra — *costo marginale per negozio non misurato* — è esattamente la
+prima cosa che la **Fase 3 (pilota)** di quel piano deve produrre. Il listino resta questo; l'unica
+cosa che manca per sapere se ha margine è quella misura. Nessuna mossa commerciale finché non è
+Nicola ad aprire la linea (`worker-negozi.stato`): invariato.
+
 ## Traccia in memoria
 - `registro-fatti.json` → `pricing.worker-negozi` · `pilot.worker-negozi` · `worker-negozi.stato` ·
-  `strategia.linee-ricavo` (2026-07-29).
+  `strategia.linee-ricavo` (2026-07-29) · `architettura.tre-macchine` (2026-08-03).
 - `BACHECA.md` → riga nel Registro dei fatti + avviso «linea di ricavo #2».
 - `DECISIONI.md` → voce 2026-07-29 00:35.
