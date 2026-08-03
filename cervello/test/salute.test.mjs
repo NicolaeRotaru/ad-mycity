@@ -271,7 +271,7 @@ prova("IL CUORE: tutto verde ma ho guardato poco → 2, mai 0", () => {
   uguale(codiceUscita({ rotti: 0, guasti: 0, copertura: 0.9 }), 0, "vista buona");
 });
 
-// ── La guardia in tempo reale (AR-481) ───────────────────────────────────────
+// ── La guardia in tempo reale (AR-498) ───────────────────────────────────────
 //
 // Il battito del sorvegliante è nato per rispondere a «sei vivo?», e per tre giorni non l'ha letto
 // nessuno. Queste prove difendono la parte fragile: che un clone nuovo NON diventi un rosso (o la

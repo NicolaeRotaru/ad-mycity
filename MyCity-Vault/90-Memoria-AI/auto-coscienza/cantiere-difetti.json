@@ -8141,7 +8141,7 @@
         "comando": "node cervello/test/sorvegliante.test.mjs"
       },
       "malattia": "non-pattern-izzabile",
-      "malattia_perche": "Il canale muto si vede nell EFFETTO (il verdetto non arriva a chi deve leggerlo), non in una riga: il codice che stampa testo semplice e sintatticamente identico a quello giusto. Lo coprono il controllo ② di cancello-stop.mjs (allarme scritto e non accodato) e il battito del sorvegliante, letto dalla visita da AR-481."
+      "malattia_perche": "Il canale muto si vede nell EFFETTO (il verdetto non arriva a chi deve leggerlo), non in una riga: il codice che stampa testo semplice e sintatticamente identico a quello giusto. Lo coprono il controllo ② di cancello-stop.mjs (allarme scritto e non accodato) e il battito del sorvegliante, letto dalla visita da AR-498."
     },
     {
       "id": "AR-466",
@@ -8359,7 +8359,7 @@
       "malattia_perche": "E una proprieta della STORIA del ramo — codice committato dopo l ultima riga di esito — quindi non esiste una riga che la contenga: si vede solo confrontando due punti della cronologia git. La copre il controllo ④ di cancello-stop.mjs, che conta i commit di lavoro dopo l ultimo racconto."
     },
     {
-      "id": "AR-478",
+      "id": "AR-495",
       "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🟡",
@@ -8374,12 +8374,12 @@
       "fix_proposto": "FATTO 🟡 cervello/sorvegliante.mjs — tre controlli nuovi sul lato sottrazione: ⑥ difesa-rimossa (un test citato da un gate, un file su cui poggia una mutazione, la riga che LANCIA un guardiano — misurati da `indiceDifese` sui registri, mai da un elenco a mano, che sarebbe AR-347 dentro il file che lo vieta), ⑦ soglia-allentata (un tetto che sale o un minimo che scende, riconosciuti dal NOME della chiave normalizzato), ⑧ esenzione-aggiunta (un percorso che entra in una baseline o in un array che si chiama esenzione). `leggiRimozioni` e una funzione NUOVA e `leggiDiff` resta intatta: su quella riga poggia la mutazione di AR-452, e allargarla avrebbe accecato una prova nell atto stesso di costruire il controllo anti-accecamento. Taratura anti-falso-rosso: se il nome ricompare fra le righe aggiunte e uno spostamento, e si tace.",
       "verifica": {
         "comando": "node cervello/test/sorvegliante.test.mjs",
-        "nota": "17 prove nuove; 5 mutazioni in mutanti.json su AR-478, tutte verificate rosse con non-vacuita.mjs"
+        "nota": "17 prove nuove; 5 mutazioni in mutanti.json su AR-495, tutte verificate rosse con non-vacuita.mjs"
       },
       "lezione": "L-2026-0803-536"
     },
     {
-      "id": "AR-479",
+      "id": "AR-496",
       "stato": "chiuso",
       "gravita": "alta",
       "colore": "🟡",
@@ -8394,12 +8394,12 @@
       "fix_proposto": "FATTO 🟡 cervello/cancello-stop.mjs — un ancora fuori da git (`_tmp_stop-ancora.json`, stessa tecnica del battito) col commit dell ultimo turno chiuso: da li il perimetro dell ALLARME e `ancora...HEAD`, cioe questo turno. Se l ancora manca o un rebase l ha invalidata si torna al ramo e lo si DICHIARA (⚪ in testa al verdetto), invece di fingere precisione. L ancora si sposta solo sui turni puliti — o su un turno bloccato farebbe sparire dal perimetro proprio cio per cui ho bloccato — MA si pianta lo stesso quando non c e perimetro valido, altrimenti il primo giro si morde la coda (trovato collaudando, non rileggendo). Il controllo ④ (esito del lavoro consegnato) resta per-RAMO: quella e l unita di consegna, ed e stata tarata ieri su AR-477 — stringerla sarebbe stato allentare un freno appena costruito.",
       "verifica": {
         "comando": "node --test cervello/test/cancello-stop.test.mjs",
-        "nota": "6 prove nuove; 2 mutazioni su AR-479 verificate rosse. Collaudo dal vivo: giro 1 dice il debito vecchio + ⚪ perimetro, giro 2 verde."
+        "nota": "6 prove nuove; 2 mutazioni su AR-496 verificate rosse. Collaudo dal vivo: giro 1 dice il debito vecchio + ⚪ perimetro, giro 2 verde."
       },
       "lezione": "L-2026-0803-538"
     },
     {
-      "id": "AR-480",
+      "id": "AR-497",
       "stato": "chiuso",
       "gravita": "alta",
       "colore": "🟡",
@@ -8414,12 +8414,12 @@
       "fix_proposto": "FATTO 🟡 il battito diventa un registro: chiave stabile ai numeri di riga (o il contatore ripartirebbe da uno a ogni edit), contatore per voce, e lo scatto in cui e stata vista l ultima volta. La busta dice «gia detto N volte». Il cancello dello Stop non lascia chiudere con una voce GRAVE ripetuta ≥3 volte e ancora viva all ultimo scatto. Limite dichiarato nel file: non misura che io abbia ragionato, e le informative (il raggio) non entrano nel conteggio — un debito che non si puo estinguere si impara a ignorare in blocco.",
       "verifica": {
         "comando": "node --test cervello/test/sorvegliante.test.mjs cervello/test/cancello-stop.test.mjs",
-        "nota": "10 prove nuove; 3 mutazioni su AR-480 verificate rosse (chiave instabile, raggio contato, voce curata rinfacciata)"
+        "nota": "10 prove nuove; 3 mutazioni su AR-497 verificate rosse (chiave instabile, raggio contato, voce curata rinfacciata)"
       },
       "lezione": "L-2026-0803-537"
     },
     {
-      "id": "AR-481",
+      "id": "AR-498",
       "stato": "chiuso",
       "gravita": "alta",
       "colore": "🟡",
@@ -8434,12 +8434,12 @@
       "fix_proposto": "FATTO 🟡 cervello/salute.mjs — controllo `cervello.sorvegliante` nell organo cervello, con la decisione estratta in `giudicaBattitoGuardia` (pura, quindi provabile). La taratura che conta: un battito assente su una copia appena clonata e NORMALE (vive fuori da git) → ⚪, che non e mai un verde; diventa ❌ solo se in questa copia ci sono gia file modificati, perche allora un Edit c e stato e la guardia doveva parlare. Un rosso che scatta su ogni clone pulito verrebbe scorso entro tre giorni. Copertura dichiarata: prova che ha girato, NON che abbia visto l ultima modifica — le modifiche fatte da un comando invece che da un Edit non la svegliano affatto (buco noto, non coperto qui).",
       "verifica": {
         "comando": "node cervello/test/salute.test.mjs",
-        "nota": "3 prove nuove; 1 mutazione su AR-481 verificata rossa. Provato dal vivo: la visita adesso riporta l ultimo scatto."
+        "nota": "3 prove nuove; 1 mutazione su AR-498 verificata rossa. Provato dal vivo: la visita adesso riporta l ultimo scatto."
       },
       "lezione": "L-2026-0803-539"
     },
     {
-      "id": "AR-482",
+      "id": "AR-499",
       "stato": "chiuso",
       "gravita": "alta",
       "colore": "🟡",
@@ -8447,7 +8447,7 @@
       "impatto_crescita": "alto",
       "nato": "2026-08-03 21:15",
       "nato_come": "scoperta",
-      "nato_da": "AR-478",
+      "nato_da": "AR-495",
       "origine": "Nicola 3/8: «fai anche le altre 4 rimaste». Misurato: malattie.json nato il 30/7 con 7 forme, il 3/8 ancora 7.",
       "titolo": "Il registro delle malattie invecchia da fermo: nessuno lo fa crescere, e il sorvegliante riconosce solo le forme del giorno in cui e nato",
       "causa_radice": "① `cervello/malattie.json` e nato il 30/7 con 7 malattie e il 3/8 ne aveva ancora 7, mentre il cantiere passava da 400 a 419 difetti e le lezioni da 475 a 491. ② Verificato cercando chi lo apre in scrittura: NESSUNO script lo scrive. E un registro che cresce solo se me ne ricordo. ③ Perche e grave: il controllo ① del sorvegliante poggia tutto li — quindi la guardia in tempo reale poteva riconoscere solo le 7 forme del suo primo giorno, e sarebbe rimasta ferma mentre la macchina continuava a imparare. ④ Mancava l anello fra «ho chiuso un difetto» e «questa forma la so riconoscere».",
@@ -8461,7 +8461,7 @@
       "lezione": "L-2026-0803-540"
     },
     {
-      "id": "AR-483",
+      "id": "AR-500",
       "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🟡",
@@ -8469,7 +8469,7 @@
       "impatto_crescita": "alto",
       "nato": "2026-08-03 21:15",
       "nato_come": "scoperta",
-      "nato_da": "AR-482",
+      "nato_da": "AR-499",
       "origine": "Trovato censendo le tre malattie nuove: la spazzata ha risposto «0 istanze, curata 📉» su 25 istanze vive.",
       "titolo": "Un registro, due lettori che lo interpretano in modo diverso: tre falsi verdi in un ora, tutti e tre invisibili",
       "causa_radice": "`cervello/malattie.json` ha due consumatori — la spazzata (conta le istanze vive) e il sorvegliante (cerca le stesse forme sulle righe nuove) — e il 3/8 si sono contraddetti TRE volte: ① la spazzata compilava il pattern senza flag `m`, quindi `^` significava «inizio del FILE» invece che «inizio della riga»: ha dichiarato curata una malattia con 25 istanze vive; ② `senzaCommenti` azzerava ogni riga che comincia con `#` — giusto per il codice, falso per un .md dove `#` apre un TITOLO: ogni regola di casa che vive nei titoli non poteva scattare MAI, la riga arrivava al pattern gia vuota; ③ il campo `percorsi` lo leggeva solo il sorvegliante, quindi la stessa malattia valeva in un file per uno e in tutto il vault per l altro. Nessuno dei tre era un errore di logica: erano due interpretazioni della stessa fonte, e ogni volta il risultato era un VERDE.",
@@ -8483,7 +8483,7 @@
       "lezione": "L-2026-0803-541"
     },
     {
-      "id": "AR-484",
+      "id": "AR-501",
       "stato": "chiuso",
       "gravita": "media",
       "colore": "🟡",
@@ -8505,7 +8505,7 @@
       "lezione": "L-2026-0803-542"
     },
     {
-      "id": "AR-486",
+      "id": "AR-502",
       "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🟡",

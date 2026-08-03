@@ -13,7 +13,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { chiusiSenzaProva, allarmiSenzaCoda, lezioniSenzaGate, consegnaSenzaEsito, esitiScritti, verdetto, scegliPerimetro, siPiantaAncora, ALLARMI } from "../cancello-stop.mjs";
 
-// ── ⓪ il perimetro: questo turno, non tutto il ramo (AR-479) ──────────────────
+// ── ⓪ il perimetro: questo turno, non tutto il ramo (AR-496) ──────────────────
 //
 // Il caso vero: il 3/8, in un turno di sole letture con l'albero pulito, il cancello ha contestato un
 // allarme scritto il 31/7 su un commit di questo ramo — e col perimetro `origin/main...HEAD` sarebbe
@@ -46,7 +46,7 @@ test("l'ancora si sposta solo sui turni puliti: su uno bloccato il freno si scav
 
 test("…ma senza un perimetro valido si pianta LO STESSO, o il primo giro si morde la coda", () => {
   // Il caso trovato collaudando: debito vecchio sul ramo → ❌ → non pianto → il giro dopo guarda di
-  // nuovo tutto il ramo → lo stesso ❌. Per sempre. Cioè il rosso ripetuto che AR-479 deve spegnere.
+  // nuovo tutto il ramo → lo stesso ❌. Per sempre. Cioè il rosso ripetuto che AR-496 deve spegnere.
   assert.equal(siPiantaAncora(["🛑 …", "❌ un allarme di tre giorni fa"], false), true);
 });
 
@@ -281,7 +281,7 @@ test("il cieco si dice ANCHE quando c'e' gia' un problema: sono due informazioni
   assert.ok(v.righe.some((r) => r.startsWith("⚪")));
 });
 
-// ── ⑤ l'avviso ignorato (AR-480) ──────────────────────────────────────────────
+// ── ⑤ l'avviso ignorato (AR-497) ──────────────────────────────────────────────
 
 test("una voce che il sorvegliante ha ripetuto tre volte ferma la chiusura", () => {
   const v = verdetto({ insistenti: [{ chiave: "k", n: 3, file: "cervello/x.mjs", cosa: "ho tolto il gate di L-1" }] });

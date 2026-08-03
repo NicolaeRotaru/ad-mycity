@@ -1120,7 +1120,7 @@
    "test": "cervello/test/cancello-stop.test.mjs"
   },
   {
-   "difetto": "AR-478",
+   "difetto": "AR-495",
    "lezione": "L-2026-0803-536",
    "nome": "la guardia torna a non vedere i file cancellati",
    "file": "cervello/sorvegliante.mjs",
@@ -1129,7 +1129,7 @@
    "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-478",
+   "difetto": "AR-495",
    "lezione": "L-2026-0803-536",
    "nome": "una riga che toglie una difesa torna a passare inosservata",
    "file": "cervello/sorvegliante.mjs",
@@ -1138,7 +1138,7 @@
    "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-478",
+   "difetto": "AR-495",
    "lezione": "L-2026-0803-536",
    "nome": "spostare un guardiano viene punito come toglierlo (falso rosso)",
    "file": "cervello/sorvegliante.mjs",
@@ -1147,7 +1147,7 @@
    "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-478",
+   "difetto": "AR-495",
    "lezione": "L-2026-0803-536",
    "nome": "un file cancellato si assolve da solo come se fosse stato spostato",
    "file": "cervello/sorvegliante.mjs",
@@ -1156,7 +1156,7 @@
    "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-478",
+   "difetto": "AR-495",
    "lezione": "L-2026-0803-536",
    "nome": "un minimo allentato non viene visto: meta dei casi di soglia passa",
    "file": "cervello/sorvegliante.mjs",
@@ -1165,7 +1165,7 @@
    "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-480",
+   "difetto": "AR-497",
    "lezione": "L-2026-0803-537",
    "nome": "la chiave della voce torna a dipendere dal numero di riga: il contatore non conta piu",
    "file": "cervello/sorvegliante.mjs",
@@ -1174,7 +1174,7 @@
    "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-480",
+   "difetto": "AR-497",
    "lezione": "L-2026-0803-537",
    "nome": "il registro conta anche il raggio: nasce un debito che non si puo estinguere",
    "file": "cervello/sorvegliante.mjs",
@@ -1183,7 +1183,7 @@
    "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-480",
+   "difetto": "AR-497",
    "lezione": "L-2026-0803-537",
    "nome": "una voce gia curata continua a essere rinfacciata",
    "file": "cervello/sorvegliante.mjs",
@@ -1192,7 +1192,7 @@
    "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-479",
+   "difetto": "AR-496",
    "lezione": "L-2026-0803-538",
    "nome": "il perimetro torna a essere tutto il ramo anche quando ho l ancora del turno",
    "file": "cervello/cancello-stop.mjs",
@@ -1201,7 +1201,7 @@
    "test": "cervello/test/cancello-stop.test.mjs"
   },
   {
-   "difetto": "AR-479",
+   "difetto": "AR-496",
    "lezione": "L-2026-0803-538",
    "nome": "l ancora si sposta anche su un turno bloccato: il freno si scavalca da solo",
    "file": "cervello/cancello-stop.mjs",
@@ -1210,7 +1210,7 @@
    "test": "cervello/test/cancello-stop.test.mjs"
   },
   {
-   "difetto": "AR-481",
+   "difetto": "AR-498",
    "lezione": "L-2026-0803-539",
    "nome": "il battito della guardia torna a essere sempre verde",
    "file": "cervello/salute.mjs",
@@ -1219,7 +1219,7 @@
    "test": "cervello/test/salute.test.mjs"
   },
   {
-   "difetto": "AR-482",
+   "difetto": "AR-499",
    "lezione": "L-2026-0803-540",
    "nome": "una forma tornata torna a non dover dire quale forma sia",
    "file": "cervello/malattie-mancanti.mjs",
@@ -1228,7 +1228,7 @@
    "test": "cervello/test/malattie-mancanti.test.mjs"
   },
   {
-   "difetto": "AR-482",
+   "difetto": "AR-499",
    "lezione": "L-2026-0803-540",
    "nome": "«non-pattern-izzabile» senza perche torna a bastare: l esenzione travestita",
    "file": "cervello/malattie-mancanti.mjs",
@@ -1237,7 +1237,7 @@
    "test": "cervello/test/malattie-mancanti.test.mjs"
   },
   {
-   "difetto": "AR-483",
+   "difetto": "AR-500",
    "lezione": "L-2026-0803-541",
    "nome": "il sorvegliante ignora `percorsi`: una regola di casa diventa un falso rosso ovunque",
    "file": "cervello/sorvegliante.mjs",
@@ -1246,7 +1246,7 @@
    "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-483",
+   "difetto": "AR-500",
    "lezione": "L-2026-0803-541",
    "nome": "la spazzata torna a compilare il pattern senza `m`: ^ significa inizio del FILE",
    "file": "cervello/spazzata-fratelli.mjs",
@@ -1255,7 +1255,7 @@
    "test": "cervello/test/registro-due-lettori.test.mjs"
   },
   {
-   "difetto": "AR-483",
+   "difetto": "AR-500",
    "lezione": "L-2026-0803-541",
    "nome": "il # di un titolo markdown torna a essere letto come commento",
    "file": "cervello/spazzata-fratelli.mjs",
@@ -1264,7 +1264,7 @@
    "test": "cervello/test/registro-due-lettori.test.mjs"
   },
   {
-   "difetto": "AR-483",
+   "difetto": "AR-500",
    "lezione": "L-2026-0803-541",
    "nome": "la spazzata ignora `percorsi`: la stessa malattia con due perimetri",
    "file": "cervello/spazzata-fratelli.mjs",
@@ -1273,7 +1273,7 @@
    "test": "cervello/test/registro-due-lettori.test.mjs"
   },
   {
-   "difetto": "AR-484",
+   "difetto": "AR-501",
    "lezione": "L-2026-0803-542",
    "nome": "la deriva non si accorge mai di niente: la soglia diventa irraggiungibile",
    "file": "cervello/sorvegliante.mjs",
@@ -1282,7 +1282,7 @@
    "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-486",
+   "difetto": "AR-502",
    "lezione": "L-2026-0803-543",
    "nome": "il verdetto del sorvegliante non entra nella busta del comando: torna a parlare a nessuno",
    "file": "cervello/misura-cieca.mjs",

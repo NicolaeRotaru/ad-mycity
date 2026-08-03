@@ -66,7 +66,7 @@ export function senzaCommenti(testo, file = "") {
   // il conteggio di `buco-letto-come-zero` è crollato a 0: un metro che conta in MENO è brutto quanto
   // uno che conta in più, e questo avrebbe dichiarato curata una malattia ancora viva.
   const js = /\.(m?js|ts|tsx|jsx)$/.test(file);
-  // In un .md il `#` apre un TITOLO, non un commento (AR-483). Azzerandolo qui, ogni regola di casa
+  // In un .md il `#` apre un TITOLO, non un commento (AR-500). Azzerandolo qui, ogni regola di casa
   // che vive nei titoli — «il titolo di un'azione non si scrive in sigle» — non poteva scattare mai:
   // la riga arrivava al pattern già vuota. Trovato dalle prove il 3/8, mentre censivo quella regola;
   // rileggendo la funzione sembrava giusta, perché per il codice lo è.
@@ -102,7 +102,7 @@ function filesSotto(dir, estensioni) {
 
 /**
  * Le due decisioni che il conteggio prende su OGNI file, tirate fuori dall'I/O perché una prova le
- * possa ESEGUIRE (AR-483). Non è pulizia: la prima stesura di queste prove controllava la semantica
+ * possa ESEGUIRE (AR-500). Non è pulizia: la prima stesura di queste prove controllava la semantica
  * delle espressioni regolari scritta dentro il test — cioè descriveva il fix invece di eseguirlo, e
  * rompendo il codice restava verde. L'ha trovato `non-vacuita.mjs`, non io.
  */

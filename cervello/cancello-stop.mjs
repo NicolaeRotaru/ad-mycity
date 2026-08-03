@@ -46,7 +46,7 @@
 // Exit: 0 = niente da dire · 2 = c'è qualcosa che stavo per lasciare indietro
 //
 // 🟢 Sola lettura sul repo: non modifica file versionati, non tocca git. L'UNICA scrittura è l'ancora
-//    del turno (AR-479) in `cervello/_tmp_stop-ancora.json`, fuori da git — senza, il perimetro
+//    del turno (AR-496) in `cervello/_tmp_stop-ancora.json`, fuori da git — senza, il perimetro
 //    tornerebbe a essere tutto il ramo a ogni chiusura. Stessa scelta del battito del sorvegliante,
 //    e per lo stesso motivo: verificare non deve costare un diff.
 
@@ -180,7 +180,7 @@ export function consegnaSenzaEsito(fileCommittati = [], righeAggiunteNeiQuaderni
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// IL PERIMETRO (AR-479) — «questo turno», non «tutto il ramo».
+// IL PERIMETRO (AR-496) — «questo turno», non «tutto il ramo».
 //
 // PERCHÉ ESISTE, e il caso è di ieri l'altro. Il 3/8, in un turno in cui non avevo scritto una riga
 // (albero pulito, solo letture), questo cancello mi ha fermato per un allarme scritto il 31/7 in un
@@ -259,7 +259,7 @@ export function lezioniSenzaGate(prima = [], dopo = []) {
  */
 export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito = null, insistenti = [], ciechi = [], giaBloccato = false } = {}) {
   const righe = [];
-  // ⑤ L'AVVISO CHE HO IGNORATO (AR-480). Il sorvegliante parla a ogni modifica; fino al 3/8 nessuno
+  // ⑤ L'AVVISO CHE HO IGNORATO (AR-497). Il sorvegliante parla a ogni modifica; fino al 3/8 nessuno
   // guardava se avessi fatto qualcosa. Una voce grave tornata tre volte e ancora viva all'ultimo
   // scatto non è più un avviso: è una decisione presa senza dirlo.
   for (const v of insistenti) {
@@ -521,7 +521,7 @@ async function main() {
   }
   if (perimetro.nota) ciechi.push(perimetro.nota);
 
-  // Le voci che il sorvegliante mi ha ripetuto in faccia mentre lavoravo (AR-480). Se il suo registro
+  // Le voci che il sorvegliante mi ha ripetuto in faccia mentre lavoravo (AR-497). Se il suo registro
   // non c'è, questo controllo non ha misurato — e lo dico, invece di contarlo come un verde.
   let insistenti = [];
   try {

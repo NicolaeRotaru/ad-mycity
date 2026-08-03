@@ -338,7 +338,7 @@ test("leggiDiff(): un file cancellato non produce righe aggiunte", () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// IL LATO SOTTRAZIONE (AR-478). Il caso che apre questa sezione è quello vero: prima di scrivere il
+// IL LATO SOTTRAZIONE (AR-495). Il caso che apre questa sezione è quello vero: prima di scrivere il
 // codice ho dato alla guardia un diff che cancellava un `gate:` E il test a cui puntava, e la risposta
 // è stata «voci: 0, exit 0». Verde pieno su una difesa appena morta. Qui quel diff torna identico.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -575,11 +575,11 @@ test("il file nuovo arriva davvero al cuore: un freno finto dentro un file mai c
   assert.equal(gravi(esito.voci)[0].classe, "gate-orfano");
 });
 
-// ─── ⑥ le regole di CASA: una malattia che vale solo in un file preciso (AR-483) ──────────────
+// ─── ⑥ le regole di CASA: una malattia che vale solo in un file preciso (AR-500) ──────────────
 
 test("una malattia con `percorsi` vale solo lì: fuori sarebbe un falso rosso, e un falso rosso spegne", () => {
   const casa = [{ id: "titolo-in-codice", nome: "titolo in sigle", pattern: "^## .*AR-\\d+", estensioni: [".md"], percorsi: ["MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md"] }];
-  const riga = [{ n: 3, testo: "## Sistemare AR-478 prima di lunedì" }];
+  const riga = [{ n: 3, testo: "## Sistemare AR-495 prima di lunedì" }];
 
   const nellaCoda = sorveglia({ malattie: casa, mutanti: [], toccati: [{ file: "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", contenuto: "", aggiunte: riga }] });
   assert.equal(gravi(nellaCoda.voci).length, 1, "nella coda che legge Nicola, un titolo in sigle è un difetto");
@@ -594,7 +594,7 @@ test("senza `percorsi` la malattia vale ovunque: il campo è facoltativo, non un
   assert.equal(gravi(e.voci).length, 1);
 });
 
-// ─── ⑨ la deriva del lavoro (AR-484) ─────────────────────────────────────────
+// ─── ⑨ la deriva del lavoro (AR-501) ─────────────────────────────────────────
 
 test("un lavoro dentro una zona sola non fa domande", () => {
   assert.equal(derivaDelLavoro(["cervello/a.mjs", "cervello/test/a.test.mjs"]), null);
@@ -632,7 +632,7 @@ test("la deriva arriva nella busta: una domanda che non esce non me la sono mai 
   assert.match(ctx, /UN lavoro solo/);
 });
 
-// ─── l'esito del verdetto (AR-480) ───────────────────────────────────────────
+// ─── l'esito del verdetto (AR-497) ───────────────────────────────────────────
 
 test("la chiave di una voce sopravvive al numero di riga, o il contatore riparte da uno a ogni edit", () => {
   const a = { classe: "difesa-rimossa", file: "cervello/x.mjs", riga: 12, cosa: "ho tolto la riga 12 che chiamava y" };

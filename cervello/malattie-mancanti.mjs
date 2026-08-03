@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🧬 LE MALATTIE CHE MANCANO (AR-482) — chi fa crescere il registro?
+// 🧬 LE MALATTIE CHE MANCANO (AR-499) — chi fa crescere il registro?
 //
 // PERCHÉ ESISTE. Il registro delle malattie (`cervello/malattie.json`) è nato il 30/7 con 7 forme e
 // il 3/8 ne aveva ancora 7 — mentre il cantiere passava da 400 a 419 difetti e le lezioni da 475 a

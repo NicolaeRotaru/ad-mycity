@@ -295,7 +295,7 @@ export function giudicaBattito(righe, adesso = Date.now(), soglie = SOGLIE) {
  * si porta dietro senza averli mandati su GitHub.
  */
 /**
- * Il verdetto sul battito della guardia in tempo reale (AR-481). Pura: è la decisione, e le decisioni
+ * Il verdetto sul battito della guardia in tempo reale (AR-498). Pura: è la decisione, e le decisioni
  * stanno dove un test le può eseguire.
  *
  * Il caso delicato è il terzo. Un battito assente da una sessione appena clonata è NORMALE — quel
@@ -578,7 +578,7 @@ const CONTROLLI = [
     titolo: "La guardia in tempo reale ha davvero scattato",
     impatto: 3,
     async prova() {
-      // PERCHÉ QUESTO CONTROLLO ESISTE (AR-481). Il sorvegliante scrive un battito apposta per
+      // PERCHÉ QUESTO CONTROLLO ESISTE (AR-498). Il sorvegliante scrive un battito apposta per
       // rispondere a «sei vivo?» — l'unica domanda a cui il silenzio non sa rispondere da solo. Per
       // tre giorni quel battito non l'ha letto NESSUNO: `--battito` non era chiamato da nessuno
       // script, solo citato in una scheda. Cioè la cura di AR-465 (un verdetto senza lettore) era

@@ -105,7 +105,7 @@ test("comando pulito = nessuna busta: un avvisatore che parla sempre viene spent
   assert.equal(bustaPerIlModello([]), null);
 });
 
-// ── il secondo passeggero: il verdetto del sorvegliante (AR-486) ──────────────
+// ── il secondo passeggero: il verdetto del sorvegliante (AR-502) ──────────────
 //
 // Il sorvegliante è agganciato a `Edit|Write|MultiEdit`: un `sed -i`, uno script che riscrive un
 // file, un `git checkout -- file` non lo svegliavano. Questo hook sul Bash c'è già, e i due verdetti

@@ -40,7 +40,7 @@
 //                        che manca. AR-338, AR-344 e AR-415 hanno tutti la stessa forma — ho cambiato
 //                        un lettore condiviso e il significato è cambiato per tutti gli altri.
 //
-// E DAL 3/8 (AR-478) anche il lato SOTTRAZIONE, che per tre giorni non ha guardato nessuno. «Solo le
+// E DAL 3/8 (AR-495) anche il lato SOTTRAZIONE, che per tre giorni non ha guardato nessuno. «Solo le
 // righe che aggiungo» era una taratura giusta contro il debito storico e sbagliata su ciò che tolgo:
 // quello è delta mio quanto il resto. Provato prima di scriverlo — un diff che cancellava un `gate:` e
 // il test a cui puntava usciva `voci: 0, exit 0`, e il file cancellato non compariva nemmeno.
@@ -148,7 +148,7 @@ export const VICINANZA_NOTA = 6;
 export const LETTERALI_MIN = 2;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// IL LATO SOTTRAZIONE (AR-478) — «le difese non muoiono per aggiunta, muoiono per sottrazione».
+// IL LATO SOTTRAZIONE (AR-495) — «le difese non muoiono per aggiunta, muoiono per sottrazione».
 //
 // PERCHÉ ESISTE. Fino al 3/8 questa guardia guardava SOLO le righe che aggiungo. La taratura era
 // giusta contro il debito storico — un cancello che parte rosso su mezzo repo viene spento entro la
@@ -550,7 +550,7 @@ export function basenameSemplice(p = "") {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ⑨ LA DERIVA (AR-484) — l'altra metà della frase di Nicola del 30/7.
+// ⑨ LA DERIVA (AR-501) — l'altra metà della frase di Nicola del 30/7.
 //
 // «Sembra che non hai un'auto-revisione mentre stai lavorando, **e un quadro ampio di quello che stai
 // facendo**.» La prima metà l'hanno chiusa i controlli ①-⑧. La seconda finora era solo il ⑤ raggio,
@@ -597,7 +597,7 @@ export function gravi(voci = []) {
 export const BATTITO = "cervello/_tmp_sorvegliante-battito.json";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// L'ESITO DEL VERDETTO (AR-480) — «ho parlato» non è «mi hanno ascoltato».
+// L'ESITO DEL VERDETTO (AR-497) — «ho parlato» non è «mi hanno ascoltato».
 //
 // PERCHÉ ESISTE. Il battito dimostra che la guardia ha GIRATO. Niente dimostrava che avessi FATTO
 // qualcosa. Fra uno scatto e l'altro non c'era memoria: la stessa voce grave poteva tornare venti
@@ -894,7 +894,7 @@ function guardianiNominati() {
 /**
  * IL GIRO COMPLETO SUL DELTA — l'I/O che sta fra il repo e il cuore.
  *
- * Estratto da `main()` (AR-486) perché adesso ha DUE chiamanti: il comando, e l'hook del Bash che
+ * Estratto da `main()` (AR-502) perché adesso ha DUE chiamanti: il comando, e l'hook del Bash che
  * `misura-cieca.mjs` fa girare dopo ogni comando di shell. Finché ne aveva uno solo poteva stare
  * dentro `main()`; con due, lasciarlo lì avrebbe voluto dire scriverne una seconda copia — e due
  * copie della stessa lettura divergono sempre (è la ragione per cui in questo repo il registro delle

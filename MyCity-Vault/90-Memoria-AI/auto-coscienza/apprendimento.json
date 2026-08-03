@@ -10767,11 +10767,11 @@
    "evidenze": [
     "cervello/sorvegliante.mjs (⑥ difesa-rimossa, ⑦ soglia-allentata, ⑧ esenzione-aggiunta, leggiRimozioni, indiceDifese)",
     "cervello/test/sorvegliante.test.mjs (17 prove nuove)",
-    "AR-478 nel cantiere",
+    "AR-495 nel cantiere",
     "5 mutazioni verificate rosse con non-vacuita.mjs"
    ],
    "gate": "node cervello/test/sorvegliante.test.mjs",
-   "gate_nota": "5 mutazioni su AR-478 in mutanti.json: file cancellato invisibile, riga-che-toglie ignorata, spostamento punito (falso rosso), file morto che si assolve da solo, minimo allentato non visto."
+   "gate_nota": "5 mutazioni su AR-495 in mutanti.json: file cancellato invisibile, riga-che-toglie ignorata, spostamento punito (falso rosso), file morto che si assolve da solo, minimo allentato non visto."
   },
   {
    "tag": [
@@ -10793,11 +10793,11 @@
    "evidenze": [
     "cervello/sorvegliante.mjs (chiaveVoce, aggiornaViste, vociInsistenti, registro dentro il battito)",
     "cervello/cancello-stop.mjs (controllo ⑤: l avviso ignorato)",
-    "AR-480 nel cantiere",
+    "AR-497 nel cantiere",
     "3 mutazioni verificate rosse"
    ],
    "gate": "node cervello/test/sorvegliante.test.mjs",
-   "gate_nota": "3 mutazioni su AR-480 in mutanti.json: chiave che torna a dipendere dalla riga, raggio contato nel registro, voce gia curata ancora rinfacciata."
+   "gate_nota": "3 mutazioni su AR-497 in mutanti.json: chiave che torna a dipendere dalla riga, raggio contato nel registro, voce gia curata ancora rinfacciata."
   },
   {
    "tag": [
@@ -10819,11 +10819,11 @@
    "evidenze": [
     "cervello/cancello-stop.mjs (ancora del turno, scegliPerimetro, siPiantaAncora)",
     "cervello/test/cancello-stop.test.mjs (6 prove nuove)",
-    "AR-479 nel cantiere",
+    "AR-496 nel cantiere",
     "collaudo dal vivo: giro 1 dice il debito + ⚪, giro 2 verde"
    ],
    "gate": "node --test cervello/test/cancello-stop.test.mjs",
-   "gate_nota": "2 mutazioni su AR-479 in mutanti.json: perimetro che torna al ramo ignorando l ancora, ancora che si sposta anche su un turno bloccato."
+   "gate_nota": "2 mutazioni su AR-496 in mutanti.json: perimetro che torna al ramo ignorando l ancora, ancora che si sposta anche su un turno bloccato."
   },
   {
    "tag": [
@@ -10845,11 +10845,11 @@
    "evidenze": [
     "cervello/salute.mjs (controllo cervello.sorvegliante + giudicaBattitoGuardia)",
     "cervello/test/salute.test.mjs (3 prove nuove)",
-    "AR-481 nel cantiere",
+    "AR-498 nel cantiere",
     "1 mutazione verificata rossa"
    ],
    "gate": "node cervello/test/salute.test.mjs",
-   "gate_nota": "1 mutazione su AR-481 in mutanti.json: il giudizio del battito che torna sempre verde."
+   "gate_nota": "1 mutazione su AR-498 in mutanti.json: il giudizio del battito che torna sempre verde."
   },
   {
    "tag": [
@@ -10871,11 +10871,11 @@
    "evidenze": [
     "cervello/malattie-mancanti.mjs (nuovo, agganciato al cancello del lotto)",
     "cervello/test/malattie-mancanti.test.mjs (11 prove)",
-    "AR-482 nel cantiere",
+    "AR-499 nel cantiere",
     "7 regressioni classificate a mano invece che messe in baseline: 2 con un nome, 5 con debito dichiarato"
    ],
    "gate": "node --test cervello/test/malattie-mancanti.test.mjs",
-   "gate_nota": "2 mutazioni su AR-482 in mutanti.json: la regressione che non deve piu rispondere, e «non-pattern-izzabile» senza perche che torna a bastare."
+   "gate_nota": "2 mutazioni su AR-499 in mutanti.json: la regressione che non deve piu rispondere, e «non-pattern-izzabile» senza perche che torna a bastare."
   },
   {
    "tag": [
@@ -10897,11 +10897,11 @@
    "evidenze": [
     "cervello/spazzata-fratelli.mjs (flag gm, prosa, nelPerimetro, istanzeNelTesto)",
     "cervello/test/registro-due-lettori.test.mjs (5 prove che eseguono ENTRAMBI i lettori)",
-    "AR-483 nel cantiere",
+    "AR-500 nel cantiere",
     "3 mutazioni verificate rosse"
    ],
    "gate": "node --test cervello/test/registro-due-lettori.test.mjs",
-   "gate_nota": "3 mutazioni su AR-483: flag `m` tolto, `#` di nuovo commento nei .md, `percorsi` ignorato dalla spazzata."
+   "gate_nota": "3 mutazioni su AR-500: flag `m` tolto, `#` di nuovo commento nei .md, `percorsi` ignorato dalla spazzata."
   },
   {
    "tag": [
@@ -10923,11 +10923,11 @@
    "evidenze": [
     "cervello/sorvegliante.mjs (controllo ⑨ deriva, zonaDi, derivaDelLavoro)",
     "cervello/test/sorvegliante.test.mjs (4 prove)",
-    "AR-484 nel cantiere",
+    "AR-501 nel cantiere",
     "1 mutazione verificata rossa"
    ],
    "gate": "node --test cervello/test/sorvegliante.test.mjs",
-   "gate_nota": "1 mutazione su AR-484: la soglia della deriva resa irraggiungibile, il controllo non si accorge piu di niente."
+   "gate_nota": "1 mutazione su AR-501: la soglia della deriva resa irraggiungibile, il controllo non si accorge piu di niente."
   },
   {
    "tag": [
@@ -10950,11 +10950,11 @@
     "cervello/misura-cieca.mjs (l hook del Bash fa girare anche il sorvegliante, busta unica)",
     "cervello/sorvegliante.mjs (verdettoDelDelta e scatto estratti; indiceImportatori con una passata sola)",
     "cervello/test/misura-cieca.test.mjs (3 prove nuove)",
-    "AR-486 nel cantiere",
+    "AR-502 nel cantiere",
     "collaudo end-to-end: il verdetto e comparso dopo un comando"
    ],
    "gate": "node --test cervello/test/misura-cieca.test.mjs",
-   "gate_nota": "1 mutazione su AR-486: il verdetto del sorvegliante che non entra piu nella busta del comando."
+   "gate_nota": "1 mutazione su AR-502: il verdetto del sorvegliante che non entra piu nella busta del comando."
   }
  ],
  "principi": [

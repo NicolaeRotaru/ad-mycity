@@ -28,7 +28,7 @@
 // COPERTURA DICHIARATA: sono le cinque forme misurate sul campo, non una teoria della shell. Un
 // comando che passa non è «sicuro»: è «non contiene le cinque trappole già pagate».
 //
-// E DAL 3/8 (AR-486) questo hook fa un secondo mestiere: fa girare anche il SORVEGLIANTE sul delta.
+// E DAL 3/8 (AR-502) questo hook fa un secondo mestiere: fa girare anche il SORVEGLIANTE sul delta.
 // Non è un accorpamento di comodo. Il sorvegliante è agganciato a `Edit|Write|MultiEdit`, quindi un
 // `sed -i`, uno script che riscrive un file, un `git checkout -- file` o un generatore non lo
 // svegliavano affatto: il modo più comodo di modificare il repo era anche l'unico senza guardia.
@@ -103,7 +103,7 @@ export function bustaPerIlModello(trovate = [], dalSorvegliante = null) {
   const righe = trovate.length
     ? ["🔍 MISURA CIECA — il comando che hai appena lanciato può darti un verdetto che non ha misurato:", ...trovate.map((t) => `   · ${t.cosa}\n     → ${t.invece}`)]
     : [];
-  // Il verdetto del sorvegliante sul delta viaggia nella STESSA busta (AR-486): l'hook legge una sola
+  // Il verdetto del sorvegliante sul delta viaggia nella STESSA busta (AR-502): l'hook legge una sola
   // uscita, e due buste stampate di fila non sono JSON — la seconda finirebbe nel nulla, che è
   // esattamente il difetto che questi due file esistono per curare.
   if (dalSorvegliante) righe.push(dalSorvegliante);
@@ -148,7 +148,7 @@ async function main() {
   const trovate = misuraCieca(comando);
 
   if (argv.includes("--hook")) {
-    // AR-486 — LA GUARDIA CHE NON SI SVEGLIAVA. Il sorvegliante è agganciato a `Edit|Write|MultiEdit`:
+    // AR-502 — LA GUARDIA CHE NON SI SVEGLIAVA. Il sorvegliante è agganciato a `Edit|Write|MultiEdit`:
     // un `sed -i`, uno script che riscrive un file, un `git checkout -- file`, un generatore, non lo
     // svegliavano affatto. Cioè il modo più comodo di modificare il repo era anche l'unico senza
     // guardia — e non è un caso raro: è come si fanno le modifiche in massa, quelle che toccano più

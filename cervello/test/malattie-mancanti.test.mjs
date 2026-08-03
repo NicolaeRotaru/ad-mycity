@@ -1,4 +1,4 @@
-// Le prove del guardiano che fa crescere il registro delle malattie (AR-482).
+// Le prove del guardiano che fa crescere il registro delle malattie (AR-499).
 //
 // Il difetto che cura non è un bug: è un registro che sta fermo. Nato il 30/7 con 7 forme, il 3/8 ne
 // aveva ancora 7 mentre il cantiere passava da 400 a 419 difetti — e il sorvegliante, che su quel

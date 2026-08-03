@@ -1,4 +1,4 @@
-// 🧪 UN REGISTRO, DUE LETTORI — e devono leggerlo allo stesso modo (AR-483).
+// 🧪 UN REGISTRO, DUE LETTORI — e devono leggerlo allo stesso modo (AR-500).
 //
 // `cervello/malattie.json` ha due consumatori: `spazzata-fratelli.mjs`, che conta le istanze vive
 // nel repo, e `sorvegliante.mjs`, che cerca le stesse forme sulle righe che sto aggiungendo adesso.
@@ -38,7 +38,7 @@ test("① un pattern ancorato con ^ vale per RIGA in tutti e due i lettori", () 
 });
 
 test("② in un .md il # apre un titolo, non un commento", () => {
-  assert.equal(senzaCommenti("## Sistemare AR-478", "coda.md"), "## Sistemare AR-478", "azzerarlo rende invisibile ogni regola sui titoli");
+  assert.equal(senzaCommenti("## Sistemare AR-495", "coda.md"), "## Sistemare AR-495", "azzerarlo rende invisibile ogni regola sui titoli");
   assert.equal(senzaCommenti("# commento", "script.sh"), "", "…ma nel codice resta un commento");
 });
 
@@ -46,7 +46,7 @@ test("②-bis la regola sui titoli scatta davvero, dal registro fino al verdetto
   const e = sorveglia({
     malattie: [{ id: "titolo-che-parla-in-codice", pattern: "^##[ \\t]+.*(AR-[0-9]+)", estensioni: [".md"], percorsi: ["MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md"] }],
     mutanti: [],
-    toccati: [{ file: "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", contenuto: "", aggiunte: [{ n: 9, testo: "## Chiudere AR-478 entro venerdì" }] }],
+    toccati: [{ file: "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", contenuto: "", aggiunte: [{ n: 9, testo: "## Chiudere AR-495 entro venerdì" }] }],
   });
   assert.equal(gravi(e.voci).length, 1, "è la prova che ② non era teorica: senza il fix questa resta 0");
 });
@@ -62,8 +62,8 @@ test("③ `percorsi` restringe per tutti e due, o la stessa malattia ha due peri
   assert.equal(nelPerimetro(malattia, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md"), true);
   assert.equal(nelPerimetro(malattia, "MyCity-Vault/07-Agenti/kit/x.md"), false, "i due file KIT accusati il 3/8 erano esattamente questo caso");
   assert.equal(nelPerimetro({ id: "y", pattern: "x" }, "qualsiasi.md"), true, "senza `percorsi` vale ovunque: il campo è facoltativo");
-  const dentro = sorveglia({ malattie: [malattia], mutanti: [], toccati: [{ file: "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", contenuto: "", aggiunte: [{ n: 1, testo: "vedi AR-478" }] }] });
-  const fuori = sorveglia({ malattie: [malattia], mutanti: [], toccati: [{ file: "MyCity-Vault/07-Agenti/kit/x.md", contenuto: "", aggiunte: [{ n: 1, testo: "vedi AR-478" }] }] });
+  const dentro = sorveglia({ malattie: [malattia], mutanti: [], toccati: [{ file: "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", contenuto: "", aggiunte: [{ n: 1, testo: "vedi AR-495" }] }] });
+  const fuori = sorveglia({ malattie: [malattia], mutanti: [], toccati: [{ file: "MyCity-Vault/07-Agenti/kit/x.md", contenuto: "", aggiunte: [{ n: 1, testo: "vedi AR-495" }] }] });
   assert.equal(gravi(dentro.voci).length, 1);
   assert.equal(gravi(fuori.voci).length, 0, "i due file KIT che la spazzata accusava erano esattamente questo caso");
 });
