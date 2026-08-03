@@ -3,322 +3,297 @@ data: 2026-08-03 22:20
 titolo: Le tre macchine — come sarà MyCity quando è finita
 per: Nicola
 tipo: visione del risultato finale + piano in 4 fasi
-stato: proposta — nessuna riga di codice scritta, nessun euro impegnato
-colore: 🟢 (documento di studio) — ogni fase esecutiva è 🟡/🔴 e parte solo con la firma di Nicola
+stato: proposta. Nessuna riga di codice scritta, nessun euro impegnato
+colore: 🟢 documento di studio. Ogni fase esecutiva è 🟡/🔴 e parte solo con la tua firma
 ---
 
 # 🏗️ Le tre macchine
 
-> **La frase da ricordare:** oggi c'è **una macchina che fa tutto**. Domani ce ne saranno
-> **tre, ognuna con un mestiere solo**: una che dirige l'azienda, una che manda avanti il
-> marketplace, una che lavora dentro i negozi dei commercianti — e quest'ultima **è una
-> sola per tutti i negozi**, non una per ciascuno.
+**In due righe.** Questo foglio serve a decidere come sarà fatta MyCity dentro. Oggi c'è una macchina sola che fa tutto. Domani ce ne saranno tre, ognuna con un
+mestiere solo. La terza si vende ai negozianti, ed è **una sola per tutti i negozi**.
 
 ---
 
-## Parte 1 — Come si vede il risultato finale
+## In parole semplici
 
-### Una giornata, quando sarà finita
+Questo documento parla di come sarà fatta MyCity dentro. Serve a decidere cosa costruire e quando.
 
-**Ore 7:00.** Nicola apre la Cabina sul telefono. Non trova un elenco di lavori: trova
-**tre semafori**, uno per macchina, e sotto **quattro card da firmare** — non quaranta.
+Oggi la macchina fa tre lavori insieme. Dirige l'azienda. Manda avanti il marketplace. E dovrebbe
+anche servire i negozianti. Sono tre mestieri diversi in una testa sola.
 
-**Ore 7:04.** Il semaforo del **marketplace** è giallo. Non deve indagare: sotto c'è
-scritto perché, con i numeri e la fonte. *«Ieri 34 ordini (+6). Due negozi hanno il
-catalogo fermo da 9 giorni. Ho riscritto 61 schede prodotto e le ho pubblicate (🟡 —
-già fatto, reversibile). Ti chiedo una firma sola: alzare la soglia della spedizione
-gratis da 25 a 29 € per due settimane, su 3 negozi. Se va bene, il margine per ordine
-sale di ~0,80 €; se va male, torno indietro in un click.»* Questo referto **non l'ha
-scritto l'AD**: l'ha scritto la macchina che manda avanti il marketplace. L'AD l'ha
-letto, ci ha messo la faccia e l'ha portato a Nicola.
+La proposta è dividerli in tre macchine.
 
-**Ore 7:06.** Il semaforo del **servizio ai negozi** è verde. *«41 negozi serviti.
-Ieri: 388 risposte ai clienti, 112 prezzi aggiornati, 63 post pubblicati, 9 avvisi
-"sta finendo". Costo AI: 214 €. Incasso canoni: 1.230 €. Un negozio ha sforato il suo
-tetto ed è in pausa — l'ho avvisato, decide lui se alzarlo.»* Nicola qui **non firma
-niente**: quello che succede dentro un negozio lo firma il negoziante.
+- **CENTRO** dirige l'azienda. È questo repo, alleggerito.
+- **PIAZZA** manda avanti il marketplace. Una per città.
+- **BOTTEGA** lavora dentro i negozi dei commercianti. Una sola per tutti.
 
-**Ore 7:10 — chiude il telefono.** L'azienda ha lavorato tutta la notte in tre posti
-diversi. A lui sono arrivate quattro decisioni, non quattromila fatti.
+Il CENTRO non tocca più il sito. Dà gli obiettivi alle altre due e legge i loro rapporti.
 
-### Il disegno
+La BOTTEGA è la cosa nuova. È il Worker che vendi a canone ai negozianti. La domanda che mi hai
+fatto è come possa servirli tutti senza diventare quaranta macchine. La risposta sta più sotto.
+
+## Cosa cambia per te
+
+Cambia soprattutto cosa vedi la mattina.
+
+Oggi apri la Cabina e trovi un elenco di lavori. Domani trovi **tre semafori e poche card da
+firmare**.
+
+Per esempio, una mattina di quelle: il semaforo del marketplace è giallo, e sotto c'è già scritto
+perché. *Ieri 34 ordini. Due negozi col catalogo fermo da nove giorni. Ho riscritto 61 schede prodotto sulle 74 incomplete, e le ho pubblicate. Ti chiedo una firma sola.*
+
+Quel rapporto non lo scrive più l'AD. Lo scrive la macchina del marketplace. L'AD lo legge e te lo
+porta.
+
+Sul semaforo dei negozi **non firmi niente**. Quello che succede dentro un negozio lo firma il
+negoziante. Senza questa regola firmeresti 400 card al giorno.
+
+## Cosa devi fare
+
+Oggi una cosa sola. Dirmi se partiamo con la **Fase 1**.
+
+La Fase 1 non crea nessuna macchina nuova. Fa passare tutte le scritture verso il marketplace da un
+punto solo. Sono giorni di lavoro, non settimane. Serve comunque, anche se il resto non si fa mai.
+
+Le altre tre fasi non partono adesso. Aspettano Vercel, i primi incassi e una tua parola.
+
+## Cosa non ho verificato
+
+Tre cose, dette per quello che sono.
+
+**Il margine del canone.** Il prezzo esiste già ed è tuo. Sono i piani da 99, 299 e 699-999 euro al
+mese, più il pilota a prezzo bloccato di 149. Quello che nessuno sa è quanto costa in AI servire un negozio per
+un mese. Finché non lo misuriamo, il margine di quel listino è un'ipotesi.
+
+**I tempi.** Ho scritto «giorni» per la Fase 1 e «settimane» per la Fase 2. Sono stime mie, non
+misure.
+
+**Il carico vero.** I numeri della giornata tipo qui sopra sono un esempio, non una previsione.
+Servono a farti vedere la forma della cosa.
+
+---
+
+## Il disegno
 
 ```
-                       NICOLA
-              una Cabina · una coda di firme
-                          ▲
-             referti ogni giorno │ richieste di firma 🔴
-                          │
-        ╔═════════════════╧═════════════════════════════╗
-        ║  ①  CENTRO OPERATIVO — l'AD dell'AZIENDA      ║
-        ║  strategia · soldi · squadra · memoria unica  ║
-        ║  NON tocca il sito · NON parla coi clienti    ║
-        ╚════════╤════════════════════════════╤═════════╝
-        mandato ▼│▲ referto          mandato ▼│▲ referto
-    ╔════════════╧═══════════╗   ╔════════════╧══════════════════╗
-    ║  ②  PIAZZA             ║   ║  ③  BOTTEGA                   ║
-    ║  manda avanti IL       ║   ║  il SERVIZIO ai negozianti    ║
-    ║  MARKETPLACE           ║   ║  UNA macchina · N negozi      ║
-    ║  una per città         ║   ║  ogni negoziante firma casa   ║
-    ╚════════════╤═══════════╝   ╚════════════╤══════════════════╝
-       chiavi in │scrittura        per conto  │del singolo negozio
-                 ▼                            ▼
-        mycity-marketplace.com      🥖 🥩 💐 🧀 … × 41
+                    NICOLA — una Cabina, una coda di firme
+                                   ▲ rapporti · firme 🔴
+              ①  CENTRO OPERATIVO  (strategia · soldi · squadra · memoria)
+                   ├── obiettivi ▼ rapporto ▲ ──►  ②  PIAZZA   ──► il marketplace
+                   └── obiettivi ▼ rapporto ▲ ──►  ③  BOTTEGA  ──► 🥖🥩💐🧀 … × 41
 ```
 
-### Chi è chi, in una riga
-
-| | Nome | Il suo mestiere | Se sbaglia, il danno è | Chi firma i suoi 🔴 |
+| | Nome | Mestiere | Se sbaglia, il danno è | Chi firma i suoi 🔴 |
 |---|---|---|---|---|
-| ① | **CENTRO** | dirigere l'azienda | una decisione sbagliata | Nicola |
-| ② | **PIAZZA** | mandare avanti il marketplace | il sito, non l'azienda | Nicola (via CENTRO) |
-| ③ | **BOTTEGA** | lavorare dentro i negozi | un negozio, non gli altri 40 | **il negoziante** |
+| ① | **CENTRO** | dirigere l'azienda | una decisione | Nicola |
+| ② | **PIAZZA** | mandare avanti il marketplace | il sito, non l'azienda | Nicola, via CENTRO |
+| ③ | **BOTTEGA** | lavorare dentro i negozi | un negozio, non gli altri 40 | il negoziante |
 
-*(Perché tre nomi nuovi: «worker» oggi significa già un'altra cosa — il processo che
-gira sul VPS e svuota la coda `lavori`. Se chiamiamo worker anche il servizio ai
-negozianti, tra un mese non ci capiamo più. CENTRO, PIAZZA, BOTTEGA sono il vocabolario.)*
+Ho scelto tre nomi nuovi per un motivo pratico. La parola «worker» è già occupata. Oggi indica il
+programma sul server che esegue i lavori della coda. Chiamare worker anche il servizio ai negozianti
+avrebbe confuso due cose diverse per sempre.
 
----
+## Le tre macchine, una per una
 
-## Parte 2 — Le tre macchine, una per una
+### ① CENTRO
+È questo repo, alleggerito. Tiene solo quello che non si delega.
 
-### ① CENTRO — quello che resta qui
-È questo repo, **alleggerito**. Tiene solo ciò che non si delega:
-- strategia e priorità (dove giocare, dove no);
-- i soldi dell'azienda: margini, cassa, budget, banche, bandi;
-- i 120 senior e il loro governo (mansionari, guardiani, apprendimento);
-- **la memoria unica dei fatti** e la Cabina di Nicola;
-- il **mandato** che dà alle altre due, e il giudizio sui loro referti.
+Strategia e priorità. I soldi dell'azienda. I 120 senior e il loro governo. La memoria dei fatti. La
+tua Cabina.
 
-Cosa **smette** di fare: aprire il codice del sito, leggere le tabelle riga per riga,
-rispondere ai clienti di un negozio. È il guadagno vero — oggi una macchina sola si
-porta in testa tutto insieme e si affolla.
+Smette di aprire il codice del sito. Smette di leggere le tabelle riga per riga. È il guadagno vero.
+Oggi una macchina sola si porta in testa tutto insieme, e si affolla.
 
-### ② PIAZZA — la macchina del marketplace
-Fa a tempo pieno quello che oggi l'AD fa a mezzo servizio: catalogo, vetrine, prezzi
-dentro l'intervallo deciso, ordini e consegne, bug del sito, anteprime, salute della
-piattaforma. Due differenze grosse rispetto a oggi:
+### ② PIAZZA
+Fa a tempo pieno quello che oggi l'AD fa a mezzo servizio. Catalogo, vetrine, prezzi, ordini,
+consegne, bug del sito.
 
-1. **Ha le chiavi in scrittura.** Oggi l'AD è cieco in scrittura: può solo proporre e
-   aspettare. La PIAZZA scrive davvero. E le chiavi vivono lì e **solo** lì — il CENTRO
-   non le possiede, così un errore del CENTRO non può toccare il sito.
-2. **Si replica per città.** Piacenza è una PIAZZA. Parma sarà una seconda PIAZZA:
-   stesso codice, dati e memoria propri, stesso mandato. Aprire una città non richiede
-   di riscrivere niente.
+Due differenze grosse rispetto a oggi.
 
-### ③ BOTTEGA — il servizio venduto ai negozianti
-Un impiegato digitale per ogni commerciante: risponde ai suoi clienti, tiene il suo
-catalogo, scrive i suoi post, gli dice cosa sta finendo e quanto ha incassato oggi.
-Lui lo usa dal telefono o da WhatsApp, **mai da un terminale**.
+La prima. **Ha le chiavi in scrittura.** Oggi l'AD può solo proporre e aspettare. Le chiavi vivono
+in PIAZZA e solo lì. Così un errore del CENTRO non può toccare il sito.
 
-> 🔗 **Non è un'idea nuova: è la linea di ricavo #2 che Nicola ha già definito il 29/7.**
-> Il *cosa si vende* e a *quanto* esiste già — tre piani **99 / 299 / 699-999 €/mese**
-> più un pilot founder a **149 €/mese bloccato** (fatti `pricing.worker-negozi` e
-> `pilot.worker-negozi`; dettaglio in
-> `consegne/strategia/2026-07-29-listino-worker-negozi.md`). Questo documento non
-> ridiscute il listino: aggiunge **come è fatta la macchina** che lo eroga. E resta
-> valido `worker-negozi.stato`: linea **definita ma non costruita**, nessuna mossa
-> commerciale finché non è Nicola ad aprirla.
+La seconda. **Si replica per città.** Piacenza è una PIAZZA. Parma sarà la seconda, con lo stesso
+codice e dati suoi. Aprire una città non richiede di riscrivere niente.
 
----
+### ③ BOTTEGA
+Un impiegato digitale per ogni commerciante. Risponde ai suoi clienti. Tiene il suo catalogo. Scrive
+i suoi post. Gli dice cosa sta finendo e quanto ha incassato oggi.
 
-## Parte 3 — Il cuore: **una** macchina per **tutti** i negozi
+Il negoziante lo usa dal telefono, mai da un terminale.
 
-### Perché NON una per negozio
-Una copia a testa sembra la strada facile ed è la trappola:
-- **costo** — 40 processi accesi, 40 database, 40 backup, 40 log da guardare;
-- **manutenzione** — ogni miglioria da ricopiare 40 volte; e alla quarantesima le copie
-  non sono più uguali: è così che nascono i bug che nessuno riesce a riprodurre;
-- **guasti** — 40 macchine sono 40 cose che si rompono in 40 modi diversi;
-- **prezzo** — se ogni cliente ti costa una macchina, il canone non regge.
+Non è un'idea nuova. È la linea di ricavo numero 2 che hai già definito il 29 luglio. Il listino c'è
+già, e questo documento non lo ridiscute. Qui aggiungo solo com'è fatta la macchina che lo eroga.
 
-### La regola madre
-> **Quello che è UGUALE per tutti è codice, e si scrive una volta sola.
-> Quello che è DIVERSO per ognuno è un DATO, e sta in una riga col nome del negozio.**
+Resta valida la tua regola. La linea è definita ma non costruita. Nessuna mossa commerciale finché
+non sei tu ad aprirla.
 
-Non si duplica **mai** la macchina per personalizzarla: si compila una **scheda**.
+## Il cuore: una macchina per tutti i negozi
 
-| Uguale per tutti (una copia sola) | Diverso per ognuno (una scheda + uno spazio suo) |
+Una copia per negozio sembra la strada facile. È la trappola.
+
+Quaranta copie vogliono dire quaranta programmi accesi e quaranta copie di sicurezza. Ogni miglioria va ricopiata
+quaranta volte. Alla quarantesima le copie non sono più uguali. È così che nascono i bug che nessuno
+riesce a riprodurre. E il canone non regge, perché ogni cliente ti costa una macchina.
+
+La regola madre è un'altra.
+
+> **Quello che è uguale per tutti è codice, e si scrive una volta sola.
+> Quello che è diverso per ognuno è un dato, e sta in una riga col nome del negozio.**
+
+Non si duplica mai la macchina per personalizzarla. Si compila una **scheda**.
+
+| Uguale per tutti | Diverso per ognuno |
 |---|---|
-| cervello e mansionari degli agenti | **profilo**: chi è, cosa vende, orari, tono, cosa non dire mai |
-| le procedure (rispondi, aggiorna, pubblica) | **memoria**: cosa ha imparato su quel negozio e sui suoi clienti |
-| guardiani, cancelli 🟢🟡🔴, registro azioni | **chiavi**: i suoi account, in cassaforte cifrata |
-| il motore AI e il routing dei costi | **permessi**: cosa quel commerciante gli lascia fare da solo |
-| | **budget**: quanto può consumare al mese |
+| il cervello e i mansionari | il profilo del negozio: cosa vende, orari, tono di voce |
+| le procedure di lavoro | la memoria di quel negozio e dei suoi clienti |
+| i guardiani e i cancelli 🟢🟡🔴 | le sue chiavi, chiuse in cassaforte |
+| il motore AI | quanto può spendere al mese |
 
-### I sei meccanismi che lo rendono possibile
-1. **`negozio_id` su ogni riga, ovunque.** Nessuna tabella senza. Ogni lavoro nasce già
-   marchiato col negozio a cui appartiene.
-2. **Il muro dentro il database (RLS).** Non è il buon senso dell'AI a tenere separati i
-   dati: è il **database che rifiuta** di restituire le righe di un altro negozio. Anche
-   se l'AI sbagliasse la domanda, non le arriva niente. È lo stesso meccanismo che il
-   marketplace già usa perché un venditore veda solo i suoi ordini: **da riusare, non da
-   inventare.**
-3. **Una coda sola, ma a corsie.** Come oggi (`lavori` su Supabase), con in più il
-   `negozio_id`. Il worker prende i lavori **a turno tra i negozi**, non in ordine di
-   arrivo: un negozio che ne accoda 200 non lascia gli altri 40 ad aspettare. Ognuno ha
-   la sua quota e il suo interruttore.
-4. **Contesto isolato per lavoro.** Parte un lavoro → si carica **solo** la scheda e la
-   memoria di quel negozio. Il testo del lavoro non contiene mai una riga di un altro
-   negozio: non è una regola da rispettare, è **come il lavoro viene costruito**.
-5. **Segreti mai nel discorso.** Le chiavi del negoziante stanno in cassaforte, vengono
-   montate per la durata del lavoro e non entrano mai nel testo che l'AI legge o scrive.
-6. **Il guasto resta dentro una casa.** Timeout, tentativi finiti, negozio che va in
-   loop: si spegne **quella** corsia, gli altri 40 non se ne accorgono. Il worker di oggi
-   ha già imparato a farlo sui lavori orfani — si riusa quella cura.
+Il negoziante numero 41 non fa nascere una macchina. Fa nascere **una riga**. Venti minuti di
+intervista, e la stessa macchina lo serve come serve gli altri quaranta.
 
-### Il negoziante numero 41 non fa nascere una macchina: fa nascere una riga
-Venti minuti di intervista (è già il mestiere del senior `onboarding-negozi`), si apre
-il suo spazio di memoria e la sua cassaforte, si sceglie cosa può fare da solo. Da quel
-momento la stessa macchina lo serve come serve gli altri quaranta.
+Il vantaggio che ripaga tutto è questo. Una miglioria si scrive una volta, e la mattina dopo ce
+l'hanno tutti.
 
-### Il vantaggio che ripaga tutto
-Una miglioria si scrive **una volta** e la mattina dopo **ce l'hanno tutti**. E ogni
-negozio insegna agli altri — ma solo come **regola anonima** (*«rispondere sotto i 30
-minuti raddoppia il riordino»*), mai come dato: **i dati di un negozio non escono da
-casa sua nemmeno per imparare.**
+E ogni negozio insegna agli altri. Ma solo come regola anonima, per esempio *le risposte sotto i 30
+minuti raddoppiano il riordino*. I dati di un negozio non escono da casa sua, nemmeno per imparare.
 
-### I due rischi veri, e il freno di ciascuno
-- **Il testo dei clienti non è un ordine.** Messaggi, recensioni e schede possono
-  contenere frasi messe lì apposta per farsi obbedire dall'AI. Regola dura: quel testo è
-  **materiale**, mai un comando. Gli ordini arrivano solo dal mandato.
-- **Il conto che esplode.** Un negozio che chiede troppo consuma soldi veri: tetto
-  mensile per negozio, avviso a metà, **stop automatico**. È il freno costi che il CENTRO
-  ha già, esteso per negozio.
+## Come si parlano le tre macchine
 
----
+Non a chiacchiere. Tra due macchine passano quattro cose sole.
 
-## Parte 4 — Come si parlano le macchine
+**Gli obiettivi** scendono. Sono un foglio corto: cosa devi ottenere, con che budget, cosa puoi fare
+da solo e cosa no.
 
-Non a chiacchiere. Il rapporto tra due macchine è fatto di **quattro cose sole**:
+**Il referto** sale. «Referto» è la parola di casa per il rapporto che una macchina consegna a fine
+giro. Dentro ci sono i numeri con la fonte, cosa ha fatto e cosa chiede. Il CENTRO legge quello, non
+il marketplace.
 
-1. **Il mandato** (scende) — obiettivi del periodo, KPI di cui rispondi, budget, cosa
-   fai da sola 🟢, cosa fai avvisando 🟡, cosa non tocchi mai 🔴.
-2. **Il referto** (sale) — a ogni giro uno stato **strutturato**: numeri con la fonte,
-   cosa ho fatto, cosa si è rotto, cosa chiedo. **Il CENTRO legge il referto, non il
-   marketplace.**
-3. **L'escalation** (sale e si ferma da Nicola) — un 🔴 nato in PIAZZA non lo firma la
-   PIAZZA né il CENTRO: sale nell'**unica** coda di firme, con scritto chi lo chiede,
-   cosa cambia, cosa succede se va bene.
-4. **L'interruttore** (scende, sempre) — il CENTRO può fermare le altre quando vuole, ma
-   **non entra in casa loro**: non scrive nella loro memoria e non ha le loro chiavi.
-   *Chi comanda non esegue, chi esegue non firma.*
+**Le firme** salgono fino a te. Un 🔴 nato in PIAZZA non lo firma né PIAZZA né il CENTRO. Arriva
+nella tua coda, con scritto cosa cambia e cosa succede se va bene.
 
-Con la BOTTEGA vale lo stesso schema con **una differenza sostanziale**: il capo
-operativo di ogni negozio è il **negoziante**, non Nicola. Il CENTRO governa il
-*servizio* (prezzo, qualità, cosa è vietato ovunque); il negoziante governa *casa sua*.
-Altrimenti Nicola finirebbe a firmare 400 card al giorno e il sistema morirebbe lì.
+**L'interruttore** scende, sempre. Il CENTRO può fermare le altre quando vuole. Ma non entra in casa
+loro: non scrive nella loro memoria e non ha le loro chiavi.
+
+## I due rischi veri, e il freno di ciascuno
+
+Il primo è che qualcuno parli alla macchina fingendo di comandarla. Un messaggio di un cliente o la
+scheda di un prodotto possono contenere frasi messe lì apposta. La regola è dura: quel testo è
+materiale da leggere, mai un comando da eseguire. Gli ordini arrivano solo dagli obiettivi.
+
+Il secondo è il conto che esplode. Un negozio che chiede troppo consuma soldi veri. Per questo ogni
+negozio ha un tetto mensile, un avviso a metà strada e un blocco automatico. È il freno sui costi che
+il CENTRO ha già oggi, esteso a ogni negozio.
+
+## I cinque confini che non si passano mai
+
+1. Un negozio non vede mai i dati di un altro. Le statistiche si fanno aggregate.
+2. Una macchina non scrive nella memoria di un'altra. Si parla per obiettivi e rapporti.
+3. Le chiavi del sito stanno solo in PIAZZA. I soldi e le firme solo nel CENTRO.
+4. Una sola coda di firme per te. Il negoziante firma solo casa sua.
+5. Nessuna macchina si modifica da sola senza firma umana.
+
+## Il piano, in breve
+
+Quattro fasi. Ognuna serve a qualcosa anche se ci si ferma lì.
+
+| Fase | Cosa fa | Quando | Peso |
+|---|---|---|---|
+| **1** | una porta sola verso il marketplace | **adesso** | giorni |
+| **2** | staccare la PIAZZA | dopo Vercel e i primi incassi | settimane |
+| **3** | pilota BOTTEGA: un negozio, ma già multi-negozio | quando apri tu la linea | settimane |
+| **4** | canone e seconda città | dopo un mese di costi misurati | mesi |
+
+L'architettura è finita quando passano **sette prove**, non prima. Le due che contano di più: un
+secondo negozio finto non riesce a leggere i dati del primo, e tu vedi una coda di firme sola invece
+di tre.
+
+Il dettaglio di ogni fase e delle sette prove sta qui sotto.
 
 ---
 
-## Parte 5 — I cinque confini che non si passano mai
-1. Un negozio non vede **mai** i dati di un altro. Le statistiche si fanno aggregate.
-2. Una macchina **non scrive** nella memoria di un'altra: si parla per mandati e referti.
-3. Le chiavi di scrittura sul marketplace stanno **solo** in PIAZZA. I soldi e le firme
-   dell'azienda stanno **solo** nel CENTRO.
-4. **Una sola coda di firme** per Nicola. Il negoziante firma solo il suo negozio.
-5. Nessuna macchina **modifica se stessa** senza firma umana. Vale già oggi; con tre
-   macchine vale di più.
+## Dettagli tecnici — per chi costruisce le tre macchine
 
----
+Da qui in avanti il testo è per chi mette le mani nel codice. Nicola ha già tutto quello che gli
+serve nella parte sopra.
 
-## Parte 6 — Il piano: quattro fasi, e come si vede che una è finita
+### I sei meccanismi del multi-negozio
 
-> Regola del piano: **ogni fase serve a qualcosa anche se ci si ferma lì.** Nessuna fase
-> è «infrastruttura che servirà poi».
+1. **`negozio_id` su ogni riga, ovunque.** Nessuna tabella senza. Ogni lavoro nasce già marchiato
+   col negozio a cui appartiene.
+2. **Il muro dentro il database (RLS).** Non è il buon senso dell'AI a tenere separati i dati: è il
+   database che *rifiuta* di restituire le righe di un altro negozio. Anche se l'AI sbagliasse la
+   query, non le arriva niente. È lo stesso meccanismo che il marketplace già usa perché un venditore
+   veda solo i suoi ordini — da riusare, non da inventare.
+3. **Una coda sola, ma a corsie.** Come oggi (`lavori` su Supabase), con in più il `negozio_id`. Il
+   worker prende i lavori a turno tra i negozi, non in ordine di arrivo. Ogni negozio ha la sua quota,
+   il suo tetto di spesa e il suo interruttore.
+4. **Contesto isolato per lavoro.** Parte un lavoro → si carica solo la scheda e la memoria di quel
+   negozio. Il testo del lavoro non contiene mai una riga di un altro negozio: non è una regola da
+   rispettare, è come il lavoro viene costruito.
+5. **Segreti mai nel discorso.** Le chiavi del negoziante stanno in cassaforte, montate per la durata
+   del lavoro. Non entrano mai nel testo che l'AI legge o scrive.
+6. **Guasto confinato.** Timeout, tentativi finiti, negozio in loop: si spegne quella corsia sola. Il
+   worker di oggi ha già imparato a farlo sui lavori orfani — si riusa quella cura.
 
-### Fase 1 — Una porta sola verso il marketplace  ·  *nessuna macchina nuova*
-**Cosa si costruisce.** Tutte le scritture verso il marketplace passano da **un punto
-solo**, con permessi propri e log proprio. Il pezzo esiste già in embrione
-(`cervello/marketplace.mjs aggiorna` + `supervisione-negozi.mjs`): va reso l'unica strada.
+**I due rischi veri.** Primo: il testo scritto da clienti e negozianti può contenere frasi messe lì
+apposta per farsi obbedire dall'AI. Regola dura — quel testo è materiale, mai un comando; le
+istruzioni arrivano solo dal mandato. Secondo: il conto che esplode. Tetto mensile per negozio,
+avviso a metà, stop automatico. È il freno costi che il CENTRO ha già, esteso per negozio.
 
-**Come si vede che è finita:** ① un guardiano fallisce se una scrittura verso il
-marketplace nasce **fuori** da quella porta; ② ogni scrittura lascia una riga di log con
-chi, cosa, quando, e come si torna indietro; ③ una prova di mutazione: si rompe la porta
-apposta e il guardiano deve diventare rosso.
+### Come si parlano le macchine
+Quattro cose sole.
 
-**Guadagno anche fermandosi qui:** un solo punto da sorvegliare invece di molti.
-**Peso:** giorni, non settimane. **Colore:** 🟡.
+- **Il mandato** (scende) — obiettivi del periodo, KPI, budget, cosa si fa da soli 🟢, cosa avvisando
+  🟡, cosa mai 🔴.
+- **Il referto** (sale) — a ogni giro uno stato strutturato: numeri con la fonte, cosa ho fatto, cosa
+  si è rotto, cosa chiedo. Il CENTRO legge il referto, non il marketplace.
+- **L'escalation** — un 🔴 nato in PIAZZA non lo firma né PIAZZA né il CENTRO: sale nell'unica coda
+  di firme di Nicola.
+- **L'interruttore** (scende, sempre) — il CENTRO ferma le altre quando vuole, ma non entra in casa
+  loro: niente scritture nella loro memoria, niente accesso alle loro chiavi.
 
-### Fase 2 — Staccare la PIAZZA
-**Cosa si costruisce.** Repo suo, memoria sua, worker suo, Cabina sua. Il CENTRO smette
-di leggere le tabelle del marketplace e comincia a leggere **il referto**.
+### Le quattro fasi, col collaudo di ognuna
 
-**Come si vede che è finita:** ① il CENTRO fa un giro intero **senza mai toccare** il
-database del marketplace; ② la PIAZZA consegna il referto ogni giorno, con numeri e
-fonte; ③ un 🔴 nato in PIAZZA arriva nella Cabina di Nicola scritto in italiano, con
-*cosa cambia* e *se va bene*; ④ l'interruttore del CENTRO ferma davvero la PIAZZA (si
-prova, non si assume).
+**Fase 1 — una porta sola verso il marketplace.** Tutte le scritture passano da un punto unico, con
+permessi e log propri. Il pezzo esiste in embrione: `cervello/marketplace.mjs aggiorna` +
+`supervisione-negozi.mjs`.
+*Finita quando:* ① un guardiano fallisce se una scrittura nasce fuori da quella porta; ② ogni
+scrittura lascia una riga di log con chi/cosa/quando e come si torna indietro; ③ una mutazione rompe
+la porta apposta e il guardiano diventa rosso. **Colore 🟡.**
 
-**Quando:** dopo la migrazione a Vercel e con abbastanza vita sul marketplace da
-giustificare una macchina a tempo pieno. **Peso:** settimane. **Colore:** 🟡 (🔴 il giorno
-in cui riceve le chiavi in scrittura).
+**Fase 2 — staccare la PIAZZA.** Repo, memoria, worker e Cabina propri.
+*Finita quando:* ① il CENTRO fa un giro intero senza toccare il database del marketplace; ② il
+referto arriva ogni giorno con numeri e fonte; ③ un 🔴 nato in PIAZZA arriva nella Cabina scritto in
+italiano, con *cosa cambia* e *se va bene*; ④ l'interruttore del CENTRO ferma davvero la PIAZZA —
+provato, non assunto. **Colore 🟡, poi 🔴 il giorno delle chiavi in scrittura.**
 
-### Fase 3 — BOTTEGA pilota: **un** negozio, ma già multi-negozio
-**Cosa si costruisce.** Il servizio vero, con un solo cliente. `negozio_id`, muro nel
-database e corsie si mettono **dal primo giorno**, anche col cliente numero uno.
-*Aggiungerli dopo, su dati già mescolati, è il lavoro più caro e più pericoloso che esista.*
+**Fase 3 — pilota BOTTEGA.** Un cliente solo, ma `negozio_id`, muro dei dati e corsie dal primo
+giorno. Aggiungerli dopo, su dati già mescolati, è il lavoro più caro e pericoloso che esista.
+*Finita quando:* ① un secondo negozio finto non riesce a vedere niente del primo; ② il negoziante
+firma dal telefono e la cosa succede; ③ il tetto di spesa scatta davvero, provato sforandolo di
+proposito; ④ un lavoro in loop non ferma l'altro negozio; ⑤ **il costo AI di un mese è misurato** —
+il prezzo esiste già, quello che manca è il margine. **Colore 🟡/🔴.**
 
-**Come si vede che è finita:** ① si crea un **secondo negozio finto** e si prova che non
-riesce a vedere niente del primo — provato, non dichiarato; ② il negoziante firma dal
-telefono e la cosa succede; ③ il tetto di spesa scatta davvero (si prova sforandolo di
-proposito); ④ un lavoro che va in loop non ferma l'altro negozio; ⑤ **il costo AI di un
-mese di quel negozio è misurato** — il prezzo esiste già (99/299/699-999 €/mese), quello
-che manca è sapere **quanto margine lascia**.
+**Fase 4 — canone e seconda città.** 5-10 negozi paganti sul listino del 29/7, col pilota a prezzo bloccato di 149 euro come porta d'ingresso.
+*Finita quando:* ① il decimo negozio entra senza che nessuno tocchi il codice; ② i canoni coprono
+costo AI e VPS con margine; ③ una miglioria scritta una volta è viva su tutti il giorno dopo; ④ Parma
+parte senza riscrivere niente. **Colore 🔴.**
 
-**Quando:** quando è **Nicola ad aprire la linea** (`worker-negozi.stato`) e c'è un
-commerciante che il servizio lo chiede. **Colore:** 🟡/🔴.
-
-### Fase 4 — Il servizio a canone, e la seconda città
-**Cosa si costruisce.** 5-10 negozi paganti sul listino **già definito il 29/7** (con il
-pilot founder a 149 €/mese bloccato come porta d'ingresso), contratto e firma del
-negoziante. Poi la seconda città = **una seconda PIAZZA**, stesso codice.
-
-**Come si vede che è finita:** ① il decimo negozio entra senza che nessuno tocchi il
-codice; ② i canoni coprono il costo AI **e** il costo del VPS con margine; ③ una miglioria
-scritta una volta compare su tutti i negozi il giorno dopo; ④ Parma parte senza riscrivere
-niente. **Colore:** 🔴 (soldi veri, contratti).
-
----
-
-## Parte 7 — Il collaudo finale: le sette prove
-Quando **tutte e sette** passano, l'architettura è finita. Non prima.
+### Il collaudo finale: le sette prove
+Quando passano tutte e sette, l'architettura è finita. Non prima.
 
 1. Il CENTRO fa un giro intero senza aprire il marketplace: legge referti.
-2. Un secondo negozio finto **non riesce** a leggere i dati del primo.
+2. Un secondo negozio finto non riesce a leggere i dati del primo.
 3. Un negozio che va in loop non rallenta gli altri.
-4. Nicola apre la Cabina e vede **una** coda di firme, non tre.
-5. Il negoziante firma casa sua; Nicola non è mai coinvolto in una card di negozio.
-6. Il CENTRO ferma la PIAZZA con un interruttore — e la PIAZZA si ferma davvero.
+4. Nicola apre la Cabina e vede una coda di firme, non tre.
+5. Il negoziante firma casa sua; Nicola non compare mai in una card di negozio.
+6. Il CENTRO ferma la PIAZZA con un interruttore, e la PIAZZA si ferma davvero.
 7. Una miglioria scritta una volta è viva su tutti i negozi entro 24 ore.
 
----
-
-## Parte 8 — Cosa resta umano
-Le trattative vere coi commercianti, la fiducia, la responsabilità legale, il prezzo del
-servizio, le scommesse di visione. Le tre macchine **preparano**; Nicola decide.
-
----
-
-## Parte 9 — Quando farlo davvero (e perché non oggi)
-Questa è la forma giusta per MyCity **a 40 negozi e 2 città**. Oggi c'è **un negozio
-reale** (Pane Quotidiano) e il **sito è fermo dal 30/7** in attesa della migrazione a
-Vercel: costruire tutto adesso sarebbe lavoro pesante su un'ipotesi — ed è esattamente
-l'errore che il cancello di allocazione della macchina esiste per impedire.
-
-**Raccomandazione dell'AD:**
-- **Fase 1 adesso** — costa poco, serve comunque, e non dipende da quante botteghe ci sono;
-- **Fase 2 dopo Vercel** e i primi negozi che incassano;
-- **Fase 3 quando sei tu ad aprire la linea** — vale ancora la tua regola del 29/7:
-  nessuna mossa commerciale sul Worker ai negozi finché non la apri;
-- **Fase 4 quando la Fase 3 ha un mese di costi misurati.**
-
-## Parte 10 — Le tre decisioni che restano a Nicola
-1. **Partiamo con la Fase 1?** È l'unica che ha senso oggi: giorni di lavoro, serve
-   comunque, e non dipende da quante botteghe ci sono.
-2. **Il margine del canone BOTTEGA.** Il prezzo c'è già ed è tuo (99/299/699-999 + pilot
-   a 149). Quello che **nessuno sa ancora** è quanto costa in AI servire un negozio per
-   un mese: finché non lo misuriamo sul pilota, il margine di quel listino è un'ipotesi.
-   Non è una domanda da rispondere ora — è la prima cosa che la Fase 3 deve produrre.
-3. **Quanto può fare la BOTTEGA da sola in casa di un negoziante** — è la scelta che
-   decide se il servizio è utile o è un giocattolo da approvare tutto a mano.
+### Riferimenti in memoria
+- Fatto: `architettura.tre-macchine` nel registro dei fatti.
+- Listino e prezzi: `pricing.worker-negozi`, `pilot.worker-negozi`, `worker-negozi.stato`.
+- Documento del listino: `consegne/strategia/2026-07-29-listino-worker-negozi.md`.
+- Decisione: `DECISIONI.md`, voce 2026-08-03 22:20.

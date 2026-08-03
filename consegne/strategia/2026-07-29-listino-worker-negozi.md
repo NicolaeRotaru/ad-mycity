@@ -159,16 +159,18 @@ Nicola: negozi veri già contattati, o nomi nati in quella chat?
    (`cervello/azioni.md`) e WhatsApp per-messaggio (importo da definire). Da calcolare prima di promettere margini.
 
 ## 🏗️ Com'è fatta la macchina che eroga questo listino *(aggiunto 2026-08-03 22:20)*
-Questo file dice **cosa si vende e a quanto**. Il **come è costruito** vive da oggi in
-`MyCity-Vault/90-Memoria-AI/ARCHITETTURA-TRE-MACCHINE.md`: il Worker per i negozi è la macchina
-**③ BOTTEGA** dell'architettura a tre macchine dichiarata da Nicola il 3/8 — **una sola macchina per
-tutti i negozi**, mai una per negozio (`negozio_id` ovunque, muro dei dati nel database, coda a
-corsie, contesto isolato, segreti in cassaforte, guasto confinato). Due conseguenze per questo
-listino: ① il costo di servire il negozio numero 41 è **una riga in più, non una macchina in più**;
-② il punto 6 della lista qui sopra — *costo marginale per negozio non misurato* — è esattamente la
-prima cosa che la **Fase 3 (pilota)** di quel piano deve produrre. Il listino resta questo; l'unica
-cosa che manca per sapere se ha margine è quella misura. Nessuna mossa commerciale finché non è
-Nicola ad aprire la linea (`worker-negozi.stato`): invariato.
+
+Questo file dice cosa si vende e a quanto. Il come è costruito vive in
+`MyCity-Vault/90-Memoria-AI/ARCHITETTURA-TRE-MACCHINE.md`. Il Worker per i negozi è la macchina
+BOTTEGA dell'architettura a tre macchine dichiarata da Nicola il 3 agosto. È una sola macchina per
+tutti i negozi, mai una per negozio. Da lì scendono due conseguenze per questo listino.
+
+La prima. Il costo di servire il negozio numero 41 è una riga in più, non una macchina in più.
+
+La seconda. Il punto 6 della lista qui sopra è il costo marginale per negozio, ancora non misurato.
+È esattamente la prima cosa che deve produrre la Fase 3, cioè il pilota. Il listino resta questo.
+Manca solo quella misura per sapere se ha margine. Nessuna mossa commerciale finché non è Nicola ad
+aprire la linea, e su questo non cambia niente.
 
 ## Traccia in memoria
 - `registro-fatti.json` → `pricing.worker-negozi` · `pilot.worker-negozi` · `worker-negozi.stato` ·
