@@ -8276,7 +8276,7 @@
     },
     {
       "id": "AR-474",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🟡",
       "dimensione": "guardiani-e-guardrail",
@@ -8287,15 +8287,69 @@
       "origine": "Nicola 31/7: «i 4 fix risolvono la causa ma non l abitudine». Misurata su me stesso nella stessa sessione: 9 difetti chiusi, 0 con una prova che potesse fallire. · [collisione di id: AR-472 era gia stato preso da un altra sessione — e AR-447 in diretta, riassegnato al primo numero libero]",
       "titolo": "L abitudine dietro tutti i canali muti: quando finisco, scrivo il verdetto dove e comodo per me, non dove lo legge Nicola",
       "causa_radice": "① Sei istanze in due giorni: sorvegliante nel log di debug, watch-main in journalctl, misura-cieca che stava per nascere muta, il rapporto del 503 in una cartella che non pubblicava. Ogni volta ho riparato l istanza. ② Perche si ripete? Perche il posto dove scrivo il verdetto e sempre quello VICINO AL LAVORO: il log e vicino al codice, la scheda e vicina al difetto, la consegna e vicina al reparto. Nessuno di quei posti e Nicola. ③ Perche non me ne accorgo? Perche scrivere il verdetto E la sensazione di aver finito: nel momento in cui l ho scritto, il lavoro mi sembra chiuso. ④ La prova che non e un aneddoto: in questa stessa sessione ho chiuso 9 difetti (AR-455, AR-462, AR-465..471) e NESSUNO portava un comando capace di fallire. Nove volte «fatto» senza niente che potesse dire di no.",
-      "fix_proposto": "PRONTO 🟡 `cervello/cancello-stop.mjs` — il freno sull evento Stop, l unico che scatta nell istante in cui dico «fatto», cioe l unico momento in cui l abitudine si manifesta. Tre controlli meccanici: ① difetto chiuso senza `verifica.comando` ② documento .md NUOVO che contiene 🔴/CRITICO/bloccante mentre AZIONI-IN-ATTESA.md resta intatta ③ lezione nuova senza gate. Exit 2 = non mi lascia chiudere il turno, con scritto cosa manca. Valvola anti-cappio su `stop_hook_active`: la seconda volta avvisa e lascia passare, perche un freno che incastra viene spento entro il giorno. 14 prove + 3 mutazioni, provato dal vivo su un difetto chiuso senza prova (uscita 2) e sul falso positivo del proprio registro (corretto: solo documenti nuovi). RESTA A NICOLA la riga in .claude/settings.json (il file e in deny per la macchina): un blocco `Stop` con comando `node cervello/cancello-stop.mjs --hook`.",
+      "fix_proposto": "FATTO 🟡 in tre pezzi, perche il difetto ha due meta. ① I FRENI (gia in main): il cancello dello Stop e il cancello del lotto fermano il caso nuovo — difetto chiuso senza prova, allarme non accodato, lezione senza gate, lavoro consegnato senza esito. ② IL CONTATORE (questo): `cervello/conta-verdetti-muti.mjs` cammina la storia di main e risponde alla domanda che decide se l abitudine e curata o solo tamponata — quante volte, DI FATTO, ho consegnato un lavoro il cui esito non e arrivato dove Nicola legge. Prima misura, 30 giorni: 253 consegne mute su 277 (91%), piu la Cabina 3 giorni indietro rispetto all ultima consegna. Tetto che SCENDE e non risale, come tetti-lotto.json: rosso solo se il debito si allarga, perche un contatore che parte rosso viene spento al secondo giro. ③ DOVE ATTERRA, controllato e non dedotto: referto verdetti-muti.json, organo `cervello.esiti` nella visita (quindi dentro consegne/salute/*.md, il referto che Nicola legge quando chiede «controlla se funziona tutto»), e il cancello del lotto in CI su ogni PR. Il denominatore esclude la manutenzione del worker VPS e lo DICHIARA (`esclusi_worker`): senza, il numero era 644 con 367 commit automatici dentro, cioe un 94% che non misurava il comportamento di nessuno. 15 prove + 4 mutazioni.",
+      "verifica": {
+        "comando": "node cervello/test/conta-verdetti-muti.test.mjs"
+      }
+    },
+    {
+      "id": "AR-475",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-01 22:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Nicola 1/8: ha incollato a mano il blocco Stop in .claude/settings.json (il file e in deny per la macchina, quindi quel passo e per forza suo). Il blocco aveva DUE difetti e nessuno dei due ha fatto rumore: ① mancava la graffa finale — JSON non valido, quindi NESSUN hook caricato, permessi e deny sui .env compresi ② la chiave era «stop» minuscola, e i nomi degli eventi sono case-sensitive: una chiave che non combacia viene scartata in silenzio. Trovati solo perche Nicola ha chiesto «controlla se ho fatto giusto».",
+      "titolo": "Nessuno sorveglia il file dove vivono i freni: settings.json puo staccarli tutti senza che niente lo dica",
+      "causa_radice": "① Dieci guardiani nel cancello del lotto e zero su .claude/settings.json — cioe la macchina non ha modo di accorgersi di essere disarmata. ② Perche proprio li? Perche quel file e l unico pezzo del sistema che la macchina non puo toccare (deny), e cio che non si tocca non si controlla: il freno sul freno non era mai stato pensato. ③ Il modo di fallire e il peggiore: un JSON rotto non da errore in chat, un evento sconosciuto non da errore per niente, e un hook che lancia un file inesistente fallisce dentro un log di debug. Tre forme diverse dello stesso silenzio. ④ Non e un caso isolato: e la stessa forma di AR-455, dove il sorvegliante era costruito, provato e lasciato staccato per un giorno intero, con la scheda chiusa perche «la riga in settings.json c e» — chiuso sulla lettera, non sull effetto.",
+      "fix_proposto": "FATTO 🟡 `cervello/hooks-check.mjs`, agganciato al cancello del lotto (quindi in CI su ogni PR). Quattro domande: ① il file c e ed e JSON valido — se no si dice per primo e da solo, e il messaggio nomina il deny sui .env perche cade anche quello ② ogni chiave sotto `hooks` e un evento vero, con il suggerimento della grafia giusta quando sbaglia solo la maiuscola ③ ogni comando `node cervello/*.mjs` punta a un file che esiste ④ ogni script del cervello che sa leggere `--hook` dagli argomenti e attaccato a qualche evento — la regola e generale apposta (niente elenco di nomi da tenere aggiornato a mano: sarebbe il perimetro letterale di AR-347). Provato sui tre file VERI presi dalla storia di git: il blocco rotto di Nicola (exit 1), la versione con la chiave minuscola (exit 1), e la configurazione di ieri sera in cui cancello-stop.mjs esisteva e non era agganciato (exit 1). 13 prove + 2 mutazioni.",
+      "verifica": {
+        "comando": "node cervello/test/hooks-check.test.mjs"
+      }
+    },
+    {
+      "id": "AR-476",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-02 17:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Trovato mentre agganciavo il contatore di AR-474: stavo per scrivere «finisce in Cabina» e sono andato a controllarlo nel Pannello invece di dedurlo. Non ci finisce.",
+      "titolo": "Il campo `ultime` di salute.json — il verdetto organo per organo — non e servito da nessuna schermata della Cabina",
+      "causa_radice": "① La visita (`salute.mjs`) produce un verdetto per ognuno dei cinque organi e lo scrive in `auto-coscienza/salute.json` sotto `ultime`. ② Il Pannello legge salute.json solo attraverso `api/memoria/salute-onesta`, che serve `storico-salute.json` (lo sparkline del voto) e `cantiere-difetti.json` (il burn-down): il dettaglio per organo non passa da nessuna rotta. ③ Quindi il verdetto piu ricco che la macchina produce su se stessa vive in un file e in un referto markdown, e nella Cabina si vede solo il voto sintetico. ④ E la stessa forma di AR-474 applicata alla visita: il verdetto c e, e completo, e sta dove Nicola non guarda a colpo d occhio.",
+      "fix_proposto": "FATTO 🟡 in tre pezzi. ① `pannello/src/lib/salute-organi.ts` — il calcolo puro: raggruppa i controlli per organo tenendo TRE conti separati (provati, rotti, non visti) e dichiara la copertura, cioe la quota di controlli che ha davvero misurato. ② `api/memoria/salute-organi` — la rotta che serve `ultime` di salute.json, con `collegato:false` quando il file manca o non e leggibile: non un oggetto vuoto con zero rossi, che a schermo si leggerebbe come «tutto a posto». ③ Una fila di pastiglie nell area Auto-coscienza: rosso se l organo ha un rotto, grigio se ha un non visto, verde solo se tutto e stato provato — e il dettaglio nel titolo. La regola difficile e una sola e vale in tutti e tre i pezzi: ⚪ NON e mai un verde, perche un cruscotto che somma «l ho provato» con «non l ho potuto vedere da qui» fa sembrare piena una copertura bucata. 8 prove + 1 mutazione; typecheck del Pannello verde.",
+      "verifica": {
+        "comando": "node --import ./cervello/test/hook-ts.mjs --test cervello/test/salute-per-organo.test.mjs"
+      }
+    },
+    {
+      "id": "AR-477",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-02 18:40",
+      "nato_come": "regressione",
+      "nato_da": "AR-154",
+      "origine": "Nicola 2/8: «rifai l analisi piu e piu volte». Trovato alla prima rilettura comportamentale, provando il cancello dal vivo invece di rileggerne il codice: su un ramo che aveva GIA una riga di esito ho committato un file di codice nuovo e il cancello ha risposto «niente da lasciare indietro» (exit 0).",
+      "titolo": "La prima riga di esito comprava il lasciapassare per tutto il ramo: il lavoro committato dopo passava muto",
+      "causa_radice": "① Il controllo ④ chiedeva «esiste una riga di esito fra le righe aggiunte dal ramo?». Una volta trovata, ogni commit successivo passava senza domande. ② Perche non l ho visto scrivendolo: la prova era su stati finti (una lista di file, una lista di righe) e in quel modello non esiste il TEMPO — l ordine fra i commit non era rappresentato, quindi nessun caso poteva descrivere «l esito e arrivato prima del lavoro». Le prove pure difendono la regola, non la sua unita di misura. ③ Quanto pesa: cresce col ramo. Questo ne aveva otto di commit, e la riga di esito era al quinto: tre commit di lavoro passavano muti. ④ E il difetto e figlio del fix di AR-154, non un caso nuovo: chiudendo «non hai scritto niente» ho aperto «hai scritto una volta sola».",
+      "fix_proposto": "FATTO 🟡 La domanda non e piu «c e una riga?» ma «ho continuato a lavorare DOPO averla scritta?». `codiceDopoUltimoEsito()` chiede a git quanti commit toccano codice dopo l ultimo commit che ha aggiunto una riga di esito (pathspec di esclusione derivato da CARTELLE_MEMORIA, criterio -G condiviso con RIGA_ESITO e accentrato in un solo punto). Zero commit dopo = verde, e chi scrive l esito alla fine non viene punito. `null` = non ho potuto misurare = non accuso. I due casi hanno messaggi diversi (AR-154 «non hai scritto niente» / AR-477 «hai scritto per il lavoro di prima») perche si rimediano in modi diversi. Provato dal vivo rifacendo lo stesso esperimento che aveva scoperto il buco: prima exit 0, adesso exit 1 fuori dall hook ed exit 2 dentro (blocca il turno). 4 prove nuove + 1 mutazione.",
       "verifica": {
         "comando": "node cervello/test/cancello-stop.test.mjs"
       }
     }
   ],
   "meta": {
-    "aperti": 164,
+    "aperti": 163,
     "in_corso": 0,
-    "chiusi": 248
+    "chiusi": 252
   }
 }

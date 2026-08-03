@@ -1022,6 +1022,102 @@
    "cerca": "  const codice = fileCommittati.filter((f) => !CARTELLE_MEMORIA.some((m) => f.startsWith(m)));\n  if (!codice.length) return null;",
    "sostituisci": "  const codice = [];\n  if (!codice.length) return null;",
    "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-475",
+   "nome": "il guardiano degli hook accetta la grafia sbagliata: «stop» minuscolo torna a passare, e il freno resta staccato in silenzio",
+   "file": "cervello/hooks-check.mjs",
+   "cerca": "    .filter((k) => !EVENTI.includes(k))",
+   "sostituisci": "    .filter((k) => !EVENTI.some((e) => e.toLowerCase() === k.toLowerCase()))",
+   "test": "cervello/test/hooks-check.test.mjs"
+  },
+  {
+   "difetto": "AR-475",
+   "nome": "il guardiano smette di vedere i freni staccati: un hook costruito e mai agganciato torna a passare (AR-455)",
+   "file": "cervello/hooks-check.mjs",
+   "cerca": "  return scriptDisponibili.filter((s) => !testo.includes(s));",
+   "sostituisci": "  return [];",
+   "test": "cervello/test/hooks-check.test.mjs"
+  },
+  {
+   "difetto": "AR-154",
+   "nome": "il freno torna ad accontentarsi del file toccato: una virgola in un quaderno vale come esito",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  if (!esitiScritti(righeAggiunteNeiQuaderni).length) {",
+   "sostituisci": "  if (!fileCommittati.some((f) => f.startsWith(\"memoria-squadra/\"))) {",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-154",
+   "nome": "la calibrazione atteso→reale smette di essere obbligatoria: una ricevuta passa come esito",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "export const RIGA_ESITO = /^-\\s*\\d{4}-\\d{2}-\\d{2}[^\\n]*·[^\\n]*\\batteso\\b[^\\n]*→[^\\n]*\\breale\\b/;",
+   "sostituisci": "export const RIGA_ESITO = /^-\\s*\\d{4}-\\d{2}-\\d{2}/;",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-154",
+   "nome": "l allarme aggiunto a una consegna che esisteva gia torna a passare inosservato",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  const daiModificati = consegneModificate.filter((f) => (f.righe || []).some((r) => ALLARMI.some((m) => m.test(r)))).map((f) => f.file);",
+   "sostituisci": "  const daiModificati = [];",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-154",
+   "nome": "il cieco torna a tacere: non aver misurato ridiventa indistinguibile da un verde",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  const noteCieche = ciechi.map((c) => `⚪ ${c}`);",
+   "sostituisci": "  const noteCieche = [];",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-474",
+   "nome": "il contatore smette di contare le consegne mute: il debito puo allargarsi senza che nessuno lo veda",
+   "file": "cervello/conta-verdetti-muti.mjs",
+   "cerca": "  const mute = consegne.filter((c) => !conEsito.has(c.hash));",
+   "sostituisci": "  const mute = [];",
+   "test": "cervello/test/conta-verdetti-muti.test.mjs"
+  },
+  {
+   "difetto": "AR-474",
+   "nome": "la manutenzione del worker rientra nel denominatore: il tasso torna a misurare nessuno",
+   "file": "cervello/conta-verdetti-muti.mjs",
+   "cerca": "  const consegne = candidate.filter((c) => !AUTORE_WORKER.test(c.autore || \"\"));",
+   "sostituisci": "  const consegne = candidate;",
+   "test": "cervello/test/conta-verdetti-muti.test.mjs"
+  },
+  {
+   "difetto": "AR-474",
+   "nome": "la Cabina ferma non viene piu misurata: STATO.md puo restare indietro in silenzio",
+   "file": "cervello/conta-verdetti-muti.mjs",
+   "cerca": "  const giorni = Math.floor((b - a) / 86_400_000);",
+   "sostituisci": "  const giorni = 0;",
+   "test": "cervello/test/conta-verdetti-muti.test.mjs"
+  },
+  {
+   "difetto": "AR-474",
+   "nome": "una data illeggibile torna a produrre una forbice inventata invece di un cieco",
+   "file": "cervello/conta-verdetti-muti.mjs",
+   "cerca": "  if (!FORMA.test(String(statoAggiornato)) || !FORMA.test(String(ultimaConsegna))) return null;",
+   "sostituisci": "  if (false) return null;",
+   "test": "cervello/test/conta-verdetti-muti.test.mjs"
+  },
+  {
+   "difetto": "AR-476",
+   "nome": "il cruscotto degli organi somma i non visti ai verdi: una copertura bucata torna a sembrare piena",
+   "file": "pannello/src/lib/salute-organi.ts",
+   "cerca": "  if (v.esito === \"ok\") return \"verde\";",
+   "sostituisci": "  if (v.esito === \"ok\" || v.esito === \"nonvisto\") return \"verde\";",
+   "test": "node --import ./cervello/test/hook-ts.mjs --test cervello/test/salute-per-organo.test.mjs"
+  },
+  {
+   "difetto": "AR-477",
+   "nome": "la prima riga di esito torna a comprare il lasciapassare per tutto il ramo: il lavoro committato dopo passa muto",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  if (codiceDopoEsito > 0) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/cancello-stop.test.mjs"
   }
  ]
 }

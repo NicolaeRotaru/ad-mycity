@@ -557,6 +557,17 @@ function main() {
     // allarme scritto e non accodato, una lezione senza freno. Nel turno arrivano prima (hook Stop),
     // ma il cancello del lotto e il posto che gira in CI su OGNI PR: qui il freno esiste comunque.
     passi.push(esegui("verdetti senza lettore", "node", ["cervello/cancello-stop.mjs"]));
+    // AR-475 — il posto dove vivono i freni non era sorvegliato da nessuno. Il blocco Stop incollato
+    // a mano l'1/8 aveva la graffa finale mancante (JSON non valido → NIENTE hook caricato, deny sui
+    // .env compreso) e la chiave `stop` minuscola: due difetti, zero rumore. Sta nel cancello e non
+    // in un comando a parte perché la configurazione si tocca proprio quando si consegna un freno
+    // nuovo — cioè nel momento esatto in cui si può staccare tutto senza accorgersene.
+    passi.push(esegui("gli hook attaccati", "node", ["cervello/hooks-check.mjs"]));
+    // AR-474 — il contatore dell'abitudine. I due cancelli fermano il caso nuovo; questo dice se il
+    // comportamento sta scomparendo o se sto solo trovando il modo di aggirarli. Ha un tetto che
+    // scende e non risale: qui diventa rosso solo se il debito si ALLARGA, cioè se una consegna muta
+    // in più è entrata mentre il freno era acceso.
+    passi.push(esegui("consegne senza esito (contatore)", "node", ["cervello/conta-verdetti-muti.mjs", "--json"]));
     passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));
 
     // AR-393 — LA PROVA CHE LE PROVE PROVINO, ESEGUITA INVECE CHE NOMINATA.

@@ -22,18 +22,22 @@
 // COSA CONTROLLA — quattro cose meccaniche, nessun giudizio:
 //   ① difetto chiuso senza prova eseguibile — `verifica.comando`. Un difetto che si chiude senza un
 //      comando che possa fallire non è chiuso: è archiviato.
-//   ② allarme scritto e non accodato — un file nuovo che contiene 🔴/CRITICO/bloccante mentre la coda
-//      che Nicola legge (AZIONI-IN-ATTESA.md) non è stata toccata. È il verdetto senza lettore, colto
-//      nell'atto.
+//   ② allarme scritto e non accodato — 🔴/CRITICO/bloccante in un documento nuovo, oppure AGGIUNTO a
+//      una consegna che esisteva già, mentre la coda che Nicola legge (AZIONI-IN-ATTESA.md) non è
+//      stata toccata. È il verdetto senza lettore, colto nell'atto.
 //   ③ lezione nuova senza freno — una lezione che non nomina un `gate`. La regola di casa è già
 //      questa; qui arriva un giro prima del cancello del lotto.
-//   ④ lavoro consegnato senza esito (AR-154) — ho committato codice e non ho lasciato una riga in
-//      nessun quaderno. Il rituale esiste dal giorno di AR-009 e dipende da un passo manuale: nello
-//      sprint del 21-24/7 il quaderno di @tech è restato fermo per 47 righe mentre le PR si mergiavano.
+//   ④ lavoro consegnato senza esito (AR-154) — ho committato codice e nessuna riga NUOVA in un
+//      quaderno porta la calibrazione «atteso … → reale …». Il rituale esiste dal giorno di AR-009 e
+//      dipende da un passo manuale: nello sprint del Pannello il quaderno di @tech salta da 20/7 a
+//      25/7 — quattro giorni consecutivi (21, 22, 23, 24) con ZERO righe, mentre le PR si mergiavano
+//      a sette al giorno.
 //
-// COSA NON CONTROLLA, e va detto: non sa se ciò che ho scritto in chat sia vero, non legge il
-// contenuto dei documenti, non giudica se un fix è giusto. Quattro misure sullo stato del lavoro, non
-// sulla sua qualità. Dove passa un «forse», qui si tace.
+// COSA NON CONTROLLA, e va detto: non sa se ciò che ho scritto in chat sia vero, non giudica se un fix
+// è giusto, e — la più importante — non sa se la riga di esito parli DI QUESTO lavoro. Nessuna regola
+// meccanica distingue «ho raccontato il lavoro giusto» da «ho raccontato un lavoro»: quel giudizio
+// resta a Nicola, che la riga la legge in Cabina. Quattro misure sullo stato del lavoro, non sulla sua
+// qualità. Dove passa un «forse», qui si tace.
 //
 // Uso:
 //   node cervello/cancello-stop.mjs           # verdetto leggibile (nessun blocco)
@@ -87,20 +91,26 @@ export function chiusiSenzaProva(prima = [], dopo = []) {
  * messo niente dove lui guarda. Se la coda È stata toccata non dico niente — non ho modo di sapere
  * se la riga giusta è quella, e un guardiano che indovina viene spento.
  */
-export function allarmiSenzaCoda(fileNuovi = [], codaToccata = false) {
+export function allarmiSenzaCoda(fileNuovi = [], codaToccata = false, consegneModificate = []) {
   if (codaToccata) return [];
-  return fileNuovi.filter((f) => ALLARMI.some((r) => r.test(f.contenuto || ""))).map((f) => f.file);
+  const daiNuovi = fileNuovi.filter((f) => ALLARMI.some((r) => r.test(f.contenuto || ""))).map((f) => f.file);
+  // Il buco che restava (1/8): un allarme AGGIUNTO in fondo a una consegna che esisteva già non era
+  // un file nuovo, quindi non lo vedeva nessuno. È il caso più probabile dei due — le consegne si
+  // aggiornano molto più spesso di quanto nascano.
+  const daiModificati = consegneModificate.filter((f) => (f.righe || []).some((r) => ALLARMI.some((m) => m.test(r)))).map((f) => f.file);
+  return [...new Set([...daiNuovi, ...daiModificati])];
 }
 
 /**
  * ④ Lavoro di codice CONSEGNATO senza una riga di esito (AR-154).
  *
  * Il rituale «una riga ESITO dopo ogni lavoro 🟡/🔴» esiste dal giorno di AR-009, e dipende da un
- * passo manuale a fine lavoro. Il conto che ha presentato è scritto nella scheda: durante lo sprint
- * del Pannello del 21-24/7 — sette PR al giorno, bug segnalati a raffica — il quaderno di @tech è
- * rimasto fermo al 20/7 per 47 righe, mentre decine di PR venivano mergiate. Non per pigrizia: sotto
- * pressione si chiude il bug dopo, non si registra quello prima. Un rituale che dipende dalla
- * disciplina fallisce esattamente quando serve di più.
+ * passo manuale a fine lavoro. Il conto che ha presentato è misurato sul quaderno di @tech: durante
+ * lo sprint del Pannello le date saltano da 20/7 a 25/7 — quattro giorni consecutivi (21, 22, 23, 24)
+ * con ZERO righe, mentre le PR si mergiavano a sette al giorno. Non per pigrizia: sotto pressione si
+ * chiude il bug dopo, non si registra quello prima — saltare la registrazione non rompe niente, e
+ * quindi è sempre la prima cosa che salta. Un rituale che dipende dalla disciplina fallisce
+ * esattamente quando servirebbe di più.
  *
  * Guarda i COMMIT del ramo, non l'albero di lavoro: a metà lavoro le modifiche non sono committate e
  * l'esito non è ancora dovuto — chiedere lì produrrebbe rumore a ogni turno, e il rumore spegne i
@@ -112,12 +122,57 @@ export function allarmiSenzaCoda(fileNuovi = [], codaToccata = false) {
  */
 export const CARTELLE_MEMORIA = ["MyCity-Vault/", "consegne/", "creativi/", "memoria-squadra/"];
 
-export function consegnaSenzaEsito(fileCommittati = []) {
+/**
+ * La forma di una riga di esito VERA — data, contesto, e la calibrazione `atteso → reale`.
+ *
+ * Perché la forma e non solo il file (limite ① della prima stesura, 1/8): la prima versione si
+ * accontentava che un `memoria-squadra/*.md` comparisse fra i file committati. Bastava una virgola in
+ * un quaderno per passare — cioè il freno chiedeva di TOCCARE un file, non di dire com'era andata. E
+ * un freno che si può soddisfare senza fare la cosa che difende insegna a soddisfarlo, non a farla.
+ *
+ * `atteso → reale` è obbligatorio e non è un capriccio di formato: è l'unica parte che vale qualcosa.
+ * Il resto — data, contesto, tag — descrive il lavoro; solo la distanza fra ciò che mi aspettavo e
+ * ciò che è successo calibra il giudizio della volta dopo. Una riga senza quella è una ricevuta.
+ */
+export const RIGA_ESITO = /^-\s*\d{4}-\d{2}-\d{2}[^\n]*·[^\n]*\batteso\b[^\n]*→[^\n]*\breale\b/;
+
+/** Le righe AGGIUNTE ai quaderni che sono davvero righe di esito. */
+export function esitiScritti(righeAggiunte = []) {
+  return righeAggiunte.map((r) => String(r).trim()).filter((r) => RIGA_ESITO.test(r));
+}
+
+/**
+ * ④ Lavoro di codice CONSEGNATO senza una riga di esito (AR-154).
+ *
+ * Guarda le righe AGGIUNTE dal ramo, non i file toccati — così chiude anche il limite ②: un quaderno
+ * modificato per un altro motivo (una potatura, un riordino) non toglie né aggiunge una riga di
+ * esito, e quindi non soddisfa più il freno per sbaglio.
+ *
+ * COPERTURA DICHIARATA: che la riga parli DI QUESTO lavoro non è verificabile da una macchina —
+ * nessuna regola meccanica distingue «ho raccontato il lavoro giusto» da «ho raccontato un lavoro».
+ * Quello resta un giudizio di Nicola, che la riga la legge in Cabina → Memoria → Quaderni senior. Il
+ * freno garantisce che una riga con la calibrazione dentro esista e arrivi dove lui guarda.
+ */
+export function consegnaSenzaEsito(fileCommittati = [], righeAggiunteNeiQuaderni = [], codiceDopoEsito = null) {
   const codice = fileCommittati.filter((f) => !CARTELLE_MEMORIA.some((m) => f.startsWith(m)));
   if (!codice.length) return null;
   const quaderni = fileCommittati.filter((f) => f.startsWith("memoria-squadra/") && f.endsWith(".md"));
-  if (quaderni.length) return null;
-  return { quanti: codice.length, esempio: codice.slice(0, 3) };
+  if (!esitiScritti(righeAggiunteNeiQuaderni).length) {
+    return { quanti: codice.length, esempio: codice.slice(0, 3), quadernoToccato: quaderni.length > 0, dopo: 0 };
+  }
+  // IL BUCO CHE LA RILETTURA HA TROVATO (2/8, AR-477). Fin qui il controllo si fermava a «esiste una
+  // riga di esito sul ramo». Provato dal vivo: su un ramo che ne aveva già una, ho committato un file
+  // di codice nuovo e il cancello ha detto «niente da lasciare indietro». Cioè: **la prima riga di
+  // esito comprava il lasciapassare per tutto il resto del ramo**, e più il ramo è lungo — questo ne
+  // ha otto di commit — più lavoro passa senza essere raccontato.
+  //
+  // La domanda giusta non è «c'è una riga?» ma «ho continuato a lavorare DOPO averla scritta?».
+  // Sull'unità di consegna (il ramo verso main) resta silenzioso chi scrive l'esito alla fine, che è
+  // il comportamento corretto; parla solo con chi ha committato codice dopo l'ultimo racconto.
+  if (codiceDopoEsito > 0) {
+    return { quanti: codice.length, esempio: codice.slice(0, 3), quadernoToccato: true, dopo: codiceDopoEsito };
+  }
+  return null;
 }
 
 /** ③ Le lezioni nuove che non nominano un freno: una lezione senza gate è una frase. */
@@ -133,7 +188,7 @@ export function lezioniSenzaGate(prima = [], dopo = []) {
  * ripartendo per colpa di un blocco precedente. Bloccare di nuovo lì significherebbe un turno che non
  * finisce mai — e un freno che incastra viene spento entro il giorno, che è il peggiore degli esiti.
  */
-export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito = null, giaBloccato = false } = {}) {
+export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito = null, ciechi = [], giaBloccato = false } = {}) {
   const righe = [];
   for (const d of chiusi) {
     righe.push(
@@ -152,20 +207,31 @@ export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito =
   }
   if (senzaEsito) {
     righe.push(
-      `❌ ho committato ${senzaEsito.quanti} file di lavoro e non ho lasciato una riga di esito in nessun quaderno (AR-154)` +
+      (senzaEsito.dopo > 0
+        ? `❌ ho committato codice DOPO l'ultima riga di esito: ${senzaEsito.dopo} commit di lavoro che nessuna riga racconta (AR-477)` +
+          `\n   → una riga c'è, ma parla del lavoro di prima: la prima riga non compra il lasciapassare per tutto il ramo.`
+        : `❌ ho committato ${senzaEsito.quanti} file di lavoro e non ho lasciato una riga di esito in nessun quaderno (AR-154)` +
+          (senzaEsito.quadernoToccato
+            ? `\n   → un quaderno l'ho toccato, ma non c'è nessuna riga nuova con «atteso … → reale …»: quella è la parte che vale.`
+            : "")) +
         `\n   → ${senzaEsito.esempio.join(", ")}${senzaEsito.quanti > senzaEsito.esempio.length ? ", …" : ""}` +
         `\n   → node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard>" "<atteso>" "<reale>" "#tag"` +
         `\n   → atteso→reale è la calibrazione: senza, il lavoro è fatto e nessuno impara niente da com'è andato.`,
     );
   }
-  if (!righe.length) return { blocca: false, righe: [] };
+  // ⚪ CIECO NON È VERDE (limite ③ della prima stesura). Quando non trovo un ramo con cui confrontarmi
+  // — clone superficiale, `origin/main` assente — il controllo ④ non gira. Prima quel caso taceva, e
+  // un silenzio è indistinguibile da un «va tutto bene»: esattamente la malattia che questo file cura.
+  const noteCieche = ciechi.map((c) => `⚪ ${c}`);
+  if (!righe.length) return { blocca: false, cieco: noteCieche.length > 0, righe: noteCieche };
   if (giaBloccato) {
     return {
       blocca: false,
-      righe: ["🛑 il cancello dello stop aveva già fermato questo turno: non blocco una seconda volta.", ...righe],
+      cieco: noteCieche.length > 0,
+      righe: ["🛑 il cancello dello stop aveva già fermato questo turno: non blocco una seconda volta.", ...righe, ...noteCieche],
     };
   }
-  return { blocca: true, righe: ["🛑 CANCELLO DELLO STOP — stavo per lasciare indietro questo:", ...righe] };
+  return { blocca: true, cieco: noteCieche.length > 0, righe: ["🛑 CANCELLO DELLO STOP — stavo per lasciare indietro questo:", ...righe, ...noteCieche] };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -203,7 +269,8 @@ function daDisco(percorso) {
  * rimetterebbe il falso positivo. La regola è generale — un allarme è un DOCUMENTO che nasce adesso,
  * non un registro che si aggiorna.
  *
- * COPERTURA DICHIARATA: un allarme aggiunto in fondo a un documento che esisteva già non viene visto.
+ * Il buco che restava — «un allarme aggiunto in fondo a un documento che esisteva già non viene
+ * visto» — lo chiude `righeAggiunteNelle()` qui sotto, sulle consegne committate.
  */
 function fileDelLavoro() {
   let righe = [];
@@ -228,19 +295,78 @@ function fileDelLavoro() {
   return { file, codaToccata };
 }
 
-/** I file che questo ramo ha COMMITTATO rispetto alla base: il lavoro consegnato, non quello in corso. */
-function fileCommittatiSulRamo() {
-  // Dalla PORTA, non da git a mano (AR-339): con un nome accentato git restituisce il percorso citato
-  // in ottali, e un quaderno con l'accento smetterebbe di contare come esito scritto. Preso dal
-  // guardiano che quella regola la fa rispettare — la seconda volta oggi, sullo stesso errore.
+/** La base con cui confrontarsi. `null` = non l'ho trovata, e allora il controllo ④ è CIECO. */
+function baseDelRamo() {
   for (const base of ["origin/main", "main"]) {
     try {
-      return percorsiDaGit(["diff", `${base}...HEAD`, "--name-only"], { cwd: REPO });
+      git(["rev-parse", "--verify", "--quiet", base]);
+      return base;
     } catch {
       // provo la base successiva: un riferimento assente non e' un verdetto.
     }
   }
-  return null; // cieco: non accuso nessuno di non aver scritto l'esito
+  return null;
+}
+
+/** I file che questo ramo ha COMMITTATO rispetto alla base: il lavoro consegnato, non quello in corso. */
+function fileCommittatiSulRamo(base) {
+  // Dalla PORTA, non da git a mano (AR-339): con un nome accentato git restituisce il percorso citato
+  // in ottali, e un quaderno con l'accento smetterebbe di contare come esito scritto. Preso dal
+  // guardiano che quella regola la fa rispettare — la seconda volta oggi, sullo stesso errore.
+  try {
+    return percorsiDaGit(["diff", `${base}...HEAD`, "--name-only"], { cwd: REPO });
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Quanti commit di CODICE stanno dopo l'ultimo commit che ha aggiunto una riga di esito (AR-477).
+ *
+ * `null` = non ho potuto misurare, e allora non accuso nessuno. Il criterio per git è lo stesso di
+ * `RIGA_ESITO` scritto nel dialetto delle espressioni regolari di base (`\d`, `\b`, `\s` lì non
+ * esistono): la coerenza fra le due scritture è difesa da una prova, non dalla buona volontà.
+ */
+export const CERCA_ESITO_IN_GIT = "atteso .*→ .*reale";
+
+function codiceDopoUltimoEsito(base) {
+  const esclusioni = CARTELLE_MEMORIA.map((c) => `:(exclude)${c.replace(/\/$/, "")}`);
+  try {
+    const ultimoEsito = git(["log", "-1", "--format=%H", "-G", CERCA_ESITO_IN_GIT, `${base}..HEAD`, "--", "memoria-squadra"]).trim();
+    if (!ultimoEsito) return null; // nessun esito sul ramo: lo gestisce il caso base, non questo
+    return Number(git(["rev-list", "--count", `${ultimoEsito}..HEAD`, "--", ".", ...esclusioni]).trim());
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Le righe AGGIUNTE dal ramo nei file che stanno sotto una certa cartella.
+ *
+ * Il contenuto di un diff, non i suoi percorsi: qui la porta di AR-339 non serve (quella difende dai
+ * NOMI citati in ottali), e infatti i nomi qui non si usano per decidere — si usano per raggruppare.
+ * `-U0` perché il contesto non è stato aggiunto da questo lavoro: contarlo darebbe allarmi che c'erano
+ * già, cioè un guardiano che accusa il passato.
+ */
+function righeAggiunteNelle(base, cartella, soloMd = true) {
+  let grezzo;
+  try {
+    grezzo = git(["diff", "-U0", "--no-color", `${base}...HEAD`, "--", cartella]);
+  } catch {
+    return null;
+  }
+  const perFile = new Map();
+  let corrente = null;
+  for (const riga of grezzo.split("\n")) {
+    const m = /^\+\+\+ b\/(.+)$/.exec(riga);
+    if (m) {
+      corrente = m[1] === "/dev/null" || (soloMd && !m[1].endsWith(".md")) ? null : m[1];
+      if (corrente && !perFile.has(corrente)) perFile.set(corrente, []);
+      continue;
+    }
+    if (corrente && riga.startsWith("+") && !riga.startsWith("+++")) perFile.get(corrente).push(riga.slice(1));
+  }
+  return [...perFile.entries()].map(([file, righe]) => ({ file, righe }));
 }
 
 async function leggiStdin() {
@@ -269,12 +395,24 @@ async function main() {
   const lezDopo = daDisco(APPRENDIMENTO)?.lezioni || [];
   const { file, codaToccata } = fileDelLavoro();
 
-  const committati = fileCommittatiSulRamo();
+  const base = baseDelRamo();
+  const committati = base ? fileCommittatiSulRamo(base) : null;
+  const righeQuaderni = base ? righeAggiunteNelle(base, "memoria-squadra") : null;
+  const consegneModificate = base ? righeAggiunteNelle(base, "consegne") : null;
+
+  const ciechi = [];
+  if (!committati || !righeQuaderni) {
+    ciechi.push(
+      "non ho trovato un ramo con cui confrontarmi (né origin/main né main): il controllo sull'esito del lavoro consegnato NON ha misurato. Il verde qui sotto non copre quella parte.",
+    );
+  }
+
   const v = verdetto({
-    senzaEsito: committati ? consegnaSenzaEsito(committati) : null,
+    senzaEsito: committati && righeQuaderni ? consegnaSenzaEsito(committati, righeQuaderni.flatMap((f) => f.righe), base ? codiceDopoUltimoEsito(base) : null) : null,
     chiusi: chiusiSenzaProva(cantierePrima, cantiereDopo),
-    allarmi: allarmiSenzaCoda(file, codaToccata),
+    allarmi: allarmiSenzaCoda(file, codaToccata, consegneModificate || []),
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),
+    ciechi,
     giaBloccato,
   });
 
@@ -283,18 +421,19 @@ async function main() {
     process.exit(0);
   }
 
-  // Fuori dall'hook vale il contratto dei guardiani (AR-322): 1 = ho trovato qualcosa. Il 2 è
-  // riservato allo `Stop`, dove è l'unico codice che BLOCCA la chiusura del turno.
-
-  // Su `Stop` è stderr + exit 2 il canale che TORNA a me: stdout finirebbe in un log, che è
-  // esattamente il difetto per cui questo file esiste.
+  // Fuori dall'hook vale il contratto dei guardiani (AR-322): 1 = ho trovato qualcosa, 2 = non ho
+  // potuto misurare. Dentro l'hook `Stop` il 2 è l'unico codice che BLOCCA la chiusura del turno —
+  // quindi lì un cieco NON può uscire 2: un clone superficiale incastrerebbe ogni turno, e un freno
+  // che incastra viene spento entro il giorno. È una perdita dichiarata, non un silenzio: nel cancello
+  // del lotto (che gira in CI, dove i rami ci sono sempre) il cieco diventa ⚪ ed esce 2.
   const testo = v.righe.join("\n");
   if (v.blocca) {
     console.error(testo);
     process.exit(hook ? 2 : 1);
   }
   console.log(testo);
-  process.exit(hook ? 0 : 1);
+  if (hook) process.exit(0);
+  process.exit(v.cieco && v.righe.every((r) => r.startsWith("⚪")) ? 2 : 1);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();
