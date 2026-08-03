@@ -15,9 +15,15 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { misura, indiceDellaPrimaRispostaNumerata, COPERTURA, BLOCCHI } from "../si-capisce.mjs";
 import { conta, daMisurare, verdetto, trascrizioniRecenti } from "../conta-blocco-mancante.mjs";
+import { invocazioniIn } from "../guardia-viva.mjs";
+import { sorveglia } from "../sorvegliante.mjs";
 
+const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const tipi = (t) => misura(t).problemi.map((p) => p.tipo);
 
 const QUATTRO = ["In parole semplici", "Ho fatto la cosa.", "Cosa cambia per te", "Cambia questo.", "Cosa devi fare", "Niente.", "Cosa non ho verificato", "Il resto."];
@@ -95,4 +101,73 @@ test("i file scartati si contano: il recinto .jsonl è misurato, non dedotto", (
   const r = trascrizioniRecenti([], 7);
   assert.deepEqual(r, { presi: [], visti: 0, scartati: {} });
   assert.ok("scartati" in r, "il conto di ciò che lascio fuori fa parte del referto, non è un dettaglio");
+});
+
+// ── AR-514: il contatore vive dove la sua fonte esiste ────────────────────────────────────────
+//
+// L'avevo agganciato al cancello del lotto. Un giro di CI dopo: rosso. Su un runner GitHub le
+// trascrizioni della chat non esistono, il contatore esce 2 (cieco) come deve, e quel workflow
+// tratta il 2 come un blocco — apposta, perché un cancello che lascia passare ciò che non ha saputo
+// misurare è la bugia che tutto il lotto curava. Le due regole insieme davano un cancello ROSSO PER
+// SEMPRE, e un cancello che non può diventare verde viene aggirato al secondo giro.
+//
+// Non era un cieco da dichiarare: era una misura fuori posto.
+
+test("il contatore è agganciato alla visita, non è uno script che non chiama nessuno", () => {
+  const salute = readFileSync(join(REPO, "cervello/salute.mjs"), "utf8");
+  assert.match(salute, /conta-blocco-mancante\.mjs/, "senza questo aggancio il contatore è decorativo");
+  assert.match(salute, /id:\s*"cervello\.scrittura"/, "e ha il suo organo nel referto che Nicola legge");
+});
+
+test("il contatore NON è nel cancello del lotto: in CI non potrebbe mai essere verde", () => {
+  const cancello = readFileSync(join(REPO, "cervello/cancello-lotto.mjs"), "utf8");
+  const esecuzioni = cancello.split("\n").filter((r) => r.includes("conta-blocco-mancante.mjs") && r.includes("esegui("));
+  assert.equal(esecuzioni.length, 0, "su un runner le trascrizioni non esistono: qui uscirebbe ⚪ a ogni corsa e bloccherebbe per sempre");
+});
+
+// ── AR-515 e AR-516: due guardiani accecati dallo stesso spostamento ──────────────────────────
+//
+// Spostare il contatore dal cancello alla visita ha fatto sbagliare DUE guardiani, ognuno per la
+// stessa ragione di fondo: il loro recinto era nato guardando le forme che esistevano quel giorno.
+//   · `guardia-viva` non riconosceva `eseguiNode("x.mjs", …)`, cioè il modo in cui la visita chiama
+//     tutti i suoi organi, e ha dichiarato «costruito e mai messo di guardia» uno strumento cablato.
+//   · il `sorvegliante` chiedeva «l'ho spostato altrove in questa stessa modifica?» e cercava la
+//     risposta solo dentro lo STESSO FILE — cioè ovunque tranne dove uno spostamento finisce. Ha
+//     gridato «freno spento» ventidue volte mentre guardavo la riparazione.
+
+test("guardia-viva riconosce le chiamate della visita, non solo quelle del cancello", () => {
+  assert.ok(
+    [...invocazioniIn('const r = eseguiNode("conta-blocco-mancante.mjs", ["--json"], 120_000);')].includes("conta-blocco-mancante.mjs"),
+    "senza questa forma la visita non conta come posto di guardia, e chi è cablato solo lì risulta orfano",
+  );
+  assert.deepEqual(
+    [...invocazioniIn("// prima o poi bisognera' eseguiNode del vecchio conta-verdetti-muti.mjs")],
+    [],
+    "una menzione in prosa non è una chiamata: è la regola che questo repo ha già pagato quattro volte",
+  );
+});
+
+test("il sorvegliante tace se la difesa ricompare in UN ALTRO file dello stesso delta", () => {
+  const difese = new Map([["cervello/conta-blocco-mancante.mjs", "è il codice su cui poggia una mutazione"]]);
+  const spostamento = sorveglia({
+    toccati: [{ file: "cervello/salute.mjs", aggiunte: [{ n: 10, testo: '  const r = eseguiNode("conta-blocco-mancante.mjs", ["--json"], 120_000);' }], contenuto: null }],
+    rimossi: [{ file: "cervello/cancello-lotto.mjs", rimosse: [{ n: 590, testo: '    passi.push(esegui("il blocco", "node", ["cervello/conta-blocco-mancante.mjs"]));' }] }],
+    difese,
+  });
+  assert.deepEqual(
+    spostamento.voci.filter((v) => v.classe === "difesa-rimossa"),
+    [],
+    "spostare non è spegnere: punirlo insegnerebbe a non riordinare mai più niente",
+  );
+
+  const cancellazione = sorveglia({
+    toccati: [],
+    rimossi: [{ file: "cervello/cancello-lotto.mjs", rimosse: [{ n: 590, testo: '    passi.push(esegui("il blocco", "node", ["cervello/conta-blocco-mancante.mjs"]));' }] }],
+    difese,
+  });
+  assert.equal(
+    cancellazione.voci.filter((v) => v.classe === "difesa-rimossa").length,
+    1,
+    "e se invece nessuno lo lancia più, il rosso deve continuare ad arrivare",
+  );
 });

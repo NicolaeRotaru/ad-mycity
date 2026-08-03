@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-03 20:23",
+  "aggiornato": "2026-08-03 23:51",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -15,15 +15,15 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-08-03 20:23",
-      "iso": "2026-08-03T18:23:03.025Z",
+      "quando": "2026-08-03 23:51",
+      "iso": "2026-08-03T21:51:07.295Z",
       "casa": "claude",
       "modo": "rapido",
-      "ok": 11,
+      "ok": 12,
       "rotti": 1,
       "guasti": 0,
       "nonvisti": 6,
-      "copertura": 0.67,
+      "copertura": 0.68,
       "controlli": [
         {
           "id": "worker.ponte",
@@ -41,7 +41,7 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "nessun processo automatico lascia tracce da 105 ore (l'ultima è sentinella-dati.json, 2026-07-30 11:19)",
+          "detto": "nessun processo automatico lascia tracce da 109 ore (l'ultima è sentinella-dati.json, 2026-07-30 11:19)",
           "prova": null,
           "regressione": false
         },
@@ -101,7 +101,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 0 min fa (2026-08-03T18:22:54.640Z) — 9 file guardati, 5 voci, 0 gravi.",
+          "detto": "✅ ultimo scatto 0 min fa (2026-08-03T21:50:59.573Z) — 7 file guardati, 3 voci, 1 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false
         },
@@ -121,7 +121,17 @@
           "titolo": "Il lavoro consegnato dice com'è andato",
           "impatto": 2,
           "esito": "ok",
-          "detto": "6 consegne su 8 degli ultimi 30 giorni senza una riga di esito (75%) · Cabina 0 giorni indietro (STATO al 2026-07-30 11:09)",
+          "detto": "236 consegne su 265 degli ultimi 30 giorni senza una riga di esito (89%) · Cabina 0 giorni indietro (STATO al 2026-08-03 22:55)",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "cervello.scrittura",
+          "organo": "cervello",
+          "titolo": "Quando scrivo a Nicola, gli rispondo",
+          "impatto": 2,
+          "esito": "ok",
+          "detto": "«Cosa cambia per te» mancato nel 43% dei 23 messaggi che lo pretendevano (ultimi 7 giorni)",
           "prova": null,
           "regressione": false
         },
@@ -362,6 +372,28 @@
       "guasti": 0,
       "nonvisti": 6,
       "copertura": 0.67
+    },
+    {
+      "quando": "2026-08-03 23:50",
+      "iso": "2026-08-03T21:50:59.299Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 12,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.68
+    },
+    {
+      "quando": "2026-08-03 23:51",
+      "iso": "2026-08-03T21:51:07.295Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 12,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.68
     }
   ]
 }

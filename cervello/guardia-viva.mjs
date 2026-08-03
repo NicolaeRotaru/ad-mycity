@@ -91,6 +91,15 @@ const RE_INVOCAZIONE = [
   /\[[^\]\n]*"cervello\/([a-z0-9._-]+)\.mjs"/g,
   // GitHub Actions: run: node cervello/x.mjs
   /run:\s*node\s+cervello\/([a-z0-9._-]+)\.mjs/g,
+  // la VISITA: eseguiNode("x.mjs", […]) — AR-515.
+  //
+  // Era il buco di questo rilevatore, e ha la forma che questa casa conosce bene: il recinto è nato
+  // guardando le invocazioni che esistevano quel giorno, e `salute.mjs` chiama i suoi organi con un
+  // helper suo. Non si vedeva perché ogni strumento che la visita esegue era anche eseguito da
+  // qualcun altro — quindi il rilevatore restava verde per caso. Il primo strumento messo di guardia
+  // SOLO dalla visita (`conta-blocco-mancante.mjs`) è risultato «costruito e mai messo di guardia»:
+  // un'accusa falsa a chi il cablaggio ce l'aveva.
+  /\beseguiNode\(\s*"([a-z0-9._-]+)\.mjs"/g,
   // systemd: ExecStart=/usr/bin/node /opt/…/cervello/x.mjs
   /ExecStart=.*cervello\/([a-z0-9._-]+)\.mjs/g,
 ];

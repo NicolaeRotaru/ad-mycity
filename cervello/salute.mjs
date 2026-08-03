@@ -654,6 +654,41 @@ const CONTROLLI = [
   },
 
   {
+    // AR-513/AR-514 — l'altro contatore d'abitudine: non «ho consegnato senza dire com'è andata», ma
+    // «ho scritto a Nicola senza rispondergli». Nasce dalla sua domanda del 3/8 — «come fai in modo
+    // che non ti dimentichi mai di quel blocco? un misuratore, un cancello, o cosa?» — e la risposta
+    // onesta è che il cancello dello Stop ferma IL MESSAGGIO di adesso e non sa dire se sto
+    // migliorando o se sto solo imparando a passarlo. Quello lo dice una serie storica.
+    //
+    // Sta nella VISITA e NON nel cancello del lotto: la sua fonte sono le trascrizioni della chat,
+    // che su un runner di CI non esistono: là uscirebbe ⚪ a ogni corsa e renderebbe il cancello
+    // rosso per sempre (provato dal vivo il 3/8, PR #661). Qui invece il ⚪ è la risposta giusta —
+    // «da questo ambiente non l'ho potuto vedere» — e non blocca niente.
+    id: "cervello.scrittura",
+    organo: "cervello",
+    titolo: "Quando scrivo a Nicola, gli rispondo",
+    impatto: 2,
+    async prova() {
+      const r = eseguiNode("conta-blocco-mancante.mjs", ["--json"], 120_000);
+      if (!r.partito) return guasto(r.motivo);
+      if (r.code === 2) return nonVisto(`non ho potuto contare: ${String(r.out).trim().slice(0, 140)}`);
+      let d = null;
+      const i = String(r.out).indexOf("{");
+      if (i >= 0) {
+        try {
+          d = JSON.parse(String(r.out).slice(i));
+        } catch {
+          /* resta null → ⚪ qui sotto */
+        }
+      }
+      if (!d || typeof d.messaggi_misurati !== "number") return nonVisto("il contatore del blocco mancante non ha risposto in modo leggibile");
+      if (d.quota_peggiore === null) return nonVisto("nessun messaggio che pretendesse le quattro risposte in questa finestra");
+      const testo = `«${d.blocco_peggiore}» mancato nel ${d.quota_peggiore}% dei ${d.messaggi_misurati} messaggi che lo pretendevano (ultimi ${d.finestra_giorni} giorni)`;
+      return r.code === 0 ? ok(testo, d) : rotto(`${testo} — sopra il tetto del ${d.tetto?.quota_peggiore}%`, d);
+    },
+  },
+
+  {
     id: "cervello.skill",
     organo: "cervello",
     titolo: "Le braccia della macchina sono versionate",

@@ -501,6 +501,15 @@ export function sorveglia({
   // (Trovato dalle prove, non dalla rilettura: le prime due erano rosse esattamente per questo.)
   const morti = new Set(rimossi.filter((r) => r.cancellato).map((r) => r.file));
   const nomiNuovi = new Set(toccati.filter((t) => !morti.has(t.file)).map((t) => basenameSemplice(t.file)));
+  // Le righe AGGIUNTE in TUTTO il delta, senza commenti. Serve a ⑥b: la domanda che quella guardia
+  // pone è «l'ho spostato altrove in questa stessa modifica?», e fino al 3/8 la risposta la cercava
+  // solo dentro lo STESSO FILE — cioè in tutti i posti tranne quello dove uno spostamento finisce
+  // (AR-516). Trovato dal vivo: ho spostato un contatore dal cancello del lotto alla visita, in un
+  // solo commit, e la guardia l'ha chiamato «freno spento» ventidue volte di fila. Un allarme che
+  // grida mentre guardi la riparazione è un allarme che si impara a scorrere.
+  const aggiuntoOvunque = toccati
+    .flatMap((t) => (t.aggiunte || []).map((a) => senzaCommenti(a.testo, t.file)))
+    .join("\n");
   for (const r of rimossi) {
     const file = r.file;
     const rimosse = r.rimosse || [];
@@ -543,6 +552,11 @@ export function sorveglia({
         for (const [p, perche] of difese) {
           if (!pulita.includes(p)) continue;
           if (testoAggiunto.includes(p)) continue;
+          // Spostato in un altro file dello stesso delta? Si guarda ovunque, e anche per SOLO NOME:
+          // chi lancia un guardiano dal cancello scrive «cervello/x.mjs», chi lo lancia dalla visita
+          // scrive «x.mjs», e confrontare i due percorsi per intero significava non riconoscere mai
+          // uno spostamento fra i due posti.
+          if (aggiuntoOvunque.includes(p) || aggiuntoOvunque.includes(basenameSemplice(p))) continue;
           voci.push({
             classe: "difesa-rimossa",
             gravita: "grave",
