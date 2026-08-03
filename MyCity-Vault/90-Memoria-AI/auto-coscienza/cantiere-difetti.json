@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 15:55",
+  "aggiornato": "2026-08-03 19:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8577,6 +8577,24 @@
       "fix_proposto": "FATTO 🟡 La domanda non e piu «c e una riga?» ma «ho continuato a lavorare DOPO averla scritta?». `codiceDopoUltimoEsito()` chiede a git quanti commit toccano codice dopo l ultimo commit che ha aggiunto una riga di esito (pathspec di esclusione derivato da CARTELLE_MEMORIA, criterio -G condiviso con RIGA_ESITO e accentrato in un solo punto). Zero commit dopo = verde, e chi scrive l esito alla fine non viene punito. `null` = non ho potuto misurare = non accuso. I due casi hanno messaggi diversi (AR-154 «non hai scritto niente» / AR-477 «hai scritto per il lavoro di prima») perche si rimediano in modi diversi. Provato dal vivo rifacendo lo stesso esperimento che aveva scoperto il buco: prima exit 0, adesso exit 1 fuori dall hook ed exit 2 dentro (blocca il turno). 4 prove nuove + 1 mutazione.",
       "verifica": {
         "comando": "node cervello/test/cancello-stop.test.mjs"
+      }
+    },
+    {
+      "id": "AR-491",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 19:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Nicola 3/8: «poi controlla la pr, ha dei conflitti». Trovato indagando il terzo rosso di fila della CI sulla PR #655: il guardiano diceva perche', il log non lo mostrava.",
+      "titolo": "Un rosso muto: il cancello del lotto mostrava le ultime sei righe del guardiano, e con --json erano le graffe di chiusura",
+      "causa_radice": "① Il cancello sceglieva le righe da mostrare per POSIZIONE (le ultime sei), non per contenuto. Funziona quando il comando dice il verdetto per ultimo; il contatore delle consegne mute veniva lanciato con --json e il suo verdetto sta in mezzo al documento, quindi il log mostrava `\"tetti\": {...}` e una graffa. ② Costo misurato: tre giri di indagine alla cieca (locale verde, CI rosso) su un guardiano che la ragione ce l'aveva scritta dentro. ③ E' la stessa forma di AR-490 — la misura guarda il pezzo che ha in testa (la coda) e non l'insieme (dove sta il verdetto) — applicata stavolta a chi RIPORTA, non a chi misura. ④ Perche' e' grave oltre l'indagine persa: regola di casa, un cancello sempre rosso viene aggirato al secondo giro; un cancello rosso e muto ci arriva prima, perche' a chi legge resta solo tirare a indovinare.",
+      "fix_proposto": "FATTO 🟡 `righeMotivo()` sceglie le righe per CONTENUTO — quelle con un marcatore di verdetto (❌ ⛔ ⚪ CIECO AssertionError Error/Errore not ok) — e torna alla coda solo se non ne trova nessuna, dichiarando cosi' di non aver trovato il motivo. In piu' il contatore non viene piu' lanciato con --json dentro il cancello: in italiano la riga col ❌ porta numero, tetto e data. 6 prove nuove + 1 mutazione.",
+      "verifica": {
+        "comando": "node --test cervello/test/rosso-che-non-dice-perche.test.mjs"
       }
     }
   ],
