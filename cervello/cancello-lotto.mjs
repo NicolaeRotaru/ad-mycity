@@ -589,6 +589,11 @@ function main() {
     // Senza `--json`: in JSON il verdetto è una chiave in mezzo al documento, e chi legge il log ne
     // vede solo le graffe finali. In italiano la riga col ❌ dice il numero, il tetto e la data.
     passi.push(esegui("consegne senza esito (contatore)", "node", ["cervello/conta-verdetti-muti.mjs"]));
+    // AR-513 — l'altro contatore d'abitudine, quello sul modo in cui scrivo a Nicola. In CI esce
+    // sempre ⚪ (le trascrizioni non ci sono su un runner) e va benissimo: è un cieco DICHIARATO, che
+    // il cancello mostra come tale. Dove le trascrizioni ci sono — la mia sessione, il VPS — dice se
+    // il blocco sta davvero sparendo o se sto solo imparando a passare il freno dello Stop.
+    passi.push(esegui("il blocco che sparisce (contatore)", "node", ["cervello/conta-blocco-mancante.mjs"]));
     passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));
 
     // AR-393 — LA PROVA CHE LE PROVE PROVINO, ESEGUITA INVECE CHE NOMINATA.

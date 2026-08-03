@@ -386,6 +386,32 @@ export function ideeRipetute(nuovo, precedenti = []) {
  * Non impedisce di nascere ciechi — impedisce di nascere ciechi IN SILENZIO, che è la differenza
  * fra un limite dichiarato e una bugia gentile.
  */
+/**
+ * Dove comincia la risposta a domande numerate — o -1 se il testo non ne è una.
+ *
+ * Serve una definizione stretta, perché un elenco puntato non è una risposta numerata e accusarlo
+ * sarebbe il solito controllo che grida al lupo. Chiedo tre cose insieme: una riga che ATTACCA col
+ * numero (non un «nel 2026» in mezzo alla frase), che il primo numero visto sia 1, e che ce ne sia
+ * almeno un secondo dopo. Un elenco «1. 2. 3.» dentro i dettagli tecnici le soddisfa e viene preso:
+ * è il prezzo di una regola semplice, e il rimedio (mettere i blocchi sopra) è giusto lo stesso.
+ */
+export function indiceDellaPrimaRispostaNumerata(righe = []) {
+  const NUMERATA = /^\s*(?:\*\*|__)?(\d{1,2})\s*[).]\s*\S/;
+  let primo = -1;
+  let visti = 0;
+  for (let i = 0; i < righe.length; i++) {
+    const m = NUMERATA.exec(righe[i]);
+    if (!m) continue;
+    if (primo === -1) {
+      if (m[1] !== "1") continue; // un «3)» senza il suo «1)» sopra è un frammento, non una risposta
+      primo = i;
+    }
+    visti++;
+    if (visti >= 2) return primo;
+  }
+  return -1;
+}
+
 export const COPERTURA = {
   "parola-mia": { unita: "la parola", cieco: "una parola nuova che non è in nessun elenco: la prende `paroleNuove`" },
   "frase-lunga": { unita: "la frase", cieco: "un testo fatto di frasi corte che nell'insieme non dice niente" },
@@ -394,6 +420,10 @@ export const COPERTURA = {
   "aria-fritta": { unita: "la riga", cieco: "una frase vuota costruita con parole diverse da quelle sorvegliate" },
   "sostanza-nascosta": { unita: "il testo intero", cieco: "sostanza presente ma sbagliata: qui non si giudica la verità" },
   "manca-una-risposta": { unita: "il testo intero", cieco: "un blocco presente col titolo giusto e vuoto dentro" },
+  "risposte-prima-dei-blocchi": {
+    unita: "l'ordine delle righe",
+    cieco: "una risposta a domande poste senza numeri («e la seconda cosa che ti ho chiesto?»): lì l'ordine non lo vedo",
+  },
   "manca-esempio": { unita: "il testo intero", cieco: "un esempio che c'è ma è inventato o non c'entra" },
   "manca-riassunto": { unita: "il testo intero", cieco: "un riassunto che c'è e non riassume niente" },
   "gia-detto": { unita: "la conversazione", cieco: "una ripetizione fatta con sinonimi: servirebbe un modello che capisce il senso" },
@@ -572,7 +602,30 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
       avvisi.push({ riga: 1, dico: "manca il passo indietro: nelle prime righe non dico di cosa parlo e a cosa serve" });
     }
   }
-  if (testoLungo) {
+  // ④-bis LE RISPOSTE NUMERATE — la forma in cui il blocco spariva davvero (AR-512).
+  //
+  // Misurato sulla sessione del 3/8: i quattro blocchi mancavano in 11 messaggi lunghi su 20, ma
+  // fra le RISPOSTE a domande numerate mancavano in 6 su 8. Non è distrazione: è la struttura. Quando
+  // Nicola scrive «1) … 2) … 3)», la mia risposta parte da «1)» perché è lì che cade l'occhio, e i
+  // blocchi non trovano più un posto dove stare. Un promemoria non lo cura — la seconda volta lo
+  // salti lo stesso. Quello che lo cura è cambiare l'ordine: prima le quattro risposte, poi i numeri.
+  const primaRisposta = indiceDellaPrimaRispostaNumerata(righeNicola);
+  const rispondeAiNumeri = primaRisposta !== -1;
+  if (rispondeAiNumeri) {
+    const sopra = righeNicola.slice(0, primaRisposta).join("\n");
+    for (const blocco of BLOCCHI) {
+      const cerca = new RegExp(blocco.replace(/\s+/g, "\\s+"), "i");
+      if (cerca.test(corpo) && !cerca.test(sopra)) {
+        problemi.push({
+          riga: primaRisposta + 1,
+          tipo: "risposte-prima-dei-blocchi",
+          trovato: blocco,
+          dico: `«${blocco}» arriva DOPO il primo punto numerato: chi legge deve arrivare in fondo per sapere cosa cambia per lui`,
+        });
+      }
+    }
+  }
+  if (testoLungo || rispondeAiNumeri) {
     for (const blocco of BLOCCHI) {
       if (!new RegExp(blocco.replace(/\s+/g, "\\s+"), "i").test(corpo)) {
         problemi.push({
@@ -583,6 +636,11 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
         });
       }
     }
+  }
+  // Riassunto ed esempio restano legati alla LUNGHEZZA, non alle domande numerate: pretenderli anche
+  // su una risposta corta a due punti sarebbe una casella in più da riempire, cioè un'accusa falsa —
+  // e un controllo che accusa a torto viene spento (è la storia di AR-490 e AR-493).
+  if (testoLungo) {
     // Il riassunto: solo sui testi davvero lunghi. Su un testo da 2 minuti sarebbe una casella in più.
     if (minutiStimati >= MINUTI_CHE_VOGLIONO_UN_RIASSUNTO && !SEGNI_DI_RIASSUNTO.test(corpo)) {
       problemi.push({
@@ -894,6 +952,7 @@ function main() {
 
   const etichette = {
     "manca-una-risposta": "🧱 manca una delle tre risposte",
+    "risposte-prima-dei-blocchi": "🔢 i numeri prima delle risposte",
     "manca-esempio": "🔎 manca l'esempio concreto",
     "manca-riassunto": "📄 troppo lungo senza due righe di riassunto in cima",
     "gia-detto": "🔁 cose che gli ho già mandato",

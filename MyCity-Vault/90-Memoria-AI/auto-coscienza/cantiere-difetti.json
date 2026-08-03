@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 23:20",
+  "aggiornato": "2026-08-03 21:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8990,6 +8990,42 @@
         "nota": "7 casi verdi. Il caso AR-511 alla prima stesura era verde per il motivo sbagliato — il guardiano non vedeva niente — ed e stato riscritto dopo aver misurato che `origin/main...HEAD` ignora lo staging."
       },
       "lezione": "L-2026-0803-550"
+    },
+    {
+      "id": "AR-512",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "processi-e-cadenze",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 21:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-481",
+      "origine": "[DOMANDA DI NICOLA] «come fai fare in modo che non ti dimentichi mai di quel blocco? cosa ti serve, un misuratore, un cancello, o cosa?» — e poi «fai».",
+      "titolo": "Il blocco «Cosa cambia per te» spariva dove Nicola numera le domande: 6 risposte numerate su 8 senza i blocchi",
+      "causa_radice": "① Non e' distrazione, e' la STRUTTURA. Misurato sulla sessione del 3/8: le quattro risposte mancavano in 11 messaggi lunghi su 20, ma fra le risposte a domande numerate mancavano in 6 su 8. Quando Nicola scrive «1) … 2) … 3)», la risposta parte da «1)» perche' e' li' che cade l'occhio, e i blocchi non trovano piu' un posto dove stare. ② Il freno esisteva gia' ma non poteva vederlo, per due motivi: pretendeva i quattro blocchi solo sui testi LUNGHI (una risposta a due domande sta in sei righe) e non guardava l'ORDINE (un blocco scritto in fondo, dopo i numeri, contava come presente). ③ Perche' un promemoria non basta: la seconda volta lo salti lo stesso. Quello che cura una struttura sbagliata e' un'altra struttura, non un ricordo.",
+      "fix_proposto": "FATTO 🟡 Due cambi nel misuratore. ① `indiceDellaPrimaRispostaNumerata()` riconosce una risposta a domande numerate (riga che ATTACCA col numero, il primo e' 1, ce n'e' almeno un secondo) e da li' i quattro blocchi diventano obbligatori anche se il messaggio e' corto. ② Tipo nuovo `risposte-prima-dei-blocchi`: un blocco presente ma scritto DOPO il primo numero e' un errore d'ordine, non una presenza. Riassunto ed esempio restano legati alla lunghezza, per non trasformare una risposta corta in un modulo da riempire. Regola 3-bis in scrittura-umana.md con l'ordine fisso. 6 prove nuove.",
+      "verifica": {
+        "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs"
+      }
+    },
+    {
+      "id": "AR-513",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 21:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-512",
+      "origine": "Stessa domanda di Nicola: «un misuratore, un cancello, o cosa?». La risposta onesta e' che il cancello da solo non sa dire se sto migliorando.",
+      "titolo": "Nessuno misurava se l'abitudine sta sparendo: il freno ferma il messaggio di adesso, non dice se sto solo imparando a passarlo",
+      "causa_radice": "① Il cancello dello Stop blocca IL MESSAGGIO. Un guardiano che ferma il caso singolo non distingue «sto migliorando» da «ho imparato ad aggirarlo»: e' esattamente la differenza che AR-474 aveva gia' scoperto sugli esiti, e che qui mancava sulla scrittura. ② Senza serie storica, la domanda di Nicola («come fai a non dimenticartene MAI?») non ha una risposta misurabile: si puo' solo promettere.",
+      "fix_proposto": "FATTO 🟡 `cervello/conta-blocco-mancante.mjs`: legge le trascrizioni degli ultimi 7 giorni, conta per ogni blocco quante volte e' mancato SUI SOLI messaggi che lo pretendevano, e tiene un tetto sulla QUOTA (non sul conto secco, che crescerebbe col numero di messaggi) che scende e non risale. Nel cancello del lotto: in CI esce ⚪ dichiarato (le trascrizioni non ci sono su un runner), dove ci sono misura davvero. Prima misura: «Cosa cambia per te» mancante nel 45% dei 22 messaggi che lo pretendevano. Il recinto .jsonl e' misurato e non dedotto: i file scartati si contano e finiscono nel referto (malattia perimetro-dedotto-non-misurato). 4 prove nuove.",
+      "verifica": {
+        "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs"
+      }
     }
   ],
   "meta": {

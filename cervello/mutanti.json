@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-03 23:20",
+ "aggiornato": "2026-08-03 21:30",
  "mutanti": [
   {
    "lotto": 30,
@@ -1509,6 +1509,22 @@
    "cerca": "  if [ \"$_fj_code\" = \"1\" ]; then",
    "sostituisci": "  if [ \"$_fj_code\" = \"99\" ]; then",
    "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-512",
+   "nome": "i quattro blocchi tornano obbligatori solo sui testi lunghi: una risposta numerata corta passa muta",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "  if (testoLungo || rispondeAiNumeri) {",
+   "sostituisci": "  if (testoLungo) {",
+   "test": "cervello/test/numeri-prima-delle-risposte.test.mjs"
+  },
+  {
+   "difetto": "AR-513",
+   "nome": "il contatore torna a misurare tutti i messaggi: conta come dimenticanza anche un «fatto, e' verde»",
+   "file": "cervello/conta-blocco-mancante.mjs",
+   "cerca": "  const miei = testi.filter(daMisurare);",
+   "sostituisci": "  const miei = testi;",
+   "test": "cervello/test/numeri-prima-delle-risposte.test.mjs"
   }
  ]
 }

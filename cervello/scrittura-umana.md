@@ -183,6 +183,39 @@ node cervello/si-capisce.mjs bozza.md      # 0 = si capisce · 1 = va riscritto 
 node cervello/si-capisce.mjs --scansione   # classifica per difficoltà tutto ciò che Nicola legge
 ```
 
+---
+
+## Regola 3-bis — se Nicola numera le domande, i numeri vengono DOPO (AR-512)
+
+Il posto dove il blocco spariva davvero. Misurato sulla sessione del 3/8: le quattro risposte
+mancavano in 11 messaggi lunghi su 20, ma fra le risposte a domande numerate mancavano in **6 su 8**.
+Non è distrazione, è la struttura: quando lui scrive «1) … 2) … 3)», la risposta parte da «1)»
+perché è lì che cade l'occhio, e i blocchi non trovano più un posto dove stare.
+
+Quindi non un promemoria — quello lo salti lo stesso la seconda volta — ma un **ordine fisso**:
+
+```
+In parole semplici        ← anche se la domanda era numerata
+Cosa cambia per te
+Cosa devi fare
+Cosa non ho verificato
+
+1) …                      ← i numeri cominciano qui, e rispondono UNO A UNO
+2) …
+```
+
+Le risposte numerate non sostituiscono i blocchi e i blocchi non sostituiscono le risposte: lui ha
+chiesto quelle cose e vanno tutte, nell'ordine. Chi ha fretta si ferma dopo il quarto blocco; chi
+voleva il dettaglio scende ai numeri.
+
+**I due controlli che lo tengono in piedi** (uno ferma il messaggio, l'altro misura se l'abitudine
+sta sparendo — servono tutti e due, perché il primo da solo non sa dire se sto migliorando o se sto
+solo imparando a passarlo):
+```bash
+node cervello/si-capisce.mjs bozza.md          # blocca: «i numeri prima delle risposte»
+node cervello/conta-blocco-mancante.mjs        # conta: quante volte è mancato, su quanti messaggi
+```
+
 > Non vale invece per il **Contenuto** (il file `consegne/…`, i path, i comandi, gli ID Stripe): quello è per
 > **chi esegue** e lì i dettagli tecnici ci devono stare, precisi. La regola è: **titolo per l'occhio umano,
 > Contenuto per la mano che agisce.** Se un codice è utile a chi esegue e non è già nel Contenuto, spostalo lì —

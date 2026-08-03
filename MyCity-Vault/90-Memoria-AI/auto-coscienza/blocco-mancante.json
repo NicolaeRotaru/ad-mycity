@@ -1,0 +1,34 @@
+{
+  "_cosa_e": "📮 Quante volte un messaggio che pretendeva le quattro risposte è uscito senza. Il tetto è una QUOTA e SCENDE: aggiungerne è un errore, portarne via è il lavoro. Nato dalla domanda di Nicola del 3/8 («come fai a non dimenticartene mai?»).",
+  "misurato": "2026-08-03 21:37",
+  "finestra_giorni": 7,
+  "trascrizioni": {
+    "trovate": 1,
+    "lette": 1,
+    "file_visti": 2,
+    "scartati_per_estensione": {
+      ".json": 1
+    }
+  },
+  "messaggi_misurati": 22,
+  "mancanze": {
+    "In parole semplici": 9,
+    "Cosa cambia per te": 10,
+    "Cosa devi fare": 1,
+    "Cosa non ho verificato": 10
+  },
+  "blocco_peggiore": "Cosa cambia per te",
+  "quota_peggiore": 45,
+  "esempi": [
+    "Non tocco niente. Ti spiego solo come cambio. E la tua frase cambia u",
+    "Adesso ho capito il problema vero, ed è diverso da quello che avevo di",
+    "## 2) Cos'è una PR Hai centrato il punto ridendo: **te l'ho scritta i"
+  ],
+  "tetto": {
+    "quota_peggiore": 45
+  },
+  "verdetto": {
+    "righe": [],
+    "rotto": false
+  }
+}
