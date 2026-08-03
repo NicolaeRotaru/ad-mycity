@@ -70,6 +70,9 @@ const SOTTINTESI = [
   "di stamattina", "di ieri sera", "la seconda volta oggi", "la terza volta oggi", "lo stesso di prima",
 ];
 
+/** Quanti sottintesi sono sorvegliati: serve alla prova che impedisce di svuotare l'elenco. */
+export const SOTTINTESI_CONTATI = SOTTINTESI.length;
+
 /** Le parole che dimostrano che sto facendo un esempio invece di enunciare una regola. */
 const SEGNI_DI_ESEMPIO = /(per esempio|ad esempio|esempio concreto|esempio:|facciamo un caso|mettiamo che|\bcioè\b)/i;
 
@@ -132,6 +135,57 @@ export function frasi(testo) {
     .split(/(?<=[.!?:])\s+|\n{2,}/)
     .map((f) => f.replace(/\u0000/g, ".").replace(/[#*>|`_-]/g, " ").trim())
     .filter((f) => f.split(/\s+/).filter(Boolean).length >= 4);
+}
+
+
+/**
+ * ARIA FRITTA — le parole che sembrano una spiegazione e non dicono niente (AR-483).
+ *
+ * Nicola: «aggiungi il controllo che capisce il senso, non la forma». Un controllo che capisce
+ * davvero servirebbe un modello AI, e qui non c'e' nessuna chiave collegata: sarebbe una spesa e
+ * una decisione sua. Ma un pezzo di senso si misura senza AI, ed e' il pezzo che fa perdere tempo:
+ * le frasi che occupano una riga e non lasciano niente in testa.
+ *
+ * Il caso che l'ha generata, mio: «serve a rendere il sistema piu robusto». La parola «serve a»
+ * faceva passare il controllo del passo indietro, e quella frase non dice ne cosa fa, ne per chi,
+ * ne quanto. Il controllo vedeva la formula e non il vuoto.
+ *
+ * NON e' comprensione: e' assenza di contenuto. Un testo pieno di queste parole quasi sempre non si
+ * capisce; un testo senza puo' comunque restare oscuro. Va detto, e sta scritto nel verdetto.
+ */
+export const ARIA_FRITTA = [
+  { re: /\bpi[uù]'? robust\w*/gi, invece: "cosa non si rompe più, e in quale caso" },
+  // Solo le AFFERMAZIONI, non la parola in sé: «se una cosa è migliorata o peggiorata» è la
+  // definizione di baseline, non una vanteria. Preso dal glossario stesso, primo falso positivo.
+  { re: /\b(ho|abbiamo|è stat[oa]|sono stat[ei]|viene|l'ho)\s+migliorat\w+/gi, invece: "da quanto a quanto" },
+  { re: /\b(ho|abbiamo|è stat[oa]|sono stat[ei]|viene|l'ho)\s+ottimizzat\w+/gi, invece: "quale numero è cambiato e di quanto" },
+  { re: /\bottimizzazion\w+/gi, invece: "quale numero è cambiato e di quanto" },
+  { re: /\bpi[uù]'? efficient\w*/gi, invece: "quanto tempo o quanti soldi in meno" },
+  { re: /\bin modo (corretto|adeguato|appropriato|opportuno)\b/gi, invece: "cosa fa esattamente" },
+  { re: /\b(varie|vari|alcune|alcuni) (cose|aspetti|elementi|punti|modifiche)\b/gi, invece: "quali, per nome" },
+  { re: /\bqualcosa che\b/gi, invece: "la cosa precisa" },
+  { re: /\bgestisce meglio\b/gi, invece: "cosa succedeva prima e cosa succede adesso" },
+  { re: /\bin generale\b/gi, invece: "il caso concreto" },
+  { re: /\bnon c'?[eè]'? problema\b/gi, invece: "cosa hai verificato" },
+  { re: /\btutto (a posto|ok|bene)\b/gi, invece: "quali controlli sono passati" },
+  { re: /\bcome previsto\b/gi, invece: "cosa ti aspettavi, con il numero" },
+  { re: /\bpi[uù]'? (chiaro|semplice|leggibile)\b/gi, invece: "misurato come, da quanto a quanto" },
+  { re: /\bdovrebbe (funzionare|andare|essere)\b/gi, invece: "l'ho provato oppure no: dillo" },
+  { re: /\bin sostanza\b/gi, invece: "la cosa, senza preamboli" },
+];
+
+/** Trova le frasi vuote in un testo. Pura: si prova su una stringa. */
+export function ariaFritta(testo) {
+  const fuori = [];
+  const righe = senzaCodice(parteDiNicola(testo));
+  righe.forEach((riga, i) => {
+    for (const { re, invece } of ARIA_FRITTA) {
+      for (const m of riga.matchAll(re)) {
+        fuori.push({ riga: i + 1, trovato: m[0], dico: `non dice niente: di' ${invece}` });
+      }
+    }
+  });
+  return fuori;
 }
 
 /**
@@ -239,14 +293,32 @@ export function misura(testo, { noteAGlossario = null } = {}) {
   const paroleTecnicheSopra = PAROLE_MACCHINA.filter((p) =>
     new RegExp(`(?<![\\w-])${p.replace(/-/g, "[- ]")}[aeio]?(?![\\w-])`, "i").test(corpo),
   ).length;
+  // BLOCCA, non avvisa (deciso il 3/8 dopo averlo misurato). Nicola: «se la regola bloccasse invece
+  // di avvisare, cosa cambierebbe?». Misurato sui 689 testi veri: **zero** testi nuovi bloccati,
+  // perché i 19 che hanno questo difetto sono già rossi per altro. Costo di oggi: nessuno.
+  // Valore di domani: è l'unico caso in cui un testo può essere pulito in tutto e vuoto dentro,
+  // ed è esattamente il difetto che avrei creato io con la riga «Dettagli tecnici».
   if (sottoLaRiga > 3 && paroleTecnicheSopra === 0) {
-    avvisi.push({
+    problemi.push({
       riga: righeNicola.length,
-      dico: "tutta la sostanza tecnica è finita sotto la riga: i termini e i ragionamenti servono a Nicola per capire come ragiona la macchina, spiegali dove servono",
+      tipo: "sostanza-nascosta",
+      trovato: "tutta la sostanza è sotto la riga",
+      dico: "i termini e i ragionamenti servono a Nicola per capire come ragiona la macchina: spiegali dove servono, non nasconderli in fondo",
     });
   }
   if (testoLungo && paroleTecnicheSopra === 0 && !/\d/.test(corpo)) {
-    avvisi.push({ riga: 1, dico: "spiegazione senza sostanza: nessuno strumento, nessun numero, nessun fatto verificabile" });
+    problemi.push({
+      riga: 1,
+      tipo: "sostanza-nascosta",
+      trovato: "nessun fatto verificabile",
+      dico: "spiegazione senza sostanza: nessuno strumento, nessun numero, nessun nome proprio",
+    });
+  }
+
+  // ③-bis L'aria fritta: parole che sembrano spiegare e non dicono niente. Blocca, perché è
+  // esattamente il tipo di riga che costringe Nicola a rileggere per capire che non c'era niente.
+  for (const a of ariaFritta(testo)) {
+    problemi.push({ riga: a.riga, tipo: "aria-fritta", trovato: a.trovato, dico: a.dico });
   }
 
   // ④ Le tre risposte, l'esempio e il passo indietro: solo sui testi lunghi, dove servono davvero.
@@ -451,6 +523,44 @@ function main() {
 
   if (argv.includes("--scansione")) return scansione(radice);
 
+  // AR-482 — la misura che guarda Nicola invece di me, con la sua storia su file.
+  // Senza storia, «l'82% è sceso» sarebbe una mia impressione: è esattamente il difetto dei numeri
+  // senza fonte. Ogni sessione lascia una riga, e la riga di ieri non si riscrive.
+  if (argv.includes("--capito")) {
+    const file = argv.find((a) => !a.startsWith("--"));
+    if (!file || !existsSync(file)) {
+      console.log("⚪ nessuna trascrizione da leggere: passa il percorso del file della conversazione");
+      return 2;
+    }
+    const r = quanteVolteHaChiesto(readFileSync(file, "utf8").split("\n").filter(Boolean));
+    if (!r.messaggi) {
+      console.log("⚪ nessun messaggio di Nicola in questa conversazione: non misuro niente");
+      return 2;
+    }
+    console.log(`🙋 Quante volte Nicola ha dovuto chiedere spiegazioni\n`);
+    console.log(`   messaggi suoi:        ${r.messaggi}`);
+    console.log(`   richieste di aiuto:   ${r.chieste}  (${r.quota}%)`);
+    for (const u of r.ultime) console.log(`     · ${u}`);
+
+    const dove = join(radice, "MyCity-Vault/90-Memoria-AI/auto-coscienza/capito.json");
+    let storia = { _cosa_e: "Quante volte Nicola ha dovuto chiedere spiegazioni, sessione per sessione. Meno è, meglio è.", sessioni: [] };
+    if (existsSync(dove)) {
+      try {
+        storia = JSON.parse(readFileSync(dove, "utf8"));
+      } catch {
+        // referto illeggibile: riparto pulito invece di perdere la misura di oggi
+      }
+    }
+    storia.sessioni.push({ quando: new Date().toISOString().slice(0, 16).replace("T", " "), ...r, ultime: undefined });
+    storia.sessioni = storia.sessioni.slice(-60); // due mesi di storia bastano a vedere una tendenza
+    const q = storia.sessioni.map((x) => x.quota).filter((x) => x != null);
+    storia.media_ultime_5 = q.length ? Math.round(q.slice(-5).reduce((a, b) => a + b, 0) / Math.min(5, q.length)) : null;
+    writeFileSync(dove, JSON.stringify(storia, null, 2) + "\n");
+    console.log(`\n   media delle ultime 5 sessioni: ${storia.media_ultime_5}%`);
+    console.log(`   storia: ${relative(radice, dove)}`);
+    return 0;
+  }
+
   if (argv.includes("--parole")) {
     const note = parolePeggioNoteAGlossario(radice);
     if (!note) {
@@ -492,6 +602,8 @@ function main() {
   const etichette = {
     "manca-una-risposta": "🧱 manca una delle tre risposte",
     "manca-esempio": "🔎 manca l'esempio concreto",
+    "aria-fritta": "💨 parole che sembrano spiegare e non dicono niente",
+    "sostanza-nascosta": "🫙 forma pulita, contenuto svuotato",
     "frase-lunga": "🧵 frasi troppo lunghe",
     "parola-mia": "🗣️  parole mie, fuori dal glossario",
     incisi: "🧩 due idee dentro una frase sola",

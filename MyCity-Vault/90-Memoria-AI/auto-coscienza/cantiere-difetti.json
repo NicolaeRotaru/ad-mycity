@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 01:10",
+  "aggiornato": "2026-08-03 03:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8380,11 +8380,65 @@
       "verifica": {
         "comando": "node cervello/test/si-capisce.test.mjs"
       }
+    },
+    {
+      "id": "AR-483",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 02:50",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[DOMANDA DI NICOLA] «aggiungi il controllo che capisce il senso, non la forma».",
+      "titolo": "Il misuratore vedeva la formula e non il vuoto: «serve a rendere il sistema piu robusto» passava tutti i controlli",
+      "causa_radice": "① Le sei misure guardano segnali di forma. La frase «serve a rendere il sistema piu robusto» contiene «serve a», quindi soddisfaceva il controllo del passo indietro, ed e' una frase che non dice ne cosa fa, ne per chi, ne quanto. ② Un controllo che capisce davvero servirebbe un modello AI. Verificato: non c'e' nessuna chiave AI collegata in questo ambiente, quindi sarebbe una spesa e una decisione di Nicola, non una cosa che accendo io. ③ Ma un pezzo di senso si misura senza AI: l'assenza di contenuto. Le frasi che occupano una riga e non lasciano niente in testa hanno una forma riconoscibile — «piu robusto», «varie cose», «dovrebbe funzionare», «tutto a posto». ④ Il difetto era mio prima che della macchina: quelle frasi le scrivo io quando non ho misurato niente e voglio comunque chiudere.",
+      "fix_proposto": "FATTO 🟡 ① `ariaFritta()` con 16 modelli di frase vuota, ognuno con la sua traduzione («di' cosa non si rompe piu', e in quale caso»); ② BLOCCA, non avvisa: e' esattamente il tipo di riga che costringe Nicola a rileggere per scoprire che non c'era niente; ③ tarato sul corpus vero: 126 casi su 689 testi, tasso sano; ④ ristretto alle AFFERMAZIONI dopo il primo falso positivo trovato nel glossario stesso («se una cosa e' migliorata o peggiorata» e' la definizione di baseline, non una vanteria); ⑤ tollera l'accento mancante, perche' nei messaggi di commit scrivo «piu'» senza accento. COPERTURA DICHIARATA: non e' comprensione, e' assenza di contenuto. Un testo senza aria fritta puo' restare oscuro. 6 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-484",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 02:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[DOMANDA DI NICOLA] «chiudi il buco della soglia per impedire che si rompa la sicurezza che garantisce che funzioni sempre». Il buco l'avevo dichiarato io rispondendo a «come faccio a essere sicuro che sara' per sempre cosi?».",
+      "titolo": "Le soglie del misuratore si potevano alzare in silenzio: tutte le prove restavano verdi e il controllo diventava finto",
+      "causa_radice": "① `PAROLE_FRASE_ROSSA = 30` decide se una frase blocca. Le 30 prove esistenti provano il COMPORTAMENTO «sopra la soglia blocca», e restano verdi con qualunque soglia. ② Portandola a 60: nessuna prova rossa, il controllo esce 0 su ogni testo, Nicola vede verde e legge frasi da 55 parole. ③ E' lo stesso meccanismo del pavimento a 5.200 byte che rendeva impossibile bocciare un kit: la misura c'era, la soglia la rendeva finta. ④ Vale anche al contrario, per svuotamento: togliendo le voci da ARIA_FRITTA o da SOTTINTESI il controllo si spegne senza che nessuna prova se ne accorga.",
+      "fix_proposto": "FATTO 🟡 `cervello/test/soglie-non-abbassabili.test.mjs`: 8 prove che fissano i numeri che decidono (30, 20, 15), i tre blocchi obbligatori, la coerenza avviso<blocco, e la numerosita' minima dei due elenchi. Piu' una prova COMPORTAMENTALE: una frase di esattamente 30 parole passa, una di 31 blocca — cosi' la costante dichiarata e' provata essere quella che agisce davvero, non solo scritta. Cambiare una soglia resta legittimo, ma diventa un gesto visibile: la prova diventa rossa e passa dal cancello del lotto, che gira in CI su ogni PR.",
+      "verifica": {
+        "comando": "node cervello/test/soglie-non-abbassabili.test.mjs"
+      }
+    },
+    {
+      "id": "AR-485",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 03:05",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[CORREZIONE DI NICOLA] «il problema e' il modo in cui mi spieghi o mi scrivi in generale, non per forza in cui mi scrivi, ma qualsiasi cosa che fai, devi farlo in modo che io non perdo tempo a capire».",
+      "titolo": "Avevo capito «scrivi meglio», ma il metro non e' il testo: e' il suo tempo, e vale su ogni cosa che faccio",
+      "causa_radice": "① Tutte le regole scritte finora — le sette mosse, i tre blocchi, il vocabolario — parlano di TESTO. ② Nicola paga il tempo anche quando il testo e' perfetto: se gli do tre opzioni pari senza raccomandazione deve decidere lui da zero; se gli consegno quattro file senza un punto d'ingresso deve cercarli; se gli do un numero senza scala deve andare a controllarlo. ③ Nessuna di quelle e' un problema di scrittura, e nessuna sarebbe stata presa dal misuratore. ④ La domanda giusta prima di consegnare non e' «e' scritto bene?» ma «quanto tempo gli costa capire e decidere?».",
+      "fix_proposto": "FATTO 🟡 ① Regola 0 in scrittura-umana.md con la tabella di sette situazioni di lavoro, non di scrittura: decisioni (max 3 opzioni con raccomandazione), consegne (un punto d'ingresso), nomi, problemi (col costo), domande (con le conseguenze), organizzazione (una fila), misure (col metro); ② la stessa regola in testa al blocco dei 120 mansionari, prima delle sette regole di forma, perche' viene prima; ③ resta NON misurabile in automatico e va detto: nessun controllo puo' contare se una decisione era pronta da firmare. Su questa il giudice e' Nicola.",
+      "verifica": {
+        "comando": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
+      }
     }
   ],
   "meta": {
     "aperti": 165,
     "in_corso": 0,
-    "chiusi": 252
+    "chiusi": 255
   }
 }

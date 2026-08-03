@@ -466,6 +466,56 @@ questo glossario. Nicola non poteva studiarle perché non erano scritte.
 
 ---
 
+## Parte 10-ter — Le parole che incontri leggendo, trovate il 3/8/2026
+
+Come sono state trovate, perché il metodo conta: ho letto **tutti i 689 testi** che ti arrivano,
+tolto il codice, i link e i nomi dei file, e contato le parole tecniche rimaste nella prosa. Quelle
+usate almeno 25 volte e assenti da questo glossario erano **310**. Qui ci sono le più frequenti, più
+le 5 che avevi chiesto tu.
+
+### Le 5 che avevi chiesto
+
+| Parola | Cosa vuol dire | Esempio vero |
+|---|---|---|
+| **denominatore** | su quanti casi ho misurato, il numero sotto la riga | «253 senza esito» non dice niente. «253 **su 277**» sì: 277 è il denominatore |
+| **fixture** | un caso finto costruito apposta per provare una cosa | provo il controllo su un finto negozio, non sul tuo vero |
+| **pathspec** | il filtro che dice a quali file guardare | «guarda solo i file .md dentro consegne» è un pathspec |
+| **guardrail** | un blocco che ti impedisce di fare un danno | il tetto di spesa che ferma la macchina prima che bruci il budget |
+| **referto** | il foglio con i risultati di un controllo, scritto su file | dopo ogni giro resta un referto con cosa è passato e cosa no |
+
+### Le 19 che usi di più senza saperlo
+
+| Parola | Cosa vuol dire | Esempio vero di MyCity |
+|---|---|---|
+| **buyer** | il cliente che compra sul marketplace | il buyer paga, e da lì parte l'ordine al negozio |
+| **seller** | il negozio che vende | Pane Quotidiano è il primo seller vero |
+| **rider** | il fattorino che consegna | serve un rider per ogni ordine con consegna |
+| **account** | il profilo di una persona o di un negozio | ogni seller ha il suo account per gestire i prodotti |
+| **admin** | la parte del sito riservata a chi comanda | dall'admin si vedono tutti gli ordini, non solo i propri |
+| **token** | una chiave d'accesso, come una password per i programmi | il token di GitHub permette alla macchina di salvare il lavoro |
+| **GitHub** | il posto su internet dove vive il codice e la memoria | ogni salvataggio finisce lì, e da lì lo legge il Pannello |
+| **push** | mandare su GitHub il lavoro salvato | finché non faccio push, il lavoro esiste solo sul mio computer |
+| **query** | una domanda fatta al database | «quanti ordini pagati oggi?» è una query |
+| **server** | un computer sempre acceso che fa girare le cose | il worker vive su un server, non sul tuo portatile |
+| **cron** | l'orologio che fa partire una cosa da sola a un'ora fissa | il giro del mattino parte così, senza che nessuno lo lanci |
+| **timer** | il conto alla rovescia prima che qualcosa scatti | l'allarme del worker morto aspetta un timer prima di suonare |
+| **sync** | allineare due copie perché dicano la stessa cosa | il Pannello si sincronizza con la memoria su GitHub |
+| **refresh** | ricaricare i dati per vederli aggiornati | la Cabina fa refresh ogni 30 secondi |
+| **batch** | un gruppo di cose fatte tutte insieme invece che una per volta | consegnare 5 ordini della stessa via in un giro solo |
+| **playbook** | la procedura scritta passo per passo, da seguire quando serve | il playbook per accendere Telegram |
+| **default** | il valore che vale se non scegli niente | di default le azioni non partono: serve la tua firma |
+| **link** | il collegamento cliccabile a un'altra pagina o file | ogni card porta il link al file completo |
+| **vault** | la cassaforte della memoria, cioè la cartella `MyCity-Vault` | tutto quello che la macchina ricorda vive lì |
+
+> 📌 **Le parole di mestiere dei senior arrivano quando serve.** Restano fuori da qui, per adesso, i
+> vocabolari specifici dei 120 senior: `DSCR` e `factoring` del credito, `OSS` e `IOSS` dell'IVA,
+> `DVR` della sicurezza sul lavoro, `ROAS` e `CPA` della pubblicità, `KYC` dell'antiriciclaggio.
+> Sono centinaia, e impararle tutte adesso non serve a niente. La regola concordata con Nicola il
+> 3/8: **quando metti al lavoro un senior, quel senior ti spiega le sue parole, e finiscono qui.**
+> Nel frattempo valgono le regole generali: o la parola è nel glossario, o va spiegata dove la uso.
+
+---
+
 ## Parte 11 — I livelli di comprensione
 
 | Livello | Cosa spiega | La domanda a cui risponde |

@@ -46,6 +46,28 @@ Il **titolo** di ogni card è la prima — e spesso l'unica — cosa che legge. 
 
 ---
 
+## Regola 0 — il metro non è il testo, è il tempo di Nicola (AR-485)
+
+Nicola, 3/8: *«il problema è il modo in cui mi spieghi o mi scrivi in generale, non per forza in cui
+mi scrivi, ma qualsiasi cosa che fai, devi farlo in modo che io non perdo tempo a capire»*.
+
+Quindi la regola non è una regola di scrittura. È una regola di lavoro, e vale su **ogni cosa che
+faccio**, non solo sui testi:
+
+| Quando… | La cosa sbagliata | La cosa giusta |
+|---|---|---|
+| **gli chiedo una decisione** | tre opzioni pari, «dimmi tu» | massimo 3 opzioni, la mia raccomandazione per prima, e cosa cambia per lui |
+| **gli consegno un lavoro** | quattro file e «guarda tu dove» | un punto d'ingresso solo, e da lì i rimandi |
+| **do un nome a qualcosa** | una sigla che devo spiegare | un nome che si legge, in italiano |
+| **trovo un problema** | il sintomo, e lui indovina la gravità | il problema, quanto costa, e cosa propongo |
+| **gli faccio una domanda** | «va bene?» | «va bene A o B? con A succede questo, con B quest'altro» |
+| **organizzo il lavoro** | dieci cose aperte in parallelo | una fila con un ordine dichiarato |
+| **misuro qualcosa** | il numero secco | il numero, da dove viene, e se è tanto o poco |
+
+La domanda da farsi prima di ogni consegna non è «è scritto bene?» ma **«quanto tempo gli costa
+arrivare a capire e a decidere?»**. Se la risposta è «più di quanto è servito a me per farlo», ho
+sbagliato qualcosa.
+
 ## Regola 1 — le parole tecniche si usano, ma devono essere studiabili
 
 Nicola vuole capire la macchina al 100% e sta studiando il vocabolario. Quindi **le parole si usano**.

@@ -10,6 +10,7 @@
 
 import assert from "node:assert/strict";
 import {
+  ariaFritta,
   misura,
   frasi,
   parteDiNicola,
@@ -162,8 +163,8 @@ prova("un testo che nasconde tutta la sostanza sotto la riga viene avvisato", ()
     "il freno blocca il deploy e la sentinella avvisa.",
     "Tutto provato con 12 prove nuove.",
   ].join("\n");
-  const a = misura(t, { noteAGlossario: glossario }).avvisi.map((x) => x.dico).join(" ");
-  assert.match(a, /sostanza tecnica/, "deve dire che ho nascosto tutto in fondo");
+  const p = misura(t, { noteAGlossario: glossario }).problemi.filter((x) => x.tipo === "sostanza-nascosta");
+  assert.equal(p.length, 1, "dal 3/8 BLOCCA: misurato che oggi costa 0 testi in piu'");
 });
 
 prova("il verdetto dice QUALE frase, non solo che c'e' una frase lunga", () => {
@@ -195,6 +196,38 @@ prova("citare un sottinteso per spiegarlo non e' usarlo", () => {
 
 prova("…ma usarlo davvero viene ancora preso", () => {
   assert.ok(tipi("Come dicevo, il controllo era gia rosso.").includes("sottinteso"));
+});
+
+// ── AR-483: l'aria fritta, cioe' le parole che sembrano spiegare e non dicono niente ───────────
+
+prova("«piu' robusto» viene preso: non dice cosa non si rompe piu'", () => {
+  assert.ok(tipi("Adesso il sistema e' piu' robusto.").includes("aria-fritta"));
+});
+
+prova("«dovrebbe funzionare» viene preso: o l'ho provato o non l'ho provato", () => {
+  const a = ariaFritta("Dovrebbe funzionare anche sul server.");
+  assert.equal(a.length, 1);
+  assert.match(a[0].dico, /provato/);
+});
+
+prova("«varie cose» e «tutto a posto» vengono presi", () => {
+  assert.equal(ariaFritta("Ho sistemato varie cose ed e' tutto a posto.").length, 2);
+});
+
+prova("una frase piena di fatti non viene toccata", () => {
+  // Il contrario esatto: nomi, numeri, date. Se questa venisse presa, il controllo sarebbe rumore.
+  const t = "Ho spezzato 3 frasi sopra le 30 parole nel file del glossario, il 2 agosto.";
+  assert.deepEqual(ariaFritta(t), []);
+});
+
+prova("dentro un blocco di codice l'aria fritta non si misura", () => {
+  const t = ["Ecco l uscita:", "```", "tutto ok: 12 test passati", "```"].join("\n");
+  assert.deepEqual(ariaFritta(t), []);
+});
+
+prova("sotto la riga dei dettagli tecnici l'aria fritta non si misura", () => {
+  const t = ["Ho spezzato 3 frasi lunghe.", "## Dettagli tecnici", "dovrebbe funzionare anche sul server"].join("\n");
+  assert.deepEqual(ariaFritta(t), []);
 });
 
 // ── AR-482: la misura che guarda LUI, non me ──────────────────────────────────────────────────

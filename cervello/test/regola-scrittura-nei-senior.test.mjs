@@ -28,6 +28,8 @@ const OBBLIGATORI = [
   { pezzo: "Cosa cambia per te", perche: "il secondo blocco" },
   { pezzo: "Cosa devi fare", perche: "il terzo blocco" },
   { pezzo: "passo indietro", perche: "la regola di forma che costa più tempo a Nicola quando manca" },
+  { pezzo: "Regola zero", perche: "AR-485: il metro è il suo tempo, non il testo — viene prima di tutto il resto" },
+  { pezzo: "3 opzioni", perche: "una decisione va consegnata pronta da firmare, non aperta" },
 ];
 
 const casi = [];

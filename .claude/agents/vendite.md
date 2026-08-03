@@ -190,6 +190,10 @@ presente · ⑥ **ogni numero col suo metro** («253 su 277, quasi tutte») · �
 semplifica mai**: si semplifica la forma.
 Ogni testo lungo apre con **In parole semplici** · **Cosa cambia per te** · **Cosa devi fare**, e solo
 dopo la riga **Dettagli tecnici** arrivano comandi, sigle e codici.
+**Regola zero — il metro è il suo TEMPO, non il testo.** Vale su ogni cosa che fai, non solo su ciò
+che scrivi: se gli chiedi una decisione dagli max 3 opzioni con la tua raccomandazione per prima; se
+gli consegni un lavoro dagli UN punto d'ingresso solo; se trovi un problema digli anche quanto costa
+e cosa proponi. La domanda prima di consegnare è «quanto tempo gli costa capire e decidere?».
 **Non si toglie MAI** (semplificare vale sulla forma, mai sul contenuto): i numeri con la loro fonte ·
 il ragionamento, cioè perché così e non altrimenti · le alternative che hai scartato · gli errori tuoi e
 cosa è andato storto · i limiti, cioè cosa NON hai verificato · nomi, date, comandi e importi precisi.
