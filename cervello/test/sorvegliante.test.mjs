@@ -27,6 +27,12 @@ import {
   vociInsistenti,
   derivaDelLavoro,
   zonaDi,
+  nomiCitati,
+  classeRimasta,
+  provaIndebolita,
+  fileDifeso,
+  raggioDueP1assi,
+  eCodice,
   VICINANZA_NOTA,
   LETTERALI_MIN,
 } from "../sorvegliante.mjs";
@@ -738,4 +744,179 @@ test("battito vero: dice quando ha scattato e con che esito", () => {
   assert.equal(v.vivo, true);
   assert.equal(v.uscita, 0);
   assert.match(v.testo, /30 min fa/);
+});
+
+// ── AR-508: il raggio a due passi e i legami che un import non dichiara ────────
+//
+// Nicola, 3/8: «fai sapere al sorvegliante chi poggia su un file in modo indiretto». Prima il raggio
+// vedeva una cosa sola — `import "…/x.mjs"` o il percorso completo scritto in un .sh/.json — e i tre
+// modi in cui questo repo lega davvero i pezzi gli erano invisibili: il percorso composto con
+// `join()`, il lancio da systemd o dalla CI, e la catena a due passi.
+
+test("il nome composto con join() è una dipendenza, e prima non lo era", () => {
+  const c = nomiCitati(`const p = join(QUI, "sorvegliante.mjs");`);
+  assert.ok(c.has("sorvegliante.mjs"), "è il modo in cui questo repo compone i percorsi");
+});
+
+test("systemd e i workflow contano: il worker parte da lì, non da un import", () => {
+  // Il .service scrive il percorso ASSOLUTO del VPS (`/opt/ad/…`), che nel repo non esiste: il
+  // legame regge sul nome del file, ed è per questo che il grafo confronta anche il basename.
+  assert.ok(nomiCitati("ExecStart=/opt/ad/cervello/worker.sh --loop").has("worker.sh"));
+  assert.ok(nomiCitati("      run: node cervello/gate-veri.mjs --json").has("cervello/gate-veri.mjs"));
+  // …e la prova che conta: il legame arriva davvero fino al raggio.
+  const citazioni = new Map([["ops/worker.service", nomiCitati("ExecStart=/opt/ad/cervello/worker.sh --loop")]]);
+  assert.deepEqual(raggioDueP1assi(["cervello/worker.sh"], citazioni).get("cervello/worker.sh").diretti, ["ops/worker.service"]);
+});
+
+test("una MENZIONE non è una chiamata: il nome nudo in prosa non conta", () => {
+  // Senza questo filtro il raggio di cancello-stop.mjs passava da 10 a 86 file: le schede del
+  // cantiere e le lezioni nominano gli script per mestiere.
+  const c = nomiCitati(`"titolo": "il cancello-stop.mjs non parlava a nessuno"`);
+  assert.ok(!c.has("cancello-stop.mjs"), "una scheda che ti nomina non poggia su di te");
+});
+
+test("il raggio risale di un passo: chi poggia su chi poggia su di me", () => {
+  const citazioni = new Map([
+    ["cervello/chi-usa.mjs", new Set(["cervello/tocco.mjs"])],
+    ["cervello/chi-usa-chi-usa.mjs", new Set(["cervello/chi-usa.mjs"])],
+    ["cervello/estraneo.mjs", new Set(["cervello/altro.mjs"])],
+  ]);
+  const r = raggioDueP1assi(["cervello/tocco.mjs"], citazioni).get("cervello/tocco.mjs");
+  assert.deepEqual(r.diretti, ["cervello/chi-usa.mjs"]);
+  assert.deepEqual(r.indiretti, ["cervello/chi-usa-chi-usa.mjs"], "il secondo passo è il quadro ampio che mancava");
+});
+
+test("un file non è dipendente di sé stesso, e un diretto non si conta due volte", () => {
+  const citazioni = new Map([
+    ["cervello/a.mjs", new Set(["cervello/tocco.mjs"])],
+    ["cervello/tocco.mjs", new Set(["cervello/a.mjs"])], // ciclo: a↔tocco
+  ]);
+  const r = raggioDueP1assi(["cervello/tocco.mjs"], citazioni).get("cervello/tocco.mjs");
+  assert.deepEqual(r.diretti, ["cervello/a.mjs"]);
+  assert.deepEqual(r.indiretti, [], "il ciclo non deve rimbalzare su di me né duplicare il diretto");
+});
+
+test("i registri di memoria restano fuori dal grafo: lì citare non è dipendere", () => {
+  assert.equal(eCodice("cervello/x.mjs"), true);
+  assert.equal(eCodice(".claude/settings.json"), true, "gli hook sono un legame vero: lanciano il file");
+  assert.equal(eCodice("MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json"), false);
+  assert.equal(eCodice("consegne/devops/nota.md"), false);
+});
+
+test("il verdetto separa i due numeri: quanti diretti e quanto lontano arriva", () => {
+  const e = sorveglia({
+    malattie: [],
+    mutanti: [],
+    toccati: [{ file: "cervello/tocco.mjs", contenuto: "", aggiunte: [] }],
+    importatori: new Map([["cervello/tocco.mjs", { diretti: ["cervello/a.mjs"], indiretti: ["cervello/b.mjs"] }]]),
+  });
+  const r = e.voci.find((v) => v.classe === "raggio");
+  assert.equal(r.diretti, 1);
+  assert.equal(r.indiretti, 1);
+  assert.match(r.cosa, /a due passi/, "l'elenco dice quali sono i lontani, non li mescola");
+});
+
+test("la vecchia forma (un elenco piatto) continua a funzionare", () => {
+  // Il raggio è l'unico ingresso che qualcun altro potrebbe passare come array: non deve rompersi.
+  const e = sorveglia({
+    malattie: [],
+    mutanti: [],
+    toccati: [{ file: "cervello/tocco.mjs", contenuto: "", aggiunte: [] }],
+    importatori: new Map([["cervello/tocco.mjs", ["cervello/a.mjs"]]]),
+  });
+  assert.equal(e.voci.find((v) => v.classe === "raggio").diretti, 1);
+});
+
+// ── AR-509: il giudizio sulla riparazione ─────────────────────────────────────
+//
+// Nicola, 3/8: «fallo giudicare se la riparazione è giusta». Non il merito del fix — quello lo dicono
+// le prove — ma i due modi di riparare che si vedono nel diff e che in questa casa sono già costati
+// due difetti: curare l'istanza lasciando la classe (AR-347), e far tornare verde la prova invece del
+// codice.
+
+const MAL_PIPE = { id: "esito-in-una-pipe", pattern: "node [^|]*\\| *tail", estensioni: [".sh"] };
+
+test("⑩ curo una riga malata e nel file ne restano altre: me lo dice adesso", () => {
+  const dopo = "node a.mjs | tail -1\nnode b.mjs | tail -1\necho fine";
+  const r = classeRimasta([{ n: 1, testo: "node vecchio.mjs | tail -3" }], dopo, [MAL_PIPE], "cervello/x.sh");
+  assert.equal(r.length, 1);
+  assert.equal(r[0].quante, 2, "due sorelle vive nello stesso file");
+  assert.equal(r[0].esempio, 1);
+});
+
+test("⑩ NON accusa chi passa di lì senza riparare niente", () => {
+  // Con la sola metà «il file contiene la malattia» sarebbe rosso su quasi ogni file del repo.
+  const dopo = "node a.mjs | tail -1";
+  assert.deepEqual(classeRimasta([{ n: 4, testo: "# un commento qualsiasi" }], dopo, [MAL_PIPE], "cervello/x.sh"), []);
+});
+
+test("⑩ se ho curato TUTTE le sorelle, tace", () => {
+  assert.deepEqual(classeRimasta([{ n: 1, testo: "node v.mjs | tail -3" }], "echo pulito", [MAL_PIPE], "cervello/x.sh"), []);
+});
+
+test("⑪ tolgo un caso dal test e non tocco il codice che difende", () => {
+  const r = provaIndebolita({
+    file: "cervello/test/salute.test.mjs",
+    rimosse: [{ n: 12, testo: '  assert.equal(organi().length, 5);' }],
+    toccati: ["cervello/test/salute.test.mjs"],
+    esiste: () => true,
+  });
+  assert.equal(r.difeso, "cervello/salute.mjs");
+  assert.equal(r.quante, 1);
+});
+
+test("⑪ se ho toccato ANCHE il codice, è una riparazione normale e tace", () => {
+  const r = provaIndebolita({
+    file: "cervello/test/salute.test.mjs",
+    rimosse: [{ n: 12, testo: "  assert.equal(x, 5);" }],
+    toccati: ["cervello/test/salute.test.mjs", "cervello/salute.mjs"],
+    esiste: () => true,
+  });
+  assert.equal(r, null, "cambiare la prova insieme al codice è il lavoro, non il difetto");
+});
+
+test("⑪ aggiungere prove non è mai indebolire: guarda solo ciò che TOLGO", () => {
+  assert.equal(provaIndebolita({ file: "cervello/test/x.test.mjs", rimosse: [], toccati: [], esiste: () => true }), null);
+  // …e togliere una riga che non è un caso (un commento, una variabile) nemmeno.
+  assert.equal(
+    provaIndebolita({ file: "cervello/test/x.test.mjs", rimosse: [{ n: 3, testo: "  // vecchia nota" }], toccati: [], esiste: () => true }),
+    null,
+  );
+});
+
+test("⑪ un nome fuori convenzione non si indovina: taccio", () => {
+  assert.equal(fileDifeso("cervello/test/allegati-chat.bats"), null);
+  assert.equal(fileDifeso("cervello/test/salute.test.mjs"), "cervello/salute.mjs");
+  assert.equal(provaIndebolita({ file: "cervello/prove-varie.mjs", rimosse: [{ n: 1, testo: "assert.ok(x)" }] }), null);
+});
+
+test("⑪ e se il file difeso non esiste più, non accuso: l'ha cancellato il controllo ⑥", () => {
+  assert.equal(
+    provaIndebolita({ file: "cervello/test/x.test.mjs", rimosse: [{ n: 1, testo: "assert.ok(x)" }], toccati: [], esiste: () => false }),
+    null,
+  );
+});
+
+test("i due giudizi arrivano al verdetto, con il colore giusto", () => {
+  const e = sorveglia({
+    malattie: [MAL_PIPE],
+    mutanti: [],
+    toccati: [{ file: "cervello/x.sh", contenuto: "node a.mjs | tail -1", aggiunte: [] }],
+    rimossi: [{ file: "cervello/x.sh", rimosse: [{ n: 1, testo: "node v.mjs | tail -3" }] }],
+  });
+  const v = e.voci.find((x) => x.classe === "riparazione-parziale");
+  assert.ok(v, "⑩ deve comparire");
+  assert.equal(v.gravita, "media", "è una domanda seria, non un blocco: il debito è preesistente");
+
+  const p = sorveglia({
+    malattie: [],
+    mutanti: [],
+    toccati: [{ file: "cervello/test/salute.test.mjs", contenuto: "", aggiunte: [] }],
+    rimossi: [{ file: "cervello/test/salute.test.mjs", rimosse: [{ n: 9, testo: "  assert.equal(a, b);" }] }],
+    esiste: () => true,
+  });
+  const pv = p.voci.find((x) => x.classe === "prova-indebolita");
+  assert.ok(pv, "⑪ deve comparire");
+  assert.equal(pv.gravita, "grave", "spegnere una prova senza toccare il codice ferma il commit");
+  assert.equal(gravi(p.voci).length, 1);
 });

@@ -283,6 +283,96 @@
    "nota_onesta": "Vale SOLO nella coda che Nicola legge (campo `percorsi`), e non altrove: un titolo che nomina un AR-xxx e un difetto nella coda e una cosa normalissima in una scheda del cantiere o in un referto. Una regola di casa applicata fuori casa sarebbe un falso rosso, e un falso rosso spegne il guardiano.",
    "esenti": [],
    "nota_baseline": "0 dal 2026-08-03: misurato, la coda oggi e pulita. Parte verde e si accorge del primo che sporca."
+  },
+  {
+   "id": "cieco-che-torna-una-misura",
+   "nome": "Un errore diventa una misura: catch { return 0 } e lo zero rassicura",
+   "perche_e_grave": "È il fratello .mjs di `buco-letto-come-zero`, che oggi guarda solo gli .sh (`jq // 0`). Un `catch { return 0 }` non dice «non ho potuto misurare»: dice «zero», e zero in questa casa vuol dire «nessun problema». Il tema più frequente del cantiere — 31 schede su 443 — è esattamente questo: il cieco spacciato per verde. `return null` e `return []` invece sono la forma SANA e non entrano nel pattern: un elenco vuoto non accusa nessuno, uno zero sì, perché viene sommato, confrontato con una soglia e stampato come dato.",
+   "pattern": "catch[ \\t]*(?:\\([^)\\n]*\\))?[ \\t]*\\{[ \\t]*return[ \\t]+(?:0|true)[ \\t]*[;}]",
+   "dove": [
+    "cervello",
+    "pannello/src"
+   ],
+   "estensioni": [
+    ".mjs",
+    ".ts",
+    ".tsx"
+   ],
+   "baseline": 1,
+   "file_noti": [
+    "cervello/content-factory/reel.mjs"
+   ],
+   "curati": [],
+   "nota_onesta": "L unica istanza è il mtime di un file che può non esistere in un renderer di reel: lì lo 0 è ordinamento, non misura. Resta contata invece che esentata perché una riga sola non giustifica un elenco di eccezioni.",
+   "esenti": [],
+   "nota_baseline": "1 misurato il 2026-08-03 da spazzata-fratelli (il lettore che conta il repo). Il pattern usa [ \\t] e non \\s apposta: \\s attraversa il fine riga, e i due lettori del registro contano il file intero (spazzata) e la riga singola (sorvegliante) — con \\s la stessa malattia dava 2 a uno e 1 all altro, che è AR-500 un giro più in là."
+  },
+  {
+   "id": "esito-di-un-guardiano-buttato",
+   "nome": "Un guardiano gira e il suo «no» finisce in || true",
+   "perche_e_grave": "Il cugino di `esito-in-una-pipe`, dall altro lato: lì l esito si perde nella pipe, qui viene buttato apposta. Il guardiano parte, trova il problema, esce 1 — e `|| true` trasforma il rosso in verde per chi legge. È la forma numero due del cantiere (18 schede sul canale muto, 8 nelle ultime 40): un verdetto che non arriva a nessuna decisione non è una protezione.",
+   "pattern": "node[ \\t]+[^\\n|]*\\.mjs[^\\n|]*\\|\\|[ \\t]*(?:true|:)[ \\t]*$",
+   "dove": [
+    "cervello",
+    ".github"
+   ],
+   "estensioni": [
+    ".sh",
+    ".yml"
+   ],
+   "baseline": 9,
+   "file_noti": [
+    "cervello/giro.sh",
+    "cervello/ritmo.sh",
+    "cervello/monitora.sh",
+    "cervello/worker.sh"
+   ],
+   "curati": [],
+   "nota_onesta": "9 istanze in giro.sh, e NON sono tutte difetti: molte sono azioni ausiliarie (specchiare i plugin, registrare il costo del giro) dove non esiste un fallimento che debba fermare il giro. La differenza va decisa una per una: finché il triage non è fatto, il numero resta scritto qui invece di sparire in un elenco di esenzioni.",
+   "esenti": [],
+   "nota_baseline": "9 misurato il 2026-08-03; tutte in cervello/giro.sh."
+  },
+  {
+   "id": "prova-che-non-puo-fallire",
+   "nome": "Una prova spenta o sempre vera: il verde non dimostra niente",
+   "perche_e_grave": "Un test saltato (`test.skip`) o che asserisce una tautologia (`assert.ok(true)`) conta nel totale delle prove e non può diventare rosso: è un freno che si vede nel conteggio e non esiste nella realtà. Il cantiere ha 8 schede su questa forma, 3 nelle ultime 40 — ed è la stessa ragione per cui esiste `non-vacuita.mjs`, che rompe i fix apposta per vedere se le prove reagiscono. Qui la difesa arriva un giro prima: nel momento in cui la riga viene scritta.",
+   "pattern": "^[ \\t]*(?:test|it|describe)\\.skip[ \\t]*\\(|assert\\.ok\\([ \\t]*true[ \\t]*\\)|assert\\.equal\\([ \\t]*true[ \\t]*,[ \\t]*true",
+   "dove": [
+    "cervello",
+    "pannello"
+   ],
+   "estensioni": [
+    ".mjs",
+    ".ts"
+   ],
+   "baseline": 0,
+   "file_noti": [],
+   "curati": [],
+   "nota_onesta": "Baseline 0: nel repo non esiste nessuna prova spenta o tautologica. È prevenzione pura, e per il sorvegliante costa zero — guarda solo le righe nuove, quindi parte verde e scatta sulla prima che scriverò.",
+   "esenti": [],
+   "nota_baseline": "0 misurato il 2026-08-03. L unica riga che il mio conteggio grezzo aveva pescato era una FIXTURE (la stringa \"-assert.ok(true);\" dentro un finto diff in cervello/test/sorvegliante.test.mjs), che la spazzata giustamente non conta."
+  },
+  {
+   "id": "bypass-del-cancello",
+   "nome": "Un comando che salta il cancello: --no-verify o push --force",
+   "perche_e_grave": "`--no-verify` salta il pre-commit — cioè lo scan dei segreti, il perimetro di main e il sorvegliante sullo staged — e `git push --force` riscrive la storia del ramo che il Pannello legge. Il bypass consapevole a mano resta legittimo (è scritto nel messaggio del cancello stesso); scritto DENTRO uno script diventa un bypass permanente che nessuno rilegge, e la difesa sparisce per tutti i giri futuri. `--force-with-lease` non entra nel pattern: quello rifiuta di sovrascrivere il lavoro di un altro.",
+   "pattern": "--no-verify|git\\s+push[^\\n]*--force(?!-with-lease)",
+   "dove": [
+    "cervello",
+    ".github",
+    ".githooks"
+   ],
+   "estensioni": [
+    ".sh",
+    ".mjs",
+    ".yml"
+   ],
+   "baseline": 0,
+   "file_noti": [],
+   "curati": [],
+   "nota_onesta": "Baseline 0 nel perimetro dichiarato. I due --no-verify che esistono stanno in cervello/test/, dove servono a costruire repo finti: fuori dal perimetro di questa malattia e già fuori dal controllo ① del sorvegliante.",
+   "esenti": [],
+   "nota_baseline": "0 misurato il 2026-08-03 da spazzata-fratelli."
   }
  ]
 }

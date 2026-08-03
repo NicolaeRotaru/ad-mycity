@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-03 22:50",
+ "aggiornato": "2026-08-03 23:20",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -11006,6 +11006,121 @@
    "gate": "node --test cervello/test/cancello-stop.test.mjs",
    "gate_attivo": true,
    "gate_nota": "1 mutazione su AR-506 in mutanti.json: la nota che torna a contare come cieco e fa uscire 2 il cancello."
+  },
+  {
+   "id": "L-2026-0803-546",
+   "testo": "**Un cancello che accusa prima di sapere di chi e il lavoro insegna solo ad aggirarsi (3/8, correzione di Nicola).** Il cancello dello Stop mi ha fermato con sette ❌ in prima persona su 194 file di sessioni precedenti, mentre in quel turno avevo scritto zero file. La nota che dichiarava il perimetro largo c'era, ma stava SOTTO le accuse — e una nota non disinnesca un ❌. **La regola:** prima di accusare, chiediti se sai ATTRIBUIRE. Se non lo sai, il colore e ⚪ «non so cosa e tuo», che si legge e non blocca; e la stessa cosa che la casa aveva gia imparato per la cecita («cieco non e verde»), applicata all'attribuzione invece che alla misura. **E il corollario:** un perimetro piu preciso esisteva gia (l'ancora del turno, AR-496) e questa funzione non lo chiedeva a nessuno — quando costruisci un perimetro nuovo, cerca chi altro dovrebbe usarlo, o resta un pezzo montato a meta.",
+   "tag": [
+    "guardiani",
+    "attribuzione",
+    "auto-revisione",
+    "taratura"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 22:55",
+   "ultima_conferma": "2026-08-03 22:55",
+   "stato": "attiva",
+   "evidenze": [
+    "7 ❌ su albero pulito, 3/8 22:10",
+    "194 file e 10 commit nel perimetro, nessuno del turno"
+   ],
+   "gate": "node --test cervello/test/cancello-stop.test.mjs",
+   "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0803-547",
+   "testo": "**Un legame che non passa da un `import` e un legame lo stesso (3/8, richiesta di Nicola).** Il raggio del sorvegliante vedeva solo le dipendenze dichiarate, e nel frattempo questo repo lega i pezzi con `join(QUI, \"x.mjs\")`, con `ExecStart=` di systemd e con `run: node …` nei workflow: un file lanciato solo dal VPS o solo dalla CI risultava senza nessuno che poggiasse su di lui. **La regola:** quando misuri le dipendenze, parti da come il codice viene ESEGUITO davvero, non da come e scritto. **E il contrappeso, misurato:** allargare senza tarare non e allargare — contando anche le menzioni nei registri di memoria il raggio passava da 10 a 86 file, cioe da un elenco a un rumore. Un nome nudo vale come dipendenza solo in un contesto che lo usa; altrove e una menzione, ed e la terza volta che questa casa paga la stessa confusione.",
+   "tag": [
+    "guardiani",
+    "dipendenze",
+    "misura",
+    "taratura"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 22:55",
+   "ultima_conferma": "2026-08-03 22:55",
+   "stato": "attiva",
+   "evidenze": [
+    "raggio 10 → 86 file senza il filtro menzione≠chiamata",
+    "306 ms il giro completo, tetto hook 15 s"
+   ],
+   "gate": "node --test cervello/test/sorvegliante.test.mjs",
+   "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0803-548",
+   "testo": "**Si puo giudicare COME riparo senza giudicare SE il fix e giusto (3/8, richiesta di Nicola).** Il merito di una riparazione non e misurabile senza capire l'intenzione — quello lo dicono le prove e i mutanti, con un fallimento vero invece che con un'opinione. Ma il MODO si vede nel diff: curare la riga dove il difetto e stato visto lasciando le sorelle due righe sotto, e togliere un'asserzione da un test senza toccare il codice che difende. **La regola:** quando ti chiedono un giudizio che sembra impossibile, cerca la parte meccanica della domanda invece di rispondere «non e misurabile». **E la taratura che la rende viva:** entrambi i controlli hanno una doppia condizione, perche con la sola meta accuserebbero chiunque passi da un file che ha del debito dentro — e un rosso che si accende sempre viene spento entro la settimana.",
+   "tag": [
+    "guardiani",
+    "auto-revisione",
+    "riparazioni",
+    "taratura"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 22:55",
+   "ultima_conferma": "2026-08-03 22:55",
+   "stato": "attiva",
+   "evidenze": [
+    "⑩ riparazione-parziale (media) e ⑪ prova-indebolita (grave)",
+    "9 prove, 3 delle quali provano il NON scattare"
+   ],
+   "gate": "node --test cervello/test/sorvegliante.test.mjs",
+   "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0803-549",
+   "testo": "**Una prova sul campo trova i difetti della prova, non solo quelli del codice (3/8, richiesta di Nicola).** Ho costruito uno scenario a quattro difetti dentro un repo git usa-e-getta, e alla prima esecuzione e stato rosso per colpa mia: avevo messo la malattia nuova e la prova indebolita sullo STESSO file, dove per costruzione si annullano (toccare il codice insieme al test e la riparazione normale). **La regola:** una prova complessa va eseguita prima di crederci, esattamente come il codice — e il caso che conta di piu e quello della cura PARZIALE, perche distingue un cancello che guarda i problemi da uno che li conta. **E il seguito obbligato:** una prova sul campo senza il suo mutante e una prova che nessuno ha verificato; qui i due mutanti sono il pre-commit che stampa senza bloccare e l'hook Stop che esce 0 invece di 2.",
+   "tag": [
+    "prove",
+    "mutanti",
+    "guardiani",
+    "verifica"
+   ],
+   "reparto": "qa",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 22:55",
+   "ultima_conferma": "2026-08-03 22:55",
+   "stato": "attiva",
+   "evidenze": [
+    "6 casi sul campo verdi",
+    "2 mutazioni verificate rosse su .githooks/pre-commit e cancello-stop.mjs"
+   ],
+   "gate": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+   "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0803-550",
+   "testo": "**Un freno giusto al posto sbagliato non e un freno (3/8, seconda volta sullo stesso errore).** Il guardiano che impedisce le PR da diecimila righe esisteva dal 30/7 e girava solo in CI: il 3/8 ho riscritto il cantiere con l indentazione sbagliata e il commit e passato liscio, la PR e nata illeggibile, e a vederlo per primo e stato Nicola — come la prima volta. **La regola:** quando costruisci un guardiano, chiediti in quale MOMENTO l errore si commette e mettilo li; in CI arriva quando il danno e gia scritto. **E il corollario, uscito agganciandolo:** un guardiano spostato a un momento diverso va RIMISURATO in quel momento — questo guardava i commit del ramo, e al commit cio che conta e in staging: sarebbe stato un cancello verde che non guarda niente. La prova che l ho verificato: il primo test era verde perche il guardiano non vedeva nulla.",
+   "tag": [
+    "guardiani",
+    "momento-giusto",
+    "forma-json",
+    "regressione"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 23:20",
+   "ultima_conferma": "2026-08-03 23:20",
+   "stato": "attiva",
+   "evidenze": [
+    "+8.975/-8.895 su cantiere-difetti.json per ~80 righe vere",
+    "stessa forma il 30/7: +12.147/-12.124 su apprendimento.json"
+   ],
+   "gate": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+   "gate_attivo": true
   }
  ],
  "principi": [

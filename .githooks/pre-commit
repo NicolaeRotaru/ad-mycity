@@ -223,4 +223,31 @@ if command -v node >/dev/null 2>&1 && [ -f "$ROOT/cervello/sorvegliante.mjs" ]; 
   fi
 fi
 
+# 📐 LA FORMA DEI JSON (AR-511, 3/8) — un file riscritto tutto per cambiarne una parte.
+#
+# Il freno esisteva dal 30/7 e girava SOLO nel cancello del lotto, cioè in CI. Risultato: lo stesso
+# errore è passato due volte, e tutte e due le volte l'ha visto Nicola prima della macchina — il 30/7
+# su apprendimento.json (+12.147/−12.124) e il 3/8 sul cantiere (+8.975/−8.895, per aggiungere
+# quattro schede). Un guardiano giusto al posto sbagliato: al commit non c'era nessuno, e in CI arriva
+# quando la PR è già scritta e già illeggibile.
+#
+# Come il sorvegliante: exit 1 blocca, exit 2 si dichiara e passa (senza `origin/main` — clone
+# superficiale, primo commit — non ha misurato, e bloccare su una misura mancata insegna ad aggirare).
+if command -v node >/dev/null 2>&1 && [ -f "$ROOT/cervello/forma-json.mjs" ]; then
+  _fj="$(node "$ROOT/cervello/forma-json.mjs" --staged 2>&1)"
+  _fj_code=$?
+  if [ "$_fj_code" = "1" ]; then
+    echo "" >&2
+    echo "⛔ COMMIT BLOCCATO — stai riscrivendo un JSON tutto per cambiarne una parte:" >&2
+    printf '%s\n' "$_fj" | grep "^  ❌" >&2
+    echo "" >&2
+    echo "→ Il contenuto può essere giusto: è la FORMA che rende la PR illeggibile e il conflitto" >&2
+    echo "  totale per chiunque altro tocchi quel file. Riscrivilo con l'indentazione che aveva:" >&2
+    echo "  JSON.stringify(dati, null, <gli spazi di origin/main>). Bypass: git commit --no-verify." >&2
+    exit 1
+  elif [ "$_fj_code" = "2" ]; then
+    echo "⚪ forma dei JSON: non ho potuto misurare (manca origin/main). Cieco non è verde." >&2
+  fi
+fi
+
 exit 0

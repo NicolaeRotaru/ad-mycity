@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 22:50",
+  "aggiornato": "2026-08-03 23:20",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8888,6 +8888,108 @@
       "malattia": "non-pattern-izzabile",
       "malattia_perche": "La forma e una CLASSIFICAZIONE sbagliata (aver messo una nota nel canale dei ciechi), non una riga: il codice era corretto in entrambe le versioni, cambiava solo in quale elenco finiva la stringa. La copre la prova sul codice d'uscita, non un pattern.",
       "lezione": "L-2026-0803-545"
+    },
+    {
+      "id": "AR-507",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 22:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-496 (il perimetro del turno) e AR-478 (il metro sui testi)",
+      "origine": "Nicola 3/8: il cancello dello Stop mi ha fermato con sette ❌ su lavoro che non era di quel turno. Misurato subito: albero di lavoro PULITO (git status vuoto), i file accusati con ultimo tocco il 31/7 e l'1/8, in 10 commit di sessioni precedenti — 194 file, 13.306 righe, nemmeno una mia.",
+      "titolo": "Il cancello accusa in prima persona di lavoro che non e del turno: al primo scatto in una copia nuova prende tutto il ramo",
+      "causa_radice": "① `testiToccati()` chiedeva i .md a `origin/main...HEAD` SEMPRE, ignorando l'ancora del turno che AR-496 aveva costruito il giorno prima: non era solo il primo giro a essere impreciso, lo era ogni giro. ② Senza ancora (sessione cloud: il container parte da un clone fresco e l'ancora vive fuori da git) il perimetro e tutto il ramo, e la nota ℹ️ che lo dichiarava stava SOTTO sette ❌ scritti in prima persona («ho scritto un allarme», «questo lavoro gli ha aggiunto 29 punti difficili»). ③ La radice e di taratura, non di codice: il sorvegliante si era dato la regola «guardo solo il mio delta, cosi parto verde per costruzione», e questo cancello non se l'era data. Un rosso che accusa di cose non tue e la definizione operativa del freno che si impara ad aggirare.",
+      "fix_proposto": "FATTO 🟡 due strati. ① `basiPerIlTesto(da)` — pura, esportata, provata — mette l'ancora del turno PRIMA delle basi del ramo, cosi il confronto parte da dove ho cominciato io. ② Quando l'attribuzione non e certa (dentro l'hook Stop e senza ancora), i due controlli che leggono il perimetro escono ⚪ «non so cosa e tuo» invece di ❌ e non bloccano; gli altri restano ❌ perche non dipendono dall'ancora (① e ③ confrontano HEAD col disco, ⑤ e ⑥ vivono nella sessione, ④ e per-ramo per scelta AR-477). Fuori dall'hook non cambia niente: in CI l'unita di consegna e la PR, quindi il perimetro-ramo e quello giusto.",
+      "verifica": {
+        "comando": "node --test cervello/test/cancello-stop.test.mjs",
+        "nota": "8 prove nuove (declassamento, il ⚪ che non e cieco, la nota non duplicata, i controlli che restano ❌, l'ordine delle basi) + 2 mutazioni verificate rosse. E la prova sul campo in campo-commit-e-turno.test.mjs esegue il caso vero dentro un repo git usa-e-getta."
+      },
+      "lezione": "L-2026-0803-546"
+    },
+    {
+      "id": "AR-508",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 22:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-452 (il sorvegliante) — limite dichiarato nella sua copertura fin dal primo giorno",
+      "origine": "Nicola 3/8: «aggiungi la possibilita al sorvegliante di sapere chi poggia su un file in modo indiretto».",
+      "titolo": "Il raggio vedeva solo i legami dichiarati: chi lancia un file da systemd, dalla CI o con un percorso composto risultava inesistente",
+      "causa_radice": "① Il raggio cercava `import`/`require`/`from` col nome del file, piu il percorso completo scritto altrove. ② Ma questo repo lega i pezzi in tre altri modi: `join(QUI, \"x.mjs\")` (percorso composto), `ExecStart=` di systemd (come parte il worker sul VPS), `run: node cervello/x.mjs` nei workflow. ③ E la scansione guardava cinque estensioni: .yml, .service e .timer erano fuori, cioe proprio i due chiamanti che da una sessione cloud non posso vedere girare. ④ Mancava del tutto il secondo passo: chi poggia su chi poggia su di me — la forma di AR-338, AR-344 e AR-415, tutte e tre «ho cambiato un lettore condiviso e il significato e cambiato per altri».",
+      "fix_proposto": "FATTO 🟡 `nomiCitati()` (tre forme di citazione, col nome nudo valido SOLO in un contesto d'uso: menzione ≠ chiamata) + `raggioDueP1assi()` sul grafo + estensioni allargate a .yml/.yaml/.service/.timer + i registri di memoria esclusi dal grafo (`eCodice`). Il verdetto separa i due numeri: «8 diretti · 15 a due passi». Costo misurato: 306 ms sul giro completo, contro i 15 s di tetto dell'hook.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "8 prove nuove (join, systemd, workflow, menzione≠chiamata, secondo passo, ciclo che non rimbalza, memoria esclusa, forma vecchia compatibile) + 2 mutazioni verificate rosse. Taratura misurata sul repo vero: senza il filtro menzione≠chiamata il raggio di cancello-stop.mjs passava da 10 a 86 file."
+      },
+      "lezione": "L-2026-0803-547"
+    },
+    {
+      "id": "AR-509",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 22:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-347 (l'istanza curata, la classe viva)",
+      "origine": "Nicola 3/8: «fallo giudicare se la riparazione e giusta».",
+      "titolo": "Nessuno guarda COME riparo: l istanza curata con la classe viva accanto, e la prova indebolita al posto del codice",
+      "causa_radice": "① Il sorvegliante dichiarava di non giudicare le riparazioni, e per il MERITO e giusto (li serve capire l'intenzione, e una macchina che la indovina produce sicurezze finte). ② Ma due modi di riparare si vedono nel diff senza nessun giudizio: curare la riga dove il difetto e stato VISTO lasciando le sorelle nello stesso file (AR-347 alla lettera), e togliere un'asserzione da un test senza toccare il codice che difende. ③ Il secondo non lo vedeva nessuno: il controllo ⑥ vede il test CANCELLATO per intero, il cancello del lotto vede la mutazione mancante, ma l'assert tolto dentro un file che resta vivo lascia il conteggio delle prove identico.",
+      "fix_proposto": "FATTO 🟡 due controlli nuovi, entrambi con doppia condizione per non accusare i passanti: ⑩ `riparazione-parziale` (media) scatta solo se ho TOLTO una riga malata E nel file ne restano; ⑪ `prova-indebolita` (grave) solo se ho tolto righe con un'asserzione da un file di prova E il file difeso esiste E non l'ho toccato in questo delta.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "9 prove nuove, comprese le tre che provano il NON scattare (il passante, la cura completa, il test cambiato insieme al codice) + 2 mutazioni verificate rosse, una per lato della doppia condizione."
+      },
+      "lezione": "L-2026-0803-548"
+    },
+    {
+      "id": "AR-510",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "prove-e-verifica",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 22:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-455 (chiuso sulla lettera invece che sull'effetto)",
+      "origine": "Nicola 3/8: «prova sul campo un commit e una chiusura del turno bloccati, pero fai una prova complessa e difficile + il mutante della prova».",
+      "titolo": "I due freni erano provati solo sulle loro funzioni pure: nessuno aveva mai visto git rifiutare un commit davvero",
+      "causa_radice": "① `verdetto()` torna blocca:true e `sorveglia()` torna una voce grave — ma fra quel valore e un commit rifiutato ci sono l'hook, il codice d'uscita, il perimetro dello staged e git. ② Quella catena non era provata da nessuna parte: e la stessa distanza fra lettera ed effetto che e costata AR-455 e AR-465. ③ E una prova con UN difetto solo non distingue un cancello che funziona da uno che dice sempre di no.",
+      "fix_proposto": "FATTO 🟢 `cervello/test/campo-commit-e-turno.test.mjs`: repo git usa-e-getta con l'hook vero e il cervello vero, scenario a quattro difetti di tre gravita diverse, e sei casi — il commit rifiutato, la cura PARZIALE che non basta, la cura completa che passa, il debito vecchio che non blocca, la chiusura del turno che esce 2, e il caso AR-507 senza ancora. Piu 2 mutazioni (il pre-commit che stampa senza bloccare; l'hook Stop che esce 0 invece di 2), verificate rosse.",
+      "verifica": {
+        "comando": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+        "nota": "6 casi verdi, ~4 s. La prova ha trovato subito un difetto nella prova stessa: il primo scenario metteva ① e ⑪ sullo stesso file, dove per costruzione si annullano — riscritto su moduli separati."
+      },
+      "lezione": "L-2026-0803-549"
+    },
+    {
+      "id": "AR-511",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 23:20",
+      "nato_come": "regressione",
+      "nato_da": "AR-471 (la forma dei JSON)",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma di un file si vede solo confrontando due versioni intere, non in una riga: il guardiano dedicato e cervello/forma-json.mjs, che adesso gira anche al commit con --staged.",
+      "origine": "Nicola 3/8 sulla PR 658: «perche i diff sono +10.000 e -9000, questo e un errore, controlla attentamente». Misurato: 8.975 righe aggiunte e 8.895 tolte su cantiere-difetti.json, mentre le righe VERE nuove erano ~80 (quattro schede).",
+      "titolo": "Il guardiano che impedisce le PR da diecimila righe girava solo in CI, e al commit era cieco per costruzione",
+      "causa_radice": "① Ho riscritto cantiere-difetti.json con JSON.stringify(dati, null, 1) mentre il file era indentato a DUE spazi: ogni riga risulta cambiata. ② La regola esisteva gia (AR-471, 30/7, stessa identica cosa su apprendimento.json: +12.147/-12.124) e il guardiano forma-json.mjs pure — ma agganciato SOLO al cancello del lotto, cioe in CI, quando la PR e gia scritta e gia illeggibile. ③ Il freno giusto al posto sbagliato non e un freno: due volte su due l errore l ha visto Nicola prima della macchina. ④ E agganciandolo al pre-commit e uscito il secondo strato: guardava origin/main...HEAD, cioe i COMMIT del ramo, mentre al commit cio che conta e in staging — sarebbe stato un cancello verde che non guarda niente.",
+      "fix_proposto": "FATTO 🟡 ① cantiere riscritto con l indentazione LETTA dal file (2). ② `forma-json.mjs --staged`: base HEAD invece di origin/main, file dall indice invece che dal disco. ③ agganciato al .githooks/pre-commit accanto al sorvegliante, con lo stesso contratto (1 blocca, 2 si dichiara e passa). ④ prova sul campo che esegue il commit vero e lo vede rifiutare, piu il caso che passa con la forma giusta.",
+      "verifica": {
+        "comando": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+        "nota": "7 casi verdi. Il caso AR-511 alla prima stesura era verde per il motivo sbagliato — il guardiano non vedeva niente — ed e stato riscritto dopo aver misurato che `origin/main...HEAD` ignora lo staging."
+      },
+      "lezione": "L-2026-0803-550"
     }
   ],
   "meta": {
