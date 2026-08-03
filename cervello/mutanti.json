@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-03 22:05",
+ "aggiornato": "2026-08-03 23:20",
  "mutanti": [
   {
    "lotto": 30,
@@ -1491,6 +1491,24 @@
    "sostituisci": "    process.exit(hook ? 0 : 1);",
    "test": "node --test cervello/test/campo-commit-e-turno.test.mjs",
    "lezione": "L-2026-0803-549"
+  },
+  {
+   "difetto": "AR-511",
+   "lezione": "L-2026-0803-550",
+   "nome": "la forma dei JSON torna a guardare i commit del ramo: al commit il cancello non vede niente",
+   "file": "cervello/forma-json.mjs",
+   "cerca": "  const base = STAGED ? \"HEAD\" : \"origin/main\";",
+   "sostituisci": "  const base = \"origin/main\";",
+   "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-511",
+   "lezione": "L-2026-0803-550",
+   "nome": "il pre-commit smette di chiedere la forma dei JSON: si torna a scoprirlo in CI",
+   "file": ".githooks/pre-commit",
+   "cerca": "  if [ \"$_fj_code\" = \"1\" ]; then",
+   "sostituisci": "  if [ \"$_fj_code\" = \"99\" ]; then",
+   "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
   }
  ]
 }

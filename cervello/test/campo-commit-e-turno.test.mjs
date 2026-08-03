@@ -255,3 +255,57 @@ test("SUL CAMPO: senza ancora il cancello non accusa di lavoro altrui, ma non ta
     c.pulisci();
   }
 });
+
+test("SUL CAMPO: il commit che riscrive un JSON tutto viene rifiutato (AR-511)", () => {
+  // Il freno esisteva dal 30/7 e girava solo in CI: lo stesso errore è passato due volte, e tutte e
+  // due le volte l'ha visto Nicola prima della macchina. Qui il pre-commit lo esegue davvero.
+  const c = campo();
+  try {
+    // Un JSON con indentazione a DUE spazi nella storia, come il cantiere vero.
+    const dati = { voci: [{ id: "A", n: 1 }, { id: "B", n: 2 }] };
+    c.scrivi("registro.json", `${JSON.stringify(dati, null, 2)}\n`);
+    c.git("add", "-A");
+    c.git("commit", "-q", "-m", "registro", "--no-verify");
+    // Al commit la base è HEAD (ciò che sto per committare non è ancora un commit), quindi non serve
+    // fabbricare `origin/main`. La prima stesura lo faceva e il test restava verde per il motivo
+    // sbagliato: il guardiano non vedeva NIENTE — `origin/main...HEAD` guarda i commit, e il mio file
+    // era in staging. Un test che passa perché il guardiano non ha misurato è «cieco = verde».
+
+    // Ora lo riscrivo a UNO spazio aggiungendo una voce: contenuto giusto, forma cambiata su ogni riga.
+    dati.voci.push({ id: "C", n: 3 });
+    c.scrivi("registro.json", `${JSON.stringify(dati, null, 1)}\n`);
+    const r = c.commit("aggiungo una voce");
+    assert.notEqual(r.rc, 0, "una PR da ottomila righe per cambiarne tre non deve poter partire");
+    assert.match(r.out, /riscrivendo un JSON tutto|registro\.json/);
+
+    // E con l'indentazione giusta passa: il freno si può soddisfare, non solo subire.
+    c.scrivi("registro.json", `${JSON.stringify(dati, null, 2)}\n`);
+    const ok = c.commit("aggiungo una voce, forma invariata");
+    assert.equal(ok.rc, 0, `doveva passare, invece: ${ok.out.slice(0, 300)}`);
+  } finally {
+    c.pulisci();
+  }
+});
+
+test("SUL CAMPO: rimettere la forma di casa NON è una riformattazione (AR-511)", () => {
+  // Il caso vero: HEAD contiene già il file riscritto storto, e il commit che lo raddrizza deve
+  // poter passare. Un cancello che impedisce di riparare si aggira col primo --no-verify.
+  const c = campo();
+  try {
+    const dati = { voci: [{ id: "A" }] };
+    c.scrivi("registro.json", `${JSON.stringify(dati, null, 2)}\n`); // la forma di casa: due spazi
+    c.git("add", "-A");
+    c.git("commit", "-q", "-m", "casa", "--no-verify");
+    c.git("update-ref", "refs/remotes/origin/main", "HEAD");
+    c.scrivi("registro.json", `${JSON.stringify(dati, null, 1)}\n`); // il commit storto, già fatto
+    c.git("add", "-A");
+    c.git("commit", "-q", "-m", "storto", "--no-verify");
+
+    dati.voci.push({ id: "B" });
+    c.scrivi("registro.json", `${JSON.stringify(dati, null, 2)}\n`); // torno a casa e aggiungo una voce
+    const r = c.commit("raddrizzo e aggiungo");
+    assert.equal(r.rc, 0, `tornare alla forma di origin/main deve passare, invece: ${r.out.slice(0, 300)}`);
+  } finally {
+    c.pulisci();
+  }
+});

@@ -288,7 +288,7 @@
    "id": "cieco-che-torna-una-misura",
    "nome": "Un errore diventa una misura: catch { return 0 } e lo zero rassicura",
    "perche_e_grave": "È il fratello .mjs di `buco-letto-come-zero`, che oggi guarda solo gli .sh (`jq // 0`). Un `catch { return 0 }` non dice «non ho potuto misurare»: dice «zero», e zero in questa casa vuol dire «nessun problema». Il tema più frequente del cantiere — 31 schede su 443 — è esattamente questo: il cieco spacciato per verde. `return null` e `return []` invece sono la forma SANA e non entrano nel pattern: un elenco vuoto non accusa nessuno, uno zero sì, perché viene sommato, confrontato con una soglia e stampato come dato.",
-   "pattern": "catch[ \\t]*(?:\\([^)]*\\))?[ \\t]*\\{[ \\t]*return[ \\t]+(?:0|true)[ \\t]*[;}]",
+   "pattern": "catch[ \\t]*(?:\\([^)\\n]*\\))?[ \\t]*\\{[ \\t]*return[ \\t]+(?:0|true)[ \\t]*[;}]",
    "dove": [
     "cervello",
     "pannello/src"

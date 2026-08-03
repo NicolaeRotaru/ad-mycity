@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-03 22:55",
+ "aggiornato": "2026-08-03 23:20",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -11017,7 +11017,7 @@
     "taratura"
    ],
    "reparto": "tech",
-   "confidenza": "alta",
+   "confidenza": 0.95,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-08-03 22:55",
@@ -11040,7 +11040,7 @@
     "taratura"
    ],
    "reparto": "tech",
-   "confidenza": "alta",
+   "confidenza": 0.95,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-08-03 22:55",
@@ -11063,7 +11063,7 @@
     "taratura"
    ],
    "reparto": "tech",
-   "confidenza": "alta",
+   "confidenza": 0.95,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-08-03 22:55",
@@ -11086,7 +11086,7 @@
     "verifica"
    ],
    "reparto": "qa",
-   "confidenza": "alta",
+   "confidenza": 0.95,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-08-03 22:55",
@@ -11095,6 +11095,29 @@
    "evidenze": [
     "6 casi sul campo verdi",
     "2 mutazioni verificate rosse su .githooks/pre-commit e cancello-stop.mjs"
+   ],
+   "gate": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+   "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0803-550",
+   "testo": "**Un freno giusto al posto sbagliato non e un freno (3/8, seconda volta sullo stesso errore).** Il guardiano che impedisce le PR da diecimila righe esisteva dal 30/7 e girava solo in CI: il 3/8 ho riscritto il cantiere con l indentazione sbagliata e il commit e passato liscio, la PR e nata illeggibile, e a vederlo per primo e stato Nicola — come la prima volta. **La regola:** quando costruisci un guardiano, chiediti in quale MOMENTO l errore si commette e mettilo li; in CI arriva quando il danno e gia scritto. **E il corollario, uscito agganciandolo:** un guardiano spostato a un momento diverso va RIMISURATO in quel momento — questo guardava i commit del ramo, e al commit cio che conta e in staging: sarebbe stato un cancello verde che non guarda niente. La prova che l ho verificato: il primo test era verde perche il guardiano non vedeva nulla.",
+   "tag": [
+    "guardiani",
+    "momento-giusto",
+    "forma-json",
+    "regressione"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 23:20",
+   "ultima_conferma": "2026-08-03 23:20",
+   "stato": "attiva",
+   "evidenze": [
+    "+8.975/-8.895 su cantiere-difetti.json per ~80 righe vere",
+    "stessa forma il 30/7: +12.147/-12.124 su apprendimento.json"
    ],
    "gate": "node --test cervello/test/campo-commit-e-turno.test.mjs",
    "gate_attivo": true

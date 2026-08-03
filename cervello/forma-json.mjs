@@ -19,9 +19,19 @@
 // 🟢 Sola lettura.
 //
 // Uso:
-//   node cervello/forma-json.mjs           -> controlla i JSON toccati dal ramo
+//   node cervello/forma-json.mjs           -> controlla i JSON toccati dal ramo (verso origin/main)
+//   node cervello/forma-json.mjs --staged  -> quelli che sto per committare ADESSO (verso HEAD)
 //   node cervello/forma-json.mjs --json
 // Exit: 0 = nessuna riformattazione · 1 = un file ha cambiato forma · 2 = non ho potuto misurare
+//
+// PERCHÉ ESISTE `--staged` (AR-511, 3/8). Questo guardiano è nato giusto e piazzato tardi: girava solo
+// nel cancello del lotto, cioè in CI, quando la PR è già scritta e già illeggibile. Il 3/8 l'errore è
+// tornato identico — il cantiere riscritto tutto (+8.975/−8.895) per aggiungere quattro schede — e a
+// vederlo per primo è stato di nuovo Nicola, non la macchina. Agganciandolo al pre-commit è saltato
+// fuori il secondo strato del difetto: guardando `origin/main...HEAD` vede i COMMIT del ramo, mentre
+// al momento del commit ciò che conta è in staging e non è ancora un commit. Cioè come freno al
+// commit era cieco per costruzione, e sarebbe stato un cancello verde che non guarda niente — la
+// malattia esatta che questa casa chiama «cieco spacciato per verde».
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -30,6 +40,7 @@ import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
+const STAGED = process.argv.includes("--staged");
 
 /**
  * L'indentazione di un JSON, letta dalla prima riga annidata.
@@ -58,38 +69,60 @@ export function riformattati(coppie = []) {
 }
 
 function main() {
+  // Due domande diverse, due basi diverse. In CI: «questo RAMO cambia la forma rispetto a main?».
+  // Al commit: «questa modifica cambia la forma rispetto a com'era un attimo fa?» — e lì la base è
+  // HEAD, perché ciò che sto committando non è ancora un commit.
+  const base = STAGED ? "HEAD" : "origin/main";
+  const argomenti = STAGED ? ["diff", "--cached", "--name-only"] : ["diff", "--name-only", "origin/main...HEAD"];
   let toccati;
   try {
-    toccati = percorsiDaGit(["diff", "--name-only", "origin/main...HEAD"], { cwd: AD_ROOT }).filter((f) => f.endsWith(".json"));
+    toccati = percorsiDaGit(argomenti, { cwd: AD_ROOT }).filter((f) => f.endsWith(".json"));
   } catch (e) {
-    return esci(2, `non riesco a chiedere a git i file del ramo (${e.message})`);
+    return esci(2, `non riesco a chiedere a git i file ${STAGED ? "in staging" : "del ramo"} (${e.message})`);
   }
   if (!toccati.length) {
-    if (!JSON_MODE) console.log("📐 nessun JSON toccato da questo ramo.");
+    if (!JSON_MODE) console.log(`📐 nessun JSON toccato ${STAGED ? "da questo commit" : "da questo ramo"}.`);
     process.exit(0);
   }
 
   const coppie = [];
   for (const file of toccati) {
-    const r = spawnSync("git", ["show", `origin/main:${file}`], { cwd: AD_ROOT, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+    const r = spawnSync("git", ["show", `${base}:${file}`], { cwd: AD_ROOT, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
     if (r.status !== 0) continue; // file nuovo: nessuna forma da conservare
     let dopo;
     try {
-      dopo = readFileSync(join(AD_ROOT, file), "utf8");
+      // In staging il contenuto che conta è quello INDICIZZATO, non quello sul disco: sono due cose
+      // diverse quando si fa `git add -p` o si modifica un file dopo averlo messo in staging.
+      if (STAGED) {
+        const idx = spawnSync("git", ["show", `:${file}`], { cwd: AD_ROOT, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+        if (idx.status !== 0) continue;
+        dopo = idx.stdout;
+      } else dopo = readFileSync(join(AD_ROOT, file), "utf8");
     } catch {
       continue; // cancellato dal ramo: non è una riformattazione
     }
     coppie.push({ file, prima: r.stdout, dopo });
   }
 
-  const fuori = riformattati(coppie);
+  // IL RITORNO A CASA (AR-511). Se sto committando la forma che il file ha su `origin/main`, non sto
+  // riformattando: sto RIPARANDO una riformattazione precedente — ed è esattamente il commit con cui
+  // questo controllo è nato. Senza questa riga il freno impedirebbe di rimettere le cose a posto, e un
+  // cancello che non si può soddisfare si aggira: la prima cosa che si impara è `--no-verify`.
+  let fuori = riformattati(coppie);
+  if (STAGED && fuori.length) {
+    fuori = fuori.filter((f) => {
+      const r = spawnSync("git", ["show", `origin/main:${f.file}`], { cwd: AD_ROOT, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+      if (r.status !== 0) return true; // nessuna forma di casa con cui confrontarsi: resta un rosso
+      return indentazione(r.stdout) !== f.dopo;
+    });
+  }
   if (JSON_MODE) {
     console.log(JSON.stringify({ quando: nowPiacenza(), controllati: coppie.length, riformattati: fuori }, null, 2));
     process.exit(fuori.length ? 1 : 0);
   }
 
   console.log(`\n📐 FORMA DEI JSON — ${nowPiacenza()}\n`);
-  console.log(`  JSON toccati dal ramo e già presenti su main: ${coppie.length}`);
+  console.log(`  JSON toccati ${STAGED ? "da questo commit e già presenti su HEAD" : "dal ramo e già presenti su main"}: ${coppie.length}`);
   if (!fuori.length) {
     console.log(`\n✅ nessuno ha cambiato indentazione: i diff mostrano solo le righe cambiate davvero.`);
     process.exit(0);
