@@ -219,11 +219,16 @@ export function testiIlleggibili(testi = [], noteAGlossario = null) {
  * SOLO I MESSAGGI LUNGHI. Un «fatto, il sito è tornato online» non deve avere tre blocchi e un
  * esempio: chiederglielo sarebbe rumore a ogni turno, e il rumore spegne i freni.
  */
-export function messaggioIlleggibile(testo, noteAGlossario = null) {
+export function messaggioIlleggibile(testo, noteAGlossario = null, precedenti = []) {
   if (!testo || !testo.trim()) return null; // niente da misurare: non accuso nessuno
-  const m = misura(testo, { noteAGlossario });
-  if (!m.testoLungo || !m.problemi.length) return null;
-  return { quanti: m.problemi.length, minuti: m.minuti, primi: m.problemi.slice(0, 4) };
+  const m = misura(testo, { noteAGlossario, precedenti });
+  // Le ripetizioni contano anche sui messaggi CORTI: un messaggio breve che ridice una cosa già
+  // detta è il caso più frequente, ed è quello che è successo davvero il 3/8.
+  const ripetute = m.problemi.filter((p) => p.tipo === "gia-detto");
+  if (!m.testoLungo && !ripetute.length) return null;
+  const problemi = m.testoLungo ? m.problemi : ripetute;
+  if (!problemi.length) return null;
+  return { quanti: problemi.length, minuti: m.minuti, primi: problemi.slice(0, 4) };
 }
 
 /** ③ Le lezioni nuove che non nominano un freno: una lezione senza gate è una frase. */
@@ -442,6 +447,28 @@ function testiToccati() {
  * Legge solo la CODA del file: una sessione lunga arriva a decine di MB, e l'hook ha 20 secondi.
  * La prima riga letta è quasi sempre spezzata a metà, quindi si scarta.
  */
+/** Tutti i miei messaggi di testo nella coda letta, dal più vecchio al più recente. */
+export function testiAssistente(righeJsonl = []) {
+  const fuori = [];
+  for (const riga of righeJsonl) {
+    let ev;
+    try {
+      ev = JSON.parse(riga);
+    } catch {
+      continue;
+    }
+    if (ev?.type !== "assistant") continue;
+    const pezzi = ev?.message?.content;
+    if (!Array.isArray(pezzi)) continue;
+    const testo = pezzi
+      .filter((p) => p?.type === "text" && String(p.text || "").trim())
+      .map((p) => p.text)
+      .join("\n");
+    if (testo.trim()) fuori.push(testo);
+  }
+  return fuori;
+}
+
 export function ultimoTestoAssistente(righeJsonl = []) {
   for (let i = righeJsonl.length - 1; i >= 0; i--) {
     let ev;
@@ -518,10 +545,14 @@ async function main() {
     allarmi: allarmiSenzaCoda(file, codaToccata),
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),
     illeggibili: testiIlleggibili(testiToccati(), parolePeggioNoteAGlossario(REPO)),
-    messaggio: messaggioIlleggibile(
-      ultimoTestoAssistente(leggiTrascrizione(trascrizione) || []),
-      parolePeggioNoteAGlossario(REPO),
-    ),
+    messaggio: (() => {
+      const righeT = leggiTrascrizione(trascrizione) || [];
+      const miei = testiAssistente(righeT);
+      // Gli ultimi 8 messaggi bastano: più indietro di così Nicola non ricorda, e confrontare tutta
+      // la sessione renderebbe rosso ogni riepilogo legittimo.
+      const precedenti = miei.slice(-9, -1);
+      return messaggioIlleggibile(miei[miei.length - 1] || null, parolePeggioNoteAGlossario(REPO), precedenti);
+    })(),
     giaBloccato,
   });
 

@@ -68,6 +68,47 @@ La domanda da farsi prima di ogni consegna non è «è scritto bene?» ma **«qu
 arrivare a capire e a decidere?»**. Se la risposta è «più di quanto è servito a me per farlo», ho
 sbagliato qualcosa.
 
+## Regola 0-bis — non ripetere quello che gli hai già mandato (AR-489)
+
+Nicola, 3/8: *«perché mi hai ripetuto la stessa cosa più volte?»*. Misurato sui sette messaggi dopo
+la sua domanda: **sei idee su sette dette più di una volta**, e una detta quattro volte.
+
+**La causa è questo stesso strumento.** Quando il cancello ferma un messaggio, io ne scrivo un altro
+e lo scrivo intero, «perché si regga da solo». Quel reggersi da solo è il contesto che ho già
+mandato due righe sopra. Ogni blocco genera un doppione.
+
+Le due regole che ne escono:
+
+1. **Quando il cancello blocca, mando SOLO il pezzo che manca.** Non un messaggio nuovo autonomo.
+   Il contesto Nicola ce l'ha già: è appena sopra, non tre giorni fa.
+2. **Il ripasso vale DENTRO un testo, mai fra due messaggi di fila.** Ripetere la cosa importante con
+   parole diverse è una regola di paragrafo, non di conversazione.
+
+Il costo di sbagliarla è esattamente quello da cui siamo partiti: Nicola rilegge per scoprire se c'è
+qualcosa di nuovo, e spesso non c'è. **Ripetere non è chiarezza, è costo.**
+
+## Regola 0-ter — ogni misura dichiara cosa NON vede (AR-490)
+
+Il 3/8 lo stesso difetto di forma è uscito **quattro volte in un giorno**: la misura guardava il
+pezzo e non l'insieme.
+
+| # | Cosa non vedeva | Il conto |
+|---|---|---|
+| ① | una riga di tabella letta come una frase | 7 accuse false su 9 |
+| ② | una frase citata letta come se la usassi | 2 accuse false su 3 |
+| ③ | un elenco letto come un periodo | 3 accuse false su 7 |
+| ④ | un messaggio letto senza sapere cosa c'era prima | 6 idee ripetute su 7 |
+
+Le prime tre le ho riparate una per una. **Ripararle una per una non chiude niente**: la misura
+successiva nasce cieca allo stesso modo, e il buco si vede solo quando Nicola ci sbatte contro.
+
+La cura è la tabella `COPERTURA` dentro `cervello/si-capisce.mjs`: ogni misura dichiara la sua
+**unità** (cosa guarda) e il suo **cieco** (cosa quell'unità non può vedere per costruzione). Una
+misura nuova senza le due dichiarazioni fa diventare rossa la prova.
+
+Non impedisce di nascere ciechi. Impedisce di nascere ciechi **in silenzio**, che è la differenza
+fra un limite dichiarato e una bugia gentile.
+
 ## Regola 1 — le parole tecniche si usano, ma devono essere studiabili
 
 Nicola vuole capire la macchina al 100% e sta studiando il vocabolario. Quindi **le parole si usano**.

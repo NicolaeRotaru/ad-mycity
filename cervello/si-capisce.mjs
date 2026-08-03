@@ -282,11 +282,122 @@ export function paroleNuove(testo, testoGlossario = "") {
   return [...trovate].map(([parola, riga]) => ({ parola, riga }));
 }
 
+
+/**
+ * IDEE GIÀ DETTE — il controllo che guarda la conversazione, non il singolo messaggio (AR-489).
+ *
+ * Il difetto, misurato sui sette messaggi dopo la foto di Nicola del 3/8: SEI idee su sette dette
+ * più di una volta, e una detta quattro volte. Il costo è tutto suo: rilegge per scoprire se c'è
+ * qualcosa di nuovo, e spesso non c'è.
+ *
+ * PERCHÉ NASCE, e la causa è questo strumento. Quando il cancello ferma un messaggio, io ne scrivo
+ * un altro. Lo scrivo intero, perché «si regga da solo» — e quel reggersi da solo è esattamente il
+ * contesto già detto due righe sopra. Ogni blocco genera un doppione.
+ *
+ * COME LE TROVA, senza modelli scritti a mano. Confrontare le frasi parola per parola non serve: io
+ * riformulo. Misurato: sulle 6 idee ripetute davvero, il confronto letterale ne trovava UNA.
+ * Quindi si confrontano le PAROLE PIENE — quelle che portano il significato, tolte le paroline di
+ * servizio. Due frasi che condividono la maggior parte delle parole piene dicono la stessa cosa,
+ * anche se sono scritte diverse.
+ *
+ * COSA NON VEDE, dichiarato: una ripetizione fatta con sinonimi diversi («controlli verdi» → «tutto
+ * a posto») non viene presa. Serve un modello che capisce il senso, e qui non c'è nessuna chiave AI.
+ */
+
+/** Le paroline di servizio: non portano significato, quindi non contano nel confronto. */
+const PAROLE_VUOTE = new Set([
+  "il", "lo", "la", "i", "gli", "le", "un", "uno", "una", "di", "a", "da", "in", "con", "su", "per",
+  "tra", "fra", "del", "dello", "della", "dei", "degli", "delle", "al", "allo", "alla", "ai", "agli",
+  "alle", "dal", "dalla", "nel", "nella", "nei", "sul", "sulla", "che", "chi", "cui", "non", "più",
+  "meno", "come", "quando", "dove", "perché", "perche", "se", "ma", "però", "pero", "anche", "ancora",
+  "già", "gia", "solo", "tutto", "tutti", "tutte", "questo", "questa", "questi", "queste", "quello",
+  "quella", "essere", "sono", "è", "e", "ho", "hai", "ha", "hanno", "era", "erano", "sarà", "sara",
+  "ti", "te", "mi", "me", "si", "ci", "vi", "ne", "lui", "lei", "loro", "io", "tu", "noi", "voi",
+  "quindi", "poi", "adesso", "ora", "oggi", "ieri", "domani", "cosa", "cose", "fare", "fatto", "detto",
+]);
+
+/** Le parole che portano il significato di una frase. */
+function paroleP1ene(frase) {
+  return new Set(
+    String(frase)
+      .toLowerCase()
+      .replace(/[^a-zà-ÿ0-9\s]/g, " ")
+      .split(/\s+/)
+      .filter((w) => w.length >= 4 && !PAROLE_VUOTE.has(w)),
+  );
+}
+
+/** Quanto due frasi dicono la stessa cosa: 1 = identiche nelle parole piene, 0 = niente in comune. */
+export function quantoSiSomigliano(a, b) {
+  const pa = paroleP1ene(a);
+  const pb = paroleP1ene(b);
+  if (pa.size < 3 || pb.size < 3) return 0; // frasi troppo povere: non si giudica
+  let comuni = 0;
+  for (const w of pa) if (pb.has(w)) comuni++;
+  return comuni / Math.min(pa.size, pb.size);
+}
+
+/** Sopra questa somiglianza due frasi dicono la stessa cosa. Tarato sui casi veri del 3/8. */
+export const SOGLIA_STESSA_IDEA = 0.6;
+
+/**
+ * Le frasi del messaggio nuovo che ripetono qualcosa già detto nei messaggi precedenti.
+ * Pura: prende i testi già letti, così una prova la può eseguire su una conversazione finta.
+ */
+export function ideeRipetute(nuovo, precedenti = []) {
+  const frasiPrima = precedenti.flatMap((t) => frasi(senzaCodice(parteDiNicola(t)).join("\n")));
+  const fuori = [];
+  for (const f of frasi(senzaCodice(parteDiNicola(nuovo)).join("\n"))) {
+    let peggiore = null;
+    for (const g of frasiPrima) {
+      const q = quantoSiSomigliano(f, g);
+      if (q >= SOGLIA_STESSA_IDEA && (!peggiore || q > peggiore.quanto)) {
+        peggiore = { quanto: Math.round(q * 100), gia: g.slice(0, 60) };
+      }
+    }
+    if (peggiore) fuori.push({ frase: f.slice(0, 60), ...peggiore });
+  }
+  return fuori;
+}
+
+
+/**
+ * COPERTURA — cosa guarda ogni misura, e cosa NON può vedere (AR-490).
+ *
+ * Il difetto di FORMA, trovato quattro volte in un giorno solo: ogni misura guardava il pezzo e non
+ * l'insieme, e ogni volta il buco si è visto solo usandola sul lavoro vero.
+ *   ① leggeva una riga di tabella come se fosse una frase   → 7 accuse false su 9
+ *   ② leggeva una frase citata come se la stessi usando     → 2 accuse false su 3
+ *   ③ leggeva un elenco come se fosse un periodo            → 3 accuse false su 7
+ *   ④ leggeva un messaggio senza sapere cosa c'era prima    → 6 idee ripetute su 7
+ * Le prime tre le ho riparate una per una. La quarta è la stessa malattia, e ripararla di nuovo
+ * non chiude niente: la prossima misura nascerà cieca allo stesso modo.
+ *
+ * LA CURA È QUESTA TABELLA. Ogni misura dichiara la sua UNITÀ (cosa guarda) e il suo CIECO (cosa
+ * quell'unità non può vedere per costruzione). Una misura nuova senza le due dichiarazioni non
+ * passa: la prova `si-capisce.test.mjs` diventa rossa.
+ *
+ * Non impedisce di nascere ciechi — impedisce di nascere ciechi IN SILENZIO, che è la differenza
+ * fra un limite dichiarato e una bugia gentile.
+ */
+export const COPERTURA = {
+  "parola-mia": { unita: "la parola", cieco: "una parola nuova che non è in nessun elenco: la prende `paroleNuove`" },
+  "frase-lunga": { unita: "la frase", cieco: "un testo fatto di frasi corte che nell'insieme non dice niente" },
+  incisi: { unita: "la frase", cieco: "due idee messe in due frasi vicine invece che in una sola" },
+  sottinteso: { unita: "la riga", cieco: "un sottinteso scritto con parole che non sono nell'elenco" },
+  "aria-fritta": { unita: "la riga", cieco: "una frase vuota costruita con parole diverse da quelle sorvegliate" },
+  "sostanza-nascosta": { unita: "il testo intero", cieco: "sostanza presente ma sbagliata: qui non si giudica la verità" },
+  "manca-una-risposta": { unita: "il testo intero", cieco: "un blocco presente col titolo giusto e vuoto dentro" },
+  "manca-esempio": { unita: "il testo intero", cieco: "un esempio che c'è ma è inventato o non c'entra" },
+  "manca-riassunto": { unita: "il testo intero", cieco: "un riassunto che c'è e non riassume niente" },
+  "gia-detto": { unita: "la conversazione", cieco: "una ripetizione fatta con sinonimi: servirebbe un modello che capisce il senso" },
+};
+
 /**
  * Misura un testo. Non giudica il contenuto: guarda com'è costruita la spiegazione.
  * Pura: non tocca rete né disco (il glossario arriva da fuori), quindi si prova in un test.
  */
-export function misura(testo, { noteAGlossario = null, testoGlossario = null } = {}) {
+export function misura(testo, { noteAGlossario = null, testoGlossario = null, precedenti = [] } = {}) {
   const righeNicola = senzaCodice(parteDiNicola(testo));
   const corpo = righeNicola.join("\n");
   const parole = corpo.split(/\s+/).filter(Boolean).length;
@@ -425,6 +536,18 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null } =
     for (const n of paroleNuove(testo, testoGlossario).slice(0, 3)) {
       avvisi.push({ riga: n.riga, dico: `«${n.parola}» non è nel glossario: spiegala qui, o mettila in fila` });
     }
+  }
+
+  // ③-ter Le idee già dette: guarda la CONVERSAZIONE, non il messaggio. È l'unica misura qui dentro
+  // che ha memoria, ed esiste perché tutte le altre non ne hanno.
+  for (const r of ideeRipetute(testo, precedenti)) {
+    problemi.push({
+      riga: 1,
+      tipo: "gia-detto",
+      trovato: `${r.quanto}% uguale a una frase già mandata`,
+      frase: r.frase,
+      dico: `l'hai già detto: «${r.gia}» — manda solo il pezzo nuovo`,
+    });
   }
 
   // ③-bis L'aria fritta: parole che sembrano spiegare e non dicono niente. Blocca, perché è
@@ -767,6 +890,7 @@ function main() {
     "manca-una-risposta": "🧱 manca una delle tre risposte",
     "manca-esempio": "🔎 manca l'esempio concreto",
     "manca-riassunto": "📄 troppo lungo senza due righe di riassunto in cima",
+    "gia-detto": "🔁 cose che gli ho già mandato",
     "aria-fritta": "💨 parole che sembrano spiegare e non dicono niente",
     "sostanza-nascosta": "🫙 forma pulita, contenuto svuotato",
     "frase-lunga": "🧵 frasi troppo lunghe",

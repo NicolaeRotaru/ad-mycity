@@ -10,6 +10,9 @@
 
 import assert from "node:assert/strict";
 import {
+  COPERTURA,
+  ideeRipetute,
+  quantoSiSomigliano,
   ariaFritta,
   paroleNuove,
   misura,
@@ -307,6 +310,80 @@ prova("i nomi propri e le parole ormai italiane sono esenti", () => {
 prova("dentro un blocco di codice non si cercano parole nuove", () => {
   const t = ["Ecco:", "```", "const rollback = true; fetch(url);", "```"].join("\n");
   assert.deepEqual(paroleNuove(t, ""), []);
+});
+
+// ── AR-489: le idee gia' dette, cioe' la misura che guarda la conversazione ────────────────────
+
+prova("una frase riformulata ma uguale nel senso viene presa", () => {
+  // Il confronto parola per parola trovava 1 ripetizione su 6: io riformulo, non ricopio.
+  const prima = ["Tutti e tre i controlli sono verdi e il referto dice che si puo consegnare."];
+  const r = ideeRipetute("I controlli sono tutti verdi e il referto dice che si puo consegnare adesso.", prima);
+  assert.equal(r.length, 1, "stessa idea, parole diverse");
+  assert.ok(r[0].quanto >= 60);
+});
+
+prova("una frase nuova sullo stesso argomento NON viene presa", () => {
+  const prima = ["Tutti e tre i controlli sono verdi e il referto dice che si puo consegnare."];
+  const r = ideeRipetute("Ho corretto il rientro del file delle mutazioni con uno spazio solo.", prima);
+  assert.deepEqual(r, [], "argomento vicino, contenuto diverso: non e' una ripetizione");
+});
+
+prova("la misura EMETTE il problema, non basta che la funzione lo sappia trovare", () => {
+  // Senza questa prova, staccare ideeRipetute da misura lasciava tutto verde: la mutazione l ha
+  // scoperto. Una funzione giusta e non collegata e' un fix che non difende niente.
+  const m = misura("Il referto dice che i controlli automatici sono verdi e la consegna puo partire.", {
+    precedenti: ["I controlli automatici sono verdi, quindi il referto dice che la consegna puo partire."],
+  });
+  assert.ok(
+    m.problemi.some((p) => p.tipo === "gia-detto"),
+    `attesa una ripetizione, trovati: ${m.problemi.map((p) => p.tipo)}`,
+  );
+});
+
+prova("senza messaggi precedenti non accusa nessuno", () => {
+  assert.deepEqual(ideeRipetute("Una frase qualunque con dentro parecchie parole piene.", []), []);
+});
+
+prova("due frasi povere non vengono giudicate", () => {
+  // Sotto le 3 parole piene il confronto direbbe 100% per caso.
+  assert.equal(quantoSiSomigliano("va bene cosi", "va bene adesso"), 0);
+});
+
+// ── AR-490: ogni misura dichiara cosa guarda e cosa non puo' vedere ────────────────────────────
+
+prova("OGNI tipo di problema che posso emettere dichiara unita' e cieco", () => {
+  // Il difetto di FORMA trovato 4 volte in un giorno: la misura guarda il pezzo e non l'insieme.
+  // Ripararlo caso per caso non chiude niente. Questa prova impedisce a una misura NUOVA di
+  // nascere cieca in silenzio: senza le due dichiarazioni, qui diventa rosso.
+  const tipiEmessi = new Set();
+  const casi = [
+    { t: Array.from({ length: 34 }, (_, i) => "parola" + i).join(" ") + ".", o: {} },
+    { t: "Il controllo (che gira da solo) ha bloccato il turno — e aveva ragione.", o: {} },
+    { t: "Come dicevo, era gia rosso.", o: {} },
+    { t: "Adesso il sistema e piu robusto.", o: {} },
+    { t: "Il potatore ha fatto la spazzata.", o: { noteAGlossario: new Set() } },
+    { t: Array.from({ length: 20 }, (_, i) => `Riga ${i} normale e corta.`).join("\n"), o: {} },
+    {
+      t: "Il referto dice che i controlli automatici sono verdi e la consegna puo partire.",
+      o: { precedenti: ["I controlli automatici sono verdi, quindi il referto dice che la consegna puo partire."] },
+    },
+    {
+      t: ["Ho sistemato una cosa.", "Funziona meglio.", "## Dettagli tecnici", "cancello commit branch deploy", "prove nuove", "tutto qui"].join("\n"),
+      o: { noteAGlossario: new Set(["cancello"]) },
+    },
+    { t: Array.from({ length: 90 }, (_, i) => `Riga ${i} con dieci parole dentro per fare volume, ecco fatto.`).join("\n"), o: {} },
+  ];
+  for (const c of casi) for (const p of misura(c.t, c.o).problemi) tipiEmessi.add(p.tipo);
+  const senza = [...tipiEmessi].filter((t) => !COPERTURA[t]);
+  assert.deepEqual(senza, [], `misure che non dichiarano cosa non vedono: ${senza.join(", ")}`);
+  assert.ok(tipiEmessi.size >= 8, `attesi almeno 8 tipi provati, provati ${tipiEmessi.size}`);
+});
+
+prova("ogni dichiarazione dice sia l'unita' sia il cieco, non una sola", () => {
+  for (const [tipo, c] of Object.entries(COPERTURA)) {
+    assert.ok(c.unita && c.unita.trim(), `${tipo}: manca cosa guarda`);
+    assert.ok(c.cieco && c.cieco.trim(), `${tipo}: manca cosa NON puo vedere`);
+  }
 });
 
 // ── AR-482: la misura che guarda LUI, non me ──────────────────────────────────────────────────

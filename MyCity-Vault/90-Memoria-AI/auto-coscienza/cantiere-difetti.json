@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 04:45",
+  "aggiornato": "2026-08-03 13:20",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8488,11 +8488,47 @@
       "verifica": {
         "comando": "node cervello/test/si-capisce.test.mjs"
       }
+    },
+    {
+      "id": "AR-489",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 13:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-481",
+      "origine": "[TROVATO DA NICOLA] «perche mi hai ripetuto la stessa cosa piu volte? voglio ti auto analizzi».",
+      "titolo": "Il cancello sulla chat mi fa ripetere: bloccato un messaggio ne scrivo un altro intero, e il contesto e' gia' stato mandato",
+      "causa_radice": "① Misura sui 7 messaggi dopo la foto di Nicola: 6 idee su 7 dette piu di una volta, una detta 4 volte. ② La causa e' il cancello stesso (AR-481). Quando ferma un messaggio, io ne scrivo un altro e lo scrivo INTERO perche si regga da solo. Quel reggersi da solo e' il contesto gia' mandato due righe sopra: ogni blocco genera un doppione. ③ I quattro blocchi obbligatori peggiorano: «Cosa devi fare» e «Cosa cambia per te» mi fanno riscrivere la conclusione in ogni messaggio. Una struttura da UNA consegna lunga applicata a una raffica di messaggi corti produce quattro conclusioni identiche. ④ Ho applicato la regola del ripasso nel posto sbagliato: vale DENTRO un testo, io l'ho applicata TRA i testi. ⑤ Perche non me ne accorgo: il misuratore guarda un messaggio per volta e non ha memoria. Ogni singolo messaggio, preso da solo, e' corretto e passa. Il costo si vede solo da dove sta Nicola, leggendoli in fila.",
+      "fix_proposto": "FATTO 🟡 ① `ideeRipetute()` confronta il messaggio nuovo con i precedenti della stessa conversazione. Non usa modelli scritti a mano: confronta le PAROLE PIENE, perche' il confronto letterale trovava 1 ripetizione su 6 (io riformulo, non ricopio). Soglia 0,6 tarata sui casi veri del 3/8. ② Agganciato al cancello dello Stop, che legge la trascrizione: confronta con gli ultimi 8 messaggi, non con tutta la sessione, altrimenti ogni riepilogo legittimo sarebbe rosso. ③ Vale anche sui messaggi CORTI, al contrario delle altre misure: un messaggio breve che ridice una cosa gia' detta e' il caso piu' frequente ed e' quello successo davvero. ④ Regola 0-bis in scrittura-umana.md: quando il cancello blocca, si manda SOLO il pezzo che manca. Provato dal vivo: su una trascrizione con l'ultimo messaggio che ridice il primo, esce 2 e blocca. 5 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-490",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 13:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[DOMANDA DI NICOLA] «hai risolto la forma di difetto che hai trovato 3 volte oggi?».",
+      "titolo": "La stessa cecita' quattro volte in un giorno: ogni misura guarda il pezzo e non l'insieme, e nessuno lo dichiara",
+      "causa_radice": "① Quattro istanze in un giorno: la riga di tabella letta come frase (7 accuse false su 9), la frase citata letta come usata (2 su 3), l'elenco letto come periodo (3 su 7), il messaggio letto senza sapere cosa c'era prima (6 idee ripetute su 7). ② Ogni volta ho riparato l'istanza. La FORMA resta: la misura successiva nasce cieca allo stesso modo. ③ Perche' si ripete: chi scrive una misura pensa all'unita' che ha in testa in quel momento (la frase, la riga) e non si chiede cosa quell'unita' NON puo' vedere. La domanda non viene in mente perche' il caso che la smentisce non e' ancora successo. ④ Il costo lo paga Nicola: ogni cecita' si e' vista solo quando ci ha sbattuto contro leggendo.",
+      "fix_proposto": "FATTO 🟡 Tabella `COPERTURA` in si-capisce.mjs: ogni tipo di problema dichiara la sua UNITA' (cosa guarda) e il suo CIECO (cosa quell'unita' non puo' vedere per costruzione). 10 misure, 10 dichiarazioni. La prova esegue nove casi veri, raccoglie TUTTI i tipi di problema che la misura sa emettere, e diventa rossa se uno di quelli non ha la sua dichiarazione. Una misura nuova non puo' piu' nascere cieca in silenzio. NON impedisce di nascere ciechi — impedisce di nascere ciechi in SILENZIO, che e' la differenza fra un limite dichiarato e una bugia gentile. Le mutazioni hanno trovato un buco nelle mie stesse prove: il caso di prova era troppo povero per far scattare la misura, quindi staccarla lasciava tutto verde. Corretto. 2 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
     }
   ],
   "meta": {
     "aperti": 164,
     "in_corso": 0,
-    "chiusi": 259
+    "chiusi": 261
   }
 }

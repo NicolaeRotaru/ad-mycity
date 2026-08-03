@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-03 02:50",
+ "aggiornato": "2026-08-03 13:30",
  "mutanti": [
   {
    "lotto": 30,
@@ -1043,8 +1043,8 @@
    "difetto": "AR-481",
    "nome": "il messaggio in chat non viene piu' misurato: torna scoperto il canale dove Nicola legge di piu'",
    "file": "cervello/cancello-stop.mjs",
-   "cerca": "  if (!m.testoLungo || !m.problemi.length) return null;",
-   "sostituisci": "  if (true) return null;",
+   "cerca": "  const ripetute = m.problemi.filter((p) => p.tipo === \"gia-detto\");",
+   "sostituisci": "  const ripetute = []; if (true) return null;",
    "test": "cervello/test/cancello-stop.test.mjs"
   },
   {
@@ -1070,6 +1070,30 @@
    "cerca": "export const PAROLE_FRASE_ROSSA = 30;",
    "sostituisci": "export const PAROLE_FRASE_ROSSA = 60;",
    "test": "cervello/test/soglie-non-abbassabili.test.mjs"
+  },
+  {
+   "difetto": "AR-489",
+   "nome": "il cancello smette di vedere le idee gia' dette: torno a ripetere a Nicola cose che ha gia' letto",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "  for (const r of ideeRipetute(testo, precedenti)) {",
+   "sostituisci": "  for (const r of []) {",
+   "test": "cervello/test/si-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-489",
+   "nome": "il confronto fra frasi diventa cieco: due frasi che dicono la stessa cosa non si riconoscono piu'",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "export const SOGLIA_STESSA_IDEA = 0.6;",
+   "sostituisci": "export const SOGLIA_STESSA_IDEA = 1.01;",
+   "test": "cervello/test/si-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-490",
+   "nome": "una misura puo' tornare a nascere cieca in silenzio: la dichiarazione di copertura si svuota",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "  \"gia-detto\": { unita: \"la conversazione\", cieco: \"una ripetizione fatta con sinonimi: servirebbe un modello che capisce il senso\" },",
+   "sostituisci": "",
+   "test": "cervello/test/si-capisce.test.mjs"
   }
  ]
 }
