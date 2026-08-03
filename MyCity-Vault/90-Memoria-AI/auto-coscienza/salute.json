@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-07-29 17:05",
+  "aggiornato": "2026-08-02 17:00",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -9,19 +9,21 @@
     "coperturaMinima": 0.5,
     "storicoMax": 60,
     "refertiTenuti": 30,
-    "tracceFermeOre": 8
+    "tracceFermeOre": 8,
+    "rinviiRossi": 10,
+    "commitNonPubblicati": 50
   },
   "ultime": {
     "claude": {
-      "quando": "2026-07-29 17:05",
-      "iso": "2026-07-29T15:05:20.509Z",
+      "quando": "2026-08-02 17:00",
+      "iso": "2026-08-02T15:00:43.741Z",
       "casa": "claude",
       "modo": "rapido",
-      "ok": 9,
+      "ok": 10,
       "rotti": 1,
       "guasti": 0,
       "nonvisti": 6,
-      "copertura": 0.63,
+      "copertura": 0.65,
       "controlli": [
         {
           "id": "worker.ponte",
@@ -39,7 +41,7 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "nessun processo automatico lascia tracce da 40 ore (l'ultima è costo-ai.json, 2026-07-28 01:13)",
+          "detto": "nessun processo automatico lascia tracce da 78 ore (l'ultima è sentinella-dati.json, 2026-07-30 11:19)",
           "prova": null,
           "regressione": false
         },
@@ -99,7 +101,17 @@
           "titolo": "I guardiani del giro esistono tutti",
           "impatto": 3,
           "esito": "ok",
-          "detto": "56 guardiani del giro presenti",
+          "detto": "58 guardiani del giro presenti",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "cervello.esiti",
+          "organo": "cervello",
+          "titolo": "Il lavoro consegnato dice com'è andato",
+          "impatto": 2,
+          "esito": "ok",
+          "detto": "253 consegne su 277 degli ultimi 30 giorni senza una riga di esito (91%) · Cabina 3 giorni indietro (STATO al 2026-07-30 11:09)",
           "prova": null,
           "regressione": false
         },
@@ -159,7 +171,7 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "21 senior con almeno un esito registrato",
+          "detto": "22 senior con almeno un esito registrato",
           "prova": null,
           "regressione": false
         },
@@ -296,6 +308,17 @@
       "guasti": 0,
       "nonvisti": 6,
       "copertura": 0.63
+    },
+    {
+      "quando": "2026-08-02 17:00",
+      "iso": "2026-08-02T15:00:43.741Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 10,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.65
     }
   ]
 }
