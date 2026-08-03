@@ -142,6 +142,24 @@ export function cabinaFerma(statoAggiornato, ultimaConsegna) {
   return { stato_aggiornato: statoAggiornato, ultima_consegna: ultimaConsegna, giorni_indietro: Math.max(0, giorni) };
 }
 
+/**
+ * I tetti da SCRIVERE dopo questa misura.
+ *
+ * Senza `--aggiorna-tetto` restano quelli di prima (e se non c'è un referto precedente, il numero di
+ * adesso diventa il tetto: si nasce sul debito che c'è, non su zero — un tetto che parte rosso viene
+ * disattivato entro il giorno). Con `--aggiorna-tetto` il tetto può solo SCENDERE: `Math.min` non è
+ * un dettaglio, è la regola — alzarlo per far tornare verde un guardiano è la malattia, non la cura.
+ */
+export function tettiDaScrivere({ conto, cabina, tetti, aggiorna }) {
+  const muteOra = conto.mute;
+  const giorniOra = cabina?.giorni_indietro ?? 0;
+  if (!aggiorna) return tetti || { consegne_mute: muteOra, cabina_ferma_giorni: giorniOra };
+  return {
+    consegne_mute: Math.min(muteOra, tetti?.consegne_mute ?? muteOra),
+    cabina_ferma_giorni: Math.min(giorniOra, tetti?.cabina_ferma_giorni ?? giorniOra),
+  };
+}
+
 /** Il verdetto: cosa dire, e se il debito si è allargato. */
 export function verdetto({ conto, cabina, tetti }) {
   const righe = [];
@@ -161,6 +179,19 @@ export function verdetto({ conto, cabina, tetti }) {
     );
   }
   return { righe, rotto };
+}
+
+/**
+ * Tetti e verdetto INSIEME, perché sono una cosa sola.
+ *
+ * Tenerli in due chiamate separate dentro `main()` è già bastato a sbagliare una volta: il verdetto
+ * girava sul tetto vecchio e la riga sopra stampava quello nuovo, così la stessa schermata diceva
+ * «tetto: 238» e sotto «abbassa il tetto a 238». Il cablaggio giusto non si prova a valle — si toglie
+ * di mezzo: da qui esce una coppia coerente per costruzione, e `main()` non ha più niente da montare.
+ */
+export function misura({ conto, cabina, tetti, aggiorna }) {
+  const finali = tettiDaScrivere({ conto, cabina, tetti, aggiorna });
+  return { tetti: finali, verdetto: verdetto({ conto, cabina, tetti: finali }) };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -256,7 +287,7 @@ function main() {
 
   const precedente = existsSync(REFERTO) ? JSON.parse(readFileSync(REFERTO, "utf8")) : {};
   const tetti = precedente.tetti || null;
-  const v = verdetto({ conto, cabina, tetti });
+  const { tetti: tettiFinali, verdetto: v } = misura({ conto, cabina, tetti, aggiorna: AGGIORNA });
 
   const referto = {
     _cosa_e:
@@ -265,12 +296,7 @@ function main() {
     finestra_giorni: GIORNI,
     ...conto,
     cabina,
-    tetti: AGGIORNA
-      ? {
-          consegne_mute: Math.min(conto.mute, tetti?.consegne_mute ?? conto.mute),
-          cabina_ferma_giorni: Math.min(cabina?.giorni_indietro ?? 0, tetti?.cabina_ferma_giorni ?? (cabina?.giorni_indietro || 0)),
-        }
-      : tetti || { consegne_mute: conto.mute, cabina_ferma_giorni: cabina?.giorni_indietro ?? 0 },
+    tetti: tettiFinali,
   };
   scriviJsonAtomico(REFERTO, referto);
 

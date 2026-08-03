@@ -8345,11 +8345,29 @@
       "verifica": {
         "comando": "node cervello/test/cancello-stop.test.mjs"
       }
+    },
+    {
+      "id": "AR-478",
+      "stato": "chiuso",
+      "gravita": "medio",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 17:45",
+      "nato_come": "regressione",
+      "nato_da": "AR-474",
+      "origine": "Trovato USANDO il contatore, non rileggendolo: al primo --aggiorna-tetto la stessa schermata ha stampato «tetto: 238» e due righe sotto «consegne mute scese da 253 a 238: abbassa il tetto con --aggiorna-tetto» — il comando appena eseguito chiedeva di essere eseguito.",
+      "titolo": "Il contatore diceva il numero nuovo e la frase vecchia: verdetto calcolato sul tetto di ieri, stampato accanto a quello di oggi",
+      "causa_radice": "① In main() i tetti nuovi si calcolavano DOPO il verdetto: due passaggi separati sullo stesso stato, montati a mano nella stessa funzione. ② Perche nessuna prova lo vedeva: verdetto() e tettiDaScrivere() erano corretti ognuno per conto suo — il difetto stava nel CABLAGGIO fra i due, che vive in main() e nessun test puro attraversa. Una mutazione su quella riga sarebbe stata vacua: il test restava verde. ③ Cosa costa: non un numero sbagliato ma una schermata che si contraddice, cioe la cosa che erode la fiducia in un cruscotto piu di un errore franco — chi legge non sa quale delle due meta credere.",
+      "fix_proposto": "FATTO 🟡 Non ho provato il cablaggio a valle: l ho tolto di mezzo. misura({conto, cabina, tetti, aggiorna}) restituisce la coppia tetti+verdetto coerente per costruzione, e main() non ha piu niente da montare. Il pezzo che prima viveva in main ora sta dentro una funzione pura, quindi una mutazione su di esso rende rosso un test invece di passare inosservata. 3 prove nuove + 2 mutazioni (una alza il tetto invece di abbassarlo, l altra rimette il verdetto sul tetto vecchio): entrambe verificate rosse con non-vacuita.mjs.",
+      "verifica": {
+        "comando": "node --test cervello/test/conta-verdetti-muti.test.mjs"
+      }
     }
   ],
   "meta": {
     "aperti": 163,
     "in_corso": 0,
-    "chiusi": 252
+    "chiusi": 253
   }
 }
