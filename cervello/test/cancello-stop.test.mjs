@@ -11,7 +11,20 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { chiusiSenzaProva, allarmiSenzaCoda, lezioniSenzaGate, consegnaSenzaEsito, esitiScritti, verdetto, ALLARMI } from "../cancello-stop.mjs";
+import {
+  chiusiSenzaProva,
+  allarmiSenzaCoda,
+  lezioniSenzaGate,
+  consegnaSenzaEsito,
+  chiusuraLegittima,
+  esitiScritti,
+  testiIlleggibili,
+  messaggioIlleggibile,
+  ultimoTestoAssistente,
+  testiAssistente,
+  verdetto,
+  ALLARMI,
+} from "../cancello-stop.mjs";
 
 // ── ① difetto chiuso senza prova ──────────────────────────────────────────────
 
@@ -244,4 +257,153 @@ test("il verdetto dice QUALE comando lancio e perche' serve", () => {
   const t = v.righe.join("\n");
   assert.match(t, /chiusura-loop\.mjs registra/, "deve dare il comando, non solo il rimprovero");
   assert.match(t, /atteso.*reale|calibrazione/i, "e dire perche' quella riga vale qualcosa");
+});
+
+// ── ⑤ AR-478: il testo che Nicola leggera' e non si capisce ─────────────────────────────────────
+//
+// Nicola, 2/8: «attacca il misuratore cosi' viene chiamato in automatico, cosi' non lo salti mai
+// quando c'e' pressione». Prima di questo, si-capisce.mjs non lo chiamava nessuno.
+
+const NOTE = new Set(["cancello", "guardiano", "freno"]);
+const lungoDifficile = [
+  "# Titolo",
+  ...Array.from({ length: 20 }, (_, i) => `Riga ${i} di spiegazione che non dice niente di concreto.`),
+].join("\n");
+
+test("un testo NUOVO per Nicola che non si capisce viene fermato", () => {
+  const r = testiIlleggibili([{ file: "consegne/tech/nota.md", contenuto: lungoDifficile, contenutoPrima: null }], NOTE);
+  assert.equal(r.length, 1, "un file nuovo entra da zero: ogni suo problema e' nuovo");
+  assert.ok(r[0].quanti > 0);
+});
+
+test("SI MISURA IL PEGGIORAMENTO, non il totale: un file vecchio gia' difficile passa se non peggiora", () => {
+  // Il caso vero che ha generato la regola: il GLOSSARIO, 500 righe scritte a luglio, sfiorato per
+  // aggiungerci una parte. Sul totale sarebbe stato un blocco a ogni ritocco, e un cancello che non
+  // puo' diventare verde viene aggirato al secondo giro.
+  const r = testiIlleggibili(
+    [{ file: "consegne/tech/nota.md", contenuto: lungoDifficile, contenutoPrima: lungoDifficile }],
+    NOTE,
+  );
+  assert.deepEqual(r, [], "stesso testo, stessi problemi: non e' debito nuovo");
+});
+
+test("…ma se lo stesso file peggiora, si ferma e dice DI QUANTO", () => {
+  const peggiorato = lungoDifficile + "\nCome dicevo, la cosa era gia' evidente a tutti.";
+  const r = testiIlleggibili(
+    [{ file: "consegne/tech/nota.md", contenuto: peggiorato, contenutoPrima: lungoDifficile }],
+    NOTE,
+  );
+  assert.equal(r.length, 1);
+  assert.ok(r[0].nuovi >= 1, "deve dire quanti punti ho aggiunto io");
+  assert.ok(r[0].prima > 0, "e da quanti partiva");
+});
+
+test("la storia non si riscrive: briefing, decisioni e sala operativa sono esenti", () => {
+  const testi = [
+    { file: "MyCity-Vault/90-Memoria-AI/Briefing/2026-07-01.md", contenuto: lungoDifficile, contenutoPrima: null },
+    { file: "MyCity-Vault/90-Memoria-AI/DECISIONI.md", contenuto: lungoDifficile, contenutoPrima: null },
+    { file: "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md", contenuto: lungoDifficile, contenutoPrima: null },
+  ];
+  assert.deepEqual(testiIlleggibili(testi, NOTE), [], "riscrivere il passato non e' spiegarsi meglio");
+});
+
+test("il codice non viene misurato come prosa: solo dove legge Nicola", () => {
+  const testi = [{ file: "cervello/README.md", contenuto: lungoDifficile, contenutoPrima: null }];
+  assert.deepEqual(testiIlleggibili(testi, NOTE), []);
+});
+
+test("il verdetto dice il comando per vedere tutto e vieta di togliere la sostanza", () => {
+  const v = verdetto({ illeggibili: [{ file: "consegne/x.md", quanti: 9, prima: 2, nuovi: 7, primi: [{ riga: 3, dico: "spezzala" }] }] });
+  assert.equal(v.blocca, true);
+  const t = v.righe.join("\n");
+  assert.match(t, /si-capisce\.mjs consegne\/x\.md/, "deve dare il comando per vederli tutti");
+  assert.match(t, /sostanza NON si toglie/, "AR-478: i termini tecnici restano, si spiegano");
+});
+
+// ── ⑥ AR-481: il messaggio in chat, che si diceva non misurabile ────────────────────────────────
+//
+// AR-478 dichiarava un buco: «la chat non e' un file, nessun controllo puo' girarci sopra».
+// Era falso. L'hook Stop riceve `transcript_path`, cioe' il file dove Claude Code scrive tutta la
+// conversazione. La chat E' un file: non era il file che stavo guardando.
+
+const rigaAssistente = (testo) =>
+  JSON.stringify({ type: "assistant", message: { content: [{ type: "text", text: testo }] } });
+const rigaStrumento = JSON.stringify({
+  type: "assistant",
+  message: { content: [{ type: "tool_use", name: "Bash", input: {} }] },
+});
+
+test("prende l'ultimo messaggio che ho scritto, non il primo", () => {
+  const righe = [rigaAssistente("il primo"), rigaAssistente("l'ultimo")];
+  assert.equal(ultimoTestoAssistente(righe), "l'ultimo");
+});
+
+test("salta le chiamate agli strumenti: quelle non le legge Nicola", () => {
+  const righe = [rigaAssistente("il mio messaggio"), rigaStrumento, rigaStrumento];
+  assert.equal(ultimoTestoAssistente(righe), "il mio messaggio");
+});
+
+test("una riga spezzata a meta' non fa cadere la misura", () => {
+  // Si legge solo la CODA del file, quindi la prima riga e' quasi sempre tagliata.
+  const righe = ['{"type":"assist', rigaAssistente("questo si legge")];
+  assert.equal(ultimoTestoAssistente(righe), "questo si legge");
+});
+
+test("nessun messaggio nella coda letta: cieco, non accusa nessuno", () => {
+  assert.equal(ultimoTestoAssistente([rigaStrumento]), null);
+  assert.equal(ultimoTestoAssistente([]), null);
+});
+
+test("un messaggio breve in chat non deve avere tre blocchi e un esempio", () => {
+  // Chiederlo su «fatto, il sito e' tornato online» sarebbe rumore a ogni turno.
+  assert.equal(messaggioIlleggibile("Fatto, il sito e' di nuovo online.", NOTE), null);
+});
+
+test("IL CASO AR-481: un messaggio lungo e scritto male viene fermato prima di partire", () => {
+  const m = messaggioIlleggibile(lungoDifficile, NOTE);
+  assert.notEqual(m, null, "la chat e' il posto dove Nicola legge di piu'");
+  assert.ok(m.quanti > 0);
+  assert.ok(m.minuti >= 1, "deve dire anche quanto tempo gli costa");
+});
+
+test("il verdetto sul messaggio dice di riscriverlo SENZA togliere la sostanza", () => {
+  const v = verdetto({ messaggio: { quanti: 5, minuti: 3, primi: [{ dico: "manca l esempio" }] } });
+  assert.equal(v.blocca, true);
+  const t = v.righe.join("\n");
+  assert.match(t, /PRIMA di chiudere il turno/, "il punto e' fermarlo prima che parta");
+  assert.match(t, /non si toglie il contenuto/, "AR-480: la sostanza resta");
+});
+
+// ── AR-487: le decisioni di Nicola non sono difetti chiusi senza prova ─────────────────────────
+//
+// Trovato da Nicola usandolo, il 3/8. Il caso vero: AR-479 (le quattro ore di lettura) si e' chiuso
+// perche' lui ha deciso «non voglio riscrivere niente». Nessun comando puo' dimostrare quella frase.
+
+test("un difetto chiuso con un comando che puo' fallire passa", () => {
+  assert.equal(chiusuraLegittima({ comando: "node cervello/test/x.test.mjs" }), true);
+});
+
+test("IL CASO AR-479: una decisione di Nicola messa a verbale passa", () => {
+  assert.equal(chiusuraLegittima({ tipo: "umano", esito: "Nicola 3/8: il passato non si riscrive." }), true);
+});
+
+test("«umano» senza il verbale NON passa: sarebbe la scappatoia", () => {
+  // Senza l'esito scritto, la macchina potrebbe chiudersi i difetti da sola scrivendo «umano».
+  assert.equal(chiusuraLegittima({ tipo: "umano" }), false);
+  assert.equal(chiusuraLegittima({ tipo: "umano", esito: "   " }), false);
+});
+
+test("una prova a pattern resta debole e non basta", () => {
+  assert.equal(chiusuraLegittima({ file: "cervello/x.mjs", pattern: "qualcosa" }), false);
+});
+
+test("nessuna verifica: non passa", () => {
+  assert.equal(chiusuraLegittima(null), false);
+  assert.equal(chiusuraLegittima(undefined), false);
+});
+
+test("il difetto chiuso con la decisione di Nicola non viene piu' segnalato", () => {
+  const prima = [{ id: "AR-479", stato: "aperto" }];
+  const dopo = [{ id: "AR-479", stato: "chiuso", titolo: "le 4 ore", verifica: { tipo: "umano", esito: "Nicola 3/8" } }];
+  assert.deepEqual(chiusiSenzaProva(prima, dopo), []);
 });

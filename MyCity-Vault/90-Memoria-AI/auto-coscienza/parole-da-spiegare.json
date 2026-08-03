@@ -1,0 +1,408 @@
+{
+  "_cosa_e": "Le parole tecniche che compaiono nei testi di Nicola e non sono nel GLOSSARIO. La fila da smaltire.",
+  "misurato": "2026-08-03 09:18",
+  "testi_letti": 689,
+  "parole_diverse": 860,
+  "fila": [
+    {
+      "parola": "preview",
+      "volte": 214
+    },
+    {
+      "parola": "handoff",
+      "volte": 26
+    },
+    {
+      "parola": "dashboard",
+      "volte": 21
+    },
+    {
+      "parola": "pitch",
+      "volte": 20
+    },
+    {
+      "parola": "payout-test",
+      "volte": 17
+    },
+    {
+      "parola": "seed",
+      "volte": 17
+    },
+    {
+      "parola": "summary",
+      "volte": 17
+    },
+    {
+      "parola": "operations",
+      "volte": 15
+    },
+    {
+      "parola": "trigger",
+      "volte": 15
+    },
+    {
+      "parola": "burn",
+      "volte": 14
+    },
+    {
+      "parola": "customer-success",
+      "volte": 14
+    },
+    {
+      "parola": "slot",
+      "volte": 14
+    },
+    {
+      "parola": "feedback",
+      "volte": 14
+    },
+    {
+      "parola": "pending",
+      "volte": 14
+    },
+    {
+      "parola": "prospect",
+      "volte": 13
+    },
+    {
+      "parola": "order",
+      "volte": 13
+    },
+    {
+      "parola": "kefir",
+      "volte": 13
+    },
+    {
+      "parola": "touch",
+      "volte": 13
+    },
+    {
+      "parola": "lead",
+      "volte": 12
+    },
+    {
+      "parola": "canceled",
+      "volte": 12
+    },
+    {
+      "parola": "samir",
+      "volte": 12
+    },
+    {
+      "parola": "cluster",
+      "volte": 11
+    },
+    {
+      "parola": "build",
+      "volte": 11
+    },
+    {
+      "parola": "exit",
+      "volte": 11
+    },
+    {
+      "parola": "snapshot",
+      "volte": 11
+    },
+    {
+      "parola": "stock",
+      "volte": 11
+    },
+    {
+      "parola": "user",
+      "volte": 11
+    },
+    {
+      "parola": "wallet",
+      "volte": 10
+    },
+    {
+      "parola": "anti-churn",
+      "volte": 10
+    },
+    {
+      "parola": "status",
+      "volte": 10
+    },
+    {
+      "parola": "iban",
+      "volte": 10
+    },
+    {
+      "parola": "plan",
+      "volte": 10
+    },
+    {
+      "parola": "prompt",
+      "volte": 10
+    },
+    {
+      "parola": "claim",
+      "volte": 10
+    },
+    {
+      "parola": "runway",
+      "volte": 10
+    },
+    {
+      "parola": "check-in",
+      "volte": 9
+    },
+    {
+      "parola": "delivery",
+      "volte": 9
+    },
+    {
+      "parola": "designer",
+      "volte": 9
+    },
+    {
+      "parola": "amazon",
+      "volte": 9
+    },
+    {
+      "parola": "funnel",
+      "volte": 9
+    },
+    {
+      "parola": "retention",
+      "volte": 9
+    },
+    {
+      "parola": "null",
+      "volte": 9
+    },
+    {
+      "parola": "privacy",
+      "volte": 8
+    },
+    {
+      "parola": "patch",
+      "volte": 8
+    },
+    {
+      "parola": "tech",
+      "volte": 8
+    },
+    {
+      "parola": "analytics",
+      "volte": 8
+    },
+    {
+      "parola": "allowlist",
+      "volte": 8
+    },
+    {
+      "parola": "banner",
+      "volte": 8
+    },
+    {
+      "parola": "content-social",
+      "volte": 8
+    },
+    {
+      "parola": "coupon",
+      "volte": 8
+    },
+    {
+      "parola": "sandbox",
+      "volte": 8
+    },
+    {
+      "parola": "ordine-test",
+      "volte": 8
+    },
+    {
+      "parola": "visual",
+      "volte": 8
+    },
+    {
+      "parola": "content",
+      "volte": 8
+    },
+    {
+      "parola": "autofill",
+      "volte": 8
+    },
+    {
+      "parola": "food",
+      "volte": 7
+    },
+    {
+      "parola": "end-to-end",
+      "volte": 7
+    },
+    {
+      "parola": "legale-privacy",
+      "volte": 7
+    },
+    {
+      "parola": "approved",
+      "volte": 7
+    },
+    {
+      "parola": "gdpr",
+      "volte": 7
+    },
+    {
+      "parola": "step",
+      "volte": 7
+    },
+    {
+      "parola": "security",
+      "volte": 7
+    },
+    {
+      "parola": "auth",
+      "volte": 7
+    },
+    {
+      "parola": "builder-automazion",
+      "volte": 7
+    },
+    {
+      "parola": "referral",
+      "volte": 7
+    },
+    {
+      "parola": "search",
+      "volte": 7
+    },
+    {
+      "parola": "click",
+      "volte": 7
+    },
+    {
+      "parola": "weekend",
+      "volte": 7
+    },
+    {
+      "parola": "skip",
+      "volte": 7
+    },
+    {
+      "parola": "finding",
+      "volte": 7
+    },
+    {
+      "parola": "connect",
+      "volte": 6
+    },
+    {
+      "parola": "flag",
+      "volte": 6
+    },
+    {
+      "parola": "login",
+      "volte": 6
+    },
+    {
+      "parola": "anthropic",
+      "volte": 6
+    },
+    {
+      "parola": "autopilot",
+      "volte": 6
+    },
+    {
+      "parola": "dry-run",
+      "volte": 6
+    },
+    {
+      "parola": "timing",
+      "volte": 6
+    },
+    {
+      "parola": "profiles",
+      "volte": 6
+    },
+    {
+      "parola": "uuid",
+      "volte": 6
+    },
+    {
+      "parola": "cursor",
+      "volte": 6
+    },
+    {
+      "parola": "fallback",
+      "volte": 6
+    },
+    {
+      "parola": "settings",
+      "volte": 6
+    },
+    {
+      "parola": "timeout",
+      "volte": 6
+    },
+    {
+      "parola": "debrief",
+      "volte": 6
+    },
+    {
+      "parola": "dossier",
+      "volte": 5
+    },
+    {
+      "parola": "stop",
+      "volte": 5
+    },
+    {
+      "parola": "reel",
+      "volte": 5
+    },
+    {
+      "parola": "select",
+      "volte": 5
+    },
+    {
+      "parola": "maps",
+      "volte": 5
+    },
+    {
+      "parola": "fraunces",
+      "volte": 5
+    },
+    {
+      "parola": "backend-dev",
+      "volte": 5
+    },
+    {
+      "parola": "next",
+      "volte": 5
+    },
+    {
+      "parola": "backup",
+      "volte": 5
+    },
+    {
+      "parola": "polling",
+      "volte": 5
+    },
+    {
+      "parola": "competitor",
+      "volte": 5
+    },
+    {
+      "parola": "drop",
+      "volte": 5
+    },
+    {
+      "parola": "arancio-amazon",
+      "volte": 5
+    },
+    {
+      "parola": "reach",
+      "volte": 5
+    },
+    {
+      "parola": "follower",
+      "volte": 5
+    },
+    {
+      "parola": "copy",
+      "volte": 5
+    }
+  ]
+}
