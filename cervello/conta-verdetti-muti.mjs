@@ -142,6 +142,24 @@ export function cabinaFerma(statoAggiornato, ultimaConsegna) {
   return { stato_aggiornato: statoAggiornato, ultima_consegna: ultimaConsegna, giorni_indietro: Math.max(0, giorni) };
 }
 
+/**
+ * I tetti da SCRIVERE dopo questa misura.
+ *
+ * Senza `--aggiorna-tetto` restano quelli di prima (e se non c'è un referto precedente, il numero di
+ * adesso diventa il tetto: si nasce sul debito che c'è, non su zero — un tetto che parte rosso viene
+ * disattivato entro il giorno). Con `--aggiorna-tetto` il tetto può solo SCENDERE: `Math.min` non è
+ * un dettaglio, è la regola — alzarlo per far tornare verde un guardiano è la malattia, non la cura.
+ */
+export function tettiDaScrivere({ conto, cabina, tetti, aggiorna }) {
+  const muteOra = conto.mute;
+  const giorniOra = cabina?.giorni_indietro ?? 0;
+  if (!aggiorna) return tetti || { consegne_mute: muteOra, cabina_ferma_giorni: giorniOra };
+  return {
+    consegne_mute: Math.min(muteOra, tetti?.consegne_mute ?? muteOra),
+    cabina_ferma_giorni: Math.min(giorniOra, tetti?.cabina_ferma_giorni ?? giorniOra),
+  };
+}
+
 /** Il verdetto: cosa dire, e se il debito si è allargato. */
 export function verdetto({ conto, cabina, tetti }) {
   const righe = [];
@@ -161,6 +179,19 @@ export function verdetto({ conto, cabina, tetti }) {
     );
   }
   return { righe, rotto };
+}
+
+/**
+ * Tetti e verdetto INSIEME, perché sono una cosa sola.
+ *
+ * Tenerli in due chiamate separate dentro `main()` è già bastato a sbagliare una volta: il verdetto
+ * girava sul tetto vecchio e la riga sopra stampava quello nuovo, così la stessa schermata diceva
+ * «tetto: 238» e sotto «abbassa il tetto a 238». Il cablaggio giusto non si prova a valle — si toglie
+ * di mezzo: da qui esce una coppia coerente per costruzione, e `main()` non ha più niente da montare.
+ */
+export function misura({ conto, cabina, tetti, aggiorna }) {
+  const finali = tettiDaScrivere({ conto, cabina, tetti, aggiorna });
+  return { tetti: finali, verdetto: verdetto({ conto, cabina, tetti: finali }) };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -190,6 +221,27 @@ export function leggiStoria(testo = "") {
   return fuori;
 }
 
+/**
+ * «Questo clone ha la storia tagliata?» — true / false / null (non ho potuto chiederlo).
+ *
+ * AR-492 — il 3/8 questo contatore ha detto 13 consegne mute qui e 238 in CI SULLA STESSA FUSIONE, e
+ * io ho passato tre giri a cercare la differenza fra i due ambienti. Non c'era: il clone di una
+ * sessione cloud è superficiale (`--depth`), git gli mostra gli ultimi commit e basta, e trenta
+ * giorni di storia diventano cinquantuno commit invece di seicentotrenta. Il numero non era
+ * sbagliato di poco: era il numero di un'altra storia.
+ *
+ * Quello che rende il difetto grave non è l'indagine persa. È che con `--aggiorna-tetto` ho ABBASSATO
+ * il tetto del cricchetto da 253 a 13 fidandomi di quella misura: una cecità che si traveste da
+ * miglioramento e poi blocca ogni consegna futura contro una soglia che nessuno può raggiungere.
+ * Un numero misurato su mezza storia non è un numero piccolo: è nessun numero.
+ */
+export function cloneTroncato(rispostaGit) {
+  const t = String(rispostaGit ?? "").trim();
+  if (t === "true") return true;
+  if (t === "false") return false;
+  return null;
+}
+
 function ramoDaGuardare() {
   for (const r of ["origin/main", "main"]) {
     try {
@@ -213,6 +265,26 @@ function statoAggiornato() {
 }
 
 function main() {
+  // PRIMA di tutto il resto: la storia che ho sotto è tutta o è un troncone? (AR-492)
+  //
+  // Prima veniva la domanda «esiste un ramo da guardare?», e in un clone corto quella rispondeva per
+  // seconda con un messaggio che manda a cercare la cosa sbagliata («manca origin/main») quando il
+  // guasto è a monte: la storia è tagliata, e per questo mancano anche i rami.
+  let troncato = null;
+  try {
+    troncato = cloneTroncato(git(["rev-parse", "--is-shallow-repository"]));
+  } catch {
+    troncato = null;
+  }
+  if (troncato !== false) {
+    console.error(
+      troncato === true
+        ? "⚪ CIECO: clone superficiale (--depth). Qui git vede solo gli ultimi commit, quindi conterei le consegne mute di mezza storia e chiamerei quel numero un miglioramento. Rimedio: git fetch --unshallow origin. (cieco non è verde, e soprattutto non è un tetto)"
+        : "⚪ CIECO: non ho potuto chiedere a git se la storia è intera — senza quella risposta il conteggio non è confrontabile con nessun tetto.",
+    );
+    process.exit(2);
+  }
+
   const ramo = ramoDaGuardare();
   if (!ramo) {
     console.error("⚪ CIECO: né origin/main né main esistono qui — non posso contare niente. (cieco non è verde)");
@@ -256,7 +328,7 @@ function main() {
 
   const precedente = existsSync(REFERTO) ? JSON.parse(readFileSync(REFERTO, "utf8")) : {};
   const tetti = precedente.tetti || null;
-  const v = verdetto({ conto, cabina, tetti });
+  const { tetti: tettiFinali, verdetto: v } = misura({ conto, cabina, tetti, aggiorna: AGGIORNA });
 
   const referto = {
     _cosa_e:
@@ -265,12 +337,7 @@ function main() {
     finestra_giorni: GIORNI,
     ...conto,
     cabina,
-    tetti: AGGIORNA
-      ? {
-          consegne_mute: Math.min(conto.mute, tetti?.consegne_mute ?? conto.mute),
-          cabina_ferma_giorni: Math.min(cabina?.giorni_indietro ?? 0, tetti?.cabina_ferma_giorni ?? (cabina?.giorni_indietro || 0)),
-        }
-      : tetti || { consegne_mute: conto.mute, cabina_ferma_giorni: cabina?.giorni_indietro ?? 0 },
+    tetti: tettiFinali,
   };
   scriviJsonAtomico(REFERTO, referto);
 

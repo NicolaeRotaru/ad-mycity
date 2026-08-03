@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-03 21:15",
+ "aggiornato": "2026-08-03 22:10",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -10955,6 +10955,31 @@
    ],
    "gate": "node --test cervello/test/misura-cieca.test.mjs",
    "gate_nota": "1 mutazione su AR-502: il verdetto del sorvegliante che non entra piu nella busta del comando."
+  },
+  {
+   "id": "L-2026-0803-544",
+   "testo": "**In un file di prosa non esistono chiamate: ogni nome e una menzione (3/8, quarta comparsa).** Il controllo ⑥b del sorvegliante segnala le righe TOLTE che nominano una difesa — giusto nel codice, dove una riga che nomina un guardiano lo lancia. In un  no: la guardia ha accusato la rimozione di «- (ancora vuoto — il primo ESITO si registra con: node cervello/chiusura-loop.mjs …)» da un quaderno, cioe una riga di ISTRUZIONI cancellata perche quel quaderno non era piu vuoto, chiamandola «hai spento un guardiano». **La regola:** «menzione ≠ chiamata» va applicata al TIPO DI FILE, non solo ai commenti — in un file di codice il filtro dei commenti basta, in un file di prosa il commento e tutto il file. E il modo in cui l ho scoperto conta quanto la regola: l ha trovata la guardia su sé stessa durante un merge, ripetendo la stessa voce 30 volte finche non l ho guardata. Il contatore delle ripetizioni (AR-497) e servito la prima volta proprio per fermare un falso rosso mio.",
+   "tag": [
+    "guardiani",
+    "misura",
+    "auto-revisione"
+   ],
+   "reparto": "AD",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-03 22:10",
+   "ultima_conferma": "2026-08-03 22:10",
+   "stato": "attiva",
+   "evidenze": [
+    "cervello/sorvegliante.mjs (costante PROSA + ePROSA nel controllo ⑥b)",
+    "cervello/test/sorvegliante.test.mjs (2 prove: la prosa tace, il codice no)",
+    "AR-503 nel cantiere",
+    "1 mutazione verificata rossa"
+   ],
+   "gate": "node --test cervello/test/sorvegliante.test.mjs",
+   "gate_attivo": true,
+   "gate_nota": "1 mutazione su AR-503 in mutanti.json: la prosa che torna a contare come chiamata."
   }
  ],
  "principi": [
@@ -12674,7 +12699,7 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 399,
+  "lezioni_attive": 400,
   "promosse_a_principio": 87,
   "decadute": 0,
   "tasso_applicazione": 0.18,

@@ -132,6 +132,12 @@ const esenteDaMalattie = (file) => SALTA_MALATTIE.some((s) => file === s || file
 export const FIXTURE = ["cervello/test/"];
 const eFixture = (file) => FIXTURE.some((s) => file.startsWith(s));
 
+/** I file di PROSA: lì niente si esegue, quindi ogni nome di script è una menzione, mai una chiamata.
+ *  Vale per il controllo ⑥b (vedi il perché accanto a quel controllo). I `.md` restano pienamente
+ *  guardati da ①: una malattia con `estensioni: [".md"]` è una regola sul TESTO, ed è un'altra cosa. */
+export const PROSA = [".md", ".markdown", ".txt"];
+const ePROSA = (file) => PROSA.some((e) => file.endsWith(e));
+
 // ─────────────────────────────────────────────────────────────────────────────
 // IL CUORE — funzione pura. Nessun I/O, nessun git: così una prova la esegue su un diff finto invece
 // che su com'è il repo adesso (skill cantiere ③: la logica che decide deve stare dove un test la può
@@ -490,7 +496,15 @@ export function sorveglia({
     // ⑥b una RIGA rimossa che nomina una difesa, e quel nome non ricompare fra le righe aggiunte.
     //    Una sola regola per due casi veri: il `gate:` tolto da una lezione e il passo tolto dal
     //    cancello del lotto. I commenti no — togliere una frase che CITA un guardiano non lo spegne.
-    if (!eFixture(file)) {
+    //
+    //    E per lo stesso motivo NIENTE PROSA (AR-503, trovato da questa guardia su sé stessa durante
+    //    un merge). In un `.md` non esistono chiamate: ogni riga è una menzione. La guardia ha accusato
+    //    la rimozione di «- (ancora vuoto — il primo ESITO si registra con: node cervello/chiusura-
+    //    loop.mjs …)» da un quaderno — cioè una riga di ISTRUZIONI cancellata perché il quaderno non
+    //    era più vuoto — chiamandola «hai spento un guardiano». È «menzione ≠ chiamata», la quarta
+    //    volta in questo repo, stavolta dentro il controllo che quella regola la conosce: in un file
+    //    di codice il filtro dei commenti basta, in un file di prosa il commento è TUTTO il file.
+    if (!eFixture(file) && !ePROSA(file)) {
       for (const riga of rimosse) {
         const pulita = senzaCommenti(riga.testo, file);
         if (!pulita.trim()) continue;

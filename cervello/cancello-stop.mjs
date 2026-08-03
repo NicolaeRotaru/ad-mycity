@@ -19,7 +19,7 @@
 // che potesse dire di no. AR-455 è il caso di scuola: chiuso perché «la riga in settings.json c'è»,
 // mentre il freno che quella riga attaccava parlava a nessuno. Chiuso sulla lettera, non sull'effetto.
 //
-// COSA CONTROLLA — quattro cose meccaniche, nessun giudizio:
+// COSA CONTROLLA — sei cose meccaniche, nessun giudizio:
 //   ① difetto chiuso senza prova eseguibile — `verifica.comando`. Un difetto che si chiude senza un
 //      comando che possa fallire non è chiuso: è archiviato.
 //   ② allarme scritto e non accodato — 🔴/CRITICO/bloccante in un documento nuovo, oppure AGGIUNTO a
@@ -33,11 +33,20 @@
 //      25/7 — quattro giorni consecutivi (21, 22, 23, 24) con ZERO righe, mentre le PR si mergiavano
 //      a sette al giorno.
 //
-// COSA NON CONTROLLA, e va detto: non sa se ciò che ho scritto in chat sia vero, non giudica se un fix
-// è giusto, e — la più importante — non sa se la riga di esito parli DI QUESTO lavoro. Nessuna regola
+//   ⑤ testo consegnato a Nicola che non si capisce (AR-478) — un file .md nelle cartelle dove lui
+//      legge che esce PEGGIORE di come è entrato. Delta verso la base, non totale: sul totale ogni
+//      ritocco a un file lungo sarebbe un blocco, e un cancello che non può diventare verde si impara
+//      ad aggirarlo.
+//   ⑥ messaggio in chat che non si capisce (AR-481, AR-489) — la chat È un file: l'hook `Stop` riceve
+//      `transcript_path`. Include le idee già mandate, che è l'unica misura con memoria della
+//      conversazione: tutte le altre guardano un pezzo per volta.
+//
+// COSA NON CONTROLLA, e va detto: non sa se ciò che ho scritto sia VERO, non giudica se un fix è
+// giusto, e — la più importante — non sa se la riga di esito parli DI QUESTO lavoro. Nessuna regola
 // meccanica distingue «ho raccontato il lavoro giusto» da «ho raccontato un lavoro»: quel giudizio
-// resta a Nicola, che la riga la legge in Cabina. Quattro misure sullo stato del lavoro, non sulla sua
-// qualità. Dove passa un «forse», qui si tace.
+// resta a Nicola, che la riga la legge in Cabina. E non sa se Nicola ha CAPITO: conta segnali di
+// forma, non comprensione. Sei misure sullo stato del lavoro e sulla forma di ciò che consegno, non
+// sulla loro qualità. Dove passa un «forse», qui si tace.
 //
 // Uso:
 //   node cervello/cancello-stop.mjs           # verdetto leggibile (nessun blocco)
@@ -51,10 +60,11 @@
 //    e per lo stesso motivo: verificare non deve costare un diff.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { closeSync, existsSync, openSync, readFileSync, readSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { percorsiDaGit } from "./percorsi-git.mjs";
+import { misura, parolePeggioNoteAGlossario } from "./si-capisce.mjs";
 import { BATTITO, vociInsistenti } from "./sorvegliante.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -84,8 +94,34 @@ export function chiusiSenzaProva(prima = [], dopo = []) {
   const eraChiuso = new Set(prima.filter((d) => d.stato === "chiuso").map((d) => d.id));
   return dopo
     .filter((d) => d.stato === "chiuso" && !eraChiuso.has(d.id))
-    .filter((d) => !d.verifica || !d.verifica.comando)
+    .filter((d) => !chiusuraLegittima(d.verifica))
     .map((d) => ({ id: d.id, titolo: String(d.titolo || "").slice(0, 80), debole: Boolean(d.verifica) }));
+}
+
+/**
+ * Le due chiusure che valgono (AR-487).
+ *
+ * Il difetto, trovato da Nicola il 3/8 usandolo: il controllo pretendeva `verifica.comando` e basta.
+ * Ma esistono difetti che NON si chiudono con un comando: quelli che aspettano una DECISIONE sua.
+ * Caso vero dello stesso giorno: AR-479, le quattro ore di lettura. Nicola ha deciso «non voglio
+ * riscrivere niente». Non c'è nessun comando che possa dimostrare quella frase, ed è giusto così.
+ * Il controllo la segnalava come se io avessi chiuso un difetto senza prova.
+ *
+ * Un controllo che accusa la persona che comanda quando comanda è un controllo che si impara a
+ * ignorare — e diventerebbe rumore proprio sul canale dove passano le decisioni.
+ *
+ * ① `verifica.comando` — la prova forte: un comando che si esegue e può fallire.
+ * ② `verifica.tipo === "umano"` CON un `esito` scritto — la decisione di Nicola, messa a verbale.
+ *
+ * L'`esito` non è burocrazia: è ciò che impedisce alla macchina di chiudersi i difetti da sola
+ * scrivendo «umano» e basta. Senza il verbale di cosa è stato deciso, resta una dichiarazione — che
+ * è esattamente la cosa che questo controllo esiste per fermare.
+ */
+export function chiusuraLegittima(verifica) {
+  if (!verifica) return false;
+  if (typeof verifica.comando === "string" && verifica.comando.trim()) return true;
+  if (verifica.tipo === "umano" && typeof verifica.esito === "string" && verifica.esito.trim()) return true;
+  return false;
 }
 
 /**
@@ -244,6 +280,81 @@ export function siPiantaAncora(righe = [], perimetroTurno = false) {
   return !righe.some((r) => String(r).startsWith("❌")) || !perimetroTurno;
 }
 
+/**
+ * ⑤ I testi che Nicola leggerà e che non si capiscono (AR-478).
+ *
+ * Nicola, 2/8: «ho perso 2 ore solo per capire due botta e risposta nelle ultime 5 PR» e poi
+ * «attacca il misuratore così viene chiamato in automatico, così non lo salti mai quando c'è
+ * pressione». Prima di questo, `si-capisce.mjs` esisteva e non lo chiamava NESSUNO: era una buona
+ * intenzione, cioè esattamente il tipo di rituale che salta per primo sotto pressione (AR-154).
+ *
+ * Sta qui e non in un guardiano nuovo per un motivo pratico: questo file gira già in due canali —
+ * l'evento `Stop` (l'istante in cui dico «fatto») e il cancello del lotto, che la CI esegue su ogni
+ * PR. Un aggancio solo, due porte.
+ *
+ * PERIMETRO: le cartelle dove Nicola legge, esclusa la storia. Briefing, DECISIONI e Sala Operativa
+ * sono il registro di cosa è successo: riscriverli sarebbe cambiare il passato, non spiegarsi meglio.
+ */
+export const CARTELLE_DI_NICOLA = ["MyCity-Vault/90-Memoria-AI/", "consegne/"];
+export const STORIA_ESENTE = /(Briefing\/|DECISIONI\.md|SALA-OPERATIVA\.md|archivio|quaderni\/)/;
+
+export function testiIlleggibili(testi = [], noteAGlossario = null) {
+  const fuori = [];
+  for (const t of testi) {
+    if (!CARTELLE_DI_NICOLA.some((c) => t.file.startsWith(c))) continue;
+    if (STORIA_ESENTE.test(t.file)) continue;
+    const m = misura(t.contenuto, { noteAGlossario });
+
+    // SI MISURA IL PEGGIORAMENTO, NON IL TOTALE.
+    //
+    // Il primo giro dal vivo ha bocciato il GLOSSARIO per 48 punti: un file di 500 righe scritto
+    // mesi fa, che avevo sfiorato per aggiungerci una parte. Con la regola sul totale, ogni ritocco
+    // a un testo lungo diventa un blocco — e un cancello che non può diventare verde viene aggirato
+    // al secondo giro. È scritto nella casa, ed è successo davvero al typecheck del Pannello.
+    //
+    // Il debito vecchio resta debito (misurato, e si riscrive a mano, un testo per volta). Quello che
+    // qui NON deve passare è il debito NUOVO: un file che esce peggiore di come è entrato.
+    // Un file nuovo entra da zero, quindi ogni suo problema è nuovo: lì la soglia è 0, come deve.
+    const prima = t.contenutoPrima == null ? 0 : misura(t.contenutoPrima, { noteAGlossario }).problemi.length;
+    if (m.problemi.length <= prima) continue;
+
+    fuori.push({
+      file: t.file,
+      quanti: m.problemi.length,
+      prima,
+      nuovi: m.problemi.length - prima,
+      primi: m.problemi.slice(0, 3),
+    });
+  }
+  return fuori;
+}
+
+/**
+ * ⑥ IL MESSAGGIO CHE STO PER MANDARE A NICOLA IN CHAT (AR-481).
+ *
+ * Era il buco dichiarato di AR-478: «la chat non è misurabile, non è un file, nessun controllo può
+ * girarci sopra». Era falso, e l'ho scoperto guardando cosa riceve l'hook `Stop`: insieme a
+ * `stop_hook_active` arriva anche `transcript_path`, cioè il percorso del file dove Claude Code
+ * scrive tutta la conversazione, i miei messaggi compresi.
+ *
+ * Quindi la chat È un file — solo, non era il file che stavo guardando. Ed è il posto dove Nicola
+ * legge di più: le due ore che ha perso non erano sulle consegne, erano su cinque PR e sulla chat.
+ *
+ * SOLO I MESSAGGI LUNGHI. Un «fatto, il sito è tornato online» non deve avere tre blocchi e un
+ * esempio: chiederglielo sarebbe rumore a ogni turno, e il rumore spegne i freni.
+ */
+export function messaggioIlleggibile(testo, noteAGlossario = null, precedenti = []) {
+  if (!testo || !testo.trim()) return null; // niente da misurare: non accuso nessuno
+  const m = misura(testo, { noteAGlossario, precedenti });
+  // Le ripetizioni contano anche sui messaggi CORTI: un messaggio breve che ridice una cosa già
+  // detta è il caso più frequente, ed è quello che è successo davvero il 3/8.
+  const ripetute = m.problemi.filter((p) => p.tipo === "gia-detto");
+  if (!m.testoLungo && !ripetute.length) return null;
+  const problemi = m.testoLungo ? m.problemi : ripetute;
+  if (!problemi.length) return null;
+  return { quanti: problemi.length, minuti: m.minuti, primi: problemi.slice(0, 4) };
+}
+
 /** ③ Le lezioni nuove che non nominano un freno: una lezione senza gate è una frase. */
 export function lezioniSenzaGate(prima = [], dopo = []) {
   const gia = new Set(prima.map((l) => l.id));
@@ -257,7 +368,17 @@ export function lezioniSenzaGate(prima = [], dopo = []) {
  * ripartendo per colpa di un blocco precedente. Bloccare di nuovo lì significherebbe un turno che non
  * finisce mai — e un freno che incastra viene spento entro il giorno, che è il peggiore degli esiti.
  */
-export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito = null, insistenti = [], ciechi = [], giaBloccato = false } = {}) {
+export function verdetto({
+  chiusi = [],
+  allarmi = [],
+  lezioni = [],
+  senzaEsito = null,
+  insistenti = [],
+  illeggibili = [],
+  messaggio = null,
+  ciechi = [],
+  giaBloccato = false,
+} = {}) {
   const righe = [];
   // ⑤ L'AVVISO CHE HO IGNORATO (AR-497). Il sorvegliante parla a ogni modifica; fino al 3/8 nessuno
   // guardava se avessi fatto qualcosa. Una voce grave tornata tre volte e ancora viva all'ultimo
@@ -298,6 +419,24 @@ export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito =
         `\n   → atteso→reale è la calibrazione: senza, il lavoro è fatto e nessuno impara niente da com'è andato.`,
     );
   }
+  for (const t of illeggibili) {
+    righe.push(
+      `❌ ${t.file} lo leggerà Nicola e questo lavoro gli ha aggiunto ${t.nuovi} punti difficili` +
+        ` (era ${t.prima}, adesso ${t.quanti} — AR-478)` +
+        t.primi.map((p) => `\n   → ${p.dico}${p.frase ? `\n     «${p.frase}»` : ` (riga ${p.riga})`}`).join("") +
+        `\n   → node cervello/si-capisce.mjs ${t.file}` +
+        `\n   → la sostanza NON si toglie: i termini tecnici e i ragionamenti restano, si spiegano dove servono.`,
+    );
+  }
+  if (messaggio) {
+    righe.push(
+      `❌ il messaggio che sto per mandarti in chat ha ${messaggio.quanti} punti che ti costringono a rileggere` +
+        ` (~${messaggio.minuti} min di lettura — AR-481)` +
+        messaggio.primi.map((p) => `\n   → ${p.dico}${p.frase ? `\n     «${p.frase}»` : ""}`).join("") +
+        `\n   → riscrivilo PRIMA di chiudere il turno: la chat è il posto dove Nicola legge di più.` +
+        `\n   → la sostanza resta tutta: si riscrive la forma, non si toglie il contenuto.`,
+    );
+  }
   // ⚪ CIECO NON È VERDE (limite ③ della prima stesura). Quando non trovo un ramo con cui confrontarmi
   // — clone superficiale, `origin/main` assente — il controllo ④ non gira. Prima quel caso taceva, e
   // un silenzio è indistinguibile da un «va tutto bene»: esattamente la malattia che questo file cura.
@@ -317,7 +456,11 @@ export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito =
 // LO STRATO I/O — git e filesystem. Sottile per scelta: tutto ciò che decide sta sopra.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const git = (args) => execFileSync("git", args, { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+// `stderr: "pipe"` NON è cosmetico: senza, il «fatal: path … exists on disk, but not in origin/main»
+// di git finiva dentro il verdetto che leggo io, sopra il messaggio vero. Un verdetto sporco si
+// legge peggio, ed è esattamente il difetto che questo file esiste per combattere.
+const git = (args) =>
+  execFileSync("git", args, { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] });
 
 /** Il file com'era all'ultimo commit. `null` = non c'era (e allora «prima» è vuoto, non un errore). */
 function daHead(percorso) {
@@ -478,6 +621,132 @@ function righeAggiunteNelle(base, cartella, soloMd = true) {
   return [...perFile.entries()].map(([file, righe]) => ({ file, righe }));
 }
 
+/** Il testo com'era prima di questo ramo. `null` = non c'era, quindi è tutto nuovo. */
+function testoDiBase(percorso) {
+  for (const base of ["origin/main", "main"]) {
+    try {
+      return git(["show", `${base}:${percorso}`]);
+    } catch {
+      // il file non c'era su quella base, oppure la base non esiste: provo la prossima
+    }
+  }
+  return null;
+}
+
+/**
+ * I testi che questo lavoro sta consegnando a Nicola: modificati nell'albero di lavoro OPPURE già
+ * committati sul ramo. Servono entrambi — il primo prende il testo che sto scrivendo adesso, il
+ * secondo quello che ho scritto tre commit fa e che uscirà lo stesso con la PR.
+ *
+ * Non usa `fileDelLavoro()` perché quello guarda solo i file NUOVI: un testo peggiorato riscrivendolo
+ * è il caso più probabile, ed era proprio quello che sfuggiva.
+ */
+function testiToccati() {
+  const percorsi = new Set();
+  try {
+    for (const r of git(["status", "--porcelain"]).split("\n").filter(Boolean)) {
+      const p = r.slice(3).trim().split(" -> ").pop();
+      if (p.endsWith(".md")) percorsi.add(p);
+    }
+  } catch {
+    // niente git: resta l'elenco vuoto, e un elenco vuoto non accusa nessuno
+  }
+  for (const base of ["origin/main", "main"]) {
+    try {
+      for (const p of percorsiDaGit(["diff", `${base}...HEAD`, "--name-only"], { cwd: REPO })) {
+        if (p.endsWith(".md")) percorsi.add(p);
+      }
+      break;
+    } catch {
+      // provo la base successiva
+    }
+  }
+  const testi = [];
+  for (const p of percorsi) {
+    try {
+      const abs = join(REPO, p);
+      if (!existsSync(abs)) continue;
+      testi.push({
+        file: p,
+        contenuto: readFileSync(abs, "utf8").slice(0, 200_000),
+        contenutoPrima: testoDiBase(p),
+      });
+    } catch {
+      // illeggibile: taccio invece di accusare
+    }
+  }
+  return testi;
+}
+
+/**
+ * L'ultimo messaggio che ho scritto in chat, preso dalla trascrizione della sessione.
+ *
+ * Legge solo la CODA del file: una sessione lunga arriva a decine di MB, e l'hook ha 20 secondi.
+ * La prima riga letta è quasi sempre spezzata a metà, quindi si scarta.
+ */
+/** Tutti i miei messaggi di testo nella coda letta, dal più vecchio al più recente. */
+export function testiAssistente(righeJsonl = []) {
+  const fuori = [];
+  for (const riga of righeJsonl) {
+    let ev;
+    try {
+      ev = JSON.parse(riga);
+    } catch {
+      continue;
+    }
+    if (ev?.type !== "assistant") continue;
+    const pezzi = ev?.message?.content;
+    if (!Array.isArray(pezzi)) continue;
+    const testo = pezzi
+      .filter((p) => p?.type === "text" && String(p.text || "").trim())
+      .map((p) => p.text)
+      .join("\n");
+    if (testo.trim()) fuori.push(testo);
+  }
+  return fuori;
+}
+
+export function ultimoTestoAssistente(righeJsonl = []) {
+  for (let i = righeJsonl.length - 1; i >= 0; i--) {
+    let ev;
+    try {
+      ev = JSON.parse(righeJsonl[i]);
+    } catch {
+      continue; // riga spezzata o non-JSON: non è un verdetto, si salta
+    }
+    if (ev?.type !== "assistant") continue;
+    const pezzi = ev?.message?.content;
+    if (!Array.isArray(pezzi)) continue;
+    const testo = pezzi
+      .filter((p) => p?.type === "text" && String(p.text || "").trim())
+      .map((p) => p.text)
+      .join("\n");
+    if (testo.trim()) return testo;
+  }
+  return null; // nessun messaggio mio nella coda letta: cieco, non accuso nessuno
+}
+
+const CODA_TRASCRIZIONE = 2 * 1024 * 1024;
+
+function leggiTrascrizione(percorso) {
+  if (!percorso || !existsSync(percorso)) return null;
+  try {
+    const dim = statSync(percorso).size;
+    const da = Math.max(0, dim - CODA_TRASCRIZIONE);
+    const fd = openSync(percorso, "r");
+    try {
+      const buf = Buffer.alloc(Math.min(dim, CODA_TRASCRIZIONE));
+      readSync(fd, buf, 0, buf.length, da);
+      const righe = buf.toString("utf8").split("\n").filter(Boolean);
+      return da > 0 ? righe.slice(1) : righe; // la prima riga è tagliata a metà
+    } finally {
+      closeSync(fd);
+    }
+  } catch {
+    return null; // trascrizione illeggibile: taccio invece di accusare
+  }
+}
+
 async function leggiStdin() {
   const pezzi = [];
   for await (const p of process.stdin) pezzi.push(p);
@@ -489,10 +758,12 @@ async function main() {
   const hook = argv.includes("--hook");
 
   let giaBloccato = false;
+  let trascrizione = null;
   if (hook) {
     try {
       const ev = JSON.parse(await leggiStdin());
       giaBloccato = Boolean(ev?.stop_hook_active);
+      trascrizione = ev?.transcript_path || null;
     } catch {
       // Nessun payload leggibile: proseguo come primo giro. Non è un motivo per tacere.
     }
@@ -539,6 +810,15 @@ async function main() {
     allarmi: allarmiSenzaCoda(file, codaToccata, consegneModificate || []),
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),
     insistenti,
+    illeggibili: testiIlleggibili(testiToccati(), parolePeggioNoteAGlossario(REPO)),
+    messaggio: (() => {
+      const righeT = leggiTrascrizione(trascrizione) || [];
+      const miei = testiAssistente(righeT);
+      // Gli ultimi 8 messaggi bastano: più indietro di così Nicola non ricorda, e confrontare tutta
+      // la sessione renderebbe rosso ogni riepilogo legittimo.
+      const precedenti = miei.slice(-9, -1);
+      return messaggioIlleggibile(miei[miei.length - 1] || null, parolePeggioNoteAGlossario(REPO), precedenti);
+    })(),
     ciechi,
     giaBloccato,
   });

@@ -8303,6 +8303,239 @@
       }
     },
     {
+      "id": "AR-478",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-02 19:05",
+      "nato_come": "scoperta",
+      "origine": "[nato da una CORREZIONE DI NICOLA, non da un giro della macchina] Nicola 2/8: «perdo tantissimo tempo a capire i termini e il modo in cui spieghi… ho perso 2 ore solo per capire due botta e risposta nelle ultime 5 PR».",
+      "titolo": "Nicola non riesce a leggermi: non per le parole tecniche (le sta studiando) ma per come costruisco la spiegazione",
+      "causa_radice": "① La regola di scrittura umana esisteva ma il suo perimetro era dichiarato e limitato ai TITOLI delle card del Pannello: chat e corpi delle PR — i due posti dove Nicola legge davvero — erano esplicitamente fuori. ② PRIMA DIAGNOSI SBAGLIATA, corretta da Nicola: avevo concluso «il problema sono le parole tecniche» e le avevo vietate. Nicola: «molte parole che usi sono parole tecniche e le voglio imparare, mi va bene che le usi; però il modo in cui mi spieghi mi viene difficile da capire». Vietare il vocabolario gli toglieva proprio la cosa che sta studiando. ③ La misura conferma lui, non me: sui 60 testi che legge, 810 problemi totali, di cui 0 di vocabolario dopo aver messo le parole vere del mestiere nel glossario. Il 100% del residuo e forma: 488 incisi, 203 frasi oltre le 30 parole, 90 blocchi di risposta mancanti, 29 testi lunghi senza un solo esempio concreto. ④ Perche non me ne accorgo mentre scrivo: comprimere e elegante per chi scrive e costoso per chi legge; le metafore annidate mi fanno risparmiare righe e costano a Nicola una rilettura. ⑤ Il costo misurato: ~2 ore su 2 scambi.",
+      "fix_proposto": "FATTO 🟡 ① perimetro esteso a chat + titoli/corpi PR + messaggi di commit; ② le parole tecniche NON si vietano: quelle del GLOSSARIO si usano, quelle fuori vanno spiegate nella riga stessa (guardiano: si-capisce.mjs --parole); ③ aggiunte al GLOSSARIO le 19 parole vere del mestiere che usavo e che non c erano (commit, branch, merge, PR, deploy, rollback, CI, endpoint, API, webhook, payout, onboarding, churn, pipeline, baseline, runtime, hook, fail-closed, typecheck), ognuna con un esempio vero di MyCity — servono lo studio di Nicola, non solo la regola; ④ le sei mosse di forma (passo indietro, esempio, ripasso, una frase un idea, zero sottintesi, metro sui numeri) misurate da cervello/si-capisce.mjs; ⑤ baseline scritta in auto-coscienza/si-capisce.json: 810 problemi su 52.008 parole in 60 testi, 13,5 per testo. 19 prove, tutte su testo preso dalle PR vere.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-479",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-02 22:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "Trovato misurando i testi vivi per rispondere a «riscrivi i vecchi testi». Nessuno aveva mai misurato QUANTO SONO LUNGHI i file che Nicola apre ogni giorno.",
+      "titolo": "I tre file che Nicola apre ogni giorno sono 43.000 parole: quattro ore di lettura per sapere cosa deve approvare",
+      "causa_radice": "① Misura del 2/8: STATO.md 17.722 parole (~98 minuti), BACHECA.md 14.891 (~83 minuti), AZIONI-IN-ATTESA.md 10.683 (~59 minuti). Totale ~43.300 parole, circa 4 ore. ② Sono file ad accumulo: ogni giro aggiunge un blocco in cima e non toglie niente. STATO ha 821 righe, e ogni voce e un paragrafo unico da 300 parole con dentro venti fatti. ③ Il difetto NON e la forma della singola frase: anche riscrivendo ogni frase, restano quattro ore. La forma la misura AR-478; la lunghezza non la misurava nessuno. ④ Perche non se ne accorge nessuno: chi scrive aggiunge sempre un blocco piccolo, e il costo lo paga solo chi legge dall'inizio. ⑤ Conseguenza sul business: la coda delle firme e il posto dove Nicola decide, e leggerla per intero costa un'ora. Quindi non si legge per intero, quindi le decisioni scivolano.",
+      "fix_proposto": "CHIUSO PER DECISIONE DI NICOLA (3/8): «non voglio riscrivere niente, a cosa serve riscriverle? a me basta che da adesso in poi funzioni». La decisione e corretta e il difetto era mal posto da me: le 4 ore sono il tempo per leggere quei file DALL INIZIO, cosa che Nicola non fa mai — lui legge le card del Pannello e la parte in cima. Il costo vero si paga solo quando deve cercare una cosa vecchia, ed e raro. Quello che conta e coperto da AR-478: da adesso ogni voce nuova in quei file passa dal controllo, quindi i file smettono di peggiorare. Debito accettato e dichiarato, non riparato: se un giorno cercare in STATO diventa un problema vero, si riapre.",
+      "verifica": {
+        "tipo": "umano",
+        "esito": "Nicola 3/8: la riscrittura del passato non serve. Vale solo che da adesso funzioni."
+      }
+    },
+    {
+      "id": "AR-480",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-02 23:40",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[nato da una CORREZIONE DI NICOLA] «voglio le stesse cose pero spiegate bene … non solo della macchina ma a tutto quello che fai e farai, di qualsiasi altra cosa … mi fa perdere ore di tempo con cui potevo andare avanti a fare i lavori».",
+      "titolo": "La regola di scrittura viveva solo nel mansionario dell'AD: 0 senior su 120 la conoscevano, e sono loro a scrivere quando delego",
+      "causa_radice": "① AR-478 aveva messo la regola in CLAUDE.md e in cervello/scrittura-umana.md. Misurato il 2/8: 0 file su 120 in .claude/agents/ citavano nessuno dei due. ② Conseguenza diretta: ogni volta che l'AD delega — @finanza per i margini, @vendite per un pitch, @legale-privacy per un contratto — quel senior scrive un testo che finisce sotto gli occhi di Nicola SENZA nessuna regola di forma. La delega e la strada normale, non l'eccezione: il mansionario dell'AD dice «delega invece di fare tutto tu». ③ Il perimetro era sbagliato anche nell'intenzione: la regola parlava dei testi della macchina (radiografie, cantiere, PR), mentre il costo che Nicola paga e il suo TEMPO, e il suo tempo non cambia a seconda del reparto che gli scrive. Una consegna di vendite scritta male costa quanto una PR scritta male. ④ Perche non l'avevo visto: ho misurato i testi gia' prodotti (689 file) e non CHI li produce. La misura guardava l'uscita, non le sorgenti.",
+      "fix_proposto": "FATTO 🟡 ① blocco «Come scrivi a Nicola» inserito in tutti e 120 i mansionari, agganciato alla riga «Formato riga ESITO» presente in 120 su 120 (l'ancora alternativa ne copriva 111, e i 9 esclusi sarebbero stati il perimetro letterale che questa casa vieta); ② il blocco porta le 7 regole di forma, i 3 blocchi di apertura, il comando di misura e il rimando alla regola completa; ③ dichiara esplicitamente che i termini tecnici NON si tolgono e che vale per ogni argomento, non solo la macchina; ④ perimetro allargato anche in scrittura-umana.md e CLAUDE.md; ⑤ prova nuova: 9 controlli su tutti e 120 i file, rossa se la regola sparisce da uno solo. Verificato che stampo-check non peggiora: kit_fotocopia resta 10 come su main, drift del registro agenti 0.",
+      "verifica": {
+        "comando": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
+      }
+    },
+    {
+      "id": "AR-481",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 00:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[nato da una DOMANDA DI NICOLA] «inserisci anche il gancio hook per le sessioni di claude code e spiegami … il problema che non misura la chat». Andando a guardare cosa riceve davvero l'hook Stop, il buco dichiarato si e' rivelato falso.",
+      "titolo": "Avevo dichiarato la chat «non misurabile perche non e un file»: era falso, l'hook Stop riceve il percorso della trascrizione",
+      "causa_radice": "① AR-478 aveva chiuso il buco della chat con una dichiarazione: «i miei messaggi non sono file, nessun controllo automatico puo' girarci sopra». ② Non l'avevo verificato: l'hook Stop riceve un JSON con `stop_hook_active` E `transcript_path`, cioe' il file .jsonl dove Claude Code scrive tutta la conversazione, i miei messaggi compresi. Usavo gia' il primo campo e non avevo mai guardato gli altri. ③ E' il difetto piu' costoso perche' colpisce il canale piu' usato: le 2 ore che Nicola ha perso non erano sulle consegne, erano su cinque PR e sulla chat. Il controllo di AR-478 copriva i file consegnati e lasciava scoperto proprio il posto dove lui legge di piu'. ④ La malattia sotto: ho dichiarato un limite invece di misurarlo. Una copertura dichiarata a parole non e' una copertura misurata, ed e' la stessa specie di errore dei numeri senza fonte.",
+      "fix_proposto": "FATTO 🟡 ① `messaggioIlleggibile()` in cancello-stop.mjs misura l'ultimo messaggio che sto per mandare, letto dalla trascrizione via `transcript_path`; ② `ultimoTestoAssistente()` prende l'ultimo blocco di testo vero, salta le chiamate agli strumenti e ignora le righe spezzate; ③ si legge solo la CODA del file (2 MB): una sessione lunga arriva a decine di MB e l'hook ha 20 secondi; ④ SOLO i messaggi lunghi: chiedere tre blocchi e un esempio su «fatto, il sito e' tornato online» sarebbe rumore a ogni turno, e il rumore spegne i freni; ⑤ nessuna modifica a .claude/settings.json (che la macchina ha in deny): l'evento Stop era gia' agganciato a questo stesso file, quindi la misura parte senza che Nicola debba incollare niente. Provato dal vivo: sulla trascrizione VERA di questa sessione trova il messaggio (13 parole, corto, passa) e su una trascrizione con un messaggio lungo e astratto esce 2 e blocca il turno. 8 prove nuove.",
+      "verifica": {
+        "comando": "node --test cervello/test/cancello-stop.test.mjs"
+      }
+    },
+    {
+      "id": "AR-482",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 01:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[nato da DOMANDE DI NICOLA] «come fai a dire che adesso spieghi bene? come faccio ad essere sicuro che non perdero ancora tantissimo tempo? oltre ai termini tecnici cos'altro non dovresti togliere?»",
+      "titolo": "Tutte le misure guardavano me, nessuna guardava il suo tempo: e misurando davvero, le mie spiegazioni non sono migliorate",
+      "causa_radice": "① Le sei misure di si-capisce.mjs guardano la MIA forma: lunghezza delle frasi, incisi, esempi, blocchi. Possono essere tutte verdi mentre Nicola continua a non capire. Il limite era dichiarato ma non colmato. ② Misura fatta sui miei messaggi di questa sessione: prima meta' 5,1 problemi ogni 1000 parole, seconda meta' 5,6. NON sono migliorata dopo aver scritto la regola: 7 messaggi lunghi su 8 hanno ancora problemi. Quello che ha funzionato non e' la regola scritta, e' il cancello che blocca. ③ Misura sul suo lato: 9 messaggi su 11 in questa sessione erano richieste di chiarimento (82%). Nessuno aveva mai contato questo numero, che e' l'unico che parla del suo tempo. ④ Terza domanda, terzo buco: la regola diceva «i termini tecnici non si tolgono» ma non diceva cos'ALTRO non si toglie. Ragionamenti, alternative scartate, errori miei, limiti dichiarati, numeri con la fonte: tutta roba che avevo gia' cominciato a sacrificare per sembrare piu' chiara.",
+      "fix_proposto": "FATTO 🟡 ① `quanteVolteHaChiesto()` conta le richieste di chiarimento di Nicola dalla trascrizione: e' un segnale indiretto (un «perche?» puo' essere curiosita) ma e' l'unico numero che misura il SUO tempo invece del mio stile. ② Regola 2-bis in scrittura-umana.md: la tabella di cosa non si toglie mai — numeri con fonte, ragionamento, alternative scartate, errori miei, limiti non verificati, nomi/date/importi. ③ La stessa riga inserita in tutti e 120 i mansionari, accanto alle sette regole. ④ 4 prove nuove sulla misura (28 in totale), incluso il caso dei risultati degli strumenti che arrivano marcati come messaggi utente e falserebbero la quota.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-483",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 02:50",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[DOMANDA DI NICOLA] «aggiungi il controllo che capisce il senso, non la forma».",
+      "titolo": "Il misuratore vedeva la formula e non il vuoto: «serve a rendere il sistema piu robusto» passava tutti i controlli",
+      "causa_radice": "① Le sei misure guardano segnali di forma. La frase «serve a rendere il sistema piu robusto» contiene «serve a», quindi soddisfaceva il controllo del passo indietro, ed e' una frase che non dice ne cosa fa, ne per chi, ne quanto. ② Un controllo che capisce davvero servirebbe un modello AI. Verificato: non c'e' nessuna chiave AI collegata in questo ambiente, quindi sarebbe una spesa e una decisione di Nicola, non una cosa che accendo io. ③ Ma un pezzo di senso si misura senza AI: l'assenza di contenuto. Le frasi che occupano una riga e non lasciano niente in testa hanno una forma riconoscibile — «piu robusto», «varie cose», «dovrebbe funzionare», «tutto a posto». ④ Il difetto era mio prima che della macchina: quelle frasi le scrivo io quando non ho misurato niente e voglio comunque chiudere.",
+      "fix_proposto": "FATTO 🟡 ① `ariaFritta()` con 16 modelli di frase vuota, ognuno con la sua traduzione («di' cosa non si rompe piu', e in quale caso»); ② BLOCCA, non avvisa: e' esattamente il tipo di riga che costringe Nicola a rileggere per scoprire che non c'era niente; ③ tarato sul corpus vero: 126 casi su 689 testi, tasso sano; ④ ristretto alle AFFERMAZIONI dopo il primo falso positivo trovato nel glossario stesso («se una cosa e' migliorata o peggiorata» e' la definizione di baseline, non una vanteria); ⑤ tollera l'accento mancante, perche' nei messaggi di commit scrivo «piu'» senza accento. COPERTURA DICHIARATA: non e' comprensione, e' assenza di contenuto. Un testo senza aria fritta puo' restare oscuro. 6 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-484",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 02:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[DOMANDA DI NICOLA] «chiudi il buco della soglia per impedire che si rompa la sicurezza che garantisce che funzioni sempre». Il buco l'avevo dichiarato io rispondendo a «come faccio a essere sicuro che sara' per sempre cosi?».",
+      "titolo": "Le soglie del misuratore si potevano alzare in silenzio: tutte le prove restavano verdi e il controllo diventava finto",
+      "causa_radice": "① `PAROLE_FRASE_ROSSA = 30` decide se una frase blocca. Le 30 prove esistenti provano il COMPORTAMENTO «sopra la soglia blocca», e restano verdi con qualunque soglia. ② Portandola a 60: nessuna prova rossa, il controllo esce 0 su ogni testo, Nicola vede verde e legge frasi da 55 parole. ③ E' lo stesso meccanismo del pavimento a 5.200 byte che rendeva impossibile bocciare un kit: la misura c'era, la soglia la rendeva finta. ④ Vale anche al contrario, per svuotamento: togliendo le voci da ARIA_FRITTA o da SOTTINTESI il controllo si spegne senza che nessuna prova se ne accorga.",
+      "fix_proposto": "FATTO 🟡 `cervello/test/soglie-non-abbassabili.test.mjs`: 8 prove che fissano i numeri che decidono (30, 20, 15), i tre blocchi obbligatori, la coerenza avviso<blocco, e la numerosita' minima dei due elenchi. Piu' una prova COMPORTAMENTALE: una frase di esattamente 30 parole passa, una di 31 blocca — cosi' la costante dichiarata e' provata essere quella che agisce davvero, non solo scritta. Cambiare una soglia resta legittimo, ma diventa un gesto visibile: la prova diventa rossa e passa dal cancello del lotto, che gira in CI su ogni PR.",
+      "verifica": {
+        "comando": "node cervello/test/soglie-non-abbassabili.test.mjs"
+      }
+    },
+    {
+      "id": "AR-485",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 03:05",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[CORREZIONE DI NICOLA] «il problema e' il modo in cui mi spieghi o mi scrivi in generale, non per forza in cui mi scrivi, ma qualsiasi cosa che fai, devi farlo in modo che io non perdo tempo a capire».",
+      "titolo": "Avevo capito «scrivi meglio», ma il metro non e' il testo: e' il suo tempo, e vale su ogni cosa che faccio",
+      "causa_radice": "① Tutte le regole scritte finora — le sette mosse, i tre blocchi, il vocabolario — parlano di TESTO. ② Nicola paga il tempo anche quando il testo e' perfetto: se gli do tre opzioni pari senza raccomandazione deve decidere lui da zero; se gli consegno quattro file senza un punto d'ingresso deve cercarli; se gli do un numero senza scala deve andare a controllarlo. ③ Nessuna di quelle e' un problema di scrittura, e nessuna sarebbe stata presa dal misuratore. ④ La domanda giusta prima di consegnare non e' «e' scritto bene?» ma «quanto tempo gli costa capire e decidere?».",
+      "fix_proposto": "FATTO 🟡 ① Regola 0 in scrittura-umana.md con la tabella di sette situazioni di lavoro, non di scrittura: decisioni (max 3 opzioni con raccomandazione), consegne (un punto d'ingresso), nomi, problemi (col costo), domande (con le conseguenze), organizzazione (una fila), misure (col metro); ② la stessa regola in testa al blocco dei 120 mansionari, prima delle sette regole di forma, perche' viene prima; ③ resta NON misurabile in automatico e va detto: nessun controllo puo' contare se una decisione era pronta da firmare. Su questa il giudice e' Nicola.",
+      "verifica": {
+        "comando": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
+      }
+    },
+    {
+      "id": "AR-486",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 04:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[DOMANDA DI NICOLA] «da adesso in poi quando un senior, la macchina o tu usate una nuova parola tecnica verra' spiegata ed inserita in automatico dentro il glossario?».",
+      "titolo": "Il controllo si difendeva solo dalle parole che conoscevo gia': una parola inventata domani era invisibile",
+      "causa_radice": "① `PAROLE_MACCHINA` e' un elenco di 47 voci scritto a mano da me. Il controllo confronta i testi con quell'elenco. ② Una parola nuova — inventata da me, o portata da un senior che lavora su un mestiere che non ho mai toccato — non e' nell'elenco, quindi nessuno la vede. E' il perimetro letterale applicato al vocabolario: mi difendo da cio' che ho gia' previsto. ③ La misura: sui 601 file di consegne, 782 parole tecniche diverse assenti dal glossario, in 484 file su 601. Il vocabolario cresce molto piu' in fretta dell'elenco scritto a mano. ④ Perche' non l'avevo visto: avevo dichiarato questo buco a parole rispondendo a Nicola, e poi non l'avevo chiuso.",
+      "fix_proposto": "FATTO 🟡 ① `paroleNuove()` trova il gergo SENZA elenchi: in italiano quasi ogni parola finisce per vocale, quindi una parola di prosa che finisce per consonante e' quasi sempre straniera o tecnica. Niente lista da tenere aggiornata. ② Esclude quello che non e' prosa: blocchi di codice, apici, nomi di file, link, e le parole ormai italiane (marketing, online, test) piu' i nomi propri (Stripe, Vercel). ③ AVVISO, non blocco, e la scelta e' misurata: bloccare fermerebbe 484 consegne su 601, e un cancello sempre rosso viene aggirato al secondo giro. ④ `--nuove` costruisce la fila di lavoro ordinata per frequenza in auto-coscienza/parole-da-spiegare.json: 860 parole oggi. ⑤ Prima infornata di 10 voci gia' nel glossario, scelte dal rilevamento e non da me. COPERTURA DICHIARATA: non scrive da sola le definizioni. Una definizione sbagliata dentro il materiale che Nicola studia e' peggio di una parola mancante. 6 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-487",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 04:40",
+      "nato_come": "scoperta",
+      "origine": "[TROVATO DA NICOLA USANDOLO] «risolvi il problema che pretende una prova per ogni difetto ma non accetta le chiusure decise da me».",
+      "titolo": "Il cancello accusava Nicola quando decideva: una chiusura umana veniva letta come un difetto chiuso senza prova",
+      "causa_radice": "① `chiusiSenzaProva` pretendeva `verifica.comando` e nient'altro. ② Ma esistono difetti che NON si chiudono con un comando: quelli che aspettano una decisione di Nicola. Caso vero dello stesso giorno: AR-479, le 4 ore di lettura, chiuso perche' lui ha detto «non voglio riscrivere niente». Nessun comando puo' dimostrare quella frase, ed e' giusto cosi'. ③ Il guardiano lo segnalava come se io avessi chiuso un difetto per dichiarazione. Un controllo che accusa chi comanda quando comanda diventa rumore proprio sul canale dove passano le decisioni, e si impara a ignorarlo. ④ Il pattern `{tipo:'umano'}` esisteva gia' nel cantiere (AR-004, AR-006) e nessuno lo aveva insegnato a questo guardiano.",
+      "fix_proposto": "FATTO 🟡 `chiusuraLegittima()`: due strade, non una. ① `verifica.comando` non vuoto — la prova forte. ② `verifica.tipo === 'umano'` CON un `esito` scritto — la decisione di Nicola messa a verbale. L'esito obbligatorio non e' burocrazia: senza, la macchina potrebbe chiudersi i difetti da sola scrivendo «umano» e basta, che e' esattamente la dichiarazione che il guardiano esiste per fermare. La forma debole file+pattern resta rifiutata. 6 prove nuove (37 sul file).",
+      "verifica": {
+        "comando": "node --test cervello/test/cancello-stop.test.mjs"
+      }
+    },
+    {
+      "id": "AR-488",
+      "stato": "chiuso",
+      "gravita": "medio",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 04:45",
+      "nato_come": "nuovo-lavoro",
+      "nato_da": "AR-478",
+      "origine": "[RICHIESTA DI NICOLA] «inserisci il riassunto dei 4 blocchi se e' troppo lungo».",
+      "titolo": "Quattro blocchi su un testo da cinque minuti non sono una scorciatoia: sono quattro cose da tenere a mente",
+      "causa_radice": "① I quattro blocchi funzionano su due minuti di lettura. Su cinque, quando Nicola arriva al terzo ha gia' perso il filo del primo. ② La struttura che doveva far risparmiare tempo comincia a costarne. ③ Misurato sui miei messaggi di questa sessione: quello piu' lungo era da 11 minuti, e i quattro blocchi non lo hanno reso leggibile.",
+      "fix_proposto": "FATTO 🟡 Oltre i 4 minuti di lettura il testo deve aprire con due righe di riassunto, e senza viene bloccato. Le forme accettate sono libere («in due righe», «in breve», «riassunto», «in sintesi»): conta che ci sia, non come si chiama. Sotto la soglia NON si chiede: su un testo da due minuti sarebbe una casella in piu'. 3 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-489",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 13:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-481",
+      "origine": "[TROVATO DA NICOLA] «perche mi hai ripetuto la stessa cosa piu volte? voglio ti auto analizzi».",
+      "titolo": "Il cancello sulla chat mi fa ripetere: bloccato un messaggio ne scrivo un altro intero, e il contesto e' gia' stato mandato",
+      "causa_radice": "① Misura sui 7 messaggi dopo la foto di Nicola: 6 idee su 7 dette piu di una volta, una detta 4 volte. ② La causa e' il cancello stesso (AR-481). Quando ferma un messaggio, io ne scrivo un altro e lo scrivo INTERO perche si regga da solo. Quel reggersi da solo e' il contesto gia' mandato due righe sopra: ogni blocco genera un doppione. ③ I quattro blocchi obbligatori peggiorano: «Cosa devi fare» e «Cosa cambia per te» mi fanno riscrivere la conclusione in ogni messaggio. Una struttura da UNA consegna lunga applicata a una raffica di messaggi corti produce quattro conclusioni identiche. ④ Ho applicato la regola del ripasso nel posto sbagliato: vale DENTRO un testo, io l'ho applicata TRA i testi. ⑤ Perche non me ne accorgo: il misuratore guarda un messaggio per volta e non ha memoria. Ogni singolo messaggio, preso da solo, e' corretto e passa. Il costo si vede solo da dove sta Nicola, leggendoli in fila.",
+      "fix_proposto": "FATTO 🟡 ① `ideeRipetute()` confronta il messaggio nuovo con i precedenti della stessa conversazione. Non usa modelli scritti a mano: confronta le PAROLE PIENE, perche' il confronto letterale trovava 1 ripetizione su 6 (io riformulo, non ricopio). Soglia 0,6 tarata sui casi veri del 3/8. ② Agganciato al cancello dello Stop, che legge la trascrizione: confronta con gli ultimi 8 messaggi, non con tutta la sessione, altrimenti ogni riepilogo legittimo sarebbe rosso. ③ Vale anche sui messaggi CORTI, al contrario delle altre misure: un messaggio breve che ridice una cosa gia' detta e' il caso piu' frequente ed e' quello successo davvero. ④ Regola 0-bis in scrittura-umana.md: quando il cancello blocca, si manda SOLO il pezzo che manca. Provato dal vivo: su una trascrizione con l'ultimo messaggio che ridice il primo, esce 2 e blocca. 5 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-490",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 13:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[DOMANDA DI NICOLA] «hai risolto la forma di difetto che hai trovato 3 volte oggi?».",
+      "titolo": "La stessa cecita' quattro volte in un giorno: ogni misura guarda il pezzo e non l'insieme, e nessuno lo dichiara",
+      "causa_radice": "① Quattro istanze in un giorno: la riga di tabella letta come frase (7 accuse false su 9), la frase citata letta come usata (2 su 3), l'elenco letto come periodo (3 su 7), il messaggio letto senza sapere cosa c'era prima (6 idee ripetute su 7). ② Ogni volta ho riparato l'istanza. La FORMA resta: la misura successiva nasce cieca allo stesso modo. ③ Perche' si ripete: chi scrive una misura pensa all'unita' che ha in testa in quel momento (la frase, la riga) e non si chiede cosa quell'unita' NON puo' vedere. La domanda non viene in mente perche' il caso che la smentisce non e' ancora successo. ④ Il costo lo paga Nicola: ogni cecita' si e' vista solo quando ci ha sbattuto contro leggendo.",
+      "fix_proposto": "FATTO 🟡 Tabella `COPERTURA` in si-capisce.mjs: ogni tipo di problema dichiara la sua UNITA' (cosa guarda) e il suo CIECO (cosa quell'unita' non puo' vedere per costruzione). 10 misure, 10 dichiarazioni. La prova esegue nove casi veri, raccoglie TUTTI i tipi di problema che la misura sa emettere, e diventa rossa se uno di quelli non ha la sua dichiarazione. Una misura nuova non puo' piu' nascere cieca in silenzio. NON impedisce di nascere ciechi — impedisce di nascere ciechi in SILENZIO, che e' la differenza fra un limite dichiarato e una bugia gentile. Le mutazioni hanno trovato un buco nelle mie stesse prove: il caso di prova era troppo povero per far scattare la misura, quindi staccarla lasciava tutto verde. Corretto. 2 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
       "id": "AR-475",
       "stato": "chiuso",
       "gravita": "bloccante",
@@ -8357,6 +8590,80 @@
       },
       "malattia": "non-pattern-izzabile",
       "malattia_perche": "E una proprieta della STORIA del ramo — codice committato dopo l ultima riga di esito — quindi non esiste una riga che la contenga: si vede solo confrontando due punti della cronologia git. La copre il controllo ④ di cancello-stop.mjs, che conta i commit di lavoro dopo l ultimo racconto."
+    },
+    {
+      "id": "AR-491",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 19:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Nicola 3/8: «poi controlla la pr, ha dei conflitti». Trovato indagando il terzo rosso di fila della CI sulla PR #655: il guardiano diceva perche', il log non lo mostrava.",
+      "titolo": "Un rosso muto: il cancello del lotto mostrava le ultime sei righe del guardiano, e con --json erano le graffe di chiusura",
+      "causa_radice": "① Il cancello sceglieva le righe da mostrare per POSIZIONE (le ultime sei), non per contenuto. Funziona quando il comando dice il verdetto per ultimo; il contatore delle consegne mute veniva lanciato con --json e il suo verdetto sta in mezzo al documento, quindi il log mostrava `\"tetti\": {...}` e una graffa. ② Costo misurato: tre giri di indagine alla cieca (locale verde, CI rosso) su un guardiano che la ragione ce l'aveva scritta dentro. ③ E' la stessa forma di AR-490 — la misura guarda il pezzo che ha in testa (la coda) e non l'insieme (dove sta il verdetto) — applicata stavolta a chi RIPORTA, non a chi misura. ④ Perche' e' grave oltre l'indagine persa: regola di casa, un cancello sempre rosso viene aggirato al secondo giro; un cancello rosso e muto ci arriva prima, perche' a chi legge resta solo tirare a indovinare.",
+      "fix_proposto": "FATTO 🟡 `righeMotivo()` sceglie le righe per CONTENUTO — quelle con un marcatore di verdetto (❌ ⛔ ⚪ CIECO AssertionError Error/Errore not ok) — e torna alla coda solo se non ne trova nessuna, dichiarando cosi' di non aver trovato il motivo. In piu' il contatore non viene piu' lanciato con --json dentro il cancello: in italiano la riga col ❌ porta numero, tetto e data. 6 prove nuove + 1 mutazione.",
+      "verifica": {
+        "comando": "node --test cervello/test/rosso-che-non-dice-perche.test.mjs"
+      }
+    },
+    {
+      "id": "AR-492",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 20:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Trovato subito dopo AR-491: appena il cancello ha mostrato il motivo, il numero era 238 in CI contro 13 qui, sulla stessa fusione e alla stessa ora.",
+      "titolo": "Il contatore ha misurato mezza storia e ha chiamato quel numero un miglioramento: 13 qui, 238 in CI",
+      "causa_radice": "① Il clone di una sessione cloud e' superficiale (git clone --depth): git mostra solo gli ultimi commit, quindi «gli ultimi 30 giorni» erano 51 commit invece di 630. Il contatore non chiedeva mai a git se la storia fosse intera: prendeva quello che vedeva e lo confrontava col tetto. ② Il costo non e' l'indagine (tre giri a cercare una differenza fra ambienti che non esisteva): e' che con --aggiorna-tetto quel 13 e' diventato il TETTO del cricchetto al posto di 253. Una cecita' travestita da miglioramento, che avrebbe bloccato ogni consegna futura contro una soglia irraggiungibile — e un cancello impossibile viene aggirato al secondo giro. ③ E' la stessa forma di AR-490 e AR-491: la misura guarda il pezzo che ha davanti (i commit visibili) e non dichiara cosa non ha potuto vedere. Qui pero' la cecita' non produceva un buco: produceva un numero piu' BASSO, cioe' una bugia che sembra un successo. ④ Perche' i guardiani non l'hanno preso: prove-oneste dichiara il clone superficiale da giorni, ma quella dichiarazione vive nel suo referto e nessun'altra misura la legge.",
+      "fix_proposto": "FATTO 🟡 `cloneTroncato()` chiede a git `rev-parse --is-shallow-repository` PRIMA di ogni altra cosa: solo un «false» esplicito autorizza a contare, «true» e «non lo so» escono 2 con il rimedio scritto (git fetch --unshallow origin) e senza stampare nessun numero. --aggiorna-tetto non puo' piu' abbassare il tetto da mezza storia. Il tetto e' stato riportato al valore misurato sulla storia intera: 238 (era 253 prima dell'errore, quindi il cricchetto scende davvero). 4 prove nuove, due delle quali dal vivo su un clone --depth 1 fabbricato apposta.",
+      "verifica": {
+        "comando": "node --test cervello/test/storia-tagliata-non-e-un-numero.test.mjs"
+      }
+    },
+    {
+      "id": "AR-493",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 20:40",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "Trovato misurando il corpo della PR 655 col misuratore stesso: accusava «manca l'esempio» su un testo che apriva con «cioe' il 4%».",
+      "titolo": "Il segno di esempio piu' usato in italiano era spento da sempre: \\bcioe'\\b non puo' trovare niente",
+      "causa_radice": "① In JavaScript `\\\\b` conta come «parola» solo le lettere ASCII. Dopo la «e» accentata di «cioe'» non esiste nessun confine di parola, quindi `\\\\bcioe'\\\\b` non ha MAI potuto trovare un'occorrenza: la regola era scritta, provata a occhio, e morta. ② La conseguenza non e' un buco silenzioso: e' un'accusa falsa. Il misuratore diceva «manca l'esempio concreto» su testi che l'esempio ce l'avevano, cioe' mandava a riscrivere la cosa giusta — ed e' esattamente il modo in cui un controllo si guadagna la reputazione di rompiscatole e viene spento. ③ Terza istanza della stessa forma nello stesso giorno-tipo: «piu'» e «cioe'» con l'apostrofo, la cella di tabella letta come frase, e adesso l'accento contro `\\\\b`. Le regole scritte in ASCII non leggono l'italiano.",
+      "fix_proposto": "FATTO 🟡 Tolti i confini `\\\\b` intorno alla parola accentata e aggiunte le forme mancanti («un esempio», «cioe'» con l'apostrofo). 2 prove nuove: una che il segno viene riconosciuto, una che senza nessun segno l'accusa resta (altrimenti il fix avrebbe potuto spegnere la regola invece di ripararla).",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-494",
+      "stato": "chiuso",
+      "gravita": "medio",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 17:45",
+      "nato_come": "regressione",
+      "nato_da": "AR-474",
+      "origine": "Trovato USANDO il contatore, non rileggendolo: al primo --aggiorna-tetto la stessa schermata ha stampato «tetto: 238» e due righe sotto «consegne mute scese da 253 a 238: abbassa il tetto con --aggiorna-tetto» — il comando appena eseguito chiedeva di essere eseguito. ⚠️ Nato come AR-478 nella sessione parallela della PR #656, rinumerato AR-494 al momento della fusione: due sessioni hanno numerato dal 477 in parallelo e hanno prodotto due difetti DIVERSI con lo stesso numero. Il quaderno di @tech (storia, non si riscrive) lo cita ancora come AR-478.",
+      "titolo": "Il contatore diceva il numero nuovo e la frase vecchia: verdetto calcolato sul tetto di ieri, stampato accanto a quello di oggi",
+      "causa_radice": "① In main() i tetti nuovi si calcolavano DOPO il verdetto: due passaggi separati sullo stesso stato, montati a mano nella stessa funzione. ② Perche nessuna prova lo vedeva: verdetto() e tettiDaScrivere() erano corretti ognuno per conto suo — il difetto stava nel CABLAGGIO fra i due, che vive in main() e nessun test puro attraversa. Una mutazione su quella riga sarebbe stata vacua: il test restava verde. ③ Cosa costa: non un numero sbagliato ma una schermata che si contraddice, cioe la cosa che erode la fiducia in un cruscotto piu di un errore franco — chi legge non sa quale delle due meta credere.",
+      "fix_proposto": "FATTO 🟡 Non ho provato il cablaggio a valle: l ho tolto di mezzo. misura({conto, cabina, tetti, aggiorna}) restituisce la coppia tetti+verdetto coerente per costruzione, e main() non ha piu niente da montare. Il pezzo che prima viveva in main ora sta dentro una funzione pura, quindi una mutazione su di esso rende rosso un test invece di passare inosservata. 3 prove nuove + 2 mutazioni (una alza il tetto invece di abbassarlo, l altra rimette il verdetto sul tetto vecchio): entrambe verificate rosse con non-vacuita.mjs.",
+      "verifica": {
+        "comando": "node --test cervello/test/conta-verdetti-muti.test.mjs"
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma sta nel CABLAGGIO fra due funzioni corrette — l ordine in cui main() le monta — non in una riga: la sua stessa scheda lo dice («una mutazione su quella riga sarebbe stata vacua, il test restava verde»). Nessun pattern per riga puo vederla. La copre la regola gia scritta in questo cantiere: la logica che decide si estrae dall I/O finche una prova la puo ESEGUIRE, ed e la stessa cura applicata il 3/8 a nelPerimetro e istanzeNelTesto."
     },
     {
       "id": "AR-495",
@@ -8525,6 +8832,23 @@
       "malattia": "non-pattern-izzabile",
       "malattia_perche": "E un buco di COPERTURA (quali eventi svegliano la guardia), non una forma di codice: sta in una riga di configurazione che non posso nemmeno toccare. Lo copre hooks-check.mjs per l aggancio e il battito per la prova che abbia girato.",
       "lezione": "L-2026-0803-543"
+    },
+    {
+      "id": "AR-504",
+      "stato": "aperto",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "guardiani-verita",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 22:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "Trovato unendo main: il controllo ⑤ nuovo (leggibilita) ha bocciato due referti della visita con 12 punti difficili ciascuno.",
+      "titolo": "Il referto della visita e scritto in un modo che il guardiano della leggibilita boccia: ogni visita produce debito nuovo",
+      "causa_radice": "① Il controllo ⑤ di cancello-stop (AR-478, di Nicola) misura i testi che lui legge, e  e una delle sue cartelle. ② Ogni referto generato da salute.mjs esce con ~12 punti difficili: essendo un file NUOVO la soglia e 0, quindi ogni visita produce un blocco. ③ Il difetto non e nei singoli referti — quelli sono usciti da una macchina — ma nel GENERATORE: le frasi del referto sono state scritte prima che esistesse il misuratore di leggibilita, e nessuno le ha fatte passare da li.",
+      "fix_proposto": "DA FARE: far girare  sul testo che salute.mjs genera e riscrivere le frasi fisse finche il conteggio non scende. NON e stato fatto qui: sarebbe stato allargare a un altro reparto un lavoro gia grosso, ed e la deriva che il controllo ⑨ esiste per chiedere. I due referti che avevano fatto scattare il rosso erano artefatti del mio collaudo (due visite lanciate mentre sviluppavo) e sono stati tolti dal ramo: non sono debito curato, sono debito NON AGGIUNTO — il generatore resta da riparare, ed e questa scheda.",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e la QUALITA di un testo generato, non una riga: si misura con si-capisce.mjs, che e gia il guardiano dedicato. Un pattern per riga qui sarebbe una finzione."
     }
   ],
   "meta": {

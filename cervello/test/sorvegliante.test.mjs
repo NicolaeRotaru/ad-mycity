@@ -413,6 +413,30 @@ test("togliere un COMMENTO che cita un guardiano non spegne il guardiano", () =>
   assert.equal(gravi(e.voci).length, 0, "menzione ≠ chiamata: la terza volta che questo repo la impara");
 });
 
+test("in un .md ogni riga è una menzione: togliere una riga di ISTRUZIONI non spegne un guardiano (AR-503)", () => {
+  // Il caso vero, colto dalla guardia su sé stessa durante il merge del 3/8: main aveva tolto da un
+  // quaderno la riga «- (ancora vuoto — il primo ESITO si registra con: node cervello/chiusura-loop.mjs …)»
+  // perché quel quaderno non era più vuoto, e la guardia l'ha chiamata «hai spento un guardiano».
+  // In un file di codice il filtro dei commenti basta; in un file di prosa il commento è TUTTO il file.
+  const e = daDiff([
+    "--- a/memoria-squadra/people-talent.md",
+    "+++ b/memoria-squadra/people-talent.md",
+    "@@ -14,1 +14,0 @@",
+    "-- (ancora vuoto — il primo ESITO si registra con: node cervello/gate-veri.mjs registra …)",
+  ]);
+  assert.equal(gravi(e.voci).length, 0, "quarta volta in questo repo che «menzione ≠ chiamata» presenta il conto");
+});
+
+test("…ma nel CODICE la stessa riga resta grave: la prosa è l'eccezione, non la regola", () => {
+  const e = daDiff([
+    "--- a/cervello/cancello-lotto.mjs",
+    "+++ b/cervello/cancello-lotto.mjs",
+    "@@ -5,1 +5,0 @@",
+    '-    passi.push(esegui("gate", "node", ["cervello/gate-veri.mjs"]));',
+  ]);
+  assert.equal(gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length, 1);
+});
+
 test("un test cancellato resta grave anche dentro cervello/test/: è la difesa che muore, non una fixture", () => {
   const e = daDiff(["--- a/cervello/test/finto.test.mjs", "+++ /dev/null", "@@ -1,1 +0,0 @@", "-assert.ok(true);"]);
   assert.equal(gravi(e.voci).filter((x) => x.classe === "difesa-rimossa").length, 1);

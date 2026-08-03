@@ -952,24 +952,6 @@
    "test": "cervello/test/salute.test.mjs"
   },
   {
-   "difetto": "AR-463",
-   "lezione": "L-2026-0730-533",
-   "nome": "la busta torna testo semplice: il riconoscitore delle misure cieche diventa lui stesso una misura cieca",
-   "file": "cervello/misura-cieca.mjs",
-   "cerca": "  return JSON.stringify({\n    hookSpecificOutput: { hookEventName: \"PostToolUse\", additionalContext: righe.join(\"\\n\") },\n  });",
-   "sostituisci": "  return righe.join(\"\\n\");",
-   "test": "cervello/test/misura-cieca.test.mjs"
-  },
-  {
-   "difetto": "AR-463",
-   "lezione": "L-2026-0730-533",
-   "nome": "la busta si dichiara con il nome sbagliato: JSON valido che nessuno consegna",
-   "file": "cervello/misura-cieca.mjs",
-   "cerca": "    hookSpecificOutput: { hookEventName: \"PostToolUse\", additionalContext: righe.join(\"\\n\") },",
-   "sostituisci": "    hookSpecificOutput: { hookEventName: \"PreToolUse\", additionalContext: righe.join(\"\\n\") },",
-   "test": "cervello/test/misura-cieca.test.mjs"
-  },
-  {
    "difetto": "AR-471",
    "lezione": "L-2026-0730-533",
    "nome": "il potatore torna a supporre l indentazione: misura un file che non esiste e boccia un archivio che entra",
@@ -992,7 +974,7 @@
    "lezione": "L-2026-0731-536",
    "nome": "il cancello smette di vedere i difetti chiusi senza prova: si torna a chiudere sulla lettera",
    "file": "cervello/cancello-stop.mjs",
-   "cerca": "    .filter((d) => !d.verifica || !d.verifica.comando)",
+   "cerca": "    .filter((d) => !chiusuraLegittima(d.verifica))",
    "sostituisci": "    .filter(() => false)",
    "test": "cervello/test/cancello-stop.test.mjs"
   },
@@ -1022,6 +1004,78 @@
    "cerca": "  const codice = fileCommittati.filter((f) => !CARTELLE_MEMORIA.some((m) => f.startsWith(m)));\n  if (!codice.length) return null;",
    "sostituisci": "  const codice = [];\n  if (!codice.length) return null;",
    "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-478",
+   "nome": "il misuratore smette di vedere le frasi troppo lunghe: torno a scrivere periodi da 40 parole e passa tutto",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "    if (n > PAROLE_FRASE_ROSSA) {",
+   "sostituisci": "    if (n > 99999) {",
+   "test": "cervello/test/si-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-478",
+   "nome": "i tre blocchi non sono piu' obbligatori: un testo lungo puo' partire senza le risposte che servono a Nicola",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "    for (const blocco of BLOCCHI) {",
+   "sostituisci": "    for (const blocco of []) {",
+   "test": "cervello/test/si-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-481",
+   "nome": "il messaggio in chat non viene piu' misurato: torna scoperto il canale dove Nicola legge di piu'",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  const ripetute = m.problemi.filter((p) => p.tipo === \"gia-detto\");",
+   "sostituisci": "  const ripetute = []; if (true) return null;",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-480",
+   "nome": "la regola di scrittura sparisce da un mansionario e la prova non se ne accorge",
+   "file": ".claude/agents/finanza.md",
+   "cerca": "node cervello/si-capisce.mjs <file>",
+   "sostituisci": "[la regola tolta da questo mansionario]",
+   "test": "cervello/test/regola-scrittura-nei-senior.test.mjs"
+  },
+  {
+   "difetto": "AR-483",
+   "nome": "l'aria fritta torna a passare: «piu' robusto» e «dovrebbe funzionare» non vengono piu' presi",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "  for (const a of ariaFritta(testo)) {",
+   "sostituisci": "  for (const a of []) {",
+   "test": "cervello/test/si-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-484",
+   "nome": "la soglia delle frasi lunghe si puo' alzare in silenzio e tutte le prove restano verdi",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "export const PAROLE_FRASE_ROSSA = 30;",
+   "sostituisci": "export const PAROLE_FRASE_ROSSA = 60;",
+   "test": "cervello/test/soglie-non-abbassabili.test.mjs"
+  },
+  {
+   "difetto": "AR-489",
+   "nome": "il cancello smette di vedere le idee gia' dette: torno a ripetere a Nicola cose che ha gia' letto",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "  for (const r of ideeRipetute(testo, precedenti)) {",
+   "sostituisci": "  for (const r of []) {",
+   "test": "cervello/test/si-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-489",
+   "nome": "il confronto fra frasi diventa cieco: due frasi che dicono la stessa cosa non si riconoscono piu'",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "export const SOGLIA_STESSA_IDEA = 0.6;",
+   "sostituisci": "export const SOGLIA_STESSA_IDEA = 1.01;",
+   "test": "cervello/test/si-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-490",
+   "nome": "una misura puo' tornare a nascere cieca in silenzio: la dichiarazione di copertura si svuota",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "  \"gia-detto\": { unita: \"la conversazione\", cieco: \"una ripetizione fatta con sinonimi: servirebbe un modello che capisce il senso\" },",
+   "sostituisci": "",
+   "test": "cervello/test/si-capisce.test.mjs"
   },
   {
    "difetto": "AR-475",
@@ -1118,6 +1172,64 @@
    "cerca": "  if (codiceDopoEsito > 0) {",
    "sostituisci": "  if (false) {",
    "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-491",
+   "nome": "il cancello torna a scegliere le righe per posizione: il rosso mostra le graffe invece del motivo",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  const motivi = righe.filter((r) => MARCATORE.test(r));",
+   "sostituisci": "  const motivi = [];",
+   "test": "cervello/test/rosso-che-non-dice-perche.test.mjs"
+  },
+  {
+   "difetto": "AR-492",
+   "nome": "il contatore torna a fidarsi di mezza storia: un clone superficiale produce di nuovo un numero e un tetto",
+   "file": "cervello/conta-verdetti-muti.mjs",
+   "cerca": "  if (troncato !== false) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/storia-tagliata-non-e-un-numero.test.mjs"
+  },
+  {
+   "difetto": "AR-493",
+   "nome": "il segno di esempio torna dietro un confine di parola ASCII: in italiano non trova piu' niente",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "|cioè|cioe')/i;",
+   "sostituisci": "|\\\\bcioè\\\\b)/i;",
+   "test": "cervello/test/si-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-494",
+   "nome": "il tetto torna a poter SALIRE: --aggiorna-tetto legittima il debito cresciuto invece di fermarlo",
+   "file": "cervello/conta-verdetti-muti.mjs",
+   "cerca": "    consegne_mute: Math.min(muteOra, tetti?.consegne_mute ?? muteOra),",
+   "sostituisci": "    consegne_mute: Math.max(muteOra, tetti?.consegne_mute ?? muteOra),",
+   "test": "cervello/test/conta-verdetti-muti.test.mjs"
+  },
+  {
+   "difetto": "AR-494",
+   "nome": "il verdetto torna a girare sul tetto vecchio: la schermata stampa il numero nuovo e la frase vecchia",
+   "file": "cervello/conta-verdetti-muti.mjs",
+   "cerca": "  return { tetti: finali, verdetto: verdetto({ conto, cabina, tetti: finali }) };",
+   "sostituisci": "  return { tetti: finali, verdetto: verdetto({ conto, cabina, tetti }) };",
+   "test": "cervello/test/conta-verdetti-muti.test.mjs"
+  },
+  {
+   "difetto": "AR-463",
+   "lezione": "L-2026-0730-533",
+   "nome": "la busta torna testo semplice: il riconoscitore delle misure cieche diventa lui stesso una misura cieca",
+   "file": "cervello/misura-cieca.mjs",
+   "cerca": "  return JSON.stringify({\n    hookSpecificOutput: { hookEventName: \"PostToolUse\", additionalContext: righe.join(\"\\n\") },\n  });",
+   "sostituisci": "  return righe.join(\"\\n\");",
+   "test": "cervello/test/misura-cieca.test.mjs"
+  },
+  {
+   "difetto": "AR-463",
+   "lezione": "L-2026-0730-533",
+   "nome": "la busta si dichiara con il nome sbagliato: JSON valido che nessuno consegna",
+   "file": "cervello/misura-cieca.mjs",
+   "cerca": "    hookSpecificOutput: { hookEventName: \"PostToolUse\", additionalContext: righe.join(\"\\n\") },",
+   "sostituisci": "    hookSpecificOutput: { hookEventName: \"PreToolUse\", additionalContext: righe.join(\"\\n\") },",
+   "test": "cervello/test/misura-cieca.test.mjs"
   },
   {
    "difetto": "AR-495",
@@ -1289,6 +1401,15 @@
    "cerca": "  if (dalSorvegliante) righe.push(dalSorvegliante);",
    "sostituisci": "  if (false) righe.push(dalSorvegliante);",
    "test": "cervello/test/misura-cieca.test.mjs"
+  },
+  {
+   "difetto": "AR-503",
+   "lezione": "L-2026-0803-544",
+   "nome": "la prosa torna a contare come chiamata: togliere una riga di istruzioni sembra spegnere un guardiano",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    if (!eFixture(file) && !ePROSA(file)) {",
+   "sostituisci": "    if (!eFixture(file)) {",
+   "test": "cervello/test/sorvegliante.test.mjs"
   }
  ]
 }
