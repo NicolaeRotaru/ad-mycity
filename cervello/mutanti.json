@@ -1118,6 +1118,22 @@
    "cerca": "  if (codiceDopoEsito > 0) {",
    "sostituisci": "  if (false) {",
    "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-478",
+   "nome": "il tetto torna a poter SALIRE: --aggiorna-tetto legittima il debito cresciuto invece di fermarlo",
+   "file": "cervello/conta-verdetti-muti.mjs",
+   "cerca": "    consegne_mute: Math.min(muteOra, tetti?.consegne_mute ?? muteOra),",
+   "sostituisci": "    consegne_mute: Math.max(muteOra, tetti?.consegne_mute ?? muteOra),",
+   "test": "cervello/test/conta-verdetti-muti.test.mjs"
+  },
+  {
+   "difetto": "AR-478",
+   "nome": "il verdetto torna a girare sul tetto vecchio: la schermata stampa il numero nuovo e la frase vecchia",
+   "file": "cervello/conta-verdetti-muti.mjs",
+   "cerca": "  return { tetti: finali, verdetto: verdetto({ conto, cabina, tetti: finali }) };",
+   "sostituisci": "  return { tetti: finali, verdetto: verdetto({ conto, cabina, tetti }) };",
+   "test": "cervello/test/conta-verdetti-muti.test.mjs"
   }
  ]
 }
