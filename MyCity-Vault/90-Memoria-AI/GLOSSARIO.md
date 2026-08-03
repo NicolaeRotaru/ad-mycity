@@ -447,6 +447,141 @@ Se passa, la memoria finisce su `main` e il Pannello la mostra.
 
 ---
 
+## Parte 10-bis — Le parole vere del mestiere, quelle che valgono anche fuori da qui
+
+Le parti da 1 a 10 spiegano le parole **della macchina**. Sono nomi che ho dato io alle sue parti.
+Funzionano solo dentro MyCity.
+
+Questa parte è diversa. Sono le parole che usano **tutti gli sviluppatori del mondo**. Impararle
+serve a te per parlare con chiunque metta le mani sul sito, non solo con me.
+
+Misurate il 2/8/2026: erano **19 parole** che usavo nei testi e che non stavano da nessuna parte in
+questo glossario. Nicola non poteva studiarle perché non erano scritte.
+
+| Parola | Cosa vuol dire | Esempio vero, successo qui |
+|---|---|---|
+| **commit** | Un salvataggio del lavoro, con scritto cosa hai cambiato e perché | Ogni volta che finisco un pezzo faccio un commit: resta la traccia di chi ha cambiato cosa |
+| **branch** (ramo) | Una copia separata dove provo le modifiche senza toccare il sito vero | Le modifiche al marketplace le faccio sempre in un ramo: se sbaglio, il sito online non se ne accorge |
+| **merge** (fusione) | Unire il ramo di prova al sito vero: da quel momento la modifica è reale | Il 2/8 la modifica sul controllo di fine lavoro è stata unita, e da lì vale per tutti |
+| **PR** (pull request) | La richiesta di unire un ramo, con la spiegazione di cosa cambia. È quello che leggi e approvi | Le 5 PR che ti hanno fatto perdere 2 ore erano queste |
+| **deploy** | Mettere online la nuova versione del sito | Il marketplace passa da Render a Vercel: quello è un deploy su un altro fornitore |
+| **rollback** | Tornare alla versione di prima quando qualcosa si rompe | Se un deploy rompe il checkout, il rollback riporta il sito com'era in pochi minuti |
+| **CI** | Il controllo automatico che gira a ogni PR prima che si possa unire | «La CI è rossa» vuol dire: un controllo ha detto no, la modifica non passa |
+| **endpoint** | Un indirizzo a cui il sito chiede una cosa precisa | L'indirizzo che restituisce gli ordini di un negozio è un endpoint |
+| **API** | Il modo in cui due programmi si parlano fra loro | Leggo i dati dei negozi dalle API di Supabase, in sola lettura |
+| **webhook** | Un avviso che un servizio esterno manda **da solo** quando succede qualcosa | Quando un cliente paga, Stripe manda un webhook e l'ordine risulta pagato |
+| **payout** | Il giro di soldi da MyCity al negozio, dopo che il cliente ha pagato | Ordine pagato ma payout non partito da 24 ore → allarme |
+| **onboarding** | Portare dentro qualcuno di nuovo e farlo partire davvero | L'onboarding di un negozio: vetrina, catalogo, pagamenti, primo incasso di prova |
+| **churn** | Chi se ne va: negozi o clienti che smettono di usare MyCity | Un negozio fermo da 14 giorni è un rischio di churn |
+| **pipeline** | Una catena di passaggi che si eseguono in fila, ognuno dopo l'altro | Contenuti pro: brief → varianti → critica → produzione → controllo → consegna |
+| **baseline** | Il punto di partenza da cui misuri se una cosa è migliorata o peggiorata | Prima di cambiare come scrivo: 263 punti difficili su 60 testi. Quella è la baseline |
+| **runtime** | Mentre il programma gira davvero, non mentre lo leggi | Un difetto trovato a runtime è un difetto visto succedere, non immaginato |
+| **hook** | Un comando che parte da solo quando succede una cosa precisa | Quando dico «ho finito», parte da solo il controllo che verifica se è vero |
+| **fail-closed** | Nel dubbio blocca, invece di lasciar passare | Se non riesco a misurare se il lavoro è a posto, non do il via libera |
+| **typecheck** | Un controllo che legge il codice e trova gli errori senza eseguirlo | Passa prima di ogni consegna del Pannello |
+
+### Le parole mie, quelle che restano. Deciso da Nicola il 3/8
+
+Avevo scritto che tre parole mie dovevano morire. Nicola ha deciso il contrario: *«resta potatore e
+tutte le altre parole se servono per abbreviare una frase, basta che mi spieghi il significato»*.
+
+Ha ragione, e il motivo è pratico. «Il potatore ha liberato spazio» sta in cinque parole. «La pulizia
+automatica dei file vecchi ha liberato spazio» ne vuole nove. Su un testo intero la differenza si
+sente. La regola quindi non è *vietarle*, è **spiegarle**:
+
+| Parola mia | Cosa vuol dire | Esempio vero |
+|---|---|---|
+| **potatore** | la pulizia automatica che accorcia i file di memoria quando crescono troppo | il file dell'apprendimento pesava un mega: il potatore taglia le righe più vecchie |
+| **cricchetto** | un limite che può solo scendere, mai risalire | i difetti tollerati erano 127: da lì possono solo diminuire |
+| **verdetto muto** | un lavoro consegnato senza dire com'è andato | otto salvataggi di fila e nessuna riga di esito: otto verdetti muti |
+| **aria fritta** | una frase che sembra spiegare e non dice niente | «adesso è più robusto» non dice cosa non si rompe più |
+| **passo indietro** | dire di cosa parli e a cosa serve, prima del merito | è la prima delle sette regole di scrittura |
+| **fila** | l'elenco ordinato di cose da fare, dalla più urgente | le 860 parole ancora da spiegare stanno in una fila |
+
+> **La regola d'uso.** Una parola mia si può usare se ① accorcia davvero la frase e ② è qui dentro,
+> oppure la spiego dove la scrivo. Quello che resta vietato è **inventarne una nuova e non dirtelo**:
+> quello è debito che paghi tu.
+
+---
+
+## Parte 10-ter — Le parole che incontri leggendo, trovate il 3/8/2026
+
+Come sono state trovate, perché il metodo conta: ho letto **tutti i 689 testi** che ti arrivano,
+tolto il codice, i link e i nomi dei file, e contato le parole tecniche rimaste nella prosa. Quelle
+usate almeno 25 volte e assenti da questo glossario erano **310**. Qui ci sono le più frequenti, più
+le 5 che avevi chiesto tu.
+
+### Le 5 che avevi chiesto
+
+| Parola | Cosa vuol dire | Esempio vero |
+|---|---|---|
+| **denominatore** | su quanti casi ho misurato, il numero sotto la riga | «253 senza esito» non dice niente. «253 **su 277**» sì: 277 è il denominatore |
+| **fixture** | un caso finto costruito apposta per provare una cosa | provo il controllo su un finto negozio, non sul tuo vero |
+| **pathspec** | il filtro che dice a quali file guardare | «guarda solo i file .md dentro consegne» è un pathspec |
+| **guardrail** | un blocco che ti impedisce di fare un danno | il tetto di spesa che ferma la macchina prima che bruci il budget |
+| **referto** | il foglio con i risultati di un controllo, scritto su file | dopo ogni giro resta un referto con cosa è passato e cosa no |
+
+### Le 19 che usi di più senza saperlo
+
+| Parola | Cosa vuol dire | Esempio vero di MyCity |
+|---|---|---|
+| **buyer** | il cliente che compra sul marketplace | il buyer paga, e da lì parte l'ordine al negozio |
+| **seller** | il negozio che vende | Pane Quotidiano è il primo seller vero |
+| **rider** | il fattorino che consegna | serve un rider per ogni ordine con consegna |
+| **account** | il profilo di una persona o di un negozio | ogni seller ha il suo account per gestire i prodotti |
+| **admin** | la parte del sito riservata a chi comanda | dall'admin si vedono tutti gli ordini, non solo i propri |
+| **token** | una chiave d'accesso, come una password per i programmi | il token di GitHub permette alla macchina di salvare il lavoro |
+| **GitHub** | il posto su internet dove vive il codice e la memoria | ogni salvataggio finisce lì, e da lì lo legge il Pannello |
+| **push** | mandare su GitHub il lavoro salvato | finché non faccio push, il lavoro esiste solo sul mio computer |
+| **query** | una domanda fatta al database | «quanti ordini pagati oggi?» è una query |
+| **server** | un computer sempre acceso che fa girare le cose | il worker vive su un server, non sul tuo portatile |
+| **cron** | l'orologio che fa partire una cosa da sola a un'ora fissa | il giro del mattino parte così, senza che nessuno lo lanci |
+| **timer** | il conto alla rovescia prima che qualcosa scatti | l'allarme del worker morto aspetta un timer prima di suonare |
+| **sync** | allineare due copie perché dicano la stessa cosa | il Pannello si sincronizza con la memoria su GitHub |
+| **refresh** | ricaricare i dati per vederli aggiornati | la Cabina fa refresh ogni 30 secondi |
+| **batch** | un gruppo di cose fatte tutte insieme invece che una per volta | consegnare 5 ordini della stessa via in un giro solo |
+| **playbook** | la procedura scritta passo per passo, da seguire quando serve | il playbook per accendere Telegram |
+| **default** | il valore che vale se non scegli niente | di default le azioni non partono: serve la tua firma |
+| **link** | il collegamento cliccabile a un'altra pagina o file | ogni card porta il link al file completo |
+| **vault** | la cassaforte della memoria, cioè la cartella `MyCity-Vault` | tutto quello che la macchina ricorda vive lì |
+
+> 📌 **Le parole di mestiere dei senior arrivano quando serve.** Restano fuori da qui, per adesso, i
+> vocabolari specifici dei 120 senior: `DSCR` e `factoring` del credito, `OSS` e `IOSS` dell'IVA,
+> `DVR` della sicurezza sul lavoro, `ROAS` e `CPA` della pubblicità, `KYC` dell'antiriciclaggio.
+> Sono centinaia, e impararle tutte adesso non serve a niente. La regola concordata con Nicola il
+> 3/8: **quando metti al lavoro un senior, quel senior ti spiega le sue parole, e finiscono qui.**
+> Nel frattempo valgono le regole generali: o la parola è nel glossario, o va spiegata dove la uso.
+
+---
+
+### Le 10 trovate dal rilevamento automatico (prima infornata, 3/8)
+
+Queste non le ho scelte io: le ha trovate il controllo che cerca le parole tecniche non spiegate,
+ordinandole per quante volte le incontri leggendo.
+
+| Parola | Cosa vuol dire | Esempio vero |
+|---|---|---|
+| **preview** | l'anteprima: una copia del sito visibile solo a noi, per guardare una modifica prima che diventi vera | ogni modifica al Pannello ha la sua anteprima con un indirizzo a parte |
+| **dashboard** | il cruscotto: una pagina che raccoglie i numeri importanti a colpo d'occhio | la Cabina è il cruscotto della macchina |
+| **handoff** | il passaggio di consegne da un reparto all'altro | vendite firma il negozio e lo passa a onboarding: quello è il passaggio |
+| **pitch** | il discorso con cui convinci qualcuno in pochi minuti | il pitch al fornaio dura 3 minuti e finisce con una domanda |
+| **trigger** | il grilletto: la condizione che fa partire una cosa da sola | ordine pagato senza consegna da 24 ore fa scattare l'allarme |
+| **slot** | la fascia oraria prenotabile | gli slot di consegna della sera sono quelli che si riempiono prima |
+| **stock** | la merce disponibile in magazzino | se lo stock è finito il prodotto non si può ordinare |
+| **feedback** | il ritorno di chi ha provato una cosa: cosa è andato bene e cosa no | la telefonata dopo il primo ordine serve a raccogliere il feedback |
+| **seed** | i dati finti messi apposta per provare il sito prima che ci siano quelli veri | i negozi demo erano dati seed, non botteghe vere |
+| **summary** | il riassunto in poche righe di una cosa lunga | in cima a ogni consegna c'è il riassunto |
+
+> 🔄 **Come cresce questa parte, da adesso.** C'è un comando che legge tutti i testi e trova le parole
+> tecniche assenti da qui. Le mette in fila, ordinate per quante volte le incontri.
+> Il comando è `node cervello/si-capisce.mjs --nuove`.
+> La fila vive in `auto-coscienza/parole-da-spiegare.json`. Oggi contiene **860 parole**: le più
+> frequenti entrano qui a infornate, le altre restano in fila. Nessuna definizione viene scritta in
+> automatico — una definizione sbagliata dentro il materiale che studi è peggio di una parola che
+> manca.
+
+---
+
 ## Parte 11 — I livelli di comprensione
 
 | Livello | Cosa spiega | La domanda a cui risponde |

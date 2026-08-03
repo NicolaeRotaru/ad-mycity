@@ -294,6 +294,23 @@ export function giudicaBattito(righe, adesso = Date.now(), soglie = SOGLIE) {
  * Due numeri, e il peggiore vince: da quanti giri l'allineamento rimanda, e quanti commit il server
  * si porta dietro senza averli mandati su GitHub.
  */
+/**
+ * Il verdetto sul battito della guardia in tempo reale (AR-498). Pura: è la decisione, e le decisioni
+ * stanno dove un test le può eseguire.
+ *
+ * Il caso delicato è il terzo. Un battito assente da una sessione appena clonata è NORMALE — quel
+ * file vive fuori da git apposta — e farne un ❌ vorrebbe dire nascere rossi a ogni clone, cioè
+ * insegnare a scorrere quella riga entro tre giorni. Diventa rosso solo quando in questa copia
+ * qualcuno ha già modificato dei file: allora un Edit c'è stato, e la guardia doveva parlare.
+ */
+export function giudicaBattitoGuardia(uscita, detto, sporchi = 0) {
+  if (uscita === 0) return ok(detto, { uscita });
+  if (sporchi > 0) {
+    return rotto(`${sporchi} file modificati in questa copia e il sorvegliante non ha mai scattato: il canale in tempo reale è staccato`, { sporchi, uscita });
+  }
+  return nonVisto("il sorvegliante non ha ancora scattato in questa copia: il battito vive fuori da git, e da una sessione nuova non lo posso vedere", { uscita });
+}
+
 export function giudicaPubblicazione({ rinvii, ahead, cieco } = {}, soglie = SOGLIE) {
   if (cieco) return nonVisto(cieco);
   const n = Number(rinvii) || 0;
@@ -556,6 +573,32 @@ const CONTROLLI = [
     },
   },
   {
+    id: "cervello.sorvegliante",
+    organo: "cervello",
+    titolo: "La guardia in tempo reale ha davvero scattato",
+    impatto: 3,
+    async prova() {
+      // PERCHÉ QUESTO CONTROLLO ESISTE (AR-498). Il sorvegliante scrive un battito apposta per
+      // rispondere a «sei vivo?» — l'unica domanda a cui il silenzio non sa rispondere da solo. Per
+      // tre giorni quel battito non l'ha letto NESSUNO: `--battito` non era chiamato da nessuno
+      // script, solo citato in una scheda. Cioè la cura di AR-465 (un verdetto senza lettore) era
+      // stata costruita con dentro lo stesso difetto, un piano più su.
+      //
+      // COPERTURA DICHIARATA, e conta più del verde: qui si prova che la guardia HA GIRATO in questa
+      // copia, non che abbia visto l'ultima modifica. Le modifiche fatte da un comando invece che da
+      // un Edit non la svegliano affatto (l'hook è agganciato a Edit|Write|MultiEdit): quello è un
+      // buco noto e dichiarato, non qualcosa che questo controllo copre.
+      const prova = "node cervello/sorvegliante.mjs --battito";
+      const r = eseguiNode("sorvegliante.mjs", ["--battito"], 20_000);
+      if (!r.partito) return { ...guasto(r.motivo), prova };
+      const st = spawnSync("git", ["status", "--porcelain"], { cwd: AD_ROOT, encoding: "utf8" });
+      // Se `git` non risponde non deduco «albero pulito»: senza quella misura non posso distinguere
+      // il clone nuovo dal canale staccato, e allora resta ⚪ — che è la risposta vera.
+      const sporchi = st.status === 0 ? String(st.stdout || "").split("\n").filter(Boolean).length : 0;
+      return { ...giudicaBattitoGuardia(r.code, primaRigaUtile(r.out), sporchi), prova, ms: r.ms };
+    },
+  },
+  {
     id: "cervello.guardiani",
     organo: "cervello",
     titolo: "I guardiani del giro esistono tutti",
@@ -569,6 +612,44 @@ const CONTROLLI = [
       const { unici, assenti } = guardianiMancanti(readFileSync(giro, "utf8"), (f) => existsSync(join(AD_ROOT, "cervello", f)));
       if (assenti.length) return rotto(`${assenti.length} guardiani del giro non esistono più: ${assenti.join(", ")}`, { assenti });
       return ok(`${unici.length} guardiani del giro presenti`, { quanti: unici.length });
+    },
+  },
+
+  {
+    // AR-474 — l'abitudine: «quando finisco, scrivo il verdetto dove è comodo per me, non dove lo
+    // legge Nicola». I due cancelli la fermano in avanti; questo dice se sta davvero scomparendo.
+    //
+    // Sta nella VISITA e non in un comando a parte perché la visita è la cosa che Nicola chiede
+    // («controlla se funziona tutto»): il numero finisce nel referto che legge, non in un file che
+    // dovrebbe andare a cercare. Verificato dove atterra invece di darlo per scontato: `salute.json`
+    // + `consegne/salute/AAAA-MM-GG-*.md`. Il campo `ultime` NON è renderizzato da nessuna schermata
+    // della Cabina — l'ho controllato nel Pannello, non dedotto — e quel buco è AR-476, dichiarato
+    // aperto invece che raccontato come coperto.
+    id: "cervello.esiti",
+    organo: "cervello",
+    titolo: "Il lavoro consegnato dice com'è andato",
+    impatto: 2,
+    async prova() {
+      const r = eseguiNode("conta-verdetti-muti.mjs", ["--json"], 120_000);
+      if (!r.partito) return guasto(r.motivo);
+      if (r.code === 2) return nonVisto(`non ho potuto contare: ${String(r.out).trim().slice(0, 140)}`);
+      // `out` mescola stdout e stderr: il JSON è il primo oggetto che comincia. Se non c'è, è ⚪ —
+      // un contatore che non risponde non è «zero consegne mute», è un contatore che non ha risposto.
+      let d = null;
+      const i = String(r.out).indexOf("{");
+      if (i >= 0) {
+        try {
+          d = JSON.parse(String(r.out).slice(i));
+        } catch {
+          /* resta null → ⚪ qui sotto */
+        }
+      }
+      if (!d || typeof d.consegne !== "number") return nonVisto("il contatore dei verdetti muti non ha risposto in modo leggibile");
+      const cab = d.cabina
+        ? ` · Cabina ${d.cabina.giorni_indietro} giorni indietro (STATO al ${d.cabina.stato_aggiornato})`
+        : " · Cabina: data di STATO.md illeggibile";
+      const testo = `${d.mute} consegne su ${d.consegne} degli ultimi ${d.finestra_giorni} giorni senza una riga di esito (${d.tasso}%)${cab}`;
+      return r.code === 0 ? ok(testo, d) : rotto(`${testo} — il debito si è allargato rispetto al tetto`, d);
     },
   },
 

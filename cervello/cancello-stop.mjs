@@ -19,18 +19,34 @@
 // che potesse dire di no. AR-455 è il caso di scuola: chiuso perché «la riga in settings.json c'è»,
 // mentre il freno che quella riga attaccava parlava a nessuno. Chiuso sulla lettera, non sull'effetto.
 //
-// COSA CONTROLLA — tre cose meccaniche, nessun giudizio:
+// COSA CONTROLLA — sei cose meccaniche, nessun giudizio:
 //   ① difetto chiuso senza prova eseguibile — `verifica.comando`. Un difetto che si chiude senza un
 //      comando che possa fallire non è chiuso: è archiviato.
-//   ② allarme scritto e non accodato — un file nuovo che contiene 🔴/CRITICO/bloccante mentre la coda
-//      che Nicola legge (AZIONI-IN-ATTESA.md) non è stata toccata. È il verdetto senza lettore, colto
-//      nell'atto.
+//   ② allarme scritto e non accodato — 🔴/CRITICO/bloccante in un documento nuovo, oppure AGGIUNTO a
+//      una consegna che esisteva già, mentre la coda che Nicola legge (AZIONI-IN-ATTESA.md) non è
+//      stata toccata. È il verdetto senza lettore, colto nell'atto.
 //   ③ lezione nuova senza freno — una lezione che non nomina un `gate`. La regola di casa è già
 //      questa; qui arriva un giro prima del cancello del lotto.
+//   ④ lavoro consegnato senza esito (AR-154) — ho committato codice e nessuna riga NUOVA in un
+//      quaderno porta la calibrazione «atteso … → reale …». Il rituale esiste dal giorno di AR-009 e
+//      dipende da un passo manuale: nello sprint del Pannello il quaderno di @tech salta da 20/7 a
+//      25/7 — quattro giorni consecutivi (21, 22, 23, 24) con ZERO righe, mentre le PR si mergiavano
+//      a sette al giorno.
 //
-// COSA NON CONTROLLA, e va detto: non sa se ciò che ho scritto in chat sia vero, non legge il
-// contenuto dei documenti, non giudica se un fix è giusto. Tre misure sullo stato del lavoro, non
-// sulla sua qualità. Dove passa un «forse», qui si tace.
+//   ⑤ testo consegnato a Nicola che non si capisce (AR-478) — un file .md nelle cartelle dove lui
+//      legge che esce PEGGIORE di come è entrato. Delta verso la base, non totale: sul totale ogni
+//      ritocco a un file lungo sarebbe un blocco, e un cancello che non può diventare verde si impara
+//      ad aggirarlo.
+//   ⑥ messaggio in chat che non si capisce (AR-481, AR-489) — la chat È un file: l'hook `Stop` riceve
+//      `transcript_path`. Include le idee già mandate, che è l'unica misura con memoria della
+//      conversazione: tutte le altre guardano un pezzo per volta.
+//
+// COSA NON CONTROLLA, e va detto: non sa se ciò che ho scritto sia VERO, non giudica se un fix è
+// giusto, e — la più importante — non sa se la riga di esito parli DI QUESTO lavoro. Nessuna regola
+// meccanica distingue «ho raccontato il lavoro giusto» da «ho raccontato un lavoro»: quel giudizio
+// resta a Nicola, che la riga la legge in Cabina. E non sa se Nicola ha CAPITO: conta segnali di
+// forma, non comprensione. Sei misure sullo stato del lavoro e sulla forma di ciò che consegno, non
+// sulla loro qualità. Dove passa un «forse», qui si tace.
 //
 // Uso:
 //   node cervello/cancello-stop.mjs           # verdetto leggibile (nessun blocco)
@@ -38,12 +54,18 @@
 //
 // Exit: 0 = niente da dire · 2 = c'è qualcosa che stavo per lasciare indietro
 //
-// 🟢 Sola lettura: non scrive, non tocca git, non modifica file.
+// 🟢 Sola lettura sul repo: non modifica file versionati, non tocca git. L'UNICA scrittura è l'ancora
+//    del turno (AR-496) in `cervello/_tmp_stop-ancora.json`, fuori da git — senza, il perimetro
+//    tornerebbe a essere tutto il ramo a ogni chiusura. Stessa scelta del battito del sorvegliante,
+//    e per lo stesso motivo: verificare non deve costare un diff.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { closeSync, existsSync, openSync, readFileSync, readSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { percorsiDaGit } from "./percorsi-git.mjs";
+import { misura, parolePeggioNoteAGlossario } from "./si-capisce.mjs";
+import { BATTITO, vociInsistenti } from "./sorvegliante.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -72,8 +94,34 @@ export function chiusiSenzaProva(prima = [], dopo = []) {
   const eraChiuso = new Set(prima.filter((d) => d.stato === "chiuso").map((d) => d.id));
   return dopo
     .filter((d) => d.stato === "chiuso" && !eraChiuso.has(d.id))
-    .filter((d) => !d.verifica || !d.verifica.comando)
+    .filter((d) => !chiusuraLegittima(d.verifica))
     .map((d) => ({ id: d.id, titolo: String(d.titolo || "").slice(0, 80), debole: Boolean(d.verifica) }));
+}
+
+/**
+ * Le due chiusure che valgono (AR-487).
+ *
+ * Il difetto, trovato da Nicola il 3/8 usandolo: il controllo pretendeva `verifica.comando` e basta.
+ * Ma esistono difetti che NON si chiudono con un comando: quelli che aspettano una DECISIONE sua.
+ * Caso vero dello stesso giorno: AR-479, le quattro ore di lettura. Nicola ha deciso «non voglio
+ * riscrivere niente». Non c'è nessun comando che possa dimostrare quella frase, ed è giusto così.
+ * Il controllo la segnalava come se io avessi chiuso un difetto senza prova.
+ *
+ * Un controllo che accusa la persona che comanda quando comanda è un controllo che si impara a
+ * ignorare — e diventerebbe rumore proprio sul canale dove passano le decisioni.
+ *
+ * ① `verifica.comando` — la prova forte: un comando che si esegue e può fallire.
+ * ② `verifica.tipo === "umano"` CON un `esito` scritto — la decisione di Nicola, messa a verbale.
+ *
+ * L'`esito` non è burocrazia: è ciò che impedisce alla macchina di chiudersi i difetti da sola
+ * scrivendo «umano» e basta. Senza il verbale di cosa è stato deciso, resta una dichiarazione — che
+ * è esattamente la cosa che questo controllo esiste per fermare.
+ */
+export function chiusuraLegittima(verifica) {
+  if (!verifica) return false;
+  if (typeof verifica.comando === "string" && verifica.comando.trim()) return true;
+  if (verifica.tipo === "umano" && typeof verifica.esito === "string" && verifica.esito.trim()) return true;
+  return false;
 }
 
 /**
@@ -83,9 +131,246 @@ export function chiusiSenzaProva(prima = [], dopo = []) {
  * messo niente dove lui guarda. Se la coda È stata toccata non dico niente — non ho modo di sapere
  * se la riga giusta è quella, e un guardiano che indovina viene spento.
  */
-export function allarmiSenzaCoda(fileNuovi = [], codaToccata = false) {
+export function allarmiSenzaCoda(fileNuovi = [], codaToccata = false, consegneModificate = []) {
   if (codaToccata) return [];
-  return fileNuovi.filter((f) => ALLARMI.some((r) => r.test(f.contenuto || ""))).map((f) => f.file);
+  const daiNuovi = fileNuovi.filter((f) => ALLARMI.some((r) => r.test(f.contenuto || ""))).map((f) => f.file);
+  // Il buco che restava (1/8): un allarme AGGIUNTO in fondo a una consegna che esisteva già non era
+  // un file nuovo, quindi non lo vedeva nessuno. È il caso più probabile dei due — le consegne si
+  // aggiornano molto più spesso di quanto nascano.
+  const daiModificati = consegneModificate.filter((f) => (f.righe || []).some((r) => ALLARMI.some((m) => m.test(r)))).map((f) => f.file);
+  return [...new Set([...daiNuovi, ...daiModificati])];
+}
+
+/**
+ * ④ Lavoro di codice CONSEGNATO senza una riga di esito (AR-154).
+ *
+ * Il rituale «una riga ESITO dopo ogni lavoro 🟡/🔴» esiste dal giorno di AR-009, e dipende da un
+ * passo manuale a fine lavoro. Il conto che ha presentato è misurato sul quaderno di @tech: durante
+ * lo sprint del Pannello le date saltano da 20/7 a 25/7 — quattro giorni consecutivi (21, 22, 23, 24)
+ * con ZERO righe, mentre le PR si mergiavano a sette al giorno. Non per pigrizia: sotto pressione si
+ * chiude il bug dopo, non si registra quello prima — saltare la registrazione non rompe niente, e
+ * quindi è sempre la prima cosa che salta. Un rituale che dipende dalla disciplina fallisce
+ * esattamente quando servirebbe di più.
+ *
+ * Guarda i COMMIT del ramo, non l'albero di lavoro: a metà lavoro le modifiche non sono committate e
+ * l'esito non è ancora dovuto — chiedere lì produrrebbe rumore a ogni turno, e il rumore spegne i
+ * freni. Quando invece il lavoro è committato, è consegnato: quello è il momento in cui l'esito è
+ * dovuto, ed è lo stesso punto che la scheda AR-154 indica («nel flusso di git-pr»).
+ *
+ * `memoria` sono le quattro cartelle che questo repo chiama memoria da sempre (le stesse di MEM_DIRS
+ * in vps/aggiorna-cervello.sh): tutto il resto è lavoro che qualcuno dovrà rileggere.
+ */
+export const CARTELLE_MEMORIA = ["MyCity-Vault/", "consegne/", "creativi/", "memoria-squadra/"];
+
+/**
+ * La forma di una riga di esito VERA — data, contesto, e la calibrazione `atteso → reale`.
+ *
+ * Perché la forma e non solo il file (limite ① della prima stesura, 1/8): la prima versione si
+ * accontentava che un `memoria-squadra/*.md` comparisse fra i file committati. Bastava una virgola in
+ * un quaderno per passare — cioè il freno chiedeva di TOCCARE un file, non di dire com'era andata. E
+ * un freno che si può soddisfare senza fare la cosa che difende insegna a soddisfarlo, non a farla.
+ *
+ * `atteso → reale` è obbligatorio e non è un capriccio di formato: è l'unica parte che vale qualcosa.
+ * Il resto — data, contesto, tag — descrive il lavoro; solo la distanza fra ciò che mi aspettavo e
+ * ciò che è successo calibra il giudizio della volta dopo. Una riga senza quella è una ricevuta.
+ */
+export const RIGA_ESITO = /^-\s*\d{4}-\d{2}-\d{2}[^\n]*·[^\n]*\batteso\b[^\n]*→[^\n]*\breale\b/;
+
+/** Le righe AGGIUNTE ai quaderni che sono davvero righe di esito. */
+export function esitiScritti(righeAggiunte = []) {
+  return righeAggiunte.map((r) => String(r).trim()).filter((r) => RIGA_ESITO.test(r));
+}
+
+/**
+ * ④ Lavoro di codice CONSEGNATO senza una riga di esito (AR-154).
+ *
+ * Guarda le righe AGGIUNTE dal ramo, non i file toccati — così chiude anche il limite ②: un quaderno
+ * modificato per un altro motivo (una potatura, un riordino) non toglie né aggiunge una riga di
+ * esito, e quindi non soddisfa più il freno per sbaglio.
+ *
+ * COPERTURA DICHIARATA: che la riga parli DI QUESTO lavoro non è verificabile da una macchina —
+ * nessuna regola meccanica distingue «ho raccontato il lavoro giusto» da «ho raccontato un lavoro».
+ * Quello resta un giudizio di Nicola, che la riga la legge in Cabina → Memoria → Quaderni senior. Il
+ * freno garantisce che una riga con la calibrazione dentro esista e arrivi dove lui guarda.
+ */
+export function consegnaSenzaEsito(fileCommittati = [], righeAggiunteNeiQuaderni = [], codiceDopoEsito = null) {
+  const codice = fileCommittati.filter((f) => !CARTELLE_MEMORIA.some((m) => f.startsWith(m)));
+  if (!codice.length) return null;
+  const quaderni = fileCommittati.filter((f) => f.startsWith("memoria-squadra/") && f.endsWith(".md"));
+  if (!esitiScritti(righeAggiunteNeiQuaderni).length) {
+    return { quanti: codice.length, esempio: codice.slice(0, 3), quadernoToccato: quaderni.length > 0, dopo: 0 };
+  }
+  // IL BUCO CHE LA RILETTURA HA TROVATO (2/8, AR-477). Fin qui il controllo si fermava a «esiste una
+  // riga di esito sul ramo». Provato dal vivo: su un ramo che ne aveva già una, ho committato un file
+  // di codice nuovo e il cancello ha detto «niente da lasciare indietro». Cioè: **la prima riga di
+  // esito comprava il lasciapassare per tutto il resto del ramo**, e più il ramo è lungo — questo ne
+  // ha otto di commit — più lavoro passa senza essere raccontato.
+  //
+  // La domanda giusta non è «c'è una riga?» ma «ho continuato a lavorare DOPO averla scritta?».
+  // Sull'unità di consegna (il ramo verso main) resta silenzioso chi scrive l'esito alla fine, che è
+  // il comportamento corretto; parla solo con chi ha committato codice dopo l'ultimo racconto.
+  if (codiceDopoEsito > 0) {
+    return { quanti: codice.length, esempio: codice.slice(0, 3), quadernoToccato: true, dopo: codiceDopoEsito };
+  }
+  return null;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// IL PERIMETRO (AR-496) — «questo turno», non «tutto il ramo».
+//
+// PERCHÉ ESISTE, e il caso è di ieri l'altro. Il 3/8, in un turno in cui non avevo scritto una riga
+// (albero pulito, solo letture), questo cancello mi ha fermato per un allarme scritto il 31/7 in un
+// commit che vive su questo ramo. Aveva ragione sul fatto — quel 🔴 non è mai arrivato in coda — e
+// torto sul tempo: non era una cosa che stavo lasciando indietro ADESSO. E siccome il confronto era
+// `origin/main...HEAD`, sarebbe ricomparso identico a ogni chiusura di ogni turno finché il ramo non
+// si mergia. Un rosso che si ripete uguale è il modo esatto in cui un freno insegna a ignorarsi —
+// regola che questa macchina ha già scritto («un avvisatore che parla sempre viene spento entro la
+// settimana») e che poi ha violato nel proprio cancello.
+//
+// COME. Un'ancora fuori da git (`_tmp_`, come il battito del sorvegliante: verificare non deve
+// costare un diff) col commit su cui si è chiuso l'ultimo turno pulito. Da lì in poi il perimetro è
+// `ancora...HEAD` = il lavoro di QUESTO turno.
+//
+// DUE SCELTE CHE CONTANO:
+//   · l'ancora si sposta SOLO quando il turno si chiude senza blocco. Spostarla su un turno bloccato
+//     farebbe sparire dal perimetro proprio ciò per cui ho bloccato: il secondo giro passerebbe
+//     verde, e il freno si scavalcherebbe da solo.
+//   · se l'ancora non c'è (prima chiusura qui) o non è più un antenato di HEAD (rebase, reset), NON
+//     fingo precisione: torno al ramo e lo DICHIARO in testa al verdetto. Un perimetro sbagliato
+//     taciuto è peggio di un perimetro largo dichiarato.
+//
+// E resta com'era per il controllo ④ (l'esito del lavoro consegnato): quello è per-RAMO per progetto
+// — l'unità di consegna è la PR, non il turno, ed è stato tarato ieri su questo (AR-477). Stringerlo
+// al turno sarebbe stato allentare un freno appena costruito, cioè la cosa che il sorvegliante adesso
+// chiama `soglia-allentata`.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const ANCORA = "cervello/_tmp_stop-ancora.json";
+
+/**
+ * Da dove guardo. Pura: prende ciò che l'I/O ha già accertato e torna il perimetro + cosa dichiarare.
+ * @returns {{da:string|null, turno:boolean, nota:string|null}}
+ */
+export function scegliPerimetro({ ancora = null, ancoraUsabile = false, base = null } = {}) {
+  if (ancora && ancoraUsabile) return { da: ancora, turno: true, nota: null };
+  if (!base) return { da: null, turno: false, nota: null };
+  return {
+    da: base,
+    turno: false,
+    nota:
+      ancora
+        ? `l'ancora del turno precedente non è più un antenato di HEAD (rebase o reset): guardo tutto il ramo verso ${base}, quindi qui sotto può comparire lavoro di altri turni.`
+        : `è la prima volta che mi fermo qui: non ho un'ancora del turno, guardo tutto il ramo verso ${base}. Il prossimo giro sarà preciso.`,
+  };
+}
+
+/**
+ * Si sposta l'ancora? Pura, perché è una DECISIONE: dentro `main()` nessun test la potrebbe eseguire,
+ * e resterebbe provata solo dal fatto che il codice «sembra giusto» — che è come è nato AR-455.
+ *
+ * ① turno chiuso pulito → sì. Non basta «non ho bloccato»: la valvola anti-cappio lascia passare un
+ *    secondo giro che ha ancora tutti i suoi ❌, e spostare lì farebbe sparire dal perimetro proprio
+ *    ciò per cui avevo bloccato — il freno si scavalcherebbe da solo.
+ * ② nessun perimetro valido (prima volta qui, o ancora invalidata da un rebase) → sì lo stesso, anche
+ *    con dei ❌ aperti. Senza, il primo giro si morde la coda: debito vecchio sul ramo → ❌ → non
+ *    pianto → il giro dopo è di nuovo tutto il ramo → lo stesso ❌, per sempre. Cioè esattamente il
+ *    rosso ripetuto che questo intervento esiste per spegnere. Trovato collaudando, non rileggendo.
+ */
+/**
+ * Il codice d'uscita fuori dall'hook, cioè quello che la CI legge (AR-506). Pura: è una decisione, e
+ * questa è la terza volta oggi che una decisione lasciata dentro `main()` mi è costata un giro.
+ *
+ * Tre esiti, e il terzo è quello che mancava:
+ *   2 — non ho misurato (⚪): cieco non è verde, e chi legge deve saperlo.
+ *   1 — ho trovato qualcosa che va sistemato.
+ *   0 — non ho trovato niente. Le righe ℹ️ non sono un problema: dicono COME ho guardato, non che
+ *       ho guardato male. Prima finivano nel ramo «1», e bastava una nota — che in CI c'è SEMPRE,
+ *       perché l'ancora vive fuori da git — per tenere la pipeline rossa a vita.
+ */
+export function uscitaFuoriDallHook({ cieco = false, righe = [] } = {}) {
+  const sostanza = righe.filter((r) => !String(r).startsWith("ℹ️"));
+  if (!sostanza.length) return 0;
+  if (cieco && sostanza.every((r) => String(r).startsWith("⚪"))) return 2;
+  return 1;
+}
+
+export function siPiantaAncora(righe = [], perimetroTurno = false) {
+  return !righe.some((r) => String(r).startsWith("❌")) || !perimetroTurno;
+}
+
+/**
+ * ⑤ I testi che Nicola leggerà e che non si capiscono (AR-478).
+ *
+ * Nicola, 2/8: «ho perso 2 ore solo per capire due botta e risposta nelle ultime 5 PR» e poi
+ * «attacca il misuratore così viene chiamato in automatico, così non lo salti mai quando c'è
+ * pressione». Prima di questo, `si-capisce.mjs` esisteva e non lo chiamava NESSUNO: era una buona
+ * intenzione, cioè esattamente il tipo di rituale che salta per primo sotto pressione (AR-154).
+ *
+ * Sta qui e non in un guardiano nuovo per un motivo pratico: questo file gira già in due canali —
+ * l'evento `Stop` (l'istante in cui dico «fatto») e il cancello del lotto, che la CI esegue su ogni
+ * PR. Un aggancio solo, due porte.
+ *
+ * PERIMETRO: le cartelle dove Nicola legge, esclusa la storia. Briefing, DECISIONI e Sala Operativa
+ * sono il registro di cosa è successo: riscriverli sarebbe cambiare il passato, non spiegarsi meglio.
+ */
+export const CARTELLE_DI_NICOLA = ["MyCity-Vault/90-Memoria-AI/", "consegne/"];
+export const STORIA_ESENTE = /(Briefing\/|DECISIONI\.md|SALA-OPERATIVA\.md|archivio|quaderni\/)/;
+
+export function testiIlleggibili(testi = [], noteAGlossario = null) {
+  const fuori = [];
+  for (const t of testi) {
+    if (!CARTELLE_DI_NICOLA.some((c) => t.file.startsWith(c))) continue;
+    if (STORIA_ESENTE.test(t.file)) continue;
+    const m = misura(t.contenuto, { noteAGlossario });
+
+    // SI MISURA IL PEGGIORAMENTO, NON IL TOTALE.
+    //
+    // Il primo giro dal vivo ha bocciato il GLOSSARIO per 48 punti: un file di 500 righe scritto
+    // mesi fa, che avevo sfiorato per aggiungerci una parte. Con la regola sul totale, ogni ritocco
+    // a un testo lungo diventa un blocco — e un cancello che non può diventare verde viene aggirato
+    // al secondo giro. È scritto nella casa, ed è successo davvero al typecheck del Pannello.
+    //
+    // Il debito vecchio resta debito (misurato, e si riscrive a mano, un testo per volta). Quello che
+    // qui NON deve passare è il debito NUOVO: un file che esce peggiore di come è entrato.
+    // Un file nuovo entra da zero, quindi ogni suo problema è nuovo: lì la soglia è 0, come deve.
+    const prima = t.contenutoPrima == null ? 0 : misura(t.contenutoPrima, { noteAGlossario }).problemi.length;
+    if (m.problemi.length <= prima) continue;
+
+    fuori.push({
+      file: t.file,
+      quanti: m.problemi.length,
+      prima,
+      nuovi: m.problemi.length - prima,
+      primi: m.problemi.slice(0, 3),
+    });
+  }
+  return fuori;
+}
+
+/**
+ * ⑥ IL MESSAGGIO CHE STO PER MANDARE A NICOLA IN CHAT (AR-481).
+ *
+ * Era il buco dichiarato di AR-478: «la chat non è misurabile, non è un file, nessun controllo può
+ * girarci sopra». Era falso, e l'ho scoperto guardando cosa riceve l'hook `Stop`: insieme a
+ * `stop_hook_active` arriva anche `transcript_path`, cioè il percorso del file dove Claude Code
+ * scrive tutta la conversazione, i miei messaggi compresi.
+ *
+ * Quindi la chat È un file — solo, non era il file che stavo guardando. Ed è il posto dove Nicola
+ * legge di più: le due ore che ha perso non erano sulle consegne, erano su cinque PR e sulla chat.
+ *
+ * SOLO I MESSAGGI LUNGHI. Un «fatto, il sito è tornato online» non deve avere tre blocchi e un
+ * esempio: chiederglielo sarebbe rumore a ogni turno, e il rumore spegne i freni.
+ */
+export function messaggioIlleggibile(testo, noteAGlossario = null, precedenti = []) {
+  if (!testo || !testo.trim()) return null; // niente da misurare: non accuso nessuno
+  const m = misura(testo, { noteAGlossario, precedenti });
+  // Le ripetizioni contano anche sui messaggi CORTI: un messaggio breve che ridice una cosa già
+  // detta è il caso più frequente, ed è quello che è successo davvero il 3/8.
+  const ripetute = m.problemi.filter((p) => p.tipo === "gia-detto");
+  if (!m.testoLungo && !ripetute.length) return null;
+  const problemi = m.testoLungo ? m.problemi : ripetute;
+  if (!problemi.length) return null;
+  return { quanti: problemi.length, minuti: m.minuti, primi: problemi.slice(0, 4) };
 }
 
 /** ③ Le lezioni nuove che non nominano un freno: una lezione senza gate è una frase. */
@@ -101,8 +386,62 @@ export function lezioniSenzaGate(prima = [], dopo = []) {
  * ripartendo per colpa di un blocco precedente. Bloccare di nuovo lì significherebbe un turno che non
  * finisce mai — e un freno che incastra viene spento entro il giorno, che è il peggiore degli esiti.
  */
-export function verdetto({ chiusi = [], allarmi = [], lezioni = [], giaBloccato = false } = {}) {
+export function verdetto({
+  chiusi = [],
+  allarmi = [],
+  lezioni = [],
+  senzaEsito = null,
+  insistenti = [],
+  illeggibili = [],
+  messaggio = null,
+  ciechi = [],
+  note = [],
+  giaBloccato = false,
+  attribuzione = { certa: true, nota: null },
+} = {}) {
   const righe = [];
+  // ⚪ «NON SO COSA È TUO» (AR-507, Nicola 3/8) — l'accusa che parte prima dell'attribuzione.
+  //
+  // COSA È SUCCESSO. Prima chiusura di una sessione cloud: nessuna ancora del turno (vive fuori da
+  // git, e il container parte da un clone fresco), quindi perimetro = tutto il ramo. Il cancello ha
+  // elencato sette ❌ su 194 file e 10 commit di sessioni precedenti. In quel turno io avevo scritto
+  // ZERO file del repo — l'albero era pulito, verificato con `git status`.
+  //
+  // PERCHÉ NON BASTAVA LA NOTA. La riga ℹ️ in fondo diceva la verità («guardo tutto il ramo»), ma
+  // sopra c'erano sette ❌ scritti in prima persona: «ho scritto un allarme», «questo lavoro gli ha
+  // aggiunto 29 punti difficili». Un cancello che accusa di cose non tue è la definizione operativa
+  // del rosso che si impara ad aggirare — la stessa taratura che il sorvegliante si è dato guardando
+  // solo il delta, «così parte verde per costruzione», e che questo cancello non si era dato.
+  //
+  // LA CURA, e i suoi confini. Quando l'attribuzione NON è certa, i due controlli che leggono il
+  // perimetro (l'allarme non accodato, il testo peggiorato) non spariscono e non accusano: escono ⚪
+  // «non so cosa è tuo», si leggono, e non bloccano il turno. Gli altri restano ❌ perché non
+  // dipendono dall'ancora — ① e ③ confrontano HEAD col disco (sono modifiche non committate, cioè
+  // mie per definizione), ⑤ e ⑥ vivono nella sessione (il battito, la chat), ④ è per-RAMO per scelta
+  // dichiarata (AR-477: l'unità di consegna è la PR, non il turno).
+  //
+  // NON è un'esenzione permanente: chi chiama passa `certa: false` solo dentro l'hook `Stop` e solo
+  // finché l'ancora manca. L'ancora si pianta alla fine di questo stesso giro, quindi il turno dopo
+  // il freno è pieno. Fuori dall'hook — CI, comando a mano — resta tutto ❌: lì il perimetro-ramo è
+  // quello giusto, perché l'unità di consegna è la PR.
+  const incerte = [];
+  const accusa = (riga, attribuita = false) => {
+    if (attribuita && !attribuzione.certa) {
+      incerte.push(`⚪ non so cosa è tuo: ${riga.split("\n")[0].replace(/^❌ /, "")}`);
+      return;
+    }
+    righe.push(riga);
+  };
+  // ⑤ L'AVVISO CHE HO IGNORATO (AR-497). Il sorvegliante parla a ogni modifica; fino al 3/8 nessuno
+  // guardava se avessi fatto qualcosa. Una voce grave tornata tre volte e ancora viva all'ultimo
+  // scatto non è più un avviso: è una decisione presa senza dirlo.
+  for (const v of insistenti) {
+    righe.push(
+      `❌ il sorvegliante me l'ha detto ${v.n} volte e sta ancora lì: ${v.file}` +
+        `\n   → ${v.cosa}` +
+        `\n   → o la riparo, o la dichiaro esente con il perché scritto. Ignorarla in silenzio è la terza via che non esiste.`,
+    );
+  }
   for (const d of chiusi) {
     righe.push(
       `❌ ${d.id} l'ho chiuso senza una prova che possa fallire${d.debole ? " (c'è solo la forma debole file+pattern)" : ""}` +
@@ -110,29 +449,92 @@ export function verdetto({ chiusi = [], allarmi = [], lezioni = [], giaBloccato 
     );
   }
   for (const f of allarmi) {
-    righe.push(
+    accusa(
       `❌ ho scritto un allarme in ${f} e non ho messo niente in AZIONI-IN-ATTESA.md` +
         `\n   → chi lo legge, e quando? Se la risposta è «nessuno, se non va a cercarlo», non ho finito.`,
+      true,
     );
   }
   for (const id of lezioni) {
     righe.push(`❌ la lezione ${id} non nomina nessun freno\n   → una lezione senza gate è una frase: quale comando fallisce se viene violata?`);
   }
-  if (!righe.length) return { blocca: false, righe: [] };
+  if (senzaEsito) {
+    righe.push(
+      (senzaEsito.dopo > 0
+        ? `❌ ho committato codice DOPO l'ultima riga di esito: ${senzaEsito.dopo} commit di lavoro che nessuna riga racconta (AR-477)` +
+          `\n   → una riga c'è, ma parla del lavoro di prima: la prima riga non compra il lasciapassare per tutto il ramo.`
+        : `❌ ho committato ${senzaEsito.quanti} file di lavoro e non ho lasciato una riga di esito in nessun quaderno (AR-154)` +
+          (senzaEsito.quadernoToccato
+            ? `\n   → un quaderno l'ho toccato, ma non c'è nessuna riga nuova con «atteso … → reale …»: quella è la parte che vale.`
+            : "")) +
+        `\n   → ${senzaEsito.esempio.join(", ")}${senzaEsito.quanti > senzaEsito.esempio.length ? ", …" : ""}` +
+        `\n   → node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard>" "<atteso>" "<reale>" "#tag"` +
+        `\n   → atteso→reale è la calibrazione: senza, il lavoro è fatto e nessuno impara niente da com'è andato.`,
+    );
+  }
+  for (const t of illeggibili) {
+    accusa(
+      `❌ ${t.file} lo leggerà Nicola e questo lavoro gli ha aggiunto ${t.nuovi} punti difficili` +
+        ` (era ${t.prima}, adesso ${t.quanti} — AR-478)` +
+        t.primi.map((p) => `\n   → ${p.dico}${p.frase ? `\n     «${p.frase}»` : ` (riga ${p.riga})`}`).join("") +
+        `\n   → node cervello/si-capisce.mjs ${t.file}` +
+        `\n   → la sostanza NON si toglie: i termini tecnici e i ragionamenti restano, si spiegano dove servono.`,
+      true,
+    );
+  }
+  if (messaggio) {
+    righe.push(
+      `❌ il messaggio che sto per mandarti in chat ha ${messaggio.quanti} punti che ti costringono a rileggere` +
+        ` (~${messaggio.minuti} min di lettura — AR-481)` +
+        messaggio.primi.map((p) => `\n   → ${p.dico}${p.frase ? `\n     «${p.frase}»` : ""}`).join("") +
+        `\n   → riscrivilo PRIMA di chiudere il turno: la chat è il posto dove Nicola legge di più.` +
+        `\n   → la sostanza resta tutta: si riscrive la forma, non si toglie il contenuto.`,
+    );
+  }
+  // ⚪ CIECO NON È VERDE (limite ③ della prima stesura). Quando non trovo un ramo con cui confrontarmi
+  // — clone superficiale, `origin/main` assente — il controllo ④ non gira. Prima quel caso taceva, e
+  // un silenzio è indistinguibile da un «va tutto bene»: esattamente la malattia che questo file cura.
+  //
+  // MA ⚪ NON È NEMMENO UN CESTINO (AR-506, trovato dalla CI il 3/8). «Non ho potuto misurare» e «ho
+  // misurato, in modo diverso da come farei a casa» sono due cose diverse, e io le avevo messe nello
+  // stesso posto: l'ancora del turno assente e il registro del sorvegliante assente finivano fra i
+  // ciechi. In CI quei due file NON POSSONO esistere — vivono fuori da git apposta — quindi il
+  // cancello usciva 2 a ogni giro, per costruzione, e la CI restava rossa per sempre. Un cancello che
+  // non può diventare verde viene aggirato al secondo giro: è scritto in questa stessa casa, ed è
+  // successo davvero al typecheck del Pannello.
+  //
+  // Quindi due canali: `ciechi` = non ho guardato (esce 2), `note` = ho guardato così (si legge e
+  // basta). La differenza la decide chi CHIAMA, che è l'unico a sapere se la misura è avvenuta.
+  // Le incerte stanno con le ⚪ e non con le ❌: si leggono, non bloccano, e NON contano come
+  // «cieco» — cieco vuol dire «non ho guardato», mentre qui ho guardato e non so di chi sia. La
+  // riga che lo spiega arriva da `attribuzione.nota`, così il ⚪ non resta senza il suo perché.
+  const notaDaSola = incerte.length && attribuzione.nota && !note.includes(attribuzione.nota);
+  const noteCieche = [
+    ...incerte,
+    ...(notaDaSola ? [`ℹ️  ${attribuzione.nota}`] : []),
+    ...ciechi.map((c) => `⚪ ${c}`),
+    ...note.map((n) => `ℹ️  ${n}`),
+  ];
+  if (!righe.length) return { blocca: false, cieco: ciechi.length > 0, righe: noteCieche };
   if (giaBloccato) {
     return {
       blocca: false,
-      righe: ["🛑 il cancello dello stop aveva già fermato questo turno: non blocco una seconda volta.", ...righe],
+      cieco: ciechi.length > 0,
+      righe: ["🛑 il cancello dello stop aveva già fermato questo turno: non blocco una seconda volta.", ...righe, ...noteCieche],
     };
   }
-  return { blocca: true, righe: ["🛑 CANCELLO DELLO STOP — stavo per lasciare indietro questo:", ...righe] };
+  return { blocca: true, cieco: ciechi.length > 0, righe: ["🛑 CANCELLO DELLO STOP — stavo per lasciare indietro questo:", ...righe, ...noteCieche] };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LO STRATO I/O — git e filesystem. Sottile per scelta: tutto ciò che decide sta sopra.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const git = (args) => execFileSync("git", args, { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+// `stderr: "pipe"` NON è cosmetico: senza, il «fatal: path … exists on disk, but not in origin/main»
+// di git finiva dentro il verdetto che leggo io, sopra il messaggio vero. Un verdetto sporco si
+// legge peggio, ed è esattamente il difetto che questo file esiste per combattere.
+const git = (args) =>
+  execFileSync("git", args, { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] });
 
 /** Il file com'era all'ultimo commit. `null` = non c'era (e allora «prima» è vuoto, non un errore). */
 function daHead(percorso) {
@@ -163,7 +565,8 @@ function daDisco(percorso) {
  * rimetterebbe il falso positivo. La regola è generale — un allarme è un DOCUMENTO che nasce adesso,
  * non un registro che si aggiorna.
  *
- * COPERTURA DICHIARATA: un allarme aggiunto in fondo a un documento che esisteva già non viene visto.
+ * Il buco che restava — «un allarme aggiunto in fondo a un documento che esisteva già non viene
+ * visto» — lo chiude `righeAggiunteNelle()` qui sotto, sulle consegne committate.
  */
 function fileDelLavoro() {
   let righe = [];
@@ -188,6 +591,272 @@ function fileDelLavoro() {
   return { file, codaToccata };
 }
 
+/** La base con cui confrontarsi. `null` = non l'ho trovata, e allora il controllo ④ è CIECO. */
+function baseDelRamo() {
+  for (const base of ["origin/main", "main"]) {
+    try {
+      git(["rev-parse", "--verify", "--quiet", base]);
+      return base;
+    } catch {
+      // provo la base successiva: un riferimento assente non e' un verdetto.
+    }
+  }
+  return null;
+}
+
+/** L'ancora dell'ultimo turno chiuso pulito, se è ancora un antenato di HEAD. */
+function ancoraDelTurno() {
+  let commit = null;
+  try {
+    commit = JSON.parse(readFileSync(join(REPO, ANCORA), "utf8")).commit || null;
+  } catch {
+    return { ancora: null, ancoraUsabile: false };
+  }
+  if (!commit) return { ancora: null, ancoraUsabile: false };
+  try {
+    // Antenato di HEAD, non solo esistente: dopo un rebase il vecchio commit c'è ancora ma non
+    // racconta più niente di questo ramo, e un `diff` da lì darebbe un perimetro inventato.
+    git(["merge-base", "--is-ancestor", commit, "HEAD"]);
+    return { ancora: commit, ancoraUsabile: true };
+  } catch {
+    return { ancora: commit, ancoraUsabile: false };
+  }
+}
+
+/** C'è del lavoro non committato in questa copia? Distingue «nessuno ha scritto qui» (un clone
+ *  fresco, la CI) da «qualcuno ha scritto e la guardia non ha parlato» — vedi AR-506. */
+function alberoSporco() {
+  try {
+    return execFileSync("git", ["status", "--porcelain"], { cwd: REPO, encoding: "utf8" }).trim().length > 0;
+  } catch {
+    // Se git non risponde non deduco «pulito»: senza quella misura non posso distinguere i due casi,
+    // e il caso che costa di più è dichiarare pulito ciò che non ho guardato.
+    return true;
+  }
+}
+
+/** Pianta l'ancora sul turno appena chiuso. Solo sui turni PULITI: vedi il perché in testa. */
+function piantaAncora() {
+  try {
+    const commit = git(["rev-parse", "HEAD"]).trim();
+    writeFileSync(join(REPO, ANCORA), JSON.stringify({ commit, quando: new Date().toISOString() }));
+  } catch {
+    // Un'ancora che non si scrive non deve rompere la chiusura del turno: il giro dopo il perimetro
+    // sarà il ramo, dichiarato. Peggiore, non falso.
+  }
+}
+
+/** I file che questo ramo ha COMMITTATO rispetto alla base: il lavoro consegnato, non quello in corso. */
+function fileCommittatiSulRamo(base) {
+  // Dalla PORTA, non da git a mano (AR-339): con un nome accentato git restituisce il percorso citato
+  // in ottali, e un quaderno con l'accento smetterebbe di contare come esito scritto. Preso dal
+  // guardiano che quella regola la fa rispettare — la seconda volta oggi, sullo stesso errore.
+  try {
+    return percorsiDaGit(["diff", `${base}...HEAD`, "--name-only"], { cwd: REPO });
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Quanti commit di CODICE stanno dopo l'ultimo commit che ha aggiunto una riga di esito (AR-477).
+ *
+ * `null` = non ho potuto misurare, e allora non accuso nessuno. Il criterio per git è lo stesso di
+ * `RIGA_ESITO` scritto nel dialetto delle espressioni regolari di base (`\d`, `\b`, `\s` lì non
+ * esistono): la coerenza fra le due scritture è difesa da una prova, non dalla buona volontà.
+ */
+export const CERCA_ESITO_IN_GIT = "atteso .*→ .*reale";
+
+function codiceDopoUltimoEsito(base) {
+  const esclusioni = CARTELLE_MEMORIA.map((c) => `:(exclude)${c.replace(/\/$/, "")}`);
+  try {
+    const ultimoEsito = git(["log", "-1", "--format=%H", "-G", CERCA_ESITO_IN_GIT, `${base}..HEAD`, "--", "memoria-squadra"]).trim();
+    if (!ultimoEsito) return null; // nessun esito sul ramo: lo gestisce il caso base, non questo
+    return Number(git(["rev-list", "--count", `${ultimoEsito}..HEAD`, "--", ".", ...esclusioni]).trim());
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Le righe AGGIUNTE dal ramo nei file che stanno sotto una certa cartella.
+ *
+ * Il contenuto di un diff, non i suoi percorsi: qui la porta di AR-339 non serve (quella difende dai
+ * NOMI citati in ottali), e infatti i nomi qui non si usano per decidere — si usano per raggruppare.
+ * `-U0` perché il contesto non è stato aggiunto da questo lavoro: contarlo darebbe allarmi che c'erano
+ * già, cioè un guardiano che accusa il passato.
+ */
+function righeAggiunteNelle(base, cartella, soloMd = true) {
+  let grezzo;
+  try {
+    grezzo = git(["diff", "-U0", "--no-color", `${base}...HEAD`, "--", cartella]);
+  } catch {
+    return null;
+  }
+  const perFile = new Map();
+  let corrente = null;
+  for (const riga of grezzo.split("\n")) {
+    const m = /^\+\+\+ b\/(.+)$/.exec(riga);
+    if (m) {
+      corrente = m[1] === "/dev/null" || (soloMd && !m[1].endsWith(".md")) ? null : m[1];
+      if (corrente && !perFile.has(corrente)) perFile.set(corrente, []);
+      continue;
+    }
+    if (corrente && riga.startsWith("+") && !riga.startsWith("+++")) perFile.get(corrente).push(riga.slice(1));
+  }
+  return [...perFile.entries()].map(([file, righe]) => ({ file, righe }));
+}
+
+/**
+ * Da dove si guarda un testo: l'ancora del turno per prima, poi le basi del ramo (AR-507).
+ *
+ * Sta qui fuori — pura, esportata, provata — per una ragione precisa: dentro `testoDiBase` sarebbe
+ * stata una riga che «sembra giusta» e nessun test avrebbe potuto eseguirla, cioè il modo esatto in
+ * cui è nato AR-455 (chiuso sulla lettera, non sull'effetto). L'ordine È la regola: se l'ancora
+ * scivola dopo `origin/main`, il confronto torna silenziosamente a tutto il ramo e il fix sparisce
+ * senza che niente diventi rosso.
+ */
+export function basiPerIlTesto(da = null) {
+  return [da, "origin/main", "main"].filter(Boolean);
+}
+
+/**
+ * Il testo com'era prima. `null` = non c'era, quindi è tutto nuovo.
+ *
+ * `da` è l'ancora del turno quando c'è (AR-507): senza, il «prima» era sempre la punta di main, e il
+ * peggioramento di un testo scritto tre turni fa tornava a carico di questo. Con l'ancora il confronto
+ * parte da dove ho cominciato IO, ed è la stessa domanda ristretta al perimetro giusto.
+ */
+function testoDiBase(percorso, da = null) {
+  for (const base of basiPerIlTesto(da)) {
+    try {
+      return git(["show", `${base}:${percorso}`]);
+    } catch {
+      // il file non c'era su quella base, oppure la base non esiste: provo la prossima
+    }
+  }
+  return null;
+}
+
+/**
+ * I testi che questo lavoro sta consegnando a Nicola: modificati nell'albero di lavoro OPPURE già
+ * committati sul ramo. Servono entrambi — il primo prende il testo che sto scrivendo adesso, il
+ * secondo quello che ho scritto tre commit fa e che uscirà lo stesso con la PR.
+ *
+ * Non usa `fileDelLavoro()` perché quello guarda solo i file NUOVI: un testo peggiorato riscrivendolo
+ * è il caso più probabile, ed era proprio quello che sfuggiva.
+ */
+function testiToccati(da = null) {
+  const percorsi = new Set();
+  try {
+    for (const r of git(["status", "--porcelain"]).split("\n").filter(Boolean)) {
+      const p = r.slice(3).trim().split(" -> ").pop();
+      if (p.endsWith(".md")) percorsi.add(p);
+    }
+  } catch {
+    // niente git: resta l'elenco vuoto, e un elenco vuoto non accusa nessuno
+  }
+  // AR-507: l'ancora del turno PRIMA delle basi del ramo. Questa riga è il difetto vero trovato il
+  // 3/8 — il perimetro del turno esisteva già (AR-496) e questa funzione non lo chiedeva a nessuno,
+  // quindi i .md venivano presi da tutto il ramo A OGNI turno, non solo al primo. Il verdetto che ha
+  // fermato la sessione del 3/8 elencava sei testi: BACHECA, GLOSSARIO, STATO e tre consegne, gli
+  // ultimi tocchi datati 31/7 e 1/8, in commit di sessioni chiuse giorni prima.
+  for (const base of basiPerIlTesto(da)) {
+    try {
+      for (const p of percorsiDaGit(["diff", `${base}...HEAD`, "--name-only"], { cwd: REPO })) {
+        if (p.endsWith(".md")) percorsi.add(p);
+      }
+      break;
+    } catch {
+      // provo la base successiva
+    }
+  }
+  const testi = [];
+  for (const p of percorsi) {
+    try {
+      const abs = join(REPO, p);
+      if (!existsSync(abs)) continue;
+      testi.push({
+        file: p,
+        contenuto: readFileSync(abs, "utf8").slice(0, 200_000),
+        contenutoPrima: testoDiBase(p, da),
+      });
+    } catch {
+      // illeggibile: taccio invece di accusare
+    }
+  }
+  return testi;
+}
+
+/**
+ * L'ultimo messaggio che ho scritto in chat, preso dalla trascrizione della sessione.
+ *
+ * Legge solo la CODA del file: una sessione lunga arriva a decine di MB, e l'hook ha 20 secondi.
+ * La prima riga letta è quasi sempre spezzata a metà, quindi si scarta.
+ */
+/** Tutti i miei messaggi di testo nella coda letta, dal più vecchio al più recente. */
+export function testiAssistente(righeJsonl = []) {
+  const fuori = [];
+  for (const riga of righeJsonl) {
+    let ev;
+    try {
+      ev = JSON.parse(riga);
+    } catch {
+      continue;
+    }
+    if (ev?.type !== "assistant") continue;
+    const pezzi = ev?.message?.content;
+    if (!Array.isArray(pezzi)) continue;
+    const testo = pezzi
+      .filter((p) => p?.type === "text" && String(p.text || "").trim())
+      .map((p) => p.text)
+      .join("\n");
+    if (testo.trim()) fuori.push(testo);
+  }
+  return fuori;
+}
+
+export function ultimoTestoAssistente(righeJsonl = []) {
+  for (let i = righeJsonl.length - 1; i >= 0; i--) {
+    let ev;
+    try {
+      ev = JSON.parse(righeJsonl[i]);
+    } catch {
+      continue; // riga spezzata o non-JSON: non è un verdetto, si salta
+    }
+    if (ev?.type !== "assistant") continue;
+    const pezzi = ev?.message?.content;
+    if (!Array.isArray(pezzi)) continue;
+    const testo = pezzi
+      .filter((p) => p?.type === "text" && String(p.text || "").trim())
+      .map((p) => p.text)
+      .join("\n");
+    if (testo.trim()) return testo;
+  }
+  return null; // nessun messaggio mio nella coda letta: cieco, non accuso nessuno
+}
+
+const CODA_TRASCRIZIONE = 2 * 1024 * 1024;
+
+function leggiTrascrizione(percorso) {
+  if (!percorso || !existsSync(percorso)) return null;
+  try {
+    const dim = statSync(percorso).size;
+    const da = Math.max(0, dim - CODA_TRASCRIZIONE);
+    const fd = openSync(percorso, "r");
+    try {
+      const buf = Buffer.alloc(Math.min(dim, CODA_TRASCRIZIONE));
+      readSync(fd, buf, 0, buf.length, da);
+      const righe = buf.toString("utf8").split("\n").filter(Boolean);
+      return da > 0 ? righe.slice(1) : righe; // la prima riga è tagliata a metà
+    } finally {
+      closeSync(fd);
+    }
+  } catch {
+    return null; // trascrizione illeggibile: taccio invece di accusare
+  }
+}
+
 async function leggiStdin() {
   const pezzi = [];
   for await (const p of process.stdin) pezzi.push(p);
@@ -199,10 +868,12 @@ async function main() {
   const hook = argv.includes("--hook");
 
   let giaBloccato = false;
+  let trascrizione = null;
   if (hook) {
     try {
       const ev = JSON.parse(await leggiStdin());
       giaBloccato = Boolean(ev?.stop_hook_active);
+      trascrizione = ev?.transcript_path || null;
     } catch {
       // Nessun payload leggibile: proseguo come primo giro. Non è un motivo per tacere.
     }
@@ -214,30 +885,88 @@ async function main() {
   const lezDopo = daDisco(APPRENDIMENTO)?.lezioni || [];
   const { file, codaToccata } = fileDelLavoro();
 
+  const base = baseDelRamo();
+  const committati = base ? fileCommittatiSulRamo(base) : null;
+  const righeQuaderni = base ? righeAggiunteNelle(base, "memoria-squadra") : null;
+
+  // L'allarme è una domanda sul TURNO («stavo per lasciarlo indietro adesso»), l'esito è una domanda
+  // sulla CONSEGNA (il ramo verso main). Due perimetri diversi perché sono due domande diverse.
+  const perimetro = scegliPerimetro({ ...ancoraDelTurno(), base });
+  const consegneModificate = perimetro.da ? righeAggiunteNelle(perimetro.da, "consegne") : null;
+
+  const ciechi = [];
+  const note = [];
+  if (!committati || !righeQuaderni) {
+    ciechi.push(
+      "non ho trovato un ramo con cui confrontarmi (né origin/main né main): il controllo sull'esito del lavoro consegnato NON ha misurato. Il verde qui sotto non copre quella parte.",
+    );
+  }
+  // Perimetro largo = NOTA, non cieco (AR-506). Senza l'ancora ho comunque misurato: ho guardato un
+  // SOVRAINSIEME del turno, non meno. Metterlo fra i ciechi faceva uscire 2 il cancello a ogni giro
+  // in CI — dove l'ancora non può esistere, perché vive fuori da git — e una CI rossa per costruzione
+  // si impara a ignorare in tre giorni.
+  if (perimetro.nota) note.push(perimetro.nota);
+
+  // Le voci che il sorvegliante mi ha ripetuto in faccia mentre lavoravo (AR-497).
+  let insistenti = [];
+  try {
+    const b = JSON.parse(readFileSync(join(REPO, BATTITO), "utf8"));
+    insistenti = vociInsistenti(b.viste || {}, Number(b.scatto) || 0);
+  } catch {
+    // Battito assente: qui la differenza fra ⚪ e ℹ️ è se una sessione POTEVA lasciarlo. Su un albero
+    // pulito (CI, clone fresco) nessun Edit è passato di qui: non c'è niente da misurare, e dirlo
+    // «cieco» sarebbe accusare l'assenza di un lavoro che non c'è stato. Su un albero sporco invece
+    // qualcuno ha scritto e la guardia doveva parlare: lì il silenzio è una misura mancata davvero.
+    // È la stessa taratura del controllo `cervello.sorvegliante` nella visita (AR-498).
+    (alberoSporco() ? ciechi : note).push(
+      "il registro del sorvegliante non è leggibile da qui: non so quali avvisi mi abbia ripetuto durante il lavoro.",
+    );
+  }
+
   const v = verdetto({
+    senzaEsito: committati && righeQuaderni ? consegnaSenzaEsito(committati, righeQuaderni.flatMap((f) => f.righe), base ? codiceDopoUltimoEsito(base) : null) : null,
     chiusi: chiusiSenzaProva(cantierePrima, cantiereDopo),
-    allarmi: allarmiSenzaCoda(file, codaToccata),
+    allarmi: allarmiSenzaCoda(file, codaToccata, consegneModificate || []),
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),
+    insistenti,
+    illeggibili: testiIlleggibili(testiToccati(perimetro.da), parolePeggioNoteAGlossario(REPO)),
+    // AR-507. `certa` è falsa solo dove l'accusa sarebbe personale e il perimetro no: dentro l'hook
+    // `Stop` (sto chiudendo IL MIO turno) e senza ancora. Fuori dall'hook resta certa anche col
+    // perimetro largo, perché lì chi chiede è la CI e l'unità di consegna è il ramo, non il turno.
+    attribuzione: { certa: perimetro.turno || !hook, nota: perimetro.nota },
+    messaggio: (() => {
+      const righeT = leggiTrascrizione(trascrizione) || [];
+      const miei = testiAssistente(righeT);
+      // Gli ultimi 8 messaggi bastano: più indietro di così Nicola non ricorda, e confrontare tutta
+      // la sessione renderebbe rosso ogni riepilogo legittimo.
+      const precedenti = miei.slice(-9, -1);
+      return messaggioIlleggibile(miei[miei.length - 1] || null, parolePeggioNoteAGlossario(REPO), precedenti);
+    })(),
+    ciechi,
+    note,
     giaBloccato,
   });
+
+  if (siPiantaAncora(v.righe, perimetro.turno)) piantaAncora();
 
   if (!v.righe.length) {
     if (!hook) console.log("✅ niente da lasciare indietro.");
     process.exit(0);
   }
 
-  // Fuori dall'hook vale il contratto dei guardiani (AR-322): 1 = ho trovato qualcosa. Il 2 è
-  // riservato allo `Stop`, dove è l'unico codice che BLOCCA la chiusura del turno.
-
-  // Su `Stop` è stderr + exit 2 il canale che TORNA a me: stdout finirebbe in un log, che è
-  // esattamente il difetto per cui questo file esiste.
+  // Fuori dall'hook vale il contratto dei guardiani (AR-322): 1 = ho trovato qualcosa, 2 = non ho
+  // potuto misurare. Dentro l'hook `Stop` il 2 è l'unico codice che BLOCCA la chiusura del turno —
+  // quindi lì un cieco NON può uscire 2: un clone superficiale incastrerebbe ogni turno, e un freno
+  // che incastra viene spento entro il giorno. È una perdita dichiarata, non un silenzio: nel cancello
+  // del lotto (che gira in CI, dove i rami ci sono sempre) il cieco diventa ⚪ ed esce 2.
   const testo = v.righe.join("\n");
   if (v.blocca) {
     console.error(testo);
     process.exit(hook ? 2 : 1);
   }
   console.log(testo);
-  process.exit(hook ? 0 : 1);
+  if (hook) process.exit(0);
+  process.exit(uscitaFuoriDallHook(v));
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();

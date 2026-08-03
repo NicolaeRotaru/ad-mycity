@@ -19,6 +19,15 @@
       "ad_prepara": "Playbook consegne/intelligence/PLAYBOOK-ACCENSIONE-2026-07-20.md",
       "senior": "@builder-automazioni",
       "colore": "🔴"
+    },
+    {
+      "titolo": "Il giro guidato della macchina: te la spiego tutta, un pezzo per volta",
+      "quando": "Chiesto da Nicola il 2026-08-02 20:30: «la cosa del giro la facciamo dopo, comunque salvalo che è importante». Parte quando lo dice lui, al ritmo che decide lui.",
+      "come": "Un pezzo per volta, dal più importante al meno importante. Per ognuno: cosa fa · perché esiste · cosa succede se si rompe · un esempio vero già successo. Nicola sceglie da dove partire e quanto alla volta.",
+      "priorita": "alta",
+      "ad_prepara": "Obiettivo dichiarato da Nicola: «devo capire la macchina al 100%». Le parole tecniche le sta studiando e vanno usate, non nascoste: vanno spiegate la prima volta che compaiono, dentro un caso vero. Regola di scrittura: cervello/scrittura-umana.md",
+      "senior": "@AD",
+      "colore": "🟢"
     }
   ],
   "primi_negozi": [

@@ -336,6 +336,22 @@ export function ambientePannello(esiste) {
   return { pronto: true };
 }
 
+/**
+ * Le righe da mostrare quando un controllo è rosso o cieco: il MOTIVO, non la coda.
+ *
+ * AR-491 — un rosso che non dice perché è un rosso che si aggira. Il 3/8 il contatore delle consegne
+ * mute è uscito 1 in CI e 0 sulla stessa fusione qui: nel log comparivano solo le ultime sei righe,
+ * che con `--json` erano le graffe di chiusura. Tre giri di indagine alla cieca su un guardiano che
+ * la sua ragione ce l'aveva scritta dentro. La coda è una scelta comoda quando il comando parla per
+ * ultimo; qui si sceglie invece per CONTENUTO: le righe che portano un marcatore di verdetto.
+ * Se non ce n'è nessuna si torna alla coda — dichiarando così che il motivo non l'ho trovato.
+ */
+export function righeMotivo(righe = []) {
+  const MARCATORE = /(❌|⛔|⚪|CIECO|AssertionError|^\s*Error\b|^\s*Errore\b|^not ok\b)/;
+  const motivi = righe.filter((r) => MARCATORE.test(r));
+  return motivi.length ? motivi.slice(-6) : righe.slice(-6);
+}
+
 function esegui(nome, cmd, args, opts = {}) {
   const r = spawnSync(cmd, args, {
     cwd: opts.cwd || AD_ROOT,
@@ -370,7 +386,7 @@ function esegui(nome, cmd, args, opts = {}) {
     codice,
     // La prima riga di solito è il verdetto, l'ultima l'errore: si tengono entrambe le code.
     testa: righe.slice(0, 3),
-    coda: ucciso ? [...righe.slice(-5), `⏱️ non ha finito in tempo (${opts.timeout || 300_000} ms): rosso, non cieco`] : righe.slice(-6),
+    coda: ucciso ? [...righe.slice(-5), `⏱️ non ha finito in tempo (${opts.timeout || 300_000} ms): rosso, non cieco`] : righeMotivo(righe),
     fallito: codice !== 0 && codice !== 2,
     cieco: codice === 2,
   };
@@ -543,6 +559,9 @@ function main() {
     passi.push(esegui("forma dei JSON toccati", "node", ["cervello/forma-json.mjs"]));
     passi.push(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]));
     passi.push(esegui("spazzata dei fratelli", "node", ["cervello/spazzata-fratelli.mjs"]));
+    // La spazzata chiede «questa malattia si è allargata?». Questo chiede l'altra metà: «la forma che
+    // è appena tornata ce l'ha, un nome?» — senza, il registro invecchia da fermo (AR-499).
+    passi.push(esegui("le malattie che mancano", "node", ["cervello/malattie-mancanti.mjs"]));
     // La guardia sul DELTA di questo lotto (30/7, Nicola: «trovi problemi che tu stesso hai creato»).
     // Sta qui e non in un comando a parte per la stessa ragione per cui questo cancello esiste: cinque
     // comandi da ricordare erano cinque occasioni di dimenticarne uno. Guarda solo le righe aggiunte,
@@ -557,6 +576,19 @@ function main() {
     // allarme scritto e non accodato, una lezione senza freno. Nel turno arrivano prima (hook Stop),
     // ma il cancello del lotto e il posto che gira in CI su OGNI PR: qui il freno esiste comunque.
     passi.push(esegui("verdetti senza lettore", "node", ["cervello/cancello-stop.mjs"]));
+    // AR-475 — il posto dove vivono i freni non era sorvegliato da nessuno. Il blocco Stop incollato
+    // a mano l'1/8 aveva la graffa finale mancante (JSON non valido → NIENTE hook caricato, deny sui
+    // .env compreso) e la chiave `stop` minuscola: due difetti, zero rumore. Sta nel cancello e non
+    // in un comando a parte perché la configurazione si tocca proprio quando si consegna un freno
+    // nuovo — cioè nel momento esatto in cui si può staccare tutto senza accorgersene.
+    passi.push(esegui("gli hook attaccati", "node", ["cervello/hooks-check.mjs"]));
+    // AR-474 — il contatore dell'abitudine. I due cancelli fermano il caso nuovo; questo dice se il
+    // comportamento sta scomparendo o se sto solo trovando il modo di aggirarli. Ha un tetto che
+    // scende e non risale: qui diventa rosso solo se il debito si ALLARGA, cioè se una consegna muta
+    // in più è entrata mentre il freno era acceso.
+    // Senza `--json`: in JSON il verdetto è una chiave in mezzo al documento, e chi legge il log ne
+    // vede solo le graffe finali. In italiano la riga col ❌ dice il numero, il tetto e la data.
+    passi.push(esegui("consegne senza esito (contatore)", "node", ["cervello/conta-verdetti-muti.mjs"]));
     passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));
 
     // AR-393 — LA PROVA CHE LE PROVE PROVINO, ESEGUITA INVECE CHE NOMINATA.

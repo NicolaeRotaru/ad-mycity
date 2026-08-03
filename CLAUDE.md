@@ -295,7 +295,19 @@ Quando metti un senior al lavoro, pretendi il **risultato fatto**, non un'analis
 - **🟡/🔴 toccano il mondo reale** → il senior li prepara **completi e pronti a partire** (testo esatto,
   destinatario, importo, canale), salva il contenuto in `consegne/` e **accoda l'azione** in
   `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md`. Al via di Nicola, l'azione parte.
-  - **✍️ Scrivi il TITOLO come lo diresti a voce** (regola completa: `cervello/scrittura-umana.md`). Il titolo
+  - **✍️ Scrivi il TITOLO come lo diresti a voce** (regola completa: `cervello/scrittura-umana.md` — vale
+    anche per **la chat con Nicola, i titoli e i corpi delle PR, i messaggi di commit**: AR-478 — e vale
+    su **qualunque argomento**, non solo la macchina: soldi, vendite, contratti, contenuti, e per ognuno
+    dei 120 senior quando delego, perché il testo esce comunque dagli occhi di Nicola — AR-480). Ogni testo
+    lungo apre con i **tre blocchi** — *In parole semplici* · *Cosa cambia per te* · *Cosa devi fare* — e solo
+    dopo la riga **Dettagli tecnici** arrivano codici, comandi e sigle (sopra quella riga niente `AR-…`,
+    `#…`, path: sono targhe, vanno in fondo). **Le parole tecniche NON sono vietate** — Nicola le sta
+    studiando e vanno usate: quelle del `GLOSSARIO.md` liberamente, quelle fuori dal glossario solo se le
+    spieghi nella riga stessa. Il difetto vero è la **forma**: ① passo indietro (di cosa parlo e a cosa
+    serve, prima del merito) ② un esempio concreto con giorni/nomi/numeri veri ③ ripeti la cosa importante
+    con parole diverse ④ una frase, un'idea (max 30 parole, niente incisi dentro incisi) ⑤ zero sottintesi
+    ⑥ ogni numero col suo metro («253 su 277, quasi tutte»). Prima di consegnare misura la bozza:
+    `node cervello/si-capisce.mjs bozza.md`. Il titolo
     dell'azione è il testo grosso della card: attacca con un verbo e una cosa vera («Chiama il fornaio per
     confermare l'ordine»), **tieni fuori dal titolo** sigle (`AR-004`, `#16.2`), ID (`phc_…`, ID Stripe), path
     e numeri-comando (`SQL 107`) — quelli scendono nel Contenuto, per chi esegue. Il metro è la lettera a Nicola:

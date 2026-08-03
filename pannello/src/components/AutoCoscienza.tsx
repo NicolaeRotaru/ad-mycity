@@ -281,9 +281,27 @@ export default function AutoCoscienza({
   // se esiste un'azione che ne è nata → mostriamo "vai all'azione". (origine → id azione)
   const [azPerOrigine, setAzPerOrigine] = useState<Record<string, string>>({});
   const [mostraArchivioLezioni, setMostraArchivioLezioni] = useState(false);
+  // AR-476 — il verdetto organo per organo della visita. Viveva in salute.json e in un referto
+  // markdown: nessuna rotta lo serviva, quindi in Cabina si vedeva solo il voto sintetico.
+  const [organi, setOrgani] = useState<SaluteOrgani | null>(null);
+
+  // Il conto tiene i ⚪ SEPARATI dai verdi: sommarli farebbe sembrare piena una copertura bucata.
+  type SaluteOrgani = {
+    collegato?: boolean;
+    messaggio?: string;
+    aggiornato?: string | null;
+    conto?: { verdi: number; rossi: number; nonVisti: number; totale: number; copertura: number };
+    organi?: { organo: string; verdi: number; rossi: number; nonVisti: number; daGuardare: { titolo?: string; detto?: string; esito?: string }[] }[];
+  };
 
   const carica = useCallback(() => {
     fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
+    // Niente `.catch(() => {})`: se la lettura fallisce la sezione sparirebbe, e una sezione che
+    // sparisce si legge come «nessun organo rotto». Il fallimento si DICE (AR-256, errore-ingoiato).
+    fetch("/api/memoria/salute-organi", { cache: "no-store" })
+      .then((r) => r.json())
+      .then(setOrgani)
+      .catch((e) => setOrgani({ collegato: false, messaggio: `non ho potuto leggere il referto degli organi (${String(e?.message || e)})` }));
     fetch("/api/memoria/risposta", { cache: "no-store" }).then((r) => r.json()).then((x) => {
       if (!x?.risposte) return;
       // AR-238: si fondono le locali sopra quelle del server; quando il server concorda, la copia
@@ -602,6 +620,40 @@ export default function AutoCoscienza({
                       </span>
                     );});
                   })()}
+                </div>
+              )}
+
+              {/* 🫀 I cinque organi — AR-476. Il verdetto della visita, per organo.
+                  ⚪ non è mai un verde: i non visti hanno la loro casella e la copertura si dichiara. */}
+              {organi && !organi.collegato && (
+                <div className="t-eti flex items-center gap-1.5 text-slate-500">
+                  <Activity size={12} /> Organi: ⚪ {organi.messaggio || "referto non disponibile"} — non è un verde.
+                </div>
+              )}
+
+              {organi?.collegato && (organi.conto?.totale || 0) > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5">
+                    <Activity size={13} /> Gli organi ({organi.conto!.rossi} rotti · {organi.conto!.nonVisti} non visti · {organi.conto!.verdi} provati)
+                    <span className="t-eti">· copertura {organi.conto!.copertura}%{organi.aggiornato ? ` · ${dataVault(organi.aggiornato)}` : ""}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {(organi.organi || []).map((o) => (
+                      <span
+                        key={o.organo}
+                        title={o.daGuardare.map((v) => `${v.esito === "rotto" ? "❌" : "⚪"} ${v.titolo || ""}: ${v.detto || ""}`).join("\n") || "tutto provato"}
+                        className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ring-1 ${
+                          o.rossi > 0
+                            ? "bg-red-50 text-red-700 ring-red-200"
+                            : o.nonVisti > 0
+                              ? "bg-slate-50 text-slate-600 ring-slate-200"
+                              : "bg-green-50 text-green-700 ring-green-200"
+                        }`}
+                      >
+                        {o.organo}: <b>{o.rossi > 0 ? `${o.rossi} rotti` : o.nonVisti > 0 ? `${o.nonVisti} non visti` : "provato"}</b>
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
 

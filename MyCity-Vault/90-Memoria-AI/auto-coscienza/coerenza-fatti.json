@@ -1,19 +1,12 @@
 {
-  "data": "2026-08-03 22:22",
-  "esito": "ok",
-  "copertura": 1182,
+  "data": "2026-08-03 23:30",
+  "esito": "non_verificato",
+  "copertura": 0,
   "fatti_totali": 29,
-  "cacce_aperte": 1,
-  "file_scansionati": 1182,
+  "cacce_aperte": 0,
+  "file_scansionati": 0,
   "incoerenze": [],
-  "cacce": [
-    {
-      "fatto": "architettura.tre-macchine",
-      "pattern": "Architettura bersaglio a tre macchine — CENTRO (azienda) → PIAZZA (marketplace, una per citta) → BOTTEGA (servizio ai negozianti: UNA macchina multi-negozio, mai una per negozio). Stato: proposta approvata come visione, nessuna fase avviata. Fase 1 (porta unica di scrittura verso il marketplace) raccomandata subito; Fasi 2-4 dopo Vercel e i primi incassi. Dettaglio: MyCity-Vault/90-Memoria-AI/ARCHITETTURA-TRE-MACCHINE.md",
-      "dal": "2026-08-03 22:21",
-      "copie_trovate": 0
-    }
-  ],
+  "cacce": [],
   "esenzioni_default": [
     "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
     "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
@@ -23,5 +16,5 @@
     "MyCity-Vault/90-Memoria-AI/registro-fatti.json",
     "memoria-squadra/"
   ],
-  "istruzioni": "Memoria coerente: nessuna copia vecchia nei file vivi."
+  "istruzioni": "NON VERIFICATO: nessuna caccia aperta, quindi non è stato letto alcun file. Non è un verde — è l'assenza di una misura (AR-211)."
 }

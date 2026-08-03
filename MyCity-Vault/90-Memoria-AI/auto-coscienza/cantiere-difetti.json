@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-30 17:10",
+  "aggiornato": "2026-08-03 23:20",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -1811,13 +1811,17 @@
       "gravita": "grave",
       "impatto_crescita": "medio",
       "causa_radice": "Il rituale 'una riga ESITO dopo ogni lavoro 🟡/🔴' (cervello/chiusura-loop.mjs) dipende da un passo manuale a fine lavoro; durante i giorni ad altissimo ritmo (7+ PR/giorno, bug segnalati a raffica da Nicola) l'AD ha dato priorità a chiudere il bug successivo piuttosto che registrare l'esito del precedente — la forcing-function esiste ma non ha un gate deterministico che blocchi la chiusura di un lavoro senza la riga ESITO, a differenza di altri gate (es. auto-analisi/apprendimento in AR-014).",
-      "fix_proposto": "🟡 Nel flusso di git-pr.mjs (o in un hook post-merge): se il branch tocca codice di reparto, ricordare/forzare la riga ESITO prima di considerare il lavoro chiuso — stesso pattern del gate deterministico già usato per auto-analisi.json/apprendimento.json (AR-014), esteso a chiusura-loop.",
+      "fix_proposto": "FATTO 🟡 quarta domanda del cancello dello Stop (`consegnaSenzaEsito`): se il ramo ha COMMITTATO file fuori dalle quattro cartelle di memoria e nessun quaderno e stato toccato, il cancello si ferma e da il comando pronto. Guarda i commit e non l albero di lavoro: a meta lavoro l esito non e ancora dovuto, e chiederlo li sarebbe rumore che spegne il freno. Gira sia allo Stop (istante del «fatto») sia dentro il cancello del lotto, che la CI esegue su ogni PR — cioe esattamente il punto che questa scheda indicava («nel flusso di git-pr»). 4 prove + 1 mutazione.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-24 16:00",
       "origine": "review-settimanale 2026-07-24 (peer_review PR-006)",
       "nota": "Trovato confrontando chiusura-loop.json (ultimo_esito @tech = 2026-07-20 23:38) con git log (107 merge 17-24/7, la maggioranza dopo il 20/7). Non blocca nulla di reale oggi (nessuna azione 🔴 eseguita senza controllo), ma svuota la calibrazione futura: senza ESITO, il volano previsto-vs-reale su @tech resta cieco proprio nella settimana di maggiore attività.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-01 12:20",
+      "verifica": {
+        "comando": "node cervello/test/cancello-stop.test.mjs"
+      }
     },
     {
       "id": "AR-155",
@@ -5735,7 +5739,8 @@
       "origine": "provando su un albero finto il fix di AR-334 appena mergiato, invece di rileggerlo",
       "chiuso_come": "node cervello/test/esenzione-con-un-motivo-vero.test.mjs → exit 0 (guardiano soddisfatto)",
       "nato_come": "regressione",
-      "nato_da": "AR-334 (PR #599): il suo fix ha aperto due strade per zittire una malattia"
+      "nato_da": "AR-334 (PR #599): il suo fix ha aperto due strade per zittire una malattia",
+      "malattia": "esenzione-aggiunta"
     },
     {
       "id": "AR-339",
@@ -5855,7 +5860,9 @@
       "corroborata": true,
       "nato_come": "regressione",
       "nato_da": "lotto 29 (migrazione delle verifiche da {file,pattern} a {comando})",
-      "nascita_nota": "la migrazione delle prove alla forma migliore ha fatto salire i «non auto-chiudibili» da 24 a 38: classifica() non riconosceva la forma nuova"
+      "nascita_nota": "la migrazione delle prove alla forma migliore ha fatto salire i «non auto-chiudibili» da 24 a 38: classifica() non riconosceva la forma nuova",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma vive nel DATO, non nel codice: un lettore che conosce solo il formato vecchio dopo una migrazione. Nessuna riga la tradisce — il codice e corretto per il formato che sa leggere. La copre prove-oneste.mjs, che misura la copertura per FORMATO invece che per file, e il cancello del lotto la esegue a ogni consegna."
     },
     {
       "id": "AR-345",
@@ -5891,7 +5898,9 @@
       "nota_fix": "Lotto 32, in due pezzi come chiedeva il fix. (a) Il buco di adesso: il cancello era rosso su main per tutti. Verificato su un worktree pulito da HEAD che il rosso NON era di questo lotto — era zona cieca 14 contro tetto 13. Applicata la regola di AR-340 (si mappa, non si alza il tetto): il file nuovo era consegne/salute/2026-07-29-1238-claude.md, il referto della visita, cioe la macchina che si controlla da sola → mappata la cartella a macchina. Suite di nuovo verde: 79 file, 722 asserzioni. (b) La radice: .github/workflows/cancello-lotto.yml fa girare node cervello/cancello-lotto.mjs su ogni pull_request verso main — prima NESSUN workflow girava sulle PR (l unico era deploy-pannello, su push a main) e il pre-commit e configurazione locale che una sessione nuova puo non avere (AR-343). Il workflow tratta l uscita 2 (cieco) come blocco quanto la 1, e installa le dipendenze del Pannello perche il typecheck non esca cieco. NOTA: la parte (b) non si puo provare da questo ramo — un workflow su pull_request lo esegue GitHub solo dopo il merge del file. Resta da verificare alla prima PR successiva.",
       "nato_come": "regressione",
       "nato_da": "PR #604 e #602",
-      "nascita_nota": "guardiani-in-bacheca.test.mjs e' entrato su main gia' rosso (10/4): da li' il cancello condiviso e' rosso per tutti i rami"
+      "nascita_nota": "guardiani-in-bacheca.test.mjs e' entrato su main gia' rosso (10/4): da li' il cancello condiviso e' rosso per tutti i rami",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E uno stato del RAMO — due PR che entrano portandosi dietro la stessa rottura — non una forma di codice: nessun pattern per riga puo vederlo, perche il difetto e nella sequenza dei merge. Lo copre il cancello del lotto, che gira prima di ogni consegna e trova il rosso condiviso."
     },
     {
       "id": "AR-434",
@@ -7799,7 +7808,8 @@
       "origine": "corsia D del lotto 35 (se lo e' inflitto da sola riparando) + secondo caso nel lotto 36 su cantiere-prove.mjs",
       "nota": "Due casi in due giorni su moduli diversi: non e' un inciampo, e' una forma. Registrato in ritardo — nel lotto 35 era rimasto solo nel rapporto della corsia e in chat, cioe' da nessuna parte. E' esattamente cio' che il mansionario vieta: «quello che non si fa e' tenerli in testa, li muoiono a fine sessione». Misurato il 30/7: 37 moduli di cervello/ scrivono o escono senza guardia.",
       "nato_come": "regressione",
-      "nato_da": "lotto 35, corsia D — la prosa dell'origine lo dichiara: «se lo è inflitto da sola riparando»"
+      "nato_da": "lotto 35, corsia D — la prosa dell'origine lo dichiara: «se lo è inflitto da sola riparando»",
+      "malattia": "programma-che-parte-importando"
     },
     {
       "id": "AR-446",
@@ -7853,7 +7863,9 @@
       },
       "nato_come": "regressione",
       "nato_da": "lotto 36 (chiusura della famiglia dei conflitti di PR)",
-      "nascita_nota": "riscrivevo i JSON di memoria con un'indentazione scelta a caso: +12147/-12124 per aggiungere un campo. L'errore era mio, commesso mentre chiudevo un'altra famiglia di errori"
+      "nascita_nota": "riscrivevo i JSON di memoria con un'indentazione scelta a caso: +12147/-12124 per aggiungere un campo. L'errore era mio, commesso mentre chiudevo un'altra famiglia di errori",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E una proprieta del DIFF intero (un file riscritto tutto per cambiarne una riga), non di una riga: guardando le righe una per una sono tutte legittime, e il difetto compare solo confrontando l indentazione con quella di origin/main. Ha il suo guardiano dedicato, forma-json.mjs — che infatti mi ha preso il 3/8 quando ho riscritto due registri a 2 spazi."
     },
     {
       "id": "AR-449",
@@ -8127,7 +8139,9 @@
       "fix_proposto": "FATTO 🟡 cervello/sorvegliante.mjs — la forma --hook ora stampa SOLO la busta JSON (hookSpecificOutput.additionalContext), e lascia un battito fuori da git (_tmp_, cosi verificare non sporca l albero, AR-464) con l ora dell ultimo scatto; --battito risponde a «hai girato o no?» ed esce 2 se non ha mai scattato, perche cieco non e verde. Provato END-TO-END nella stessa sessione: le modifiche successive hanno fatto comparire il verdetto accanto al risultato dello strumento. 8 prove nuove + 3 mutazioni (99/99 rosse).",
       "verifica": {
         "comando": "node cervello/test/sorvegliante.test.mjs"
-      }
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "Il canale muto si vede nell EFFETTO (il verdetto non arriva a chi deve leggerlo), non in una riga: il codice che stampa testo semplice e sintatticamente identico a quello giusto. Lo coprono il controllo ② di cancello-stop.mjs (allarme scritto e non accodato) e il battito del sorvegliante, letto dalla visita da AR-498."
     },
     {
       "id": "AR-466",
@@ -8272,7 +8286,7 @@
     },
     {
       "id": "AR-474",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🟡",
       "dimensione": "guardiani-e-guardrail",
@@ -8283,15 +8297,704 @@
       "origine": "Nicola 31/7: «i 4 fix risolvono la causa ma non l abitudine». Misurata su me stesso nella stessa sessione: 9 difetti chiusi, 0 con una prova che potesse fallire. · [collisione di id: AR-472 era gia stato preso da un altra sessione — e AR-447 in diretta, riassegnato al primo numero libero]",
       "titolo": "L abitudine dietro tutti i canali muti: quando finisco, scrivo il verdetto dove e comodo per me, non dove lo legge Nicola",
       "causa_radice": "① Sei istanze in due giorni: sorvegliante nel log di debug, watch-main in journalctl, misura-cieca che stava per nascere muta, il rapporto del 503 in una cartella che non pubblicava. Ogni volta ho riparato l istanza. ② Perche si ripete? Perche il posto dove scrivo il verdetto e sempre quello VICINO AL LAVORO: il log e vicino al codice, la scheda e vicina al difetto, la consegna e vicina al reparto. Nessuno di quei posti e Nicola. ③ Perche non me ne accorgo? Perche scrivere il verdetto E la sensazione di aver finito: nel momento in cui l ho scritto, il lavoro mi sembra chiuso. ④ La prova che non e un aneddoto: in questa stessa sessione ho chiuso 9 difetti (AR-455, AR-462, AR-465..471) e NESSUNO portava un comando capace di fallire. Nove volte «fatto» senza niente che potesse dire di no.",
-      "fix_proposto": "PRONTO 🟡 `cervello/cancello-stop.mjs` — il freno sull evento Stop, l unico che scatta nell istante in cui dico «fatto», cioe l unico momento in cui l abitudine si manifesta. Tre controlli meccanici: ① difetto chiuso senza `verifica.comando` ② documento .md NUOVO che contiene 🔴/CRITICO/bloccante mentre AZIONI-IN-ATTESA.md resta intatta ③ lezione nuova senza gate. Exit 2 = non mi lascia chiudere il turno, con scritto cosa manca. Valvola anti-cappio su `stop_hook_active`: la seconda volta avvisa e lascia passare, perche un freno che incastra viene spento entro il giorno. 14 prove + 3 mutazioni, provato dal vivo su un difetto chiuso senza prova (uscita 2) e sul falso positivo del proprio registro (corretto: solo documenti nuovi). RESTA A NICOLA la riga in .claude/settings.json (il file e in deny per la macchina): un blocco `Stop` con comando `node cervello/cancello-stop.mjs --hook`.",
+      "fix_proposto": "FATTO 🟡 in tre pezzi, perche il difetto ha due meta. ① I FRENI (gia in main): il cancello dello Stop e il cancello del lotto fermano il caso nuovo — difetto chiuso senza prova, allarme non accodato, lezione senza gate, lavoro consegnato senza esito. ② IL CONTATORE (questo): `cervello/conta-verdetti-muti.mjs` cammina la storia di main e risponde alla domanda che decide se l abitudine e curata o solo tamponata — quante volte, DI FATTO, ho consegnato un lavoro il cui esito non e arrivato dove Nicola legge. Prima misura, 30 giorni: 253 consegne mute su 277 (91%), piu la Cabina 3 giorni indietro rispetto all ultima consegna. Tetto che SCENDE e non risale, come tetti-lotto.json: rosso solo se il debito si allarga, perche un contatore che parte rosso viene spento al secondo giro. ③ DOVE ATTERRA, controllato e non dedotto: referto verdetti-muti.json, organo `cervello.esiti` nella visita (quindi dentro consegne/salute/*.md, il referto che Nicola legge quando chiede «controlla se funziona tutto»), e il cancello del lotto in CI su ogni PR. Il denominatore esclude la manutenzione del worker VPS e lo DICHIARA (`esclusi_worker`): senza, il numero era 644 con 367 commit automatici dentro, cioe un 94% che non misurava il comportamento di nessuno. 15 prove + 4 mutazioni.",
+      "verifica": {
+        "comando": "node cervello/test/conta-verdetti-muti.test.mjs"
+      }
+    },
+    {
+      "id": "AR-478",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-02 19:05",
+      "nato_come": "scoperta",
+      "origine": "[nato da una CORREZIONE DI NICOLA, non da un giro della macchina] Nicola 2/8: «perdo tantissimo tempo a capire i termini e il modo in cui spieghi… ho perso 2 ore solo per capire due botta e risposta nelle ultime 5 PR».",
+      "titolo": "Nicola non riesce a leggermi: non per le parole tecniche (le sta studiando) ma per come costruisco la spiegazione",
+      "causa_radice": "① La regola di scrittura umana esisteva ma il suo perimetro era dichiarato e limitato ai TITOLI delle card del Pannello: chat e corpi delle PR — i due posti dove Nicola legge davvero — erano esplicitamente fuori. ② PRIMA DIAGNOSI SBAGLIATA, corretta da Nicola: avevo concluso «il problema sono le parole tecniche» e le avevo vietate. Nicola: «molte parole che usi sono parole tecniche e le voglio imparare, mi va bene che le usi; però il modo in cui mi spieghi mi viene difficile da capire». Vietare il vocabolario gli toglieva proprio la cosa che sta studiando. ③ La misura conferma lui, non me: sui 60 testi che legge, 810 problemi totali, di cui 0 di vocabolario dopo aver messo le parole vere del mestiere nel glossario. Il 100% del residuo e forma: 488 incisi, 203 frasi oltre le 30 parole, 90 blocchi di risposta mancanti, 29 testi lunghi senza un solo esempio concreto. ④ Perche non me ne accorgo mentre scrivo: comprimere e elegante per chi scrive e costoso per chi legge; le metafore annidate mi fanno risparmiare righe e costano a Nicola una rilettura. ⑤ Il costo misurato: ~2 ore su 2 scambi.",
+      "fix_proposto": "FATTO 🟡 ① perimetro esteso a chat + titoli/corpi PR + messaggi di commit; ② le parole tecniche NON si vietano: quelle del GLOSSARIO si usano, quelle fuori vanno spiegate nella riga stessa (guardiano: si-capisce.mjs --parole); ③ aggiunte al GLOSSARIO le 19 parole vere del mestiere che usavo e che non c erano (commit, branch, merge, PR, deploy, rollback, CI, endpoint, API, webhook, payout, onboarding, churn, pipeline, baseline, runtime, hook, fail-closed, typecheck), ognuna con un esempio vero di MyCity — servono lo studio di Nicola, non solo la regola; ④ le sei mosse di forma (passo indietro, esempio, ripasso, una frase un idea, zero sottintesi, metro sui numeri) misurate da cervello/si-capisce.mjs; ⑤ baseline scritta in auto-coscienza/si-capisce.json: 810 problemi su 52.008 parole in 60 testi, 13,5 per testo. 19 prove, tutte su testo preso dalle PR vere.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-479",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-02 22:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "Trovato misurando i testi vivi per rispondere a «riscrivi i vecchi testi». Nessuno aveva mai misurato QUANTO SONO LUNGHI i file che Nicola apre ogni giorno.",
+      "titolo": "I tre file che Nicola apre ogni giorno sono 43.000 parole: quattro ore di lettura per sapere cosa deve approvare",
+      "causa_radice": "① Misura del 2/8: STATO.md 17.722 parole (~98 minuti), BACHECA.md 14.891 (~83 minuti), AZIONI-IN-ATTESA.md 10.683 (~59 minuti). Totale ~43.300 parole, circa 4 ore. ② Sono file ad accumulo: ogni giro aggiunge un blocco in cima e non toglie niente. STATO ha 821 righe, e ogni voce e un paragrafo unico da 300 parole con dentro venti fatti. ③ Il difetto NON e la forma della singola frase: anche riscrivendo ogni frase, restano quattro ore. La forma la misura AR-478; la lunghezza non la misurava nessuno. ④ Perche non se ne accorge nessuno: chi scrive aggiunge sempre un blocco piccolo, e il costo lo paga solo chi legge dall'inizio. ⑤ Conseguenza sul business: la coda delle firme e il posto dove Nicola decide, e leggerla per intero costa un'ora. Quindi non si legge per intero, quindi le decisioni scivolano.",
+      "fix_proposto": "CHIUSO PER DECISIONE DI NICOLA (3/8): «non voglio riscrivere niente, a cosa serve riscriverle? a me basta che da adesso in poi funzioni». La decisione e corretta e il difetto era mal posto da me: le 4 ore sono il tempo per leggere quei file DALL INIZIO, cosa che Nicola non fa mai — lui legge le card del Pannello e la parte in cima. Il costo vero si paga solo quando deve cercare una cosa vecchia, ed e raro. Quello che conta e coperto da AR-478: da adesso ogni voce nuova in quei file passa dal controllo, quindi i file smettono di peggiorare. Debito accettato e dichiarato, non riparato: se un giorno cercare in STATO diventa un problema vero, si riapre.",
+      "verifica": {
+        "tipo": "umano",
+        "esito": "Nicola 3/8: la riscrittura del passato non serve. Vale solo che da adesso funzioni."
+      }
+    },
+    {
+      "id": "AR-480",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-02 23:40",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[nato da una CORREZIONE DI NICOLA] «voglio le stesse cose pero spiegate bene … non solo della macchina ma a tutto quello che fai e farai, di qualsiasi altra cosa … mi fa perdere ore di tempo con cui potevo andare avanti a fare i lavori».",
+      "titolo": "La regola di scrittura viveva solo nel mansionario dell'AD: 0 senior su 120 la conoscevano, e sono loro a scrivere quando delego",
+      "causa_radice": "① AR-478 aveva messo la regola in CLAUDE.md e in cervello/scrittura-umana.md. Misurato il 2/8: 0 file su 120 in .claude/agents/ citavano nessuno dei due. ② Conseguenza diretta: ogni volta che l'AD delega — @finanza per i margini, @vendite per un pitch, @legale-privacy per un contratto — quel senior scrive un testo che finisce sotto gli occhi di Nicola SENZA nessuna regola di forma. La delega e la strada normale, non l'eccezione: il mansionario dell'AD dice «delega invece di fare tutto tu». ③ Il perimetro era sbagliato anche nell'intenzione: la regola parlava dei testi della macchina (radiografie, cantiere, PR), mentre il costo che Nicola paga e il suo TEMPO, e il suo tempo non cambia a seconda del reparto che gli scrive. Una consegna di vendite scritta male costa quanto una PR scritta male. ④ Perche non l'avevo visto: ho misurato i testi gia' prodotti (689 file) e non CHI li produce. La misura guardava l'uscita, non le sorgenti.",
+      "fix_proposto": "FATTO 🟡 ① blocco «Come scrivi a Nicola» inserito in tutti e 120 i mansionari, agganciato alla riga «Formato riga ESITO» presente in 120 su 120 (l'ancora alternativa ne copriva 111, e i 9 esclusi sarebbero stati il perimetro letterale che questa casa vieta); ② il blocco porta le 7 regole di forma, i 3 blocchi di apertura, il comando di misura e il rimando alla regola completa; ③ dichiara esplicitamente che i termini tecnici NON si tolgono e che vale per ogni argomento, non solo la macchina; ④ perimetro allargato anche in scrittura-umana.md e CLAUDE.md; ⑤ prova nuova: 9 controlli su tutti e 120 i file, rossa se la regola sparisce da uno solo. Verificato che stampo-check non peggiora: kit_fotocopia resta 10 come su main, drift del registro agenti 0.",
+      "verifica": {
+        "comando": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
+      }
+    },
+    {
+      "id": "AR-481",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 00:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[nato da una DOMANDA DI NICOLA] «inserisci anche il gancio hook per le sessioni di claude code e spiegami … il problema che non misura la chat». Andando a guardare cosa riceve davvero l'hook Stop, il buco dichiarato si e' rivelato falso.",
+      "titolo": "Avevo dichiarato la chat «non misurabile perche non e un file»: era falso, l'hook Stop riceve il percorso della trascrizione",
+      "causa_radice": "① AR-478 aveva chiuso il buco della chat con una dichiarazione: «i miei messaggi non sono file, nessun controllo automatico puo' girarci sopra». ② Non l'avevo verificato: l'hook Stop riceve un JSON con `stop_hook_active` E `transcript_path`, cioe' il file .jsonl dove Claude Code scrive tutta la conversazione, i miei messaggi compresi. Usavo gia' il primo campo e non avevo mai guardato gli altri. ③ E' il difetto piu' costoso perche' colpisce il canale piu' usato: le 2 ore che Nicola ha perso non erano sulle consegne, erano su cinque PR e sulla chat. Il controllo di AR-478 copriva i file consegnati e lasciava scoperto proprio il posto dove lui legge di piu'. ④ La malattia sotto: ho dichiarato un limite invece di misurarlo. Una copertura dichiarata a parole non e' una copertura misurata, ed e' la stessa specie di errore dei numeri senza fonte.",
+      "fix_proposto": "FATTO 🟡 ① `messaggioIlleggibile()` in cancello-stop.mjs misura l'ultimo messaggio che sto per mandare, letto dalla trascrizione via `transcript_path`; ② `ultimoTestoAssistente()` prende l'ultimo blocco di testo vero, salta le chiamate agli strumenti e ignora le righe spezzate; ③ si legge solo la CODA del file (2 MB): una sessione lunga arriva a decine di MB e l'hook ha 20 secondi; ④ SOLO i messaggi lunghi: chiedere tre blocchi e un esempio su «fatto, il sito e' tornato online» sarebbe rumore a ogni turno, e il rumore spegne i freni; ⑤ nessuna modifica a .claude/settings.json (che la macchina ha in deny): l'evento Stop era gia' agganciato a questo stesso file, quindi la misura parte senza che Nicola debba incollare niente. Provato dal vivo: sulla trascrizione VERA di questa sessione trova il messaggio (13 parole, corto, passa) e su una trascrizione con un messaggio lungo e astratto esce 2 e blocca il turno. 8 prove nuove.",
+      "verifica": {
+        "comando": "node --test cervello/test/cancello-stop.test.mjs"
+      }
+    },
+    {
+      "id": "AR-482",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 01:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[nato da DOMANDE DI NICOLA] «come fai a dire che adesso spieghi bene? come faccio ad essere sicuro che non perdero ancora tantissimo tempo? oltre ai termini tecnici cos'altro non dovresti togliere?»",
+      "titolo": "Tutte le misure guardavano me, nessuna guardava il suo tempo: e misurando davvero, le mie spiegazioni non sono migliorate",
+      "causa_radice": "① Le sei misure di si-capisce.mjs guardano la MIA forma: lunghezza delle frasi, incisi, esempi, blocchi. Possono essere tutte verdi mentre Nicola continua a non capire. Il limite era dichiarato ma non colmato. ② Misura fatta sui miei messaggi di questa sessione: prima meta' 5,1 problemi ogni 1000 parole, seconda meta' 5,6. NON sono migliorata dopo aver scritto la regola: 7 messaggi lunghi su 8 hanno ancora problemi. Quello che ha funzionato non e' la regola scritta, e' il cancello che blocca. ③ Misura sul suo lato: 9 messaggi su 11 in questa sessione erano richieste di chiarimento (82%). Nessuno aveva mai contato questo numero, che e' l'unico che parla del suo tempo. ④ Terza domanda, terzo buco: la regola diceva «i termini tecnici non si tolgono» ma non diceva cos'ALTRO non si toglie. Ragionamenti, alternative scartate, errori miei, limiti dichiarati, numeri con la fonte: tutta roba che avevo gia' cominciato a sacrificare per sembrare piu' chiara.",
+      "fix_proposto": "FATTO 🟡 ① `quanteVolteHaChiesto()` conta le richieste di chiarimento di Nicola dalla trascrizione: e' un segnale indiretto (un «perche?» puo' essere curiosita) ma e' l'unico numero che misura il SUO tempo invece del mio stile. ② Regola 2-bis in scrittura-umana.md: la tabella di cosa non si toglie mai — numeri con fonte, ragionamento, alternative scartate, errori miei, limiti non verificati, nomi/date/importi. ③ La stessa riga inserita in tutti e 120 i mansionari, accanto alle sette regole. ④ 4 prove nuove sulla misura (28 in totale), incluso il caso dei risultati degli strumenti che arrivano marcati come messaggi utente e falserebbero la quota.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-483",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 02:50",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[DOMANDA DI NICOLA] «aggiungi il controllo che capisce il senso, non la forma».",
+      "titolo": "Il misuratore vedeva la formula e non il vuoto: «serve a rendere il sistema piu robusto» passava tutti i controlli",
+      "causa_radice": "① Le sei misure guardano segnali di forma. La frase «serve a rendere il sistema piu robusto» contiene «serve a», quindi soddisfaceva il controllo del passo indietro, ed e' una frase che non dice ne cosa fa, ne per chi, ne quanto. ② Un controllo che capisce davvero servirebbe un modello AI. Verificato: non c'e' nessuna chiave AI collegata in questo ambiente, quindi sarebbe una spesa e una decisione di Nicola, non una cosa che accendo io. ③ Ma un pezzo di senso si misura senza AI: l'assenza di contenuto. Le frasi che occupano una riga e non lasciano niente in testa hanno una forma riconoscibile — «piu robusto», «varie cose», «dovrebbe funzionare», «tutto a posto». ④ Il difetto era mio prima che della macchina: quelle frasi le scrivo io quando non ho misurato niente e voglio comunque chiudere.",
+      "fix_proposto": "FATTO 🟡 ① `ariaFritta()` con 16 modelli di frase vuota, ognuno con la sua traduzione («di' cosa non si rompe piu', e in quale caso»); ② BLOCCA, non avvisa: e' esattamente il tipo di riga che costringe Nicola a rileggere per scoprire che non c'era niente; ③ tarato sul corpus vero: 126 casi su 689 testi, tasso sano; ④ ristretto alle AFFERMAZIONI dopo il primo falso positivo trovato nel glossario stesso («se una cosa e' migliorata o peggiorata» e' la definizione di baseline, non una vanteria); ⑤ tollera l'accento mancante, perche' nei messaggi di commit scrivo «piu'» senza accento. COPERTURA DICHIARATA: non e' comprensione, e' assenza di contenuto. Un testo senza aria fritta puo' restare oscuro. 6 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-484",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 02:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[DOMANDA DI NICOLA] «chiudi il buco della soglia per impedire che si rompa la sicurezza che garantisce che funzioni sempre». Il buco l'avevo dichiarato io rispondendo a «come faccio a essere sicuro che sara' per sempre cosi?».",
+      "titolo": "Le soglie del misuratore si potevano alzare in silenzio: tutte le prove restavano verdi e il controllo diventava finto",
+      "causa_radice": "① `PAROLE_FRASE_ROSSA = 30` decide se una frase blocca. Le 30 prove esistenti provano il COMPORTAMENTO «sopra la soglia blocca», e restano verdi con qualunque soglia. ② Portandola a 60: nessuna prova rossa, il controllo esce 0 su ogni testo, Nicola vede verde e legge frasi da 55 parole. ③ E' lo stesso meccanismo del pavimento a 5.200 byte che rendeva impossibile bocciare un kit: la misura c'era, la soglia la rendeva finta. ④ Vale anche al contrario, per svuotamento: togliendo le voci da ARIA_FRITTA o da SOTTINTESI il controllo si spegne senza che nessuna prova se ne accorga.",
+      "fix_proposto": "FATTO 🟡 `cervello/test/soglie-non-abbassabili.test.mjs`: 8 prove che fissano i numeri che decidono (30, 20, 15), i tre blocchi obbligatori, la coerenza avviso<blocco, e la numerosita' minima dei due elenchi. Piu' una prova COMPORTAMENTALE: una frase di esattamente 30 parole passa, una di 31 blocca — cosi' la costante dichiarata e' provata essere quella che agisce davvero, non solo scritta. Cambiare una soglia resta legittimo, ma diventa un gesto visibile: la prova diventa rossa e passa dal cancello del lotto, che gira in CI su ogni PR.",
+      "verifica": {
+        "comando": "node cervello/test/soglie-non-abbassabili.test.mjs"
+      }
+    },
+    {
+      "id": "AR-485",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 03:05",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[CORREZIONE DI NICOLA] «il problema e' il modo in cui mi spieghi o mi scrivi in generale, non per forza in cui mi scrivi, ma qualsiasi cosa che fai, devi farlo in modo che io non perdo tempo a capire».",
+      "titolo": "Avevo capito «scrivi meglio», ma il metro non e' il testo: e' il suo tempo, e vale su ogni cosa che faccio",
+      "causa_radice": "① Tutte le regole scritte finora — le sette mosse, i tre blocchi, il vocabolario — parlano di TESTO. ② Nicola paga il tempo anche quando il testo e' perfetto: se gli do tre opzioni pari senza raccomandazione deve decidere lui da zero; se gli consegno quattro file senza un punto d'ingresso deve cercarli; se gli do un numero senza scala deve andare a controllarlo. ③ Nessuna di quelle e' un problema di scrittura, e nessuna sarebbe stata presa dal misuratore. ④ La domanda giusta prima di consegnare non e' «e' scritto bene?» ma «quanto tempo gli costa capire e decidere?».",
+      "fix_proposto": "FATTO 🟡 ① Regola 0 in scrittura-umana.md con la tabella di sette situazioni di lavoro, non di scrittura: decisioni (max 3 opzioni con raccomandazione), consegne (un punto d'ingresso), nomi, problemi (col costo), domande (con le conseguenze), organizzazione (una fila), misure (col metro); ② la stessa regola in testa al blocco dei 120 mansionari, prima delle sette regole di forma, perche' viene prima; ③ resta NON misurabile in automatico e va detto: nessun controllo puo' contare se una decisione era pronta da firmare. Su questa il giudice e' Nicola.",
+      "verifica": {
+        "comando": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
+      }
+    },
+    {
+      "id": "AR-486",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 04:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[DOMANDA DI NICOLA] «da adesso in poi quando un senior, la macchina o tu usate una nuova parola tecnica verra' spiegata ed inserita in automatico dentro il glossario?».",
+      "titolo": "Il controllo si difendeva solo dalle parole che conoscevo gia': una parola inventata domani era invisibile",
+      "causa_radice": "① `PAROLE_MACCHINA` e' un elenco di 47 voci scritto a mano da me. Il controllo confronta i testi con quell'elenco. ② Una parola nuova — inventata da me, o portata da un senior che lavora su un mestiere che non ho mai toccato — non e' nell'elenco, quindi nessuno la vede. E' il perimetro letterale applicato al vocabolario: mi difendo da cio' che ho gia' previsto. ③ La misura: sui 601 file di consegne, 782 parole tecniche diverse assenti dal glossario, in 484 file su 601. Il vocabolario cresce molto piu' in fretta dell'elenco scritto a mano. ④ Perche' non l'avevo visto: avevo dichiarato questo buco a parole rispondendo a Nicola, e poi non l'avevo chiuso.",
+      "fix_proposto": "FATTO 🟡 ① `paroleNuove()` trova il gergo SENZA elenchi: in italiano quasi ogni parola finisce per vocale, quindi una parola di prosa che finisce per consonante e' quasi sempre straniera o tecnica. Niente lista da tenere aggiornata. ② Esclude quello che non e' prosa: blocchi di codice, apici, nomi di file, link, e le parole ormai italiane (marketing, online, test) piu' i nomi propri (Stripe, Vercel). ③ AVVISO, non blocco, e la scelta e' misurata: bloccare fermerebbe 484 consegne su 601, e un cancello sempre rosso viene aggirato al secondo giro. ④ `--nuove` costruisce la fila di lavoro ordinata per frequenza in auto-coscienza/parole-da-spiegare.json: 860 parole oggi. ⑤ Prima infornata di 10 voci gia' nel glossario, scelte dal rilevamento e non da me. COPERTURA DICHIARATA: non scrive da sola le definizioni. Una definizione sbagliata dentro il materiale che Nicola studia e' peggio di una parola mancante. 6 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-487",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 04:40",
+      "nato_come": "scoperta",
+      "origine": "[TROVATO DA NICOLA USANDOLO] «risolvi il problema che pretende una prova per ogni difetto ma non accetta le chiusure decise da me».",
+      "titolo": "Il cancello accusava Nicola quando decideva: una chiusura umana veniva letta come un difetto chiuso senza prova",
+      "causa_radice": "① `chiusiSenzaProva` pretendeva `verifica.comando` e nient'altro. ② Ma esistono difetti che NON si chiudono con un comando: quelli che aspettano una decisione di Nicola. Caso vero dello stesso giorno: AR-479, le 4 ore di lettura, chiuso perche' lui ha detto «non voglio riscrivere niente». Nessun comando puo' dimostrare quella frase, ed e' giusto cosi'. ③ Il guardiano lo segnalava come se io avessi chiuso un difetto per dichiarazione. Un controllo che accusa chi comanda quando comanda diventa rumore proprio sul canale dove passano le decisioni, e si impara a ignorarlo. ④ Il pattern `{tipo:'umano'}` esisteva gia' nel cantiere (AR-004, AR-006) e nessuno lo aveva insegnato a questo guardiano.",
+      "fix_proposto": "FATTO 🟡 `chiusuraLegittima()`: due strade, non una. ① `verifica.comando` non vuoto — la prova forte. ② `verifica.tipo === 'umano'` CON un `esito` scritto — la decisione di Nicola messa a verbale. L'esito obbligatorio non e' burocrazia: senza, la macchina potrebbe chiudersi i difetti da sola scrivendo «umano» e basta, che e' esattamente la dichiarazione che il guardiano esiste per fermare. La forma debole file+pattern resta rifiutata. 6 prove nuove (37 sul file).",
+      "verifica": {
+        "comando": "node --test cervello/test/cancello-stop.test.mjs"
+      }
+    },
+    {
+      "id": "AR-488",
+      "stato": "chiuso",
+      "gravita": "medio",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 04:45",
+      "nato_come": "nuovo-lavoro",
+      "nato_da": "AR-478",
+      "origine": "[RICHIESTA DI NICOLA] «inserisci il riassunto dei 4 blocchi se e' troppo lungo».",
+      "titolo": "Quattro blocchi su un testo da cinque minuti non sono una scorciatoia: sono quattro cose da tenere a mente",
+      "causa_radice": "① I quattro blocchi funzionano su due minuti di lettura. Su cinque, quando Nicola arriva al terzo ha gia' perso il filo del primo. ② La struttura che doveva far risparmiare tempo comincia a costarne. ③ Misurato sui miei messaggi di questa sessione: quello piu' lungo era da 11 minuti, e i quattro blocchi non lo hanno reso leggibile.",
+      "fix_proposto": "FATTO 🟡 Oltre i 4 minuti di lettura il testo deve aprire con due righe di riassunto, e senza viene bloccato. Le forme accettate sono libere («in due righe», «in breve», «riassunto», «in sintesi»): conta che ci sia, non come si chiama. Sotto la soglia NON si chiede: su un testo da due minuti sarebbe una casella in piu'. 3 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-489",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 13:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-481",
+      "origine": "[TROVATO DA NICOLA] «perche mi hai ripetuto la stessa cosa piu volte? voglio ti auto analizzi».",
+      "titolo": "Il cancello sulla chat mi fa ripetere: bloccato un messaggio ne scrivo un altro intero, e il contesto e' gia' stato mandato",
+      "causa_radice": "① Misura sui 7 messaggi dopo la foto di Nicola: 6 idee su 7 dette piu di una volta, una detta 4 volte. ② La causa e' il cancello stesso (AR-481). Quando ferma un messaggio, io ne scrivo un altro e lo scrivo INTERO perche si regga da solo. Quel reggersi da solo e' il contesto gia' mandato due righe sopra: ogni blocco genera un doppione. ③ I quattro blocchi obbligatori peggiorano: «Cosa devi fare» e «Cosa cambia per te» mi fanno riscrivere la conclusione in ogni messaggio. Una struttura da UNA consegna lunga applicata a una raffica di messaggi corti produce quattro conclusioni identiche. ④ Ho applicato la regola del ripasso nel posto sbagliato: vale DENTRO un testo, io l'ho applicata TRA i testi. ⑤ Perche non me ne accorgo: il misuratore guarda un messaggio per volta e non ha memoria. Ogni singolo messaggio, preso da solo, e' corretto e passa. Il costo si vede solo da dove sta Nicola, leggendoli in fila.",
+      "fix_proposto": "FATTO 🟡 ① `ideeRipetute()` confronta il messaggio nuovo con i precedenti della stessa conversazione. Non usa modelli scritti a mano: confronta le PAROLE PIENE, perche' il confronto letterale trovava 1 ripetizione su 6 (io riformulo, non ricopio). Soglia 0,6 tarata sui casi veri del 3/8. ② Agganciato al cancello dello Stop, che legge la trascrizione: confronta con gli ultimi 8 messaggi, non con tutta la sessione, altrimenti ogni riepilogo legittimo sarebbe rosso. ③ Vale anche sui messaggi CORTI, al contrario delle altre misure: un messaggio breve che ridice una cosa gia' detta e' il caso piu' frequente ed e' quello successo davvero. ④ Regola 0-bis in scrittura-umana.md: quando il cancello blocca, si manda SOLO il pezzo che manca. Provato dal vivo: su una trascrizione con l'ultimo messaggio che ridice il primo, esce 2 e blocca. 5 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-490",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 13:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[DOMANDA DI NICOLA] «hai risolto la forma di difetto che hai trovato 3 volte oggi?».",
+      "titolo": "La stessa cecita' quattro volte in un giorno: ogni misura guarda il pezzo e non l'insieme, e nessuno lo dichiara",
+      "causa_radice": "① Quattro istanze in un giorno: la riga di tabella letta come frase (7 accuse false su 9), la frase citata letta come usata (2 su 3), l'elenco letto come periodo (3 su 7), il messaggio letto senza sapere cosa c'era prima (6 idee ripetute su 7). ② Ogni volta ho riparato l'istanza. La FORMA resta: la misura successiva nasce cieca allo stesso modo. ③ Perche' si ripete: chi scrive una misura pensa all'unita' che ha in testa in quel momento (la frase, la riga) e non si chiede cosa quell'unita' NON puo' vedere. La domanda non viene in mente perche' il caso che la smentisce non e' ancora successo. ④ Il costo lo paga Nicola: ogni cecita' si e' vista solo quando ci ha sbattuto contro leggendo.",
+      "fix_proposto": "FATTO 🟡 Tabella `COPERTURA` in si-capisce.mjs: ogni tipo di problema dichiara la sua UNITA' (cosa guarda) e il suo CIECO (cosa quell'unita' non puo' vedere per costruzione). 10 misure, 10 dichiarazioni. La prova esegue nove casi veri, raccoglie TUTTI i tipi di problema che la misura sa emettere, e diventa rossa se uno di quelli non ha la sua dichiarazione. Una misura nuova non puo' piu' nascere cieca in silenzio. NON impedisce di nascere ciechi — impedisce di nascere ciechi in SILENZIO, che e' la differenza fra un limite dichiarato e una bugia gentile. Le mutazioni hanno trovato un buco nelle mie stesse prove: il caso di prova era troppo povero per far scattare la misura, quindi staccarla lasciava tutto verde. Corretto. 2 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-475",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-01 22:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Nicola 1/8: ha incollato a mano il blocco Stop in .claude/settings.json (il file e in deny per la macchina, quindi quel passo e per forza suo). Il blocco aveva DUE difetti e nessuno dei due ha fatto rumore: ① mancava la graffa finale — JSON non valido, quindi NESSUN hook caricato, permessi e deny sui .env compresi ② la chiave era «stop» minuscola, e i nomi degli eventi sono case-sensitive: una chiave che non combacia viene scartata in silenzio. Trovati solo perche Nicola ha chiesto «controlla se ho fatto giusto».",
+      "titolo": "Nessuno sorveglia il file dove vivono i freni: settings.json puo staccarli tutti senza che niente lo dica",
+      "causa_radice": "① Dieci guardiani nel cancello del lotto e zero su .claude/settings.json — cioe la macchina non ha modo di accorgersi di essere disarmata. ② Perche proprio li? Perche quel file e l unico pezzo del sistema che la macchina non puo toccare (deny), e cio che non si tocca non si controlla: il freno sul freno non era mai stato pensato. ③ Il modo di fallire e il peggiore: un JSON rotto non da errore in chat, un evento sconosciuto non da errore per niente, e un hook che lancia un file inesistente fallisce dentro un log di debug. Tre forme diverse dello stesso silenzio. ④ Non e un caso isolato: e la stessa forma di AR-455, dove il sorvegliante era costruito, provato e lasciato staccato per un giorno intero, con la scheda chiusa perche «la riga in settings.json c e» — chiuso sulla lettera, non sull effetto.",
+      "fix_proposto": "FATTO 🟡 `cervello/hooks-check.mjs`, agganciato al cancello del lotto (quindi in CI su ogni PR). Quattro domande: ① il file c e ed e JSON valido — se no si dice per primo e da solo, e il messaggio nomina il deny sui .env perche cade anche quello ② ogni chiave sotto `hooks` e un evento vero, con il suggerimento della grafia giusta quando sbaglia solo la maiuscola ③ ogni comando `node cervello/*.mjs` punta a un file che esiste ④ ogni script del cervello che sa leggere `--hook` dagli argomenti e attaccato a qualche evento — la regola e generale apposta (niente elenco di nomi da tenere aggiornato a mano: sarebbe il perimetro letterale di AR-347). Provato sui tre file VERI presi dalla storia di git: il blocco rotto di Nicola (exit 1), la versione con la chiave minuscola (exit 1), e la configurazione di ieri sera in cui cancello-stop.mjs esisteva e non era agganciato (exit 1). 13 prove + 2 mutazioni.",
+      "verifica": {
+        "comando": "node cervello/test/hooks-check.test.mjs"
+      }
+    },
+    {
+      "id": "AR-476",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-02 17:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Trovato mentre agganciavo il contatore di AR-474: stavo per scrivere «finisce in Cabina» e sono andato a controllarlo nel Pannello invece di dedurlo. Non ci finisce.",
+      "titolo": "Il campo `ultime` di salute.json — il verdetto organo per organo — non e servito da nessuna schermata della Cabina",
+      "causa_radice": "① La visita (`salute.mjs`) produce un verdetto per ognuno dei cinque organi e lo scrive in `auto-coscienza/salute.json` sotto `ultime`. ② Il Pannello legge salute.json solo attraverso `api/memoria/salute-onesta`, che serve `storico-salute.json` (lo sparkline del voto) e `cantiere-difetti.json` (il burn-down): il dettaglio per organo non passa da nessuna rotta. ③ Quindi il verdetto piu ricco che la macchina produce su se stessa vive in un file e in un referto markdown, e nella Cabina si vede solo il voto sintetico. ④ E la stessa forma di AR-474 applicata alla visita: il verdetto c e, e completo, e sta dove Nicola non guarda a colpo d occhio.",
+      "fix_proposto": "FATTO 🟡 in tre pezzi. ① `pannello/src/lib/salute-organi.ts` — il calcolo puro: raggruppa i controlli per organo tenendo TRE conti separati (provati, rotti, non visti) e dichiara la copertura, cioe la quota di controlli che ha davvero misurato. ② `api/memoria/salute-organi` — la rotta che serve `ultime` di salute.json, con `collegato:false` quando il file manca o non e leggibile: non un oggetto vuoto con zero rossi, che a schermo si leggerebbe come «tutto a posto». ③ Una fila di pastiglie nell area Auto-coscienza: rosso se l organo ha un rotto, grigio se ha un non visto, verde solo se tutto e stato provato — e il dettaglio nel titolo. La regola difficile e una sola e vale in tutti e tre i pezzi: ⚪ NON e mai un verde, perche un cruscotto che somma «l ho provato» con «non l ho potuto vedere da qui» fa sembrare piena una copertura bucata. 8 prove + 1 mutazione; typecheck del Pannello verde.",
+      "verifica": {
+        "comando": "node --import ./cervello/test/hook-ts.mjs --test cervello/test/salute-per-organo.test.mjs"
+      }
+    },
+    {
+      "id": "AR-477",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-02 18:40",
+      "nato_come": "regressione",
+      "nato_da": "AR-154",
+      "origine": "Nicola 2/8: «rifai l analisi piu e piu volte». Trovato alla prima rilettura comportamentale, provando il cancello dal vivo invece di rileggerne il codice: su un ramo che aveva GIA una riga di esito ho committato un file di codice nuovo e il cancello ha risposto «niente da lasciare indietro» (exit 0).",
+      "titolo": "La prima riga di esito comprava il lasciapassare per tutto il ramo: il lavoro committato dopo passava muto",
+      "causa_radice": "① Il controllo ④ chiedeva «esiste una riga di esito fra le righe aggiunte dal ramo?». Una volta trovata, ogni commit successivo passava senza domande. ② Perche non l ho visto scrivendolo: la prova era su stati finti (una lista di file, una lista di righe) e in quel modello non esiste il TEMPO — l ordine fra i commit non era rappresentato, quindi nessun caso poteva descrivere «l esito e arrivato prima del lavoro». Le prove pure difendono la regola, non la sua unita di misura. ③ Quanto pesa: cresce col ramo. Questo ne aveva otto di commit, e la riga di esito era al quinto: tre commit di lavoro passavano muti. ④ E il difetto e figlio del fix di AR-154, non un caso nuovo: chiudendo «non hai scritto niente» ho aperto «hai scritto una volta sola».",
+      "fix_proposto": "FATTO 🟡 La domanda non e piu «c e una riga?» ma «ho continuato a lavorare DOPO averla scritta?». `codiceDopoUltimoEsito()` chiede a git quanti commit toccano codice dopo l ultimo commit che ha aggiunto una riga di esito (pathspec di esclusione derivato da CARTELLE_MEMORIA, criterio -G condiviso con RIGA_ESITO e accentrato in un solo punto). Zero commit dopo = verde, e chi scrive l esito alla fine non viene punito. `null` = non ho potuto misurare = non accuso. I due casi hanno messaggi diversi (AR-154 «non hai scritto niente» / AR-477 «hai scritto per il lavoro di prima») perche si rimediano in modi diversi. Provato dal vivo rifacendo lo stesso esperimento che aveva scoperto il buco: prima exit 0, adesso exit 1 fuori dall hook ed exit 2 dentro (blocca il turno). 4 prove nuove + 1 mutazione.",
       "verifica": {
         "comando": "node cervello/test/cancello-stop.test.mjs"
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E una proprieta della STORIA del ramo — codice committato dopo l ultima riga di esito — quindi non esiste una riga che la contenga: si vede solo confrontando due punti della cronologia git. La copre il controllo ④ di cancello-stop.mjs, che conta i commit di lavoro dopo l ultimo racconto."
+    },
+    {
+      "id": "AR-491",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 19:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Nicola 3/8: «poi controlla la pr, ha dei conflitti». Trovato indagando il terzo rosso di fila della CI sulla PR #655: il guardiano diceva perche', il log non lo mostrava.",
+      "titolo": "Un rosso muto: il cancello del lotto mostrava le ultime sei righe del guardiano, e con --json erano le graffe di chiusura",
+      "causa_radice": "① Il cancello sceglieva le righe da mostrare per POSIZIONE (le ultime sei), non per contenuto. Funziona quando il comando dice il verdetto per ultimo; il contatore delle consegne mute veniva lanciato con --json e il suo verdetto sta in mezzo al documento, quindi il log mostrava `\"tetti\": {...}` e una graffa. ② Costo misurato: tre giri di indagine alla cieca (locale verde, CI rosso) su un guardiano che la ragione ce l'aveva scritta dentro. ③ E' la stessa forma di AR-490 — la misura guarda il pezzo che ha in testa (la coda) e non l'insieme (dove sta il verdetto) — applicata stavolta a chi RIPORTA, non a chi misura. ④ Perche' e' grave oltre l'indagine persa: regola di casa, un cancello sempre rosso viene aggirato al secondo giro; un cancello rosso e muto ci arriva prima, perche' a chi legge resta solo tirare a indovinare.",
+      "fix_proposto": "FATTO 🟡 `righeMotivo()` sceglie le righe per CONTENUTO — quelle con un marcatore di verdetto (❌ ⛔ ⚪ CIECO AssertionError Error/Errore not ok) — e torna alla coda solo se non ne trova nessuna, dichiarando cosi' di non aver trovato il motivo. In piu' il contatore non viene piu' lanciato con --json dentro il cancello: in italiano la riga col ❌ porta numero, tetto e data. 6 prove nuove + 1 mutazione.",
+      "verifica": {
+        "comando": "node --test cervello/test/rosso-che-non-dice-perche.test.mjs"
       }
+    },
+    {
+      "id": "AR-492",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 20:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Trovato subito dopo AR-491: appena il cancello ha mostrato il motivo, il numero era 238 in CI contro 13 qui, sulla stessa fusione e alla stessa ora.",
+      "titolo": "Il contatore ha misurato mezza storia e ha chiamato quel numero un miglioramento: 13 qui, 238 in CI",
+      "causa_radice": "① Il clone di una sessione cloud e' superficiale (git clone --depth): git mostra solo gli ultimi commit, quindi «gli ultimi 30 giorni» erano 51 commit invece di 630. Il contatore non chiedeva mai a git se la storia fosse intera: prendeva quello che vedeva e lo confrontava col tetto. ② Il costo non e' l'indagine (tre giri a cercare una differenza fra ambienti che non esisteva): e' che con --aggiorna-tetto quel 13 e' diventato il TETTO del cricchetto al posto di 253. Una cecita' travestita da miglioramento, che avrebbe bloccato ogni consegna futura contro una soglia irraggiungibile — e un cancello impossibile viene aggirato al secondo giro. ③ E' la stessa forma di AR-490 e AR-491: la misura guarda il pezzo che ha davanti (i commit visibili) e non dichiara cosa non ha potuto vedere. Qui pero' la cecita' non produceva un buco: produceva un numero piu' BASSO, cioe' una bugia che sembra un successo. ④ Perche' i guardiani non l'hanno preso: prove-oneste dichiara il clone superficiale da giorni, ma quella dichiarazione vive nel suo referto e nessun'altra misura la legge.",
+      "fix_proposto": "FATTO 🟡 `cloneTroncato()` chiede a git `rev-parse --is-shallow-repository` PRIMA di ogni altra cosa: solo un «false» esplicito autorizza a contare, «true» e «non lo so» escono 2 con il rimedio scritto (git fetch --unshallow origin) e senza stampare nessun numero. --aggiorna-tetto non puo' piu' abbassare il tetto da mezza storia. Il tetto e' stato riportato al valore misurato sulla storia intera: 238 (era 253 prima dell'errore, quindi il cricchetto scende davvero). 4 prove nuove, due delle quali dal vivo su un clone --depth 1 fabbricato apposta.",
+      "verifica": {
+        "comando": "node --test cervello/test/storia-tagliata-non-e-un-numero.test.mjs"
+      }
+    },
+    {
+      "id": "AR-493",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 20:40",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "Trovato misurando il corpo della PR 655 col misuratore stesso: accusava «manca l'esempio» su un testo che apriva con «cioe' il 4%».",
+      "titolo": "Il segno di esempio piu' usato in italiano era spento da sempre: \\bcioe'\\b non puo' trovare niente",
+      "causa_radice": "① In JavaScript `\\\\b` conta come «parola» solo le lettere ASCII. Dopo la «e» accentata di «cioe'» non esiste nessun confine di parola, quindi `\\\\bcioe'\\\\b` non ha MAI potuto trovare un'occorrenza: la regola era scritta, provata a occhio, e morta. ② La conseguenza non e' un buco silenzioso: e' un'accusa falsa. Il misuratore diceva «manca l'esempio concreto» su testi che l'esempio ce l'avevano, cioe' mandava a riscrivere la cosa giusta — ed e' esattamente il modo in cui un controllo si guadagna la reputazione di rompiscatole e viene spento. ③ Terza istanza della stessa forma nello stesso giorno-tipo: «piu'» e «cioe'» con l'apostrofo, la cella di tabella letta come frase, e adesso l'accento contro `\\\\b`. Le regole scritte in ASCII non leggono l'italiano.",
+      "fix_proposto": "FATTO 🟡 Tolti i confini `\\\\b` intorno alla parola accentata e aggiunte le forme mancanti («un esempio», «cioe'» con l'apostrofo). 2 prove nuove: una che il segno viene riconosciuto, una che senza nessun segno l'accusa resta (altrimenti il fix avrebbe potuto spegnere la regola invece di ripararla).",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-494",
+      "stato": "chiuso",
+      "gravita": "medio",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 17:45",
+      "nato_come": "regressione",
+      "nato_da": "AR-474",
+      "origine": "Trovato USANDO il contatore, non rileggendolo: al primo --aggiorna-tetto la stessa schermata ha stampato «tetto: 238» e due righe sotto «consegne mute scese da 253 a 238: abbassa il tetto con --aggiorna-tetto» — il comando appena eseguito chiedeva di essere eseguito. ⚠️ Nato come AR-478 nella sessione parallela della PR #656, rinumerato AR-494 al momento della fusione: due sessioni hanno numerato dal 477 in parallelo e hanno prodotto due difetti DIVERSI con lo stesso numero. Il quaderno di @tech (storia, non si riscrive) lo cita ancora come AR-478.",
+      "titolo": "Il contatore diceva il numero nuovo e la frase vecchia: verdetto calcolato sul tetto di ieri, stampato accanto a quello di oggi",
+      "causa_radice": "① In main() i tetti nuovi si calcolavano DOPO il verdetto: due passaggi separati sullo stesso stato, montati a mano nella stessa funzione. ② Perche nessuna prova lo vedeva: verdetto() e tettiDaScrivere() erano corretti ognuno per conto suo — il difetto stava nel CABLAGGIO fra i due, che vive in main() e nessun test puro attraversa. Una mutazione su quella riga sarebbe stata vacua: il test restava verde. ③ Cosa costa: non un numero sbagliato ma una schermata che si contraddice, cioe la cosa che erode la fiducia in un cruscotto piu di un errore franco — chi legge non sa quale delle due meta credere.",
+      "fix_proposto": "FATTO 🟡 Non ho provato il cablaggio a valle: l ho tolto di mezzo. misura({conto, cabina, tetti, aggiorna}) restituisce la coppia tetti+verdetto coerente per costruzione, e main() non ha piu niente da montare. Il pezzo che prima viveva in main ora sta dentro una funzione pura, quindi una mutazione su di esso rende rosso un test invece di passare inosservata. 3 prove nuove + 2 mutazioni (una alza il tetto invece di abbassarlo, l altra rimette il verdetto sul tetto vecchio): entrambe verificate rosse con non-vacuita.mjs.",
+      "verifica": {
+        "comando": "node --test cervello/test/conta-verdetti-muti.test.mjs"
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma sta nel CABLAGGIO fra due funzioni corrette — l ordine in cui main() le monta — non in una riga: la sua stessa scheda lo dice («una mutazione su quella riga sarebbe stata vacua, il test restava verde»). Nessun pattern per riga puo vederla. La copre la regola gia scritta in questo cantiere: la logica che decide si estrae dall I/O finche una prova la puo ESEGUIRE, ed e la stessa cura applicata il 3/8 a nelPerimetro e istanzeNelTesto."
+    },
+    {
+      "id": "AR-495",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 20:35",
+      "nato_come": "scoperta",
+      "nato_da": "AR-452",
+      "origine": "Nicola 3/8: «parliamo ancora del sorvegliante, quali sono le cose che dovrebbero esserci». Trovato misurando la guardia invece di rileggerla.",
+      "titolo": "La guardia in tempo reale guarda solo cio che aggiungo: da cio che tolgo una difesa esce viva e nessuno lo sa",
+      "causa_radice": "① La prova, eseguita PRIMA di scrivere il fix: un diff che cancella una riga \"gate\" E il file di test a cui puntava produce voci:0, exit 0 — verde pieno. Il file cancellato non compariva nemmeno nell elenco dei guardati, perche `+++ /dev/null` veniva scartato dal lettore del diff. ② Perche era cosi: la taratura «solo le righe che aggiungo» nasce giusta — contro il debito storico, per partire verde e accorgersi del primo che sporca. ③ Perche e sbagliata sulle rimozioni: cio che tolgo NON e debito di qualcun altro, e il mio delta quanto il resto. E le difese non muoiono per aggiunta: muoiono per sottrazione (un gate tolto, un test cancellato, un tetto alzato, un file messo in baseline). ④ La classe, non l istanza: la stessa cecita valeva per tutti e cinque i controlli, non solo per il gate.",
+      "fix_proposto": "FATTO 🟡 cervello/sorvegliante.mjs — tre controlli nuovi sul lato sottrazione: ⑥ difesa-rimossa (un test citato da un gate, un file su cui poggia una mutazione, la riga che LANCIA un guardiano — misurati da `indiceDifese` sui registri, mai da un elenco a mano, che sarebbe AR-347 dentro il file che lo vieta), ⑦ soglia-allentata (un tetto che sale o un minimo che scende, riconosciuti dal NOME della chiave normalizzato), ⑧ esenzione-aggiunta (un percorso che entra in una baseline o in un array che si chiama esenzione). `leggiRimozioni` e una funzione NUOVA e `leggiDiff` resta intatta: su quella riga poggia la mutazione di AR-452, e allargarla avrebbe accecato una prova nell atto stesso di costruire il controllo anti-accecamento. Taratura anti-falso-rosso: se il nome ricompare fra le righe aggiunte e uno spostamento, e si tace.",
+      "verifica": {
+        "comando": "node cervello/test/sorvegliante.test.mjs",
+        "nota": "17 prove nuove; 5 mutazioni in mutanti.json su AR-495, tutte verificate rosse con non-vacuita.mjs"
+      },
+      "lezione": "L-2026-0803-536"
+    },
+    {
+      "id": "AR-496",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 20:35",
+      "nato_come": "scoperta",
+      "nato_da": "AR-472",
+      "origine": "Colto in diretta: il cancello dello Stop ha fermato un turno di sole letture (albero pulito) per un allarme scritto il 31/7.",
+      "titolo": "Il cancello dello Stop misura tutto il ramo e lo chiama «questo turno»: lo stesso rosso torna a ogni chiusura fino al merge",
+      "causa_radice": "① Il perimetro di tutti i controlli era `origin/main...HEAD`. ② In un turno in cui non avevo scritto una riga, il cancello ha contestato un 🔴 di tre giorni prima che vive su un commit del ramo. Il fatto era vero (in AZIONI-IN-ATTESA non c era niente), il TEMPO no: non era una cosa che stavo lasciando indietro adesso. ③ Il danno vero non e il falso rosso singolo: e che sarebbe tornato IDENTICO a ogni chiusura di ogni turno fino al merge — e un rosso che si ripete uguale e il modo esatto in cui un freno insegna a ignorarsi. La macchina questa regola l aveva gia scritta («un avvisatore che parla sempre viene spento entro la settimana») e l ha violata nel proprio cancello.",
+      "fix_proposto": "FATTO 🟡 cervello/cancello-stop.mjs — un ancora fuori da git (`_tmp_stop-ancora.json`, stessa tecnica del battito) col commit dell ultimo turno chiuso: da li il perimetro dell ALLARME e `ancora...HEAD`, cioe questo turno. Se l ancora manca o un rebase l ha invalidata si torna al ramo e lo si DICHIARA (⚪ in testa al verdetto), invece di fingere precisione. L ancora si sposta solo sui turni puliti — o su un turno bloccato farebbe sparire dal perimetro proprio cio per cui ho bloccato — MA si pianta lo stesso quando non c e perimetro valido, altrimenti il primo giro si morde la coda (trovato collaudando, non rileggendo). Il controllo ④ (esito del lavoro consegnato) resta per-RAMO: quella e l unita di consegna, ed e stata tarata ieri su AR-477 — stringerla sarebbe stato allentare un freno appena costruito.",
+      "verifica": {
+        "comando": "node --test cervello/test/cancello-stop.test.mjs",
+        "nota": "6 prove nuove; 2 mutazioni su AR-496 verificate rosse. Collaudo dal vivo: giro 1 dice il debito vecchio + ⚪ perimetro, giro 2 verde."
+      },
+      "lezione": "L-2026-0803-538"
+    },
+    {
+      "id": "AR-497",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 20:35",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Nicola 3/8, stessa domanda: cosa manca al sorvegliante. Questa e la meta che il battito non copriva.",
+      "titolo": "Il verdetto della guardia non ha un esito: «ho parlato» non diventa mai «mi hanno ascoltato»",
+      "causa_radice": "① Il battito prova che la guardia ha GIRATO. Niente provava che io avessi FATTO qualcosa. ② Fra uno scatto e l altro non c era memoria: la stessa voce grave poteva tornare venti volte identica, e ne io ne il cancello ne Nicola avevamo modo di sapere che era la ventesima. ③ E AR-474 un giro piu in la — il verdetto arriva a destinazione e poi evapora — e il controllo ⑤ (raggio) e il caso limite: pone una domanda («questo cambiamento vale ancora per chi ti importa?») e la risposta non la registra nessuno.",
+      "fix_proposto": "FATTO 🟡 il battito diventa un registro: chiave stabile ai numeri di riga (o il contatore ripartirebbe da uno a ogni edit), contatore per voce, e lo scatto in cui e stata vista l ultima volta. La busta dice «gia detto N volte». Il cancello dello Stop non lascia chiudere con una voce GRAVE ripetuta ≥3 volte e ancora viva all ultimo scatto. Limite dichiarato nel file: non misura che io abbia ragionato, e le informative (il raggio) non entrano nel conteggio — un debito che non si puo estinguere si impara a ignorare in blocco.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs cervello/test/cancello-stop.test.mjs",
+        "nota": "10 prove nuove; 3 mutazioni su AR-497 verificate rosse (chiave instabile, raggio contato, voce curata rinfacciata)"
+      },
+      "lezione": "L-2026-0803-537"
+    },
+    {
+      "id": "AR-498",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 20:35",
+      "nato_come": "scoperta",
+      "nato_da": "AR-465",
+      "origine": "Cercato chi chiamasse `--battito`: nessuno. L unica occorrenza fuori dal file era una frase in una scheda del cantiere.",
+      "titolo": "Il battito della guardia non lo legge nessuno: la cura di un verdetto senza lettore era nata senza lettore",
+      "causa_radice": "① `sorvegliante.mjs --battito` esiste dal 30/7 per rispondere a «sei vivo?» — l unica domanda a cui il silenzio non sa rispondere da solo. ② In tre giorni non e stato chiamato da nessuno script: solo citato in prosa dentro una scheda. ③ Cioe la cura di AR-465 (un verdetto che finiva in un log che non legge nessuno) e stata costruita con dentro lo stesso difetto, un piano piu su: il canale di verifica del canale.",
+      "fix_proposto": "FATTO 🟡 cervello/salute.mjs — controllo `cervello.sorvegliante` nell organo cervello, con la decisione estratta in `giudicaBattitoGuardia` (pura, quindi provabile). La taratura che conta: un battito assente su una copia appena clonata e NORMALE (vive fuori da git) → ⚪, che non e mai un verde; diventa ❌ solo se in questa copia ci sono gia file modificati, perche allora un Edit c e stato e la guardia doveva parlare. Un rosso che scatta su ogni clone pulito verrebbe scorso entro tre giorni. Copertura dichiarata: prova che ha girato, NON che abbia visto l ultima modifica — le modifiche fatte da un comando invece che da un Edit non la svegliano affatto (buco noto, non coperto qui).",
+      "verifica": {
+        "comando": "node cervello/test/salute.test.mjs",
+        "nota": "3 prove nuove; 1 mutazione su AR-498 verificata rossa. Provato dal vivo: la visita adesso riporta l ultimo scatto."
+      },
+      "lezione": "L-2026-0803-539"
+    },
+    {
+      "id": "AR-499",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 21:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-495",
+      "origine": "Nicola 3/8: «fai anche le altre 4 rimaste». Misurato: malattie.json nato il 30/7 con 7 forme, il 3/8 ancora 7.",
+      "titolo": "Il registro delle malattie invecchia da fermo: nessuno lo fa crescere, e il sorvegliante riconosce solo le forme del giorno in cui e nato",
+      "causa_radice": "① `cervello/malattie.json` e nato il 30/7 con 7 malattie e il 3/8 ne aveva ancora 7, mentre il cantiere passava da 400 a 419 difetti e le lezioni da 475 a 491. ② Verificato cercando chi lo apre in scrittura: NESSUNO script lo scrive. E un registro che cresce solo se me ne ricordo. ③ Perche e grave: il controllo ① del sorvegliante poggia tutto li — quindi la guardia in tempo reale poteva riconoscere solo le 7 forme del suo primo giorno, e sarebbe rimasta ferma mentre la macchina continuava a imparare. ④ Mancava l anello fra «ho chiuso un difetto» e «questa forma la so riconoscere».",
+      "fix_proposto": "FATTO 🟡 `cervello/malattie-mancanti.mjs`, agganciato al cancello del lotto. Il segnale non l ho inventato: `nato_come: \"regressione\"` esiste da AR-459 e vuol dire esattamente «questa forma e TORNATA» — la definizione operativa di malattia. Ogni regressione deve rispondere: il nome di una malattia censita, il nome di un controllo del sorvegliante (le classi si LEGGONO dal suo codice, non si elencano), oppure `non-pattern-izzabile` col perche scritto (≥30 caratteri) che nomina chi la copre. Le 7 regressioni esistenti NON le ho messe in baseline: ho risposto a tutte e 7. Ne e nata una malattia vera (programma-che-parte-importando, da AR-445, 71 istanze misurate) e 5 debiti dichiarati con accanto il guardiano che li copre.",
+      "verifica": {
+        "comando": "node --test cervello/test/malattie-mancanti.test.mjs",
+        "nota": "11 prove; 2 mutazioni verificate rosse"
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "Questo difetto e l ASSENZA di un processo (nessuno fa crescere il registro), non una forma di codice: non esiste una riga che lo contenga. Lo copre il guardiano nato da lui, malattie-mancanti.mjs, nel cancello del lotto.",
+      "lezione": "L-2026-0803-540"
+    },
+    {
+      "id": "AR-500",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-verita",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 21:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-499",
+      "origine": "Trovato censendo le tre malattie nuove: la spazzata ha risposto «0 istanze, curata 📉» su 25 istanze vive.",
+      "titolo": "Un registro, due lettori che lo interpretano in modo diverso: tre falsi verdi in un ora, tutti e tre invisibili",
+      "causa_radice": "`cervello/malattie.json` ha due consumatori — la spazzata (conta le istanze vive) e il sorvegliante (cerca le stesse forme sulle righe nuove) — e il 3/8 si sono contraddetti TRE volte: ① la spazzata compilava il pattern senza flag `m`, quindi `^` significava «inizio del FILE» invece che «inizio della riga»: ha dichiarato curata una malattia con 25 istanze vive; ② `senzaCommenti` azzerava ogni riga che comincia con `#` — giusto per il codice, falso per un .md dove `#` apre un TITOLO: ogni regola di casa che vive nei titoli non poteva scattare MAI, la riga arrivava al pattern gia vuota; ③ il campo `percorsi` lo leggeva solo il sorvegliante, quindi la stessa malattia valeva in un file per uno e in tutto il vault per l altro. Nessuno dei tre era un errore di logica: erano due interpretazioni della stessa fonte, e ogni volta il risultato era un VERDE.",
+      "fix_proposto": "FATTO 🟡 i tre allineamenti (flag `gm`, `#` non e un commento nei .md, `percorsi` letto da entrambi) piu l estrazione di `nelPerimetro` e `istanzeNelTesto` dall I/O, perche una prova li possa ESEGUIRE. Prima di toccare il flag ho verificato che nelle 7 malattie preesistenti ogni `^` stia dentro una classe negata: nessuna cambia significato, e i conteggi lo confermano invariati.",
+      "verifica": {
+        "comando": "node --test cervello/test/registro-due-lettori.test.mjs",
+        "nota": "5 prove che eseguono ENTRAMBI i lettori sulla stessa malattia; 3 mutazioni verificate rosse"
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e una DIVERGENZA fra due lettori: non vive in nessuna delle due righe, che prese da sole sono corrette. La copre la prova registro-due-lettori.test.mjs, che esegue i due lettori sulla stessa malattia e pretende lo stesso verdetto.",
+      "lezione": "L-2026-0803-541"
+    },
+    {
+      "id": "AR-501",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 21:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-452",
+      "origine": "La seconda meta della frase di Nicola del 30/7, rimasta scoperta: «e un quadro ampio di quello che stai facendo».",
+      "titolo": "Il quadro ampio guardava solo il grafo degli import: nessuno chiedeva se sto ancora facendo il lavoro per cui sono partito",
+      "causa_radice": "La frase del 30/7 aveva due meta. La prima (nessuna auto-revisione mentre lavoro) l hanno chiusa i controlli ①-⑧. La seconda era coperta solo dal ⑤ raggio, che risponde a «chi altro poggia su questo file» — una domanda sul CODICE. Quella sul LAVORO non la faceva nessuno: un lotto che si allarga strada facendo non lascia traccia da nessuna parte finche non arriva alla consegna.",
+      "fix_proposto": "FATTO 🟡 controllo ⑨ `deriva` nel sorvegliante: conta le ZONE diverse toccate (secondo livello per i contenitori, o tutto il vault sarebbe una zona sola) e oltre 5 fa una DOMANDA. Informativa e non grave apposta: un lotto largo puo essere giusto — codice, prova, cantiere e memoria sono gia quattro — e trasformarlo in un accusa creerebbe una colpa che non si puo estinguere. Non fingo di misurare l intenzione: dichiaro nel file che l unica cosa misurabile e quante zone sto toccando.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "4 prove; 1 mutazione verificata rossa"
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E l assenza di una domanda, non una forma di codice: nessuna riga la contiene. La copre il controllo ⑨ del sorvegliante, che la pone a ogni modifica.",
+      "lezione": "L-2026-0803-542"
+    },
+    {
+      "id": "AR-502",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 21:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-455",
+      "origine": "Nicola 3/8. Misurato leggendo il matcher in .claude/settings.json: `Edit|Write|MultiEdit`, e basta.",
+      "titolo": "Il modo piu comodo di modificare il repo era anche l unico senza guardia: le modifiche fatte da un comando non svegliavano niente",
+      "causa_radice": "① Il sorvegliante e agganciato a `Edit|Write|MultiEdit`. Un `sed -i`, uno script che riscrive un file, un `git checkout -- file`, un `git revert`, un generatore: nessuno di questi lo svegliava. ② Non e un caso raro — e come si fanno le modifiche in massa, quelle che toccano piu file insieme, cioe proprio quelle dove una guardia serve di piu. ③ `misura-cieca.mjs` gira si sul Bash, ma legge il TESTO del comando, non il diff che produce: sono due domande diverse. ④ `.claude/settings.json` e nel mio deny-list (ed e giusto cosi), quindi la via non poteva essere una riga di configurazione.",
+      "fix_proposto": "FATTO 🟡 l hook del Bash che esiste gia fa girare anche il sorvegliante sul delta, e i due verdetti viaggiano in UNA busta sola (l hook legge una sola uscita: due buste stampate di fila non sono JSON, e la seconda finirebbe nel nulla — cioe il difetto che questi due file curano). Per pagarlo senza rallentare: `indiceImportatori` fa UNA scansione del repo per tutti i file toccati invece di una per file. Provato dal vivo: dopo un comando il verdetto compare accanto al risultato, cosa che prima non succedeva.",
+      "verifica": {
+        "comando": "node --test cervello/test/misura-cieca.test.mjs",
+        "nota": "3 prove nuove; 1 mutazione verificata rossa. Collaudo end-to-end nella stessa sessione."
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E un buco di COPERTURA (quali eventi svegliano la guardia), non una forma di codice: sta in una riga di configurazione che non posso nemmeno toccare. Lo copre hooks-check.mjs per l aggancio e il battito per la prova che abbia girato.",
+      "lezione": "L-2026-0803-543"
+    },
+    {
+      "id": "AR-504",
+      "stato": "aperto",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "guardiani-verita",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 22:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "Trovato unendo main: il controllo ⑤ nuovo (leggibilita) ha bocciato due referti della visita con 12 punti difficili ciascuno.",
+      "titolo": "Il referto della visita e scritto in un modo che il guardiano della leggibilita boccia: ogni visita produce debito nuovo",
+      "causa_radice": "① Il controllo ⑤ di cancello-stop (AR-478, di Nicola) misura i testi che lui legge, e  e una delle sue cartelle. ② Ogni referto generato da salute.mjs esce con ~12 punti difficili: essendo un file NUOVO la soglia e 0, quindi ogni visita produce un blocco. ③ Il difetto non e nei singoli referti — quelli sono usciti da una macchina — ma nel GENERATORE: le frasi del referto sono state scritte prima che esistesse il misuratore di leggibilita, e nessuno le ha fatte passare da li.",
+      "fix_proposto": "DA FARE: far girare  sul testo che salute.mjs genera e riscrivere le frasi fisse finche il conteggio non scende. NON e stato fatto qui: sarebbe stato allargare a un altro reparto un lavoro gia grosso, ed e la deriva che il controllo ⑨ esiste per chiedere. I due referti che avevano fatto scattare il rosso erano artefatti del mio collaudo (due visite lanciate mentre sviluppavo) e sono stati tolti dal ramo: non sono debito curato, sono debito NON AGGIUNTO — il generatore resta da riparare, ed e questa scheda.",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e la QUALITA di un testo generato, non una riga: si misura con si-capisce.mjs, che e gia il guardiano dedicato. Un pattern per riga qui sarebbe una finzione."
+    },
+    {
+      "id": "AR-505",
+      "stato": "aperto",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-verita",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 22:25",
+      "nato_come": "scoperta",
+      "nato_da": "AR-477",
+      "origine": "CI della PR 657: «3 commit di lavoro che nessuna riga racconta», con la riga scritta e committata pochi secondi prima.",
+      "titolo": "Una riga di esito scritta dentro un commit di merge e invisibile al freno che la pretende",
+      "causa_radice": "① Il controllo ④ trova l ultimo racconto con `git log -1 -G \"atteso .*→ .*reale\"`. ② `git log -G` NON calcola i diff dei commit di MERGE: li salta per costruzione (servirebbe -m o --first-parent), quindi una riga aggiunta dentro un merge e invisibile a quella ricerca. ③ Il risultato e che chi risolve un conflitto e registra l esito nello stesso commit — cioe il flusso naturale — risulta muto, e il freno accusa proprio chi ha fatto la cosa giusta. ④ Non era visibile in locale: sul clone superficiale quel controllo esce CIECO, e il primo posto dove ha potuto misurare davvero e stata la CI.",
+      "fix_proposto": "DA FARE: cercare l ultimo esito anche dentro i merge (`git log -m --first-parent -G …`), oppure confrontare il CONTENUTO del quaderno fra base e HEAD invece della storia dei commit — con una prova che parta ROSSA su un ramo dove l unica riga di esito vive in un commit di merge. NON fatto stanotte: e un freno che Nicola ha costruito ieri (AR-477), e toccarlo di corsa per far tornare verde una CI e esattamente il gesto che questo cantiere censisce. Rimedio applicato intanto, e verificato: la riga di esito si scrive in un commit NORMALE, mai dentro il merge.",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma sta in cosa un comando git guarda e cosa salta — una proprieta della STORIA, non di una riga di codice. La copre la prova descritta nel fix, non un pattern per riga."
+    },
+    {
+      "id": "AR-506",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 22:50",
+      "nato_come": "regressione",
+      "nato_da": "AR-496 e AR-497 (i due controlli che ho aggiunto io in questa PR)",
+      "origine": "CI della PR 657, secondo giro: 12 guardiani verdi e il cancello esce comunque 2.",
+      "titolo": "Ho messo fra i ciechi due cose che in CI non possono esistere: cancello rosso per costruzione, per sempre",
+      "causa_radice": "① L'ancora del turno e il registro del sorvegliante vivono fuori da git APPOSTA (verificare non deve costare un diff). ② In CI il clone e fresco: quei due file non ci sono MAI. ③ Io avevo messo la loro assenza fra i `ciechi`, quindi il cancello usciva 2 a ogni giro — CI rossa per costruzione, indipendentemente dal lavoro. ④ La radice non e un dettaglio di codice: e che ho confuso «non ho misurato» con «ho misurato in modo diverso da come farei a casa». Senza l'ancora il perimetro non e cieco: e un SOVRAINSIEME del turno, cioe ho guardato di piu, non di meno. ⑤ E il contratto d'uscita non aveva un posto per «nessun problema, ma ecco come ho guardato»: qualunque riga finiva nel ramo 1.",
+      "fix_proposto": "FATTO 🟡 due canali separati nel verdetto — `ciechi` (non ho guardato → 2) e `note` (ho guardato cosi → si legge e basta) — piu `uscitaFuoriDallHook()`, pura, che torna 0 quando restano solo note. Il battito assente resta CIECO se l'albero e sporco (qualcuno ha scritto e la guardia non ha parlato) e diventa NOTA se e pulito (nessun Edit e passato di qui): la stessa taratura del controllo `cervello.sorvegliante` nella visita, applicata dall'altra parte.",
+      "verifica": {
+        "comando": "node --test cervello/test/cancello-stop.test.mjs",
+        "nota": "6 prove nuove sui due canali e sul codice d'uscita; 1 mutazione verificata rossa. Provato dal vivo: senza ancora il cancello stampa la nota ed esce 0, prima usciva 1."
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e una CLASSIFICAZIONE sbagliata (aver messo una nota nel canale dei ciechi), non una riga: il codice era corretto in entrambe le versioni, cambiava solo in quale elenco finiva la stringa. La copre la prova sul codice d'uscita, non un pattern.",
+      "lezione": "L-2026-0803-545"
+    },
+    {
+      "id": "AR-507",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 22:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-496 (il perimetro del turno) e AR-478 (il metro sui testi)",
+      "origine": "Nicola 3/8: il cancello dello Stop mi ha fermato con sette ❌ su lavoro che non era di quel turno. Misurato subito: albero di lavoro PULITO (git status vuoto), i file accusati con ultimo tocco il 31/7 e l'1/8, in 10 commit di sessioni precedenti — 194 file, 13.306 righe, nemmeno una mia.",
+      "titolo": "Il cancello accusa in prima persona di lavoro che non e del turno: al primo scatto in una copia nuova prende tutto il ramo",
+      "causa_radice": "① `testiToccati()` chiedeva i .md a `origin/main...HEAD` SEMPRE, ignorando l'ancora del turno che AR-496 aveva costruito il giorno prima: non era solo il primo giro a essere impreciso, lo era ogni giro. ② Senza ancora (sessione cloud: il container parte da un clone fresco e l'ancora vive fuori da git) il perimetro e tutto il ramo, e la nota ℹ️ che lo dichiarava stava SOTTO sette ❌ scritti in prima persona («ho scritto un allarme», «questo lavoro gli ha aggiunto 29 punti difficili»). ③ La radice e di taratura, non di codice: il sorvegliante si era dato la regola «guardo solo il mio delta, cosi parto verde per costruzione», e questo cancello non se l'era data. Un rosso che accusa di cose non tue e la definizione operativa del freno che si impara ad aggirare.",
+      "fix_proposto": "FATTO 🟡 due strati. ① `basiPerIlTesto(da)` — pura, esportata, provata — mette l'ancora del turno PRIMA delle basi del ramo, cosi il confronto parte da dove ho cominciato io. ② Quando l'attribuzione non e certa (dentro l'hook Stop e senza ancora), i due controlli che leggono il perimetro escono ⚪ «non so cosa e tuo» invece di ❌ e non bloccano; gli altri restano ❌ perche non dipendono dall'ancora (① e ③ confrontano HEAD col disco, ⑤ e ⑥ vivono nella sessione, ④ e per-ramo per scelta AR-477). Fuori dall'hook non cambia niente: in CI l'unita di consegna e la PR, quindi il perimetro-ramo e quello giusto.",
+      "verifica": {
+        "comando": "node --test cervello/test/cancello-stop.test.mjs",
+        "nota": "8 prove nuove (declassamento, il ⚪ che non e cieco, la nota non duplicata, i controlli che restano ❌, l'ordine delle basi) + 2 mutazioni verificate rosse. E la prova sul campo in campo-commit-e-turno.test.mjs esegue il caso vero dentro un repo git usa-e-getta."
+      },
+      "lezione": "L-2026-0803-546"
+    },
+    {
+      "id": "AR-508",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 22:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-452 (il sorvegliante) — limite dichiarato nella sua copertura fin dal primo giorno",
+      "origine": "Nicola 3/8: «aggiungi la possibilita al sorvegliante di sapere chi poggia su un file in modo indiretto».",
+      "titolo": "Il raggio vedeva solo i legami dichiarati: chi lancia un file da systemd, dalla CI o con un percorso composto risultava inesistente",
+      "causa_radice": "① Il raggio cercava `import`/`require`/`from` col nome del file, piu il percorso completo scritto altrove. ② Ma questo repo lega i pezzi in tre altri modi: `join(QUI, \"x.mjs\")` (percorso composto), `ExecStart=` di systemd (come parte il worker sul VPS), `run: node cervello/x.mjs` nei workflow. ③ E la scansione guardava cinque estensioni: .yml, .service e .timer erano fuori, cioe proprio i due chiamanti che da una sessione cloud non posso vedere girare. ④ Mancava del tutto il secondo passo: chi poggia su chi poggia su di me — la forma di AR-338, AR-344 e AR-415, tutte e tre «ho cambiato un lettore condiviso e il significato e cambiato per altri».",
+      "fix_proposto": "FATTO 🟡 `nomiCitati()` (tre forme di citazione, col nome nudo valido SOLO in un contesto d'uso: menzione ≠ chiamata) + `raggioDueP1assi()` sul grafo + estensioni allargate a .yml/.yaml/.service/.timer + i registri di memoria esclusi dal grafo (`eCodice`). Il verdetto separa i due numeri: «8 diretti · 15 a due passi». Costo misurato: 306 ms sul giro completo, contro i 15 s di tetto dell'hook.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "8 prove nuove (join, systemd, workflow, menzione≠chiamata, secondo passo, ciclo che non rimbalza, memoria esclusa, forma vecchia compatibile) + 2 mutazioni verificate rosse. Taratura misurata sul repo vero: senza il filtro menzione≠chiamata il raggio di cancello-stop.mjs passava da 10 a 86 file."
+      },
+      "lezione": "L-2026-0803-547"
+    },
+    {
+      "id": "AR-509",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 22:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-347 (l'istanza curata, la classe viva)",
+      "origine": "Nicola 3/8: «fallo giudicare se la riparazione e giusta».",
+      "titolo": "Nessuno guarda COME riparo: l istanza curata con la classe viva accanto, e la prova indebolita al posto del codice",
+      "causa_radice": "① Il sorvegliante dichiarava di non giudicare le riparazioni, e per il MERITO e giusto (li serve capire l'intenzione, e una macchina che la indovina produce sicurezze finte). ② Ma due modi di riparare si vedono nel diff senza nessun giudizio: curare la riga dove il difetto e stato VISTO lasciando le sorelle nello stesso file (AR-347 alla lettera), e togliere un'asserzione da un test senza toccare il codice che difende. ③ Il secondo non lo vedeva nessuno: il controllo ⑥ vede il test CANCELLATO per intero, il cancello del lotto vede la mutazione mancante, ma l'assert tolto dentro un file che resta vivo lascia il conteggio delle prove identico.",
+      "fix_proposto": "FATTO 🟡 due controlli nuovi, entrambi con doppia condizione per non accusare i passanti: ⑩ `riparazione-parziale` (media) scatta solo se ho TOLTO una riga malata E nel file ne restano; ⑪ `prova-indebolita` (grave) solo se ho tolto righe con un'asserzione da un file di prova E il file difeso esiste E non l'ho toccato in questo delta.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "9 prove nuove, comprese le tre che provano il NON scattare (il passante, la cura completa, il test cambiato insieme al codice) + 2 mutazioni verificate rosse, una per lato della doppia condizione."
+      },
+      "lezione": "L-2026-0803-548"
+    },
+    {
+      "id": "AR-510",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "prove-e-verifica",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 22:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-455 (chiuso sulla lettera invece che sull'effetto)",
+      "origine": "Nicola 3/8: «prova sul campo un commit e una chiusura del turno bloccati, pero fai una prova complessa e difficile + il mutante della prova».",
+      "titolo": "I due freni erano provati solo sulle loro funzioni pure: nessuno aveva mai visto git rifiutare un commit davvero",
+      "causa_radice": "① `verdetto()` torna blocca:true e `sorveglia()` torna una voce grave — ma fra quel valore e un commit rifiutato ci sono l'hook, il codice d'uscita, il perimetro dello staged e git. ② Quella catena non era provata da nessuna parte: e la stessa distanza fra lettera ed effetto che e costata AR-455 e AR-465. ③ E una prova con UN difetto solo non distingue un cancello che funziona da uno che dice sempre di no.",
+      "fix_proposto": "FATTO 🟢 `cervello/test/campo-commit-e-turno.test.mjs`: repo git usa-e-getta con l'hook vero e il cervello vero, scenario a quattro difetti di tre gravita diverse, e sei casi — il commit rifiutato, la cura PARZIALE che non basta, la cura completa che passa, il debito vecchio che non blocca, la chiusura del turno che esce 2, e il caso AR-507 senza ancora. Piu 2 mutazioni (il pre-commit che stampa senza bloccare; l'hook Stop che esce 0 invece di 2), verificate rosse.",
+      "verifica": {
+        "comando": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+        "nota": "6 casi verdi, ~4 s. La prova ha trovato subito un difetto nella prova stessa: il primo scenario metteva ① e ⑪ sullo stesso file, dove per costruzione si annullano — riscritto su moduli separati."
+      },
+      "lezione": "L-2026-0803-549"
+    },
+    {
+      "id": "AR-511",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 23:20",
+      "nato_come": "regressione",
+      "nato_da": "AR-471 (la forma dei JSON)",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma di un file si vede solo confrontando due versioni intere, non in una riga: il guardiano dedicato e cervello/forma-json.mjs, che adesso gira anche al commit con --staged.",
+      "origine": "Nicola 3/8 sulla PR 658: «perche i diff sono +10.000 e -9000, questo e un errore, controlla attentamente». Misurato: 8.975 righe aggiunte e 8.895 tolte su cantiere-difetti.json, mentre le righe VERE nuove erano ~80 (quattro schede).",
+      "titolo": "Il guardiano che impedisce le PR da diecimila righe girava solo in CI, e al commit era cieco per costruzione",
+      "causa_radice": "① Ho riscritto cantiere-difetti.json con JSON.stringify(dati, null, 1) mentre il file era indentato a DUE spazi: ogni riga risulta cambiata. ② La regola esisteva gia (AR-471, 30/7, stessa identica cosa su apprendimento.json: +12.147/-12.124) e il guardiano forma-json.mjs pure — ma agganciato SOLO al cancello del lotto, cioe in CI, quando la PR e gia scritta e gia illeggibile. ③ Il freno giusto al posto sbagliato non e un freno: due volte su due l errore l ha visto Nicola prima della macchina. ④ E agganciandolo al pre-commit e uscito il secondo strato: guardava origin/main...HEAD, cioe i COMMIT del ramo, mentre al commit cio che conta e in staging — sarebbe stato un cancello verde che non guarda niente.",
+      "fix_proposto": "FATTO 🟡 ① cantiere riscritto con l indentazione LETTA dal file (2). ② `forma-json.mjs --staged`: base HEAD invece di origin/main, file dall indice invece che dal disco. ③ agganciato al .githooks/pre-commit accanto al sorvegliante, con lo stesso contratto (1 blocca, 2 si dichiara e passa). ④ prova sul campo che esegue il commit vero e lo vede rifiutare, piu il caso che passa con la forma giusta.",
+      "verifica": {
+        "comando": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+        "nota": "7 casi verdi. Il caso AR-511 alla prima stesura era verde per il motivo sbagliato — il guardiano non vedeva niente — ed e stato riscritto dopo aver misurato che `origin/main...HEAD` ignora lo staging."
+      },
+      "lezione": "L-2026-0803-550"
     }
   ],
   "meta": {
-    "aperti": 165,
+    "aperti": 163,
     "in_corso": 0,
-    "chiusi": 247
+    "chiusi": 252
   }
 }

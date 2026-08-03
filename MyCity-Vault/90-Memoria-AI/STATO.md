@@ -1,8 +1,61 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 11:09
+aggiornato: 2026-08-03 22:55
 fonte: AD digitale (chat)
 ---
+
+> 👁️ **3/8 22:55 — SORVEGLIANTE: sei richieste di Nicola in un turno, e la guardia che ha preso me.**
+> La guardia in tempo reale adesso controlla **undici cose** mentre lavoro, non otto.
+>
+> **Le tre aggiunte.** Il raggio arriva a **due passi** e vede i legami che un `import` non dichiara:
+> il percorso composto a pezzi, il lancio da systemd, i flussi della CI. Poi due giudizi su **come**
+> riparo: curo la riga dove il difetto si vedeva e lascio le sorelle accanto, oppure tolgo
+> un'asserzione da una prova senza toccare il codice che difende.
+>
+> **Il registro delle forme di difetto passa da 10 a 14.** Le quattro nuove sono scattate senza che
+> toccassi una riga del codice della guardia: legge il registro a ogni scatto. Cinque candidate le ho
+> scartate col numero scritto accanto — 125, 124 e 243 istanze: erano rumore, non difese.
+>
+> **E il difetto che la sessione ha aperto.** Il cancello di fine turno mi aveva accusato di lavoro
+> di quattro giorni prima: 194 file di sessioni chiuse, mentre in quel turno avevo scritto zero file.
+> Adesso quando non sa attribuire dice **«non so cosa è tuo»** invece di accusare.
+>
+> **Prove:** 206 verdi, 8 mutazioni nuove tutte rosse sul mutante. Fra queste, la prima prova che
+> guarda **git rifiutare un commit davvero** invece delle sole funzioni. ⚪ il typecheck del Pannello
+> non ha misurato (manca `node_modules`), e nessun file del Pannello è stato toccato.
+
+> ✍️ **3/8 18:55 — CHAT: Nicola non riusciva a leggermi, e la colpa era del modo in cui scrivo.**
+> Il conto detto da lui: due ore perse per capire due scambi su cinque richieste di unione.
+>
+> **La diagnosi giusta è la sua, non la mia.** Avevo concluso che il problema fossero le parole
+> tecniche e le avevo vietate. Sbagliato: lui le sta studiando e gli servono. Misurato sui 60 testi
+> che legge — le parole mie fuori dal glossario sono 11 problemi su 263, il 4%. Il resto è **forma
+> della spiegazione**: frasi lunghe, due idee per frase, nessun esempio, nessun passo indietro.
+>
+> **Cosa c'è adesso.** Sette regole di forma più la regola zero: il metro non è il testo, è il suo
+> tempo, e vale su ogni cosa che faccio. Quattro blocchi obbligatori in cima a ogni testo lungo, più
+> due righe di riassunto sopra i 4 minuti di lettura. Un misuratore (`cervello/si-capisce.mjs`) con
+> 10 misure, ognuna che dichiara cosa NON riesce a vedere. Attaccato in tre punti: quando dico
+> «ho finito», in CI su ogni richiesta di unione, e sul worker — provato dal vivo.
+>
+> **Il pezzo che conta di più:** la regola è in tutti e 120 i mansionari, non solo nel mio. Prima era
+> zero su 120, e quando delego è il senior a scriverti.
+>
+> **I numeri di partenza, per sapere se funziona.** Nicola ha dovuto chiedere spiegazioni in 10
+> messaggi su 13 di questa sessione (77%). I 689 testi che legge contengono 23.281 punti difficili.
+> Il glossario è passato da 28 a 47 parole più 24 voci nuove, e la fila delle parole ancora da
+> spiegare è di 860.
+>
+> **Onestà sul risultato:** i miei testi NON sono migliorati da soli (5,1 → 5,6 problemi ogni 1000
+> parole). Quello che funziona è il controllo che blocca, non la regola scritta. Il controllo mi ha
+> fermata cinque volte in un giorno, e in 12 accuse su 23 aveva torto lui: tarato tre volte sul
+> lavoro vero.
+>
+> Difetti chiusi: AR-478, AR-480..AR-490. Aperto e chiuso per decisione di Nicola: AR-479 (le 4 ore
+> di lettura dei file quotidiani — «non voglio riscrivere niente»). Richiesta di unione #655.
+
+
+> 🩺 **3/8 17:38 — QUATTRO GIORNI DI LAVORO CHE NON SONO MAI ARRIVATI QUI — e questa riga la scrivo perché me l'ha ordinato un contatore che ho costruito oggi.** Dal 30/7 alle 11:09 (l'ultima riga qui sopra) a stamattina ho mergiato **una ventina di PR** e chiuso **una trentina di difetti**, e questo file non si è mosso di un minuto: tu aprivi la Cabina e leggevi numeri di giovedì. È la malattia che mi hai contestato in questi giorni, misurata per la prima volta: **su 263 consegne degli ultimi 30 giorni, 238 (il 90%) non hanno lasciato un esito dove tu leggi.** Il denominatore è onesto — 367 commit di manutenzione del server VPS sono esclusi e dichiarati, non nascosti. **Cosa è successo in quei quattro giorni.** *30/7:* riparato lo strumento che apre le PR (scambiava il proprio lavoro per quello di un altro, AR-451); messo un **sorvegliante che rivede mentre lavoro** invece che a fine corsa (#637); trovati i **cinque modi in cui leggevo un verde da un comando che stava fallendo** (#642); e AR-464, cioè che *verificare non deve costare un diff* — misurarmi mi sporcava l'albero e me ne sono accorto cinque volte in un giorno. *31/7:* **lo stallo del VPS chiuso alla radice** (quattro difetti, AR-467→470) e il GLOSSARIO di tutte le parole della macchina, perché metà delle mie spiegazioni erano incomprensibili. *1/8:* il **cancello dello Stop** (AR-472) — un freno sull'abitudine, non sulle sue istanze — e tu hai messo a mano il blocco `Stop` in `.claude/settings.json`: il primo tentativo lasciava il file JSON rotto (mancava una graffa: sarebbero morti *tutti* gli hook e il divieto sui `.env`) e scriveva `stop` minuscolo, che Claude butta in silenzio; la tua correzione delle 22:05 ha sistemato entrambi. *2/8:* AR-154 — **consegnare codice senza dire com'è andata adesso si ferma**. *3/8, oggi:* il **contatore** che ha prodotto la riga che stai leggendo (AR-474), i **tre buchi del freno di ieri** turati (AR-477: la prima riga di esito comprava il lasciapassare per tutto il ramo — l'ho scoperto provandolo dal vivo, non rileggendolo), un **guardiano sul file dove vivono i freni** (AR-475: nessuno sorvegliava `settings.json`, che può staccarli tutti), e il **verdetto organo per organo che ora arriva in Cabina** (AR-476) con la regola che non ammette sconti: **⚪ «non l'ho potuto vedere» non è mai un ✅.** Cantiere: **163 aperti · 252 chiusi**. **Business: invariato e non riletto.** Il sito è giù dal 30/7 08:20 per tua scelta (Render non rinnovato, si sposta su Vercel): gli ultimi numeri veri restano quelli delle 11:00 del 30/7 — 1 ordine annullato, 0 pagati, 5 prodotti, 7 profili — e li cito come ereditati, non come misurati oggi. **Cosa serve da te:** mergiare il lavoro di oggi e dire se il tetto delle consegne mute (238, scende e non risale) va portato a zero subito o per gradi. Fonte: `git log --first-parent` su `main` + `node cervello/conta-verdetti-muti.mjs` + `cantiere-difetti.json`.
 
 > 🔁 **30/7 11:09 — GIRO RIPETUTO (richiesto in chat, 6° passaggio della giornata) — business ANCORA INVARIATO, riparati 3 gate reali.** Business ereditato dai passaggi 06:30/06:37/08:25/10:25 (tutti identici cifra per cifra: `ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3`), nessuna 5ª query pesante ([[playbook-giro-pieno-ripetuto-strategia]], AR-113). Il gate `freschezza-cadenze` segnalava che il passaggio delle 10:27 era uscito senza riscrivere `auto-analisi.json` — riparato, e in più trovati/riparati: un contratto JSON violato (`salute_macchina` con un campo fuori dai 4 canonici), un freno finto (la lezione L-2026-0730-530 dichiarava attivo un gate il cui fix — PR #635 — non è mai stato mergiato su main, verificato con `git merge-base`), e un gap di chiusura-loop (@intelligence senza ESITO per il lavoro delle 08:52). `node cervello/*.mjs`/`python3`/`gh` restano bloccati in Bash in questa sessione. Nessuna azione nuova verso il marketplace: le priorità restano quelle di tutta la giornata (dentro/fuori ordine test PQ, merge PR #633/#635, Vercel Authentication, ok su `#permessi-senza-jolly`). Briefing: [[Briefing/2026-07-30]].
 
