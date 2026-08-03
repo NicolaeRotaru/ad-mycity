@@ -196,8 +196,14 @@ export function misura(testo, { noteAGlossario = null } = {}) {
     }
   }
 
+  // CITARE NON È USARE. Il secondo blocco dal vivo ha accusato la riga di tabella che SPIEGA la
+  // regola: «niente "come dicevo", "la terza volta oggi"». Le stavo citando come esempi di cosa non
+  // fare, e il controllo le ha lette come se le stessi usando. Due accuse su tre erano false.
+  // Regola: dentro le virgolette è una citazione. Si può aggirare virgolettando apposta, ma nessuno
+  // scrive «come dicevo» fra virgolette per davvero — e un controllo che accusa a torto viene spento.
+  const senzaCitazioni = righeNicola.map((r) => r.replace(/[«"'“”][^«»"'“”]{0,80}[»"'“”]/g, " "));
   for (const s of SOTTINTESI) {
-    const i = righeNicola.findIndex((r) => r.toLowerCase().includes(s));
+    const i = senzaCitazioni.findIndex((r) => r.toLowerCase().includes(s));
     if (i !== -1) {
       problemi.push({
         riga: i + 1,

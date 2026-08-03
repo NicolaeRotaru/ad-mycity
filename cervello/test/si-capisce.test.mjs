@@ -187,6 +187,16 @@ prova("l'elenco delle parole della macchina contiene sia le mie sia quelle vere 
   for (const p of ["commit", "branch", "deploy", "webhook"]) assert.ok(PAROLE_MACCHINA.includes(p), p);
 });
 
+prova("citare un sottinteso per spiegarlo non e' usarlo", () => {
+  // Il secondo blocco dal vivo: la riga di tabella che SPIEGA la regola veniva accusata di violarla.
+  const t = 'La regola dice: niente «come dicevo», niente «la terza volta oggi».';
+  assert.ok(!tipi(t).includes("sottinteso"), "dentro le virgolette e' una citazione");
+});
+
+prova("…ma usarlo davvero viene ancora preso", () => {
+  assert.ok(tipi("Come dicevo, il controllo era gia rosso.").includes("sottinteso"));
+});
+
 // ── AR-482: la misura che guarda LUI, non me ──────────────────────────────────────────────────
 
 const rigaNicola = (t) => JSON.stringify({ type: "user", message: { content: t } });
