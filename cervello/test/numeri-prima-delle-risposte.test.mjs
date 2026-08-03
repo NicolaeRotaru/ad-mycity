@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🧪 SE NICOLA NUMERA LE DOMANDE, I NUMERI VENGONO DOPO (AR-512 e AR-513).
+// 🧪 SE NICOLA NUMERA LE DOMANDE, I NUMERI VENGONO DOPO (AR-517 e AR-513).
 //
 // Nicola, 3/8: «come fai in modo che non ti dimentichi mai di quel blocco? cosa ti serve, un
 // misuratore, un cancello, o cosa?». La risposta onesta era: né l'uno né l'altro da soli, perché il
@@ -44,7 +44,7 @@ test("gli stessi contenuti nell'ordine giusto passano", () => {
 });
 
 test("una risposta numerata SENZA blocchi viene fermata anche se è corta", () => {
-  // Prima di AR-512 questa passava: la regola dei quattro blocchi scattava solo sui testi lunghi, e
+  // Prima di AR-517 questa passava: la regola dei quattro blocchi scattava solo sui testi lunghi, e
   // una risposta a due domande sta in sei righe. È esattamente il buco da cui il blocco spariva.
   const t = ["1) Fatto, il controllo è verde.", "2) Quell'altro l'ho lasciato indietro."].join("\n");
   const mancanti = misura(t).problemi.filter((x) => x.tipo === "manca-una-risposta");

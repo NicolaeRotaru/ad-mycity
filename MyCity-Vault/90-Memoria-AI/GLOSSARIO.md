@@ -302,6 +302,26 @@ sfoltisce in silenzio è indistinguibile da uno che perde pezzi.
 | **Macchina del tempo** | Ricostruisce la **giornata** della macchina: ogni mossa risalibile fino al file che l'ha generata. |
 | **Bilancio vivo** | Ogni ordine sa quanto rende, al centesimo: margine **realizzato** vs **potenziale**. |
 
+### Le tre macchine, il vocabolario dell'architettura bersaglio *(aggiunto 2026-08-03 22:20)*
+
+Sono parole del futuro, non di oggi. Oggi la macchina è una sola. Stanno qui perché il nome «worker»
+era già occupato. Oggi worker è il programma sul server che svuota la coda. Chiamare worker anche il
+servizio ai negozianti avrebbe confuso due cose diverse per sempre.
+
+| Parola | Significato |
+|---|---|
+| **CENTRO** | La macchina che dirige l'azienda. Strategia, soldi, i 120 senior, la memoria, la tua Cabina. È questo repo, alleggerito. Non tocca il sito e non parla coi clienti. |
+| **PIAZZA** | La macchina che manda avanti il marketplace. Catalogo, prezzi, ordini, bug, salute. È l'unica che ha le chiavi in scrittura sul sito. Ce n'è una per città. |
+| **BOTTEGA** | La macchina venduta a canone ai negozianti. Risponde ai loro clienti, tiene il loro catalogo, scrive i loro post. È una sola per tutti i negozi. |
+| **Multi-negozio** | Il modo in cui una macchina serve tanti clienti senza duplicarsi. Quello che è uguale per tutti è codice. Quello che è diverso è un dato col nome del negozio. Il cliente numero 41 fa nascere una riga, non una macchina. |
+| **`negozio_id`** | Il nome del negozio scritto su ogni riga di ogni tabella. Senza, il muro dei dati non ha su cosa poggiare. |
+| **Muro dei dati** | Il database rifiuta di dare a un negozio le righe di un altro. Non è il buon senso dell'AI a separarli. Il marketplace lo usa già oggi per gli ordini dei venditori. |
+| **Corsia del negozio** | Una coda sola, servita a turno tra i negozi. Chi accoda 200 lavori non blocca gli altri. Ogni negozio ha quota, tetto di spesa e interruttore propri. |
+| **Obiettivi e referto** | Come si parlano due macchine. Gli obiettivi scendono, il referto sale. Il referto porta i numeri con la fonte. Il CENTRO legge quello, non il marketplace. |
+| **Firma del negoziante** | I 🔴 di un negozio li firma il negoziante, non Nicola. Senza questa regola Nicola firmerebbe 400 card al giorno. |
+
+📄 Il disegno intero, col piano e le sette prove di collaudo, sta in [[ARCHITETTURA-TRE-MACCHINE]].
+
 ---
 
 ## Parte 7 — Il lavoro dei senior

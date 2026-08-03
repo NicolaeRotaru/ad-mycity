@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-04 00:25",
+ "aggiornato": "2026-08-04 00:45",
  "mutanti": [
   {
    "lotto": 30,
@@ -1512,6 +1512,22 @@
   },
   {
    "difetto": "AR-512",
+   "nome": "il lato sottrazione si gira: cercare chi C'E invece di chi manca fa sparire 52 difetti in silenzio",
+   "file": "cervello/cantiere-integrita.mjs",
+   "cerca": "    .filter((id) => id && !ci_sono.has(id));",
+   "sostituisci": "    .filter((id) => id && ci_sono.has(id));",
+   "test": "node --test cervello/test/cantiere-integrita.test.mjs"
+  },
+  {
+   "difetto": "AR-512",
+   "nome": "la forma dell'id si allarga: AR-9 torna a contare come difetto e il guardiano grida al lupo a ogni giro",
+   "file": "cervello/cantiere-integrita.mjs",
+   "cerca": "export const ID_CANONICO = /\\bAR-\\d{3}\\b/g;",
+   "sostituisci": "export const ID_CANONICO = /\\bAR-\\d+\\b/g;",
+   "test": "node --test cervello/test/cantiere-integrita.test.mjs"
+  },
+  {
+   "difetto": "AR-517",
    "nome": "i quattro blocchi tornano obbligatori solo sui testi lunghi: una risposta numerata corta passa muta",
    "file": "cervello/si-capisce.mjs",
    "cerca": "  if (testoLungo || rispondeAiNumeri) {",

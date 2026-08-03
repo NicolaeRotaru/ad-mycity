@@ -185,7 +185,7 @@ node cervello/si-capisce.mjs --scansione   # classifica per difficoltà tutto ci
 
 ---
 
-## Regola 3-bis — se Nicola numera le domande, i numeri vengono DOPO (AR-512)
+## Regola 3-bis — se Nicola numera le domande, i numeri vengono DOPO (AR-517)
 
 Il posto dove il blocco spariva davvero. Misurato sulla sessione del 3/8: le quattro risposte
 mancavano in 11 messaggi lunghi su 20, ma fra le risposte a domande numerate mancavano in **6 su 8**.

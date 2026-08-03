@@ -116,10 +116,20 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
 ### `cantiere-difetti.json` (asse ②) · `storico-salute.json` · `watchlist-riferimenti.json`
 ```json
 { "aggiornato":"…","difetti":[{"id":"AR-001","titolo":"…","dimensione":"…","gravita":"…","impatto_crescita":"alto|medio|basso",
-    "causa_radice":"…","fix_proposto":"…","colore":"🟡","stato":"aperto|in-corso|chiuso","nato":"AAAA-MM-GG","chiuso_il":"",
+    "causa_radice":"…","fix_proposto":"…","colore":"🟡","stato":"aperto|in-corso|da-riverificare|chiuso","nato":"AAAA-MM-GG","chiuso_il":"",
     "verifica":{"file":"cervello/x.mjs","pattern":"regex","presente":true}}],
   "meta":{"aperti":0,"in_corso":0,"chiusi":0} }
 ```
+> 🚧 **Il cantiere non perde difetti (AR-507):** un difetto si CHIUDE cambiando `stato`, **non
+> sparendo dal file** — finché resta, il Pannello lo mostra fra i chiusi e la sua prova si può
+> rieseguire. Il 4/7 il commit del cutover ha riscritto il file intero da 78 a 24 difetti: 52 persi,
+> 48 dei quali aperti, e per un mese sono rimasti citati nei quaderni senza esistere nel Pannello.
+> Il guardiano `node cervello/cantiere-integrita.mjs` (nel cancello del lotto, quindi in CI su ogni
+> PR) fa le tre domande del lato sottrazione: ① un id del ramo pubblicato è ancora qui ② nessun id
+> è doppio (AR-447) ③ ogni `AR-NNN` citato dal codice vivo ha la sua scheda.
+> `da-riverificare` = difetto recuperato da una perdita, ancora da riprovare: il Pannello lo mostra
+> fra i «da fare», i contatori degli **aperti non lo contano** finché qualcuno non l'ha verificato.
+
 > ⚠️ **`verifica` è OBBLIGATORIO (AR-023):** è la prova machine-checkable che permette a `auto-fix.mjs` di
 > chiudere il difetto da solo quando il fix entra nel codice (girato a ogni giro + a ogni allineamento a main,
 > poi pubblicato su `main`, ramo unico → il Pannello lo vede chiuso). `{"file","pattern","presente"}` se provabile dal

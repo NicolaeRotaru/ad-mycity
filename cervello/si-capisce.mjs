@@ -602,7 +602,7 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
       avvisi.push({ riga: 1, dico: "manca il passo indietro: nelle prime righe non dico di cosa parlo e a cosa serve" });
     }
   }
-  // ④-bis LE RISPOSTE NUMERATE — la forma in cui il blocco spariva davvero (AR-512).
+  // ④-bis LE RISPOSTE NUMERATE — la forma in cui il blocco spariva davvero (AR-517).
   //
   // Misurato sulla sessione del 3/8: i quattro blocchi mancavano in 11 messaggi lunghi su 20, ma
   // fra le RISPOSTE a domande numerate mancavano in 6 su 8. Non è distrazione: è la struttura. Quando
