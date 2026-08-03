@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 03:05",
+  "aggiornato": "2026-08-03 04:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8434,11 +8434,29 @@
       "verifica": {
         "comando": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
       }
+    },
+    {
+      "id": "AR-486",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 04:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[DOMANDA DI NICOLA] «da adesso in poi quando un senior, la macchina o tu usate una nuova parola tecnica verra' spiegata ed inserita in automatico dentro il glossario?».",
+      "titolo": "Il controllo si difendeva solo dalle parole che conoscevo gia': una parola inventata domani era invisibile",
+      "causa_radice": "① `PAROLE_MACCHINA` e' un elenco di 47 voci scritto a mano da me. Il controllo confronta i testi con quell'elenco. ② Una parola nuova — inventata da me, o portata da un senior che lavora su un mestiere che non ho mai toccato — non e' nell'elenco, quindi nessuno la vede. E' il perimetro letterale applicato al vocabolario: mi difendo da cio' che ho gia' previsto. ③ La misura: sui 601 file di consegne, 782 parole tecniche diverse assenti dal glossario, in 484 file su 601. Il vocabolario cresce molto piu' in fretta dell'elenco scritto a mano. ④ Perche' non l'avevo visto: avevo dichiarato questo buco a parole rispondendo a Nicola, e poi non l'avevo chiuso.",
+      "fix_proposto": "FATTO 🟡 ① `paroleNuove()` trova il gergo SENZA elenchi: in italiano quasi ogni parola finisce per vocale, quindi una parola di prosa che finisce per consonante e' quasi sempre straniera o tecnica. Niente lista da tenere aggiornata. ② Esclude quello che non e' prosa: blocchi di codice, apici, nomi di file, link, e le parole ormai italiane (marketing, online, test) piu' i nomi propri (Stripe, Vercel). ③ AVVISO, non blocco, e la scelta e' misurata: bloccare fermerebbe 484 consegne su 601, e un cancello sempre rosso viene aggirato al secondo giro. ④ `--nuove` costruisce la fila di lavoro ordinata per frequenza in auto-coscienza/parole-da-spiegare.json: 860 parole oggi. ⑤ Prima infornata di 10 voci gia' nel glossario, scelte dal rilevamento e non da me. COPERTURA DICHIARATA: non scrive da sola le definizioni. Una definizione sbagliata dentro il materiale che Nicola studia e' peggio di una parola mancante. 6 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
     }
   ],
   "meta": {
     "aperti": 165,
     "in_corso": 0,
-    "chiusi": 255
+    "chiusi": 256
   }
 }

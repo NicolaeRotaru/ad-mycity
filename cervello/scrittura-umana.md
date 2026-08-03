@@ -120,12 +120,13 @@ e via dicendo»*. Quindi restano dentro, sempre:
 La prova che serviva: la riga «Dettagli tecnici» rischia di diventare la discarica dove finisce
 proprio questa roba. Il misuratore avvisa quando sopra quella riga non resta nessuna sostanza.
 
-## Regola 3 — le tre risposte in cima a ogni testo lungo
+## Regola 3 — le quattro risposte in cima a ogni testo lungo
 
 ```
-## In parole semplici      ← cosa ho fatto, 2-3 righe, come se glielo dicessi a voce
-## Cosa cambia per te      ← la conseguenza concreta per lui e per l'azienda (max 3 punti)
-## Cosa devi fare          ← una cosa sola, oppure «niente, è già a posto»
+## In parole semplici        ← cosa ho fatto, 2-3 righe, come se glielo dicessi a voce
+## Cosa cambia per te        ← la conseguenza concreta per lui e per l'azienda (max 3 punti)
+## Cosa devi fare            ← una cosa sola, oppure «niente, è già a posto»
+## Cosa non ho verificato    ← di quanto fidarsi: cosa NON ho provato, e cosa succede se sbaglio
 
 ---
 ## Dettagli tecnici        ← da qui in giù scrivo per chi esegue: comandi, sigle, numeri esatti.

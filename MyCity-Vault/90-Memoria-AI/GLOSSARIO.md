@@ -516,6 +516,34 @@ le 5 che avevi chiesto tu.
 
 ---
 
+### Le 10 trovate dal rilevamento automatico (prima infornata, 3/8)
+
+Queste non le ho scelte io: le ha trovate il controllo che cerca le parole tecniche non spiegate,
+ordinandole per quante volte le incontri leggendo.
+
+| Parola | Cosa vuol dire | Esempio vero |
+|---|---|---|
+| **preview** | l'anteprima: una copia del sito visibile solo a noi, per guardare una modifica prima che diventi vera | ogni modifica al Pannello ha la sua anteprima con un indirizzo a parte |
+| **dashboard** | il cruscotto: una pagina che raccoglie i numeri importanti a colpo d'occhio | la Cabina è il cruscotto della macchina |
+| **handoff** | il passaggio di consegne da un reparto all'altro | vendite firma il negozio e lo passa a onboarding: quello è il passaggio |
+| **pitch** | il discorso con cui convinci qualcuno in pochi minuti | il pitch al fornaio dura 3 minuti e finisce con una domanda |
+| **trigger** | il grilletto: la condizione che fa partire una cosa da sola | ordine pagato senza consegna da 24 ore fa scattare l'allarme |
+| **slot** | la fascia oraria prenotabile | gli slot di consegna della sera sono quelli che si riempiono prima |
+| **stock** | la merce disponibile in magazzino | se lo stock è finito il prodotto non si può ordinare |
+| **feedback** | il ritorno di chi ha provato una cosa: cosa è andato bene e cosa no | la telefonata dopo il primo ordine serve a raccogliere il feedback |
+| **seed** | i dati finti messi apposta per provare il sito prima che ci siano quelli veri | i negozi demo erano dati seed, non botteghe vere |
+| **summary** | il riassunto in poche righe di una cosa lunga | in cima a ogni consegna c'è il riassunto |
+
+> 🔄 **Come cresce questa parte, da adesso.** C'è un comando che legge tutti i testi e trova le parole
+> tecniche assenti da qui. Le mette in fila, ordinate per quante volte le incontri.
+> Il comando è `node cervello/si-capisce.mjs --nuove`.
+> La fila vive in `auto-coscienza/parole-da-spiegare.json`. Oggi contiene **860 parole**: le più
+> frequenti entrano qui a infornate, le altre restano in fila. Nessuna definizione viene scritta in
+> automatico — una definizione sbagliata dentro il materiale che studi è peggio di una parola che
+> manca.
+
+---
+
 ## Parte 11 — I livelli di comprensione
 
 | Livello | Cosa spiega | La domanda a cui risponde |

@@ -11,6 +11,7 @@
 import assert from "node:assert/strict";
 import {
   ariaFritta,
+  paroleNuove,
   misura,
   frasi,
   parteDiNicola,
@@ -82,9 +83,10 @@ prova("lo stesso testo con un esempio concreto non viene più bocciato su quello
   assert.ok(!tipi(t).includes("manca-esempio"));
 });
 
-prova("un testo lungo senza le tre risposte viene bocciato tre volte", () => {
+prova("un testo lungo senza le quattro risposte viene bocciato quattro volte", () => {
+  // Dal 3/8 i blocchi sono QUATTRO: il quarto e' «Cosa non ho verificato», cioe' di quanto fidarsi.
   const t = Array.from({ length: 20 }, (_, i) => `Riga ${i} di spiegazione normale e corta.`).join("\n");
-  assert.equal(tipi(t).filter((x) => x === "manca-una-risposta").length, 3);
+  assert.equal(tipi(t).filter((x) => x === "manca-una-risposta").length, 4);
 });
 
 prova("un messaggio breve non deve avere né struttura né esempio", () => {
@@ -252,6 +254,42 @@ prova("dentro un blocco di codice l'aria fritta non si misura", () => {
 prova("sotto la riga dei dettagli tecnici l'aria fritta non si misura", () => {
   const t = ["Ho spezzato 3 frasi lunghe.", "## Dettagli tecnici", "dovrebbe funzionare anche sul server"].join("\n");
   assert.deepEqual(ariaFritta(t), []);
+});
+
+// ── AR-486: le parole nuove, trovate senza elenchi scritti a mano ─────────────────────────────
+
+prova("una parola tecnica nuova viene trovata anche se non e' in nessun elenco", () => {
+  // Il punto: non serve che io l'abbia prevista. In italiano quasi ogni parola finisce per vocale,
+  // quindi una parola di prosa che finisce per consonante e' quasi sempre straniera o tecnica.
+  const t = "Ho fatto il rollback e poi ho guardato il monitoring del server.";
+  const p = paroleNuove(t, "").map((x) => x.parola);
+  assert.ok(p.includes("rollback"), `attesa rollback, trovate: ${p}`);
+  assert.ok(p.includes("monitoring"), `atteso monitoring, trovate: ${p}`);
+});
+
+prova("una parola che sta nel glossario non viene segnalata", () => {
+  const p = paroleNuove("Ho fatto il rollback.", "rollback: tornare alla versione di prima");
+  assert.deepEqual(p, []);
+});
+
+prova("una parola spiegata sul momento non viene segnalata", () => {
+  const p = paroleNuove("Il rollback, cioe' tornare alla versione di prima, e' andato bene.", "");
+  assert.deepEqual(p, []);
+});
+
+prova("le parole italiane non vengono scambiate per gergo", () => {
+  // «citta» finisce per vocale accentata: se l'accento non facesse parte della parola verrebbe
+  // troncato in «citt» e sembrerebbe straniero. Trovato sul corpus vero: 81 falsi positivi.
+  assert.deepEqual(paroleNuove("La città di Piacenza ha una qualità sua.", ""), []);
+});
+
+prova("i nomi propri e le parole ormai italiane sono esenti", () => {
+  assert.deepEqual(paroleNuove("Stripe e Vercel per il marketing online.", ""), []);
+});
+
+prova("dentro un blocco di codice non si cercano parole nuove", () => {
+  const t = ["Ecco:", "```", "const rollback = true; fetch(url);", "```"].join("\n");
+  assert.deepEqual(paroleNuove(t, ""), []);
 });
 
 // ── AR-482: la misura che guarda LUI, non me ──────────────────────────────────────────────────

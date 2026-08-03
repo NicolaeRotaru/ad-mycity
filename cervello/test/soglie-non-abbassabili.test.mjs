@@ -55,8 +55,14 @@ prova("un testo è «lungo» da 15 righe piene in su", () => {
   assert.equal(RIGHE_TESTO_LUNGO, 15, "alzare questa soglia esenta testi sempre più lunghi dai tre blocchi");
 });
 
-prova("le tre risposte obbligatorie sono ancora tre, e sono quelle", () => {
-  assert.deepEqual(BLOCCHI, ["In parole semplici", "Cosa cambia per te", "Cosa devi fare"]);
+prova("le risposte obbligatorie sono quattro, e sono quelle", () => {
+  // Toglierne una è legittimo, ma deve essere un gesto visibile: qui diventa rosso.
+  assert.deepEqual(BLOCCHI, [
+    "In parole semplici",
+    "Cosa cambia per te",
+    "Cosa devi fare",
+    "Cosa non ho verificato",
+  ]);
 });
 
 prova("l'avviso non deve mai essere più severo del blocco", () => {

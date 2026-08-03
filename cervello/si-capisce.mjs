@@ -51,8 +51,16 @@ export const PAROLE_MACCHINA = [
   "verdetto", "referto", "cieco", "orfano",
 ];
 
-/** Le tre risposte che un testo lungo deve dare prima di ogni dettaglio. */
-export const BLOCCHI = ["In parole semplici", "Cosa cambia per te", "Cosa devi fare"];
+/**
+ * Le QUATTRO risposte che un testo lungo deve dare prima di ogni dettaglio.
+ *
+ * Il quarto è nato da una proposta mia e da un sì di Nicola (3/8). Serve a una cosa sola: dire di
+ * quanto fidarsi. Prima quella roba la infilavo in fondo o la dimenticavo, e un verde che non
+ * dichiara cosa NON copre è una bugia gentile.
+ * Misurato prima di renderlo obbligatorio: sui 417 testi lunghi del vault, i bloccati in più sono
+ * ZERO — sono già tutti rossi per altro. Costo oggi nessuno, valore da domani.
+ */
+export const BLOCCHI = ["In parole semplici", "Cosa cambia per te", "Cosa devi fare", "Cosa non ho verificato"];
 
 /** Sotto questa soglia è un messaggio breve: la struttura sarebbe burocrazia. */
 export const RIGHE_TESTO_LUNGO = 15;
@@ -62,7 +70,9 @@ export const PAROLE_FRASE_AVVISO = 20;
 export const PAROLE_FRASE_ROSSA = 30;
 
 /** I segni che sto spiegando una parola sul momento, invece di darla per scontata. */
-const SEGNI_DI_SPIEGAZIONE = /(cioè|ovvero|vale a dire|che sarebbe|si chiama|—|\(|:)/;
+// Accenti tolleranti: nei messaggi di commit scrivo «cioe'» senza accento, e senza questo la
+// spiegazione data sul momento non veniva riconosciuta.
+const SEGNI_DI_SPIEGAZIONE = /(cio[eè]'?|ovvero|vale a dire|che sarebbe|si chiama|—|\(|:)/;
 
 /** Le frasi che danno per scontato un contesto che Nicola non ha mai visto. */
 const SOTTINTESI = [
@@ -203,11 +213,67 @@ export function ariaFritta(testo) {
   return fuori;
 }
 
+
+/**
+ * PAROLE NUOVE — il rilevamento automatico del gergo che non ho ancora spiegato (AR-486).
+ *
+ * Nicola, 3/8: «da adesso in poi quando un senior, la macchina o tu usate una nuova parola tecnica
+ * verrà spiegata ed inserita in automatico dentro il glossario?».
+ *
+ * IL BUCO CHE CHIUDE. Fino a qui il controllo confrontava i testi con `PAROLE_MACCHINA`, un elenco
+ * scritto a mano da me. Una parola che invento domani non è in quell'elenco, quindi nessuno la vede:
+ * il controllo si difendeva dalle parole che già conoscevo, non da quelle nuove. È il difetto del
+ * perimetro letterale, applicato al vocabolario.
+ *
+ * COME LE TROVA, senza elenchi. In italiano quasi ogni parola finisce per vocale. Una parola di
+ * prosa che finisce per consonante è quasi sempre straniera o tecnica: `push`, `token`, `webhook`,
+ * `rollback`. Non serve sapere quali sono: serve la forma.
+ *
+ * COSA NON FA, e va detto: non scrive da sola la voce del glossario. Una definizione sbagliata
+ * dentro il materiale che Nicola studia è peggio di una parola mancante. La macchina la SEGNALA e
+ * blocca; la definizione la scrive chi consegna, e Nicola la legge.
+ */
+const CODA_ITALIANA = /[aeiouàèéìòù]$/i;
+
+/** Parole che finiscono per consonante ma sono italiane comuni: non sono gergo. */
+const ITALIANE_TRONCHE = new Set([
+  "non", "per", "con", "del", "dal", "nel", "col", "sul", "il", "un", "che", "chi", "cui", "gli",
+  "ben", "gran", "san", "qual", "tal", "pur", "poi", "mai", "più", "già", "però", "perciò", "cioè",
+  "così", "quasi", "ogni", "alcun", "nessun", "ciascun", "buon", "gran", "gli", "gia", "piu", "puo",
+  "gennaio", "gioved", "marted", "mercoled", "venerd", "sabat",
+  // Nomi propri e parole entrate nell'italiano di tutti i giorni: non sono gergo da spiegare.
+  "mycity", "ad-mycity", "nicola", "piacenza", "stripe", "supabase", "vercel", "render", "posthog",
+  "telegram", "whatsapp", "instagram", "facebook", "google", "marketing", "social", "brand", "web",
+  "email", "online", "internet", "manager", "test", "budget", "partner", "standard", "sport", "bar",
+  "hotel", "shop", "staff", "leader", "trend", "target", "format", "gap", "top", "flop", "ok",
+]);
+
+/** Trova le parole tecniche non spiegate e non presenti nel glossario. Pura: si prova su una stringa. */
+export function paroleNuove(testo, testoGlossario = "") {
+  const glo = String(testoGlossario).toLowerCase();
+  const trovate = new Map();
+  const righe = senzaCodice(parteDiNicola(testo))
+    .map((r) => r.replace(/`[^`]*`/g, " ")) // dentro l'apice è codice, non prosa
+    .map((r) => r.replace(/\[[^\]]*\]\([^)]*\)/g, " ")) // i link non sono parole da imparare
+    .map((r) => r.replace(/[\w./-]+\.(mjs|json|md|ts|tsx|sh|yml|com|it)\b/g, " ")) // né i nomi di file
+    .map((r) => r.replace(/https?:\/\/\S+/g, " "));
+  righe.forEach((riga, i) => {
+    for (const m of riga.matchAll(/[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ-]{3,17}/g)) {
+      const w = m[0].toLowerCase();
+      if (CODA_ITALIANA.test(w) || ITALIANE_TRONCHE.has(w)) continue;
+      if (glo.includes(w)) continue; // Nicola la può già studiare
+      if (SEGNI_DI_SPIEGAZIONE.test(riga)) continue; // la sto spiegando qui
+      if (!trovate.has(w)) trovate.set(w, i + 1);
+    }
+  });
+  return [...trovate].map(([parola, riga]) => ({ parola, riga }));
+}
+
 /**
  * Misura un testo. Non giudica il contenuto: guarda com'è costruita la spiegazione.
  * Pura: non tocca rete né disco (il glossario arriva da fuori), quindi si prova in un test.
  */
-export function misura(testo, { noteAGlossario = null } = {}) {
+export function misura(testo, { noteAGlossario = null, testoGlossario = null } = {}) {
   const righeNicola = senzaCodice(parteDiNicola(testo));
   const corpo = righeNicola.join("\n");
   const parole = corpo.split(/\s+/).filter(Boolean).length;
@@ -335,6 +401,16 @@ export function misura(testo, { noteAGlossario = null } = {}) {
       trovato: "nessun fatto verificabile",
       dico: "spiegazione senza sostanza: nessuno strumento, nessun numero, nessun nome proprio",
     });
+  }
+
+  // Le parole nuove sono un AVVISO, mai un blocco. Misurato prima di decidere: 484 consegne su 601
+  // ne contengono almeno una, e 782 parole diverse. Bloccare vorrebbe dire fermare quattro consegne
+  // su cinque — e un cancello sempre rosso viene aggirato al secondo giro. Qui serve un pungolo che
+  // riempie una fila di lavoro, non una porta chiusa.
+  if (testoGlossario != null) {
+    for (const n of paroleNuove(testo, testoGlossario).slice(0, 3)) {
+      avvisi.push({ riga: n.riga, dico: `«${n.parola}» non è nel glossario: spiegala qui, o mettila in fila` });
+    }
   }
 
   // ③-bis L'aria fritta: parole che sembrano spiegare e non dicono niente. Blocca, perché è
@@ -545,6 +621,46 @@ function main() {
 
   if (argv.includes("--scansione")) return scansione(radice);
 
+  // AR-486 — la fila delle parole da spiegare, ordinata per quante volte Nicola le ha incontrate.
+  // Non scrive da sola la voce del glossario: una definizione sbagliata dentro il materiale che lui
+  // studia è peggio di una parola mancante. Prepara il lavoro, non lo esegue.
+  if (argv.includes("--nuove")) {
+    const gFile = join(radice, GLOSSARIO);
+    if (!existsSync(gFile)) {
+      console.log("⚪ glossario non trovato: non so quali parole Nicola può già studiare");
+      return 2;
+    }
+    const glo = readFileSync(gFile, "utf8");
+    const file = fileDelCorpus(radice);
+    const conta = new Map();
+    for (const f of file) {
+      for (const n of paroleNuove(readFileSync(f, "utf8"), glo)) {
+        conta.set(n.parola, (conta.get(n.parola) || 0) + 1);
+      }
+    }
+    const ord = [...conta].sort((a, b) => b[1] - a[1]);
+    console.log(`📚 ${ord.length} parole tecniche che uso e che Nicola non può studiare\n`);
+    console.log("   Le 25 che incontra di più:");
+    for (const [w, n] of ord.slice(0, 25)) console.log(`     ${String(n).padStart(4)}×  ${w}`);
+    const dove = join(radice, "MyCity-Vault/90-Memoria-AI/auto-coscienza/parole-da-spiegare.json");
+    writeFileSync(
+      dove,
+      JSON.stringify(
+        {
+          _cosa_e: "Le parole tecniche che compaiono nei testi di Nicola e non sono nel GLOSSARIO. La fila da smaltire.",
+          misurato: new Date().toISOString().slice(0, 16).replace("T", " "),
+          testi_letti: file.length,
+          parole_diverse: ord.length,
+          fila: ord.slice(0, 100).map(([parola, volte]) => ({ parola, volte })),
+        },
+        null,
+        2,
+      ) + "\n",
+    );
+    console.log(`\n   fila completa: ${relative(radice, dove)}`);
+    return 0;
+  }
+
   // AR-482 — la misura che guarda Nicola invece di me, con la sua storia su file.
   // Senza storia, «l'82% è sceso» sarebbe una mia impressione: è esattamente il difetto dei numeri
   // senza fonte. Ogni sessione lascia una riga, e la riga di ieri non si riscrive.
@@ -610,7 +726,11 @@ function main() {
   }
 
   const note = parolePeggioNoteAGlossario(radice);
-  const m = misura(testo, { noteAGlossario: note });
+  const gFile = join(radice, GLOSSARIO);
+  const m = misura(testo, {
+    noteAGlossario: note,
+    testoGlossario: existsSync(gFile) ? readFileSync(gFile, "utf8") : null,
+  });
   const { problemi, avvisi, minuti, parole } = m;
 
   console.log(`📏 ${parole} parole · ~${minuti} min di lettura · voto di difficoltà ${difficolta(m)}\n`);

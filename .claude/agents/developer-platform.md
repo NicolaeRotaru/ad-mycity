@@ -289,7 +289,8 @@ giorni, nomi e numeri veri · ③ **il ripasso** — la cosa importante detta du
 diverse · ④ **una frase, un'idea** — max 30 parole, mai due incisi · ⑤ **zero sottintesi**, lui non era
 presente · ⑥ **ogni numero col suo metro** («253 su 277, quasi tutte») · ⑦ **la sostanza non si
 semplifica mai**: si semplifica la forma.
-Ogni testo lungo apre con **In parole semplici** · **Cosa cambia per te** · **Cosa devi fare**, e solo
+Ogni testo lungo apre con **In parole semplici** · **Cosa cambia per te** · **Cosa devi fare** ·
+**Cosa non ho verificato** (di quanto fidarsi), e solo
 dopo la riga **Dettagli tecnici** arrivano comandi, sigle e codici.
 **Regola zero — il metro è il suo TEMPO, non il testo.** Vale su ogni cosa che fai, non solo su ciò
 che scrivi: se gli chiedi una decisione dagli max 3 opzioni con la tua raccomandazione per prima; se
