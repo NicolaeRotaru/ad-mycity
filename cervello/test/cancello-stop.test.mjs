@@ -26,6 +26,7 @@ import {
   scegliPerimetro,
   uscitaFuoriDallHook,
   siPiantaAncora,
+  basiPerIlTesto,
   ALLARMI,
 } from "../cancello-stop.mjs";
 
@@ -510,4 +511,68 @@ test("il difetto chiuso con la decisione di Nicola non viene piu' segnalato", ()
   const prima = [{ id: "AR-479", stato: "aperto" }];
   const dopo = [{ id: "AR-479", stato: "chiuso", titolo: "le 4 ore", verifica: { tipo: "umano", esito: "Nicola 3/8" } }];
   assert.deepEqual(chiusiSenzaProva(prima, dopo), []);
+});
+
+// ── AR-507: «non so cosa è tuo» ───────────────────────────────────────────────
+//
+// Il caso vero, 3/8: prima chiusura di una sessione cloud, nessuna ancora (vive fuori da git, il
+// container parte da un clone fresco), perimetro = tutto il ramo. Il cancello ha scritto sette ❌ in
+// prima persona su 194 file e 10 commit di sessioni precedenti, mentre in quel turno l'albero di
+// lavoro era pulito: zero file scritti. Un cancello che accusa di cose non tue è il rosso che si
+// impara ad aggirare.
+
+test("senza ancora l'allarme non accusa: esce ⚪ «non so cosa è tuo» e NON blocca", () => {
+  const v = verdetto({ allarmi: ["consegne/devops/2026-07-31-sito-503.md"], attribuzione: { certa: false, nota: "prima volta qui" } });
+  assert.equal(v.blocca, false, "il turno non si ferma per lavoro che non è di questo turno");
+  const testo = v.righe.join("\n");
+  assert.match(testo, /non so cosa è tuo/, "lo dice, non lo tace: il silenzio sarebbe l'altro difetto");
+  assert.doesNotMatch(testo, /^❌/m, "e non resta nessuna accusa in prima persona");
+  assert.match(testo, /consegne\/devops\/2026-07-31-sito-503\.md/, "il file si nomina lo stesso: declassare non è nascondere");
+});
+
+test("senza ancora anche il testo peggiorato si declassa", () => {
+  const t = { file: "MyCity-Vault/90-Memoria-AI/BACHECA.md", quanti: 138, prima: 109, nuovi: 29, primi: [] };
+  const v = verdetto({ illeggibili: [t], attribuzione: { certa: false, nota: "prima volta qui" } });
+  assert.equal(v.blocca, false);
+  assert.match(v.righe.join("\n"), /non so cosa è tuo.*BACHECA/s);
+});
+
+test("il ⚪ dell'attribuzione NON è un cieco: ho guardato, non so di chi sia", () => {
+  const v = verdetto({ allarmi: ["consegne/x.md"], attribuzione: { certa: false, nota: "prima volta qui" } });
+  assert.equal(v.cieco, false, "«non ho misurato» e «non so di chi è» sono due cose diverse");
+  assert.match(v.righe.join("\n"), /prima volta qui/, "e il ⚪ non resta senza il suo perché");
+});
+
+test("la nota non si dice due volte se chi chiama l'ha già messa fra le note", () => {
+  const nota = "è la prima volta che mi fermo qui";
+  const v = verdetto({ allarmi: ["consegne/x.md"], note: [nota], attribuzione: { certa: false, nota } });
+  const quante = v.righe.join("\n").split(nota).length - 1;
+  assert.equal(quante, 1, "una riga ripetuta è rumore, e il rumore spegne i freni");
+});
+
+test("senza ancora restano ❌ i controlli che dall'ancora non dipendono", () => {
+  // ① e ③ confrontano HEAD col disco: sono modifiche non committate, cioè mie per definizione.
+  // ⑤ vive nella sessione (il battito del sorvegliante). ④ è per-RAMO per scelta (AR-477).
+  const incerta = { certa: false, nota: "prima volta qui" };
+  for (const [nome, ingresso] of [
+    ["difetto chiuso senza prova", { chiusi: [{ id: "AR-9", titolo: "x" }] }],
+    ["lezione senza freno", { lezioni: ["L-3"] }],
+    ["avviso ignorato del sorvegliante", { insistenti: [{ n: 3, file: "cervello/x.mjs", cosa: "y" }] }],
+    ["lavoro consegnato senza esito", { senzaEsito: { quanti: 1, esempio: ["cervello/x.mjs"], dopo: 0 } }],
+  ]) {
+    const v = verdetto({ ...ingresso, attribuzione: incerta });
+    assert.equal(v.blocca, true, `${nome}: senza ancora deve bloccare lo stesso`);
+  }
+});
+
+test("con l'ancora l'allarme torna un'accusa: il declassamento non è permanente", () => {
+  const v = verdetto({ allarmi: ["consegne/x.md"], attribuzione: { certa: true, nota: null } });
+  assert.equal(v.blocca, true, "dal secondo turno in poi il freno è pieno");
+  assert.match(v.righe.join("\n"), /^🛑|❌ ho scritto un allarme/m);
+});
+
+test("l'ancora del turno viene PRIMA delle basi del ramo", () => {
+  // Se scivola dopo, il confronto torna a tutto il ramo e il fix sparisce senza diventare rosso.
+  assert.deepEqual(basiPerIlTesto("abc123"), ["abc123", "origin/main", "main"]);
+  assert.deepEqual(basiPerIlTesto(null), ["origin/main", "main"], "senza ancora si torna al ramo, non si tace");
 });

@@ -56,10 +56,18 @@
 // COSA NON FA. Non giudica se il fix è giusto, non legge il cantiere, non sostituisce il cancello del
 // lotto. Cinque misure meccaniche su un diff: dove passa un «forse» qui, la risposta è tacere.
 //
-// COPERTURA DICHIARATA (⑤ è una euristica, e va detto): il raggio si calcola cercando gli `import`/
-// `require`/`from` che nominano il file toccato, più le citazioni del suo percorso in .sh/.json. NON
-// segue le chiamate indirette, i nomi costruiti a runtime, né i riferimenti nei .md. Un raggio vuoto
-// significa «non ne ho trovati», mai «non ce ne sono».
+// COPERTURA DICHIARATA (⑤ è una euristica, e va detto). Dal 3/8 (AR-508, Nicola: «fai sapere al
+// sorvegliante chi poggia su un file in modo indiretto») il raggio arriva a DUE PASSI e riconosce tre
+// forme di legame: ① l'`import`/`require`/`from`; ② il percorso scritto per intero in qualunque file
+// di codice — uno .sh, un workflow .yml, un `.service` di systemd, `.claude/settings.json`; ③ il nome
+// del file dentro una stringa in un contesto che lo USA (`join(QUI, "x.mjs")`, `import(nome)`,
+// `node x.mjs`, `ExecStart=`), che è il modo in cui questo repo compone davvero i percorsi. Poi
+// risale di un passo: chi poggia su chi poggia su di me.
+//   NON copre: i nomi costruiti pezzo per pezzo a runtime (`nome + ".mjs"`), i riferimenti nei .md e
+//   nei registri di memoria (lì gli script si nominano per mestiere — contarli faceva salire il raggio
+//   di cancello-stop.mjs da 10 a 86 file, cioè da un elenco a un rumore), e il TERZO passo, dove in
+//   questo repo quasi tutto poggia su un registro comune e la risposta diventerebbe «mezzo repo».
+//   Un raggio vuoto significa «non ne ho trovati», mai «non ce ne sono».
 //
 // IL CANALE (AR-465, 30/7 — la riparazione più importante di questo file). Per un giorno intero
 // questa guardia ha girato a ogni mia modifica e ha parlato a NESSUNO. La riga in settings.json c'era,
@@ -447,22 +455,46 @@ export function sorveglia({
       }
     }
 
-    // ⑤ raggio — il quadro ampio: chi altro poggia su ciò che ho toccato.
-    const dip = importatori.get(file) || [];
-    if (dip.length) {
+    // ⑤ raggio — il quadro ampio: chi altro poggia su ciò che ho toccato, DIRETTAMENTE e no.
+    const voce = importatori.get(file);
+    const diretti = Array.isArray(voce) ? voce : voce?.diretti || [];
+    const indiretti = Array.isArray(voce) ? [] : voce?.indiretti || [];
+    if (diretti.length || indiretti.length) {
+      const elenco = [...diretti, ...indiretti.map((f) => `${f} (a due passi)`)];
       voci.push({
         classe: "raggio",
         gravita: "informativa",
         file,
         riga: null,
-        cosa: `${dip.length} altri file nominano questo: ${dip.slice(0, 6).join(", ")}${dip.length > 6 ? ` (+${dip.length - 6})` : ""}`,
+        diretti: diretti.length,
+        indiretti: indiretti.length,
+        cosa:
+          `${diretti.length + indiretti.length} altri file poggiano su questo` +
+          `${indiretti.length ? ` (${diretti.length} diretti, ${indiretti.length} per interposta persona)` : ""}: ` +
+          `${elenco.slice(0, 6).join(", ")}${elenco.length > 6 ? ` (+${elenco.length - 6})` : ""}`,
         perche: "AR-338, AR-344 e AR-415 hanno la stessa forma: ho cambiato un lettore condiviso e il significato è cambiato per tutti gli altri, senza che nessuno lo elencasse.",
         domanda: `per ognuno di questi: il cambiamento che ho fatto vale ancora, o cambia il significato di quello che leggono?`,
       });
     }
   }
 
-  // ── IL LATO SOTTRAZIONE (⑥⑦) — quello che ho TOLTO, che fino al 3/8 non guardava nessuno.
+  // ── ⑩⑪ IL GIUDIZIO SULLA RIPARAZIONE (AR-509, Nicola 3/8: «fallo giudicare se la riparazione è
+  // giusta»). Fino a qui questo file dichiarava di non farlo — «cinque misure meccaniche su un diff:
+  // dove passa un forse, la risposta è tacere» — e la dichiarazione resta VERA: non giudico se il fix
+  // funziona (quello lo dicono le prove), non leggo il cantiere, non do voti. Giudico due modi di
+  // riparare che si vedono nel diff e che in questa casa sono già costati due difetti interi:
+  //
+  //   ⑩ ho curato l'ISTANZA e lasciato la CLASSE. La riga che ho tolto conteneva una malattia
+  //      censita — quindi stavo riparando — e nello stesso file ne restano altre uguali. È AR-347
+  //      alla lettera: «chi lo ha scritto ha riparato i file dove aveva appena visto il difetto».
+  //      Non è un'accusa: è la domanda che nessuno mi fa quando il fix sembra finito.
+  //
+  //   ⑪ ho cambiato la PROVA invece del CODICE. Ho tolto o riscritto righe in un file di test e il
+  //      file che quel test difende non l'ho toccato. Aggiungere prove nuove è sano e non entra qui
+  //      (guardo solo le righe RIMOSSE dal test): quello che questo controllo pesca è il gesto di
+  //      far tornare verde il termometro invece di curare la febbre. Il cancello del lotto vede il
+  //      test cancellato per intero (⑥a); questo vede l'asserzione tolta di nascosto dentro un file
+  //      che resta vivo, e nessuno la guardava.
   const perNome = new Map(toccati.map((t) => [t.file, t]));
   // I nomi che dopo questa modifica ESISTONO ancora. I cancellati vanno tolti, o un file morto si
   // assolverebbe da solo: «c'è un file con lo stesso nome fra quelli toccati» sarebbe lui stesso.
@@ -522,6 +554,35 @@ export function sorveglia({
           });
         }
       }
+    }
+
+    // ⑩ la classe rimasta viva dopo l'istanza curata (AR-509).
+    if (!esenteDaMalattie(file)) {
+      for (const c of classeRimasta(rimosse, perNome.get(file)?.contenuto ?? null, malattie, file)) {
+        voci.push({
+          classe: "riparazione-parziale",
+          gravita: "media",
+          file,
+          riga: c.esempio,
+          cosa: `qui ho appena curato «${c.malattia}», e nello stesso file ne restano ${c.quante} (la prima alla riga ${c.esempio})`,
+          perche: "è AR-347 alla lettera: si ripara dove il difetto è stato VISTO, e la forma resta viva due righe più sotto. Il conto migliora, la classe no.",
+          domanda: "le altre le curo adesso che ho il file aperto e la testa dentro, o le lascio a un me stesso futuro che non saprà nemmeno che ci sono?",
+        });
+      }
+    }
+
+    // ⑪ la prova indebolita mentre il codice resta com'era (AR-509).
+    const ind = provaIndebolita({ file, rimosse, toccati: toccati.map((t) => t.file), esiste });
+    if (ind) {
+      voci.push({
+        classe: "prova-indebolita",
+        gravita: "grave",
+        file,
+        riga: ind.esempio,
+        cosa: `ho tolto ${ind.quante} riga/e di prova da qui e non ho toccato ${ind.difeso}`,
+        perche: "far tornare verde il termometro non cura la febbre. Un test cancellato per intero lo vede il controllo ⑥; un'asserzione tolta dentro un file che resta vivo non la vedeva nessuno — e il conto delle prove resta identico.",
+        domanda: "quel caso non serviva più perché il codice è cambiato (ma allora il codice dov'è?), o l'ho tolto perché era rosso?",
+      });
     }
 
     // ⑦ soglia-allentata — un tetto che sale o un minimo che scende.
@@ -594,6 +655,69 @@ export function zonaDi(file = "") {
 export function derivaDelLavoro(file = [], soglia = ZONE_MAX) {
   const zone = [...new Set(file.map(zonaDi).filter(Boolean))].sort();
   return zone.length > soglia ? zone : null;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ⑩⑪ IL GIUDIZIO SULLA RIPARAZIONE (AR-509) — le due funzioni pure.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * ⑩ La classe rimasta viva dopo che ho curato l'istanza.
+ *
+ * @param {Array<{n:number,testo:string}>} rimosse  le righe che ho tolto da questo file
+ * @param {string|null} contenuto                   il file COME È ADESSO
+ * @param {Array<object>} malattie                  il registro
+ * @returns {Array<{malattia:string, quante:number, esempio:number|null}>}
+ *
+ * La condizione è doppia apposta: ho tolto una riga malata E il file ne contiene ancora. Con la sola
+ * seconda metà accuserei chiunque tocchi un file con del debito dentro — cioè quasi ogni file — e un
+ * rosso che si accende sempre viene spento entro la settimana.
+ */
+export function classeRimasta(rimosse = [], contenuto = null, malattie = [], file = "") {
+  if (typeof contenuto !== "string" || !rimosse.length) return [];
+  const fuori = [];
+  for (const m of malattie) {
+    if (!m.pattern) continue;
+    if (Array.isArray(m.estensioni) && m.estensioni.length && !m.estensioni.some((e) => file.endsWith(e))) continue;
+    let re;
+    try {
+      re = new RegExp(m.pattern);
+    } catch {
+      continue;
+    }
+    const curata = rimosse.some((r) => re.test(senzaCommenti(r.testo, file)));
+    if (!curata) continue;
+    const righe = contenuto.split("\n");
+    const restano = [];
+    righe.forEach((r, i) => {
+      if (re.test(senzaCommenti(r, file))) restano.push(i + 1);
+    });
+    if (restano.length) fuori.push({ malattia: m.id, quante: restano.length, esempio: restano[0] });
+  }
+  return fuori;
+}
+
+/** Da un file di prova al file che difende: `cervello/test/x.test.mjs` → `cervello/x.mjs`. `null`
+ *  quando il nome non segue la convenzione — e allora taccio, invece di indovinare un percorso. */
+export function fileDifeso(test = "") {
+  const m = String(test).match(/^(.*)\/test\/(.+)\.test\.(m?js|ts|tsx)$/);
+  return m ? `${m[1]}/${m[2]}.${m[3]}` : null;
+}
+
+/**
+ * ⑪ Ho indebolito la prova invece di riparare il codice?
+ *
+ * Vero solo se: righe TOLTE da un file di prova (aggiungerne è sano), il file difeso esiste, e in
+ * questo delta non l'ho toccato. Le righe tolte devono contenere un'asserzione o un caso: spostare
+ * un commento o rinominare una variabile dentro un test non è indebolire niente.
+ */
+export function provaIndebolita({ file = "", rimosse = [], toccati = [], esiste = () => true } = {}) {
+  const difeso = fileDifeso(file);
+  if (!difeso || !esiste(difeso)) return null;
+  if (toccati.includes(difeso)) return null;
+  const sostanziali = rimosse.filter((r) => /\bassert\b|\bexpect\(|\btest\(|\bit\(|\bdescribe\(/.test(r.testo));
+  if (!sostanziali.length) return null;
+  return { difeso, quante: sostanziali.length, esempio: sostanziali[0].n };
 }
 
 /** Le voci che fanno rosso. `raggio` non è un errore (è il quadro), `media` è un avviso che si legge. */
@@ -681,7 +805,16 @@ export function bustaPerIlModello(voci = [], nToccati = 0, viste = {}) {
   }
   const raggi = voci.filter((v) => v.classe === "raggio");
   if (raggi.length) {
-    righe.push(`🔭 raggio: ${raggi.map((r) => `${r.file} → ${(r.cosa.match(/^(\d+)/) || [, "?"])[1]} dipendenti`).join(" · ")}`);
+    // I due numeri separati (AR-508): «23 dipendenti» e «10 diretti + 13 a due passi» si leggono in
+    // modo diverso — il secondo dice anche QUANTO lontano arriva il cambiamento, e il primo no.
+    righe.push(
+      `🔭 raggio: ${raggi
+        .map((r) => {
+          const d = typeof r.diretti === "number" ? r.diretti : Number((r.cosa.match(/^(\d+)/) || [, 0])[1]);
+          return `${r.file} → ${d} diretti${r.indiretti ? ` · ${r.indiretti} a due passi` : ""}`;
+        })
+        .join(" · ")}`,
+    );
   }
   const deriva = voci.find((v) => v.classe === "deriva");
   if (deriva) righe.push(`🧭 ${deriva.cosa}\n   ↳ ${deriva.domanda}`);
@@ -822,13 +955,86 @@ export function leggiRimozioni(testo) {
  * secondi) sarebbe diventata la ragione per staccarla. Una guardia lenta viene spenta come una
  * rumorosa: sono lo stesso difetto con due facce.
  */
+/**
+ * I NOMI che un file cita: la materia prima del raggio. Pura, così le prove non toccano il disco.
+ *
+ * Tre forme, e le ultime due sono quelle che l'`import` letterale non vedeva (AR-508, Nicola 3/8:
+ * «fai sapere al sorvegliante chi poggia su un file in modo indiretto»):
+ *   ① `import`/`require`/`from "…/x.mjs"` — il legame dichiarato, l'unico che si vedeva prima.
+ *   ② il percorso scritto per intero da qualsiasi parte (`node cervello/x.mjs` in uno .sh, una riga
+ *      di `settings.json`, un `.service` di systemd) — c'era già, ma solo su cinque estensioni.
+ *   ③ il nome del file dentro una stringa qualunque: `join(QUI, "x.mjs")`, `await import(nome)`,
+ *      `spawn("node", [join(DIR, "x.mjs")])`. È il modo in cui questo repo compone i percorsi — e
+ *      finché il raggio cercava solo le due forme di sopra, un file chiamato così risultava senza
+ *      nessuno che poggiasse su di lui. Un raggio vuoto letto come «non ne ho trovati» è onesto;
+ *      letto come «non ce ne sono» è una bugia, ed è la forma di AR-344.
+ */
+export function nomiCitati(testo = "") {
+  const fuori = new Set();
+  const EST = "(?:m?js|cjs|ts|tsx|sh|json|ya?ml|service|timer)";
+  // ①+② il percorso con almeno una cartella dentro: `cervello/x.mjs`, `./lib/y.ts`, `/opt/z.sh`.
+  // Vale sempre, virgolette o no — è già un riferimento a un file preciso.
+  for (const m of String(testo).matchAll(new RegExp(`[A-Za-z0-9_.-]*(?:/[A-Za-z0-9_.-]+)+\\.${EST}`, "g"))) {
+    fuori.add(m[0].replace(/^\.\//, ""));
+    fuori.add(basenameSemplice(m[0]));
+  }
+  // ③ il nome NUDO, ma solo in un contesto che lo USA: `join(QUI, "x.mjs")`, `import("x.mjs")`,
+  // `node x.mjs`, `ExecStart=… x.sh`. Fuori da questi il nome nudo è una MENZIONE — una scheda del
+  // cantiere che nomina uno script, una riga di apprendimento — e contarla come dipendenza è la
+  // terza comparsa in questo file dello stesso errore: menzione ≠ chiamata. Misurato: senza questo
+  // filtro il raggio di cancello-stop.mjs passava da 10 a 86 file, cioè da un elenco a un rumore.
+  for (const m of String(testo).matchAll(new RegExp(`(?:from|import|require|join|node|bash|sh|ExecStart=)[^\\n]{0,80}?["'\`]([A-Za-z0-9_.-]+\\.${EST})["'\`]`, "g"))) {
+    fuori.add(m[1]);
+  }
+  return fuori;
+}
+
+/** Le cartelle dove «chi mi nomina» è una dipendenza che si può rompere. La memoria no: lì gli
+ *  script si citano per mestiere (le schede del cantiere, le lezioni), e contarle come dipendenti
+ *  gonfierebbe il raggio con file che non eseguono niente. */
+export const CARTELLE_CODICE = ["cervello", "pannello", ".github", ".githooks", ".claude", "scripts"];
+export const eCodice = (rel = "") => !rel.includes("/") || CARTELLE_CODICE.some((c) => rel.startsWith(`${c}/`));
+
+/**
+ * Il raggio a DUE PASSI, calcolato sul grafo delle citazioni.
+ *
+ * `citazioni`: percorso → i nomi che quel file cita (da `nomiCitati`).
+ * Torna, per ogni file cercato: chi lo nomina (diretti) e chi nomina uno di quelli (indiretti).
+ *
+ * PERCHÉ SI FERMA A DUE. Non per pigrizia: al terzo passo, in un repo dove quasi tutto poggia su
+ * `git-github.mjs` o su un registro, il raggio diventa «mezzo repo» — e un elenco che nomina tutto
+ * non fa vedere niente. Due passi è il punto in cui la risposta è ancora una lista che si legge.
+ * Il limite va DETTO, non nascosto: è scritto nella copertura dichiarata in testa al file.
+ */
+export function raggioDueP1assi(cercati = [], citazioni = new Map()) {
+  const nominano = (bersagli) => {
+    const fuori = new Map();
+    for (const [chi, nomi] of citazioni) {
+      for (const b of bersagli) {
+        if (chi === b) continue;
+        if (nomi.has(b) || nomi.has(basenameSemplice(b))) {
+          if (!fuori.has(b)) fuori.set(b, []);
+          fuori.get(b).push(chi);
+        }
+      }
+    }
+    return fuori;
+  };
+  const primo = nominano(cercati);
+  const idx = new Map();
+  for (const f of cercati) {
+    const diretti = (primo.get(f) || []).sort();
+    const secondo = nominano(diretti);
+    const indiretti = [...new Set([...secondo.values()].flat())].filter((x) => x !== f && !diretti.includes(x)).sort();
+    idx.set(f, { diretti, indiretti });
+  }
+  return idx;
+}
+
 function indiceImportatori(fileRel = []) {
-  const idx = new Map(fileRel.map((f) => [f, []]));
+  const idx = new Map(fileRel.map((f) => [f, { diretti: [], indiretti: [] }]));
   if (!fileRel.length) return idx;
-  const cercati = fileRel.map((f) => ({
-    rel: f,
-    re: new RegExp(`(?:from|import|require)\\s*\\(?\\s*["'][^"'\\n]*${basename(f).replace(/\./g, "\\.")}["']`),
-  }));
+  const citazioni = new Map();
   const cerca = (dir) => {
     let voci;
     try {
@@ -843,23 +1049,24 @@ function indiceImportatori(fileRel = []) {
         cerca(p);
         continue;
       }
-      if (!/\.(m?js|cjs|ts|tsx|sh|json)$/.test(v.name)) continue;
+      // Le estensioni allargate (AR-508): `.yml` sono i workflow di GitHub — dove gira metà dei
+      // guardiani — e `.service`/`.timer` sono il modo in cui il VPS lancia il worker. Erano fuori
+      // dalla scansione, quindi un file lanciato SOLO da systemd o SOLO dalla CI risultava senza
+      // nessuno che poggiasse su di lui: il raggio taceva proprio sui due chiamanti che non posso
+      // vedere da qui.
+      if (!/\.(m?js|cjs|ts|tsx|sh|json|ya?ml|service|timer)$/.test(v.name)) continue;
       const rel = relative(REPO, p);
-      let testo;
+      if (!eCodice(rel)) continue;
       try {
         if (statSync(p).size > 2 * 1024 * 1024) continue;
-        testo = readFileSync(p, "utf8");
+        citazioni.set(rel, nomiCitati(readFileSync(p, "utf8")));
       } catch {
-        continue;
-      }
-      for (const c of cercati) {
-        if (rel === c.rel) continue;
-        if (c.re.test(testo) || testo.includes(c.rel)) idx.get(c.rel).push(rel);
+        // illeggibile: una fonte in meno, e il conteggio più basso lo dice da solo
       }
     }
   };
   cerca(REPO);
-  for (const [, v] of idx) v.sort();
+  for (const [f, v] of raggioDueP1assi(fileRel, citazioni)) idx.set(f, v);
   return idx;
 }
 

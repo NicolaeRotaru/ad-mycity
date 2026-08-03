@@ -397,8 +397,41 @@ export function verdetto({
   ciechi = [],
   note = [],
   giaBloccato = false,
+  attribuzione = { certa: true, nota: null },
 } = {}) {
   const righe = [];
+  // ⚪ «NON SO COSA È TUO» (AR-507, Nicola 3/8) — l'accusa che parte prima dell'attribuzione.
+  //
+  // COSA È SUCCESSO. Prima chiusura di una sessione cloud: nessuna ancora del turno (vive fuori da
+  // git, e il container parte da un clone fresco), quindi perimetro = tutto il ramo. Il cancello ha
+  // elencato sette ❌ su 194 file e 10 commit di sessioni precedenti. In quel turno io avevo scritto
+  // ZERO file del repo — l'albero era pulito, verificato con `git status`.
+  //
+  // PERCHÉ NON BASTAVA LA NOTA. La riga ℹ️ in fondo diceva la verità («guardo tutto il ramo»), ma
+  // sopra c'erano sette ❌ scritti in prima persona: «ho scritto un allarme», «questo lavoro gli ha
+  // aggiunto 29 punti difficili». Un cancello che accusa di cose non tue è la definizione operativa
+  // del rosso che si impara ad aggirare — la stessa taratura che il sorvegliante si è dato guardando
+  // solo il delta, «così parte verde per costruzione», e che questo cancello non si era dato.
+  //
+  // LA CURA, e i suoi confini. Quando l'attribuzione NON è certa, i due controlli che leggono il
+  // perimetro (l'allarme non accodato, il testo peggiorato) non spariscono e non accusano: escono ⚪
+  // «non so cosa è tuo», si leggono, e non bloccano il turno. Gli altri restano ❌ perché non
+  // dipendono dall'ancora — ① e ③ confrontano HEAD col disco (sono modifiche non committate, cioè
+  // mie per definizione), ⑤ e ⑥ vivono nella sessione (il battito, la chat), ④ è per-RAMO per scelta
+  // dichiarata (AR-477: l'unità di consegna è la PR, non il turno).
+  //
+  // NON è un'esenzione permanente: chi chiama passa `certa: false` solo dentro l'hook `Stop` e solo
+  // finché l'ancora manca. L'ancora si pianta alla fine di questo stesso giro, quindi il turno dopo
+  // il freno è pieno. Fuori dall'hook — CI, comando a mano — resta tutto ❌: lì il perimetro-ramo è
+  // quello giusto, perché l'unità di consegna è la PR.
+  const incerte = [];
+  const accusa = (riga, attribuita = false) => {
+    if (attribuita && !attribuzione.certa) {
+      incerte.push(`⚪ non so cosa è tuo: ${riga.split("\n")[0].replace(/^❌ /, "")}`);
+      return;
+    }
+    righe.push(riga);
+  };
   // ⑤ L'AVVISO CHE HO IGNORATO (AR-497). Il sorvegliante parla a ogni modifica; fino al 3/8 nessuno
   // guardava se avessi fatto qualcosa. Una voce grave tornata tre volte e ancora viva all'ultimo
   // scatto non è più un avviso: è una decisione presa senza dirlo.
@@ -416,9 +449,10 @@ export function verdetto({
     );
   }
   for (const f of allarmi) {
-    righe.push(
+    accusa(
       `❌ ho scritto un allarme in ${f} e non ho messo niente in AZIONI-IN-ATTESA.md` +
         `\n   → chi lo legge, e quando? Se la risposta è «nessuno, se non va a cercarlo», non ho finito.`,
+      true,
     );
   }
   for (const id of lezioni) {
@@ -439,12 +473,13 @@ export function verdetto({
     );
   }
   for (const t of illeggibili) {
-    righe.push(
+    accusa(
       `❌ ${t.file} lo leggerà Nicola e questo lavoro gli ha aggiunto ${t.nuovi} punti difficili` +
         ` (era ${t.prima}, adesso ${t.quanti} — AR-478)` +
         t.primi.map((p) => `\n   → ${p.dico}${p.frase ? `\n     «${p.frase}»` : ` (riga ${p.riga})`}`).join("") +
         `\n   → node cervello/si-capisce.mjs ${t.file}` +
         `\n   → la sostanza NON si toglie: i termini tecnici e i ragionamenti restano, si spiegano dove servono.`,
+      true,
     );
   }
   if (messaggio) {
@@ -470,7 +505,16 @@ export function verdetto({
   //
   // Quindi due canali: `ciechi` = non ho guardato (esce 2), `note` = ho guardato così (si legge e
   // basta). La differenza la decide chi CHIAMA, che è l'unico a sapere se la misura è avvenuta.
-  const noteCieche = [...ciechi.map((c) => `⚪ ${c}`), ...note.map((n) => `ℹ️  ${n}`)];
+  // Le incerte stanno con le ⚪ e non con le ❌: si leggono, non bloccano, e NON contano come
+  // «cieco» — cieco vuol dire «non ho guardato», mentre qui ho guardato e non so di chi sia. La
+  // riga che lo spiega arriva da `attribuzione.nota`, così il ⚪ non resta senza il suo perché.
+  const notaDaSola = incerte.length && attribuzione.nota && !note.includes(attribuzione.nota);
+  const noteCieche = [
+    ...incerte,
+    ...(notaDaSola ? [`ℹ️  ${attribuzione.nota}`] : []),
+    ...ciechi.map((c) => `⚪ ${c}`),
+    ...note.map((n) => `ℹ️  ${n}`),
+  ];
   if (!righe.length) return { blocca: false, cieco: ciechi.length > 0, righe: noteCieche };
   if (giaBloccato) {
     return {
@@ -663,9 +707,28 @@ function righeAggiunteNelle(base, cartella, soloMd = true) {
   return [...perFile.entries()].map(([file, righe]) => ({ file, righe }));
 }
 
-/** Il testo com'era prima di questo ramo. `null` = non c'era, quindi è tutto nuovo. */
-function testoDiBase(percorso) {
-  for (const base of ["origin/main", "main"]) {
+/**
+ * Da dove si guarda un testo: l'ancora del turno per prima, poi le basi del ramo (AR-507).
+ *
+ * Sta qui fuori — pura, esportata, provata — per una ragione precisa: dentro `testoDiBase` sarebbe
+ * stata una riga che «sembra giusta» e nessun test avrebbe potuto eseguirla, cioè il modo esatto in
+ * cui è nato AR-455 (chiuso sulla lettera, non sull'effetto). L'ordine È la regola: se l'ancora
+ * scivola dopo `origin/main`, il confronto torna silenziosamente a tutto il ramo e il fix sparisce
+ * senza che niente diventi rosso.
+ */
+export function basiPerIlTesto(da = null) {
+  return [da, "origin/main", "main"].filter(Boolean);
+}
+
+/**
+ * Il testo com'era prima. `null` = non c'era, quindi è tutto nuovo.
+ *
+ * `da` è l'ancora del turno quando c'è (AR-507): senza, il «prima» era sempre la punta di main, e il
+ * peggioramento di un testo scritto tre turni fa tornava a carico di questo. Con l'ancora il confronto
+ * parte da dove ho cominciato IO, ed è la stessa domanda ristretta al perimetro giusto.
+ */
+function testoDiBase(percorso, da = null) {
+  for (const base of basiPerIlTesto(da)) {
     try {
       return git(["show", `${base}:${percorso}`]);
     } catch {
@@ -683,7 +746,7 @@ function testoDiBase(percorso) {
  * Non usa `fileDelLavoro()` perché quello guarda solo i file NUOVI: un testo peggiorato riscrivendolo
  * è il caso più probabile, ed era proprio quello che sfuggiva.
  */
-function testiToccati() {
+function testiToccati(da = null) {
   const percorsi = new Set();
   try {
     for (const r of git(["status", "--porcelain"]).split("\n").filter(Boolean)) {
@@ -693,7 +756,12 @@ function testiToccati() {
   } catch {
     // niente git: resta l'elenco vuoto, e un elenco vuoto non accusa nessuno
   }
-  for (const base of ["origin/main", "main"]) {
+  // AR-507: l'ancora del turno PRIMA delle basi del ramo. Questa riga è il difetto vero trovato il
+  // 3/8 — il perimetro del turno esisteva già (AR-496) e questa funzione non lo chiedeva a nessuno,
+  // quindi i .md venivano presi da tutto il ramo A OGNI turno, non solo al primo. Il verdetto che ha
+  // fermato la sessione del 3/8 elencava sei testi: BACHECA, GLOSSARIO, STATO e tre consegne, gli
+  // ultimi tocchi datati 31/7 e 1/8, in commit di sessioni chiuse giorni prima.
+  for (const base of basiPerIlTesto(da)) {
     try {
       for (const p of percorsiDaGit(["diff", `${base}...HEAD`, "--name-only"], { cwd: REPO })) {
         if (p.endsWith(".md")) percorsi.add(p);
@@ -711,7 +779,7 @@ function testiToccati() {
       testi.push({
         file: p,
         contenuto: readFileSync(abs, "utf8").slice(0, 200_000),
-        contenutoPrima: testoDiBase(p),
+        contenutoPrima: testoDiBase(p, da),
       });
     } catch {
       // illeggibile: taccio invece di accusare
@@ -861,7 +929,11 @@ async function main() {
     allarmi: allarmiSenzaCoda(file, codaToccata, consegneModificate || []),
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),
     insistenti,
-    illeggibili: testiIlleggibili(testiToccati(), parolePeggioNoteAGlossario(REPO)),
+    illeggibili: testiIlleggibili(testiToccati(perimetro.da), parolePeggioNoteAGlossario(REPO)),
+    // AR-507. `certa` è falsa solo dove l'accusa sarebbe personale e il perimetro no: dentro l'hook
+    // `Stop` (sto chiudendo IL MIO turno) e senza ancora. Fuori dall'hook resta certa anche col
+    // perimetro largo, perché lì chi chiede è la CI e l'unità di consegna è il ramo, non il turno.
+    attribuzione: { certa: perimetro.turno || !hook, nota: perimetro.nota },
     messaggio: (() => {
       const righeT = leggiTrascrizione(trascrizione) || [];
       const miei = testiAssistente(righeT);
