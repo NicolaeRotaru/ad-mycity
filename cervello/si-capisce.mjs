@@ -187,8 +187,15 @@ export function ariaFritta(testo) {
     r.replace(/[«"“][^«»"“”]{0,80}[»"”]/g, " "),
   );
   righe.forEach((riga, i) => {
+    // Una cella di tabella che contiene SOLO il termine è un'etichetta, non una frase che lo usa:
+    // è la colonna di sinistra di ogni tabella che spiega quali frasi sono vuote. Trovato mentre le
+    // elencavo a Nicola: il controllo accusava la riga che insegnava la regola.
+    const celleEtichetta = new Set(
+      (riga.match(/\|([^|]*)\|/g) || []).map((c) => c.replace(/[|*`]/g, "").trim().toLowerCase()),
+    );
     for (const { re, invece } of ARIA_FRITTA) {
       for (const m of riga.matchAll(re)) {
+        if (celleEtichetta.has(m[0].trim().toLowerCase())) continue;
         fuori.push({ riga: i + 1, trovato: m[0], dico: `non dice niente: di' ${invece}` });
       }
     }
@@ -232,6 +239,13 @@ export function misura(testo, { noteAGlossario = null } = {}) {
 
   // ② La forma della spiegazione — il difetto vero.
   for (const f of frasi(corpo)) {
+    // UN ELENCO NON È UNA FRASE. «i numeri con la fonte · il ragionamento · le alternative · gli
+    // errori · i limiti» sono cinque voci separate, non un periodo da 30 parole: chi legge le prende
+    // una per volta. Trovato sul mio stesso messaggio a Nicola, due accuse su sette.
+    // Il segno: molti separatori e pochi verbi coniugati.
+    const separatori = (f.match(/·/g) || []).length + (f.match(/,/g) || []).length;
+    if (separatori >= 4 && !/\b(è|sono|ha|hanno|viene|vengono|deve|devono|fa|fanno)\b/i.test(f)) continue;
+
     const n = f.split(/\s+/).filter(Boolean).length;
     // IL NUMERO DI RIGA NON BASTA, e spesso è pure sbagliato: una frase che va a capo non si trova
     // in nessuna riga singola, e il locatore ripiega sulla riga 1. Scoperto usandolo: il cancello mi

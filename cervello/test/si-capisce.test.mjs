@@ -220,6 +220,24 @@ prova("citare una frase vuota per spiegarla non e' usarla", () => {
   assert.deepEqual(ariaFritta(t), []);
 });
 
+prova("un elenco separato da punti non e' una frase lunga", () => {
+  // Trovato sul mio messaggio a Nicola: cinque voci lette come un periodo da 30 parole.
+  const t = "i numeri con la fonte · il ragionamento · le alternative scartate · i miei errori · i limiti · nomi e date";
+  assert.ok(!tipi(t).includes("frase-lunga"), "chi legge un elenco prende una voce per volta");
+});
+
+prova("…ma una frase vera con molte virgole resta misurata", () => {
+  const t = "Il controllo, che gira da solo, ha bloccato il turno di lavoro, e aveva ragione, perche " +
+    "la frase era troppo lunga, come succede sempre, quando scrivo di getto, senza rileggere niente, " +
+    "proprio mai, nemmeno una volta.";
+  assert.ok(tipi(t).includes("frase-lunga"), "c'e' un verbo: e' un periodo, non un elenco");
+});
+
+prova("la colonna di una tabella che ELENCA le frasi vuote non viene accusata", () => {
+  const t = "| piu robusto | di' cosa non si rompe piu, e in quale caso |";
+  assert.deepEqual(ariaFritta(t), [], "la cella e' l'etichetta del termine, non una frase che lo usa");
+});
+
 prova("una frase piena di fatti non viene toccata", () => {
   // Il contrario esatto: nomi, numeri, date. Se questa venisse presa, il controllo sarebbe rumore.
   const t = "Ho spezzato 3 frasi sopra le 30 parole nel file del glossario, il 2 agosto.";
