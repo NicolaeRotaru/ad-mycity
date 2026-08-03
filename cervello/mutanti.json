@@ -992,7 +992,7 @@
       "lezione": "L-2026-0731-536",
       "nome": "il cancello smette di vedere i difetti chiusi senza prova: si torna a chiudere sulla lettera",
       "file": "cervello/cancello-stop.mjs",
-      "cerca": "    .filter((d) => !d.verifica || !d.verifica.comando)",
+      "cerca": "    .filter((d) => !chiusuraLegittima(d.verifica))",
       "sostituisci": "    .filter(() => false)",
       "test": "cervello/test/cancello-stop.test.mjs"
     },

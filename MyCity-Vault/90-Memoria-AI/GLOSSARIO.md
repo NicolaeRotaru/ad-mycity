@@ -460,9 +460,27 @@ questo glossario. Nicola non poteva studiarle perché non erano scritte.
 | **fail-closed** | Nel dubbio blocca, invece di lasciar passare | Se non riesco a misurare se il lavoro è a posto, non do il via libera |
 | **typecheck** | Un controllo che legge il codice e trova gli errori senza eseguirlo | Passa prima di ogni consegna del Pannello |
 
-> ⚠️ **Tre parole mie che invece muoiono, non studiarle:** *potatore*, *cricchetto*, *verdetto muto*.
-> Me le sono inventate io e non le usa nessun altro al mondo. Al loro posto: «la pulizia automatica»,
-> «il limite che scende e non risale», «lavoro consegnato senza dire com'è andato».
+### Le parole mie, quelle che restano. Deciso da Nicola il 3/8
+
+Avevo scritto che tre parole mie dovevano morire. Nicola ha deciso il contrario: *«resta potatore e
+tutte le altre parole se servono per abbreviare una frase, basta che mi spieghi il significato»*.
+
+Ha ragione, e il motivo è pratico. «Il potatore ha liberato spazio» sta in cinque parole. «La pulizia
+automatica dei file vecchi ha liberato spazio» ne vuole nove. Su un testo intero la differenza si
+sente. La regola quindi non è *vietarle*, è **spiegarle**:
+
+| Parola mia | Cosa vuol dire | Esempio vero |
+|---|---|---|
+| **potatore** | la pulizia automatica che accorcia i file di memoria quando crescono troppo | il file dell'apprendimento pesava un mega: il potatore taglia le righe più vecchie |
+| **cricchetto** | un limite che può solo scendere, mai risalire | i difetti tollerati erano 127: da lì possono solo diminuire |
+| **verdetto muto** | un lavoro consegnato senza dire com'è andato | otto salvataggi di fila e nessuna riga di esito: otto verdetti muti |
+| **aria fritta** | una frase che sembra spiegare e non dice niente | «adesso è più robusto» non dice cosa non si rompe più |
+| **passo indietro** | dire di cosa parli e a cosa serve, prima del merito | è la prima delle sette regole di scrittura |
+| **fila** | l'elenco ordinato di cose da fare, dalla più urgente | le 860 parole ancora da spiegare stanno in una fila |
+
+> **La regola d'uso.** Una parola mia si può usare se ① accorcia davvero la frase e ② è qui dentro,
+> oppure la spiego dove la scrivo. Quello che resta vietato è **inventarne una nuova e non dirtelo**:
+> quello è debito che paghi tu.
 
 ---
 

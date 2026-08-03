@@ -65,6 +65,19 @@ export const BLOCCHI = ["In parole semplici", "Cosa cambia per te", "Cosa devi f
 /** Sotto questa soglia è un messaggio breve: la struttura sarebbe burocrazia. */
 export const RIGHE_TESTO_LUNGO = 15;
 
+/**
+ * Oltre questi minuti di lettura serve un RIASSUNTO in cima (AR-488).
+ *
+ * Nicola, 3/8: «inserisci il riassunto dei 4 blocchi se è troppo lungo». Quattro blocchi vanno bene
+ * su due minuti di lettura. Su cinque, prima di arrivare al terzo blocco ha già perso il filo del
+ * primo — e i quattro blocchi diventano quattro cose da tenere a mente invece che una scorciatoia.
+ * Il riassunto è quella scorciatoia: due righe che dicono tutto, e il resto si legge se serve.
+ */
+export const MINUTI_CHE_VOGLIONO_UN_RIASSUNTO = 4;
+
+/** Le forme con cui apro un riassunto: basta che ci sia, non conta come lo chiamo. */
+const SEGNI_DI_RIASSUNTO = /(in due righe|in breve|riassunto|in sintesi|la versione corta)/i;
+
 /** Oltre questa lunghezza una frase va spezzata: non è stile, è memoria di chi legge. */
 export const PAROLE_FRASE_AVVISO = 20;
 export const PAROLE_FRASE_ROSSA = 30;
@@ -278,6 +291,7 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null } =
   const corpo = righeNicola.join("\n");
   const parole = corpo.split(/\s+/).filter(Boolean).length;
   const testoLungo = righeNicola.filter((r) => r.trim()).length >= RIGHE_TESTO_LUNGO;
+  const minutiStimati = Math.max(1, Math.round(parole / 180));
   const problemi = [];
   const avvisi = [];
 
@@ -440,6 +454,15 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null } =
         });
       }
     }
+    // Il riassunto: solo sui testi davvero lunghi. Su un testo da 2 minuti sarebbe una casella in più.
+    if (minutiStimati >= MINUTI_CHE_VOGLIONO_UN_RIASSUNTO && !SEGNI_DI_RIASSUNTO.test(corpo)) {
+      problemi.push({
+        riga: 1,
+        tipo: "manca-riassunto",
+        trovato: `${minutiStimati} minuti di lettura`,
+        dico: "un testo così lungo apre con due righe di riassunto: il resto si legge solo se serve",
+      });
+    }
     if (!SEGNI_DI_ESEMPIO.test(corpo)) {
       problemi.push({
         riga: 1,
@@ -450,8 +473,7 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null } =
     }
   }
 
-  const minuti = Math.max(1, Math.round(parole / 180));
-  return { problemi, avvisi, testoLungo, parole, minuti, fuoriGlossario: [...fuoriGlossario.keys()] };
+  return { problemi, avvisi, testoLungo, parole, minuti: minutiStimati, fuoriGlossario: [...fuoriGlossario.keys()] };
 }
 
 /** Il voto di difficoltà: problemi per 100 parole. Confrontabile fra testi di lunghezza diversa. */
@@ -744,6 +766,7 @@ function main() {
   const etichette = {
     "manca-una-risposta": "🧱 manca una delle tre risposte",
     "manca-esempio": "🔎 manca l'esempio concreto",
+    "manca-riassunto": "📄 troppo lungo senza due righe di riassunto in cima",
     "aria-fritta": "💨 parole che sembrano spiegare e non dicono niente",
     "sostanza-nascosta": "🫙 forma pulita, contenuto svuotato",
     "frase-lunga": "🧵 frasi troppo lunghe",

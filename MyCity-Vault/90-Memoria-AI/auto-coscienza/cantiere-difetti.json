@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 04:10",
+  "aggiornato": "2026-08-03 04:45",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8453,11 +8453,46 @@
       "verifica": {
         "comando": "node cervello/test/si-capisce.test.mjs"
       }
+    },
+    {
+      "id": "AR-487",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 04:40",
+      "nato_come": "scoperta",
+      "origine": "[TROVATO DA NICOLA USANDOLO] «risolvi il problema che pretende una prova per ogni difetto ma non accetta le chiusure decise da me».",
+      "titolo": "Il cancello accusava Nicola quando decideva: una chiusura umana veniva letta come un difetto chiuso senza prova",
+      "causa_radice": "① `chiusiSenzaProva` pretendeva `verifica.comando` e nient'altro. ② Ma esistono difetti che NON si chiudono con un comando: quelli che aspettano una decisione di Nicola. Caso vero dello stesso giorno: AR-479, le 4 ore di lettura, chiuso perche' lui ha detto «non voglio riscrivere niente». Nessun comando puo' dimostrare quella frase, ed e' giusto cosi'. ③ Il guardiano lo segnalava come se io avessi chiuso un difetto per dichiarazione. Un controllo che accusa chi comanda quando comanda diventa rumore proprio sul canale dove passano le decisioni, e si impara a ignorarlo. ④ Il pattern `{tipo:'umano'}` esisteva gia' nel cantiere (AR-004, AR-006) e nessuno lo aveva insegnato a questo guardiano.",
+      "fix_proposto": "FATTO 🟡 `chiusuraLegittima()`: due strade, non una. ① `verifica.comando` non vuoto — la prova forte. ② `verifica.tipo === 'umano'` CON un `esito` scritto — la decisione di Nicola messa a verbale. L'esito obbligatorio non e' burocrazia: senza, la macchina potrebbe chiudersi i difetti da sola scrivendo «umano» e basta, che e' esattamente la dichiarazione che il guardiano esiste per fermare. La forma debole file+pattern resta rifiutata. 6 prove nuove (37 sul file).",
+      "verifica": {
+        "comando": "node --test cervello/test/cancello-stop.test.mjs"
+      }
+    },
+    {
+      "id": "AR-488",
+      "stato": "chiuso",
+      "gravita": "medio",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 04:45",
+      "nato_come": "nuovo-lavoro",
+      "nato_da": "AR-478",
+      "origine": "[RICHIESTA DI NICOLA] «inserisci il riassunto dei 4 blocchi se e' troppo lungo».",
+      "titolo": "Quattro blocchi su un testo da cinque minuti non sono una scorciatoia: sono quattro cose da tenere a mente",
+      "causa_radice": "① I quattro blocchi funzionano su due minuti di lettura. Su cinque, quando Nicola arriva al terzo ha gia' perso il filo del primo. ② La struttura che doveva far risparmiare tempo comincia a costarne. ③ Misurato sui miei messaggi di questa sessione: quello piu' lungo era da 11 minuti, e i quattro blocchi non lo hanno reso leggibile.",
+      "fix_proposto": "FATTO 🟡 Oltre i 4 minuti di lettura il testo deve aprire con due righe di riassunto, e senza viene bloccato. Le forme accettate sono libere («in due righe», «in breve», «riassunto», «in sintesi»): conta che ci sia, non come si chiama. Sotto la soglia NON si chiede: su un testo da due minuti sarebbe una casella in piu'. 3 prove nuove.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
     }
   ],
   "meta": {
     "aperti": 164,
     "in_corso": 0,
-    "chiusi": 257
+    "chiusi": 259
   }
 }

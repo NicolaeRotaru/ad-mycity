@@ -86,8 +86,34 @@ export function chiusiSenzaProva(prima = [], dopo = []) {
   const eraChiuso = new Set(prima.filter((d) => d.stato === "chiuso").map((d) => d.id));
   return dopo
     .filter((d) => d.stato === "chiuso" && !eraChiuso.has(d.id))
-    .filter((d) => !d.verifica || !d.verifica.comando)
+    .filter((d) => !chiusuraLegittima(d.verifica))
     .map((d) => ({ id: d.id, titolo: String(d.titolo || "").slice(0, 80), debole: Boolean(d.verifica) }));
+}
+
+/**
+ * Le due chiusure che valgono (AR-487).
+ *
+ * Il difetto, trovato da Nicola il 3/8 usandolo: il controllo pretendeva `verifica.comando` e basta.
+ * Ma esistono difetti che NON si chiudono con un comando: quelli che aspettano una DECISIONE sua.
+ * Caso vero dello stesso giorno: AR-479, le quattro ore di lettura. Nicola ha deciso «non voglio
+ * riscrivere niente». Non c'è nessun comando che possa dimostrare quella frase, ed è giusto così.
+ * Il controllo la segnalava come se io avessi chiuso un difetto senza prova.
+ *
+ * Un controllo che accusa la persona che comanda quando comanda è un controllo che si impara a
+ * ignorare — e diventerebbe rumore proprio sul canale dove passano le decisioni.
+ *
+ * ① `verifica.comando` — la prova forte: un comando che si esegue e può fallire.
+ * ② `verifica.tipo === "umano"` CON un `esito` scritto — la decisione di Nicola, messa a verbale.
+ *
+ * L'`esito` non è burocrazia: è ciò che impedisce alla macchina di chiudersi i difetti da sola
+ * scrivendo «umano» e basta. Senza il verbale di cosa è stato deciso, resta una dichiarazione — che
+ * è esattamente la cosa che questo controllo esiste per fermare.
+ */
+export function chiusuraLegittima(verifica) {
+  if (!verifica) return false;
+  if (typeof verifica.comando === "string" && verifica.comando.trim()) return true;
+  if (verifica.tipo === "umano" && typeof verifica.esito === "string" && verifica.esito.trim()) return true;
+  return false;
 }
 
 /**

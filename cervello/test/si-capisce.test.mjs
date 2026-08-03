@@ -256,6 +256,23 @@ prova("sotto la riga dei dettagli tecnici l'aria fritta non si misura", () => {
   assert.deepEqual(ariaFritta(t), []);
 });
 
+prova("un testo lungo piu' di 4 minuti vuole due righe di riassunto in cima", () => {
+  const t = Array.from({ length: 90 }, (_, i) => `Riga ${i} con dieci parole dentro per fare volume, ecco fatto adesso.`).join("\n");
+  assert.ok(tipi(t).includes("manca-riassunto"), "oltre i 4 minuti il riassunto serve");
+});
+
+prova("lo stesso testo col riassunto non viene piu' bocciato su quello", () => {
+  const t = ["In due righe: ho fatto una cosa e funziona."].concat(
+    Array.from({ length: 90 }, (_, i) => `Riga ${i} con dieci parole dentro per fare volume, ecco fatto adesso.`),
+  ).join("\n");
+  assert.ok(!tipi(t).includes("manca-riassunto"));
+});
+
+prova("un testo da due minuti NON deve avere il riassunto", () => {
+  const t = Array.from({ length: 20 }, (_, i) => `Riga ${i} corta.`).join("\n");
+  assert.ok(!tipi(t).includes("manca-riassunto"), "sotto la soglia sarebbe una casella in piu'");
+});
+
 // ── AR-486: le parole nuove, trovate senza elenchi scritti a mano ─────────────────────────────
 
 prova("una parola tecnica nuova viene trovata anche se non e' in nessun elenco", () => {

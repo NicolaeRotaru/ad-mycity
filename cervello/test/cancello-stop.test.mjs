@@ -16,6 +16,7 @@ import {
   allarmiSenzaCoda,
   lezioniSenzaGate,
   consegnaSenzaEsito,
+  chiusuraLegittima,
   testiIlleggibili,
   messaggioIlleggibile,
   ultimoTestoAssistente,
@@ -269,4 +270,38 @@ test("il verdetto sul messaggio dice di riscriverlo SENZA togliere la sostanza",
   const t = v.righe.join("\n");
   assert.match(t, /PRIMA di chiudere il turno/, "il punto e' fermarlo prima che parta");
   assert.match(t, /non si toglie il contenuto/, "AR-480: la sostanza resta");
+});
+
+// ── AR-487: le decisioni di Nicola non sono difetti chiusi senza prova ─────────────────────────
+//
+// Trovato da Nicola usandolo, il 3/8. Il caso vero: AR-479 (le quattro ore di lettura) si e' chiuso
+// perche' lui ha deciso «non voglio riscrivere niente». Nessun comando puo' dimostrare quella frase.
+
+test("un difetto chiuso con un comando che puo' fallire passa", () => {
+  assert.equal(chiusuraLegittima({ comando: "node cervello/test/x.test.mjs" }), true);
+});
+
+test("IL CASO AR-479: una decisione di Nicola messa a verbale passa", () => {
+  assert.equal(chiusuraLegittima({ tipo: "umano", esito: "Nicola 3/8: il passato non si riscrive." }), true);
+});
+
+test("«umano» senza il verbale NON passa: sarebbe la scappatoia", () => {
+  // Senza l'esito scritto, la macchina potrebbe chiudersi i difetti da sola scrivendo «umano».
+  assert.equal(chiusuraLegittima({ tipo: "umano" }), false);
+  assert.equal(chiusuraLegittima({ tipo: "umano", esito: "   " }), false);
+});
+
+test("una prova a pattern resta debole e non basta", () => {
+  assert.equal(chiusuraLegittima({ file: "cervello/x.mjs", pattern: "qualcosa" }), false);
+});
+
+test("nessuna verifica: non passa", () => {
+  assert.equal(chiusuraLegittima(null), false);
+  assert.equal(chiusuraLegittima(undefined), false);
+});
+
+test("il difetto chiuso con la decisione di Nicola non viene piu' segnalato", () => {
+  const prima = [{ id: "AR-479", stato: "aperto" }];
+  const dopo = [{ id: "AR-479", stato: "chiuso", titolo: "le 4 ore", verifica: { tipo: "umano", esito: "Nicola 3/8" } }];
+  assert.deepEqual(chiusiSenzaProva(prima, dopo), []);
 });
