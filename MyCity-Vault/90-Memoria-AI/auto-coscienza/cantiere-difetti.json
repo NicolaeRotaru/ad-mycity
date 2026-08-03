@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 22:45",
+  "aggiornato": "2026-08-03 23:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -10328,10 +10328,28 @@
         "nota": "13 prove nuove; 2 mutazioni verificate rosse. Provato dal vivo: togliendo AR-119 dal cantiere il guardiano esce 1 e lo nomina; duplicando un id esce 1 e dice quale."
       },
       "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-508",
+      "titolo": "Il cancello del lotto guarda solo il lavoro gia committato, ma si lancia proprio quando il lavoro non e ancora committato",
+      "dimensione": "guardrail-che-non-guardano",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "forma-json.mjs sceglie i file da controllare con «git diff --name-only origin/main...HEAD»: vede solo cio che e gia in un commit. Il cancello del lotto pero si lancia per decidere SE consegnare, e in quel momento il lavoro e quasi sempre ancora nell albero di lavoro. Il 3/8 e successo dal vivo: cantiere-difetti.json era stato reindentato da 2 spazi a 1 (8898 righe riscritte, diff da 19231 righe) e il cancello e uscito verde perche il file non era ancora committato. Il guardiano non e cieco all indentazione — rimettendo il file a 1 spazio esce 1 — e cieco al lavoro non committato. Da verificare se lo stesso perimetro riguarda altri guardiani del cancello.",
+      "fix_proposto": "Far scegliere i file dall unione di cio che e committato sul ramo E di cio che e modificato o staged nell albero (git status --porcelain), cosi il cancello misura il lavoro che sta per essere consegnato e non solo quello gia salvato. Poi ripetere la domanda per gli altri guardiani che partono da origin/main...HEAD.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-03",
+      "chiuso_il": "",
+      "nato_come": "scoperta",
+      "verifica": {
+        "tipo": "da-riverificare",
+        "nota": "Difetto appena trovato dal vivo su me stessa: il fix va misurato con una prova che parta da un albero sporco e pretenda il rosso. Non ancora scritta."
+      }
     }
   ],
   "meta": {
-    "aperti": 165,
+    "aperti": 166,
     "in_corso": 0,
     "chiusi": 281,
     "da_riverificare": 57
