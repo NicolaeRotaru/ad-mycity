@@ -25,6 +25,8 @@ import {
   chiaveVoce,
   aggiornaViste,
   vociInsistenti,
+  derivaDelLavoro,
+  zonaDi,
   VICINANZA_NOTA,
   LETTERALI_MIN,
 } from "../sorvegliante.mjs";
@@ -571,6 +573,63 @@ test("il file nuovo arriva davvero al cuore: un freno finto dentro un file mai c
   });
   assert.equal(gravi(esito.voci).length, 1);
   assert.equal(gravi(esito.voci)[0].classe, "gate-orfano");
+});
+
+// ─── ⑥ le regole di CASA: una malattia che vale solo in un file preciso (AR-483) ──────────────
+
+test("una malattia con `percorsi` vale solo lì: fuori sarebbe un falso rosso, e un falso rosso spegne", () => {
+  const casa = [{ id: "titolo-in-codice", nome: "titolo in sigle", pattern: "^## .*AR-\\d+", estensioni: [".md"], percorsi: ["MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md"] }];
+  const riga = [{ n: 3, testo: "## Sistemare AR-478 prima di lunedì" }];
+
+  const nellaCoda = sorveglia({ malattie: casa, mutanti: [], toccati: [{ file: "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", contenuto: "", aggiunte: riga }] });
+  assert.equal(gravi(nellaCoda.voci).length, 1, "nella coda che legge Nicola, un titolo in sigle è un difetto");
+
+  const inUnaScheda = sorveglia({ malattie: casa, mutanti: [], toccati: [{ file: "consegne/audit/referto.md", contenuto: "", aggiunte: riga }] });
+  assert.equal(gravi(inUnaScheda.voci).length, 0, "in un referto, nominare un AR-xxx è una cosa normalissima");
+});
+
+test("senza `percorsi` la malattia vale ovunque: il campo è facoltativo, non un restringimento silenzioso", () => {
+  const ovunque = [{ id: "x", pattern: "vietato", estensioni: [".md"] }];
+  const e = sorveglia({ malattie: ovunque, mutanti: [], toccati: [{ file: "consegne/qualsiasi.md", contenuto: "", aggiunte: [{ n: 1, testo: "questo è vietato" }] }] });
+  assert.equal(gravi(e.voci).length, 1);
+});
+
+// ─── ⑨ la deriva del lavoro (AR-484) ─────────────────────────────────────────
+
+test("un lavoro dentro una zona sola non fa domande", () => {
+  assert.equal(derivaDelLavoro(["cervello/a.mjs", "cervello/test/a.test.mjs"]), null);
+});
+
+test("i contenitori si contano al secondo livello, o tutto il vault sarebbe «una zona»", () => {
+  assert.equal(zonaDi("MyCity-Vault/07-Agenti/AGENTI.md"), "MyCity-Vault/07-Agenti");
+  assert.equal(zonaDi("cervello/test/x.test.mjs"), "cervello", "il cervello è un mestiere solo: lì il primo livello basta");
+});
+
+test("oltre la soglia la deriva è una DOMANDA, non un'accusa: un lotto largo può essere giusto", () => {
+  const zone = derivaDelLavoro([
+    "cervello/a.mjs",
+    "pannello/src/x.tsx",
+    "MyCity-Vault/90-Memoria-AI/STATO.md",
+    "consegne/audit/r.md",
+    "creativi/output/x.png",
+    "memoria-squadra/tech.md",
+  ]);
+  assert.equal(zone.length, 6);
+  const e = sorveglia({
+    malattie: [],
+    mutanti: [],
+    toccati: ["cervello/a.mjs", "pannello/src/x.tsx", "MyCity-Vault/90-Memoria-AI/STATO.md", "consegne/audit/r.md", "creativi/output/x.png", "memoria-squadra/tech.md"].map((f) => ({ file: f, contenuto: "", aggiunte: [] })),
+  });
+  const d = e.voci.find((v) => v.classe === "deriva");
+  assert.equal(d.gravita, "informativa", "una domanda sul lavoro non è una bocciatura del codice");
+  assert.equal(gravi(e.voci).length, 0);
+});
+
+test("la deriva arriva nella busta: una domanda che non esce non me la sono mai fatta", () => {
+  const voci = [{ classe: "deriva", gravita: "informativa", file: null, cosa: "questo lavoro tocca 6 zone diverse: a, b", domanda: "è ancora UN lavoro solo?" }];
+  const ctx = JSON.parse(bustaPerIlModello(voci, 6)).hookSpecificOutput.additionalContext;
+  assert.match(ctx, /6 zone diverse/);
+  assert.match(ctx, /UN lavoro solo/);
 });
 
 // ─── l'esito del verdetto (AR-480) ───────────────────────────────────────────

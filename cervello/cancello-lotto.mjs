@@ -543,6 +543,9 @@ function main() {
     passi.push(esegui("forma dei JSON toccati", "node", ["cervello/forma-json.mjs"]));
     passi.push(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]));
     passi.push(esegui("spazzata dei fratelli", "node", ["cervello/spazzata-fratelli.mjs"]));
+    // La spazzata chiede «questa malattia si è allargata?». Questo chiede l'altra metà: «la forma che
+    // è appena tornata ce l'ha, un nome?» — senza, il registro invecchia da fermo (AR-482).
+    passi.push(esegui("le malattie che mancano", "node", ["cervello/malattie-mancanti.mjs"]));
     // La guardia sul DELTA di questo lotto (30/7, Nicola: «trovi problemi che tu stesso hai creato»).
     // Sta qui e non in un comando a parte per la stessa ragione per cui questo cancello esiste: cinque
     // comandi da ricordare erano cinque occasioni di dimenticarne uno. Guarda solo le righe aggiunte,

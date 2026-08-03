@@ -28,11 +28,19 @@
 // COPERTURA DICHIARATA: sono le cinque forme misurate sul campo, non una teoria della shell. Un
 // comando che passa non è «sicuro»: è «non contiene le cinque trappole già pagate».
 //
+// E DAL 3/8 (AR-486) questo hook fa un secondo mestiere: fa girare anche il SORVEGLIANTE sul delta.
+// Non è un accorpamento di comodo. Il sorvegliante è agganciato a `Edit|Write|MultiEdit`, quindi un
+// `sed -i`, uno script che riscrive un file, un `git checkout -- file` o un generatore non lo
+// svegliavano affatto: il modo più comodo di modificare il repo era anche l'unico senza guardia.
+// `.claude/settings.json` non lo posso toccare (deny-list, ed è giusto così), ma questo hook sul Bash
+// c'è già — e i due verdetti viaggiano in UNA busta sola, perché l'hook legge una sola uscita.
+//
 // Uso:
 //   node cervello/misura-cieca.mjs "<comando>"      # 0 = nessuna trappola · 1 = trappola trovata
 //   node cervello/misura-cieca.mjs --hook           # legge il comando dal JSON dell'hook su stdin
 //
-// 🟢 Sola lettura, nessun I/O oltre stdin.
+// 🟢 Sola lettura sul repo. In forma `--hook` scrive il battito del sorvegliante (fuori da git, come
+//    sempre): è la prova che la guardia ha girato anche su questo canale.
 
 /** Le forme, ognuna col caso vero che l'ha generata: un guardiano senza la sua storia diventa una
  *  regola che qualcuno toglierà «perché dà fastidio». */
@@ -91,12 +99,17 @@ export const TRAPPOLE = [
  * Torna `null` quando non c'è niente da dire: tacere è la scelta giusta, un avvisatore che parla a
  * ogni comando viene spento entro la settimana.
  */
-export function bustaPerIlModello(trovate = []) {
-  if (!trovate.length) return null;
-  const righe = trovate.map((t) => `   · ${t.cosa}\n     → ${t.invece}`);
-  const testo = ["🔍 MISURA CIECA — il comando che hai appena lanciato può darti un verdetto che non ha misurato:", ...righe].join("\n");
+export function bustaPerIlModello(trovate = [], dalSorvegliante = null) {
+  const righe = trovate.length
+    ? ["🔍 MISURA CIECA — il comando che hai appena lanciato può darti un verdetto che non ha misurato:", ...trovate.map((t) => `   · ${t.cosa}\n     → ${t.invece}`)]
+    : [];
+  // Il verdetto del sorvegliante sul delta viaggia nella STESSA busta (AR-486): l'hook legge una sola
+  // uscita, e due buste stampate di fila non sono JSON — la seconda finirebbe nel nulla, che è
+  // esattamente il difetto che questi due file esistono per curare.
+  if (dalSorvegliante) righe.push(dalSorvegliante);
+  if (!righe.length) return null;
   return JSON.stringify({
-    hookSpecificOutput: { hookEventName: "PostToolUse", additionalContext: testo },
+    hookSpecificOutput: { hookEventName: "PostToolUse", additionalContext: righe.join("\n") },
   });
 }
 
@@ -105,6 +118,11 @@ export function misuraCieca(comando = "") {
   if (!c.trim()) return [];
   return TRAPPOLE.filter((t) => t.prova(c)).map(({ id, cosa, invece }) => ({ id, cosa, invece }));
 }
+
+// L'import è sicuro perché il sorvegliante ha la guardia `import.meta.url` in fondo: importarlo NON
+// ne esegue il programma. È la malattia `programma-che-parte-importando` (AR-445), censita oggi nel
+// registro proprio perché 71 file del cervello non ce l'hanno ancora.
+const { verdettoDelDelta, scatto } = await import("./sorvegliante.mjs");
 
 async function leggiStdin() {
   const pezzi = [];
@@ -128,17 +146,40 @@ async function main() {
   }
 
   const trovate = misuraCieca(comando);
-  if (!trovate.length) process.exit(0);
 
   if (argv.includes("--hook")) {
-    // AR-463 — il canale, e non è un dettaglio di formattazione. Fino al 31/7 questa modalità
-    // stampava testo semplice e usciva 0: per un hook `PostToolUse` vuol dire finire nel log di
-    // debug, cioè parlare a nessuno. È lo stesso difetto che il sorvegliante ha avuto per un giorno
-    // intero (AR-465), scoperto solo provandolo dal vivo. L'unica forma che arriva al modello è
-    // stdout in JSON con `hookSpecificOutput.additionalContext` — quindi qui: JSON o niente.
-    console.log(bustaPerIlModello(trovate));
+    // AR-486 — LA GUARDIA CHE NON SI SVEGLIAVA. Il sorvegliante è agganciato a `Edit|Write|MultiEdit`:
+    // un `sed -i`, uno script che riscrive un file, un `git checkout -- file`, un generatore, non lo
+    // svegliavano affatto. Cioè il modo più comodo di modificare il repo era anche l'unico senza
+    // guardia — e non è un caso raro: è come si fanno le modifiche in massa, quelle che toccano più
+    // file tutte insieme. `.claude/settings.json` non lo posso toccare io (è nel mio deny-list, ed è
+    // giusto così), ma questo hook sul Bash esiste già: gli passo accanto il verdetto sul delta.
+    //
+    // Costa una lettura del diff a ogni comando (~150 ms, misurati): il prezzo di non averla è che
+    // le modifiche fatte da un comando restano l'unico punto cieco della guardia.
+    //
+    // E il canale resta quello di AR-463, che qui vale doppio: stdout in JSON con
+    // `hookSpecificOutput.additionalContext`, o non arriva a nessuno. Fino al 31/7 questa modalità
+    // stampava testo semplice e usciva 0 — lo stesso difetto che il sorvegliante ha avuto per un
+    // giorno intero (AR-465), scoperto solo provandolo dal vivo.
+    let dalSorvegliante = null;
+    try {
+      const { errore, esito, toccati } = verdettoDelDelta();
+      if (!errore) {
+        const busta = scatto(esito, toccati.length);
+        // Dalla busta dell'altro prendo il TESTO, non l'involucro: le buste non si annidano.
+        if (busta) dalSorvegliante = JSON.parse(busta)?.hookSpecificOutput?.additionalContext || null;
+      }
+    } catch {
+      // Se la guardia non gira, questo hook fa comunque il suo mestiere: un pezzo mancante non deve
+      // portarsi via anche l'altro verdetto. Che abbia girato o no lo dice il battito, non il silenzio.
+    }
+    const busta = bustaPerIlModello(trovate, dalSorvegliante);
+    if (busta) console.log(busta);
     process.exit(0);
   }
+
+  if (!trovate.length) process.exit(0);
 
   console.log("🔍 MISURA CIECA — questo comando può darti un verdetto che non ha misurato:");
   for (const t of trovate) {

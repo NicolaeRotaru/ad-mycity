@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 20:35",
+  "aggiornato": "2026-08-03 21:15",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -5739,7 +5739,8 @@
       "origine": "provando su un albero finto il fix di AR-334 appena mergiato, invece di rileggerlo",
       "chiuso_come": "node cervello/test/esenzione-con-un-motivo-vero.test.mjs → exit 0 (guardiano soddisfatto)",
       "nato_come": "regressione",
-      "nato_da": "AR-334 (PR #599): il suo fix ha aperto due strade per zittire una malattia"
+      "nato_da": "AR-334 (PR #599): il suo fix ha aperto due strade per zittire una malattia",
+      "malattia": "esenzione-aggiunta"
     },
     {
       "id": "AR-339",
@@ -5859,7 +5860,9 @@
       "corroborata": true,
       "nato_come": "regressione",
       "nato_da": "lotto 29 (migrazione delle verifiche da {file,pattern} a {comando})",
-      "nascita_nota": "la migrazione delle prove alla forma migliore ha fatto salire i «non auto-chiudibili» da 24 a 38: classifica() non riconosceva la forma nuova"
+      "nascita_nota": "la migrazione delle prove alla forma migliore ha fatto salire i «non auto-chiudibili» da 24 a 38: classifica() non riconosceva la forma nuova",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma vive nel DATO, non nel codice: un lettore che conosce solo il formato vecchio dopo una migrazione. Nessuna riga la tradisce — il codice e corretto per il formato che sa leggere. La copre prove-oneste.mjs, che misura la copertura per FORMATO invece che per file, e il cancello del lotto la esegue a ogni consegna."
     },
     {
       "id": "AR-345",
@@ -5895,7 +5898,9 @@
       "nota_fix": "Lotto 32, in due pezzi come chiedeva il fix. (a) Il buco di adesso: il cancello era rosso su main per tutti. Verificato su un worktree pulito da HEAD che il rosso NON era di questo lotto — era zona cieca 14 contro tetto 13. Applicata la regola di AR-340 (si mappa, non si alza il tetto): il file nuovo era consegne/salute/2026-07-29-1238-claude.md, il referto della visita, cioe la macchina che si controlla da sola → mappata la cartella a macchina. Suite di nuovo verde: 79 file, 722 asserzioni. (b) La radice: .github/workflows/cancello-lotto.yml fa girare node cervello/cancello-lotto.mjs su ogni pull_request verso main — prima NESSUN workflow girava sulle PR (l unico era deploy-pannello, su push a main) e il pre-commit e configurazione locale che una sessione nuova puo non avere (AR-343). Il workflow tratta l uscita 2 (cieco) come blocco quanto la 1, e installa le dipendenze del Pannello perche il typecheck non esca cieco. NOTA: la parte (b) non si puo provare da questo ramo — un workflow su pull_request lo esegue GitHub solo dopo il merge del file. Resta da verificare alla prima PR successiva.",
       "nato_come": "regressione",
       "nato_da": "PR #604 e #602",
-      "nascita_nota": "guardiani-in-bacheca.test.mjs e' entrato su main gia' rosso (10/4): da li' il cancello condiviso e' rosso per tutti i rami"
+      "nascita_nota": "guardiani-in-bacheca.test.mjs e' entrato su main gia' rosso (10/4): da li' il cancello condiviso e' rosso per tutti i rami",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E uno stato del RAMO — due PR che entrano portandosi dietro la stessa rottura — non una forma di codice: nessun pattern per riga puo vederlo, perche il difetto e nella sequenza dei merge. Lo copre il cancello del lotto, che gira prima di ogni consegna e trova il rosso condiviso."
     },
     {
       "id": "AR-434",
@@ -7803,7 +7808,8 @@
       "origine": "corsia D del lotto 35 (se lo e' inflitto da sola riparando) + secondo caso nel lotto 36 su cantiere-prove.mjs",
       "nota": "Due casi in due giorni su moduli diversi: non e' un inciampo, e' una forma. Registrato in ritardo — nel lotto 35 era rimasto solo nel rapporto della corsia e in chat, cioe' da nessuna parte. E' esattamente cio' che il mansionario vieta: «quello che non si fa e' tenerli in testa, li muoiono a fine sessione». Misurato il 30/7: 37 moduli di cervello/ scrivono o escono senza guardia.",
       "nato_come": "regressione",
-      "nato_da": "lotto 35, corsia D — la prosa dell'origine lo dichiara: «se lo è inflitto da sola riparando»"
+      "nato_da": "lotto 35, corsia D — la prosa dell'origine lo dichiara: «se lo è inflitto da sola riparando»",
+      "malattia": "programma-che-parte-importando"
     },
     {
       "id": "AR-446",
@@ -7857,7 +7863,9 @@
       },
       "nato_come": "regressione",
       "nato_da": "lotto 36 (chiusura della famiglia dei conflitti di PR)",
-      "nascita_nota": "riscrivevo i JSON di memoria con un'indentazione scelta a caso: +12147/-12124 per aggiungere un campo. L'errore era mio, commesso mentre chiudevo un'altra famiglia di errori"
+      "nascita_nota": "riscrivevo i JSON di memoria con un'indentazione scelta a caso: +12147/-12124 per aggiungere un campo. L'errore era mio, commesso mentre chiudevo un'altra famiglia di errori",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E una proprieta del DIFF intero (un file riscritto tutto per cambiarne una riga), non di una riga: guardando le righe una per una sono tutte legittime, e il difetto compare solo confrontando l indentazione con quella di origin/main. Ha il suo guardiano dedicato, forma-json.mjs — che infatti mi ha preso il 3/8 quando ho riscritto due registri a 2 spazi."
     },
     {
       "id": "AR-449",
@@ -8131,7 +8139,9 @@
       "fix_proposto": "FATTO 🟡 cervello/sorvegliante.mjs — la forma --hook ora stampa SOLO la busta JSON (hookSpecificOutput.additionalContext), e lascia un battito fuori da git (_tmp_, cosi verificare non sporca l albero, AR-464) con l ora dell ultimo scatto; --battito risponde a «hai girato o no?» ed esce 2 se non ha mai scattato, perche cieco non e verde. Provato END-TO-END nella stessa sessione: le modifiche successive hanno fatto comparire il verdetto accanto al risultato dello strumento. 8 prove nuove + 3 mutazioni (99/99 rosse).",
       "verifica": {
         "comando": "node cervello/test/sorvegliante.test.mjs"
-      }
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "Il canale muto si vede nell EFFETTO (il verdetto non arriva a chi deve leggerlo), non in una riga: il codice che stampa testo semplice e sintatticamente identico a quello giusto. Lo coprono il controllo ② di cancello-stop.mjs (allarme scritto e non accodato) e il battito del sorvegliante, letto dalla visita da AR-481."
     },
     {
       "id": "AR-466",
@@ -8344,7 +8354,9 @@
       "fix_proposto": "FATTO 🟡 La domanda non e piu «c e una riga?» ma «ho continuato a lavorare DOPO averla scritta?». `codiceDopoUltimoEsito()` chiede a git quanti commit toccano codice dopo l ultimo commit che ha aggiunto una riga di esito (pathspec di esclusione derivato da CARTELLE_MEMORIA, criterio -G condiviso con RIGA_ESITO e accentrato in un solo punto). Zero commit dopo = verde, e chi scrive l esito alla fine non viene punito. `null` = non ho potuto misurare = non accuso. I due casi hanno messaggi diversi (AR-154 «non hai scritto niente» / AR-477 «hai scritto per il lavoro di prima») perche si rimediano in modi diversi. Provato dal vivo rifacendo lo stesso esperimento che aveva scoperto il buco: prima exit 0, adesso exit 1 fuori dall hook ed exit 2 dentro (blocca il turno). 4 prove nuove + 1 mutazione.",
       "verifica": {
         "comando": "node cervello/test/cancello-stop.test.mjs"
-      }
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E una proprieta della STORIA del ramo — codice committato dopo l ultima riga di esito — quindi non esiste una riga che la contenga: si vede solo confrontando due punti della cronologia git. La copre il controllo ④ di cancello-stop.mjs, che conta i commit di lavoro dopo l ultimo racconto."
     },
     {
       "id": "AR-478",
@@ -8425,6 +8437,94 @@
         "nota": "3 prove nuove; 1 mutazione su AR-481 verificata rossa. Provato dal vivo: la visita adesso riporta l ultimo scatto."
       },
       "lezione": "L-2026-0803-539"
+    },
+    {
+      "id": "AR-482",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 21:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "Nicola 3/8: «fai anche le altre 4 rimaste». Misurato: malattie.json nato il 30/7 con 7 forme, il 3/8 ancora 7.",
+      "titolo": "Il registro delle malattie invecchia da fermo: nessuno lo fa crescere, e il sorvegliante riconosce solo le forme del giorno in cui e nato",
+      "causa_radice": "① `cervello/malattie.json` e nato il 30/7 con 7 malattie e il 3/8 ne aveva ancora 7, mentre il cantiere passava da 400 a 419 difetti e le lezioni da 475 a 491. ② Verificato cercando chi lo apre in scrittura: NESSUNO script lo scrive. E un registro che cresce solo se me ne ricordo. ③ Perche e grave: il controllo ① del sorvegliante poggia tutto li — quindi la guardia in tempo reale poteva riconoscere solo le 7 forme del suo primo giorno, e sarebbe rimasta ferma mentre la macchina continuava a imparare. ④ Mancava l anello fra «ho chiuso un difetto» e «questa forma la so riconoscere».",
+      "fix_proposto": "FATTO 🟡 `cervello/malattie-mancanti.mjs`, agganciato al cancello del lotto. Il segnale non l ho inventato: `nato_come: \"regressione\"` esiste da AR-459 e vuol dire esattamente «questa forma e TORNATA» — la definizione operativa di malattia. Ogni regressione deve rispondere: il nome di una malattia censita, il nome di un controllo del sorvegliante (le classi si LEGGONO dal suo codice, non si elencano), oppure `non-pattern-izzabile` col perche scritto (≥30 caratteri) che nomina chi la copre. Le 7 regressioni esistenti NON le ho messe in baseline: ho risposto a tutte e 7. Ne e nata una malattia vera (programma-che-parte-importando, da AR-445, 71 istanze misurate) e 5 debiti dichiarati con accanto il guardiano che li copre.",
+      "verifica": {
+        "comando": "node --test cervello/test/malattie-mancanti.test.mjs",
+        "nota": "11 prove; 2 mutazioni verificate rosse"
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "Questo difetto e l ASSENZA di un processo (nessuno fa crescere il registro), non una forma di codice: non esiste una riga che lo contenga. Lo copre il guardiano nato da lui, malattie-mancanti.mjs, nel cancello del lotto.",
+      "lezione": "L-2026-0803-540"
+    },
+    {
+      "id": "AR-483",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-verita",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 21:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-482",
+      "origine": "Trovato censendo le tre malattie nuove: la spazzata ha risposto «0 istanze, curata 📉» su 25 istanze vive.",
+      "titolo": "Un registro, due lettori che lo interpretano in modo diverso: tre falsi verdi in un ora, tutti e tre invisibili",
+      "causa_radice": "`cervello/malattie.json` ha due consumatori — la spazzata (conta le istanze vive) e il sorvegliante (cerca le stesse forme sulle righe nuove) — e il 3/8 si sono contraddetti TRE volte: ① la spazzata compilava il pattern senza flag `m`, quindi `^` significava «inizio del FILE» invece che «inizio della riga»: ha dichiarato curata una malattia con 25 istanze vive; ② `senzaCommenti` azzerava ogni riga che comincia con `#` — giusto per il codice, falso per un .md dove `#` apre un TITOLO: ogni regola di casa che vive nei titoli non poteva scattare MAI, la riga arrivava al pattern gia vuota; ③ il campo `percorsi` lo leggeva solo il sorvegliante, quindi la stessa malattia valeva in un file per uno e in tutto il vault per l altro. Nessuno dei tre era un errore di logica: erano due interpretazioni della stessa fonte, e ogni volta il risultato era un VERDE.",
+      "fix_proposto": "FATTO 🟡 i tre allineamenti (flag `gm`, `#` non e un commento nei .md, `percorsi` letto da entrambi) piu l estrazione di `nelPerimetro` e `istanzeNelTesto` dall I/O, perche una prova li possa ESEGUIRE. Prima di toccare il flag ho verificato che nelle 7 malattie preesistenti ogni `^` stia dentro una classe negata: nessuna cambia significato, e i conteggi lo confermano invariati.",
+      "verifica": {
+        "comando": "node --test cervello/test/registro-due-lettori.test.mjs",
+        "nota": "5 prove che eseguono ENTRAMBI i lettori sulla stessa malattia; 3 mutazioni verificate rosse"
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e una DIVERGENZA fra due lettori: non vive in nessuna delle due righe, che prese da sole sono corrette. La copre la prova registro-due-lettori.test.mjs, che esegue i due lettori sulla stessa malattia e pretende lo stesso verdetto.",
+      "lezione": "L-2026-0803-541"
+    },
+    {
+      "id": "AR-484",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 21:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-452",
+      "origine": "La seconda meta della frase di Nicola del 30/7, rimasta scoperta: «e un quadro ampio di quello che stai facendo».",
+      "titolo": "Il quadro ampio guardava solo il grafo degli import: nessuno chiedeva se sto ancora facendo il lavoro per cui sono partito",
+      "causa_radice": "La frase del 30/7 aveva due meta. La prima (nessuna auto-revisione mentre lavoro) l hanno chiusa i controlli ①-⑧. La seconda era coperta solo dal ⑤ raggio, che risponde a «chi altro poggia su questo file» — una domanda sul CODICE. Quella sul LAVORO non la faceva nessuno: un lotto che si allarga strada facendo non lascia traccia da nessuna parte finche non arriva alla consegna.",
+      "fix_proposto": "FATTO 🟡 controllo ⑨ `deriva` nel sorvegliante: conta le ZONE diverse toccate (secondo livello per i contenitori, o tutto il vault sarebbe una zona sola) e oltre 5 fa una DOMANDA. Informativa e non grave apposta: un lotto largo puo essere giusto — codice, prova, cantiere e memoria sono gia quattro — e trasformarlo in un accusa creerebbe una colpa che non si puo estinguere. Non fingo di misurare l intenzione: dichiaro nel file che l unica cosa misurabile e quante zone sto toccando.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "4 prove; 1 mutazione verificata rossa"
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E l assenza di una domanda, non una forma di codice: nessuna riga la contiene. La copre il controllo ⑨ del sorvegliante, che la pone a ogni modifica.",
+      "lezione": "L-2026-0803-542"
+    },
+    {
+      "id": "AR-486",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 21:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-455",
+      "origine": "Nicola 3/8. Misurato leggendo il matcher in .claude/settings.json: `Edit|Write|MultiEdit`, e basta.",
+      "titolo": "Il modo piu comodo di modificare il repo era anche l unico senza guardia: le modifiche fatte da un comando non svegliavano niente",
+      "causa_radice": "① Il sorvegliante e agganciato a `Edit|Write|MultiEdit`. Un `sed -i`, uno script che riscrive un file, un `git checkout -- file`, un `git revert`, un generatore: nessuno di questi lo svegliava. ② Non e un caso raro — e come si fanno le modifiche in massa, quelle che toccano piu file insieme, cioe proprio quelle dove una guardia serve di piu. ③ `misura-cieca.mjs` gira si sul Bash, ma legge il TESTO del comando, non il diff che produce: sono due domande diverse. ④ `.claude/settings.json` e nel mio deny-list (ed e giusto cosi), quindi la via non poteva essere una riga di configurazione.",
+      "fix_proposto": "FATTO 🟡 l hook del Bash che esiste gia fa girare anche il sorvegliante sul delta, e i due verdetti viaggiano in UNA busta sola (l hook legge una sola uscita: due buste stampate di fila non sono JSON, e la seconda finirebbe nel nulla — cioe il difetto che questi due file curano). Per pagarlo senza rallentare: `indiceImportatori` fa UNA scansione del repo per tutti i file toccati invece di una per file. Provato dal vivo: dopo un comando il verdetto compare accanto al risultato, cosa che prima non succedeva.",
+      "verifica": {
+        "comando": "node --test cervello/test/misura-cieca.test.mjs",
+        "nota": "3 prove nuove; 1 mutazione verificata rossa. Collaudo end-to-end nella stessa sessione."
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E un buco di COPERTURA (quali eventi svegliano la guardia), non una forma di codice: sta in una riga di configurazione che non posso nemmeno toccare. Lo copre hooks-check.mjs per l aggancio e il battito per la prova che abbia girato.",
+      "lezione": "L-2026-0803-543"
     }
   ],
   "meta": {

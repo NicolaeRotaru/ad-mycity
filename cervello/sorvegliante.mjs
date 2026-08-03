@@ -300,6 +300,10 @@ export function sorveglia({
     for (const m of esenteDaMalattie(file) ? [] : malattie) {
       if (!m.pattern) continue;
       if (Array.isArray(m.estensioni) && m.estensioni.length && !m.estensioni.some((e) => file.endsWith(e))) continue;
+      // `percorsi` (facoltativo): alcune malattie sono regole di CASA, non di linguaggio — valgono in
+      // un file preciso e altrove sarebbero un falso rosso. Un titolo che nomina un AR-xxx è un
+      // difetto nella coda che legge Nicola e una cosa normalissima in una scheda del cantiere.
+      if (Array.isArray(m.percorsi) && m.percorsi.length && !m.percorsi.some((p) => file.startsWith(p))) continue;
       let re;
       try {
         re = new RegExp(m.pattern);
@@ -522,6 +526,20 @@ export function sorveglia({
     }
   }
 
+  // ⑨ deriva — il quadro ampio sul LAVORO, non sul codice. Una domanda, non un'accusa.
+  const zone = derivaDelLavoro([...toccati.map((t) => t.file), ...rimossi.map((r) => r.file)]);
+  if (zone) {
+    voci.push({
+      classe: "deriva",
+      gravita: "informativa",
+      file: null,
+      riga: null,
+      cosa: `questo lavoro tocca ${zone.length} zone diverse: ${zone.join(", ")}`,
+      perche: "è la forma di un lavoro che si è allargato strada facendo. Può essere giusto — un fix serio tocca il codice, la sua prova, il cantiere e la memoria — ma è anche il modo in cui si perde di vista quello per cui si era partiti.",
+      domanda: "è ancora UN lavoro solo, o ne sono cominciati altri dentro questo? Se sono due, il secondo va dichiarato adesso, non scoperto alla consegna.",
+    });
+  }
+
   return { voci, cieco: motivi.length > 0, motivi };
 }
 
@@ -529,6 +547,39 @@ export function sorveglia({
  *  modulo di sistema, così una prova lo esegue su percorsi finti di qualunque forma. */
 export function basenameSemplice(p = "") {
   return String(p).split("/").pop() || "";
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ⑨ LA DERIVA (AR-484) — l'altra metà della frase di Nicola del 30/7.
+//
+// «Sembra che non hai un'auto-revisione mentre stai lavorando, **e un quadro ampio di quello che stai
+// facendo**.» La prima metà l'hanno chiusa i controlli ①-⑧. La seconda finora era solo il ⑤ raggio,
+// che risponde a «chi altro poggia su questo file» — una domanda sul CODICE. Manca quella sul LAVORO:
+// sto ancora facendo la cosa per cui sono partito?
+//
+// Non è misurabile in generale, e non fingo il contrario: nessuna macchina sa qual era l'intenzione.
+// È misurabile UNA cosa sola, ed è quella che si vede quando un lavoro scivola — quante zone diverse
+// della casa sta toccando. Un lotto che tocca il cervello, il Pannello, il vault e le consegne può
+// essere un lavoro coerente, ma è anche la forma esatta di un lavoro che si è allargato strada
+// facendo. Perciò è una DOMANDA (informativa), non un'accusa: chi risponde sono io, ad alta voce.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Le cartelle che contengono mondi diversi: lì la zona è il secondo livello, non il primo. Senza,
+ *  tutto il vault sarebbe «una zona» e il conto non direbbe niente. */
+export const CONTENITORI = ["MyCity-Vault", "pannello", "consegne", "creativi", ".claude"];
+
+/** Quante zone diverse prima che valga la pena chiederselo. Cinque e non tre: un lavoro serio tocca
+ *  il codice, la sua prova, il cantiere e la memoria — sono già quattro, e sono giuste. */
+export const ZONE_MAX = 5;
+
+export function zonaDi(file = "") {
+  const p = String(file).split("/");
+  return CONTENITORI.includes(p[0]) && p.length > 1 ? `${p[0]}/${p[1]}` : p[0] || "";
+}
+
+export function derivaDelLavoro(file = [], soglia = ZONE_MAX) {
+  const zone = [...new Set(file.map(zonaDi).filter(Boolean))].sort();
+  return zone.length > soglia ? zone : null;
 }
 
 /** Le voci che fanno rosso. `raggio` non è un errore (è il quadro), `media` è un avviso che si legge. */
@@ -618,6 +669,8 @@ export function bustaPerIlModello(voci = [], nToccati = 0, viste = {}) {
   if (raggi.length) {
     righe.push(`🔭 raggio: ${raggi.map((r) => `${r.file} → ${(r.cosa.match(/^(\d+)/) || [, "?"])[1]} dipendenti`).join(" · ")}`);
   }
+  const deriva = voci.find((v) => v.classe === "deriva");
+  if (deriva) righe.push(`🧭 ${deriva.cosa}\n   ↳ ${deriva.domanda}`);
   if (rossi.length > 4) righe.push(`   …e altre ${rossi.length - 4} voci gravi: node cervello/sorvegliante.mjs`);
   if (!righe.length) return null;
   const testo = [`👁️ SORVEGLIANTE — ${nToccati} file toccati da questa modifica`, ...righe].join("\n");
@@ -745,11 +798,23 @@ export function leggiRimozioni(testo) {
   return { rimosse, cancellati };
 }
 
-/** Chi nomina questo file. Euristica dichiarata in testa: import/require/from + citazioni di percorso. */
-function cercaImportatori(fileRel) {
-  const nome = basename(fileRel);
-  if (!nome) return [];
-  const fuori = [];
+/**
+ * Chi nomina questi file. Euristica dichiarata in testa: import/require/from + citazioni di percorso.
+ *
+ * UNA passata sola per TUTTI i file toccati, non una per file. Prima era una scansione dell'intero
+ * repo per ogni file del delta: con dieci file toccati erano dieci letture di tutto — ~90 ms l'una,
+ * che su un lotto grosso diventano secondi. Finché la guardia girava solo dopo un Edit era un costo
+ * invisibile; dovendola far girare anche dopo un comando (dove il tempo è dentro un timeout di 10
+ * secondi) sarebbe diventata la ragione per staccarla. Una guardia lenta viene spenta come una
+ * rumorosa: sono lo stesso difetto con due facce.
+ */
+function indiceImportatori(fileRel = []) {
+  const idx = new Map(fileRel.map((f) => [f, []]));
+  if (!fileRel.length) return idx;
+  const cercati = fileRel.map((f) => ({
+    rel: f,
+    re: new RegExp(`(?:from|import|require)\\s*\\(?\\s*["'][^"'\\n]*${basename(f).replace(/\./g, "\\.")}["']`),
+  }));
   const cerca = (dir) => {
     let voci;
     try {
@@ -766,7 +831,6 @@ function cercaImportatori(fileRel) {
       }
       if (!/\.(m?js|cjs|ts|tsx|sh|json)$/.test(v.name)) continue;
       const rel = relative(REPO, p);
-      if (rel === fileRel) continue;
       let testo;
       try {
         if (statSync(p).size > 2 * 1024 * 1024) continue;
@@ -774,17 +838,15 @@ function cercaImportatori(fileRel) {
       } catch {
         continue;
       }
-      // Il nome del file dentro un import/require, o il suo percorso citato in uno script/JSON.
-      if (
-        new RegExp(`(?:from|import|require)\\s*\\(?\\s*["'][^"'\\n]*${nome.replace(/\./g, "\\.")}["']`).test(testo) ||
-        testo.includes(fileRel)
-      ) {
-        fuori.push(rel);
+      for (const c of cercati) {
+        if (rel === c.rel) continue;
+        if (c.re.test(testo) || testo.includes(c.rel)) idx.get(c.rel).push(rel);
       }
     }
   };
   cerca(REPO);
-  return fuori.sort();
+  for (const [, v] of idx) v.sort();
+  return idx;
 }
 
 function leggiRegistro(nome, campo) {
@@ -829,26 +891,18 @@ function guardianiNominati() {
   return [...fuori];
 }
 
-function main() {
-  const argv = process.argv.slice(2);
-  const hook = argv.includes("--hook");
-  const soloStaged = argv.includes("--staged");
-  const json = argv.includes("--json");
-
-  // «Hai girato o no?» — prima di tutto il resto, perché è la domanda che si fa quando si sospetta
-  // che la guardia sia morta, e in quel momento il diff non c'entra niente.
-  if (argv.includes("--battito")) {
-    let letto = null;
-    try {
-      letto = JSON.parse(readFileSync(join(REPO, BATTITO), "utf8"));
-    } catch {
-      letto = null;
-    }
-    const v = verdettoBattito(letto, Date.now());
-    console.log(v.testo);
-    process.exit(v.uscita);
-  }
-
+/**
+ * IL GIRO COMPLETO SUL DELTA — l'I/O che sta fra il repo e il cuore.
+ *
+ * Estratto da `main()` (AR-486) perché adesso ha DUE chiamanti: il comando, e l'hook del Bash che
+ * `misura-cieca.mjs` fa girare dopo ogni comando di shell. Finché ne aveva uno solo poteva stare
+ * dentro `main()`; con due, lasciarlo lì avrebbe voluto dire scriverne una seconda copia — e due
+ * copie della stessa lettura divergono sempre (è la ragione per cui in questo repo il registro delle
+ * malattie è UNO).
+ *
+ * @returns {{errore:string|null, esito:object, toccati:Array}}
+ */
+export function verdettoDelDelta({ soloStaged = false } = {}) {
   let diff;
   try {
     // `-U0`: solo le righe cambiate, niente contesto — il contesto NON è mio, e contarlo
@@ -856,12 +910,7 @@ function main() {
     diff = soloStaged ? git(["diff", "--cached", "-U0"]) : git(["diff", "HEAD", "-U0"]);
   } catch (e) {
     // Nessun HEAD (repo appena nato) o git assente: cieco, e cieco non è verde.
-    if (hook) {
-      console.log("👁️ sorvegliante: cieco (git non leggibile) — nessun controllo sul delta");
-      process.exit(0);
-    }
-    console.error(`👁️ SORVEGLIANTE CIECO — non ho potuto leggere il diff: ${e.message.split("\n")[0]}`);
-    process.exit(2);
+    return { errore: e.message.split("\n")[0], esito: { voci: [], cieco: true, motivi: [] }, toccati: [] };
   }
 
   const perFile = leggiDiff(diff);
@@ -898,7 +947,6 @@ function main() {
   const mutanti = leggiRegistro("mutanti.json", "mutanti");
 
   const toccati = [];
-  const importatori = new Map();
   for (const [file, aggiunte] of perFile) {
     const abs = join(REPO, file);
     let contenuto = null;
@@ -908,10 +956,10 @@ function main() {
       contenuto = null;
     }
     toccati.push({ file, aggiunte, contenuto });
-    // Il raggio costa una scansione per file: la faccio solo sul codice condiviso, non sui .md e non
-    // sui dati del vault (lì «chi mi cita» non è una dipendenza che si rompe).
-    if (/\.(m?js|cjs|ts|tsx)$/.test(file)) importatori.set(file, cercaImportatori(file));
   }
+  // Il raggio si calcola solo sul codice condiviso, non sui .md e non sui dati del vault (lì «chi mi
+  // cita» non è una dipendenza che si rompe), e con UNA scansione per tutti.
+  const importatori = indiceImportatori(toccati.map((t) => t.file).filter((f) => /\.(m?js|cjs|ts|tsx)$/.test(f)));
 
   // Il lato sottrazione: ciò che ho TOLTO, e chi lo dichiarava una difesa.
   const { rimosse, cancellati } = leggiRimozioni(diff);
@@ -932,6 +980,71 @@ function main() {
   if (mutanti === null) esito.motivi.push("cervello/mutanti.json illeggibile");
   if (lezioni === null) esito.motivi.push(`${APPRENDIMENTO} illeggibile: non so quali test siano il freno di una lezione`);
   if (!difese.size) esito.motivi.push("nessuna difesa censita: non posso accorgermi se ne cancello una");
+  return { errore: null, esito, toccati };
+}
+
+/**
+ * Uno scatto da hook: aggiorna il registro nel battito e torna la busta da stampare (o `null`).
+ *
+ * Anche questa esportata per lo stesso motivo del giro: la chiama l'hook degli Edit e quello dei
+ * comandi. Il battito si scrive SEMPRE, anche a mani vuote — è lì che il silenzio si confonde con la
+ * morte — e vale per tutti e due i canali, altrimenti «ha girato» dipenderebbe da quale hook è
+ * scattato per ultimo.
+ */
+export function scatto(esito, nToccati) {
+  let precedente = {};
+  let n = 0;
+  try {
+    const letto = JSON.parse(readFileSync(join(REPO, BATTITO), "utf8"));
+    precedente = letto.viste || {};
+    n = Number(letto.scatto) || 0;
+  } catch {
+    // Primo scatto della sessione (o battito illeggibile): si riparte da zero. Un registro assente
+    // non è un registro vuoto per finta — semplicemente non ho ancora niente da ricordare.
+  }
+  n += 1;
+  const viste = aggiornaViste(precedente, esito.voci, n);
+  try {
+    writeFileSync(
+      join(REPO, BATTITO),
+      JSON.stringify({ quando: new Date().toISOString(), file_toccati: nToccati, voci: esito.voci.length, gravi: gravi(esito.voci).length, scatto: n, viste }),
+    );
+  } catch {
+    // Un battito che non si scrive non deve fermare il lavoro in corso: resta il verdetto, che è la
+    // parte che conta. `--battito` dirà «mai scattato», ed è la risposta onesta.
+  }
+  return bustaPerIlModello(esito.voci, nToccati, viste);
+}
+
+function main() {
+  const argv = process.argv.slice(2);
+  const hook = argv.includes("--hook");
+  const soloStaged = argv.includes("--staged");
+  const json = argv.includes("--json");
+
+  // «Hai girato o no?» — prima di tutto il resto, perché è la domanda che si fa quando si sospetta
+  // che la guardia sia morta, e in quel momento il diff non c'entra niente.
+  if (argv.includes("--battito")) {
+    let letto = null;
+    try {
+      letto = JSON.parse(readFileSync(join(REPO, BATTITO), "utf8"));
+    } catch {
+      letto = null;
+    }
+    const v = verdettoBattito(letto, Date.now());
+    console.log(v.testo);
+    process.exit(v.uscita);
+  }
+
+  const { errore, esito, toccati } = verdettoDelDelta({ soloStaged });
+  if (errore) {
+    if (hook) {
+      console.log("👁️ sorvegliante: cieco (git non leggibile) — nessun controllo sul delta");
+      process.exit(0);
+    }
+    console.error(`👁️ SORVEGLIANTE CIECO — non ho potuto leggere il diff: ${errore}`);
+    process.exit(2);
+  }
   const rossi = gravi(esito.voci);
 
   if (json) {
@@ -942,34 +1055,10 @@ function main() {
   // ── Forma corta: entra nel mio contesto a OGNI modifica, quindi deve stare in poche righe o
   //    diventa rumore che imparo a scorrere. Solo i rossi, i gialli in una riga, il raggio contato.
   if (hook) {
-    // Il battito PRIMA della busta, e sempre — anche a mani vuote. È la prova che ho girato, e serve
-    // soprattutto quando non ho niente da dire: è lì che il silenzio si confonde con la morte.
-    // Dal 3/8 porta anche il REGISTRO delle voci (AR-480): senza memoria fra uno scatto e l'altro,
-    // «ho parlato» non diventa mai «mi hanno ascoltato».
-    let precedente = {};
-    let scatto = 0;
-    try {
-      const letto = JSON.parse(readFileSync(join(REPO, BATTITO), "utf8"));
-      precedente = letto.viste || {};
-      scatto = Number(letto.scatto) || 0;
-    } catch {
-      // Primo scatto della sessione (o battito illeggibile): si riparte da zero. Un registro assente
-      // non è un registro vuoto per finta — semplicemente non ho ancora niente da ricordare.
-    }
-    scatto += 1;
-    const viste = aggiornaViste(precedente, esito.voci, scatto);
-    try {
-      writeFileSync(
-        join(REPO, BATTITO),
-        JSON.stringify({ quando: new Date().toISOString(), file_toccati: toccati.length, voci: esito.voci.length, gravi: rossi.length, scatto, viste }),
-      );
-    } catch {
-      // Un battito che non si scrive non deve fermare la modifica in corso: resta il verdetto, che è
-      // la parte che conta. `--battito` dirà «mai scattato», ed è la risposta onesta.
-    }
-    // stdout in forma hook è SOLO la busta JSON: qualsiasi altra riga la rende illeggibile a chi la
-    // deve interpretare, e il verdetto tornerebbe a sparire nel log — cioè il difetto di partenza.
-    const busta = bustaPerIlModello(esito.voci, toccati.length, viste);
+    // Il battito PRIMA della busta, e sempre — anche a mani vuote: è lì che il silenzio si confonde
+    // con la morte. stdout in forma hook è SOLO la busta JSON: qualsiasi altra riga la rende
+    // illeggibile a chi la deve interpretare, e il verdetto tornerebbe a sparire nel log.
+    const busta = scatto(esito, toccati.length);
     if (busta) console.log(busta);
     // Avvisa, non blocca: un freno che ferma un Edit a metà lavoro viene spento in un giorno, e un
     // controllo spento è peggio di nessun controllo (insegna che il verde non vuol dire niente).

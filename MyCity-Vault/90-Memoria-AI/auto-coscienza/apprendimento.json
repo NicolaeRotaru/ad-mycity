@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-03 20:35",
+ "aggiornato": "2026-08-03 21:15",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -10850,6 +10850,111 @@
    ],
    "gate": "node cervello/test/salute.test.mjs",
    "gate_nota": "1 mutazione su AR-481 in mutanti.json: il giudizio del battito che torna sempre verde."
+  },
+  {
+   "tag": [
+    "guardiani",
+    "misura",
+    "auto-revisione",
+    "correzione-nicola"
+   ],
+   "reparto": "AD",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 21:15",
+   "ultima_conferma": "2026-08-03 21:15",
+   "stato": "attiva",
+   "gate_attivo": true,
+   "id": "L-2026-0803-540",
+   "testo": "**Un registro che cresce solo se me ne ricordo non cresce (3/8).** `malattie.json` e nato il 30/7 con 7 forme e tre giorni dopo ne aveva ancora 7, mentre il cantiere passava da 400 a 419 difetti: nessuno script lo scriveva. E siccome il controllo ① del sorvegliante poggia tutto li, la guardia in tempo reale poteva riconoscere solo le forme del suo primo giorno. **La regola:** ogni registro su cui poggia un controllo deve avere un guardiano che chiede quando manca una voce — e il segnale va PRESO DAI DATI, non inventato. Qui era gia scritto: `nato_come: \"regressione\"` significa «questa forma e tornata», che e la definizione operativa di malattia. **E la terza risposta e obbligatoria quanto le altre due:** `non-pattern-izzabile` col perche scritto e chi la copre — certe forme vivono nel diff intero, nella storia del ramo o nell effetto, e pretendere un pattern per riga produrrebbe finzioni. Ma senza il perche diventa il modo educato di non rispondere, cioe AR-338.",
+   "evidenze": [
+    "cervello/malattie-mancanti.mjs (nuovo, agganciato al cancello del lotto)",
+    "cervello/test/malattie-mancanti.test.mjs (11 prove)",
+    "AR-482 nel cantiere",
+    "7 regressioni classificate a mano invece che messe in baseline: 2 con un nome, 5 con debito dichiarato"
+   ],
+   "gate": "node --test cervello/test/malattie-mancanti.test.mjs",
+   "gate_nota": "2 mutazioni su AR-482 in mutanti.json: la regressione che non deve piu rispondere, e «non-pattern-izzabile» senza perche che torna a bastare."
+  },
+  {
+   "tag": [
+    "guardiani",
+    "misura",
+    "auto-revisione",
+    "correzione-nicola"
+   ],
+   "reparto": "AD",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 21:15",
+   "ultima_conferma": "2026-08-03 21:15",
+   "stato": "attiva",
+   "gate_attivo": true,
+   "id": "L-2026-0803-541",
+   "testo": "**Una fonte con due lettori non e una fonte unica: sono due fonti che si somigliano (3/8, tre volte in un ora).** Censendo tre malattie nuove, la spazzata e il sorvegliante — che leggono lo stesso `malattie.json` — si sono contraddetti tre volte, e ogni volta il risultato era un VERDE: ① senza flag `m` la spazzata leggeva `^` come «inizio del file» e ha dichiarato «curata 📉» una malattia con 25 istanze vive; ② `senzaCommenti` azzerava le righe che iniziano con `#` — giusto nel codice, falso in un .md dove `#` apre un titolo: ogni regola di casa che vive nei titoli arrivava al pattern gia vuota e non poteva scattare mai; ③ il campo `percorsi` lo leggeva solo uno dei due. **La regola:** quando una fonte ha piu di un lettore, la prova non e «funziona il lettore A»: e «i due lettori danno lo stesso verdetto sulla stessa voce», eseguiti tutti e due. E un helper nato per il codice (togliere i commenti) va ripensato quando lo si applica alla prosa: la stessa funzione, sullo stesso carattere, fa due mestieri opposti.",
+   "evidenze": [
+    "cervello/spazzata-fratelli.mjs (flag gm, prosa, nelPerimetro, istanzeNelTesto)",
+    "cervello/test/registro-due-lettori.test.mjs (5 prove che eseguono ENTRAMBI i lettori)",
+    "AR-483 nel cantiere",
+    "3 mutazioni verificate rosse"
+   ],
+   "gate": "node --test cervello/test/registro-due-lettori.test.mjs",
+   "gate_nota": "3 mutazioni su AR-483: flag `m` tolto, `#` di nuovo commento nei .md, `percorsi` ignorato dalla spazzata."
+  },
+  {
+   "tag": [
+    "guardiani",
+    "misura",
+    "auto-revisione",
+    "correzione-nicola"
+   ],
+   "reparto": "AD",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 21:15",
+   "ultima_conferma": "2026-08-03 21:15",
+   "stato": "attiva",
+   "gate_attivo": true,
+   "id": "L-2026-0803-542",
+   "testo": "**Il quadro ampio sul CODICE non e il quadro ampio sul LAVORO (3/8).** Il raggio risponde a «chi altro poggia su questo file»; la seconda meta della frase di Nicola del 30/7 — «un quadro ampio di quello che stai facendo» — chiedeva un altra cosa: sto ancora facendo la cosa per cui sono partito? Non e misurabile in generale, e fingere il contrario sarebbe peggio del silenzio. **La regola:** quando una cosa importante non e misurabile per intero, si misura il pezzo che lo e e si dichiara il resto. Qui il pezzo misurabile e quante ZONE della casa sta toccando il lavoro; oltre una soglia diventa una DOMANDA, non un accusa — perche un lotto largo puo essere giusto, e trasformarlo in colpa creerebbe un debito che non si puo estinguere, cioe il tipo di rosso che si impara a ignorare in blocco.",
+   "evidenze": [
+    "cervello/sorvegliante.mjs (controllo ⑨ deriva, zonaDi, derivaDelLavoro)",
+    "cervello/test/sorvegliante.test.mjs (4 prove)",
+    "AR-484 nel cantiere",
+    "1 mutazione verificata rossa"
+   ],
+   "gate": "node --test cervello/test/sorvegliante.test.mjs",
+   "gate_nota": "1 mutazione su AR-484: la soglia della deriva resa irraggiungibile, il controllo non si accorge piu di niente."
+  },
+  {
+   "tag": [
+    "guardiani",
+    "misura",
+    "auto-revisione",
+    "correzione-nicola"
+   ],
+   "reparto": "AD",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 21:15",
+   "ultima_conferma": "2026-08-03 21:15",
+   "stato": "attiva",
+   "gate_attivo": true,
+   "id": "L-2026-0803-543",
+   "testo": "**Una guardia agganciata a un solo tipo di evento lascia scoperta la strada piu comoda (3/8).** Il sorvegliante scattava su `Edit|Write|MultiEdit`: un `sed -i`, uno script che riscrive un file, un `git checkout -- file` non lo svegliavano — cioe il modo piu rapido di modificare il repo, e quello con cui si fanno le modifiche in massa, era l unico senza guardia. **La regola:** la copertura di un controllo si misura sugli EVENTI che lo svegliano, non sulla qualita del controllo. E quando la configurazione non si puo toccare (`.claude/settings.json` e nel mio deny-list, giustamente), si guarda quale hook esiste gia e gli si fa portare anche l altro verdetto — **in una busta sola**, perche chi legge ne legge una: due JSON stampati di fila non sono JSON, e il secondo sparisce. Il costo va pagato, non evitato: una scansione sola del repo per tutti i file invece di una per file, perche una guardia lenta viene spenta come una rumorosa.",
+   "evidenze": [
+    "cervello/misura-cieca.mjs (l hook del Bash fa girare anche il sorvegliante, busta unica)",
+    "cervello/sorvegliante.mjs (verdettoDelDelta e scatto estratti; indiceImportatori con una passata sola)",
+    "cervello/test/misura-cieca.test.mjs (3 prove nuove)",
+    "AR-486 nel cantiere",
+    "collaudo end-to-end: il verdetto e comparso dopo un comando"
+   ],
+   "gate": "node --test cervello/test/misura-cieca.test.mjs",
+   "gate_nota": "1 mutazione su AR-486: il verdetto del sorvegliante che non entra piu nella busta del comando."
   }
  ],
  "principi": [
@@ -12569,7 +12674,7 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 395,
+  "lezioni_attive": 399,
   "promosse_a_principio": 87,
   "decadute": 0,
   "tasso_applicazione": 0.18,

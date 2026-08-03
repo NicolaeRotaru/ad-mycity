@@ -66,11 +66,16 @@ export function senzaCommenti(testo, file = "") {
   // il conteggio di `buco-letto-come-zero` è crollato a 0: un metro che conta in MENO è brutto quanto
   // uno che conta in più, e questo avrebbe dichiarato curata una malattia ancora viva.
   const js = /\.(m?js|ts|tsx|jsx)$/.test(file);
+  // In un .md il `#` apre un TITOLO, non un commento (AR-483). Azzerandolo qui, ogni regola di casa
+  // che vive nei titoli — «il titolo di un'azione non si scrive in sigle» — non poteva scattare mai:
+  // la riga arrivava al pattern già vuota. Trovato dalle prove il 3/8, mentre censivo quella regola;
+  // rileggendo la funzione sembrava giusta, perché per il codice lo è.
+  const prosa = /\.(md|markdown)$/.test(file);
   return testo
     .split("\n")
     .map((r) => {
       const t = r.trimStart();
-      if (t.startsWith("//") || t.startsWith("*") || t.startsWith("/*") || t.startsWith("#")) return "";
+      if (t.startsWith("//") || t.startsWith("*") || t.startsWith("/*") || (!prosa && t.startsWith("#"))) return "";
       if (!js) return r;
       const i = r.indexOf(" // ");
       return i >= 0 ? r.slice(0, i) : r;
@@ -95,11 +100,30 @@ function filesSotto(dir, estensioni) {
   return out;
 }
 
+/**
+ * Le due decisioni che il conteggio prende su OGNI file, tirate fuori dall'I/O perché una prova le
+ * possa ESEGUIRE (AR-483). Non è pulizia: la prima stesura di queste prove controllava la semantica
+ * delle espressioni regolari scritta dentro il test — cioè descriveva il fix invece di eseguirlo, e
+ * rompendo il codice restava verde. L'ha trovato `non-vacuita.mjs`, non io.
+ */
+
+/** Questo file rientra nel perimetro dichiarato dalla malattia? */
+export function nelPerimetro(malattia, rel) {
+  if (!Array.isArray(malattia.percorsi) || !malattia.percorsi.length) return true;
+  return malattia.percorsi.some((p) => rel.startsWith(p));
+}
+
+/** Quante istanze in questo testo. `gm` perché `^` deve valere per RIGA: è la stessa semantica che
+ *  usa il sorvegliante, e i due lettori del registro non possono contare due cose diverse. */
+export function istanzeNelTesto(malattia, testo, rel = "") {
+  const re = new RegExp(malattia.pattern, "gm");
+  return (senzaCommenti(testo, rel).match(re) || []).length;
+}
+
 /** Le istanze vive di una malattia, file per file. */
 function cerca(malattia) {
   const radici = (malattia.dove || ["cervello", "pannello/src"]).map((d) => join(REPO, d));
   const est = malattia.estensioni || [".mjs", ".js", ".ts", ".tsx", ".sh"];
-  const re = new RegExp(malattia.pattern, "g");
   const trovati = [];
   for (const radice of radici) {
     if (!existsSync(radice)) continue;
@@ -108,13 +132,14 @@ function cerca(malattia) {
       const rel = relative(REPO, f);
       if (SALTA_SEMPRE.some((x) => rel.startsWith(x) || rel === x)) continue;
       if ((malattia.escludi_file || []).some((x) => rel.includes(x))) continue;
-      let testo;
+      if (!nelPerimetro(malattia, rel)) continue;
+      let grezzo;
       try {
-        testo = senzaCommenti(readFileSync(f, "utf8"), rel);
+        grezzo = readFileSync(f, "utf8");
       } catch {
         continue;
       }
-      const n = (testo.match(re) || []).length;
+      const n = istanzeNelTesto(malattia, grezzo, rel);
       if (n > 0) trovati.push({ file: rel, istanze: n });
     }
   }

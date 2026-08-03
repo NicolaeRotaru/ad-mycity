@@ -956,8 +956,8 @@
    "lezione": "L-2026-0730-533",
    "nome": "la busta torna testo semplice: il riconoscitore delle misure cieche diventa lui stesso una misura cieca",
    "file": "cervello/misura-cieca.mjs",
-   "cerca": "  return JSON.stringify({\n    hookSpecificOutput: { hookEventName: \"PostToolUse\", additionalContext: testo },\n  });",
-   "sostituisci": "  return testo;",
+   "cerca": "  return JSON.stringify({\n    hookSpecificOutput: { hookEventName: \"PostToolUse\", additionalContext: righe.join(\"\\n\") },\n  });",
+   "sostituisci": "  return righe.join(\"\\n\");",
    "test": "cervello/test/misura-cieca.test.mjs"
   },
   {
@@ -965,8 +965,8 @@
    "lezione": "L-2026-0730-533",
    "nome": "la busta si dichiara con il nome sbagliato: JSON valido che nessuno consegna",
    "file": "cervello/misura-cieca.mjs",
-   "cerca": "    hookSpecificOutput: { hookEventName: \"PostToolUse\", additionalContext: testo },",
-   "sostituisci": "    hookSpecificOutput: { hookEventName: \"PreToolUse\", additionalContext: testo },",
+   "cerca": "    hookSpecificOutput: { hookEventName: \"PostToolUse\", additionalContext: righe.join(\"\\n\") },",
+   "sostituisci": "    hookSpecificOutput: { hookEventName: \"PreToolUse\", additionalContext: righe.join(\"\\n\") },",
    "test": "cervello/test/misura-cieca.test.mjs"
   },
   {
@@ -1217,6 +1217,78 @@
    "cerca": "  if (uscita === 0) return ok(detto, { uscita });",
    "sostituisci": "  return ok(detto, { uscita });",
    "test": "cervello/test/salute.test.mjs"
+  },
+  {
+   "difetto": "AR-482",
+   "lezione": "L-2026-0803-540",
+   "nome": "una forma tornata torna a non dover dire quale forma sia",
+   "file": "cervello/malattie-mancanti.mjs",
+   "cerca": "    if (d.nato_come !== \"regressione\") continue;",
+   "sostituisci": "    continue;",
+   "test": "cervello/test/malattie-mancanti.test.mjs"
+  },
+  {
+   "difetto": "AR-482",
+   "lezione": "L-2026-0803-540",
+   "nome": "«non-pattern-izzabile» senza perche torna a bastare: l esenzione travestita",
+   "file": "cervello/malattie-mancanti.mjs",
+   "cerca": "      if (perche.length < PERCHE_MIN) {",
+   "sostituisci": "      if (false) {",
+   "test": "cervello/test/malattie-mancanti.test.mjs"
+  },
+  {
+   "difetto": "AR-483",
+   "lezione": "L-2026-0803-541",
+   "nome": "il sorvegliante ignora `percorsi`: una regola di casa diventa un falso rosso ovunque",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "      if (Array.isArray(m.percorsi) && m.percorsi.length && !m.percorsi.some((p) => file.startsWith(p))) continue;",
+   "sostituisci": "      if (false) continue;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-483",
+   "lezione": "L-2026-0803-541",
+   "nome": "la spazzata torna a compilare il pattern senza `m`: ^ significa inizio del FILE",
+   "file": "cervello/spazzata-fratelli.mjs",
+   "cerca": "  const re = new RegExp(malattia.pattern, \"gm\");",
+   "sostituisci": "  const re = new RegExp(malattia.pattern, \"g\");",
+   "test": "cervello/test/registro-due-lettori.test.mjs"
+  },
+  {
+   "difetto": "AR-483",
+   "lezione": "L-2026-0803-541",
+   "nome": "il # di un titolo markdown torna a essere letto come commento",
+   "file": "cervello/spazzata-fratelli.mjs",
+   "cerca": "      if (t.startsWith(\"//\") || t.startsWith(\"*\") || t.startsWith(\"/*\") || (!prosa && t.startsWith(\"#\"))) return \"\";",
+   "sostituisci": "      if (t.startsWith(\"//\") || t.startsWith(\"*\") || t.startsWith(\"/*\") || t.startsWith(\"#\")) return \"\";",
+   "test": "cervello/test/registro-due-lettori.test.mjs"
+  },
+  {
+   "difetto": "AR-483",
+   "lezione": "L-2026-0803-541",
+   "nome": "la spazzata ignora `percorsi`: la stessa malattia con due perimetri",
+   "file": "cervello/spazzata-fratelli.mjs",
+   "cerca": "  return malattia.percorsi.some((p) => rel.startsWith(p));",
+   "sostituisci": "  return true;",
+   "test": "cervello/test/registro-due-lettori.test.mjs"
+  },
+  {
+   "difetto": "AR-484",
+   "lezione": "L-2026-0803-542",
+   "nome": "la deriva non si accorge mai di niente: la soglia diventa irraggiungibile",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  return zone.length > soglia ? zone : null;",
+   "sostituisci": "  return null;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-486",
+   "lezione": "L-2026-0803-543",
+   "nome": "il verdetto del sorvegliante non entra nella busta del comando: torna a parlare a nessuno",
+   "file": "cervello/misura-cieca.mjs",
+   "cerca": "  if (dalSorvegliante) righe.push(dalSorvegliante);",
+   "sostituisci": "  if (false) righe.push(dalSorvegliante);",
+   "test": "cervello/test/misura-cieca.test.mjs"
   }
  ]
 }

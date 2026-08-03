@@ -104,3 +104,28 @@ test("comando pulito = nessuna busta: un avvisatore che parla sempre viene spent
   assert.equal(bustaPerIlModello(misuraCieca("node cervello/test-cervello.mjs")), null);
   assert.equal(bustaPerIlModello([]), null);
 });
+
+// ── il secondo passeggero: il verdetto del sorvegliante (AR-486) ──────────────
+//
+// Il sorvegliante è agganciato a `Edit|Write|MultiEdit`: un `sed -i`, uno script che riscrive un
+// file, un `git checkout -- file` non lo svegliavano. Questo hook sul Bash c'è già, e i due verdetti
+// devono viaggiare in UNA busta sola — l'hook legge una sola uscita, e due buste stampate di fila
+// non sono JSON: la seconda finirebbe nel nulla, che è il difetto che questi due file curano.
+
+test("il verdetto del sorvegliante entra nella busta del comando", () => {
+  const b = JSON.parse(bustaPerIlModello([], "👁️ SORVEGLIANTE — 3 file toccati\n❌ difesa-rimossa · x.mjs"));
+  assert.match(b.hookSpecificOutput.additionalContext, /difesa-rimossa/, "senza questo, le modifiche fatte da un comando restano senza guardia");
+  assert.equal(b.hookSpecificOutput.hookEventName, "PostToolUse");
+});
+
+test("…e viaggia INSIEME alle trappole, non al posto loro", () => {
+  const b = JSON.parse(bustaPerIlModello(misuraCieca('node x.mjs | head -3; echo "EXIT=$?"'), "👁️ SORVEGLIANTE — 1 file toccato"));
+  const ctx = b.hookSpecificOutput.additionalContext;
+  assert.match(ctx, /MISURA CIECA/, "il mestiere di questo file resta il suo");
+  assert.match(ctx, /SORVEGLIANTE/, "e l'altro verdetto arriva accanto, non invece");
+});
+
+test("una busta sola: due JSON stampati di fila non sono JSON", () => {
+  const testo = bustaPerIlModello(misuraCieca("cd /x; ls"), "👁️ SORVEGLIANTE — 1 file toccato");
+  assert.doesNotThrow(() => JSON.parse(testo), "se qui ne uscissero due, l'hook non leggerebbe né l'uno né l'altro");
+});
