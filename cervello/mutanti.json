@@ -1509,6 +1509,22 @@
    "cerca": "  if [ \"$_fj_code\" = \"1\" ]; then",
    "sostituisci": "  if [ \"$_fj_code\" = \"99\" ]; then",
    "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-512",
+   "nome": "il lato sottrazione si gira: cercare chi C'E invece di chi manca fa sparire 52 difetti in silenzio",
+   "file": "cervello/cantiere-integrita.mjs",
+   "cerca": "    .filter((id) => id && !ci_sono.has(id));",
+   "sostituisci": "    .filter((id) => id && ci_sono.has(id));",
+   "test": "node --test cervello/test/cantiere-integrita.test.mjs"
+  },
+  {
+   "difetto": "AR-512",
+   "nome": "la forma dell'id si allarga: AR-9 torna a contare come difetto e il guardiano grida al lupo a ogni giro",
+   "file": "cervello/cantiere-integrita.mjs",
+   "cerca": "export const ID_CANONICO = /\\bAR-\\d{3}\\b/g;",
+   "sostituisci": "export const ID_CANONICO = /\\bAR-\\d+\\b/g;",
+   "test": "node --test cervello/test/cantiere-integrita.test.mjs"
   }
  ]
 }
