@@ -582,7 +582,7 @@ function main() {
     // in un comando a parte perché la configurazione si tocca proprio quando si consegna un freno
     // nuovo — cioè nel momento esatto in cui si può staccare tutto senza accorgersene.
     passi.push(esegui("gli hook attaccati", "node", ["cervello/hooks-check.mjs"]));
-    // AR-507 — il lato SOTTRAZIONE del cantiere. Tutti i controlli qui sopra contano quello che c'è;
+    // AR-512 — il lato SOTTRAZIONE del cantiere. Tutti i controlli qui sopra contano quello che c'è;
     // il 4/7 una fusione ha riscritto cantiere-difetti.json da 78 a 24 difetti e nessuno ha fiatato
     // per un mese. Sta nel cancello perché il momento in cui un difetto sparisce è esattamente la
     // consegna — una fusione che tiene un lato solo, un JSON riscritto per intero (AR-448).

@@ -1,8 +1,28 @@
 ---
 tipo: stato
-aggiornato: 2026-08-03 18:55
+aggiornato: 2026-08-03 22:55
 fonte: AD digitale (chat)
 ---
+
+> 👁️ **3/8 22:55 — SORVEGLIANTE: sei richieste di Nicola in un turno, e la guardia che ha preso me.**
+> La guardia in tempo reale adesso controlla **undici cose** mentre lavoro, non otto.
+>
+> **Le tre aggiunte.** Il raggio arriva a **due passi** e vede i legami che un `import` non dichiara:
+> il percorso composto a pezzi, il lancio da systemd, i flussi della CI. Poi due giudizi su **come**
+> riparo: curo la riga dove il difetto si vedeva e lascio le sorelle accanto, oppure tolgo
+> un'asserzione da una prova senza toccare il codice che difende.
+>
+> **Il registro delle forme di difetto passa da 10 a 14.** Le quattro nuove sono scattate senza che
+> toccassi una riga del codice della guardia: legge il registro a ogni scatto. Cinque candidate le ho
+> scartate col numero scritto accanto — 125, 124 e 243 istanze: erano rumore, non difese.
+>
+> **E il difetto che la sessione ha aperto.** Il cancello di fine turno mi aveva accusato di lavoro
+> di quattro giorni prima: 194 file di sessioni chiuse, mentre in quel turno avevo scritto zero file.
+> Adesso quando non sa attribuire dice **«non so cosa è tuo»** invece di accusare.
+>
+> **Prove:** 206 verdi, 8 mutazioni nuove tutte rosse sul mutante. Fra queste, la prima prova che
+> guarda **git rifiutare un commit davvero** invece delle sole funzioni. ⚪ il typecheck del Pannello
+> non ha misurato (manca `node_modules`), e nessun file del Pannello è stato toccato.
 
 > ✍️ **3/8 18:55 — CHAT: Nicola non riusciva a leggermi, e la colpa era del modo in cui scrivo.**
 > Il conto detto da lui: due ore perse per capire due scambi su cinque richieste di unione.
