@@ -420,9 +420,51 @@ prova("nessun messaggio: quota nulla, non zero (cieco non e' un verde)", () => {
   assert.equal(quanteVolteHaChiesto([]).quota, null);
 });
 
+// ── AR-493: l'accento spegneva il segno di esempio ────────────────────────────────────────────
+//
+// `\bcioè\b` non ha mai potuto trovare niente: in JavaScript `\b` conta come parola solo le lettere
+// ASCII, e dopo la «è» non c'è nessun confine. Il segno di esempio più usato in italiano era spento
+// da sempre, e la misura mandava a riscrivere testi che l'esempio ce l'avevano già.
+
+const LUNGO = Array.from({ length: 8 }, (_, i) => `riga di riempimento numero ${i + 1} per arrivare al testo lungo`);
+
+prova("«cioè» conta come esempio: l'accento non deve spegnere il segno", () => {
+  const t = [
+    "In parole semplici",
+    "Ho contato i punti difficili nei miei testi: 263 in tutto.",
+    "Di questi solo 11 erano parole, cioè il 4%.",
+    "Cosa cambia per te",
+    "Gli altri 252 erano forma, e la forma si ripara.",
+    "Cosa devi fare",
+    "Niente.",
+    "Cosa non ho verificato",
+    "Se ci metti davvero meno tempo.",
+    ...LUNGO,
+  ].join("\n");
+  const r = misura(t);
+  assert.ok(r.testoLungo, "il caso deve essere un testo lungo, altrimenti la regola non gira nemmeno");
+  assert.ok(!tipi(t).includes("manca-esempio"), "«cioè» è un esempio: accusare qui manda a riscrivere la cosa giusta");
+});
+
+prova("senza nessun segno di esempio l accusa resta: il fix non ha spento la regola", () => {
+  const t = [
+    "In parole semplici",
+    "Ho cambiato il modo in cui scrivo i testi lunghi.",
+    "Cosa cambia per te",
+    "I testi diventano piu' facili da leggere.",
+    "Cosa devi fare",
+    "Niente.",
+    "Cosa non ho verificato",
+    "Quanto tempo risparmi davvero.",
+    ...LUNGO,
+  ].join("\n");
+  assert.ok(tipi(t).includes("manca-esempio"), "un testo senza nessun caso concreto deve restare fermato");
+});
+
 // ── Referto ───────────────────────────────────────────────────────────────────────────────────
 
 const rotte = casi.filter((c) => !c.ok);
 for (const c of casi) console.log(`${c.ok ? "✅" : "❌"} ${c.nome}${c.ok ? "" : `\n     ${c.err}`}`);
 console.log(`\n${casi.length - rotte.length}/${casi.length} prove passate`);
 process.exit(rotte.length ? 1 : 0);
+

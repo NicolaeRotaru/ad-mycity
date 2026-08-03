@@ -97,7 +97,13 @@ const SOTTINTESI = [
 export const SOTTINTESI_CONTATI = SOTTINTESI.length;
 
 /** Le parole che dimostrano che sto facendo un esempio invece di enunciare una regola. */
-const SEGNI_DI_ESEMPIO = /(per esempio|ad esempio|esempio concreto|esempio:|facciamo un caso|mettiamo che|\bcioè\b)/i;
+// AR-493 — niente `\b` intorno a una parola che finisce con l'accento. In JavaScript `\b` conta come
+// «parola» solo le lettere ASCII: dopo la «è» di «cioè» non c'è nessun confine, quindi `\bcioè\b` non
+// ha MAI potuto trovare niente. Il segno di esempio più usato in italiano era spento da sempre, e la
+// misura accusava «manca l'esempio» su testi che l'esempio ce l'avevano — cioè mi mandava a
+// riscrivere la cosa giusta. Stessa forma dell'accento già trovato in «piu'» e «cioe'»: le regole
+// scritte in ASCII non leggono l'italiano.
+const SEGNI_DI_ESEMPIO = /(per esempio|ad esempio|un esempio|esempio concreto|esempio:|facciamo un caso|mettiamo che|cioè|cioe')/i;
 
 /** Le unità che danno un metro a un numero: senza, «253» non dice se è tanto o poco. */
 const UNITA = new RegExp(
