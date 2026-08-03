@@ -1,8 +1,39 @@
 ---
 tipo: stato
-aggiornato: 2026-07-30 11:09
+aggiornato: 2026-08-03 18:55
 fonte: AD digitale (chat)
 ---
+
+> ✍️ **3/8 18:55 — CHAT: Nicola non riusciva a leggermi, e la colpa era del modo in cui scrivo.**
+> Il conto detto da lui: due ore perse per capire due scambi su cinque richieste di unione.
+>
+> **La diagnosi giusta è la sua, non la mia.** Avevo concluso che il problema fossero le parole
+> tecniche e le avevo vietate. Sbagliato: lui le sta studiando e gli servono. Misurato sui 60 testi
+> che legge — le parole mie fuori dal glossario sono 11 problemi su 263, il 4%. Il resto è **forma
+> della spiegazione**: frasi lunghe, due idee per frase, nessun esempio, nessun passo indietro.
+>
+> **Cosa c'è adesso.** Sette regole di forma più la regola zero: il metro non è il testo, è il suo
+> tempo, e vale su ogni cosa che faccio. Quattro blocchi obbligatori in cima a ogni testo lungo, più
+> due righe di riassunto sopra i 4 minuti di lettura. Un misuratore (`cervello/si-capisce.mjs`) con
+> 10 misure, ognuna che dichiara cosa NON riesce a vedere. Attaccato in tre punti: quando dico
+> «ho finito», in CI su ogni richiesta di unione, e sul worker — provato dal vivo.
+>
+> **Il pezzo che conta di più:** la regola è in tutti e 120 i mansionari, non solo nel mio. Prima era
+> zero su 120, e quando delego è il senior a scriverti.
+>
+> **I numeri di partenza, per sapere se funziona.** Nicola ha dovuto chiedere spiegazioni in 10
+> messaggi su 13 di questa sessione (77%). I 689 testi che legge contengono 23.281 punti difficili.
+> Il glossario è passato da 28 a 47 parole più 24 voci nuove, e la fila delle parole ancora da
+> spiegare è di 860.
+>
+> **Onestà sul risultato:** i miei testi NON sono migliorati da soli (5,1 → 5,6 problemi ogni 1000
+> parole). Quello che funziona è il controllo che blocca, non la regola scritta. Il controllo mi ha
+> fermata cinque volte in un giorno, e in 12 accuse su 23 aveva torto lui: tarato tre volte sul
+> lavoro vero.
+>
+> Difetti chiusi: AR-478, AR-480..AR-490. Aperto e chiuso per decisione di Nicola: AR-479 (le 4 ore
+> di lettura dei file quotidiani — «non voglio riscrivere niente»). Richiesta di unione #655.
+
 
 > 🔁 **30/7 11:09 — GIRO RIPETUTO (richiesto in chat, 6° passaggio della giornata) — business ANCORA INVARIATO, riparati 3 gate reali.** Business ereditato dai passaggi 06:30/06:37/08:25/10:25 (tutti identici cifra per cifra: `ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3`), nessuna 5ª query pesante ([[playbook-giro-pieno-ripetuto-strategia]], AR-113). Il gate `freschezza-cadenze` segnalava che il passaggio delle 10:27 era uscito senza riscrivere `auto-analisi.json` — riparato, e in più trovati/riparati: un contratto JSON violato (`salute_macchina` con un campo fuori dai 4 canonici), un freno finto (la lezione L-2026-0730-530 dichiarava attivo un gate il cui fix — PR #635 — non è mai stato mergiato su main, verificato con `git merge-base`), e un gap di chiusura-loop (@intelligence senza ESITO per il lavoro delle 08:52). `node cervello/*.mjs`/`python3`/`gh` restano bloccati in Bash in questa sessione. Nessuna azione nuova verso il marketplace: le priorità restano quelle di tutta la giornata (dentro/fuori ordine test PQ, merge PR #633/#635, Vercel Authentication, ok su `#permessi-senza-jolly`). Briefing: [[Briefing/2026-07-30]].
 
