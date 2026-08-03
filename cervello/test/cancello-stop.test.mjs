@@ -24,6 +24,7 @@ import {
   testiAssistente,
   verdetto,
   scegliPerimetro,
+  uscitaFuoriDallHook,
   siPiantaAncora,
   ALLARMI,
 } from "../cancello-stop.mjs";
@@ -288,6 +289,50 @@ test("IL LIMITE ③: quando non ho potuto misurare lo DICO, invece di tacere", (
   assert.equal(v.blocca, false, "non accuso nessuno: non ho misurato");
   assert.equal(v.cieco, true);
   assert.match(v.righe[0], /^⚪/, "un silenzio e' indistinguibile da un «va tutto bene»");
+});
+
+// ── ⚪ non è un cestino: «non ho misurato» ≠ «ho misurato diversamente» (AR-506) ──
+//
+// Il caso vero, trovato dalla CI il 3/8: l'ancora del turno e il registro del sorvegliante vivono
+// fuori da git APPOSTA, quindi in CI non possono esistere. Mettendoli fra i ciechi, il cancello
+// usciva 2 a ogni giro — CI rossa per costruzione, e un cancello che non può diventare verde viene
+// aggirato al secondo giro. È scritto in questa stessa casa, ed è successo davvero al typecheck.
+
+test("una NOTA si legge ma non fa uscire 2: ho misurato, solo in modo più largo", () => {
+  const v = verdetto({ note: ["è la prima volta che mi fermo qui: guardo tutto il ramo"] });
+  assert.equal(v.cieco, false, "un perimetro più largo è un sovrainsieme, non una misura mancata");
+  assert.equal(v.blocca, false);
+  assert.equal(v.righe.length, 1, "ma si dice: il silenzio resta indistinguibile da un verde");
+  assert.match(v.righe[0], /^ℹ️/);
+});
+
+test("un CIECO vero continua a far uscire 2: la distinzione non è una scusa per tacere", () => {
+  const v = verdetto({ ciechi: ["non ho trovato un ramo con cui confrontarmi"] });
+  assert.equal(v.cieco, true);
+  assert.match(v.righe[0], /^⚪/);
+});
+
+test("nota e cieco insieme: due canali, due significati, tutti e due stampati", () => {
+  const v = verdetto({ ciechi: ["base assente"], note: ["perimetro largo"] });
+  assert.equal(v.cieco, true, "basta un cieco vero perché il verde non copra tutto");
+  assert.equal(v.righe.length, 2);
+});
+
+test("il codice d'uscita: solo note = 0, o la CI resta rossa a vita", () => {
+  // Il caso vero: in CI l'ancora del turno NON PUÒ esistere (vive fuori da git), quindi la nota c'è
+  // sempre. Finiva nel ramo «1» e teneva la pipeline rossa per costruzione.
+  assert.equal(uscitaFuoriDallHook({ cieco: false, righe: ["ℹ️  perimetro largo"] }), 0);
+  assert.equal(uscitaFuoriDallHook({ cieco: false, righe: [] }), 0);
+});
+
+test("il codice d'uscita: un cieco vero resta 2, un problema vero resta 1", () => {
+  assert.equal(uscitaFuoriDallHook({ cieco: true, righe: ["⚪ base assente"] }), 2);
+  assert.equal(uscitaFuoriDallHook({ cieco: false, righe: ["❌ un allarme non accodato"] }), 1);
+});
+
+test("una nota accanto a un problema non lo declassa: si guarda la sostanza", () => {
+  assert.equal(uscitaFuoriDallHook({ cieco: false, righe: ["ℹ️  perimetro largo", "❌ grave"] }), 1);
+  assert.equal(uscitaFuoriDallHook({ cieco: true, righe: ["ℹ️  perimetro largo", "⚪ base assente"] }), 2);
 });
 
 test("il cieco si dice ANCHE quando c'e' gia' un problema: sono due informazioni diverse", () => {

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 21:15",
+  "aggiornato": "2026-08-03 22:50",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8866,6 +8866,28 @@
       "fix_proposto": "DA FARE: cercare l ultimo esito anche dentro i merge (`git log -m --first-parent -G …`), oppure confrontare il CONTENUTO del quaderno fra base e HEAD invece della storia dei commit — con una prova che parta ROSSA su un ramo dove l unica riga di esito vive in un commit di merge. NON fatto stanotte: e un freno che Nicola ha costruito ieri (AR-477), e toccarlo di corsa per far tornare verde una CI e esattamente il gesto che questo cantiere censisce. Rimedio applicato intanto, e verificato: la riga di esito si scrive in un commit NORMALE, mai dentro il merge.",
       "malattia": "non-pattern-izzabile",
       "malattia_perche": "La forma sta in cosa un comando git guarda e cosa salta — una proprieta della STORIA, non di una riga di codice. La copre la prova descritta nel fix, non un pattern per riga."
+    },
+    {
+      "id": "AR-506",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 22:50",
+      "nato_come": "regressione",
+      "nato_da": "AR-496 e AR-497 (i due controlli che ho aggiunto io in questa PR)",
+      "origine": "CI della PR 657, secondo giro: 12 guardiani verdi e il cancello esce comunque 2.",
+      "titolo": "Ho messo fra i ciechi due cose che in CI non possono esistere: cancello rosso per costruzione, per sempre",
+      "causa_radice": "① L'ancora del turno e il registro del sorvegliante vivono fuori da git APPOSTA (verificare non deve costare un diff). ② In CI il clone e fresco: quei due file non ci sono MAI. ③ Io avevo messo la loro assenza fra i `ciechi`, quindi il cancello usciva 2 a ogni giro — CI rossa per costruzione, indipendentemente dal lavoro. ④ La radice non e un dettaglio di codice: e che ho confuso «non ho misurato» con «ho misurato in modo diverso da come farei a casa». Senza l'ancora il perimetro non e cieco: e un SOVRAINSIEME del turno, cioe ho guardato di piu, non di meno. ⑤ E il contratto d'uscita non aveva un posto per «nessun problema, ma ecco come ho guardato»: qualunque riga finiva nel ramo 1.",
+      "fix_proposto": "FATTO 🟡 due canali separati nel verdetto — `ciechi` (non ho guardato → 2) e `note` (ho guardato cosi → si legge e basta) — piu `uscitaFuoriDallHook()`, pura, che torna 0 quando restano solo note. Il battito assente resta CIECO se l'albero e sporco (qualcuno ha scritto e la guardia non ha parlato) e diventa NOTA se e pulito (nessun Edit e passato di qui): la stessa taratura del controllo `cervello.sorvegliante` nella visita, applicata dall'altra parte.",
+      "verifica": {
+        "comando": "node --test cervello/test/cancello-stop.test.mjs",
+        "nota": "6 prove nuove sui due canali e sul codice d'uscita; 1 mutazione verificata rossa. Provato dal vivo: senza ancora il cancello stampa la nota ed esce 0, prima usciva 1."
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e una CLASSIFICAZIONE sbagliata (aver messo una nota nel canale dei ciechi), non una riga: il codice era corretto in entrambe le versioni, cambiava solo in quale elenco finiva la stringa. La copre la prova sul codice d'uscita, non un pattern.",
+      "lezione": "L-2026-0803-545"
     }
   ],
   "meta": {

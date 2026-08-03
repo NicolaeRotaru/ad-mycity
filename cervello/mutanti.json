@@ -1121,7 +1121,7 @@
    "difetto": "AR-154",
    "nome": "il cieco torna a tacere: non aver misurato ridiventa indistinguibile da un verde",
    "file": "cervello/cancello-stop.mjs",
-   "cerca": "  const noteCieche = ciechi.map((c) => `⚪ ${c}`);",
+   "cerca": "  const noteCieche = [...ciechi.map((c) => `⚪ ${c}`), ...note.map((n) => `ℹ️  ${n}`)];",
    "sostituisci": "  const noteCieche = [];",
    "test": "cervello/test/cancello-stop.test.mjs"
   },
@@ -1410,6 +1410,15 @@
    "cerca": "    if (!eFixture(file) && !ePROSA(file)) {",
    "sostituisci": "    if (!eFixture(file)) {",
    "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-506",
+   "lezione": "L-2026-0803-545",
+   "nome": "una nota torna a contare come cieco: il cancello esce 2 per costruzione in CI",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  if (!righe.length) return { blocca: false, cieco: ciechi.length > 0, righe: noteCieche };",
+   "sostituisci": "  if (!righe.length) return { blocca: false, cieco: noteCieche.length > 0, righe: noteCieche };",
+   "test": "node --test cervello/test/cancello-stop.test.mjs"
   }
  ]
 }

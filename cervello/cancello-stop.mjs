@@ -276,6 +276,24 @@ export function scegliPerimetro({ ancora = null, ancoraUsabile = false, base = n
  *    pianto → il giro dopo è di nuovo tutto il ramo → lo stesso ❌, per sempre. Cioè esattamente il
  *    rosso ripetuto che questo intervento esiste per spegnere. Trovato collaudando, non rileggendo.
  */
+/**
+ * Il codice d'uscita fuori dall'hook, cioè quello che la CI legge (AR-506). Pura: è una decisione, e
+ * questa è la terza volta oggi che una decisione lasciata dentro `main()` mi è costata un giro.
+ *
+ * Tre esiti, e il terzo è quello che mancava:
+ *   2 — non ho misurato (⚪): cieco non è verde, e chi legge deve saperlo.
+ *   1 — ho trovato qualcosa che va sistemato.
+ *   0 — non ho trovato niente. Le righe ℹ️ non sono un problema: dicono COME ho guardato, non che
+ *       ho guardato male. Prima finivano nel ramo «1», e bastava una nota — che in CI c'è SEMPRE,
+ *       perché l'ancora vive fuori da git — per tenere la pipeline rossa a vita.
+ */
+export function uscitaFuoriDallHook({ cieco = false, righe = [] } = {}) {
+  const sostanza = righe.filter((r) => !String(r).startsWith("ℹ️"));
+  if (!sostanza.length) return 0;
+  if (cieco && sostanza.every((r) => String(r).startsWith("⚪"))) return 2;
+  return 1;
+}
+
 export function siPiantaAncora(righe = [], perimetroTurno = false) {
   return !righe.some((r) => String(r).startsWith("❌")) || !perimetroTurno;
 }
@@ -377,6 +395,7 @@ export function verdetto({
   illeggibili = [],
   messaggio = null,
   ciechi = [],
+  note = [],
   giaBloccato = false,
 } = {}) {
   const righe = [];
@@ -440,16 +459,27 @@ export function verdetto({
   // ⚪ CIECO NON È VERDE (limite ③ della prima stesura). Quando non trovo un ramo con cui confrontarmi
   // — clone superficiale, `origin/main` assente — il controllo ④ non gira. Prima quel caso taceva, e
   // un silenzio è indistinguibile da un «va tutto bene»: esattamente la malattia che questo file cura.
-  const noteCieche = ciechi.map((c) => `⚪ ${c}`);
-  if (!righe.length) return { blocca: false, cieco: noteCieche.length > 0, righe: noteCieche };
+  //
+  // MA ⚪ NON È NEMMENO UN CESTINO (AR-506, trovato dalla CI il 3/8). «Non ho potuto misurare» e «ho
+  // misurato, in modo diverso da come farei a casa» sono due cose diverse, e io le avevo messe nello
+  // stesso posto: l'ancora del turno assente e il registro del sorvegliante assente finivano fra i
+  // ciechi. In CI quei due file NON POSSONO esistere — vivono fuori da git apposta — quindi il
+  // cancello usciva 2 a ogni giro, per costruzione, e la CI restava rossa per sempre. Un cancello che
+  // non può diventare verde viene aggirato al secondo giro: è scritto in questa stessa casa, ed è
+  // successo davvero al typecheck del Pannello.
+  //
+  // Quindi due canali: `ciechi` = non ho guardato (esce 2), `note` = ho guardato così (si legge e
+  // basta). La differenza la decide chi CHIAMA, che è l'unico a sapere se la misura è avvenuta.
+  const noteCieche = [...ciechi.map((c) => `⚪ ${c}`), ...note.map((n) => `ℹ️  ${n}`)];
+  if (!righe.length) return { blocca: false, cieco: ciechi.length > 0, righe: noteCieche };
   if (giaBloccato) {
     return {
       blocca: false,
-      cieco: noteCieche.length > 0,
+      cieco: ciechi.length > 0,
       righe: ["🛑 il cancello dello stop aveva già fermato questo turno: non blocco una seconda volta.", ...righe, ...noteCieche],
     };
   }
-  return { blocca: true, cieco: noteCieche.length > 0, righe: ["🛑 CANCELLO DELLO STOP — stavo per lasciare indietro questo:", ...righe, ...noteCieche] };
+  return { blocca: true, cieco: ciechi.length > 0, righe: ["🛑 CANCELLO DELLO STOP — stavo per lasciare indietro questo:", ...righe, ...noteCieche] };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -546,6 +576,18 @@ function ancoraDelTurno() {
     return { ancora: commit, ancoraUsabile: true };
   } catch {
     return { ancora: commit, ancoraUsabile: false };
+  }
+}
+
+/** C'è del lavoro non committato in questa copia? Distingue «nessuno ha scritto qui» (un clone
+ *  fresco, la CI) da «qualcuno ha scritto e la guardia non ha parlato» — vedi AR-506. */
+function alberoSporco() {
+  try {
+    return execFileSync("git", ["status", "--porcelain"], { cwd: REPO, encoding: "utf8" }).trim().length > 0;
+  } catch {
+    // Se git non risponde non deduco «pulito»: senza quella misura non posso distinguere i due casi,
+    // e il caso che costa di più è dichiarare pulito ciò che non ho guardato.
+    return true;
   }
 }
 
@@ -785,22 +827,31 @@ async function main() {
   const consegneModificate = perimetro.da ? righeAggiunteNelle(perimetro.da, "consegne") : null;
 
   const ciechi = [];
+  const note = [];
   if (!committati || !righeQuaderni) {
     ciechi.push(
       "non ho trovato un ramo con cui confrontarmi (né origin/main né main): il controllo sull'esito del lavoro consegnato NON ha misurato. Il verde qui sotto non copre quella parte.",
     );
   }
-  if (perimetro.nota) ciechi.push(perimetro.nota);
+  // Perimetro largo = NOTA, non cieco (AR-506). Senza l'ancora ho comunque misurato: ho guardato un
+  // SOVRAINSIEME del turno, non meno. Metterlo fra i ciechi faceva uscire 2 il cancello a ogni giro
+  // in CI — dove l'ancora non può esistere, perché vive fuori da git — e una CI rossa per costruzione
+  // si impara a ignorare in tre giorni.
+  if (perimetro.nota) note.push(perimetro.nota);
 
-  // Le voci che il sorvegliante mi ha ripetuto in faccia mentre lavoravo (AR-497). Se il suo registro
-  // non c'è, questo controllo non ha misurato — e lo dico, invece di contarlo come un verde.
+  // Le voci che il sorvegliante mi ha ripetuto in faccia mentre lavoravo (AR-497).
   let insistenti = [];
   try {
     const b = JSON.parse(readFileSync(join(REPO, BATTITO), "utf8"));
     insistenti = vociInsistenti(b.viste || {}, Number(b.scatto) || 0);
   } catch {
-    ciechi.push(
-      "il registro del sorvegliante non è leggibile da qui: non so quali avvisi mi abbia ripetuto durante il lavoro. Se questa sessione ha modificato file, quel controllo NON ha misurato.",
+    // Battito assente: qui la differenza fra ⚪ e ℹ️ è se una sessione POTEVA lasciarlo. Su un albero
+    // pulito (CI, clone fresco) nessun Edit è passato di qui: non c'è niente da misurare, e dirlo
+    // «cieco» sarebbe accusare l'assenza di un lavoro che non c'è stato. Su un albero sporco invece
+    // qualcuno ha scritto e la guardia doveva parlare: lì il silenzio è una misura mancata davvero.
+    // È la stessa taratura del controllo `cervello.sorvegliante` nella visita (AR-498).
+    (alberoSporco() ? ciechi : note).push(
+      "il registro del sorvegliante non è leggibile da qui: non so quali avvisi mi abbia ripetuto durante il lavoro.",
     );
   }
 
@@ -820,6 +871,7 @@ async function main() {
       return messaggioIlleggibile(miei[miei.length - 1] || null, parolePeggioNoteAGlossario(REPO), precedenti);
     })(),
     ciechi,
+    note,
     giaBloccato,
   });
 
@@ -842,7 +894,7 @@ async function main() {
   }
   console.log(testo);
   if (hook) process.exit(0);
-  process.exit(v.cieco && v.righe.every((r) => r.startsWith("⚪")) ? 2 : 1);
+  process.exit(uscitaFuoriDallHook(v));
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();

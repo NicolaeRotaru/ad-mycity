@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-03 22:10",
+ "aggiornato": "2026-08-03 22:50",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -10980,6 +10980,32 @@
    "gate": "node --test cervello/test/sorvegliante.test.mjs",
    "gate_attivo": true,
    "gate_nota": "1 mutazione su AR-503 in mutanti.json: la prosa che torna a contare come chiamata."
+  },
+  {
+   "id": "L-2026-0803-545",
+   "testo": "**«Non ho misurato» e «ho misurato diversamente» non vanno nello stesso canale (3/8, trovato dalla CI).** Ho aggiunto due controlli che si appoggiano a file fuori da git — l'ancora del turno e il battito del sorvegliante — e ho messo la loro assenza fra i ciechi. In CI quei file NON POSSONO esistere: il cancello usciva 2 a ogni giro, cioe una pipeline rossa per costruzione, che si impara a ignorare in tre giorni (ed e la stessa cosa gia successa al typecheck del Pannello). **La regola:** prima di dichiarare un ⚪ chiediti se in quell'ambiente il dato POTEVA esserci. Se non poteva, non e cecita: e il funzionamento normale, e va detto in un canale che si legge senza far fallire niente. Senza l'ancora, per esempio, il perimetro non e cieco — e un SOVRAINSIEME del turno: ho guardato di piu, non di meno. **E il corollario sul contratto d'uscita:** se un guardiano puo produrre righe che non sono problemi, il suo codice d'uscita deve avere un posto per loro, o finiranno tutte nel ramo dell'errore.",
+   "tag": [
+    "guardiani",
+    "misura",
+    "auto-revisione",
+    "ci"
+   ],
+   "reparto": "AD",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-03 22:50",
+   "ultima_conferma": "2026-08-03 22:50",
+   "stato": "attiva",
+   "evidenze": [
+    "cervello/cancello-stop.mjs (canali `ciechi` e `note`, uscitaFuoriDallHook, alberoSporco)",
+    "cervello/test/cancello-stop.test.mjs (6 prove nuove)",
+    "AR-506 nel cantiere (nascita: regressione, da AR-496 e AR-497)",
+    "1 mutazione verificata rossa; collaudo dal vivo: senza ancora esce 0 invece di 1"
+   ],
+   "gate": "node --test cervello/test/cancello-stop.test.mjs",
+   "gate_attivo": true,
+   "gate_nota": "1 mutazione su AR-506 in mutanti.json: la nota che torna a contare come cieco e fa uscire 2 il cancello."
   }
  ],
  "principi": [
@@ -12699,7 +12725,7 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 400,
+  "lezioni_attive": 401,
   "promosse_a_principio": 87,
   "decadute": 0,
   "tasso_applicazione": 0.18,
