@@ -278,7 +278,11 @@ export function verdetto({
 // LO STRATO I/O — git e filesystem. Sottile per scelta: tutto ciò che decide sta sopra.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const git = (args) => execFileSync("git", args, { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+// `stderr: "pipe"` NON è cosmetico: senza, il «fatal: path … exists on disk, but not in origin/main»
+// di git finiva dentro il verdetto che leggo io, sopra il messaggio vero. Un verdetto sporco si
+// legge peggio, ed è esattamente il difetto che questo file esiste per combattere.
+const git = (args) =>
+  execFileSync("git", args, { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] });
 
 /** Il file com'era all'ultimo commit. `null` = non c'era (e allora «prima» è vuoto, non un errore). */
 function daHead(percorso) {
