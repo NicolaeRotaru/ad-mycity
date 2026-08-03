@@ -63,7 +63,7 @@ function soloCampi(d: Difetto, campi: readonly string[]): Difetto {
   return out;
 }
 
-/** Un difetto è chiuso se lo dice il suo stato. Tutto il resto (aperto, in-corso) è «da fare». */
+/** Un difetto è chiuso se lo dice il suo stato. Tutto il resto (aperto, in-corso, da-riverificare) è «da fare». */
 export function eChiuso(d: Difetto): boolean {
   return String(d?.stato ?? "") === "chiuso";
 }

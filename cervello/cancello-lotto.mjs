@@ -582,6 +582,11 @@ function main() {
     // in un comando a parte perché la configurazione si tocca proprio quando si consegna un freno
     // nuovo — cioè nel momento esatto in cui si può staccare tutto senza accorgersene.
     passi.push(esegui("gli hook attaccati", "node", ["cervello/hooks-check.mjs"]));
+    // AR-507 — il lato SOTTRAZIONE del cantiere. Tutti i controlli qui sopra contano quello che c'è;
+    // il 4/7 una fusione ha riscritto cantiere-difetti.json da 78 a 24 difetti e nessuno ha fiatato
+    // per un mese. Sta nel cancello perché il momento in cui un difetto sparisce è esattamente la
+    // consegna — una fusione che tiene un lato solo, un JSON riscritto per intero (AR-448).
+    passi.push(esegui("il cantiere non perde difetti", "node", ["cervello/cantiere-integrita.mjs"]));
     // AR-474 — il contatore dell'abitudine. I due cancelli fermano il caso nuovo; questo dice se il
     // comportamento sta scomparendo o se sto solo trovando il modo di aggirarli. Ha un tetto che
     // scende e non risale: qui diventa rosso solo se il debito si ALLARGA, cioè se una consegna muta
