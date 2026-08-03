@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 00:20",
+  "aggiornato": "2026-08-03 01:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8362,11 +8362,29 @@
       "verifica": {
         "comando": "node --test cervello/test/cancello-stop.test.mjs"
       }
+    },
+    {
+      "id": "AR-482",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "comunicazione-con-nicola",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 01:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "[nato da DOMANDE DI NICOLA] «come fai a dire che adesso spieghi bene? come faccio ad essere sicuro che non perdero ancora tantissimo tempo? oltre ai termini tecnici cos'altro non dovresti togliere?»",
+      "titolo": "Tutte le misure guardavano me, nessuna guardava il suo tempo: e misurando davvero, le mie spiegazioni non sono migliorate",
+      "causa_radice": "① Le sei misure di si-capisce.mjs guardano la MIA forma: lunghezza delle frasi, incisi, esempi, blocchi. Possono essere tutte verdi mentre Nicola continua a non capire. Il limite era dichiarato ma non colmato. ② Misura fatta sui miei messaggi di questa sessione: prima meta' 5,1 problemi ogni 1000 parole, seconda meta' 5,6. NON sono migliorata dopo aver scritto la regola: 7 messaggi lunghi su 8 hanno ancora problemi. Quello che ha funzionato non e' la regola scritta, e' il cancello che blocca. ③ Misura sul suo lato: 9 messaggi su 11 in questa sessione erano richieste di chiarimento (82%). Nessuno aveva mai contato questo numero, che e' l'unico che parla del suo tempo. ④ Terza domanda, terzo buco: la regola diceva «i termini tecnici non si tolgono» ma non diceva cos'ALTRO non si toglie. Ragionamenti, alternative scartate, errori miei, limiti dichiarati, numeri con la fonte: tutta roba che avevo gia' cominciato a sacrificare per sembrare piu' chiara.",
+      "fix_proposto": "FATTO 🟡 ① `quanteVolteHaChiesto()` conta le richieste di chiarimento di Nicola dalla trascrizione: e' un segnale indiretto (un «perche?» puo' essere curiosita) ma e' l'unico numero che misura il SUO tempo invece del mio stile. ② Regola 2-bis in scrittura-umana.md: la tabella di cosa non si toglie mai — numeri con fonte, ragionamento, alternative scartate, errori miei, limiti non verificati, nomi/date/importi. ③ La stessa riga inserita in tutti e 120 i mansionari, accanto alle sette regole. ④ 4 prove nuove sulla misura (28 in totale), incluso il caso dei risultati degli strumenti che arrivano marcati come messaggi utente e falserebbero la quota.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
     }
   ],
   "meta": {
     "aperti": 165,
     "in_corso": 0,
-    "chiusi": 251
+    "chiusi": 252
   }
 }

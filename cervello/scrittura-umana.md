@@ -80,6 +80,24 @@ Le sei mosse, con il nome che Nicola può rimandarmi in faccia quando ne salto u
    Sono cose che ho visto solo io.
 6. **Il metro sui numeri** — «253 su 277, cioè quasi tutte», non «253».
 
+## Regola 2-bis — cosa NON si toglie mai (AR-482)
+
+Semplificare vale sulla **forma**. Sul contenuto, mai. Nicola: *«i termini tecnici mi aiutano a capire
+come ragiona e agisce la macchina, ma non mi riferisco solo ai termini: anche ai ragionamenti, azioni
+e via dicendo»*. Quindi restano dentro, sempre:
+
+| Cosa resta | Perché |
+|---|---|
+| **I numeri con la loro fonte** | «253 su 277, letti dal database alle 14:30». Un numero senza fonte è un'opinione |
+| **Il ragionamento** | *perché così e non altrimenti*. È la cosa che gli fa capire come ragiona la macchina |
+| **Le alternative scartate** | «potevo fare A, ho fatto B perché…». Senza, sembra che ci fosse una strada sola |
+| **Gli errori miei** | cosa è andato storto e cosa mi ha ripreso. È il pezzo che gli dice di quanto fidarsi |
+| **I limiti** | cosa NON ho verificato. Un verde che non dichiara la sua copertura è una bugia gentile |
+| **Nomi, date, comandi, importi** | «Pane Quotidiano», «il 24/8», «19,05 €». Il generico non si può controllare |
+
+La prova che serviva: la riga «Dettagli tecnici» rischia di diventare la discarica dove finisce
+proprio questa roba. Il misuratore avvisa quando sopra quella riga non resta nessuna sostanza.
+
 ## Regola 3 — le tre risposte in cima a ogni testo lungo
 
 ```

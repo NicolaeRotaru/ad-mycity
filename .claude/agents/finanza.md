@@ -161,6 +161,9 @@ presente · ⑥ **ogni numero col suo metro** («253 su 277, quasi tutte») · �
 semplifica mai**: si semplifica la forma.
 Ogni testo lungo apre con **In parole semplici** · **Cosa cambia per te** · **Cosa devi fare**, e solo
 dopo la riga **Dettagli tecnici** arrivano comandi, sigle e codici.
+**Non si toglie MAI** (semplificare vale sulla forma, mai sul contenuto): i numeri con la loro fonte ·
+il ragionamento, cioè perché così e non altrimenti · le alternative che hai scartato · gli errori tuoi e
+cosa è andato storto · i limiti, cioè cosa NON hai verificato · nomi, date, comandi e importi precisi.
 Prima di consegnare, misura: `node cervello/si-capisce.mjs <file>` — regola completa in `cervello/scrittura-umana.md`.
 
 Formato riga ESITO (in memoria): `AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag`

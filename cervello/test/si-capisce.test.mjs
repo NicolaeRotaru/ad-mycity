@@ -9,7 +9,15 @@
 // diventare un test che può fallire — se qualcuno rimette il divieto sul vocabolario, qui si spacca.
 
 import assert from "node:assert/strict";
-import { misura, frasi, parteDiNicola, difficolta, PAROLE_MACCHINA } from "../si-capisce.mjs";
+import {
+  misura,
+  frasi,
+  parteDiNicola,
+  difficolta,
+  quanteVolteHaChiesto,
+  messaggiDiNicola,
+  PAROLE_MACCHINA,
+} from "../si-capisce.mjs";
 
 const casi = [];
 const prova = (nome, fn) => {
@@ -177,6 +185,40 @@ prova("anche gli incisi citano la frase colpevole", () => {
 prova("l'elenco delle parole della macchina contiene sia le mie sia quelle vere del mestiere", () => {
   for (const p of ["potatore", "spazzata", "cricchetto"]) assert.ok(PAROLE_MACCHINA.includes(p), p);
   for (const p of ["commit", "branch", "deploy", "webhook"]) assert.ok(PAROLE_MACCHINA.includes(p), p);
+});
+
+// ── AR-482: la misura che guarda LUI, non me ──────────────────────────────────────────────────
+
+const rigaNicola = (t) => JSON.stringify({ type: "user", message: { content: t } });
+const rigaMia = JSON.stringify({ type: "assistant", message: { content: [{ type: "text", text: "ok" }] } });
+
+prova("conta quante volte Nicola ha dovuto chiedere spiegazioni", () => {
+  const righe = [
+    rigaNicola("fai un giro"),
+    rigaMia,
+    rigaNicola("non ho capito cosa vuol dire"),
+    rigaNicola("spiegami meglio questa cosa"),
+  ];
+  const r = quanteVolteHaChiesto(righe);
+  assert.equal(r.messaggi, 3, "tre messaggi suoi, il mio non conta");
+  assert.equal(r.chieste, 2);
+  assert.equal(r.quota, 67);
+});
+
+prova("i risultati degli strumenti non sono messaggi di Nicola", () => {
+  // Arrivano marcati come "user" ma non li scrive lui: contarli falserebbe la quota verso il basso.
+  const righe = [rigaNicola("<tool_result>output del comando</tool_result>"), rigaNicola("va bene cosi")];
+  assert.equal(messaggiDiNicola(righe).length, 1);
+});
+
+prova("una conversazione senza domande di chiarimento da zero", () => {
+  const r = quanteVolteHaChiesto([rigaNicola("porta Pane Quotidiano live"), rigaMia]);
+  assert.equal(r.chieste, 0);
+  assert.equal(r.quota, 0);
+});
+
+prova("nessun messaggio: quota nulla, non zero (cieco non e' un verde)", () => {
+  assert.equal(quanteVolteHaChiesto([]).quota, null);
 });
 
 // ── Referto ───────────────────────────────────────────────────────────────────────────────────

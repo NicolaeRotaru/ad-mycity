@@ -284,6 +284,61 @@ export function difficolta({ problemi, avvisi, parole }) {
   return Math.round(((problemi.length * 2 + avvisi.length) / parole) * 1000) / 10;
 }
 
+
+// ── LA MISURA CHE CONTA DAVVERO: quante volte Nicola ha dovuto chiedere (AR-482) ────────────────
+//
+// Tutte le altre misure di questo file guardano ME: quanto sono lunghe le mie frasi, se ho messo un
+// esempio, se ho aperto con le tre risposte. Sono misure di forma, e possono essere tutte verdi
+// mentre Nicola continua a non capire. Il limite dichiarato in AR-478 era esattamente questo:
+// «il misuratore non sa se hai capito».
+//
+// Questa invece guarda LUI: quante volte, in una conversazione, ha dovuto fermarsi e chiedere cosa
+// intendevo. È un segnale indiretto — un «perché?» può essere curiosità, non fatica — ma è l'unico
+// numero disponibile che parli del suo tempo invece che del mio stile. E il costo che stiamo
+// cercando di abbattere è il suo tempo: «ho perso 2 ore», «mi fa perdere ore di tempo».
+
+/** Le forme con cui Nicola dice «non ci sono arrivato»: prese dalle sue frasi vere, non inventate. */
+export const RICHIESTE_DI_AIUTO = [
+  /non ho capito/i, /non capisco/i, /non si capisce/i, /cosa vuol dire/i, /che cosa vuol dire/i,
+  /spiegami/i, /rispiegami/i, /mi spieghi/i, /che cos'?è/i, /in che senso/i, /non mi è chiaro/i,
+  /perdo (tanto |tantissimo )?tempo/i, /difficile da capire/i, /mi sono perso/i, /cosa intendi/i,
+];
+
+/** Estrae i messaggi di Nicola da una trascrizione di Claude Code (una riga JSON per evento). */
+export function messaggiDiNicola(righeJsonl = []) {
+  const fuori = [];
+  for (const riga of righeJsonl) {
+    let ev;
+    try {
+      ev = JSON.parse(riga);
+    } catch {
+      continue; // riga spezzata: non è un verdetto, si salta
+    }
+    if (ev?.type !== "user") continue;
+    const c = ev?.message?.content;
+    const testo = typeof c === "string" ? c : Array.isArray(c) ? c.filter((p) => p?.type === "text").map((p) => p.text).join(" ") : "";
+    // I risultati degli strumenti arrivano come messaggi "user" ma non li scrive Nicola.
+    if (!testo.trim() || /^\s*<(tool|system|command)/.test(testo)) continue;
+    fuori.push(testo);
+  }
+  return fuori;
+}
+
+/**
+ * Quante volte Nicola ha dovuto chiedere spiegazioni. Meno è, meglio è.
+ * Pura: prende le righe già lette, così una prova la può eseguire su una conversazione finta.
+ */
+export function quanteVolteHaChiesto(righeJsonl = []) {
+  const suoi = messaggiDiNicola(righeJsonl);
+  const chieste = suoi.filter((t) => RICHIESTE_DI_AIUTO.some((r) => r.test(t)));
+  return {
+    messaggi: suoi.length,
+    chieste: chieste.length,
+    quota: suoi.length ? Math.round((chieste.length / suoi.length) * 100) : null,
+    ultime: chieste.slice(-3).map((t) => t.slice(0, 90).replace(/\s+/g, " ")),
+  };
+}
+
 // ── Dove Nicola legge ───────────────────────────────────────────────────────────────────────────
 // Due CARTELLE, non un elenco di file: un file nuovo che nasce lì dentro entra da solo nella misura.
 // Un elenco scritto a mano avrebbe smesso di misurare il giorno dopo, alla prima consegna nuova.
