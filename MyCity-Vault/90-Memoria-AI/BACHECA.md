@@ -6,6 +6,56 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
+## 🏗️ Le tre macchine, come sarà MyCity quando è finita · 2026-08-03 22:20
+
+**Come sarà.** Oggi c'è una macchina sola che fa tutto. Domani ce ne saranno tre, ognuna con un
+mestiere solo. Una dirige l'azienda. Una manda avanti il marketplace. Una lavora dentro i negozi dei
+commercianti. L'ultima è una sola per tutti i negozi, non una per ciascuno.
+
+```
+                    NICOLA — una Cabina, una coda di firme
+                                   ▲ rapporti · firme 🔴
+              ①  CENTRO OPERATIVO  (strategia · soldi · squadra · memoria)
+                   ├── obiettivi ▼ rapporto ▲ ──►  ②  PIAZZA   ──► il marketplace
+                   └── obiettivi ▼ rapporto ▲ ──►  ③  BOTTEGA  ──► 🥖🥩💐🧀 … × 41 negozi
+```
+
+| | Nome | Mestiere | Se sbaglia, il danno è | Chi firma i suoi 🔴 |
+|---|---|---|---|---|
+| ① | **CENTRO** | dirigere l'azienda | una decisione | Nicola |
+| ② | **PIAZZA** | mandare avanti il marketplace | il sito, non l'azienda | Nicola, via CENTRO |
+| ③ | **BOTTEGA** | lavorare dentro i negozi | un negozio, non gli altri 40 | il negoziante |
+
+**La tua domanda.** Come fa una macchina sola a servire tutti i negozi. La regola è una. Quello che è
+uguale per tutti è codice, e si scrive una volta sola. Quello che è diverso per ognuno è un dato, e
+sta in una riga col nome del negozio. Non si duplica mai la macchina per personalizzarla. Si compila
+una scheda. Il negoziante numero 41 non fa nascere una macchina. Fa nascere una riga. E una miglioria
+scritta una volta ce l'hanno tutti la mattina dopo.
+
+**Il muro dei dati.** Non è il buon senso dell'AI a tenere separati i negozi. È il database che
+rifiuta di dare a un negozio le righe di un altro. È lo stesso muro che il marketplace usa già oggi.
+
+**Il piano.** Quattro fasi. Ognuna serve a qualcosa anche da sola. Solo la Fase 1 ha senso adesso.
+Fa passare tutte le scritture verso il marketplace da un punto solo. Sono giorni di lavoro. Le altre
+tre aspettano Vercel, i primi incassi e una tua parola.
+
+**Il collaudo.** L'architettura è finita quando passano sette prove. Le due che contano di più sono
+queste. Un secondo negozio finto non riesce a leggere i dati del primo. E tu vedi una coda di firme
+sola invece di tre.
+
+**La BOTTEGA non è un'idea nuova.** È la linea di ricavo numero 2 che hai definito il 29 luglio. Il
+listino resta quello. Qui aggiungo solo com'è fatta la macchina che lo eroga. Nessuna mossa
+commerciale finché non sei tu ad aprirla. Manca un numero solo. Quanto costa in AI servire un negozio
+per un mese. Senza quello, il margine del listino è un'ipotesi.
+
+**Onestà sul quando.** Questa è la forma giusta a 40 negozi e 2 città. Oggi c'è un negozio reale e il
+sito è fermo dal 30 luglio. Costruirla tutta adesso sarebbe lavoro pesante su un'ipotesi.
+
+📄 Il documento intero è [[ARCHITETTURA-TRE-MACCHINE]]. Il listino sta in
+`consegne/strategia/2026-07-29-listino-worker-negozi.md`. Il fatto a registro è
+`architettura.tre-macchine`.
+
+
 ## 🧭 Glossario della macchina — tutte le parole, per famiglie · 2026-08-01 10:54
 
 **Perché esiste questo avviso.** Quasi nessuna parola strana della macchina descrive *come si fa* una
