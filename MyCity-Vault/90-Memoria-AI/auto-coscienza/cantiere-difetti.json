@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 19:30",
+  "aggiornato": "2026-08-03 20:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8595,6 +8595,24 @@
       "fix_proposto": "FATTO 🟡 `righeMotivo()` sceglie le righe per CONTENUTO — quelle con un marcatore di verdetto (❌ ⛔ ⚪ CIECO AssertionError Error/Errore not ok) — e torna alla coda solo se non ne trova nessuna, dichiarando cosi' di non aver trovato il motivo. In piu' il contatore non viene piu' lanciato con --json dentro il cancello: in italiano la riga col ❌ porta numero, tetto e data. 6 prove nuove + 1 mutazione.",
       "verifica": {
         "comando": "node --test cervello/test/rosso-che-non-dice-perche.test.mjs"
+      }
+    },
+    {
+      "id": "AR-492",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 20:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Trovato subito dopo AR-491: appena il cancello ha mostrato il motivo, il numero era 238 in CI contro 13 qui, sulla stessa fusione e alla stessa ora.",
+      "titolo": "Il contatore ha misurato mezza storia e ha chiamato quel numero un miglioramento: 13 qui, 238 in CI",
+      "causa_radice": "① Il clone di una sessione cloud e' superficiale (git clone --depth): git mostra solo gli ultimi commit, quindi «gli ultimi 30 giorni» erano 51 commit invece di 630. Il contatore non chiedeva mai a git se la storia fosse intera: prendeva quello che vedeva e lo confrontava col tetto. ② Il costo non e' l'indagine (tre giri a cercare una differenza fra ambienti che non esisteva): e' che con --aggiorna-tetto quel 13 e' diventato il TETTO del cricchetto al posto di 253. Una cecita' travestita da miglioramento, che avrebbe bloccato ogni consegna futura contro una soglia irraggiungibile — e un cancello impossibile viene aggirato al secondo giro. ③ E' la stessa forma di AR-490 e AR-491: la misura guarda il pezzo che ha davanti (i commit visibili) e non dichiara cosa non ha potuto vedere. Qui pero' la cecita' non produceva un buco: produceva un numero piu' BASSO, cioe' una bugia che sembra un successo. ④ Perche' i guardiani non l'hanno preso: prove-oneste dichiara il clone superficiale da giorni, ma quella dichiarazione vive nel suo referto e nessun'altra misura la legge.",
+      "fix_proposto": "FATTO 🟡 `cloneTroncato()` chiede a git `rev-parse --is-shallow-repository` PRIMA di ogni altra cosa: solo un «false» esplicito autorizza a contare, «true» e «non lo so» escono 2 con il rimedio scritto (git fetch --unshallow origin) e senza stampare nessun numero. --aggiorna-tetto non puo' piu' abbassare il tetto da mezza storia. Il tetto e' stato riportato al valore misurato sulla storia intera: 238 (era 253 prima dell'errore, quindi il cricchetto scende davvero). 4 prove nuove, due delle quali dal vivo su un clone --depth 1 fabbricato apposta.",
+      "verifica": {
+        "comando": "node --test cervello/test/storia-tagliata-non-e-un-numero.test.mjs"
       }
     }
   ],
