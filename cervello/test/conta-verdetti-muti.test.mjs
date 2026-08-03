@@ -7,7 +7,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { ESCLUDI_MEMORIA, conta, cabinaFerma, verdetto, leggiStoria, AUTORE_WORKER, CERCA_ESITO_IN_GIT } from "../conta-verdetti-muti.mjs";
+import { ESCLUDI_MEMORIA, conta, cabinaFerma, verdetto, leggiStoria, tettiDaScrivere, misura, AUTORE_WORKER, CERCA_ESITO_IN_GIT } from "../conta-verdetti-muti.mjs";
 import { CARTELLE_MEMORIA } from "../cancello-stop.mjs";
 import { RIGA_ESITO } from "../cancello-stop.mjs";
 
@@ -111,6 +111,45 @@ test("anche la Cabina ha il suo tetto, e sfondarlo e' rosso", () => {
   const v = verdetto({ conto: { mute: 253 }, cabina: { giorni_indietro: 4, stato_aggiornato: "x", ultima_consegna: "y" }, tetti });
   assert.equal(v.rotto, true);
   assert.match(v.righe[0], /Cabina è ferma/);
+});
+
+test("il tetto puo' solo SCENDERE: --aggiorna-tetto non lo alza mai", () => {
+  const conto = { mute: 300 };
+  const cabina = { giorni_indietro: 9 };
+  const tetti = { consegne_mute: 238, cabina_ferma_giorni: 0 };
+  // Debito cresciuto E la mano sul comando che aggiorna: il tetto resta dov'era. Alzarlo sarebbe
+  // spostare il metro invece di curare la malattia — la cosa che questo contatore esiste per vedere.
+  assert.deepEqual(tettiDaScrivere({ conto, cabina, tetti, aggiorna: true }), { consegne_mute: 238, cabina_ferma_giorni: 0 });
+  // Senza il comando i tetti non si toccano nemmeno quando il debito scende.
+  assert.deepEqual(tettiDaScrivere({ conto: { mute: 10 }, cabina: { giorni_indietro: 0 }, tetti, aggiorna: false }), tetti);
+  // Primo giro, nessun referto: si nasce sul debito che c'è. Un tetto che parte a zero parte rosso,
+  // e un guardiano che parte rosso viene spento entro il giorno.
+  assert.deepEqual(tettiDaScrivere({ conto: { mute: 42 }, cabina: { giorni_indietro: 2 }, tetti: null, aggiorna: false }), {
+    consegne_mute: 42,
+    cabina_ferma_giorni: 2,
+  });
+});
+
+test("IL CASO TROVATO USANDOLO: dopo --aggiorna-tetto la schermata non si contraddice", () => {
+  // Il difetto vero, visto dal vivo il 3/8: `verdetto` girava sul tetto VECCHIO mentre la riga sopra
+  // stampava quello NUOVO, e la stessa schermata diceva «tetto: 238» e sotto «abbassa il tetto a 238».
+  const conto = { mute: 238, tasso: 90 };
+  const cabina = { giorni_indietro: 0 };
+  const vecchi = { consegne_mute: 253, cabina_ferma_giorni: 3 };
+  // `misura` esce con la coppia già coerente: il numero stampato e la frase stampata vengono da lì,
+  // e non c'è più un montaggio in `main()` che possa disallinearli.
+  const m = misura({ conto, cabina, tetti: vecchi, aggiorna: true });
+  assert.equal(m.tetti.consegne_mute, 238);
+  assert.equal(m.verdetto.rotto, false);
+  assert.equal(m.verdetto.righe.length, 0, "col tetto già abbassato non resta niente da chiedere: sarebbe una frase falsa accanto a un numero vero");
+});
+
+test("senza --aggiorna-tetto la coppia resta quella di ieri: l'invito ad abbassare deve restare visibile", () => {
+  // Il rovescio del caso sopra: se `misura` girasse SEMPRE sui tetti nuovi, il debito sceso
+  // diventerebbe invisibile e il tetto non lo abbasserebbe più nessuno.
+  const m = misura({ conto: { mute: 238 }, cabina: { giorni_indietro: 0 }, tetti: { consegne_mute: 253, cabina_ferma_giorni: 3 }, aggiorna: false });
+  assert.equal(m.tetti.consegne_mute, 253);
+  assert.match(m.verdetto.righe[0], /--aggiorna-tetto/);
 });
 
 // ── La lettura della storia ───────────────────────────────────────────────────

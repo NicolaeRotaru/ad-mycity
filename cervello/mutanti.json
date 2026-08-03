@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-03 20:40",
+ "aggiornato": "2026-08-03 20:55",
  "mutanti": [
   {
    "lotto": 30,
@@ -1214,6 +1214,22 @@
    "cerca": "|cioè|cioe')/i;",
    "sostituisci": "|\\\\bcioè\\\\b)/i;",
    "test": "cervello/test/si-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-494",
+   "nome": "il tetto torna a poter SALIRE: --aggiorna-tetto legittima il debito cresciuto invece di fermarlo",
+   "file": "cervello/conta-verdetti-muti.mjs",
+   "cerca": "    consegne_mute: Math.min(muteOra, tetti?.consegne_mute ?? muteOra),",
+   "sostituisci": "    consegne_mute: Math.max(muteOra, tetti?.consegne_mute ?? muteOra),",
+   "test": "cervello/test/conta-verdetti-muti.test.mjs"
+  },
+  {
+   "difetto": "AR-494",
+   "nome": "il verdetto torna a girare sul tetto vecchio: la schermata stampa il numero nuovo e la frase vecchia",
+   "file": "cervello/conta-verdetti-muti.mjs",
+   "cerca": "  return { tetti: finali, verdetto: verdetto({ conto, cabina, tetti: finali }) };",
+   "sostituisci": "  return { tetti: finali, verdetto: verdetto({ conto, cabina, tetti }) };",
+   "test": "cervello/test/conta-verdetti-muti.test.mjs"
   }
  ]
 }

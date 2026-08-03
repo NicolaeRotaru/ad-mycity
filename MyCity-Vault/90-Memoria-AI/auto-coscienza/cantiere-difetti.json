@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-03 20:40",
+  "aggiornato": "2026-08-03 20:55",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8631,6 +8631,24 @@
       "fix_proposto": "FATTO 🟡 Tolti i confini `\\\\b` intorno alla parola accentata e aggiunte le forme mancanti («un esempio», «cioe'» con l'apostrofo). 2 prove nuove: una che il segno viene riconosciuto, una che senza nessun segno l'accusa resta (altrimenti il fix avrebbe potuto spegnere la regola invece di ripararla).",
       "verifica": {
         "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-494",
+      "stato": "chiuso",
+      "gravita": "medio",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 17:45",
+      "nato_come": "regressione",
+      "nato_da": "AR-474",
+      "origine": "Trovato USANDO il contatore, non rileggendolo: al primo --aggiorna-tetto la stessa schermata ha stampato «tetto: 238» e due righe sotto «consegne mute scese da 253 a 238: abbassa il tetto con --aggiorna-tetto» — il comando appena eseguito chiedeva di essere eseguito. ⚠️ Nato come AR-478 nella sessione parallela della PR #656, rinumerato AR-494 al momento della fusione: due sessioni hanno numerato dal 477 in parallelo e hanno prodotto due difetti DIVERSI con lo stesso numero. Il quaderno di @tech (storia, non si riscrive) lo cita ancora come AR-478.",
+      "titolo": "Il contatore diceva il numero nuovo e la frase vecchia: verdetto calcolato sul tetto di ieri, stampato accanto a quello di oggi",
+      "causa_radice": "① In main() i tetti nuovi si calcolavano DOPO il verdetto: due passaggi separati sullo stesso stato, montati a mano nella stessa funzione. ② Perche nessuna prova lo vedeva: verdetto() e tettiDaScrivere() erano corretti ognuno per conto suo — il difetto stava nel CABLAGGIO fra i due, che vive in main() e nessun test puro attraversa. Una mutazione su quella riga sarebbe stata vacua: il test restava verde. ③ Cosa costa: non un numero sbagliato ma una schermata che si contraddice, cioe la cosa che erode la fiducia in un cruscotto piu di un errore franco — chi legge non sa quale delle due meta credere.",
+      "fix_proposto": "FATTO 🟡 Non ho provato il cablaggio a valle: l ho tolto di mezzo. misura({conto, cabina, tetti, aggiorna}) restituisce la coppia tetti+verdetto coerente per costruzione, e main() non ha piu niente da montare. Il pezzo che prima viveva in main ora sta dentro una funzione pura, quindi una mutazione su di esso rende rosso un test invece di passare inosservata. 3 prove nuove + 2 mutazioni (una alza il tetto invece di abbassarlo, l altra rimette il verdetto sul tetto vecchio): entrambe verificate rosse con non-vacuita.mjs.",
+      "verifica": {
+        "comando": "node --test cervello/test/conta-verdetti-muti.test.mjs"
       }
     }
   ],
