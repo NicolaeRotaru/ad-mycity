@@ -8311,7 +8311,7 @@
     },
     {
       "id": "AR-479",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🟡",
       "dimensione": "comunicazione-con-nicola",
@@ -8322,9 +8322,10 @@
       "origine": "Trovato misurando i testi vivi per rispondere a «riscrivi i vecchi testi». Nessuno aveva mai misurato QUANTO SONO LUNGHI i file che Nicola apre ogni giorno.",
       "titolo": "I tre file che Nicola apre ogni giorno sono 43.000 parole: quattro ore di lettura per sapere cosa deve approvare",
       "causa_radice": "① Misura del 2/8: STATO.md 17.722 parole (~98 minuti), BACHECA.md 14.891 (~83 minuti), AZIONI-IN-ATTESA.md 10.683 (~59 minuti). Totale ~43.300 parole, circa 4 ore. ② Sono file ad accumulo: ogni giro aggiunge un blocco in cima e non toglie niente. STATO ha 821 righe, e ogni voce e un paragrafo unico da 300 parole con dentro venti fatti. ③ Il difetto NON e la forma della singola frase: anche riscrivendo ogni frase, restano quattro ore. La forma la misura AR-478; la lunghezza non la misurava nessuno. ④ Perche non se ne accorge nessuno: chi scrive aggiunge sempre un blocco piccolo, e il costo lo paga solo chi legge dall'inizio. ⑤ Conseguenza sul business: la coda delle firme e il posto dove Nicola decide, e leggerla per intero costa un'ora. Quindi non si legge per intero, quindi le decisioni scivolano.",
-      "fix_proposto": "ASPETTA UNA DECISIONE DI NICOLA, non una riparazione: le tre strade cambiano cosa la Cabina legge, quindi non le sceglie la macchina. La misura che le mette a confronto esiste gia: node cervello/si-capisce.mjs --scansione (campo minuti_di_lettura in auto-coscienza/si-capisce.json). DA DECIDERE con Nicola, tre strade non esclusive. a) POTATURA: le voci chiuse o piu vecchie di N giorni scendono in un archivio e i file vivi restano corti. Rischio: il Pannello legge quei file, quindi va verificato prima cosa si rompe. b) SPACCHETTAMENTO: STATO tiene solo l'ultimo giro piu una riga per giorno, la storia va in un file a parte. c) TETTO DICHIARATO: un limite di parole per file vivo, che scende e non risale, come gia si fa per i difetti. Nessuna e reversibile a cuor leggero: tocca i file che la Cabina legge, quindi 🟡 con firma di Nicola.",
+      "fix_proposto": "CHIUSO PER DECISIONE DI NICOLA (3/8): «non voglio riscrivere niente, a cosa serve riscriverle? a me basta che da adesso in poi funzioni». La decisione e corretta e il difetto era mal posto da me: le 4 ore sono il tempo per leggere quei file DALL INIZIO, cosa che Nicola non fa mai — lui legge le card del Pannello e la parte in cima. Il costo vero si paga solo quando deve cercare una cosa vecchia, ed e raro. Quello che conta e coperto da AR-478: da adesso ogni voce nuova in quei file passa dal controllo, quindi i file smettono di peggiorare. Debito accettato e dichiarato, non riparato: se un giorno cercare in STATO diventa un problema vero, si riapre.",
       "verifica": {
-        "tipo": "umano"
+        "tipo": "umano",
+        "esito": "Nicola 3/8: la riscrittura del passato non serve. Vale solo che da adesso funzioni."
       }
     },
     {
@@ -8455,8 +8456,8 @@
     }
   ],
   "meta": {
-    "aperti": 165,
+    "aperti": 164,
     "in_corso": 0,
-    "chiusi": 256
+    "chiusi": 257
   }
 }
