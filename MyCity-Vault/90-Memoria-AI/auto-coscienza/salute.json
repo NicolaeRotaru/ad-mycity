@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-02 17:00",
+  "aggiornato": "2026-08-03 20:23",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -15,15 +15,15 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-08-02 17:00",
-      "iso": "2026-08-02T15:00:43.741Z",
+      "quando": "2026-08-03 20:23",
+      "iso": "2026-08-03T18:23:03.025Z",
       "casa": "claude",
       "modo": "rapido",
-      "ok": 10,
+      "ok": 11,
       "rotti": 1,
       "guasti": 0,
       "nonvisti": 6,
-      "copertura": 0.65,
+      "copertura": 0.67,
       "controlli": [
         {
           "id": "worker.ponte",
@@ -41,7 +41,7 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "nessun processo automatico lascia tracce da 78 ore (l'ultima è sentinella-dati.json, 2026-07-30 11:19)",
+          "detto": "nessun processo automatico lascia tracce da 105 ore (l'ultima è sentinella-dati.json, 2026-07-30 11:19)",
           "prova": null,
           "regressione": false
         },
@@ -96,6 +96,16 @@
           "regressione": false
         },
         {
+          "id": "cervello.sorvegliante",
+          "organo": "cervello",
+          "titolo": "La guardia in tempo reale ha davvero scattato",
+          "impatto": 3,
+          "esito": "ok",
+          "detto": "✅ ultimo scatto 0 min fa (2026-08-03T18:22:54.640Z) — 9 file guardati, 5 voci, 0 gravi.",
+          "prova": "node cervello/sorvegliante.mjs --battito",
+          "regressione": false
+        },
+        {
           "id": "cervello.guardiani",
           "organo": "cervello",
           "titolo": "I guardiani del giro esistono tutti",
@@ -111,7 +121,7 @@
           "titolo": "Il lavoro consegnato dice com'è andato",
           "impatto": 2,
           "esito": "ok",
-          "detto": "253 consegne su 277 degli ultimi 30 giorni senza una riga di esito (91%) · Cabina 3 giorni indietro (STATO al 2026-07-30 11:09)",
+          "detto": "6 consegne su 8 degli ultimi 30 giorni senza una riga di esito (75%) · Cabina 0 giorni indietro (STATO al 2026-07-30 11:09)",
           "prova": null,
           "regressione": false
         },
@@ -319,6 +329,39 @@
       "guasti": 0,
       "nonvisti": 6,
       "copertura": 0.65
+    },
+    {
+      "quando": "2026-08-03 20:22",
+      "iso": "2026-08-03T18:22:43.049Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 11,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.67
+    },
+    {
+      "quando": "2026-08-03 20:22",
+      "iso": "2026-08-03T18:22:58.769Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 11,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.67
+    },
+    {
+      "quando": "2026-08-03 20:23",
+      "iso": "2026-08-03T18:23:03.025Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 11,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.67
     }
   ]
 }

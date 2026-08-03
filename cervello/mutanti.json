@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-03 20:55",
+ "aggiornato": "2026-07-31 23:55",
  "mutanti": [
   {
    "lotto": 30,
@@ -952,24 +952,6 @@
    "test": "cervello/test/salute.test.mjs"
   },
   {
-   "difetto": "AR-463",
-   "lezione": "L-2026-0730-533",
-   "nome": "la busta torna testo semplice: il riconoscitore delle misure cieche diventa lui stesso una misura cieca",
-   "file": "cervello/misura-cieca.mjs",
-   "cerca": "  return JSON.stringify({\n    hookSpecificOutput: { hookEventName: \"PostToolUse\", additionalContext: testo },\n  });",
-   "sostituisci": "  return testo;",
-   "test": "cervello/test/misura-cieca.test.mjs"
-  },
-  {
-   "difetto": "AR-463",
-   "lezione": "L-2026-0730-533",
-   "nome": "la busta si dichiara con il nome sbagliato: JSON valido che nessuno consegna",
-   "file": "cervello/misura-cieca.mjs",
-   "cerca": "    hookSpecificOutput: { hookEventName: \"PostToolUse\", additionalContext: testo },",
-   "sostituisci": "    hookSpecificOutput: { hookEventName: \"PreToolUse\", additionalContext: testo },",
-   "test": "cervello/test/misura-cieca.test.mjs"
-  },
-  {
    "difetto": "AR-471",
    "lezione": "L-2026-0730-533",
    "nome": "il potatore torna a supporre l indentazione: misura un file che non esiste e boccia un archivio che entra",
@@ -1139,7 +1121,7 @@
    "difetto": "AR-154",
    "nome": "il cieco torna a tacere: non aver misurato ridiventa indistinguibile da un verde",
    "file": "cervello/cancello-stop.mjs",
-   "cerca": "  const noteCieche = ciechi.map((c) => `⚪ ${c}`);",
+   "cerca": "  const noteCieche = [...ciechi.map((c) => `⚪ ${c}`), ...note.map((n) => `ℹ️  ${n}`)];",
    "sostituisci": "  const noteCieche = [];",
    "test": "cervello/test/cancello-stop.test.mjs"
   },
@@ -1230,6 +1212,213 @@
    "cerca": "  return { tetti: finali, verdetto: verdetto({ conto, cabina, tetti: finali }) };",
    "sostituisci": "  return { tetti: finali, verdetto: verdetto({ conto, cabina, tetti }) };",
    "test": "cervello/test/conta-verdetti-muti.test.mjs"
+  },
+  {
+   "difetto": "AR-463",
+   "lezione": "L-2026-0730-533",
+   "nome": "la busta torna testo semplice: il riconoscitore delle misure cieche diventa lui stesso una misura cieca",
+   "file": "cervello/misura-cieca.mjs",
+   "cerca": "  return JSON.stringify({\n    hookSpecificOutput: { hookEventName: \"PostToolUse\", additionalContext: righe.join(\"\\n\") },\n  });",
+   "sostituisci": "  return righe.join(\"\\n\");",
+   "test": "cervello/test/misura-cieca.test.mjs"
+  },
+  {
+   "difetto": "AR-463",
+   "lezione": "L-2026-0730-533",
+   "nome": "la busta si dichiara con il nome sbagliato: JSON valido che nessuno consegna",
+   "file": "cervello/misura-cieca.mjs",
+   "cerca": "    hookSpecificOutput: { hookEventName: \"PostToolUse\", additionalContext: righe.join(\"\\n\") },",
+   "sostituisci": "    hookSpecificOutput: { hookEventName: \"PreToolUse\", additionalContext: righe.join(\"\\n\") },",
+   "test": "cervello/test/misura-cieca.test.mjs"
+  },
+  {
+   "difetto": "AR-495",
+   "lezione": "L-2026-0803-536",
+   "nome": "la guardia torna a non vedere i file cancellati",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "      if (!nuovo && vecchio) cancellati.push(vecchio);",
+   "sostituisci": "      if (false) cancellati.push(vecchio);",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-495",
+   "lezione": "L-2026-0803-536",
+   "nome": "una riga che toglie una difesa torna a passare inosservata",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "          if (!pulita.includes(p)) continue;",
+   "sostituisci": "          continue;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-495",
+   "lezione": "L-2026-0803-536",
+   "nome": "spostare un guardiano viene punito come toglierlo (falso rosso)",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "          if (testoAggiunto.includes(p)) continue;",
+   "sostituisci": "          if (false) continue;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-495",
+   "lezione": "L-2026-0803-536",
+   "nome": "un file cancellato si assolve da solo come se fosse stato spostato",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  const nomiNuovi = new Set(toccati.filter((t) => !morti.has(t.file)).map((t) => basenameSemplice(t.file)));",
+   "sostituisci": "  const nomiNuovi = new Set(toccati.map((t) => basenameSemplice(t.file)));",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-495",
+   "lezione": "L-2026-0803-536",
+   "nome": "un minimo allentato non viene visto: meta dei casi di soglia passa",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    if (eMinimo ? a < da : a > da) fuori.push({ chiave, da, a });",
+   "sostituisci": "    if (a > da) fuori.push({ chiave, da, a });",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-497",
+   "lezione": "L-2026-0803-537",
+   "nome": "la chiave della voce torna a dipendere dal numero di riga: il contatore non conta piu",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  return `${v.classe}|${v.file}|${String(v.cosa || \"\").replace(/\\d+/g, \"#\")}`;",
+   "sostituisci": "  return `${v.classe}|${v.file}|${v.cosa}`;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-497",
+   "lezione": "L-2026-0803-537",
+   "nome": "il registro conta anche il raggio: nasce un debito che non si puo estinguere",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    if (v.gravita !== \"grave\" && v.gravita !== \"media\") continue;",
+   "sostituisci": "    if (false) continue;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-497",
+   "lezione": "L-2026-0803-537",
+   "nome": "una voce gia curata continua a essere rinfacciata",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    .filter(([, v]) => v.n >= soglia && v.scatto === scatto && v.gravita === \"grave\")",
+   "sostituisci": "    .filter(([, v]) => v.n >= soglia && v.gravita === \"grave\")",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-496",
+   "lezione": "L-2026-0803-538",
+   "nome": "il perimetro torna a essere tutto il ramo anche quando ho l ancora del turno",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  if (ancora && ancoraUsabile) return { da: ancora, turno: true, nota: null };",
+   "sostituisci": "  if (false) return { da: ancora, turno: true, nota: null };",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-496",
+   "lezione": "L-2026-0803-538",
+   "nome": "l ancora si sposta anche su un turno bloccato: il freno si scavalca da solo",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  return !righe.some((r) => String(r).startsWith(\"❌\")) || !perimetroTurno;",
+   "sostituisci": "  return true;",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-498",
+   "lezione": "L-2026-0803-539",
+   "nome": "il battito della guardia torna a essere sempre verde",
+   "file": "cervello/salute.mjs",
+   "cerca": "  if (uscita === 0) return ok(detto, { uscita });",
+   "sostituisci": "  return ok(detto, { uscita });",
+   "test": "cervello/test/salute.test.mjs"
+  },
+  {
+   "difetto": "AR-499",
+   "lezione": "L-2026-0803-540",
+   "nome": "una forma tornata torna a non dover dire quale forma sia",
+   "file": "cervello/malattie-mancanti.mjs",
+   "cerca": "    if (d.nato_come !== \"regressione\") continue;",
+   "sostituisci": "    continue;",
+   "test": "cervello/test/malattie-mancanti.test.mjs"
+  },
+  {
+   "difetto": "AR-499",
+   "lezione": "L-2026-0803-540",
+   "nome": "«non-pattern-izzabile» senza perche torna a bastare: l esenzione travestita",
+   "file": "cervello/malattie-mancanti.mjs",
+   "cerca": "      if (perche.length < PERCHE_MIN) {",
+   "sostituisci": "      if (false) {",
+   "test": "cervello/test/malattie-mancanti.test.mjs"
+  },
+  {
+   "difetto": "AR-500",
+   "lezione": "L-2026-0803-541",
+   "nome": "il sorvegliante ignora `percorsi`: una regola di casa diventa un falso rosso ovunque",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "      if (Array.isArray(m.percorsi) && m.percorsi.length && !m.percorsi.some((p) => file.startsWith(p))) continue;",
+   "sostituisci": "      if (false) continue;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-500",
+   "lezione": "L-2026-0803-541",
+   "nome": "la spazzata torna a compilare il pattern senza `m`: ^ significa inizio del FILE",
+   "file": "cervello/spazzata-fratelli.mjs",
+   "cerca": "  const re = new RegExp(malattia.pattern, \"gm\");",
+   "sostituisci": "  const re = new RegExp(malattia.pattern, \"g\");",
+   "test": "cervello/test/registro-due-lettori.test.mjs"
+  },
+  {
+   "difetto": "AR-500",
+   "lezione": "L-2026-0803-541",
+   "nome": "il # di un titolo markdown torna a essere letto come commento",
+   "file": "cervello/spazzata-fratelli.mjs",
+   "cerca": "      if (t.startsWith(\"//\") || t.startsWith(\"*\") || t.startsWith(\"/*\") || (!prosa && t.startsWith(\"#\"))) return \"\";",
+   "sostituisci": "      if (t.startsWith(\"//\") || t.startsWith(\"*\") || t.startsWith(\"/*\") || t.startsWith(\"#\")) return \"\";",
+   "test": "cervello/test/registro-due-lettori.test.mjs"
+  },
+  {
+   "difetto": "AR-500",
+   "lezione": "L-2026-0803-541",
+   "nome": "la spazzata ignora `percorsi`: la stessa malattia con due perimetri",
+   "file": "cervello/spazzata-fratelli.mjs",
+   "cerca": "  return malattia.percorsi.some((p) => rel.startsWith(p));",
+   "sostituisci": "  return true;",
+   "test": "cervello/test/registro-due-lettori.test.mjs"
+  },
+  {
+   "difetto": "AR-501",
+   "lezione": "L-2026-0803-542",
+   "nome": "la deriva non si accorge mai di niente: la soglia diventa irraggiungibile",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  return zone.length > soglia ? zone : null;",
+   "sostituisci": "  return null;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-502",
+   "lezione": "L-2026-0803-543",
+   "nome": "il verdetto del sorvegliante non entra nella busta del comando: torna a parlare a nessuno",
+   "file": "cervello/misura-cieca.mjs",
+   "cerca": "  if (dalSorvegliante) righe.push(dalSorvegliante);",
+   "sostituisci": "  if (false) righe.push(dalSorvegliante);",
+   "test": "cervello/test/misura-cieca.test.mjs"
+  },
+  {
+   "difetto": "AR-503",
+   "lezione": "L-2026-0803-544",
+   "nome": "la prosa torna a contare come chiamata: togliere una riga di istruzioni sembra spegnere un guardiano",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    if (!eFixture(file) && !ePROSA(file)) {",
+   "sostituisci": "    if (!eFixture(file)) {",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-506",
+   "lezione": "L-2026-0803-545",
+   "nome": "una nota torna a contare come cieco: il cancello esce 2 per costruzione in CI",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  if (!righe.length) return { blocca: false, cieco: ciechi.length > 0, righe: noteCieche };",
+   "sostituisci": "  if (!righe.length) return { blocca: false, cieco: noteCieche.length > 0, righe: noteCieche };",
+   "test": "node --test cervello/test/cancello-stop.test.mjs"
   }
  ]
 }

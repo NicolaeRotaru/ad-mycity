@@ -40,6 +40,19 @@
 //                        che manca. AR-338, AR-344 e AR-415 hanno tutti la stessa forma — ho cambiato
 //                        un lettore condiviso e il significato è cambiato per tutti gli altri.
 //
+// E DAL 3/8 (AR-495) anche il lato SOTTRAZIONE, che per tre giorni non ha guardato nessuno. «Solo le
+// righe che aggiungo» era una taratura giusta contro il debito storico e sbagliata su ciò che tolgo:
+// quello è delta mio quanto il resto. Provato prima di scriverlo — un diff che cancellava un `gate:` e
+// il test a cui puntava usciva `voci: 0, exit 0`, e il file cancellato non compariva nemmeno.
+//
+//   ⑥ difesa-rimossa    — sparisce un test che è il freno di una lezione, un file su cui poggia una
+//                        mutazione, o la riga che LANCIA un guardiano. I registri continuano a
+//                        contarlo: il numero dei freni resta, la difesa no.
+//   ⑦ soglia-allentata  — un tetto che sale o un minimo che scende. Il rosso diventa verde senza che
+//                        niente sia migliorato (stampo-metro.mjs: «peggioramento travestito da pareggio»).
+//   ⑧ esenzione-aggiunta — un percorso che entra in una lista di esclusione o in una baseline: la
+//                        porta di AR-338, zittire senza curare.
+//
 // COSA NON FA. Non giudica se il fix è giusto, non legge il cantiere, non sostituisce il cancello del
 // lotto. Cinque misure meccaniche su un diff: dove passa un «forse» qui, la risposta è tacere.
 //
@@ -119,6 +132,12 @@ const esenteDaMalattie = (file) => SALTA_MALATTIE.some((s) => file === s || file
 export const FIXTURE = ["cervello/test/"];
 const eFixture = (file) => FIXTURE.some((s) => file.startsWith(s));
 
+/** I file di PROSA: lì niente si esegue, quindi ogni nome di script è una menzione, mai una chiamata.
+ *  Vale per il controllo ⑥b (vedi il perché accanto a quel controllo). I `.md` restano pienamente
+ *  guardati da ①: una malattia con `estensioni: [".md"]` è una regola sul TESTO, ed è un'altra cosa. */
+export const PROSA = [".md", ".markdown", ".txt"];
+const ePROSA = (file) => PROSA.some((e) => file.endsWith(e));
+
 // ─────────────────────────────────────────────────────────────────────────────
 // IL CUORE — funzione pura. Nessun I/O, nessun git: così una prova la esegue su un diff finto invece
 // che su com'è il repo adesso (skill cantiere ③: la logica che decide deve stare dove un test la può
@@ -134,6 +153,124 @@ export const VICINANZA_NOTA = 6;
  *  sono già una lista scelta a mano, ed è a due che AR-347 è nato. */
 export const LETTERALI_MIN = 2;
 
+// ─────────────────────────────────────────────────────────────────────────────
+// IL LATO SOTTRAZIONE (AR-495) — «le difese non muoiono per aggiunta, muoiono per sottrazione».
+//
+// PERCHÉ ESISTE. Fino al 3/8 questa guardia guardava SOLO le righe che aggiungo. La taratura era
+// giusta contro il debito storico — un cancello che parte rosso su mezzo repo viene spento entro la
+// settimana — ma applicata alla lettera lasciava fuori la metà del delta in cui una difesa muore.
+// La prova, eseguita prima di scrivere una riga di questo blocco: un diff che cancella un `"gate"` E
+// il test a cui puntava produceva `voci: 0`, `exit 0`, verde pieno. Il file cancellato non entrava
+// nemmeno nell'elenco di quelli guardati (`+++ /dev/null` → scartato dal lettore).
+//
+// Le tre forme, tutte già pagate da questo repo:
+//   ⑥ difesa-rimossa    — sparisce un test citato da un `gate:`, un file su cui poggia una mutazione,
+//                         un guardiano lanciato dal cancello o da un hook. Il conteggio dei freni
+//                         resta identico e la difesa non c'è più: è AR-338 fatto con la gomma.
+//   ⑦ soglia-allentata  — un tetto che sale (o un minimo che scende). Il rosso diventa verde senza
+//                         che niente sia migliorato — la forma che `stampo-metro.mjs` chiama
+//                         «peggioramento travestito da pareggio».
+//   ⑧ esenzione-aggiunta — un percorso che entra in una lista di esclusione o in una baseline. È una
+//                         somma, non una sottrazione, ma l'effetto è lo stesso: zittire senza curare.
+//
+// TARATURA, cioè la parte che decide se questa guardia sopravviverà. Rifattorizzare cancella righe di
+// continuo: se ⑥ parlasse a ogni riga tolta diventerebbe rumore, e il rumore spegne i freni. Quindi
+// ⑥ scatta SOLO su ciò che qualcun ALTRO dichiara difesa nei registri (`indiceDifese`) — misurato,
+// mai un elenco scritto a mano qui dentro (sarebbe AR-347 nel file che lo vieta). E se il nome
+// ricompare fra le righe aggiunte, ho spostato o rinominato: si tace.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Le chiavi il cui NOME dice «questo è un tetto». Generale apposta: un elenco di file di soglie
+ *  sarebbe il perimetro dedotto di AR-347. Copertura dichiarata: una soglia che si chiama in un altro
+ *  modo non la vedo — dirlo è la differenza fra un limite e una bugia.
+ *
+ *  Si legge sul nome NORMALIZZATO (`_` e `-` diventano spazi): senza, `COPERTURA_MIN` e `TETTO_MAX`
+ *  — cioè la forma più comune in questo repo — non combaciavano, perché in `_MIN` non c'è nessun
+ *  confine di parola prima della `m`. L'hanno trovato le prove; rileggendolo sembrava giusto. */
+export const NOME_SOGLIA = /(tett|sogli|massim|limit|budget|quota|minim|\bmax\b|\bmin\b)/i;
+
+/** `_` e `-` sono separatori di parola per chi legge, non per una regex: qui glielo diciamo. */
+export const nomeNormale = (k = "") => String(k).replace(/[_-]+/g, " ");
+
+/** Le chiavi il cui nome dice «qui dentro si è esentati». Stessa logica: la parola, non la lista. */
+export const NOME_ESENZIONE = /(SALTA|ESENT|IGNORA|ESCLUS|EXCLUDE|SKIP|WHITELIST|ALLOW|BASELINE)/i;
+
+/**
+ * L'indice di ciò che ALTRI dichiarano difesa: percorso → perché lo è.
+ *
+ * Costruito dai registri (le lezioni col loro `gate`, le mutazioni col loro file e la loro prova, i
+ * guardiani che il cancello e gli hook lanciano davvero), mai elencato a mano. Così il giorno in cui
+ * nasce un freno nuovo questa guardia lo protegge senza che nessuno se ne ricordi.
+ */
+export function indiceDifese({ lezioni = [], mutanti = [], guardiani = [] } = {}) {
+  const idx = new Map();
+  const segna = (p, perche) => {
+    if (p && typeof p === "string" && !idx.has(p)) idx.set(p, perche);
+  };
+  for (const l of lezioni) {
+    const p = (String(l.gate || "").match(/[\w./-]+\.(?:m?js|sh|cjs)/) || [])[0];
+    segna(p, `è il freno della lezione ${l.id || "?"}`);
+  }
+  for (const mu of mutanti) {
+    segna(mu.test, `è la prova che deve diventare rossa per ${mu.difetto || "un fix"}`);
+    segna(mu.file, `è il codice su cui poggia la mutazione di ${mu.difetto || "un fix"}`);
+  }
+  for (const g of guardiani) segna(g, "è un guardiano che il cancello o un hook lancia davvero");
+  return idx;
+}
+
+/**
+ * ⑦ I tetti che questa modifica ha allentato.
+ *
+ * Un tetto si allenta salendo; un minimo si allenta scendendo. Distinguerli non è pedanteria: senza,
+ * metà dei casi passerebbe e l'altra metà sarebbe un falso rosso — e un guardiano che sbaglia in
+ * entrambe le direzioni non lo guarda più nessuno.
+ */
+export function soglieAllentate(rimosse = [], aggiunte = [], file = "") {
+  const numeri = (righe) => {
+    const m = new Map();
+    for (const r of righe) {
+      const pulita = senzaCommenti(r.testo, file);
+      const g = /["']?([A-Za-z_][\w. -]*)["']?\s*[:=]\s*(-?\d+(?:[._]\d+)*)/.exec(pulita);
+      if (!g || !NOME_SOGLIA.test(nomeNormale(g[1]))) continue;
+      const v = Number(String(g[2]).replace(/_/g, ""));
+      if (Number.isFinite(v)) m.set(g[1].trim(), v);
+    }
+    return m;
+  };
+  const prima = numeri(rimosse);
+  const dopo = numeri(aggiunte);
+  const fuori = [];
+  for (const [chiave, a] of dopo) {
+    if (!prima.has(chiave)) continue;
+    const da = prima.get(chiave);
+    const eMinimo = /minim|\bmin\b/i.test(nomeNormale(chiave));
+    if (eMinimo ? a < da : a > da) fuori.push({ chiave, da, a });
+  }
+  return fuori;
+}
+
+/**
+ * ⑧ I percorsi che questa modifica ha messo al riparo da un controllo.
+ *
+ * Due strade, perché le esenzioni si scrivono in due posti: dentro un array che si CHIAMA esenzione,
+ * e dentro un file di baseline (dove il nome del file è già la dichiarazione).
+ */
+export function esenzioniAggiunte(aggiunte = [], file = "") {
+  const daBaseline = /baseline[^/]*\.json$/i.test(file)
+    ? aggiunte.flatMap((r) => r.testo.match(/["'][^"'\n]*\.(?:md|m?js|ts|tsx|json|sh)["']/g) || [])
+    : [];
+  const daArray = [];
+  for (const r of aggiunte) {
+    const dich = /^\s*(?:export\s+)?(?:const|let|var)\s+([A-Z][A-Z0-9_]*)\s*=\s*\[/.exec(r.testo);
+    if (!dich || !NOME_ESENZIONE.test(dich[1])) continue;
+    const blocco = [r, ...aggiunte.filter((x) => x.n > r.n && x.n <= r.n + 8)].map((x) => x.testo).join("\n");
+    const chiuso = blocco.slice(0, blocco.indexOf("]") + 1 || undefined);
+    daArray.push(...(chiuso.match(/["'][^"'\n]*\.(?:md|m?js|ts|tsx|json|sh)["']/g) || []));
+  }
+  return [...new Set([...daBaseline, ...daArray])];
+}
+
 /**
  * @param {object} ing
  * @param {Array<{file:string, aggiunte:Array<{n:number,testo:string}>, contenuto?:string|null}>} ing.toccati
@@ -141,6 +278,8 @@ export const LETTERALI_MIN = 2;
  * @param {Array<object>} ing.mutanti    registro mutanti.json (campo `mutanti`)
  * @param {Map<string,string[]>} ing.importatori  file toccato → chi lo nomina
  * @param {(p:string)=>boolean} ing.esiste        esiste questo percorso nel repo?
+ * @param {Array<{file:string, rimosse:Array<{n:number,testo:string}>, cancellato?:boolean}>} ing.rimossi
+ * @param {Map<string,string>} ing.difese         percorso → perché qualcun altro lo dichiara difesa
  * @returns {{voci:Array<object>, cieco:boolean, motivi:string[]}}
  */
 export function sorveglia({
@@ -149,6 +288,8 @@ export function sorveglia({
   mutanti = [],
   importatori = new Map(),
   esiste = () => true,
+  rimossi = [],
+  difese = new Map(),
 } = {}) {
   const voci = [];
   const motivi = [];
@@ -165,6 +306,10 @@ export function sorveglia({
     for (const m of esenteDaMalattie(file) ? [] : malattie) {
       if (!m.pattern) continue;
       if (Array.isArray(m.estensioni) && m.estensioni.length && !m.estensioni.some((e) => file.endsWith(e))) continue;
+      // `percorsi` (facoltativo): alcune malattie sono regole di CASA, non di linguaggio — valgono in
+      // un file preciso e altrove sarebbero un falso rosso. Un titolo che nomina un AR-xxx è un
+      // difetto nella coda che legge Nicola e una cosa normalissima in una scheda del cantiere.
+      if (Array.isArray(m.percorsi) && m.percorsi.length && !m.percorsi.some((p) => file.startsWith(p))) continue;
       let re;
       try {
         re = new RegExp(m.pattern);
@@ -286,6 +431,22 @@ export function sorveglia({
       }
     }
 
+    // ⑧ esenzione-aggiunta — un percorso che entra al riparo da un controllo.
+    if (!eFixture(file)) {
+      const esenti = esenzioniAggiunte(aggiunte, file);
+      if (esenti.length) {
+        voci.push({
+          classe: "esenzione-aggiunta",
+          gravita: "media",
+          file,
+          riga: null,
+          cosa: `${esenti.length} percorso/i messo/i al riparo da un controllo: ${esenti.slice(0, 4).join(", ")}${esenti.length > 4 ? "…" : ""}`,
+          perche: "è la porta di AR-338: zittire una malattia senza curarla. Il conteggio migliora, il difetto resta, e chi legge il verde crede che sia stato riparato.",
+          domanda: "l'ho esentato con un PERCHÉ scritto accanto e una data in cui rientra, o l'ho tolto di mezzo perché faceva rosso?",
+        });
+      }
+    }
+
     // ⑤ raggio — il quadro ampio: chi altro poggia su ciò che ho toccato.
     const dip = importatori.get(file) || [];
     if (dip.length) {
@@ -301,7 +462,138 @@ export function sorveglia({
     }
   }
 
+  // ── IL LATO SOTTRAZIONE (⑥⑦) — quello che ho TOLTO, che fino al 3/8 non guardava nessuno.
+  const perNome = new Map(toccati.map((t) => [t.file, t]));
+  // I nomi che dopo questa modifica ESISTONO ancora. I cancellati vanno tolti, o un file morto si
+  // assolverebbe da solo: «c'è un file con lo stesso nome fra quelli toccati» sarebbe lui stesso.
+  // (Trovato dalle prove, non dalla rilettura: le prime due erano rosse esattamente per questo.)
+  const morti = new Set(rimossi.filter((r) => r.cancellato).map((r) => r.file));
+  const nomiNuovi = new Set(toccati.filter((t) => !morti.has(t.file)).map((t) => basenameSemplice(t.file)));
+  for (const r of rimossi) {
+    const file = r.file;
+    const rimosse = r.rimosse || [];
+    const aggiunteQui = perNome.get(file)?.aggiunte || [];
+    const testoAggiunto = aggiunteQui.map((a) => a.testo).join("\n");
+
+    // ⑥a un FILE cancellato che qualcun altro dichiara difesa. Resta acceso anche sulle prove: un
+    //    test cancellato È la difesa che muore, ed è il caso per cui questo controllo esiste.
+    if (r.cancellato && difese.has(file)) {
+      // Spostato o rinominato? Se un file con lo stesso nome compare fra quelli toccati, non è morto:
+      // ha cambiato casa. Punire uno spostamento insegnerebbe a non riordinare mai più niente.
+      if (!nomiNuovi.has(basenameSemplice(file))) {
+        voci.push({
+          classe: "difesa-rimossa",
+          gravita: "grave",
+          file,
+          riga: null,
+          cosa: `ho cancellato un file che ${difese.get(file)}`,
+          perche: "il conteggio dei freni non cambia — quella riga nei registri c'è ancora — ma la difesa non esiste più. È AR-338 fatto con la gomma: nessuno se ne accorgerà, perché non resta niente che possa diventare rosso.",
+          domanda: "l'ho sostituito con qualcosa che fallisce allo stesso modo (allora aggiorna il registro che lo nomina), o l'ho solo tolto?",
+        });
+      }
+    }
+
+    // ⑥b una RIGA rimossa che nomina una difesa, e quel nome non ricompare fra le righe aggiunte.
+    //    Una sola regola per due casi veri: il `gate:` tolto da una lezione e il passo tolto dal
+    //    cancello del lotto. I commenti no — togliere una frase che CITA un guardiano non lo spegne.
+    //
+    //    E per lo stesso motivo NIENTE PROSA (AR-503, trovato da questa guardia su sé stessa durante
+    //    un merge). In un `.md` non esistono chiamate: ogni riga è una menzione. La guardia ha accusato
+    //    la rimozione di «- (ancora vuoto — il primo ESITO si registra con: node cervello/chiusura-
+    //    loop.mjs …)» da un quaderno — cioè una riga di ISTRUZIONI cancellata perché il quaderno non
+    //    era più vuoto — chiamandola «hai spento un guardiano». È «menzione ≠ chiamata», la quarta
+    //    volta in questo repo, stavolta dentro il controllo che quella regola la conosce: in un file
+    //    di codice il filtro dei commenti basta, in un file di prosa il commento è TUTTO il file.
+    if (!eFixture(file) && !ePROSA(file)) {
+      for (const riga of rimosse) {
+        const pulita = senzaCommenti(riga.testo, file);
+        if (!pulita.trim()) continue;
+        for (const [p, perche] of difese) {
+          if (!pulita.includes(p)) continue;
+          if (testoAggiunto.includes(p)) continue;
+          voci.push({
+            classe: "difesa-rimossa",
+            gravita: "grave",
+            file,
+            riga: riga.n,
+            cosa: `ho tolto la riga che chiamava «${p}», che ${perche}`,
+            perche: "un freno smette di frenare nel momento in cui nessuno lo lancia più, e da fuori non si vede: i registri lo contano ancora.",
+            domanda: `l'ho spostato altrove in questa stessa modifica, o «${p}» adesso non lo esegue più nessuno?`,
+          });
+        }
+      }
+    }
+
+    // ⑦ soglia-allentata — un tetto che sale o un minimo che scende.
+    if (!eFixture(file)) {
+      for (const s of soglieAllentate(rimosse, aggiunteQui, file)) {
+        voci.push({
+          classe: "soglia-allentata",
+          gravita: "grave",
+          file,
+          riga: null,
+          cosa: `«${s.chiave}» passa da ${s.da} a ${s.a}: il metro si è spostato, non il codice`,
+          perche: "è il peggioramento travestito da pareggio di stampo-metro.mjs: il rosso diventa verde senza che niente sia migliorato, e la volta dopo il metro nuovo sembrerà quello di sempre.",
+          domanda: "il tetto l'ho alzato perché il lavoro è cresciuto davvero (e allora dillo, con la data in cui torna giù) o perché il guardiano faceva rosso?",
+        });
+      }
+    }
+  }
+
+  // ⑨ deriva — il quadro ampio sul LAVORO, non sul codice. Una domanda, non un'accusa.
+  const zone = derivaDelLavoro([...toccati.map((t) => t.file), ...rimossi.map((r) => r.file)]);
+  if (zone) {
+    voci.push({
+      classe: "deriva",
+      gravita: "informativa",
+      file: null,
+      riga: null,
+      cosa: `questo lavoro tocca ${zone.length} zone diverse: ${zone.join(", ")}`,
+      perche: "è la forma di un lavoro che si è allargato strada facendo. Può essere giusto — un fix serio tocca il codice, la sua prova, il cantiere e la memoria — ma è anche il modo in cui si perde di vista quello per cui si era partiti.",
+      domanda: "è ancora UN lavoro solo, o ne sono cominciati altri dentro questo? Se sono due, il secondo va dichiarato adesso, non scoperto alla consegna.",
+    });
+  }
+
   return { voci, cieco: motivi.length > 0, motivi };
+}
+
+/** Il nome del file senza cartelle. Qui e non da `node:path` perché il cuore resta puro: nessun
+ *  modulo di sistema, così una prova lo esegue su percorsi finti di qualunque forma. */
+export function basenameSemplice(p = "") {
+  return String(p).split("/").pop() || "";
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ⑨ LA DERIVA (AR-501) — l'altra metà della frase di Nicola del 30/7.
+//
+// «Sembra che non hai un'auto-revisione mentre stai lavorando, **e un quadro ampio di quello che stai
+// facendo**.» La prima metà l'hanno chiusa i controlli ①-⑧. La seconda finora era solo il ⑤ raggio,
+// che risponde a «chi altro poggia su questo file» — una domanda sul CODICE. Manca quella sul LAVORO:
+// sto ancora facendo la cosa per cui sono partito?
+//
+// Non è misurabile in generale, e non fingo il contrario: nessuna macchina sa qual era l'intenzione.
+// È misurabile UNA cosa sola, ed è quella che si vede quando un lavoro scivola — quante zone diverse
+// della casa sta toccando. Un lotto che tocca il cervello, il Pannello, il vault e le consegne può
+// essere un lavoro coerente, ma è anche la forma esatta di un lavoro che si è allargato strada
+// facendo. Perciò è una DOMANDA (informativa), non un'accusa: chi risponde sono io, ad alta voce.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Le cartelle che contengono mondi diversi: lì la zona è il secondo livello, non il primo. Senza,
+ *  tutto il vault sarebbe «una zona» e il conto non direbbe niente. */
+export const CONTENITORI = ["MyCity-Vault", "pannello", "consegne", "creativi", ".claude"];
+
+/** Quante zone diverse prima che valga la pena chiederselo. Cinque e non tre: un lavoro serio tocca
+ *  il codice, la sua prova, il cantiere e la memoria — sono già quattro, e sono giuste. */
+export const ZONE_MAX = 5;
+
+export function zonaDi(file = "") {
+  const p = String(file).split("/");
+  return CONTENITORI.includes(p[0]) && p.length > 1 ? `${p[0]}/${p[1]}` : p[0] || "";
+}
+
+export function derivaDelLavoro(file = [], soglia = ZONE_MAX) {
+  const zone = [...new Set(file.map(zonaDi).filter(Boolean))].sort();
+  return zone.length > soglia ? zone : null;
 }
 
 /** Le voci che fanno rosso. `raggio` non è un errore (è il quadro), `media` è un avviso che si legge. */
@@ -318,25 +610,81 @@ export function gravi(voci = []) {
 /** Il battito vive fuori da git: verificare non deve costare un diff (AR-464). */
 export const BATTITO = "cervello/_tmp_sorvegliante-battito.json";
 
+// ─────────────────────────────────────────────────────────────────────────────
+// L'ESITO DEL VERDETTO (AR-497) — «ho parlato» non è «mi hanno ascoltato».
+//
+// PERCHÉ ESISTE. Il battito dimostra che la guardia ha GIRATO. Niente dimostrava che avessi FATTO
+// qualcosa. Fra uno scatto e l'altro non c'era memoria: la stessa voce grave poteva tornare venti
+// volte identica e nessuno — né io, né il cancello, né Nicola — aveva modo di sapere che era la
+// ventesima. È AR-474 un giro più in là: il verdetto arriva a destinazione e poi evapora.
+//
+// COME. Il battito diventa un registro: ogni voce ha una chiave stabile e un contatore. Se torna,
+// la busta lo dice; se torna troppe volte ed è ancora viva all'ultimo scatto, il cancello dello Stop
+// non mi lascia chiudere.
+//
+// COSA NON MISURA, e va scritto qui perché è la parte che si dimentica: non misura che io abbia
+// RAGIONATO. Un `raggio` non si «risolve» — è un quadro, non un compito — quindi le informative non
+// entrano nel conteggio: farne una colpa creerebbe un debito che non si può estinguere, e un debito
+// inestinguibile si impara a ignorare in blocco. Contano solo `grave` e `media`.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Quante volte una voce può tornare prima che sia il caso di fermarsi. Tre e non due: la seconda
+ *  volta può essere lo stesso lavoro ancora in corso, la terza è un andazzo. */
+export const INSISTENZA = 3;
+
+/** La chiave di una voce: stabile ai numeri di riga, che cambiano a ogni modifica del file. Senza
+ *  questo il contatore ripartirebbe da uno a ogni edit — cioè non conterebbe mai niente. */
+export function chiaveVoce(v = {}) {
+  return `${v.classe}|${v.file}|${String(v.cosa || "").replace(/\d+/g, "#")}`;
+}
+
+/** Il registro aggiornato dopo uno scatto. Le informative non entrano: vedi sopra. */
+export function aggiornaViste(viste = {}, voci = [], scatto = 0) {
+  const fuori = { ...viste };
+  for (const v of voci) {
+    if (v.gravita !== "grave" && v.gravita !== "media") continue;
+    const k = chiaveVoce(v);
+    fuori[k] = { n: (fuori[k]?.n || 0) + 1, scatto, gravita: v.gravita, file: v.file, cosa: v.cosa };
+  }
+  return fuori;
+}
+
+/** Le voci che ho ripetuto abbastanza da non poterle più chiamare «appena viste», e che erano ancora
+ *  vive all'ultimo scatto. Il secondo pezzo conta: una voce curata smette di comparire, e continuare
+ *  a rinfacciarla sarebbe un guardiano che non si accorge di essere stato ascoltato. */
+export function vociInsistenti(viste = {}, scatto = 0, soglia = INSISTENZA) {
+  return Object.entries(viste)
+    .filter(([, v]) => v.n >= soglia && v.scatto === scatto && v.gravita === "grave")
+    .map(([chiave, v]) => ({ chiave, n: v.n, file: v.file, cosa: v.cosa }));
+}
+
 /**
  * La busta che ARRIVA al modello. Un hook PostToolUse che stampa testo semplice finisce nel log di
  * debug; solo `hookSpecificOutput.additionalContext` viene messo accanto al risultato dello strumento.
  * Torna la stringa da stampare, o `null` quando non c'è niente da dire (tacere è la scelta giusta:
  * un avvisatore che parla a ogni modifica viene spento entro la settimana — il battito copre il resto).
  */
-export function bustaPerIlModello(voci = [], nToccati = 0) {
+export function bustaPerIlModello(voci = [], nToccati = 0, viste = {}) {
   const rossi = gravi(voci);
   const righe = [];
+  // «Te l'ho già detto N volte» è la sola parte che trasforma un avviso in un esito: senza, la
+  // ventesima ripetizione è indistinguibile dalla prima e non succede niente né a me né al cancello.
+  const ancora = (v) => {
+    const n = viste?.[chiaveVoce(v)]?.n || 0;
+    return n > 1 ? `  ⟲ già detto ${n} volte` : "";
+  };
   for (const v of rossi.slice(0, 4)) {
-    righe.push(`❌ ${v.classe} · ${v.file}${v.riga ? ":" + v.riga : ""} → ${v.cosa}\n   ↳ ${v.domanda}`);
+    righe.push(`❌ ${v.classe} · ${v.file}${v.riga ? ":" + v.riga : ""} → ${v.cosa}${ancora(v)}\n   ↳ ${v.domanda}`);
   }
   for (const v of voci.filter((v) => v.gravita === "media").slice(0, 2)) {
-    righe.push(`⚠️  ${v.classe} · ${v.file}${v.riga ? ":" + v.riga : ""} → ${v.cosa}`);
+    righe.push(`⚠️  ${v.classe} · ${v.file}${v.riga ? ":" + v.riga : ""} → ${v.cosa}${ancora(v)}`);
   }
   const raggi = voci.filter((v) => v.classe === "raggio");
   if (raggi.length) {
     righe.push(`🔭 raggio: ${raggi.map((r) => `${r.file} → ${(r.cosa.match(/^(\d+)/) || [, "?"])[1]} dipendenti`).join(" · ")}`);
   }
+  const deriva = voci.find((v) => v.classe === "deriva");
+  if (deriva) righe.push(`🧭 ${deriva.cosa}\n   ↳ ${deriva.domanda}`);
   if (rossi.length > 4) righe.push(`   …e altre ${rossi.length - 4} voci gravi: node cervello/sorvegliante.mjs`);
   if (!righe.length) return null;
   const testo = [`👁️ SORVEGLIANTE — ${nToccati} file toccati da questa modifica`, ...righe].join("\n");
@@ -416,11 +764,71 @@ export function leggiDiff(testo) {
   return perFile;
 }
 
-/** Chi nomina questo file. Euristica dichiarata in testa: import/require/from + citazioni di percorso. */
-function cercaImportatori(fileRel) {
-  const nome = basename(fileRel);
-  if (!nome) return [];
-  const fuori = [];
+/**
+ * L'altra metà del diff: le righe TOLTE e i file CANCELLATI.
+ *
+ * Funzione separata, non un allargamento di `leggiDiff`. Non è gusto: su quella riga di `leggiDiff`
+ * poggia una mutazione (AR-452, «la guardia conta come mie anche le righe che ho RIMOSSO») e il suo
+ * contratto — `aggiunte` sono SOLO i `+` — è provato e deve restare vero. Allargarlo avrebbe accecato
+ * quella prova nell'atto stesso di costruire il controllo che serve a non accecare le prove.
+ *
+ * I numeri di riga sono quelli del file VECCHIO: è l'unico posto dove quella riga è mai esistita.
+ */
+export function leggiRimozioni(testo) {
+  const rimosse = new Map();
+  const cancellati = [];
+  let vecchio = null;
+  let corrente = null;
+  let riga = 0;
+  for (const l of testo.split("\n")) {
+    if (l.startsWith("--- ")) {
+      const p = l.slice(4).trim();
+      vecchio = p === "/dev/null" ? null : p.replace(/^a\//, "");
+      continue;
+    }
+    if (l.startsWith("+++ ")) {
+      const p = l.slice(4).trim();
+      const nuovo = p === "/dev/null" ? null : p.replace(/^b\//, "");
+      if (!nuovo && vecchio) cancellati.push(vecchio);
+      corrente = nuovo || vecchio;
+      if (corrente && !rimosse.has(corrente)) rimosse.set(corrente, []);
+      continue;
+    }
+    if (l.startsWith("@@")) {
+      // Qui serve il numero del file VECCHIO — `-vecchio,n` — perché una riga tolta nel file nuovo
+      // non ha nessuna posizione: è proprio ciò che non c'è più.
+      const m = /-(\d+)/.exec(l);
+      riga = m ? Number(m[1]) : 0;
+      continue;
+    }
+    if (!corrente) continue;
+    if (l.startsWith("-") && !l.startsWith("---")) {
+      rimosse.get(corrente).push({ n: riga, testo: l.slice(1) });
+      riga++;
+    } else if (!l.startsWith("+") && !l.startsWith("\\")) {
+      riga++;
+    }
+  }
+  return { rimosse, cancellati };
+}
+
+/**
+ * Chi nomina questi file. Euristica dichiarata in testa: import/require/from + citazioni di percorso.
+ *
+ * UNA passata sola per TUTTI i file toccati, non una per file. Prima era una scansione dell'intero
+ * repo per ogni file del delta: con dieci file toccati erano dieci letture di tutto — ~90 ms l'una,
+ * che su un lotto grosso diventano secondi. Finché la guardia girava solo dopo un Edit era un costo
+ * invisibile; dovendola far girare anche dopo un comando (dove il tempo è dentro un timeout di 10
+ * secondi) sarebbe diventata la ragione per staccarla. Una guardia lenta viene spenta come una
+ * rumorosa: sono lo stesso difetto con due facce.
+ */
+function indiceImportatori(fileRel = []) {
+  const idx = new Map(fileRel.map((f) => [f, []]));
+  if (!fileRel.length) return idx;
+  const cercati = fileRel.map((f) => ({
+    rel: f,
+    re: new RegExp(`(?:from|import|require)\\s*\\(?\\s*["'][^"'\\n]*${basename(f).replace(/\./g, "\\.")}["']`),
+  }));
   const cerca = (dir) => {
     let voci;
     try {
@@ -437,7 +845,6 @@ function cercaImportatori(fileRel) {
       }
       if (!/\.(m?js|cjs|ts|tsx|sh|json)$/.test(v.name)) continue;
       const rel = relative(REPO, p);
-      if (rel === fileRel) continue;
       let testo;
       try {
         if (statSync(p).size > 2 * 1024 * 1024) continue;
@@ -445,17 +852,15 @@ function cercaImportatori(fileRel) {
       } catch {
         continue;
       }
-      // Il nome del file dentro un import/require, o il suo percorso citato in uno script/JSON.
-      if (
-        new RegExp(`(?:from|import|require)\\s*\\(?\\s*["'][^"'\\n]*${nome.replace(/\./g, "\\.")}["']`).test(testo) ||
-        testo.includes(fileRel)
-      ) {
-        fuori.push(rel);
+      for (const c of cercati) {
+        if (rel === c.rel) continue;
+        if (c.re.test(testo) || testo.includes(c.rel)) idx.get(c.rel).push(rel);
       }
     }
   };
   cerca(REPO);
-  return fuori.sort();
+  for (const [, v] of idx) v.sort();
+  return idx;
 }
 
 function leggiRegistro(nome, campo) {
@@ -468,26 +873,50 @@ function leggiRegistro(nome, campo) {
   }
 }
 
-function main() {
-  const argv = process.argv.slice(2);
-  const hook = argv.includes("--hook");
-  const soloStaged = argv.includes("--staged");
-  const json = argv.includes("--json");
+const APPRENDIMENTO = "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json";
 
-  // «Hai girato o no?» — prima di tutto il resto, perché è la domanda che si fa quando si sospetta
-  // che la guardia sia morta, e in quel momento il diff non c'entra niente.
-  if (argv.includes("--battito")) {
-    let letto = null;
-    try {
-      letto = JSON.parse(readFileSync(join(REPO, BATTITO), "utf8"));
-    } catch {
-      letto = null;
-    }
-    const v = verdettoBattito(letto, Date.now());
-    console.log(v.testo);
-    process.exit(v.uscita);
+/** Le lezioni, per sapere quali test sono il freno di qualcosa. Vuoto = non le ho lette, e allora ⑥
+ *  è più cieco: lo dico invece di dedurne che nessun test sia una difesa. */
+function leggiLezioni() {
+  try {
+    return JSON.parse(readFileSync(join(REPO, APPRENDIMENTO), "utf8")).lezioni || [];
+  } catch {
+    return null;
   }
+}
 
+/**
+ * I guardiani che vengono lanciati DAVVERO: quelli nominati dal cancello del lotto e dagli hook.
+ *
+ * Letti dai due file che li lanciano, non elencati qui: un elenco a mano sarebbe il perimetro dedotto
+ * di AR-347 scritto dentro il controllo che lo vieta — e resterebbe indietro al primo guardiano nuovo.
+ */
+function guardianiNominati() {
+  const fuori = new Set();
+  for (const f of ["cervello/cancello-lotto.mjs", ".claude/settings.json"]) {
+    try {
+      const testo = readFileSync(join(REPO, f), "utf8");
+      for (const m of testo.matchAll(/cervello\/[\w./-]+\.(?:m?js|sh)/g)) fuori.add(m[0]);
+    } catch {
+      // Un file che non riesco a leggere non è un guardiano assente: è una fonte in meno, e il
+      // conteggio più basso lo dice da solo.
+    }
+  }
+  return [...fuori];
+}
+
+/**
+ * IL GIRO COMPLETO SUL DELTA — l'I/O che sta fra il repo e il cuore.
+ *
+ * Estratto da `main()` (AR-502) perché adesso ha DUE chiamanti: il comando, e l'hook del Bash che
+ * `misura-cieca.mjs` fa girare dopo ogni comando di shell. Finché ne aveva uno solo poteva stare
+ * dentro `main()`; con due, lasciarlo lì avrebbe voluto dire scriverne una seconda copia — e due
+ * copie della stessa lettura divergono sempre (è la ragione per cui in questo repo il registro delle
+ * malattie è UNO).
+ *
+ * @returns {{errore:string|null, esito:object, toccati:Array}}
+ */
+export function verdettoDelDelta({ soloStaged = false } = {}) {
   let diff;
   try {
     // `-U0`: solo le righe cambiate, niente contesto — il contesto NON è mio, e contarlo
@@ -495,12 +924,7 @@ function main() {
     diff = soloStaged ? git(["diff", "--cached", "-U0"]) : git(["diff", "HEAD", "-U0"]);
   } catch (e) {
     // Nessun HEAD (repo appena nato) o git assente: cieco, e cieco non è verde.
-    if (hook) {
-      console.log("👁️ sorvegliante: cieco (git non leggibile) — nessun controllo sul delta");
-      process.exit(0);
-    }
-    console.error(`👁️ SORVEGLIANTE CIECO — non ho potuto leggere il diff: ${e.message.split("\n")[0]}`);
-    process.exit(2);
+    return { errore: e.message.split("\n")[0], esito: { voci: [], cieco: true, motivi: [] }, toccati: [] };
   }
 
   const perFile = leggiDiff(diff);
@@ -537,7 +961,6 @@ function main() {
   const mutanti = leggiRegistro("mutanti.json", "mutanti");
 
   const toccati = [];
-  const importatori = new Map();
   for (const [file, aggiunte] of perFile) {
     const abs = join(REPO, file);
     let contenuto = null;
@@ -547,10 +970,16 @@ function main() {
       contenuto = null;
     }
     toccati.push({ file, aggiunte, contenuto });
-    // Il raggio costa una scansione per file: la faccio solo sul codice condiviso, non sui .md e non
-    // sui dati del vault (lì «chi mi cita» non è una dipendenza che si rompe).
-    if (/\.(m?js|cjs|ts|tsx)$/.test(file)) importatori.set(file, cercaImportatori(file));
   }
+  // Il raggio si calcola solo sul codice condiviso, non sui .md e non sui dati del vault (lì «chi mi
+  // cita» non è una dipendenza che si rompe), e con UNA scansione per tutti.
+  const importatori = indiceImportatori(toccati.map((t) => t.file).filter((f) => /\.(m?js|cjs|ts|tsx)$/.test(f)));
+
+  // Il lato sottrazione: ciò che ho TOLTO, e chi lo dichiarava una difesa.
+  const { rimosse, cancellati } = leggiRimozioni(diff);
+  const rimossi = [...rimosse].map(([file, righe]) => ({ file, rimosse: righe, cancellato: cancellati.includes(file) }));
+  const lezioni = leggiLezioni();
+  const difese = indiceDifese({ lezioni: lezioni || [], mutanti: mutanti || [], guardiani: guardianiNominati() });
 
   const esito = sorveglia({
     toccati,
@@ -558,9 +987,78 @@ function main() {
     mutanti: mutanti || [],
     importatori,
     esiste: (p) => existsSync(join(REPO, p)),
+    rimossi,
+    difese,
   });
   if (malattie === null) esito.motivi.push("cervello/malattie.json illeggibile");
   if (mutanti === null) esito.motivi.push("cervello/mutanti.json illeggibile");
+  if (lezioni === null) esito.motivi.push(`${APPRENDIMENTO} illeggibile: non so quali test siano il freno di una lezione`);
+  if (!difese.size) esito.motivi.push("nessuna difesa censita: non posso accorgermi se ne cancello una");
+  return { errore: null, esito, toccati };
+}
+
+/**
+ * Uno scatto da hook: aggiorna il registro nel battito e torna la busta da stampare (o `null`).
+ *
+ * Anche questa esportata per lo stesso motivo del giro: la chiama l'hook degli Edit e quello dei
+ * comandi. Il battito si scrive SEMPRE, anche a mani vuote — è lì che il silenzio si confonde con la
+ * morte — e vale per tutti e due i canali, altrimenti «ha girato» dipenderebbe da quale hook è
+ * scattato per ultimo.
+ */
+export function scatto(esito, nToccati) {
+  let precedente = {};
+  let n = 0;
+  try {
+    const letto = JSON.parse(readFileSync(join(REPO, BATTITO), "utf8"));
+    precedente = letto.viste || {};
+    n = Number(letto.scatto) || 0;
+  } catch {
+    // Primo scatto della sessione (o battito illeggibile): si riparte da zero. Un registro assente
+    // non è un registro vuoto per finta — semplicemente non ho ancora niente da ricordare.
+  }
+  n += 1;
+  const viste = aggiornaViste(precedente, esito.voci, n);
+  try {
+    writeFileSync(
+      join(REPO, BATTITO),
+      JSON.stringify({ quando: new Date().toISOString(), file_toccati: nToccati, voci: esito.voci.length, gravi: gravi(esito.voci).length, scatto: n, viste }),
+    );
+  } catch {
+    // Un battito che non si scrive non deve fermare il lavoro in corso: resta il verdetto, che è la
+    // parte che conta. `--battito` dirà «mai scattato», ed è la risposta onesta.
+  }
+  return bustaPerIlModello(esito.voci, nToccati, viste);
+}
+
+function main() {
+  const argv = process.argv.slice(2);
+  const hook = argv.includes("--hook");
+  const soloStaged = argv.includes("--staged");
+  const json = argv.includes("--json");
+
+  // «Hai girato o no?» — prima di tutto il resto, perché è la domanda che si fa quando si sospetta
+  // che la guardia sia morta, e in quel momento il diff non c'entra niente.
+  if (argv.includes("--battito")) {
+    let letto = null;
+    try {
+      letto = JSON.parse(readFileSync(join(REPO, BATTITO), "utf8"));
+    } catch {
+      letto = null;
+    }
+    const v = verdettoBattito(letto, Date.now());
+    console.log(v.testo);
+    process.exit(v.uscita);
+  }
+
+  const { errore, esito, toccati } = verdettoDelDelta({ soloStaged });
+  if (errore) {
+    if (hook) {
+      console.log("👁️ sorvegliante: cieco (git non leggibile) — nessun controllo sul delta");
+      process.exit(0);
+    }
+    console.error(`👁️ SORVEGLIANTE CIECO — non ho potuto leggere il diff: ${errore}`);
+    process.exit(2);
+  }
   const rossi = gravi(esito.voci);
 
   if (json) {
@@ -571,20 +1069,10 @@ function main() {
   // ── Forma corta: entra nel mio contesto a OGNI modifica, quindi deve stare in poche righe o
   //    diventa rumore che imparo a scorrere. Solo i rossi, i gialli in una riga, il raggio contato.
   if (hook) {
-    // Il battito PRIMA della busta, e sempre — anche a mani vuote. È la prova che ho girato, e serve
-    // soprattutto quando non ho niente da dire: è lì che il silenzio si confonde con la morte.
-    try {
-      writeFileSync(
-        join(REPO, BATTITO),
-        JSON.stringify({ quando: new Date().toISOString(), file_toccati: toccati.length, voci: esito.voci.length, gravi: rossi.length }),
-      );
-    } catch {
-      // Un battito che non si scrive non deve fermare la modifica in corso: resta il verdetto, che è
-      // la parte che conta. `--battito` dirà «mai scattato», ed è la risposta onesta.
-    }
-    // stdout in forma hook è SOLO la busta JSON: qualsiasi altra riga la rende illeggibile a chi la
-    // deve interpretare, e il verdetto tornerebbe a sparire nel log — cioè il difetto di partenza.
-    const busta = bustaPerIlModello(esito.voci, toccati.length);
+    // Il battito PRIMA della busta, e sempre — anche a mani vuote: è lì che il silenzio si confonde
+    // con la morte. stdout in forma hook è SOLO la busta JSON: qualsiasi altra riga la rende
+    // illeggibile a chi la deve interpretare, e il verdetto tornerebbe a sparire nel log.
+    const busta = scatto(esito, toccati.length);
     if (busta) console.log(busta);
     // Avvisa, non blocca: un freno che ferma un Edit a metà lavoro viene spento in un giorno, e un
     // controllo spento è peggio di nessun controllo (insegna che il verde non vuol dire niente).

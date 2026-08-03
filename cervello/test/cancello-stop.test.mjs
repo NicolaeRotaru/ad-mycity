@@ -23,8 +23,54 @@ import {
   ultimoTestoAssistente,
   testiAssistente,
   verdetto,
+  scegliPerimetro,
+  uscitaFuoriDallHook,
+  siPiantaAncora,
   ALLARMI,
 } from "../cancello-stop.mjs";
+
+// ── ⓪ il perimetro: questo turno, non tutto il ramo (AR-496) ──────────────────
+//
+// Il caso vero: il 3/8, in un turno di sole letture con l'albero pulito, il cancello ha contestato un
+// allarme scritto il 31/7 su un commit di questo ramo — e col perimetro `origin/main...HEAD` sarebbe
+// ricomparso a ogni chiusura fino al merge. Un rosso che si ripete uguale insegna a ignorare il freno.
+
+test("con l'ancora del turno il perimetro è il turno, e non si dichiara niente", () => {
+  const p = scegliPerimetro({ ancora: "abc123", ancoraUsabile: true, base: "origin/main" });
+  assert.equal(p.da, "abc123");
+  assert.equal(p.turno, true);
+  assert.equal(p.nota, null, "quando il perimetro è preciso non c'è niente da avvertire");
+});
+
+test("senza ancora si guarda il ramo, ma lo si DICE: un perimetro largo taciuto è peggio di uno largo", () => {
+  const p = scegliPerimetro({ ancora: null, ancoraUsabile: false, base: "origin/main" });
+  assert.equal(p.da, "origin/main");
+  assert.equal(p.turno, false);
+  assert.match(p.nota, /prima volta/, "e spiega perché, o sembra un difetto");
+});
+
+test("un'ancora che non è più antenata di HEAD (rebase) non si usa e si dichiara", () => {
+  const p = scegliPerimetro({ ancora: "vecchio", ancoraUsabile: false, base: "main" });
+  assert.equal(p.da, "main");
+  assert.match(p.nota, /rebase|antenato/, "fingere precisione dopo un rebase darebbe un perimetro inventato");
+});
+
+test("l'ancora si sposta solo sui turni puliti: su uno bloccato il freno si scavalcherebbe da solo", () => {
+  assert.equal(siPiantaAncora(["🛑 …", "❌ un allarme non accodato"], true), false);
+  assert.equal(siPiantaAncora([], true), true);
+});
+
+test("…ma senza un perimetro valido si pianta LO STESSO, o il primo giro si morde la coda", () => {
+  // Il caso trovato collaudando: debito vecchio sul ramo → ❌ → non pianto → il giro dopo guarda di
+  // nuovo tutto il ramo → lo stesso ❌. Per sempre. Cioè il rosso ripetuto che AR-496 deve spegnere.
+  assert.equal(siPiantaAncora(["🛑 …", "❌ un allarme di tre giorni fa"], false), true);
+});
+
+test("senza nemmeno una base non invento un perimetro", () => {
+  const p = scegliPerimetro({ ancora: null, ancoraUsabile: false, base: null });
+  assert.equal(p.da, null);
+  assert.equal(p.nota, null, "lo dichiara già il cieco del controllo ④: due volte sarebbe rumore");
+});
 
 // ── ① difetto chiuso senza prova ──────────────────────────────────────────────
 
@@ -245,10 +291,68 @@ test("IL LIMITE ③: quando non ho potuto misurare lo DICO, invece di tacere", (
   assert.match(v.righe[0], /^⚪/, "un silenzio e' indistinguibile da un «va tutto bene»");
 });
 
+// ── ⚪ non è un cestino: «non ho misurato» ≠ «ho misurato diversamente» (AR-506) ──
+//
+// Il caso vero, trovato dalla CI il 3/8: l'ancora del turno e il registro del sorvegliante vivono
+// fuori da git APPOSTA, quindi in CI non possono esistere. Mettendoli fra i ciechi, il cancello
+// usciva 2 a ogni giro — CI rossa per costruzione, e un cancello che non può diventare verde viene
+// aggirato al secondo giro. È scritto in questa stessa casa, ed è successo davvero al typecheck.
+
+test("una NOTA si legge ma non fa uscire 2: ho misurato, solo in modo più largo", () => {
+  const v = verdetto({ note: ["è la prima volta che mi fermo qui: guardo tutto il ramo"] });
+  assert.equal(v.cieco, false, "un perimetro più largo è un sovrainsieme, non una misura mancata");
+  assert.equal(v.blocca, false);
+  assert.equal(v.righe.length, 1, "ma si dice: il silenzio resta indistinguibile da un verde");
+  assert.match(v.righe[0], /^ℹ️/);
+});
+
+test("un CIECO vero continua a far uscire 2: la distinzione non è una scusa per tacere", () => {
+  const v = verdetto({ ciechi: ["non ho trovato un ramo con cui confrontarmi"] });
+  assert.equal(v.cieco, true);
+  assert.match(v.righe[0], /^⚪/);
+});
+
+test("nota e cieco insieme: due canali, due significati, tutti e due stampati", () => {
+  const v = verdetto({ ciechi: ["base assente"], note: ["perimetro largo"] });
+  assert.equal(v.cieco, true, "basta un cieco vero perché il verde non copra tutto");
+  assert.equal(v.righe.length, 2);
+});
+
+test("il codice d'uscita: solo note = 0, o la CI resta rossa a vita", () => {
+  // Il caso vero: in CI l'ancora del turno NON PUÒ esistere (vive fuori da git), quindi la nota c'è
+  // sempre. Finiva nel ramo «1» e teneva la pipeline rossa per costruzione.
+  assert.equal(uscitaFuoriDallHook({ cieco: false, righe: ["ℹ️  perimetro largo"] }), 0);
+  assert.equal(uscitaFuoriDallHook({ cieco: false, righe: [] }), 0);
+});
+
+test("il codice d'uscita: un cieco vero resta 2, un problema vero resta 1", () => {
+  assert.equal(uscitaFuoriDallHook({ cieco: true, righe: ["⚪ base assente"] }), 2);
+  assert.equal(uscitaFuoriDallHook({ cieco: false, righe: ["❌ un allarme non accodato"] }), 1);
+});
+
+test("una nota accanto a un problema non lo declassa: si guarda la sostanza", () => {
+  assert.equal(uscitaFuoriDallHook({ cieco: false, righe: ["ℹ️  perimetro largo", "❌ grave"] }), 1);
+  assert.equal(uscitaFuoriDallHook({ cieco: true, righe: ["ℹ️  perimetro largo", "⚪ base assente"] }), 2);
+});
+
 test("il cieco si dice ANCHE quando c'e' gia' un problema: sono due informazioni diverse", () => {
   const v = verdetto({ chiusi: [{ id: "AR-9", titolo: "x" }], ciechi: ["base assente"] });
   assert.equal(v.blocca, true);
   assert.ok(v.righe.some((r) => r.startsWith("⚪")));
+});
+
+// ── ⑤ l'avviso ignorato (AR-497) ──────────────────────────────────────────────
+
+test("una voce che il sorvegliante ha ripetuto tre volte ferma la chiusura", () => {
+  const v = verdetto({ insistenti: [{ chiave: "k", n: 3, file: "cervello/x.mjs", cosa: "ho tolto il gate di L-1" }] });
+  assert.equal(v.blocca, true, "tre volte non è piu' un avviso: e' una decisione presa senza dirlo");
+  const t = v.righe.join("\n");
+  assert.match(t, /3 volte/);
+  assert.match(t, /esente/, "la seconda strada — dichiararla — deve essere scritta, o resta solo il rimprovero");
+});
+
+test("nessuna voce insistente, nessuna riga: il freno parla solo quando serve", () => {
+  assert.equal(verdetto({ insistenti: [] }).righe.length, 0);
 });
 
 test("il verdetto dice QUALE comando lancio e perche' serve", () => {

@@ -15,9 +15,18 @@ import {
   sorveglia,
   gravi,
   leggiDiff,
+  leggiRimozioni,
+  indiceDifese,
+  soglieAllentate,
+  esenzioniAggiunte,
   bustaPerIlModello,
   righeDiFileNuovo,
   verdettoBattito,
+  chiaveVoce,
+  aggiornaViste,
+  vociInsistenti,
+  derivaDelLavoro,
+  zonaDi,
   VICINANZA_NOTA,
   LETTERALI_MIN,
 } from "../sorvegliante.mjs";
@@ -329,6 +338,206 @@ test("leggiDiff(): un file cancellato non produce righe aggiunte", () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
+// IL LATO SOTTRAZIONE (AR-495). Il caso che apre questa sezione è quello vero: prima di scrivere il
+// codice ho dato alla guardia un diff che cancellava un `gate:` E il test a cui puntava, e la risposta
+// è stata «voci: 0, exit 0». Verde pieno su una difesa appena morta. Qui quel diff torna identico.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const DIFESE = indiceDifese({
+  lezioni: [{ id: "L-2026-0730-531", gate: "node cervello/test/y.test.mjs" }],
+  mutanti: [{ difetto: "AR-999", file: "cervello/finto.mjs", test: "cervello/test/finto.test.mjs" }],
+  guardiani: ["cervello/gate-veri.mjs"],
+});
+
+/** Il giro completo che fa il comando vero: diff → due letture → cuore. Passa dal diff e non da
+ *  ingressi già pronti perché il buco stava PROPRIO nel lettore, non nel giudizio. */
+function daDiff(righe, extra = {}) {
+  const testo = righe.join("\n");
+  const agg = leggiDiff(testo);
+  const { rimosse, cancellati } = leggiRimozioni(testo);
+  const file = new Set([...agg.keys(), ...rimosse.keys()]);
+  return sorveglia({
+    toccati: [...file].map((f) => ({ file: f, aggiunte: agg.get(f) || [], contenuto: "" })),
+    rimossi: [...rimosse].map(([f, r]) => ({ file: f, rimosse: r, cancellato: cancellati.includes(f) })),
+    difese: DIFESE,
+    malattie: MALATTIE,
+    mutanti: [],
+    esiste: () => true,
+    ...extra,
+  });
+}
+
+test("il caso del 3/8: tolgo un gate e cancello il suo test — prima era verde, adesso è rosso due volte", () => {
+  const e = daDiff([
+    "--- a/cervello/x.json",
+    "+++ b/cervello/x.json",
+    "@@ -10,3 +10,1 @@",
+    '-  "gate": "node cervello/test/y.test.mjs"',
+    "   ok",
+    "--- a/cervello/test/y.test.mjs",
+    "+++ /dev/null",
+    "@@ -1,2 +0,0 @@",
+    '-import test from "node:test";',
+  ]);
+  const v = gravi(e.voci).filter((x) => x.classe === "difesa-rimossa");
+  assert.equal(v.length, 2, "la riga che lo lanciava E il file che lo conteneva: due modi di morire");
+  assert.ok(
+    v.some((x) => x.file === "cervello/test/y.test.mjs"),
+    "il file cancellato deve comparire: prima non entrava nemmeno nell'elenco dei guardati",
+  );
+});
+
+test("spostare non è togliere: se il nome ricompare fra le righe aggiunte, la guardia tace", () => {
+  const e = daDiff([
+    "--- a/cervello/cancello-lotto.mjs",
+    "+++ b/cervello/cancello-lotto.mjs",
+    "@@ -5,1 +5,1 @@",
+    '-    passi.push(esegui("gate", "node", ["cervello/gate-veri.mjs"]));',
+    '+    if (pieno) passi.push(esegui("gate", "node", ["cervello/gate-veri.mjs"]));',
+  ]);
+  assert.equal(gravi(e.voci).length, 0, "punire un riordino insegna a non riordinare mai più niente");
+});
+
+test("cancellare codice che nessuno dichiara difesa non è una colpa", () => {
+  const e = daDiff(["--- a/cervello/vecchio.mjs", "+++ /dev/null", "@@ -1,1 +0,0 @@", "-export const morto = 1;"]);
+  assert.equal(gravi(e.voci).length, 0, "il repo deve poter dimagrire senza chiedere permesso");
+});
+
+test("togliere un COMMENTO che cita un guardiano non spegne il guardiano", () => {
+  const e = daDiff([
+    "--- a/cervello/note.mjs",
+    "+++ b/cervello/note.mjs",
+    "@@ -3,1 +3,0 @@",
+    "-// vedi cervello/gate-veri.mjs per il dettaglio",
+  ]);
+  assert.equal(gravi(e.voci).length, 0, "menzione ≠ chiamata: la terza volta che questo repo la impara");
+});
+
+test("in un .md ogni riga è una menzione: togliere una riga di ISTRUZIONI non spegne un guardiano (AR-503)", () => {
+  // Il caso vero, colto dalla guardia su sé stessa durante il merge del 3/8: main aveva tolto da un
+  // quaderno la riga «- (ancora vuoto — il primo ESITO si registra con: node cervello/chiusura-loop.mjs …)»
+  // perché quel quaderno non era più vuoto, e la guardia l'ha chiamata «hai spento un guardiano».
+  // In un file di codice il filtro dei commenti basta; in un file di prosa il commento è TUTTO il file.
+  const e = daDiff([
+    "--- a/memoria-squadra/people-talent.md",
+    "+++ b/memoria-squadra/people-talent.md",
+    "@@ -14,1 +14,0 @@",
+    "-- (ancora vuoto — il primo ESITO si registra con: node cervello/gate-veri.mjs registra …)",
+  ]);
+  assert.equal(gravi(e.voci).length, 0, "quarta volta in questo repo che «menzione ≠ chiamata» presenta il conto");
+});
+
+test("…ma nel CODICE la stessa riga resta grave: la prosa è l'eccezione, non la regola", () => {
+  const e = daDiff([
+    "--- a/cervello/cancello-lotto.mjs",
+    "+++ b/cervello/cancello-lotto.mjs",
+    "@@ -5,1 +5,0 @@",
+    '-    passi.push(esegui("gate", "node", ["cervello/gate-veri.mjs"]));',
+  ]);
+  assert.equal(gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length, 1);
+});
+
+test("un test cancellato resta grave anche dentro cervello/test/: è la difesa che muore, non una fixture", () => {
+  const e = daDiff(["--- a/cervello/test/finto.test.mjs", "+++ /dev/null", "@@ -1,1 +0,0 @@", "-assert.ok(true);"]);
+  assert.equal(gravi(e.voci).filter((x) => x.classe === "difesa-rimossa").length, 1);
+});
+
+// ─── ⑦ soglia allentata ──────────────────────────────────────────────────────
+
+test("un tetto che SALE è grave: il metro si è spostato, non il codice", () => {
+  const f = soglieAllentate([{ n: 1, testo: '  "tetto_righe": 400,' }], [{ n: 1, testo: '  "tetto_righe": 900,' }], "cervello/tetti-lotto.json");
+  assert.deepEqual(f, [{ chiave: "tetto_righe", da: 400, a: 900 }]);
+});
+
+test("un tetto che SCENDE non è un allentamento: è il lavoro fatto", () => {
+  assert.equal(soglieAllentate([{ n: 1, testo: '  "tetto_righe": 900,' }], [{ n: 1, testo: '  "tetto_righe": 400,' }], "x.json").length, 0);
+});
+
+test("un MINIMO si allenta al contrario, e va distinto o metà dei casi passa", () => {
+  assert.equal(soglieAllentate([{ n: 1, testo: "const COPERTURA_MIN = 80;" }], [{ n: 1, testo: "const COPERTURA_MIN = 20;" }], "g.mjs").length, 1);
+  assert.equal(soglieAllentate([{ n: 1, testo: "const COPERTURA_MIN = 20;" }], [{ n: 1, testo: "const COPERTURA_MIN = 80;" }], "g.mjs").length, 0);
+});
+
+test("un numero qualsiasi non è una soglia: senza la parola nel nome, non tocca a me", () => {
+  assert.equal(soglieAllentate([{ n: 1, testo: '  "ordini": 3,' }], [{ n: 1, testo: '  "ordini": 90,' }], "dati.json").length, 0);
+});
+
+// ─── ⑧ esenzione aggiunta ────────────────────────────────────────────────────
+
+test("un file che entra in una baseline è un'esenzione, e il nome del file basta a dirlo", () => {
+  const e = esenzioniAggiunte([{ n: 4, testo: '  "cervello/rotto.mjs",' }], "cervello/nascita-baseline.json");
+  assert.deepEqual(e, ['"cervello/rotto.mjs"']);
+});
+
+test("un array che si CHIAMA esenzione la dichiara anche fuori da una baseline", () => {
+  const e = esenzioniAggiunte(
+    [
+      { n: 1, testo: "const SALTA_CONTROLLO = [" },
+      { n: 2, testo: '  "cervello/a.mjs",' },
+      { n: 3, testo: '  "cervello/b.mjs",' },
+      { n: 4, testo: "];" },
+    ],
+    "cervello/guardiano.mjs",
+  );
+  assert.equal(e.length, 2);
+});
+
+test("un array con un nome normale non è un'esenzione: la parola è il segnale, non la forma", () => {
+  const e = esenzioniAggiunte(
+    [
+      { n: 1, testo: "const CARTELLE_MEMORIA = [" },
+      { n: 2, testo: '  "consegne/x.md",' },
+      { n: 3, testo: '  "consegne/y.md",' },
+    ],
+    "cervello/guardiano.mjs",
+  );
+  assert.equal(e.length, 0);
+});
+
+// ─── i due lettori e l'indice ────────────────────────────────────────────────
+
+test("leggiRimozioni(): i numeri sono quelli del file VECCHIO — è l'unico posto dove quella riga esisteva", () => {
+  const { rimosse, cancellati } = leggiRimozioni(
+    ["--- a/f.mjs", "+++ b/f.mjs", "@@ -40,2 +40,0 @@", "-alfa", "-beta"].join("\n"),
+  );
+  assert.deepEqual(rimosse.get("f.mjs"), [
+    { n: 40, testo: "alfa" },
+    { n: 41, testo: "beta" },
+  ]);
+  assert.deepEqual(cancellati, []);
+});
+
+test("leggiRimozioni(): un file cancellato viene NOMINATO — è il buco esatto del 3/8", () => {
+  const { cancellati } = leggiRimozioni(["--- a/f.mjs", "+++ /dev/null", "@@ -1,1 +0,0 @@", "-via"].join("\n"));
+  assert.deepEqual(cancellati, ["f.mjs"], "prima il file spariva dal diff e quindi dalla guardia");
+});
+
+test("il contratto di leggiDiff resta intatto: `aggiunte` sono SOLO i +, o accieco la mutazione di AR-452", () => {
+  const testo = ["--- a/f.mjs", "+++ b/f.mjs", "@@ -1,1 +1,1 @@", "-  await x().catch(() => {})", "+  ok()"].join("\n");
+  assert.deepEqual(leggiDiff(testo).get("f.mjs"), [{ n: 1, testo: "  ok()" }]);
+});
+
+test("indiceDifese(): le difese si MISURANO dai registri, non si elencano a mano", () => {
+  const idx = indiceDifese({
+    lezioni: [{ id: "L-1", gate: "node cervello/test/uno.test.mjs" }],
+    mutanti: [{ difetto: "AR-9", file: "cervello/due.mjs", test: "cervello/test/tre.test.mjs" }],
+    guardiani: ["cervello/quattro.mjs"],
+  });
+  assert.deepEqual([...idx.keys()].sort(), [
+    "cervello/due.mjs",
+    "cervello/quattro.mjs",
+    "cervello/test/tre.test.mjs",
+    "cervello/test/uno.test.mjs",
+  ]);
+  assert.match(idx.get("cervello/test/uno.test.mjs"), /L-1/, "e dicono PERCHÉ sono una difesa, o il verdetto non si può capire");
+});
+
+test("senza registri non dico verde: se non censisco difese, non posso accorgermi di cancellarne una", () => {
+  const e = sorveglia({ toccati: [], rimossi: [], malattie: MALATTIE, mutanti: MUTANTI, difese: new Map() });
+  assert.equal(e.cieco, false, "qui il cieco lo dichiara il comando, che sa se i registri li ha letti");
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 // IL CANALE (AR-465). Per un giorno la guardia ha girato a ogni modifica parlando a nessuno: stampava
 // testo semplice, e un hook PostToolUse che esce con 0 e stampa testo finisce nel log di debug. Il
 // codice «sembrava giusto» — è per questo che qui si ESEGUE la busta invece di guardarne la forma.
@@ -388,6 +597,129 @@ test("il file nuovo arriva davvero al cuore: un freno finto dentro un file mai c
   });
   assert.equal(gravi(esito.voci).length, 1);
   assert.equal(gravi(esito.voci)[0].classe, "gate-orfano");
+});
+
+// ─── ⑥ le regole di CASA: una malattia che vale solo in un file preciso (AR-500) ──────────────
+
+test("una malattia con `percorsi` vale solo lì: fuori sarebbe un falso rosso, e un falso rosso spegne", () => {
+  const casa = [{ id: "titolo-in-codice", nome: "titolo in sigle", pattern: "^## .*AR-\\d+", estensioni: [".md"], percorsi: ["MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md"] }];
+  const riga = [{ n: 3, testo: "## Sistemare AR-495 prima di lunedì" }];
+
+  const nellaCoda = sorveglia({ malattie: casa, mutanti: [], toccati: [{ file: "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", contenuto: "", aggiunte: riga }] });
+  assert.equal(gravi(nellaCoda.voci).length, 1, "nella coda che legge Nicola, un titolo in sigle è un difetto");
+
+  const inUnaScheda = sorveglia({ malattie: casa, mutanti: [], toccati: [{ file: "consegne/audit/referto.md", contenuto: "", aggiunte: riga }] });
+  assert.equal(gravi(inUnaScheda.voci).length, 0, "in un referto, nominare un AR-xxx è una cosa normalissima");
+});
+
+test("senza `percorsi` la malattia vale ovunque: il campo è facoltativo, non un restringimento silenzioso", () => {
+  const ovunque = [{ id: "x", pattern: "vietato", estensioni: [".md"] }];
+  const e = sorveglia({ malattie: ovunque, mutanti: [], toccati: [{ file: "consegne/qualsiasi.md", contenuto: "", aggiunte: [{ n: 1, testo: "questo è vietato" }] }] });
+  assert.equal(gravi(e.voci).length, 1);
+});
+
+// ─── ⑨ la deriva del lavoro (AR-501) ─────────────────────────────────────────
+
+test("un lavoro dentro una zona sola non fa domande", () => {
+  assert.equal(derivaDelLavoro(["cervello/a.mjs", "cervello/test/a.test.mjs"]), null);
+});
+
+test("i contenitori si contano al secondo livello, o tutto il vault sarebbe «una zona»", () => {
+  assert.equal(zonaDi("MyCity-Vault/07-Agenti/AGENTI.md"), "MyCity-Vault/07-Agenti");
+  assert.equal(zonaDi("cervello/test/x.test.mjs"), "cervello", "il cervello è un mestiere solo: lì il primo livello basta");
+});
+
+test("oltre la soglia la deriva è una DOMANDA, non un'accusa: un lotto largo può essere giusto", () => {
+  const zone = derivaDelLavoro([
+    "cervello/a.mjs",
+    "pannello/src/x.tsx",
+    "MyCity-Vault/90-Memoria-AI/STATO.md",
+    "consegne/audit/r.md",
+    "creativi/output/x.png",
+    "memoria-squadra/tech.md",
+  ]);
+  assert.equal(zone.length, 6);
+  const e = sorveglia({
+    malattie: [],
+    mutanti: [],
+    toccati: ["cervello/a.mjs", "pannello/src/x.tsx", "MyCity-Vault/90-Memoria-AI/STATO.md", "consegne/audit/r.md", "creativi/output/x.png", "memoria-squadra/tech.md"].map((f) => ({ file: f, contenuto: "", aggiunte: [] })),
+  });
+  const d = e.voci.find((v) => v.classe === "deriva");
+  assert.equal(d.gravita, "informativa", "una domanda sul lavoro non è una bocciatura del codice");
+  assert.equal(gravi(e.voci).length, 0);
+});
+
+test("la deriva arriva nella busta: una domanda che non esce non me la sono mai fatta", () => {
+  const voci = [{ classe: "deriva", gravita: "informativa", file: null, cosa: "questo lavoro tocca 6 zone diverse: a, b", domanda: "è ancora UN lavoro solo?" }];
+  const ctx = JSON.parse(bustaPerIlModello(voci, 6)).hookSpecificOutput.additionalContext;
+  assert.match(ctx, /6 zone diverse/);
+  assert.match(ctx, /UN lavoro solo/);
+});
+
+// ─── l'esito del verdetto (AR-497) ───────────────────────────────────────────
+
+test("la chiave di una voce sopravvive al numero di riga, o il contatore riparte da uno a ogni edit", () => {
+  const a = { classe: "difesa-rimossa", file: "cervello/x.mjs", riga: 12, cosa: "ho tolto la riga 12 che chiamava y" };
+  const b = { classe: "difesa-rimossa", file: "cervello/x.mjs", riga: 88, cosa: "ho tolto la riga 88 che chiamava y" };
+  assert.equal(chiaveVoce(a), chiaveVoce(b), "stessa voce, riga diversa: se la chiave cambia non conto mai niente");
+});
+
+test("il registro conta grave e media, e lascia fuori il raggio: un quadro non è un compito", () => {
+  const viste = aggiornaViste(
+    {},
+    [
+      { classe: "difesa-rimossa", gravita: "grave", file: "a.mjs", cosa: "x" },
+      { classe: "esenzione-aggiunta", gravita: "media", file: "b.json", cosa: "y" },
+      { classe: "raggio", gravita: "informativa", file: "c.mjs", cosa: "3 altri file" },
+    ],
+    1,
+  );
+  assert.equal(Object.keys(viste).length, 2, "un debito che non si può estinguere si impara a ignorare in blocco");
+});
+
+test("la stessa voce ripetuta sale a tre, e allora il cancello la deve sapere", () => {
+  const v = { classe: "difesa-rimossa", gravita: "grave", file: "a.mjs", cosa: "ho tolto il gate" };
+  let viste = {};
+  for (const s of [1, 2, 3]) viste = aggiornaViste(viste, [v], s);
+  const ins = vociInsistenti(viste, 3);
+  assert.equal(ins.length, 1);
+  assert.equal(ins[0].n, 3);
+});
+
+test("due volte non basta: la seconda può essere lo stesso lavoro ancora in corso", () => {
+  const v = { classe: "difesa-rimossa", gravita: "grave", file: "a.mjs", cosa: "x" };
+  const viste = aggiornaViste(aggiornaViste({}, [v], 1), [v], 2);
+  assert.equal(vociInsistenti(viste, 2).length, 0);
+});
+
+test("una voce CURATA smette di contare: rinfacciarla sarebbe non accorgersi di essere stati ascoltati", () => {
+  const v = { classe: "difesa-rimossa", gravita: "grave", file: "a.mjs", cosa: "x" };
+  let viste = {};
+  for (const s of [1, 2, 3]) viste = aggiornaViste(viste, [v], s);
+  // Scatto 4: la voce non c'è più (l'ho riparata). Il conteggio resta 3, ma l'ultimo scatto no.
+  viste = aggiornaViste(viste, [], 4);
+  assert.equal(vociInsistenti(viste, 4).length, 0);
+});
+
+test("una media insistente non blocca: il blocco è per le gravi", () => {
+  const v = { classe: "esenzione-aggiunta", gravita: "media", file: "b.json", cosa: "y" };
+  let viste = {};
+  for (const s of [1, 2, 3, 4]) viste = aggiornaViste(viste, [v], s);
+  assert.equal(vociInsistenti(viste, 4).length, 0);
+});
+
+test("la busta dice quante volte l'ha già detto: senza, la ventesima è identica alla prima", () => {
+  const v = { classe: "gate-orfano", gravita: "grave", file: "a.md", riga: 3, cosa: "gate senza file", domanda: "quale?" };
+  const viste = { [chiaveVoce(v)]: { n: 4, scatto: 4, gravita: "grave", file: "a.md", cosa: v.cosa } };
+  const ctx = JSON.parse(bustaPerIlModello([v], 1, viste)).hookSpecificOutput.additionalContext;
+  assert.match(ctx, /già detto 4 volte/);
+});
+
+test("la prima volta non si dice niente: «già detto 1 volte» sarebbe rumore da subito", () => {
+  const v = { classe: "gate-orfano", gravita: "grave", file: "a.md", riga: 3, cosa: "gate senza file", domanda: "quale?" };
+  const viste = { [chiaveVoce(v)]: { n: 1, scatto: 1, gravita: "grave", file: "a.md", cosa: v.cosa } };
+  const ctx = JSON.parse(bustaPerIlModello([v], 1, viste)).hookSpecificOutput.additionalContext;
+  assert.ok(!/già detto/.test(ctx));
 });
 
 test("battito mai scattato = uscita 2: «non so se il canale è vivo» non è un verde", () => {
