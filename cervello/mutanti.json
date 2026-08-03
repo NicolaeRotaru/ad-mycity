@@ -1118,6 +1118,105 @@
    "cerca": "  if (codiceDopoEsito > 0) {",
    "sostituisci": "  if (false) {",
    "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-478",
+   "lezione": "L-2026-0803-536",
+   "nome": "la guardia torna a non vedere i file cancellati",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "      if (!nuovo && vecchio) cancellati.push(vecchio);",
+   "sostituisci": "      if (false) cancellati.push(vecchio);",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-478",
+   "lezione": "L-2026-0803-536",
+   "nome": "una riga che toglie una difesa torna a passare inosservata",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "          if (!pulita.includes(p)) continue;",
+   "sostituisci": "          continue;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-478",
+   "lezione": "L-2026-0803-536",
+   "nome": "spostare un guardiano viene punito come toglierlo (falso rosso)",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "          if (testoAggiunto.includes(p)) continue;",
+   "sostituisci": "          if (false) continue;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-478",
+   "lezione": "L-2026-0803-536",
+   "nome": "un file cancellato si assolve da solo come se fosse stato spostato",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  const nomiNuovi = new Set(toccati.filter((t) => !morti.has(t.file)).map((t) => basenameSemplice(t.file)));",
+   "sostituisci": "  const nomiNuovi = new Set(toccati.map((t) => basenameSemplice(t.file)));",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-478",
+   "lezione": "L-2026-0803-536",
+   "nome": "un minimo allentato non viene visto: meta dei casi di soglia passa",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    if (eMinimo ? a < da : a > da) fuori.push({ chiave, da, a });",
+   "sostituisci": "    if (a > da) fuori.push({ chiave, da, a });",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-480",
+   "lezione": "L-2026-0803-537",
+   "nome": "la chiave della voce torna a dipendere dal numero di riga: il contatore non conta piu",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  return `${v.classe}|${v.file}|${String(v.cosa || \"\").replace(/\\d+/g, \"#\")}`;",
+   "sostituisci": "  return `${v.classe}|${v.file}|${v.cosa}`;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-480",
+   "lezione": "L-2026-0803-537",
+   "nome": "il registro conta anche il raggio: nasce un debito che non si puo estinguere",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    if (v.gravita !== \"grave\" && v.gravita !== \"media\") continue;",
+   "sostituisci": "    if (false) continue;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-480",
+   "lezione": "L-2026-0803-537",
+   "nome": "una voce gia curata continua a essere rinfacciata",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    .filter(([, v]) => v.n >= soglia && v.scatto === scatto && v.gravita === \"grave\")",
+   "sostituisci": "    .filter(([, v]) => v.n >= soglia && v.gravita === \"grave\")",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-479",
+   "lezione": "L-2026-0803-538",
+   "nome": "il perimetro torna a essere tutto il ramo anche quando ho l ancora del turno",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  if (ancora && ancoraUsabile) return { da: ancora, turno: true, nota: null };",
+   "sostituisci": "  if (false) return { da: ancora, turno: true, nota: null };",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-479",
+   "lezione": "L-2026-0803-538",
+   "nome": "l ancora si sposta anche su un turno bloccato: il freno si scavalca da solo",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  return !righe.some((r) => String(r).startsWith(\"❌\")) || !perimetroTurno;",
+   "sostituisci": "  return true;",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-481",
+   "lezione": "L-2026-0803-539",
+   "nome": "il battito della guardia torna a essere sempre verde",
+   "file": "cervello/salute.mjs",
+   "cerca": "  if (uscita === 0) return ok(detto, { uscita });",
+   "sostituisci": "  return ok(detto, { uscita });",
+   "test": "cervello/test/salute.test.mjs"
   }
  ]
 }

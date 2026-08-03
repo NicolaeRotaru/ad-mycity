@@ -45,13 +45,17 @@
 //
 // Exit: 0 = niente da dire · 2 = c'è qualcosa che stavo per lasciare indietro
 //
-// 🟢 Sola lettura: non scrive, non tocca git, non modifica file.
+// 🟢 Sola lettura sul repo: non modifica file versionati, non tocca git. L'UNICA scrittura è l'ancora
+//    del turno (AR-479) in `cervello/_tmp_stop-ancora.json`, fuori da git — senza, il perimetro
+//    tornerebbe a essere tutto il ramo a ogni chiusura. Stessa scelta del battito del sorvegliante,
+//    e per lo stesso motivo: verificare non deve costare un diff.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { percorsiDaGit } from "./percorsi-git.mjs";
+import { BATTITO, vociInsistenti } from "./sorvegliante.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -175,6 +179,71 @@ export function consegnaSenzaEsito(fileCommittati = [], righeAggiunteNeiQuaderni
   return null;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// IL PERIMETRO (AR-479) — «questo turno», non «tutto il ramo».
+//
+// PERCHÉ ESISTE, e il caso è di ieri l'altro. Il 3/8, in un turno in cui non avevo scritto una riga
+// (albero pulito, solo letture), questo cancello mi ha fermato per un allarme scritto il 31/7 in un
+// commit che vive su questo ramo. Aveva ragione sul fatto — quel 🔴 non è mai arrivato in coda — e
+// torto sul tempo: non era una cosa che stavo lasciando indietro ADESSO. E siccome il confronto era
+// `origin/main...HEAD`, sarebbe ricomparso identico a ogni chiusura di ogni turno finché il ramo non
+// si mergia. Un rosso che si ripete uguale è il modo esatto in cui un freno insegna a ignorarsi —
+// regola che questa macchina ha già scritto («un avvisatore che parla sempre viene spento entro la
+// settimana») e che poi ha violato nel proprio cancello.
+//
+// COME. Un'ancora fuori da git (`_tmp_`, come il battito del sorvegliante: verificare non deve
+// costare un diff) col commit su cui si è chiuso l'ultimo turno pulito. Da lì in poi il perimetro è
+// `ancora...HEAD` = il lavoro di QUESTO turno.
+//
+// DUE SCELTE CHE CONTANO:
+//   · l'ancora si sposta SOLO quando il turno si chiude senza blocco. Spostarla su un turno bloccato
+//     farebbe sparire dal perimetro proprio ciò per cui ho bloccato: il secondo giro passerebbe
+//     verde, e il freno si scavalcherebbe da solo.
+//   · se l'ancora non c'è (prima chiusura qui) o non è più un antenato di HEAD (rebase, reset), NON
+//     fingo precisione: torno al ramo e lo DICHIARO in testa al verdetto. Un perimetro sbagliato
+//     taciuto è peggio di un perimetro largo dichiarato.
+//
+// E resta com'era per il controllo ④ (l'esito del lavoro consegnato): quello è per-RAMO per progetto
+// — l'unità di consegna è la PR, non il turno, ed è stato tarato ieri su questo (AR-477). Stringerlo
+// al turno sarebbe stato allentare un freno appena costruito, cioè la cosa che il sorvegliante adesso
+// chiama `soglia-allentata`.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const ANCORA = "cervello/_tmp_stop-ancora.json";
+
+/**
+ * Da dove guardo. Pura: prende ciò che l'I/O ha già accertato e torna il perimetro + cosa dichiarare.
+ * @returns {{da:string|null, turno:boolean, nota:string|null}}
+ */
+export function scegliPerimetro({ ancora = null, ancoraUsabile = false, base = null } = {}) {
+  if (ancora && ancoraUsabile) return { da: ancora, turno: true, nota: null };
+  if (!base) return { da: null, turno: false, nota: null };
+  return {
+    da: base,
+    turno: false,
+    nota:
+      ancora
+        ? `l'ancora del turno precedente non è più un antenato di HEAD (rebase o reset): guardo tutto il ramo verso ${base}, quindi qui sotto può comparire lavoro di altri turni.`
+        : `è la prima volta che mi fermo qui: non ho un'ancora del turno, guardo tutto il ramo verso ${base}. Il prossimo giro sarà preciso.`,
+  };
+}
+
+/**
+ * Si sposta l'ancora? Pura, perché è una DECISIONE: dentro `main()` nessun test la potrebbe eseguire,
+ * e resterebbe provata solo dal fatto che il codice «sembra giusto» — che è come è nato AR-455.
+ *
+ * ① turno chiuso pulito → sì. Non basta «non ho bloccato»: la valvola anti-cappio lascia passare un
+ *    secondo giro che ha ancora tutti i suoi ❌, e spostare lì farebbe sparire dal perimetro proprio
+ *    ciò per cui avevo bloccato — il freno si scavalcherebbe da solo.
+ * ② nessun perimetro valido (prima volta qui, o ancora invalidata da un rebase) → sì lo stesso, anche
+ *    con dei ❌ aperti. Senza, il primo giro si morde la coda: debito vecchio sul ramo → ❌ → non
+ *    pianto → il giro dopo è di nuovo tutto il ramo → lo stesso ❌, per sempre. Cioè esattamente il
+ *    rosso ripetuto che questo intervento esiste per spegnere. Trovato collaudando, non rileggendo.
+ */
+export function siPiantaAncora(righe = [], perimetroTurno = false) {
+  return !righe.some((r) => String(r).startsWith("❌")) || !perimetroTurno;
+}
+
 /** ③ Le lezioni nuove che non nominano un freno: una lezione senza gate è una frase. */
 export function lezioniSenzaGate(prima = [], dopo = []) {
   const gia = new Set(prima.map((l) => l.id));
@@ -188,8 +257,18 @@ export function lezioniSenzaGate(prima = [], dopo = []) {
  * ripartendo per colpa di un blocco precedente. Bloccare di nuovo lì significherebbe un turno che non
  * finisce mai — e un freno che incastra viene spento entro il giorno, che è il peggiore degli esiti.
  */
-export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito = null, ciechi = [], giaBloccato = false } = {}) {
+export function verdetto({ chiusi = [], allarmi = [], lezioni = [], senzaEsito = null, insistenti = [], ciechi = [], giaBloccato = false } = {}) {
   const righe = [];
+  // ⑤ L'AVVISO CHE HO IGNORATO (AR-480). Il sorvegliante parla a ogni modifica; fino al 3/8 nessuno
+  // guardava se avessi fatto qualcosa. Una voce grave tornata tre volte e ancora viva all'ultimo
+  // scatto non è più un avviso: è una decisione presa senza dirlo.
+  for (const v of insistenti) {
+    righe.push(
+      `❌ il sorvegliante me l'ha detto ${v.n} volte e sta ancora lì: ${v.file}` +
+        `\n   → ${v.cosa}` +
+        `\n   → o la riparo, o la dichiaro esente con il perché scritto. Ignorarla in silenzio è la terza via che non esiste.`,
+    );
+  }
   for (const d of chiusi) {
     righe.push(
       `❌ ${d.id} l'ho chiuso senza una prova che possa fallire${d.debole ? " (c'è solo la forma debole file+pattern)" : ""}` +
@@ -308,6 +387,36 @@ function baseDelRamo() {
   return null;
 }
 
+/** L'ancora dell'ultimo turno chiuso pulito, se è ancora un antenato di HEAD. */
+function ancoraDelTurno() {
+  let commit = null;
+  try {
+    commit = JSON.parse(readFileSync(join(REPO, ANCORA), "utf8")).commit || null;
+  } catch {
+    return { ancora: null, ancoraUsabile: false };
+  }
+  if (!commit) return { ancora: null, ancoraUsabile: false };
+  try {
+    // Antenato di HEAD, non solo esistente: dopo un rebase il vecchio commit c'è ancora ma non
+    // racconta più niente di questo ramo, e un `diff` da lì darebbe un perimetro inventato.
+    git(["merge-base", "--is-ancestor", commit, "HEAD"]);
+    return { ancora: commit, ancoraUsabile: true };
+  } catch {
+    return { ancora: commit, ancoraUsabile: false };
+  }
+}
+
+/** Pianta l'ancora sul turno appena chiuso. Solo sui turni PULITI: vedi il perché in testa. */
+function piantaAncora() {
+  try {
+    const commit = git(["rev-parse", "HEAD"]).trim();
+    writeFileSync(join(REPO, ANCORA), JSON.stringify({ commit, quando: new Date().toISOString() }));
+  } catch {
+    // Un'ancora che non si scrive non deve rompere la chiusura del turno: il giro dopo il perimetro
+    // sarà il ramo, dichiarato. Peggiore, non falso.
+  }
+}
+
 /** I file che questo ramo ha COMMITTATO rispetto alla base: il lavoro consegnato, non quello in corso. */
 function fileCommittatiSulRamo(base) {
   // Dalla PORTA, non da git a mano (AR-339): con un nome accentato git restituisce il percorso citato
@@ -398,12 +507,29 @@ async function main() {
   const base = baseDelRamo();
   const committati = base ? fileCommittatiSulRamo(base) : null;
   const righeQuaderni = base ? righeAggiunteNelle(base, "memoria-squadra") : null;
-  const consegneModificate = base ? righeAggiunteNelle(base, "consegne") : null;
+
+  // L'allarme è una domanda sul TURNO («stavo per lasciarlo indietro adesso»), l'esito è una domanda
+  // sulla CONSEGNA (il ramo verso main). Due perimetri diversi perché sono due domande diverse.
+  const perimetro = scegliPerimetro({ ...ancoraDelTurno(), base });
+  const consegneModificate = perimetro.da ? righeAggiunteNelle(perimetro.da, "consegne") : null;
 
   const ciechi = [];
   if (!committati || !righeQuaderni) {
     ciechi.push(
       "non ho trovato un ramo con cui confrontarmi (né origin/main né main): il controllo sull'esito del lavoro consegnato NON ha misurato. Il verde qui sotto non copre quella parte.",
+    );
+  }
+  if (perimetro.nota) ciechi.push(perimetro.nota);
+
+  // Le voci che il sorvegliante mi ha ripetuto in faccia mentre lavoravo (AR-480). Se il suo registro
+  // non c'è, questo controllo non ha misurato — e lo dico, invece di contarlo come un verde.
+  let insistenti = [];
+  try {
+    const b = JSON.parse(readFileSync(join(REPO, BATTITO), "utf8"));
+    insistenti = vociInsistenti(b.viste || {}, Number(b.scatto) || 0);
+  } catch {
+    ciechi.push(
+      "il registro del sorvegliante non è leggibile da qui: non so quali avvisi mi abbia ripetuto durante il lavoro. Se questa sessione ha modificato file, quel controllo NON ha misurato.",
     );
   }
 
@@ -412,9 +538,12 @@ async function main() {
     chiusi: chiusiSenzaProva(cantierePrima, cantiereDopo),
     allarmi: allarmiSenzaCoda(file, codaToccata, consegneModificate || []),
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),
+    insistenti,
     ciechi,
     giaBloccato,
   });
+
+  if (siPiantaAncora(v.righe, perimetro.turno)) piantaAncora();
 
   if (!v.righe.length) {
     if (!hook) console.log("✅ niente da lasciare indietro.");

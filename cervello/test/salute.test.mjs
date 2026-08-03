@@ -21,6 +21,7 @@ const {
   giudicaPonte,
   giudicaCoda,
   giudicaBattito,
+  giudicaBattitoGuardia,
   giudicaPubblicazione,
   giudicaCabina,
   giudicaCuore,
@@ -268,6 +269,29 @@ prova("IL CUORE: tutto verde ma ho guardato poco → 2, mai 0", () => {
   // venti NON è «la macchina sta bene».
   uguale(codiceUscita({ rotti: 0, guasti: 0, copertura: 0.2 }), 2, "cieca");
   uguale(codiceUscita({ rotti: 0, guasti: 0, copertura: 0.9 }), 0, "vista buona");
+});
+
+// ── La guardia in tempo reale (AR-481) ───────────────────────────────────────
+//
+// Il battito del sorvegliante è nato per rispondere a «sei vivo?», e per tre giorni non l'ha letto
+// nessuno. Queste prove difendono la parte fragile: che un clone nuovo NON diventi un rosso (o la
+// riga si impara a scorrere), e che un canale davvero staccato NON diventi un ⚪ comodo.
+
+prova("battito che risponde → ✅, con dentro quello che ha detto lui", () => {
+  const v = giudicaBattitoGuardia(0, "ultimo scatto 3 min fa — 2 file guardati", 0);
+  uguale(v.esito, "ok", "esito");
+  uguale(v.detto.includes("3 min fa"), true, "non riscrivo il verdetto della guardia: lo riporto");
+});
+
+prova("mai scattato su una copia PULITA → ⚪, mai un verde e mai un rosso", () => {
+  const v = giudicaBattitoGuardia(2, "non ha mai scattato", 0);
+  uguale(v.esito, "nonvisto", "da una sessione nuova il battito non c'è: è normale, non è un guasto");
+});
+
+prova("mai scattato ma ci sono file modificati → ❌: un Edit c'è stato e la guardia doveva parlare", () => {
+  const v = giudicaBattitoGuardia(2, "non ha mai scattato", 7);
+  uguale(v.esito, "rotto", "qui il silenzio è il canale staccato, non una copia nuova");
+  uguale(v.detto.includes("7"), true, "e dice quanti file, o non si può verificare");
 });
 
 // ── Esito ─────────────────────────────────────────────────────────────────────

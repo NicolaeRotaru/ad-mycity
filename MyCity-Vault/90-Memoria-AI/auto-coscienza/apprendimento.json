@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-07-31 22:10",
+ "aggiornato": "2026-08-03 20:35",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -10746,6 +10746,110 @@
    "nato": "2026-07-31",
    "ultima_conferma": "2026-07-31 18:35",
    "stato": "attiva"
+  },
+  {
+   "tag": [
+    "guardiani",
+    "misura",
+    "auto-revisione",
+    "correzione-nicola"
+   ],
+   "reparto": "AD",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 20:35",
+   "ultima_conferma": "2026-08-03 20:35",
+   "stato": "attiva",
+   "gate_attivo": true,
+   "id": "L-2026-0803-536",
+   "testo": "**Un guardiano che guarda solo cio che AGGIUNGO e cieco meta del tempo, perche le difese muoiono per sottrazione (3/8, Nicola: «quali sono le cose che dovrebbero esserci»).** Il sorvegliante era tarato su «solo le righe nuove» — scelta giusta contro il debito storico, che fa partire il cancello verde invece che rosso su mezzo repo. Ma applicata alla lettera lasciava fuori il modo in cui una difesa muore davvero: un `gate` tolto, un test cancellato, un tetto alzato, un file messo in baseline. La prova, eseguita PRIMA di scrivere il fix: un diff che cancellava un gate e il test a cui puntava usciva `voci: 0, exit 0` — verde pieno, e il file cancellato non compariva nemmeno fra quelli guardati. **La regola:** cio che tolgo e delta mio quanto cio che aggiungo; un controllo sul delta che ignora le rimozioni dichiara di guardare e guarda meta. E il perimetro di cosa sia «una difesa» si MISURA dai registri (gate delle lezioni, mutazioni, guardiani lanciati davvero), mai da un elenco scritto a mano — sarebbe AR-347 dentro il file che lo vieta.",
+   "evidenze": [
+    "cervello/sorvegliante.mjs (⑥ difesa-rimossa, ⑦ soglia-allentata, ⑧ esenzione-aggiunta, leggiRimozioni, indiceDifese)",
+    "cervello/test/sorvegliante.test.mjs (17 prove nuove)",
+    "AR-478 nel cantiere",
+    "5 mutazioni verificate rosse con non-vacuita.mjs"
+   ],
+   "gate": "node cervello/test/sorvegliante.test.mjs",
+   "gate_nota": "5 mutazioni su AR-478 in mutanti.json: file cancellato invisibile, riga-che-toglie ignorata, spostamento punito (falso rosso), file morto che si assolve da solo, minimo allentato non visto."
+  },
+  {
+   "tag": [
+    "guardiani",
+    "misura",
+    "auto-revisione",
+    "correzione-nicola"
+   ],
+   "reparto": "AD",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 20:35",
+   "ultima_conferma": "2026-08-03 20:35",
+   "stato": "attiva",
+   "gate_attivo": true,
+   "id": "L-2026-0803-537",
+   "testo": "**Un avviso senza esito non e un freno: e rumore che si accumula (3/8).** Il battito del sorvegliante dimostrava che la guardia aveva GIRATO; niente dimostrava che io avessi FATTO qualcosa. Senza memoria fra uno scatto e l altro, la ventesima ripetizione della stessa voce grave e indistinguibile dalla prima — e non succede niente ne a me ne al cancello. E AR-474 un giro piu in la: il verdetto arriva a destinazione e poi evapora. **La regola:** ogni avvisatore ricorrente tiene il conto di quante volte ha detto la stessa cosa, con una chiave STABILE (i numeri di riga cambiano a ogni edit: se la chiave dipende da loro, il contatore riparte da uno e non conta mai niente), e a una soglia dichiarata smette di essere un avviso e diventa un blocco. **Il limite da scrivere accanto:** contano solo le voci che si possono CHIUDERE — un quadro d insieme (il raggio) non si «risolve», e farne una colpa creerebbe un debito inestinguibile, che si impara a ignorare in blocco.",
+   "evidenze": [
+    "cervello/sorvegliante.mjs (chiaveVoce, aggiornaViste, vociInsistenti, registro dentro il battito)",
+    "cervello/cancello-stop.mjs (controllo ⑤: l avviso ignorato)",
+    "AR-480 nel cantiere",
+    "3 mutazioni verificate rosse"
+   ],
+   "gate": "node cervello/test/sorvegliante.test.mjs",
+   "gate_nota": "3 mutazioni su AR-480 in mutanti.json: chiave che torna a dipendere dalla riga, raggio contato nel registro, voce gia curata ancora rinfacciata."
+  },
+  {
+   "tag": [
+    "guardiani",
+    "misura",
+    "auto-revisione",
+    "correzione-nicola"
+   ],
+   "reparto": "AD",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 20:35",
+   "ultima_conferma": "2026-08-03 20:35",
+   "stato": "attiva",
+   "gate_attivo": true,
+   "id": "L-2026-0803-538",
+   "testo": "**Un freno deve misurare la finestra di cui parla, o il suo rosso diventa arredamento (3/8, colto in diretta).** Il cancello dello Stop mi ha fermato in un turno di sole letture, con l albero pulito, per un allarme scritto tre giorni prima: il suo perimetro era `origin/main...HEAD`, cioe tutto il ramo, mentre la domanda che pone e «stavo per lasciare indietro questo ADESSO». Il danno non e il falso rosso singolo: e che sarebbe tornato IDENTICO a ogni chiusura fino al merge, e un rosso che si ripete uguale insegna a ignorare il freno — regola che questa macchina aveva gia scritto e ha violato nel proprio cancello. **Le regole:** ① il perimetro di un controllo deve combaciare con la domanda che pone (turno vs consegna sono due domande diverse e vogliono due perimetri diversi); ② quando il perimetro preciso non c e, si usa quello largo e lo si DICHIARA — un perimetro sbagliato taciuto e peggio di uno largo dichiarato; ③ un debito vecchio si dice UNA volta e poi diventa lavoro di cantiere, non un rimprovero ricorrente.",
+   "evidenze": [
+    "cervello/cancello-stop.mjs (ancora del turno, scegliPerimetro, siPiantaAncora)",
+    "cervello/test/cancello-stop.test.mjs (6 prove nuove)",
+    "AR-479 nel cantiere",
+    "collaudo dal vivo: giro 1 dice il debito + ⚪, giro 2 verde"
+   ],
+   "gate": "node --test cervello/test/cancello-stop.test.mjs",
+   "gate_nota": "2 mutazioni su AR-479 in mutanti.json: perimetro che torna al ramo ignorando l ancora, ancora che si sposta anche su un turno bloccato."
+  },
+  {
+   "tag": [
+    "guardiani",
+    "misura",
+    "auto-revisione",
+    "correzione-nicola"
+   ],
+   "reparto": "AD",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-03 20:35",
+   "ultima_conferma": "2026-08-03 20:35",
+   "stato": "attiva",
+   "gate_attivo": true,
+   "id": "L-2026-0803-539",
+   "testo": "**Il canale che verifica un canale ha bisogno a sua volta di un lettore, o si riproduce il difetto un piano piu su (3/8).** `sorvegliante.mjs --battito` era nato il 30/7 per rispondere a «sei vivo?» — l unica domanda a cui il silenzio non sa rispondere da solo — e per tre giorni non l ha chiamato NESSUNO script: solo citato in prosa dentro una scheda. Cioe la cura di AR-465 (un verdetto in un log che non legge nessuno) conteneva lo stesso difetto che curava. **La regola:** quando costruisco un segnale di vita, nella stessa consegna lo aggancio a chi lo legge (qui: la visita di `salute.mjs`) — altrimenti ho spostato il silenzio, non l ho tolto. **E la taratura:** un segnale assente per un motivo NORMALE (il battito vive fuori da git, in un clone nuovo non c e) dev essere ⚪, non ❌; diventa rosso solo quando c e la prova che avrebbe dovuto esserci — qui: file gia modificati in quella copia. Un rosso che scatta su ogni clone pulito viene scorso entro tre giorni.",
+   "evidenze": [
+    "cervello/salute.mjs (controllo cervello.sorvegliante + giudicaBattitoGuardia)",
+    "cervello/test/salute.test.mjs (3 prove nuove)",
+    "AR-481 nel cantiere",
+    "1 mutazione verificata rossa"
+   ],
+   "gate": "node cervello/test/salute.test.mjs",
+   "gate_nota": "1 mutazione su AR-481 in mutanti.json: il giudizio del battito che torna sempre verde."
   }
  ],
  "principi": [
@@ -12465,7 +12569,7 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 475,
+  "lezioni_attive": 395,
   "promosse_a_principio": 87,
   "decadute": 0,
   "tasso_applicazione": 0.18,

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-30 17:10",
+  "aggiornato": "2026-08-03 20:35",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8345,6 +8345,86 @@
       "verifica": {
         "comando": "node cervello/test/cancello-stop.test.mjs"
       }
+    },
+    {
+      "id": "AR-478",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 20:35",
+      "nato_come": "scoperta",
+      "nato_da": "AR-452",
+      "origine": "Nicola 3/8: «parliamo ancora del sorvegliante, quali sono le cose che dovrebbero esserci». Trovato misurando la guardia invece di rileggerla.",
+      "titolo": "La guardia in tempo reale guarda solo cio che aggiungo: da cio che tolgo una difesa esce viva e nessuno lo sa",
+      "causa_radice": "① La prova, eseguita PRIMA di scrivere il fix: un diff che cancella una riga \"gate\" E il file di test a cui puntava produce voci:0, exit 0 — verde pieno. Il file cancellato non compariva nemmeno nell elenco dei guardati, perche `+++ /dev/null` veniva scartato dal lettore del diff. ② Perche era cosi: la taratura «solo le righe che aggiungo» nasce giusta — contro il debito storico, per partire verde e accorgersi del primo che sporca. ③ Perche e sbagliata sulle rimozioni: cio che tolgo NON e debito di qualcun altro, e il mio delta quanto il resto. E le difese non muoiono per aggiunta: muoiono per sottrazione (un gate tolto, un test cancellato, un tetto alzato, un file messo in baseline). ④ La classe, non l istanza: la stessa cecita valeva per tutti e cinque i controlli, non solo per il gate.",
+      "fix_proposto": "FATTO 🟡 cervello/sorvegliante.mjs — tre controlli nuovi sul lato sottrazione: ⑥ difesa-rimossa (un test citato da un gate, un file su cui poggia una mutazione, la riga che LANCIA un guardiano — misurati da `indiceDifese` sui registri, mai da un elenco a mano, che sarebbe AR-347 dentro il file che lo vieta), ⑦ soglia-allentata (un tetto che sale o un minimo che scende, riconosciuti dal NOME della chiave normalizzato), ⑧ esenzione-aggiunta (un percorso che entra in una baseline o in un array che si chiama esenzione). `leggiRimozioni` e una funzione NUOVA e `leggiDiff` resta intatta: su quella riga poggia la mutazione di AR-452, e allargarla avrebbe accecato una prova nell atto stesso di costruire il controllo anti-accecamento. Taratura anti-falso-rosso: se il nome ricompare fra le righe aggiunte e uno spostamento, e si tace.",
+      "verifica": {
+        "comando": "node cervello/test/sorvegliante.test.mjs",
+        "nota": "17 prove nuove; 5 mutazioni in mutanti.json su AR-478, tutte verificate rosse con non-vacuita.mjs"
+      },
+      "lezione": "L-2026-0803-536"
+    },
+    {
+      "id": "AR-479",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 20:35",
+      "nato_come": "scoperta",
+      "nato_da": "AR-472",
+      "origine": "Colto in diretta: il cancello dello Stop ha fermato un turno di sole letture (albero pulito) per un allarme scritto il 31/7.",
+      "titolo": "Il cancello dello Stop misura tutto il ramo e lo chiama «questo turno»: lo stesso rosso torna a ogni chiusura fino al merge",
+      "causa_radice": "① Il perimetro di tutti i controlli era `origin/main...HEAD`. ② In un turno in cui non avevo scritto una riga, il cancello ha contestato un 🔴 di tre giorni prima che vive su un commit del ramo. Il fatto era vero (in AZIONI-IN-ATTESA non c era niente), il TEMPO no: non era una cosa che stavo lasciando indietro adesso. ③ Il danno vero non e il falso rosso singolo: e che sarebbe tornato IDENTICO a ogni chiusura di ogni turno fino al merge — e un rosso che si ripete uguale e il modo esatto in cui un freno insegna a ignorarsi. La macchina questa regola l aveva gia scritta («un avvisatore che parla sempre viene spento entro la settimana») e l ha violata nel proprio cancello.",
+      "fix_proposto": "FATTO 🟡 cervello/cancello-stop.mjs — un ancora fuori da git (`_tmp_stop-ancora.json`, stessa tecnica del battito) col commit dell ultimo turno chiuso: da li il perimetro dell ALLARME e `ancora...HEAD`, cioe questo turno. Se l ancora manca o un rebase l ha invalidata si torna al ramo e lo si DICHIARA (⚪ in testa al verdetto), invece di fingere precisione. L ancora si sposta solo sui turni puliti — o su un turno bloccato farebbe sparire dal perimetro proprio cio per cui ho bloccato — MA si pianta lo stesso quando non c e perimetro valido, altrimenti il primo giro si morde la coda (trovato collaudando, non rileggendo). Il controllo ④ (esito del lavoro consegnato) resta per-RAMO: quella e l unita di consegna, ed e stata tarata ieri su AR-477 — stringerla sarebbe stato allentare un freno appena costruito.",
+      "verifica": {
+        "comando": "node --test cervello/test/cancello-stop.test.mjs",
+        "nota": "6 prove nuove; 2 mutazioni su AR-479 verificate rosse. Collaudo dal vivo: giro 1 dice il debito vecchio + ⚪ perimetro, giro 2 verde."
+      },
+      "lezione": "L-2026-0803-538"
+    },
+    {
+      "id": "AR-480",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-03 20:35",
+      "nato_come": "scoperta",
+      "nato_da": "AR-474",
+      "origine": "Nicola 3/8, stessa domanda: cosa manca al sorvegliante. Questa e la meta che il battito non copriva.",
+      "titolo": "Il verdetto della guardia non ha un esito: «ho parlato» non diventa mai «mi hanno ascoltato»",
+      "causa_radice": "① Il battito prova che la guardia ha GIRATO. Niente provava che io avessi FATTO qualcosa. ② Fra uno scatto e l altro non c era memoria: la stessa voce grave poteva tornare venti volte identica, e ne io ne il cancello ne Nicola avevamo modo di sapere che era la ventesima. ③ E AR-474 un giro piu in la — il verdetto arriva a destinazione e poi evapora — e il controllo ⑤ (raggio) e il caso limite: pone una domanda («questo cambiamento vale ancora per chi ti importa?») e la risposta non la registra nessuno.",
+      "fix_proposto": "FATTO 🟡 il battito diventa un registro: chiave stabile ai numeri di riga (o il contatore ripartirebbe da uno a ogni edit), contatore per voce, e lo scatto in cui e stata vista l ultima volta. La busta dice «gia detto N volte». Il cancello dello Stop non lascia chiudere con una voce GRAVE ripetuta ≥3 volte e ancora viva all ultimo scatto. Limite dichiarato nel file: non misura che io abbia ragionato, e le informative (il raggio) non entrano nel conteggio — un debito che non si puo estinguere si impara a ignorare in blocco.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs cervello/test/cancello-stop.test.mjs",
+        "nota": "10 prove nuove; 3 mutazioni su AR-480 verificate rosse (chiave instabile, raggio contato, voce curata rinfacciata)"
+      },
+      "lezione": "L-2026-0803-537"
+    },
+    {
+      "id": "AR-481",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-03 20:35",
+      "nato_come": "scoperta",
+      "nato_da": "AR-465",
+      "origine": "Cercato chi chiamasse `--battito`: nessuno. L unica occorrenza fuori dal file era una frase in una scheda del cantiere.",
+      "titolo": "Il battito della guardia non lo legge nessuno: la cura di un verdetto senza lettore era nata senza lettore",
+      "causa_radice": "① `sorvegliante.mjs --battito` esiste dal 30/7 per rispondere a «sei vivo?» — l unica domanda a cui il silenzio non sa rispondere da solo. ② In tre giorni non e stato chiamato da nessuno script: solo citato in prosa dentro una scheda. ③ Cioe la cura di AR-465 (un verdetto che finiva in un log che non legge nessuno) e stata costruita con dentro lo stesso difetto, un piano piu su: il canale di verifica del canale.",
+      "fix_proposto": "FATTO 🟡 cervello/salute.mjs — controllo `cervello.sorvegliante` nell organo cervello, con la decisione estratta in `giudicaBattitoGuardia` (pura, quindi provabile). La taratura che conta: un battito assente su una copia appena clonata e NORMALE (vive fuori da git) → ⚪, che non e mai un verde; diventa ❌ solo se in questa copia ci sono gia file modificati, perche allora un Edit c e stato e la guardia doveva parlare. Un rosso che scatta su ogni clone pulito verrebbe scorso entro tre giorni. Copertura dichiarata: prova che ha girato, NON che abbia visto l ultima modifica — le modifiche fatte da un comando invece che da un Edit non la svegliano affatto (buco noto, non coperto qui).",
+      "verifica": {
+        "comando": "node cervello/test/salute.test.mjs",
+        "nota": "3 prove nuove; 1 mutazione su AR-481 verificata rossa. Provato dal vivo: la visita adesso riporta l ultimo scatto."
+      },
+      "lezione": "L-2026-0803-539"
     }
   ],
   "meta": {
