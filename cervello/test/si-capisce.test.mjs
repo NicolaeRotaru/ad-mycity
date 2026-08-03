@@ -214,6 +214,12 @@ prova("«varie cose» e «tutto a posto» vengono presi", () => {
   assert.equal(ariaFritta("Ho sistemato varie cose ed e' tutto a posto.").length, 2);
 });
 
+prova("citare una frase vuota per spiegarla non e' usarla", () => {
+  // Stesso difetto dei sottintesi, trovato sulla mia risposta a Nicola mentre gliele elencavo.
+  const t = 'Le frasi vuote sono queste: «piu robusto», «dovrebbe funzionare», «varie cose».';
+  assert.deepEqual(ariaFritta(t), []);
+});
+
 prova("una frase piena di fatti non viene toccata", () => {
   // Il contrario esatto: nomi, numeri, date. Se questa venisse presa, il controllo sarebbe rumore.
   const t = "Ho spezzato 3 frasi sopra le 30 parole nel file del glossario, il 2 agosto.";

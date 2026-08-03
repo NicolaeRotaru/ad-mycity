@@ -177,7 +177,15 @@ export const ARIA_FRITTA = [
 /** Trova le frasi vuote in un testo. Pura: si prova su una stringa. */
 export function ariaFritta(testo) {
   const fuori = [];
-  const righe = senzaCodice(parteDiNicola(testo));
+  // L'APOSTROFO NON È UNA VIRGOLETTA. In italiano «e'», «piu'», «perche'» sono apostrofi usati al
+  // posto dell'accento, e leggerli come citazione cancellava mezza frase: la mia stessa prova su
+  // «piu' robusto» è diventata rossa. Contano solo «», "" e le virgolette tipografiche.
+  // CITARE NON È USARE, anche qui. Il caso vero: stavo spiegando a Nicola quali frasi sono vuote,
+  // e il controllo ha accusato la riga che le elencava. La stessa esenzione già valeva sui
+  // sottintesi e non era stata estesa qui: mezza cura è una cura che torna indietro.
+  const righe = senzaCodice(parteDiNicola(testo)).map((r) =>
+    r.replace(/[«"“][^«»"“”]{0,80}[»"”]/g, " "),
+  );
   righe.forEach((riga, i) => {
     for (const { re, invece } of ARIA_FRITTA) {
       for (const m of riga.matchAll(re)) {
@@ -255,7 +263,7 @@ export function misura(testo, { noteAGlossario = null } = {}) {
   // fare, e il controllo le ha lette come se le stessi usando. Due accuse su tre erano false.
   // Regola: dentro le virgolette è una citazione. Si può aggirare virgolettando apposta, ma nessuno
   // scrive «come dicevo» fra virgolette per davvero — e un controllo che accusa a torto viene spento.
-  const senzaCitazioni = righeNicola.map((r) => r.replace(/[«"'“”][^«»"'“”]{0,80}[»"'“”]/g, " "));
+  const senzaCitazioni = righeNicola.map((r) => r.replace(/[«"“][^«»"“”]{0,80}[»"”]/g, " "));
   for (const s of SOTTINTESI) {
     const i = senzaCitazioni.findIndex((r) => r.toLowerCase().includes(s));
     if (i !== -1) {
