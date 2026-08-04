@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 04:14",
+  "aggiornato": "2026-08-04 03:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -10608,7 +10608,7 @@
       "fix_proposto": "DA FARE, 🔴 e in due tempi. (a) SBLOCCO A MANO, una volta sola: ramo di salvataggio + stash dei file dati + fetch + decisione sui 4.450 commit-diario (il loro valore e' lo STATO finale dei file, che e' gia' nell'albero di lavoro: rifarli uno per uno su main non aggiunge niente e conflitterebbe su ogni file di memoria). (b) 🟡 LA VIA DI FUGA: il percorso di aggiornamento del server non deve dipendere dal rebase. Da progettare come lotto suo: o l'aggiornamento del CODICE si separa dalla pubblicazione della MEMORIA, o il recupero fa un reset guidato invece di un rebase. Finche' non c'e', lo stesso nodo si rifara'."
     },
     {
-      "id": "AR-523",
+      "id": "AR-530",
       "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🟡",
@@ -10630,7 +10630,7 @@
       "lezione": "L-2026-0804-551"
     },
     {
-      "id": "AR-524",
+      "id": "AR-531",
       "stato": "chiuso",
       "gravita": "alta",
       "colore": "🟡",
@@ -10650,7 +10650,7 @@
       "lezione": "L-2026-0804-552"
     },
     {
-      "id": "AR-525",
+      "id": "AR-532",
       "stato": "chiuso",
       "gravita": "alta",
       "colore": "🟡",
@@ -10670,7 +10670,7 @@
       "lezione": "L-2026-0804-552"
     },
     {
-      "id": "AR-526",
+      "id": "AR-533",
       "stato": "chiuso",
       "gravita": "alta",
       "colore": "🟡",
@@ -10690,7 +10690,7 @@
       "lezione": "L-2026-0804-552"
     },
     {
-      "id": "AR-527",
+      "id": "AR-534",
       "stato": "chiuso",
       "gravita": "media",
       "colore": "🟡",
@@ -10698,11 +10698,11 @@
       "impatto_crescita": "basso",
       "nato": "2026-08-04 02:20",
       "nato_come": "regressione",
-      "nato_da": "AR-524 (mio, di due ore fa)",
+      "nato_da": "AR-531 (mio, di due ore fa)",
       "malattia": "non-pattern-izzabile",
       "malattia_perche": "E una taratura del confronto fra due nomi, non una riga malata: si vede solo eseguendo il grafo su una rotta col parametro. Il guardiano e la prova in cervello/test/sorvegliante.test.mjs.",
       "origine": "Nicola 4/8: «controlla e analizza il lavoro che hai fatto». Trovato cercando le rotte dinamiche del Pannello subito dopo aver consegnato AR-519.",
-      "titolo": "Il falso negativo che AR-524 doveva chiudere e sopravvissuto dentro la sua stessa cura: le rotte col parametro",
+      "titolo": "Il falso negativo che AR-531 doveva chiudere e sopravvissuto dentro la sua stessa cura: le rotte col parametro",
       "causa_radice": "① aliasDiRotta() produceva la forma piena, `/api/lavori/[id]`. ② Ma chi la chiama scrive fetch(`/api/lavori/${id}`), e nel testo resta solo `/api/lavori` — il resto e una variabile. ③ Quindi la rotta col parametro risultava di nuovo senza nessun chiamante, cioe esattamente il difetto che due ore prima avevo dichiarato chiuso. ④ La causa e la stessa di sempre: ho provato la cura sul caso che avevo in mente (le rotte fisse) e non su quello che esiste nel repo — c e una rotta dinamica sola, e non l avevo cercata.",
       "fix_proposto": "FATTO 🟡 una rotta dinamica vale anche per il suo prefisso fisso, che e tutto cio che il chiamante puo scrivere a mano. Costo dichiarato: chiamando `/api/lavori/${id}` risultano chiamate sia la rotta col parametro sia quella fissa allo stesso livello, se esiste — per un controllo informativo nominarne una in piu e meglio che perderne una.",
       "verifica": {
@@ -10710,6 +10710,28 @@
         "nota": "1 prova nuova sulla rotta col parametro, piu la verifica che una rotta fissa resti una stringa sola. La mutazione di AR-519 e stata riagganciata al pezzo spostato — me l ha detto il sorvegliante mentre lo spostavo."
       },
       "lezione": "L-2026-0804-552"
+    },
+    {
+      "id": "AR-535",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 03:10",
+      "nato_come": "regressione",
+      "nato_da": "la stessa forma di AR-444, gia raccontata nella skill del cantiere",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E una collisione fra due processi che non si vedono, non una riga malata: si vede solo confrontando due cantieri. Il guardiano e cervello/prossimo-ar.mjs --controlla, agganciato alle prove.",
+      "origine": "Nicola 4/8: «fai la numero 2». Tre collisioni in un giorno: io scrivo AR-518 alle 00:52, il worker ne scrive un altra alle 02:13, e alla prima unione una delle due sparisce.",
+      "titolo": "Il numero di una scheda nuova lo sceglievo guardando la mia copia, mentre main correva avanti",
+      "causa_radice": "① Il numero libero si leggeva dal cantiere LOCALE, fermo al momento in cui la copia e partita. ② Il worker fa lo stesso sul suo ramo: due macchine che non si vedono prendono lo stesso numero. ③ Alla fusione una delle due schede sparisce — la prima volta sono sparite quattro schede del worker dentro la mia fusione, ripristinate solo perche sono andato a controllare. ④ La regola giusta era gia scritta nella skill del cantiere («due AR-444 diversi»), ma una regola in un documento non si applica da sola quando lavorano due macchine.",
+      "fix_proposto": "FATTO 🟢 `cervello/prossimo-ar.mjs`: legge il cantiere su origin/main E quello locale, e torna il primo numero libero in tutti e due. Se main non e raggiungibile lo DICHIARA (exit 2) invece di rispondere al buio. Piu `--controlla`, che trova due schede con lo stesso numero prima che l unione le faccia sparire. Le mie cinque schede rinumerate 530-534 con lo strumento stesso.",
+      "verifica": {
+        "comando": "node --test cervello/test/prossimo-ar.test.mjs",
+        "nota": "5 prove: il numero calcolato su tutte le fonti, i buchi vecchi che NON si riusano, gli id storti, i duplicati, e il controllo sul cantiere vero. Provato sul campo: lo strumento proponeva AR-97 (un buco del passato) e l ho corretto perche un id che si riavvolge non identifica piu."
+      },
+      "lezione": "L-2026-0804-553"
     }
   ],
   "meta": {

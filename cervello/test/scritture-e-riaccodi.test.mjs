@@ -165,7 +165,7 @@ test("la sentinella legge e scrive davvero il contatore", async () => {
   assert.match(src, /stato: "in_attesa", tentativi: d\.tentativi/, "il PATCH deve scrivere anche il contatore");
 });
 
-// ── AR-523: la forma del file che c'è già vince sulla mia ──────────────────────
+// ── AR-530: la forma del file che c'è già vince sulla mia ──────────────────────
 //
 // Il rischio che questo chiude, misurato il 4/8: dal 3/8 il pre-commit rifiuta un JSON riscritto con
 // un'indentazione diversa. Il worker sul server committa da solo e NON salta gli hook (git-pr.mjs

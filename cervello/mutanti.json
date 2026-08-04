@@ -1583,7 +1583,7 @@
    "test": "cervello/test/referto-visita-leggibile.test.mjs"
   },
   {
-   "difetto": "AR-523",
+   "difetto": "AR-530",
    "lezione": "L-2026-0804-551",
    "nome": "il freno sulle prove torna a guardare il gesto invece del saldo: rinominare una variabile ridiventa un blocco",
    "file": "cervello/sorvegliante.mjs",
@@ -1592,7 +1592,7 @@
    "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-523",
+   "difetto": "AR-530",
    "lezione": "L-2026-0804-551",
    "nome": "un assert commentato torna a contare come vivo: commentarlo diventa il modo di spegnere una prova",
    "file": "cervello/sorvegliante.mjs",
@@ -1601,7 +1601,7 @@
    "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-523",
+   "difetto": "AR-530",
    "lezione": "L-2026-0804-551",
    "nome": "il nome corto torna a valere anche quando ce l hanno in settanta: il raggio si gonfia",
    "file": "cervello/sorvegliante.mjs",
@@ -1610,7 +1610,7 @@
    "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-523",
+   "difetto": "AR-530",
    "lezione": "L-2026-0804-551",
    "nome": "la scrittura torna a imporre due spazi: il worker riscrive un registro compatto e il commit gli si blocca in faccia",
    "file": "cervello/scrivi-json.mjs",
@@ -1619,7 +1619,7 @@
    "test": "node --test cervello/test/scritture-e-riaccodi.test.mjs"
   },
   {
-   "difetto": "AR-524",
+   "difetto": "AR-531",
    "lezione": "L-2026-0804-552",
    "nome": "la rotta API torna invisibile: chi la chiama col fetch non conta piu",
    "file": "cervello/sorvegliante.mjs",
@@ -1628,13 +1628,22 @@
    "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-526",
+   "difetto": "AR-533",
    "lezione": "L-2026-0804-552",
    "nome": "il budget per pattern sparisce: una malattia scritta male torna a poter uccidere la guardia",
    "file": "cervello/sorvegliante.mjs",
    "cerca": "        if (troppoLenta(m.id)) break; // il budget è finito: vedi `troppoLenta`, il motivo è già scritto",
    "sostituisci": "",
    "test": "node --test cervello/test/freni-senza-fonte.test.mjs"
+  },
+  {
+   "difetto": "AR-535",
+   "lezione": "L-2026-0804-553",
+   "nome": "il numero torna a leggersi dalla sola copia locale: la collisione col worker ricompare",
+   "file": "cervello/prossimo-ar.mjs",
+   "cerca": "  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain)], quanti);",
+   "sostituisci": "  const liberi = prossimiLiberi([numeriUsati(locali)], quanti);",
+   "test": "node --test cervello/test/prossimo-ar.test.mjs"
   }
  ]
 }

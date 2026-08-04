@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-04 01:40",
+ "aggiornato": "2026-08-04 03:10",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -11166,6 +11166,29 @@
     "un pattern esplosivo su 29 caratteri: 19.883 ms contro i 15.000 dell'hook"
    ],
    "gate": "node --test cervello/test/sorvegliante.test.mjs",
+   "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0804-553",
+   "testo": "**Quando due macchine lavorano insieme, una regola scritta non basta: serve un comando (4/8, Nicola: «fai la numero 2»).** Il numero libero per una scheda nuova lo prendevo dalla mia copia del cantiere, ferma a quando e partita; il worker faceva lo stesso sulla sua. Tre collisioni in un giorno, e alla prima fusione sono sparite quattro schede sue — ripristinate solo perche sono andato a guardare. **La regola:** ogni valore che due processi scelgono in parallelo va CHIESTO alla fonte condivisa, non dedotto dalla propria copia. Se la fonte non e raggiungibile si dichiara, non si indovina. **E il corollario che vale oltre i numeri:** la regola esisteva gia scritta in una skill dal caso AR-444 — le regole in prosa reggono finche lavora una macchina sola.",
+   "tag": [
+    "collisioni",
+    "identificatori",
+    "fonte-unica",
+    "worker"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-04 03:10",
+   "ultima_conferma": "2026-08-04 03:10",
+   "stato": "attiva",
+   "evidenze": [
+    "3 collisioni in un giorno sugli stessi numeri",
+    "4 schede del worker sovrascritte dalla mia fusione, poi ripristinate"
+   ],
+   "gate": "node --test cervello/test/prossimo-ar.test.mjs",
    "gate_attivo": true
   }
  ],
