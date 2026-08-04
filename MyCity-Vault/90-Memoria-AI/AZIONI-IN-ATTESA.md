@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-30 08:25** — Giro (manutenzione macchina): **42 aperte, invariate**. Nessuna card nuova/chiusa qui — il lavoro di questo passaggio ha riparato `auto-coscienza/auto-analisi.json` (fermo dal 27/7) e `MyCity-Vault/05-Soldi-Rischi/scadenzario.json` (PI26 ancora "aperta" lì, non toccato dalla pulizia delle 06:05/06:30 perché è l'input di uno script, non un testo in coda). Dettaglio in [[Briefing/2026-07-30]] (passaggio 08:25).
+> 🧹 **Housekeeping 2026-07-30 08:25** — Giro (manutenzione macchina): **42 aperte, invariate**. Nessuna card nuova o chiusa qui. Questo passaggio ha riparato due file: `auto-coscienza/auto-analisi.json` (fermo dal 27/7) e `MyCity-Vault/05-Soldi-Rischi/scadenzario.json`. Nello scadenzario la pratica PI26 risultava ancora "aperta": quel file è l'input di uno script, non un testo in coda, per questo la pulizia delle 06:05/06:30 non l'aveva toccato. Dettaglio in [[Briefing/2026-07-30]] (passaggio 08:25).
 >
 > 🧹 **Housekeeping 2026-07-30 06:30** — Giro completo: **42 aperte**. Chiuse 3 card zombie in più, tutte smentite da verifica diretta (`git log`/`git fetch`), stesso errore-tipo delle 5 PI26/piano-squadra ripulite alle 06:05 (il testo restava vecchio dopo che il fatto era già cambiato): **`#vps-giro-fermo`** (diceva "fermo da 40 ore" — il worker ha committato con continuità 04:43→06:26 stamattina), **`#push-main-memoria`** e **`#push-volano-fix`** (dicevano "main non pubblicato/71 commit indietro" — verificato ora: `origin/main` e `HEAD` coincidono esattamente, e la PR #454 del fix tasso-lezioni è già mergiata).
 >
@@ -66,7 +66,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 <!-- macchina-ferma-da-quattro-giorni -->
 
 ### 🔴 #macchina-ferma-da-quattro-giorni — Riallinea il server alla cura e fai ripartire il giro: tre comandi · ⏳ accodata 2026-08-04 03:10 · ✏️ aggiornata 2026-08-04 05:55
-**Cosa cambia:** il tuo schermo delle 05:40 dice che il secondo avvio è fallito uguale al primo, e adesso sappiamo perché: il tuo ultimo `git reset` è delle 04:14, la cura vera è arrivata su `main` alle 05:23 — nove minuti di lavoro DOPO il tuo reset. Il server ha quindi rifatto il giro col codice vecchio: ha riscritto di nuovo `apprendimento.json` con lo spazio sbagliato, il guardiano della forma ha bloccato il commit, e il push è morto un'altra volta. Non hai sbagliato niente: era una corsa contro il merge.
+**Cosa cambia:** il tuo schermo delle 05:40 dice che il secondo avvio è fallito uguale al primo. Adesso sappiamo perché. Il tuo ultimo `git reset` è delle 04:14. La cura vera è arrivata su `main` alle 05:23, nove minuti dopo il tuo reset. Il server ha quindi rifatto il giro col codice vecchio. Ha riscritto di nuovo `apprendimento.json` con lo spazio sbagliato. Il guardiano della forma ha bloccato il commit, e il push è morto un'altra volta. Non hai sbagliato niente: era una corsa contro il merge.
 **Cosa devi fare tu, sul server (l'ultima volta):**
 ```bash
 cd /opt/mycity/ad-mycity
@@ -75,8 +75,8 @@ git fetch origin main && git reset --hard origin/main
 sudo systemctl start mycity-giro.service
 ```
 Il reset stavolta porta a bordo la cura (l'aiutante che conserva l'indentazione del file invece di imporre la sua): il giro riscrive `apprendimento.json` senza gonfiarlo, il commit passa, il push parte.
-**Come vedi che ha funzionato:** a fine giro `journalctl -u mycity-giro -n 20 --no-pager` NON deve più dire «COMMIT BLOCCATO» né «MEMORIA NON PUBBLICATA», e su GitHub `main` deve ricevere un commit di memoria nuovo. Se rivedi «COMMIT BLOCCATO», mandami lo schermo: vuol dire che c'è un secondo file malato oltre a quello curato.
-**Se va bene:** il Pannello torna a dire il vero — e da questa PR in poi, se la memoria resta ferma più di 12 ore, è la home della Cabina a gridarlo da sola con un banner rosso, invece di aspettare che te ne accorga tu a occhio.
+**Come vedi che ha funzionato:** a fine giro `journalctl -u mycity-giro -n 20 --no-pager` NON deve più dire «COMMIT BLOCCATO» né «MEMORIA NON PUBBLICATA». E su GitHub `main` deve ricevere un commit di memoria nuovo. Se rivedi «COMMIT BLOCCATO», mandami lo schermo: vuol dire che c'è un secondo file malato oltre a quello curato.
+**Se va bene:** il Pannello torna a dire il vero. E da questa PR in poi non serve più il tuo occhio: se la memoria resta ferma oltre 12 ore, la home della Cabina lo grida da sola con un banner rosso.
 **Nota tecnica:** causa radice AR-530 (uno spazio di indentazione, PR #665, mergiata 04/08 05:23) · freno nuovo AR-534 (la Cabina incrocia battito e ultimo push: banner in home + diagnosi con i comandi in Lavori → Stato worker). I 4.450 commit di arretrato restano al sicuro nel ramo `salvataggio-2026-08-04` e negli stash: il loro valore è lo stato finale dei file, già presente nell'albero.
 - **Colore:** 🔴 (tocca il server in produzione)
 - **Reparto:** devops-sre
