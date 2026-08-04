@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-04 05:37",
+  "aggiornato": "2026-08-04 20:46",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -203,6 +203,249 @@
           "esito": "nonvisto",
           "detto": "nessuna chiave dei sensori in questo ambiente: da qui la macchina non può vedere il marketplace",
           "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "sensori.spenti",
+          "organo": "sensori",
+          "titolo": "Ogni sensore spento ha il suo perché",
+          "impatto": 4,
+          "esito": "ok",
+          "detto": "ogni sensore spento dice perché è spento",
+          "prova": "node cervello/sensori-spenti-check.mjs",
+          "regressione": false
+        }
+      ]
+    },
+    "vps": {
+      "quando": "2026-08-04 20:46",
+      "iso": "2026-08-04T18:46:30.771Z",
+      "casa": "vps",
+      "modo": "vps",
+      "ok": 18,
+      "rotti": 4,
+      "guasti": 0,
+      "nonvisti": 1,
+      "copertura": 0.96,
+      "controlli": [
+        {
+          "id": "worker.tracce",
+          "organo": "worker",
+          "titolo": "La macchina lascia tracce di essere passata",
+          "impatto": 1,
+          "esito": "ok",
+          "detto": "ultima traccia 0 ore fa (sentinella-dati.json)",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "worker.coda",
+          "organo": "worker",
+          "titolo": "La coda dei lavori scorre",
+          "impatto": 1,
+          "esito": "nonvisto",
+          "detto": "non ho potuto leggere la coda: HTTP 400",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "worker.battito",
+          "organo": "worker",
+          "titolo": "La macchina ha scritto di recente",
+          "impatto": 1,
+          "esito": "ok",
+          "detto": "ultima scrittura 0 ore fa (worker:ultimo:all)",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "worker.servizi",
+          "organo": "worker",
+          "titolo": "I servizi e i timer girano",
+          "impatto": 1,
+          "esito": "ok",
+          "detto": "2 servizi attivi e stabili",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "worker.pubblicazione",
+          "organo": "worker",
+          "titolo": "Quello che il server scrive arriva su GitHub",
+          "impatto": 2,
+          "esito": "ok",
+          "detto": "1 commit in attesa di pubblicazione, sotto la soglia di 50",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "worker.automazione",
+          "organo": "worker",
+          "titolo": "Token, push e allineamento git",
+          "impatto": 2,
+          "esito": "rotto",
+          "detto": "l'automazione ha un controllo fallito — { · \"esito\": \"errore\",",
+          "prova": "node cervello/verifica-automazione.mjs --json",
+          "regressione": false
+        },
+        {
+          "id": "cervello.fatti",
+          "organo": "cervello",
+          "titolo": "I fatti-chiave sono coerenti ovunque",
+          "impatto": 2,
+          "esito": "ok",
+          "detto": "nessuna copia vecchia di un fatto in giro per i file vivi",
+          "prova": "node cervello/coerenza-fatti.mjs",
+          "regressione": false
+        },
+        {
+          "id": "cervello.segreti",
+          "organo": "cervello",
+          "titolo": "Nessun segreto nel repo",
+          "impatto": 1,
+          "esito": "ok",
+          "detto": "nessuna chiave o segreto committato",
+          "prova": "node cervello/scan-segreti.mjs",
+          "regressione": false
+        },
+        {
+          "id": "cervello.test",
+          "organo": "cervello",
+          "titolo": "I test del cervello passano",
+          "impatto": 3,
+          "esito": "rotto",
+          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-04 20:45  (2 corsie · 22 in fila perché scrivono sul dato vivo) · ✅ cervello/test/allineamento-esito.test.mjs  (18 passati)",
+          "prova": "node cervello/test-cervello.mjs",
+          "regressione": false
+        },
+        {
+          "id": "cervello.vault",
+          "organo": "cervello",
+          "titolo": "La memoria è sana",
+          "impatto": 2,
+          "esito": "ok",
+          "detto": "il vault è leggibile e coerente",
+          "prova": "node cervello/vault-sanita.mjs MyCity-Vault",
+          "regressione": false
+        },
+        {
+          "id": "cervello.sorvegliante",
+          "organo": "cervello",
+          "titolo": "La guardia in tempo reale ha davvero scattato",
+          "impatto": 3,
+          "esito": "ok",
+          "detto": "✅ ultimo scatto 15 min fa (2026-08-04T18:31:37.250Z) — 23 file guardati, 0 voci, 0 gravi.",
+          "prova": "node cervello/sorvegliante.mjs --battito",
+          "regressione": false
+        },
+        {
+          "id": "cervello.guardiani",
+          "organo": "cervello",
+          "titolo": "I guardiani del giro esistono tutti",
+          "impatto": 3,
+          "esito": "ok",
+          "detto": "58 guardiani del giro presenti",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "cervello.esiti",
+          "organo": "cervello",
+          "titolo": "Il lavoro consegnato dice com'è andato",
+          "impatto": 2,
+          "esito": "rotto",
+          "detto": "240 consegne su 280 degli ultimi 30 giorni senza una riga di esito (86%) · Cabina 0 giorni indietro (STATO al 2026-08-04 20:25) — il debito si è allargato rispetto al tetto",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "cervello.scrittura",
+          "organo": "cervello",
+          "titolo": "Quando scrivo a Nicola, gli rispondo",
+          "impatto": 2,
+          "esito": "rotto",
+          "detto": "«Cosa non ho verificato» mancato nel 100% dei 51 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "cervello.skill",
+          "organo": "cervello",
+          "titolo": "Le braccia della macchina sono versionate",
+          "impatto": 2,
+          "esito": "ok",
+          "detto": "72 skill installate, tutte versionate o rigenerabili",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "cabina.test",
+          "organo": "cabina",
+          "titolo": "I test del Pannello passano",
+          "impatto": 2,
+          "esito": "ok",
+          "detto": "tutti i test del Pannello girano e passano",
+          "prova": "node cervello/test-pannello.mjs",
+          "regressione": false
+        },
+        {
+          "id": "cabina.viva",
+          "organo": "cabina",
+          "titolo": "La Cabina risponde",
+          "impatto": 1,
+          "esito": "ok",
+          "detto": "risponde in 0.1s",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "cabina.cuore",
+          "organo": "cabina",
+          "titolo": "La Cabina è collegata alla memoria",
+          "impatto": 2,
+          "esito": "ok",
+          "detto": "collegata, ultimo battito 2026-08-04T20:21:06+02:00",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "senior.registro",
+          "organo": "senior",
+          "titolo": "Il registro dei 120 senior torna",
+          "impatto": 3,
+          "esito": "ok",
+          "detto": "nessun agente orfano, il conteggio torna",
+          "prova": "node cervello/agent-registry-check.mjs",
+          "regressione": false
+        },
+        {
+          "id": "senior.owner",
+          "organo": "senior",
+          "titolo": "Un owner solo per ogni mandato",
+          "impatto": 3,
+          "esito": "ok",
+          "detto": "nessun mandato conteso tra due senior",
+          "prova": "node cervello/keyword-owner-check.mjs",
+          "regressione": false
+        },
+        {
+          "id": "senior.loop",
+          "organo": "senior",
+          "titolo": "I senior chiudono il loop",
+          "impatto": 3,
+          "esito": "ok",
+          "detto": "15 senior con almeno un esito registrato",
+          "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "sensori.vista",
+          "organo": "sensori",
+          "titolo": "La macchina vede i dati veri",
+          "impatto": 1,
+          "esito": "ok",
+          "detto": "almeno un sensore dati vede il marketplace",
+          "prova": "node cervello/verifica-sensori.mjs",
           "regressione": false
         },
         {
@@ -471,6 +714,17 @@
       "guasti": 0,
       "nonvisti": 8,
       "copertura": 0.58
+    },
+    {
+      "quando": "2026-08-04 20:46",
+      "iso": "2026-08-04T18:46:30.771Z",
+      "casa": "vps",
+      "modo": "vps",
+      "ok": 18,
+      "rotti": 4,
+      "guasti": 0,
+      "nonvisti": 1,
+      "copertura": 0.96
     }
   ]
 }
