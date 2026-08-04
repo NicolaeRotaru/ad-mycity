@@ -17,6 +17,7 @@
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
+   "gate": "node cervello/permessi-check.mjs",
    "nato": "2026-08-04",
    "ultima_conferma": "2026-08-04 17:03",
    "stato": "attiva",
