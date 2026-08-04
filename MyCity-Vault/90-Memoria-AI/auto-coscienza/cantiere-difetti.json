@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 12:11",
+  "aggiornato": "2026-08-04 14:34",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8013,7 +8013,7 @@
     },
     {
       "id": "AR-457",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "colore": "🟡",
       "dimensione": "processi",
@@ -8029,7 +8029,10 @@
       "verifica": {
         "comando": "node cervello/test/radiografia-snella.test.mjs",
         "nota": "10 prove verdi. Non-vacuita provata a mano: mutando lo sfoltimento (`const aperti = tutti;`, cioe i chiusi non vengono piu tolti) il file diventa rosso — registrato in mutanti.json. La rete che resta suona."
-      }
+      },
+      "chiuso_il": "2026-08-04 14:34",
+      "chiuso_come": "node cervello/test/radiografia-snella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-458",
@@ -11251,8 +11254,8 @@
     }
   ],
   "meta": {
-    "aperti": 159,
+    "aperti": 160,
     "in_corso": 0,
-    "chiusi": 329
+    "chiusi": 330
   }
 }
