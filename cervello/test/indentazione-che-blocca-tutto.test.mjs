@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🧪 UNO SPAZIO HA FERMATO LA MACCHINA PER QUATTRO GIORNI (AR-522).
+// 🧪 UNO SPAZIO HA FERMATO LA MACCHINA PER QUATTRO GIORNI (AR-530).
 //
 // La catena, letta dal journal del server il 4/8 alle 04:02:
 //   ① `tasso-lezioni` riscrive `apprendimento.json` con DUE spazi. Quel file ne ha UNO.

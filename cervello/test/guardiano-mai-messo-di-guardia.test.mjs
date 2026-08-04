@@ -20,7 +20,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { eGuardiano, guardiaDi, invocazioniIn, verdettiMorti } from "../guardia-viva.mjs";
+import { eGuardiano, guardiaDi, invocazioniIn, invocazioniNegliHook, verdettiMorti } from "../guardia-viva.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -127,4 +127,80 @@ test("AR-394 — il verdetto morto del cancello di pubblicazione è misurato, no
     ["rc_due"],
     "morta è la variabile che il verdetto legge e nessuno riempie con una misura; quella assegnata da un'esecuzione è viva",
   );
+});
+
+// ── AR-526 — «in attesa di aggancio»: il terzo stato per gli hook ─────────────
+//
+// Un hook non lo mette di guardia un processo del repo: lo mette una riga in `.claude/settings.json`,
+// file che la macchina non può scrivere apposta. Fra «l'ho costruito» e «Nicola l'ha incollato»
+// passa del tempo vero, e in quel tempo chiamarlo buco è dare rosso al comportamento giusto.
+// Quello che rende questo stato una cosa diversa da un'esenzione è UNA data, e queste prove
+// difendono la data.
+
+const inAttesa = (extra = {}) => ({
+  "nuovo-hook.mjs": { motivo: "in-attesa-di-aggancio", scade: "2026-08-11", perche: "va agganciato a PreToolUse a mano, il file dei freni è nel deny-list", ...extra },
+});
+
+test("un hook dichiarato in attesa, con data futura e perché scritto, è a posto", () => {
+  const g = guardiaDi("nuovo-hook.mjs", inAttesa(), new Set(), new Map(), "2026-08-04");
+  assert.equal(g.ok, true);
+  assert.equal(g.debito, false, "non conta contro il tetto dei da-cablare: quel tetto governa i buchi SENZA data");
+  assert.equal(g.attesa, true, "ma resta visibile come attesa: non sparisce nel verde");
+});
+
+test("LA REGOLA CHE CONTA: passata la data torna un buco — un'attesa senza fine è un'esenzione", () => {
+  const g = guardiaDi("nuovo-hook.mjs", inAttesa(), new Set(), new Map(), "2026-08-12");
+  assert.equal(g.ok, false);
+  assert.match(g.perche, /2026-08-11/, "chi legge deve sapere entro quando doveva essere agganciato");
+});
+
+test("senza data non è un'attesa: è un'esenzione scritta male, e vale come se non ci fosse", () => {
+  const senzaData = { "nuovo-hook.mjs": { motivo: "in-attesa-di-aggancio", perche: "prima o poi lo aggancio, quando mi ricordo" } };
+  const g = guardiaDi("nuovo-hook.mjs", senzaData, new Set(), new Map(), "2026-08-04");
+  assert.equal(g.ok, false);
+  assert.match(g.perche, /senza una data/);
+});
+
+test("un'etichetta non basta: senza il perché scritto resta un buco", () => {
+  const g = guardiaDi("nuovo-hook.mjs", inAttesa({ perche: "hook" }), new Set(), new Map(), "2026-08-04");
+  assert.equal(g.ok, false);
+});
+
+test("se poi qualcuno lo esegue davvero, l'attesa non serve più: misurato batte dichiarato", () => {
+  const g = guardiaDi("nuovo-hook.mjs", inAttesa(), new Set(["nuovo-hook.mjs"]), new Map(), "2026-08-12");
+  assert.equal(g.ok, true, "anche con la data scaduta: essere di guardia si MISURA, non si dichiara");
+  assert.equal(g.motivo, "cablato");
+});
+
+// ── AR-529 — un comando dentro `hooks` È un'esecuzione ───────────────────────
+//
+// Il 4/8 Nicola ha agganciato quattro freni nuovi in .claude/settings.json e questo guardiano ha
+// continuato a chiamarli «costruiti e mai messi di guardia»: accusava di essere orfani quattro
+// guardiani che giravano a ogni singola mossa. Le regole di RE_INVOCAZIONE rifiutano di proposito
+// il semplice «node cervello/x.mjs» scritto in un testo (menzione ≠ chiamata, e va tenuto); un
+// comando dentro `hooks` però non è un testo, è la posizione da cui vengono lanciati.
+
+test("LA REGOLA CHE CONTA: un comando negli hook mette di guardia il suo guardiano", () => {
+  const trovati = invocazioniNegliHook([
+    { evento: "PreToolUse", comando: "node cervello/pre-scrittura.mjs --hook" },
+    { evento: "SessionEnd", comando: "node cervello/memoria-guardia.mjs --chiudi --hook" },
+  ]);
+  assert.deepEqual([...trovati].sort(), ["memoria-guardia.mjs", "pre-scrittura.mjs"]);
+});
+
+test("il nome torna col .mjs, come tutte le altre forme", () => {
+  // Senza il suffisso combaciava con niente e il rosso restava identico: il difetto sarebbe stato
+  // invisibile. L'ha trovato la prova sul repo vero, non la rilettura.
+  assert.ok([...invocazioniNegliHook([{ comando: "node cervello/x.mjs" }])][0].endsWith(".mjs"));
+});
+
+test("due comandi nella stessa riga contano entrambi: il SessionStart ne concatena due", () => {
+  const t = invocazioniNegliHook([{ comando: "bash cervello/installa-hooks.sh >/dev/null 2>&1; node cervello/contesto-lezioni.mjs --hook" }]);
+  assert.deepEqual([...t], ["contesto-lezioni.mjs"], "lo .sh non è un guardiano .mjs: non entra");
+});
+
+test("nessun hook, nessuna invocazione inventata", () => {
+  assert.equal(invocazioniNegliHook([]).size, 0);
+  assert.equal(invocazioniNegliHook([{ comando: "echo ciao" }]).size, 0);
+  assert.equal(invocazioniNegliHook([{}]).size, 0);
 });

@@ -325,6 +325,19 @@ export function sorveglia({
         motivi.push(`malattia ${m.id}: pattern non compilabile, non l'ho potuta cercare`);
         continue;
       }
+      // L'esenzione GIÀ DICHIARATA vale anche qui (AR-531).
+      //
+      // `malattie.json` porta per ogni forma un elenco `esenti` con file e PERCHÉ, e la spazzata dei
+      // fratelli lo rispetta. Questo controllo no: cercava il pattern sulle righe aggiunte senza mai
+      // guardare se quel file fosse già stato dichiarato esente. Il 4/8 ha accusato quattordici volte
+      // di fila `pre-scrittura.mjs` — che è il guardiano che INTERCETTA il bypass, deve nominarlo per
+      // riconoscerlo, ed era esente con un motivo scritto da un'altra sessione poche ore prima.
+      // Quattordici allarmi su una riga dichiarata: è il rumore che spegne i freni.
+      //
+      // L'esenzione conta solo se porta il suo perché: una senza motivo resta un'accusa viva, perché
+      // «esente» senza spiegazione è il modo educato di zittire (AR-338).
+      const esente = (m.esenti || []).some((e) => e?.file === file && String(e?.perche || "").trim());
+      if (esente) continue;
       for (const r of aggiunte) {
         // Il commento che spiega una malattia non è la malattia: stessa regola di spazzata-fratelli,
         // stessa funzione — non una seconda copia che col tempo divergerebbe.
@@ -797,6 +810,23 @@ export function vociInsistenti(viste = {}, scatto = 0, soglia = INSISTENZA) {
 }
 
 /**
+ * Le voci comparse DOPO un certo scatto, e ancora vive all'ultimo.
+ *
+ * Serve al cancello dei senior (AR-527): un senior parte, la guardia scatta N volte mentre lavora, e
+ * alla fine la domanda è «cosa è comparso da quando è partito LUI». Senza questo taglio il cancello
+ * gli rinfaccerebbe le voci di chi ha lavorato prima — che è la stessa malattia del perimetro largo,
+ * spostata dai turni ai senior.
+ *
+ * `gravi` e `medie` insieme: qui il conteggio non serve a bloccare, serve a raccontare cosa ha
+ * lasciato — e una media lasciata a un senior è esattamente il genere di cosa che nessuno riguarda.
+ */
+export function vociDaScatto(viste = {}, scattoDa = 0, scattoOra = 0) {
+  return Object.entries(viste)
+    .filter(([, v]) => Number(v.scatto) > scattoDa && Number(v.scatto) === scattoOra)
+    .map(([chiave, v]) => ({ chiave, n: v.n, file: v.file, cosa: v.cosa, gravita: v.gravita }));
+}
+
+/**
  * La busta che ARRIVA al modello. Un hook PostToolUse che stampa testo semplice finisce nel log di
  * debug; solo `hookSpecificOutput.additionalContext` viene messo accanto al risultato dello strumento.
  * Torna la stringa da stampare, o `null` quando non c'è niente da dire (tacere è la scelta giusta:
@@ -1124,6 +1154,22 @@ function guardianiNominati() {
     }
   }
   return [...fuori];
+}
+
+/**
+ * L'indice delle difese di QUESTO repo, letto dai registri veri.
+ *
+ * Esportato (AR-525) perché adesso serve anche al freno che parla PRIMA della mossa: quando sto per
+ * cancellare un file, la domanda «qualcuno lo dichiara difesa?» è la stessa identica di quando l'ho
+ * già cancellato. Sta qui e non là perché i tre lettori dei registri stanno qui: una seconda copia
+ * divergerebbe, ed è la ragione per cui in questa macchina il registro delle malattie è UNO.
+ */
+export function difeseDelRepo() {
+  return indiceDifese({
+    lezioni: leggiLezioni() || [],
+    mutanti: leggiRegistro("mutanti.json", "mutanti") || [],
+    guardiani: guardianiNominati(),
+  });
 }
 
 /**

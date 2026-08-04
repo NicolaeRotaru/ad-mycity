@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-04 04:15",
+ "aggiornato": "2026-08-04",
  "mutanti": [
   {
    "lotto": 30,
@@ -1583,12 +1583,148 @@
    "test": "cervello/test/referto-visita-leggibile.test.mjs"
   },
   {
+   "difetto": "AR-154",
+   "nome": "il cieco torna a tacere: non aver misurato ridiventa indistinguibile da un verde",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  const noteCieche = [...ciechi.map((c) => `⚪ ${c}`), ...note.map((n) => `ℹ️  ${n}`)];",
+   "sostituisci": "  const noteCieche = [];",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-525",
+   "nome": "il freno che parla prima smette di vedere le scritture MCP: tornano a passare senza nessuna guardia",
+   "file": "cervello/pre-scrittura.mjs",
+   "cerca": "    if (VERBI_DI_SCRITTURA.test(verbo)) {",
+   "sostituisci": "    if (false) {",
+   "test": "node --test cervello/test/pre-scrittura.test.mjs"
+  },
+  {
+   "difetto": "AR-525",
+   "nome": "il freno smette di riconoscere il bypass dei cancelli del pre-commit",
+   "file": "cervello/pre-scrittura.mjs",
+   "cerca": "  if (/\\bgit\\s+commit\\b[^\\n]*(--no-verify|(?:^|\\s)-n(?:\\s|$))/.test(c)) {",
+   "sostituisci": "  if (false) {",
+   "test": "node --test cervello/test/pre-scrittura.test.mjs"
+  },
+  {
+   "difetto": "AR-526",
+   "nome": "l'attesa non scade più: un freno mai agganciato resta giallo per sempre, cioè esente",
+   "file": "cervello/hooks-check.mjs",
+   "cerca": "    if (oggi && v.scade < oggi) scaduti.push({ file: s, ...v });",
+   "sostituisci": "    if (false) scaduti.push({ file: s, ...v });",
+   "test": "node --test cervello/test/hooks-check.test.mjs"
+  },
+  {
+   "difetto": "AR-526",
+   "nome": "una voce senza data vale come attesa: l'esenzione senza scadenza torna a passare",
+   "file": "cervello/hooks-check.mjs",
+   "cerca": "    if (!v || !v.scade) {",
+   "sostituisci": "    if (!v) {",
+   "test": "node --test cervello/test/hooks-check.test.mjs"
+  },
+  {
+   "difetto": "AR-527",
+   "nome": "il cancello dei senior blocca anche quando il perimetro è condiviso: punisce il senior sbagliato",
+   "file": "cervello/cancello-senior.mjs",
+   "cerca": "  return { righe, blocca: sostanza && !condiviso && !giaBloccato };",
+   "sostituisci": "  return { righe, blocca: sostanza && !giaBloccato };",
+   "test": "node --test cervello/test/cancello-senior.test.mjs"
+  },
+  {
+   "difetto": "AR-527",
+   "nome": "l'ancora del senior non si chiude: il prossimo senior eredita il perimetro di chi c'era prima",
+   "file": "cervello/cancello-senior.mjs",
+   "cerca": "  if (aperti <= 1) return { ancora: null, ultimo: true, condiviso: aperti > 1 };",
+   "sostituisci": "  if (aperti <= 1) return { ancora: precedente, ultimo: true, condiviso: aperti > 1 };",
+   "test": "node --test cervello/test/cancello-senior.test.mjs"
+  },
+  {
+   "difetto": "AR-528",
+   "nome": "la memoria conta come «mai risolta» anche una voce che avevo sistemato mentre lavoravo",
+   "file": "cervello/memoria-guardia.mjs",
+   "cerca": "    if (Number(v.scatto) === scatto && v.gravita === \"grave\") {",
+   "sostituisci": "    if (v.gravita === \"grave\") {",
+   "test": "node --test cervello/test/memoria-guardia.test.mjs"
+  },
+  {
    "difetto": "AR-522",
+   "nome": "il seme sposta un'ancora viva: il cancello dello Stop si scavalca da solo al turno dopo",
+   "file": "cervello/intento-turno.mjs",
+   "cerca": "  if (ancora && ancoraUsabile) return false;",
+   "sostituisci": "  if (false) return false;",
+   "test": "node --test cervello/test/intento-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-526",
+   "nome": "l'attesa di aggancio non scade: un hook mai collegato resta verde per sempre, cioè esente",
+   "file": "cervello/guardia-viva.mjs",
+   "cerca": "    if (oggi && scade < oggi) {",
+   "sostituisci": "    if (false) {",
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+  },
+  {
+   "difetto": "AR-526",
+   "nome": "un'attesa senza data viene accettata: l'esenzione travestita torna a passare",
+   "file": "cervello/guardia-viva.mjs",
+   "cerca": "    if (!scade) {",
+   "sostituisci": "    if (false) {",
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+  },
+  {
+   "difetto": "AR-523",
+   "nome": "il ripristino d'emergenza non riscrive piu niente: un processo ucciso torna a lasciare il fix disfatto",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "    scrivi(stato.file, stato.originale);",
+   "sostituisci": "    void stato;",
+   "test": "node --test cervello/test/non-vacuita-ripristino.test.mjs"
+  },
+  {
+   "difetto": "AR-522",
+   "nome": "il guasto di scrittura non arriva piu al verdetto: il perimetro sbagliato resta senza un perche",
+   "file": "cervello/intento-turno.mjs",
+   "cerca": "  for (const g of guasti) righe.push(",
+   "sostituisci": "  for (const g of []) righe.push(",
+   "test": "node --test cervello/test/intento-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-524",
+   "nome": "il guardiano non guarda piu se il materiale c'e: la card torna a essere un puntatore",
+   "file": "cervello/materiale-in-mano.mjs",
+   "cerca": "    if (MATERIALE.test(testo)) continue;",
+   "sostituisci": "    if (true) continue;",
+   "test": "node --test cervello/test/materiale-in-mano.test.mjs"
+  },
+  {
+   "difetto": "AR-524",
+   "nome": "il guardiano torna a bastarsi dell ordine senza chiedere dove sia il materiale: gli abbagli tornano",
+   "file": "cervello/materiale-in-mano.mjs",
+   "cerca": "    if (!ALTROVE.test(testo)) continue;",
+   "sostituisci": "    if (false) continue;",
+   "test": "node --test cervello/test/materiale-in-mano.test.mjs"
+  },
+  {
+   "difetto": "AR-529",
+   "nome": "gli hook tornano invisibili: i freni agganciati risultano di nuovo costruiti e mai messi di guardia",
+   "file": "cervello/guardia-viva.mjs",
+   "cerca": "for (const m of String(c?.comando || \"\").matchAll(/\\bcervello\\/([a-z0-9._-]+)\\.mjs/g)) fuori.add(`${m[1]}.mjs`);",
+   "sostituisci": "for (const m of []) fuori.add(`${m[1]}.mjs`);",
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+  },
+  {
+   "difetto": "AR-530",
    "nome": "l'indentazione torna a essere scelta da chi scrive: un file a un spazio viene riscritto tutto e il commit si blocca",
    "file": "cervello/scrivi-json.mjs",
    "cerca": "    writeFileSync(tmp, testoJson(dati, indentazioneDi(percorso)), \"utf8\");",
    "sostituisci": "    writeFileSync(tmp, testoJson(dati), \"utf8\");",
    "test": "cervello/test/indentazione-che-blocca-tutto.test.mjs"
+  },
+  {
+   "difetto": "AR-531",
+   "nome": "il sorvegliante torna a ignorare le esenzioni gia' scritte e riaccusa i file dichiarati",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "      if (esente) continue;",
+   "sostituisci": "",
+   "test": "cervello/test/rosso-che-non-dice-perche.test.mjs"
   }
  ]
 }

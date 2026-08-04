@@ -47,7 +47,7 @@ export function testoJson(dati, indent = 2) {
 }
 
 /**
- * L'indentazione che il file ha GIÀ — si conserva, non si impone (AR-522).
+ * L'indentazione che il file ha GIÀ — si conserva, non si impone (AR-530).
  *
  * IL CONTO DI NON AVERLO FATTO: quattro giorni e diciassette ore di macchina ferma. `tasso-lezioni`
  * riscriveva `apprendimento.json` con due spazi mentre quel file ne ha uno. Per git non è un campo
@@ -86,7 +86,7 @@ export function scriviJsonAtomico(percorso, dati) {
   mkdirSync(dirname(percorso), { recursive: true });
   const tmp = nomeTemporaneo(percorso);
   try {
-    // L'indentazione si legge dal file che si sta per sostituire: chi scrive non la sceglie (AR-522).
+    // L'indentazione si legge dal file che si sta per sostituire: chi scrive non la sceglie (AR-530).
     writeFileSync(tmp, testoJson(dati, indentazioneDi(percorso)), "utf8");
     renameSync(tmp, percorso); // atomico: il kernel non mostra mai uno stato intermedio
   } catch (e) {
