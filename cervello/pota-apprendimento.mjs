@@ -54,6 +54,42 @@ export function indentazioneDi(testo = "") {
   return m ? m[1].length : 2;
 }
 
+/**
+ * LA COPIA, non la memoria — 4/8/2026.
+ *
+ * Misurato quella sera, mentre l'archivio sforava il tetto di 718 byte: **86 dei 87 `principi`
+ * ripetono parola per parola il `testo` della lezione con lo stesso id, che è già nel file due righe
+ * più su.** Novantottomila caratteri di copia, cioè 137 volte lo sforamento. Quando una lezione viene
+ * promossa, `cristallizza-apprendimento.mjs` la marca `stato: "principio"` E ne appende una copia in
+ * `principi`: due case per la stessa verità, dentro lo stesso file.
+ *
+ * Perché questa è la potatura giusta e non tradisce la regola di sopra («una lezione ATTIVA non si
+ * tocca»): non si toglie nessuna lezione. Si toglie il DOPPIONE, e resta il riferimento — id, data di
+ * promozione, reparto, tag. Il testo si ritrova dov'era già: nella lezione con quell'id. Chi serve i
+ * principi lo rimette al suo posto leggendolo da lì (`api/memoria/auto-coscienza/route.ts`), e chi li
+ * conta li conta uguale.
+ *
+ * Il confronto è per uguaglianza esatta, di proposito. Se un principio è stato riscritto dopo la
+ * promozione, il suo testo NON è più quello della lezione: quella è una versione diversa, e buttarla
+ * via sarebbe perdere memoria per far entrare un file. Resta dov'è (1 su 87, il 4/8).
+ */
+export function principiSenzaCopia(principi = [], lezioni = []) {
+  const perId = new Map();
+  for (const l of lezioni) if (l && l.id) perId.set(String(l.id), l);
+  let caratteri = 0;
+  let quanti = 0;
+  const nuovi = (Array.isArray(principi) ? principi : []).map((p) => {
+    if (!p || typeof p !== "object" || !p.id || typeof p.testo !== "string") return p;
+    const lezione = perId.get(String(p.id));
+    if (!lezione || lezione.testo !== p.testo) return p;
+    quanti++;
+    caratteri += p.testo.length;
+    const { testo, ...senzaTesto } = p;
+    return senzaTesto;
+  });
+  return { principi: nuovi, quanti, caratteri };
+}
+
 export function pianoPotatura(dati, tetto = TETTO, indent = 2) {
   const j = dati && typeof dati === "object" ? dati : {};
   const lezioni = Array.isArray(j.lezioni) ? j.lezioni.filter(Boolean) : [];
@@ -62,7 +98,9 @@ export function pianoPotatura(dati, tetto = TETTO, indent = 2) {
   const decadute = lezioni.filter((l) => l.stato === "decaduta");
   const vive = lezioni.filter((l) => l.stato !== "decaduta");
   const prima = Buffer.byteLength(JSON.stringify(j, null, indent));
+  const copie = principiSenzaCopia(j.principi, vive);
   const dopoObj = { ...j, lezioni: vive };
+  if (Array.isArray(j.principi)) dopoObj.principi = copie.principi;
   for (const k of chiaviServizio) delete dopoObj[k];
   const dopo = Buffer.byteLength(JSON.stringify(dopoObj, null, indent));
   return {
@@ -74,10 +112,18 @@ export function pianoPotatura(dati, tetto = TETTO, indent = 2) {
     lezioni_totali: lezioni.length,
     lezioni_decadute: decadute.length,
     lezioni_vive: vive.length,
+    principi_deduplicati: copie.quanti,
+    principi_caratteri_liberati: copie.caratteri,
     // Le vive NON si toccano: se anche togliendo tutto il resto non si entra, lo si dice e basta.
     residuo: Math.max(0, dopo - tetto),
     nuovo: dopoObj,
-    tolte: { chiavi: chiaviServizio, lezioni: decadute.map((l) => ({ id: l.id, testo: String(l.testo || "").slice(0, 90) })) },
+    tolte: {
+      chiavi: chiaviServizio,
+      lezioni: decadute.map((l) => ({ id: l.id, testo: String(l.testo || "").slice(0, 90) })),
+      // Non è una perdita ed è giusto che si veda lo stesso: chi legge lo storico deve poter
+      // ricostruire cosa conteneva il file prima, senza fidarsi di questa riga di commento.
+      copie_di_principi: copie.quanti,
+    },
   };
 }
 
@@ -107,6 +153,7 @@ function main() {
     console.log(`   Adesso:            ${fmt(p.prima)} byte   (tetto di lettura ${fmt(p.tetto)})`);
     console.log(`   Chiavi di servizio: ${p.chiavi_servizio} (note di metabolizzazione, gate, consolidamenti — nessuna schermata le mostra)`);
     console.log(`   Lezioni:            ${p.lezioni_totali} totali · ${p.lezioni_decadute} decadute (si tolgono) · ${p.lezioni_vive} vive (NON si toccano)`);
+    console.log(`   Principi in copia:  ${p.principi_deduplicati} ripetevano il testo della loro lezione (${fmt(p.principi_caratteri_liberati)} caratteri) — resta il riferimento, il testo si legge dalla lezione`);
     console.log(`   Dopo:              ${fmt(p.dopo)} byte`);
     console.log(
       p.entra

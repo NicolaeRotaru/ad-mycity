@@ -1350,3 +1350,18 @@ i suoi commit a `settings.json` contati come consegne mute (240 vs tetto 238 →
 misura corretta, non da debito ripagato, e ribassare il cricchetto su un metro appena cambiato è una
 decisione di Nicola.
 **Consegna:** `consegne/tech/2026-08-04-la-macchina-legge-la-ci.md` · PR su `main`.
+
+## 2026-08-04 21:10 — 🟡 Potato l'archivio dell'apprendimento: tolta la copia, non la memoria
+**Cosa:** `apprendimento.json` sforava di 718 byte il tetto di lettura di GitHub (1 MiB) e rendeva
+rossa OGNI PR aperta, oltre a lasciare la scheda Apprendimento illeggibile in Cabina. Misurato invece
+di indovinare: **86 principi su 87 ripetevano parola per parola il `testo` della lezione con lo stesso
+id**, già nello stesso file — 98.050 caratteri, 137 volte lo sforamento. Tolta la copia, resta il
+riferimento (id, data di promozione, reparto, tag); il testo si legge dalla lezione.
+**Prova:** 1.049.294 → 947.517 byte · 509 lezioni identiche · 87 principi e 379 preferenze intatti ·
+nessun testo di principio irrecuperabile (verificato voce per voce prima/dopo).
+**Strade scartate:** alzare il tetto (impossibile, è il limite della Contents API di GitHub) ·
+scrivere il file compatto (risparmia 61 KB ma `indentazioneDi` non sa leggere «nessuna indentazione»
+e il primo scrittore lo rigonfierebbe) · spostare le lezioni vecchie nello storico (perderebbero
+l'iniezione a inizio sessione: è memoria viva).
+**Dove:** `cervello/pota-apprendimento.mjs` (`principiSenzaCopia`), lato lettura in
+`pannello/src/app/api/memoria/auto-coscienza/route.ts`, prove in `archivi-senza-tetto.test.mjs`.

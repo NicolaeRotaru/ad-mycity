@@ -11331,7 +11331,6 @@
  "principi": [
   {
    "id": "L-2026-0723-455",
-   "testo": "**Il tool `Workflow` (orchestrazione multi-agente/multi-fase) non è utilizzabile in questa sessione headless (worker/chat Pannello) — si blocca su un gate di conferma che richiede un'interazione non disponibile fuori da una sessione interattiva, verificato con un tentativo reale (Nicola 23/7 22:15, «ti semplifica il lavoro la funzione workflow? Usala se non crea problemi»).** Chiamata diretta `Workflow({name:\"auto-radiografia\"})` → errore \"Review dynamic workflow before running\": è un gate strutturale del tool, non una configurazione mancante da riparare qui. L'alternativa che copre lo stesso bisogno (più aree analizzate in parallelo, poi sintesi) è lo strumento `Agent` chiamato più volte nello stesso messaggio — già il metodo in uso finora. Regola: non riproporre `Workflow` in sessione headless finché Nicola non conferma che il gate è sbloccato altrove; per il fan-out multi-area usare sempre più `Agent` in parallelo.",
    "tag": [
     "workflow",
     "agent",
@@ -11344,7 +11343,6 @@
   },
   {
    "id": "L-2026-0723-449",
-   "testo": "**`git-pr.mjs` auto-committa dentro la PR anche i file 'sporchi' del momento — se sono file che una sentinella automatica riscrive ogni pochi minuti, la PR nasce pulita ma prende un conflitto vero PRIMA del merge (Nicola 23/7 ~17:00, «hai controllato prima se la pr non avesse conflitti?»).** Nicola aveva ragione a chiedere: sulla PR #511 (auto-deploy Pannello, solo 1 riga di config voluta) è comparso un conflitto reale. L'AD ha verificato: alla creazione (16:48) la PR era pulita, ma `git-pr.mjs`, senza un commit esplicito già pronto, aveva incluso nel suo commit automatico anche `consegne/finanza/2026-07-23-diagnosi-cassa-runway.md` — un file che il playbook cassa-runway riscrive a ogni RIPROVA (girato di nuovo alle 16:47 e 16:49); `main` è stato aggiornato con una versione più fresca di quel file mentre la PR era aperta → conflitto vero, non un falso allarme da rassicurare. Fix applicato: PR #513 rifatta da un branch pulito committando ESPLICITAMENTE solo il file voluto (`git add <path esatto>`, mai lasciare che lo script raccolga tutto ciò che trova sporco); se restano altri file in movimento scritti da processi automatici, prima li si mette al sicuro su `main` come housekeeping così la working tree è pulita quando parte `git-pr.mjs` — zero file 'in movimento' dentro la PR. Regola riusabile: prima di lanciare `git-pr.mjs` controllare sempre `git status --short`; se compare roba sporca che non è mia (dati/sentinelle), committarla su `main` PRIMA di aprire il branch della PR — non dopo, e non lasciarla scorrere dentro. Vedi lezione L-2026-0723-448 (stesso incidente Pannello, causa deploy).",
    "tag": [
     "git-pr",
     "conflitto",
@@ -11359,7 +11357,6 @@
   },
   {
    "id": "L-2026-0723-448",
-   "testo": "**Il Pannello 'torna indietro' dopo un merge NON è colpa automatica del codice mergiato — verifica il DIFF REALE prima di dare la colpa a una PR o accettare di annullarla (Nicola 23/7 ~16:56, caso-studio).** Nicola, dopo aver mergiato la PR #510 (fallback Ollama), vede il Pannello mostrare una versione di qualche aggiornamento fa e conclude: «l'ultima PR che ho mergiato mi ha fatto tornare indietro il pannello, non deve mai più succedere, rimetti tutto come prima». L'AD NON ha eseguito il revert richiesto: ha prima controllato `git diff` sul merge commit esatto (`20ba835e`→`82dd378f`) e trovato che la PR tocca SOLO 5 file — 2 script Ollama nuovi + 3 file di dati interni, con orari che vanno tutti AVANTI nel tempo, zero righe di pagine/componenti del Pannello. Tecnicamente impossibile che quella PR abbia fatto sparire qualcosa a video. Causa vera: `pannello/vercel.json` ha `deploymentEnabled.main:false` — il Pannello NON si aggiorna da solo a ogni merge, si aggiorna SOLO quando qualcuno preme Redeploy a mano su Vercel; nella lista dei deployment passati è facile cliccare uno vecchio invece dell'ultimo, e il sito online 'torna indietro' anche se il codice su GitHub è intatto e aggiornato. 5 perché: (1) un merge e un redeploy sono due eventi distinti nel tempo — l'ultimo redeploy manuale (fatto per sbloccare i token GitHub) può aver ripubblicato un build precedente al merge senza che nessuno se ne accorgesse; (2) la UI online e la history GitHub possono divergere per ore senza segnali — nessun banner avvisa 'stai vedendo un build vecchio'; (3) di fronte a un timing sospetto (merge poi 'regressione') il cervello umano collega causa-effetto sull'evento più recente e visibile (la PR), non su un click di qualche minuto prima su un'altra pagina (Vercel Deployments); (4) l'AD aveva gli strumenti per verificare (git diff, timestamp dei file) e li ha usati PRIMA di eseguire un'istruzione distruttiva, invece di obbedire alla lettera; (5) root-cause RICORRENTE: lo stesso identico difetto (`deploymentEnabled.main:false` blocca tutti i build, codice incluso) era già stato trovato e corretto il 10/7 (vedi lezione 10/7 18:50 in questo file), poi rimesso volutamente a `false` in una sessione successiva per risparmiare la quota giornaliera di Vercel Hobby (deployment CANCELED consuma quota comunque) usando un Deploy Hook con path-filter al suo posto — quel Deploy Hook non c'è più/non basta, quindi il sintomo è tornato identico con una causa diversa dal 10/7. Regola riusabile: (a) quando Nicola percepisce una 'regressione' subito dopo un merge, la prima verifica è SEMPRE il diff reale della PR sospettata (file toccati, direzione dei timestamp) — mai accettare la sequenza temporale come prova di causalità; (b) se il diff è innocente, non eseguire il revert richiesto: spiegare perché non risolverebbe nulla e cercare la causa nel livello successivo (deploy/config), non nel codice; (c) un revert su un'istruzione emotiva ('non deve mai più succedere') va comunque preceduto da una diagnosi — l'urgenza di Nicola non giustifica un'azione che butterebbe via lavoro buono senza motivo. Fix proposto (non ancora mergiato): card #223, `ignoreCommand` filtrato su `pannello/` invece di `deploymentEnabled:false` totale — auto-deploy solo quando un commit tocca davvero il Pannello, i commit di sola memoria restano ignorati (niente spreco di quota). Vedi lezione 10/7 18:50 (`deploymentEnabled.main:false` blocca tutto) e 10046 (quota Vercel Hobby conta le creazioni, non le build).",
    "tag": [
     "vercel",
     "deploy",
@@ -11374,7 +11371,6 @@
   },
   {
    "id": "L-2026-0723-446",
-   "testo": "**Istruzione manuale a Nicola su uno stato che l'AD continua a toccare = incoerenza percepita, anche senza colpa (Nicola 23/7 ~11:36, correzione).** Nicola: «Come hai fatto a cancellarlo tu in automatico? Perché non lo avevi fatto prima? Perché mi hai detto una cosa ma poi ne hai fatto un'altra? Questa è incoerenza». Fatti: alle 11:35 l'AD ha chiesto a Nicola di lanciare `rm` a mano via terminale (Termux) su 3 file residui su un branch git sporco (`.env.swp` + 2 `.bak-ollama`); **prima** che Nicola eseguisse, l'AD ha continuato il proprio lavoro tornando sul branch `main` — i 3 file, che esistevano SOLO nell'albero del branch sporco, sono spariti da soli come effetto collaterale del `git checkout`. Quando Nicola ha eseguito il comando e trovato «No such file», e poi ripetuto la verifica una seconda volta con lo stesso risultato, è sembrato che l'AD avesse mentito su chi/come li aveva tolti. 5 perché: (1) l'istruzione manuale è stata data guardando lo stato al momento T0, ma l'AD ha continuato a modificare lo **stesso oggetto** (git tree) dopo T0 e prima che Nicola confermasse l'esecuzione — due attori sullo stesso terreno senza sincronizzazione; (2) l'AD non ha detto «aspetta, sto ancora lavorando lì, non toccare finché non ti dico io» — l'istruzione è stata lanciata come se lo stato fosse ormai fermo; (3) la spiegazione tecnica post-hoc (checkout ripristina l'albero del ramo di destinazione, i file esistevano solo sul ramo sporco) è corretta ma tardiva: doveva essere anticipata, non usata a difesa dopo il fatto; (4) su un VPS di produzione far digitare comandi a mano che poi si scoprono inutili è un rischio non solo di fiducia ma operativo — va evitato quando l'AD può prevedere o ottenere lo stesso risultato da solo; (5) regola riusabile: quando chiedo a Nicola un'azione manuale su terminale/VPS legata a uno stato mutabile (file, branch, processo, servizio), NON continuo a operare su quello stato finché lui non conferma fatto — oppure ri-verifico lo stato nell'istante esatto in cui glielo chiedo, mai su un check di minuti prima.",
    "tag": [
     "coerenza",
     "vps",
@@ -11388,7 +11384,6 @@
   },
   {
    "id": "L-2026-0720-433",
-   "testo": "**Costi infrastruttura — «metti in bacheca» = cifre Nicola + `?` sul resto, mai inventare (Nicola 20/7 ~23:43, addendum ~23:46, ~23:48, ~00:31).** Nicola comunica costi mensili confermati: **Claude Max 200 €**, **Vercel 30 €**, **Supabase 50 €** (= **280 €/m parziale**) e chiede lista in **Bacheca home** + altre voci future. **Addendum ~23:46:** **VPS 20 €/m**, **dominio 20 €/anno**, **marketplace → Vercel** (Render in chiusura) → burn fisso **300 €/m**, totale **~302 €/m**; card env propone `BURN_MENSILE_EUR=300`. **Addendum ~23:48:** opzionali in Bacheca (app store, SMS, email Resend vs Workspace) — **fuori** burn finché non accesi (L-434). **Addendum 21/7 ~00:31:** Nicola corregge — mancavano **volantini/stampa fisica**; «tutti i costi che verranno» include sezione **Materiali fisici** (kit ~80–150 €, primo lotto ~150–300 € DECISIONI 24/6, volantini da preventivo) — **fuori** burn, fonti playbook capillarità (L-440). 5 perché: (1) burn/runway era «sconosciuto» da **175+ giri** — ora fonte reale Nicola; (2) cambio hosting = segna vecchio provider **in chiusura**, **non** sommare Render+Vercel; (3) fix = blocco `## 💰 Costi infrastruttura` **in cima** `BACHECA.md` + **`registro-fatti.json`** `finanza.costi_infrastruttura`; (4) **non** inventare Resend né Vercel post-migrazione — chiedi/conferma; (5) quando burn completo → aggiorna proposta env. Regola: costi da Nicola → bacheca + registro + burn; importo sconosciuto = **?** zero stime; «tutti i costi» = anche fisici/stampa (grep vault). Vedi L-422, L-434, L-440, card #burn-mensile-env.",
    "tag": [
     "finanza",
     "burn",
@@ -11404,7 +11399,6 @@
   },
   {
    "id": "L-2026-0720-421",
-   "testo": "**«Versione avanzata» worker/AD/Pannello = 3 salti operativi + una mossa, non «più AI» (Nicola 20/7 ~21:49).** Nicola: «**se volessi migliorare ulteriormente il worker/AD/panello… pensa versione avanzata**». 5 perché: (1) «avanzata» ≠ modelli più potenti — = macchina che **vede tutto**, **disturba poco**, **agisce dopo ok**, **impara da ordini veri**; (2) **salto 1 (1–2 sett):** accendi **mani** mancanti (Telegram avvisi+sveglia bandi, Meta n8n post FB/IG, email/notifiche live) — oggi **~41 cose** fermano senza canali o senza approva; (3) **salto 2:** burn mensile in env VPS + Stripe lettura → stop «runway sconosciuto», proposte solo mosse che reggono cassa; (4) **salto 3:** **primo ordine Pane Quotidiano + payout ok** — North Star misura ordini pagati, non post pronti; (5) Pannello avanzato = meno card / **3 decisioni/giorno** / chat sync telefono-PC / caselle auto-chiuse post-merge / Radiografia dice **cosa fare**; AD avanzato = giro **esegue** approvati + impara da ok/no card + PostHog funnel abbandono + Telegram **solo** se cambia qualcosa importante. **CTA unica:** Telegram + Meta + ordine test PQ. Regola: «versione avanzata» / «migliorare worker» → 3 salti concreti + anti-pattern «più AI», chiudi **una mossa**. Vedi L-370, L-375, L-367, `cervello/collega-le-mani.md`.",
    "tag": [
     "strategia",
     "versione-avanzata",
@@ -11418,7 +11412,6 @@
   },
   {
    "id": "L-2026-0720-413",
-   "testo": "**Registro ok ≠ casella ok — sentinelle devono leggere registro-fatti, non pitch hardcoded (Nicola 20/7 ~19:06).** Casella «Pochi negozi»: Nicola «**non hai aggiornato memoria centrale o caselle non collegate**» — pricing **10% + 50€/mese**. 5 perché: (1) `registro-fatti.json` era **già corretto** dal fix 12:39 (L-391); (2) casella mostrava ancora «12%, 0 fissi» perché **pitch fisso nel codice** sentinelle, non lettura registro; (3) fix parziale L-391 aggiornò vault/radar/scout ma **non** wiring UI caselle; (4) **PR #501:** sentinelle leggono `pricing.commissione` + `pricing.abbonamento` dal registro; (5) PQ resta eccezione 12%/0€ — pitch standard nuovi negozi = registro. Regola: dopo correzione pricing in registro → **cerca TUTTE le superfici** (sentinelle, caselle Pannello, pitch vendite) e collega al registro nello **stesso fix**; «memoria giusta ma casella sbagliata» = bug codice, non registro. **Addendum 23:23:** Nicola screenshot — **#501** ri-bloccata vs main (north-star/memoria); AD rebase → **mergeable**; merge 🔴 pendente Nicola. **Addendum 23:28:** **#501 ✅** mergiata Nicola → casella pricing live. Vedi L-391, L-397, AR-102, DECISIONI 20/7 19:06.",
    "tag": [
     "pricing",
     "sentinelle",
@@ -11432,7 +11425,6 @@
   },
   {
    "id": "L-2026-0720-411",
-   "testo": "**PostHog VPS ok ≠ Pannello Radiografia — due env separate (Nicola 20/7 ~18:48, addendum redeploy 20:01 L-414).** Nicola: «**è ancora scollegata**» + screenshot dopo fix VPS (sensore **ok** 18:44–18:45). 5 perché: (1) AD aveva comunicato «collegato» basandosi solo su `verifica-sensori` **worker**; (2) screenshot = pagina **Radiografia Pannello** su Vercel — `posthogConnected()` in `pannello/src/lib/posthog.ts` legge **`POSTHOG_HOST` + `POSTHOG_PROJECT_ID` + `POSTHOG_API_KEY` da Vercel**, non dal VPS; (3) stessa Personal API Key `phx_` va configurata **anche** su Vercel + **Redeploy** — ma redeploy **20:01** non basta se env sbagliate (L-414); (4) project US **495230** («Default project»); (5) su «ancora scollegata» **chiedi quale superficie** (worker vs Pannello) e verifica **entrambe** prima di ripetere passi env. Regola: PostHog MyCity = **2 posti indipendenti** (VPS worker + Vercel Pannello); fix uno **non** implica fix altro. Vedi L-414, L-410, L-409, L-404.",
    "tag": [
     "posthog",
     "vercel",
@@ -11448,7 +11440,6 @@
   },
   {
    "id": "L-2026-0720-404",
-   "testo": "**PostHog sul VPS — non si installa: cloud + chiave lettura `phx_` in env worker (Nicola 20/7 ~18:24).** Nicola: «**come faccio ad inserire posthog dentro il vps?**». 5 perché: (1) PostHog **non va installato** sul VPS — è **SaaS cloud** (EU/US); sul sito gli eventi partono già da Render con chiave pubblica; (2) sul VPS serve solo **leggere** funnel/conversioni per briefing — Personal API Key **`phx_…`** con permesso **Project: Read**, **non** la chiave progetto **`phc_…`** (solo tracking/scrittura); (3) **5/7** sensore spento (`POSTHOG_OFF` / chiave sbagliata) — oggi `posthog_api:non_configurato` è **normale**, non bug; (4) setup: env `cervello/vps/.env` → `POSTHOG_OFF=0`, `POSTHOG_API_KEY=phx_…`, `POSTHOG_HOST` (**US** = `https://us.posthog.com` per account MyCity — vedi `sensori.posthog.regione`) → restart `mycity-worker` → `verifica-sensori.mjs` = **ok**; (5) **riaccensione sensore nei briefing** = decisione Nicola esplicita (non automatica al solo env). Regola: su «PostHog nel VPS» → **mai** proporre Docker/self-host; spiega cloud + tipo chiave + **chiedi EU/US** + verifica sensore; **non** incollare chiavi in chat/memoria. Vedi L-222 (PostHog spento = scelta), DECISIONI 5/7. **Addendum 18:28:** Nicola «**dico di metterlo sul vps come n8n**» — stesso frame mentale L-406: n8n = **programma Docker** sul VPS; PostHog = **servizio cloud** + **3 righe env** nello stesso file di n8n/Telegram; self-host PostHog **scartato** (RAM/manutenzione + cambiare tracking Render). **Addendum 18:41:** Nicola «**ho fatto tutto**» ma sensori no — env **letto** (`phx_`, host europeo) ma PostHog **HTTP 401** → **`cieco`**. **Addendum 18:44 (L-410):** account **US** — host europeo era la causa; fix host US → sensore **ok** senza rigenerare chiave. Vedi L-409, L-410.",
    "tag": [
     "posthog",
     "vps",
@@ -11463,7 +11454,6 @@
   },
   {
    "id": "L-2026-0720-401",
-   "testo": "**Elimina negozi demo — casella Supervisione, accoda 🔴 poi esegui al ok (chat 20/7 ~17:54, ✅ 18:30–18:32).** Nicola da casella Supervisione: «**elimina tutti i negozi tranne pane quotidiano**». 5 perché: (1) REST live **17 negozi** = 1 **Pane Quotidiano** reale (5 prodotti) + **16 seed/demo** (UUID `11111111…`, Casa Linda inclusa); (2) **253 prodotti finti** intasano supervisione e catalogo pubblico; (3) cancellazione marketplace **irreversibile** → 🔴, **mai eseguire** senza ok esplicito Nicola; (4) piano: elimina prodotti demo + account venditori demo, **PQ intatto** — accoda **#elimina-negozi-demo**; (5) **ESEGUITO 18:30–18:32** (L-407+L-408): Nicola «te lo approvo in chat» → **16** demo rimossi · prod prima nascosti poi **253 DELETE dal DB** · REST **1 negozio · 5 prodotti**. Regola: imperativo «elimina tutti tranne X» = numeri REST + elenco + card 🔴 + ok → esegui + verifica; «elimina prodotti finti» = hard delete, non draft. Vedi L-407, L-408, DECISIONI 20/7 17:54–18:32.",
    "tag": [
     "supervisione",
     "demo",
@@ -11477,7 +11467,6 @@
   },
   {
    "id": "L-2026-0720-398",
-   "testo": "**«L'ho già mergiata?» — verifica GitHub API, non card Pannello; card aperta ≠ PR pendente (chat 20/7 ~17:45).** Nicola screenshot card Approva + «**controlla se l'ho già margiata**» su PR #498. 5 perché: (1) la **fonte verità merge** è GitHub API (`state=closed`, `merged_at`), non lo stato visivo della card; (2) AD conferma **#498 ✅ merged 16:36:51**, commit `36402b49` su main — fix Diretta online; (3) card resta visibile per **bug Pannello**: errore giallo **scrittura DB memoria rifiutata** — il Pannello non riesce a segnarla chiusa; (4) **non** dire «devi ancora mergiare» né proporre secondo merge; (5) quando chiede «controlla se mergiata» **senza specificare PR**, verificare **tutte** le PR recenti in coda — non assumere solo la card mostrata. Regola: domanda merge + screenshot card → **GitHub API prima**, spiega bug chiusura card se merge già ok, indica prossimo passo reale. **Addendum 17:48:** errore specifico **PGRST102** su Parla casella — vedi L-399. **Addendum 17:50:** Nicola follow-up da casella — **#496 ✅ 17:44:45** (`1cd606e0`) + **#497 ✅ 16:36** confermate; prossimo passo = **#accendi-intelligence-sveglia**, non altri merge. Vedi L-394, DECISIONI 20/7 17:45–17:50.",
    "tag": [
     "pannello",
     "github",
@@ -11490,7 +11479,6 @@
   },
   {
    "id": "L-2026-0720-397",
-   "testo": "**PR feature branch — conflitti merge con main su file memoria auto-generati (chat 20/7 ~16:39).** Nicola manda **solo screenshot** PR #496: checks ok ma merge bloccato per conflitti. 5 perché: (1) branch feature resta indietro mentre main accumula giri/memoria; (2) conflitti tipici su `STATO.md`, `LEZIONI-CHAT.md`, `sentinella-dati.json`, diario operativo — **non** sul codice fix; (3) regola risoluzione: **main vince** su file memoria/worker auto-generati, **branch vince** su codice feature; (4) dopo rebase+push → GitHub **mergeable** (`git-pr.mjs`); (5) codice fix intatto — Nicola mergia 🔴. Regola: screenshot «conflitti PR» → AD risolve subito e spiega memoria vs codice, non chiedere a Nicola merge manuale sui conflitti. **Addendum 17:50:** **#496 ✅** mergiata. **Addendum 18:50–18:52:** **#499** re-conflitto worker → risolto mergeable. **Addendum 23:23:** **#501** (sentinelle pricing) stesso pattern vs main north-star/memoria → mergeable. **Addendum 23:28:** **#501 ✅** mergiata Nicola; **#504** conflitto `giro.sh` post #501+#503 → mergeable `5c8dfc7b`. Vedi L-334, L-390, L-413, L-429.",
    "tag": [
     "github",
     "pr",
@@ -11503,7 +11491,6 @@
   },
   {
    "id": "L-2026-0720-394",
-   "testo": "**Diretta contenuti — caselle spariscono al refresh: GitHub parziale + cap 30, non DB (chat 20/7 ~12:59).** Nicola «**analisi completa e profonda**» — caselle diverse ogni refresh, sembra crollo database. 5 perché: (1) caselle = **file markdown su GitHub** (`consegne/` + briefing/report, ramo main), Pannello legge via API GitHub, **zero Supabase**; (2) **533** candidati ma `MAX_LETTURE=30` in `api/contenuti/route.ts` — il resto esiste ma non compare; (3) sort su **nome file**, non data frontmatter → stesso giorno molti post = set casuale; (4) ~**70 chiamate GitHub**/refresh, timeout **5s/cartella** → intera categoria **svuotata** in quell'aggiornamento (poi ricompare); (5) `DirettaContenuti.tsx` poll **30s** e **sostituisce tutta la lista** — errore parziale = flicker/sparizioni. Regola: bug «Diretta sparisce» → **non** diagnosticare DB; verificare route GitHub + cap + timeout + replace-all UI; fix strutturale 🟡 = cache server, paginazione, **non svuotare** su fetch parziale. **Addendum 16:37:** Nicola «**Fai il fix**» → **PR #498** (`4094570b`): 1 lettura albero GitHub, cache **90s**, max **80**, UI **sticky** (tiene lista su parziale). **Addendum 17:45:** Nicola mergia **#498** (merge `36402b49`, 16:36:51) — fix online; test = refresh multipli stabili. **Addendum 21/7 ~00:08:** Nicola «**non hai risolto**» — #498 **insufficiente**: restano **click bianco** (testo in memoria, UI aspetta update) + **replace-all** client senza merge per filename → second fix **`fix/diretta-apri-contenuto`** `c0039c2a` merge 🔴. Vedi L-438, L-308 (Diretta legge main GitHub), L-398.",
    "tag": [
     "diretta-contenuti",
     "pannello",
@@ -11516,7 +11503,6 @@
   },
   {
    "id": "L-2026-0720-377",
-   "testo": "**«Salva in bacheca» = N caselle separate in BACHECA.md, una per risposta (Nicola 20/7 ~03:25).** Nicola «salva le ultime 2 risposte dentro la bacheca della home in due caselle diverse» — dopo catalogo 20 mani n8n (L-373) e mani per reparto senior (L-376). 5 perché: (1) chat volatili — Nicola vuole output **persistenti e visibili in home** senza riaprire la conversazione; (2) **due risposte = due caselle** distinte (`## Titolo · data ora`), non un blocco unico mescolato; (3) file = `MyCity-Vault/90-Memoria-AI/BACHECA.md`, servito da `/api/bacheca` in Plancia (DECISIONI 16/7); (4) più recenti in cima; Pannello legge **main** GitHub — se non visibile subito = refresh, non «fatto» senza publish; (5) contenuto = **condensato utile** (elenco, ordine, regole 🔴), non dump chat grezzo. Regola: «salva in bacheca / salva le ultime N risposte / inserisci [contenuto] in bacheca» → 🟢 scrivi **N blocchi ## separati** in BACHECA.md subito; **grep titolo prima** per non duplicare (L-384). Vedi DECISIONI 16/7 bacheca, L-373, L-376, L-383, L-384.",
    "tag": [
     "bacheca",
     "pannello",
@@ -11529,7 +11515,6 @@
   },
   {
    "id": "L-2026-0720-370",
-   "testo": "**«Pensa più in grande» = moat + fasi + bottleneck, NON catalogo plugin (Nicola 20/7 ~03:05).** Dopo risposta «tutte le mani per colosso Piacenza» (L-367), Nicola corregge con «pensa più in grande». 5 perché: (1) catalogo mani/n8n/automazioni = **tattica setup**, non risposta a «colosso» — suona piccolo; (2) «colosso» per Nicola = **moat difendibile** (centinaia botteghe reali + consegna + «compro qui non Amazon») + **liquidity a due lati**; (3) **collo di bottiglia reale** = **primo ordine vero** (1 negozio incassa, domanda in attesa) — non altro plugin; (4) struttura **3 fasi** (4 sett accendi città 15–25 botteghe · 3 mesi abitudine multi-negozio/QR/istituzioni · 12 mesi default «compro a Piacenza online»); (5) strumenti (n8n, Telegram, Meta) = **ripetizione** storia fase 2, non obiettivo. **ADDENDUM 03:17:** «indipendente dai dipendenti» (L-375) riusa moat/fasi/bottleneck ma aggiunge **lean headcount** esplicito — automazione + card 🔴, umani solo fiducia/firma. **ADDENDUM 21:49:** «versione avanzata worker/AD/Pannello» (L-421) = **istanza operativa** della visione — 3 salti concreti (mani→numeri→ordine PQ) + frame «vede/disturba/agisce/impara», non elenco AI. Regola: «colosso» / «pensa più in grande» / «indipendente dai dipendenti» / «versione avanzata» → moat + fasi + bottleneck + **una priorità/missione** — **non** elenco 50 automazioni. Vedi L-421, L-375, L-367, L-368.",
    "tag": [
     "strategia",
     "colosso",
@@ -11544,7 +11529,6 @@
   },
   {
    "id": "L-2026-0720-363",
-   "testo": "**Worker UX — tre superfici distinte: FAB popup · menu Worker fullscreen · lista conv overlay (Nicola 20/7 ~02:32).** «Bottone basso-destra e voce Worker nel menù non devono aprire la stessa finestra» + «lista conversazioni in finestra che si apre/chiude sopra la chat». 5 perché: (1) AD aveva unificato FAB e voce menù nella **stessa** popup (#486) — Nicola li distingue: FAB = accesso rapido piccolo, menù Worker = workspace grande; (2) AD aveva reso lista conv **colonna fissa sinistra** (#485/#490) — Nicola vuole **overlay sopra** i messaggi (☰ toggle, tap fuori chiude); (3) tre entry point = **tre modalità UX**, non scorciatoie allo stesso componente; (4) ingrandisci sul popup piccolo = ingrandisce popup, **non** apre la pagina menù Worker; (5) errore processo = implementare metà requisito (sidebar integrata) senza chiedere distinzione contenitore per ogni entry point. Regola: **FAB** = popup piccolo · **menu Worker** = fullscreen · **☰** = overlay conv list — mai unificare FAB=menu; mai sidebar fissa se chiede overlay. Fix PR **#492** ✅ mergiata; supersede #486 unificazione e #490 sidebar fissa. **ADDENDUM 02:46:** posizione controlli per superficie in **L-364** (grande=☰+ in basso; popup=barra alta). **ADDENDUM 03:34 (L-382):** re-chiede «navbar Worker = grande» — codice main già `apriWorkerPopup(true)`; se live mostra popup = deploy, non nuova PR. Vedi L-382, L-352, L-348, L-350, L-364.",
    "tag": [
     "pannello",
     "worker",
@@ -11562,7 +11546,6 @@
   },
   {
    "id": "L-2026-0720-358",
-   "testo": "**Worker chat — icona ☰ menu conv: sidebar sempre visibile ≠ rimuovere toggle (Nicola 20/7 ~02:08).** «Dentro la chat del worker l'icona del menu non si apre». 5 perché: (1) #485 ha reso sidebar conv **permanentemente visibile** a sinistra — requisito L-348 soddisfatto ma **senza** mantenere il controllo ☰; (2) **causa verificata su main:** icona Menu **assente** dal markup header Worker — tap su ☰ impossibile o inerte; (3) **mobile** serve cassetto overlay (sidebar non sempre affordabile); **desktop** utile nascondere colonna per più spazio chat — ☰ = toggle show/hide, non solo «apri drawer esterno»; (4) **non confondere** ☰ testata (elenco conversazioni) con ⚡ basso (Skill & comandi) — Nicola può segnalare «menu» generico; chiedere quale icona; (5) errore processo = fix layout sidebar **senza** checklist «toggle mobile + collapse desktop + icona visibile». Regola: integrare sidebar conv → **mantieni ☰** con toggle funzionante; mai sidebar fissa **e** icona rimossa. Fix branch `fix/worker-menu-conv-apre` (`a6d96d35`). Vedi L-348, PR #485.",
    "tag": [
     "pannello",
     "chat",
@@ -11580,7 +11563,6 @@
   },
   {
    "id": "L-2026-0720-357",
-   "testo": "**n8n webhook env — milestone env → restart → «webhook collegato» → verifica runtime (Nicola 20/7 ~02:07, chiuso 02:34).** Nicola conferma di aver incollato l'URL webhook nel file segreto worker. 5 perché: (1) «inserito nel env» = **passo Nicola completato**, non conferma che la macchina invii già a n8n — il worker legge `.env` **solo al riavvio**; (2) **non** dire «collegato» / «mano attiva» senza verifica post-restart con lo **stesso loader del worker**; (3) prossimi passi **numerati**: workflow **Active** in n8n → riavvio worker → Nicola scrive **«webhook collegato»** → AD verifica (`n8n health ok`); (4) **ADDENDUM env duplicati (corretto 02:34):** nel `.env` possono restare righe duplicate `N8N_WEBHOOK_URL` — il **worker usa l'ultima** (reale) e il webhook **funziona**, ma i sensori/controlli «a mano» leggono spesso la **prima** (segnaposto) → chiedi **una sola** riga per chiarezza; vale per qualsiasi chiave env; **ADDENDUM 02:50:** da **3 a 2 righe** (1 segnaposto + 1 reale) — worker ok, cancellare ultimo segnaposto; (5) **ADDENDUM 02:34:** Nicola «webhook collegato» — verificato OK sul worker; Meta OAuth e `AZIONI_LIVE` restano **separati** — webhook ok ≠ post automatico su FB/IG; interruttore sicurezza resta off. Regola: milestone env → passi numerati → verifica oggettiva su «webhook collegato» → catalogo cosa fare (L-366). Vedi L-331, L-330, L-351, L-344, L-366.",
    "tag": [
     "n8n",
     "webhook",
@@ -11596,7 +11578,6 @@
   },
   {
    "id": "L-2026-0720-352",
-   "testo": "**Worker chat — sidebar dentro riquadro MA resta POPUP apri/chiudi, NON pagina fissa (Nicola 20/7 ~01:36, agg. 02:32).** Correzione esplicita dopo #485: «non ti ho specificato che deve restare una finestra che si apre e si chiude, schiacciando l'apposita icona». 5 perché: (1) richiesta 01:06 copriva **layout** (lista conv integrata a sinistra) ma **non** il **contenitore** — AD ha esteso a pagina fissa `vista=assistente` quando voce menù «Worker» apriva schermo intero; (2) Nicola vuole **overlay popup** (icona basso-destra; **X** chiude; resti su Plancia/Azioni); (3) ingrandisci/riduci = **stessa** popup più grande/piccola, non cambio pagina; (4) sidebar sinistra + chat destra + barra sticky restano **dentro** il popup — compatibile con L-348/L-350; (5) errore processo = implementare metà requisito (sidebar) senza chiedere/confermare modalità contenitore quando si cambia entry point menù. Regola: Worker UX = **popup first** (apri/chiudi icona). **ADDENDUM 02:32 (Nicola):** FAB popup piccolo **≠** voce menu Worker fullscreen — **non** unificare (#486); lista conv = **overlay sopra** chat, non colonna fissa (#492, L-363). Vedi L-363, L-348, L-350, PR #486.",
    "tag": [
     "pannello",
     "chat",
@@ -11613,7 +11594,6 @@
   },
   {
    "id": "L-2026-0720-348",
-   "testo": "**Worker chat — menu conversazioni DENTRO riquadro a sinistra, fluttuante E ingrandita (Nicola 20/7 ~01:06).** Chiede «inserisci il menu delle conversazioni dentro il riquadro della chat (sulla sinistra)» + chiarimento «anche dentro la chat che si apre quando schiaccio ingrandimento nella chat fluttunante». 5 perché: (1) odia cassetto/drawer che scorre da fuori — vuole lista **sempre visibile** nel pannello; (2) fluttuante e schermo intero devono avere **stesso layout** (lista sinistra + chat destra + barra basso); (3) pattern «dimmi cosa hai capito» prima del fix (L-346, L-338); (4) filone UX Worker in sequenza rapida post-scroll ok — **non** rompere #483 scroll né #484 sticky; (5) PR #485. **ADDENDUM 01:36 (Nicola):** sidebar sì ma il contenitore resta **popup apri/chiudi con icona** — **non** pagina fissa del menù laterale; ingrandisci = stessa popup più grande. Fix popup in PR #486 (L-352). **ADDENDUM 01:45 (Nicola):** sidebar deve elencare **TUTTE** le chat — conv da Lavori («Parla con casella») mancava perché storage separato; fix unificazione PR #487 (L-354). **ADDENDUM 02:08 (Nicola):** sidebar integrata **non** elimina icona ☰ in testata — mobile=cassetto, desktop=toggle colonna; #485 aveva rimosso ☰ → bug «menu non si apre»; fix PR worker-menu (L-358). **ADDENDUM 02:13 (Nicola):** via testata marketing «Worker / Semplice e diretto…» — solo ingrandisci/chiudi in alto; **+ Nuova chat** nella toolbar basso con allega/video live/prompt; fix PR #489 (L-359). Regola: richiesta sidebar conv integrata → confermare copertura fluttuante+ingrandita + **popup overlay** + **elenco unificato** + **☰ toggle** + **chrome minimo** + PR dedicata senza toccare fix appena confermati. Vedi L-359, L-358, L-354, L-352, L-346, PR #485, PR #487, PR #489.",
    "tag": [
     "pannello",
     "chat",
@@ -11634,7 +11614,6 @@
   },
   {
    "id": "L-2026-0720-339",
-   "testo": "**Auto-apertura chat — Nicola rimossa su live oggi, repo main ancora presente; sync elenco resta (Nicola 20/7 ~00:32).** Dopo spiegazione sync desktop/mobile (L-338), Nicola corregge: **auto-apertura l'ha tolta oggi** sul Pannello live perché crea bug «+» (chat vecchia rientra). 5 perché: (1) Nicola distingue **due fix** — sync elenco ok, auto-apertura no; (2) AD aveva descritto entrambi come «fix su main» senza chiedere se live=repo; (3) verifica repo: auto-apertura **ancora in codice main** (ultima mod 19/7), nessun commit rimozione oggi; (4) live Panel può essere **avanti** (rollback Vercel) o **indietro** (deploy vecchio) vs repo — prossimo deploy può **reintrodurre** auto-apertura se non PR; (5) stessa radice L-299/PR #475 — timer auto-open annulla «+». Regola: quando Nicola dice «l'ho tolta» → verificare **repo E live**; PR **solo** rimozione auto-apertura, **mai** togliere sync elenco insieme; se chiede «controlla main» = diff codice ufficiale, non assumere live=main. Vedi L-299, L-338, PR #475.",
    "tag": [
     "pannello",
     "chat",
@@ -11651,7 +11630,6 @@
   },
   {
    "id": "L-2026-0719-323",
-   "testo": "**n8n setup VPS — secure cookie blocca browser su IP+http (Nicola 19/7 ~19:58).** Nicola avvia Docker n8n sul worker (Termux SSH) e allega screenshot: container **ok** (porta 5678, volume `n8n_data` preservato su rm/restart), ma pagina `/setup` errore secure cookie. 5 perché: (1) n8n di default richiede https o localhost per cookie sicuro — IP pubblico + http fallisce; (2) **non** è fallimento Docker — il servizio gira anche se SSH Termux cade (background); (3) fix setup: riavvio container con `N8N_SECURE_COOKIE=false` **solo fase install**, poi account admin; (4) **sicurezza post-setup:** porta 5678 esposta su internet → password n8n o accesso solo localhost+tunnel SSH; (5) sequenza resta L-322: import workflow → OAuth Meta → webhook in env worker (segnaposto oggi). Regola: quando Nicola manda screenshot errore n8n post-Docker, diagnosticare secure cookie prima di altre cause; non dire «Docker fallito» se container running. **ADDENDUM 20:03:** dopo drop SSH incolla fix in Termux locale (`~ $`) → docker not found — serve riconnessione SSH (L-324). **ADDENDUM 20:20:** fix secure cookie **confermato** — home n8n «What do you want to build, Nicola» (L-325). Vedi L-322, L-321, L-325.",
    "tag": [
     "n8n",
     "docker",
@@ -11666,7 +11644,6 @@
   },
   {
    "id": "L-2026-0719-321",
-   "testo": "**Pubblicazione FB/IG — «Come faccio a farti pubblicare?» = n8n + card 🔴 (Nicola 19/7 ~19:43).** Segue L-320 sulla casella post domenica PQ: Nicola chiede come collegare la mano social, non solo copia-incolla. 5 perché: (1) publisher già in `cervello/publishers/` + guida `collega-le-mani.md` — blocco = chiavi Meta, non codice; (2) **`N8N_WEBHOOK_URL` sul VPS oggi segnaposto** — n8n non riceve nulla; (3) percorso consigliato **n8n** (OAuth Meta una volta nel workflow, webhook in env worker **mai in chat**) vs Meta diretto (Business Verification, giorni/settimane); (4) **Instagram API richiede URL immagine pubblico** — grafiche in repo/Diretta non bastano finché non c'è URL live per l'API; (5) anche mano collegata: post pagina FB + feed IG restano **🟡/🔴** (card Pannello); **gruppi FB locali sempre manuali**. Regola: rispondere con checklist n8n (install → workflow webhook → OAuth → env worker → restart → dry-run → card); non promettere auto-pub stasera se setup non fatto. **ADDENDUM 20/7 ~20:25:** webhook n8n **ok** (L-357) + workflow importato (L-330) — «collegare Meta» = **solo credenziali nodi workflow + Active**, vedi L-420; non ripetere install. Vedi L-320, L-2026-0630-06.",
    "tag": [
     "pubblicazione",
     "instagram",
@@ -11683,7 +11660,6 @@
   },
   {
    "id": "L-2026-0719-316",
-   "testo": "**GitHub rate limit — «Perché non apri/aprire la PR?» (Nicola 19/7 ~18:57–19:01).** Dopo push fix su `fix/render-build-orders-page` (build Render), Nicola chiede perché l'AD non ha aperto la scheda PR (tre varianti: 18:57, 18:59 push/allowlist, **19:01 «Perché non riesci ad aprire la pr?»**). 5 perché: (1) **standing-ask:** Nicola si aspetta che l'AD apra PR automaticamente (`git-pr.mjs`/`gh pr create`), non istruzioni manuali come prima scelta; (2) retry 18:57, 18:59, **19:01** = stesso **403 rate limit** — giornata intensa esaurisce quota API **token worker** (user 98592323); (3) **push ≠ PR aperta:** codice (`5497b96`) su GitHub, manca scheda; (4) limite sul **token automazione worker**, non sull'account Nicola — da browser/app GitHub può aprire Compare **subito**; (5) risposta: retry immediato, se 403 → spiega token worker + compare manuale Nicola + «riprova la PR» ~1h — **MAI** aggirare (LEZIONI-CHAT). Regola: domanda ripetuta = frustrazione automazione; dimostrare retry + causa esterna + piano B browser Nicola. Vedi L-317, L-315.",
    "tag": [
     "github",
     "rate-limit",
@@ -11698,7 +11674,6 @@
   },
   {
    "id": "L-2026-0719-315",
-   "testo": "**Render marketplace — X rosse = build fallito, non «deploy non partito» (Nicola 19/7 ~18:56).** Dopo merge #214 Nicola: «Non ha fatto il deploy, come mai?» + screenshot Render. 5 perché: (1) interpreta sito vecchio = Auto-Deploy non attivo; (2) Render **ha tentato** deploy ma build crashato ~2 min (X rosse = failed, non canceled); (3) causa verificata in locale: errore TypeScript `app/orders/page.tsx` (`.catch` su PromiseLike Supabase) — già su main dal merge radiografia 18/7, **non** introdotto da #214/#215; (4) **merge GitHub ≠ online**: ogni PR mergiata resta offline finché un build completa con successo; (5) fix su branch `fix/render-build-orders-page` (+ `NODE_OPTIONS=4096` anti-OOM), build locale OK; PR automatica bloccata da rate limit GitHub API → aprire/mergiare a mano (#197). Regola: «deploy non fatto» → controllare **stato build Render** (failed vs never started); non dire «non ha deployato» se c'è un deploy failed; non attribuire al PR feature se il build fallisce su debito pre-esistente su main. Vedi L-314, L-311.",
    "tag": [
     "render",
     "deploy",
@@ -11714,7 +11689,6 @@
   },
   {
    "id": "L-2026-0719-305",
-   "testo": "**Playwright sul worker — setup root COMPLETATO (Nicola 19/7 ~17:26→18:12).** «Come faccio a rendere operativo playwright su worker?» + strumenti contenuti potenti. Sequenza eseguita e verificata: **font ✅ 17:34** · **Node22 ✅ 17:36** (`v22.17.1`, owner mycity) · **Chromium ✅** (`/opt/pw-browsers/chromium-1228`) · **Playwright ✅ 18:12** (`/opt/node22/lib/node_modules/playwright`, dopo fix `--prefix`) · **env ✅** (`PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` in `cervello/vps/.env`) · **render ✅** (`render-domenica-settimana.mjs` → feed ~524KB + storia ~664KB in `consegne/content/assets/`). 5 perché: (1) Nicola vuole passi operativi Termux uno alla volta + «controlla se ho fatto giusto» = verifica server; (2) install richiede root — chat AD non può eseguirla; (3) ordine canonico: font → Node22 → Playwright `--prefix /opt/node22` → env worker → restart → test render; (4) contenuti potenti = foto/video veri + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico 🟡 per non perdere al prossimo aggiornamento server. Regola: «Fatto» ≠ ok finché render non stampa 2 OK. Vedi L-306, L-307, L-247.",
    "tag": [
     "playwright",
     "content-factory",
@@ -11729,7 +11703,6 @@
   },
   {
    "id": "L-2026-0719-304",
-   "testo": "**Grafiche professionali — strumenti REALI usati + carburante per alzare livello (Nicola 19/7 ~17:21, Playwright ✅ 18:12).** «Quali strumenti hai usato per la parte grafica e quali ti servono per grafiche professionali?» 5 perché: (1) dopo fix Diretta vuole capire **stack vero**, non marketing; (2) oggi = Content Factory locale (template HTML brand → Playwright/Chromium PNG 1080×1350 e 9:16) + SVG per anteprima Diretta quando serve; (3) PNG automatici sul VPS **erano rotti** senza font/Playwright — **risolto 18:12** (font + Node22 + Playwright operativi → render domenica OK); (4) Canva auto, Gemini/Imagen, video AI = **scheletri spenti** — vincolo [[niente-api-ai]]; (5) livello «agenzia» = **materia prima vera** (3–5 foto bottega/prodotto, frase bottegaio) + render Playwright operativo **oppure** PNG già fatti da Nicola (Canva/Figma). Regola: elencare attivo/spento/esigenze in 3 bin; non promettere output pro senza foto vere.",
    "tag": [
     "content-factory",
     "grafica",
@@ -11744,7 +11717,6 @@
   },
   {
    "id": "L-2026-0719-301",
-   "testo": "**«Risolvi tutti i problemi della chat» — analisi unificata + PR priorità, non fix a pezzi (Nicola 19/7 ~17:03, consegnato 17:11).** Dopo spiegazione regressione auto-open (#456 vs cross-device), Nicola: «voglio risolvi tutti problemi della chat, fai una bella analisi, ricordati tutti i problemi che ti ho detto». 5 perché: (1) ha segnalato più bug nel tempo (auto-open, cross-device, limiti motore, debounce, streaming, titoli caselle, ecc.) — vuole **mappa unica**; (2) fix isolati senza inventario fanno «tornare» lo stesso sintomo; (3) «bella analisi» = elenco verificato + priorità + piano batch, non altra PR singola; (4) AD deve **aggregare** da memoria/chat precedenti, non chiedere di ripetere; (5) consegna = tabella sintomo→stato→PR **e** fix batch prioritario (**PR #475** per auto-open). Inventario canonico 7 filoni: auto-open (#475), cross-device (#446+#475), pallini (#328/#348 ritest), pezzo sparito (salvataggio incompleto/limiti AI), streaming (backlog worker), scroll/triplicazione (main), MCP (allowlist ok, test runtime). Backlog fuori PR: streaming live, due marce, allegati.",
    "tag": [
     "chat",
     "pannello",
@@ -11759,7 +11731,6 @@
   },
   {
    "id": "L-2026-0719-299",
-   "testo": "**Bug nuova chat — PR #456 annullata dal fix cross-device; fix PR #475 (Nicola 19/7 17:03 «perché è tornato?», consegnato 17:11).** Premendo «+» la chat si svuota poi riappare l'ultima conversazione (es. messaggi allowlist/git) — NON è output worker nuovo, è contenuto riciclato. 5 perché: (1) PR #456 (18/7) bloccava permanentemente auto-open quando Nicola preme «+» via `nuovaChatManualeRef`; (2) fix cross-device stessa sera ha esteso auto-open a 24h per sync smartphone↔desktop; (3) per «non bloccare sync successivi» hanno messo `setTimeout(..., 3000)` che resetta il flag — dopo 3s l'auto-open torna attivo; (4) poll conversazioni ogni 8s (`setInterval` ~2067) + `useEffect` ~2090 riapre l'ultima conv <24h se chat vuota; (5) Nicola chiede «perché è tornato?» → vuole causa radice regressione, non solo «riprovo fix». Regola: fix cross-device su chat NON deve reintrodurre timer che annulla blocchi UX manuali; verifica `page.tsx` ~1284 e ~2090; spiegare meccanismo prima di proporre PR. Fix: **PR #475** — blocco permanente su «+» senza reset timer (come #456) + sync iniziale separato. Vedi DECISIONI 19/7 17:03, 17:11.",
    "tag": [
     "pannello",
     "chat",
@@ -11777,7 +11748,6 @@
   },
   {
    "id": "L-2026-0719-286",
-   "testo": "**settings.local.json JSON invalido → l'intera allowlist viene ignorata (19/7 14:42, confermato 16:44).** Due errori virgola osservati sullo stesso file mentre Nicola aggiunge MCP: (a) 14:42 — virgola **mancante** tra voci (dopo Vercel `get_project`); (b) 16:44 — **trailing comma** sull'ultima riga Supabase (`Illegal trailing comma` riga 33). Entrambi invalidano il JSON → nessun permesso attivo (né Vercel né Supabase). 5 perché: (1) parser JSON all-or-nothing; (2) pattern già visto 18/7 su virgola git-pr.mjs; (3) sintomo = permessi «già presenti» ma tool bloccati; (4) Nicola aggiunge voci ma nulla cambia → validare JSON PRIMA; (5) dopo fix serve nuova chat. Regola: virgola TRA le righe, MAI dopo l'ultima. Vedi #abilita-mcp-supabase-chat, L-290.",
    "tag": [
     "allowlist",
     "json-invalido",
@@ -11794,7 +11764,6 @@
   },
   {
    "id": "L-2026-0719-279",
-   "testo": "**Correzione Nicola (19/7): «clienti/utenti iscritti» = solo role=buyer — MAI confondere con profili totali.** EXP-001 diceva '23 iscritti'; Nicola ha corretto: 'a me risultano solo 4'. Il 23 veniva da STATO.md ('23 clienti') che contava TUTTI i profili (4 buyer + 17 seller + 1 admin + 1 rider = 23 account). Confermato DB live 19/7 14:33 via REST `profiles?role=eq.buyer` → 4. 5 perché: (1) memoria usava conteggio profili totali come 'clienti'; (2) seller/admin/rider non sono clienti; (3) Nicola chiede «quanti utenti?» → rispondi con breakdown per ruolo; (4) numeri in esperimenti/STATO vanno verificati live, non copiati; (5) se DB non raggiungibile → 'dato da verificare'. Regola: query live (REST o MCP) prima di ogni numero presentato a Nicola.",
    "tag": [
     "esperimenti",
     "numeri",
@@ -11811,7 +11780,6 @@
   },
   {
    "id": "L-2026-0718-272",
-   "testo": "**Allowlist `git -C /opt/mycity/ad-mycity/marketplace:*` aggiunta da Nicola il 18/7 — i comandi git sul repo marketplace ora funzionano dalla chat.** Prima era bloccato (solo la root `ad-mycity/` era in allowlist). `git-pr.mjs` NON supporta `marketplace` come target (solo `ad-mycity`): per aprire una PR su mycity, fare `git push origin <branch>` direttamente nel repo marketplace e aprire il link PR da GitHub. Se il repo marketplace ha un rebase interrotto, fare `git rebase --abort` prima di creare nuovi branch. PR #213 (35 fix radiografia): conflitti risolti 18/7 via rebase; **mergiata 19/7 17:00** (`304fe07` su main).",
    "tag": [
     "allowlist",
     "marketplace",
@@ -11826,7 +11794,6 @@
   },
   {
    "id": "L-2026-0718-263",
-   "testo": "**3 bug chat Worker (18/7) — scroll menu, layout messaggi, sticky input:** (1) chat si apre dall'inizio invece che dall'ultimo messaggio dal menu → **#482+#483 ✅ Nicola 00:55**; (2) risposta AD spinge box verso il basso → layout flex min-h-0 (parziale #443); (3) box scrittura+icone **sticky in fondo** tipo WhatsApp → **PR #484** (20/7 ~00:55, L-346). Componente: ChatCasella Worker. Fix (3): position sticky/fixed barra input, solo messaggi scrollano.",
    "tag": [
     "ux-chat",
     "scroll",
@@ -11842,7 +11809,6 @@
   },
   {
    "id": "L-2026-0717-247",
-   "testo": "**⭐ PERMANENTE — Il file `.env` del worker è `cervello/vps/.env`, MAI la root (caso-studio Nicola 17/7 × 3 conferme, ultima 19/7 18:06):** Nicola ha detto «impara questa lezione e ricordatela per sempre». Il systemd usa `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env`. Il file root `/opt/mycity/ad-mycity/.env` è vuoto/assente e IGNORATO dal processo. Ogni nuova variabile d'ambiente (VERCEL_TOKEN, STRIPE_KEY, `PLAYWRIGHT_BROWSERS_PATH`, ecc.) va SOLO in `cervello/vps/.env` + restart worker (`mycity-worker.service` o `mycity-worker-chat.service`). Quando chiede «ricordami come si entra nel file segreto» → path assoluto Termux + `nano` + riga in fondo + restart; non leggere il file in chat. Quando Nicola dice 'ho inserito il token', chiedere subito DOVE: nel `cervello/vps/.env`? nel codice? nel root .env? Solo il primo funziona.",
    "tag": [
     "vercel",
     "token",
@@ -11858,7 +11824,6 @@
   },
   {
    "id": "L-2026-0716-233",
-   "testo": "**Verifica il branch PRIMA di committare — errore ricorrente (16/7 + 18/7 + 20/7):** tre volte un `git commit` è finito su `main` locale invece del branch di lavoro. 16/7: PR #409 → rimedio con nuovo branch (PR #410). 18/7: fix/arsenale-tab-v2 → stesso errore, cherry-pick bloccato, rimedio con riapplicazione manuale del fix sul branch v2 (PR #464 sostituisce #463). **20/7 ~02:13:** fix Worker layout #489 (`fix/worker-niente-testata`) committato su main per errore → spostato sul branch corretto. `git reset --hard` è bloccato per sicurezza. Ordine invariabile: (1) `git branch --show-current`, (2) checkout branch se serve, (3) modifica, (4) build, (5) commit immediato. Watch-main gira ogni ~5 min e resetta main: non c'è finestra sicura tra checkout e commit — eseguirli in sequenza rapida senza pause.",
    "tag": [
     "git",
     "branch",
@@ -11872,7 +11837,6 @@
   },
   {
    "id": "L-2026-0714-224",
-   "testo": "**PR #378 Chi impara — «non hai guardato la pr dopo che l'hai aperta» (chat 14/7 ~03:33, correzione Nicola):** Nicola segnala conflitto su PR #378 (`fix/chi-impara-da-cosa`) — AD aveva detto «pronta» senza ricontrollare dopo merge parallelo **#377** sensori su main. 5 perché: (1) gate L-214 vale **anche dopo l'apertura** — main si muove mentre lavori altro fix; (2) conflitto su radiografia/giro/body memoria, codice Chi impara **intatto** (pattern #369/#371/#374); (3) «non hai guardato ancora una volta» = Nicola paga due volte (apertura + segnalazione) se AD non riesegue `git-pr.mjs`; (4) fix = rebase su main post-#377, head `c17abc33`, mergeable API ok; (5) casella **6/6** verde **dopo** merge Nicola — **confermato 03:36** merge `2162a760` su main. **Regola:** ogni «PR pronta» = mergeable **fresh** sul main **adesso**, non al momento del push iniziale. Correlazione L-214, L-220, L-215.",
    "tag": [
     "pr-378",
     "chi-impara",
@@ -11888,7 +11852,6 @@
   },
   {
    "id": "L-2026-0714-214",
-   "testo": "**PR #371 — «ti ho già detto»: mergeable PRIMA di accodare (chat 14/7 ~02:43, correzione Nicola):** Nicola «ha dei conflitti e ti ho già detto che se apri una pr devi controllare che non ci siano conflitti» — terza PR stessa notte con conflitto body post-apertura. 5 perché: (1) AD aprì/accodò #371 senza verificare mergeable su main aggiornato (STATO aveva detto «senza conflitti» — falso al momento merge); (2) stesso pattern L-209/#369: solo `consegne/tech/pr-ad-mycity-body.md`, codice Pannello intatto; (3) «ti ho già detto» = regola L-129 (simula merge) già in memoria ma **non applicata al gate di apertura/accodamento** — Nicola paga il prezzo al Approva; (4) fix = rebase su main, head `6fa822bf`, API mergeable verificata; (5) **gate permanente:** `git-pr.mjs` deve stampare «mergeable» **prima** di creare card in AZIONI-IN-ATTESA — non accodare finché check non passa; se Nicola segnala conflitto = AD ha violato il gate. Correlazione L-209, L-129, L-99.",
    "tag": [
     "pr-371",
     "conflitti",
@@ -11904,7 +11867,6 @@
   },
   {
    "id": "L-2026-0714-209",
-   "testo": "**PR parallele — conflitto body condiviso, codice intatto (pattern #369+#370, confermato #472+#471 19/7):** Nicola segnala conflitto («ci sono conflitti», «Ha un conflitto») su PR aperta in parallelo con altra PR stessa sessione. 5 perché: (1) `consegne/tech/pr-ad-mycity-body.md` è **unico** per tutte le PR — testi diversi si pestano; (2) main avanza mentre branch resta aperta → conflitto inevitabile sul body, **non** sul codice fix (#369 sync intatto; #472 `CasellaAnteprima` intatto); (3) Nicola non distingue body vs codice — AD spiega tipo conflitto e risolve branch, non istruzioni GitHub; (4) fix = rebase su main, verificare mergeable API; (5) **riapprova** card merge Pannello. **Regola:** PR Pannello parallele nella stessa sessione → aspettarsi conflitto body; risolvere prima di dire «pronta». Ultimo caso: #472+#471 (19/7 13:54, head `5c2f8821`). Correlazione L-175, L-181, L-205, L-283.",
    "tag": [
     "pr-369",
     "pr-472",
@@ -11919,7 +11881,6 @@
   },
   {
    "id": "L-2026-0714-202",
-   "testo": "**Scoperte & proposte — sync vs contenuto giro (chat 14/7 ~02:10, agg. 03:00):** Nicola «l'ho già mangiata» + «2 caselle non aggiornate» + «era azioni» + **«perché non è scomparsa?»** dopo Approva #134/#369. 5 perché: (1) tab Scoperte legge `ultimo-briefing.json` (ultimo giro AD), non conversazione né `STATO.md`; (2) **PR #369** collega Scoperte/Proposte a `mycity:sync` — aggiornamento **istantaneo** post-approva/ignora/worker; poll **60s** (**15s** se merge PR in coda) su Azioni/Proposte; (3) **limite persistente:** contenuto Opportunità in Scoperte resta fotografia **ultimo giro** finché non parte giro nuovo — approvare in Da approvare **non** cancella la riga Opportunità (Nicola si aspetta parità UX); (4) chat→STATO ok; spiegare doppio canale (Memoria viva vs Scoperte=giorno) **prima** che chieda; (5) **regola:** non confondere «casella ferma» (bug sync) con «testo vecchio» (serve giro); backlog prodotto accettabile = «nascondi opportunità già completate». Correlazione L-150, L-204, L-205.",
    "tag": [
     "pannello",
     "scoperte",
@@ -11937,7 +11898,6 @@
   },
   {
    "id": "L-2026-0713-179",
-   "testo": "**Controllo/La macchina — grilling completo A+B+B+B+B+rename+A (chat 13/7 ~21:52–21:58):** «grillami, non mi piace come è impostata» → **Q1 A:** in 10s solo **semaforo** (🟢🟡🔴) + **un passo** se problema (lettura rapida dagli organi in home). **Q2 B:** cuore e 8 organi in **home** + pagina dedicata **ampliata**. **Q3 B:** **Radiografia sito esce** da questa pagina (audit marketplace). **Q4 B:** audit sito → voce menu **«Salute sito»**. **Q5 B modificato:** cuore+organismi grandi + contenuto sotto **MA** Nicola chiede: (1) **Auto-coscienza** → **voce menu a sé** (stesso pattern Salute sito); (2) rinominare **«Controllo»** → **«Radiografia macchina»**. **Q6 A:** dentro Radiografia macchina = cuore+organismi grandi + **report radiografia subito sotto**, **niente tab**. **Menu finale:** 3 voci separate (Radiografia macchina, Salute sito, Auto-coscienza). 5 perché: (1) Nicola separa concetti nel menu, non nelle tab; (2) nomi menu = cosa contiene la pagina; (3) pattern ripetibile: ogni audit/sistema = voce propria; (4) grilling sequenziale funziona — non proporre PR finché tutte le domande non chiudono; (5) home = semaforo veloce, pagina dedicata = referto completo. **PR redesign 🟡** solo dopo «sì» Nicola. Correlazione L-172, nicola-spiegazioni-piu-chiare.",
    "tag": [
     "pannello",
     "controllo",
@@ -11956,7 +11916,6 @@
   },
   {
    "id": "L-2026-0713-175",
-   "testo": "**Nicola «fallo tu» su conflitto PR — eseguire, non istruire (chat 13/7 ~21:42, rinforzo 22:04 #354/#355):** dopo spiegazione conflitto #352 con passi manuali GitHub (Resolve conflicts, Accept main), Nicola dice solo «fallo tu». 5 perché: (1) preferenza consolidata modo-lavoro — AD capace, deve portare a termine; (2) istruzioni UI GitHub = frizione quando AD può toccare il branch; (3) L-122/L-174 dicevano risolvere sulla stessa PR ma AD aveva dato manual steps prima; (4) «fallo tu» su conflitto ≠ firma merge 🔴 — risoluzione branch è 🟢 AD, Approva merge resta Nicola; (5) **regola:** su conflitto PR il primo tentativo = AD rebase+merge+verifica mergeable API, poi chiede solo Approva — istruzioni GitHub UI solo se push bloccato; se chiede «cosa ti avevo chiesto?» = reminder fallo tu, non ripetere spiegazione lunga. #352 → `ac9606fc`; #354/#355 → mergeable 22:04. Correlazione L-122, L-174, L-181, modo-lavoro-una-chat.",
    "tag": [
     "pr-352",
     "pr-354",
@@ -11971,7 +11930,6 @@
   },
   {
    "id": "L-2026-0713-167",
-   "testo": "**Caso-studio Nicola — silo allocazione «fai il fix» (chat 13/7 ~21:01, chiuso 14/7 ~01:04):** casella BLOCCANTE: 12 pacchetti pesanti su Garetti (`scelta_ragionata`, non firmato) mentre Pane Quotidiano (unico reale; Casa Linda = demo) a 0 copertura attiva. Nicola «fai il fix» — vuole esecuzione, non altra diagnosi. 5 perché: (1) cancello AR-006 esisteva ma asset Garetti restavano in `consegne/` attive; (2) faro corretto (PQ) non propagato a coda/consegne nello stesso giro (P4); (3) auto-analisi segnalava ma non archiviava; (4) fix = spostare 12 file in `_archivio-prospect/garetti/` + verificare `allocazione-check` exit 0; (5) merge PR #349 (13/7 21:44 `444439af`) + allocazione-check verde **non bastano** — casella rossa resta finché AR-006 è `in-corso` in cantiere e #119 non è FATTO; Nicola «cosa manca?» = checklist 3 bucket (tecnico · housekeeping · materia prima/umano); Nicola «chiudi AR-006» = 🟢 housekeeping eseguito (cantiere `chiuso`, #119 FATTO). **Regola:** su casella allocazione BLOCCANTE, chiudere cantiere+coda **nello stesso giro post-merge**, non lasciare casella rossa con fix tecnico già su main. Correlazione P4/L-2026-0702-01, AR-006.",
    "tag": [
     "allocazione",
     "AR-006",
@@ -11987,7 +11945,6 @@
   },
   {
    "id": "L-2026-0713-159",
-   "testo": "**Conflitto PR #346 — solo file body memoria (chat 13/7 ~19:50):** Nicola «c'è un conflitto» subito dopo fix scelte ragionate. 5 perché: (1) conflitto in `consegne/tech/pr-ad-mycity-body.md`, non in `registro-realta.json` né guardiano; (2) main avanzato con fix auto-analisi live mentre #346 era aperta — stesso pattern L-129/#324/#329 (file memoria nel branch); (3) Nicola non distingue body vs codice — AD deve spiegare **tipo** di conflitto; (4) fix = rebase su main + push **stesso branch** (`28ae3360`, `07c4b357`), non PR nuova; (5) verificare `registro-scelte-check.mjs` exit 0 dopo rebase prima di dire «pronta». Correlazione L-129, L-157.",
    "tag": [
     "pr-346",
     "conflitto",
@@ -12001,7 +11958,6 @@
   },
   {
    "id": "L-2026-0713-138",
-   "testo": "**Checklist audit post-merge PR (chat 13/7 ~17:55–18:22, richiesta Nicola):** Nicola «assicurati che ogni commit/pr/merge di stamattina siano andate a buon fine» poi «facciamo una verifica». 5 perché: (1) «PR mergiata» ≠ «fix live» — worker chat non riavviato dal 16:08 fino a restart Nicola 18:22; (2) «PR mergiata» ≠ «fix su main» — #335 merge ha portato commit `68c15aa4` con codice vecchio; (3) «codice su main» ≠ «funziona per Nicola» — serve deploy Vercel + restart worker + prova dispositivo; (4) coda Pannello può restare «in attesa» su PR già mergiate (#339/#340 verificate mergiate 18:15); (5) **regola audit/verifica:** per ogni PR del giorno → stato GitHub + `git show HEAD:<file-fix>` + test locale se worker + **3 check Nicola** (restart worker, Ctrl+F5, streaming orizzontale + pallino 15s). Nicola 18:22 ha completato restart+Ctrl+F5; terza prova streaming in corso. Fonte: audit 23 PR #312–#337 + verifica main + chat 18:22.",
    "tag": [
     "audit",
     "pr",
@@ -12016,7 +11972,6 @@
   },
   {
    "id": "L-2026-0713-133",
-   "testo": "**Pallino riaccende dopo ~5s — orologio browser vs lavoro AD (chat 13/7 ~17:36–18:01):** Nicola «c'è ancora il problema dei pallini… dopo che apro la chat della risposta non letta il pallino sparisce ma dopo 5 secondi ritorna». 5 perché: (1) aprire chat salva `lettoAt` con `Date.now()` del client; (2) il poll elenco conversazioni (~5s) ricalcola non-letto confrontando con `updated_at`/`finished_at` del **Lavoro** AD; (3) il lavoro spesso termina qualche secondo DOPO che Nicola ha già aperto la chat → timestamp lavoro > timestamp lettura → pallino torna; (4) #328 (sync server) già su main — non risolve questo race; (5) **fix #336** mergiata ~17:49 incompleta (race `persistConversazione`); **#338 mergiata 17:58** (`81c28c0b`) — `segnaLetta` salva orario «adesso» in persist. Nicola ~18:01 può ancora vedere bug = versione Vercel pre-deploy (2–3 min). Regola: una fonte temporale per «letto»; prima di nuovo fix verifica deploy + test 15s in chat aperta.",
    "tag": [
     "pannello",
     "conversazioni",
@@ -12034,7 +11989,6 @@
   },
   {
    "id": "L-2026-0713-132",
-   "testo": "**Allegati chat — 3 superfici diverse (chat 13/7 ~17:32–17:47, correzione Nicola):** dopo ok #60 («upload funziona») Nicola corregge: «problema è dentro la chat fluttuante» + «controlla anche parla con questa casella» + «no la chat fluttuante non mi lascia allegare i file» (iPhone). 5 perché: (1) risposta AD era corretta su env Vercel ma generica — non ha chiesto QUale chat né dispositivo; (2) **tre superfici verificate codice:** chat intera + fluttuante «Parla con l'AD» (`page.tsx` ~2716, graffetta+upload), «Parla con questa casella» (`ParlaCasella.tsx`, **zero graffetta**, solo testo), Archivio lavori (`ChatCasella.tsx`, allegati ok); (3) Nicola usa fluttuante e caselle contestuali — si aspetta allegati ovunque scrive; (4) post-#60 fallimento fluttuante iPhone = **bug Safari selettore** (input nascosto+click finto), non Storage — fix **#333**; ParlaCasella = feature mancante; (5) **regola:** su «non riesco ad allegare» → chiedi superficie + dispositivo + verifica componente; ordine diagnosi: env 503 → superficie → browser.",
    "tag": [
     "pannello",
     "allegati",
@@ -12049,7 +12003,6 @@
   },
   {
    "id": "L-2026-0713-131",
-   "testo": "**Streaming chat assente con motore Cursor (chat 13/7 ~17:31–18:18):** Nicola «fino ieri… perché non lo fai più?» → «apri pr» → «riesci a mostrarmi la risposta in streaming?». 5 perché: (1) con Claude il worker chiamava `rispondi_chat_stream` → testo parola-per-parola; (2) in `worker.sh` lo streaming chat era gated su `ai_engine=claude` — Cursor cadeva nel ramo senza parziali; (3) CLI Cursor = `stream-json` + `--stream-partial-output` (NON flag Claude); (4) #335 merge ha ripristinato codice vecchio su main (L-137) — fix in #338+#339 mergiate ~18:14; (5) **Nicola vuole dimostrazione live:** la risposta in chat è il test — chiedere feedback (cresce / tutta insieme / a colonna); tutta insieme o colonna con codice ok = worker VPS non riavviato dal 16:08. Regola: verifica `git show HEAD:cervello/worker.sh` post-merge; segnalazione streaming → diagnosi worker prima del Pannello.",
    "tag": [
     "worker",
     "streaming",
@@ -12064,7 +12017,6 @@
   },
   {
    "id": "L-2026-0713-129",
-   "testo": "**Doppia/tripla PR stesso bug + «impara questi errori» (chat 13/7 ~17:15–17:45):** Nicola «ci sono dei conflitti, risolvili» + «hai creato due pr, le mergio entrambe?» + «impara questi errori» su pallini rossi + residuo pallino ~5s. 5 perché: (1) nella stessa sessione ho aperto #327 (badge parziale), #328 (sync server), #332 (orologio), #334 (poll) → 4 PR per un bug = confusione su quale mergiare; (2) conflitto #328 = file memoria worker nel branch Pannello (pattern #318/#324/#316, non codice fix); (3) ho detto «pronta» senza simulare merge su main HEAD — Nicola trove conflitti dopo; (4) #330 era plugin worker (mergiata separatamente 17:19), non pallini — va detto esplicitamente per non confonderla con #327/#328; (5) **regole:** mai 2+ PR per lo stesso bug nella stessa sessione — iterare sulla STESSA PR o chiudere la vecchia; fix incompleto (#332) = push su #332, NON aprire #334; quando Nicola chiede «mergio entrambe?» rispondere quale SÌ, quale CHIUDI e perché; branch PR = solo la cartella del fix (`pannello/` o singolo file `cervello/*.mjs`), ribasa su main, **simula merge prima di «pronto»**. Fix #328 ripulito commit `812cff8b`; #332 annullata → solo #334 merge 🔴 #107.",
    "tag": [
     "pannello",
     "pr",
@@ -12084,7 +12036,6 @@
   },
   {
    "id": "L-2026-0713-124",
-   "testo": "**Descrizione PR sempre dentro GitHub (chat 13/7 ~16:22 + 17:39 + 17:52):** Nicola «Ti avevo chiesto di darmi sempre la descrizione della pr dentro github, sempre» — correzione/rinforzo di standing-ask già emersa 12/7 su #292; **ripetuto 17:39** su #333 («perché non mi hai messo la descrizione…»); **17:52** «voglio ci sia sempre… ci riesci?» = vuole gate strutturale (**PR #337**). 5 perché: (1) apriva PR senza `--body` → su GitHub resta solo testo automatico dello script; (2) il link in chat non sostituisce il body dove Nicola firma; (3) Nicola legge e decide dal Pannello/GitHub; (4) errore ripetuto nonostante richiesta 16:22 — colpa processo AD; (5) **regola permanente:** body italiano (cosa/perché/prova 2–3 passi) **al momento dell'apertura**; **gate:** `git-pr.mjs` `requireBody()` blocca se <80 char o generico (L-136).",
    "tag": [
     "pr",
     "github",
@@ -12099,7 +12050,6 @@
   },
   {
    "id": "L-2026-0713-119",
-   "testo": "**Allegati chat — upload Vercel vs worker (chat 13/7 ~16:04–17:32):** Nicola segnala allegati rotti in due forme: (A) screenshot UI senza file in `.allegati-chat` (16:04); (B) «perché non riesco più ad allegarti i file?» (17:28). 5 perché: (1) upload online fallisce senza env Storage su Vercel — route `/api/allegato` risponde 503 «Storage non collegato» (verificato su main), VPS ha chiavi ma hosted no; (2) graffetta visibile + upload che fallisce ≠ bug UI mobile (PR #328); (3) senza file nel worker indovinare la pagina è speculazione — chiedi scheda; (4) Nicola segnala UX con screenshot dal telefono (pattern ricorrente); (5) **regola:** diagnosi env Vercel PRIMA di «codice rotto»; ok #60 = env memoria + redeploy → POST live `ok:true` bucket `chat-allegati/` (17:28). **Addendum 17:32:** dopo #60 Nicola distingue fluttuante vs «Parla con questa casella» — env ok non basta se `ParlaCasella.tsx` non ha graffetta (→ L-132).",
    "tag": [
     "pannello",
     "allegati",
@@ -12114,7 +12064,6 @@
   },
   {
    "id": "L-2026-0713-108",
-   "testo": "**Chat Pannello PC≠telefono — sync parziale per design (chat 13/7 ~12:06, ri-confermato 20/7 ~00:29).** Nicola segnala disallineamento dati desktop vs smartphone; prima confermata = conversazioni chat non coincidono. 5 perché: (1) storico conversazioni va in DB Supabase — poll elenco ~8s (post-#316) ma ogni dispositivo parte da snapshot locale; (2) la chat aperta adesso vive in memoria sessione del browser, non si propaga in tempo reale; (3) footer «database» vs «questo dispositivo» distingue sync attivo vs solo locale; (4) Nicola si aspetta allineamento cross-device (standing-ask L-106/L-301) — fix #316+#328+#446+#475 su main ma 20/7 segnala ancora gap; (5) se database ok e liste diverse → Vercel vecchio o persist DB silenzioso. Regola: segnalazione «PC≠telefono» → diagnosticare PRIMA footer cassetto + 2 livelli (elenco vs aperta), poi deploy/cache/DB.",
    "tag": [
     "pannello",
     "conversazioni",
@@ -12130,7 +12079,6 @@
   },
   {
    "id": "L-2026-0713-100",
-   "testo": "**Caso-studio Nicola — auto-coscienza «ferma al 03/07», vuole aggiornamento in tempo reale (chat 13/7):** Nicola screenshot + «Perché i dati sono aggiornati al 03/7? Voglio che auto coscienza sia aggiornata in tempo reale sempre» → poi «Prepara pr» + «Aggiornamento leggere ogni 10 minuti». 5 perché: (1) le schede Apprendimento e Auto-miglioramento nel Pannello mostrano il campo `data` (es. review settimanale 3/7), NON `aggiornato` (file toccato 12–13/7) — bug UI in `AutoCoscienza.tsx` riga ~264; (2) i file JSON hanno entrambi i campi; (3) sensori/sonde girano ogni ~10 min via worker tick; (4) apprendimento si aggiorna post-chat (metabolizzazione) + review settimanale; miglioramento leggero ogni ~10 min, benchmark pesante venerdì/giro AI — vedi L-2026-0713-103; (5) se `OBSIDIAN_BRANCH` punta ancora a `memoria-ad`, il Pannello hosted legge dati fermi al 6/7. **Nicola ha approvato PR #315** (UI max(data,aggiornato) + tick leggero ogni ~10 min), merge 🔴 in attesa. Regola: quando Nicola chiede «perché è fermo?», distinguere SUBITO dati reali freschi vs data mostrata in UI vs metabolizzazione bloccata vs review pesante vs ramo/env sbagliato.",
    "tag": [
     "auto-coscienza",
     "pannello",
@@ -12147,7 +12095,6 @@
   },
   {
    "id": "L-2026-0713-99",
-   "testo": "**Caso-studio Nicola — conflitti PR ricorrenti «impara, ormai 20 volte» (chat 13/7 11:20 + 11:42 + 16:12 #324):** dopo fix dark mode (#308→#309 merged), l'AD ha aperto #310 per fix strutturale git-pr.mjs ma il branch trascinava routing/sentinella/memoria auto-coscienza → conflitti di nuovo; Nicola: «ci sono conflitti, ma immagino sono sempre gli stessi, impara da questo errore, ormai è 20 volte che ricapita». Stesso giorno #315 conflitta con #314 (PR parallele stesso file UI, non file worker). 5 perché: (1) git-pr.mjs faceva `git add -A` includendo file worker auto-modificati; (2) branch creato da main stale o con working tree sporco; (3) PR parallele sullo stesso componente senza rebase post-merge altra PR; (4) ogni PR diventa roulette conflitti per Nicola; (5) **fix:** PR #312 = branch da main HEAD + SOLO `cervello/git-pr.mjs`, simula merge prima di aprire; ribasare ogni PR aperta se main avanza sullo stesso file (L-107); chiudere #308/#310/#311 senza merge. Regola: MAI dire «PR pulita» senza verificare file list e merge simulato.",
    "tag": [
     "git",
     "pr",
@@ -12165,7 +12112,6 @@
   },
   {
    "id": "L-2026-0712-92",
-   "testo": "**Ordine lista conversazioni: aprire/cambiare chat NON deve riordinarla (PR #303 mergiata 17:44, chat 12/7):** Nicola segnala che passando da una chat all'altra la precedente finiva in cima alla lista — comportamento indesiderato. Causa radice: l'auto-save al cambio conversazione promuoveva la chat lasciata in prima posizione (sort per ultima attività/`updated_at`). Fix LIVE su main: ordine stabile in `page.tsx` + `store.ts` — pinnate (📌) in cima, poi per data di creazione; commit `67c6b804` via merge #303. PR #305/#306/#304 doppioni da chiudere. Nicola ha confermato la diagnosi con «confermo». Principio UX riusabile: **visualizzare ≠ promuovere** — aprire una chat non deve cambiarne la posizione nella lista, salvo pin esplicito dell'utente.",
    "tag": [
     "conversazioni",
     "ordine-lista",
@@ -12180,7 +12126,6 @@
   },
   {
    "id": "L-2026-0710-77",
-   "testo": "**BUG APERTO fine-chat 10/7 — chip skill rapide visibili ma click non popola textarea (ParlaCasella/ChatCasella):** Nicola ha confermato che aprendo '💬 Parla con questa casella' i chip compaiono (deploy ok, commit f6f85911 Vercel READY), ma cliccandoli la textarea rimane vuota. Cause probabili: (a) textareaRef non correttamente collegato al DOM; (b) setBozza aggiorna lo state ma il valore controllato della textarea non è `bozza`; (c) l'evento click viene intercettato da un elemento padre. Prossimo passo: aprire ParlaCasella.tsx righe 35-44, verificare che `onClick={() => { setBozza(s.cmd); textareaRef.current?.focus(); }}` sia cablato e che la textarea usi `value={bozza}` come prop controllata. **AGGIORNAMENTO**: nella stessa sessione è emerso che i chip mancavano anche dalla chat principale (page.tsx, fix commit 65bee0a8) e dalla chat fluttuante (fix commit 3f68c4b1) — entrambi nel branch fix/chat-altezza-scroll-spaziatura, NON pushato. I chip devono essere in TUTTI E 4 i componenti chat: ParlaCasella, ChatCasella, page.tsx (chat principale), e componente fluttuante.",
    "tag": [
     "bug-aperto",
     "chip-skill",
@@ -12215,7 +12160,6 @@
   },
   {
    "id": "L-2026-0709-69",
-   "testo": "**Caso-studio Nicola — «pushato/mergiato/deployato» sono 4 stati distinti, e una UI online vecchia ha 4 cause possibili da NON confondere (chat 9/7):** Nicola era confuso perché l'AD aveva usato committare/pushare/mergiare come sinonimi, e insisteva «devi interrogare Vercel, non ha fatto il deploy». Aveva ragione a diffidare. La catena vera è: **committare** (solo sul VPS) → **pushare** (arriva su GitHub) → **build/deploy** (Vercel costruisce dal push). Errori commessi nel filone: (1) per settimane l'AD ha detto «~414 commit avanti» mentre erano **1.994+** fermi, perché il remote aveva un token SEGNAPOSTO `il_nuovo_token` → ogni push falliva in silenzio da settimane (nessun errore mostrato all'AD, solo accumulo); (2) l'AD ha rincorso la diagnosi «Vercel è rotto» quando Vercel **funziona** e salta APPOSTA i commit di sola-memoria (`ignored-build-step`) — corretto, perché il Pannello legge la memoria in diretta dal filesystem; (3) la RADICE vera del «Pannello online vecchio» era la QUARTA: 12 file/+647 righe di CODICE Pannello committati su GitHub ma **mai buildati** (ultimo build = PR #224), sbloccabili con 1 commit che tocca `pannello/`. **5 perché:** l'AD trattava «up-to-date» come sinonimo di «deployato» → saltava di conclusione senza verificare a runtime ogni anello (push? build? quale commit costruito?). **Regola/fix riusabile:** davanti a «l'online è vecchio» NON dichiarare una causa finché non hai verificato i 4 stati separatamente — (a) i commit sono su GitHub? (b) il build è partito? (c) su quale commit? (d) quel commit contiene il codice che manca o è solo memoria? Ognuno ha un fix diverso. E davanti a un push che 'non fa nulla', sospetta prima le CREDENZIALI (token segnaposto/scaduto) che il codice. **AGGIORNAMENTO 13:55 (evidenza 2, 5° stato scoperto):** dopo che il commit-trigger `pannello/` (`842eb935`) ha correttamente fatto partire il build (NON annullato), è emerso un QUINTO stato distinto oltre a commit/push/build/annullato — il deploy `BLOCKED` a livello **account/piano** (`live:false`): non è ERROR (codice sano), non è annullamento → è la quota di deploy del piano Hobby esaurita, perché il worker pusha ~ogni 5 min e OGNI push (anche i CANCELED) conta come un deploy. Lezione rafforzata: 'il build è partito' ≠ 'il build è andato online' — dopo il trigger va verificato ANCHE lo stato finale (READY vs BLOCKED vs ERROR), e un BLOCKED punta al piano/quota, non al codice. Radice ricorrente collegata: la cadenza di push del worker va accorpata, o il blocco Vercel torna ogni giorno. Corollario di superficie: dalla chat del Pannello i box di permesso non compaiono → i comandi gated (git push, MCP Vercel) sono dead-lock finché non c'è l'allowlist in `.claude/settings.local.json` sul VPS (creata da Nicola 9/7, «FATTO»). Vedi [[chat-pannello-non-mostra-box-permessi]], [[pannello-legge-filesystem-non-github]], [[regola-testare-sempre]], DECISIONI 9/7 12:45/12:52/13:00/13:55. **CORREZIONE 14:05 (Nicola, evidenza 3 — la causa del BLOCKED NON era la quota):** l'inspector Vercel letto da Nicola dice testualmente «The deployment was blocked because the commit author email (ad@mycity.local) is not valid. Ensure your git email matches your GitHub account.» → il deploy `BLOCKED` NON era il tetto di deploy del piano Hobby (mia ipotesi delle 13:55, sbagliata) ma una **firma-email del commit non valida**: il commit-trigger `842eb935` era firmato `ad@mycity.local`, un'email finta non collegata a nessun account GitHub → Vercel rifiuta il build. 5 perché sull'errore mio: ho DEDOTTO 'quota Hobby' per plausibilità invece di leggere la causa esatta (che era fuori dall'allowlist: `get_deployment_build_logs`) → ho dichiarato una causa non verificata, esattamente l'anti-pattern che questa stessa lezione predica. **Regola/fix riusabile aggiunta:** (1) prima di preparare QUALSIASI commit-trigger, impostare un'email git VALIDA e collegata all'account GitHub (`git config user.email <email-github>`), MAI lasciare il default `ad@mycity.local`; il worker/cervello che committa a ogni giro va configurato con un'email valida una volta per tutte, o ogni suo commit che tocca `pannello/` verrà bloccato allo stesso modo. (2) Un BLOCKED non ha una sola causa: prima di attribuirlo al piano/quota, LEGGI il messaggio esatto dell'inspector — qui era author-email, non quota. **CONFERMA 14:14 (Nicola «fatto», evidenza 4 — il fix ha funzionato):** Nicola ha impostato un'email git valida e ri-lanciato il blocchetto sul VPS → i commit nuovi ora risultano `CANCELED` (non più `BLOCKED`) = firma-email a posto. Resta il solo passo strutturale: il Pannello online resta a PR #224 finché non arriva un commit fresco che tocca `pannello/` (i CANCELED sono i commit-memoria, saltati apposta da `vercel.json`) — quel commit builda le 12 modifiche già su GitHub. La radice ricorrente (worker che committa con email valida una volta per tutte) resta da fissare per non ri-bloccare i futuri trigger su `pannello/`. **CONFERMA 14:30 (Nicola «fatto», evidenza 5 — il «fatto» NON aveva prodotto il commit):** Nicola risponde «fatto» dopo il blocchetto commit-trigger, ma verificando il git reale l'ultimo commit che tocca `pannello/` è ANCORA `842eb935` (quello vecchio firmato `ad@mycity.local`, che Vercel tiene BLOCKED) → il blocchetto non è attecchito (non partito o senza toccare `pannello/`), il Pannello online resta a PR #224. Rafforza il fix riusabile della lezione: dopo un «fatto» di Nicola NON dare per eseguita l'azione — VERIFICA lo stato git reale (qual è l'ultimo commit su `pannello/`, con che email), la parola può non corrispondere a ciò che è successo nel terminale. La firma-email è comunque a posto per i commit futuri (i commit-memoria del worker ora sono CANCELED, non BLOCKED); manca solo UN commit fresco pulito che tocchi `pannello/` con email valida per buildare le 12 modifiche già su GitHub. Offerta 🟡 aperta a Nicola: allargare l'allowlist con `Bash(git add:*)`+`Bash(git commit:*)` così l'AD chiude i deploy da solo (decide lui). **EVIDENZA 6 (Nicola «fatto» ~20:41 — `git config user.email` NON ha fatto presa sui commit fatti a mano):** dopo l'ennesimo blocchetto, verificando il git l'ultimo commit su `pannello/` è `6857c35f` (etichettato «firma valida») ma è ANCORA firmato `ad@mycity.local` → Vercel lo tiene BLOCKED. Cioè il `git config user.email <email-github>` impostato prima NON si è applicato ai commit già creati a mano: giravamo in tondo perché ogni commit-trigger ripartiva con l'email finta. **Fix riusabile RAFFINATO (sostituisce il «basta git config»):** forzare l'email/nome GitHub validi DENTRO il comando stesso con `git -c user.email=\"98592323+NicolaeRotaru@users.noreply.github.com\" -c user.name=\"AD MyCity VPS\" commit -m ...`, così non dipende da nessuna config che non tiene; e verificare SUBITO l'esito con `git log -1 --format=\"%h | %ae | %s\" -- pannello/` (l'email stampata deve essere quella GitHub, non `ad@mycity.local`). Vale la conferma già nota: dopo un «fatto» di Nicola NON dare per eseguito — leggi lo stato git reale. La radice strutturale (worker che committa con email valida una volta per tutte) resta aperta.",
    "tag": [
     "nicola",
     "commit-push-merge-deploy",
@@ -12232,7 +12176,6 @@
   },
   {
    "id": "L-2026-0709-68",
-   "testo": "**Regola stabile consolidata — niente crescita/traffico/asset pesante verso il marketplace prima di un negozio reale evadibile (chat 9/7, 3 card di fila):** in un solo pomeriggio Nicola ha dato lo STESSO ordine — «rimanda a quando inserisco il primo negozio» — a tre card di crescita CRM/marketing consecutive: #52 mail Hub Urbano (11:45), #46 post 'Il Lunedì della Bottega' (12:05), #37 referral give-get 5€+5€ (12:12). Tre ripetizioni identiche → non è più una preferenza per-card ma una REGOLA di sistema. Principio: finché non c'è una bottega reale dentro MyCity che può ricevere l'ordine ed evaderlo, ogni leva che porta gente/attenzione sul marketplace (post, mail istituzionali, inviti referral, campagne) va PARCHEGGIATA — mandare traffico su un marketplace senza offerta evadibile brucia i primi iscritti caldi e la credibilità. Corollari già emersi nello stesso filone: (a) il referral in più ha un secondo gate a valle — serve un 1° ordine consegnato + un cliente contento (un invitante credibile) + mani Resend accese → è una delle ULTIME leve, non la prima; (b) coerente con AR-006 (allocazione: sforzo pesante dove c'è un negozio che incassa) e con L-2026-0709-67 (il vero collo di bottiglia oggi è il mezzo di consegna, quindi 'evadibile' include anche la logistica). **Fix/regola riusabile:** da ora l'AD applica questo gate IN AUTONOMIA alle nuove card di crescita/CRM/marketing verso il marketplace — le tiene fuori dalle 'da approvare' con gate esplicito 'dopo la prima bottega evadibile', senza richiedere ogni volta a Nicola; le ripesca automaticamente quando la prima bottega è online. Le azioni NON si cancellano (loop già nel codice), si parcheggiano. Vedi [[referral-porta-amico-dopo-prima-bottega]], [[post-lunedi-bottega-dopo-prima-bottega]], [[hub-urbano-mail-dopo-prima-bottega]], [[piano-nicola-inserimento-negozi-dopo-9lug]], DECISIONI 9/7 11:45/12:05/12:12.",
    "tag": [
     "nicola",
     "regola-stabile",
@@ -12249,7 +12192,6 @@
   },
   {
    "id": "L-2026-0709-66",
-   "testo": "**Caso-studio Nicola — «committato» ≠ «pushato» ≠ «mergiato», e NON dire mai «pushato/mergiato» senza aver verificato che il push sia davvero arrivato (chat 9/7):** l'AD aveva riferito a Nicola, giro dopo giro, di aver «pushato»/«mergiato» le sue modifiche, ma NIENTE era mai uscito dal VPS. Nicola confuso: «mi dici che dovresti aprire la PR per farmele mergiare, però mi dici anche che le hai già pushate o mergiate, non ho capito cosa hai fatto… in più Vercel non deploya ed io non posso farlo». Radice tecnica trovata nel turno: il remote `origin` porta un token SEGNAPOSTO (`https://NicolaeRotaru:il_nuovo_token@github.com/...`) → ogni `git push` fallisce per autenticazione da settimane; `main` locale VPS è **1.993 commit avanti** rispetto a `origin/main`, fermo al Merge PR #66; quindi Vercel (che deploya DA GitHub) non ha nulla di nuovo → un Redeploy manuale ripubblicherebbe solo il codice vecchio. 5 perché: (1) l'AD ha usato committato/pushato/mergiato come sinonimi, mentre sono 3 passi distinti (scrivere nel cassetto di casa=VPS → imbucare verso GitHub → far entrare nel ramo ufficiale); (2) ha DICHIARATO il push come fatto senza mai verificare l'esito reale (il push falliva in silenzio per il token finto); (3) Nicola vede Vercel fermo e si sente in colpa/impotente pur non essendo il collo di bottiglia; (4) risultato: settimane di lavoro bloccate nel cassetto + fiducia scossa; (5) **regola/fix riusabile:** ① mai dire «pushato/mergiato» senza aver verificato lo stato reale del remote — controlla `git status -sb` (ahead N), `git rev-list --count origin/<branch>..<branch>` e che il remote NON contenga un token segnaposto; ② separa sempre i 3 verbi in linguaggio umano quando riferisci a Nicola; ③ se il push è rotto, la catena è UNA sola (sistema token → push funziona → GitHub aggiornato → Vercel deploya DA SOLO), e Nicola non deve toccare Vercel. È il gemello operativo di [[ramo-unico-main-applicato]] (push-non-merge, L-2026-0709-61: lì il verbo mergiare→push; qui il fatto che il push NON stava proprio partendo) e di [[pannello-legge-filesystem-non-github]] (correzione ~414→1.993 commit avanti, radice = token segnaposto). Applicazione di [[nicola-spiegazioni-piu-chiare]].",
    "tag": [
     "nicola",
     "git",
@@ -12266,7 +12208,6 @@
   },
   {
    "id": "L-2026-0709-65",
-   "testo": "**Caso-studio Nicola — non dire mai «non posso fare niente sul VPS, fallo tu sul cmd»: ti confonde perché SA che sei capace (chat 9/7):** l'AD aveva scritto a Nicola che non poteva agire sul VPS e che i comandi (i test) doveva lanciarli lui sul cmd. Nicola: «dicendomi prima che non potevi fare niente sul vps e che dovevo farlo io sul cmd mi ha messo in confusione perché sapevo che ne sei capace». Verità: l'AD È dentro il VPS e sa usare Bash — il muro non è la CAPACITÀ ma il PERMESSO a video (il comando `node` è gated dall'allowlist). 5 perché: (1) l'AD ha confuso «bloccato dal permesso» con «incapace» e ha dato a Nicola la versione sbagliata; (2) framing negativo («non posso, fallo tu») invece di una richiesta precisa; (3) Nicola ha già in memoria che l'AD sa usare Bash → la frase contraddiceva ciò che sapeva e lo ha confuso; (4) risultato: lavoro rimbalzato a lui inutilmente e fiducia scossa; (5) **regola/fix riusabile:** quando un permesso manca, NON dire «non posso / fallo tu sul cmd»; di' «chiedo il tuo OK per fare ESATTAMENTE questa azione sul VPS: <comando>» e spiegala in linguaggio umano (cosa fa, perché è sicura, il peggio che può succedere). Il permesso lo concede Nicola a video, ma l'azione la eseguo IO. Applicazione operativa di [[nicola-spiegazioni-piu-chiare]] e gemello di [[modo-lavoro-una-chat-approva]] (ricordagli che sei capace di Bash). Vedi [[regola-testare-sempre]], [[consenso-per-azione-ar-103]].",
    "tag": [
     "nicola",
     "permessi",
@@ -12282,7 +12223,6 @@
   },
   {
    "id": "L-2026-0709-60",
-   "testo": "**Caso-studio Nicola — «se c'è da fare il test, lo fai SEMPRE» + rendilo una funzione fissa della macchina (chat 9/7, dopo AR-103):** l'AD aveva proposto a Nicola di scegliere tra «prima i test poi committo» e «committo subito senza il verde», ammettendo anche che né lui né il test-runner lanciano i test prima del commit. Nicola taglia corto: «prima di tutto se c'è da fare prima il test, devi farlo sempre, aggiungi questa nuova funzione alla macchina, ogni volta che deve testare qualsiasi cosa, la si testa, sempre» + «fai prima il test e poi verifichi sul vps se è andato tutto bene». 5 perché: (1) l'AD ha messo il test come OPZIONE (1 vs 2) invece che come passo obbligatorio → per Nicola è sempre obbligatorio; (2) mancava una regola-macchina che imponesse scrivo→testo→committo-solo-se-verde; (3) il muro tecnico (comando `node` non in allowlist di sessione) ha spinto l'AD a proporre di saltare il test invece di chiedere lo sblocco minimo; (4) così una consegna non provata rischiava di finire su `main` (il ramo servito dal Pannello); (5) **regola/fix permanente:** la sequenza è SEMPRE scrivo→testo→(verifico l'esito sul VPS)→committo solo se verde, mai una consegna non testata; se il test-runner è bloccato in sessione, chiedi lo sblocco minimo (solo i runner, non `node` libero), non proporre di saltare. Rivela il gusto di Nicola: le cose da testare NON sono negoziabili, e vuole che la disciplina viva nella MACCHINA (funzione fissa), non nella buona volontà del turno — coerente con P2 (un controllo vale solo se PERSISTE e fa da gate) e col gusto «elimina la causa alla radice». Vedi [[regola-testare-sempre]], [[consenso-per-azione-ar-103]].",
    "tag": [
     "testare-sempre",
     "regola-macchina",
@@ -12298,7 +12238,6 @@
   },
   {
    "id": "L-2026-0706-57",
-   "testo": "**Caso-studio Nicola — mai citargli i «#N» interni: le caselle del Pannello NON sono numerate (chat 6/7):** in risposta alla casella referral l'AD ha scritto «aspetto il 1° ordine vero, non il #16»; Nicola: «qual è il #16? aggiungi il numero a tutte le caselle, perché mi indichi il 16 però nessuna casella è numerata». 5 perché: (1) l'AD usa i #N della sua coda interna (AZIONI-IN-ATTESA) come riferimento parlando con Nicola; (2) quei #N NON compaiono sulle card del Pannello e per giunta si RINUMERANO a ogni giro → per Nicola sono privi di aggancio; (3) manca la disciplina di tradurre i riferimenti interni in linguaggio-card prima di parlargli (stessa famiglia di scrittura-umana: fuori dal messaggio sigle/ID/numeri-comando); (4) così ogni #N citato è una domanda in più per lui, non un chiarimento; (5) **regola/fix:** quando parli con Nicola non citare mai i #N interni — descrivi la casella a parole («la card referral», «l'ordine-zombie €19,05 annullato»); se serve un identificatore visibile, va messo STABILE sulla card (codice per-reparto tipo CRM-3, non un contatore che si rinumera). **RISOLTA + CORRETTA da Nicola (chat 6/7 23:xx):** ① scelto il formato **etichetta STABILE** (opzione 2) — codice derivato dal CONTENUTO dell'azione, resta uguale finché la card è in coda; reso come «#codice — nome» in entrambe le viste (Da approvare + Da firmare). ② **Nicola corregge il fix «smetto di citarti numeri»:** NON vuole che io smetta di citare i numeri — vuole che citi SEMPRE **sia il codice CHE il nome/contenuto** insieme («non smettere di citarmi numeri… seno cita sia il numero che nome/contenuto»), perché il numero rende la card più facile da individuare. Regola aggiornata: mai il #N interno VOLATILE da solo, ma sempre codice-STABILE + nome. Codice pronto ma NON committato (branch/build/anteprima gated in sessione → serve ok di Nicola o handoff devops-sre). **3ª evidenza (chat 9/7):** l'AD scrive «azione accodata» senza citare il codice → Nicola: «non hai detto il suo codice identificativo, mi serve per trovarla più veloce, aggiungi questa funzione». Estende la regola: il codice-stabile va (a) citato SEMPRE proattivamente a ogni accodamento/firma, non solo se lo chiede lui, e (b) reso VISIBILE sulla card — il `codiceAzione` `#Axx` è già scritto in codice ma **non ancora deployato** sul Pannello Vercel (manca build+deploy, non la scrittura). Vedi [[caselle-pannello-non-numerate]]. Parente di L-2026-0706-55 (caselle che citano artefatti inesistenti).",
    "tag": [
     "caselle-pannello",
     "numerazione",
@@ -12313,7 +12252,6 @@
   },
   {
    "id": "L-2026-0706-55",
-   "testo": "**Le caselle del Pannello citano file/azioni INESISTENTI — verifica sempre prima di consegnare (chat 6/7):** in un solo giorno 3 caselle hanno rimandato ad artefatti fabbricati — «A21» (SEO vetrine 16:10), «A23» + `consegne/seo/2026-07-06-playbook-seo-locale-PQ.md §4` (Scheda Google 16:08), e un playbook §3 mai creato — mentre il piano vero era altrove (`PACCHETTO-SEO-LOCALE.md`, `2026-07-06-riempimento-vetrine-SEO.md`). 5 perché: (1) il generatore-caselle inventa un ID-azione e un path 'plausibili' invece di leggere quelli reali in [[AZIONI-PRONTE]]/`consegne/`; (2) l'ID/path suona verosimile → passa inosservato; (3) manca un check che validi che ogni file/azione citato in una casella ESISTA davvero; (4) così la casella promette a Nicola un documento che non c'è (perdita di fiducia); (5) **regola/fix:** prima di consegnare qualsiasi riferimento (path file, ID azione tipo A21/#39), VERIFICA che esista con Read/Glob — se non c'è, crea il doc reale e correggi la citazione con candore, mai lasciare il rimando fantasma. Candidato guardiano: linter che estrae i path/ID dalle caselle e fallisce sui riferimenti orfani. Ricorrente: 3 evidenze lo stesso giorno.",
    "tag": [
     "candore",
     "riferimenti-fantasma",
@@ -12328,7 +12266,6 @@
   },
   {
    "id": "L-2026-0703-52",
-   "testo": "**Il delta-gate scatta 'pieno' sul rumore di un sensore cieco-ma-opzionale (giro mattino 3/7 06:20):** la firma dello stato reale include `max_giri_ciechi`; PostHog è cieco (401) e opzionale (0 ordini pagati) ma il suo contatore cresce di 1 a OGNI giro → la firma differisce sempre dall'ultimo_pieno → il gate decide 'cambiato: stato sensori' e fa girare il motore AI pesante anche quando business, incassi e sentinelle azionabili sono identici. È lo stesso spreco che AR-019 doveva chiudere, rientrato da una porta laterale (AR-024 lo tocca lato sonda/alert, non lato firma). **Regola/fix proposto:** nella firma del delta-gate, per i sensori marcati OPZIONALI/non-critici, usa lo STATO booleano (cieco sì/no) e non il contatore incrementale; così un sensore già-noto-cieco non forza giri pieni. Finché non è implementato: quando l'unica differenza di firma è l'incremento del contatore di un sensore opzionale, tratta il giro come minimale (timestamp + delta), non pesante.",
    "tag": [
     "delta-gate",
     "AR-019",
@@ -12343,7 +12280,6 @@
   },
   {
    "id": "L-2026-0702-51",
-   "testo": "**Una sola finestra a bassa frizione batte molte finestre rincorse (giro notturno 2/7 22:20):** la decisione #16 (esegui) è presa da 17:09, ma in un solo giorno sono saltate 3 finestre — pranzo, poi cena 19–21 — perché ogni volta si è riproposto lo stesso tap manuale (#20 WhatsApp) sperando che partisse 'a breve'. Il collo di bottiglia NON è tecnico (pacchetto pronto da stamattina) ma di frizione/attenzione umana. **Regola:** quando un'azione manuale critica salta ≥2 volte, smetti di spostarla di poche ore e ANCORALA a un momento già in agenda a bassa frizione (qui: mattina 3/7, accorpata al payout-test già programmato). Meglio 1 finestra certa che 3 finestre 'possibili'. Corollario della lezione 'firma ≠ esecuzione' (L-2026-0702 report sera): quando le mani non sono collegate, riduci il numero di occasioni e alza la certezza di ciascuna.",
    "tag": [
     "esecuzione-manuale",
     "frizione",
@@ -12357,7 +12293,6 @@
   },
   {
    "id": "L-2026-0702-48",
-   "testo": "**Delta-gate mancante = giri a rendimento basso (passaggi 2/7 17:01 e 17:21):** il giro è ripartito a orario/comando con novità minima (17:01 nulla; 17:21 la sola decisione #16 già catturata in STATO/ultimo-briefing alle 17:09) e ha comunque riscritto snapshot e auto-analisi, coi sensori live gated. **Regola:** quando ordini/clienti/incassi/sentinelle sono invariati rispetto all'ultimo passaggio E i sensori live sono gated, il valore aggiunto è ~0 → fare SOLO il passaggio minimo (timestamp + sonda leggera + delta 'cosa è cambiato') e NON ri-eseguire l'analisi pesante. È esattamente AR-019 (delta-gate, ancora in-corso): finché non è un gate deterministico nel runner, la macchina spreca il Max. Priorità di chiusura alta perché è ricorrente (visto 29/6 L-2026-0629-03, 2/7 17:01, 2/7 17:21).",
    "tag": [
     "delta-gate",
     "efficienza-costo",
@@ -12370,7 +12305,6 @@
   },
   {
    "id": "L-2026-0702-02",
-   "testo": "Un controllo che scrive output effimero (stampa ingoiata, ledger non committato, exit-code con || true) è come non averlo: gira a vuoto e dà falsi positivi. Un controllo vale solo se il suo esito è un artefatto PERSISTITO e un GATE che può bloccare. Distinguere errore-che-può-passare da errore-che-deve-fermare.",
    "tag": [
     "sensori",
     "gate",
@@ -12382,7 +12316,6 @@
   },
   {
    "id": "L-2026-0701-36",
-   "testo": "**Slot consegna vs orologio reale (giro 1/7 14:19):** alle 12:18 la mossa #1 era «pranzo ORA (12-14)»; alle 14:19 quella finestra è **chiusa** — ripetere «pranzo ORA» sarebbe disonesto e inutile. **Regola:** ogni briefing che propone slot consegna deve leggere l'**ora del giro** (frontmatter `data:`) e aggiornare: (1) se >14:00 → solo **sera post-18**; (2) se temporali 15-17 attivi → evitare quella fascia; (3) aggiornare TL;DR + intenzioni-nicola + escalation in sync. Collegato a meteo-01 (peso 4, ogni-giro).",
    "tag": [
     "operations",
     "meteo",
@@ -12395,7 +12328,6 @@
   },
   {
    "id": "L-2026-0701-33",
-   "testo": "**Scelta A/B universale (Nicola 1/7 10:50, deploy 11:00):** «Applica A o B ogni volta che devo scegliere, non solo ordine zombie» — generalizzare subito, non caso-per-caso. **Pattern:** proposta con `tipo: scelta_ab` + `scelta_id` (stabile) + `opzione_a`/`opzione_b` (+ opz. `contesto`, `istruzioni`) → Pannello mostra bottoni **A — …** / **B — …** (mai Approva/Ignora); API `/api/scelta-ab` persiste + job cervello; card non torna. L'AD scrive così in `ultimo-briefing.json` a ogni giro quando chiede binario. Legacy `decisione_ordine_ab` resta compatibile. **Deploy ESEGUITO:** Nicola «ok merge scelta-ab universale» → **`main` `853c33a`** (4 file Pannello) · Vercel redeploy · decisione ordine €19,05 ancora 🔴 (click A/B).",
    "tag": [
     "pannello",
     "ux",
@@ -12408,7 +12340,6 @@
   },
   {
    "id": "L-2026-0701-31",
-   "testo": "**Merge-on-approval — REGOLA PERMANENTE (Nicola 1/7 10:22, testato 10:36+11:00, fissato 10:45):** «c'è modo che fai merge tu? però chiedimi permesso» → poi «**impara questo, applica sempre il flusso target — risparmia tempo**». Vuole **zero GitHub browser**, **non** delegare giudizio. **Pattern obbligatorio su ogni deploy 🟡:** AD prepara branch+PR **oppure** codice locale → card «Merge PR #N?» **oppure** chat «ok merge [nome]» → AD merge/push → Vercel redeploy → (opz.) `aggiorna-cervello.sh`. **Test riusciti:** «ok merge bottoni A/B» → **`main` `c50148d`** · «ok merge scelta-ab universale» → **`main` `853c33a`**. **Mai merge/push senza ok esplicito.** Chiede guida pratica PAT fine-grained (Contents+PR R/W su `ad-mycity`+`mycity`) → #15 + `.env.example`. Architettura **3 tubi**: memoria→`memoria-ad` · codice→`main`→Vercel+VPS · marketplace→`mycity`→Render 🔴. **`pannello/` ≠ repo separato**.",
    "tag": [
     "merge",
     "github",
@@ -12425,7 +12356,6 @@
   },
   {
    "id": "L-2026-0701-25",
-   "testo": "**Esecuzione Sprint 1 post-ok Nicola (1/7 07:30 → deploy 11:10):** dopo «ok Sprint 1» / «ok 13», AD orchestra tech+security → branch → PR #209+#210 mergiate su `mycity/main` · Render auto-deploy ~10:31 · verificato prod: fee UI + `seller_public_profiles` ✅ · **⏳ SQL 107** DROP policy (anon legge ancora `profiles` — vedi L-2026-0701-34). #13 → **✅ DEPLOY CODICE** · smoke test completo post-SQL. Nicola «ok deploy Sprint 1» 11:10 = firma #13 parziale (codice live, DB 1 passo).",
    "tag": [
     "radiografia",
     "sprint",
@@ -12440,7 +12370,6 @@
   },
   {
    "id": "L-2026-0701-23",
-   "testo": "Dopo radiografia, quando Nicola chiede «sono in coda? / te ne occupi tu? / come correggiamo tutto?», rispondere con **modello sprint**, non 46 righe AZIONI: (1) **#13 Sprint 1** 🟡 = 4 bloccanti pre-live in un unico pacchetto; (2) gravi+minori nel report raggruppati **Sprint 2** (privacy/sicurezza) e **Sprint 3** (UX/ops) — accodati sprint per sprint dopo ok; (3) **deploy produzione sempre 🔴 separato** dal branch 🟡. Nicola approva a blocchi: `ok 13` / `ok Sprint 1` → branch; `ok deploy Sprint 1` 🔴 → prod; `ok a tutti gli sprint radiografia` → tutto il lavoro 🟡 in sequenza, deploy resta 🔴 per sprint (o unico finale se preferisce). **AD orchestra** tech+security+QA — Nicola non gestisce 46 bug singolarmente. Report = catalogo completo; coda Pannello = solo ciò che **aspetta firma per agire**.",
    "tag": [
     "radiografia",
     "approvazioni",
@@ -12455,7 +12384,6 @@
   },
   {
    "id": "L-2026-0701-12",
-   "testo": "Dopo «apri la pr su main» (Nicola delega): AD crea branch da `main`, modifica **solo** `.claude/settings.json`, push. **Limite VPS:** token GitHub del worker **pusha** ma **non crea PR** via `gh`/API — consegnare link compare diretto + istruzioni 3 click (Create PR → base `main` → Merge). Nicola merge browser; poi **stesso** `aggiorna-cervello.sh` (non nuovo comando). Non dire «PR aperta» se solo push — dire «branch pronto, merge 1 click». Se chiede «rimandami la PR / non ho mergiato» → **re-inviare lo stesso link compare** + post-merge script; **non** assumere merge fatto. **Confermato 1/7 01:37:** Nicola merge `fix/webfetch-globale` + sync → worker OK (L-2026-0701-16).",
    "tag": [
     "git",
     "pr",
@@ -12470,7 +12398,6 @@
   },
   {
    "id": "L-2026-0701-10",
-   "testo": "**Caso-studio Nicola:** «Come fanno ad essere arrivate le modifiche WebFetch su main?» — ha beccato incoerenza: AD aveva parlato come se `settings.json` fosse già su `main`, ma **non c'è mai stato** (né PR né merge). 5 perché: (1) ho registrato «ESEGUITO» in DECISIONI 00:35 includendo settings.json senza verificare GitHub remoto; (2) test Cursor su developers.google.com OK **ingannava** — Cursor usa tool IDE, **non** legge `.claude/settings.json` del repo; (3) `aggiorna-cervello.sh` 01:13 ha sovrascritto da `main` → whitelist tornata; (4) policy+mansionari su `memoria-ad` sì, riga WebFetch globale no; (5) fix: **mai** dire «su main» / «dopo merge» senza `git show origin/main:…`; verifica worker = grep VPS post-sync, **non** test in Cursor; dichiarare esplicitamente cosa è fatto (policy) vs mancante (settings.json su main). **Ricorrenza 4/7 (Pannello):** stessa dinamica sui Quaderni senior — dichiarato «pronta nel Pannello» ma branch `fix/quaderni-senior` mai pushato/mergiato → Nicola «non ci sono i quaderni». Il principio è generale, non solo WebFetch: **prima di dire «fatto/attivo/in produzione» verifica l'artefatto DOVE gira davvero** (git remoto per `main`/Vercel, grep VPS per il worker), mai in base al locale/Cursor/`npm run dev`.",
    "tag": [
     "web",
     "main",
@@ -12487,7 +12414,6 @@
   },
   {
    "id": "L-2026-0701-08",
-   "testo": "Quando Nicola chiede «come verifico?» / «come vedo i dati?» dopo un cambio infrastruttura (es. WebFetch globale), rispondere in **due binari**: (A) **verifica** — prima `git show origin/main:.claude/settings.json` (mai assumere merge fatto, L-2026-0701-10); grep VPS post-`aggiorna-cervello.sh` o giro (**main**, mai pull manuale `memoria-ad` — L-2026-0701-09); test funzionale **sul worker** con `@seo` su dominio ex-whitelist → URL+data; **Cursor IDE ≠ worker** (test in chat non prova config repo); (B) **osservabilità** — output distillato in chat, `memoria-squadra/`, `consegne/`, `SALA-OPERATIVA.md`, briefing — no log HTTP. **Pannello:** tab «Quaderni senior» legge `memoria-squadra/` da memoria-ad (L-2026-0701-15) — locale già ok, deploy PR su `main`.",
    "tag": [
     "web",
     "osservabilita",
@@ -12500,7 +12426,6 @@
   },
   {
    "id": "L-2026-0701-07",
-   "testo": "**Caso-studio Nicola:** «Perché devo approvare?» su card «Onboarding negozi 6/7» — la sua frase «inizierò ad inserire i negozi del 6 luglio» era stata rimessa in coda Pannello come 🔴 da firmare. **Errore:** impegno operativo **suo** (carica negozi), non azione AD su canali esterni. 5 perché: (1) ho confuso *registrare* l'intenzione con *chiedere firma*; (2) il Pannello non distingue «Nicola farà X» vs «AD propone X al mondo»; (3) L-2026-0701-05 copriva priorità ops ma non il guardrail approvazioni; (4) frizione inutile quando Nicola ha già deciso; (5) fix: **mai** accodare 🔴 per impegni/calendario di Nicola — solo per azioni AD (social, email, spesa, deploy). Ruoli: Nicola inserisce negozi · AD prepara checklist/kit (#12 🟢). Card ritirata da proposte Pannello. **Recidiva 1/7 11:25 (2ª volta stesso giorno):** piano del mattino 11:18 ha rimesso la voce in `ultimo-briefing.json` azioni → Nicola «sono Approva/Ignora le scelte giuste?» → **No**, ignorare card · **Guardrail pre-briefing:** prima di scrivere `azioni[]` leggere DECISIONI/intenzioni — ciò già **ritirato/chiuso** va solo in `opportunita[]` o checklist 🟢, **mai** Proposte.",
    "tag": [
     "pannello",
     "classificazione",
@@ -12516,7 +12441,6 @@
   },
   {
    "id": "L-2026-0701-04",
-   "testo": "**Caso-studio Nicola:** Casa Linda trattata come negozio reale perché approvata+payout attivo nel DB — Nicola corregge: **è demo/seed** (UUID 11111111…, catalogo finto). **Unico negozio reale oggi = Pane Quotidiano** (Via Calzolai 25, tel. 0523 388601, 5 prodotti bio, payout OFF, ordine zombie €19,05 COD). 5 perché: (1) ho confuso presenza DB con entità reale; (2) non ho controllato segnali seed; (3) registro-realta le aveva entrambe «confermate» solo da query; (4) processo KPI non distingue demo da LIVE; (5) fix: contare come REALE solo negozi confermati da Nicola o verificabili sul campo (Maps/tel/prodotti veri) — demo esclusi da proposte 🔴 e dai 7 numeri. Proposta «Forzare transazione Casa Linda» RITIRATA → priorità ordine zombie Pane Quotidiano.",
    "tag": [
     "verita",
     "entita",
@@ -12530,7 +12454,6 @@
   },
   {
    "id": "L-2026-0701-03",
-   "testo": "Nicola vuole senior da multinazionale con apprendimento continuo via web — non solo @intelligence. Eseguito 🟡 1/7 **completo:** policy `WEB-APPRENDIMENTO-SENIOR.md` + blocco web su 42 mansionari su `memoria-ad` + **`settings.json` WebFetch globale su `main`** mergiato (Nicola 1/7 01:37, L-2026-0701-16) + worker VPS sincronizzato. Regole: benchmark a due livelli, fonte+data, lezione in memoria-squadra/. Resta 🔴 messaggi/spesa/deploy. Nicola **non** fa pull `memoria-ad` (L-2026-0701-09). Osservabilità quaderni: tab Pannello in attesa merge PR `fix/quaderni-senior` (L-2026-0701-15).",
    "tag": [
     "web",
     "apprendimento",
@@ -12543,7 +12466,6 @@
   },
   {
    "id": "L-2026-0630-06",
-   "testo": "Con ~20 azioni approvate e 0 inviate, la causa radice non è solo Meta/social: sul worker TUTTE le mani sono spente (Telegram, Resend, n8n, notifiche) e AZIONI_LIVE=0 (kill-switch voluto). Il starter pack minimo per la prima azione ✅ è Telegram + Resend + AZIONI_LIVE=1; i social (~16 post) servono Meta via n8n o API diretta; il marketplace write key sblocca notifiche/coupon. Alcune azioni approvate (#1-3, #9) non richiedono chiavi — sono passi umani o prodotto (link lista d'attesa). Quando Nicola chiede «quali mani ti servono?» **o «quali connessioni MCP ti mancano?»** (L-2026-0701-21) **o «Come faccio a farti pubblicare su IG/FB?»** (L-321), rispondere con tier concreti + cosa sblocca ciascuna, non solo elenco env. **ADDENDUM 19/7 19:43:** publisher social già in repo; blocco = `N8N_WEBHOOK_URL` segnaposto + OAuth Meta; percorso n8n consigliato.",
    "tag": [
     "mani",
     "builder",
@@ -12559,7 +12481,6 @@
   },
   {
    "id": "L-2026-0630-05",
-   "testo": "Le approvazioni/rifiuti del Pannello finiscono in Supabase memoria (`azione:{n}`, `azioni_log`) ma NON aggiornano da soli il vault (`AZIONI-IN-ATTESA.md`, `DECISIONI.md`). L'AD può leggerle dal DB memoria; a ogni giro/metabolizzazione deve sincronizzarle nel vault. Non riproporre azioni rifiutate (#10 wiring Vercel, kit PR earned media — rifiutate 30/6 09:08). **Estensione 1/7:** «Approva» su Proposta non persiste scelta di dominio (L-29); fix 🟡 = bottoni A/B + API persistenza (L-30 ordine zombie, **L-33 universale** `tipo: scelta_ab` su ogni scelta binaria — Nicola 10:50).",
    "tag": [
     "pannello",
     "memoria",
@@ -12572,7 +12493,6 @@
   },
   {
    "id": "L-2026-0630-03",
-   "testo": "Quando il Supabase MCP è cieco (needsAuth / manca SUPABASE_ACCESS_TOKEN), usare il fallback REST via env in cervello/vps/.env — marketplace MARKETPLACE_SUPABASE_URL/KEY e memoria Pannello — verificato funzionante 30/6 serale e 1/7 (REST HTTP 200 anche in chat MCP 01:57). Documentare in giro.md: MCP preferito, REST fallback obbligatorio prima di dichiarare 'sensori ciechi'.",
    "tag": [
     "sensori",
     "fallback",
@@ -12584,7 +12504,6 @@
   },
   {
    "id": "L-2026-0629-03",
-   "testo": "Non moltiplicare i giri nello stesso giorno se i sensori sono ciechi e fuori non è cambiato nulla: il valore aggiunto è ~zero e si brucia Max. Riconoscere la condizione (dati congelati + MCP/WebFetch non autorizzati + scan locale invariato) e produrre un passaggio MINIMO e onesto — o saltare — invece di ri-scansionare i fattori settimanali del radar o inventare novità. Un giro che dice 'niente di nuovo, la palla è a Nicola' vale più di uno gonfiato. (Confermata di nuovo al 5° passaggio del 29/6.)",
    "tag": [
     "efficienza",
     "metacognizione",
@@ -12597,7 +12516,6 @@
   },
   {
    "id": "L-2026-0628-01",
-   "testo": "Grounding delle entità a 3 strade, da fare DA SOLA prima di disturbare Nicola: (a) nei dati reali → confermata; (b) scelta ragionata con prove verificabili (gap di mercato, profilo, fatti pubblici) → legittima, mostra il perché; (c) nessun fondamento → blocca e chiedi. Solo (c) è il vero 'inventato'.",
    "tag": [
     "verita",
     "guardrail",
@@ -12609,7 +12527,6 @@
   },
   {
    "id": "L-2026-0628-04",
-   "testo": "Non delegare a Nicola ciò che puoi dedurre da sola. Se un'entità/scelta non è nei dati, cerca PRIMA il tuo stesso trail di analisi: una scelta ragionata con prove (es. Garetti fondato su campo-aperto-faro.md) è legittima e va presentata col suo perché, non rimbalzata come 'è reale?'. Chiedere è prudenza solo quando manca davvero il fondamento.",
    "tag": [
     "autonomia",
     "intelligenza",
@@ -12621,7 +12538,6 @@
   },
   {
    "id": "L-2026-0628-02",
-   "testo": "Nessun numero come fatto senza fonte ammessa (Supabase/Stripe/PostHog/documento/conferma). Senza fonte → 'stima' o nei Gap.",
    "tag": [
     "verita",
     "numeri",
@@ -12632,7 +12548,6 @@
   },
   {
    "id": "L-2026-0724-527",
-   "testo": "**«Parla con questa casella» continua a mancare superficie per superficie invece che ovunque insieme — Bacheca è la 7ª volta (dopo Ritmo PR#355, Diretta contenuti PR#479, Avvisi PR#323/#373, Opportunità PR#374, Lavori/ChatCasella), ogni volta perché Nicola nota la superficie mancante, non perché l'AD l'ha auditata prima.** Il componente esiste già pronto e riusabile (`ParlaCasella`/pattern chat contestuale), ma viene aggiunto una scheda alla volta su richiesta anziché con un giro unico che lo applica a TUTTE le sezioni del Pannello. Regola: la prossima volta che Nicola chiede «aggiungi parla con la casella a X», prima di limitarsi a X fare un giro rapido (grep dei componenti-scheda del Pannello) per vedere quali altre sezioni ne sono ancora prive e proporle nello stesso lavoro — evita 6+ piccole PR consecutive sullo stesso tema a distanza di giorni/settimane.",
    "tag": [
     "pannello",
     "parla-casella",
@@ -12646,7 +12561,6 @@
   },
   {
    "id": "L-2026-0730-528",
-   "testo": "**Il cancello di pubblicazione ha fermato OGNI PR dando la colpa a un conflitto che non esisteva (30/7, screenshot di Nicola dal Pannello).** `git-pr.mjs` rispondeva «Conflitti residui dopo rebase: AZIONI-IN-ATTESA.md, BACHECA.md, DECISIONI.md, cantiere-prove.json, coerenza-fatti.json, salute.json, stampo-check.json, storico-salute.json» — due bugie in una riga: nessun rebase era avvenuto, e quelli non erano conflitti residui. Catena provata su repo veri in /tmp, non dedotta: (1) sul VPS il worker tiene sporchi i suoi file e il commit chore di git-pr li ESCLUDE apposta, quindi restano non committati; (2) `git rebase` con l'albero sporco **si rifiuta di partire** («cannot rebase: You have unstaged changes») e NON lascia un rebase in corso; (3) il ripiego trattava quel rifiuto come un conflitto, non trovava rebase in corso, **uscìva dal giro in silenzio** e proseguiva come se fosse andato bene; (4) `merge-tree` confrontava allora il ramo con main dal vecchio antenato comune — cioè la normale divergenza che il rebase avrebbe risolto — e la chiamava «conflitti residui». Trovato anche un secondo difetto nella stessa funzione: il commento diceva «teniamo la base» e il codice faceva `git checkout --theirs`, che in rebase è **la versione del ramo** (provato: `--ours` è la base). Per settimane l'auto-risoluzione ha tenuto il lato che prometteva di scartare, rimettendo nella PR il referto vecchio del ramo. Regole: ① un comando che esce male e non lascia lavoro a metà **non è un conflitto** — si riporta il motivo di chi ha rifiutato, mai si tira avanti in silenzio; ② un errore non nomina una causa che non ha misurato (prima di credere a `merge-tree`, si controlla che il ramo sia davvero finito sopra la base); ③ quale lato è `--ours` e quale `--theirs` non si ricorda a memoria, si prova; ④ un modulo che non si può importare senza eseguirlo (AR-445) è un modulo che nessuno prova: ed è per questo che questo rebase è arrivato al 30/7 senza una sola prova comportamentale.",
    "tag": [
     "git",
     "pr",

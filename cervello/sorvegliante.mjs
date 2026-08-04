@@ -513,9 +513,21 @@ export function filtraEsentate(voci = [], contenutoPerFile = new Map(), oggi = "
  *  dentro un worktree: il controllo esisteva, la prova pura era verde e la fusione non veniva
  *  riconosciuta. Un percorso costruito a mano al posto di una domanda alla porta — la stessa forma
  *  di AR-339, e stavolta l'ha presa il collaudo end-to-end invece della rilettura. */
+/*  ⚠️ `REBASE_HEAD` NON è in questo elenco, e la sua assenza è il punto (4/8).
+ *
+ *  Gli altri stati git li CANCELLA quando l'operazione finisce; `REBASE_HEAD` no: resta lì a
+ *  indicare l'ultimo commit riapplicato, anche a rebase concluso da ore. Con quel nome dentro
+ *  l'elenco, il primo rebase rendeva questa guardia cieca PER SEMPRE in quel clone — e in silenzio,
+ *  perché ⚪ si legge come «prudenza», non come «rotto».
+ *
+ *  Il conto vero è sul VPS, dove `git-pr.mjs` ribasa a OGNI pull request: lì la guardia si sarebbe
+ *  spenta al primo lavoro e nessuno avrebbe collegato il ⚪ alla causa. Trovato il 4/8 sul mio stesso
+ *  cancello, dopo aver riallineato un ramo: quattro guardiani verdi e questo ⚪ senza motivo visibile.
+ *
+ *  Il rebase VERO in corso resta coperto: git tiene `rebase-merge/` o `rebase-apply/` finché non
+ *  finisce, e quelle due righe sono qui sotto. */
 export const STATI_FUSIONE = [
   ["MERGE_HEAD", "una fusione (merge)"],
-  ["REBASE_HEAD", "un rebase"],
   ["rebase-merge", "un rebase interattivo"],
   ["rebase-apply", "un rebase o un `git am`"],
   ["CHERRY_PICK_HEAD", "un cherry-pick"],

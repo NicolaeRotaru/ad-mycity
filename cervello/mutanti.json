@@ -2021,6 +2021,22 @@
    "cerca": "    if (!percorso || /[*?[\\]]/.test(percorso)) continue;\n    fuori.add(percorso.replace(/^\\.\\//, \"\"));",
    "sostituisci": "    if (!percorso || /[*?[\\]]/.test(percorso)) continue;\n    continue;",
    "test": "node --test cervello/test/conta-verdetti-muti.test.mjs"
+  },
+  {
+   "difetto": "sorvegliante · cecità dopo il rebase",
+   "nome": "REBASE_HEAD torna a valere come rebase in corso: la guardia si spegne per sempre al primo riallineamento",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  [\"MERGE_HEAD\", \"una fusione (merge)\"],",
+   "sostituisci": "  [\"MERGE_HEAD\", \"una fusione (merge)\"],\n  [\"REBASE_HEAD\", \"un rebase\"],",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "pota-apprendimento · la copia che non era una copia",
+   "nome": "il potatore toglie il testo di un principio anche quando NON è identico alla lezione: memoria persa per far entrare un file",
+   "file": "cervello/pota-apprendimento.mjs",
+   "cerca": "    if (!lezione || lezione.testo !== p.testo) return p;",
+   "sostituisci": "    if (!lezione) return p;",
+   "test": "node --test cervello/test/archivi-senza-tetto.test.mjs"
   }
  ]
 }

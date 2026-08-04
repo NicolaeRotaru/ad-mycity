@@ -81,6 +81,18 @@ function normalizza(d: { apprendimento: any; registro: any }) {
       if (l && l.testo == null) l.testo = l.lezione ?? l.come_applicare ?? l.principio ?? "";
     }
   }
+  // Principi: dal 4/8 chi è stato promosso NON porta più la copia del proprio testo — quella copia
+  // pesava 98.006 caratteri e ripeteva parola per parola la lezione con lo stesso id, due righe più
+  // su nello stesso file (`pota-apprendimento.principiSenzaCopia`). Il testo si rimette qui, dove
+  // c'è già la stessa cura per le lezioni: un principio senza testo, servito così, sarebbe una riga
+  // vuota per chi legge — cioè memoria persa a video anche se il file ce l'ha.
+  const prin = d.apprendimento?.principi;
+  if (Array.isArray(prin) && Array.isArray(lez)) {
+    const perId = new Map(lez.filter((l: any) => l?.id).map((l: any) => [String(l.id), l]));
+    for (const p of prin) {
+      if (p && typeof p === "object" && p.testo == null && p.id) p.testo = perId.get(String(p.id))?.testo ?? "";
+    }
+  }
   // Registro entità: il giro a volte usa stati REALE/DA-CONFERMARE/NON-VERIFICABILE → rimappa,
   // e SCARTA i non-entità (concetti/metriche) così non finiscono tra le «bloccate».
   if (d.registro && Array.isArray(d.registro.entita)) {
