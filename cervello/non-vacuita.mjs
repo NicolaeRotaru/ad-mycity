@@ -45,6 +45,50 @@ export function difettiDellaMutazione(m) {
   return String(m?.difetto || "").match(/AR-\d+/g) || [];
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// IL RIPRISTINO D'EMERGENZA (AR-523) — `finally` non gira su un processo UCCISO.
+//
+// PERCHÉ ESISTE. Il 4/8 un mio comando è andato in timeout mentre questo strumento teneva applicata
+// una mutazione: il SIGTERM ha saltato il `finally` qui sotto e `cervello/git-pr.mjs` è rimasto su
+// disco col fix di AR-451 disfatto (`const preRebaseSha = null`). Per git era una modifica come
+// un'altra, indistinguibile da una scelta; l'ha preso il sorvegliante al primo Edit successivo, con
+// una voce `prova-accecata`. Senza di lui finiva dritto in un commit.
+//
+// La radice: uno strumento di misura che scrive nell'oggetto misurato deve saper rimettere le cose
+// a posto ANCHE quando viene ammazzato. Un `finally` copre l'eccezione, non il segnale.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Il file che sto tenendo rotto adesso, e com'era prima. Un oggetto e non una variabile nuda così
+ *  il gestore del segnale legge sempre l'ultimo valore, senza catturarne una copia vecchia. */
+export const IN_CORSO = { stato: null };
+
+/**
+ * Rimette a posto il file lasciato rotto. `scrivi` è iniettato: senza, questa funzione si potrebbe
+ * provare solo ammazzando un processo vero — cioè non si proverebbe, ed è esattamente com'è nato il
+ * difetto che cura.
+ *
+ * @returns {string|null} il file rimesso a posto, o `null` se non c'era niente da rimettere
+ */
+export function ripristina(stato, scrivi) {
+  if (!stato || !stato.file) return null;
+  try {
+    scrivi(stato.file, stato.originale);
+    return stato.file;
+  } catch {
+    // Non riesco nemmeno a ripristinare: non posso fare altro che dirlo (lo fa il chiamante).
+    return null;
+  }
+}
+
+for (const segnale of ["SIGINT", "SIGTERM", "SIGHUP"]) {
+  process.on(segnale, () => {
+    const rimesso = ripristina(IN_CORSO.stato, (f, t) => writeFileSync(f, t));
+    IN_CORSO.stato = null;
+    if (rimesso) console.error(`\n⚠️  interrotto da ${segnale}: ho rimesso a posto ${rimesso} prima di uscire (AR-523).`);
+    process.exit(130);
+  });
+}
+
 /** Le mutazioni che riguardano almeno uno dei difetti chiesti. Pura: il test la interroga da sola. */
 export function filtraPerDifetti(elenco = [], ids = null) {
   if (!ids || !ids.length) return elenco;
@@ -103,12 +147,14 @@ function main() {
       continue;
     }
     try {
+      IN_CORSO.stato = { file, originale };
       writeFileSync(file, rotto);
       const r = spawnSync("node", [m.test], { cwd: AD_ROOT, encoding: "utf8", timeout: 120_000 });
       const rosso = r.status !== 0;
       esiti.push({ ...m, verdetto: rosso ? "ok" : "vacua", perche: rosso ? "" : "il test resta VERDE col fix rotto" });
     } finally {
       writeFileSync(file, originale); // sempre, anche se il test esplode
+      IN_CORSO.stato = null;
     }
   }
 

@@ -370,8 +370,14 @@
    "baseline": 0,
    "file_noti": [],
    "curati": [],
-   "nota_onesta": "Baseline 0 nel perimetro dichiarato. I due --no-verify che esistono stanno in cervello/test/, dove servono a costruire repo finti: fuori dal perimetro di questa malattia e già fuori dal controllo ① del sorvegliante.",
-   "esenti": [],
+   "nota_onesta": "Baseline 0 nel perimetro dichiarato. I due --no-verify che esistono stanno in cervello/test/, dove servono a costruire repo finti: fuori dal perimetro di questa malattia e già fuori dal controllo ① del sorvegliante. Dal 4/8 c'è un esente dichiarato: cervello/pre-scrittura.mjs, il freno che quel bypass lo riconosce per fermarlo (AR-525).",
+   "esenti": [
+    {
+     "file": "cervello/pre-scrittura.mjs",
+     "quale": "le due espressioni regolari che RICONOSCONO --no-verify e push --force",
+     "perche": "È il guardiano che quel bypass lo intercetta: il freno su PreToolUse chiede conferma a Nicola quando sto per lanciare un comando che salta i cancelli del pre-commit o riscrive main. Per riconoscere quelle forme deve nominarle — «menzione ≠ chiamata», la quinta comparsa di questa forma in questo repo, e stavolta dentro il file che rende quel bypass più difficile invece che più facile. Verificabile: qui non c'è nessun `git commit` e nessun `git push`, solo `.test(c)` su un comando che sta per partire; lo script è dichiarato in sola lettura e non esegue git."
+    }
+   ],
    "nota_baseline": "0 misurato il 2026-08-03 da spazzata-fratelli."
   }
  ]

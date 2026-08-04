@@ -59,7 +59,7 @@ prova("un testo è «lungo» da 15 righe piene in su", () => {
 });
 
 prova("un testo è «corto» sotto le 8 righe di contenuto, e 8 è il numero deciso", () => {
-  // AR-522. Alzare questa soglia esenta dai quattro blocchi testi sempre più lunghi — è la stessa
+  // AR-530. Alzare questa soglia esenta dai quattro blocchi testi sempre più lunghi — è la stessa
   // leva di RIGHE_TESTO_LUNGO tirata dall'altra parte, e passerebbe inosservata.
   assert.equal(RIGHE_TESTO_CORTO, 8, "alzare questa soglia toglie i blocchi a testi sempre più lunghi");
   assert.ok(RIGHE_TESTO_CORTO < RIGHE_TESTO_LUNGO, "il corto sta sotto il lungo, altrimenti la fascia di mezzo sparisce");

@@ -464,7 +464,7 @@ prova("senza nessun segno di esempio l accusa resta: il fix non ha spento la reg
   assert.ok(tipi(t).includes("manca-esempio"), "un testo senza nessun caso concreto deve restare fermato");
 });
 
-// ── AR-522: la ripetizione DENTRO lo stesso messaggio ─────────────────────────────────────────
+// ── AR-530: la ripetizione DENTRO lo stesso messaggio ─────────────────────────────────────────
 //
 // Il caso non è inventato: è la foto che Nicola ha mandato il 4/8. Un messaggio solo, con i quattro
 // blocchi due volte, lo stesso comando due volte e le stesse frasi riscritte. Il controllo contro le

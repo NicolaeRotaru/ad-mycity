@@ -49,6 +49,9 @@ const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
 const SETTINGS = ".claude/settings.json";
 
+/** I freni costruiti e non ancora agganciati, ognuno con la data entro cui deve esserlo (AR-526). */
+export const IN_ATTESA = "cervello/hook-in-attesa.json";
+
 /**
  * I nomi degli eventi che Claude Code riconosce, nella loro grafia ESATTA.
  *
@@ -130,8 +133,47 @@ export function freniNonAttaccati(scriptDisponibili = [], comandi = []) {
   return scriptDisponibili.filter((s) => !testo.includes(s));
 }
 
+/**
+ * LA TERZA STRADA (AR-526) — «costruito» e «agganciato» non succedono nello stesso momento.
+ *
+ * PERCHÉ SERVE. `.claude/settings.json` è nel deny-list di questa macchina, e deve restarci: è il
+ * file che può staccare tutti i freni insieme, compreso il divieto di leggere i `.env`. Quindi io
+ * scrivo l'hook e Nicola lo attacca — due momenti diversi, a volte due giorni diversi. In mezzo, il
+ * controllo ④ direbbe rosso su un freno appena costruito, cioè sul comportamento giusto. E un
+ * guardiano che diventa rosso quando fai la cosa giusta viene aggirato al secondo giro.
+ *
+ * La forma della cura non me la sono inventata: il sorvegliante ha già lo stesso problema coi gate
+ * («il test esiste, ma in una PR non ancora mergiata») e lo risolve con un terzo stato GIALLO che
+ * pretende il numero della PR. Qui pretende anche una DATA — perché la differenza fra un'attesa e
+ * un'esenzione è tutta lì. Passata la data, rosso.
+ *
+ * Non tocca `freniNonAttaccati`: quella riga è il `cerca` di una mutazione (AR-455), e riscriverla
+ * avrebbe accecato la prova nell'atto stesso di allargare il controllo che protegge.
+ *
+ * @param {string[]} staccati   l'uscita di `freniNonAttaccati`
+ * @param {Array<{file:string,pr?:string,scade?:string,perche?:string}>} registro
+ * @param {string} oggi         AAAA-MM-GG
+ */
+export function smistaStaccati(staccati = [], registro = [], oggi = "") {
+  const perFile = new Map((Array.isArray(registro) ? registro : []).map((v) => [v.file, v]));
+  const inAttesa = [];
+  const scaduti = [];
+  const orfani = [];
+  for (const s of staccati) {
+    const v = perFile.get(s);
+    // Senza data non è un'attesa: è un'esenzione scritta male, e vale come se non ci fosse.
+    if (!v || !v.scade) {
+      orfani.push(s);
+      continue;
+    }
+    if (oggi && v.scade < oggi) scaduti.push({ file: s, ...v });
+    else inAttesa.push({ file: s, ...v });
+  }
+  return { inAttesa, scaduti, orfani };
+}
+
 /** Il verdetto: le righe da dire e se si blocca. Tace quando non c'è niente da dire. */
-export function verdetto({ rotto = null, sconosciute = [], orfani = [], staccati = [] } = {}) {
+export function verdetto({ rotto = null, sconosciute = [], orfani = [], staccati = [], inAttesa = [], scaduti = [] } = {}) {
   const righe = [];
   if (rotto) {
     righe.push(
@@ -158,7 +200,21 @@ export function verdetto({ rotto = null, sconosciute = [], orfani = [], staccati
         `\n   → o lo agganci in ${SETTINGS}, o è un freno costruito e mai collegato (AR-455).`,
     );
   }
-  return { righe, esce: righe.length ? 1 : 0 };
+  for (const s of scaduti) {
+    righe.push(
+      `❌ ${s.file} doveva essere agganciato entro il ${s.scade} e non lo è` +
+        `\n   → l'attesa è scaduta: da adesso è un'esenzione, non un'attesa. O lo attacchi (${s.evento || "?"}), o togli la voce da cervello/hook-in-attesa.json e dichiara il debito.`,
+    );
+  }
+  // Il giallo NON entra nel codice d'uscita: è debito dichiarato, con una data che lo farà diventare
+  // rosso da solo. Contarlo come violazione vorrebbe dire tenere la CI rossa per tutto il tempo che
+  // passa fra «l'ho costruito» e «Nicola l'ha incollato» — cioè punire il momento giusto.
+  const gialle = inAttesa.map(
+    (s) =>
+      `⏳ ${s.file} è costruito ma non ancora attaccato (${s.evento || "?"}, ${s.pr || "PR non indicata"}) — scade il ${s.scade}` +
+      `\n   → fino ad allora conta come debito, non come difesa: il freno NON frena.`,
+  );
+  return { righe: [...righe, ...gialle], esce: righe.length ? 1 : 0 };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -207,16 +263,47 @@ function main() {
     process.exit(2);
   }
 
+  // La terza strada: chi è staccato ma DICHIARATO in attesa, con la sua data (AR-526).
+  let registro = [];
+  try {
+    registro = JSON.parse(readFileSync(join(REPO, IN_ATTESA), "utf8")).in_attesa || [];
+  } catch {
+    // Registro assente o illeggibile: nessuna attesa dichiarata, quindi tutti gli staccati restano
+    // rossi. È il verso giusto in cui sbagliare — un file che non si legge non può assolvere nessuno.
+  }
+  // `--senza-attese` toglie il periodo di grazia: le attese dichiarate tornano rosse come tutti gli
+  // altri staccati. Serve perché un difetto APERTO deve avere un comando che diventa verde solo
+  // quando è davvero riparato — e «riparato», per un hook, vuol dire agganciato, non dichiarato.
+  // Senza questo flag il comando di verifica di quei difetti sarebbe verde dal primo giorno, cioè
+  // esattamente la chiusura sulla lettera di AR-455.
+  //
+  // È la prova di questi quattro difetti, e li nomino qui perché un comando condiviso che non dice
+  // chi chiude li chiuderebbe tutti alla cieca — compresi quelli mai toccati:
+  //   · AR-525 — pre-scrittura.mjs su PreToolUse (le scritture che nessuna guardia vede)
+  //   · AR-527 — cancello-senior.mjs su SubagentStop (i senior che consegnano senza cancello)
+  //   · AR-528 — memoria-guardia.mjs su SessionStart/PreCompact/SessionEnd (la memoria che muore con la copia)
+  //   · AR-522 — intento-turno.mjs su UserPromptSubmit (il perimetro del turno che non esiste al primo giro)
+  // Ognuno resta rosso finché IL SUO script non compare fra i comandi attaccati.
+  const senzaAttese = process.argv.includes("--senza-attese");
+  const smistati = senzaAttese
+    ? { orfani: staccati, inAttesa: [], scaduti: [] }
+    : smistaStaccati(staccati, registro, new Date().toISOString().slice(0, 10));
+
   const v = verdetto({
     rotto,
     sconosciute: chiaviSconosciute(hooks),
     orfani: comandiOrfani(comandi, (f) => existsSync(join(REPO, f))),
-    staccati,
+    staccati: smistati.orfani,
+    inAttesa: smistati.inAttesa,
+    scaduti: smistati.scaduti,
   });
 
-  if (!v.righe.length) {
+  if (!v.esce) {
     console.log(`🪝 GLI HOOK SONO ATTACCATI — ${comandi.length} comandi su ${Object.keys(hooks).length} eventi, tutti verso file che esistono.`);
     for (const c of comandi) console.log(`   ✅ ${c.evento}${c.matcher ? ` (${c.matcher})` : ""} → ${c.comando}`);
+    // Le attese si stampano DOPO il verde e non al posto suo: sono debito dichiarato, e chi legge
+    // deve vedere sia che il file è a posto sia che questi freni ancora non frenano.
+    for (const r of v.righe) console.log(`  ${r}`);
     process.exit(0);
   }
 

@@ -67,7 +67,7 @@ export const RIGHE_TESTO_LUNGO = 15;
 
 /**
  * Sotto questa soglia il testo è CORTO davvero, e i quattro blocchi pesano più di quello che
- * introducono (AR-522).
+ * introducono (AR-530).
  *
  * Nicola, 4/8: «quando è corta la risposta che mi dai penso che non abbiano senso, ma tante volte
  * il riassunto che mi dai mi fa capire meglio la risposta».
@@ -227,7 +227,7 @@ export const ARIA_FRITTA = [
 ];
 
 /**
- * Quanta struttura pretende un testo: `corta` · `media` · `lunga` (AR-522).
+ * Quanta struttura pretende un testo: `corta` · `media` · `lunga` (AR-530).
  *
  * ESISTE PERCHÉ DEVE ESSERE UNA SOLA. Il freno (`si-capisce.mjs`) e il contatore
  * (`conta-blocco-mancante.mjs`) devono rispondere alla stessa domanda con la stessa regola: se il
@@ -416,7 +416,7 @@ export function ideeRipetute(nuovo, precedenti = []) {
 
 
 /**
- * RIPETUTO DENTRO LO STESSO MESSAGGIO — il cieco di `ideeRipetute` (AR-522).
+ * RIPETUTO DENTRO LO STESSO MESSAGGIO — il cieco di `ideeRipetute` (AR-530).
  *
  * IL DIFETTO, con la sua foto. Nicola, 4/8: «stai ancora ripetendo la stessa cosa due volte». Il
  * messaggio che gli ho mandato aveva DUE volte i quattro blocchi, due volte lo stesso comando da
@@ -889,7 +889,7 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
       }
     }
   }
-  // LA STRUTTURA SI SCALA SULLA LUNGHEZZA (AR-522). Nicola, 4/8: «quando è corta la risposta che mi
+  // LA STRUTTURA SI SCALA SULLA LUNGHEZZA (AR-530). Nicola, 4/8: «quando è corta la risposta che mi
   // dai penso che non abbiano senso, ma tante volte il riassunto che mi dai mi fa capire meglio la
   // risposta». Le due metà della frase non si contraddicono: i blocchi aiutano quando c'è qualcosa
   // da attraversare, e diventano quattro intestazioni sopra sei righe quando non c'è.

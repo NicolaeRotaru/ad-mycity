@@ -1567,7 +1567,7 @@
    "test": "cervello/test/numeri-prima-delle-risposte.test.mjs"
   },
   {
-   "difetto": "AR-522",
+   "difetto": "AR-530",
    "nome": "la ripetizione dentro lo stesso messaggio torna invisibile: i quattro blocchi possono ricomparire due volte di fila",
    "file": "cervello/si-capisce.mjs",
    "cerca": "  for (const r of ripetizioniInterne(testo)) {",
@@ -1576,7 +1576,7 @@
    "lezione": "L-2026-0804-551"
   },
   {
-   "difetto": "AR-522",
+   "difetto": "AR-530",
    "nome": "i titoli dei quattro blocchi possono comparire due volte nello stesso testo senza che nessuno lo veda",
    "file": "cervello/si-capisce.mjs",
    "cerca": "    if (righeViste.length < 2) continue;\n    fuori.push({\n      riga: righeViste[righeViste.length - 1],\n      trovato: `«${blocco}» ${righeViste.length} volte`,",
@@ -1585,7 +1585,7 @@
    "lezione": "L-2026-0804-551"
   },
   {
-   "difetto": "AR-522",
+   "difetto": "AR-530",
    "nome": "i quattro titoli tornano obbligatori sopra una risposta di due righe: l impalcatura pesa piu del contenuto",
    "file": "cervello/si-capisce.mjs",
    "cerca": "  if (piene >= RIGHE_TESTO_LUNGO) return \"lunga\";\n  if (contenuto < RIGHE_TESTO_CORTO) return \"corta\";",
@@ -1608,6 +1608,134 @@
    "cerca": "  righe.push(...quattroRisposte(v));",
    "sostituisci": "",
    "test": "cervello/test/referto-visita-leggibile.test.mjs"
+  },
+  {
+   "difetto": "AR-154",
+   "nome": "il cieco torna a tacere: non aver misurato ridiventa indistinguibile da un verde",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  if (!righe.length) return { blocca: false, cieco: ciechi.length > 0, righe: noteCieche };",
+   "sostituisci": "  if (!righe.length) return { blocca: false, cieco: false, righe: [] };",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-525",
+   "nome": "il freno che parla prima smette di vedere le scritture MCP: tornano a passare senza nessuna guardia",
+   "file": "cervello/pre-scrittura.mjs",
+   "cerca": "    if (VERBI_DI_SCRITTURA.test(verbo)) {",
+   "sostituisci": "    if (false) {",
+   "test": "node --test cervello/test/pre-scrittura.test.mjs"
+  },
+  {
+   "difetto": "AR-525",
+   "nome": "il freno smette di riconoscere il bypass dei cancelli del pre-commit",
+   "file": "cervello/pre-scrittura.mjs",
+   "cerca": "  if (/\\bgit\\s+commit\\b[^\\n]*(--no-verify|(?:^|\\s)-n(?:\\s|$))/.test(c)) {",
+   "sostituisci": "  if (false) {",
+   "test": "node --test cervello/test/pre-scrittura.test.mjs"
+  },
+  {
+   "difetto": "AR-526",
+   "nome": "l'attesa non scade più: un freno mai agganciato resta giallo per sempre, cioè esente",
+   "file": "cervello/hooks-check.mjs",
+   "cerca": "    if (oggi && v.scade < oggi) scaduti.push({ file: s, ...v });",
+   "sostituisci": "    if (false) scaduti.push({ file: s, ...v });",
+   "test": "node --test cervello/test/hooks-check.test.mjs"
+  },
+  {
+   "difetto": "AR-526",
+   "nome": "una voce senza data vale come attesa: l'esenzione senza scadenza torna a passare",
+   "file": "cervello/hooks-check.mjs",
+   "cerca": "    if (!v || !v.scade) {",
+   "sostituisci": "    if (!v) {",
+   "test": "node --test cervello/test/hooks-check.test.mjs"
+  },
+  {
+   "difetto": "AR-527",
+   "nome": "il cancello dei senior blocca anche quando il perimetro è condiviso: punisce il senior sbagliato",
+   "file": "cervello/cancello-senior.mjs",
+   "cerca": "  return { righe, blocca: sostanza && !condiviso && !giaBloccato };",
+   "sostituisci": "  return { righe, blocca: sostanza && !giaBloccato };",
+   "test": "node --test cervello/test/cancello-senior.test.mjs"
+  },
+  {
+   "difetto": "AR-527",
+   "nome": "l'ancora del senior non si chiude: il prossimo senior eredita il perimetro di chi c'era prima",
+   "file": "cervello/cancello-senior.mjs",
+   "cerca": "  if (aperti <= 1) return { ancora: null, ultimo: true, condiviso: aperti > 1 };",
+   "sostituisci": "  if (aperti <= 1) return { ancora: precedente, ultimo: true, condiviso: aperti > 1 };",
+   "test": "node --test cervello/test/cancello-senior.test.mjs"
+  },
+  {
+   "difetto": "AR-528",
+   "nome": "la memoria conta come «mai risolta» anche una voce che avevo sistemato mentre lavoravo",
+   "file": "cervello/memoria-guardia.mjs",
+   "cerca": "    if (Number(v.scatto) === scatto && v.gravita === \"grave\") {",
+   "sostituisci": "    if (v.gravita === \"grave\") {",
+   "test": "node --test cervello/test/memoria-guardia.test.mjs"
+  },
+  {
+   "difetto": "AR-522",
+   "nome": "il seme sposta un'ancora viva: il cancello dello Stop si scavalca da solo al turno dopo",
+   "file": "cervello/intento-turno.mjs",
+   "cerca": "  if (ancora && ancoraUsabile) return false;",
+   "sostituisci": "  if (false) return false;",
+   "test": "node --test cervello/test/intento-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-526",
+   "nome": "l'attesa di aggancio non scade: un hook mai collegato resta verde per sempre, cioè esente",
+   "file": "cervello/guardia-viva.mjs",
+   "cerca": "    if (oggi && scade < oggi) {",
+   "sostituisci": "    if (false) {",
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+  },
+  {
+   "difetto": "AR-526",
+   "nome": "un'attesa senza data viene accettata: l'esenzione travestita torna a passare",
+   "file": "cervello/guardia-viva.mjs",
+   "cerca": "    if (!scade) {",
+   "sostituisci": "    if (false) {",
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+  },
+  {
+   "difetto": "AR-523",
+   "nome": "il ripristino d'emergenza non riscrive piu niente: un processo ucciso torna a lasciare il fix disfatto",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "    scrivi(stato.file, stato.originale);",
+   "sostituisci": "    void stato;",
+   "test": "node --test cervello/test/non-vacuita-ripristino.test.mjs"
+  },
+  {
+   "difetto": "AR-522",
+   "nome": "il guasto di scrittura non arriva piu al verdetto: il perimetro sbagliato resta senza un perche",
+   "file": "cervello/intento-turno.mjs",
+   "cerca": "  for (const g of guasti) righe.push(",
+   "sostituisci": "  for (const g of []) righe.push(",
+   "test": "node --test cervello/test/intento-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-524",
+   "nome": "il guardiano non guarda piu se il materiale c'e: la card torna a essere un puntatore",
+   "file": "cervello/materiale-in-mano.mjs",
+   "cerca": "    if (MATERIALE.test(testo)) continue;",
+   "sostituisci": "    if (true) continue;",
+   "test": "node --test cervello/test/materiale-in-mano.test.mjs"
+  },
+  {
+   "difetto": "AR-524",
+   "nome": "il guardiano torna a bastarsi dell ordine senza chiedere dove sia il materiale: gli abbagli tornano",
+   "file": "cervello/materiale-in-mano.mjs",
+   "cerca": "    if (!ALTROVE.test(testo)) continue;",
+   "sostituisci": "    if (false) continue;",
+   "test": "node --test cervello/test/materiale-in-mano.test.mjs"
+  },
+  {
+   "difetto": "AR-529",
+   "nome": "gli hook tornano invisibili: i freni agganciati risultano di nuovo costruiti e mai messi di guardia",
+   "file": "cervello/guardia-viva.mjs",
+   "cerca": "for (const m of String(c?.comando || \"\").matchAll(/\\bcervello\\/([a-z0-9._-]+)\\.mjs/g)) fuori.add(`${m[1]}.mjs`);",
+   "sostituisci": "for (const m of []) fuori.add(`${m[1]}.mjs`);",
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   }
  ]
 }

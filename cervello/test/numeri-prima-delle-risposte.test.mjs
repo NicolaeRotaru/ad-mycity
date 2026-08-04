@@ -61,7 +61,7 @@ test("una risposta numerata SENZA blocchi viene fermata quando c'è qualcosa da 
   assert.equal(mancanti.length, BLOCCHI.length, "una risposta numerata con del testo dentro pretende le quattro risposte");
 });
 
-test("su una risposta numerata CORTISSIMA i blocchi non si pretendono più (AR-522)", () => {
+test("su una risposta numerata CORTISSIMA i blocchi non si pretendono più (AR-530)", () => {
   // Il rovescio della medaglia di AR-517, e arriva da Nicola il 4/8: «quando è corta la risposta che
   // mi dai penso che non abbiano senso». Su due righe i quattro titoli sono quattro intestazioni
   // sopra due frasi — l'impalcatura pesa più di quello che regge.
@@ -102,7 +102,7 @@ test("il tipo nuovo dichiara cosa NON vede, come tutti gli altri", () => {
 
 test("conta il blocco mancante solo sui messaggi che lo pretendevano", () => {
   const corto = "Fatto, è verde.";
-  // AR-522: il contatore e il freno rispondono alla STESSA domanda con la stessa funzione. Una
+  // AR-530: il contatore e il freno rispondono alla STESSA domanda con la stessa funzione. Una
   // risposta numerata di due righe non pretende più i blocchi, quindi non entra nemmeno nel conto:
   // contarla direbbe che ho dimenticato una cosa che non andava messa.
   const numeratoCorto = "1) Sì.\n2) No.";
@@ -117,7 +117,7 @@ test("conta il blocco mancante solo sui messaggi che lo pretendevano", () => {
     "   Chiuso il secondo diventa mezz'ora di lavoro.",
   ].join("\n");
   assert.equal(daMisurare(corto), false, "su un messaggio di tre parole il blocco non va: contarlo sarebbe un'accusa falsa");
-  assert.equal(daMisurare(numeratoCorto), false, "due righe numerate non pretendono i quattro titoli (AR-522)");
+  assert.equal(daMisurare(numeratoCorto), false, "due righe numerate non pretendono i quattro titoli (AR-530)");
   assert.equal(daMisurare(numerato), true, "una risposta numerata con del contenuto dentro lo pretende");
   const c = conta([corto, numeratoCorto, numerato, QUATTRO.join("\n") + "\n" + numerato]);
   assert.equal(c.misurati, 2, "i due messaggi corti non entrano nel conto");
