@@ -63,6 +63,31 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+<!-- macchina-ferma-da-quattro-giorni -->
+
+### 🔴 #macchina-ferma-da-quattro-giorni — La macchina lavora e non riesce a pubblicare: sblocca il push sul server · ⏳ accodata 2026-08-04 03:10 · ✏️ corretta 03:20
+**Cosa cambia:** dal 30 luglio nel repo non arriva più niente, e per quattro giorni e mezzo il Pannello ti ha mostrato numeri vecchi. La causa NON è che la macchina è spenta: il tuo schermo delle 03:07 mostra un giro completo alle 22:26 di stanotte. Lavora e resta muta. Si ferma all'ultimo passo: `PUSH ANNULLATO — rebase rc=1, abort rc=128`, poi `push della memoria fallito dopo 3 tentativi`, e il servizio esce con codice 2. Intanto i commit che restano sul server crescono: 3.942 alle 18:23, 4.006 alle 22:26. Sono 64 in quattro ore che non escono da lì.
+**Se va bene:** il push riparte, i quattro giorni di lavoro arretrato arrivano nel repo, e il Pannello torna a dire il vero.
+**⚠️ Non riavviare il servizio.** Era il consiglio della prima versione di questa card, ed era sbagliato: il servizio parte già da solo e ogni giro aggiunge commit alla pila. Riavviare peggiora.
+**Cosa devi fare tu, sul server — il perché adesso lo sappiamo: 17 file di dati modificati bloccano il rebase.**
+Primo passo, tutto reversibile e senza perdere niente:
+```bash
+cd /opt/mycity/ad-mycity
+git branch salvataggio-2026-08-04        # i 4.450 commit restano raggiungibili qui, per sempre
+git stash push -u -m "dati vivi 2026-08-04"
+git fetch origin main
+git status --short && git log --oneline -1 origin/main
+```
+Fermati qui e mandami cosa stampa.
+
+Il passo dopo è una decisione tua, e questi sono i numeri per prenderla. I 4.450 commit valgono per lo stato finale dei file. Quello stato è già lì, nell'albero di lavoro. Rifare i commit uno per uno su main non aggiunge niente, e andrebbe in conflitto su ogni file di memoria.
+**Nota tecnica:** difetto AR-518. I fix del 31/7 (AR-467 stop ai commit di recupero, AR-468 messaggio d'errore vero, AR-469 stash prima del rebase) sono in `main`, verificato: `serve_mettere_da_parte` e la cattura dell'uscita del rebase ci sono. Quindi o il server non ha quel codice, o il rebase fallisce per una causa che quei tre fix non coprono. Il numero che cresce (3.942 → 4.006) dice che il recupero continua a committare, cioè che AR-467 lassù non sta funzionando. Da questa sessione il server non si vede: questa parte NON l'ho misurata, l'ho letta dal tuo schermo.
+- **Colore:** 🔴 (tocca il server in produzione)
+- **Reparto:** devops-sre
+- **Origine:** `{origine:visita-salute-2026-08-04, difetto:AR-518}`
+
+---
+
 <!-- radiografia-prova-non-vera-alla-nascita -->
 
 ### 🟡 #radiografia-prova-non-vera-alla-nascita — Impedisci alla macchina di chiudersi i difetti da sola il giorno stesso che li scrive · ⏳ accodata 2026-07-27 12:45
@@ -896,7 +921,9 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 <!-- accendi-i-quattro-controlli-nuovi -->
 
-### 🟡 #accendi-i-quattro-controlli-nuovi — Incolla il blocco che accende i quattro controlli nuovi della macchina · ⏳ accodata 2026-08-04 01:45
+### ✅ #accendi-i-quattro-controlli-nuovi — ~~Incolla il blocco che accende i quattro controlli nuovi della macchina~~ → FATTO 2026-08-04 05:20
+
+**Esito:** Nicola ha incollato il blocco e l'ha committato su main. L'aggancio è MISURATO, non dichiarato: `node cervello/hooks-check.mjs --senza-attese` esce 0 con tutti e quattro fra i comandi attaccati, e lo stesso comando usciva 1 finché non c'erano. I quattro difetti sono chiusi (AR-522, AR-525, AR-527, AR-528) e le quattro attese sono state tolte dal registro, non aggiornate.
 
 **Cosa cambia:** ho costruito quattro controlli che oggi non esistono. Senza il tuo incollaggio restano spenti.
 Il primo guarda i miei senior quando finiscono di lavorare. Oggi consegnano e nessuno controlla cosa lasciano indietro. Sono il gruppo che produce più lavoro di tutti.

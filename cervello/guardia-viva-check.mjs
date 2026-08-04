@@ -38,12 +38,14 @@ import {
   eGuardiano,
   fantasmi,
   invocazioniIn,
+  invocazioniNegliHook,
   usiIn,
   mortiNonDichiarati,
   senzaGuardia,
   tettoSforato,
   verdettiMorti,
 } from "./guardia-viva.mjs";
+import { comandiDichiarati } from "./hooks-check.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = process.env.AD_REPO || join(QUI, "..");
@@ -131,6 +133,18 @@ function main() {
       if (!perStrumento.has(nome)) perStrumento.set(nome, []);
       perStrumento.get(nome).push(rel);
     }
+  }
+
+  // ②b CHI LO ESEGUE A OGNI EVENTO — gli hook (AR-529). Un comando dentro `hooks` non è un testo
+  //     che nomina uno strumento: è la posizione da cui Claude Code lo lancia, e lo lancia più
+  //     spesso di qualunque timer. I comandi li estrae chi sa leggere quel file, non un secondo
+  //     lettore scritto qui (due lettori della stessa struttura divergono: AR-500).
+  try {
+    const dati = JSON.parse(readFileSync(join(REPO, ".claude/settings.json"), "utf8"));
+    for (const nome of invocazioniNegliHook(comandiDichiarati(dati?.hooks || {}))) invocati.add(nome);
+  } catch {
+    // Nessun settings.json leggibile: i freni agganciati non li posso contare. Non è un motivo per
+    // dichiararli orfani con sicurezza, ma nemmeno per assolverli — restano come li vede il resto.
   }
 
   // ③ LA DIFFERENZA, dichiarata o no.

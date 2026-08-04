@@ -20,7 +20,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { eGuardiano, guardiaDi, invocazioniIn, verdettiMorti } from "../guardia-viva.mjs";
+import { eGuardiano, guardiaDi, invocazioniIn, invocazioniNegliHook, verdettiMorti } from "../guardia-viva.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -170,4 +170,37 @@ test("se poi qualcuno lo esegue davvero, l'attesa non serve più: misurato batte
   const g = guardiaDi("nuovo-hook.mjs", inAttesa(), new Set(["nuovo-hook.mjs"]), new Map(), "2026-08-12");
   assert.equal(g.ok, true, "anche con la data scaduta: essere di guardia si MISURA, non si dichiara");
   assert.equal(g.motivo, "cablato");
+});
+
+// ── AR-529 — un comando dentro `hooks` È un'esecuzione ───────────────────────
+//
+// Il 4/8 Nicola ha agganciato quattro freni nuovi in .claude/settings.json e questo guardiano ha
+// continuato a chiamarli «costruiti e mai messi di guardia»: accusava di essere orfani quattro
+// guardiani che giravano a ogni singola mossa. Le regole di RE_INVOCAZIONE rifiutano di proposito
+// il semplice «node cervello/x.mjs» scritto in un testo (menzione ≠ chiamata, e va tenuto); un
+// comando dentro `hooks` però non è un testo, è la posizione da cui vengono lanciati.
+
+test("LA REGOLA CHE CONTA: un comando negli hook mette di guardia il suo guardiano", () => {
+  const trovati = invocazioniNegliHook([
+    { evento: "PreToolUse", comando: "node cervello/pre-scrittura.mjs --hook" },
+    { evento: "SessionEnd", comando: "node cervello/memoria-guardia.mjs --chiudi --hook" },
+  ]);
+  assert.deepEqual([...trovati].sort(), ["memoria-guardia.mjs", "pre-scrittura.mjs"]);
+});
+
+test("il nome torna col .mjs, come tutte le altre forme", () => {
+  // Senza il suffisso combaciava con niente e il rosso restava identico: il difetto sarebbe stato
+  // invisibile. L'ha trovato la prova sul repo vero, non la rilettura.
+  assert.ok([...invocazioniNegliHook([{ comando: "node cervello/x.mjs" }])][0].endsWith(".mjs"));
+});
+
+test("due comandi nella stessa riga contano entrambi: il SessionStart ne concatena due", () => {
+  const t = invocazioniNegliHook([{ comando: "bash cervello/installa-hooks.sh >/dev/null 2>&1; node cervello/contesto-lezioni.mjs --hook" }]);
+  assert.deepEqual([...t], ["contesto-lezioni.mjs"], "lo .sh non è un guardiano .mjs: non entra");
+});
+
+test("nessun hook, nessuna invocazione inventata", () => {
+  assert.equal(invocazioniNegliHook([]).size, 0);
+  assert.equal(invocazioniNegliHook([{ comando: "echo ciao" }]).size, 0);
+  assert.equal(invocazioniNegliHook([{}]).size, 0);
 });

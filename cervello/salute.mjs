@@ -960,7 +960,67 @@ async function visita() {
 const SEGNO = { ok: "✅", rotto: "❌", nonvisto: "⚪", guasto: "🔧" };
 const ORGANI = { worker: "Worker", cervello: "Cervello", cabina: "Cabina", senior: "Senior", sensori: "Sensori" };
 
-function referto(v) {
+/**
+ * Le quattro risposte in cima al referto, costruite dai dati della visita.
+ *
+ * Non è una casella da riempire: sono le quattro domande che Nicola si fa leggendo un referto, e
+ * finora doveva ricavarsele scorrendo gli elenchi. «Cosa devi fare» esce dal rosso che costa di più,
+ * «Cosa non ho verificato» dai ⚪ — che è l'unico posto dove quei buchi diventano una frase invece
+ * di una lista in fondo alla pagina.
+ */
+export function quattroRisposte(v) {
+  const righe = [];
+  const totale = v.risultati.length;
+  const copertura = Math.round(v.copertura * 100);
+  const peggiore = [...v.rotti].sort((a, b) => a.impatto - b.impatto)[0] || null;
+
+  righe.push("## In parole semplici");
+  righe.push("");
+  righe.push(
+    peggiore
+      ? `Ho controllato ${totale} cose della macchina. ${v.rotti.length === 1 ? "Una non va" : `${v.rotti.length} non vanno`}, e la più grave è sul ${ORGANI[peggiore.organo]}: ${peggiore.titolo.toLowerCase()}.`
+      : `Ho controllato ${totale} cose della macchina e non ne ho trovata nessuna rotta.`,
+  );
+  if (peggiore) righe.push(`Cioè, in concreto: ${peggiore.detto}`);
+  righe.push(`Non tutte le ${totale} le ho potute misurare davvero: ci sono riuscita per il ${copertura}%.`);
+  righe.push(`Visita fatta da: ${CASA}.`);
+  righe.push("");
+
+  righe.push("## Cosa cambia per te");
+  righe.push("");
+  righe.push(
+    peggiore
+      ? `Finché resta così, quel pezzo della macchina non lavora. ${IMPATTO[peggiore.impatto] === "blocca gli incassi" ? "E questo è il livello che tocca i soldi." : `Il costo: ${IMPATTO[peggiore.impatto]}.`}`
+      : "Niente: quello che ho potuto misurare funziona.",
+  );
+  if (v.guasti.length) righe.push(`In più ${v.guasti.length} dei miei controlli non sono partiti, e un controllo rotto sembra un verde.`);
+  righe.push("");
+
+  righe.push("## Cosa devi fare");
+  righe.push("");
+  righe.push(
+    peggiore
+      ? `Guarda la card in coda per «${peggiore.titolo}». Il comando pronto è lì.`
+      : "Niente.",
+  );
+  righe.push("");
+
+  righe.push("## Cosa non ho verificato");
+  righe.push("");
+  if (v.nonVisti.length) {
+    righe.push(`${v.nonVisti.length} controlli su ${totale} non li ho potuti fare da qui. Non sono verdi: sono buchi.`);
+    righe.push("");
+    // Un elenco, non un periodo: sette titoli uniti dal punto e virgola diventano una frase da 36
+    // parole con sei incisi dentro — misurato, non temuto.
+    for (const r of v.nonVisti) righe.push(`- ${r.titolo}.`);
+  } else {
+    righe.push("Niente: da qui ho potuto guardare tutto.");
+  }
+  righe.push("");
+  return righe;
+}
+
+export function referto(v) {
   const righe = [];
   righe.push("---");
   righe.push(`data: ${ts()}`);
@@ -968,14 +1028,13 @@ function referto(v) {
   righe.push(`modo: ${MODO}`);
   righe.push("---");
   righe.push("");
+  // Il referto è un testo che legge NICOLA, quindi vale la regola dei quattro blocchi come per ogni
+  // altro testo lungo (AR-478 + Regola 3 di scrittura-umana.md). Prima apriva con «2 rossi su 20
+  // controlli, copertura 68%»: vero, ma è il numero prima della notizia. Trovato dal freno dello
+  // Stop sul referto che avevo appena prodotto — 11 punti difficili aggiunti a un file che era a 0.
   righe.push(`# Visita della macchina — ${ts()}`);
   righe.push("");
-  righe.push(
-    v.rotti.length
-      ? `**${v.rotti.length} rossi** su ${v.risultati.length} controlli. Copertura ${Math.round(v.copertura * 100)}% (visitata da: ${CASA}).`
-      : `Nessun rosso su ${v.risultati.length} controlli. Copertura ${Math.round(v.copertura * 100)}% (visitata da: ${CASA}).`,
-  );
-  righe.push("");
+  righe.push(...quattroRisposte(v));
 
   if (v.mancantiAutotest.length) {
     righe.push(`> 🔧 **Attenzione ai miei stessi strumenti:** mancano ${v.mancantiAutotest.join(", ")}. Il verdetto qui sotto è parziale.`);
@@ -986,7 +1045,7 @@ function referto(v) {
   if (regressioni.length) {
     righe.push("## ⚠️ Peggiorato dall'ultima visita");
     righe.push("");
-    for (const r of regressioni) righe.push(`- **${r.titolo}** — ${r.detto}`);
+    for (const r of regressioni) righe.push(`- **${r.titolo}**: ${r.detto}`);
     righe.push("");
   }
 
@@ -994,23 +1053,36 @@ function referto(v) {
     righe.push("## ❌ Rotto — in ordine di quanto costa");
     righe.push("");
     for (const r of [...v.rotti].sort((a, b) => a.impatto - b.impatto)) {
-      righe.push(`### ${r.titolo} (${ORGANI[r.organo]} · ${IMPATTO[r.impatto]})`);
+      // Titolo pulito e organo su una riga sua: prima erano un titolo con due incisi fra parentesi,
+      // cioè la forma che il misuratore boccia («chi legge deve tenere in sospeso l'idea di partenza»).
+      righe.push(`### ${r.titolo}`);
+      righe.push(`Organo: ${ORGANI[r.organo]}. Quanto costa: ${IMPATTO[r.impatto]}.`);
+      righe.push("");
       righe.push(`${r.detto}`);
       if (r.prova) righe.push(`Prova: \`${r.prova}\``);
       righe.push("");
     }
   }
 
+  // Da qui in giù il dettaglio per chi esegue: gli elenchi organo per organo, coi messaggi che ogni
+  // controllo scrive di suo. Il rosso e il peggioramento restano SOPRA — sono la notizia, non il
+  // dettaglio, e spingerli qui sotto è «forma pulita, contenuto svuotato» (me l'ha detto il misuratore
+  // al primo tentativo: avevo mandato tutto sotto la riga e il referto era diventato una copertina).
+  righe.push("---");
+  righe.push("");
+  righe.push("## Dettagli tecnici");
+  righe.push("");
+
   if (v.guasti.length) {
     righe.push("## 🔧 I miei controlli che non sono partiti");
     righe.push("");
-    for (const r of v.guasti) righe.push(`- **${r.titolo}** — ${r.detto}`);
+    for (const r of v.guasti) righe.push(`- **${r.titolo}**: ${r.detto}`);
     righe.push("");
   }
 
   righe.push("## ✅ Provato e funzionante");
   righe.push("");
-  for (const r of v.buoni) righe.push(`- **${r.titolo}** — ${r.detto}${r.prova ? ` \`${r.prova}\`` : ""}`);
+  for (const r of v.buoni) righe.push(`- **${r.titolo}**: ${r.detto}${r.prova ? ` \`${r.prova}\`` : ""}`);
   righe.push("");
 
   if (v.nonVisti.length) {
@@ -1018,7 +1090,7 @@ function referto(v) {
     righe.push("");
     righe.push("Non sono verdi e non sono rossi: sono i buchi di questa visita.");
     righe.push("");
-    for (const r of v.nonVisti) righe.push(`- **${r.titolo}** — ${r.detto}`);
+    for (const r of v.nonVisti) righe.push(`- **${r.titolo}**: ${r.detto}`);
     righe.push("");
   }
 

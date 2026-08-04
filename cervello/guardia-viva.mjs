@@ -110,6 +110,35 @@ export function invocazioniIn(testo = "") {
 }
 
 /**
+ * I guardiani che un HOOK esegue (AR-529).
+ *
+ * PERCHÉ È SEPARATO DALLE ALTRE FORME. Le regole qui sopra rifiutano di proposito il semplice
+ * `node cervello/x.mjs` scritto in un testo: dentro `cancello-lotto.mjs` quella stringa compariva
+ * in un MESSAGGIO, e leggerla come «qualcuno lo esegue» avrebbe dichiarato di guardia il guardiano
+ * più orfano di tutti. È la regola «menzione ≠ chiamata», e va tenuta.
+ *
+ * Ma un comando dentro `hooks` in `.claude/settings.json` non è un testo: è una POSIZIONE
+ * STRUTTURATA, e quello che ci sta dentro Claude Code lo esegue a ogni evento. È l'esecuzione più
+ * ricorrente che questa macchina abbia. Il 4/8, appena Nicola ha agganciato i quattro freni nuovi,
+ * il guardiano ha continuato a chiamarli «costruiti e mai messi di guardia» — cioè accusava di
+ * essere orfani quattro guardiani che stavano girando a ogni singola mossa.
+ *
+ * Riceve i comandi GIÀ ESTRATTI da chi sa leggere quel file (`hooks-check.comandiDichiarati`): qui
+ * non si riapre `settings.json`, o sarebbero due lettori della stessa struttura — e due lettori
+ * dello stesso registro che divergono è la malattia già pagata in AR-500.
+ */
+export function invocazioniNegliHook(comandi = []) {
+  const fuori = new Set();
+  for (const c of comandi) {
+    // Col `.mjs` in coda, come tutte le altre forme: il resto del guardiano indicizza per nome di
+    // file, e restituirlo nudo lo faceva combaciare con niente. Il rosso restava identico, quindi
+    // il difetto era invisibile — l'ha trovato la prova sul repo vero, non la rilettura.
+    for (const m of String(c?.comando || "").matchAll(/\bcervello\/([a-z0-9._-]+)\.mjs/g)) fuori.add(`${m[1]}.mjs`);
+  }
+  return fuori;
+}
+
+/**
  * Le forme in più che valgono SOLO dentro un file nominato come posto di guardia.
  *
  * Un test mette di guardia un guardiano in due modi ugualmente veri: eseguendone il processo, o
