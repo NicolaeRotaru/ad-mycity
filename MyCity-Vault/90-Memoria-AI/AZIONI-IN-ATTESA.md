@@ -5,13 +5,13 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-04 18:21** — Automatico: **60 aperte · 3 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-04 20:21** — Automatico: **62 aperte · 3 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-08-04 18:21** — Automatico: **60 aperte · 3 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-04 20:21** — Automatico: **62 aperte · 3 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-08-04 18:21** — Automatico: **60 aperte · 3 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-04 20:21** — Automatico: **62 aperte · 3 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-08-04 18:21** — Automatico: **60 aperte · 3 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-04 20:21** — Automatico: **62 aperte · 3 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -24,7 +24,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ### 🟡 #permessi-senza-jolly — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50
 **Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly: `node cervello/*.mjs` e `bash cervello/*.sh`. Queste righe non dicono «può lanciare questi programmi». Dicono «può lanciare qualunque programma finisca in quella cartella» — e quella cartella la scrive la macchina stessa. I freni veri (la pausa, la tua firma, il controllo su chi riceve un messaggio) stanno dentro ai singoli programmi. Con il jolly si può arrivare a un programma senza passare dal freno che contiene. Non sto dicendo che sia già successo. Sto dicendo che oggi nessuno lo impedirebbe.
-**Se va bene:** sostituisci le due righe con l'elenco esplicito che ti ho già preparato — 70 programmi, ricavati guardando quali il giro e il worker lanciano davvero, più i 12 script di avvio. È in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`, pronto da incollare. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, il permesso si aggiunge a mano — ed è il punto: aggiungere una riga si vede, il jolly no.
+**Se va bene:** sostituisci le due righe con l'elenco esplicito che ti ho già preparato: 70 programmi, ricavati guardando quali il giro e il worker lanciano davvero, più i 12 script di avvio. La lista è in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`, pronta da incollare. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, aggiungi il permesso a mano. Aggiungere una riga si vede. Il jolly no.
 **Nota tecnica:** difetto AR-206, parte (a). Il lotto 33 ha verificato che la parte (b) — la regola `no-jolly-su-cartella-scrivibile` in `cervello/permessi-check.mjs` — esiste già e funziona: segnala correttamente entrambe le forme. La parte (a) non l'ho fatta io di proposito: `.claude/settings.json` è negato in scrittura alla macchina apposta (regola `no-auto-permessi`), e scavalcare quel confine per chiudere un difetto sul confine sarebbe stato assurdo. Restano fuori anche le parti (c) controllo di provenienza su ogni script e (d) chiavi fuori dall'ambiente del worker: sono infrastruttura e vanno in un lotto loro.
 - **Colore:** 🟡 (restringe i permessi della macchina: non manda niente a nessuno, ma va provato che il giro continui a girare)
 - **Reparto:** security + devops-sre
@@ -959,7 +959,7 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-04 18:21)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-04 20:21)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-04-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -978,6 +978,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-08-04 18:21 · 3 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-04 20:21 · 3 card totali
 
 ### ✅ #macchina-ferma-da-quattro-giorni — Il server è tornato a pubblicare: guasto dei quattro giorni chiuso · ⏳ accodata 2026-08-04 03:10 · ✅ chiusa 2026-08-04 12:20
 **La prova:** alle 12:09 su `main` è arrivato il commit di un giro vero («giro 4/8 11:30 + collaudo»), alle 12:10 il recupero delle scritture rimaste in sospeso, alle 12:11 il riconcilia. E il giro delle 12:20 è già il secondo consecutivo pubblicato. La memoria scorre di nuovo dal server a GitHub e il Pannello legge dati di oggi — non serviva più niente da te su questa card.

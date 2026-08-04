@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-04 20:20",
+ "aggiornato": "2026-08-04 20:30",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -10797,8 +10797,10 @@
    "caso_studio_nicola": false,
    "nato": "2026-07-31",
    "ultima_conferma": "2026-08-04 19:52",
-   "stato": "attiva",
-   "nota_2026-08-04": "2ª manifestazione: cancello-di-stop del giro 8 riacceso a torto — confrontava contro un commit vecchio (3bda15ad5) mentre il worker VPS scriveva in parallelo; entrambi i punti segnalati (collaudo giro-8, card PR #675) erano già chiusi nei commit 9ffb3d89c/364a5c1a3. Stesso meccanismo, superficie diversa (cancello-stop invece di scadenzario.json). 3ª manifestazione 19:52: stesso cancello, stessa base stantia (3bda15ad5) — verificato con `git log -1 -- <file>` su ognuno dei 7 file segnalati (pr-ad-mycity-675/678/679/680/681.md, AZIONI-IN-ATTESA.md, RITMO.md, STATO.md): TUTTI ultimo commit tra le 17:14 e le 18:46, nessuno toccato in questo turno (`git status --short` mostra solo i 3 file di memoria davvero modificati ora). Fix già pronto e in attesa di firma: PR #677 (branch `fix/cancello-stop-coda-toccata-v2`). Non riaprire la diagnosi una 4ª volta: verificare con `git log -1 -- <file>` è la prova sufficiente, il resto è mergiare #677."
+   "stato": "principio",
+   "nota_2026-08-04": "2ª manifestazione: cancello-di-stop del giro 8 riacceso a torto — confrontava contro un commit vecchio (3bda15ad5) mentre il worker VPS scriveva in parallelo; entrambi i punti segnalati (collaudo giro-8, card PR #675) erano già chiusi nei commit 9ffb3d89c/364a5c1a3. Stesso meccanismo, superficie diversa (cancello-stop invece di scadenzario.json). 3ª manifestazione 19:52: stesso cancello, stessa base stantia (3bda15ad5) — verificato con `git log -1 -- <file>` su ognuno dei 7 file segnalati (pr-ad-mycity-675/678/679/680/681.md, AZIONI-IN-ATTESA.md, RITMO.md, STATO.md): TUTTI ultimo commit tra le 17:14 e le 18:46, nessuno toccato in questo turno (`git status --short` mostra solo i 3 file di memoria davvero modificati ora). Fix già pronto e in attesa di firma: PR #677 (branch `fix/cancello-stop-coda-toccata-v2`). Non riaprire la diagnosi una 4ª volta: verificare con `git log -1 -- <file>` è la prova sufficiente, il resto è mergiare #677.",
+   "promosso_il": "2026-08-04 20:21",
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "tag": [
@@ -12627,6 +12629,21 @@
    ],
    "reparto": "@devops-sre",
    "promosso_il": "2026-07-30 06:21"
+  },
+  {
+   "id": "L-2026-0731-02",
+   "testo": "**Un 'fatto' dichiarato in un briefing/STATO.md non è garanzia che la scrittura sia arrivata su disco — verificarlo con git prima di usarlo come base del passaggio successivo (auto-scoperta, giro 31/7 18:35).** Il passaggio delle 14:35 aveva scritto in prosa (briefing + STATO.md) di aver «riparato `cervello/scadenzario.json` (PI26 stantio)» e «lanciato @prompt-engineer in background» per il cluster 'plugin'. Verificato al passaggio delle 18:35: `git log -- cervello/scadenzario.json` mostrava l'ultimo commit al 28/7 (nessuna modifica dopo) e `git diff` vuoto — il file era ancora quello vecchio, PI26 ancora aperta/scaduta; `consegne/prompt-engineer/` esisteva ma vuota, nessun file mai scritto. Non è chiaro SE la causa sia una scrittura persa (crash di sessione), un worker concorrente che ha sovrascritto, o un'azione mai davvero eseguita nonostante il testo — ma il fatto verificabile è che un giro ha scritto 'fatto' senza che il disco lo confermasse, ed è sopravvissuto un passaggio intero (12:37→14:35→qui) prima che qualcuno lo controllasse. Regola: quando un passaggio cita un lavoro di un passaggio precedente come già chiuso (specialmente 'ho riparato X' o 'ho lanciato l'agente Y'), prima di ripartire da lì per un nuovo lavoro fare UNA verifica veloce sul file/artefatto reale (git log/diff, ls della cartella di consegna) — non solo quando si sospetta qualcosa, ma come riflesso quando si eredita un 'fatto' altrui. Costo: secondi. Beneficio: intercetta un buco di verificabilità nel processo stesso, non solo nei dati di business. Vedi [[feedback-verifica-prima-di-affermare]] (applicato qui a un claim della macchina su se stessa, non solo a un claim su Nicola/mercato).",
+   "tag": [
+    "verifica-prima-di-affermare",
+    "claim-non-verificato",
+    "cancello-di-serieta",
+    "auto-analisi",
+    "scadenzario",
+    "prompt-engineer",
+    "worker-concorrente"
+   ],
+   "reparto": "@AD",
+   "promosso_il": "2026-08-04 20:21"
   }
  ],
  "preferenze_nicola": [
@@ -13012,19 +13029,19 @@
  ],
  "meta": {
   "lezioni_attive": 503,
-  "promosse_a_principio": 87,
+  "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.18,
-  "tasso_calcolato_il": "2026-08-04 20:20",
+  "tasso_calcolato_il": "2026-08-04 20:30",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-04 20:20",
+  "tick_leggero_il": "2026-08-04 20:30",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-04 18:21",
+  "cristallizzazione_ultima": "2026-08-04 20:21",
   "lezioni_totali": 509,
   "lezioni_per_stato": {
-   "attiva": 412,
-   "principio": 87,
+   "attiva": 411,
+   "principio": 88,
    "in-prova": 5,
    "decaduta": 0,
    "senza-stato": 4,

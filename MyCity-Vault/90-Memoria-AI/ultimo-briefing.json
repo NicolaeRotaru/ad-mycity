@@ -1,10 +1,10 @@
 {
-  "data": "2026-08-04 18:40",
-  "situazione": "Business ancora invariato (riconfermato ora dal vivo su Supabase, 5° controllo di oggi): 1 ordine mai pagato, 0 consegne, 7 profili, 5 prodotti, 3 carrelli — stallo North Star 41 giorni, pausa concordata con Nicola fino al 24/8-1/9. Giro ripetuto a stato invariato (strategia snella, AR-113): nessuna novità di business, solo aggiunta in coda una PR che mancava. Mossa n.1: mergiare le quattro PR pronte (#677, #679, #680, #681).",
+  "data": "2026-08-04 20:25",
+  "situazione": "Business ancora invariato (riconfermato ora dal vivo su Supabase via MCP, 6° controllo di oggi): 1 ordine mai pagato, 0 consegne, 7 profili, 5 prodotti, 1 negozio — stallo North Star 41 giorni, pausa concordata con Nicola fino al 24/8-1/9. Unico numero mosso: i carrelli sono passati da 3 a 6 (attività minima, nessun ordine nuovo). Giro ripetuto a stato invariato (strategia snella, AR-113): nessuna novità di business, la coda PR è già aggiornata dal worker con la #683. Mossa n.1: mergiare le cinque PR pronte (#677, #679, #680, #681, #683).",
   "opportunita": [
     {
-      "titolo": "Mergia le quattro PR pronte",
-      "motivo": "PR #677 (fix vero dei falsi allarmi sul lavoro del worker), #679 (memoria del pomeriggio), #680 e #681 sono pronte e indipendenti, in coda dalle 17:57 in poi",
+      "titolo": "Mergia le cinque PR pronte",
+      "motivo": "PR #677 (fix vero dei falsi allarmi sul lavoro del worker), #679 (memoria del pomeriggio), #680, #681 e la nuova #683 (fix troncamento casella) sono pronte e indipendenti, in coda dalle 17:57 in poi",
       "impatto": "alto",
       "sforzo": "basso"
     },
@@ -23,22 +23,27 @@
     },
     {
       "titolo": "Mergia PR #679 — porta online la memoria del pomeriggio",
-      "motivo": "origin/main non accetta push diretto da questa sessione: la PR è l'unico veicolo per pubblicare i commit di memoria 17:50-18:00",
+      "motivo": "origin/main non accetta push diretto da questa sessione: la PR è l'unico veicolo per pubblicare i commit di memoria",
       "livello": "rosso"
     },
     {
       "titolo": "Mergia PR #680 e #681 — coda memoria di fine giornata",
-      "motivo": "Stesso motivo delle altre: la memoria scritta nelle ultime ore resta invisibile al Pannello finché non entra su main",
+      "motivo": "Stesso motivo delle altre: la memoria scritta resta invisibile al Pannello finché non entra su main",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Mergia PR #683 — fix del troncamento nella casella del Pannello",
+      "motivo": "Bug segnalato da Nicola su una casella che partiva troncata, fix già pronto in branch",
       "livello": "rosso"
     },
     {
       "titolo": "Scegli come chiudere le PR: squash con riallineamento automatico o merge normale",
-      "motivo": "Oggi ogni merge in squash rischia di far chiudere da sole le altre PR aperte sulla stessa base — già successo 12 volte, un lavoro perso per davvero (#598)",
+      "motivo": "Ogni merge in squash rischia di far chiudere da sole le altre PR aperte sulla stessa base — già successo 12 volte, un lavoro perso per davvero (#598)",
       "livello": "rosso"
     }
   ],
   "sentinelle_scattate": [
     "North Star 0 — stallo 41 giorni (pausa concordata, non churn)",
-    "sorvegliante — falso positivo diagnosticato su cantiere-prove.json (difetti chiusi, non difese rimosse)"
+    "freschezza-cadenze HARD — ritmo-mattino/monitora ferme da >30h (verdetto ereditato dal pre-step di giro.sh, non ri-eseguibile in questa sessione)"
   ]
 }

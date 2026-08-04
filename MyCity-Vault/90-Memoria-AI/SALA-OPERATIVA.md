@@ -720,3 +720,10 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-04 18:40 · @AD · FATTO · Riconfermato dal vivo su Supabase (`execute_sql`): ordini=1, pagati=0, consegnati=0, profili=7, prodotti=5, recensioni=0, carrelli=3 — identico a ogni lettura di oggi. Strategia snella AR-113: `auto-analisi.json`/`apprendimento.json` già freschi dal passaggio 18:35, non riscritti.
 - 2026-08-04 18:40 · @AD · FATTO · Aggiunta in coda la riga #12 per la PR #681 (mancava in [[AZIONI-IN-ATTESA]]).
 - 2026-08-04 18:40 · @AD · PASSO-A · @Nicola — invariato: merge PR #677/#679/#680/#681, decisione su rami/#7-#8.
+
+### 2026-08-04 20:25 — 🔁 GIRO RIPETUTO (AD, chiesto in chat per intero, ~1h45 dopo)
+- 2026-08-04 20:25 · @AD · FATTO · Riconfermato dal vivo su Supabase (MCP `execute_sql`): ordini=1, pagati=0, consegnati=0, profili=7, prodotti=5, negozi=1, recensioni=0, carrelli=6 (era 3 — unica variazione, nessun ordine nuovo dietro). Applicata strategia snella AR-113 per la 3ª volta oggi.
+- 2026-08-04 20:25 · @AD · FATTO · Verificato che [[AZIONI-IN-ATTESA]] ha già la riga #13 per la PR #683 (aggiunta dal worker VPS alle 20:16, `fix/troncamento-casella-riga-separata`): nessuna riga mancante da aggiungere.
+- 2026-08-04 20:25 · @AD · FATTO · `auto-analisi.json`/`registro-realta.json`/`apprendimento.json` restano quelli delle 18:29 (dati invariati, non riscritti). Aggiornati STATO.md, Briefing/2026-08-04.md, ultimo-briefing.json, SALA-OPERATIVA.md.
+- 2026-08-04 20:25 · @AD · FATTO · `node cervello/*.mjs` (freschezza-cadenze, scadenzario-check, north-star-check --gate) e `gh pr list/view` bloccati in Bash in questa sessione — stavolta rifiuto esplicito ("denied"), non solo "richiede approvazione". Verdetti HARD presi dal pre-step di `giro.sh` già riportato nel prompt di apertura sessione, non ri-eseguiti.
+- 2026-08-04 20:25 · @AD · PASSO-A · @Nicola — invariato: merge PR #677/#679/#680/#681/#683, decisione su rami/#7-#8.

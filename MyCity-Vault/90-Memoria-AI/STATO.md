@@ -1,8 +1,19 @@
 ---
 tipo: stato
-aggiornato: 2026-08-04 18:40
+aggiornato: 2026-08-04 20:25
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **4/8 20:25 — Giro ripetuto: business ancora invariato, nessuna novità.**
+> Richiesto in chat per intero, ~1h45 dopo il passaggio delle 18:40.
+>
+> Riconfermato dal vivo su Supabase (MCP `execute_sql`): 1 ordine mai pagato, 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 1 negozio, 0 recensioni, **6 carrelli (era 3)**. Il North Star resta fermo a **41 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Il carrello 3→6 è l'unico numero mosso: attività minima, nessun ordine nuovo dietro.
+>
+> Applicata la strategia snella ([[playbook-giro-pieno-ripetuto-strategia]], AR-113) per la 3ª volta oggi: `auto-analisi.json`/`registro-realta.json`/`apprendimento.json` restano quelli delle 18:29 (dati invariati). Coda [[AZIONI-IN-ATTESA]] già aggiornata dal worker con la PR #683 — nessuna riga mancante da aggiungere.
+>
+> **Da approvare, in coda (5 PR):** merge PR #677 (fix cancello-di-stop), #679 (memoria del pomeriggio), #680, #681, e la nuova #683 (fix troncamento casella). Restano ferme dal 3/8 anche le righe #7 e #8 sulla pulizia dei rami.
+>
+> Briefing completo: [[Briefing/2026-08-04]].
 
 > 🔁 **4/8 18:40 — Giro ripetuto: business ancora invariato, nessuna novità.**
 > Richiesto in chat per intero. È il secondo passaggio in cinque minuti, dopo quello delle 18:35.
@@ -20,7 +31,7 @@ fonte: AD digitale (chat)
 >
 > Riconfermato dal vivo su Supabase (`execute_sql`): 1 ordine mai pagato, 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli. È identico a ogni lettura di oggi. Il North Star resta fermo a **41 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Niente 5ª riscrittura pesante a stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113).
 >
-> **L'unica cosa nuova di questo passaggio:** diagnosticato un falso positivo che il sorvegliante ripeteva a ogni comando (oltre 140 volte in questo turno) — "difesa-rimossa" su `cantiere-prove.json` per 4 righe di test sparite (AR-447, AR-448, AR-450, il test del rebase). Verificato in `cantiere-difetti.json`: quei 3-4 difetti sono **chiusi**, quindi la loro sparizione dal report generato è corretta (il generatore filtra i difetti chiusi), non una difesa tolta davvero. Il sorvegliante non distingue "chiuso" da "difesa rimossa" — resta un difetto reale del guardiano stesso, non riparato in questo giro (machine-work non prioritario sotto il vincolo North Star), solo diagnosticato per non essere rifatto da capo al prossimo passaggio.
+> **L'unica cosa nuova di questo passaggio:** ho diagnosticato un falso positivo. Il sorvegliante ripeteva "difesa-rimossa" a ogni comando (oltre 140 volte in questo turno) su `cantiere-prove.json`, per 4 righe di test sparite (AR-447, AR-448, AR-450, il test del rebase). Ho verificato in `cantiere-difetti.json`: quei 3-4 difetti sono **chiusi**. La loro sparizione dal report generato è quindi corretta — il generatore filtra i difetti chiusi — non una difesa tolta davvero. Il sorvegliante non distingue "chiuso" da "difesa rimossa". Resta un difetto reale del guardiano stesso. Non l'ho riparato in questo giro (non sblocca una card business, sotto il vincolo North Star): l'ho solo diagnosticato, per non rifarlo da capo al prossimo passaggio.
 >
 > Stessi 3 script bloccati da approvazione in questa sessione headless (`test-cervello.mjs`, `mappa-macchina.mjs`, `scadenzario-check.mjs`, `tasso-lezioni.mjs`, `north-star-check.mjs`) — `verifica-sensori.mjs` invece gira regolarmente, quindi non è un blocco totale. I verdetti HARD di questi gate erano già stati calcolati dal pre-step di `giro.sh` prima di questo turno e restano quelli.
 >
