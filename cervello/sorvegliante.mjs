@@ -587,6 +587,11 @@ export function sorveglia({
           // scrive «x.mjs», e confrontare i due percorsi per intero significava non riconoscere mai
           // uno spostamento fra i due posti.
           if (aggiuntoOvunque.includes(p) || aggiuntoOvunque.includes(basenameSemplice(p))) continue;
+          // E soprattutto: quel freno, DOPO questa modifica, lo chiama ancora qualcuno in questo
+          // stesso file? (AR-536.) Le tre righe sopra guardano tutte il GESTO — cosa ho tolto, cosa
+          // ho messo — e nessuna guarda il RISULTATO. Su un registro dove lo stesso `gate:` compare
+          // in dodici schede, cancellarne una è togliere un doppione, non spegnere un freno.
+          if (difesaAncoraChiamata(perNome.get(file)?.contenuto ?? null, p, file)) continue;
           voci.push({
             classe: "difesa-rimossa",
             gravita: "grave",
@@ -699,6 +704,36 @@ export function zonaDi(file = "") {
 export function derivaDelLavoro(file = [], soglia = ZONE_MAX) {
   const zone = [...new Set(file.map(zonaDi).filter(Boolean))].sort();
   return zone.length > soglia ? zone : null;
+}
+
+/**
+ * ⑥b — dopo questa modifica, quel freno lo chiama ancora qualcuno DENTRO QUESTO FILE? (AR-536.)
+ *
+ * Le tre condizioni che ⑥b aveva prima guardano tutte il GESTO: cosa ho tolto, cosa ho messo qui,
+ * cosa ho messo altrove nello stesso delta. Nessuna guardava il RISULTATO — il file com'è rimasto.
+ * Su un registro dove lo stesso `gate:` compare in dodici schede diverse, cancellarne una è togliere
+ * un doppione: il freno resta chiamato da undici righe, e la guardia gridava lo stesso.
+ *
+ * Trovato dal vivo il 4/8 unendo `main`: quattro accuse su `apprendimento.json` e `cantiere-difetti.json`
+ * — «hai spento cervello/test/sorvegliante.test.mjs» — mentre quel nome nei due file restava scritto
+ * 13 e 15 volte e `gate-veri.mjs` usciva 0. Quattro accuse su quattro erano false, e un cancello che
+ * non può diventare verde si impara ad aggirare: quella sera stavo per usare `--no-verify`.
+ *
+ * `senzaCommenti` riga per riga, non `contenuto.includes(p)` secco: se l'unica menzione rimasta è
+ * dentro un commento, il freno NON è chiamato da nessuno e l'accusa è giusta. È «menzione ≠ chiamata»
+ * — la stessa regola che questo repo ha già pagato cinque volte — applicata al rimedio invece che al
+ * difetto, così il rimedio non apre il buco gemello.
+ *
+ * `null` quando il contenuto non c'è (file illeggibile o cancellato): lì non posso provare che sia
+ * vivo, e cieco non è verde — torno `false` e l'accusa resta.
+ *
+ * @param {string|null} contenuto  il file COME È ADESSO
+ * @param {string} p               il nome della difesa (percorso o comando)
+ * @param {string} file            serve solo a `senzaCommenti` per scegliere la sintassi
+ */
+export function difesaAncoraChiamata(contenuto = null, p = "", file = "") {
+  if (typeof contenuto !== "string" || !p) return false;
+  return contenuto.split("\n").some((riga) => senzaCommenti(riga, file).includes(p));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

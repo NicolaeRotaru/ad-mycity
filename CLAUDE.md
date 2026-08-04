@@ -306,7 +306,10 @@ Quando metti un senior al lavoro, pretendi il **risultato fatto**, non un'analis
     anche per **la chat con Nicola, i titoli e i corpi delle PR, i messaggi di commit**: AR-478 — e vale
     su **qualunque argomento**, non solo la macchina: soldi, vendite, contratti, contenuti, e per ognuno
     dei 120 senior quando delego, perché il testo esce comunque dagli occhi di Nicola — AR-480). Ogni testo
-    lungo apre con i **tre blocchi** — *In parole semplici* · *Cosa cambia per te* · *Cosa devi fare* — e solo
+    lungo apre con i **tre blocchi** — *In parole semplici* · *Cosa cambia per te* · *Cosa devi fare* — mentre
+    sotto le 8 righe di contenuto **non ci vanno**: su una risposta corta sono quattro intestazioni sopra sei
+    righe (AR-530). E **mai due volte nello stesso testo**: un blocco che ricompare, o lo stesso comando
+    ridato, significa che il testo è ricominciato da capo — `node cervello/si-capisce.mjs` lo ferma. Solo
     dopo la riga **Dettagli tecnici** arrivano codici, comandi e sigle (sopra quella riga niente `AR-…`,
     `#…`, path: sono targhe, vanno in fondo). **Le parole tecniche NON sono vietate** — Nicola le sta
     studiando e vanno usate: quelle del `GLOSSARIO.md` liberamente, quelle fuori dal glossario solo se le

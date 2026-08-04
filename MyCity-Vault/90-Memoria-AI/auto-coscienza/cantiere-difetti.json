@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 04:50",
+  "aggiornato": "2026-08-04 03:40",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -10778,24 +10778,20 @@
     {
       "id": "AR-530",
       "stato": "chiuso",
-      "gravita": "bloccante",
+      "gravita": "alta",
       "colore": "🟡",
-      "dimensione": "guardiani-e-guardrail",
+      "dimensione": "processi-e-cadenze",
       "impatto_crescita": "alto",
-      "nato": "2026-08-04 00:25",
-      "nato_come": "regressione",
-      "nato_da": "AR-509 e AR-508 (miei, del 3/8) e AR-511",
-      "malattia": "non-pattern-izzabile",
-      "malattia_perche": "Sono tre tarature sbagliate, non tre righe malate: si vedono solo eseguendo la funzione con gesti veri. Il guardiano che le copre sono le prove in cervello/test/sorvegliante.test.mjs e scritture-e-riaccodi.test.mjs, piu le 4 mutazioni.",
-      "origine": "Nicola 4/8: «adesso fai un analisi attenta, completa e profonda su tutto il lavoro che hai fatto», poi «risolvi i 3 difetti». Trovati attaccando le mie stesse funzioni con i gesti che una persona fa davvero, non rileggendo il codice.",
-      "titolo": "Tre tarature sbagliate nei freni che avevo appena costruito: una bloccava il lavoro pulito",
-      "causa_radice": "① ⑪ prova-indebolita guardava il GESTO (ho tolto una riga con un assert) invece del SALDO (quanti casi prova il file prima e dopo). Ma per un diff sostituire una riga e toglierne una e aggiungerne un altra: quindi rinominare una variabile in un test, riscrivere il messaggio di un asserzione, cancellare una prova obsoleta o spostare un caso in un altro file uscivano tutti GRAVI e BLOCCAVANO il commit. Un freno che si accende sul lavoro pulito e il freno che si impara ad aggirare — e chi impara --no-verify salta nello stesso gesto lo scan dei segreti e il perimetro di main. ② Lo stesso controllo aveva il buco gemello: commentare un asserzione invece di toglierla non lo vedeva. ③ Il raggio (⑤) confrontava anche il solo nome del file: nel Pannello ci sono 76 route.ts, e toccarne uno dava «22 dipendenti diretti», fra cui guardiani che nominano route.ts come pattern e il registro delle malattie. ④ E il freno sulla forma dei JSON (AR-511) girava a ogni commit mentre la scrittura di casa imponeva due spazi: un solo script che avesse riscritto un registro compatto avrebbe bloccato il commit automatico del worker (git-pr.mjs committa senza --no-verify e su errore esce 1). Rischio non riprodotto, ma la radice era li.",
-      "fix_proposto": "FATTO 🟡 ① provaIndebolita() conta il saldo delle righe che reggono una prova (tolte − messe), parla solo se negativo, e passa le aggiunte da senzaCommenti — che chiude anche il buco ②. ③ nel raggio il nome corto vale solo se e distintivo (mappa basename→quanti file lo portano); il percorso completo vale sempre. ④ scriviJsonAtomico() legge l indentazione dal file che trova e la conserva (due spazi restano il default per i file nuovi): il freno della forma non puo piu fermare il worker.",
+      "nato": "2026-08-04 03:35",
+      "nato_come": "scoperta",
+      "nato_da": "AR-489",
+      "origine": "[CORREZIONE DI NICOLA, con tre foto] «guarda stai ancora ripetendo la stessa cosa due volte … non devi togliere quei blocchi che ci sono sotto, più tosto devi controllare se stai ripetendo la stessa cosa due volte» e «quando è corta la risposta che mi dai penso che non abbiano senso, ma tante volte il riassunto che mi dai mi fa capire meglio la risposta». Le foto mostrano UN messaggio mio con i quattro blocchi due volte, lo stesso blocco di comandi due volte e sette frasi ridette.",
+      "titolo": "Il controllo contro le ripetizioni non guardava dentro il messaggio: 15 ripetizioni nella stessa schermata, zero segnalate",
+      "causa_radice": "① UNITÀ DI MISURA SBAGLIATA. La funzione ideeRipetute (nata il 3/8 da AR-489) confronta il messaggio nuovo con i messaggi PRECEDENTI. Un messaggio che ripete se stesso non ha precedenti da confrontare: il paragone non parte e il verdetto esce verde. La misura contro le ripetizioni era cieca alla forma piu visibile di ripetizione, quella tutta sotto gli occhi di Nicola nella stessa schermata. ② LA REGOLA SCRITTA DICEVA IL CONTRARIO, ed e la causa a monte: scrittura-umana.md, Regola 0-bis, diceva «il ripasso vale DENTRO un testo, mai fra due messaggi di fila» — cioe dentro un messaggio ripetere era sempre legittimo. Il codice era fedele a una regola sbagliata: un controllo non puo essere piu sveglio del testo che lo descrive, e i due si riparano insieme. ③ IL SECONDO PEZZO, sulla lunghezza: la struttura era accesa o spenta (testo lungo OPPURE risposta numerata), e su una risposta di due righe i quattro titoli sono impalcatura sopra il contenuto. Aggravante: i titoli dei blocchi contavano come righe di contenuto, quindi l'impalcatura si giustificava da sola.",
+      "fix_proposto": "FATTO 🟡 (PR #664). ⚠️ Nato come AR-518, rinumerato due volte alla fusione (AR-518 → AR-522 → AR-530): altre sessioni avevano gia preso 518-521 e poi anche 522-529 mentre lavoravo. QUARTA collisione della giornata, stessa causa di AR-517 — due sessioni prendono «il prossimo numero libero» dalla copia che hanno in mano. ① ripetizioniInterne() in cervello/si-capisce.mjs guarda il testo contro se stesso e ferma tre cose: un titolo dei quattro blocchi che compare due volte, lo stesso blocco di comandi due volte, una frase ridetta oltre 4 frasi di distanza (o la stessa idea 3+ volte). Tipo nuovo gia-detto-qui, dichiarato in COPERTURA con la sua zona cieca. Il ripasso VICINO continua a passare: e la Regola 2 mossa 3, e una prova diventa rossa se qualcuno lo spegne. ② livelloDiStruttura() — corta/media/lunga — e UNA funzione sola, usata dal freno e dal contatore conta-blocco-mancante.mjs: prima la condizione viveva in due file con due sfumature diverse, ed e il modo in cui due controlli gemelli smettono di esserlo in silenzio. Sotto le 8 righe di CONTENUTO (i titoli dei blocchi non contano) niente blocchi; tipo nuovo blocchi-su-testo-corto. ③ Cade una parte di AR-517, dichiarato: una risposta numerata di due righe non pretende piu i quattro blocchi. Resta fermato il caso che AR-517 curava (risposta numerata con del contenuto dentro) e resta l'ordine «blocchi sopra i numeri» a qualunque lunghezza. ④ TARATURE MISURATE, non stimate: con la soglia 0,6 (quella usata fra due messaggi) uscivano 6.077 accuse su 692 testi, in maggioranza elenchi con la stessa intelaiatura («Costo:» sotto ogni opzione, stesse parole e contenuto opposto); con 0,85 piu il taglio delle intelaiature restano 1.730 segnalazioni, e UN solo testo del vault diventa rosso senza esserlo prima. ⑤ Confronto indicizzato (parola piena → frasi): tutte-contro-tutte non finiva piu su un documento lungo, e questo controllo gira nell'hook Stop a ogni turno; il filtro e esatto per costruzione, non un taglio. ⑥ Regola riscritta dove era sbagliata: scrittura-umana.md (Regola 0-bis e Regola 3) e CLAUDE.md. Lezione L-2026-0804-551 con gate vero (0 violazioni su gate-veri.mjs). 5 mutazioni verificate rosse su si-capisce.mjs e cancello-stop.mjs.",
       "verifica": {
-        "comando": "node --test cervello/test/sorvegliante.test.mjs",
-        "nota": "5 prove nuove sui gesti legittimi che prima bloccavano, sul saldo negativo che deve parlare, sull assert commentato, e sul nome non distintivo. Piu 3 prove in scritture-e-riaccodi.test.mjs sulla forma conservata. 4 mutazioni verificate rosse."
-      },
-      "lezione": "L-2026-0804-551"
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
     },
     {
       "id": "AR-531",
@@ -10900,11 +10896,34 @@
         "nota": "5 prove: il numero calcolato su tutte le fonti, i buchi vecchi che NON si riusano, gli id storti, i duplicati, e il controllo sul cantiere vero. Provato sul campo: lo strumento proponeva AR-97 (un buco del passato) e l ho corretto perche un id che si riavvolge non identifica piu."
       },
       "lezione": "L-2026-0804-553"
+    },
+    {
+      "id": "AR-536",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 03:40",
+      "nato_come": "falso positivo bloccante",
+      "nato_da": "AR-503 (stessa forma, stesso controllo, tre giorni prima)",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E una condizione che MANCA, non una riga malata: si vede solo eseguendo la guardia su un diff dove la difesa resta viva altrove nel file. Il guardiano e la prova in cervello/test/sorvegliante.test.mjs.",
+      "origine": "Trovato dal vivo il 4/8 unendo main nel ramo del sorvegliante: il pre-commit ha bloccato la fusione con 4 accuse «difesa-rimossa», ripetute fino a 22 volte. Tutte e quattro false.",
+      "titolo": "La guardia che grida «hai spento il freno» mentre il freno e ancora chiamato tredici volte nello stesso file",
+      "causa_radice": "① Il controllo ⑥b aveva tre condizioni per tacere — il nome ricompare fra le righe aggiunte qui, oppure fra quelle aggiunte altrove nel delta, oppure il file e prosa. ② Tutte e tre guardano il GESTO: cosa ho tolto e cosa ho messo. ③ Nessuna guardava il RISULTATO, cioe il file com'e rimasto. ④ Su un registro dove lo stesso `gate:` compare in dodici schede, cancellarne una e togliere un doppione: il freno resta chiamato dalle altre undici, e la guardia gridava lo stesso. ⑤ La causa vera e che avevo provato la guardia solo su file di CODICE, dove ogni chiamata e unica per costruzione — nei registri di memoria i doppioni sono la norma, e la fusione di due copie ne cancella per mestiere.",
+      "fix_proposto": "FATTO 🟡 quarta condizione, `difesaAncoraChiamata()`: dopo la modifica, se una riga NON commentata dello stesso file nomina ancora quella difesa, la guardia tace. Il filtro dei commenti serve al rimedio quanto all'accusa — se l'unica menzione rimasta e in un commento, il freno non lo chiama nessuno e l'accusa e giusta. Senza contenuto (file illeggibile) torna false: cieco non e verde.",
+      "costo_dichiarato": "Un buco vero resta invisibile in un caso: se tolgo l'unica chiamata VERA e nel file resta una riga di dati che nomina lo stesso percorso senza eseguirlo. In un registro e proprio la forma normale — ma li quella riga E la dichiarazione del freno, quindi il freno c'e ancora. Nel codice non capita: una stringa col percorso di un test dentro un .mjs e quasi sempre il modo in cui lo si lancia.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "4 prove nuove (94 totali, erano 90): il doppione tolto → tace · l'unica menzione rimasta e un commento → grida · l'ultima chiamata tolta → grida · senza contenuto → grida. Prova sul campo: le 4 accuse che bloccavano il merge sono sparite nello stesso istante in cui la funzione e entrata, e il pre-commit e passato senza --no-verify."
+      },
+      "lezione": "L-2026-0804-554"
     }
   ],
   "meta": {
     "aperti": 161,
     "in_corso": 0,
-    "chiusi": 307
+    "chiusi": 308
   }
 }

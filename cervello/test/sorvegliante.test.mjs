@@ -30,6 +30,7 @@ import {
   nomiCitati,
   classeRimasta,
   provaIndebolita,
+  difesaAncoraChiamata,
   conta,
   fileDifeso,
   raggioDueP1assi,
@@ -443,6 +444,61 @@ test("…ma nel CODICE la stessa riga resta grave: la prosa è l'eccezione, non 
     '-    passi.push(esegui("gate", "node", ["cervello/gate-veri.mjs"]));',
   ]);
   assert.equal(gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length, 1);
+});
+
+// ─── ⑥b guarda il RISULTATO, non solo il gesto (AR-536) ─────────────────────
+
+test("il caso del 4/8: tolgo un DOPPIONE da un registro che nomina lo stesso gate altre volte → tace", () => {
+  // Unendo main, quattro accuse su quattro erano false: la fusione dei registri aveva cancellato una
+  // scheda duplicata, e «cervello/test/sorvegliante.test.mjs» restava scritto 13 e 15 volte nei due
+  // file. Le tre condizioni che c'erano guardavano tutte il GESTO (tolto/messo qui/messo altrove) e
+  // nessuna il file com'era rimasto. Un cancello che non può diventare verde si impara ad aggirare.
+  const e = daDiff(
+    [
+      "--- a/cervello/x.json",
+      "+++ b/cervello/x.json",
+      "@@ -10,1 +10,0 @@",
+      '-  "gate": "node cervello/gate-veri.mjs"',
+    ],
+    { toccati: [{ file: "cervello/x.json", aggiunte: [], contenuto: '{ "gate": "node cervello/gate-veri.mjs" }' }] },
+  );
+  assert.equal(gravi(e.voci).length, 0, "undici righe lo chiamano ancora: il freno non è spento");
+});
+
+test("…ma se l'unica menzione rimasta è un COMMENTO, resta grave: il rimedio non apre il buco gemello", () => {
+  const e = daDiff(
+    [
+      "--- a/cervello/cancello-lotto.mjs",
+      "+++ b/cervello/cancello-lotto.mjs",
+      "@@ -5,1 +5,0 @@",
+      '-    passi.push(esegui("gate", "node", ["cervello/gate-veri.mjs"]));',
+    ],
+    { toccati: [{ file: "cervello/cancello-lotto.mjs", aggiunte: [], contenuto: "// cervello/gate-veri.mjs: vedi sotto" }] },
+  );
+  assert.equal(
+    gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length,
+    1,
+    "«menzione ≠ chiamata» vale anche per l'assoluzione, non solo per l'accusa",
+  );
+});
+
+test("tolgo l'ULTIMA riga che lo nomina: lì la guardia deve gridare", () => {
+  const e = daDiff(
+    [
+      "--- a/cervello/cancello-lotto.mjs",
+      "+++ b/cervello/cancello-lotto.mjs",
+      "@@ -5,1 +5,0 @@",
+      '-    passi.push(esegui("gate", "node", ["cervello/gate-veri.mjs"]));',
+    ],
+    { toccati: [{ file: "cervello/cancello-lotto.mjs", aggiunte: [], contenuto: "const x = 1;" }] },
+  );
+  assert.equal(gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length, 1);
+});
+
+test("difesaAncoraChiamata(): senza il contenuto torna false — cieco non è verde", () => {
+  assert.equal(difesaAncoraChiamata(null, "cervello/gate-veri.mjs", "x.mjs"), false);
+  assert.equal(difesaAncoraChiamata("node cervello/gate-veri.mjs", "cervello/gate-veri.mjs", "x.mjs"), true);
+  assert.equal(difesaAncoraChiamata("// node cervello/gate-veri.mjs", "cervello/gate-veri.mjs", "x.mjs"), false);
 });
 
 test("un test cancellato resta grave anche dentro cervello/test/: è la difesa che muore, non una fixture", () => {
