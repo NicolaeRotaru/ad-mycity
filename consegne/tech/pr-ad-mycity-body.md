@@ -1,18 +1,40 @@
 ## Cosa cambia
 
-Le chat continuavano a duplicarsi ("Oiinn" x2, "Abc" x2, stesso minuto) ANCHE dopo il merge di PR #531 (fix del doppio-tap). Causa vera trovata leggendo il codice: la casella di scrittura chat esiste in DUE punti di `page.tsx` — la vista "Assistente" a pagina intera e il widget flottante/worker — e queste **possono restare montate entrambe insieme** (quando sei sulla vista Assistente e apri anche il widget flottante sopra). Il lock anti-doppio-invio di #531 era locale a ciascuna istanza: bloccava un doppio tap sullo STESSO bottone, ma non due caselle diverse che inviano nello stesso momento.
+La card "Sala Operativa" (e ogni altra card che usa `codaTesto`, es. "Decisioni") mostrava
+l'avviso di troncamento incollato al primo rigo del contenuto vero, senza andare a capo:
+
+```
+…(troncato, mostro la parte più recente)
+: la lezione L-2026-0730-530 dichiarava attivo il gate...
+```
+
+Ora l'avviso è in corsivo con un separatore `---` prima del contenuto, così ReactMarkdown lo
+rende come blocco a sé (nota separata), non come parte del testo.
 
 ## Perché
 
-Il commento originale nel codice diceva "una sola superficie montata per volta" — un'assunzione che in pratica non è sempre vera (confermato leggendo le condizioni in `page.tsx`: `vista === "assistente"` e `chatFluttuante || workerFull` non si escludono a vicenda). Serve un lock condiviso, non uno a testa.
-
-## Come
-
-Il lock (`invioChatBloccatoRef`) ora vive in `page.tsx` e viene passato come prop (`invioBloccatoCondivisoRef`) a entrambe le istanze di `BarraScritturaChat`. Un invio da una casella blocca per 800ms anche l'altra. Se il prop non arriva (uso futuro del componente altrove) resta il lock locale come prima, per compatibilità.
+Nicola, 4/8 19:36, screenshot alla mano: ha scambiato l'avviso per un errore vero ("la casella
+parte troncata, lo vedi?"). Causa: `codaTesto()` in `pannello/src/lib/vault.ts` usava un solo
+`\n` tra avviso e contenuto — in markdown due righe con un solo a-capo restano nello stesso
+paragrafo.
 
 ## Come provare
 
-1. `npx tsc --noEmit` da dentro `pannello/` — pulito (verificato).
-2. Dal vivo dopo il deploy: apri la vista Assistente, apri anche il widget flottante sopra, scrivi un messaggio breve e invia — deve comparire UNA sola chat nella lista, non due.
+1. `npx tsc --noEmit` da dentro `pannello/` → pulito (verificato).
+2. Dal vivo dopo il deploy: aprire una card con testo > 6000 caratteri (es. Sala Operativa,
+   Decisioni) e controllare che l'avviso appaia separato dal contenuto da una riga vuota + linea
+   orizzontale.
+3. Test unitario aggiunto: `pannello/src/lib/vault-coda-testo.test.mts` — **non eseguito** in
+   questa sessione: `vault.ts` importa `./obsidian` senza estensione, e `node --test` nativo non
+   risolve import extensionless (limite preesistente, non introdotto da questo fix — nessun altro
+   test esistente importa `vault.ts` per lo stesso motivo). I tentativi di eseguire uno script di
+   verifica standalone per controllare la stringa a mano sono stati bloccati dai permessi della
+   sandbox di questa sessione. La logica è stata riletta a mano (semplice template string) ma non
+   eseguita — dichiaro questo limite invece di fingere un test verde.
 
-Non testato dal vivo nel browser (sessione headless, nessun accesso a un browser reale) — verifica visiva sul Pannello dopo il merge consigliata, come per #531.
+## Correlato
+
+Registrato anche AR-560 nel cantiere difetti: un bug diverso e più serio (le risposte dell'AD in
+chat si incollano senza separatore quando scatta il cancello di stop, in `cervello/worker.sh`) —
+NON toccato in questa PR, richiede un fix separato e più delicato su un file condiviso da tutte le
+chat del Pannello.
