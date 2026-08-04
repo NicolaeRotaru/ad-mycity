@@ -5,13 +5,13 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-04 12:00** — Punto di mezzogiorno: chiusa 1 card zombie. La riga #6 (merge PR #635) diceva ancora "in attesa". Ho controllato ora con `git merge-base --is-ancestor 595cf3cf0 HEAD`. Il comando conferma: il fix è già su `main` dal 30/7 alle 13:26, col suo test. La nota "mai mergiato" era vera l'11:09 del 30/7. Da allora nessuno l'aveva ricontrollata. Corretta anche `CHECKLIST-NICOLA.md`. Restano aperte due righe: #7 (pulizia 447 rami) e #8 (squash vs merge normale). Su queste due, nessuna decisione di Nicola trovata.
+> 🧹 **Housekeeping 2026-08-04 12:12** — Automatico: **61 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-30 08:25** — Giro (manutenzione macchina): **42 aperte, invariate**. Nessuna card nuova o chiusa qui. Questo passaggio ha riparato due file: `auto-coscienza/auto-analisi.json` (fermo dal 27/7) e `MyCity-Vault/05-Soldi-Rischi/scadenzario.json`. Nello scadenzario la pratica PI26 risultava ancora "aperta": quel file è l'input di uno script, non un testo in coda, per questo la pulizia delle 06:05/06:30 non l'aveva toccato. Dettaglio in [[Briefing/2026-07-30]] (passaggio 08:25).
+> 🧹 **Housekeeping 2026-08-04 12:12** — Automatico: **61 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-30 06:30** — Giro completo: **42 aperte**. Chiuse 3 card zombie in più, tutte smentite da verifica diretta (`git log`/`git fetch`), stesso errore-tipo delle 5 PI26/piano-squadra ripulite alle 06:05 (il testo restava vecchio dopo che il fatto era già cambiato): **`#vps-giro-fermo`** (diceva "fermo da 40 ore" — il worker ha committato con continuità 04:43→06:26 stamattina), **`#push-main-memoria`** e **`#push-volano-fix`** (dicevano "main non pubblicato/71 commit indietro" — verificato ora: `origin/main` e `HEAD` coincidono esattamente, e la PR #454 del fix tasso-lezioni è già mergiata).
+> 🧹 **Housekeeping 2026-08-04 12:12** — Automatico: **61 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-30 06:05** — Manuale (piano del mattino): **45 aperte**. Chiuse 5 card zombie: 4 sul bando PI26 (Nicola l'aveva già dichiarato chiuso il 29/7 ~00:10, ma il testo non era mai stato tolto da qui) + 1 sul piano-squadra (già confermato il 29/7 ~00:15). Fatto anche in `registro-fatti.json` (AR-102): `bando.pi26.idoneita` nuovo, `bandi.pi26.scadenza` aggiornato.
+> 🧹 **Housekeeping 2026-08-04 12:12** — Automatico: **61 aperte · 1 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -36,6 +36,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 
 <!-- sensori-spenti-senza-motivo -->
+
+---
 
 ### 🟡 #sensori-spenti-senza-motivo — Dimmi se questi occhi della macchina li vuoi accesi o no
 
@@ -67,6 +69,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 <!-- macchina-ferma-da-quattro-giorni -->
 
+---
+
 ### 🔴 #macchina-ferma-da-quattro-giorni — Riallinea il server alla cura e fai ripartire il giro: tre comandi · ⏳ accodata 2026-08-04 03:10 · ✏️ aggiornata 2026-08-04 11:30
 
 > ✏️ **Aggiornamento 11:30 (giro completo, chat):** su `main` il lavoro è continuato fino alle 10:57 di oggi — 5 merge di cantiere dopo il tuo fix delle 05:23. Questo dice che qualcuno sta scrivendo, ma NON dice che il timer `mycity-giro.service` sia ripartito da solo: quei commit possono venire da sessioni di chat come questa, non necessariamente dal timer. Da qui non posso lanciare `systemctl`/`journalctl` per controllare. **Se hai già fatto i 3 comandi qui sotto, dimmelo e chiudo la card. Se non li hai ancora fatti, restano la mossa n.1 di oggi.**
@@ -89,6 +93,8 @@ Il reset stavolta porta a bordo la cura (l'aiutante che conserva l'indentazione 
 ---
 
 <!-- radiografia-prova-non-vera-alla-nascita -->
+
+---
 
 ### 🟡 #radiografia-prova-non-vera-alla-nascita — Impedisci alla macchina di chiudersi i difetti da sola il giorno stesso che li scrive · ⏳ accodata 2026-07-27 12:45
 **Cosa cambia:** oggi, sessanta secondi dopo che hai mergiato la radiografia, la macchina ha chiuso da sola 91 dei 173 difetti appena consegnati — il 53%, di cui 17 bloccanti — e per un quarto d'ora il Pannello ti ha mostrato «105 aperti, 163 chiusi» invece dei 196 veri. Nessuna di quelle chiusure poteva essere vera: fra le 9:40 e le 12:15 non è entrato nessun fix. Il motivo è che ogni difetto porta una prova per chiudersi da solo, e quelle 91 prove descrivevano **il bug** invece del **fix**: erano già vere nell'istante in cui il difetto nasceva. Le ho già rovesciate e i difetti sono tornati aperti, ma il buco che l'ha permesso è ancora lì e ricapiterà alla prossima radiografia.
@@ -812,6 +818,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 <!-- radiografia-2026-07-29-ordini-bloccati -->
 
+---
+
 ### 🔴 #radiografia-2026-07-29-ordini-bloccati — Ripara il pulsante che venditore e rider usano per far avanzare un ordine · ⏳ accodata 2026-07-29 13:30
 
 **Cosa cambia:** in questo momento, sul sito vero, quando un negoziante accetta un ordine dalla sua pagina o un rider lo prende in carico, il database rifiuta la modifica e restituisce un errore. Non è un sospetto: l'ho verificato io con una query sul database di produzione. A giugno una modifica ha cancellato dagli ordini il campo "numero fattura", ma il controllo di sicurezza che protegge gli ordini continua a cercarlo, e va in errore proprio quando la modifica è **legittima**. Le API del server non sono toccate — muore solo quello che parte dal browser, cioè le due schermate che fanno camminare una consegna. Con un negozio solo e zero ordini pagati oggi non se ne accorge nessuno: al primo ordine vero, il negoziante non riesce ad accettarlo.
@@ -826,6 +834,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- radiografia-2026-07-29-porte-aperte -->
+
+---
 
 ### 🔴 #radiografia-2026-07-29-porte-aperte — Chiudi le quattro porte che lasciano entrare chiunque nei dati dei negozi e dei clienti · ⏳ accodata 2026-07-29 13:30
 
@@ -842,6 +852,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 <!-- radiografia-2026-07-29-soldi-che-scappano -->
 
+---
+
 ### 🔴 #radiografia-2026-07-29-soldi-che-scappano — Tappa i cinque punti dove il marketplace perde soldi da solo · ⏳ accodata 2026-07-29 13:30
 
 **Cosa cambia:** cinque difetti che costano soldi veri appena arriva il primo volume. ① **Doppia vendita:** la merce viene "rimessa a scaffale" dopo 2 ore, ma la pagina di pagamento resta valida 24 — chi paga dopo compra roba già venduta. È lo stesso bloccante del 7 luglio, ancora lì. ② **Campagne che si spengono a un terzo:** ogni checkout abbandonato brucia un utilizzo del codice sconto per sempre, e nessuno lo restituisce. Un coupon da 100 usi si esaurisce dopo 100 *tentativi*, non 100 ordini. ③ **Il rider si decide lo stipendio:** il campo del suo compenso non è tra quelli congelati e finisce dritto in un bonifico Stripe. ④ **Il rider non viene mai pagato** sugli ordini con spedizione gratuita, e il programma automatico ci riprova all'infinito. ⑤ **Un reclamo blocca il negozio per sempre:** una volta aperto, lo stato del reclamo non torna mai indietro e il negoziante non viene più pagato. In più: gift card, sponsorizzazioni e abbonamenti pagati possono sparire in silenzio se il database fa i capricci, perché il sistema li segna come riusciti comunque.
@@ -856,6 +868,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- radiografia-2026-07-29-privacy-da-sistemare -->
+
+---
 
 ### 🟡 #radiografia-2026-07-29-privacy-da-sistemare — Metti la partita IVA vera nell'informativa e cancella davvero i documenti d'identità · ⏳ accodata 2026-07-29 13:30
 
@@ -874,6 +888,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 <!-- radiografia-2026-07-29-anteprime-coi-segreti -->
 
+---
+
 ### 🟡 #radiografia-2026-07-29-anteprime-coi-segreti — Togli le chiavi vere di Stripe e del database dalle anteprime delle modifiche · ⏳ accodata 2026-07-29 13:30
 
 **Cosa cambia:** ogni volta che si apre una proposta di modifica al sito, Render tira su un ambiente di anteprima che usa **le chiavi di produzione**: stessa Stripe, stesso database, stesse email. Vuol dire che una modifica ancora da approvare può incassare soldi veri, scrivere sugli ordini veri e mandare email a indirizzi veri. In più il deploy automatico su `main` non ha nessun cancello: un test rosso va in produzione lo stesso.
@@ -888,6 +904,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- radiografia-comando-rotto -->
+
+---
 
 ### 🟡 #radiografia-comando-rotto — Rimetti in funzione il comando «radiografia» prima che ti serva davvero · ⏳ accodata 2026-07-29 13:30
 
@@ -920,6 +938,54 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 
 <!-- accendi-i-quattro-controlli-nuovi -->
+
+---
+
+### 🟡 #prevenzione-a-monte — Accendi gli ultimi due freni: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto · ⏳ accodata 2026-08-04 05:20
+
+**Cosa cambia:** i due freni che hai chiesto stanotte sono costruiti e provati, ma **non ancora accesi**. Il primo pesca dalla memoria solo le lezioni sul tema della richiesta che hai appena scritto. L'ho provato: su «apri la PR e fai il rebase» porta 8 lezioni centrate su 503, quasi tutte correzioni tue. Il secondo ferma la mia mano PRIMA che io scriva un errore già censito nel registro delle malattie. La scrittura non parte proprio, e il perché mi resta davanti agli occhi. Sono complementari ai freni dell'altra sessione, già accesi: quelli guardano i comandi e gli strumenti esterni. Questi due guardano le richieste e le scritture sui file. Per accenderli servono due ritocchi in `.claude/settings.json`, il file che per regola di sicurezza io non posso toccare.
+
+**Se va bene:** apri `.claude/settings.json` e fai due aggiunte, poi salva:
+
+① dentro `"PreToolUse"` (la sezione esiste già), aggiungi questo blocco DOPO quello con `"matcher": "Bash|Task|mcp__.*"`:
+
+```json
+{
+  "matcher": "Edit|Write|MultiEdit",
+  "hooks": [
+    { "type": "command", "command": "node cervello/mano-fermata.mjs --hook", "timeout": 10 }
+  ]
+}
+```
+
+② dentro `"UserPromptSubmit"` (esiste già), nell'elenco `"hooks"` accanto a `intento-turno`, aggiungi questa riga:
+
+```json
+{ "type": "command", "command": "node cervello/contesto-lezioni.mjs --richiesta", "timeout": 10 }
+```
+
+Dalla sessione successiva i due freni sono vivi. La prova della scheda AR-533 è `node cervello/mano-fermata.mjs --cablaggio`: oggi è rossa, col tuo salvataggio diventa verde e la scheda si chiude da sola.
+
+- **Colore:** 🟡 (auto-modifica della macchina: la firmi tu)
+- **Reparto:** qa + prompt-engineer
+- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-533}`
+
+---
+
+<!-- SUPERVISIONE-NEGOZI:INIZIO -->
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-04 12:12)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-04-supervisione.md]].
+
+> ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
+> è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
+> la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
+<!-- SUPERVISIONE-NEGOZI:FINE -->
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-04 12:12 · 1 card totali
 
 ### ✅ #accendi-i-quattro-controlli-nuovi — ~~Incolla il blocco che accende i quattro controlli nuovi della macchina~~ → FATTO 2026-08-04 05:20
 
@@ -1055,43 +1121,3 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 ---
 
 <!-- prevenzione-a-monte -->
-
-### 🟡 #prevenzione-a-monte — Accendi gli ultimi due freni: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto · ⏳ accodata 2026-08-04 05:20
-
-**Cosa cambia:** i due freni che hai chiesto stanotte sono costruiti e provati, ma **non ancora accesi**. Il primo pesca dalla memoria solo le lezioni sul tema della richiesta che hai appena scritto. L'ho provato: su «apri la PR e fai il rebase» porta 8 lezioni centrate su 503, quasi tutte correzioni tue. Il secondo ferma la mia mano PRIMA che io scriva un errore già censito nel registro delle malattie. La scrittura non parte proprio, e il perché mi resta davanti agli occhi. Sono complementari ai freni dell'altra sessione, già accesi: quelli guardano i comandi e gli strumenti esterni. Questi due guardano le richieste e le scritture sui file. Per accenderli servono due ritocchi in `.claude/settings.json`, il file che per regola di sicurezza io non posso toccare.
-
-**Se va bene:** apri `.claude/settings.json` e fai due aggiunte, poi salva:
-
-① dentro `"PreToolUse"` (la sezione esiste già), aggiungi questo blocco DOPO quello con `"matcher": "Bash|Task|mcp__.*"`:
-
-```json
-{
-  "matcher": "Edit|Write|MultiEdit",
-  "hooks": [
-    { "type": "command", "command": "node cervello/mano-fermata.mjs --hook", "timeout": 10 }
-  ]
-}
-```
-
-② dentro `"UserPromptSubmit"` (esiste già), nell'elenco `"hooks"` accanto a `intento-turno`, aggiungi questa riga:
-
-```json
-{ "type": "command", "command": "node cervello/contesto-lezioni.mjs --richiesta", "timeout": 10 }
-```
-
-Dalla sessione successiva i due freni sono vivi. La prova della scheda AR-533 è `node cervello/mano-fermata.mjs --cablaggio`: oggi è rossa, col tuo salvataggio diventa verde e la scheda si chiude da sola.
-
-- **Colore:** 🟡 (auto-modifica della macchina: la firmi tu)
-- **Reparto:** qa + prompt-engineer
-- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-533}`
-
----
-
-<!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-30 11:02)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-30-supervisione.md]].
-
-> ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
-> è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
-> la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
-<!-- SUPERVISIONE-NEGOZI:FINE -->

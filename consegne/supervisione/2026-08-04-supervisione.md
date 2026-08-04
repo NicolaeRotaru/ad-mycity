@@ -1,0 +1,31 @@
+---
+tipo: supervisione-negozi
+data: 2026-08-04 12:12
+---
+
+# 🛡️ Supervisione negozi & prodotti — 2026-08-04 12:12
+
+> La macchina ha controllato ogni negozio e ogni prodotto. Ha cercato i dati mancanti.
+> Qui sotto trovi due liste. La prima: le **proposte pronte**. Sono riempimenti automatici. Aspettano il tuo ok.
+> La seconda: ciò che **serve da te** — foto, prezzi e simili.
+> Nessun dato è stato scritto sul sito. Parte solo dopo la tua firma.
+
+**Quadro:** 1 negozio, approvato. 5 prodotti. **0 campi** proposti per il riempimento automatico. **2 campi** che servono da te.
+
+## ✅ Proposte pronte — aspettano il tuo ok
+
+Nessun campo deducibile da riempire in automatico in questo giro. 🎉
+
+## 🙋 Serve da te (materia prima reale — la macchina NON la inventa)
+
+| Cosa manca | Quanti | Perché non lo riempio da solo |
+|---|---|---|
+| logo | 1 | serve materia prima reale |
+| città | 1 | serve materia prima reale |
+
+> Per foto/descrizioni posso preparare una **bozza con segnaposto** (poi la rifinisci) o passarle a **content-social/ai-copywriter** e **designer/ai-designer**. Dimmelo e le accodo.
+
+## 🔒 Cosa NON tocco mai
+
+Dati legali, fiscali (P.IVA, codice fiscale), IBAN/carta, documenti KYC, account Stripe, consensi
+e stato di approvazione: sono sensibili e restano **sempre e solo** in mano tua. La macchina non li propone mai.

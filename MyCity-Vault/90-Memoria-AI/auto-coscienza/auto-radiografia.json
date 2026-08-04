@@ -63,7 +63,11 @@
             "pattern": "_gate_rifiutato",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 22:00",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-332"
         },
         {
           "titolo": "L'esito finale di un lavoro conta come «scritto» anche quando la PATCH non tocca nessuna riga — e butta via la copia di sicurezza",
@@ -233,7 +237,11 @@
             "pattern": "await registraFirma\\(id, \"nicola\"\\);",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 13:09",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-227"
         }
       ]
     },
@@ -275,7 +283,11 @@
             "pattern": "ambienteConfigurato = checks\\.(some|filter)\\([^\\n]*(SENSOR_CLASSE|\\.classe|daChiave)",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-08 01:13",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-035"
         },
         {
           "titolo": "Il gate coerenza-fatti esce 0 e batte «ok» dopo aver letto ZERO file: il verde vive in 3 canali su 4",
@@ -309,7 +321,11 @@
             "pattern": "process\\.exit\\([^\\n]*attiviOggi",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-27 12:57",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-300"
         },
         {
           "titolo": "L'onestà pre-pubblicazione controlla il briefing sbagliato: sceglie il file con `ls -t`, non con la data nel nome",
@@ -821,7 +837,11 @@
             "pattern": "join(AD_ROOT, \"consegne/tech\")",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-04 12:12",
+          "chiuso_come": "cervello/git-pr.mjs NON contiene /join(AD_ROOT, \"consegne/tech\")/ → assente",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Dentro consegne/ vive una seconda copia del registro di realtà, ferma al 30 giugno, che dichiara Casa Linda un negozio confermato",
@@ -1627,7 +1647,8 @@
             "pattern": "Osteria Carducci[\\s\\S]{0,300}?\"stato\": \"scartato\"",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "Sei regole che CLAUDE.md impone a ogni lavoro citano schede di difetto che nel cantiere non esistono più: 61 numeri sono spariti dal registro",
@@ -1678,7 +1699,11 @@
             "pattern": "lezioni_conteggio_quadra",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-30 00:39",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-362"
         },
         {
           "titolo": "L'archivio che la macchina crea da sola non è esente dal guardiano della verità unica: alla prossima correzione di prezzo il giro chiederà di riscrivere la storia di luglio",
@@ -1912,7 +1937,11 @@
             "pattern": "registroFermo",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-04 12:12",
+          "chiuso_come": "cervello/calibrazione.mjs NON contiene /registroFermo/ → assente",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Un centro può nascere da «un documento firmato» senza dire quale, mentre una conferma vera di Nicola non si riesce proprio a registrare",
@@ -1930,7 +1959,11 @@
             "pattern": "fonteAmmessa",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-04 12:12",
+          "chiuso_come": "cervello/previsione-verificabile.mjs NON contiene /fonteAmmessa/ → assente",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Una previsione senza data di scadenza non muore mai: si può dichiararla azzeccata mesi dopo e nessun controllo la vede",
@@ -1948,7 +1981,11 @@
             "pattern": "senza-finestra",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-28 12:27",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-173"
         },
         {
           "titolo": "Il valore di partenza che distingue una previsione da una fotografia non lo chiede nessuno, e l'avviso promette un freno che non esiste",
@@ -1966,7 +2003,11 @@
             "pattern": "--baseline",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-04 12:12",
+          "chiuso_come": "cervello/giro.md NON contiene /--baseline/ → assente",
+          "chiuso_da": "verifica-codice"
         }
       ]
     },
@@ -2059,7 +2100,11 @@
             "pattern": "sentinella_inesistente",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-02",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-015"
         },
         {
           "titolo": "Se i prodotti del negozio faro finiscono, nessuno se ne accorge",
@@ -2282,7 +2327,8 @@
             "pattern": "/opt/mycity/ad-mycity/cervello/vps/watch-main.sh",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "La regola git che unisce senza segnalare è ancora attiva sul registro delle decisioni (che ha già tre voci doppie) e protegge una cartella che non esiste",
@@ -2490,5 +2536,18 @@
     "debito": 110,
     "cantiere": "I 131 difetti di questa radiografia NON sono stati versati nel cantiere. Il cancello del lotto (cervello/cancello-lotto.mjs) ha bloccato il commit: il cantiere e esattamente al suo tetto di prove deboli (127 su 127) e quel tetto per disegno scende e non sale mai. Ha ragione, ed e la stessa tesi di questo referto: un cantiere che si riempie a ogni sguardo non arriva mai a zero. Percio i difetti vivono qui e nel referto, e entrano nel cantiere UN LOTTO ALLA VOLTA, quando il lavoro parte e con una prova forte (comportamentale, senza OR). La radiografia e l'inbox; il cantiere e la lista di lavoro.",
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
+  },
+  "sync_scan": {
+    "aggiornato": "2026-08-04 12:12",
+    "findings_aperti": 112,
+    "findings_in_corso": 0,
+    "findings_chiusi": 11,
+    "findings_tot": 123,
+    "cantiere_aperti": 159,
+    "cantiere_in_corso": 0,
+    "cantiere_chiusi": 329,
+    "match_aggiornati": 13,
+    "chiusi_verifica": 4,
+    "data_scan": "2026-07-30 05:09"
   }
 }
