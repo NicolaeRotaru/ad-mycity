@@ -318,6 +318,9 @@ export function sorveglia({
       // un file preciso e altrove sarebbero un falso rosso. Un titolo che nomina un AR-xxx è un
       // difetto nella coda che legge Nicola e una cosa normalissima in una scheda del cantiere.
       if (Array.isArray(m.percorsi) && m.percorsi.length && !m.percorsi.some((p) => file.startsWith(p))) continue;
+      // (Alla fusione del 4/8 QUI c'era una seconda copia del controllo sugli `esenti`: due sessioni
+      // hanno curato lo stesso difetto nella stessa ora. Resta la versione di sotto, più severa —
+      // pretende il PERCHÉ scritto — e con la sua mutazione già registrata. Due copie divergono.)
       let re;
       try {
         re = new RegExp(m.pattern);
@@ -1183,12 +1186,14 @@ export function difeseDelRepo() {
  *
  * @returns {{errore:string|null, esito:object, toccati:Array}}
  */
-export function verdettoDelDelta({ soloStaged = false } = {}) {
+export function verdettoDelDelta({ soloStaged = false, da = null, senzaRaggio = false } = {}) {
   let diff;
   try {
     // `-U0`: solo le righe cambiate, niente contesto — il contesto NON è mio, e contarlo
     // trasformerebbe il codice di qualcun altro in una mia colpa.
-    diff = soloStaged ? git(["diff", "--cached", "-U0"]) : git(["diff", "HEAD", "-U0"]);
+    // `da` (AR-530): il collaudo del lavoro finito chiede lo stesso giro ma sull'INTERO perimetro
+    // del turno (l'ancora dello Stop), non solo sull'ultima modifica — commit compresi.
+    diff = soloStaged ? git(["diff", "--cached", "-U0"]) : git(["diff", da || "HEAD", "-U0"]);
   } catch (e) {
     // Nessun HEAD (repo appena nato) o git assente: cieco, e cieco non è verde.
     return { errore: e.message.split("\n")[0], esito: { voci: [], cieco: true, motivi: [] }, toccati: [] };
@@ -1240,7 +1245,12 @@ export function verdettoDelDelta({ soloStaged = false } = {}) {
   }
   // Il raggio si calcola solo sul codice condiviso, non sui .md e non sui dati del vault (lì «chi mi
   // cita» non è una dipendenza che si rompe), e con UNA scansione per tutti.
-  const importatori = indiceImportatori(toccati.map((t) => t.file).filter((f) => /\.(m?js|cjs|ts|tsx)$/.test(f)));
+  // `senzaRaggio` (AR-531): il collaudo del lavoro finito usa questo giro per le voci gravi/medie e
+  // il raggio non entra nelle sue istruzioni — pagare la scansione dell'intero repo a ogni «fatto»
+  // bloccato sarebbe il costo che fa spegnere una guardia (lenta = rumorosa, stessa fine).
+  const importatori = senzaRaggio
+    ? new Map()
+    : indiceImportatori(toccati.map((t) => t.file).filter((f) => /\.(m?js|cjs|ts|tsx)$/.test(f)));
 
   // Il lato sottrazione: ciò che ho TOLTO, e chi lo dichiarava una difesa.
   const { rimosse, cancellati } = leggiRimozioni(diff);

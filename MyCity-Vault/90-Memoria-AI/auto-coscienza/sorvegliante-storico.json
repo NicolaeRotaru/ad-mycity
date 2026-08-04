@@ -10,7 +10,34 @@
         "malattia-nuova": 1
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T03:13:43.810Z",
+      "scatti": 139,
+      "voci": 2,
+      "per_classe": {
+        "malattia-nuova": 1,
+        "prova-accecata": 1
+      },
+      "mai_risolte": [
+        {
+          "classe": "malattia-nuova",
+          "file": "cervello/pre-scrittura.mjs",
+          "cosa": "riga nuova con la malattia «bypass-del-cancello»: Un comando che salta il cancello: --no-verify o push --force",
+          "ripetuta": 34
+        }
+      ]
+    },
+    {
+      "quando": "2026-08-04T03:22:32.829Z",
+      "scatti": 146,
+      "voci": 2,
+      "per_classe": {
+        "malattia-nuova": 1,
+        "prova-accecata": 1
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-04T02:06:45.582Z"
+  "aggiornato": "2026-08-04T03:22:32.832Z"
 }
