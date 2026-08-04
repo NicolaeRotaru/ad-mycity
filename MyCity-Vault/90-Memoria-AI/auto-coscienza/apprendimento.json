@@ -1,7 +1,27 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-04 16:57",
+ "aggiornato": "2026-08-04 17:07",
  "lezioni": [
+  {
+   "id": "L-2026-0804-01",
+   "testo": "**`.claude/settings.json` (dove vivono gli hook PreToolUse/UserPromptSubmit necessari a chiudere il loop di prevenzione a monte, es. `mano-fermata.mjs`, `contesto-lezioni.mjs --richiesta`) è vietato in scrittura per l'AD by design, stesso blocco anti-auto-allargamento-permessi già noto per `settings.local.json` ma esteso qui al file che accenderebbe/spegnerebbe tutti i freni insieme (Nicola 4/8 17:03 «fai questo fix» sulla card della prevenzione a monte).** Verificato che gli script del fix esistono già e sono provati sul disco (`test -f cervello/mano-fermata.mjs` e `cervello/contesto-lezioni.mjs`), ma sia l'incollaggio delle 2 righe hook sia il comando di verifica (`node cervello/mano-fermata.mjs --cablaggio`) restano bloccati anche a comando esplicito dentro la sessione. Regola: quando un fix tocca `.claude/settings.json`, non tentare Edit/Write né scorciatoie — preparare il blocco JSON esatto con la posizione precisa (dopo quale matcher/dentro quale array) e lasciare incollaggio + collaudo a Nicola.",
+   "tag": [
+    "settings-json",
+    "hook",
+    "permessi",
+    "prevenzione-a-monte",
+    "processo"
+   ],
+   "reparto": "@tech",
+   "confidenza": 0.8,
+   "evidenze": 1,
+   "fonte": "chat",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-04",
+   "ultima_conferma": "2026-08-04 17:03",
+   "stato": "attiva",
+   "usi": []
+  },
   {
    "id": "L-2026-0730-01",
    "testo": "**Quando il rebase pre-PR di `git-pr.mjs` continua a fallire con 'conflitti residui' sui file di memoria ANCHE dopo aver allineato `main` a `origin/main`, la causa può essere un commit di pulizia lasciato sul branch stesso (non su main) che confonde il confronto — riprovare la stessa PR sullo stesso branch non risolve, va ricreato un branch pulito col solo commit vero (Nicola 30/7 02:41 «come faccio a risolverlo?» poi «riprova ad aprire la pr», sullo sblocco della PR Memoria/Stato-OKR-Piani).** Il branch `fix/memoria-scompone-stato-numeri` aveva un commit di pulizia (rimozione di un file estraneo trascinato dentro per errore) che restava nella storia anche dopo il fix; ogni retry di `git-pr.mjs` — con `main` già aggiornato, working tree pulita, nessun rebase a metà — falliva comunque con lo stesso errore su `AZIONI-IN-ATTESA.md`/`BACHECA.md`/`DECISIONI.md` e i JSON di auto-coscienza. Risolto ricreando un branch nuovo (`fix/memoria-stato-okr-piani-v2`) direttamente sopra `main` aggiornato, con un solo commit pulito contenente lo stesso identico cambiamento: la PR (#630) si è aperta al primo colpo. Conferma diretta causa→effetto: stesso fix, stesso `main`, unica variabile cambiata è il branch. Regola: davanti a un rebase pre-PR che fallisce ripetutamente sugli STESSI file di memoria nonostante `main` sia allineato, non insistere sul branch esistente — ricrearlo pulito è più veloce che rincorrere il rebase. Collegata ad AR-449 ('Rebase che non parte non è un conflitto', PR #629): qui la causa specifica è la traccia di un commit di pulizia precedente, non l'assenza di modifiche reali.",
@@ -12943,19 +12963,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 501,
+  "lezioni_attive": 502,
   "promosse_a_principio": 87,
   "decadute": 0,
   "tasso_applicazione": 0.18,
-  "tasso_calcolato_il": "2026-08-04 16:57",
+  "tasso_calcolato_il": "2026-08-04 17:07",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-04 16:57",
+  "tick_leggero_il": "2026-08-04 17:07",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
   "cristallizzazione_ultima": "2026-08-04 12:12",
-  "lezioni_totali": 506,
+  "lezioni_totali": 507,
   "lezioni_per_stato": {
-   "attiva": 410,
+   "attiva": 411,
    "principio": 87,
    "in-prova": 5,
    "decaduta": 0,
