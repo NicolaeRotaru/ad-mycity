@@ -28,7 +28,7 @@
 // o è rotto, non fa nulla ed esce 0 (non deve mai rompere un giro).
 
 import { readFileSync, existsSync, rmSync } from "node:fs";
-import { scriviJsonAtomico } from "./scrivi-json.mjs"; // AR-556: l'indentazione la legge il file
+import { scriviJsonAtomico } from "./scrivi-json.mjs"; // AR-558: l'indentazione la legge il file
 import { passoDovuto, tettoDecadutePerGiro } from "./tetti-archivio.mjs"; // AR-182: il tempo si misura in tempo
 import { lezioniVive } from "./misura-parziale.mjs"; // AR-362: una sola definizione di «lezione viva»
 import { dirname, join, resolve } from "node:path";
@@ -200,7 +200,7 @@ if (APPLICA) {
     } catch {
       /* best-effort */
     }
-    // AR-556: terza porta sullo stesso file di AR-522. Il file ha UN spazio; scriverlo a due lo
+    // AR-558: terza porta sullo stesso file di AR-522. Il file ha UN spazio; scriverlo a due lo
     // riscrive tutto, il guardiano della forma blocca il commit e da lì non si pubblica più niente.
     scriviJsonAtomico(APPR, dati);
     report.scritto = true;

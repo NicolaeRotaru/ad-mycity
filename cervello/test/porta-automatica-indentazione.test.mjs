@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🧪 LA PORTA AUTOMATICA CHE ERA RIMASTA APERTA (AR-556, seguito di AR-522).
+// 🧪 LA PORTA AUTOMATICA CHE ERA RIMASTA APERTA (AR-558, seguito di AR-522).
 //
 // AR-522 raccontava la catena per intero — uno spazio, il file riscritto, il guardiano della forma
 // che blocca il commit, l'albero sporco, il rebase che non parte, la memoria non pubblicata: quattro

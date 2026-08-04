@@ -1975,7 +1975,15 @@
    "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
   },
   {
-   "difetto": "AR-556",
+   "difetto": "AR-457",
+   "nome": "lo sfoltimento smette di togliere i chiusi: la rete che resta dopo aver tolto il pavimento sui dati vivi deve suonare lo stesso",
+   "file": "pannello/src/lib/radiografia-snella.ts",
+   "cerca": "const aperti = tutti.filter((f) => !eChiusoFinding(f));",
+   "sostituisci": "const aperti = tutti;",
+   "test": "cervello/test/radiografia-snella.test.mjs"
+  },
+  {
+   "difetto": "AR-558",
    "nome": "la porta automatica torna a imporre due spazi al file che ne ha uno: la catena dei quattro giorni riparte",
    "file": "cervello/tick-auto-coscienza-leggero.mjs",
    "cerca": "scriviJsonAtomico(APPR_PATH, appr);",

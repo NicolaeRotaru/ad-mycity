@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import { scriviJsonAtomico } from './scrivi-json.mjs'; // AR-556: l'indentazione la legge il file
+import { scriviJsonAtomico } from './scrivi-json.mjs'; // AR-558: l'indentazione la legge il file
 
 const path = 'MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json';
 const data = JSON.parse(fs.readFileSync(path, 'utf8'));

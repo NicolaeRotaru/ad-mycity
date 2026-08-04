@@ -15,7 +15,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
-import { scriviJsonAtomico } from "./scrivi-json.mjs"; // AR-556: l'indentazione la legge il file
+import { scriviJsonAtomico } from "./scrivi-json.mjs"; // AR-558: l'indentazione la legge il file
 
 const FORZA = process.argv.includes("--forza");
 const JSON_MODE = process.argv.includes("--json");
@@ -79,7 +79,7 @@ async function main() {
     try {
       const appr = JSON.parse(readFileSync(APPR_PATH, "utf8"));
       appr.meta = { ...(appr.meta || {}), tick_leggero_il: quando };
-      // AR-556: la PORTA AUTOMATICA di AR-522. Lì era stata chiusa `tasso-lezioni` — che questo tick
+      // AR-558: la PORTA AUTOMATICA di AR-522. Lì era stata chiusa `tasso-lezioni` — che questo tick
       // lancia due righe più su — e lasciata aperta questa, che riscriveva lo stesso file a due spazi
       // subito dopo. Il file ne ha uno: bastava un giro perché i quattro giorni tornassero.
       scriviJsonAtomico(APPR_PATH, appr);
