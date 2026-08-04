@@ -1,61 +1,42 @@
 {
-  "data": "2026-07-30 06:10",
-  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati, stallo 36gg). PI26 chiuso (Nicola 29/7, non idoneo) e piano-squadra confermato (parte dopo il 24/8-1/9): le due domande che tenevano ferma la coda da giorni sono risolte. Priorità di oggi: una parola di Nicola su dentro/fuori per l'ordine di prova PQ (unica cosa che manca per rompere lo stallo), merge PR #633 (menu Pannello), Vercel Authentication (30 sec). Telegram sul VPS resta configurabile quando c'è tempo, non bloccante. Il Worker in abbonamento ai negozi (seconda fonte di reddito, registrata 29/7 01:20) resta NON in agenda: Nicola la costruisce in sessioni dedicate più avanti, nessuna mossa oggi. Dettaglio in consegne/strategia/2026-07-29-listino-worker-negozi.md. Il 3/8 22:20 Nicola ha dichiarato l'architettura bersaglio a TRE macchine (CENTRO azienda → PIAZZA marketplace → BOTTEGA = quel Worker, una sola macchina per tutti i negozi): visione registrata (fatto architettura.tre-macchine, documento MyCity-Vault/90-Memoria-AI/ARCHITETTURA-TRE-MACCHINE.md), NESSUNA fase avviata. L'unica fase proponibile oggi è la Fase 1 (porta unica di scrittura verso il marketplace, 🟡, giorni di lavoro); la Fase 3 (pilota BOTTEGA) resta chiusa finché non è Nicola ad aprire la linea. Nessun asset pesante, nessun pitch, nessun contatto su questa linea.",
+  "data": "2026-08-04 11:30",
+  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati, stallo 41gg) — pausa concordata con Nicola fino al 24/8-1/9, non churn. Dal 30/7 a oggi Nicola ha lavorato soprattutto sulla macchina stessa: diagnosi e fix del blocco del timer del giro sul VPS (AR-530, PR #665 mergiata oggi 05:23), attivazione di quattro freni nuovi (pre-scrittura, intento-turno, cancello-senior, memoria-guardia) e altri correttivi di cantiere. Priorità di oggi: confermare che il riavvio del servizio sul VPS sia stato fatto (card #macchina-ferma-da-quattro-giorni), poi le 3 decisioni tecniche in coda su GitHub (merge PR #635, pulizia rami vecchi, modo di chiudere le PR). Il Worker in abbonamento ai negozi (seconda fonte di reddito) resta NON in agenda: Nicola la costruisce in sessioni dedicate più avanti, nessuna mossa. L'architettura a tre macchine (CENTRO→PIAZZA→BOTTEGA, dichiarata 3/8) resta visione registrata, nessuna fase avviata.",
   "prossime_mosse": [
     {
-      "titolo": "Ordine di prova su Pane Quotidiano",
-      "quando": "Card #ordine-test-dentro-o-fuori-dalla-pausa in attesa di un dentro/fuori da Nicola (accodata 28/7) — è l'unica cosa che manca per rompere lo stallo del North Star",
-      "come": "mycity-marketplace.com → prodotto PQ → checkout → COD o carta",
+      "titolo": "Conferma che il giro sul server è ripartito",
+      "quando": "Card #macchina-ferma-da-quattro-giorni in attesa (accodata 4/8 03:10, aggiornata 05:55) — il fix è già mergiato, mancano solo i 3 comandi sul server o la loro conferma",
+      "come": "3 comandi bash già scritti nella card: git stash, fetch+reset, restart del servizio",
       "priorita": "alta",
-      "ad_prepara": "Flusso già verificato via REST, pronto a ripartire senza altro lavoro tecnico",
-      "senior": "@operations",
-      "colore": "🟡"
-    },
-    {
-      "titolo": "Configura Telegram sul VPS",
-      "quando": "Quando c'è tempo — non bloccante",
-      "come": "TELEGRAM_BOT_TOKEN + CHAT_ID in .env → n8n workflow Active",
-      "priorita": "bassa",
-      "ad_prepara": "Playbook consegne/intelligence/PLAYBOOK-ACCENSIONE-2026-07-20.md",
-      "senior": "@builder-automazioni",
+      "ad_prepara": "Diagnosi completa e fix già in main; un banner rosso in Cabina avviserà da solo se la memoria resta ferma oltre 12 ore, da questa PR in poi",
+      "senior": "@devops-sre",
       "colore": "🔴"
     },
     {
-      "titolo": "Il giro guidato della macchina: te la spiego tutta, un pezzo per volta",
-      "quando": "Chiesto da Nicola il 2026-08-02 20:30: «la cosa del giro la facciamo dopo, comunque salvalo che è importante». Parte quando lo dice lui, al ritmo che decide lui.",
-      "come": "Un pezzo per volta, dal più importante al meno importante. Per ognuno: cosa fa · perché esiste · cosa succede se si rompe · un esempio vero già successo. Nicola sceglie da dove partire e quanto alla volta.",
-      "priorita": "alta",
-      "ad_prepara": "Obiettivo dichiarato da Nicola: «devo capire la macchina al 100%». Le parole tecniche le sta studiando e vanno usate, non nascoste: vanno spiegate la prima volta che compaiono, dentro un caso vero. Regola di scrittura: cervello/scrittura-umana.md",
-      "senior": "@AD",
-      "colore": "🟢"
+      "titolo": "Decidere sui 447 rami vecchi e su come si chiudono le PR",
+      "quando": "Card #7 e #8 in coda, accodate 3/8 22:45",
+      "come": "Scegliere fra le opzioni proposte nella card (recupero automatico della #598 + pulizia, poi squash con riallineamento automatico oppure merge normale)",
+      "priorita": "media",
+      "ad_prepara": "Piano dettagliato già scritto nella card, pronto a eseguire dopo la scelta",
+      "senior": "@tech",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Ordine di prova su Pane Quotidiano",
+      "quando": "Card #ordine-test-dentro-o-fuori-dalla-pausa ancora in attesa (accodata 28/7) — resta dentro la pausa finché Nicola non dice diversamente",
+      "come": "mycity-marketplace.com → prodotto PQ → checkout → COD o carta",
+      "priorita": "bassa",
+      "ad_prepara": "Flusso già verificato via REST, pronto a ripartire senza altro lavoro tecnico appena Nicola dà il via",
+      "senior": "@operations",
+      "colore": "🟡"
     }
   ],
   "primi_negozi": [
-    {
-      "nome": "Pane Quotidiano",
-      "perche": "Unico negozio REALE (Via Calzolai 25). Già online, 5 prodotti.",
-      "stato": "attivo — North Star 0, stallo ~33gg, in pausa operativa concordata fino al 24/8-1/9"
-    },
-    {
-      "nome": "Antica Salumeria Garetti",
-      "perche": "Anchor DOP + WhatsApp PI26 pronto (invio in pausa).",
-      "stato": "scelta_ragionata — dopo la ripresa"
-    },
-    {
-      "nome": "Frolla Couture",
-      "perche": "Score più alto prospect panetteria.",
-      "stato": "scelta_ragionata — visita da programmare dopo la ripresa"
-    }
+    {"nome": "Pane Quotidiano", "perche": "Unico negozio reale, faro di MyCity", "stato": "in attesa concordata fino al 24/8-1/9, non è churn"}
   ],
   "rischi": [
-    "3 carrelli abbandonati reali su PQ mai recuperati (invariati da giugno)",
-    "Runway non calcolabile da molti giri (manca BURN_MENSILE_EUR nel .env VPS)"
+    "Il timer del giro sul VPS è stato fermo 5 giorni prima del fix di oggi — se il riavvio non è confermato, la Cabina continua a mostrare briefing vecchi senza che nessuno se ne accorga (mitigato da un banner nuovo, ma solo dopo il riavvio)."
   ],
   "serve_da_nicola": [
-    {
-      "ambito": "macchina",
-      "cosa_manca": "Merge delle PR in coda",
-      "domanda_per_nicola": "Ok a mergiare le PR ferme del Cantiere Pannello e del fix doppioni chat (#551/#552/#553/#556)? Nessun rischio per il sito, solo il tuo click."
-    }
+    {"ambito": "infrastruttura", "cosa_manca": "Conferma che i 3 comandi sul server sono stati lanciati", "domanda_per_nicola": "Hai già riavviato mycity-giro.service con il fix di oggi, o serve ancora farlo?"}
   ]
 }

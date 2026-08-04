@@ -1,7 +1,7 @@
 ---
 tipo: okr
 fonte: AD digitale
-aggiornato: 2026-07-23 12:05
+aggiornato: 2026-08-04 11:30
 ---
 
 # 🎯 OKR-Squadra — chi possiede quale numero
@@ -9,11 +9,11 @@ aggiornato: 2026-07-23 12:05
 > Ogni senior **possiede** un KPI, ha un target e un budget. Lo legge nella Carta del Dipendente (regola #3).
 > North Star dell'azienda: **ordini qualificati consegnati / settimana** (vedi [[Metriche & KPI]] e [[Piano d'Azione]] §7).
 > Fase attuale: **0→1 (primo passo)** — faro **Pane Quotidiano** (unico negozio reale, 5 prodotti). Budget spese reali = **🔴 sempre da firmare**; il "budget" qui è soprattutto tempo.
-> ⚠️ **North Star in stallo ~29 giorni** (0 ordini pagati dal ~24-25/6): il vecchio target «entro sab 27/6» è scaduto senza data di rinnovo fissa — sostituito da un **gate azionabile** (non una scadenza calendario) finché Nicola non chiude `#ordine-test-pq`.
+> ⚠️ **North Star in stallo 41 giorni** (0 ordini pagati dal 24/6): non è abbandono — è la pausa che Nicola ha deciso fino al **24/8-1/9** (prima completa/perfeziona Pannello+AD+worker+marketplace, poi si concentra solo sul business — fatto `ripresa.lavoro-operativo`). Il vecchio target «entro sab 27/6» resta superato: il gate azionabile è `#ordine-test-dentro-o-fuori-dalla-pausa`, in coda dal 28/7, volutamente non forzato.
 
 | Senior | KPI che possiede | Target (fase 1 — gate, non scadenza fissa) | Budget |
 |---|---|---|---|
-| 🧠 AD | North Star: ordini pagati/consegnati | 1° ordine reale — **gate: Nicola chiude `#ordine-test-pq`** (nessuna data fissa: il vecchio target di fine giugno è superato dal nuovo gate) | — |
+| 🧠 AD | North Star: ordini pagati/consegnati | 1° ordine reale — **gate: Nicola chiude `#ordine-test-dentro-o-fuori-dalla-pausa`** (nessuna data fissa: in pausa concordata fino al 24/8-1/9) | — |
 | 🤝 vendite | Negozi LIVE nel cluster | +2 negozi LIVE | tempo · offerte 🔴 |
 | 📣 marketing | Iscritti lista d'attesa | 20 iscritti | €0 · ads 🔴 |
 | 🚀 growth-monetizzazione | € extra per esperimento | 1 esperimento partito | €0 · spesa 🔴 |
