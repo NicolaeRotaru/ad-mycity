@@ -85,7 +85,7 @@ prova("una radiografia malformata non fa saltare la schermata", () => {
 
 // ── Il guadagno vero, sul file di oggi ──────────────────────────────────────
 
-prova("sul file VERO la risposta dimagrisce di almeno il 45% — quando c'è qualcosa da sfoltire", () => {
+prova("sul file VERO lo sfoltimento si MISURA e si dichiara — senza pavimento sui dati del giorno", () => {
   const vero = JSON.parse(readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json"), "utf8"));
   const prima = peso(vero);
   const dopo = peso(radiografiaSnella(vero));
@@ -102,25 +102,40 @@ prova("sul file VERO la risposta dimagrisce di almeno il 45% — quando c'è qua
   // nessun test, perché insegna a non risolverlo». E teneva rossa la suite CONDIVISA per tutti,
   // che è il modo in cui un cancello diventa qualcosa da aggirare (AR-346).
   //
-  // La soglia resta identica dov'è misurabile. Quello che cambia è che adesso il test sa dire
-  // «non c'era niente da sfoltire» invece di dire «il digest è rotto»: sono due cose diverse, e
-  // confonderle è il difetto. Un ⚪ non è un ✅ — per questo lo stampa invece di tacere.
+  // 4/8 — LA CORREZIONE MANCANTE (AR-457). Quella del 29/7 aveva curato solo metà del caso: il ramo
+  // «zero chiusi». Ma fra «zero» e «tanti» c'è tutto il resto, e il 4/8 è arrivata la radiografia con
+  // 11 chiusi su 123 — il 9%. Lo sfoltimento butta via i chiusi: con il 9% da buttare non può
+  // tagliare il 45%, ha tagliato il 30%, e la suite è tornata rossa su un codice che non era stato
+  // toccato. Il pavimento del 45% era stato tarato quando i chiusi erano 109 su 170, cioè il 64%:
+  // misurava la PROPORZIONE del file di quel giorno e la spacciava per una proprietà del codice.
+  //
+  // La cura è quella scritta sulla scheda: qui resta la sola misura DICHIARATA, senza pavimento. La
+  // soglia vive dove ha senso — dieci righe più sotto, su un ingresso finto e controllato (9 chiusi
+  // su 10), dove il 45% dipende dal codice e da nient'altro. Quella prova va rossa eccome se lo
+  // sfoltimento smette di sfoltire: è la rete, e non l'ha tolta nessuno.
+  //
+  // La regola generale, che è il vero valore del difetto: una prova che legge un file del vault può
+  // asserire sulla sua FORMA — esiste, non è vuoto, la funzione lo digerisce — mai su una sua
+  // QUANTITÀ del giorno. Se la quantità conta, il posto è una sentinella col suo esito, non la
+  // suite: un rosso qui significa «il codice è rotto», e insegnare il contrario spegne la suite.
   const tutti = (vero.dimensioni || []).flatMap((d) => (d && d.findings) || []);
   const chiusi = tutti.filter((f) => eChiusoFinding(f)).length;
 
-  if (chiusi === 0) {
-    console.log(
-      `      # ⚪ non misurabile oggi: ${tutti.length} findings, nessuno chiuso — niente da sfoltire ` +
-        `(${prima.toLocaleString()} → ${dopo.toLocaleString()} byte, −${Math.round(risparmio * 100)}%). ` +
-        `La soglia del 45% torna a valere alla prima radiografia con findings chiusi.`,
-    );
-    return;
-  }
-  assert.ok(
-    risparmio >= 0.45,
-    `atteso ≥45%, ottenuto ${Math.round(risparmio * 100)}% (${prima} → ${dopo}) con ${chiusi}/${tutti.length} findings chiusi da sfoltire`,
+  // Quello che il codice DEVE fare, e che non dipende da quanti chiusi ci sono oggi: digerire il
+  // file vero senza rompersi, e non far viaggiare nemmeno un finding chiuso.
+  const snella = radiografiaSnella(vero);
+  assert.ok(snella, "il file vero deve essere digerito, non restituire null");
+  const sopravvissuti = (snella.dimensioni || []).flatMap((d) => (d && d.findings) || []);
+  assert.equal(
+    sopravvissuti.filter((f) => eChiusoFinding(f)).length,
+    0,
+    "sul file vero è passato un finding chiuso: lo sfoltimento non sta sfoltendo",
   );
-  console.log(`      # ${prima.toLocaleString()} → ${dopo.toLocaleString()} byte (−${Math.round(risparmio * 100)}%, ${chiusi}/${tutti.length} chiusi)`);
+
+  console.log(
+    `      # misura di oggi (dichiarata, senza pavimento): ${prima.toLocaleString()} → ${dopo.toLocaleString()} byte ` +
+      `(−${Math.round(risparmio * 100)}%) con ${chiusi}/${tutti.length} findings chiusi da sfoltire.`,
+  );
 });
 
 // E la guardia che il caso qui sopra non deve spegnere: su un file CHE HA chiusi, la soglia vale

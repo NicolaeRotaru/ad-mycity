@@ -1973,6 +1973,14 @@
    "cerca": "\"-G\", CERCA_ESITO_IN_GIT, \"--diff-merges=first-parent\"",
    "sostituisci": "\"-G\", CERCA_ESITO_IN_GIT",
    "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-457",
+   "nome": "lo sfoltimento smette di togliere i chiusi: la rete che resta dopo aver tolto il pavimento sui dati vivi deve suonare lo stesso",
+   "file": "pannello/src/lib/radiografia-snella.ts",
+   "cerca": "const aperti = tutti.filter((f) => !eChiusoFinding(f));",
+   "sostituisci": "const aperti = tutti;",
+   "test": "cervello/test/radiografia-snella.test.mjs"
   }
  ]
 }
