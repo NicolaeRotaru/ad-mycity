@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-04 11:30",
-  "situazione": "Business invariato da 41 giorni (0 ordini pagati) — pausa concordata con Nicola fino al 24/8-1/9, non un problema. Nel gap di 5 giorni senza un giro formale, la macchina ha comunque lavorato: trovata e corretta la causa che bloccava il timer del giro sul server (uno spazio sbagliato in un file, PR #665 mergiata stamattina alle 05:23), più altri 5 correttivi di cantiere fino alle 10:57. Mossa n.1: confermare se sono già stati lanciati i 3 comandi sul server per far ripartire il giro.",
+  "data": "2026-08-04 12:20",
+  "situazione": "Business invariato (riconfermato ora dal vivo su Supabase): 1 ordine mai pagato, 0 consegne, 7 profili, 5 prodotti — stallo North Star 41 giorni, pausa concordata con Nicola fino al 24/8-1/9. In questo passaggio: chiuso un gate nuovo (un lavoro di stamattina senza il suo esito scritto nel quaderno di reparto) e verificato che la lezione più ripetuta della macchina (26 volte, mai diventata un freno automatico) ha già una card pronta in coda dalle 05:20 di oggi, in attesa solo della firma di Nicola su due righe di configurazione. Mossa n.1 invariata: confermare il riavvio del giro sul server.",
   "opportunita": [
     {
       "titolo": "Conferma che il giro sul server è ripartito",
@@ -13,6 +13,12 @@
       "motivo": "Elimina il rumore che fa sembrare lavoro perso quando non lo è, e recupera un lavoro davvero perso (PR #598)",
       "impatto": "medio",
       "sforzo": "basso"
+    },
+    {
+      "titolo": "Accendi i due freni sulle correzioni che ti ripeti (card #prevenzione-a-monte)",
+      "motivo": "26 lezioni nate da tue correzioni, 18 ripetute, mai diventate un freno automatico — il codice è pronto, mancano due righe in un file che l'AD non può toccare da sola",
+      "impatto": "alto",
+      "sforzo": "basso"
     }
   ],
   "azioni": [
@@ -22,18 +28,19 @@
       "livello": "rosso"
     },
     {
-      "titolo": "Mergia la PR #635 che chiude il bug di rebase",
-      "motivo": "Il fix (già scritto e provato) resta fuori da main da giorni",
-      "livello": "rosso"
-    },
-    {
       "titolo": "Scegli come chiudere le PR: squash con riallineamento automatico o merge normale",
       "motivo": "Oggi ogni merge in squash rischia di far chiudere da sole le altre PR aperte sulla stessa base — già successo 12 volte, un lavoro perso per davvero (#598)",
       "livello": "rosso"
+    },
+    {
+      "titolo": "Incolla il blocco di configurazione per accendere i due freni sulle correzioni ripetute",
+      "motivo": "Testo pronto in #prevenzione-a-monte da stamattina 05:20: due aggiunte a .claude/settings.json",
+      "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
     "North Star 0 — stallo 41 giorni (pausa concordata, non churn)",
-    "freschezza-cadenze — giro/ritmo-mattino/monitora fermi 120-125h (fix già mergiato, riavvio da confermare)"
+    "freschezza-cadenze — giro/ritmo-mattino/monitora fermi 120-125h (fix già mergiato, riavvio da confermare)",
+    "chiusura-loop — risolto in questo passaggio (esito @ad registrato)"
   ]
 }

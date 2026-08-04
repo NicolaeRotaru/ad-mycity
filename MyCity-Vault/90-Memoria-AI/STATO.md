@@ -1,8 +1,18 @@
 ---
 tipo: stato
-aggiornato: 2026-08-04 12:00
+aggiornato: 2026-08-04 12:20
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **4/8 12:20 — GIRO ESEGUITO A MANO passo-passo su `cervello/giro.md`. Business ancora invariato. Un gate nuovo si è acceso ed è stato chiuso.**
+> Ho riletto i numeri veri su Supabase, in diretta, non da memoria. Sono identici a quelli già in `delta-gate.json`: 1 ordine (mai pagato), 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli. Il North Star resta fermo a **41 giorni**. È la pausa concordata con te fino al 24/8-1/9, non un allarme.
+>
+> **Cosa ho fatto in questo passaggio, oltre alla riconferma:**
+> 1. **Il gate `chiusura-loop` si è acceso (HARD).** @ad aveva scritto 3 righe FATTO in Sala Operativa oggi. Nessuna aveva un ESITO nel quaderno. L'ho registrato ora con `node cervello/chiusura-loop.mjs registra @ad …`. Ho ricontrollato il gate: è tornato verde.
+> 2. **Il gate `apprendimento` (HARD) l'ho verificato, non duplicato.** La correzione più ripetuta (area `correzione-nicola`: 26 lezioni, 18 volte ripetuta, mai diventata un freno automatico) ha già una proposta pronta in coda dalle 05:20 di stamattina: `#prevenzione-a-monte`. Servono due righe incollate in `.claude/settings.json`. Manca solo la tua firma. Non ho scritto un secondo freno sopra a quello già pronto.
+> 3. **Ho corretto una mia imprecisione nei Gap del briefing.** Avevo scritto che tutti gli script `node cervello/*.mjs` sono bloccati in questa sessione. Non è vero: `coerenza-fatti.mjs` e `chiusura-loop.mjs` girano regolarmente qui. Restano senza verdetto, non bocciati (⚪, non rosso): `test-cervello.mjs`, `north-star-check.mjs --gate`, `scadenzario-check.mjs`, `mappa-macchina.mjs`, `freschezza-cadenze.mjs`. Li ho provati due volte ciascuno. Servono un'approvazione che questa sessione headless non riesce a mostrarmi.
+>
+> **Mossa n.1, invariata:** conferma se hai già riavviato il giro sul VPS (card `#macchina-ferma-da-quattro-giorni`). Briefing completo: [[Briefing/2026-08-04]].
 
 > 🕛 **4/8 12:00 — PUNTO DI MEZZOGIORNO: business invariato, 1 correzione vera.**
 > Riconfermato via `delta-gate.json` (firma identica al giro delle 11:30): ordini=1 (mai pagato), profili=7,

@@ -55,7 +55,6 @@ sito è fermo dal 30 luglio. Costruirla tutta adesso sarebbe lavoro pesante su u
 `consegne/strategia/2026-07-29-listino-worker-negozi.md`. Il fatto a registro è
 `architettura.tre-macchine`.
 
-
 ## 🧭 Glossario della macchina — tutte le parole, per famiglie · 2026-08-01 10:54
 
 **Perché esiste questo avviso.** Quasi nessuna parola strana della macchina descrive *come si fa* una
@@ -809,7 +808,7 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ---
 
-## 🛡️ I guardiani della macchina · 2026-07-30 06:21
+## 🛡️ I guardiani della macchina · 2026-08-04 12:12
 
 A ogni giro, prima che l'AI scriva una riga, girano **74 controlli automatici**. **36** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
@@ -826,6 +825,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | `guardiani-check` | Tiene questa tabella agganciata al codice: se nasce un controllo e nessuno spiega cosa fa, il giro non si chiude. | ⛔ ferma il giro |
 | `mappa-macchina` | Tiene aggiornata la mappa «Com'è fatta la macchina»: i numeri li riconta a ogni giro, e se nasce un pezzo nuovo (skill, sensore, mano, servizio, area) senza una riga che dica cosa fa, il giro non si chiude. | ⛔ ferma il giro |
 | `onesta-check` | Cerca i numeri orfani: una cifra scritta in memoria senza una fonte accanto non deve uscire. | ⚠️ avvisa, non ferma |
+| `peso-file-cabina` | Pesa i file che la Cabina rilegge di continuo: quando uno cresce troppo GitHub smette di servirlo e la schermata si svuota fingendo che vada tutto bene. | ℹ️ scrive e basta |
 | `sensore-cassa` | Guarda cassa e autonomia: quanto è entrato davvero, quanto brucia al mese, quanti mesi restano. | ℹ️ scrive e basta |
 | `sensori-spenti-check` | Uno strumento costruito e mai acceso è un buco, non uno stato: pretende un perché scritto. | ⛔ ferma il giro |
 | `sentinella-fonti` | Prova le fonti web da cui la macchina si informa: una fonte morta smette di portare notizie senza dirlo. | ℹ️ scrive e basta |
