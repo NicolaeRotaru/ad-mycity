@@ -85,17 +85,56 @@
 // BATTITO: un file ignorato da git (`_tmp_*`, così verificare non sporca l'albero — AR-464) con l'ora
 // dell'ultimo scatto. `--battito` lo legge e risponde alla sola domanda che conta: hai girato o no?
 //
+// LE CINQUE RIPARAZIONI DEL 4/8 (Nicola: «fai le cinque che mi hai consigliato»). Hanno tutte la
+// stessa forma, ed è per questo che sono state scelte insieme fra le 22 proposte: nessuna aggiunge
+// una capacità, tutte tolgono un modo in cui questa guardia diceva il verde senza aver guardato.
+//
+//   Ⓐ IL PERIMETRO IN CI (era: misura zero e stampa verde). `cancello-lotto.mjs` la lanciava senza
+//     argomenti, cioè `git diff HEAD` su un albero appena clonato e quindi pulito: zero file toccati,
+//     zero voci, exit 0. Il passo c'era nel cancello, il verdetto no — e un verde che non ha misurato
+//     è peggio di un controllo assente, perché insegna che il verde non vuol dire niente (è la stessa
+//     malattia che questo file ha in cima al registro). Ora accetta `--base <spec>` e il cancello le
+//     passa lo stesso antenato comune che usa per i difetti. E se un `--base` esplicito produce un
+//     perimetro VUOTO, quello non è più «pulito»: è cieco, perché qualcuno mi ha chiesto di
+//     confrontare con qualcosa e non ho trovato niente da guardare.
+//
+//   Ⓑ I FILE SALTATI IN SILENZIO (era: la regola di casa violata dentro chi la applica). Un file
+//     nuovo oltre il tetto dei byte, o illeggibile, veniva saltato con un `continue` muto. Cioè la
+//     guardia diceva di aver guardato un file che non ha aperto — che è esattamente il «⚪ non l'ho
+//     potuto vedere ≠ verde» che questa casa pretende da tutti gli altri guardiani.
+//
+//   Ⓒ LA FUSIONE IN CORSO (era: un falso rosso già pagato, AR-503). `git diff HEAD` prende tutto
+//     l'albero di lavoro, comprese le righe che sta portando dentro un merge o un rebase. Accusarmi
+//     di quelle è il modo più veloce per insegnarmi a scorrere il verdetto — e un verdetto scorso è
+//     una guardia spenta. Ora se una fusione è in corso lo DICHIARA e si dichiara cieca: le voci
+//     restano visibili (possono essere vere), ma non sono più attribuibili a me.
+//
+//   Ⓓ IL REPO DEL MARKETPLACE (era: cieca per costruzione e zitta). `git` gira con `cwd` sulla radice
+//     di QUESTA casa, e la copia del sito è un altro repo, escluso apposta. Quando lavoro sul sito la
+//     guardia non vede niente e tace: identico a «tutto a posto». Farla vedere anche là è un lavoro
+//     grosso che serve poco; farle dire «lì non arrivo, e ci sono N file modificati» è una riga e
+//     vale quasi uguale.
+//
+//   Ⓔ LA VIA DI ESENZIONE TRACCIATA (era: l'unica risposta possibile a un falso rosso era ignorarlo).
+//     E intanto il contatore «⟲ già detto N volte» saliva su un falso positivo, fino a far scattare
+//     il cancello dello Stop: la macchina si puniva da sola per un errore suo. Ora esiste una forma
+//     riconosciuta — `sorvegliante: ok <classe> fino al AAAA-MM-GG — <perché>` — che vale come
+//     risposta. Con la scadenza OBBLIGATORIA: un'esenzione senza data è la porta di AR-338, e infatti
+//     una scritta senza data non zittisce niente, si accusa da sola.
+//
 // Uso:
 //   node cervello/sorvegliante.mjs              # diff del working tree + staged vs HEAD
 //   node cervello/sorvegliante.mjs --hook       # per l'hook: JSON che arriva al modello, SEMPRE exit 0
 //   node cervello/sorvegliante.mjs --battito    # «il canale è vivo?» — quando ha girato l'ultima volta
 //   node cervello/sorvegliante.mjs --staged     # solo lo staged (è la forma che usa il pre-commit)
+//   node cervello/sorvegliante.mjs --base <spec> # confronta con QUESTO (è la forma che usa la CI)
 //   node cervello/sorvegliante.mjs --json
 //
 // Uscita (contratto guardiani, AR-322):
 //   0 = nessuna voce grave sul mio delta
 //   1 = almeno una voce grave: l'ho introdotta io, adesso
-//   2 = non ho potuto misurare (git assente, registri illeggibili) — «cieco» NON è verde
+//   2 = non ho potuto misurare (git assente, registri illeggibili, fusione in corso, perimetro
+//       vuoto con un `--base` esplicito) — «cieco» NON è verde
 //
 // 🟢 Sola lettura sul repo: non tocca git, non modifica file versionati. L'UNICA scrittura è il
 //    battito in `--hook`, fuori da git (vedi sopra): senza, il canale non è verificabile.
@@ -279,6 +318,247 @@ export function esenzioniAggiunte(aggiunte = [], file = "") {
   return [...new Set([...daBaseline, ...daArray])];
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Ⓔ LA VIA DI ESENZIONE TRACCIATA (4/8) — «se una voce è un falso rosso, l'unica risposta possibile
+// è ignorarla».
+//
+// PERCHÉ ESISTE. Non per far tacere la guardia: per impedirle di mentire al proprio contatore. Dal
+// 3/8 ogni voce ha un contatore («⟲ già detto 12 volte») e a INSISTENZA scatta il cancello dello
+// Stop. Ma non esisteva nessun modo di RISPONDERE a una voce: né «l'ho curata» (quello si vede da
+// solo, la voce sparisce) né «questa è sbagliata». Quindi un falso positivo saliva come un vero,
+// finché la macchina si bloccava da sola per un errore suo — e il primo che impara a scorrere il
+// verdetto in quel caso sono io. Un contatore che conta anche i falsi non è una misura, è rumore
+// con un numero davanti.
+//
+// LA FORMA, e perché è così stretta:
+//
+//     sorvegliante: ok <classe|*> fino al AAAA-MM-GG — <perché>
+//
+// · LA CLASSE, perché un'esenzione al volo su tutto il file spegnerebbe anche i controlli che
+//   nessuno ha guardato. `*` esiste, ma va scritto: è una scelta, non l'impostazione di partenza.
+// · LA DATA È OBBLIGATORIA. Un'esenzione senza scadenza è esattamente la porta di AR-338 («zittire
+//   una malattia senza curarla»), e questo file la nomina già due volte: nel controllo ③ («un'attesa
+//   senza scadenza è un'esenzione travestita») e nel controllo ⑧. Sarebbe stato assurdo aprirla qui.
+//   Scaduta, la voce TORNA da sola e si porta dietro la data: è il promemoria che nessuno scriverà.
+// · IL PERCHÉ, con un minimo di sostanza. «ok — boh» non è una risposta, è la stessa riga di prima
+//   con meno rumore.
+// · E una scritta MALFATTA non zittisce niente: diventa una voce sua. Il modo più naturale di
+//   sbagliare qui è scrivere l'esenzione e dimenticare la data — cioè ottenere per distrazione
+//   proprio l'esenzione perpetua che la forma vuole impedire.
+//
+// DOVE SI LEGGONO, e questa riga l'ha scritta il difetto invece del progetto. La prima stesura
+// leggeva i marcatori in QUALUNQUE file toccato, esentando solo `SALTA_MALATTIE`. Poi ho scritto la
+// scheda di cantiere che documenta questa forma — nel vault, in prosa — e la guardia me l'ha
+// contestata come «esenzione malfatta»: aveva letto una SPIEGAZIONE come una dichiarazione. È
+// «menzione ≠ chiamata» per la quinta volta in questo repo, e stavolta l'ho presa scrivendo il
+// commento che dice di averla evitata.
+//
+// La regola giusta era già in casa, nel controllo ⑥b: in un file di prosa non esiste nessuna
+// chiamata, ogni riga è una menzione. Quindi i marcatori valgono SOLO nei file di codice
+// (`eCodice`) e non di prosa (`ePROSA`), più l'esenzione di `SALTA_MALATTIE` — dove la forma è
+// scritta per essere insegnata. Il prezzo, detto: un falso rosso dentro il sorvegliante stesso, o
+// dentro un `.md`, non si può zittire così. E va bene: là il rumore costa meno del silenzio.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Il minimo di sostanza di un «perché». Corto apposta: il freno è la data, non la lunghezza. */
+export const PERCHE_MIN = 10;
+
+/** La forma buona, per intero. La data in cifre (non `AAAA-MM-GG`) è ciò che distingue una
+ *  dichiarazione da una spiegazione — ed è la ragione per cui questo file può documentarsi da solo. */
+export const ESENZIONE_BUONA = /sorvegliante:\s*ok\s+([\w*-]+)\s+fino al\s+(\d{4}-\d{2}-\d{2})\s*[—–-]\s*(\S.*?)\s*$/;
+
+/** Il tentativo, buono o rotto che sia: serve a distinguere «non ne ha scritta nessuna» da «ne ha
+ *  scritta una e le manca un pezzo». Senza, una data dimenticata sarebbe silenzio — cioè un'esenzione
+ *  perpetua ottenuta per distrazione, che è il caso che questa forma esiste per impedire. */
+export const ESENZIONE_TENTATA = /sorvegliante:\s*ok\b/;
+
+/**
+ * I marcatori dichiarati dentro un file.
+ *
+ * @returns {{valide:Array<{classe:string,scadenza:string,perche:string,riga:number}>, rotte:Array<{riga:number,testo:string,manca:string}>}}
+ */
+export function esenzioniDichiarate(contenuto = "") {
+  const valide = [];
+  const rotte = [];
+  if (typeof contenuto !== "string") return { valide, rotte };
+  contenuto.split("\n").forEach((testo, i) => {
+    if (!ESENZIONE_TENTATA.test(testo)) return;
+    const m = ESENZIONE_BUONA.exec(testo);
+    if (!m) {
+      rotte.push({ riga: i + 1, testo: testo.trim(), manca: "la scadenza «fino al AAAA-MM-GG» o il perché dopo il trattino" });
+      return;
+    }
+    if (m[3].length < PERCHE_MIN) {
+      rotte.push({ riga: i + 1, testo: testo.trim(), manca: "un perché vero (qui ci sono meno di dieci caratteri)" });
+      return;
+    }
+    valide.push({ classe: m[1], scadenza: m[2], perche: m[3], riga: i + 1 });
+  });
+  return { valide, rotte };
+}
+
+/** In questo file una scritta «sorvegliante: ok …» è una DICHIARAZIONE o solo una menzione?
+ *  Dichiarazione solo dove qualcosa si esegue: codice, non prosa, non i file che insegnano la forma. */
+export const leggeMarcatori = (file = "") => eCodice(file) && !ePROSA(file) && !esenteDaMalattie(file);
+
+/** Questa dichiarazione copre questa voce? `*` copre tutto, ma va scritto apposta. */
+export const copre = (esenzione, voce) => esenzione.classe === "*" || esenzione.classe === voce.classe;
+
+/**
+ * Applica le esenzioni alle voci. Pura: riceve i contenuti, non li legge dal disco.
+ *
+ * Tre esiti, e il terzo è quello che rende la cosa un freno invece di un interruttore:
+ *   · esenzione viva      → la voce esce dall'elenco, e viene CONTATA a parte (mai sparita in
+ *                           silenzio: un'esenzione muta è la stessa bugia con il segno cambiato).
+ *   · esenzione scaduta   → la voce resta E si porta dietro la data di scadenza.
+ *   · esenzione malfatta  → la voce resta, e ne nasce una nuova sulla scritta rotta.
+ *
+ * Le informative non si esentano: `raggio` e `deriva` sono quadri, non compiti, e non entrano
+ * nemmeno nel contatore (vedi il blocco dell'esito). Esentare una domanda non vuol dire niente.
+ */
+export function filtraEsentate(voci = [], contenutoPerFile = new Map(), oggi = "") {
+  const tenute = [];
+  const esentate = [];
+  const cache = new Map();
+  const dichiarate = (file) => {
+    if (!file) return { valide: [], rotte: [] };
+    if (!cache.has(file)) cache.set(file, esenzioniDichiarate(contenutoPerFile.get(file) ?? ""));
+    return cache.get(file);
+  };
+
+  for (const v of voci) {
+    if (v.gravita === "informativa") {
+      tenute.push(v);
+      continue;
+    }
+    const { valide } = dichiarate(v.file);
+    const viva = valide.find((e) => copre(e, v) && e.scadenza >= oggi);
+    if (viva) {
+      esentate.push({ ...v, esenzione: viva });
+      continue;
+    }
+    const scaduta = valide.find((e) => copre(e, v));
+    tenute.push(
+      scaduta
+        ? { ...v, cosa: `${v.cosa} — l'esenzione era scaduta il ${scaduta.scadenza}`, scaduta: scaduta.scadenza }
+        : v,
+    );
+  }
+
+  // Le scritte rotte: una voce per ognuna, anche nei file dove non c'era nient'altro da dire. È il
+  // caso in cui il silenzio sarebbe peggio del rosso — chi l'ha scritta CREDE di aver risposto.
+  for (const [file, contenuto] of contenutoPerFile) {
+    for (const r of esenzioniDichiarate(contenuto).rotte) {
+      tenute.push({
+        classe: "esenzione-malfatta",
+        gravita: "media",
+        file,
+        riga: r.riga,
+        cosa: `esenzione scritta ma non valida: manca ${r.manca}`,
+        perche: "così non zittisce niente, e chi l'ha scritta crede di aver risposto. Una senza scadenza sarebbe peggio: è la porta di AR-338, l'esenzione perpetua ottenuta per distrazione.",
+        domanda: "la forma è `sorvegliante: ok <classe|*> fino al AAAA-MM-GG — <perché>`. Fino a quando vale, e perché?",
+      });
+    }
+  }
+
+  return { voci: tenute, esentate };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Ⓒ LA FUSIONE IN CORSO (4/8) — il falso rosso che questo repo ha già pagato (AR-503).
+//
+// `git diff HEAD` prende TUTTO l'albero di lavoro, e durante un merge o un rebase l'albero contiene
+// anche le righe che sta portando dentro qualcun altro. La guardia le ha già chiamate mie una volta.
+// Non si può disambiguare davvero — nel mezzo di un merge «mio» non ha un confine netto — e infatti
+// qui non si prova: si DICHIARA. Le voci restano visibili, perché possono benissimo essere vere; ma
+// l'esito diventa cieco, e un cieco non è verde né rosso. È la differenza fra sbagliare e mentire.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** I file che git lascia nella SUA cartella mentre una fusione è a metà. Non è un elenco dedotto dai
+ *  casi che ho visto (sarebbe AR-347): sono gli stati che git documenta, tutti.
+ *
+ *  Nomi NUDI, non percorsi: dove sia la cartella di git lo sa solo git. In un worktree `.git` è un
+ *  FILE che punta altrove e `MERGE_HEAD` vive sotto `.git/worktrees/<nome>/` — quindi un `.git/…`
+ *  scritto a mano qui non troverebbe mai niente. L'ho scoperto provando questa riparazione dal vivo
+ *  dentro un worktree: il controllo esisteva, la prova pura era verde e la fusione non veniva
+ *  riconosciuta. Un percorso costruito a mano al posto di una domanda alla porta — la stessa forma
+ *  di AR-339, e stavolta l'ha presa il collaudo end-to-end invece della rilettura. */
+export const STATI_FUSIONE = [
+  ["MERGE_HEAD", "una fusione (merge)"],
+  ["REBASE_HEAD", "un rebase"],
+  ["rebase-merge", "un rebase interattivo"],
+  ["rebase-apply", "un rebase o un `git am`"],
+  ["CHERRY_PICK_HEAD", "un cherry-pick"],
+  ["REVERT_HEAD", "un revert"],
+];
+
+/** Quale fusione è in corso, o `null`. Pura: la domanda «git ha questo file di stato?» arriva da
+ *  fuori, perché solo chi tocca il disco sa dove git tenga la sua cartella. */
+export function fusioneInCorso(esiste = () => false) {
+  const trovato = STATI_FUSIONE.find(([nome]) => esiste(nome));
+  return trovato ? trovato[1] : null;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Ⓑ I SALTI DICHIARATI e Ⓓ L'ALTRO REPO (4/8) — due cecità legittime, taciute entrambe.
+//
+// Non hanno niente in comune se non la forma del difetto, che è la stessa e vale la pena scriverla
+// una volta: una guardia può benissimo DECIDERE di non guardare una cosa (un file da mezzo mega a
+// ogni Edit, un repo che non è il suo). Quella scelta è giusta. Quello che non può fare è lasciar
+// credere di averla guardata — perché a quel punto la parte non misurata e la parte pulita escono
+// dalla stessa bocca con lo stesso colore. È letteralmente la prima riga del registro delle malattie
+// di questa casa: «il verde non vuol dire niente».
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Oltre questo, un file nuovo non si apre. Non è pigrizia: un export finito lì per sbaglio farebbe
+ *  leggere megabyte a OGNI modifica, e una guardia lenta viene staccata come una rumorosa. */
+export const TETTO_BYTE = 512 * 1024;
+
+/** Quanti nomi mostrare prima di passare al conteggio: la busta deve restare leggibile in un colpo. */
+export const NOMI_IN_CHIARO = 3;
+
+const elencoCorto = (f = []) =>
+  `${f.slice(0, NOMI_IN_CHIARO).join(", ")}${f.length > NOMI_IN_CHIARO ? ` (+${f.length - NOMI_IN_CHIARO})` : ""}`;
+
+/**
+ * Ⓐ Il perimetro vuoto è una risposta o una cecità?
+ *
+ * Dipende da chi ha chiesto. Senza `base`, «albero pulito» vuol dire davvero «non c'è niente da
+ * guardare»: è la risposta giusta e vale 0. Con un `base` esplicito no — qualcuno mi ha chiesto di
+ * confrontare con QUALCOSA, e non aver trovato niente significa che il confronto non ha funzionato.
+ * È il caso esatto in cui la CI stampava verde da un albero appena clonato.
+ */
+export function motiviPerimetro({ base = null, nToccati = 0, nRimossi = 0 } = {}) {
+  if (!base || nToccati || nRimossi) return [];
+  return [`confronto con «${base}» a mani vuote: nessun file nel perimetro, quindi non ho misurato niente`];
+}
+
+/** I salti di questo giro, detti in italiano. Pura: riceve gli elenchi, non tocca il disco. */
+export function motiviSalti({ grossi = [], illeggibili = [] } = {}) {
+  const fuori = [];
+  if (grossi.length) fuori.push(`${grossi.length} file nuovo/i oltre il tetto dei byte, non aperto/i: ${elencoCorto(grossi)}`);
+  if (illeggibili.length) fuori.push(`${illeggibili.length} file nuovo/i illeggibile/i: ${elencoCorto(illeggibili)}`);
+  return fuori;
+}
+
+/** Dove sta la copia del sito. Da `MARKETPLACE_REPO` se c'è — la stessa porta che usano i workflow e
+ *  i senior — altrimenti la cartella dove `collega-marketplace.mjs` la mette. */
+export const CARTELLA_MARKETPLACE = "marketplace";
+
+/**
+ * L'avviso sull'altro repo. Pura, così la prova può simulare una copia sporca senza clonare niente.
+ *
+ * Silenzio in due casi, e sono due «no» diversi: la copia non c'è (allora non sto lavorando sul sito
+ * e non c'è niente da dichiarare) oppure è pulita (nessun lavoro non committato che io stia perdendo
+ * di vista). Parla solo quando c'è del lavoro vero fuori dal mio sguardo.
+ */
+export function motiviMarketplace({ presente = false, sporchi = 0, leggibile = true } = {}) {
+  if (!presente) return [];
+  if (!leggibile) return [`la copia del sito in ${CARTELLA_MARKETPLACE}/ c'è ma non ho potuto chiederle come sta: non so se ci sto lasciando del lavoro non guardato`];
+  if (!sporchi) return [];
+  return [`${sporchi} file modificati nel repo del sito (${CARTELLA_MARKETPLACE}/): è un altro repo, lì non arrivo — nessuno dei miei controlli li ha guardati`];
+}
+
 /**
  * @param {object} ing
  * @param {Array<{file:string, aggiunte:Array<{n:number,testo:string}>, contenuto?:string|null}>} ing.toccati
@@ -298,6 +578,7 @@ export function sorveglia({
   esiste = () => true,
   rimossi = [],
   difese = new Map(),
+  oggi = "",
 } = {}) {
   const voci = [];
   const motivi = [];
@@ -629,7 +910,20 @@ export function sorveglia({
     });
   }
 
-  return { voci, cieco: motivi.length > 0, motivi };
+  // Ⓔ le esenzioni dichiarate, per ultime: prima si guarda tutto, poi si risponde. I file di
+  // `SALTA_MALATTIE` non si leggono (vedi il perché accanto alla forma: qui dentro il marcatore è
+  // scritto per essere spiegato, e un lettore ingenuo lo prenderebbe per una dichiarazione vera).
+  const contenutoPerFile = new Map(
+    toccati
+      .filter((t) => leggeMarcatori(t.file) && typeof t.contenuto === "string")
+      .map((t) => [t.file, t.contenuto]),
+  );
+  const { voci: rimaste, esentate } = filtraEsentate(voci, contenutoPerFile, oggi);
+  // Un'esenzione applicata senza sapere CHE GIORNO è oggi non è un'esenzione: è un interruttore.
+  // Meglio dirlo che far finta che la scadenza sia stata controllata.
+  if (esentate.length && !oggi) motivi.push("non so che giorno è oggi: le scadenze delle esenzioni non le ho potute controllare");
+
+  return { voci: rimaste, cieco: motivi.length > 0, motivi, esentate };
 }
 
 /** Il nome del file senza cartelle. Qui e non da `node:path` perché il cuore resta puro: nessun
@@ -819,7 +1113,7 @@ export function vociDaScatto(viste = {}, scattoDa = 0, scattoOra = 0) {
  * Torna la stringa da stampare, o `null` quando non c'è niente da dire (tacere è la scelta giusta:
  * un avvisatore che parla a ogni modifica viene spento entro la settimana — il battito copre il resto).
  */
-export function bustaPerIlModello(voci = [], nToccati = 0, viste = {}) {
+export function bustaPerIlModello(voci = [], nToccati = 0, viste = {}, { motivi = [], esentate = [] } = {}) {
   const rossi = gravi(voci);
   const righe = [];
   // «Te l'ho già detto N volte» è la sola parte che trasforma un avviso in un esito: senza, la
@@ -850,6 +1144,18 @@ export function bustaPerIlModello(voci = [], nToccati = 0, viste = {}) {
   const deriva = voci.find((v) => v.classe === "deriva");
   if (deriva) righe.push(`🧭 ${deriva.cosa}\n   ↳ ${deriva.domanda}`);
   if (rossi.length > 4) righe.push(`   …e altre ${rossi.length - 4} voci gravi: node cervello/sorvegliante.mjs`);
+  // ⚪ CIÒ CHE NON HO GUARDATO (4/8, riparazioni Ⓑ Ⓒ Ⓓ). Fino a oggi i «non ho potuto misurare»
+  // esistevano solo nella forma da terminale — cioè nell'unica forma che in una sessione non legge
+  // NESSUNO. Il canale che conta è questo, e qui non arrivavano: una cecità dichiarata a chi non la
+  // legge è una cecità taciuta, ed è la stessa forma di AR-465 un piano più giù. Due righe al massimo,
+  // per la stessa ragione per cui i rossi si fermano a quattro: la busta deve stare in un colpo d'occhio.
+  for (const m of motivi.slice(0, 2)) righe.push(`⚪ non ho guardato: ${m}`);
+  if (motivi.length > 2) righe.push(`⚪ …e altri ${motivi.length - 2} punti non misurati`);
+  // Le esenzioni non spariscono in silenzio: un interruttore muto è la stessa bugia col segno cambiato.
+  if (esentate.length) {
+    const prima = esentate[0];
+    righe.push(`🤫 ${esentate.length} voce/i esentata/e (scade ${prima.esenzione?.scadenza || "?"}): ${prima.classe} · ${prima.file}`);
+  }
   if (!righe.length) return null;
   const testo = [`👁️ SORVEGLIANTE — ${nToccati} file toccati da questa modifica`, ...righe].join("\n");
   return JSON.stringify({
@@ -1101,6 +1407,57 @@ function indiceImportatori(fileRel = []) {
   return idx;
 }
 
+/**
+ * C'è una fusione a metà? — l'unico pezzo di Ⓒ che tocca il disco.
+ *
+ * Due scelte, e tutte e due sono state SBAGLIATE alla prima stesura, ognuna presa da un guardiano
+ * diverso di questa stessa casa. Vale la pena scriverle, perché sono la stessa lezione da due lati:
+ *
+ * ① DOVE. La cartella di git si CHIEDE a git (`--absolute-git-dir`), non si compone come `.git/…`.
+ *    In un worktree `.git` è un file e quei nomi vivono altrove — quindi la prima versione, provata
+ *    dal vivo dentro un worktree con un merge vero a metà, non l'ha riconosciuto. Le prove pure
+ *    erano verdi: misuravano la funzione, non la domanda. (Stessa forma di AR-339.)
+ *
+ * ② COSA TORNA QUANDO NON SI SA. La prima versione faceva `catch { return false }`, cioè trasformava
+ *    «git non mi ha risposto» in «nessuna fusione in corso» — e il commento accanto lo giustificava
+ *    dicendo che tanto la cecità era già dichiarata altrove. L'ha bocciata `spazzata-fratelli` come
+ *    istanza NUOVA di `fonte-troncata-letta-per-intera`, ed è nel giusto: quella era una scusa. Il
+ *    fallimento di `rev-parse` e quello di `diff` sono due eventi diversi, e la parte non letta deve
+ *    arrivare al verdetto. Adesso l'ignoranza ha un valore suo (`leggibile: false`) e diventa una
+ *    riga fra i «non ho guardato» — che è precisamente ciò che le cinque riparazioni di oggi fanno.
+ *
+ * Una chiamata a git sola, non una per stato: sei domande a ogni Edit sarebbero il modo in cui una
+ * guardia diventa lenta, e una guardia lenta viene staccata come una rumorosa.
+ */
+export function statoFusione() {
+  let dir;
+  try {
+    dir = execFileSync("git", ["rev-parse", "--absolute-git-dir"], { cwd: REPO, encoding: "utf8" }).trim();
+  } catch (e) {
+    return { fusione: null, leggibile: false, errore: e.message.split("\n")[0] };
+  }
+  if (!dir) return { fusione: null, leggibile: false, errore: "git non dice dove tiene la sua cartella" };
+  return { fusione: fusioneInCorso((nome) => existsSync(join(dir, nome))), leggibile: true };
+}
+
+/**
+ * Come sta la copia del sito, chiesto alla porta. L'unico pezzo di Ⓓ che tocca il disco.
+ *
+ * `git status --porcelain` e non un conteggio a mano: è l'unica risposta che tiene conto del
+ * `.gitignore` di QUEL repo. Costa una manciata di millisecondi e gira solo se la cartella c'è.
+ */
+export function statoMarketplace() {
+  const dove = join(REPO, process.env.MARKETPLACE_REPO || CARTELLA_MARKETPLACE);
+  if (!existsSync(join(dove, ".git"))) return { presente: false, sporchi: 0, leggibile: true };
+  try {
+    const fuori = execFileSync("git", ["status", "--porcelain"], { cwd: dove, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
+    return { presente: true, sporchi: fuori.split("\n").filter((r) => r.trim()).length, leggibile: true };
+  } catch {
+    // La cartella c'è ma git non risponde: è una cecità, non un'assenza. Sono due verdetti diversi.
+    return { presente: true, sporchi: 0, leggibile: false };
+  }
+}
+
 function leggiRegistro(nome, campo) {
   const p = join(QUI, nome);
   if (!existsSync(p)) return null;
@@ -1170,16 +1527,39 @@ export function difeseDelRepo() {
  *
  * @returns {{errore:string|null, esito:object, toccati:Array}}
  */
-export function verdettoDelDelta({ soloStaged = false } = {}) {
+export function verdettoDelDelta({ soloStaged = false, base = null } = {}) {
+  // I motivi raccolti QUI, fuori dal cuore: sono cecità dell'I/O (un file non aperto, una fusione in
+  // corso, un altro repo), non del ragionamento. Il cuore resta puro e ne aggiunge dei suoi.
+  const motiviIO = [];
   let diff;
   try {
     // `-U0`: solo le righe cambiate, niente contesto — il contesto NON è mio, e contarlo
     // trasformerebbe il codice di qualcun altro in una mia colpa.
-    diff = soloStaged ? git(["diff", "--cached", "-U0"]) : git(["diff", "HEAD", "-U0"]);
+    //
+    // Ⓐ `base` è la riparazione del 4/8: in CI il confronto giusto NON è `HEAD` (là l'albero è appena
+    // clonato, quindi pulito, quindi il perimetro è vuoto e il verdetto è un verde che non ha
+    // misurato niente). Il chiamante passa l'antenato comune col ramo pubblicato — lo stesso che il
+    // cancello del lotto usa già per i difetti, non un secondo calcolo che divergerebbe.
+    diff = soloStaged ? git(["diff", "--cached", "-U0"]) : git(["diff", base || "HEAD", "-U0"]);
   } catch (e) {
     // Nessun HEAD (repo appena nato) o git assente: cieco, e cieco non è verde.
     return { errore: e.message.split("\n")[0], esito: { voci: [], cieco: true, motivi: [] }, toccati: [] };
   }
+
+  // Ⓒ una fusione a metà: le righe nell'albero non sono tutte mie, e non c'è modo di separarle.
+  //    E se git non risponde alla domanda, quello è un TERZO stato — non «nessuna fusione».
+  const fus = statoFusione();
+  if (fus.fusione) {
+    motiviIO.push(`c'è ${fus.fusione} in corso: il diff contiene anche righe che non ho scritto io, e non so quali`);
+  } else if (!fus.leggibile) {
+    motiviIO.push(`non ho potuto chiedere a git se c'è una fusione in corso (${fus.errore}): se c'è, alcune di queste righe non sono mie`);
+  }
+
+  // Ⓓ l'altro repo. `git` gira sulla radice di QUESTA casa e la copia del sito è esclusa apposta
+  // (`.gitignore`), quindi quando lavoro sul marketplace questa guardia non vede niente — e tacere
+  // equivale a dire «tutto a posto». Parla solo se lì c'è davvero del lavoro non committato: un
+  // avviso che compare anche a cartella pulita sarebbe rumore, e il rumore spegne i freni.
+  motiviIO.push(...motiviMarketplace(statoMarketplace()));
 
   const perFile = leggiDiff(diff);
 
@@ -1198,17 +1578,30 @@ export function verdettoDelDelta({ soloStaged = false } = {}) {
     } catch {
       nuovi = [];
     }
+    // Ⓑ i salti si CONTANO. Prima erano due `continue` muti, e un file saltato in silenzio non
+    // entrava fra i «⚪ non ho potuto misurare»: cioè la guardia diceva di aver guardato un file che
+    // non ha aperto. È la regola di casa violata dentro il guardiano che la fa rispettare — e il
+    // punto non è che il tetto sui byte sia sbagliato (non lo è: senza, un export finito lì per
+    // sbaglio farebbe leggere megabyte a ogni Edit), è che una scelta legittima non va taciuta.
+    const grossi = [];
+    const illeggibili = [];
     for (const f of nuovi) {
       if (perFile.has(f)) continue;
       const abs = join(REPO, f);
       try {
-        if (statSync(abs).size > 512 * 1024) continue;
+        if (statSync(abs).size > TETTO_BYTE) {
+          grossi.push(f);
+          continue;
+        }
         const righe = righeDiFileNuovo(readFileSync(abs, "utf8"));
         if (righe && righe.length) perFile.set(f, righe);
       } catch {
-        // Illeggibile o sparito tra il `ls-files` e la lettura: non è una colpa, è un file che non c'è.
+        // Illeggibile o sparito tra il `ls-files` e la lettura: non è una colpa, è un file che non
+        // ho guardato — e la differenza fra le due cose è tutta questa riga.
+        illeggibili.push(f);
       }
     }
+    motiviIO.push(...motiviSalti({ grossi, illeggibili }));
   }
 
   const malattie = leggiRegistro("malattie.json", "malattie");
@@ -1243,7 +1636,11 @@ export function verdettoDelDelta({ soloStaged = false } = {}) {
     esiste: (p) => existsSync(join(REPO, p)),
     rimossi,
     difese,
+    oggi: new Date().toISOString().slice(0, 10),
   });
+  esito.motivi.push(...motiviIO);
+  esito.motivi.push(...motiviPerimetro({ base, nToccati: toccati.length, nRimossi: rimossi.length }));
+  esito.cieco = esito.motivi.length > 0;
   if (malattie === null) esito.motivi.push("cervello/malattie.json illeggibile");
   if (mutanti === null) esito.motivi.push("cervello/mutanti.json illeggibile");
   if (lezioni === null) esito.motivi.push(`${APPRENDIMENTO} illeggibile: non so quali test siano il freno di una lezione`);
@@ -1281,7 +1678,7 @@ export function scatto(esito, nToccati) {
     // Un battito che non si scrive non deve fermare il lavoro in corso: resta il verdetto, che è la
     // parte che conta. `--battito` dirà «mai scattato», ed è la risposta onesta.
   }
-  return bustaPerIlModello(esito.voci, nToccati, viste);
+  return bustaPerIlModello(esito.voci, nToccati, viste, { motivi: esito.motivi || [], esentate: esito.esentate || [] });
 }
 
 function main() {
@@ -1289,6 +1686,15 @@ function main() {
   const hook = argv.includes("--hook");
   const soloStaged = argv.includes("--staged");
   const json = argv.includes("--json");
+  // Ⓐ `--base <spec>`: con cosa confrontarsi. Chi lo passa (la CI) lo sa meglio di me — l'antenato
+  // comune col ramo pubblicato lo calcola già il cancello del lotto, e ricalcolarlo qui vorrebbe
+  // dire tenere due risposte alla stessa domanda, che col tempo divergono sempre.
+  const iBase = argv.indexOf("--base");
+  const base = iBase >= 0 && argv[iBase + 1] && !argv[iBase + 1].startsWith("--") ? argv[iBase + 1] : null;
+  if (iBase >= 0 && !base) {
+    console.error("👁️ SORVEGLIANTE — `--base` vuole uno spec git subito dopo (es. `--base origin/main`).");
+    process.exit(2);
+  }
 
   // «Hai girato o no?» — prima di tutto il resto, perché è la domanda che si fa quando si sospetta
   // che la guardia sia morta, e in quel momento il diff non c'entra niente.
@@ -1304,7 +1710,7 @@ function main() {
     process.exit(v.uscita);
   }
 
-  const { errore, esito, toccati } = verdettoDelDelta({ soloStaged });
+  const { errore, esito, toccati } = verdettoDelDelta({ soloStaged, base });
   if (errore) {
     if (hook) {
       console.log("👁️ sorvegliante: cieco (git non leggibile) — nessun controllo sul delta");
@@ -1334,8 +1740,11 @@ function main() {
     process.exit(0);
   }
 
-  console.log(`\n👁️ SORVEGLIANTE — ${toccati.length} file toccati nel delta\n`);
-  if (!toccati.length) {
+  console.log(`\n👁️ SORVEGLIANTE — ${toccati.length} file toccati nel delta${base ? ` (confronto con «${base}»)` : ""}\n`);
+  // Ⓐ «zero file» NON è più un'uscita anticipata. Era qui che la CI moriva: `process.exit(0)` prima
+  // ancora di stampare i «non ho potuto misurare», cioè il verde stampato proprio nel caso in cui
+  // non era stato guardato niente. Adesso si prosegue e la coda decide — se c'è un motivo, è cieco.
+  if (!toccati.length && !esito.motivi.length) {
     console.log("   nessuna modifica da guardare.");
     process.exit(0);
   }
@@ -1350,6 +1759,15 @@ function main() {
   if (esito.motivi.length) {
     console.log("⚪ non ho potuto misurare:");
     for (const m of esito.motivi) console.log(`   · ${m}`);
+    console.log("");
+  }
+  // Ⓔ le esentate si mostrano sempre: se sparissero in silenzio, questa via sarebbe un interruttore
+  // e non una risposta — e fra sei mesi nessuno saprebbe quali controlli sono spenti né da quando.
+  if (esito.esentate?.length) {
+    console.log(`🤫 ${esito.esentate.length} voce/i esentata/e con dichiarazione:`);
+    for (const v of esito.esentate) {
+      console.log(`   · ${v.classe} — ${v.file} · scade ${v.esenzione.scadenza} · ${v.esenzione.perche}`);
+    }
     console.log("");
   }
   if (rossi.length) {

@@ -1736,6 +1736,86 @@
    "cerca": "for (const m of String(c?.comando || \"\").matchAll(/\\bcervello\\/([a-z0-9._-]+)\\.mjs/g)) fuori.add(`${m[1]}.mjs`);",
    "sostituisci": "for (const m of []) fuori.add(`${m[1]}.mjs`);",
    "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+  },
+  {
+   "difetto": "AR-531",
+   "nome": "il perimetro vuoto con una base esplicita torna a passare per pulito (il verde della CI)",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  if (!base || nToccati || nRimossi) return [];",
+   "sostituisci": "  return [];",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-531",
+   "nome": "il cancello del lotto torna a lanciare il sorvegliante senza dirgli con cosa confrontarsi",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "[\"cervello/sorvegliante.mjs\", \"--base\", base.spec]",
+   "sostituisci": "[\"cervello/sorvegliante.mjs\"]",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-532",
+   "nome": "i file saltati per i byte tornano a sparire in silenzio",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  if (grossi.length) fuori.push(",
+   "sostituisci": "  if (false) fuori.push(",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-533",
+   "nome": "la fusione in corso smette di essere dichiarata e le righe di un merge tornano mie (AR-503)",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  const trovato = STATI_FUSIONE.find(([nome]) => esiste(nome));",
+   "sostituisci": "  const trovato = null;",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-533",
+   "nome": "«git non risponde» torna a valere come «nessuna fusione»",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    return { fusione: null, leggibile: false, errore: e.message.split(\"\\n\")[0] };",
+   "sostituisci": "    return { fusione: null, leggibile: true };",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-534",
+   "nome": "il repo del sito torna cieco e zitto: nessuno dice che li non si arriva",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  if (!sporchi) return [];",
+   "sostituisci": "  return [];",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-535",
+   "nome": "un esenzione senza scadenza torna a zittire per sempre (la porta di AR-338)",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "export const ESENZIONE_BUONA = /sorvegliante:\\s*ok\\s+([\\w*-]+)\\s+fino al\\s+(\\d{4}-\\d{2}-\\d{2})\\s*[—–-]\\s*(\\S.*?)\\s*$/;",
+   "sostituisci": "export const ESENZIONE_BUONA = /sorvegliante:\\s*ok\\s+([\\w*-]+)\\s*(\\d{0,4}-?\\d{0,2}-?\\d{0,2})\\s*[—–-]?\\s*(.*?)\\s*$/;",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-535",
+   "nome": "un esenzione scaduta torna a valere: la data diventa decorazione",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    const viva = valide.find((e) => copre(e, v) && e.scadenza >= oggi);",
+   "sostituisci": "    const viva = valide.find((e) => copre(e, v));",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-535",
+   "nome": "le voci esentate spariscono in silenzio invece di restare contate",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "      esentate.push({ ...v, esenzione: viva });",
+   "sostituisci": "      continue;",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-536",
+   "nome": "i «non ho guardato» tornano fuori dalla busta, cioe fuori da dove li leggo (AR-465)",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  for (const m of motivi.slice(0, 2)) righe.push(`⚪ non ho guardato: ${m}`);",
+   "sostituisci": "",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   }
  ]
 }
