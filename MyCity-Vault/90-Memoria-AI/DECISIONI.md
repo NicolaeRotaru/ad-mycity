@@ -1334,3 +1334,19 @@ misurato davvero (non cieco).
   · **Cosa resta a Nicola.** Solo la firma sul merge. Il cancello esce **2**: i 4 ⚪ sono quelli di sessione (clone superficiale ×3, typecheck del Pannello senza `npm ci`), dichiarati nella PR. · AD
 
 2026-08-04 17:26 · 🟡 · [AD/qa/prompt-engineer] · **Prevenzione a monte accesa (AR-533 chiuso): mano-fermata + scheda su misura ora cablati in `.claude/settings.json`, verificato verde.** Nicola ha incollato lo snippet in tre round: 1° tentativo verifica lanciata dalla home invece che dal repo ("Cannot find module"), 2° tentativo JSON annidato male + virgole mancanti (`JSON.parse` falliva, `cablaggioPresente()` tornava tutto `false`), 3° round col blocco `"hooks"` intero sostituito → `node cervello/mano-fermata.mjs --cablaggio` verde. Prova indipendente nello stesso turno: `contesto-lezioni.mjs --richiesta` ha iniettato 8 lezioni a tema sul prompt successivo di Nicola — il freno gira per davvero, non solo il comando di collaudo dice verde. Lezione salvata: su `settings.json` dare sempre il blocco intero da sostituire, mai istruzioni "aggiungi due righe" — un umano che incolla frammenti in un JSON annidato sbaglia virgole/nesting quasi sempre. · Nicola (chat, screenshot terminale)
+
+## 2026-08-04 20:02 — 🟡 La macchina legge la CI delle proprie PR (e non unisce un rosso)
+**Cosa:** nuovo `cervello/ci-stato.mjs` (+ cuore puro `ci-lettura.mjs`, 13 prove): legge i controlli
+delle PR aperte, e per ogni rosso dice **di chi è** — mio / ereditato dal ramo di partenza / misto /
+ignoto. Agganciato a tre posti: freno duro in `git-merge.mjs` (non si unisce rosso, in-corso o senza
+controlli), sonda + vincolo nel giro, istruzione nei due prompt del worker.
+**Perché:** stasera, prima lettura in assoluto: 6 PR aperte, 5 rosse, 1 senza nemmeno un controllo
+partito. Il colore viveva solo negli occhi di Nicola. E il rosso NON era delle PR: `main` era rosso
+dalle 15:08, ogni PR aperta dopo se lo trascinava.
+**Riparato anche il rosso di main** (due cause, entrambe innescate senza colpa da Nicola che ha
+agganciato gli hook da GitHub): voce `mano-fermata.mjs` diventata falsa in `guardiani-motivi.json`;
+i suoi commit a `settings.json` contati come consegne mute (240 vs tetto 238 → ora 228, exit 0).
+**Non fatto apposta:** il tetto delle consegne mute NON è stato abbassato — il calo viene da una
+misura corretta, non da debito ripagato, e ribassare il cricchetto su un metro appena cambiato è una
+decisione di Nicola.
+**Consegna:** `consegne/tech/2026-08-04-la-macchina-legge-la-ci.md` · PR su `main`.
