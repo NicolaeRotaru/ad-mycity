@@ -145,7 +145,7 @@ const eFixture = (file) => FIXTURE.some((s) => file.startsWith(s));
  *  guardati da ①: una malattia con `estensioni: [".md"]` è una regola sul TESTO, ed è un'altra cosa. */
 export const PROSA = [".md", ".markdown", ".txt"];
 
-/** Quanto può costare UNA malattia su un file prima che smetta di cercarla e lo dica (AR-521).
+/** Quanto può costare UNA malattia su un file prima che smetta di cercarla e lo dica (AR-526).
  *  Due secondi: il giro completo sul repo vero ne costa 0,3 in tutto, quindi qui dentro non ci
  *  finisce mai un pattern sano — e l'hook ha 15 secondi, che restano per tutti gli altri. */
 export const BUDGET_PATTERN_MS = 2000;
@@ -307,7 +307,7 @@ export function sorveglia({
   const voci = [];
   const motivi = [];
 
-  // ⏱️ IL BUDGET DI TEMPO PER PATTERN (AR-521, trovato dall'analisi di sicurezza del 4/8).
+  // ⏱️ IL BUDGET DI TEMPO PER PATTERN (AR-526, trovato dall'analisi di sicurezza del 4/8).
   //
   // I pattern arrivano da `malattie.json`, e una regex scritta male può impiegare un tempo enorme su
   // una riga cortissima: misurato, `(a+)+$` su UNA riga di 29 caratteri tiene occupata la guardia
@@ -615,7 +615,7 @@ export function sorveglia({
       }
     }
 
-    // ⑪ la prova indebolita mentre il codice resta com'era (AR-509, tarata col saldo in AR-512).
+    // ⑪ la prova indebolita mentre il codice resta com'era (AR-509, tarata col saldo in AR-523).
     const ind = provaIndebolita({ file, rimosse, aggiunte: aggiunteQui, toccati: toccati.map((t) => t.file), esiste });
     if (ind) {
       voci.push({
@@ -758,7 +758,7 @@ export function conta(righe = [], file = "") {
 /**
  * ⑪ Ho indebolito la prova invece di riparare il codice?
  *
- * IL SALDO, NON IL GESTO (AR-512, 4/8 — riparazione di un difetto mio del 3/8). La prima stesura
+ * IL SALDO, NON IL GESTO (AR-523, 4/8 — riparazione di un difetto mio del 3/8). La prima stesura
  * guardava le righe TOLTE: «hai rimosso una riga con un assert e non hai toccato il codice». Sembrava
  * giusto e non lo era, perché per chi legge un diff **sostituire** una riga è toglierne una e
  * aggiungerne un'altra. Risultato misurato attaccando la mia stessa funzione: quattro gesti del tutto
@@ -1050,7 +1050,7 @@ export function nomiCitati(testo = "") {
   // cantiere che nomina uno script, una riga di apprendimento — e contarla come dipendenza è la
   // terza comparsa in questo file dello stesso errore: menzione ≠ chiamata. Misurato: senza questo
   // filtro il raggio di cancello-stop.mjs passava da 10 a 86 file, cioè da un elenco a un rumore.
-  // ④ l'indirizzo di una pagina API (AR-519): un `fetch` verso una rotta è un legame vero quanto un
+  // ④ l'indirizzo di una pagina API (AR-524): un `fetch` verso una rotta è un legame vero quanto un
   // import — solo, passa dal browser. Riga per riga e senza i commenti: alla prima prova questo file
   // risultava chiamante di due rotte del Pannello, perché le nomina in un commento per spiegare la
   // regola. È la quarta comparsa di «menzione ≠ chiamata» in questo stesso file, e l'ha trovata la
@@ -1067,7 +1067,7 @@ export function nomiCitati(testo = "") {
 }
 
 /**
- * L'ALTRO NOME DI UNA PAGINA API (AR-519, Nicola 4/8: «quel tipo di legame il raggio non lo vede,
+ * L'ALTRO NOME DI UNA PAGINA API (AR-524, Nicola 4/8: «quel tipo di legame il raggio non lo vede,
  * né prima né adesso»).
  *
  * Nel Pannello una pagina API non la chiama nessun file: la chiama il browser, con un indirizzo —
@@ -1083,10 +1083,10 @@ export function aliasDiRotta(rel = "") {
   const m = String(rel).match(/^pannello\/src\/app\/(api\/.+)\/route\.(?:m?js|ts|tsx)$/);
   if (!m) return null;
   const pieno = `/${m[1]}`;
-  // LA ROTTA COL PARAMETRO (AR-522). `api/lavori/[id]/route.ts` risponde a `/api/lavori/<qualcosa>`,
+  // LA ROTTA COL PARAMETRO (AR-527). `api/lavori/[id]/route.ts` risponde a `/api/lavori/<qualcosa>`,
   // e chi la chiama scrive `fetch(\`/api/lavori/${id}\`)`: nel testo resta solo `/api/lavori`, perché
   // il resto è una variabile. Confrontando la sola forma piena quella rotta risultava senza nessun
-  // chiamante — cioè il falso negativo che AR-519 doveva chiudere, sopravvissuto dentro la sua cura.
+  // chiamante — cioè il falso negativo che AR-524 doveva chiudere, sopravvissuto dentro la sua cura.
   // Quindi una rotta dinamica vale anche per il suo prefisso fisso, che è tutto ciò che il chiamante
   // può scrivere a mano.
   const prefisso = pieno.split("/[")[0];
@@ -1111,7 +1111,7 @@ export const eCodice = (rel = "") => !rel.includes("/") || CARTELLE_CODICE.some(
  * Il limite va DETTO, non nascosto: è scritto nella copertura dichiarata in testa al file.
  */
 export function raggioDueP1assi(cercati = [], citazioni = new Map()) {
-  // IL NOME CORTO VALE SOLO SE E' UNICO (AR-512, riparazione di un difetto mio del 3/8). Il confronto
+  // IL NOME CORTO VALE SOLO SE E' UNICO (AR-523, riparazione di un difetto mio del 3/8). Il confronto
   // sul solo basename e' quello che fa vedere i legami non dichiarati — `join(QUI, "x.mjs")` — ma
   // quando quel nome ce l'hanno in settanta, non identifica piu niente: misurato, nel Pannello ci
   // sono 76 file chiamati `route.ts`, e toccarne uno faceva risultare «22 dipendenti diretti»,

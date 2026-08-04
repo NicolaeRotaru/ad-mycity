@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-04 01:45",
+ "aggiornato": "2026-08-04 03:15",
  "mutanti": [
   {
    "lotto": 30,
@@ -1567,7 +1567,23 @@
    "test": "cervello/test/numeri-prima-delle-risposte.test.mjs"
   },
   {
-   "difetto": "AR-518",
+   "difetto": "AR-519",
+   "nome": "«sostanza» torna a voler dire solo «gergo»: un referto pieno di date e' di nuovo una copertina",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "  if (sottoLaRiga > 3 && paroleTecnicheSopra === 0 && !fattiSopra) {",
+   "sostituisci": "  if (sottoLaRiga > 3 && paroleTecnicheSopra === 0) {",
+   "test": "cervello/test/si-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-520",
+   "nome": "il referto della visita torna ad aprire col conteggio invece che con le quattro risposte",
+   "file": "cervello/salute.mjs",
+   "cerca": "  righe.push(...quattroRisposte(v));",
+   "sostituisci": "",
+   "test": "cervello/test/referto-visita-leggibile.test.mjs"
+  },
+  {
+   "difetto": "AR-523",
    "lezione": "L-2026-0804-551",
    "nome": "il freno sulle prove torna a guardare il gesto invece del saldo: rinominare una variabile ridiventa un blocco",
    "file": "cervello/sorvegliante.mjs",
@@ -1576,7 +1592,7 @@
    "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-518",
+   "difetto": "AR-523",
    "lezione": "L-2026-0804-551",
    "nome": "un assert commentato torna a contare come vivo: commentarlo diventa il modo di spegnere una prova",
    "file": "cervello/sorvegliante.mjs",
@@ -1585,7 +1601,7 @@
    "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-518",
+   "difetto": "AR-523",
    "lezione": "L-2026-0804-551",
    "nome": "il nome corto torna a valere anche quando ce l hanno in settanta: il raggio si gonfia",
    "file": "cervello/sorvegliante.mjs",
@@ -1594,7 +1610,7 @@
    "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-518",
+   "difetto": "AR-523",
    "lezione": "L-2026-0804-551",
    "nome": "la scrittura torna a imporre due spazi: il worker riscrive un registro compatto e il commit gli si blocca in faccia",
    "file": "cervello/scrivi-json.mjs",
@@ -1603,7 +1619,7 @@
    "test": "node --test cervello/test/scritture-e-riaccodi.test.mjs"
   },
   {
-   "difetto": "AR-519",
+   "difetto": "AR-524",
    "lezione": "L-2026-0804-552",
    "nome": "la rotta API torna invisibile: chi la chiama col fetch non conta piu",
    "file": "cervello/sorvegliante.mjs",
@@ -1612,7 +1628,7 @@
    "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-521",
+   "difetto": "AR-526",
    "lezione": "L-2026-0804-552",
    "nome": "il budget per pattern sparisce: una malattia scritta male torna a poter uccidere la guardia",
    "file": "cervello/sorvegliante.mjs",

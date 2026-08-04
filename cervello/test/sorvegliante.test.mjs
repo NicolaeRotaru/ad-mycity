@@ -923,7 +923,7 @@ test("i due giudizi arrivano al verdetto, con il colore giusto", () => {
   assert.equal(gravi(p.voci).length, 1);
 });
 
-// ── AR-512: le due tarature sbagliate del 3/8, trovate attaccando il mio stesso lavoro ─────────
+// ── AR-523: le due tarature sbagliate del 3/8, trovate attaccando il mio stesso lavoro ─────────
 //
 // Nicola, 4/8: «risolvi i 3 difetti». Questi sono i primi due — e non li ha trovati una rilettura,
 // li ha trovati un attacco: chiamare le mie funzioni con i gesti che una persona fa davvero.
@@ -988,7 +988,7 @@ test("⑤ …e il nome corto continua a valere quando e' unico: e' il legame che
   assert.deepEqual(r.diretti, ["cervello/sorvegliante.mjs"], "un nome unico resta un legame");
 });
 
-// ── AR-519: la pagina API la chiama il browser, non un file ────────────────────
+// ── AR-524: la pagina API la chiama il browser, non un file ────────────────────
 //
 // Nicola, 4/8: «quel tipo di legame il raggio non lo vede, né prima né adesso». Nel Pannello ci sono
 // 84 indirizzi chiamati con fetch, e per il grafo erano zero legami: cambiare la risposta di una
@@ -1020,11 +1020,11 @@ test("⑤ l'indirizzo di una rotta si deduce dalla convenzione, non si indovina"
   assert.equal(aliasDiRotta("cervello/sorvegliante.mjs"), null);
 });
 
-test("⑤ una rotta col parametro la si chiama con una variabile: vale anche il suo prefisso (AR-522)", () => {
-  // Trovato attaccando la cura di AR-519: `api/lavori/[id]/route.ts` risponde a `/api/lavori/<x>`, e
+test("⑤ una rotta col parametro la si chiama con una variabile: vale anche il suo prefisso (AR-527)", () => {
+  // Trovato attaccando la cura di AR-524: `api/lavori/[id]/route.ts` risponde a `/api/lavori/<x>`, e
   // chi la chiama scrive fetch(`/api/lavori/${id}`) — nel testo resta solo `/api/lavori`. Confrontando
   // la sola forma piena, quella rotta risultava di nuovo senza chiamanti: il falso negativo che
-  // AR-519 doveva chiudere, sopravvissuto dentro la sua stessa cura.
+  // AR-524 doveva chiudere, sopravvissuto dentro la sua stessa cura.
   assert.deepEqual(aliasDiRotta("pannello/src/app/api/lavori/[id]/route.ts"), ["/api/lavori/[id]", "/api/lavori"]);
   assert.equal(aliasDiRotta("pannello/src/app/api/anomalie/route.ts"), "/api/anomalie", "una rotta fissa resta una stringa sola");
   const citazioni = new Map([

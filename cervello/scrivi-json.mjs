@@ -42,7 +42,7 @@ export function nomeTemporaneo(percorso, pid = process.pid) {
  * Il testo da scrivere: JSON indentato a 2 con l'a-capo finale, come già fanno tutte le copie di
  * `writeJson` in giro per `cervello/`. Pura apposta: è ciò che rende il diff leggibile e va provato.
  *
- * `indent` (AR-512): la forma che il file aveva PRIMA, quando c'è. Due spazi restano il default per i
+ * `indent` (AR-523): la forma che il file aveva PRIMA, quando c'è. Due spazi restano il default per i
  * file nuovi — è la forma di casa, 51 registri su 60 — ma su un file che esiste già la sua forma vince
  * sempre. Il motivo non è estetico ed è misurato due volte: il 30/7 riscrivere `apprendimento.json`
  * con un'indentazione diversa ha prodotto un diff di +12.147/−12.124 righe, e il 3/8 la stessa cosa
@@ -82,7 +82,7 @@ export function indentEsistente(percorso) {
 export function scriviJsonAtomico(percorso, dati) {
   mkdirSync(dirname(percorso), { recursive: true });
   const tmp = nomeTemporaneo(percorso);
-  // La forma del file che c'è già vince sulla mia (AR-512): vedi `testoJson`.
+  // La forma del file che c'è già vince sulla mia (AR-523): vedi `testoJson`.
   const indent = indentEsistente(percorso) ?? 2;
   try {
     writeFileSync(tmp, testoJson(dati, indent), "utf8");

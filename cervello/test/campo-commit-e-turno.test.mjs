@@ -310,7 +310,7 @@ test("SUL CAMPO: rimettere la forma di casa NON è una riformattazione (AR-511)"
   }
 });
 
-test("SUL CAMPO: il commit automatico del worker che aggiorna un registro PASSA (AR-520)", () => {
+test("SUL CAMPO: il commit automatico del worker che aggiorna un registro PASSA (AR-525)", () => {
   // Nicola, 4/8: «il worker sul server vero: da qui lo vedo di riflesso, ho tolto la causa ma non ho
   // visto il server girare». Il server da qui non lo raggiungo — ma il pezzo che rischiava di
   // fermarlo è il pre-commit, e quello posso farlo girare davvero.
