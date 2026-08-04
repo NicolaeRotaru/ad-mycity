@@ -9,7 +9,7 @@ fonte: AD digitale (chat)
 >
 > **Cosa ho fatto in questo passaggio, oltre alla riconferma:**
 > 1. **Il gate `chiusura-loop` si è acceso (HARD).** @ad aveva scritto 3 righe FATTO in Sala Operativa oggi. Nessuna aveva un ESITO nel quaderno. L'ho registrato ora con `node cervello/chiusura-loop.mjs registra @ad …`. Ho ricontrollato il gate: è tornato verde.
-> 2. **Il gate `apprendimento` (HARD) l'ho verificato, non duplicato.** La correzione più ripetuta (area `correzione-nicola`: 26 lezioni, 18 volte ripetuta, mai diventata un freno automatico) ha già una proposta pronta in coda dalle 05:20 di stamattina: `#prevenzione-a-monte`. Servono due righe incollate in `.claude/settings.json`. Manca solo la tua firma. Non ho scritto un secondo freno sopra a quello già pronto.
+> 2. **Il gate `apprendimento` (HARD) l'ho verificato.** Non l'ho duplicato. La correzione più ripetuta (area `correzione-nicola`: 26 lezioni, 18 volte ripetuta, mai diventata un freno automatico) ha già una proposta pronta in coda dalle 05:20 di stamattina: `#prevenzione-a-monte`. Servono due righe incollate in `.claude/settings.json`. Manca solo la tua firma. Non ho scritto un secondo freno sopra a quello già pronto.
 > 3. **Ho corretto una mia imprecisione nei Gap del briefing.** Avevo scritto che tutti gli script `node cervello/*.mjs` sono bloccati in questa sessione. Non è vero: `coerenza-fatti.mjs` e `chiusura-loop.mjs` girano regolarmente qui. Restano senza verdetto, non bocciati (⚪, non rosso): `test-cervello.mjs`, `north-star-check.mjs --gate`, `scadenzario-check.mjs`, `mappa-macchina.mjs`, `freschezza-cadenze.mjs`. Li ho provati due volte ciascuno. Servono un'approvazione che questa sessione headless non riesce a mostrarmi.
 >
 > **Mossa n.1, invariata:** conferma se hai già riavviato il giro sul VPS (card `#macchina-ferma-da-quattro-giorni`). Briefing completo: [[Briefing/2026-08-04]].
@@ -19,7 +19,7 @@ fonte: AD digitale (chat)
 > prodotti=5, stallo North Star **41 giorni**, pausa concordata fino al 24/8-1/9.
 >
 > **Le 3 priorità di stamattina, a che punto sono:**
-> 1. ❌ **Riavvio del giro sul VPS** (card `#macchina-ferma-da-quattro-giorni`) — ancora nessuna conferma di Nicola. Segnale indiretto: il sorvegliante anti-silenzio e il cantiere hanno continuato a scrivere fino alle 11:34, ma questo non prova che sia il timer `mycity-giro.service` (potrebbero essere sessioni di chat) — `systemctl`/`journalctl` restano bloccati da qui.
+> 1. ❌ **Riavvio del giro sul VPS** (card `#macchina-ferma-da-quattro-giorni`). Ancora nessuna conferma di Nicola. Segnale indiretto: il sorvegliante anti-silenzio e il cantiere hanno continuato a scrivere fino alle 11:34. Questo non prova però che sia ripartito il timer `mycity-giro.service` — potrebbero essere solo sessioni di chat. `systemctl`/`journalctl` restano bloccati da qui.
 > 2. ✅ **Merge PR #635 — GIÀ FATTO.** Era in coda come "in attesa" da 5 giorni per un fatto vecchio: verificato ora con `git merge-base --is-ancestor` che è su `main` dal 30/7 13:26. Corretto in [[AZIONI-IN-ATTESA]] e `CHECKLIST-NICOLA.md`.
 > 3. ❌ **Pulizia rami GitHub / modo di chiudere le PR** (righe #7/#8 in coda) — nessuna decisione di Nicola.
 >

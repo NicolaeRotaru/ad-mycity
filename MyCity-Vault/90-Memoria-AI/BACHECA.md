@@ -59,9 +59,9 @@ sito è fermo dal 30 luglio. Costruirla tutta adesso sarebbe lavoro pesante su u
 
 **Perché esiste questo avviso.** Quasi nessuna parola strana della macchina descrive *come si fa* una
 cosa: descrivono **come si dimostra di averla fatta**. Una macchina che lavora da sola ha due modi di
-fare danno — **agire senza permesso** (spendere, scrivere a un cliente, pubblicare) e **raccontare una
-bugia** (un numero inventato, un negozio che non esiste, un «fatto» che non è stato fatto). Tutto il
-vocabolario qui sotto serve a rendere difficili quelle due cose. Davanti a ogni termine la domanda
+fare danno. Il primo è **agire senza permesso** (spendere, scrivere a un cliente, pubblicare). Il secondo
+è **raccontare una bugia** (un numero inventato, un negozio che non esiste, un «fatto» che non è stato
+fatto). Tutto il vocabolario qui sotto serve a rendere difficili quelle due cose. Davanti a ogni termine la domanda
 giusta non è «cosa fa?», ma **«da quale bugia o da quale sorpresa mi sta proteggendo?»**.
 
 > 🆕 **Versione 2.** La prima (31/7) copriva solo le parole delle *difese*. Mancavano tutte quelle del
