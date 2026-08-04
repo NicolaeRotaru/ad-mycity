@@ -367,7 +367,17 @@
         "difesa-rimossa": 4
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T16:35:08.828Z",
+      "scatti": 1438,
+      "voci": 7,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-04T16:06:26.578Z"
+  "aggiornato": "2026-08-04T16:35:08.828Z"
 }
