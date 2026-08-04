@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 05:09",
+  "aggiornato": "2026-08-04 05:23",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -6240,7 +6240,7 @@
       "causa_radice": "① Perché i file grossi si scrivono ancora in modo non atomico? Perché l'adozione si è fermata a 7 script. ② Perché si è fermata? Perché il difetto è stato chiuso appena la funzione condivisa esisteva. ③ Perché è bastato? Perché la prova misura la funzione, non i chiamanti. ④ Perché non misura i chiamanti? Perché nessuna prova del cantiere sa esprimere 'nessun altro fa più la cosa vecchia' — servirebbe una prova di ASSENZA su tutta la cartella. ⑤ CAUSA DI SISTEMA: il modello di prova è file+pattern su UN file, quindi ogni fix trasversale si chiude dimostrando il primo adottante e lasciando gli altri indietro.",
       "fix_proposto": "🟡 (a) Sostituire writeFileSync con scriviJsonAtomico in tutti gli script che scrivono MyCity-Vault/**/*.json, partendo da tasso-lezioni.mjs, cristallizza-apprendimento.mjs, tick-auto-coscienza-leggero.mjs, costo-ai.mjs, calibrazione.mjs. (b) Aggiungere un guardiano di lotto che conta i `writeFileSync` su un path del vault, così il residuo è un numero che scende. (c) Riaprire AR-296 con prova di assenza sull'intera cartella cervello/.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/tasso-lezioni.mjs:177 e :238, cervello/cristallizza-apprendimento.mjs:191, cervello/tick-auto-coscienza-leggero.mjs:82, cervello/costo-ai.mjs:148, cervello/calibrazione.mjs:188 (tutti writeFileSync grezzo su JSON del vault) — contro cervello/scrivi-json.mjs importato da 7 script. Sintomo: AR-296 (chiuso) ha stabilito che i JSON del vault si salvano con `scriviJsonAtomico` (temporaneo + rename), perché un processo ucciso a metà lascia un JSON troncato che al giro dopo non si parsa più. Il suo fix nomina esplicitamente da dove partire: «costo-ai.mjs, tick-auto-coscienza-leggero.mjs, sentinella-dati.mjs». Verificato oggi: gli importatori di scriviJsonAtomico sono 7 (allinea-scan-cantiere, auto-fix, chiusura-loop, delta-gate, pota-apprendimento, sentinella-dati, valida-contratti) — dei tre nominati nel rimedio ne è stato convertito UNO. Continuano a scrivere con writeFileSync grezzo costo-ai.mjs, tick-auto-coscienza-leggero.mjs, calibrazione.mjs e soprattutto apprendimento.json (992 KB, il file più grande e più riscritto della memoria: 476 lezioni e 86 principi), toccato da tasso-lezioni, cristallizza e il tick leggero. Il difetto è chiuso da un test che verifica l'esistenza della funzione condivisa, non la sua adozione.",
       "verifica": {
@@ -6248,7 +6248,10 @@
         "pattern": "scriviJsonAtomico",
         "presente": true
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-04 05:23",
+      "chiuso_come": "cervello/tasso-lezioni.mjs contiene /scriviJsonAtomico/ → trovato",
+      "corroborata": true
     },
     {
       "id": "AR-362",
@@ -10809,8 +10812,8 @@
     }
   ],
   "meta": {
-    "aperti": 161,
+    "aperti": 160,
     "in_corso": 0,
-    "chiusi": 308
+    "chiusi": 310
   }
 }
