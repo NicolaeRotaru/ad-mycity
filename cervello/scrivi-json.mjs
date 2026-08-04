@@ -23,7 +23,7 @@
 //
 // Nessun import oltre a node:fs. Le funzioni di decisione sono pure, così un test le esegue.
 
-import { existsSync, mkdirSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join, basename } from "node:path";
 
 /**
@@ -42,8 +42,38 @@ export function nomeTemporaneo(percorso, pid = process.pid) {
  * Il testo da scrivere: JSON indentato a 2 con l'a-capo finale, come già fanno tutte le copie di
  * `writeJson` in giro per `cervello/`. Pura apposta: è ciò che rende il diff leggibile e va provato.
  */
-export function testoJson(dati) {
-  return JSON.stringify(dati, null, 2) + "\n";
+export function testoJson(dati, indent = 2) {
+  return JSON.stringify(dati, null, indent) + "\n";
+}
+
+/**
+ * L'indentazione che il file ha GIÀ — si conserva, non si impone (AR-530).
+ *
+ * IL CONTO DI NON AVERLO FATTO: quattro giorni e diciassette ore di macchina ferma. `tasso-lezioni`
+ * riscriveva `apprendimento.json` con due spazi mentre quel file ne ha uno. Per git non è un campo
+ * cambiato: è il file intero riscritto. Il guardiano della forma blocca il commit — giustamente, è
+ * nato per questo — l'albero resta sporco, il rebase si rifiuta di partire su un albero sporco, il
+ * push non parte, e la macchina lavora dieci minuti a ogni giro senza che ne esca niente. Quattro
+ * anelli di catena, e il primo è uno spazio.
+ *
+ * Otto file di questo repo hanno un solo spazio (apprendimento, guardiani-motivi, malattie, mutanti,
+ * permessi-debito, radar, radar-fonti, tetti-lotto): finché l'indentazione la decide chi SCRIVE
+ * invece del file che ESISTE, ognuno di questi è la prossima istanza.
+ *
+ * Su un file che non c'è ancora torna il valore di riferimento: lì non c'è niente da conservare.
+ */
+export function indentazioneDi(percorso, riferimento = 2) {
+  let testo;
+  try {
+    testo = readFileSync(percorso, "utf8");
+  } catch {
+    return riferimento; // file nuovo: non è una misura mancata, non c'è ancora niente da misurare
+  }
+  for (const riga of testo.split("\n").slice(1, 8)) {
+    const m = /^( +)"/.exec(riga);
+    if (m) return m[1].length;
+  }
+  return riferimento;
 }
 
 /**
@@ -56,7 +86,8 @@ export function scriviJsonAtomico(percorso, dati) {
   mkdirSync(dirname(percorso), { recursive: true });
   const tmp = nomeTemporaneo(percorso);
   try {
-    writeFileSync(tmp, testoJson(dati), "utf8");
+    // L'indentazione si legge dal file che si sta per sostituire: chi scrive non la sceglie (AR-530).
+    writeFileSync(tmp, testoJson(dati, indentazioneDi(percorso)), "utf8");
     renameSync(tmp, percorso); // atomico: il kernel non mostra mai uno stato intermedio
   } catch (e) {
     try {

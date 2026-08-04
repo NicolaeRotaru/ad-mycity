@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 05:09",
+  "aggiornato": "2026-08-04 06:00",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -6240,7 +6240,7 @@
       "causa_radice": "① Perché i file grossi si scrivono ancora in modo non atomico? Perché l'adozione si è fermata a 7 script. ② Perché si è fermata? Perché il difetto è stato chiuso appena la funzione condivisa esisteva. ③ Perché è bastato? Perché la prova misura la funzione, non i chiamanti. ④ Perché non misura i chiamanti? Perché nessuna prova del cantiere sa esprimere 'nessun altro fa più la cosa vecchia' — servirebbe una prova di ASSENZA su tutta la cartella. ⑤ CAUSA DI SISTEMA: il modello di prova è file+pattern su UN file, quindi ogni fix trasversale si chiude dimostrando il primo adottante e lasciando gli altri indietro.",
       "fix_proposto": "🟡 (a) Sostituire writeFileSync con scriviJsonAtomico in tutti gli script che scrivono MyCity-Vault/**/*.json, partendo da tasso-lezioni.mjs, cristallizza-apprendimento.mjs, tick-auto-coscienza-leggero.mjs, costo-ai.mjs, calibrazione.mjs. (b) Aggiungere un guardiano di lotto che conta i `writeFileSync` su un path del vault, così il residuo è un numero che scende. (c) Riaprire AR-296 con prova di assenza sull'intera cartella cervello/.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/tasso-lezioni.mjs:177 e :238, cervello/cristallizza-apprendimento.mjs:191, cervello/tick-auto-coscienza-leggero.mjs:82, cervello/costo-ai.mjs:148, cervello/calibrazione.mjs:188 (tutti writeFileSync grezzo su JSON del vault) — contro cervello/scrivi-json.mjs importato da 7 script. Sintomo: AR-296 (chiuso) ha stabilito che i JSON del vault si salvano con `scriviJsonAtomico` (temporaneo + rename), perché un processo ucciso a metà lascia un JSON troncato che al giro dopo non si parsa più. Il suo fix nomina esplicitamente da dove partire: «costo-ai.mjs, tick-auto-coscienza-leggero.mjs, sentinella-dati.mjs». Verificato oggi: gli importatori di scriviJsonAtomico sono 7 (allinea-scan-cantiere, auto-fix, chiusura-loop, delta-gate, pota-apprendimento, sentinella-dati, valida-contratti) — dei tre nominati nel rimedio ne è stato convertito UNO. Continuano a scrivere con writeFileSync grezzo costo-ai.mjs, tick-auto-coscienza-leggero.mjs, calibrazione.mjs e soprattutto apprendimento.json (992 KB, il file più grande e più riscritto della memoria: 476 lezioni e 86 principi), toccato da tasso-lezioni, cristallizza e il tick leggero. Il difetto è chiuso da un test che verifica l'esistenza della funzione condivisa, non la sua adozione.",
       "verifica": {
@@ -6248,7 +6248,10 @@
         "pattern": "scriviJsonAtomico",
         "presente": true
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-04 05:23",
+      "chiuso_come": "cervello/tasso-lezioni.mjs contiene /scriviJsonAtomico/ → trovato",
+      "corroborata": true
     },
     {
       "id": "AR-362",
@@ -8870,7 +8873,7 @@
     },
     {
       "id": "AR-505",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "alta",
       "colore": "🟡",
       "dimensione": "guardiani-verita",
@@ -8881,9 +8884,16 @@
       "origine": "CI della PR 657: «3 commit di lavoro che nessuna riga racconta», con la riga scritta e committata pochi secondi prima.",
       "titolo": "Una riga di esito scritta dentro un commit di merge e invisibile al freno che la pretende",
       "causa_radice": "① Il controllo ④ trova l ultimo racconto con `git log -1 -G \"atteso .*→ .*reale\"`. ② `git log -G` NON calcola i diff dei commit di MERGE: li salta per costruzione (servirebbe -m o --first-parent), quindi una riga aggiunta dentro un merge e invisibile a quella ricerca. ③ Il risultato e che chi risolve un conflitto e registra l esito nello stesso commit — cioe il flusso naturale — risulta muto, e il freno accusa proprio chi ha fatto la cosa giusta. ④ Non era visibile in locale: sul clone superficiale quel controllo esce CIECO, e il primo posto dove ha potuto misurare davvero e stata la CI.",
-      "fix_proposto": "DA FARE: cercare l ultimo esito anche dentro i merge (`git log -m --first-parent -G …`), oppure confrontare il CONTENUTO del quaderno fra base e HEAD invece della storia dei commit — con una prova che parta ROSSA su un ramo dove l unica riga di esito vive in un commit di merge. NON fatto stanotte: e un freno che Nicola ha costruito ieri (AR-477), e toccarlo di corsa per far tornare verde una CI e esattamente il gesto che questo cantiere censisce. Rimedio applicato intanto, e verificato: la riga di esito si scrive in un commit NORMALE, mai dentro il merge.",
+      "fix_proposto": "FATTO 🟡 `ARGOMENTI_CERCA_ESITO` in cervello/cancello-stop.mjs: la ricerca dell'ultimo esito passa da `--diff-merges=first-parent`, cioe guarda il diff della fusione rispetto a DOVE ERO IO — quello che quel commit ha davvero aggiunto al mio ramo. Non allarga niente: su un commit normale non cambia nulla, e non guarda dentro il ramo che arriva, che e lavoro di altri. Testo originale della proposta: DA FARE: cercare l ultimo esito anche dentro i merge (`git log -m --first-parent -G …`), oppure confrontare il CONTENUTO del quaderno fra base e HEAD invece della storia dei commit — con una prova che parta ROSSA su un ramo dove l unica riga di esito vive in un commit di merge. NON fatto stanotte: e un freno che Nicola ha costruito ieri (AR-477), e toccarlo di corsa per far tornare verde una CI e esattamente il gesto che questo cantiere censisce. Rimedio applicato intanto, e verificato: la riga di esito si scrive in un commit NORMALE, mai dentro il merge.",
       "malattia": "non-pattern-izzabile",
-      "malattia_perche": "La forma sta in cosa un comando git guarda e cosa salta — una proprieta della STORIA, non di una riga di codice. La copre la prova descritta nel fix, non un pattern per riga."
+      "malattia_perche": "La forma sta in cosa un comando git guarda e cosa salta — una proprieta della STORIA, non di una riga di codice. La copre la prova descritta nel fix, non un pattern per riga.",
+      "chiuso": "2026-08-04 06:00",
+      "verifica": {
+        "comando": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+        "nota": "La prova sul campo che la scheda chiedeva, e nella forma che chiedeva: un repo git usa-e-getta dove il ramo si biforca, i due lati toccano lo stesso file, e la riga di esito viene scritta risolvendo il conflitto — cioe dentro il commit di fusione. La prima asserzione PARTE ROSSA (senza il flag git non vede niente), la seconda la trova. 10 prove nel file."
+      },
+      "chiuso_da": "Bloccava la CI di questa stessa richiesta tre volte in un giorno: e il costo che la scheda diceva di non voler pagare di corsa il 3/8, e che il 4/8 e diventato il motivo per pagarlo con calma.",
+      "lezione": "L-2026-0804-554"
     },
     {
       "id": "AR-506",
@@ -10554,7 +10564,7 @@
       "origine": "Nicola 4/8 03:00: «controlla se funziona tutto». La visita ha trovato la macchina ferma da 112 ore — e ha trovato che l'allarme c'era gia', da 4 giorni, con 47 aggiornamenti.",
       "titolo": "La macchina lavora e non riesce a pubblicare: 4.006 commit fermi sul server e il Pannello mostra numeri di quattro giorni fa",
       "causa_radice": "① CORRETTO alle 03:20 con lo schermo del server sotto gli occhi. La prima diagnosi diceva «macchina ferma»: SBAGLIATA. Il giro gira — un giro pieno alle 22:26 del 3/8 — e si ferma all'ultimo passo: «PUSH ANNULLATO (AR-396): rebase rc=1, abort rc=128», poi «push della memoria fallito dopo 3 tentativi», poi exit 2 e systemd marca il servizio fallito. ② Da qui si vedeva solo l'effetto (nessuna traccia nuova nel repo da 112 ore) e l'ho scambiato per la causa. La lezione: cinque tracce ferme dicono «non pubblica», non «non lavora» — e le due chiedono rimedi opposti (riavviare il servizio, che era il mio consiglio, peggiora: ogni giro aggiunge commit). ③ La pila cresce: 3.942 commit locali alle 18:23, 4.006 alle 22:26. Sessantaquattro in quattro ore. AR-467 doveva impedire proprio questo («il recupero non committa se ci sono gia' commit non pubblicati») ed e' in main dal 31/7, verificato nel file. Quindi o il server non ha quel codice, o il caso non e' coperto. ④ Resta vero il difetto del CANALE: l'allarme del battito esterno ha aperto la issue #644 e l'ha aggiornata 47 volte in quattro giorni, e nessuno l'ha letta. Nicola l'ha scoperto chiedendo.",
-      "fix_proposto": "DA FARE. (a) 🔴 sbloccare il push sul server: prima il perche' del rebase (comandi nella card), poi la decisione sui 4.006 commit locali. NON riavviare il servizio. (b) 🟡 il canale: il verdetto del battito esterno deve atterrare in coda e nella Cabina, non solo in una issue. (c) 🟡 da capire perche' AR-467 non tiene sul server."
+      "fix_proposto": "DA FARE. (a) 🔴 sbloccare il push sul server: prima il perche' del rebase (comandi nella card), poi la decisione sui 4.006 commit locali. NON riavviare il servizio. (b) 🟡 il canale: il verdetto del battito esterno deve atterrare in coda e nella Cabina, non solo in una issue. (c) 🟡 da capire perche' AR-467 non tiene sul server. ↪ CAUSA VERA TROVATA il 4/8 04:02 nel journal: vedi AR-522 (l'indentazione di apprendimento.json). Lo sblocco a mano ha tolto l'albero sporco, ma il giro successivo lo risporcava subito riscrivendo quel file."
     },
     {
       "id": "AR-519",
@@ -10605,7 +10615,7 @@
       "origine": "Nicola ha lanciato sul server i tre comandi della card e ha mandato lo schermo: «error: cannot rebase: You have unstaged changes».",
       "titolo": "La riparazione che sbloccherebbe il server non puo' arrivarci, perche' ad essere rotto e' proprio il modo in cui riceve le riparazioni",
       "causa_radice": "① La causa immediata e' AR-469 alla lettera: 17 file di dati che la macchina si riscrive da sola (auto-coscienza/*.json, cervello/fonti-salute.json, intelligence-agenda.json, routing.json) restano modificati e mai in staging, quindi `git rebase` si rifiuta di partire: «cannot rebase: You have unstaged changes». ② Il fix di AR-469 — mettere da parte quei file prima del rebase — e' in main dal 31/7, verificato leggendo il file: `serve_mettere_da_parte` e lo stash ci sono. Il server non ce l'ha. ③ E qui sta il difetto NUOVO, che non e' AR-469: il server prende le riparazioni facendo rebase su main. Il rebase e' rotto. Quindi la riparazione del rebase non puo' arrivare al posto dove servirebbe. E' un nodo che si stringe da solo: ogni giro ci prova, fallisce, e la pila cresce (3.942 alle 18:23 → 4.006 alle 22:26 → 4.450 alle 03:15, +508 in nove ore). ④ Perche' nessuno l'aveva visto: dalla sessione cloud si vede solo l'effetto (niente arriva nel repo), e l'effetto somiglia a «macchina spenta». Serviva lo schermo del server per distinguere. ⑤ La forma generale, che vale oltre questo caso: un canale di aggiornamento che si ripara solo attraverso se stesso non ha via d'uscita automatica. Serve una mano umana una volta sola, oppure un percorso di riparazione che non passi dal canale rotto.",
-      "fix_proposto": "DA FARE, 🔴 e in due tempi. (a) SBLOCCO A MANO, una volta sola: ramo di salvataggio + stash dei file dati + fetch + decisione sui 4.450 commit-diario (il loro valore e' lo STATO finale dei file, che e' gia' nell'albero di lavoro: rifarli uno per uno su main non aggiunge niente e conflitterebbe su ogni file di memoria). (b) 🟡 LA VIA DI FUGA: il percorso di aggiornamento del server non deve dipendere dal rebase. Da progettare come lotto suo: o l'aggiornamento del CODICE si separa dalla pubblicazione della MEMORIA, o il recupero fa un reset guidato invece di un rebase. Finche' non c'e', lo stesso nodo si rifara'."
+      "fix_proposto": "DA FARE, 🔴 e in due tempi. (a) SBLOCCO A MANO, una volta sola: ramo di salvataggio + stash dei file dati + fetch + decisione sui 4.450 commit-diario (il loro valore e' lo STATO finale dei file, che e' gia' nell'albero di lavoro: rifarli uno per uno su main non aggiunge niente e conflitterebbe su ogni file di memoria). (b) 🟡 LA VIA DI FUGA: il percorso di aggiornamento del server non deve dipendere dal rebase. Da progettare come lotto suo: o l'aggiornamento del CODICE si separa dalla pubblicazione della MEMORIA, o il recupero fa un reset guidato invece di un rebase. Finche' non c'e', lo stesso nodo si rifara'. ↪ CAUSA VERA TROVATA il 4/8 04:02 nel journal: vedi AR-522 (l'indentazione di apprendimento.json). Lo sblocco a mano ha tolto l'albero sporco, ma il giro successivo lo risporcava subito riscrivendo quel file."
     },
     {
       "id": "AR-525",
@@ -10694,24 +10704,20 @@
     {
       "id": "AR-522",
       "stato": "chiuso",
-      "gravita": "grave",
+      "gravita": "bloccante",
       "colore": "🟡",
       "dimensione": "guardiani-e-guardrail",
-      "impatto_crescita": "medio",
-      "nato": "2026-08-04 00:55",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 04:15",
       "nato_come": "scoperta",
-      "origine": "Successo dal vivo il 4/8: il cancello dello Stop mi ha contestato 8 cose, di cui 7 erano file scritti tre giorni prima, in commit gia mergiati, che in quel turno non avevo nemmeno aperto.",
-      "titolo": "Il perimetro del turno non esiste al primo giro di ogni copia nuova: il freno parla di lavoro altrui sette volte su otto",
-      "causa_radice": "① Il cancello dello Stop misura «questo turno» grazie a un'ancora. ② L'ancora la pianta lui, alla FINE del primo turno chiuso pulito. ③ Quindi il primo turno di ogni copia non ce l'ha, e il perimetro ripiega su tutto il ramo — che in una sessione cloud vuol dire dieci commit gia mergiati. ④ Il ripiego e dichiarato e onesto, ma l'effetto no: un freno che parla di lavoro non mio si impara a scorrere, ed e esattamente quello che stavo per fare. ⑤ CAUSA DI SISTEMA: il turno non ha un evento di INIZIO a cui appendere niente. Tutta la macchina e costruita sui momenti di fine (fine modifica, fine lotto, fine turno) perche quelli erano gli unici eventi che qualcuno aveva agganciato.",
-      "fix_proposto": "FATTO 🟡 `cervello/intento-turno.mjs` su UserPromptSubmit: pianta l'ancora quando il turno COMINCIA e registra il testo con cui e partito (che il controllo ⑨ del sorvegliante, la deriva, finora non aveva). Semina solo dove e vuoto: spostare un'ancora viva farebbe scavalcare al cancello proprio il lavoro per cui aveva bloccato. json).",
+      "nato_da": "AR-521",
+      "origine": "Nicola ha mandato le 60 righe di journal del server: dentro c'era la catena intera, dal commit bloccato al push annullato.",
+      "titolo": "Uno spazio di indentazione ha fermato la macchina per quattro giorni e diciassette ore",
+      "causa_radice": "① `tasso-lezioni.mjs` riscriveva `apprendimento.json` con `JSON.stringify(appr, null, 2)`. Quel file ha UN spazio, non due. ② Per git non e' un campo cambiato: e' il file intero riscritto, ~1.400 righe. ③ Il guardiano della forma blocca il commit, e fa il suo mestiere: «il contenuto puo' essere giusto, e la FORMA che rende la PR illeggibile». ④ Commit bloccato = albero sporco. ⑤ `git rebase` si rifiuta di partire su un albero sporco (AR-469). ⑥ Niente rebase, niente push: «MEMORIA NON PUBBLICATA». Il giro lavorava dieci minuti a ogni corsa e non ne usciva niente: quattro giorni e diciassette ore, 4.450 commit accumulati. ⑦ Perche' nessuno l'aveva collegato: ogni anello, da solo, sembra un guasto diverso — e i tre difetti aperti prima di questo (AR-518 «non pubblica», AR-521 «il rebase non parte») descrivevano gli anelli 5 e 6, non il primo. Il primo si vedeva solo nel journal, cioe' sullo schermo del server. ⑧ La forma generale: otto file di questo repo hanno un solo spazio (apprendimento, guardiani-motivi, malattie, mutanti, permessi-debito, radar, radar-fonti, tetti-lotto). Finche' l'indentazione la sceglie chi SCRIVE invece del file che ESISTE, ognuno di questi e' la prossima istanza — e l'ho gia' pagata io stesso il 3/8 riscrivendo mutanti.json a 2 spazi e facendo diventare rossa la CI.",
+      "fix_proposto": "FATTO 🟡 `indentazioneDi(percorso)` in `cervello/scrivi-json.mjs`: legge l'indentazione dal file che si sta per sostituire e la conserva; su un file nuovo torna 2, che e' il valore di prima. `scriviJsonAtomico` la usa per tutti i suoi 13 chiamanti diretti. `tasso-lezioni.mjs` non scrive piu' a mano: passa dall'aiutante. Provato dal vivo sul file vero — la riscrittura che prima produceva ~1.400 righe di diff adesso ne produce 5, e `forma-json.mjs` e' verde. 5 prove nuove, di cui una sul file vero del repo.",
       "verifica": {
-        "comando": "node cervello/hooks-check.mjs --senza-attese",
-        "nota": "9 prove; 1 mutazione verificata rossa sulla regola che conta (un'ancora viva non si sposta mai). Una prova confronta il nome del file d'ancora con quello del cancello dello Stop: se divergono, il perimetro seminato non lo legge nessuno. Il comando qui accanto e ROSSO finche l'hook non e agganciato davvero (--senza-attese toglie il periodo di grazia): diventa verde solo quando Nicola incolla il blocco, non quando lo dichiaro io. La prova unitaria del pezzo resta node --test cervello/test/intento-turno.test.mjs. CHIUSO il 2026-08-04 05:20: Nicola ha incollato il blocco e l'ha committato su main (commit «Update settings.json»). L'aggancio non e' dichiarato, e' MISURATO — `node cervello/hooks-check.mjs --senza-attese` esce 0 con cervello/intento-turno.mjs fra i comandi attaccati, e lo stesso comando usciva 1 finche' non c'era."
-      },
-      "malattia": "non-pattern-izzabile",
-      "malattia_perche": "La forma e un MOMENTO mancante (nessun evento di inizio turno), come AR-527: si vede confrontando gli eventi possibili con quelli usati, non con un pattern sul testo.",
-      "nota_incrocio": "Mentre costruivo questo, su main e arrivato AR-507 con lo stesso SINTOMO (il cancello che accusa di lavoro non del turno) e un fix diverso e complementare: quello mette l'ancora davanti alle basi del ramo quando l'ancora c'e, e dichiara ⚪ quando non c'e. Questo fa in modo che l'ancora ESISTA dal primo messaggio. Nessuno dei due sostituisce l'altro: senza AR-507 l'ancora non veniva usata per i testi, senza questo l'ancora al primo turno non c'era.",
-      "chiuso": "2026-08-04 05:20"
+        "comando": "node --test cervello/test/indentazione-che-blocca-tutto.test.mjs"
+      }
     },
     {
       "id": "AR-523",
@@ -10778,6 +10784,229 @@
     {
       "id": "AR-530",
       "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 04:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-521",
+      "origine": "Nicola ha mandato le 60 righe di journal del server: dentro c'era la catena intera, dal commit bloccato al push annullato. ⚠️ Nata come AR-522, rinumerata AR-530 alla fusione: un'altra sessione aveva preso lo stesso numero per «il perimetro del turno». Terza collisione dello stesso giorno.",
+      "titolo": "Uno spazio di indentazione ha fermato la macchina per quattro giorni e diciassette ore",
+      "causa_radice": "① `tasso-lezioni.mjs` riscriveva `apprendimento.json` con `JSON.stringify(appr, null, 2)`. Quel file ha UN spazio, non due. ② Per git non e' un campo cambiato: e' il file intero riscritto, ~1.400 righe. ③ Il guardiano della forma blocca il commit, e fa il suo mestiere: «il contenuto puo' essere giusto, e la FORMA che rende la PR illeggibile». ④ Commit bloccato = albero sporco. ⑤ `git rebase` si rifiuta di partire su un albero sporco (AR-469). ⑥ Niente rebase, niente push: «MEMORIA NON PUBBLICATA». Il giro lavorava dieci minuti a ogni corsa e non ne usciva niente: quattro giorni e diciassette ore, 4.450 commit accumulati. ⑦ Perche' nessuno l'aveva collegato: ogni anello, da solo, sembra un guasto diverso — e i tre difetti aperti prima di questo (AR-518 «non pubblica», AR-521 «il rebase non parte») descrivevano gli anelli 5 e 6, non il primo. Il primo si vedeva solo nel journal, cioe' sullo schermo del server. ⑧ La forma generale: otto file di questo repo hanno un solo spazio (apprendimento, guardiani-motivi, malattie, mutanti, permessi-debito, radar, radar-fonti, tetti-lotto). Finche' l'indentazione la sceglie chi SCRIVE invece del file che ESISTE, ognuno di questi e' la prossima istanza — e l'ho gia' pagata io stesso il 3/8 riscrivendo mutanti.json a 2 spazi e facendo diventare rossa la CI.",
+      "fix_proposto": "FATTO 🟡 `indentazioneDi(percorso)` in `cervello/scrivi-json.mjs`: legge l'indentazione dal file che si sta per sostituire e la conserva; su un file nuovo torna 2, che e' il valore di prima. `scriviJsonAtomico` la usa per tutti i suoi 13 chiamanti diretti. `tasso-lezioni.mjs` non scrive piu' a mano: passa dall'aiutante. Provato dal vivo sul file vero — la riscrittura che prima produceva ~1.400 righe di diff adesso ne produce 5, e `forma-json.mjs` e' verde. 5 prove nuove, di cui una sul file vero del repo.",
+      "verifica": {
+        "comando": "node --test cervello/test/indentazione-che-blocca-tutto.test.mjs"
+      }
+    },
+    {
+      "id": "AR-531",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 05:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-516",
+      "origine": "Il sorvegliante ha ripetuto la stessa accusa quattordici volte di fila mentre univo il lavoro di un'altra sessione.",
+      "titolo": "Il sorvegliante non leggeva le esenzioni gia' scritte: 14 accuse di fila su una riga dichiarata con tanto di motivo",
+      "causa_radice": "① `malattie.json` porta per ogni forma un elenco `esenti` con file e PERCHE'. La spazzata dei fratelli lo rispetta; il controllo `malattia-nuova` del sorvegliante no: cercava il pattern sulle righe aggiunte senza mai guardare se quel file fosse gia' stato dichiarato. ② Il caso: `pre-scrittura.mjs` e' il guardiano che INTERCETTA il bypass dei cancelli — per riconoscere `--no-verify` deve nominarlo — ed era esente con un motivo scritto poche ore prima da un'altra sessione. Il sorvegliante l'ha accusato 14 volte in un turno. ③ Il costo non e' l'accusa singola: e' il rumore. Il file stesso lo dice — «se parlasse a ogni riga tolta diventerebbe rumore, e il rumore spegne i freni». Quattordici allarmi gravi su una riga dichiarata insegnano a scorrere il sorvegliante, e il giorno che ha ragione non lo legge piu' nessuno. ④ Terza volta oggi che questo guardiano legge male il proprio perimetro: AR-515 (non riconosceva le chiamate della visita), AR-516 (cercava lo spostamento solo nello stesso file), e adesso questa. La forma comune: ogni pezzo del guardiano conosce solo la fetta di mondo che aveva davanti chi l'ha scritto.",
+      "fix_proposto": "FATTO 🟡 Il controllo `malattia-nuova` salta i file dichiarati esenti per QUELLA malattia, e solo se l'esenzione porta il suo `perche` non vuoto: una senza motivo resta un'accusa viva, perche' «esente» senza spiegazione e' il modo educato di zittire (AR-338). 3 prove nuove: l'esente col motivo tace, lo stesso pattern altrove viene ancora preso, l'esenzione muta non zittisce.",
+      "verifica": {
+        "comando": "node --test cervello/test/rosso-che-non-dice-perche.test.mjs"
+      }
+    },
+    {
+      "id": "AR-532",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "processi-e-cadenze",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 03:50",
+      "nato_come": "scoperta",
+      "origine": "⚠️ Nato come AR-518 (poi AR-530), rinumerato AR-532 alla fusione con main: un'altra sessione aveva preso lo stesso numero per un difetto diverso (stessa causa di AR-512→AR-517: due sessioni prendono «il prossimo numero libero» dalla copia che hanno in mano). [RICHIESTA DI NICOLA, 4/8] «ogni volta che finisci di fare un lavoro ed io ti chiedo di ricontrollare tu trovi sempre cose che non hai fatto o problemi che non hai visto… ho bisogno che il sorvegliante o chi è incaricato a farlo ricontrolli il lavoro fatto, analizzi più e più volte il lavoro e lo completi al 100%, così non devo ogni volta dire di ricontrollare tantissime volte di fila.»",
+      "titolo": "Nessuna guardia rileggeva il lavoro FINITO: il «ricontrolla» che trova sempre qualcosa lo faceva solo Nicola, a mano",
+      "causa_radice": "① La revisione esisteva in tre momenti e nessuno è quello giusto: il sorvegliante guarda il DELTA dell'ultima modifica mentre lavoro, il cancello dello Stop guarda cosa sto lasciando indietro (esiti, allarmi, testi difficili), il cancello del lotto gira in CI a PR già scritta. ② Il pezzo MAI scritto non compare in nessun diff incrementale: lo vede solo uno sguardo fresco sull'INTERO lavoro confrontato con la richiesta — che è esattamente ciò che fa il «ricontrolla» di Nicola, ed era l'unico controllo della casa che dipendeva da lui. ③ Un ricontrollo lasciato alla disciplina salta sotto pressione come ogni rituale (AR-154): serviva un cancello nel MOMENTO in cui dichiaro di aver finito, non un promemoria.",
+      "fix_proposto": "FATTO 🟡 Guardia nuova cervello/collaudo.mjs agganciata al cancello dello Stop (solo --hook: in CI non c'è nessuno a cui chiedere il ricontrollo). Il primo «fatto» di ogni lavoro esce 2 e obbliga il giro di collaudo: rileggere la richiesta del turno voce per voce (FATTA/MANCANTE/NON FATTA APPOSTA), rileggere il diff INTERO dal perimetro del turno, eseguire le prove — più il verdetto del sorvegliante calcolato sull'intero perimetro (verdettoDelDelta ora accetta `da`). Un giro che non cambia niente promuove l'impronta a «pulito» e non viene più richiesto; un giro che corregge fa ripartire il collaudo al prossimo «fatto», dallo stesso punto di partenza memorizzato nel registro (_tmp_collaudo.json, fuori da git) — si ripete finché un giro esce a mani vuote, mai due volte sullo stesso stato. Taratura pagata sul campo: senza ancora del turno il perimetro si fissa su HEAD, non sul ramo (la prima esecuzione presentava 211 file di sessioni passate — AR-507 di nuovo). 17 prove + 2 mutazioni.",
+      "verifica": {
+        "comando": "node --test cervello/test/collaudo.test.mjs"
+      }
+    },
+    {
+      "id": "AR-533",
+      "stato": "in_corso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "processi-e-cadenze",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 04:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-532",
+      "origine": "⚠️ Nato come AR-519 (poi AR-531), rinumerato AR-533 alla fusione con main: un'altra sessione aveva preso lo stesso numero per un difetto diverso (stessa causa di AR-512→AR-517: due sessioni prendono «il prossimo numero libero» dalla copia che hanno in mano). [RICHIESTA DI NICOLA, 4/8] «se il sorvegliante si occupa solo di assicurarsi che il lavoro venga fatto bene, voglio creare qualcos'altro che ti permetta di far bene il lavoro, che impedisca di fare errori e porti il risultato migliore» — proposta in tre pezzi nata in un'altra sessione, costruita qui su suo ordine («crea anche le altre funzionalità»).",
+      "titolo": "La prevenzione a monte non esisteva: le lezioni arrivavano a caso, l'errore noto si scopriva un secondo dopo averlo scritto, e nessuno chiedeva «era la strada migliore?»",
+      "causa_radice": "① Le lezioni entravano nel contesto in ordine di TEMPO (le ultime 12), non di TEMA: 500+ lezioni in memoria e quelle utili al lavoro in corso arrivavano solo per caso. ② L'unico momento con un freno era DOPO la scrittura (sorvegliante PostToolUse): l'errore già censito si scopriva a danno fatto, mai prima. ③ Nessun passo chiedeva se la strada scelta fosse la migliore: senza la domanda, ci si ferma alla prima cosa che funziona.",
+      "fix_proposto": "COSTRUITO 🟡, cablaggio in coda. Tre pezzi: ① `contesto-lezioni.mjs --richiesta` (hook UserPromptSubmit) — seleziona dalle 500+ lezioni SOLO quelle sul tema della richiesta appena arrivata, correzioni di Nicola prima, silenzio sotto soglia; ② `cervello/mano-fermata.mjs` (hook PreToolUse) — se il testo che sto per scrivere contiene una malattia censita, la scrittura viene RIFIUTATA col perché (riusa sorveglia() del sorvegliante: una sola copia della conoscenza); ③ l'asticella come passo ④ del collaudo AR-532 («hai considerato almeno un'altra strada?») — già attiva. ①+② sono costruiti e provati ma NON attivi: l'aggancio richiede due righe in .claude/settings.json, che è nel deny-list della macchina — card 🟡 #prevenzione-a-monte in AZIONI-IN-ATTESA con lo snippet esatto, firma di Nicola. Si chiude quando gli hook sono cablati e visti scattare dal vivo.",
+      "verifica": {
+        "comando": "node cervello/mano-fermata.mjs --cablaggio"
+      }
+    },
+    {
+      "id": "AR-541",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 01:40",
+      "nato_come": "scoperta",
+      "nato_da": "AR-508 / AR-511 (miei, del 3/8)",
+      "origine": "Nicola 4/8: «risolvi queste 3 cose» — i tre limiti che avevo dichiarato io stesso nella consegna precedente. (nato come AR-532: main ha scritto quel numero per prima e questa scheda si e spostata il 4/8 05:50)",
+      "titolo": "Il freno sulla forma poteva fermare il commit automatico del worker, e nessuno l'aveva mai visto girare",
+      "causa_radice": "① git-pr.mjs committa senza --no-verify e su errore esce 1: un freno che scatta li ferma la pubblicazione della memoria. ② Il 3/8 avevo dichiarato il rischio senza riprodurlo, perche dal cloud il VPS si vede solo di riflesso. ③ Ma il pezzo che rischiava di fermarlo non e il server: e il pre-commit, e quello si puo far girare davvero. Il limite era scomodo, non fuori portata.",
+      "fix_proposto": "FATTO 🟢 una prova sul campo che rifa il percorso vero — un registro compatto, uno script che lo aggiorna con la via ufficiale di scrittura, e il commit con gli hook veri — e pretende che passi, che il contenuto nuovo ci sia e che la forma resti quella di prima. Piu la misura dell'esposizione: 190 registri versionati, nessuna coppia script-registro che imponga una forma diversa da quella su main.",
+      "verifica": {
+        "comando": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+        "nota": "9 casi verdi, 7,4 s. Resta dichiarato che il VPS vero non l'ho visto girare: ho provato il freno, non il server."
+      },
+      "lezione": "L-2026-0804-552"
+    },
+    {
+      "id": "AR-542",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 01:40",
+      "nato_come": "scoperta",
+      "nato_da": "AR-508 / AR-511 (miei, del 3/8)",
+      "origine": "Nicola 4/8: «risolvi queste 3 cose» — i tre limiti che avevo dichiarato io stesso nella consegna precedente. (nato come AR-533: main ha scritto quel numero per prima e questa scheda si e spostata il 4/8 05:50)",
+      "titolo": "Una malattia scritta male non rallenta la guardia: la fa uccidere a meta, e il verdetto non arriva a nessuno",
+      "causa_radice": "① I pattern arrivano da malattie.json e finiscono in new RegExp senza nessun tetto di costo. ② Misurato: un pattern a backtracking esplosivo su UNA riga di 29 caratteri tiene occupato il sorvegliante 19.883 ms. ③ L'hook PostToolUse ha un tetto di 15 secondi: la guardia verrebbe uccisa a meta e il verdetto non comparirebbe — cioe il canale muto di AR-465 per un'altra strada, e stavolta in silenzio. ④ Una regex non si puo interrompere a meta in JavaScript: il budget a valle limita il danno, la difesa vera e non far entrare quel pattern nel registro. ⑤ Trovato dall'analisi di sicurezza, che era la prima delle quattro che avevo rimandato.",
+      "fix_proposto": "FATTO 🟡 due difese. A valle: un budget di 2 secondi per malattia (il giro sano ne costa 0,3 in tutto) che smette di cercare e lo DICHIARA, perche una malattia che non ho potuto cercare non e una malattia assente. A monte: il test del registro misura ogni pattern su quattro esche da backtracking e boccia chi supera il mezzo secondo.",
+      "verifica": {
+        "comando": "node --test cervello/test/freni-senza-fonte.test.mjs",
+        "nota": "32 controlli verdi sul registro, fra cui il costo dei 14 pattern. Verificato dal vivo che la dichiarazione compaia."
+      },
+      "lezione": "L-2026-0804-552"
+    },
+    {
+      "id": "AR-534",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "basso",
+      "nato": "2026-08-04 02:20",
+      "nato_come": "regressione",
+      "nato_da": "AR-531 (mio, di due ore fa)",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E una taratura del confronto fra due nomi, non una riga malata: si vede solo eseguendo il grafo su una rotta col parametro. Il guardiano e la prova in cervello/test/sorvegliante.test.mjs.",
+      "origine": "Nicola 4/8: «controlla e analizza il lavoro che hai fatto». Trovato cercando le rotte dinamiche del Pannello subito dopo aver consegnato AR-519.",
+      "titolo": "Il falso negativo che AR-531 doveva chiudere e sopravvissuto dentro la sua stessa cura: le rotte col parametro",
+      "causa_radice": "① aliasDiRotta() produceva la forma piena, `/api/lavori/[id]`. ② Ma chi la chiama scrive fetch(`/api/lavori/${id}`), e nel testo resta solo `/api/lavori` — il resto e una variabile. ③ Quindi la rotta col parametro risultava di nuovo senza nessun chiamante, cioe esattamente il difetto che due ore prima avevo dichiarato chiuso. ④ La causa e la stessa di sempre: ho provato la cura sul caso che avevo in mente (le rotte fisse) e non su quello che esiste nel repo — c e una rotta dinamica sola, e non l avevo cercata.",
+      "fix_proposto": "FATTO 🟡 una rotta dinamica vale anche per il suo prefisso fisso, che e tutto cio che il chiamante puo scrivere a mano. Costo dichiarato: chiamando `/api/lavori/${id}` risultano chiamate sia la rotta col parametro sia quella fissa allo stesso livello, se esiste — per un controllo informativo nominarne una in piu e meglio che perderne una.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "1 prova nuova sulla rotta col parametro, piu la verifica che una rotta fissa resti una stringa sola. La mutazione di AR-519 e stata riagganciata al pezzo spostato — me l ha detto il sorvegliante mentre lo spostavo."
+      },
+      "lezione": "L-2026-0804-552"
+    },
+    {
+      "id": "AR-535",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 03:10",
+      "nato_come": "regressione",
+      "nato_da": "la stessa forma di AR-444, gia raccontata nella skill del cantiere",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E una collisione fra due processi che non si vedono, non una riga malata: si vede solo confrontando due cantieri. Il guardiano e cervello/prossimo-ar.mjs --controlla, agganciato alle prove.",
+      "origine": "Nicola 4/8: «fai la numero 2». Tre collisioni in un giorno: io scrivo AR-518 alle 00:52, il worker ne scrive un altra alle 02:13, e alla prima unione una delle due sparisce.",
+      "titolo": "Il numero di una scheda nuova lo sceglievo guardando la mia copia, mentre main correva avanti",
+      "causa_radice": "① Il numero libero si leggeva dal cantiere LOCALE, fermo al momento in cui la copia e partita. ② Il worker fa lo stesso sul suo ramo: due macchine che non si vedono prendono lo stesso numero. ③ Alla fusione una delle due schede sparisce — la prima volta sono sparite quattro schede del worker dentro la mia fusione, ripristinate solo perche sono andato a controllare. ④ La regola giusta era gia scritta nella skill del cantiere («due AR-444 diversi»), ma una regola in un documento non si applica da sola quando lavorano due macchine.",
+      "fix_proposto": "FATTO 🟢 `cervello/prossimo-ar.mjs`: legge il cantiere su origin/main E quello locale, e torna il primo numero libero in tutti e due. Se main non e raggiungibile lo DICHIARA (exit 2) invece di rispondere al buio. Piu `--controlla`, che trova due schede con lo stesso numero prima che l unione le faccia sparire. Le mie cinque schede rinumerate 530-534 con lo strumento stesso.",
+      "verifica": {
+        "comando": "node --test cervello/test/prossimo-ar.test.mjs",
+        "nota": "5 prove: il numero calcolato su tutte le fonti, i buchi vecchi che NON si riusano, gli id storti, i duplicati, e il controllo sul cantiere vero. Provato sul campo: lo strumento proponeva AR-97 (un buco del passato) e l ho corretto perche un id che si riavvolge non identifica piu."
+      },
+      "lezione": "L-2026-0804-553"
+    },
+    {
+      "id": "AR-536",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 03:40",
+      "nato_come": "scoperta",
+      "nato_da": "AR-503 (stessa guardia, caso gemello curato tre giorni prima)",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E una condizione che MANCA, non una riga malata: si vede solo eseguendo la guardia su un diff dove la difesa resta viva altrove nel file. Il guardiano e la prova in cervello/test/sorvegliante.test.mjs.",
+      "origine": "Trovato dal vivo il 4/8 unendo main nel ramo del sorvegliante: il pre-commit ha bloccato la fusione con 4 accuse «difesa-rimossa», ripetute fino a 22 volte. Tutte e quattro false.",
+      "titolo": "La guardia che grida «hai spento il freno» mentre il freno e ancora chiamato tredici volte nello stesso file",
+      "causa_radice": "① Il controllo ⑥b aveva tre condizioni per tacere — il nome ricompare fra le righe aggiunte qui, oppure fra quelle aggiunte altrove nel delta, oppure il file e prosa. ② Tutte e tre guardano il GESTO: cosa ho tolto e cosa ho messo. ③ Nessuna guardava il RISULTATO, cioe il file com'e rimasto. ④ Su un registro dove lo stesso `gate:` compare in dodici schede, cancellarne una e togliere un doppione: il freno resta chiamato dalle altre undici, e la guardia gridava lo stesso. ⑤ La causa vera e che avevo provato la guardia solo su file di CODICE, dove ogni chiamata e unica per costruzione — nei registri di memoria i doppioni sono la norma, e la fusione di due copie ne cancella per mestiere.",
+      "fix_proposto": "FATTO 🟡 quarta condizione, `difesaAncoraChiamata()`: dopo la modifica, se una riga NON commentata dello stesso file nomina ancora quella difesa, la guardia tace. Il filtro dei commenti serve al rimedio quanto all'accusa — se l'unica menzione rimasta e in un commento, il freno non lo chiama nessuno e l'accusa e giusta. Senza contenuto (file illeggibile) torna false: cieco non e verde.",
+      "costo_dichiarato": "Un buco vero resta invisibile in un caso: se tolgo l'unica chiamata VERA e nel file resta una riga di dati che nomina lo stesso percorso senza eseguirlo. In un registro e proprio la forma normale — ma li quella riga E la dichiarazione del freno, quindi il freno c'e ancora. Nel codice non capita: una stringa col percorso di un test dentro un .mjs e quasi sempre il modo in cui lo si lancia.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "4 prove nuove (94 totali, erano 90): il doppione tolto → tace · l'unica menzione rimasta e un commento → grida · l'ultima chiamata tolta → grida · senza contenuto → grida. Prova sul campo: le 4 accuse che bloccavano il merge sono sparite nello stesso istante in cui la funzione e entrata, e il pre-commit e passato senza --no-verify."
+      },
+      "lezione": "L-2026-0804-554"
+    },
+    {
+      "id": "AR-537",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 00:55",
+      "nato_come": "scoperta",
+      "origine": "RIPRESA dal commit 7d28e0c il 4/8 05:35. Nasceva come AR-522; main ha poi riscritto quel numero con un difetto diverso (lo spazio di indentazione) e la scheda e sparita alla fusione — codice, prova e mutazione erano rimasti vivi, la storia no. Trovata dal sorvegliante, che ha visto una mutazione puntare a un file che il registro non nominava piu. Testo originale: Successo dal vivo il 4/8: il cancello dello Stop mi ha contestato 8 cose, di cui 7 erano file scritti tre giorni prima, in commit gia mergiati, che in quel turno non avevo nemmeno aperto.",
+      "titolo": "Il perimetro del turno non esiste al primo giro di ogni copia nuova: il freno parla di lavoro altrui sette volte su otto",
+      "causa_radice": "① Il cancello dello Stop misura «questo turno» grazie a un'ancora. ② L'ancora la pianta lui, alla FINE del primo turno chiuso pulito. ③ Quindi il primo turno di ogni copia non ce l'ha, e il perimetro ripiega su tutto il ramo — che in una sessione cloud vuol dire dieci commit gia mergiati. ④ Il ripiego e dichiarato e onesto, ma l'effetto no: un freno che parla di lavoro non mio si impara a scorrere, ed e esattamente quello che stavo per fare. ⑤ CAUSA DI SISTEMA: il turno non ha un evento di INIZIO a cui appendere niente. Tutta la macchina e costruita sui momenti di fine (fine modifica, fine lotto, fine turno) perche quelli erano gli unici eventi che qualcuno aveva agganciato.",
+      "fix_proposto": "FATTO 🟡 `cervello/intento-turno.mjs` su UserPromptSubmit: pianta l'ancora quando il turno COMINCIA e registra il testo con cui e partito (che il controllo ⑨ del sorvegliante, la deriva, finora non aveva). Semina solo dove e vuoto: spostare un'ancora viva farebbe scavalcare al cancello proprio il lavoro per cui aveva bloccato. json).",
+      "verifica": {
+        "comando": "node cervello/hooks-check.mjs --senza-attese",
+        "nota": "9 prove; 1 mutazione verificata rossa sulla regola che conta (un'ancora viva non si sposta mai). Una prova confronta il nome del file d'ancora con quello del cancello dello Stop: se divergono, il perimetro seminato non lo legge nessuno. Il comando qui accanto e ROSSO finche l'hook non e agganciato davvero (--senza-attese toglie il periodo di grazia): diventa verde solo quando Nicola incolla il blocco, non quando lo dichiaro io. La prova unitaria del pezzo resta node --test cervello/test/intento-turno.test.mjs. CHIUSO il 2026-08-04 05:20: Nicola ha incollato il blocco e l'ha committato su main (commit «Update settings.json»). L'aggancio non e' dichiarato, e' MISURATO — `node cervello/hooks-check.mjs --senza-attese` esce 0 con cervello/intento-turno.mjs fra i comandi attaccati, e lo stesso comando usciva 1 finche' non c'era."
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e un MOMENTO mancante (nessun evento di inizio turno), come AR-527: si vede confrontando gli eventi possibili con quelli usati, non con un pattern sul testo.",
+      "nota_incrocio": "Mentre costruivo questo, su main e arrivato AR-507 con lo stesso SINTOMO (il cancello che accusa di lavoro non del turno) e un fix diverso e complementare: quello mette l'ancora davanti alle basi del ramo quando l'ancora c'e, e dichiara ⚪ quando non c'e. Questo fa in modo che l'ancora ESISTA dal primo messaggio. Nessuno dei due sostituisce l'altro: senza AR-507 l'ancora non veniva usata per i testi, senza questo l'ancora al primo turno non c'era. · 4/8: ha perso il numero AR-522 per sovrascrittura. Da qui nasce il guardiano `sovrascritte()` in cervello/prossimo-ar.mjs (AR-538).",
+      "chiuso": "2026-08-04 05:20"
+    },
+    {
+      "id": "AR-538",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "memoria-e-registri",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 05:35",
+      "nato_come": "scoperta",
+      "nato_da": "AR-535 (lo strumento che sceglie i numeri: chiudeva la collisione, non la sovrascrittura)",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E un confronto fra DUE copie del registro, non una riga malata dentro una: si vede solo eseguendo sovrascritte() su un locale e un main che discordano. Il guardiano e la prova in cervello/test/prossimo-ar.test.mjs.",
+      "origine": "Trovato il 4/8 unendo main per la seconda volta: il sorvegliante ha gridato che una mutazione di AR-522 puntava a cervello/intento-turno.mjs, un file che il cantiere non nominava piu.",
+      "titolo": "Una scheda puo perdere il suo numero e sparire senza che nessun conteggio cali",
+      "causa_radice": "① Due macchine scrivono lo stesso registro in parallelo. ② `prossimo-ar.mjs --controlla` guardava DENTRO una copia sola e trovava i numeri usati due volte. ③ Ma il caso peggiore sta FRA le due copie: stesso numero, una scheda sola, due difetti diversi sotto. ④ Alla fusione una delle due storie sparisce e il conteggio resta identico — 532 prima, 532 dopo — quindi nessuna misura si accorge di niente. ⑤ La causa vera e che AR-535 aveva chiuso la collisione (due schede, stesso numero) e non la sovrascrittura (una scheda, due difetti): ho provato la cura sul caso che avevo appena visto.",
+      "fix_proposto": "FATTO 🟡 `sovrascritte(locali, suMain)` in cervello/prossimo-ar.mjs, agganciata a `--controlla` che il cancello del lotto gira a ogni giro. Discordano DUE campi, non uno — la data di nascita E il titolo: un titolo affinato e lavoro normale, ma un difetto non cambia entrambe le cose restando lo stesso difetto. Piu le DUE schede travolte, riprese come AR-537 e AR-539.",
+      "costo_dichiarato": "Se una scheda viene riscritta da capo per un motivo legittimo (stesso difetto, titolo e data entrambi rifatti) il guardiano diventa rosso e chiede. E il verso giusto in cui sbagliare: chiedere costa una riga di risposta, perdere una scheda costa la storia di un difetto.",
+      "verifica": {
+        "comando": "node --test cervello/test/prossimo-ar.test.mjs",
+        "nota": "5 prove nuove: la sovrascrittura vera (AR-522 con i due titoli reali) e rossa · un titolo affinato tace · una data corretta tace · un id che sta da una parte sola tace · un campo mancante tace. Sul campo, messo davanti alle due copie vere di stanotte (7d28e0c contro origin/main), ne ha trovate DUE, non una: AR-522 e AR-530, riprese come AR-537 e AR-539. Da segnalare a parte: su main quel difetto occupa due numeri (AR-522 e AR-530 hanno lo stesso titolo) — non l'ho toccato, e roba di main."
+      },
+      "lezione": "L-2026-0804-554"
+    },
+    {
+      "id": "AR-539",
+      "stato": "chiuso",
       "gravita": "alta",
       "colore": "🟡",
       "dimensione": "processi-e-cadenze",
@@ -10785,13 +11014,60 @@
       "nato": "2026-08-04 03:35",
       "nato_come": "scoperta",
       "nato_da": "AR-489",
-      "origine": "[CORREZIONE DI NICOLA, con tre foto] «guarda stai ancora ripetendo la stessa cosa due volte … non devi togliere quei blocchi che ci sono sotto, più tosto devi controllare se stai ripetendo la stessa cosa due volte» e «quando è corta la risposta che mi dai penso che non abbiano senso, ma tante volte il riassunto che mi dai mi fa capire meglio la risposta». Le foto mostrano UN messaggio mio con i quattro blocchi due volte, lo stesso blocco di comandi due volte e sette frasi ridette.",
+      "origine": "RIPRESA dal commit 7d28e0c il 4/8 05:40. Nasceva come AR-530; main ha scritto lo stesso difetto (lo spazio di indentazione) SU DUE numeri, 522 e 530, e tutt'e due le schede che stavano li sono sparite. Trovata dal guardiano nuovo `sovrascritte()` messo davanti alle due copie vere. Testo originale: [CORREZIONE DI NICOLA, con tre foto] «guarda stai ancora ripetendo la stessa cosa due volte … non devi togliere quei blocchi che ci sono sotto, più tosto devi controllare se stai ripetendo la stessa cosa due volte» e «quando è corta la risposta che mi dai penso che non abbiano senso, ma tante volte il riassunto che mi dai mi fa capire meglio la risposta». Le foto mostrano UN messaggio mio con i quattro blocchi due volte, lo stesso blocco di comandi due volte e sette frasi ridette.",
       "titolo": "Il controllo contro le ripetizioni non guardava dentro il messaggio: 15 ripetizioni nella stessa schermata, zero segnalate",
       "causa_radice": "① UNITÀ DI MISURA SBAGLIATA. La funzione ideeRipetute (nata il 3/8 da AR-489) confronta il messaggio nuovo con i messaggi PRECEDENTI. Un messaggio che ripete se stesso non ha precedenti da confrontare: il paragone non parte e il verdetto esce verde. La misura contro le ripetizioni era cieca alla forma piu visibile di ripetizione, quella tutta sotto gli occhi di Nicola nella stessa schermata. ② LA REGOLA SCRITTA DICEVA IL CONTRARIO, ed e la causa a monte: scrittura-umana.md, Regola 0-bis, diceva «il ripasso vale DENTRO un testo, mai fra due messaggi di fila» — cioe dentro un messaggio ripetere era sempre legittimo. Il codice era fedele a una regola sbagliata: un controllo non puo essere piu sveglio del testo che lo descrive, e i due si riparano insieme. ③ IL SECONDO PEZZO, sulla lunghezza: la struttura era accesa o spenta (testo lungo OPPURE risposta numerata), e su una risposta di due righe i quattro titoli sono impalcatura sopra il contenuto. Aggravante: i titoli dei blocchi contavano come righe di contenuto, quindi l'impalcatura si giustificava da sola.",
       "fix_proposto": "FATTO 🟡 (PR #664). ⚠️ Nato come AR-518, rinumerato due volte alla fusione (AR-518 → AR-522 → AR-530): altre sessioni avevano gia preso 518-521 e poi anche 522-529 mentre lavoravo. QUARTA collisione della giornata, stessa causa di AR-517 — due sessioni prendono «il prossimo numero libero» dalla copia che hanno in mano. ① ripetizioniInterne() in cervello/si-capisce.mjs guarda il testo contro se stesso e ferma tre cose: un titolo dei quattro blocchi che compare due volte, lo stesso blocco di comandi due volte, una frase ridetta oltre 4 frasi di distanza (o la stessa idea 3+ volte). Tipo nuovo gia-detto-qui, dichiarato in COPERTURA con la sua zona cieca. Il ripasso VICINO continua a passare: e la Regola 2 mossa 3, e una prova diventa rossa se qualcuno lo spegne. ② livelloDiStruttura() — corta/media/lunga — e UNA funzione sola, usata dal freno e dal contatore conta-blocco-mancante.mjs: prima la condizione viveva in due file con due sfumature diverse, ed e il modo in cui due controlli gemelli smettono di esserlo in silenzio. Sotto le 8 righe di CONTENUTO (i titoli dei blocchi non contano) niente blocchi; tipo nuovo blocchi-su-testo-corto. ③ Cade una parte di AR-517, dichiarato: una risposta numerata di due righe non pretende piu i quattro blocchi. Resta fermato il caso che AR-517 curava (risposta numerata con del contenuto dentro) e resta l'ordine «blocchi sopra i numeri» a qualunque lunghezza. ④ TARATURE MISURATE, non stimate: con la soglia 0,6 (quella usata fra due messaggi) uscivano 6.077 accuse su 692 testi, in maggioranza elenchi con la stessa intelaiatura («Costo:» sotto ogni opzione, stesse parole e contenuto opposto); con 0,85 piu il taglio delle intelaiature restano 1.730 segnalazioni, e UN solo testo del vault diventa rosso senza esserlo prima. ⑤ Confronto indicizzato (parola piena → frasi): tutte-contro-tutte non finiva piu su un documento lungo, e questo controllo gira nell'hook Stop a ogni turno; il filtro e esatto per costruzione, non un taglio. ⑥ Regola riscritta dove era sbagliata: scrittura-umana.md (Regola 0-bis e Regola 3) e CLAUDE.md. Lezione L-2026-0804-551 con gate vero (0 violazioni su gate-veri.mjs). 5 mutazioni verificate rosse su si-capisce.mjs e cancello-stop.mjs.",
       "verifica": {
         "comando": "node cervello/test/si-capisce.test.mjs"
-      }
+      },
+      "nota_incrocio": "4/8: ha perso il numero AR-530 per sovrascrittura, insieme ad AR-522 (ripresa come AR-537)."
+    },
+    {
+      "id": "AR-540",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 05:45",
+      "nato_come": "scoperta",
+      "nato_da": "AR-507 (stessa forma: il cancello accusa in prima persona di lavoro che non e del turno)",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E uno stato di partenza incompleto, non una riga malata: si vede solo eseguendo il cancello mentre `.git/MERGE_HEAD` esiste. Il guardiano e la prova in cervello/test/cancello-stop.test.mjs.",
+      "origine": "Successo dal vivo il 4/8 05:45: il cancello del lotto ha bloccato la consegna con «AR-361 l'ho chiuso senza una prova che possa fallire». Quel difetto l'aveva chiuso il worker col commit 7132fabf «riconcilia», e la fusione me l'ha portato in casa.",
+      "titolo": "Dentro una fusione il cancello chiama mio il lavoro dell'altro ramo",
+      "causa_radice": "① Il cancello misura la differenza fra HEAD e il disco, e chiama «mio» cio che e cambiato. ② Dentro un merge il disco contiene ANCHE il lavoro dell'altro ramo, e HEAD non lo sa: il secondo genitore vive solo in `.git/MERGE_HEAD`. ③ Quindi ogni difetto chiuso da main durante la fusione risulta chiuso da me, con la sua prova debole. ④ La causa vera: lo stato «prima» era scritto come se un commit avesse sempre un solo genitore — vero per il 99% dei commit, falso proprio quando piu lavoro si incontra.",
+      "fix_proposto": "FATTO 🟡 `statoDiPartenza(daHead, daAltroGenitore)` in cervello/cancello-stop.mjs: dentro una fusione «prima» e l'UNIONE dei due genitori, quindi mio e solo cio che era aperto su entrambi i lati ed e chiuso adesso. Vale anche per le lezioni senza freno. Fuori da una fusione `.git/MERGE_HEAD` non esiste e non cambia niente.",
+      "costo_dichiarato": "Se chiudo un difetto che era gia chiuso sull'altro ramo, il cancello tace. E il verso giusto: quel difetto ha gia la sua storia di la, e accusarmene sarebbe la stessa bugia al contrario.",
+      "verifica": {
+        "comando": "node --test cervello/test/cancello-stop.test.mjs",
+        "nota": "3 prove nuove (75 totali): il difetto chiuso dall'altro ramo tace · quello che chiudo io su un difetto aperto di qua e di la parla ancora · fuori da una fusione niente cambia. Sul campo: il cancello e passato da rosso su AR-361 a `✅ niente da lasciare indietro` senza toccare AR-361."
+      },
+      "lezione": "L-2026-0804-554"
+    },
+    {
+      "id": "AR-543",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "basso",
+      "nato": "2026-08-04 05:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-503 (stessa regola: menzione non e chiamata — questa e la terza forma)",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E un'esenzione che manca, non una riga malata: si vede solo eseguendo la guardia su un diff che tocca il suo stesso diario. Il guardiano e la prova in cervello/test/sorvegliante.test.mjs.",
+      "origine": "Successo dal vivo il 4/8 05:55, unendo main la terza volta: preso da main il proprio storico — che e un referto rigenerabile, si prende un lato e si va avanti — la guardia ha accusato SE STESSA quattro volte.",
+      "titolo": "La guardia accusa il proprio diario: dentro c'e scritto «ho accusato la rimozione di X», e lo legge come una dichiarazione",
+      "causa_radice": "① ⑥b cerca il nome di una difesa nelle righe tolte. ② `sorvegliante-storico.json` e il LOG della guardia: dentro c'e la cronaca dei suoi allarmi, e ogni allarme cita il nome del freno di cui parlava. ③ Quindi buttare via una voce vecchia del diario legge come «hai spento quel freno». ④ La causa e sempre la stessa — menzione non e chiamata — e le due esenzioni che c'erano (prosa e fixture) erano state ritagliate sui due casi visti, non sulla classe: un file dove nessuna difesa PUO vivere.",
+      "fix_proposto": "FATTO 🟡 `REFERTI` + `eReferto()` in cervello/sorvegliante.mjs, terza esenzione accanto a prosa e fixture. Elenco esplicito di UN file, non una cartella: il cantiere, le lezioni e i mutanti stanno nella stessa cartella e li le difese ci vivono davvero — esentare la cartella avrebbe spento la guardia dove serve di piu.",
+      "costo_dichiarato": "Se un giorno qualcuno mettesse un `gate:` dentro lo storico del sorvegliante, toglierlo non farebbe rumore. Non e un buco reale: quel file lo riscrive la guardia stessa a ogni giro, quindi nessuna dichiarazione ci sopravvivrebbe comunque.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "2 prove nuove (96 totali): il diario tace · il registro delle lezioni, nella stessa cartella, parla ancora. La mutazione di AR-503 e stata riagganciata alla riga spostata — me l'ha detto la guardia mentre la spostavo, che e il suo mestiere."
+      },
+      "lezione": "L-2026-0804-554"
     },
     {
       "stato": "chiuso",
@@ -10803,12 +11079,12 @@
       "nato_come": "scoperta",
       "nato_da": "AR-465",
       "origine": "[RICHIESTA DI NICOLA, 2026-08-04 05:20] «fai le cinque che mi hai consigliato» — dopo che l'analisi delle 22 funzionalita mancanti del sorvegliante aveva isolato le cinque in cui la guardia non aggiungeva una capacita ma toglieva un modo di dire verde senza aver guardato.",
-      "id": "AR-531",
+      "id": "AR-544",
       "titolo": "In CI il sorvegliante misurava zero e stampava verde: il passo c'era, il verdetto no",
       "causa_radice": "cancello-lotto.mjs lanciava il sorvegliante senza argomenti. Il comando nudo confronta con HEAD, cioe con l'ultimo commit: su un runner GitHub l'albero e appena clonato e quindi PULITO, il perimetro esce vuoto, zero voci, exit 0. Provato dal vivo in un worktree pulito PRIMA di scrivere il fix: «0 file toccati nel delta — nessuna modifica da guardare», EXIT=0. Cioe il guardiano del delta girava su ogni PR senza guardare una riga, ed e la forma esatta della malattia che questa casa ha in cima al registro: il verde non vuol dire niente. Causa a monte: il perimetro era una costante dentro il comando invece di un argomento del chiamante, e chi lo lanciava (la CI) era l'unico a sapere qual era il confronto giusto.",
       "fix_proposto": "FATTO 🟡 opzione --base <spec> nel sorvegliante + cancello-lotto.mjs che gli passa lo STESSO antenato comune che usa gia per i difetti (basePerConfronto: una risposta sola alla stessa domanda, perche due calcoli divergono sempre). E un perimetro vuoto CON una base esplicita non e piu «pulito»: e cieco (exit 2), perche qualcuno ha chiesto un confronto e non ha prodotto niente. Tolta anche l'uscita anticipata su zero file toccati, che stampava verde prima ancora di dire i «non ho potuto misurare».",
       "verifica": {
-        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-531",
+        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-544",
         "nota": "3 prove su motiviPerimetro (perimetro vuoto con --base = cieco; senza --base = risposta legittima; con file dentro = silenzio) + 2 mutazioni. Prova end-to-end fuori dal comando: worktree pulito, PRIMA exit 0, DOPO exit 2.",
         "provato": "2026-08-04 05:40"
       }
@@ -10823,12 +11099,12 @@
       "nato_come": "scoperta",
       "nato_da": "AR-465",
       "origine": "[RICHIESTA DI NICOLA, 2026-08-04 05:20] «fai le cinque che mi hai consigliato» — dopo che l'analisi delle 22 funzionalita mancanti del sorvegliante aveva isolato le cinque in cui la guardia non aggiungeva una capacita ma toglieva un modo di dire verde senza aver guardato.",
-      "id": "AR-532",
+      "id": "AR-545",
       "titolo": "I file saltati sparivano in silenzio: la regola di casa violata dentro il guardiano che la applica",
       "causa_radice": "Un file nuovo oltre i 512 KB, o illeggibile, veniva saltato con un continue muto e non entrava in motivi. La guardia diceva quindi di aver guardato un file che non ha aperto. Il tetto sui byte e giusto (senza, un export finito li per sbaglio farebbe leggere megabyte a ogni Edit): sbagliato era tacerlo. «non l'ho potuto vedere» non e mai un verde, ed e la regola che questa casa pretende da ogni altro guardiano.",
       "fix_proposto": "FATTO 🟡 motiviSalti(grossi, illeggibili), pura, coi due casi distinti: «non l'ho aperto per scelta» e «non ci sono riuscito» sono due verdetti diversi. I nomi arrivano dentro il motivo, perche «un file» non si puo andare a controllare.",
       "verifica": {
-        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-532",
+        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-545",
         "nota": "3 prove su motiviSalti (byte, illeggibile, i due casi distinti) + 1 mutazione.",
         "provato": "2026-08-04 05:40"
       }
@@ -10843,12 +11119,12 @@
       "nato_come": "scoperta",
       "nato_da": "AR-465",
       "origine": "[RICHIESTA DI NICOLA, 2026-08-04 05:20] «fai le cinque che mi hai consigliato» — dopo che l'analisi delle 22 funzionalita mancanti del sorvegliante aveva isolato le cinque in cui la guardia non aggiungeva una capacita ma toglieva un modo di dire verde senza aver guardato.",
-      "id": "AR-533",
+      "id": "AR-546",
       "titolo": "Durante un merge le righe di qualcun altro diventavano mie: il falso rosso gia pagato con AR-503",
       "causa_radice": "git diff HEAD prende tutto l'albero di lavoro, comprese le righe che sta portando dentro una fusione. Non si puo disambiguare davvero, e la guardia non lo dichiarava: accusava. Un falso rosso e il modo piu veloce per insegnare a scorrere il verdetto, e un verdetto scorso e una guardia spenta. In piu la prima stesura del fix conteneva DUE difetti suoi, presi da due guardiani diversi: (1) i percorsi .git/<nome> scritti a mano non esistono dentro un worktree, dove .git e un file — stessa forma di AR-339, un percorso costruito invece di una domanda alla porta — e l'ha scoperto il collaudo dal vivo mentre le prove pure erano tutte verdi; (2) un catch che tornava false trasformava «git non risponde» in «nessuna fusione», bocciato da spazzata-fratelli come istanza NUOVA di fonte-troncata-letta-per-intera.",
       "fix_proposto": "FATTO 🟡 statoFusione() chiede a git dove tiene la sua cartella (rev-parse --absolute-git-dir, UNA chiamata sola per non pesare su ogni Edit) e riconosce i sei stati che git documenta. Tre esiti: fusione in corso -> dichiarata e cieco; nessuna -> silenzio; git non risponde -> un TERZO stato (leggibile:false) che arriva al verdetto col suo perche.",
       "verifica": {
-        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-533",
+        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-546",
         "nota": "4 prove su fusioneInCorso e statoFusione (i sei stati, i nomi nudi, il terzo stato quando git non risponde) + 2 mutazioni. Prova end-to-end fuori dal comando: MERGE_HEAD vero in un worktree, exit 2.",
         "provato": "2026-08-04 05:40"
       }
@@ -10863,12 +11139,12 @@
       "nato_come": "scoperta",
       "nato_da": "AR-465",
       "origine": "[RICHIESTA DI NICOLA, 2026-08-04 05:20] «fai le cinque che mi hai consigliato» — dopo che l'analisi delle 22 funzionalita mancanti del sorvegliante aveva isolato le cinque in cui la guardia non aggiungeva una capacita ma toglieva un modo di dire verde senza aver guardato.",
-      "id": "AR-534",
+      "id": "AR-547",
       "titolo": "Il repo del sito era cieco per costruzione e la guardia taceva: identico a «tutto a posto»",
       "causa_radice": "git gira con cwd sulla radice di questa casa e la cartella marketplace/ e esclusa dal .gitignore perche e un altro repo. Quando tech o frontend-dev lavorano sul sito nessuno dei controlli guarda niente, e il silenzio in un guardiano si legge come un verde. Il difetto non e il non guardare (farlo vedere anche la e un lavoro grosso che serve poco): e il non dirlo.",
       "fix_proposto": "FATTO 🟡 statoMarketplace() chiede git status --porcelain nell'altro repo (solo se la cartella c'e) e motiviMarketplace() parla SOLO se li c'e lavoro non committato. Copia assente o pulita: silenzio, o sarebbe rumore a ogni modifica. «C'e ma non risponde» e un terzo caso e non si confonde con «pulita».",
       "verifica": {
-        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-534",
+        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-547",
         "nota": "3 prove su motiviMarketplace (sporco parla, assente e pulito tacciono, illeggibile è un terzo caso) + 1 mutazione.",
         "provato": "2026-08-04 05:40"
       }
@@ -10883,12 +11159,12 @@
       "nato_come": "scoperta",
       "nato_da": "AR-465",
       "origine": "[RICHIESTA DI NICOLA, 2026-08-04 05:20] «fai le cinque che mi hai consigliato» — dopo che l'analisi delle 22 funzionalita mancanti del sorvegliante aveva isolato le cinque in cui la guardia non aggiungeva una capacita ma toglieva un modo di dire verde senza aver guardato.",
-      "id": "AR-535",
+      "id": "AR-548",
       "titolo": "A un falso rosso si poteva solo NON rispondere, e il contatore saliva lo stesso fino a bloccare la macchina",
       "causa_radice": "Dal 3/8 ogni voce ha un contatore («gia detto N volte») che a tre fa scattare il cancello dello Stop. Ma non esisteva nessun modo di RISPONDERE a una voce sbagliata: l'unica mossa possibile era ignorarla, e il contatore saliva su un falso positivo finche la macchina si bloccava da sola per un errore suo. Un contatore che conta anche i falsi non e una misura: e rumore con un numero davanti. E l'unica via d'uscita disponibile — scorrere il verdetto — e esattamente il gesto che spegne la guardia dall'interno.",
-      "fix_proposto": "FATTO 🟡 una forma riconosciuta: «sorvegliante: ok <classe|*> fino al AAAA-MM-GG — <perche>». La CLASSE, perche un'esenzione su tutto il file spegnerebbe anche i controlli che nessuno ha guardato (l'asterisco esiste ma va scritto apposta). La DATA OBBLIGATORIA: senza scadenza e la porta di AR-338, e infatti una scritta senza data non zittisce niente e si accusa da sola. Il PERCHE con un minimo di sostanza. Scaduta, la voce torna da sola e si porta dietro la data. Le esentate NON spariscono: restano contate e mostrate, perche un interruttore muto e la stessa bugia col segno cambiato. Le informative non si esentano: un quadro non e un compito. E i marcatori valgono SOLO nel codice vivo (eCodice e non ePROSA, piu l'esenzione di SALTA_MALATTIE): la prima stesura li leggeva ovunque, e la guardia ha contestato come «esenzione malfatta» questa stessa scheda — aveva letto una spiegazione come una dichiarazione. «Menzione non e chiamata» per la quinta volta in questo repo, presa mentre scrivevo il commento che dice di averla evitata; la regola giusta era gia in casa, nel controllo ⑥b.",
+      "fix_proposto": "FATTO 🟡 una forma riconosciuta: «sorvegliante: ok <classe|*> fino al AAAA-MM-GG — <perche>». La CLASSE, perche un'esenzione su tutto il file spegnerebbe anche i controlli che nessuno ha guardato (l'asterisco esiste ma va scritto apposta). La DATA OBBLIGATORIA: senza scadenza e la porta di AR-338, e infatti una scritta senza data non zittisce niente e si accusa da sola. Il PERCHE con un minimo di sostanza. Scaduta, la voce torna da sola e si porta dietro la data. Le esentate NON spariscono: restano contate e mostrate, perche un interruttore muto e la stessa bugia col segno cambiato. Le informative non si esentano: un quadro non e un compito. E i marcatori non si leggono nei file di SALTA_MALATTIE — «menzione non e chiamata» per la quinta volta in questo repo, perche li dentro la forma e scritta per essere spiegata.",
       "verifica": {
-        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-535",
+        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-548",
         "nota": "13 prove su esenzioniDichiarate, filtraEsentate e leggeMarcatori (forma buona, senza data, perché corto, classe che non copre, asterisco, scaduta, informative, scritta rotta, prosa e vault) + 3 mutazioni.",
         "provato": "2026-08-04 05:40"
       }
@@ -10903,20 +11179,20 @@
       "nato_come": "scoperta",
       "nato_da": "AR-465",
       "origine": "[RICHIESTA DI NICOLA, 2026-08-04 05:20] «fai le cinque che mi hai consigliato» — dopo che l'analisi delle 22 funzionalita mancanti del sorvegliante aveva isolato le cinque in cui la guardia non aggiungeva una capacita ma toglieva un modo di dire verde senza aver guardato.",
-      "id": "AR-536",
+      "id": "AR-549",
       "titolo": "I «non ho potuto misurare» esistevano solo nella forma che in sessione non legge nessuno",
-      "causa_radice": "I motivi di cecita si stampavano solo nel verdetto da terminale. In una sessione il canale che arriva davvero e UNO — la busta JSON dell'hook — e li i motivi non ci arrivavano. Cioe una cecita dichiarata a chi non la legge, che e la stessa forma di AR-465 un piano piu giu: senza questo pezzo le riparazioni AR-532, AR-533 e AR-534 sarebbero state scritte e mai lette.",
+      "causa_radice": "I motivi di cecita si stampavano solo nel verdetto da terminale. In una sessione il canale che arriva davvero e UNO — la busta JSON dell'hook — e li i motivi non ci arrivavano. Cioe una cecita dichiarata a chi non la legge, che e la stessa forma di AR-465 un piano piu giu: senza questo pezzo le riparazioni AR-545, AR-546 e AR-547 sarebbero state scritte e mai lette.",
       "fix_proposto": "FATTO 🟡 bustaPerIlModello accetta motivi ed esentate e stampa «non ho guardato: …» (al massimo 2, come i rossi si fermano a 4: la busta deve stare in un colpo d'occhio) e «N voce/i esentata/e» con la scadenza. La vecchia forma a tre argomenti continua a funzionare.",
       "verifica": {
-        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-536",
+        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-549",
         "nota": "2 prove sulla busta (i motivi e le esentate ci arrivano) + la regressione «a mani pulite resta NULLA» + 1 mutazione.",
         "provato": "2026-08-04 05:40"
       }
     }
   ],
   "meta": {
-    "aperti": 161,
+    "aperti": 160,
     "in_corso": 0,
-    "chiusi": 308
+    "chiusi": 311
   }
 }

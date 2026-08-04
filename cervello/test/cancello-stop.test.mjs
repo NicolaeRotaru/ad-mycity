@@ -13,6 +13,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   chiusiSenzaProva,
+  statoDiPartenza,
   allarmiSenzaCoda,
   lezioniSenzaGate,
   consegnaSenzaEsito,
@@ -575,4 +576,38 @@ test("l'ancora del turno viene PRIMA delle basi del ramo", () => {
   // Se scivola dopo, il confronto torna a tutto il ramo e il fix sparisce senza diventare rosso.
   assert.deepEqual(basiPerIlTesto("abc123"), ["abc123", "origin/main", "main"]);
   assert.deepEqual(basiPerIlTesto(null), ["origin/main", "main"], "senza ancora si torna al ramo, non si tace");
+});
+
+// ── Dentro una fusione, «prima» ha due genitori (AR-540) ─────────────────────
+//
+// Il 4/8 il worker ha chiuso AR-361 col suo commit «riconcilia»; la fusione l'ha portato nel mio
+// ramo e il cancello me l'ha contestato come una chiusura mia senza prova. Terza comparsa in due
+// giorni della stessa forma — accusare in prima persona di lavoro che non è mio.
+
+test("un difetto chiuso dall'ALTRO ramo non è una mia chiusura senza prova", () => {
+  const mio = [{ id: "AR-361", stato: "aperto" }];
+  const altroRamo = [{ id: "AR-361", stato: "chiuso", verifica: { file: "x.mjs", pattern: "y", presente: true } }];
+  const suDisco = [{ id: "AR-361", stato: "chiuso", verifica: { file: "x.mjs", pattern: "y", presente: true } }];
+  assert.deepEqual(
+    chiusiSenzaProva(statoDiPartenza(mio, altroRamo), suDisco),
+    [],
+    "il cancello deve dire «non è mio», non accusare",
+  );
+});
+
+test("…ma se lo chiudo IO un difetto aperto su tutt'e due i lati, il cancello parla ancora", () => {
+  const mio = [{ id: "AR-900", stato: "aperto" }];
+  const altroRamo = [{ id: "AR-900", stato: "aperto" }];
+  const suDisco = [{ id: "AR-900", stato: "chiuso", titolo: "chiuso da me senza prova", verifica: { file: "x", pattern: "y" } }];
+  const v = chiusiSenzaProva(statoDiPartenza(mio, altroRamo), suDisco);
+  assert.equal(v.length, 1, "l'unione non deve assolvere il mio lavoro, solo distinguerlo");
+  assert.equal(v[0].id, "AR-900");
+});
+
+test("fuori da una fusione non cambia niente: il secondo genitore non c'è", () => {
+  const mio = [{ id: "AR-1", stato: "aperto" }];
+  const suDisco = [{ id: "AR-1", stato: "chiuso", titolo: "t", verifica: null }];
+  assert.equal(chiusiSenzaProva(statoDiPartenza(mio, null), suDisco).length, 1);
+  assert.deepEqual(statoDiPartenza(mio, null), mio, "senza merge, «prima» resta esattamente HEAD");
+  assert.deepEqual(statoDiPartenza(null, null), [], "e senza niente da leggere resta vuoto, non esplode");
 });

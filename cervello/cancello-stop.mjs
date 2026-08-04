@@ -66,6 +66,7 @@ import { fileURLToPath } from "node:url";
 import { percorsiDaGit } from "./percorsi-git.mjs";
 import { misura, parolePeggioNoteAGlossario } from "./si-capisce.mjs";
 import { BATTITO, vociInsistenti } from "./sorvegliante.mjs";
+import { collaudoAlloStop } from "./collaudo.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -117,6 +118,26 @@ export function chiusiSenzaProva(prima = [], dopo = []) {
  * scrivendo «umano» e basta. Senza il verbale di cosa è stato deciso, resta una dichiarazione — che
  * è esattamente la cosa che questo controllo esiste per fermare.
  */
+/**
+ * Lo stato «prima» del lavoro — che dentro una fusione ha DUE genitori, non uno. (AR-540.)
+ *
+ * Il cancello misura cosa è cambiato fra prima e adesso, e chiama «mio» il cambiamento. Dentro un
+ * merge quella sottrazione mente: il disco contiene anche il lavoro dell'altro ramo, e HEAD non lo
+ * sa. Successo il 4/8 alle 05:45 — il worker aveva chiuso AR-361 col suo commit «riconcilia», la
+ * fusione l'ha portato qui, e il cancello me l'ha contestato come una chiusura mia senza prova.
+ *
+ * È la terza comparsa della stessa forma in due giorni, e Nicola l'aveva già indicata a voce sulla
+ * prima: «il cancello deve dire "non so cosa è tuo" invece di accusare». ① in una copia senza ancora,
+ * ② su un registro riordinato, ③ qui dentro una fusione.
+ *
+ * L'unione è la risposta esatta, non una scorciatoia: mio è ciò che era aperto su ENTRAMBI i lati ed
+ * è chiuso adesso. Non assolve niente di mio — se chiudo io un difetto che di là era aperto, resta
+ * mio e il cancello parla. Fuori da una fusione `altro` è nullo e questa funzione non cambia niente.
+ */
+export function statoDiPartenza(daHead, daAltroGenitore) {
+  return [...(daHead || []), ...(daAltroGenitore || [])];
+}
+
 export function chiusuraLegittima(verifica) {
   if (!verifica) return false;
   if (typeof verifica.comando === "string" && verifica.comando.trim()) return true;
@@ -367,7 +388,7 @@ export function messaggioIlleggibile(testo, noteAGlossario = null, precedenti = 
   // Le ripetizioni contano anche sui messaggi CORTI: un messaggio breve che ridice una cosa già
   // detta è il caso più frequente, ed è quello che è successo davvero il 3/8.
   //
-  // Dal 4/8 (AR-530) contano allo stesso modo le ripetizioni DENTRO il messaggio e i quattro titoli
+  // Dal 4/8 (AR-532) contano allo stesso modo le ripetizioni DENTRO il messaggio e i quattro titoli
   // messi sopra due righe. Sono i due difetti che Nicola ha fotografato, e nessuno dei due ha
   // bisogno che il messaggio sia lungo per costargli tempo: il suo era di media lunghezza.
   const SEMPRE = new Set(["gia-detto", "gia-detto-qui", "blocchi-su-testo-corto"]);
@@ -399,12 +420,19 @@ export function verdetto({
   insistenti = [],
   illeggibili = [],
   messaggio = null,
+  collaudo = [],
   ciechi = [],
   note = [],
   giaBloccato = false,
   attribuzione = { certa: true, nota: null },
 } = {}) {
   const righe = [];
+  // ⑦ IL COLLAUDO DEL LAVORO FINITO (AR-532, Nicola 4/8: «ricontrolla il lavoro fatto, analizzalo
+  // più e più volte e completalo al 100%, così non devo dirtelo io»). Le righe arrivano già pronte
+  // da cervello/collaudo.mjs — chi decide QUANDO chiederle è quel file, con la sua impronta e il suo
+  // registro; qui si mettono in testa perché il ricontrollo dell'intero lavoro è l'ombrello sotto
+  // cui tutti gli altri ❌ si sistemano nello stesso giro.
+  for (const r of collaudo) righe.push(r);
   // ⚪ «NON SO COSA È TUO» (AR-507, Nicola 3/8) — l'accusa che parte prima dell'attribuzione.
   //
   // COSA È SUCCESSO. Prima chiusura di una sessione cloud: nessuna ancora del turno (vive fuori da
@@ -543,10 +571,31 @@ const git = (args) =>
 
 /** Il file com'era all'ultimo commit. `null` = non c'era (e allora «prima» è vuoto, non un errore). */
 function daHead(percorso) {
+  return daRif("HEAD", percorso);
+}
+
+/** Lo stesso file com'era in un qualsiasi commit. Serve al secondo genitore di una fusione. */
+function daRif(rif, percorso) {
   try {
-    return JSON.parse(git(["show", `HEAD:${percorso}`]));
+    return JSON.parse(git(["show", `${rif}:${percorso}`]));
   } catch {
     return null;
+  }
+}
+
+/**
+ * L'ALTRO lato di una fusione in corso, se ce n'è una. `null` fuori da un merge (il caso normale).
+ *
+ * `.git/MERGE_HEAD` esiste solo fra `git merge` e il commit che lo chiude: è la finestra in cui il
+ * disco contiene il lavoro di due rami e HEAD ne conosce uno solo. Fuori da quella finestra questa
+ * funzione non cambia niente, ed è il motivo per cui la si può aggiungere senza allargare nulla.
+ */
+function altroGenitoreDelMerge() {
+  try {
+    const rif = readFileSync(join(REPO, ".git", "MERGE_HEAD"), "utf8").trim().split("\n")[0];
+    return /^[0-9a-f]{7,40}$/.test(rif) ? rif : null;
+  } catch {
+    return null; // nessuna fusione in corso: il caso normale
   }
 }
 
@@ -672,10 +721,27 @@ function fileCommittatiSulRamo(base) {
  */
 export const CERCA_ESITO_IN_GIT = "atteso .*→ .*reale";
 
+/**
+ * Gli argomenti per cercare l'ultimo esito nella storia — fusioni COMPRESE. (AR-505.)
+ *
+ * `git log -G` non calcola i diff dei commit di merge: li salta per costruzione. Quindi chi risolve
+ * un conflitto e registra l'esito nello stesso commit — cioè il flusso naturale, e stanotte l'ho
+ * fatto tre volte — risulta muto, e il freno accusa proprio chi ha appena obbedito.
+ *
+ * `--diff-merges=first-parent` è la risposta esatta: mostra il diff della fusione rispetto a DOVE
+ * ERO IO, cioè quello che quel commit ha davvero aggiunto al mio ramo. Non allarga niente — su un
+ * commit normale non cambia nulla — e non guarda dentro il ramo che arriva, che è lavoro di altri.
+ *
+ * Sta qui fuori, esportata e pura, perché una prova possa ESEGUIRE la scelta invece di rileggerla:
+ * la scheda diceva «con una prova che parta ROSSA su un ramo dove l'unica riga di esito vive in un
+ * commit di merge», ed è così che è stata chiusa.
+ */
+export const ARGOMENTI_CERCA_ESITO = ["log", "-1", "--format=%H", "-G", CERCA_ESITO_IN_GIT, "--diff-merges=first-parent"];
+
 function codiceDopoUltimoEsito(base) {
   const esclusioni = CARTELLE_MEMORIA.map((c) => `:(exclude)${c.replace(/\/$/, "")}`);
   try {
-    const ultimoEsito = git(["log", "-1", "--format=%H", "-G", CERCA_ESITO_IN_GIT, `${base}..HEAD`, "--", "memoria-squadra"]).trim();
+    const ultimoEsito = git([...ARGOMENTI_CERCA_ESITO, `${base}..HEAD`, "--", "memoria-squadra"]).trim();
     if (!ultimoEsito) return null; // nessun esito sul ramo: lo gestisce il caso base, non questo
     return Number(git(["rev-list", "--count", `${ultimoEsito}..HEAD`, "--", ".", ...esclusioni]).trim());
   } catch {
@@ -884,9 +950,19 @@ async function main() {
     }
   }
 
-  const cantierePrima = daHead(CANTIERE)?.difetti || [];
+  // «Prima» ha DUE genitori quando sto unendo (AR-540). Con il solo HEAD, un difetto che main ha
+  // chiuso e che arriva qui dentro la fusione risulta chiuso da me: successo il 4/8 con AR-361,
+  // chiuso dal commit «riconcilia» del worker e contestato a me mentre univo. È la stessa forma che
+  // Nicola aveva già indicato per il sorvegliante — «il cancello deve dire non so cosa è tuo invece
+  // di accusare» — e questa è la terza volta che si presenta: la prima in una copia senza ancora, la
+  // seconda su un registro riordinato, questa dentro una fusione.
+  //
+  // L'unione dei due genitori è la risposta esatta: mio è solo ciò che era aperto su ENTRAMBI i lati
+  // e adesso è chiuso. Non allarga niente — se chiudo io un difetto aperto di là, resta mio.
+  const altro = altroGenitoreDelMerge();
+  const cantierePrima = statoDiPartenza(daHead(CANTIERE)?.difetti, altro && daRif(altro, CANTIERE)?.difetti);
   const cantiereDopo = daDisco(CANTIERE)?.difetti || [];
-  const lezPrima = daHead(APPRENDIMENTO)?.lezioni || [];
+  const lezPrima = statoDiPartenza(daHead(APPRENDIMENTO)?.lezioni, altro && daRif(altro, APPRENDIMENTO)?.lezioni);
   const lezDopo = daDisco(APPRENDIMENTO)?.lezioni || [];
   const { file, codaToccata } = fileDelLavoro();
 
@@ -912,6 +988,20 @@ async function main() {
   // si impara a ignorare in tre giorni.
   if (perimetro.nota) note.push(perimetro.nota);
 
+  // ⑦ Il collaudo del lavoro finito (AR-532): SOLO dentro l'hook Stop, perché il ricontrollo lo fa
+  // il modello e fuori dall'hook (CI, comando a mano) non c'è nessuno a cui chiederlo — un cancello
+  // rosso per costruzione in CI si impara a ignorare in tre giorni, ed è già successo (AR-506).
+  let collaudo = { righe: [], note: [], ciechi: [] };
+  if (hook) {
+    try {
+      collaudo = collaudoAlloStop({ da: perimetro.da, turno: perimetro.turno, giaBloccato });
+    } catch {
+      collaudo = { righe: [], note: [], ciechi: ["il collaudo del lavoro finito non ha girato: non so se questo lavoro sia stato ricontrollato."] };
+    }
+    ciechi.push(...collaudo.ciechi);
+    note.push(...collaudo.note);
+  }
+
   // Le voci che il sorvegliante mi ha ripetuto in faccia mentre lavoravo (AR-497).
   let insistenti = [];
   try {
@@ -934,6 +1024,7 @@ async function main() {
     allarmi: allarmiSenzaCoda(file, codaToccata, consegneModificate || []),
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),
     insistenti,
+    collaudo: collaudo.righe,
     illeggibili: testiIlleggibili(testiToccati(perimetro.da), parolePeggioNoteAGlossario(REPO)),
     // AR-507. `certa` è falsa solo dove l'accusa sarebbe personale e il perimetro no: dentro l'hook
     // `Stop` (sto chiudendo IL MIO turno) e senza ancora. Fuori dall'hook resta certa anche col

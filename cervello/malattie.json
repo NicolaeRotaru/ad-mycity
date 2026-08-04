@@ -194,6 +194,11 @@
    ],
    "esenti": [
     {
+     "file": "cervello/mano-fermata.mjs",
+     "quale": "leggiMalattie(), registro illeggibile -> []",
+     "perche": "Fallisce APERTO per taratura dichiarata in testa al file (AR-533): e un freno pre-scrittura, e un freno rotto che mura ogni Edit viene spento in un giorno — il peggiore degli esiti. Un registro vuoto qui porta a fare di MENO (nessun blocco), mai a dichiarare un verde: il verdetto sulle malattie lo da comunque il sorvegliante a valle, sullo stesso testo, coi suoi motivi di cecita."
+    },
+    {
      "file": "cervello/content-factory/reel.mjs",
      "quale": "riga 145, statSync(p).mtimeMs -> 0",
      "perche": "Serve a ORDINARE dei file per data, non a emettere un verdetto: un file di cui non si legge la data finisce in fondo alla lista, e nessuna decisione dipende da quel numero. La malattia e il verdetto calcolato su una fonte parziale; qui non c'e verdetto."
@@ -356,7 +361,7 @@
    "id": "bypass-del-cancello",
    "nome": "Un comando che salta il cancello: --no-verify o push --force",
    "perche_e_grave": "`--no-verify` salta il pre-commit — cioè lo scan dei segreti, il perimetro di main e il sorvegliante sullo staged — e `git push --force` riscrive la storia del ramo che il Pannello legge. Il bypass consapevole a mano resta legittimo (è scritto nel messaggio del cancello stesso); scritto DENTRO uno script diventa un bypass permanente che nessuno rilegge, e la difesa sparisce per tutti i giri futuri. `--force-with-lease` non entra nel pattern: quello rifiuta di sovrascrivere il lavoro di un altro.",
-   "pattern": "--no-verify|git\\s+push[^\\n]*--force(?!-with-lease)",
+   "pattern": "^(?![^\\n]*(?:RegExp|\\.test\\(|\\.match\\())[^\\n]*(?:git[ \\t]+commit[^\\n]*--no-verify|git[ \\t]+push[^\\n]*--force(?!-with-lease))",
    "dove": [
     "cervello",
     ".github",
@@ -370,14 +375,8 @@
    "baseline": 0,
    "file_noti": [],
    "curati": [],
-   "nota_onesta": "Baseline 0 nel perimetro dichiarato. I due --no-verify che esistono stanno in cervello/test/, dove servono a costruire repo finti: fuori dal perimetro di questa malattia e già fuori dal controllo ① del sorvegliante. Dal 4/8 c'è un esente dichiarato: cervello/pre-scrittura.mjs, il freno che quel bypass lo riconosce per fermarlo (AR-525).",
-   "esenti": [
-    {
-     "file": "cervello/pre-scrittura.mjs",
-     "quale": "le due espressioni regolari che RICONOSCONO --no-verify e push --force",
-     "perche": "È il guardiano che quel bypass lo intercetta: il freno su PreToolUse chiede conferma a Nicola quando sto per lanciare un comando che salta i cancelli del pre-commit o riscrive main. Per riconoscere quelle forme deve nominarle — «menzione ≠ chiamata», la quinta comparsa di questa forma in questo repo, e stavolta dentro il file che rende quel bypass più difficile invece che più facile. Verificabile: qui non c'è nessun `git commit` e nessun `git push`, solo `.test(c)` su un comando che sta per partire; lo script è dichiarato in sola lettura e non esegue git."
-    }
-   ],
+   "nota_onesta": "Il pattern chiede il COMANDO, non la parola: `git commit … --no-verify` oppure `git push … --force`. E salta le righe che contengono una regex (RegExp, .test(, .match(), perche un guardiano che CERCA il bypass — come cervello/pre-scrittura.mjs, che lo vieta — non lo sta facendo. Trovato il 4/8 unendo main: il mio stesso pattern accusava il guardiano nuovo che vieta quella cosa, ed e la quinta comparsa in un giorno di «menzione non e istanza». Il worker aveva curato lo stesso falso positivo con un ESENZIONE su quel file; stringendo il pattern l esenzione non corrisponde piu a niente ed e stata tolta — un residuo lasciato li nasconde il prossimo caso vero.",
+   "esenti": [],
    "nota_baseline": "0 misurato il 2026-08-03 da spazzata-fratelli."
   }
  ]

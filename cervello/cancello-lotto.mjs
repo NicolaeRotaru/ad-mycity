@@ -562,6 +562,11 @@ function main() {
     // La spazzata chiede «questa malattia si è allargata?». Questo chiede l'altra metà: «la forma che
     // è appena tornata ce l'ha, un nome?» — senza, il registro invecchia da fermo (AR-499).
     passi.push(esegui("le malattie che mancano", "node", ["cervello/malattie-mancanti.mjs"]));
+    // Due schede con lo stesso numero (AR-535): non è un fastidio, è una scheda che sparisce alla
+    // prima unione — successo tre volte il 4/8 fra me e il worker. Costa 100 ms e sta qui perché il
+    // momento in cui il numero si sceglie è la consegna, e il momento in cui il danno si vede è la
+    // fusione: in mezzo non guardava nessuno.
+    passi.push(esegui("nessun numero di scheda usato due volte", "node", ["cervello/prossimo-ar.mjs", "--controlla"]));
     // La guardia sul DELTA di questo lotto (30/7, Nicola: «trovi problemi che tu stesso hai creato»).
     // Sta qui e non in un comando a parte per la stessa ragione per cui questo cancello esiste: cinque
     // comandi da ricordare erano cinque occasioni di dimenticarne uno. Guarda solo le righe aggiunte,

@@ -11146,6 +11146,76 @@
    ],
    "gate": "node cervello/test/si-capisce.test.mjs",
    "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0804-552",
+   "testo": "**Il «ricontrolla» di Nicola trova sempre qualcosa perche' arriva a lavoro FINITO — quindi va reso un cancello, non un'abitudine (4/8, richiesta di Nicola).** Ogni volta che chiedeva di ricontrollare un lavoro consegnato, il ricontrollo trovava pezzi mancanti o problemi non visti: i controlli incrementali (sorvegliante sul delta) non possono vedere il pezzo MAI scritto, perche' cio' che manca non compare in nessun diff — lo vede solo uno sguardo fresco sull'intero lavoro, confrontato con la richiesta. **La regola:** il primo «fatto» di ogni lavoro non passa — il cancello dello Stop obbliga il giro di collaudo (rileggi la richiesta, rileggi il diff intero, esegui le prove) e lo ripete a ogni «fatto» finche' un giro esce a mani vuote; mai due volte sullo stesso stato (impronta), o il freno si spegne da solo. **E il corollario, pagato subito sul campo:** senza l'ancora del turno il perimetro del collaudo va FISSATO su HEAD, non allargato al ramo — la prima esecuzione ha presentato 211 file di sessioni passate come lavoro da ricollaudare, cioe' AR-507 di nuovo.",
+   "tag": [
+    "collaudo",
+    "ricontrollo",
+    "guardiani",
+    "lavoro-finito",
+    "qualita"
+   ],
+   "reparto": "qa",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-04 03:56",
+   "ultima_conferma": "2026-08-04 03:56",
+   "stato": "attiva",
+   "evidenze": [
+    "ciclo provato sul campo con l'hook vero: primo Stop exit 2 con le istruzioni, secondo Stop promuove, terzo tace, un file toccato lo fa ripartire",
+    "2 mutazioni in mutanti.json (decisione «chiedi» e aggancio allo Stop) verificate rosse"
+   ],
+   "gate": "node --test cervello/test/collaudo.test.mjs",
+   "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0804-553",
+   "testo": "**Quando due macchine lavorano insieme, una regola scritta non basta: serve un comando (4/8, Nicola: «fai la numero 2»).** Il numero libero per una scheda nuova lo prendevo dalla mia copia del cantiere, ferma a quando e partita; il worker faceva lo stesso sulla sua. Tre collisioni in un giorno, e alla prima fusione sono sparite quattro schede sue — ripristinate solo perche sono andato a guardare. **La regola:** ogni valore che due processi scelgono in parallelo va CHIESTO alla fonte condivisa, non dedotto dalla propria copia. Se la fonte non e raggiungibile si dichiara, non si indovina. **E il corollario che vale oltre i numeri:** la regola esisteva gia scritta in una skill dal caso AR-444 — le regole in prosa reggono finche lavora una macchina sola.",
+   "tag": [
+    "collisioni",
+    "identificatori",
+    "fonte-unica",
+    "worker"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-04 03:10",
+   "ultima_conferma": "2026-08-04 03:10",
+   "stato": "attiva",
+   "evidenze": [
+    "3 collisioni in un giorno sugli stessi numeri",
+    "4 schede del worker sovrascritte dalla mia fusione, poi ripristinate"
+   ],
+   "gate": "node --test cervello/test/prossimo-ar.test.mjs",
+   "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0804-554",
+   "testo": "**Un guardiano va provato anche sui DATI, non solo sul codice (4/8, trovato mentre univo main).** Il controllo che vede sparire un freno l'avevo provato su file di codice, dove ogni chiamata e unica: li «la riga e sparita dal diff» e «nessuno lo chiama piu» coincidono. Nei registri di memoria no — lo stesso `gate:` compare in dodici schede, e fondere due copie ne cancella per mestiere. Quattro accuse su quattro erano false e bloccavano il commit. **La regola:** una guardia che giudica una rimozione deve guardare il RISULTATO (il file com'e rimasto), non solo il GESTO (cosa ho tolto e cosa ho messo). **E il corollario che vale piu della guardia:** stavo per usare --no-verify. Un cancello che non puo diventare verde non viene rispettato, viene aggirato — quindi un falso positivo bloccante e piu pericoloso di un controllo che manca.",
+   "tag": [
+    "guardiani",
+    "falsi-positivi",
+    "registri",
+    "menzione-non-e-chiamata"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "fonte": "campo",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-04 03:40",
+   "ultima_conferma": "2026-08-04 03:40",
+   "stato": "attiva",
+   "evidenze": [
+    "4 accuse false su 4, ripetute fino a 22 volte, con il commit bloccato",
+    "13 e 15 menzioni vive del test accusato nei due file, e gate-veri.mjs con uscita 0"
+   ],
+   "gate": "node --test cervello/test/sorvegliante.test.mjs",
+   "gate_attivo": true
   }
  ],
  "principi": [
