@@ -124,7 +124,7 @@ export function trascrizioniRecenti(cartelle, giorni, adesso = Date.now()) {
  * blocco nove volte su dieci — vero come numero e falso come accusa, perché su un «fatto, è verde»
  * il blocco non va.
  *
- * La soglia bassa arriva da Nicola il 4/8 (AR-518): su una risposta di poche righe i quattro titoli
+ * La soglia bassa arriva da Nicola il 4/8 (AR-522): su una risposta di poche righe i quattro titoli
  * pesano più del testo. Questa condizione DEVE restare gemella di quella del freno: se il contatore
  * misura messaggi che il freno non pretende, misura una dimenticanza che non è tale.
  */

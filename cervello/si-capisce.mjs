@@ -67,7 +67,7 @@ export const RIGHE_TESTO_LUNGO = 15;
 
 /**
  * Sotto questa soglia il testo è CORTO davvero, e i quattro blocchi pesano più di quello che
- * introducono (AR-518).
+ * introducono (AR-522).
  *
  * Nicola, 4/8: «quando è corta la risposta che mi dai penso che non abbiano senso, ma tante volte
  * il riassunto che mi dai mi fa capire meglio la risposta».
@@ -227,7 +227,7 @@ export const ARIA_FRITTA = [
 ];
 
 /**
- * Quanta struttura pretende un testo: `corta` · `media` · `lunga` (AR-518).
+ * Quanta struttura pretende un testo: `corta` · `media` · `lunga` (AR-522).
  *
  * ESISTE PERCHÉ DEVE ESSERE UNA SOLA. Il freno (`si-capisce.mjs`) e il contatore
  * (`conta-blocco-mancante.mjs`) devono rispondere alla stessa domanda con la stessa regola: se il
@@ -416,7 +416,7 @@ export function ideeRipetute(nuovo, precedenti = []) {
 
 
 /**
- * RIPETUTO DENTRO LO STESSO MESSAGGIO — il cieco di `ideeRipetute` (AR-518).
+ * RIPETUTO DENTRO LO STESSO MESSAGGIO — il cieco di `ideeRipetute` (AR-522).
  *
  * IL DIFETTO, con la sua foto. Nicola, 4/8: «stai ancora ripetendo la stessa cosa due volte». Il
  * messaggio che gli ho mandato aveva DUE volte i quattro blocchi, due volte lo stesso comando da
@@ -794,7 +794,18 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
   // perché i 19 che hanno questo difetto sono già rossi per altro. Costo di oggi: nessuno.
   // Valore di domani: è l'unico caso in cui un testo può essere pulito in tutto e vuoto dentro,
   // ed è esattamente il difetto che avrei creato io con la riga «Dettagli tecnici».
-  if (sottoLaRiga > 3 && paroleTecnicheSopra === 0) {
+  // AR-519 — «sostanza» non vuol dire «gergo». Questa regola cercava SOLO le parole della macchina, e
+  // la sua gemella due righe più sotto sa già che un numero è sostanza quanto una parola tecnica: due
+  // metri diversi per la stessa domanda, dentro la stessa funzione. Il caso che l'ha scoperto: il
+  // referto della visita, che sopra la riga dice «112 ore», «2026-07-30 11:19» e «sentinella-dati.json»
+  // — cioè tutto ciò che serve a capire — e veniva chiamato «forma pulita, contenuto svuotato».
+  // Riscrivere quel referto per infilarci una parola dell'elenco sarebbe stato scrivere per il metro.
+  const fattiSopra =
+    /\d{4}-\d{2}-\d{2}/.test(corpo) ||
+    /\d+\s*(ore|giorni?|minuti?|settimane?|mesi|volte|%|€|euro)\b/i.test(corpo) ||
+    /\bsu\s+\d/.test(corpo) ||
+    /[\w-]+\.(mjs|json|md|sh|ts|tsx|yml)\b/.test(corpo);
+  if (sottoLaRiga > 3 && paroleTecnicheSopra === 0 && !fattiSopra) {
     problemi.push({
       riga: righeNicola.length,
       tipo: "sostanza-nascosta",
@@ -878,7 +889,7 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
       }
     }
   }
-  // LA STRUTTURA SI SCALA SULLA LUNGHEZZA (AR-518). Nicola, 4/8: «quando è corta la risposta che mi
+  // LA STRUTTURA SI SCALA SULLA LUNGHEZZA (AR-522). Nicola, 4/8: «quando è corta la risposta che mi
   // dai penso che non abbiano senso, ma tante volte il riassunto che mi dai mi fa capire meglio la
   // risposta». Le due metà della frase non si contraddicono: i blocchi aiutano quando c'è qualcosa
   // da attraversare, e diventano quattro intestazioni sopra sei righe quando non c'è.

@@ -88,7 +88,7 @@ Le due regole che ne escono:
 Il costo di sbagliarla è esattamente quello da cui siamo partiti: Nicola rilegge per scoprire se c'è
 qualcosa di nuovo, e spesso non c'è. **Ripetere non è chiarezza, è costo.**
 
-> ⚠️ **La riga 2 diceva il contrario, e per questo il difetto è tornato (AR-518).** Fino al 4/8 qui
+> ⚠️ **La riga 2 diceva il contrario, e per questo il difetto è tornato (AR-522).** Fino al 4/8 qui
 > c'era scritto: *«il ripasso vale DENTRO un testo, mai fra due messaggi di fila»*. Cioè: dentro un
 > messaggio, ripetere era sempre legittimo. Il controllo era costruito su quella frase e confrontava
 > solo con i messaggi precedenti.
@@ -179,7 +179,7 @@ proprio questa roba. Il misuratore avvisa quando sopra quella riga non resta nes
 
 ## Regola 3 — le quattro risposte in cima a ogni testo lungo
 
-> 📏 **Quanto testo serve perché servano (AR-518).** Nicola, 4/8: *«quando è corta la risposta che mi
+> 📏 **Quanto testo serve perché servano (AR-522).** Nicola, 4/8: *«quando è corta la risposta che mi
 > dai penso che non abbiano senso, ma tante volte il riassunto che mi dai mi fa capire meglio la
 > risposta»*. Le due metà della frase non si contraddicono: i blocchi aiutano quando c'è qualcosa da
 > attraversare, e diventano quattro intestazioni sopra sei righe quando non c'è. Quindi la struttura

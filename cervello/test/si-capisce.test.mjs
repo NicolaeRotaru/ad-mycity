@@ -464,7 +464,7 @@ prova("senza nessun segno di esempio l accusa resta: il fix non ha spento la reg
   assert.ok(tipi(t).includes("manca-esempio"), "un testo senza nessun caso concreto deve restare fermato");
 });
 
-// ── AR-518: la ripetizione DENTRO lo stesso messaggio ─────────────────────────────────────────
+// ── AR-522: la ripetizione DENTRO lo stesso messaggio ─────────────────────────────────────────
 //
 // Il caso non è inventato: è la foto che Nicola ha mandato il 4/8. Un messaggio solo, con i quattro
 // blocchi due volte, lo stesso comando due volte e le stesse frasi riscritte. Il controllo contro le
@@ -558,6 +558,56 @@ prova("i titoli dei blocchi non contano come contenuto", () => {
   // regola dei quattro blocchi si autogiustificherebbe con la propria presenza.
   const soloImpalcatura = ["In parole semplici", "Sì.", "Cosa cambia per te", "No.", "Cosa devi fare", "Niente.", "Cosa non ho verificato", "Niente."].join("\n");
   assert.equal(livelloDiStruttura(soloImpalcatura), "corta", "otto righe piene ma quattro di contenuto");
+});
+
+// ── AR-519: «sostanza» non è «gergo» ──────────────────────────────────────────────────────────
+//
+// Il referto della visita diceva sopra la riga «112 ore», «2026-07-30 11:19» e il nome del file che
+// aveva smesso di aggiornarsi — cioè tutto quello che serve per capire — e veniva bocciato come
+// «forma pulita, contenuto svuotato», perché la regola cercava SOLO le parole della macchina. La
+// gemella due righe più sotto sapeva già che un numero è sostanza: due metri per la stessa domanda.
+
+prova("un testo con date e numeri sopra la riga NON e' svuotato, anche senza gergo", () => {
+  const t = [
+    "In parole semplici",
+    "Ho controllato 19 cose e una non va: la macchina non lascia piu' tracce da 112 ore.",
+    "L'ultima e' del 2026-07-30 alle 11:19.",
+    "Cosa cambia per te",
+    "Finche' resta cosi', quel pezzo non lavora.",
+    "Cosa devi fare",
+    "Fai ripartire il servizio: il comando e' nella card.",
+    "Cosa non ho verificato",
+    "Da qui il server non si vede.",
+    "",
+    "## Dettagli tecnici",
+    "riga di dettaglio uno",
+    "riga di dettaglio due",
+    "riga di dettaglio tre",
+    "riga di dettaglio quattro",
+    "riga di dettaglio cinque",
+  ].join("\n");
+  assert.ok(!tipi(t).includes("sostanza-nascosta"), "date, ore e conteggi sopra la riga SONO la sostanza");
+});
+
+prova("un testo davvero svuotato viene ancora preso", () => {
+  const t = [
+    "In parole semplici",
+    "Ho sistemato la cosa e adesso va meglio.",
+    "Cosa cambia per te",
+    "Cambia in meglio.",
+    "Cosa devi fare",
+    "Niente.",
+    "Cosa non ho verificato",
+    "Quasi tutto.",
+    "",
+    "## Dettagli tecnici",
+    "il cancello legge il guardiano e il sensore scrive il tetto",
+    "riga di dettaglio due",
+    "riga di dettaglio tre",
+    "riga di dettaglio quattro",
+    "riga di dettaglio cinque",
+  ].join("\n");
+  assert.ok(tipi(t).includes("sostanza-nascosta"), "sopra la riga niente numeri e niente termini: e' una copertina");
 });
 
 // ── Referto ───────────────────────────────────────────────────────────────────────────────────

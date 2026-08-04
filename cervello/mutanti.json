@@ -1567,7 +1567,7 @@
    "test": "cervello/test/numeri-prima-delle-risposte.test.mjs"
   },
   {
-   "difetto": "AR-518",
+   "difetto": "AR-522",
    "nome": "la ripetizione dentro lo stesso messaggio torna invisibile: i quattro blocchi possono ricomparire due volte di fila",
    "file": "cervello/si-capisce.mjs",
    "cerca": "  for (const r of ripetizioniInterne(testo)) {",
@@ -1576,7 +1576,7 @@
    "lezione": "L-2026-0804-551"
   },
   {
-   "difetto": "AR-518",
+   "difetto": "AR-522",
    "nome": "i titoli dei quattro blocchi possono comparire due volte nello stesso testo senza che nessuno lo veda",
    "file": "cervello/si-capisce.mjs",
    "cerca": "    if (righeViste.length < 2) continue;\n    fuori.push({\n      riga: righeViste[righeViste.length - 1],\n      trovato: `«${blocco}» ${righeViste.length} volte`,",
@@ -1585,13 +1585,29 @@
    "lezione": "L-2026-0804-551"
   },
   {
-   "difetto": "AR-518",
+   "difetto": "AR-522",
    "nome": "i quattro titoli tornano obbligatori sopra una risposta di due righe: l impalcatura pesa piu del contenuto",
    "file": "cervello/si-capisce.mjs",
    "cerca": "  if (piene >= RIGHE_TESTO_LUNGO) return \"lunga\";\n  if (contenuto < RIGHE_TESTO_CORTO) return \"corta\";",
    "sostituisci": "  if (piene >= RIGHE_TESTO_LUNGO) return \"lunga\";\n  if (contenuto < 0) return \"corta\";",
    "test": "cervello/test/numeri-prima-delle-risposte.test.mjs",
    "lezione": "L-2026-0804-551"
+  },
+  {
+   "difetto": "AR-519",
+   "nome": "«sostanza» torna a voler dire solo «gergo»: un referto pieno di date e' di nuovo una copertina",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "  if (sottoLaRiga > 3 && paroleTecnicheSopra === 0 && !fattiSopra) {",
+   "sostituisci": "  if (sottoLaRiga > 3 && paroleTecnicheSopra === 0) {",
+   "test": "cervello/test/si-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-520",
+   "nome": "il referto della visita torna ad aprire col conteggio invece che con le quattro risposte",
+   "file": "cervello/salute.mjs",
+   "cerca": "  righe.push(...quattroRisposte(v));",
+   "sostituisci": "",
+   "test": "cervello/test/referto-visita-leggibile.test.mjs"
   }
  ]
 }

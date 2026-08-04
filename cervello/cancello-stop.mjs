@@ -367,7 +367,7 @@ export function messaggioIlleggibile(testo, noteAGlossario = null, precedenti = 
   // Le ripetizioni contano anche sui messaggi CORTI: un messaggio breve che ridice una cosa già
   // detta è il caso più frequente, ed è quello che è successo davvero il 3/8.
   //
-  // Dal 4/8 (AR-518) contano allo stesso modo le ripetizioni DENTRO il messaggio e i quattro titoli
+  // Dal 4/8 (AR-522) contano allo stesso modo le ripetizioni DENTRO il messaggio e i quattro titoli
   // messi sopra due righe. Sono i due difetti che Nicola ha fotografato, e nessuno dei due ha
   // bisogno che il messaggio sia lungo per costargli tempo: il suo era di media lunghezza.
   const SEMPRE = new Set(["gia-detto", "gia-detto-qui", "blocchi-su-testo-corto"]);
