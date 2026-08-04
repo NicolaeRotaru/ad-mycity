@@ -356,7 +356,7 @@
    "id": "bypass-del-cancello",
    "nome": "Un comando che salta il cancello: --no-verify o push --force",
    "perche_e_grave": "`--no-verify` salta il pre-commit — cioè lo scan dei segreti, il perimetro di main e il sorvegliante sullo staged — e `git push --force` riscrive la storia del ramo che il Pannello legge. Il bypass consapevole a mano resta legittimo (è scritto nel messaggio del cancello stesso); scritto DENTRO uno script diventa un bypass permanente che nessuno rilegge, e la difesa sparisce per tutti i giri futuri. `--force-with-lease` non entra nel pattern: quello rifiuta di sovrascrivere il lavoro di un altro.",
-   "pattern": "--no-verify|git\\s+push[^\\n]*--force(?!-with-lease)",
+   "pattern": "^(?![^\\n]*(?:RegExp|\\.test\\(|\\.match\\())[^\\n]*(?:git[ \\t]+commit[^\\n]*--no-verify|git[ \\t]+push[^\\n]*--force(?!-with-lease))",
    "dove": [
     "cervello",
     ".github",
@@ -370,7 +370,7 @@
    "baseline": 0,
    "file_noti": [],
    "curati": [],
-   "nota_onesta": "Baseline 0 nel perimetro dichiarato. I due --no-verify che esistono stanno in cervello/test/, dove servono a costruire repo finti: fuori dal perimetro di questa malattia e già fuori dal controllo ① del sorvegliante.",
+   "nota_onesta": "Il pattern chiede il COMANDO, non la parola: `git commit … --no-verify` oppure `git push … --force`. E salta le righe che contengono una regex (RegExp, .test(, .match(), perche un guardiano che CERCA il bypass — come cervello/pre-scrittura.mjs, che lo vieta — non lo sta facendo. Trovato il 4/8 unendo main: il mio stesso pattern accusava il guardiano nuovo che vieta quella cosa, ed e la quinta comparsa in un giorno di «menzione non e istanza». Il worker aveva curato lo stesso falso positivo con un ESENZIONE su quel file; stringendo il pattern l esenzione non corrisponde piu a niente ed e stata tolta — un residuo lasciato li nasconde il prossimo caso vero.",
    "esenti": [],
    "nota_baseline": "0 misurato il 2026-08-03 da spazzata-fratelli."
   }
