@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getImpostazione, getLavori, getLavoriByIds, getConteggiLavori, memoryConnected, setImpostazione } from "@/lib/store";
 import { etaOre, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
+import { verdettoMemoriaFerma } from "@/lib/memoria-ferma";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -117,6 +118,11 @@ export async function GET() {
 
   const oreWorker = oreDaQuando(segnali.worker?.quando);
   const oreWorkerChat = oreDaQuando(workerChatUltimo);
+  // AR-544: `memoria-ad:ultimo_push` si scrive SOLO a push riuscito (giro.sh e worker.sh) — è
+  // l'orologio della pubblicazione. Dal 30/7 al 4/8 è rimasto fermo mentre tutto qui sopra era
+  // verde, e nessun ramo della diagnosi lo guardava.
+  const orePushMemoria = oreDaQuando(segnali.pushMemoria?.quando);
+  const pubblicazione = verdettoMemoriaFerma({ oreWorker, orePush: orePushMemoria });
   const workerVivo = oreWorker != null && oreWorker <= 0.1;
   const workerChatVivo = oreWorkerChat != null && oreWorkerChat <= 0.1;
   const adInPausa = pausa === "on";
@@ -250,6 +256,21 @@ export async function GET() {
   } else if (pipeline === "legacy-agent-direct") {
     problema = "Worker con pipeline vecchia — i giri non pushano la memoria su main.";
     azioni.push("VPS: sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh");
+  } else if (pubblicazione.ferma && pubblicazione.macchinaLavora) {
+    // AR-544 — il caso dei 4 giorni di silenzio (30/7→4/8): tutto il resto è verde, ma l'ultimo
+    // push riuscito è vecchio. La macchina lavora e non pubblica: qualunque sia l'anello rotto
+    // (commit bloccato dal guardiano della forma, albero sporco, rebase, rete), il Pannello sta
+    // mostrando il passato e i comandi di sblocco sono questi.
+    problema = `La macchina è viva ma la memoria non arriva su GitHub da ${etaOre(orePushMemoria)}: il Pannello sta mostrando numeri di allora.`;
+    azioni.push("VPS: journalctl -u mycity-giro -n 60 --no-pager → cerca «COMMIT BLOCCATO», «PUSH ANNULLATO», «MEMORIA NON PUBBLICATA»");
+    azioni.push("VPS: cd /opt/mycity/ad-mycity && git status --short → se elenca file, l'albero sporco blocca rebase e push");
+    azioni.push('Sblocco: git stash push -u -m "salvataggio", poi git fetch origin main && git reset --hard origin/main, poi sudo systemctl start mycity-giro.service');
+  } else if (pubblicazione.maiVisto && workerVivo) {
+    // Un buco non è uno zero (malattia «buco-letto-come-zero»): se la chiave non è mai stata
+    // scritta non so di quando sono i dati — e «non lo so» si dice, non si tace.
+    problema =
+      "Il worker è vivo ma non risulta NESSUN push della memoria riuscito (chiave memoria-ad:ultimo_push mai scritta): non posso dire di quando sono i dati del Pannello.";
+    azioni.push("VPS: journalctl -u mycity-giro -n 60 --no-pager (il push della memoria è mai riuscito?)");
   }
 
   return NextResponse.json({
@@ -261,6 +282,9 @@ export async function GET() {
     workerChatUltimo: workerChatUltimo ?? null,
     workerUltimoFa: oreWorker != null ? etaOre(oreWorker) : "mai",
     workerChatUltimoFa: oreWorkerChat != null ? etaOre(oreWorkerChat) : "mai",
+    pushMemoriaUltimo: segnali.pushMemoria?.quando ?? null,
+    pushMemoriaFa: orePushMemoria != null ? etaOre(orePushMemoria) : "mai",
+    memoriaFerma: pubblicazione.ferma,
     reloadBloccato,
     adInPausa,
     pipeline: pipeline ?? null,
