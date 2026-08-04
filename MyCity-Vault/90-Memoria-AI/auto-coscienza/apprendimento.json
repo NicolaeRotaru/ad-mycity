@@ -4,23 +4,24 @@
  "lezioni": [
   {
    "id": "L-2026-0804-01",
-   "testo": "**`.claude/settings.json` (dove vivono gli hook PreToolUse/UserPromptSubmit necessari a chiudere il loop di prevenzione a monte, es. `mano-fermata.mjs`, `contesto-lezioni.mjs --richiesta`) è vietato in scrittura per l'AD by design, stesso blocco anti-auto-allargamento-permessi già noto per `settings.local.json` ma esteso qui al file che accenderebbe/spegnerebbe tutti i freni insieme (Nicola 4/8 17:03 «fai questo fix» sulla card della prevenzione a monte).** Verificato che gli script del fix esistono già e sono provati sul disco (`test -f cervello/mano-fermata.mjs` e `cervello/contesto-lezioni.mjs`), ma sia l'incollaggio delle 2 righe hook sia il comando di verifica (`node cervello/mano-fermata.mjs --cablaggio`) restano bloccati anche a comando esplicito dentro la sessione. Regola: quando un fix tocca `.claude/settings.json`, non tentare Edit/Write né scorciatoie — preparare il blocco JSON esatto con la posizione precisa (dopo quale matcher/dentro quale array) e lasciare incollaggio + collaudo a Nicola.",
+   "testo": "**`.claude/settings.json` è vietato in scrittura per l'AD by design (stesso blocco anti-auto-allargamento-permessi di `settings.local.json`, esteso al file che accende/spegne tutti i freni insieme) — RISOLTO 4/8 17:26: Nicola ha incollato a mano il blocco hook per `mano-fermata.mjs` (PreToolUse) + `contesto-lezioni.mjs --richiesta` (UserPromptSubmit), `node cervello/mano-fermata.mjs --cablaggio` è verde, AR-533 chiuso e verificato — nello stesso turno l'hook ha davvero iniettato 8 lezioni a tema sul prompt successivo, non solo il comando di collaudo dice verde.** Prima del verde, 2 tentativi falliti — entrambi diagnosticati e corretti nella stessa conversazione, non ripetizioni cieche: ① comando di verifica lanciato dalla home (`~`) invece che da `/opt/mycity/ad-mycity` → «Cannot find module»; ② il JSON incollato a mano aveva il blocco `mano-fermata` annidato dentro l'array sbagliato + due virgole mancanti → `JSON.parse` falliva silenziosamente e `cablaggioPresente()` tornava tutto `false` (nessun errore visibile, solo «ancora mancante»). Regola confermata due volte ora: quando un fix tocca `.claude/settings.json`, **dare sempre il blocco JSON INTERO da sostituire** (l'intera sezione `\"hooks\": {...}`), mai istruzioni tipo «aggiungi qui due righe dentro l'array X» — un umano che incolla frammenti dentro un JSON annidato sbaglia virgole/nesting quasi sempre, ed è un errore silenzioso (JSON rotto non dà stack trace ovvio, sembra un bug del fix).",
    "tag": [
     "settings-json",
     "hook",
     "permessi",
     "prevenzione-a-monte",
+    "json-incollato-a-mano",
     "processo"
    ],
    "reparto": "@tech",
-   "confidenza": 0.8,
-   "evidenze": 1,
+   "confidenza": 0.9,
+   "evidenze": 2,
    "fonte": "chat",
-   "caso_studio_nicola": false,
-   "gate": "node cervello/permessi-check.mjs",
+   "caso_studio_nicola": true,
+   "gate": "node cervello/mano-fermata.mjs --cablaggio",
    "nato": "2026-08-04",
-   "ultima_conferma": "2026-08-04 17:03",
-   "stato": "attiva",
+   "ultima_conferma": "2026-08-04 17:28",
+   "stato": "risolta",
    "usi": []
   },
   {
