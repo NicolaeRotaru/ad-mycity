@@ -10539,6 +10539,24 @@
       "verifica": {
         "comando": "node --test cervello/test/collaudo.test.mjs"
       }
+    },
+    {
+      "id": "AR-519",
+      "stato": "in_corso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "processi-e-cadenze",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 04:20",
+      "nato_come": "correzione-nicola",
+      "nato_da": "AR-518",
+      "origine": "[RICHIESTA DI NICOLA, 4/8] «se il sorvegliante si occupa solo di assicurarsi che il lavoro venga fatto bene, voglio creare qualcos'altro che ti permetta di far bene il lavoro, che impedisca di fare errori e porti il risultato migliore» — proposta in tre pezzi nata in un'altra sessione, costruita qui su suo ordine («crea anche le altre funzionalità»).",
+      "titolo": "La prevenzione a monte non esisteva: le lezioni arrivavano a caso, l'errore noto si scopriva un secondo dopo averlo scritto, e nessuno chiedeva «era la strada migliore?»",
+      "causa_radice": "① Le lezioni entravano nel contesto in ordine di TEMPO (le ultime 12), non di TEMA: 500+ lezioni in memoria e quelle utili al lavoro in corso arrivavano solo per caso. ② L'unico momento con un freno era DOPO la scrittura (sorvegliante PostToolUse): l'errore già censito si scopriva a danno fatto, mai prima. ③ Nessun passo chiedeva se la strada scelta fosse la migliore: senza la domanda, ci si ferma alla prima cosa che funziona.",
+      "fix_proposto": "COSTRUITO 🟡, cablaggio in coda. Tre pezzi: ① `contesto-lezioni.mjs --richiesta` (hook UserPromptSubmit) — seleziona dalle 500+ lezioni SOLO quelle sul tema della richiesta appena arrivata, correzioni di Nicola prima, silenzio sotto soglia; ② `cervello/mano-fermata.mjs` (hook PreToolUse) — se il testo che sto per scrivere contiene una malattia censita, la scrittura viene RIFIUTATA col perché (riusa sorveglia() del sorvegliante: una sola copia della conoscenza); ③ l'asticella come passo ④ del collaudo AR-518 («hai considerato almeno un'altra strada?») — già attiva. ①+② sono costruiti e provati ma NON attivi: l'aggancio richiede due righe in .claude/settings.json, che è nel deny-list della macchina — card 🟡 #prevenzione-a-monte in AZIONI-IN-ATTESA con lo snippet esatto, firma di Nicola. Si chiude quando gli hook sono cablati e visti scattare dal vivo.",
+      "verifica": {
+        "comando": "node cervello/mano-fermata.mjs --cablaggio"
+      }
     }
   ],
   "meta": {

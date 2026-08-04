@@ -894,6 +894,40 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 | 8 | 2026-08-03 22:45 | @tech | Cambia come si chiudono le PR: così com'è, quando ne mergi una uccidi le sue sorelle | 🔴 | È la causa vera del tuo terzo problema. Le PR si chiudono in «squash». Tutti i commit di quella PR diventano uno solo, con un'impronta nuova. Le altre PR aperte sulla stessa base si ritrovano quel contenuto due volte, con due impronte diverse. GitHub le marca come in conflitto. Non si mergiano più e finiscono chiuse. È successo 12 volte sulle ultime 200 PR. La #653 lo racconta nel suo stesso testo: 401 righe e 13 prove, chiusa così. Quella l'ho recuperata a mano. La #598 no. Ci sono due strade. La (a) tiene lo squash e riallinea ogni PR aperta subito dopo ogni merge: posso farlo io in automatico. La (b) passa al merge normale, che non cambia le impronte e non crea il finto conflitto. | github | in attesa | Smetti di perdere lavoro già fatto e già provato. Oggi ogni merge mette a rischio le PR aperte in quel momento. | Dopo il tuo ok dipende da quale strada scegli. Con la (a) collego il riallineamento automatico dopo ogni merge. Con la (b) cambi tu l'impostazione su GitHub e io adeguo lo strumento che apre le PR. |
 
 
+<!-- prevenzione-a-monte -->
+
+### 🟡 #prevenzione-a-monte — Collega i due freni nuovi: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto · ⏳ accodata 2026-08-04 04:25
+
+**Cosa cambia:** i due pezzi che hai chiesto stanotte («qualcosa che ti permetta di far bene il lavoro e impedisca gli errori») sono costruiti e provati, ma **non ancora accesi**. Il primo, appena scrivi una richiesta, pesca dalla memoria solo le lezioni sul tema di quel lavoro (provato: su «apri la PR e fai il rebase» porta 8 lezioni centrate su 503, quasi tutte correzioni tue). Il secondo ferma la mia mano PRIMA che io scriva un errore già censito nel registro delle malattie: la scrittura non parte proprio, col perché davanti agli occhi. Per accenderli servono due righe nel file delle impostazioni di Claude Code (`.claude/settings.json`), che per regola di sicurezza io **non posso toccare**: è il file che decide cosa la macchina può fare, e una macchina che si allarga i permessi da sola è la cosa che quella regola impedisce.
+
+**Se va bene:** apri `.claude/settings.json`, e dentro il blocco `"hooks"` (dove ci sono già `SessionStart`, `PostToolUse` e `Stop`) aggiungi queste due voci, poi salva:
+
+```json
+"PreToolUse": [
+  {
+    "matcher": "Edit|Write|MultiEdit",
+    "hooks": [
+      { "type": "command", "command": "node cervello/mano-fermata.mjs --hook", "timeout": 10 }
+    ]
+  }
+],
+"UserPromptSubmit": [
+  {
+    "hooks": [
+      { "type": "command", "command": "node cervello/contesto-lezioni.mjs --richiesta", "timeout": 10 }
+    ]
+  }
+],
+```
+
+Dalla sessione successiva i due freni sono vivi. Al primo scatto vero dal vivo chiudo la scheda AR-519 e ti mostro cosa hanno fermato.
+
+- **Colore:** 🟡 (auto-modifica della macchina: la firmi tu)
+- **Reparto:** qa + prompt-engineer
+- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-519}`
+
+---
+
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
 ## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-30 11:02)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-30-supervisione.md]].

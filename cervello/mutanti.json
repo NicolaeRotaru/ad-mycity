@@ -1583,6 +1583,30 @@
    "cerca": "  for (const r of collaudo) righe.push(r);",
    "sostituisci": "",
    "test": "cervello/test/collaudo.test.mjs"
+  },
+  {
+   "difetto": "AR-519",
+   "nome": "l'asticella sparisce dal collaudo: si torna a fermarsi alla prima cosa che funziona",
+   "file": "cervello/collaudo.mjs",
+   "cerca": "      `\\n   → ④ l'asticella: hai considerato almeno un'altra strada? dichiara quale e perché hai scelto questa — se non ne esiste nemmeno una, ti sei fermato alla prima cosa che funziona.` +",
+   "sostituisci": "",
+   "test": "cervello/test/collaudo.test.mjs"
+  },
+  {
+   "difetto": "AR-519",
+   "nome": "la scheda smette di selezionare: nessuna lezione entra mai, il contesto torna generico",
+   "file": "cervello/contesto-lezioni.mjs",
+   "cerca": "    if (punti >= PUNTI_MINIMI) fuori.push({ id: l.id, punti, nicola: Boolean(l.caso_studio_nicola), gate: l.gate_attivo ? l.gate : null, testo: l.testo });",
+   "sostituisci": "",
+   "test": "cervello/test/lezioni-su-misura.test.mjs"
+  },
+  {
+   "difetto": "AR-519",
+   "nome": "la mano non si ferma più: il rifiuto diventa un permesso e l'errore censito si scrive",
+   "file": "cervello/mano-fermata.mjs",
+   "cerca": "    hookSpecificOutput: { hookEventName: \"PreToolUse\", permissionDecision: \"deny\", permissionDecisionReason: testo },",
+   "sostituisci": "    hookSpecificOutput: { hookEventName: \"PreToolUse\", permissionDecision: \"allow\", permissionDecisionReason: testo },",
+   "test": "cervello/test/mano-fermata.test.mjs"
   }
  ]
 }

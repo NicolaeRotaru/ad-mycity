@@ -136,7 +136,8 @@ export function righeCollaudo({ giro = 1, nFile = 0, da = null, voci = [] } = {}
       `\n   → ① rileggi la RICHIESTA di Nicola di questo turno e fai l'elenco di OGNI cosa chiesta: per ognuna scrivi FATTA (e dove si vede), MANCANTE (falla adesso) o NON FATTA APPOSTA (col perché).` +
       `\n   → ② rileggi il lavoro INTERO, file per file, dal diff vero — non a memoria: \`${comando}\` e \`git status --short\`.` +
       `\n   → ③ esegui le prove che toccano i file cambiati e guarda i RISULTATI, non i ricordi.` +
-      `\n   → ④ sistemato ciò che trovi, chiudi dichiarando cosa hai verificato e cosa NON hai potuto verificare.` +
+      `\n   → ④ l'asticella: hai considerato almeno un'altra strada? dichiara quale e perché hai scelto questa — se non ne esiste nemmeno una, ti sei fermato alla prima cosa che funziona.` +
+      `\n   → ⑤ sistemato ciò che trovi, chiudi dichiarando cosa hai verificato e cosa NON hai potuto verificare.` +
       `\n   → se correggi qualcosa l'impronta del lavoro cambia e il collaudo riparte al prossimo «fatto»: si ripete finché un giro esce a mani vuote.`,
   ];
   const rosse = voci.filter((v) => v.gravita === "grave").slice(0, 5);

@@ -94,6 +94,7 @@ test("le istruzioni aprono con ❌ e contengono i quattro passi del ricontrollo 
   assert.match(righe[0], /git diff a1b2c3/, "il ricontrollo si fa sul diff dell'INTERO perimetro, non a memoria");
   assert.match(righe[0], /RICHIESTA di Nicola/);
   assert.match(righe[0], /esegui le prove/);
+  assert.match(righe[0], /asticella.*un'altra strada/, "senza l'asticella il collaudo controlla gli errori ma non alza il risultato");
 });
 
 test("il verdetto del sorvegliante sull'intero lavoro entra nelle istruzioni, gravi prima e col tetto", () => {
