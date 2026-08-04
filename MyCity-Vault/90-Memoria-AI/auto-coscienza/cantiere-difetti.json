@@ -11068,6 +11068,24 @@
         "nota": "2 prove nuove (96 totali): il diario tace · il registro delle lezioni, nella stessa cartella, parla ancora. La mutazione di AR-503 e stata riagganciata alla riga spostata — me l'ha detto la guardia mentre la spostavo, che e il suo mestiere."
       },
       "lezione": "L-2026-0804-554"
+    },
+    {
+      "id": "AR-544",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 06:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-543 (4/8) — stessa malattia, curata sull istanza",
+      "origine": "Trovato dal vivo il 4/8: ho rigenerato cantiere-prove.json (il referto pubblicato era fermo al 30/7 e diceva 155 aperti invece di 217) e il commit e stato BLOCCATO con 4 accuse di difesa-rimossa. Le righe tolte erano le prove di AR-447/448/450, chiusi il 3/8: i test esistono ancora e restano citati nelle schede e in mutanti.json. Il referto semplicemente non elenca i difetti chiusi.",
+      "titolo": "La guardia blocca la macchina che aggiorna i propri referti: ogni rapporto rigenerato sembra una difesa spenta",
+      "causa_radice": "① AR-543 aveva capito la classe giusta — un file dove nessuna difesa PUO vivere — ma l ha scritta come un elenco di UN file (REFERTI, cervello/sorvegliante.mjs:166): quello visto quel giorno. ② Nella stessa cartella ci sono ~30 referti generati dagli script del cervello, e molti citano per mestiere il nome di un test o di un freno (cantiere-prove, salute, gate-veri, delta-gate, cantiere-integrita). ③ Quando uno di questi viene rigenerato dopo una chiusura, le righe dei difetti chiusi spariscono e la guardia legge «difesa rimossa» → commit bloccato. ④ Il costo non e un allarme isolato: e un pedaggio su OGNI aggiornamento di referto, cioe esattamente sul lavoro che fa scendere il conto del cantiere. ⑤ Radice di sistema: la cura ritagliata sull istanza vista invece che sulla classe (AR-509).",
+      "fix_proposto": "Sostituire l elenco con un RICONOSCIMENTO: e un referto il JSON che dichiara di essere generato da uno script del cervello (campo _cosa_e con «Scritto da cervello/…», o mappa referto→generatore costruita da chi ci scrive). Restano NON esenti i registri dove le difese vivono davvero — cantiere-difetti.json, mutanti.json, malattie.json, apprendimento.json — nominati come eccezioni all esenzione. Prova comportamentale: rigenerare DUE referti diversi (non solo il diario) e pretendere silenzio, piu un caso di controllo che sporca cantiere-difetti.json e pretende l accusa.",
+      "verifica": {
+        "nota": "da scrivere col fix: la prova deve toccare piu di un referto, altrimenti si ricura di nuovo l istanza"
+      }
     }
   ],
   "meta": {
