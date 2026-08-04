@@ -1137,12 +1137,14 @@ function guardianiNominati() {
  *
  * @returns {{errore:string|null, esito:object, toccati:Array}}
  */
-export function verdettoDelDelta({ soloStaged = false } = {}) {
+export function verdettoDelDelta({ soloStaged = false, da = null } = {}) {
   let diff;
   try {
     // `-U0`: solo le righe cambiate, niente contesto — il contesto NON è mio, e contarlo
     // trasformerebbe il codice di qualcun altro in una mia colpa.
-    diff = soloStaged ? git(["diff", "--cached", "-U0"]) : git(["diff", "HEAD", "-U0"]);
+    // `da` (AR-518): il collaudo del lavoro finito chiede lo stesso giro ma sull'INTERO perimetro
+    // del turno (l'ancora dello Stop), non solo sull'ultima modifica — commit compresi.
+    diff = soloStaged ? git(["diff", "--cached", "-U0"]) : git(["diff", da || "HEAD", "-U0"]);
   } catch (e) {
     // Nessun HEAD (repo appena nato) o git assente: cieco, e cieco non è verde.
     return { errore: e.message.split("\n")[0], esito: { voci: [], cieco: true, motivi: [] }, toccati: [] };

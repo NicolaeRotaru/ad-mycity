@@ -1565,6 +1565,24 @@
    "cerca": "          if (aggiuntoOvunque.includes(p) || aggiuntoOvunque.includes(basenameSemplice(p))) continue;",
    "sostituisci": "",
    "test": "cervello/test/numeri-prima-delle-risposte.test.mjs"
+  },
+  {
+   "difetto": "AR-518",
+   "lezione": "L-2026-0804-551",
+   "nome": "il collaudo smette di chiedere il ricontrollo: «fatto» torna a uscire senza rileggere il lavoro",
+   "file": "cervello/collaudo.mjs",
+   "cerca": "  return { azione: \"chiedi\", giro: pendente ? (registro.giro || 0) + 1 : 1 };",
+   "sostituisci": "  return { azione: \"niente\" };",
+   "test": "cervello/test/collaudo.test.mjs"
+  },
+  {
+   "difetto": "AR-518",
+   "lezione": "L-2026-0804-551",
+   "nome": "il cancello dello Stop scollega il collaudo: la guardia decide e nessuno la ascolta",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  for (const r of collaudo) righe.push(r);",
+   "sostituisci": "",
+   "test": "cervello/test/collaudo.test.mjs"
   }
  ]
 }

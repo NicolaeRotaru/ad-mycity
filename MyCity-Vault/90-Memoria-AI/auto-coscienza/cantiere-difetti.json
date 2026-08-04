@@ -10522,6 +10522,23 @@
       "verifica": {
         "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs"
       }
+    },
+    {
+      "id": "AR-518",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "processi-e-cadenze",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 03:50",
+      "nato_come": "correzione-nicola",
+      "origine": "[RICHIESTA DI NICOLA, 4/8] «ogni volta che finisci di fare un lavoro ed io ti chiedo di ricontrollare tu trovi sempre cose che non hai fatto o problemi che non hai visto… ho bisogno che il sorvegliante o chi è incaricato a farlo ricontrolli il lavoro fatto, analizzi più e più volte il lavoro e lo completi al 100%, così non devo ogni volta dire di ricontrollare tantissime volte di fila.»",
+      "titolo": "Nessuna guardia rileggeva il lavoro FINITO: il «ricontrolla» che trova sempre qualcosa lo faceva solo Nicola, a mano",
+      "causa_radice": "① La revisione esisteva in tre momenti e nessuno è quello giusto: il sorvegliante guarda il DELTA dell'ultima modifica mentre lavoro, il cancello dello Stop guarda cosa sto lasciando indietro (esiti, allarmi, testi difficili), il cancello del lotto gira in CI a PR già scritta. ② Il pezzo MAI scritto non compare in nessun diff incrementale: lo vede solo uno sguardo fresco sull'INTERO lavoro confrontato con la richiesta — che è esattamente ciò che fa il «ricontrolla» di Nicola, ed era l'unico controllo della casa che dipendeva da lui. ③ Un ricontrollo lasciato alla disciplina salta sotto pressione come ogni rituale (AR-154): serviva un cancello nel MOMENTO in cui dichiaro di aver finito, non un promemoria.",
+      "fix_proposto": "FATTO 🟡 Guardia nuova cervello/collaudo.mjs agganciata al cancello dello Stop (solo --hook: in CI non c'è nessuno a cui chiedere il ricontrollo). Il primo «fatto» di ogni lavoro esce 2 e obbliga il giro di collaudo: rileggere la richiesta del turno voce per voce (FATTA/MANCANTE/NON FATTA APPOSTA), rileggere il diff INTERO dal perimetro del turno, eseguire le prove — più il verdetto del sorvegliante calcolato sull'intero perimetro (verdettoDelDelta ora accetta `da`). Un giro che non cambia niente promuove l'impronta a «pulito» e non viene più richiesto; un giro che corregge fa ripartire il collaudo al prossimo «fatto», dallo stesso punto di partenza memorizzato nel registro (_tmp_collaudo.json, fuori da git) — si ripete finché un giro esce a mani vuote, mai due volte sullo stesso stato. Taratura pagata sul campo: senza ancora del turno il perimetro si fissa su HEAD, non sul ramo (la prima esecuzione presentava 211 file di sessioni passate — AR-507 di nuovo). 17 prove + 2 mutazioni.",
+      "verifica": {
+        "comando": "node --test cervello/test/collaudo.test.mjs"
+      }
     }
   ],
   "meta": {
