@@ -3,20 +3,6 @@
   "serie": [
     {
       "data": "2026-07-23",
-      "voto_salute": 0,
-      "voto_provvisorio": 0,
-      "voto_pieno": 0,
-      "firma": "AR-138..AR-153",
-      "difetti_aperti": 33,
-      "difetti_chiusi": 59,
-      "pending_merge": 15,
-      "aperti_davvero": 33,
-      "bloccanti_umani": 2,
-      "tipo": "completa",
-      "nota": "Radiografia completa a 14 senior in parallelo (su richiesta Nicola, tool Workflow bloccato in sessione headless). Voto 0 = il floor della formula pesata quando si audita davvero tutte le 12 dimensioni con rigore (coerente col voto_pieno già a 0 nella sonda precedente), non un crollo improvviso della macchina. 16 difetti nuovi (AR-138..153), 2 chiusi nello stesso turno (card con ID sbagliato, piano crescita con commissione stale). 3 bloccanti prioritari: autopilota Pannello senza verifica pausa, freno budget-token inerte, PI26 senza allarme automatico."
-    },
-    {
-      "data": "2026-07-23",
       "voto_salute": 43,
       "voto_provvisorio": 0,
       "voto_pieno": 0,
@@ -1041,6 +1027,15 @@
       "difetti_chiusi": 1,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-361 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 9 dall'ultima misura vera."
+    },
+    {
+      "data": "2026-08-04",
+      "voto_salute": 9,
+      "voto_riportato": true,
+      "difetti_aperti": 160,
+      "difetti_chiusi": 1,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-457 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 9 dall'ultima misura vera."
     }
   ]
 }
