@@ -10606,11 +10606,179 @@
       "titolo": "La riparazione che sbloccherebbe il server non puo' arrivarci, perche' ad essere rotto e' proprio il modo in cui riceve le riparazioni",
       "causa_radice": "① La causa immediata e' AR-469 alla lettera: 17 file di dati che la macchina si riscrive da sola (auto-coscienza/*.json, cervello/fonti-salute.json, intelligence-agenda.json, routing.json) restano modificati e mai in staging, quindi `git rebase` si rifiuta di partire: «cannot rebase: You have unstaged changes». ② Il fix di AR-469 — mettere da parte quei file prima del rebase — e' in main dal 31/7, verificato leggendo il file: `serve_mettere_da_parte` e lo stash ci sono. Il server non ce l'ha. ③ E qui sta il difetto NUOVO, che non e' AR-469: il server prende le riparazioni facendo rebase su main. Il rebase e' rotto. Quindi la riparazione del rebase non puo' arrivare al posto dove servirebbe. E' un nodo che si stringe da solo: ogni giro ci prova, fallisce, e la pila cresce (3.942 alle 18:23 → 4.006 alle 22:26 → 4.450 alle 03:15, +508 in nove ore). ④ Perche' nessuno l'aveva visto: dalla sessione cloud si vede solo l'effetto (niente arriva nel repo), e l'effetto somiglia a «macchina spenta». Serviva lo schermo del server per distinguere. ⑤ La forma generale, che vale oltre questo caso: un canale di aggiornamento che si ripara solo attraverso se stesso non ha via d'uscita automatica. Serve una mano umana una volta sola, oppure un percorso di riparazione che non passi dal canale rotto.",
       "fix_proposto": "DA FARE, 🔴 e in due tempi. (a) SBLOCCO A MANO, una volta sola: ramo di salvataggio + stash dei file dati + fetch + decisione sui 4.450 commit-diario (il loro valore e' lo STATO finale dei file, che e' gia' nell'albero di lavoro: rifarli uno per uno su main non aggiunge niente e conflitterebbe su ogni file di memoria). (b) 🟡 LA VIA DI FUGA: il percorso di aggiornamento del server non deve dipendere dal rebase. Da progettare come lotto suo: o l'aggiornamento del CODICE si separa dalla pubblicazione della MEMORIA, o il recupero fa un reset guidato invece di un rebase. Finche' non c'e', lo stesso nodo si rifara'."
+    },
+    {
+      "id": "AR-525",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 01:05",
+      "nato_come": "scoperta",
+      "origine": "Domanda di Nicola: «dimmi gli altri hook che dovrebbe avere il sorvegliante». Contando i momenti in cui una guardia puo accendersi: 9 esistono, 2 sono usati.",
+      "titolo": "Le scritture che escono dagli strumenti MCP non le guarda nessuna guardia, ne prima ne dopo",
+      "causa_radice": "① Perche una scrittura puo uscire senza controlli? Perche il sorvegliante e agganciato a Edit/Write/MultiEdit e ai comandi di shell. ② Perche non agli strumenti MCP? Perche quando e nato (30/7) l'unico canale di scrittura era il disco locale. ③ Perche non e stato esteso? Perche il matcher e in .claude/settings.json, che la macchina non puo toccare: allargarlo richiede una mano umana e nessuno se ne e accorto. ④ E perche nessuno se ne e accorto? Perche non esiste un controllo che chieda «quali strumenti scrivono, e chi li guarda?»: il guardiano degli hook verifica che gli hook dichiarati siano attaccati, mai che coprano tutto cio che scrive. ⑤ CAUSA DI SISTEMA: la copertura delle guardie e definita per ELENCO DI STRUMENTI invece che per CLASSE DI EFFETTO. Un canale nuovo nasce quindi sempre scoperto, e resta scoperto finche qualcuno non lo nota a mano.",
+      "fix_proposto": "FATTO 🟡 `cervello/pre-scrittura.mjs`, agganciato a PreToolUse: riconosce gli strumenti che scrivono per FORMA del verbo nel nome (create/update/delete/push/write/apply/deploy), non per elenco, cosi uno strumento nuovo e coperto dal giorno zero. Copre anche il bypass dei cancelli del pre-commit (--no-verify), il force-push su main e la cancellazione di un file che i registri dichiarano difesa. Decide sempre `ask`, mai `deny`: il potere di dire di no resta di Nicola. claude/settings.json (deny-list), scadenza dichiarata in cervello/hook-in-attesa.json.",
+      "verifica": {
+        "comando": "node cervello/hooks-check.mjs --senza-attese",
+        "nota": "13 prove, meta delle quali difendono i SI (nessun falso positivo su commit/push normali); 2 mutazioni verificate rosse. Provato dal vivo con eventi finti su stdin: un mcp__github__create_or_update_file esce `ask`, un mcp__github__get_file_contents non dice niente. Il comando qui accanto e ROSSO finche l'hook non e agganciato davvero (--senza-attese toglie il periodo di grazia): diventa verde solo quando Nicola incolla il blocco, non quando lo dichiaro io. La prova unitaria del pezzo resta node --test cervello/test/pre-scrittura.test.mjs. CHIUSO il 2026-08-04 05:20: Nicola ha incollato il blocco e l'ha committato su main (commit «Update settings.json»). L'aggancio non e' dichiarato, e' MISURATO — `node cervello/hooks-check.mjs --senza-attese` esce 0 con cervello/pre-scrittura.mjs fra i comandi attaccati, e lo stesso comando usciva 1 finche' non c'era."
+      },
+      "malattia": "perimetro-dedotto-non-misurato",
+      "malattia_perche": "La copertura delle guardie era dedotta dagli strumenti che c'erano il giorno in cui sono nate, invece di essere misurata sulla classe «tutto cio che scrive». E AR-347 applicato ai canali invece che ai file.",
+      "chiuso": "2026-08-04 05:20"
+    },
+    {
+      "id": "AR-526",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 01:20",
+      "nato_come": "regressione",
+      "nato_da": "AR-475 (il guardiano degli hook che ho scritto io il 3/8)",
+      "origine": "Costruendo i quattro hook nuovi: appena creati, hooks-check.mjs e diventato rosso su tutti e quattro — cioe sul comportamento giusto.",
+      "titolo": "Il guardiano degli hook non distingue «costruito» da «agganciato», e diventa rosso proprio quando faccio la cosa giusta",
+      "causa_radice": "① Il controllo ④ dice: ogni script che sa parlare da hook o e attaccato, o e un freno mai collegato. ② Ma .claude/settings.json e nel deny-list della macchina: io scrivo l'hook, Nicola lo attacca — due momenti diversi, a volte due giorni diversi. ③ In mezzo il guardiano e rosso, quindi la CI e rossa, quindi il cancello del lotto non passa. ④ Un cancello rosso per costruzione viene aggirato al secondo giro: e la frase che il registro di questo cantiere ripete da settimane, e stavolta l'avrei causata io. ⑤ CAUSA DI SISTEMA: i guardiani di questa macchina hanno due stati (verde/rosso) e la realta ne ha tre. Il terzo — «vero, dichiarato, con una data» — il sorvegliante ce l'ha (gate-in-attesa) e gli altri no: ogni guardiano se lo deve reimparare da capo.",
+      "fix_proposto": "FATTO 🟡 `smistaStaccati()` in hooks-check.mjs + il registro `cervello/hook-in-attesa.json`: un freno costruito e non ancora agganciato e GIALLO se dichiarato con PR e scadenza, ROSSO se manca la data o se la data e passata. Non tocca `freniNonAttaccati` (quella riga e il `cerca` di una mutazione di AR-455: riscriverla avrebbe accecato la prova nell'atto di allargare il controllo che protegge).",
+      "verifica": {
+        "comando": "node --test cervello/test/hooks-check.test.mjs",
+        "nota": "5 prove nuove, di cui una difende la scadenza (passata la data torna rosso) e una il caso senza data (vale come se non ci fosse); 2 mutazioni verificate rosse. Provato dal vivo: hooks-check esce 0 con le 4 attese stampate dopo il verde."
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e l'assenza di un TERZO STATO in un guardiano, non una riga di codice: nessun pattern per riga la vede. La difesa vera e la prova sulla scadenza, che c'e."
+    },
+    {
+      "id": "AR-527",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 01:05",
+      "nato_come": "scoperta",
+      "origine": "Contando i momenti in cui una guardia puo accendersi: `SubagentStop` esiste e non e attaccato a niente. Verificato con un grep su tutto il repo: zero occorrenze fuori dall'elenco degli eventi validi.",
+      "titolo": "I 120 senior consegnano e non li controlla nessuno: il freno scatta solo a fine turno, quando il lavoro di tutti e gia impastato",
+      "causa_radice": "① Tutti e tre i freni sul lavoro (sorvegliante, cancello del lotto, cancello dello Stop) guardano ME. ② Il canale che produce piu delta e la delega ai senior, e non ha nessun freno proprio. ③ Il freno dello Stop scatta a fine turno: se in un turno mando tre senior, i primi due consegnano senza controllo e alla fine i tre delta sono un delta solo, dove non si distingue chi ha lasciato cosa. ④ Peggio: se il sorvegliante parla mentre un senior lavora, il verdetto arriva nel contesto del SENIOR, che chiude e sparisce — io leggo la sintesi, non i suoi errori. ⑤ CAUSA DI SISTEMA: i freni sono stati progettati sul turno dell'AD, e la delega e stata aggiunta dopo senza chiedersi dove finisse il verdetto. E AR-465 («il verdetto finiva dove non lo leggo») nella forma piu difficile da vedere: un lettore c'era, ma era di passaggio.",
+      "fix_proposto": "FATTO 🟡 `cervello/cancello-senior.mjs` su SubagentStop: perimetro del senior (ancora piantata da pre-scrittura.mjs quando parte il Task), voci gravi comparse mentre lavorava, allarmi scritti e non accodati. Blocca il senior con exit 2, con due valvole: mai quando piu senior sono in volo (perimetro condiviso: non attribuisco, quindi non punisco) e mai quando sta gia ripartendo per colpa mia. json).",
+      "verifica": {
+        "comando": "node cervello/hooks-check.mjs --senza-attese",
+        "nota": "13 prove; 2 mutazioni verificate rosse, una sulla valvola del perimetro condiviso e una sulla chiusura dell'ancora. Provato dal vivo: un Task finto pianta l'ancora, il SubagentStop finto elenca i 7 file toccati e la chiude. Il comando qui accanto e ROSSO finche l'hook non e agganciato davvero (--senza-attese toglie il periodo di grazia): diventa verde solo quando Nicola incolla il blocco, non quando lo dichiaro io. La prova unitaria del pezzo resta node --test cervello/test/cancello-senior.test.mjs. CHIUSO il 2026-08-04 05:20: Nicola ha incollato il blocco e l'ha committato su main (commit «Update settings.json»). L'aggancio non e' dichiarato, e' MISURATO — `node cervello/hooks-check.mjs --senza-attese` esce 0 con cervello/cancello-senior.mjs fra i comandi attaccati, e lo stesso comando usciva 1 finche' non c'era."
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e un MOMENTO scoperto (un evento senza nessun freno attaccato), non una riga: si vede confrontando gli eventi possibili con quelli usati, che e quello che fa hooks-check, non un pattern sul testo.",
+      "chiuso": "2026-08-04 05:20"
+    },
+    {
+      "id": "AR-528",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "memoria-e-apprendimento",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 01:05",
+      "nato_come": "scoperta",
+      "origine": "salute.mjs:311 lo dichiara gia come limite: «il battito vive fuori da git, e da una sessione nuova non lo posso vedere». Era scritto come limite, non come difetto.",
+      "titolo": "Quello che la guardia trova muore con la copia: ogni sessione nuova riparte senza sapere cosa era rimasto aperto",
+      "causa_radice": "① Il registro delle voci del sorvegliante vive in un file _tmp_ fuori da git. ② E la scelta giusta (AR-464: verificare non deve costare un diff) con una conseguenza che nessuno ha guardato: muore con la copia. ③ Una sessione cloud nasce da un clone fresco, quindi nasce senza memoria. ④ Effetto composto: il contatore delle ripetizioni (AR-497) funziona DENTRO una sessione e si azzera fuori — la stessa voce grave puo comparire in venti sessioni ed essere ogni volta «la prima». ⑤ CAUSA DI SISTEMA: non era stata distinta la differenza fra VERIFICARE (stato del turno, giusto che stia fuori da git) e RICORDARE (memoria dell'azienda, che fuori da git non e memoria). Una regola presa per la prima e stata applicata anche alla seconda.",
+      "fix_proposto": "FATTO 🟡 `cervello/memoria-guardia.mjs` su tre eventi: `--apri` (SessionStart) dice cosa la sessione precedente ha lasciato aperto, `--consegna` (PreCompact) salva cosa stavo facendo prima che il contesto venisse compresso, `--chiudi` (SessionEnd) archivia il battito nello storico VERSIONATO. Costo dichiarato: una riga di diff a fine sessione — e il prezzo perche il ricordo esista. json).",
+      "verifica": {
+        "comando": "node cervello/hooks-check.mjs --senza-attese",
+        "nota": "12 prove; 1 mutazione verificata rossa sul filtro delle voci «mai risolte» (contarle tutte punirebbe proprio le voci che ho sistemato mentre lavoravo). Il comando qui accanto e ROSSO finche l'hook non e agganciato davvero (--senza-attese toglie il periodo di grazia): diventa verde solo quando Nicola incolla il blocco, non quando lo dichiaro io. La prova unitaria del pezzo resta node --test cervello/test/memoria-guardia.test.mjs. CHIUSO il 2026-08-04 05:20: Nicola ha incollato il blocco e l'ha committato su main (commit «Update settings.json»). L'aggancio non e' dichiarato, e' MISURATO — `node cervello/hooks-check.mjs --senza-attese` esce 0 con cervello/memoria-guardia.mjs fra i comandi attaccati, e lo stesso comando usciva 1 finche' non c'era."
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e un CONFINE di vita (un dato che non sopravvive al contenitore in cui e scritto), non una riga di codice. La difesa e la prova che l'apertura ritrova le voci lasciate aperte.",
+      "chiuso": "2026-08-04 05:20"
+    },
+    {
+      "id": "AR-522",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 00:55",
+      "nato_come": "scoperta",
+      "origine": "Successo dal vivo il 4/8: il cancello dello Stop mi ha contestato 8 cose, di cui 7 erano file scritti tre giorni prima, in commit gia mergiati, che in quel turno non avevo nemmeno aperto.",
+      "titolo": "Il perimetro del turno non esiste al primo giro di ogni copia nuova: il freno parla di lavoro altrui sette volte su otto",
+      "causa_radice": "① Il cancello dello Stop misura «questo turno» grazie a un'ancora. ② L'ancora la pianta lui, alla FINE del primo turno chiuso pulito. ③ Quindi il primo turno di ogni copia non ce l'ha, e il perimetro ripiega su tutto il ramo — che in una sessione cloud vuol dire dieci commit gia mergiati. ④ Il ripiego e dichiarato e onesto, ma l'effetto no: un freno che parla di lavoro non mio si impara a scorrere, ed e esattamente quello che stavo per fare. ⑤ CAUSA DI SISTEMA: il turno non ha un evento di INIZIO a cui appendere niente. Tutta la macchina e costruita sui momenti di fine (fine modifica, fine lotto, fine turno) perche quelli erano gli unici eventi che qualcuno aveva agganciato.",
+      "fix_proposto": "FATTO 🟡 `cervello/intento-turno.mjs` su UserPromptSubmit: pianta l'ancora quando il turno COMINCIA e registra il testo con cui e partito (che il controllo ⑨ del sorvegliante, la deriva, finora non aveva). Semina solo dove e vuoto: spostare un'ancora viva farebbe scavalcare al cancello proprio il lavoro per cui aveva bloccato. json).",
+      "verifica": {
+        "comando": "node cervello/hooks-check.mjs --senza-attese",
+        "nota": "9 prove; 1 mutazione verificata rossa sulla regola che conta (un'ancora viva non si sposta mai). Una prova confronta il nome del file d'ancora con quello del cancello dello Stop: se divergono, il perimetro seminato non lo legge nessuno. Il comando qui accanto e ROSSO finche l'hook non e agganciato davvero (--senza-attese toglie il periodo di grazia): diventa verde solo quando Nicola incolla il blocco, non quando lo dichiaro io. La prova unitaria del pezzo resta node --test cervello/test/intento-turno.test.mjs. CHIUSO il 2026-08-04 05:20: Nicola ha incollato il blocco e l'ha committato su main (commit «Update settings.json»). L'aggancio non e' dichiarato, e' MISURATO — `node cervello/hooks-check.mjs --senza-attese` esce 0 con cervello/intento-turno.mjs fra i comandi attaccati, e lo stesso comando usciva 1 finche' non c'era."
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e un MOMENTO mancante (nessun evento di inizio turno), come AR-527: si vede confrontando gli eventi possibili con quelli usati, non con un pattern sul testo.",
+      "nota_incrocio": "Mentre costruivo questo, su main e arrivato AR-507 con lo stesso SINTOMO (il cancello che accusa di lavoro non del turno) e un fix diverso e complementare: quello mette l'ancora davanti alle basi del ramo quando l'ancora c'e, e dichiara ⚪ quando non c'e. Questo fa in modo che l'ancora ESISTA dal primo messaggio. Nessuno dei due sostituisce l'altro: senza AR-507 l'ancora non veniva usata per i testi, senza questo l'ancora al primo turno non c'era.",
+      "chiuso": "2026-08-04 05:20"
+    },
+    {
+      "id": "AR-523",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 01:35",
+      "nato_come": "scoperta",
+      "origine": "Successo dal vivo mentre costruivo questo lotto: un `node cervello/non-vacuita.mjs` ucciso da un timeout ha lasciato cervello/git-pr.mjs MUTATO su disco, col fix di AR-451 disfatto. L'ha trovato il sorvegliante al primo Edit successivo (voce prova-accecata); senza di lui sarebbe finito in un commit.",
+      "titolo": "La prova che le prove provino rompe i file veri: se muore a meta, lascia il repo con un fix disfatto e nessuno lo dice",
+      "causa_radice": "① non-vacuita.mjs applica ogni mutazione al FILE VERO, lancia il test, poi ripristina. ② Il ripristino sta nel flusso normale: un SIGTERM (timeout, Ctrl-C, container fermato) salta il ripristino. ③ Il file resta mutato e git lo vede come una modifica mia, indistinguibile da una scelta. ④ Peggio: mentre gira, ogni altra guardia che guarda l'albero vede file rotti e grida — durante questo lotto il sorvegliante ha segnalato tre prove-accecate che erano solo la corsa in corso. ⑤ CAUSA DI SISTEMA: uno strumento di misura che scrive nell'oggetto misurato, senza ne un ripristino a prova di uccisione (trap/finally sui segnali) ne un lucchetto che dica agli altri «sto mutando, non fidatevi dell'albero». E la stessa famiglia di AR-464 (verificare non deve costare un diff), ma piu grave: qui verificare puo LASCIARE un diff sbagliato.",
+      "fix_proposto": "FATTO 🟡 gestori su SIGINT/SIGTERM/SIGHUP che rimettono a posto il file tenuto rotto prima di uscire, piu ripristina() con lo scrittore INIETTATO: senza iniezione l'unico modo di provarlo sarebbe ammazzare un processo vero, cioe non provarlo, ed e cosi che il difetto e nato. Lo stato in corso e un oggetto condiviso e non una variabile catturata: un gestore che ne legge una copia vecchia rimetterebbe a posto il file di due mutazioni fa. Restano fuori i casi in cui nemmeno il gestore gira (SIGKILL, container ucciso di colpo): dichiarato, non coperto.",
+      "verifica": {
+        "comando": "node --test cervello/test/non-vacuita-ripristino.test.mjs",
+        "nota": "4 prove sul ripristino (il contenuto ORIGINALE riscritto, nessuna scrittura inventata quando non c'e niente in corso, fallimento dichiarato invece che nascosto); 1 mutazione verificata rossa. Il caso vero resta in origine: git-pr.mjs lasciato con preRebaseSha = null da un SIGTERM il 4/8."
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e uno STATO lasciato indietro da un processo ucciso: non e una riga, e cio che NON viene eseguito quando arriva un segnale. Un pattern per riga non puo vederla; la difesa vera e il ripristino in finally piu una prova che simuli l'uccisione."
+    },
+    {
+      "id": "AR-524",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "consegna-e-lettore",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 04:10",
+      "nato_come": "regressione",
+      "nato_da": "AR-474 (il verdetto scritto dove e comodo a me, non dove lo legge Nicola)",
+      "origine": "Nicola, 4/8: «non mi ha dato nessun blocco, perche? qual e la causa di questo difetto?». Avevo consegnato quattro freni che solo lui puo accendere incollando una configurazione, e la configurazione non gliel'ho mai messa davanti.",
+      "titolo": "La card dice a Nicola di incollare una cosa che nella card non c'e: il lavoro e fatto e resta fermo perche va cercato",
+      "causa_radice": "① Perche non ha avuto il blocco? Perche l'ho scritto in una consegna e in coda ho messo una card che diceva «apri quel file e incolla», e in chat ho citato il percorso. ② Perche mi e sembrato sufficiente? Perche la regola di consegna di CLAUDE.md dice: salva il contenuto in `consegne/` e accoda l'azione in AZIONI-IN-ATTESA. L'ho seguita alla lettera. ③ Perche seguirla alla lettera lo lascia a mani vuote? Perche quella regola e scritta per le azioni che esegue la MACCHINA — il contenuto aspetta in un file e al via parte da solo, la card e un promemoria. Qui l'esecutore e LUI: la card non e un promemoria, e il posto dove il materiale deve stare, perche la mano che agisce e la sua. ④ Perche nessun guardiano l'ha visto? Perche il cancello dello Stop controlla se un allarme e stato accodato, non se la card contiene la roba che chiede di usare: nessuna misura distingueva «azione con materiale» da «azione con puntatore». ⑤ CAUSA DI SISTEMA: la macchina ha UN solo modo di consegnare (artefatto in un file + card che lo cita) e DUE tipi di esecutore (se stessa e Nicola). Per le azioni che solo lui puo eseguire, la card e un puntatore — ed e AR-474 un piano piu su: li era il verdetto senza lettore, qui e il materiale senza mano. Misurato bene alla seconda passata: 2 card in coda hanno questa forma — la mia e #permessi-senza-jolly del 29/7, che chiede di sostituire due righe con un elenco di 70 programmi che vive in un altro file.",
+      "fix_proposto": "FATTO 🟡 ① `cervello/materiale-in-mano.mjs`, agganciato al cancello del lotto: una card APERTA che chiede un gesto di copia (incolla/sostituisci/copia/aggiungi la riga) deve contenere un blocco recintato col materiale. Chiedere di LANCIARE un comando o di DECIDERE non richiede materiale — meta delle prove difendono quei NO, perche un guardiano rumoroso viene spento. ② Tetto assoluto che scende: 6 card ereditate dichiarate, una in piu non si consegna. ③ La card #accendi-i-quattro-controlli-nuovi adesso porta dentro le 108 righe del blocco. ⚠️ CORREZIONE, un'ora dopo: la prima versione del guardiano trovava 7 card e SEI erano abbagli — `copia` come sostantivo («una copia della memoria»), `copiando`/`copiare` riferiti a me, `sostituisce` in terza persona, piu una card gia chiusa che il mio estrattore del titolo non riconosceva. Il guardiano nato per non far perdere tempo a Nicola stava per fargliene perdere su cinque card sane, cioe il difetto che avevo dichiarato di voler evitare nel commento del file stesso. Regola stretta adesso: SOLO l'imperativo di seconda persona, E la card deve citare un file dove il materiale vive (l'ordine qui, la cosa la). Le cinque frasi vere sono diventate cinque prove.",
+      "verifica": {
+        "comando": "node cervello/materiale-in-mano.mjs",
+        "nota": "18 prove, di cui 5 tengono le frasi VERE che avevano prodotto gli abbagli (prese dalla coda, non inventate) e 2 il secondo requisito; 2 mutazioni verificate rosse. Provato dal vivo sulla coda vera: 7 card con la regola larga, 1 con quella stretta, ed e quella giusta."
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e una RELAZIONE fra un testo e il suo lettore — «la card chiede un gesto e non porta la cosa» — non una riga di codice: nessun pattern per riga la vede, serve leggere la card intera e chiedersi chi la esegue. La difesa e il guardiano dedicato, che c'e.",
+      "lezione_appresa": "Una prova costruita su casi finti non dice niente sul rumore: i cinque abbagli sono usciti solo girando il guardiano sul file VERO. Un guardiano nuovo va misurato sul campo prima di dichiararlo, non dopo."
+    },
+    {
+      "id": "AR-529",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 05:30",
+      "nato_come": "scoperta",
+      "origine": "Appena Nicola ha agganciato i quattro freni nuovi in .claude/settings.json, guardia-viva-check ha continuato a chiamarli «costruiti e mai messi di guardia».",
+      "titolo": "Il guardiano della guardia non sa che una riga negli hook e' un'esecuzione: accusa di essere orfani i freni che girano a ogni mossa",
+      "causa_radice": "① Le regole di RE_INVOCAZIONE riconoscono le chiamate da shell (node \"$SCRIPT_DIR/x.mjs\"), da array (spawnSync), da import. ② Rifiutano di proposito il semplice «node cervello/x.mjs» scritto in un testo, e quel rifiuto e' GIUSTO: dentro cancello-lotto.mjs quella stringa compariva in un messaggio, e leggerla come esecuzione avrebbe dichiarato di guardia il guardiano piu' orfano di tutti (menzione ≠ chiamata). ③ Ma un comando dentro `hooks` in .claude/settings.json non e' un testo: e' una POSIZIONE STRUTTURATA, e cio' che ci sta dentro Claude Code lo lancia a ogni evento — l'esecuzione piu' ricorrente che questa macchina abbia. ④ Nessuno aveva insegnato al guardiano a leggere quella posizione, perche' fino al 4/8 negli hook c'erano solo tre guardiani gia' cablati altrove: il buco esisteva e non si vedeva. ⑤ CAUSA DI SISTEMA: «essere eseguito» era definito per FORMA SINTATTICA (come e' scritta la chiamata) invece che per CANALE (chi lo lancia davvero). Un canale nuovo di esecuzione nasce quindi sempre invisibile.",
+      "fix_proposto": "FATTO 🟡 `invocazioniNegliHook()` in guardia-viva.mjs, alimentata da `comandiDichiarati()` di hooks-check.mjs — il lettore di quel file esiste gia' e riusarlo evita due lettori della stessa struttura che divergono (AR-500). Separata dalle altre forme apposta: la regola «menzione ≠ chiamata» resta intatta per il testo libero, e vale solo per la posizione strutturata.",
+      "verifica": {
+        "comando": "node cervello/guardia-viva-check.mjs",
+        "nota": "4 prove nuove; 1 mutazione verificata rossa. Provato dal vivo: prima 59/72 guardiani con 4 falsi orfani ed exit 1, dopo 63/72 ed exit 0. Nel farlo e' uscito un secondo difetto nella stessa riga — il nome tornava senza il `.mjs` e quindi non combaciava con niente, lasciando il rosso identico: l'ha trovato la prova sul repo vero, non la rilettura."
+      },
+      "malattia": "perimetro-dedotto-non-misurato",
+      "malattia_perche": "«Essere eseguito» era dedotto dalle forme di chiamata che esistevano il giorno in cui il guardiano e' nato, invece di essere misurato sui canali che lanciano davvero. E' AR-347 applicato ai canali di esecuzione."
     }
   ],
   "meta": {
     "aperti": 161,
     "in_corso": 0,
-    "chiusi": 299
+    "chiusi": 307
   }
 }

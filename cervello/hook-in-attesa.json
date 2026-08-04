@@ -1,0 +1,8 @@
+{
+  "_cosa_e": "I freni COSTRUITI ma non ancora agganciati in .claude/settings.json, con la data entro cui devono esserlo. Esiste perché quel file è nel deny-list della macchina: io posso scrivere l'hook, non attaccarlo — l'aggancio lo fa Nicola a mano. Senza questo registro il guardiano degli hook direbbe rosso su ogni freno nuovo dal minuto in cui nasce al minuto in cui Nicola lo incolla, e una CI rossa per costruzione si impara a ignorare in tre giorni (AR-506).",
+  "_non_e_un_esenzione": "La differenza sta tutta nella data. Un'attesa senza scadenza È un'esenzione travestita — è la porta di AR-338, e il sorvegliante la conosce: il suo terzo stato «gate-in-attesa» pretende il numero della PR per la stessa ragione. Qui vale lo stesso: passata la data il guardiano torna ROSSO, e il freno non agganciato conta come debito, mai come difesa.",
+  "_come_si_aggiunge": "Una voce per script: { file, evento, perche, pr, scade }. `scade` in formato AAAA-MM-GG. Quando Nicola incolla il blocco, la voce si TOGLIE da qui — non si aggiorna la data. Il campo `pr` va MISURATO, non dedotto incrementando l ultimo numero visto: un numero inventato che esiste gia punta al lavoro di qualcun altro, e chi lo controlla lo trova mergiato e conclude che il freno e attaccato (AR-524).",
+  "aggiornato": "2026-08-04",
+  "in_attesa": [],
+  "_storia": "Il 4/8 alle 05:20 Nicola ha incollato il blocco e l'ha committato su main: le quattro attese sono state TOLTE, non aggiornate (cervello/intento-turno.mjs, cervello/pre-scrittura.mjs, cervello/cancello-senior.mjs, cervello/memoria-guardia.mjs). Il registro resta vuoto ed e' il suo stato giusto: si riempie solo quando un freno nuovo aspetta una mano umana."
+}

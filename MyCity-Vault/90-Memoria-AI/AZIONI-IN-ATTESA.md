@@ -919,6 +919,141 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 | 8 | 2026-08-03 22:45 | @tech | Cambia come si chiudono le PR: così com'è, quando ne mergi una uccidi le sue sorelle | 🔴 | È la causa vera del tuo terzo problema. Le PR si chiudono in «squash». Tutti i commit di quella PR diventano uno solo, con un'impronta nuova. Le altre PR aperte sulla stessa base si ritrovano quel contenuto due volte, con due impronte diverse. GitHub le marca come in conflitto. Non si mergiano più e finiscono chiuse. È successo 12 volte sulle ultime 200 PR. La #653 lo racconta nel suo stesso testo: 401 righe e 13 prove, chiusa così. Quella l'ho recuperata a mano. La #598 no. Ci sono due strade. La (a) tiene lo squash e riallinea ogni PR aperta subito dopo ogni merge: posso farlo io in automatico. La (b) passa al merge normale, che non cambia le impronte e non crea il finto conflitto. | github | in attesa | Smetti di perdere lavoro già fatto e già provato. Oggi ogni merge mette a rischio le PR aperte in quel momento. | Dopo il tuo ok dipende da quale strada scegli. Con la (a) collego il riallineamento automatico dopo ogni merge. Con la (b) cambi tu l'impostazione su GitHub e io adeguo lo strumento che apre le PR. |
 
 
+<!-- accendi-i-quattro-controlli-nuovi -->
+
+### ✅ #accendi-i-quattro-controlli-nuovi — ~~Incolla il blocco che accende i quattro controlli nuovi della macchina~~ → FATTO 2026-08-04 05:20
+
+**Esito:** Nicola ha incollato il blocco e l'ha committato su main. L'aggancio è MISURATO, non dichiarato: `node cervello/hooks-check.mjs --senza-attese` esce 0 con tutti e quattro fra i comandi attaccati, e lo stesso comando usciva 1 finché non c'erano. I quattro difetti sono chiusi (AR-522, AR-525, AR-527, AR-528) e le quattro attese sono state tolte dal registro, non aggiornate.
+
+**Cosa cambia:** ho costruito quattro controlli che oggi non esistono. Senza il tuo incollaggio restano spenti.
+Il primo guarda i miei senior quando finiscono di lavorare. Oggi consegnano e nessuno controlla cosa lasciano indietro. Sono il gruppo che produce più lavoro di tutti.
+Il secondo ti chiede il permesso quando sto per scrivere un file fuori da questa copia. Oggi quelle scritture saltano ogni controllo. Salta anche quello che ferma una chiave vera prima che finisca su GitHub.
+Il terzo dice al controllo di fine turno dove comincia il tuo messaggio. Senza, il 3 agosto mi ha contestato 8 cose. Di quelle 8, ben 7 erano file del 31 luglio che non avevo aperto.
+Il quarto fa sopravvivere quello che i controlli trovano. Oggi muore insieme alla sessione.
+
+**Se va bene:** apri `.claude/settings.json`, sostituisci tutta la parte `"hooks"` col blocco pronto in `consegne/macchina/2026-08-04-hooks-mancanti.md`, e lancia `node cervello/hooks-check.mjs`. Il blocco l'ho già provato su un file candidato. Risultato: 10 comandi su 8 momenti, tutti validi, nessuno staccato.
+Il blocco che avevi incollato il 1 agosto aveva due errori. Uno era una parentesi mancante, l'altro una lettera minuscola. Qui non ci sono.
+Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È voluto: un'attesa senza scadenza è un permesso travestito.
+
+**Il blocco da incollare** (è tutto qui: non devi aprire nessun altro file)
+
+```json
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash cervello/installa-hooks.sh >/dev/null 2>&1; node cervello/contesto-lezioni.mjs --hook"
+          },
+          {
+            "type": "command",
+            "command": "node cervello/memoria-guardia.mjs --apri --hook",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/intento-turno.mjs --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Task|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/pre-scrittura.mjs --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/sorvegliante.mjs --hook",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/misura-cieca.mjs --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/cancello-senior.mjs --hook",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/memoria-guardia.mjs --consegna --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/cancello-stop.mjs --hook",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/memoria-guardia.mjs --chiudi --hook",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+```
+
+**Nota tecnica:** difetti AR-525, AR-527, AR-528, AR-522 (i quattro controlli) + AR-526 (la terza strada del guardiano degli hook, che evita la CI rossa mentre aspetto il tuo incollaggio). Il file dei permessi è negato in scrittura alla macchina apposta, e deve restarci: è quello che può staccare tutti i freni insieme, divieto sui `.env` compreso. Perciò questa card esiste invece del fix diretto.
+
+- **Colore:** 🟡 (cambia la configurazione dei controlli, non manda niente a nessuno; reversibile rimettendo il blocco di prima)
+- **Reparto:** builder-automazioni + devops-sre
+- **Origine:** `{origine:lotto-hooks-mancanti, difetti:[AR-525,AR-526,AR-527,AR-528,AR-522]}`
+
+---
+
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
 ## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-30 11:02)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-30-supervisione.md]].

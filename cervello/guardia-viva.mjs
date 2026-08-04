@@ -110,6 +110,35 @@ export function invocazioniIn(testo = "") {
 }
 
 /**
+ * I guardiani che un HOOK esegue (AR-529).
+ *
+ * PERCHÉ È SEPARATO DALLE ALTRE FORME. Le regole qui sopra rifiutano di proposito il semplice
+ * `node cervello/x.mjs` scritto in un testo: dentro `cancello-lotto.mjs` quella stringa compariva
+ * in un MESSAGGIO, e leggerla come «qualcuno lo esegue» avrebbe dichiarato di guardia il guardiano
+ * più orfano di tutti. È la regola «menzione ≠ chiamata», e va tenuta.
+ *
+ * Ma un comando dentro `hooks` in `.claude/settings.json` non è un testo: è una POSIZIONE
+ * STRUTTURATA, e quello che ci sta dentro Claude Code lo esegue a ogni evento. È l'esecuzione più
+ * ricorrente che questa macchina abbia. Il 4/8, appena Nicola ha agganciato i quattro freni nuovi,
+ * il guardiano ha continuato a chiamarli «costruiti e mai messi di guardia» — cioè accusava di
+ * essere orfani quattro guardiani che stavano girando a ogni singola mossa.
+ *
+ * Riceve i comandi GIÀ ESTRATTI da chi sa leggere quel file (`hooks-check.comandiDichiarati`): qui
+ * non si riapre `settings.json`, o sarebbero due lettori della stessa struttura — e due lettori
+ * dello stesso registro che divergono è la malattia già pagata in AR-500.
+ */
+export function invocazioniNegliHook(comandi = []) {
+  const fuori = new Set();
+  for (const c of comandi) {
+    // Col `.mjs` in coda, come tutte le altre forme: il resto del guardiano indicizza per nome di
+    // file, e restituirlo nudo lo faceva combaciare con niente. Il rosso restava identico, quindi
+    // il difetto era invisibile — l'ha trovato la prova sul repo vero, non la rilettura.
+    for (const m of String(c?.comando || "").matchAll(/\bcervello\/([a-z0-9._-]+)\.mjs/g)) fuori.add(`${m[1]}.mjs`);
+  }
+  return fuori;
+}
+
+/**
  * Le forme in più che valgono SOLO dentro un file nominato come posto di guardia.
  *
  * Un test mette di guardia un guardiano in due modi ugualmente veri: eseguendone il processo, o
@@ -153,6 +182,7 @@ export const MOTIVO = {
   LIBRERIA: "libreria", // esiste come CLI di diagnosi, ma il suo giudizio vive dentro chi lo importa
   DECISIONE: "decisione", // si lancia a mano di proposito, e il perché è scritto
   DA_CABLARE: "da-cablare", // riconosciuto come buco e messo sotto un TETTO che scende: debito, non stato
+  IN_ATTESA: "in-attesa-di-aggancio", // è un hook: lo mette di guardia una riga in .claude/settings.json, che la macchina non può scrivere. Vale SOLO con una data.
   INERZIA: "inerzia", // nessuno l'ha mai messo di guardia e nessuno lo sta chiedendo: è il buco
 };
 
@@ -176,7 +206,7 @@ export const PERCHE_MINIMO = 20;
  *   · dichiarato «cablato» e NESSUNO lo invoca           → **buco**: la dichiarazione mente
  *   · non dichiarato per niente                          → **buco**: costruito e mai messo di guardia
  */
-export function guardiaDi(nome, registro = {}, invocati = new Set(), invocatoDa = new Map()) {
+export function guardiaDi(nome, registro = {}, invocati = new Set(), invocatoDa = new Map(), oggi = "") {
   const voce = registro?.[String(nome)];
   const motivo = voce && typeof voce === "object" ? String(voce.motivo || "") : String(voce || "");
   const eseguito = invocati.has ? invocati.has(String(nome)) : false;
@@ -202,6 +232,35 @@ export function guardiaDi(nome, registro = {}, invocati = new Set(), invocatoDa 
         : "dichiarato cablato senza dire dove: un cablaggio senza indirizzo non si può verificare",
     };
   }
+  // `in-attesa-di-aggancio`: un hook non lo mette di guardia un processo del repo, lo mette una riga
+  // in `.claude/settings.json` — file che la macchina non può scrivere apposta (è quello che può
+  // staccare TUTTI i freni, divieto sui `.env` compreso). Fra «l'ho costruito» e «Nicola l'ha
+  // incollato» passa del tempo vero, e in quel tempo chiamarlo buco vorrebbe dire dare rosso al
+  // comportamento giusto — un cancello rosso per costruzione viene aggirato al secondo giro.
+  //
+  // Vale SOLO con una data, ed è tutta lì la differenza fra un'attesa e un'esenzione: scaduta la
+  // data torna a essere quello che è, cioè un freno costruito e mai collegato. Stessa forma del
+  // terzo stato del sorvegliante sui gate e di quello del guardiano degli hook (AR-526): non è una
+  // seconda copia di quella logica, è la stessa regola applicata a un registro diverso.
+  if (motivo === MOTIVO.IN_ATTESA) {
+    const scade = String(voce?.scade || "").trim();
+    const perche = String(voce?.perche || "").trim();
+    if (!scade) {
+      return { ok: false, motivo, perche: "dichiarato in attesa di aggancio senza una data: un'attesa senza fine è un'esenzione travestita" };
+    }
+    if (oggi && scade < oggi) {
+      return { ok: false, motivo, perche: `doveva essere agganciato entro il ${scade}: da quel giorno non è più un'attesa, è un freno costruito e mai collegato` };
+    }
+    if (perche.length < PERCHE_MINIMO) {
+      return { ok: false, motivo, perche: "dichiarato in attesa senza un perché scritto: un'etichetta non è una decisione" };
+    }
+    // NON conta contro `tetto_da_cablare`, e non è un trucco per stare sotto il tetto: quel tetto
+    // governa i buchi SENZA data, che senza un numero che scende resterebbero lì per sempre. Questo
+    // ha già il suo strumento di disciplina, ed è più severo di un tetto — una data che arriva da
+    // sola. Alzare il tetto per farci stare questi sarebbe invece la soglia allentata che il
+    // sorvegliante cerca nei diff: il rosso che diventa verde senza che niente sia migliorato.
+    return { ok: true, motivo, perche, debito: false, attesa: true, scade };
+  }
   if (motivo !== MOTIVO.LIBRERIA && motivo !== MOTIVO.DECISIONE && motivo !== MOTIVO.DA_CABLARE) {
     return {
       ok: false,
@@ -221,11 +280,18 @@ export function guardiaDi(nome, registro = {}, invocati = new Set(), invocatoDa 
   return { ok: true, motivo, perche, debito: MOTIVI_DEBITO.has(motivo) };
 }
 
-/** Gli strumenti costruiti e mai messi di guardia: il difetto vero e proprio. */
-export function senzaGuardia(guardiani = [], invocati = new Set(), registro = {}, invocatoDa = new Map()) {
+/**
+ * Gli strumenti costruiti e mai messi di guardia: il difetto vero e proprio.
+ *
+ * `oggi` arriva fin qui e non si ferma prima: senza, un'attesa di aggancio scaduta resterebbe verde
+ * per sempre — cioè la data, che è l'unica cosa che distingue un'attesa da un'esenzione, non
+ * scatterebbe mai. Il valore di default è la data di oggi e non la stringa vuota, perché un
+ * chiamante che se ne dimentica deve ottenere il controllo, non saltarlo.
+ */
+export function senzaGuardia(guardiani = [], invocati = new Set(), registro = {}, invocatoDa = new Map(), oggi = new Date().toISOString().slice(0, 10)) {
   const fuori = [];
   for (const nome of guardiani) {
-    const g = guardiaDi(nome, registro, invocati, invocatoDa);
+    const g = guardiaDi(nome, registro, invocati, invocatoDa, oggi);
     if (!g.ok) fuori.push({ strumento: nome, motivo: g.motivo, perche: g.perche });
   }
   return fuori;
