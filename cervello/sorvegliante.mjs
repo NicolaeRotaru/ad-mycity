@@ -179,6 +179,16 @@ const esenteDaMalattie = (file) => SALTA_MALATTIE.some((s) => file === s || file
 export const FIXTURE = ["cervello/test/"];
 const eFixture = (file) => FIXTURE.some((s) => file.startsWith(s));
 
+// I file di `auto-coscienza/` sono il TERMOMETRO, non il metro: li riscrivono per intero i guardiani
+// (verifica-sensori.mjs, pagella-intelligenza.mjs, ...) a ogni giro, mai una mano. Un campo come
+// `max_giri_ciechi` o `quota` lì dentro è una MISURA che sale e scende da sola col mondo reale (il sito
+// è giù da più giri, un gate in più è stato scritto) — non un tetto che qualcuno ha alzato per spegnere
+// un rosso. `soglieAllentate` non lo sa distinguere da un `NOME_SOGLIA` vero scritto a mano in un file
+// di config, quindi lo esentiamo qui: chi vuole davvero alzare un tetto lo fa nello script che lo
+// CALCOLA (cervello/*.mjs, restano guardati), non nel suo output.
+export const TELEMETRIA_GENERATA = ["MyCity-Vault/90-Memoria-AI/auto-coscienza/"];
+const eTelemetria = (file) => TELEMETRIA_GENERATA.some((s) => file.startsWith(s));
+
 /** I file di PROSA: lì niente si esegue, quindi ogni nome di script è una menzione, mai una chiamata.
  *  Vale per il controllo ⑥b (vedi il perché accanto a quel controllo). I `.md` restano pienamente
  *  guardati da ①: una malattia con `estensioni: [".md"]` è una regola sul TESTO, ed è un'altra cosa. */
@@ -947,7 +957,7 @@ export function sorveglia({
     }
 
     // ⑦ soglia-allentata — un tetto che sale o un minimo che scende.
-    if (!eFixture(file)) {
+    if (!eFixture(file) && !eTelemetria(file)) {
       for (const s of soglieAllentate(rimosse, aggiunteQui, file)) {
         voci.push({
           classe: "soglia-allentata",
