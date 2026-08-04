@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { scriviJsonAtomico } from './scrivi-json.mjs'; // AR-558: l'indentazione la legge il file
 
 const path = 'MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json';
 const data = JSON.parse(fs.readFileSync(path, 'utf8'));
@@ -9,5 +10,7 @@ data['_preferenza_nicola_23_07_1800_dedup_lavori_identici'] =
 data['_nota_metabolizzazione_23_07_1800'] =
   "Chat 23/7 ~18:00: Nicola segnala analisi duplicate nei lavori (screenshot) dopo che i limiti Claude erano scaduti e i retry dal Pannello ne avevano creati di nuovi invece di riusare quelli esistenti. AD ha verificato nel DB: cassa-cieca ripetuta 76x dal 14/7, sensori-ciechi 39x — causa: le due sentinelle usano il numero del giro come etichetta invece di una fissa, quindi il controllo anti-doppione non scatta mai; negozi-fermi 25x è invece normale (si ripete ogni 24h a negozio fermo). Fix proposto (etichetta fissa + check-prima-di-creare sul tasto Riprova) in attesa del sì di Nicola. Aggiornati STATO.md (nuova mossa + priorità #8) e LEZIONI-CHAT.md (nuova lezione in cima, rimossa la più debole/vecchia del 20/7 per restare a 12).";
 
-fs.writeFileSync(path, JSON.stringify(data, null, 2) + '\n');
+// Uno-shot rimasto in giro dal 23/7: se qualcuno lo rilancia non deve poter riformattare 1.400
+// righe e bloccare la pubblicazione della memoria. Il contenuto che scrive resta quello di prima.
+scriviJsonAtomico(path, data);
 console.log('OK');

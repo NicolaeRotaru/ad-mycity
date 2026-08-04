@@ -557,6 +557,11 @@ function main() {
     passi.push(esegui("gate delle lezioni", "node", ["cervello/gate-veri.mjs"]));
     // La forma dei JSON: costa un secondo e impedisce la PR da dodicimila righe per cambiarne una.
     passi.push(esegui("forma dei JSON toccati", "node", ["cervello/forma-json.mjs"]));
+    // E l'altra metà (AR-558): `forma-json` vede il file DOPO che è stato riscritto — cioè quando il
+    // commit è già bloccato e l'albero già sporco, che è l'anello 3 della catena di AR-522. Questo
+    // guarda a monte, il CODICE che lo riscriverà: ogni `writeFileSync(X, JSON.stringify(…, null, N))`
+    // dove N non è l'indentazione che X ha sul disco. Misurato: 12.953 righe di diff contro 3.
+    passi.push(esegui("nessuno impone la forma ai JSON", "node", ["cervello/indentazione-guardia.mjs"]));
     passi.push(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]));
     passi.push(esegui("spazzata dei fratelli", "node", ["cervello/spazzata-fratelli.mjs"]));
     // La spazzata chiede «questa malattia si è allargata?». Questo chiede l'altra metà: «la forma che
