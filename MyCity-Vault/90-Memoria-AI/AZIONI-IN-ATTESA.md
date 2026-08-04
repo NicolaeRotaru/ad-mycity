@@ -953,6 +953,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 Dalla sessione successiva i due freni sono vivi. La prova della scheda AR-533 è `node cervello/mano-fermata.mjs --cablaggio`: oggi è rossa, col tuo salvataggio diventa verde e la scheda si chiude da sola.
 
+**Aggiornamento 2026-08-04 17:2x:** Nicola ha incollato il blocco in `.claude/settings.json` (fatto). Primo tentativo di verifica fallito con "Cannot find module" — causa: comando lanciato dalla home (`~`), non dalla cartella del progetto. Prossimo passo suo: `cd /opt/mycity/ad-mycity` poi `node cervello/mano-fermata.mjs --cablaggio`, mandare lo screenshot del risultato. Scheda resta aperta finché non arriva conferma verde.
+
 - **Colore:** 🟡 (auto-modifica della macchina: la firmi tu)
 - **Reparto:** qa + prompt-engineer
 - **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-533}`
