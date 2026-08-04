@@ -8024,7 +8024,12 @@
       "fix_proposto": "🟡 Togliere l asserzione sui dati vivi a radiografia-snella.test.mjs:120 (`risparmio >= 0.45` sul file vero) e lasciare al suo posto la sola misura DICHIARATA: stampa il risparmio di oggi come numero, senza pavimento. La soglia resta dove ha senso, alla riga 128, su un ingresso finto e controllato. Poi la regola generale, che e il vero valore di questo difetto: una prova che legge un file del vault puo asserire sulla sua FORMA (esiste, non e vuoto, ha una fonte, la funzione lo digerisce), mai su una sua QUANTITA del giorno. Se la quantita conta, il posto e una sentinella con il suo esito, non la suite dei test — perche un rosso nella suite significa «il codice e rotto» e insegnare il contrario spegne la suite.",
       "nota": "Storia: nato da una mia affermazione sbagliata («i rossi sono saliti da 3 a 4»), corretta dalla seconda misura nello stesso lavoro. Poi ristretto da 3 punti a 1 dopo che la PR #636 ne ha curati due alla radice. Il merito dei due e della #636, non di questo lotto.",
       "origine": "misurato lanciando test-cervello.mjs per rispondere alla domanda del raggio",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "FATTO 🟡 4/8. Tolto il pavimento sui dati vivi (era `risparmio >= 0.45` sul file vero) e lasciata la sola misura dichiarata, piu due asserzioni che dipendono dal CODICE e non dalla proporzione del giorno: il file vero si digerisce senza null, e nemmeno un finding chiuso sopravvive allo sfoltimento. La soglia del 45% resta dove ha senso, sul fixture 9-su-10. Cosa lo ha fatto scattare: il 4/8 e atterrata una radiografia con 11 chiusi su 123 (il 9%) e il taglio e sceso al 30% — suite rossa su codice fermo, esattamente la previsione scritta nella causa radice. Il ramo `chiusi === 0` del 29/7 curava solo un estremo: fra zero e tanti c era tutto il resto.",
+      "verifica": {
+        "comando": "node cervello/test/radiografia-snella.test.mjs",
+        "nota": "10 prove verdi. Non-vacuita provata a mano: mutando lo sfoltimento (`const aperti = tutti;`, cioe i chiusi non vengono piu tolti) il file diventa rosso — registrato in mutanti.json. La rete che resta suona."
+      }
     },
     {
       "id": "AR-458",
@@ -11207,6 +11212,42 @@
         "comando": "node --import ./cervello/test/hook-ts.mjs --test pannello/src/lib/memoria-ferma.test.mts"
       },
       "prova_runtime": "Playwright 4/8 05:50 (viewport mobile): banner acceso coi numeri veri dell'incidente (114h → «4 giorni e 18 ore», ultima pubblicazione 30/07 11:15), riga «🔴 Lavora ma non pubblica», bottone → diagnosi worker, e NESSUN banner a push fresco. 7/7 osservazioni, zero errori console."
+    },
+    {
+      "id": "AR-556",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 06:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-543 (4/8) — stessa malattia, curata sull istanza",
+      "origine": "Trovato dal vivo il 4/8: ho rigenerato cantiere-prove.json (il referto pubblicato era fermo al 30/7 e diceva 155 aperti invece di 217) e il commit e stato BLOCCATO con 4 accuse di difesa-rimossa. Le righe tolte erano le prove di AR-447/448/450, chiusi il 3/8: i test esistono ancora e restano citati nelle schede e in mutanti.json. Il referto semplicemente non elenca i difetti chiusi. (Nato come AR-544: main ha preso quel numero per un altro difetto mentre lavoravo, rinumerato al merge del 4/8.)",
+      "titolo": "La guardia blocca la macchina che aggiorna i propri referti: ogni rapporto rigenerato sembra una difesa spenta",
+      "causa_radice": "① AR-543 aveva capito la classe giusta — un file dove nessuna difesa PUO vivere — ma l ha scritta come un elenco di UN file (REFERTI, cervello/sorvegliante.mjs:205): quello visto quel giorno. ② Nella stessa cartella ci sono ~30 referti generati dagli script del cervello, e molti citano per mestiere il nome di un test o di un freno (cantiere-prove, salute, gate-veri, delta-gate, cantiere-integrita). ③ Quando uno di questi viene rigenerato dopo una chiusura, le righe dei difetti chiusi spariscono e la guardia legge «difesa rimossa» → commit bloccato. ④ Il costo non e un allarme isolato: e un pedaggio su OGNI aggiornamento di referto, cioe esattamente sul lavoro che fa scendere il conto del cantiere. ⑤ Radice di sistema: la cura ritagliata sull istanza vista invece che sulla classe (AR-509).",
+      "fix_proposto": "Sostituire l elenco con un RICONOSCIMENTO: e un referto il JSON che dichiara di essere generato da uno script del cervello (campo _cosa_e con «Scritto da cervello/…», o mappa referto→generatore costruita da chi ci scrive). Restano NON esenti i registri dove le difese vivono davvero — cantiere-difetti.json, mutanti.json, malattie.json, apprendimento.json — nominati come eccezioni all esenzione. Prova comportamentale: rigenerare DUE referti diversi (non solo il diario) e pretendere silenzio, piu un caso di controllo che sporca cantiere-difetti.json e pretende l accusa.",
+      "verifica": {
+        "nota": "da scrivere col fix: la prova deve toccare piu di un referto, altrimenti si ricura di nuovo l istanza"
+      }
+    },
+    {
+      "id": "AR-557",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 13:20",
+      "nato_come": "scoperta",
+      "nato_da": "misurato lanciando non-vacuita.mjs sul lotto del 4/8",
+      "origine": "Trovato girando `node cervello/non-vacuita.mjs` sul ramo del 4/8: 13 mutazioni su 14 uccidono la loro prova, una no. La mutazione trova il suo pezzo (non e cieca): lo sostituisce, e il test resta verde lo stesso.",
+      "titolo": "Un difetto chiuso con una prova che non prova piu: rompo la guardia sui file cancellati e il test resta verde",
+      "causa_radice": "① AR-495 e chiuso con `node cervello/test/sorvegliante.test.mjs` e cinque mutazioni dichiarate. ② Una di quelle — `if (!nuovo && vecchio) cancellati.push(vecchio);` → `if (false) …`, cioe la guardia smette di vedere i file cancellati — oggi NON fa diventare rosso il test. ③ Il pezzo c e ancora (la mutazione non e cieca, e il caso diverso e piu innocuo): quindi non e un puntatore rotto, e il test ad aver perso i denti su quel comportamento. ④ Sospetto da verificare: sorvegliante.mjs e cresciuto di ~440 righe fra il 3 e il 4/8, e in quella riscrittura la strada dei cancellati ha smesso di passare dal punto che il test guarda. ⑤ La conseguenza e la piu costosa che ci sia in questo cantiere: un difetto CHIUSO il cui freno non frena — cioe un verde che vale zero, e nessuno se ne accorge perche la non-vacuita non gira nel cancello.",
+      "fix_proposto": "Due pezzi. ① Capire dove si e staccata la strada dei cancellati e rimettere la prova sul COMPORTAMENTO (la guardia deve accusare quando un file sparisce), non sulla forma del messaggio; poi rilanciare `node cervello/non-vacuita.mjs` e pretendere il rosso con la mutazione applicata. ② La causa di sistema: `non-vacuita.mjs` non gira dentro `cancello-lotto.mjs`, quindi una prova che perde i denti non lo dichiara a nessuno finche qualcuno non la lancia a mano. Valutare di agganciarla al cancello almeno sui difetti toccati dal lotto — e se costa troppo tempo, farla girare come sonda periodica con un esito scritto.",
+      "verifica": {
+        "nota": "da scrivere col fix: la prova deve tornare rossa quando la mutazione di AR-495 e applicata"
+      }
     }
   ],
   "meta": {
