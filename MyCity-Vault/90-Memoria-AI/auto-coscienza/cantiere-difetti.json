@@ -11296,10 +11296,27 @@
       "verifica": {
         "comando": ""
       }
+    },
+    {
+      "id": "AR-560",
+      "stato": "aperto",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "worker",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 19:50",
+      "nato_come": "scoperta",
+      "origine": "Nicola, casella Sala Operativa, 4/8 19:38: due segnalazioni di fila ('non vedo la risposta dal telefono', poi 'no, non c'è, ristampa e risolvi'). La 1ª diagnosi dell'AD ('è la cache del telefono') era sbagliata: riletto il contenuto ESATTO salvato nel database (tabella conversazioni), non solo il fatto che fosse presente.",
+      "titolo": "Le risposte dell'AD in chat arrivano incollate una dentro l'altra, senza andare a capo, quando durante la risposta scatta il controllo automatico di autoverifica",
+      "causa_radice": "`cervello/worker.sh`, funzione `_estrai_stream` (~riga 461-497): quando durante una risposta scatta il cancello di stop (`cancello-stop.mjs --hook`, che rilancia l'AD per farla ricontrollare il proprio lavoro PRIMA di chiudere il turno), il testo del turno successivo arriva come nuovi eventi `stream_event`/`assistant` nello stesso file di streaming. Il jq di `_estrai_stream` accumula i delta di testo in un unico buffer (`.cur`) e lo spezza in segmenti nuovi SOLO quando incontra un evento `tool_use` di primo livello — un rilancio del cancello di stop non ne emette uno, quindi il testo del turno successivo si concatena a quello del turno precedente carattere per carattere, senza alcun separatore. Il risultato finale (`lavori.risultato`, poi salvato nella tabella `conversazioni` che il Pannello legge da ogni dispositivo) contiene più risposte distinte fuse in un unico blocco illeggibile — il testo c'è tutto, ma sembra rotto o mancante a chi legge, specie su schermo piccolo.",
+      "fix_proposto": "Nella riduzione jq di `_estrai_stream`, riconoscere il confine di un rilancio da cancello di stop e chiudere il segmento corrente (flush di `.cur` in `.parts`, come già avviene per `tool_use`) prima di iniziare ad accumulare il testo del turno successivo — così il `join(\"\\n\\n\")` finale separa correttamente i turni invece di fonderli. Da scrivere e provare con un file di eventi stream-json REALE che riproduce il caso (due turni assistant consecutivi senza `tool_use` in mezzo), non a mano: è lo stesso file delicato che gestisce tutte le chat del Pannello, un fix non provato rischia di rompere lo streaming per tutti.",
+      "verifica": {
+        "comando": ""
+      }
     }
   ],
   "meta": {
-    "aperti": 161,
+    "aperti": 162,
     "in_corso": 0,
     "chiusi": 332
   }
