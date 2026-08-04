@@ -797,6 +797,23 @@ export function vociInsistenti(viste = {}, scatto = 0, soglia = INSISTENZA) {
 }
 
 /**
+ * Le voci comparse DOPO un certo scatto, e ancora vive all'ultimo.
+ *
+ * Serve al cancello dei senior (AR-520): un senior parte, la guardia scatta N volte mentre lavora, e
+ * alla fine la domanda è «cosa è comparso da quando è partito LUI». Senza questo taglio il cancello
+ * gli rinfaccerebbe le voci di chi ha lavorato prima — che è la stessa malattia del perimetro largo,
+ * spostata dai turni ai senior.
+ *
+ * `gravi` e `medie` insieme: qui il conteggio non serve a bloccare, serve a raccontare cosa ha
+ * lasciato — e una media lasciata a un senior è esattamente il genere di cosa che nessuno riguarda.
+ */
+export function vociDaScatto(viste = {}, scattoDa = 0, scattoOra = 0) {
+  return Object.entries(viste)
+    .filter(([, v]) => Number(v.scatto) > scattoDa && Number(v.scatto) === scattoOra)
+    .map(([chiave, v]) => ({ chiave, n: v.n, file: v.file, cosa: v.cosa, gravita: v.gravita }));
+}
+
+/**
  * La busta che ARRIVA al modello. Un hook PostToolUse che stampa testo semplice finisce nel log di
  * debug; solo `hookSpecificOutput.additionalContext` viene messo accanto al risultato dello strumento.
  * Torna la stringa da stampare, o `null` quando non c'è niente da dire (tacere è la scelta giusta:
@@ -1124,6 +1141,22 @@ function guardianiNominati() {
     }
   }
   return [...fuori];
+}
+
+/**
+ * L'indice delle difese di QUESTO repo, letto dai registri veri.
+ *
+ * Esportato (AR-518) perché adesso serve anche al freno che parla PRIMA della mossa: quando sto per
+ * cancellare un file, la domanda «qualcuno lo dichiara difesa?» è la stessa identica di quando l'ho
+ * già cancellato. Sta qui e non là perché i tre lettori dei registri stanno qui: una seconda copia
+ * divergerebbe, ed è la ragione per cui in questa macchina il registro delle malattie è UNO.
+ */
+export function difeseDelRepo() {
+  return indiceDifese({
+    lezioni: leggiLezioni() || [],
+    mutanti: leggiRegistro("mutanti.json", "mutanti") || [],
+    guardiani: guardianiNominati(),
+  });
 }
 
 /**
