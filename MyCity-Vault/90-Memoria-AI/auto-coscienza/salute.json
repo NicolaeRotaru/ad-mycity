@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-04 02:59",
+  "aggiornato": "2026-08-04 03:06",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -15,15 +15,15 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-08-04 02:59",
-      "iso": "2026-08-04T00:59:08.620Z",
+      "quando": "2026-08-04 03:06",
+      "iso": "2026-08-04T01:06:36.819Z",
       "casa": "claude",
       "modo": "rapido",
-      "ok": 12,
+      "ok": 11,
       "rotti": 1,
       "guasti": 0,
-      "nonvisti": 6,
-      "copertura": 0.68,
+      "nonvisti": 7,
+      "copertura": 0.63,
       "controlli": [
         {
           "id": "worker.ponte",
@@ -80,8 +80,8 @@
           "organo": "cervello",
           "titolo": "Nessun segreto nel repo",
           "impatto": 1,
-          "esito": "ok",
-          "detto": "nessuna chiave o segreto committato",
+          "esito": "nonvisto",
+          "detto": "il controllo non ha potuto misurare: 🔒 SCAN SEGRETI — 2026-08-04 03:06 · ❌ 1 file elencati da git che NON ho letto (illeggibili o oltre il tetto di 2 MB): su 2214 letti non posso dire «pulito»",
           "prova": "node cervello/scan-segreti.mjs",
           "regressione": false
         },
@@ -101,7 +101,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 168 min fa (2026-08-03T22:11:32.396Z) — 0 file guardati, 0 voci, 0 gravi.",
+          "detto": "✅ ultimo scatto 0 min fa (2026-08-04T01:06:17.201Z) — 7 file guardati, 2 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false
         },
@@ -131,7 +131,7 @@
           "titolo": "Quando scrivo a Nicola, gli rispondo",
           "impatto": 2,
           "esito": "ok",
-          "detto": "«Cosa cambia per te» mancato nel 43% dei 23 messaggi che lo pretendevano (ultimi 7 giorni)",
+          "detto": "«Cosa cambia per te» mancato nel 42% dei 24 messaggi che lo pretendevano (ultimi 7 giorni)",
           "prova": null,
           "regressione": false
         },
@@ -405,6 +405,61 @@
       "guasti": 0,
       "nonvisti": 6,
       "copertura": 0.68
+    },
+    {
+      "quando": "2026-08-04 03:04",
+      "iso": "2026-08-04T01:04:18.985Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 11,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 7,
+      "copertura": 0.63
+    },
+    {
+      "quando": "2026-08-04 03:05",
+      "iso": "2026-08-04T01:05:00.443Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 11,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 7,
+      "copertura": 0.63
+    },
+    {
+      "quando": "2026-08-04 03:05",
+      "iso": "2026-08-04T01:05:19.278Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 11,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 7,
+      "copertura": 0.63
+    },
+    {
+      "quando": "2026-08-04 03:05",
+      "iso": "2026-08-04T01:05:46.926Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 11,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 7,
+      "copertura": 0.63
+    },
+    {
+      "quando": "2026-08-04 03:06",
+      "iso": "2026-08-04T01:06:36.819Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 11,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 7,
+      "copertura": 0.63
     }
   ]
 }
