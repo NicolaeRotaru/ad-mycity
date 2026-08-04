@@ -12,41 +12,32 @@
       "mai_risolte": []
     },
     {
-      "quando": "2026-08-04T03:15:52.557Z",
-      "scatti": 329,
-      "voci": 10,
+      "quando": "2026-08-04T03:13:43.810Z",
+      "scatti": 139,
+      "voci": 2,
       "per_classe": {
-        "prova-accecata": 2,
         "malattia-nuova": 1,
-        "difesa-rimossa": 7
+        "prova-accecata": 1
       },
       "mai_risolte": [
         {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/test/sorvegliante.test.mjs», che è il freno della lezione L-2026-0730-531",
-          "ripetuta": 11
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
-          "cosa": "ho tolto la riga che chiamava «node --test cervello/test/sorvegliante.test.mjs», che è la prova che deve diventare rossa per AR-508",
-          "ripetuta": 11
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/test/sorvegliante.test.mjs», che è il freno della lezione L-2026-0730-531",
-          "ripetuta": 22
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json",
-          "cosa": "ho tolto la riga che chiamava «node --test cervello/test/sorvegliante.test.mjs», che è la prova che deve diventare rossa per AR-508",
-          "ripetuta": 11
+          "classe": "malattia-nuova",
+          "file": "cervello/pre-scrittura.mjs",
+          "cosa": "riga nuova con la malattia «bypass-del-cancello»: Un comando che salta il cancello: --no-verify o push --force",
+          "ripetuta": 34
         }
       ]
+    },
+    {
+      "quando": "2026-08-04T03:22:32.829Z",
+      "scatti": 146,
+      "voci": 2,
+      "per_classe": {
+        "malattia-nuova": 1,
+        "prova-accecata": 1
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-04T03:15:52.558Z"
+  "aggiornato": "2026-08-04T03:22:32.832Z"
 }

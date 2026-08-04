@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 05:45",
+  "aggiornato": "2026-08-04 05:55",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -10811,6 +10811,41 @@
       }
     },
     {
+      "id": "AR-532",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "processi-e-cadenze",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 03:50",
+      "nato_come": "scoperta",
+      "origine": "⚠️ Nato come AR-518 (poi AR-530), rinumerato AR-532 alla fusione con main: un'altra sessione aveva preso lo stesso numero per un difetto diverso (stessa causa di AR-512→AR-517: due sessioni prendono «il prossimo numero libero» dalla copia che hanno in mano). [RICHIESTA DI NICOLA, 4/8] «ogni volta che finisci di fare un lavoro ed io ti chiedo di ricontrollare tu trovi sempre cose che non hai fatto o problemi che non hai visto… ho bisogno che il sorvegliante o chi è incaricato a farlo ricontrolli il lavoro fatto, analizzi più e più volte il lavoro e lo completi al 100%, così non devo ogni volta dire di ricontrollare tantissime volte di fila.»",
+      "titolo": "Nessuna guardia rileggeva il lavoro FINITO: il «ricontrolla» che trova sempre qualcosa lo faceva solo Nicola, a mano",
+      "causa_radice": "① La revisione esisteva in tre momenti e nessuno è quello giusto: il sorvegliante guarda il DELTA dell'ultima modifica mentre lavoro, il cancello dello Stop guarda cosa sto lasciando indietro (esiti, allarmi, testi difficili), il cancello del lotto gira in CI a PR già scritta. ② Il pezzo MAI scritto non compare in nessun diff incrementale: lo vede solo uno sguardo fresco sull'INTERO lavoro confrontato con la richiesta — che è esattamente ciò che fa il «ricontrolla» di Nicola, ed era l'unico controllo della casa che dipendeva da lui. ③ Un ricontrollo lasciato alla disciplina salta sotto pressione come ogni rituale (AR-154): serviva un cancello nel MOMENTO in cui dichiaro di aver finito, non un promemoria.",
+      "fix_proposto": "FATTO 🟡 Guardia nuova cervello/collaudo.mjs agganciata al cancello dello Stop (solo --hook: in CI non c'è nessuno a cui chiedere il ricontrollo). Il primo «fatto» di ogni lavoro esce 2 e obbliga il giro di collaudo: rileggere la richiesta del turno voce per voce (FATTA/MANCANTE/NON FATTA APPOSTA), rileggere il diff INTERO dal perimetro del turno, eseguire le prove — più il verdetto del sorvegliante calcolato sull'intero perimetro (verdettoDelDelta ora accetta `da`). Un giro che non cambia niente promuove l'impronta a «pulito» e non viene più richiesto; un giro che corregge fa ripartire il collaudo al prossimo «fatto», dallo stesso punto di partenza memorizzato nel registro (_tmp_collaudo.json, fuori da git) — si ripete finché un giro esce a mani vuote, mai due volte sullo stesso stato. Taratura pagata sul campo: senza ancora del turno il perimetro si fissa su HEAD, non sul ramo (la prima esecuzione presentava 211 file di sessioni passate — AR-507 di nuovo). 17 prove + 2 mutazioni.",
+      "verifica": {
+        "comando": "node --test cervello/test/collaudo.test.mjs"
+      }
+    },
+    {
+      "id": "AR-533",
+      "stato": "in_corso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "processi-e-cadenze",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 04:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-532",
+      "origine": "⚠️ Nato come AR-519 (poi AR-531), rinumerato AR-533 alla fusione con main: un'altra sessione aveva preso lo stesso numero per un difetto diverso (stessa causa di AR-512→AR-517: due sessioni prendono «il prossimo numero libero» dalla copia che hanno in mano). [RICHIESTA DI NICOLA, 4/8] «se il sorvegliante si occupa solo di assicurarsi che il lavoro venga fatto bene, voglio creare qualcos'altro che ti permetta di far bene il lavoro, che impedisca di fare errori e porti il risultato migliore» — proposta in tre pezzi nata in un'altra sessione, costruita qui su suo ordine («crea anche le altre funzionalità»).",
+      "titolo": "La prevenzione a monte non esisteva: le lezioni arrivavano a caso, l'errore noto si scopriva un secondo dopo averlo scritto, e nessuno chiedeva «era la strada migliore?»",
+      "causa_radice": "① Le lezioni entravano nel contesto in ordine di TEMPO (le ultime 12), non di TEMA: 500+ lezioni in memoria e quelle utili al lavoro in corso arrivavano solo per caso. ② L'unico momento con un freno era DOPO la scrittura (sorvegliante PostToolUse): l'errore già censito si scopriva a danno fatto, mai prima. ③ Nessun passo chiedeva se la strada scelta fosse la migliore: senza la domanda, ci si ferma alla prima cosa che funziona.",
+      "fix_proposto": "COSTRUITO 🟡, cablaggio in coda. Tre pezzi: ① `contesto-lezioni.mjs --richiesta` (hook UserPromptSubmit) — seleziona dalle 500+ lezioni SOLO quelle sul tema della richiesta appena arrivata, correzioni di Nicola prima, silenzio sotto soglia; ② `cervello/mano-fermata.mjs` (hook PreToolUse) — se il testo che sto per scrivere contiene una malattia censita, la scrittura viene RIFIUTATA col perché (riusa sorveglia() del sorvegliante: una sola copia della conoscenza); ③ l'asticella come passo ④ del collaudo AR-532 («hai considerato almeno un'altra strada?») — già attiva. ①+② sono costruiti e provati ma NON attivi: l'aggancio richiede due righe in .claude/settings.json, che è nel deny-list della macchina — card 🟡 #prevenzione-a-monte in AZIONI-IN-ATTESA con lo snippet esatto, firma di Nicola. Si chiude quando gli hook sono cablati e visti scattare dal vivo.",
+      "verifica": {
+        "comando": "node cervello/mano-fermata.mjs --cablaggio"
+      }
+    },
+    {
       "id": "AR-541",
       "stato": "chiuso",
       "gravita": "alta",
@@ -11003,11 +11038,34 @@
         "nota": "3 prove nuove (75 totali): il difetto chiuso dall'altro ramo tace · quello che chiudo io su un difetto aperto di qua e di la parla ancora · fuori da una fusione niente cambia. Sul campo: il cancello e passato da rosso su AR-361 a `✅ niente da lasciare indietro` senza toccare AR-361."
       },
       "lezione": "L-2026-0804-554"
+    },
+    {
+      "id": "AR-543",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "basso",
+      "nato": "2026-08-04 05:55",
+      "nato_come": "scoperta",
+      "nato_da": "AR-503 (stessa regola: menzione non e chiamata — questa e la terza forma)",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E un'esenzione che manca, non una riga malata: si vede solo eseguendo la guardia su un diff che tocca il suo stesso diario. Il guardiano e la prova in cervello/test/sorvegliante.test.mjs.",
+      "origine": "Successo dal vivo il 4/8 05:55, unendo main la terza volta: preso da main il proprio storico — che e un referto rigenerabile, si prende un lato e si va avanti — la guardia ha accusato SE STESSA quattro volte.",
+      "titolo": "La guardia accusa il proprio diario: dentro c'e scritto «ho accusato la rimozione di X», e lo legge come una dichiarazione",
+      "causa_radice": "① ⑥b cerca il nome di una difesa nelle righe tolte. ② `sorvegliante-storico.json` e il LOG della guardia: dentro c'e la cronaca dei suoi allarmi, e ogni allarme cita il nome del freno di cui parlava. ③ Quindi buttare via una voce vecchia del diario legge come «hai spento quel freno». ④ La causa e sempre la stessa — menzione non e chiamata — e le due esenzioni che c'erano (prosa e fixture) erano state ritagliate sui due casi visti, non sulla classe: un file dove nessuna difesa PUO vivere.",
+      "fix_proposto": "FATTO 🟡 `REFERTI` + `eReferto()` in cervello/sorvegliante.mjs, terza esenzione accanto a prosa e fixture. Elenco esplicito di UN file, non una cartella: il cantiere, le lezioni e i mutanti stanno nella stessa cartella e li le difese ci vivono davvero — esentare la cartella avrebbe spento la guardia dove serve di piu.",
+      "costo_dichiarato": "Se un giorno qualcuno mettesse un `gate:` dentro lo storico del sorvegliante, toglierlo non farebbe rumore. Non e un buco reale: quel file lo riscrive la guardia stessa a ogni giro, quindi nessuna dichiarazione ci sopravvivrebbe comunque.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "2 prove nuove (96 totali): il diario tace · il registro delle lezioni, nella stessa cartella, parla ancora. La mutazione di AR-503 e stata riagganciata alla riga spostata — me l'ha detto la guardia mentre la spostavo, che e il suo mestiere."
+      },
+      "lezione": "L-2026-0804-554"
     }
   ],
   "meta": {
     "aperti": 160,
     "in_corso": 0,
-    "chiusi": 310
+    "chiusi": 311
   }
 }

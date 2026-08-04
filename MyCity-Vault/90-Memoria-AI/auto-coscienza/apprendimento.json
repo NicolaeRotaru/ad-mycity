@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-04 03:40",
+ "aggiornato": "2026-08-04 03:55",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -8455,23 +8455,27 @@
   },
   {
    "id": "L-2026-0710-71",
-   "testo": "**`.claude/settings.local.json` va in `.gitignore` — un `git checkout` lo sovrascrive (chat 10/7):** durante la chat, l'AD ha eseguito `git checkout feature/skill-rapide-chat` e il file `.claude/settings.local.json` (tracciato nel branch con una versione precedente) è stato sovrascritto dalla versione del branch, cancellando tutti i permessi che Nicola aveva appena aggiunto manualmente. È successo due volte nella stessa chat, costringendo Nicola a rincollare il contenuto ogni volta. **Causa radice:** il file è di sessione personale (permessi, allowlist) — NON va tracciato nel repo; è specifico del VPS/utente, non del codebase. Ogni branch con versione diversa lo sovrascrive al checkout. **Fix definitivo (da fare UNA volta sola):** aggiungere `.claude/settings.local.json` al `.gitignore` — così git non lo traccia, non lo commita, non lo sovrascrive mai ai checkout. **Regola riusabile:** tutti i file di config locale/personale (`.env`, `.claude/settings.local.json`, credenziali) devono stare in `.gitignore`; se già committati in un branch, non basta toglierli dalla HEAD — serve `git rm --cached <file>` per staccarli dal tracking. Vedi [[codice-solo-pr-mai-merge]], [[verifica-prima-di-affermare]].",
+   "testo": "**RECIDIVA STRUTTURALE — `.claude/settings.local.json` sovrascritto più volte nella stessa chat (10/7, chip skill rapide) — CAUSA RADICE CORRETTA (evidenza 3):** l'AD inizialmente ha attribuito la sparizione del file a `git checkout` (errore diagnostico). Verificando .gitignore a fine sessione: `.claude/settings.local.*` è GIÀ alla riga 28 del .gitignore — quindi git checkout NON può toccarlo. La causa reale era l'AD stesso che usava il proprio Write tool per sovrascrivere il file con un contenuto diverso (tentativo di aggiungere permessi con Write invece di Edit). **Causa radice aggiornata:** (1) il file era già protetto da .gitignore — il 'fix non fatto' era già fatto; (2) l'AD ha diagnosticato 'git checkout sovrascrive' senza verificare se il file era in .gitignore prima; (3) per aggiungere permessi al settings.local.json, l'AD usava Write (sovrascrittura totale) invece di Edit (modifica mirata) — ogni Write cancellava le righe precedenti se non le includeva tutte. **Regola/fix riusabile consolidato:** (a) PRIMA di diagnosticare 'git checkout ha sovrascritto', verificare con `grep settings.local .gitignore`; (b) per modificare settings.local.json usare SEMPRE Edit (non Write), o almeno rileggere il file prima di Write per includere tutto; (c) dopo ogni Write su settings.local.json, rileggere subito il file per confermare che il contenuto sia completo; (d) una lezione in memoria con causa radice sbagliata va corretta, non incrementata — la verità sui fatti vince sul racconto precedente. **PRECEDENTE DIAGNOSI** (evidenze 1-2): si credeva che git checkout sovrascrivesse perché il file non era in .gitignore — ora superata. I 5 perché precedenti restano parzialmente validi (usare Write invece di Edit è comunque il meccanismo prossimo), ma la causa strutturale era sbagliata.",
    "tag": [
-    "settings-local-json",
+    "settings-local",
     "gitignore",
     "git-checkout",
-    "sovrascrittura-permessi",
-    "allowlist-permessi",
-    "devops-sre"
+    "recidiva",
+    "debito-tecnico",
+    "fix-mai-applicato",
+    "pannello",
+    "permessi"
    ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.97,
-   "evidenze": 2,
+   "reparto": "@AD",
+   "confidenza": 0.98,
+   "evidenze": 4,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:00",
-   "stato": "attiva"
+   "ultima_conferma": "2026-07-10 22:30",
+   "stato": "principio",
+   "promosso_il": "2026-07-25 08:20",
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0710-75",
@@ -8497,22 +8501,24 @@
   },
   {
    "id": "L-2026-0710-72",
-   "testo": "**Il glob `feature/*` nell'allowlist Bash non matcha i `/` nei nomi dei branch (chat 10/7):** aggiungendo `\"Bash(git push origin feature/*:*)\"` alle allowlist, ci si aspettava che coprisse `git push origin feature/skill-rapide-chat`. Non funziona: il glob `*` nelle allowlist di Claude Code non matcha il carattere `/` nei path — quindi `feature/*` non copre branch con slash aggiuntivi nel nome. Il push continuava a chiedere permesso nonostante la regola. **Fix riusabile:** per coprire qualsiasi push di branch, usare la forma generica `\"Bash(git push origin:*)\"` (senza pattern branch) oppure aggiungere il path esatto del branch. **Regola per le allowlist:** trattare i glob delle allowlist Bash come glob POSIX dove `*` non matcha `/`; se il pattern contiene slash, testare sempre con un branch reale prima di affidarsi all'allowlist.",
+   "testo": "**Due blocchi nuovi nella pipeline PR da VPS: `gh` non eredita il token del remote URL, e `feature/*` nell'allowlist non matcha branch con slash (chat 10/7):** (1) `gh` CLI ha bisogno di auth esplicito — il token nel remote URL git (`https://NicolaeRotaru:<PAT>@github.com/...`) NON viene passato automaticamente a `gh`; serve `echo \"$GIT_PUSH_TOKEN\" | gh auth login --with-token` dal terminale VPS (una volta sola) oppure `GH_TOKEN` come env var nello shell. (2) Il pattern `\"Bash(git push origin feature/*:*)\"` nell'allowlist di Claude Code matcha solo `feature/` seguito da UN segmento senza slash — quindi `feature/skill-rapide-chat` NON è coperto. Fix: usare `\"Bash(git push origin feature/**:*)\"` o il nome esatto del branch. **Regola riusabile:** prima di usare `gh pr create` da una sessione AD, verificare con `gh auth status` che il login sia attivo; e quando si aggiunge un'allowlist per un branch con `/` nel nome, testare il glob con il nome esatto o usare `**` invece di `*`. Quando l'auth `gh` manca, la via più veloce è GitHub UI (banner 'Compare & pull request') — non insistere con script intermedi.",
    "tag": [
-    "allowlist-bash",
-    "glob-pattern",
-    "git-push",
-    "branch-naming",
-    "settings-local-json",
-    "devops-sre"
+    "gh-cli",
+    "gh-auth",
+    "allowlist",
+    "glob",
+    "feature-branch",
+    "pr-create",
+    "devops-sre",
+    "pannello"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.9,
+   "confidenza": 0.92,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:00",
+   "ultima_conferma": "2026-07-10 18:30",
    "stato": "attiva"
   },
   {
@@ -9483,21 +9489,28 @@
   },
   {
    "id": "L-2026-0701-27",
-   "testo": "Dopo superamento soglia 168h: cambiare linguaggio da «countdown» a «ritardo misurabile» + escalation post-soglia (v6+). Mossa n.1 resta #16/ordine PQ — non spostare focus. Se Scelta A già firmata: **NON riproporre A/B** — chiedere solo data/ora + `ok 16`. Card deploy/SQL già approvate → checklist operativa, non Proposte.",
+   "testo": "**Caso-studio Nicola (1/7 09:39 — casella cadenza-esecuzione):** «mycity-live non c'entra niente, toglila ovunque». Il finding `radiografia.js`/path Windows marketplace era **classificato nella dimensione sbagliata** — `cadenza-esecuzione` = schedulazione ritmo AD (mattino/sera/settimana), NON audit del sito. **5 perché:** (1) prima auto-radiografia ha mescolato path repo marketplace con tema cadenze; (2) `radiografia.js`/`MARKETPLACE_REPO` = dimensione `copertura-cieca` (audit marketplace); (3) il vero gap cadenza = `ritmo.md` documenta solo Windows (`schtasks`/`.ps1`) mentre il battito gira su VPS Linux; (4) Pannello = una casella per dimensione — contenuto misto confonde; (5) fix: AR-002 spostato → `copertura-cieca`; riscritto finding cadenza; `ritmo.md` + sezione VPS; AR-005 (timer systemd opzionale). **Pattern:** separare audit codice marketplace da ritmo operativo AD; quando Nicola dice «non c'entra» → ripulire **tutti** i file collegati (auto-radiografia.json, cantiere-difetti, RADIOGRAFIA-MACCHINA), non solo la casella Pannello. **RICADUTA + ESCALATION (4/7):** lo stesso path Windows era ancora cablato (`marketplace-repo.mjs` come fallback + `radiografia.js:46`/`audit-design.js:46`) → Nicola rialza il tono: «togli il cablato su windows **una volta per sempre**, **impedisci che riaccada** questo errore». **Lezione-radice (5° perché finale):** pulire i file a mano NON basta — l'errore rientra da una porta laterale. La chiusura vera di un anti-pattern ricorrente = **parametrizzare la fonte-di-verità** (resolver cross-platform in `marketplace-repo.mjs`: `MARKETPLACE_REPO` env o `<ad-repo>/marketplace`, mai una cartella di un PC) **+ un guardiano generativo** (`no-path-cablati-check.mjs` agganciato a `giro.sh`) che a ogni giro FALLISCE se un path di macchina (`C:\\…`, `/Users/<nome>`) rientra nel codice. Regola: quando Nicola dice «impedisci che riaccada» → non basta il fix, serve la **forcing-function** che rende l'errore impossibile in silenzio.",
    "tag": [
-    "stallo",
-    "escalation",
-    "168h",
-    "scelta_a",
-    "ux-pannello"
+    "auto-radiografia",
+    "cadenza",
+    "classificazione",
+    "nicola",
+    "pannello",
+    "ritmo",
+    "vps",
+    "hardcoded-path",
+    "cross-platform",
+    "guardiano",
+    "forcing-function"
    ],
    "reparto": "@AD",
-   "confidenza": 0.75,
-   "evidenze": 1,
-   "fonte": "auto-analisi",
+   "confidenza": 0.95,
+   "evidenze": 2,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
    "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "in-prova"
+   "ultima_conferma": "2026-07-04 10:05",
+   "stato": "attiva"
   },
   {
    "id": "L-2026-0701-26",
@@ -10276,6 +10289,24 @@
    "decaduto_step_il": "2026-07-30 06:21"
   },
   {
+   "id": "L-2026-0701-27",
+   "testo": "Dopo superamento soglia 168h: cambiare linguaggio da «countdown» a «ritardo misurabile» + escalation post-soglia (v6+). Mossa n.1 resta #16/ordine PQ — non spostare focus. Se Scelta A già firmata: **NON riproporre A/B** — chiedere solo data/ora + `ok 16`. Card deploy/SQL già approvate → checklist operativa, non Proposte.",
+   "tag": [
+    "stallo",
+    "escalation",
+    "168h",
+    "scelta_a",
+    "ux-pannello"
+   ],
+   "reparto": "@AD",
+   "confidenza": 0.75,
+   "evidenze": 1,
+   "fonte": "auto-analisi",
+   "nato": "2026-07-01",
+   "ultima_conferma": "2026-07-01",
+   "stato": "in-prova"
+  },
+  {
    "id": "L-2026-0707-01",
    "testo": "Su Vercel Hobby la quota giornaliera conta le CREAZIONI di deployment, non le build: un ignoreCommand salta la build ma il deployment CANCELED consuma quota lo stesso. Con push frequenti (memoria ogni ~5 min) l'unico fix vero è deploymentEnabled:false + Deploy Hook con path-filter (Action su pannello/**). Verifica sempre sul contatore reale (API list_deployments), mai sull'intuizione.",
    "tag": [
@@ -10304,6 +10335,46 @@
     "automazione",
     "memoria"
    ]
+  },
+  {
+   "id": "L-2026-0710-71",
+   "testo": "**`.claude/settings.local.json` va in `.gitignore` — un `git checkout` lo sovrascrive (chat 10/7):** durante la chat, l'AD ha eseguito `git checkout feature/skill-rapide-chat` e il file `.claude/settings.local.json` (tracciato nel branch con una versione precedente) è stato sovrascritto dalla versione del branch, cancellando tutti i permessi che Nicola aveva appena aggiunto manualmente. È successo due volte nella stessa chat, costringendo Nicola a rincollare il contenuto ogni volta. **Causa radice:** il file è di sessione personale (permessi, allowlist) — NON va tracciato nel repo; è specifico del VPS/utente, non del codebase. Ogni branch con versione diversa lo sovrascrive al checkout. **Fix definitivo (da fare UNA volta sola):** aggiungere `.claude/settings.local.json` al `.gitignore` — così git non lo traccia, non lo commita, non lo sovrascrive mai ai checkout. **Regola riusabile:** tutti i file di config locale/personale (`.env`, `.claude/settings.local.json`, credenziali) devono stare in `.gitignore`; se già committati in un branch, non basta toglierli dalla HEAD — serve `git rm --cached <file>` per staccarli dal tracking. Vedi [[codice-solo-pr-mai-merge]], [[verifica-prima-di-affermare]].",
+   "tag": [
+    "settings-local-json",
+    "gitignore",
+    "git-checkout",
+    "sovrascrittura-permessi",
+    "allowlist-permessi",
+    "devops-sre"
+   ],
+   "reparto": "@devops-sre",
+   "confidenza": 0.97,
+   "evidenze": 2,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-07-10",
+   "ultima_conferma": "2026-07-10 18:00",
+   "stato": "attiva"
+  },
+  {
+   "id": "L-2026-0710-72",
+   "testo": "**Il glob `feature/*` nell'allowlist Bash non matcha i `/` nei nomi dei branch (chat 10/7):** aggiungendo `\"Bash(git push origin feature/*:*)\"` alle allowlist, ci si aspettava che coprisse `git push origin feature/skill-rapide-chat`. Non funziona: il glob `*` nelle allowlist di Claude Code non matcha il carattere `/` nei path — quindi `feature/*` non copre branch con slash aggiuntivi nel nome. Il push continuava a chiedere permesso nonostante la regola. **Fix riusabile:** per coprire qualsiasi push di branch, usare la forma generica `\"Bash(git push origin:*)\"` (senza pattern branch) oppure aggiungere il path esatto del branch. **Regola per le allowlist:** trattare i glob delle allowlist Bash come glob POSIX dove `*` non matcha `/`; se il pattern contiene slash, testare sempre con un branch reale prima di affidarsi all'allowlist.",
+   "tag": [
+    "allowlist-bash",
+    "glob-pattern",
+    "git-push",
+    "branch-naming",
+    "settings-local-json",
+    "devops-sre"
+   ],
+   "reparto": "@devops-sre",
+   "confidenza": 0.9,
+   "evidenze": 1,
+   "fonte": "chat",
+   "caso_studio_nicola": false,
+   "nato": "2026-07-10",
+   "ultima_conferma": "2026-07-10 18:00",
+   "stato": "attiva"
   },
   {
    "id": "L-2026-0723-456",
@@ -11078,25 +11149,26 @@
   },
   {
    "id": "L-2026-0804-552",
-   "testo": "**I limiti che dichiaro sono lavoro rimandato, non lavoro finito (4/8, Nicola: «risolvi queste 3 cose»).** Avevo consegnato tre righe oneste sotto «cosa non ho verificato»: il server che non ho visto girare, quattro analisi non fatte, un tipo di legame che il raggio non vede. Dichiararli era giusto — ma restavano tutti e tre veri, e a rimetterli in fila e stato Nicola. **La regola:** quando scrivo un limite, chiedimi subito se e davvero fuori portata o solo scomodo. Due dei tre erano scomodi: il legame browser-pagina si deduce dalla convenzione del programma, e il server non serviva — bastava far girare il pre-commit, che e il pezzo che rischiava di fermarlo. **E il terzo mi ha dato la cosa piu preziosa:** l'analisi che avevo saltato per prima, la sicurezza, ha trovato che una malattia scritta male fa uccidere la guardia a meta invece di rallentarla. Le analisi rimandate non sono quelle che trovano meno.",
+   "testo": "**Il «ricontrolla» di Nicola trova sempre qualcosa perche' arriva a lavoro FINITO — quindi va reso un cancello, non un'abitudine (4/8, richiesta di Nicola).** Ogni volta che chiedeva di ricontrollare un lavoro consegnato, il ricontrollo trovava pezzi mancanti o problemi non visti: i controlli incrementali (sorvegliante sul delta) non possono vedere il pezzo MAI scritto, perche' cio' che manca non compare in nessun diff — lo vede solo uno sguardo fresco sull'intero lavoro, confrontato con la richiesta. **La regola:** il primo «fatto» di ogni lavoro non passa — il cancello dello Stop obbliga il giro di collaudo (rileggi la richiesta, rileggi il diff intero, esegui le prove) e lo ripete a ogni «fatto» finche' un giro esce a mani vuote; mai due volte sullo stesso stato (impronta), o il freno si spegne da solo. **E il corollario, pagato subito sul campo:** senza l'ancora del turno il perimetro del collaudo va FISSATO su HEAD, non allargato al ramo — la prima esecuzione ha presentato 211 file di sessioni passate come lavoro da ricollaudare, cioe' AR-507 di nuovo.",
    "tag": [
+    "collaudo",
+    "ricontrollo",
     "guardiani",
-    "limiti-dichiarati",
-    "sicurezza",
-    "raggio"
+    "lavoro-finito",
+    "qualita"
    ],
-   "reparto": "tech",
+   "reparto": "qa",
    "confidenza": 0.95,
    "fonte": "chat",
    "caso_studio_nicola": true,
-   "nato": "2026-08-04 01:40",
-   "ultima_conferma": "2026-08-04 01:40",
+   "nato": "2026-08-04 03:56",
+   "ultima_conferma": "2026-08-04 03:56",
    "stato": "attiva",
    "evidenze": [
-    "84 indirizzi API del Pannello, zero legami visti dal raggio",
-    "un pattern esplosivo su 29 caratteri: 19.883 ms contro i 15.000 dell'hook"
+    "ciclo provato sul campo con l'hook vero: primo Stop exit 2 con le istruzioni, secondo Stop promuove, terzo tace, un file toccato lo fa ripartire",
+    "2 mutazioni in mutanti.json (decisione «chiedi» e aggancio allo Stop) verificate rosse"
    ],
-   "gate": "node --test cervello/test/sorvegliante.test.mjs",
+   "gate": "node --test cervello/test/collaudo.test.mjs",
    "gate_attivo": true
   },
   {

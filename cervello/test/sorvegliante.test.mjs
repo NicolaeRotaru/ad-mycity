@@ -1090,3 +1090,31 @@ test("⑤ una rotta col parametro la si chiama con una variabile: vale anche il 
   const r = raggioDueP1assi(["pannello/src/app/api/lavori/[id]/route.ts"], citazioni).get("pannello/src/app/api/lavori/[id]/route.ts");
   assert.deepEqual(r.diretti, ["pannello/src/components/Lavori.tsx"]);
 });
+
+// ── I referti: il diario di chi accusa non è una dichiarazione (AR-543) ──────
+
+test("il diario del sorvegliante non dichiara difese: lì un nome è la cronaca di un allarme", () => {
+  // Successo il 4/8 05:55: prendendo da main il proprio storico (referto rigenerabile, si prende un
+  // lato e si va avanti) la guardia ha accusato SÉ STESSA quattro volte, sul proprio diario.
+  const e = daDiff([
+    "--- a/MyCity-Vault/90-Memoria-AI/auto-coscienza/sorvegliante-storico.json",
+    "+++ b/MyCity-Vault/90-Memoria-AI/auto-coscienza/sorvegliante-storico.json",
+    "@@ -27,1 +27,0 @@",
+    '-      "cosa": "ho tolto la riga che chiamava «cervello/gate-veri.mjs»"',
+  ]);
+  assert.equal(gravi(e.voci).length, 0, "terza forma di «menzione ≠ chiamata», e la più imbarazzante");
+});
+
+test("…ma il cantiere e le lezioni restano guardati: lì le difese ci vivono davvero", () => {
+  const e = daDiff([
+    "--- a/MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+    "+++ b/MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+    "@@ -10,1 +10,0 @@",
+    '-  "gate": "node cervello/gate-veri.mjs"',
+  ]);
+  assert.equal(
+    gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length,
+    1,
+    "l'esenzione è per UN file preciso, non per tutti i JSON della memoria",
+  );
+});

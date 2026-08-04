@@ -10,6 +10,16 @@
  "tetto_da_cablare": 4,
  "_tetto_perche": "Quattro strumenti trovati costruiti e mai messi di guardia dalla corsia A del lotto 34, oltre ai due che il lotto ha cablato davvero (permessi-check, non-vacuita) e ai tre che sono una scelta scritta (libreria/decisione). Non sono stati riparati qui di proposito: allargare un lotto oltre la sua malattia è il modo in cui i lotti non finiscono. Il tetto esiste perché da qui in avanti il numero possa solo scendere — chi ne cabla uno abbassa questo numero nello stesso lavoro.",
  "motivi": {
+  "collaudo.mjs": {
+   "motivo": "libreria",
+   "dove": "cervello/cancello-stop.mjs",
+   "perche": "AR-532: il suo giudizio vive dentro il cancello dello Stop, che importa collaudoAlloStop() e lo esegue a OGNI chiusura di turno via hook Stop — più spesso di qualunque timer. La CLI (stato/registro) è diagnosi, non il freno."
+  },
+  "mano-fermata.mjs": {
+   "motivo": "in-attesa-di-aggancio",
+   "scade": "2026-08-11",
+   "perche": "AR-533: freno pre-scrittura costruito e provato (12 prove + mutazione rossa); l'aggancio è la card #prevenzione-a-monte in AZIONI-IN-ATTESA.md — un blocco PreToolUse su Edit|Write|MultiEdit in .claude/settings.json, che solo Nicola può scrivere. La prova `node cervello/mano-fermata.mjs --cablaggio` è rossa finché l'aggancio manca e chiuderà la scheda da sola alla firma."
+  },
   "permessi-check.mjs": {
    "motivo": "cablato",
    "dove": "cervello/test/permessi-di-guardia.test.mjs",
