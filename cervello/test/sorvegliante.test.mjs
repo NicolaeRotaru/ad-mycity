@@ -535,6 +535,26 @@ test("un numero qualsiasi non è una soglia: senza la parola nel nome, non tocca
   assert.equal(soglieAllentate([{ n: 1, testo: '  "ordini": 3,' }], [{ n: 1, testo: '  "ordini": 90,' }], "dati.json").length, 0);
 });
 
+test("la telemetria dei guardiani (auto-coscienza/*.json) non scatta soglia-allentata: la riscrivono per intero gli script a ogni giro, non una mano — un 'max_giri_ciechi' che sale è il mondo reale (il sito giù da più giri), non un tetto alzato per spegnere un rosso", () => {
+  const file = "MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json";
+  const e = sorveglia({
+    ...base,
+    rimossi: [{ file, rimosse: [{ n: 1, testo: '    "max_giri_ciechi": 2,' }] }],
+    toccati: [{ file, contenuto: "", aggiunte: [{ n: 1, testo: '    "max_giri_ciechi": 3,' }] }],
+  });
+  assert.equal(e.voci.filter((v) => v.classe === "soglia-allentata").length, 0);
+});
+
+test("...ma un tetto scritto a mano nello SCRIPT che lo calcola resta guardato: l'esenzione copre solo il suo output", () => {
+  const file = "cervello/verifica-sensori.mjs";
+  const e = sorveglia({
+    ...base,
+    rimossi: [{ file, rimosse: [{ n: 1, testo: "const MAX_GIRI_CIECHI = 2;" }] }],
+    toccati: [{ file, contenuto: "", aggiunte: [{ n: 1, testo: "const MAX_GIRI_CIECHI = 99;" }] }],
+  });
+  assert.equal(e.voci.filter((v) => v.classe === "soglia-allentata").length, 1);
+});
+
 // ─── ⑧ esenzione aggiunta ────────────────────────────────────────────────────
 
 test("un file che entra in una baseline è un'esenzione, e il nome del file basta a dirlo", () => {
