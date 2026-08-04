@@ -10770,12 +10770,13 @@
    ],
    "reparto": "@AD",
    "confidenza": 0.9,
-   "evidenze": 1,
+   "evidenze": 2,
    "fonte": "auto-analisi",
    "caso_studio_nicola": false,
    "nato": "2026-07-31",
-   "ultima_conferma": "2026-07-31 18:35",
-   "stato": "attiva"
+   "ultima_conferma": "2026-08-04 17:35",
+   "stato": "attiva",
+   "nota_2026-08-04": "2ª manifestazione: cancello-di-stop del giro 8 riacceso a torto — confrontava contro un commit vecchio (3bda15ad5) mentre il worker VPS scriveva in parallelo; entrambi i punti segnalati (collaudo giro-8, card PR #675) erano già chiusi nei commit 9ffb3d89c/364a5c1a3. Stesso meccanismo, superficie diversa (cancello-stop invece di scadenzario.json)."
   },
   {
    "tag": [
