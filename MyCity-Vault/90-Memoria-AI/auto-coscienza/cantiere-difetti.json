@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 00:45",
+  "aggiornato": "2026-08-04 03:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -10522,6 +10522,21 @@
       "verifica": {
         "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs"
       }
+    },
+    {
+      "id": "AR-518",
+      "stato": "aperto",
+      "gravita": "bloccante",
+      "colore": "🔴",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 03:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-430",
+      "origine": "Nicola 4/8 03:00: «controlla se funziona tutto». La visita ha trovato la macchina ferma da 112 ore — e ha trovato che l'allarme c'era gia', da 4 giorni, con 47 aggiornamenti.",
+      "titolo": "L'allarme della macchina ferma funziona e non lo legge nessuno: 47 avvisi in 4 giorni, e l'ha scoperto Nicola chiedendo",
+      "causa_radice": "① Il worker e' fermo dal 2026-07-30 11:19: cinque tracce indipendenti (sentinella-dati, esito-giro, costo-ai, delta-gate, ultimo-briefing) si spengono tutte fra le 11:15 e le 11:19, e l'ultimo commit dell'autore «AD MyCity VPS» e' delle 11:19:49. 112 ore. ② Il battito esterno ha funzionato ESATTAMENTE come doveva: gira su GitHub Actions, non sul VPS, e alle 18:47 dello stesso giorno ha aperto la issue #644 «La macchina e' ferma da 9 ore», poi aggiornata 47 volte fino al 3/8 23:19. ③ Quindi il difetto NON e' «la macchina non se ne accorge» — quello era AR-430 ed e' curato. E' che l'allarme atterra in un posto che Nicola non guarda: una issue di GitHub. Non e' nella coda che firma, non e' nella Cabina, non e' arrivato in chat. ④ E' la stessa forma di AR-465 («il freno in tempo reale parlava a nessuno») e di AR-476 (il numero delle consegne mute non renderizzato da nessuna schermata): il segnale esiste, il canale verso Nicola no. Un allarme che nessuno legge costa quanto un allarme che non esiste — qui e' costato 4 giorni e 17 ore di macchina ferma. ⑤ Perche' e' bloccante per la crescita: in quei 4 giorni non e' girato nessun giro, nessuna sentinella, nessun contenuto, nessun recupero carrelli. La macchina che dovrebbe far crescere l'azienda era spenta e il Pannello non lo diceva.",
+      "fix_proposto": "DA FARE. Due pezzi, separati apposta. (a) 🔴 far ripartire il VPS — solo Nicola, comandi pronti nella card #macchina-ferma-da-quattro-giorni. (b) 🟡 il canale: il verdetto del battito esterno deve atterrare dove Nicola guarda davvero — una card in AZIONI-IN-ATTESA e un semaforo nella Cabina — invece che solo in una issue. Da fare come lotto suo, con la prova che il canale esiste (non «ho scritto la funzione» ma «il verdetto compare nel file che il Pannello legge»). ⚠️ Nessuna `verifica` finche' il fix non esiste: il test del battito esterno passa GIA' oggi — usarlo qui sarebbe una prova vera alla nascita, cioe' AR-330. La prova nascera' col fix (b) e dovra' essere «il verdetto compare nel file che il Pannello legge», non «la funzione esiste»."
     }
   ],
   "meta": {

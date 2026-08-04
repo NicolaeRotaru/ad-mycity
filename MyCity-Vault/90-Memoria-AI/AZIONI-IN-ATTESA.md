@@ -63,6 +63,25 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+<!-- macchina-ferma-da-quattro-giorni -->
+
+### 🔴 #macchina-ferma-da-quattro-giorni — Fai ripartire la macchina sul server: è ferma da quattro giorni e mezzo · ⏳ accodata 2026-08-04 03:10
+**Cosa cambia:** dal 30 luglio alle 11:19 la macchina che lavora da sola sul server non ha più fatto niente: niente giro, niente sentinelle, niente contenuti, niente recupero carrelli. Sono 112 ore. Non è un sospetto: cinque tracce diverse che lascia mentre lavora si spengono tutte negli stessi quattro minuti, e l'ultimo lavoro che ha salvato è delle 11:19:49 di quel giorno. L'allarme è partito da solo il 30 alle 18:47 e da allora si è aggiornato 47 volte — ma finisce in una segnalazione su GitHub, che tu non guardi. Se non me lo chiedevi stanotte, restava lì.
+**Se va bene:** la macchina riprende a lavorare da sola e le tracce ricompaiono entro un'ora. Il primo giro dopo la ripartenza dirà anche cosa si è perso in questi quattro giorni.
+**Cosa devi fare tu, sul server:**
+```bash
+systemctl status mycity-giro.timer mycity-giro.service --no-pager
+journalctl -u mycity-giro -n 80 --no-pager
+sudo systemctl restart mycity-giro.service      # se risulta appeso
+```
+Se i timer risultano attivi ma non producono niente, il guasto non è nei servizi ma nel motore AI (quota finita o credenziali scadute): `cervello/vps/collega-claude.sh`.
+**Nota tecnica:** difetto AR-518. Segnalazione automatica già aperta: issue #644. Da questa sessione il server non si vede (mancano `SUPABASE_URL`/`SUPABASE_SERVICE_KEY` e `PANNELLO_URL`), quindi la causa NON l'ho misurata: so che è ferma, non perché. Il ponte `salute.json → sezione vps` non ha mai ricevuto un referto, quindi anche il nuovo controllo nato il 31/7 (AR-470) non ha mai prodotto una lettura.
+- **Colore:** 🔴 (tocca il server in produzione)
+- **Reparto:** devops-sre
+- **Origine:** `{origine:visita-salute-2026-08-04, difetto:AR-518}`
+
+---
+
 <!-- radiografia-prova-non-vera-alla-nascita -->
 
 ### 🟡 #radiografia-prova-non-vera-alla-nascita — Impedisci alla macchina di chiudersi i difetti da sola il giorno stesso che li scrive · ⏳ accodata 2026-07-27 12:45

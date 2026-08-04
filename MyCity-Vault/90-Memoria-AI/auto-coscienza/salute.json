@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-03 23:51",
+  "aggiornato": "2026-08-04 02:59",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -15,8 +15,8 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-08-03 23:51",
-      "iso": "2026-08-03T21:51:07.295Z",
+      "quando": "2026-08-04 02:59",
+      "iso": "2026-08-04T00:59:08.620Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 12,
@@ -41,7 +41,7 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "nessun processo automatico lascia tracce da 109 ore (l'ultima è sentinella-dati.json, 2026-07-30 11:19)",
+          "detto": "nessun processo automatico lascia tracce da 112 ore (l'ultima è sentinella-dati.json, 2026-07-30 11:19)",
           "prova": null,
           "regressione": false
         },
@@ -101,7 +101,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 0 min fa (2026-08-03T21:50:59.573Z) — 7 file guardati, 3 voci, 1 gravi.",
+          "detto": "✅ ultimo scatto 168 min fa (2026-08-03T22:11:32.396Z) — 0 file guardati, 0 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false
         },
@@ -121,7 +121,7 @@
           "titolo": "Il lavoro consegnato dice com'è andato",
           "impatto": 2,
           "esito": "ok",
-          "detto": "236 consegne su 265 degli ultimi 30 giorni senza una riga di esito (89%) · Cabina 0 giorni indietro (STATO al 2026-08-03 22:55)",
+          "detto": "235 consegne su 266 degli ultimi 30 giorni senza una riga di esito (88%) · Cabina 0 giorni indietro (STATO al 2026-08-03 22:55)",
           "prova": null,
           "regressione": false
         },
@@ -387,6 +387,17 @@
     {
       "quando": "2026-08-03 23:51",
       "iso": "2026-08-03T21:51:07.295Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 12,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.68
+    },
+    {
+      "quando": "2026-08-04 02:59",
+      "iso": "2026-08-04T00:59:08.620Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 12,
