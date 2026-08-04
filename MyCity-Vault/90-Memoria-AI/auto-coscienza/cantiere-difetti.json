@@ -11246,6 +11246,26 @@
       "verifica": {
         "comando": ""
       }
+    },
+    {
+      "id": "AR-558",
+      "stato": "aperto",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 13:10",
+      "nato_come": "regressione",
+      "malattia": "prova-che-non-puo-fallire",
+      "malattia_perche": "Rovesciata: qui la prova non è che non può fallire, è che non può PASSARE. Il difetto è lo stesso — una soglia che misura il DATO e viene raccontata come se misurasse il CODICE — e la conseguenza è quella che il registro già teme: una suite condivisa rossa per tutti diventa un cancello da aggirare (AR-346).",
+      "origine": "La CI della PR #674 (AR-556) è uscita rossa. Verificato con un worktree su origin/main: il test fallisce su main da solo, con zero righe del ramo — stessi numeri identici (573653 → 400472, 11/123 findings chiusi).",
+      "titolo": "La suite condivisa è rossa per tutti, e nessuno l'ha rotta: è cambiato il dato",
+      "causa_radice": "① `cervello/test/radiografia-snella.test.mjs` pretende che lo sfoltimento del file della radiografia risparmi almeno il **45%**. ② Quel 45 non misura il codice: misura **quanti findings chiusi c'erano nel file il giorno in cui la soglia è stata scritta** — lo sfoltimento butta via i chiusi, quindi il risparmio è una funzione di quanti chiusi ci sono. ③ Il 29/7 il caso «ZERO chiusi» era già stato riconosciuto e trattato come ⚪ non misurabile, con scritto nel commento che «un test che punisce chi risolve il problema è peggio di nessun test». ④ Ma il caso «POCHI chiusi» è rimasto scoperto: con **11 chiusi su 123 (9%)** il massimo risparmio possibile è ~30%, e la soglia del 45% è **irraggiungibile per costruzione**. ⑤ Risultato: ogni PR aperta su questo repo è rossa finché il dato non cambia da solo, e il rosso non appartiene a nessuno. ⑥ La correzione del 29/7 ha curato il punto e non la forma — la stessa malattia di AR-556, un piano più su.",
+      "fix_proposto": "🟡 La soglia va legata a ciò che c'è DAVVERO da sfoltire, non a un pavimento fisso: es. il risparmio atteso si calcola dalla quota di findings chiusi (se i chiusi sono il 9% del peso, pretendere il 45% è una domanda senza risposta possibile), oppure si misura il risparmio **sui soli chiusi** — che è la cosa che il codice controlla davvero. ⚠️ Ciò che NON si fa è abbassare il 45: sarebbe una soglia allentata per far tornare verde la CI, cioè esattamente AR-484 (`soglie-non-abbassabili`), e per giunta dentro una PR che parla di guardiani. Serve cambiare COSA si misura, non QUANTO.",
+      "nota": "NON incluso nella PR #674 (AR-556): è un rosso di main, precedente al ramo e provato tale. Toccare una soglia di qualità dentro una PR che ne apre un'altra è il modo migliore per far passare inosservata una cosa che va guardata da sola.",
+      "verifica": {
+        "comando": ""
+      }
     }
   ],
   "meta": {
