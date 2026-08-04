@@ -721,10 +721,27 @@ function fileCommittatiSulRamo(base) {
  */
 export const CERCA_ESITO_IN_GIT = "atteso .*→ .*reale";
 
+/**
+ * Gli argomenti per cercare l'ultimo esito nella storia — fusioni COMPRESE. (AR-505.)
+ *
+ * `git log -G` non calcola i diff dei commit di merge: li salta per costruzione. Quindi chi risolve
+ * un conflitto e registra l'esito nello stesso commit — cioè il flusso naturale, e stanotte l'ho
+ * fatto tre volte — risulta muto, e il freno accusa proprio chi ha appena obbedito.
+ *
+ * `--diff-merges=first-parent` è la risposta esatta: mostra il diff della fusione rispetto a DOVE
+ * ERO IO, cioè quello che quel commit ha davvero aggiunto al mio ramo. Non allarga niente — su un
+ * commit normale non cambia nulla — e non guarda dentro il ramo che arriva, che è lavoro di altri.
+ *
+ * Sta qui fuori, esportata e pura, perché una prova possa ESEGUIRE la scelta invece di rileggerla:
+ * la scheda diceva «con una prova che parta ROSSA su un ramo dove l'unica riga di esito vive in un
+ * commit di merge», ed è così che è stata chiusa.
+ */
+export const ARGOMENTI_CERCA_ESITO = ["log", "-1", "--format=%H", "-G", CERCA_ESITO_IN_GIT, "--diff-merges=first-parent"];
+
 function codiceDopoUltimoEsito(base) {
   const esclusioni = CARTELLE_MEMORIA.map((c) => `:(exclude)${c.replace(/\/$/, "")}`);
   try {
-    const ultimoEsito = git(["log", "-1", "--format=%H", "-G", CERCA_ESITO_IN_GIT, `${base}..HEAD`, "--", "memoria-squadra"]).trim();
+    const ultimoEsito = git([...ARGOMENTI_CERCA_ESITO, `${base}..HEAD`, "--", "memoria-squadra"]).trim();
     if (!ultimoEsito) return null; // nessun esito sul ramo: lo gestisce il caso base, non questo
     return Number(git(["rev-list", "--count", `${ultimoEsito}..HEAD`, "--", ".", ...esclusioni]).trim());
   } catch {

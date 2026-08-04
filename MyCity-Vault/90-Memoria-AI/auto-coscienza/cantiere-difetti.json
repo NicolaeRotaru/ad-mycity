@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 05:55",
+  "aggiornato": "2026-08-04 06:00",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -8873,7 +8873,7 @@
     },
     {
       "id": "AR-505",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "alta",
       "colore": "🟡",
       "dimensione": "guardiani-verita",
@@ -8884,9 +8884,16 @@
       "origine": "CI della PR 657: «3 commit di lavoro che nessuna riga racconta», con la riga scritta e committata pochi secondi prima.",
       "titolo": "Una riga di esito scritta dentro un commit di merge e invisibile al freno che la pretende",
       "causa_radice": "① Il controllo ④ trova l ultimo racconto con `git log -1 -G \"atteso .*→ .*reale\"`. ② `git log -G` NON calcola i diff dei commit di MERGE: li salta per costruzione (servirebbe -m o --first-parent), quindi una riga aggiunta dentro un merge e invisibile a quella ricerca. ③ Il risultato e che chi risolve un conflitto e registra l esito nello stesso commit — cioe il flusso naturale — risulta muto, e il freno accusa proprio chi ha fatto la cosa giusta. ④ Non era visibile in locale: sul clone superficiale quel controllo esce CIECO, e il primo posto dove ha potuto misurare davvero e stata la CI.",
-      "fix_proposto": "DA FARE: cercare l ultimo esito anche dentro i merge (`git log -m --first-parent -G …`), oppure confrontare il CONTENUTO del quaderno fra base e HEAD invece della storia dei commit — con una prova che parta ROSSA su un ramo dove l unica riga di esito vive in un commit di merge. NON fatto stanotte: e un freno che Nicola ha costruito ieri (AR-477), e toccarlo di corsa per far tornare verde una CI e esattamente il gesto che questo cantiere censisce. Rimedio applicato intanto, e verificato: la riga di esito si scrive in un commit NORMALE, mai dentro il merge.",
+      "fix_proposto": "FATTO 🟡 `ARGOMENTI_CERCA_ESITO` in cervello/cancello-stop.mjs: la ricerca dell'ultimo esito passa da `--diff-merges=first-parent`, cioe guarda il diff della fusione rispetto a DOVE ERO IO — quello che quel commit ha davvero aggiunto al mio ramo. Non allarga niente: su un commit normale non cambia nulla, e non guarda dentro il ramo che arriva, che e lavoro di altri. Testo originale della proposta: DA FARE: cercare l ultimo esito anche dentro i merge (`git log -m --first-parent -G …`), oppure confrontare il CONTENUTO del quaderno fra base e HEAD invece della storia dei commit — con una prova che parta ROSSA su un ramo dove l unica riga di esito vive in un commit di merge. NON fatto stanotte: e un freno che Nicola ha costruito ieri (AR-477), e toccarlo di corsa per far tornare verde una CI e esattamente il gesto che questo cantiere censisce. Rimedio applicato intanto, e verificato: la riga di esito si scrive in un commit NORMALE, mai dentro il merge.",
       "malattia": "non-pattern-izzabile",
-      "malattia_perche": "La forma sta in cosa un comando git guarda e cosa salta — una proprieta della STORIA, non di una riga di codice. La copre la prova descritta nel fix, non un pattern per riga."
+      "malattia_perche": "La forma sta in cosa un comando git guarda e cosa salta — una proprieta della STORIA, non di una riga di codice. La copre la prova descritta nel fix, non un pattern per riga.",
+      "chiuso": "2026-08-04 06:00",
+      "verifica": {
+        "comando": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+        "nota": "La prova sul campo che la scheda chiedeva, e nella forma che chiedeva: un repo git usa-e-getta dove il ramo si biforca, i due lati toccano lo stesso file, e la riga di esito viene scritta risolvendo il conflitto — cioe dentro il commit di fusione. La prima asserzione PARTE ROSSA (senza il flag git non vede niente), la seconda la trova. 10 prove nel file."
+      },
+      "chiuso_da": "Bloccava la CI di questa stessa richiesta tre volte in un giorno: e il costo che la scheda diceva di non voler pagare di corsa il 3/8, e che il 4/8 e diventato il motivo per pagarlo con calma.",
+      "lezione": "L-2026-0804-554"
     },
     {
       "id": "AR-506",
