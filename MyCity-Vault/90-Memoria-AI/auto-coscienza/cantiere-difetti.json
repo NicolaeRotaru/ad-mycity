@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 00:45",
+  "aggiornato": "2026-08-04 03:20",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -10522,6 +10522,72 @@
       "verifica": {
         "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs"
       }
+    },
+    {
+      "id": "AR-518",
+      "stato": "aperto",
+      "gravita": "bloccante",
+      "colore": "🔴",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 03:10",
+      "nato_come": "scoperta",
+      "nato_da": "AR-430",
+      "origine": "Nicola 4/8 03:00: «controlla se funziona tutto». La visita ha trovato la macchina ferma da 112 ore — e ha trovato che l'allarme c'era gia', da 4 giorni, con 47 aggiornamenti.",
+      "titolo": "La macchina lavora e non riesce a pubblicare: 4.006 commit fermi sul server e il Pannello mostra numeri di quattro giorni fa",
+      "causa_radice": "① CORRETTO alle 03:20 con lo schermo del server sotto gli occhi. La prima diagnosi diceva «macchina ferma»: SBAGLIATA. Il giro gira — un giro pieno alle 22:26 del 3/8 — e si ferma all'ultimo passo: «PUSH ANNULLATO (AR-396): rebase rc=1, abort rc=128», poi «push della memoria fallito dopo 3 tentativi», poi exit 2 e systemd marca il servizio fallito. ② Da qui si vedeva solo l'effetto (nessuna traccia nuova nel repo da 112 ore) e l'ho scambiato per la causa. La lezione: cinque tracce ferme dicono «non pubblica», non «non lavora» — e le due chiedono rimedi opposti (riavviare il servizio, che era il mio consiglio, peggiora: ogni giro aggiunge commit). ③ La pila cresce: 3.942 commit locali alle 18:23, 4.006 alle 22:26. Sessantaquattro in quattro ore. AR-467 doveva impedire proprio questo («il recupero non committa se ci sono gia' commit non pubblicati») ed e' in main dal 31/7, verificato nel file. Quindi o il server non ha quel codice, o il caso non e' coperto. ④ Resta vero il difetto del CANALE: l'allarme del battito esterno ha aperto la issue #644 e l'ha aggiornata 47 volte in quattro giorni, e nessuno l'ha letta. Nicola l'ha scoperto chiedendo.",
+      "fix_proposto": "DA FARE. (a) 🔴 sbloccare il push sul server: prima il perche' del rebase (comandi nella card), poi la decisione sui 4.006 commit locali. NON riavviare il servizio. (b) 🟡 il canale: il verdetto del battito esterno deve atterrare in coda e nella Cabina, non solo in una issue. (c) 🟡 da capire perche' AR-467 non tiene sul server."
+    },
+    {
+      "id": "AR-519",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 03:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-490",
+      "origine": "Trovato dal freno dello Stop sul referto della visita: accusava «forma pulita, contenuto svuotato» un testo che sopra la riga diceva 112 ore, la data e il nome del file fermo.",
+      "titolo": "«Sostanza» misurata come «gergo»: un referto pieno di date e numeri veniva chiamato copertina vuota",
+      "causa_radice": "① La regola sostanza-nascosta chiedeva una cosa sola: che sopra la riga «Dettagli tecnici» comparisse almeno una parola dell'elenco PAROLE_MACCHINA. Un testo che sopra la riga porta «112 ore», «2026-07-30 11:19» e «sentinella-dati.json» — cioe' tutto quello che serve per capire — risultava svuotato. ② La sua GEMELLA, due righe piu' sotto nella stessa funzione, sa gia' che un numero e' sostanza (`paroleTecnicheSopra === 0 && !/\\\\d/.test(corpo)`): due metri diversi per la stessa domanda, dentro lo stesso file. ③ La direzione dell'errore e' quella che spegne i controlli: spingeva a infilare una parola dell'elenco per far passare il metro, cioe' a scrivere per il misuratore invece che per Nicola.",
+      "fix_proposto": "FATTO 🟡 La regola accetta come sostanza anche i FATTI: una data, un numero con la sua unita' (ore, giorni, %, €), una proporzione «su N», il nome di un file. Blocca solo quando sopra la riga non c'e' ne' gergo ne' un fatto — cioe' quando e' davvero una copertina. 2 prove: il referto vero non viene piu' accusato, e un testo davvero vuoto viene ancora preso.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-520",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "processi-e-cadenze",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 03:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "Il freno dello Stop ha misurato il referto della visita che avevo appena prodotto: 11 punti difficili aggiunti a un file che era a 0.",
+      "titolo": "Il referto della visita non aveva le quattro risposte: apriva col conteggio dei controlli invece che con la notizia",
+      "causa_radice": "① La regola delle quattro risposte vale per ogni testo che legge Nicola, e il referto della visita e' proprio quello — ma nasce da un GENERATORE, non da me che scrivo, e i generatori erano rimasti fuori dal perimetro. ② Il referto apriva con «1 rossi su 20 controlli, copertura 68%»: vero, ma e' il numero prima della notizia. Il guasto vero stava tre sezioni piu' sotto. ③ In piu' la forma: titoli con due incisi fra parentesi (organo e impatto), sette titoli di controlli non visti uniti dai punto e virgola in una frase da 36 parole.",
+      "fix_proposto": "FATTO 🟡 `quattroRisposte(v)` costruisce i quattro blocchi dai dati della visita: cosa non va e quanto costa, il caso concreto, cosa deve fare Nicola, quali controlli non ho potuto fare (in elenco, non in un periodo). La riga «Dettagli tecnici» sta SOTTO il rosso, non sopra: al primo tentativo l'avevo messa in cima e il misuratore ha risposto «forma pulita, contenuto svuotato» — il referto era diventato una copertina. Misurato: da 6.5 a 1.8 di difficolta', da 11 punti a zero.",
+      "verifica": {
+        "comando": "node cervello/test/referto-visita-leggibile.test.mjs"
+      }
+    },
+    {
+      "id": "AR-521",
+      "stato": "aperto",
+      "gravita": "bloccante",
+      "colore": "🔴",
+      "dimensione": "processi-e-cadenze",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 03:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-469",
+      "origine": "Nicola ha lanciato sul server i tre comandi della card e ha mandato lo schermo: «error: cannot rebase: You have unstaged changes».",
+      "titolo": "La riparazione che sbloccherebbe il server non puo' arrivarci, perche' ad essere rotto e' proprio il modo in cui riceve le riparazioni",
+      "causa_radice": "① La causa immediata e' AR-469 alla lettera: 17 file di dati che la macchina si riscrive da sola (auto-coscienza/*.json, cervello/fonti-salute.json, intelligence-agenda.json, routing.json) restano modificati e mai in staging, quindi `git rebase` si rifiuta di partire: «cannot rebase: You have unstaged changes». ② Il fix di AR-469 — mettere da parte quei file prima del rebase — e' in main dal 31/7, verificato leggendo il file: `serve_mettere_da_parte` e lo stash ci sono. Il server non ce l'ha. ③ E qui sta il difetto NUOVO, che non e' AR-469: il server prende le riparazioni facendo rebase su main. Il rebase e' rotto. Quindi la riparazione del rebase non puo' arrivare al posto dove servirebbe. E' un nodo che si stringe da solo: ogni giro ci prova, fallisce, e la pila cresce (3.942 alle 18:23 → 4.006 alle 22:26 → 4.450 alle 03:15, +508 in nove ore). ④ Perche' nessuno l'aveva visto: dalla sessione cloud si vede solo l'effetto (niente arriva nel repo), e l'effetto somiglia a «macchina spenta». Serviva lo schermo del server per distinguere. ⑤ La forma generale, che vale oltre questo caso: un canale di aggiornamento che si ripara solo attraverso se stesso non ha via d'uscita automatica. Serve una mano umana una volta sola, oppure un percorso di riparazione che non passi dal canale rotto.",
+      "fix_proposto": "DA FARE, 🔴 e in due tempi. (a) SBLOCCO A MANO, una volta sola: ramo di salvataggio + stash dei file dati + fetch + decisione sui 4.450 commit-diario (il loro valore e' lo STATO finale dei file, che e' gia' nell'albero di lavoro: rifarli uno per uno su main non aggiunge niente e conflitterebbe su ogni file di memoria). (b) 🟡 LA VIA DI FUGA: il percorso di aggiornamento del server non deve dipendere dal rebase. Da progettare come lotto suo: o l'aggiornamento del CODICE si separa dalla pubblicazione della MEMORIA, o il recupero fa un reset guidato invece di un rebase. Finche' non c'e', lo stesso nodo si rifara'."
     }
   ],
   "meta": {
