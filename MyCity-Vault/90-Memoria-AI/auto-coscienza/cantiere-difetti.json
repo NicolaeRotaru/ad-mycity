@@ -11207,6 +11207,45 @@
         "comando": "node --import ./cervello/test/hook-ts.mjs --test pannello/src/lib/memoria-ferma.test.mts"
       },
       "prova_runtime": "Playwright 4/8 05:50 (viewport mobile): banner acceso coi numeri veri dell'incidente (114h → «4 giorni e 18 ore», ultima pubblicazione 30/07 11:15), riga «🔴 Lavora ma non pubblica», bottone → diagnosi worker, e NESSUN banner a push fresco. 7/7 osservazioni, zero errori console."
+    },
+    {
+      "id": "AR-556",
+      "stato": "aperto",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 12:35",
+      "nato_come": "regressione",
+      "nato_da": "AR-522",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma non vive in una riga ma nel RAPPORTO fra due cose lontane: l'indentazione scritta nel codice e quella che il file ha sul disco. Un pattern per riga vedrebbe `writeFileSync(X, JSON.stringify(…, null, 2))` e non saprebbe dire se è giusto o sbagliato — dipende da X, che sta in un altro file. La difesa vera è un guardiano dedicato che risolve il bersaglio e legge il disco: `cervello/indentazione-guardia.mjs`, cablato nel cancello di lotto accanto a forma-json.",
+      "origine": "Nicola ha chiesto il fix di AR-522. La scheda risultava già chiusa e il codice confermava il fix su tasso-lezioni — ma la verifica sul codice vero (regola ② del cantiere: comanda il codice, non la scheda) ha trovato altre tre porte sullo stesso file.",
+      "titolo": "La porta a mano era chiusa, quella automatica no: lo stesso file tornava a riscriversi tutto",
+      "causa_radice": "① AR-522 ha curato UN punto — `tasso-lezioni.mjs` — e la sua prova cercava quel file per nome. ② Ma `tasso-lezioni` non lo lancia una persona: lo lancia `tick-auto-coscienza-leggero.mjs` dentro il giro, e DUE RIGHE DOPO averlo lanciato il tick riapriva `apprendimento.json` e lo riscriveva con `JSON.stringify(appr, null, 2)`. Quel file ha UN spazio. ③ Quindi la catena intera di AR-522 (file riscritto tutto → `forma-json` blocca il commit → albero sporco → il rebase non parte → «MEMORIA NON PUBBLICATA», quattro giorni e diciassette ore) sarebbe tornata al primo giro utile, e nessuno l'avrebbe collegata a una scheda dichiarata chiusa. ④ Altre due porte sullo stesso file: `cristallizza-apprendimento.mjs:202` e l'uno-shot `tmp-metabolizza-append.mjs:12`. ⑤ E il metro mancava del tutto: nessun guardiano guardava il CODICE che sceglie l'indentazione — `forma-json.mjs` guarda il file DOPO che è stato riscritto, cioè quando il commit è già bloccato e l'albero già sporco. ⑥ È l'errore già pagato AR-172: riparare la porta a mano e lasciare aperta quella automatica è il modo più sicuro di far tornare il difetto da solo.",
+      "fix_proposto": "FATTO 🟡 (a) `cervello/indentazione-fissa.mjs`: funzioni pure che, dato un sorgente, trovano ogni `writeFileSync(X, JSON.stringify(…, null, N))`, risolvono X in un file vero e confrontano N con l'indentazione che quel file ha SUL DISCO; un bersaglio non risolvibile torna in `nonMisurate` (⚪ dichiarato, non un verde). (b) `cervello/indentazione-guardia.mjs`: il guardiano che le esegue sul repo, cablato nel cancello di lotto accanto a `forma-json`. (c) le tre porte passano da `scriviJsonAtomico`. Misurato dal vivo lanciando il tick vero: **3 righe di diff con la porta chiusa contro 12.953 con la porta aperta**. Prova non vacua: rotto il fix, 2 test rossi e guardiano a exit 1.",
+      "nota_fix": "Tre difetti del METRO trovati costruendolo, tutti corretti prima di fidarmene: ① la ricerca della `stringify` non era limitata alla chiamata e pescava quella di una chiamata diversa più in basso — accusava `prova-trigger.mjs`, che scrive a 1 spazio ed è innocente (un guardiano che accusa l'innocente viene spento, e da spento non vede più nemmeno i colpevoli); ② l'indice dei JSON saltava le cartelle col punto, quindi era cieco su `.claude/`; ③ limitare i nomi delle costanti alle MAIUSCOLE avrebbe perso la porta di `tmp-metabolizza-append` (`const path` minuscolo) — perimetro dedotto dalla convenzione, la malattia di AR-347. Restano 11 bersagli ⚪ non risolvibili staticamente (percorsi che arrivano come parametro di funzione): dichiarati, non assolti. Il comando di verifica gira SENZA `--test`: `auto-fix` esegue solo `node cervello/<script>.mjs`, e un comando che non sa eseguire lascia il difetto aperto marcato «manuale» — provato che eseguito così diventa exit 1 col fix rotto. Il raggio del guardiano è `cervello/**.mjs`, e il secondo/terzo giro hanno controllato cosa resta fuori: ① `pannello/src/**` non scrive nessun JSON di memoria (zero `writeFileSync`+`JSON.stringify`); ② `giro.sh` NOMINA apprendimento.json ma lo legge soltanto (`stat -c %Y`, controllo di freschezza), non lo scrive; ③ l'unico scrittore fuori raggio è `consegne/automazioni/n8n/genera-catalogo-50.mjs`, che scrive a 2 spazi file che sul disco hanno 2 spazi — innocuo, e sono output che genera lui, non registri di memoria. Scritto qui perché al prossimo giro non vada ri-dedotto da capo.",
+      "verifica": {
+        "comando": "node cervello/test/porta-automatica-indentazione.test.mjs"
+      }
+    },
+    {
+      "id": "AR-557",
+      "stato": "aperto",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 12:45",
+      "nato_come": "scoperta",
+      "nato_da": "AR-556",
+      "origine": "Trovato nel secondo giro del lotto di AR-556: il cancello mi ha bloccato per `prova-orfana` sulla scheda nuova, e la domanda successiva era «e le schede già chiuse?».",
+      "titolo": "Quarantotto difetti sono stati chiusi con una prova che il motore non sa eseguire",
+      "causa_radice": "① `auto-fix.mjs` esegue solo `node cervello/<script>.mjs [--flag]` (difesa voluta: un difetto non deve poter far girare codice arbitrario per dichiararsi risolto). Quando il comando non ha quella forma torna `esito: \"manuale\"` — non lo esegue. ② Il guardiano `prova-orfana` del cancello controlla solo i difetti TOCCATI dal lotto in corso. ③ Risultato misurato: 48 schede su 241 con un comando di verifica hanno una forma che `auto-fix` non sa eseguire — e sono chiuse **tutte e 48**, cioè passate dalla porta a mano (`auto-fix chiudi --id=`) che chiude ciò che la porta automatica rifiuta. Quasi tutte per lo stesso motivo minuscolo: `node --test <file>` invece di `node <file>` (i test di questo repo si eseguono anche diretti, quindi il comando funzionerebbe togliendo tre caratteri). ④ È la forma esatta che la skill del cantiere descrive nel «secondo giro»: un metro che non misura una strada non la dichiara scoperta, dice verde.",
+      "fix_proposto": "🟡 (a) Normalizzare i 48 comandi togliendo `--test` (verificando UNO PER UNO che eseguito diretto il test diventi rosso col fix rotto — un comando che esce sempre 0 richiuderebbe il difetto in silenzio, che è peggio di adesso). (b) Estendere il controllo `prova-orfana` dal solo lotto in corso a TUTTE le schede con una verifica, con un tetto che scende e non risale. (c) Le tre schede con `--import` o due file nello stesso comando vanno guardate a mano: lì la forma non è recuperabile togliendo un flag. NON incluso nel lotto di AR-556: allargarlo a metà è il modo classico di non finirlo.",
+      "verifica": {
+        "comando": ""
+      }
     }
   ],
   "meta": {
