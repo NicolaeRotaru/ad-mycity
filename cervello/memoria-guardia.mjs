@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🧠 LA MEMORIA DELLA GUARDIA — quello che il sorvegliante trova non sopravvive alla sessione.
+// 🧠 LA MEMORIA DELLA GUARDIA (AR-528) — quello che il sorvegliante trova non sopravvive alla sessione.
 //
 // PERCHÉ ESISTE. Il sorvegliante tiene un registro di tutto ciò che mi dice: quante volte, su quale
 // file, e se l'ho sistemato. Quel registro vive in `_tmp_sorvegliante-battito.json`, fuori da git —

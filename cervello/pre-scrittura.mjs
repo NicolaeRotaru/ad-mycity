@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// ✋ PRIMA CHE ACCADA — l'unico freno che parla mentre la mossa è ancora annullabile.
+// ✋ PRIMA CHE ACCADA (AR-525) — l'unico freno che parla mentre la mossa è ancora annullabile.
 //
 // PERCHÉ ESISTE. Tutte le guardie di questa macchina arrivano DOPO. Il sorvegliante parla quando il
 // file è già scritto, il cancello del lotto quando il lavoro è finito, quello dello Stop quando dico

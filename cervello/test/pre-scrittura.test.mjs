@@ -25,7 +25,9 @@ test("anche la forma corta «-n» viene vista: è lo stesso bypass scritto in du
 });
 
 test("un commit normale NON chiede niente: è il gesto più frequente che faccio", () => {
-  assert.equal(decidi({ strumento: "Bash", comando: 'git commit -m "AR-519: la terza strada"' }).chiedi, false);
+  // Il messaggio del commit è volutamente senza numeri di difetto: se ne portasse uno, una
+  // rinumerazione altrove toccherebbe questa prova e sembrerebbe un caso tolto (successo il 4/8).
+  assert.equal(decidi({ strumento: "Bash", comando: 'git commit -m "la terza strada"' }).chiedi, false);
 });
 
 // ── ② la difesa cancellata ───────────────────────────────────────────────────

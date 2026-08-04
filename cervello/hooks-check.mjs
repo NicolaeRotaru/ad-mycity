@@ -49,7 +49,7 @@ const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
 const SETTINGS = ".claude/settings.json";
 
-/** I freni costruiti e non ancora agganciati, ognuno con la data entro cui deve esserlo (AR-519). */
+/** I freni costruiti e non ancora agganciati, ognuno con la data entro cui deve esserlo (AR-526). */
 export const IN_ATTESA = "cervello/hook-in-attesa.json";
 
 /**
@@ -134,7 +134,7 @@ export function freniNonAttaccati(scriptDisponibili = [], comandi = []) {
 }
 
 /**
- * LA TERZA STRADA (AR-519) — «costruito» e «agganciato» non succedono nello stesso momento.
+ * LA TERZA STRADA (AR-526) — «costruito» e «agganciato» non succedono nello stesso momento.
  *
  * PERCHÉ SERVE. `.claude/settings.json` è nel deny-list di questa macchina, e deve restarci: è il
  * file che può staccare tutti i freni insieme, compreso il divieto di leggere i `.env`. Quindi io
@@ -263,7 +263,7 @@ function main() {
     process.exit(2);
   }
 
-  // La terza strada: chi è staccato ma DICHIARATO in attesa, con la sua data (AR-519).
+  // La terza strada: chi è staccato ma DICHIARATO in attesa, con la sua data (AR-526).
   let registro = [];
   try {
     registro = JSON.parse(readFileSync(join(REPO, IN_ATTESA), "utf8")).in_attesa || [];
@@ -279,9 +279,9 @@ function main() {
   //
   // È la prova di questi quattro difetti, e li nomino qui perché un comando condiviso che non dice
   // chi chiude li chiuderebbe tutti alla cieca — compresi quelli mai toccati:
-  //   · AR-518 — pre-scrittura.mjs su PreToolUse (le scritture che nessuna guardia vede)
-  //   · AR-520 — cancello-senior.mjs su SubagentStop (i senior che consegnano senza cancello)
-  //   · AR-521 — memoria-guardia.mjs su SessionStart/PreCompact/SessionEnd (la memoria che muore con la copia)
+  //   · AR-525 — pre-scrittura.mjs su PreToolUse (le scritture che nessuna guardia vede)
+  //   · AR-527 — cancello-senior.mjs su SubagentStop (i senior che consegnano senza cancello)
+  //   · AR-528 — memoria-guardia.mjs su SessionStart/PreCompact/SessionEnd (la memoria che muore con la copia)
   //   · AR-522 — intento-turno.mjs su UserPromptSubmit (il perimetro del turno che non esiste al primo giro)
   // Ognuno resta rosso finché IL SUO script non compare fra i comandi attaccati.
   const senzaAttese = process.argv.includes("--senza-attese");

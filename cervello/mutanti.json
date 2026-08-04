@@ -1575,7 +1575,7 @@
    "test": "cervello/test/cancello-stop.test.mjs"
   },
   {
-   "difetto": "AR-518",
+   "difetto": "AR-525",
    "nome": "il freno che parla prima smette di vedere le scritture MCP: tornano a passare senza nessuna guardia",
    "file": "cervello/pre-scrittura.mjs",
    "cerca": "    if (VERBI_DI_SCRITTURA.test(verbo)) {",
@@ -1583,7 +1583,7 @@
    "test": "node --test cervello/test/pre-scrittura.test.mjs"
   },
   {
-   "difetto": "AR-518",
+   "difetto": "AR-525",
    "nome": "il freno smette di riconoscere il bypass dei cancelli del pre-commit",
    "file": "cervello/pre-scrittura.mjs",
    "cerca": "  if (/\\bgit\\s+commit\\b[^\\n]*(--no-verify|(?:^|\\s)-n(?:\\s|$))/.test(c)) {",
@@ -1591,7 +1591,7 @@
    "test": "node --test cervello/test/pre-scrittura.test.mjs"
   },
   {
-   "difetto": "AR-519",
+   "difetto": "AR-526",
    "nome": "l'attesa non scade più: un freno mai agganciato resta giallo per sempre, cioè esente",
    "file": "cervello/hooks-check.mjs",
    "cerca": "    if (oggi && v.scade < oggi) scaduti.push({ file: s, ...v });",
@@ -1599,7 +1599,7 @@
    "test": "node --test cervello/test/hooks-check.test.mjs"
   },
   {
-   "difetto": "AR-519",
+   "difetto": "AR-526",
    "nome": "una voce senza data vale come attesa: l'esenzione senza scadenza torna a passare",
    "file": "cervello/hooks-check.mjs",
    "cerca": "    if (!v || !v.scade) {",
@@ -1607,7 +1607,7 @@
    "test": "node --test cervello/test/hooks-check.test.mjs"
   },
   {
-   "difetto": "AR-520",
+   "difetto": "AR-527",
    "nome": "il cancello dei senior blocca anche quando il perimetro è condiviso: punisce il senior sbagliato",
    "file": "cervello/cancello-senior.mjs",
    "cerca": "  return { righe, blocca: sostanza && !condiviso && !giaBloccato };",
@@ -1615,7 +1615,7 @@
    "test": "node --test cervello/test/cancello-senior.test.mjs"
   },
   {
-   "difetto": "AR-520",
+   "difetto": "AR-527",
    "nome": "l'ancora del senior non si chiude: il prossimo senior eredita il perimetro di chi c'era prima",
    "file": "cervello/cancello-senior.mjs",
    "cerca": "  if (aperti <= 1) return { ancora: null, ultimo: true, condiviso: aperti > 1 };",
@@ -1623,7 +1623,7 @@
    "test": "node --test cervello/test/cancello-senior.test.mjs"
   },
   {
-   "difetto": "AR-521",
+   "difetto": "AR-528",
    "nome": "la memoria conta come «mai risolta» anche una voce che avevo sistemato mentre lavoravo",
    "file": "cervello/memoria-guardia.mjs",
    "cerca": "    if (Number(v.scatto) === scatto && v.gravita === \"grave\") {",
@@ -1639,7 +1639,7 @@
    "test": "node --test cervello/test/intento-turno.test.mjs"
   },
   {
-   "difetto": "AR-519",
+   "difetto": "AR-526",
    "nome": "l'attesa di aggancio non scade: un hook mai collegato resta verde per sempre, cioè esente",
    "file": "cervello/guardia-viva.mjs",
    "cerca": "    if (oggi && scade < oggi) {",
@@ -1647,7 +1647,7 @@
    "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   },
   {
-   "difetto": "AR-519",
+   "difetto": "AR-526",
    "nome": "un'attesa senza data viene accettata: l'esenzione travestita torna a passare",
    "file": "cervello/guardia-viva.mjs",
    "cerca": "    if (!scade) {",

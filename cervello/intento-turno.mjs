@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🎯 L'INTENTO DEL TURNO — il momento in cui Nicola mi chiede una cosa, che finora non guardava nessuno.
+// 🎯 L'INTENTO DEL TURNO (AR-522) — il momento in cui Nicola mi chiede una cosa, che finora non guardava nessuno.
 //
 // PERCHÉ ESISTE. Due difetti veri, tutti e due misurati, e tutti e due vivono nello stesso istante:
 // quello in cui arriva un messaggio di Nicola.

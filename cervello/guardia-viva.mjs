@@ -211,7 +211,7 @@ export function guardiaDi(nome, registro = {}, invocati = new Set(), invocatoDa 
   //
   // Vale SOLO con una data, ed è tutta lì la differenza fra un'attesa e un'esenzione: scaduta la
   // data torna a essere quello che è, cioè un freno costruito e mai collegato. Stessa forma del
-  // terzo stato del sorvegliante sui gate e di quello del guardiano degli hook (AR-519): non è una
+  // terzo stato del sorvegliante sui gate e di quello del guardiano degli hook (AR-526): non è una
   // seconda copia di quella logica, è la stessa regola applicata a un registro diverso.
   if (motivo === MOTIVO.IN_ATTESA) {
     const scade = String(voce?.scade || "").trim();

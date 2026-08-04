@@ -129,7 +129,7 @@ test("AR-394 — il verdetto morto del cancello di pubblicazione è misurato, no
   );
 });
 
-// ── AR-519 — «in attesa di aggancio»: il terzo stato per gli hook ─────────────
+// ── AR-526 — «in attesa di aggancio»: il terzo stato per gli hook ─────────────
 //
 // Un hook non lo mette di guardia un processo del repo: lo mette una riga in `.claude/settings.json`,
 // file che la macchina non può scrivere apposta. Fra «l'ho costruito» e «Nicola l'ha incollato»

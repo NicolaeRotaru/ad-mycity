@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 👔 IL CANCELLO DEI SENIOR — i 120 consegnano, e finora non li controllava nessuno.
+// 👔 IL CANCELLO DEI SENIOR (AR-527) — i 120 consegnano, e finora non li controllava nessuno.
 //
 // PERCHÉ ESISTE. Questa macchina ha tre freni sul lavoro, e tutti e tre guardano ME: il sorvegliante
 // mentre modifico, il cancello del lotto quando consegno, quello dello Stop quando dico «ho finito».

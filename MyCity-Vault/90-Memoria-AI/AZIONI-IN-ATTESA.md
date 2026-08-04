@@ -1019,11 +1019,11 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
   }
 ```
 
-**Nota tecnica:** difetti AR-518, AR-520, AR-521, AR-522 (i quattro controlli) + AR-519 (la terza strada del guardiano degli hook, che evita la CI rossa mentre aspetto il tuo incollaggio). Il file dei permessi è negato in scrittura alla macchina apposta, e deve restarci: è quello che può staccare tutti i freni insieme, divieto sui `.env` compreso. Perciò questa card esiste invece del fix diretto.
+**Nota tecnica:** difetti AR-525, AR-527, AR-528, AR-522 (i quattro controlli) + AR-526 (la terza strada del guardiano degli hook, che evita la CI rossa mentre aspetto il tuo incollaggio). Il file dei permessi è negato in scrittura alla macchina apposta, e deve restarci: è quello che può staccare tutti i freni insieme, divieto sui `.env` compreso. Perciò questa card esiste invece del fix diretto.
 
 - **Colore:** 🟡 (cambia la configurazione dei controlli, non manda niente a nessuno; reversibile rimettendo il blocco di prima)
 - **Reparto:** builder-automazioni + devops-sre
-- **Origine:** `{origine:lotto-hooks-mancanti, difetti:[AR-518,AR-519,AR-520,AR-521,AR-522]}`
+- **Origine:** `{origine:lotto-hooks-mancanti, difetti:[AR-525,AR-526,AR-527,AR-528,AR-522]}`
 
 ---
 

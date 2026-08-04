@@ -370,7 +370,7 @@
    "baseline": 0,
    "file_noti": [],
    "curati": [],
-   "nota_onesta": "Baseline 0 nel perimetro dichiarato. I due --no-verify che esistono stanno in cervello/test/, dove servono a costruire repo finti: fuori dal perimetro di questa malattia e già fuori dal controllo ① del sorvegliante. Dal 4/8 c'è un esente dichiarato: cervello/pre-scrittura.mjs, il freno che quel bypass lo riconosce per fermarlo (AR-518).",
+   "nota_onesta": "Baseline 0 nel perimetro dichiarato. I due --no-verify che esistono stanno in cervello/test/, dove servono a costruire repo finti: fuori dal perimetro di questa malattia e già fuori dal controllo ① del sorvegliante. Dal 4/8 c'è un esente dichiarato: cervello/pre-scrittura.mjs, il freno che quel bypass lo riconosce per fermarlo (AR-525).",
    "esenti": [
     {
      "file": "cervello/pre-scrittura.mjs",

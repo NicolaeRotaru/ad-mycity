@@ -5,7 +5,7 @@
   "libreria": "ha una CLI di diagnosi, ma il suo giudizio vive dentro chi lo importa: il freno sta lì, non nell'eseguibile.",
   "decisione": "si lancia a mano di proposito, e il perché è scritto per esteso.",
   "da-cablare": "riconosciuto come BUCO, non come stato. Vive solo sotto `tetto_da_cablare`, che è assoluto e scende: un buco in più non si consegna.",
-  "in-attesa-di-aggancio": "è un HOOK: non lo mette di guardia un processo del repo, lo mette una riga in `.claude/settings.json` — file che la macchina non può scrivere apposta, perché è quello che può staccare tutti i freni insieme. Vale SOLO col campo `scade`: passata quella data torna a essere un freno costruito e mai collegato. Non conta contro `tetto_da_cablare` perché quel tetto governa i buchi senza data; qui la disciplina è la data, che è più severa di un numero. AR-519."
+  "in-attesa-di-aggancio": "è un HOOK: non lo mette di guardia un processo del repo, lo mette una riga in `.claude/settings.json` — file che la macchina non può scrivere apposta, perché è quello che può staccare tutti i freni insieme. Vale SOLO col campo `scade`: passata quella data torna a essere un freno costruito e mai collegato. Non conta contro `tetto_da_cablare` perché quel tetto governa i buchi senza data; qui la disciplina è la data, che è più severa di un numero. AR-526."
  },
  "tetto_da_cablare": 4,
  "_tetto_perche": "Quattro strumenti trovati costruiti e mai messi di guardia dalla corsia A del lotto 34, oltre ai due che il lotto ha cablato davvero (permessi-check, non-vacuita) e ai tre che sono una scelta scritta (libreria/decisione). Non sono stati riparati qui di proposito: allargare un lotto oltre la sua malattia è il modo in cui i lotti non finiscono. Il tetto esiste perché da qui in avanti il numero possa solo scendere — chi ne cabla uno abbassa questo numero nello stesso lavoro.",
@@ -18,17 +18,17 @@
   "pre-scrittura.mjs": {
    "motivo": "in-attesa-di-aggancio",
    "scade": "2026-08-11",
-   "perche": "AR-518: unico freno che parla prima della mossa (scritture MCP che non passano da nessuna guardia, bypass dei cancelli del pre-commit, cancellazione di una difesa). Va agganciato a PreToolUse a mano da Nicola, stessa card degli altri tre."
+   "perche": "AR-525: unico freno che parla prima della mossa (scritture MCP che non passano da nessuna guardia, bypass dei cancelli del pre-commit, cancellazione di una difesa). Va agganciato a PreToolUse a mano da Nicola, stessa card degli altri tre."
   },
   "cancello-senior.mjs": {
    "motivo": "in-attesa-di-aggancio",
    "scade": "2026-08-11",
-   "perche": "AR-520: il cancello dei 120 senior su SubagentStop, l'unico canale di lavoro che non aveva nessun freno proprio. Va agganciato a mano da Nicola, stessa card degli altri tre."
+   "perche": "AR-527: il cancello dei 120 senior su SubagentStop, l'unico canale di lavoro che non aveva nessun freno proprio. Va agganciato a mano da Nicola, stessa card degli altri tre."
   },
   "memoria-guardia.mjs": {
    "motivo": "in-attesa-di-aggancio",
    "scade": "2026-08-11",
-   "perche": "AR-521: fa sopravvivere alla morte della copia quello che la guardia trova (SessionStart, PreCompact, SessionEnd). Va agganciato a mano da Nicola, stessa card degli altri tre."
+   "perche": "AR-528: fa sopravvivere alla morte della copia quello che la guardia trova (SessionStart, PreCompact, SessionEnd). Va agganciato a mano da Nicola, stessa card degli altri tre."
   },
   "permessi-check.mjs": {
    "motivo": "cablato",

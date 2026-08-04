@@ -10524,7 +10524,7 @@
       }
     },
     {
-      "id": "AR-518",
+      "id": "AR-525",
       "stato": "aperto",
       "gravita": "bloccante",
       "colore": "🟡",
@@ -10544,7 +10544,7 @@
       "malattia_perche": "La copertura delle guardie era dedotta dagli strumenti che c'erano il giorno in cui sono nate, invece di essere misurata sulla classe «tutto cio che scrive». E AR-347 applicato ai canali invece che ai file."
     },
     {
-      "id": "AR-519",
+      "id": "AR-526",
       "stato": "chiuso",
       "gravita": "grave",
       "colore": "🟡",
@@ -10565,7 +10565,7 @@
       "malattia_perche": "La forma e l'assenza di un TERZO STATO in un guardiano, non una riga di codice: nessun pattern per riga la vede. La difesa vera e la prova sulla scadenza, che c'e."
     },
     {
-      "id": "AR-520",
+      "id": "AR-527",
       "stato": "aperto",
       "gravita": "bloccante",
       "colore": "🟡",
@@ -10585,7 +10585,7 @@
       "malattia_perche": "La forma e un MOMENTO scoperto (un evento senza nessun freno attaccato), non una riga: si vede confrontando gli eventi possibili con quelli usati, che e quello che fa hooks-check, non un pattern sul testo."
     },
     {
-      "id": "AR-521",
+      "id": "AR-528",
       "stato": "aperto",
       "gravita": "grave",
       "colore": "🟡",
@@ -10622,7 +10622,7 @@
         "nota": "9 prove; 1 mutazione verificata rossa sulla regola che conta (un'ancora viva non si sposta mai). Una prova confronta il nome del file d'ancora con quello del cancello dello Stop: se divergono, il perimetro seminato non lo legge nessuno. Il comando qui accanto e ROSSO finche l'hook non e agganciato davvero (--senza-attese toglie il periodo di grazia): diventa verde solo quando Nicola incolla il blocco, non quando lo dichiaro io. La prova unitaria del pezzo resta node --test cervello/test/intento-turno.test.mjs."
       },
       "malattia": "non-pattern-izzabile",
-      "malattia_perche": "La forma e un MOMENTO mancante (nessun evento di inizio turno), come AR-520: si vede confrontando gli eventi possibili con quelli usati, non con un pattern sul testo.",
+      "malattia_perche": "La forma e un MOMENTO mancante (nessun evento di inizio turno), come AR-527: si vede confrontando gli eventi possibili con quelli usati, non con un pattern sul testo.",
       "nota_incrocio": "Mentre costruivo questo, su main e arrivato AR-507 con lo stesso SINTOMO (il cancello che accusa di lavoro non del turno) e un fix diverso e complementare: quello mette l'ancora davanti alle basi del ramo quando l'ancora c'e, e dichiara ⚪ quando non c'e. Questo fa in modo che l'ancora ESISTA dal primo messaggio. Nessuno dei due sostituisce l'altro: senza AR-507 l'ancora non veniva usata per i testi, senza questo l'ancora al primo turno non c'era."
     },
     {

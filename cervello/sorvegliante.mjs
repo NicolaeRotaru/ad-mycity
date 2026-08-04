@@ -799,7 +799,7 @@ export function vociInsistenti(viste = {}, scatto = 0, soglia = INSISTENZA) {
 /**
  * Le voci comparse DOPO un certo scatto, e ancora vive all'ultimo.
  *
- * Serve al cancello dei senior (AR-520): un senior parte, la guardia scatta N volte mentre lavora, e
+ * Serve al cancello dei senior (AR-527): un senior parte, la guardia scatta N volte mentre lavora, e
  * alla fine la domanda è «cosa è comparso da quando è partito LUI». Senza questo taglio il cancello
  * gli rinfaccerebbe le voci di chi ha lavorato prima — che è la stessa malattia del perimetro largo,
  * spostata dai turni ai senior.
@@ -1146,7 +1146,7 @@ function guardianiNominati() {
 /**
  * L'indice delle difese di QUESTO repo, letto dai registri veri.
  *
- * Esportato (AR-518) perché adesso serve anche al freno che parla PRIMA della mossa: quando sto per
+ * Esportato (AR-525) perché adesso serve anche al freno che parla PRIMA della mossa: quando sto per
  * cancellare un file, la domanda «qualcuno lo dichiara difesa?» è la stessa identica di quando l'ho
  * già cancellato. Sta qui e non là perché i tre lettori dei registri stanno qui: una seconda copia
  * divergerebbe, ed è la ragione per cui in questa macchina il registro delle malattie è UNO.

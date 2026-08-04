@@ -12,7 +12,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { chiaviSconosciute, comandiDichiarati, comandiOrfani, freniNonAttaccati, smistaStaccati, verdetto, EVENTI } from "../hooks-check.mjs";
 
-// ── ⑤ la terza strada: costruito ma non ancora agganciato (AR-519) ────────────
+// ── ⑤ la terza strada: costruito ma non ancora agganciato (AR-526) ────────────
 
 const registro = [{ file: "cervello/nuovo.mjs", evento: "PreToolUse", pr: "#658", scade: "2026-08-11" }];
 

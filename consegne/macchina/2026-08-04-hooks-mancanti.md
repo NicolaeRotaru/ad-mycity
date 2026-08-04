@@ -188,13 +188,13 @@ I quattro file nuovi, con il momento a cui vanno agganciati e il difetto che chi
 | File | Evento | Difetto |
 |---|---|---|
 | `cervello/intento-turno.mjs` | `UserPromptSubmit` | AR-522 — il perimetro del turno non esiste al primo giro |
-| `cervello/pre-scrittura.mjs` | `PreToolUse` | AR-518 — le scritture MCP non le guarda nessuna guardia |
-| `cervello/cancello-senior.mjs` | `SubagentStop` | AR-520 — i 120 senior consegnano senza cancello |
-| `cervello/memoria-guardia.mjs` | `SessionStart` + `PreCompact` + `SessionEnd` | AR-521 — quello che la guardia trova muore con la copia |
+| `cervello/pre-scrittura.mjs` | `PreToolUse` | AR-525 — le scritture MCP non le guarda nessuna guardia |
+| `cervello/cancello-senior.mjs` | `SubagentStop` | AR-527 — i 120 senior consegnano senza cancello |
+| `cervello/memoria-guardia.mjs` | `SessionStart` + `PreCompact` + `SessionEnd` | AR-528 — quello che la guardia trova muore con la copia |
 
 Modifiche ai pezzi che c'erano già:
 
-- `cervello/hooks-check.mjs` — AR-519, la terza strada: un freno costruito e non ancora agganciato è giallo se dichiarato con PR e scadenza in `cervello/hook-in-attesa.json`, rosso se la data manca o è passata. Non tocca `freniNonAttaccati`: quella riga è il `cerca` di una mutazione di AR-455.
+- `cervello/hooks-check.mjs` — AR-526, la terza strada: un freno costruito e non ancora agganciato è giallo se dichiarato con PR e scadenza in `cervello/hook-in-attesa.json`, rosso se la data manca o è passata. Non tocca `freniNonAttaccati`: quella riga è il `cerca` di una mutazione di AR-455.
 - `cervello/sorvegliante.mjs` — due funzioni esportate in più, `difeseDelRepo()` e `vociDaScatto()`. Nessuna riga esistente cambia significato: le 20 dipendenze restano valide.
 - `cervello/mutanti.json` — 13 mutazioni nuove.
 - `cervello/materiale-in-mano.mjs` + `cervello/cancello-lotto.mjs` — AR-524, il guardiano nato dalla domanda di Nicola del 4/8: una card che chiede un gesto di copia deve portare il materiale dentro di sé.
