@@ -5,13 +5,13 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-04 12:12** — Automatico: **61 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-04 18:21** — Automatico: **60 aperte · 3 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-08-04 12:12** — Automatico: **61 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-04 18:21** — Automatico: **60 aperte · 3 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-08-04 12:12** — Automatico: **61 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-04 18:21** — Automatico: **60 aperte · 3 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-08-04 12:12** — Automatico: **61 aperte · 1 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-04 18:21** — Automatico: **60 aperte · 3 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -68,18 +68,6 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 <!-- macchina-ferma-da-quattro-giorni -->
-
----
-
-### ✅ #macchina-ferma-da-quattro-giorni — Il server è tornato a pubblicare: guasto dei quattro giorni chiuso · ⏳ accodata 2026-08-04 03:10 · ✅ chiusa 2026-08-04 12:20
-**La prova:** alle 12:09 su `main` è arrivato il commit di un giro vero («giro 4/8 11:30 + collaudo»), alle 12:10 il recupero delle scritture rimaste in sospeso, alle 12:11 il riconcilia. E il giro delle 12:20 è già il secondo consecutivo pubblicato. La memoria scorre di nuovo dal server a GitHub e il Pannello legge dati di oggi — non serviva più niente da te su questa card.
-**Resta aperto, già a cantiere (non è un compito tuo):** il push del giro delle 11:30 in sé risultava fallito (`esito-giro` delle 11:42 con `push_ok: false`): quelle scritture sono uscite dalla corsia di recupero, non dal push diretto. La «via di fuga» perché la pubblicazione non dipenda dal rebase è la scheda AR-518/AR-521. Intanto il freno nuovo veglia: memoria ferma oltre 12 ore = banner rosso in home da solo (AR-544).
-- **Colore:** ✅ chiusa (era 🔴)
-- **Reparto:** devops-sre
-- **Origine:** `{origine:visita-salute-2026-08-04, difetti:[AR-518, AR-530, AR-544]}`
----
-
-<!-- radiografia-prova-non-vera-alla-nascita -->
 
 ---
 
@@ -942,8 +930,36 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
+### 🟡 #pr-678-rinforzo-lezione-worker-concorrente — Mergia il rinforzo della lezione sul worker che scrive mentre lavoro io · ⏳ accodata 2026-08-04 18:20
+
+**Cosa cambia:** questa PR scrive più a fondo, nei quaderni di memoria, una lezione già imparata. Il worker sul VPS può muovere HEAD/branch mentre una sessione come questa lavora in parallelo: mai forzare sopra dati più freschi. Aggiunge anche in coda il comando per mergiare la PR #677, il fix vero del falso allarme ripetuto 3 volte.
+
+**Se va bene:** nessuna azione tua richiesta per capire cosa contiene — solo il click di merge quando vuoi portarla su `main`, come le altre PR di memoria di oggi.
+
+- **Colore:** 🟡 (PR di memoria, merge sempre a tua firma)
+- **Reparto:** AD
+- **Origine:** `{origine:giro-2026-08-04-sera, pr:678}`
+
+🔧 Dettagli tecnici: repo `ad-mycity`, branch `memoria/2026-08-04-rinforzo-lezione-worker-concorrente` → `main`, https://github.com/NicolaeRotaru/ad-mycity/pull/678. Riepilogo in `consegne/tech/pr-ad-mycity-678.md`.
+
+---
+
+### 🟡 #sorvegliante-esenzione-vault — Il controllo automatico grida al lupo su un referto che si aggiorna da solo · ⏳ accodata 2026-08-04 18:30
+
+**Cosa cambia:** ogni volta che la macchina salva `cantiere-prove.json` (il referto dei difetti aperti), il controllo di sicurezza accusa "hai tolto una difesa" anche quando il difetto è semplicemente chiuso e il referto si è aggiornato di conseguenza — è successo 153 volte in questa sola sessione. Non è un buco di sicurezza vero: l'ho verificato riga per riga (i test esistono ancora, girano ancora, 131/131 passano). Ma il rumore nasconde i controlli veri.
+
+**Se va bene:** un tecnico decide una delle due cure proposte nel dettaglio e la porta in un branch con la prova che il fix non spalanca la porta ad accuse vere. Non urgente: per ora la macchina lavora attorno al problema (esclude il file dal commit quando serve).
+
+- **Colore:** 🟡 (fix di codice in `cervello/sorvegliante.mjs` o `cervello/cantiere-prove.mjs`, serve branch+PR)
+- **Reparto:** tech
+- **Origine:** `{origine:giro-2026-08-04-sera, collaudo-giro-16}`
+
+🔧 Dettagli tecnici: analisi completa e due cure proposte in `consegne/tech/2026-08-04-sorvegliante-esenzione-vault.md`. Causa: `eCodice()` esclude `MyCity-Vault/` (AR-554), quindi nessun marcatore di esenzione può vivere in un commit che tocca solo memoria.
+
+---
+
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-04 12:12)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-04 18:21)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-04-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -956,6 +972,24 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-08-04 17:26 · 2 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-04 18:21 · 3 card totali
+
+### ✅ #macchina-ferma-da-quattro-giorni — Il server è tornato a pubblicare: guasto dei quattro giorni chiuso · ⏳ accodata 2026-08-04 03:10 · ✅ chiusa 2026-08-04 12:20
+**La prova:** alle 12:09 su `main` è arrivato il commit di un giro vero («giro 4/8 11:30 + collaudo»), alle 12:10 il recupero delle scritture rimaste in sospeso, alle 12:11 il riconcilia. E il giro delle 12:20 è già il secondo consecutivo pubblicato. La memoria scorre di nuovo dal server a GitHub e il Pannello legge dati di oggi — non serviva più niente da te su questa card.
+**Resta aperto, già a cantiere (non è un compito tuo):** il push del giro delle 11:30 in sé risultava fallito (`esito-giro` delle 11:42 con `push_ok: false`): quelle scritture sono uscite dalla corsia di recupero, non dal push diretto. La «via di fuga» perché la pubblicazione non dipenda dal rebase è la scheda AR-518/AR-521. Intanto il freno nuovo veglia: memoria ferma oltre 12 ore = banner rosso in home da solo (AR-544).
+- **Colore:** ✅ chiusa (era 🔴)
+- **Reparto:** devops-sre
+- **Origine:** `{origine:visita-salute-2026-08-04, difetti:[AR-518, AR-530, AR-544]}`
+---
+
+<!-- radiografia-prova-non-vera-alla-nascita -->
+
+---
 
 ### ✅ #prevenzione-a-monte — ~~Accendi gli ultimi due freni: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto~~ → FATTO 2026-08-04 17:26
 

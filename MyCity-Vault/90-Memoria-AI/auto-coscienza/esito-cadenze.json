@@ -49,7 +49,17 @@
       "passi_ok": true,
       "vincoli_attivi": 0,
       "vincoli": []
+    },
+    "ritmo-sera": {
+      "quando": "2026-08-04 18:06",
+      "esito": "non-pubblicato",
+      "codice": 2,
+      "ai_rc": 0,
+      "push_ok": false,
+      "passi_ok": true,
+      "vincoli_attivi": 0,
+      "vincoli": []
     }
   },
-  "aggiornato": "2026-08-04 12:22"
+  "aggiornato": "2026-08-04 18:06"
 }

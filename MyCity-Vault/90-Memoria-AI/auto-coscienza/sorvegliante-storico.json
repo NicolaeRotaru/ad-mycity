@@ -357,7 +357,52 @@
         "difesa-rimossa": 4
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T16:06:26.578Z",
+      "scatti": 1354,
+      "voci": 7,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T16:32:02.466Z",
+      "scatti": 1421,
+      "voci": 7,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": [
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/test/due-difetti-uno-solo-numero.test.mjs», che è la prova che deve diventare rossa per AR-447",
+          "ripetuta": 162
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/test/json-riscritto-tutto.test.mjs», che è la prova che deve diventare rossa per AR-448",
+          "ripetuta": 162
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/test/rebase-che-non-parte.test.mjs», che è il freno della lezione L-2026-0730-528",
+          "ripetuta": 68
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/test/test-cervello.test.mjs», che è la prova che deve diventare rossa per AR-450",
+          "ripetuta": 160
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-08-04T16:05:00.917Z"
+  "aggiornato": "2026-08-04T16:32:02.466Z"
 }
