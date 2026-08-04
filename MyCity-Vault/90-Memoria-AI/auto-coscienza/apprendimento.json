@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-04 00:25",
+ "aggiornato": "2026-08-04 01:40",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -11141,6 +11141,29 @@
    "evidenze": [
     "4 gesti legittimi su 4 bloccavano il commit prima del fix",
     "76 route.ts nel Pannello → 22 falsi dipendenti su un file"
+   ],
+   "gate": "node --test cervello/test/sorvegliante.test.mjs",
+   "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0804-552",
+   "testo": "**I limiti che dichiaro sono lavoro rimandato, non lavoro finito (4/8, Nicola: «risolvi queste 3 cose»).** Avevo consegnato tre righe oneste sotto «cosa non ho verificato»: il server che non ho visto girare, quattro analisi non fatte, un tipo di legame che il raggio non vede. Dichiararli era giusto — ma restavano tutti e tre veri, e a rimetterli in fila e stato Nicola. **La regola:** quando scrivo un limite, chiedimi subito se e davvero fuori portata o solo scomodo. Due dei tre erano scomodi: il legame browser-pagina si deduce dalla convenzione del programma, e il server non serviva — bastava far girare il pre-commit, che e il pezzo che rischiava di fermarlo. **E il terzo mi ha dato la cosa piu preziosa:** l'analisi che avevo saltato per prima, la sicurezza, ha trovato che una malattia scritta male fa uccidere la guardia a meta invece di rallentarla. Le analisi rimandate non sono quelle che trovano meno.",
+   "tag": [
+    "guardiani",
+    "limiti-dichiarati",
+    "sicurezza",
+    "raggio"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-04 01:40",
+   "ultima_conferma": "2026-08-04 01:40",
+   "stato": "attiva",
+   "evidenze": [
+    "84 indirizzi API del Pannello, zero legami visti dal raggio",
+    "un pattern esplosivo su 29 caratteri: 19.883 ms contro i 15.000 dell'hook"
    ],
    "gate": "node --test cervello/test/sorvegliante.test.mjs",
    "gate_attivo": true

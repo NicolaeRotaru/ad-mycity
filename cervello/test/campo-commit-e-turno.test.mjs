@@ -309,3 +309,41 @@ test("SUL CAMPO: rimettere la forma di casa NON è una riformattazione (AR-511)"
     c.pulisci();
   }
 });
+
+test("SUL CAMPO: il commit automatico del worker che aggiorna un registro PASSA (AR-520)", () => {
+  // Nicola, 4/8: «il worker sul server vero: da qui lo vedo di riflesso, ho tolto la causa ma non ho
+  // visto il server girare». Il server da qui non lo raggiungo — ma il pezzo che rischiava di
+  // fermarlo è il pre-commit, e quello posso farlo girare davvero.
+  //
+  // Il worker committa senza saltare gli hook (git-pr.mjs: `git commit`, e su errore exit 1). Se il
+  // freno sulla forma scattasse su un suo commit, la memoria smetterebbe di pubblicarsi. Qui il
+  // percorso è quello vero: un registro scritto dalla via ufficiale della macchina.
+  const c = campo();
+  try {
+    const registro = "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro.json";
+    // Il registro nasce COMPATTO, come apprendimento.json e mutanti.json nel repo vero.
+    c.scrivi(registro, `${JSON.stringify({ voci: [{ id: "A" }] }, null, 1)}\n`);
+    c.git("add", "-A");
+    c.git("commit", "-q", "-m", "registro", "--no-verify");
+    c.git("update-ref", "refs/remotes/origin/main", "HEAD");
+
+    // Il giro della macchina: legge, aggiunge, risalva con la via ufficiale.
+    const script = [
+      'import { readFileSync } from "node:fs";',
+      'import { scriviJsonAtomico } from "./cervello/scrivi-json.mjs";',
+      `const p = ${JSON.stringify(registro)};`,
+      'const j = JSON.parse(readFileSync(p, "utf8"));',
+      'j.voci.push({ id: "B" });',
+      "scriviJsonAtomico(p, j);",
+    ].join("\n");
+    c.scrivi("giro-finto.mjs", `${script}\n`);
+    execFileSync("node", ["giro-finto.mjs"], { cwd: c.dir, encoding: "utf8" });
+
+    const r = c.commit("memoria del giro");
+    assert.equal(r.rc, 0, `il commit automatico deve passare, invece: ${r.out.slice(0, 400)}`);
+    assert.equal(JSON.parse(c.leggi(registro)).voci.length, 2, "e il contenuto nuovo c'è davvero");
+    assert.equal(c.leggi(registro).split("\n")[1].match(/^ +/)[0].length, 1, "con la forma di prima, non quella di chi scrive");
+  } finally {
+    c.pulisci();
+  }
+});

@@ -33,6 +33,7 @@ import {
   conta,
   fileDifeso,
   raggioDueP1assi,
+  aliasDiRotta,
   eCodice,
   VICINANZA_NOTA,
   LETTERALI_MIN,
@@ -985,4 +986,36 @@ test("⑤ …e il nome corto continua a valere quando e' unico: e' il legame che
   ]);
   const r = raggioDueP1assi(["cervello/spazzata-fratelli.mjs"], citazioni).get("cervello/spazzata-fratelli.mjs");
   assert.deepEqual(r.diretti, ["cervello/sorvegliante.mjs"], "un nome unico resta un legame");
+});
+
+// ── AR-519: la pagina API la chiama il browser, non un file ────────────────────
+//
+// Nicola, 4/8: «quel tipo di legame il raggio non lo vede, né prima né adesso». Nel Pannello ci sono
+// 84 indirizzi chiamati con fetch, e per il grafo erano zero legami: cambiare la risposta di una
+// rotta sembrava non toccare niente, mentre rompe una schermata che Nicola guarda.
+
+test("⑤ chi chiama una rotta con fetch è un dipendente vero", () => {
+  const citazioni = new Map([
+    ["pannello/src/components/NumeriReport.tsx", nomiCitati('const r = await fetch("/api/anomalie?giorni=7");')],
+    ["pannello/src/app/api/anomalie/route.ts", new Set()],
+  ]);
+  const r = raggioDueP1assi(["pannello/src/app/api/anomalie/route.ts"], citazioni).get("pannello/src/app/api/anomalie/route.ts");
+  assert.deepEqual(r.diretti, ["pannello/src/components/NumeriReport.tsx"], "la query dopo il ? non cambia quale file risponde");
+});
+
+test("⑤ …ma nominare una rotta in un COMMENTO non è chiamarla", () => {
+  // Alla prima prova sul repo vero, questo file risultava chiamante di due rotte del Pannello:
+  // le nomina in un commento per spiegare la regola. Quarta comparsa di «menzione ≠ chiamata».
+  const citazioni = new Map([
+    ["cervello/sorvegliante.mjs", nomiCitati('// esempio: fetch("/api/anomalie") è un legame vero')],
+    ["pannello/src/app/api/anomalie/route.ts", new Set()],
+  ]);
+  const r = raggioDueP1assi(["pannello/src/app/api/anomalie/route.ts"], citazioni).get("pannello/src/app/api/anomalie/route.ts");
+  assert.deepEqual(r.diretti, [], "un commento che spiega non è codice che chiama");
+});
+
+test("⑤ l'indirizzo di una rotta si deduce dalla convenzione, non si indovina", () => {
+  assert.equal(aliasDiRotta("pannello/src/app/api/metriche/cassa/route.ts"), "/api/metriche/cassa");
+  assert.equal(aliasDiRotta("pannello/src/app/page.tsx"), null, "una pagina normale non è una rotta API");
+  assert.equal(aliasDiRotta("cervello/sorvegliante.mjs"), null);
 });

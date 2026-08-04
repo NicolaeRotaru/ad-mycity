@@ -144,6 +144,11 @@ const eFixture = (file) => FIXTURE.some((s) => file.startsWith(s));
  *  Vale per il controllo ⑥b (vedi il perché accanto a quel controllo). I `.md` restano pienamente
  *  guardati da ①: una malattia con `estensioni: [".md"]` è una regola sul TESTO, ed è un'altra cosa. */
 export const PROSA = [".md", ".markdown", ".txt"];
+
+/** Quanto può costare UNA malattia su un file prima che smetta di cercarla e lo dica (AR-521).
+ *  Due secondi: il giro completo sul repo vero ne costa 0,3 in tutto, quindi qui dentro non ci
+ *  finisce mai un pattern sano — e l'hook ha 15 secondi, che restano per tutti gli altri. */
+export const BUDGET_PATTERN_MS = 2000;
 const ePROSA = (file) => PROSA.some((e) => file.endsWith(e));
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -302,6 +307,27 @@ export function sorveglia({
   const voci = [];
   const motivi = [];
 
+  // ⏱️ IL BUDGET DI TEMPO PER PATTERN (AR-521, trovato dall'analisi di sicurezza del 4/8).
+  //
+  // I pattern arrivano da `malattie.json`, e una regex scritta male può impiegare un tempo enorme su
+  // una riga cortissima: misurato, `(a+)+$` su UNA riga di 29 caratteri tiene occupata la guardia
+  // 19.883 ms. L'hook ha un tetto di 15 secondi — quindi una malattia maldestra non rende lento il
+  // sorvegliante: lo fa UCCIDERE a metà, e il verdetto non arriva a nessuno. Cioè il canale muto di
+  // AR-465 per un'altra strada, e stavolta senza che nessuno se ne accorga.
+  //
+  // Non si può interrompere una regex a metà in JavaScript. Quello che si può fare è misurare quanto
+  // costa e smettere quando ha già mangiato troppo — dichiarandolo, perché una malattia che non ho
+  // potuto cercare non è una malattia assente.
+  const speso = new Map();
+  const troppoLenta = (id) => {
+    if ((speso.get(id) || 0) <= BUDGET_PATTERN_MS) return false;
+    if (!speso.get(`detto:${id}`)) {
+      speso.set(`detto:${id}`, 1);
+      motivi.push(`malattia ${id}: il suo pattern ha già consumato ${speso.get(id)} ms, l'ho lasciata indietro su questo file — non è un verde, è una misura che non ho finito`);
+    }
+    return true;
+  };
+
   // Un registro vuoto non è un repo sano: è una guardia che non cerca niente. Lo dico, non lo taccio.
   if (!malattie.length) motivi.push("registro malattie vuoto: non so quali forme di difetto cercare");
   if (!mutanti.length) motivi.push("registro mutanti vuoto: non posso sapere se ho accecato una prova");
@@ -330,7 +356,11 @@ export function sorveglia({
         // stessa funzione — non una seconda copia che col tempo divergerebbe.
         const pulita = senzaCommenti(r.testo, file);
         if (!pulita.trim()) continue;
-        if (re.test(pulita)) {
+        if (troppoLenta(m.id)) break; // il budget è finito: vedi `troppoLenta`, il motivo è già scritto
+        const inizio = Date.now();
+        const trovata = re.test(pulita);
+        speso.set(m.id, (speso.get(m.id) || 0) + (Date.now() - inizio));
+        if (trovata) {
           voci.push({
             classe: "malattia-nuova",
             gravita: "grave",
@@ -1020,10 +1050,38 @@ export function nomiCitati(testo = "") {
   // cantiere che nomina uno script, una riga di apprendimento — e contarla come dipendenza è la
   // terza comparsa in questo file dello stesso errore: menzione ≠ chiamata. Misurato: senza questo
   // filtro il raggio di cancello-stop.mjs passava da 10 a 86 file, cioè da un elenco a un rumore.
+  // ④ l'indirizzo di una pagina API (AR-519): un `fetch` verso una rotta è un legame vero quanto un
+  // import — solo, passa dal browser. Riga per riga e senza i commenti: alla prima prova questo file
+  // risultava chiamante di due rotte del Pannello, perché le nomina in un commento per spiegare la
+  // regola. È la quarta comparsa di «menzione ≠ chiamata» in questo stesso file, e l'ha trovata la
+  // misura sul repo vero, non la rilettura.
+  for (const riga of String(testo).split("\n")) {
+    const pulita = senzaCommenti(riga, ".ts");
+    if (!pulita.includes("/api/")) continue;
+    for (const m of pulita.matchAll(/["'`](\/api\/[A-Za-z0-9/_-]+)/g)) fuori.add(m[1].replace(/\/+$/, ""));
+  }
   for (const m of String(testo).matchAll(new RegExp(`(?:from|import|require|join|node|bash|sh|ExecStart=)[^\\n]{0,80}?["'\`]([A-Za-z0-9_.-]+\\.${EST})["'\`]`, "g"))) {
     fuori.add(m[1]);
   }
   return fuori;
+}
+
+/**
+ * L'ALTRO NOME DI UNA PAGINA API (AR-519, Nicola 4/8: «quel tipo di legame il raggio non lo vede,
+ * né prima né adesso»).
+ *
+ * Nel Pannello una pagina API non la chiama nessun file: la chiama il browser, con un indirizzo —
+ * `fetch("/api/anomalie")`. Per il grafo quel file risultava senza nessuno che poggiasse su di lui,
+ * e cambiarne la risposta sembrava non toccare niente: misurato, 84 indirizzi diversi chiamati dal
+ * Pannello, e per il raggio erano zero legami. È il caso peggiore di un raggio vuoto letto come
+ * «non ce ne sono»: lì un cambiamento rompe una schermata che Nicola guarda.
+ *
+ * La convenzione di Next.js rende la cosa meccanica: `pannello/src/app/api/x/y/route.ts` risponde
+ * all'indirizzo `/api/x/y`. Non è un'euristica, è il modo in cui quel programma decide le rotte.
+ */
+export function aliasDiRotta(rel = "") {
+  const m = String(rel).match(/^pannello\/src\/app\/(api\/.+)\/route\.(?:m?js|ts|tsx)$/);
+  return m ? `/${m[1]}` : null;
 }
 
 /** Le cartelle dove «chi mi nomina» è una dipendenza che si può rompere. La memoria no: lì gli
@@ -1062,6 +1120,12 @@ export function raggioDueP1assi(cercati = [], citazioni = new Map()) {
     for (const [chi, nomi] of citazioni) {
       for (const b of bersagli) {
         if (chi === b) continue;
+        const rotta = aliasDiRotta(b);
+        if (rotta && nomi.has(rotta)) {
+          if (!fuori.has(b)) fuori.set(b, []);
+          fuori.get(b).push(chi);
+          continue;
+        }
         if (nomi.has(b) || (nomeDistintivo(b) && nomi.has(basenameSemplice(b)))) {
           if (!fuori.has(b)) fuori.set(b, []);
           fuori.get(b).push(chi);
