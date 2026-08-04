@@ -1,7 +1,28 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-04 19:40",
+ "aggiornato": "2026-08-04 19:48",
  "lezioni": [
+  {
+   "id": "L-2026-0804-02",
+   "testo": "**Trovato bug reale in `cervello/worker.sh` (funzione `_estrai_stream`, ~riga 461-497): quando durante una risposta scatta il cancello di stop, il segmento nuovo viene incollato al precedente SENZA separatore — il testo risulta illeggibile (frasi diverse attaccate senza andare a capo), non 'mancante' (Nicola 4/8 19:44, casella Sala Operativa, 3ª segnalazione della stessa cosa: prima 'la casella parte troncata', poi 'non vedo la risposta dal telefono', infine 'No, non c'è, ristampa e risolvi').** 5 perché: (1) la 1ª diagnosi dell'AD ('è la cache del telefono che non sincronizza') era SBAGLIATA — plausibile ma non verificata a fondo, solo controllato che la riga esistesse nel DB, non che fosse leggibile; (2) Nicola ha rifiutato la diagnosi con un comando diretto ('ristampa e risolvi'), non una semplice ripetizione della domanda — segnale che la spiegazione precedente non tornava con quello che vedeva lui; (3) solo ririleggendo il contenuto ESATTO salvato nel DB (non il riassunto) si è visto il punto di giuntura '...ti rispondo su quello.Il cancello di stop ha bloccato...' senza spazio/a capo; (4) causa root = il cancello di stop interrompe lo streaming a metà e il worker riprende scrivendo, ma il join dei segmenti non separa i turni; (5) fix NON applicato in questa chat — file delicato condiviso da tutte le chat, rischio di peggiorare in fretta senza test; consegnato come lavoro pronto per @tech con causa già trovata. Regola: davanti a 'non vedo/manca la risposta', prima di dare la colpa a cache/sync, rileggere il CONTENUTO ESATTO salvato (non il riassunto) — un testo incollato senza separatore sembra 'sparito' su schermo piccolo ma è un bug di formattazione, non di sincronizzazione. Riga in coda: `#bug-risposte-incollate-cancello-stop`.",
+   "tag": [
+    "worker.sh",
+    "cancello-stop",
+    "streaming",
+    "sala-operativa",
+    "diagnosi-sbagliata",
+    "processo"
+   ],
+   "reparto": "@tech",
+   "confidenza": 0.85,
+   "evidenze": 1,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-04",
+   "ultima_conferma": "2026-08-04 19:48",
+   "stato": "attiva",
+   "usi": []
+  },
   {
    "id": "L-2026-0804-01",
    "testo": "**`.claude/settings.json` è vietato in scrittura per l'AD by design (stesso blocco anti-auto-allargamento-permessi di `settings.local.json`, esteso al file che accende/spegne tutti i freni insieme) — RISOLTO 4/8 17:26: Nicola ha incollato a mano il blocco hook per `mano-fermata.mjs` (PreToolUse) + `contesto-lezioni.mjs --richiesta` (UserPromptSubmit), `node cervello/mano-fermata.mjs --cablaggio` è verde, AR-533 chiuso e verificato — nello stesso turno l'hook ha davvero iniettato 8 lezioni a tema sul prompt successivo, non solo il comando di collaudo dice verde.** Prima del verde, 2 tentativi falliti — entrambi diagnosticati e corretti nella stessa conversazione, non ripetizioni cieche: ① comando di verifica lanciato dalla home (`~`) invece che da `/opt/mycity/ad-mycity` → «Cannot find module»; ② il JSON incollato a mano aveva il blocco `mano-fermata` annidato dentro l'array sbagliato + due virgole mancanti → `JSON.parse` falliva silenziosamente e `cablaggioPresente()` tornava tutto `false` (nessun errore visibile, solo «ancora mancante»). Regola confermata due volte ora: quando un fix tocca `.claude/settings.json`, **dare sempre il blocco JSON INTERO da sostituire** (l'intera sezione `\"hooks\": {...}`), mai istruzioni tipo «aggiungi qui due righe dentro l'array X» — un umano che incolla frammenti dentro un JSON annidato sbaglia virgole/nesting quasi sempre, ed è un errore silenzioso (JSON rotto non dà stack trace ovvio, sembra un bug del fix).",
@@ -10770,13 +10791,13 @@
    ],
    "reparto": "@AD",
    "confidenza": 0.9,
-   "evidenze": 2,
+   "evidenze": 3,
    "fonte": "auto-analisi",
    "caso_studio_nicola": false,
    "nato": "2026-07-31",
-   "ultima_conferma": "2026-08-04 17:35",
+   "ultima_conferma": "2026-08-04 19:52",
    "stato": "attiva",
-   "nota_2026-08-04": "2ª manifestazione: cancello-di-stop del giro 8 riacceso a torto — confrontava contro un commit vecchio (3bda15ad5) mentre il worker VPS scriveva in parallelo; entrambi i punti segnalati (collaudo giro-8, card PR #675) erano già chiusi nei commit 9ffb3d89c/364a5c1a3. Stesso meccanismo, superficie diversa (cancello-stop invece di scadenzario.json)."
+   "nota_2026-08-04": "2ª manifestazione: cancello-di-stop del giro 8 riacceso a torto — confrontava contro un commit vecchio (3bda15ad5) mentre il worker VPS scriveva in parallelo; entrambi i punti segnalati (collaudo giro-8, card PR #675) erano già chiusi nei commit 9ffb3d89c/364a5c1a3. Stesso meccanismo, superficie diversa (cancello-stop invece di scadenzario.json). 3ª manifestazione 19:52: stesso cancello, stessa base stantia (3bda15ad5) — verificato con `git log -1 -- <file>` su ognuno dei 7 file segnalati (pr-ad-mycity-675/678/679/680/681.md, AZIONI-IN-ATTESA.md, RITMO.md, STATO.md): TUTTI ultimo commit tra le 17:14 e le 18:46, nessuno toccato in questo turno (`git status --short` mostra solo i 3 file di memoria davvero modificati ora). Fix già pronto e in attesa di firma: PR #677 (branch `fix/cancello-stop-coda-toccata-v2`). Non riaprire la diagnosi una 4ª volta: verificare con `git log -1 -- <file>` è la prova sufficiente, il resto è mergiare #677."
   },
   {
    "tag": [
