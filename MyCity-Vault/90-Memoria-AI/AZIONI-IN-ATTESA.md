@@ -928,39 +928,6 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
-### 🟡 #prevenzione-a-monte — Accendi gli ultimi due freni: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto · ⏳ accodata 2026-08-04 05:20
-
-**Cosa cambia:** i due freni che hai chiesto stanotte sono costruiti e provati, ma **non ancora accesi**. Il primo pesca dalla memoria solo le lezioni sul tema della richiesta che hai appena scritto. L'ho provato: su «apri la PR e fai il rebase» porta 8 lezioni centrate su 503, quasi tutte correzioni tue. Il secondo ferma la mia mano PRIMA che io scriva un errore già censito nel registro delle malattie. La scrittura non parte proprio, e il perché mi resta davanti agli occhi. Sono complementari ai freni dell'altra sessione, già accesi: quelli guardano i comandi e gli strumenti esterni. Questi due guardano le richieste e le scritture sui file. Per accenderli servono due ritocchi in `.claude/settings.json`, il file che per regola di sicurezza io non posso toccare.
-
-**Se va bene:** apri `.claude/settings.json` e fai due aggiunte, poi salva:
-
-① dentro `"PreToolUse"` (la sezione esiste già), aggiungi questo blocco DOPO quello con `"matcher": "Bash|Task|mcp__.*"`:
-
-```json
-{
-  "matcher": "Edit|Write|MultiEdit",
-  "hooks": [
-    { "type": "command", "command": "node cervello/mano-fermata.mjs --hook", "timeout": 10 }
-  ]
-}
-```
-
-② dentro `"UserPromptSubmit"` (esiste già), nell'elenco `"hooks"` accanto a `intento-turno`, aggiungi questa riga:
-
-```json
-{ "type": "command", "command": "node cervello/contesto-lezioni.mjs --richiesta", "timeout": 10 }
-```
-
-Dalla sessione successiva i due freni sono vivi. La prova della scheda AR-533 è `node cervello/mano-fermata.mjs --cablaggio`: oggi è rossa, col tuo salvataggio diventa verde e la scheda si chiude da sola.
-
-**Aggiornamento 2026-08-04 17:2x:** Nicola ha incollato il blocco in `.claude/settings.json` (fatto). Primo tentativo di verifica fallito con "Cannot find module" — causa: comando lanciato dalla home (`~`), non dalla cartella del progetto. Prossimo passo suo: `cd /opt/mycity/ad-mycity` poi `node cervello/mano-fermata.mjs --cablaggio`, mandare lo screenshot del risultato. Scheda resta aperta finché non arriva conferma verde.
-
-- **Colore:** 🟡 (auto-modifica della macchina: la firmi tu)
-- **Reparto:** qa + prompt-engineer
-- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-533}`
-
----
-
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
 ## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-04 12:12)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-04-supervisione.md]].
@@ -974,7 +941,17 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-04 12:12 · 1 card totali
+> Ultima pulizia: 2026-08-04 17:26 · 2 card totali
+
+### ✅ #prevenzione-a-monte — ~~Accendi gli ultimi due freni: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto~~ → FATTO 2026-08-04 17:26
+
+**Esito:** Nicola ha incollato il blocco in `.claude/settings.json`. Due tentativi falliti prima del verde, entrambi diagnosticati e corretti nella stessa conversazione: ① comando di verifica lanciato dalla home (`~`) invece che da `/opt/mycity/ad-mycity` → "Cannot find module"; ② il JSON incollato a mano aveva il blocco `mano-fermata` annidato dentro l'array sbagliato + due virgole mancanti → `JSON.parse` falliva e `cablaggioPresente()` tornava tutto `false`. Alla terza prova, con il blocco `"hooks": {...}` sostituito per intero, `node cervello/mano-fermata.mjs --cablaggio` è uscito verde: «i due freni della prevenzione a monte sono cablati: mano-fermata (PreToolUse) e scheda su misura (UserPromptSubmit)». Prova indipendente nello stesso turno: l'hook `contesto-lezioni.mjs --richiesta` ha davvero iniettato 8 lezioni a tema in cima al prompt successivo di Nicola — non solo il comando di collaudo dice verde, il freno si è visto girare dal vivo. Difetto macchina AR-533 chiuso.
+
+- **Colore:** 🟡 (auto-modifica della macchina, firmata da Nicola)
+- **Reparto:** qa + prompt-engineer
+- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-533}`
+
+---
 
 ### ✅ #accendi-i-quattro-controlli-nuovi — ~~Incolla il blocco che accende i quattro controlli nuovi della macchina~~ → FATTO 2026-08-04 05:20
 
