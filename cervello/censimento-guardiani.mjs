@@ -161,6 +161,7 @@ export const DESCRIZIONI = {
   "test-cervello": { famiglia: "test", cosa: "Lancia tutti i test del cervello a ogni giro: un test che nessuno esegue non è una rete, è un file." },
   "test-pannello": { famiglia: "test", cosa: "Lo stesso per i test del Pannello, la parte che Nicola guarda davvero." },
   "verifica-avversariale": { famiglia: "test", cosa: "Smaschera l'auto-verifica finta: se il lavoro dice «verificato» senza che nessuno abbia provato a smontarlo, non vale." },
+  "ci-stato": { famiglia: "test", cosa: "Guarda come sono finite le prove sulle richieste di unione già aperte, e dice se il guasto l'ha portato quel lavoro o se era già nel ramo principale." },
 
   // ── Le mani: non giudicano, agiscono ──────────────────────────────────────
   "notifica-approvazioni": { famiglia: "mani", cosa: "Manda a Nicola le cose da firmare invece di aspettare che apra il Pannello.", mano: true },
