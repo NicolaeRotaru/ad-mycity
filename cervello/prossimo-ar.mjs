@@ -1,0 +1,187 @@
+#!/usr/bin/env node
+// 🔢 IL PROSSIMO NUMERO LIBERO — chiesto, non scelto.
+//
+// PERCHÉ ESISTE (Nicola, 4/8: «fai la numero 2»). In un giorno solo la stessa collisione è capitata
+// TRE volte: io scrivo la scheda AR-518 alle 00:52, il worker ne scrive un'altra AR-518 alle 02:13 sul
+// suo ramo, e quando i due rami si incontrano una delle due deve sparire. La prima volta sono sparite
+// quattro schede del worker dentro la mia fusione — ripristinate solo perché sono andato a
+// controllare. La seconda sarebbero sparite le mie.
+//
+// E non è nuovo: la skill del cantiere lo racconta già («due `AR-444` diversi, uno chiuso e uno no»).
+// Era una REGOLA scritta in un documento, e le regole scritte si dimenticano quando due macchine
+// lavorano insieme senza vedersi. Qui diventa un comando che non si può sbagliare.
+//
+// LA RADICE, detta per intero: il numero libero non si legge nella propria copia. La copia locale è
+// ferma al momento in cui è partita, mentre `main` cammina. Chiedere «qual è l'ultimo?» al proprio
+// cantiere è come guardare l'orologio fermo — dà sempre una risposta, ed è sempre plausibile.
+//
+// COSA FA. Legge il cantiere su `origin/main` E quello locale, e torna il primo numero libero in
+// TUTTI E DUE. Se main non è raggiungibile lo DICHIARA e non inventa: un numero preso al buio è
+// esattamente il difetto che questo file esiste per chiudere.
+//
+// Uso:
+//   node cervello/prossimo-ar.mjs           # il prossimo libero
+//   node cervello/prossimo-ar.mjs --quanti 5  # cinque numeri liberi di fila
+//   node cervello/prossimo-ar.mjs --json
+//   node cervello/prossimo-ar.mjs --controlla  # nessun id duplicato nel cantiere locale
+//
+// Uscita (contratto guardiani, AR-322): 0 = ho un numero · 1 = ci sono id duplicati (--controlla)
+// · 2 = non ho potuto leggere una delle due fonti, quindi non rispondo.
+//
+// 🟢 Sola lettura: non scrive niente, non tocca git se non per leggere.
+
+import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const QUI = dirname(fileURLToPath(import.meta.url));
+const REPO = dirname(QUI);
+export const CANTIERE = "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json";
+
+/** I numeri usati in un elenco di schede. Pura: la provano su dati finti, non sul cantiere vero. */
+export function numeriUsati(difetti = []) {
+  return difetti
+    .map((d) => Number(String(d?.id || "").match(/^AR-(\d+)$/)?.[1]))
+    .filter((n) => Number.isFinite(n));
+}
+
+/**
+ * Il primo numero libero DOPO l'ultimo usato, in TUTTE le fonti.
+ *
+ * Perché dopo l'ultimo e non nel primo buco: i buchi nella numerazione sono cronologia, non spazio
+ * libero. Provato subito: la prima stesura proponeva `AR-97`, e una scheda scritta oggi con quel
+ * numero mentirebbe su QUANDO è nata — chi legge il cantiere fra un mese userebbe l'id per orientarsi
+ * nel tempo, come si fa con tutti gli altri. Un identificatore che si riavvolge non identifica più.
+ */
+export function prossimiLiberi(fonti = [], quanti = 1) {
+  const presi = new Set(fonti.flat());
+  const fuori = [];
+  let n = (presi.size ? Math.max(...presi) : 0) + 1;
+  while (fuori.length < quanti) {
+    if (!presi.has(n)) fuori.push(n);
+    n++;
+    if (n > 100000) break; // rete di sicurezza: non giro all'infinito
+  }
+  return fuori;
+}
+
+/** Gli id che compaiono due volte: due schede diverse con lo stesso numero. */
+export function duplicati(difetti = []) {
+  const visti = new Map();
+  for (const d of difetti) {
+    const id = String(d?.id || "");
+    if (!/^AR-\d+$/.test(id)) continue;
+    visti.set(id, (visti.get(id) || 0) + 1);
+  }
+  return [...visti.entries()].filter(([, n]) => n > 1).map(([id, n]) => ({ id, quante: n }));
+}
+
+/**
+ * Le schede che hanno PERSO il loro numero: stesso id qui e su main, ma sotto ci sono due difetti
+ * diversi. (AR-538.)
+ *
+ * `duplicati()` guarda dentro una copia sola e vede due schede col medesimo numero. Questo guarda
+ * fra due copie e vede la cosa peggiore: il numero è uno, la scheda è una, e alla fusione UNA DELLE
+ * DUE STORIE SPARISCE senza lasciare traccia. Nessun conteggio cala — 532 schede prima, 532 dopo —
+ * quindi non se ne accorge nessuno.
+ *
+ * Successo il 4/8 alle 05:30: su main AR-522 era «il perimetro del turno non esiste al primo giro»,
+ * con il suo file, la sua prova e la sua mutazione. Poi main ha riscritto AR-522 come «uno spazio di
+ * indentazione ha fermato la macchina per quattro giorni». Alla fusione la prima è sparita: il codice
+ * `cervello/intento-turno.mjs` è ancora lì e ancora provato, ma la scheda che lo racconta non esiste
+ * più. L'ha trovata il sorvegliante per caso, perché la mutazione puntava a un file che il registro
+ * non nominava più.
+ *
+ * DUE campi diversi devono discordare, non uno: la data di nascita E il titolo. Un titolo affinato è
+ * un lavoro normale, una data corretta pure; ma un difetto non cambia entrambe le cose restando lo
+ * stesso difetto. Con un campo solo questo guardiano sarebbe rosso a ogni rilettura, e un rosso che
+ * si accende sempre viene spento entro la settimana.
+ */
+export function sovrascritte(locali = [], suMain = []) {
+  const laggiu = new Map();
+  for (const d of suMain) if (/^AR-\d+$/.test(String(d?.id || ""))) laggiu.set(d.id, d);
+  const perse = [];
+  for (const mio of locali) {
+    const loro = laggiu.get(mio?.id);
+    if (!loro) continue;
+    const natoDiverso = mio.nato && loro.nato && String(mio.nato) !== String(loro.nato);
+    const titoloDiverso = mio.titolo && loro.titolo && String(mio.titolo) !== String(loro.titolo);
+    if (natoDiverso && titoloDiverso) perse.push({ id: mio.id, qui: String(mio.titolo), suMain: String(loro.titolo) });
+  }
+  return perse;
+}
+
+function daGit(rif) {
+  const out = execFileSync("git", ["show", `${rif}:${CANTIERE}`], {
+    cwd: REPO,
+    encoding: "utf8",
+    maxBuffer: 128 * 1024 * 1024,
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  return JSON.parse(out).difetti || [];
+}
+
+function main() {
+  const argv = process.argv.slice(2);
+  const json = argv.includes("--json");
+  const i = argv.indexOf("--quanti");
+  const quanti = i !== -1 ? Math.max(1, Number(argv[i + 1]) || 1) : 1;
+
+  let locali;
+  try {
+    locali = JSON.parse(readFileSync(join(REPO, CANTIERE), "utf8")).difetti || [];
+  } catch (e) {
+    console.error(`⚪ non ho potuto leggere il cantiere locale (${e.message.split("\n")[0]}): non rispondo con un numero inventato.`);
+    process.exit(2);
+  }
+
+  // La fonte che conta è main: la copia locale è ferma a quando è partita. Serve anche a
+  // `--controlla`, perché la sovrascrittura di una scheda si vede SOLO confrontando le due copie.
+  let suMain = null;
+  const basi = ["origin/main", "main"];
+  for (const b of basi) {
+    try {
+      suMain = daGit(b);
+      break;
+    } catch {
+      // provo la base successiva
+    }
+  }
+  if (suMain === null) {
+    console.error(`⚪ non ho potuto leggere il cantiere su ${basi.join(" né su ")}: senza quella fonte il numero sarebbe scelto al buio, ed è esattamente il difetto che questo comando chiude. Rimedio: git fetch origin main.`);
+    process.exit(2);
+  }
+
+  if (argv.includes("--controlla")) {
+    const dup = duplicati(locali);
+    const perse = sovrascritte(locali, suMain);
+    if (!dup.length && !perse.length) {
+      if (!json) console.log(`✅ nessun numero usato due volte, nessuna scheda sovrascritta (${locali.length} qui, ${suMain.length} su main).`);
+      process.exit(0);
+    }
+    if (dup.length) {
+      console.error(`❌ ${dup.length} numero/i usato/i da due schede diverse: ${dup.map((d) => `${d.id} ×${d.quante}`).join(", ")}`);
+      console.error(`   Due schede con lo stesso numero non sono un fastidio: alla prima unione una delle due sparisce.`);
+    }
+    for (const p of perse) {
+      console.error(`❌ ${p.id} racconta due difetti diversi qui e su main — una delle due storie sparisce alla fusione, e il conteggio non cala:`);
+      console.error(`     qui:     ${p.qui.slice(0, 110)}`);
+      console.error(`     su main: ${p.suMain.slice(0, 110)}`);
+      console.error(`   Rimedio: dai un numero nuovo a quella che l'ha perso (node cervello/prossimo-ar.mjs) e rimettila nel cantiere.`);
+    }
+    process.exit(1);
+  }
+
+  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain)], quanti);
+  const id = liberi.map((n) => `AR-${n}`);
+  if (json) {
+    console.log(JSON.stringify({ id, locali: locali.length, suMain: suMain.length }, null, 2));
+    process.exit(0);
+  }
+  console.log(id.join(" "));
+  console.error(`   (libero sia qui — ${locali.length} schede — sia su main — ${suMain.length})`);
+  process.exit(0);
+}
+
+if (import.meta.url === `file://${process.argv[1]}`) main();

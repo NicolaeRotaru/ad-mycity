@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { verdettoMemoriaFerma, etaTesto, MEMORIA_FERMA_TETTO_ORE } from "./memoria-ferma.ts";
 
-// I numeri sono quelli VERI dell'incidente 30/7→4/8 (AR-534): battito del worker fresco,
+// I numeri sono quelli VERI dell'incidente 30/7→4/8 (AR-544): battito del worker fresco,
 // `memoria-ad:ultimo_push` fermo da 114 ore. Con questi ingressi la Cabina diceva «🟢 Viva».
 test("l'incidente del 30/7: battito fresco + push di 114 ore fa → ferma, e «lavora ma non pubblica»", () => {
   const v = verdettoMemoriaFerma({ oreWorker: 0.02, orePush: 114 });

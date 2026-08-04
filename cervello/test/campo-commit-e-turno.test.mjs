@@ -33,6 +33,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { CERCA_ESITO_IN_GIT, ARGOMENTI_CERCA_ESITO } from "../cancello-stop.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -305,6 +306,95 @@ test("SUL CAMPO: rimettere la forma di casa NON è una riformattazione (AR-511)"
     c.scrivi("registro.json", `${JSON.stringify(dati, null, 2)}\n`); // torno a casa e aggiungo una voce
     const r = c.commit("raddrizzo e aggiungo");
     assert.equal(r.rc, 0, `tornare alla forma di origin/main deve passare, invece: ${r.out.slice(0, 300)}`);
+  } finally {
+    c.pulisci();
+  }
+});
+
+test("SUL CAMPO: il commit automatico del worker che aggiorna un registro PASSA (AR-541)", () => {
+  // Nicola, 4/8: «il worker sul server vero: da qui lo vedo di riflesso, ho tolto la causa ma non ho
+  // visto il server girare». Il server da qui non lo raggiungo — ma il pezzo che rischiava di
+  // fermarlo è il pre-commit, e quello posso farlo girare davvero.
+  //
+  // Il worker committa senza saltare gli hook (git-pr.mjs: `git commit`, e su errore exit 1). Se il
+  // freno sulla forma scattasse su un suo commit, la memoria smetterebbe di pubblicarsi. Qui il
+  // percorso è quello vero: un registro scritto dalla via ufficiale della macchina.
+  const c = campo();
+  try {
+    const registro = "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro.json";
+    // Il registro nasce COMPATTO, come apprendimento.json e mutanti.json nel repo vero.
+    c.scrivi(registro, `${JSON.stringify({ voci: [{ id: "A" }] }, null, 1)}\n`);
+    c.git("add", "-A");
+    c.git("commit", "-q", "-m", "registro", "--no-verify");
+    c.git("update-ref", "refs/remotes/origin/main", "HEAD");
+
+    // Il giro della macchina: legge, aggiunge, risalva con la via ufficiale.
+    const script = [
+      'import { readFileSync } from "node:fs";',
+      'import { scriviJsonAtomico } from "./cervello/scrivi-json.mjs";',
+      `const p = ${JSON.stringify(registro)};`,
+      'const j = JSON.parse(readFileSync(p, "utf8"));',
+      'j.voci.push({ id: "B" });',
+      "scriviJsonAtomico(p, j);",
+    ].join("\n");
+    c.scrivi("giro-finto.mjs", `${script}\n`);
+    execFileSync("node", ["giro-finto.mjs"], { cwd: c.dir, encoding: "utf8" });
+
+    const r = c.commit("memoria del giro");
+    assert.equal(r.rc, 0, `il commit automatico deve passare, invece: ${r.out.slice(0, 400)}`);
+    assert.equal(JSON.parse(c.leggi(registro)).voci.length, 2, "e il contenuto nuovo c'è davvero");
+    assert.equal(c.leggi(registro).split("\n")[1].match(/^ +/)[0].length, 1, "con la forma di prima, non quella di chi scrive");
+  } finally {
+    c.pulisci();
+  }
+});
+
+// ── SUL CAMPO: la riga di esito scritta dentro una fusione (AR-505) ──────────
+//
+// Il caso che ha bloccato la CI tre volte in un giorno, e che la scheda chiedeva di provare così:
+// «con una prova che parta ROSSA su un ramo dove l'unica riga di esito vive in un commit di merge».
+// Qui il ramo si biforca, i due lati toccano lo stesso file, e la riga di esito viene scritta
+// mentre si risolve il conflitto — cioè nel commit di fusione, che è il flusso naturale.
+
+test("SUL CAMPO: la riga di esito dentro un commit di fusione dev'essere trovata (AR-505)", () => {
+  const c = campo();
+  try {
+    const g = (...a) => c.git(...a);
+    g("branch", "base"); // il punto da cui si guarda
+    // Sul mio ramo: un lavoro qualsiasi.
+    c.scrivi("cervello/terzo.mjs", 'export function t() {\n  return 1;\n}\n');
+    g("add", "-A");
+    g("commit", "-q", "-m", "lavoro mio", "--no-verify");
+    // Sull'altro ramo: qualcun altro tocca LO STESSO file, così la fusione va in conflitto.
+    g("checkout", "-q", "-b", "altro", "base");
+    c.scrivi("cervello/terzo.mjs", 'export function t() {\n  return 2;\n}\n');
+    g("add", "-A");
+    g("commit", "-q", "-m", "lavoro altrui", "--no-verify");
+    // Torno sul mio, unisco, risolvo, e nello STESSO commit scrivo la riga di esito.
+    g("checkout", "-q", "lavoro");
+    try {
+      g("merge", "altro", "--no-edit");
+    } catch {
+      /* il conflitto è voluto: è il punto della prova */
+    }
+    c.scrivi("cervello/terzo.mjs", 'export function t() {\n  return 3;\n}\n');
+    c.scrivi("memoria-squadra/tech.md", "# tech\n\n- 2026-08-04 06:00 · la fusione · scorecard · atteso X → reale Y · #tag\n");
+    g("add", "-A");
+    g("commit", "-q", "-m", "fusione con la riga di esito dentro", "--no-verify");
+
+    const cerca = (...extra) =>
+      execFileSync("git", ["log", "-1", "--format=%H", "-G", CERCA_ESITO_IN_GIT, ...extra, "base..HEAD", "--", "memoria-squadra"], {
+        cwd: c.dir,
+        encoding: "utf8",
+        stdio: "pipe",
+      }).trim();
+
+    assert.equal(cerca(), "", "questa è la prova che parte ROSSA: senza il flag, git non vede dentro le fusioni");
+    assert.notEqual(
+      cerca(...ARGOMENTI_CERCA_ESITO.filter((a) => a.startsWith("--diff-merges"))),
+      "",
+      "col flag la riga si vede: chi risolve un conflitto e registra l'esito non è più muto",
+    );
   } finally {
     c.pulisci();
   }

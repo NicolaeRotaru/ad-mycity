@@ -384,6 +384,29 @@ prova("il registro delle malattie non è vuoto: un guardiano che non cerca nient
   }
 });
 
+prova("nessun pattern del registro può tenere occupata la guardia (AR-542)", () => {
+  // Trovato il 4/8 dall'analisi di sicurezza: i pattern arrivano da un file, e una regex scritta male
+  // costa un tempo enorme su una riga cortissima — misurato, `(a+)+$` su 29 caratteri tiene occupato
+  // il sorvegliante 19.883 ms. L'hook ne ha 15: una malattia maldestra non lo rallenta, lo fa
+  // UCCIDERE a metà, e il verdetto non arriva a nessuno. Una regex non si può interrompere: l'unica
+  // difesa vera è non far entrare nel registro un pattern che si comporta così.
+  //
+  // Il campione è quello classico del backtracking esplosivo: una riga di soli caratteri ripetuti che
+  // NON corrisponde. Se un pattern ci mette più di mezzo secondo qui, in produzione può costare minuti.
+  const reg = JSON.parse(leggi("cervello/malattie.json"));
+  const ESCHE = ["a".repeat(40) + "!", "  " + "x".repeat(60) + ";", '"' + "/".repeat(50) + '"', "\t".repeat(30) + "}"];
+  for (const m of reg.malattie) {
+    if (!m.pattern) continue;
+    const re = new RegExp(m.pattern);
+    for (const esca of ESCHE) {
+      const t0 = Date.now();
+      re.test(esca);
+      const costo = Date.now() - t0;
+      assert.ok(costo < 500, `${m.id}: il suo pattern ha impiegato ${costo} ms su una riga di ${esca.length} caratteri — in un hook da 15 secondi questo spegne la guardia`);
+    }
+  }
+});
+
 prova("ogni esenzione porta scritto il PERCHÉ", () => {
   // Un'esenzione senza motivo è esattamente il silenzio che questo registro cura.
   const reg = JSON.parse(leggi("cervello/malattie.json"));

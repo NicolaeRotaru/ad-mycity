@@ -1,4 +1,4 @@
-// 🧯 MEMORIA FERMA — il verdetto che mancava dal 30/7 al 4/8 (AR-534).
+// 🧯 MEMORIA FERMA — il verdetto che mancava dal 30/7 al 4/8 (AR-544).
 //
 // Per quattro giorni la macchina ha lavorato a ogni giro senza riuscire a pubblicare (uno spazio di
 // indentazione bloccava il commit → albero sporco → niente rebase → niente push: AR-530). La Cabina

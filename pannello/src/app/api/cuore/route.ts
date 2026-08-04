@@ -22,7 +22,7 @@ export async function GET() {
     raccogliSegnaliBattito(),
   ]);
   const ultimoDisplay = segnali.ultimoGiro?.quando ?? segnali.autopilotaCron?.quando ?? null;
-  // AR-534 — l'incrocio che mancava dal 30/7 al 4/8: battito fresco + `memoria-ad:ultimo_push`
+  // AR-544 — l'incrocio che mancava dal 30/7 al 4/8: battito fresco + `memoria-ad:ultimo_push`
   // fermo = il Pannello sta mostrando il passato, e deve dirlo lui invece di scriverci «Viva».
   const memoriaFerma = verdettoMemoriaFerma({
     oreWorker: oreDaQuando(segnali.worker?.quando),

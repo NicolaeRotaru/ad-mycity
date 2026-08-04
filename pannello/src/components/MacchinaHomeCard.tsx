@@ -15,7 +15,7 @@ type Cuore = {
   vivo?: boolean;
   workerVivo?: boolean;
   autopilota?: boolean;
-  // AR-534: verdetto «memoria ferma» calcolato dal server (battito × ultimo push riuscito).
+  // AR-544: verdetto «memoria ferma» calcolato dal server (battito × ultimo push riuscito).
   memoriaFerma?: boolean;
   memoriaFermaOre?: number | null;
   memoriaLavora?: boolean;
@@ -127,7 +127,7 @@ export default function MacchinaHomeCard() {
   };
   const organiStato = ORGANI.map((o) => ({ ...o, ok: okMap[o.okKey] }));
   const problemi = organiStato.filter((o) => !o.ok).length;
-  // AR-534 — la memoria ferma VINCE su tutto: dal 30/7 al 4/8 questa riga diceva «🟢 Viva» col
+  // AR-544 — la memoria ferma VINCE su tutto: dal 30/7 al 4/8 questa riga diceva «🟢 Viva» col
   // battito del worker mentre ogni numero della Cabina era di quattro giorni prima. Il verde di un
   // organo non può coprire il fatto che ciò che Nicola sta guardando è il passato.
   const memoriaFerma = !demo && !!c.memoriaFerma;

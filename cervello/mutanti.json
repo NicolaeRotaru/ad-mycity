@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-04 03:50",
+ "aggiornato": "2026-08-04 06:00",
  "mutanti": [
   {
    "lotto": 30,
@@ -1407,8 +1407,8 @@
    "lezione": "L-2026-0803-544",
    "nome": "la prosa torna a contare come chiamata: togliere una riga di istruzioni sembra spegnere un guardiano",
    "file": "cervello/sorvegliante.mjs",
-   "cerca": "    if (!eFixture(file) && !ePROSA(file)) {",
-   "sostituisci": "    if (!eFixture(file)) {",
+   "cerca": "    if (!eFixture(file) && !ePROSA(file) && !eReferto(file)) {",
+   "sostituisci": "    if (true) {",
    "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
@@ -1794,6 +1794,105 @@
    "cerca": "    hookSpecificOutput: { hookEventName: \"PreToolUse\", permissionDecision: \"deny\", permissionDecisionReason: testo },",
    "sostituisci": "    hookSpecificOutput: { hookEventName: \"PreToolUse\", permissionDecision: \"allow\", permissionDecisionReason: testo },",
    "test": "cervello/test/mano-fermata.test.mjs"
+  },
+  {
+   "difetto": "AR-530",
+   "lezione": "L-2026-0804-551",
+   "nome": "il freno sulle prove torna a guardare il gesto invece del saldo: rinominare una variabile ridiventa un blocco",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  const saldo = tolte - messe;",
+   "sostituisci": "  const saldo = tolte;",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-530",
+   "lezione": "L-2026-0804-551",
+   "nome": "un assert commentato torna a contare come vivo: commentarlo diventa il modo di spegnere una prova",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  return righe.filter((r) => REGGE_UNA_PROVA.test(senzaCommenti(r.testo, file))).length;",
+   "sostituisci": "  return righe.filter((r) => REGGE_UNA_PROVA.test(r.testo)).length;",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-530",
+   "lezione": "L-2026-0804-551",
+   "nome": "il nome corto torna a valere anche quando ce l hanno in settanta: il raggio si gonfia",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "        if (nomi.has(b) || (nomeDistintivo(b) && nomi.has(basenameSemplice(b)))) {",
+   "sostituisci": "        if (nomi.has(b) || nomi.has(basenameSemplice(b))) {",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-531",
+   "lezione": "L-2026-0804-552",
+   "nome": "la rotta API torna invisibile: chi la chiama col fetch non conta piu",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "        if (rotta && [].concat(rotta).some((x) => nomi.has(x))) {",
+   "sostituisci": "        if (false) {",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-542",
+   "lezione": "L-2026-0804-552",
+   "nome": "il budget per pattern sparisce: una malattia scritta male torna a poter uccidere la guardia",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "        if (troppoLenta(m.id)) break; // il budget è finito: vedi `troppoLenta`, il motivo è già scritto",
+   "sostituisci": "",
+   "test": "node --test cervello/test/freni-senza-fonte.test.mjs"
+  },
+  {
+   "difetto": "AR-535",
+   "lezione": "L-2026-0804-553",
+   "nome": "il numero torna a leggersi dalla sola copia locale: la collisione col worker ricompare",
+   "file": "cervello/prossimo-ar.mjs",
+   "cerca": "  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain)], quanti);",
+   "sostituisci": "  const liberi = prossimiLiberi([numeriUsati(locali)], quanti);",
+   "test": "node --test cervello/test/prossimo-ar.test.mjs"
+  },
+  {
+   "difetto": "AR-536",
+   "lezione": "L-2026-0804-554",
+   "nome": "la guardia torna a giudicare il gesto invece del risultato: il doppione tolto da un registro riaccusa",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "          if (difesaAncoraChiamata(perNome.get(file)?.contenuto ?? null, p, file)) continue;",
+   "sostituisci": "",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-538",
+   "lezione": "L-2026-0804-554",
+   "nome": "il guardiano torna a guardare dentro una copia sola: la scheda sovrascritta ripassa muta",
+   "file": "cervello/prossimo-ar.mjs",
+   "cerca": "    if (natoDiverso && titoloDiverso) perse.push({ id: mio.id, qui: String(mio.titolo), suMain: String(loro.titolo) });",
+   "sostituisci": "",
+   "test": "node --test cervello/test/prossimo-ar.test.mjs"
+  },
+  {
+   "difetto": "AR-540",
+   "lezione": "L-2026-0804-554",
+   "nome": "lo stato di partenza torna a un genitore solo: il lavoro dell altro ramo ridiventa mio",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  return [...(daHead || []), ...(daAltroGenitore || [])];",
+   "sostituisci": "  return [...(daHead || [])];",
+   "test": "node --test cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-543",
+   "lezione": "L-2026-0804-554",
+   "nome": "il diario del sorvegliante torna a valere come dichiarazione: la guardia riaccusa se stessa",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "const eReferto = (file) => REFERTI.includes(file);",
+   "sostituisci": "const eReferto = () => false;",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-505",
+   "lezione": "L-2026-0804-554",
+   "nome": "la ricerca dell esito torna a saltare le fusioni: chi registra risolvendo un conflitto ridiventa muto",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "\"-G\", CERCA_ESITO_IN_GIT, \"--diff-merges=first-parent\"",
+   "sostituisci": "\"-G\", CERCA_ESITO_IN_GIT",
+   "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
   }
  ]
 }

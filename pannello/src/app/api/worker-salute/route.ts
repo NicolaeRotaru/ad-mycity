@@ -118,7 +118,7 @@ export async function GET() {
 
   const oreWorker = oreDaQuando(segnali.worker?.quando);
   const oreWorkerChat = oreDaQuando(workerChatUltimo);
-  // AR-534: `memoria-ad:ultimo_push` si scrive SOLO a push riuscito (giro.sh e worker.sh) — è
+  // AR-544: `memoria-ad:ultimo_push` si scrive SOLO a push riuscito (giro.sh e worker.sh) — è
   // l'orologio della pubblicazione. Dal 30/7 al 4/8 è rimasto fermo mentre tutto qui sopra era
   // verde, e nessun ramo della diagnosi lo guardava.
   const orePushMemoria = oreDaQuando(segnali.pushMemoria?.quando);
@@ -257,7 +257,7 @@ export async function GET() {
     problema = "Worker con pipeline vecchia — i giri non pushano la memoria su main.";
     azioni.push("VPS: sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh");
   } else if (pubblicazione.ferma && pubblicazione.macchinaLavora) {
-    // AR-534 — il caso dei 4 giorni di silenzio (30/7→4/8): tutto il resto è verde, ma l'ultimo
+    // AR-544 — il caso dei 4 giorni di silenzio (30/7→4/8): tutto il resto è verde, ma l'ultimo
     // push riuscito è vecchio. La macchina lavora e non pubblica: qualunque sia l'anello rotto
     // (commit bloccato dal guardiano della forma, albero sporco, rebase, rete), il Pannello sta
     // mostrando il passato e i comandi di sblocco sono questi.

@@ -77,10 +77,10 @@ sudo systemctl start mycity-giro.service
 Il reset stavolta porta a bordo la cura (l'aiutante che conserva l'indentazione del file invece di imporre la sua): il giro riscrive `apprendimento.json` senza gonfiarlo, il commit passa, il push parte.
 **Come vedi che ha funzionato:** a fine giro `journalctl -u mycity-giro -n 20 --no-pager` NON deve più dire «COMMIT BLOCCATO» né «MEMORIA NON PUBBLICATA». E su GitHub `main` deve ricevere un commit di memoria nuovo. Se rivedi «COMMIT BLOCCATO», mandami lo schermo: vuol dire che c'è un secondo file malato oltre a quello curato.
 **Se va bene:** il Pannello torna a dire il vero. E da questa PR in poi non serve più il tuo occhio: se la memoria resta ferma oltre 12 ore, la home della Cabina lo grida da sola con un banner rosso.
-**Nota tecnica:** causa radice AR-530 (uno spazio di indentazione, PR #665, mergiata 04/08 05:23) · freno nuovo AR-534 (la Cabina incrocia battito e ultimo push: banner in home + diagnosi con i comandi in Lavori → Stato worker). I 4.450 commit di arretrato restano al sicuro nel ramo `salvataggio-2026-08-04` e negli stash: il loro valore è lo stato finale dei file, già presente nell'albero.
+**Nota tecnica:** causa radice AR-530 (uno spazio di indentazione, PR #665, mergiata 04/08 05:23) · freno nuovo AR-544 (la Cabina incrocia battito e ultimo push: banner in home + diagnosi con i comandi in Lavori → Stato worker). I 4.450 commit di arretrato restano al sicuro nel ramo `salvataggio-2026-08-04` e negli stash: il loro valore è lo stato finale dei file, già presente nell'albero.
 - **Colore:** 🔴 (tocca il server in produzione)
 - **Reparto:** devops-sre
-- **Origine:** `{origine:visita-salute-2026-08-04, difetti:[AR-518, AR-530, AR-534]}`
+- **Origine:** `{origine:visita-salute-2026-08-04, difetti:[AR-518, AR-530, AR-544]}`
 
 ---
 
