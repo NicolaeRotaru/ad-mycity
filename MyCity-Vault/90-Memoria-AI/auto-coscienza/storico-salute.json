@@ -2,14 +2,6 @@
   "_cosa_e": "📈 STORICO SALUTE — la serie storica del voto di salute dell'architettura, per vedere se la macchina sta MIGLIORANDO nel tempo (il volano che gira). Lo aggiorna la radiografia completa e la sonda di ogni giro. Schema in cervello/auto-coscienza.md.",
   "serie": [
     {
-      "data": "2026-07-23",
-      "voto_salute": 0,
-      "difetti_aperti": 32,
-      "difetti_chiusi": 1,
-      "tipo": "auto-fix",
-      "nota": "Auto-fix: chiusi AR-111 (verificati nel codice)."
-    },
-    {
       "data": "2026-07-24",
       "voto_salute": 43,
       "voto_provvisorio": 0,
@@ -1031,6 +1023,15 @@
       "difetti_chiusi": 1,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-558 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 9 dall'ultima misura vera."
+    },
+    {
+      "data": "2026-08-04",
+      "voto_salute": 9,
+      "voto_riportato": true,
+      "difetti_aperti": 161,
+      "difetti_chiusi": 1,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-533 (verificati nel codice). · voto salute NON ri-misurato (la radiografia non offre un voto utilizzabile): riportato 9 dall'ultima misura vera."
     }
   ]
 }
