@@ -30,8 +30,11 @@ import {
   nomiCitati,
   classeRimasta,
   provaIndebolita,
+  difesaAncoraChiamata,
+  conta,
   fileDifeso,
   raggioDueP1assi,
+  aliasDiRotta,
   eCodice,
   VICINANZA_NOTA,
   LETTERALI_MIN,
@@ -441,6 +444,61 @@ test("…ma nel CODICE la stessa riga resta grave: la prosa è l'eccezione, non 
     '-    passi.push(esegui("gate", "node", ["cervello/gate-veri.mjs"]));',
   ]);
   assert.equal(gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length, 1);
+});
+
+// ─── ⑥b guarda il RISULTATO, non solo il gesto (AR-536) ─────────────────────
+
+test("il caso del 4/8: tolgo un DOPPIONE da un registro che nomina lo stesso gate altre volte → tace", () => {
+  // Unendo main, quattro accuse su quattro erano false: la fusione dei registri aveva cancellato una
+  // scheda duplicata, e «cervello/test/sorvegliante.test.mjs» restava scritto 13 e 15 volte nei due
+  // file. Le tre condizioni che c'erano guardavano tutte il GESTO (tolto/messo qui/messo altrove) e
+  // nessuna il file com'era rimasto. Un cancello che non può diventare verde si impara ad aggirare.
+  const e = daDiff(
+    [
+      "--- a/cervello/x.json",
+      "+++ b/cervello/x.json",
+      "@@ -10,1 +10,0 @@",
+      '-  "gate": "node cervello/gate-veri.mjs"',
+    ],
+    { toccati: [{ file: "cervello/x.json", aggiunte: [], contenuto: '{ "gate": "node cervello/gate-veri.mjs" }' }] },
+  );
+  assert.equal(gravi(e.voci).length, 0, "undici righe lo chiamano ancora: il freno non è spento");
+});
+
+test("…ma se l'unica menzione rimasta è un COMMENTO, resta grave: il rimedio non apre il buco gemello", () => {
+  const e = daDiff(
+    [
+      "--- a/cervello/cancello-lotto.mjs",
+      "+++ b/cervello/cancello-lotto.mjs",
+      "@@ -5,1 +5,0 @@",
+      '-    passi.push(esegui("gate", "node", ["cervello/gate-veri.mjs"]));',
+    ],
+    { toccati: [{ file: "cervello/cancello-lotto.mjs", aggiunte: [], contenuto: "// cervello/gate-veri.mjs: vedi sotto" }] },
+  );
+  assert.equal(
+    gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length,
+    1,
+    "«menzione ≠ chiamata» vale anche per l'assoluzione, non solo per l'accusa",
+  );
+});
+
+test("tolgo l'ULTIMA riga che lo nomina: lì la guardia deve gridare", () => {
+  const e = daDiff(
+    [
+      "--- a/cervello/cancello-lotto.mjs",
+      "+++ b/cervello/cancello-lotto.mjs",
+      "@@ -5,1 +5,0 @@",
+      '-    passi.push(esegui("gate", "node", ["cervello/gate-veri.mjs"]));',
+    ],
+    { toccati: [{ file: "cervello/cancello-lotto.mjs", aggiunte: [], contenuto: "const x = 1;" }] },
+  );
+  assert.equal(gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length, 1);
+});
+
+test("difesaAncoraChiamata(): senza il contenuto torna false — cieco non è verde", () => {
+  assert.equal(difesaAncoraChiamata(null, "cervello/gate-veri.mjs", "x.mjs"), false);
+  assert.equal(difesaAncoraChiamata("node cervello/gate-veri.mjs", "cervello/gate-veri.mjs", "x.mjs"), true);
+  assert.equal(difesaAncoraChiamata("// node cervello/gate-veri.mjs", "cervello/gate-veri.mjs", "x.mjs"), false);
 });
 
 test("un test cancellato resta grave anche dentro cervello/test/: è la difesa che muore, non una fixture", () => {
@@ -919,4 +977,144 @@ test("i due giudizi arrivano al verdetto, con il colore giusto", () => {
   assert.ok(pv, "⑪ deve comparire");
   assert.equal(pv.gravita, "grave", "spegnere una prova senza toccare il codice ferma il commit");
   assert.equal(gravi(p.voci).length, 1);
+});
+
+// ── AR-530: le due tarature sbagliate del 3/8, trovate attaccando il mio stesso lavoro ─────────
+//
+// Nicola, 4/8: «risolvi i 3 difetti». Questi sono i primi due — e non li ha trovati una rilettura,
+// li ha trovati un attacco: chiamare le mie funzioni con i gesti che una persona fa davvero.
+
+test("⑪ IL SALDO, NON IL GESTO: rinominare una variabile in un test non e' indebolire", () => {
+  // Sostituire una riga, per un diff, e' toglierne una e aggiungerne un'altra. Con la regola vecchia
+  // questi quattro casi uscivano GRAVI e bloccavano il commit.
+  const casi = [
+    ["rinomino una variabile", [{ n: 5, testo: "  assert.equal(atteso, 2);" }], [{ n: 5, testo: "  assert.equal(risultato, 2);" }]],
+    ["riscrivo il messaggio dell'asserzione", [{ n: 9, testo: '  assert.equal(a, b, "vecchio");' }], [{ n: 9, testo: '  assert.equal(a, b, "piu chiaro");' }]],
+    ["sposto un caso piu in alto nel file", [{ n: 3, testo: "  assert.ok(x);" }], [{ n: 1, testo: "  assert.ok(x);" }]],
+  ];
+  for (const [nome, rimosse, aggiunte] of casi) {
+    const r = provaIndebolita({ file: "cervello/test/salute.test.mjs", rimosse, aggiunte, toccati: ["cervello/test/salute.test.mjs"], esiste: () => true });
+    assert.equal(r, null, `${nome}: il saldo e' zero, qui non si e' indebolito niente`);
+  }
+});
+
+test("⑪ ma se il file prova DAVVERO di meno, parla e dice di quanto", () => {
+  const r = provaIndebolita({
+    file: "cervello/test/salute.test.mjs",
+    rimosse: [{ n: 5, testo: "  assert.equal(a, 1);" }, { n: 6, testo: "  assert.equal(b, 2);" }],
+    aggiunte: [{ n: 5, testo: "  assert.equal(a, 1);" }],
+    toccati: ["cervello/test/salute.test.mjs"],
+    esiste: () => true,
+  });
+  assert.equal(r.quante, 1, "due tolti, uno rimesso: il saldo e' uno");
+  assert.equal(r.tolte, 2);
+  assert.equal(r.messe, 1);
+});
+
+test("⑪ commentare un'asserzione invece di toglierla NON la salva (il buco gemello)", () => {
+  const r = provaIndebolita({
+    file: "cervello/test/salute.test.mjs",
+    rimosse: [{ n: 5, testo: "  assert.equal(a, 1);" }],
+    aggiunte: [{ n: 5, testo: "  // assert.equal(a, 1);" }],
+    toccati: ["cervello/test/salute.test.mjs"],
+    esiste: () => true,
+  });
+  assert.ok(r, "una riga commentata non regge nessuna prova: il saldo resta negativo");
+  assert.equal(r.messe, 0);
+});
+
+test("⑤ un nome di file che ce l'hanno in settanta non identifica nessuno", () => {
+  // Misurato sul repo il 3/8: 76 file chiamati route.ts, e toccarne uno dava «22 dipendenti».
+  const citazioni = new Map([
+    ["pannello/src/app/api/a/route.ts", new Set(["route.ts"])],
+    ["pannello/src/app/api/b/route.ts", new Set(["route.ts"])],
+    ["cervello/guardiano.mjs", new Set(["route.ts"])], // lo nomina come pattern, non lo usa
+    ["cervello/vero-utente.mjs", new Set(["pannello/src/app/api/a/route.ts"])], // questo si', col percorso
+  ]);
+  const r = raggioDueP1assi(["pannello/src/app/api/a/route.ts"], citazioni).get("pannello/src/app/api/a/route.ts");
+  assert.deepEqual(r.diretti, ["cervello/vero-utente.mjs"], "solo chi lo nomina per intero");
+});
+
+test("⑤ …e il nome corto continua a valere quando e' unico: e' il legame che AR-508 doveva vedere", () => {
+  const citazioni = new Map([
+    ["cervello/sorvegliante.mjs", new Set(["spazzata-fratelli.mjs"])],
+    ["cervello/spazzata-fratelli.mjs", new Set()],
+  ]);
+  const r = raggioDueP1assi(["cervello/spazzata-fratelli.mjs"], citazioni).get("cervello/spazzata-fratelli.mjs");
+  assert.deepEqual(r.diretti, ["cervello/sorvegliante.mjs"], "un nome unico resta un legame");
+});
+
+// ── AR-531: la pagina API la chiama il browser, non un file ────────────────────
+//
+// Nicola, 4/8: «quel tipo di legame il raggio non lo vede, né prima né adesso». Nel Pannello ci sono
+// 84 indirizzi chiamati con fetch, e per il grafo erano zero legami: cambiare la risposta di una
+// rotta sembrava non toccare niente, mentre rompe una schermata che Nicola guarda.
+
+test("⑤ chi chiama una rotta con fetch è un dipendente vero", () => {
+  const citazioni = new Map([
+    ["pannello/src/components/NumeriReport.tsx", nomiCitati('const r = await fetch("/api/anomalie?giorni=7");')],
+    ["pannello/src/app/api/anomalie/route.ts", new Set()],
+  ]);
+  const r = raggioDueP1assi(["pannello/src/app/api/anomalie/route.ts"], citazioni).get("pannello/src/app/api/anomalie/route.ts");
+  assert.deepEqual(r.diretti, ["pannello/src/components/NumeriReport.tsx"], "la query dopo il ? non cambia quale file risponde");
+});
+
+test("⑤ …ma nominare una rotta in un COMMENTO non è chiamarla", () => {
+  // Alla prima prova sul repo vero, questo file risultava chiamante di due rotte del Pannello:
+  // le nomina in un commento per spiegare la regola. Quarta comparsa di «menzione ≠ chiamata».
+  const citazioni = new Map([
+    ["cervello/sorvegliante.mjs", nomiCitati('// esempio: fetch("/api/anomalie") è un legame vero')],
+    ["pannello/src/app/api/anomalie/route.ts", new Set()],
+  ]);
+  const r = raggioDueP1assi(["pannello/src/app/api/anomalie/route.ts"], citazioni).get("pannello/src/app/api/anomalie/route.ts");
+  assert.deepEqual(r.diretti, [], "un commento che spiega non è codice che chiama");
+});
+
+test("⑤ l'indirizzo di una rotta si deduce dalla convenzione, non si indovina", () => {
+  assert.equal(aliasDiRotta("pannello/src/app/api/metriche/cassa/route.ts"), "/api/metriche/cassa");
+  assert.equal(aliasDiRotta("pannello/src/app/page.tsx"), null, "una pagina normale non è una rotta API");
+  assert.equal(aliasDiRotta("cervello/sorvegliante.mjs"), null);
+});
+
+test("⑤ una rotta col parametro la si chiama con una variabile: vale anche il suo prefisso (AR-534)", () => {
+  // Trovato attaccando la cura di AR-531: `api/lavori/[id]/route.ts` risponde a `/api/lavori/<x>`, e
+  // chi la chiama scrive fetch(`/api/lavori/${id}`) — nel testo resta solo `/api/lavori`. Confrontando
+  // la sola forma piena, quella rotta risultava di nuovo senza chiamanti: il falso negativo che
+  // AR-531 doveva chiudere, sopravvissuto dentro la sua stessa cura.
+  assert.deepEqual(aliasDiRotta("pannello/src/app/api/lavori/[id]/route.ts"), ["/api/lavori/[id]", "/api/lavori"]);
+  assert.equal(aliasDiRotta("pannello/src/app/api/anomalie/route.ts"), "/api/anomalie", "una rotta fissa resta una stringa sola");
+  const citazioni = new Map([
+    ["pannello/src/components/Lavori.tsx", nomiCitati("await fetch(`/api/lavori/${encodeURIComponent(id)}`)")],
+    ["pannello/src/app/api/lavori/[id]/route.ts", new Set()],
+  ]);
+  const r = raggioDueP1assi(["pannello/src/app/api/lavori/[id]/route.ts"], citazioni).get("pannello/src/app/api/lavori/[id]/route.ts");
+  assert.deepEqual(r.diretti, ["pannello/src/components/Lavori.tsx"]);
+});
+
+// ── I referti: il diario di chi accusa non è una dichiarazione (AR-543) ──────
+
+test("il diario del sorvegliante non dichiara difese: lì un nome è la cronaca di un allarme", () => {
+  // Successo il 4/8 05:55: prendendo da main il proprio storico (referto rigenerabile, si prende un
+  // lato e si va avanti) la guardia ha accusato SÉ STESSA quattro volte, sul proprio diario.
+  const e = daDiff([
+    "--- a/MyCity-Vault/90-Memoria-AI/auto-coscienza/sorvegliante-storico.json",
+    "+++ b/MyCity-Vault/90-Memoria-AI/auto-coscienza/sorvegliante-storico.json",
+    "@@ -27,1 +27,0 @@",
+    '-      "cosa": "ho tolto la riga che chiamava «cervello/gate-veri.mjs»"',
+  ]);
+  assert.equal(gravi(e.voci).length, 0, "terza forma di «menzione ≠ chiamata», e la più imbarazzante");
+});
+
+test("…ma il cantiere e le lezioni restano guardati: lì le difese ci vivono davvero", () => {
+  const e = daDiff([
+    "--- a/MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+    "+++ b/MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+    "@@ -10,1 +10,0 @@",
+    '-  "gate": "node cervello/gate-veri.mjs"',
+  ]);
+  assert.equal(
+    gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length,
+    1,
+    "l'esenzione è per UN file preciso, non per tutti i JSON della memoria",
+  );
 });

@@ -144,7 +144,27 @@ const eFixture = (file) => FIXTURE.some((s) => file.startsWith(s));
  *  Vale per il controllo ⑥b (vedi il perché accanto a quel controllo). I `.md` restano pienamente
  *  guardati da ①: una malattia con `estensioni: [".md"]` è una regola sul TESTO, ed è un'altra cosa. */
 export const PROSA = [".md", ".markdown", ".txt"];
+
+/** Quanto può costare UNA malattia su un file prima che smetta di cercarla e lo dica (AR-542).
+ *  Due secondi: il giro completo sul repo vero ne costa 0,3 in tutto, quindi qui dentro non ci
+ *  finisce mai un pattern sano — e l'hook ha 15 secondi, che restano per tutti gli altri. */
+export const BUDGET_PATTERN_MS = 2000;
 const ePROSA = (file) => PROSA.some((e) => file.endsWith(e));
+
+/**
+ * I REFERTI: quello che la macchina SCRIVE su sé stessa dopo aver misurato. (AR-543.)
+ *
+ * Sono log, non dichiarazioni: dentro c'è scritto «ho accusato la rimozione di X», e quel nome è la
+ * cronaca di un allarme, non il posto da cui X viene lanciato. Nessuna difesa vive qui — vivono nel
+ * cantiere, nelle lezioni e nei mutanti, che restano guardati come prima.
+ *
+ * Si rigenerano da soli al giro dopo, quindi in una fusione si prende il lato di main e si va avanti:
+ * ed è esattamente il gesto per cui questa guardia ha accusato SÉ STESSA il 4/8 alle 05:55, quattro
+ * volte, sul proprio diario. Terza forma della stessa regola in questo file — «menzione ≠ chiamata»
+ * dopo i commenti (⑥b) e la prosa (AR-503) — e la più imbarazzante: il diario di chi accusa.
+ */
+export const REFERTI = ["MyCity-Vault/90-Memoria-AI/auto-coscienza/sorvegliante-storico.json"];
+const eReferto = (file) => REFERTI.includes(file);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // IL CUORE — funzione pura. Nessun I/O, nessun git: così una prova la esegue su un diff finto invece
@@ -302,6 +322,27 @@ export function sorveglia({
   const voci = [];
   const motivi = [];
 
+  // ⏱️ IL BUDGET DI TEMPO PER PATTERN (AR-542, trovato dall'analisi di sicurezza del 4/8).
+  //
+  // I pattern arrivano da `malattie.json`, e una regex scritta male può impiegare un tempo enorme su
+  // una riga cortissima: misurato, `(a+)+$` su UNA riga di 29 caratteri tiene occupata la guardia
+  // 19.883 ms. L'hook ha un tetto di 15 secondi — quindi una malattia maldestra non rende lento il
+  // sorvegliante: lo fa UCCIDERE a metà, e il verdetto non arriva a nessuno. Cioè il canale muto di
+  // AR-465 per un'altra strada, e stavolta senza che nessuno se ne accorga.
+  //
+  // Non si può interrompere una regex a metà in JavaScript. Quello che si può fare è misurare quanto
+  // costa e smettere quando ha già mangiato troppo — dichiarandolo, perché una malattia che non ho
+  // potuto cercare non è una malattia assente.
+  const speso = new Map();
+  const troppoLenta = (id) => {
+    if ((speso.get(id) || 0) <= BUDGET_PATTERN_MS) return false;
+    if (!speso.get(`detto:${id}`)) {
+      speso.set(`detto:${id}`, 1);
+      motivi.push(`malattia ${id}: il suo pattern ha già consumato ${speso.get(id)} ms, l'ho lasciata indietro su questo file — non è un verde, è una misura che non ho finito`);
+    }
+    return true;
+  };
+
   // Un registro vuoto non è un repo sano: è una guardia che non cerca niente. Lo dico, non lo taccio.
   if (!malattie.length) motivi.push("registro malattie vuoto: non so quali forme di difetto cercare");
   if (!mutanti.length) motivi.push("registro mutanti vuoto: non posso sapere se ho accecato una prova");
@@ -346,7 +387,11 @@ export function sorveglia({
         // stessa funzione — non una seconda copia che col tempo divergerebbe.
         const pulita = senzaCommenti(r.testo, file);
         if (!pulita.trim()) continue;
-        if (re.test(pulita)) {
+        if (troppoLenta(m.id)) break; // il budget è finito: vedi `troppoLenta`, il motivo è già scritto
+        const inizio = Date.now();
+        const trovata = re.test(pulita);
+        speso.set(m.id, (speso.get(m.id) || 0) + (Date.now() - inizio));
+        if (trovata) {
           voci.push({
             classe: "malattia-nuova",
             gravita: "grave",
@@ -561,7 +606,7 @@ export function sorveglia({
     //    era più vuoto — chiamandola «hai spento un guardiano». È «menzione ≠ chiamata», la quarta
     //    volta in questo repo, stavolta dentro il controllo che quella regola la conosce: in un file
     //    di codice il filtro dei commenti basta, in un file di prosa il commento è TUTTO il file.
-    if (!eFixture(file) && !ePROSA(file)) {
+    if (!eFixture(file) && !ePROSA(file) && !eReferto(file)) {
       for (const riga of rimosse) {
         const pulita = senzaCommenti(riga.testo, file);
         if (!pulita.trim()) continue;
@@ -573,6 +618,11 @@ export function sorveglia({
           // scrive «x.mjs», e confrontare i due percorsi per intero significava non riconoscere mai
           // uno spostamento fra i due posti.
           if (aggiuntoOvunque.includes(p) || aggiuntoOvunque.includes(basenameSemplice(p))) continue;
+          // E soprattutto: quel freno, DOPO questa modifica, lo chiama ancora qualcuno in questo
+          // stesso file? (AR-536.) Le tre righe sopra guardano tutte il GESTO — cosa ho tolto, cosa
+          // ho messo — e nessuna guarda il RISULTATO. Su un registro dove lo stesso `gate:` compare
+          // in dodici schede, cancellarne una è togliere un doppione, non spegnere un freno.
+          if (difesaAncoraChiamata(perNome.get(file)?.contenuto ?? null, p, file)) continue;
           voci.push({
             classe: "difesa-rimossa",
             gravita: "grave",
@@ -601,15 +651,15 @@ export function sorveglia({
       }
     }
 
-    // ⑪ la prova indebolita mentre il codice resta com'era (AR-509).
-    const ind = provaIndebolita({ file, rimosse, toccati: toccati.map((t) => t.file), esiste });
+    // ⑪ la prova indebolita mentre il codice resta com'era (AR-509, tarata col saldo in AR-530).
+    const ind = provaIndebolita({ file, rimosse, aggiunte: aggiunteQui, toccati: toccati.map((t) => t.file), esiste });
     if (ind) {
       voci.push({
         classe: "prova-indebolita",
         gravita: "grave",
         file,
         riga: ind.esempio,
-        cosa: `ho tolto ${ind.quante} riga/e di prova da qui e non ho toccato ${ind.difeso}`,
+        cosa: `questo file adesso prova ${ind.quante} caso/i in meno (${ind.tolte} tolti, ${ind.messe} messi) e non ho toccato ${ind.difeso}`,
         perche: "far tornare verde il termometro non cura la febbre. Un test cancellato per intero lo vede il controllo ⑥; un'asserzione tolta dentro un file che resta vivo non la vedeva nessuno — e il conto delle prove resta identico.",
         domanda: "quel caso non serviva più perché il codice è cambiato (ma allora il codice dov'è?), o l'ho tolto perché era rosso?",
       });
@@ -687,6 +737,36 @@ export function derivaDelLavoro(file = [], soglia = ZONE_MAX) {
   return zone.length > soglia ? zone : null;
 }
 
+/**
+ * ⑥b — dopo questa modifica, quel freno lo chiama ancora qualcuno DENTRO QUESTO FILE? (AR-536.)
+ *
+ * Le tre condizioni che ⑥b aveva prima guardano tutte il GESTO: cosa ho tolto, cosa ho messo qui,
+ * cosa ho messo altrove nello stesso delta. Nessuna guardava il RISULTATO — il file com'è rimasto.
+ * Su un registro dove lo stesso `gate:` compare in dodici schede diverse, cancellarne una è togliere
+ * un doppione: il freno resta chiamato da undici righe, e la guardia gridava lo stesso.
+ *
+ * Trovato dal vivo il 4/8 unendo `main`: quattro accuse su `apprendimento.json` e `cantiere-difetti.json`
+ * — «hai spento cervello/test/sorvegliante.test.mjs» — mentre quel nome nei due file restava scritto
+ * 13 e 15 volte e `gate-veri.mjs` usciva 0. Quattro accuse su quattro erano false, e un cancello che
+ * non può diventare verde si impara ad aggirare: quella sera stavo per usare `--no-verify`.
+ *
+ * `senzaCommenti` riga per riga, non `contenuto.includes(p)` secco: se l'unica menzione rimasta è
+ * dentro un commento, il freno NON è chiamato da nessuno e l'accusa è giusta. È «menzione ≠ chiamata»
+ * — la stessa regola che questo repo ha già pagato cinque volte — applicata al rimedio invece che al
+ * difetto, così il rimedio non apre il buco gemello.
+ *
+ * `null` quando il contenuto non c'è (file illeggibile o cancellato): lì non posso provare che sia
+ * vivo, e cieco non è verde — torno `false` e l'accusa resta.
+ *
+ * @param {string|null} contenuto  il file COME È ADESSO
+ * @param {string} p               il nome della difesa (percorso o comando)
+ * @param {string} file            serve solo a `senzaCommenti` per scegliere la sintassi
+ */
+export function difesaAncoraChiamata(contenuto = null, p = "", file = "") {
+  if (typeof contenuto !== "string" || !p) return false;
+  return contenuto.split("\n").some((riga) => senzaCommenti(riga, file).includes(p));
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // ⑩⑪ IL GIUDIZIO SULLA RIPARAZIONE (AR-509) — le due funzioni pure.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -734,20 +814,43 @@ export function fileDifeso(test = "") {
   return m ? `${m[1]}/${m[2]}.${m[3]}` : null;
 }
 
+/** Una riga che REGGE una prova: un'asserzione o l'apertura di un caso. `senzaCommenti` prima, o una
+ *  riga commentata varrebbe quanto una viva — ed è il modo più comodo di spegnere un controllo. */
+export const REGGE_UNA_PROVA = /\bassert\b|\bexpect\(|\btest\(|\bit\(|\bdescribe\(/;
+export function conta(righe = [], file = "") {
+  return righe.filter((r) => REGGE_UNA_PROVA.test(senzaCommenti(r.testo, file))).length;
+}
+
 /**
  * ⑪ Ho indebolito la prova invece di riparare il codice?
  *
- * Vero solo se: righe TOLTE da un file di prova (aggiungerne è sano), il file difeso esiste, e in
- * questo delta non l'ho toccato. Le righe tolte devono contenere un'asserzione o un caso: spostare
- * un commento o rinominare una variabile dentro un test non è indebolire niente.
+ * IL SALDO, NON IL GESTO (AR-530, 4/8 — riparazione di un difetto mio del 3/8). La prima stesura
+ * guardava le righe TOLTE: «hai rimosso una riga con un assert e non hai toccato il codice». Sembrava
+ * giusto e non lo era, perché per chi legge un diff **sostituire** una riga è toglierne una e
+ * aggiungerne un'altra. Risultato misurato attaccando la mia stessa funzione: quattro gesti del tutto
+ * legittimi finivano ❌ e BLOCCAVANO il commit —
+ *   · rinominare una variabile dentro un file di prova;
+ *   · riscrivere il messaggio di un'asserzione;
+ *   · cancellare una prova vecchia insieme alla cosa che provava;
+ *   · spostare un caso da un file di prova a un altro.
+ * Un freno grave che si accende sul lavoro pulito è il freno che si impara ad aggirare — e chi impara
+ * `--no-verify` salta nello stesso gesto lo scan dei segreti e il perimetro di main.
+ *
+ * Adesso conta: quante righe che reggono una prova ho tolto, quante ne ho messe. Parla solo se il
+ * SALDO è negativo, cioè se dopo la mia modifica quel file prova di meno. E le aggiunte passano da
+ * `senzaCommenti`, altrimenti commentare un'asserzione invece di toglierla — che era il buco gemello,
+ * scoperto nello stesso attacco — la farebbe contare come ancora viva.
  */
-export function provaIndebolita({ file = "", rimosse = [], toccati = [], esiste = () => true } = {}) {
+export function provaIndebolita({ file = "", rimosse = [], aggiunte = [], toccati = [], esiste = () => true } = {}) {
   const difeso = fileDifeso(file);
   if (!difeso || !esiste(difeso)) return null;
   if (toccati.includes(difeso)) return null;
-  const sostanziali = rimosse.filter((r) => /\bassert\b|\bexpect\(|\btest\(|\bit\(|\bdescribe\(/.test(r.testo));
-  if (!sostanziali.length) return null;
-  return { difeso, quante: sostanziali.length, esempio: sostanziali[0].n };
+  const tolte = conta(rimosse, file);
+  const messe = conta(aggiunte, file);
+  const saldo = tolte - messe;
+  if (saldo <= 0) return null;
+  const esempio = rimosse.find((r) => REGGE_UNA_PROVA.test(senzaCommenti(r.testo, file)));
+  return { difeso, quante: saldo, tolte, messe, esempio: esempio ? esempio.n : null };
 }
 
 /** Le voci che fanno rosso. `raggio` non è un errore (è il quadro), `media` è un avviso che si legge. */
@@ -1030,10 +1133,47 @@ export function nomiCitati(testo = "") {
   // cantiere che nomina uno script, una riga di apprendimento — e contarla come dipendenza è la
   // terza comparsa in questo file dello stesso errore: menzione ≠ chiamata. Misurato: senza questo
   // filtro il raggio di cancello-stop.mjs passava da 10 a 86 file, cioè da un elenco a un rumore.
+  // ④ l'indirizzo di una pagina API (AR-531): un `fetch` verso una rotta è un legame vero quanto un
+  // import — solo, passa dal browser. Riga per riga e senza i commenti: alla prima prova questo file
+  // risultava chiamante di due rotte del Pannello, perché le nomina in un commento per spiegare la
+  // regola. È la quarta comparsa di «menzione ≠ chiamata» in questo stesso file, e l'ha trovata la
+  // misura sul repo vero, non la rilettura.
+  for (const riga of String(testo).split("\n")) {
+    const pulita = senzaCommenti(riga, ".ts");
+    if (!pulita.includes("/api/")) continue;
+    for (const m of pulita.matchAll(/["'`](\/api\/[A-Za-z0-9/_-]+)/g)) fuori.add(m[1].replace(/\/+$/, ""));
+  }
   for (const m of String(testo).matchAll(new RegExp(`(?:from|import|require|join|node|bash|sh|ExecStart=)[^\\n]{0,80}?["'\`]([A-Za-z0-9_.-]+\\.${EST})["'\`]`, "g"))) {
     fuori.add(m[1]);
   }
   return fuori;
+}
+
+/**
+ * L'ALTRO NOME DI UNA PAGINA API (AR-531, Nicola 4/8: «quel tipo di legame il raggio non lo vede,
+ * né prima né adesso»).
+ *
+ * Nel Pannello una pagina API non la chiama nessun file: la chiama il browser, con un indirizzo —
+ * `fetch("/api/anomalie")`. Per il grafo quel file risultava senza nessuno che poggiasse su di lui,
+ * e cambiarne la risposta sembrava non toccare niente: misurato, 84 indirizzi diversi chiamati dal
+ * Pannello, e per il raggio erano zero legami. È il caso peggiore di un raggio vuoto letto come
+ * «non ce ne sono»: lì un cambiamento rompe una schermata che Nicola guarda.
+ *
+ * La convenzione di Next.js rende la cosa meccanica: `pannello/src/app/api/x/y/route.ts` risponde
+ * all'indirizzo `/api/x/y`. Non è un'euristica, è il modo in cui quel programma decide le rotte.
+ */
+export function aliasDiRotta(rel = "") {
+  const m = String(rel).match(/^pannello\/src\/app\/(api\/.+)\/route\.(?:m?js|ts|tsx)$/);
+  if (!m) return null;
+  const pieno = `/${m[1]}`;
+  // LA ROTTA COL PARAMETRO (AR-534). `api/lavori/[id]/route.ts` risponde a `/api/lavori/<qualcosa>`,
+  // e chi la chiama scrive `fetch(\`/api/lavori/${id}\`)`: nel testo resta solo `/api/lavori`, perché
+  // il resto è una variabile. Confrontando la sola forma piena quella rotta risultava senza nessun
+  // chiamante — cioè il falso negativo che AR-531 doveva chiudere, sopravvissuto dentro la sua cura.
+  // Quindi una rotta dinamica vale anche per il suo prefisso fisso, che è tutto ciò che il chiamante
+  // può scrivere a mano.
+  const prefisso = pieno.split("/[")[0];
+  return prefisso !== pieno ? [pieno, prefisso] : pieno;
 }
 
 /** Le cartelle dove «chi mi nomina» è una dipendenza che si può rompere. La memoria no: lì gli
@@ -1054,12 +1194,31 @@ export const eCodice = (rel = "") => !rel.includes("/") || CARTELLE_CODICE.some(
  * Il limite va DETTO, non nascosto: è scritto nella copertura dichiarata in testa al file.
  */
 export function raggioDueP1assi(cercati = [], citazioni = new Map()) {
+  // IL NOME CORTO VALE SOLO SE E' UNICO (AR-530, riparazione di un difetto mio del 3/8). Il confronto
+  // sul solo basename e' quello che fa vedere i legami non dichiarati — `join(QUI, "x.mjs")` — ma
+  // quando quel nome ce l'hanno in settanta, non identifica piu niente: misurato, nel Pannello ci
+  // sono 76 file chiamati `route.ts`, e toccarne uno faceva risultare «22 dipendenti diretti»,
+  // fra cui guardiani che nominano `route.ts` come pattern e perfino il registro delle malattie.
+  // Un raggio gonfiato non e' un errore che blocca: e' rumore, e il rumore fa smettere di leggere.
+  const quantiConQuestoNome = new Map();
+  for (const f of citazioni.keys()) {
+    const b = basenameSemplice(f);
+    quantiConQuestoNome.set(b, (quantiConQuestoNome.get(b) || 0) + 1);
+  }
+  const nomeDistintivo = (b) => (quantiConQuestoNome.get(basenameSemplice(b)) || 0) <= 1;
+
   const nominano = (bersagli) => {
     const fuori = new Map();
     for (const [chi, nomi] of citazioni) {
       for (const b of bersagli) {
         if (chi === b) continue;
-        if (nomi.has(b) || nomi.has(basenameSemplice(b))) {
+        const rotta = aliasDiRotta(b);
+        if (rotta && [].concat(rotta).some((x) => nomi.has(x))) {
+          if (!fuori.has(b)) fuori.set(b, []);
+          fuori.get(b).push(chi);
+          continue;
+        }
+        if (nomi.has(b) || (nomeDistintivo(b) && nomi.has(basenameSemplice(b)))) {
           if (!fuori.has(b)) fuori.set(b, []);
           fuori.get(b).push(chi);
         }
