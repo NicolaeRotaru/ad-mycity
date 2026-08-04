@@ -1,8 +1,31 @@
 ---
 tipo: stato
-aggiornato: 2026-08-03 22:55
+aggiornato: 2026-08-04 12:00
 fonte: AD digitale (chat)
 ---
+
+> 🕛 **4/8 12:00 — PUNTO DI MEZZOGIORNO: business invariato, 1 correzione vera.**
+> Riconfermato via `delta-gate.json` (firma identica al giro delle 11:30): ordini=1 (mai pagato), profili=7,
+> prodotti=5, stallo North Star **41 giorni**, pausa concordata fino al 24/8-1/9.
+>
+> **Le 3 priorità di stamattina, a che punto sono:**
+> 1. ❌ **Riavvio del giro sul VPS** (card `#macchina-ferma-da-quattro-giorni`) — ancora nessuna conferma di Nicola. Segnale indiretto: il sorvegliante anti-silenzio e il cantiere hanno continuato a scrivere fino alle 11:34, ma questo non prova che sia il timer `mycity-giro.service` (potrebbero essere sessioni di chat) — `systemctl`/`journalctl` restano bloccati da qui.
+> 2. ✅ **Merge PR #635 — GIÀ FATTO.** Era in coda come "in attesa" da 5 giorni per un fatto vecchio: verificato ora con `git merge-base --is-ancestor` che è su `main` dal 30/7 13:26. Corretto in [[AZIONI-IN-ATTESA]] e `CHECKLIST-NICOLA.md`.
+> 3. ❌ **Pulizia rami GitHub / modo di chiudere le PR** (righe #7/#8 in coda) — nessuna decisione di Nicola.
+>
+> **Correzione di rotta:** trovata e chiusa una card-zombie (PR #635) — lavoro già fatto che la coda continuava a chiedere. Stesso pattern già visto su PI26/piano-squadra il 30/7: una riga scritta com'era vera in un momento, mai ricontrollata dopo.
+>
+> **Serve da Nicola entro sera:** ① conferma se hai lanciato i 3 comandi sul VPS (o dimmi che non ancora) ② una parola sulla pulizia dei 447 rami e su squash-vs-merge-normale (righe #7/#8).
+
+> 📋 **4/8 11:30 — GIRO COMPLETO: 5 giorni senza un giro formale, ma la macchina non si era fermata.** Business INVARIATO: 1 ordine (PENDING, mai pagato, 24/6), 0 pagati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli abbandonati. Stallo North Star: **41 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non è churn.
+>
+> **Cosa è successo nei 5 giorni di silenzio.** Il timer del giro sul VPS si era bloccato. La causa: uno spazio d'indentazione sbagliato in `apprendimento.json` (**AR-530**), che faceva fallire il guardiano di forma e quindi il commit. Il fix è nella **PR #665, mergiata oggi alle 05:23**. Dopo quella PR sono arrivati altri 5 merge di cantiere, fino alle 10:57: freni nuovi (pre-scrittura, intento-turno, cancello-senior, memoria-guardia) e la correzione di un guardiano che gridava falsi positivi 5 volte su 6.
+>
+> **Cosa ho riparato in questo passaggio: 4 controlli scaduti.** `freschezza-cadenze` — `auto-analisi.json` e `registro-realta.json` erano fermi dal 30/7, riscritti. `CHECKLIST-NICOLA.md` — ferma dal 30/7, oltre il limite di 2 giorni, rigenerata dalle voci vere in coda. `OKR-Squadra.md` — fermo dal 23/7, oltre il limite di 7 giorni, stallo aggiornato a 41 giorni. Voto di fiducia: **89→80**. Non è un errore di oggi: è il conto dei 5 giorni ciechi.
+>
+> **Cosa NON so da qui:** se Nicola ha già lanciato i 3 comandi sul server per confermare il riavvio del timer (card `#macchina-ferma-da-quattro-giorni`, ancora "in attesa"). `systemctl` e `journalctl` restano bloccati in questa sessione. Anche `node cervello/*.mjs` resta bloccato, come in ~15 sessioni precedenti.
+>
+> **Mossa n.1:** conferma il riavvio del giro sul VPS. Briefing: [[Briefing/2026-08-04]].
 
 > 👁️ **3/8 22:55 — SORVEGLIANTE: sei richieste di Nicola in un turno, e la guardia che ha preso me.**
 > La guardia in tempo reale adesso controlla **undici cose** mentre lavoro, non otto.
@@ -51,11 +74,21 @@ fonte: AD digitale (chat)
 > fermata cinque volte in un giorno, e in 12 accuse su 23 aveva torto lui: tarato tre volte sul
 > lavoro vero.
 >
-> Difetti chiusi: AR-478, AR-480..AR-490. Aperto e chiuso per decisione di Nicola: AR-479 (le 4 ore
-> di lettura dei file quotidiani — «non voglio riscrivere niente»). Richiesta di unione #655.
+> Difetti chiusi: AR-478, AR-480..AR-490. Un difetto è stato aperto e chiuso per decisione di Nicola: AR-479, le 4 ore di lettura dei file quotidiani. Nicola: «non voglio riscrivere niente». Richiesta di unione #655.
 
 
-> 🩺 **3/8 17:38 — QUATTRO GIORNI DI LAVORO CHE NON SONO MAI ARRIVATI QUI — e questa riga la scrivo perché me l'ha ordinato un contatore che ho costruito oggi.** Dal 30/7 alle 11:09 (l'ultima riga qui sopra) a stamattina ho mergiato **una ventina di PR** e chiuso **una trentina di difetti**, e questo file non si è mosso di un minuto: tu aprivi la Cabina e leggevi numeri di giovedì. È la malattia che mi hai contestato in questi giorni, misurata per la prima volta: **su 263 consegne degli ultimi 30 giorni, 238 (il 90%) non hanno lasciato un esito dove tu leggi.** Il denominatore è onesto — 367 commit di manutenzione del server VPS sono esclusi e dichiarati, non nascosti. **Cosa è successo in quei quattro giorni.** *30/7:* riparato lo strumento che apre le PR (scambiava il proprio lavoro per quello di un altro, AR-451); messo un **sorvegliante che rivede mentre lavoro** invece che a fine corsa (#637); trovati i **cinque modi in cui leggevo un verde da un comando che stava fallendo** (#642); e AR-464, cioè che *verificare non deve costare un diff* — misurarmi mi sporcava l'albero e me ne sono accorto cinque volte in un giorno. *31/7:* **lo stallo del VPS chiuso alla radice** (quattro difetti, AR-467→470) e il GLOSSARIO di tutte le parole della macchina, perché metà delle mie spiegazioni erano incomprensibili. *1/8:* il **cancello dello Stop** (AR-472) — un freno sull'abitudine, non sulle sue istanze — e tu hai messo a mano il blocco `Stop` in `.claude/settings.json`: il primo tentativo lasciava il file JSON rotto (mancava una graffa: sarebbero morti *tutti* gli hook e il divieto sui `.env`) e scriveva `stop` minuscolo, che Claude butta in silenzio; la tua correzione delle 22:05 ha sistemato entrambi. *2/8:* AR-154 — **consegnare codice senza dire com'è andata adesso si ferma**. *3/8, oggi:* il **contatore** che ha prodotto la riga che stai leggendo (AR-474), i **tre buchi del freno di ieri** turati (AR-477: la prima riga di esito comprava il lasciapassare per tutto il ramo — l'ho scoperto provandolo dal vivo, non rileggendolo), un **guardiano sul file dove vivono i freni** (AR-475: nessuno sorvegliava `settings.json`, che può staccarli tutti), e il **verdetto organo per organo che ora arriva in Cabina** (AR-476) con la regola che non ammette sconti: **⚪ «non l'ho potuto vedere» non è mai un ✅.** Cantiere: **163 aperti · 252 chiusi**. **Business: invariato e non riletto.** Il sito è giù dal 30/7 08:20 per tua scelta (Render non rinnovato, si sposta su Vercel): gli ultimi numeri veri restano quelli delle 11:00 del 30/7 — 1 ordine annullato, 0 pagati, 5 prodotti, 7 profili — e li cito come ereditati, non come misurati oggi. **Cosa serve da te:** mergiare il lavoro di oggi e dire se il tetto delle consegne mute (238, scende e non risale) va portato a zero subito o per gradi. Fonte: `git log --first-parent` su `main` + `node cervello/conta-verdetti-muti.mjs` + `cantiere-difetti.json`.
+> 🩺 **3/8 17:38 — QUATTRO GIORNI DI LAVORO CHE NON SONO MAI ARRIVATI QUI.** Scrivo questa riga perché me l'ha ordinato un contatore che ho costruito oggi. Dal 30/7 alle 11:09 (l'ultima riga qui sopra) a stamattina ho mergiato **una ventina di PR** e chiuso **una trentina di difetti**, e questo file non si è mosso di un minuto: tu aprivi la Cabina e leggevi numeri di giovedì. È la malattia che mi hai contestato in questi giorni, misurata per la prima volta: **su 263 consegne degli ultimi 30 giorni, 238 (il 90%) non hanno lasciato un esito dove tu leggi.** Il denominatore è onesto: 367 commit di manutenzione del server VPS sono esclusi e dichiarati, non nascosti.
+>
+> **Cosa è successo in quei quattro giorni.**
+> *30/7:* riparato lo strumento che apre le PR, che scambiava il proprio lavoro per quello di un altro (AR-451). Messo un **sorvegliante che rivede mentre lavoro**, invece che a fine corsa (#637). Trovati i **cinque modi in cui leggevo un verde da un comando che stava fallendo** (#642). E AR-464: *verificare non deve costare un diff* — misurarmi mi sporcava l'albero, e me ne sono accorto cinque volte in un giorno.
+> *31/7:* **lo stallo del VPS chiuso alla radice** (quattro difetti, AR-467→470) e il GLOSSARIO di tutte le parole della macchina, perché metà delle mie spiegazioni erano incomprensibili.
+> *1/8:* il **cancello dello Stop** (AR-472), un freno sull'abitudine e non sulle sue istanze. Tu hai messo a mano il blocco `Stop` in `.claude/settings.json`: il primo tentativo lasciava il file JSON rotto (mancava una graffa: sarebbero morti *tutti* gli hook e il divieto sui `.env`) e scriveva `stop` minuscolo, che Claude butta in silenzio. La tua correzione delle 22:05 ha sistemato entrambi.
+> *2/8:* AR-154 — **consegnare codice senza dire com'è andata adesso si ferma**.
+> *3/8, oggi:* il **contatore** che ha prodotto la riga che stai leggendo (AR-474). I **tre buchi del freno di ieri** turati: AR-477, la prima riga di esito comprava il lasciapassare per tutto il ramo — l'ho scoperto provandolo dal vivo, non rileggendolo. Un **guardiano sul file dove vivono i freni** (AR-475: nessuno sorvegliava `settings.json`, che può staccarli tutti). E il **verdetto organo per organo che ora arriva in Cabina** (AR-476), con la regola che non ammette sconti: **⚪ «non l'ho potuto vedere» non è mai un ✅.**
+>
+> Cantiere: **163 aperti · 252 chiusi**. **Business: invariato e non riletto.** Il sito è giù dal 30/7 08:20 per tua scelta (Render non rinnovato, si sposta su Vercel). Gli ultimi numeri veri restano quelli delle 11:00 del 30/7 — 1 ordine annullato, 0 pagati, 5 prodotti, 7 profili — e li cito come ereditati, non come misurati oggi.
+>
+> **Cosa serve da te:** mergiare il lavoro di oggi, e dire se il tetto delle consegne mute (238, scende e non risale) va portato a zero subito o per gradi. Fonte: `git log --first-parent` su `main` + `node cervello/conta-verdetti-muti.mjs` + `cantiere-difetti.json`.
 
 > 🔁 **30/7 11:09 — GIRO RIPETUTO (richiesto in chat, 6° passaggio della giornata) — business ANCORA INVARIATO, riparati 3 gate reali.** Business ereditato dai passaggi 06:30/06:37/08:25/10:25 (tutti identici cifra per cifra: `ordini=1, pagati=0, consegnati=0, prodotti=5, profili=7, recensioni=0, carrelli=3`), nessuna 5ª query pesante ([[playbook-giro-pieno-ripetuto-strategia]], AR-113). Il gate `freschezza-cadenze` segnalava che il passaggio delle 10:27 era uscito senza riscrivere `auto-analisi.json` — riparato, e in più trovati/riparati: un contratto JSON violato (`salute_macchina` con un campo fuori dai 4 canonici), un freno finto (la lezione L-2026-0730-530 dichiarava attivo un gate il cui fix — PR #635 — non è mai stato mergiato su main, verificato con `git merge-base`), e un gap di chiusura-loop (@intelligence senza ESITO per il lavoro delle 08:52). `node cervello/*.mjs`/`python3`/`gh` restano bloccati in Bash in questa sessione. Nessuna azione nuova verso il marketplace: le priorità restano quelle di tutta la giornata (dentro/fuori ordine test PQ, merge PR #633/#635, Vercel Authentication, ok su `#permessi-senza-jolly`). Briefing: [[Briefing/2026-07-30]].
 
