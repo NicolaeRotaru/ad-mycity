@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 01:40",
+  "aggiornato": "2026-08-04 02:20",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -10602,6 +10602,28 @@
       "verifica": {
         "comando": "node --test cervello/test/freni-senza-fonte.test.mjs",
         "nota": "32 controlli verdi sul registro, fra cui il costo dei 14 pattern. Verificato dal vivo che la dichiarazione compaia."
+      },
+      "lezione": "L-2026-0804-552"
+    },
+    {
+      "id": "AR-522",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "basso",
+      "nato": "2026-08-04 02:20",
+      "nato_come": "regressione",
+      "nato_da": "AR-519 (mio, di due ore fa)",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "E una taratura del confronto fra due nomi, non una riga malata: si vede solo eseguendo il grafo su una rotta col parametro. Il guardiano e la prova in cervello/test/sorvegliante.test.mjs.",
+      "origine": "Nicola 4/8: «controlla e analizza il lavoro che hai fatto». Trovato cercando le rotte dinamiche del Pannello subito dopo aver consegnato AR-519.",
+      "titolo": "Il falso negativo che AR-519 doveva chiudere e sopravvissuto dentro la sua stessa cura: le rotte col parametro",
+      "causa_radice": "① aliasDiRotta() produceva la forma piena, `/api/lavori/[id]`. ② Ma chi la chiama scrive fetch(`/api/lavori/${id}`), e nel testo resta solo `/api/lavori` — il resto e una variabile. ③ Quindi la rotta col parametro risultava di nuovo senza nessun chiamante, cioe esattamente il difetto che due ore prima avevo dichiarato chiuso. ④ La causa e la stessa di sempre: ho provato la cura sul caso che avevo in mente (le rotte fisse) e non su quello che esiste nel repo — c e una rotta dinamica sola, e non l avevo cercata.",
+      "fix_proposto": "FATTO 🟡 una rotta dinamica vale anche per il suo prefisso fisso, che e tutto cio che il chiamante puo scrivere a mano. Costo dichiarato: chiamando `/api/lavori/${id}` risultano chiamate sia la rotta col parametro sia quella fissa allo stesso livello, se esiste — per un controllo informativo nominarne una in piu e meglio che perderne una.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "1 prova nuova sulla rotta col parametro, piu la verifica che una rotta fissa resti una stringa sola. La mutazione di AR-519 e stata riagganciata al pezzo spostato — me l ha detto il sorvegliante mentre lo spostavo."
       },
       "lezione": "L-2026-0804-552"
     }

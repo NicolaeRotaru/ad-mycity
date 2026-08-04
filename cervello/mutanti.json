@@ -1607,7 +1607,7 @@
    "lezione": "L-2026-0804-552",
    "nome": "la rotta API torna invisibile: chi la chiama col fetch non conta piu",
    "file": "cervello/sorvegliante.mjs",
-   "cerca": "        if (rotta && nomi.has(rotta)) {",
+   "cerca": "        if (rotta && [].concat(rotta).some((x) => nomi.has(x))) {",
    "sostituisci": "        if (false) {",
    "test": "node --test cervello/test/sorvegliante.test.mjs"
   },

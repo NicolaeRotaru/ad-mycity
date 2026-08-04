@@ -1081,7 +1081,16 @@ export function nomiCitati(testo = "") {
  */
 export function aliasDiRotta(rel = "") {
   const m = String(rel).match(/^pannello\/src\/app\/(api\/.+)\/route\.(?:m?js|ts|tsx)$/);
-  return m ? `/${m[1]}` : null;
+  if (!m) return null;
+  const pieno = `/${m[1]}`;
+  // LA ROTTA COL PARAMETRO (AR-522). `api/lavori/[id]/route.ts` risponde a `/api/lavori/<qualcosa>`,
+  // e chi la chiama scrive `fetch(\`/api/lavori/${id}\`)`: nel testo resta solo `/api/lavori`, perché
+  // il resto è una variabile. Confrontando la sola forma piena quella rotta risultava senza nessun
+  // chiamante — cioè il falso negativo che AR-519 doveva chiudere, sopravvissuto dentro la sua cura.
+  // Quindi una rotta dinamica vale anche per il suo prefisso fisso, che è tutto ciò che il chiamante
+  // può scrivere a mano.
+  const prefisso = pieno.split("/[")[0];
+  return prefisso !== pieno ? [pieno, prefisso] : pieno;
 }
 
 /** Le cartelle dove «chi mi nomina» è una dipendenza che si può rompere. La memoria no: lì gli
@@ -1121,7 +1130,7 @@ export function raggioDueP1assi(cercati = [], citazioni = new Map()) {
       for (const b of bersagli) {
         if (chi === b) continue;
         const rotta = aliasDiRotta(b);
-        if (rotta && nomi.has(rotta)) {
+        if (rotta && [].concat(rotta).some((x) => nomi.has(x))) {
           if (!fuori.has(b)) fuori.set(b, []);
           fuori.get(b).push(chi);
           continue;

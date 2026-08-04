@@ -1019,3 +1019,18 @@ test("⑤ l'indirizzo di una rotta si deduce dalla convenzione, non si indovina"
   assert.equal(aliasDiRotta("pannello/src/app/page.tsx"), null, "una pagina normale non è una rotta API");
   assert.equal(aliasDiRotta("cervello/sorvegliante.mjs"), null);
 });
+
+test("⑤ una rotta col parametro la si chiama con una variabile: vale anche il suo prefisso (AR-522)", () => {
+  // Trovato attaccando la cura di AR-519: `api/lavori/[id]/route.ts` risponde a `/api/lavori/<x>`, e
+  // chi la chiama scrive fetch(`/api/lavori/${id}`) — nel testo resta solo `/api/lavori`. Confrontando
+  // la sola forma piena, quella rotta risultava di nuovo senza chiamanti: il falso negativo che
+  // AR-519 doveva chiudere, sopravvissuto dentro la sua stessa cura.
+  assert.deepEqual(aliasDiRotta("pannello/src/app/api/lavori/[id]/route.ts"), ["/api/lavori/[id]", "/api/lavori"]);
+  assert.equal(aliasDiRotta("pannello/src/app/api/anomalie/route.ts"), "/api/anomalie", "una rotta fissa resta una stringa sola");
+  const citazioni = new Map([
+    ["pannello/src/components/Lavori.tsx", nomiCitati("await fetch(`/api/lavori/${encodeURIComponent(id)}`)")],
+    ["pannello/src/app/api/lavori/[id]/route.ts", new Set()],
+  ]);
+  const r = raggioDueP1assi(["pannello/src/app/api/lavori/[id]/route.ts"], citazioni).get("pannello/src/app/api/lavori/[id]/route.ts");
+  assert.deepEqual(r.diretti, ["pannello/src/components/Lavori.tsx"]);
+});
