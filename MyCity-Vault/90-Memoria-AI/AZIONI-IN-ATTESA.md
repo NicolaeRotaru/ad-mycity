@@ -1101,3 +1101,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 ---
 
 <!-- prevenzione-a-monte -->
+| 9 | 2026-08-04 17:57 | @tech | Merge PR #677 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/677 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
