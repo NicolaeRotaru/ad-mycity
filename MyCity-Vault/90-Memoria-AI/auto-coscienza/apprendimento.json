@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-04 17:37",
+ "aggiornato": "2026-08-04 17:47",
  "lezioni": [
   {
    "id": "L-2026-0804-01",
@@ -11247,6 +11247,26 @@
    ],
    "gate": "node --test cervello/test/sorvegliante.test.mjs",
    "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0804-02",
+   "testo": "**Un messaggio breve di Nicola in una casella del Pannello ('la casella parte troncata') È GIÀ la segnalazione completa — non un campo vuoto o rumore di sistema (Nicola 4/8 17:36, «perché non avevi capito a cosa mi riferivo?», dopo che l'AD ha risposto «non vedo un messaggio vero da parte tua» e ha chiesto cosa voleva sapere).** Causa radice: il payload della casella conteneva sia il messaggio nuovo di Nicola sia una nota tecnica di sistema ('(troncato, mostro la parte più recente)') incollata nel contenuto pregresso — l'AD ha letto la nota tecnica come tutto il contenuto e non ha isolato la frase corta di Nicola come segnale a sé. La frase era già precisa e verificabile (la card 'Sala Operativa' mostra davvero un avviso di troncamento incollato dentro il testo, non come riga separata — causa reale trovata: file vault a 148k caratteri, Pannello mostra solo le ultime 6.000). Regola: quando in un turno compaiono sia una nota tecnica automatica sia una frase corta scritta da Nicola, trattare SEMPRE la frase di Nicola come la segnalazione da investigare per prima — non chiedere «cosa vuoi sapere» quando la domanda implicita (perché si vede troncato) è già nel messaggio.",
+   "tag": [
+    "casella-pannello",
+    "messaggio-corto-e-segnalazione",
+    "sala-operativa",
+    "troncamento",
+    "lettura-richiesta"
+   ],
+   "reparto": "@ad",
+   "confidenza": 0.85,
+   "evidenze": 1,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-04",
+   "ultima_conferma": "2026-08-04 17:40",
+   "stato": "attiva",
+   "usi": []
   }
  ],
  "principi": [
@@ -12966,19 +12986,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 501,
+  "lezioni_attive": 502,
   "promosse_a_principio": 87,
   "decadute": 0,
   "tasso_applicazione": 0.18,
-  "tasso_calcolato_il": "2026-08-04 17:37",
+  "tasso_calcolato_il": "2026-08-04 17:47",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-04 17:37",
+  "tick_leggero_il": "2026-08-04 17:47",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
   "cristallizzazione_ultima": "2026-08-04 12:12",
-  "lezioni_totali": 507,
+  "lezioni_totali": 508,
   "lezioni_per_stato": {
-   "attiva": 410,
+   "attiva": 411,
    "principio": 87,
    "in-prova": 5,
    "decaduta": 0,
