@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 00:45",
+  "aggiornato": "2026-08-04 00:25",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -10522,6 +10522,28 @@
       "verifica": {
         "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs"
       }
+    },
+    {
+      "id": "AR-518",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 00:25",
+      "nato_come": "regressione",
+      "nato_da": "AR-509 e AR-508 (miei, del 3/8) e AR-511",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "Sono tre tarature sbagliate, non tre righe malate: si vedono solo eseguendo la funzione con gesti veri. Il guardiano che le copre sono le prove in cervello/test/sorvegliante.test.mjs e scritture-e-riaccodi.test.mjs, piu le 4 mutazioni.",
+      "origine": "Nicola 4/8: «adesso fai un analisi attenta, completa e profonda su tutto il lavoro che hai fatto», poi «risolvi i 3 difetti». Trovati attaccando le mie stesse funzioni con i gesti che una persona fa davvero, non rileggendo il codice.",
+      "titolo": "Tre tarature sbagliate nei freni che avevo appena costruito: una bloccava il lavoro pulito",
+      "causa_radice": "① ⑪ prova-indebolita guardava il GESTO (ho tolto una riga con un assert) invece del SALDO (quanti casi prova il file prima e dopo). Ma per un diff sostituire una riga e toglierne una e aggiungerne un altra: quindi rinominare una variabile in un test, riscrivere il messaggio di un asserzione, cancellare una prova obsoleta o spostare un caso in un altro file uscivano tutti GRAVI e BLOCCAVANO il commit. Un freno che si accende sul lavoro pulito e il freno che si impara ad aggirare — e chi impara --no-verify salta nello stesso gesto lo scan dei segreti e il perimetro di main. ② Lo stesso controllo aveva il buco gemello: commentare un asserzione invece di toglierla non lo vedeva. ③ Il raggio (⑤) confrontava anche il solo nome del file: nel Pannello ci sono 76 route.ts, e toccarne uno dava «22 dipendenti diretti», fra cui guardiani che nominano route.ts come pattern e il registro delle malattie. ④ E il freno sulla forma dei JSON (AR-511) girava a ogni commit mentre la scrittura di casa imponeva due spazi: un solo script che avesse riscritto un registro compatto avrebbe bloccato il commit automatico del worker (git-pr.mjs committa senza --no-verify e su errore esce 1). Rischio non riprodotto, ma la radice era li.",
+      "fix_proposto": "FATTO 🟡 ① provaIndebolita() conta il saldo delle righe che reggono una prova (tolte − messe), parla solo se negativo, e passa le aggiunte da senzaCommenti — che chiude anche il buco ②. ③ nel raggio il nome corto vale solo se e distintivo (mappa basename→quanti file lo portano); il percorso completo vale sempre. ④ scriviJsonAtomico() legge l indentazione dal file che trova e la conserva (due spazi restano il default per i file nuovi): il freno della forma non puo piu fermare il worker.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "5 prove nuove sui gesti legittimi che prima bloccavano, sul saldo negativo che deve parlare, sull assert commentato, e sul nome non distintivo. Piu 3 prove in scritture-e-riaccodi.test.mjs sulla forma conservata. 4 mutazioni verificate rosse."
+      },
+      "lezione": "L-2026-0804-551"
     }
   ],
   "meta": {

@@ -23,7 +23,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
-const { scriviJsonAtomico, scriviTestoAtomico, nomeTemporaneo, testoJson } = await import(join(QUI, "..", "scrivi-json.mjs"));
+const { scriviJsonAtomico, scriviTestoAtomico, nomeTemporaneo, testoJson, indentEsistente } = await import(join(QUI, "..", "scrivi-json.mjs"));
 const { decidiOrfano, MAX_RIACCODI_ORFANO } = await import(join(QUI, "..", "retry-policy.mjs"));
 
 const conCartella = (fn) => {
@@ -164,3 +164,38 @@ test("la sentinella legge e scrive davvero il contatore", async () => {
   assert.match(src, /select=id,tipo,updated_at,created_at,tentativi/, "senza `tentativi` nel select il contatore è cieco");
   assert.match(src, /stato: "in_attesa", tentativi: d\.tentativi/, "il PATCH deve scrivere anche il contatore");
 });
+
+// ── AR-512: la forma del file che c'è già vince sulla mia ──────────────────────
+//
+// Il rischio che questo chiude, misurato il 4/8: dal 3/8 il pre-commit rifiuta un JSON riscritto con
+// un'indentazione diversa. Il worker sul server committa da solo e NON salta gli hook (git-pr.mjs
+// fa `git commit` e su errore esce 1): un solo script che riscrivesse un registro con la forma
+// sbagliata avrebbe fermato la pubblicazione della memoria. Bloccare un commit automatico non ripara
+// niente — sposta il guasto un piano più in là.
+
+test("la scrittura atomica conserva l'indentazione del file che trova", () =>
+  conCartella((d) => {
+    const f = join(d, "registro.json");
+    writeFileSync(f, JSON.stringify({ voci: [{ id: "A" }] }, null, 1) + "\n"); // il file di casa: UNO spazio
+    scriviJsonAtomico(f, { voci: [{ id: "A" }, { id: "B" }] });
+    const dopo = readFileSync(f, "utf8");
+    assert.equal(dopo.split("\n")[1].match(/^ +/)[0].length, 1, "un solo spazio, come il file di prima");
+    assert.deepEqual(JSON.parse(dopo).voci.length, 2, "e il contenuto nuovo c'è");
+  }));
+
+test("un file NUOVO nasce a due spazi: è la forma di casa", () =>
+  conCartella((d) => {
+    const f = join(d, "nuovo.json");
+    scriviJsonAtomico(f, { a: { b: 1 } });
+    assert.equal(readFileSync(f, "utf8").split("\n")[1].match(/^ +/)[0].length, 2);
+  }));
+
+test("l'indentazione si LEGGE dal file, non si suppone", () =>
+  conCartella((d) => {
+    const f = join(d, "tab.json");
+    writeFileSync(f, '{\n\t"a": 1\n}\n');
+    assert.equal(indentEsistente(f), "\t", "un file a tabulazioni resta a tabulazioni");
+    assert.equal(indentEsistente(join(d, "mai-esistito.json")), null, "un file che non c'è non ha una forma da conservare");
+    writeFileSync(f, '{"tuttoSuUnaRiga": 1}\n');
+    assert.equal(indentEsistente(f), null, "e nemmeno un file senza a-capo");
+  }));

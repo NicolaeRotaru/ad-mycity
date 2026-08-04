@@ -585,15 +585,15 @@ export function sorveglia({
       }
     }
 
-    // ⑪ la prova indebolita mentre il codice resta com'era (AR-509).
-    const ind = provaIndebolita({ file, rimosse, toccati: toccati.map((t) => t.file), esiste });
+    // ⑪ la prova indebolita mentre il codice resta com'era (AR-509, tarata col saldo in AR-512).
+    const ind = provaIndebolita({ file, rimosse, aggiunte: aggiunteQui, toccati: toccati.map((t) => t.file), esiste });
     if (ind) {
       voci.push({
         classe: "prova-indebolita",
         gravita: "grave",
         file,
         riga: ind.esempio,
-        cosa: `ho tolto ${ind.quante} riga/e di prova da qui e non ho toccato ${ind.difeso}`,
+        cosa: `questo file adesso prova ${ind.quante} caso/i in meno (${ind.tolte} tolti, ${ind.messe} messi) e non ho toccato ${ind.difeso}`,
         perche: "far tornare verde il termometro non cura la febbre. Un test cancellato per intero lo vede il controllo ⑥; un'asserzione tolta dentro un file che resta vivo non la vedeva nessuno — e il conto delle prove resta identico.",
         domanda: "quel caso non serviva più perché il codice è cambiato (ma allora il codice dov'è?), o l'ho tolto perché era rosso?",
       });
@@ -718,20 +718,43 @@ export function fileDifeso(test = "") {
   return m ? `${m[1]}/${m[2]}.${m[3]}` : null;
 }
 
+/** Una riga che REGGE una prova: un'asserzione o l'apertura di un caso. `senzaCommenti` prima, o una
+ *  riga commentata varrebbe quanto una viva — ed è il modo più comodo di spegnere un controllo. */
+export const REGGE_UNA_PROVA = /\bassert\b|\bexpect\(|\btest\(|\bit\(|\bdescribe\(/;
+export function conta(righe = [], file = "") {
+  return righe.filter((r) => REGGE_UNA_PROVA.test(senzaCommenti(r.testo, file))).length;
+}
+
 /**
  * ⑪ Ho indebolito la prova invece di riparare il codice?
  *
- * Vero solo se: righe TOLTE da un file di prova (aggiungerne è sano), il file difeso esiste, e in
- * questo delta non l'ho toccato. Le righe tolte devono contenere un'asserzione o un caso: spostare
- * un commento o rinominare una variabile dentro un test non è indebolire niente.
+ * IL SALDO, NON IL GESTO (AR-512, 4/8 — riparazione di un difetto mio del 3/8). La prima stesura
+ * guardava le righe TOLTE: «hai rimosso una riga con un assert e non hai toccato il codice». Sembrava
+ * giusto e non lo era, perché per chi legge un diff **sostituire** una riga è toglierne una e
+ * aggiungerne un'altra. Risultato misurato attaccando la mia stessa funzione: quattro gesti del tutto
+ * legittimi finivano ❌ e BLOCCAVANO il commit —
+ *   · rinominare una variabile dentro un file di prova;
+ *   · riscrivere il messaggio di un'asserzione;
+ *   · cancellare una prova vecchia insieme alla cosa che provava;
+ *   · spostare un caso da un file di prova a un altro.
+ * Un freno grave che si accende sul lavoro pulito è il freno che si impara ad aggirare — e chi impara
+ * `--no-verify` salta nello stesso gesto lo scan dei segreti e il perimetro di main.
+ *
+ * Adesso conta: quante righe che reggono una prova ho tolto, quante ne ho messe. Parla solo se il
+ * SALDO è negativo, cioè se dopo la mia modifica quel file prova di meno. E le aggiunte passano da
+ * `senzaCommenti`, altrimenti commentare un'asserzione invece di toglierla — che era il buco gemello,
+ * scoperto nello stesso attacco — la farebbe contare come ancora viva.
  */
-export function provaIndebolita({ file = "", rimosse = [], toccati = [], esiste = () => true } = {}) {
+export function provaIndebolita({ file = "", rimosse = [], aggiunte = [], toccati = [], esiste = () => true } = {}) {
   const difeso = fileDifeso(file);
   if (!difeso || !esiste(difeso)) return null;
   if (toccati.includes(difeso)) return null;
-  const sostanziali = rimosse.filter((r) => /\bassert\b|\bexpect\(|\btest\(|\bit\(|\bdescribe\(/.test(r.testo));
-  if (!sostanziali.length) return null;
-  return { difeso, quante: sostanziali.length, esempio: sostanziali[0].n };
+  const tolte = conta(rimosse, file);
+  const messe = conta(aggiunte, file);
+  const saldo = tolte - messe;
+  if (saldo <= 0) return null;
+  const esempio = rimosse.find((r) => REGGE_UNA_PROVA.test(senzaCommenti(r.testo, file)));
+  return { difeso, quante: saldo, tolte, messe, esempio: esempio ? esempio.n : null };
 }
 
 /** Le voci che fanno rosso. `raggio` non è un errore (è il quadro), `media` è un avviso che si legge. */
@@ -1021,12 +1044,25 @@ export const eCodice = (rel = "") => !rel.includes("/") || CARTELLE_CODICE.some(
  * Il limite va DETTO, non nascosto: è scritto nella copertura dichiarata in testa al file.
  */
 export function raggioDueP1assi(cercati = [], citazioni = new Map()) {
+  // IL NOME CORTO VALE SOLO SE E' UNICO (AR-512, riparazione di un difetto mio del 3/8). Il confronto
+  // sul solo basename e' quello che fa vedere i legami non dichiarati — `join(QUI, "x.mjs")` — ma
+  // quando quel nome ce l'hanno in settanta, non identifica piu niente: misurato, nel Pannello ci
+  // sono 76 file chiamati `route.ts`, e toccarne uno faceva risultare «22 dipendenti diretti»,
+  // fra cui guardiani che nominano `route.ts` come pattern e perfino il registro delle malattie.
+  // Un raggio gonfiato non e' un errore che blocca: e' rumore, e il rumore fa smettere di leggere.
+  const quantiConQuestoNome = new Map();
+  for (const f of citazioni.keys()) {
+    const b = basenameSemplice(f);
+    quantiConQuestoNome.set(b, (quantiConQuestoNome.get(b) || 0) + 1);
+  }
+  const nomeDistintivo = (b) => (quantiConQuestoNome.get(basenameSemplice(b)) || 0) <= 1;
+
   const nominano = (bersagli) => {
     const fuori = new Map();
     for (const [chi, nomi] of citazioni) {
       for (const b of bersagli) {
         if (chi === b) continue;
-        if (nomi.has(b) || nomi.has(basenameSemplice(b))) {
+        if (nomi.has(b) || (nomeDistintivo(b) && nomi.has(basenameSemplice(b)))) {
           if (!fuori.has(b)) fuori.set(b, []);
           fuori.get(b).push(chi);
         }

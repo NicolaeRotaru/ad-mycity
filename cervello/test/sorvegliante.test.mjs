@@ -30,6 +30,7 @@ import {
   nomiCitati,
   classeRimasta,
   provaIndebolita,
+  conta,
   fileDifeso,
   raggioDueP1assi,
   eCodice,
@@ -919,4 +920,69 @@ test("i due giudizi arrivano al verdetto, con il colore giusto", () => {
   assert.ok(pv, "⑪ deve comparire");
   assert.equal(pv.gravita, "grave", "spegnere una prova senza toccare il codice ferma il commit");
   assert.equal(gravi(p.voci).length, 1);
+});
+
+// ── AR-512: le due tarature sbagliate del 3/8, trovate attaccando il mio stesso lavoro ─────────
+//
+// Nicola, 4/8: «risolvi i 3 difetti». Questi sono i primi due — e non li ha trovati una rilettura,
+// li ha trovati un attacco: chiamare le mie funzioni con i gesti che una persona fa davvero.
+
+test("⑪ IL SALDO, NON IL GESTO: rinominare una variabile in un test non e' indebolire", () => {
+  // Sostituire una riga, per un diff, e' toglierne una e aggiungerne un'altra. Con la regola vecchia
+  // questi quattro casi uscivano GRAVI e bloccavano il commit.
+  const casi = [
+    ["rinomino una variabile", [{ n: 5, testo: "  assert.equal(atteso, 2);" }], [{ n: 5, testo: "  assert.equal(risultato, 2);" }]],
+    ["riscrivo il messaggio dell'asserzione", [{ n: 9, testo: '  assert.equal(a, b, "vecchio");' }], [{ n: 9, testo: '  assert.equal(a, b, "piu chiaro");' }]],
+    ["sposto un caso piu in alto nel file", [{ n: 3, testo: "  assert.ok(x);" }], [{ n: 1, testo: "  assert.ok(x);" }]],
+  ];
+  for (const [nome, rimosse, aggiunte] of casi) {
+    const r = provaIndebolita({ file: "cervello/test/salute.test.mjs", rimosse, aggiunte, toccati: ["cervello/test/salute.test.mjs"], esiste: () => true });
+    assert.equal(r, null, `${nome}: il saldo e' zero, qui non si e' indebolito niente`);
+  }
+});
+
+test("⑪ ma se il file prova DAVVERO di meno, parla e dice di quanto", () => {
+  const r = provaIndebolita({
+    file: "cervello/test/salute.test.mjs",
+    rimosse: [{ n: 5, testo: "  assert.equal(a, 1);" }, { n: 6, testo: "  assert.equal(b, 2);" }],
+    aggiunte: [{ n: 5, testo: "  assert.equal(a, 1);" }],
+    toccati: ["cervello/test/salute.test.mjs"],
+    esiste: () => true,
+  });
+  assert.equal(r.quante, 1, "due tolti, uno rimesso: il saldo e' uno");
+  assert.equal(r.tolte, 2);
+  assert.equal(r.messe, 1);
+});
+
+test("⑪ commentare un'asserzione invece di toglierla NON la salva (il buco gemello)", () => {
+  const r = provaIndebolita({
+    file: "cervello/test/salute.test.mjs",
+    rimosse: [{ n: 5, testo: "  assert.equal(a, 1);" }],
+    aggiunte: [{ n: 5, testo: "  // assert.equal(a, 1);" }],
+    toccati: ["cervello/test/salute.test.mjs"],
+    esiste: () => true,
+  });
+  assert.ok(r, "una riga commentata non regge nessuna prova: il saldo resta negativo");
+  assert.equal(r.messe, 0);
+});
+
+test("⑤ un nome di file che ce l'hanno in settanta non identifica nessuno", () => {
+  // Misurato sul repo il 3/8: 76 file chiamati route.ts, e toccarne uno dava «22 dipendenti».
+  const citazioni = new Map([
+    ["pannello/src/app/api/a/route.ts", new Set(["route.ts"])],
+    ["pannello/src/app/api/b/route.ts", new Set(["route.ts"])],
+    ["cervello/guardiano.mjs", new Set(["route.ts"])], // lo nomina come pattern, non lo usa
+    ["cervello/vero-utente.mjs", new Set(["pannello/src/app/api/a/route.ts"])], // questo si', col percorso
+  ]);
+  const r = raggioDueP1assi(["pannello/src/app/api/a/route.ts"], citazioni).get("pannello/src/app/api/a/route.ts");
+  assert.deepEqual(r.diretti, ["cervello/vero-utente.mjs"], "solo chi lo nomina per intero");
+});
+
+test("⑤ …e il nome corto continua a valere quando e' unico: e' il legame che AR-508 doveva vedere", () => {
+  const citazioni = new Map([
+    ["cervello/sorvegliante.mjs", new Set(["spazzata-fratelli.mjs"])],
+    ["cervello/spazzata-fratelli.mjs", new Set()],
+  ]);
+  const r = raggioDueP1assi(["cervello/spazzata-fratelli.mjs"], citazioni).get("cervello/spazzata-fratelli.mjs");
+  assert.deepEqual(r.diretti, ["cervello/sorvegliante.mjs"], "un nome unico resta un legame");
 });

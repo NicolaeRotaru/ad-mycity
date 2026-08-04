@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-03 23:20",
+ "aggiornato": "2026-08-04 00:25",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -11120,6 +11120,29 @@
     "stessa forma il 30/7: +12.147/-12.124 su apprendimento.json"
    ],
    "gate": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+   "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0804-551",
+   "testo": "**Un freno nuovo va ATTACCATO, non riletto (4/8, richiesta di Nicola).** Avevo consegnato tre controlli con le loro prove e i loro mutanti, tutto verde. Poi Nicola ha chiesto un analisi profonda del mio lavoro: ho chiamato le mie stesse funzioni con i gesti che una persona fa davvero — rinominare una variabile in un test, riscrivere il messaggio di un asserzione, spostare un caso — e uno dei tre BLOCCAVA il commit su tutti e quattro. Le prove erano verdi perche provavano i casi che avevo in mente io. **La regola:** una prova dimostra che il codice fa quello che pensavo; solo un attacco dimostra che non fa quello che non pensavo. Su ogni freno nuovo, prima di consegnarlo, prova a farlo sbagliare in tutte e due le direzioni — falso allarme e buco — con gesti presi dal lavoro vero. **E il metro per tararlo:** guarda il SALDO, non il gesto. Per un diff sostituire una riga e toglierne una e aggiungerne un altra: chi conta i gesti accusa chi lavora pulito.",
+   "tag": [
+    "guardiani",
+    "taratura",
+    "falsi-positivi",
+    "auto-revisione"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-04 00:25",
+   "ultima_conferma": "2026-08-04 00:25",
+   "stato": "attiva",
+   "evidenze": [
+    "4 gesti legittimi su 4 bloccavano il commit prima del fix",
+    "76 route.ts nel Pannello → 22 falsi dipendenti su un file"
+   ],
+   "gate": "node --test cervello/test/sorvegliante.test.mjs",
    "gate_attivo": true
   }
  ],
