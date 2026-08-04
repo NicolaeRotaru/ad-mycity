@@ -1989,6 +1989,14 @@
    "cerca": "scriviJsonAtomico(APPR_PATH, appr);",
    "sostituisci": "writeFileSync(APPR_PATH, JSON.stringify(appr, null, 2) + \"\\n\", \"utf8\");",
    "test": "node --test cervello/test/porta-automatica-indentazione.test.mjs"
+  },
+  {
+   "lezione": "L-2026-0804-01",
+   "nome": "il guardiano smette di accorgersi che .claude/settings.json non è più negato in Edit/Write alla macchina",
+   "file": "cervello/permessi-check.mjs",
+   "cerca": "deve_negare: /\\.claude\\/settings\\.json/,",
+   "sostituisci": "deve_negare: /NESSUNA_CORRISPONDENZA_MAI_XYZ/,",
+   "test": "cervello/test/permessi-check.test.mjs"
   }
  ]
 }
