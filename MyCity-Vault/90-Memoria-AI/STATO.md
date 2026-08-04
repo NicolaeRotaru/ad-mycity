@@ -1,8 +1,19 @@
 ---
 tipo: stato
-aggiornato: 2026-08-04 12:20
+aggiornato: 2026-08-04 18:15
 fonte: AD digitale (chat)
 ---
+
+> 🌙 **4/8 18:15 — REPORT DELLA SERA: business invariato tutto il giorno, ma il pomeriggio ha chiuso il freno che mancava da 18 volte.**
+> Riconfermato dal vivo su Supabase (`execute_sql`, non da memoria): 1 ordine (mai pagato), 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli — identico a ogni lettura di oggi (11:30/12:00/12:20) e a ieri. North Star fermo a **41 giorni**, pausa concordata con Nicola fino al 24/8-1/9, non un allarme.
+>
+> **Il fatto del pomeriggio:** `#prevenzione-a-monte` (AR-533) è acceso e verificato verde alle 17:26. È il freno sulla correzione più ripetuta della macchina: 26 lezioni sullo stesso tema, mai diventata un freno automatico finora. Ora c'è un guardiano vero in `.claude/settings.json`, non solo una nota in memoria. Nicola ha incollato il blocco giusto al 3° tentativo — i primi due si sono rotti su virgole e parentesi annidate. Lezione: su `settings.json` si dà sempre il blocco JSON intero, mai un frammento.
+>
+> **Poi il worker ha riaperto lo stesso tipo di problema una terza volta:** falsi allarmi sul proprio lavoro ("casella parte troncata"). Il fix vero è nel `cancello-di-stop`, PR #677 aperta stasera. Nel pomeriggio è girata anche la riconciliazione automatica del cantiere: chiusi i difetti #663, #664, #667, #668, #669, #670, #672, #673, #674. Il cantiere passa da 163 a **161 aperti · 332 chiusi**.
+>
+> **Da approvare, in coda:** merge PR #677 (fix cancello-di-stop) · merge PR #679 (porta online tutta la memoria del pomeriggio) · decisione su pulizia rami GitHub/modo di chiudere le PR (righe #7/#8, ferme dal 3/8).
+>
+> Briefing completo: [[Briefing/2026-08-04]].
 
 > 🔁 **4/8 12:20 — GIRO ESEGUITO A MANO passo-passo su `cervello/giro.md`. Business ancora invariato. Un gate nuovo si è acceso ed è stato chiuso.**
 > Ho riletto i numeri veri su Supabase, in diretta, non da memoria. Sono identici a quelli già in `delta-gate.json`: 1 ordine (mai pagato), 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli. Il North Star resta fermo a **41 giorni**. È la pausa concordata con te fino al 24/8-1/9, non un allarme.

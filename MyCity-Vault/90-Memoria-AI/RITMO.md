@@ -1051,3 +1051,32 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - 🔴 Dimmi se hai lanciato i 3 comandi sul VPS per il riavvio del giro, o che non l'hai ancora fatto.
 - 🔴 Una parola sulla pulizia dei 447 rami e su squash-vs-merge-normale (righe #7/#8 in coda).
 - 🟡 Il resto della checklist di stamattina resta valido. Invariato.
+
+## Report della sera · 2026-08-04 18:15
+
+**Com'è andata oggi**
+- Business fermo tutto il giorno: stessi numeri di ieri, nessuna sorpresa nei dati.
+- Il freno automatico che mancava da 18 correzioni ripetute è acceso e verificato — non solo scritto, cablato davvero.
+- Il worker ha dato lo stesso falso allarme una terza volta, e stavolta il fix tocca la radice, non il sintomo.
+
+**I numeri**
+- 1 ordine (mai pagato), 0 consegnati, 5 prodotti, 7 clienti, 3 carrelli abbandonati — invariati.
+- Stallo del primo ordine vero: 41 giorni, pausa concordata con te fino a fine agosto.
+
+**Da approvare**
+- Metti online il fix del falso allarme del worker.
+- Metti online la memoria scritta oggi pomeriggio (non riesco a pubblicarla da sola in questa sessione).
+- Dimmi come vuoi chiudere i rami e le richieste di unione vecchie su GitHub — ferma da un giorno.
+
+**Lezione di oggi**
+- Quando ti chiedo di incollare un pezzo di configurazione, devo darti il blocco intero pronto, non due righe da inserire a mano — un frammento in un file annidato si rompe quasi sempre.
+
+**Domani**
+- Controllo che il fix di stasera tenga per tutta la notte, poi riprendo a chiudere il cantiere dei difetti.
+
+**Dettagli tecnici**
+- Fonte numeri: Supabase `execute_sql` diretto, 18:1x (ordini=1, payment_status paid=0, delivery_status delivered=0, profiles=7, products=5, reviews=0, abandoned_carts=3).
+- AR-533 (`#prevenzione-a-monte`) chiuso 17:26, verificato con `node cervello/mano-fermata.mjs --cablaggio`.
+- PR aperte da mergiare: #677 (cancello-di-stop, fix worker-concorrente 3ª manifestazione), #679 (memoria pomeriggio).
+- Cantiere: 161 aperti · 332 chiusi (era 163 aperti alle 12:20).
+- Card in coda invariate dal 3/8: #7 pulizia 447 rami GitHub, #8 modo di chiusura PR (squash vs merge normale).

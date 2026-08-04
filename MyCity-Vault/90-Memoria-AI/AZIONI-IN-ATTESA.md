@@ -1101,3 +1101,5 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 ---
 
 <!-- prevenzione-a-monte -->
+| 9 | 2026-08-04 17:57 | @tech | Merge PR #677 ad-mycity → main — fix vero del cancello-di-stop (i falsi allarmi sul lavoro del worker, 3ª manifestazione worker-concorrente) | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/677 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 10 | 2026-08-04 18:00 | @tech | Merge PR #679 ad-mycity → main — porta online anche tutti i commit di memoria di questo turno (17:50-18:00), non solo il sync di routing.json: origin/main non accetta push diretto da questa sessione, la PR è il veicolo | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/679 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. Mergiare #677 PRIMA o dopo non importa, sono indipendenti. |
