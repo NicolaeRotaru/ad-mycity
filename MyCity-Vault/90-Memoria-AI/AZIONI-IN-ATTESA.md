@@ -71,25 +71,12 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🔴 #macchina-ferma-da-quattro-giorni — Riallinea il server alla cura e fai ripartire il giro: tre comandi · ⏳ accodata 2026-08-04 03:10 · ✏️ aggiornata 2026-08-04 11:30
-
-> ✏️ **Aggiornamento 11:30 (giro completo, chat):** su `main` il lavoro è continuato fino alle 10:57 di oggi — 5 merge di cantiere dopo il tuo fix delle 05:23. Questo dice che qualcuno sta scrivendo, ma NON dice che il timer `mycity-giro.service` sia ripartito da solo: quei commit possono venire da sessioni di chat come questa, non necessariamente dal timer. Da qui non posso lanciare `systemctl`/`journalctl` per controllare. **Se hai già fatto i 3 comandi qui sotto, dimmelo e chiudo la card. Se non li hai ancora fatti, restano la mossa n.1 di oggi.**
-**Cosa cambia:** il tuo schermo delle 05:40 dice che il secondo avvio è fallito uguale al primo. Adesso sappiamo perché. Il tuo ultimo `git reset` è delle 04:14. La cura vera è arrivata su `main` alle 05:23, nove minuti dopo il tuo reset. Il server ha quindi rifatto il giro col codice vecchio. Ha riscritto di nuovo `apprendimento.json` con lo spazio sbagliato. Il guardiano della forma ha bloccato il commit, e il push è morto un'altra volta. Non hai sbagliato niente: era una corsa contro il merge.
-**Cosa devi fare tu, sul server (l'ultima volta):**
-```bash
-cd /opt/mycity/ad-mycity
-git stash push -u -m "giro delle 04 bloccato dallo spazio"
-git fetch origin main && git reset --hard origin/main
-sudo systemctl start mycity-giro.service
-```
-Il reset stavolta porta a bordo la cura (l'aiutante che conserva l'indentazione del file invece di imporre la sua): il giro riscrive `apprendimento.json` senza gonfiarlo, il commit passa, il push parte.
-**Come vedi che ha funzionato:** a fine giro `journalctl -u mycity-giro -n 20 --no-pager` NON deve più dire «COMMIT BLOCCATO» né «MEMORIA NON PUBBLICATA». E su GitHub `main` deve ricevere un commit di memoria nuovo. Se rivedi «COMMIT BLOCCATO», mandami lo schermo: vuol dire che c'è un secondo file malato oltre a quello curato.
-**Se va bene:** il Pannello torna a dire il vero. E da questa PR in poi non serve più il tuo occhio: se la memoria resta ferma oltre 12 ore, la home della Cabina lo grida da sola con un banner rosso.
-**Nota tecnica:** causa radice AR-530 (uno spazio di indentazione, PR #665, mergiata 04/08 05:23) · freno nuovo AR-544 (la Cabina incrocia battito e ultimo push: banner in home + diagnosi con i comandi in Lavori → Stato worker). I 4.450 commit di arretrato restano al sicuro nel ramo `salvataggio-2026-08-04` e negli stash: il loro valore è lo stato finale dei file, già presente nell'albero.
-- **Colore:** 🔴 (tocca il server in produzione)
+### ✅ #macchina-ferma-da-quattro-giorni — Il server è tornato a pubblicare: guasto dei quattro giorni chiuso · ⏳ accodata 2026-08-04 03:10 · ✅ chiusa 2026-08-04 12:20
+**La prova:** alle 12:09 su `main` è arrivato il commit di un giro vero («giro 4/8 11:30 + collaudo»), alle 12:10 il recupero delle scritture rimaste in sospeso, alle 12:11 il riconcilia. E il giro delle 12:20 è già il secondo consecutivo pubblicato. La memoria scorre di nuovo dal server a GitHub e il Pannello legge dati di oggi — non serviva più niente da te su questa card.
+**Resta aperto, già a cantiere (non è un compito tuo):** il push del giro delle 11:30 in sé risultava fallito (`esito-giro` delle 11:42 con `push_ok: false`): quelle scritture sono uscite dalla corsia di recupero, non dal push diretto. La «via di fuga» perché la pubblicazione non dipenda dal rebase è la scheda AR-518/AR-521. Intanto il freno nuovo veglia: memoria ferma oltre 12 ore = banner rosso in home da solo (AR-544).
+- **Colore:** ✅ chiusa (era 🔴)
 - **Reparto:** devops-sre
 - **Origine:** `{origine:visita-salute-2026-08-04, difetti:[AR-518, AR-530, AR-544]}`
-
 ---
 
 <!-- radiografia-prova-non-vera-alla-nascita -->

@@ -123,6 +123,13 @@
       "mai_risolte": []
     },
     {
+      "quando": "2026-08-04T09:38:38.279Z",
+      "scatti": 82,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
       "quando": "2026-08-04T09:42:48.812Z",
       "scatti": 529,
       "voci": 7,
@@ -246,7 +253,21 @@
         "difesa-rimossa": 4
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T12:40:13.777Z",
+      "scatti": 537,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T12:45:21.680Z",
+      "scatti": 537,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-04T11:21:12.989Z"
+  "aggiornato": "2026-08-04T12:45:21.681Z"
 }
