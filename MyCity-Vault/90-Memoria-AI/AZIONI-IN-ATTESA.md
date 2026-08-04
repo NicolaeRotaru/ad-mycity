@@ -928,6 +928,20 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
+### 🟡 #pr-675-gate-settings-json-rossa — PR #675 aperta da un'altra sessione, i controlli automatici sono rossi · ⏳ accodata 2026-08-04 17:30
+
+**Cosa cambia:** un'altra sessione della macchina (parallela a questa) ha aperto una PR per costruire un test che in futuro accorge se `.claude/settings.json` si rompe come è successo oggi con l'incollaggio della card #prevenzione-a-monte. Non l'ho scritta io in questo turno, ma nessuno l'aveva ancora messa in coda — la metto ora perché non resti solo in uno screenshot.
+
+**Se va bene:** nessuna azione tua richiesta subito. Il test è ancora rosso (3 controlli falliti), quindi non è pronta per il merge. La prossima sessione che se ne occupa deve leggere l'errore dei controlli e sistemarlo prima di riproporla; se resta ferma qualche giorno, chiedimi di controllare a che punto è.
+
+- **Colore:** 🟡 (PR di codice, merge sempre a tua firma)
+- **Reparto:** tech
+- **Origine:** `{origine:sessione-parallela-2026-08-04, pr:675}`
+
+🔧 Dettagli tecnici: repo `ad-mycity`, branch `fix/gate-lezione-settings-json-l20260804-01` → `main`, https://github.com/NicolaeRotaru/ad-mycity/pull/675. Riepilogo in `consegne/tech/pr-ad-mycity-675.md`.
+
+---
+
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
 ## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-04 12:12)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-04-supervisione.md]].
