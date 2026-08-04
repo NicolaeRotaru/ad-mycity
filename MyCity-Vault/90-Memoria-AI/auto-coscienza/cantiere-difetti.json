@@ -7838,13 +7838,16 @@
       "causa_radice": "Chi registra un difetto nuovo prende «il prossimo numero libero» leggendolo dalla copia del cantiere che ha in mano, che e ferma al momento in cui la sessione e partita. Due sessioni in parallelo leggono lo stesso massimo e scelgono lo stesso numero. Git non se ne accorge: sono righe diverse dello stesso array, l unione riesce senza conflitto e il file resta JSON valido. Il danno e silenzioso e arriva dopo, perche tutto il cantiere e indicizzato per id: auto-fix cerca un id e ne trova due, una prova condivisa conta un id che compare due volte, una chiusura ne chiude uno a caso. Successo il 30/7 con AR-444 (due difetti diversi: uno chiuso del lotto 36, uno aperto sui test che scrivono nella memoria vera) e scoperto solo perche Nicola ha chiesto di controllare i merge prima di mergiare.",
       "fix_proposto": "Controllo id-doppio nel cancello di uscita, senza tetto (una collisione o c e o non c e, non e debito ereditato): idDoppi() in cancello-lotto.mjs, violazione bloccante che nomina i titoli dei due difetti cosi si sa quale rinumerare. Piu la regola scritta nella skill: prima di prendere un id nuovo, leggilo da origin/main aggiornato, non dalla copia in mano.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-30 02:15",
       "origine": "trovato controllando gli ultimi 10 merge prima di consegnare, su richiesta di Nicola",
       "verifica": {
         "comando": "node cervello/test/due-difetti-uno-solo-numero.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-04 04:03",
+      "chiuso_come": "node cervello/test/due-difetti-uno-solo-numero.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-448",
@@ -7855,7 +7858,7 @@
       "causa_radice": "Chi modifica un JSON di memoria lo rilegge con JSON.parse e lo riscrive con JSON.stringify scegliendo l indentazione a caso invece di conservare quella che il file aveva. Il contenuto resta giusto, ma cambia OGNI riga: il 30/7 apprendimento.json ha fatto +12147/-12124 per aggiungere un campo a 21 lezioni, cantiere-difetti.json +7438/-7406 per aggiungere un difetto. Costo doppio: una PR cosi non la rilegge nessuno e si mergia per fiducia, e ogni altra sessione che tocchi quel file va in conflitto totale invece che su una riga. Sono proprio i file che il worker riscrive di continuo.",
       "fix_proposto": "Guardiano forma-json.mjs nel cancello del lotto: per ogni JSON toccato dal ramo e gia presente su main, confronta l indentazione. Non impone uno stile, impone di non cambiarlo.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-30 02:40",
       "origine": "trovato rileggendo il lavoro della sessione su richiesta di Nicola: l errore era mio, commesso mentre chiudevo la famiglia di errori che genera conflitti",
       "verifica": {
@@ -7865,7 +7868,10 @@
       "nato_da": "lotto 36 (chiusura della famiglia dei conflitti di PR)",
       "nascita_nota": "riscrivevo i JSON di memoria con un'indentazione scelta a caso: +12147/-12124 per aggiungere un campo. L'errore era mio, commesso mentre chiudevo un'altra famiglia di errori",
       "malattia": "non-pattern-izzabile",
-      "malattia_perche": "E una proprieta del DIFF intero (un file riscritto tutto per cambiarne una riga), non di una riga: guardando le righe una per una sono tutte legittime, e il difetto compare solo confrontando l indentazione con quella di origin/main. Ha il suo guardiano dedicato, forma-json.mjs — che infatti mi ha preso il 3/8 quando ho riscritto due registri a 2 spazi."
+      "malattia_perche": "E una proprieta del DIFF intero (un file riscritto tutto per cambiarne una riga), non di una riga: guardando le righe una per una sono tutte legittime, e il difetto compare solo confrontando l indentazione con quella di origin/main. Ha il suo guardiano dedicato, forma-json.mjs — che infatti mi ha preso il 3/8 quando ho riscritto due registri a 2 spazi.",
+      "chiuso_il": "2026-08-04 04:03",
+      "chiuso_come": "node cervello/test/json-riscritto-tutto.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-449",
@@ -7876,7 +7882,7 @@
       "causa_radice": "Sul VPS il worker tiene sporchi i file che riscrive a ogni giro, e il commit chore di git-pr.mjs li esclude apposta (sono la famiglia delle 21 correzioni sui conflitti di PR): restano non committati. Con l albero sporco git rebase si RIFIUTA DI PARTIRE e non lascia nessun rebase in corso. Il ripiego di rebaseBranchOntoBase trattava quel rifiuto come un conflitto: entrava nel giro di auto-risoluzione, vedeva che nessun rebase era in corso, USCIVA DAL GIRO SENZA DIRE NIENTE e proseguiva come se il rebase fosse riuscito. A valle, mergeTreeConflictPaths confrontava il ramo con main dal vecchio antenato comune — cioe misurava la normale divergenza che il rebase avrebbe risolto — e la dichiarava «conflitti residui dopo rebase». Effetto: nessuna PR pubblicabile dal VPS, con un messaggio che accusa file di memoria innocenti e non nomina mai la causa vera. Secondo difetto nella stessa funzione: l auto-risoluzione usava `checkout --theirs` mentre il suo commento dichiarava «teniamo la base»; provato su repo finto che in rebase --theirs e la versione del RAMO e --ours quella della base, quindi per settimane ha tenuto il lato opposto a quello dichiarato, rimettendo nella PR il referto vecchio del ramo. Terza causa di sistema: git-pr.mjs eseguiva main() al solo import (AR-445), quindi nessuna delle sue funzioni era provabile — il rebase e arrivato al 30/7 senza una sola prova comportamentale.",
       "fix_proposto": "🟡 (a) Lo sporco DICHIARATO della macchina si mette da parte prima del rebase e si rimette identico dopo, byte per byte, cosi git puo partire; su tutto il resto si FERMA nominando i file, senza toccarli. (b) Un rebase che non e nemmeno partito e un errore col motivo di git, mai un conflitto: il ramo di silenzio e chiuso. (c) Prima di credere a merge-tree si verifica che il ramo sia davvero discendente della base — e la garanzia strutturale che rende impossibile ripetere la bugia. (d) checkout --ours (la base) al posto di --theirs, con il log di cosa viene scartato: un auto-risoluzione muta e comoda e sbagliata. (e) Guardia E_CLI sull ingresso (AR-445) perche il modulo si possa importare e provare. (f) I referti che un guardiano rigenera stanno in un elenco dichiarato a parte in file-della-macchina.mjs — NON fra i semi del diario, perche sono file contesi e un freno che grida a ogni lotto viene aggirato.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-30 03:09",
       "origine": "screenshot di Nicola dal Pannello: il worker dichiarava il codice pronto ma la PR bloccata da «un problema di git gia noto». Il problema noto era questo, e non era un conflitto",
       "nota": "Il difetto non era leggibile nel codice: ogni singola riga aveva senso. Stava in cosa fa git con l albero sporco e in quale lato e --theirs durante un rebase. Entrambe le risposte sono state prese chiedendo a git su repo veri in /tmp, non ragionando sul sorgente: e la differenza fra una diagnosi e un indovinello.",
@@ -7884,7 +7890,10 @@
         "comando": "node cervello/test/rebase-che-non-parte.test.mjs"
       },
       "nota_fix": "Fix (a)-(f) applicati in questa sessione. Prova comportamentale in cervello/test/rebase-che-non-parte.test.mjs (11 casi, guida git vero su repo temporanei), e 3 mutazioni in mutanti.json che rimettono l errore e devono renderla rossa.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-04 04:03",
+      "chiuso_come": "node cervello/test/rebase-che-non-parte.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-450",
@@ -7895,7 +7904,7 @@
       "causa_radice": "test-cervello.mjs esegue ogni file in un processo suo e ne legge il TAP per contare passati/falliti, poi SCARTA l uscita. Sul rosso stampa «N asserzioni fallite» e nient altro. In locale non si nota, perche il test lo si rilancia a mano e si legge tutto; in CI e l unica finestra che c e, e non mostra ne il nome del caso caduto ne il messaggio dell asserzione. Il 30/7 la prova di AR-449 e passata 13/13 in locale e 10/11 in CI, e dal log era impossibile sapere quale: l unica strada restava cambiare il test alla cieca e ripubblicare. Difetto gemello nella prova stessa: chiedeva a git se avesse lasciato la cartella .git/rebase-merge per decidere se ci fosse un conflitto — un dettaglio interno che cambia fra versioni (git 2.43 in locale, 2.54 sul runner) — invece dell invariante che vogliamo garantire (ci sono file in conflitto da risolvere?). Terzo, nella stessa funzione: il ripiego dopo un rebase --continue fallito era --skip, cioe buttare via il commit del ramo, senza distinguere il caso legittimo (commit rimasto vuoto dopo la risoluzione) da tutti gli altri.",
       "fix_proposto": "🟡 (a) righeRosse() in test-cervello.mjs: sul rosso si stampano le righe «not ok - nome → messaggio» del figlio, cosi un rosso in CI si diagnostica leggendo, non ripubblicando. (b) La decisione conflitto/non-conflitto passa dai file in conflitto (unmergedPaths), non dalla cartella di stato di git. (c) --skip solo quando l indice e vuoto rispetto a HEAD, con il motivo scritto nel log; in ogni altro caso si abortisce e si riporta il motivo di git. (d) GIT_EDITOR/GIT_SEQUENCE_EDITOR/GIT_TERMINAL_PROMPT impostati: un comando dentro uno script non deve mai volere un editor ne una risposta.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-30 03:30",
       "origine": "CI rossa sulla PR #629: due check falliti, una sola causa — la prova nuova del rebase. Trovato mentre cercavo QUALE asserzione fosse, e non si poteva sapere",
       "nota": "Le ipotesi sono state escluse per misura, non per intuito: config git globale azzerata (verde), invocazione identica a quella del runner (verde), versione di git non aggiornabile in questo container. Quando resta una sola differenza e non la si puo provare, si smette di indovinare e si toglie la dipendenza da quella differenza.",
@@ -7903,7 +7912,10 @@
         "comando": "node cervello/test/test-cervello.test.mjs"
       },
       "nota_fix": "Fix (a)-(d) applicati. Prove: 4 casi nuovi in cervello/test/test-cervello.test.mjs per righeRosse, 2 in cervello/test/rebase-che-non-parte.test.mjs (rebase rimasto a metà · commit che resta vuoto). 2 mutazioni in mutanti.json. ⚪ DEBITO DICHIARATO: il ramo del catch su rebase --continue non ha prova comportamentale — con git 2.43 (questo container) --continue non fallisce mai la, provato sia con indice vuoto sia con un pre-commit che esce 1. La mutazione che lo avrebbe provato e stata RIMOSSA invece di essere tenuta finta: lasciava il test verde col fix rotto. Per coprirlo serve git >= 2.54 in locale o un doppio iniettabile al posto di git().",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-04 04:03",
+      "chiuso_come": "node cervello/test/test-cervello.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-452",
@@ -8094,7 +8106,7 @@
     },
     {
       "id": "AR-463",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "grave",
       "colore": "🟡",
       "dimensione": "processi",
@@ -8107,7 +8119,10 @@
       "fix_proposto": "PRONTO 🟡 — il riconoscitore c era gia (misura-cieca.mjs, 12 prove) ma la sua modalita --hook stampava TESTO SEMPLICE: attaccarla cosi avrebbe prodotto una guardia muta, lo stesso difetto di AR-465. Riparato il 31/7: `bustaPerIlModello` emette la busta JSON che arriva davvero al modello (+3 prove, +2 mutazioni). RESTA A NICOLA la riga in .claude/settings.json (il file e in deny per la macchina): un secondo blocco PostToolUse con matcher \"Bash\" e comando `node cervello/misura-cieca.mjs --hook`.",
       "verifica": {
         "comando": "node cervello/test/misura-cieca.test.mjs"
-      }
+      },
+      "chiuso_il": "2026-08-04 04:03",
+      "chiuso_come": "node cervello/test/misura-cieca.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-464",
@@ -8253,7 +8268,7 @@
     },
     {
       "id": "AR-472",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🟡",
       "dimensione": "guardiani-e-guardrail",
@@ -8267,7 +8282,10 @@
       "nota_fix": "Curato il 2026-08-01 nel lotto 36. Provato forzando una regressione vera sul repo vero: tolte le righe ESITO a @dispatch → stampo-check esce 1 e nomina il colpevole; rimesse → esce 0. NON e stata aggiunta una voce in malattie.json, ed e una scelta dichiarata: la firma di questa malattia — un verdetto che conta «nuovi» rispetto a una baseline per sola categoria — esiste in UN punto solo (`codiceUscita({nuovi})` e usato da stampo-check e basta; spazzata-fratelli e cancello-lotto la distinzione ce l'hanno gia). Un pattern regex avrebbe trovato o quell'unico file, o le 15 occorrenze di «giorni trascorsi» quasi tutte innocue — e un guardiano che grida al lupo si impara a ignorare. Il freno e stato messo dove puo fallire davvero: la prova ② ter itera TUTTE le chiavi di DIFETTO, quindi un tipo aggiunto domani o e dichiarato in MATURANO_DA_SOLE con la sua ragione, o cade nel verso che blocca.",
       "verifica": {
         "comando": "node cervello/test/il-tempo-non-e-una-regressione.test.mjs"
-      }
+      },
+      "chiuso_il": "2026-08-04 04:03",
+      "chiuso_come": "node cervello/test/il-tempo-non-e-una-regressione.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-473",
@@ -10609,9 +10627,8 @@
     }
   ],
   "meta": {
-    "aperti": 165,
+    "aperti": 161,
     "in_corso": 0,
-    "chiusi": 286,
-    "da_riverificare": 57
+    "chiusi": 299
   }
 }
