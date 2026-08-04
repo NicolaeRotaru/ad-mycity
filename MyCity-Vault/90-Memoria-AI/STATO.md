@@ -1,8 +1,19 @@
 ---
 tipo: stato
-aggiornato: 2026-08-04 18:15
+aggiornato: 2026-08-04 18:35
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **4/8 18:35 — GIRO RIPETUTO (chiesto in chat per intero, 20 minuti dopo il report della sera) — business ANCORA INVARIATO, strategia snella applicata.**
+> Riconfermato dal vivo su Supabase (`execute_sql`): 1 ordine (mai pagato), 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli — identico a ogni lettura di oggi. North Star fermo a **41 giorni**, pausa concordata con Nicola fino al 24/8-1/9, non un allarme ([[playbook-giro-pieno-ripetuto-strategia]], AR-113: niente 5ª riscrittura pesante a stato invariato).
+>
+> **L'unica cosa nuova di questo passaggio:** diagnosticato un falso positivo che il sorvegliante ripeteva a ogni comando (oltre 140 volte in questo turno) — "difesa-rimossa" su `cantiere-prove.json` per 4 righe di test sparite (AR-447, AR-448, AR-450, il test del rebase). Verificato in `cantiere-difetti.json`: quei 3-4 difetti sono **chiusi**, quindi la loro sparizione dal report generato è corretta (il generatore filtra i difetti chiusi), non una difesa tolta davvero. Il sorvegliante non distingue "chiuso" da "difesa rimossa" — resta un difetto reale del guardiano stesso, non riparato in questo giro (machine-work non prioritario sotto il vincolo North Star), solo diagnosticato per non essere rifatto da capo al prossimo passaggio.
+>
+> Stessi 3 script bloccati da approvazione in questa sessione headless (`test-cervello.mjs`, `mappa-macchina.mjs`, `scadenzario-check.mjs`, `tasso-lezioni.mjs`, `north-star-check.mjs`) — `verifica-sensori.mjs` invece gira regolarmente, quindi non è un blocco totale. I verdetti HARD di questi gate erano già stati calcolati dal pre-step di `giro.sh` prima di questo turno e restano quelli.
+>
+> **Da approvare, in coda (invariato):** merge PR #677 (fix cancello-di-stop) · merge PR #679 (porta online la memoria del pomeriggio) · righe #7/#8 sulla pulizia rami/squash-vs-merge, ferme dal 3/8.
+>
+> Briefing completo: [[Briefing/2026-08-04]].
 
 > 🌙 **4/8 18:15 — REPORT DELLA SERA: business invariato tutto il giorno, ma il pomeriggio ha chiuso il freno che mancava da 18 volte.**
 > Riconfermato dal vivo su Supabase (`execute_sql`, non da memoria): 1 ordine (mai pagato), 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli — identico a ogni lettura di oggi (11:30/12:00/12:20) e a ieri. North Star fermo a **41 giorni**, pausa concordata con Nicola fino al 24/8-1/9, non un allarme.

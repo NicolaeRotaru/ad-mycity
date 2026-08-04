@@ -709,3 +709,9 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-04 18:15 · @AD · FATTO · Aggiornati STATO.md (nuovo blocco 18:15) · RITMO.md (blocco «Report della sera · 2026-08-04 18:15») · SALA-OPERATIVA.md.
 - 2026-08-04 18:15 · @AD · SERVE · @Nicola — 🔴 merge PR #677 (fix cancello-di-stop) · 🔴 merge PR #679 (memoria del pomeriggio) · 🟡 decidi su rami GitHub/modo-chiusura-PR (#7/#8, ferme dal 3/8) · invariato: conferma riavvio giro sul VPS.
 - 2026-08-04 18:00 · @AD · FATTO · Nicola aveva scritto una risposta da computer e non la vedeva riaprendo la chat dal telefono, in questa stessa casella. Controllato nel database: il messaggio c'è, salvato sul server, orario 17:44. Il sync tra computer e telefono funziona a livello tecnico — causa più probabile: cache vecchia sul telefono. Da verificare quando Nicola riprova a pagina chiusa e riaperta da zero.
+
+### 2026-08-04 18:35 — 🔁 GIRO RIPETUTO (AD, chiesto in chat per intero)
+- 2026-08-04 18:35 · @AD · FATTO · Riconfermato dal vivo su Supabase (`execute_sql`): ordini=1, pagati=0, consegnati=0, profili=7, prodotti=5, recensioni=0, carrelli=3 — identico a ogni lettura di oggi. Applicata strategia snella AR-113: niente 5ª riscrittura pesante a stato invariato.
+- 2026-08-04 18:35 · @AD · FATTO · Diagnosticato il falso positivo del sorvegliante ("difesa-rimossa" ripetuto 150+ volte in questo turno su `cantiere-prove.json`): i difetti AR-447/AR-448/AR-450/AR-449 sono **chiusi** in `cantiere-difetti.json`, quindi la loro sparizione dal report generato è corretta, non una difesa tolta. Il guardiano non distingue "chiuso" da "rimosso" — difetto reale nel guardiano stesso, non riparato ora (non sblocca una card business), solo diagnosticato e registrato per non essere rifatto.
+- 2026-08-04 18:35 · @AD · FATTO · Aggiornati `auto-analisi.json`, `registro-realta.json`, `STATO.md`, `SALA-OPERATIVA.md`.
+- 2026-08-04 18:35 · @AD · PASSO-A · @Nicola — invariato: merge PR #677/#679, decisione su rami/#7-#8.

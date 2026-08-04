@@ -1,10 +1,10 @@
 {
-  "data": "2026-08-04 12:20",
-  "situazione": "Business invariato (riconfermato ora dal vivo su Supabase): 1 ordine mai pagato, 0 consegne, 7 profili, 5 prodotti — stallo North Star 41 giorni, pausa concordata con Nicola fino al 24/8-1/9. In questo passaggio: chiuso un gate nuovo (un lavoro di stamattina senza il suo esito scritto nel quaderno di reparto) e verificato che la lezione più ripetuta della macchina (26 volte, mai diventata un freno automatico) ha già una card pronta in coda dalle 05:20 di oggi, in attesa solo della firma di Nicola su due righe di configurazione. Mossa n.1 invariata: confermare il riavvio del giro sul server.",
+  "data": "2026-08-04 18:35",
+  "situazione": "Business invariato (riconfermato ora dal vivo su Supabase): 1 ordine mai pagato, 0 consegne, 7 profili, 5 prodotti, 3 carrelli — stallo North Star 41 giorni, pausa concordata con Nicola fino al 24/8-1/9. Giro ripetuto a stato invariato (strategia snella, AR-113): l'unica novità è aver diagnosticato un falso allarme ripetuto del sorvegliante su un report generato (righe di test sparite per difetti ormai chiusi, comportamento corretto non un bug). Mossa n.1: mergiare le due PR pronte dal pomeriggio.",
   "opportunita": [
     {
-      "titolo": "Conferma che il giro sul server è ripartito",
-      "motivo": "Il fix è già pronto e mergiato: restituisce alla Cabina i briefing automatici che mancano da 5 giorni",
+      "titolo": "Mergia le due PR pronte del pomeriggio",
+      "motivo": "PR #677 (fix vero dei falsi allarmi sul lavoro del worker) e PR #679 (porta online la memoria del pomeriggio) sono pronte e indipendenti, in attesa dalle 17:57/18:00",
       "impatto": "alto",
       "sforzo": "basso"
     },
@@ -13,34 +13,27 @@
       "motivo": "Elimina il rumore che fa sembrare lavoro perso quando non lo è, e recupera un lavoro davvero perso (PR #598)",
       "impatto": "medio",
       "sforzo": "basso"
-    },
-    {
-      "titolo": "Accendi i due freni sulle correzioni che ti ripeti (card #prevenzione-a-monte)",
-      "motivo": "26 lezioni nate da tue correzioni, 18 ripetute, mai diventate un freno automatico — il codice è pronto, mancano due righe in un file che l'AD non può toccare da sola",
-      "impatto": "alto",
-      "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Dimmi se hai già riavviato il servizio del giro sul server",
-      "motivo": "È l'unica cosa che non riesco a vedere da questa sessione: il fix è pronto, manca la conferma",
+      "titolo": "Mergia PR #677 — fix vero del cancello-di-stop",
+      "motivo": "Chiude la 3ª manifestazione dello stesso falso allarme sul lavoro del worker",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Mergia PR #679 — porta online la memoria del pomeriggio",
+      "motivo": "origin/main non accetta push diretto da questa sessione: la PR è l'unico veicolo per pubblicare i commit di memoria 17:50-18:00",
       "livello": "rosso"
     },
     {
       "titolo": "Scegli come chiudere le PR: squash con riallineamento automatico o merge normale",
       "motivo": "Oggi ogni merge in squash rischia di far chiudere da sole le altre PR aperte sulla stessa base — già successo 12 volte, un lavoro perso per davvero (#598)",
       "livello": "rosso"
-    },
-    {
-      "titolo": "Incolla il blocco di configurazione per accendere i due freni sulle correzioni ripetute",
-      "motivo": "Testo pronto in #prevenzione-a-monte da stamattina 05:20: due aggiunte a .claude/settings.json",
-      "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
     "North Star 0 — stallo 41 giorni (pausa concordata, non churn)",
-    "freschezza-cadenze — giro/ritmo-mattino/monitora fermi 120-125h (fix già mergiato, riavvio da confermare)",
-    "chiusura-loop — risolto in questo passaggio (esito @ad registrato)"
+    "sorvegliante — falso positivo diagnosticato su cantiere-prove.json (difetti chiusi, non difese rimosse)"
   ]
 }
