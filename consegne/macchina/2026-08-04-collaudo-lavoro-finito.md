@@ -56,7 +56,7 @@ rilettura la fa comunque la mia testa — il cancello obbliga a farla, non la fa
 
 ### Dettagli tecnici
 
-- Scheda: AR-530 (chiusa, verifica eseguibile) · lezione L-2026-0804-551 con gate attivo.
+- Scheda: AR-532 (chiusa, verifica eseguibile) · lezione L-2026-0804-552 con gate attivo.
 - Guardia nuova: `cervello/collaudo.mjs` (impronta del lavoro + registro fuori da git in
   `cervello/_tmp_collaudo.json`), agganciata a `cervello/cancello-stop.mjs` (solo `--hook`: in CI
   non c'è nessun modello a cui chiedere il ricontrollo).
@@ -65,4 +65,4 @@ rilettura la fa comunque la mia testa — il cancello obbliga a farla, non la fa
 - Taratura pagata sul campo: senza l'ancora del turno il perimetro si fissa su HEAD — la prima
   esecuzione presentava 211 file di sessioni passate come lavoro da ricollaudare (forma di AR-507).
 - Prove: `node --test cervello/test/collaudo.test.mjs` (17) · 191 verdi sui file toccati ·
-  2 mutazioni in `cervello/mutanti.json` verificate rosse con `node cervello/non-vacuita.mjs --difetti AR-530`.
+  2 mutazioni in `cervello/mutanti.json` verificate rosse con `node cervello/non-vacuita.mjs --difetti AR-532`.

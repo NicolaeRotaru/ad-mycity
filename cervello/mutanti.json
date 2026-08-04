@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-04",
+ "aggiornato": "2026-08-04 03:50",
  "mutanti": [
   {
    "lotto": 30,
@@ -1025,7 +1025,7 @@
    "difetto": "AR-481",
    "nome": "il messaggio in chat non viene piu' misurato: torna scoperto il canale dove Nicola legge di piu'",
    "file": "cervello/cancello-stop.mjs",
-   "cerca": "  const ripetute = m.problemi.filter((p) => p.tipo === \"gia-detto\");",
+   "cerca": "  const ripetute = m.problemi.filter((p) => SEMPRE.has(p.tipo));",
    "sostituisci": "  const ripetute = []; if (true) return null;",
    "test": "cervello/test/cancello-stop.test.mjs"
   },
@@ -1530,7 +1530,7 @@
    "difetto": "AR-517",
    "nome": "i quattro blocchi tornano obbligatori solo sui testi lunghi: una risposta numerata corta passa muta",
    "file": "cervello/si-capisce.mjs",
-   "cerca": "  if (testoLungo || rispondeAiNumeri) {",
+   "cerca": "  if (testoLungo || (rispondeAiNumeri && !testoCorto)) {",
    "sostituisci": "  if (testoLungo) {",
    "test": "cervello/test/numeri-prima-delle-risposte.test.mjs"
   },
@@ -1567,6 +1567,33 @@
    "test": "cervello/test/numeri-prima-delle-risposte.test.mjs"
   },
   {
+   "difetto": "AR-530",
+   "nome": "la ripetizione dentro lo stesso messaggio torna invisibile: i quattro blocchi possono ricomparire due volte di fila",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "  for (const r of ripetizioniInterne(testo)) {",
+   "sostituisci": "  for (const r of []) {",
+   "test": "cervello/test/si-capisce.test.mjs",
+   "lezione": "L-2026-0804-551"
+  },
+  {
+   "difetto": "AR-530",
+   "nome": "i titoli dei quattro blocchi possono comparire due volte nello stesso testo senza che nessuno lo veda",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "    if (righeViste.length < 2) continue;\n    fuori.push({\n      riga: righeViste[righeViste.length - 1],\n      trovato: `«${blocco}» ${righeViste.length} volte`,",
+   "sostituisci": "    if (righeViste.length < 99) continue;\n    fuori.push({\n      riga: righeViste[righeViste.length - 1],\n      trovato: `«${blocco}» ${righeViste.length} volte`,",
+   "test": "cervello/test/si-capisce.test.mjs",
+   "lezione": "L-2026-0804-551"
+  },
+  {
+   "difetto": "AR-530",
+   "nome": "i quattro titoli tornano obbligatori sopra una risposta di due righe: l impalcatura pesa piu del contenuto",
+   "file": "cervello/si-capisce.mjs",
+   "cerca": "  if (piene >= RIGHE_TESTO_LUNGO) return \"lunga\";\n  if (contenuto < RIGHE_TESTO_CORTO) return \"corta\";",
+   "sostituisci": "  if (piene >= RIGHE_TESTO_LUNGO) return \"lunga\";\n  if (contenuto < 0) return \"corta\";",
+   "test": "cervello/test/numeri-prima-delle-risposte.test.mjs",
+   "lezione": "L-2026-0804-551"
+  },
+  {
    "difetto": "AR-519",
    "nome": "«sostanza» torna a voler dire solo «gergo»: un referto pieno di date e' di nuovo una copertina",
    "file": "cervello/si-capisce.mjs",
@@ -1586,8 +1613,8 @@
    "difetto": "AR-154",
    "nome": "il cieco torna a tacere: non aver misurato ridiventa indistinguibile da un verde",
    "file": "cervello/cancello-stop.mjs",
-   "cerca": "    ...ciechi.map((c) => `⚪ ${c}`),",
-   "sostituisci": "",
+   "cerca": "  if (!righe.length) return { blocca: false, cieco: ciechi.length > 0, righe: noteCieche };",
+   "sostituisci": "  if (!righe.length) return { blocca: false, cieco: false, righe: [] };",
    "test": "cervello/test/cancello-stop.test.mjs"
   },
   {
@@ -1712,7 +1739,23 @@
   },
   {
    "difetto": "AR-530",
-   "lezione": "L-2026-0804-551",
+   "nome": "l'indentazione torna a essere scelta da chi scrive: un file a un spazio viene riscritto tutto e il commit si blocca",
+   "file": "cervello/scrivi-json.mjs",
+   "cerca": "    writeFileSync(tmp, testoJson(dati, indentazioneDi(percorso)), \"utf8\");",
+   "sostituisci": "    writeFileSync(tmp, testoJson(dati), \"utf8\");",
+   "test": "cervello/test/indentazione-che-blocca-tutto.test.mjs"
+  },
+  {
+   "difetto": "AR-531",
+   "nome": "il sorvegliante torna a ignorare le esenzioni gia' scritte e riaccusa i file dichiarati",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "      if (esente) continue;",
+   "sostituisci": "",
+   "test": "cervello/test/rosso-che-non-dice-perche.test.mjs"
+  },
+  {
+   "difetto": "AR-532",
+   "lezione": "L-2026-0804-552",
    "nome": "il collaudo smette di chiedere il ricontrollo: «fatto» torna a uscire senza rileggere il lavoro",
    "file": "cervello/collaudo.mjs",
    "cerca": "  return { azione: \"chiedi\", giro: pendente ? (registro.giro || 0) + 1 : 1 };",
@@ -1720,8 +1763,8 @@
    "test": "cervello/test/collaudo.test.mjs"
   },
   {
-   "difetto": "AR-530",
-   "lezione": "L-2026-0804-551",
+   "difetto": "AR-532",
+   "lezione": "L-2026-0804-552",
    "nome": "il cancello dello Stop scollega il collaudo: la guardia decide e nessuno la ascolta",
    "file": "cervello/cancello-stop.mjs",
    "cerca": "  for (const r of collaudo) righe.push(r);",
@@ -1729,7 +1772,7 @@
    "test": "cervello/test/collaudo.test.mjs"
   },
   {
-   "difetto": "AR-531",
+   "difetto": "AR-533",
    "nome": "l'asticella sparisce dal collaudo: si torna a fermarsi alla prima cosa che funziona",
    "file": "cervello/collaudo.mjs",
    "cerca": "      `\\n   → ④ l'asticella: hai considerato almeno un'altra strada? dichiara quale e perché hai scelto questa — se non ne esiste nemmeno una, ti sei fermato alla prima cosa che funziona.` +",
@@ -1737,7 +1780,7 @@
    "test": "cervello/test/collaudo.test.mjs"
   },
   {
-   "difetto": "AR-531",
+   "difetto": "AR-533",
    "nome": "la scheda smette di selezionare: nessuna lezione entra mai, il contesto torna generico",
    "file": "cervello/contesto-lezioni.mjs",
    "cerca": "    if (punti >= PUNTI_MINIMI) fuori.push({ id: l.id, punti, nicola: Boolean(l.caso_studio_nicola), gate: l.gate_attivo ? l.gate : null, testo: l.testo });",
@@ -1745,7 +1788,7 @@
    "test": "cervello/test/lezioni-su-misura.test.mjs"
   },
   {
-   "difetto": "AR-531",
+   "difetto": "AR-533",
    "nome": "la mano non si ferma più: il rifiuto diventa un permesso e l'errore censito si scrive",
    "file": "cervello/mano-fermata.mjs",
    "cerca": "    hookSpecificOutput: { hookEventName: \"PreToolUse\", permissionDecision: \"deny\", permissionDecisionReason: testo },",

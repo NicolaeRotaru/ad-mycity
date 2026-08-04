@@ -318,12 +318,9 @@ export function sorveglia({
       // un file preciso e altrove sarebbero un falso rosso. Un titolo che nomina un AR-xxx è un
       // difetto nella coda che legge Nicola e una cosa normalissima in una scheda del cantiere.
       if (Array.isArray(m.percorsi) && m.percorsi.length && !m.percorsi.some((p) => file.startsWith(p))) continue;
-      // `esenti` (per-file, col PERCHÉ scritto nel registro): fino al 4/8 li leggeva SOLO la
-      // spazzata, e i due lettori dello stesso registro contavano diverso (la forma di AR-500).
-      // Il conto presentato: pre-scrittura.mjs, esente dichiarato per «bypass-del-cancello» perché
-      // è il rilevatore stesso, segnalato 35 volte di fila da questa guardia — e la mano fermata,
-      // che riusa questo controllo, avrebbe NEGATO le modifiche proprio al guardiano dei bypass.
-      if (Array.isArray(m.esenti) && m.esenti.some((e) => e?.file === file)) continue;
+      // (Alla fusione del 4/8 QUI c'era una seconda copia del controllo sugli `esenti`: due sessioni
+      // hanno curato lo stesso difetto nella stessa ora. Resta la versione di sotto, più severa —
+      // pretende il PERCHÉ scritto — e con la sua mutazione già registrata. Due copie divergono.)
       let re;
       try {
         re = new RegExp(m.pattern);
@@ -331,6 +328,19 @@ export function sorveglia({
         motivi.push(`malattia ${m.id}: pattern non compilabile, non l'ho potuta cercare`);
         continue;
       }
+      // L'esenzione GIÀ DICHIARATA vale anche qui (AR-531).
+      //
+      // `malattie.json` porta per ogni forma un elenco `esenti` con file e PERCHÉ, e la spazzata dei
+      // fratelli lo rispetta. Questo controllo no: cercava il pattern sulle righe aggiunte senza mai
+      // guardare se quel file fosse già stato dichiarato esente. Il 4/8 ha accusato quattordici volte
+      // di fila `pre-scrittura.mjs` — che è il guardiano che INTERCETTA il bypass, deve nominarlo per
+      // riconoscerlo, ed era esente con un motivo scritto da un'altra sessione poche ore prima.
+      // Quattordici allarmi su una riga dichiarata: è il rumore che spegne i freni.
+      //
+      // L'esenzione conta solo se porta il suo perché: una senza motivo resta un'accusa viva, perché
+      // «esente» senza spiegazione è il modo educato di zittire (AR-338).
+      const esente = (m.esenti || []).some((e) => e?.file === file && String(e?.perche || "").trim());
+      if (esente) continue;
       for (const r of aggiunte) {
         // Il commento che spiega una malattia non è la malattia: stessa regola di spazzata-fratelli,
         // stessa funzione — non una seconda copia che col tempo divergerebbe.

@@ -1058,7 +1058,7 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 
 ### 🟡 #prevenzione-a-monte — Accendi gli ultimi due freni: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto · ⏳ accodata 2026-08-04 05:20
 
-**Cosa cambia:** i due freni che hai chiesto stanotte sono costruiti e provati, ma **non ancora accesi**. Il primo pesca dalla memoria solo le lezioni sul tema della richiesta che hai appena scritto. L'ho provato: su «apri la PR e fai il rebase» porta 8 lezioni centrate su 503, quasi tutte correzioni tue. Il secondo ferma la mia mano PRIMA che io scriva un errore già censito nel registro delle malattie. La scrittura non parte proprio, e il perché mi resta davanti agli occhi. Sono complementari ai freni dell'altra sessione già accesi (quelli guardano i comandi e gli strumenti esterni; questi due guardano le richieste e le scritture sui file). Per accenderli servono due ritocchi in `.claude/settings.json`, il file che per regola di sicurezza io non posso toccare.
+**Cosa cambia:** i due freni che hai chiesto stanotte sono costruiti e provati, ma **non ancora accesi**. Il primo pesca dalla memoria solo le lezioni sul tema della richiesta che hai appena scritto. L'ho provato: su «apri la PR e fai il rebase» porta 8 lezioni centrate su 503, quasi tutte correzioni tue. Il secondo ferma la mia mano PRIMA che io scriva un errore già censito nel registro delle malattie. La scrittura non parte proprio, e il perché mi resta davanti agli occhi. Sono complementari ai freni dell'altra sessione, già accesi: quelli guardano i comandi e gli strumenti esterni. Questi due guardano le richieste e le scritture sui file. Per accenderli servono due ritocchi in `.claude/settings.json`, il file che per regola di sicurezza io non posso toccare.
 
 **Se va bene:** apri `.claude/settings.json` e fai due aggiunte, poi salva:
 
@@ -1079,11 +1079,11 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 { "type": "command", "command": "node cervello/contesto-lezioni.mjs --richiesta", "timeout": 10 }
 ```
 
-Dalla sessione successiva i due freni sono vivi. La prova della scheda AR-531 è `node cervello/mano-fermata.mjs --cablaggio`: oggi è rossa, col tuo salvataggio diventa verde e la scheda si chiude da sola.
+Dalla sessione successiva i due freni sono vivi. La prova della scheda AR-533 è `node cervello/mano-fermata.mjs --cablaggio`: oggi è rossa, col tuo salvataggio diventa verde e la scheda si chiude da sola.
 
 - **Colore:** 🟡 (auto-modifica della macchina: la firmi tu)
 - **Reparto:** qa + prompt-engineer
-- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-531}`
+- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-533}`
 
 ---
 

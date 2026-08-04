@@ -1,4 +1,4 @@
-// 🖐️ Le prove della MANO FERMATA (AR-531) — l'errore già censito non si scrive.
+// 🖐️ Le prove della MANO FERMATA (AR-533) — l'errore già censito non si scrive.
 //
 // Cosa difendono: il testo in arrivo con una malattia censita viene RIFIUTATO (permissionDecision
 // deny) col perché; i commenti, le esenzioni e le estensioni del registro valgono anche qui (è la
@@ -75,7 +75,7 @@ test("il controllo del cablaggio legge il JSON vero e distingue i due agganci", 
   assert.deepEqual(cablaggioPresente(cablato), { mano: true, scheda: true });
   const meta = cablaggioPresente(SETTINGS({ PreToolUse: AGGANCIO("node cervello/mano-fermata.mjs --hook") }));
   assert.equal(meta.mano, true);
-  assert.equal(meta.scheda, false, "un cablaggio a metà non è un cablaggio: la scheda AR-531 non si deve chiudere");
+  assert.equal(meta.scheda, false, "un cablaggio a metà non è un cablaggio: la scheda AR-533 non si deve chiudere");
 });
 
 test("il comando sotto l'evento SBAGLIATO non è un cablaggio: era il verde falso della prima stesura", () => {

@@ -196,7 +196,7 @@
     {
      "file": "cervello/mano-fermata.mjs",
      "quale": "leggiMalattie(), registro illeggibile -> []",
-     "perche": "Fallisce APERTO per taratura dichiarata in testa al file (AR-531): e un freno pre-scrittura, e un freno rotto che mura ogni Edit viene spento in un giorno — il peggiore degli esiti. Un registro vuoto qui porta a fare di MENO (nessun blocco), mai a dichiarare un verde: il verdetto sulle malattie lo da comunque il sorvegliante a valle, sullo stesso testo, coi suoi motivi di cecita."
+     "perche": "Fallisce APERTO per taratura dichiarata in testa al file (AR-533): e un freno pre-scrittura, e un freno rotto che mura ogni Edit viene spento in un giorno — il peggiore degli esiti. Un registro vuoto qui porta a fare di MENO (nessun blocco), mai a dichiarare un verde: il verdetto sulle malattie lo da comunque il sorvegliante a valle, sullo stesso testo, coi suoi motivi di cecita."
     },
     {
      "file": "cervello/content-factory/reel.mjs",

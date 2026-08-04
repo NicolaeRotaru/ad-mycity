@@ -48,7 +48,7 @@ allargarmi i permessi da sola — e quella regola esiste apposta.
 Nella coda «Da approvare» c'è la card **#prevenzione-a-monte** con le due righe esatte da
 incollare e il punto preciso dove metterle. Cinque minuti. Dalla sessione dopo, i freni sono vivi.
 E una cosa detta chiara per l'altra sessione: questa costruzione **sostituisce** quella che ti
-aveva proposto — se le dai l'ok là, dille che AR-530 e AR-531 sono già presi qui, o nasce un doppione.
+aveva proposto — se le dai l'ok là, dille che AR-532 e AR-533 sono già presi qui, o nasce un doppione.
 
 ## Cosa non ho verificato
 
@@ -58,7 +58,7 @@ scatto vero chiudo la scheda e ti mostro cosa hanno fermato.
 
 ### Dettagli tecnici
 
-- Scheda: AR-531 (in corso — si chiude al primo scatto dal vivo dopo il cablaggio) · nata da AR-530.
+- Scheda: AR-533 (in corso — si chiude al primo scatto dal vivo dopo il cablaggio) · nata da AR-532.
 - ① `cervello/contesto-lezioni.mjs --richiesta` (hook `UserPromptSubmit`): selezione per tema con
   soglia e tetto, correzioni di Nicola prioritarie; il modo `--hook` di SessionStart resta identico.
 - ② `cervello/mano-fermata.mjs` (hook `PreToolUse` su `Edit|Write|MultiEdit`): riusa `sorveglia()`
@@ -67,6 +67,6 @@ scatto vero chiudo la scheda e ti mostro cosa hanno fermato.
 - ③ passo ④ di `righeCollaudo()` in `cervello/collaudo.mjs`.
 - Prove: `node --test cervello/test/mano-fermata.test.mjs cervello/test/lezioni-su-misura.test.mjs
   cervello/test/collaudo.test.mjs` (45 verdi) · 3 mutazioni rosse:
-  `node cervello/non-vacuita.mjs --difetti AR-531`.
+  `node cervello/non-vacuita.mjs --difetti AR-533`.
 - Cablaggio proposto (card #prevenzione-a-monte): `PreToolUse` → `mano-fermata --hook`,
   `UserPromptSubmit` → `contesto-lezioni --richiesta`, timeout 10s entrambi.

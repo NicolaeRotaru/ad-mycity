@@ -367,7 +367,12 @@ export function messaggioIlleggibile(testo, noteAGlossario = null, precedenti = 
   const m = misura(testo, { noteAGlossario, precedenti });
   // Le ripetizioni contano anche sui messaggi CORTI: un messaggio breve che ridice una cosa già
   // detta è il caso più frequente, ed è quello che è successo davvero il 3/8.
-  const ripetute = m.problemi.filter((p) => p.tipo === "gia-detto");
+  //
+  // Dal 4/8 (AR-532) contano allo stesso modo le ripetizioni DENTRO il messaggio e i quattro titoli
+  // messi sopra due righe. Sono i due difetti che Nicola ha fotografato, e nessuno dei due ha
+  // bisogno che il messaggio sia lungo per costargli tempo: il suo era di media lunghezza.
+  const SEMPRE = new Set(["gia-detto", "gia-detto-qui", "blocchi-su-testo-corto"]);
+  const ripetute = m.problemi.filter((p) => SEMPRE.has(p.tipo));
   if (!m.testoLungo && !ripetute.length) return null;
   const problemi = m.testoLungo ? m.problemi : ripetute;
   if (!problemi.length) return null;
@@ -402,7 +407,7 @@ export function verdetto({
   attribuzione = { certa: true, nota: null },
 } = {}) {
   const righe = [];
-  // ⑦ IL COLLAUDO DEL LAVORO FINITO (AR-530, Nicola 4/8: «ricontrolla il lavoro fatto, analizzalo
+  // ⑦ IL COLLAUDO DEL LAVORO FINITO (AR-532, Nicola 4/8: «ricontrolla il lavoro fatto, analizzalo
   // più e più volte e completalo al 100%, così non devo dirtelo io»). Le righe arrivano già pronte
   // da cervello/collaudo.mjs — chi decide QUANDO chiederle è quel file, con la sua impronta e il suo
   // registro; qui si mettono in testa perché il ricontrollo dell'intero lavoro è l'ombrello sotto
@@ -915,7 +920,7 @@ async function main() {
   // si impara a ignorare in tre giorni.
   if (perimetro.nota) note.push(perimetro.nota);
 
-  // ⑦ Il collaudo del lavoro finito (AR-530): SOLO dentro l'hook Stop, perché il ricontrollo lo fa
+  // ⑦ Il collaudo del lavoro finito (AR-532): SOLO dentro l'hook Stop, perché il ricontrollo lo fa
   // il modello e fuori dall'hook (CI, comando a mano) non c'è nessuno a cui chiederlo — un cancello
   // rosso per costruzione in CI si impara a ignorare in tre giorni, ed è già successo (AR-506).
   let collaudo = { righe: [], note: [], ciechi: [] };

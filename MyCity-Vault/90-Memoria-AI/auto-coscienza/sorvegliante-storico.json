@@ -27,7 +27,17 @@
           "ripetuta": 34
         }
       ]
+    },
+    {
+      "quando": "2026-08-04T03:22:32.829Z",
+      "scatti": 146,
+      "voci": 2,
+      "per_classe": {
+        "malattia-nuova": 1,
+        "prova-accecata": 1
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-04T03:13:43.811Z"
+  "aggiornato": "2026-08-04T03:22:32.832Z"
 }

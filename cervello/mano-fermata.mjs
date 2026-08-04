@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // 🖐️ MANO FERMATA — l'errore già censito non si scrive: l'azione non parte proprio.
 //
-// PERCHÉ ESISTE (AR-531, Nicola 4/8): «voglio qualcos'altro che ti permetta di far bene il lavoro,
+// PERCHÉ ESISTE (AR-533, Nicola 4/8): «voglio qualcos'altro che ti permetta di far bene il lavoro,
 // che impedisca di fare errori». Fino a oggi la macchina scopriva un errore noto UN SECONDO DOPO
 // averlo scritto: il sorvegliante gira dopo ogni modifica (PostToolUse), avvisa, e la riparazione è
 // un tornare indietro. Questo file sta un passo prima — l'hook PreToolUse riceve il testo che sto
@@ -107,7 +107,7 @@ export function testoInArrivo(toolInput = {}) {
  * Si legge il JSON VERO, evento per evento — non il testo con una regex. La prima stesura cercava
  * «"PreToolUse" … mano-fermata» in qualunque punto del file: sarebbe bastato il comando cablato
  * sotto l'evento SBAGLIATO (più la parola PreToolUse altrove) per un verde falso — e su questa
- * risposta si chiude AR-531 da solo. Un file malformato risponde «non cablato», che è l'esito
+ * risposta si chiude AR-533 da solo. Un file malformato risponde «non cablato», che è l'esito
  * onesto: un cablaggio che non si può leggere non sta frenando nessuno.
  */
 export function cablaggioPresente(testoSettings = "") {

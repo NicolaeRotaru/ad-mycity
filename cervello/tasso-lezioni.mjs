@@ -25,6 +25,7 @@ import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { lezioniVive } from "./misura-parziale.mjs";
+import { scriviJsonAtomico } from "./scrivi-json.mjs";
 
 const DRY = process.argv.includes("--dry");
 const JSON_MODE = process.argv.includes("--json");
@@ -175,7 +176,7 @@ function cmdApplica() {
     lez.usi.push({ quando, ref });
   }
   appr.aggiornato = quando;
-  writeFileSync(APPR_PATH, JSON.stringify(appr, null, 2) + "\n", "utf8");
+  scriviJsonAtomico(APPR_PATH, appr); // indentazione conservata dal file, non imposta (AR-522)
   console.log(`✅ ${id} marcata applicata → ${ref}`);
 }
 
@@ -246,7 +247,7 @@ function main() {
   if (!DRY) {
     appr.meta = meta;
     appr.aggiornato = nowPiacenza();
-    writeFileSync(APPR_PATH, JSON.stringify(appr, null, 2) + "\n", "utf8");
+    scriviJsonAtomico(APPR_PATH, appr); // indentazione conservata dal file, non imposta (AR-522)
   }
 
   if (JSON_MODE) {
