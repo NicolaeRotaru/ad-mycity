@@ -25,6 +25,9 @@ import {
   PAROLE_FRASE_ROSSA,
   PAROLE_FRASE_AVVISO,
   RIGHE_TESTO_LUNGO,
+  RIGHE_TESTO_CORTO,
+  SOGLIA_STESSA_IDEA,
+  SOGLIA_STESSA_FRASE_QUI,
   BLOCCHI,
   ARIA_FRITTA,
   SOTTINTESI_CONTATI,
@@ -53,6 +56,21 @@ prova("l'avviso parte a 20 parole", () => {
 
 prova("un testo è «lungo» da 15 righe piene in su", () => {
   assert.equal(RIGHE_TESTO_LUNGO, 15, "alzare questa soglia esenta testi sempre più lunghi dai tre blocchi");
+});
+
+prova("un testo è «corto» sotto le 8 righe di contenuto, e 8 è il numero deciso", () => {
+  // AR-518. Alzare questa soglia esenta dai quattro blocchi testi sempre più lunghi — è la stessa
+  // leva di RIGHE_TESTO_LUNGO tirata dall'altra parte, e passerebbe inosservata.
+  assert.equal(RIGHE_TESTO_CORTO, 8, "alzare questa soglia toglie i blocchi a testi sempre più lunghi");
+  assert.ok(RIGHE_TESTO_CORTO < RIGHE_TESTO_LUNGO, "il corto sta sotto il lungo, altrimenti la fascia di mezzo sparisce");
+});
+
+prova("la soglia delle ripetizioni interne è più alta di quella fra due messaggi", () => {
+  // Dentro un testo gli elenchi con la stessa intelaiatura sono la norma («Costo:» sotto ogni voce):
+  // con la soglia bassa il controllo accusava 6.077 volte su 692 testi, e un controllo che accusa a
+  // torto viene spento entro il giorno.
+  assert.equal(SOGLIA_STESSA_FRASE_QUI, 0.85, "abbassarla riporta i falsi allarmi sugli elenchi");
+  assert.ok(SOGLIA_STESSA_FRASE_QUI > SOGLIA_STESSA_IDEA, "dentro un testo serve la stessa frase, non una cugina");
 });
 
 prova("le risposte obbligatorie sono quattro, e sono quelle", () => {

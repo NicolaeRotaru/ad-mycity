@@ -81,11 +81,27 @@ Le due regole che ne escono:
 
 1. **Quando il cancello blocca, mando SOLO il pezzo che manca.** Non un messaggio nuovo autonomo.
    Il contesto Nicola ce l'ha già: è appena sopra, non tre giorni fa.
-2. **Il ripasso vale DENTRO un testo, mai fra due messaggi di fila.** Ripetere la cosa importante con
-   parole diverse è una regola di paragrafo, non di conversazione.
+2. **Il ripasso vale accanto alla frase, non dieci frasi dopo.** Ripetere la cosa importante con
+   parole diverse è una regola di paragrafo. Quando la stessa cosa ricompare a metà del testo, non
+   è un ripasso: è il testo che ricomincia da capo.
 
 Il costo di sbagliarla è esattamente quello da cui siamo partiti: Nicola rilegge per scoprire se c'è
 qualcosa di nuovo, e spesso non c'è. **Ripetere non è chiarezza, è costo.**
+
+> ⚠️ **La riga 2 diceva il contrario, e per questo il difetto è tornato (AR-518).** Fino al 4/8 qui
+> c'era scritto: *«il ripasso vale DENTRO un testo, mai fra due messaggi di fila»*. Cioè: dentro un
+> messaggio, ripetere era sempre legittimo. Il controllo era costruito su quella frase e confrontava
+> solo con i messaggi precedenti.
+>
+> Poi Nicola ha mandato la foto di un mio messaggio con **i quattro blocchi due volte, lo stesso
+> comando da copiare due volte e sette frasi ridette** — e il controllo l'ha letto senza dire niente.
+> Non per un errore di codice: perché la regola gli diceva che lì dentro andava bene così.
+> *«Guarda, stai ancora ripetendo la stessa cosa due volte.»*
+>
+> **Il freno:** `ripetizioniInterne` in `cervello/si-capisce.mjs` guarda il testo contro sé stesso.
+> Ferma tre cose — un titolo dei quattro blocchi che compare due volte, lo stesso blocco di comandi
+> due volte, una frase ridetta lontano dalla prima. Il ripasso vicino continua a passare: è la
+> Regola 2, mossa 3, e una prova diventa rossa se qualcuno la spegne.
 
 ## Regola 0-ter — ogni misura dichiara cosa NON vede (AR-490)
 
@@ -162,6 +178,25 @@ La prova che serviva: la riga «Dettagli tecnici» rischia di diventare la disca
 proprio questa roba. Il misuratore avvisa quando sopra quella riga non resta nessuna sostanza.
 
 ## Regola 3 — le quattro risposte in cima a ogni testo lungo
+
+> 📏 **Quanto testo serve perché servano (AR-518).** Nicola, 4/8: *«quando è corta la risposta che mi
+> dai penso che non abbiano senso, ma tante volte il riassunto che mi dai mi fa capire meglio la
+> risposta»*. Le due metà della frase non si contraddicono: i blocchi aiutano quando c'è qualcosa da
+> attraversare, e diventano quattro intestazioni sopra sei righe quando non c'è. Quindi la struttura
+> **si scala**, non si accende e si spegne:
+>
+> | Quanto è lungo | Cosa ci va sopra |
+> |---|---|
+> | meno di 8 righe di contenuto | **niente**: la risposta è già corta quanto un blocco. Di' la cosa e basta |
+> | da 8 a 15 righe | i quattro blocchi se sta rispondendo a domande numerate |
+> | più di 15 righe | i quattro blocchi, sempre |
+> | più di 4 minuti di lettura | i quattro blocchi **più** due righe di riassunto in cima |
+>
+> I titoli dei blocchi non contano come contenuto: quattro titoli e quattro frasi sono un testo da
+> quattro righe, non da otto. Altrimenti l'impalcatura si giustifica da sola.
+>
+> **Cosa NON cambia:** l'ordine. Se i blocchi ci sono, vanno sopra i numeri — a qualunque lunghezza
+> (Regola 3-bis).
 
 ```
 ## In parole semplici        ← cosa ho fatto, 2-3 righe, come se glielo dicessi a voce

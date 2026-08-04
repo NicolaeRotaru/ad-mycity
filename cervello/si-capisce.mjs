@@ -66,6 +66,23 @@ export const BLOCCHI = ["In parole semplici", "Cosa cambia per te", "Cosa devi f
 export const RIGHE_TESTO_LUNGO = 15;
 
 /**
+ * Sotto questa soglia il testo è CORTO davvero, e i quattro blocchi pesano più di quello che
+ * introducono (AR-518).
+ *
+ * Nicola, 4/8: «quando è corta la risposta che mi dai penso che non abbiano senso, ma tante volte
+ * il riassunto che mi dai mi fa capire meglio la risposta».
+ *
+ * Le due metà della sua frase chiedono due cose diverse, e la cura è una sola: la struttura si
+ * SCALA sulla lunghezza invece di essere accesa o spenta.
+ *   sotto le 8 righe   → nessun blocco: la risposta è già corta quanto un blocco
+ *   da 8 a 15 righe    → i blocchi se il testo risponde a domande numerate
+ *   sopra le 15 righe  → i quattro blocchi, sempre
+ *   sopra i 4 minuti   → i quattro blocchi più due righe di riassunto in cima
+ * Il livello sotto non toglie niente al livello sopra: toglie l'impalcatura dove non regge niente.
+ */
+export const RIGHE_TESTO_CORTO = 8;
+
+/**
  * Oltre questi minuti di lettura serve un RIASSUNTO in cima (AR-488).
  *
  * Nicola, 3/8: «inserisci il riassunto dei 4 blocchi se è troppo lungo». Quattro blocchi vanno bene
@@ -114,6 +131,12 @@ const UNITA = new RegExp(
 
 /** Dove finisce la parte per Nicola e cominciano i dettagli per chi esegue. */
 const MARCATORE_TECNICO = /^#{1,4}\s.*dettagl\w*\s+tecnic/i;
+
+/** Una riga che è solo il titolo di un blocco: è impalcatura, non contenuto. */
+export function eTitoloDiBlocco(riga) {
+  const pulito = String(riga).replace(/[#*_`:]/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
+  return BLOCCHI.some((b) => pulito === b.toLowerCase());
+}
 
 /** Legge le parole che il glossario definisce davvero. Se il glossario non c'è, si dichiara cieco. */
 export function parolePeggioNoteAGlossario(radice = ".") {
@@ -202,6 +225,28 @@ export const ARIA_FRITTA = [
   { re: /\bdovrebbe (funzionare|andare|essere)\b/gi, invece: "l'ho provato oppure no: dillo" },
   { re: /\bin sostanza\b/gi, invece: "la cosa, senza preamboli" },
 ];
+
+/**
+ * Quanta struttura pretende un testo: `corta` · `media` · `lunga` (AR-518).
+ *
+ * ESISTE PERCHÉ DEVE ESSERE UNA SOLA. Il freno (`si-capisce.mjs`) e il contatore
+ * (`conta-blocco-mancante.mjs`) devono rispondere alla stessa domanda con la stessa regola: se il
+ * contatore misura messaggi che il freno non pretende, conta dimenticanze che non sono tali. Prima
+ * la condizione era scritta due volte, in due file, con due sfumature diverse — ed è il modo in cui
+ * due controlli gemelli smettono di esserlo senza che nessuno se ne accorga.
+ *
+ * I TITOLI DEI BLOCCHI NON SONO CONTENUTO. Quattro titoli sopra quattro frasi sono otto righe piene
+ * e due frasi di sostanza: contando le righe grezze quel testo risultava «medio» e i blocchi
+ * restavano obbligatori — cioè la misura si autogiustificava con la propria impalcatura.
+ */
+export function livelloDiStruttura(testo) {
+  const righe = senzaCodice(parteDiNicola(testo));
+  const piene = righe.filter((r) => r.trim()).length;
+  const contenuto = righe.filter((r) => r.trim() && !eTitoloDiBlocco(r)).length;
+  if (piene >= RIGHE_TESTO_LUNGO) return "lunga";
+  if (contenuto < RIGHE_TESTO_CORTO) return "corta";
+  return "media";
+}
 
 /** Trova le frasi vuote in un testo. Pura: si prova su una stringa. */
 export function ariaFritta(testo) {
@@ -333,14 +378,17 @@ function paroleP1ene(frase) {
   );
 }
 
-/** Quanto due frasi dicono la stessa cosa: 1 = identiche nelle parole piene, 0 = niente in comune. */
-export function quantoSiSomigliano(a, b) {
-  const pa = paroleP1ene(a);
-  const pb = paroleP1ene(b);
+/** Quanto si somigliano due insiemi di parole piene già calcolati. */
+function somiglianzaFraInsiemi(pa, pb) {
   if (pa.size < 3 || pb.size < 3) return 0; // frasi troppo povere: non si giudica
   let comuni = 0;
   for (const w of pa) if (pb.has(w)) comuni++;
   return comuni / Math.min(pa.size, pb.size);
+}
+
+/** Quanto due frasi dicono la stessa cosa: 1 = identiche nelle parole piene, 0 = niente in comune. */
+export function quantoSiSomigliano(a, b) {
+  return somiglianzaFraInsiemi(paroleP1ene(a), paroleP1ene(b));
 }
 
 /** Sopra questa somiglianza due frasi dicono la stessa cosa. Tarato sui casi veri del 3/8. */
@@ -363,6 +411,194 @@ export function ideeRipetute(nuovo, precedenti = []) {
     }
     if (peggiore) fuori.push({ frase: f.slice(0, 60), ...peggiore });
   }
+  return fuori;
+}
+
+
+/**
+ * RIPETUTO DENTRO LO STESSO MESSAGGIO — il cieco di `ideeRipetute` (AR-518).
+ *
+ * IL DIFETTO, con la sua foto. Nicola, 4/8: «stai ancora ripetendo la stessa cosa due volte». Il
+ * messaggio che gli ho mandato aveva DUE volte i quattro blocchi, due volte lo stesso comando da
+ * copiare, e le stesse tre frasi riscritte con parole diverse. Passato dal controllo con zero
+ * segnalazioni di ripetizione.
+ *
+ * PERCHÉ PASSAVA. `ideeRipetute` confronta il messaggio nuovo con i messaggi PRECEDENTI. Un
+ * messaggio che ripete sé stesso non ha nessun precedente da confrontare: il paragone non parte, e
+ * il verdetto esce verde. La misura contro le ripetizioni era cieca proprio alla forma più visibile
+ * di ripetizione — quella che sta tutta sotto gli occhi di Nicola nella stessa schermata.
+ *
+ * TRE MISURE, PERCHÉ SONO TRE DIFETTI DIVERSI:
+ *   ① un titolo dei quattro blocchi che compare due volte → il testo si è raddoppiato di struttura
+ *   ② lo stesso blocco di comandi due volte               → il copia-incolla che si duplica da solo
+ *   ③ due frasi che dicono la stessa cosa, LONTANE        → l'idea ridetta invece che ripresa
+ *
+ * COSA NON DEVE PRENDERE, e qui sta la taratura vera. Il **ripasso** — la cosa importante detta due
+ * volte con parole diverse — è una regola scritta (`scrittura-umana.md`, Regola 2, mossa 3) e serve
+ * a Nicola: se si perde una parola ha perso tutto. Quindi la vicinanza è il discrimine: una
+ * riformulazione entro poche frasi è ripasso e passa; la stessa idea che torna dieci frasi dopo non
+ * è un ripasso, è il testo che ricomincia da capo. Detta tre volte non è più ripasso a nessuna
+ * distanza.
+ */
+
+/** Entro quante frasi una riformulazione è ancora ripasso e non doppione. */
+export const DISTANZA_RIPASSO = 4;
+
+/** Oltre questo numero di volte la stessa idea non è ripasso a nessuna distanza. */
+export const VOLTE_CHE_NON_SONO_RIPASSO = 3;
+
+/**
+ * Dentro UN testo la soglia è più alta che fra due messaggi (0,85 contro 0,6), e il motivo è
+ * misurato, non stimato.
+ *
+ * Con la soglia bassa, sui 692 testi del vault uscivano 6.077 segnalazioni: guardandole una per una,
+ * la maggior parte erano ELENCHI CON LA STESSA INTELAIATURA — «Costo: poche ore» sotto ogni opzione,
+ * «Rischio: medio» sotto ogni altra. Stesse parole, contenuto opposto. Fra due messaggi diversi
+ * quella forma non capita quasi mai; dentro un documento è la norma, e un controllo che accusa a
+ * torto viene spento entro il giorno.
+ *
+ * Qui serve la stessa frase ridetta, non una cugina con lo stesso scheletro.
+ */
+export const SOGLIA_STESSA_FRASE_QUI = 0.85;
+
+/** L'etichetta con cui si apre una voce di elenco: «Costo:», «Rischio:», «Chi:». */
+const ETICHETTA = /^\s*\*{0,2}([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ ']{0,24}):/;
+
+/** Due voci dello stesso elenco non sono una ripetizione: cambia proprio quello che c'è dopo. */
+function stessaIntelaiatura(a, b) {
+  const ea = ETICHETTA.exec(a);
+  const eb = ETICHETTA.exec(b);
+  if (ea && eb && ea[1].trim().toLowerCase() === eb[1].trim().toLowerCase()) return true;
+  // Numeri diversi = righe che dicono cose diverse con le stesse parole («3.942 alle 18:23» vs
+  // «4.006 alle 22:26»): è una tabella, non un doppione.
+  const na = (a.match(/\d[\d.,]*/g) || []).join("|");
+  const nb = (b.match(/\d[\d.,]*/g) || []).join("|");
+  return Boolean(na || nb) && na !== nb;
+}
+
+/** I blocchi di comandi di un testo, normalizzati: due blocchi uguali sono un copia-incolla doppio. */
+function blocchiDiComandi(righe) {
+  const fuori = [];
+  let dentro = null;
+  let daRiga = 0;
+  righe.forEach((r, i) => {
+    if (!/^\s*```/.test(r)) {
+      if (dentro) dentro.push(r.trim());
+      return;
+    }
+    if (dentro) {
+      const testo = dentro.filter(Boolean).join("\n");
+      if (testo) fuori.push({ testo, riga: daRiga });
+      dentro = null;
+    } else {
+      dentro = [];
+      daRiga = i + 1;
+    }
+  });
+  return fuori;
+}
+
+/** Le ripetizioni dentro un solo testo. Pura: si prova su una stringa. */
+export function ripetizioniInterne(testo) {
+  const righe = parteDiNicola(testo);
+  const fuori = [];
+
+  // ① I titoli dei quattro blocchi: ognuno vale una volta sola per testo.
+  const titoli = new Map();
+  righe.forEach((r, i) => {
+    const pulito = r.replace(/[#*_`:]/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
+    for (const b of BLOCCHI) {
+      if (pulito !== b.toLowerCase()) continue;
+      titoli.set(b, [...(titoli.get(b) || []), i + 1]);
+    }
+  });
+  for (const [blocco, righeViste] of titoli) {
+    if (righeViste.length < 2) continue;
+    fuori.push({
+      riga: righeViste[righeViste.length - 1],
+      trovato: `«${blocco}» ${righeViste.length} volte`,
+      frase: blocco,
+      dico: `il testo riparte da capo: «${blocco}» c'è già alla riga ${righeViste[0]} — tieni un blocco solo e mettici dentro tutto`,
+    });
+  }
+
+  // ② Lo stesso blocco di comandi due volte: Nicola lo copia una volta, non due.
+  const comandi = new Map();
+  for (const b of blocchiDiComandi(righe)) {
+    comandi.set(b.testo, [...(comandi.get(b.testo) || []), b.riga]);
+  }
+  for (const [testoComando, righeViste] of comandi) {
+    if (righeViste.length < 2) continue;
+    fuori.push({
+      riga: righeViste[righeViste.length - 1],
+      trovato: `stesso comando ${righeViste.length} volte`,
+      frase: testoComando.split("\n")[0].slice(0, 60),
+      dico: `lo stesso blocco di comandi è già alla riga ${righeViste[0]}: chi legge non sa se sono due passi o uno solo`,
+    });
+  }
+
+  // ③ Le frasi che ridicono la stessa cosa lontano dalla prima volta.
+  //
+  // CONFRONTATE PER INDICE, NON TUTTE CONTRO TUTTE. Il primo giro confrontava ogni frase con ogni
+  // altra: su un documento del vault sono milioni di paragoni e il controllo non finiva più. Un
+  // controllo che gira a ogni turno e ci mette due minuti viene spento, quindi non è un dettaglio.
+  //
+  // Il filtro è ESATTO, non un taglio: due frasi che si somigliano almeno quanto la soglia (0,85) su
+  // insiemi di almeno 3 parole piene devono avere per forza 3 parole piene in comune (0,85 × 3 =
+  // 2,55, e le parole non si contano a metà). Quindi confronto solo le frasi che condividono almeno
+  // tre parole piene: quelle che scarto non avrebbero potuto superare la soglia comunque.
+  const elenco = frasi(senzaCodice(righe).join("\n"));
+  const insiemi = elenco.map(paroleP1ene);
+  const doveCompare = new Map(); // parola piena → le frasi che la contengono
+  insiemi.forEach((s, i) => {
+    for (const w of s) doveCompare.set(w, [...(doveCompare.get(w) || []), i]);
+  });
+  const gruppi = []; // ogni gruppo = una idea, con le posizioni in cui compare
+  const gruppoDi = new Map(); // frase → il gruppo in cui è già finita
+  const abbinata = new Map(); // frase → la frase che ha DAVVERO fatto scattare il confronto
+  elenco.forEach((f, i) => {
+    const vicini = new Map(); // frase precedente → quante parole piene in comune
+    for (const w of insiemi[i]) {
+      for (const j of doveCompare.get(w) || []) {
+        if (j >= i) continue;
+        vicini.set(j, (vicini.get(j) || 0) + 1);
+      }
+    }
+    for (const [j, comuni] of vicini) {
+      if (comuni < 3) continue; // sotto la soglia per costruzione: non c'è niente da calcolare
+      if (somiglianzaFraInsiemi(insiemi[i], insiemi[j]) < SOGLIA_STESSA_FRASE_QUI) continue;
+      if (stessaIntelaiatura(elenco[i], elenco[j])) continue; // due voci dello stesso elenco
+      const g = gruppoDi.get(j);
+      if (g === undefined) continue;
+      gruppi[g].dove.push(i);
+      gruppoDi.set(i, g);
+      abbinata.set(i, j);
+      return;
+    }
+    gruppoDi.set(i, gruppi.length);
+    gruppi.push({ dove: [i] });
+  });
+  for (const g of gruppi) {
+    if (g.dove.length < 2) continue;
+    const primo = g.dove[0];
+    const ultimo = g.dove[g.dove.length - 1];
+    const lontane = ultimo - primo > DISTANZA_RIPASSO;
+    const troppe = g.dove.length >= VOLTE_CHE_NON_SONO_RIPASSO;
+    if (!lontane && !troppe) continue; // ripasso vicino: è la regola, non il difetto
+    const f = elenco[ultimo];
+    // CITO LA FRASE CHE HA DAVVERO FATTO SCATTARE IL CONFRONTO, non la prima del gruppo. Le idee si
+    // agganciano a catena — A somiglia a B, B somiglia a C — e la prima della catena può non
+    // somigliare per niente all'ultima. Nel primo giro dal vivo il verdetto accusava una frase
+    // mostrandone un'altra che non c'entrava: un'accusa che chi legge non può verificare vale zero.
+    const gia = elenco[abbinata.get(ultimo) ?? primo];
+    fuori.push({
+      riga: righe.findIndex((r) => r.includes(f.slice(0, 25))) + 1 || 1,
+      trovato: troppe ? `stessa idea ${g.dove.length} volte` : `stessa idea a ${ultimo - primo} frasi di distanza`,
+      frase: f.slice(0, 60).trim() + (f.length > 60 ? "…" : ""),
+      dico: `l'hai già detto qui dentro: «${gia.slice(0, 60)}» — un ripasso sta accanto alla frase, non dieci frasi dopo`,
+    });
+  }
+
   return fuori;
 }
 
@@ -427,6 +663,14 @@ export const COPERTURA = {
   "manca-esempio": { unita: "il testo intero", cieco: "un esempio che c'è ma è inventato o non c'entra" },
   "manca-riassunto": { unita: "il testo intero", cieco: "un riassunto che c'è e non riassume niente" },
   "gia-detto": { unita: "la conversazione", cieco: "una ripetizione fatta con sinonimi: servirebbe un modello che capisce il senso" },
+  "gia-detto-qui": {
+    unita: "il testo intero, a coppie di frasi",
+    cieco: "un ripasso legittimo scritto lontano dalla frase di partenza: da qui lo leggo come doppione, perché la distanza è l'unico segno che ho",
+  },
+  "blocchi-su-testo-corto": {
+    unita: "il testo intero",
+    cieco: "un testo corto di righe ma denso di idee, dove i blocchi servirebbero lo stesso",
+  },
 };
 
 /**
@@ -437,7 +681,10 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
   const righeNicola = senzaCodice(parteDiNicola(testo));
   const corpo = righeNicola.join("\n");
   const parole = corpo.split(/\s+/).filter(Boolean).length;
-  const testoLungo = righeNicola.filter((r) => r.trim()).length >= RIGHE_TESTO_LUNGO;
+  const righePiene = righeNicola.filter((r) => r.trim()).length;
+  const livello = livelloDiStruttura(testo);
+  const testoLungo = livello === "lunga";
+  const testoCorto = livello === "corta";
   const minutiStimati = Math.max(1, Math.round(parole / 180));
   const problemi = [];
   const avvisi = [];
@@ -586,6 +833,12 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
     });
   }
 
+  // ③-quater Le ripetizioni DENTRO questo stesso testo. Vale su qualunque lunghezza: la foto di
+  // Nicola del 4/8 è un messaggio di media lunghezza che si è raddoppiato, non un documento.
+  for (const r of ripetizioniInterne(testo)) {
+    problemi.push({ riga: r.riga, tipo: "gia-detto-qui", trovato: r.trovato, frase: r.frase, dico: r.dico });
+  }
+
   // ③-bis L'aria fritta: parole che sembrano spiegare e non dicono niente. Blocca, perché è
   // esattamente il tipo di riga che costringe Nicola a rileggere per capire che non c'era niente.
   for (const a of ariaFritta(testo)) {
@@ -625,9 +878,17 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
       }
     }
   }
-  if (testoLungo || rispondeAiNumeri) {
+  // LA STRUTTURA SI SCALA SULLA LUNGHEZZA (AR-518). Nicola, 4/8: «quando è corta la risposta che mi
+  // dai penso che non abbiano senso, ma tante volte il riassunto che mi dai mi fa capire meglio la
+  // risposta». Le due metà della frase non si contraddicono: i blocchi aiutano quando c'è qualcosa
+  // da attraversare, e diventano quattro intestazioni sopra sei righe quando non c'è.
+  // Le domande numerate da sole non bastano più a pretenderli: una risposta di tre righe a «1) 2)»
+  // resta una risposta di tre righe. L'ORDINE invece resta preteso sempre — se i blocchi ci sono,
+  // vanno sopra i numeri (AR-517): quel controllo è qui sopra e non si tocca.
+  const bloccoPresente = (b) => new RegExp(b.replace(/\s+/g, "\\s+"), "i").test(corpo);
+  if (testoLungo || (rispondeAiNumeri && !testoCorto)) {
     for (const blocco of BLOCCHI) {
-      if (!new RegExp(blocco.replace(/\s+/g, "\\s+"), "i").test(corpo)) {
+      if (!bloccoPresente(blocco)) {
         problemi.push({
           riga: 1,
           tipo: "manca-una-risposta",
@@ -635,6 +896,16 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
           dico: `senza «${blocco}» Nicola deve cercarsi da solo la risposta che gli serve`,
         });
       }
+    }
+  } else if (testoCorto) {
+    const quanti = BLOCCHI.filter(bloccoPresente).length;
+    if (quanti >= 3) {
+      problemi.push({
+        riga: 1,
+        tipo: "blocchi-su-testo-corto",
+        trovato: `${quanti} blocchi sopra ${righePiene} righe di testo`,
+        dico: "l'impalcatura pesa più di quello che regge: su una risposta così corta di' la cosa e basta",
+      });
     }
   }
   // Riassunto ed esempio restano legati alla LUNGHEZZA, non alle domande numerate: pretenderli anche
@@ -956,6 +1227,8 @@ function main() {
     "manca-esempio": "🔎 manca l'esempio concreto",
     "manca-riassunto": "📄 troppo lungo senza due righe di riassunto in cima",
     "gia-detto": "🔁 cose che gli ho già mandato",
+    "gia-detto-qui": "🔂 cose ripetute due volte dentro questo stesso testo",
+    "blocchi-su-testo-corto": "🏗️  quattro titoli sopra una risposta corta",
     "aria-fritta": "💨 parole che sembrano spiegare e non dicono niente",
     "sostanza-nascosta": "🫙 forma pulita, contenuto svuotato",
     "frase-lunga": "🧵 frasi troppo lunghe",

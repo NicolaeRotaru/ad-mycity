@@ -10,8 +10,11 @@
 
 import assert from "node:assert/strict";
 import {
+  BLOCCHI,
   COPERTURA,
   ideeRipetute,
+  ripetizioniInterne,
+  livelloDiStruttura,
   quantoSiSomigliano,
   ariaFritta,
   paroleNuove,
@@ -459,6 +462,102 @@ prova("senza nessun segno di esempio l accusa resta: il fix non ha spento la reg
     ...LUNGO,
   ].join("\n");
   assert.ok(tipi(t).includes("manca-esempio"), "un testo senza nessun caso concreto deve restare fermato");
+});
+
+// ── AR-518: la ripetizione DENTRO lo stesso messaggio ─────────────────────────────────────────
+//
+// Il caso non è inventato: è la foto che Nicola ha mandato il 4/8. Un messaggio solo, con i quattro
+// blocchi due volte, lo stesso comando due volte e le stesse frasi riscritte. Il controllo contro le
+// ripetizioni lo lasciava passare muto, perché confrontava solo con i messaggi PRECEDENTI — e un
+// messaggio che ripete sé stesso non ha precedenti da confrontare.
+
+const DOPPIO = [
+  "In parole semplici",
+  "La richiesta di unione è aperta e la regola nuova è scritta in due posti che non si dimenticano.",
+  "Cosa cambia per te",
+  "Sul server ci sono diciassette file di dati che la macchina si riscrive da sola ogni giro.",
+  "Cosa devi fare",
+  "```bash",
+  "git branch salvataggio",
+  "git fetch origin main",
+  "```",
+  "Fermati qui e mandami cosa stampa.",
+  "Cosa non ho verificato",
+  "Cosa succede quando il rebase riparte: può andare liscio o conflittare su ogni file.",
+  "In parole semplici",
+  "Sul server ci sono diciassette file di dati che la macchina si riscrive da sola ogni giro.",
+  "Cosa cambia per te",
+  "La richiesta di unione è aperta e la regola nuova è scritta in due posti che non si dimenticano.",
+  "Cosa devi fare",
+  "```bash",
+  "git branch salvataggio",
+  "git fetch origin main",
+  "```",
+  "Fermati qui e mandami cosa stampa.",
+  "Cosa non ho verificato",
+  "Cosa succede quando il rebase riparte: può andare liscio o conflittare su ogni file.",
+].join("\n");
+
+prova("il messaggio della foto di Nicola viene fermato: quattro titoli doppi", () => {
+  const r = ripetizioniInterne(DOPPIO);
+  const titoli = r.filter((x) => /volte/.test(x.trovato) && BLOCCHI.some((b) => x.frase === b));
+  assert.equal(titoli.length, 4, `attesi i quattro blocchi doppi, trovati: ${titoli.map((x) => x.frase)}`);
+});
+
+prova("lo stesso blocco di comandi due volte viene fermato", () => {
+  const r = ripetizioniInterne(DOPPIO).filter((x) => /stesso comando/.test(x.trovato));
+  assert.equal(r.length, 1, "un comando da copiare due volte: chi legge non sa se sono due passi");
+});
+
+prova("le stesse frasi ridette lontano vengono fermate", () => {
+  const r = ripetizioniInterne(DOPPIO).filter((x) => /stessa idea/.test(x.trovato));
+  assert.ok(r.length >= 2, `attese almeno due frasi ridette, trovate ${r.length}`);
+});
+
+prova("la misura EMETTE la ripetizione interna, non basta trovarla", () => {
+  // Stessa prova di AR-481, stessa ragione: una funzione giusta e non collegata non difende niente.
+  assert.ok(misura(DOPPIO).problemi.some((p) => p.tipo === "gia-detto-qui"));
+});
+
+prova("il RIPASSO vicino non viene accusato: è la regola, non il difetto", () => {
+  // Regola 2, mossa 3 di scrittura-umana.md: la cosa importante detta due volte, la seconda con
+  // parole diverse. Se questa prova diventa rossa, il controllo nuovo sta combattendo una regola
+  // scritta — ed è il modo in cui un freno giusto rende peggiore il testo.
+  const t = [
+    "Il controllo guarda soltanto i messaggi precedenti e non guarda mai dentro il messaggio.",
+    "Detto in un altro modo: il controllo non guarda mai dentro il messaggio che sta misurando.",
+  ].join("\n");
+  assert.deepEqual(ripetizioniInterne(t), [], "una riformulazione accanto alla frase è il ripasso chiesto");
+});
+
+prova("due voci dello stesso elenco non sono una ripetizione", () => {
+  // Il falso allarme misurato sul vault vero: con la soglia bassa uscivano 6.077 accuse su 692
+  // testi, e la maggior parte erano elenchi con la stessa intelaiatura — «Costo:» sotto ogni
+  // opzione, «Rischio:» sotto ogni altra. Stesse parole, contenuto opposto.
+  const t = [
+    "Opzione A, quella che consiglio davvero.",
+    "Costo: poche ore, perché il motore esiste già e va soltanto agganciato.",
+    "Rischio: medio basso, vanno esclusi date e numeri dal confronto.",
+    "Opzione B, quella che sconsiglio.",
+    "Costo: poche ore, perché il metro esiste già e va soltanto agganciato.",
+    "Rischio: medio alto, vanno esclusi date e numeri dal confronto.",
+  ].join("\n");
+  assert.deepEqual(ripetizioniInterne(t), [], "cambia proprio quello che viene dopo l'etichetta");
+});
+
+prova("i quattro titoli sopra una risposta di due righe vengono segnalati", () => {
+  const t = ["In parole semplici", "Sì.", "Cosa cambia per te", "Niente.", "Cosa devi fare", "Niente.", "Cosa non ho verificato", "Niente."].join("\n");
+  assert.ok(
+    misura(t).problemi.some((p) => p.tipo === "blocchi-su-testo-corto"),
+    "quattro titoli e quattro parole: l'impalcatura pesa più di quello che regge",
+  );
+});
+
+prova("i titoli dei blocchi non contano come contenuto", () => {
+  // Se contassero, un testo fatto solo di impalcatura si dichiarerebbe «medio» da solo, e la
+  // regola dei quattro blocchi si autogiustificherebbe con la propria presenza.
+  const soloImpalcatura = ["In parole semplici", "Sì.", "Cosa cambia per te", "No.", "Cosa devi fare", "Niente.", "Cosa non ho verificato", "Niente."].join("\n");
+  assert.equal(livelloDiStruttura(soloImpalcatura), "corta", "otto righe piene ma quattro di contenuto");
 });
 
 // ── Referto ───────────────────────────────────────────────────────────────────────────────────

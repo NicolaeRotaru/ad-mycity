@@ -43,12 +43,43 @@ test("gli stessi contenuti nell'ordine giusto passano", () => {
   assert.ok(!tipi(t).includes("manca-una-risposta"), "i quattro blocchi ci sono tutti");
 });
 
-test("una risposta numerata SENZA blocchi viene fermata anche se è corta", () => {
+test("una risposta numerata SENZA blocchi viene fermata quando c'è qualcosa da attraversare", () => {
   // Prima di AR-517 questa passava: la regola dei quattro blocchi scattava solo sui testi lunghi, e
   // una risposta a due domande sta in sei righe. È esattamente il buco da cui il blocco spariva.
+  const t = [
+    "1) Il primo controllo è verde: l'ho fatto girare stamattina alle 9:10 e non ha trovato niente.",
+    "   La cosa che cambia è che il ramo adesso si allinea da solo, senza fermarsi a metà.",
+    "   Resta fuori il server, che quella riparazione non ce l'ha ancora.",
+    "2) Il secondo l'ho lasciato indietro, e ti dico perché.",
+    "   Tocca i file che la macchina si riscrive da sola, quindi non è una modifica reversibile.",
+    "   Preferisco che lo firmi tu prima, così se va storto sappiamo dove tornare.",
+    "3) Il terzo non l'ho nemmeno aperto: dipende dal secondo.",
+    "   Appena il secondo è chiuso questo diventa mezz'ora di lavoro.",
+    "   Prima no, sarebbe lavoro buttato.",
+  ].join("\n");
+  const mancanti = misura(t).problemi.filter((x) => x.tipo === "manca-una-risposta");
+  assert.equal(mancanti.length, BLOCCHI.length, "una risposta numerata con del testo dentro pretende le quattro risposte");
+});
+
+test("su una risposta numerata CORTISSIMA i blocchi non si pretendono più (AR-518)", () => {
+  // Il rovescio della medaglia di AR-517, e arriva da Nicola il 4/8: «quando è corta la risposta che
+  // mi dai penso che non abbiano senso». Su due righe i quattro titoli sono quattro intestazioni
+  // sopra due frasi — l'impalcatura pesa più di quello che regge.
+  //
+  // NON è una marcia indietro su AR-517: la prova qui sopra tiene fermo il caso che AR-517 doveva
+  // curare (risposta numerata con del contenuto dentro), e il controllo sull'ORDINE — se i blocchi
+  // ci sono vanno sopra i numeri — vale a qualunque lunghezza. Quello che cade è solo la pretesa su
+  // un testo dove non c'è niente da attraversare.
   const t = ["1) Fatto, il controllo è verde.", "2) Quell'altro l'ho lasciato indietro."].join("\n");
   const mancanti = misura(t).problemi.filter((x) => x.tipo === "manca-una-risposta");
-  assert.equal(mancanti.length, BLOCCHI.length, "una risposta numerata pretende le quattro risposte, corta o lunga");
+  assert.equal(mancanti.length, 0, "su due righe i quattro blocchi sono impalcatura, non aiuto");
+});
+
+test("i quattro blocchi messi sopra una risposta cortissima vengono segnalati", () => {
+  const t = [...QUATTRO, "", "1) Sì.", "2) No."].join("\n");
+  const p = misura(t).problemi.filter((x) => x.tipo === "blocchi-su-testo-corto");
+  assert.equal(p.length, 1, "quattro titoli sopra due frasi: è il difetto che Nicola ha fotografato");
+  assert.match(p[0].dico, /impalcatura/);
 });
 
 test("un elenco che non risponde a domande numerate non viene toccato", () => {
@@ -71,11 +102,25 @@ test("il tipo nuovo dichiara cosa NON vede, come tutti gli altri", () => {
 
 test("conta il blocco mancante solo sui messaggi che lo pretendevano", () => {
   const corto = "Fatto, è verde.";
-  const numerato = "1) Sì.\n2) No.";
+  // AR-518: il contatore e il freno rispondono alla STESSA domanda con la stessa funzione. Una
+  // risposta numerata di due righe non pretende più i blocchi, quindi non entra nemmeno nel conto:
+  // contarla direbbe che ho dimenticato una cosa che non andava messa.
+  const numeratoCorto = "1) Sì.\n2) No.";
+  const numerato = [
+    "1) Il primo l'ho chiuso stamattina e il controllo è verde.",
+    "   Il ramo adesso si allinea da solo invece di fermarsi a metà.",
+    "   Sul server la riparazione non è ancora arrivata.",
+    "2) Il secondo l'ho lasciato lì e ti dico il perché.",
+    "   Tocca i file che la macchina riscrive da sola, quindi non torno indietro da solo.",
+    "   Meglio che lo firmi tu prima, così sappiamo dove tornare.",
+    "3) Il terzo dipende dal secondo e non l'ho aperto.",
+    "   Chiuso il secondo diventa mezz'ora di lavoro.",
+  ].join("\n");
   assert.equal(daMisurare(corto), false, "su un messaggio di tre parole il blocco non va: contarlo sarebbe un'accusa falsa");
-  assert.equal(daMisurare(numerato), true, "una risposta numerata lo pretende");
-  const c = conta([corto, numerato, QUATTRO.join("\n") + "\n1) Sì.\n2) No."]);
-  assert.equal(c.misurati, 2, "il messaggio corto non entra nel conto");
+  assert.equal(daMisurare(numeratoCorto), false, "due righe numerate non pretendono i quattro titoli (AR-518)");
+  assert.equal(daMisurare(numerato), true, "una risposta numerata con del contenuto dentro lo pretende");
+  const c = conta([corto, numeratoCorto, numerato, QUATTRO.join("\n") + "\n" + numerato]);
+  assert.equal(c.misurati, 2, "i due messaggi corti non entrano nel conto");
   assert.equal(c.mancanze["Cosa cambia per te"], 1, "manca in uno solo dei due misurati");
   assert.equal(c.quota, 50);
 });

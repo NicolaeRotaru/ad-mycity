@@ -36,7 +36,12 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { homedir } from "node:os";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
-import { BLOCCHI, RIGHE_TESTO_LUNGO, parteDiNicola, indiceDellaPrimaRispostaNumerata } from "./si-capisce.mjs";
+import {
+  BLOCCHI,
+  livelloDiStruttura,
+  parteDiNicola,
+  indiceDellaPrimaRispostaNumerata,
+} from "./si-capisce.mjs";
 import { testiAssistente } from "./cancello-stop.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -114,13 +119,19 @@ export function trascrizioniRecenti(cartelle, giorni, adesso = Date.now()) {
 /**
  * Un messaggio va misurato? Solo se la regola dei quattro blocchi lo riguarda.
  *
- * Stessa condizione del freno (`si-capisce.mjs`): testo lungo OPPURE risposta a domande numerate.
- * Se qui contassi anche i messaggi corti, il contatore direbbe che dimentico il blocco nove volte su
- * dieci — vero come numero e falso come accusa, perché su un «fatto, è verde» il blocco non va.
+ * Stessa condizione del freno (`si-capisce.mjs`): testo lungo OPPURE risposta a domande numerate che
+ * non sia cortissima. Se qui contassi anche i messaggi corti, il contatore direbbe che dimentico il
+ * blocco nove volte su dieci — vero come numero e falso come accusa, perché su un «fatto, è verde»
+ * il blocco non va.
+ *
+ * La soglia bassa arriva da Nicola il 4/8 (AR-518): su una risposta di poche righe i quattro titoli
+ * pesano più del testo. Questa condizione DEVE restare gemella di quella del freno: se il contatore
+ * misura messaggi che il freno non pretende, misura una dimenticanza che non è tale.
  */
 export function daMisurare(testo) {
-  const righe = parteDiNicola(testo).filter((r) => r.trim());
-  if (righe.length >= RIGHE_TESTO_LUNGO) return true;
+  const livello = livelloDiStruttura(testo);
+  if (livello === "lunga") return true;
+  if (livello === "corta") return false;
   return indiceDellaPrimaRispostaNumerata(parteDiNicola(testo)) !== -1;
 }
 
