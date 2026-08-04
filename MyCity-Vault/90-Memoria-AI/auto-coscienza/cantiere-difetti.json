@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 05:33",
+  "aggiornato": "2026-08-04 05:52",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -10844,6 +10844,25 @@
       "verifica": {
         "comando": "node cervello/mano-fermata.mjs --cablaggio"
       }
+    },
+    {
+      "id": "AR-534",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 05:52",
+      "nato_come": "scoperta",
+      "nato_da": "AR-530",
+      "origine": "Nicola, 4/8 05:37: «perché il pannello è fermo da giorni?» — la domanda stessa è il difetto: doveva dirglielo la Cabina, non doveva accorgersene lui a occhio.",
+      "titolo": "La Cabina ha mostrato per quattro giorni numeri vecchi senza dirlo: nessuno incrociava il battito con l'ultimo push",
+      "causa_radice": "① La Cabina aveva ENTRAMBI i segnali: `worker:ultimo` (battito Supabase, fresco anche a push rotto) e `memoria-ad:ultimo_push` (scritto SOLO a push riuscito — fermo al 30/7 11:15). ② Nessun punto del codice li incrociava: grep di `esito-giro`/`push_ok` in pannello/src = zero risultati. ③ La home combinava i pezzi nel modo peggiore: il semaforo verde veniva dal battito («🟢 Viva»), la data vecchia («ultimo giro 30/07») restava in piccolo come informazione, non come allarme. ④ Le targhette ambra per-dato (AR-237) marcano il singolo blocco vecchio ma non gridano mai; la diagnosi worker (worker-salute) ha nove rami di guasto e nessuno guarda la pubblicazione. ⑤ Forma generale: ogni organo risponde del suo verde, nessuno risponde della domanda di Nicola — «quello che sto guardando è di adesso?». Con la catena del 30/7 (spazio → commit bloccato → albero sporco → niente rebase → niente push, AR-530) il silenzio è durato 4 giorni e 17 ore, e l'ha rotto Nicola a occhio, non la macchina.",
+      "fix_proposto": "FATTO 🟡 `verdettoMemoriaFerma` in pannello/src/lib/memoria-ferma.ts (puro, zero import): push riuscito più vecchio di 12h → `ferma`, col battito che sceglie solo la frase («lavora ma non pubblica» vs «e non dà segni di vita»); chiave mai scritta → `maiVisto`, dichiarato e mai letto come verde. Lo espone /api/cuore; la home (MacchinaHomeCard) forza la riga a rosso e mostra il banner con età a voce, data dell'ultima pubblicazione e bottone verso la diagnosi; worker-salute aggiunge il ramo con journalctl/git status/sblocco (il runbook di questo incidente, scritto dove servirà). Guarda l'EFFETTO (il push che non arriva), quindi copre qualunque anello si rompa la prossima volta: spazio, quota, token, rete.",
+      "verifica": {
+        "comando": "node --import ./cervello/test/hook-ts.mjs --test pannello/src/lib/memoria-ferma.test.mts"
+      },
+      "prova_runtime": "Playwright 4/8 05:50 (viewport mobile): banner acceso coi numeri veri dell'incidente (114h → «4 giorni e 18 ore», ultima pubblicazione 30/07 11:15), riga «🔴 Lavora ma non pubblica», bottone → diagnosi worker, e NESSUN banner a push fresco. 7/7 osservazioni, zero errori console."
     }
   ],
   "meta": {

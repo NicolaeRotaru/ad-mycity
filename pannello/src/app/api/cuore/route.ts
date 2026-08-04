@@ -4,6 +4,7 @@ import { getBudget, setTetto } from "@/lib/ai-budget";
 import { aiConfigurato } from "@/lib/ai";
 import { demoAttivo, cuoreDemo } from "@/lib/demo";
 import { macchinaViva, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
+import { verdettoMemoriaFerma } from "@/lib/memoria-ferma";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,6 +22,12 @@ export async function GET() {
     raccogliSegnaliBattito(),
   ]);
   const ultimoDisplay = segnali.ultimoGiro?.quando ?? segnali.autopilotaCron?.quando ?? null;
+  // AR-534 — l'incrocio che mancava dal 30/7 al 4/8: battito fresco + `memoria-ad:ultimo_push`
+  // fermo = il Pannello sta mostrando il passato, e deve dirlo lui invece di scriverci «Viva».
+  const memoriaFerma = verdettoMemoriaFerma({
+    oreWorker: oreDaQuando(segnali.worker?.quando),
+    orePush: oreDaQuando(segnali.pushMemoria?.quando),
+  });
   return NextResponse.json({
     collegato: memoryConnected(),
     // Card principale: ultimo giro AD reale (non solo cron Vercel mattutino).
@@ -29,6 +36,11 @@ export async function GET() {
     ultimoGiro: segnali.ultimoGiro?.quando ?? null,
     autopilotaUltimo: segnali.autopilotaCron?.quando ?? null,
     workerUltimo: segnali.worker?.quando ?? null,
+    pushMemoriaUltimo: segnali.pushMemoria?.quando ?? null,
+    memoriaFerma: memoriaFerma.ferma,
+    memoriaFermaOre: memoriaFerma.oreFerma,
+    memoriaPushMaiVisto: memoriaFerma.maiVisto,
+    memoriaLavora: memoriaFerma.macchinaLavora,
     workerVivo: (() => {
       const o = oreDaQuando(segnali.worker?.quando);
       return o != null && o <= 0.1;
