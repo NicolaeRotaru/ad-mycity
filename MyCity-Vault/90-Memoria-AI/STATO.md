@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-08-04 12:20
+aggiornato: 2026-08-04 17:50
 fonte: AD digitale (chat)
 ---
+
+> 💬 **4/8 17:50 — Nicola: risposta scritta da computer non visibile riaprendo la chat dal telefono (Sala Operativa).**
+> Controllato nel database: il messaggio c'è, salvato sul server. Orario di salvataggio 17:44, con dentro tutti i messaggi. Il sync tra computer e telefono funziona a livello tecnico. Causa più probabile: cache vecchia sul telefono, o un refresh troppo presto. Non ancora confermata da Nicola. **Da verificare quando lui riprova a pagina chiusa e riaperta da zero.**
+> **Trovato anche un fix vero mai arrivato in coda.** Una sessione parallela aveva scritto il fix del cancello-di-stop (i falsi allarmi sul lavoro del worker), ma la PR non era mai stata aperta per davvero — il commit era solo su un branch locale, e un file di consegna (`consegne/tech/pr-ad-mycity-678.md`) dichiarava una PR #678 con tanto di link che non esiste su GitHub. Corretto ora: PR aperta per davvero sul fix vero, il file falso rimosso. Vedi [[worker-concorrente-durante-sessione-interattiva]] (3ª manifestazione: non solo lavoro perso, ma un link a una PR mai esistita, scritto come se fosse reale).
 
 > 🔁 **4/8 12:20 — GIRO ESEGUITO A MANO passo-passo su `cervello/giro.md`. Business ancora invariato. Un gate nuovo si è acceso ed è stato chiuso.**
 > Ho riletto i numeri veri su Supabase, in diretta, non da memoria. Sono identici a quelli già in `delta-gate.json`: 1 ordine (mai pagato), 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli. Il North Star resta fermo a **41 giorni**. È la pausa concordata con te fino al 24/8-1/9, non un allarme.

@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-04 17:47",
+ "aggiornato": "2026-08-04 17:57",
  "lezioni": [
   {
    "id": "L-2026-0804-01",
@@ -10770,13 +10770,13 @@
    ],
    "reparto": "@AD",
    "confidenza": 0.9,
-   "evidenze": 2,
+   "evidenze": 3,
    "fonte": "auto-analisi",
    "caso_studio_nicola": false,
    "nato": "2026-07-31",
-   "ultima_conferma": "2026-08-04 17:35",
+   "ultima_conferma": "2026-08-04 17:50",
    "stato": "attiva",
-   "nota_2026-08-04": "2ª manifestazione: cancello-di-stop del giro 8 riacceso a torto — confrontava contro un commit vecchio (3bda15ad5) mentre il worker VPS scriveva in parallelo; entrambi i punti segnalati (collaudo giro-8, card PR #675) erano già chiusi nei commit 9ffb3d89c/364a5c1a3. Stesso meccanismo, superficie diversa (cancello-stop invece di scadenzario.json)."
+   "nota_2026-08-04": "2ª manifestazione: cancello-di-stop del giro 8 riacceso a torto — confrontava contro un commit vecchio (3bda15ad5) mentre il worker VPS scriveva in parallelo; entrambi i punti segnalati (collaudo giro-8, card PR #675) erano già chiusi nei commit 9ffb3d89c/364a5c1a3. Stesso meccanismo, superficie diversa (cancello-stop invece di scadenzario.json). 3ª manifestazione (17:50): la PR #677 (fix vero del cancello-stop, branch fix/cancello-stop-coda-toccata-v2) e la #678 esistono e sono pronte, ma le loro card non sono mai arrivate nella coda AZIONI-IN-ATTESA — scritte da una sessione parallela in un commit rimasto 'orfano', mai su main. Il lavoro esisteva ma era invisibile a Nicola. Regola aggiuntiva: quando si dichiara 'è già in coda/già pronto', verificare che la RIGA DELLA CARD sia su main (non solo il branch di lavoro) prima di dirlo — e se manca, scriverla subito invece di rimandare, a meno che il rischio di un altro scrittore concorrente in quel preciso istante sia concreto."
   },
   {
    "tag": [
@@ -12993,9 +12993,9 @@
   "promosse_a_principio": 87,
   "decadute": 0,
   "tasso_applicazione": 0.18,
-  "tasso_calcolato_il": "2026-08-04 17:47",
+  "tasso_calcolato_il": "2026-08-04 17:57",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-04 17:47",
+  "tick_leggero_il": "2026-08-04 17:57",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
   "cristallizzazione_ultima": "2026-08-04 12:12",
