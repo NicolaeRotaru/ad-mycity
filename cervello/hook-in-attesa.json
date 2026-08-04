@@ -1,35 +1,35 @@
 {
   "_cosa_e": "I freni COSTRUITI ma non ancora agganciati in .claude/settings.json, con la data entro cui devono esserlo. Esiste perché quel file è nel deny-list della macchina: io posso scrivere l'hook, non attaccarlo — l'aggancio lo fa Nicola a mano. Senza questo registro il guardiano degli hook direbbe rosso su ogni freno nuovo dal minuto in cui nasce al minuto in cui Nicola lo incolla, e una CI rossa per costruzione si impara a ignorare in tre giorni (AR-506).",
   "_non_e_un_esenzione": "La differenza sta tutta nella data. Un'attesa senza scadenza È un'esenzione travestita — è la porta di AR-338, e il sorvegliante la conosce: il suo terzo stato «gate-in-attesa» pretende il numero della PR per la stessa ragione. Qui vale lo stesso: passata la data il guardiano torna ROSSO, e il freno non agganciato conta come debito, mai come difesa.",
-  "_come_si_aggiunge": "Una voce per script: { file, evento, perche, pr, scade }. `scade` in formato AAAA-MM-GG. Quando Nicola incolla il blocco, la voce si TOGLIE da qui — non si aggiorna la data.",
+  "_come_si_aggiunge": "Una voce per script: { file, evento, perche, pr, scade }. `scade` in formato AAAA-MM-GG. Quando Nicola incolla il blocco, la voce si TOGLIE da qui — non si aggiorna la data. Il campo `pr` va MISURATO, non dedotto incrementando l ultimo numero visto: un numero inventato che esiste gia punta al lavoro di qualcun altro, e chi lo controlla lo trova mergiato e conclude che il freno e attaccato (AR-524).",
   "aggiornato": "2026-08-04",
   "in_attesa": [
     {
       "file": "cervello/intento-turno.mjs",
       "evento": "UserPromptSubmit",
       "perche": "pianta l'ancora del turno quando il turno comincia: senza, la prima chiusura in ogni copia nuova misura tutto il ramo invece del turno (successo il 4/8: 7 contestazioni su 8 erano lavoro di tre giorni prima)",
-      "pr": "#658",
+      "pr": "nessuna PR aperta — ramo claude/sorvegliante-hooks-features-xpyr2u (il numero #658 che avevo scritto qui era di un altra sessione, gia mergiato: un riferimento sbagliato e peggio di nessun riferimento)",
       "scade": "2026-08-11"
     },
     {
       "file": "cervello/pre-scrittura.mjs",
       "evento": "PreToolUse",
       "perche": "l'unico freno che parla mentre la mossa è ancora annullabile: scritture MCP che non passano da nessuna guardia, bypass dei cancelli del pre-commit, cancellazione di una difesa. Pianta anche l'ancora del senior quando parte un Task",
-      "pr": "#658",
+      "pr": "nessuna PR aperta — ramo claude/sorvegliante-hooks-features-xpyr2u (il numero #658 che avevo scritto qui era di un altra sessione, gia mergiato: un riferimento sbagliato e peggio di nessun riferimento)",
       "scade": "2026-08-11"
     },
     {
       "file": "cervello/cancello-senior.mjs",
       "evento": "SubagentStop",
       "perche": "i 120 senior consegnano e non li controlla nessuno: il freno dello Stop scatta solo a fine turno, quando il lavoro di tre senior è già impastato in un delta solo",
-      "pr": "#658",
+      "pr": "nessuna PR aperta — ramo claude/sorvegliante-hooks-features-xpyr2u (il numero #658 che avevo scritto qui era di un altra sessione, gia mergiato: un riferimento sbagliato e peggio di nessun riferimento)",
       "scade": "2026-08-11"
     },
     {
       "file": "cervello/memoria-guardia.mjs",
       "evento": "SessionStart + PreCompact + SessionEnd",
       "perche": "quello che la guardia trova muore con la copia: il battito vive fuori da git, quindi ogni sessione cloud riparte senza sapere cosa era rimasto aperto",
-      "pr": "#658",
+      "pr": "nessuna PR aperta — ramo claude/sorvegliante-hooks-features-xpyr2u (il numero #658 che avevo scritto qui era di un altra sessione, gia mergiato: un riferimento sbagliato e peggio di nessun riferimento)",
       "scade": "2026-08-11"
     }
   ]

@@ -908,6 +908,117 @@ Il quarto fa sopravvivere quello che i controlli trovano. Oggi muore insieme all
 Il blocco che avevi incollato il 1 agosto aveva due errori. Uno era una parentesi mancante, l'altro una lettera minuscola. Qui non ci sono.
 Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È voluto: un'attesa senza scadenza è un permesso travestito.
 
+**Il blocco da incollare** (è tutto qui: non devi aprire nessun altro file)
+
+```json
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash cervello/installa-hooks.sh >/dev/null 2>&1; node cervello/contesto-lezioni.mjs --hook"
+          },
+          {
+            "type": "command",
+            "command": "node cervello/memoria-guardia.mjs --apri --hook",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/intento-turno.mjs --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Task|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/pre-scrittura.mjs --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/sorvegliante.mjs --hook",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/misura-cieca.mjs --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/cancello-senior.mjs --hook",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/memoria-guardia.mjs --consegna --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/cancello-stop.mjs --hook",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/memoria-guardia.mjs --chiudi --hook",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+```
+
 **Nota tecnica:** difetti AR-518, AR-520, AR-521, AR-522 (i quattro controlli) + AR-519 (la terza strada del guardiano degli hook, che evita la CI rossa mentre aspetto il tuo incollaggio). Il file dei permessi è negato in scrittura alla macchina apposta, e deve restarci: è quello che può staccare tutti i freni insieme, divieto sui `.env` compreso. Perciò questa card esiste invece del fix diretto.
 
 - **Colore:** 🟡 (cambia la configurazione dei controlli, non manda niente a nessuno; reversibile rimettendo il blocco di prima)

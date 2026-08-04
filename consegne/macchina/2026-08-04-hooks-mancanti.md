@@ -196,10 +196,13 @@ Modifiche ai pezzi che c'erano già:
 
 - `cervello/hooks-check.mjs` — AR-519, la terza strada: un freno costruito e non ancora agganciato è giallo se dichiarato con PR e scadenza in `cervello/hook-in-attesa.json`, rosso se la data manca o è passata. Non tocca `freniNonAttaccati`: quella riga è il `cerca` di una mutazione di AR-455.
 - `cervello/sorvegliante.mjs` — due funzioni esportate in più, `difeseDelRepo()` e `vociDaScatto()`. Nessuna riga esistente cambia significato: le 20 dipendenze restano valide.
-- `cervello/mutanti.json` — 8 mutazioni nuove.
+- `cervello/mutanti.json` — 13 mutazioni nuove.
+- `cervello/materiale-in-mano.mjs` + `cervello/cancello-lotto.mjs` — AR-524, il guardiano nato dalla domanda di Nicola del 4/8: una card che chiede un gesto di copia deve portare il materiale dentro di sé.
 
-Prove: 47 nuove (`node --test cervello/test/{intento-turno,pre-scrittura,cancello-senior,memoria-guardia,hooks-check}.test.mjs`), tutte verdi.
-Mutazioni: 169 su 169 rendono rosso il loro test (`node cervello/non-vacuita.mjs`, uscita 0).
+Prove: 75 nuove, contate una per una (`grep -c "^test("` sui sette file), tutte verdi.
+Mutazioni: 192 in totale, 13 mie, tutte rendono rosso il loro test (`node cervello/non-vacuita.mjs`).
+
+Correzione dichiarata: in un primo momento avevo scritto «47 prove» e poi «51», e nel messaggio in chat «169 su 169» e «172 su 172». Erano numeri veri in un momento e mai ricontati dopo il rebase su un `main` che nel frattempo aveva aggiunto le sue mutazioni. I numeri qui sopra sono contati adesso, sul ramo com'è.
 Blocco verificato: `node cervello/hooks-check.mjs` su un file candidato → 10 comandi su 8 eventi, uscita 0.
 
 Un difetto nuovo trovato mentre costruivo, e non riparato: AR-523. `non-vacuita.mjs` applica le mutazioni ai file veri e li ripristina alla fine; se muore a metà (un timeout, un Ctrl-C) lascia il repo con un fix disfatto. È successo davvero in questo lotto su `cervello/git-pr.mjs`, col fix di AR-451 annullato. L'ha trovato il sorvegliante al primo Edit dopo, con una voce `prova-accecata`. Ripristinato a mano, scheda aperta col fix proposto: ripristino in `finally` più una trap sui segnali, o meglio mutare una copia invece del file vero.

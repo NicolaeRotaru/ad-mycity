@@ -1669,6 +1669,14 @@
    "cerca": "  for (const g of guasti) righe.push(",
    "sostituisci": "  for (const g of []) righe.push(",
    "test": "node --test cervello/test/intento-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-524",
+   "nome": "il guardiano non guarda piu se il materiale c'e: la card torna a essere un puntatore",
+   "file": "cervello/materiale-in-mano.mjs",
+   "cerca": "    if (MATERIALE.test(testo)) continue;",
+   "sostituisci": "    if (true) continue;",
+   "test": "node --test cervello/test/materiale-in-mano.test.mjs"
   }
  ]
 }

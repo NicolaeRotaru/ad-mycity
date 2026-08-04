@@ -10622,7 +10622,8 @@
         "nota": "9 prove; 1 mutazione verificata rossa sulla regola che conta (un'ancora viva non si sposta mai). Una prova confronta il nome del file d'ancora con quello del cancello dello Stop: se divergono, il perimetro seminato non lo legge nessuno. Il comando qui accanto e ROSSO finche l'hook non e agganciato davvero (--senza-attese toglie il periodo di grazia): diventa verde solo quando Nicola incolla il blocco, non quando lo dichiaro io. La prova unitaria del pezzo resta node --test cervello/test/intento-turno.test.mjs."
       },
       "malattia": "non-pattern-izzabile",
-      "malattia_perche": "La forma e un MOMENTO mancante (nessun evento di inizio turno), come AR-520: si vede confrontando gli eventi possibili con quelli usati, non con un pattern sul testo."
+      "malattia_perche": "La forma e un MOMENTO mancante (nessun evento di inizio turno), come AR-520: si vede confrontando gli eventi possibili con quelli usati, non con un pattern sul testo.",
+      "nota_incrocio": "Mentre costruivo questo, su main e arrivato AR-507 con lo stesso SINTOMO (il cancello che accusa di lavoro non del turno) e un fix diverso e complementare: quello mette l'ancora davanti alle basi del ramo quando l'ancora c'e, e dichiara ⚪ quando non c'e. Questo fa in modo che l'ancora ESISTA dal primo messaggio. Nessuno dei due sostituisce l'altro: senza AR-507 l'ancora non veniva usata per i testi, senza questo l'ancora al primo turno non c'era."
     },
     {
       "id": "AR-523",
@@ -10643,11 +10644,32 @@
       },
       "malattia": "non-pattern-izzabile",
       "malattia_perche": "La forma e uno STATO lasciato indietro da un processo ucciso: non e una riga, e cio che NON viene eseguito quando arriva un segnale. Un pattern per riga non puo vederla; la difesa vera e il ripristino in finally piu una prova che simuli l'uccisione."
+    },
+    {
+      "id": "AR-524",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "consegna-e-lettore",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 04:10",
+      "nato_come": "regressione",
+      "nato_da": "AR-474 (il verdetto scritto dove e comodo a me, non dove lo legge Nicola)",
+      "origine": "Nicola, 4/8: «non mi ha dato nessun blocco, perche? qual e la causa di questo difetto?». Avevo consegnato quattro freni che solo lui puo accendere incollando una configurazione, e la configurazione non gliel'ho mai messa davanti.",
+      "titolo": "La card dice a Nicola di incollare una cosa che nella card non c'e: il lavoro e fatto e resta fermo perche va cercato",
+      "causa_radice": "① Perche non ha avuto il blocco? Perche l'ho scritto in una consegna e in coda ho messo una card che diceva «apri quel file e incolla», e in chat ho citato il percorso. ② Perche mi e sembrato sufficiente? Perche la regola di consegna di CLAUDE.md dice: salva il contenuto in `consegne/` e accoda l'azione in AZIONI-IN-ATTESA. L'ho seguita alla lettera. ③ Perche seguirla alla lettera lo lascia a mani vuote? Perche quella regola e scritta per le azioni che esegue la MACCHINA — il contenuto aspetta in un file e al via parte da solo, la card e un promemoria. Qui l'esecutore e LUI: la card non e un promemoria, e il posto dove il materiale deve stare, perche la mano che agisce e la sua. ④ Perche nessun guardiano l'ha visto? Perche il cancello dello Stop controlla se un allarme e stato accodato, non se la card contiene la roba che chiede di usare: nessuna misura distingueva «azione con materiale» da «azione con puntatore». ⑤ CAUSA DI SISTEMA: la macchina ha UN solo modo di consegnare (artefatto in un file + card che lo cita) e DUE tipi di esecutore (se stessa e Nicola). Per le azioni che solo lui puo eseguire, la card e un puntatore — ed e AR-474 un piano piu su: li era il verdetto senza lettore, qui e il materiale senza mano. Misurato: 7 card in coda hanno questa forma, la piu vecchia del 29/7, tutte con lavoro gia fatto e fermo.",
+      "fix_proposto": "FATTO 🟡 ① `cervello/materiale-in-mano.mjs`, agganciato al cancello del lotto: una card APERTA che chiede un gesto di copia (incolla/sostituisci/copia/aggiungi la riga) deve contenere un blocco recintato col materiale. Chiedere di LANCIARE un comando o di DECIDERE non richiede materiale — meta delle prove difendono quei NO, perche un guardiano rumoroso viene spento. ② Tetto assoluto che scende: 6 card ereditate dichiarate, una in piu non si consegna. ③ La card #accendi-i-quattro-controlli-nuovi adesso porta dentro le 108 righe del blocco.",
+      "verifica": {
+        "comando": "node cervello/materiale-in-mano.mjs",
+        "nota": "11 prove (il caso vero, i due NO che evitano il rumore, il taglio delle card sui commenti-slug, il tetto che scende); 1 mutazione verificata rossa. Provato dal vivo: prima della riparazione 7 card, dopo 6, e il tetto e stato messo a 6."
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e una RELAZIONE fra un testo e il suo lettore — «la card chiede un gesto e non porta la cosa» — non una riga di codice: nessun pattern per riga la vede, serve leggere la card intera e chiedersi chi la esegue. La difesa e il guardiano dedicato, che c'e."
     }
   ],
   "meta": {
     "aperti": 169,
     "in_corso": 0,
-    "chiusi": 293
+    "chiusi": 294
   }
 }
