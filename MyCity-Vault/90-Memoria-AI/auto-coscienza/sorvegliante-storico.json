@@ -37,7 +37,115 @@
         "prova-accecata": 1
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T04:23:48.822Z",
+      "scatti": 37,
+      "voci": 4,
+      "per_classe": {
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T04:29:02.680Z",
+      "scatti": 38,
+      "voci": 4,
+      "per_classe": {
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T04:34:09.873Z",
+      "scatti": 38,
+      "voci": 4,
+      "per_classe": {
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T04:39:15.317Z",
+      "scatti": 38,
+      "voci": 4,
+      "per_classe": {
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T04:44:20.022Z",
+      "scatti": 38,
+      "voci": 4,
+      "per_classe": {
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T04:49:24.803Z",
+      "scatti": 38,
+      "voci": 4,
+      "per_classe": {
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T04:54:29.769Z",
+      "scatti": 38,
+      "voci": 4,
+      "per_classe": {
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T04:59:34.510Z",
+      "scatti": 38,
+      "voci": 4,
+      "per_classe": {
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T05:04:38.917Z",
+      "scatti": 38,
+      "voci": 4,
+      "per_classe": {
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T05:09:43.949Z",
+      "scatti": 38,
+      "voci": 4,
+      "per_classe": {
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T05:14:49.005Z",
+      "scatti": 38,
+      "voci": 4,
+      "per_classe": {
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T05:19:53.748Z",
+      "scatti": 38,
+      "voci": 4,
+      "per_classe": {
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-04T03:22:32.832Z"
+  "aggiornato": "2026-08-04T05:19:53.751Z"
 }
