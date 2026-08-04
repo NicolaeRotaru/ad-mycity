@@ -52,20 +52,43 @@ const CODA = "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md";
 const TETTO = "cervello/materiale-in-mano-tetto.json";
 
 /**
- * I gesti di copia: verbi che chiedono a Nicola di prendere QUALCOSA e metterlo da un'altra parte.
+ * I gesti di copia: gli ORDINI rivolti a Nicola, in seconda persona.
  *
- * Non «apri» e non «lancia»: aprire un file e lanciare un comando non richiedono materiale — il
- * comando È già la cosa, ed è corto. Il difetto nasce quando il gesto è «riporta questo contenuto
- * là», perché lì il contenuto deve essere davanti a chi lo riporta.
+ * ⚠️ QUESTA RIGA È STATA RIFATTA IL 4/8, UN'ORA DOPO AVERLA SCRITTA, e il perché va tenuto qui.
+ * La prima versione prendeva anche `copia`, `copiare`, `copiando`, `sostituisce`. Girata sulla coda
+ * vera ha trovato 7 card; controllandole una per una, **sei erano abbagli**:
+ *   · «congela subito una COPIA della memoria» → `copia` è un sostantivo, e chi agisce sono io;
+ *   · «COPIANDO lo schema del controllo» → sono io che copio uno schema nel codice;
+ *   · «la cancellazione glieli COPIA dentro» → è la descrizione di un bug, non un ordine;
+ *   · «l'ho aggirato con una COPIA a mano» → racconto di cosa ho fatto io;
+ *   · «se il piano squadra SOSTITUISCE la pausa» → terza persona, ed era pure una card già chiusa.
+ * Cioè: il guardiano nato per non far perdere tempo a Nicola stava per fargliene perdere su cinque
+ * card sane. È il difetto che avevo dichiarato di voler evitare nel commento qui sopra — scritto e
+ * poi commesso nello stesso file, il che dice quanto vale una buona intenzione senza una prova sul
+ * caso vero. Le prove ora contengono tutte e cinque le frasi, prese dalla coda com'è.
+ *
+ * La regola stretta: solo l'IMPERATIVO di seconda persona. Non «apri» e non «lancia» — aprire un
+ * file e lanciare un comando non richiedono materiale, il comando È già la cosa.
  */
-export const GESTI_DI_COPIA = /\b(incoll\w*|sostituisc\w*|copia|copiare|riporta il|aggiungi (?:la|le|questa) rig\w+)\b/i;
+export const GESTI_DI_COPIA = /\b(incolla(?:lo|la|li)?|incollare|sostituisci(?:lo|la|le)?|riporta (?:questo|questa|il|la)|aggiungi (?:la|le|questa) rig\w+)\b/i;
+
+/**
+ * Il materiale è ALTROVE: la card cita un file dove la cosa da incollare starebbe.
+ *
+ * È il secondo requisito, e senza il guardiano resta rumoroso: «incolla questo:» seguito dal testo
+ * NON è il difetto. Il difetto è «incollalo, è in quel file» — l'ordine qui, la cosa là.
+ */
+export const ALTROVE = /`[\w./-]+\.(?:md|json|txt|ya?ml|sh|mjs|js|ts)`/;
 
 /** Il materiale dentro la card: un blocco recintato. Tre apici, la forma con cui si scrive «questo
  *  è testo da prendere così com'è». */
 export const MATERIALE = /```/;
 
-/** Le card già chiuse: lì il gesto è passato, e riaprirle sarebbe rumore su lavoro finito. */
-export const CHIUSA = /(^|\s)(✅|❌|~~|FATTO\b|SUPERATA\b|RISOLTA\b)/;
+/** Le card già chiuse: lì il gesto è passato, e riaprirle sarebbe rumore su lavoro finito.
+ *  Si guarda TUTTA la card e non solo il titolo: la riga di chiusura di #conferma-piano-squadra
+ *  sta nel titolo ma il mio estrattore non lo trovava, e una card chiusa dal 30/7 è finita
+ *  nell'elenco delle cose da fare. */
+export const CHIUSA = /(✅|~~|\bFATTO\b|\bSUPERATA\b|\bRISOLTA\b|\bRIMOSSA\b|\bchiusa\b)/;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // IL CUORE — puro: riceve il testo e torna le card che chiedono senza dare.
@@ -95,10 +118,14 @@ export function cardSenzaMateriale(card = []) {
   for (const c of card) {
     const testo = String(c.testo || "");
     if (!testo.trim()) continue;
-    const primaRiga = (testo.split("\n").find((r) => r.trim().startsWith("###")) || "").trim();
+    const primaRiga = (testo.split("\n").find((r) => r.trim().startsWith("#")) || "").trim();
+    // La chiusura si cerca nel TITOLO, dove sta davvero: cercarla in tutta la card farebbe sparire
+    // ogni card che nel corpo racconta di una cosa «già fatta» — cioè quasi tutte.
     if (CHIUSA.test(primaRiga)) continue;
     if (!GESTI_DI_COPIA.test(testo)) continue;
+    // L'ordine c'è: la cosa da incollare è qui dentro, o è altrove? Solo il secondo caso è il difetto.
     if (MATERIALE.test(testo)) continue;
+    if (!ALTROVE.test(testo)) continue;
     fuori.push({ slug: c.slug, titolo: primaRiga.replace(/^#+\s*/, "").slice(0, 90) });
   }
   return fuori;

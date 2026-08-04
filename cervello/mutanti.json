@@ -1677,6 +1677,14 @@
    "cerca": "    if (MATERIALE.test(testo)) continue;",
    "sostituisci": "    if (true) continue;",
    "test": "node --test cervello/test/materiale-in-mano.test.mjs"
+  },
+  {
+   "difetto": "AR-524",
+   "nome": "il guardiano torna a bastarsi dell ordine senza chiedere dove sia il materiale: gli abbagli tornano",
+   "file": "cervello/materiale-in-mano.mjs",
+   "cerca": "    if (!ALTROVE.test(testo)) continue;",
+   "sostituisci": "    if (false) continue;",
+   "test": "node --test cervello/test/materiale-in-mano.test.mjs"
   }
  ]
 }
