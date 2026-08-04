@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-04 04:08",
+ "aggiornato": "2026-08-04 03:55",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -11121,6 +11121,31 @@
    ],
    "gate": "node --test cervello/test/campo-commit-e-turno.test.mjs",
    "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0804-551",
+   "testo": "**Un controllo contro le ripetizioni che non guarda dentro il messaggio (4/8, correzione di Nicola con foto).** Nicola ha mandato tre schermate dello stesso mio messaggio: i quattro blocchi due volte, lo stesso comando da copiare due volte, sette frasi ridette — «guarda, stai ancora ripetendo la stessa cosa due volte». Il controllo esisteva dal 3/8 e ha letto quel testo dicendo zero: confrontava il messaggio nuovo con i messaggi PRECEDENTI, e un messaggio che ripete se stesso non ha precedenti da confrontare. **La regola:** quando costruisco una misura contro un difetto, la prima domanda e su quale UNITA guarda — e il caso piu frequente di un difetto e spesso dentro l unita, non fra due unita. **La causa a monte, ed e la parte che conta:** la regola scritta diceva il contrario («il ripasso vale DENTRO un testo, mai fra due messaggi»), quindi il codice era fedele a una regola sbagliata. Un controllo non puo essere piu sveglio del testo che lo descrive: si riparano insieme. **Il secondo pezzo della stessa correzione:** i quattro blocchi su una risposta corta sono impalcatura, quindi la struttura si scala sulla lunghezza invece di essere accesa o spenta — e i titoli dei blocchi non contano come contenuto, altrimenti l impalcatura si giustifica da sola.",
+   "tag": [
+    "scrittura",
+    "ripetizioni",
+    "misure",
+    "unita-di-misura",
+    "regola-e-codice"
+   ],
+   "reparto": "prompt-engineer",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-04 03:55",
+   "ultima_conferma": "2026-08-04 03:55",
+   "stato": "attiva",
+   "evidenze": [
+    "il testo vero delle sue tre foto: 1 problema prima, 15 dopo (4 titoli doppi, 1 comando doppio, 7 frasi ridette)",
+    "falsi allarmi misurati sul vault e tagliati: da 6.077 segnalazioni su 692 testi a 1.730, e da 3 testi a 1 che diventa rosso senza esserlo prima",
+    "5 mutazioni verificate rosse su si-capisce.mjs e cancello-stop.mjs"
+   ],
+   "gate": "node cervello/test/si-capisce.test.mjs",
+   "gate_attivo": true
   }
  ],
  "principi": [
@@ -12840,19 +12865,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 497,
+  "lezioni_attive": 401,
   "promosse_a_principio": 87,
   "decadute": 0,
   "tasso_applicazione": 0.18,
-  "tasso_calcolato_il": "2026-08-04 04:08",
+  "tasso_calcolato_il": "2026-07-30 11:14",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-07-30 11:14",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
   "cristallizzazione_ultima": "2026-07-30 11:02",
-  "lezioni_totali": 502,
+  "lezioni_totali": 480,
   "lezioni_per_stato": {
-   "attiva": 406,
+   "attiva": 384,
    "principio": 87,
    "in-prova": 5,
    "decaduta": 0,
