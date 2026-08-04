@@ -246,7 +246,17 @@
         "difesa-rimossa": 4
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T15:30:07.139Z",
+      "scatti": 116,
+      "voci": 9,
+      "per_classe": {
+        "difesa-rimossa": 4,
+        "prova-accecata": 5
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-04T11:21:12.989Z"
+  "aggiornato": "2026-08-04T15:30:07.140Z"
 }
