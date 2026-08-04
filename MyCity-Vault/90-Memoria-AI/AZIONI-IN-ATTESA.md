@@ -63,6 +63,31 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+<!-- macchina-ferma-da-quattro-giorni -->
+
+### 🔴 #macchina-ferma-da-quattro-giorni — La macchina lavora e non riesce a pubblicare: sblocca il push sul server · ⏳ accodata 2026-08-04 03:10 · ✏️ corretta 03:20
+**Cosa cambia:** dal 30 luglio nel repo non arriva più niente, e per quattro giorni e mezzo il Pannello ti ha mostrato numeri vecchi. La causa NON è che la macchina è spenta: il tuo schermo delle 03:07 mostra un giro completo alle 22:26 di stanotte. Lavora e resta muta. Si ferma all'ultimo passo: `PUSH ANNULLATO — rebase rc=1, abort rc=128`, poi `push della memoria fallito dopo 3 tentativi`, e il servizio esce con codice 2. Intanto i commit che restano sul server crescono: 3.942 alle 18:23, 4.006 alle 22:26. Sono 64 in quattro ore che non escono da lì.
+**Se va bene:** il push riparte, i quattro giorni di lavoro arretrato arrivano nel repo, e il Pannello torna a dire il vero.
+**⚠️ Non riavviare il servizio.** Era il consiglio della prima versione di questa card, ed era sbagliato: il servizio parte già da solo e ogni giro aggiunge commit alla pila. Riavviare peggiora.
+**Cosa devi fare tu, sul server — il perché adesso lo sappiamo: 17 file di dati modificati bloccano il rebase.**
+Primo passo, tutto reversibile e senza perdere niente:
+```bash
+cd /opt/mycity/ad-mycity
+git branch salvataggio-2026-08-04        # i 4.450 commit restano raggiungibili qui, per sempre
+git stash push -u -m "dati vivi 2026-08-04"
+git fetch origin main
+git status --short && git log --oneline -1 origin/main
+```
+Fermati qui e mandami cosa stampa.
+
+Il passo dopo è una decisione tua, e questi sono i numeri per prenderla. I 4.450 commit valgono per lo stato finale dei file. Quello stato è già lì, nell'albero di lavoro. Rifare i commit uno per uno su main non aggiunge niente, e andrebbe in conflitto su ogni file di memoria.
+**Nota tecnica:** difetto AR-518. I fix del 31/7 (AR-467 stop ai commit di recupero, AR-468 messaggio d'errore vero, AR-469 stash prima del rebase) sono in `main`, verificato: `serve_mettere_da_parte` e la cattura dell'uscita del rebase ci sono. Quindi o il server non ha quel codice, o il rebase fallisce per una causa che quei tre fix non coprono. Il numero che cresce (3.942 → 4.006) dice che il recupero continua a committare, cioè che AR-467 lassù non sta funzionando. Da questa sessione il server non si vede: questa parte NON l'ho misurata, l'ho letta dal tuo schermo.
+- **Colore:** 🔴 (tocca il server in produzione)
+- **Reparto:** devops-sre
+- **Origine:** `{origine:visita-salute-2026-08-04, difetto:AR-518}`
+
+---
+
 <!-- radiografia-prova-non-vera-alla-nascita -->
 
 ### 🟡 #radiografia-prova-non-vera-alla-nascita — Impedisci alla macchina di chiudersi i difetti da sola il giorno stesso che li scrive · ⏳ accodata 2026-07-27 12:45
@@ -894,37 +919,171 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 | 8 | 2026-08-03 22:45 | @tech | Cambia come si chiudono le PR: così com'è, quando ne mergi una uccidi le sue sorelle | 🔴 | È la causa vera del tuo terzo problema. Le PR si chiudono in «squash». Tutti i commit di quella PR diventano uno solo, con un'impronta nuova. Le altre PR aperte sulla stessa base si ritrovano quel contenuto due volte, con due impronte diverse. GitHub le marca come in conflitto. Non si mergiano più e finiscono chiuse. È successo 12 volte sulle ultime 200 PR. La #653 lo racconta nel suo stesso testo: 401 righe e 13 prove, chiusa così. Quella l'ho recuperata a mano. La #598 no. Ci sono due strade. La (a) tiene lo squash e riallinea ogni PR aperta subito dopo ogni merge: posso farlo io in automatico. La (b) passa al merge normale, che non cambia le impronte e non crea il finto conflitto. | github | in attesa | Smetti di perdere lavoro già fatto e già provato. Oggi ogni merge mette a rischio le PR aperte in quel momento. | Dopo il tuo ok dipende da quale strada scegli. Con la (a) collego il riallineamento automatico dopo ogni merge. Con la (b) cambi tu l'impostazione su GitHub e io adeguo lo strumento che apre le PR. |
 
 
-<!-- prevenzione-a-monte -->
+<!-- accendi-i-quattro-controlli-nuovi -->
 
-### 🟡 #prevenzione-a-monte — Collega i due freni nuovi: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto · ⏳ accodata 2026-08-04 04:25
+### ✅ #accendi-i-quattro-controlli-nuovi — ~~Incolla il blocco che accende i quattro controlli nuovi della macchina~~ → FATTO 2026-08-04 05:20
 
-**Cosa cambia:** i due freni che hai chiesto stanotte sono costruiti e provati, ma **non ancora accesi**. Il primo pesca dalla memoria solo le lezioni sul tema della richiesta che hai appena scritto. L'ho provato: su «apri la PR e fai il rebase» porta 8 lezioni centrate su 503, quasi tutte correzioni tue. Il secondo ferma la mia mano PRIMA che io scriva un errore già censito nel registro delle malattie. La scrittura non parte proprio, e il perché mi resta davanti agli occhi. Per accenderli servono due righe in `.claude/settings.json`, il file delle impostazioni di Claude Code. Per regola di sicurezza io quel file **non posso toccarlo**: è il file che decide cosa la macchina può fare. Una macchina che si allarga i permessi da sola è esattamente ciò che quella regola impedisce.
+**Esito:** Nicola ha incollato il blocco e l'ha committato su main. L'aggancio è MISURATO, non dichiarato: `node cervello/hooks-check.mjs --senza-attese` esce 0 con tutti e quattro fra i comandi attaccati, e lo stesso comando usciva 1 finché non c'erano. I quattro difetti sono chiusi (AR-522, AR-525, AR-527, AR-528) e le quattro attese sono state tolte dal registro, non aggiornate.
 
-**Se va bene:** apri `.claude/settings.json`, e dentro il blocco `"hooks"` (dove ci sono già `SessionStart`, `PostToolUse` e `Stop`) aggiungi queste due voci, poi salva:
+**Cosa cambia:** ho costruito quattro controlli che oggi non esistono. Senza il tuo incollaggio restano spenti.
+Il primo guarda i miei senior quando finiscono di lavorare. Oggi consegnano e nessuno controlla cosa lasciano indietro. Sono il gruppo che produce più lavoro di tutti.
+Il secondo ti chiede il permesso quando sto per scrivere un file fuori da questa copia. Oggi quelle scritture saltano ogni controllo. Salta anche quello che ferma una chiave vera prima che finisca su GitHub.
+Il terzo dice al controllo di fine turno dove comincia il tuo messaggio. Senza, il 3 agosto mi ha contestato 8 cose. Di quelle 8, ben 7 erano file del 31 luglio che non avevo aperto.
+Il quarto fa sopravvivere quello che i controlli trovano. Oggi muore insieme alla sessione.
+
+**Se va bene:** apri `.claude/settings.json`, sostituisci tutta la parte `"hooks"` col blocco pronto in `consegne/macchina/2026-08-04-hooks-mancanti.md`, e lancia `node cervello/hooks-check.mjs`. Il blocco l'ho già provato su un file candidato. Risultato: 10 comandi su 8 momenti, tutti validi, nessuno staccato.
+Il blocco che avevi incollato il 1 agosto aveva due errori. Uno era una parentesi mancante, l'altro una lettera minuscola. Qui non ci sono.
+Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È voluto: un'attesa senza scadenza è un permesso travestito.
+
+**Il blocco da incollare** (è tutto qui: non devi aprire nessun altro file)
 
 ```json
-"PreToolUse": [
-  {
-    "matcher": "Edit|Write|MultiEdit",
-    "hooks": [
-      { "type": "command", "command": "node cervello/mano-fermata.mjs --hook", "timeout": 10 }
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash cervello/installa-hooks.sh >/dev/null 2>&1; node cervello/contesto-lezioni.mjs --hook"
+          },
+          {
+            "type": "command",
+            "command": "node cervello/memoria-guardia.mjs --apri --hook",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/intento-turno.mjs --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Task|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/pre-scrittura.mjs --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/sorvegliante.mjs --hook",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/misura-cieca.mjs --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/cancello-senior.mjs --hook",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/memoria-guardia.mjs --consegna --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/cancello-stop.mjs --hook",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/memoria-guardia.mjs --chiudi --hook",
+            "timeout": 15
+          }
+        ]
+      }
     ]
   }
-],
-"UserPromptSubmit": [
-  {
-    "hooks": [
-      { "type": "command", "command": "node cervello/contesto-lezioni.mjs --richiesta", "timeout": 10 }
-    ]
-  }
-],
 ```
 
-Dalla sessione successiva i due freni sono vivi. Al primo scatto vero dal vivo chiudo la scheda AR-519 e ti mostro cosa hanno fermato.
+**Nota tecnica:** difetti AR-525, AR-527, AR-528, AR-522 (i quattro controlli) + AR-526 (la terza strada del guardiano degli hook, che evita la CI rossa mentre aspetto il tuo incollaggio). Il file dei permessi è negato in scrittura alla macchina apposta, e deve restarci: è quello che può staccare tutti i freni insieme, divieto sui `.env` compreso. Perciò questa card esiste invece del fix diretto.
+
+- **Colore:** 🟡 (cambia la configurazione dei controlli, non manda niente a nessuno; reversibile rimettendo il blocco di prima)
+- **Reparto:** builder-automazioni + devops-sre
+- **Origine:** `{origine:lotto-hooks-mancanti, difetti:[AR-525,AR-526,AR-527,AR-528,AR-522]}`
+
+---
+
+<!-- prevenzione-a-monte -->
+
+### 🟡 #prevenzione-a-monte — Accendi gli ultimi due freni: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto · ⏳ accodata 2026-08-04 05:20
+
+**Cosa cambia:** i due freni che hai chiesto stanotte sono costruiti e provati, ma **non ancora accesi**. Il primo pesca dalla memoria solo le lezioni sul tema della richiesta che hai appena scritto. L'ho provato: su «apri la PR e fai il rebase» porta 8 lezioni centrate su 503, quasi tutte correzioni tue. Il secondo ferma la mia mano PRIMA che io scriva un errore già censito nel registro delle malattie. La scrittura non parte proprio, e il perché mi resta davanti agli occhi. Sono complementari ai freni dell'altra sessione già accesi (quelli guardano i comandi e gli strumenti esterni; questi due guardano le richieste e le scritture sui file). Per accenderli servono due ritocchi in `.claude/settings.json`, il file che per regola di sicurezza io non posso toccare.
+
+**Se va bene:** apri `.claude/settings.json` e fai due aggiunte, poi salva:
+
+① dentro `"PreToolUse"` (la sezione esiste già), aggiungi questo blocco DOPO quello con `"matcher": "Bash|Task|mcp__.*"`:
+
+```json
+{
+  "matcher": "Edit|Write|MultiEdit",
+  "hooks": [
+    { "type": "command", "command": "node cervello/mano-fermata.mjs --hook", "timeout": 10 }
+  ]
+}
+```
+
+② dentro `"UserPromptSubmit"` (esiste già), nell'elenco `"hooks"` accanto a `intento-turno`, aggiungi questa riga:
+
+```json
+{ "type": "command", "command": "node cervello/contesto-lezioni.mjs --richiesta", "timeout": 10 }
+```
+
+Dalla sessione successiva i due freni sono vivi. La prova della scheda AR-531 è `node cervello/mano-fermata.mjs --cablaggio`: oggi è rossa, col tuo salvataggio diventa verde e la scheda si chiude da sola.
 
 - **Colore:** 🟡 (auto-modifica della macchina: la firmi tu)
 - **Reparto:** qa + prompt-engineer
-- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-519}`
+- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-531}`
 
 ---
 

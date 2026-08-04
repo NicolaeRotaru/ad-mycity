@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-08-03 22:22",
+  "aggiornato": "2026-08-04 03:18",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -206,6 +206,16 @@
       "valore": "Sospesi dal calcolo costi/proiezioni finché l'utile netto mensile di MyCity non raggiunge ~5.000 €/mese: amministrazione (PEC, firma digitale, commercialista, notaio, consulente lavoro), assicurazioni RC (marketplace + consegne), iscrizione app store. Sotto soglia si attivano solo se un evento li rende obbligatori (es. bando, assunzione).",
       "fonte": "Nicola chat Pannello 2026-07-23 17:25",
       "aggiornato": "2026-07-23 17:26",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "flusso.pr-sempre",
+      "nome": "flusso.pr-sempre",
+      "valore": "Ogni modifica finisce in una richiesta di unione: la macchina apre SEMPRE la PR appena il cancello e verde, e la valutazione se va bene o no e di Nicola. Nessun lavoro resta su un ramo senza PR aperta.",
+      "fonte": "Nicola 2026-08-04 03:15 in chat: «ogni volta che fai una modifica devi sempre aprire la pr, poi sta a me valutare se va bene o meno»",
+      "aggiornato": "2026-08-04 03:18",
       "storia": [],
       "caccia": [],
       "esenzioni": []

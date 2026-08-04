@@ -10,7 +10,44 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { chiaviSconosciute, comandiDichiarati, comandiOrfani, freniNonAttaccati, verdetto, EVENTI } from "../hooks-check.mjs";
+import { chiaviSconosciute, comandiDichiarati, comandiOrfani, freniNonAttaccati, smistaStaccati, verdetto, EVENTI } from "../hooks-check.mjs";
+
+// ── ⑤ la terza strada: costruito ma non ancora agganciato (AR-526) ────────────
+
+const registro = [{ file: "cervello/nuovo.mjs", evento: "PreToolUse", pr: "#658", scade: "2026-08-11" }];
+
+test("un freno DICHIARATO in attesa, con la sua data, non fa rosso: la CI non deve essere rossa mentre aspetto Nicola", () => {
+  const s = smistaStaccati(["cervello/nuovo.mjs"], registro, "2026-08-04");
+  assert.equal(s.orfani.length, 0);
+  assert.equal(s.inAttesa.length, 1);
+  const v = verdetto({ staccati: s.orfani, inAttesa: s.inAttesa });
+  assert.equal(v.esce, 0, "il giallo è debito dichiarato, non una violazione");
+  assert.match(v.righe.join("\n"), /NON frena/, "ma deve dire che quel freno ancora non frena");
+});
+
+test("LA REGOLA CHE CONTA: passata la data diventa ROSSO — un'attesa senza fine è un'esenzione", () => {
+  const s = smistaStaccati(["cervello/nuovo.mjs"], registro, "2026-08-12");
+  assert.equal(s.scaduti.length, 1);
+  assert.equal(s.inAttesa.length, 0);
+  assert.equal(verdetto({ scaduti: s.scaduti }).esce, 1);
+});
+
+test("senza data non è un'attesa: resta staccato e rosso come prima", () => {
+  const s = smistaStaccati(["cervello/nuovo.mjs"], [{ file: "cervello/nuovo.mjs", pr: "#1" }], "2026-08-04");
+  assert.equal(s.orfani.length, 1, "una voce senza scadenza vale come se non ci fosse");
+  assert.equal(s.inAttesa.length, 0);
+});
+
+test("un freno staccato e NON dichiarato resta rosso: il registro non assolve chi non ci è dentro", () => {
+  const s = smistaStaccati(["cervello/dimenticato.mjs"], registro, "2026-08-04");
+  assert.deepEqual(s.orfani, ["cervello/dimenticato.mjs"]);
+  assert.equal(verdetto({ staccati: s.orfani }).esce, 1);
+});
+
+test("registro assente: tutti gli staccati restano rossi (un file illeggibile non può assolvere nessuno)", () => {
+  assert.deepEqual(smistaStaccati(["cervello/x.mjs"], [], "2026-08-04").orfani, ["cervello/x.mjs"]);
+  assert.deepEqual(smistaStaccati(["cervello/x.mjs"], null, "2026-08-04").orfani, ["cervello/x.mjs"]);
+});
 
 // ── ① il file rotto: il caso che spegneva TUTTO ───────────────────────────────
 

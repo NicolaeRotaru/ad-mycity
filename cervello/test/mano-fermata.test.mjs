@@ -1,4 +1,4 @@
-// 🖐️ Le prove della MANO FERMATA (AR-519) — l'errore già censito non si scrive.
+// 🖐️ Le prove della MANO FERMATA (AR-531) — l'errore già censito non si scrive.
 //
 // Cosa difendono: il testo in arrivo con una malattia censita viene RIFIUTATO (permissionDecision
 // deny) col perché; i commenti, le esenzioni e le estensioni del registro valgono anche qui (è la
@@ -43,6 +43,15 @@ test("le esenzioni della casa valgono anche qui: nei file di prova le esche sono
   assert.equal(giudizioScrittura({ file: "cervello/test/finto.test.mjs", testo: "ESCA_MALATTIA_1\n", malattie: MALATTIE }).length, 0);
 });
 
+test("l'esente PER-FILE del registro vale anche qui: il rilevatore che nomina la malattia per mestiere non viene negato", () => {
+  // È il caso vero del 4/8: pre-scrittura.mjs, esente dichiarato per «bypass-del-cancello» nel
+  // registro, segnalato 35 volte perché solo la spazzata leggeva il campo `esenti` — e questa mano,
+  // una volta cablata, avrebbe negato le modifiche proprio al guardiano dei bypass.
+  const malattie = [{ ...MALATTIE[0], esenti: [{ file: "cervello/rilevatore.mjs", perche: "è il rilevatore: nomina la forma per mestiere" }] }];
+  assert.equal(giudizioScrittura({ file: "cervello/rilevatore.mjs", testo: "ESCA_MALATTIA_1\n", malattie }).length, 0);
+  assert.equal(giudizioScrittura({ file: "cervello/altro.mjs", testo: "ESCA_MALATTIA_1\n", malattie }).length, 1, "l'esenzione è per QUEL file, non per la malattia intera");
+});
+
 test("la busta rifiuta con «deny», nomina la malattia e le due uscite legittime", () => {
   const voci = giudizioScrittura({ file: "cervello/x.mjs", testo: "ESCA_MALATTIA_1\n", malattie: MALATTIE });
   const busta = JSON.parse(bustaManoFermata(voci, "cervello/x.mjs"));
@@ -66,7 +75,7 @@ test("il controllo del cablaggio legge il JSON vero e distingue i due agganci", 
   assert.deepEqual(cablaggioPresente(cablato), { mano: true, scheda: true });
   const meta = cablaggioPresente(SETTINGS({ PreToolUse: AGGANCIO("node cervello/mano-fermata.mjs --hook") }));
   assert.equal(meta.mano, true);
-  assert.equal(meta.scheda, false, "un cablaggio a metà non è un cablaggio: la scheda AR-519 non si deve chiudere");
+  assert.equal(meta.scheda, false, "un cablaggio a metà non è un cablaggio: la scheda AR-531 non si deve chiudere");
 });
 
 test("il comando sotto l'evento SBAGLIATO non è un cablaggio: era il verde falso della prima stesura", () => {

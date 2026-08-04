@@ -36,6 +36,13 @@ Prima di agire, classifica ogni azione:
 
 Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi esegui.
 
+> 📬 **Ogni modifica finisce in una richiesta di unione (PR) — sempre.** Nicola, 4/8/2026 03:15:
+> «ogni volta che fai una modifica devi sempre aprire la pr, poi sta a me valutare se va bene o meno».
+> Appena il cancello del lotto è verde, la PR si apre: **non si aspetta che te la chieda**. Un lavoro
+> lasciato su un ramo senza PR è un lavoro che lui non può né vedere né valutare — cioè lavoro fermo.
+> Il fatto vive in `registro-fatti.json` come `flusso.pr-sempre`. Resta vero il contrario: aprire la
+> PR non è unirla. La firma sul merge è sua.
+
 ---
 
 ## 🧭 Il ciclo di lavoro (come "ci pensi tu")

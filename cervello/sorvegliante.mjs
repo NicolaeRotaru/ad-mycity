@@ -318,6 +318,12 @@ export function sorveglia({
       // un file preciso e altrove sarebbero un falso rosso. Un titolo che nomina un AR-xxx è un
       // difetto nella coda che legge Nicola e una cosa normalissima in una scheda del cantiere.
       if (Array.isArray(m.percorsi) && m.percorsi.length && !m.percorsi.some((p) => file.startsWith(p))) continue;
+      // `esenti` (per-file, col PERCHÉ scritto nel registro): fino al 4/8 li leggeva SOLO la
+      // spazzata, e i due lettori dello stesso registro contavano diverso (la forma di AR-500).
+      // Il conto presentato: pre-scrittura.mjs, esente dichiarato per «bypass-del-cancello» perché
+      // è il rilevatore stesso, segnalato 35 volte di fila da questa guardia — e la mano fermata,
+      // che riusa questo controllo, avrebbe NEGATO le modifiche proprio al guardiano dei bypass.
+      if (Array.isArray(m.esenti) && m.esenti.some((e) => e?.file === file)) continue;
       let re;
       try {
         re = new RegExp(m.pattern);
@@ -797,6 +803,23 @@ export function vociInsistenti(viste = {}, scatto = 0, soglia = INSISTENZA) {
 }
 
 /**
+ * Le voci comparse DOPO un certo scatto, e ancora vive all'ultimo.
+ *
+ * Serve al cancello dei senior (AR-527): un senior parte, la guardia scatta N volte mentre lavora, e
+ * alla fine la domanda è «cosa è comparso da quando è partito LUI». Senza questo taglio il cancello
+ * gli rinfaccerebbe le voci di chi ha lavorato prima — che è la stessa malattia del perimetro largo,
+ * spostata dai turni ai senior.
+ *
+ * `gravi` e `medie` insieme: qui il conteggio non serve a bloccare, serve a raccontare cosa ha
+ * lasciato — e una media lasciata a un senior è esattamente il genere di cosa che nessuno riguarda.
+ */
+export function vociDaScatto(viste = {}, scattoDa = 0, scattoOra = 0) {
+  return Object.entries(viste)
+    .filter(([, v]) => Number(v.scatto) > scattoDa && Number(v.scatto) === scattoOra)
+    .map(([chiave, v]) => ({ chiave, n: v.n, file: v.file, cosa: v.cosa, gravita: v.gravita }));
+}
+
+/**
  * La busta che ARRIVA al modello. Un hook PostToolUse che stampa testo semplice finisce nel log di
  * debug; solo `hookSpecificOutput.additionalContext` viene messo accanto al risultato dello strumento.
  * Torna la stringa da stampare, o `null` quando non c'è niente da dire (tacere è la scelta giusta:
@@ -1127,6 +1150,22 @@ function guardianiNominati() {
 }
 
 /**
+ * L'indice delle difese di QUESTO repo, letto dai registri veri.
+ *
+ * Esportato (AR-525) perché adesso serve anche al freno che parla PRIMA della mossa: quando sto per
+ * cancellare un file, la domanda «qualcuno lo dichiara difesa?» è la stessa identica di quando l'ho
+ * già cancellato. Sta qui e non là perché i tre lettori dei registri stanno qui: una seconda copia
+ * divergerebbe, ed è la ragione per cui in questa macchina il registro delle malattie è UNO.
+ */
+export function difeseDelRepo() {
+  return indiceDifese({
+    lezioni: leggiLezioni() || [],
+    mutanti: leggiRegistro("mutanti.json", "mutanti") || [],
+    guardiani: guardianiNominati(),
+  });
+}
+
+/**
  * IL GIRO COMPLETO SUL DELTA — l'I/O che sta fra il repo e il cuore.
  *
  * Estratto da `main()` (AR-502) perché adesso ha DUE chiamanti: il comando, e l'hook del Bash che
@@ -1142,7 +1181,7 @@ export function verdettoDelDelta({ soloStaged = false, da = null, senzaRaggio = 
   try {
     // `-U0`: solo le righe cambiate, niente contesto — il contesto NON è mio, e contarlo
     // trasformerebbe il codice di qualcun altro in una mia colpa.
-    // `da` (AR-518): il collaudo del lavoro finito chiede lo stesso giro ma sull'INTERO perimetro
+    // `da` (AR-530): il collaudo del lavoro finito chiede lo stesso giro ma sull'INTERO perimetro
     // del turno (l'ancora dello Stop), non solo sull'ultima modifica — commit compresi.
     diff = soloStaged ? git(["diff", "--cached", "-U0"]) : git(["diff", da || "HEAD", "-U0"]);
   } catch (e) {
@@ -1196,7 +1235,7 @@ export function verdettoDelDelta({ soloStaged = false, da = null, senzaRaggio = 
   }
   // Il raggio si calcola solo sul codice condiviso, non sui .md e non sui dati del vault (lì «chi mi
   // cita» non è una dipendenza che si rompe), e con UNA scansione per tutti.
-  // `senzaRaggio` (AR-519): il collaudo del lavoro finito usa questo giro per le voci gravi/medie e
+  // `senzaRaggio` (AR-531): il collaudo del lavoro finito usa questo giro per le voci gravi/medie e
   // il raggio non entra nelle sue istruzioni — pagare la scansione dell'intero repo a ogni «fatto»
   // bloccato sarebbe il costo che fa spegnere una guardia (lenta = rumorosa, stessa fine).
   const importatori = senzaRaggio

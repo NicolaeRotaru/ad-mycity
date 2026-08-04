@@ -1,4 +1,4 @@
-// 🔎 Le prove del COLLAUDO (AR-518) — il ricontrollo obbligato del lavoro finito.
+// 🔎 Le prove del COLLAUDO (AR-530) — il ricontrollo obbligato del lavoro finito.
 //
 // Cosa difendono, in una riga ciascuna:
 //   · il primo «fatto» di un lavoro NON passa: il cancello chiede il giro di collaudo;

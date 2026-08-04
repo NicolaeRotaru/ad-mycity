@@ -155,7 +155,7 @@ function bloccoPreferenze() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ① LA SCHEDA PRIMA DI COMINCIARE (AR-519, Nicola 4/8: «voglio qualcos'altro che ti permetta di
+// ① LA SCHEDA PRIMA DI COMINCIARE (AR-531, Nicola 4/8: «voglio qualcos'altro che ti permetta di
 // far bene il lavoro, che impedisca di fare errori e porti il risultato migliore»).
 //
 // IL DIFETTO CHE CURA. La memoria ha 500+ lezioni, ma al contesto arrivavano sempre LE STESSE: le
@@ -328,6 +328,6 @@ async function main() {
   process.exit(0);
 }
 
-// Custodito (AR-519): prima il blocco CLI girava all'IMPORT, e un test che importa `lezioniSuMisura`
+// Custodito (AR-531): prima il blocco CLI girava all'IMPORT, e un test che importa `lezioniSuMisura`
 // sarebbe morto sulla sua process.exit prima di eseguire una sola prova.
 if (import.meta.url === `file://${process.argv[1]}`) main();

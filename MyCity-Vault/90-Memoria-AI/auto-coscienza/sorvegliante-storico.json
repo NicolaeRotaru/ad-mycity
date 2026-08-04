@@ -1,0 +1,33 @@
+{
+  "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
+  "sessioni": [
+    {
+      "quando": "2026-08-04T02:06:45.582Z",
+      "scatti": 194,
+      "voci": 6,
+      "per_classe": {
+        "prova-accecata": 5,
+        "malattia-nuova": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T03:13:43.810Z",
+      "scatti": 139,
+      "voci": 2,
+      "per_classe": {
+        "malattia-nuova": 1,
+        "prova-accecata": 1
+      },
+      "mai_risolte": [
+        {
+          "classe": "malattia-nuova",
+          "file": "cervello/pre-scrittura.mjs",
+          "cosa": "riga nuova con la malattia «bypass-del-cancello»: Un comando che salta il cancello: --no-verify o push --force",
+          "ripetuta": 34
+        }
+      ]
+    }
+  ],
+  "aggiornato": "2026-08-04T03:13:43.811Z"
+}

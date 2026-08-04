@@ -582,6 +582,12 @@ function main() {
     // in un comando a parte perché la configurazione si tocca proprio quando si consegna un freno
     // nuovo — cioè nel momento esatto in cui si può staccare tutto senza accorgersene.
     passi.push(esegui("gli hook attaccati", "node", ["cervello/hooks-check.mjs"]));
+    // AR-524 — Nicola, 4/8: «non mi ha dato nessun blocco, perché?». Gli avevo consegnato una
+    // configurazione che solo lui può incollare, l'avevo scritta in una consegna e in coda avevo
+    // messo una card che diceva «apri quel file e incolla». Il materiale, davanti a lui, non è mai
+    // arrivato. Sta nel cancello e non in un comando a parte perché il momento in cui si scrive una
+    // card è la consegna: è lì che il puntatore sembra sufficiente.
+    passi.push(esegui("il materiale in mano a Nicola", "node", ["cervello/materiale-in-mano.mjs"]));
     // AR-512 — il lato SOTTRAZIONE del cantiere. Tutti i controlli qui sopra contano quello che c'è;
     // il 4/7 una fusione ha riscritto cantiere-difetti.json da 78 a 24 difetti e nessuno ha fiatato
     // per un mese. Sta nel cancello perché il momento in cui un difetto sparisce è esattamente la

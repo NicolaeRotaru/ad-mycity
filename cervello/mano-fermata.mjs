@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // 🖐️ MANO FERMATA — l'errore già censito non si scrive: l'azione non parte proprio.
 //
-// PERCHÉ ESISTE (AR-519, Nicola 4/8): «voglio qualcos'altro che ti permetta di far bene il lavoro,
+// PERCHÉ ESISTE (AR-531, Nicola 4/8): «voglio qualcos'altro che ti permetta di far bene il lavoro,
 // che impedisca di fare errori». Fino a oggi la macchina scopriva un errore noto UN SECONDO DOPO
 // averlo scritto: il sorvegliante gira dopo ogni modifica (PostToolUse), avvisa, e la riparazione è
 // un tornare indietro. Questo file sta un passo prima — l'hook PreToolUse riceve il testo che sto
@@ -30,8 +30,12 @@
 //   node cervello/mano-fermata.mjs --hook           # per l'hook PreToolUse (stdin JSON, SEMPRE exit 0)
 //   node cervello/mano-fermata.mjs --prova <file>   # cosa direbbe su un file già su disco
 //   node cervello/mano-fermata.mjs --cablaggio      # i due hook della prevenzione sono cablati in
-//       settings.json? 0 = sì (AR-519 chiudibile) · 1 = no — è la prova che auto-fix esegue per
-//       chiudere la scheda da solo il giorno in cui Nicola incolla lo snippet della card in coda.
+//       settings.json? è la prova che auto-fix esegue per chiudere la scheda da sola il giorno in
+//       cui Nicola incolla lo snippet della card in coda.
+//
+// Exit (contratto guardiani, AR-322): 0 = pulito/cablato · 1 = malattia trovata (--prova) o
+//   cablaggio incompleto (--cablaggio) · 2 = non ho potuto misurare. In forma --hook SEMPRE 0:
+//   il rifiuto viaggia nel JSON (permissionDecision), mai nel codice d'uscita.
 //
 // 🟢 Sola lettura: legge il registro malattie, non scrive niente, non tocca git. In caso di
 //    QUALSIASI errore interno lascia passare: un freno rotto che blocca ogni scrittura è il modo
@@ -103,7 +107,7 @@ export function testoInArrivo(toolInput = {}) {
  * Si legge il JSON VERO, evento per evento — non il testo con una regex. La prima stesura cercava
  * «"PreToolUse" … mano-fermata» in qualunque punto del file: sarebbe bastato il comando cablato
  * sotto l'evento SBAGLIATO (più la parola PreToolUse altrove) per un verde falso — e su questa
- * risposta si chiude AR-519 da solo. Un file malformato risponde «non cablato», che è l'esito
+ * risposta si chiude AR-531 da solo. Un file malformato risponde «non cablato», che è l'esito
  * onesto: un cablaggio che non si può leggere non sta frenando nessuno.
  */
 export function cablaggioPresente(testoSettings = "") {

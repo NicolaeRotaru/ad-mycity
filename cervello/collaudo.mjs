@@ -132,7 +132,7 @@ export function verdettoCollaudo({ lavoro = false, impronta = "", registro = nul
 export function righeCollaudo({ giro = 1, nFile = 0, da = null, voci = [] } = {}) {
   const comando = `git diff ${da || "HEAD"}`;
   const righe = [
-    `❌ COLLAUDO DEL LAVORO FINITO — giro ${giro}, ${nFile} file toccati: prima di dire «fatto», questo lavoro va ricontrollato TUTTO (AR-518)` +
+    `❌ COLLAUDO DEL LAVORO FINITO — giro ${giro}, ${nFile} file toccati: prima di dire «fatto», questo lavoro va ricontrollato TUTTO (AR-530)` +
       `\n   → ① rileggi la RICHIESTA di Nicola di questo turno e fai l'elenco di OGNI cosa chiesta: per ognuna scrivi FATTA (e dove si vede), MANCANTE (falla adesso) o NON FATTA APPOSTA (col perché).` +
       `\n   → ② rileggi il lavoro INTERO, file per file, dal diff vero — non a memoria: \`${comando}\` e \`git status --short\`.` +
       `\n   → ③ esegui le prove che toccano i file cambiati e guarda i RISULTATI, non i ricordi.` +

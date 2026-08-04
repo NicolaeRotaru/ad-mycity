@@ -1,4 +1,4 @@
-// 🎯 Le prove della SCHEDA PRIMA DI COMINCIARE (AR-519) — le lezioni giuste per QUESTA richiesta.
+// 🎯 Le prove della SCHEDA PRIMA DI COMINCIARE (AR-531) — le lezioni giuste per QUESTA richiesta.
 //
 // Cosa difendono: la selezione pesca per TEMA (tag prima del testo), le correzioni di Nicola a
 // parità di tema vengono prima, sotto la soglia si tace (una scheda che allega lezioni a caso è

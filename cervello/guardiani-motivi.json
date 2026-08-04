@@ -4,11 +4,22 @@
   "cablato": "lo mette di guardia un test della suite: va nominato in `dove`, e il controllo verifica che quel file lo invochi davvero. Un test che esegue uno strumento per altro (es. per verificare che sia in sola lettura) NON conta.",
   "libreria": "ha una CLI di diagnosi, ma il suo giudizio vive dentro chi lo importa: il freno sta lì, non nell'eseguibile.",
   "decisione": "si lancia a mano di proposito, e il perché è scritto per esteso.",
-  "da-cablare": "riconosciuto come BUCO, non come stato. Vive solo sotto `tetto_da_cablare`, che è assoluto e scende: un buco in più non si consegna."
+  "da-cablare": "riconosciuto come BUCO, non come stato. Vive solo sotto `tetto_da_cablare`, che è assoluto e scende: un buco in più non si consegna.",
+  "in-attesa-di-aggancio": "è un HOOK: non lo mette di guardia un processo del repo, lo mette una riga in `.claude/settings.json` — file che la macchina non può scrivere apposta, perché è quello che può staccare tutti i freni insieme. Vale SOLO col campo `scade`: passata quella data torna a essere un freno costruito e mai collegato. Non conta contro `tetto_da_cablare` perché quel tetto governa i buchi senza data; qui la disciplina è la data, che è più severa di un numero. AR-526."
  },
  "tetto_da_cablare": 4,
  "_tetto_perche": "Quattro strumenti trovati costruiti e mai messi di guardia dalla corsia A del lotto 34, oltre ai due che il lotto ha cablato davvero (permessi-check, non-vacuita) e ai tre che sono una scelta scritta (libreria/decisione). Non sono stati riparati qui di proposito: allargare un lotto oltre la sua malattia è il modo in cui i lotti non finiscono. Il tetto esiste perché da qui in avanti il numero possa solo scendere — chi ne cabla uno abbassa questo numero nello stesso lavoro.",
  "motivi": {
+  "collaudo.mjs": {
+   "motivo": "libreria",
+   "dove": "cervello/cancello-stop.mjs",
+   "perche": "AR-530: il suo giudizio vive dentro il cancello dello Stop, che importa collaudoAlloStop() e lo esegue a OGNI chiusura di turno via hook Stop — più spesso di qualunque timer. La CLI (stato/registro) è diagnosi, non il freno."
+  },
+  "mano-fermata.mjs": {
+   "motivo": "in-attesa-di-aggancio",
+   "scade": "2026-08-11",
+   "perche": "AR-531: freno pre-scrittura costruito e provato (12 prove + mutazione rossa); l'aggancio è la card #prevenzione-a-monte in AZIONI-IN-ATTESA.md — un blocco PreToolUse su Edit|Write|MultiEdit in .claude/settings.json, che solo Nicola può scrivere. La prova `node cervello/mano-fermata.mjs --cablaggio` è rossa finché l'aggancio manca e chiuderà la scheda da sola alla firma."
+  },
   "permessi-check.mjs": {
    "motivo": "cablato",
    "dove": "cervello/test/permessi-di-guardia.test.mjs",
