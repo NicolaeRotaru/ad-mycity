@@ -10811,7 +10811,7 @@
       }
     },
     {
-      "id": "AR-532",
+      "id": "AR-541",
       "stato": "chiuso",
       "gravita": "alta",
       "colore": "🟡",
@@ -10820,7 +10820,7 @@
       "nato": "2026-08-04 01:40",
       "nato_come": "scoperta",
       "nato_da": "AR-508 / AR-511 (miei, del 3/8)",
-      "origine": "Nicola 4/8: «risolvi queste 3 cose» — i tre limiti che avevo dichiarato io stesso nella consegna precedente.",
+      "origine": "Nicola 4/8: «risolvi queste 3 cose» — i tre limiti che avevo dichiarato io stesso nella consegna precedente. (nato come AR-532: main ha scritto quel numero per prima e questa scheda si e spostata il 4/8 05:50)",
       "titolo": "Il freno sulla forma poteva fermare il commit automatico del worker, e nessuno l'aveva mai visto girare",
       "causa_radice": "① git-pr.mjs committa senza --no-verify e su errore esce 1: un freno che scatta li ferma la pubblicazione della memoria. ② Il 3/8 avevo dichiarato il rischio senza riprodurlo, perche dal cloud il VPS si vede solo di riflesso. ③ Ma il pezzo che rischiava di fermarlo non e il server: e il pre-commit, e quello si puo far girare davvero. Il limite era scomodo, non fuori portata.",
       "fix_proposto": "FATTO 🟢 una prova sul campo che rifa il percorso vero — un registro compatto, uno script che lo aggiorna con la via ufficiale di scrittura, e il commit con gli hook veri — e pretende che passi, che il contenuto nuovo ci sia e che la forma resti quella di prima. Piu la misura dell'esposizione: 190 registri versionati, nessuna coppia script-registro che imponga una forma diversa da quella su main.",
@@ -10831,7 +10831,7 @@
       "lezione": "L-2026-0804-552"
     },
     {
-      "id": "AR-533",
+      "id": "AR-542",
       "stato": "chiuso",
       "gravita": "alta",
       "colore": "🟡",
@@ -10840,7 +10840,7 @@
       "nato": "2026-08-04 01:40",
       "nato_come": "scoperta",
       "nato_da": "AR-508 / AR-511 (miei, del 3/8)",
-      "origine": "Nicola 4/8: «risolvi queste 3 cose» — i tre limiti che avevo dichiarato io stesso nella consegna precedente.",
+      "origine": "Nicola 4/8: «risolvi queste 3 cose» — i tre limiti che avevo dichiarato io stesso nella consegna precedente. (nato come AR-533: main ha scritto quel numero per prima e questa scheda si e spostata il 4/8 05:50)",
       "titolo": "Una malattia scritta male non rallenta la guardia: la fa uccidere a meta, e il verdetto non arriva a nessuno",
       "causa_radice": "① I pattern arrivano da malattie.json e finiscono in new RegExp senza nessun tetto di costo. ② Misurato: un pattern a backtracking esplosivo su UNA riga di 29 caratteri tiene occupato il sorvegliante 19.883 ms. ③ L'hook PostToolUse ha un tetto di 15 secondi: la guardia verrebbe uccisa a meta e il verdetto non comparirebbe — cioe il canale muto di AR-465 per un'altra strada, e stavolta in silenzio. ④ Una regex non si puo interrompere a meta in JavaScript: il budget a valle limita il danno, la difesa vera e non far entrare quel pattern nel registro. ⑤ Trovato dall'analisi di sicurezza, che era la prima delle quattro che avevo rimandato.",
       "fix_proposto": "FATTO 🟡 due difese. A valle: un budget di 2 secondi per malattia (il giro sano ne costa 0,3 in tutto) che smette di cercare e lo DICHIARA, perche una malattia che non ho potuto cercare non e una malattia assente. A monte: il test del registro misura ogni pattern su quattro esche da backtracking e boccia chi supera il mezzo secondo.",

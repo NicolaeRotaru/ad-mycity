@@ -1790,7 +1790,7 @@
    "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
-   "difetto": "AR-533",
+   "difetto": "AR-542",
    "lezione": "L-2026-0804-552",
    "nome": "il budget per pattern sparisce: una malattia scritta male torna a poter uccidere la guardia",
    "file": "cervello/sorvegliante.mjs",

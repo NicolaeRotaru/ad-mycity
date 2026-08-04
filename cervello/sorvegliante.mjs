@@ -145,7 +145,7 @@ const eFixture = (file) => FIXTURE.some((s) => file.startsWith(s));
  *  guardati da ①: una malattia con `estensioni: [".md"]` è una regola sul TESTO, ed è un'altra cosa. */
 export const PROSA = [".md", ".markdown", ".txt"];
 
-/** Quanto può costare UNA malattia su un file prima che smetta di cercarla e lo dica (AR-533).
+/** Quanto può costare UNA malattia su un file prima che smetta di cercarla e lo dica (AR-542).
  *  Due secondi: il giro completo sul repo vero ne costa 0,3 in tutto, quindi qui dentro non ci
  *  finisce mai un pattern sano — e l'hook ha 15 secondi, che restano per tutti gli altri. */
 export const BUDGET_PATTERN_MS = 2000;
@@ -307,7 +307,7 @@ export function sorveglia({
   const voci = [];
   const motivi = [];
 
-  // ⏱️ IL BUDGET DI TEMPO PER PATTERN (AR-533, trovato dall'analisi di sicurezza del 4/8).
+  // ⏱️ IL BUDGET DI TEMPO PER PATTERN (AR-542, trovato dall'analisi di sicurezza del 4/8).
   //
   // I pattern arrivano da `malattie.json`, e una regex scritta male può impiegare un tempo enorme su
   // una riga cortissima: misurato, `(a+)+$` su UNA riga di 29 caratteri tiene occupata la guardia

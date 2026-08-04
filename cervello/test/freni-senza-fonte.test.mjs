@@ -384,7 +384,7 @@ prova("il registro delle malattie non è vuoto: un guardiano che non cerca nient
   }
 });
 
-prova("nessun pattern del registro può tenere occupata la guardia (AR-533)", () => {
+prova("nessun pattern del registro può tenere occupata la guardia (AR-542)", () => {
   // Trovato il 4/8 dall'analisi di sicurezza: i pattern arrivano da un file, e una regex scritta male
   // costa un tempo enorme su una riga cortissima — misurato, `(a+)+$` su 29 caratteri tiene occupato
   // il sorvegliante 19.883 ms. L'hook ne ha 15: una malattia maldestra non lo rallenta, lo fa
