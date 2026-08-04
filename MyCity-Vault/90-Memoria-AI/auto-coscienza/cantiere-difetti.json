@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 04:50",
+  "aggiornato": "2026-08-04 04:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -10774,6 +10774,24 @@
       },
       "malattia": "perimetro-dedotto-non-misurato",
       "malattia_perche": "«Essere eseguito» era dedotto dalle forme di chiamata che esistevano il giorno in cui il guardiano e' nato, invece di essere misurato sui canali che lanciano davvero. E' AR-347 applicato ai canali di esecuzione."
+    },
+    {
+      "id": "AR-530",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "processi-e-cadenze",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 03:35",
+      "nato_come": "scoperta",
+      "nato_da": "AR-489",
+      "origine": "[CORREZIONE DI NICOLA, con tre foto] «guarda stai ancora ripetendo la stessa cosa due volte … non devi togliere quei blocchi che ci sono sotto, più tosto devi controllare se stai ripetendo la stessa cosa due volte» e «quando è corta la risposta che mi dai penso che non abbiano senso, ma tante volte il riassunto che mi dai mi fa capire meglio la risposta». Le foto mostrano UN messaggio mio con i quattro blocchi due volte, lo stesso blocco di comandi due volte e sette frasi ridette.",
+      "titolo": "Il controllo contro le ripetizioni non guardava dentro il messaggio: 15 ripetizioni nella stessa schermata, zero segnalate",
+      "causa_radice": "① UNITÀ DI MISURA SBAGLIATA. La funzione ideeRipetute (nata il 3/8 da AR-489) confronta il messaggio nuovo con i messaggi PRECEDENTI. Un messaggio che ripete se stesso non ha precedenti da confrontare: il paragone non parte e il verdetto esce verde. La misura contro le ripetizioni era cieca alla forma piu visibile di ripetizione, quella tutta sotto gli occhi di Nicola nella stessa schermata. ② LA REGOLA SCRITTA DICEVA IL CONTRARIO, ed e la causa a monte: scrittura-umana.md, Regola 0-bis, diceva «il ripasso vale DENTRO un testo, mai fra due messaggi di fila» — cioe dentro un messaggio ripetere era sempre legittimo. Il codice era fedele a una regola sbagliata: un controllo non puo essere piu sveglio del testo che lo descrive, e i due si riparano insieme. ③ IL SECONDO PEZZO, sulla lunghezza: la struttura era accesa o spenta (testo lungo OPPURE risposta numerata), e su una risposta di due righe i quattro titoli sono impalcatura sopra il contenuto. Aggravante: i titoli dei blocchi contavano come righe di contenuto, quindi l'impalcatura si giustificava da sola.",
+      "fix_proposto": "FATTO 🟡 (PR #664). ⚠️ Nato come AR-518, rinumerato due volte alla fusione (AR-518 → AR-522 → AR-530): altre sessioni avevano gia preso 518-521 e poi anche 522-529 mentre lavoravo. QUARTA collisione della giornata, stessa causa di AR-517 — due sessioni prendono «il prossimo numero libero» dalla copia che hanno in mano. ① ripetizioniInterne() in cervello/si-capisce.mjs guarda il testo contro se stesso e ferma tre cose: un titolo dei quattro blocchi che compare due volte, lo stesso blocco di comandi due volte, una frase ridetta oltre 4 frasi di distanza (o la stessa idea 3+ volte). Tipo nuovo gia-detto-qui, dichiarato in COPERTURA con la sua zona cieca. Il ripasso VICINO continua a passare: e la Regola 2 mossa 3, e una prova diventa rossa se qualcuno lo spegne. ② livelloDiStruttura() — corta/media/lunga — e UNA funzione sola, usata dal freno e dal contatore conta-blocco-mancante.mjs: prima la condizione viveva in due file con due sfumature diverse, ed e il modo in cui due controlli gemelli smettono di esserlo in silenzio. Sotto le 8 righe di CONTENUTO (i titoli dei blocchi non contano) niente blocchi; tipo nuovo blocchi-su-testo-corto. ③ Cade una parte di AR-517, dichiarato: una risposta numerata di due righe non pretende piu i quattro blocchi. Resta fermato il caso che AR-517 curava (risposta numerata con del contenuto dentro) e resta l'ordine «blocchi sopra i numeri» a qualunque lunghezza. ④ TARATURE MISURATE, non stimate: con la soglia 0,6 (quella usata fra due messaggi) uscivano 6.077 accuse su 692 testi, in maggioranza elenchi con la stessa intelaiatura («Costo:» sotto ogni opzione, stesse parole e contenuto opposto); con 0,85 piu il taglio delle intelaiature restano 1.730 segnalazioni, e UN solo testo del vault diventa rosso senza esserlo prima. ⑤ Confronto indicizzato (parola piena → frasi): tutte-contro-tutte non finiva piu su un documento lungo, e questo controllo gira nell'hook Stop a ogni turno; il filtro e esatto per costruzione, non un taglio. ⑥ Regola riscritta dove era sbagliata: scrittura-umana.md (Regola 0-bis e Regola 3) e CLAUDE.md. Lezione L-2026-0804-551 con gate vero (0 violazioni su gate-veri.mjs). 5 mutazioni verificate rosse su si-capisce.mjs e cancello-stop.mjs.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
     }
   ],
   "meta": {

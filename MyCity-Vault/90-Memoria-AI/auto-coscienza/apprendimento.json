@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-03 23:20",
+ "aggiornato": "2026-08-04 03:55",
  "lezioni": [
   {
    "id": "L-2026-0730-01",
@@ -11120,6 +11120,31 @@
     "stessa forma il 30/7: +12.147/-12.124 su apprendimento.json"
    ],
    "gate": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+   "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0804-551",
+   "testo": "**Un controllo contro le ripetizioni che non guarda dentro il messaggio (4/8, correzione di Nicola con foto).** Nicola ha mandato tre schermate dello stesso mio messaggio: i quattro blocchi due volte, lo stesso comando da copiare due volte, sette frasi ridette — «guarda, stai ancora ripetendo la stessa cosa due volte». Il controllo esisteva dal 3/8 e ha letto quel testo dicendo zero: confrontava il messaggio nuovo con i messaggi PRECEDENTI, e un messaggio che ripete se stesso non ha precedenti da confrontare. **La regola:** quando costruisco una misura contro un difetto, la prima domanda e su quale UNITA guarda — e il caso piu frequente di un difetto e spesso dentro l unita, non fra due unita. **La causa a monte, ed e la parte che conta:** la regola scritta diceva il contrario («il ripasso vale DENTRO un testo, mai fra due messaggi»), quindi il codice era fedele a una regola sbagliata. Un controllo non puo essere piu sveglio del testo che lo descrive: si riparano insieme. **Il secondo pezzo della stessa correzione:** i quattro blocchi su una risposta corta sono impalcatura, quindi la struttura si scala sulla lunghezza invece di essere accesa o spenta — e i titoli dei blocchi non contano come contenuto, altrimenti l impalcatura si giustifica da sola.",
+   "tag": [
+    "scrittura",
+    "ripetizioni",
+    "misure",
+    "unita-di-misura",
+    "regola-e-codice"
+   ],
+   "reparto": "prompt-engineer",
+   "confidenza": 0.95,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-04 03:55",
+   "ultima_conferma": "2026-08-04 03:55",
+   "stato": "attiva",
+   "evidenze": [
+    "il testo vero delle sue tre foto: 1 problema prima, 15 dopo (4 titoli doppi, 1 comando doppio, 7 frasi ridette)",
+    "falsi allarmi misurati sul vault e tagliati: da 6.077 segnalazioni su 692 testi a 1.730, e da 3 testi a 1 che diventa rosso senza esserlo prima",
+    "5 mutazioni verificate rosse su si-capisce.mjs e cancello-stop.mjs"
+   ],
+   "gate": "node cervello/test/si-capisce.test.mjs",
    "gate_attivo": true
   }
  ],
