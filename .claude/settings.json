@@ -107,6 +107,11 @@
             "command": "node cervello/intento-turno.mjs --hook",
             "timeout": 10
           }
+          { 
+            "type": "command", 
+            "command": "node cervello/contesto-lezioni.mjs --richiesta", 
+            "timeout": 10 
+          }
         ]
       }
     ],
