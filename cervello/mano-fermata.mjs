@@ -49,12 +49,18 @@ const REPO = dirname(QUI);
 // IL CUORE — funzioni pure: un test le esegue su testi finti, un mutante le può accecare.
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** Oltre questa dimensione il testo passa senza esame: un Write da megabyte esaminato riga per
+ *  riga sfonderebbe il timeout dell'hook, e un freno lento viene spento come uno rumoroso. Il
+ *  limite è DICHIARATO (fail-open), e a valle il sorvegliante guarda comunque lo stesso delta. */
+export const TESTO_MAX = 512 * 1024;
+
 /**
  * Le malattie censite che il testo IN ARRIVO contiene. Riusa il controllo ① del sorvegliante:
  * stesse esenzioni (SALTA_MALATTIE, fixture), stessi filtri (estensioni, percorsi, commenti).
  * Il numero di riga è relativo al testo che stavo per scrivere, non al file: è l'unico che esiste.
  */
 export function giudizioScrittura({ file = "", testo = "", malattie = [] } = {}) {
+  if (String(testo).length > TESTO_MAX) return [];
   const aggiunte = righeDiFileNuovo(String(testo)) || [];
   if (!aggiunte.length) return [];
   // I registri che qui non servono (mutanti, difese) restano vuoti: i loro «motivi» di cecità
@@ -92,15 +98,28 @@ export function testoInArrivo(toolInput = {}) {
 }
 
 /**
- * I due agganci della prevenzione a monte dentro il testo di settings.json: ci sono?
- * Pura, sul TESTO e non sul JSON: se il file è malformato la risposta onesta è «non cablato»,
- * non un errore — e un test la esegue su testi finti di qualunque forma.
+ * I due agganci della prevenzione a monte dentro settings.json: ci sono?
+ *
+ * Si legge il JSON VERO, evento per evento — non il testo con una regex. La prima stesura cercava
+ * «"PreToolUse" … mano-fermata» in qualunque punto del file: sarebbe bastato il comando cablato
+ * sotto l'evento SBAGLIATO (più la parola PreToolUse altrove) per un verde falso — e su questa
+ * risposta si chiude AR-519 da solo. Un file malformato risponde «non cablato», che è l'esito
+ * onesto: un cablaggio che non si può leggere non sta frenando nessuno.
  */
 export function cablaggioPresente(testoSettings = "") {
-  const t = String(testoSettings);
+  let hooks;
+  try {
+    hooks = JSON.parse(String(testoSettings))?.hooks || {};
+  } catch {
+    return { mano: false, scheda: false };
+  }
+  const comandi = (evento) =>
+    (Array.isArray(hooks[evento]) ? hooks[evento] : [])
+      .flatMap((v) => (Array.isArray(v?.hooks) ? v.hooks : []))
+      .map((h) => String(h?.command || ""));
   return {
-    mano: /"PreToolUse"[\s\S]*mano-fermata\.mjs --hook/.test(t),
-    scheda: /"UserPromptSubmit"[\s\S]*contesto-lezioni\.mjs --richiesta/.test(t),
+    mano: comandi("PreToolUse").some((c) => c.includes("mano-fermata.mjs --hook")),
+    scheda: comandi("UserPromptSubmit").some((c) => c.includes("contesto-lezioni.mjs --richiesta")),
   };
 }
 

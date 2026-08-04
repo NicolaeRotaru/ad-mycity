@@ -265,9 +265,11 @@ export function collaudoAlloStop({ da = null, turno = false, giaBloccato = false
   if (v.azione !== "chiedi") return { righe: [], note: [], ciechi: [] };
   let voci = [];
   try {
-    voci = verdettoDelDelta({ da: base }).esito.voci;
+    // `senzaRaggio`: qui servono solo le voci gravi/medie — il raggio è un quadro informativo che
+    // nelle istruzioni non entra, e la sua scansione dell'intero repo a ogni «fatto» è costo puro.
+    voci = verdettoDelDelta({ da: base, senzaRaggio: true }).esito.voci;
   } catch {
-    voci = []; // il giro meccanico non è riuscito: restano i quattro passi, che sono la parte che conta
+    voci = []; // il giro meccanico non è riuscito: restano i passi del ricontrollo, che sono la parte che conta
   }
   scriviRegistro({ impronta: stato.impronta, esito: "chiesto", giro: v.giro, da: base });
   return { righe: righeCollaudo({ giro: v.giro, nFile: stato.nFile, da: base, voci }), note: [], ciechi: [] };

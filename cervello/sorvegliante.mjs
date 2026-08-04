@@ -1137,7 +1137,7 @@ function guardianiNominati() {
  *
  * @returns {{errore:string|null, esito:object, toccati:Array}}
  */
-export function verdettoDelDelta({ soloStaged = false, da = null } = {}) {
+export function verdettoDelDelta({ soloStaged = false, da = null, senzaRaggio = false } = {}) {
   let diff;
   try {
     // `-U0`: solo le righe cambiate, niente contesto — il contesto NON è mio, e contarlo
@@ -1196,7 +1196,12 @@ export function verdettoDelDelta({ soloStaged = false, da = null } = {}) {
   }
   // Il raggio si calcola solo sul codice condiviso, non sui .md e non sui dati del vault (lì «chi mi
   // cita» non è una dipendenza che si rompe), e con UNA scansione per tutti.
-  const importatori = indiceImportatori(toccati.map((t) => t.file).filter((f) => /\.(m?js|cjs|ts|tsx)$/.test(f)));
+  // `senzaRaggio` (AR-519): il collaudo del lavoro finito usa questo giro per le voci gravi/medie e
+  // il raggio non entra nelle sue istruzioni — pagare la scansione dell'intero repo a ogni «fatto»
+  // bloccato sarebbe il costo che fa spegnere una guardia (lenta = rumorosa, stessa fine).
+  const importatori = senzaRaggio
+    ? new Map()
+    : indiceImportatori(toccati.map((t) => t.file).filter((f) => /\.(m?js|cjs|ts|tsx)$/.test(f)));
 
   // Il lato sottrazione: ciò che ho TOLTO, e chi lo dichiarava una difesa.
   const { rimosse, cancellati } = leggiRimozioni(diff);

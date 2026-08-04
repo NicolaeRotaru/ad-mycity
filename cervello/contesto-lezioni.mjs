@@ -176,7 +176,7 @@ export const PAROLE_VUOTE = new Set([
   "tutto", "tutti", "tutte", "sempre", "quando", "perche", "voglio", "devi", "deve", "dimmi",
   "dire", "volta", "volte", "ogni", "altro", "altra", "altre", "altri", "stato", "stata", "essere",
   "hanno", "abbiamo", "adesso", "ancora", "molto", "tanto", "bene", "male", "puoi", "posso",
-  "serve", "senza", "cioe", "oppure", "invece", "quindi", "pero", "loro", "questo", "vorrei",
+  "serve", "senza", "cioe", "oppure", "invece", "quindi", "pero", "loro", "vorrei",
 ]);
 
 /** Le parole-tema di un testo: minuscole, senza accenti, senza parole vuote, almeno 4 lettere. */
@@ -186,7 +186,9 @@ export function paroleChiave(testo = "") {
       String(testo)
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[̀-ͯ]/g, "")
+        // La classe scritta con gli escape, non coi segni combinanti «invisibili»: un editor o un
+        // formatter che normalizza il file la romperebbe senza che nessun diff lo mostri.
+        .replace(/[\u0300-\u036f]/g, "")
         .split(/[^a-z0-9]+/)
         .filter((w) => w.length >= 4 && !PAROLE_VUOTE.has(w)),
     ),

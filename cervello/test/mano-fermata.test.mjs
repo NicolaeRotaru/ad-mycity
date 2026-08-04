@@ -55,15 +55,36 @@ test("senza voci la busta è nulla: il silenzio è la risposta giusta di un fren
   assert.equal(bustaManoFermata([], "cervello/x.mjs"), null);
 });
 
-test("il controllo del cablaggio distingue i due agganci, e su un testo vuoto dice «non cablato»", () => {
-  const cablato =
-    '"PreToolUse": [ { "matcher": "Edit|Write|MultiEdit", "hooks": [ { "type": "command", "command": "node cervello/mano-fermata.mjs --hook" } ] } ],' +
-    '"UserPromptSubmit": [ { "hooks": [ { "type": "command", "command": "node cervello/contesto-lezioni.mjs --richiesta" } ] } ]';
+const SETTINGS = (hooks) => JSON.stringify({ permissions: {}, hooks });
+const AGGANCIO = (comando) => [{ hooks: [{ type: "command", command: comando }] }];
+
+test("il controllo del cablaggio legge il JSON vero e distingue i due agganci", () => {
+  const cablato = SETTINGS({
+    PreToolUse: AGGANCIO("node cervello/mano-fermata.mjs --hook"),
+    UserPromptSubmit: AGGANCIO("node cervello/contesto-lezioni.mjs --richiesta"),
+  });
   assert.deepEqual(cablaggioPresente(cablato), { mano: true, scheda: true });
-  const meta = cablaggioPresente('"PreToolUse": [ { "hooks": [ { "command": "node cervello/mano-fermata.mjs --hook" } ] } ]');
+  const meta = cablaggioPresente(SETTINGS({ PreToolUse: AGGANCIO("node cervello/mano-fermata.mjs --hook") }));
   assert.equal(meta.mano, true);
   assert.equal(meta.scheda, false, "un cablaggio a metà non è un cablaggio: la scheda AR-519 non si deve chiudere");
+});
+
+test("il comando sotto l'evento SBAGLIATO non è un cablaggio: era il verde falso della prima stesura", () => {
+  const sbagliato = SETTINGS({
+    PreToolUse: AGGANCIO("node cervello/altro.mjs --hook"),
+    PostToolUse: AGGANCIO("node cervello/mano-fermata.mjs --hook"),
+  });
+  assert.equal(cablaggioPresente(sbagliato).mano, false, "mano-fermata DOPO la scrittura non ferma niente: deve contare solo sotto PreToolUse");
+});
+
+test("un settings malformato o vuoto risponde «non cablato»: l'esito onesto, mai un errore", () => {
   assert.deepEqual(cablaggioPresente(""), { mano: false, scheda: false });
+  assert.deepEqual(cablaggioPresente("{ json rotto"), { mano: false, scheda: false });
+});
+
+test("oltre il tetto di dimensione il testo passa senza esame: fail-open dichiarato, non un blocco lento", () => {
+  const enorme = "const a = ESCA_MALATTIA_1;\n".repeat(30000); // ~780KB, sopra TESTO_MAX
+  assert.equal(giudizioScrittura({ file: "cervello/x.mjs", testo: enorme, malattie: MALATTIE }).length, 0);
 });
 
 test("i tre attrezzi di scrittura consegnano tutti il loro testo nuovo", () => {
