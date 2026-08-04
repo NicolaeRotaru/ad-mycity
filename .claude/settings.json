@@ -119,6 +119,12 @@
             "command": "node cervello/pre-scrittura.mjs --hook",
             "timeout": 10
           }
+          {
+            "matcher": "Edit|Write|MultiEdit",
+            "hooks": [
+              { "type": "command", "command": "node cervello/mano-fermata.mjs --hook", "timeout": 10 }
+            ]
+          }
         ]
       }
     ],
