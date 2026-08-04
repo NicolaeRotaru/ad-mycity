@@ -1056,8 +1056,8 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 
 **Com'è andata oggi**
 - Business fermo tutto il giorno: stessi numeri di ieri, nessuna sorpresa nei dati.
-- Il freno automatico che mancava da 18 correzioni ripetute è acceso e verificato — non solo scritto, cablato davvero.
-- Il worker ha dato lo stesso falso allarme una terza volta, e stavolta il fix tocca la radice, non il sintomo.
+- Il freno automatico che mancava da 18 correzioni ripetute è acceso e verificato. Non solo scritto: cablato davvero.
+- Il worker ha dato lo stesso falso allarme una terza volta. Stavolta il fix tocca la radice, non il sintomo.
 
 **I numeri**
 - 1 ordine (mai pagato), 0 consegnati, 5 prodotti, 7 clienti, 3 carrelli abbandonati — invariati.
@@ -1065,14 +1065,14 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 
 **Da approvare**
 - Metti online il fix del falso allarme del worker.
-- Metti online la memoria scritta oggi pomeriggio (non riesco a pubblicarla da sola in questa sessione).
+- Metti online la memoria scritta oggi pomeriggio. Da qui non riesco a pubblicarla da sola.
 - Dimmi come vuoi chiudere i rami e le richieste di unione vecchie su GitHub — ferma da un giorno.
 
 **Lezione di oggi**
-- Quando ti chiedo di incollare un pezzo di configurazione, devo darti il blocco intero pronto, non due righe da inserire a mano — un frammento in un file annidato si rompe quasi sempre.
+- Quando ti chiedo di incollare un pezzo di configurazione, devo darti il blocco intero pronto. Non due righe da inserire a mano. Un frammento in un file annidato si rompe quasi sempre.
 
 **Domani**
-- Controllo che il fix di stasera tenga per tutta la notte, poi riprendo a chiudere il cantiere dei difetti.
+- Controllo che il fix di stasera tenga per tutta la notte. Poi riprendo a chiudere il cantiere dei difetti.
 
 **Dettagli tecnici**
 - Fonte numeri: Supabase `execute_sql` diretto, 18:1x (ordini=1, payment_status paid=0, delivery_status delivered=0, profiles=7, products=5, reviews=0, abandoned_carts=3).
