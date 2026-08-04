@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Activity, ChevronDown, HeartPulse } from "lucide-react";
 import { istante } from "@/lib/format";
+import { etaTesto } from "@/lib/memoria-ferma";
 import { vaiArea } from "@/lib/nav";
 import { usePanelSync } from "@/lib/panel-sync";
 import { listaSicura } from "@/lib/memoria-json";
@@ -14,6 +15,11 @@ type Cuore = {
   vivo?: boolean;
   workerVivo?: boolean;
   autopilota?: boolean;
+  // AR-544: verdetto «memoria ferma» calcolato dal server (battito × ultimo push riuscito).
+  memoriaFerma?: boolean;
+  memoriaFermaOre?: number | null;
+  memoriaLavora?: boolean;
+  pushMemoriaUltimo?: string | null;
 };
 type Diagnosi = { salute: "verde" | "giallo" | "rosso"; checks: { nome: string; stato: "verde" | "giallo" | "rosso"; dettaglio: string }[] };
 type SaluteLink = { label: string; vista: "cervello" | "auto-coscienza" | "salute-sito"; stat: string; semaforo: "verde" | "giallo" | "rosso" };
@@ -121,10 +127,16 @@ export default function MacchinaHomeCard() {
   };
   const organiStato = ORGANI.map((o) => ({ ...o, ok: okMap[o.okKey] }));
   const problemi = organiStato.filter((o) => !o.ok).length;
-  const salute = diag?.salute ?? (problemi ? "giallo" : c.vivo ? "verde" : "giallo");
+  // AR-544 — la memoria ferma VINCE su tutto: dal 30/7 al 4/8 questa riga diceva «🟢 Viva» col
+  // battito del worker mentre ogni numero della Cabina era di quattro giorni prima. Il verde di un
+  // organo non può coprire il fatto che ciò che Nicola sta guardando è il passato.
+  const memoriaFerma = !demo && !!c.memoriaFerma;
+  const etaMemoria = c.memoriaFermaOre != null ? etaTesto(c.memoriaFermaOre) : null;
+  const salute = memoriaFerma ? "rosso" : (diag?.salute ?? (problemi ? "giallo" : c.vivo ? "verde" : "giallo"));
   const ultimo = c.ultimoGiro ?? c.ultimoBattito;
-  const riga =
-    salute === "verde"
+  const riga = memoriaFerma
+    ? `🔴 ${c.memoriaLavora ? "Lavora ma non pubblica" : "Ferma"} · memoria di ${etaMemoria ?? "—"} fa`
+    : salute === "verde"
       ? `🟢 Viva · ultimo giro ${ultimo ? istante(ultimo) : "—"}`
       : salute === "rosso"
         ? `🔴 Attenzione · ${problemi || 1} organi da sistemare`
@@ -141,6 +153,19 @@ export default function MacchinaHomeCard() {
           <p className="t-corpo text-[13px] font-medium mt-0.5">{riga}</p>
         </div>
       </div>
+
+      {memoriaFerma && (
+        <div role="alert" className="mb-2 rounded-xl border border-red-200 bg-red-50/60 p-2.5 text-[13px] leading-snug text-red-800">
+          <b>⛔ La memoria è ferma da {etaMemoria ?? "troppo tempo"}</b>
+          {c.pushMemoriaUltimo ? ` (ultima pubblicazione ${istante(c.pushMemoriaUltimo)})` : ""}.{" "}
+          {c.memoriaLavora
+            ? "La macchina dà segni di vita ma non riesce a pubblicare: i numeri qui sotto sono di allora."
+            : "E la macchina non dà segni di vita: i numeri qui sotto sono di allora."}{" "}
+          <button type="button" onClick={() => vaiArea("lavori")} className="underline font-semibold whitespace-nowrap">
+            Apri la diagnosi con i comandi di sblocco
+          </button>
+        </div>
+      )}
 
       <div className="flex items-center justify-center gap-1.5 py-1" role="list" aria-label="Stato degli 8 organi">
         {organiStato.map((o) => (

@@ -5,11 +5,13 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-30 08:25** — Giro (manutenzione macchina): **42 aperte, invariate**. Nessuna card nuova/chiusa qui — il lavoro di questo passaggio ha riparato `auto-coscienza/auto-analisi.json` (fermo dal 27/7) e `MyCity-Vault/05-Soldi-Rischi/scadenzario.json` (PI26 ancora "aperta" lì, non toccato dalla pulizia delle 06:05/06:30 perché è l'input di uno script, non un testo in coda). Dettaglio in [[Briefing/2026-07-30]] (passaggio 08:25).
+> 🧹 **Housekeeping 2026-08-04 12:12** — Automatico: **61 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-30 06:30** — Giro completo: **42 aperte**. Chiuse 3 card zombie in più, tutte smentite da verifica diretta (`git log`/`git fetch`), stesso errore-tipo delle 5 PI26/piano-squadra ripulite alle 06:05 (il testo restava vecchio dopo che il fatto era già cambiato): **`#vps-giro-fermo`** (diceva "fermo da 40 ore" — il worker ha committato con continuità 04:43→06:26 stamattina), **`#push-main-memoria`** e **`#push-volano-fix`** (dicevano "main non pubblicato/71 commit indietro" — verificato ora: `origin/main` e `HEAD` coincidono esattamente, e la PR #454 del fix tasso-lezioni è già mergiata).
+> 🧹 **Housekeeping 2026-08-04 12:12** — Automatico: **61 aperte · 1 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-07-30 06:05** — Manuale (piano del mattino): **45 aperte**. Chiuse 5 card zombie: 4 sul bando PI26 (Nicola l'aveva già dichiarato chiuso il 29/7 ~00:10, ma il testo non era mai stato tolto da qui) + 1 sul piano-squadra (già confermato il 29/7 ~00:15). Fatto anche in `registro-fatti.json` (AR-102): `bando.pi26.idoneita` nuovo, `bandi.pi26.scadenza` aggiornato.
+> 🧹 **Housekeeping 2026-08-04 12:12** — Automatico: **61 aperte · 1 chiuse in archivio**.
+>
+> 🧹 **Housekeeping 2026-08-04 12:12** — Automatico: **61 aperte · 1 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -34,6 +36,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 
 <!-- sensori-spenti-senza-motivo -->
+
+---
 
 ### 🟡 #sensori-spenti-senza-motivo — Dimmi se questi occhi della macchina li vuoi accesi o no
 
@@ -65,30 +69,32 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 <!-- macchina-ferma-da-quattro-giorni -->
 
-### 🔴 #macchina-ferma-da-quattro-giorni — La macchina lavora e non riesce a pubblicare: sblocca il push sul server · ⏳ accodata 2026-08-04 03:10 · ✏️ corretta 03:20
-**Cosa cambia:** dal 30 luglio nel repo non arriva più niente, e per quattro giorni e mezzo il Pannello ti ha mostrato numeri vecchi. La causa NON è che la macchina è spenta: il tuo schermo delle 03:07 mostra un giro completo alle 22:26 di stanotte. Lavora e resta muta. Si ferma all'ultimo passo: `PUSH ANNULLATO — rebase rc=1, abort rc=128`, poi `push della memoria fallito dopo 3 tentativi`, e il servizio esce con codice 2. Intanto i commit che restano sul server crescono: 3.942 alle 18:23, 4.006 alle 22:26. Sono 64 in quattro ore che non escono da lì.
-**Se va bene:** il push riparte, i quattro giorni di lavoro arretrato arrivano nel repo, e il Pannello torna a dire il vero.
-**⚠️ Non riavviare il servizio.** Era il consiglio della prima versione di questa card, ed era sbagliato: il servizio parte già da solo e ogni giro aggiunge commit alla pila. Riavviare peggiora.
-**Cosa devi fare tu, sul server — il perché adesso lo sappiamo: 17 file di dati modificati bloccano il rebase.**
-Primo passo, tutto reversibile e senza perdere niente:
+---
+
+### 🔴 #macchina-ferma-da-quattro-giorni — Riallinea il server alla cura e fai ripartire il giro: tre comandi · ⏳ accodata 2026-08-04 03:10 · ✏️ aggiornata 2026-08-04 11:30
+
+> ✏️ **Aggiornamento 11:30 (giro completo, chat):** su `main` il lavoro è continuato fino alle 10:57 di oggi — 5 merge di cantiere dopo il tuo fix delle 05:23. Questo dice che qualcuno sta scrivendo, ma NON dice che il timer `mycity-giro.service` sia ripartito da solo: quei commit possono venire da sessioni di chat come questa, non necessariamente dal timer. Da qui non posso lanciare `systemctl`/`journalctl` per controllare. **Se hai già fatto i 3 comandi qui sotto, dimmelo e chiudo la card. Se non li hai ancora fatti, restano la mossa n.1 di oggi.**
+**Cosa cambia:** il tuo schermo delle 05:40 dice che il secondo avvio è fallito uguale al primo. Adesso sappiamo perché. Il tuo ultimo `git reset` è delle 04:14. La cura vera è arrivata su `main` alle 05:23, nove minuti dopo il tuo reset. Il server ha quindi rifatto il giro col codice vecchio. Ha riscritto di nuovo `apprendimento.json` con lo spazio sbagliato. Il guardiano della forma ha bloccato il commit, e il push è morto un'altra volta. Non hai sbagliato niente: era una corsa contro il merge.
+**Cosa devi fare tu, sul server (l'ultima volta):**
 ```bash
 cd /opt/mycity/ad-mycity
-git branch salvataggio-2026-08-04        # i 4.450 commit restano raggiungibili qui, per sempre
-git stash push -u -m "dati vivi 2026-08-04"
-git fetch origin main
-git status --short && git log --oneline -1 origin/main
+git stash push -u -m "giro delle 04 bloccato dallo spazio"
+git fetch origin main && git reset --hard origin/main
+sudo systemctl start mycity-giro.service
 ```
-Fermati qui e mandami cosa stampa.
-
-Il passo dopo è una decisione tua, e questi sono i numeri per prenderla. I 4.450 commit valgono per lo stato finale dei file. Quello stato è già lì, nell'albero di lavoro. Rifare i commit uno per uno su main non aggiunge niente, e andrebbe in conflitto su ogni file di memoria.
-**Nota tecnica:** difetto AR-518. I fix del 31/7 (AR-467 stop ai commit di recupero, AR-468 messaggio d'errore vero, AR-469 stash prima del rebase) sono in `main`, verificato: `serve_mettere_da_parte` e la cattura dell'uscita del rebase ci sono. Quindi o il server non ha quel codice, o il rebase fallisce per una causa che quei tre fix non coprono. Il numero che cresce (3.942 → 4.006) dice che il recupero continua a committare, cioè che AR-467 lassù non sta funzionando. Da questa sessione il server non si vede: questa parte NON l'ho misurata, l'ho letta dal tuo schermo.
+Il reset stavolta porta a bordo la cura (l'aiutante che conserva l'indentazione del file invece di imporre la sua): il giro riscrive `apprendimento.json` senza gonfiarlo, il commit passa, il push parte.
+**Come vedi che ha funzionato:** a fine giro `journalctl -u mycity-giro -n 20 --no-pager` NON deve più dire «COMMIT BLOCCATO» né «MEMORIA NON PUBBLICATA». E su GitHub `main` deve ricevere un commit di memoria nuovo. Se rivedi «COMMIT BLOCCATO», mandami lo schermo: vuol dire che c'è un secondo file malato oltre a quello curato.
+**Se va bene:** il Pannello torna a dire il vero. E da questa PR in poi non serve più il tuo occhio: se la memoria resta ferma oltre 12 ore, la home della Cabina lo grida da sola con un banner rosso.
+**Nota tecnica:** causa radice AR-530 (uno spazio di indentazione, PR #665, mergiata 04/08 05:23) · freno nuovo AR-544 (la Cabina incrocia battito e ultimo push: banner in home + diagnosi con i comandi in Lavori → Stato worker). I 4.450 commit di arretrato restano al sicuro nel ramo `salvataggio-2026-08-04` e negli stash: il loro valore è lo stato finale dei file, già presente nell'albero.
 - **Colore:** 🔴 (tocca il server in produzione)
 - **Reparto:** devops-sre
-- **Origine:** `{origine:visita-salute-2026-08-04, difetto:AR-518}`
+- **Origine:** `{origine:visita-salute-2026-08-04, difetti:[AR-518, AR-530, AR-544]}`
 
 ---
 
 <!-- radiografia-prova-non-vera-alla-nascita -->
+
+---
 
 ### 🟡 #radiografia-prova-non-vera-alla-nascita — Impedisci alla macchina di chiudersi i difetti da sola il giorno stesso che li scrive · ⏳ accodata 2026-07-27 12:45
 **Cosa cambia:** oggi, sessanta secondi dopo che hai mergiato la radiografia, la macchina ha chiuso da sola 91 dei 173 difetti appena consegnati — il 53%, di cui 17 bloccanti — e per un quarto d'ora il Pannello ti ha mostrato «105 aperti, 163 chiusi» invece dei 196 veri. Nessuna di quelle chiusure poteva essere vera: fra le 9:40 e le 12:15 non è entrato nessun fix. Il motivo è che ogni difetto porta una prova per chiudersi da solo, e quelle 91 prove descrivevano **il bug** invece del **fix**: erano già vere nell'istante in cui il difetto nasceva. Le ho già rovesciate e i difetti sono tornati aperti, ma il buco che l'ha permesso è ancora lì e ricapiterà alla prossima radiografia.
@@ -812,6 +818,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 <!-- radiografia-2026-07-29-ordini-bloccati -->
 
+---
+
 ### 🔴 #radiografia-2026-07-29-ordini-bloccati — Ripara il pulsante che venditore e rider usano per far avanzare un ordine · ⏳ accodata 2026-07-29 13:30
 
 **Cosa cambia:** in questo momento, sul sito vero, quando un negoziante accetta un ordine dalla sua pagina o un rider lo prende in carico, il database rifiuta la modifica e restituisce un errore. Non è un sospetto: l'ho verificato io con una query sul database di produzione. A giugno una modifica ha cancellato dagli ordini il campo "numero fattura", ma il controllo di sicurezza che protegge gli ordini continua a cercarlo, e va in errore proprio quando la modifica è **legittima**. Le API del server non sono toccate — muore solo quello che parte dal browser, cioè le due schermate che fanno camminare una consegna. Con un negozio solo e zero ordini pagati oggi non se ne accorge nessuno: al primo ordine vero, il negoziante non riesce ad accettarlo.
@@ -826,6 +834,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- radiografia-2026-07-29-porte-aperte -->
+
+---
 
 ### 🔴 #radiografia-2026-07-29-porte-aperte — Chiudi le quattro porte che lasciano entrare chiunque nei dati dei negozi e dei clienti · ⏳ accodata 2026-07-29 13:30
 
@@ -842,6 +852,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 <!-- radiografia-2026-07-29-soldi-che-scappano -->
 
+---
+
 ### 🔴 #radiografia-2026-07-29-soldi-che-scappano — Tappa i cinque punti dove il marketplace perde soldi da solo · ⏳ accodata 2026-07-29 13:30
 
 **Cosa cambia:** cinque difetti che costano soldi veri appena arriva il primo volume. ① **Doppia vendita:** la merce viene "rimessa a scaffale" dopo 2 ore, ma la pagina di pagamento resta valida 24 — chi paga dopo compra roba già venduta. È lo stesso bloccante del 7 luglio, ancora lì. ② **Campagne che si spengono a un terzo:** ogni checkout abbandonato brucia un utilizzo del codice sconto per sempre, e nessuno lo restituisce. Un coupon da 100 usi si esaurisce dopo 100 *tentativi*, non 100 ordini. ③ **Il rider si decide lo stipendio:** il campo del suo compenso non è tra quelli congelati e finisce dritto in un bonifico Stripe. ④ **Il rider non viene mai pagato** sugli ordini con spedizione gratuita, e il programma automatico ci riprova all'infinito. ⑤ **Un reclamo blocca il negozio per sempre:** una volta aperto, lo stato del reclamo non torna mai indietro e il negoziante non viene più pagato. In più: gift card, sponsorizzazioni e abbonamenti pagati possono sparire in silenzio se il database fa i capricci, perché il sistema li segna come riusciti comunque.
@@ -856,6 +868,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- radiografia-2026-07-29-privacy-da-sistemare -->
+
+---
 
 ### 🟡 #radiografia-2026-07-29-privacy-da-sistemare — Metti la partita IVA vera nell'informativa e cancella davvero i documenti d'identità · ⏳ accodata 2026-07-29 13:30
 
@@ -874,6 +888,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 <!-- radiografia-2026-07-29-anteprime-coi-segreti -->
 
+---
+
 ### 🟡 #radiografia-2026-07-29-anteprime-coi-segreti — Togli le chiavi vere di Stripe e del database dalle anteprime delle modifiche · ⏳ accodata 2026-07-29 13:30
 
 **Cosa cambia:** ogni volta che si apre una proposta di modifica al sito, Render tira su un ambiente di anteprima che usa **le chiavi di produzione**: stessa Stripe, stesso database, stesse email. Vuol dire che una modifica ancora da approvare può incassare soldi veri, scrivere sugli ordini veri e mandare email a indirizzi veri. In più il deploy automatico su `main` non ha nessun cancello: un test rosso va in produzione lo stesso.
@@ -888,6 +904,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- radiografia-comando-rotto -->
+
+---
 
 ### 🟡 #radiografia-comando-rotto — Rimetti in funzione il comando «radiografia» prima che ti serva davvero · ⏳ accodata 2026-07-29 13:30
 
@@ -914,12 +932,60 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 | 3 | 2026-07-30 04:05 | @tech | Merge PR #632 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/632 | github | SUPERATA 2026-07-30 04:21 — non mergiare: il branch si è rotto sul solito bug del rebase (AR-449/L-10463), tutto il suo contenuto (+ il lavoro nuovo di stanotte) è confluito pulito nella PR #633. Chiudi questa senza merge. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Ignora questa riga: mergia solo la #633 sotto. |
 | 4 | 2026-07-30 04:21 | @tech | Merge PR #633 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/633 | github | PROBABILE SUPERATA 2026-07-30 06:37 — verificato via `git`: il commit del contenuto #633 (9012675a9) NON è antenato di `main`, lo stesso contenuto è invece dentro #634 (82dd0525a, quello sì antenato di main). Sembra lo stesso bug di rebase di #632→#633 (AR-451, ora corretto). Non confermato con `gh` (comando negato in questa sessione): controlla tu su GitHub prima di chiudere del tutto. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Se confermi che è superata: chiudila senza merge su GitHub. |
 | 5 | 2026-07-30 04:42 | @tech | Merge PR #634 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/634 | github | FATTO 2026-07-30 (verificato: commit 82dd0525a è antenato di HEAD su main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Già online: nessuna azione, riga tenuta solo per storico. |
-| 6 | 2026-07-30 11:09 | @tech | Merge PR #635 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/635 — verificato ora (`git merge-base --is-ancestor`) che il fix del bug di rebase AR-451 vive SOLO sul branch `fix/lease-rebase-ripetuto-v2`, mai mergiato: la lezione L-2026-0730-530 dichiarava un gate attivo che in realtà non può scattare (freno finto, trovato dal cancello gate-veri). Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; il test `lease-dopo-rebase-ripetuto.test.mjs` diventa reale su main e il gate della lezione torna vero. |
+| 6 | 2026-07-30 11:09 | @tech | Merge PR #635 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/635 | github | FATTO. Verificato ora (2026-08-04 12:00) con `git merge-base --is-ancestor 595cf3cf0 HEAD`: il comando esce vero. Il commit `595cf3cf0` (il fix del lease dopo un rebase ripetuto) è su `main` dal 30/7 alle 13:26. Il suo test `cervello/test/lease-dopo-rebase-ripetuto.test.mjs` è lì con lui. La nota delle 11:09 del 30/7 diceva "vive solo sul branch, mai mergiato". Era vera in quel momento. Nessuno l'ha ricontrollata da allora. La card è rimasta aperta 5 giorni per un fatto già chiuso. | Il codice è già online. | Nessuna: chiudi la riga. Il gate della lezione L-2026-0730-530 torna vero. |
 | 7 | 2026-08-03 22:45 | @tech | Fai pulizia dei rami vecchi su GitHub: sono 447 e il loro lavoro è già dentro | 🔴 | Su GitHub ci sono 447 rami oltre a `main`. Quasi tutti hanno già la loro PR mergiata. Il lavoro è dentro `main`. Il ramo è solo il guscio rimasto lì. Sono questi rami a dare l'impressione di lavoro mai pubblicato. Il motivo è semplice. Quando una PR si chiude in squash, il commit cambia impronta. Da quel momento gli strumenti lo contano come «non pubblicato», anche se il lavoro c'è. Due rami però vanno tenuti, perché portano roba vera. Il primo è `fix/lotto-28-esenzione-che-non-conta`: la sua PR #598 è stata chiusa senza merge. Il suo file `cervello/test/esenzione-che-non-conta.test.mjs` su `main` non c'è. Il secondo gruppo sono i rami citati nella riga 8 qui sotto. | github | in attesa | GitHub torna leggibile. Si vede a colpo d'occhio cosa è davvero in lavorazione, invece di 447 nomi. E il lavoro della #598, oggi perso, torna dentro. | Dopo il tuo ok faccio due cose, in quest'ordine. Prima recupero la #598 in una PR nuova. Poi cancello solo i rami la cui PR risulta mergiata. Niente cancellazioni alla cieca. |
 | 8 | 2026-08-03 22:45 | @tech | Cambia come si chiudono le PR: così com'è, quando ne mergi una uccidi le sue sorelle | 🔴 | È la causa vera del tuo terzo problema. Le PR si chiudono in «squash». Tutti i commit di quella PR diventano uno solo, con un'impronta nuova. Le altre PR aperte sulla stessa base si ritrovano quel contenuto due volte, con due impronte diverse. GitHub le marca come in conflitto. Non si mergiano più e finiscono chiuse. È successo 12 volte sulle ultime 200 PR. La #653 lo racconta nel suo stesso testo: 401 righe e 13 prove, chiusa così. Quella l'ho recuperata a mano. La #598 no. Ci sono due strade. La (a) tiene lo squash e riallinea ogni PR aperta subito dopo ogni merge: posso farlo io in automatico. La (b) passa al merge normale, che non cambia le impronte e non crea il finto conflitto. | github | in attesa | Smetti di perdere lavoro già fatto e già provato. Oggi ogni merge mette a rischio le PR aperte in quel momento. | Dopo il tuo ok dipende da quale strada scegli. Con la (a) collego il riallineamento automatico dopo ogni merge. Con la (b) cambi tu l'impostazione su GitHub e io adeguo lo strumento che apre le PR. |
 
 
 <!-- accendi-i-quattro-controlli-nuovi -->
+
+---
+
+### 🟡 #prevenzione-a-monte — Accendi gli ultimi due freni: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto · ⏳ accodata 2026-08-04 05:20
+
+**Cosa cambia:** i due freni che hai chiesto stanotte sono costruiti e provati, ma **non ancora accesi**. Il primo pesca dalla memoria solo le lezioni sul tema della richiesta che hai appena scritto. L'ho provato: su «apri la PR e fai il rebase» porta 8 lezioni centrate su 503, quasi tutte correzioni tue. Il secondo ferma la mia mano PRIMA che io scriva un errore già censito nel registro delle malattie. La scrittura non parte proprio, e il perché mi resta davanti agli occhi. Sono complementari ai freni dell'altra sessione, già accesi: quelli guardano i comandi e gli strumenti esterni. Questi due guardano le richieste e le scritture sui file. Per accenderli servono due ritocchi in `.claude/settings.json`, il file che per regola di sicurezza io non posso toccare.
+
+**Se va bene:** apri `.claude/settings.json` e fai due aggiunte, poi salva:
+
+① dentro `"PreToolUse"` (la sezione esiste già), aggiungi questo blocco DOPO quello con `"matcher": "Bash|Task|mcp__.*"`:
+
+```json
+{
+  "matcher": "Edit|Write|MultiEdit",
+  "hooks": [
+    { "type": "command", "command": "node cervello/mano-fermata.mjs --hook", "timeout": 10 }
+  ]
+}
+```
+
+② dentro `"UserPromptSubmit"` (esiste già), nell'elenco `"hooks"` accanto a `intento-turno`, aggiungi questa riga:
+
+```json
+{ "type": "command", "command": "node cervello/contesto-lezioni.mjs --richiesta", "timeout": 10 }
+```
+
+Dalla sessione successiva i due freni sono vivi. La prova della scheda AR-533 è `node cervello/mano-fermata.mjs --cablaggio`: oggi è rossa, col tuo salvataggio diventa verde e la scheda si chiude da sola.
+
+- **Colore:** 🟡 (auto-modifica della macchina: la firmi tu)
+- **Reparto:** qa + prompt-engineer
+- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-533}`
+
+---
+
+<!-- SUPERVISIONE-NEGOZI:INIZIO -->
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-04 12:12)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-04-supervisione.md]].
+
+> ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
+> è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
+> la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
+<!-- SUPERVISIONE-NEGOZI:FINE -->
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-04 12:12 · 1 card totali
 
 ### ✅ #accendi-i-quattro-controlli-nuovi — ~~Incolla il blocco che accende i quattro controlli nuovi della macchina~~ → FATTO 2026-08-04 05:20
 
@@ -1055,43 +1121,3 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 ---
 
 <!-- prevenzione-a-monte -->
-
-### 🟡 #prevenzione-a-monte — Accendi gli ultimi due freni: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto · ⏳ accodata 2026-08-04 05:20
-
-**Cosa cambia:** i due freni che hai chiesto stanotte sono costruiti e provati, ma **non ancora accesi**. Il primo pesca dalla memoria solo le lezioni sul tema della richiesta che hai appena scritto. L'ho provato: su «apri la PR e fai il rebase» porta 8 lezioni centrate su 503, quasi tutte correzioni tue. Il secondo ferma la mia mano PRIMA che io scriva un errore già censito nel registro delle malattie. La scrittura non parte proprio, e il perché mi resta davanti agli occhi. Sono complementari ai freni dell'altra sessione, già accesi: quelli guardano i comandi e gli strumenti esterni. Questi due guardano le richieste e le scritture sui file. Per accenderli servono due ritocchi in `.claude/settings.json`, il file che per regola di sicurezza io non posso toccare.
-
-**Se va bene:** apri `.claude/settings.json` e fai due aggiunte, poi salva:
-
-① dentro `"PreToolUse"` (la sezione esiste già), aggiungi questo blocco DOPO quello con `"matcher": "Bash|Task|mcp__.*"`:
-
-```json
-{
-  "matcher": "Edit|Write|MultiEdit",
-  "hooks": [
-    { "type": "command", "command": "node cervello/mano-fermata.mjs --hook", "timeout": 10 }
-  ]
-}
-```
-
-② dentro `"UserPromptSubmit"` (esiste già), nell'elenco `"hooks"` accanto a `intento-turno`, aggiungi questa riga:
-
-```json
-{ "type": "command", "command": "node cervello/contesto-lezioni.mjs --richiesta", "timeout": 10 }
-```
-
-Dalla sessione successiva i due freni sono vivi. La prova della scheda AR-533 è `node cervello/mano-fermata.mjs --cablaggio`: oggi è rossa, col tuo salvataggio diventa verde e la scheda si chiude da sola.
-
-- **Colore:** 🟡 (auto-modifica della macchina: la firmi tu)
-- **Reparto:** qa + prompt-engineer
-- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-533}`
-
----
-
-<!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-30 11:02)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-07-30-supervisione.md]].
-
-> ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
-> è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
-> la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
-<!-- SUPERVISIONE-NEGOZI:FINE -->

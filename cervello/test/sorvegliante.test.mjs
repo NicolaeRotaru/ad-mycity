@@ -38,6 +38,15 @@ import {
   eCodice,
   VICINANZA_NOTA,
   LETTERALI_MIN,
+  motiviPerimetro,
+  motiviSalti,
+  motiviMarketplace,
+  fusioneInCorso,
+  esenzioniDichiarate,
+  filtraEsentate,
+  STATI_FUSIONE,
+  statoFusione,
+  leggeMarcatori,
 } from "../sorvegliante.mjs";
 
 const MALATTIE = [
@@ -977,6 +986,234 @@ test("i due giudizi arrivano al verdetto, con il colore giusto", () => {
   assert.ok(pv, "⑪ deve comparire");
   assert.equal(pv.gravita, "grave", "spegnere una prova senza toccare il codice ferma il commit");
   assert.equal(gravi(p.voci).length, 1);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LE CINQUE RIPARAZIONI DEL 4/8 — Ⓐ perimetro in CI · Ⓑ salti dichiarati · Ⓒ fusione in corso
+// Ⓓ l'altro repo · Ⓔ esenzione tracciata.
+//
+// Hanno tutte la stessa forma di difetto, e quindi la stessa forma di prova: NON si controlla che la
+// guardia trovi qualcosa in più, si controlla che smetta di dire verde su ciò che non ha guardato.
+// Per questo quasi ogni caso qui sotto ha il suo gemello negativo — «e quando invece è tutto a
+// posto, tace»: una guardia che parla sempre viene spenta entro la settimana, e allora le cinque
+// riparazioni sarebbero costate un guardiano invece di ripararlo.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Ⓐ IL PERIMETRO ───────────────────────────────────────────────────────────
+
+test("Ⓐ un perimetro vuoto con un --base esplicito è cieco, non pulito (era il verde della CI)", () => {
+  const m = motiviPerimetro({ base: "abc123", nToccati: 0, nRimossi: 0 });
+  assert.equal(m.length, 1, "il caso che in CI stampava verde senza aver misurato niente");
+  assert.match(m[0], /abc123/, "dice CON COSA ha provato a confrontarsi, o non è diagnosticabile");
+});
+
+test("Ⓐ senza --base un albero pulito resta una risposta legittima, non un allarme", () => {
+  assert.deepEqual(motiviPerimetro({ base: null, nToccati: 0, nRimossi: 0 }), []);
+});
+
+test("Ⓐ con --base e dei file dentro non dice niente: il confronto ha funzionato", () => {
+  assert.deepEqual(motiviPerimetro({ base: "abc123", nToccati: 3, nRimossi: 0 }), []);
+  assert.deepEqual(motiviPerimetro({ base: "abc123", nToccati: 0, nRimossi: 2 }), [], "anche le sole rimozioni sono delta");
+});
+
+// ── Ⓑ I SALTI ────────────────────────────────────────────────────────────────
+
+test("Ⓑ un file saltato per i byte entra fra i «non ho guardato» invece di sparire", () => {
+  const m = motiviSalti({ grossi: ["dump.json"], illeggibili: [] });
+  assert.equal(m.length, 1);
+  assert.match(m[0], /dump\.json/, "il nome serve: «un file» non si può andare a controllare");
+});
+
+test("Ⓑ illeggibile e troppo grosso sono due motivi diversi, non uno solo", () => {
+  const m = motiviSalti({ grossi: ["a.json"], illeggibili: ["b.bin"] });
+  assert.equal(m.length, 2, "«non l'ho aperto per scelta» e «non ci sono riuscito» non sono la stessa cosa");
+});
+
+test("Ⓑ e quando non salto niente, taccio", () => {
+  assert.deepEqual(motiviSalti({ grossi: [], illeggibili: [] }), []);
+});
+
+// ── Ⓒ LA FUSIONE ─────────────────────────────────────────────────────────────
+
+test("Ⓒ durante un merge lo dichiaro: quelle righe non sono tutte mie (AR-503)", () => {
+  assert.match(fusioneInCorso((n) => n === "MERGE_HEAD"), /merge/i);
+});
+
+test("Ⓒ vale per ogni stato che git lascia a metà, non solo per il merge che mi è capitato", () => {
+  for (const [nome] of STATI_FUSIONE) {
+    assert.ok(fusioneInCorso((n) => n === nome), `${nome} deve essere riconosciuto`);
+  }
+});
+
+test("Ⓒ i nomi restano NUDI: un `.git/…` scritto a mano non trova niente dentro un worktree", () => {
+  for (const [nome] of STATI_FUSIONE) {
+    assert.ok(!nome.includes("/"), `${nome} deve essere un nome, non un percorso: dove sta lo sa git`);
+  }
+});
+
+test("Ⓒ «git non risponde» è un terzo stato, non «nessuna fusione» (spazzata-fratelli, 4/8)", () => {
+  // La prima stesura faceva `catch { return false }`: una domanda senza risposta diventava un «no».
+  // L'ha bocciata la spazzata come istanza nuova di `fonte-troncata-letta-per-intera`, ed era nel
+  // giusto — è la stessa malattia che queste cinque riparazioni esistono per togliere.
+  const s = statoFusione();
+  assert.ok("leggibile" in s, "l'ignoranza deve avere un valore suo, o sparisce dentro un `false`");
+  assert.ok(s.leggibile || s.errore, "e se non è leggibile deve dire PERCHÉ, o non è diagnosticabile");
+});
+
+test("Ⓒ e ad albero fermo non dico niente", () => {
+  assert.equal(fusioneInCorso(() => false), null);
+});
+
+// ── Ⓓ L'ALTRO REPO ───────────────────────────────────────────────────────────
+
+test("Ⓓ se nel repo del sito c'è del lavoro non committato, dico che lì non arrivo", () => {
+  const m = motiviMarketplace({ presente: true, sporchi: 7, leggibile: true });
+  assert.equal(m.length, 1);
+  assert.match(m[0], /7/, "il numero è la differenza fra un avviso e una scusa");
+});
+
+test("Ⓓ copia assente o pulita: silenzio, o sarebbe rumore a ogni modifica", () => {
+  assert.deepEqual(motiviMarketplace({ presente: false }), []);
+  assert.deepEqual(motiviMarketplace({ presente: true, sporchi: 0, leggibile: true }), []);
+});
+
+test("Ⓓ «c'è ma non risponde» è una cecità, e non si confonde con «pulita»", () => {
+  const m = motiviMarketplace({ presente: true, sporchi: 0, leggibile: false });
+  assert.equal(m.length, 1, "un errore ingoiato qui darebbe verde su un repo mai guardato");
+});
+
+// ── Ⓔ L'ESENZIONE ────────────────────────────────────────────────────────────
+
+const CON_ESENZIONE = (classe = "malattia-nuova", quando = "2099-01-01") =>
+  `const x = 1;\n// sorvegliante: ok ${classe} fino al ${quando} — è un esempio dentro una fixture, non codice vivo\n`;
+
+test("Ⓔ una dichiarazione ben scritta viene letta con classe, scadenza e perché", () => {
+  const { valide, rotte } = esenzioniDichiarate(CON_ESENZIONE());
+  assert.equal(rotte.length, 0);
+  assert.equal(valide.length, 1);
+  assert.equal(valide[0].classe, "malattia-nuova");
+  assert.equal(valide[0].scadenza, "2099-01-01");
+  assert.match(valide[0].perche, /fixture/);
+});
+
+test("Ⓔ senza data non zittisce niente: è la porta di AR-338, e infatti si accusa da sola", () => {
+  const { valide, rotte } = esenzioniDichiarate("// sorvegliante: ok malattia-nuova — falso positivo, fidatevi\n");
+  assert.equal(valide.length, 0, "un'esenzione perpetua non deve poter nascere per distrazione");
+  assert.equal(rotte.length, 1);
+});
+
+test("Ⓔ un perché di due parole non è un perché", () => {
+  const { valide, rotte } = esenzioniDichiarate("// sorvegliante: ok * fino al 2099-01-01 — boh\n");
+  assert.equal(valide.length, 0);
+  assert.equal(rotte.length, 1);
+});
+
+test("Ⓔ nessuna dichiarazione = nessuna voce: non invento un problema dove non c'è scritto niente", () => {
+  const { valide, rotte } = esenzioniDichiarate("const x = 1;\n// un commento qualunque\n");
+  assert.equal(valide.length + rotte.length, 0);
+});
+
+const VOCE = (over = {}) => ({ classe: "malattia-nuova", gravita: "grave", file: "cervello/x.mjs", cosa: "riga malata", ...over });
+
+test("Ⓔ l'esenzione viva toglie la voce E la conta: sparire in silenzio sarebbe la stessa bugia", () => {
+  const r = filtraEsentate([VOCE()], new Map([["cervello/x.mjs", CON_ESENZIONE()]]), "2026-08-04");
+  assert.equal(r.voci.length, 0, "la voce esce dall'elenco");
+  assert.equal(r.esentate.length, 1, "ma resta contata, con la sua dichiarazione");
+  assert.equal(r.esentate[0].esenzione.scadenza, "2099-01-01");
+});
+
+test("Ⓔ scaduta, la voce TORNA e si porta dietro la data — è il promemoria che nessuno scriverà", () => {
+  const r = filtraEsentate([VOCE()], new Map([["cervello/x.mjs", CON_ESENZIONE("malattia-nuova", "2026-01-01")]]), "2026-08-04");
+  assert.equal(r.esentate.length, 0);
+  assert.equal(r.voci.length, 1);
+  assert.match(r.voci[0].cosa, /scaduta il 2026-01-01/);
+});
+
+test("Ⓔ un'esenzione su un'altra classe non copre questa: non è un interruttore generale", () => {
+  const r = filtraEsentate([VOCE()], new Map([["cervello/x.mjs", CON_ESENZIONE("gate-orfano")]]), "2026-08-04");
+  assert.equal(r.voci.length, 1);
+  assert.equal(r.esentate.length, 0);
+});
+
+test("Ⓔ `*` copre tutto, ma va scritto apposta", () => {
+  const r = filtraEsentate([VOCE()], new Map([["cervello/x.mjs", CON_ESENZIONE("*")]]), "2026-08-04");
+  assert.equal(r.esentate.length, 1);
+});
+
+test("Ⓔ un'esenzione in un ALTRO file non tocca questa voce", () => {
+  const r = filtraEsentate([VOCE()], new Map([["cervello/altro.mjs", CON_ESENZIONE("*")]]), "2026-08-04");
+  assert.equal(r.voci.length, 1);
+});
+
+test("Ⓔ le informative non si esentano: un quadro non è un compito", () => {
+  const r = filtraEsentate([VOCE({ classe: "raggio", gravita: "informativa" })], new Map([["cervello/x.mjs", CON_ESENZIONE("*")]]), "2026-08-04");
+  assert.equal(r.voci.length, 1);
+  assert.equal(r.esentate.length, 0);
+});
+
+test("Ⓔ una scritta rotta diventa una voce anche dove non c'era nient'altro da dire", () => {
+  const r = filtraEsentate([], new Map([["cervello/x.mjs", "// sorvegliante: ok tutto\n"]]), "2026-08-04");
+  assert.equal(r.voci.length, 1, "chi l'ha scritta CREDE di aver risposto: il silenzio qui è peggio del rosso");
+  assert.equal(r.voci[0].classe, "esenzione-malfatta");
+});
+
+test("Ⓔ le esenzioni arrivano fino al verdetto, e il file della guardia non si legge da sé", () => {
+  const conMarcatore = "catch(() => {})\n// sorvegliante: ok malattia-nuova fino al 2099-01-01 — provato a mano, è un esempio\n";
+  const dentro = sorveglia({
+    ...base,
+    oggi: "2026-08-04",
+    toccati: [{ file: "cervello/x.mjs", contenuto: conMarcatore, aggiunte: [{ n: 1, testo: "catch(() => {})" }] }],
+  });
+  assert.equal(gravi(dentro.voci).length, 0, "la dichiarazione vale come risposta");
+  assert.equal(dentro.esentate.length, 1);
+
+  // «Menzione ≠ chiamata», la quinta volta in questo repo: qui sopra, nel file della guardia, la
+  // forma è SCRITTA per spiegarla. Un lettore ingenuo l'avrebbe presa per una dichiarazione vera.
+  const suSeStessa = sorveglia({
+    ...base,
+    oggi: "2026-08-04",
+    toccati: [{ file: "cervello/sorvegliante.mjs", contenuto: "// sorvegliante: ok tutto quanto\n", aggiunte: [] }],
+  });
+  assert.equal(suSeStessa.voci.filter((v) => v.classe === "esenzione-malfatta").length, 0);
+});
+
+// ── LA BUSTA: è lì che queste cinque riparazioni o arrivano, o non esistono ───
+
+test("i «non ho guardato» arrivano nella BUSTA, non solo nel terminale che nessuno legge (AR-465)", () => {
+  const b = bustaPerIlModello([], 2, {}, { motivi: ["c'è un merge in corso: righe non mie"] });
+  assert.ok(b, "una cecità dichiarata a chi non la legge è una cecità taciuta");
+  assert.match(JSON.parse(b).hookSpecificOutput.additionalContext, /non ho guardato.*merge/s);
+});
+
+test("la busta mostra anche le esentate, con la scadenza", () => {
+  const b = bustaPerIlModello([], 1, {}, { esentate: [{ classe: "malattia-nuova", file: "cervello/x.mjs", esenzione: { scadenza: "2099-01-01" } }] });
+  assert.match(JSON.parse(b).hookSpecificOutput.additionalContext, /2099-01-01/);
+});
+
+test("e a mani pulite la busta resta NULLA: chi parla sempre viene spento entro la settimana", () => {
+  assert.equal(bustaPerIlModello([], 0, {}, { motivi: [], esentate: [] }), null);
+  assert.equal(bustaPerIlModello([], 0, {}), null, "la vecchia forma a tre argomenti non deve rompersi");
+});
+
+test("Ⓔ nella PROSA e nel vault un marcatore è una MENZIONE, non una dichiarazione", () => {
+  // Preso dal vivo: scrivendo la scheda di cantiere che documenta questa forma, la guardia me l'ha
+  // contestata come «esenzione malfatta». Aveva letto una spiegazione come una dichiarazione — la
+  // quinta comparsa in questo repo di «menzione ≠ chiamata», dentro il commento che dice di
+  // averla evitata. La regola era già in casa, nel controllo ⑥b.
+  assert.equal(leggeMarcatori("MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json"), false);
+  assert.equal(leggeMarcatori("cervello/come-riparo.md"), false, "in un .md ogni riga è una menzione");
+  assert.equal(leggeMarcatori("cervello/sorvegliante.mjs"), false, "qui la forma è scritta per insegnarla");
+  assert.equal(leggeMarcatori("cervello/x.mjs"), true, "e nel codice vivo invece vale");
+});
+
+test("Ⓔ una scheda del vault che cita la forma non produce nessuna voce", () => {
+  const scheda = 'la forma e "sorvegliante: ok <classe> fino al AAAA-MM-GG — <perche>"';
+  const e = sorveglia({
+    ...base,
+    oggi: "2026-08-04",
+    toccati: [{ file: "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json", contenuto: scheda, aggiunte: [] }],
+  });
+  assert.equal(e.voci.filter((v) => v.classe === "esenzione-malfatta").length, 0);
 });
 
 // ── AR-530: le due tarature sbagliate del 3/8, trovate attaccando il mio stesso lavoro ─────────

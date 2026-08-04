@@ -1,43 +1,46 @@
 {
-  "data": "2026-07-30 11:09",
-  "situazione": "Giro ripetuto (richiesto in chat, 6° passaggio di oggi), business ANCORA fermo da 36 giorni: riconfermato per la 4ª volta oggi, ereditato dai passaggi 06:30/06:37/08:25/10:25 (cifra per cifra identici — 1 negozio Pane Quotidiano, 5 prodotti, 7 profili, 1 solo ordine zombie annullato, 0 pagati/consegnati, 0 recensioni, 3 carrelli abbandonati). Questo passaggio ha riparato il gate `freschezza-cadenze` (auto-analisi.json rimasto fermo) e trovato/riparato altri 2 gate reali della macchina: un contratto JSON violato e una lezione con un freno finto (dichiarava attivo un gate il cui fix — PR #635 — non è mai stato mergiato su main). `node cervello/*.mjs`/`python3`/`gh` restano bloccati in Bash in questa sessione. Mossa n.1 invariata: una parola di Nicola (dentro/fuori) sull'ordine di prova PQ.",
+  "data": "2026-08-04 12:20",
+  "situazione": "Business invariato (riconfermato ora dal vivo su Supabase): 1 ordine mai pagato, 0 consegne, 7 profili, 5 prodotti — stallo North Star 41 giorni, pausa concordata con Nicola fino al 24/8-1/9. In questo passaggio: chiuso un gate nuovo (un lavoro di stamattina senza il suo esito scritto nel quaderno di reparto) e verificato che la lezione più ripetuta della macchina (26 volte, mai diventata un freno automatico) ha già una card pronta in coda dalle 05:20 di oggi, in attesa solo della firma di Nicola su due righe di configurazione. Mossa n.1 invariata: confermare il riavvio del giro sul server.",
   "opportunita": [
     {
-      "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "Unico sblocco diretto del North Star (0 ordini pagati da 36 giorni) — sblocca anche EXP-014 e i playbook già pronti (recupero carrelli, win-back)",
+      "titolo": "Conferma che il giro sul server è ripartito",
+      "motivo": "Il fix è già pronto e mergiato: restituisce alla Cabina i briefing automatici che mancano da 5 giorni",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Verifica se il Pannello ha davvero un buco di sicurezza",
-      "motivo": "30 secondi in incognito bastano a dire se serve un fix urgente o se Vercel sta già proteggendo tutto",
+      "titolo": "Decidi sui 447 rami vecchi e su come chiudere le PR",
+      "motivo": "Elimina il rumore che fa sembrare lavoro perso quando non lo è, e recupera un lavoro davvero perso (PR #598)",
+      "impatto": "medio",
+      "sforzo": "basso"
+    },
+    {
+      "titolo": "Accendi i due freni sulle correzioni che ti ripeti (card #prevenzione-a-monte)",
+      "motivo": "26 lezioni nate da tue correzioni, 18 ripetute, mai diventate un freno automatico — il codice è pronto, mancano due righe in un file che l'AD non può toccare da sola",
       "impatto": "alto",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Dimmi dentro o fuori per l'ordine di prova da Pane Quotidiano",
-      "motivo": "È l'unica cosa che manca per rompere lo stallo del primo ordine pagato, ferma in coda da 2 giorni",
+      "titolo": "Dimmi se hai già riavviato il servizio del giro sul server",
+      "motivo": "È l'unica cosa che non riesco a vedere da questa sessione: il fix è pronto, manca la conferma",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Scegli come chiudere le PR: squash con riallineamento automatico o merge normale",
+      "motivo": "Oggi ogni merge in squash rischia di far chiudere da sole le altre PR aperte sulla stessa base — già successo 12 volte, un lavoro perso per davvero (#598)",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Incolla il blocco di configurazione per accendere i due freni sulle correzioni ripetute",
+      "motivo": "Testo pronto in #prevenzione-a-monte da stamattina 05:20: due aggiunte a .claude/settings.json",
       "livello": "giallo"
-    },
-    {
-      "titolo": "Mergia la PR #633 del menu Memoria del Pannello",
-      "motivo": "4 passi già confermati ieri notte, sostituisce la #632 rotta dal solito bug del rebase",
-      "livello": "rosso"
-    },
-    {
-      "titolo": "Mergia la PR #635 che chiude per davvero il bug di rebase",
-      "motivo": "Il fix (4/4 test verdi sul branch) risolve alla radice il problema che ha già costretto a ricreare 3 branch la notte del 30/7 — oggi non è ancora su main",
-      "livello": "rosso"
-    },
-    {
-      "titolo": "Apri il Pannello in incognito e dimmi cosa vedi",
-      "motivo": "Se si apre senza chiederti l'accesso c'è una falla vera da chiudere subito",
-      "livello": "rosso"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo 36 giorni (invariato)"
+    "North Star 0 — stallo 41 giorni (pausa concordata, non churn)",
+    "freschezza-cadenze — giro/ritmo-mattino/monitora fermi 120-125h (fix già mergiato, riavvio da confermare)",
+    "chiusura-loop — risolto in questo passaggio (esito @ad registrato)"
   ]
 }

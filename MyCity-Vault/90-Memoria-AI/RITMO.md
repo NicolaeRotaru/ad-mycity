@@ -1033,3 +1033,21 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - Vercel → Settings → Deployment Protection → Vercel Authentication → Enabled
 
 **Dettagli tecnici** — riverificato via Supabase MCP: ordini=1 (CANCELED 24/6), profili=7, prodotti=5, stallo 36gg. PR pendente: #633 (supera #632, stesso bug di rebase già noto). Ripulite 5 card zombie in AZIONI-IN-ATTESA (il bando PI26 lo avevi già chiuso tu il 29/7, la memoria vecchia diceva ancora "scade oggi") — coerenza-fatti aggiornata, coda 45 aperte. Cantiere: 16 bloccanti su main, 2 aspettano solo te (permessi jolly + Vercel Auth).
+
+## Punto di mezzogiorno · 2026-08-04 12:00
+
+**Contesto:** oggi non ho scritto un blocco "Piano del mattino" a parte. Il giro completo delle 11:30 ha fatto da piano. Il VPS è stato 5 giorni senza cadenze automatiche. La causa è già trovata e corretta stamattina (PR #665). Questo blocco è il controllo di metà giornata su quel piano.
+
+**Stato delle 3 priorità del mattino:**
+1. ❌ **Conferma riavvio del giro sul VPS** (card `#macchina-ferma-da-quattro-giorni`). Ancora nessuna tua risposta. Il cantiere ha continuato a scrivere fino alle 11:34. Questo non prova che sia il timer ripartito: può essere solo lavoro da chat. `systemctl` e `journalctl` restano bloccati da qui. Resta la mossa n.1.
+2. ✅ **Merge PR #635 — era già fatto.** La coda lo dava "in attesa" da 5 giorni. Il fatto era vecchio: ho verificato ora che è su `main` dal 30/7. Corretto. Non serve più il tuo click.
+3. ❌ **Pulizia dei 447 rami GitHub e come chiudere le PR.** Nessuna decisione tua trovata. Resta ferma.
+
+**Correzione di rotta fatta a mezzogiorno:**
+- 🔄 Trovata e chiusa una **card-zombie**. Il merge di PR #635 era già avvenuto il 30/7. La coda e la tua checklist continuavano a chiedertelo lo stesso. È lo stesso errore già visto su PI26 la settimana scorsa: un fatto scritto quando era vero, mai più ricontrollato. Corretto in AZIONI-IN-ATTESA e CHECKLIST-NICOLA. Un compito in meno per te.
+- ✅ Business riconfermato invariato (delta-gate, firma identica alle 11:30). Nessun numero nuovo. Nessuna urgenza emersa a metà giornata.
+
+**Cosa serve da Nicola entro sera:**
+- 🔴 Dimmi se hai lanciato i 3 comandi sul VPS per il riavvio del giro, o che non l'hai ancora fatto.
+- 🔴 Una parola sulla pulizia dei 447 rami e su squash-vs-merge-normale (righe #7/#8 in coda).
+- 🟡 Il resto della checklist di stamattina resta valido. Invariato.

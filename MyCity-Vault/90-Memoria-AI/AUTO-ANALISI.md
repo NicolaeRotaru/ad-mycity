@@ -1,3 +1,25 @@
+# 🔬 AUTO-ANALISI — 2026-08-04 11:30
+
+> Giro completo (`giro.md` per intero). Primo passaggio formale dopo 5 giorni di silenzio.
+
+## Voto di fiducia: **80/100** (▼ da 89)
+Non è una caduta di oggi. È il conto onesto di 5 giorni in cui nessun giro formale ha scritto niente.
+
+## Aggiornamento 11:30
+Ultimo giro formale: 2026-07-30 11:09. Da allora i file di auto-coscienza sono rimasti fermi (`delta-gate`, `sensori-cecita`, `auto-analisi`, `registro-realta`). Ma il lavoro macchina NON si è fermato. `git log` su `main` mostra attività continua fino a stamattina alle 10:57. Dentro quel lavoro c'è il fix della causa radice che bloccava il timer del giro sul VPS: **AR-530**, uno spazio d'indentazione sbagliato in `apprendimento.json`. Quello spazio faceva fallire il guardiano di forma, e quindi il commit. Il fix è nella PR #665, mergiata alle 05:23. Dopo quella PR sono arrivati altri 5 merge di cantiere.
+
+Riverificato dal vivo con una query SQL diretta, non ereditata dai giri precedenti: **1 ordine (PENDING, mai pagato, del 24/6), 0 pagati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli abbandonati**. Stallo North Star: **41 giorni**. È lo stesso numero di ogni giro dal 24/6. Nessuna entità nuova. Nessun declassamento.
+
+**Cosa ha causato la caduta del voto (debito dichiarato, non un errore di questo giro):**
+1. **`freschezza-cadenze` HARD rosso** — le cadenze `giro`/`ritmo-mattino`/`monitora` del timer VPS non producevano output da 120-125 ore. Causa radice già corretta (AR-530/PR #665). Resta aperta solo la conferma: la card `#macchina-ferma-da-quattro-giorni` (ancora "in attesa") chiede a Nicola 3 comandi manuali per confermare il riavvio. Non verificabile da questa sessione, perché `systemctl`/`journalctl` restano bloccati qui.
+2. **`CHECKLIST-NICOLA.md` era scaduta**: ferma al 30/7, oltre la soglia AR-030 di 2 giorni. Rigenerata in questo passaggio dalle voci reali di `AZIONI-IN-ATTESA.md`.
+3. **`OKR-Squadra.md` scaduto.** Era fermo al 23/7. Sono 7 giorni oltre la soglia dei 2 giorni prevista da AR-115. L'ho aggiornato ora: intestazione e stallo North Star a 41 giorni.
+4. **Debito CLI invariato.** In questa sessione headless (nessun canale di approvazione) restano bloccati `node cervello/*.mjs`, `systemctl` e `python3 -c`. Sei guardiani dipendono da questi script: coerenza-fatti, tasso-lezioni, sonda-volano, mappa-macchina, calibrazione, chiusura-loop. Nessuno di loro è girato oggi con lo script canonico. Li ho verificati a mano dove potevo.
+
+**Cosa NON è cambiato:** il negozio faro (Pane Quotidiano) resta in attesa concordata con Nicola. Non è un abbandono (churn): è una pausa decisa insieme, con ripresa fissata dopo il 24/8-1/9 (`ripresa.lavoro-operativo`). Nessuna azione nuova verso il marketplace in questo giro: rispetta il piano-squadra invece di forzarlo.
+
+## Passaggi precedenti (30/7)
+
 # 🔬 AUTO-ANALISI — 2026-07-30 11:09 (giro.md per intero, richiesta esplicita in chat, 6° passaggio della giornata)
 
 ## Voto di fiducia: **89/100** (▲ da 88 — gap principale chiuso, 2 nuovi gate reali trovati e riparati)
