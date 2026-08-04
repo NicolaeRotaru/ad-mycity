@@ -12,17 +12,16 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-04 12:22",
+      "quando": "2026-08-04 18:46",
       "esito": "vincoli-attivi",
-      "codice": 2,
+      "codice": 3,
       "ai_rc": 0,
-      "push_ok": false,
-      "passi_ok": false,
-      "vincoli_attivi": 8,
+      "push_ok": true,
+      "passi_ok": true,
+      "vincoli_attivi": 7,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
-        "LOOP",
         "MAPPA",
         "NORTH_STAR",
         "SCADENZE",
@@ -61,5 +60,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-04 18:06"
+  "aggiornato": "2026-08-04 18:46"
 }
