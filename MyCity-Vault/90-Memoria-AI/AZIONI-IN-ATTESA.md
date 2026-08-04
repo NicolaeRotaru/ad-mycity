@@ -944,6 +944,20 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
+### 🟡 #sorvegliante-esenzione-vault — Il controllo automatico grida al lupo su un referto che si aggiorna da solo · ⏳ accodata 2026-08-04 18:30
+
+**Cosa cambia:** ogni volta che la macchina salva `cantiere-prove.json` (il referto dei difetti aperti), il controllo di sicurezza accusa "hai tolto una difesa" anche quando il difetto è semplicemente chiuso e il referto si è aggiornato di conseguenza — è successo 153 volte in questa sola sessione. Non è un buco di sicurezza vero: l'ho verificato riga per riga (i test esistono ancora, girano ancora, 131/131 passano). Ma il rumore nasconde i controlli veri.
+
+**Se va bene:** un tecnico decide una delle due cure proposte nel dettaglio e la porta in un branch con la prova che il fix non spalanca la porta ad accuse vere. Non urgente: per ora la macchina lavora attorno al problema (esclude il file dal commit quando serve).
+
+- **Colore:** 🟡 (fix di codice in `cervello/sorvegliante.mjs` o `cervello/cantiere-prove.mjs`, serve branch+PR)
+- **Reparto:** tech
+- **Origine:** `{origine:giro-2026-08-04-sera, collaudo-giro-16}`
+
+🔧 Dettagli tecnici: analisi completa e due cure proposte in `consegne/tech/2026-08-04-sorvegliante-esenzione-vault.md`. Causa: `eCodice()` esclude `MyCity-Vault/` (AR-554), quindi nessun marcatore di esenzione può vivere in un commit che tocca solo memoria.
+
+---
+
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
 ## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-04 18:21)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-04-supervisione.md]].
