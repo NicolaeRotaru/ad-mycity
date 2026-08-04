@@ -571,7 +571,14 @@ function main() {
     // Sta qui e non in un comando a parte per la stessa ragione per cui questo cancello esiste: cinque
     // comandi da ricordare erano cinque occasioni di dimenticarne uno. Guarda solo le righe aggiunte,
     // quindi non porta debito storico dentro il cancello — nessun tetto da dichiarare.
-    passi.push(esegui("sorvegliante del delta", "node", ["cervello/sorvegliante.mjs"]));
+    //
+    // `--base` (4/8) — e senza, questo passo in CI MISURAVA ZERO. Il comando nudo confronta con
+    // `HEAD`, cioè con l'ultimo commit: su un runner l'albero è appena clonato e quindi pulito, il
+    // perimetro esce vuoto e il verdetto è un verde che non ha guardato niente. Il passo c'era, la
+    // misura no — la forma esatta della malattia che questa casa ha in cima al registro. Gli si passa
+    // lo STESSO antenato comune che il cancello usa già per i difetti: una risposta sola alla stessa
+    // domanda, perché due calcoli della stessa cosa col tempo divergono sempre.
+    passi.push(esegui("sorvegliante del delta", "node", ["cervello/sorvegliante.mjs", "--base", base.spec]));
     // AR-459 — un difetto nuovo deve dire COME è nato, altrimenti «l'ho creato io» e «l'ho appena
     // scoperto» restano indistinguibili e la domanda di Nicola («i fix stanno creando più problemi
     // di quanti ne chiudono?») non ha una risposta numerica. Sta nel cancello e non in un comando a

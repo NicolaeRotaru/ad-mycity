@@ -11070,6 +11070,126 @@
       "lezione": "L-2026-0804-554"
     },
     {
+      "stato": "chiuso",
+      "gravita": "critica",
+      "colore": "🟡",
+      "dimensione": "sensori-e-guardiani",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-04 05:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-465",
+      "origine": "[RICHIESTA DI NICOLA, 2026-08-04 05:20] «fai le cinque che mi hai consigliato» — dopo che l'analisi delle 22 funzionalita mancanti del sorvegliante aveva isolato le cinque in cui la guardia non aggiungeva una capacita ma toglieva un modo di dire verde senza aver guardato.",
+      "id": "AR-550",
+      "titolo": "In CI il sorvegliante misurava zero e stampava verde: il passo c'era, il verdetto no",
+      "causa_radice": "cancello-lotto.mjs lanciava il sorvegliante senza argomenti. Il comando nudo confronta con HEAD, cioe con l'ultimo commit: su un runner GitHub l'albero e appena clonato e quindi PULITO, il perimetro esce vuoto, zero voci, exit 0. Provato dal vivo in un worktree pulito PRIMA di scrivere il fix: «0 file toccati nel delta — nessuna modifica da guardare», EXIT=0. Cioe il guardiano del delta girava su ogni PR senza guardare una riga, ed e la forma esatta della malattia che questa casa ha in cima al registro: il verde non vuol dire niente. Causa a monte: il perimetro era una costante dentro il comando invece di un argomento del chiamante, e chi lo lanciava (la CI) era l'unico a sapere qual era il confronto giusto.",
+      "fix_proposto": "FATTO 🟡 opzione --base <spec> nel sorvegliante + cancello-lotto.mjs che gli passa lo STESSO antenato comune che usa gia per i difetti (basePerConfronto: una risposta sola alla stessa domanda, perche due calcoli divergono sempre). E un perimetro vuoto CON una base esplicita non e piu «pulito»: e cieco (exit 2), perche qualcuno ha chiesto un confronto e non ha prodotto niente. Tolta anche l'uscita anticipata su zero file toccati, che stampava verde prima ancora di dire i «non ho potuto misurare».",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-550",
+        "nota": "3 prove su motiviPerimetro (perimetro vuoto con --base = cieco; senza --base = risposta legittima; con file dentro = silenzio) + 2 mutazioni. Prova end-to-end fuori dal comando: worktree pulito, PRIMA exit 0, DOPO exit 2.",
+        "provato": "2026-08-04 05:40"
+      }
+    },
+    {
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "sensori-e-guardiani",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 05:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-465",
+      "origine": "[RICHIESTA DI NICOLA, 2026-08-04 05:20] «fai le cinque che mi hai consigliato» — dopo che l'analisi delle 22 funzionalita mancanti del sorvegliante aveva isolato le cinque in cui la guardia non aggiungeva una capacita ma toglieva un modo di dire verde senza aver guardato.",
+      "id": "AR-551",
+      "titolo": "I file saltati sparivano in silenzio: la regola di casa violata dentro il guardiano che la applica",
+      "causa_radice": "Un file nuovo oltre i 512 KB, o illeggibile, veniva saltato con un continue muto e non entrava in motivi. La guardia diceva quindi di aver guardato un file che non ha aperto. Il tetto sui byte e giusto (senza, un export finito li per sbaglio farebbe leggere megabyte a ogni Edit): sbagliato era tacerlo. «non l'ho potuto vedere» non e mai un verde, ed e la regola che questa casa pretende da ogni altro guardiano.",
+      "fix_proposto": "FATTO 🟡 motiviSalti(grossi, illeggibili), pura, coi due casi distinti: «non l'ho aperto per scelta» e «non ci sono riuscito» sono due verdetti diversi. I nomi arrivano dentro il motivo, perche «un file» non si puo andare a controllare.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-551",
+        "nota": "3 prove su motiviSalti (byte, illeggibile, i due casi distinti) + 1 mutazione.",
+        "provato": "2026-08-04 05:40"
+      }
+    },
+    {
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "sensori-e-guardiani",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 05:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-465",
+      "origine": "[RICHIESTA DI NICOLA, 2026-08-04 05:20] «fai le cinque che mi hai consigliato» — dopo che l'analisi delle 22 funzionalita mancanti del sorvegliante aveva isolato le cinque in cui la guardia non aggiungeva una capacita ma toglieva un modo di dire verde senza aver guardato.",
+      "id": "AR-552",
+      "titolo": "Durante un merge le righe di qualcun altro diventavano mie: il falso rosso gia pagato con AR-503",
+      "causa_radice": "git diff HEAD prende tutto l'albero di lavoro, comprese le righe che sta portando dentro una fusione. Non si puo disambiguare davvero, e la guardia non lo dichiarava: accusava. Un falso rosso e il modo piu veloce per insegnare a scorrere il verdetto, e un verdetto scorso e una guardia spenta. In piu la prima stesura del fix conteneva DUE difetti suoi, presi da due guardiani diversi: (1) i percorsi .git/<nome> scritti a mano non esistono dentro un worktree, dove .git e un file — stessa forma di AR-339, un percorso costruito invece di una domanda alla porta — e l'ha scoperto il collaudo dal vivo mentre le prove pure erano tutte verdi; (2) un catch che tornava false trasformava «git non risponde» in «nessuna fusione», bocciato da spazzata-fratelli come istanza NUOVA di fonte-troncata-letta-per-intera.",
+      "fix_proposto": "FATTO 🟡 statoFusione() chiede a git dove tiene la sua cartella (rev-parse --absolute-git-dir, UNA chiamata sola per non pesare su ogni Edit) e riconosce i sei stati che git documenta. Tre esiti: fusione in corso -> dichiarata e cieco; nessuna -> silenzio; git non risponde -> un TERZO stato (leggibile:false) che arriva al verdetto col suo perche.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-552",
+        "nota": "4 prove su fusioneInCorso e statoFusione (i sei stati, i nomi nudi, il terzo stato quando git non risponde) + 2 mutazioni. Prova end-to-end fuori dal comando: MERGE_HEAD vero in un worktree, exit 2.",
+        "provato": "2026-08-04 05:40"
+      }
+    },
+    {
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "sensori-e-guardiani",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 05:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-465",
+      "origine": "[RICHIESTA DI NICOLA, 2026-08-04 05:20] «fai le cinque che mi hai consigliato» — dopo che l'analisi delle 22 funzionalita mancanti del sorvegliante aveva isolato le cinque in cui la guardia non aggiungeva una capacita ma toglieva un modo di dire verde senza aver guardato.",
+      "id": "AR-553",
+      "titolo": "Il repo del sito era cieco per costruzione e la guardia taceva: identico a «tutto a posto»",
+      "causa_radice": "git gira con cwd sulla radice di questa casa e la cartella marketplace/ e esclusa dal .gitignore perche e un altro repo. Quando tech o frontend-dev lavorano sul sito nessuno dei controlli guarda niente, e il silenzio in un guardiano si legge come un verde. Il difetto non e il non guardare (farlo vedere anche la e un lavoro grosso che serve poco): e il non dirlo.",
+      "fix_proposto": "FATTO 🟡 statoMarketplace() chiede git status --porcelain nell'altro repo (solo se la cartella c'e) e motiviMarketplace() parla SOLO se li c'e lavoro non committato. Copia assente o pulita: silenzio, o sarebbe rumore a ogni modifica. «C'e ma non risponde» e un terzo caso e non si confonde con «pulita».",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-553",
+        "nota": "3 prove su motiviMarketplace (sporco parla, assente e pulito tacciono, illeggibile è un terzo caso) + 1 mutazione.",
+        "provato": "2026-08-04 05:40"
+      }
+    },
+    {
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "sensori-e-guardiani",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 05:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-465",
+      "origine": "[RICHIESTA DI NICOLA, 2026-08-04 05:20] «fai le cinque che mi hai consigliato» — dopo che l'analisi delle 22 funzionalita mancanti del sorvegliante aveva isolato le cinque in cui la guardia non aggiungeva una capacita ma toglieva un modo di dire verde senza aver guardato.",
+      "id": "AR-554",
+      "titolo": "A un falso rosso si poteva solo NON rispondere, e il contatore saliva lo stesso fino a bloccare la macchina",
+      "causa_radice": "Dal 3/8 ogni voce ha un contatore («gia detto N volte») che a tre fa scattare il cancello dello Stop. Ma non esisteva nessun modo di RISPONDERE a una voce sbagliata: l'unica mossa possibile era ignorarla, e il contatore saliva su un falso positivo finche la macchina si bloccava da sola per un errore suo. Un contatore che conta anche i falsi non e una misura: e rumore con un numero davanti. E l'unica via d'uscita disponibile — scorrere il verdetto — e esattamente il gesto che spegne la guardia dall'interno.",
+      "fix_proposto": "FATTO 🟡 una forma riconosciuta: «sorvegliante: ok <classe|*> fino al AAAA-MM-GG — <perche>». La CLASSE, perche un'esenzione su tutto il file spegnerebbe anche i controlli che nessuno ha guardato (l'asterisco esiste ma va scritto apposta). La DATA OBBLIGATORIA: senza scadenza e la porta di AR-338, e infatti una scritta senza data non zittisce niente e si accusa da sola. Il PERCHE con un minimo di sostanza. Scaduta, la voce torna da sola e si porta dietro la data. Le esentate NON spariscono: restano contate e mostrate, perche un interruttore muto e la stessa bugia col segno cambiato. Le informative non si esentano: un quadro non e un compito. E i marcatori non si leggono nei file di SALTA_MALATTIE — «menzione non e chiamata» per la quinta volta in questo repo, perche li dentro la forma e scritta per essere spiegata.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-554",
+        "nota": "13 prove su esenzioniDichiarate, filtraEsentate e leggeMarcatori (forma buona, senza data, perché corto, classe che non copre, asterisco, scaduta, informative, scritta rotta, prosa e vault) + 3 mutazioni.",
+        "provato": "2026-08-04 05:40"
+      }
+    },
+    {
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "sensori-e-guardiani",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 05:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-465",
+      "origine": "[RICHIESTA DI NICOLA, 2026-08-04 05:20] «fai le cinque che mi hai consigliato» — dopo che l'analisi delle 22 funzionalita mancanti del sorvegliante aveva isolato le cinque in cui la guardia non aggiungeva una capacita ma toglieva un modo di dire verde senza aver guardato.",
+      "id": "AR-555",
+      "titolo": "I «non ho potuto misurare» esistevano solo nella forma che in sessione non legge nessuno",
+      "causa_radice": "I motivi di cecita si stampavano solo nel verdetto da terminale. In una sessione il canale che arriva davvero e UNO — la busta JSON dell'hook — e li i motivi non ci arrivavano. Cioe una cecita dichiarata a chi non la legge, che e la stessa forma di AR-465 un piano piu giu: senza questo pezzo le riparazioni AR-545, AR-546 e AR-547 sarebbero state scritte e mai lette.",
+      "fix_proposto": "FATTO 🟡 bustaPerIlModello accetta motivi ed esentate e stampa «non ho guardato: …» (al massimo 2, come i rossi si fermano a 4: la busta deve stare in un colpo d'occhio) e «N voce/i esentata/e» con la scadenza. La vecchia forma a tre argomenti continua a funzionare.",
+      "verifica": {
+        "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-555",
+        "nota": "2 prove sulla busta (i motivi e le esentate ci arrivano) + la regressione «a mani pulite resta NULLA» + 1 mutazione.",
+        "provato": "2026-08-04 05:40"
+      }
+    },
+    {
       "id": "AR-544",
       "stato": "chiuso",
       "gravita": "grave",
