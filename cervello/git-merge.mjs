@@ -20,6 +20,7 @@ import {
   stampSegnale,
 } from "./git-github.mjs";
 import { consensoInvio } from "./consenso-azione.mjs"; // AR-272: il merge è una mano, e passa dal cancello
+import { puoMergiare, verdetto } from "./ci-lettura.mjs"; // 4/8: non si unisce ciò che le prove non hanno approvato
 
 const LIVE = process.env.AZIONI_LIVE === "1" || process.env.AZIONI_LIVE === "on";
 
@@ -111,6 +112,63 @@ async function main() {
   }
   if (pr.mergeable === false) {
     console.error("ERRORE: PR non mergeable (conflitti o check in corso). Risolvi su GitHub.");
+    process.exit(1);
+  }
+
+  // IL COLORE DELLE PROVE, prima della firma — 4/8/2026.
+  //
+  // `mergeable` qui sopra risponde a un'altra domanda: dice se git sa fondere i due rami, non se il
+  // codice passa le prove. Una PR con la suite rossa è `mergeable: true`, e fino a stasera questo
+  // comando l'avrebbe unita senza dire niente. Misurato quella sera: cinque delle sei PR aperte
+  // erano rosse. Se una card di merge fosse stata firmata, sarebbe entrato su `main` — e su `main`
+  // il merge fa partire il deploy del Pannello.
+  //
+  // Nicola firma il LAVORO; leggere il colore dei controlli è mestiere della macchina. Non c'è
+  // un'opzione per saltare questo freno, come non c'è più `--force` (AR-272): se lui vuole unire lo
+  // stesso, il bottone su GitHub è suo e questo controllo non glielo tocca. Quello che non deve
+  // succedere è che a unire un rosso sia la macchina, da sola, di notte.
+  let ciDetta = null;
+  try {
+    const checks = await githubRequest(
+      cfg.token,
+      `/repos/${cfg.owner}/${cfg.repo}/commits/${pr.head.sha}/check-runs?per_page=100`,
+    );
+    const stati = await githubRequest(cfg.token, `/repos/${cfg.owner}/${cfg.repo}/commits/${pr.head.sha}/status`);
+    const controlli = [
+      ...(checks?.check_runs || []).map((c) => ({ name: c.name, status: c.status, conclusion: c.conclusion, started_at: c.started_at })),
+      ...(stati?.statuses || []).map((s) => ({
+        name: s.context,
+        status: s.state === "pending" ? "in_progress" : "completed",
+        conclusion: s.state === "success" ? "success" : s.state === "pending" ? null : "failure",
+        started_at: s.created_at,
+      })),
+    ];
+    // La base dice se in questo repo i controlli esistono: senza quella domanda, «zero check» e «CI
+    // non configurata» si confondono — e il primo dei due è il caso pericoloso.
+    let baseHaCi = null;
+    try {
+      const baseCommit = await githubRequest(cfg.token, `/repos/${cfg.owner}/${cfg.repo}/commits/${encodeURIComponent(pr.base.ref)}`);
+      const baseChecks = await githubRequest(
+        cfg.token,
+        `/repos/${cfg.owner}/${cfg.repo}/commits/${baseCommit.sha}/check-runs?per_page=1`,
+      );
+      baseHaCi = (baseChecks?.total_count || 0) > 0;
+    } catch {
+      baseHaCi = null;
+    }
+    ciDetta = puoMergiare(verdetto(controlli, baseHaCi));
+  } catch (e) {
+    // GitHub muto non è «verde»: è cecità, e su un'azione irreversibile la cecità vale come no.
+    ciDetta = { ok: false, misurato: false, motivo: `⚪ non ho potuto leggere i controlli (${e.message})` };
+  }
+
+  console.log(`  Controlli: ${ciDetta.ok ? "✅" : "⛔"} ${ciDetta.motivo}`);
+  if (!ciDetta.ok) {
+    console.error(
+      `ERRORE: non unisco la PR #${prNum} — ${ciDetta.motivo}.\n` +
+        "  Le prove esistono per questo. Ripara il ramo e rilancia, oppure — se la decisione è tua — usa il bottone su GitHub.",
+    );
+    await stampSegnale("merge", "errore", `PR #${prNum} non unita: ${ciDetta.motivo} · ${nowPiacenza()}`);
     process.exit(1);
   }
 

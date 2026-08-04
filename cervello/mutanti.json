@@ -1989,6 +1989,38 @@
    "cerca": "scriviJsonAtomico(APPR_PATH, appr);",
    "sostituisci": "writeFileSync(APPR_PATH, JSON.stringify(appr, null, 2) + \"\\n\", \"utf8\");",
    "test": "node --test cervello/test/porta-automatica-indentazione.test.mjs"
+  },
+  {
+   "difetto": "CI-lettura",
+   "nome": "il freno sul merge lascia passare un rosso: si torna a unire codice che le prove hanno bocciato",
+   "file": "cervello/ci-lettura.mjs",
+   "cerca": "  if (stato === STATO.ROSSO) {\n    return { ok: false, misurato: true, motivo: `controlli rossi:",
+   "sostituisci": "  if (false) {\n    return { ok: false, misurato: true, motivo: `controlli rossi:",
+   "test": "node --test cervello/test/ci-rossa-di-chi.test.mjs"
+  },
+  {
+   "difetto": "CI-lettura",
+   "nome": "l'impronta torna a contare i numeri: ogni contatore che si muove fa sembrare NUOVO un guasto vecchio, e la macchina ripara il guasto di un altro",
+   "file": "cervello/ci-lettura.mjs",
+   "cerca": "      .replace(/\\b\\d+\\b/g, \"#\")",
+   "sostituisci": "      .replace(/(?!)/g, \"#\")",
+   "test": "node --test cervello/test/ci-rossa-di-chi.test.mjs"
+  },
+  {
+   "difetto": "CI-lettura",
+   "nome": "zero controlli torna a valere come verde: una PR che nessuno ha provato si potrebbe unire",
+   "file": "cervello/ci-lettura.mjs",
+   "cerca": "  if (/non sono scattati|non so leggere/.test(String(v?.motivo || \"\"))) {",
+   "sostituisci": "  if (false) {",
+   "test": "node --test cervello/test/ci-rossa-di-chi.test.mjs"
+  },
+  {
+   "difetto": "conta-verdetti-muti · lavoro di Nicola contato come debito mio",
+   "nome": "i file che la macchina non puo scrivere tornano dentro il conto: i commit di Nicola a settings.json rompono il tetto e bloccano ogni PR",
+   "file": "cervello/conta-verdetti-muti.mjs",
+   "cerca": "    if (!percorso || /[*?[\\]]/.test(percorso)) continue;\n    fuori.add(percorso.replace(/^\\.\\//, \"\"));",
+   "sostituisci": "    if (!percorso || /[*?[\\]]/.test(percorso)) continue;\n    continue;",
+   "test": "node --test cervello/test/conta-verdetti-muti.test.mjs"
   }
  ]
 }
