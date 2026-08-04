@@ -11266,7 +11266,10 @@
    "nato": "2026-08-04",
    "ultima_conferma": "2026-08-04 17:40",
    "stato": "attiva",
-   "usi": []
+   "usi": [],
+   "gate": null,
+   "gate_attivo": false,
+   "gate_nota": "Debito dichiarato: è un errore di lettura/giudizio in una risposta di chat, non un pattern di codice — nessun test automatico può verificare 'ha letto bene il messaggio corto'. Il freno più vicino che esiste già è `cervello/contesto-lezioni.mjs --richiesta` (hook UserPromptSubmit): ri-espone questa lezione all'inizio di ogni turno il cui prompt tocca temi affini (casella/Pannello/Sala Operativa), verificato attivo l'8/4 17:xx (vedi L-2026-0804-01). Non è un cancello che blocca un commit, solo un promemoria a monte."
   }
  ],
  "principi": [
