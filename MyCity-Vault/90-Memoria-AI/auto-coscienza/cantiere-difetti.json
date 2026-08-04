@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 03:10",
+  "aggiornato": "2026-08-04 03:15",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -10534,9 +10534,45 @@
       "nato_come": "scoperta",
       "nato_da": "AR-430",
       "origine": "Nicola 4/8 03:00: «controlla se funziona tutto». La visita ha trovato la macchina ferma da 112 ore — e ha trovato che l'allarme c'era gia', da 4 giorni, con 47 aggiornamenti.",
-      "titolo": "L'allarme della macchina ferma funziona e non lo legge nessuno: 47 avvisi in 4 giorni, e l'ha scoperto Nicola chiedendo",
-      "causa_radice": "① Il worker e' fermo dal 2026-07-30 11:19: cinque tracce indipendenti (sentinella-dati, esito-giro, costo-ai, delta-gate, ultimo-briefing) si spengono tutte fra le 11:15 e le 11:19, e l'ultimo commit dell'autore «AD MyCity VPS» e' delle 11:19:49. 112 ore. ② Il battito esterno ha funzionato ESATTAMENTE come doveva: gira su GitHub Actions, non sul VPS, e alle 18:47 dello stesso giorno ha aperto la issue #644 «La macchina e' ferma da 9 ore», poi aggiornata 47 volte fino al 3/8 23:19. ③ Quindi il difetto NON e' «la macchina non se ne accorge» — quello era AR-430 ed e' curato. E' che l'allarme atterra in un posto che Nicola non guarda: una issue di GitHub. Non e' nella coda che firma, non e' nella Cabina, non e' arrivato in chat. ④ E' la stessa forma di AR-465 («il freno in tempo reale parlava a nessuno») e di AR-476 (il numero delle consegne mute non renderizzato da nessuna schermata): il segnale esiste, il canale verso Nicola no. Un allarme che nessuno legge costa quanto un allarme che non esiste — qui e' costato 4 giorni e 17 ore di macchina ferma. ⑤ Perche' e' bloccante per la crescita: in quei 4 giorni non e' girato nessun giro, nessuna sentinella, nessun contenuto, nessun recupero carrelli. La macchina che dovrebbe far crescere l'azienda era spenta e il Pannello non lo diceva.",
-      "fix_proposto": "DA FARE. Due pezzi, separati apposta. (a) 🔴 far ripartire il VPS — solo Nicola, comandi pronti nella card #macchina-ferma-da-quattro-giorni. (b) 🟡 il canale: il verdetto del battito esterno deve atterrare dove Nicola guarda davvero — una card in AZIONI-IN-ATTESA e un semaforo nella Cabina — invece che solo in una issue. Da fare come lotto suo, con la prova che il canale esiste (non «ho scritto la funzione» ma «il verdetto compare nel file che il Pannello legge»). ⚠️ Nessuna `verifica` finche' il fix non esiste: il test del battito esterno passa GIA' oggi — usarlo qui sarebbe una prova vera alla nascita, cioe' AR-330. La prova nascera' col fix (b) e dovra' essere «il verdetto compare nel file che il Pannello legge», non «la funzione esiste»."
+      "titolo": "La macchina lavora e non riesce a pubblicare: 4.006 commit fermi sul server e il Pannello mostra numeri di quattro giorni fa",
+      "causa_radice": "① CORRETTO alle 03:20 con lo schermo del server sotto gli occhi. La prima diagnosi diceva «macchina ferma»: SBAGLIATA. Il giro gira — un giro pieno alle 22:26 del 3/8 — e si ferma all'ultimo passo: «PUSH ANNULLATO (AR-396): rebase rc=1, abort rc=128», poi «push della memoria fallito dopo 3 tentativi», poi exit 2 e systemd marca il servizio fallito. ② Da qui si vedeva solo l'effetto (nessuna traccia nuova nel repo da 112 ore) e l'ho scambiato per la causa. La lezione: cinque tracce ferme dicono «non pubblica», non «non lavora» — e le due chiedono rimedi opposti (riavviare il servizio, che era il mio consiglio, peggiora: ogni giro aggiunge commit). ③ La pila cresce: 3.942 commit locali alle 18:23, 4.006 alle 22:26. Sessantaquattro in quattro ore. AR-467 doveva impedire proprio questo («il recupero non committa se ci sono gia' commit non pubblicati») ed e' in main dal 31/7, verificato nel file. Quindi o il server non ha quel codice, o il caso non e' coperto. ④ Resta vero il difetto del CANALE: l'allarme del battito esterno ha aperto la issue #644 e l'ha aggiornata 47 volte in quattro giorni, e nessuno l'ha letta. Nicola l'ha scoperto chiedendo.",
+      "fix_proposto": "DA FARE. (a) 🔴 sbloccare il push sul server: prima il perche' del rebase (comandi nella card), poi la decisione sui 4.006 commit locali. NON riavviare il servizio. (b) 🟡 il canale: il verdetto del battito esterno deve atterrare in coda e nella Cabina, non solo in una issue. (c) 🟡 da capire perche' AR-467 non tiene sul server."
+    },
+    {
+      "id": "AR-519",
+      "stato": "chiuso",
+      "gravita": "media",
+      "colore": "🟡",
+      "dimensione": "sensori-e-misure",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 03:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-490",
+      "origine": "Trovato dal freno dello Stop sul referto della visita: accusava «forma pulita, contenuto svuotato» un testo che sopra la riga diceva 112 ore, la data e il nome del file fermo.",
+      "titolo": "«Sostanza» misurata come «gergo»: un referto pieno di date e numeri veniva chiamato copertina vuota",
+      "causa_radice": "① La regola sostanza-nascosta chiedeva una cosa sola: che sopra la riga «Dettagli tecnici» comparisse almeno una parola dell'elenco PAROLE_MACCHINA. Un testo che sopra la riga porta «112 ore», «2026-07-30 11:19» e «sentinella-dati.json» — cioe' tutto quello che serve per capire — risultava svuotato. ② La sua GEMELLA, due righe piu' sotto nella stessa funzione, sa gia' che un numero e' sostanza (`paroleTecnicheSopra === 0 && !/\\\\d/.test(corpo)`): due metri diversi per la stessa domanda, dentro lo stesso file. ③ La direzione dell'errore e' quella che spegne i controlli: spingeva a infilare una parola dell'elenco per far passare il metro, cioe' a scrivere per il misuratore invece che per Nicola.",
+      "fix_proposto": "FATTO 🟡 La regola accetta come sostanza anche i FATTI: una data, un numero con la sua unita' (ore, giorni, %, €), una proporzione «su N», il nome di un file. Blocca solo quando sopra la riga non c'e' ne' gergo ne' un fatto — cioe' quando e' davvero una copertina. 2 prove: il referto vero non viene piu' accusato, e un testo davvero vuoto viene ancora preso.",
+      "verifica": {
+        "comando": "node cervello/test/si-capisce.test.mjs"
+      }
+    },
+    {
+      "id": "AR-520",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "processi-e-cadenze",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 03:15",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478",
+      "origine": "Il freno dello Stop ha misurato il referto della visita che avevo appena prodotto: 11 punti difficili aggiunti a un file che era a 0.",
+      "titolo": "Il referto della visita non aveva le quattro risposte: apriva col conteggio dei controlli invece che con la notizia",
+      "causa_radice": "① La regola delle quattro risposte vale per ogni testo che legge Nicola, e il referto della visita e' proprio quello — ma nasce da un GENERATORE, non da me che scrivo, e i generatori erano rimasti fuori dal perimetro. ② Il referto apriva con «1 rossi su 20 controlli, copertura 68%»: vero, ma e' il numero prima della notizia. Il guasto vero stava tre sezioni piu' sotto. ③ In piu' la forma: titoli con due incisi fra parentesi (organo e impatto), sette titoli di controlli non visti uniti dai punto e virgola in una frase da 36 parole.",
+      "fix_proposto": "FATTO 🟡 `quattroRisposte(v)` costruisce i quattro blocchi dai dati della visita: cosa non va e quanto costa, il caso concreto, cosa deve fare Nicola, quali controlli non ho potuto fare (in elenco, non in un periodo). La riga «Dettagli tecnici» sta SOTTO il rosso, non sopra: al primo tentativo l'avevo messa in cima e il misuratore ha risposto «forma pulita, contenuto svuotato» — il referto era diventato una copertina. Misurato: da 6.5 a 1.8 di difficolta', da 11 punti a zero.",
+      "verifica": {
+        "comando": "node cervello/test/referto-visita-leggibile.test.mjs"
+      }
     }
   ],
   "meta": {
