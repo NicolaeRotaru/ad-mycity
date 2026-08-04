@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-04 12:11",
+  "aggiornato": "2026-08-04 14:50",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11207,6 +11207,24 @@
         "comando": "node --import ./cervello/test/hook-ts.mjs --test pannello/src/lib/memoria-ferma.test.mts"
       },
       "prova_runtime": "Playwright 4/8 05:50 (viewport mobile): banner acceso coi numeri veri dell'incidente (114h → «4 giorni e 18 ore», ultima pubblicazione 30/07 11:15), riga «🔴 Lavora ma non pubblica», bottone → diagnosi worker, e NESSUN banner a push fresco. 7/7 osservazioni, zero errori console."
+    },
+    {
+      "id": "AR-556",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "colore": "🟡",
+      "dimensione": "cantiere-prove",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-04 14:38",
+      "nato_come": "scoperta",
+      "nato_da": null,
+      "origine": "CI rossa sulla PR #673 (4/8 14:12), che tocca solo due file di memoria: il rosso non veniva dal diff.",
+      "titolo": "Un test misura il file vero della radiografia: quando il riconcilia chiude schede, la CI di tutte le PR diventa rossa da sola",
+      "causa_radice": "① `radiografia-snella.test.mjs` ha un'asserzione — «sul file VERO la risposta dimagrisce di almeno il 45%» — che legge il dato vivo della radiografia nel vault, non una fixture. ② La soglia fissa presuppone che ci sia sempre abbastanza da sfoltire; oggi i findings chiusi sfoltibili sono 11 su 123, lo sfoltimento rende il 30% (573.653 → 400.472 byte) e il test boccia. ③ Il dato vivo cambia per mano del riconcilia (oggi alle 12:11 e 12:31), non per mano del codice: quindi la CI boccia PR che non c'entrano nulla. Provato coi comandi, non a memoria: fallisce IDENTICO su `origin/main` puro (4f7082a) e sulla PR #673. ④ È la forma «prova agganciata al dato vivo»: un cancello che scatta per moto proprio del dato insegna a ignorare la CI, che è il contrario del suo mestiere.",
+      "fix_proposto": "FATTO 🟡 strada (b), la soglia la dettano i dati: il caso «sul file vero» non pretende piu il 45% fisso (numero del file di ieri, quando i chiusi erano 109/170) ma almeno quanto PESANO i chiusi che lo sfoltimento butta — oggi 11/123, quota 9%, margine 0.9 per il rumore della serializzazione. Aggiunta anche l'asserzione strutturale che nessun chiuso sopravviva, cosi il risparmio e dovuto e non sperato. La soglia non e stata abbassata a mano: e derivata, e sale da sola quando i chiusi tornano tanti. Provato: verde oggi (573.653 → 400.472 byte, −30%, atteso ≥8%), e la mutazione che spegne il filtro dei chiusi lo fa tornare rosso.",
+      "verifica": {
+        "comando": "node --test cervello/test/radiografia-snella.test.mjs"
+      }
     }
   ],
   "meta": {

@@ -208,7 +208,21 @@
         "difesa-rimossa": 4
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T12:40:13.777Z",
+      "scatti": 537,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-04T12:45:21.680Z",
+      "scatti": 537,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-04T10:31:12.962Z"
+  "aggiornato": "2026-08-04T12:45:21.681Z"
 }

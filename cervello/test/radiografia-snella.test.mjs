@@ -85,7 +85,7 @@ prova("una radiografia malformata non fa saltare la schermata", () => {
 
 // ── Il guadagno vero, sul file di oggi ──────────────────────────────────────
 
-prova("sul file VERO la risposta dimagrisce di almeno il 45% — quando c'è qualcosa da sfoltire", () => {
+prova("sul file VERO lo sfoltimento risparmia almeno quanto pesano i chiusi che butta", () => {
   const vero = JSON.parse(readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json"), "utf8"));
   const prima = peso(vero);
   const dopo = peso(radiografiaSnella(vero));
@@ -105,22 +105,39 @@ prova("sul file VERO la risposta dimagrisce di almeno il 45% — quando c'è qua
   // La soglia resta identica dov'è misurabile. Quello che cambia è che adesso il test sa dire
   // «non c'era niente da sfoltire» invece di dire «il digest è rotto»: sono due cose diverse, e
   // confonderle è il difetto. Un ⚪ non è un ✅ — per questo lo stampa invece di tacere.
+  // 4/8 — LA SECONDA METÀ DELLA STESSA CORREZIONE (AR-556). Il 29/7 la cura era binaria: zero
+  // chiusi → non misurabile, un chiuso qualsiasi → pretendi il 45%. Ma il 45% era il numero del
+  // file di ieri, dove i chiusi erano 109 su 170 (64%). Oggi sono 11 su 123 (9%): non c'è modo di
+  // risparmiare il 45% buttando il 9% del contenuto, e il test bocciava — su main puro, quindi su
+  // OGNI pull request aperta, per un dato che cambia da sé a ogni «riconcilia». Un cancello che
+  // scatta per moto proprio del dato insegna a ignorare la CI: è il difetto, non la sua prova.
+  //
+  // La soglia adesso la dettano i dati: lo sfoltimento butta i chiusi, quindi DEVE risparmiare
+  // almeno quanto pesano — qualunque sia la loro quota, oggi il 9% e domani il 64%. Il margine
+  // 0.9 assorbe il rumore della serializzazione (virgole e parentesi che spariscono con l'ultimo
+  // elemento), non è spazio per un fix pigro. Chi spegne il filtro dei chiusi fa crollare il
+  // risparmio sotto la loro quota-byte, e questa riga diventa rossa: è la mutazione che la prova.
   const tutti = (vero.dimensioni || []).flatMap((d) => (d && d.findings) || []);
-  const chiusi = tutti.filter((f) => eChiusoFinding(f)).length;
+  const soloChiusi = tutti.filter((f) => eChiusoFinding(f));
+  const quotaChiusi = peso(soloChiusi) / prima;
 
-  if (chiusi === 0) {
+  if (!soloChiusi.length) {
     console.log(
       `      # ⚪ non misurabile oggi: ${tutti.length} findings, nessuno chiuso — niente da sfoltire ` +
         `(${prima.toLocaleString()} → ${dopo.toLocaleString()} byte, −${Math.round(risparmio * 100)}%). ` +
-        `La soglia del 45% torna a valere alla prima radiografia con findings chiusi.`,
+        `La soglia torna a valere alla prima radiografia con findings chiusi.`,
     );
     return;
   }
+  // Nessun chiuso sopravvive: la proprietà che lo sfoltimento promette, controllata sul dato vero
+  // e non solo sulla finta — è ciò che rende il risparmio dovuto, invece che sperato.
+  const sopravvissuti = ((radiografiaSnella(vero).dimensioni || []).flatMap((d) => (d && d.findings) || [])).filter((f) => eChiusoFinding(f));
+  assert.equal(sopravvissuti.length, 0, `${sopravvissuti.length} findings chiusi sono sopravvissuti allo sfoltimento`);
   assert.ok(
-    risparmio >= 0.45,
-    `atteso ≥45%, ottenuto ${Math.round(risparmio * 100)}% (${prima} → ${dopo}) con ${chiusi}/${tutti.length} findings chiusi da sfoltire`,
+    risparmio >= quotaChiusi * 0.9,
+    `i chiusi pesano il ${Math.round(quotaChiusi * 100)}% del file ma lo sfoltimento ha risparmiato solo il ${Math.round(risparmio * 100)}% (${prima} → ${dopo}): non li sta buttando`,
   );
-  console.log(`      # ${prima.toLocaleString()} → ${dopo.toLocaleString()} byte (−${Math.round(risparmio * 100)}%, ${chiusi}/${tutti.length} chiusi)`);
+  console.log(`      # ${prima.toLocaleString()} → ${dopo.toLocaleString()} byte (−${Math.round(risparmio * 100)}%, atteso ≥${Math.round(quotaChiusi * 90)}% dai ${soloChiusi.length}/${tutti.length} chiusi)`);
 });
 
 // E la guardia che il caso qui sopra non deve spegnere: su un file CHE HA chiusi, la soglia vale
