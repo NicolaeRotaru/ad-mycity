@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-30 08:25** — Giro (manutenzione macchina): **42 aperte, invariate**. Nessuna card nuova/chiusa qui — il lavoro di questo passaggio ha riparato `auto-coscienza/auto-analisi.json` (fermo dal 27/7) e `MyCity-Vault/05-Soldi-Rischi/scadenzario.json` (PI26 ancora "aperta" lì, non toccato dalla pulizia delle 06:05/06:30 perché è l'input di uno script, non un testo in coda). Dettaglio in [[Briefing/2026-07-30]] (passaggio 08:25).
+> 🧹 **Housekeeping 2026-07-30 08:25** — Giro (manutenzione macchina): **42 aperte, invariate**. Nessuna card nuova o chiusa qui. Questo passaggio ha riparato due file: `auto-coscienza/auto-analisi.json` (fermo dal 27/7) e `MyCity-Vault/05-Soldi-Rischi/scadenzario.json`. Nello scadenzario la pratica PI26 risultava ancora "aperta": quel file è l'input di uno script, non un testo in coda, per questo la pulizia delle 06:05/06:30 non l'aveva toccato. Dettaglio in [[Briefing/2026-07-30]] (passaggio 08:25).
 >
 > 🧹 **Housekeeping 2026-07-30 06:30** — Giro completo: **42 aperte**. Chiuse 3 card zombie in più, tutte smentite da verifica diretta (`git log`/`git fetch`), stesso errore-tipo delle 5 PI26/piano-squadra ripulite alle 06:05 (il testo restava vecchio dopo che il fatto era già cambiato): **`#vps-giro-fermo`** (diceva "fermo da 40 ore" — il worker ha committato con continuità 04:43→06:26 stamattina), **`#push-main-memoria`** e **`#push-volano-fix`** (dicevano "main non pubblicato/71 commit indietro" — verificato ora: `origin/main` e `HEAD` coincidono esattamente, e la PR #454 del fix tasso-lezioni è già mergiata).
 >
@@ -65,26 +65,22 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 <!-- macchina-ferma-da-quattro-giorni -->
 
-### 🔴 #macchina-ferma-da-quattro-giorni — La macchina lavora e non riesce a pubblicare: sblocca il push sul server · ⏳ accodata 2026-08-04 03:10 · ✏️ corretta 03:20
-**Cosa cambia:** dal 30 luglio nel repo non arriva più niente, e per quattro giorni e mezzo il Pannello ti ha mostrato numeri vecchi. La causa NON è che la macchina è spenta: il tuo schermo delle 03:07 mostra un giro completo alle 22:26 di stanotte. Lavora e resta muta. Si ferma all'ultimo passo: `PUSH ANNULLATO — rebase rc=1, abort rc=128`, poi `push della memoria fallito dopo 3 tentativi`, e il servizio esce con codice 2. Intanto i commit che restano sul server crescono: 3.942 alle 18:23, 4.006 alle 22:26. Sono 64 in quattro ore che non escono da lì.
-**Se va bene:** il push riparte, i quattro giorni di lavoro arretrato arrivano nel repo, e il Pannello torna a dire il vero.
-**⚠️ Non riavviare il servizio.** Era il consiglio della prima versione di questa card, ed era sbagliato: il servizio parte già da solo e ogni giro aggiunge commit alla pila. Riavviare peggiora.
-**Cosa devi fare tu, sul server — il perché adesso lo sappiamo: 17 file di dati modificati bloccano il rebase.**
-Primo passo, tutto reversibile e senza perdere niente:
+### 🔴 #macchina-ferma-da-quattro-giorni — Riallinea il server alla cura e fai ripartire il giro: tre comandi · ⏳ accodata 2026-08-04 03:10 · ✏️ aggiornata 2026-08-04 05:55
+**Cosa cambia:** il tuo schermo delle 05:40 dice che il secondo avvio è fallito uguale al primo. Adesso sappiamo perché. Il tuo ultimo `git reset` è delle 04:14. La cura vera è arrivata su `main` alle 05:23, nove minuti dopo il tuo reset. Il server ha quindi rifatto il giro col codice vecchio. Ha riscritto di nuovo `apprendimento.json` con lo spazio sbagliato. Il guardiano della forma ha bloccato il commit, e il push è morto un'altra volta. Non hai sbagliato niente: era una corsa contro il merge.
+**Cosa devi fare tu, sul server (l'ultima volta):**
 ```bash
 cd /opt/mycity/ad-mycity
-git branch salvataggio-2026-08-04        # i 4.450 commit restano raggiungibili qui, per sempre
-git stash push -u -m "dati vivi 2026-08-04"
-git fetch origin main
-git status --short && git log --oneline -1 origin/main
+git stash push -u -m "giro delle 04 bloccato dallo spazio"
+git fetch origin main && git reset --hard origin/main
+sudo systemctl start mycity-giro.service
 ```
-Fermati qui e mandami cosa stampa.
-
-Il passo dopo è una decisione tua, e questi sono i numeri per prenderla. I 4.450 commit valgono per lo stato finale dei file. Quello stato è già lì, nell'albero di lavoro. Rifare i commit uno per uno su main non aggiunge niente, e andrebbe in conflitto su ogni file di memoria.
-**Nota tecnica:** difetto AR-518. I fix del 31/7 (AR-467 stop ai commit di recupero, AR-468 messaggio d'errore vero, AR-469 stash prima del rebase) sono in `main`, verificato: `serve_mettere_da_parte` e la cattura dell'uscita del rebase ci sono. Quindi o il server non ha quel codice, o il rebase fallisce per una causa che quei tre fix non coprono. Il numero che cresce (3.942 → 4.006) dice che il recupero continua a committare, cioè che AR-467 lassù non sta funzionando. Da questa sessione il server non si vede: questa parte NON l'ho misurata, l'ho letta dal tuo schermo.
+Il reset stavolta porta a bordo la cura (l'aiutante che conserva l'indentazione del file invece di imporre la sua): il giro riscrive `apprendimento.json` senza gonfiarlo, il commit passa, il push parte.
+**Come vedi che ha funzionato:** a fine giro `journalctl -u mycity-giro -n 20 --no-pager` NON deve più dire «COMMIT BLOCCATO» né «MEMORIA NON PUBBLICATA». E su GitHub `main` deve ricevere un commit di memoria nuovo. Se rivedi «COMMIT BLOCCATO», mandami lo schermo: vuol dire che c'è un secondo file malato oltre a quello curato.
+**Se va bene:** il Pannello torna a dire il vero. E da questa PR in poi non serve più il tuo occhio: se la memoria resta ferma oltre 12 ore, la home della Cabina lo grida da sola con un banner rosso.
+**Nota tecnica:** causa radice AR-530 (uno spazio di indentazione, PR #665, mergiata 04/08 05:23) · freno nuovo AR-544 (la Cabina incrocia battito e ultimo push: banner in home + diagnosi con i comandi in Lavori → Stato worker). I 4.450 commit di arretrato restano al sicuro nel ramo `salvataggio-2026-08-04` e negli stash: il loro valore è lo stato finale dei file, già presente nell'albero.
 - **Colore:** 🔴 (tocca il server in produzione)
 - **Reparto:** devops-sre
-- **Origine:** `{origine:visita-salute-2026-08-04, difetto:AR-518}`
+- **Origine:** `{origine:visita-salute-2026-08-04, difetti:[AR-518, AR-530, AR-544]}`
 
 ---
 
