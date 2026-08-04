@@ -96,3 +96,62 @@ test("il contatore non viene più lanciato in --json dentro il cancello", () => 
   assert.ok(riga, "il cancello deve continuare a lanciare il contatore");
   assert.ok(!riga.includes("--json"), "in JSON il verdetto finisce in mezzo al documento e il log ne vede solo le graffe");
 });
+
+// ── AR-531: l'esenzione già dichiarata vale anche sul delta ────────────────────────────────────
+//
+// `malattie.json` porta per ogni forma un elenco `esenti` con file e PERCHÉ, e la spazzata dei
+// fratelli lo rispetta. Il controllo sulle righe aggiunte no: cercava il pattern senza mai guardare
+// se quel file fosse già stato dichiarato. Il 4/8 ha accusato quattordici volte di fila
+// `pre-scrittura.mjs` — il guardiano che INTERCETTA il bypass, che per riconoscerlo deve nominarlo,
+// esente con un motivo scritto da un'altra sessione poche ore prima. Quattordici allarmi su una riga
+// dichiarata sono il rumore che spegne i freni.
+
+import { sorveglia as sorveglia531 } from "../sorvegliante.mjs";
+
+const MALATTIA = {
+  id: "bypass-del-cancello",
+  nome: "Un comando che salta il cancello",
+  pattern: "--no-verify",
+  esenti: [{ file: "cervello/pre-scrittura.mjs", perche: "è il guardiano che quel bypass lo intercetta: per riconoscerlo deve nominarlo" }],
+};
+const RIGA = { n: 120, testo: '  if (/\\bgit\\s+commit\\b[^\\n]*(--no-verify)/.test(c)) {' };
+
+test("un file dichiarato esente, col suo perché, non viene accusato sulle righe aggiunte", () => {
+  const r = sorveglia531({
+    toccati: [{ file: "cervello/pre-scrittura.mjs", aggiunte: [RIGA], contenuto: null }],
+    malattie: [MALATTIA],
+    mutanti: [{ file: "x.mjs", test: "y.mjs" }],
+  });
+  assert.deepEqual(
+    r.voci.filter((v) => v.classe === "malattia-nuova"),
+    [],
+    "l'esenzione è scritta col motivo: accusare lo stesso è il rumore che spegne i freni",
+  );
+});
+
+test("lo stesso pattern in un file NON esente viene ancora preso", () => {
+  const r = sorveglia531({
+    toccati: [{ file: "cervello/qualcun-altro.mjs", aggiunte: [RIGA], contenuto: null }],
+    malattie: [MALATTIA],
+    mutanti: [{ file: "x.mjs", test: "y.mjs" }],
+  });
+  assert.equal(
+    r.voci.filter((v) => v.classe === "malattia-nuova").length,
+    1,
+    "il fix non deve spegnere il controllo insieme al rumore",
+  );
+});
+
+test("un'esenzione senza perché non zittisce niente", () => {
+  const muta = { ...MALATTIA, esenti: [{ file: "cervello/pre-scrittura.mjs" }] };
+  const r = sorveglia531({
+    toccati: [{ file: "cervello/pre-scrittura.mjs", aggiunte: [RIGA], contenuto: null }],
+    malattie: [muta],
+    mutanti: [{ file: "x.mjs", test: "y.mjs" }],
+  });
+  assert.equal(
+    r.voci.filter((v) => v.classe === "malattia-nuova").length,
+    1,
+    "«esente» senza spiegazione è il modo educato di zittire: resta un'accusa viva (AR-338)",
+  );
+});

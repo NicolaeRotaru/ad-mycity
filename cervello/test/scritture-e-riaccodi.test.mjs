@@ -23,7 +23,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
-const { scriviJsonAtomico, scriviTestoAtomico, nomeTemporaneo, testoJson, indentEsistente } = await import(join(QUI, "..", "scrivi-json.mjs"));
+const { scriviJsonAtomico, scriviTestoAtomico, nomeTemporaneo, testoJson, indentazioneDi } = await import(join(QUI, "..", "scrivi-json.mjs"));
 const { decidiOrfano, MAX_RIACCODI_ORFANO } = await import(join(QUI, "..", "retry-policy.mjs"));
 
 const conCartella = (fn) => {
@@ -190,12 +190,22 @@ test("un file NUOVO nasce a due spazi: è la forma di casa", () =>
     assert.equal(readFileSync(f, "utf8").split("\n")[1].match(/^ +/)[0].length, 2);
   }));
 
-test("l'indentazione si LEGGE dal file, non si suppone", () =>
+// Il 4/8 questo repo ha riparato l'indentazione DUE VOLTE in parallelo: io con `indentEsistente`,
+// main con `indentazioneDi` — stesso difetto, due case. Tenere la mia avrebbe lasciato due funzioni
+// che fanno la stessa cosa in modo diverso, cioè il prossimo AR. Vince quella di main (ha altri
+// chiamanti e le sue prove); qui restano i casi limite che la mia copriva e la sua no.
+test("l'indentazione si LEGGE dal file, non si suppone — anche ai bordi", () =>
   conCartella((d) => {
-    const f = join(d, "tab.json");
-    writeFileSync(f, '{\n\t"a": 1\n}\n');
-    assert.equal(indentEsistente(f), "\t", "un file a tabulazioni resta a tabulazioni");
-    assert.equal(indentEsistente(join(d, "mai-esistito.json")), null, "un file che non c'è non ha una forma da conservare");
+    const f = join(d, "bordi.json");
+    assert.equal(indentazioneDi(join(d, "mai-esistito.json")), 2, "un file che non c'è prende la forma di casa");
     writeFileSync(f, '{"tuttoSuUnaRiga": 1}\n');
-    assert.equal(indentEsistente(f), null, "e nemmeno un file senza a-capo");
+    assert.equal(indentazioneDi(f), 2, "e nemmeno un file senza a-capo ha una forma da conservare");
+    writeFileSync(f, '{\n\t"a": 1\n}\n');
+    assert.equal(
+      indentazioneDi(f),
+      2,
+      "LIMITE DICHIARATO: un file a tabulazioni torna alla forma di casa e verrebbe riscritto a spazi. " +
+        "Non è un buco aperto: in questo repo non esiste nessun JSON a tabulazioni (misurato), e il freno " +
+        "sulla forma fermerebbe comunque il commit. Se un giorno ne nasce uno, questa riga diventa rossa.",
+    );
   }));

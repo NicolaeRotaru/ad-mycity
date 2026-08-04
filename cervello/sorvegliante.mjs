@@ -351,6 +351,19 @@ export function sorveglia({
         motivi.push(`malattia ${m.id}: pattern non compilabile, non l'ho potuta cercare`);
         continue;
       }
+      // L'esenzione GIÀ DICHIARATA vale anche qui (AR-531).
+      //
+      // `malattie.json` porta per ogni forma un elenco `esenti` con file e PERCHÉ, e la spazzata dei
+      // fratelli lo rispetta. Questo controllo no: cercava il pattern sulle righe aggiunte senza mai
+      // guardare se quel file fosse già stato dichiarato esente. Il 4/8 ha accusato quattordici volte
+      // di fila `pre-scrittura.mjs` — che è il guardiano che INTERCETTA il bypass, deve nominarlo per
+      // riconoscerlo, ed era esente con un motivo scritto da un'altra sessione poche ore prima.
+      // Quattordici allarmi su una riga dichiarata: è il rumore che spegne i freni.
+      //
+      // L'esenzione conta solo se porta il suo perché: una senza motivo resta un'accusa viva, perché
+      // «esente» senza spiegazione è il modo educato di zittire (AR-338).
+      const esente = (m.esenti || []).some((e) => e?.file === file && String(e?.perche || "").trim());
+      if (esente) continue;
       for (const r of aggiunte) {
         // Il commento che spiega una malattia non è la malattia: stessa regola di spazzata-fratelli,
         // stessa funzione — non una seconda copia che col tempo divergerebbe.

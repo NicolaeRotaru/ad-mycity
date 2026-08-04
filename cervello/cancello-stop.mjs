@@ -117,6 +117,26 @@ export function chiusiSenzaProva(prima = [], dopo = []) {
  * scrivendo «umano» e basta. Senza il verbale di cosa è stato deciso, resta una dichiarazione — che
  * è esattamente la cosa che questo controllo esiste per fermare.
  */
+/**
+ * Lo stato «prima» del lavoro — che dentro una fusione ha DUE genitori, non uno. (AR-540.)
+ *
+ * Il cancello misura cosa è cambiato fra prima e adesso, e chiama «mio» il cambiamento. Dentro un
+ * merge quella sottrazione mente: il disco contiene anche il lavoro dell'altro ramo, e HEAD non lo
+ * sa. Successo il 4/8 alle 05:45 — il worker aveva chiuso AR-361 col suo commit «riconcilia», la
+ * fusione l'ha portato qui, e il cancello me l'ha contestato come una chiusura mia senza prova.
+ *
+ * È la terza comparsa della stessa forma in due giorni, e Nicola l'aveva già indicata a voce sulla
+ * prima: «il cancello deve dire "non so cosa è tuo" invece di accusare». ① in una copia senza ancora,
+ * ② su un registro riordinato, ③ qui dentro una fusione.
+ *
+ * L'unione è la risposta esatta, non una scorciatoia: mio è ciò che era aperto su ENTRAMBI i lati ed
+ * è chiuso adesso. Non assolve niente di mio — se chiudo io un difetto che di là era aperto, resta
+ * mio e il cancello parla. Fuori da una fusione `altro` è nullo e questa funzione non cambia niente.
+ */
+export function statoDiPartenza(daHead, daAltroGenitore) {
+  return [...(daHead || []), ...(daAltroGenitore || [])];
+}
+
 export function chiusuraLegittima(verifica) {
   if (!verifica) return false;
   if (typeof verifica.comando === "string" && verifica.comando.trim()) return true;
@@ -543,10 +563,31 @@ const git = (args) =>
 
 /** Il file com'era all'ultimo commit. `null` = non c'era (e allora «prima» è vuoto, non un errore). */
 function daHead(percorso) {
+  return daRif("HEAD", percorso);
+}
+
+/** Lo stesso file com'era in un qualsiasi commit. Serve al secondo genitore di una fusione. */
+function daRif(rif, percorso) {
   try {
-    return JSON.parse(git(["show", `HEAD:${percorso}`]));
+    return JSON.parse(git(["show", `${rif}:${percorso}`]));
   } catch {
     return null;
+  }
+}
+
+/**
+ * L'ALTRO lato di una fusione in corso, se ce n'è una. `null` fuori da un merge (il caso normale).
+ *
+ * `.git/MERGE_HEAD` esiste solo fra `git merge` e il commit che lo chiude: è la finestra in cui il
+ * disco contiene il lavoro di due rami e HEAD ne conosce uno solo. Fuori da quella finestra questa
+ * funzione non cambia niente, ed è il motivo per cui la si può aggiungere senza allargare nulla.
+ */
+function altroGenitoreDelMerge() {
+  try {
+    const rif = readFileSync(join(REPO, ".git", "MERGE_HEAD"), "utf8").trim().split("\n")[0];
+    return /^[0-9a-f]{7,40}$/.test(rif) ? rif : null;
+  } catch {
+    return null; // nessuna fusione in corso: il caso normale
   }
 }
 
@@ -884,9 +925,19 @@ async function main() {
     }
   }
 
-  const cantierePrima = daHead(CANTIERE)?.difetti || [];
+  // «Prima» ha DUE genitori quando sto unendo (AR-540). Con il solo HEAD, un difetto che main ha
+  // chiuso e che arriva qui dentro la fusione risulta chiuso da me: successo il 4/8 con AR-361,
+  // chiuso dal commit «riconcilia» del worker e contestato a me mentre univo. È la stessa forma che
+  // Nicola aveva già indicato per il sorvegliante — «il cancello deve dire non so cosa è tuo invece
+  // di accusare» — e questa è la terza volta che si presenta: la prima in una copia senza ancora, la
+  // seconda su un registro riordinato, questa dentro una fusione.
+  //
+  // L'unione dei due genitori è la risposta esatta: mio è solo ciò che era aperto su ENTRAMBI i lati
+  // e adesso è chiuso. Non allarga niente — se chiudo io un difetto aperto di là, resta mio.
+  const altro = altroGenitoreDelMerge();
+  const cantierePrima = statoDiPartenza(daHead(CANTIERE)?.difetti, altro && daRif(altro, CANTIERE)?.difetti);
   const cantiereDopo = daDisco(CANTIERE)?.difetti || [];
-  const lezPrima = daHead(APPRENDIMENTO)?.lezioni || [];
+  const lezPrima = statoDiPartenza(daHead(APPRENDIMENTO)?.lezioni, altro && daRif(altro, APPRENDIMENTO)?.lezioni);
   const lezDopo = daDisco(APPRENDIMENTO)?.lezioni || [];
   const { file, codaToccata } = fileDelLavoro();
 

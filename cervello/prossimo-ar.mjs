@@ -77,6 +77,41 @@ export function duplicati(difetti = []) {
   return [...visti.entries()].filter(([, n]) => n > 1).map(([id, n]) => ({ id, quante: n }));
 }
 
+/**
+ * Le schede che hanno PERSO il loro numero: stesso id qui e su main, ma sotto ci sono due difetti
+ * diversi. (AR-538.)
+ *
+ * `duplicati()` guarda dentro una copia sola e vede due schede col medesimo numero. Questo guarda
+ * fra due copie e vede la cosa peggiore: il numero è uno, la scheda è una, e alla fusione UNA DELLE
+ * DUE STORIE SPARISCE senza lasciare traccia. Nessun conteggio cala — 532 schede prima, 532 dopo —
+ * quindi non se ne accorge nessuno.
+ *
+ * Successo il 4/8 alle 05:30: su main AR-522 era «il perimetro del turno non esiste al primo giro»,
+ * con il suo file, la sua prova e la sua mutazione. Poi main ha riscritto AR-522 come «uno spazio di
+ * indentazione ha fermato la macchina per quattro giorni». Alla fusione la prima è sparita: il codice
+ * `cervello/intento-turno.mjs` è ancora lì e ancora provato, ma la scheda che lo racconta non esiste
+ * più. L'ha trovata il sorvegliante per caso, perché la mutazione puntava a un file che il registro
+ * non nominava più.
+ *
+ * DUE campi diversi devono discordare, non uno: la data di nascita E il titolo. Un titolo affinato è
+ * un lavoro normale, una data corretta pure; ma un difetto non cambia entrambe le cose restando lo
+ * stesso difetto. Con un campo solo questo guardiano sarebbe rosso a ogni rilettura, e un rosso che
+ * si accende sempre viene spento entro la settimana.
+ */
+export function sovrascritte(locali = [], suMain = []) {
+  const laggiu = new Map();
+  for (const d of suMain) if (/^AR-\d+$/.test(String(d?.id || ""))) laggiu.set(d.id, d);
+  const perse = [];
+  for (const mio of locali) {
+    const loro = laggiu.get(mio?.id);
+    if (!loro) continue;
+    const natoDiverso = mio.nato && loro.nato && String(mio.nato) !== String(loro.nato);
+    const titoloDiverso = mio.titolo && loro.titolo && String(mio.titolo) !== String(loro.titolo);
+    if (natoDiverso && titoloDiverso) perse.push({ id: mio.id, qui: String(mio.titolo), suMain: String(loro.titolo) });
+  }
+  return perse;
+}
+
 function daGit(rif) {
   const out = execFileSync("git", ["show", `${rif}:${CANTIERE}`], {
     cwd: REPO,
@@ -101,18 +136,8 @@ function main() {
     process.exit(2);
   }
 
-  if (argv.includes("--controlla")) {
-    const dup = duplicati(locali);
-    if (!dup.length) {
-      if (!json) console.log(`✅ nessun numero usato due volte (${locali.length} schede).`);
-      process.exit(0);
-    }
-    console.error(`❌ ${dup.length} numero/i usato/i da due schede diverse: ${dup.map((d) => `${d.id} ×${d.quante}`).join(", ")}`);
-    console.error(`   Due schede con lo stesso numero non sono un fastidio: alla prima unione una delle due sparisce.`);
-    process.exit(1);
-  }
-
-  // La fonte che conta è main: la copia locale è ferma a quando è partita.
+  // La fonte che conta è main: la copia locale è ferma a quando è partita. Serve anche a
+  // `--controlla`, perché la sovrascrittura di una scheda si vede SOLO confrontando le due copie.
   let suMain = null;
   const basi = ["origin/main", "main"];
   for (const b of basi) {
@@ -126,6 +151,26 @@ function main() {
   if (suMain === null) {
     console.error(`⚪ non ho potuto leggere il cantiere su ${basi.join(" né su ")}: senza quella fonte il numero sarebbe scelto al buio, ed è esattamente il difetto che questo comando chiude. Rimedio: git fetch origin main.`);
     process.exit(2);
+  }
+
+  if (argv.includes("--controlla")) {
+    const dup = duplicati(locali);
+    const perse = sovrascritte(locali, suMain);
+    if (!dup.length && !perse.length) {
+      if (!json) console.log(`✅ nessun numero usato due volte, nessuna scheda sovrascritta (${locali.length} qui, ${suMain.length} su main).`);
+      process.exit(0);
+    }
+    if (dup.length) {
+      console.error(`❌ ${dup.length} numero/i usato/i da due schede diverse: ${dup.map((d) => `${d.id} ×${d.quante}`).join(", ")}`);
+      console.error(`   Due schede con lo stesso numero non sono un fastidio: alla prima unione una delle due sparisce.`);
+    }
+    for (const p of perse) {
+      console.error(`❌ ${p.id} racconta due difetti diversi qui e su main — una delle due storie sparisce alla fusione, e il conteggio non cala:`);
+      console.error(`     qui:     ${p.qui.slice(0, 110)}`);
+      console.error(`     su main: ${p.suMain.slice(0, 110)}`);
+      console.error(`   Rimedio: dai un numero nuovo a quella che l'ha perso (node cervello/prossimo-ar.mjs) e rimettila nel cantiere.`);
+    }
+    process.exit(1);
   }
 
   const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain)], quanti);

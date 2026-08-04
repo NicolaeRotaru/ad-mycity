@@ -41,36 +41,39 @@ export function nomeTemporaneo(percorso, pid = process.pid) {
 /**
  * Il testo da scrivere: JSON indentato a 2 con l'a-capo finale, come già fanno tutte le copie di
  * `writeJson` in giro per `cervello/`. Pura apposta: è ciò che rende il diff leggibile e va provato.
- *
- * `indent` (AR-530): la forma che il file aveva PRIMA, quando c'è. Due spazi restano il default per i
- * file nuovi — è la forma di casa, 51 registri su 60 — ma su un file che esiste già la sua forma vince
- * sempre. Il motivo non è estetico ed è misurato due volte: il 30/7 riscrivere `apprendimento.json`
- * con un'indentazione diversa ha prodotto un diff di +12.147/−12.124 righe, e il 3/8 la stessa cosa
- * sul cantiere (+8.975/−8.895) per aggiungere quattro schede. Una PR così non la rilegge nessuno, e
- * chiunque altro tocchi quel file va in conflitto totale invece che su una riga.
- *
- * Dal 3/8 c'è anche un freno al commit (`forma-json.mjs --staged`): senza questa funzione, il freno
- * avrebbe fermato il worker sul server invece di aiutarlo — bloccare un commit automatico non ripara
- * niente, sposta solo il guasto un piano più in là.
  */
 export function testoJson(dati, indent = 2) {
   return JSON.stringify(dati, null, indent) + "\n";
 }
 
-/** L'indentazione di un file JSON che esiste già, letta dalla sua prima riga annidata. `null` se il
- *  file non c'è, non si legge, o sta tutto su una riga: lì non c'è nessuna forma da conservare. */
-export function indentEsistente(percorso) {
+/**
+ * L'indentazione che il file ha GIÀ — si conserva, non si impone (AR-530).
+ *
+ * IL CONTO DI NON AVERLO FATTO: quattro giorni e diciassette ore di macchina ferma. `tasso-lezioni`
+ * riscriveva `apprendimento.json` con due spazi mentre quel file ne ha uno. Per git non è un campo
+ * cambiato: è il file intero riscritto. Il guardiano della forma blocca il commit — giustamente, è
+ * nato per questo — l'albero resta sporco, il rebase si rifiuta di partire su un albero sporco, il
+ * push non parte, e la macchina lavora dieci minuti a ogni giro senza che ne esca niente. Quattro
+ * anelli di catena, e il primo è uno spazio.
+ *
+ * Otto file di questo repo hanno un solo spazio (apprendimento, guardiani-motivi, malattie, mutanti,
+ * permessi-debito, radar, radar-fonti, tetti-lotto): finché l'indentazione la decide chi SCRIVE
+ * invece del file che ESISTE, ognuno di questi è la prossima istanza.
+ *
+ * Su un file che non c'è ancora torna il valore di riferimento: lì non c'è niente da conservare.
+ */
+export function indentazioneDi(percorso, riferimento = 2) {
   let testo;
   try {
     testo = readFileSync(percorso, "utf8");
   } catch {
-    return null; // file nuovo: sceglie chi scrive
+    return riferimento; // file nuovo: non è una misura mancata, non c'è ancora niente da misurare
   }
-  for (const riga of testo.split("\n").slice(1, 200)) {
-    const m = riga.match(/^([ \t]+)\S/);
-    if (m) return m[1] === "\t" ? "\t" : m[1].length;
+  for (const riga of testo.split("\n").slice(1, 8)) {
+    const m = /^( +)"/.exec(riga);
+    if (m) return m[1].length;
   }
-  return null;
+  return riferimento;
 }
 
 /**
@@ -82,10 +85,9 @@ export function indentEsistente(percorso) {
 export function scriviJsonAtomico(percorso, dati) {
   mkdirSync(dirname(percorso), { recursive: true });
   const tmp = nomeTemporaneo(percorso);
-  // La forma del file che c'è già vince sulla mia (AR-530): vedi `testoJson`.
-  const indent = indentEsistente(percorso) ?? 2;
   try {
-    writeFileSync(tmp, testoJson(dati, indent), "utf8");
+    // L'indentazione si legge dal file che si sta per sostituire: chi scrive non la sceglie (AR-530).
+    writeFileSync(tmp, testoJson(dati, indentazioneDi(percorso)), "utf8");
     renameSync(tmp, percorso); // atomico: il kernel non mostra mai uno stato intermedio
   } catch (e) {
     try {
