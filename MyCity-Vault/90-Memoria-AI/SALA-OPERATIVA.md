@@ -715,3 +715,8 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-04 18:35 · @AD · FATTO · Diagnosticato il falso positivo del sorvegliante ("difesa-rimossa" ripetuto 150+ volte in questo turno su `cantiere-prove.json`): i difetti AR-447/AR-448/AR-450/AR-449 sono **chiusi** in `cantiere-difetti.json`, quindi la loro sparizione dal report generato è corretta, non una difesa tolta. Il guardiano non distingue "chiuso" da "rimosso" — difetto reale nel guardiano stesso, non riparato ora (non sblocca una card business), solo diagnosticato e registrato per non essere rifatto.
 - 2026-08-04 18:35 · @AD · FATTO · Aggiornati `auto-analisi.json`, `registro-realta.json`, `STATO.md`, `SALA-OPERATIVA.md`.
 - 2026-08-04 18:35 · @AD · PASSO-A · @Nicola — invariato: merge PR #677/#679, decisione su rami/#7-#8.
+
+### 2026-08-04 18:40 — 🔁 GIRO RIPETUTO (AD, chiesto in chat per intero, 5 min dopo)
+- 2026-08-04 18:40 · @AD · FATTO · Riconfermato dal vivo su Supabase (`execute_sql`): ordini=1, pagati=0, consegnati=0, profili=7, prodotti=5, recensioni=0, carrelli=3 — identico a ogni lettura di oggi. Strategia snella AR-113: `auto-analisi.json`/`apprendimento.json` già freschi dal passaggio 18:35, non riscritti.
+- 2026-08-04 18:40 · @AD · FATTO · Aggiunta in coda la riga #12 per la PR #681 (mancava in [[AZIONI-IN-ATTESA]]).
+- 2026-08-04 18:40 · @AD · PASSO-A · @Nicola — invariato: merge PR #677/#679/#680/#681, decisione su rami/#7-#8.
