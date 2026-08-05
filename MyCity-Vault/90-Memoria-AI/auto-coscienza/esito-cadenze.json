@@ -2,12 +2,12 @@
   "_cosa_e": "Esito REALE dell ultima uscita di OGNI cadenza (AR-163/164/166/302/313). Prima ogni copione decideva da se se e come dire di essere andato male, e chi taceva risultava sano: monitora.sh usciva 0 anche col push fallito. Qui la cadenza che non esce si vede, perche la sua riga invecchia.",
   "cadenze": {
     "ritmo-mattino": {
-      "quando": "2026-07-30 06:11",
-      "esito": "non-pubblicato",
+      "quando": "2026-08-05 06:01",
+      "esito": "motore-fallito",
       "codice": 2,
-      "ai_rc": 0,
+      "ai_rc": 1,
       "push_ok": false,
-      "passi_ok": true,
+      "passi_ok": false,
       "vincoli_attivi": 0,
       "vincoli": []
     },
@@ -61,5 +61,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-04 22:23"
+  "aggiornato": "2026-08-05 06:01"
 }
