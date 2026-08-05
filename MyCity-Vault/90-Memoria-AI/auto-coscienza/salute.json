@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-04 20:46",
+  "aggiornato": "2026-08-05 06:46",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -218,8 +218,8 @@
       ]
     },
     "vps": {
-      "quando": "2026-08-04 20:46",
-      "iso": "2026-08-04T18:46:30.771Z",
+      "quando": "2026-08-05 06:46",
+      "iso": "2026-08-05T04:46:29.929Z",
       "casa": "vps",
       "modo": "vps",
       "ok": 18,
@@ -254,7 +254,7 @@
           "titolo": "La macchina ha scritto di recente",
           "impatto": 1,
           "esito": "ok",
-          "detto": "ultima scrittura 0 ore fa (worker:ultimo:all)",
+          "detto": "ultima scrittura 0 ore fa (automazione:sentinella-dati)",
           "prova": null,
           "regressione": false
         },
@@ -274,7 +274,7 @@
           "titolo": "Quello che il server scrive arriva su GitHub",
           "impatto": 2,
           "esito": "ok",
-          "detto": "1 commit in attesa di pubblicazione, sotto la soglia di 50",
+          "detto": "13 commit in attesa di pubblicazione, sotto la soglia di 50",
           "prova": null,
           "regressione": false
         },
@@ -314,7 +314,7 @@
           "titolo": "I test del cervello passano",
           "impatto": 3,
           "esito": "rotto",
-          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-04 20:45  (2 corsie · 22 in fila perché scrivono sul dato vivo) · ✅ cervello/test/allineamento-esito.test.mjs  (18 passati)",
+          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-05 06:45  (2 corsie · 22 in fila perché scrivono sul dato vivo) · ✅ cervello/test/allineamento-esito.test.mjs  (18 passati)",
           "prova": "node cervello/test-cervello.mjs",
           "regressione": false
         },
@@ -334,7 +334,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 15 min fa (2026-08-04T18:31:37.250Z) — 23 file guardati, 0 voci, 0 gravi.",
+          "detto": "✅ ultimo scatto 615 min fa (2026-08-04T18:31:37.250Z) — 23 file guardati, 0 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false
         },
@@ -364,7 +364,7 @@
           "titolo": "Quando scrivo a Nicola, gli rispondo",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "«Cosa non ho verificato» mancato nel 100% dei 51 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
+          "detto": "«Cosa non ho verificato» mancato nel 100% dei 49 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
           "prova": null,
           "regressione": false
         },
@@ -718,6 +718,17 @@
     {
       "quando": "2026-08-04 20:46",
       "iso": "2026-08-04T18:46:30.771Z",
+      "casa": "vps",
+      "modo": "vps",
+      "ok": 18,
+      "rotti": 4,
+      "guasti": 0,
+      "nonvisti": 1,
+      "copertura": 0.96
+    },
+    {
+      "quando": "2026-08-05 06:46",
+      "iso": "2026-08-05T04:46:29.929Z",
       "casa": "vps",
       "modo": "vps",
       "ok": 18,
