@@ -12,13 +12,13 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-04 20:32",
-      "esito": "vincoli-attivi",
+      "quando": "2026-08-04 22:23",
+      "esito": "motore-fallito",
       "codice": 2,
-      "ai_rc": 0,
+      "ai_rc": 1,
       "push_ok": false,
-      "passi_ok": false,
-      "vincoli_attivi": 7,
+      "passi_ok": true,
+      "vincoli_attivi": 8,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
@@ -26,7 +26,8 @@
         "NORTH_STAR",
         "SCADENZE",
         "TASSO",
-        "TEST"
+        "TEST",
+        "VOLANO"
       ]
     },
     "monitora": {
@@ -60,5 +61,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-04 20:32"
+  "aggiornato": "2026-08-04 22:23"
 }
