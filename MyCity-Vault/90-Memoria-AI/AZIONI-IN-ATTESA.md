@@ -5,13 +5,13 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-05 22:21** — Automatico: **62 aperte · 3 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-06 00:05** — Automatico: **62 aperte · 3 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-08-05 22:21** — Automatico: **62 aperte · 3 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-06 00:05** — Automatico: **62 aperte · 3 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-08-05 22:21** — Automatico: **62 aperte · 3 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-06 00:05** — Automatico: **62 aperte · 3 chiuse in archivio**.
 >
-> 🧹 **Housekeeping 2026-08-05 22:21** — Automatico: **62 aperte · 3 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-06 00:05** — Automatico: **62 aperte · 3 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -959,8 +959,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-05 22:21)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-05-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-06 00:05)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-06-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1068,6 +1068,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-08-05 22:21 · 3 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-06 00:05 · 3 card totali
 
 ### ✅ #macchina-ferma-da-quattro-giorni — Il server è tornato a pubblicare: guasto dei quattro giorni chiuso · ⏳ accodata 2026-08-04 03:10 · ✅ chiusa 2026-08-04 12:20
 **La prova:** alle 12:09 su `main` è arrivato il commit di un giro vero («giro 4/8 11:30 + collaudo»), alle 12:10 il recupero delle scritture rimaste in sospeso, alle 12:11 il riconcilia. E il giro delle 12:20 è già il secondo consecutivo pubblicato. La memoria scorre di nuovo dal server a GitHub e il Pannello legge dati di oggi — non serviva più niente da te su questa card.
