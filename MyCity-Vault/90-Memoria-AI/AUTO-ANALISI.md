@@ -1,3 +1,24 @@
+# 🔬 AUTO-ANALISI — 2026-08-06 11:15
+
+> Giro completo (`giro.md` per intero, richiesto in chat). Primo passaggio NARRATO da 39h (ultimo: 2026-08-04 20:25).
+
+## Voto di fiducia: **80/100** (→ invariato)
+Nessuna nuova regressione di business. Il conto onesto è un buco di narrazione, non un buco di dati.
+
+## Aggiornamento 11:15
+Tra il 4/8 20:25 e oggi il worker VPS ha scritto **solo file tecnici**: `auto-coscienza/*.json`, 4 commit "recupero: scritture pendenti da un giro interrotto" tra le 08:30 e le 11:03 di oggi. Nessun Briefing, nessun RITMO, nessuna riga in SALA-OPERATIVA. È lo stesso gate HARD `freschezza-cadenze` già segnalato all'apertura di questa sessione. `ritmo-sera` è fermo da 41h, sopra la soglia di 30h. `ritmo-mattino` e `ritmo-mezzogiorno` sono usciti, ma **senza** auto-analisi né apprendimento. È esattamente il buco che questo passaggio chiude.
+
+Riverificato dal vivo con query SQL diretta, non ereditata: **1 ordine (mai pagato, del 24/6), 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 1 negozio, 0 recensioni, 6 carrelli / 3 abbandonati**. Identico cifra per cifra al passaggio del 4/8 20:25. Stallo North Star ricalcolato a mano: **43 giorni**. Era 41 il 4/8: sono passati 2 giorni di calendario, nessun evento nuovo dietro. Nessuna entità nuova, nessun declassamento.
+
+**Cosa ho trovato e riparato in questo passaggio.** Colore 🟢, dentro il mio perimetro:
+- **4 banner "Housekeeping" duplicati identici** in cima a `AZIONI-IN-ATTESA.md` (residuo dei commit "recupero" interrotti che ha scritto lo stesso banner più volte senza controllare se c'era già). Unificati in uno solo.
+
+**Debito CLI invariato rispetto al 4/8:** in questa sessione restano bloccati da un'approvazione che non riesco a mostrare `apprendimento-guardiano.mjs`, `esperimenti-check.mjs`, `tasso-lezioni.mjs` (oltre ai già noti `test-cervello.mjs`, `north-star-check.mjs --gate`, `scadenzario-check.mjs`, `mappa-macchina.mjs`, `gh pr list`). Girano regolarmente invece `verifica-sensori.mjs`, `coerenza-fatti.mjs` (0 copie vecchie, verificato) e `chiusura-loop.mjs --sonda` (13/120 quaderni vivi, 107 fermi >7gg — invariato, nessun lavoro 🟡/🔴 nuovo di questo giro da chiudere oltre @ad stesso). `apprendimento.json` (1.05MB) non toccato a mano: troppo grande per una modifica sicura senza CLI, lasciato ereditato dall'ultima scrittura del worker.
+
+**Cosa NON è cambiato:** Pane Quotidiano resta in attesa concordata con Nicola fino al 24/8-1/9 (`ripresa.lavoro-operativo`). Nessuna azione nuova verso il marketplace in questo giro: rispetta il piano invece di forzarlo.
+
+## Passaggi precedenti (4/8)
+
 # 🔬 AUTO-ANALISI — 2026-08-04 11:30
 
 > Giro completo (`giro.md` per intero). Primo passaggio formale dopo 5 giorni di silenzio.

@@ -1080,3 +1080,25 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - PR aperte da mergiare: #677 (cancello-di-stop, fix worker-concorrente 3ª manifestazione), #679 (memoria pomeriggio).
 - Cantiere: 161 aperti · 332 chiusi (era 163 aperti alle 12:20).
 - Card in coda invariate dal 3/8: #7 pulizia 447 rami GitHub, #8 modo di chiusura PR (squash vs merge normale).
+
+## Giro completo · 2026-08-06 11:15 (recupero dopo 39h senza narrazione)
+
+**Com'è andata:** niente di nuovo sul business. Stesso unico ordine mai pagato da 43 giorni. La novità è di processo: per quasi due giorni, dal 4/8 sera a stamattina, il worker sul VPS ha scritto solo file tecnici. Non ha mai chiuso un Piano del mattino o un Report della sera vero. Questo giro completo colma il buco.
+
+**I numeri**
+- Negozi attivi: 1, Pane Quotidiano — invariato
+- Ordini: 1, mai pagato, 0 consegnati — invariato
+- Prodotti: 5 · Clienti registrati: 7 · Carrelli: 6, di cui 3 abbandonati — tutti invariati
+- Stallo North Star: 43 giorni. Era 41 il 4/8: solo calendario passato, nessun evento nuovo.
+
+**Da approvare**
+- Merge delle 5 PR ferme in coda dal 4/8 sera: #677, #679, #680, #681, #683.
+- Decisione su pulizia rami GitHub / modo di chiudere le PR (ferma dal 3/8).
+
+**Lezione di oggi**
+- Le scritture tecniche automatiche del worker (auto-coscienza) non sostituiscono un giro narrato. Producono dati, ma non un racconto leggibile per Nicola. Un buco di narrazione può nascondere sia "niente di nuovo" sia "qualcosa di importante non raccontato". Solo un giro pieno distingue i due casi con certezza.
+
+**Domani**
+- Verificare (quando la sessione lo permette) se le 5 PR sono state mergiate; se sì, aggiornare la coda di conseguenza.
+
+**Dettagli tecnici** — numeri confermati via `mcp__supabase-marketplace execute_sql` diretto 2026-08-06 11:06. `coerenza-fatti.mjs` exit 0. `apprendimento-guardiano.mjs`/`esperimenti-check.mjs`/`tasso-lezioni.mjs`/`gh pr list` bloccati in questa sessione (verdetti HARD ereditati dal pre-step di `giro.sh`). Dedup di 4 banner housekeeping duplicati in AZIONI-IN-ATTESA.md.

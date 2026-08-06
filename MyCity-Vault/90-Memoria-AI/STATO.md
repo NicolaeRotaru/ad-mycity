@@ -1,8 +1,19 @@
 ---
 tipo: stato
-aggiornato: 2026-08-04 20:25
+aggiornato: 2026-08-06 11:15
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **6/8 11:15 — Giro completo dopo 39h di silenzio narrato: business ancora invariato.**
+> Richiesto in chat per intero su `cervello/giro.md`. Tra il 4/8 20:25 e oggi il worker VPS ha scritto solo memoria tecnica in background: 4 commit "recupero: scritture pendenti" tra le 08:30 e le 11:03 di oggi. Non ha mai chiuso un Piano del mattino o un Report della sera narrato. È il gate HARD `freschezza-cadenze` segnalato in apertura sessione.
+>
+> Riconfermato dal vivo su Supabase (MCP `execute_sql`): 1 ordine mai pagato, 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 1 negozio, 0 recensioni, 6 carrelli / 3 abbandonati. **Identico** al passaggio del 4/8 20:25. Il North Star resta fermo, ricalcolato a **43 giorni** (era 41). È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme.
+>
+> Unico lavoro nuovo: dedup di 4 banner housekeeping duplicati in [[AZIONI-IN-ATTESA]], residuo del recupero interrotto. Non ho aggiunto righe nuove in coda. Non ho potuto verificare lo stato reale delle PR su GitHub da questa sessione: `gh` mi è stato negato.
+>
+> **Da approvare, in coda, invariato dal 4/8 e non riverificabile da qui:** merge PR #677 (fix cancello-di-stop), #679, #680, #681, #683 (memoria/fix casella). Restano ferme anche le righe #7/#8 su pulizia rami e modo di chiudere le PR.
+>
+> Briefing completo: [[Briefing/2026-08-06]].
 
 > 🔁 **4/8 20:25 — Giro ripetuto: business ancora invariato, nessuna novità.**
 > Richiesto in chat per intero, ~1h45 dopo il passaggio delle 18:40.

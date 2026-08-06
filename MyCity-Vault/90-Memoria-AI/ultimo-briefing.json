@@ -1,16 +1,16 @@
 {
-  "data": "2026-08-04 20:25",
-  "situazione": "Business ancora invariato (riconfermato ora dal vivo su Supabase via MCP, 6° controllo di oggi): 1 ordine mai pagato, 0 consegne, 7 profili, 5 prodotti, 1 negozio — stallo North Star 41 giorni, pausa concordata con Nicola fino al 24/8-1/9. Unico numero mosso: i carrelli sono passati da 3 a 6 (attività minima, nessun ordine nuovo). Giro ripetuto a stato invariato (strategia snella, AR-113): nessuna novità di business, la coda PR è già aggiornata dal worker con la #683. Mossa n.1: mergiare le cinque PR pronte (#677, #679, #680, #681, #683).",
+  "data": "2026-08-06 11:15",
+  "situazione": "Business ancora invariato (riconfermato ora dal vivo su Supabase, primo controllo narrato dopo 39h di silenzio): 1 ordine mai pagato, 0 pagati, 0 consegne, 7 profili, 5 prodotti, 1 negozio — stallo North Star ricalcolato a 43 giorni, pausa concordata con Nicola fino al 24/8-1/9. Tra il 4/8 sera e oggi il worker ha scritto solo memoria tecnica senza mai chiudere un giro narrato: colmato ora con questo giro completo. Mossa n.1: mergiare le PR pronte in coda (#677, #679, #680, #681, #683) — non riverificabili da questa sessione (GitHub negato), invariate dal 4/8.",
   "opportunita": [
     {
       "titolo": "Mergia le cinque PR pronte",
-      "motivo": "PR #677 (fix vero dei falsi allarmi sul lavoro del worker), #679 (memoria del pomeriggio), #680, #681 e la nuova #683 (fix troncamento casella) sono pronte e indipendenti, in coda dalle 17:57 in poi",
+      "motivo": "Fix del cancello-di-stop e memoria di fine giornata, pronte e indipendenti dal 4/8 sera",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
       "titolo": "Decidi sui 447 rami vecchi e su come chiudere le PR",
-      "motivo": "Elimina il rumore che fa sembrare lavoro perso quando non lo è, e recupera un lavoro davvero perso (PR #598)",
+      "motivo": "Elimina il rumore che fa sembrare lavoro perso quando non lo è",
       "impatto": "medio",
       "sforzo": "basso"
     }
@@ -18,32 +18,22 @@
   "azioni": [
     {
       "titolo": "Mergia PR #677 — fix vero del cancello-di-stop",
-      "motivo": "Chiude la 3ª manifestazione dello stesso falso allarme sul lavoro del worker",
+      "motivo": "Chiude il falso allarme ripetuto sul lavoro del worker",
       "livello": "rosso"
     },
     {
-      "titolo": "Mergia PR #679 — porta online la memoria del pomeriggio",
+      "titolo": "Mergia PR #679, #680, #681, #683 — memoria e fix casella del pomeriggio del 4/8",
       "motivo": "origin/main non accetta push diretto da questa sessione: la PR è l'unico veicolo per pubblicare i commit di memoria",
       "livello": "rosso"
     },
     {
-      "titolo": "Mergia PR #680 e #681 — coda memoria di fine giornata",
-      "motivo": "Stesso motivo delle altre: la memoria scritta resta invisibile al Pannello finché non entra su main",
-      "livello": "rosso"
-    },
-    {
-      "titolo": "Mergia PR #683 — fix del troncamento nella casella del Pannello",
-      "motivo": "Bug segnalato da Nicola su una casella che partiva troncata, fix già pronto in branch",
-      "livello": "rosso"
-    },
-    {
       "titolo": "Scegli come chiudere le PR: squash con riallineamento automatico o merge normale",
-      "motivo": "Ogni merge in squash rischia di far chiudere da sole le altre PR aperte sulla stessa base — già successo 12 volte, un lavoro perso per davvero (#598)",
+      "motivo": "Un merge in squash può far chiudere da sole altre PR aperte sulla stessa base — già capitato",
       "livello": "rosso"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo 41 giorni (pausa concordata, non churn)",
-    "freschezza-cadenze HARD — ritmo-mattino/monitora ferme da >30h (verdetto ereditato dal pre-step di giro.sh, non ri-eseguibile in questa sessione)"
+    "North Star 0 — stallo 43 giorni (pausa concordata, non churn)",
+    "freschezza-cadenze HARD — buco di 39h senza un giro narrato, colmato ora"
   ]
 }
