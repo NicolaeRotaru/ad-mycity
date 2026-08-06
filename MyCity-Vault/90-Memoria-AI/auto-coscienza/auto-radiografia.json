@@ -2455,7 +2455,7 @@
     }
   ],
   "sonda": {
-    "data": "2026-08-06 20:20",
+    "data": "2026-08-06 22:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.18,
     "prova_chiusura": true,
@@ -2472,10 +2472,10 @@
     "esperimenti_misurati": true,
     "giro_a_cadenza": false,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 183,
-    "ore_da_ultimo_briefing": 9,
-    "max_giri_ciechi_sensori": 39,
-    "giri_tasso_basso": 31,
+    "ore_da_ultima_completa": 185,
+    "ore_da_ultimo_briefing": 11,
+    "max_giri_ciechi_sensori": 41,
+    "giri_tasso_basso": 32,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
@@ -2485,7 +2485,7 @@
     "bloccanti_umani": 23,
     "salute_firma": "AR-023,AR-045,AR-046,AR-047,AR-048,AR-050,AR-051,AR-052,AR-053,AR-054,AR-055,AR-056,AR-057,AR-058,AR-059,AR-060,AR-061,AR-062,AR-063,AR-064,AR-065,AR-067,AR-068,AR-069,AR-070,AR-071,AR-072,AR-073,AR-074,AR-075,AR-076,AR-077,AR-078,AR-079,AR-080,AR-081,AR-082,AR-083,AR-084,AR-085,AR-086,AR-087,AR-088,AR-089,AR-091,AR-092,AR-093,AR-094,AR-095,AR-096,AR-100,AR-102,AR-103,AR-104,AR-126,AR-158,AR-160,AR-161,AR-174,AR-184,AR-188,AR-193,AR-206,AR-216,AR-217,AR-220,AR-223,AR-224,AR-225,AR-234,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-274,AR-278,AR-283,AR-285,AR-288,AR-289,AR-294,AR-295,AR-323,AR-345,AR-347,AR-349,AR-396,AR-404,AR-410,AR-411,AR-414,AR-420,AR-423,AR-425,AR-428,AR-435,AR-445,AR-456,AR-458,AR-460,AR-461,AR-464,AR-473,AR-504,AR-518,AR-521,AR-556,AR-557,AR-559",
     "verdetto": "serve-completa",
-    "nota": "loop chiude (con prova) · briefing STALE (9h) · cecità sensori 39 giri · salute pending-merge 0/100 (floor 0): 111 aperti-davvero · 84 in attesa merge · 23 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 44.75 (su 24/24 dimensioni)",
+    "nota": "loop chiude (con prova) · briefing STALE (11h) · cecità sensori 41 giri · salute pending-merge 0/100 (floor 0): 111 aperti-davvero · 84 in attesa merge · 23 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 44.75 (su 24/24 dimensioni)",
     "voto_salute": 45,
     "voto_salute_copertura": "24/24",
     "voto_salute_parziale": false,
@@ -2538,7 +2538,7 @@
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   },
   "sync_scan": {
-    "aggiornato": "2026-08-06 20:21",
+    "aggiornato": "2026-08-06 22:21",
     "findings_aperti": 112,
     "findings_in_corso": 0,
     "findings_chiusi": 11,
@@ -2551,7 +2551,7 @@
     "data_scan": "2026-07-30 05:09"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 31,
-    "aggiornato": "2026-08-06 20:20"
+    "giri_tasso_basso": 32,
+    "aggiornato": "2026-08-06 22:20"
   }
 }
