@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-06 23:12",
+ "aggiornato": "2026-08-06 23:17",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -8777,13 +8777,14 @@
    ],
    "_evidenza_2": "RICORRENZA (chat 9/7 ~22:45): alla richiesta di Nicola «aggiungi la possibilità di mandarti foto e file dentro la chat» l'AD ha risposto «Procedo a costruirlo nel branch con Supabase Storage?» e Nicola: «in che senso procedi nel branch con supabase storage?». Stesso difetto: due termini-macchina (branch, Supabase Storage) serviti senza glossa in chat → domanda di chiarimento. Peggio: nel turno dopo l'AD NON ha spiegato i due termini con l'analogia, ha solo chiesto lo scope (solo foto / anche PDF). Fix da applicare sempre: quando propongo un lavoro tecnico dico subito COSA vuol dire in parole-immagine (branch = «una copia di prova a parte, il sito vero non si tocca finché non dici ok»; Supabase Storage = «il magazzino dove il sito tiene i file caricati»), non il gergo secco. Rinforza [[nicola-spiegazioni-piu-chiare]] e la regola-metodo (analogia prima, codici in fondo).",
    "reparto": "@AD",
-   "confidenza": 0.88,
+   "confidenza": 0.73,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-09",
    "ultima_conferma": "2026-07-09 22:45",
-   "stato": "attiva"
+   "stato": "attiva",
+   "decaduto_step_il": "2026-08-06 23:18"
   },
   {
    "id": "L-2026-0709-60",
@@ -13037,12 +13038,12 @@
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.18,
-  "tasso_calcolato_il": "2026-08-06 23:12",
+  "tasso_calcolato_il": "2026-08-06 23:17",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-06 23:12",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-06 22:21",
+  "cristallizzazione_ultima": "2026-08-06 23:18",
   "lezioni_totali": 509,
   "lezioni_per_stato": {
    "attiva": 411,
