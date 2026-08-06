@@ -42,7 +42,7 @@
       "vincoli": []
     },
     "ritmo-mezzogiorno": {
-      "quando": "2026-08-05 12:27",
+      "quando": "2026-08-06 12:01",
       "esito": "motore-fallito",
       "codice": 2,
       "ai_rc": 1,
@@ -62,5 +62,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-06 11:34"
+  "aggiornato": "2026-08-06 12:01"
 }
