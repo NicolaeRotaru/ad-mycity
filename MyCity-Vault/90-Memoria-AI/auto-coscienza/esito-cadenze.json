@@ -12,16 +12,17 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-06 11:34",
+      "quando": "2026-08-06 12:07",
       "esito": "motore-fallito",
       "codice": 2,
       "ai_rc": 1,
       "push_ok": false,
       "passi_ok": true,
-      "vincoli_attivi": 9,
+      "vincoli_attivi": 10,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
+        "CHECKLIST",
         "ESP",
         "MAPPA",
         "NORTH_STAR",
@@ -62,5 +63,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-06 12:04"
+  "aggiornato": "2026-08-06 12:07"
 }
