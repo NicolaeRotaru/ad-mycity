@@ -1892,7 +1892,37 @@
         "difesa-rimossa": 4
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-06T13:12:49.437Z",
+      "scatti": 1651,
+      "voci": 7,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-06T13:13:23.266Z",
+      "scatti": 1651,
+      "voci": 7,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-06T13:13:56.956Z",
+      "scatti": 1651,
+      "voci": 7,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-06T12:22:58.670Z"
+  "aggiornato": "2026-08-06T13:13:56.957Z"
 }
