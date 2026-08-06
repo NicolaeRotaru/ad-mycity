@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-05 20:46",
+  "aggiornato": "2026-08-06 06:46",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -218,8 +218,8 @@
       ]
     },
     "vps": {
-      "quando": "2026-08-05 20:46",
-      "iso": "2026-08-05T18:46:30.138Z",
+      "quando": "2026-08-06 06:46",
+      "iso": "2026-08-06T04:46:28.272Z",
       "casa": "vps",
       "modo": "vps",
       "ok": 19,
@@ -254,7 +254,7 @@
           "titolo": "La macchina ha scritto di recente",
           "impatto": 1,
           "esito": "ok",
-          "detto": "ultima scrittura 0 ore fa (worker:ultimo)",
+          "detto": "ultima scrittura 0 ore fa (worker:ultimo:all)",
           "prova": null,
           "regressione": false
         },
@@ -274,7 +274,7 @@
           "titolo": "Quello che il server scrive arriva su GitHub",
           "impatto": 2,
           "esito": "ok",
-          "detto": "22 commit in attesa di pubblicazione, sotto la soglia di 50",
+          "detto": "36 commit in attesa di pubblicazione, sotto la soglia di 50",
           "prova": null,
           "regressione": false
         },
@@ -314,7 +314,7 @@
           "titolo": "I test del cervello passano",
           "impatto": 3,
           "esito": "rotto",
-          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-05 20:45  (2 corsie · 22 in fila perché scrivono sul dato vivo) · ✅ cervello/test/allineamento-esito.test.mjs  (18 passati)",
+          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-06 06:45  (2 corsie · 22 in fila perché scrivono sul dato vivo) · ✅ cervello/test/allineamento-esito.test.mjs  (18 passati)",
           "prova": "node cervello/test-cervello.mjs",
           "regressione": false
         },
@@ -334,7 +334,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 1455 min fa (2026-08-04T18:31:37.250Z) — 23 file guardati, 0 voci, 0 gravi.",
+          "detto": "✅ ultimo scatto 2055 min fa (2026-08-04T18:31:37.250Z) — 23 file guardati, 0 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false
         },
@@ -354,7 +354,7 @@
           "titolo": "Il lavoro consegnato dice com'è andato",
           "impatto": 2,
           "esito": "ok",
-          "detto": "233 consegne su 272 degli ultimi 30 giorni senza una riga di esito (86%) · Cabina 0 giorni indietro (STATO al 2026-08-04 20:25)",
+          "detto": "230 consegne su 268 degli ultimi 30 giorni senza una riga di esito (86%) · Cabina 0 giorni indietro (STATO al 2026-08-04 20:25)",
           "prova": null,
           "regressione": false
         },
@@ -434,7 +434,7 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "14 senior con almeno un esito registrato",
+          "detto": "13 senior con almeno un esito registrato",
           "prova": null,
           "regressione": false
         },
@@ -740,6 +740,17 @@
     {
       "quando": "2026-08-05 20:46",
       "iso": "2026-08-05T18:46:30.138Z",
+      "casa": "vps",
+      "modo": "vps",
+      "ok": 19,
+      "rotti": 3,
+      "guasti": 0,
+      "nonvisti": 1,
+      "copertura": 0.96
+    },
+    {
+      "quando": "2026-08-06 06:46",
+      "iso": "2026-08-06T04:46:28.272Z",
       "casa": "vps",
       "modo": "vps",
       "ok": 19,
