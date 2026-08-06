@@ -1,7 +1,7 @@
 {
   "_cosa_e": "Esito REALE dell ultimo giro (AR-300). Prima il giro stampava «Giro completato.» anche a controlli tutti rossi: questo file dice la verita, e il Pannello la puo leggere.",
-  "data": "2026-08-06 10:23",
-  "esito": "motore-fallito",
+  "data": "2026-08-06 11:16",
+  "esito": "vincoli-attivi",
   "pulito": false,
   "gate_rossi": 9,
   "vincoli_attivi": [
@@ -15,7 +15,7 @@
     "TEST",
     "VOLANO"
   ],
-  "ai_rc": 1,
+  "ai_rc": 0,
   "push_ok": false,
   "passi_11_12_ok": true,
   "vincoli_non_consegnati": false
