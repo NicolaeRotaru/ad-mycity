@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-06 08:11",
+ "aggiornato": "2026-08-06 08:21",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -9206,14 +9206,14 @@
     "github"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.74,
+   "confidenza": 0.59,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-02 08:17",
    "stato": "attiva",
-   "decaduto_step_il": "2026-07-30 08:21"
+   "decaduto_step_il": "2026-08-06 08:21"
   },
   {
    "id": "L-2026-0702-41",
@@ -9229,14 +9229,14 @@
     "carrelli"
    ],
    "reparto": "@tech",
-   "confidenza": 0.76,
+   "confidenza": 0.61,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-02 07:35",
    "stato": "attiva",
-   "decaduto_step_il": "2026-07-30 08:21"
+   "decaduto_step_il": "2026-08-06 08:21"
   },
   {
    "id": "L-2026-0702-42",
@@ -9249,14 +9249,14 @@
     "nicola"
    ],
    "reparto": "@crm-lifecycle",
-   "confidenza": 0.72,
+   "confidenza": 0.57,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-02 07:35",
    "stato": "attiva",
-   "decaduto_step_il": "2026-07-30 08:21"
+   "decaduto_step_il": "2026-08-06 08:21"
   },
   {
    "id": "L-2026-0701-40",
@@ -13037,12 +13037,12 @@
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.18,
-  "tasso_calcolato_il": "2026-08-06 08:11",
+  "tasso_calcolato_il": "2026-08-06 08:21",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-06 08:11",
+  "tick_leggero_il": "2026-08-06 08:21",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-06 06:21",
+  "cristallizzazione_ultima": "2026-08-06 08:21",
   "lezioni_totali": 509,
   "lezioni_per_stato": {
    "attiva": 411,
