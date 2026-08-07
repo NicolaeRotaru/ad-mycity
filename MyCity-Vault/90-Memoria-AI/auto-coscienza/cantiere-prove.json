@@ -1,7 +1,7 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-06 23:17",
+  "aggiornato": "2026-08-07 06:20",
   "giorni_sospetto": 3,
   "difetti_aperti": 218,
   "per_classe": {
@@ -26,7 +26,7 @@
     {
       "id": "AR-119",
       "gravita": "grave",
-      "eta_giorni": 21,
+      "eta_giorni": 22,
       "titolo": "La 'firma di Nicola' che sblocca l'invio reale è un marcatore testuale in un file che la macchina stessa scriv",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -35,43 +35,43 @@
     {
       "id": "AR-126",
       "gravita": "grave",
-      "eta_giorni": 21,
+      "eta_giorni": 22,
       "titolo": "Il giro operativo (flotta senior) semina i money-engine con un negozio SCARTATO (Casa Linda) e un ordine MORTO",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 21 giorni (.claude/workflows/giro-operativo.js ~ /Casa Linda|ordine zombie/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 22 giorni (.claude/workflows/giro-operativo.js ~ /Casa Linda|ordine zombie/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-128",
       "gravita": "grave",
-      "eta_giorni": 21,
+      "eta_giorni": 22,
       "titolo": "Nessun sensore né sentinella per le contestazioni carta (dispute/chargeback) da Stripe: soldi con scadenza rig",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 21 giorni (cervello/sentinelle.md ~ /dispute|chargeback|contestazione carta/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 22 giorni (cervello/sentinelle.md ~ /dispute|chargeback|contestazione carta/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-130",
       "gravita": "grave",
-      "eta_giorni": 21,
+      "eta_giorni": 22,
       "titolo": "I nuovi specialisti rimandano ai capi, ma i capi non rimandano indietro: routing ambiguo su temi sensibili",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 21 giorni (.claude/agents/legale-privacy.md ~ /description:[^\\n]*→/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 22 giorni (.claude/agents/legale-privacy.md ~ /description:[^\\n]*→/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-131",
       "gravita": "grave",
-      "eta_giorni": 21,
+      "eta_giorni": 22,
       "titolo": "Il segnale onesto (lower_bound di Wilson) è calcolato ma nascosto: al Pannello Nicola vede la barra verde del ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 21 giorni (pannello/src/components/AutoCoscienza.tsx ~ /lower_bound/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 22 giorni (pannello/src/components/AutoCoscienza.tsx ~ /lower_bound/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-132",
       "gravita": "grave",
-      "eta_giorni": 21,
+      "eta_giorni": 22,
       "titolo": "La dimensione «copertura-cieca» è solo-LLM: manca una mappa-copertura deterministica (dominio × sensore/sentin",
       "classe": "auto-attesa",
       "perche": "il fix consiste nel creare cervello/mappa-copertura.mjs, non ancora presente",
@@ -80,16 +80,16 @@
     {
       "id": "AR-133",
       "gravita": "grave",
-      "eta_giorni": 21,
+      "eta_giorni": 22,
       "titolo": "Il Pannello — la superficie con cui Nicola vede tutto e firma i 🔴 — è fuori dalle 12 dimensioni della radiogr",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 21 giorni (cervello/giro.sh ~ /verify-marge/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 22 giorni (cervello/giro.sh ~ /verify-marge/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-143",
       "gravita": "grave",
-      "eta_giorni": 14,
+      "eta_giorni": 15,
       "titolo": "Token GitHub persistito in chiaro in marketplace/.git/config — collega-marketplace.mjs non lo ripulisce dopo i",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -98,7 +98,7 @@
     {
       "id": "AR-146",
       "gravita": "grave",
-      "eta_giorni": 14,
+      "eta_giorni": 15,
       "titolo": "Il giro si è fermato 3 giorni (20-23/7) senza spiegazione trovata — card #218 aperta, mai chiusa",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -107,7 +107,7 @@
     {
       "id": "AR-148",
       "gravita": "grave",
-      "eta_giorni": 14,
+      "eta_giorni": 15,
       "titolo": "AR-015 (registro rischi) chiuso dichiarando 14/14 rischi con sentinella — in realtà 6/14 hanno il campo vuoto",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -116,7 +116,7 @@
     {
       "id": "AR-149",
       "gravita": "grave",
-      "eta_giorni": 14,
+      "eta_giorni": 15,
       "titolo": "Tasso di applicazione delle lezioni al 17% da 42 giri consecutivi, e il flag 'loop_chiude' usa una soglia dive",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -125,7 +125,7 @@
     {
       "id": "AR-150",
       "gravita": "grave",
-      "eta_giorni": 14,
+      "eta_giorni": 15,
       "titolo": "EXP-004 marcato 'misurato' nel registro esperimenti, ma la sua stessa nota dice che il gate non è mai scattato",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -134,97 +134,97 @@
     {
       "id": "AR-158",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Ogni giro riceve l'ordine tassativo di produrre solo cose che avvicinano il primo ordine, mentre il padrone ha",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/giro.sh ~ /NORTH STAR IN STALLO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/giro.sh ~ /NORTH STAR IN STALLO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-160",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il file che decide cosa è prioritario assegna un obiettivo a centoventi reparti mentre l'azienda ha un negozio",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md ~ /Aggiunti 18/7 per chiudere il guardiano AR-007/008/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md ~ /Aggiunti 18/7 per chiudere il guardiano AR-007/008/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-161",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il piano di crescita a dodici mesi prometteva ottanta ordini a luglio: ne sono arrivati zero, agosto è già imp",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (consegne/strategia/PIANO-CRESCITA-12-MESI.md ~ /Lug 2026 \\| 1 \\| 80 \\| 2\\.500€/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (consegne/strategia/PIANO-CRESCITA-12-MESI.md ~ /Lug 2026 \\| 1 \\| 80 \\| 2\\.500€/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-174",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il novanta su cento in prima pagina se lo dà da sola, contando gli errori che si dichiara",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/verifica-avversariale.mjs ~ /const vuota = refutVuota && !erroriSostanziali/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/verifica-avversariale.mjs ~ /const vuota = refutVuota && !erroriSostanziali/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-175",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Alla domanda «come sto?» la Cabina risponde con due numeri diversi: quarantatré e zero",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/pagella-intelligenza.mjs ~ /voto_pieno/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/pagella-intelligenza.mjs ~ /voto_pieno/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-181",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Una previsione sbagliata si archivia senza dire perché: nel registro non c'è una sola causa, e il guardiano no",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/calibrazione.mjs ~ /chiusa senza causa|!e\\.causa/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/calibrazione.mjs ~ /chiusa senza causa|!e\\.causa/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-184",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il vincolo che dovrebbe sbloccare l'apprendimento chiede di promuovere lezioni mature che non esistono più",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/giro.sh ~ /promuovi a .{1,2}principio.{1,2} 2-3 lezioni mature/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/giro.sh ~ /promuovi a .{1,2}principio.{1,2} 2-3 lezioni mature/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-185",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il guardiano che deve garantire un solo padrone per ogni mandato legge solo l'elenco tra virgolette e butta vi",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/keyword-owner-check.mjs ~ /estraiMandato|slice\\(0, ?idx\\)|keyword del mandato/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/keyword-owner-check.mjs ~ /estraiMandato|slice\\(0, ?idx\\)|keyword del mandato/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-187",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il motore che ogni giorno produce le mosse da firmare chiama sei senior scritti a mano: gli altri centoquattor",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (.claude/workflows/giro-operativo.js ~ /rotazione|MOTORI_DA_OKR|motoriDaOkr|readdirSync/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (.claude/workflows/giro-operativo.js ~ /rotazione|MOTORI_DA_OKR|motoriDaOkr|readdirSync/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-188",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Nessuno dei centoventi senior risponde del fatto che le email arrivino davvero nella posta e non nello spam",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (.claude/agents/crm-lifecycle.md ~ /deliverab|DKIM|SPF|DMARC|reputazione del dominio/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (.claude/agents/crm-lifecycle.md ~ /deliverab|DKIM|SPF|DMARC|reputazione del dominio/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-189",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il sito lo controlliamo solo bussando alla porta: nessuno prova mai a comprare",
       "classe": "auto-attesa",
       "perche": "il fix consiste nel creare cervello/sonda-acquisto.mjs, non ancora presente",
@@ -233,142 +233,142 @@
     {
       "id": "AR-190",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il rischio numero uno — restare senza soldi — è sconosciuto da 256 giri perché aspettiamo un numero scritto a ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/sensore-cassa.mjs ~ /burn_stimato|costo-ai/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/sensore-cassa.mjs ~ /burn_stimato|costo-ai/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-191",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Le cose da firmare invecchiano in coda e nessuno le risollecita: la firma che non arriva non fa rumore",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/notifica-approvazioni.mjs ~ /stantia|risollecit|ore_attesa/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/notifica-approvazioni.mjs ~ /stantia|risollecit|ore_attesa/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-192",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "I difetti del sito sono fermi a 87 aperti e zero chiusi da tre settimane, e nessuno rifà il controllo",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/sentinelle.md ~ /radiografia del sito|radiografia marketplace/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/sentinelle.md ~ /radiografia del sito|radiografia marketplace/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-193",
       "gravita": "medio",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Pubblichiamo con cinque canali e non leggiamo nessun risultato: i contenuti escono e spariscono",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/agent-registry-check.mjs ~ /fonte/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/agent-registry-check.mjs ~ /fonte/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-194",
       "gravita": "medio",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Settantatré senior su centoventi non hanno mai consegnato nulla e nessuna soglia se ne accorge",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/sentinella-dati.mjs ~ /utilizzo_reale|utilizzo-senior/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/sentinella-dati.mjs ~ /utilizzo_reale|utilizzo-senior/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-197",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Chat, riassunti, lavori e radiografie non lasciano nessuna traccia nel registro dei costi",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/worker.sh ~ /costo-ai\\.mjs/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/worker.sh ~ /costo-ai\\.mjs/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-198",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Anche riassumere una chat gira sul modello più caro, e la macchina lo sa",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/motore-ai.sh ~ /AI_MODELLO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/motore-ai.sh ~ /AI_MODELLO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-200",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "L'elenco dei 120 senior è incollato due volte in ogni singola chiamata al motore",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/agent-registry-check.mjs ~ /duplicazione_roster/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/agent-registry-check.mjs ~ /duplicazione_roster/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-202",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Nessuno misura quanto rende un giro: si stima quanto costa, il valore non si conta",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (MyCity-Vault/05-Soldi-Rischi/budget-reparti.json ~ /macchina-ai/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (MyCity-Vault/05-Soldi-Rischi/budget-reparti.json ~ /macchina-ai/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-203",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "La stima del consumo è un pavimento fisso: due cadenze diversissime registrano lo stesso identico numero",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/motore-ai.sh ~ /input_tokens/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/motore-ai.sh ~ /input_tokens/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-206",
       "gravita": "bloccante",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "La macchina può scrivere un programma nuovo e farlo partire: i freni stanno dentro gli script, il permesso è s",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (.claude/settings.json ~ /cervello/\\*\\.mjs/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (.claude/settings.json ~ /cervello/\\*\\.mjs/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-208",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Lo stop al budget è un foglietto in coda, non un freno — e il suo verdetto viene buttato via",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/giro.sh ~ /BUDGET_VINCOLO|sentinella-budget[\\s\\S]{0,200}rc=|STOP budget[\\s\\S]{0,120}vincolo/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/giro.sh ~ /BUDGET_VINCOLO|sentinella-budget[\\s\\S]{0,200}rc=|STOP budget[\\s\\S]{0,120}vincolo/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-209",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Quando l'autopilota pubblica davvero non resta niente nel registro delle decisioni",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/autopilot.mjs ~ /tracciaDecisione|DECISIONI\\.md/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/autopilot.mjs ~ /tracciaDecisione|DECISIONI\\.md/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-210",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il controllo di onestà sorveglia una porta sola: dall'altra il testo esce senza passare da lì",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/autopilot.mjs ~ /onesta|esaminaOnesta|onesta-check/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/autopilot.mjs ~ /onesta|esaminaOnesta|onesta-check/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-215",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Le «Mosse di Nicola» sono ferme al 23 luglio e nessun guardiano se ne accorge",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/giro.sh ~ /freschezza-intenzioni|freschezza-memoria/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/giro.sh ~ /freschezza-intenzioni|freschezza-memoria/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-216",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Cercando nel Pannello si trova la copia vecchia dei quaderni, quella viva non c'è",
       "classe": "auto-ok",
       "perche": "prova soddisfatta ora (MyCity-Vault/90-Memoria-AI/memoria-squadra/account-negozi.md ~ /\\S/): auto-fix lo chiuderà",
@@ -377,16 +377,16 @@
     {
       "id": "AR-217",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "I playbook dicono ai senior di mettere le azioni in un file che nessuno legge più",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (pannello/src/lib/playbook.ts ~ /AZIONI-PRONTE/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (pannello/src/lib/playbook.ts ~ /AZIONI-PRONTE/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-220",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Su iPhone ogni volta che tocchi per scrivere la pagina si ingrandisce da sola",
       "classe": "auto-ok",
       "perche": "prova soddisfatta ora (pannello/src/components/BarraScritturaChat.tsx ~ /input-soft w-full min-h-[78px] max-h-28 resize-y text-[13px]/): auto-fix lo chiuderà",
@@ -395,16 +395,16 @@
     {
       "id": "AR-223",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Mezze parole da toccare: link e freccine alti 18 pixel, più piccoli del polpastrello",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (pannello/src/components/aree/Azioni.tsx ~ /className=\"t-eti hover:text-brand inline-flex items-center gap-1 transition\"/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (pannello/src/components/aree/Azioni.tsx ~ /className=\"t-eti hover:text-brand inline-flex items-center gap-1 transition\"/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-224",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Liste dentro riquadri che scorrono da soli: il dito muove la lista, non la pagina",
       "classe": "auto-ok",
       "perche": "prova soddisfatta ora (pannello/src/components/LavoriCervello.tsx ~ /max-h-[620px] overflow-y-auto/): auto-fix lo chiuderà",
@@ -413,16 +413,16 @@
     {
       "id": "AR-225",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "La tabella dei numeri non ci sta nello schermo: la colonna «30 giorni» resta fuori",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (pannello/src/app/page.tsx ~ /min-w-[420px]/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (pannello/src/app/page.tsx ~ /min-w-[420px]/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-234",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "È rimasta viva una porta che spara un'azione all'automazione senza lasciare traccia",
       "classe": "auto-ok",
       "perche": "prova soddisfatta ora (pannello/src/app/api/esegui/route.ts ~ /export async function POST/): auto-fix lo chiuderà",
@@ -431,43 +431,43 @@
     {
       "id": "AR-236",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Dieci caselle non si ricaricano mai da sole, nemmeno tornandoci sopra",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (pannello/src/components/Bacheca.tsx ~ /setInterval/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (pannello/src/components/Bacheca.tsx ~ /setInterval/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-241",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "L'indietro riapre l'area giusta ma sulla scheda sbagliata",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (pannello/src/app/page.tsx ~ /pushState\\(\\{ \\.\\.\\.\\(window\\.history\\.state \\|\\| \\{\\}\\), vista \\}/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (pannello/src/app/page.tsx ~ /pushState\\(\\{ \\.\\.\\.\\(window\\.history\\.state \\|\\| \\{\\}\\), vista \\}/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-244",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il link del messaggio Telegram non può portarti sulle azioni da firmare",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (pannello/src/app/page.tsx ~ /window\\.location\\.pathname \\+ window\\.location\\.search/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (pannello/src/app/page.tsx ~ /window\\.location\\.pathname \\+ window\\.location\\.search/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-245",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Ritocchi la scheda su cui sei già e l'indietro fa un colpo a vuoto",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (pannello/src/components/aree/Azioni.tsx ~ /vaiSub\\(\"azioni\", t\\.id\\);/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (pannello/src/components/aree/Azioni.tsx ~ /vaiSub\\(\"azioni\", t\\.id\\);/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-248",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "L'elenco delle chat viene ridisegnato tutto anche quando è chiuso e non si vede",
       "classe": "auto-ok",
       "perche": "prova soddisfatta ora (pannello/src/app/page.tsx ~ /convDrawerAperto ? \"translate-x-0\" : \"-translate-x-full\"/): auto-fix lo chiuderà",
@@ -476,7 +476,7 @@
     {
       "id": "AR-249",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Cercare dentro le conversazioni fa scattare la scrittura lettera per lettera",
       "classe": "auto-ok",
       "perche": "prova soddisfatta ora (pannello/src/app/page.tsx ~ /c.messaggi.some((m) => m.content.toLowerCase().includes(q))/): auto-fix lo chiuderà",
@@ -485,7 +485,7 @@
     {
       "id": "AR-263",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Aprendo il quaderno di un senior con la rete che salta si vede un riquadro vuoto",
       "classe": "auto-sospetta",
       "perche": "regex non valida in verifica: pannello/src/components/QuaderniSenior.tsx ~ /const r = await fetch(`/api/memoria/quaderni?senior=/",
@@ -494,151 +494,151 @@
     {
       "id": "AR-274",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "All'avvio di ogni sessione la macchina si rilegge come regole obbligatorie un testo che ha scritto lei stessa,",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (.claude/settings.json ~ /contesto-lezioni\\.mjs --hook/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (.claude/settings.json ~ /contesto-lezioni\\.mjs --hook/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-278",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il token di GitHub viaggia dentro la riga di comando, dove qualsiasi processo della macchina può leggerlo",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/giro.sh ~ /url=\"https://x-access-token:\\$\\{GIT_PUSH_TOKEN\\}@github\\.com/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/giro.sh ~ /url=\"https://x-access-token:\\$\\{GIT_PUSH_TOKEN\\}@github\\.com/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-282",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il sensore della cassa chiama cassa solo i soldi fermi su Stripe: il giorno che Nicola darà il numero delle sp",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/sensore-cassa.mjs ~ /CASSA_BANCA_EUR|cassa_banca|liquidita_banca|payout_dovuti/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/sensore-cassa.mjs ~ /CASSA_BANCA_EUR|cassa_banca|liquidita_banca|payout_dovuti/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-283",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Quattro fonti su diciotto le diamo per vive senza controllarle mai, e una è quella dei bandi",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/sentinella-fonti.mjs ~ /if \\(skipCheck\\) return \\{ viva: true/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/sentinella-fonti.mjs ~ /if \\(skipCheck\\) return \\{ viva: true/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-285",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "La sentinella della cassa suona da duecentocinquantasei giri e nessuno la può spegnere",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json ~ /\"giri_sconosciuto\": *[1-9][0-9]{2,}/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json ~ /\"giri_sconosciuto\": *[1-9][0-9]{2,}/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-286",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Nessuna misura dei sensori dice da quale computer è stata scritta",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json ~ /\"ambiente\"|\"scritto_da\"/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json ~ /\"ambiente\"|\"scritto_da\"/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-288",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "La scorecard che tutti e centoventi i prompt promettono non usa mai i sei assi della rubrica",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/chiusura-loop.mjs ~ /const scoreTxt = scorecard \\?/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/chiusura-loop.mjs ~ /const scoreTxt = scorecard \\?/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-289",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Nove kit del cluster banche e legale hanno la stessa identica galleria copiata, e il guardiano li promuove lo ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (MyCity-Vault/07-Agenti/kit/mediatore-creditizio-KIT.md ~ /Ho applicato il kit su un caso reale MyCity/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (MyCity-Vault/07-Agenti/kit/mediatore-creditizio-KIT.md ~ /Ho applicato il kit su un caso reale MyCity/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-290",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il gusto di Nicola è agganciato da cinque senior su centoventi e contiene un solo verdetto, di un mese fa",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (.claude/agents/marketing.md ~ /TASTE-FILE/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (.claude/agents/marketing.md ~ /TASTE-FILE/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-294",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Una relazione che parla di «quota di mercato» convince la macchina di aver sbattuto contro il limite del motor",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/retry-policy.mjs ~ /\\|quota\\|/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/retry-policy.mjs ~ /\\|quota\\|/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-295",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il freno che distanzia i ritentativi si spegne da solo se una singola domanda al database va storta",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/worker.sh ~ /_rtry=\"\"/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/worker.sh ~ /_rtry=\"\"/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-304",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il giro ragiona o non ragiona a seconda di che lavoro c'era prima in coda",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/giro.sh ~ /AI_THINKING/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/giro.sh ~ /AI_THINKING/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-306",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il worker per Windows è rimasto indietro di tutta la sicurezza costruita dopo",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/worker.ps1 ~ /id=eq\\.\\$\\(\\$lav\\.id\\)&stato=eq\\.in_attesa/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/worker.ps1 ~ /id=eq\\.\\$\\(\\$lav\\.id\\)&stato=eq\\.in_attesa/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-321",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Quattordici cancelli su quindici sono cartelli: parlano al motore e nessuno controlla se ha obbedito",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/giro.sh ~ /RIVERIFICA VINCOLI/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/giro.sh ~ /RIVERIFICA VINCOLI/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-323",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il vincolo sugli esperimenti ordina di aprirne uno nuovo anche quando il problema è che nessuno ha misurato qu",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/giro.sh ~ /ESP_VINCOLO=\"⛔ NESSUN ESPERIMENTO APERTO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/giro.sh ~ /ESP_VINCOLO=\"⛔ NESSUN ESPERIMENTO APERTO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-324",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Le soglie dei cancelli si spengono da un file di ambiente e il registro del giro non lo scrive da nessuna part",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/giro.sh ~ /SOGLIE IN VIGORE/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/giro.sh ~ /SOGLIE IN VIGORE/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-325",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Il cancello che pretende gli esiti guarda solo chi si è firmato in Sala oggi",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -647,7 +647,7 @@
     {
       "id": "AR-326",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Metà del guardiano dell'allocazione è spenta per scelta e nessuno ha una sveglia per riaccenderla",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -656,34 +656,34 @@
     {
       "id": "AR-327",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Lo strumento che pubblica il lavoro si rompe proprio quando il lavoro e grosso",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/git-github.mjs ~ /maxBuffer/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/git-github.mjs ~ /maxBuffer/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-328",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Una radiografia lanciata dal cloud non puo consegnare il proprio risultato",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/git-github.mjs ~ /origin/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/git-github.mjs ~ /origin/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-329",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Do a Nicola comandi da incollare con dentro percorsi finti, e il comando fallisce in silenzio su un file omoni",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 10 giorni (cervello/scrittura-umana.md ~ /segnaposto|TUO_PERCORSO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 11 giorni (cervello/scrittura-umana.md ~ /segnaposto|TUO_PERCORSO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-331",
       "gravita": "grave",
-      "eta_giorni": 10,
+      "eta_giorni": 11,
       "titolo": "Ogni riparazione litiga con la successiva, perché tutte scrivono nello stesso registro",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -692,7 +692,7 @@
     {
       "id": "AR-335",
       "gravita": "medio",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "titolo": "Il cruscotto di STATO.md non e mai stato rivisto: dopo la potatura pesa 97 KB ma sono ancora 789 righe",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -701,7 +701,7 @@
     {
       "id": "AR-336",
       "gravita": "minore",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "titolo": "Un difetto chiuso non viene mai più riguardato, e settantaquattro hanno una prova che si potrebbe rieseguire",
       "classe": "auto-attesa",
       "perche": "il fix consiste nel creare cervello/prove-uniche.mjs, non ancora presente",
@@ -710,16 +710,16 @@
     {
       "id": "AR-337",
       "gravita": "medio",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "titolo": "Gli occhi della macchina riscrivono i numeri del business anche quando non hanno potuto leggerli",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 9 giorni (cervello/sentinella-dati.mjs ~ /non_misurato_in_questo_ambiente/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 10 giorni (cervello/sentinella-dati.mjs ~ /non_misurato_in_questo_ambiente/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-345",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Mentre misura il trigger, il repo sembra avere la skill cancellata: un commit automatico la cancellerebbe davv",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -728,7 +728,7 @@
     {
       "id": "AR-346",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il cancello condiviso è rosso su main per tutti: #604 è entrata con la sua stessa prova rossa e #602 ha aggiun",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -737,61 +737,61 @@
     {
       "id": "AR-434",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "I due workflow che mettono al lavoro i senior non aprono mai il loro mansionario: il prompt e scritto a mano d",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (.claude/workflows/giro-operativo.js ~ /prompt-senior/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (.claude/workflows/giro-operativo.js ~ /prompt-senior/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-435",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Tre workflow dicono ai senior di leggere la memoria a un indirizzo che sul VPS non esiste",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (.claude/workflows/giro-operativo.js ~ //home/user/ad-mycity/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (.claude/workflows/giro-operativo.js ~ //home/user/ad-mycity/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-436",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il metro dei mansionari conta quattro titoli che il template garantisce: 120 su 120 passano e nessuno puo esse",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/stampo-metro.mjs ~ /MODELLI_MENTALI/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/stampo-metro.mjs ~ /MODELLI_MENTALI/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-347",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "AR-195 dichiarato chiuso ma vivo: il «42 agenti» e ancora nel menu dei comandi e nella sentinella, perche il g",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/agent-registry-check.mjs ~ /FILE_PILOTA/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/agent-registry-check.mjs ~ /FILE_PILOTA/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-348",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il quaderno dell'AD e spaccato in due da una maiuscola, e il lavoro piu grosso e finito nella meta che nessuno",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/chiusura-loop.mjs ~ /repartoValido/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/chiusura-loop.mjs ~ /repartoValido/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-349",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Sette mansionari mandano i senior a leggere una cartella del vault che non esiste, e lo scadenzario apre una s",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (.claude/agents/dispatch.md ~ /02-Aree/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (.claude/agents/dispatch.md ~ /02-Aree/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-350",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "L'unico che lavora a ogni giro non ha ne kit ne scheda mestiere, e nessun metro lo misura",
       "classe": "auto-attesa",
       "perche": "il fix consiste nel creare MyCity-Vault/07-Agenti/kit/ad-KIT.md, non ancora presente",
@@ -800,142 +800,142 @@
     {
       "id": "AR-351",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Centouno difetti dello stampo sono stati dichiarati e da allora sono verdi: nessuno ha un proprietario ne una ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/stampo-baseline.json ~ /rivedere_entro/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/stampo-baseline.json ~ /rivedere_entro/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-352",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "AR-012 dichiarato chiuso ma vivo: la riga del comando «fai un giro» manda ancora a leggere i dati dall'MCP, tr",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (CLAUDE.md ~ /\\*\\*\"fai un giro\"\\*\\*[\\s\\S]{0,300}REST/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (CLAUDE.md ~ /\\*\\*\"fai un giro\"\\*\\*[\\s\\S]{0,300}REST/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-354",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Tutti i novantanove difetti aperti hanno una prova del tipo debole, e quattro citano file che non esistono",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/cantiere-prove.mjs ~ /provaComportamentaleObbligatoria/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/cantiere-prove.mjs ~ /provaComportamentaleObbligatoria/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-355",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Due difetti del worker sono chiusi da una riga di commento, non da una riparazione",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/prove-regole.mjs ~ /soloInCommento/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/prove-regole.mjs ~ /soloInCommento/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-356",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Le prove puntate ai file che la macchina riscrive da sola si sono già smontate, e due difetti chiusi oggi sono",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/chiusure-audit.mjs ~ /GATE && [^;]*fileAssente/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/chiusure-audit.mjs ~ /GATE && [^;]*fileAssente/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-359",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Le proposte di pezzi nuovi non arrivano da nessuna parte: il registro dei pezzi è fermo al cinque luglio",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/sincronizza-proposte.mjs ~ /cantiere-pezzi/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/sincronizza-proposte.mjs ~ /cantiere-pezzi/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-360",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Quasi metà dei difetti che la macchina trova su sé stessa non ha un'etichetta che il sistema sappia instradare",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/valida-contratti.mjs ~ /GENERA_AMMESSI/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/valida-contratti.mjs ~ /GENERA_AMMESSI/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-363",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "I sensori scrivono «tutto a posto» e nessuno guarda mai da quanto tempo l'hanno scritto",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/sentinella-dati.mjs ~ /SENSORI_STANTII_MIN/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/sentinella-dati.mjs ~ /SENSORI_STANTII_MIN/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-364",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Due sensori risultano accesi da giorni senza che nessuno li abbia più provati, e li contiamo come accesi",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/verifica-sensori.mjs ~ /MCP_DECADENZA_GIRI/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/verifica-sensori.mjs ~ /MCP_DECADENZA_GIRI/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-365",
       "gravita": "bloccante",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "L'unico allarme previsto per la macchina morta esce da un canale che è spento, e la macchina scrive lo stesso ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/sentinella-dati.mjs ~ /consegnaAllerta\\(/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/sentinella-dati.mjs ~ /consegnaAllerta\\(/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-366",
       "gravita": "bloccante",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il battito del worker dice «sono vivo» anche quando non riesce più a fare niente, e la sentinella crede al bat",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/worker.sh ~ /worker:ultimo:lavoro-riuscito/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/worker.sh ~ /worker:ultimo:lavoro-riuscito/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-367",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il file che dice com'è andato l'ultimo giro non lo apre nessuno, e da due giorni dice che è andato male",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/lib/battito.ts ~ /esito-giro\\.json/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/lib/battito.ts ~ /esito-giro\\.json/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-368",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il freno sui costi legge il secchio di ieri e conclude che oggi non abbiamo speso niente",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/fonte-numero.mjs ~ /bucketScaduto/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/fonte-numero.mjs ~ /bucketScaduto/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-369",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il muro vero della quota lo misuriamo e poi decidiamo su un altro numero",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/letargo.mjs ~ /sessione_rolling/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/letargo.mjs ~ /sessione_rolling/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-370",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il guardiano dell'automazione diventa verde appena lo lanci da dove i timer non esistono",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/verifica-automazione.mjs ~ /controlli_non_eseguiti/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/verifica-automazione.mjs ~ /controlli_non_eseguiti/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-375",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "La malattia dei verdetti buttati via risulta guarita perché abbiamo cambiato nome al tubo, non al vizio",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -944,106 +944,106 @@
     {
       "id": "AR-378",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Quando l'elenco dei guardiani è rotto, la bacheca resta congelata a ieri e promette più protezione di quella c",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/censimento-guardiani.mjs ~ /TABELLA INCOMPLETA/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/censimento-guardiani.mjs ~ /TABELLA INCOMPLETA/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-383",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il tetto di spesa dell'AI si azzera da solo quando la memoria non risponde",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/lib/ai-budget.ts ~ /cieco/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/lib/ai-budget.ts ~ /cieco/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-384",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Quando Nicola annulla un'azione, la revoca della sua firma è l'unica scrittura di cui nessuno controlla l'esit",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/app/api/lavori/annulla/route.ts ~ /=\\s*await revocaFirma/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/app/api/lavori/annulla/route.ts ~ /=\\s*await revocaFirma/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-385",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "L'autopilota tocca il mondo PRIMA di segnarselo, e se non riesce a segnarlo rifà tutto al battito dopo",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/lib/autopilota.ts ~ /=\\s*await setImpostazione/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/lib/autopilota.ts ~ /=\\s*await setImpostazione/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-386",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "In prova a vuoto lo scheduler dei contenuti non mette in coda niente: le pubblicazioni da firmare spariscono i",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/autopilot.mjs ~ /if \\(effettivo !== \"🟢\"\\)/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/autopilot.mjs ~ /if \\(effettivo !== \"🟢\"\\)/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-388",
       "gravita": "bloccante",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Se il cancello della memoria dice no, il server butta via il lavoro che aveva appena promesso di tenere",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/vps/aggiorna-cervello.sh ~ /git stash push/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/vps/aggiorna-cervello.sh ~ /git stash push/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-390",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Se la rete fa i capricci, la pausa di Nicola non ferma le cadenze del mattino e della sera",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/ritmo.sh ~ /_pausa_rc/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/ritmo.sh ~ /_pausa_rc/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-391",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il freno sulla spesa è montato su un giro solo: chat, cadenze e monitoraggio spendono senza tetto",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/worker.sh ~ /freno-costi\\.mjs/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/worker.sh ~ /freno-costi\\.mjs/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-392",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Chi deve spegnere il superfluo quando finisce la benzina parla e nessuno lo ascolta",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/giro.sh ~ /LETARGO_VINCOLO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/giro.sh ~ /LETARGO_VINCOLO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-394",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il cancello comune promette quattro controlli e ne fa tre: il quarto è un parametro morto",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/gate-pubblicazione.sh ~ /rc_one=\\$\\?/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/gate-pubblicazione.sh ~ /rc_one=\\$\\?/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-395",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Nel giro il cancello guarda lo stage dopo che il commit l'ha svuotato",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/giro.sh ~ /gate_pubblicazione [\\s\\S]{0,600}?commit -q -m \"giro AD/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/giro.sh ~ /gate_pubblicazione [\\s\\S]{0,600}?commit -q -m \"giro AD/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-396",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il controllo del ramo prima di pubblicare sta prima del riallineamento, non prima dell'invio",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1052,61 +1052,61 @@
     {
       "id": "AR-398",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Se la pubblicazione dei contenuti si interrompe a metà, la volta dopo riparte da capo e li rimanda tutti",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/autopilot.mjs ~ /salvaCalendario\\(/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/autopilot.mjs ~ /salvaCalendario\\(/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-400",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "La chat principale dice «salvata» anche quando il server non ha ricevuto niente",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/app/page.tsx ~ /scritturaConfermata\\(/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/app/page.tsx ~ /scritturaConfermata\\(/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-402",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Con la fotocamera aperta il dito indietro cambia pagina sotto, non chiude la fotocamera (AR-243 dichiarato chi",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/components/BottoneFotoChat.tsx ~ /useStrato\\(/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/components/BottoneFotoChat.tsx ~ /useStrato\\(/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-403",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Chiudi un pannello col dito e il primo indietro non fa più niente",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/lib/useStrato.ts ~ /window\\.history\\.back\\(/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/lib/useStrato.ts ~ /window\\.history\\.back\\(/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-404",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Mentre la casella aspetta la risposta, l'Assistente può cancellarle i messaggi sotto",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/components/ParlaCasella.tsx ~ /setMsgs\\(det\\.messaggi as ParlaMsg\\[\\]\\)/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/components/ParlaCasella.tsx ~ /setMsgs\\(det\\.messaggi as ParlaMsg\\[\\]\\)/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-405",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "La chat di una casella è agganciata al suo titolo: se il testo cambia, la conversazione non si trova più",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/components/ParlaCasella.tsx ~ /idCasella/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/components/ParlaCasella.tsx ~ /idCasella/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-407",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Le medicine dei lotti si scrivono e non si somministrano: nessuno conta chi le usa",
       "classe": "auto-attesa",
       "perche": "il fix consiste nel creare cervello/adozione-medicine.mjs, non ancora presente",
@@ -1115,88 +1115,88 @@
     {
       "id": "AR-408",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Al primo avvio e a ogni rilascio il Pannello si ricarica da solo e butta via quello che stavi scrivendo",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/components/RegisterSW.tsx ~ /serviceWorker\\.controller/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/components/RegisterSW.tsx ~ /serviceWorker\\.controller/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-410",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il battito è l'unica porta esentata dalla serratura, e il suo lucchetto esiste solo se qualcuno ha messo la ch",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/app/api/heartbeat/route.ts ~ /if \\(secret && auth !== /): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/app/api/heartbeat/route.ts ~ /if \\(secret && auth !== /): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-411",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Ogni cosa da firmare è riconosciuta dal testo del suo titolo, timbro dell'ora compreso: 41 card su 43 cambiano",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/lib/azioni-attesa.ts ~ /numero: idSezione\\(data, reparto, titolo\\)/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/lib/azioni-attesa.ts ~ /numero: idSezione\\(data, reparto, titolo\\)/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-412",
       "gravita": "bloccante",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Quando approvi, l'azione parte prima che qualcuno abbia preso il posto: due dita sullo stesso pulsante mandano",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/app/api/azioni-pronte/route.ts ~ /in-corso/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/app/api/azioni-pronte/route.ts ~ /in-corso/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-413",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Se la memoria è giù, il Pannello manda comunque l'azione vera e poi ti dice di riprovare — e riprovare la rima",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/app/api/azioni-pronte/route.ts ~ /memoryConnected/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/app/api/azioni-pronte/route.ts ~ /memoryConnected/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-414",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Tre orologi del Pannello sono inchiodati all'ora legale: d'inverno ogni «quanto è fresco questo dato» sbaglia ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/app/api/memoria/auto-coscienza/route.ts ~ /\\+02:00/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/app/api/memoria/auto-coscienza/route.ts ~ /\\+02:00/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-415",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il lettore della memoria butta via la differenza fra «non c'è» e «è troppo grande»: quando un archivio superer",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/lib/vault.ts ~ /troppo-grande/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/lib/vault.ts ~ /troppo-grande/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-416",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "L'archivio delle lezioni è a trentaduemila byte dal muro, il potatore non toglierebbe niente e nessuno lo lanc",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/giro.sh ~ /pota-apprendimento/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/giro.sh ~ /pota-apprendimento/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-417",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "La protezione per la barra del gesto dell'iPhone è scritta in quattro punti del Pannello e non fa assolutament",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (pannello/src/app/layout.tsx ~ /viewportFit/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (pannello/src/app/layout.tsx ~ /viewportFit/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-418",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Nessuna prova, in tutto il progetto, chiama mai una porta del Pannello: settantasei porte e zero collaudi che ",
       "classe": "auto-attesa",
       "perche": "il fix consiste nel creare cervello/test/rotte-che-scrivono.test.mjs, non ancora presente",
@@ -1205,61 +1205,61 @@
     {
       "id": "AR-420",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il margine è una delle tre stelle polari e non lo misura nessuno: è scritto a mano come vuoto e tolto apposta ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/north-star-check.mjs ~ /k !== \"margine\"/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/north-star-check.mjs ~ /k !== \"margine\"/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-421",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il cancello che deve tenere lo sforzo sul negozio che incassa conta un magazzino, non un ritmo: ventisei carte",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/allocazione-check.mjs ~ /GIORNI_FINESTRA_ASSET/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/allocazione-check.mjs ~ /GIORNI_FINESTRA_ASSET/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-422",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il freno sulla spesa protegge solo il giro: le cadenze, il monitoraggio e la chat accendono il motore caro sen",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/motore-ai.sh ~ /freno-costi/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/motore-ai.sh ~ /freno-costi/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-423",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "L'interruttore che serve a saltare la coda spegne anche il tetto di spesa, e il commento due righe sopra giura",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/giro.sh ~ /DELTA_GATE_FORCE:-0\\}\" != 1 \\] && \\[ \"\\$\\{BUDGET_FORCE/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/giro.sh ~ /DELTA_GATE_FORCE:-0\\}\" != 1 \\] && \\[ \"\\$\\{BUDGET_FORCE/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-425",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il guardiano del peso del contesto pesa solo i quattro file che gli abbiamo detto, e i tre più grossi che rile",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/peso-contesto.mjs ~ /Object\\.keys\\(tetti\\.tetti/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/peso-contesto.mjs ~ /Object\\.keys\\(tetti\\.tetti/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-428",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "La chiave che apre in scrittura la memoria e spegne la pausa viaggia dentro la riga di comando in undici punti",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/giro.sh ~ /apikey: \\$SUPABASE_SERVICE_KEY/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/giro.sh ~ /apikey: \\$SUPABASE_SERVICE_KEY/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-431",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "La mappa dei rischi dell'azienda è ferma al due luglio e nessuno controlla che sia fresca, mentre per la check",
       "classe": "auto-attesa",
       "perche": "il fix consiste nel creare cervello/freschezza-rischi.mjs, non ancora presente",
@@ -1268,7 +1268,7 @@
     {
       "id": "AR-432",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Novantanove difetti aperti e nessuno di loro ha un responsabile né una data: il cantiere della macchina è l'un",
       "classe": "auto-attesa",
       "perche": "il fix consiste nel creare cervello/cantiere-owner-check.mjs, non ancora presente",
@@ -1277,16 +1277,16 @@
     {
       "id": "AR-433",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il controllo di onestà boccia ogni report tecnico, quindi chi scrive impara a scavalcarlo",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 8 giorni (cervello/onesta-check.mjs ~ /RE_RIFERIMENTO_CODICE/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 9 giorni (cervello/onesta-check.mjs ~ /RE_RIFERIMENTO_CODICE/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-437",
       "gravita": "grave",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il cancello che decide se un lotto si può consegnare è rosso per costruzione: due guardiani su quattro non han",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1295,7 +1295,7 @@
     {
       "id": "AR-438",
       "gravita": "medio",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "La visita si dichiara cieca sulla Cabina per un indirizzo che la macchina conosce già",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1322,7 +1322,7 @@
     {
       "id": "AR-441",
       "gravita": "medio",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Lo scanner dei segreti si dichiara cieco sui file grossi invece di leggerli, e i tre JSON che crescono ogni gi",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1331,7 +1331,7 @@
     {
       "id": "AR-442",
       "gravita": "medio",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Il contatore della spesa si azzera a mezzanotte, quindi il freno non sa niente delle ultime ore a cavallo di d",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1340,7 +1340,7 @@
     {
       "id": "AR-443",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "titolo": "Se la coda delle azioni non si riesce a leggere, il cancello dice «azione non trovata» invece di «non ho potut",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1349,7 +1349,7 @@
     {
       "id": "AR-445",
       "gravita": "grave",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "titolo": "Importare un modulo del cervello ne ESEGUE il programma: chi lo prova si ritrova la memoria riscritta sotto i ",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1358,7 +1358,7 @@
     {
       "id": "AR-446",
       "gravita": "grave",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "titolo": "Tredici test scrivono nella memoria VERA della macchina, e uno tocca il registro dei fatti",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1367,7 +1367,7 @@
     {
       "id": "AR-456",
       "gravita": "grave",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "titolo": "Il Pannello mostra 150 difetti aperti, ne sono 155: il contatore riassuntivo del cantiere e piu vecchio dei di",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1376,7 +1376,7 @@
     {
       "id": "AR-458",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "titolo": "gate-veri butta via la differenza fra «freno mai costruito» e «freno che aspetta un merge»: grida al lupo su o",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1385,7 +1385,7 @@
     {
       "id": "AR-460",
       "gravita": "grave",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "titolo": "In ogni sessione cloud il guardiano del formato JSON e cieco: la regressione passa in locale e la trova solo l",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1394,7 +1394,7 @@
     {
       "id": "AR-461",
       "gravita": "grave",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "titolo": "Il test di AR-451 prova la funzione ma non il punto che la chiama: si puo scollegare il fix e il test resta ve",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1403,7 +1403,7 @@
     {
       "id": "AR-464",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "titolo": "Lanciare un guardiano per VERIFICARE sporca l'albero: verificare costa un diff, e l'incentivo diventa non veri",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1412,7 +1412,7 @@
     {
       "id": "AR-473",
       "gravita": "bloccante",
-      "eta_giorni": 5,
+      "eta_giorni": 6,
       "titolo": "Il cancello dice verde su cio che non ha misurato: due passi cambiano riferimento e smettono di guardare, senz",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1421,7 +1421,7 @@
     {
       "id": "AR-504",
       "gravita": "media",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "Il referto della visita e scritto in un modo che il guardiano della leggibilita boccia: ogni visita produce de",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1430,7 +1430,7 @@
     {
       "id": "AR-045",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Report umano stantio: RADIOGRAFIA-MACCHINA.md era fermo al 28/6 (voto 72, '3 difetti aperti')",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1439,7 +1439,7 @@
     {
       "id": "AR-046",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "storico-salute.json incompleto: l'ultimo punto registrava 3 chiusure ma il cantiere ne aveva chiuse 5",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1448,7 +1448,7 @@
     {
       "id": "AR-047",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "memoria-squadra split-brain: directory duplicata nel vault (consolidato in AR-034)",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1457,7 +1457,7 @@
     {
       "id": "AR-048",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "auto-radiografia.json: voto top-level divergente dalla sonda e verdetto fuori-enum",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1466,7 +1466,7 @@
     {
       "id": "AR-049",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "AZIONI-PRONTE.md: coda-azioni parallela, orfana e stantia che duplica AZIONI-IN-ATTESA",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1475,7 +1475,7 @@
     {
       "id": "AR-050",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "apprendimento.json: meta.lezioni_attive=10 gonfia il conteggio (solo 4 lezioni hanno stato 'attiva')",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1484,7 +1484,7 @@
     {
       "id": "AR-051",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "tasso_applicazione è scritto a mano, nessuno lo calcola: la metrica che governa il volano è auto-dichiarata e ",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1493,7 +1493,7 @@
     {
       "id": "AR-052",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "prova_chiusura usa contatori STOCK all-time, mai la recency: loop_chiude resta true per sempre anche se il loo",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1502,7 +1502,7 @@
     {
       "id": "AR-053",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "La calibrazione non ha uno sweep automatico di esito/scadute: le previsioni marciscono aperte e contano come '",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1511,7 +1511,7 @@
     {
       "id": "AR-054",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Gli esperimenti di auto-miglioramento sono un array vuoto senza schema né motore: il loop benchmark→torneo→mis",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1520,7 +1520,7 @@
     {
       "id": "AR-055",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Le proposte di auto-riscrittura non hanno lifecycle né stato: la lista contiene proposte GIÀ chiuse nel cantie",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1529,7 +1529,7 @@
     {
       "id": "AR-056",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Nessun guardiano vigila che il battito 2h (mycity-giro.timer) sia vivo: la staleness del giro è solo un displa",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1538,7 +1538,7 @@
     {
       "id": "AR-057",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "mycity-verifica.timer e mycity-watch-main.timer sono unit orfane: nessun installer le abilita, e verifica-auto",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1547,7 +1547,7 @@
     {
       "id": "AR-058",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "I timeout esterni (worker 2700s, systemd 3600s) sono più corti del budget dei 3 tentativi interni di giro.sh (",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1556,7 +1556,7 @@
     {
       "id": "AR-059",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "aggiorna-cervello.sh non ripropaga le unit systemd: cambi di cadenza / nuovi timer restano inerti sul VPS",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1565,7 +1565,7 @@
     {
       "id": "AR-060",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Stato e orari del battito documentati in modo contraddittorio: giro 'DISATTIVATO' vs 'RIATTIVATO', ritmo 06/12",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1574,7 +1574,7 @@
     {
       "id": "AR-061",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "L'autonomia si guadagna anche quando i sensori che misurano il 'reale' sono ciechi",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1583,7 +1583,7 @@
     {
       "id": "AR-062",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "L'esito 'reale' entra senza fonte: la macchina puo auto-alimentare il proprio punteggio",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1592,7 +1592,7 @@
     {
       "id": "AR-063",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "La sonda del volano si auto-certifica 'loop chiude' con previsioni ANCORA APERTE",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1601,7 +1601,7 @@
     {
       "id": "AR-064",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Le previsioni scadute senza esito non penalizzano: survivorship bias sul voto",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1610,7 +1610,7 @@
     {
       "id": "AR-065",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Autonomia 'alta' concessa con soli 3 esiti (campione minuscolo, nessun intervallo di confidenza)",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1619,7 +1619,7 @@
     {
       "id": "AR-066",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Previsioni banali/status-quo azzeccabili a costo zero (atteso=1 su entita gia payout-ready)",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1628,7 +1628,7 @@
     {
       "id": "AR-067",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Nessun sensore di raggiungibilità/uptime del sito: se il marketplace è giù, la macchina è cieca",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1637,7 +1637,7 @@
     {
       "id": "AR-068",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "I rischi 🔴 di compliance (HACCP, rider, età 18+, bus factor) non hanno owner né monitor nella macchina",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1646,7 +1646,7 @@
     {
       "id": "AR-069",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "proposte_nuovi_pezzi (l'output della dimensione META) non ha un backlog tracciato a chiusura",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1655,7 +1655,7 @@
     {
       "id": "AR-070",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Funnel e conversione al checkout senza sensore live: l'abbandono che brucia ordini è invisibile alla sentinell",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1664,7 +1664,7 @@
     {
       "id": "AR-071",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Puntualità delle consegne (la promessa core del modello Glovo) senza alcun sensore",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1673,7 +1673,7 @@
     {
       "id": "AR-072",
       "gravita": "bloccante",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Autopilot pubblica da solo i 🟡 (post pubblici sul brand) in LIVE — contraddice \"pubblicare = 🔴\" di CLAUDE.md",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1682,7 +1682,7 @@
     {
       "id": "AR-073",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Gate colore fail-open: colore mancante o scritto male → l'autopilot pubblica lo stesso",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1691,7 +1691,7 @@
     {
       "id": "AR-074",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Il colore è auto-dichiarato nel JSON e scollegato dal canale reale: nessuna fonte-di-verità canale→rischio",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1700,7 +1700,7 @@
     {
       "id": "AR-075",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "ONESTA-RULES senza alcun guardiano machine-checkable nel percorso di pubblicazione",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1709,7 +1709,7 @@
     {
       "id": "AR-076",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "🟡 senza \"avvisa\": l'autopilot pubblica i 🟡 in LIVE ma non notifica Nicola",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1718,7 +1718,7 @@
     {
       "id": "AR-077",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "\"STOP automatico se un reparto brucia budget\" è solo prosa: nessun sensore di spesa, nessun blocco reale",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1727,7 +1727,7 @@
     {
       "id": "AR-078",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "esegui-azione.mjs: mano grezza senza gate colore, senza legame all'azione approvata e senza traccia in DECISIO",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1736,7 +1736,7 @@
     {
       "id": "AR-079",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Silo di allocazione conclamato ma mai corretto: 13 asset pesanti su Garetti (prospect non firmato) vs 1-2 sui ",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1745,7 +1745,7 @@
     {
       "id": "AR-080",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "La regola ROI/STOP automatico e la North Star vivono solo come prosa in OKR-Squadra: nessuno script misura se ",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1754,7 +1754,7 @@
     {
       "id": "AR-081",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Il pre-mortem cross-silo (\"il rischio n°1\") è un rituale manuale senza forcing-function: la coda AZIONI-IN-ATT",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1763,7 +1763,7 @@
     {
       "id": "AR-082",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Il router costo (banco-ai.mjs / routing.json) è codice morto: nessun compito viene mai instradato al modello e",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1772,7 +1772,7 @@
     {
       "id": "AR-083",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Il budget token (AR-020) è cieco: nessuno passa mai i token reali, la soglia da 2M non scatta mai",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1781,7 +1781,7 @@
     {
       "id": "AR-084",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "La metabolizzazione raddoppia il costo di OGNI chat con motore premium, senza alcun gate di valore",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1790,7 +1790,7 @@
     {
       "id": "AR-085",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Rilanci ciechi: i loop 3× di giro.sh/ritmo.sh riprovano anche su quota ignorando retry-policy, bruciando tenta",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1799,7 +1799,7 @@
     {
       "id": "AR-086",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Il delta-gate (salta il giro se nulla è cambiato) protegge solo 'giro', non ritmo né monitora: run premium a s",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1808,7 +1808,7 @@
     {
       "id": "AR-087",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Nessun circuit-breaker di budget: al superamento della soglia costo non si ferma né si dirada nulla",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1817,7 +1817,7 @@
     {
       "id": "AR-088",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "monitora.sh incolla l'intero monitora.md nel prompt, contro la regola anti-prompt-enorme che giro.sh applica",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1826,7 +1826,7 @@
     {
       "id": "AR-089",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Lo scanner-segreti (AR-021, ultima difesa prima di committare il vault) NON riconosce il token più potente del",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1835,7 +1835,7 @@
     {
       "id": "AR-090",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Un solo token di GESTIONE Supabase (sbp_) sovra-privilegiato serve entrambi gli MCP — le chiavi di tutta l'org",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1844,7 +1844,7 @@
     {
       "id": "AR-091",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "L'MCP della memoria è in LETTURA+SCRITTURA senza alcun cancello: il cervello può DROP/DELETE la propria memori",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1853,7 +1853,7 @@
     {
       "id": "AR-092",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "worker.sh risolve i conflitti di merge con `--theirs` cieco: può cancellare il 'FATTO' e causare un DOPPIO inv",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1862,7 +1862,7 @@
     {
       "id": "AR-093",
       "gravita": "grave",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Il kill-switch (PAUSA) fallisce APERTO: se le credenziali memoria mancano, il giro parte lo stesso",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1871,7 +1871,7 @@
     {
       "id": "AR-094",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "La documentazione (.env.example) prescrive ancora 'force-push' su memoria-ad — la causa esatta della perdita d",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1880,7 +1880,7 @@
     {
       "id": "AR-095",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Permessi in .claude/settings.json stantii e legati a un'altra macchina (path Windows) — igiene dei permessi",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1889,7 +1889,7 @@
     {
       "id": "AR-096",
       "gravita": "minore",
-      "eta_giorni": 34,
+      "eta_giorni": 35,
       "titolo": "Il voto di salute architettura si auto-gonfia: +2 a ogni chiusura, solo in salita, scollegato dalla radiografi",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1898,7 +1898,7 @@
     {
       "id": "AR-023",
       "gravita": "minore",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "Il campo che permette a un difetto di chiudersi da solo è obbligatorio per iscritto, ma non era un difetto di ",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1907,7 +1907,7 @@
     {
       "id": "AR-100",
       "gravita": "minore",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "La pausa di Nicola doveva valere anche dentro l'esecutore, non solo nello script del giro",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1916,7 +1916,7 @@
     {
       "id": "AR-102",
       "gravita": "minore",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "I fatti-chiave del business vivevano in copie sparse, e una copia vecchia è una bugia che il Pannello mostra",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1925,7 +1925,7 @@
     {
       "id": "AR-103",
       "gravita": "minore",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "Un prospect scelto con ragionamento finiva in un dossier ma non nel registro, e il Pannello mostrava una lista",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1934,7 +1934,7 @@
     {
       "id": "AR-104",
       "gravita": "minore",
-      "eta_giorni": 3,
+      "eta_giorni": 4,
       "titolo": "La memoria fermata dal cancello passava come un successo silenzioso invece che come un avviso a Nicola",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1943,7 +1943,7 @@
     {
       "id": "AR-518",
       "gravita": "bloccante",
-      "eta_giorni": 2,
+      "eta_giorni": 3,
       "titolo": "La macchina lavora e non riesce a pubblicare: 4.006 commit fermi sul server e il Pannello mostra numeri di qua",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1952,7 +1952,7 @@
     {
       "id": "AR-521",
       "gravita": "bloccante",
-      "eta_giorni": 2,
+      "eta_giorni": 3,
       "titolo": "La riparazione che sbloccherebbe il server non puo' arrivarci, perche' ad essere rotto e' proprio il modo in c",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1961,7 +1961,7 @@
     {
       "id": "AR-556",
       "gravita": "grave",
-      "eta_giorni": 2,
+      "eta_giorni": 3,
       "titolo": "La guardia blocca la macchina che aggiorna i propri referti: ogni rapporto rigenerato sembra una difesa spenta",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1970,7 +1970,7 @@
     {
       "id": "AR-557",
       "gravita": "grave",
-      "eta_giorni": 2,
+      "eta_giorni": 3,
       "titolo": "Un difetto chiuso con una prova che non prova piu: rompo la guardia sui file cancellati e il test resta verde",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1979,7 +1979,7 @@
     {
       "id": "AR-559",
       "gravita": "alta",
-      "eta_giorni": 2,
+      "eta_giorni": 3,
       "titolo": "Quarantotto difetti sono stati chiusi con una prova che il motore non sa eseguire",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",

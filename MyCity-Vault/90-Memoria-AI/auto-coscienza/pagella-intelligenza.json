@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
   "_cosa_NON_prova": "Non prova che la macchina sappia fare il mestiere: misura cinque proprietà della macchina stessa (difetti chiusi, prove, sensori, loop), tutte interne. Nessuno di questi cinque numeri sale perché è arrivato un ordine o è entrato un negozio — la pagella può dirsi pronta con il business fermo, e il 28/7 è esattamente così.",
-  "aggiornato": "2026-08-06 23:17",
+  "aggiornato": "2026-08-07 06:20",
   "pronta": false,
   "voci_superate": 0,
   "voci_totali": 5,
   "voci_cieche": 1,
-  "migliorate": 0,
+  "migliorate": 1,
   "peggiorate": 0,
   "soglie": {
     "lezioni_tasso_min": 0.7,
@@ -25,24 +25,24 @@
       "fonte": "cervello/tasso-regole.mjs",
       "come_si_alza": "prendere una correzione di Nicola e chiuderla alla radice (principio + gate automatico): scrivere altre lezioni non aiuta, finiscono nel denominatore",
       "tasso_citazioni": 0.18,
-      "valore": 0.15,
-      "etichetta": "15% (44/284 correzioni)",
+      "valore": 0.16,
+      "etichetta": "16% (44/283 correzioni)",
       "ok": false,
       "cieco": false,
       "ricadute": {
-        "correzioni": 284,
-        "su_tema_cronico": 238,
+        "correzioni": 283,
+        "su_tema_cronico": 237,
         "quota": 0.84,
         "temi_cronici": 148,
-        "temi_totali": 751
+        "temi_totali": 746
       },
       "gate": {
-        "correzioni": 284,
+        "correzioni": 283,
         "con_gate": 46,
         "quota": 0.16
       },
       "precedente": 0.15,
-      "movimento": "ferma"
+      "movimento": "migliorata"
     },
     {
       "id": "calibrazione",
@@ -100,7 +100,7 @@
       "id": "salute",
       "titolo": "Voto salute che si dà da sola",
       "valore": 45,
-      "etichetta": "45/100 (misurato 2026-08-06)",
+      "etichetta": "45/100 (misurato 2026-08-07)",
       "soglia": "≥80/100",
       "ok": false,
       "cieco": false,
@@ -1281,6 +1281,18 @@
       "pronta": false,
       "valori": {
         "lezioni": 0.15,
+        "calibrazione": null,
+        "freni": 9,
+        "quaderni": 0.09166666666666666,
+        "salute": 45
+      }
+    },
+    {
+      "data": "2026-08-07 06:20",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.16,
         "calibrazione": null,
         "freni": 9,
         "quaderni": 0.09166666666666666,
