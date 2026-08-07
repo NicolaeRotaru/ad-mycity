@@ -2,61 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-04T18:21:00.473Z",
-      "scatti": 1526,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": [
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/test/due-difetti-uno-solo-numero.test.mjs», che è la prova che deve diventare rossa per AR-447",
-          "ripetuta": 163
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/test/json-riscritto-tutto.test.mjs», che è la prova che deve diventare rossa per AR-448",
-          "ripetuta": 163
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/test/rebase-che-non-parte.test.mjs», che è il freno della lezione L-2026-0730-528",
-          "ripetuta": 69
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/test/test-cervello.test.mjs», che è la prova che deve diventare rossa per AR-450",
-          "ripetuta": 161
-        }
-      ]
-    },
-    {
-      "quando": "2026-08-04T18:32:24.089Z",
-      "scatti": 1561,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-04T20:21:57.083Z",
-      "scatti": 1561,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-04T20:22:30.933Z",
       "scatti": 1561,
       "voci": 7,
@@ -2025,7 +1970,37 @@
         "difesa-rimossa": 4
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-07T09:03:06.812Z",
+      "scatti": 1651,
+      "voci": 7,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-07T09:03:40.331Z",
+      "scatti": 1651,
+      "voci": 7,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-07T09:04:13.385Z",
+      "scatti": 1651,
+      "voci": 7,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 4
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-07T08:22:59.274Z"
+  "aggiornato": "2026-08-07T09:04:13.387Z"
 }
