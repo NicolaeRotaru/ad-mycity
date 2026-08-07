@@ -12,7 +12,7 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-07 06:22",
+      "quando": "2026-08-07 08:22",
       "esito": "motore-fallito",
       "codice": 2,
       "ai_rc": 1,
@@ -63,5 +63,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-07 06:26"
+  "aggiornato": "2026-08-07 08:22"
 }
