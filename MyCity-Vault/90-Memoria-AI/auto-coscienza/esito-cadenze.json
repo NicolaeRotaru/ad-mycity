@@ -64,7 +64,7 @@
       "vincoli": []
     },
     "ritmo-settimana": {
-      "quando": "2026-08-07 15:10",
+      "quando": "2026-08-07 15:27",
       "esito": "motore-fallito",
       "codice": 2,
       "ai_rc": 1,
@@ -74,5 +74,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-07 15:10"
+  "aggiornato": "2026-08-07 15:27"
 }
