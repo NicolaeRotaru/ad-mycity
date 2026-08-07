@@ -62,7 +62,17 @@
       "passi_ok": false,
       "vincoli_attivi": 0,
       "vincoli": []
+    },
+    "ritmo-settimana": {
+      "quando": "2026-08-07 15:01",
+      "esito": "motore-fallito",
+      "codice": 2,
+      "ai_rc": 1,
+      "push_ok": false,
+      "passi_ok": false,
+      "vincoli_attivi": 0,
+      "vincoli": []
     }
   },
-  "aggiornato": "2026-08-07 14:23"
+  "aggiornato": "2026-08-07 15:01"
 }
