@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-07 23:03",
+ "aggiornato": "2026-08-07 23:04",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -8546,13 +8546,14 @@
     "permessi"
    ],
    "reparto": "@AD",
-   "confidenza": 0.97,
+   "confidenza": 0.82,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 22:30",
-   "stato": "attiva"
+   "stato": "attiva",
+   "decaduto_step_il": "2026-08-07 23:06"
   },
   {
    "id": "L-2026-0710-72",
@@ -13052,12 +13053,12 @@
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.18,
-  "tasso_calcolato_il": "2026-08-07 23:03",
+  "tasso_calcolato_il": "2026-08-07 23:04",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-07 23:02",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-07 22:21",
+  "cristallizzazione_ultima": "2026-08-07 23:06",
   "lezioni_totali": 509,
   "lezioni_per_stato": {
    "attiva": 411,
