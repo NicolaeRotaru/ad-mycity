@@ -54,7 +54,7 @@
       "vincoli": []
     },
     "ritmo-sera": {
-      "quando": "2026-08-06 18:27",
+      "quando": "2026-08-07 18:01",
       "esito": "motore-fallito",
       "codice": 2,
       "ai_rc": 1,
@@ -74,5 +74,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-07 16:23"
+  "aggiornato": "2026-08-07 18:01"
 }
