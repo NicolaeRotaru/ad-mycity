@@ -152,6 +152,15 @@ export function chiusuraLegittima(verifica) {
  * messo niente dove lui guarda. Se la coda È stata toccata non dico niente — non ho modo di sapere
  * se la riga giusta è quella, e un guardiano che indovina viene spento.
  */
+/**
+ * La coda risulta toccata anche da un commit già fatto dentro il perimetro del turno, non solo da
+ * una modifica ancora sul disco (numero AR non assegnato in questa sessione — `prossimo-ar.mjs`
+ * richiede approvazione non disponibile qui; vedi la nota sopra `codaNelPerimetro` in `main()`).
+ */
+export function codaToccataNelPerimetro(righeCartella = null, codaPath = CODA) {
+  return Boolean(righeCartella?.some((f) => f.file === codaPath && f.righe.length > 0));
+}
+
 export function allarmiSenzaCoda(fileNuovi = [], codaToccata = false, consegneModificate = []) {
   if (codaToccata) return [];
   const daiNuovi = fileNuovi.filter((f) => ALLARMI.some((r) => r.test(f.contenuto || ""))).map((f) => f.file);
@@ -975,6 +984,16 @@ async function main() {
   const perimetro = scegliPerimetro({ ...ancoraDelTurno(), base });
   const consegneModificate = perimetro.da ? righeAggiunteNelle(perimetro.da, "consegne") : null;
 
+  // IL BUCO TROVATO IL 4/8: `codaToccata` (sopra, da `fileDelLavoro`) guarda SOLO `git status
+  // --porcelain` — l'albero di lavoro non committato. Ma un allarme e la sua riga in coda possono
+  // essere stati committati ENTRAMBI in un turno precedente, dentro lo stesso perimetro (l'ancora
+  // resta ferma finché un turno si chiude bloccato — vedi sopra): la coda risulta "toccata" nel
+  // ramo ma non nel disco di oggi, e il cancello continua ad accusare un allarme già in coda perché
+  // guarda due finestre diverse con lo stesso nome. Qui si allinea la finestra: la coda conta come
+  // toccata anche se il tocco è un commit già fatto dentro il perimetro corrente.
+  const codaNelPerimetro = perimetro.da ? righeAggiunteNelle(perimetro.da, CODA, false) : null;
+  const codaEraGiaToccata = codaToccataNelPerimetro(codaNelPerimetro);
+
   const ciechi = [];
   const note = [];
   if (!committati || !righeQuaderni) {
@@ -1021,7 +1040,7 @@ async function main() {
   const v = verdetto({
     senzaEsito: committati && righeQuaderni ? consegnaSenzaEsito(committati, righeQuaderni.flatMap((f) => f.righe), base ? codiceDopoUltimoEsito(base) : null) : null,
     chiusi: chiusiSenzaProva(cantierePrima, cantiereDopo),
-    allarmi: allarmiSenzaCoda(file, codaToccata, consegneModificate || []),
+    allarmi: allarmiSenzaCoda(file, codaToccata || codaEraGiaToccata, consegneModificate || []),
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),
     insistenti,
     collaudo: collaudo.righe,

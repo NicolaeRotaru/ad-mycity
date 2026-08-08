@@ -15,6 +15,7 @@ import {
   chiusiSenzaProva,
   statoDiPartenza,
   allarmiSenzaCoda,
+  codaToccataNelPerimetro,
   lezioniSenzaGate,
   consegnaSenzaEsito,
   chiusuraLegittima,
@@ -282,6 +283,26 @@ test("se la coda e' stata toccata tace su entrambe le sorgenti", () => {
 test("lo stesso file trovato da entrambe le sorgenti si dice una volta sola", () => {
   const r = allarmiSenzaCoda([{ file: "consegne/x.md", contenuto: "🔴 grave" }], false, [{ file: "consegne/x.md", righe: ["🔴 grave"] }]);
   assert.deepEqual(r, ["consegne/x.md"]);
+});
+
+// ── ⑤bis: la coda toccata in un commit del perimetro, non solo sul disco di oggi (AR-538) ──────
+//
+// Il caso vero del 4/8: un allarme (`consegne/tech/pr-ad-mycity-675.md`) e la sua riga in
+// AZIONI-IN-ATTESA.md erano stati committati ENTRAMBI dentro lo stesso perimetro — ma
+// `codaToccata` guardava solo `git status --porcelain` (il disco di oggi), che non li vedeva più
+// perché già committati. Il cancello continuava ad accusare un allarme già in coda.
+
+test("la coda toccata in un commit del perimetro conta come toccata", () => {
+  assert.equal(codaToccataNelPerimetro([{ file: "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", righe: ["### nuova card"] }]), true);
+});
+
+test("un file diverso dalla coda, anche nella stessa cartella, non basta", () => {
+  assert.equal(codaToccataNelPerimetro([{ file: "MyCity-Vault/90-Memoria-AI/STATO.md", righe: ["riga nuova"] }]), false);
+});
+
+test("nessuna modifica nel perimetro (o perimetro cieco) resta falso, non un errore", () => {
+  assert.equal(codaToccataNelPerimetro(null), false);
+  assert.equal(codaToccataNelPerimetro([]), false);
 });
 
 // ── ⑥ cieco non e' verde ──────────────────────────────────────────────────────
