@@ -34,7 +34,7 @@
       ]
     },
     "monitora": {
-      "quando": "2026-08-07 08:30",
+      "quando": "2026-08-08 08:30",
       "esito": "motore-fallito",
       "codice": 0,
       "ai_rc": 1,
@@ -74,5 +74,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-08 08:23"
+  "aggiornato": "2026-08-08 08:30"
 }
