@@ -1,283 +1,35 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-08-07 23:07",
+  "aggiornato": "2026-08-08 06:01",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
-    "data": "2026-08-07",
-    "runs": 33,
+    "data": "2026-08-08",
+    "runs": 1,
     "token_totali": 0,
-    "durata_sec_totale": 2367,
+    "durata_sec_totale": 72,
     "voci": [
       {
-        "quando": "2026-08-07 06:01",
-        "tipo": "ritmo-mattino",
-        "durata_sec": 73,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 06:04",
+        "quando": "2026-08-08 06:01",
         "tipo": "ritmo-mattino",
         "durata_sec": 72,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 06:10",
-        "tipo": "ritmo-mattino",
-        "durata_sec": 72,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 06:22",
-        "tipo": "giro",
-        "durata_sec": 74,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 06:26",
-        "tipo": "ritmo-mattino",
-        "durata_sec": 72,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 08:22",
-        "tipo": "giro",
-        "durata_sec": 74,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 08:30",
-        "tipo": "monitora",
-        "durata_sec": 3,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 10:23",
-        "tipo": "giro",
-        "durata_sec": 75,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 11:04",
-        "tipo": "giro",
-        "durata_sec": 74,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 11:22",
-        "tipo": "giro",
-        "durata_sec": 74,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 11:55",
-        "tipo": "giro",
-        "durata_sec": 73,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 12:01",
-        "tipo": "ritmo-mezzogiorno",
-        "durata_sec": 76,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 12:04",
-        "tipo": "ritmo-mezzogiorno",
-        "durata_sec": 75,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 12:10",
-        "tipo": "ritmo-mezzogiorno",
-        "durata_sec": 72,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 12:23",
-        "tipo": "giro",
-        "durata_sec": 73,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 12:27",
-        "tipo": "ritmo-mezzogiorno",
-        "durata_sec": 76,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 12:58",
-        "tipo": "giro",
-        "durata_sec": 76,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 14:23",
-        "tipo": "giro",
-        "durata_sec": 74,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 15:01",
-        "tipo": "ritmo-settimana",
-        "durata_sec": 75,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 15:01",
-        "tipo": "giro",
-        "durata_sec": 73,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 15:04",
-        "tipo": "ritmo-settimana",
-        "durata_sec": 73,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 15:10",
-        "tipo": "ritmo-settimana",
-        "durata_sec": 74,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 15:27",
-        "tipo": "ritmo-settimana",
-        "durata_sec": 74,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 16:23",
-        "tipo": "giro",
-        "durata_sec": 73,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 18:01",
-        "tipo": "ritmo-sera",
-        "durata_sec": 74,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 18:04",
-        "tipo": "ritmo-sera",
-        "durata_sec": 73,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 18:10",
-        "tipo": "ritmo-sera",
-        "durata_sec": 75,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 18:23",
-        "tipo": "giro",
-        "durata_sec": 75,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 18:27",
-        "tipo": "ritmo-sera",
-        "durata_sec": 75,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 19:04",
-        "tipo": "giro",
-        "durata_sec": 73,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 20:23",
-        "tipo": "giro",
-        "durata_sec": 75,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 22:23",
-        "tipo": "giro",
-        "durata_sec": 73,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-07 23:07",
-        "tipo": "giro",
-        "durata_sec": 74,
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
       }
     ],
-    "token_stimati": 1650000,
-    "token_per_gate": 1650000,
+    "token_stimati": 50000,
+    "token_per_gate": 50000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
+    {
+      "data": "2026-08-07",
+      "runs": 33,
+      "token_totali": 0,
+      "token_stimati": 1650000,
+      "token_per_gate": 1650000,
+      "durata_sec_totale": 2367
+    },
     {
       "data": "2026-08-06",
       "runs": 30,
@@ -474,9 +226,9 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 450000,
-    "runs_sessione": 9,
+    "token_sessione_rolling": 50000,
+    "runs_sessione": 1,
     "finestra_min": 360,
-    "aggiornato": "2026-08-07 23:07"
+    "aggiornato": "2026-08-08 06:01"
   }
 }
