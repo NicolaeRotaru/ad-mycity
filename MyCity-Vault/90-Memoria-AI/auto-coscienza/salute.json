@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-08 20:46",
+  "aggiornato": "2026-08-09 06:46",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -218,12 +218,12 @@
       ]
     },
     "vps": {
-      "quando": "2026-08-08 20:46",
-      "iso": "2026-08-08T18:46:35.201Z",
+      "quando": "2026-08-09 06:46",
+      "iso": "2026-08-09T04:46:31.829Z",
       "casa": "vps",
       "modo": "vps",
-      "ok": 19,
-      "rotti": 3,
+      "ok": 18,
+      "rotti": 4,
       "guasti": 0,
       "nonvisti": 1,
       "copertura": 0.96,
@@ -254,7 +254,7 @@
           "titolo": "La macchina ha scritto di recente",
           "impatto": 1,
           "esito": "ok",
-          "detto": "ultima scrittura 0 ore fa (worker:ultimo)",
+          "detto": "ultima scrittura 0 ore fa (worker:ultimo:chat)",
           "prova": null,
           "regressione": false
         },
@@ -273,10 +273,10 @@
           "organo": "worker",
           "titolo": "Quello che il server scrive arriva su GitHub",
           "impatto": 2,
-          "esito": "ok",
-          "detto": "40 commit in attesa di pubblicazione, sotto la soglia di 50",
+          "esito": "rotto",
+          "detto": "54 commit scritti dal server non sono su GitHub",
           "prova": null,
-          "regressione": false
+          "regressione": true
         },
         {
           "id": "worker.automazione",
@@ -314,7 +314,7 @@
           "titolo": "I test del cervello passano",
           "impatto": 3,
           "esito": "rotto",
-          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-08 20:45  (2 corsie · 22 in fila perché scrivono sul dato vivo) · ✅ cervello/test/allineamento-esito.test.mjs  (18 passati)",
+          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-09 06:45  (2 corsie · 22 in fila perché scrivono sul dato vivo) · ✅ cervello/test/allineamento-esito.test.mjs  (18 passati)",
           "prova": "node cervello/test-cervello.mjs",
           "regressione": false
         },
@@ -334,7 +334,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 3441 min fa (2026-08-06T09:25:46.671Z) — 8 file guardati, 0 voci, 0 gravi.",
+          "detto": "✅ ultimo scatto 4041 min fa (2026-08-06T09:25:46.671Z) — 8 file guardati, 0 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false
         },
@@ -354,7 +354,7 @@
           "titolo": "Il lavoro consegnato dice com'è andato",
           "impatto": 2,
           "esito": "ok",
-          "detto": "217 consegne su 255 degli ultimi 30 giorni senza una riga di esito (85%) · Cabina 0 giorni indietro (STATO al 2026-08-06 11:15)",
+          "detto": "206 consegne su 244 degli ultimi 30 giorni senza una riga di esito (84%) · Cabina 0 giorni indietro (STATO al 2026-08-06 11:15)",
           "prova": null,
           "regressione": false
         },
@@ -364,7 +364,7 @@
           "titolo": "Quando scrivo a Nicola, gli rispondo",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "«Cosa non ho verificato» mancato nel 100% dei 35 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
+          "detto": "«Cosa non ho verificato» mancato nel 100% dei 33 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
           "prova": null,
           "regressione": false
         },
@@ -394,7 +394,7 @@
           "titolo": "La Cabina risponde",
           "impatto": 1,
           "esito": "ok",
-          "detto": "risponde in 0.0s",
+          "detto": "risponde in 0.1s",
           "prova": null,
           "regressione": false
         },
@@ -810,6 +810,17 @@
       "modo": "vps",
       "ok": 19,
       "rotti": 3,
+      "guasti": 0,
+      "nonvisti": 1,
+      "copertura": 0.96
+    },
+    {
+      "quando": "2026-08-09 06:46",
+      "iso": "2026-08-09T04:46:31.829Z",
+      "casa": "vps",
+      "modo": "vps",
+      "ok": 18,
+      "rotti": 4,
       "guasti": 0,
       "nonvisti": 1,
       "copertura": 0.96
