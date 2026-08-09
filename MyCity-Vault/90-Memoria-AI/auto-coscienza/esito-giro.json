@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Esito REALE dell ultimo giro (AR-300). Prima il giro stampava «Giro completato.» anche a controlli tutti rossi: questo file dice la verita, e il Pannello la puo leggere.",
-  "data": "2026-08-09 14:23",
+  "data": "2026-08-09 15:01",
   "esito": "motore-fallito",
   "pulito": false,
   "gate_rossi": 11,
