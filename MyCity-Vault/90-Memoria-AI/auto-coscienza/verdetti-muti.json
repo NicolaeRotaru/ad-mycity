@@ -1,11 +1,11 @@
 {
   "_cosa_e": "📮 Quante volte ho consegnato un lavoro il cui esito non è arrivato dove Nicola legge (AR-474). Il tetto SCENDE e non risale: aggiungerne uno è un errore, portarne via è il lavoro.",
-  "misurato": "2026-08-09 04:46",
+  "misurato": "2026-08-09 18:46",
   "finestra_giorni": 30,
-  "commit_esaminati": 492,
-  "esclusi_worker": 248,
-  "consegne": 244,
-  "mute": 206,
+  "commit_esaminati": 459,
+  "esclusi_worker": 221,
+  "consegne": 238,
+  "mute": 200,
   "tasso": 84,
   "ultime_mute": [
     {
