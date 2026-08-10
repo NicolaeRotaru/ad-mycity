@@ -1,19 +1,19 @@
 {
   "_cosa_e": "📮 Quante volte un messaggio che pretendeva le quattro risposte è uscito senza. Il tetto è una QUOTA e SCENDE: aggiungerne è un errore, portarne via è il lavoro. Nato dalla domanda di Nicola del 3/8 («come fai a non dimenticartene mai?»).",
-  "misurato": "2026-08-09 18:46",
+  "misurato": "2026-08-10 04:46",
   "finestra_giorni": 7,
   "trascrizioni": {
-    "trovate": 651,
-    "lette": 651,
-    "file_visti": 651,
+    "trovate": 668,
+    "lette": 668,
+    "file_visti": 668,
     "scartati_per_estensione": {}
   },
-  "messaggi_misurati": 27,
+  "messaggi_misurati": 26,
   "mancanze": {
-    "In parole semplici": 25,
-    "Cosa cambia per te": 25,
-    "Cosa devi fare": 25,
-    "Cosa non ho verificato": 27
+    "In parole semplici": 24,
+    "Cosa cambia per te": 24,
+    "Cosa devi fare": 24,
+    "Cosa non ho verificato": 26
   },
   "blocco_peggiore": "Cosa non ho verificato",
   "quota_peggiore": 100,
