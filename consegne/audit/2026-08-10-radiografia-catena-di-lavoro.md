@@ -58,6 +58,8 @@ Una cosa in più: durante il lavoro ho quasi scritto due difetti che non esistev
 
 Dodici timer sul server, più la tua voce in chat, più le sentinelle. Il giro parte ogni due ore dalle 6 alle 22, le tre cadenze alle 6, 12 e 18, la visita di salute alle 6:45.
 
+Il worker è la parte che esegue davvero, sul tuo server. Ne ho potuto guardare il codice e la sua storia, non il processo vivo. Negli ultimi 400 commit ha eseguito 96 playbook. Tre li ha dichiarati «a vuoto» e in quei tre ha fatto la cosa giusta: ha registrato l'esito senza rigenerare niente. Nessun playbook è stato ripetuto più di tre volte. **Cercavo uno spreco e non c'è.** Lo dico perché era il mio sospetto di partenza, e i dati lo smentiscono.
+
 ### ② Come arriva — ⚪ non l'ho potuto vedere
 
 La coda vive nel database della memoria e da qui non ho le chiavi. Il referto che il server ha scritto oggi alle 06:46 dice «non ho potuto leggere la coda: HTTP 400». Cioè non l'ha vista nemmeno lui.
