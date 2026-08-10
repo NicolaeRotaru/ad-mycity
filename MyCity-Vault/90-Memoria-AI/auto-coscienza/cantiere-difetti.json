@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-10 13:24",
+  "aggiornato": "2026-08-10 23:28",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11332,11 +11332,151 @@
       "verifica": {
         "nota": "da scrivere col fix: il test deve avere sia il caso ereditato-che-passa sia il caso nuovo-che-fallisce, altrimenti si cura solo meta"
       }
+    },
+    {
+      "id": "AR-562",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-10 23:20",
+      "nato_come": "scoperta",
+      "origine": "Radiografia della catena di lavoro (10/8). Rieseguite a mano tutte e 84 le prove dei difetti che la sonda accreditava come «già risolti, aspettano il merge»: 84 su 84 FALSE oggi — 76 col pattern assente dal file, 8 che puntano a un file che non esiste più. Zero vere.",
+      "titolo": "La macchina si accreditava 84 difetti come già risolti leggendo un campo che dice tutt'altro",
+      "causa_radice": "① sonda-volano.mjs classificava (b) CHIUSO-IN-CODICE ogni difetto con `verifica.presente === true`. ② Ma in auto-fix.mjs quel campo non dice «il fix c'è»: dice CON CHE VERSO leggere la prova (`const vuolePresente = v.presente !== false`, default true) — è la specifica scritta quando il difetto NASCE, non il risultato di una misura. ③ Siccome quasi ogni fix consiste nell'AGGIUNGERE qualcosa, quasi ogni difetto nasce con presente:true → la sonda li accreditava tutti, per sempre, senza aprire un solo file. ④ La malattia in una riga: un campo che dice «cosa mi aspetto» letto da un altro come «cosa ho misurato». ⑤ Su quel conto la macchina calcolava il voto di salute e la lista di «cosa resta da decidere»: dichiarava 113 difetti da lavorare quando erano 197.",
+      "fix_proposto": "🟡 FATTO in questa richiesta: la prova si riesegue davvero, con lo stesso metro di auto-fix (`provaSoddisfatta` da prove-regole.mjs — una regola, una casa, AR-344). Si accredita SOLO ciò che si è potuto leggere: file assente, prova a comando, prova umana → non è un credito, resta aperto davvero. La funzione `provaPresenteOra` è pura (il lettore entra dal parametro) così il freno la può eseguire senza toccare il disco.",
+      "verifica": {
+        "comando": "node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata"
+      },
+      "chiuso_il": "2026-08-10 23:20",
+      "chiuso_come": "Riparato e provato: cervello/test/prova-misurata-non-dichiarata.test.mjs (9 asserzioni). Col codice vecchio rimesso al suo posto il freno cade 7 volte su 9; col fix passa 9 su 9. Dopo la riparazione la sonda dice 197 aperti-davvero e 0 in attesa merge (prima: 113 e 84).",
+      "nota": "Dove: cervello/sonda-volano.mjs:206 (la riga che leggeva il campo) · cervello/auto-fix.mjs:173 (il campo, col suo significato vero) · Impatto: è il numero con cui la macchina decide quanto lavoro le resta e quanto sta migliorando."
+    },
+    {
+      "id": "AR-563",
+      "stato": "chiuso",
+      "gravita": "minore",
+      "colore": "🟡",
+      "dimensione": "efficienza-costo",
+      "impatto_crescita": "basso",
+      "nato": "2026-08-10 23:20",
+      "nato_come": "scoperta",
+      "origine": "Radiografia della catena di lavoro (10/8). `node cervello/metabolismo.mjs` stampava: «Oggi: 11 run · 0 token · 1826s» e sotto «Budget giornaliero: 0/2000000 token = 27,5% della soglia». Zero diviso due milioni non fa 27,5.",
+      "titolo": "Il conto dei consumi stampava una frazione impossibile: zero token uguale ventisette per cento",
+      "causa_radice": "① AR-196 aveva spostato il CALCOLO della percentuale sul campo che frena davvero (`token_per_gate`, che tiene il massimo fra reali e stimati). ② Ma la STAMPA era rimasta su `token_totali`, che resta 0 finché ogni registrazione passa con --stima. ③ Risultato: numeratore e percentuale venivano da due campi diversi nella stessa riga. ④ È la stessa malattia di AR-562 in piccolo: due letture dello stesso concetto che non si parlano. Una riga che si contraddice da sola insegna a non fidarsi di tutte le altre.",
+      "fix_proposto": "🟡 FATTO: si stampa lo stesso campo su cui si frena, e si dice «(stimati)» quando i reali non ci sono.",
+      "verifica": {
+        "file": "cervello/metabolismo.mjs",
+        "pattern": "tokenMostrati",
+        "presente": true
+      },
+      "chiuso_il": "2026-08-10 23:20",
+      "chiuso_come": "Riparato e visto girare: ora stampa «550000/2000000 token = 27.5% della soglia» — la frazione torna.",
+      "nota": "Dove: cervello/metabolismo.mjs:85-86."
+    },
+    {
+      "id": "AR-564",
+      "stato": "aperto",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-10 23:20",
+      "nato_come": "scoperta",
+      "origine": "Radiografia della catena di lavoro (10/8). Contate le prove di tutti e 552 i difetti del cantiere: 193 (35%) hanno per prova un grep — «il fix è fatto quando questa parola compare in questo file». Fra i chiusi sono 67 su 332 (20%).",
+      "titolo": "Un difetto su tre si chiude perché una parola compare in un file, non perché qualcosa funziona",
+      "causa_radice": "① La prova di un difetto può avere due forme: un COMANDO che gira (comportamentale) o un file+pattern (testuale). ② 193 difetti su 552 hanno la forma testuale. ③ Una parola in un file non è un comportamento: si può scrivere «chargeback» in un documento e il difetto «non esiste nessun sensore per i chargeback» risulta risolto — è esattamente il caso di AR-128. ④ Un grep non può fallire nel modo in cui fallisce la realtà: per questo gli errori li trova Nicola e non la macchina. ⑤ La causa a monte è che la forma testuale è la più facile da scrivere quando si registra il difetto, e nessun cancello chiede di più.",
+      "fix_proposto": "🟡 (a) Vietare la forma testuale ai difetti NUOVI di gravità bloccante o grave: nascono con un comando che gira, o non nascono. (b) Migrare i 193 esistenti a un comando, a lotti, partendo dai bloccanti. (c) Chi non è migrabile si dichiara «prova umana» e smette di contare come chiudibile da solo — cantiere-prove.mjs ne conta già 94 così, il numero vero è più alto.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "serve decidere la politica: quali difetti possono ancora nascere con una prova a grep"
+      },
+      "nota": "Dove: cervello/auto-fix.mjs:154-179 (le due forme) · cervello/forma-prova.mjs (la forma ammessa per i comandi) · Impatto: è la definizione stessa di «fatto» della macchina."
+    },
+    {
+      "id": "AR-565",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-10 23:20",
+      "nato_come": "scoperta",
+      "origine": "Radiografia della catena di lavoro (10/8). Eseguiti di fila i due guardiani dell'apprendimento sullo stesso dato: `sonda-volano.mjs` stampa «Loop chiude: ✅ (tasso 18%)»; `apprendimento-guardiano.mjs` stampa «❌ APPRENDIMENTO MALATO — tasso di applicazione 18% < 30%». Stesso numero, stessa ora, verdetti opposti.",
+      "titolo": "Due guardiani guardano lo stesso diciotto per cento: uno dice che sto imparando, l'altro che sono malata",
+      "causa_radice": "① `loop_chiude` non è calcolato sul tasso: è vero se esiste QUALCHE prova di chiusura (difetti chiusi, calibrazione, esperimenti misurati). ② Il tasso viene stampato accanto, sulla stessa riga, come se fosse il motivo del verde. ③ Chi legge — Nicola nel Pannello, e la macchina stessa al giro dopo — vede «✅ tasso 18%» e conclude che il 18% va bene, mentre l'altro guardiano lo dichiara la malattia principale. ④ Il verde vince perché è quello che finisce nella riga di riassunto. ⑤ È il pattern di AR-175 (due numeri per «come sto?») applicato al segnale più importante: quello che dice se la macchina impara.",
+      "fix_proposto": "🟡 Il verdetto sull'apprendimento esce da UNA testa sola. O `loop_chiude` incorpora la soglia del tasso (e allora diventa ❌ finché è sotto 30%), o smette di stampare il tasso accanto al proprio verde. La seconda è più onesta ma lascia due voci: preferire la prima.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "va deciso quale dei due verdetti è quello buono prima di cablarlo"
+      },
+      "nato_da": "AR-175 (la Cabina risponde con due numeri diversi alla stessa domanda)",
+      "nota": "Dove: cervello/sonda-volano.mjs (riga «Loop chiude») · cervello/apprendimento-guardiano.mjs · cervello/volano-regole.mjs (loopChiude)."
+    },
+    {
+      "id": "AR-566",
+      "stato": "aperto",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "strategia-costo-rischio",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-10 23:20",
+      "nato_come": "scoperta",
+      "origine": "Radiografia della catena di lavoro (10/8). Contati nascita e chiusura di tutti i 552 difetti per mese: luglio 455 nati e 244 chiusi (54%); agosto, in dieci giorni, 90 nati e 14 chiusi (16%). La dimensione con più difetti aperti è «guardiani-e-guardrail» (21): i controlli sono la prima fonte di lavoro dei controlli.",
+      "titolo": "La macchina trova i problemi tre volte più in fretta di quanto li ripara, e il divario sta crescendo",
+      "causa_radice": "① Ogni radiografia aggiunge difetti al cantiere; nessun meccanismo lega la quantità di ricerca alla capacità di riparazione. ② 79 guardiani girano a ogni giro e producono segnalazioni; la riparazione invece passa da un lotto alla volta con la firma di Nicola. ③ Percezione e conversione hanno due velocità diverse per costruzione, e solo la prima è automatica. ④ Quindi ogni giro il numero di difetti aperti sale, il voto di salute scende, e la sentinella «SALUTE BASSA» riscatta su una condizione che nessuno può chiudere in tempo — tre volte solo il 10 agosto. ⑤ L'effetto su Nicola: gli si chiede di firmare sempre di più mentre il numero peggiora comunque, e la macchina sembra peggiorare proprio mentre lavora di più.",
+      "fix_proposto": "🔴 Serve una decisione di Nicola, non un fix tecnico: il tasso di chiusura diventa il KPI della macchina su sé stessa (chiusi ÷ nati nel mese, obiettivo ≥ 1). Sotto 1, il giro NON apre dimensioni nuove di ricerca e spende il suo turno a chiudere. È l'unico modo perché una radiografia migliori la macchina invece di allungarle la lista.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "decisione di governo: si accetta di frenare la ricerca quando la riparazione è indietro?"
+      },
+      "nota": "Impatto: è la ragione per cui Nicola trova errori dopo ogni upgrade — non perché il lavoro sia fatto male, ma perché la lista cresce più in fretta di quanto si accorcia."
+    },
+    {
+      "id": "AR-567",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-10 23:20",
+      "nato_come": "scoperta",
+      "origine": "Radiografia della catena di lavoro (10/8). Otto difetti hanno come prova un file che nel repo non esiste: cervello/mappa-copertura.mjs (AR-132), cervello/sonda-acquisto.mjs (AR-189), cervello/prove-uniche.mjs (AR-336), MyCity-Vault/07-Agenti/kit/ad-KIT.md (AR-350), cervello/adozione-medicine.mjs (AR-407), cervello/test/rotte-che-scrivono.test.mjs (AR-418), cervello/freschezza-rischi.mjs (AR-431), cervello/cantiere-owner-check.mjs (AR-432).",
+      "titolo": "Otto riparazioni sono state progettate col nome del file già scritto, e quel file non è mai nato",
+      "causa_radice": "① Quando si registra un difetto si scrive la prova indicando il file che il fix creerà. ② Se il lotto poi non arriva a costruirlo, resta un puntatore a un file che non esiste. ③ Nessun guardiano distingue «prova non ancora soddisfatta» da «prova che punta al vuoto»: cantiere-prove.mjs li chiama entrambi «auto-sospetta». ④ Con AR-562 aperto, questi otto erano perfino accreditati come «già risolti». ⑤ Un puntatore al vuoto è peggio di nessun puntatore: sembra un piano ed è un buco.",
+      "fix_proposto": "🟡 cantiere-prove.mjs separa i due casi e li chiama con due nomi diversi: «prova mai soddisfatta» (il file c'è, il pattern no) e «prova al vuoto» (il file non esiste). La seconda è un allarme, non un dubbio: o il fix si costruisce o la prova si riscrive.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "prova automatica assente per costruzione: cantiere-prove.mjs non sa ancora distinguere «pattern assente» da «file inesistente», quindi esce 0 comunque. Quando la distinzione esisterà, la prova diventa `node cervello/cantiere-prove.mjs` con un mutante che la rompe."
+      },
+      "nato_da": "AR-562",
+      "nota": "Dove: cervello/cantiere-prove.mjs · Impatto: otto pezzi di lavoro dati per progettati e mai atterrati."
+    },
+    {
+      "id": "AR-568",
+      "stato": "aperto",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "sensori-e-cadenza",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-10 23:28",
+      "nato_come": "scoperta",
+      "origine": "Successo DAVVERO durante la radiografia della catena di lavoro (10/8), e l'ha preso il collaudo prima della consegna. Da una sessione cloud senza chiavi ho eseguito `node cervello/verifica-sensori.mjs` per DIAGNOSTICARE. Quel comando ha riscritto sensori-cecita.json: i sensori che il VPS aveva misurato «ok» alle 14:20 (supabase_rest «orders CONTATI via REST: 1 righe visibili», stripe_api «balance API ok», posthog_api «projects API ok») sono diventati «non_configurato». Subito dopo `sensori-spenti-check.mjs` è passato da 10/12 accesi a 3/12 ed è uscito rosso, facendo cadere il test una-card-una-volta-sola. Stessa cosa su altri due file: blocco-mancante.json (26 messaggi misurati → 2) e costo-ai.json (token_sessione_rolling 300000 → 0).",
+      "titolo": "Un comando di sola lettura lanciato da dove mancano le chiavi riscrive la memoria dei sensi con la propria cecità",
+      "causa_radice": "① Gli script di misura scrivono il loro risultato in memoria condivisa come fatto della MACCHINA, senza registrare DA DOVE è stata presa la misura. ② Una sessione cloud non ha il .env: per lei ogni sensore è assente. ③ Quindi la sua misura locale sovrascrive quella del VPS, che le chiavi ce le ha. ④ Nessuno confronta la copertura della misura nuova con quella della misura che sta sostituendo: una misura più povera vince solo perché è più recente. ⑤ Il caso peggiore non è il rosso — quello si vede. È blocco-mancante.json: la finestra è passata da 26 messaggi a 2, e la quota è scesa da 100% a 50%. Il voto MIGLIORA perché ho misurato di meno. Un numero che si abbassa restringendo il campione è una bugia che sembra un progresso. ⑥ Il collaudo l'ha preso solo perché un test guarda il mondo vero: senza quel test avrei consegnato tre file avvelenati.",
+      "fix_proposto": "🟡 (a) Ogni file di misura porta `origine` (vps | cloud | locale) e `copertura`. (b) Chi scrive rifiuta di sostituire una misura con una a copertura MINORE: la mette accanto, non al posto. Cieco non sovrascrive vedente. (c) `verifica-sensori.mjs` e i suoi fratelli prendono un `--sola-lettura` che stampa e non scrive, ed è quello il modo giusto di diagnosticare da fuori. (d) Il cancello di pubblicazione ferma una richiesta che abbassa la copertura di un file di misura senza dirlo.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "serve decidere quali file di misura sono di proprietà del VPS e non sovrascrivibili da fuori"
+      },
+      "nato_da": "AR-562 (la stessa famiglia: un verdetto scritto da chi non ha guardato la stessa cosa)",
+      "nota": "Dove: cervello/verifica-sensori.mjs (scrive sensori-cecita.json) · cervello/conta-blocco-mancante.mjs (scrive blocco-mancante.json) · cervello/costo-ai.mjs · cervello/sensori-spenti-check.mjs (lo legge e va rosso) · Impatto: una diagnosi lanciata da fuori può spegnere i sensi della macchina nel Pannello e far scattare le sentinelle su un guasto che non esiste."
     }
   ],
   "meta": {
-    "aperti": 163,
+    "aperti": 168,
     "in_corso": 0,
-    "chiusi": 332
+    "chiusi": 334
   }
 }

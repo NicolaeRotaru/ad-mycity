@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-10 14:20",
+ "aggiornato": "2026-08-10 23:30",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -11354,6 +11354,14 @@
    "testo": "**Un dato mostrato senza la sua data è un dato che mente per omissione (Nicola 10/8: «aggiungi la data per ogni card e con il segnale che è scaduta»).** La card Intelligence mostrava un'analisi del 20 luglio identica a una di stamattina: la data viveva solo DENTRO il markdown, e solo se chi l'aveva scritta se l'era ricordata. Nessuno se n'è accorto per 11 giorni perché la vecchiaia non era misurata da nessuna parte. Seconda metà della correzione, altrettanto importante: «la dovrà leggere un sentinello per segnalarlo alla macchina o a me» — una data VISIBILE serve solo a chi sta guardando quella scheda in quel momento; perché protegga, qualcuno deve leggerla al posto suo.",
    "regola": "ogni superficie che mostra un dato rigenerato periodicamente deve mostrare anche la sua età e gridare quando supera la cadenza attesa; e la soglia va DERIVATA dalla configurazione della cadenza (radar-fonti.json), mai scritta a mano in due posti. La visibilità non basta: serve un guardiano che legga l'età anche quando nessuno guarda.",
    "gate": "node cervello/test/freschezza-intelligence.test.mjs"
+  },
+  {
+   "id": "L-2026-0810-03",
+   "data": "2026-08-10 23:30",
+   "fonte": "correzione di Nicola",
+   "testo": "**Un campo scritto per dire «cosa mi aspetto» non si legge mai come «cosa ho misurato» (radiografia della catena di lavoro, 10/8).** Nicola: «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori». Ha ragione, e la ragione è misurabile: la macchina si accreditava 84 difetti su 220 come «già risolti, aspettano solo il merge» leggendo `verifica.presente === true` — un campo che in auto-fix.mjs dice soltanto CON CHE VERSO leggere la prova, scritto quando il difetto nasce. Rieseguite a mano tutte e 84 le prove: 84 su 84 false (76 pattern assenti, 8 file inesistenti). Stessa malattia in piccolo su metabolismo.mjs (percentuale da un campo, numeratore da un altro) e in grande su AR-568, dove una misura cieca ha sovrascritto una misura vedente e il voto è MIGLIORATO perché la finestra si era ristretta da 26 messaggi a 2.",
+   "regola": "chi emette un verdetto deve averlo MISURATO adesso: mai dedurlo da un campo scritto per un altro scopo, mai riportarlo da una misura precedente senza dichiararlo, mai sostituire una misura con una a copertura minore. Corollario: una prova di difetto è un comando che gira, non una parola in un file — una ricerca di parole non può fallire nel modo in cui fallisce la realtà, ed è per questo che gli errori li trova Nicola e non la macchina. Secondo corollario, pagato nello stesso lavoro: si scrive un file di memoria con scrivi-json.mjs, che CONSERVA l'indentazione del file; JSON.stringify(…, 2) su un file a un solo spazio lo riscrive tutto e lo spinge oltre il tetto di lettura di GitHub.",
+   "gate": "node cervello/test/prova-misurata-non-dichiarata.test.mjs"
   }
  ],
  "principi": [

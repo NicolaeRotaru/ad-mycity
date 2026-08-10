@@ -2081,6 +2081,15 @@
    "cerca": "deve_negare: /\\.claude\\/settings\\.json/,",
    "sostituisci": "deve_negare: /NESSUNA_CORRISPONDENZA_MAI_XYZ/,",
    "test": "node cervello/test/permessi-check.test.mjs"
+  },
+  {
+   "difetto": "prova-dichiarata-invece-che-misurata",
+   "lezione": "L-2026-0810-03",
+   "nome": "la sonda torna ad accreditare come «già risolto» ogni difetto che DICE presente:true, senza aprire il file",
+   "file": "cervello/sonda-volano.mjs",
+   "cerca": "  if (!v.file || !v.pattern) return false; // niente da misurare → niente da accreditare",
+   "sostituisci": "  return v.presente === true; // MUTANTE: torna a leggere la dichiarazione invece di misurare",
+   "test": "node cervello/test/prova-misurata-non-dichiarata.test.mjs"
   }
  ]
 }
