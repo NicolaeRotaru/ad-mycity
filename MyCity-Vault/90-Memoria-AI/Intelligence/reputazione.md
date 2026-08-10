@@ -4,9 +4,9 @@
 
 ---
 
-## Stato attuale (10/8/2026) — invariato da 23 giorni: nessuna traccia esterna
+## Stato attuale (10/8/2026)
 
-**Nessuna menzione esterna reale trovata**, né positiva né negativa — coerente con lo stallo di 47 giorni (0 ordini pagati, il fascicolo pagamenti di Pane Quotidiano ha ancora incassi disattivati). Non c'è ancora niente da "reputare": la macchina non ha consegnato un solo ordine vero.
+Stesso esito di 23 giorni fa: **nessuna menzione esterna trovata**. Né positiva né negativa. È coerente con lo stallo: 47 giorni senza un ordine pagato. Il fascicolo pagamenti di Pane Quotidiano ha ancora incassi disattivati. Non c'è ancora niente da "reputare": la macchina non ha consegnato un solo ordine vero.
 
 | Canale | Risultato |
 |--------|-----------|
