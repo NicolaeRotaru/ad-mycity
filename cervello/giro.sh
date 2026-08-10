@@ -1290,13 +1290,6 @@ if command -v node >/dev/null 2>&1; then
   fi
 fi
 
-# AR-104: GATE COERENZA-FATTI + SANITÀ VAULT come CANCELLO BLOCCANTE del push (non più solo vincolo soft
-# al motore). Gira ORA, DOPO che l'AI ha scritto: è lo stato REALE che sta per finire su main e che il
-# Pannello mostrerà a Nicola. Se la memoria è incoerente (una copia vecchia di un fatto è rimasta) o il
-# vault è "sporco" (marcatori di conflitto, file a 0 byte, frontmatter/JSON rotti) → NON pubblichiamo:
-# meglio memoria vecchia sul Pannello che memoria che MENTE. Stesso stile di scan-segreti/onesta-check:
-# rc catturato esplicitamente, MAI `|| true` che ingoia il fallimento del gate (AR-081/AR-010).
-# FAIL-CLOSED: se un check non riesce a girare (node assente / crash), trattiamo come "non pubblicare".
 # 10/8 (Nicola: «guarda tutti i piani — non sono stati aggiornati; aggiungi la data con l'ultima
 # volta in cui sono stati aggiornati»): riscrive in cima a ogni piano di 06-Piani la riga «Ultimo
 # aggiornamento: …», misurata da git sul CORPO del piano — il blocco che il punto 9 rigenera in
@@ -1316,6 +1309,13 @@ if command -v node >/dev/null 2>&1; then
   fi
 fi
 
+# AR-104: GATE COERENZA-FATTI + SANITÀ VAULT come CANCELLO BLOCCANTE del push (non più solo vincolo soft
+# al motore). Gira ORA, DOPO che l'AI ha scritto: è lo stato REALE che sta per finire su main e che il
+# Pannello mostrerà a Nicola. Se la memoria è incoerente (una copia vecchia di un fatto è rimasta) o il
+# vault è "sporco" (marcatori di conflitto, file a 0 byte, frontmatter/JSON rotti) → NON pubblichiamo:
+# meglio memoria vecchia sul Pannello che memoria che MENTE. Stesso stile di scan-segreti/onesta-check:
+# rc catturato esplicitamente, MAI `|| true` che ingoia il fallimento del gate (AR-081/AR-010).
+# FAIL-CLOSED: se un check non riesce a girare (node assente / crash), trattiamo come "non pubblicare".
 MEMORIA_INCOERENTE=0
 _gate_motivi=""
 if command -v node >/dev/null 2>&1; then
