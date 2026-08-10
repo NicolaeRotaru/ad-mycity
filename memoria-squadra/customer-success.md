@@ -8,6 +8,7 @@ reparto: customer-success
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-10 11:56 · Playbook Recensioni (10ª invocazione, dopo 9 esecuzioni 1/7-23/7) · gate strutturale invariato: verificato dal vivo via Supabase MCP, orders totali=1, delivery_status=CANCELED (ordine test PQ 24/6), 0 DELIVERED · atteso 0 consegne reali da recensire → reale 0 consegne reali confermato, nessun nuovo dato da 18gg · #playbook-recensioni-loop-a-vuoto
 - 2026-08-04 11:58 · Playbook recensioni: individua consegne senza recensione (10a invocazione) · 0 consegne DELIVERED, 0 recensioni in tabella reviews · atteso nessuna consegna nuova da controllare → reale confermato via SQL live: 1 solo ordine totale (PENDING/CANCELED), 0 DELIVERED — gate invariato dal 1/7 · #loop-a-vuoto
 - 2026-07-30 11:19 · PLAYBOOK Recensioni: individua consegne senza recensione (30/7 11:19, ennesima invocazione) · 0 consegne DELIVERED trovate, nessuna azione da accodare (confermato da STATO.md 11:09 e registro-fatti northstar.consegnati=0) · atteso eventuali nuove recensioni da richiedere → reale 0 — blocco strutturale a monte invariato, stesso esito di 12+ giri precedenti (1/7→28/7) · #loop-a-vuoto #playbook-recensioni
 - 2026-07-29 11:05 · playbook recensioni post-consegna, invocazione 29/7 11:xx · verifica SQL: 0 DELIVERED, 1 CANCELED (zombie 24/6) · atteso consegne reali da cui generare messaggi grazie+recensione → reale 0 destinatari, blocco strutturale invariato (nessuna consegna reale ancora) · #loop-a-vuoto #recensioni

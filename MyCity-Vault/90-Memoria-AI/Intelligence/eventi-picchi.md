@@ -1,29 +1,27 @@
-# 📅 Eventi & Picchi di Domanda — 2026-07-30
+# 📅 Eventi & Picchi di Domanda — 2026-08-10
 
-> Aggiornato: 30 luglio 2026 08:45 · @intelligence · monitoraggio giornaliero (precedente 27/7 11:35)
+> Aggiornato: 10 agosto 2026 12:20 · @intelligence · monitoraggio (precedente 30/7 08:45)
 
 ---
 
-## 🌡️ Meteo Piacenza — AGGIORNAMENTO: la 4ª ondata di caldo è PIÙ LUNGA e più intensa del previsto
+## 🌡️ Meteo Piacenza 10-16/8 — nuova intensificazione prima di Ferragosto, sollievo spostato più avanti
 
-Rispetto al 27/7 la previsione è peggiorata: non più un picco isolato venerdì, ma **10 giorni di caldo intenso** con sollievo posticipato a inizio agosto.
+Il 30/7 prevedevamo sollievo verso il 7-8/8. O non è arrivato pieno, o è stato breve. Le fonti di oggi (9-10/8) segnalano **una nuova intensificazione tra l'11 e il 14/8**, con punte fino a 40-41°C indicate per Piacenza/Ferrara prima di Ferragosto. Il sollievo vero è spostato a **non prima del 16-20/8**.
 
-| Data | Condizione | T max | Note |
-|------|-----------|-------|------|
-| **Gio 30/7 (OGGI)** | Sereno, afoso | 34-38° | fonti in disaccordo di poco, vedi sotto |
-| Ven 31/7 | Sereno | 36-41° | possibile picco locale (vedi nota fonti) |
-| Sab 1/8 | Sereno, molto caldo | 38° | **picco ondata secondo PiacenzaSera** |
-| Dom 2/8 | Sereno | 37° | punte 40-41° su Pianura Padana centrale (Piacenza/Ferrara) nel weekend |
-| Lun 3/8 | Sereno | 36-37° | ancora caldo intenso |
-| ~7-8/8 | Primo sollievo atteso | — | fine della 4ª ondata |
+| Data | iLMeteo.it (puntuale Piacenza) | Fonti nazionali (geopop/today/quotidianodiragusa) |
+|------|------|------|
+| Lun 10/8 (oggi) | 37° max, sereno/caldo | — |
+| Mar-Mer 11-12/8 | ~37° max, sereno | Nuova intensificazione, punte fino 40-41° su Piacenza/Ferrara |
+| Gio 13/8 | 37° max | Caldo intenso, verso il picco |
+| Ven 14/8 | 37° max | Picco atteso prima di Ferragosto |
+| Sab 15/8 (Ferragosto) | 37° max, sereno | Anticiclone africano non molla neanche a Ferragosto |
+| Dom 16/8 | 36° max, lieve calo | Primo possibile allentamento (modelli divergono: 16-18/8 vs "non prima del 20/8") |
 
-**Fonti triangolate (2 indipendenti, consultate 29-30/7):**
-- [PiacenzaSera — "Dieci giorni di caldo intenso, la quarta ondata è la più lunga"](https://www.piacenzasera.it/2026/07/dieci-giorni-di-caldo-intenso-la-quarta-ondata-e-la-piu-lunga/656310/) (pubblicato 29/7 12:00): 4ª ondata dell'estate, la più lunga, picco 30/7→3/8, sollievo solo verso il 7-8/8.
-- [IlPiacenza — "Terza ondata di calore in arrivo, la più intensa: massime fino a 41 gradi"](https://www.ilpiacenza.it/meteo/terza-ondata-di-calore-in-arrivo-la-piu-intensa-massime-fino-a-41-gradi-su-piacenza.html) (titolo, contenuto non raggiungibile oggi — 403) + [ilmeteo.it/pisatoday](https://www.pisatoday.it/meteo/previsioni-fine-luglio-2026-caldo-africano.html): 41° indicato come punta per il 31/7.
+**Nota onestà:** le due fonti divergono sul valore assoluto. iLMeteo (previsione puntuale Piacenza) resta stabile 36-37° tutta la settimana. Le fonti nazionali parlano di punte 40-41° specifiche per Piacenza/Ferrara nei giorni pre-Ferragosto. Concordano però sul pattern: caldo secco, sereno, nessuna pioggia, nessuna vera tregua fino a dopo Ferragosto. **Confidenza 85%** sul pattern (2 fonti indipendenti concordanti). **Confidenza 40%** sul valore di picco esatto — 37° o 41°, divergenza non risolta, non ho una terza fonte per arbitrare.
 
-**Nota onestà:** le due fonti divergono leggermente sul giorno esatto del picco (PiacenzaSera indica 1/8 a 38° locale con punte regionali 40-41°; IlPiacenza/iLMeteo indicano 41° già il 31/7) — la fascia è comunque **la stessa**: caldo estremo strutturale 30/7→3/8, non un giorno isolato. Confidenza 85% sulla durata (10gg, 2 fonti concordanti), 60% sul giorno esatto del picco assoluto.
+**Impatto:** rinforza, non sostituisce, l'opportunità "pane fresco/ondata di caldo" già segnalata il 27/7 (bozza in `consegne/content/`, NON pubblicare per il vincolo pausa 24/8-1/9). Nessuna azione nuova, la card resta parcheggiata.
 
-**Impatto:** rinforza — non sostituisce — l'opportunità già segnalata il 27/7 (bozza "pane fresco della mattina prima del caldo" per Pane Quotidiano, in `consegne/content/`, NON pubblicare per il vincolo pausa 24/8-1/9). Nessuna nuova azione da accodare: la card è già pronta e resta parcheggiata, la finestra di caldo semplicemente si allunga.
+Fonti (link completi in fondo, consultate 10/8): iLMeteo.it Piacenza, Geopop, Today.it, QuotidianoDiRagusa (9/8/2026).
 
 ---
 
@@ -31,40 +29,53 @@ Rispetto al 27/7 la previsione è peggiorata: non più un picco isolato venerdì
 
 | Evento | Date | Rilevanza |
 |--------|------|-----------|
-| ❌ ~~PI26 CCIAA~~ — CHIUSO 29/7 | non applicabile | MyCity non idonea, confermato da Nicola; card rimosse dalla coda 30/7 06:05 (vedi DECISIONI.md) |
-| Rassegna cinema estiva Ex Caserma Cantore | fino 31/8 | Bassa — sera, area specifica |
-| Mostra "Acqua a km zero" | fino 2/8 | Bassa |
-| Cornicione Corso V.E. 226-234 | dal 19/7, **stato riapertura ancora non confermato** | ⚠️ Nessuna notizia nuova trovata oggi — invariato dal 27/7, verificare sul posto prima di citarlo come riaperto |
+| ❌ ~~PI26 CCIAA~~ — CHIUSO | non applicabile | Invariato dal 29/7, confermato da Nicola |
+| Rassegna cinema estiva Ex Caserma Cantore | fino 31/8 | Bassa — invariata, ancora attiva |
+| ✅ Mostra "Acqua a km zero" — **CHIUSA il 2/8** | conclusa | Era "fino al 2/8" nel file precedente: confermato chiusa, tolta dai riferimenti attivi |
+| Cornicione Corso V.E. 226-234 | dal 19/7, **riapertura ancora non confermata online** | ⚠️ 3+ settimane senza notizia di riapertura — dato stantio, verificare sul posto prima di citarlo |
+| Sagre/feste zona (Gazzola, Cassano Ponte dell'Olio, San Rocco al Porto) | 10-16/8 | Bassa — fuori Piacenza centro, non rilevante per consegne in centro storico |
 
-**Nessun evento di massa nuovo in centro storico questa settimana.** Nessuna chiusura/apertura di bottega rilevante trovata oggi su Libertà/IlPiacenza/PiacenzaSera (solo economia industriale: chiusura BMS Caorso e Coop Castelvetro, fuori scope retail-centro — vedi `buchi-mercato.md`, non aggiornato oggi perché non porta nulla di nuovo sul tema specifico).
+**Nessun evento di massa nuovo in centro storico Piacenza questa settimana.**
 
-Fonti: [piacenzasera.it](https://www.piacenzasera.it/) · [ilpiacenza.it/economia](https://www.ilpiacenza.it/economia/) · [liberta.it/attualita](https://www.liberta.it/attualita) — tutte consultate 30/7 08:30-08:45.
+**Ferragosto 15/8 — nota operativa (inferenza, non un dato misurato):** attesa chiusura ampia di negozi il 15/8 per consuetudine nazionale — non ho trovato un dato specifico su Piacenza, è un'inferenza non verificata con fonte locale. Impatto su MyCity oggi: nullo, unico negozio reale (Pane Quotidiano) non incassa ancora.
+
+Fonti (link completi in fondo): piacenza24.eu — eventi fino al 16/8. ilpiacenza.it/eventi non raggiungibile oggi (errore 403). Ricerca su "Acqua a km zero" con chiusura confermata al 2/8. Tutte consultate 10/8.
 
 ---
 
 ## 🚦 Operativo
 
-- ⚠️ Viabilità Corso V.E. 226-234: stato non confermato, invariato dal 19-27/7.
+- ⚠️ Viabilità Corso V.E. 226-234: stato non confermato, invariato da 3+ settimane (19/7→10/8) — il dato più vecchio del file, possibile che sia semplicemente non aggiornato online.
 - ZTL centro 8:00–19:00 invariata.
 - Bici consegna: non operativa (invariato).
-- Caldo estremo prosegue fino a inizio agosto: se in futuro si riattiva la logistica bici, va tenuto conto per gli orari di consegna.
+- Caldo estremo prosegue oltre Ferragosto secondo le fonti nazionali: se si riattiva la logistica bici, tenerne conto per gli orari di consegna (mattina presto).
 
 ---
 
-## Opportunità (30/7, coerenti col vincolo "niente spinta commerciale su nuovi negozi prima del 24/8")
+## Opportunità (10/8, coerenti col vincolo "niente spinta commerciale su nuovi negozi prima del 24/8")
 
 **① Bozza "ondata di caldo" per Pane Quotidiano — invariata, ancora NON pubblicare** — 🟢
-Nessuna nuova azione: la bozza preparata il 27/7 resta valida e anzi più pertinente (l'ondata è più lunga del previsto). Resta parcheggiata in `consegne/content/` per la ripresa 24/8-1/9.
+La bozza del 27/7 resta valida e più pertinente: il caldo si conferma esteso oltre Ferragosto. Resta parcheggiata in `consegne/content/` per la ripresa 24/8-1/9.
 
-**② Bandi CCIAA (PI26/BT26/BE26): finestra chiusa oggi 30/7 ore 16:00** — 🟢 nota, nessuna azione
-PI26 già chiuso e non idoneo per MyCity (confermato Nicola 29/7). BT26/BE26 erano argomento di pitch per i negozi del batch, ma nessun negozio è in pipeline attiva per il vincolo pausa — nessuna domanda persa, coerente con la decisione presa. Vedi `leve-uscita.md` per il dettaglio aggiornato.
+**② Verifica fisica del cornicione Corso V.E. — 🟢 nota, a costo zero per @operations quando riparte l'attività**
+Dato fermo da 3+ settimane senza conferma online. Non urgente ora (nessuna consegna attiva), ma verificare sul posto prima di riattivare qualunque logistica in quella via.
+
+**③ Bandi CCIAA: nessuna novità, solo monitoraggio** — 🟢 nota, nessuna azione
+PI26 chiuso (confermato). Ri-controllato oggi anche "Piccole Imprese Territorio 2026" (fino 7.000€, sportello CCIAA Emilia): finestra di spesa ammissibile 1/5/2026-31/5/2027, ma la verifica del 3/8 lo aveva già scartato come non aperto a nuove domande — nessuna informazione nuova oggi che lo contraddica.
 
 ---
 
 ## Perlustrazione settimana precedente
 
-Report 20/7: `consegne/intelligence/2026-07-20-perlustrazione-settimana.md`
+Report 27/7 → 30/7: versione precedente di questo file (in git history).
 
 ---
 
-*Senior: @content-social (bozza caldo, resta parcheggiata) · nessun'altra azione da questo giro*
+**🔧 Link completi delle fonti** (consultate 10/8/2026):
+- ilmeteo.it/meteo/piacenza
+- geopop.it/il-picco-della-quarta-ondata-di-caldo-sara-a-inizio-agosto-con-oltre-40-c-quanto-durera
+- today.it/meteo/quando-finisce-caldo-agosto-2026-previsioni.html
+- quotidianodiragusa.it/2026/08/09/attualita/ondata-calore-agosto-2026-ferragosto
+- piacenza24.eu/eventi-a-piacenza-fino-a-domenica-16-agosto
+
+*Senior: @intelligence · nessuna azione da eseguire ora, tutto parcheggiato per la ripresa 24/8-1/9 salvo il monitoraggio bandi/meteo che resta sempre attivo*

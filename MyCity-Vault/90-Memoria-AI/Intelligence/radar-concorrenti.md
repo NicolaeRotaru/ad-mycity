@@ -1,28 +1,39 @@
-# 🔍 Radar Concorrenti — 2026-07-27
+# 🔍 Radar Concorrenti — 2026-08-10
 
-> Aggiornato: 27 luglio 2026 11:35 · @intelligence · PLAYBOOK Intelligence (refresh settimanale, precedente 20/7) · fonte: web scan live
+> Aggiornato: 10 agosto 2026 12:20 · @intelligence · PLAYBOOK Intelligence (refresh, precedente 27/7) · fonte: web scan live
 
-## Food delivery a Piacenza — nessun movimento locale nuovo dal 20/7
+## Food delivery a Piacenza — nessun movimento locale nuovo dal 27/7
 
-| Competitor | Stato | Cambiato dal 20/7? | Fonte |
+| Competitor | Stato | Cambiato dal 27/7? | Fonte |
 |------------|-------|---------------------|-------|
-| **Glovo** | Attivo, promo -25/-40% ancora visibili | Nessun cambiamento locale verificato (coupon generici Italia, non Piacenza-specifici) | [CupoNation](https://www.cuponation.it/codice-sconto-glovo) (27/7) |
+| **Glovo** | Attivo, promo -20/-30% ancora visibili | Nessun cambiamento locale verificato. Sono coupon generici Italia, non specifici di Piacenza | radarcoupon.it · glovo.codicesconto.tv (10/8) |
 | **JustEat** | Attivo, sotto Prosus | Invariato | — |
 | **Deliveroo** | Attivo a Piacenza | Invariato | — |
 | **Amazon-Cortilia** | Emilia-Romagna | Invariato | — |
-| **CompraPiacenza.it** | Vetrina statica Comune/CNA/Confesercenti | Invariato, sito live, postura complementare confermata | [comprapiacenza.it](https://comprapiacenza.it/) (27/7) |
+| **CompraPiacenza.it** | Vetrina statica Comune/CNA/Confesercenti | Non ri-controllato oggi: nessun motivo di sospettare un cambiamento, verificato 3 volte nelle ultime settimane senza esito | — |
 
-**Candore:** 6 ricerche mirate, zero buco di mercato nuovo trovato — due articoli che sembravano "notizie fresche" (rider Just Eat, arrivo Deliveroo) erano in realtà datati 2023 e 2016: scartati dopo verifica diretta. Non forzo un segnale dove non c'è.
+**Candore:** 6 ricerche mirate su Piacenza, zero movimento locale nuovo trovato.
 
-## Consolidamento globale — aggiornamento importante (dettaglio nuovo rispetto al 20/7)
+## Consolidamento globale Uber↔Delivery Hero — INVARIATO dal 16/7
 
-Il 16/7/2026 **Uber ha annunciato l'acquisizione dell'INTERO Delivery Hero per 14,8 mld$** (operazione distinta e più grande della sola cessione della quota 16,8% Prosus già nota) — chiusura attesa H2 2027. Delivery Hero possiede Glovo in molti mercati: quando l'operazione chiude, il proprietario finale di Glovo passerà da Delivery Hero a Uber.
-- Fonti (3 indipendenti, confidenza alta): [Bloomberg](https://www.bloomberg.com/news/articles/2026-07-16/uber-agrees-to-buy-delivery-hero-as-food-sector-consolidates) · [TechCrunch](https://techcrunch.com/2026/07/16/ubers-14-8b-delivery-hero-deal-would-nearly-double-its-global-footprint/) · [Uber IR](https://investor.uber.com/news-events/news/press-release-details/2026/Uber-Announces-Acquisition-Offer-for-Delivery-Hero/default.aspx)
-- **Lettura:** entrambe Glovo e JustEat sono ora dentro fusioni globali pluriennali (chiusura 2027). Nessun impatto operativo immediato su Piacenza. Rinforza l'argomento "i giganti sono distratti dall'integrazione, non dalla bottega sotto casa" — da tenere pronto per @vendite alla ripresa (dopo 24/8, vedi `ripresa.lavoro-operativo`), non da usare ora.
+Ri-controllato oggi: stessi termini annunciati il 16/7. Prezzo 41,50€/azione, valore ~13 mld€. Chiusura attesa H2 2027. Nessuna notizia di completamento o di rigetto antitrust.
+- Fonte ri-verificata: Delivery Hero Newsroom, consultata il 10/8 (link in fondo).
+- **Lettura invariata:** resta l'argomento "i giganti sono distratti dall'integrazione" per @vendite alla ripresa (24/8-1/9).
 
-## Punti di forza da comunicare ai negozi (invariati dal 20/7)
+## 🆕 Fatto nuovo nel radar — Glovo e Deliveroo Italia sotto controllo giudiziario per presunto caporalato algoritmico
 
-> **"Noi siamo le botteghe del centro storico, non i ristoranti delle catene."** MyCity: 10% commissione, 50€/mese abbonamento, payout a consegna.
+Il fatto risale a febbraio 2026, non a questa settimana. Ma non era mai stato registrato in questo radar, e riguarda i due concorrenti principali a Piacenza. Lo aggiungo ora come contesto verificato.
+
+- Il 9 febbraio 2026 la Procura di Milano ha messo Foodinho srl (gestisce Glovo in Italia) sotto **controllo giudiziario**. Secondo l'accusa, circa 40.000 rider erano pagati fino al 77% sotto la soglia di povertà — compensi di circa 2,50€ a consegna. Il 25 febbraio 2026 la stessa misura è stata estesa a **Deliveroo Italia**.
+- Il 20 maggio 2026 Foodinho/Glovo ha presentato un piano per uscire dal controllo giudiziario: i rider passerebbero da autonomi a dipendenti, la paga oraria da 10 a 14€ lordi, il compenso a consegna da 2,50 a 3€. Nessun aggiornamento trovato oggi su questo piano — l'ultima notizia reperibile resta quella del 20/5, tre mesi fa.
+- Fonti triangolate (10/8, link in fondo): L'Espresso su Foodinho (9/2/2026), L'Espresso su Deliveroo (25/2/2026), Sky TG24 sul piano di uscita (20/5/2026).
+- **Confidenza sul fatto in sé: alta (90%)** — tre fonti indipendenti, provvedimento giudiziario pubblico. **Confidenza sullo stato attuale del percorso di uscita: bassa (30%)** — nessuna fonte più recente di maggio, potrebbe essere già risolto senza che lo sappiamo.
+
+## Punti di forza da comunicare ai negozi (aggiornati)
+
+> **"Noi siamo le botteghe del centro storico, non i ristoranti delle catene sotto inchiesta per come trattano i rider."** MyCity: 10% commissione, 50€/mese abbonamento, payout a consegna.
+
+Il secondo pezzo della frase è materiale nuovo, disponibile solo ora grazie al fatto appena verificato (vedi Opportunità).
 
 ## Postura vs CompraPiacenza.it
 
@@ -30,8 +41,23 @@ Invariata: complementare (loro vetrine statiche, noi ordine+consegna+payout). In
 
 ## Segnali di rischio
 
-- Consolidamento Uber-Delivery Hero + Prosus (Glovo+JET): moat fiducia botteghe va costruito quando riparte l'attività commerciale (24/8-1/9).
-- Nessun nuovo segnale normativo rider dal 20/7.
+- Consolidamento Uber-Delivery Hero + Prosus (Glovo+JET): invariato, moat fiducia botteghe va costruito alla ripresa (24/8-1/9).
+- Glovo/Deliveroo sotto controllo giudiziario: rischio reputazionale per i giganti, opportunità di posizionamento per MyCity.
+- Nessun nuovo segnale normativo aggiuntivo dal 27/7.
+
+## Opportunità (parcheggiata per la ripresa 24/8-1/9)
+
+**① Argomento di pitch "botteghe vs caporalato algoritmico"** — 🟢 solo preparazione, NON usare ora
+Il fatto verificato sopra è materiale legittimo per @pr-stampa/@vendite: MyCity paga 10% commissione fissa e trasparente, non è sotto inchiesta. Rafforza la narrativa "botteghe di fiducia" nei primi pitch commerciali post-pausa. **Prima mossa:** @pr-stampa prepara un paragrafo pronto per il kit stampa/pitch deck citando le fonti sopra con date — non pubblicare né usare prima del 24/8-1/9 (vincolo pausa Nicola).
 
 ---
-*Fonti: cuponation.it · comprapiacenza.it · bloomberg.com · techcrunch.com · investor.uber.com — tutte consultate 27/7. Precedente: `radar-concorrenti.md` versione 20/7 (in git history).*
+
+**🔧 Link completi delle fonti** (consultate 10/8/2026):
+- radarcoupon.it/codici/glovoapp.com
+- glovo.codicesconto.tv
+- deliveryhero.com/newsroom/delivery-hero-and-uber-to-join-forces-to-deliver-more-for-customers-vendors-and-riders
+- lespresso.it/c/attualita/2026/2/9/glovo-commissariamento-caporalato-testimonianze-rider-retribuzioni-consegne/59771
+- lespresso.it/c/attualita/2026/2/25/deliveroo-caporalato-controllo-giudiziario-glovo-sfruttamento-riders/60209
+- tg24.sky.it/economia/2026/05/20/glovo-rider-aumenti-contratti-controlli-giudiziari
+
+Precedente: versione 27/7 (in git history).
