@@ -1,0 +1,14 @@
+[Unit]
+Description=MyCity AD — controlla ogni 5 minuti se il motore AI è tornato disponibile
+
+[Timer]
+# Ogni 5 minuti. Sembra spesso, ma il tick costa due letture di file: la sonda vera parte SOLO dopo
+# l'orario di reset dichiarato e comunque non più di una volta ogni 15 minuti (QUARANTENA_MIN).
+# Il valore giusto è quello che decide quanto in fretta la macchina si riaccende: con 5 minuti, dal
+# momento in cui il limite cade a quello in cui il monitoraggio riparte passa meno di mezz'ora.
+OnBootSec=3min
+OnUnitActiveSec=5min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

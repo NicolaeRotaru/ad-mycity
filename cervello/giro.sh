@@ -191,6 +191,7 @@ CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se 
 CADENZE_VINCOLO=""    # AR-164: una cadenza (giro/ritmo/monitora) ha smesso di uscire
 CI_VINCOLO=""         # 4/8: una PR aperta non passa i controlli, e il rosso è suo (non ereditato da main)
 OKR_VINCOLO=""        # AR-115: vincolo freschezza OKR-Squadra (target scaduti o doc stantio)
+FRESCHEZZA_VINCOLO="" # 10/8: analisi Intelligence scadute mostrate in Cabina come se fossero fresche
 # AR-322/308/309 — il contratto dei guardiani (0=passato · 1=bocciato · 2=cieco) e l'accumulo dei
 # vincoli vivono in giro-esito.sh, come funzioni pure che un test può eseguire. Va caricato QUI, prima
 # dei guardiani: finora si caricava a metà file, dopo che i vincoli erano già stati costruiti a mano.
@@ -699,6 +700,17 @@ $_cad_out")"
     KEYWORD_VINCOLO="⛔ KEYWORD OWNER DUPLICATO (keyword-owner-check.mjs rc=$_keyword_rc, AR-009/AR-027): due agenti si dichiarano owner della stessa keyword → routing ambiguo. Correggi il mansionario prima di delegare."
     echo "[$(ts)] ⚠️  AR-109: keyword-owner-check FALLITO (rc=$_keyword_rc) → vincolo hard al motore." >&2
   fi
+  # ── 10/8 — Guardiano freschezza Intelligence: la Cabina non deve mostrare analisi scadute. ──
+  # Nasce dalla domanda di Nicola «ogni quanto si aggiorna?»: la risposta vera era «da undici giorni
+  # non si aggiorna», e nessuno se n'era accorto perché la vecchiaia di un'analisi non era misurata
+  # da nessuna parte. La soglia la deriva dalle cadenze delle fonti, non è un numero scritto qui.
+  echo "[$(ts)] Guardiano freschezza Intelligence (le analisi mostrate sono ancora valide?)..."
+  _fresc_out="$(node "$SCRIPT_DIR/freschezza-intelligence.mjs" --check 2>&1)"; _fresc_rc=$?
+  printf '%s\n' "$_fresc_out" | tail -8
+  if [ "$_fresc_rc" -ne 0 ]; then
+    FRESCHEZZA_VINCOLO="⛔ INTELLIGENCE SCADUTA (freschezza-intelligence.mjs rc=$_fresc_rc): la Cabina sta mostrando analisi oltre la loro scadenza come se fossero fresche. Rigenerale (o spiega perché non si può) prima di usarle per decidere."
+    echo "[$(ts)] ⚠️  Freschezza Intelligence FALLITA (rc=$_fresc_rc) → vincolo hard al motore." >&2
+  fi
   # ── Lever 1 — Guardiano apprendimento (impara o solo accumula?) → vincolo hard «cristallizza». ──
   echo "[$(ts)] Guardiano apprendimento (Lever 1: impara o accumula?)..."
   _appr_out="$(node "$SCRIPT_DIR/apprendimento-guardiano.mjs" --gate 2>&1)"; _appr_rc=$?
@@ -1184,6 +1196,19 @@ if [ "$ai_rc" -ne 0 ]; then
   echo "[$(ts)]   Ultimo output agent:" >&2
   printf '%s\n' "$_ai_out" | tail -25 >&2
   echo "[$(ts)]   Se test-agent.sh passa ma il giro no: journalctl -u mycity-worker -n 50" >&2
+  # 2026-08-10 — le due cose che al giro mancavano, e che il ritmo aveva da AR-024:
+  #   ① la traccia ESCE dalla macchina: senza questa riga il perché resta nel journal del VPS e da
+  #      fuori si legge solo «motore-fallito» (undici giorni per capire che era il limite settimanale);
+  #   ② la cadenza si RI-ACCODA con l'orario del reset, invece di sperare nel timer successivo — che
+  #      con un limite settimanale trova lo stesso muro per giorni.
+  # Il giro ha un ciclo suo (non passa da cadenza_ai_run): qui le chiamate vanno esplicite.
+  # Il «non ce l'ho fatta» si dice: una traccia persa in silenzio riporta al difetto di partenza.
+  if command -v node >/dev/null 2>&1; then
+    printf '%s\n' "$_ai_out" \
+      | node "$SCRIPT_DIR/errore-motore.mjs" registra --cadenza=giro --rc="$ai_rc" >&2 \
+      || echo "[$(ts)] ⚠️  Guasto del motore NON registrato in memoria: da fuori resterà invisibile." >&2
+  fi
+  cadenza_recupero giro "il giro di perlustrazione" "$_ai_out"
 fi
 # AR-300: messaggio onesto. Prima qui c'era «Giro completato.» stampato SEMPRE, anche con il motore
 # fallito e tutti i cancelli rossi — ed è la riga che il worker e il Pannello leggevano come successo.

@@ -179,7 +179,76 @@ cadenza_ai_run() {
     echo "[$(ts)] Motore «$tipo»: la retry-policy dice di ritentare — pausa ${pausa}s." >&2
     sleep "$pausa"
   done
+
+  # 🪧 IL GUASTO LASCIA UNA TRACCIA CHE ESCE DALLA MACCHINA (2026-08-10).
+  # Fin qui il perché di un motore morto viveva solo nel journal di systemd, cioè solo sul VPS: da
+  # una sessione cloud, dal Pannello o dal telefono si vedeva «motore-fallito» e nient'altro. Undici
+  # giorni di Intelligence ferma senza che si potesse dire perché. Ora le ultime righe — ripulite dai
+  # segreti — finiscono in memoria, che ogni cadenza pubblica su main.
+  # Sta QUI e non nei tre copioni apposta: è il punto unico da cui passano tutte le cadenze.
+  if [ "$CADENZA_AI_RC" -ne 0 ] && command -v node >/dev/null 2>&1; then
+    printf '%s\n' "$CADENZA_AI_OUT" \
+      | node "${SCRIPT_DIR:-cervello}/errore-motore.mjs" registra --cadenza="$tipo" --rc="$CADENZA_AI_RC" >&2 \
+      || echo "[$(ts)] ⚠️  Guasto del motore NON registrato in memoria: da fuori resterà invisibile." >&2
+  fi
   return 0
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ③ter IL RECUPERO DELLA CADENZA SALTATA PER QUOTA — una casa sola
+# ─────────────────────────────────────────────────────────────────────────────
+# Nasce in ritmo.sh (AR-024) e lì è rimasta: `monitora.sh` e `giro.sh` non ce l'hanno mai avuta.
+# Conseguenza vista il 2026-08-10: col limite settimanale esaurito, il monitoraggio moriva alle 6:30
+# e non ci riprovava nessuno — l'unica speranza era il timer del giorno dopo, che trovava lo stesso
+# muro. Undici giorni fermi. Il ritmo, che il recupero ce l'aveva, si ri-accodava e basta.
+# La cura non è copiarla nel terzo copione (sarebbe la terza copia della stessa catena, cioè la
+# causa di sistema che questo file combatte da AR-389): vive qui e la chiamano tutti.
+#
+# cadenza_recupero <tipo-lavoro> <descrizione> [output-del-motore] [esperto]
+# Ri-accoda la cadenza nella coda 'lavori' con riprova_dopo = istante deciso da retry-policy.mjs.
+# Non fa nulla se: siamo già dentro un retry del worker · manca SUPABASE/jq · l'errore non è di quota.
+cadenza_recupero() {
+  local tipo="${1:?serve il tipo}" descrizione="${2:-cadenza}" out="${3:-${CADENZA_AI_OUT:-}}" esperto="${4:-cadenza}"
+  [ "${CADENZA_FROM_WORKER:-${RITMO_FROM_WORKER:-0}}" = 1 ] && return 0
+  [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ] || {
+    echo "[$(ts)] Recupero «$tipo»: manca SUPABASE (memoria) — non posso ri-accodare." >&2; return 0; }
+  command -v jq >/dev/null 2>&1 || { echo "[$(ts)] Recupero «$tipo»: manca jq — salto." >&2; return 0; }
+  command -v node >/dev/null 2>&1 || return 0
+
+  local A=(-H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" -H "Content-Type: application/json")
+  local decis
+  decis="$(RP_TIPO="$tipo" RP_TENTATIVI=0 RP_RISULTATO="$out" \
+    timeout 20s node "${SCRIPT_DIR:-cervello}/retry-policy.mjs" decidi 2>/dev/null || echo '{}')"
+  if [ "$(printf '%s' "$decis" | jq -r '.azione // "stop"' 2>/dev/null)" != "ritenta" ]; then
+    echo "[$(ts)] «$tipo»: errore non ritentabile → nessun recupero automatico (resta il timer)." >&2
+    return 0
+  fi
+  local quando classe
+  quando="$(printf '%s' "$decis" | jq -r '.quandoISO // empty' 2>/dev/null)"
+  classe="$(printf '%s' "$decis" | jq -r '.classe // "?"' 2>/dev/null)"
+
+  # Idempotenza: una cadenza uguale già in coda non si duplica (un timer che ri-accoda ogni giorno
+  # per una settimana produrrebbe sette copie dello stesso lavoro, tutte in attesa dello stesso reset).
+  local gia
+  gia="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&tipo=eq.$tipo&select=id&limit=1" "${A[@]}" 2>/dev/null || true)"
+  if printf '%s' "$gia" | jq -e '.[0].id' >/dev/null 2>&1; then
+    echo "[$(ts)] «$tipo» già in coda (recupero) — non duplico." >&2
+    return 0
+  fi
+
+  local richiesta="Recupero automatico di «$descrizione», saltata perché il motore AI era in $classe. Rieseguila e pubblica la memoria sul ramo unico main."
+  local body
+  body="$(jq -n --arg t "$tipo" --arg r "$richiesta" --arg q "$quando" \
+    --arg e "$esperto" '{stato:"in_attesa", tipo:$t, richiesta:$r, esperto:$e, tentativi:1, riprova_dopo:$q}')"
+  if curl -fsS -X POST "$SUPABASE_URL/rest/v1/lavori" "${A[@]}" -d "$body" >/dev/null 2>&1; then
+    echo "[$(ts)] «$tipo» ri-accodata: ritento dopo $quando ($classe) — il worker la riprende da sola."
+    CADENZA_RIACCODATA=1
+  else
+    body="$(jq -n --arg t "$tipo" --arg r "$richiesta" --arg e "$esperto" '{stato:"in_attesa", tipo:$t, richiesta:$r, esperto:$e}')"
+    curl -fsS -X POST "$SUPABASE_URL/rest/v1/lavori" "${A[@]}" -d "$body" >/dev/null 2>&1 \
+      && { echo "[$(ts)] «$tipo» ri-accodata (senza riprova_dopo — DB non migrato)."; CADENZA_RIACCODATA=1; } \
+      || echo "[$(ts)] «$tipo»: ri-accodamento fallito (riprovo al prossimo timer)." >&2
+  fi
 }
 
 # ─────────────────────────────────────────────────────────────────────────────

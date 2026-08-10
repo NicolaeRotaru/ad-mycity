@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readVaultFile } from "@/lib/vault";
+import { readVaultFile, readRepoFile } from "@/lib/vault";
 import { creaLavoro } from "@/lib/store";
+import { freschezza, oggiPiacenza, sogliaPerScheda } from "@/lib/freschezza-intelligence";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -46,7 +47,23 @@ export async function GET(req: NextRequest) {
   const def = TIPI[tipo];
   if (!def) return NextResponse.json({ ok: false, error: "Tipo non valido." }, { status: 400 });
   const testo = await readVaultFile(`90-Memoria-AI/Intelligence/${def.file}.md`);
-  return NextResponse.json({ tipo, presente: testo != null, testo: testo ?? "" });
+
+  // 📆 Quanto è vecchio ciò che sto per mostrare (2026-08-10). Prima la risposta era solo
+  // {presente, testo}: la schermata non aveva NIENTE con cui dire «questo è di tre settimane fa»,
+  // e infatti non lo ha detto per undici giorni. La data si legge dall'intestazione del markdown e
+  // non dal filesystem, perché in produzione il vault arriva da GitHub — lì un mtime non esiste.
+  // La soglia si deriva dalle cadenze delle fonti: unica casa, cervello/radar-fonti.json.
+  let radar: unknown = null;
+  try {
+    const grezzo = await readRepoFile("cervello/radar-fonti.json");
+    radar = grezzo ? JSON.parse(grezzo) : null;
+  } catch {
+    radar = null; // radar illeggibile → soglia larga di ripiego, mai un falso rosso.
+  }
+  const soglia = sogliaPerScheda(radar, def.file);
+  const fresca = freschezza(testo, soglia, oggiPiacenza());
+
+  return NextResponse.json({ tipo, presente: testo != null, testo: testo ?? "", freschezza: fresca });
 }
 
 export async function POST(req: NextRequest) {

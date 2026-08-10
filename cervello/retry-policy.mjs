@@ -35,6 +35,20 @@ export const MAX_TENTATIVI_ALTRO = 3; // timeout/transitori: qualche colpo, poi 
 export const MAX_ATTESA_QUOTA_MIN = 360; // 6h (5h finestra + margine): oltre = reset già trascorso.
 export const MAX_ATTESA_QUOTA_MS = MAX_ATTESA_QUOTA_MIN * 60 * 1000;
 
+// ⛔ IL LIMITE SETTIMANALE È UN ALTRO ANIMALE (2026-08-10, sintomo osservato).
+// Tutto il ragionamento qui sopra è tarato sulla finestra ROLLING di ~5h: reset «sempre entro poche
+// ore, MAI a 24h». Vero per la sessione, falso per il limite SETTIMANALE dei piani Claude — quello
+// si libera fra GIORNI. Con la sola classe "quota" succedeva questo: backoff da minuti, sei tentativi
+// bruciati in poche ore, poi stop definitivo. Nessuno ripartiva più, e le cadenze restavano ferme
+// finché non se ne accorgeva Nicola (11 giorni sul monitoraggio: Intelligence ferma dal 30/7 al 10/8).
+// Il tetto sotto vale SOLO per questa classe: aspettare giorni qui è la risposta giusta, non un bug.
+export const MAX_ATTESA_QUOTA_SETTIMANALE_MIN = 8 * 24 * 60; // 8 giorni: copre una settimana + margine.
+export const MAX_ATTESA_QUOTA_SETTIMANALE_MS = MAX_ATTESA_QUOTA_SETTIMANALE_MIN * 60 * 1000;
+// Quando il messaggio non dice QUANDO si libera, non ha senso ricontrollare ogni 15 minuti per
+// giorni: si guarda ogni 6h. È il passo del "ricontrollo leggero", non una rinuncia.
+export const BACKOFF_QUOTA_SETTIMANALE_MIN = 360;
+export const MAX_TENTATIVI_QUOTA_SETTIMANALE = 40; // 40 × 6h ≈ 10 giorni di pazienza prima di arrendersi.
+
 // Tipi che NON azionano le "mani" reali: al massimo rifanno lavoro 🟢 (o accodano bozze che
 // Nicola rivede comunque). Per loro anche un timeout è sicuro da ritentare.
 // AR-024: le cadenze del battito (ritmo-mattino|mezzogiorno|sera|settimana) sono pre-esecuzione —
@@ -75,12 +89,64 @@ export function classificaErrore(risultato = "") {
       t
     );
   const timeout = /\btimeout\b|timed out|\bkilled\b|rc=124|rc=137|sigkill|sigterm/i.test(t);
+  // ⛔ Limite SETTIMANALE (non la finestra rolling di 5h): si libera fra giorni, non fra ore.
+  // Va valutato PRIMA della quota generica perché è un sottoinsieme di essa e vuole tempi diversi.
+  const settimanale = /weekly limit|limite settimanale|weekly (usage )?(quota|cap)|limit.{0,20}\bthis week\b|\bper week\b/i.test(t);
   // Orario di reset esplicito nel messaggio? es. "resets 9:30pm (Europe/Rome)" → "9:30pm".
   const m = t.match(/resets?\s+([0-9]{1,2}(?::[0-9]{2})?\s*(?:am|pm)?)/i);
   return {
-    classe: auth ? "auth" : quota ? "quota" : timeout ? "timeout" : "altro",
+    classe: auth ? "auth" : settimanale ? "quota_settimanale" : quota ? "quota" : timeout ? "timeout" : "altro",
     resetHint: m ? m[1].trim() : null,
+    resetData: quota || settimanale ? dataDaTesto(t) : null,
   };
+}
+
+// 📅 Data di reset scritta per esteso — è la forma che usa il limite settimanale, dove l'ora da sola
+// non basta ("resets Aug 14 at 9am", "resets on 2026-08-14", "resets in 3 days"). La regex vecchia
+// leggeva solo l'orario: su un messaggio settimanale tornava null e il calcolo ripiegava sul backoff
+// da minuti, cioè trattava un'attesa di giorni come un intoppo di quarti d'ora.
+// Ritorna ms assoluti, oppure null se il testo non dice quando.
+const MESI_EN = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+export function dataDaTesto(testo = "", nowMs = Date.now()) {
+  const t = String(testo);
+
+  // a) "resets in 3 days" / "try again in 2 days"
+  const rel = t.match(/\bin\s+(\d{1,2})\s*(day|days|giorni|giorno)\b/i);
+  if (rel) return nowMs + parseInt(rel[1], 10) * 24 * 60 * 60 * 1000;
+
+  // b) ISO: "resets on 2026-08-14" (eventuale ora attaccata)
+  const iso = t.match(/\b(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{1,2}):(\d{2}))?/);
+  if (iso) {
+    const d = new Date(nowMs);
+    d.setFullYear(+iso[1], +iso[2] - 1, +iso[3]);
+    d.setHours(iso[4] ? +iso[4] : 9, iso[5] ? +iso[5] : 0, 0, 0);
+    if (Number.isFinite(d.getTime())) return d.getTime();
+  }
+
+  // c) Mese inglese abbreviato: "resets Aug 14 at 9am" / "resets 14 Aug"
+  const mese = t.match(
+    new RegExp(`\\b(${MESI_EN.join("|")})[a-z]*\\.?\\s+(\\d{1,2})\\b|\\b(\\d{1,2})\\s+(${MESI_EN.join("|")})[a-z]*\\b`, "i")
+  );
+  if (mese) {
+    const nome = (mese[1] || mese[4] || "").toLowerCase().slice(0, 3);
+    const giorno = parseInt(mese[2] || mese[3], 10);
+    const idx = MESI_EN.indexOf(nome);
+    if (idx >= 0 && giorno >= 1 && giorno <= 31) {
+      const ora = t.match(/\bat\s+(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/i);
+      let h = ora ? parseInt(ora[1], 10) : 9;
+      const min = ora && ora[2] ? parseInt(ora[2], 10) : 0;
+      const ap = ora && ora[3] ? ora[3].toLowerCase() : null;
+      if (ap === "pm" && h < 12) h += 12;
+      if (ap === "am" && h === 12) h = 0;
+      const d = new Date(nowMs);
+      d.setMonth(idx, giorno);
+      d.setHours(h, min, 0, 0);
+      // Data già passata di parecchio → è dell'anno prossimo (reset a cavallo di dicembre).
+      if (d.getTime() < nowMs - 30 * 24 * 60 * 60 * 1000) d.setFullYear(d.getFullYear() + 1);
+      return d.getTime();
+    }
+  }
+  return null;
 }
 
 // "9:30pm" / "21:30" / "9pm" → prossimo istante (ms) in cui quell'ora capita. +2 min di margine.
@@ -104,8 +170,18 @@ function istanteDaOrario(hint, now) {
 function minutiBackoff(classe, tentativi) {
   const QUOTA = [15, 30, 60, 120, 240, 240];
   const ALTRO = [2, 5, 15, 30];
+  // Settimanale: passo fisso lungo. Un backoff crescente qui non serve a niente — non è un intoppo
+  // che «magari passa», è un muro con una data. Si ricontrolla ogni 6h finché non cade.
+  if (classe === "quota_settimanale") return BACKOFF_QUOTA_SETTIMANALE_MIN;
   const arr = classe === "quota" ? QUOTA : ALTRO;
   return arr[Math.min(Math.max(tentativi, 0), arr.length - 1)];
+}
+
+// Vero per ogni classe che significa «il motore non è nemmeno partito» → ritentabile in sicurezza
+// anche sulle azioni reali 🔴 (zero rischio doppio-invio). Le due quote stanno insieme QUI e non
+// sparse in sei `if`: aggiungerne una terza domani deve toccare una riga sola.
+export function eQuota(classe) {
+  return classe === "quota" || classe === "quota_settimanale";
 }
 
 // Decide cosa fare di un lavoro fallito.
@@ -122,7 +198,7 @@ export function decidiRitento({ tipo, tentativi = 0, risultato = "", nowMs, erro
   // l'istante calcolato cade nel passato → il worker lo riprende immediatamente.
   const refMs = Number.isFinite(errorAtMs) ? errorAtMs : now;
   const tent = Number.isFinite(+tentativi) ? +tentativi : 0;
-  const { classe, resetHint } = classificaErrore(risultato);
+  const { classe, resetHint, resetData } = classificaErrore(risultato);
   const preEsec = TIPI_PRE_ESECUZIONE.has(tipo);
   // Tipi sconosciuti li trattiamo come reali (prudenza: non ritentare qualcosa che non capiamo).
   const azioneReale = TIPI_AZIONE_REALE.has(tipo) || !preEsec;
@@ -140,7 +216,9 @@ export function decidiRitento({ tipo, tentativi = 0, risultato = "", nowMs, erro
     };
   }
   let maxTent;
-  if (classe === "quota") {
+  if (classe === "quota_settimanale") {
+    maxTent = MAX_TENTATIVI_QUOTA_SETTIMANALE; // giorni di attesa: i tentativi vanno contati in giorni.
+  } else if (classe === "quota") {
     maxTent = MAX_TENTATIVI_QUOTA; // provato non-partito → ok per tutti, anche 🔴.
   } else if (preEsec) {
     maxTent = MAX_TENTATIVI_ALTRO; // pre-esecuzione → sicuro anche su timeout/altro.
@@ -169,6 +247,28 @@ export function decidiRitento({ tipo, tentativi = 0, risultato = "", nowMs, erro
 
   // 3) Quando ritentare: se il messaggio dà l'ora di reset, aspettiamo QUELLA (ancorata al momento
   //    dell'errore → vedi refMs sopra); altrimenti backoff dal momento attuale.
+  // 3bis) Settimanale: la data vince sull'orario. «resets Aug 14 at 9am» è un istante preciso a
+  //    giorni di distanza; il tetto delle 6h qui NON si applica (è la regola della finestra rolling,
+  //    e applicarla qui era esattamente il modo di trasformare un muro di giorni in un backoff di
+  //    minuti). Si aspetta la data vera; senza data, si ricontrolla ogni 6h.
+  if (classe === "quota_settimanale") {
+    const tetto = refMs + MAX_ATTESA_QUOTA_SETTIMANALE_MS;
+    const dataValida = resetData != null && resetData > now && resetData <= tetto ? resetData + 2 * 60 * 1000 : null;
+    const quandoMsW = dataValida ?? now + BACKOFF_QUOTA_SETTIMANALE_MIN * 60 * 1000;
+    return {
+      azione: "ritenta",
+      tentativi: tent + 1,
+      maxTent,
+      classe,
+      resetHint: resetHint || null,
+      resetDataISO: resetData != null ? new Date(resetData).toISOString() : null,
+      quandoISO: new Date(quandoMsW).toISOString(),
+      motivo: dataValida
+        ? `limite settimanale del motore AI — ritento dopo il reset dichiarato (${new Date(dataValida).toLocaleString("it-IT", { timeZone: "Europe/Rome" })})`
+        : "limite settimanale del motore AI — il messaggio non dice quando si libera: ricontrollo ogni 6h",
+    };
+  }
+
   const daOrarioRaw = classe === "quota" && resetHint ? istanteDaOrario(resetHint, refMs) : null;
   // La finestra di sessione è rolling (~5h): un istante di reset oltre MAX_ATTESA_QUOTA è finito
   // "domani" solo perché l'errore è avvenuto appena DOPO l'orario indicato → la quota si è già

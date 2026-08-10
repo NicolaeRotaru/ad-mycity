@@ -1,0 +1,75 @@
+{
+  "_cosa_e": "Quanto è vecchia ogni scheda della card «Intelligence & opportunità». La soglia è DERIVATA dalle cadenze delle fonti in radar-fonti.json, non scritta a mano: cambiando la cadenza di una fonte, la soglia si aggiorna da sola.",
+  "aggiornato": "2026-08-10 11:59",
+  "oggi": "2026-08-10",
+  "scadute": [
+    "concorrenti",
+    "eventi",
+    "buchi",
+    "leve",
+    "reputazione"
+  ],
+  "non_misurabili": [],
+  "schede": [
+    {
+      "id": "concorrenti",
+      "file": "radar-concorrenti",
+      "etichetta": "Concorrenti",
+      "soglia": 8,
+      "fonti": 4,
+      "stato": "scaduta",
+      "giorni": 14,
+      "data": "2026-07-27",
+      "scaduta": true,
+      "frase": "aggiornata 14 giorni fa"
+    },
+    {
+      "id": "eventi",
+      "file": "eventi-picchi",
+      "etichetta": "Eventi & picchi",
+      "soglia": 2,
+      "fonti": 6,
+      "stato": "scaduta",
+      "giorni": 11,
+      "data": "2026-07-30",
+      "scaduta": true,
+      "frase": "aggiornata 11 giorni fa"
+    },
+    {
+      "id": "buchi",
+      "file": "buchi-mercato",
+      "etichetta": "Buchi di mercato",
+      "soglia": 2,
+      "fonti": 1,
+      "stato": "scaduta",
+      "giorni": 21,
+      "data": "2026-07-20",
+      "scaduta": true,
+      "frase": "aggiornata 21 giorni fa"
+    },
+    {
+      "id": "leve",
+      "file": "leve-uscita",
+      "etichetta": "Leve in uscita",
+      "soglia": 2,
+      "fonti": 5,
+      "stato": "scaduta",
+      "giorni": 11,
+      "data": "2026-07-30",
+      "scaduta": true,
+      "frase": "aggiornata 11 giorni fa"
+    },
+    {
+      "id": "reputazione",
+      "file": "reputazione",
+      "etichetta": "Reputazione",
+      "soglia": 2,
+      "fonti": 2,
+      "stato": "scaduta",
+      "giorni": 23,
+      "data": "2026-07-18",
+      "scaduta": true,
+      "frase": "aggiornata 23 giorni fa"
+    }
+  ]
+}

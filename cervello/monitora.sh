@@ -146,6 +146,10 @@ ai_rc="${CADENZA_AI_RC:-0}"
 cadenza_scrittura_fine
 if [ "$ai_rc" -ne 0 ]; then
   echo "[$(ts)] Il motore AI ha restituito un errore dopo ${CADENZA_AI_TENTATIVI:-1} tentativi (rc=$ai_rc)." >&2
+  # 2026-08-10: qui finiva la storia. Il monitoraggio moriva e l'unica speranza era il timer di
+  # domani — che con un limite SETTIMANALE trova lo stesso muro, per sette giorni di fila. Ora la
+  # cadenza si ri-accoda con l'orario del reset e il worker la riprende da sola quando il limite cade.
+  cadenza_recupero monitora "il monitoraggio web (Intelligence)" "$CADENZA_AI_OUT"
 fi
 
 # AR-043: stima token condivisa — monitora prima registrava token=null.
