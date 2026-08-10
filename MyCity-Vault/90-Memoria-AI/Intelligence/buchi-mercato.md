@@ -1,7 +1,8 @@
 # 🕳️ Buchi di Mercato — 2026-08-10
 
-> Aggiornato: 2026-08-10 13:35 · fonte: query dal vivo Supabase marketplace (MCP `execute_sql`) + `registro-fatti.json` · precedente versione: 20 luglio 2026 (in git history)
-> Rifatto da zero sui dati reali (non solo confermato): tabelle `profiles`, `products`, `categories`, `merchants_leads` interrogate oggi.
+> Aggiornato: 2026-08-10 13:35 · fonte: query dal vivo Supabase marketplace (MCP `execute_sql`) + `registro-fatti.json`.
+> Precedente versione: 20 luglio 2026 (in git history).
+> Rifatto da zero sui dati reali, non solo confermato a memoria. Tabelle interrogate oggi: `profiles`, `products`, `categories`, `merchants_leads`.
 
 ---
 
@@ -10,8 +11,8 @@
 - **1 negozio reale**: Pane Quotidiano — Via Calzolai 25, Piacenza. Panificio/gastronomia bio.
 - **5 prodotti** in vendita: Pudding vaniglia bio, Hummus di ceci bio, Kefir di latte di capra bio, Pesto Genovese bio, Kefir Berchtesgadener Land bio. Non solo pane: linea bio/gastronomia.
 - **0 negozi possono ancora incassare**: `stripe_charges_enabled`/`stripe_payouts_enabled`/`stripe_details_submitted` tutti falsi anche per Pane Quotidiano (fatto `negozio.faro`, verificato 10/8 09:58). Nessun buco di mercato conta finché questo non si sblocca — è la vera priorità zero, non una categoria mancante.
-- **72 categorie** già pronte nella tassonomia del sito (tabella `categories`), di cui solo 1 (Panificio, via Pane Quotidiano) ha un venditore reale dentro.
-- **407 contatti negozio** in archivio (`merchants_leads`), un solo scarico fatto il 24/5/2026 (nessun aggiornamento da allora), **tutti ancora `to_contact`** — nessuno è stato davvero contattato, a differenza di quanto si poteva leggere nella versione precedente di questo file.
+- **72 categorie** già pronte nella tassonomia del sito (tabella `categories`). Solo 1 di queste — Panificio, grazie a Pane Quotidiano — ha dentro un venditore reale.
+- **407 contatti negozio** in archivio, tabella `merchants_leads`. Vengono da un solo scarico, fatto il 24/5/2026, mai aggiornato da allora. **Sono tutti ancora `to_contact`**: nessuno è stato davvero contattato. È una correzione rispetto alla versione precedente di questo file, che dava per contattati alcuni di questi nomi.
 
 ---
 
