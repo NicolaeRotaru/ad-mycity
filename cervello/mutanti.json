@@ -2193,6 +2193,24 @@
    "cerca": "      return { ...RIPARATO, detto: \"il timbro compare solo dopo un lavoro chiuso bene, e non dopo uno fallito\" };",
    "sostituisci": "      return { ...APERTO, detto: \"MUTANTE: non sa dire di sì nemmeno col fix davanti\" };",
    "test": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "difetto": "AR-569 coda-cieca",
+   "lezione": "L-2026-0811-02",
+   "nome": "il conto delle firme torna a non vedere le card a blocchi: legge una lista vuota e dice zero",
+   "file": "cervello/guardiano-tempo.mjs",
+   "cerca": "  const righe = letta.azioni.map((a) => ({",
+   "sostituisci": "  const righe = [].map((a) => ({",
+   "test": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
+  },
+  {
+   "difetto": "AR-569 verdetto-cieco-sul-volume",
+   "lezione": "L-2026-0811-02",
+   "nome": "il verdetto torna a guardare solo l'eta della card piu vecchia: 57 firme fresche tornano «sotto controllo»",
+   "file": "cervello/guardiano-tempo.mjs",
+   "cerca": "    ok: !stallo && !troppeInCoda,",
+   "sostituisci": "    ok: !stallo,",
+   "test": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
   }
  ]
 }

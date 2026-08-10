@@ -1517,3 +1517,39 @@ i suoi consigli. Ora lo abbassa.
 
 **Cosa resta.** 121 prove a grep sui difetti non chiusi: 93 gravi, 25 minori, 3 medi. Il prossimo
 lotto prende i gravi.
+
+---
+
+## 2026-08-11 01:30 · 🟡 Il conto delle firme in coda diceva 5, e sono 57
+
+**Cosa ha chiesto Nicola.** «sistema il difetto della coda, 5 invece di 49» — AR-569, trovato ieri
+notte accodando due card e guardandole sparire dal conteggio.
+
+**Il difetto.** La coda ha avuto due formati: una tabella a 8 colonne, poi i blocchi `###` con
+«Cosa cambia» / «Se va bene». La Cabina è stata aggiornata, `guardiano-tempo.mjs` no: aveva un
+parser suo che leggeva solo le righe-tabella. Diceva «In attesa della tua firma: 5 · ✅ Coda sotto
+controllo». Nel Pannello erano 57.
+
+**La cura, prima metà.** Non un secondo parser — sarebbe stata la malattia stessa. Il nuovo
+`cervello/coda-cabina.mjs` CARICA il lettore vero del Pannello (331 righe di regole su cosa è
+un'azione e cosa è documentazione) e lo esegue. Node 22 toglie i tipi da solo, e l'hook
+`cervello/test/risolvi-ts.mjs` — già scritto per i test del Pannello — gli insegna l'estensione
+mancante negli import. Se non si può caricare esce ⚪ (codice 2), non un numero inventato.
+
+**La cura, seconda metà.** Riparato il conteggio, il verdetto restava verde: guardava solo se la
+card più vecchia avesse superato i 7 giorni. Cinquantasette firme fresche NON sono sotto controllo.
+La soglia nuova non è inventata: l'arretrato si misura col ritmo VERO di Nicola (le decisioni che lo
+coinvolgono negli ultimi 7 giorni). Oggi: 57 firme a 4 a settimana = **14,3 settimane di arretrato**,
+e il guardiano dice che il collo di bottiglia è lui.
+
+**Un difetto che mi sono fatta da sola, e che ha preso la spazzata.** Per gestire l'errore di una
+funzione diventata asincrona avevo scritto `main().catch(...)` in fondo al guardiano. Importarlo
+continuava a eseguire tutto il programma — ma la forma non era più il `main();` nudo che il
+rilevatore cerca, quindi la malattia `programma-che-parte-importando` era diventata INVISIBILE
+invece che curata. La spazzata dei fratelli l'ha vista contando 70 contro un tetto di 71: un conto
+che scende senza che nessuno abbia curato niente è un allarme, non un miglioramento. Curata davvero
+con la guardia `import.meta.url`, tetto abbassato a 70.
+
+**Prova.** `cervello/test/coda-vista-come-la-vede-nicola.test.mjs`, 7 asserzioni. Verificate a mano
+entrambe le mutazioni: rimettendo il parser cieco cade, rimettendo il verdetto solo-età cade. 159
+file di test e 1643 asserzioni verdi. Spazzata dei fratelli verde. Cancello del lotto verde.

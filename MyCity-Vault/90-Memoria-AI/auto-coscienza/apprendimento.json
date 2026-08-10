@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-11 01:20",
+ "aggiornato": "2026-08-11 01:25",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -11408,6 +11408,14 @@
    "testo": "**Un campo scritto per dire «cosa mi aspetto» non si legge mai come «cosa ho misurato» (radiografia della catena di lavoro, 10/8).** Nicola: «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori». Ha ragione, e la ragione è misurabile: la macchina si accreditava 84 difetti su 220 come «già risolti, aspettano solo il merge» leggendo `verifica.presente === true` — un campo che in auto-fix.mjs dice soltanto CON CHE VERSO leggere la prova, scritto quando il difetto nasce. Rieseguite a mano tutte e 84 le prove: 84 su 84 false (76 pattern assenti, 8 file inesistenti). Stessa malattia in piccolo su metabolismo.mjs (percentuale da un campo, numeratore da un altro) e in grande su AR-568, dove una misura cieca ha sovrascritto una misura vedente e il voto è MIGLIORATO perché la finestra si era ristretta da 26 messaggi a 2.",
    "regola": "chi emette un verdetto deve averlo MISURATO adesso: mai dedurlo da un campo scritto per un altro scopo, mai riportarlo da una misura precedente senza dichiararlo, mai sostituire una misura con una a copertura minore. Corollario: una prova di difetto è un comando che gira, non una parola in un file — una ricerca di parole non può fallire nel modo in cui fallisce la realtà, ed è per questo che gli errori li trova Nicola e non la macchina. Secondo corollario, pagato nello stesso lavoro: si scrive un file di memoria con scrivi-json.mjs, che CONSERVA l'indentazione del file; JSON.stringify(…, 2) su un file a un solo spazio lo riscrive tutto e lo spinge oltre il tetto di lettura di GitHub.",
    "gate": "node cervello/test/prova-misurata-non-dichiarata.test.mjs"
+  },
+  {
+   "id": "L-2026-0811-02",
+   "data": "2026-08-11 01:25",
+   "fonte": "correzione di Nicola",
+   "testo": "**Quando due pezzi leggono la stessa cosa, non si scrivono due lettori: si carica quello che c'è già (AR-569, Nicola 11/8: «sistema il difetto della coda, 5 invece di 49»).** Il guardiano del tempo di Nicola aveva un parser suo che riconosceva solo il formato vecchio della coda: contava 5 firme in attesa mentre nel Pannello ce n'erano 57, e concludeva «coda sotto controllo». La tentazione era riscrivere il parser dei blocchi dentro il guardiano — cioè fare la seconda copia, che è la malattia stessa. Invece si carica il lettore vero della Cabina (331 righe di regole su cosa è un'azione e cosa è documentazione) attraverso l'hook che toglie i tipi. Seconda metà, altrettanto importante: riparato il conteggio, il verdetto restava verde perché guardava solo l'ETÀ della card più vecchia. Un numero giusto dentro una soglia che non lo guarda non serve a niente.",
+   "regola": "prima di scrivere un lettore, cercare chi legge già quella cosa e caricarlo — anche attraverso un confine di linguaggio, se il confine si può attraversare (Node 22 esegue i .ts, e l'hook per gli import senza estensione esiste già). Se non si può caricare, si esce ⚪ e non si tira a indovinare. E ogni volta che si ripara un CONTEGGIO, si controlla anche la SOGLIA che lo giudica: un numero giusto letto da un verdetto che non lo guarda resta invisibile. Le soglie si derivano dal comportamento reale della persona (quante firme dà a settimana), non si inventano.",
+   "gate": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
   }
  ],
  "principi": [

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-10 18:55",
+  "aggiornato": "2026-08-11 01:25",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11468,7 +11468,7 @@
     },
     {
       "id": "AR-569",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🟡",
       "dimensione": "pannello-comportamento",
@@ -11480,11 +11480,12 @@
       "causa_radice": "① La coda ha avuto due formati nel tempo: una tabella a 8 colonne, poi i blocchi ### con Cosa cambia / Se va bene. ② La Cabina è stata aggiornata al formato nuovo, il guardiano no. ③ Nessuno se n'è accorto perché il guardiano non dice «ho letto 18 righe su 67»: dice un numero e un verde. ④ Quindi la misura del carico di firma — il numero che serve a capire se Nicola è il collo di bottiglia — è ferma a un formato che quasi nessuna card usa più. ⑤ È la stessa famiglia di AR-562: due lettori, una fonte, due verità, e vince quella che rassicura. Qui il danno è doppio, perché il verde «coda sotto controllo» disinnesca proprio l'allarme che dovrebbe suonare.",
       "fix_proposto": "🟡 (a) Il formato della coda si legge in UN posto solo: estrarre il parser dei blocchi in un modulo condiviso e farlo usare sia dalla Cabina sia da guardiano-tempo.mjs (una regola, una casa — AR-344). (b) Finché non è condiviso, il guardiano deve DICHIARARE la copertura: «ho letto 18 righe su 67 card» invece di un verde secco — cieco non è verde. (c) Un test che scrive una card in formato blocco in un repo finto e pretende che il conteggio la veda.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "serve decidere dove vive il parser condiviso: cervello importa da pannello, o si duplica con un test che li tiene allineati"
+        "comando": "node cervello/test-cervello.mjs --solo coda-vista-come-la-vede-nicola"
       },
       "nato_da": "AR-562 (due lettori, una fonte, due verità)",
-      "nota": "Dove: cervello/guardiano-tempo.mjs:64-82 (parsa solo la tabella) · pannello/src/lib/azioni-attesa.ts (parsa i blocchi) · Impatto: è il numero con cui si decide se la coda di Nicola è il collo di bottiglia. Oggi dice 5 e sono 49."
+      "nota": "Dove: cervello/guardiano-tempo.mjs:64-82 (parsa solo la tabella) · pannello/src/lib/azioni-attesa.ts (parsa i blocchi) · Impatto: è il numero con cui si decide se la coda di Nicola è il collo di bottiglia. Oggi dice 5 e sono 49.",
+      "chiuso_il": "2026-08-11 01:25",
+      "chiuso_come": "Riparato in due metà, tutte e due con la loro prova. ① Il guardiano non ha più un parser suo: `cervello/coda-cabina.mjs` carica il lettore VERO della Cabina (pannello/src/lib/azioni-attesa.ts, 331 righe) e lo esegue — riscriverlo avrebbe creato la seconda copia che è la malattia stessa (AR-344). Node 22 toglie i tipi da solo e l'hook `cervello/test/risolvi-ts.mjs`, già scritto per i test del Pannello, gli insegna l'estensione mancante. Se non si può caricare esce ⚪ (2), non un numero. ② Il verdetto guarda anche il VOLUME: 57 firme fresche davano «✅ coda sotto controllo» perché nessuna superava i 7 giorni. La soglia non è inventata — l'arretrato si misura col ritmo VERO di Nicola (decisioni che lo coinvolgono negli ultimi 7 giorni): oggi 57 firme a 4 a settimana fanno 14,3 settimane. Freno: cervello/test/coda-vista-come-la-vede-nicola.test.mjs, 7 asserzioni; verificate a mano entrambe le mutazioni, ognuna lo fa cadere. Prima: 5 in attesa, verde. Adesso: 57, rosso."
     },
     {
       "id": "AR-570",
@@ -11553,8 +11554,8 @@
     }
   ],
   "meta": {
-    "aperti": 167,
+    "aperti": 166,
     "in_corso": 0,
-    "chiusi": 337
+    "chiusi": 338
   }
 }

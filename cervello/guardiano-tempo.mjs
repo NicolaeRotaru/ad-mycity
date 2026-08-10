@@ -16,11 +16,14 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { azioniDellaCoda, aspettaLaFirma } from "./coda-cabina.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const SOGLIA_STALLO_GG = 7; // oltre questa attesa una firma è "ferma da troppo"
 
-const CODA = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
+// La coda da leggere. Di norma quella vera; `GUARDIANO_TEMPO_CODA` la sposta su un file finto, così
+// il freno può metterlo alla prova su una coda costruita apposta invece che sul dato vivo.
+const CODA = process.env.GUARDIANO_TEMPO_CODA || join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
 const DECISIONI = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/DECISIONI.md");
 
 // Parsa "2026-07-06 11:11" (ora di Piacenza) in Date. now e righe usano la stessa lettura locale,
@@ -51,7 +54,7 @@ function gg(ms) {
   return Math.floor(ms / (1000 * 60 * 60 * 24));
 }
 
-function main() {
+async function main() {
   const quandoStr = nowPiacenza();
   const now = parseData(quandoStr) || new Date();
 
@@ -61,26 +64,33 @@ function main() {
     process.exit(1);
   }
 
-  // --- Parsa la tabella della coda: solo righe "| N | ... |" con N intero ---
-  const righe = [];
-  for (const line of readFileSync(CODA, "utf8").split("\n")) {
-    if (!line.trimStart().startsWith("|")) continue;
-    const celle = line.split("|").map((c) => c.trim());
-    // split("|") su "| a | b |" -> ["", "a", "b", ""]: togliamo i bordi vuoti
-    if (celle[0] === "") celle.shift();
-    if (celle[celle.length - 1] === "") celle.pop();
-    if (celle.length < 8) continue;
-    if (!/^\d+$/.test(celle[0])) continue; // salta header ("#") e separatore ("---")
-    righe.push({
-      num: +celle[0],
-      data: celle[1],
-      reparto: celle[2],
-      azione: celle[3],
-      colore: coloreRiga(celle[4]),
-      stato: classificaStato(celle[7]),
-      quando: parseData(celle[1]),
-    });
+  // --- La coda si legge COME LA LEGGE LA CABINA (AR-569) ---
+  //
+  // Qui c'era un parser fatto in casa che riconosceva solo le righe-tabella a 8 colonne. La coda
+  // però ha due formati, e da mesi le card nuove sono blocchi `###`. Contate a mano l'11/8: 49 a
+  // blocchi contro 18 righe-tabella. Questo guardiano diceva «In attesa della tua firma: 5 · ✅ Coda
+  // sotto controllo» mentre nel Pannello Nicola ne vedeva 57. È il numero che serve a capire se è
+  // LUI il collo di bottiglia, e il verde spegneva proprio l'allarme che doveva suonare.
+  //
+  // La cura non è aggiungere un secondo parser: è smettere di averne uno. `coda-cabina.mjs` carica
+  // il lettore vero del Pannello (331 righe di regole su cosa è un'azione e cosa è documentazione)
+  // e lo esegue. Due copie divergono al primo lotto — una regola, una casa (AR-344).
+  const letta = await azioniDellaCoda(CODA);
+  if (letta.cieco) {
+    // ⚪ non è un verde e non è un rosso: se non ho potuto contare, non stampo un numero.
+    const out = { ok: true, cieco: true, quando: quandoStr, motivo: letta.cieco };
+    console.log(JSON_MODE ? JSON.stringify(out) : `⚪ Guardiano del Tuo Tempo — non ho potuto contare la coda: ${letta.cieco}`);
+    process.exit(2);
   }
+  const righe = letta.azioni.map((a) => ({
+    num: a.numero || "",
+    data: a.data,
+    reparto: a.reparto,
+    azione: a.azione,
+    colore: coloreRiga(a.colore || ""),
+    stato: aspettaLaFirma(a) ? "in_attesa" : classificaStato(a.stato || ""),
+    quando: parseData(a.data),
+  }));
 
   const inAttesa = righe.filter((r) => r.stato === "in_attesa");
   const armate = righe.filter((r) => r.stato === "armata");
@@ -116,8 +126,23 @@ function main() {
   }
 
   const stallo = (piuVecchia?.eta_gg ?? 0) > SOGLIA_STALLO_GG;
+
+  // --- Il volume, non solo l'età (seconda metà di AR-569) ---
+  //
+  // Col parser riparato la coda è passata da 5 a 57, e il guardiano continuava a dire «✅ Coda sotto
+  // controllo» perché guardava solo se la più vecchia avesse superato i 7 giorni. Cinquantasette
+  // firme in attesa NON sono sotto controllo, per nessuna lettura della frase.
+  //
+  // La soglia non me la invento: la deduco dal ritmo VERO di Nicola. Se nelle ultime settimane firma
+  // 4 cose a settimana, 57 card sono quattordici settimane di arretrato — e quel numero è la cosa
+  // che voleva sapere: «sono io il collo di bottiglia?». Con ritmo zero non si divide per zero: si
+  // dichiara che l'arretrato non è calcolabile, e resta il conteggio nudo.
+  const SETTIMANE_MAX = 4; // oltre un mese del suo ritmo reale, la coda è il vincolo
+  const ritmoSettimanale = coinvolgonoNicola7gg; // decisioni che lo coinvolgono negli ultimi 7 giorni
+  const settimaneArretrato = ritmoSettimanale > 0 ? +(inAttesa.length / ritmoSettimanale).toFixed(1) : null;
+  const troppeInCoda = settimaneArretrato != null && settimaneArretrato > SETTIMANE_MAX;
   const out = {
-    ok: !stallo,
+    ok: !stallo && !troppeInCoda,
     quando: quandoStr,
     fonte: "AZIONI-IN-ATTESA.md + DECISIONI.md (conteggio deterministico, nessun numero inventato)",
     coda_firma_nicola: {
@@ -125,7 +150,7 @@ function main() {
       rosse,
       gialle,
       piu_vecchia_gg: piuVecchia?.eta_gg ?? null,
-      piu_vecchia_azione: piuVecchia ? `#${piuVecchia.num} · ${piuVecchia.azione}` : null,
+      piu_vecchia_azione: piuVecchia ? `${piuVecchia.num ? `#${piuVecchia.num} · ` : ""}${piuVecchia.azione}` : null,
       eta_media_gg: etaMedia,
     },
     armate_gated: armate.length, // pronte ma in attesa di una condizione (scala/business), non di te
@@ -133,6 +158,10 @@ function main() {
     ultimi_7_giorni: { decisioni_registrate: decisioni7gg, ti_coinvolgono: coinvolgonoNicola7gg },
     soglia_stallo_gg: SOGLIA_STALLO_GG,
     stallo,
+    // Quanto arretrato è la coda, misurato col ritmo reale di Nicola (non con una soglia inventata).
+    settimane_di_arretrato: settimaneArretrato,
+    soglia_settimane: SETTIMANE_MAX,
+    troppe_in_coda: troppeInCoda,
   };
 
   if (JSON_MODE) {
@@ -152,13 +181,34 @@ function main() {
   console.log(`   Già chiuse (storico in coda): ${chiuse.length}`);
   console.log(`   Ultimi 7 giorni: ${decisioni7gg} decisioni nel diario, ${coinvolgonoNicola7gg} ti coinvolgono`);
   console.log("");
+  if (settimaneArretrato != null) {
+    console.log(`   Al tuo ritmo di questi giorni (${ritmoSettimanale} a settimana), la coda è ${settimaneArretrato} settimane di arretrato.\n`);
+  } else {
+    console.log(`   ⚪ Non posso dire quanto arretrato sia: nel diario non risulta nessuna decisione tua negli ultimi 7 giorni.\n`);
+  }
   if (stallo) {
     console.log(`   🔴 COLLO DI BOTTIGLIA: una firma aspetta da ${piuVecchia.eta_gg} giorni (soglia ${SOGLIA_STALLO_GG}).`);
     console.log(`      Sei tu il vincolo: la macchina ha già fatto la sua parte, aspetta te.`);
+  } else if (troppeInCoda) {
+    console.log(`   🔴 COLLO DI BOTTIGLIA: ${inAttesa.length} firme in coda sono ${settimaneArretrato} settimane del tuo ritmo (soglia ${SETTIMANE_MAX}).`);
+    console.log(`      Nessuna singola card è ferma da troppo, ma insieme sono più di quanto riesci a smaltire.`);
   } else {
-    console.log(`   ✅ Coda sotto controllo: nessuna firma ferma oltre ${SOGLIA_STALLO_GG} giorni.`);
+    console.log(`   ✅ Coda sotto controllo: nessuna firma ferma oltre ${SOGLIA_STALLO_GG} giorni, e l'arretrato sta dentro il tuo ritmo.`);
   }
   process.exit(out.ok ? 0 : 1);
 }
 
-main();
+// Parte SOLO se lanciato come programma: importarlo per usarne una funzione non deve farlo girare
+// (malattia `programma-che-parte-importando`, AR-445). La prima versione di questa riga era
+// `main().catch(...)` senza guardia: importarlo eseguiva tutto — e siccome la forma non era più il
+// `main();` nudo che il rilevatore cerca, la malattia era diventata INVISIBILE invece che curata.
+// L'ha presa la spazzata dei fratelli, contando 70 dove il tetto ne diceva 71.
+//
+// Il `.catch` resta e serve: `main` è asincrona (carica il lettore della Cabina), e una promise
+// rifiutata uscirebbe 0 in certe versioni di Node — cioè un verde su un guardiano esploso.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((e) => {
+    console.error(`⚪ Guardiano del Tuo Tempo — non ho potuto misurare: ${e?.message || e}`);
+    process.exit(2);
+  });
+}
