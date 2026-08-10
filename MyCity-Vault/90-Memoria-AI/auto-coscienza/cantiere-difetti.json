@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-10 18:20",
+  "aggiornato": "2026-08-10 18:55",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11354,7 +11354,7 @@
     },
     {
       "id": "AR-563",
-      "stato": "aperto",
+      "stato": "chiuso-in-codice",
       "gravita": "grave",
       "colore": "🟡",
       "dimensione": "prove-e-collaudo",
@@ -11363,11 +11363,12 @@
       "nato_come": "scoperta",
       "nato_da": "AR-562: la richiesta di unione 695 resta rossa per questo, non per il suo fix",
       "origine": "campo-commit-e-turno.test.mjs cade su GitHub SOLO dentro la suite intera (1 asserzione su 10), e solo da quando la suite ha 154 file invece di 153. Misurato: da solo su GitHub passa 10/10 (passo diagnostico, run 31405845806); in locale passa sempre — suite intera 5 volte, test singolo 12 volte, clone pulito, clone completo (unshallow), e sotto carico artificiale a 8 processi. Su main (153 file) e verde; sul ramo prima della fusione (153 file, col test nuovo) era verde; insieme (154) e rosso 3 volte su 4.",
-      "titolo": "Una prova che cade solo dentro la suite intera, e solo sul server di GitHub",
-      "causa_radice": "NON TROVATA — e questo e il punto della scheda. Cio che so: (1) non e il contenuto del test, che da solo passa ovunque; (2) non e il clone superficiale, provato completo; (3) non e la velocita, provato sotto carico; (4) non e una corsa con chi scrive dentro cervello/, perche i paralleli finiscono prima che partano i seriali e questo test e seriale; (5) cambia solo con la COMPOSIZIONE della suite. Un test il cui esito dipende da quali ALTRI test gli girano accanto non e isolato, e un test non isolato insegna a rilanciare invece che a leggere.",
-      "fix_proposto": "Due strade, da scegliere. (a) Isolare la prova: il repo usa-e-getta copia cervello/ dal disco, cioe da uno stato che altri test possono aver toccato; copiarlo invece da uno snapshot git (git archive HEAD) lo rende immune a tutto cio che gli gira accanto. (b) Prima ancora, far uscire il messaggio: la suite riassume 'N asserzioni fallite' e butta il testo dell'asserzione, quindi un rosso che non si riproduce in locale oggi non e diagnosticabile — test-cervello.mjs dovrebbe conservare il TAP del file rosso.",
+      "titolo": "Il rosso veniva dalla PULIZIA della cartella di prova, non da un'asserzione",
+      "causa_radice": "TROVATA il 10/8, e solo dopo aver riparato lo strumento che doveva dirlo. Due difetti in fila. ① Il rosso: dopo certi comandi git avvia da se' una manutenzione IN BACKGROUND (gc --auto) che continua a scrivere dentro .git/objects quando il comando in primo piano e' gia' tornato. Il caso chiude con rmSync sulla cartella temporanea; se il gc sta ancora scrivendo, rmSync muore con ENOTEMPTY. Sta nel finally, quindi il caso diventa rosso anche con tutte le asserzioni passate. Su questa macchina il gc fa in tempo a finire, sul runner — piu' lento e con 130 test appena girati addosso — no. Spiega ogni cosa che sembrava misteriosa: perche' solo in CI, perche' solo dentro la suite intera, perche' da solo passava 10/10, e perche' bastava un file in piu' nella suite a cambiare l'esito. ② Perche' e' servito mezzo pomeriggio per leggerlo: righeRosse() in test-cervello.mjs — la difesa di AR-450, nata apposta perche' 'un rosso che non dice cosa e' rosso non e' una difesa' — cercava 'not ok - nome' senza numero, mentre il reporter di node numera ogni caso ('not ok 2 - nome') e mette il perche' in un blocco YAML. Non ha mai trovato una riga. Era cieca perche' la sua prova usava una fixture inventata invece del TAP vero: un test che si costruisce l'input da solo prova se stesso, non il campo.",
+      "fix_proposto": "FATTO. ① `git config gc.auto 0` nel repo usa-e-getta: niente processi in background, la causa sparisce a monte. ② `rmSync` con maxRetries: cintura, perche' il verdetto di un caso deve venire dalle asserzioni e non da quanto era occupata una cartella temporanea. ③ righeRosse() accetta la forma numerata e pesca il perche' dalla riga error: del blocco YAML; il riassunto per-file si scarta dal NOME (finisce in .test.mjs), non dalla numerazione. Prova nuova col TAP copiato da un'esecuzione vera, e mutazione di AR-450 riagganciata alla riga nuova.",
       "verifica": {
-        "nota": "da scrivere col fix: serve un caso che sporchi cervello/ sul disco e pretenda che la prova resti verde lo stesso"
+        "comando": "node cervello/test/test-cervello.test.mjs",
+        "nota": "prova diretta della diagnosticabilita': su TAP vero righeRosse deve tornare il nome del caso e il messaggio error. Per il rosso in se' la prova e' la CI: e' l'unico posto dove si e' mai manifestato, e il fix toglie la causa (gc in background) invece di mascherarla."
       }
     }
   ],

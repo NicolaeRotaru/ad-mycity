@@ -73,6 +73,14 @@ function campo() {
   git("init", "-q", "-b", "lavoro"); // non `main`: il perimetro di main è un altro cancello, non questo
   git("config", "user.email", "test@mycity.local");
   git("config", "user.name", "test");
+  // AR-563 — LA CAUSA DEL ROSSO CHE APPARIVA SOLO SU GITHUB. Dopo certi comandi git lancia da sé una
+  // manutenzione IN BACKGROUND (`gc --auto`), che continua a scrivere dentro `.git/objects` quando il
+  // comando in primo piano è già tornato. Su questa macchina finisce prima che il caso chiuda; sul
+  // runner — più lento, e con 130 test appena girati addosso — no: `pulisci()` trovava la cartella
+  // ancora popolata e moriva con ENOTEMPTY. Non era un'asserzione a cadere, era la pulizia, e siccome
+  // sta nel `finally` il caso risultava rosso lo stesso. Spiega tutto ciò che sembrava misterioso:
+  // perché solo in CI, perché solo dentro la suite intera, e perché da solo passava 10 su 10.
+  git("config", "gc.auto", "0");
   git("config", "core.hooksPath", ".githooks");
   mkdirSync(join(d, ".githooks"), { recursive: true });
   cpSync(join(REPO, ".githooks/pre-commit"), join(d, ".githooks/pre-commit"));
@@ -118,7 +126,11 @@ function campo() {
         return { rc: e.status ?? 1, out: `${e.stdout || ""}${e.stderr || ""}` };
       }
     },
-    pulisci: () => rmSync(d, { recursive: true, force: true }),
+    // Cintura oltre a `gc.auto 0`: se un processo scrive lì dentro mentre cancello, non voglio che il
+    // caso diventi rosso per la PULIZIA — il verdetto deve venire dalle asserzioni, non dal fatto che
+    // la cartella temporanea fosse occupata mezzo secondo di troppo. `maxRetries` riprova invece di
+    // morire al primo ENOTEMPTY.
+    pulisci: () => rmSync(d, { recursive: true, force: true, maxRetries: 10, retryDelay: 50 }),
   };
 }
 
