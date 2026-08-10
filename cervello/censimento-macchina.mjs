@@ -103,6 +103,7 @@ export const DESCRIZIONI = {
     "mycity-ritmo-settimana": "La review del venerdì: cosa ha funzionato, cosa si taglia, cosa si prova la settimana prossima.",
     "mycity-sentinella": "Le sentinelle: i segnali che devono svegliare qualcuno (negozio fermo, anomalia, soglia superata).",
     "mycity-sentinella-dati": "La sentinella sui dati veri del marketplace: guarda i numeri, non i file.",
+    "mycity-sentinella-motore": "La veglia sul motore AI: quando il pacchetto di Claude si esaurisce è l'unica cosa che resta sveglia — controlla se il limite è caduto e rimette in coda i lavori saltati, così la macchina si riaccende da sola.",
     "mycity-salute": "La visita di salute, mattina e sera: worker, cervello, Cabina, senior, sensori — e scrive il referto.",
     "mycity-monitora": "Il sorvegliante del worker: se la coda si blocca o un lavoro resta orfano, se ne accorge.",
     "mycity-verifica": "La verifica periodica dei sensori: gli occhi sono ancora aperti, o uno si è spento in silenzio?",

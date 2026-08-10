@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-04",
+ "aggiornato": "2026-08-10 12:20",
  "mutanti": [
   {
    "lotto": 30,
@@ -2045,6 +2045,33 @@
    "cerca": "{ k: \"Sito negozi\", raw: sm.sito_uptime, okKey: \"sito\" },",
    "sostituisci": "",
    "test": "node cervello/test/scadenze-calcolate.test.mjs"
+  },
+  {
+   "difetto": "limite-settimanale-macchina-ferma",
+   "lezione": "L-2026-0810-01",
+   "nome": "il limite SETTIMANALE torna a essere trattato come la finestra di 5h: attesa di minuti su un muro di giorni, sei tentativi bruciati e nessuno riparte",
+   "file": "cervello/retry-policy.mjs",
+   "cerca": "const settimanale = /weekly limit|limite settimanale",
+   "sostituisci": "const settimanale = /mai-nessuna-corrispondenza-qui",
+   "test": "node cervello/test/limite-settimanale-riparte.test.mjs"
+  },
+  {
+   "difetto": "limite-settimanale-macchina-ferma",
+   "lezione": "L-2026-0810-01",
+   "nome": "il monitoraggio torna a morire senza ri-accodarsi: il recupero resta solo in ritmo.sh, come prima",
+   "file": "cervello/monitora.sh",
+   "cerca": "cadenza_recupero monitora",
+   "sostituisci": "true # niente recupero",
+   "test": "node cervello/test/limite-settimanale-riparte.test.mjs"
+  },
+  {
+   "difetto": "intelligence-vecchia-mostrata-come-fresca",
+   "lezione": "L-2026-0810-02",
+   "nome": "la card torna a mostrare un analisi di tre settimane senza dire quanti giorni ha",
+   "file": "pannello/src/app/api/intelligence/route.ts",
+   "cerca": "const fresca = freschezza(testo, soglia, oggiPiacenza());",
+   "sostituisci": "const fresca = undefined;",
+   "test": "node cervello/test/freschezza-intelligence.test.mjs"
   }
  ]
 }

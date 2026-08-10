@@ -181,45 +181,19 @@ La memoria va sul RAMO UNICO main (il push git lo fa ritmo.sh dopo di te — tu 
 ## Risposta in chat
 Al termine restituisci un riepilogo breve (5-8 righe)."
 
-# AR-024: RECUPERO CADENZA su rate-limit. Se il motore AI fallisce per QUOTA (session/rate limit), la
-# cadenza andrebbe persa fino al timer di domani (il retry interno qui sotto è solo 3×30s ≈ 90s, troppo
-# corto per un reset che avviene tra ore). Rimedio: la ri-accodo nella coda 'lavori' come tipo
-# 'ritmo-<sezione>' con riprova_dopo = orario di reset (calcolato da retry-policy.mjs). Da lì il worker la
-# ri-esegue quando il limite si libera → il report/mosse mancati vengono prodotti da soli, in ritardo ma
-# prodotti. NON si accoda se siamo GIÀ dentro un retry del worker (RITMO_FROM_WORKER=1) → niente loop.
+# AR-024: RECUPERO CADENZA su rate-limit. Se il motore AI fallisce per QUOTA, la cadenza andrebbe
+# persa fino al timer di domani (il retry interno è 3×30s ≈ 90s, troppo corto per un reset che
+# avviene tra ore — e ridicolo per un limite SETTIMANALE, che si libera fra giorni). Rimedio: la
+# ri-accodo nella coda 'lavori' come tipo 'ritmo-<sezione>' con riprova_dopo = istante del reset. Da
+# lì il worker la ri-esegue quando il limite cade → il report mancato esce da solo, in ritardo ma esce.
+#
+# 2026-08-10 — il CORPO di questa funzione è stato spostato in `cadenza_recupero` dentro
+# lib-cadenza.sh. Non è un riordino estetico: monitora.sh e giro.sh non hanno MAI avuto questo
+# recupero, e col limite settimanale esaurito sono rimasti fermi undici giorni mentre il ritmo si
+# ri-accodava. Copiarla nei due copioni sarebbe stata la terza copia della stessa catena — cioè la
+# causa di sistema che lib-cadenza.sh esiste per chiudere. Qui resta il nome, che la trap usa.
 accoda_recupero_cadenza() {
-  [ "${RITMO_FROM_WORKER:-0}" = 1 ] && return 0
-  [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ] || { echo "[$(ts)] Recupero cadenza: manca SUPABASE (memoria) — non posso ri-accodare." >&2; return 0; }
-  command -v jq >/dev/null 2>&1 || { echo "[$(ts)] Recupero cadenza: manca jq — salto." >&2; return 0; }
-  local tipo="ritmo-${RITMO_TIPO}"
-  local A=(-H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" -H "Content-Type: application/json")
-  # Chiedo alla retry-policy (fonte unica) se/quando ritentare: quota → sì, ancorato al reset; altro → no.
-  local decis
-  decis="$(RP_TIPO="$tipo" RP_TENTATIVI=0 RP_RISULTATO="$_ai_out" timeout 20s node "$SCRIPT_DIR/retry-policy.mjs" decidi 2>/dev/null || echo '{}')"
-  if [ "$(printf '%s' "$decis" | jq -r '.azione // "stop"' 2>/dev/null)" != "ritenta" ]; then
-    echo "[$(ts)] Cadenza $tipo: errore non da rate-limit → nessun recupero automatico (resta il timer di domani)." >&2
-    return 0
-  fi
-  local quando; quando="$(printf '%s' "$decis" | jq -r '.quandoISO // empty' 2>/dev/null)"
-  # Idempotenza: se una cadenza uguale è già in coda, non duplicare.
-  local gia; gia="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&tipo=eq.$tipo&select=id&limit=1" "${A[@]}" 2>/dev/null || true)"
-  if printf '%s' "$gia" | jq -e '.[0].id' >/dev/null 2>&1; then
-    echo "[$(ts)] Cadenza $tipo già in coda (recupero) — non duplico." >&2
-    return 0
-  fi
-  local richiesta="Recupero automatico della cadenza «$RITMO_TITOLO» saltata per rate-limit del motore AI. Riesegui la sezione ritmo '$RITMO_TIPO' e pubblica la memoria sul ramo unico main."
-  local body; body="$(jq -n --arg t "$tipo" --arg r "$richiesta" --arg q "$quando" \
-    '{stato:"in_attesa", tipo:$t, richiesta:$r, esperto:"ritmo", tentativi:1, riprova_dopo:$q}')"
-  if curl -fsS -X POST "$SUPABASE_URL/rest/v1/lavori" "${A[@]}" -d "$body" >/dev/null 2>&1; then
-    echo "[$(ts)] Cadenza $tipo ri-accodata: ritento dopo $quando (reset quota) — il worker la ri-esegue da solo."
-  else
-    # DB non ancora migrato (manca riprova_dopo/tentativi)? riprovo con i campi minimi: il worker la
-    # prenderà al prossimo giro (e, senza colonne retry, ripiegherà sul comportamento classico).
-    body="$(jq -n --arg t "$tipo" --arg r "$richiesta" '{stato:"in_attesa", tipo:$t, richiesta:$r, esperto:"ritmo"}')"
-    curl -fsS -X POST "$SUPABASE_URL/rest/v1/lavori" "${A[@]}" -d "$body" >/dev/null 2>&1 \
-      && echo "[$(ts)] Cadenza $tipo ri-accodata (senza riprova_dopo — DB non migrato: gira appena il worker è libero)." \
-      || echo "[$(ts)] Cadenza $tipo: ri-accodamento fallito (riprovo al prossimo timer)." >&2
-  fi
+  cadenza_recupero "ritmo-${RITMO_TIPO}" "$RITMO_TITOLO" "${_ai_out:-${CADENZA_AI_OUT:-}}" ritmo
 }
 
 RITMO_START="$(date +%s)"   # AR-020: inizio del motore AI, per registrare il costo della cadenza

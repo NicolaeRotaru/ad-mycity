@@ -11,6 +11,16 @@ import { usePanelSync } from "@/lib/panel-sync";
 
 type Tab = "alert" | "mappa" | "concorrenti" | "eventi" | "buchi" | "leve" | "reputazione";
 type Alert = { livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
+// 📆 Quanto è vecchio il testo mostrato. Arriva da /api/intelligence: la card non lo sapeva, e per
+// undici giorni ha mostrato l'analisi del 20 luglio senza un segno che dicesse quanti giorni aveva.
+type Freschezza = {
+  stato: "fresca" | "scaduta" | "mai-scritta" | "senza-data";
+  giorni: number | null;
+  data: string | null;
+  scaduta: boolean;
+  soglia: number;
+  frase: string;
+};
 
 const INTEL: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "alert", label: "Alert anomalie", icon: <AlertTriangle size={14} /> },
@@ -27,7 +37,7 @@ export default function Intelligence() {
   const [loading, setLoading] = useState(false);
 
   const [alert, setAlert] = useState<{ collegato: boolean; alert: Alert[] } | null>(null);
-  const [cache, setCache] = useState<Record<string, { presente: boolean; testo: string }>>({});
+  const [cache, setCache] = useState<Record<string, { presente: boolean; testo: string; freschezza?: Freschezza }>>({});
   const [accodato, setAccodato] = useState<string | null>(null);
   // BUG-radiografia (riga 46): «Aggiorna analisi» senza disable durante l'invio → doppio clic = doppia accodatura.
   const [inviando, setInviando] = useState<Tab | null>(null);
@@ -42,7 +52,7 @@ export default function Intelligence() {
         // Il grafo si carica da solo l'asset statico /radar-grafo.json: niente da fetchare qui.
       } else {
         const r = await fetch(`/api/intelligence?tipo=${t}`, { cache: "no-store" }).then((x) => x.json()).catch(() => ({ presente: false, testo: "" }));
-        setCache((c) => ({ ...c, [t]: { presente: r.presente, testo: r.testo } }));
+        setCache((c) => ({ ...c, [t]: { presente: r.presente, testo: r.testo, freschezza: r.freschezza } }));
       }
     } finally {
       setLoading(false);
@@ -150,6 +160,38 @@ export default function Intelligence() {
           )}
           {accodato === `err:${tab}` && (
             <p className="text-[12px] text-red-600">Memoria non collegata: impossibile accodare ora.</p>
+          )}
+          {/* 📆 L'ETÀ DEL TESTO, SEMPRE VISIBILE (2026-08-10).
+              Sta SOPRA il contenuto e non in fondo apposta: se un'analisi è di tre settimane fa,
+              Nicola deve saperlo PRIMA di leggerla, non dopo averci deciso sopra. Il rosso scatta
+              oltre la soglia derivata dalle cadenze delle fonti (radar-fonti.json), non da un numero
+              scritto qui: se cambia la cadenza di una fonte, cambia da sola anche questa riga. */}
+          {cache[tab]?.freschezza && (
+            <div
+              className={`flex items-start gap-2 rounded-lg px-3 py-2 text-[12px] ${
+                cache[tab].freschezza!.scaduta
+                  ? "bg-red-50/70 text-red-800 border border-red-200"
+                  : cache[tab].freschezza!.stato === "senza-data"
+                    ? "bg-amber-50/60 text-amber-800 border border-amber-200"
+                    : "bg-black/[0.03] text-black/55"
+              }`}
+            >
+              <CalendarClock size={13} className="mt-0.5 shrink-0" />
+              {cache[tab].freschezza!.stato === "mai-scritta" ? (
+                <span>Questa analisi non è mai stata generata.</span>
+              ) : cache[tab].freschezza!.stato === "senza-data" ? (
+                <span>Non c&apos;è la data in cima al testo, quindi non so quanto è vecchio. Rigeneralo per saperlo.</span>
+              ) : cache[tab].freschezza!.scaduta ? (
+                <span>
+                  <b>Attenzione: questa analisi è vecchia.</b> È stata {cache[tab].freschezza!.frase} (il {cache[tab].freschezza!.data}), e dovrebbe
+                  rinfrescarsi ogni {cache[tab].freschezza!.soglia} giorni. Quello che leggi sotto potrebbe non valere più.
+                </span>
+              ) : (
+                <span>
+                  {cache[tab].freschezza!.frase[0].toUpperCase() + cache[tab].freschezza!.frase.slice(1)} (il {cache[tab].freschezza!.data}).
+                </span>
+              )}
+            </div>
           )}
           {cache[tab]?.presente ? (
             <>

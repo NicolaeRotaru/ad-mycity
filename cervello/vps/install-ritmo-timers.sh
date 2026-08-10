@@ -19,6 +19,7 @@ for unit in \
   mycity-ritmo-settimana.service mycity-ritmo-settimana.timer \
   mycity-sentinella.service mycity-sentinella.timer \
   mycity-sentinella-dati.service mycity-sentinella-dati.timer \
+  mycity-sentinella-motore.service mycity-sentinella-motore.timer \
   mycity-verifica.service mycity-verifica.timer \
   mycity-salute.service mycity-salute.timer \
   mycity-watch-main.service mycity-watch-main.timer
@@ -29,9 +30,17 @@ done
 
 # AR-057: verifica.timer + watch-main.timer sono unit di sistema (verifica-automazione dà per
 # scontato che watch-main sia attivo): vanno abilitate/avviate qui come le altre, altrimenti restano orfane.
+#
+# 2026-08-10, due aggiunte alle righe qui sotto:
+#   · mycity-sentinella-motore.timer — la veglia che riaccende la macchina quando il limite AI cade.
+#   · mycity-salute.timer — c'era da sempre nella lista dei file COPIATI ma non in quella delle unit
+#     ABILITATE: copiata in /etc e mai avviata, cioè la visita mattina-e-sera non è mai partita da
+#     sola. È il motivo per cui il referto del VPS in salute.json risulta «mai pubblicato» e da una
+#     sessione cloud il server si vede solo di riflesso. Un'unità installata e non abilitata è la
+#     forma più silenziosa di guasto: nei file c'è tutto, nella realtà non gira niente.
 systemctl daemon-reload
-systemctl enable mycity-ritmo-mattino.timer mycity-ritmo-mezzogiorno.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer mycity-sentinella.timer mycity-sentinella-dati.timer mycity-verifica.timer mycity-watch-main.timer
-systemctl start mycity-ritmo-mattino.timer mycity-ritmo-mezzogiorno.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer mycity-sentinella.timer mycity-sentinella-dati.timer mycity-verifica.timer mycity-watch-main.timer
+systemctl enable mycity-ritmo-mattino.timer mycity-ritmo-mezzogiorno.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer mycity-sentinella.timer mycity-sentinella-dati.timer mycity-sentinella-motore.timer mycity-verifica.timer mycity-salute.timer mycity-watch-main.timer
+systemctl start mycity-ritmo-mattino.timer mycity-ritmo-mezzogiorno.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer mycity-sentinella.timer mycity-sentinella-dati.timer mycity-sentinella-motore.timer mycity-verifica.timer mycity-salute.timer mycity-watch-main.timer
 
 echo ""
 echo "Timer ritmo attivi (fuso Europe/Rome):"

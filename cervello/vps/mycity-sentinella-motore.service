@@ -1,0 +1,26 @@
+[Unit]
+Description=MyCity AD — veglia sul motore AI (riaccende la macchina quando il limite si libera)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=mycity
+WorkingDirectory=/opt/mycity/ad-mycity
+# Fuso Piacenza: l'orario di reset ("resets 9:30pm", "resets Aug 14 at 9am") è ora italiana.
+Environment=TZ=Europe/Rome
+# HOME e PATH servono alla SONDA per trovare la CLI del motore (~/.local/bin per Cursor, ~/.claude
+# per Claude). Senza, la sonda fallirebbe sempre e la macchina resterebbe spenta credendo di essere
+# ancora in limite — cioè il guasto che questa unità esiste per chiudere, in forma peggiore.
+Environment=HOME=/home/mycity
+Environment=PATH=/home/mycity/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+EnvironmentFile=-/opt/mycity/ad-mycity/cervello/vps/.env
+ExecStart=/usr/bin/env node /opt/mycity/ad-mycity/cervello/sentinella-motore.mjs
+# Unità SUA e non un secondo ExecStart dentro mycity-sentinella.service: con Type=oneshot un
+# ExecStart che fallisce salta tutti quelli dopo. Attaccarla lì significava spegnere la veglia
+# proprio nei momenti in cui qualcos'altro non va — esattamente quando serve.
+TimeoutStartSec=180
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

@@ -81,6 +81,8 @@ export const DESCRIZIONI = {
   "sensori-spenti-check": { famiglia: "numeri-veri", cosa: "Uno strumento costruito e mai acceso è un buco, non uno stato: pretende un perché scritto." },
   "freschezza-segnali": { famiglia: "numeri-veri", cosa: "Controlla i controllori: se un guardiano è morto a metà giro, il suo verde è vecchio e non vale." },
   "guardiani-check": { famiglia: "numeri-veri", cosa: "Tiene questa tabella agganciata al codice: se nasce un controllo e nessuno spiega cosa fa, il giro non si chiude." },
+  "freschezza-intelligence": { famiglia: "numeri-veri", cosa: "Misura quanto è vecchia ogni analisi mostrata nella Cabina: un'analisi di tre settimane esposta come se fosse di stamattina fa decidere su una fotografia scaduta." },
+  "errore-motore": { famiglia: "numeri-veri", cosa: "Porta fuori dal server il motivo per cui il motore si è fermato: senza, da fuori si vede che qualcosa è fallito ma mai il perché, e il guasto resta muto per giorni." },
   "mappa-macchina": { famiglia: "numeri-veri", cosa: "Tiene aggiornata la mappa «Com'è fatta la macchina»: i numeri li riconta a ogni giro, e se nasce un pezzo nuovo (skill, sensore, mano, servizio, area) senza una riga che dica cosa fa, il giro non si chiude." },
   "percorsi-git": { famiglia: "numeri-veri", cosa: "Un nome di file con l'accento va chiesto a git nel modo giusto, o la macchina lavora su file che non esistono senza accorgersene." },
   "esito-cadenza": { famiglia: "numeri-veri", cosa: "La testa unica delle tre cadenze: decide se il motore si può spegnere e se il lavoro è andato bene, con le stesse regole per tutte e tre." },

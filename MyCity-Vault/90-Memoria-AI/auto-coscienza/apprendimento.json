@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-10 12:35",
+ "aggiornato": "2026-08-10 12:40",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -11332,6 +11332,22 @@
    "gate": null,
    "gate_attivo": false,
    "gate_nota": "Debito dichiarato: è un errore di lettura/giudizio in una risposta di chat, non un pattern di codice — nessun test automatico può verificare 'ha letto bene il messaggio corto'. Il freno più vicino che esiste già è `cervello/contesto-lezioni.mjs --richiesta` (hook UserPromptSubmit): ri-espone questa lezione all'inizio di ogni turno il cui prompt tocca temi affini (casella/Pannello/Sala Operativa), verificato attivo l'8/4 17:xx (vedi L-2026-0804-01). Non è un cancello che blocca un commit, solo un promemoria a monte."
+  },
+  {
+   "id": "L-2026-0810-01",
+   "data": "2026-08-10 12:20",
+   "fonte": "domanda di Nicola",
+   "testo": "**Quando una protezione è tarata su una scala di tempo, va chiesto se esistono ALTRE scale della stessa cosa (Nicola 10/8 ~11:40: «sicuramente il server si è fermato perché Claude ha raggiunto il limite settimanale»).** La retry-policy conosceva UNA quota — la finestra rolling di ~5h — e il commento diceva a lettere chiare «il reset è SEMPRE entro poche ore, MAI a 24h». Vero per la sessione, falso per il limite settimanale: stessa parola, scala cento volte più lunga. Il tetto delle 6h schiacciava il muro di giorni in un backoff di minuti, sei tentativi si bruciavano in poche ore e poi nessuno ripartiva più. Undici giorni di Intelligence ferma (30/7 → 10/8). Aggravante: il recupero della cadenza esisteva dal giorno di AR-024 ma SOLO in ritmo.sh — giro e monitora non l'hanno mai avuto, cioè la cura era stata applicata alla copia dove il sintomo era stato visto.",
+   "regola": "davanti a una soglia/tetto/timeout, chiedersi «di quale scala sto parlando, e ne esistono altre della stessa cosa?» prima di dare per assoluta la frase «SEMPRE entro X». E quando si aggiunge una protezione a una cadenza, applicarla subito a tutte e tre (giro · ritmo · monitora) o dichiarare perché no.",
+   "gate": "node cervello/test/limite-settimanale-riparte.test.mjs"
+  },
+  {
+   "id": "L-2026-0810-02",
+   "data": "2026-08-10 12:20",
+   "fonte": "correzione di Nicola",
+   "testo": "**Un dato mostrato senza la sua data è un dato che mente per omissione (Nicola 10/8: «aggiungi la data per ogni card e con il segnale che è scaduta»).** La card Intelligence mostrava un'analisi del 20 luglio identica a una di stamattina: la data viveva solo DENTRO il markdown, e solo se chi l'aveva scritta se l'era ricordata. Nessuno se n'è accorto per 11 giorni perché la vecchiaia non era misurata da nessuna parte. Seconda metà della correzione, altrettanto importante: «la dovrà leggere un sentinello per segnalarlo alla macchina o a me» — una data VISIBILE serve solo a chi sta guardando quella scheda in quel momento; perché protegga, qualcuno deve leggerla al posto suo.",
+   "regola": "ogni superficie che mostra un dato rigenerato periodicamente deve mostrare anche la sua età e gridare quando supera la cadenza attesa; e la soglia va DERIVATA dalla configurazione della cadenza (radar-fonti.json), mai scritta a mano in due posti. La visibilità non basta: serve un guardiano che legga l'età anche quando nessuno guarda.",
+   "gate": "node cervello/test/freschezza-intelligence.test.mjs"
   }
  ],
  "principi": [
