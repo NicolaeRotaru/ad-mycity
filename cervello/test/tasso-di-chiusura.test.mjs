@@ -107,6 +107,54 @@ test("lo storico mette i mesi in ordine e calcola il rapporto di ognuno", () => 
   assert.equal(s[1].tasso, +(1 / 9).toFixed(2));
 });
 
+// ── Il cablaggio nel giro: ESEGUITO, non cercato ─────────────────────────────
+//
+// La regola che questo stesso lotto introduce (l'asticella, AR-564) vale prima di tutto per me:
+// «il freno è agganciato al giro» non si prova cercando `CHIUSURA_VINCOLO` in giro.sh — quello
+// direbbe solo che la parola c'è. Qui si ESTRAE il blocco vero da giro.sh e lo si ESEGUE, con un
+// finto `tasso-chiusura.mjs` che risponde quello che serve al caso. Se il cablaggio si stacca, o se
+// qualcuno cambia il codice di uscita che lo attiva, questi due casi diventano rossi.
+test("cablaggio nel giro: sotto obiettivo (rc=1) il vincolo si popola e arriva al motore", async () => {
+  const { esito, vincolo } = await eseguiBloccoDelGiro(1, "0.18 — apro molto piu di quanto chiudo");
+  assert.equal(esito, 0, "il blocco non deve far fallire il giro: alza un vincolo, non spegne la macchina");
+  assert.match(vincolo, /APRO PIÙ DI QUANTO CHIUDO/, "il vincolo hard deve essere popolato");
+  assert.match(vincolo, /NON apre ricerche nuove/, "deve dire al motore cosa NON fare");
+  assert.match(vincolo, /0\.18/, "deve portarsi dietro il conto vero, non solo l'ordine");
+});
+
+test("cablaggio nel giro: cieco (rc=2) NON ferma la ricerca — cieco non è verde, ma non è rosso", async () => {
+  const { vincolo } = await eseguiBloccoDelGiro(2, "cantiere illeggibile");
+  assert.equal(vincolo.trim(), "", "un cantiere illeggibile non deve bloccare il lavoro del giro");
+});
+
+test("cablaggio nel giro: a posto (rc=0) nessun vincolo", async () => {
+  const { vincolo } = await eseguiBloccoDelGiro(0, "1.20 — chiudo piu di quanto apro");
+  assert.equal(vincolo.trim(), "");
+});
+
+/** Estrae da giro.sh il blocco vero del tasso di chiusura e lo esegue con un motore finto. */
+async function eseguiBloccoDelGiro(rcFinto, uscitaFinta) {
+  const { readFileSync, mkdtempSync, writeFileSync, chmodSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { spawnSync } = await import("node:child_process");
+
+  const giro = readFileSync(join(QUI, "..", "giro.sh"), "utf8").split("\n");
+  const da = giro.findIndex((r) => r.includes("Tasso di chiusura (AR-566"));
+  assert.ok(da > 0, "il blocco del tasso non è più in giro.sh: il cablaggio è sparito");
+  const a = giro.findIndex((r, i) => i > da && r.trim() === "fi");
+  assert.ok(a > da, "il blocco del tasso in giro.sh non si chiude: sintassi cambiata sotto i piedi");
+  const blocco = giro.slice(da, a + 1).join("\n");
+
+  const dove = mkdtempSync(join(tmpdir(), "giro-tasso-"));
+  // Il finto motore: risponde l'uscita e il codice del caso in prova.
+  writeFileSync(join(dove, "tasso-chiusura.mjs"), `console.log(${JSON.stringify(uscitaFinta)}); process.exit(${rcFinto});\n`);
+  const script = join(dove, "prova.sh");
+  writeFileSync(script, `#!/bin/bash\nts() { echo 00:00; }\nSCRIPT_DIR=${JSON.stringify(dove)}\nCHIUSURA_VINCOLO=""\n${blocco}\nprintf '%s' "$CHIUSURA_VINCOLO" > ${JSON.stringify(join(dove, "vincolo.txt"))}\n`);
+  chmodSync(script, 0o755);
+  const r = spawnSync("bash", [script], { encoding: "utf8", timeout: 30000 });
+  return { esito: r.status, vincolo: readFileSync(join(dove, "vincolo.txt"), "utf8") };
+}
+
 // ── Sul cantiere VERO ────────────────────────────────────────────────────────
 test("sul cantiere vero: il mese in corso è misurabile e il verdetto è uno dei tre previsti", async () => {
   const { readFileSync } = await import("node:fs");
