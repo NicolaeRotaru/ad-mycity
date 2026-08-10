@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🛡️ SUPERVISIONE NEGOZI & PRODOTTI: ultimo esito della veglia dati mancanti. Scritto da cervello/supervisione-negozi.mjs.",
-  "aggiornato": "2026-08-10 08:21",
+  "aggiornato": "2026-08-10 12:18",
   "conteggi": {
     "negozi": 1,
     "negozi_approvati": 1,
@@ -23,30 +23,6 @@
   ],
   "report": "consegne/supervisione/2026-08-10-supervisione.md",
   "storia": [
-    {
-      "quando": "2026-08-07 06:21",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-08-07 08:21",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
-    {
-      "quando": "2026-08-07 10:21",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
     {
       "quando": "2026-08-07 11:02",
       "negozi": 1,
@@ -417,6 +393,30 @@
     },
     {
       "quando": "2026-08-10 08:21",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-08-10 10:21",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-08-10 11:30",
+      "negozi": 1,
+      "negozi_approvati": 1,
+      "prodotti": 5,
+      "autofill_proposte": 0,
+      "da_procurare": 2
+    },
+    {
+      "quando": "2026-08-10 12:18",
       "negozi": 1,
       "negozi_approvati": 1,
       "prodotti": 5,

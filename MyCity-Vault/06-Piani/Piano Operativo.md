@@ -1,5 +1,11 @@
 # 🚲 PIANO OPERATIVO / CONSEGNE 2026 (Operations & Logistica)
 
+<!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
+> 🗓️ **Ultimo aggiornamento: 2026-06-25 12:34** — il giorno in cui questo piano è stato scritto. Da allora il testo qui sotto non è più stato rivisto.
+> *In fondo al piano l'AD tiene una sua nota automatica: quella è più recente, è del 2026-07-20 20:22, e non è una revisione del piano.*
+<!-- 🗓️ AD-DATA {"corpo":"2026-06-25 12:34","nato":"2026-06-25 12:34","nota":"2026-07-20 20:22"} -->
+<!-- 🗓️ AD-DATA:END -->
+
 > Base dati: [[Operazioni & Logistica]], [[Finanza & Unit Economics]], [[Rischi & Compliance]].
 > **Filosofia:** non sei food-delivery on-demand, sei **micro-logistica urbana con batching giornaliero**. Ogni decisione massimizza gli **ordini-per-giro** (è lì che nasce il margine).
 > **Punto di partenza reale (25/06/2026):** ~1 negozio, ~0 ordini. Il piano deve far funzionare i **primi ordini in modo impeccabile** (in una città piccola una brutta consegna gira veloce, una perfetta crea fiducia e passaparola), poi **scalare con la densità**, non allungando i giri.

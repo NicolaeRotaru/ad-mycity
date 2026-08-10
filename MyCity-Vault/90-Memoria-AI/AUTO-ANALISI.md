@@ -1,3 +1,27 @@
+# 🔬 AUTO-ANALISI — 2026-08-10 11:20
+
+> Giro completo (`giro.md` per intero, richiesto in chat). Primo passaggio NARRATO da 4 giorni (ultimo: 2026-08-06 11:15).
+
+## Voto di fiducia: **80/100** (→ invariato)
+Nessuna nuova regressione di business. Trovata una regressione tecnica minore (memoria delle lezioni ricresciuta), non abbastanza per abbassare il voto ma da seguire.
+
+## Aggiornamento 11:20
+Tra il 6/8 11:15 e oggi il worker VPS ha scritto **solo file tecnici**: commit "recupero: scritture pendenti da un giro interrotto" e "riconcilia: chiude difetti risolti nel codice" tra il 6/8 e le 09:05-10:22 di stamattina. Nessun Briefing, nessun RITMO narrato nel mezzo. È lo stesso gate HARD `freschezza-cadenze` già segnalato all'apertura di questa sessione: le 4 cadenze automatiche più recenti sono uscite **senza** auto-analisi né apprendimento. È esattamente il buco che questo passaggio chiude.
+
+Riverificato dal vivo con query SQL diretta, non ereditata: **1 ordine (mai pagato, del 24/6), 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 1 negozio, 0 recensioni, 6 carrelli / 3 abbandonati**. Identico cifra per cifra al passaggio del 6/8 11:15. Stallo North Star ricalcolato a mano: **47 giorni**. Era 43 il 6/8: sono passati 4 giorni di calendario, nessun evento nuovo dietro. Nessuna entità nuova, nessun declassamento.
+
+**Cosa ho trovato in questo passaggio.** Colore 🟡, fuori dal mio perimetro (segnalato, non eseguito):
+- **`apprendimento.json` è ricresciuto a 1.052.950 byte.** È di nuovo sopra il tetto di lettura di GitHub (1 MiB). Il 4/8 era stato tagliato a 947.517 byte. Il dato è misurato con `wc -c` diretto, non stimato. Rischio: una PR che tocca quel file può uscire rossa su GitHub senza un motivo visibile nel diff. Ho accodato la riga #14 in `AZIONI-IN-ATTESA.md`. Non l'ho riparato da qui: la CLI dedicata è bloccata in questa sessione.
+
+**Cosa ho fatto in questo passaggio.** Colore 🟢, dentro il mio perimetro:
+- **Rigenerata `CHECKLIST-NICOLA.md`.** Era ferma dal 4/8 12:00, 6 giorni: violava la regola AR-030 (max 2 giorni). Ho tolto 2 voci già chiuse: `#macchina-ferma-da-quattro-giorni`, chiusa il 4/8. E `#prevenzione-a-monte`, chiusa anche lei il 4/8. Ho aggiornato lo stallo a 47 giorni. Ho aggiornato anche il conteggio del cantiere, 161/332, con dati freschi da `cantiere-difetti.json`.
+
+**Debito CLI invariato rispetto al 6/8:** in questa sessione restano bloccati da un'approvazione che non riesco a mostrare `test-cervello.mjs`, `north-star-check.mjs --gate`, `apprendimento-guardiano.mjs`, `esperimenti-check.mjs`, `tasso-lezioni.mjs`, `sonda-volano.mjs`, `scadenzario-check.mjs`, `mappa-macchina.mjs`, `pota-apprendimento.mjs`, `gh pr list`. Girano regolarmente invece le query dirette MCP Supabase (uniche in questa sessione) e le letture/scritture di file via Read/Write/Edit. `chiusura-loop.json` (già scritto dal pre-step di `giro.sh`): 11/120 quaderni vivi, 109 fermi — peggiorato da 13/120 il 6/8, nessuna azione nuova oltre quella già in coda.
+
+**Cosa NON è cambiato:** Pane Quotidiano resta in attesa concordata con Nicola fino al 24/8-1/9 (`ripresa.lavoro-operativo`). Nessuna azione nuova verso il marketplace in questo giro: rispetta il piano invece di forzarlo.
+
+## Passaggi precedenti (6/8)
+
 # 🔬 AUTO-ANALISI — 2026-08-06 11:15
 
 > Giro completo (`giro.md` per intero, richiesto in chat). Primo passaggio NARRATO da 39h (ultimo: 2026-08-04 20:25).

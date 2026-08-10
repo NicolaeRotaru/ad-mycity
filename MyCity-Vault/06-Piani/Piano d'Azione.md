@@ -1,5 +1,10 @@
 # Piano d'Azione Operativo per MyCity a Piacenza
 
+<!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
+> 🗓️ **Ultimo aggiornamento: 2026-06-24 10:09** — il giorno in cui questo piano è stato scritto. Da allora il testo qui sotto non è più stato rivisto.
+<!-- 🗓️ AD-DATA {"corpo":"2026-06-24 10:09","nato":"2026-06-24 10:09","nota":null} -->
+<!-- 🗓️ AD-DATA:END -->
+
 ## 1. Obiettivi e target numerici realistici
 
 ### Obiettivi principali

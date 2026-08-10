@@ -1,41 +1,40 @@
 {
-  "data": "2026-08-10 10:10",
-  "situazione": "Business invariato e fermo come nella pausa concordata: 1 ordine (24/6, mai pagato, annullato), 0 pagati, 0 € incassati, 7 profili, 5 prodotti, 1 negozio, 3 carrelli abbandonati. Stallo North Star salito a 47 giorni. Ma questo giro ha trovato il blocco vero, mai registrato prima: Pane Quotidiano non può incassare — nel fascicolo pagamenti tre semafori sono rossi (dati mai inviati, incassi disattivati, versamenti disattivati) dal 15 giugno. Se domani un cliente va alla cassa, il pagamento non parte. Mossa n.1: far completare al fornaio la sua pratica dei pagamenti prima della ripartenza di fine agosto.",
+  "data": "2026-08-10 11:30",
+  "situazione": "Business ancora invariato (riconfermato ora dal vivo su Supabase): 1 ordine mai pagato, 0 pagati, 0 consegne, 7 profili, 5 prodotti, 1 negozio — stallo North Star ricalcolato a 47 giorni, pausa concordata con Nicola fino al 24/8-1/9. Dal 6/8 il worker ha scritto solo memoria tecnica senza mai chiudere un giro narrato, colmato ora. Novità tecnica: la memoria delle lezioni (apprendimento.json) è ricresciuta sopra il tetto GitHub che blocca le PR — stesso problema già risolto una volta il 4/8. Mossa n.1: nessuna azione business (pausa da rispettare) — resta la domanda già in coda su dentro/fuori dell'ordine di prova.",
   "opportunita": [
     {
-      "titolo": "Sblocca la cassa del fornaio prima di ripartire",
-      "motivo": "Tre semafori rossi nel fascicolo pagamenti: è l'unica cosa che separa il marketplace dal poter incassare un euro",
+      "titolo": "Sblocca l'ordine di prova su Pane Quotidiano",
+      "motivo": "Unica azione che muoverebbe il North Star senza toccare la pausa sui nuovi negozi — costa 3-5€",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Arriva al 24 agosto con il negozio già pronto",
-      "motivo": "La pausa finisce fra due settimane: se la pratica si sistema adesso, alla ripartenza non si perde un giorno",
-      "impatto": "alto",
-      "sforzo": "basso"
-    },
-    {
-      "titolo": "Fai ordine nelle sette richieste ferme",
-      "motivo": "Aperte da sei giorni, e alcune portano i freni che impediscono errori già pagati",
+      "titolo": "Ripulisci di nuovo la memoria delle lezioni prima che rompa una PR",
+      "motivo": "apprendimento.json è tornato sopra il tetto GitHub 6 giorni dopo l'ultima pulizia",
       "impatto": "medio",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Fai finire al fornaio la pratica dei pagamenti: oggi il negozio non può incassare",
-      "motivo": "Il conto esiste dal 15 giugno ma è a metà: servono i suoi documenti, non posso metterli io",
+      "titolo": "Rispondi: l'ordine di prova resta dentro la pausa o lo fai adesso",
+      "motivo": "È l'unica cosa in coda che dimostra che pagamento e consegna funzionano davvero",
+      "livello": "giallo"
+    },
+    {
+      "titolo": "Mergia PR #677, #679, #680, #681, #683 — invariato dal 6/8",
+      "motivo": "origin/main non accetta push diretto da questa sessione: la PR è l'unico veicolo per pubblicare i commit di memoria",
       "livello": "rosso"
     },
     {
-      "titolo": "Unisci la richiesta 675 — il freno sulla lezione del file dei permessi",
-      "motivo": "Aperta dal 4 agosto e mai finita sotto i tuoi occhi",
-      "livello": "rosso"
-    },
-    {
-      "titolo": "Unisci la richiesta 678 — la lezione sul lavoro fatto in due nello stesso momento",
-      "motivo": "Aperta dal 4 agosto, anche questa mai messa in lista",
+      "titolo": "Scegli come chiudere le PR: squash con riallineamento automatico o merge normale",
+      "motivo": "Un merge in squash può far chiudere da sole altre PR aperte sulla stessa base — già capitato",
       "livello": "rosso"
     }
+  ],
+  "sentinelle_scattate": [
+    "North Star 0 — stallo 47 giorni (pausa concordata, non churn)",
+    "apprendimento.json sopra il tetto GitHub (1.052.950 byte) — stesso problema del 4/8, ricresciuto",
+    "auto-radiografia completa scaduta — 269 ore (>10 giorni) dall'ultima"
   ]
 }

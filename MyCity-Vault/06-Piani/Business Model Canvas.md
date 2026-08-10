@@ -1,5 +1,10 @@
 # 🧱 Business Model Canvas di MyCity (vista Strategyzer)
 
+<!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
+> 🗓️ **Ultimo aggiornamento: 2026-06-24 10:09** — il giorno in cui questo piano è stato scritto. Da allora il testo qui sotto non è più stato rivisto.
+<!-- 🗓️ AD-DATA {"corpo":"2026-06-24 10:09","nato":"2026-06-24 10:09","nota":null} -->
+<!-- 🗓️ AD-DATA:END -->
+
 > **Cos'è:** il modello di business di MyCity compilato col metodo Osterwalder/Strategyzer, trattato per ciò che è — una **piattaforma multi-sided** a 3 lati. Generato dal prompt [[Prompt - Business Model Canvas]] sui dati della vault.
 > **Convenzione evidenza:** 🟢 fatto/fonte · 🟡 assunzione plausibile da validare · 🔴 dato critico ancora da raccogliere (ipotesi pericolosa).
 > **Due tempi:** dove rilevante distinguo **Anno 1 / oggi** dal modello **a regime** (i 3 motori).

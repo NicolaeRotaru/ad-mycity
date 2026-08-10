@@ -1315,6 +1315,25 @@ if command -v node >/dev/null 2>&1; then
   fi
 fi
 
+# 10/8 (Nicola: «guarda tutti i piani — non sono stati aggiornati; aggiungi la data con l'ultima
+# volta in cui sono stati aggiornati»): riscrive in cima a ogni piano di 06-Piani la riga «Ultimo
+# aggiornamento: …», misurata da git sul CORPO del piano — il blocco che il punto 9 rigenera in
+# fondo non conta, altrimenti ogni piano risulterebbe aggiornato a ogni giro.
+# QUI e non prima: il punto 9 ha appena riscritto quei blocchi, e la riga ne cita la data.
+# Scrive solo dentro il vault (perimetro MEM_DIRS) e non pubblica: la pubblica il sync qui sotto.
+# rc=2 NON è un errore del giro: è «storia di git troncata, non ho potuto misurare» — e in quel
+# caso non scrive niente, invece di stampare sui piani la data del clone.
+if command -v node >/dev/null 2>&1; then
+  echo "[$(ts)] Data sui piani (da quanto è fermo ciascuno)..."
+  _piani_out="$(node "$SCRIPT_DIR/piani-data.mjs" --scrivi 2>&1)"; _piani_rc=$?
+  printf '%s\n' "$_piani_out" | tail -6
+  if [ "$_piani_rc" = 2 ]; then
+    echo "[$(ts)] ⚪ piani-data CIECO (rc=2): storia di git troncata — le date sui piani restano quelle di prima." >&2
+  elif [ "$_piani_rc" -ne 0 ]; then
+    echo "[$(ts)] ⚠️  piani-data rc=$_piani_rc: una riga della data non dice la verità — rilancia \`node cervello/piani-data.mjs --scrivi\`." >&2
+  fi
+fi
+
 # AR-104: GATE COERENZA-FATTI + SANITÀ VAULT come CANCELLO BLOCCANTE del push (non più solo vincolo soft
 # al motore). Gira ORA, DOPO che l'AI ha scritto: è lo stato REALE che sta per finire su main e che il
 # Pannello mostrerà a Nicola. Se la memoria è incoerente (una copia vecchia di un fatto è rimasta) o il

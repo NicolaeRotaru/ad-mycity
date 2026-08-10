@@ -1,5 +1,11 @@
 # 🏛️ PIANO ISTITUZIONALE & BANDI 2026
 
+<!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
+> 🗓️ **Ultimo aggiornamento: 2026-06-25 12:34** — il giorno in cui questo piano è stato scritto. Da allora il testo qui sotto non è più stato rivisto.
+> *In fondo al piano l'AD tiene una sua nota automatica: quella è più recente, è del 2026-07-20 20:22, e non è una revisione del piano.*
+<!-- 🗓️ AD-DATA {"corpo":"2026-06-25 12:34","nato":"2026-06-25 12:34","nota":"2026-07-20 20:22"} -->
+<!-- 🗓️ AD-DATA:END -->
+
 > Base dati: [[Piano di Notorieta 2026]] (§6), [[Piano d'Azione]] (§5), [[Bandi & Finanziamenti]].
 > **Tesi:** gli enti non sono burocrazia da subire — sono **reach + legittimità + canale ai negozi**. Un endorsement di Confcommercio/CdC ai soci arriva a *tutta la rete commerciale* (~2.000-2.500 esercizi città). Vita in Centro apre la porta dei negozi del centro. L'assessore trasforma il lancio in *notizia civica*.
 > **Doppia leva bandi:** lo Stato rimborsa il **40-50%** al negozio che va online → il bando è insieme **notizia** ("lo Stato paga chi digitalizza") e **arma di vendita** (abbatte il costo d'ingresso della bottega su MyCity).

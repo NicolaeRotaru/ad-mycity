@@ -632,16 +632,14 @@ stato: BOZZE PRONTE — NESSUN INVIO.
 reparto: relazioni-istituzionali + finanza-agevolata
 livello: 🟢 (verifica + bozze) · 🔴 (invio mail Comune/Unione + domanda PI26 MyCity)
 canale: email istituzionale + restart.infocamere.it + kit WhatsApp negozi
-perche: PLAYBOOK Istituzioni worker 20/7 11:30. **PI26/BT26 a sportello ORA** (scade 30/7). Bando ER Regione **chiuso** (350 domande). Nessun bando comunale «rimborso materiali».
+perche: PLAYBOOK Istituzioni worker 20/7 11:30. **AGGIORNATO 10/8: PI26/BT26/bando Piccole Imprese Territorio TUTTI CHIUSI** (sportello scaduto 30/7; PI26 anche non idoneo per MyCity, Nicola 29/7 00:10). Bando ER Regione chiuso da giugno (350 domande). Nessun bando comunale «rimborso materiali» (mai esistito). **Nessun bando locale aperto oggi da agganciare a una mail istituzionale.**
 preparato: 🏛️ relazioni-istituzionali — `consegne/relazioni-istituzionali/2026-07-20-playbook-bandi-mail-istituzioni.md` + kit `2026-07-20-kit-bandi-cciaa-negozi-1pagina.md`
 bandi_aperti_oggi:
-  · **PI26** 50% max €10k — digitalizzazione (MyCity + negozi) — 20/7 10:00 → 30/7 16:00
-  · **BT26** 40% max €7k — riqualificazione punto vendita (botteghe retail/food)
-  · **BE26** solo se spese energetiche — ignorare per MyCity
+  · NESSUNO — verificato 8 volte (25/6, 6/7, 19/7, 20/7, 21/7, 27/7, 3/8, 10/8)
 bandi_chiusi_non_citare:
-  · Bando Commercio ER FESR (esaurito giugno) · «Vita in Centro 50% materiali» (inesistente)
-cosa_cambia: mail Hub aggiornate con leva PI26 (non bando ER 21/7); ogni pitch negozio ha scheda bandi 1 pagina.
-se_va_bene: Comune/Unione aprono pilota Hub → onboarding 3–5 botteghe con bando CCIAA; MyCity incassa rimborso PI26.
+  · PI26 (chiuso 30/7, non idoneo) · BT26 (chiuso 30/7) · Bando Piccole Imprese Territorio CCIAA/Unione Commercianti (stessa finestra, chiuso 30/7) · Bando Commercio ER FESR (esaurito giugno) · «Vita in Centro 50% materiali» (inesistente)
+cosa_cambia: le mail Hub restano bozze pronte MA senza leva-bando da citare oggi; la spinta ora è solo "servizio digitale condiviso dell'Hub", non più scadenza bando.
+se_va_bene: quando riapre un bando genuinamente nuovo O finisce la pausa lavoro-operativo di Nicola (24/8-1/9), si aggiorna il testo mail (via bando o senza) e si invia.
 testo (mail #1 Comune — oggetto):
 MyCity al servizio dell'Hub Urbano — digitalizzazione botteghe + bando Camera a sportello (scade 30/7)
 testo (mail #2 Unione — oggetto):

@@ -9,6 +9,9 @@
 - **"piano del mattino"** → priorità del giorno + una mossa per reparto. 🟢
 - **"report della sera"** → cosa è stato fatto + numeri + cosa c'è da firmare. 🟢
 - **"review della settimana"** → pagella della squadra + cosa migliorare. 🟢
+- **"guarda i piani"** (anche: *"i piani sono aggiornati?"*, *"da quanto sono fermi i piani"*) → ti dico, piano
+  per piano, quando è stato aggiornato l'ultima volta e da quanti giorni è fermo. Motore:
+  `node cervello/piani-data.mjs` (con `--scrivi` riscrive la data in cima a ogni piano). 🟢
 
 ## 📊 Numeri & soldi
 - **"come stiamo?"** → cruscotto: i numeri reali adesso. 🟢
