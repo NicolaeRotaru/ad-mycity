@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
   "_cosa_NON_prova": "Non prova che un ESITO sia VERO. Conta righe e date: se un reparto scrive «atteso 10 → reale 12» senza aver misurato niente, qui risulta vivo e puntuale. La verità del numero la giudica la calibrazione (che pretende una fonte esterna al quaderno), non questo conteggio.",
-  "aggiornato": "2026-08-10 11:33",
+  "aggiornato": "2026-08-10 12:18",
   "soglia_giorni": 7,
   "totale": 120,
   "mancanti": 0,
   "vuoti": 72,
-  "fermi": 109,
-  "vivi": 11,
+  "fermi": 103,
+  "vivi": 17,
   "reparti_fermi": [
     "accessibility",
     "account-security",
@@ -58,11 +58,9 @@
     "frontend-dev",
     "fundraising-equity",
     "grant-writer",
-    "growth-monetizzazione",
     "influencer-partnership",
     "infosec-soc",
     "innovation-lab",
-    "intelligence",
     "internal-audit",
     "investor-relations",
     "kyc-aml",
@@ -86,7 +84,6 @@
     "partner-management",
     "personalization",
     "platform-infra",
-    "pr-stampa",
     "pricing-scientist",
     "private-label",
     "procurement",
@@ -96,7 +93,6 @@
     "qa-designer",
     "rating-centrale-rischi",
     "registro-imprese",
-    "relazioni-istituzionali",
     "retail-media",
     "reverse-logistics",
     "revisore-conti",
@@ -115,9 +111,7 @@
     "seo",
     "supporto",
     "sustainability-esg",
-    "trust-safety",
-    "ux-designer",
-    "vendite"
+    "ux-designer"
   ],
   "quaderni": [
     {
@@ -134,9 +128,9 @@
       "reparto": "account-negozi",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 38,
-      "ultimo_esito": "2026-08-06 11:17",
-      "giorni_fa": 4,
+      "righe_esito": 40,
+      "ultimo_esito": "2026-08-10 11:50",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -414,9 +408,9 @@
       "reparto": "content-social",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 26,
-      "ultimo_esito": "2026-08-06 11:23",
-      "giorni_fa": 4,
+      "righe_esito": 27,
+      "ultimo_esito": "2026-08-10 11:54",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -454,8 +448,8 @@
       "reparto": "crm-lifecycle",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 27,
-      "ultimo_esito": "2026-08-10 11:25",
+      "righe_esito": 28,
+      "ultimo_esito": "2026-08-10 11:45",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -474,9 +468,9 @@
       "reparto": "customer-success",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 16,
-      "ultimo_esito": "2026-08-04 11:58",
-      "giorni_fa": 6,
+      "righe_esito": 17,
+      "ultimo_esito": "2026-08-10 11:56",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -684,11 +678,11 @@
       "reparto": "growth-monetizzazione",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 6,
-      "ultimo_esito": "2026-07-27 11:13",
-      "giorni_fa": 14,
+      "righe_esito": 7,
+      "ultimo_esito": "2026-08-10 11:48",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "influencer-partnership",
@@ -724,11 +718,11 @@
       "reparto": "intelligence",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 22,
-      "ultimo_esito": "2026-07-30 11:09",
-      "giorni_fa": 11,
+      "righe_esito": 23,
+      "ultimo_esito": "2026-08-10 12:13",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "internal-audit",
@@ -974,11 +968,11 @@
       "reparto": "pr-stampa",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 4,
-      "ultimo_esito": "2026-07-27 11:25",
-      "giorni_fa": 14,
+      "righe_esito": 5,
+      "ultimo_esito": "2026-08-10 11:59",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "pricing-scientist",
@@ -1094,11 +1088,11 @@
       "reparto": "relazioni-istituzionali",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 5,
-      "ultimo_esito": "2026-07-27 11:27",
-      "giorni_fa": 14,
+      "righe_esito": 6,
+      "ultimo_esito": "2026-08-10 12:01",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "retail-media",
@@ -1294,11 +1288,11 @@
       "reparto": "trust-safety",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 5,
-      "ultimo_esito": "2026-07-27 11:29",
-      "giorni_fa": 14,
+      "righe_esito": 6,
+      "ultimo_esito": "2026-08-10 12:04",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "ux-designer",
@@ -1314,11 +1308,11 @@
       "reparto": "vendite",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 24,
-      "ultimo_esito": "2026-07-27 11:09",
-      "giorni_fa": 14,
+      "righe_esito": 26,
+      "ultimo_esito": "2026-08-10 11:52",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     }
   ]
 }
