@@ -1,49 +1,55 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
-> Aggiornato: **2026-07-18 10:00** · Fonte: @intelligence (monitora.md · WebSearch "MyCity Piacenza marketplace" + "mycity-marketplace.com recensioni" + "pane quotidiano piacenza consegna online" + "mycity piacenza facebook 2026")
+> Aggiornato: **2026-08-10 13:35** · Fonte: WebSearch — "MyCity Piacenza marketplace negozi online" · "mycity-marketplace.com recensioni" · "MyCity Piacenza consegna negozi 2026" · "Pane Quotidiano Piacenza recensioni Google Maps" · "Piacenza gruppi Facebook quartiere MyCity marketplace consegna" · site:trustpilot.com mycity-marketplace.com · "mycity-marketplace" Libertà/TelLibertà/PiacenzaSera · "Pane Quotidiano" consegna a domicilio online
 
 ---
 
-## Stato attuale (18/7/2026)
+## Stato attuale (10/8/2026) — invariato da 23 giorni: nessuna traccia esterna
 
-**Nessuna menzione esterna reale trovata** — coerente con Fase 0 (1 negozio attivo, 0 ordini consegnati pubblicamente).
+**Nessuna menzione esterna reale trovata**, né positiva né negativa — coerente con lo stallo di 47 giorni (0 ordini pagati, il fascicolo pagamenti di Pane Quotidiano ha ancora incassi disattivati). Non c'è ancora niente da "reputare": la macchina non ha consegnato un solo ordine vero.
 
 | Canale | Risultato |
 |--------|-----------|
 | Google "MyCity Piacenza marketplace" | Sito [mycity-marketplace.com](https://mycity-marketplace.com/) indicizzato e raggiungibile. 0 articoli di stampa locale che lo citino. |
-| Google "mycity-marketplace.com recensioni" | 0 risultati italiani pertinenti. Unici "review" = mycity.com americano (New York, progetto Eric Adams) — entità completamente diversa. |
-| Stampa locale (Libertà, TelLibertà, IlPiacenza, PiacenzaSera) | 0 articoli che citino il marketplace MyCity. |
-| Facebook / social | Pagina "MyCity TV Piacenza" trovata (web TV locale, 793 like) — **entità diversa**, rischio confusione da monitorare. Nessuna pagina del marketplace con attività 2026 visibile. |
-| Pane Quotidiano online | Presente su PagineGialle, PagineBianche, VitainCentro come negozio fisico. Nessuna menzione di consegna online su MyCity in fonti esterne. Pagina FB (Via Calzolai) attiva, 0 riferimenti a MyCity. |
-| Trustpilot / Google Maps | Nessuna scheda né recensione trovata per mycity-marketplace.com. |
+| Trustpilot | Nessuna scheda per mycity-marketplace.com (cercata anche con `site:trustpilot.com`, 0 risultati pertinenti). |
+| Stampa locale (Libertà, TelLibertà, PiacenzaSera) | 0 articoli che citino il marketplace MyCity, anche cercando i tre nomi insieme al dominio. |
+| Facebook / social | "MyCity TV Piacenza" (web TV locale, entità diversa, nota da prima) + trovata ORA anche una pagina "MyCity | Bologna" su Facebook (altra azienda, altro nome simile) — nessuna delle due è il nostro marketplace. Nessuna pagina/gruppo con post 2026 sul marketplace di Piacenza. |
+| Pane Quotidiano (il negozio faro) | Presente su PagineGialle/PagineBianche/VitainCentro come negozio fisico storico (dal 1976). Nessuna recensione Google Maps intercettata via ricerca. Nessuna menzione di consegna online/MyCity in fonti esterne. |
+| Gruppi Facebook quartiere Piacenza | Trovati gruppi generici locali ("Spesa Online Piacenza", "Mercanti di Qualità Piacenza", Marketplace Facebook di Piacenza) — nessuno cita MyCity. |
 
 ---
 
-## ⚠️ Nota: "MyCity TV Piacenza" (entità diversa)
+## ⚠️ Cosa ho notato in più (non era nel giro del 18/7)
 
-Esiste una web TV locale chiamata "MyCity TV Piacenza" con pagina Facebook attiva. Non è correlata al marketplace, ma chi cerca "MyCity Piacenza" potrebbe confondersi. Da monitorare per evitare sovrapposizioni reputazionali in futuro.
+1. **Il testo del sito che Google restituisce è incoerente sui tempi di consegna**: una ricerca lo riassume come "consegna entro 24-48 ore", un'altra come "ordini a casa in 30-60 minuti, pagamento alla consegna". Sono due promesse diverse fatte allo stesso cliente. Prima che arrivi il primo cliente vero su Pane Quotidiano vale la pena controllare a video quale delle due frasi è davvero sulla home — un tempo sbagliato letto da un cliente reale è la prima causa di recensione negativa, non un dettaglio.
+2. **Rischio di nome condiviso è raddoppiato**: oltre a "MyCity TV Piacenza" (già noto), esiste anche una pagina Facebook "MyCity | Bologna" con lo stesso nome. Nessun problema oggi (zero traffico), ma quando parte la prima PR/stampa locale vale la pena mettere sempre "Piacenza" o il dominio nel testo, per non farsi confondere in una ricerca veloce.
 
 ---
 
 ## Interpretazione
 
-- Non ci sono menzioni negative (buono) né positive (atteso in Fase 0).
-- Il sito è correttamente indicizzato.
-- La reputazione si costruirà con il 1° ordine reale e la 1ª PR.
-- **Il trigger** per il monitoraggio attivo resta: prima bottega evadibile + kit stampa inviato + post VEN lanciato.
+- **Sentiment: nessuno (Fase 0 confermata)** — non ci sono recensioni, lamentele o menzioni da correggere perché non c'è ancora nessun cliente reale che abbia comprato.
+- Il sito resta correttamente indicizzato da Google.
+- La reputazione nascerà col primo ordine vero: oggi Pane Quotidiano non può ancora incassare (Stripe: dati mai inviati, incassi e versamenti disattivati — verificato dal vivo 10/8 09:58, vedi registro-fatti.json `negozio-faro.stato`).
+
+## 1-3 cose concrete
+
+1. **Verificare a video il testo reale dei tempi di consegna sulla home** (24-48h vs 30-60 min) prima che arrivi il primo cliente — evita la prima recensione negativa evitabile. 🟢 controllo, nessun rischio.
+2. **Quando parte la prima PR/comunicato stampa, nominare sempre "Piacenza" + dominio** per non confondersi con "MyCity TV Piacenza" o "MyCity Bologna". 🟢 solo attenzione redazionale, già notato in pr-stampa.
+3. **Appena Pane Quotidiano fa il primo incasso vero**, seminare subito la prima recensione Google reale (customer-success) — oggi non c'è nulla da monitorare perché non c'è nulla che sia successo.
 
 ---
 
-## Cosa terrà d'occhio quando parte la PR
+## Cosa terrà d'occhio il prossimo giro
 
-- **Menzioni di "MyCity Piacenza marketplace"** su Libertà/Telelibertà/IlPiacenza/PiacenzaSera e social
-- **Recensioni Google** dei negozi a bordo (PQ e poi il batch) e della piattaforma
-- **Gruppi Facebook di quartiere** ("Sei di Piacenza se…", quartieri) — passaparola e dubbi
-- **Sentiment** (positivo/neutro/negativo) e **lamentele ricorrenti** da sistemare subito
-- **MyCity TV Piacenza** — distinguere le menzioni dell'entità sbagliata
+- Menzioni di "MyCity Piacenza marketplace" su stampa locale e social
+- Recensioni Google di Pane Quotidiano e della piattaforma
+- Gruppi Facebook di quartiere — passaparola e dubbi
+- Sentiment e lamentele ricorrenti da sistemare subito
+- Le due entità omonime ("MyCity TV Piacenza", "MyCity Bologna") — distinguere le menzioni sbagliate
 
 ---
 
 > 🟢 leggere/annotare = automatico · le risposte pubbliche e i contatti = 🟡/🔴 (firma di Nicola).
 
-**Giro precedente**: 2026-07-11 11:00 — nessuna menzione intercettata (Fase 0, coerente).
+**Giro precedente**: 2026-07-18 10:00 — nessuna menzione intercettata (Fase 0, coerente). Stesso esito oggi, 23 giorni dopo.
