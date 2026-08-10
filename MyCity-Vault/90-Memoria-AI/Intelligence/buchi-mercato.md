@@ -1,102 +1,94 @@
-# 🕳️ Buchi di Mercato — 2026-07-20
+# 🕳️ Buchi di Mercato — 2026-08-10
 
-> Aggiornato: 20 luglio 2026 20:22 · fonte: supervisione REST + monitora.md
-
----
-
-## Stato attuale del catalogo MyCity
-
-- **1 negozio attivo** (Pane Quotidiano — panetteria/bio, Via Calzolai)
-- **5 prodotti** reali (demo eliminati 20/7)
-- **13 prospect validi** identificati (ristoranti/osterie ESCLUSI per decisione Nicola 18/7)
-- **Gap PQ:** logo + città da procurare (supervisione 20:22)
+> Aggiornato: 2026-08-10 13:35 · fonte: query dal vivo Supabase marketplace (MCP `execute_sql`) + `registro-fatti.json` · precedente versione: 20 luglio 2026 (in git history)
+> Rifatto da zero sui dati reali (non solo confermato): tabelle `profiles`, `products`, `categories`, `merchants_leads` interrogate oggi.
 
 ---
 
-## 🔴 SEGNALE FORTE: desertificazione del centro storico (luglio 2026)
+## Stato attuale del catalogo MyCity (dati live, non stimati)
 
-**20+ negozi chiusi in 3 mesi** su Corso Vittorio Emanuele (da 51 a meno di 40 esercizi), via Taverna, via Campagna, Piazza Borgo, via Poggiali. L'opposizione (AVS, Alternativa per Piacenza, Rifondazione) ha emesso un comunicato il 17/7 parlando di "desertificazione".
-
-> «Il commercio fisico soffre, ma i commercianti esistono ancora» — **questa è l'opportunità narrativa e di pitch più forte del momento.**
-> Argomento diretto: «ti aiuto a sopravvivere digitalmente invece di abbassare la serranda».
-
-- Fonte: [PiacenzaSera — "Sempre più serrande abbassate"](https://www.piacenzasera.it/2026/07/sempre-piu-serrande-abbassate-centro-storico-verso-la-desertificazione/654728)
-- Fonte: [IlPiacenza — "In tre mesi persi venti negozi"](https://www.ilpiacenza.it/politica/in-tre-mesi-persi-venti-negozi-in-corso-vittorio-emanuele.html)
-
-**Senior coinvolti**: `vendite` (pitch), `pr-stampa` (narrativa), `relazioni-istituzionali` (argomento Hub Urbano #52)
+- **1 negozio reale**: Pane Quotidiano — Via Calzolai 25, Piacenza. Panificio/gastronomia bio.
+- **5 prodotti** in vendita: Pudding vaniglia bio, Hummus di ceci bio, Kefir di latte di capra bio, Pesto Genovese bio, Kefir Berchtesgadener Land bio. Non solo pane: linea bio/gastronomia.
+- **0 negozi possono ancora incassare**: `stripe_charges_enabled`/`stripe_payouts_enabled`/`stripe_details_submitted` tutti falsi anche per Pane Quotidiano (fatto `negozio.faro`, verificato 10/8 09:58). Nessun buco di mercato conta finché questo non si sblocca — è la vera priorità zero, non una categoria mancante.
+- **72 categorie** già pronte nella tassonomia del sito (tabella `categories`), di cui solo 1 (Panificio, via Pane Quotidiano) ha un venditore reale dentro.
+- **407 contatti negozio** in archivio (`merchants_leads`), un solo scarico fatto il 24/5/2026 (nessun aggiornamento da allora), **tutti ancora `to_contact`** — nessuno è stato davvero contattato, a differenza di quanto si poteva leggere nella versione precedente di questo file.
 
 ---
 
-## 🟢 Nuovi lead concreti (luglio 2026)
+## 🔴 Il buco più grande non è di categoria: è di prospecting sulle categorie giuste
 
-### La Ragazzetta — Caffè storico (Via Romagnosi, centro)
-Riapertura il 4 luglio 2026. Definita "scelta culturale e identitaria per Piacenza". Forte identità locale.
-- **Candidato onboarding ideale**: tono perfetto con la narrativa MyCity, posizionamento premium locale.
-- Fonte: [PiacenzaSera — "Apre il Caffè storico La Ragazzetta"](https://www.piacenzasera.it/2026/07/apre-il-caffe-srico-la-ragazzetta-scelta-culturale-e-identitaria-per-piacenza/)
+Il file di luglio elencava enoteca/pescheria/erboristeria/formaggi come "categorie scoperte, 0 prospect". Controllato oggi riga per riga sui 407 contatti reali: **è ancora vero, e il motivo è strutturale**. Lo scarico del 24/5 viene da OpenStreetMap/Google Places filtrato su ristorazione e retail generico — **zero risultati contengono "wine", "fish", "herb", "deli", "cheese"**. Non è che i negozi non li abbiano trovati: quelle categorie non erano nel raggio di ricerca del primo scarico. È un buco nello strumento di scouting, non (solo) nel mercato.
 
-### Mercato coperto Sant'Antonino (Via Alberici)
-Richiesta di apertura prolungata anche nel pomeriggio per rivitalizzarlo (luglio 2026). Già organizzato, spesso artigiani e produttori locali.
-- **Prospecting concreto**: venditori già presenti e aggregati.
-- Fonte: [PiacenzaSera — "Sant'Antonino, apertura prolungata"](https://www.piacenzasera.it/2026/07/santantonino-il-mercato-coperto-di-via-alberici-resti-aperto-anche-nel-pomeriggio/652915/)
+| Categoria nei 407 contatti | N. lead | Contattati davvero | Score medio | Nota |
+|---|---|---|---|---|
+| Abbigliamento (`clothes`) | 92 | 0 | 57,6 | Fuori perimetro attuale (non food/bottega di quartiere) |
+| Bar | 76 | 0 | 65,8 | Escluso insieme a ristoranti/osterie (decisione Nicola 18/7) — da rivedere: bar ≠ osteria |
+| Cafè | 43 | 0 | 50,0 | Stesso dubbio di "Bar": La Ragazzetta (vedi sotto) è proprio un caffè |
+| Supermercato | 42 | 0 | 71,4 | Catene (Conad/Esselunga/Lidl/Coop…) — non target da onboarding, ma segnala densità della zona |
+| Ristorante | 27 | 0 | 87,0 | **Escluso** per decisione Nicola 18/7 |
+| Pizzeria | 22 | 0 | 95,5 | **Escluso** per decisione Nicola 18/7 |
+| Panificio (`bakery`) | 11 | 0 | 77,3 | Categoria del negozio faro — 11 concorrenti/prospect diretti mai contattati |
+| Macelleria (`butcher`) | 8 | 0 | 50,0 | 0 contattati nonostante citati come "prospect" a luglio |
+| Fioraio (`florist`) | 7 | 0 | 50,0 | Categoria già "scoperta" a luglio — i 7 nomi esistono, mai chiamati |
+| *(coda lunga: sushi, kebab, cinese, messicano, indiano…)* | ~74 | 0 | var. | Ristorazione etnica, stesso vincolo del 18/7 |
 
----
-
-## Prospect già identificati per categoria
-
-| Categoria | Prospect | Stato |
-|-----------|---------|-------|
-| Pasticceria/Panetteria | Frolla Couture, Rasparini, Struzzi, Panetteria Del Corso, Anzico Forno, L'Albero del Pane | scelta_ragionata |
-| Macelleria | Macelleria Callegari, Macelleria Scalabrini, Macelleria Polleria, Macelleria Carne Bovina | scelta_ragionata |
-| Gastronomia/Salumi | Garetti, Peretti, Amendolara | scelta_ragionata (3 anchor) |
+**Enoteca, pescheria, erboristeria, formaggi/caseificio: 0 su 0** — non ci sono NEI 407, quindi nessuno li ha mai cercati con uno scarico dedicato.
 
 ---
 
-## Categorie ancora scoperte (dopo i 13)
+## 🟡 Correzione importante rispetto alla versione precedente di questo file
 
-| # | Categoria | Perché priorità | Note |
-|---|-----------|----------------|------|
-| 1 | **Enoteca / vini** | Gutturnio, Ortrugo DOC — alto scontrino, gift-box | 0 prospect identificati |
-| 2 | **Pescheria** | Servizio premium | 0 prospect |
-| 3 | **Erboristeria / naturale** | Sovrapposizione clientela PQ | 0 prospect |
-| 4 | **Fiori / piante** | Impulso, urgente, alta frequenza | 0 prospect |
-| 5 | **Formaggi / caseificio** | DOP piacentini — differenziante | 0 prospect |
-| 6 | **Caffè storico / bar** | La Ragazzetta = lead già caldo | Nuovo lead luglio 2026 |
+I nomi **Garetti, Peretti, Amendolara** (gastronomia/salumi, 3 anchor) e **La Ragazzetta** (caffè storico) citati come "prospect" nella versione del 20/7 **non sono nella tabella `merchants_leads`** — non vengono dallo scarico del 24/5, vengono da ricerca web mirata di `@intelligence` a luglio. Sono legittimi come **scelta ragionata con fonti pubbliche** (AR-006: base news/articoli citati, non inventati), ma vanno tenuti distinti dai 407 lead strutturati nel DB: se serve un pitch, per questi 4 serve prima una verifica telefono/indirizzo aggiornata (fonte web, non DB).
+
+---
+
+## Categorie scoperte — priorità per la ripresa (24/8-1/9)
+
+| # | Categoria | Perché priorità | Prospect nel DB oggi | Prossimo passo |
+|---|-----------|----------------|----------------------|-----------------|
+| 1 | **Enoteca / vini** | Gutturnio, Ortrugo DOC — alto scontrino, gift-box | 0 (mai cercato) | Nuovo scarico mirato scouting, non solo ricontattare i 407 |
+| 2 | **Pescheria** | Servizio premium, differenziante | 0 (mai cercato) | Idem |
+| 3 | **Erboristeria / naturale** | Sovrapposizione clientela bio di PQ | 0 (mai cercato) | Idem |
+| 4 | **Formaggi / caseificio (DOP piacentini)** | Differenziante, alto margine | 0 (mai cercato) | Idem |
+| 5 | **Macelleria** | Categoria alimentare base, alta frequenza | 8 lead reali, 0 contattati | Ricontattare i 8 già in DB prima di cercarne altri |
+| 6 | **Fiori / piante** | Impulso, alta frequenza | 7 lead reali, 0 contattati | Ricontattare i 7 già in DB |
+| 7 | **Caffè storico / bar di quartiere** | La Ragazzetta = lead caldo (apertura 4/7) | 76 bar + 43 cafè in DB, mai filtrati per escludere solo osterie/ristoranti pieni | Rivedere il criterio di esclusione 18/7: bar/caffè ≠ osteria |
 
 ---
 
 ## Zone geografiche scoperte
 
+Nessun dato di consegna reale su cui misurare zone (0 ordini pagati, 0 consegne). Le due righe sotto restano un'inferenza da densità abitativa, non un dato osservato — da verificare quando ci sarà traffico reale:
+
 | Zona | Note |
 |------|------|
-| Quartieri oltre ZTL (Farnesiana, Besurica) | Alta densità residenziale |
-| Periferia nord (Borgotrebbia, Castelvetro) | Domanda consegna più alta |
+| Quartieri oltre ZTL (Farnesiana, Besurica) | Alta densità residenziale, inferenza non misurata |
+| Periferia nord (Borgotrebbia, Castelvetro) | Domanda consegna potenzialmente più alta, inferenza non misurata |
 
 ---
 
-## Buchi nel negozio attuale (PQ)
+## Buchi nel negozio attuale (Pane Quotidiano)
 
-| Campo mancante | N prodotti | Stato |
-|---------------|-----------|-------|
-| `condizione` | 252 | Batch autofill in coda approvazione |
-| `unità di misura` | 242 | Batch autofill in coda approvazione |
-| Foto prodotti pro | molti | Serve intervento negoziante |
-
----
-
-## 🟡 Segnale operativo (19/7): cornicione Corso V.E.
-
-Chiusura temporanea **Corso Vittorio Emanuele 226–234** (Pubblico Passeggio): attività commerciali fronte strada **non operativi** fino a ripristino cornicione. Non impatta PQ (Via Calzolai) ma conferma fragilità del tessuto commerciale sul Corso — stessa zona della desertificazione.
-- Fonte: [IlPiacenza 19/7](https://www.ilpiacenza.it/attualita/cornicione-pericolante-transennato-l-ultimo-tratto-del-corso.html)
+| Gap | Stato oggi |
+|-----|-----------|
+| Pagamenti (Stripe charges/payouts) | **Disattivati** — priorità assoluta, blocca ogni incasso (vedi `negozio.faro`) |
+| Catalogo | Solo 5 prodotti bio/gastronomia, nessun pane "base" a catalogo nonostante il nome del negozio |
+| Foto prodotto pro | Da verificare oggi, serve intervento diretto del negoziante |
 
 ---
 
-## Contesto macro (luglio 2026)
+## Contesto macro (invariato da luglio, non ricontrollato oggi — vedi `radar-concorrenti.md` e `eventi-picchi.md` aggiornati oggi 10/8 per il quadro esterno più fresco)
 
-- **Confcommercio Osservatorio demografia imprese (2012–2025)**: commercio al dettaglio a Piacenza **−22,1%** (96° su 122 comuni monitorati); crescita parallela di **+19k attività ristorazione/alloggio** a livello nazionale — la città **metamorfosi** verso turismo/food, meno retail tradizionale ([IlPiacenza economia](https://www.ilpiacenza.it/economia/metamorfosi-piacenza-meno-negozi-di-abbigliamento-boom-di-b-b-e-ristorazione.html)).
-- **Saldi estivi**: in corso dal 4/7 fino al 1° settembre — negozi cercano visibilità aggiuntiva.
-- **Manifattura piacentina Q1 2026**: −2,8% produzione, −4,7% fatturato, −13,2% export (IlPiacenza). Economia locale sotto pressione → commercianti più ricettivi a canali nuovi.
-- **Confesercenti "Sos Imprenditori"**: vademecum multilingue per imprenditori in difficoltà — segnala tensione nel tessuto commerciale ([IlPiacenza](https://www.ilpiacenza.it/economia/confesercenti-presenta-sos-imprenditori-vademecum-multilingue.html)).
+- Confcommercio: commercio al dettaglio Piacenza −22,1% (2012-2025); +19k attività ristorazione/alloggio a livello nazionale.
+- Desertificazione centro storico: 20+ negozi chiusi in 3 mesi su Corso Vittorio Emanuele (dato luglio, da riverificare se serve per un pitch).
+- Radar concorrenti aggiornato oggi: nessun movimento locale nuovo dei grandi (Glovo/JustEat/Deliveroo); Glovo e Deliveroo Italia sotto controllo giudiziario per caporalato algoritmico (fatto verificato, argomento di pitch pronto ma parcheggiato fino al 24/8-1/9).
 
 ---
 
-*Fonti: supervisione marketplace 18/7 · monitora.md 20/7 08:30 · IlPiacenza · PiacenzaSera · STATO.md · registro-realta.json*
+## Cosa NON è ancora un buco di mercato da inseguire
+
+Con 0 negozi che possono incassare e la pausa concordata con Nicola fino al 24/8-1/9, **nessuna di queste categorie va trasformata in pitch o asset pesante oggi** (regola AR-006: sforzo pesante solo su entità `confermata`, e oggi l'unica confermata — Pane Quotidiano — non incassa nemmeno). Questo file resta preparazione per la ripresa, non lavoro da eseguire ora.
+
+---
+
+*Fonti: query dal vivo `mcp__supabase-marketplace__execute_sql` su `profiles`, `products`, `categories`, `merchants_leads` (10/8/2026 13:20-13:35) · `registro-fatti.json` (`negozio.faro`, `negozi.attesa-concordata`) · `Intelligence/radar-concorrenti.md` e `Intelligence/eventi-picchi.md` (10/8, aggiornati oggi da @intelligence) · versione precedente 20/7 (git history) per confronto.*
