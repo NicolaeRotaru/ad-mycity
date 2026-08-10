@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-08-04 03:18",
+  "aggiornato": "2026-08-10 10:03",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -330,10 +330,15 @@
     {
       "id": "negozio.faro",
       "nome": "Negozio faro (unico negozio reale attivo)",
-      "valore": "Pane Quotidiano (unico negozio reale; la demo Casa Linda è esclusa)",
-      "fonte": "dati marketplace (Supabase REST) + memoria AD",
-      "aggiornato": "2026-07-06 23:55",
-      "storia": [],
+      "valore": "Pane Quotidiano (unico negozio reale; la demo Casa Linda è esclusa). NON puo ancora incassare: al 2026-08-10 il fascicolo pagamenti ha dati mai inviati, incassi disattivati e versamenti disattivati",
+      "fonte": "letto dal vivo sul database del marketplace il 2026-08-10 09:58 (campi stripe_details_submitted, stripe_charges_enabled, stripe_payouts_enabled tutti falsi)",
+      "aggiornato": "2026-08-10 10:03",
+      "storia": [
+        {
+          "valore": "Pane Quotidiano (unico negozio reale; la demo Casa Linda è esclusa)",
+          "fino_a": "2026-08-10 10:03"
+        }
+      ],
       "caccia": [],
       "esenzioni": []
     },

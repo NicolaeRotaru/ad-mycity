@@ -1,8 +1,25 @@
 ---
 tipo: stato
-aggiornato: 2026-08-06 11:15
+aggiornato: 2026-08-10 10:10
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **10/8 10:10 — Giro richiesto in chat. Business invariato, ma trovato il blocco vero: il fornaio non può incassare.**
+> La Cabina era ferma al 6/8 11:15 mentre il server ha lavorato fino a stamattina alle 09:30. Questo giro la riallinea. Il guardiano che conta i verdetti muti lo segnalava rosso, e diceva la verità.
+>
+> Letto dal vivo su Supabase alle 09:58: 1 ordine (24/6, mai pagato, annullato), 0 pagati, 0 € incassati, 7 profili, 5 prodotti disponibili, 1 negozio, 0 recensioni, 3 carrelli abbandonati, 407 contatti negozi in archivio. **Identico al 6/8.** North Star ricalcolato: **47 giorni** senza un ordine, erano 43. È la pausa concordata fino al 24/8-1/9, non un allarme.
+>
+> **La scoperta di oggi, mai registrata prima.** Nel fascicolo pagamenti di Pane Quotidiano tre semafori sono rossi: dati mai inviati, incassi disattivati, versamenti disattivati. Il conto presso il fornitore di pagamenti esiste dal 15/6, ma la pratica è rimasta a metà. Tradotto: **se domani un cliente va alla cassa, il pagamento non parte.** È anche la spiegazione dell'unico ordine mai arrivato, rimasto «in attesa di pagamento» e poi annullato. Accodata come riga #16, 🔴: i dati servono dal fornaio, sono suoi.
+>
+> **Numero nuovo che nessun giro aveva guardato:** ultimo movimento tracciato sul sito il 20/7, cioè 21 giorni fa.
+>
+> **Coda rimessa in ordine.** La riga #12 chiedeva da sei giorni di unire la richiesta 681, che risulta unita da Nicola il 4/8 alle 16:37. Verificato dal vivo su GitHub, non dedotto: chiusa. Le richieste 675 e 678 erano aperte dal 4/8 e non erano mai finite in coda: aggiunte come #14 e #15. **Sette richieste aperte in tutto**, ferme da sei giorni: 675, 676, 677, 678, 679, 680, 683.
+>
+> **Radar:** agosto è il mese morto a Piacenza. Il mercatino del centro salta proprio ad agosto, e il resto è fuori città. Nessuna finestra persa con la pausa.
+>
+> **Non visto da qui:** il server e i suoi orologi interni (il controllo automatico dice dodici falliti, ma da una sessione cloud quei servizi non esistono: è cieco, non rosso), gli incassi presso il fornitore di pagamenti, il sito guardato da fuori.
+>
+> Briefing completo: [[Briefing/2026-08-10]].
 
 > 🔁 **6/8 11:15 — Giro completo dopo 39h di silenzio narrato: business ancora invariato.**
 > Richiesto in chat per intero su `cervello/giro.md`. Tra il 4/8 20:25 e oggi il worker VPS ha scritto solo memoria tecnica in background: 4 commit "recupero: scritture pendenti" tra le 08:30 e le 11:03 di oggi. Non ha mai chiuso un Piano del mattino o un Report della sera narrato. È il gate HARD `freschezza-cadenze` segnalato in apertura sessione.
