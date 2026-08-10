@@ -5,6 +5,14 @@
 <!-- 🗓️ AD-DATA {"corpo":"2026-06-25 12:34","nato":"2026-06-25 12:34","nota":null} -->
 <!-- 🗓️ AD-DATA:END -->
 
+<!-- ⛔ AD-SMENTITE:START · lo riscrive `node cervello/piani-verita.mjs --scrivi`, non a mano -->
+> ⛔ **Attenzione: 6 frasi di questo piano non sono più vere.** Il registro dei fatti le smentisce, e il testo qui sotto è rimasto com'era. Correggerlo è una revisione del piano: la decide Nicola.
+> · **Il Bando Commercio ER è dato per aperto** (righe 149, 155, 202) — il registro dice: CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando. *(fesr.regione.emilia-romagna.it — verificato da agente intelligence 2026-07-11 11:40)*
+> · **La commissione al negozio è scritta 12%** (righe 46, 199) — il registro dice: 10% sul venduto *(Nicola chat Pannello 2026-07-20 12:39 + codice marketplace (MARKETPLACE_FEE_BPS 10%))*
+> · **Una fotografia del 25/06/2026 è presentata come «oggi»** (riga 17) — I numeri della frase reggono ancora al 10/8; a mentire è la parola «oggi». *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
+> *Misurato il 2026-08-10 15:59. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+<!-- ⛔ AD-SMENTITE:END -->
+
 > Base dati: [[Finanza & Unit Economics]] (fonte principale), [[Metriche & KPI]], [[Rischi & Compliance]]. Aggancia [[Piano di Notorieta 2026]] (domanda) e [[Bandi & Finanziamenti]] (capitale).
 > **Stato oggi (25/06/2026):** ~1 negozio, ~0 ordini. Stack **Supabase + Stripe Connect**. Consegna **cargo-bike con batching**. Riconciliazione Stripe↔`orders` non ancora attiva (0 transazioni).
 > **La tesi in 1 frase:** *l'ordine singolo perde soldi; il margine nasce dalla DENSITÀ (4-6 ordini/giro). Il break-even non chiede 1000 clienti, ne bastano ~150-320.*

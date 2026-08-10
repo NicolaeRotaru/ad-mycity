@@ -6,6 +6,13 @@
 <!-- 🗓️ AD-DATA {"corpo":"2026-06-25 12:34","nato":"2026-06-25 12:34","nota":"2026-07-20 20:22"} -->
 <!-- 🗓️ AD-DATA:END -->
 
+<!-- ⛔ AD-SMENTITE:START · lo riscrive `node cervello/piani-verita.mjs --scrivi`, non a mano -->
+> ⛔ **Attenzione: 5 frasi di questo piano non sono più vere.** Il registro dei fatti le smentisce, e il testo qui sotto è rimasto com'era. Correggerlo è una revisione del piano: la decide Nicola.
+> · **Il negozio-faro è Garetti (o Casa Linda)** (righe 84, 131, 191, 194) — il registro dice: Pane Quotidiano (unico negozio reale; la demo Casa Linda è esclusa). NON puo ancora incassare: al 2026-08-10 il fascicolo pagamenti ha dati mai inviati, incassi disattivati e vers… *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
+> · **Una fotografia del 25/06/2026 è presentata come «oggi»** (riga 18) — I numeri della frase reggono ancora al 10/8; a mentire è la parola «oggi». *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
+> *Misurato il 2026-08-10 15:59. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+<!-- ⛔ AD-SMENTITE:END -->
+
 > Base dati: [[Operazioni & Logistica]], [[Finanza & Unit Economics]], [[Rischi & Compliance]].
 > **Filosofia:** non sei food-delivery on-demand, sei **micro-logistica urbana con batching giornaliero**. Ogni decisione massimizza gli **ordini-per-giro** (è lì che nasce il margine).
 > **Punto di partenza reale (25/06/2026):** ~1 negozio, ~0 ordini. Il piano deve far funzionare i **primi ordini in modo impeccabile** (in una città piccola una brutta consegna gira veloce, una perfetta crea fiducia e passaparola), poi **scalare con la densità**, non allungando i giri.

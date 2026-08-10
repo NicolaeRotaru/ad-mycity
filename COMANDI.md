@@ -12,6 +12,12 @@
 - **"guarda i piani"** (anche: *"i piani sono aggiornati?"*, *"da quanto sono fermi i piani"*) → ti dico, piano
   per piano, quando è stato aggiornato l'ultima volta e da quanti giorni è fermo. Motore:
   `node cervello/piani-data.mjs` (con `--scrivi` riscrive la data in cima a ogni piano). 🟢
+- **"cosa dicono di sbagliato i piani?"** (anche: *"i piani dicono ancora cose vecchie?"*, *"controlla se i
+  piani mentono"*) → ti dico quali frasi dei piani il registro dei fatti smentisce — un bando chiuso dato
+  per aperto, la commissione vecchia, il negozio-faro sbagliato — con la riga esatta e cosa dice invece il
+  registro. Motore: `node cervello/piani-verita.mjs` (con `--scrivi` mette l'avviso in cima ai piani
+  smentiti; `--controlla` esce 1 se ne resta uno). Non riscrive il testo dei piani: quella è una revisione
+  tua. 🟢
 
 ## 📊 Numeri & soldi
 - **"come stiamo?"** → cruscotto: i numeri reali adesso. 🟢

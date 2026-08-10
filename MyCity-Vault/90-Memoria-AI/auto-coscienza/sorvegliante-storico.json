@@ -1,2007 +1,2025 @@
 {
-  "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
-  "sessioni": [
-    {
-      "quando": "2026-08-08T16:22:28.018Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T16:23:01.782Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T16:25:52.372Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T16:26:25.678Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T16:26:59.293Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T17:03:39.293Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T17:04:12.953Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T17:04:46.672Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T18:21:54.022Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T18:22:27.460Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T18:23:01.393Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T20:21:56.022Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T20:22:29.675Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T20:23:03.795Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T21:06:46.206Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T21:07:20.266Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-08T21:07:53.815Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T03:09:13.847Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T03:09:18.187Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T03:11:23.983Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T03:11:27.499Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T03:16:33.722Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T03:16:36.928Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T03:31:42.117Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T03:31:45.648Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:00:05.510Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:00:39.552Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:01:13.793Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:03:21.210Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:03:55.224Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:04:28.816Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:09:39.589Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:10:13.535Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:10:47.358Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:21:53.817Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:22:27.633Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:23:01.255Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:25:55.604Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:26:28.885Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T04:27:02.561Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T06:21:56.126Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T06:22:30.129Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T06:23:03.270Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T06:30:09.915Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T08:21:54.314Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T08:22:28.278Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T08:23:02.238Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:03:08.336Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:03:42.336Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:04:15.700Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:04:26.744Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:04:30.668Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:04:36.462Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:04:40.351Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:04:45.958Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:04:49.261Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:04:54.945Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:04:58.906Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:06:35.942Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:06:39.767Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:06:45.687Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:06:48.671Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:06:53.542Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:06:57.249Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:07:03.932Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:07:07.261Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:11:45.183Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:11:48.844Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:11:54.405Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:11:59.095Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:12:04.735Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:12:08.084Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:12:13.767Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:12:17.083Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:21:14.395Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:21:48.392Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:22:21.774Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:26:54.883Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:26:58.743Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:27:04.595Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:27:08.214Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:27:14.167Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:27:17.296Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:27:22.855Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:27:26.434Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:54:19.667Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:54:54.339Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:55:28.616Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:00:06.470Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:00:40.604Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:01:14.839Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:03:21.746Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:03:54.977Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:04:28.374Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:09:40.239Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:10:13.818Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:10:48.366Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:21:54.679Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:22:28.744Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:23:02.009Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:25:58.289Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:26:32.669Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:27:06.365Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:57:28.102Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:58:02.363Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:58:35.614Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T12:21:56.126Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T12:22:29.802Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T12:23:03.751Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T13:00:34.709Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T13:01:07.837Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T13:01:41.639Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T14:22:02.590Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T14:22:35.876Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T14:23:09.807Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T15:09:17.243Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T15:09:21.653Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T15:11:27.064Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T15:11:30.860Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T15:16:36.449Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T15:16:40.383Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T15:31:46.839Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T15:31:50.524Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:00:04.803Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:00:38.750Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:01:12.500Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:03:18.732Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:03:52.056Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:04:25.944Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:09:34.838Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:10:08.187Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:10:41.949Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:21:52.729Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:22:26.072Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:23:00.040Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:25:50.307Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:26:24.281Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:26:57.470Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T17:03:41.389Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T17:04:16.310Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T17:04:49.928Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T18:21:54.625Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T18:22:29.185Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T18:23:03.880Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T20:21:57.182Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T20:22:31.185Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T20:23:05.095Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T21:06:47.424Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T21:07:20.786Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T21:07:54.497Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:00:05.429Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:00:39.611Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:01:14.190Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:03:19.196Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:03:53.183Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:04:26.708Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:09:36.481Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:10:10.535Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:10:44.201Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:21:52.097Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:22:25.970Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:22:59.895Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:25:52.696Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:26:26.132Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T04:26:59.799Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T06:21:52.487Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T06:22:26.089Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T06:22:59.662Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T06:30:09.860Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T07:23:10.560Z",
-      "scatti": 217,
-      "voci": 5,
-      "per_classe": {
-        "difesa-rimossa": 1,
-        "prova-accecata": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T08:35:35.198Z",
-      "scatti": 1695,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T08:45:23.933Z",
-      "scatti": 1737,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:09:43.997Z",
-      "scatti": 1760,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:24:37.520Z",
-      "scatti": 1828,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:28:56.561Z",
-      "scatti": 1842,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:38:53.774Z",
-      "scatti": 1889,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:42:43.132Z",
-      "scatti": 1907,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:44:51.239Z",
-      "scatti": 1917,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:46:58.311Z",
-      "scatti": 1924,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:49:27.953Z",
-      "scatti": 1939,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:51:44.749Z",
-      "scatti": 1950,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:53:41.897Z",
-      "scatti": 1954,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:56:04.959Z",
-      "scatti": 1962,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:58:11.018Z",
-      "scatti": 1968,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T10:00:15.872Z",
-      "scatti": 1981,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T10:03:40.788Z",
-      "scatti": 2018,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T10:04:59.563Z",
-      "scatti": 2024,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T10:06:36.319Z",
-      "scatti": 2028,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T10:16:27.736Z",
-      "scatti": 2053,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T10:23:34.781Z",
-      "scatti": 2068,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T10:25:29.675Z",
-      "scatti": 2072,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T10:26:18.541Z",
-      "scatti": 2073,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T11:15:19.441Z",
-      "scatti": 2084,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T11:20:12.540Z",
-      "scatti": 2096,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T11:23:35.501Z",
-      "scatti": 2107,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T11:31:02.750Z",
-      "scatti": 2122,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T11:31:45.716Z",
-      "scatti": 2123,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T12:21:49.199Z",
-      "scatti": 2126,
-      "voci": 8,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 5
-      },
-      "mai_risolte": [
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/cancello-lotto.mjs», che è il codice su cui poggia la mutazione di cancello-lotto · mutazione-mancante (blocco duro)",
-          "ripetuta": 3
-        }
-      ]
-    },
-    {
-      "quando": "2026-08-10T14:48:06.799Z",
-      "scatti": 110,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T14:53:20.819Z",
-      "scatti": 110,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
+ "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
+ "sessioni": [
+  {
+   "quando": "2026-08-08T16:22:28.018Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T16:23:01.782Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T16:25:52.372Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T16:26:25.678Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T16:26:59.293Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T17:03:39.293Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T17:04:12.953Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T17:04:46.672Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T18:21:54.022Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T18:22:27.460Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T18:23:01.393Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T20:21:56.022Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T20:22:29.675Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T20:23:03.795Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T21:06:46.206Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T21:07:20.266Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-08T21:07:53.815Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T03:09:13.847Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T03:09:18.187Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T03:11:23.983Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T03:11:27.499Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T03:16:33.722Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T03:16:36.928Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T03:31:42.117Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T03:31:45.648Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:00:05.510Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:00:39.552Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:01:13.793Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:03:21.210Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:03:55.224Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:04:28.816Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:09:39.589Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:10:13.535Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:10:47.358Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:21:53.817Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:22:27.633Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:23:01.255Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:25:55.604Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:26:28.885Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T04:27:02.561Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T06:21:56.126Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T06:22:30.129Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T06:23:03.270Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T06:30:09.915Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T08:21:54.314Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T08:22:28.278Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T08:23:02.238Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:03:08.336Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:03:42.336Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:04:15.700Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:04:26.744Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:04:30.668Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:04:36.462Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:04:40.351Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:04:45.958Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:04:49.261Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:04:54.945Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:04:58.906Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:06:35.942Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:06:39.767Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:06:45.687Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:06:48.671Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:06:53.542Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:06:57.249Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:07:03.932Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:07:07.261Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:11:45.183Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:11:48.844Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:11:54.405Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:11:59.095Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:12:04.735Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:12:08.084Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:12:13.767Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:12:17.083Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:21:14.395Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:21:48.392Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:22:21.774Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:26:54.883Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:26:58.743Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:27:04.595Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:27:08.214Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:27:14.167Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:27:17.296Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:27:22.855Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:27:26.434Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:54:19.667Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:54:54.339Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T09:55:28.616Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:00:06.470Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:00:40.604Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:01:14.839Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:03:21.746Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:03:54.977Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:04:28.374Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:09:40.239Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:10:13.818Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:10:48.366Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:21:54.679Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:22:28.744Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:23:02.009Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:25:58.289Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:26:32.669Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:27:06.365Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:57:28.102Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:58:02.363Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T10:58:35.614Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T12:21:56.126Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T12:22:29.802Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T12:23:03.751Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T13:00:34.709Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T13:01:07.837Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T13:01:41.639Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T14:22:02.590Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T14:22:35.876Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T14:23:09.807Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T15:09:17.243Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T15:09:21.653Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T15:11:27.064Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T15:11:30.860Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T15:16:36.449Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T15:16:40.383Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T15:31:46.839Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T15:31:50.524Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:00:04.803Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:00:38.750Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:01:12.500Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:03:18.732Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:03:52.056Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:04:25.944Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:09:34.838Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:10:08.187Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:10:41.949Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:21:52.729Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:22:26.072Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:23:00.040Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:25:50.307Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:26:24.281Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T16:26:57.470Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T17:03:41.389Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T17:04:16.310Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T17:04:49.928Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T18:21:54.625Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T18:22:29.185Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T18:23:03.880Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T20:21:57.182Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T20:22:31.185Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T20:23:05.095Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T21:06:47.424Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T21:07:20.786Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-09T21:07:54.497Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:00:05.429Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:00:39.611Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:01:14.190Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:03:19.196Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:03:53.183Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:04:26.708Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:09:36.481Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:10:10.535Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:10:44.201Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:21:52.097Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:22:25.970Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:22:59.895Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:25:52.696Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:26:26.132Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T04:26:59.799Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T06:21:52.487Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T06:22:26.089Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T06:22:59.662Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T06:30:09.860Z",
+   "scatti": 1651,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T07:23:10.560Z",
+   "scatti": 217,
+   "voci": 5,
+   "per_classe": {
+    "difesa-rimossa": 1,
+    "prova-accecata": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T08:35:35.198Z",
+   "scatti": 1695,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T08:45:23.933Z",
+   "scatti": 1737,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T09:09:43.997Z",
+   "scatti": 1760,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T09:24:37.520Z",
+   "scatti": 1828,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T09:28:56.561Z",
+   "scatti": 1842,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T09:38:53.774Z",
+   "scatti": 1889,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T09:42:43.132Z",
+   "scatti": 1907,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T09:44:51.239Z",
+   "scatti": 1917,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T09:46:58.311Z",
+   "scatti": 1924,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T09:49:27.953Z",
+   "scatti": 1939,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T09:51:44.749Z",
+   "scatti": 1950,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T09:53:41.897Z",
+   "scatti": 1954,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T09:56:04.959Z",
+   "scatti": 1962,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T09:58:11.018Z",
+   "scatti": 1968,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T10:00:15.872Z",
+   "scatti": 1981,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T10:03:40.788Z",
+   "scatti": 2018,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T10:04:59.563Z",
+   "scatti": 2024,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T10:06:36.319Z",
+   "scatti": 2028,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T10:16:27.736Z",
+   "scatti": 2053,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T10:23:34.781Z",
+   "scatti": 2068,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T10:25:29.675Z",
+   "scatti": 2072,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T10:26:18.541Z",
+   "scatti": 2073,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T11:15:19.441Z",
+   "scatti": 2084,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T11:20:12.540Z",
+   "scatti": 2096,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T11:23:35.501Z",
+   "scatti": 2107,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T11:31:02.750Z",
+   "scatti": 2122,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T11:31:45.716Z",
+   "scatti": 2123,
+   "voci": 7,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T12:21:49.199Z",
+   "scatti": 2126,
+   "voci": 8,
+   "per_classe": {
+    "soglia-allentata": 3,
+    "difesa-rimossa": 5
+   },
+   "mai_risolte": [
+    {
+     "classe": "difesa-rimossa",
+     "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json",
+     "cosa": "ho tolto la riga che chiamava «cervello/cancello-lotto.mjs», che è il codice su cui poggia la mutazione di cancello-lotto · mutazione-mancante (blocco duro)",
+     "ripetuta": 3
     }
-  ],
-  "aggiornato": "2026-08-10T14:53:20.819Z"
+   ]
+  },
+  {
+   "quando": "2026-08-10T14:48:06.799Z",
+   "scatti": 110,
+   "voci": 0,
+   "per_classe": {},
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T14:53:20.819Z",
+   "scatti": 110,
+   "voci": 0,
+   "per_classe": {},
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T15:02:21.519Z",
+   "scatti": 384,
+   "voci": 4,
+   "per_classe": {
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  },
+  {
+   "quando": "2026-08-10T15:23:57.834Z",
+   "scatti": 397,
+   "voci": 4,
+   "per_classe": {
+    "difesa-rimossa": 4
+   },
+   "mai_risolte": []
+  }
+ ],
+ "aggiornato": "2026-08-10T15:23:57.834Z"
 }

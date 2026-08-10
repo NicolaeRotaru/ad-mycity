@@ -1332,6 +1332,20 @@ if command -v node >/dev/null 2>&1; then
   elif [ "$_piani_rc" -ne 0 ]; then
     echo "[$(ts)] ⚠️  piani-data rc=$_piani_rc: una riga della data non dice la verità — rilancia \`node cervello/piani-data.mjs --scrivi\`." >&2
   fi
+
+  # Il gemello della riga qui sopra: quella dice DA QUANTO un piano è fermo, questo COSA dice di
+  # falso mentre è fermo. Scrive l'avviso in cima ai piani smentiti dal registro-fatti (bando
+  # chiuso dato per aperto, commissione vecchia, faro sbagliato) e lo toglie da solo quando piano e
+  # registro tornano d'accordo. Non tocca il testo di Nicola: correggerlo è una revisione sua.
+  # Qui e non prima: il punto 9 ha appena riscritto i blocchi dell'AD, che l'avviso legge e conta.
+  # Non è un cancello del push: un piano che dice una cosa vecchia è una cosa da far vedere a
+  # Nicola, non un motivo per tenere ferma tutta la memoria del giro.
+  echo "[$(ts)] Smentite nei piani (cosa dicono di non più vero)..."
+  _verita_out="$(node "$SCRIPT_DIR/piani-verita.mjs" --scrivi 2>&1)"; _verita_rc=$?
+  printf '%s\n' "$_verita_out" | tail -4
+  if [ "$_verita_rc" = 2 ]; then
+    echo "[$(ts)] ⚪ piani-verita CIECO (rc=2): registro-fatti illeggibile o regola orfana — nessun avviso riscritto." >&2
+  fi
 fi
 
 # AR-104: GATE COERENZA-FATTI + SANITÀ VAULT come CANCELLO BLOCCANTE del push (non più solo vincolo soft

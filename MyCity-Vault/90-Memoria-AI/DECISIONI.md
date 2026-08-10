@@ -1401,3 +1401,40 @@ testi di Nicola, 🟡 sua: qui c'è la diagnosi, non la riscrittura.
 vero mentre la scrivevo: annotare la data faceva risultare aggiornato il piano che dichiarava fermo)
 · secondo `--scrivi` di fila = 0 file cambiati (idempotente) · `--controlla` esce 0 · typecheck del
 Pannello verde · le dieci righe rilette con la regex della route API danno l'etichetta attesa.
+
+## 2026-08-10 16:15 — 🟡 I piani dicono 48 frasi che il registro smentisce, e ora si vede
+
+**Cosa:** dopo il merge della PR #690 («ogni piano dice da quanto è fermo») restava aperto il pezzo
+che avevo dichiarato non fatto: **cosa dice di falso un piano mentre è fermo da 46 giorni.** La
+risposta, misurata: **48 frasi su 9 piani su 10.** La più cara sta nel Piano Istituzionale, che apre
+dando il **Bando Commercio ER per «sportello APERTO fino al 21/07/2026»** — quel bando è **chiuso dal
+23/6/2026** (limite di 350 domande), cioè si era chiuso **due giorni prima che quel piano nascesse**.
+Il Piano Vendite ne fa una battuta da usare col negoziante: *«lo Stato rimborsa il 40%, ma chiude il
+21 luglio»*. In fondo allo stesso Piano Istituzionale il blocco che rigenera l'AD dice, corretto,
+«Bando ER FESR: CHIUSO 23/6 — non citare»: **la stessa pagina si contraddiceva a 180 righe di
+distanza**, e nessuno dei due lettori poteva accorgersene.
+
+**Fatto:** `cervello/piani-verita.mjs`, gemello di `piani-data.mjs`. Legge i piani, ci cerca le
+frasi che `registro-fatti.json` smentisce e scrive **l'avviso in cima al piano** (quali righe, cosa
+dice invece il registro, con la fonte). In Cabina, accanto a «fermo da N giorni», compare
+«⛔ N frasi non più vere». Girano a ogni giro. Le cinque smentite oggi: bando ER dato per aperto
+(17), faro ancora Garetti/Casa Linda invece di Pane Quotidiano (20), commissione scritta 12% invece
+di 10% (4), fotografia del 25/06/2026 presentata come «oggi» (4), PI26 dato per aperto (3, tutte nel
+blocco dell'AD). Solo il Piano Prodotto è pulito.
+
+**Non fatto, ed è una scelta, non una dimenticanza:** **il testo dei piani non è toccato.** Due
+ragioni che si sommano. È roba di Nicola, e il mansionario dice di proporre. Ma soprattutto:
+correggerle a mano avrebbe fatto ripartire da zero il contatore del gemello, e nove piani «fermi da
+46 giorni» sarebbero diventati nove piani «aggiornati oggi» — l'allarme che dice a Nicola di
+rivederli sarebbe sparito dal cruscotto **nel momento esatto in cui diventa fondato**. Il difetto
+sparisce dal cruscotto restando intero nella realtà. Perciò l'avviso vive in un blocco a parte che
+`corpoDelPiano()` toglie prima di misurare — stessa esenzione, stessa ragione, della riga della data.
+
+**Prova:** 21 prove nuove in `cervello/test/piani-verita.test.mjs` · suite del cervello 153 file /
+1580 asserzioni verdi · typecheck e build del Pannello verdi · secondo `--scrivi` di fila = 0 file
+cambiati. **Il difetto vero trovato mentre lo costruivo:** alla prima esecuzione la regola del bando
+accusava **tre note meteo** dell'AD («Martedì 21/7 pioggia»), perché il piano scrive la scadenza
+`21/07` e il meteo `21/7`. Tre falsi allarmi su venti bastano a far spegnere un guardiano — chiuso
+pretendendo che la riga parli anche di bandi, con la prova che lo blocca. **Il secondo:** avevo
+inventato una famiglia `verita` che in bacheca non esiste, e me n'ero «accertato» rileggendo una
+lista che conteneva già la mia riga — presa dal test dei guardiani, non da me.

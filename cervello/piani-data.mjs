@@ -59,6 +59,11 @@ export const FINE = "<!-- 🗓️ AD-DATA:END -->";
 // forma più silenziosa di misura cieca.
 const bloccoAD = () => /<!--\s*🤖 AD-AGGIORNAMENTO:START[\s\S]*?AD-AGGIORNAMENTO:END\s*-->/g;
 const bloccoData = () => /<!--\s*🗓️ AD-DATA:START[\s\S]*?AD-DATA:END\s*-->/g;
+// L'avviso delle smentite (`piani-verita.mjs`) è generato come questa riga, e va tolto per la stessa
+// ragione: se contasse, segnalare che un piano dice cose false lo farebbe risultare rivisto: nove
+// piani fermi da 46 giorni diventerebbero nove piani freschi di giornata, e l'allarme che dice a
+// Nicola di rivederli sparirebbe dal cruscotto nel momento esatto in cui diventa fondato.
+const bloccoSmentite = () => /<!--\s*⛔ AD-SMENTITE:START[\s\S]*?AD-SMENTITE:END\s*-->/g;
 
 /**
  * Il testo del piano ripulito di TUTTO ciò che si riscrive da solo — il blocco dell'AD e questa
@@ -77,6 +82,7 @@ export function corpoDelPiano(testo) {
   return String(testo ?? "")
     .replace(bloccoAD(), "")
     .replace(bloccoData(), "")
+    .replace(bloccoSmentite(), "")
     .split("\n")
     .map((r) => r.trimEnd())
     .join("\n")

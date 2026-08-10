@@ -6,6 +6,15 @@
 <!-- 🗓️ AD-DATA {"corpo":"2026-07-20 20:22","nato":"2026-06-25 12:34","nota":"2026-07-20 11:00"} -->
 <!-- 🗓️ AD-DATA:END -->
 
+<!-- ⛔ AD-SMENTITE:START · lo riscrive `node cervello/piani-verita.mjs --scrivi`, non a mano -->
+> ⛔ **Attenzione: 15 frasi di questo piano non sono più vere.** Il registro dei fatti le smentisce, e il testo qui sotto è rimasto com'era. Correggerlo è una revisione del piano: la decide Nicola.
+> · **Il Bando Commercio ER è dato per aperto** (righe 25, 127, 135, 185) — il registro dice: CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando. *(fesr.regione.emilia-romagna.it — verificato da agente intelligence 2026-07-11 11:40)*
+> · **Il voucher PI26 è dato per aperto o da inviare** (riga 193) — il registro dice: Non idoneo, confermato da Nicola 2026-07-29 00:10 — nessuna domanda da inviare, sportello CCIAA non più rilevante per MyCity *(Nicola (chat 29/7 ~00:10) — DECISIONI.md 2026-07-29 00:15)*
+> · **La commissione al negozio è scritta 12%** (riga 87) — il registro dice: 10% sul venduto *(Nicola chat Pannello 2026-07-20 12:39 + codice marketplace (MARKETPLACE_FEE_BPS 10%))*
+> · **Il negozio-faro è Garetti (o Casa Linda)** (righe 19, 25, 72, 95, 117, 147, 150, 182, 184) — il registro dice: Pane Quotidiano (unico negozio reale; la demo Casa Linda è esclusa). NON puo ancora incassare: al 2026-08-10 il fascicolo pagamenti ha dati mai inviati, incassi disattivati e vers… *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
+> *Misurato il 2026-08-10 15:59. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+<!-- ⛔ AD-SMENTITE:END -->
+
 > Base dati: [[Vendite & Acquisizione Negozi]] · [[Piano d'Azione]] · [[Bandi & Finanziamenti]] · [[Botteghe del Centro - Mappa]].
 > **Traguardo immediato:** portare da **~1 a 6 negozi LIVE** in un cluster contiguo del centro (Calzolai–Duomo–Chiapponi) entro **6 settimane**, con **primo ordine reale entro sab 27/6** dal negozio-faro **Garetti**.
 > **Il collo di bottiglia non è il prodotto (~90% fatto): è l'OFFERTA.** Oggi ~1 negozio, ~0 ordini. Il lavoro n.1 è **densità di negozi nel cluster** → primo ordine → fiducia.

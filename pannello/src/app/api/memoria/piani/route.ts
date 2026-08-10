@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { readVaultFile, listVaultDir } from "@/lib/vault";
+import { smentiteDichiarate } from "@/lib/contesto-piano";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,6 +32,13 @@ export async function GET() {
   const piani = nomi
     .map((nome, i) => ({ nome, testo: testi[i] }))
     .filter((p) => p.testo)
-    .map((p) => ({ nome: p.nome.replace(/\.md$/, ""), testo: p.testo!, ...dataDelPiano(p.testo!) }));
+    .map((p) => ({
+      nome: p.nome.replace(/\.md$/, ""),
+      testo: p.testo!,
+      ...dataDelPiano(p.testo!),
+      // Il numero lo dichiara l'avviso scritto da `piani-verita.mjs`: non si riconta qui, perché
+      // due conti per la stessa cosa sarebbero due verità nella stessa schermata.
+      smentite: smentiteDichiarate(p.testo!),
+    }));
   return NextResponse.json({ collegato: piani.length > 0, piani });
 }
