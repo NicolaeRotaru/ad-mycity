@@ -5,7 +5,10 @@
 // Questo parser li copre ENTRAMBI, così "Da firmare" (Plancia) e "Da fare" (corsia Azioni) leggono
 // l'unica fonte reale e nessuna azione resta invisibile.
 
-import { comeTesto } from "@/lib/format";
+// Import relativo e non `@/lib/format`: l'alias lo risolve solo Next, quindi finché c'era questo
+// file — 300 righe che decidono cosa Nicola vede nella coda — non poteva avere UNA prova. È così
+// che il difetto della mezza emoji è vissuto indisturbato. Stessa forma di `lavori-gruppo.ts`.
+import { comeTesto } from "./format";
 
 export type AzioneAttesa = {
   numero: string;
@@ -211,8 +214,13 @@ function parseHeading(heading: string): { data: string; reparto: string; titolo:
     const m = titolo.match(/@([a-z0-9-]+)/i) || titolo.match(/\(@?([a-z]+-[a-z]+)\)/);
     if (m) reparto = m[1];
   }
-  // ripulisci il titolo dalle emoji-semaforo iniziali
-  titolo = titolo.replace(/^[🟢🟡🔴]\s*/, "").trim();
+  // Ripulisci il titolo dalle emoji-semaforo iniziali.
+  // Il flag `u` NON è decorativo: senza, una classe di caratteri conta unità UTF-16 e non caratteri.
+  // 🟡 è U+1F7E1, cioè la coppia 🟡: la classe ne toglieva solo la prima metà e lasciava la
+  // seconda orfana in testa al titolo. Ogni card a sezione arrivava in Cabina come «▯ — Dimmi quali
+  // piani riscrivo», con un carattere rotto e un trattino appeso al nulla. La riga gemella in
+  // `pulisciTitolo` il flag ce l'ha da sempre, ed è per questo che lì lo stesso titolo usciva pulito.
+  titolo = titolo.replace(/^[🟢🟡🔴]\s*/u, "").trim();
   return { data, reparto, titolo };
 }
 

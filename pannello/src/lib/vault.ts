@@ -152,7 +152,12 @@ export async function listVaultDirEntries(relDir: string): Promise<{ name: strin
   return [];
 }
 
-/** Tiene solo la coda di un testo lungo (le righe più recenti), con un cappello. */
+/** Tiene solo la coda di un testo lungo (le righe più recenti), con un cappello.
+ * L'avviso è markdown corsivo + riga separatrice: reso da ReactMarkdown, appare come
+ * una nota a sé — non incollato al primo rigo del contenuto vero (che confondeva chi legge,
+ * facendo sembrare l'avviso parte del testo invece che una spiegazione). */
 export function codaTesto(s: string, max = 6000): string {
-  return s.length > max ? "…(troncato, mostro la parte più recente)\n" + s.slice(-max) : s;
+  return s.length > max
+    ? `*…(troncato, mostro la parte più recente)*\n\n---\n\n${s.slice(-max)}`
+    : s;
 }
