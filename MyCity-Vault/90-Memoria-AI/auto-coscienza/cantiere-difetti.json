@@ -11296,6 +11296,24 @@
       "verifica": {
         "comando": ""
       }
+    },
+    {
+      "id": "AR-560",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-10 10:05",
+      "nato_come": "scoperta",
+      "nato_da": "AR-507 (4/8) — stessa malattia, curata su una strada sola",
+      "origine": "Trovato dal vivo il 10/8: il mio lavoro del turno era UNA riga in memoria-squadra/ad.md. Il cancello dello stop ha misurato 101 file, 10.729 righe aggiunte, e mi ha contestato quattordici punti — difese rimosse in cantiere-prove.json, allarmi in consegne/tech senza card, frasi difficili in STATO/RITMO/AZIONI-IN-ATTESA. Controllato uno per uno con git log: ogni file accusato e stato scritto dal server fra il 4 e il 10 agosto.",
+      "titolo": "Il cancello mi contesta sei giorni di lavoro del server, perche misura dalla base vecchia invece che da main",
+      "causa_radice": "① Il collaudo del turno ancora il diff al commit di partenza del turno (`git diff <base>`). ② Va bene finche il ramo resta fermo. ③ Ma quando il ramo viene riportato su main aggiornato — reset dopo un merge a squash, o rebase su una base piu recente — la base memorizzata resta quella vecchia, e tutto cio che main ha fatto nel frattempo entra nel diff come lavoro mio. ④ Qui: base del 4/8, main del 10/8, sei giorni di commit del server attribuiti a me. ⑤ Radice: la domanda giusta non e «cosa e cambiato dal commit da cui sono partito» ma «cosa ho scritto io rispetto alla base attuale del ramo» — cioe il confronto va fatto con l antenato comune con origin/main aggiornato (`git merge-base`), non con una base congelata a inizio turno. ⑥ AR-507 aveva gia curato la voce («non accusare in prima persona lavoro non tuo») ma sulla strada del primo scatto in sessione nuova, non su questa: la base che si sposta sotto i piedi.",
+      "fix_proposto": "Ancorare il diff del collaudo a `git merge-base HEAD origin/main` (con fetch fresco) invece che al commit di partenza salvato, e quando i due differiscono dichiararlo nel referto: «la base si e mossa: misuro da <sha>». Prova comportamentale: un test che costruisce due commit — uno di lavoro proprio, uno che simula main andato avanti — resetta il ramo sulla base nuova e pretende che il conteggio dei file resti quello del solo lavoro proprio; poi la mutazione che rimette la base congelata deve farlo diventare rosso.",
+      "verifica": {
+        "nota": "da scrivere col fix: il test deve simulare la base che si sposta, non solo un diff normale"
+      }
     }
   ],
   "meta": {
