@@ -54,6 +54,10 @@ function main() {
   const tokGate = typeof oggi.token_per_gate === "number" ? oggi.token_per_gate : null;
   const pctSoglia = soglia && tokGate != null ? +((tokGate / soglia) * 100).toFixed(3) : null;
   const sopraSoglia = soglia && tokGate != null ? tokGate > soglia : false;
+  // Il numero che si STAMPA è lo stesso su cui si frena, così la frazione torna. Se è tutto stimato
+  // lo si dice qui invece di far leggere uno zero che non è uno zero.
+  const tokenMostrati = tokGate != null ? tokGate : oggi.token_totali;
+  const notaStima = tokGate != null && oggi.token_totali === 0 ? " (stimati)" : "";
 
   const out = {
     ok: !sopraSoglia,
@@ -82,8 +86,13 @@ function main() {
   }
 
   console.log(`🪙 Il Metabolismo — ${quando}   (consumo reale della macchina)\n`);
-  console.log(`   Oggi (${oggi.data}): ${oggi.runs} run · ${oggi.token_totali} token · ${oggi.durata_sec_totale}s`);
-  if (pctSoglia != null) console.log(`   Budget giornaliero: ${oggi.token_totali}/${soglia} token = ${pctSoglia}% della soglia`);
+  // AR-572 — la percentuale e il suo numeratore devono venire dallo STESSO campo. AR-196 aveva
+  // spostato il CALCOLO sul campo che frena (`token_per_gate`) ma lasciato la STAMPA su
+  // `token_totali`, che resta 0 finché tutto è stimato: usciva «0/2000000 token = 27.5%», una
+  // frazione impossibile stampata a Nicola. Una riga che si contraddice da sola insegna a non
+  // fidarsi di tutte le altre.
+  console.log(`   Oggi (${oggi.data}): ${oggi.runs} run · ${tokenMostrati} token${notaStima} · ${oggi.durata_sec_totale}s`);
+  if (pctSoglia != null) console.log(`   Budget giornaliero: ${tokenMostrati}/${soglia} token = ${pctSoglia}% della soglia`);
   console.log(`   Copertura misura token: ${coperturaToken}% dei run (il resto misurato solo a durata)\n`);
   console.log(`   Consumo per organo (tipo di lavoro), dal più pesante:`);
   for (const t of perTipo) console.log(`     • ${t.voce.padEnd(18)} ${t.runs} run · ${t.token} token · ${t.durata_sec}s`);

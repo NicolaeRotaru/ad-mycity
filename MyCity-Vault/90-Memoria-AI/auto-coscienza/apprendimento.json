@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-10 16:45",
+ "aggiornato": "2026-08-11 01:25",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -11376,6 +11376,46 @@
    "stato": "attiva",
    "usi": [],
    "gate": "node cervello/test/risposta-senza-rumore.test.mjs"
+  },
+  {
+   "id": "L-2026-0810-04",
+   "data": "2026-08-11 00:15",
+   "fonte": "decisione di Nicola",
+   "testo": "**«Fatto» vuol dire che un comportamento è cambiato, non che una parola compare in un file (Nicola 10/8: «ok asticella»).** Il conto: 193 difetti su 552 avevano per prova un file+pattern. AR-128 diceva «non esiste nessun sensore per le contestazioni carta» e la sua prova era che la parola «chargeback» comparisse in un documento: scriverla chiudeva il difetto, e il sensore non c'era. Una ricerca di parole non può fallire nel modo in cui fallisce la realtà — per questo gli errori li trovava Nicola e non la macchina.",
+   "regola": "un difetto grave o bloccante nasce con una prova che GIRA (un comando che diventa rosso se il difetto c'è) oppure con `verifica: {tipo:\"umano\"}` dichiarato; mai con un pattern da cercare. Il debito ereditato non si vieta di colpo — congelare il cantiere fa aggirare il cancello al secondo giro — ma scende sotto un tetto che non risale. Vale ovunque, non solo sui difetti: chiedersi sempre «questa prova può diventare rossa nel modo in cui il mondo mi smentirebbe?».",
+   "gate": "node cervello/test/asticella-prova-che-gira.test.mjs"
+  },
+  {
+   "id": "L-2026-0810-05",
+   "data": "2026-08-11 00:15",
+   "fonte": "decisione di Nicola",
+   "testo": "**Chi trova più in fretta di quanto ripara peggiora anche lavorando bene (Nicola 10/8: «ok tasso di chiusura»).** Luglio: 455 difetti nati, 244 chiusi (0,54). Agosto in dieci giorni: 90 nati, 14 chiusi (0,16). Nicola lo aveva previsto prima di me — «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori» — e la causa non è la bravura di chi cerca: è il rapporto. La dimensione con più difetti aperti è «guardiani-e-guardrail»: i controlli sono la prima fonte di lavoro dei controlli.",
+   "regola": "il voto della macchina su sé stessa è UNO: chiusi ÷ aperti nel mese, obiettivo ≥ 1. Sotto 1 non si aprono ricerche nuove — si chiude. Corollario generale: prima di aggiungere un rilevatore, chiedersi chi convertirà quello che rileva; percezione e conversione hanno due velocità diverse e solo la prima è automatica. Corollario sul misurare: sotto un campione minimo il verdetto è ⚪, perché un rapporto su pochi casi è rumore — e un freno che scatta sul rumore viene disattivato.",
+   "gate": "node cervello/test/tasso-di-chiusura.test.mjs"
+  },
+  {
+   "id": "L-2026-0811-01",
+   "data": "2026-08-11 01:15",
+   "fonte": "lavoro proprio",
+   "testo": "**Una prova che sa dire solo di no è inutile quanto un grep che sa dire solo di sì (primo lotto di conversione, 11/8).** Convertendo 5 prove da «cerca una parola» a «esegui qualcosa» ho sbattuto contro due verdi falsi MIEI, uno dietro l'altro. ① Il primo: ritagliavo un pezzo di script partendo da dentro un if/else, bash moriva su `else` alla decima riga, il file sporco sopravviveva — non perché il codice lo protegga, ma perché non ci era mai arrivato. ② Il secondo: ho messo un sigillo per provare l'arrivo, ma il `git` finto intercettava il checkout senza eseguirlo, quindi il file sopravviveva per costruzione. Il sigillo provava l'arrivo, non la salvezza. Poi, verificando i mutanti a mano, 2 su 5 erano vuoti: colpivano righe che l'esecuzione non raggiunge. Al terzo giro zero. Scoperta a monte: NESSUN difetto aperto aveva mai avuto una prova a comando — zero su 220 — quindi tutta la macchina delle mutazioni era nata per prove che confermano un fix, non per prove che dimostrano un guasto.",
+   "regola": "una prova comportamentale vale solo se si ribalta: rossa quando il difetto c'è, verde quando il fix c'è. Va provata in ENTRAMBI i versi, simulando il fix, prima di fidarsene. E deve dimostrare di aver raggiunto il punto pericoloso e di aver osservato lo stato in QUEL momento: arrivare non è misurare, e intercettare l'operazione distruttiva rende il verde automatico. Corollario sui mutanti: scriverne uno non basta, bisogna guardare che rompa qualcosa — una mutazione su una riga che l'esecuzione non raggiunge sembra una difesa e non lo è.",
+   "gate": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "id": "L-2026-0810-06",
+   "data": "2026-08-10 23:30",
+   "fonte": "correzione di Nicola",
+   "testo": "**Un campo scritto per dire «cosa mi aspetto» non si legge mai come «cosa ho misurato» (radiografia della catena di lavoro, 10/8).** Nicola: «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori». Ha ragione, e la ragione è misurabile: la macchina si accreditava 84 difetti su 220 come «già risolti, aspettano solo il merge» leggendo `verifica.presente === true` — un campo che in auto-fix.mjs dice soltanto CON CHE VERSO leggere la prova, scritto quando il difetto nasce. Rieseguite a mano tutte e 84 le prove: 84 su 84 false (76 pattern assenti, 8 file inesistenti). Stessa malattia in piccolo su metabolismo.mjs (percentuale da un campo, numeratore da un altro) e in grande su AR-568, dove una misura cieca ha sovrascritto una misura vedente e il voto è MIGLIORATO perché la finestra si era ristretta da 26 messaggi a 2.",
+   "regola": "chi emette un verdetto deve averlo MISURATO adesso: mai dedurlo da un campo scritto per un altro scopo, mai riportarlo da una misura precedente senza dichiararlo, mai sostituire una misura con una a copertura minore. Corollario: una prova di difetto è un comando che gira, non una parola in un file — una ricerca di parole non può fallire nel modo in cui fallisce la realtà, ed è per questo che gli errori li trova Nicola e non la macchina. Secondo corollario, pagato nello stesso lavoro: si scrive un file di memoria con scrivi-json.mjs, che CONSERVA l'indentazione del file; JSON.stringify(…, 2) su un file a un solo spazio lo riscrive tutto e lo spinge oltre il tetto di lettura di GitHub.",
+   "gate": "node cervello/test/prova-misurata-non-dichiarata.test.mjs"
+  },
+  {
+   "id": "L-2026-0811-02",
+   "data": "2026-08-11 01:25",
+   "fonte": "correzione di Nicola",
+   "testo": "**Quando due pezzi leggono la stessa cosa, non si scrivono due lettori: si carica quello che c'è già (AR-569, Nicola 11/8: «sistema il difetto della coda, 5 invece di 49»).** Il guardiano del tempo di Nicola aveva un parser suo che riconosceva solo il formato vecchio della coda: contava 5 firme in attesa mentre nel Pannello ce n'erano 57, e concludeva «coda sotto controllo». La tentazione era riscrivere il parser dei blocchi dentro il guardiano — cioè fare la seconda copia, che è la malattia stessa. Invece si carica il lettore vero della Cabina (331 righe di regole su cosa è un'azione e cosa è documentazione) attraverso l'hook che toglie i tipi. Seconda metà, altrettanto importante: riparato il conteggio, il verdetto restava verde perché guardava solo l'ETÀ della card più vecchia. Un numero giusto dentro una soglia che non lo guarda non serve a niente.",
+   "regola": "prima di scrivere un lettore, cercare chi legge già quella cosa e caricarlo — anche attraverso un confine di linguaggio, se il confine si può attraversare (Node 22 esegue i .ts, e l'hook per gli import senza estensione esiste già). Se non si può caricare, si esce ⚪ e non si tira a indovinare. E ogni volta che si ripara un CONTEGGIO, si controlla anche la SOGLIA che lo giudica: un numero giusto letto da un verdetto che non lo guarda resta invisibile. Le soglie si derivano dal comportamento reale della persona (quante firme dà a settimana), non si inventano.",
+   "gate": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
   }
  ],
  "principi": [

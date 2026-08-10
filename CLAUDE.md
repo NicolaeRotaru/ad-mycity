@@ -36,6 +36,24 @@ Prima di agire, classifica ogni azione:
 
 Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi esegui.
 
+> 🎚️ **L'ASTICELLA: «fatto» vuol dire che un comportamento è cambiato.** Nicola, 10/8: «ok asticella».
+> Un difetto **grave o bloccante** nasce con una **prova che gira** — un comando che diventa rosso se il
+> difetto c'è — oppure con `verifica: {tipo:"umano"}` dichiarato. **Mai una parola da cercare in un file.**
+> Il conto che l'ha decisa: 193 difetti su 552 avevano per prova un grep. AR-128 diceva «non esiste
+> nessun sensore per le contestazioni carta» e si chiudeva scrivendo «chargeback» in un documento — il
+> sensore non c'era comunque. *Una ricerca di parole non può fallire nel modo in cui fallisce la realtà:
+> è per questo che gli errori li trovava Nicola e non la macchina.* Lo fa rispettare
+> `node cervello/cancello-lotto.mjs` (regola `asticella`, blocco duro sui NATI in questo lotto); i 193
+> ereditati scendono sotto il tetto `prova_debole`, che cala e non risale. Sui `minore` il grep resta ammesso.
+
+> 📉 **IL MIO VOTO SU ME STESSA: chiudo almeno quanto apro.** Nicola, 10/8: «ok tasso di chiusura».
+> Un numero solo — difetti chiusi ÷ difetti aperti nel mese — **obiettivo ≥ 1**. Sotto 1 il giro **non apre
+> ricerche nuove**: niente radiografie, niente dimensioni d'analisi nuove; spende il turno a **chiudere**.
+> Storia vera: luglio 0,54 · agosto 0,16. *Finché è sotto 1, ogni radiografia allunga la lista invece di
+> accorciarla — e il lavoro sembra peggiorare proprio mentre se ne fa di più.* Motore
+> `node cervello/tasso-chiusura.mjs` (gira a ogni giro, `--gate` ferma la ricerca). Sotto 5 difetti nati
+> nel mese il verdetto è ⚪ e il freno non scatta: un campione magro non è una bocciatura.
+
 > 📬 **Ogni modifica finisce in una richiesta di unione (PR) — sempre.** Nicola, 4/8/2026 03:15:
 > «ogni volta che fai una modifica devi sempre aprire la pr, poi sta a me valutare se va bene o meno».
 > Appena il cancello del lotto è verde, la PR si apre: **non si aspetta che te la chieda**. Un lavoro

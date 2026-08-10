@@ -242,9 +242,10 @@
    "estensioni": [
     ".mjs"
    ],
-   "baseline": 71,
+   "baseline": 70,
    "curati": [
-    "i file nati dopo AR-445 usano tutti la guardia `import.meta.url`"
+    "i file nati dopo AR-445 usano tutti la guardia `import.meta.url`",
+    "guardiano-tempo.mjs (11/8): la guardia `import.meta.url` messa davvero. Prima era `main().catch(...)` senza guardia — importarlo eseguiva tutto, ma la forma non era piu quella che il rilevatore cerca: malattia nascosta invece che curata. L'ha presa la spazzata contando 70 contro un tetto di 71."
    ],
    "nota_onesta": "25 istanze storiche misurate il 3/8, non curate qui: toccarle tutte in questo lotto avrebbe voluto dire 25 file modificati per un lavoro che parlava d altro (e la deriva che il controllo ⑨ del sorvegliante esiste per chiedere). Il valore di censirla adesso e che la 26a viene fermata nel momento in cui la scrivo.",
    "esenti": [],

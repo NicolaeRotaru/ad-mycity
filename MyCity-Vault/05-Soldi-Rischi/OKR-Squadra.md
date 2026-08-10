@@ -14,6 +14,7 @@ aggiornato: 2026-08-04 11:30
 | Senior | KPI che possiede | Target (fase 1 — gate, non scadenza fissa) | Budget |
 |---|---|---|---|
 | 🧠 AD | North Star: ordini pagati/consegnati | 1° ordine reale — **gate: Nicola chiude `#ordine-test-dentro-o-fuori-dalla-pausa`** (nessuna data fissa: in pausa concordata fino al 24/8-1/9) | — |
+| 🧠 AD (su sé stessa) | **Tasso di chiusura**: difetti chiusi ÷ difetti aperti nel mese | **≥ 1** — sotto, il giro chiude invece di cercare. Misura viva: `node cervello/tasso-chiusura.mjs`. Storia: lug 0,54 · ago 0,16 | — |
 | 🤝 vendite | Negozi LIVE nel cluster | +2 negozi LIVE | tempo · offerte 🔴 |
 | 📣 marketing | Iscritti lista d'attesa | 20 iscritti | €0 · ads 🔴 |
 | 🚀 growth-monetizzazione | € extra per esperimento | 1 esperimento partito | €0 · spesa 🔴 |

@@ -1438,3 +1438,118 @@ accusava **tre note meteo** dell'AD («Martedì 21/7 pioggia»), perché il pian
 pretendendo che la riga parli anche di bandi, con la prova che lo blocca. **Il secondo:** avevo
 inventato una famiglia `verita` che in bacheca non esiste, e me n'ero «accertato» rileggendo una
 lista che conteneva già la mia riga — presa dal test dei guardiani, non da me.
+
+---
+
+## 2026-08-11 00:20 · 🟡 Nicola alza l'asticella e mi dà un voto su me stessa
+
+**Cosa ha deciso.** Due sì in chat, alle 00:0x del 11/8: «ok asticella e ok tasso di chiusura». Sono
+le due domande uscite dalla radiografia della catena di lavoro del 10/8 (PR #697, difetti AR-564 e
+AR-566), accodate come card e approvate nello stesso giro.
+
+**① L'asticella — «fatto» vuol dire che un comportamento è cambiato.** Un difetto grave o bloccante
+nasce con una prova che GIRA, oppure con `tipo:"umano"` dichiarato. Mai più una parola da cercare in
+un file. Il conto che l'ha motivata: 193 difetti su 552 avevano per prova un grep. AR-128 diceva
+«non esiste nessun sensore per le contestazioni carta» e si chiudeva scrivendo «chargeback» in un
+documento — il sensore non c'era comunque. *Una ricerca di parole non può fallire nel modo in cui
+fallisce la realtà: è per questo che gli errori li trovava Nicola e non la macchina.*
+
+**② Il tasso di chiusura — il mio voto su me stessa.** Chiusi ÷ aperti nel mese, obiettivo ≥ 1.
+Sotto 1 il giro non apre ricerche nuove: chiude. Storia vera: luglio 0,54 · agosto 0,16. Nicola
+l'aveva previsto prima di me («so già che dopo questo upgrade ti chiederò di rianalizzare e troverai
+un sacco di errori»): la causa non è la bravura di chi cerca, è il rapporto.
+
+**Perché il debito vecchio non si vieta di colpo.** Sui 193 grep ereditati resta il tetto
+`prova_debole`, che scende e non risale. Vietarli tutti oggi congelerebbe il cantiere, e un cancello
+sempre rosso viene aggirato al secondo giro — è la lezione già scritta in cima a `cancello-lotto.mjs`,
+e vale anche per questa regola. Si chiude la porta d'ingresso, non l'archivio.
+
+**Dove vivono adesso.** Regole in `CLAUDE.md` · cancello `asticella` in `cervello/cancello-lotto.mjs`
+· motore `cervello/tasso-chiusura.mjs` agganciato a `giro.sh` come vincolo hard · KPI dell'AD su sé
+stessa in `OKR-Squadra.md` · lezioni L-2026-0810-04 e L-2026-0810-05, ognuna col suo freno.
+
+**Prova.** 156 file di test / 1616 asserzioni verdi · i due freni nuovi cadono 3 volte ciascuno se
+rimetto il codice vecchio (mutanti `asticella-spenta` e `tasso-chiusura-che-non-puo-bocciare`) ·
+`gate-veri` 56 su 56 · il cancello sul lotto vero dice «8 schede nate, nessuna grave con prova
+debole» · il freno del tasso è ATTIVO oggi: 0,18.
+
+**Cosa NON ho fatto.** La conversione dei 193 grep ereditati: la card dice «primo lotto entro il giro
+seguente», e questo lotto ha cablato la regola, non l'ha ancora applicata all'arretrato. Resta il
+debito dichiarato, sotto un tetto che scende.
+
+---
+
+## 2026-08-11 01:15 · 🟡 Primo lotto di conversione: le prove dei 5 bloccanti adesso girano
+
+**Cosa ha chiesto Nicola.** «fai il primo lotto di conversione dei 193», subito dopo aver approvato
+l'asticella. I 193 erano i difetti la cui prova era un grep: «il fix è fatto quando questa parola
+compare in questo file».
+
+**Cosa ho fatto.** Convertiti i 5 bloccanti aperti — AR-206, AR-365, AR-366, AR-388, AR-412 — da
+`{file, pattern}` a `node cervello/prove-difetti.mjs --ar-NNN`. Ogni prova ESEGUE qualcosa: manda in
+esecuzione il guardiano dei permessi, esercita la consegna dell'allerta in un processo isolato,
+estrae dal worker la funzione del battito e la fa girare due volte, ricostruisce un repo finto per
+vedere se le scritture del server sopravvivono al checkout forzato, cerca la prenotazione come
+simbolo esportato invece che come parola.
+
+**La scoperta a monte.** Nessun difetto APERTO aveva mai avuto una prova a comando: zero su 220. Le
+243 prove che girano appartenevano tutte a difetti già chiusi. La macchina aveva prove che
+confermano un fix, mai prove che dimostrano un guasto. Da qui AR-570: il controllo che pretende un
+mutante non sa trattare le prove dei difetti aperti, perché quelle sono rosse di partenza e
+qualunque mutazione «funziona». Curato con la PROVA A DUE VERSI: si simula il fix su una copia e si
+pretende che il verdetto si ribalti.
+
+**I miei errori, che ha preso il collaudo.** Due verdi falsi di fila, entrambi miei. ① Ritagliavo un
+pezzo di script partendo da dentro un if/else: bash moriva alla decima riga e il file sporco
+sopravviveva — non perché il codice lo protegga, ma perché non ci era mai arrivato. ② Ho messo un
+sigillo per provare l'arrivo, ma il `git` finto intercettava il checkout senza eseguirlo: il file
+sopravviveva per costruzione. Il sigillo provava l'arrivo, non la salvezza. Poi, verificando i
+mutanti a mano, 3 su 6 erano vuoti — colpivano righe che l'esecuzione non raggiunge. Al terzo giro
+zero.
+
+**Prova.** 157 file di test e 1624 asserzioni verdi. Tutti e 6 i mutanti verificati a mano uno per
+uno: ognuno rende rossa la sua prova. Cancello del lotto verde. Prove a grep sui difetti non chiusi:
+126 → 121. Bloccanti aperti con prova a grep: 5 → 0. Tetto `prova_debole` abbassato da 127 a 121.
+
+**Fix in più.** `--aggiorna-tetti` non toccava il tetto `prova_debole` che il cancello stesso
+consigliava di abbassare: un guardiano che suggerisce un rimedio che non funziona insegna a ignorare
+i suoi consigli. Ora lo abbassa.
+
+**Cosa resta.** 121 prove a grep sui difetti non chiusi: 93 gravi, 25 minori, 3 medi. Il prossimo
+lotto prende i gravi.
+
+---
+
+## 2026-08-11 01:30 · 🟡 Il conto delle firme in coda diceva 5, e sono 57
+
+**Cosa ha chiesto Nicola.** «sistema il difetto della coda, 5 invece di 49» — AR-569, trovato ieri
+notte accodando due card e guardandole sparire dal conteggio.
+
+**Il difetto.** La coda ha avuto due formati: una tabella a 8 colonne, poi i blocchi `###` con
+«Cosa cambia» / «Se va bene». La Cabina è stata aggiornata, `guardiano-tempo.mjs` no: aveva un
+parser suo che leggeva solo le righe-tabella. Diceva «In attesa della tua firma: 5 · ✅ Coda sotto
+controllo». Nel Pannello erano 57.
+
+**La cura, prima metà.** Non un secondo parser — sarebbe stata la malattia stessa. Il nuovo
+`cervello/coda-cabina.mjs` CARICA il lettore vero del Pannello (331 righe di regole su cosa è
+un'azione e cosa è documentazione) e lo esegue. Node 22 toglie i tipi da solo, e l'hook
+`cervello/test/risolvi-ts.mjs` — già scritto per i test del Pannello — gli insegna l'estensione
+mancante negli import. Se non si può caricare esce ⚪ (codice 2), non un numero inventato.
+
+**La cura, seconda metà.** Riparato il conteggio, il verdetto restava verde: guardava solo se la
+card più vecchia avesse superato i 7 giorni. Cinquantasette firme fresche NON sono sotto controllo.
+La soglia nuova non è inventata: l'arretrato si misura col ritmo VERO di Nicola (le decisioni che lo
+coinvolgono negli ultimi 7 giorni). Oggi: 57 firme a 4 a settimana = **14,3 settimane di arretrato**,
+e il guardiano dice che il collo di bottiglia è lui.
+
+**Un difetto che mi sono fatta da sola, e che ha preso la spazzata.** Per gestire l'errore di una
+funzione diventata asincrona avevo scritto `main().catch(...)` in fondo al guardiano. Importarlo
+continuava a eseguire tutto il programma — ma la forma non era più il `main();` nudo che il
+rilevatore cerca, quindi la malattia `programma-che-parte-importando` era diventata INVISIBILE
+invece che curata. La spazzata dei fratelli l'ha vista contando 70 contro un tetto di 71: un conto
+che scende senza che nessuno abbia curato niente è un allarme, non un miglioramento. Curata davvero
+con la guardia `import.meta.url`, tetto abbassato a 70.
+
+**Prova.** `cervello/test/coda-vista-come-la-vede-nicola.test.mjs`, 7 asserzioni. Verificate a mano
+entrambe le mutazioni: rimettendo il parser cieco cade, rimettendo il verdetto solo-età cade. 159
+file di test e 1643 asserzioni verdi. Spazzata dei fratelli verde. Cancello del lotto verde.

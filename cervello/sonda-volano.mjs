@@ -13,6 +13,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { loopChiude as loopChiudeRegola, loopVivo, previsioneValida, provaBusiness as calcolaProvaBusiness } from "./volano-regole.mjs";
+import { provaSoddisfatta } from "./prove-regole.mjs";
 import { mediaCoperta, perLoStorico } from "./misura-parziale.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
@@ -35,6 +36,56 @@ function readJson(path, fallback = {}) {
 function writeJson(path, data) {
   mkdirSync(join(path, ".."), { recursive: true });
   writeFileSync(path, JSON.stringify(data, null, 2) + "\n", "utf8");
+}
+
+/**
+ * AR-571 — «il fix è già nel codice» si MISURA, non si legge da un campo che dice altro.
+ *
+ * Il difetto, e perché è il peggiore trovato finora. La sonda classificava come (b) CHIUSO-IN-CODICE
+ * ogni difetto con `verifica.presente === true`. Ma in `auto-fix.mjs` quel campo non dice «il fix
+ * c'è»: dice **con che verso si legge la prova** — `const vuolePresente = v.presente !== false`,
+ * default `true`. È la specifica di cosa ci si aspetta, scritta quando il difetto NASCE, non il
+ * risultato di una misura. Siccome quasi ogni fix consiste nell'AGGIUNGERE qualcosa, quasi ogni
+ * difetto nasce con `presente: true` — e la sonda lo accreditava come già risolto, per sempre.
+ *
+ * Il conto, misurato sul cantiere vero il 2026-08-10: 84 difetti su 220 non chiusi erano accreditati
+ * «già risolti, aspettano solo il merge». Rieseguendo la prova sui file di oggi: **84 su 84 false**
+ * — 76 col pattern assente dal file, 8 che puntano a un file che non esiste più. Zero vere. Su quel
+ * conto la macchina calcolava il proprio voto di salute e la lista di «cosa resta da decidere».
+ *
+ * La malattia, in una riga: **un campo che dice "cosa mi aspetto" letto da un altro come "cosa ho
+ * misurato"**. Due lettori, un campo, due significati opposti — e il secondo non guarda nessun file.
+ *
+ * La cura: qui la prova si riesegue davvero, con lo stesso metro di `auto-fix` (`provaSoddisfatta`
+ * da prove-regole.mjs — una regola, una casa: due copie divergerebbero, AR-344). E si accredita SOLO
+ * ciò che si è potuto leggere: file assente, prova a comando, prova umana → non è un credito, resta
+ * (a) aperto davvero. Non si accredita ciò che non si è misurato — cieco non è verde.
+ *
+ * Pura (il lettore di file entra dal parametro) apposta: è la regola che ha fatto danno e va potuta
+ * eseguire in un test senza toccare il disco.
+ *
+ * @param {object} d difetto del cantiere
+ * @param {(percorsoRelativo: string) => string|null} leggiFile ritorna il testo, o null se illeggibile/assente
+ */
+export function provaPresenteOra(d, leggiFile) {
+  const v = d && typeof d.verifica === "object" ? d.verifica : null;
+  if (!v) return false;
+  if (v.tipo === "umano") return false; // (c): lo decide un umano, non un credito
+  if (v.comando) return false; // prova comportamentale: la sonda non esegue comandi, quindi non la accredita
+  if (!v.file || !v.pattern) return false; // niente da misurare → niente da accreditare
+  const testo = leggiFile(v.file);
+  if (testo === null || testo === undefined) return false; // non letto = non misurato = non accreditato
+  return provaSoddisfatta(v, testo);
+}
+
+/** Il lettore vero, quello che la sonda usa in produzione. `null` = assente o illeggibile. */
+function leggiFileDelRepo(percorsoRelativo) {
+  try {
+    const p = join(AD_ROOT, percorsoRelativo);
+    return existsSync(p) ? readFileSync(p, "utf8") : null;
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -194,8 +245,8 @@ function main() {
   // Regola-radice della card: un difetto aperto può stare in 3 stati diversi, ma la sonda li
   // trattava tutti come "aperti" → il voto restava congelato e la sentinella salute_bassa
   // ri-scattava a ogni giro su una condizione già interamente in coda (alert fatigue).
-  //   (a) APERTO DAVVERO      → il fix NON è ancora nel codice (verifica.presente !== true)
-  //   (b) CHIUSO-IN-CODICE    → fix già committato sul ramo della memoria (main), manca solo il deploy (verifica.presente === true)
+  //   (a) APERTO DAVVERO      → la prova del fix NON è soddisfatta adesso
+  //   (b) CHIUSO-IN-CODICE    → la prova del fix è soddisfatta adesso: manca solo il merge+deploy
   //   (c) BLOCCANTE UMANO     → dipende SOLO da un'azione umana già in AZIONI-IN-ATTESA (verifica.tipo === "umano")
   // Fix: (1) accredita i (b) in un voto_provvisorio 'pending-merge'; (2) la firma di stato è
   // la SOLA lista dei (a) — l'unico lavoro NUOVO da decidere. (b) aspettano il merge, (c)
@@ -203,7 +254,7 @@ function main() {
   const PESO_GRAVITA = { bloccante: 25, grave: 10, minore: 3 };
   const difetti = Array.isArray(cantiere.difetti) ? cantiere.difetti : [];
   const apertiDifetti = difetti.filter((d) => d && d.stato !== "chiuso");
-  const isPendingMerge = (d) => d.verifica && d.verifica.presente === true; // (b)
+  const isPendingMerge = (d) => provaPresenteOra(d, leggiFileDelRepo); // (b)
   const isBloccanteUmano = (d) => d.verifica && d.verifica.tipo === "umano"; // (c)
   const isApertoDavvero = (d) => !isPendingMerge(d) && !isBloccanteUmano(d); // (a)
   const penalita = (arr) => arr.reduce((s, d) => s + (PESO_GRAVITA[d.gravita] || 0), 0);

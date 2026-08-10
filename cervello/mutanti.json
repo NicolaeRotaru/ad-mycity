@@ -731,8 +731,8 @@
    "lezione": "L-2026-0730-529",
    "nome": "il runner torna a dire quante asserzioni sono rosse senza dire QUALI",
    "file": "cervello/test-cervello.mjs",
-   "cerca": "    const m = /^not ok\\s+(?:\\d+\\s+)?-\\s+(.*)$/.exec(t);\n    if (!m) continue;",
-   "sostituisci": "    const m = null;\n    if (!m) continue;",
+   "cerca": "    const m = /^not ok\\s+(?:\\d+\\s+)?-\\s+(.*)$/.exec(t);",
+   "sostituisci": "    const m = null; if (!m) continue;",
    "test": "cervello/test/test-cervello.test.mjs"
   },
   {
@@ -2117,6 +2117,100 @@
    "cerca": "  try {\n    rimuovi(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 50 });\n    return { rimossa: true };\n  } catch (e) {",
    "sostituisci": "  rimuovi(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 50 });\n  return { rimossa: true };\n  // eslint-disable-next-line no-unreachable\n  try { throw new Error(); } catch (e) {",
    "test": "cervello/test/campo-commit-e-turno.test.mjs"
+  },
+  {
+   "difetto": "prova-dichiarata-invece-che-misurata",
+   "lezione": "L-2026-0810-06",
+   "nome": "la sonda torna ad accreditare come «già risolto» ogni difetto che DICE presente:true, senza aprire il file",
+   "file": "cervello/sonda-volano.mjs",
+   "cerca": "  if (!v.file || !v.pattern) return false; // niente da misurare → niente da accreditare",
+   "sostituisci": "  return v.presente === true; // MUTANTE: torna a leggere la dichiarazione invece di misurare",
+   "test": "node cervello/test/prova-misurata-non-dichiarata.test.mjs"
+  },
+  {
+   "difetto": "asticella-spenta",
+   "lezione": "L-2026-0810-04",
+   "nome": "l'asticella smette di fermare una scheda grave che nasce con «cerca questa parola in un file» invece di un comando che gira",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "      if (typeof v.comando === \"string\" && v.comando.trim()) return false; // gira: passa",
+   "sostituisci": "      return false; // MUTANTE: qualunque prova passa, l'asticella non ferma piu' niente",
+   "test": "node cervello/test/asticella-prova-che-gira.test.mjs"
+  },
+  {
+   "difetto": "tasso-chiusura-che-non-puo-bocciare",
+   "lezione": "L-2026-0810-05",
+   "nome": "il voto della macchina su se stessa torna a non poter dire di no: qualunque rapporto fra chiusi e aperti diventa «ok»",
+   "file": "cervello/tasso-chiusura.mjs",
+   "cerca": "  return { esito: \"sotto\", tasso, detto: `chiudo ${chiusi} e ne apro ${nati}: ne apro più di quanti ne chiudo (${tasso}, obiettivo ${OBIETTIVO})` };",
+   "sostituisci": "  return { esito: \"ok\", tasso, detto: \"MUTANTE: va sempre bene\" };",
+   "test": "node cervello/test/tasso-di-chiusura.test.mjs"
+  },
+  {
+   "difetto": "AR-206 prova-cieca",
+   "nome": "la prova dei permessi smette di guardare il verdetto del guardiano e dice sempre che va bene",
+   "cerca": "      if (r.code === 0) return { ...RIPARATO, detto: \"permessi-check non trova più permessi troppo larghi\" };",
+   "sostituisci": "      return { ...RIPARATO, detto: \"MUTANTE: la prova non guarda piu niente\" };",
+   "file": "cervello/prove-difetti.mjs",
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "difetto": "AR-365 prova-cieca",
+   "nome": "la prova dell'allerta trasforma il «non ho potuto misurare» in un verde: è il ⚪ spacciato per ✅",
+   "cerca": "      if (/no-op|SUPABASE_URL/.test(t)) return { cieco: \"da qui non posso esercitarla: senza le chiavi della memoria sentinella-dati si spegne prima di rispondere. Sul server la prova misura\" };",
+   "sostituisci": "      if (/no-op|SUPABASE_URL/.test(t)) return { ...RIPARATO, detto: \"MUTANTE: chiama verde un'allerta che non ha mai provato\" };",
+   "file": "cervello/prove-difetti.mjs",
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "difetto": "AR-366 prova-cieca",
+   "nome": "la prova del battito smette di accorgersi che il timbro del lavoro riuscito non esiste",
+   "cerca": "        return { ...APERTO, detto: \"non esiste nessuna `battito_lavoro_riuscito` da eseguire: il worker batte in cima al ciclo, quando non sa ancora se il lavoro andrà a buon fine\" };",
+   "sostituisci": "        return { ...RIPARATO, detto: \"MUTANTE: la prova non guarda piu niente\" };",
+   "file": "cervello/prove-difetti.mjs",
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "difetto": "AR-388 prova-cieca",
+   "nome": "la prova delle scritture del server smette di guardare se il lavoro era scoperto al momento del checkout",
+   "cerca": "      if (ancoraScoperta && !messaDaParte) {",
+   "sostituisci": "      if (false) {",
+   "file": "cervello/prove-difetti.mjs",
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "difetto": "AR-412 prova-cieca",
+   "nome": "la prova del doppio clic chiama riparato un codice in cui nessuno prende il posto prima di eseguire",
+   "cerca": "        return { ...APERTO, detto: \"non esiste nessuna `prenotaAzione` da esercitare: l'azione parte prima che qualcuno abbia preso il posto, quindi due clic mandano due volte\" };",
+   "sostituisci": "        return { ...RIPARATO, detto: \"MUTANTE: dice che la prenotazione c'è senza averla cercata\" };",
+   "file": "cervello/prove-difetti.mjs",
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "difetto": "AR-570 due-versi-spento",
+   "lezione": "L-2026-0811-01",
+   "nome": "una prova resta inchiodata sul rosso anche quando il fix c'è: il controllo dei due versi deve accorgersene",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "      return { ...RIPARATO, detto: \"il timbro compare solo dopo un lavoro chiuso bene, e non dopo uno fallito\" };",
+   "sostituisci": "      return { ...APERTO, detto: \"MUTANTE: non sa dire di sì nemmeno col fix davanti\" };",
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "difetto": "AR-569 coda-cieca",
+   "lezione": "L-2026-0811-02",
+   "nome": "il conto delle firme torna a non vedere le card a blocchi: legge una lista vuota e dice zero",
+   "file": "cervello/guardiano-tempo.mjs",
+   "cerca": "  const righe = letta.azioni.map((a) => ({",
+   "sostituisci": "  const righe = [].map((a) => ({",
+   "test": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
+  },
+  {
+   "difetto": "AR-569 verdetto-cieco-sul-volume",
+   "lezione": "L-2026-0811-02",
+   "nome": "il verdetto torna a guardare solo l'eta della card piu vecchia: 57 firme fresche tornano «sotto controllo»",
+   "file": "cervello/guardiano-tempo.mjs",
+   "cerca": "    ok: !stallo && !troppeInCoda,",
+   "sostituisci": "    ok: !stallo,",
+   "test": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
   }
  ]
 }
