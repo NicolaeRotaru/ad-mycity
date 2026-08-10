@@ -11,7 +11,7 @@ import Aggiornato from "@/components/Aggiornato";
 import StellePolari from "@/components/StellePolari";
 import ParlaCasella from "@/components/ParlaCasella";
 
-type Piano = { nome: string; testo: string };
+type Piano = { nome: string; testo: string; aggiornato?: string | null; nota?: string | null };
 type Okr = { senior: string; kpi: string; target: string; budget: string };
 
 const Markdown: Components = {
@@ -142,6 +142,34 @@ export function SezioneOkr() {
   );
 }
 
+/**
+ * Da quanti giorni un piano non viene rivisto, contato ADESSO e non scritto nel file: una scritta
+ * «fermo da 45 giorni» salvata su disco diventa una bugia il giorno dopo. Nel file c'è solo la data
+ * (un fatto che non scade); il conto lo fa la pagina ogni volta che la si apre.
+ *
+ * La data è ora di Piacenza e `new Date` la legge come ora del browser: chi guarda da un altro fuso
+ * può vedere un giorno di scarto. A questa granularità non cambia nessuna decisione.
+ */
+function fermoDaGiorni(quando?: string | null): number | null {
+  if (!quando) return null;
+  const t = new Date(`${quando.replace(" ", "T")}:00`);
+  if (Number.isNaN(t.getTime())) return null;
+  return Math.max(0, Math.floor((Date.now() - t.getTime()) / 86_400_000));
+}
+
+function EtichettaData({ piano }: { piano: Piano }) {
+  const gg = fermoDaGiorni(piano.aggiornato);
+  if (gg === null) return null;
+  const cls = gg >= 30 ? "bg-red-100 text-red-700" : gg >= 14 ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700";
+  const testo = gg === 0 ? "aggiornato oggi" : gg === 1 ? "fermo da 1 giorno" : `fermo da ${gg} giorni`;
+  const nota = piano.nota ? ` · nota automatica dell'AD del ${piano.nota}` : "";
+  return (
+    <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded align-middle whitespace-nowrap ${cls}`} title={`Ultimo aggiornamento del testo: ${piano.aggiornato}${nota}`}>
+      {testo}
+    </span>
+  );
+}
+
 export function SezionePiani() {
   const [loading, setLoading] = useState(true);
   const [collegato, setCollegato] = useState(false);
@@ -182,7 +210,11 @@ export function SezionePiani() {
         {piani.length === 0 && <p className="text-sm text-black/45 py-2 text-center">Nessun piano in 06-Piani.</p>}
         {piani.map((p) => (
           <details key={p.nome} className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
-            <summary className="text-[13px] font-semibold cursor-pointer">🧩 {p.nome}</summary>
+            {/* L'etichetta resta IN LINEA e la riga non diventa flex: su `summary` un display
+                diverso da `list-item` fa sparire la freccetta di apertura in Chrome. */}
+            <summary className="text-[13px] font-semibold cursor-pointer">
+              🧩 {p.nome} <EtichettaData piano={p} />
+            </summary>
             <div className="mt-2 max-h-96 overflow-y-auto pr-1">
               <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{p.testo}</ReactMarkdown>
             </div>

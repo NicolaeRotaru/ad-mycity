@@ -1,5 +1,11 @@
 # 🤝 PIANO VENDITE / ACQUISIZIONE NEGOZI 2026
 
+<!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
+> 🗓️ **Ultimo aggiornamento: 2026-07-20 20:22** — l'ultima volta che è cambiato il testo qui sotto. Il piano è nato il 2026-06-25 12:34.
+> *In fondo al piano l'AD tiene una sua nota automatica: quella è più recente, è del 2026-07-20 11:00, e non è una revisione del piano.*
+<!-- 🗓️ AD-DATA {"corpo":"2026-07-20 20:22","nato":"2026-06-25 12:34","nota":"2026-07-20 11:00"} -->
+<!-- 🗓️ AD-DATA:END -->
+
 > Base dati: [[Vendite & Acquisizione Negozi]] · [[Piano d'Azione]] · [[Bandi & Finanziamenti]] · [[Botteghe del Centro - Mappa]].
 > **Traguardo immediato:** portare da **~1 a 6 negozi LIVE** in un cluster contiguo del centro (Calzolai–Duomo–Chiapponi) entro **6 settimane**, con **primo ordine reale entro sab 27/6** dal negozio-faro **Garetti**.
 > **Il collo di bottiglia non è il prodotto (~90% fatto): è l'OFFERTA.** Oggi ~1 negozio, ~0 ordini. Il lavoro n.1 è **densità di negozi nel cluster** → primo ordine → fiducia.

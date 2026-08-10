@@ -1,5 +1,11 @@
 # 🏆 PIANO DI NOTORIETÀ 2026 (Awareness Blitz Piacenza)
 
+<!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
+> 🗓️ **Ultimo aggiornamento: 2026-06-24 10:09** — il giorno in cui questo piano è stato scritto. Da allora il testo qui sotto non è più stato rivisto.
+> *In fondo al piano l'AD tiene una sua nota automatica: quella è più recente, è del 2026-07-19 14:48, e non è una revisione del piano.*
+<!-- 🗓️ AD-DATA {"corpo":"2026-06-24 10:09","nato":"2026-06-24 10:09","nota":"2026-07-19 14:48"} -->
+<!-- 🗓️ AD-DATA:END -->
+
 > Base dati: [[Clienti, Personas & Crescita]], [[Roadmap & Stato Prodotto]].
 > **Traguardo (31/12/2026):** ~50% dei negozi e ~50% della popolazione di Piacenza (~50.000 persone su ~102.000) hanno *sentito parlare* di MyCity.
 > **Finestra reale:** ~27 settimane (fine giugno → 31 dicembre). **Acceleratore principale: il Natale.**
