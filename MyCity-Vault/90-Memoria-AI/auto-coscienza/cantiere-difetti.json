@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-11 01:05",
+  "aggiornato": "2026-08-10 18:55",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11330,45 +11330,41 @@
     },
     {
       "id": "AR-562",
-      "stato": "chiuso",
-      "gravita": "bloccante",
+      "stato": "chiuso-in-codice",
+      "gravita": "grave",
       "colore": "🟡",
       "dimensione": "guardiani-e-guardrail",
-      "impatto_crescita": "alto",
-      "nato": "2026-08-10 23:20",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-10 16:10",
       "nato_come": "scoperta",
-      "origine": "Radiografia della catena di lavoro (10/8). Rieseguite a mano tutte e 84 le prove dei difetti che la sonda accreditava come «già risolti, aspettano il merge»: 84 su 84 FALSE oggi — 76 col pattern assente dal file, 8 che puntano a un file che non esiste più. Zero vere.",
-      "titolo": "La macchina si accreditava 84 difetti come già risolti leggendo un campo che dice tutt'altro",
-      "causa_radice": "① sonda-volano.mjs classificava (b) CHIUSO-IN-CODICE ogni difetto con `verifica.presente === true`. ② Ma in auto-fix.mjs quel campo non dice «il fix c'è»: dice CON CHE VERSO leggere la prova (`const vuolePresente = v.presente !== false`, default true) — è la specifica scritta quando il difetto NASCE, non il risultato di una misura. ③ Siccome quasi ogni fix consiste nell'AGGIUNGERE qualcosa, quasi ogni difetto nasce con presente:true → la sonda li accreditava tutti, per sempre, senza aprire un solo file. ④ La malattia in una riga: un campo che dice «cosa mi aspetto» letto da un altro come «cosa ho misurato». ⑤ Su quel conto la macchina calcolava il voto di salute e la lista di «cosa resta da decidere»: dichiarava 113 difetti da lavorare quando erano 197.",
-      "fix_proposto": "🟡 FATTO in questa richiesta: la prova si riesegue davvero, con lo stesso metro di auto-fix (`provaSoddisfatta` da prove-regole.mjs — una regola, una casa, AR-344). Si accredita SOLO ciò che si è potuto leggere: file assente, prova a comando, prova umana → non è un credito, resta aperto davvero. La funzione `provaPresenteOra` è pura (il lettore entra dal parametro) così il freno la può eseguire senza toccare il disco.",
+      "nato_da": "schermata del Pannello mandata da Nicola: «che cos'e questo problema, continua ripetersi su molte analisi»",
+      "origine": "La card della sentinella 'SALUTE BASSA' apriva con sei avvisi in inglese al posto dell'analisi: «Permission allow rule (.claude/settings.local.json): Write(MyCity-Vault/90-Memoria-AI/) is not matched by file permission checks — only Edit(path) rules are». Verificato a mano con claude 2.1.226 su un foglio di prova: Write(a/**), MultiEdit(b/**) e NotebookEdit(c/**) producono un avviso ciascuna e NON vengono applicate; Edit(d/**) e Read(e/**) no. L'avviso esce su stderr, non su stdout.",
+      "titolo": "Il rumore che la CLI scrive all'avvio finisce dentro la risposta che legge Nicola",
+      "causa_radice": "① Nei due fogli dei permessi 10 righe sono scritte Write(percorso): forma che il CLI legge ma non applica piu — i controlli sui file leggono solo Edit(percorso), e Edit copre gia tutti gli strumenti che modificano file. ② Il CLI avvisa su stderr a ogni avvio. ③ La corsia dei LAVORI (ai_run_con_fallback_ollama in motore-ai.sh) catturava stdout e stderr insieme con 2>&1, quindi l'avviso finiva in lavori.risultato, cioe nel testo della card. ④ La causa vera non e il 2>&1: e che la macchina questa lezione l'aveva GIA imparata l'11/7 e l'aveva applicata a 2 corsie su 3 (rispondi_chat_json e _chat_stream_run separano lo stderr da allora); la terza e rimasta com'era per un mese. Una lezione applicata solo dove bruciava quel giorno e un difetto che rientra dalla porta accanto. ⑤ Effetto secondario, piu serio del rumore: 5 di quelle righe stanno nel foglio del server e dovevano concedere la scrittura in memoria, consegne, creativi, cervello e Pannello — non essendo applicate, non concedono nulla.",
+      "fix_proposto": "Fatto in codice: (a) ai_run_con_fallback_ollama separa i flussi — stdout e la risposta, stderr va nel log, e resta attaccato solo se il lavoro fallisce o non ha prodotto nulla (li e la diagnosi, e la retry-policy ci cerca dentro i suoi pattern); il riconoscimento del limite di quota guarda entrambi, perche quel messaggio arriva su stderr; (b) il fallback testo di rispondi_chat_json passa dalla stessa funzione — era l'ultima porta aperta; (c) permessi-check.mjs ha la regola forma-file-non-applicata: nomina ogni riga scritta cosi e dice come riscriverla, e tratta un DIVIETO in forma vecchia senza la gemella Edit come violazione vera, perche e una difesa che non difende. Resta la mano di Nicola sui due fogli (negati in scrittura alla macchina apposta): card #avvisi-permessi-nelle-analisi, comandi pronti in consegne/sicurezza/2026-08-10-avvisi-permessi.md.",
       "verifica": {
-        "comando": "node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata"
-      },
-      "chiuso_il": "2026-08-10 23:20",
-      "chiuso_come": "Riparato e provato: cervello/test/prova-misurata-non-dichiarata.test.mjs (9 asserzioni). Col codice vecchio rimesso al suo posto il freno cade 7 volte su 9; col fix passa 9 su 9. Dopo la riparazione la sonda dice 197 aperti-davvero e 0 in attesa merge (prima: 113 e 84).",
-      "nota": "Dove: cervello/sonda-volano.mjs:206 (la riga che leggeva il campo) · cervello/auto-fix.mjs:173 (il campo, col suo significato vero) · Impatto: è il numero con cui la macchina decide quanto lavoro le resta e quanto sta migliorando."
+        "comando": "node cervello/test/risposta-senza-rumore.test.mjs",
+        "nota": "5 prove che ESEGUONO la funzione vera con un comando che stampa su tutti e due i flussi: il rumore non entra nella risposta, non si perde (va nel log), resta attaccato quando il lavoro fallisce, e il limite di quota viene riconosciuto anche se arriva solo su stderr. Mutazioni in mutanti.json (lezione L-2026-0810-03): rimettendo il 2>&1 o spegnendo la regola del guardiano, i test diventano rossi."
+      }
     },
     {
       "id": "AR-563",
-      "stato": "chiuso",
-      "gravita": "minore",
+      "stato": "chiuso-in-codice",
+      "gravita": "grave",
       "colore": "🟡",
-      "dimensione": "efficienza-costo",
-      "impatto_crescita": "basso",
-      "nato": "2026-08-10 23:20",
+      "dimensione": "prove-e-collaudo",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-10 18:20",
       "nato_come": "scoperta",
-      "origine": "Radiografia della catena di lavoro (10/8). `node cervello/metabolismo.mjs` stampava: «Oggi: 11 run · 0 token · 1826s» e sotto «Budget giornaliero: 0/2000000 token = 27,5% della soglia». Zero diviso due milioni non fa 27,5.",
-      "titolo": "Il conto dei consumi stampava una frazione impossibile: zero token uguale ventisette per cento",
-      "causa_radice": "① AR-196 aveva spostato il CALCOLO della percentuale sul campo che frena davvero (`token_per_gate`, che tiene il massimo fra reali e stimati). ② Ma la STAMPA era rimasta su `token_totali`, che resta 0 finché ogni registrazione passa con --stima. ③ Risultato: numeratore e percentuale venivano da due campi diversi nella stessa riga. ④ È la stessa malattia di AR-562 in piccolo: due letture dello stesso concetto che non si parlano. Una riga che si contraddice da sola insegna a non fidarsi di tutte le altre.",
-      "fix_proposto": "🟡 FATTO: si stampa lo stesso campo su cui si frena, e si dice «(stimati)» quando i reali non ci sono.",
+      "nato_da": "AR-562: la richiesta di unione 695 resta rossa per questo, non per il suo fix",
+      "origine": "campo-commit-e-turno.test.mjs cade su GitHub SOLO dentro la suite intera (1 asserzione su 10), e solo da quando la suite ha 154 file invece di 153. Misurato: da solo su GitHub passa 10/10 (passo diagnostico, run 31405845806); in locale passa sempre — suite intera 5 volte, test singolo 12 volte, clone pulito, clone completo (unshallow), e sotto carico artificiale a 8 processi. Su main (153 file) e verde; sul ramo prima della fusione (153 file, col test nuovo) era verde; insieme (154) e rosso 3 volte su 4.",
+      "titolo": "Il rosso veniva dalla PULIZIA della cartella di prova, non da un'asserzione",
+      "causa_radice": "TROVATA il 10/8, e solo dopo aver riparato lo strumento che doveva dirlo. Due difetti in fila. ① Il rosso: dopo certi comandi git avvia da se' una manutenzione IN BACKGROUND (gc --auto) che continua a scrivere dentro .git/objects quando il comando in primo piano e' gia' tornato. Il caso chiude con rmSync sulla cartella temporanea; se il gc sta ancora scrivendo, rmSync muore con ENOTEMPTY. Sta nel finally, quindi il caso diventa rosso anche con tutte le asserzioni passate. Su questa macchina il gc fa in tempo a finire, sul runner — piu' lento e con 130 test appena girati addosso — no. Spiega ogni cosa che sembrava misteriosa: perche' solo in CI, perche' solo dentro la suite intera, perche' da solo passava 10/10, e perche' bastava un file in piu' nella suite a cambiare l'esito. ② Perche' e' servito mezzo pomeriggio per leggerlo: righeRosse() in test-cervello.mjs — la difesa di AR-450, nata apposta perche' 'un rosso che non dice cosa e' rosso non e' una difesa' — cercava 'not ok - nome' senza numero, mentre il reporter di node numera ogni caso ('not ok 2 - nome') e mette il perche' in un blocco YAML. Non ha mai trovato una riga. Era cieca perche' la sua prova usava una fixture inventata invece del TAP vero: un test che si costruisce l'input da solo prova se stesso, non il campo.",
+      "fix_proposto": "FATTO. ① `git config gc.auto 0` nel repo usa-e-getta: niente processi in background, la causa sparisce a monte. ② `rmSync` con maxRetries: cintura, perche' il verdetto di un caso deve venire dalle asserzioni e non da quanto era occupata una cartella temporanea. ③ righeRosse() accetta la forma numerata e pesca il perche' dalla riga error: del blocco YAML; il riassunto per-file si scarta dal NOME (finisce in .test.mjs), non dalla numerazione. Prova nuova col TAP copiato da un'esecuzione vera, e mutazione di AR-450 riagganciata alla riga nuova.",
       "verifica": {
-        "file": "cervello/metabolismo.mjs",
-        "pattern": "tokenMostrati",
-        "presente": true
-      },
-      "chiuso_il": "2026-08-10 23:20",
-      "chiuso_come": "Riparato e visto girare: ora stampa «550000/2000000 token = 27.5% della soglia» — la frazione torna.",
-      "nota": "Dove: cervello/metabolismo.mjs:85-86."
+        "comando": "node cervello/test/test-cervello.test.mjs",
+        "nota": "prova diretta della diagnosticabilita': su TAP vero righeRosse deve tornare il nome del caso e il messaggio error. Per il rosso in se' la prova e' la CI: e' l'unico posto dove si e' mai manifestato, e il fix toglie la causa (gc in background) invece di mascherarla."
+      }
     },
     {
       "id": "AR-564",
@@ -11510,6 +11506,50 @@
       "chiuso_il": "2026-08-11 01:05",
       "chiuso_come": "Riparato e provato. 5 prove convertite (AR-206, AR-365, AR-366, AR-388, AR-412), tutte con la prova a due versi. Verificati a mano tutti e 5 i mutanti: al primo giro 2 su 5 erano VUOTI (colpivano righe che l'esecuzione non raggiunge), al secondo 1 su 5, al terzo zero. È lo stesso metodo applicato a sé stesso: non basta scrivere un mutante, bisogna guardare che rompa qualcosa.",
       "nota": "Dove: cervello/cancello-lotto.mjs (regola mutazione-mancante) · cervello/prove-difetti.mjs (le prove nuove) · cervello/test/prove-a-due-versi.test.mjs (il controllo dei due versi)."
+    },
+    {
+      "id": "AR-571",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-10 23:20",
+      "nato_come": "scoperta",
+      "origine": "Radiografia della catena di lavoro (10/8). Rieseguite a mano tutte e 84 le prove dei difetti che la sonda accreditava come «già risolti, aspettano il merge»: 84 su 84 FALSE oggi — 76 col pattern assente dal file, 8 che puntano a un file che non esiste più. Zero vere.",
+      "titolo": "La macchina si accreditava 84 difetti come già risolti leggendo un campo che dice tutt'altro",
+      "causa_radice": "① sonda-volano.mjs classificava (b) CHIUSO-IN-CODICE ogni difetto con `verifica.presente === true`. ② Ma in auto-fix.mjs quel campo non dice «il fix c'è»: dice CON CHE VERSO leggere la prova (`const vuolePresente = v.presente !== false`, default true) — è la specifica scritta quando il difetto NASCE, non il risultato di una misura. ③ Siccome quasi ogni fix consiste nell'AGGIUNGERE qualcosa, quasi ogni difetto nasce con presente:true → la sonda li accreditava tutti, per sempre, senza aprire un solo file. ④ La malattia in una riga: un campo che dice «cosa mi aspetto» letto da un altro come «cosa ho misurato». ⑤ Su quel conto la macchina calcolava il voto di salute e la lista di «cosa resta da decidere»: dichiarava 113 difetti da lavorare quando erano 197.",
+      "fix_proposto": "🟡 FATTO in questa richiesta: la prova si riesegue davvero, con lo stesso metro di auto-fix (`provaSoddisfatta` da prove-regole.mjs — una regola, una casa, AR-344). Si accredita SOLO ciò che si è potuto leggere: file assente, prova a comando, prova umana → non è un credito, resta aperto davvero. La funzione `provaPresenteOra` è pura (il lettore entra dal parametro) così il freno la può eseguire senza toccare il disco.",
+      "verifica": {
+        "comando": "node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata"
+      },
+      "chiuso_il": "2026-08-10 23:20",
+      "chiuso_come": "Riparato e provato: cervello/test/prova-misurata-non-dichiarata.test.mjs (9 asserzioni). Col codice vecchio rimesso al suo posto il freno cade 7 volte su 9; col fix passa 9 su 9. Dopo la riparazione la sonda dice 197 aperti-davvero e 0 in attesa merge (prima: 113 e 84).",
+      "nota": "Dove: cervello/sonda-volano.mjs:206 (la riga che leggeva il campo) · cervello/auto-fix.mjs:173 (il campo, col suo significato vero) · Impatto: è il numero con cui la macchina decide quanto lavoro le resta e quanto sta migliorando.",
+      "nota_rinumero": "Nato come AR-562 il 10/8; rinumerato a AR-571 l'11/8 perché un'altra sessione aveva pubblicato AR-562 su main con un difetto diverso. Cede chi arriva dopo."
+    },
+    {
+      "id": "AR-572",
+      "stato": "chiuso",
+      "gravita": "minore",
+      "colore": "🟡",
+      "dimensione": "efficienza-costo",
+      "impatto_crescita": "basso",
+      "nato": "2026-08-10 23:20",
+      "nato_come": "scoperta",
+      "origine": "Radiografia della catena di lavoro (10/8). `node cervello/metabolismo.mjs` stampava: «Oggi: 11 run · 0 token · 1826s» e sotto «Budget giornaliero: 0/2000000 token = 27,5% della soglia». Zero diviso due milioni non fa 27,5.",
+      "titolo": "Il conto dei consumi stampava una frazione impossibile: zero token uguale ventisette per cento",
+      "causa_radice": "① AR-196 aveva spostato il CALCOLO della percentuale sul campo che frena davvero (`token_per_gate`, che tiene il massimo fra reali e stimati). ② Ma la STAMPA era rimasta su `token_totali`, che resta 0 finché ogni registrazione passa con --stima. ③ Risultato: numeratore e percentuale venivano da due campi diversi nella stessa riga. ④ È la stessa malattia di AR-562 in piccolo: due letture dello stesso concetto che non si parlano. Una riga che si contraddice da sola insegna a non fidarsi di tutte le altre.",
+      "fix_proposto": "🟡 FATTO: si stampa lo stesso campo su cui si frena, e si dice «(stimati)» quando i reali non ci sono.",
+      "verifica": {
+        "file": "cervello/metabolismo.mjs",
+        "pattern": "tokenMostrati",
+        "presente": true
+      },
+      "chiuso_il": "2026-08-10 23:20",
+      "chiuso_come": "Riparato e visto girare: ora stampa «550000/2000000 token = 27.5% della soglia» — la frazione torna.",
+      "nota": "Dove: cervello/metabolismo.mjs:85-86.",
+      "nota_rinumero": "Nato come AR-563 il 10/8; rinumerato a AR-572 l'11/8 perché un'altra sessione aveva pubblicato AR-563 su main con un difetto diverso. Cede chi arriva dopo."
     }
   ],
   "meta": {

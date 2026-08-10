@@ -176,6 +176,47 @@ export function neutralizzato(voce, deny = []) {
   });
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// REGOLE SCRITTE IN UNA FORMA CHE IL CLI NON APPLICA PIÙ (AR-562).
+// ─────────────────────────────────────────────────────────────────────────────
+// Il difetto, visto da Nicola il 2026-08-10 sul Pannello: ogni analisi apriva con un muro di avvisi
+// «Permission … rule: Write(x) is not matched by file permission checks — only Edit(path) rules are».
+// Non era un capriccio del Pannello: i controlli sui permessi dei FILE guardano solo `Edit(path)`,
+// e `Edit` copre da solo tutti gli strumenti che modificano file. Una riga `Write(path)` non è più
+// una regola: è testo che il CLI legge, non applica, e su cui avvisa a ogni avvio.
+//
+// PROVATO A MANO, non dedotto (2026-08-10, claude 2.1.226): un settings finto con
+// `Write(a/**)`, `MultiEdit(b/**)`, `NotebookEdit(c/**)`, `Edit(d/**)`, `Read(e/**)` produce un
+// avviso per le prime TRE e nessuno per `Edit`/`Read`. L'avviso esce su stderr, non su stdout.
+//
+// PERCHÉ È UN GUARDIANO E NON UN DETTAGLIO ESTETICO: un DIVIETO scritto così non vieta niente.
+// `Write(**/.env)` fra i deny sembra murare le chiavi e non le mura — chi legge il file crede di
+// essere protetto e non lo è. Qui quel caso diventa una violazione vera, a meno che esista il
+// gemello `Edit(stesso percorso)` che la difesa la fa davvero (è il caso di oggi: la protezione
+// c'è, le righe `Write` sono solo il rumore che Nicola vedeva).
+export const TOOL_FILE_MORTI = new Set(["Write", "MultiEdit", "NotebookEdit"]);
+
+const PERCHE_FORMA_MORTA =
+  "AR-562: i controlli sui permessi dei file leggono solo `Edit(percorso)` — e `Edit` copre già " +
+  "tutti gli strumenti che modificano file. Una riga `Write(...)`/`MultiEdit(...)`/`NotebookEdit(...)` " +
+  "non viene applicata: il CLI la salta e avvisa a ogni avvio, e quell'avviso finisce sotto gli occhi " +
+  "di Nicola. Va riscritta come `Edit(stesso percorso)`.";
+
+/** Una voce è in forma morta se nomina uno strumento-file non più applicato E ha un percorso. */
+export function formaMorta(voce) {
+  const { tool, spec } = scomponi(voce);
+  return spec !== "" && TOOL_FILE_MORTI.has(tool);
+}
+
+/** C'è già `Edit(stesso percorso)`? Allora la difesa esiste davvero e la riga morta è solo rumore. */
+export function haGemelloEdit(voce, regole = []) {
+  const a = scomponi(voce);
+  return regole.some((d) => {
+    const b = scomponi(d);
+    return b.tool === "Edit" && b.spec === a.spec;
+  });
+}
+
 /**
  * Applica le regole a TUTTI i file insieme. È l'unica forma corretta: allow e deny si sommano fra
  * file e il deny vince, quindi né i permessi né i divieti si possono giudicare un file per volta.
@@ -202,6 +243,24 @@ export function analizza(files = [], regole = REGOLE, giustificati = STRUMENTI_G
     if (!r.deve_negare) continue;
     if (denyUnione.some((d) => r.deve_negare.test(d))) continue;
     violaz.push({ regola: r.id, tipo: "deny-mancante", voce: String(r.deve_negare), perche: r.perche, file: "(tutti)" });
+  }
+
+  // AR-562 — le righe scritte in una forma che il CLI non applica più. Un DIVIETO in forma morta
+  // senza il gemello `Edit(...)` è una difesa che non difende: violazione. Con il gemello è solo
+  // rumore da ripulire — ma va comunque detto, perché è l'avviso che Nicola si vede a ogni analisi.
+  for (const f of files) {
+    for (const [dove, voci] of [["deny", f.deny || []], ["allow", f.allow || []]]) {
+      for (const voce of voci) {
+        if (!formaMorta(voce)) continue;
+        const { spec } = scomponi(voce);
+        const riga = { regola: "forma-file-non-applicata", voce: String(voce), file: f.file, perche: PERCHE_FORMA_MORTA };
+        if (dove === "deny" && !haGemelloEdit(voce, denyUnione)) {
+          violaz.push({ ...riga, tipo: "deny-che-non-difende", perche: `${PERCHE_FORMA_MORTA} Qui manca anche il gemello \`Edit(${spec})\`: questo divieto oggi non ferma niente.` });
+        } else {
+          inerti.push({ ...riga, tipo: dove === "deny" ? "deny-in-forma-morta" : "allow-in-forma-morta" });
+        }
+      }
+    }
   }
 
   // AR-273 — gli STRUMENTI COLLEGATI. Non passano dalle regex qui sopra apposta: quelle sono un
@@ -265,6 +324,7 @@ function main() {
         "deny-mancante": "manca il divieto",
         "strumento-di-scrittura": "strumento che SCRIVE, concesso senza chiedere e senza un perché",
         "strumento-non-classificato": "strumento di forma nuova, mai dichiarato",
+        "deny-che-non-difende": "divieto scritto in una forma che il CLI non applica (non protegge nulla)",
       };
       const cosa = `${ETICHETTA[v.tipo] || v.tipo}: ${v.voce}`;
       console.log(`  • [${v.regola}] ${cosa}   (${v.file})`);
@@ -275,8 +335,15 @@ function main() {
   if (inerti.length) {
     // Non sono violazioni: un divieto le copre già. Le mostro perché una riga che sembra concedere
     // e non concede è una bugia nel file — ma toglierle non cambia cosa la macchina può fare.
-    console.log(`\n🪦 ${inerti.length} permesso/i largo/i ma GIÀ MURATO da un divieto (da ripulire, non pericolosi):`);
-    for (const v of inerti) console.log(`  • ${v.voce}   (${v.file}) — coperto da un deny: non concede nulla`);
+    console.log(`\n🪦 ${inerti.length} riga/righe scritta/e ma senza effetto (da ripulire, non pericolose):`);
+    for (const v of inerti) {
+      const { spec } = scomponi(v.voce);
+      const motivo =
+        v.tipo === "deny-in-forma-morta" || v.tipo === "allow-in-forma-morta"
+          ? `forma non più applicata dal CLI → riscrivila \`Edit(${spec})\`. È questa riga che stampa l'avviso a ogni avvio.`
+          : "coperto da un deny: non concede nulla";
+      console.log(`  • ${v.voce}   (${v.file}) — ${motivo}`);
+    }
   }
 
   if (!tutte.length) {

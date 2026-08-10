@@ -1,4 +1,4 @@
-// AR-562 — «il fix è già nel codice» si MISURA. Un campo che dice cosa mi aspetto non è una misura.
+// AR-571 — «il fix è già nel codice» si MISURA. Un campo che dice cosa mi aspetto non è una misura.
 //
 // Il difetto peggiore trovato nella radiografia della catena di lavoro (2026-08-10), perché sporca
 // il numero con cui la macchina decide quanto lavoro le resta.

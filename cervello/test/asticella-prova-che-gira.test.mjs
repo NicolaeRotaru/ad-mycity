@@ -102,7 +102,7 @@ test("sul cantiere vero: nessuna scheda grave aperta oggi nascerebbe con una pro
   const { readFileSync } = await import("node:fs");
   const c = JSON.parse(readFileSync(join(QUI, "..", "..", "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json"), "utf8"));
   const grave = new Set(["grave", "bloccante", "critica", "alta", "alto"]);
-  // Le schede nate nell'ultimo lotto (AR-562…): sono quelle a cui la regola si applica per prima.
+  // Le schede nate nell'ultimo lotto (AR-571…): sono quelle a cui la regola si applica per prima.
   const ultime = c.difetti.filter((d) => /^AR-5(6[2-9]|[7-9]\d)$/.test(d.id || ""));
   assert.ok(ultime.length >= 6, `attese almeno 6 schede recenti, trovate ${ultime.length}`);
   const fermate = proveDeboliNate(ultime, ultime.map((d) => d.id));

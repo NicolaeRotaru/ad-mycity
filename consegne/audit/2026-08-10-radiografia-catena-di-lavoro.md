@@ -112,14 +112,14 @@ La ragione: la coda ha avuto due formati, e lui legge ancora quello vecchio. La 
 
 | # | Cosa | Stato |
 |---|---|---|
-| **AR-562** | Mi accreditavo 84 difetti come già risolti leggendo un campo che dice tutt'altro | ✅ riparato oggi |
+| **AR-571** | Mi accreditavo 84 difetti come già risolti leggendo un campo che dice tutt'altro | ✅ riparato oggi |
 | **AR-566** | Trovo i problemi tre volte più in fretta di quanto li riparo | 🔴 serve la tua decisione |
 | **AR-564** | La prova di 193 difetti è una ricerca di parole, non un comportamento | 🟡 aperto |
 | **AR-565** | Due guardiani, stesso 18%, verdetti opposti | 🟡 aperto |
 | **AR-567** | Otto riparazioni progettate col nome del file già scritto, e il file non è mai nato | 🟡 aperto |
 | **AR-568** | Ho spento i sensori della macchina lanciando un comando di sola lettura | 🟡 aperto |
 | **AR-569** | Il conto di quanto lavoro aspetta la tua firma ne vede 5 su 49, e dichiara la coda sotto controllo | 🟡 aperto |
-| **AR-563** | Il conto dei consumi stampava «zero token uguale ventisette per cento» | ✅ riparato oggi |
+| **AR-572** | Il conto dei consumi stampava «zero token uguale ventisette per cento» | ✅ riparato oggi |
 
 ### AR-568 — l'ho combinato io, oggi, mentre facevo questa radiografia
 
@@ -133,7 +133,7 @@ Subito dopo il guardiano dei sensori è passato da 10 accesi su 12 a 3 su 12 ed 
 
 **La parte peggiore non è il rosso.** Lo stesso è successo al file che misura quanto bene ti scrivo. Sul server la finestra era di 26 messaggi e il voto era 100% di errori. Nella mia sessione la finestra era di 2 messaggi e il voto è diventato 50%. **Il voto è migliorato perché ho misurato di meno.**
 
-Un numero che migliora restringendo il campione è una bugia che sembra un progresso. È la stessa famiglia di AR-562.
+Un numero che migliora restringendo il campione è una bugia che sembra un progresso. È la stessa famiglia di AR-571.
 
 Ho rimesso a posto i tre file e ho verificato che il guardiano torni verde. Ma l'ha preso il collaudo, non io: senza un test che guarda il mondo vero, te li consegnavo avvelenati.
 
@@ -143,7 +143,7 @@ Anche questa l'ha presa un test, non io. Ho ripristinato i due file e li ho risc
 
 Ti dico queste due cose per una ragione precisa. **La parte della macchina che funziona meglio è quella che mi impedisce di consegnare i miei errori.** In una sola giornata mi ha fermato quattro volte: due difetti falsi prima che li scrivessi, e due danni veri prima che te li consegnassi. È da lì che si costruisce il resto.
 
-### AR-562 in dettaglio — la malattia, non il sintomo
+### AR-571 in dettaglio — la malattia, non il sintomo
 
 Vale la pena capirlo perché è la stessa forma di errore che mi fa sbagliare altrove.
 
@@ -153,7 +153,7 @@ Un secondo pezzo di codice leggeva lo stesso campo e capiva un'altra cosa: *il f
 
 Siccome quasi ogni riparazione consiste nell'aggiungere qualcosa, quasi ogni difetto nasce con `presente: true`. Quindi quasi ogni difetto risultava già risolto. Per sempre, senza aprire un file.
 
-**Un campo che dice «cosa mi aspetto», letto da un altro come «cosa ho misurato».** Questa è la malattia. E ha una parente stretta in AR-563, dove la percentuale dei consumi veniva da un campo e il numero stampato accanto da un altro.
+**Un campo che dice «cosa mi aspetto», letto da un altro come «cosa ho misurato».** Questa è la malattia. E ha una parente stretta in AR-572, dove la percentuale dei consumi veniva da un campo e il numero stampato accanto da un altro.
 
 La cura, in entrambi i casi, è la stessa: chi dà un verdetto deve aver guardato, e deve guardare la stessa cosa di cui parla.
 
@@ -179,7 +179,7 @@ In tutti e tre i casi ho costruito il magazzino e non il nastro trasportatore.
 
 **Prima — «fatto» vuol dire che un comportamento è cambiato.** È la decisione uno che ti ho chiesto sopra, ed è la più importante delle quattro. Questa da sola spegne la ragione per cui tu trovi errori dopo di me: una ricerca di parole non può fallire nel modo in cui fallisce la realtà.
 
-**Seconda — nessun verdetto senza aver guardato.** Ogni volta che un pezzo di codice dice «va bene», deve aver letto la cosa di cui parla. AR-562 e AR-563 sono la stessa malattia, e non saranno gli ultimi due: vanno cercati gli altri posti dove un campo scritto per dire una cosa viene letto per dirne un'altra.
+**Seconda — nessun verdetto senza aver guardato.** Ogni volta che un pezzo di codice dice «va bene», deve aver letto la cosa di cui parla. AR-571 e AR-572 sono la stessa malattia, e non saranno gli ultimi due: vanno cercati gli altri posti dove un campo scritto per dire una cosa viene letto per dirne un'altra.
 
 **Terza — il tasso di chiusura è il mio voto.** Non il numero di difetti trovati, non il voto di salute: quanti ne chiudo diviso quanti ne apro. Sotto 1, smetto di cercare e riparo. È l'unica regola che impedisce a una radiografia di peggiorare la situazione che è stata chiamata a migliorare.
 

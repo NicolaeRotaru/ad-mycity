@@ -86,7 +86,7 @@ function main() {
   }
 
   console.log(`🪙 Il Metabolismo — ${quando}   (consumo reale della macchina)\n`);
-  // AR-563 — la percentuale e il suo numeratore devono venire dallo STESSO campo. AR-196 aveva
+  // AR-572 — la percentuale e il suo numeratore devono venire dallo STESSO campo. AR-196 aveva
   // spostato il CALCOLO sul campo che frena (`token_per_gate`) ma lasciato la STAMPA su
   // `token_totali`, che resta 0 finché tutto è stimato: usciva «0/2000000 token = 27.5%», una
   // frazione impossibile stampata a Nicola. Una riga che si contraddice da sola insegna a non

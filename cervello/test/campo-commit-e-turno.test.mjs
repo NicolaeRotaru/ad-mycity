@@ -66,6 +66,29 @@ const PROVA_PIENA = [
   '',
 ].join("\n");
 
+/**
+ * Butta la cartella di scarto SENZA poter far cadere il caso che la usava (AR-563).
+ *
+ * Perché è una funzione a sé, ed esportata: il fix vero di AR-563 è una DECISIONE — un caso è rosso
+ * per ciò che asserisce, non per quanto era occupata una cartella in /tmp — e una decisione che vive
+ * dentro una chiusura anonima non la può provare nessuno. Da qui il collaudo l'ha trovata scoperta:
+ * le mutazioni coprivano la diagnosticabilità e non lei.
+ *
+ * `rimuovi` si inietta apposta. L'ENOTEMPTY vero non si fabbrica su questa macchina (gira da root, e
+ * i permessi non fermano root: misurato, non supposto), quindi la prova non finge di riprodurre
+ * l'ambiente del runner — verifica la sola cosa che qui è verificabile e che è anche quella che conta:
+ * se la rimozione fallisce, questa funzione NON propaga, e non tace.
+ */
+export function pulisciSenzaFarCadereIlCaso(dir, rimuovi = rmSync, avvisa = console.error) {
+  try {
+    rimuovi(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 50 });
+    return { rimossa: true };
+  } catch (e) {
+    avvisa(`⚠️  cartella di prova non cancellata (${e.code}): ${dir} — il verdetto del caso non cambia`);
+    return { rimossa: false, codice: e.code };
+  }
+}
+
 /** Un repo git con l'hook VERO, il cervello VERO e una storia da cui partire. */
 function campo() {
   const d = mkdtempSync(join(tmpdir(), "mycity-campo-"));
@@ -73,6 +96,14 @@ function campo() {
   git("init", "-q", "-b", "lavoro"); // non `main`: il perimetro di main è un altro cancello, non questo
   git("config", "user.email", "test@mycity.local");
   git("config", "user.name", "test");
+  // AR-563 — LA CAUSA DEL ROSSO CHE APPARIVA SOLO SU GITHUB. Dopo certi comandi git lancia da sé una
+  // manutenzione IN BACKGROUND (`gc --auto`), che continua a scrivere dentro `.git/objects` quando il
+  // comando in primo piano è già tornato. Su questa macchina finisce prima che il caso chiuda; sul
+  // runner — più lento, e con 130 test appena girati addosso — no: `pulisci()` trovava la cartella
+  // ancora popolata e moriva con ENOTEMPTY. Non era un'asserzione a cadere, era la pulizia, e siccome
+  // sta nel `finally` il caso risultava rosso lo stesso. Spiega tutto ciò che sembrava misterioso:
+  // perché solo in CI, perché solo dentro la suite intera, e perché da solo passava 10 su 10.
+  git("config", "gc.auto", "0");
   git("config", "core.hooksPath", ".githooks");
   mkdirSync(join(d, ".githooks"), { recursive: true });
   cpSync(join(REPO, ".githooks/pre-commit"), join(d, ".githooks/pre-commit"));
@@ -118,7 +149,17 @@ function campo() {
         return { rc: e.status ?? 1, out: `${e.stdout || ""}${e.stderr || ""}` };
       }
     },
-    pulisci: () => rmSync(d, { recursive: true, force: true }),
+    // LA PULIZIA NON DÀ IL VERDETTO (AR-563). `gc.auto 0` toglie la causa principale — la manutenzione
+    // che git avviava in background — ma sul runner resta l'ENOTEMPTY che il filesystem a strati
+    // restituisce su una cartella appena svuotata, senza nessun processo vivo dentro. Stava nel
+    // `finally`, quindi si portava dietro il caso: due esecuzioni di fila hanno accusato tre casi
+    // DIVERSI, che è la firma di un guasto d'ambiente e non di una difesa che ha trovato qualcosa.
+    //
+    // Un caso deve essere rosso per ciò che ASSERISCE. Se la cartella di scarto in /tmp resiste, lo
+    // dico e tiro dritto: non sparisce in silenzio (il messaggio resta nel log, e il sistema quella
+    // cartella la ripulisce da sé), ma non trasforma una prova verde in un rosso che manda a cercare
+    // un bug che non c'è — che è il costo già pagato qui in mezzo pomeriggio.
+    pulisci: () => pulisciSenzaFarCadereIlCaso(d),
   };
 }
 
@@ -398,4 +439,33 @@ test("SUL CAMPO: la riga di esito dentro un commit di fusione dev'essere trovata
   } finally {
     c.pulisci();
   }
+});
+
+test("La cartella di scarto che resiste NON fa cadere il caso, e non sparisce in silenzio (AR-563)", () => {
+  // Il guasto vero, in una riga: la cancellazione lancia. Sul runner era ENOTEMPTY dal filesystem a
+  // strati; qui lo inietto, perché da root quell'errore non si fabbrica (provato) e una prova che
+  // finge di riprodurre l'ambiente proverebbe la finzione.
+  const detto = [];
+  const esito = pulisciSenzaFarCadereIlCaso(
+    "/tmp/una-cartella-qualsiasi",
+    () => { const e = new Error("directory not empty"); e.code = "ENOTEMPTY"; throw e; },
+    (m) => detto.push(m),
+  );
+  assert.equal(esito.rimossa, false, "l'esito dice che non è stata rimossa: non si racconta un successo");
+  assert.equal(esito.codice, "ENOTEMPTY");
+  assert.equal(detto.length, 1, "e lo dice: un fallimento ingoiato in silenzio è il difetto opposto");
+  assert.match(detto[0], /il verdetto del caso non cambia/);
+  // La prova che conta: NON è arrivata qui dentro un'eccezione. Prima di AR-563 questa riga non si
+  // raggiungeva — la chiamata moriva nel `finally` e si portava dietro un caso con tutte le
+  // asserzioni verdi.
+});
+
+test("Se invece la cartella si cancella, si dice che è andata — e senza rumore inutile (AR-563)", () => {
+  const detto = [];
+  const visti = [];
+  const esito = pulisciSenzaFarCadereIlCaso("/tmp/x", (d, o) => visti.push({ d, o }), (m) => detto.push(m));
+  assert.equal(esito.rimossa, true);
+  assert.equal(detto.length, 0, "nessun avviso quando non c'è niente da segnalare");
+  assert.equal(visti[0].o.recursive, true, "e la rimozione è quella vera: ricorsiva, con i tentativi");
+  assert.ok(visti[0].o.maxRetries >= 1, "i tentativi restano: sono la prima cintura, tolta quella resta solo la seconda");
 });

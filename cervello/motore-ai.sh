@@ -288,23 +288,58 @@ ai_build_cmd() {
 # ═══════════════════════════════════════════════════════════════
 OLLAMA_MODEL="${OLLAMA_MODEL:-qwen2.5:3b-instruct}"
 
+# 🧼 LA RISPOSTA È LO STDOUT — LO STDERR È RUMORE, E VA NEL LOG (AR-562).
+#
+# Il difetto, visto da Nicola il 10/8 sul Pannello: molte analisi si aprivano con un muro di avvisi
+# di configurazione al posto del lavoro. Non li scriveva l'AD: li scrive la CLI su STDERR all'avvio
+# (regole di permesso in forma vecchia, workspace non fidato, stdin assente, «Shell cwd was reset»).
+# Era il `2>&1` qui sotto a impastarli con la risposta e a farli finire in `lavori.risultato`.
+#
+# La macchina questa lezione l'aveva già imparata l'11/7 — ma solo su DUE corsie su tre: `rispondi_
+# chat_json` e `_chat_stream_run` in worker.sh separano lo stderr da allora («NON mescolare 2>&1 con
+# lo stdout: un solo warning della CLI rompeva il parse»). La corsia dei LAVORI — cioè questa, quella
+# delle analisi che Nicola guarda — era rimasta col 2>&1. Una lezione applicata a metà è un difetto
+# che torna dall'altra porta.
+#
+# COSA CAMBIA, con precisione:
+#   · rc = 0  → la risposta consegnata è lo stdout puro; lo stderr va nel log del worker (non si perde);
+#   · rc ≠ 0, o stdout vuoto → stderr APPESO alla risposta: lì è la diagnosi, e la retry-policy ci
+#     cerca dentro i suoi pattern. Su un fallimento nascondere lo stderr sarebbe l'errore opposto.
+#   · il riconoscimento del limite di quota guarda stdout E stderr insieme: quel messaggio arriva su
+#     stderr, e separare i due flussi senza dirlo qui avrebbe spento il fallback su Ollama.
 ai_run_con_fallback_ollama() {
     # Uso: ai_run_con_fallback_ollama "$to" "$prompt" "${cmd[@]}"
     local to="$1" prompt="$2"; shift 2
     local -a cmd=("$@")
-    local out
-    out="$(timeout --kill-after=30s "$to" "${cmd[@]}" "$prompt" 2>&1)"
+    local out err errf
+    # prefisso `mycity-worker.` = quello che lo sweep degli orfani all'avvio del worker già ripulisce
+    errf="$(mktemp -t mycity-worker.XXXXXX)"
+    out="$(timeout --kill-after=30s "$to" "${cmd[@]}" "$prompt" 2>"$errf")"
     rc=$?
+    err="$(cat "$errf" 2>/dev/null || true)"; rm -f "$errf" 2>/dev/null || true
 
-    if echo "$out" | grep -qiE "weekly limit|usage limit|rate limit|limit reached|try again later"; then
+    if printf '%s\n%s' "$out" "$err" | grep -qiE "weekly limit|usage limit|rate limit|limit reached|try again later"; then
         if command -v ollama >/dev/null 2>&1; then
             echo "[$(date '+%Y-%m-%d %H:%M:%S')] Motore $(ai_engine) in limite quota — fallback su Ollama ($OLLAMA_MODEL)." >&2
-            out="$(timeout --kill-after=30s "$to" ollama run "$OLLAMA_MODEL" "$prompt" 2>&1)"
+            errf="$(mktemp -t mycity-worker.XXXXXX)"
+            out="$(timeout --kill-after=30s "$to" ollama run "$OLLAMA_MODEL" "$prompt" 2>"$errf")"
             rc=$?
+            err="$(cat "$errf" 2>/dev/null || true)"; rm -f "$errf" 2>/dev/null || true
             out="⚠️ [risposta da Ollama locale — motore premium in limite quota]
 $out"
         else
             echo "[$(date '+%Y-%m-%d %H:%M:%S')] Motore $(ai_engine) in limite quota — Ollama non installato, nessun fallback." >&2
+        fi
+    fi
+
+    if [ -n "$err" ]; then
+        if [ "$rc" -ne 0 ] || [ -z "$out" ]; then
+            # fallimento: lo stderr È la spiegazione — deve restare attaccato al risultato.
+            out="${out}${out:+
+}$err"
+        else
+            # lavoro riuscito: il rumore della CLI resta nel log del worker, fuori dalla risposta.
+            printf '%s\n' "$err" >&2
         fi
     fi
 

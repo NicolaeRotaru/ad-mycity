@@ -39,7 +39,7 @@ function writeJson(path, data) {
 }
 
 /**
- * AR-562 — «il fix è già nel codice» si MISURA, non si legge da un campo che dice altro.
+ * AR-571 — «il fix è già nel codice» si MISURA, non si legge da un campo che dice altro.
  *
  * Il difetto, e perché è il peggiore trovato finora. La sonda classificava come (b) CHIUSO-IN-CODICE
  * ogni difetto con `verifica.presente === true`. Ma in `auto-fix.mjs` quel campo non dice «il fix
