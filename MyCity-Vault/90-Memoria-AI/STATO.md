@@ -891,14 +891,14 @@ fonte: AD digitale (chat)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (☀️ aggiornato 30/7 06:10 — piano del mattino)
-Business INVARIATO dal 24/6, riconfermato ora con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati, 0 recensioni, 3 carrelli abbandonati — **stallo 36 giorni**. Le due domande che tenevano ferma la coda da giorni (PI26, piano-squadra) erano state chiuse da Nicola già il 29/7 notte, ma 5 card erano rimaste aperte per errore: ripulite stamattina (dettaglio in [[SALA-OPERATIVA]] 06:10). Oggi la priorità torna a essere lo stallo del North Star: manca solo una parola di Nicola per sbloccare l'ordine di prova.
+## Prossime priorità (🕛 aggiornato 10/8 12:01 — punto di mezzogiorno)
+Business INVARIATO dal 24/6, riconfermato ora con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati, 0 recensioni, 6 carrelli (3 abbandonati) — **stallo 47 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. La scoperta di oggi cambia la priorità n.1: non è più solo "una parola sull'ordine di prova", è che il fornaio non può ancora incassare per davvero.
 
-1. [ ] 🟡 **Mergia la PR di stanotte sul Pannello** (#633 — menu Memoria più semplice, 4 passi confermati uno per uno con te; supera la #632 rotta dal bug noto del rebase).
-2. [ ] 🔴 **Trenta secondi su Vercel per chiudere davvero il Pannello** (Settings → Deployment Protection → Vercel Authentication = Enabled) — il buco l'hai verificato di persona in incognito il 29/7, nessun codice in attesa.
-3. [ ] 🟡 **Una parola: l'ordine di prova da Pane Quotidiano resta in pausa fino a settembre o lo fai ora?** È l'unica cosa che manca per rompere lo stallo di 36 giorni del North Star.
+1. [ ] 🔴 **Il fornaio deve completare la pratica dei pagamenti** (riga #16 in coda) — tre semafori rossi su Stripe: dati mai inviati, incassi disattivati, versamenti disattivati. Finché resta così, nessun cliente può pagare, prova compresa. Servono i suoi dati (documento, azienda, conto), non li può mettere la macchina.
+2. [ ] 🔴 **Sette richieste di unione ferme da giorni** — PR #675, #677, #678, #679, #680, #683, più la pulizia dei 447 rami e come chiudere le PR (righe #7/#8). Non riverificabili da questa sessione (`gh` negato).
+3. [ ] 🟡 **Una parola: l'ordine di prova da Pane Quotidiano resta in pausa fino a settembre o lo fai ora?** Stessa domanda, ferma da 13 giorni — ora ha senso solo dopo la riga 1 (senza pagamenti attivi l'ordine non potrebbe comunque chiudersi).
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 36gg, atteso — negozi in pausa) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente (card `#sensori-spenti-senza-motivo` in attesa di un sì/no tuo) · n8n cieco · REST/MCP/Stripe/Sito/Pannello ✅ · cantiere: 16 bloccanti su main, 2 aspettano solo te (permessi `.claude/settings.json` AR-206, Vercel Authentication AR-226).
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 47gg, atteso — negozi in pausa) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente (card `#sensori-spenti-senza-motivo` in attesa di un sì/no tuo) · n8n cieco · REST/MCP/Stripe/Sito/Pannello ✅ · cantiere: 161 aperti · 332 chiusi, 2 bloccanti aspettano solo te (permessi `.claude/settings.json` AR-206, Vercel Authentication AR-226).
 
 ---
 

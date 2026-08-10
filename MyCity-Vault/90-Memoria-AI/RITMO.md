@@ -1102,3 +1102,21 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 - Verificare (quando la sessione lo permette) se le 5 PR sono state mergiate; se sì, aggiornare la coda di conseguenza.
 
 **Dettagli tecnici** — numeri confermati via `mcp__supabase-marketplace execute_sql` diretto 2026-08-06 11:06. `coerenza-fatti.mjs` exit 0. `apprendimento-guardiano.mjs`/`esperimenti-check.mjs`/`tasso-lezioni.mjs`/`gh pr list` bloccati in questa sessione (verdetti HARD ereditati dal pre-step di `giro.sh`). Dedup di 4 banner housekeeping duplicati in AZIONI-IN-ATTESA.md.
+
+## Punto di mezzogiorno · 2026-08-10 12:01
+
+**Contesto:** oggi non ho scritto un Piano del mattino a parte. Il giro completo delle 11:20 (poi riconfermato altre 3 volte, fino alle 11:34) ha fatto da piano. Questo blocco è il controllo di metà giornata su quel lavoro.
+
+**Stato delle priorità di stamattina:**
+1. 🔄 **Il fornaio non può ancora incassare** (riga #16 in coda) — la scoperta di oggi: la pratica pagamenti di Pane Quotidiano è a metà, tre semafori rossi. Finché resta così nessun cliente può pagare davvero. Aspetta i suoi dati, non me.
+2. ❌ **Sette richieste di unione ferme** (PR #675, #677, #678, #679, #680, #683, più la decisione su rami/#7-#8) — nessun movimento da stamattina. Non riverificabile da qui: `gh` è negato in questa sessione.
+3. ❌ **Ordine di prova su Pane Quotidiano, dentro o fuori dalla pausa** — la stessa domanda di sempre, ferma da 13 giorni.
+
+**Correzione di rotta:**
+- Riconfermato dal vivo su Supabase, appena adesso: 1 ordine, 0 pagati, 7 profili, 5 prodotti, 0 recensioni, 6 carrelli — identico a tutta la mattinata. Nessuna sorpresa a mezzogiorno.
+- Trovato un difetto nel controllo automatico che chiude la mia giornata di lavoro: accusa lavoro di sei giorni fa come se fosse di oggi. Accodato (`#cancello-stop-ancora-ferma-al-4-8`) — non blocca nessuna card business, resta un difetto interno.
+- Nessuna mossa 🟢 nuova da fare a mezzogiorno: il lavoro reversibile di stamattina (checklist, briefing, coda) era già stato fatto nei passaggi delle 11:20-11:34.
+
+**Serve da Nicola entro sera:**
+- 🔴 La pratica pagamenti del fornaio (riga #16) — è il vero blocco del negozio, non le richieste di unione.
+- 🟡 Le 7 richieste di unione ferme, la pulizia dei rami, e la domanda sull'ordine di prova — tutte invariate da prima.
