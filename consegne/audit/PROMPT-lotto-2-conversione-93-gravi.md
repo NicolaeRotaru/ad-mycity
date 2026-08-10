@@ -74,9 +74,9 @@ Infine ogni difetto convertito vuole il suo **mutante** in `cervello/mutanti.jso
 
 **Due verdi falsi di fila, costruendo le prove del primo lotto.**
 
-1. Ritagliavo un pezzo di script partendo da dentro un `if/else`. Bash moriva su `else` alla decima riga. Il file sporco sopravviveva, e la prova diceva «riparato» — non perché il codice lo protegga, ma perché **non ci era mai arrivato**. Rimedio, già dentro il codice: si ritaglia da un punto bilanciato e si controlla che il pezzo stia in piedi.
+**Il primo.** Ritagliavo un pezzo di script partendo da dentro un `if/else`. Bash moriva su `else` alla decima riga. Il file sporco sopravviveva, e la prova diceva «riparato» — non perché il codice lo protegga, ma perché **non ci era mai arrivato**. Rimedio, già dentro il codice: si ritaglia da un punto bilanciato e si controlla che il pezzo stia in piedi.
 
-2. Ho aggiunto un sigillo per dimostrare l'arrivo al punto pericoloso. Ma il `git` finto intercettava il `checkout -f` senza eseguirlo, quindi il file sopravviveva **per costruzione**. Il sigillo provava l'arrivo, non la salvezza. Rimedio: il finto comando **fotografa lo stato nell'istante** in cui l'operazione distruttiva starebbe per partire, e il verdetto guarda quella fotografia.
+**Il secondo.** Ho aggiunto un sigillo per dimostrare l'arrivo al punto pericoloso. Ma il `git` finto intercettava il `checkout -f` senza eseguirlo, quindi il file sopravviveva **per costruzione**. Il sigillo provava l'arrivo, non la salvezza. Rimedio: il finto comando **fotografa lo stato nell'istante** in cui l'operazione distruttiva starebbe per partire, e il verdetto guarda quella fotografia.
 
 **Tre mutanti vuoti su sei**, al primo giro. Colpivano righe che l'esecuzione non raggiunge mai: sembravano difese e non lo erano. Scrivere un mutante non basta — **guarda che rompa qualcosa**, uno per uno.
 
