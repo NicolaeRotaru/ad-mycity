@@ -19,7 +19,7 @@ import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { classificaErrore, dataDaTesto, decidiRitento, MAX_ATTESA_QUOTA_MS } from "../retry-policy.mjs";
+import { classificaErrore, dataDaTesto, decidiRitento, MAX_ATTESA_QUOTA_MS, TIPI_PRE_ESECUZIONE } from "../retry-policy.mjs";
 import { codaPulita, registra, ripulisci, spiegazioneUmana } from "../errore-motore.mjs";
 import { cadenzeDaRiprendere, decidiSonda } from "../sentinella-motore.mjs";
 
@@ -177,6 +177,25 @@ prova("recupera solo le cadenze che ha ancora senso rifare", () => {
 prova("una cadenza andata BENE non viene rifatta", () => {
   const esiti = { cadenze: { monitora: { quando: "2026-08-10 06:30", esito: "ok" } } };
   assert.equal(cadenzeDaRiprendere(esiti, ORA).length, 0);
+});
+
+prova("un lavoro già in coda non si ri-accoda: niente doppioni a ogni tentativo", () => {
+  // Trovato rileggendo il diff, non eseguendo: il worker lancia giro.sh SENZA il freno che il ritmo
+  // ha da sempre. Con giro.sh che da oggi si ri-accoda, ogni tentativo del worker avrebbe creato un
+  // secondo lavoro identico — la coda si riempie di copie mentre il limite è ancora chiuso.
+  const worker = readFileSync(join(CERVELLO, "worker.sh"), "utf8");
+  assert.ok(/CADENZA_FROM_WORKER=1/.test(worker), "il worker deve dire alla cadenza «sei già in coda, non accodarti»");
+  const lib = readFileSync(join(CERVELLO, "lib-cadenza.sh"), "utf8");
+  assert.ok(/CADENZA_FROM_WORKER/.test(lib), "e cadenza_recupero deve guardarlo, altrimenti il freno non frena");
+});
+
+prova("il monitoraggio è un lavoro sicuro da rifare, non un'azione reale", () => {
+  // Da oggi 'monitora' arriva in coda davvero (lo ri-accoda la veglia). Un tipo non dichiarato viene
+  // trattato come azione 🔴 per prudenza: un monitoraggio orfano finirebbe in «riapprova» come se
+  // avesse mandato un'email, e un suo timeout non si ritenterebbe.
+  assert.ok(TIPI_PRE_ESECUZIONE.has("monitora"), "monitora legge il web e scrive memoria: nessuna mano sul mondo");
+  const d = decidiRitento({ tipo: "monitora", tentativi: 0, risultato: "[worker] TIMEOUT dopo 2700s", nowMs: ORA });
+  assert.equal(d.azione, "ritenta", "anche su timeout: rifarlo non fa danni");
 });
 
 prova("un guasto finto NON sporca la memoria vera: la traccia resta nel repo dov'è successo", () => {

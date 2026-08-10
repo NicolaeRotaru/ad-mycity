@@ -1230,6 +1230,11 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
     # scavalcando il delta-gate. Il throttling "niente di nuovo → salta" vale solo per la cadenza fissa
     # del timer (mycity-giro.timer), non per i giri richiesti a mano.
     export GIRO_FORCE=1
+    # 10/8 — lo stesso freno che il ritmo ha da AR-024 (RITMO_FROM_WORKER), e che al giro mancava.
+    # Da oggi giro.sh, quando il motore muore per quota, si ri-accoda da solo. Se a lanciarlo è il
+    # WORKER, quel lavoro è GIÀ in coda e la retry-policy del worker lo sta già ritentando: senza
+    # questa riga se ne creerebbe un secondo a ogni tentativo. Chi è già dentro la coda non si accoda.
+    export CADENZA_FROM_WORKER=1
     export GIRO_EXTRA_INSTRUCTION="Restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1)."
     to="${WORKER_TIMEOUT_GIRO:-2700}"   # 45 min — allineato al timeout chat del Pannello
     # 🫀 in background + battito per-lane durante il giro (vedi esegui_con_battito): il worker resta

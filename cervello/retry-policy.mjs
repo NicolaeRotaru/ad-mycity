@@ -64,8 +64,13 @@ export const MAX_TENTATIVI_QUOTA_SETTIMANALE = 40; // 40 × 6h ≈ 10 giorni di 
 // timeout su una proposta la farebbe RI-ESEGUIRE in automatico → rischio doppio invio. Coerenza col
 // resto: mai auto-retry, va al «Riprova» manuale di Nicola. (Se un giorno 'proposta' avrà un prompt
 // SOLO-bozza senza mani, la si potrà rimettere qui.)
+// 10/8: 'monitora' mancava, e da oggi arriva davvero in coda — la veglia sul motore ri-accoda il
+//   monitoraggio saltato. Senza dichiararlo qui finiva fra i tipi SCONOSCIUTI, che per prudenza si
+//   trattano come azioni reali 🔴: un monitoraggio orfano veniva marcato «errore, riapprova» come se
+//   avesse mandato un'email, e un suo timeout non si ritentava. È la stessa dimenticanza che AR-024
+//   aveva già pagato sui ritmo-*. Il monitoraggio legge il web e scrive memoria: nessuna mano sul mondo.
 export const TIPI_PRE_ESECUZIONE = new Set([
-  "giro", "chat", "metabolizza", "analisi", "playbook", "risposta", "rifiuta-azione",
+  "giro", "chat", "metabolizza", "analisi", "playbook", "risposta", "rifiuta-azione", "monitora",
   "ritmo-mattino", "ritmo-mezzogiorno", "ritmo-sera", "ritmo-settimana",
 ]);
 // L'UNICO tipo che aziona davvero le mani 🔴 (email/payout via esegui-azione.mjs):
