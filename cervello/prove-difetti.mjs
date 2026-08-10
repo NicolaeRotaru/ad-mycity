@@ -188,14 +188,47 @@ function eseguiTrattoDelGiro({ nome, ancora, motori, leggi, preludio = "" }) {
  * La famiglia «il giro chiama un guardiano e butta via il verdetto»: il fix è sempre lo stesso —
  * prendere il codice d'uscita FUORI dalla pipe e trasformarlo in un vincolo che porta le parole del
  * guardiano. Qui il metro è uno solo, così le quattro prove non divergono riga per riga.
+ *
+ * ⚠️ SI ESEGUE DUE VOLTE, con due uscite DIVERSE del guardiano, e la ragione è un buco che questa
+ * prova aveva davvero. La prima versione faceva un giro solo e chiedeva «il vincolo contiene la
+ * parola X?». L'ho attaccata con un finto fix che NON copia il guardiano — cattura il codice
+ * d'uscita e scrive a mano `BUDGET_VINCOLO="⛔ STOP BUDGET (rc=$rc): un reparto ha sforato"` — e la
+ * prova è diventata verde stampando «porta quello che ha detto il guardiano, non una frase scritta a
+ * mano nel giro». Cioè: aveva ricostruito dentro di sé esattamente la malattia di AR-323, e per di
+ * più lo dichiarava al contrario.
+ *
+ * Con due esecuzioni il trucco non regge: una frase scritta a mano nel giro esce IDENTICA tutte e due
+ * le volte, qualunque cosa abbia detto il guardiano. Un testo copiato dal guardiano cambia con lui.
+ * Non è più «contiene la parola giusta» — è «dipende da quello che ha detto», che è la cosa vera.
  */
-function vincoloRaccolto({ nome, ancora, motore, stampa, variabile, spia, quandoVuoto, quandoFisso }) {
-  const r = eseguiTrattoDelGiro({ nome, ancora, motori: { [motore]: { stampa, rc: 1 } }, leggi: [variabile] });
-  if (r.cieco) return { cieco: r.cieco };
-  const valore = r.vars[variabile];
-  if (!valore) return { ...APERTO, detto: quandoVuoto };
-  if (!valore.includes(spia)) return { ...APERTO, detto: quandoFisso(valore) };
-  return { ...RIPARATO, detto: `${variabile} porta al motore quello che ha detto il guardiano («${spia}»), non una frase scritta a mano nel giro` };
+function vincoloRaccolto({ nome, ancora, motore, variabile, prima, seconda, quandoVuoto, quandoFisso }) {
+  const giro = (stampa, suffisso) =>
+    eseguiTrattoDelGiro({ nome: `${nome}${suffisso}`, ancora, motori: { [motore]: { stampa, rc: 1 } }, leggi: [variabile] });
+
+  const a = giro(prima.stampa, "a");
+  if (a.cieco) return { cieco: a.cieco };
+  const b = giro(seconda.stampa, "b");
+  if (b.cieco) return { cieco: b.cieco };
+
+  const vA = a.vars[variabile];
+  const vB = b.vars[variabile];
+
+  // ① Il verdetto non arriva proprio: è il difetto nella sua forma piena.
+  if (!vA && !vB) return { ...APERTO, detto: quandoVuoto };
+  // ② Arriva solo a volte: peggio di non arrivare mai, perché sembra cablato.
+  if (!vA || !vB) {
+    return { ...APERTO, detto: `${variabile} si popola in un caso e nell'altro no, a parità di guardiano che dice no: il cablaggio dipende da cosa ha stampato, non dal suo verdetto` };
+  }
+  // ③ Arriva sempre uguale: è una frase del giro, non del guardiano. La malattia di AR-323.
+  if (vA === vB) return { ...APERTO, detto: quandoFisso(vA) };
+  // ④ Cambia, ma non porta quello che il guardiano ha detto in QUEL giro.
+  if (!vA.includes(prima.spia) || !vB.includes(seconda.spia)) {
+    return { ...APERTO, detto: `${variabile} cambia fra un giro e l'altro ma non riporta quello che il guardiano ha detto: al motore arriva «${vA.slice(0, 80)}…»` };
+  }
+  return {
+    ...RIPARATO,
+    detto: `${variabile} cambia col guardiano: a due uscite diverse corrispondono due vincoli diversi, ognuno con le parole della sua («${prima.spia}» / «${seconda.spia}»)`,
+  };
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -221,13 +254,13 @@ const PROVE = {
         nome: "ar208",
         ancora: "Sentinella budget per reparto",
         motore: "sentinella-budget.mjs",
-        stampa: "⛔ STOP BUDGET: marketing ha sforato il tetto del mese",
         variabile: "BUDGET_VINCOLO",
-        spia: "STOP BUDGET",
+        prima: { stampa: "⛔ STOP BUDGET: marketing ha sforato di 340 euro il tetto di agosto", spia: "marketing ha sforato di 340 euro" },
+        seconda: { stampa: "⛔ STOP BUDGET: ads-performance ha bruciato il tetto in quattro giorni", spia: "ads-performance ha bruciato il tetto" },
         quandoVuoto:
           "la sentinella ha dichiarato lo sforo (rc=1) e il giro non ne ha ricavato nessun vincolo: il verdetto finisce in una pipe con `|| true` e muore lì, il motore non sa che un reparto è in stop",
         quandoFisso: (v) =>
-          `il vincolo del budget esiste ma non porta le parole della sentinella: al motore arriva «${v.slice(0, 70)}…», non il motivo vero dello stop`,
+          `il vincolo del budget non cambia quando cambia lo sforo: al motore arriva sempre «${v.slice(0, 70)}…», quindi non sa QUALE reparto si è fermato né perché`,
       });
     },
   },
@@ -244,13 +277,13 @@ const PROVE = {
         nome: "ar392",
         ancora: "Letargo (livello di degradazione)",
         motore: "letargo.mjs",
-        stampa: "🛌 LIVELLO RISPARMIO: spegnere i giri notturni e i workflow pesanti",
         variabile: "LETARGO_VINCOLO",
-        spia: "LIVELLO RISPARMIO",
+        prima: { stampa: "🛌 LIVELLO RISPARMIO: spegnere i giri notturni e i workflow pesanti", spia: "spegnere i giri notturni" },
+        seconda: { stampa: "🛌 LIVELLO SOPRAVVIVENZA: solo le sentinelle, niente motore AI", spia: "solo le sentinelle" },
         quandoVuoto:
-          "il letargo ha dichiarato il livello RISPARMIO e il giro non ne ha ricavato nessun vincolo: il verdetto muore nella pipe, e la macchina continua a spendere come se avesse la benzina piena",
+          "il letargo ha dichiarato il livello e il giro non ne ha ricavato nessun vincolo: il verdetto muore nella pipe, e la macchina continua a spendere come se avesse la benzina piena",
         quandoFisso: (v) =>
-          `il vincolo del letargo esiste ma non porta il livello dichiarato: al motore arriva «${v.slice(0, 70)}…», quindi non sa cosa spegnere`,
+          `il vincolo del letargo non cambia fra RISPARMIO e SOPRAVVIVENZA: al motore arriva sempre «${v.slice(0, 70)}…», quindi non sa cosa spegnere`,
       });
     },
   },
@@ -267,13 +300,12 @@ const PROVE = {
         nome: "ar323",
         ancora: "Sweep esperimenti in scadenza",
         motore: "esperimenti-check.mjs",
-        stampa: "⛔ 2 ESPERIMENTI SCADUTI DA MISURARE: chiusi senza esito, prima misura quelli",
         variabile: "ESP_VINCOLO",
-        spia: "SCADUTI DA MISURARE",
-        quandoVuoto:
-          "il guardiano degli esperimenti ha detto no (rc=1) e nessun vincolo è arrivato al motore",
+        prima: { stampa: "⛔ 2 ESPERIMENTI SCADUTI DA MISURARE: chiusi senza esito, prima misura quelli", spia: "SCADUTI DA MISURARE" },
+        seconda: { stampa: "⛔ NESSUN ESPERIMENTO APERTO: il volano non misura niente, aprine uno", spia: "NESSUN ESPERIMENTO APERTO" },
+        quandoVuoto: "il guardiano degli esperimenti ha detto no (rc=1) e nessun vincolo è arrivato al motore",
         quandoFisso: (v) =>
-          `il guardiano ha detto «2 esperimenti scaduti da misurare», al motore arriva la frase fissa scritta a mano nel giro: «${v.slice(0, 80)}…». Il giro ordina di APRIRNE uno nuovo mentre il problema è che nessuno ha misurato quelli vecchi`,
+          `il vincolo è lo stesso che il guardiano dica «2 esperimenti scaduti da misurare» o «nessun esperimento aperto»: al motore arriva sempre la frase fissa scritta a mano nel giro, «${v.slice(0, 80)}…». Sono due problemi opposti e ricevono lo stesso ordine — aprine uno nuovo — anche quando quello che serve è misurare i vecchi`,
       });
     },
   },
@@ -291,12 +323,12 @@ const PROVE = {
         nome: "ar158",
         ancora: "North Star (AR-113",
         motore: "north-star-check.mjs",
-        stampa: "⛔ FASE TECNICA DICHIARATA fino al 2026-08-20: ammesso lavoro macchina, ma almeno 1 azione business per giro",
         variabile: "NORTH_STAR_VINCOLO",
-        spia: "FASE TECNICA DICHIARATA",
+        prima: { stampa: "⛔ FASE TECNICA DICHIARATA fino al 2026-08-20: ammesso lavoro macchina, ma almeno 1 azione business per giro", spia: "FASE TECNICA DICHIARATA" },
+        seconda: { stampa: "⛔ STALLO VERO: 0 ordini pagati da 9 giorni e nessuna fase tecnica dichiarata", spia: "STALLO VERO" },
         quandoVuoto: "il guardiano North Star ha detto no (rc=1) e nessun vincolo è arrivato al motore",
         quandoFisso: (v) =>
-          `il guardiano ha dichiarato la fase tecnica, al motore arriva la frase fissa del giro: «${v.slice(0, 80)}…». Il giro ordina il contrario di quello che ha deciso Nicola, e nessuno riconcilia i due comandi`,
+          `il vincolo è lo stesso che il guardiano dichiari una fase tecnica concordata con Nicola o uno stallo vero: al motore arriva sempre «${v.slice(0, 80)}…». Il giro ordina «solo azioni che avvicinano il 1° ordine» anche quando Nicola ha deciso il contrario, e nessuno riconcilia i due comandi`,
       });
     },
   },
