@@ -1995,7 +1995,25 @@
         "difesa-rimossa": 2
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-10T23:24:26.471Z",
+      "scatti": 93,
+      "voci": 2,
+      "per_classe": {
+        "difesa-rimossa": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-10T23:29:30.860Z",
+      "scatti": 94,
+      "voci": 2,
+      "per_classe": {
+        "difesa-rimossa": 2
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-10T23:14:33.080Z"
+  "aggiornato": "2026-08-10T23:29:30.861Z"
 }
