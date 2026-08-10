@@ -188,7 +188,7 @@ cadenza_ai_run() {
   # Sta QUI e non nei tre copioni apposta: è il punto unico da cui passano tutte le cadenze.
   if [ "$CADENZA_AI_RC" -ne 0 ] && command -v node >/dev/null 2>&1; then
     printf '%s\n' "$CADENZA_AI_OUT" \
-      | node "${SCRIPT_DIR:-cervello}/errore-motore.mjs" registra --cadenza="$tipo" --rc="$CADENZA_AI_RC" >&2 \
+      | node "${SCRIPT_DIR:-cervello}/errore-motore.mjs" registra --cadenza="$tipo" --rc="$CADENZA_AI_RC" --repo="${REPO:-.}" >&2 \
       || echo "[$(ts)] ⚠️  Guasto del motore NON registrato in memoria: da fuori resterà invisibile." >&2
   fi
   return 0

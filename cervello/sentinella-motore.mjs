@@ -102,39 +102,62 @@ export function cadenzeDaRiprendere(esiti = {}, nowMs = Date.now(), elenco = CAD
   return out;
 }
 
-/** Bussa al motore con la domanda più piccola possibile. Ritorna { vivo, uscita }. */
+/**
+ * Bussa al motore con la domanda più piccola possibile. Ritorna { vivo, uscita }.
+ * L'uscita si tiene dalla CODA, non dalla testa: il messaggio del limite arriva in fondo, dopo il
+ * rumore di avvio della CLI. Tagliando i primi caratteri si perderebbe proprio la frase che serve a
+ * capire QUANDO riprovare, e la sonda classificherebbe un limite settimanale come «errore ignoto».
+ */
 function sonda() {
   const motore = process.env.CERVELLO_MOTORE === "cursor" ? "agent" : "claude";
+  const coda = (t, n) => {
+    const s = String(t || "");
+    return s.length > n ? s.slice(-n) : s;
+  };
   try {
     const out = execFileSync(motore, ["-p", "ok"], {
       encoding: "utf8",
       timeout: SONDA_TIMEOUT_SEC * 1000,
       stdio: ["ignore", "pipe", "pipe"],
     });
-    return { vivo: true, uscita: String(out).slice(0, 400) };
+    return { vivo: true, uscita: coda(out, 400) };
   } catch (e) {
-    const testo = `${e.stdout || ""}${e.stderr || ""}${e.message || ""}`;
-    return { vivo: false, uscita: testo.slice(0, 2000) };
+    return { vivo: false, uscita: coda(`${e.stdout || ""}${e.stderr || ""}${e.message || ""}`, 4000) };
   }
 }
 
-/** Rimette in coda una cadenza. Ritorna true se accodata. */
+/**
+ * Rimette in coda una cadenza. Ritorna { fatto, motivo }.
+ *
+ * ⚠️ Perché un esito e non un `true/false`: «non ho accodato» ha tre significati diversi — era già in
+ * coda (bene), la memoria non è collegata (niente da fare), la rete è caduta mentre chiedevo (non lo
+ * so). Un `catch { return false }` li appiattisce in uno solo, e il messaggio finale diventa «nessuna
+ * cadenza da recuperare» anche quando in realtà non sono riuscita a guardare. È la stessa malattia
+ * che questa macchina insegue col nome di «fonte troncata letta per intera»: ⚪ non è mai ✅.
+ */
 function accoda({ tipo, descrizione }) {
   const url = process.env.SUPABASE_URL?.trim();
   const key = process.env.SUPABASE_SERVICE_KEY?.trim();
-  if (!url || !key) return false;
+  if (!url || !key) return { fatto: false, motivo: "memoria-non-collegata" };
   const H = { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json" };
+
+  // Idempotenza: se è già in attesa non ne servono due.
+  let gia;
   try {
-    // Idempotenza: se è già in attesa non ne servono due.
-    const gia = execFileSync("curl", [
+    gia = execFileSync("curl", [
       "-fsS", `${url}/rest/v1/lavori?stato=eq.in_attesa&tipo=eq.${tipo}&select=id&limit=1`,
       "-H", `apikey: ${key}`, "-H", `Authorization: Bearer ${key}`,
     ], { encoding: "utf8", timeout: 20000 });
-    if (JSON.parse(gia || "[]").length > 0) return false;
-  } catch {
-    /* se non riesco a controllare, meglio non accodare alla cieca */
-    return false;
+  } catch (e) {
+    // Non ho POTUTO controllare. Non accodo alla cieca (rischio doppione) ma non lo chiamo «già a posto».
+    return { fatto: false, motivo: "non-ho-potuto-controllare", dettaglio: String(e.message || "").slice(0, 200) };
   }
+  try {
+    if (JSON.parse(gia || "[]").length > 0) return { fatto: false, motivo: "gia-in-coda" };
+  } catch {
+    return { fatto: false, motivo: "risposta-illeggibile" };
+  }
+
   const body = JSON.stringify({
     stato: "in_attesa",
     tipo,
@@ -147,9 +170,9 @@ function accoda({ tipo, descrizione }) {
       ...Object.entries(H).flatMap(([k, v]) => ["-H", `${k}: ${v}`]),
       "-d", body,
     ], { encoding: "utf8", timeout: 20000 });
-    return true;
-  } catch {
-    return false;
+    return { fatto: true, motivo: "accodata" };
+  } catch (e) {
+    return { fatto: false, motivo: "accodamento-fallito", dettaglio: String(e.message || "").slice(0, 200) };
   }
 }
 
@@ -212,19 +235,30 @@ if (isMain) {
   const esiti = leggiJson(ESITI, {});
   const daRiprendere = cadenzeDaRiprendere(esiti, now);
   const riaccese = [];
-  for (const c of daRiprendere) if (accoda(c)) riaccese.push(c.tipo);
+  const nonRiaccese = [];
+  for (const c of daRiprendere) {
+    const r = accoda(c);
+    if (r.fatto) riaccese.push(c.tipo);
+    else nonRiaccese.push({ tipo: c.tipo, motivo: r.motivo, dettaglio: r.dettaglio });
+  }
+  // «Non ho potuto guardare» non si mescola con «non c'era niente da fare»: se la memoria non
+  // risponde, il recupero NON è avvenuto e va detto, altrimenti la riga finale rassicura a vuoto.
+  const cieche = nonRiaccese.filter((n) => n.motivo === "non-ho-potuto-controllare" || n.motivo === "accodamento-fallito");
 
   scriviStato({
     ...base,
     stato: "tornato",
     cadenze_riaccodate: riaccese,
+    cadenze_non_riaccodate: nonRiaccese,
     cadenze_valutate: daRiprendere.map((c) => `${c.tipo} (${c.oreFa}h fa)`),
   });
 
-  const frase = riaccese.length
-    ? `✅ Il motore è tornato. Ho rimesso in coda: ${riaccese.join(", ")}.`
-    : "✅ Il motore è tornato. Nessuna cadenza da recuperare (o memoria non collegata per accodare).";
-  if (JSON_MODE) console.log(JSON.stringify({ ...base, stato: "tornato", riaccese }, null, 2));
+  let frase;
+  if (riaccese.length) frase = `✅ Il motore è tornato. Ho rimesso in coda: ${riaccese.join(", ")}.`;
+  else if (cieche.length) frase = `⚪ Il motore è tornato, ma NON sono riuscita a rimettere in coda ${cieche.map((c) => c.tipo).join(", ")} (${cieche[0].motivo}): il recupero non è avvenuto.`;
+  else frase = "✅ Il motore è tornato. Nessuna cadenza da recuperare.";
+  if (JSON_MODE) console.log(JSON.stringify({ ...base, stato: "tornato", riaccese, non_riaccese: nonRiaccese }, null, 2));
   else console.log(frase);
-  process.exit(0);
+  // Un recupero che non è riuscito non esce 0: sarebbe un verde che nessuno ha guadagnato.
+  process.exit(cieche.length ? 1 : 0);
 }

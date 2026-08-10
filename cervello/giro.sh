@@ -1205,7 +1205,7 @@ if [ "$ai_rc" -ne 0 ]; then
   # Il «non ce l'ho fatta» si dice: una traccia persa in silenzio riporta al difetto di partenza.
   if command -v node >/dev/null 2>&1; then
     printf '%s\n' "$_ai_out" \
-      | node "$SCRIPT_DIR/errore-motore.mjs" registra --cadenza=giro --rc="$ai_rc" >&2 \
+      | node "$SCRIPT_DIR/errore-motore.mjs" registra --cadenza=giro --rc="$ai_rc" --repo="$REPO" >&2 \
       || echo "[$(ts)] ⚠️  Guasto del motore NON registrato in memoria: da fuori resterà invisibile." >&2
   fi
   cadenza_recupero giro "il giro di perlustrazione" "$_ai_out"

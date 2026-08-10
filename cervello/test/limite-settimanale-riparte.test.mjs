@@ -179,6 +179,33 @@ prova("una cadenza andata BENE non viene rifatta", () => {
   assert.equal(cadenzeDaRiprendere(esiti, ORA).length, 0);
 });
 
+prova("un guasto finto NON sporca la memoria vera: la traccia resta nel repo dov'è successo", () => {
+  // Trovato eseguendo la suite, non leggendo il codice: i test provano `cadenza_ai_run` dentro repo
+  // temporanei, e con la destinazione ancorata alla radice vera un motore finto ucciso dal timeout
+  // scriveva un guasto nella memoria di produzione — che poi la sentinella avrebbe letto come vero.
+  const tmp = mkdtempSync(join(tmpdir(), "repofinto-"));
+  try {
+    execFileSync("node", [join(CERVELLO, "errore-motore.mjs"), "registra", "--cadenza=monitora", "--rc=124", `--repo=${tmp}`], {
+      input: "boom finto",
+      encoding: "utf8",
+      timeout: 30000,
+    });
+    const dentro = join(tmp, "MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json");
+    assert.ok(readFileSync(dentro, "utf8").includes("monitora"), "il guasto deve finire nel repo passato");
+  } finally {
+    rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+prova("le cadenze passano davvero il loro repo, non la radice vera", () => {
+  for (const [f, chi] of [["lib-cadenza.sh", "ritmo e monitora"], ["giro.sh", "il giro"]]) {
+    const src = readFileSync(join(CERVELLO, f), "utf8");
+    const riga = src.split("\n").find((r) => r.includes("errore-motore.mjs") && r.includes("registra"));
+    assert.ok(riga, `${f}: manca la registrazione del guasto`);
+    assert.ok(/--repo=/.test(riga), `${f} (${chi}): senza --repo un run di prova scrive nella memoria vera`);
+  }
+});
+
 // ────────────────── ④ LA SPAZZATA DEI TRE FRATELLI ──────────────────
 // Il punto che rende questo lotto diverso da una pezza: il recupero non deve esistere solo dove il
 // sintomo è stato visto. Si legge il codice vero dei tre copioni, non la memoria di chi ha scritto.

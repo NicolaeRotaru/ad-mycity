@@ -27,6 +27,19 @@ import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { classificaErrore, decidiRitento } from "./retry-policy.mjs";
 
 export const FILE_ERRORI = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json");
+
+/**
+ * Dove scrivere, dato il repo su cui la cadenza sta lavorando.
+ *
+ * Perché non basta `AD_ROOT`: le cadenze girano anche su repo finti — è così che i test provano
+ * `cadenza_ai_run` senza toccare niente di vero. Con la destinazione ancorata ad AD_ROOT, un motore
+ * finto ucciso dal timeout dentro una cartella temporanea scriveva un guasto nella memoria VERA, che
+ * poi la sentinella leggeva come un guasto vero. Un registro che raccoglie anche i finti non è un
+ * registro: la traccia deve restare nel repo in cui il fatto è successo.
+ */
+export function fileErroriDi(repo) {
+  return join(repo || AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json");
+}
 const MAX_VOCI = 20;
 const MAX_RIGHE = 15; // quante righe di coda tenere: bastano a capire, non tanto da diventare un log.
 
@@ -154,8 +167,11 @@ if (isMain) {
     const daFile = arg("testo-file");
     if (daFile && existsSync(daFile)) testo = readFileSync(daFile, "utf8");
     else if (!process.stdin.isTTY) testo = readFileSync(0, "utf8");
-    const voce = registra({ cadenza: arg("cadenza", "?"), rc: arg("rc", "1"), testo });
-    console.log(`[${voce.quando}] Guasto motore registrato (${voce.cadenza}, classe ${voce.classe}) → ${FILE_ERRORI}`);
+    // --repo: il repo su cui la cadenza sta lavorando (le cadenze passano il loro $REPO). Senza,
+    // un motore finto in una cartella temporanea scriverebbe nella memoria vera.
+    const path = fileErroriDi(arg("repo") || undefined);
+    const voce = registra({ cadenza: arg("cadenza", "?"), rc: arg("rc", "1"), testo, path });
+    console.log(`[${voce.quando}] Guasto motore registrato (${voce.cadenza}, classe ${voce.classe}) → ${path}`);
     console.log(`   ${voce.spiegazione}`);
     process.exit(0);
   }
