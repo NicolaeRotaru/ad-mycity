@@ -2,16 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-08T16:10:09.070Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-08T16:10:42.709Z",
       "scatti": 1651,
       "voci": 7,
@@ -2000,7 +1990,24 @@
         "difesa-rimossa": 4
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-10T12:21:49.199Z",
+      "scatti": 2126,
+      "voci": 8,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 5
+      },
+      "mai_risolte": [
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/cancello-lotto.mjs», che è il codice su cui poggia la mutazione di cancello-lotto · mutazione-mancante (blocco duro)",
+          "ripetuta": 3
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-08-10T11:31:45.717Z"
+  "aggiornato": "2026-08-10T12:21:49.199Z"
 }
