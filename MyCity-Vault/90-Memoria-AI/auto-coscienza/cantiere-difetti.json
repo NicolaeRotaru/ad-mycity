@@ -11296,6 +11296,42 @@
       "verifica": {
         "comando": ""
       }
+    },
+    {
+      "id": "AR-560",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-10 10:05",
+      "nato_come": "scoperta",
+      "nato_da": "AR-507 (4/8) — stessa malattia, curata su una strada sola",
+      "origine": "Trovato dal vivo il 10/8: il mio lavoro del turno era UNA riga in memoria-squadra/ad.md. Il cancello dello stop ha misurato 101 file, 10.729 righe aggiunte, e mi ha contestato quattordici punti — difese rimosse in cantiere-prove.json, allarmi in consegne/tech senza card, frasi difficili in STATO/RITMO/AZIONI-IN-ATTESA. Controllato uno per uno con git log: ogni file accusato e stato scritto dal server fra il 4 e il 10 agosto.",
+      "titolo": "Il cancello mi contesta sei giorni di lavoro del server, perche misura dalla base vecchia invece che da main",
+      "causa_radice": "① Il collaudo del turno ancora il diff al commit di partenza del turno (`git diff <base>`). ② Va bene finche il ramo resta fermo. ③ Ma quando il ramo viene riportato su main aggiornato — reset dopo un merge a squash, o rebase su una base piu recente — la base memorizzata resta quella vecchia, e tutto cio che main ha fatto nel frattempo entra nel diff come lavoro mio. ④ Qui: base del 4/8, main del 10/8, sei giorni di commit del server attribuiti a me. ⑤ Radice: la domanda giusta non e «cosa e cambiato dal commit da cui sono partito» ma «cosa ho scritto io rispetto alla base attuale del ramo» — cioe il confronto va fatto con l antenato comune con origin/main aggiornato (`git merge-base`), non con una base congelata a inizio turno. ⑥ AR-507 aveva gia curato la voce («non accusare in prima persona lavoro non tuo») ma sulla strada del primo scatto in sessione nuova, non su questa: la base che si sposta sotto i piedi.",
+      "fix_proposto": "Ancorare il diff del collaudo a `git merge-base HEAD origin/main` (con fetch fresco) invece che al commit di partenza salvato, e quando i due differiscono dichiararlo nel referto: «la base si e mossa: misuro da <sha>». Prova comportamentale: un test che costruisce due commit — uno di lavoro proprio, uno che simula main andato avanti — resetta il ramo sulla base nuova e pretende che il conteggio dei file resti quello del solo lavoro proprio; poi la mutazione che rimette la base congelata deve farlo diventare rosso.",
+      "verifica": {
+        "nota": "da scrivere col fix: il test deve simulare la base che si sposta, non solo un diff normale"
+      }
+    },
+    {
+      "id": "AR-561",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-10 10:30",
+      "nato_come": "scoperta",
+      "nato_da": "AR-478 (il guardiano della scrittura umana)",
+      "origine": "Misurato il 10/8 durante il giro. Il guardiano accusa il mio lavoro di aver aggiunto 8 punti difficili a STATO.md e 10 ad AZIONI-IN-ATTESA.md. Misurati i due file PRIMA e DOPO le mie modifiche con si-capisce.mjs: 454 e 179 in entrambi i casi. Il mio lavoro non ne ha aggiunto nemmeno uno — anzi il voto di difficolta scende (STATO 6.3→6.2, AZIONI 4.1→4.0). Il debito era gia su main, scritto dal server fra il 4 e il 10 agosto.",
+      "titolo": "Chi apre una richiesta paga il debito di scrittura che il server ha accumulato scrivendo dritto su main",
+      "causa_radice": "① Il guardiano confronta i punti difficili del file con un tetto salvato (446 per STATO, 169 per la coda). ② Il tetto e fermo a prima della crescita: il server scrive DIRETTAMENTE su main e non passa mai dal cancello, quindi il suo debito non viene mai né pagato né dichiarato. ③ Una richiesta di unione invece passa dal cancello: nel momento in cui TOCCA quel file, si prende addosso tutta la differenza fra il tetto vecchio e il totale di oggi, anche se ha aggiunto zero. ④ Quindi il freno non colpisce chi scrive male: colpisce chi passa dalla porta. ⑤ C e una seconda meta, indipendente: i punti sono per la maggior parte RIPETIZIONI fra voci storiche (la frase «e la pausa concordata, non un allarme» compare 6 volte, i sette numeri 4 volte). STATO.md e un registro che si accumula per costruzione — 21.125 parole, 117 minuti di lettura — e misurarlo con il metro della lettera lo condanna a essere rosso per sempre. Il metro giusto per un archivio e un altro: si misura la VOCE NUOVA, non tutto il quaderno.",
+      "fix_proposto": "Due pezzi separabili. ① Il guardiano deve misurare SOLO il testo aggiunto dal lavoro in corso (il diff), non il totale del file: cosi accusa chi scrive male adesso e non chi apre una richiesta. Prova comportamentale: un file con 100 punti ereditati piu una riga pulita aggiunta deve passare; lo stesso file piu una riga difficile deve fallire. ② Per i file che si accumulano (STATO, RITMO, coda) serve la potatura periodica: le voci vecchie vanno nell archivio e restano consultabili, il file vivo torna leggibile. Oggi STATO.md sono 117 minuti di lettura e RITMO.md 110: nessuno li legge davvero, e un file che nessuno legge non e memoria, e un magazzino.",
+      "verifica": {
+        "nota": "da scrivere col fix: il test deve avere sia il caso ereditato-che-passa sia il caso nuovo-che-fallisce, altrimenti si cura solo meta"
+      }
     }
   ],
   "meta": {

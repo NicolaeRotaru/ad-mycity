@@ -735,3 +735,8 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-06 11:15 · @AD · FATTO · Riscritti `auto-analisi.json`, `registro-realta.json` (nuova nota), `AUTO-ANALISI.md`, `STATO.md`, `Briefing/2026-08-06.md`, `ultimo-briefing.json`, `SALA-OPERATIVA.md`. Verificati `coerenza-fatti.mjs` (0 copie vecchie) e `chiusura-loop.mjs --sonda` (13/120 quaderni vivi, 107 fermi).
 - 2026-08-06 11:15 · @AD · FATTO · `apprendimento-guardiano.mjs`, `esperimenti-check.mjs`, `tasso-lezioni.mjs`, `gh pr list` bloccati/negati in questa sessione (2 tentativi ciascuno) — verdetti HARD presi dal pre-step di `giro.sh`. `apprendimento.json` (1.05MB) non toccato a mano: rischio corruzione senza CLI dedicata.
 - 2026-08-06 11:15 · @AD · PASSO-A · @Nicola — invariato: merge PR #677/#679/#680/#681/#683 (non riverificabili da qui), decisione su rami/#7-#8.
+- 2026-08-10 10:10 · @ad · FATTO · giro richiesto in chat: Cabina riallineata dopo 3 giorni di ritardo, numeri riletti dal vivo (invariati, stallo a 47 giorni)
+- 2026-08-10 10:10 · @analista · FATTO · letti dal vivo 1 ordine annullato, 0 pagati, 7 profili, 5 prodotti, 3 carrelli, 407 contatti negozi; ultimo movimento sul sito il 20/7
+- 2026-08-10 10:10 · @onboarding-negozi · SERVE · Pane Quotidiano non può incassare: dati mai inviati, incassi e versamenti disattivati dal 15/6 — accodata riga #16, servono i documenti del fornaio
+- 2026-08-10 10:10 · @tech · FATTO · coda rimessa in ordine: chiusa la riga della richiesta 681 (unita il 4/8), aggiunte 675 e 678 che erano invisibili
+- 2026-08-10 10:10 · @intelligence · FATTO · radar eventi: agosto è il mese morto a Piacenza, il mercatino del centro salta — nessuna finestra persa con la pausa

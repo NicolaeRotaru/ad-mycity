@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-10 08:21** — Automatico: **62 aperte · 3 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-10 10:05** — Automatico: **62 aperte · 3 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -1467,6 +1467,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 > Ultima pulizia: 2026-08-10 08:21 · 3 card totali
 
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-10 10:05 · 3 card totali
+
 ### ✅ #macchina-ferma-da-quattro-giorni — Il server è tornato a pubblicare: guasto dei quattro giorni chiuso · ⏳ accodata 2026-08-04 03:10 · ✅ chiusa 2026-08-04 12:20
 **La prova:** alle 12:09 su `main` è arrivato il commit di un giro vero («giro 4/8 11:30 + collaudo»), alle 12:10 il recupero delle scritture rimaste in sospeso, alle 12:11 il riconcilia. E il giro delle 12:20 è già il secondo consecutivo pubblicato. La memoria scorre di nuovo dal server a GitHub e il Pannello legge dati di oggi — non serviva più niente da te su questa card.
 **Resta aperto, già a cantiere (non è un compito tuo):** il push del giro delle 11:30 in sé risultava fallito (`esito-giro` delle 11:42 con `push_ok: false`): quelle scritture sono uscite dalla corsia di recupero, non dal push diretto. La «via di fuga» perché la pubblicazione non dipenda dal rebase è la scheda AR-518/AR-521. Intanto il freno nuovo veglia: memoria ferma oltre 12 ore = banner rosso in home da solo (AR-544).
@@ -1626,5 +1632,8 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 9 | 2026-08-04 17:57 | @tech | Merge PR #677 ad-mycity → main — fix vero del cancello-di-stop (i falsi allarmi sul lavoro del worker, 3ª manifestazione worker-concorrente) | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/677 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 10 | 2026-08-04 18:00 | @tech | Merge PR #679 ad-mycity → main — porta online anche tutti i commit di memoria di questo turno (17:50-18:00), non solo il sync di routing.json: origin/main non accetta push diretto da questa sessione, la PR è il veicolo | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/679 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. Mergiare #677 PRIMA o dopo non importa, sono indipendenti. |
 | 11 | 2026-08-04 18:33 | @tech | Merge PR #680 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/680 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 12 | 2026-08-04 18:34 | @tech | Merge PR #681 ad-mycity → main — porta online la coda di PR #680 più una nota tecnica | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/681 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. Mergiare in ordine 677→679→680→681 evita conflitti, ma non è bloccante. |
+| 12 | 2026-08-04 18:34 | @tech | Merge PR #681 ad-mycity → main — porta online la coda di PR #680 più una nota tecnica | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/681 | github | FATTO 2026-08-04 16:37 — mergiata da Nicola. Verificato dal vivo su GitHub il 2026-08-10 10:05: la richiesta risulta unita, 31 file. La riga chiedeva da sei giorni una cosa già fatta. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. Mergiare in ordine 677→679→680→681 evita conflitti, ma non è bloccante. |
 | 13 | 2026-08-04 20:15 | @tech | Merge PR #683 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/683 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 14 | 2026-08-10 10:05 | @tech | Unisci la richiesta 675 — il freno vero sulla lezione del file dei permessi | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/675 | github | in attesa | È aperta dal 4 agosto e non era mai finita in questa lista: nessuno te l'aveva messa davanti. Porta il freno che impedisce di riaprire da sola una porta che avevi chiuso. | Dopo il tuo ok: unione e messa online del Pannello. Il server si allinea al controllo successivo. |
+| 15 | 2026-08-10 10:05 | @tech | Unisci la richiesta 678 — rinforza la lezione sul lavoro fatto in due allo stesso momento | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/678 | github | in attesa | Aperta dal 4 agosto, anche questa mai messa in lista. È la lezione che ho appena ripagato oggi: due che scrivono la stessa cosa insieme e si pestano. | Dopo il tuo ok: unione. Solo memoria, non tocca il sito. |
+| 16 | 2026-08-10 10:05 | @onboarding-negozi | Fai finire a Pane Quotidiano la pratica dei pagamenti: oggi il negozio non può incassare | 🔴 | Il negozio è approvato e ha la vetrina con 5 prodotti e gli orari, ma il fascicolo dei pagamenti non è mai stato completato. Nel sistema dei pagamenti risultano tre semafori rossi: dati mai inviati, incassi disattivati, versamenti disattivati. Vuol dire che se domani un cliente mette qualcosa nel carrello e va a pagare, il pagamento non parte. L'unico ordine mai arrivato, il 24 giugno, è rimasto «in attesa di pagamento» e poi è stato annullato. Serve che il fornaio completi la pratica di Stripe con i suoi dati (documento, azienda, conto per l'accredito): sono suoi e non li posso mettere io. | manuale | in attesa | Il primo negozio del marketplace passa da «bello da vedere» a «può prendere soldi». Finché resta così, ogni euro speso per portare clienti sul sito è buttato. | Dopo il tuo ok ti preparo il messaggio pronto da mandare al fornaio, con il link e i tre documenti da avere sottomano, e ti dico quando risulta a posto. |

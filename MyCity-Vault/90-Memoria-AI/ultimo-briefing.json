@@ -1,39 +1,41 @@
 {
-  "data": "2026-08-06 11:15",
-  "situazione": "Business ancora invariato (riconfermato ora dal vivo su Supabase, primo controllo narrato dopo 39h di silenzio): 1 ordine mai pagato, 0 pagati, 0 consegne, 7 profili, 5 prodotti, 1 negozio — stallo North Star ricalcolato a 43 giorni, pausa concordata con Nicola fino al 24/8-1/9. Tra il 4/8 sera e oggi il worker ha scritto solo memoria tecnica senza mai chiudere un giro narrato: colmato ora con questo giro completo. Mossa n.1: mergiare le PR pronte in coda (#677, #679, #680, #681, #683) — non riverificabili da questa sessione (GitHub negato), invariate dal 4/8.",
+  "data": "2026-08-10 10:10",
+  "situazione": "Business invariato e fermo come nella pausa concordata: 1 ordine (24/6, mai pagato, annullato), 0 pagati, 0 € incassati, 7 profili, 5 prodotti, 1 negozio, 3 carrelli abbandonati. Stallo North Star salito a 47 giorni. Ma questo giro ha trovato il blocco vero, mai registrato prima: Pane Quotidiano non può incassare — nel fascicolo pagamenti tre semafori sono rossi (dati mai inviati, incassi disattivati, versamenti disattivati) dal 15 giugno. Se domani un cliente va alla cassa, il pagamento non parte. Mossa n.1: far completare al fornaio la sua pratica dei pagamenti prima della ripartenza di fine agosto.",
   "opportunita": [
     {
-      "titolo": "Mergia le cinque PR pronte",
-      "motivo": "Fix del cancello-di-stop e memoria di fine giornata, pronte e indipendenti dal 4/8 sera",
+      "titolo": "Sblocca la cassa del fornaio prima di ripartire",
+      "motivo": "Tre semafori rossi nel fascicolo pagamenti: è l'unica cosa che separa il marketplace dal poter incassare un euro",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Decidi sui 447 rami vecchi e su come chiudere le PR",
-      "motivo": "Elimina il rumore che fa sembrare lavoro perso quando non lo è",
+      "titolo": "Arriva al 24 agosto con il negozio già pronto",
+      "motivo": "La pausa finisce fra due settimane: se la pratica si sistema adesso, alla ripartenza non si perde un giorno",
+      "impatto": "alto",
+      "sforzo": "basso"
+    },
+    {
+      "titolo": "Fai ordine nelle sette richieste ferme",
+      "motivo": "Aperte da sei giorni, e alcune portano i freni che impediscono errori già pagati",
       "impatto": "medio",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Mergia PR #677 — fix vero del cancello-di-stop",
-      "motivo": "Chiude il falso allarme ripetuto sul lavoro del worker",
+      "titolo": "Fai finire al fornaio la pratica dei pagamenti: oggi il negozio non può incassare",
+      "motivo": "Il conto esiste dal 15 giugno ma è a metà: servono i suoi documenti, non posso metterli io",
       "livello": "rosso"
     },
     {
-      "titolo": "Mergia PR #679, #680, #681, #683 — memoria e fix casella del pomeriggio del 4/8",
-      "motivo": "origin/main non accetta push diretto da questa sessione: la PR è l'unico veicolo per pubblicare i commit di memoria",
+      "titolo": "Unisci la richiesta 675 — il freno sulla lezione del file dei permessi",
+      "motivo": "Aperta dal 4 agosto e mai finita sotto i tuoi occhi",
       "livello": "rosso"
     },
     {
-      "titolo": "Scegli come chiudere le PR: squash con riallineamento automatico o merge normale",
-      "motivo": "Un merge in squash può far chiudere da sole altre PR aperte sulla stessa base — già capitato",
+      "titolo": "Unisci la richiesta 678 — la lezione sul lavoro fatto in due nello stesso momento",
+      "motivo": "Aperta dal 4 agosto, anche questa mai messa in lista",
       "livello": "rosso"
     }
-  ],
-  "sentinelle_scattate": [
-    "North Star 0 — stallo 43 giorni (pausa concordata, non churn)",
-    "freschezza-cadenze HARD — buco di 39h senza un giro narrato, colmato ora"
   ]
 }
