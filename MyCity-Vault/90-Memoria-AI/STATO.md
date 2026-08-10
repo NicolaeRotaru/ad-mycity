@@ -11,7 +11,7 @@ fonte: AD digitale (chat)
 >
 > **Novità tecnica (non di business):** `apprendimento.json` è ricresciuto a 1.052.950 byte. È di nuovo sopra il tetto di lettura di GitHub (1 MiB). Il 4/8 era già stato tagliato a 947.517 byte. Rischio: le PR che toccano quel file, o file vicini, possono uscire rosse su GitHub senza un motivo visibile. Ho accodato la riga #14 in [[AZIONI-IN-ATTESA]] (🟡). Lo strumento `node cervello/pota-apprendimento.mjs` è già pronto, ma non eseguibile da questa sessione. Cantiere difetti: 161 aperti su 332 chiusi (era circa 159/329 il 4/8). Il worker ha chiuso 2 difetti col commit delle 09:31 di stamattina. Quaderni di apprendimento vivi: 11 su 120 (era 13/120). La copertura del rituale ESITO peggiora leggermente: nessuna azione nuova oltre a quella già in coda.
 >
-> Rigenerata [[CHECKLIST-NICOLA]] (era ferma dal 4/8 12:00, 6 giorni — violava la regola dei 2 giorni AR-030): tolte le 2 voci già chiuse (`#macchina-ferma-da-quattro-giorni`, `#prevenzione-a-monte`), aggiornato lo stallo a 47gg e il conteggio cantiere a 161/332.
+> Rigenerata [[CHECKLIST-NICOLA]]. Era ferma dal 4/8 12:00, 6 giorni: violava la regola dei 2 giorni AR-030. Tolte le 2 voci già chiuse (`#macchina-ferma-da-quattro-giorni`, `#prevenzione-a-monte`). Aggiornato lo stallo a 47gg e il conteggio cantiere a 161/332.
 >
 > **Da approvare, in coda, invariato dal 6/8 e non riverificabile da qui (`gh` negato in sessione):** merge PR #677, #679, #680, #681, #683. Restano ferme anche le righe #7/#8 su pulizia rami e modo di chiudere le PR, più la nuova riga #14.
 >
