@@ -6,6 +6,12 @@
 <!-- 🗓️ AD-DATA {"corpo":"2026-06-25 12:34","nato":"2026-06-25 12:34","nota":"2026-07-20 20:22"} -->
 <!-- 🗓️ AD-DATA:END -->
 
+<!-- ⛔ AD-SMENTITE:START · lo riscrive `node cervello/piani-verita.mjs --scrivi`, non a mano -->
+> ⛔ **Attenzione: una frase di questo piano non è più vera.** Il registro dei fatti le smentisce, e il testo qui sotto è rimasto com'era. Correggerlo è una revisione del piano: la decide Nicola.
+> · **Una fotografia del 25/06/2026 è presentata come «oggi»** (riga 16) — I numeri della frase reggono ancora al 10/8; a mentire è la parola «oggi». *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
+> *Misurato il 2026-08-10 15:59. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+<!-- ⛔ AD-SMENTITE:END -->
+
 > Base dati: [[Metriche & KPI]] (North Star + i 7 numeri + i primi 4 esperimenti), [[Clienti, Personas & Crescita]] (i 5 loop organici), [[Area - Crescita]], [[Finanza & Unit Economics]].
 > **Stato reale oggi (25/06/2026):** ~1 negozio, ~0 ordini. Non c'è ancora traffico → **non si "ottimizza la conversione" del nulla.** Questo piano è una **macchina che scala con la crescita**: parte da esperimenti a **costo ~0 e ad alto apprendimento**, e accende le leve di monetizzazione solo quando c'è volume per misurarle.
 > **Onestà:** a 0 ordini ogni numero qui è un'**ipotesi da validare**, non un fatto. La disciplina è: 1 metrica di successo dichiarata PRIMA, 1 cosa per volta, baseline → durata → criterio di stop. Si uccidono i perdenti.

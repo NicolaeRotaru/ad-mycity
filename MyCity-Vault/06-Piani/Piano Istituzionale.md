@@ -6,6 +6,14 @@
 <!-- 🗓️ AD-DATA {"corpo":"2026-06-25 12:34","nato":"2026-06-25 12:34","nota":"2026-07-20 20:22"} -->
 <!-- 🗓️ AD-DATA:END -->
 
+<!-- ⛔ AD-SMENTITE:START · lo riscrive `node cervello/piani-verita.mjs --scrivi`, non a mano -->
+> ⛔ **Attenzione: 8 frasi di questo piano non sono più vere.** Il registro dei fatti le smentisce, e il testo qui sotto è rimasto com'era. Correggerlo è una revisione del piano: la decide Nicola.
+> · **Il Bando Commercio ER è dato per aperto** (righe 20, 99, 110, 145, 161, 188) — il registro dice: CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando. *(fesr.regione.emilia-romagna.it — verificato da agente intelligence 2026-07-11 11:40)*
+> · **Il voucher PI26 è dato per aperto o da inviare** (riga 201) — il registro dice: Non idoneo, confermato da Nicola 2026-07-29 00:10 — nessuna domanda da inviare, sportello CCIAA non più rilevante per MyCity *(Nicola (chat 29/7 ~00:10) — DECISIONI.md 2026-07-29 00:15)*
+> · **Una fotografia del 25/06/2026 è presentata come «oggi»** (riga 20) — I numeri della frase reggono ancora al 10/8; a mentire è la parola «oggi». *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
+> *Misurato il 2026-08-10 15:59. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+<!-- ⛔ AD-SMENTITE:END -->
+
 > Base dati: [[Piano di Notorieta 2026]] (§6), [[Piano d'Azione]] (§5), [[Bandi & Finanziamenti]].
 > **Tesi:** gli enti non sono burocrazia da subire — sono **reach + legittimità + canale ai negozi**. Un endorsement di Confcommercio/CdC ai soci arriva a *tutta la rete commerciale* (~2.000-2.500 esercizi città). Vita in Centro apre la porta dei negozi del centro. L'assessore trasforma il lancio in *notizia civica*.
 > **Doppia leva bandi:** lo Stato rimborsa il **40-50%** al negozio che va online → il bando è insieme **notizia** ("lo Stato paga chi digitalizza") e **arma di vendita** (abbatte il costo d'ingresso della bottega su MyCity).

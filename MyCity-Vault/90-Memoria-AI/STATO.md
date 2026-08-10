@@ -1,9 +1,30 @@
 ---
 tipo: stato
-aggiornato: 2026-08-10 11:20
+aggiornato: 2026-08-10 16:15
 fonte: AD digitale (chat)
 ---
 
+> 🧭 **10/8 16:15 — I piani non erano solo fermi: 48 frasi su 10 piani dicono cose che i fatti smentiscono.**
+> È il seguito del lavoro del mattino, la PR #690 già mergiata. Quella misurava **da quanto** ogni piano è
+> fermo. Questa misura **cosa dice di falso mentre lo è**. Il conto: **48 frasi sbagliate, su 9 piani su 10**.
+> Solo il Piano Prodotto è pulito.
+>
+> La più cara sta nel **Piano Istituzionale**. Apre dicendo che il Bando Commercio ER è aperto fino al 21
+> luglio. Quel bando è **chiuso dal 23 giugno**, cioè da due giorni prima che quel piano venisse scritto. Il
+> **Piano Vendite** ne ha fatto una frase da dire al negoziante: «lo Stato rimborsa il 40%, ma chiude il 21
+> luglio». È l'unica di queste frasi che può uscire di casa e arrivare a un commerciante vero.
+>
+> Le altre quattro famiglie. Venti frasi nominano **Garetti**, o la demo **Casa Linda**, al posto di Pane
+> Quotidiano. La **commissione è scritta 12%** invece del 10% deciso il 20 luglio: 4 frasi. Una
+> fotografia del **25 giugno** è presentata come «oggi»: 4 frasi. Il voucher **PI26** è dato per aperto: 3
+> frasi, tutte dentro il blocco che rigenera l'AD.
+>
+> Ogni piano smentito porta ora l'avviso in cima. In Cabina, accanto a «fermo da N giorni», compare «⛔ N
+> frasi non più vere». **Il testo dei piani non l'ho toccato.** Riscriverlo è una revisione di Nicola. E
+> l'avrebbe anche fatto risultare aggiornato oggi, spegnendo l'allarme proprio quando diventa fondato.
+> Accodata la card `#piani-da-rivedere` per decidere da quale partire. Motore: `cervello/piani-verita.mjs`,
+> gira a ogni giro. **Business invariato:** 1 negozio, 0 ordini pagati, stallo a 47 giorni.
+>
 > 🔁 **10/8 11:20 — Giro completo dopo 4 giorni di silenzio narrato: business ancora invariato, stallo a 47 giorni.**
 > Richiesto in chat per intero su `cervello/giro.md`. Ultimo passaggio narrato: 6/8 11:15. Nel mezzo il worker VPS ha scritto solo memoria tecnica. I commit sono "recupero: scritture pendenti da un giro interrotto" e "riconcilia: chiude difetti risolti nel codice", tra il 6/8 e stamattina 09:05-10:22. Non c'è stato nessun Piano del mattino o Report della sera narrato nel mezzo. È coerente col gate HARD `freschezza-cadenze` segnalato in apertura sessione: 4 cadenze automatiche su 4 hanno saltato l'auto-analisi e l'apprendimento.
 >

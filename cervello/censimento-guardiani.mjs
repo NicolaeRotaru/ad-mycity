@@ -93,6 +93,7 @@ export const DESCRIZIONI = {
   "freschezza-okr": { famiglia: "rotta", cosa: "Gli obiettivi della squadra scadono: se il documento è stantio o i target sono passati, lo dice." },
   "freschezza-checklist": { famiglia: "rotta", cosa: "La checklist di Nicola invecchia in due giorni; oltre, il giro deve rifarla prima di proporre altro." },
   "piani-data": { famiglia: "rotta", cosa: "Scrive in cima a ogni piano quando è stato aggiornato l'ultima volta, contando solo le modifiche al testo vero: un piano fermo da un mese si vede a colpo d'occhio invece di sembrare vivo perché la macchina gli tocca il fondo a ogni giro." },
+  "piani-verita": { famiglia: "numeri-veri", cosa: "Legge i piani e ci cerca le frasi che il registro-fatti smentisce — un bando chiuso dato per aperto, la commissione vecchia, il negozio-faro sbagliato — e scrive l'avviso in cima al piano, senza toccare il testo di Nicola. Risponde alla domanda che viene dopo «da quanto è fermo»: cosa dice di falso mentre è fermo." },
   "freschezza-cadenze": { famiglia: "rotta", cosa: "Controlla che il piano del mattino, il report della sera e il monitoraggio ESCANO davvero: una sveglia che suona su una stanza vuota sembrava un successo." },
   "registro-scelte-check": { famiglia: "rotta", cosa: "Ogni prospect nominato in un dossier deve stare anche nel registro, o il Pannello mostra una lista incompleta." },
   "supervisione-negozi": { famiglia: "rotta", cosa: "Passa in rassegna ogni negozio e ogni prodotto, trova i dati mancanti e prepara il riempimento come proposta da firmare." },
