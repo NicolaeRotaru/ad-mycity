@@ -1606,3 +1606,46 @@ riparati**: ripararli è un altro lavoro, e ognuno tocca il giro.
 
 **Cosa resta.** 81 difetti gravi con la prova a grep. Nessuno di loro punta più a un file
 inesistente. 8 sono ancora su `giro.sh` (stessa tecnica, già scritta), 20 su `pannello/src`.
+
+---
+
+## 2026-08-11 02:50 · 🟡 · [AD] · Ho attaccato le mie prove del lotto 2 e una si è fatta ingannare
+
+**Come l'ho trovato.** Non da un test: attaccando il mio stesso lavoro dopo averlo dichiarato fatto.
+Ho scritto un finto fix **cattivo** per AR-208 — uno che cattura il codice d'uscita ma poi scrive a
+mano la frase del vincolo invece di copiare il guardiano — e ho chiesto alla prova cosa ne pensava.
+
+**La prova è diventata verde** e ha stampato: «BUDGET_VINCOLO porta al motore quello che ha detto il
+guardiano, non una frase scritta a mano nel giro». Era falso parola per parola. La prova chiedeva solo
+«il vincolo contiene la stringa STOP BUDGET?», e una frase scritta a mano che contiene quella stringa
+la soddisfa. Cioè: **aveva ricostruito dentro di sé la malattia di AR-323** — il testo prodotto dal
+giro invece che dal guardiano — e per di più dichiarava il contrario.
+
+**Il rimedio.** Il tratto del giro si esegue **due volte**, con due uscite diverse del guardiano, e si
+pretende che il vincolo **cambi**. Una frase scritta a mano esce identica tutte e due le volte,
+qualunque cosa il guardiano abbia detto. Un testo copiato cambia con lui. Non è più «contiene la
+parola giusta», è «dipende da quello che ha detto» — che è la cosa che il difetto riguarda davvero.
+Riattaccata con lo stesso finto fix cattivo: adesso resta rossa.
+
+**Due mutanti erano diventati vuoti.** Dopo il rimedio, AR-323 e AR-158 colpivano righe che un
+controllo precedente rendeva irraggiungibili: il verdetto non cambiava e il test restava verde.
+Spostati su righe che l'esecuzione decide davvero. Riverificati tutti e cinque a mano: rompono tutti.
+È la seconda volta su due lotti che i mutanti nascono vuoti — la lezione non è «scrivi il mutante», è
+**«guarda che rompa qualcosa, uno per uno»**, e non si può dedurre a tavolino.
+
+**Trovato di passaggio, e NON riparato.** `apprendimento.json` pesa 1.064.058 byte contro un tetto di
+lettura di 1.048.576: è **15.482 byte oltre il muro**, cioè la scheda Apprendimento del Pannello non
+si legge. Non l'ho causato io — su `main` era già a 1.058.088 — ma la fusione dei due rami ha aggiunto
+~6.000 byte facendo l'unione delle lezioni dei due lati, che era la cosa giusta da fare. `node
+cervello/pota-apprendimento.mjs` dice che potando i 87 principi che ripetono il testo della loro
+lezione si scende a 960.551 byte. **Non l'ho eseguito**: toglie 99.741 caratteri dalla memoria e non è
+quello che questo lavoro doveva fare. Decide Nicola.
+
+**Un limite che dichiaro.** La prova di AR-395 controlla che il cancello veda uno stage non vuoto
+quando viene chiamato. **Non** controlla che il giro poi obbedisca al suo verdetto: un fix che chiama
+il cancello presto e poi ignora quello che risponde passerebbe. È il confine del difetto com'è
+scritto, non una svista — ma va saputo.
+
+**Prova.** 158 file, 1641 asserzioni verdi. Le 10 prove a due versi passano. 5 mutanti su 5 rompono.
+Cancello del lotto e `gate-veri` verdi. Le 5 prove escono ⚪ (non ❌ né ✅) se qualcuno cambia la forma
+di `giro.sh`: verificato togliendo le ancore.
