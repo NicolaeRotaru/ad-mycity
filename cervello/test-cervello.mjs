@@ -90,13 +90,30 @@ export function righeRosse(out = "", max = 8) {
   const rosse = [];
   for (let i = 0; i < righe.length; i++) {
     const t = righe[i];
-    // `not ok - nome` è la forma dei test di questa casa. `not ok 1 - percorso` è il riassunto che
-    // node stampa PER FILE: ripeterlo qui direbbe solo il nome del file, che si sa già.
-    if (!/^not ok\s+-\s+/.test(t)) continue;
-    let riga = t.replace(/^not ok\s+-\s+/, "");
-    // Il messaggio dell'asserzione sta nella riga dopo, rientrata: è la parte che spiega il perché.
-    const dopo = (righe[i + 1] || "").trim();
-    if (dopo && !/^(not )?ok\b/.test(dopo) && !/^\d+\.\.\d+$/.test(dopo)) riga += ` → ${dopo}`;
+    // AR-563 — QUI LA DIFESA DI AR-450 ERA CIECA, ed è per questo che è tornata a servire.
+    // La regex pretendeva `not ok - nome`, senza numero. Ma quando la suite esegue UN file — che è
+    // sempre, `eseguiTest` lancia un file per processo — il reporter TAP di node numera ogni caso:
+    // `not ok 2 - SUL CAMPO: …`. Nessuna riga ha mai fatto match, quindi `rosse` tornava vuota e il
+    // rosso arrivava lo stesso senza spiegazione. La difesa c'era, il suo verdetto no: esattamente
+    // il difetto che diceva di curare. Misurato il 10/8 su TAP vero: 0 righe trovate su un file con
+    // un'asserzione caduta.
+    // Il numero adesso si accetta, e il caso che il commento vecchio voleva scartare — il riassunto
+    // PER FILE, dove al posto del nome c'è il percorso — si riconosce dal nome, non dalla numerazione.
+    const m = /^not ok\s+(?:\d+\s+)?-\s+(.*)$/.exec(t);
+    if (!m) continue;
+    const nome = m[1].trim();
+    if (/\.(test|spec)\.[mc]?js\b/.test(nome)) continue; // è il riassunto del file, non un caso
+    let riga = nome;
+    // Il perché sta nel blocco YAML che segue, alla riga `error:` — non nella riga subito dopo, che
+    // nel TAP vero è `---`. Cercarla lì era l'altra metà della cecità.
+    for (let k = i + 1; k < righe.length && k <= i + 12; k++) {
+      const d = righe[k].trim();
+      if (/^(not )?ok\b/.test(d) || /^\d+\.\.\d+$/.test(d)) break; // siamo già al caso successivo
+      if (d === "---" || d === "..." || d === "") continue;
+      const err = /^error:\s*(.*)$/.exec(d);
+      if (err) { riga += ` → ${err[1].replace(/^['"]|['"]$/g, "").trim()}`; break; }
+      if (k === i + 1) { riga += ` → ${d}`; break; } // forma senza blocco YAML: il messaggio è lì
+    }
     rosse.push(riga);
     if (rosse.length >= max) break;
   }
