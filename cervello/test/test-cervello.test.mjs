@@ -87,6 +87,32 @@ test("righeRosse(): dice QUALE caso è caduto, col suo perché", () => {
   assert.match(rosse[0], /RAMO' !== 'MAIN'/, "e il messaggio dell'asserzione, che è il perché");
 });
 
+test("righeRosse(): legge il TAP VERO di node, quello numerato col blocco error", () => {
+  // AR-563 — la prova di sopra usa una forma che il reporter NON produce mai: `not ok - nome`,
+  // senza numero e col messaggio nella riga subito dopo. Con quella fixture inventata la difesa di
+  // AR-450 risultava verde mentre sul campo era cieca: `eseguiTest` lancia un file per processo, e
+  // lì node numera ogni caso e mette il perché dentro un blocco YAML. Questo è quel TAP, copiato da
+  // un'esecuzione vera del 10/8 — non ricostruito a memoria.
+  const out = [
+    "# Subtest: SUL CAMPO: la cura PARZIALE non basta",
+    "not ok 2 - SUL CAMPO: la cura PARZIALE non basta",
+    "  ---",
+    "  duration_ms: 576.06",
+    "  location: '/repo/cervello/test/campo-commit-e-turno.test.mjs:152:1'",
+    "  failureType: 'testCodeFailure'",
+    "  error: 'il commit doveva restare rifiutato per il secondo difetto'",
+    "  code: 'ERR_ASSERTION'",
+    "  ...",
+    "ok 3 - un caso che passa",
+    "1..10",
+  ].join("\n");
+  const rosse = righeRosse(out);
+  assert.equal(rosse.length, 1, "una sola rossa: il numero davanti non deve nasconderla");
+  assert.match(rosse[0], /SUL CAMPO: la cura PARZIALE non basta/, "il NOME del caso");
+  assert.match(rosse[0], /il commit doveva restare rifiutato/, "e il perché, che sta nel blocco YAML");
+  assert.doesNotMatch(rosse[0], /---|duration_ms/, "non la riga subito dopo, che è il cappello del blocco");
+});
+
 test("righeRosse(): il riassunto per-file di node non è un'asserzione", () => {
   // `not ok 1 - percorso/del/file.mjs` è la riga che node stampa PER FILE: ripeterla direbbe solo
   // il nome del file, che si sa già, e nasconderebbe che il dettaglio vero non c'era.

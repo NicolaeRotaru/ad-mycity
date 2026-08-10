@@ -866,8 +866,11 @@ rispondi_chat_json() {
   fi
   if [ -z "$out" ]; then
     # json non disponibile (CLI vecchia/errore) → run testo semplice, comportamento pre-memoria.
+    # AR-562: qui era rimasto un `2>&1` mentre le due righe sopra separano lo stderr dall'11/7 —
+    # l'ultima porta da cui gli avvisi della CLI potevano entrare in una risposta di chat. Ora passa
+    # dalla stessa funzione dei lavori: stdout = risposta, stderr nel log (unito solo se fallisce).
     cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
-    out="$(timeout --kill-after=30s "$to" "${cmd[@]}" "$prompt" 2>&1)"; rc=$?
+    out="$(ai_run_con_fallback_ollama "$to" "$prompt" "${cmd[@]}")"; rc=$?
   fi
 }
 

@@ -29,6 +29,27 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+<!-- avvisi-permessi-nelle-analisi -->
+
+### 🟡 #avvisi-permessi-nelle-analisi — Togli le dieci righe che riempiono di avvisi ogni analisi · ⏳ accodata 2026-08-10 16:25
+
+**Cosa cambia:** quel muro di scritte in inglese in cima a molte analisi non lo scrivo io. Lo scrive
+il programma che mi fa girare, appena parte. Dieci righe del foglio dei permessi sono in una forma
+vecchia: lui le legge, non le applica, e ti avvisa ogni volta. Cinque stanno nel foglio del server e
+dovevano darmi il permesso di scrivere in memoria, nelle consegne e nel Pannello. Oggi non me lo danno.
+
+**Se va bene:** due comandi, uno per file, con la copia di sicurezza inclusa. Sono pronti in
+`consegne/sicurezza/2026-08-10-avvisi-permessi.md`, insieme alla prova che ho fatto e alla tabella di
+cosa resta protetto. Nessuna protezione salta: le righe che tolgo hanno già la loro gemella valida.
+
+**Serve da te:** lanciarli sul server e riavviare il worker. Io non posso: quei due file sono negati
+in scrittura alla macchina, ed è giusto così.
+- **Colore:** 🟡 (cambia il foglio dei permessi: non manda niente a nessuno, ma dopo va visto che worker e giro girino)
+- **Reparto:** devops-sre + security
+- **Origine:** `{origine:segnalazione-nicola-2026-08-10, difetto:AR-562}`
+
+---
+
 <!-- permessi-senza-jolly -->
 
 ### 🟡 #permessi-senza-jolly — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50
