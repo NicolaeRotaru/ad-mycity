@@ -10,7 +10,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { violazioni, analizza, neutralizzato, REGOLE } from "../permessi-check.mjs";
+import { violazioni, analizza, neutralizzato, formaMorta, haGemelloEdit, REGOLE } from "../permessi-check.mjs";
 
 // Il set "sano" minimo: nessun allow proibito, tutti i deny richiesti presenti.
 const DENY_OK = [
@@ -24,8 +24,49 @@ test("un set pulito non produce violazioni", () => {
   // Era il jolly su una cartella che la macchina stessa può SCRIVERE: non un permesso su un elenco di
   // programmi, ma su «qualunque programma io decida di scrivere lì dentro». Al suo posto la forma
   // sicura: UN programma preciso, argomenti liberi.
-  const allow = ["Bash(git status:*)", "Bash(node cervello/auto-fix.mjs:*)", "Write(consegne/**)"];
+  // AR-562 (10/8): l'esempio «pulito» qui era `Write(consegne/**)` — una forma che il CLI NON applica
+  // più (è la riga che stampava gli avvisi a Nicola). Un test che la mostra come sana la insegna.
+  const allow = ["Bash(git status:*)", "Bash(node cervello/auto-fix.mjs:*)", "Edit(consegne/**)"];
   assert.deepEqual(violazioni(allow, DENY_OK), []);
+});
+
+// ─── AR-562 — la forma che il CLI legge ma non applica ───────────────────────────────────────────
+// Provato a mano il 2026-08-10 con claude 2.1.226: `Write(a/**)`, `MultiEdit(b/**)` e
+// `NotebookEdit(c/**)` producono un avviso ciascuno; `Edit(...)` e `Read(...)` no.
+
+test("riconosce le forme che il CLI non applica più, e lascia stare quelle valide", () => {
+  for (const voce of ["Write(a/**)", "MultiEdit(b/**)", "NotebookEdit(c/**)"]) {
+    assert.equal(formaMorta(voce), true, `"${voce}" doveva risultare in forma morta`);
+  }
+  for (const voce of ["Edit(d/**)", "Read(e/**)", "Bash(git status:*)", "Write"]) {
+    // `Write` nudo non è forma morta: è il permesso senza percorso, e lo prende `write-con-path`.
+    assert.equal(formaMorta(voce), false, `"${voce}" NON doveva risultare in forma morta`);
+  }
+});
+
+test("un DIVIETO in forma morta senza gemello Edit è una violazione: non difende niente", () => {
+  const deny = [...DENY_OK, "Write(**/.env.chiavi)"];
+  const v = violazioni([], deny).filter((x) => x.regola === "forma-file-non-applicata");
+  assert.equal(v.length, 1, "il divieto scritto in forma morta doveva essere segnalato");
+  assert.equal(v[0].tipo, "deny-che-non-difende");
+  assert.match(v[0].perche, /Edit\(\*\*\/\.env\.chiavi\)/, "deve dire quale riga scrivere al suo posto");
+});
+
+test("con il gemello Edit accanto, la riga morta è solo rumore da ripulire — non una violazione", () => {
+  // È il caso vero di .claude/settings.json oggi: la protezione la fa l'Edit, il Write è l'avviso.
+  const deny = [...DENY_OK, "Edit(**/.env.chiavi)", "Write(**/.env.chiavi)"];
+  assert.equal(haGemelloEdit("Write(**/.env.chiavi)", deny), true);
+  const { violazioni: v, inerti } = analizza([{ file: ".claude/settings.json", allow: [], deny }]);
+  assert.deepEqual(v.filter((x) => x.regola === "forma-file-non-applicata"), []);
+  assert.equal(inerti.filter((x) => x.tipo === "deny-in-forma-morta").length, 1);
+});
+
+test("un PERMESSO in forma morta non concede nulla: va detto, ma non è una violazione", () => {
+  const { violazioni: v, inerti } = analizza([
+    { file: ".claude/settings.local.json", allow: ["Write(MyCity-Vault/90-Memoria-AI/)"], deny: DENY_OK },
+  ]);
+  assert.deepEqual(v.filter((x) => x.regola === "forma-file-non-applicata"), []);
+  assert.equal(inerti.filter((x) => x.tipo === "allow-in-forma-morta").length, 1);
 });
 
 test("becca i permessi troppo larghi, uno per uno", () => {

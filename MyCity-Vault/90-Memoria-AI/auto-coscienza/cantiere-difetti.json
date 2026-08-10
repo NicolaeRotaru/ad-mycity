@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-10 13:24",
+  "aggiornato": "2026-08-10 16:50",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11331,6 +11331,25 @@
       "fix_proposto": "Due pezzi separabili. ① Il guardiano deve misurare SOLO il testo aggiunto dal lavoro in corso (il diff), non il totale del file: cosi accusa chi scrive male adesso e non chi apre una richiesta. Prova comportamentale: un file con 100 punti ereditati piu una riga pulita aggiunta deve passare; lo stesso file piu una riga difficile deve fallire. ② Per i file che si accumulano (STATO, RITMO, coda) serve la potatura periodica: le voci vecchie vanno nell archivio e restano consultabili, il file vivo torna leggibile. Oggi STATO.md sono 117 minuti di lettura e RITMO.md 110: nessuno li legge davvero, e un file che nessuno legge non e memoria, e un magazzino.",
       "verifica": {
         "nota": "da scrivere col fix: il test deve avere sia il caso ereditato-che-passa sia il caso nuovo-che-fallisce, altrimenti si cura solo meta"
+      }
+    },
+    {
+      "id": "AR-562",
+      "stato": "chiuso-in-codice",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-10 16:10",
+      "nato_come": "scoperta",
+      "nato_da": "schermata del Pannello mandata da Nicola: «che cos'e questo problema, continua ripetersi su molte analisi»",
+      "origine": "La card della sentinella 'SALUTE BASSA' apriva con sei avvisi in inglese al posto dell'analisi: «Permission allow rule (.claude/settings.local.json): Write(MyCity-Vault/90-Memoria-AI/) is not matched by file permission checks — only Edit(path) rules are». Verificato a mano con claude 2.1.226 su un foglio di prova: Write(a/**), MultiEdit(b/**) e NotebookEdit(c/**) producono un avviso ciascuna e NON vengono applicate; Edit(d/**) e Read(e/**) no. L'avviso esce su stderr, non su stdout.",
+      "titolo": "Il rumore che la CLI scrive all'avvio finisce dentro la risposta che legge Nicola",
+      "causa_radice": "① Nei due fogli dei permessi 10 righe sono scritte Write(percorso): forma che il CLI legge ma non applica piu — i controlli sui file leggono solo Edit(percorso), e Edit copre gia tutti gli strumenti che modificano file. ② Il CLI avvisa su stderr a ogni avvio. ③ La corsia dei LAVORI (ai_run_con_fallback_ollama in motore-ai.sh) catturava stdout e stderr insieme con 2>&1, quindi l'avviso finiva in lavori.risultato, cioe nel testo della card. ④ La causa vera non e il 2>&1: e che la macchina questa lezione l'aveva GIA imparata l'11/7 e l'aveva applicata a 2 corsie su 3 (rispondi_chat_json e _chat_stream_run separano lo stderr da allora); la terza e rimasta com'era per un mese. Una lezione applicata solo dove bruciava quel giorno e un difetto che rientra dalla porta accanto. ⑤ Effetto secondario, piu serio del rumore: 5 di quelle righe stanno nel foglio del server e dovevano concedere la scrittura in memoria, consegne, creativi, cervello e Pannello — non essendo applicate, non concedono nulla.",
+      "fix_proposto": "Fatto in codice: (a) ai_run_con_fallback_ollama separa i flussi — stdout e la risposta, stderr va nel log, e resta attaccato solo se il lavoro fallisce o non ha prodotto nulla (li e la diagnosi, e la retry-policy ci cerca dentro i suoi pattern); il riconoscimento del limite di quota guarda entrambi, perche quel messaggio arriva su stderr; (b) il fallback testo di rispondi_chat_json passa dalla stessa funzione — era l'ultima porta aperta; (c) permessi-check.mjs ha la regola forma-file-non-applicata: nomina ogni riga scritta cosi e dice come riscriverla, e tratta un DIVIETO in forma vecchia senza la gemella Edit come violazione vera, perche e una difesa che non difende. Resta la mano di Nicola sui due fogli (negati in scrittura alla macchina apposta): card #avvisi-permessi-nelle-analisi, comandi pronti in consegne/sicurezza/2026-08-10-avvisi-permessi.md.",
+      "verifica": {
+        "comando": "node cervello/test/risposta-senza-rumore.test.mjs",
+        "nota": "5 prove che ESEGUONO la funzione vera con un comando che stampa su tutti e due i flussi: il rumore non entra nella risposta, non si perde (va nel log), resta attaccato quando il lavoro fallisce, e il limite di quota viene riconosciuto anche se arriva solo su stderr. Mutazioni in mutanti.json (lezione L-2026-0810-03): rimettendo il 2>&1 o spegnendo la regola del guardiano, i test diventano rossi."
       }
     }
   ],

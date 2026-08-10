@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-10 14:20",
+ "aggiornato": "2026-08-10 16:45",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -11354,6 +11354,28 @@
    "testo": "**Un dato mostrato senza la sua data è un dato che mente per omissione (Nicola 10/8: «aggiungi la data per ogni card e con il segnale che è scaduta»).** La card Intelligence mostrava un'analisi del 20 luglio identica a una di stamattina: la data viveva solo DENTRO il markdown, e solo se chi l'aveva scritta se l'era ricordata. Nessuno se n'è accorto per 11 giorni perché la vecchiaia non era misurata da nessuna parte. Seconda metà della correzione, altrettanto importante: «la dovrà leggere un sentinello per segnalarlo alla macchina o a me» — una data VISIBILE serve solo a chi sta guardando quella scheda in quel momento; perché protegga, qualcuno deve leggerla al posto suo.",
    "regola": "ogni superficie che mostra un dato rigenerato periodicamente deve mostrare anche la sua età e gridare quando supera la cadenza attesa; e la soglia va DERIVATA dalla configurazione della cadenza (radar-fonti.json), mai scritta a mano in due posti. La visibilità non basta: serve un guardiano che legga l'età anche quando nessuno guarda.",
    "gate": "node cervello/test/freschezza-intelligence.test.mjs"
+  },
+  {
+   "id": "L-2026-0810-03",
+   "testo": "**Una lezione applicata solo alle corsie che bruciavano quel giorno rientra dalla porta accanto (Nicola 10/8 16:06).** Nicola manda lo schermo del Pannello: «che cos'è questo problema, continua a ripetersi su molte analisi» — un muro di avvisi in inglese («Permission allow rule … is not matched by file permission checks») al posto dell'analisi. 5 perché: (1) nei fogli dei permessi 10 righe sono scritte `Write(percorso)`, forma che il CLI legge ma **non applica** — i controlli sui file leggono solo `Edit(percorso)`, verificato a mano con claude 2.1.226; (2) l'avviso esce su **stderr**, non su stdout; (3) la corsia LAVORI (`ai_run_con_fallback_ollama`) catturava i due flussi insieme con `2>&1` → l'avviso finiva in `lavori.risultato`, cioè nel testo della card; (4) **la macchina questa lezione l'aveva già imparata l'11/7** e l'aveva applicata a 2 corsie su 3 (`rispondi_chat_json`, `_chat_stream_run`): la terza è rimasta col `2>&1` per un mese; (5) 5 di quelle righe stanno nel foglio del server e dovevano concedere la scrittura in memoria/consegne/Pannello — non applicate, non concedono nulla. Regola: quando una lezione riguarda un COMPORTAMENTO condiviso (cattura dell'output, gestione errori, permessi), applicala a **tutte le corsie che quel comportamento ce l'hanno**, non solo a quella che ha bruciato — e la prova va scritta dove un processo ricorrente la esegue davvero (i 26 `.bats` di `cervello/test/` non li lancia nessuno: né la suite, né la CI, né il giro). Vedi AR-562, AR-376.",
+   "tag": [
+    "permessi",
+    "worker",
+    "stderr",
+    "cli",
+    "lezione-parziale",
+    "nicola"
+   ],
+   "reparto": "@devops-sre",
+   "confidenza": 0.95,
+   "evidenze": 1,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-10",
+   "ultima_conferma": "2026-08-10 16:45",
+   "stato": "attiva",
+   "usi": [],
+   "gate": "node cervello/test/risposta-senza-rumore.test.mjs"
   }
  ],
  "principi": [
