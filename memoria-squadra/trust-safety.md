@@ -7,6 +7,7 @@ reparto: trust-safety
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-08-10 12:04 · Playbook Standard badge Negozio Verificato — 5ª invocazione (10/8 12:xx), dopo 6/7,20/7,27/7,3/8 · gate 3/5 pilastri invariato: Stripe (charges/payouts/details_submitted)=false, 1 solo ordine CANCELED mai DELIVERED · atteso verificare se PQ ha raggiunto 5/5 pilastri → reale invariato rispetto al 3/8, nessun movimento in una settimana · #playbook-badge-verificato-loop-a-vuoto
 - 2026-07-27 11:29 · Playbook Standard 27/7: badge Negozio Verificato — 3a invocazione (dopo 6/7 e 20/7) · gate invariato: PQ 3/5 pilastri, 0 negozi idonei · atteso assegnazione + comunicazione standard città → reale 0 assegnati, standard/bozze/coda già pronti (spec 20/7 + A39 + #38/#51), blocco Stripe payout OFF + 0 consegne + ripresa lavoro operativo posticipata a 24/8-1/9 · #badge #trust #loop-a-vuoto
 - 2026-07-20 13:00 · Follow-up bollino — allegato solo screenshot · atteso AD vede e risponde al punto → reale AD cieco allegato, triage pre-merge #213 + chiedi keyword sito/card/errore · #badge #follow-up
 - 2026-07-20 12:52 · Bug critico bollino — PR #218 isVerifiedStore · atteso badge solo su negozi payout-ready → reale fix codice consegnato, merge #213 pendente · #badge #gate #trust
