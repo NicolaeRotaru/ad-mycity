@@ -957,6 +957,20 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
+### 🟡 #cancello-stop-ancora-ferma-al-4-8 — Il cancello di fine-turno accusa lavoro vecchio di 6 giorni come se fosse di oggi · ⏳ accodata 2026-08-10 11:35
+
+**Cosa cambia:** stasera il cancello di fine turno (`cervello/cancello-stop.mjs`) mi ha detto di aver «dimenticato» di accodare in questa pagina gli allarmi delle PR #675, #678, #679, #680, #681, #683. Ho controllato riga per riga: sono TUTTE già qui, alcune da sei giorni (righe 1636-1639 e i blocchi `#pr-675`/`#pr-678` più sopra). Il cancello non guarda «cosa ho fatto io in questo turno»: guarda tutto quello che è successo sul ramo dall'ultima volta che ha trovato la cartella di lavoro **completamente pulita** — e quel giorno è il 4/8, perché da allora alcuni file JSON dei sensori automatici (`sentinella-dati.json`, `coerenza-fatti.json`, `apprendimento.json`, `auto-miglioramento.json`, `cervello/routing.json`) cambiano da soli a ogni giro e non restano mai fermi abbastanza a lungo da farla apparire «pulita». Risultato: da 6 giorni ogni sessione si becca lo stesso elenco di 397 commit e 170 file come se fosse tutto suo, comprese cose già chiuse da altri.
+
+**Se va bene:** un tecnico decide una delle due cure — (a) il punto di riferimento del cancello si pianta anche quando restano sporchi solo i file dei sensori automatici (una lista di eccezioni nota), oppure (b) il punto di riferimento avanza da solo a ogni commit pubblicato, non solo quando l'albero è vuoto. Non urgente: per ora ogni sessione deve verificare a mano (come ho fatto io) prima di rifare lavoro già fatto.
+
+- **Colore:** 🟡 (fix di codice in `cervello/cancello-stop.mjs`, serve branch+PR)
+- **Reparto:** tech
+- **Origine:** `{origine:sessione-2026-08-10-vittoria-winback, ancora:3bda15ad5b5b0be5c920fe926341c08b1a0cc8e9, commit-non-contati:397}`
+
+🔧 Dettagli tecnici: `ancoraDelTurno()`/`piantaAncora()` in `cervello/cancello-stop.mjs` (righe ~661-701): l'ancora avanza solo su turni con `git status --porcelain` vuoto (`alberoSporco()`). Verificato ora: `git rev-list --count 3bda15ad..HEAD` = 397, ultimo commit reale del ramo `f13968f22` (11:24:38), ancora ferma al `3bda15ad` del 2026-08-04 00:11. Le 6 PR citate dal cancello risultano già in coda: righe 1636-1639 (679/680/681/683) + blocchi `#pr-675`/`#pr-678` sopra.
+
+---
+
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
 ## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-10 10:21)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-10-supervisione.md]].
