@@ -1,23 +1,19 @@
 ---
 tipo: stato
-aggiornato: 2026-08-10 10:10
+aggiornato: 2026-08-10 11:20
 fonte: AD digitale (chat)
 ---
 
-> 🔁 **10/8 10:10 — Giro richiesto in chat. Business invariato, ma trovato il blocco vero: il fornaio non può incassare.**
-> La Cabina era ferma al 6/8 11:15 mentre il server ha lavorato fino a stamattina alle 09:30. Questo giro la riallinea. Il guardiano che conta i verdetti muti lo segnalava rosso, e diceva la verità.
+> 🔁 **10/8 11:20 — Giro completo dopo 4 giorni di silenzio narrato: business ancora invariato, stallo a 47 giorni.**
+> Richiesto in chat per intero su `cervello/giro.md`. Ultimo passaggio narrato: 6/8 11:15. Nel mezzo il worker VPS ha scritto solo memoria tecnica. I commit sono "recupero: scritture pendenti da un giro interrotto" e "riconcilia: chiude difetti risolti nel codice", tra il 6/8 e stamattina 09:05-10:22. Non c'è stato nessun Piano del mattino o Report della sera narrato nel mezzo. È coerente col gate HARD `freschezza-cadenze` segnalato in apertura sessione: 4 cadenze automatiche su 4 hanno saltato l'auto-analisi e l'apprendimento.
 >
-> Letto dal vivo su Supabase alle 09:58: 1 ordine (24/6, mai pagato, annullato), 0 pagati, 0 € incassati, 7 profili, 5 prodotti disponibili, 1 negozio, 0 recensioni, 3 carrelli abbandonati, 407 contatti negozi in archivio. **Identico al 6/8.** North Star ricalcolato: **47 giorni** senza un ordine, erano 43. È la pausa concordata fino al 24/8-1/9, non un allarme.
+> Riconfermato dal vivo su Supabase (MCP `execute_sql`, query diretta di questo passaggio): 1 ordine mai pagato, 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 1 negozio, 0 recensioni, 6 carrelli (`user_carts`) / 3 abbandonati. **Identico** a ogni passaggio dal 4/8 20:25. North Star ricalcolato a **47 giorni** (era 43 il 6/8, +4 giorni di calendario). È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme.
 >
-> **La scoperta di oggi, mai registrata prima.** Nel fascicolo pagamenti di Pane Quotidiano tre semafori sono rossi: dati mai inviati, incassi disattivati, versamenti disattivati. Il conto presso il fornitore di pagamenti esiste dal 15/6, ma la pratica è rimasta a metà. Tradotto: **se domani un cliente va alla cassa, il pagamento non parte.** È anche la spiegazione dell'unico ordine mai arrivato, rimasto «in attesa di pagamento» e poi annullato. Accodata come riga #16, 🔴: i dati servono dal fornaio, sono suoi.
+> **Novità tecnica (non di business):** `apprendimento.json` è ricresciuto a 1.052.950 byte. È di nuovo sopra il tetto di lettura di GitHub (1 MiB). Il 4/8 era già stato tagliato a 947.517 byte. Rischio: le PR che toccano quel file, o file vicini, possono uscire rosse su GitHub senza un motivo visibile. Ho accodato la riga #14 in [[AZIONI-IN-ATTESA]] (🟡). Lo strumento `node cervello/pota-apprendimento.mjs` è già pronto, ma non eseguibile da questa sessione. Cantiere difetti: 161 aperti su 332 chiusi (era circa 159/329 il 4/8). Il worker ha chiuso 2 difetti col commit delle 09:31 di stamattina. Quaderni di apprendimento vivi: 11 su 120 (era 13/120). La copertura del rituale ESITO peggiora leggermente: nessuna azione nuova oltre a quella già in coda.
 >
-> **Numero nuovo che nessun giro aveva guardato:** ultimo movimento tracciato sul sito il 20/7, cioè 21 giorni fa.
+> Rigenerata [[CHECKLIST-NICOLA]] (era ferma dal 4/8 12:00, 6 giorni — violava la regola dei 2 giorni AR-030): tolte le 2 voci già chiuse (`#macchina-ferma-da-quattro-giorni`, `#prevenzione-a-monte`), aggiornato lo stallo a 47gg e il conteggio cantiere a 161/332.
 >
-> **Coda rimessa in ordine.** La riga #12 chiedeva da sei giorni di unire la richiesta 681, che risulta unita da Nicola il 4/8 alle 16:37. Verificato dal vivo su GitHub, non dedotto: chiusa. Le richieste 675 e 678 erano aperte dal 4/8 e non erano mai finite in coda: aggiunte come #14 e #15. **Sette richieste aperte in tutto**, ferme da sei giorni: 675, 676, 677, 678, 679, 680, 683.
->
-> **Radar:** agosto è il mese morto a Piacenza. Il mercatino del centro salta proprio ad agosto, e il resto è fuori città. Nessuna finestra persa con la pausa.
->
-> **Non visto da qui:** il server e i suoi orologi interni (il controllo automatico dice dodici falliti, ma da una sessione cloud quei servizi non esistono: è cieco, non rosso), gli incassi presso il fornitore di pagamenti, il sito guardato da fuori.
+> **Da approvare, in coda, invariato dal 6/8 e non riverificabile da qui (`gh` negato in sessione):** merge PR #677, #679, #680, #681, #683. Restano ferme anche le righe #7/#8 su pulizia rami e modo di chiudere le PR, più la nuova riga #14.
 >
 > Briefing completo: [[Briefing/2026-08-10]].
 

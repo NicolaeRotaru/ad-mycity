@@ -808,9 +808,9 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ---
 
-## 🛡️ I guardiani della macchina · 2026-08-04 12:12
+## 🛡️ I guardiani della macchina · 2026-08-10 10:22
 
-A ogni giro, prima che l'AI scriva una riga, girano **74 controlli automatici**. **36** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+A ogni giro, prima che l'AI scriva una riga, girano **75 controlli automatici**. **37** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
 Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
 
@@ -925,6 +925,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 
 | Controllo | Cosa guarda | Se dice no |
 | --- | --- | --- |
+| `ci-stato` | Guarda come sono finite le prove sulle richieste di unione già aperte, e dice se il guasto l'ha portato quel lavoro o se era già nel ramo principale. | ⛔ ferma il giro |
 | `test-cervello` | Lancia tutti i test del cervello a ogni giro: un test che nessuno esegue non è una rete, è un file. | ⛔ ferma il giro |
 | `test-pannello` | Lo stesso per i test del Pannello, la parte che Nicola guarda davvero. | ℹ️ scrive e basta |
 | `verifica-avversariale` | Smaschera l'auto-verifica finta: se il lavoro dice «verificato» senza che nessuno abbia provato a smontarlo, non vale. | ⛔ ferma il giro |
