@@ -7,7 +7,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { ESCLUDI_MEMORIA, conta, cabinaFerma, verdetto, leggiStoria, tettiDaScrivere, misura, AUTORE_WORKER, CERCA_ESITO_IN_GIT } from "../conta-verdetti-muti.mjs";
+import { ESCLUDI_MEMORIA, conta, cabinaFerma, verdetto, leggiStoria, tettiDaScrivere, misura, AUTORE_WORKER, CERCA_ESITO_IN_GIT, fileVietatiAllaMacchina } from "../conta-verdetti-muti.mjs";
 import { CARTELLE_MEMORIA } from "../cancello-stop.mjs";
 import { RIGA_ESITO } from "../cancello-stop.mjs";
 
@@ -166,4 +166,27 @@ test("la storia si legge coi campi giusti, autore compreso", () => {
 test("un titolo che contiene una barra verticale non rompe la lettura", () => {
   const s = leggiStoria("@@COMMIT@@aaa1112ff|Claude|2026-08-01 14:56|fix: a|b|c");
   assert.equal(s[0].titolo, "fix: a|b|c", "il titolo e' l'ultimo campo: prende tutto il resto");
+});
+
+// ── Il lavoro di Nicola non è debito mio (4/8) ───────────────────────────────
+
+test("i file che la macchina non può scrivere si derivano dai divieti, non si elencano a mano", () => {
+  // Il caso vero: il 4/8 Nicola ha agganciato gli hook modificando .claude/settings.json dalla pagina
+  // di GitHub, cinque volte. Il contatore le ha lette come cinque consegne senza esito, il tetto si è
+  // rotto, e da lì il cancello del lotto era rosso su OGNI PR aperta — per il lavoro di Nicola.
+  const vietati = fileVietatiAllaMacchina({
+    permissions: {
+      deny: ["Write(./.claude/settings.json)", "Edit(./.claude/settings.json)", "Write(**/.env)", "Bash(gh:*)", "Read(**/.env.*)"],
+    },
+  });
+  assert.deepEqual(vietati, [".claude/settings.json"]);
+});
+
+test("un glob non entra nell'elenco: descrive più file di quelli che ho verificato", () => {
+  assert.deepEqual(fileVietatiAllaMacchina({ permissions: { deny: ["Write(**/.env)", "Edit(pannello/*.ts)"] } }), []);
+});
+
+test("senza registro dei divieti non escludo niente (sbaglio contando di più, non di meno)", () => {
+  assert.deepEqual(fileVietatiAllaMacchina({}), []);
+  assert.deepEqual(fileVietatiAllaMacchina(), []);
 });

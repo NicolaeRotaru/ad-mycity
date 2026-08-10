@@ -279,3 +279,62 @@ for (const c of casi) {
 }
 console.log(`# pass ${casi.length - falliti}\n# fail ${falliti}`);
 process.exit(falliti ? 1 : 0);
+
+// ── LA COPIA, NON LA MEMORIA (4/8) ───────────────────────────────────────────
+//
+// Il caso vero: l'archivio sforava il tetto di 718 byte e il potatore non aveva niente da togliere
+// (0 lezioni decadute su 509). Misurando il file invece di crederci: 86 dei 87 `principi`
+// ripetevano parola per parola il testo della lezione con lo stesso id — 98.006 caratteri, 137
+// volte lo sforamento. Si toglie il doppione e resta il riferimento: nessuna lezione si perde.
+
+const { principiSenzaCopia, pianoPotatura } = await import("../pota-apprendimento.mjs");
+
+{
+  const lezioni = [
+    { id: "L-1", testo: "la lezione lunga", stato: "principio" },
+    { id: "L-2", testo: "un'altra lezione", stato: "attiva" },
+  ];
+  const principi = [
+    { id: "L-1", testo: "la lezione lunga", promosso_il: "2026-07-01", reparto: "tech" },
+    { id: "L-9", testo: "un principio senza lezione", promosso_il: "2026-07-02" },
+    { id: "L-2", testo: "RISCRITTO dopo la promozione", promosso_il: "2026-07-03" },
+  ];
+  const r = principiSenzaCopia(principi, lezioni);
+  assert.equal(r.quanti, 1, "solo la copia esatta si toglie");
+  assert.equal(r.caratteri, "la lezione lunga".length);
+  assert.deepEqual(r.principi[0], { id: "L-1", promosso_il: "2026-07-01", reparto: "tech" }, "resta il riferimento: id, data, reparto");
+  assert.equal(r.principi[1].testo, "un principio senza lezione", "senza lezione corrispondente NON si tocca: il testo esiste solo lì");
+  assert.equal(
+    r.principi[2].testo,
+    "RISCRITTO dopo la promozione",
+    "un principio riscritto dopo la promozione è una versione diversa: toglierlo sarebbe perdere memoria per far entrare un file",
+  );
+}
+
+{
+  // La regola che questa potatura NON deve violare: le lezioni vive restano tutte.
+  const dati = {
+    lezioni: [{ id: "L-1", testo: "x".repeat(500), stato: "principio" }, { id: "L-2", testo: "y", stato: "attiva" }],
+    principi: [{ id: "L-1", testo: "x".repeat(500), promosso_il: "2026-07-01" }],
+  };
+  const p = pianoPotatura(dati, 10_000_000, 1);
+  assert.equal(p.principi_deduplicati, 1);
+  assert.equal(p.principi_caratteri_liberati, 500);
+  assert.equal(p.nuovo.lezioni.length, 2, "nessuna lezione viva è stata toccata");
+  assert.equal(p.nuovo.principi[0].testo, undefined, "il principio ha perso la copia…");
+  assert.equal(p.nuovo.lezioni[0].testo, "x".repeat(500), "…e il testo è ancora nella sua lezione");
+  assert.ok(p.dopo < p.prima, "il file si è ridotto");
+}
+
+{
+  // Il freno che tiene onesta la riduzione: se il testo NON è identico, il file non si riduce.
+  const dati = {
+    lezioni: [{ id: "L-1", testo: "originale", stato: "principio" }],
+    principi: [{ id: "L-1", testo: "originale con un'aggiunta", promosso_il: "2026-07-01" }],
+  };
+  const p = pianoPotatura(dati, 10_000_000, 1);
+  assert.equal(p.principi_deduplicati, 0);
+  assert.equal(p.dopo, p.prima, "niente da togliere: nessun byte in meno");
+}
+
+console.log("✅ la copia dei principi si toglie, la memoria no");

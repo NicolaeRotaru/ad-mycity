@@ -160,7 +160,18 @@ prova("il caso che ha rotto: la funzione VERA, sul file VERO, sta sotto il tetto
   const j = JSON.parse(leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json"));
   const intero = Buffer.byteLength(JSON.stringify(j));
   const snello = Buffer.byteLength(JSON.stringify(S.apprendimentoSnello(j)));
-  assert.ok(intero > 900_000, `il file di partenza dev'essere quello grosso vero, non un finto: ${intero}`);
+  // Che il file di partenza sia QUELLO VERO si riconosce dal contenuto, non dal peso (4/8).
+  //
+  // Prima la guardia era `intero > 900_000`, e come metro aveva due difetti opposti: un finto pieno
+  // di riempimento da 900 KB passava, e il file vero DIMAGRITO veniva bocciato. È successo: la
+  // potatura dei principi in copia (86 su 87 ripetevano il testo della loro lezione) ha portato
+  // l'archivio da 1.049.294 a 947.517 byte, e questa riga ha chiamato «finto» il file vero il giorno
+  // in cui è stato riparato. Un metro che punisce il miglioramento si impara ad aggirarlo.
+  assert.ok(
+    Array.isArray(j.lezioni) && j.lezioni.length > 100 && Array.isArray(j.preferenze_nicola) && j.preferenze_nicola.length > 50,
+    `il file di partenza dev'essere quello vero, non un finto: ${j.lezioni?.length} lezioni, ${j.preferenze_nicola?.length} preferenze`,
+  );
+  assert.ok(intero > 300_000, `e dev'essere l'archivio pieno, non un troncone: ${intero} byte`);
   assert.ok(snello < intero / 3, `la risposta dev'essere molto più piccola del file: ${snello} vs ${intero}`);
   assert.ok(snello < 1_048_576, "e stare sotto il tetto di lettura di 1 MiB con margine");
 });

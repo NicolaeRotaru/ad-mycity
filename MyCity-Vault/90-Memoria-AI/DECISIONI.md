@@ -1334,3 +1334,47 @@ misurato davvero (non cieco).
   · **Cosa resta a Nicola.** Solo la firma sul merge. Il cancello esce **2**: i 4 ⚪ sono quelli di sessione (clone superficiale ×3, typecheck del Pannello senza `npm ci`), dichiarati nella PR. · AD
 
 2026-08-04 17:26 · 🟡 · [AD/qa/prompt-engineer] · **Prevenzione a monte accesa (AR-533 chiuso): mano-fermata + scheda su misura ora cablati in `.claude/settings.json`, verificato verde.** Nicola ha incollato lo snippet in tre round: 1° tentativo verifica lanciata dalla home invece che dal repo ("Cannot find module"), 2° tentativo JSON annidato male + virgole mancanti (`JSON.parse` falliva, `cablaggioPresente()` tornava tutto `false`), 3° round col blocco `"hooks"` intero sostituito → `node cervello/mano-fermata.mjs --cablaggio` verde. Prova indipendente nello stesso turno: `contesto-lezioni.mjs --richiesta` ha iniettato 8 lezioni a tema sul prompt successivo di Nicola — il freno gira per davvero, non solo il comando di collaudo dice verde. Lezione salvata: su `settings.json` dare sempre il blocco intero da sostituire, mai istruzioni "aggiungi due righe" — un umano che incolla frammenti in un JSON annidato sbaglia virgole/nesting quasi sempre. · Nicola (chat, screenshot terminale)
+
+## 2026-08-04 20:02 — 🟡 La macchina legge la CI delle proprie PR (e non unisce un rosso)
+**Cosa:** nuovo `cervello/ci-stato.mjs` (+ cuore puro `ci-lettura.mjs`, 13 prove): legge i controlli
+delle PR aperte, e per ogni rosso dice **di chi è** — mio / ereditato dal ramo di partenza / misto /
+ignoto. Agganciato a tre posti: freno duro in `git-merge.mjs` (non si unisce rosso, in-corso o senza
+controlli), sonda + vincolo nel giro, istruzione nei due prompt del worker.
+**Perché:** stasera, prima lettura in assoluto: 6 PR aperte, 5 rosse, 1 senza nemmeno un controllo
+partito. Il colore viveva solo negli occhi di Nicola. E il rosso NON era delle PR: `main` era rosso
+dalle 15:08, ogni PR aperta dopo se lo trascinava.
+**Riparato anche il rosso di main** (due cause, entrambe innescate senza colpa da Nicola che ha
+agganciato gli hook da GitHub): voce `mano-fermata.mjs` diventata falsa in `guardiani-motivi.json`;
+i suoi commit a `settings.json` contati come consegne mute (240 vs tetto 238 → ora 228, exit 0).
+**Non fatto apposta:** il tetto delle consegne mute NON è stato abbassato — il calo viene da una
+misura corretta, non da debito ripagato, e ribassare il cricchetto su un metro appena cambiato è una
+decisione di Nicola.
+**Consegna:** `consegne/tech/2026-08-04-la-macchina-legge-la-ci.md` · PR su `main`.
+
+## 2026-08-04 21:10 — 🟡 Potato l'archivio dell'apprendimento: tolta la copia, non la memoria
+**Cosa:** `apprendimento.json` sforava di 718 byte il tetto di lettura di GitHub (1 MiB) e rendeva
+rossa OGNI PR aperta, oltre a lasciare la scheda Apprendimento illeggibile in Cabina. Misurato invece
+di indovinare: **86 principi su 87 ripetevano parola per parola il `testo` della lezione con lo stesso
+id**, già nello stesso file — 98.050 caratteri, 137 volte lo sforamento. Tolta la copia, resta il
+riferimento (id, data di promozione, reparto, tag); il testo si legge dalla lezione.
+**Prova:** 1.049.294 → 947.517 byte · 509 lezioni identiche · 87 principi e 379 preferenze intatti ·
+nessun testo di principio irrecuperabile (verificato voce per voce prima/dopo).
+**Strade scartate:** alzare il tetto (impossibile, è il limite della Contents API di GitHub) ·
+scrivere il file compatto (risparmia 61 KB ma `indentazioneDi` non sa leggere «nessuna indentazione»
+e il primo scrittore lo rigonfierebbe) · spostare le lezioni vecchie nello storico (perderebbero
+l'iniezione a inizio sessione: è memoria viva).
+**Dove:** `cervello/pota-apprendimento.mjs` (`principiSenzaCopia`), lato lettura in
+`pannello/src/app/api/memoria/auto-coscienza/route.ts`, prove in `archivi-senza-tetto.test.mjs`.
+
+## 2026-08-10 09:05 — 🟡 Il quinto sensore: il sito dei negozi entra in Cabina
+**Cosa:** il giro scriveva da giorni `salute_macchina.sito_uptime` («cieco da 28 giri, HTTP 503 dal
+30/7, migrazione Render→Vercel pianificata, non un guasto») e succedevano DUE cose insieme: il
+contratto lo bocciava come nome fuori schema — cancello rosso su ogni PR aperta — e la Cabina non lo
+mostrava lo stesso. Due elenchi scritti a mano in due file diversi, divergenti.
+**Fatto:** chiave ammessa in `cervello/valida-contratti.mjs`, quinto tile «Sito negozi» in
+`AutoCoscienza.tsx` (etichetta corta: risponde · ⚪ non misurato · non risponde — la frase lunga
+resta nel file, un tile non la regge), e una prova che tiene appaiati i due elenchi: se domani si
+ammette una chiave senza il tile, o si toglie il tile lasciando la chiave, diventa rossa e dice
+quale metà manca. Mutazione registrata.
+**Prova:** `valida-contratti --json` → violazioni [] · suite 149 file / 1563 asserzioni verde ·
+typecheck del Pannello verde · cancello del lotto 16 guardiani su 16.

@@ -103,6 +103,36 @@ export const ESCLUDI_MEMORIA = CARTELLE_MEMORIA.map((c) => `:(exclude)${c.replac
 export const AUTORE_WORKER = /^AD MyCity\b/;
 
 /**
+ * I file che la macchina NON PUÒ scrivere — e perché un commit che tocca solo quelli non è una sua
+ * consegna.
+ *
+ * Il caso vero, 4/8: Nicola ha agganciato quattro hook modificando `.claude/settings.json` dalla
+ * pagina di GitHub, cinque volte in un pomeriggio. Questo contatore le ha lette come cinque consegne
+ * senza esito, il numero è passato da 238 a 240, il tetto si è rotto — e da quel momento il cancello
+ * del lotto era rosso su OGNI PR aperta. Cioè: il lavoro di Nicola contato come debito mio, e cinque
+ * PR bloccate da un guasto che nessuna di loro aveva causato.
+ *
+ * L'elenco non è scritto a mano qui: si DERIVA dai divieti in `.claude/settings.json`. Quel file
+ * elenca già, per un'altra ragione, i percorsi che questa macchina non può toccare — e un file che
+ * non posso scrivere non può contenere una mia consegna. Due elenchi che devono restare uguali
+ * divergono al primo lotto (la lezione di AR-379/AR-387): meglio uno solo, derivato.
+ */
+export function fileVietatiAllaMacchina(settings = {}) {
+  const deny = settings?.permissions?.deny || [];
+  const fuori = new Set();
+  for (const regola of deny) {
+    const m = /^(?:Write|Edit)\(\.?\/?([^)]+)\)$/.exec(String(regola).trim());
+    if (!m) continue;
+    const percorso = m[1].trim();
+    // Solo percorsi CONCRETI: un glob come `**/.env` non descrive un file solo e qui servirebbe a
+    // escludere più di quello che ho verificato. I `.env` per giunta non sono nemmeno in git.
+    if (!percorso || /[*?[\]]/.test(percorso)) continue;
+    fuori.add(percorso.replace(/^\.\//, ""));
+  }
+  return [...fuori].sort();
+}
+
+/**
  * Il conto sulla finestra.
  *
  * `conEsito` è l'insieme degli hash che hanno AGGIUNTO una riga di esito vera: lo calcola git con una
@@ -291,24 +321,40 @@ function main() {
     process.exit(2);
   }
 
-  let storia, conEsito;
+  // I file che la macchina non può scrivere, letti dal registro dei divieti (uno solo, derivato).
+  let vietati = [];
+  try {
+    vietati = fileVietatiAllaMacchina(JSON.parse(readFileSync(join(REPO, ".claude/settings.json"), "utf8")));
+  } catch {
+    // Senza il registro dei divieti non escludo niente: conto qualche commit di troppo, che è il
+    // verso giusto in cui sbagliare per un contatore di debito.
+  }
+
+  let storia, conEsito, esclusiNonScrivibili = 0;
   try {
     // Niente `--name-only`: il confine lo traccia git col pathspec, e cosi nessun percorso puo
     // arrivarmi citato in ottali (AR-339). Quello che torna sono gia SOLO le consegne.
-    storia = leggiStoria(
-      git([
-        "log",
-        "--first-parent",
-        "--diff-merges=first-parent",
-        `--format=${SEP}%H|%an|%ad|%s`,
-        "--date=format:%Y-%m-%d %H:%M",
-        `--since=${GIORNI} days ago`,
-        ramo,
-        "--",
-        ".",
-        ...ESCLUDI_MEMORIA,
-      ]),
-    );
+    const log = (extra) =>
+      leggiStoria(
+        git([
+          "log",
+          "--first-parent",
+          "--diff-merges=first-parent",
+          `--format=${SEP}%H|%an|%ad|%s`,
+          "--date=format:%Y-%m-%d %H:%M",
+          `--since=${GIORNI} days ago`,
+          ramo,
+          "--",
+          ".",
+          ...ESCLUDI_MEMORIA,
+          ...extra,
+        ]),
+      );
+    const conVietati = log([]);
+    storia = vietati.length ? log(vietati.map((p) => `:(exclude)${p}`)) : conVietati;
+    // Il taglio si DICHIARA (finisce nel referto e nella riga stampata): un'esclusione silenziosa si
+    // legge come «ho guardato tutto», ed è il modo in cui un numero smette di essere una misura.
+    esclusiNonScrivibili = conVietati.length - storia.length;
     // Gli hash che hanno davvero AGGIUNTO una riga di esito. La cerca git nel contenuto del diff:
     // se la cercassi io rileggendo i quaderni di oggi, misurerei lo stato finale invece di chi l'ha
     // scritto — e un commit che non ha lasciato niente risulterebbe a posto grazie al lavoro di un altro.
@@ -336,6 +382,8 @@ function main() {
     misurato: new Date().toISOString().slice(0, 16).replace("T", " "),
     finestra_giorni: GIORNI,
     ...conto,
+    esclusi_non_scrivibili: esclusiNonScrivibili,
+    file_non_scrivibili: vietati,
     cabina,
     tetti: tettiFinali,
   };
@@ -347,6 +395,9 @@ function main() {
     console.log("📮 VERDETTI MUTI — quante volte ho consegnato senza dire com'è andata\n");
     console.log(`   Finestra:          ultimi ${GIORNI} giorni su ${ramo} (${conto.commit_esaminati} commit con lavoro fuori dalla memoria)`);
     console.log(`   Consegne:          ${conto.consegne}   (commit con lavoro fuori dalla memoria · ${conto.esclusi_worker} manutenzioni del worker escluse e dichiarate)`);
+    if (esclusiNonScrivibili) {
+      console.log(`   Esclusi:           ${esclusiNonScrivibili} commit che toccano solo file che la macchina non può scrivere (${vietati.join(", ")}): li ha fatti Nicola, non sono consegne mie`);
+    }
     console.log(`   ↳ senza esito:     ${conto.mute}   (${conto.tasso}%)   tetto: ${referto.tetti.consegne_mute}`);
     if (cabina) {
       console.log(`   Cabina (STATO.md): aggiornata al ${cabina.stato_aggiornato} · ultima consegna ${cabina.ultima_consegna} → ${cabina.giorni_indietro} giorni indietro`);

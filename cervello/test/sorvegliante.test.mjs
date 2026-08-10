@@ -1084,6 +1084,17 @@ test("Ⓒ e ad albero fermo non dico niente", () => {
   assert.equal(fusioneInCorso(() => false), null);
 });
 
+test("Ⓒ un rebase FINITO non mi rende cieco per sempre (4/8)", () => {
+  // `REBASE_HEAD` git non lo cancella quando il rebase finisce: resta a indicare l'ultimo commit
+  // riapplicato. Finché stava nell'elenco, il primo rebase spegneva questa guardia PER SEMPRE in
+  // quel clone — e in silenzio, perché ⚪ si legge come prudenza invece che come rotto. Sul VPS
+  // `git-pr.mjs` ribasa a ogni pull request: lì si sarebbe spenta al primo lavoro.
+  assert.equal(fusioneInCorso((n) => n === "REBASE_HEAD"), null, "un file che sopravvive all'operazione non è l'operazione");
+  // Il rebase VERO in corso resta coperto: queste due cartelle git le tiene solo finché non finisce.
+  assert.match(fusioneInCorso((n) => n === "rebase-merge"), /rebase/i);
+  assert.match(fusioneInCorso((n) => n === "rebase-apply"), /rebase/i);
+});
+
 // ── Ⓓ L'ALTRO REPO ───────────────────────────────────────────────────────────
 
 test("Ⓓ se nel repo del sito c'è del lavoro non committato, dico che lì non arrivo", () => {

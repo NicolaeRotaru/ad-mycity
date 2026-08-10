@@ -256,6 +256,32 @@ prova("il contratto adesso è verde sul file vero", () => {
   assert.deepEqual(j.violazioni, [], `violazioni residue: ${JSON.stringify(j.violazioni)}`);
 });
 
+prova("un elenco solo: ogni chiave ammessa dal contratto ha il suo tile in Cabina (10/8)", () => {
+  // IL CASO VERO. Il giro scriveva `salute_macchina.sito_uptime` — «il sito dei negozi non risponde
+  // dal 30/7» — e succedevano due cose insieme: il contratto lo bocciava (cancello rosso su OGNI PR
+  // aperta) e la Cabina non lo mostrava lo stesso. Due elenchi scritti a mano in due file diversi,
+  // che è la malattia già pagata qui più volte: prima o poi divergono, e la divergenza non fa
+  // rumore finché non blocca tutto.
+  //
+  // Questa prova li tiene appaiati nell'unico modo che non si può dimenticare: se domani qualcuno
+  // ammette una chiave nel contratto senza aggiungere il tile — o toglie il tile lasciando la
+  // chiave — qui diventa rosso, e il messaggio dice quale delle due metà manca.
+  const contratto = leggi("cervello/valida-contratti.mjs");
+  const blocco = /salute_macchina:\s*\{[\s\S]*?canonici:\s*\[([^\]]+)\]/.exec(contratto);
+  assert.ok(blocco, "non trovo l'elenco canonico di salute_macchina nel contratto");
+  const ammesse = [...blocco[1].matchAll(/"([a-z_]+)"/g)].map((m) => m[1]);
+  assert.ok(ammesse.includes("sito_uptime"), "il sito dei negozi dev'essere una chiave ammessa");
+
+  const cabina = leggi("pannello/src/components/AutoCoscienza.tsx");
+  const tile = /const sm = live\?\.salute_macchina[\s\S]*?\n\s*\]\.map\(/.exec(cabina);
+  assert.ok(tile, "non trovo l'elenco dei tile di salute nella Cabina");
+  const mostrate = [...tile[0].matchAll(/raw:\s*sm\.([a-z_]+)/g)].map((m) => m[1]);
+  const senzaTile = ammesse.filter((k) => !mostrate.includes(k));
+  assert.deepEqual(senzaTile, [], `il contratto ammette ${senzaTile.join(", ")} e la Cabina non lo mostra: il giro scriverebbe nel vuoto`);
+  const senzaContratto = mostrate.filter((k) => !ammesse.includes(k));
+  assert.deepEqual(senzaContratto, [], `la Cabina mostra ${senzaContratto.join(", ")} e il contratto lo boccia: il cancello resterebbe rosso`);
+});
+
 let falliti = 0;
 for (const c of casi) {
   console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);

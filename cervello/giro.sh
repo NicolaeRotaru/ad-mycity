@@ -189,6 +189,7 @@ DEBITO_VINCOLO=""     # 25/7: previsioni fatte e mai confrontate col reale (voce
 FATTI_VINCOLO=""      # AR-102: vincolo del gate coerenza-fatti (copie vecchie di un fatto in file vivi)
 CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se > 2 giorni)
 CADENZE_VINCOLO=""    # AR-164: una cadenza (giro/ritmo/monitora) ha smesso di uscire
+CI_VINCOLO=""         # 4/8: una PR aperta non passa i controlli, e il rosso è suo (non ereditato da main)
 OKR_VINCOLO=""        # AR-115: vincolo freschezza OKR-Squadra (target scaduti o doc stantio)
 # AR-322/308/309 — il contratto dei guardiani (0=passato · 1=bocciato · 2=cieco) e l'accumulo dei
 # vincoli vivono in giro-esito.sh, come funzioni pure che un test può eseguire. Va caricato QUI, prima
@@ -503,6 +504,18 @@ if command -v node >/dev/null 2>&1; then
   # PZ-009: sonda taste-file — il log dei verdetti di Nicola è vivo o vuoto? (informa, non blocca)
   echo "[$(ts)] Sonda taste-file (verdetti di Nicola)..."
   node "$SCRIPT_DIR/taste-file.mjs" --sonda 2>&1 | esito_righe 2 || true
+  # 4/8: la CI delle PR aperte. Questa macchina apre PR da sola a ogni lavoro e non ha mai guardato
+  # come finivano i controlli: la sera del 4/8, cinque PR su sei erano rosse e nessuno lo sapeva.
+  # Il vincolo scatta SOLO sul rosso di cui la PR è responsabile: i rossi ereditati da `main` sono un
+  # guasto solo moltiplicato per il numero di PR aperte, e un allarme gonfiato si impara a scorrere.
+  echo "[$(ts)] Sonda CI (le PR aperte passano le prove?)..."
+  _ci_out="$(node "$SCRIPT_DIR/ci-stato.mjs" --sonda 2>&1)"; _ci_rc=$?
+  printf '%s\n' "$_ci_out" | esito_righe 4
+  if [ "$_ci_rc" -eq 1 ]; then
+    CI_VINCOLO="⛔ PR APERTE CON LE PROVE ROSSE (ci-stato.mjs rc=$_ci_rc): il lavoro è già su GitHub e non passa i controlli — finché resta così, Nicola non può unirlo. Guarda di chi è il rosso PRIMA di toccare qualcosa (\`node cervello/ci-stato.mjs\`): se dice «ereditata», il guasto è su main e si ripara LÀ una volta sola, non su ogni PR.
+$_ci_out"
+    echo "[$(ts)] ⚠️  CI: rc=$_ci_rc → vincolo hard al motore." >&2
+  fi
   # AR-030: freschezza CHECKLIST-NICOLA.md — se è stantia (>2 giorni), il motore riceve un VINCOLO.
   echo "[$(ts)] Freschezza checklist Nicola (AR-030)..."
   _checklist_out="$(node "$SCRIPT_DIR/freschezza-checklist.mjs" 2>&1)"; _checklist_rc=$?
@@ -921,6 +934,13 @@ if [ -n "${CADENZE_VINCOLO:-}" ]; then
 
 ## Vincolo freschezza cadenze (HARD — AR-164: una cadenza non esce più)
 $CADENZE_VINCOLO"
+fi
+if [ -n "${CI_VINCOLO:-}" ]; then
+  # 4/8: il lavoro consegnato che non passa le prove è lavoro fermo, non lavoro fatto.
+  PROMPT="$PROMPT
+
+## Vincolo CI (HARD — una PR aperta non passa i controlli)
+$CI_VINCOLO"
 fi
 if [ -n "${OKR_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

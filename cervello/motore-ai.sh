@@ -268,7 +268,7 @@ ai_build_cmd() {
       # Test di guardia: cervello/test/motore-ai-allowedtools.bats
       AI_CMD=(claude -p)
       if [ "${AI_ALLOW_ACTIONS:-1}" = 1 ]; then
-        local _allowed="${AI_ALLOWED_TOOLS:-Bash(node cervello/git-pr.mjs:*),Bash(node cervello/git-github.mjs:*),Bash(node cervello/marketplace.mjs:*),Bash(node cervello/esegui-azione.mjs:*),Bash(git add:*),Bash(git commit:*),Bash(git checkout:*),Bash(git switch:*),Bash(git branch:*),Bash(git status:*),Bash(git diff:*),Bash(git stash:*)}"
+        local _allowed="${AI_ALLOWED_TOOLS:-Bash(node cervello/git-pr.mjs:*),Bash(node cervello/git-github.mjs:*),Bash(node cervello/ci-stato.mjs:*),Bash(node cervello/marketplace.mjs:*),Bash(node cervello/esegui-azione.mjs:*),Bash(git add:*),Bash(git commit:*),Bash(git checkout:*),Bash(git switch:*),Bash(git branch:*),Bash(git status:*),Bash(git diff:*),Bash(git stash:*)}"
         AI_CMD+=(--allowedTools "$_allowed")
       fi
       AI_CMD+=(--permission-mode acceptEdits)
