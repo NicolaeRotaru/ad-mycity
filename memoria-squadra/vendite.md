@@ -8,6 +8,7 @@ reparto: vendite
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-10 11:40 · Playbook Scout negozi richiesto in chat 10/8 11:39 — 3 botteghe-target categorie mancanti + pitch onboarding · invariato: 4ª esecuzione identica (6/7, 20/7, 27/7 worker, 10/8), stesso gate · atteso produrre nuova lista+pitch → reale gate invariato (1 negozio reale, ripresa.lavoro-operativo=dopo 24/8-1/9): artefatto A18 già pronto in AZIONI-PRONTE, non rigenerato · #playbook-scout-negozi-loop
 - 2026-07-27 11:09 · Playbook Scout negozi (worker, 27/7 11:xx) — 3ª richiesta identica dopo 6/7 e 20/7 · già in AZIONI-PRONTE A18, invariato: Peretti/Garetti/Amendolara, pitch+leva PI26 pronti, zero contatti · atteso verificare se serve rigenerare la lista/pitch → reale nessuna variazione da produrre: cluster ancora 1 solo negozio confermato (PQ), business in pausa commerciale fino al 24/8-1/9 (decisione Nicola 23/7) — riproporlo ora sarebbe un loop a vuoto · #loop-a-vuoto #pausa-commerciale
 - 2026-07-20 23:59 · chat casella capillarità in bacheca · atteso: pin playbook kit fisico in BACHECA.md con gate ordine test → reale: blocco in cima Bacheca verdetto ARMATO non stampare · kit PQ pronto · 0 DELIVERED · L-437 · #capillarita #bacheca
 - 2026-07-20 23:28 · PR #501 ✅ mergiata — casella pricing live · atteso: 10%+50€ in casella · reale: #501 su main post-merge Nicola; #504 conflitto risolto separatamente · L-413 addendum · #pricing #pr-501
